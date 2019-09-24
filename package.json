@@ -19,7 +19,7 @@
   "author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
   "license": "YetiForce Public License v3",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.8.2",
+    "@fortawesome/fontawesome-free": "^5.11.2",
     "@mdi/font": "^4.4.95",
     "add": "^2.0.6",
     "animate.css": "^3.7",
