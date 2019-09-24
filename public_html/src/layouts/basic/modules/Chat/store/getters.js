@@ -67,7 +67,7 @@ export default {
 	config(state) {
 		return state.config
 	},
-	getRelatedRecord(state) {
+	getDetailPreview(state) {
 		return state.config.detailPreview
 	}
 }

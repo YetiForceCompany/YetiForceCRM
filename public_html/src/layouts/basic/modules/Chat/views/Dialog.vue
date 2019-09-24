@@ -75,7 +75,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['miniMode', 'data', 'config', 'getRelatedRecord']),
+    ...mapGetters(['miniMode', 'data', 'config', 'getDetailPreview']),
     dialog: {
       get() {
         return this.$store.getters['Chat/dialog']
@@ -113,10 +113,9 @@ export default {
       let id = false
       if (this.isDetail) {
         id = app.getRecordId()
-        console.log(id)
       }
-      if (this.getRelatedRecord && this.config.chatModules.some(el => el.id === this.getRelatedRecord.module)) {
-        id = this.getRelatedRecord.id
+      if (this.getDetailPreview && this.config.chatModules.some(el => el.id === this.getDetailPreview.module)) {
+        id = this.getDetailPreview.id
       }
       if (id && !this.data.roomList.crm[id]) {
         return true
@@ -149,7 +148,7 @@ export default {
             action: 'Room',
             mode: 'addToFavorites',
             roomType: 'crm',
-            recordId: this.isDetail ? app.getRecordId() : this.getRelatedRecord.id
+            recordId: this.isDetail ? app.getRecordId() : this.getDetailPreview.id
           }).done(({ result }) => {
             this.addingRoom = false
             this.updateRooms(result)

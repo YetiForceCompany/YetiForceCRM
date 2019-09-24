@@ -148,7 +148,7 @@ export default {
 	setConfig(state, config) {
 		state.config = mergeDeepReactive(state.config, config)
 	},
-	setRelatedRecord(state, { id, module }) {
+	setDetailPreview(state, { id, module }) {
 		state.config.detailPreview = { id, module }
 	},
 	initStorage(state) {

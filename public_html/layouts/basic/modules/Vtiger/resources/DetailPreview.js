@@ -78,7 +78,7 @@ $.Class(
 		},
 		updateChatConfig() {
 			if (window.parent.vuexStore) {
-				window.parent.vuexStore.commit('Chat/setRelatedRecord', {
+				window.parent.vuexStore.commit('Chat/setDetailPreview', {
 					id: window.app.getRecordId(),
 					module: window.app.getModuleName()
 				});
