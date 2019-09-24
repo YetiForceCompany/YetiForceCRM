@@ -4,24 +4,24 @@
     <q-layout view="hHh lpR fFf" container class="bg-white">
       <q-page-container>
         <q-page>
-          <chat-tab @onContentLoaded="isLoading = false" :roomData="roomData || {}" :recordRoom="true" />
+          <TabChat @onContentLoaded="isLoading = false" :roomData="roomData || {}" :recordRoom="true" />
         </q-page>
       </q-page-container>
       <q-drawer :value="true" side="right" bordered>
-        <right-panel :participants="participants" />
+        <ChatRightPanel :participants="participants" />
       </q-drawer>
     </q-layout>
   </div>
 </template>
 <script>
-import ChatTab from '../components/ChatTab.vue'
-import RightPanel from '../components/RightPanel.vue'
+import TabChat from '../components/Tabs/TabChat.vue'
+import ChatRightPanel from '../components/ChatRightPanel.vue'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'RecordRoom',
-  components: { ChatTab, RightPanel },
+  components: { TabChat, ChatRightPanel },
   data() {
     return {
       isLoading: true

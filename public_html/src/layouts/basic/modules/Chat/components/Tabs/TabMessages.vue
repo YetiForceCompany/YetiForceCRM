@@ -37,7 +37,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
-  name: 'Messages',
+  name: 'ChatMessages',
   components: { NoResults },
   props: {
     fetchingEarlier: {

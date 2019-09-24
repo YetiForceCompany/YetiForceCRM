@@ -12,13 +12,13 @@
       class="text-teal"
     >
       <q-tab v-for="(room, roomType) of data.roomList" :key="roomType" :name="roomType">
-        <icon class="q-icon q-tab__icon" size="20px" :icon="getGroupIcon(roomType)" />
+        <YfIcon class="q-icon q-tab__icon" size="20px" :icon="getGroupIcon(roomType)" />
         <span class="q-tab__label">{{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}</span>
       </q-tab>
     </q-tabs>
     <q-tab-panels v-model="historyTab" animated style="min-height: inherit;" class="chat-panels">
       <q-tab-panel v-for="(room, roomType) of data.roomList" :key="roomType" :name="roomType">
-        <messages
+        <TabMessages
           @earlierClick="earlierClick"
           :fetchingEarlier="fetchingEarlier"
           :header="messageHeader"
@@ -30,14 +30,14 @@
   </div>
 </template>
 <script>
-import Messages from './Messages.vue'
-import { getGroupIcon } from '../utils/utils.js'
+import TabMessages from './TabMessages.vue'
+import { getGroupIcon } from '../../utils/utils.js'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
-  name: 'History',
-  components: { Messages },
+  name: 'HistoryTab',
+  components: { TabMessages },
   data() {
     return {
       userId: CONFIG.userId,

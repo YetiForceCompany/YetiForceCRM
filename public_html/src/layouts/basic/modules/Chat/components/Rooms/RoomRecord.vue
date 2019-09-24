@@ -1,7 +1,13 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <RoomList :hideUnpinned="false" :addRoomComponent="config.dynamicAddingRooms">
-    <template #itemRight>
+  <RoomList
+    :isVisible="config.dynamicAddingRooms"
+    :roomData="roomData"
+    :roomType="roomType"
+    :hideUnpinned="false"
+    :addRoomComponent="config.dynamicAddingRooms"
+  >
+    <template #itemRight="{ room }">
       <q-btn
         size="xs"
         dense
@@ -16,19 +22,29 @@
     </template>
     <template #addRoomComponent>
       <q-item v-if="config.dynamicAddingRooms" v-show="showAddRoomPanel">
-        <SelectModules :modules="config.chatModules" :isVisible.sync="showAddRoomPanel" class="q-pb-xs" />
+        <RoomRecordSelect :modules="config.chatModules" :isVisible.sync="showAddRoomPanel" class="q-pb-xs" />
       </q-item>
     </template>
   </RoomList>
 </template>
 <script>
-import SelectModules from './SelectModules.vue'
-import RoomList from '../RoomList.vue'
+import RoomRecordSelect from './RoomRecordSelect.vue'
+import RoomList from './RoomList.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
-  name: 'RoomCrm',
-  components: { SelectModules, RoomList },
+  name: 'RoomRecord',
+  components: { RoomRecordSelect, RoomList },
+  props: {
+    roomData: {
+      type: Array,
+      required: true
+    },
+    roomType: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       showAddRoomPanel: false,

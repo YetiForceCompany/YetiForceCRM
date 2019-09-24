@@ -1,9 +1,9 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-list v-if="isVisible" dense="dense" :class="[listClass]">
+  <q-list v-if="isVisible" dense class="q-mb-none">
     <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
       <q-item-section avatar>
-        <icon :icon="getGroupIcon(roomType)" :size="layout.drawer.fs" />
+        <YfIcon :icon="getGroupIcon(roomType)" :size="layout.drawer.fs" />
       </q-item-section>
       {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
       <div class="q-ml-auto">
@@ -26,7 +26,7 @@
       </div>
     </q-item-label>
     <slot name="addRoomComponent"></slot>
-    <template v-for="(room, roomId) of roomGroup">
+    <template v-for="(room, roomId) of roomData">
       <q-item
         v-show="roomType !== 'crm' ? room.isPinned || showAllRooms || filterRooms.length : room.isPinned"
         clickable
@@ -39,7 +39,7 @@
       >
         <div class="full-width flex items-center justify-between no-wrap">
           <div class="ellipsis-2-lines">
-            <icon v-if="roomType === 'crm'" class="inline-block" :icon="'userIcon-' + room.moduleName" size="0.7rem" />
+            <YfIcon v-if="roomType === 'crm'" class="inline-block" :icon="'userIcon-' + room.moduleName" size="0.7rem" />
             {{ room.name }}
           </div>
           <div class="flex items-center justify-end no-wrap">
@@ -52,7 +52,7 @@
                   :key="room.cnt_new_message"
                 />
               </transition>
-              <slot name="itemRight"></slot>
+              <slot name="itemRight" :room="room"></slot>
               <q-btn
                 dense
                 round
@@ -86,7 +86,7 @@
   </q-list>
 </template>
 <script>
-import { getGroupIcon } from '../utils/utils.js'
+import { getGroupIcon } from '../../utils/utils.js'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
@@ -97,9 +97,17 @@ export default {
       type: String,
       required: true
     },
+    roomData: {
+      type: Array,
+      required: true
+    },
     hideUnpinned: {
       type: Boolean,
       default: true
+    },
+    isVisible: {
+      type: Boolean,
+      required: true
     }
   },
   data() {

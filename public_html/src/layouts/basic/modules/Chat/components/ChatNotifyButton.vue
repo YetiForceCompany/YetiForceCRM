@@ -8,7 +8,7 @@
     :loading="isWaitingForPermission"
     :color="isDesktopNotification ? 'info' : ''"
   >
-    <icon
+    <YfIcon
       :size="size"
       :icon="isDesktopNotification ? 'yfi-chat-notification-on' : 'yfi-chat-notification-off'"
       :style="styles"
@@ -21,7 +21,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
-  name: 'NotifyBtn',
+  name: 'ChatNotifyButton',
   props: {
     size: {
       type: String,

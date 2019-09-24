@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'Backdrop'
+  name: 'YfBackdrop'
 }
 </script>
 <style scoped>

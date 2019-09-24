@@ -23,19 +23,22 @@
           </template>
         </q-input>
         <div class="" v-for="(roomGroup, roomType) of roomList" :key="roomType" :style="{ fontSize: layout.drawer.fs }">
-          <RoomList :roomType="roomType" :hideUnpinned="roomType !== 'crm'" />
+          <component :is="roomsMap[roomType]" :roomType="roomType" :roomData="roomList[roomType]" :hideUnpinned="roomType !== 'crm'" />
         </div>
       </div>
     </div>
   </q-drawer>
 </template>
 <script>
-import RoomList from './Rooms/RoomList.vue'
+import RoomPrivate from './Rooms/RoomPrivate.vue'
+import RoomGroup from './Rooms/RoomGroup.vue'
+import RoomGlobal from './Rooms/RoomGlobal.vue'
+import RoomRecord from './Rooms/RoomRecord.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
-  name: 'LeftPanel',
-  components: { RoomList },
+  name: 'ChatLeftPanel',
+  components: { RoomPrivate, RoomGroup, RoomGlobal, RoomRecord },
   props: {
     drawerBreakpoint: {
       type: Number,
@@ -44,7 +47,13 @@ export default {
   },
   data() {
     return {
-      filterRooms: '',
+			filterRooms: '',
+			roomsMap: {
+				private: 'RoomPrivate',
+				group: 'RoomGroup',
+				global: 'RoomGlobal',
+				crm: 'RoomRecord'
+			}
     }
   },
   computed: {

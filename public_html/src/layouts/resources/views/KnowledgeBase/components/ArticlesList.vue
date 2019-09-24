@@ -39,7 +39,7 @@
                     v-for="category in tree.categories[props.row.category].parentTree"
                     :key="tree.categories[category].label"
                   >
-                    <icon
+                    <YfIcon
                       v-if="tree.categories[category].icon"
                       :size="iconSize"
                       :icon="tree.categories[category].icon"
@@ -74,12 +74,12 @@
   </div>
 </template>
 <script>
-import Icon from '~/components/Icon.vue'
+import YfIcon from '~/components/YfIcon.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'ArticlesList',
-  components: { Icon },
+  components: { YfIcon },
   props: {
     data: {
       type: Array,

@@ -1,6 +1,6 @@
 <!--
 /**
- * Drag component
+ * YfDrag component
  *
  * @description Use of vue-drag-resize
  * @license YetiForce Public License 3.0
@@ -28,7 +28,7 @@ import VueDragResize from '~/node_modules/vue-drag-resize/src/components/vue-dra
 import { keepElementInWindow } from '~/mixins/DragResize'
 import { createNamespacedHelpers } from 'vuex'
 export default {
-  name: 'DragResize',
+  name: 'YfDrag',
   mixins: [keepElementInWindow],
   components: { VueDragResize },
   props: {

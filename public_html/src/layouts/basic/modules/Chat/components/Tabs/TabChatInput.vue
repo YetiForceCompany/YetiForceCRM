@@ -54,7 +54,7 @@ const EmojiIndex = Emoji.EmojiIndex
 const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
 let emojiIndex = new EmojiIndex(data)
 export default {
-  name: 'ChatMessages',
+  name: 'TabChatInput',
   components: { Picker },
   props: {
     roomData: {

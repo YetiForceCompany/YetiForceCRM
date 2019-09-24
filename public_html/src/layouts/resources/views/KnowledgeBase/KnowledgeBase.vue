@@ -40,19 +40,19 @@
                   ]"
                   @click="index === tree.categories[activeCategory].parentTree.length - 1 ? '' : fetchData(category)"
                 >
-                  <icon
+                  <YfIcon
                     v-if="tree.categories[category].icon"
                     :size="iconSize"
                     :icon="tree.categories[category].icon"
                     class="q-mr-sm"
-                  ></icon>
+                  ></YfIcon>
                   {{ tree.categories[category].label }}
                 </q-breadcrumbs-el>
               </template>
             </q-breadcrumbs>
             <q-breadcrumbs class="ml-2" v-show="tab === 'accounts'">
               <q-breadcrumbs-el v-if="activeAccount !== ''" class="text-black">
-                <icon :size="iconSize" :icon="'userIcon-Accounts'" class="q-mr-sm"></icon>
+                <YfIcon :size="iconSize" :icon="'userIcon-Accounts'" class="q-mr-sm"></YfIcon>
                 {{ activeAccount }}
               </q-breadcrumbs-el>
             </q-breadcrumbs>
@@ -183,7 +183,7 @@
               <template v-slot:default="slotProps">
                 <q-list bordered padding dense>
                   <q-item header clickable class="text-black flex" @click="fetchData(slotProps.relatedBlock)">
-                    <icon :icon="tree.categories[slotProps.relatedBlock].icon" :size="iconSize" class="mr-2"></icon>
+                    <YfIcon :icon="tree.categories[slotProps.relatedBlock].icon" :size="iconSize" class="mr-2"></YfIcon>
                     {{ tree.categories[slotProps.relatedBlock].label }}
                   </q-item>
                   <q-item
@@ -228,7 +228,7 @@
   </div>
 </template>
 <script>
-import Icon from '~/components/Icon.vue'
+import YfIcon from '~/components/YfIcon.vue'
 import IconInfo from '~/components/IconInfo.vue'
 import ColumnsGrid from '~/components/ColumnsGrid.vue'
 import Carousel from './components/Carousel.vue'
@@ -239,7 +239,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBase',
-  components: { Icon, IconInfo, Carousel, ArticlesList, ArticlePreview, ColumnsGrid, CategoriesList },
+  components: { YfIcon, IconInfo, Carousel, ArticlesList, ArticlePreview, ColumnsGrid, CategoriesList },
   props: {
     coordinates: {
       type: Object,

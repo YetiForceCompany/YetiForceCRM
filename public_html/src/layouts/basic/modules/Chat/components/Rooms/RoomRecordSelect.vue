@@ -37,7 +37,7 @@
       <template v-slot:option="scope">
         <q-item dense v-bind="scope.itemProps" v-on="scope.itemEvents">
           <q-item-section avatar>
-            <icon :icon="`userIcon-${scope.opt.id}`" />
+            <YfIcon :icon="`userIcon-${scope.opt.id}`" />
           </q-item-section>
           <q-item-section>
             {{ scope.opt.label }}
@@ -52,7 +52,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
-  name: 'SelectModules',
+  name: 'RoomRecordSelect',
   props: {
     isVisible: {
       type: Boolean

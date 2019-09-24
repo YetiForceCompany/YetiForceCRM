@@ -44,7 +44,7 @@
           </template>
           <template v-if="record.accountId">
             <q-separator dark vertical spaced />
-            <icon icon="userIcon-Accounts" size="15px"></icon>
+            <YfIcon icon="userIcon-Accounts" size="15px"></YfIcon>
             <a
               class="js-popover-tooltip--record ellipsis q-ml-xs text-grey-4"
               :href="`index.php?module=Accounts&view=Detail&record=${record.accountId}`"
@@ -135,7 +135,7 @@
           <template v-slot:default="slotProps">
             <q-list bordered padding dense>
               <q-item header clickable class="text-black flex">
-                <icon :icon="'userIcon-' + slotProps.relatedBlock" :size="iconSize" class="mr-2"></icon>
+                <YfIcon :icon="'userIcon-' + slotProps.relatedBlock" :size="iconSize" class="mr-2"></YfIcon>
                 {{ record.translations[slotProps.relatedBlock] }}
               </q-item>
               <q-item
@@ -162,7 +162,7 @@
   </q-card>
 </template>
 <script>
-import Icon from '~/components/Icon.vue'
+import YfIcon from '~/components/YfIcon.vue'
 import ColumnsGrid from '~/components/ColumnsGrid.vue'
 import Carousel from './Carousel.vue'
 import ArticlesList from './ArticlesList.vue'
@@ -171,7 +171,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'ArticlePreviewContent',
-  components: { Icon, Carousel, ArticlesList, ColumnsGrid },
+  components: { YfIcon, Carousel, ArticlesList, ColumnsGrid },
   props: {
     height: {
       type: Number,

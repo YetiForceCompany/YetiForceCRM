@@ -4,7 +4,7 @@
     <q-bar>
       <q-breadcrumbs>
         <q-breadcrumbs-el class="text-white">
-          <icon
+          <YfIcon
             class="q-breadcrumbs__el-icon q-breadcrumbs__el-icon--with-label q-icon"
             :icon="currentTab.icon"
             :size="currentTab.icon.startsWith('yfi') ? '16px' : ''"
@@ -12,7 +12,7 @@
           {{ currentTab.label }}
         </q-breadcrumbs-el>
         <q-breadcrumbs-el v-if="tab !== 'unread'" class="text-white">
-          <icon
+          <YfIcon
             class="q-breadcrumbs__el-icon q-breadcrumbs__el-icon--with-label q-icon"
             :icon="roomType.icon"
             size="16px"

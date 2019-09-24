@@ -2,11 +2,11 @@
 
 import ChatDialog from './views/Dialog.vue'
 import ChatRecordRoom from './views/RecordRoom.vue'
-import Icon from 'components/Icon.vue'
+import YfIcon from 'components/YfIcon.vue'
 import store from 'store'
 import moduleStore from './store'
 let isModuleInitialized = false
-Vue.component('icon', Icon)
+Vue.component('YfIcon', YfIcon)
 Vue.mixin({
 	methods: {
 		translate(key) {

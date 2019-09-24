@@ -24,7 +24,7 @@
       <q-list :style="{ 'font-size': layout.drawer.fs }">
         <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
           <q-item-section avatar>
-            <icon icon="yfi-entrant-chat" :size="layout.drawer.fs" />
+            <YfIcon icon="yfi-entrant-chat" :size="layout.drawer.fs" />
           </q-item-section>
           {{ translate('JS_CHAT_PARTICIPANTS') }}
           <div class="q-ml-auto">
@@ -46,7 +46,7 @@
           </div>
         </q-item-label>
         <q-item v-if="isUserModerator" v-show="showAddPanel">
-          <select-users :isVisible.sync="showAddPanel" class="q-pb-xs" />
+          <RoomUserSelect :isVisible.sync="showAddPanel" class="q-pb-xs" />
         </q-item>
         <template v-for="participant in participantsList">
           <q-item
@@ -95,12 +95,12 @@
   </div>
 </template>
 <script>
-import SelectUsers from './SelectUsers.vue'
+import RoomUserSelect from './Rooms/RoomUserSelect.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatRightPanel',
-  components: { SelectUsers },
+  components: { RoomUserSelect },
   props: {
     participants: {
       type: Array,

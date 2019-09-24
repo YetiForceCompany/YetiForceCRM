@@ -33,7 +33,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
-  name: 'Unread',
+  name: 'TabUnread',
   components: { NoResults },
   data() {
     return {

@@ -1,6 +1,6 @@
 <!--
 /**
- * Icon component
+ * YfIcon component
  *
  * @description Global component
  * @license YetiForce Public License 3.0
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: 'Icon',
+  name: 'YfIcon',
   props: {
     icon: {
       type: String,
