@@ -25,6 +25,17 @@
                 {{ data.amountOfNewMessages }}
               </div>
             </q-badge>
+            <q-badge
+              v-if="hasCurrentRecordChat"
+              @mouseup="addRecordRoomToChat()"
+              @touchend="addRecordRoomToChat()"
+              class="shadow-3 text-primary badge-button"
+              color="white"
+              floating
+            >
+              <q-icon name="mdi-plus" size="1rem" />
+              <q-tooltip>{{ translate('JS_CHAT_ROOM_ADD_CURRENT') }}</q-tooltip>
+            </q-badge>
           </q-btn>
         </transition>
       </drag>
@@ -58,11 +69,13 @@ export default {
   data() {
     return {
       timerGlobal: null,
-      dragging: false
+      dragging: false,
+      windowConfig: CONFIG,
+      addingRoom: false
     }
   },
   computed: {
-    ...mapGetters(['miniMode', 'data', 'config']),
+    ...mapGetters(['miniMode', 'data', 'config', 'getRelatedRecord']),
     dialog: {
       get() {
         return this.$store.getters['Chat/dialog']
@@ -95,14 +108,58 @@ export default {
     },
     buttonAnimationClasses() {
       return this.data.amountOfNewMessages ? 'animated flash' : ''
+    },
+    hasCurrentRecordChat() {
+      let id = false
+      if (this.isDetail) {
+        id = app.getRecordId()
+        console.log(id)
+      }
+      if (this.getRelatedRecord && this.config.chatModules.some(el => el.id === this.getRelatedRecord.module)) {
+        id = this.getRelatedRecord.id
+      }
+      if (id && !this.data.roomList.crm[id]) {
+        return true
+      } else {
+        return false
+      }
+    },
+    isDetail() {
+      return (
+        this.windowConfig.view === 'Detail' && this.config.chatModules.some(el => el.id === this.windowConfig.module)
+      )
     }
   },
   methods: {
-    ...mapMutations(['setDialog', 'setCoordinates', 'setButtonCoordinates']),
+    ...mapMutations(['setDialog', 'setCoordinates', 'setButtonCoordinates', 'updateRooms']),
     showDialog() {
       setTimeout(_ => {
-        if (!this.dragging) {
+        if (!this.dragging && !this.addingRoom) {
           this.dialog = !this.dialog
+        }
+        this.dragging = false
+      }, 300)
+    },
+    addRecordRoomToChat() {
+      this.addingRoom = true
+      setTimeout(_ => {
+        if (!this.dragging) {
+          AppConnector.request({
+            module: 'Chat',
+            action: 'Room',
+            mode: 'addToFavorites',
+            roomType: 'crm',
+            recordId: this.isDetail ? app.getRecordId() : this.getRelatedRecord.id
+          }).done(({ result }) => {
+            this.addingRoom = false
+            this.updateRooms(result)
+            this.$q.notify({
+              position: 'top',
+              color: 'success',
+              message: this.translate('JS_CHAT_ROOM_ADDED'),
+              icon: 'mdi-check'
+            })
+          })
         }
         this.dragging = false
       }, 300)
@@ -117,5 +174,10 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
+}
+.badge-button {
+  left: -3px;
+  width: fit-content;
+  padding: 0 1px;
 }
 </style>

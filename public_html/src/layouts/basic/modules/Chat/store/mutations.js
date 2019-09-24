@@ -146,7 +146,10 @@ export default {
 		}
 	},
 	setConfig(state, config) {
-		state.config = config
+		state.config = mergeDeepReactive(state.config, config)
+	},
+	setRelatedRecord(state, { id, module }) {
+		state.config.detailPreview = { id, module }
 	},
 	initStorage(state) {
 		const chatLocalStorage = Quasar.plugins.LocalStorage.getItem('yf-chat')
