@@ -470,7 +470,7 @@ class VTJsonCondition
 			case 'is record open':
 				if (
 					($fieldName = App\RecordStatus::getFieldName($recordModel->getModule()->getName())) &&
-				\in_array($recordModel->get($fieldName), App\RecordStatus::getStates($recordModel->getModule()->getName()), \App\RecordStatus::RECORD_STATE_OPEN)
+				\in_array($recordModel->get($fieldName), App\RecordStatus::getStates($recordModel->getModule()->getName(), \App\RecordStatus::RECORD_STATE_OPEN))
 				) {
 					return true;
 				}
