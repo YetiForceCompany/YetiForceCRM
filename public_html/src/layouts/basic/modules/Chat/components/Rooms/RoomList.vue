@@ -19,13 +19,13 @@
         >
           <q-tooltip>{{ translate(showAllRooms ? 'JS_CHAT_HIDE_UNPINNED' : 'JS_CHAT_SHOW_UNPINNED') }}</q-tooltip>
         </q-btn>
-        <slot name="addRoomBtn"></slot>
+        <slot name="labelRight"></slot>
         <q-icon :size="layout.drawer.fs" name="mdi-information" class="q-pr-xs">
           <q-tooltip>{{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
         </q-icon>
       </div>
     </q-item-label>
-    <slot name="addRoomComponent"></slot>
+    <slot name="aboveItems"></slot>
     <template v-for="(room, roomId) of roomData">
       <q-item
         v-show="roomType !== 'crm' ? room.isPinned || showAllRooms || filterRooms.length : room.isPinned"
@@ -83,6 +83,7 @@
         </div>
       </q-item>
     </template>
+		<slot name="belowItems"></slot>
   </q-list>
 </template>
 <script>

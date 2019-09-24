@@ -1,6 +1,20 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <RoomList isVisible :roomData="roomData" :roomType="roomType">
+		<template #labelRight>
+		<q-btn
+			v-if="roomType === 'private'"
+			dense
+			flat
+			round
+			size="sm"
+			color="primary"
+			icon="mdi-plus"
+			@click="showAddPrivateRoom = !showAddPrivateRoom"
+		>
+			<q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
+		</q-btn>
+		</template>
     <template #itemRight>
       <q-btn
         v-if="roomType === 'private' && isUserModerator(room)"
@@ -16,11 +30,12 @@
         <q-tooltip>{{ translate('JS_CHAT_ROOM_ARCHIVE') }}</q-tooltip>
       </q-btn>
     </template>
-    <template #itemRight>
+    <template #aboveItems>
       <q-item v-show="showAddPrivateRoom">
         <RoomPrivateInput :showAddPrivateRoom.sync="showAddPrivateRoom" />
       </q-item>
     </template>
+		<template #belowItems>
     <q-dialog v-if="arePrivateRooms" v-model="confirm" persistent content-class="quasar-reset">
       <q-card>
         <q-card-section class="row items-center">
