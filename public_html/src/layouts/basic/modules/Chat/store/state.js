@@ -37,10 +37,10 @@ export default {
 	data: {
 		amountOfNewMessages: 0,
 		roomList: {
-			crm: {},
+			private: {},
 			group: {},
 			global: {},
-			private: {}
+			crm: {}
 		},
 		currentRoom: {},
 		history: {
@@ -56,6 +56,7 @@ export default {
 		maxLengthMessage: null,
 		refreshTimeGlobal: null,
 		showNumberOfNewMessages: null,
-		dynamicAddingRooms: null
+		dynamicAddingRooms: null,
+		detailPreview: { id: null, module: null }
 	}
 }

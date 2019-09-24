@@ -76,6 +76,14 @@ $.Class(
 				}
 			}
 		},
+		updateChatConfig() {
+			if (window.parent.vuexStore) {
+				window.parent.vuexStore.commit('Chat/setDetailPreview', {
+					id: window.app.getRecordId(),
+					module: window.app.getModuleName()
+				});
+			}
+		},
 		/**
 		 * Registers DetailPreview events.
 		 */
@@ -83,6 +91,7 @@ $.Class(
 			this.registerDetailEvent();
 			this.registerLinkEvent();
 			this.registerSizeEvent();
+			this.updateChatConfig();
 		}
 	}
 );

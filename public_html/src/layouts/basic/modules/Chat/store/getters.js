@@ -66,5 +66,8 @@ export default {
 	},
 	config(state) {
 		return state.config
+	},
+	getDetailPreview(state) {
+		return state.config.detailPreview
 	}
 }
