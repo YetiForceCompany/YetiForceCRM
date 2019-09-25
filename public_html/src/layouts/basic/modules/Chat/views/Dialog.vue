@@ -2,7 +2,7 @@
 <template>
   <div v-if="config.isChatAllowed">
     <div class="drag-area">
-      <drag :coordinates.sync="buttonCoordinates">
+      <YfDrag :coordinates.sync="buttonCoordinates">
         <transition :enter-active-class="buttonAnimationClasses" mode="out-in">
           <q-btn
             round
@@ -14,7 +14,7 @@
             :key="parseInt(data.amountOfNewMessages)"
             style="z-index: 99999999999;"
           >
-            <icon icon="yfi-branding-chat" />
+            <YfIcon icon="yfi-branding-chat" />
             <q-badge
               v-if="config.showNumberOfNewMessages"
               v-show="data.amountOfNewMessages > 0"
@@ -38,7 +38,7 @@
             </q-badge>
           </q-btn>
         </transition>
-      </drag>
+      </YfDrag>
     </div>
     <q-dialog
       v-model="dialog"
@@ -48,24 +48,24 @@
       transition-hide="slide-down"
       content-class="quasar-reset"
     >
-      <drag-resize :coordinates.sync="coordinates" :maximized="!computedMiniMode">
-        <chat container :parentRefs="$refs" />
-      </drag-resize>
+      <DragResize :coordinates.sync="coordinates" :maximized="!computedMiniMode">
+        <ChatContainer container :parentRefs="$refs" />
+      </DragResize>
     </q-dialog>
-    <update-watcher />
+    <ChatUpdateWatcher />
   </div>
 </template>
 <script>
-import UpdateWatcher from '../components/UpdateWatcher.vue'
-import Chat from '../components/Chat.vue'
-import Drag from 'components/Drag.vue'
+import ChatUpdateWatcher from '../components/ChatUpdateWatcher.vue'
+import ChatContainer from '../components/ChatContainer.vue'
+import YfDrag from 'components/YfDrag.vue'
 import DragResize from 'components/DragResize.vue'
 import isEqual from 'lodash.isequal'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'Dialog',
-  components: { UpdateWatcher, Chat, DragResize, Drag },
+  components: { ChatUpdateWatcher, ChatContainer, DragResize, YfDrag },
   data() {
     return {
       timerGlobal: null,

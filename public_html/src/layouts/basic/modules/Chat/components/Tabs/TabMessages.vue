@@ -4,7 +4,7 @@
     <div v-show="roomData.showMoreButton" class="text-center q-mt-md">
       <q-btn :loading="fetchingEarlier" @click="$emit('earlierClick')" icon="mdi-chevron-double-up">
         {{ translate('JS_CHAT_EARLIER') }}
-        <template v-slot:loading>
+        <template #loading>
           <q-spinner-facebook />
         </template>
       </q-btn>
@@ -37,7 +37,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
-  name: 'Messages',
+  name: 'ChatMessages',
   components: { NoResults },
   props: {
     fetchingEarlier: {

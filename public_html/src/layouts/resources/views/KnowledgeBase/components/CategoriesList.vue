@@ -18,7 +18,7 @@
       </q-item>
       <q-item v-if="activeCategoryDelayed !== ''" clickable active @click="fetchParentCategoryData()">
         <q-item-section avatar>
-          <icon :size="iconSize" :icon="tree.categories[activeCategoryDelayed].icon || defaultTreeIcon" />
+          <YfIcon :size="iconSize" :icon="tree.categories[activeCategoryDelayed].icon || defaultTreeIcon" />
         </q-item-section>
         <q-item-section>{{ tree.categories[activeCategoryDelayed].label }}</q-item-section>
         <q-item-section avatar>
@@ -33,7 +33,7 @@
         @click="fetchChildCategoryData(categoryValue)"
       >
         <q-item-section avatar>
-          <icon :size="iconSize" :icon="tree.categories[categoryValue].icon || defaultTreeIcon" />
+          <YfIcon :size="iconSize" :icon="tree.categories[categoryValue].icon || defaultTreeIcon" />
         </q-item-section>
         <q-item-section>{{ tree.categories[categoryValue].label }}</q-item-section>
         <q-item-section avatar>
@@ -44,13 +44,13 @@
   </transition>
 </template>
 <script>
-import Icon from '~/components/Icon.vue'
+import YfIcon from '~/components/YfIcon.vue'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'CategoriesList',
-  components: { Icon },
+  components: { YfIcon },
   data() {
     return {
       show: true,

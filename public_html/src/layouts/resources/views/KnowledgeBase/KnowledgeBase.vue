@@ -22,7 +22,7 @@
               <q-tooltip>{{ translate('JS_KB_TOGGLE_CATEGORY_MENU') }}</q-tooltip>
             </q-btn>
             <q-breadcrumbs class="ml-2" v-show="tab === 'categories'">
-              <template v-slot:separator>
+              <template #separator>
                 <q-icon size="1.5em" name="mdi-chevron-right" />
               </template>
               <q-breadcrumbs-el
@@ -40,19 +40,19 @@
                   ]"
                   @click="index === tree.categories[activeCategory].parentTree.length - 1 ? '' : fetchData(category)"
                 >
-                  <icon
+                  <YfIcon
                     v-if="tree.categories[category].icon"
                     :size="iconSize"
                     :icon="tree.categories[category].icon"
                     class="q-mr-sm"
-                  ></icon>
+                  ></YfIcon>
                   {{ tree.categories[category].label }}
                 </q-breadcrumbs-el>
               </template>
             </q-breadcrumbs>
             <q-breadcrumbs class="ml-2" v-show="tab === 'accounts'">
               <q-breadcrumbs-el v-if="activeAccount !== ''" class="text-black">
-                <icon :size="iconSize" :icon="'userIcon-Accounts'" class="q-mr-sm"></icon>
+                <YfIcon :size="iconSize" :icon="'userIcon-Accounts'" class="q-mr-sm"></YfIcon>
                 {{ activeAccount }}
               </q-breadcrumbs-el>
             </q-breadcrumbs>
@@ -68,13 +68,13 @@
               @input="search"
               autofocus
             >
-              <template v-slot:prepend>
+              <template #prepend>
                 <q-icon name="mdi-magnify" />
                 <q-tooltip v-model="inputFocus" anchor="top middle" self="center middle">{{
                   translate('JS_INPUT_TOO_SHORT').replace('_LENGTH_', '3')
                 }}</q-tooltip>
               </template>
-              <template v-slot:append>
+              <template #append>
                 <q-icon v-if="filter !== ''" name="mdi-close" @click.stop="clearSearch()" class="cursor-pointer" />
                 <div class="flex items-center q-ml-sm">
                   <icon-info :customOptions="{ iconSize: '21px' }">
@@ -130,10 +130,10 @@
             <q-tab-panel name="accounts">
               <div class="q-px-sm">
                 <q-input v-model="accountSearch" :placeholder="translate('JS_KB_SEARCH_PLACEHOLDER')" dense>
-                  <template v-slot:prepend>
+                  <template #prepend>
                     <q-icon name="mdi-magnify" size="16px" />
                   </template>
-                  <template v-slot:append>
+                  <template #append>
                     <q-icon
                       v-show="accountSearch !== ''"
                       name="mdi-close"
@@ -180,10 +180,10 @@
         <q-page class="q-pa-sm">
           <div v-show="!searchData">
             <columns-grid v-show="featuredCategories.length" :columnBlocks="featuredCategories" class="q-pa-sm">
-              <template v-slot:default="slotProps">
+              <template #default="slotProps">
                 <q-list bordered padding dense>
                   <q-item header clickable class="text-black flex" @click="fetchData(slotProps.relatedBlock)">
-                    <icon :icon="tree.categories[slotProps.relatedBlock].icon" :size="iconSize" class="mr-2"></icon>
+                    <YfIcon :icon="tree.categories[slotProps.relatedBlock].icon" :size="iconSize" class="mr-2"></YfIcon>
                     {{ tree.categories[slotProps.relatedBlock].label }}
                   </q-item>
                   <q-item
@@ -228,7 +228,7 @@
   </div>
 </template>
 <script>
-import Icon from '~/components/Icon.vue'
+import YfIcon from '~/components/YfIcon.vue'
 import IconInfo from '~/components/IconInfo.vue'
 import ColumnsGrid from '~/components/ColumnsGrid.vue'
 import Carousel from './components/Carousel.vue'
@@ -239,7 +239,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBase',
-  components: { Icon, IconInfo, Carousel, ArticlesList, ArticlePreview, ColumnsGrid, CategoriesList },
+  components: { YfIcon, IconInfo, Carousel, ArticlesList, ArticlePreview, ColumnsGrid, CategoriesList },
   props: {
     coordinates: {
       type: Object,

@@ -18,7 +18,7 @@
       :pagination.sync="pagination"
       :title="title"
     >
-      <template v-slot:item="props">
+      <template #item="props">
         <q-list class="full-width" padding @click.prevent="onClickRecord(props.row.id)">
           <q-item clickable>
             <q-item-section avatar>
@@ -39,7 +39,7 @@
                     v-for="category in tree.categories[props.row.category].parentTree"
                     :key="tree.categories[category].label"
                   >
-                    <icon
+                    <YfIcon
                       v-if="tree.categories[category].icon"
                       :size="iconSize"
                       :icon="tree.categories[category].icon"
@@ -65,7 +65,7 @@
           </q-item>
         </q-list>
       </template>
-      <template v-slot:bottom="props"> </template>
+      <template #bottom="props"> </template>
     </q-table>
     <div :class="['flex items-center q-px-lg q-py-sm', hasData ? 'hidden' : '']">
       <q-icon name="mdi-alert-outline" class="q-mr-sm"></q-icon>
@@ -74,12 +74,12 @@
   </div>
 </template>
 <script>
-import Icon from '~/components/Icon.vue'
+import YfIcon from '~/components/YfIcon.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'ArticlesList',
-  components: { Icon },
+  components: { YfIcon },
   props: {
     data: {
       type: Array,

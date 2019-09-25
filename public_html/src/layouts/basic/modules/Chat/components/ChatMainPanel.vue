@@ -4,13 +4,13 @@
     <q-page>
       <q-tab-panels v-model="tab" animated style="min-height: inherit;" class="chat-panels">
         <q-tab-panel name="chat" style="min-height: inherit;">
-          <chat-tab @onContentLoaded="isLoading = false" :roomData="currentRoomData" />
+          <TabChat @onContentLoaded="isLoading = false" :roomData="currentRoomData" />
         </q-tab-panel>
         <q-tab-panel name="unread">
-          <unread @onContentLoaded="isLoading = false" class="q-pa-md" />
+          <TabUnread @onContentLoaded="isLoading = false" class="q-pa-md" />
         </q-tab-panel>
         <q-tab-panel name="history">
-          <history @onContentLoaded="isLoading = false" />
+          <TabHistory @onContentLoaded="isLoading = false" />
         </q-tab-panel>
       </q-tab-panels>
       <q-inner-loading :showing="isLoading">
@@ -20,15 +20,15 @@
   </q-page-container>
 </template>
 <script>
-import ChatTab from './ChatTab.vue'
-import Unread from './Unread.vue'
-import History from './History.vue'
+import TabChat from './Tabs/TabChat.vue'
+import TabUnread from './Tabs/TabUnread.vue'
+import TabHistory from './Tabs/TabHistory.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
 
 export default {
-  name: 'MainPanel',
-  components: { Unread, History, ChatTab },
+  name: 'ChatMainPanel',
+  components: { TabUnread, TabHistory, TabChat },
   data() {
     return {
       isLoading: true

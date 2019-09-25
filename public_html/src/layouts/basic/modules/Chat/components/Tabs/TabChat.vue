@@ -9,10 +9,10 @@
         v-model="inputSearch"
         :placeholder="translate('JS_CHAT_SEARCH_MESSAGES')"
       >
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon @click="search()" name="mdi-magnify" class="cursor-pointer" />
         </template>
-        <template v-slot:append>
+        <template #append>
           <q-icon v-show="inputSearch.length > 0" name="mdi-close" @click="inputSearch = ''" class="cursor-pointer" />
           <q-btn
             v-show="isSearchActive"
@@ -27,7 +27,7 @@
     </div>
     <div class="flex-grow-1" style="min-height: 100%; height: 0; overflow: hidden">
       <q-scroll-area ref="scrollContainer" :class="[scrollbarHidden ? 'scrollbarHidden' : '']">
-        <messages
+        <TabMessages
           :roomData="isSearchActive ? roomData.searchData : roomData"
           @earlierClick="earlierClick()"
           :fetchingEarlier="fetchingEarlier"
@@ -36,18 +36,18 @@
       </q-scroll-area>
       <q-resize-observer @resize="onResize" />
     </div>
-    <message-input @onSended="scrollDown()" :roomData="roomData" />
+    <TabChatInput @onSended="scrollDown()" :roomData="roomData" />
   </div>
 </template>
 <script>
-import MessageInput from './MessageInput.vue'
-import Messages from './Messages.vue'
+import TabChatInput from './TabChatInput.vue'
+import TabMessages from './TabMessages.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'ChatTab',
-  components: { MessageInput, Messages },
+  components: { TabChatInput, TabMessages },
   props: {
     roomData: {
       type: Object,

@@ -34,7 +34,7 @@
       >
         <div class="full-height" v-html="slide"></div>
       </q-carousel-slide>
-      <template v-slot:control>
+      <template #control>
         <q-carousel-control position="bottom-right" :offset="[18, 18]">
           <q-btn
             push

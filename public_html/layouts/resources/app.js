@@ -404,7 +404,7 @@ var app = (window.app = {
 				if (!selectElement.attr('href')) {
 					return false;
 				}
-				let link = new URL(selectElement.get(0).href);
+				let link = new URL(selectElement.eq(0).attr('href'), window.location.origin);
 				if (!link.searchParams.get('record') || !link.searchParams.get('view')) {
 					return false;
 				}
@@ -488,7 +488,7 @@ var app = (window.app = {
 				iframeOffsetLeft += iframeOffset2.left;
 			}
 		}
-		return {top: iframeOffsetTop, left: iframeOffsetLeft}
+		return { top: iframeOffsetTop, left: iframeOffsetLeft };
 	},
 	/**
 	 * Get binded popover

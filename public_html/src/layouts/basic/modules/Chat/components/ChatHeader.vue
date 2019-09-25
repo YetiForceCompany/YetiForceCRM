@@ -5,18 +5,18 @@
       <div class="flex items-center no-wrap full-width justify-between js-drag">
         <div class="flex no-wrap">
           <q-btn dense flat round :color="leftPanel ? 'info' : ''" @click="toggleLeftPanel()">
-            <icon icon="yfi-menu-group-room" />
+            <YfIcon icon="yfi-menu-group-room" />
             <q-tooltip>{{ translate('JS_CHAT_ROOMS_MENU') }}</q-tooltip>
           </q-btn>
           <q-btn dense flat round :color="rightPanel ? 'info' : ''" @click="toggleRightPanel()">
-            <icon icon="yfi-menu-entrant" />
+            <YfIcon icon="yfi-menu-entrant" />
             <q-tooltip>{{ translate('JS_CHAT_PARTICIPANTS_MENU') }}</q-tooltip>
           </q-btn>
           <q-btn @click="toggleEnter()" dense round flat :color="sendByEnter ? 'info' : ''">
-            <icon :icon="sendByEnter ? 'yfi-enter-on' : 'yfi-enter-off'" />
+            <YfIcon :icon="sendByEnter ? 'yfi-enter-on' : 'yfi-enter-off'" />
             <q-tooltip>{{ translate('JS_CHAT_ENTER') }}</q-tooltip>
           </q-btn>
-          <notify-btn />
+          <ChatNotifyButton />
           <q-btn
             @click="toggleSoundNotification()"
             dense
@@ -39,12 +39,12 @@
           active-color="info"
         >
           <q-tab name="chat" :style="{ 'min-width': '40px' }">
-            <icon class="q-icon q-tab__icon" size="20px" icon="yfi-branding-chat" />
+            <YfIcon class="q-icon q-tab__icon" size="20px" icon="yfi-branding-chat" />
             <span class="q-tab__label">{{ isSmall ? '' : translate('JS_CHAT') }}</span>
             <q-tooltip>{{ translate('JS_CHAT_DESC') }}</q-tooltip>
           </q-tab>
           <q-tab name="unread">
-            <icon class="q-icon q-tab__icon" size="20px" icon="yfi-unread-messages" />
+            <YfIcon class="q-icon q-tab__icon" size="20px" icon="yfi-unread-messages" />
             <span class="q-tab__label">{{ isSmall ? '' : translate('JS_CHAT_UNREAD') }}</span>
             <q-tooltip>{{ translate('JS_CHAT_UNREAD_DESC') }}</q-tooltip>
           </q-tab>
@@ -74,14 +74,14 @@
   </q-header>
 </template>
 <script>
-import NotifyBtn from './NotifyBtn.vue'
+import ChatNotifyButton from './ChatNotifyButton.vue'
 import BtnGrab from 'components/BtnGrab.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions, mapMutations, mapGetters } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'ChatHeader',
-  components: { NotifyBtn, BtnGrab },
+  components: { ChatNotifyButton, BtnGrab },
   props: {
     inputSearchVisible: { type: Boolean, required: false },
     tabHistoryShow: { type: Boolean, required: false },

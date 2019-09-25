@@ -38,7 +38,7 @@
         ></div>
       </div>
       <q-btn :loading="sending" flat round color="primary" icon="mdi-send" @click="send">
-        <template v-slot:loading>
+        <template #loading>
           <q-spinner-facebook />
         </template>
       </q-btn>
@@ -54,7 +54,7 @@ const EmojiIndex = Emoji.EmojiIndex
 const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
 let emojiIndex = new EmojiIndex(data)
 export default {
-  name: 'ChatMessages',
+  name: 'TabChatInput',
   components: { Picker },
   props: {
     roomData: {

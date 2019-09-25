@@ -10,7 +10,7 @@ const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
  * @vue-data {Array} activeRooms - array of active room to update
  */
 export default {
-  name: 'UpdateWatcher',
+  name: 'ChatUpdateWatcher',
   data() {
     return {
       timerAmount: false,
