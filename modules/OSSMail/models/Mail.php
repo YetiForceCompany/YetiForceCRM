@@ -39,6 +39,12 @@ class OSSMail_Mail_Model extends \App\Base
 	 * @var array
 	 */
 	protected $actionResult = [];
+	/**
+	 * Mail type.
+	 *
+	 * @var int
+	 */
+	protected $mailType;
 
 	/**
 	 * Set account.
@@ -115,29 +121,43 @@ class OSSMail_Mail_Model extends \App\Base
 	 */
 	public function getTypeEmail($returnText = false)
 	{
+		if (isset($this->mailType)) {
+			if ($returnText) {
+				$cacheKey = 'Received';
+				switch ($this->mailType) {
+					case 0:
+						$cacheKey = 'Sent';
+						break;
+					case 2:
+						$cacheKey = 'Internal';
+						break;
+				}
+				return $cacheKey;
+			}
+			return $this->mailType;
+		}
 		$account = $this->getAccount();
 		$fromEmailUser = $this->findEmailUser($this->get('fromaddress'));
 		$toEmailUser = $this->findEmailUser($this->get('toaddress'));
 		$ccEmailUser = $this->findEmailUser($this->get('ccaddress'));
 		$bccEmailUser = $this->findEmailUser($this->get('bccaddress'));
-		$notFound = $toEmailUser['notFound'] + $ccEmailUser['notFound'] + $bccEmailUser['notFound'];
-		$identities = OSSMailScanner_Record_Model::getIdentities($account['user_id']);
-		$type = false;
-		foreach ($identities as $identitie) {
+		$existIdentitie = false;
+		foreach (OSSMailScanner_Record_Model::getIdentities($account['user_id']) as $identitie) {
 			if ($identitie['email'] == $this->get('fromaddress')) {
-				$type = true;
+				$existIdentitie = true;
 			}
 		}
-		if (0 == $fromEmailUser['notFound'] && 0 == $notFound) {
+		if ($fromEmailUser && 0 == $toEmailUser || $ccEmailUser || $bccEmailUser) {
 			$key = 2;
 			$cacheKey = 'Internal';
-		} elseif ($type) {
+		} elseif ($existIdentitie || $fromEmailUser) {
 			$key = 0;
 			$cacheKey = 'Sent';
 		} else {
 			$key = 1;
 			$cacheKey = 'Received';
 		}
+		$this->mailType = $key;
 		if ($returnText) {
 			return $cacheKey;
 		}
@@ -149,23 +169,19 @@ class OSSMail_Mail_Model extends \App\Base
 	 *
 	 * @param string $emails
 	 *
-	 * @return array
+	 * @return bool
 	 */
 	public static function findEmailUser($emails)
 	{
-		$return = [];
 		$notFound = 0;
 		if (!empty($emails)) {
 			foreach (explode(',', $emails) as $email) {
-				$result = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['email1' => $email])->scalar();
-				if ($result) {
-					$return[] = $result;
-				} else {
+				if (!\Users_Module_Model::checkMailExist($email)) {
 					++$notFound;
 				}
 			}
 		}
-		return ['users' => $return, 'notFound' => $notFound];
+		return 0 === $notFound;
 	}
 
 	/**

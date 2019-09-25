@@ -19,7 +19,7 @@ class OSSMailScanner_BindHelpDesk_ScannerAction extends OSSMailScanner_PrefixSca
 		$ids = $this->findAndBind();
 		if ($ids) {
 			$id = current($ids);
-			if (!\App\Record::isExists($id, $this->moduleName)) {
+			if (!\App\Record::isExists($id, $this->moduleName) || 1 === $mail->getTypeEmail()) {
 				return false;
 			}
 			$conf = OSSMailScanner_Record_Model::getConfig('emailsearch');
@@ -29,7 +29,7 @@ class OSSMailScanner_BindHelpDesk_ScannerAction extends OSSMailScanner_PrefixSca
 				$recordModel->save();
 			}
 			$ticketStatus = array_flip(Settings_SupportProcesses_Module_Model::getTicketStatusNotModify());
-			if (1 == $mail->getTypeEmail() && isset($ticketStatus[$recordModel->get('ticketstatus')])) {
+			if (isset($ticketStatus[$recordModel->get('ticketstatus')])) {
 				if ('openTicket' === $conf['changeTicketStatus']) {
 					$recordModel->set('ticketstatus', \App\Config::component('Mail', 'HELPDESK_OPENTICKET_STATUS'));
 					$recordModel->save();
