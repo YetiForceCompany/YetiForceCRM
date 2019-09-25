@@ -299,7 +299,6 @@ abstract class View extends Base
 			'~libraries/bootstrap-datepicker/dist/locales/' . \App\Language::getLanguage() . '.min.js',
 			'~libraries/bootstrap-daterangepicker/daterangepicker.js',
 			'~libraries/jquery-outside-events/jquery.ba-outside-events.js',
-			'~libraries/dompurify/dist/purify.js',
 			'~libraries/footable/dist/footable.js',
 			'~vendor/ckeditor/ckeditor/ckeditor.js',
 			'~vendor/ckeditor/ckeditor/adapters/jquery.js',

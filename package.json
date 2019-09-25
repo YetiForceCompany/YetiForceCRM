@@ -42,7 +42,6 @@
     "datatables.net-bs4": "^1.10.19",
     "datatables.net-responsive-bs4": "^2.2.3",
     "device-uuid": "^1.0.4",
-    "dompurify": "^1.0.10",
     "emoji-mart-vue-fast": "^6.0.1",
     "emojipanel": "https://github.com/YetiForceCompany/EmojiPanel#master",
     "flag-icon-css": "^3.3.0",
