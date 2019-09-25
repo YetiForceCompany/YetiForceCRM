@@ -116,6 +116,7 @@ class RequestUtil
 			$host = Request::_getServer('HTTP_X_FORWARDED_HOST', Request::_getServer('HTTP_HOST', ''));
 			$host = $host ?? Request::_getServer('SERVER_NAME') . $port;
 			$browser->url = $protocol . '://' . $host . Request::_getServer('REQUEST_URI');
+			$browser->siteUrl = $protocol . '://' . $host .'/';
 			$browser->requestUri = ltrim(Request::_getServer('REQUEST_URI'), '/');
 			static::$browserCache = $browser;
 		}
