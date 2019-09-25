@@ -1,7 +1,14 @@
 ![awards_all_eng_new](https://user-images.githubusercontent.com/10197525/47670510-aa6e9880-dbad-11e8-9720-be7f34dba9e1.jpg)
 [![Latest Stable Version](https://poser.pugx.org/yetiforce/yetiforce-crm/v/stable)](https://packagist.org/packages/yetiforce/yetiforce-crm)
+[![Latest Stable Version](https://img.shields.io/github/release-date/YetiForceCompany/YetiForceCRM)
+[![PHP Version](https://img.shields.io/packagist/php-v/yetiforce/yetiforce-crm)
+
+
 [![Build Status](https://travis-ci.org/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.org/YetiForceCompany/YetiForceCRM)
 [![Download YetiForce CRM](https://img.shields.io/sourceforge/dt/yetiforce.svg)](https://sourceforge.net/projects/yetiforce/files/latest/download)
+[![Github All Releases](https://img.shields.io/github/downloads/YetiForceCompany/YetiForceCRM/total.svg)]()
+[![Github All Releases](https://img.shields.io/github/license/YetiForceCompany/YetiForceCRM.svg)]()
+
 [![Backers on Open Collective](https://opencollective.com/YetiForceCRM/backers/badge.svg)](#backers) 
 [![Sponsors on Open Collective](https://opencollective.com/YetiForceCRM/sponsors/badge.svg)](#sponsors) 
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/yetiforcecrm/localized.svg)](https://crowdin.com/project/yetiforcecrm)
@@ -68,6 +75,8 @@ Testing Supported By<br/>
 <img width="160" src="http://foundation.zurb.com/sites/docs/assets/img/logos/browser-stack.svg" alt="BrowserStack"/>
 </a>
 
+https://img.shields.io/github/commit-activity/m/YetiForceCompany/YetiForceCRM?style=plastic
+
 [![Analytics](https://ga-beacon.appspot.com/UA-81376231-1/welcome-page)](https://github.com/igrigorik/ga-beacon)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2e9276651b48a905f0ee/maintainability)](https://codeclimate.com/github/YetiForceCompany/YetiForceCRM/maintainability)
 [![Snyk - Known Vulnerabilities](https://snyk.io/test/github/YetiForceCompany/YetiForceCRM/badge.svg)](https://snyk.io/test/github/YetiForceCompany/YetiForceCRM)
@@ -81,6 +90,7 @@ Testing Supported By<br/>
 [![sonarcloud.io vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
 [![Greenkeeper badge](https://badges.greenkeeper.io/YetiForceCompany/YetiForceCRM.svg)](https://greenkeeper.io/)
 [![DepShield Badge](https://depshield.sonatype.org/badges/owner/repository/depshield.svg)](https://depshield.github.io)
+https://img.shields.io/mozilla-observatory/grade/gitdeveloper.yetiforce.com?publish
 
 ## Contributors
  This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
