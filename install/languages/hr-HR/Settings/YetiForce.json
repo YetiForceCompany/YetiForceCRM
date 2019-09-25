@@ -8,13 +8,13 @@
     "LBL_PARAM_VAL": "Vrijednost",
     "LBL_PARAM_NOT_ALLOWED": "Parametar nije dozvoljen",
     "LBL_SAVED": "Promjene su spremljene",
-    "LBL_STATUSURL": "Service URL",
+    "LBL_STATUSURL": "URL usluge",
     "LBL_SYSTEMVERSION": "Verzija sistema YetiForce",
     "LBL_PHPVERSION": "PHP verzija",
     "LBL_OSVERSION": "Sistemska verzija",
     "LBL_DBVERSION": "Verzija baze podataka",
     "LBL_DATABASE": "Informacije o bazi podataka",
-    "LBL_SAPIVERSION": "API server verzija",
+    "LBL_SAPIVERSION": "API poslužitelj verzija",
     "LBL_LASTCRONTIME": "Poslednji Cron time",
     "LBL_SPACEROOT": "Root prostor",
     "LBL_SPACESTORAGE": "Skladišni prostor",
@@ -48,7 +48,7 @@
     "LBL_TRANSLATED_WORDS": "Prevedene riječi",
     "LBL_LANG": "Jezik",
     "LBL_BUY": "Kupi",
-    "LBL_EMAIL": "Email",
+    "LBL_EMAIL": "E-pošta",
     "LBL_EMAIL_INFO": "Poslat ćemo vaše podatke o pristupu na ovu adresu e-pošte",
     "LBL_SUBDOMAIN": "Pod-domena",
     "LBL_PERIOD_OF_MONTH": "M",
@@ -126,6 +126,6 @@
     "LBL_SHOP_MODULESENTERPRISE_DESC": "",
     "LBL_SHOP_YETIFORCEGEOCODER": "Traženje adresa YetiForce",
     "LBL_SHOP_YETIFORCEGEOCODER_INTRO": "Brzo i jednostavno pretraživanje bilo koje adrese na svijetu",
-    "LBL_SHOP_YETIFORCEGEOCODER_DESC": "Integracija s adresom baze podataka YetiForce. Temelji se na Open Street Maps s cjelovitom zemljovidom. Nema ograničenja veze i nema potrebe imati vlastiti server."
+    "LBL_SHOP_YETIFORCEGEOCODER_DESC": "Integracija s adresom baze podataka YetiForce. Temelji se na Open Street Maps s cjelovitom zemljovidom. Nema ograničenja veze i nema potrebe imati vlastiti poslužitelj."
   }
 }
