@@ -203,7 +203,7 @@ jQuery.Class(
 								mode: 'execute',
 								user: data.find('[name="user"]').val(),
 								record: detailInstance.getRecordId(),
-								tasks: tasks
+								tasks: JSON.stringify(tasks)
 							})
 								.done(function() {
 									Vtiger_Helper_Js.showPnotify({
