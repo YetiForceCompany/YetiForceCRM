@@ -49,9 +49,18 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return array
 	 */
-	public static function getIdentities($id)
+	public static function getIdentities($id = 0)
 	{
-		return (new \App\Db\Query())->select(['name', 'email', 'identity_id'])->from('roundcube_identities')->where(['user_id' => $id])->all();
+		if (App\Cache::staticHas('OSSMailScanner_Record_Model::getIdentities', $id)) {
+			return App\Cache::staticGet('OSSMailScanner_Record_Model::getIdentities', $id);
+		}
+		$query = (new \App\Db\Query())->select(['name', 'email', 'identity_id'])->from('roundcube_identities');
+		if ($id) {
+			$query = $query->where(['user_id' => $id]);
+		}
+		$rows = $query->all();
+		App\Cache::staticSave('OSSMailScanner_Record_Model::getIdentities', $id, $rows);
+		return $rows;
 	}
 
 	/**
