@@ -1,33 +1,24 @@
 ![awards_all_eng_new](https://user-images.githubusercontent.com/10197525/47670510-aa6e9880-dbad-11e8-9720-be7f34dba9e1.jpg)
 [![Latest Stable Version](https://poser.pugx.org/yetiforce/yetiforce-crm/v/stable)](https://packagist.org/packages/yetiforce/yetiforce-crm)
 [![Build Status](https://travis-ci.org/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.org/YetiForceCompany/YetiForceCRM)
-[![Analytics](https://ga-beacon.appspot.com/UA-81376231-1/welcome-page)](https://github.com/igrigorik/ga-beacon)
+
 [![Scrutinizer](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/badges/quality-score.png?b=developer)](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/)
 [![codecov](https://codecov.io/gh/YetiForceCompany/YetiForceCRM/branch/developer/graph/badge.svg)](https://codecov.io/gh/YetiForceCompany/YetiForceCRM)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/161d09ea3c824405b762a0c9edc2845e)](https://www.codacy.com/app/mariuszkrzaczkowski/YetiForceCRM?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=YetiForceCompany/YetiForceCRM&amp;utm_campaign=Badge_Grade)
-[![Maintainability](https://api.codeclimate.com/v1/badges/2e9276651b48a905f0ee/maintainability)](https://codeclimate.com/github/YetiForceCompany/YetiForceCRM/maintainability)
+
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/YetiForceCompany/YetiForceCRM.svg)](http://isitmaintained.com/project/YetiForceCompany/YetiForceCRM "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/YetiForceCompany/YetiForceCRM.svg)](http://isitmaintained.com/project/YetiForceCompany/YetiForceCRM "Percentage of issues still open")
-[![Snyk - Known Vulnerabilities](https://snyk.io/test/github/YetiForceCompany/YetiForceCRM/badge.svg)](https://snyk.io/test/github/YetiForceCompany/YetiForceCRM)
 [![Depfu](https://badges.depfu.com/badges/56870798a59eff717ff60bc775ca6a33/overview.svg)](https://depfu.com/github/YetiForceCompany/YetiForceCRM)
 [![dependencies Status](https://david-dm.org/YetiForceCompany/YetiForceCRM/status.svg)](https://david-dm.org/YetiForceCompany/YetiForceCRM)
-<a href="https://scan.coverity.com/projects/yetiforcecompany-yetiforcecrm">
-  <img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/16547/badge.svg"/>
-</a>
-[![sonarcloud.io status alert](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=alert_status)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
-[![sonarcloud.io bugs](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=bugs)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
-[![sonarcloud.io sqale](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
-[![sonarcloud.io security](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=security_rating)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
-[![sonarcloud.io vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
+
 [![SecurityHeaders.io](https://securityheadersiobadges.azurewebsites.net/create/badge?domain=https://gitdeveloper.yetiforce.com/)](https://securityheaders.io/?q=https://gitdeveloper.yetiforce.com/&hide=on&followRedirects=on)
-[![Greenkeeper badge](https://badges.greenkeeper.io/YetiForceCompany/YetiForceCRM.svg)](https://greenkeeper.io/)
+
 [![SymfonyInsight](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c/mini.svg)](https://insight.symfony.com/projects/189f9068-d777-44a7-9164-9242e81df88c)
 [![Download YetiForce CRM](https://img.shields.io/sourceforge/dt/yetiforce.svg)](https://sourceforge.net/projects/yetiforce/files/latest/download)
 [![Backers on Open Collective](https://opencollective.com/YetiForceCRM/backers/badge.svg)](#backers) 
 [![Sponsors on Open Collective](https://opencollective.com/YetiForceCRM/sponsors/badge.svg)](#sponsors) 
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/yetiforcecrm/localized.svg)](https://crowdin.com/project/yetiforcecrm)
 [![Black Duck Security Risk](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer/badge-risk.svg)](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer)
-[![DepShield Badge](https://depshield.sonatype.org/badges/owner/repository/depshield.svg)](https://depshield.github.io)
 
 <p align="center">
 	<a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>  <img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' /></a>
@@ -81,6 +72,20 @@ Testing Supported By<br/>
 <img width="160" src="http://foundation.zurb.com/sites/docs/assets/img/logos/browser-stack.svg" alt="BrowserStack"/>
 </a>
 
+[![Analytics](https://ga-beacon.appspot.com/UA-81376231-1/welcome-page)](https://github.com/igrigorik/ga-beacon)
+[![Maintainability](https://api.codeclimate.com/v1/badges/2e9276651b48a905f0ee/maintainability)](https://codeclimate.com/github/YetiForceCompany/YetiForceCRM/maintainability)
+[![Snyk - Known Vulnerabilities](https://snyk.io/test/github/YetiForceCompany/YetiForceCRM/badge.svg)](https://snyk.io/test/github/YetiForceCompany/YetiForceCRM)
+<a href="https://scan.coverity.com/projects/yetiforcecompany-yetiforcecrm">
+  <img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/16547/badge.svg"/>
+</a>
+[![sonarcloud.io status alert](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=alert_status)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
+[![sonarcloud.io bugs](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=bugs)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
+[![sonarcloud.io sqale](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
+[![sonarcloud.io security](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=security_rating)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
+[![sonarcloud.io vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
+[![Greenkeeper badge](https://badges.greenkeeper.io/YetiForceCompany/YetiForceCRM.svg)](https://greenkeeper.io/)
+[![DepShield Badge](https://depshield.sonatype.org/badges/owner/repository/depshield.svg)](https://depshield.github.io)
+
 ## Contributors
  This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
 <a href="https://github.com/YetiForceCompany/YetiForceCRM/graphs/contributors"><img src="https://opencollective.com/YetiForceCRM/contributors.svg?width=890&button=false" /></a>
@@ -88,10 +93,10 @@ Testing Supported By<br/>
 ## Backers
  Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/YetiForceCRM#backer)]
  <a href="https://opencollective.com/YetiForceCRM#backers" target="_blank"><img src="https://opencollective.com/YetiForceCRM/backers.svg?width=890"></a>
- 
+
  ## Sponsors
  Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/YetiForceCRM#sponsor)]
- 
+
 <a href="https://opencollective.com/YetiForceCRM/sponsor/0/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/0/avatar.svg"></a>
 <a href="https://opencollective.com/YetiForceCRM/sponsor/1/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/1/avatar.svg"></a>
 <a href="https://opencollective.com/YetiForceCRM/sponsor/2/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/2/avatar.svg"></a>
