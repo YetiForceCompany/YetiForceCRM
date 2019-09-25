@@ -37,7 +37,7 @@
               <q-tooltip>{{ translate('JS_CHAT_ROOM_ADD_CURRENT') }}</q-tooltip>
             </q-badge>
             <q-badge
-              class="shadow-3 text-primary justify-center btn-badge btn-badge--right-bottom u-hover-height u-hover--delay-out-2"
+              class="shadow-3 text-primary justify-center btn-badge btn-badge--right-bottom u-hover-height u-hover--delay-out-1"
               color="white"
               floating
               @click.stop
