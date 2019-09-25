@@ -33,7 +33,7 @@ class ConfReport
 	 *
 	 * @var array
 	 */
-	public static $urlsToCheck = ['root' => '', 'js' => '/layouts/resources/Tools.js', 'css' => '/layouts/basic/styles/Main.css'];
+	public static $urlsToCheck = ['root' => 'shorturl.php', 'js' => 'layouts/resources/Tools.js', 'css' => 'layouts/resources/fonts/fonts.css'];
 
 	/**
 	 * List all variables.
@@ -515,7 +515,10 @@ class ConfReport
 	 */
 	private static function getRequest()
 	{
-		$requestUrl = \App\Config::main('site_URL') ?: \App\RequestUtil::getBrowserInfo()->url;
+		$requestUrl = \App\Config::main('site_URL') ?: \App\RequestUtil::getBrowserInfo()->siteUrl;
+		if (!IS_PUBLIC_DIR) {
+			$requestUrl .= 'public_html/';
+		}
 		$request = [];
 		try {
 			foreach (static::$urlsToCheck as $type => $url) {
@@ -974,7 +977,9 @@ class ConfReport
 			$row['js'] = static::$request[$header]['js'] ?? '';
 			$row['css'] = static::$request[$header]['css'] ?? '';
 			$row['status'] = strtolower($row['www']) === strtolower($row['recommended']) && strtolower($row['js']) === strtolower($row['recommended']) && strtolower($row['css']) === strtolower($row['recommended']);
-		} else {
+		} elseif($row['recommended'] === '') {
+			$row['status'] = true;
+		} else{
 			$row['status'] = false;
 		}
 		return $row;

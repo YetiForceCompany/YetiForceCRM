@@ -492,29 +492,21 @@
 							<td>
 								{if isset($ITEM['recommended'])}
 									{if isset($ITEM['isHtml'])} {$ITEM['recommended']} {else} {\App\Language::translate($ITEM['recommended'], $MODULE_NAME)} {/if}
-								{else}
-									-
 								{/if}
 							</td>
 							<td>
 								{if !empty($ITEM['www'])}
 									{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
-								{else}
-									-
 								{/if}
 							</td>
 							<td>
 								{if !empty($ITEM['js'])}
 									{if isset($ITEM['isHtml'])} {$ITEM['js']} {else} {\App\Language::translate($ITEM['js'], $MODULE_NAME)} {/if}
-								{else}
-									-
 								{/if}
 							</td>
 							<td>
 								{if !empty($ITEM['css'])}
 									{if isset($ITEM['isHtml'])} {$ITEM['css']} {else} {\App\Language::translate($ITEM['css'], $MODULE_NAME)} {/if}
-								{else}
-									-
 								{/if}
 							</td>
 						</tr>
