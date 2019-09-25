@@ -9,6 +9,7 @@
             color="primary"
             class="glossy"
             @click="showDialog"
+            :loading="dialogLoading"
             ref="chatBtn"
             :key="parseInt(data.amountOfNewMessages)"
             style="z-index: 99999999999;"
@@ -35,15 +36,15 @@
               <q-icon name="mdi-plus" size="1rem" />
               <q-tooltip>{{ translate('JS_CHAT_ROOM_ADD_CURRENT') }}</q-tooltip>
             </q-badge>
-							<q-badge
-								class="shadow-3 text-primary justify-center btn-badge btn-badge--right-bottom u-hover-height u-hover--delay-out-2"
-								color="white"
-								floating
-								@click.stop
-							>
-								<ButtonGrab class="flex flex-center" grabClass="js-chat-grab" linkClass="q-px-none" size="18px"  />
-								<q-tooltip>{{ translate('JS_CHAT_ROOM_ADD_CURRENT') }}</q-tooltip>
-							</q-badge>
+            <q-badge
+              class="shadow-3 text-primary justify-center btn-badge btn-badge--right-bottom u-hover-height u-hover--delay-out-2"
+              color="white"
+              floating
+              @click.stop
+            >
+              <ButtonGrab class="flex flex-center" grabClass="js-chat-grab" linkClass="q-px-none" size="18px" />
+              <q-tooltip>{{ translate('JS_CHAT_ROOM_ADD_CURRENT') }}</q-tooltip>
+            </q-badge>
           </q-btn>
         </transition>
       </YfDrag>
@@ -55,6 +56,8 @@
       transition-show="slide-up"
       transition-hide="slide-down"
       content-class="quasar-reset"
+      @show="dialogLoading = false"
+      @hide="dialogLoading = false"
     >
       <DragResize :coordinates.sync="coordinates" :maximized="!computedMiniMode">
         <ChatContainer container :parentRefs="$refs" />
@@ -80,7 +83,8 @@ export default {
       timerGlobal: null,
       dragging: false,
       windowConfig: CONFIG,
-      addingRoom: false
+      addingRoom: false,
+      dialogLoading: false
     }
   },
   computed: {
@@ -141,28 +145,29 @@ export default {
   methods: {
     ...mapMutations(['setDialog', 'setCoordinates', 'setButtonCoordinates', 'updateRooms']),
     showDialog() {
-        if (!this.addingRoom) {
-          this.dialog = !this.dialog
-        }
+      if (!this.addingRoom) {
+        this.dialogLoading = true
+        this.dialog = !this.dialog
+      }
     },
     addRecordRoomToChat() {
       this.addingRoom = true
-          AppConnector.request({
-            module: 'Chat',
-            action: 'Room',
-            mode: 'addToFavorites',
-            roomType: 'crm',
-            recordId: this.isDetail ? app.getRecordId() : this.getDetailPreview.id
-          }).done(({ result }) => {
-            this.addingRoom = false
-            this.updateRooms(result)
-            this.$q.notify({
-              position: 'top',
-              color: 'success',
-              message: this.translate('JS_CHAT_ROOM_ADDED'),
-              icon: 'mdi-check'
-            })
-          })
+      AppConnector.request({
+        module: 'Chat',
+        action: 'Room',
+        mode: 'addToFavorites',
+        roomType: 'crm',
+        recordId: this.isDetail ? app.getRecordId() : this.getDetailPreview.id
+      }).done(({ result }) => {
+        this.addingRoom = false
+        this.updateRooms(result)
+        this.$q.notify({
+          position: 'top',
+          color: 'success',
+          message: this.translate('JS_CHAT_ROOM_ADDED'),
+          icon: 'mdi-check'
+        })
+      })
     }
   }
 }
@@ -183,10 +188,10 @@ export default {
   left: -3px;
 }
 .btn-badge--right-bottom {
-	top: 28px;
+  top: 28px;
 }
 .u-hover-container:hover .u-hover-height {
-	visibility: visible;
-	height: 16px;
+  visibility: visible;
+  height: 16px;
 }
 </style>
