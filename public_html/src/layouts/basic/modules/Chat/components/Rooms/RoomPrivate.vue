@@ -17,7 +17,7 @@
     <template #itemRight="{ room }">
       <q-btn
         v-if="isUserModerator(room)"
-        :class="{ 'hover-display': $q.platform.is.desktop }"
+        :class="{ 'u-hover-display-inline': $q.platform.is.desktop }"
         dense
         round
         flat

@@ -134,6 +134,13 @@
 	display: inline-block !important;
 }
 
+.u-ellipsis-2-lines {
+	overflow: hidden;
+	display: -webkit-box !important;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
 .u-text-underline {
 	text-decoration: underline;
 }
@@ -160,6 +167,27 @@
 .u-bg-light-darken:hover {
 	background-color: darken($light, 10%) !important;
 	@include u-transition(background-color 275ms ease);
+}
+.u-hover-container {
+	.u-hover-display-inline {
+		display: none;
+	}
+	.u-hover-height {
+		visibility: hidden;
+		height: 0;
+	}
+	&:hover {
+		.u-hover-display-inline {
+			display: inline;
+		}
+	}
+}
+.u-hover--delay-out-1 {
+	transition: 0.5s all;
+	transition-delay: 1s;
+	&:hover {
+		transition-delay: 0s;
+	}
 }
 
 .u-word-break-all {

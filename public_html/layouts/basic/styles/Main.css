@@ -16450,6 +16450,12 @@ ul.tweets li {
   overflow: visible !important;
   display: inline-block !important; }
 
+.u-ellipsis-2-lines {
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; }
+
 .u-text-underline {
   text-decoration: underline; }
 
@@ -16484,6 +16490,20 @@ ul.tweets li {
   -ms-transition: background-color 275ms ease;
   -o-transition: background-color 275ms ease;
   transition: background-color 275ms ease; }
+
+.u-hover-container .u-hover-display-inline {
+  display: none; }
+.u-hover-container .u-hover-height {
+  visibility: hidden;
+  height: 0; }
+.u-hover-container:hover .u-hover-display-inline {
+  display: inline; }
+
+.u-hover--delay-out-1 {
+  transition: 0.5s all;
+  transition-delay: 1s; }
+  .u-hover--delay-out-1:hover {
+    transition-delay: 0s; }
 
 .u-word-break-all {
   word-break: break-all !important; }

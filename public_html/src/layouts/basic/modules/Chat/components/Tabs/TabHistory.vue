@@ -36,7 +36,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
-  name: 'HistoryTab',
+  name: 'TabHistory',
   components: { TabMessages },
   data() {
     return {

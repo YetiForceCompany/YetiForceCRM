@@ -12,6 +12,7 @@
     :isResizable="false"
     :isDraggable="true"
     v-on:dragging="drag"
+		:dragHandle="dragHandleClass"
     @dragstop="correctCoordinates"
     :x="coordinates.left"
     :y="coordinates.top"
@@ -22,7 +23,6 @@
     <slot></slot>
   </vue-drag-resize>
 </template>
-
 <script>
 import VueDragResize from '~/node_modules/vue-drag-resize/src/components/vue-drag-resize.vue'
 import { keepElementInWindow } from '~/mixins/DragResize'
@@ -43,7 +43,11 @@ export default {
     height: {
       type: Number,
       default: 42
-    }
+		},
+		dragHandleClass: {
+      type: String,
+      required: false
+		}
   },
   methods: {
     drag(newRect, e) {
