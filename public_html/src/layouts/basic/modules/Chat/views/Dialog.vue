@@ -43,7 +43,6 @@
               @click.stop
             >
               <ButtonGrab class="flex flex-center" grabClass="js-chat-grab" linkClass="q-px-none" size="18px" />
-              <q-tooltip>{{ translate('JS_CHAT_ROOM_ADD_CURRENT') }}</q-tooltip>
             </q-badge>
           </q-btn>
         </transition>
