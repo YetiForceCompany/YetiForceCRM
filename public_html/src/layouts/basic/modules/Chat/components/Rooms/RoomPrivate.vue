@@ -1,23 +1,22 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <RoomList isVisible :roomData="roomData" :roomType="roomType">
-		<template #labelRight>
-		<q-btn
-			v-if="roomType === 'private'"
-			dense
-			flat
-			round
-			size="sm"
-			color="primary"
-			icon="mdi-plus"
-			@click="showAddPrivateRoom = !showAddPrivateRoom"
-		>
-			<q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
-		</q-btn>
-		</template>
-    <template #itemRight>
+  <RoomList isVisible :filterRooms="filterRooms" :roomData="roomData" :roomType="roomType">
+    <template #labelRight>
       <q-btn
-        v-if="roomType === 'private' && isUserModerator(room)"
+        dense
+        flat
+        round
+        size="sm"
+        color="primary"
+        icon="mdi-plus"
+        @click="showAddPrivateRoom = !showAddPrivateRoom"
+      >
+        <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
+      </q-btn>
+    </template>
+    <template #itemRight="{ room }">
+      <q-btn
+        v-if="isUserModerator(room)"
         :class="{ 'hover-display': $q.platform.is.desktop }"
         dense
         round
@@ -35,27 +34,28 @@
         <RoomPrivateInput :showAddPrivateRoom.sync="showAddPrivateRoom" />
       </q-item>
     </template>
-		<template #belowItems>
-    <q-dialog v-if="arePrivateRooms" v-model="confirm" persistent content-class="quasar-reset">
-      <q-card>
-        <q-card-section class="row items-center">
-          <q-avatar icon="mdi-alert-circle-outline" text-color="negative" />
-          <span class="q-ml-sm">{{
-            translate('JS_CHAT_ROOM_ARCHIVE_MESSAGE').replace('${roomToArchive}', roomToArchive.name)
-          }}</span>
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn flat :label="translate('JS_CANCEL')" color="black" v-close-popup />
-          <q-btn
-            @click="archivePrivateRoom(roomToArchive)"
-            flat
-            :label="translate('JS_ARCHIVE')"
-            color="negative"
-            v-close-popup
-          />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+    <template #belowItems>
+      <q-dialog v-if="arePrivateRooms" v-model="confirm" persistent content-class="quasar-reset">
+        <q-card>
+          <q-card-section class="row items-center">
+            <q-avatar icon="mdi-alert-circle-outline" text-color="negative" />
+            <span class="q-ml-sm">{{
+              translate('JS_CHAT_ROOM_ARCHIVE_MESSAGE').replace('${roomToArchive}', roomToArchive.name)
+            }}</span>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn flat :label="translate('JS_CANCEL')" color="black" v-close-popup />
+            <q-btn
+              @click="archivePrivateRoom(roomToArchive)"
+              flat
+              :label="translate('JS_ARCHIVE')"
+              color="negative"
+              v-close-popup
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+    </template>
   </RoomList>
 </template>
 <script>
@@ -74,24 +74,21 @@ export default {
     roomType: {
       type: String,
       required: true
+    },
+    filterRooms: {
+      type: String,
+      required: true
     }
   },
   data() {
     return {
-      filterRooms: '',
-      showAll: {
-        group: false,
-        global: false,
-        private: false
-      },
-      showRoomPrivateInputPanel: false,
       showAddPrivateRoom: false,
       confirm: false,
       roomToArchive: {}
     }
   },
   computed: {
-    ...mapGetters(['leftPanel', 'data', 'config', 'isSoundNotification', 'roomSoundNotificationsOff', 'layout']),
+    ...mapGetters(['data', 'config']),
     arePrivateRooms() {
       return Object.keys(this.data.roomList.private).length
     },
@@ -102,8 +99,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setLeftPanel']),
-    ...mapActions(['fetchRoom', 'togglePinned', 'toggleRoomSoundNotification', 'archivePrivateRoom']),
+    ...mapActions(['archivePrivateRoom']),
     showArchiveDialog(room) {
       this.confirm = true
       this.roomToArchive = room

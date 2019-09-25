@@ -18,7 +18,7 @@
       :pagination.sync="pagination"
       :title="title"
     >
-      <template v-slot:item="props">
+      <template #item="props">
         <q-list class="full-width" padding @click.prevent="onClickRecord(props.row.id)">
           <q-item clickable>
             <q-item-section avatar>
@@ -65,7 +65,7 @@
           </q-item>
         </q-list>
       </template>
-      <template v-slot:bottom="props"> </template>
+      <template #bottom="props"> </template>
     </q-table>
     <div :class="['flex items-center q-px-lg q-py-sm', hasData ? 'hidden' : '']">
       <q-icon name="mdi-alert-outline" class="q-mr-sm"></q-icon>

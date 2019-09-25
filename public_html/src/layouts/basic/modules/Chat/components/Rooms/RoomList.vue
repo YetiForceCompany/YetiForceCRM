@@ -28,7 +28,7 @@
     <slot name="aboveItems"></slot>
     <template v-for="(room, roomId) of roomData">
       <q-item
-        v-show="roomType !== 'crm' ? room.isPinned || showAllRooms || filterRooms.length : room.isPinned"
+        v-show="hideUnpinned ? room.isPinned || showAllRooms || filterRooms.length : room.isPinned"
         clickable
         v-ripple
         :key="roomId"
@@ -39,7 +39,12 @@
       >
         <div class="full-width flex items-center justify-between no-wrap">
           <div class="ellipsis-2-lines">
-            <YfIcon v-if="roomType === 'crm'" class="inline-block" :icon="'userIcon-' + room.moduleName" size="0.7rem" />
+            <YfIcon
+              v-if="roomType === 'crm'"
+              class="inline-block"
+              :icon="'userIcon-' + room.moduleName"
+              size="0.7rem"
+            />
             {{ room.name }}
           </div>
           <div class="flex items-center justify-end no-wrap">
@@ -83,7 +88,7 @@
         </div>
       </q-item>
     </template>
-		<slot name="belowItems"></slot>
+    <slot name="belowItems"></slot>
   </q-list>
 </template>
 <script>
@@ -109,20 +114,19 @@ export default {
     isVisible: {
       type: Boolean,
       required: true
+    },
+    filterRooms: {
+      type: String,
+      required: true
     }
   },
   data() {
     return {
-      filterRooms: '',
-      showAddRoomPanel: false,
-      showAddPrivateRoom: false,
-      confirm: false,
-      roomToArchive: {},
       showAllRooms: false
     }
   },
   computed: {
-    ...mapGetters(['leftPanel', 'data', 'config', 'isSoundNotification', 'roomSoundNotificationsOff', 'layout']),
+    ...mapGetters(['data', 'isSoundNotification', 'roomSoundNotificationsOff', 'layout']),
     areUnpinned() {
       for (let room in this.data.roomList[this.roomType]) {
         if (!this.data.roomList[this.roomType][room].isPinned) {
@@ -130,19 +134,10 @@ export default {
         }
       }
       return false
-    },
-    arePrivateRooms() {
-      return Object.keys(this.data.roomList.private).length
-    },
-    isUserModerator() {
-      return room => {
-        return room.creatorid === CONFIG.userId || this.config.isAdmin
-      }
     }
   },
   methods: {
-    ...mapMutations(['setLeftPanel']),
-    ...mapActions(['fetchRoom', 'togglePinned', 'toggleRoomSoundNotification', 'archivePrivateRoom']),
+    ...mapActions(['fetchRoom', 'togglePinned', 'toggleRoomSoundNotification']),
     getGroupIcon,
     isSoundActive(roomType, id) {
       return this.isSoundNotification && !this.roomSoundNotificationsOff[roomType].includes(id)

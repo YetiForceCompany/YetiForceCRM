@@ -22,7 +22,7 @@
               <q-tooltip>{{ translate('JS_KB_TOGGLE_CATEGORY_MENU') }}</q-tooltip>
             </q-btn>
             <q-breadcrumbs class="ml-2" v-show="tab === 'categories'">
-              <template v-slot:separator>
+              <template #separator>
                 <q-icon size="1.5em" name="mdi-chevron-right" />
               </template>
               <q-breadcrumbs-el
@@ -68,13 +68,13 @@
               @input="search"
               autofocus
             >
-              <template v-slot:prepend>
+              <template #prepend>
                 <q-icon name="mdi-magnify" />
                 <q-tooltip v-model="inputFocus" anchor="top middle" self="center middle">{{
                   translate('JS_INPUT_TOO_SHORT').replace('_LENGTH_', '3')
                 }}</q-tooltip>
               </template>
-              <template v-slot:append>
+              <template #append>
                 <q-icon v-if="filter !== ''" name="mdi-close" @click.stop="clearSearch()" class="cursor-pointer" />
                 <div class="flex items-center q-ml-sm">
                   <icon-info :customOptions="{ iconSize: '21px' }">
@@ -130,10 +130,10 @@
             <q-tab-panel name="accounts">
               <div class="q-px-sm">
                 <q-input v-model="accountSearch" :placeholder="translate('JS_KB_SEARCH_PLACEHOLDER')" dense>
-                  <template v-slot:prepend>
+                  <template #prepend>
                     <q-icon name="mdi-magnify" size="16px" />
                   </template>
-                  <template v-slot:append>
+                  <template #append>
                     <q-icon
                       v-show="accountSearch !== ''"
                       name="mdi-close"
@@ -180,7 +180,7 @@
         <q-page class="q-pa-sm">
           <div v-show="!searchData">
             <columns-grid v-show="featuredCategories.length" :columnBlocks="featuredCategories" class="q-pa-sm">
-              <template v-slot:default="slotProps">
+              <template #default="slotProps">
                 <q-list bordered padding dense>
                   <q-item header clickable class="text-black flex" @click="fetchData(slotProps.relatedBlock)">
                     <YfIcon :icon="tree.categories[slotProps.relatedBlock].icon" :size="iconSize" class="mr-2"></YfIcon>

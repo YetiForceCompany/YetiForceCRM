@@ -132,7 +132,7 @@
         <q-separator />
         <div class="q-pa-md q-table__title">{{ translate('JS_KB_RELATED_RECORDS') }}</div>
         <columns-grid :columnBlocks="relatedRecords">
-          <template v-slot:default="slotProps">
+          <template #default="slotProps">
             <q-list bordered padding dense>
               <q-item header clickable class="text-black flex">
                 <YfIcon :icon="'userIcon-' + slotProps.relatedBlock" :size="iconSize" class="mr-2"></YfIcon>

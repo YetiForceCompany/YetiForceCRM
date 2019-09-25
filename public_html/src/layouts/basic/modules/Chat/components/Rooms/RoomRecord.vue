@@ -5,8 +5,13 @@
     :roomData="roomData"
     :roomType="roomType"
     :hideUnpinned="false"
-    :addRoomComponent="config.dynamicAddingRooms"
+    :filterRooms="filterRooms"
   >
+    <template #labelRight>
+      <q-btn dense flat round size="sm" color="primary" icon="mdi-plus" @click="showAddRoomPanel = !showAddRoomPanel">
+        <q-tooltip>{{ translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE') }}</q-tooltip>
+      </q-btn>
+    </template>
     <template #itemRight="{ room }">
       <q-btn
         size="xs"
@@ -20,7 +25,7 @@
         :href="`index.php?module=${room.moduleName}&view=Detail&record=${room.recordid}`"
       />
     </template>
-    <template #addRoomComponent>
+    <template #aboveItems>
       <q-item v-if="config.dynamicAddingRooms" v-show="showAddRoomPanel">
         <RoomRecordSelect :modules="config.chatModules" :isVisible.sync="showAddRoomPanel" class="q-pb-xs" />
       </q-item>
@@ -31,7 +36,7 @@
 import RoomRecordSelect from './RoomRecordSelect.vue'
 import RoomList from './RoomList.vue'
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
+const { mapGetters } = createNamespacedHelpers('Chat')
 export default {
   name: 'RoomRecord',
   components: { RoomRecordSelect, RoomList },
@@ -43,22 +48,19 @@ export default {
     roomType: {
       type: String,
       required: true
+    },
+    filterRooms: {
+      type: String,
+      required: true
     }
   },
   data() {
     return {
-      showAddRoomPanel: false,
-      showAddPrivateRoom: false,
-      confirm: false,
-      roomToArchive: {}
+      showAddRoomPanel: false
     }
   },
   computed: {
-    ...mapGetters(['leftPanel', 'data', 'config', 'isSoundNotification', 'roomSoundNotificationsOff', 'layout'])
-  },
-  methods: {
-    ...mapMutations(['setLeftPanel']),
-    ...mapActions(['fetchRoom', 'togglePinned', 'toggleRoomSoundNotification', 'archivePrivateRoom'])
+    ...mapGetters(['config'])
   }
 }
 </script>

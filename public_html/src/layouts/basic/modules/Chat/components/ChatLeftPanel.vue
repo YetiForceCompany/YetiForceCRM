@@ -15,15 +15,20 @@
       <slot name="top"></slot>
       <div class="bg-grey-11">
         <q-input dense v-model="filterRooms" :placeholder="translate('JS_CHAT_FILTER_ROOMS')" class="q-px-sm">
-          <template v-slot:prepend>
+          <template #prepend>
             <q-icon name="mdi-magnify" />
           </template>
-          <template v-slot:append>
+          <template #append>
             <q-icon v-show="filterRooms.length > 0" name="mdi-close" @click="filterRooms = ''" class="cursor-pointer" />
           </template>
         </q-input>
-        <div class="" v-for="(roomGroup, roomType) of roomList" :key="roomType" :style="{ fontSize: layout.drawer.fs }">
-          <component :is="roomsMap[roomType]" :roomType="roomType" :roomData="roomList[roomType]" :hideUnpinned="roomType !== 'crm'" />
+        <div v-for="(roomGroup, roomType) of roomList" :key="roomType" :style="{ fontSize: layout.drawer.fs }">
+          <component
+            :is="roomsMap[roomType]"
+            :roomType="roomType"
+            :roomData="roomList[roomType]"
+            :filterRooms="filterRooms"
+          />
         </div>
       </div>
     </div>
@@ -47,21 +52,17 @@ export default {
   },
   data() {
     return {
-			filterRooms: '',
-			roomsMap: {
-				private: 'RoomPrivate',
-				group: 'RoomGroup',
-				global: 'RoomGlobal',
-				crm: 'RoomRecord'
-			}
+      filterRooms: '',
+      roomsMap: {
+        private: 'RoomPrivate',
+        group: 'RoomGroup',
+        global: 'RoomGlobal',
+        crm: 'RoomRecord'
+      }
     }
   },
   computed: {
-    ...mapGetters([
-      'data',
-      'config',
-      'layout'
-    ]),
+    ...mapGetters(['data', 'layout']),
     leftPanel: {
       get() {
         return this.$store.getters['Chat/leftPanel']

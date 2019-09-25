@@ -11,16 +11,16 @@
 			:loading="isValidating"
       ref="addRoomInput"
     >
-      <template v-slot:prepend>
+      <template #prepend>
         <q-btn color="primary" flat dense icon="mdi-plus" @click="validateRoomName()">
           <q-tooltip anchor="top middle">{{ translate('JS_ADD') }}</q-tooltip>
         </q-btn>
       </template>
-      <template v-slot:append>
+      <template #append>
         <q-icon name="mdi-close" @click="$emit('update:showAddPrivateRoom', false)" class="cursor-pointer" />
         <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
       </template>
-      <template v-slot:error>
+      <template #error>
         {{ errorMessage }}
       </template>
     </q-input>

@@ -1,6 +1,11 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <RoomList :isVisible="!!Object.entries(roomData).length" :roomData="roomData" :roomType="roomType"> </RoomList>
+  <RoomList
+    :isVisible="!!Object.entries(roomData).length"
+    :filterRooms="filterRooms"
+    :roomData="roomData"
+    :roomType="roomType"
+  />
 </template>
 <script>
 import RoomList from './RoomList.vue'
@@ -17,22 +22,11 @@ export default {
     roomType: {
       type: String,
       required: true
+    },
+    filterRooms: {
+      type: String,
+      required: true
     }
-  },
-  data() {
-    return {
-      showAddRoomPanel: false,
-      showAddPrivateRoom: false,
-      confirm: false,
-      roomToArchive: {}
-    }
-  },
-  computed: {
-    ...mapGetters(['leftPanel', 'data', 'config', 'isSoundNotification', 'roomSoundNotificationsOff', 'layout'])
-  },
-  methods: {
-    ...mapMutations(['setLeftPanel']),
-    ...mapActions(['fetchRoom', 'togglePinned', 'toggleRoomSoundNotification', 'archivePrivateRoom'])
   }
 }
 </script>

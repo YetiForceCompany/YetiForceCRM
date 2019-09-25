@@ -23,12 +23,12 @@
       class="full-width"
       ref="selectUser"
     >
-      <template v-slot:no-option>
+      <template #no-option>
         <q-item>
           <q-item-section class="text-grey"> {{ translate('JS_NO_RESULTS_FOUND') }} </q-item-section>
         </q-item>
       </template>
-      <template v-slot:append>
+      <template #append>
         <q-icon
           name="mdi-close"
           @click.prevent="$emit('update:isVisible', false), (isValid = true)"
@@ -36,7 +36,7 @@
         />
         <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
       </template>
-      <template v-slot:option="scope">
+      <template #option="scope">
         <q-item dense v-bind="scope.itemProps" v-on="scope.itemEvents">
           <q-item-section avatar>
             <img v-if="scope.opt.img" :src="scope.opt.img" :alt="scope.opt.label" style="height: 1.7rem;" />
@@ -47,7 +47,7 @@
           </q-item-section>
         </q-item>
       </template>
-      <template v-slot:error>
+      <template #error>
         {{ errorMessage }}
       </template>
     </q-select>

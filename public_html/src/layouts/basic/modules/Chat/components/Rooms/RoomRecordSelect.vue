@@ -21,20 +21,20 @@
       class="full-width"
       ref="selectModule"
     >
-      <template v-slot:no-option>
+      <template #no-option>
         <q-item>
           <q-item-section class="text-grey"> {{ translate('JS_NO_RESULTS_FOUND') }} </q-item-section>
         </q-item>
       </template>
-      <template v-slot:prepend>
+      <template #prepend>
         <q-icon @click.prevent="showRecordsModal(selectModule)" name="mdi-magnify" class="cursor-pointer" />
         <q-tooltip anchor="top middle">{{ translate('JS_CHAT_SEARCH_RECORDS_OF_THE_SELECTED_MODULE') }}</q-tooltip>
       </template>
-      <template v-slot:append>
+      <template #append>
         <q-icon name="mdi-close" @click.prevent="$emit('update:isVisible', false)" class="cursor-pointer" />
         <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
       </template>
-      <template v-slot:option="scope">
+      <template #option="scope">
         <q-item dense v-bind="scope.itemProps" v-on="scope.itemEvents">
           <q-item-section avatar>
             <YfIcon :icon="`userIcon-${scope.opt.id}`" />

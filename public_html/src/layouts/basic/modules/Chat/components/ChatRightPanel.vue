@@ -9,10 +9,10 @@
         :placeholder="translate('JS_CHAT_FILTER_PARTICIPANTS')"
         class="q-px-sm"
       >
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon name="mdi-magnify" />
         </template>
-        <template v-slot:append>
+        <template #append>
           <q-icon
             v-show="filterParticipants.length > 0"
             name="mdi-close"

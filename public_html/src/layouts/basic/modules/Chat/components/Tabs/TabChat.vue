@@ -9,10 +9,10 @@
         v-model="inputSearch"
         :placeholder="translate('JS_CHAT_SEARCH_MESSAGES')"
       >
-        <template v-slot:prepend>
+        <template #prepend>
           <q-icon @click="search()" name="mdi-magnify" class="cursor-pointer" />
         </template>
-        <template v-slot:append>
+        <template #append>
           <q-icon v-show="inputSearch.length > 0" name="mdi-close" @click="inputSearch = ''" class="cursor-pointer" />
           <q-btn
             v-show="isSearchActive"

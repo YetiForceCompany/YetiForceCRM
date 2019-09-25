@@ -38,7 +38,7 @@
         ></div>
       </div>
       <q-btn :loading="sending" flat round color="primary" icon="mdi-send" @click="send">
-        <template v-slot:loading>
+        <template #loading>
           <q-spinner-facebook />
         </template>
       </q-btn>
