@@ -55,7 +55,7 @@
       :maximized="!computedMiniMode"
       transition-show="slide-up"
       transition-hide="slide-down"
-      content-class="quasar-reset"
+      content-class="quasar-reset all-pointer-events"
       @show="dialogLoading = false"
       @hide="dialogLoading = false"
     >
