@@ -5,7 +5,6 @@
 [![Build Status](https://travis-ci.org/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.org/YetiForceCompany/YetiForceCRM)
 [![Download YetiForce CRM](https://img.shields.io/sourceforge/dt/yetiforce.svg)](https://sourceforge.net/projects/yetiforce/files/latest/download)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/yetiforcecrm/localized.svg)](https://crowdin.com/project/yetiforcecrm)
-[![Github All Releases](https://img.shields.io/github/downloads/YetiForceCompany/YetiForceCRM/total.svg)]()
 [![Backers on Open Collective](https://opencollective.com/YetiForceCRM/backers/badge.svg)](#backers) 
 [![Sponsors on Open Collective](https://opencollective.com/YetiForceCRM/sponsors/badge.svg)](#sponsors) 
 [![SecurityHeaders.io](https://img.shields.io/security-headers?url=https%3A%2F%2Fgitdeveloper.yetiforce.com)](https://securityheaders.io/?q=https://gitdeveloper.yetiforce.com/&hide=on&followRedirects=on)
