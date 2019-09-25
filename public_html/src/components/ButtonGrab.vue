@@ -8,14 +8,14 @@
  */
 -->
 <template>
-	<a class="grabbable text-decoration-none q-px-xs" href="#">
+	<a :class="['grabbable text-decoration-none', linkClass]" href="#">
 		<q-icon :class="[grabClass]" name="mdi-drag" :size="size" />
 	</a>
 </template>
 
 <script>
 export default {
-  name: 'BtnGrab',
+  name: 'ButtonGrab',
   props: {
     grabClass: {
       type: String,
@@ -23,6 +23,10 @@ export default {
     size: {
       type: String,
       required: false
+    },
+    linkClass: {
+      type: String,
+      default: 'q-px-xs'
     }
   }
 }

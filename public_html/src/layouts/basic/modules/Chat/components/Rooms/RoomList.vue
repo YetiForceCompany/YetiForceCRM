@@ -32,7 +32,7 @@
         clickable
         v-ripple
         :key="roomId"
-        class="q-pl-sm hover-container"
+        class="q-pl-sm u-hover-container"
         :active="data.currentRoom.recordId === room.recordid && data.currentRoom.roomType === roomType"
         active-class="bg-teal-1 text-grey-8"
         @click="fetchRoom({ id: room.recordid, roomType: roomType })"
@@ -146,8 +146,4 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.hover-container .hover-display
-	display: none
-.hover-container:hover .hover-display
-	display: inline
 </style>

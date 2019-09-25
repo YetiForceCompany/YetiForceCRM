@@ -54,7 +54,7 @@
         </q-tabs>
         <div class="flex no-wrap">
           <template v-if="$q.platform.is.desktop">
-            <btn-grab v-show="miniMode" class="text-white flex flex-center" grabClass="js-drag" size="19px" />
+            <ButtonGrab v-show="miniMode" class="text-white flex flex-center" linkClass="" grabClass="js-drag" size="19px" />
             <q-btn
               dense
               flat
@@ -75,13 +75,13 @@
 </template>
 <script>
 import ChatNotifyButton from './ChatNotifyButton.vue'
-import BtnGrab from 'components/BtnGrab.vue'
+import ButtonGrab from 'components/ButtonGrab.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions, mapMutations, mapGetters } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'ChatHeader',
-  components: { ChatNotifyButton, BtnGrab },
+  components: { ChatNotifyButton, ButtonGrab },
   props: {
     inputSearchVisible: { type: Boolean, required: false },
     tabHistoryShow: { type: Boolean, required: false },

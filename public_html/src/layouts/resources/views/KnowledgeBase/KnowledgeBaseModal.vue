@@ -27,7 +27,7 @@
 						</div>
 						<q-space />
 						<template v-if="$q.platform.is.desktop">
-							<btn-grab v-show="!maximized" class="flex text-white" grabClass="js-drag" size="19px" />
+							<ButtonGrab v-show="!maximized" class="flex text-white" grabClass="js-drag" size="19px" />
 							<q-btn
 								dense
 								flat
@@ -51,13 +51,13 @@
 </template>
 <script>
 import DragResize from 'components/DragResize.vue'
-import BtnGrab from 'components/BtnGrab.vue'
+import ButtonGrab from 'components/ButtonGrab.vue'
 import KnowledgeBase from './KnowledgeBase.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBaseModal',
-  components: { KnowledgeBase, DragResize, BtnGrab },
+  components: { KnowledgeBase, DragResize, ButtonGrab },
   data() {
     return {
       coordinates: {

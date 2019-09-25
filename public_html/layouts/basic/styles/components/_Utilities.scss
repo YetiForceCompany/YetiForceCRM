@@ -168,6 +168,27 @@
 	background-color: darken($light, 10%) !important;
 	@include u-transition(background-color 275ms ease);
 }
+.u-hover-container {
+	.u-hover-display-inline {
+		display: none;
+	}
+	.u-hover-height {
+		visibility: hidden;
+		height: 0;
+	}
+	&:hover {
+		.u-hover-display-inline {
+			display: inline;
+		}
+	}
+}
+.u-hover--delay-out-2 {
+	transition: 0.5s all;
+	transition-delay: 1s;
+	&:hover {
+		transition-delay: 0s;
+	}
+}
 
 .u-word-break-all {
 	word-break: break-all !important;
