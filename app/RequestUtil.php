@@ -115,8 +115,11 @@ class RequestUtil
 			$port = ((!$browser->https && 80 === $port) || ($browser->https && 443 === $port)) ? '' : ':' . $port;
 			$host = Request::_getServer('HTTP_X_FORWARDED_HOST', Request::_getServer('HTTP_HOST', ''));
 			$host = $host ?? Request::_getServer('SERVER_NAME') . $port;
+			$dirPath = explode('/', Request::_getServer('SCRIPT_NAME'));
+			array_pop($dirPath);
+			$dirPath = implode('/', $dirPath);
 			$browser->url = $protocol . '://' . $host . Request::_getServer('REQUEST_URI');
-			$browser->siteUrl = $protocol . '://' . $host .'/';
+			$browser->siteUrl = $protocol . '://' . $host . $dirPath . '/';
 			$browser->requestUri = ltrim(Request::_getServer('REQUEST_URI'), '/');
 			static::$browserCache = $browser;
 		}
