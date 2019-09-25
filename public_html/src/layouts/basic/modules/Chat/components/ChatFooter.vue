@@ -1,8 +1,8 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <q-footer class="bg-blue-grey-10 text-white">
-    <q-bar>
-      <q-breadcrumbs>
+    <q-bar class="q-bar--fit">
+      <q-breadcrumbs gutter="none">
         <q-breadcrumbs-el class="text-white">
           <YfIcon
             class="q-breadcrumbs__el-icon q-breadcrumbs__el-icon--with-label q-icon"
@@ -19,7 +19,12 @@
           />
           {{ roomType.label }}
         </q-breadcrumbs-el>
-        <q-breadcrumbs-el v-if="tab === 'chat'" class="text-white text-cyan-9 text-bold" :label="roomName" />
+        <q-breadcrumbs-el v-if="tab === 'chat'" class="text-white text-cyan-9 text-bold u-ellipsis-2-lines" :label="roomName" />
+				<template #separator>
+					<div class="q-breadcrumbs__separator q-mx-sm">
+						/
+					</div>
+				</template>
       </q-breadcrumbs>
     </q-bar>
   </q-footer>
@@ -80,4 +85,9 @@ export default {
   }
 }
 </script>
-<style module lang="stylus"></style>
+<style scoped>
+.q-bar--fit {
+  height: auto;
+  min-height: 32px;
+}
+</style>
