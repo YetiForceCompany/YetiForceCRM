@@ -192,7 +192,7 @@ $.Class(
 								if (mapFieldElement.find('option[value="' + response[value[0]] + '"]').length) {
 									mapFieldElement.val(response[value[0]]).trigger('change');
 								} else if(mapFieldElement.data('fieldinfo').picklistvalues.hasOwnProperty(response[value[0]])){
-									const newOption = new Option(response[value[0]], response[value[0]], true, true);
+									let newOption = new Option(response[value[0]], response[value[0]], true, true);
 									mapFieldElement.append(newOption).trigger('change');
 								}
 							} else if (mapFieldElement.length == 0) {
