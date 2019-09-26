@@ -60,7 +60,10 @@
 				{/if}
 		>
 			{if !empty($LINK->get('linkicon'))}
-				<span class="{$LINK->get('linkicon')} {if !empty($LINK->get('linkimg')) || !empty($LINK->get('linkicon')) && $LINK->get('showLabel') neq null && $BUTTON_VIEW neq 'detailViewBasic'}mr-1{/if} "></span>
+				<span class="{$LINK->get('linkicon')} {if !empty($LINK->get('linkimg')) || !empty($LINK->get('linkicon')) && $LINK->get('showLabel') neq null && $BUTTON_VIEW neq 'detailViewBasic'}mr-1{/if}"></span>
+			{/if}
+			{if !empty($LINK->get('linksecondicon'))}
+				<span class="{$LINK->get('linksecondicon')} {if !empty($LINK->get('linkimg')) || !empty($LINK->get('linksecondicon')) && $LINK->get('showLabel') neq null && $BUTTON_VIEW neq 'detailViewBasic'}mr-1{/if}"></span>
 			{/if}
 			{if !empty($LINK->get('vueId'))}
 				<div id="{$LINK->get('vueId')}"></div>
