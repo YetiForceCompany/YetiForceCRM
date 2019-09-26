@@ -7,7 +7,7 @@
           <q-btn
             round
             color="primary"
-            class="glossy"
+            class="glossy count-2"
             @click="showDialog"
             :loading="dialogLoading"
             ref="chatBtn"
@@ -36,16 +36,16 @@
               <q-icon name="mdi-plus" size="1rem" />
               <q-tooltip>{{ translate('JS_CHAT_ROOM_ADD_CURRENT') }}</q-tooltip>
             </q-badge>
-            <q-badge
-              class="shadow-3 text-primary justify-center btn-badge btn-badge--right-bottom hover-height hover-grow"
-              color="white"
-              floating
-              @click.stop
-            >
-              <ButtonGrab class="flex flex-center" grabClass="js-chat-grab" linkClass="q-px-none" size="18px" />
-            </q-badge>
           </q-btn>
         </transition>
+        <q-badge
+          class="shadow-3 text-primary justify-center btn-badge btn-badge--right-bottom hover-height hover-grow"
+          color="white"
+          floating
+          @click.stop
+        >
+          <ButtonGrab class="flex flex-center" grabClass="js-chat-grab" linkClass="q-px-none" size="18px" />
+        </q-badge>
       </YfDrag>
     </div>
     <q-dialog
@@ -187,6 +187,7 @@ $btn-badge-size: 23px;
   height: $btn-badge-size;
   border-radius: 100%;
   transition: all 0.2s ease-in-out;
+  z-index: 2147483647;
 
   &:hover {
     transform: scale(1.75);
