@@ -171,7 +171,7 @@ $.Class(
 					record: id
 				};
 				app.getRecordDetails(params).done(function(data) {
-					var response = (params.data = data['result']['data']);
+					let response = (params.data = data['result']['data']);
 					app.event.trigger('EditView.SelectReference', params, formElement);
 					$.each(mappingRelatedField, function(key, value) {
 						if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
@@ -179,9 +179,21 @@ $.Class(
 							let fieldinfo = mapFieldElement.data('fieldinfo');
 							if (data['result']['type'][value[0]] === 'date' || data['result']['type'][value[0]] === 'datetime') {
 								mapFieldElement.val(data['result']['displayData'][value[0]]);
+							} else if (data['result']['type'][value[0]] === 'multipicklist') {
+								let mapFieldElementMultiselect = formElement.find('[name="'+key + '[]"]');
+								if (mapFieldElementMultiselect.length > 0) {
+									let multipleAttr = mapFieldElement.attr('multiple');
+									let splitValues = response[value[0]].split(' |##| ');
+									if(typeof multipleAttr !== undefined && multipleAttr !== false && splitValues.length > 0) {
+										mapFieldElementMultiselect.val(splitValues).trigger('change');
+									}
+								}
 							} else if (mapFieldElement.is('select')) {
 								if (mapFieldElement.find('option[value="' + response[value[0]] + '"]').length) {
 									mapFieldElement.val(response[value[0]]).trigger('change');
+								} else if(mapFieldElement.data('fieldinfo').picklistvalues.hasOwnProperty(response[value[0]])){
+									const newOption = new Option(response[value[0]], response[value[0]], true, true);
+									mapFieldElement.append(newOption).trigger('change');
 								}
 							} else if (mapFieldElement.length == 0) {
 								$("<input type='hidden'/>")
@@ -1208,8 +1220,10 @@ $.Class(
 			fieldValue.find('.referenceModulesList').removeAttr('required');
 		},
 		getMappingRelatedField: function(sourceField, sourceFieldModule, container) {
+			console.log('start');
 			const mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
 			const mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
+			console.log(mappingRelatedModule);
 			if (
 				typeof mappingRelatedModule[sourceField] !== 'undefined' &&
 				typeof mappingRelatedModule[sourceField][sourceFieldModule] !== 'undefined'
