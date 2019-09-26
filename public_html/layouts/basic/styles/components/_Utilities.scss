@@ -172,21 +172,10 @@
 	.u-hover-display-inline {
 		display: none;
 	}
-	.u-hover-height {
-		visibility: hidden;
-		height: 0;
-	}
 	&:hover {
 		.u-hover-display-inline {
 			display: inline;
 		}
-	}
-}
-.u-hover--delay-out-1 {
-	transition: 0.5s all;
-	transition-delay: 1s;
-	&:hover {
-		transition-delay: 0s;
 	}
 }
 

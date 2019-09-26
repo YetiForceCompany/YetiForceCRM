@@ -1,7 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div v-if="config.isChatAllowed">
-    <div class="btn-absolute u-hover-container">
+    <div class="btn-absolute hover-container">
       <YfDrag :coordinates.sync="buttonCoordinates" dragHandleClass=".js-chat-grab">
         <transition :enter-active-class="buttonAnimationClasses" mode="out-in">
           <q-btn
@@ -37,7 +37,7 @@
               <q-tooltip>{{ translate('JS_CHAT_ROOM_ADD_CURRENT') }}</q-tooltip>
             </q-badge>
             <q-badge
-              class="shadow-3 text-primary justify-center btn-badge btn-badge--right-bottom u-hover-height u-hover--delay-out-1"
+              class="shadow-3 text-primary justify-center btn-badge btn-badge--right-bottom hover-height hover-grow"
               color="white"
               floating
               @click.stop
@@ -171,7 +171,8 @@ export default {
   }
 }
 </script>
-<style scoped >
+<style scoped lang="scss">
+$btn-badge-size: 23px;
 .btn-absolute {
   width: 100%;
   height: 100%;
@@ -180,17 +181,34 @@ export default {
   left: 0;
 }
 .btn-badge {
-  width: 18px;
-  padding: 0 1px;
+  justify-content: center;
+  align-items: center;
+  width: $btn-badge-size;
+  height: $btn-badge-size;
+  border-radius: 100%;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.75);
+  }
+  &--left-top {
+    top: -8px;
+    left: -7px;
+  }
+  &--right-bottom {
+    top: 28px;
+    right: -6px;
+  }
 }
-.btn-badge--left-top {
-  left: -3px;
-}
-.btn-badge--right-bottom {
-  top: 28px;
-}
-.u-hover-container:hover .u-hover-height {
-  visibility: visible;
-  height: 16px;
+
+.hover-container {
+  .hover-height {
+    visibility: hidden;
+    height: 0;
+  }
+  &:hover .hover-height {
+    visibility: visible;
+    height: $btn-badge-size;
+  }
 }
 </style>
