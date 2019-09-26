@@ -1220,10 +1220,8 @@ $.Class(
 			fieldValue.find('.referenceModulesList').removeAttr('required');
 		},
 		getMappingRelatedField: function(sourceField, sourceFieldModule, container) {
-			console.log('start');
 			const mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
 			const mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
-			console.log(mappingRelatedModule);
 			if (
 				typeof mappingRelatedModule[sourceField] !== 'undefined' &&
 				typeof mappingRelatedModule[sourceField][sourceFieldModule] !== 'undefined'
