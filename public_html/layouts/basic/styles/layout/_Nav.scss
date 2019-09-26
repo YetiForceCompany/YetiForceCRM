@@ -88,7 +88,8 @@
 			line-height: 1.2;
 			background: $bg-menu;
 
-			&:hover, &:focus {
+			&:hover,
+			&:focus {
 				background: lighten($bg-menu, 5%);
 			}
 
@@ -114,7 +115,8 @@
 				height: calculate-rem(20px);
 			}
 
-			.fa, &.hasIcon img {
+			.fa,
+			&.hasIcon img {
 				margin-right: calculate-rem(12px);
 				font-size: calculate-rem(20px);
 				padding-right: calculate-rem(7px);
@@ -163,7 +165,8 @@
 				background: $bg-sub-menu;
 				padding: 0.375rem 1.875rem 0.375rem 0.8rem;
 
-				&:hover, &:focus {
+				&:hover,
+				&:focus {
 					background: lighten($bg-sub-menu, 5%);
 				}
 
@@ -184,7 +187,8 @@
 				overflow: hidden;
 				text-overflow: ellipsis;
 
-				&:hover, &:focus {
+				&:hover,
+				&:focus {
 					color: $bg-sub-menu;
 					background: $color-navbar;
 				}
@@ -382,7 +386,7 @@
 			}
 
 			&.active:after {
-				content: '';
+				content: "";
 				width: 100%;
 				right: 0;
 				top: calculate-rem(35px);
