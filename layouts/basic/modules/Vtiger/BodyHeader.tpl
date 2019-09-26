@@ -233,7 +233,7 @@
 				{/if}
 			{/if}
 			{if $PARENT_MODULE === 'Settings'}
-				<div class="mr-xxl-4">
+				<div class="mr-xxl-4 d-flex flex-sm-nowrap">
 					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
 					   href="https://yetiforce.shop"
 					   data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP',$QUALIFIED_MODULE)}"
@@ -262,7 +262,7 @@
 				   data-js="click" role="button" aria-expanded="false" aria-controls="o-action-menu__container">
 					<span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 				</a>
-				<div class="o-action-menu__container" id="o-action-menu__container">
+				<div class="o-action-menu__container d-flex flex-sm-nowrap" id="o-action-menu__container">
 					{assign var=QUICKCREATE_MODULES_PARENT value=Vtiger_Module_Model::getQuickCreateModules(true, true)}
 					{if !empty($QUICKCREATE_MODULES_PARENT)}
 						<div class="o-action-menu__item commonActionsContainer">
@@ -291,7 +291,7 @@
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 						<div class="o-action-menu__item">
-							<a class="c-header__btn ml-2 btn btn-light btn isBadge notificationsNotice js-popover-tooltip {if App\Config::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
+							<a class="c-header__btn ml-2 btn btn-light btn isBadge text-nowrap notificationsNotice js-popover-tooltip {if App\Config::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
 							   role="button" data-js="popover"
 							   data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="#">
 								<span class="fas fa-bell fa-fw"
@@ -303,7 +303,7 @@
 					{/if}
 					{if $REMINDER_ACTIVE}
 						<div class="o-action-menu__item">
-							<a class="c-header__btn ml-2 btn btn-light btn isBadge remindersNotice js-popover-tooltip {if App\Config::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
+							<a class="c-header__btn ml-2 btn btn-light btn isBadge text-nowrap remindersNotice js-popover-tooltip {if App\Config::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
 							   data-js="popover" role="button" data-content="{\App\Language::translate('LBL_REMINDER')}"
 							   href="#">
 							<span class="fas fa-calendar fa-fw"
