@@ -1748,6 +1748,7 @@ var app = (window.app = {
 				$(window).trigger('resize');
 			}, 500);
 		});
+		$(window).trigger('resize');
 	},
 	getScreenHeight: function(percantage) {
 		if (typeof percantage === 'undefined') {
