@@ -53,8 +53,9 @@ export default {
 				mode: 'archivePrivateRoom',
 				recordId: room.recordid
 			}).done(({ result }) => {
-				dispatch('fetchRoom', { id: undefined, roomType: undefined })
-				resolve(result)
+				dispatch('fetchRoom', { id: undefined, roomType: undefined }).then(e => {
+					resolve(result)
+				})
 			})
 		})
 	},

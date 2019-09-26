@@ -17,7 +17,7 @@
     <template #itemRight="{ room }">
       <q-btn
         v-if="isUserModerator(room)"
-        :class="{ 'u-hover-display-inline': $q.platform.is.desktop }"
+        :class="{ 'u-hover-display-inline': $q.platform.is.desktop && !isArchiving }"
         dense
         round
         flat
@@ -25,6 +25,7 @@
         @click.stop="showArchiveDialog(room)"
         color="negative"
         icon="mdi-delete"
+        :loading="isArchiving"
       >
         <q-tooltip>{{ translate('JS_CHAT_ROOM_ARCHIVE') }}</q-tooltip>
       </q-btn>
@@ -44,9 +45,9 @@
             }}</span>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn flat :label="translate('JS_CANCEL')" color="black" v-close-popup />
+            <q-btn flat :label="translate('JS_CANCEL')" color="black" @click="isArchiving = false" v-close-popup />
             <q-btn
-              @click="archivePrivateRoom(roomToArchive)"
+              @click="archive(roomToArchive)"
               flat
               :label="translate('JS_ARCHIVE')"
               color="negative"
@@ -84,6 +85,7 @@ export default {
     return {
       showAddPrivateRoom: false,
       confirm: false,
+      isArchiving: false,
       roomToArchive: {}
     }
   },
@@ -101,8 +103,14 @@ export default {
   methods: {
     ...mapActions(['archivePrivateRoom']),
     showArchiveDialog(room) {
+      this.isArchiving = true
       this.confirm = true
       this.roomToArchive = room
+    },
+    archive(roomToArchive) {
+      this.archivePrivateRoom(roomToArchive).then(e => {
+        this.isArchiving = false
+      })
     }
   }
 }
