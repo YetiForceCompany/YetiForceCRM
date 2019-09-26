@@ -18,7 +18,7 @@
 		<div class="modal-dialog modal-lg modal-full" role="document">
 			<div class="modal-content">
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
-					<div class="modal-header col-12 m-0 align-items-center form-row d-flex justify-content-between py-2">
+					<div class="modal-header align-items-center form-row d-flex justify-content-between py-2">
 						<div class="col-xl-6 col-12">
 							<h5 class="modal-title form-row text-center text-xl-left mb-2 mb-xl-0">
 								<span class="col-12">

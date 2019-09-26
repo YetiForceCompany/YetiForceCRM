@@ -3,7 +3,7 @@
 	<div class="tpl-Modals-Footer modal-footer{if isset($FOOTER_CLASS)} {$FOOTER_CLASS}{/if}">
 		{if !empty($BTN_SUCCESS)}
 			<button class="js-modal__save btn btn-success" type="submit" name="saveButton" data-js="click">
-				<span class="{if isset($BTN_SUCCESS_ICON)}{$BTN_SUCCESS_ICON} {/if}mr-1"></span>
+				<span class="{if isset($BTN_SUCCESS_ICON)}{$BTN_SUCCESS_ICON}{else}fas fa-check{/if} mr-1"></span>
 					{if !empty($QUALIFIED_MODULE)}
 						{\App\Language::translate($BTN_SUCCESS, $QUALIFIED_MODULE)}
 					{else}

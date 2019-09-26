@@ -97,6 +97,7 @@
 						{/if}
 						<button type="submit" class="js-save-event btn btn-success"
 								title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" data-js="click">
+							<span title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" class="fas fa-check mr-1"></span>
 							{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
 						</button>
 						{if !empty($RECORD_ID) && $VIEW === 'EventForm'}
