@@ -26,12 +26,14 @@ class ProjectTask_UpcomingProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('page', $request->getInteger('page'));
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, $moduleName, $request->getByType('owner', 2));
-		$openStatus = \App\RecordStatus::getStates($moduleName, \App\RecordStatus::RECORD_STATE_OPEN);
+		$completedStatus = Settings_RealizationProcesses_Module_Model::getStatusNotModify()[$moduleName]['status'] ?? [];
+		$completedStatus = array_filter($completedStatus);
+		$openStatus = array_diff(\App\Fields\Picklist::getValuesName('projecttaskstatus'), $completedStatus);
 		$params = ['projecttaskstatus' => $openStatus];
-		if (!$request->isEmpty('projecttaskpriority') && $request->getByType('projecttaskpriority', 'Standard') !== 'all') {
+		if (!$request->isEmpty('projecttaskpriority') && 'all' !== $request->getByType('projecttaskpriority', 'Standard')) {
 			$params['projecttaskpriority'] = $request->getByType('projecttaskpriority', 'Standard');
 		}
-		$projectTasks = ($owner === false) ? [] : ProjectTask_Module_Model::getRecordsByStatus($params, $pagingModel, $owner);
+		$projectTasks = (false === $owner) ? [] : ProjectTask_Module_Model::getRecordsByStatus($params, $pagingModel, $owner);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PROJECTTASKS', $projectTasks);
@@ -42,6 +44,8 @@ class ProjectTask_UpcomingProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_UPCOMING_PROJECT_TASKS');
 		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('STATUS', implode('##', $openStatus));
+		$viewer->assign('ACCESSIBLE_USERS', \App\Fields\Owner::getInstance($moduleName)->getAccessibleUsers());
+		$viewer->assign('ACCESSIBLE_GROUPS', \App\Fields\Owner::getInstance($moduleName)->getAccessibleGroups());
 		if ($request->has('content')) {
 			$viewer->view('dashboards/UpcomingProjectTasksContents.tpl', $moduleName);
 		} else {
