@@ -7,7 +7,7 @@
           <q-btn
             round
             color="primary"
-            class="glossy count-2"
+            class="glossy animation-duration"
             @click="showDialog"
             :loading="dialogLoading"
             ref="chatBtn"
@@ -119,7 +119,7 @@ export default {
       return this.$q.platform.is.desktop ? this.miniMode : false
     },
     buttonAnimationClasses() {
-      return this.data.amountOfNewMessages ? 'animated flash' : ''
+      return this.data.amountOfNewMessages ? 'animated shake' : ''
     },
     hasCurrentRecordChat() {
       let id = false
@@ -190,7 +190,7 @@ $btn-badge-size: 23px;
   z-index: 2147483647;
 
   &:hover {
-    transform: scale(1.75);
+    transform: scale(1.5);
   }
   &--left-top {
     top: -8px;
@@ -211,5 +211,8 @@ $btn-badge-size: 23px;
     visibility: visible;
     height: $btn-badge-size;
   }
+}
+.animation-duration {
+  animation-duration: 0.8s !important;
 }
 </style>

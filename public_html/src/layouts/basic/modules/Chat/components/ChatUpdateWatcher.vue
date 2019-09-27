@@ -45,7 +45,7 @@ export default {
         }
       })
     },
-        /**
+    /**
      * Init amount timer
      */
     initMessageTimer() {
@@ -67,10 +67,15 @@ export default {
           typeof result.roomList.private === 'object' &&
           Object.keys(result.roomList.private).length !== Object.keys(this.data.roomList.private).length
         ) {
-          if (this.data.currentRoom.roomType === 'private' && !result.roomList.private[this.data.currentRoom.recordId]) {
-            this.fetchRoom({ id: this.config.defaultRoom.recordId, roomType: this.config.defaultRoom.roomType }).then(_ => {
-              this.setPrivateRooms(result.roomList.private)
-            })
+          if (
+            this.data.currentRoom.roomType === 'private' &&
+            !result.roomList.private[this.data.currentRoom.recordId]
+          ) {
+            this.fetchRoom({ id: this.config.defaultRoom.recordId, roomType: this.config.defaultRoom.roomType }).then(
+              _ => {
+                this.setPrivateRooms(result.roomList.private)
+              }
+            )
           } else {
             this.setPrivateRooms(result.roomList.private)
           }

@@ -72,7 +72,7 @@ export default {
 		state.data.roomList[roomType][recordId].participants = result.participants
 	},
 	updateChatData(state, { roomsToUpdate, newData }) {
-		state.data.amountOfNewMessages = newData.amountOfNewMessages
+		state.data.amountOfNewMessages = newData.amountOfNewMessages.amount
 		roomsToUpdate.forEach(room => {
 			state.data.roomList[room.roomType][room.recordid].showMoreButton =
 				newData.roomList[room.roomType][room.recordid].showMoreButton
