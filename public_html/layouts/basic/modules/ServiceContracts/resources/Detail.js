@@ -134,6 +134,7 @@ Vtiger_Detail_Js(
 		onSubmit(ev) {
 			ev.preventDefault();
 			ev.stopPropagation();
+			this.container.validationEngine(app.validationEngineOptions);
 			const policyType = Number(this.container.find('[name="policy_type"]:checked').val());
 			const policyId = Number(this.container.find('[name="policy_id"]:checked').val());
 			if (policyType === 2 && !this.container.validationEngine('validate')) {
@@ -334,7 +335,6 @@ Vtiger_Detail_Js(
 		 */
 		initSlaPolicy() {
 			this.container = this.getForm();
-			console.log(this.container);
 			this.policyType = Number(this.container.find('[name="policy_type"]:checked').val());
 			this.targetModule = this.container.find('[name="target"]').val();
 			this.businessHours = JSON.parse(this.container.find('.js-all-business-hours').val());
