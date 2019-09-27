@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Condition main class.
  *
@@ -84,7 +85,37 @@ class Condition
 	/**
 	 * Operators without values.
 	 */
-	const OPERATORS_WITHOUT_VALUES = ['y', 'ny', 'om', 'nom', 'ogr', 'wr', 'nwr', 'hs', 'ro', 'rc'];
+	const OPERATORS_WITHOUT_VALUES = [
+		'y', 'ny', 'om', 'nom', 'ogr', 'wr', 'nwr', 'hs', 'ro', 'rc',
+		'smallerthannow',
+		'greaterthannow',
+		'prevfy',
+		'thisfy',
+		'nextfy',
+		'prevfq',
+		'thisfq',
+		'yesterday',
+		'today',
+		'untiltoday',
+		'tomorrow',
+		'lastweek',
+		'thisweek',
+		'nextweek',
+		'lastmonth',
+		'thismonth',
+		'nextmonth',
+		'last7days',
+		'last15days',
+		'last30days',
+		'last60days',
+		'last90days',
+		'last120days',
+		'next15days',
+		'next30days',
+		'next60days',
+		'next90days',
+		'next120days',
+	];
 
 	/**
 	 * Vtiger_Record_Model instance cache.
