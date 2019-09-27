@@ -2624,6 +2624,7 @@ jQuery.Class(
 			//Attach time picker event to time fields
 			app.registerEventForClockPicker();
 			App.Fields.Picklist.showSelect2ElementView(detailContentsHolder.find('select.select2'));
+			new App.Fields.Text.Editor(detailContentsHolder, { toolbar: 'Min' });
 			detailContentsHolder.on('click', '#detailViewNextRecordButton', function(e) {
 				var url = selectedTabElement.data('url');
 				var currentPageNum = thisInstance.getRelatedListCurrentPageNum();
