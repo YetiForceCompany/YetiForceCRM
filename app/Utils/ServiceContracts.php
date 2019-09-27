@@ -258,7 +258,7 @@ class ServiceContracts
 		if ($businessHours) {
 			$result = [];
 			foreach (self::optimizeBusinessHours(\array_unique($businessHours)) as $value) {
-				$result[] = array_merge($times, $value);
+				$result[] = array_merge($value, $times);
 			}
 			return $result;
 		}
@@ -412,10 +412,10 @@ class ServiceContracts
 	 */
 	public static function updateExpectedTimes(\Vtiger_Record_Model $recordModel, array $type)
 	{
-		if (($field = \App\Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts'))) {
-			foreach (self::getExpectedTimes(empty($recordModel->get($field['fieldname'])) ? 0 : $recordModel->get($field['fieldname']), $recordModel, $type) as $key => $time) {
-				$recordModel->set($key . '_expected', $time);
-			}
+		$field = \App\Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts');
+		$serviceContract = ($field && !empty($recordModel->get($field['fieldname']))) ? $recordModel->get($field['fieldname']) : 0;
+		foreach (self::getExpectedTimes($serviceContract, $recordModel, $type) as $key => $time) {
+			$recordModel->set($key . '_expected', $time);
 		}
 	}
 
