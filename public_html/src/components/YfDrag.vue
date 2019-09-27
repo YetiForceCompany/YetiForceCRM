@@ -69,6 +69,7 @@ export default {
         computedRect.top = window.innerHeight - this.height
       }
       this.$emit('update:coordinates', computedRect)
+      this.$emit('dragstop', true)
     }
   }
 }

@@ -2,7 +2,7 @@
 <template>
   <div v-if="config.isChatAllowed">
     <div class="btn-absolute hover-container">
-      <YfDrag :coordinates.sync="buttonCoordinates" dragHandleClass=".js-chat-grab">
+      <YfDrag :coordinates.sync="buttonCoordinates" dragHandleClass=".js-chat-grab" @dragstop="onDragstop">
         <transition :enter-active-class="buttonAnimationClasses" mode="out-in">
           <q-btn
             round
@@ -49,16 +49,16 @@
       </YfDrag>
     </div>
     <q-dialog
-      v-model="dialog"
+      v-model="dialogModel"
       seamless
       :maximized="!computedMiniMode"
       transition-show="slide-up"
       transition-hide="slide-down"
-      content-class="quasar-reset all-pointer-events"
+      :content-class="{ 'quasar-reset': true, 'd-none': !dialog, 'all-pointer-events': dragging }"
       @show="dialogLoading = false"
       @hide="dialogLoading = false"
     >
-      <DragResize :coordinates.sync="coordinates" :maximized="!computedMiniMode">
+      <DragResize :coordinates.sync="coordinates" @dragstop="onDragstop" :maximized="!computedMiniMode">
         <ChatContainer container :parentRefs="$refs" />
       </DragResize>
     </q-dialog>
@@ -83,7 +83,8 @@ export default {
       dragging: false,
       windowConfig: CONFIG,
       addingRoom: false,
-      dialogLoading: false
+      dialogLoading: false,
+      dialogModel: true
     }
   },
   computed: {
@@ -101,6 +102,7 @@ export default {
         return this.$store.getters['Chat/coordinates']
       },
       set(coords) {
+        this.dragging = true
         this.setCoordinates(coords)
       }
     },
@@ -145,7 +147,7 @@ export default {
     ...mapMutations(['setDialog', 'setCoordinates', 'setButtonCoordinates', 'updateRooms']),
     showDialog() {
       if (!this.addingRoom) {
-        this.dialogLoading = true
+        // this.dialogLoading = true
         this.dialog = !this.dialog
       }
     },
@@ -167,6 +169,9 @@ export default {
           icon: 'mdi-check'
         })
       })
+    },
+    onDragstop(e) {
+      this.dragging = false
     }
   }
 }
