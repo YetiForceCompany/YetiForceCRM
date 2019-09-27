@@ -1,14 +1,15 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div v-if="config.isChatAllowed">
-    <div class="btn-absolute hover-container">
-      <YfDrag :coordinates.sync="buttonCoordinates" dragHandleClass=".js-chat-grab" @dragstop="onDragstop">
+    <div class="btn-absolute">
+      <YfDrag :coordinates.sync="buttonCoordinates" @dragstop="onDragstop">
         <transition :enter-active-class="buttonAnimationClasses" mode="out-in">
           <q-btn
             round
             color="primary"
             class="glossy animation-duration"
-            @click="showDialog"
+            @mouseup="showDialog"
+            @touchend="showDialog"
             :loading="dialogLoading"
             ref="chatBtn"
             :key="parseInt(data.amountOfNewMessages)"
@@ -38,14 +39,6 @@
             </q-badge>
           </q-btn>
         </transition>
-        <q-badge
-          class="shadow-3 text-primary justify-center btn-badge btn-badge--right-bottom hover-height hover-grow"
-          color="white"
-          floating
-          @click.stop
-        >
-          <ButtonGrab class="flex flex-center" grabClass="js-chat-grab" linkClass="q-px-none" size="18px" />
-        </q-badge>
       </YfDrag>
     </div>
     <q-dialog
@@ -54,7 +47,7 @@
       :maximized="!computedMiniMode"
       transition-show="slide-up"
       transition-hide="slide-down"
-      :content-class="{ 'quasar-reset': true, 'd-none': !dialog, 'all-pointer-events': dragging }"
+      :content-class="dialogClasses"
       @show="dialogLoading = false"
       @hide="dialogLoading = false"
     >
@@ -70,21 +63,22 @@ import ChatUpdateWatcher from '../components/ChatUpdateWatcher.vue'
 import ChatContainer from '../components/ChatContainer.vue'
 import YfDrag from 'components/YfDrag.vue'
 import DragResize from 'components/DragResize.vue'
-import ButtonGrab from 'components/ButtonGrab.vue'
 import isEqual from 'lodash.isequal'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'Dialog',
-  components: { ChatUpdateWatcher, ChatContainer, DragResize, ButtonGrab, YfDrag },
+  components: { ChatUpdateWatcher, ChatContainer, DragResize, YfDrag },
   data() {
     return {
       timerGlobal: null,
       dragging: false,
+      dragStopped: true,
       windowConfig: CONFIG,
       addingRoom: false,
       dialogLoading: false,
-      dialogModel: true
+      dialogModel: true,
+      dragTimeout: 300
     }
   },
   computed: {
@@ -102,7 +96,7 @@ export default {
         return this.$store.getters['Chat/coordinates']
       },
       set(coords) {
-        this.dragging = true
+        this.setDragState()
         this.setCoordinates(coords)
       }
     },
@@ -112,7 +106,7 @@ export default {
       },
       set(coords) {
         if (!isEqual({ left: coords.left, top: coords.top }, { ...this.$store.getters['Chat/buttonCoordinates'] })) {
-          this.dragging = true
+          this.setDragState()
           this.setButtonCoordinates(coords)
         }
       }
@@ -141,43 +135,61 @@ export default {
       return (
         this.windowConfig.view === 'Detail' && this.config.chatModules.some(el => el.id === this.windowConfig.module)
       )
+    },
+    dialogClasses() {
+      return {
+        'quasar-reset': true,
+        animated: true,
+        slideOutDown: !this.dialog,
+        slideInUp: this.dialog,
+        'all-pointer-events': !this.dragStopped
+      }
     }
   },
   methods: {
     ...mapMutations(['setDialog', 'setCoordinates', 'setButtonCoordinates', 'updateRooms']),
     showDialog() {
-      if (!this.addingRoom) {
-        // this.dialogLoading = true
-        this.dialog = !this.dialog
-      }
+      setTimeout(_ => {
+        if (!this.dragging && !this.addingRoom) {
+          this.dialog = !this.dialog
+        }
+        this.dragging = false
+      }, this.dragTimeout)
     },
     addRecordRoomToChat() {
-      this.addingRoom = true
-      AppConnector.request({
-        module: 'Chat',
-        action: 'Room',
-        mode: 'addToFavorites',
-        roomType: 'crm',
-        recordId: this.isDetail ? app.getRecordId() : this.getDetailPreview.id
-      }).done(({ result }) => {
-        this.addingRoom = false
-        this.updateRooms(result)
-        this.$q.notify({
-          position: 'top',
-          color: 'success',
-          message: this.translate('JS_CHAT_ROOM_ADDED'),
-          icon: 'mdi-check'
+      setTimeout(_ => {
+        this.addingRoom = true
+        AppConnector.request({
+          module: 'Chat',
+          action: 'Room',
+          mode: 'addToFavorites',
+          roomType: 'crm',
+          recordId: this.isDetail ? app.getRecordId() : this.getDetailPreview.id
+        }).done(({ result }) => {
+          this.addingRoom = false
+          this.updateRooms(result)
+          this.$q.notify({
+            position: 'top',
+            color: 'success',
+            message: this.translate('JS_CHAT_ROOM_ADDED'),
+            icon: 'mdi-check'
+          })
         })
-      })
+      }, this.dragTimeout)
+    },
+    setDragState() {
+      this.dragging = true
+      this.dragStopped = false
     },
     onDragstop(e) {
-      this.dragging = false
+      this.dragStopped = true
     }
   }
 }
 </script>
 <style scoped lang="scss">
 $btn-badge-size: 23px;
+
 .btn-absolute {
   width: 100%;
   height: 100%;
@@ -185,6 +197,7 @@ $btn-badge-size: 23px;
   top: 0;
   left: 0;
 }
+
 .btn-badge {
   justify-content: center;
   align-items: center;
@@ -192,32 +205,18 @@ $btn-badge-size: 23px;
   height: $btn-badge-size;
   border-radius: 100%;
   transition: all 0.2s ease-in-out;
-  z-index: 2147483647;
 
   &:hover {
     transform: scale(1.5);
   }
+
   &--left-top {
     top: -8px;
     left: -7px;
   }
-  &--right-bottom {
-    top: 28px;
-    right: -6px;
-  }
 }
 
-.hover-container {
-  .hover-height {
-    visibility: hidden;
-    height: 0;
-  }
-  &:hover .hover-height {
-    visibility: visible;
-    height: $btn-badge-size;
-  }
-}
 .animation-duration {
-  animation-duration: 0.8s !important;
+  animation-duration: 0.8s;
 }
 </style>

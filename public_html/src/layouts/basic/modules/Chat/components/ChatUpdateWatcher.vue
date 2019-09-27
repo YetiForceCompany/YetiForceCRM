@@ -22,7 +22,7 @@ export default {
     ...mapGetters(['data', 'config', 'tab', 'allRooms'])
   },
   methods: {
-    ...mapActions(['updateAmountOfNewMessages', 'fetchRoom']),
+    ...mapActions(['notifyAboutNewMessages', 'fetchRoom']),
     ...mapMutations(['updateChatData', 'setPrivateRooms']),
     /**
      * Init vuex event for adjusting request for updating chat rooms
@@ -62,7 +62,7 @@ export default {
         mode: 'getRoomsMessages',
         rooms: this.activeRooms
       }).done(({ result }) => {
-        this.updateAmountOfNewMessages(result.amountOfNewMessages)
+        this.notifyAboutNewMessages(result.amountOfNewMessages)
         if (
           typeof result.roomList.private === 'object' &&
           Object.keys(result.roomList.private).length !== Object.keys(this.data.roomList.private).length
@@ -103,7 +103,7 @@ export default {
         action: 'ChatAjax',
         mode: 'trackNewMessages'
       }).done(({ result }) => {
-        this.updateAmountOfNewMessages(result)
+        this.notifyAboutNewMessages(result)
         if (this.timerAmount) {
           this.initAmountTimer()
         }

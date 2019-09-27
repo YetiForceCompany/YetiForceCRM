@@ -30,17 +30,22 @@ export default {
 			})
 		})
 	},
-	fetchRoom({ commit }, { id, roomType }) {
+	fetchRoom({ commit, dispatch }, { id, roomType }) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
 				mode: 'getMessages',
 				recordId: id,
-				roomType: roomType,
+				roomType,
 				recordRoom: false
 			}).done(({ result }) => {
-				commit('mergeData', result)
+				if (result.amountOfNewMessages) {
+					dispatch('updateAmountOfNewMessages', result.amountOfNewMessages)
+					commit('mergeData', { currentRoom: result.currentRoom, roomList: result.roomList })
+				} else {
+					commit('mergeData', result)
+				}
 				resolve(result)
 			})
 		})
@@ -128,8 +133,8 @@ export default {
 				module: 'Chat',
 				action: 'ChatAjax',
 				mode: 'send',
-				roomType: roomType,
-				recordId: recordId,
+				roomType,
+				recordId,
 				message: text,
 				mid: lastEntries !== undefined ? lastEntries['id'] : undefined
 			}).done(({ result }) => {
@@ -149,8 +154,8 @@ export default {
 		AppConnector.request({
 			module: 'Chat',
 			action: 'Room',
-			mode: mode,
-			roomType: roomType,
+			mode,
+			roomType,
 			recordId: room.recordid
 		}).done(_ => {
 			if (
@@ -185,8 +190,8 @@ export default {
 					action: 'ChatAjax',
 					mode: 'getMoreMessages',
 					lastId: chatEntries[0].id,
-					roomType: roomType,
-					recordId: recordId
+					roomType,
+					recordId
 				},
 				false
 			).done(({ result }) => {
@@ -256,7 +261,7 @@ export default {
 				action: 'ChatAjax',
 				mode: 'getHistory',
 				mid: showMoreClicked ? getters.data.history.chatEntries[0].id : null,
-				groupHistory: groupHistory
+				groupHistory
 			}).done(({ result }) => {
 				if (!showMoreClicked) {
 					commit('setHistoryData', result)
@@ -268,7 +273,7 @@ export default {
 		})
 	},
 
-	updateAmountOfNewMessages({ commit, getters }, { roomList, amount }) {
+	notifyAboutNewMessages({ dispatch, getters }, { roomList, amount }) {
 		if (amount > getters.data.amountOfNewMessages) {
 			if (getters.isSoundNotification) {
 				for (let roomType in roomList) {
@@ -301,6 +306,9 @@ export default {
 				)
 			}
 		}
+		dispatch('updateAmountOfNewMessages', { roomList, amount })
+	},
+	updateAmountOfNewMessages({ commit, getters }, { roomList, amount }) {
 		if (amount !== getters.data.amountOfNewMessages && amount !== undefined) {
 			commit('setAmountOfNewMessages', amount)
 			commit('setAmountOfNewMessagesByRoom', roomList)
