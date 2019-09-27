@@ -72,6 +72,7 @@ script:
   - sudo ls -all
   - cd ..
   - sudo ls -all
+  - sudo ls config/ -all
 
 after_script:
   - sudo cat /var/log/apache2/error.log
