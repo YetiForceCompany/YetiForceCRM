@@ -135,6 +135,10 @@ class Functions
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$row['deleted'] = (int) $row['deleted'];
+				$row['smownerid'] = (int) $row['smownerid'];
+				$row['smcreatorid'] = (int) $row['smcreatorid'];
+				$row['crmid'] = (int) $row['crmid'];
+				$row['private'] = (int) $row['private'];
 				self::$crmRecordIdMetadataCache[$row['crmid']] = $row;
 			}
 		}
