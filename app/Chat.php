@@ -413,14 +413,15 @@ final class Chat
 			$userModel = User::getUserModel($userId);
 			$image = $userModel->getImage();
 			$userName = $userModel->getName();
+			$isAdmin = $userModel->isAdmin();
 			$userRoleName = Language::translate($userModel->getRoleInstance()->getName());
 		} else {
-			$image = $userName = $userRoleName = null;
+			$image = $isAdmin = $userName = $userRoleName = null;
 		}
 		return [
 			'user_name' => $userName,
 			'role_name' => $userRoleName,
-			'isAdmin' => $userModel->isAdmin(),
+			'isAdmin' => $isAdmin,
 			'image' => $image['url'] ?? null,
 		];
 	}
