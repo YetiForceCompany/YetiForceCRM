@@ -17,15 +17,18 @@
     <template #itemRight="{ room }">
       <q-btn
         v-if="isUserModerator(room)"
-        :class="{ 'u-hover-display-inline': $q.platform.is.desktop && !isArchiving }"
+        :class="{
+          'u-hover-display-inline': isHiddenOnHover(room.name)
+        }"
         dense
         round
         flat
+        :key="room.name"
         size="xs"
         @click.stop="showArchiveDialog(room)"
         color="negative"
         icon="mdi-delete"
-        :loading="isArchiving"
+        :loading="isArchiving && roomToArchive.name === room.name"
       >
         <q-tooltip>{{ translate('JS_CHAT_ROOM_ARCHIVE') }}</q-tooltip>
       </q-btn>
@@ -97,6 +100,11 @@ export default {
     isUserModerator() {
       return room => {
         return room.creatorid === CONFIG.userId || this.config.isAdmin
+      }
+    },
+    isHiddenOnHover() {
+      return roomName => {
+        return this.$q.platform.is.desktop && (!this.isArchiving || this.roomToArchive.name !== roomName)
       }
     }
   },

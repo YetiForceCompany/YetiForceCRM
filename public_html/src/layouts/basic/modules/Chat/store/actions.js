@@ -45,7 +45,7 @@ export default {
 			})
 		})
 	},
-	archivePrivateRoom({ dispatch }, room) {
+	archivePrivateRoom({ commit, dispatch }, room) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
 				module: 'Chat',
@@ -53,6 +53,7 @@ export default {
 				mode: 'archivePrivateRoom',
 				recordId: room.recordid
 			}).done(({ result }) => {
+				commit('hideRoom', { roomType: 'private', roomId: room.recordid })
 				dispatch('fetchRoom', { id: undefined, roomType: undefined }).then(e => {
 					resolve(result)
 				})
