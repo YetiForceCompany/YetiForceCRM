@@ -191,7 +191,7 @@ class TextParser
 	 *
 	 * @var string
 	 */
-	public const VARIABLE_REGEX = '/\$\((\w+) : ([,"\+\%\.\=\-\[\]\&\w\s\|]+)\)\$/u';
+	public const VARIABLE_REGEX = '/\$\((\w+) : ([,"\+\%\.\=\-\[\]\&\w\s\|\)\(\:]+)\)\$/u';
 
 	/**
 	 * Get instanace by record id.
@@ -1437,17 +1437,19 @@ class TextParser
 	 */
 	protected function getInventoryParamParser(string $params): array
 	{
-		$config = [];
-		foreach (explode(' ', $params) as $value) {
+		preg_match('/type=(\w+)/', $params, $matches);
+		$config = [
+			'type' => ($matches[1] ?? false)
+		];
+		$params = ltrim($params, $matches[0] . ' ');
+		foreach (explode(' , ', $params) as $value) {
 			parse_str($value, $row);
 			$config += $row;
 		}
-		$columns = explode(',', $config['columns']);
-		return [
-			'type' => $config['type'] ?? false,
-			'columns' => $columns,
-			'href' => empty($config['href']) ? false : 'yes' === $config['href'],
-		];
+		if (isset($config['columns'])) {
+			$config['columns'] = explode(',', $config['columns']);
+		}
+		return $config;
 	}
 
 	/**
@@ -1459,8 +1461,7 @@ class TextParser
 	 */
 	public function getInventoryTable(array $config): string
 	{
-		$configColumns = array_flip($config['columns']);
-		$rawText = !$config['href'];
+		$rawText = empty($config['href']) || 'yes' !== $config['href'];
 		$inventory = \Vtiger_Inventory_Model::getInstance($this->moduleName);
 		$fields = $inventory->getFieldsByBlocks();
 		$inventoryRows = $this->recordModel->getInventoryData();
@@ -1481,7 +1482,18 @@ class TextParser
 			$fieldsWithCurrency = ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'];
 			$html .= '<table class="inventory-table" style="border-collapse:collapse;width:100%"><thead><tr>';
 			$columns = [];
-			foreach ($configColumns as $name => $seq) {
+			$customFieldClassSeq = 0;
+			foreach ($config['columns'] as $name) {
+				if (false !== strpos($name, '||')) {
+					[$title,$value] = explode('||', $name, 2);
+					if ('(' === $title[0] && ')' === substr($title, -1)) {
+						$title = $this->parseVariable("\${$title}\$");
+					}
+					++$customFieldClassSeq;
+					$html .= '<th class="col-type-customField' . $customFieldClassSeq . '" style="border:1px solid #ddd">' . $title . '</th>';
+					$columns[$title] = $value;
+					continue;
+				}
 				if ('seq' === $name) {
 					$html .= '<th class="col-type-ItemNumber" style="border:1px solid #ddd">' . \App\Language::translate('LBL_ITEM_NUMBER', $this->moduleName) . '</th>';
 					$columns[$name] = false;
@@ -1502,8 +1514,17 @@ class TextParser
 			foreach ($inventoryRows as $inventoryRow) {
 				++$counter;
 				$html .= '<tr class="row-' . $counter . '">';
+				$customFieldClassSeq = 0;
 				foreach ($columns as $name => $field) {
-					if ('seq' === $name || 'ItemNumber' === $field->getType()) {
+					if ('seq' === $name) {
+						$html .= '<td class="col-type-ItemNumber" style="border:1px solid #ddd;font-weight:bold;">' . $counter . '</td>';
+					} elseif (!\is_object($field)) {
+						if ('(' === $field[0] && ')' === substr($field, -1)) {
+							$field = $this->parseVariable("\${$field}\$", $inventoryRow['name'] ?? 0);
+						}
+						++$customFieldClassSeq;
+						$html .= '<td class="col-type-customField' . $customFieldClassSeq . '" style="border:1px solid #ddd;font-weight:bold;">' . $field . '</td>';
+					} elseif ('ItemNumber' === $field->getType()) {
 						$html .= '<td class="col-type-ItemNumber" style="border:1px solid #ddd;font-weight:bold;">' . $counter . '</td>';
 					} elseif ('ean' === $name) {
 						$itemValue = $inventoryRow[$name];
@@ -1535,7 +1556,7 @@ class TextParser
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($columns as $name => $field) {
 				$tb = $style = '';
-				if ($field && $field->isSummary()) {
+				if (\is_object($field) && $field->isSummary()) {
 					$style = 'border:1px solid #ddd;';
 					$sum = 0;
 					foreach ($inventoryRows as $inventoryRow) {
@@ -1543,10 +1564,38 @@ class TextParser
 					}
 					$tb = \CurrencyField::appendCurrencySymbol(\CurrencyField::convertToUserFormat($sum, null, true), $currencySymbol);
 				}
-				$html .= '<th class="col-type-' . ($field ? $field->getType() : $name) . '" style="padding:0px 4px;text-align:right;' . $style . '">' . $tb . '</th>';
+				$html .= '<th class="col-type-' . (\is_object($field) ? $field->getType() : $name) . '" style="padding:0px 4px;text-align:right;' . $style . '">' . $tb . '</th>';
 			}
 			$html .= '</tr></tfoot></table>';
 		}
 		return $html;
+	}
+
+	/**
+	 * Parse variable.
+	 *
+	 * @param string $variable
+	 * @param int    $id
+	 *
+	 * @return string
+	 */
+	protected function parseVariable(string $variable, int $id = 0): string
+	{
+		if ($id) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($id);
+			if (!$recordModel->isViewable()) {
+				return '';
+			}
+			$instance = static::getInstanceByModel($recordModel);
+		} else {
+			$instance = static::getInstance();
+		}
+		foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
+			if (isset($this->{$key})) {
+				$instance->{$key} = $this->{$key};
+			}
+		}
+		$instance->setContent($variable)->parse();
+		return $instance->getContent();
 	}
 }
