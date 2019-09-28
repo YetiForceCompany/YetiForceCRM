@@ -464,10 +464,10 @@ class Z_Chat extends \Tests\Base
 		$this->assertNull($entriesAfter[$key]['user_name'], 'User name should be null');
 		$this->assertNull($entriesAfter[$key]['role_name'], 'User role should be null');
 		$this->assertNull($entriesAfter[$key]['image'], 'User image should be null');
-		$participants = $chat->getParticipants();
-		$keyUser = static::getUserFromParticipants($participants, static::$users[0]);
-		$this->assertNotFalse($keyUser, 'Problem with the method "getParticipants"');
-		$this->assertSame($participants[$keyUser]['message'], $entriesAfter[$key]['messages']);
+		// $participants = $chat->getParticipants();
+		// $keyUser = static::getUserFromParticipants($participants, static::$users[0]);
+		// $this->assertNotFalse($keyUser, 'Problem with the method "getParticipants"');
+		// $this->assertSame($participants[$keyUser]['message'], $entriesAfter[$key]['messages']);
 	}
 
 	/**
