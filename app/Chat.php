@@ -991,7 +991,7 @@ final class Chat
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			if (isset($participants[$row['userid']])) {
-				$participants[$row['userid']]['message'] = static::decodeMessage($row['messages']);
+				$participants[$row['userid']]['message'] = static::decodeNoHtmlMessage($row['messages']);
 			}
 		}
 		$dataReader->close();
@@ -1257,6 +1257,18 @@ final class Chat
 	private static function decodeMessage(string $message): string
 	{
 		return nl2br(\App\Utils\Completions::decode(\App\Purifier::purifyHtml(\App\Purifier::decodeHtml($message))));
+	}
+
+	/**
+	 * Decode message without html except completions.
+	 *
+	 * @param string $message
+	 *
+	 * @return string
+	 */
+	private static function decodeNoHtmlMessage(string $message): string
+	{
+		return static::decodeMessage(strip_tags(\App\Purifier::decodeHtml($message)));
 	}
 
 	/**
