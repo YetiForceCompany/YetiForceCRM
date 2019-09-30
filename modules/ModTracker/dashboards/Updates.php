@@ -11,9 +11,23 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 \Vtiger_Loader::includeOnce('~/modules/ModTracker/ModTracker.php');
-
-class Vtiger_Updates_Dashboard extends Vtiger_IndexAjax_View
+/**
+ * ModTracker_Updates_Dashboard class.
+ */
+class ModTracker_Updates_Dashboard extends Vtiger_IndexAjax_View
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function checkPermission(App\Request $request)
+	{
+		parent::checkPermission($request);
+		$userPrivilegesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if ($request->has('sourceModule') && (!isset(ModTracker::getTrackingModules()[$request->getInteger('sourceModule')]) || !$userPrivilegesModel->hasModulePermission($request->getInteger('sourceModule')))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -24,9 +38,6 @@ class Vtiger_Updates_Dashboard extends Vtiger_IndexAjax_View
 		$page = $request->getInteger('page');
 		$linkId = $request->getInteger('linkid');
 		$dateRange = $request->getDateRange('dateRange');
-		if ($request->has('sourceModule') && !isset(ModTracker::getTrackingModules()[$request->getInteger('sourceModule')])) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
 		$widget = \Vtiger_Widget_Model::getInstance($linkId, \App\User::getCurrentUserId());
 
 		if (empty($dateRange)) {

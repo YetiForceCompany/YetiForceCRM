@@ -3367,7 +3367,7 @@ YetiForce_Widget_Js(
 				AppConnector.request({
 					action: 'Widget',
 					mode: 'saveUpdatesWidgetConfig',
-					module: app.getModuleName(),
+					module: 'ModTracker',
 					widgetId: this.getContainer()
 						.find('.js-widget-id')
 						.val(),

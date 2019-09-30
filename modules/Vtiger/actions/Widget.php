@@ -22,7 +22,6 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 		$this->exposeMethod('add');
 		$this->exposeMethod('remove');
 		$this->exposeMethod('removeWidgetFromList');
-		$this->exposeMethod('saveUpdatesWidgetConfig');
 	}
 
 	/**
@@ -48,7 +47,7 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 				$label = $widget->get('linklabel');
 			}
 		}
-		if ((\in_array($mode, ['remove', 'saveUpdatesWidgetConfig']) && !$widget->isDefault() && \App\Privilege::isPermitted($moduleName)) ||
+		if (('remove' === $mode && !$widget->isDefault() && \App\Privilege::isPermitted($moduleName)) ||
 			('Mini List' === $label && \App\Privilege::isPermitted($moduleName, 'CreateDashboardFilter')) ||
 			('ChartFilter' === $label && \App\Privilege::isPermitted($moduleName, 'CreateDashboardChartFilter'))) {
 			return true;
@@ -137,25 +136,6 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 		Vtiger_Widget_Model::removeWidgetFromList($request->getInteger('widgetid'));
 		$response = new Vtiger_Response();
 		$response->setResult(true);
-		$response->emit();
-	}
-
-	/**
-	 * Save updates widget config.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function saveUpdatesWidgetConfig(App\Request $request)
-	{
-		$actions = $request->has('trackerActions') ? $request->getArray('trackerActions', 'Integer') : [];
-		$owner = $request->getByType('owner', 2);
-		$historyOwner = $request->getByType('historyOwner', 2);
-		$data = ['actions' => $actions, 'owner' => $owner, 'historyOwner' => $historyOwner];
-		$result = (bool) \App\Db::getInstance()->createCommand()->update('vtiger_module_dashboard_widgets', ['data' => App\Json::encode($data)],
-		['userid' => App\User::getCurrentUserId(), 'id' => $request->getInteger('widgetId')])
-			->execute();
-		$response = new Vtiger_Response();
-		$response->setResult($result);
 		$response->emit();
 	}
 }
