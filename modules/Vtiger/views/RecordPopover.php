@@ -32,7 +32,7 @@ class Vtiger_RecordPopover_View extends \App\Controller\View
 		$moduleName = $request->getModule();
 		$recordPopoverModel = Vtiger_RecordPopover_Model::getInstance($moduleName, $request->getInteger('record'));
 		$viewer = $this->getViewer($request);
-		$viewer->assign('HEADER_LINKS', $recordPopoverModel->getHeaderLinks($request->getByType('currentView')));
+		$viewer->assign('HEADER_LINKS', $recordPopoverModel->getHeaderLinks());
 		$viewer->assign('FIELDS_ICON', $recordPopoverModel->getFieldsIcon());
 		$viewer->assign('RECORD', $recordPopoverModel->getRecord());
 		$viewer->assign('FIELDS', $recordPopoverModel->getFields());

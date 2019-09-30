@@ -72,11 +72,9 @@ class Vtiger_RecordPopover_Model extends \App\Base
 	/**
 	 * Returns array with model of buttons.
 	 *
-	 * @param string $currentView
-	 *
 	 * @return Vtiger_Link_Model[]
 	 */
-	public function getHeaderLinks(string $currentView): array
+	public function getHeaderLinks(): array
 	{
 		$links = [];
 		$detailUrl = $this->recordModel->getFullDetailViewUrl();

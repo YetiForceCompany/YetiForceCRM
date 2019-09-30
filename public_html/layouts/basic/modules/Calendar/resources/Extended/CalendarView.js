@@ -1061,7 +1061,14 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	registerPopoverButtonsClickEvent() {
 		$(document).on('click', '.js-calendar-popover__button', e => {
 			e.preventDefault();
-			this.getCalendarSidebarData($(e.currentTarget).attr('href'));
+			let linkView = e.currentTarget.dataset.content;
+			let href = $(e.currentTarget).attr('href');
+			if (linkView) {
+				const targetView = linkView === 'Edit' ? 'EventForm' : 'ActivityState';
+				linkView = linkView === 'Detail view' ? 'Detail' : 'Edit';
+				href = href.replace(linkView, targetView);
+			}
+			this.getCalendarSidebarData(href);
 		});
 	}
 
