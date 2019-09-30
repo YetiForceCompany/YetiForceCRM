@@ -201,7 +201,13 @@
 					{\App\Language::translate('LBL_UNSUBSCIBE', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
-					<input class="form-control" type="text" name="unsubscribe" value="{$RECORD_MODEL->get('unsubscribe')}">
+					<select class="form-control select2" name="unsubscribe" data-select="tags" multiple="multiple">
+						{if $RECORD_MODEL->get('unsubscribe')}
+							{foreach item=UNSUBSCRIBE from=App\Json::decode($RECORD_MODEL->get('unsubscribe'))}
+								<option selected value="{$UNSUBSCRIBE}">{$UNSUBSCRIBE}</option>
+							{/foreach}
+						{/if}
+					</select>
 				</div>
 			</div>
 			<div class="form-group row">

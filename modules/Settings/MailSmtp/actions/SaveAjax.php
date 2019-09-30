@@ -44,7 +44,7 @@ class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			'priority' => $request->getByType('priority', 'Text'),
 			'confirm_reading_to' => $request->getByType('confirm_reading_to', 'Text'),
 			'organization' => $request->getByType('organization', 'Text'),
-			'unsubscribe' => $request->getByType('unsubscribe', 'Text'),
+			'unsubscribe' => App\Json::encode($request->getArray('unsubscribe', 'Text')),
 			'individual_delivery' => $request->isEmpty('individual_delivery') ? 0 : $request->getInteger('individual_delivery'),
 			'smtp_username' => $request->getByType('smtp_username', 'Text'),
 			'smtp_host' => $request->getByType('smtp_host', 'Text'),
