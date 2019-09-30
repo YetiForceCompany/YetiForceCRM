@@ -466,8 +466,12 @@ class Z_Chat extends \Tests\Base
 		$this->assertNull($entriesAfter[$key]['image'], 'User image should be null');
 		$participants = $chat->getParticipants();
 		$keyUser = static::getUserFromParticipants($participants, static::$users[0]);
-		$this->assertNotFalse($keyUser, 'Problem with the method "getParticipants"');
-		$this->assertSame($participants[$keyUser]['message'], $entriesAfter[$key]['messages']);
+		if (static::isRoomPined($chat->getRoomType(), $chat->getRecordId(), \App\User::getActiveAdminId())) {
+			$this->assertNotFalse($keyUser, 'Problem with the method "getParticipants"');
+			$this->assertSame($participants[$keyUser]['message'], $entriesAfter[$key]['messages']);
+		} else {
+			$this->assertFalse($keyUser, 'Problem with the method "getParticipants"');
+		}
 	}
 
 	/**
@@ -485,5 +489,23 @@ class Z_Chat extends \Tests\Base
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id);
 			$recordModel->delete();
 		}
+	}
+
+	/**
+	 * Is room pinned.
+	 *
+	 * @param string $roomType
+	 * @param int    $recordId
+	 * @param int    $userId
+	 *
+	 * @return bool
+	 */
+	public static function isRoomPinned(string $roomType, int $recordId, int $userId): bool
+	{
+		return (new \App\Db\Query())
+			->select('userid')
+			->from(\App\Chat::TABLE_NAME['room'][$roomType])
+			->where(['and', ['userid' => $userId], [\App\Chat::COLUMN_NAME['room'][$roomType] => $recordId]])
+			->exists();
 	}
 }
