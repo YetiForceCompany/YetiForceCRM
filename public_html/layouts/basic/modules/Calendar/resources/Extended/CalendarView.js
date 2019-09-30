@@ -1059,7 +1059,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	 * Register popover buttons' click
 	 */
 	registerPopoverButtonsClickEvent() {
-		$(document).on('click', '.js-calendar-popover__button', this.showPopoverLinkInSidebar.bind(this));
+		$(document).on('click', '.js-calendar-popover__button', this.showCalendarPopoverLinkInSidebar.bind(this));
 	}
 
 	/**
@@ -1067,16 +1067,17 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	 *
 	 * @param   {Object}  e  click event
 	 */
-	showPopoverLinkInSidebar(e) {
-		e.preventDefault();
-		let linkView = e.currentTarget.dataset.content;
-		let href = $(e.currentTarget).attr('href');
-		if (linkView) {
-			const targetView = linkView === 'Edit' ? 'EventForm' : 'ActivityState';
-			linkView = linkView === 'Detail view' ? 'Detail' : 'Edit';
-			href = href.replace(linkView, targetView);
+	showCalendarPopoverLinkInSidebar(e) {
+		let href = e.currentTarget.href;
+		const hrefObject = app.convertUrlToObject(href);
+		if (hrefObject.module !== 'Calendar' || (hrefObject.view !== 'Edit' && hrefObject.view !== 'Detail')) {
+			return true;
+		} else {
+			e.preventDefault();
+			const sidebarView = hrefObject.view === 'Edit' ? 'EventForm' : 'ActivityState';
+			href = href.replace(hrefObject.view, sidebarView);
+			this.getCalendarSidebarData(href);
 		}
-		this.getCalendarSidebarData(href);
 	}
 
 	/**
