@@ -26,18 +26,16 @@
 			</div>
 			{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGET']}
 				<div class="js-toggle-panel c-panel border-info quickWidget" data-js="click">
-					<div class="c-panel__header quickWidgetHeader bg-info">
-						<div class="form-row align-items-center px-4">
-							<h5 class="card-title h6 text-white o-label-container col-xl-5"
-								title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
-								{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}
-							</h5>
-							<div class="o-btn-container col-xl-7">
-								<button class="selectAllBtn btn btn-light btn-sm">
-									<div class="selectAll d-none">{\App\Language::translate('LBL_SELECT_ALL', $MODULE)}</div>
-									<div class="deselectAll">{\App\Language::translate('LBL_DESELECT_ALL', $MODULE)}</div>
-								</button>
-							</div>
+					<div class="card-header d-flex quickWidgetHeader bg-info">
+						<h5 class="card-title h6 text-white o-label-container"
+							title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
+							{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}
+						</h5>
+						<div>
+							<button class="selectAllBtn btn btn-light btn-sm">
+								<div class="selectAll d-none">{\App\Language::translate('LBL_SELECT_ALL', $MODULE)}</div>
+								<div class="deselectAll">{\App\Language::translate('LBL_DESELECT_ALL', $MODULE)}</div>
+							</button>
 						</div>
 					</div>
 					<div class="widgetContainer panel-collapse {$SIDEBARWIDGET->get('linkclass')}"

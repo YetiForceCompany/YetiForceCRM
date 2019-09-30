@@ -23,7 +23,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 }
 
 @media (min-width: map_get($grid-breakpoints, lg)) {
-	.container-fluid[class*='-calendar-container'] {
+	.container-fluid[class*="-calendar-container"] {
 		.mainBody {
 			overflow: hidden;
 		}
@@ -31,29 +31,8 @@ $h-calendar-form-actions: calculate-rem(49px);
 }
 
 .o-label-container {
-	@extend .col-12;
-	@extend .col-sm-6;
-	@extend .col-lg-12;
-	@extend .mb-lg-2;
-	@extend .mb-2;
-	@extend .px-0;
-	@extend .d-flex;
-	@extend .justify-content-lg-center;
-	@extend .justify-content-center;
-	@extend .justify-content-xl-start;
-	@extend .justify-content-sm-start;
-}
-
-.o-btn-container {
-	@extend .col-12;
-	@extend .col-sm-6;
-	@extend .col-lg-12;
-	@extend .px-0;
-	@extend .d-flex;
-	@extend .justify-content-center;
-	@extend .justify-content-sm-end;
-	@extend .justify-content-lg-center;
-	@extend .justify-content-xl-end;
+	@extend .mr-auto;
+	@extend .my-auto;
 }
 
 .hideToggleSiteBarRightButton {

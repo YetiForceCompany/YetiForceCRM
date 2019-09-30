@@ -66,11 +66,11 @@ class API_CardDAV_Model
 						$isPermitted = \App\Privilege::isPermitted($moduleName, 'DetailView', $record['crmid']);
 						break;
 					case 'PLL_OWNER_PERSON':
-						$isPermitted = (int) $record['smownerid'] === $userId || in_array($userId, \App\Fields\SharedOwner::getById($record['crmid']));
+						$isPermitted = (int) $record['smownerid'] === $userId || \in_array($userId, \App\Fields\SharedOwner::getById($record['crmid']));
 						break;
 					case 'PLL_OWNER_PERSON_GROUP':
 						$shownerIds = \App\Fields\SharedOwner::getById($record['crmid']);
-						$isPermitted = (int) $record['smownerid'] === $userId || in_array($record['smownerid'], $user->get('groups')) || in_array($userId, $shownerIds) || count(array_intersect($shownerIds, $user->get('groups'))) > 0;
+						$isPermitted = (int) $record['smownerid'] === $userId || \in_array($record['smownerid'], $user->get('groups')) || \in_array($userId, $shownerIds) || \count(array_intersect($shownerIds, $user->get('groups'))) > 0;
 						break;
 					case 'PLL_OWNER':
 					default:
@@ -113,12 +113,15 @@ class API_CardDAV_Model
 	{
 		\App\Log::trace('AddressBooks start', __METHOD__);
 		$dataReader = $this->getDavCardsToSync()->createCommand()->query();
-		$create = $deletes = $updates = 0;
+		$create = $deletes = $updates = $skipped = 0;
 		while ($card = $dataReader->read()) {
 			if (!$card['crmid']) {
 				//Creating
-				$this->createRecord('Contacts', $card);
-				++$create;
+				if ($this->createRecord('Contacts', $card)) {
+					++$create;
+				} else {
+					++$skipped;
+				}
 			} else {
 				$userId = (int) $this->user->getId();
 				if (isset(self::$cache[$userId][$card['crmid']])) {
@@ -129,11 +132,11 @@ class API_CardDAV_Model
 						$isPermitted = \App\Privilege::isPermitted($card['setype'], 'DetailView', $card['crmid']);
 						break;
 					case 'PLL_OWNER_PERSON':
-						$isPermitted = (int) $card['smownerid'] === $userId || in_array($userId, \App\Fields\SharedOwner::getById($card['crmid']));
+						$isPermitted = (int) $card['smownerid'] === $userId || \in_array($userId, \App\Fields\SharedOwner::getById($card['crmid']));
 						break;
 					case 'PLL_OWNER_PERSON_GROUP':
 						$shownerIds = \App\Fields\SharedOwner::getById($card['crmid']);
-						$isPermitted = (int) $card['smownerid'] === $userId || in_array($card['smownerid'], $this->user->get('groups')) || in_array($userId, $shownerIds) || count(array_intersect($shownerIds, $this->user->get('groups'))) > 0;
+						$isPermitted = (int) $card['smownerid'] === $userId || \in_array($card['smownerid'], $this->user->get('groups')) || \in_array($userId, $shownerIds) || \count(array_intersect($shownerIds, $this->user->get('groups'))) > 0;
 						break;
 					case 'PLL_OWNER':
 					default:
@@ -152,7 +155,7 @@ class API_CardDAV_Model
 			}
 		}
 		$dataReader->close();
-		\App\Log::trace("AddressBooks end - DAV >> CRM | create: ${create} | deletes: ${deletes} | updates: ${updates}", __METHOD__);
+		\App\Log::trace("AddressBooks end - DAV >> CRM | create: ${create} | deletes: {$deletes} | updates: {$skipped} | skipped: {$updates}", __METHOD__);
 	}
 
 	public function createCard($moduleName, $record)
@@ -202,7 +205,7 @@ class API_CardDAV_Model
 			$cardUri,
 			$modifiedtime,
 			$this->addressBookId,
-			strlen($cardData),
+			\strlen($cardData),
 			$etag,
 			$record['crmid'],
 		]);
@@ -257,7 +260,7 @@ class API_CardDAV_Model
 		$stmt->execute([
 			$cardData,
 			$modifiedtime,
-			strlen($cardData),
+			\strlen($cardData),
 			$etag,
 			$record['crmid'],
 			$card['id'],
@@ -292,8 +295,13 @@ class API_CardDAV_Model
 			$lead->save();
 			$leadId = $lead->getId();
 		}
-		$head = $vcard->N->getParts();
 
+		if (empty($vcard->N)) {
+			\App\Log::error("Not found N part in vcard: Id: {$card['id']}, Addressbookid: {$card['addressbookid']}, Data:{$card['carddata']}", __CLASS__);
+			return false;
+		}
+
+		$head = $vcard->N->getParts();
 		$record = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$record->set('assigned_user_id', $this->user->get('id'));
 		if ('Contacts' === $moduleName) {
@@ -330,6 +338,7 @@ class API_CardDAV_Model
 			$record->getId(),
 		]);
 		\App\Log::trace(__METHOD__ . ' | End');
+		return true;
 	}
 
 	/**

@@ -11,10 +11,12 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$viewer->assign('EVENT_CREATE', \App\Privilege::isPermitted($request->getModule(), 'CreateView'));
+		$viewer->assign('EVENT_EDIT', \App\Privilege::isPermitted($request->getModule(), 'EditView'));
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 		$viewer->assign('WEEK_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
 		$viewer->assign('DAY_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
@@ -22,7 +24,7 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 		$viewer->view('CalendarView.tpl', $request->getModule());
 	}
 
-	protected function preProcessTplName(\App\Request $request)
+	protected function preProcessTplName(App\Request $request)
 	{
 		return 'CalendarViewPreProcess.tpl';
 	}
@@ -30,7 +32,7 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function postProcess(\App\Request $request, $display = true)
+	public function postProcess(App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -41,7 +43,7 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -60,7 +62,7 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
 			'~libraries/fullcalendar/dist/fullcalendar.css',

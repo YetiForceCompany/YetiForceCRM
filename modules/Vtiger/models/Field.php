@@ -673,7 +673,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isAjaxEditable()
 	{
-		$ajaxRestrictedFields = ['72', '10', '300', '51', '59'];
+		$ajaxRestrictedFields = [72, 10, 51, 59];
 		if (!$this->isEditable() || \in_array($this->get('uitype'), $ajaxRestrictedFields) || !$this->getUITypeModel()->isAjaxEditable() || 10 === (int) $this->get('displaytype')) {
 			return false;
 		}

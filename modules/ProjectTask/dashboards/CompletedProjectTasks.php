@@ -26,12 +26,13 @@ class ProjectTask_CompletedProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('page', $request->getInteger('page'));
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, $moduleName, $request->getByType('owner', 2));
-		$completedStatus = \App\RecordStatus::getStates($moduleName, \App\RecordStatus::RECORD_STATE_CLOSED);
+		$completedStatus = Settings_RealizationProcesses_Module_Model::getStatusNotModify()[$moduleName]['status'] ?? [];
+		$completedStatus = array_filter($completedStatus);
 		$params = ['projecttaskstatus' => $completedStatus];
-		if (!$request->isEmpty('projecttaskpriority') && $request->getByType('projecttaskpriority', 'Standard') !== 'all') {
+		if (!$request->isEmpty('projecttaskpriority') && 'all' !== $request->getByType('projecttaskpriority', 'Standard')) {
 			$params['projecttaskpriority'] = $request->getByType('projecttaskpriority', 'Standard');
 		}
-		$projectTasks = ($owner === false) ? [] : ProjectTask_Module_Model::getRecordsByStatus($params, $pagingModel, $owner);
+		$projectTasks = (false === $owner || empty($completedStatus)) ? [] : ProjectTask_Module_Model::getRecordsByStatus($params, $pagingModel, $owner);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PROJECTTASKS', $projectTasks);
@@ -42,6 +43,8 @@ class ProjectTask_CompletedProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_COMPLETED_PROJECT_TASKS');
 		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('STATUS', implode('##', $completedStatus));
+		$viewer->assign('ACCESSIBLE_USERS', \App\Fields\Owner::getInstance($moduleName)->getAccessibleUsers());
+		$viewer->assign('ACCESSIBLE_GROUPS', \App\Fields\Owner::getInstance($moduleName)->getAccessibleGroups());
 		if ($request->has('content')) {
 			$viewer->view('dashboards/CompletedProjectTasksContents.tpl', $moduleName);
 		} else {

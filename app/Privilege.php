@@ -67,6 +67,7 @@ class Privilege
 		if (!$userId) {
 			$userId = \App\User::getCurrentUserId();
 		}
+		$userId = (int) $userId;
 		$userPrivileges = \App\User::getPrivilegesFile($userId);
 		$permission = false;
 		$tabId = Module::getModuleId($moduleName);
@@ -125,7 +126,7 @@ class Privilege
 		}
 		//If no actionid, then allow action is vtiger_tab permission is available
 		if ('' === $actionId || null === $actionId) {
-			if (0 == $userPrivileges['profile_tabs_permission'][$tabId]) {
+			if (isset($userPrivileges['profile_tabs_permission'][$tabId]) && 0 == $userPrivileges['profile_tabs_permission'][$tabId]) {
 				$permission = true;
 			} else {
 				$permission = false;
@@ -261,9 +262,14 @@ class Privilege
 		$recOwnType = Fields\Owner::getType($recOwnId);
 		if ('Users' === $recOwnType) {
 			//Checking if the Record Owner is the current User
-			if ($userId == $recOwnId) {
+			if ($userId === $recOwnId) {
 				static::$isPermittedLevel = 'SEC_RECORD_OWNER_CURRENT_USER';
 				\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_OWNER_CURRENT_USER');
+				return true;
+			}
+			if (($modules = \App\Config::security('permittedModulesByCreatorField')) && \in_array($moduleName, $modules) && $userId === $recordMetaData['smcreatorid'] && (3 == $actionId || 4 == $actionId)) {
+				static::$isPermittedLevel = 'SEC_RECORD_CREATOR_CURRENT_USER';
+				\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_CREATOR_CURRENT_USER');
 				return true;
 			}
 			if (\App\Config::security('PERMITTED_BY_ROLES')) {
@@ -297,7 +303,7 @@ class Privilege
 					foreach ($permissionsRelatedField as $row) {
 						switch ($row) {
 							case 0:
-								$relatedPermission = $recordMetaData['smownerid'] == $userId || \in_array($recordMetaData['smownerid'], $userPrivileges['groups']);
+								$relatedPermission = $recordMetaData['smownerid'] === $userId || \in_array($recordMetaData['smownerid'], $userPrivileges['groups']);
 								break;
 							case 1:
 								$relatedPermission = \in_array($userId, Fields\SharedOwner::getById($parentRecord));

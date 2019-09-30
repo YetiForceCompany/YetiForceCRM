@@ -30,20 +30,16 @@
 					</div>
 					{assign var="RECORD_MODEL" value=Settings_Companies_Record_Model::getCleanInstance()}
 					{foreach key="FIELD_NAME" item="FIELD" from=$RECORD_MODEL->getModule()->getFormFields()}
-						{if $FIELD_NAME === "name"}
+						{if in_array($FIELD_NAME, ["name","vat_id",'post_code','address', "city"])}
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label"
-									   for="company-name">{App\Language::translate('LBL_NAME', 'Install')}
-									&nbsp;<span class="no">*</span></label>
+								<label class="col-sm-3 col-form-label" for="company-{$FIELD_NAME}">{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Install')}<span class="no">*</span></label>
 								<div class="col-sm-9">
-									<input id="company-name" type="text" name="company_name" class="form-control"
-										   data-validation-engine="validate[required]">
+									<input id="company-{$FIELD_NAME}" type="text" name="company_{$FIELD_NAME}" class="form-control" data-validation-engine="validate[required]">
 								</div>
 							</div>
 						{elseif $FIELD_NAME === "industry"}
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label"
-									   for="company-industry">{App\Language::translate('LBL_INDUSTRY', 'Install')}
+								<label class="col-sm-3 col-form-label" for="company-industry">{App\Language::translate('LBL_INDUSTRY', 'Install')}
 									&nbsp;<span class="no">*</span></label>
 								<div class="col-sm-9">
 									<select class="select2 form-control" id="company-industry" name="company_industry"
@@ -54,20 +50,9 @@
 									</select>
 								</div>
 							</div>
-						{elseif $FIELD_NAME === "city"}
-							<div class="form-group row">
-								<label class="col-sm-3 col-form-label"
-									   for="company-city">{App\Language::translate('LBL_CITY', 'Install')}
-									&nbsp;<span class="no">*</span></label>
-								<div class="col-sm-9">
-									<input id="company-city" type="text" name="company_city" class="form-control"
-										   data-validation-engine="validate[required]">
-								</div>
-							</div>
 						{elseif $FIELD_NAME === "country"}
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label"
-									   for="company-country">{App\Language::translate('LBL_COUNTRY', 'Install')}
+								<label class="col-sm-3 col-form-label" for="company-country">{App\Language::translate('LBL_COUNTRY', 'Install')}
 									&nbsp;<span class="no">*</span></label>
 								<div class="col-sm-9">
 									<select id="company-country" class="select2 form-control" name="company_country"
@@ -80,22 +65,17 @@
 							</div>
 						{elseif $FIELD_NAME === "companysize"}
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label"
-									   for="company-website">{App\Language::translate('LBL_COMPANYSIZE', 'Install')}
+								<label class="col-sm-3 col-form-label" for="company-website">{App\Language::translate('LBL_COMPANYSIZE', 'Install')}
 									<span class="no">*</span></label>
 								<div class="col-sm-9">
-									<input id="company-companysize" type="number" name="company_companysize"
-										   class="form-control"
-										   data-validation-engine="validate[required,max[16777215]]">
+									<input id="company-companysize" type="number" name="company_companysize" class="form-control"	 data-validation-engine="validate[required,max[16777215]]">
 								</div>
 							</div>
 						{elseif $FIELD_NAME === "website"}
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label"
-									   for="company-website">{App\Language::translate('LBL_WEBSITE', 'Install')}<span class="no">*</span></label>
+								<label class="col-sm-3 col-form-label" for="company-website">{App\Language::translate('LBL_WEBSITE', 'Install')}<span class="no">*</span></label>
 								<div class="col-sm-9">
-									<input id="company-website" type="text" name="company_website" class="form-control"
-										   data-validation-engine="validate[required,custom[url]]">
+									<input id="company-website" type="text" name="company_website" class="form-control" data-validation-engine="validate[required,custom[url]]">
 								</div>
 							</div>
 						{/if}

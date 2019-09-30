@@ -37,4 +37,7 @@ class Developer
 
 	/** Developer libraries update mode */
 	public static $LANGUAGES_UPDATE_DEV_MODE = true;
+
+	/** Developer updater mode */
+	public static $updaterDevMode = 'developer';
 }

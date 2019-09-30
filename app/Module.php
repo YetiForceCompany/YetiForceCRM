@@ -145,6 +145,16 @@ class Module
 	}
 
 	/**
+	 * Get all module names.
+	 *
+	 * @return string[]
+	 */
+	public static function getAllModuleNames()
+	{
+		return static::$tabdataCache['tabName'];
+	}
+
+	/**
 	 * Function to get the list of module for which the user defined sharing rules can be defined.
 	 *
 	 * @param array $eliminateModules

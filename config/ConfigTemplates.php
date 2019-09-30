@@ -877,6 +877,14 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
+		'permittedModulesByCreatorField' => [
+			'default' => [],
+			'description' => 'List of modules to which access is based on the record creation. Read only access.',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return \is_array($arg) && array_diff($arg, App\Module::getAllModuleNames());
+			}
+		],
 		'CACHING_PERMISSION_TO_RECORD' => [
 			'default' => false,
 			'description' => "Configuration of the permission mechanism on records list.\ntrue - Permissions based on the users column in vtiger_crmentity.\n		Permissions are not verified in real time. They are updated via cron.\n		We do not recommend using this option in production environments.\nfalse - Permissions based on adding tables with permissions to query (old mechanism).",

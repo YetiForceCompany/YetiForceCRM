@@ -89,6 +89,9 @@ class PrivilegeQuery
 			if (!empty($userModel->groups)) {
 				$conditions[] = ['vtiger_crmentity.smownerid' => $userModel->groups];
 			}
+			if (($modules = \App\Config::security('permittedModulesByCreatorField')) && \in_array($moduleName, $modules)) {
+				$conditions[] = ['vtiger_crmentity.smcreatorid' => $userId];
+			}
 			if (\App\Config::security('PERMITTED_BY_ROLES')) {
 				$parentRoleSeq = $userModel->parent_role_seq;
 				$subQuery = (new \App\Db\Query())->select(['userid'])
