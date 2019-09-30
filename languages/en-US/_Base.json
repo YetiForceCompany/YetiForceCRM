@@ -1383,9 +1383,7 @@
     "LBL_PAID_FUNCTIONALITY_IS_ACTIVE": "Paid functionality has been activated without purchasing the right product in the store. You violate the terms of the software license.",
     "LBL_YETIFORCE_SHOP_PRODUCT_CANCELED": "One of the purchased products has expired or requires changing a package. The product has been temporarily canceled.",
     "LBL_YETIFORCE_SHOP": "Yetiforce shop",
-    "LBL_USER_CURRENTLY_NOT_LOGGED": "user currently not logged",
-    "LBL_UPDATES_WIDGET_CONFIGURATION": "Updates widget config",
-    "LBL_PERSON_MAKING_CHANGES": "Person making changes"
+    "LBL_USER_CURRENTLY_NOT_LOGGED": "user currently not logged"
   },
   "js": {
     "JS_APPROVE": "Approve",
