@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Base-dashboards-UpdateContents -->
+	<!-- tpl-ModTracker-dashboards-UpdateContents -->
 	<input type="hidden" class="js-widget-data" value="{\App\Purifier::encodeHtml(App\Json::encode($WIDGET_DATA))}" data-js="value">
 		{if $UPDATES}
 			{function DISPLAY_RECORD_NAME RECORD_MODEL=false CHECK_PERMISSIONS=true SHOW_MODULE=true}
@@ -74,7 +74,7 @@
 											<span class="mr-1" style="color: {ModTracker::$colorsActions[$UPDATE_ROW->get('status')]};">
 												<span class="{ModTracker::$iconActions[$UPDATE_ROW->get('status')]} fa-fw"></span>
 											</span>
-											{\App\Language::translate($UPDATE_ROW->getStatusLabel(), 'ModTracker')|ucfirst}
+											{\App\Language::translate($UPDATE_ROW->getStatusLabel(), $MODULE_NAME)|ucfirst}
 											{assign var=COUNTER value=0}
 											{foreach from=$FIELDS item=FIELD}
 													{if $FIELD && $FIELD->getFieldInstance() && $FIELD->getFieldInstance()->isViewableInDetailView()}
@@ -85,7 +85,7 @@
 															{if $FIELD->get('prevalue') neq '' && $FIELD->get('postvalue') neq '' && !($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELD->get('postvalue') eq '0' || $FIELD->get('prevalue') eq '0'))}
 																{assign var=DISPLAY_TEXT value="&nbsp;{\App\Language::translate('LBL_FROM')}&nbsp; <strong>{Vtiger_Util_Helper::toVtiger6SafeHTML(App\Purifier::decodeHtml($FIELD->getOldValue()))}</strong>"}
 															{else if $FIELD->get('postvalue') eq '' || ($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELD->get('postvalue') eq '0')}
-																{assign var=DISPLAY_TEXT value="&nbsp; <strong> {\App\Language::translate('LBL_DELETED','ModTracker')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getOldValue())}</del> )"}
+																{assign var=DISPLAY_TEXT value="&nbsp; <strong> {\App\Language::translate('LBL_DELETED', $MODULE_NAME)} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getOldValue())}</del> )"}
 															{else}
 																{assign var=DISPLAY_TEXT value="&nbsp;{\App\Language::translate('LBL_CHANGED')}"}
 															{/if}
@@ -124,7 +124,7 @@
 											<span class="mr-1" style="color: {ModTracker::$colorsActions[$UPDATE_ROW->get('status')]};">
 												<span class="{ModTracker::$iconActions[$UPDATE_ROW->get('status')]} fa-fw"></span>
 											</span>
-											{\App\Language::translate($UPDATE_ROW->getStatusLabel(), 'ModTracker')|ucfirst}&nbsp;
+											{\App\Language::translate($UPDATE_ROW->getStatusLabel(), $MODULE_NAME)|ucfirst}&nbsp;
 											<div class="u-white-space-nowrap u-text-ellipsis--no-hover">
 												{DISPLAY_RECORD_NAME RECORD_MODEL=$RELATION->getLinkedRecord()}
 											</div>
@@ -144,7 +144,7 @@
 											<span class="mr-1" style="color: {ModTracker::$colorsActions[$UPDATE_ROW->get('status')]};">
 												<span class="{ModTracker::$iconActions[$UPDATE_ROW->get('status')]} fa-fw"></span>
 											</span>
-											{\App\Language::translate($UPDATE_ROW->getStatusLabel(), 'ModTracker')|ucfirst}
+											{\App\Language::translate($UPDATE_ROW->getStatusLabel(), $MODULE_NAME)|ucfirst}
 										</div>
 									</div>
 								{/if}
@@ -163,5 +163,5 @@
 				{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA', $MODULE_NAME)}
 			</span>
 		{/if}
-	<!-- /tpl-Base-dashboards-UpdateContents -->
+	<!-- /tpl-ModTracker-dashboards-UpdateContents -->
 {/strip}

@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Base-Dashboards-Updates -->
-	<div class="tpl-Base-dashboards-Updates dashboardWidgetHeader">
+<!-- tpl-ModTracker-Dashboards-Updates -->
+	<div class="dashboardWidgetHeader">
 		{function SHOW_SELECT_OWNER SELECT_FIELD_NAME='owner' SELECT_FIELD_LABEL='Assigned To'}
 			<div class="input-group input-group-sm">
 			<span class="input-group-prepend" title="{\App\Language::translate($SELECT_FIELD_LABEL, $MODULE_NAME)}">
@@ -105,7 +105,7 @@
 									<div class="form-check">
 										<input class="form-check-input js-tracker-action" type="checkbox" value="{$VALUE}" data-js="container">
 										<label class="form-check-label">
-											{\App\Language::translate($TRACKER_ACTION, 'ModTracker')|ucfirst}
+											{\App\Language::translate($TRACKER_ACTION, $MODULE_NAME)|ucfirst}
 										</label>
 									</div>
 								</div>
@@ -136,5 +136,5 @@
 	<div class="dashboardWidgetContent">
 		{include file=\App\Layout::getTemplatePath('dashboards/UpdatesContents.tpl', $MODULE_NAME)}
 	</div>
-<!-- /tpl-Base-Dashboards-Updates -->
+<!-- /tpl-ModTracker-Dashboards-Updates -->
 {/strip}
