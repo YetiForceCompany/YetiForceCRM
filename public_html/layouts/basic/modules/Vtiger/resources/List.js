@@ -287,7 +287,7 @@ jQuery.Class(
 			var count;
 			var listInstance = Vtiger_List_Js.getInstance();
 			var cvId = listInstance.getCurrentCvId();
-			var selectedIdObj = jQuery('#selectedIds').data(cvId + 'Selectedids');
+			var selectedIdObj = jQuery('#selectedIds').data(cvId + 'selectedIds');
 			if (selectedIdObj != undefined) {
 				if (selectedIdObj != 'all') {
 					count = selectedIdObj.length;
@@ -769,7 +769,7 @@ jQuery.Class(
 		readSelectedIds: function(decode) {
 			var cvId = this.getCurrentCvId();
 			var selectedIdsElement = jQuery('#selectedIds');
-			var selectedIdsDataAttr = cvId + 'Selectedids';
+			var selectedIdsDataAttr = cvId + 'selectedIds';
 			var selectedIdsElementDataAttributes = selectedIdsElement.data();
 			if (!(selectedIdsDataAttr in selectedIdsElementDataAttributes)) {
 				var selectedIds = [];
@@ -807,7 +807,7 @@ jQuery.Class(
 			if (!Array.isArray(selectedIds)) {
 				selectedIds = [selectedIds];
 			}
-			jQuery('#selectedIds').data(cvId + 'Selectedids', selectedIds);
+			jQuery('#selectedIds').data(cvId + 'selectedIds', selectedIds);
 		},
 		writeExcludedIds: function(excludedIds) {
 			var cvId = this.getCurrentCvId();

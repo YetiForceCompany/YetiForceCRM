@@ -83,7 +83,7 @@
 						<div class="btn-group col-md-3 mb-2">
 							<span class="customFilterMainSpan">
 								{if isset($CUSTOM_VIEWS)}
-									<select id="recordsFilter" class="col-md-12"
+									<select id="customFilter" class="col-md-12"
 											data-placeholder="{\App\Language::translate('LBL_SELECT_TO_LOAD_LIST', $RELATED_MODULE->getName())}">
 										{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 											<optgroup label="{\App\Language::translate($GROUP_LABEL)}">

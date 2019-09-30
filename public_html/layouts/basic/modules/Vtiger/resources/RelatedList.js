@@ -1276,7 +1276,7 @@ jQuery.Class(
 			return false;
 		},
 		readSelectedIds: function(decode) {
-			let selectedIdsDataAttr = this.getCurrentCvId() + 'Selectedids',
+			let selectedIdsDataAttr = this.getCurrentCvId() + 'selectedIds',
 				selectedIdsElementDataAttributes = $('#selectedIds').data(),
 				selectedIds = [];
 			if (!(selectedIdsDataAttr in selectedIdsElementDataAttributes)) {
@@ -1293,7 +1293,7 @@ jQuery.Class(
 			if (!Array.isArray(selectedIds)) {
 				selectedIds = [selectedIds];
 			}
-			$('#selectedIds').data(this.getCurrentCvId() + 'Selectedids', selectedIds);
+			$('#selectedIds').data(this.getCurrentCvId() + 'selectedIds', selectedIds);
 		},
 		readExcludedIds: function(decode) {
 			let excludedIdsDataAttr = this.getCurrentCvId() + 'Excludedids',
