@@ -44,7 +44,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule()) || \App\User::getCurrentUserId() !== \App\User::getCurrentUserRealId()) {
 			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
 		}
 	}
