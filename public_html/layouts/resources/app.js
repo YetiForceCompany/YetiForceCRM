@@ -410,6 +410,7 @@ var app = (window.app = {
 				}
 				let url = link.href;
 				url = url.replace('view=', 'xview=') + '&view=RecordPopover';
+				url = url + `&currentView=${app.getMainParams('view')}`
 				let currentPopover = self.getBindedPopover(selectElement);
 				let popoverBody = currentPopover.find('.popover-body');
 				popoverBody.progressIndicator({});

@@ -33,10 +33,10 @@ class Calendar_RecordPopover_Model extends Vtiger_RecordPopover_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getHeaderLinks(): array
+	public function getHeaderLinks(string $currentView): array
 	{
 		$links = [];
-		if (App\Config::module('Calendar', 'CALENDAR_VIEW') === 'Extended') {
+		if ('CalendarExtended' === $currentView) {
 			$detailUrl = "index.php?module={$this->moduleName}&view=ActivityState&record={$this->recordModel->getId()}";
 			$editUrl = $this->recordModel->isEditable() ? "index.php?module={$this->moduleName}&view=EventForm&record={$this->recordModel->getId()}" : '';
 		} else {
