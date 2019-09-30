@@ -28,6 +28,7 @@
     <slot name="aboveItems"></slot>
     <template v-for="(room, roomId) of roomData">
       <q-item
+        v-if="!room.isHidden"
         v-show="hideUnpinned ? room.isPinned || showAllRooms || filterRooms.length : room.isPinned"
         clickable
         v-ripple

@@ -71,7 +71,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['miniMode', 'data', 'config', 'currentRoomData']),
+    ...mapGetters(['miniMode', 'data', 'config', 'currentRoomData', 'dialog']),
     roomMessages() {
       return this.roomData.chatEntries
     }
@@ -92,7 +92,14 @@ export default {
       } else {
         this.fetchingEarlier = false
       }
-    }
+		},
+		dialog() {
+			if (this.dialog) {
+				this.showTabChatEvent()
+			} else {
+				this.disableNewMessagesListener()
+			}
+		}
   },
   methods: {
     ...mapActions([
@@ -169,19 +176,26 @@ export default {
         this.enableNewMessagesListener()
       }
       this.dataReady = true
-    }
-  },
+		},
+		showTabChatEvent() {
+			if (!this.recordRoom && !this.currentRoomData.recordid) {
+				this.fetchRoom({
+					id: this.roomData.recordid,
+					roomType: this.roomData.roomType
+				}).then(e => {
+					this.registerPostLoadEvents()
+				})
+			} else {
+				this.registerPostLoadEvents()
+			}
+		}
+	},
   mounted() {
-    if (!this.recordRoom && !this.currentRoomData.recordid) {
-      this.fetchRoom({
-        id: this.roomData.recordid,
-        roomType: this.roomData.roomType
-      }).then(e => {
-        this.registerPostLoadEvents()
-      })
-    } else {
-      this.registerPostLoadEvents()
-    }
+		if (this.dialog) {
+			this.showTabChatEvent()
+		} else if (this.recordRoom) {
+			this.registerPostLoadEvents()
+		}
   },
   beforeDestroy() {
     this.disableNewMessagesListener()

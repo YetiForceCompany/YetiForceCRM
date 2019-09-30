@@ -72,7 +72,7 @@ export default {
 		state.data.roomList[roomType][recordId].participants = result.participants
 	},
 	updateChatData(state, { roomsToUpdate, newData }) {
-		state.data.amountOfNewMessages = newData.amountOfNewMessages
+		state.data.amountOfNewMessages = newData.amountOfNewMessages.amount
 		roomsToUpdate.forEach(room => {
 			state.data.roomList[room.roomType][room.recordid].showMoreButton =
 				newData.roomList[room.roomType][room.recordid].showMoreButton
@@ -87,6 +87,9 @@ export default {
 	},
 	updateRooms(state, data) {
 		state.data.roomList = mergeDeepReactive(state.data.roomList, data)
+	},
+	hideRoom(state, { roomType, roomId }) {
+		state.data.roomList[roomType][roomId].isHidden = true
 	},
 	updateParticipants(state, { roomType, recordId, data }) {
 		if (state.data.currentRoom.roomType === roomType) state.data.roomList[roomType][recordId].participants = data

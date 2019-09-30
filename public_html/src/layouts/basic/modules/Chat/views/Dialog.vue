@@ -1,14 +1,15 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div v-if="config.isChatAllowed">
-    <div class="btn-absolute u-hover-container">
-      <YfDrag :coordinates.sync="buttonCoordinates" dragHandleClass=".js-chat-grab">
+    <div class="btn-absolute">
+      <YfDrag :coordinates.sync="buttonCoordinates" @dragstop="onDragstop">
         <transition :enter-active-class="buttonAnimationClasses" mode="out-in">
           <q-btn
             round
             color="primary"
-            class="glossy"
-            @click="showDialog"
+            class="glossy animation-duration"
+            @mouseup="showDialog"
+            @touchend="showDialog"
             :loading="dialogLoading"
             ref="chatBtn"
             :key="parseInt(data.amountOfNewMessages)"
@@ -36,29 +37,21 @@
               <q-icon name="mdi-plus" size="1rem" />
               <q-tooltip>{{ translate('JS_CHAT_ROOM_ADD_CURRENT') }}</q-tooltip>
             </q-badge>
-            <q-badge
-              class="shadow-3 text-primary justify-center btn-badge btn-badge--right-bottom u-hover-height u-hover--delay-out-1"
-              color="white"
-              floating
-              @click.stop
-            >
-              <ButtonGrab class="flex flex-center" grabClass="js-chat-grab" linkClass="q-px-none" size="18px" />
-            </q-badge>
           </q-btn>
         </transition>
       </YfDrag>
     </div>
     <q-dialog
-      v-model="dialog"
+      v-model="dialogModel"
       seamless
       :maximized="!computedMiniMode"
       transition-show="slide-up"
       transition-hide="slide-down"
-      content-class="quasar-reset all-pointer-events"
+      :content-class="dialogClasses"
       @show="dialogLoading = false"
       @hide="dialogLoading = false"
     >
-      <DragResize :coordinates.sync="coordinates" :maximized="!computedMiniMode">
+      <DragResize :coordinates.sync="coordinates" @dragstop="onDragstop" :maximized="!computedMiniMode">
         <ChatContainer container :parentRefs="$refs" />
       </DragResize>
     </q-dialog>
@@ -70,20 +63,22 @@ import ChatUpdateWatcher from '../components/ChatUpdateWatcher.vue'
 import ChatContainer from '../components/ChatContainer.vue'
 import YfDrag from 'components/YfDrag.vue'
 import DragResize from 'components/DragResize.vue'
-import ButtonGrab from 'components/ButtonGrab.vue'
 import isEqual from 'lodash.isequal'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'Dialog',
-  components: { ChatUpdateWatcher, ChatContainer, DragResize, ButtonGrab, YfDrag },
+  components: { ChatUpdateWatcher, ChatContainer, DragResize, YfDrag },
   data() {
     return {
       timerGlobal: null,
       dragging: false,
+      dragStopped: true,
       windowConfig: CONFIG,
       addingRoom: false,
-      dialogLoading: false
+      dialogLoading: false,
+      dialogModel: true,
+      dragTimeout: 300
     }
   },
   computed: {
@@ -101,6 +96,7 @@ export default {
         return this.$store.getters['Chat/coordinates']
       },
       set(coords) {
+        this.setDragState()
         this.setCoordinates(coords)
       }
     },
@@ -110,7 +106,7 @@ export default {
       },
       set(coords) {
         if (!isEqual({ left: coords.left, top: coords.top }, { ...this.$store.getters['Chat/buttonCoordinates'] })) {
-          this.dragging = true
+          this.setDragState()
           this.setButtonCoordinates(coords)
         }
       }
@@ -119,7 +115,7 @@ export default {
       return this.$q.platform.is.desktop ? this.miniMode : false
     },
     buttonAnimationClasses() {
-      return this.data.amountOfNewMessages ? 'animated flash' : ''
+      return this.data.amountOfNewMessages ? 'animated shake' : ''
     },
     hasCurrentRecordChat() {
       let id = false
@@ -139,39 +135,61 @@ export default {
       return (
         this.windowConfig.view === 'Detail' && this.config.chatModules.some(el => el.id === this.windowConfig.module)
       )
+    },
+    dialogClasses() {
+      return {
+        'quasar-reset': true,
+        animated: true,
+        slideOutDown: !this.dialog,
+        slideInUp: this.dialog,
+        'all-pointer-events': !this.dragStopped
+      }
     }
   },
   methods: {
     ...mapMutations(['setDialog', 'setCoordinates', 'setButtonCoordinates', 'updateRooms']),
     showDialog() {
-      if (!this.addingRoom) {
-        this.dialogLoading = true
-        this.dialog = !this.dialog
-      }
+      setTimeout(_ => {
+        if (!this.dragging && !this.addingRoom) {
+          this.dialog = !this.dialog
+        }
+        this.dragging = false
+      }, this.dragTimeout)
     },
     addRecordRoomToChat() {
-      this.addingRoom = true
-      AppConnector.request({
-        module: 'Chat',
-        action: 'Room',
-        mode: 'addToFavorites',
-        roomType: 'crm',
-        recordId: this.isDetail ? app.getRecordId() : this.getDetailPreview.id
-      }).done(({ result }) => {
-        this.addingRoom = false
-        this.updateRooms(result)
-        this.$q.notify({
-          position: 'top',
-          color: 'success',
-          message: this.translate('JS_CHAT_ROOM_ADDED'),
-          icon: 'mdi-check'
+      setTimeout(_ => {
+        this.addingRoom = true
+        AppConnector.request({
+          module: 'Chat',
+          action: 'Room',
+          mode: 'addToFavorites',
+          roomType: 'crm',
+          recordId: this.isDetail ? app.getRecordId() : this.getDetailPreview.id
+        }).done(({ result }) => {
+          this.addingRoom = false
+          this.updateRooms(result)
+          this.$q.notify({
+            position: 'top',
+            color: 'success',
+            message: this.translate('JS_CHAT_ROOM_ADDED'),
+            icon: 'mdi-check'
+          })
         })
-      })
+      }, this.dragTimeout)
+    },
+    setDragState() {
+      this.dragging = true
+      this.dragStopped = false
+    },
+    onDragstop(e) {
+      this.dragStopped = true
     }
   }
 }
 </script>
-<style scoped >
+<style scoped lang="scss">
+$btn-badge-size: 23px;
+
 .btn-absolute {
   width: 100%;
   height: 100%;
@@ -179,18 +197,26 @@ export default {
   top: 0;
   left: 0;
 }
+
 .btn-badge {
-  width: 18px;
-  padding: 0 1px;
+  justify-content: center;
+  align-items: center;
+  width: $btn-badge-size;
+  height: $btn-badge-size;
+  border-radius: 100%;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.5);
+  }
+
+  &--left-top {
+    top: -8px;
+    left: -7px;
+  }
 }
-.btn-badge--left-top {
-  left: -3px;
-}
-.btn-badge--right-bottom {
-  top: 28px;
-}
-.u-hover-container:hover .u-hover-height {
-  visibility: visible;
-  height: 16px;
+
+.animation-duration {
+  animation-duration: 0.8s;
 }
 </style>

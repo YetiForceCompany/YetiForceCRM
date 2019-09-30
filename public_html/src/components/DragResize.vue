@@ -115,6 +115,7 @@ export default {
         computedRect.top = window.innerHeight - this.minVisibleHeight
       }
       this.$emit('update:coordinates', computedRect)
+      this.$emit('dragstop', true)
     },
     onActivated() {
       const sticks = this.$refs.resize.$el.querySelectorAll('.vdr-stick')
