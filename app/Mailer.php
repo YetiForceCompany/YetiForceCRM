@@ -115,7 +115,7 @@ class Mailer
 		}
 		$textParser->setParams(array_diff_key($params, array_flip(['subject', 'content', 'attachments', 'recordModel'])));
 		$params['subject'] = $textParser->setContent($template['subject'])->parse()->getContent();
-		$params['content'] = $textParser->setContent($template['content'])->parse()->getContent();
+		$params['content'] = $textParser->setContent(\App\Utils\Completions::decode(\App\Purifier::purifyHtml($template['content'])))->parse()->getContent();
 		unset($textParser);
 		if (empty($params['smtp_id']) && !empty($template['smtp_id'])) {
 			$params['smtp_id'] = $template['smtp_id'];
