@@ -36,7 +36,7 @@ import ChatFooter from './ChatFooter.vue'
 import YfBackdrop from 'components/YfBackdrop.vue'
 
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
+const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatContainer',
   components: { ChatLeftPanel, ChatRightPanel, ChatMainPanel, ChatHeader, ChatFooter, YfBackdrop },
@@ -66,7 +66,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setRightPanelMobile']),
+    ...mapMutations(['setRightPanelMobile'])
   }
 }
 </script>

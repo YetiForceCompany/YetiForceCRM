@@ -39,7 +39,7 @@ import RoomGroup from './Rooms/RoomGroup.vue'
 import RoomGlobal from './Rooms/RoomGlobal.vue'
 import RoomRecord from './Rooms/RoomRecord.vue'
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
+const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatLeftPanel',
   components: { RoomPrivate, RoomGroup, RoomGlobal, RoomRecord },
@@ -95,5 +95,5 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 </style>
