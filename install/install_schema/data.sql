@@ -251,7 +251,8 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 
 insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (1,'min_length','global','3');
 insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (2,'result_num','global','10');
-insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (3,'default_provider','global','');
+insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (3,'default_provider','global','YetiForceGeocoder');
+insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (4,'active','YetiForceGeocoder','1');
 
 /*Data for the table `s_yf_auto_record_flow_updater` */
 

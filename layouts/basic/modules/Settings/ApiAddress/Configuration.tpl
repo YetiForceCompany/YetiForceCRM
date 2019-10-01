@@ -55,7 +55,7 @@
 								<tr>
 									<th class="" scope="row">{\App\Language::translate('LBL_PROVIDER_'|cat:$KEY|upper, $MODULENAME)}</th>
 									<td {if !$CONFIGURED}{UNSET_POPOVER}{else}class="text-center"{/if}>
-										<input name="active" data-type="{$KEY}" type="checkbox"{if $ITEM->config['active']} checked{/if}{if !$CONFIGURED} disabled{/if}>
+										<input name="active" data-type="{$KEY}" type="checkbox"{if !empty($ITEM->config['active'])} checked{/if}{if !$CONFIGURED} disabled{/if}>
 									</td>
 									<td {if !$CONFIGURED}{UNSET_POPOVER}{else}class="text-center"{/if}>
 										<input name="default_provider" value="{$KEY}" type="radio"{if $DEFAULT_PROVIDER eq $KEY && $CONFIGURED} checked{/if}{if !$CONFIGURED} disabled{/if}>
