@@ -198,7 +198,11 @@
 			</div>
 			<div class="form-group row">
 				<label class="col-form-label col-md-3 text-right">
-					{\App\Language::translate('LBL_UNSUBSCIBE', $QUALIFIED_MODULE)}
+					{\App\Language::translate('LBL_UNSUBSCIBE', $QUALIFIED_MODULE)}&nbsp;
+					<span class="js-popover-tooltip delay0" data-js="popover" data-placement="top"
+						  data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_UNSUBSCRIBE_INFO',$QUALIFIED_MODULE))}">
+						<span class="fas fa-info-circle"></span>
+					</span>
 				</label>
 				<div class="controls col-md-8">
 					<select class="form-control select2" name="unsubscribe" data-select="tags" multiple="multiple">
@@ -214,7 +218,7 @@
 				<label class="col-form-label col-md-3 text-right">
 					{\App\Language::translate('LBL_OPTIONS', $QUALIFIED_MODULE)}&nbsp;
 					<span class="js-popover-tooltip delay0" data-js="popover" data-placement="top"
-						  data-content="{\App\Language::translate('LBL_OPTIONS_INFO',$QUALIFIED_MODULE)}">
+						  data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_OPTIONS_INFO',$QUALIFIED_MODULE))}">
 						<span class="fas fa-info-circle"></span>
 					</span>
 				</label>
