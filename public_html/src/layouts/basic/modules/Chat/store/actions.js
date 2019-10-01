@@ -4,11 +4,19 @@ export default {
 	maximize({ commit }, isMini) {
 		commit('miniMode', isMini)
 	},
-	toggleLeftPanel({ commit, getters }) {
-		commit('setLeftPanel', !getters['leftPanel'])
+	toggleLeftPanel({ commit, getters }, newValue) {
+		if (getters.mobileMode) {
+			commit('setLeftPanelMobile', newValue !== undefined ? newValue : !getters['leftPanelMobile'])
+		} else {
+			commit('setLeftPanel', newValue !== undefined ? newValue : !getters['leftPanel'])
+		}
 	},
-	toggleRightPanel({ commit, getters }) {
-		commit('setRightPanel', !getters['rightPanel'])
+	toggleRightPanel({ commit, getters }, newValue) {
+		if (getters.mobileMode) {
+			commit('setRightPanelMobile', newValue !== undefined ? newValue : !getters['rightPanelMobile'])
+		} else {
+			commit('setRightPanel', newValue !== undefined ? newValue : !getters['rightPanel'])
+		}
 	},
 	toggleRoomSoundNotification({ commit, getters }, { roomType, id }) {
 		if (getters.roomSoundNotificationsOff[roomType].includes(id)) {

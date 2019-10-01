@@ -11,11 +11,20 @@ export default {
 	miniMode(state) {
 		return state.session.miniMode
 	},
+	mobileMode(state, getters) {
+		return getters.coordinates.width < getters.layout.drawer.breakpoint && getters.miniMode
+	},
 	leftPanel(state) {
 		return state.session.leftPanel
 	},
+	leftPanelMobile(state) {
+		return state.session.leftPanelMobile
+	},
 	rightPanel(state) {
 		return state.session.rightPanel
+	},
+	rightPanelMobile(state) {
+		return state.session.rightPanelMobile
 	},
 	historyTab(state) {
 		return state.session.historyTab

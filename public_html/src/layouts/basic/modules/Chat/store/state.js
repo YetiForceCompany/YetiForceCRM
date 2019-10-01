@@ -2,14 +2,17 @@
 export default {
 	layout: {
 		drawer: {
-			fs: '.88rem'
+			fs: '.88rem',
+			breakpoint: 1023
 		}
 	},
 	session: {
 		dialog: false,
 		miniMode: true,
 		leftPanel: false,
+		leftPanelMobile: false,
 		rightPanel: false,
+		rightPanelMobile: false,
 		historyTab: 'crm',
 		tab: 'chat',
 		coordinates: {

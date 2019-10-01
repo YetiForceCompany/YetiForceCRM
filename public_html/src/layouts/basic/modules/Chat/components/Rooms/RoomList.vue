@@ -36,7 +36,7 @@
         class="q-pl-sm u-hover-container"
         :active="data.currentRoom.recordId === room.recordid && data.currentRoom.roomType === roomType"
         active-class="bg-teal-1 text-grey-8"
-        @click="fetchRoom({ id: room.recordid, roomType: roomType })"
+        @click="onRoomClick({ id: room.recordid, roomType: roomType })"
       >
         <div class="full-width flex items-center justify-between no-wrap">
           <div class="ellipsis-2-lines">
@@ -138,10 +138,17 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchRoom', 'togglePinned', 'toggleRoomSoundNotification']),
+    ...mapActions(['fetchRoom', 'togglePinned', 'toggleRoomSoundNotification', 'mobileMode']),
+    ...mapMutations(['setLeftPanelMobile']),
     getGroupIcon,
     isSoundActive(roomType, id) {
       return this.isSoundNotification && !this.roomSoundNotificationsOff[roomType].includes(id)
+    },
+    onRoomClick({ id, roomType }) {
+      this.fetchRoom({ id, roomType })
+      if (this.mobileMode) {
+        this.setLeftPanelMobile(false)
+      }
     }
   }
 }

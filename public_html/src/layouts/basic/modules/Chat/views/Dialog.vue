@@ -149,11 +149,11 @@ export default {
   methods: {
     ...mapMutations(['setDialog', 'setCoordinates', 'setButtonCoordinates', 'updateRooms']),
     showDialog() {
+			this.dragging = false
       setTimeout(_ => {
         if (!this.dragging && !this.addingRoom) {
           this.dialog = !this.dialog
         }
-        this.dragging = false
       }, this.dragTimeout)
     },
     addRecordRoomToChat() {

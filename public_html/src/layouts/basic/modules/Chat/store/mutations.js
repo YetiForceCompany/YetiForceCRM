@@ -12,8 +12,14 @@ export default {
 	setLeftPanel(state, isOpen) {
 		state.session.leftPanel = isOpen
 	},
+	setLeftPanelMobile(state, isOpen) {
+		state.session.leftPanelMobile = isOpen
+	},
 	setRightPanel(state, isOpen) {
 		state.session.rightPanel = isOpen
+	},
+	setRightPanelMobile(state, isOpen) {
+		state.session.rightPanelMobile = isOpen
 	},
 	setHistoryTab(state, tab) {
 		state.session.historyTab = tab

@@ -54,7 +54,13 @@
         </q-tabs>
         <div class="flex no-wrap">
           <template v-if="$q.platform.is.desktop">
-            <ButtonGrab v-show="miniMode" class="text-white flex flex-center" linkClass="" grabClass="js-drag" size="19px" />
+            <ButtonGrab
+              v-show="miniMode"
+              class="text-white flex flex-center"
+              linkClass=""
+              grabClass="js-drag"
+              size="19px"
+            />
             <q-btn
               dense
               flat
@@ -118,24 +124,12 @@ export default {
   },
   methods: {
     ...mapActions(['toggleRightPanel', 'toggleLeftPanel', 'maximize']),
-    ...mapMutations([
-      'setDialog',
-      'setLeftPanel',
-      'setRightPanel',
-      'setSendByEnter',
-      'setSoundNotification',
-    ]),
+    ...mapMutations(['setDialog', 'setSendByEnter', 'setSoundNotification']),
     showTabHistory: function(value) {
       this.$emit('showTabHistory', value)
     },
     toggleSize() {
-      if (!this.miniMode) {
-        this.miniMode = true
-        this.setLeftPanel(false)
-        this.setRightPanel(false)
-      } else {
-        this.miniMode = false
-      }
+      this.miniMode = !this.miniMode
     },
     toggleEnter() {
       this.setSendByEnter(!this.sendByEnter)

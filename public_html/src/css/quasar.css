@@ -13845,3 +13845,6 @@ body .quasar-reset .q-col-gutter-xl > *,
   width: 48px !important;
   height: auto;
 }
+.backdrop-fix .q-drawer__backdrop {
+  background-color: rgba(0,0,0,0) !important;
+}
