@@ -2104,6 +2104,11 @@ var app = (window.app = {
 			icon.toggleClass(`${iconData.active} ${iconData.inactive}`);
 			e.stopPropagation();
 		});
+	},
+	stripHtml(html) {
+		const temporalDiv = document.createElement('div');
+		temporalDiv.innerHTML = html;
+		return temporalDiv.textContent || temporalDiv.innerText || '';
 	}
 });
 CKEDITOR.disableAutoInline = true;

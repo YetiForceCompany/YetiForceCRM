@@ -79,7 +79,7 @@
                 ></span>
                 <span
                   class="col-12 text-caption text-grey-5 ellipsis-1-line"
-                  :title="participant.message ? participant.message.replace(/(<([^>]+)>)/gi, '') : ''"
+                  :title="participant.message ? stripHtml(participant.message) : ''"
                   v-html="participant.message"
                 ></span>
               </div>
@@ -181,7 +181,10 @@ export default {
       } else {
         return -1
       }
-    }
+		},
+		stripHtml(html) {
+			return app.stripHtml(html)
+		}
   }
 }
 </script>
