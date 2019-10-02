@@ -11,21 +11,25 @@
       :i18n="emojiTranslations"
       :style="{ position: 'absolute', bottom: containerHeight }"
     />
-    <div class="c-completions flex items-center q-gutter-x-sm js-completions__actions">
-      <q-icon
-        :name="emojiPanel ? 'mdi-emoticon-happy' : 'mdi-emoticon-happy-outline'"
-        size="18px"
-        class="cursor-pointer js-emoji-trigger"
-        @click="emojiPanel = !emojiPanel"
-      />
-      <span class="c-completions__item js-completions__users fas yfi-hash-user">
-        <q-tooltip>{{ translate('JS_CHAT_TAG_USER') }}</q-tooltip>
-      </span>
-      <span class="c-completions__item js-completions__records fas fa-hashtag">
-        <q-tooltip>{{ translate('JS_CHAT_TAG_RECORD') }}</q-tooltip>
-      </span>
+    <div class="flex no-wrap justify-between">
+      <div class="c-completions flex items-center q-gutter-x-sm js-completions__actions">
+        <q-icon
+          :name="emojiPanel ? 'mdi-emoticon-happy' : 'mdi-emoticon-happy-outline'"
+          size="18px"
+          class="cursor-pointer js-emoji-trigger"
+          @click="emojiPanel = !emojiPanel"
+        />
+        <span class="c-completions__item js-completions__users fas yfi-hash-user">
+          <q-tooltip>{{ translate('JS_CHAT_TAG_USER') }}</q-tooltip>
+        </span>
+        <span class="c-completions__item js-completions__records fas fa-hashtag">
+          <q-tooltip>{{ translate('JS_CHAT_TAG_RECORD') }}</q-tooltip>
+        </span>
+      </div>
+      <ChatButtonEnter dense flat />
     </div>
-    <q-separator class="q-my-xs" />
+
+    <q-separator class="q-mb-xs" />
     <div class="d-flex flex-nowrap">
       <div class="full-width">
         <div
@@ -46,6 +50,7 @@
   </div>
 </template>
 <script>
+import ChatButtonEnter from '../ChatButtonEnter.vue'
 import Emoji from '~/../libraries/emoji-mart-vue-fast/dist/emoji-mart'
 import data from '~/../libraries/emoji-mart-vue-fast/data/all'
 import { createNamespacedHelpers } from 'vuex'
@@ -55,7 +60,7 @@ const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
 let emojiIndex = new EmojiIndex(data)
 export default {
   name: 'TabChatInput',
-  components: { Picker },
+  components: { Picker, ChatButtonEnter },
   props: {
     roomData: {
       type: Object,

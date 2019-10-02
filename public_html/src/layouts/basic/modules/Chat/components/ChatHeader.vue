@@ -4,11 +4,7 @@
     <q-bar>
       <div class="flex items-center no-wrap full-width justify-between js-drag">
         <div class="flex no-wrap">
-          <q-btn @click="toggleEnter()" dense round flat :color="sendByEnter ? 'info' : ''">
-            <YfIcon :icon="sendByEnter ? 'yfi-enter-on' : 'yfi-enter-off'" />
-            <q-tooltip>{{ translate('JS_CHAT_ENTER') }}</q-tooltip>
-          </q-btn>
-          <ChatNotifyButton />
+          <ChatButtonNotify />
           <q-btn
             @click="toggleSoundNotification()"
             dense
@@ -72,14 +68,14 @@
   </q-header>
 </template>
 <script>
-import ChatNotifyButton from './ChatNotifyButton.vue'
+import ChatButtonNotify from './ChatButtonNotify.vue'
 import ButtonGrab from 'components/ButtonGrab.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions, mapMutations, mapGetters } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'ChatHeader',
-  components: { ChatNotifyButton, ButtonGrab },
+  components: { ChatButtonNotify, ButtonGrab },
   props: {
     inputSearchVisible: { type: Boolean, required: false },
     tabHistoryShow: { type: Boolean, required: false },
@@ -93,7 +89,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['config', 'isSoundNotification', 'sendByEnter', 'leftPanel', 'rightPanel']),
+    ...mapGetters(['config', 'isSoundNotification', 'leftPanel', 'rightPanel']),
     miniMode: {
       get() {
         return this.$store.getters['Chat/miniMode']
@@ -116,15 +112,12 @@ export default {
   },
   methods: {
     ...mapActions(['maximize']),
-    ...mapMutations(['setDialog', 'setSendByEnter', 'setSoundNotification']),
+    ...mapMutations(['setDialog', 'setSoundNotification']),
     showTabHistory: function(value) {
       this.$emit('showTabHistory', value)
     },
     toggleSize() {
       this.miniMode = !this.miniMode
-    },
-    toggleEnter() {
-      this.setSendByEnter(!this.sendByEnter)
     },
     toggleSoundNotification() {
       this.setSoundNotification(!this.isSoundNotification)
