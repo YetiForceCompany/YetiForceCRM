@@ -76,7 +76,7 @@ class ProductsTableRelatedModule extends Base
 									$fieldValue .= '<br />' . $comment;
 								}
 							}
-						} elseif (\in_array($typeName, ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'])) {
+						} elseif (\in_array($typeName, ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice'])) {
 							$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
 							$fieldStyle = $bodyStyle . 'text-align:right;';
 						} else {

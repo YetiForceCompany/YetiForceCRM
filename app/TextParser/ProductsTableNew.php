@@ -80,7 +80,7 @@ class ProductsTableNew extends Base
 									$fieldValue .= '<br />' . $comment;
 								}
 							}
-						} elseif (\in_array($typeName, ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'])) {
+						} elseif (\in_array($typeName, ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice'])) {
 							$fieldValue = \CurrencyField::appendCurrencySymbol(\CurrencyField::convertToUserFormat($fieldModel->getDisplayValue($itemValue, $inventoryRow), null, true), $currencySymbol);
 							$fieldStyle = $bodyStyle . 'text-align:right;';
 						} else {
