@@ -147,7 +147,7 @@ class OSSMail_Mail_Model extends \App\Base
 				$existIdentitie = true;
 			}
 		}
-		if ($fromEmailUser && 0 == $toEmailUser || $ccEmailUser || $bccEmailUser) {
+		if ($fromEmailUser && ($toEmailUser || $ccEmailUser || $bccEmailUser)) {
 			$key = 2;
 			$cacheKey = 'Internal';
 		} elseif ($existIdentitie || $fromEmailUser) {
