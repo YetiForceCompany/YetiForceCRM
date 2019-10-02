@@ -159,21 +159,21 @@
         },
         {
             "name": "dg/rss-php",
-            "version": "v1.3",
+            "version": "v1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dg/rss-php.git",
-                "reference": "08622f48dc249961f3d5af90932240c17608190e"
+                "reference": "4d018b27b0a4d7b13dde34a402f0efe90024c40a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dg/rss-php/zipball/08622f48dc249961f3d5af90932240c17608190e",
-                "reference": "08622f48dc249961f3d5af90932240c17608190e",
+                "url": "https://api.github.com/repos/dg/rss-php/zipball/4d018b27b0a4d7b13dde34a402f0efe90024c40a",
+                "reference": "4d018b27b0a4d7b13dde34a402f0efe90024c40a",
                 "shasum": ""
             },
             "require": {
                 "ext-simplexml": "*",
-                "php": ">=5.2.2"
+                "php": ">=5.3"
             },
             "type": "library",
             "autoload": {
@@ -198,7 +198,7 @@
                 "feed",
                 "rss"
             ],
-            "time": "2018-06-22T10:02:40+00:00"
+            "time": "2019-09-29T08:57:45+00:00"
         },
         {
             "name": "doctrine/collections",
