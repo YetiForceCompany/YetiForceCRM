@@ -19,7 +19,7 @@ class OSSMailScanner_BindHelpDesk_ScannerAction extends OSSMailScanner_PrefixSca
 		$ids = $this->findAndBind();
 		if ($ids) {
 			$id = current($ids);
-			if (!\App\Record::isExists($id, $this->moduleName) || 1 === $mail->getTypeEmail()) {
+			if (!\App\Record::isExists($id, $this->moduleName) || 1 !== $mail->getTypeEmail()) {
 				return false;
 			}
 			$conf = OSSMailScanner_Record_Model::getConfig('emailsearch');

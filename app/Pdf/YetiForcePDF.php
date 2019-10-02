@@ -134,7 +134,7 @@ class YetiForcePDF extends PDF
 			$this->footer = $this->footerYetiForce = "<table style=\"font-family:'DejaVu Sans';font-size:6px;width:100%; margin: 0;\">
 				<tbody>
 					<tr>
-						<td style=\"width:50%;\">Powered by YetiForceCRM</td>
+						<td style=\"width:50%;\">Powered by YetiForce</td>
 					</tr>
 				</tbody>
 			</table>";
