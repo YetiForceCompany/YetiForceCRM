@@ -4,14 +4,6 @@
     <q-bar>
       <div class="flex items-center no-wrap full-width justify-between js-drag">
         <div class="flex no-wrap">
-          <q-btn dense flat round :color="leftPanel ? 'info' : ''" @click="toggleLeftPanel()">
-            <YfIcon icon="yfi-menu-group-room" />
-            <q-tooltip>{{ translate('JS_CHAT_ROOMS_MENU') }}</q-tooltip>
-          </q-btn>
-          <q-btn dense flat round :color="rightPanel ? 'info' : ''" @click="toggleRightPanel()">
-            <YfIcon icon="yfi-menu-entrant" />
-            <q-tooltip>{{ translate('JS_CHAT_PARTICIPANTS_MENU') }}</q-tooltip>
-          </q-btn>
           <q-btn @click="toggleEnter()" dense round flat :color="sendByEnter ? 'info' : ''">
             <YfIcon :icon="sendByEnter ? 'yfi-enter-on' : 'yfi-enter-off'" />
             <q-tooltip>{{ translate('JS_CHAT_ENTER') }}</q-tooltip>
@@ -123,7 +115,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['toggleRightPanel', 'toggleLeftPanel', 'maximize']),
+    ...mapActions(['maximize']),
     ...mapMutations(['setDialog', 'setSendByEnter', 'setSoundNotification']),
     showTabHistory: function(value) {
       this.$emit('showTabHistory', value)

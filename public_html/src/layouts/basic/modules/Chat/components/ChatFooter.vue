@@ -1,7 +1,12 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <q-footer class="bg-blue-grey-10 text-white">
-    <q-bar class="q-bar--fit">
+    <q-bar class="q-bar--fit justify-between">
+      <q-btn dense flat :color="leftPanel ? 'info' : ''" @click="toggleLeftPanel()">
+        <YfIcon icon="yfi-menu-group-room" />
+        <q-icon :name="`mdi-chevron-${leftPanel ? 'left' : 'right'}`" />
+        <q-tooltip>{{ translate('JS_CHAT_ROOMS_MENU') }}</q-tooltip>
+      </q-btn>
       <q-breadcrumbs gutter="none">
         <q-breadcrumbs-el class="text-white">
           <YfIcon
@@ -19,13 +24,24 @@
           />
           {{ roomType.label }}
         </q-breadcrumbs-el>
-        <q-breadcrumbs-el v-if="tab === 'chat'" class="text-white text-cyan-9 text-bold u-ellipsis-2-lines" :label="roomName" />
-				<template #separator>
-					<div class="q-breadcrumbs__separator q-mx-sm">
-						/
-					</div>
-				</template>
+        <q-breadcrumbs-el
+          v-if="tab === 'chat'"
+          class="text-white text-cyan-9 text-bold u-ellipsis-2-lines"
+          :label="roomName"
+        />
+        <template #separator>
+          <div class="q-breadcrumbs__separator q-mx-sm">
+            /
+          </div>
+        </template>
       </q-breadcrumbs>
+      <div>
+        <q-btn dense flat :color="rightPanel ? 'info' : ''" @click="toggleRightPanel()">
+          <q-icon :name="`mdi-chevron-${rightPanel ? 'right' : 'left'}`" />
+          <YfIcon icon="yfi-menu-entrant" />
+          <q-tooltip>{{ translate('JS_CHAT_PARTICIPANTS_MENU') }}</q-tooltip>
+        </q-btn>
+      </div>
     </q-bar>
   </q-footer>
 </template>
@@ -36,7 +52,7 @@ const { mapActions, mapGetters } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatFooter',
   computed: {
-    ...mapGetters(['data', 'tab', 'historyTab']),
+    ...mapGetters(['data', 'tab', 'historyTab', 'leftPanel', 'rightPanel']),
     currentTab() {
       switch (this.tab) {
         case 'chat':
@@ -81,6 +97,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['toggleLeftPanel', 'toggleRightPanel']),
     getGroupIcon
   }
 }
