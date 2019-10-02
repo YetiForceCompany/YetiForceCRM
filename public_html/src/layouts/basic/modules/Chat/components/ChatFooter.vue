@@ -4,7 +4,7 @@
     <q-bar class="q-bar--fit justify-between">
       <q-btn dense flat :color="leftPanel ? 'info' : ''" @click="toggleLeftPanel()">
         <YfIcon icon="yfi-menu-group-room" />
-        <q-icon :name="`mdi-chevron-${leftPanel ? 'left' : 'right'}`" />
+        <q-icon v-show="!mobileMode" :name="`mdi-chevron-${leftPanel ? 'left' : 'right'}`" />
         <q-tooltip>{{ translate('JS_CHAT_ROOMS_MENU') }}</q-tooltip>
       </q-btn>
       <q-breadcrumbs gutter="none">
@@ -37,7 +37,7 @@
       </q-breadcrumbs>
       <div>
         <q-btn dense flat :color="rightPanel ? 'info' : ''" @click="toggleRightPanel()">
-          <q-icon :name="`mdi-chevron-${rightPanel ? 'right' : 'left'}`" />
+          <q-icon v-show="!mobileMode" :name="`mdi-chevron-${rightPanel ? 'right' : 'left'}`" />
           <YfIcon icon="yfi-menu-entrant" />
           <q-tooltip>{{ translate('JS_CHAT_PARTICIPANTS_MENU') }}</q-tooltip>
         </q-btn>
@@ -52,7 +52,7 @@ const { mapActions, mapGetters } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatFooter',
   computed: {
-    ...mapGetters(['data', 'tab', 'historyTab', 'leftPanel', 'rightPanel']),
+    ...mapGetters(['data', 'tab', 'historyTab', 'leftPanel', 'rightPanel', 'mobileMode']),
     currentTab() {
       switch (this.tab) {
         case 'chat':
