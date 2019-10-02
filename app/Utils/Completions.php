@@ -46,7 +46,19 @@ class Completions
 	 *
 	 * @var string
 	 */
-	const ROW_REGEX = '/(\@|\#){2}(\d+)[_](.*)(?:\@|\#){2}/';
+	const ROW_REGEX = '/(\##|\@@)(\d+)_([^(\##|\@@)]+)(\##|\@@)/u';
+	/**
+	 * Owner separator.
+	 *
+	 * @var string
+	 */
+	const OWNER_SEPARATOR = '@@';
+	/**
+	 * Record separator.
+	 *
+	 * @var string
+	 */
+	const RECORD_SEPARATOR = '##';
 
 	/**
 	 * Get processed text in display mode.
@@ -99,9 +111,9 @@ class Completions
 			function (array $matches) {
 				$type = $matches[1];
 				$id = (int) $matches[2];
-				if ('@' === $type) {
+				if (self::OWNER_SEPARATOR === $type) {
 					$label = static::decodeOwnerText($id, '-');
-				} elseif ('#' === $type) {
+				} elseif (self::RECORD_SEPARATOR === $type) {
 					$label = static::decodeRecordText($id, '-');
 				} else {
 					$label = '';
@@ -200,7 +212,7 @@ class Completions
 	private static function decodeRow(string $baseText, string $type, int $id, string $label, string $format = self::FORMAT_HTML): string
 	{
 		$html = '';
-		if ('#' === $type) {
+		if (self::RECORD_SEPARATOR === $type) {
 			switch ($format) {
 				case static::FORMAT_HTML:
 					$html = static::decodeRecord($id, $label);
@@ -208,8 +220,9 @@ class Completions
 				case static::FORMAT_TEXT:
 					$html = static::decodeRecordText($id, $label);
 					break;
+				default: break;
 			}
-		} elseif ('@' === $type) {
+		} elseif (self::OWNER_SEPARATOR === $type) {
 			switch ($format) {
 				case static::FORMAT_HTML:
 					$html = static::decodeOwner($id, $label);
@@ -217,6 +230,7 @@ class Completions
 				case static::FORMAT_TEXT:
 					$html = static::decodeOwnerText($id, $label);
 					break;
+				default: break;
 			}
 		} else {
 			$html = $baseText;
