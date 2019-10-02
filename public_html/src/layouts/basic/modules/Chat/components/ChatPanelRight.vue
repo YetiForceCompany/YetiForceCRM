@@ -51,7 +51,7 @@
         <template v-for="participant in participantsList">
           <q-item
             :active="!!participant.message"
-            active-class="opacity-1"
+            active-class="opacity-1 text-black"
             :key="participant.user_id"
             v-if="participant.user_name === participant.user_name"
             class="q-py-xs opacity-5"
@@ -63,10 +63,14 @@
               </q-avatar>
             </q-item-section>
             <q-item-section>
-              <div class="row">
+              <div class="row line-height-small">
                 <span class="col-12">{{ participant.user_name }}</span>
-                <span class="col-12 text-caption text-blue-6 text-weight-medium" v-html="participant.role_name"></span>
-                <span class="col-12 text-caption text-grey-5" v-html="participant.message"></span>
+                <span
+                  v-if="config.isRoleVisible"
+                  class="col-12 text-caption text-blue-6 text-weight-medium"
+                  v-html="participant.role_name"
+                ></span>
+                <span class="col-12 text-caption text-grey-5 ellipsis-2-lines" v-html="participant.message"></span>
               </div>
             </q-item-section>
             <q-item-section avatar>
@@ -167,11 +171,16 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .opacity-5 {
   opacity: 0.5;
 }
 .opacity-1 {
   opacity: 1;
+}
+.line-height-small {
+  span {
+    line-height: 1.4;
+  }
 }
 </style>

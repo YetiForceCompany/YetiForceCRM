@@ -28,7 +28,6 @@
       </div>
       <ChatButtonEnter dense flat />
     </div>
-
     <q-separator class="q-mb-xs" />
     <div class="d-flex flex-nowrap">
       <div class="full-width">
