@@ -7,7 +7,7 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 $dbCommand = App\Db::getInstance()->createCommand();
-$scanerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 $dataReader = (new App\Db\Query())->select([
 	'vtiger_ossmailview.*',
 	'roundcube_users.actions',
@@ -16,7 +16,7 @@ $dataReader = (new App\Db\Query())->select([
 	->createCommand()->query();
 
 while ($row = $dataReader->read()) {
-	$scanerModel->bindMail($row);
+	$scannerModel->bindMail($row);
 	$dbCommand->update('vtiger_ossmailview', ['verify' => 0], ['ossmailviewid' => $row['ossmailviewid']])->execute();
 }
 $dataReader->close();
@@ -57,13 +57,13 @@ while ($relationRow = $dataReader->read()) {
 			}
 		}
 	}
-	if (!empty($where)) {
+	if (!empty($where) && $where !== ['or']) {
 		$dataReaderMail = (new App\Db\Query())->select(['vtiger_ossmailview.*', 'roundcube_users.actions'])
 			->from('vtiger_ossmailview')
 			->innerJoin('roundcube_users', 'roundcube_users.user_id = vtiger_ossmailview.rc_user')
 			->where($where)->createCommand()->query();
 		while ($row = $dataReaderMail->read()) {
-			$scanerModel->bindMail($row);
+			$scannerModel->bindMail($row);
 		}
 		$dataReaderMail->close();
 	}
