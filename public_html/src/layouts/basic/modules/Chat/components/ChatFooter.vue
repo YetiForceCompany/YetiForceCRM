@@ -2,11 +2,6 @@
 <template>
   <q-footer class="bg-blue-grey-10 text-white">
     <q-bar class="q-bar--fit justify-between">
-      <q-btn dense flat :color="leftPanel ? 'info' : ''" @click="toggleLeftPanel()">
-        <YfIcon icon="yfi-menu-group-room" />
-        <q-icon v-show="!mobileMode" :name="`mdi-chevron-${leftPanel ? 'left' : 'right'}`" />
-        <q-tooltip>{{ translate('JS_CHAT_ROOMS_MENU') }}</q-tooltip>
-      </q-btn>
       <q-breadcrumbs gutter="none">
         <q-breadcrumbs-el class="text-white">
           <YfIcon
@@ -35,24 +30,17 @@
           </div>
         </template>
       </q-breadcrumbs>
-      <div>
-        <q-btn dense flat :color="rightPanel ? 'info' : ''" @click="toggleRightPanel()">
-          <q-icon v-show="!mobileMode" :name="`mdi-chevron-${rightPanel ? 'right' : 'left'}`" />
-          <YfIcon icon="yfi-menu-entrant" />
-          <q-tooltip>{{ translate('JS_CHAT_PARTICIPANTS_MENU') }}</q-tooltip>
-        </q-btn>
-      </div>
     </q-bar>
   </q-footer>
 </template>
 <script>
 import { getGroupIcon } from '../utils/utils.js'
 import { createNamespacedHelpers } from 'vuex'
-const { mapActions, mapGetters } = createNamespacedHelpers('Chat')
+const { mapGetters } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatFooter',
   computed: {
-    ...mapGetters(['data', 'tab', 'historyTab', 'leftPanel', 'rightPanel', 'mobileMode']),
+    ...mapGetters(['data', 'tab', 'historyTab']),
     currentTab() {
       switch (this.tab) {
         case 'chat':
@@ -97,7 +85,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['toggleLeftPanel', 'toggleRightPanel']),
     getGroupIcon
   }
 }
