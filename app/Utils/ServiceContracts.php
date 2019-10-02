@@ -342,8 +342,9 @@ class ServiceContracts
 		if (!$end) {
 			$end = date('Y-m-d H:i:s');
 		}
-		if ($field = \App\Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts')) {
-			return self::getDiffFromServiceContracts($start, $end, $recordModel->get($field['fieldname']), $recordModel);
+		$fieldModel = current($recordModel->getModule()->getReferenceFieldsForModule('ServiceContracts'));
+		if ($fieldModel && ($value = $recordModel->get($fieldModel->getName()))) {
+			return self::getDiffFromServiceContracts($start, $end, $value, $recordModel);
 		}
 		if (!($diff = self::getDiffFromDefaultBusinessHours($start, $end))) {
 			$diff = \App\Fields\DateTime::getDiff($start, $end, 'minutes');
