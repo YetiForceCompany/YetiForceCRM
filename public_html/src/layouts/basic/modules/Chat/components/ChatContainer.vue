@@ -2,11 +2,11 @@
 <template>
   <q-layout view="hHh LpR fFf" container :class="['bg-white', miniMode ? 'chat-mini' : '']">
     <ChatHeader @visibleInputSearch="inputSearchVisible = $event" @showTabHistory="tabHistoryShow = $event" />
-    <ChatLeftPanel>
+    <ChatPanelLeft>
       <template #top>
         <YfBackdrop v-show="tab !== 'chat'" />
       </template>
-    </ChatLeftPanel>
+    </ChatPanelLeft>
     <q-drawer
       v-model="computedModel"
       :class="{ 'backdrop-fix': mobileMode && !computedModel }"
@@ -17,20 +17,20 @@
       :show-if-above="false"
       side="right"
     >
-      <ChatRightPanel :participants="currentRoomData.participants || []">
+      <ChatPanelRight :participants="currentRoomData.participants || []">
         <template #top>
           <YfBackdrop v-show="tab !== 'chat'" />
         </template>
-      </ChatRightPanel>
+      </ChatPanelRight>
     </q-drawer>
-    <ChatMainPanel />
+    <ChatPanelMain />
     <ChatFooter />
   </q-layout>
 </template>
 <script>
-import ChatLeftPanel from './ChatLeftPanel.vue'
-import ChatRightPanel from './ChatRightPanel.vue'
-import ChatMainPanel from './ChatMainPanel.vue'
+import ChatPanelLeft from './ChatPanelLeft.vue'
+import ChatPanelRight from './ChatPanelRight.vue'
+import ChatPanelMain from './ChatPanelMain.vue'
 import ChatHeader from './ChatHeader.vue'
 import ChatFooter from './ChatFooter.vue'
 import YfBackdrop from 'components/YfBackdrop.vue'
@@ -39,7 +39,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatContainer',
-  components: { ChatLeftPanel, ChatRightPanel, ChatMainPanel, ChatHeader, ChatFooter, YfBackdrop },
+  components: { ChatPanelLeft, ChatPanelRight, ChatPanelMain, ChatHeader, ChatFooter, YfBackdrop },
   props: {
     parentRefs: { type: Object, required: true }
   },

@@ -99,7 +99,7 @@ import RoomUserSelect from './Rooms/RoomUserSelect.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
-  name: 'ChatRightPanel',
+  name: 'ChatPanelRight',
   components: { RoomUserSelect },
   props: {
     participants: {

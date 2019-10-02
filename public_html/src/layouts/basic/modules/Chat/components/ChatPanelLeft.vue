@@ -41,7 +41,7 @@ import RoomRecord from './Rooms/RoomRecord.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
-  name: 'ChatLeftPanel',
+  name: 'ChatPanelLeft',
   components: { RoomPrivate, RoomGroup, RoomGlobal, RoomRecord },
   data() {
     return {

@@ -27,7 +27,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters } = createNamespacedHelpers('Chat')
 
 export default {
-  name: 'ChatMainPanel',
+  name: 'ChatPanelMain',
   components: { TabUnread, TabHistory, TabChat },
   data() {
     return {
