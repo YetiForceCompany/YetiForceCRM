@@ -64,7 +64,7 @@
             </q-item-section>
             <q-item-section>
               <div class="row line-height-small">
-                <span class="col-12 ellipsis-1-line"
+                <span class="col-12 ellipsis-1-line" :title="participant.user_name"
                   >{{ participant.user_name }}
                   <span v-if="participant.isAdmin && config.showRoleName">
                     <q-icon name="mdi-crown" class="align-baseline" />
@@ -75,8 +75,13 @@
                   v-if="config.showRoleName"
                   class="col-12 text-caption text-blue-6 text-weight-medium ellipsis-1-line"
                   v-html="participant.role_name"
+                  :title="participant.role_name"
                 ></span>
-                <span class="col-12 text-caption text-grey-5 ellipsis-1-line" v-html="participant.message"></span>
+                <span
+                  class="col-12 text-caption text-grey-5 ellipsis-1-line"
+                  :title="participant.message ? participant.message.replace(/(<([^>]+)>)/gi, '') : ''"
+                  v-html="participant.message"
+                ></span>
               </div>
             </q-item-section>
             <q-item-section side>
