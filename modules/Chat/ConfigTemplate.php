@@ -43,15 +43,9 @@ return [
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
-	'DYNAMIC_ADDING_ROOMS' => [
+	'dynamicAddingRooms' => [
 		'default' => true,
 		'description' => 'Show add button in left panel favorites rooms.',
-		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
-	],
-	'IS_ROLE_VISIBLE' => [
-		'default' => true,
-		'description' => 'Show user role in right panel.',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	]

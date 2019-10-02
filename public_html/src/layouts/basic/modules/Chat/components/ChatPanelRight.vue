@@ -64,22 +64,22 @@
             </q-item-section>
             <q-item-section>
               <div class="row line-height-small">
-                <span class="col-12"
+                <span class="col-12 ellipsis-1-line"
                   >{{ participant.user_name }}
-                  <span v-if="participant.isAdmin">
+                  <span v-if="participant.isAdmin && config.showRoleName">
                     <q-icon name="mdi-crown" class="align-baseline" />
                     <q-tooltip>{{ translate(`JS_CHAT_PARTICIPANT_ADMIN`) }}</q-tooltip>
                   </span>
                 </span>
                 <span
-                  v-if="config.isRoleVisible"
-                  class="col-12 text-caption text-blue-6 text-weight-medium"
+                  v-if="config.showRoleName"
+                  class="col-12 text-caption text-blue-6 text-weight-medium ellipsis-1-line"
                   v-html="participant.role_name"
                 ></span>
-                <span class="col-12 text-caption text-grey-5 ellipsis-2-lines" v-html="participant.message"></span>
+                <span class="col-12 text-caption text-grey-5 ellipsis-1-line" v-html="participant.message"></span>
               </div>
             </q-item-section>
-            <q-item-section avatar>
+            <q-item-section side>
               <q-btn
                 v-if="isUserModerator && participant.user_id !== userId"
                 @click.stop="

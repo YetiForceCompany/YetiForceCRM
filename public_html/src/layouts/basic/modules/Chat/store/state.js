@@ -54,12 +54,12 @@ export default {
 	config: {
 		isChatAllowed: null,
 		isDefaultSoundNotification: null,
-		isRoleVisible: true,
 		refreshMessageTime: null,
 		refreshRoomTime: null,
 		maxLengthMessage: null,
 		refreshTimeGlobal: null,
 		showNumberOfNewMessages: null,
+		showRoleName: null,
 		dynamicAddingRooms: null,
 		detailPreview: { id: null, module: null }
 	}

@@ -64,14 +64,14 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 				'isChatAllowed' => \App\User::getCurrentUserRealId() === \App\User::getCurrentUserId(),
 				'isAdmin' => \Users_Privileges_Model::getCurrentUserPrivilegesModel()->isAdminUser(),
 				'isDefaultSoundNotification' => \App\Config::module('Chat', 'DEFAULT_SOUND_NOTIFICATION'),
-				'isRoleVisible' => \App\Config::module('Chat', 'IS_ROLE_VISIBLE'),
 				'refreshMessageTime' => \App\Config::module('Chat', 'REFRESH_MESSAGE_TIME'),
 				'refreshRoomTime' => \App\Config::module('Chat', 'REFRESH_ROOM_TIME'),
+				'defaultRoom' => \App\Chat::getDefaultRoom(),
+				'dynamicAddingRooms' => \App\Config::module('Chat', 'DYNAMIC_ADDING_ROOMS'),
 				'maxLengthMessage' => \App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
 				'refreshTimeGlobal' => \App\Config::module('Chat', 'REFRESH_TIME_GLOBAL'),
 				'showNumberOfNewMessages' => \App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES'),
-				'dynamicAddingRooms' => \App\Config::module('Chat', 'DYNAMIC_ADDING_ROOMS'),
-				'defaultRoom' => \App\Chat::getDefaultRoom()
+				'showRoleName' => \App\Config::module('Users', 'SHOW_ROLE_NAME')
 			],
 			'roomList' => \App\Chat::getRoomsByUser()
 		];
