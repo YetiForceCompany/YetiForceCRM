@@ -57,7 +57,7 @@
             class="q-py-xs opacity-5"
           >
             <q-item-section avatar>
-              <q-avatar style="height: unset;">
+              <q-avatar>
                 <img v-if="participant.image" :src="participant.image" />
                 <q-icon v-else name="mdi-account" size="40px" />
               </q-avatar>
