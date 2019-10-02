@@ -64,7 +64,13 @@
             </q-item-section>
             <q-item-section>
               <div class="row line-height-small">
-                <span class="col-12">{{ participant.user_name }}</span>
+                <span class="col-12"
+                  >{{ participant.user_name }}
+                  <span v-if="participant.isAdmin">
+                    <q-icon name="mdi-crown" class="align-baseline" />
+                    <q-tooltip>{{ translate(`JS_CHAT_PARTICIPANT_ADMIN`) }}</q-tooltip>
+                  </span>
+                </span>
                 <span
                   v-if="config.isRoleVisible"
                   class="col-12 text-caption text-blue-6 text-weight-medium"
@@ -74,7 +80,6 @@
               </div>
             </q-item-section>
             <q-item-section avatar>
-              <q-icon v-if="participant.isAdmin" name="mdi-crown" />
               <q-btn
                 v-if="isUserModerator && participant.user_id !== userId"
                 @click.stop="
@@ -88,9 +93,12 @@
                 dense
                 round
                 flat
-                size="xs"
-                :icon="'mdi-pin'"
-              />
+                color="primary"
+                :size="itemActionsIconSize"
+                icon="mdi-pin"
+              >
+                <q-tooltip>{{ translate(`JS_CHAT_PARTICIPANT_UNPIN`) }}</q-tooltip>
+              </q-btn>
             </q-item-section>
           </q-item>
         </template>
@@ -115,7 +123,8 @@ export default {
     return {
       filterParticipants: '',
       userId: CONFIG.userId,
-      showAddPanel: false
+      showAddPanel: false,
+      itemActionsIconSize: 'xs'
     }
   },
   computed: {

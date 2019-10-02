@@ -1803,6 +1803,8 @@
     "JS_CHAT_PARTICIPANT_EXISTS": "This user already participates in the chat room",
     "JS_CHAT_PARTICIPANT_INVITED": "This user already was invited to the chat room",
     "JS_CHAT_PARTICIPANT_NAME_EMPTY": "User name cannot be empty",
+    "JS_CHAT_PARTICIPANT_UNPIN": "Unpin the participant from the room",
+    "JS_CHAT_PARTICIPANT_ADMIN": "Admin user",
     "JS_CHAT_SEARCH_RECORDS_OF_THE_SELECTED_MODULE": "Search records of the selected module",
     "JS_CHAT_HIDE_ADD_PANEL": "Hide add panel",
     "JS_CHAT_ROOM_ARCHIVE_MESSAGE": "Messages from archived rooms are visible only in the user chat history. Are you sure you want to archive \"${roomToArchive}\" chat room?",
