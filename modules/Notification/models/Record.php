@@ -108,22 +108,19 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		$subprocess = $this->get('subprocess');
 		$process = $this->get('process');
 		$link = $this->get('link');
-		if (!empty($subprocess)) {
+		if (!empty($subprocess) && \App\Record::isExists($subprocess)) {
 			$relatedId = $subprocess;
 		} else {
-			if (!empty($process)) {
+			if (!empty($process) && \App\Record::isExists($process)) {
 				$relatedId = $process;
 			} else {
-				if (empty($link)) {
+				if (empty($link) || !\App\Record::isExists($link)) {
 					return false;
 				}
 				$relatedId = $link;
 			}
 		}
-		$relatedModule = \vtlib\Functions::getCRMRecordMetadata($relatedId);
-		$relatedModule = $relatedModule['setype'];
-
-		return ['id' => $relatedId, 'module' => $relatedModule];
+		return ['id' => $relatedId, 'module' => \vtlib\Functions::getCRMRecordMetadata($relatedId)['setype']];
 	}
 
 	/**
@@ -168,12 +165,12 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		if ($relatedModule && 'PLL_USERS' !== $notificationType && \App\Record::isExists($relatedId)) {
 			$textParser = \App\TextParser::getInstanceById($relatedId, $relatedModule);
 			$this->setFromUserValue('description', $textParser->withoutTranslations()->setContent($this->get('description'))->parse()->getContent());
-			$this->setFromUserValue('title', \App\TextParser::textTruncate(\App\Purifier::purifyByType($textParser->setContent($this->get('title'))->parse()->getContent(),'Text'), $this->getField('title')->get('maximumlength'), false));
+			$this->setFromUserValue('title', \App\TextParser::textTruncate(\App\Purifier::purifyByType($textParser->setContent($this->get('title'))->parse()->getContent(), 'Text'), $this->getField('title')->get('maximumlength'), false));
 		}
 		$users = $this->get('shownerid');
 		$usersCollection = $this->isEmpty('assigned_user_id') ? [] : [$this->get('assigned_user_id')];
 		if (!empty($users)) {
-			$users = is_array($users) ? $users : explode(',', $users);
+			$users = \is_array($users) ? $users : explode(',', $users);
 			foreach ($users as $userId) {
 				$userType = \App\Fields\Owner::getType($userId);
 				if ('Groups' === $userType) {
@@ -187,7 +184,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		$usersCollection = array_unique($usersCollection);
 		$isNew = $this->isNew;
 		foreach ($usersCollection as $userId) {
-			if ($relatedId && 'PLL_SYSTEM' === $notificationType && !\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedId, $userId)) {
+			if ($isNew && $relatedId && 'PLL_SYSTEM' === $notificationType && !\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedId, $userId)) {
 				continue;
 			}
 			$this->set('assigned_user_id', $userId);

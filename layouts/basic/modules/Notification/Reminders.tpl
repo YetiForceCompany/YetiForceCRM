@@ -57,16 +57,16 @@
 							</div>
 						</div>
 						<div class="d-flex flex-column">
-							{if $RECORD->get('link')}
+							{if $RECORD->get('link') && \App\Record::isExists($RECORD->get('link'))}
 								{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('link')))}:&nbsp;{$RECORD->getDisplayValue('link')}
 							{/if}
-							{if $RECORD->get('linkextend')}
+							{if $RECORD->get('linkextend')  && \App\Record::isExists($RECORD->get('linkextend'))}
 								{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('linkextend')))}:&nbsp;{$RECORD->getDisplayValue('linkextend')}
 							{/if}
-							{if $RECORD->get('process')}
+							{if $RECORD->get('process')  && \App\Record::isExists($RECORD->get('process'))}
 								{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('process')))}:&nbsp;{$RECORD->getDisplayValue('process')}
 							{/if}
-							{if $RECORD->get('subprocess')}
+							{if $RECORD->get('subprocess')  && \App\Record::isExists($RECORD->get('subprocess'))}
 								{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('subprocess')))}:&nbsp;{$RECORD->getDisplayValue('subprocess')}
 							{/if}
 						</div>
