@@ -1,7 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <q-footer class="bg-blue-grey-10 text-white">
-    <q-bar class="q-bar--fit">
+    <q-bar class="q-bar--fit justify-between">
       <q-breadcrumbs gutter="none">
         <q-breadcrumbs-el class="text-white">
           <YfIcon
@@ -19,12 +19,16 @@
           />
           {{ roomType.label }}
         </q-breadcrumbs-el>
-        <q-breadcrumbs-el v-if="tab === 'chat'" class="text-white text-cyan-9 text-bold u-ellipsis-2-lines" :label="roomName" />
-				<template #separator>
-					<div class="q-breadcrumbs__separator q-mx-sm">
-						/
-					</div>
-				</template>
+        <q-breadcrumbs-el
+          v-if="tab === 'chat'"
+          class="text-white text-cyan-9 text-bold u-ellipsis-2-lines"
+          :label="roomName"
+        />
+        <template #separator>
+          <div class="q-breadcrumbs__separator q-mx-sm">
+            /
+          </div>
+        </template>
       </q-breadcrumbs>
     </q-bar>
   </q-footer>
@@ -32,7 +36,7 @@
 <script>
 import { getGroupIcon } from '../utils/utils.js'
 import { createNamespacedHelpers } from 'vuex'
-const { mapActions, mapGetters } = createNamespacedHelpers('Chat')
+const { mapGetters } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatFooter',
   computed: {

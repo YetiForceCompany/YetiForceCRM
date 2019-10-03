@@ -1,8 +1,13 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div class="flex column justify-between" style="min-height: inherit;">
-    <div class="q-px-sm">
+    <div class="flex no-wrap items-center q-px-sm">
+      <q-btn dense flat round :color="leftPanel ? 'info' : 'grey'" @click="toggleLeftPanel()">
+        <YfIcon icon="yfi-menu-group-room" />
+        <q-tooltip>{{ translate('JS_CHAT_ROOMS_MENU') }}</q-tooltip>
+      </q-btn>
       <q-input
+        class="full-width q-px-sm"
         @keydown.enter="search()"
         dense
         :loading="searching"
@@ -24,6 +29,10 @@
           />
         </template>
       </q-input>
+      <q-btn dense flat round :color="rightPanel ? 'info' : 'grey'" @click="toggleRightPanel()">
+        <YfIcon icon="yfi-menu-entrant" />
+        <q-tooltip>{{ translate('JS_CHAT_PARTICIPANTS_MENU') }}</q-tooltip>
+      </q-btn>
     </div>
     <div class="flex-grow-1" style="min-height: 100%; height: 0; overflow: hidden">
       <q-scroll-area ref="scrollContainer" :class="[scrollbarHidden ? 'scrollbarHidden' : '']">
@@ -71,7 +80,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['miniMode', 'data', 'config', 'currentRoomData', 'dialog']),
+    ...mapGetters(['miniMode', 'data', 'config', 'currentRoomData', 'dialog', 'leftPanel', 'rightPanel']),
     roomMessages() {
       return this.roomData.chatEntries
     }
@@ -92,14 +101,14 @@ export default {
       } else {
         this.fetchingEarlier = false
       }
-		},
-		dialog() {
-			if (this.dialog) {
-				this.showTabChatEvent()
-			} else {
-				this.disableNewMessagesListener()
-			}
-		}
+    },
+    dialog() {
+      if (this.dialog) {
+        this.showTabChatEvent()
+      } else {
+        this.disableNewMessagesListener()
+      }
+    }
   },
   methods: {
     ...mapActions([
@@ -108,7 +117,9 @@ export default {
       'fetchRoom',
       'fetchUnread',
       'addActiveRoom',
-      'removeActiveRoom'
+      'removeActiveRoom',
+      'toggleLeftPanel',
+      'toggleRightPanel'
     ]),
     onResize({ height }) {
       Quasar.utils.dom.css(this.$refs.scrollContainer.$el, {
@@ -176,26 +187,26 @@ export default {
         this.enableNewMessagesListener()
       }
       this.dataReady = true
-		},
-		showTabChatEvent() {
-			if (!this.recordRoom && !this.currentRoomData.recordid) {
-				this.fetchRoom({
-					id: this.roomData.recordid,
-					roomType: this.roomData.roomType
-				}).then(e => {
-					this.registerPostLoadEvents()
-				})
-			} else {
-				this.registerPostLoadEvents()
-			}
-		}
-	},
+    },
+    showTabChatEvent() {
+      if (!this.recordRoom && !this.currentRoomData.recordid) {
+        this.fetchRoom({
+          id: this.roomData.recordid,
+          roomType: this.roomData.roomType
+        }).then(e => {
+          this.registerPostLoadEvents()
+        })
+      } else {
+        this.registerPostLoadEvents()
+      }
+    }
+  },
   mounted() {
-		if (this.dialog) {
-			this.showTabChatEvent()
-		} else if (this.recordRoom) {
-			this.registerPostLoadEvents()
-		}
+    if (this.dialog) {
+      this.showTabChatEvent()
+    } else if (this.recordRoom) {
+      this.registerPostLoadEvents()
+    }
   },
   beforeDestroy() {
     this.disableNewMessagesListener()

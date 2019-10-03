@@ -8,20 +8,20 @@
         </q-page>
       </q-page-container>
       <q-drawer :value="true" side="right" bordered>
-        <ChatRightPanel :participants="participants" />
+        <ChatPanelRight :participants="participants" />
       </q-drawer>
     </q-layout>
   </div>
 </template>
 <script>
 import TabChat from '../components/Tabs/TabChat.vue'
-import ChatRightPanel from '../components/ChatRightPanel.vue'
+import ChatPanelRight from '../components/ChatPanelRight.vue'
 
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'RecordRoom',
-  components: { TabChat, ChatRightPanel },
+  components: { TabChat, ChatPanelRight },
   data() {
     return {
       isLoading: true

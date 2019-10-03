@@ -66,11 +66,12 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 				'isDefaultSoundNotification' => \App\Config::module('Chat', 'DEFAULT_SOUND_NOTIFICATION'),
 				'refreshMessageTime' => \App\Config::module('Chat', 'REFRESH_MESSAGE_TIME'),
 				'refreshRoomTime' => \App\Config::module('Chat', 'REFRESH_ROOM_TIME'),
+				'defaultRoom' => \App\Chat::getDefaultRoom(),
+				'dynamicAddingRooms' => \App\Config::module('Chat', 'dynamicAddingRooms'),
 				'maxLengthMessage' => \App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
 				'refreshTimeGlobal' => \App\Config::module('Chat', 'REFRESH_TIME_GLOBAL'),
 				'showNumberOfNewMessages' => \App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES'),
-				'dynamicAddingRooms' => \App\Config::module('Chat', 'dynamicAddingRooms'),
-				'defaultRoom' => \App\Chat::getDefaultRoom()
+				'showRoleName' => \App\Config::module('Users', 'SHOW_ROLE_NAME')
 			],
 			'roomList' => \App\Chat::getRoomsByUser()
 		];

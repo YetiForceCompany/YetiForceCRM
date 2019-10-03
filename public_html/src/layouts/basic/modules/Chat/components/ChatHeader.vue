@@ -4,19 +4,7 @@
     <q-bar>
       <div class="flex items-center no-wrap full-width justify-between js-drag">
         <div class="flex no-wrap">
-          <q-btn dense flat round :color="leftPanel ? 'info' : ''" @click="toggleLeftPanel()">
-            <YfIcon icon="yfi-menu-group-room" />
-            <q-tooltip>{{ translate('JS_CHAT_ROOMS_MENU') }}</q-tooltip>
-          </q-btn>
-          <q-btn dense flat round :color="rightPanel ? 'info' : ''" @click="toggleRightPanel()">
-            <YfIcon icon="yfi-menu-entrant" />
-            <q-tooltip>{{ translate('JS_CHAT_PARTICIPANTS_MENU') }}</q-tooltip>
-          </q-btn>
-          <q-btn @click="toggleEnter()" dense round flat :color="sendByEnter ? 'info' : ''">
-            <YfIcon :icon="sendByEnter ? 'yfi-enter-on' : 'yfi-enter-off'" />
-            <q-tooltip>{{ translate('JS_CHAT_ENTER') }}</q-tooltip>
-          </q-btn>
-          <ChatNotifyButton />
+          <ChatButtonNotify />
           <q-btn
             @click="toggleSoundNotification()"
             dense
@@ -54,7 +42,13 @@
         </q-tabs>
         <div class="flex no-wrap">
           <template v-if="$q.platform.is.desktop">
-            <ButtonGrab v-show="miniMode" class="text-white flex flex-center" linkClass="" grabClass="js-drag" size="19px" />
+            <ButtonGrab
+              v-show="miniMode"
+              class="text-white flex flex-center"
+              linkClass=""
+              grabClass="js-drag"
+              size="19px"
+            />
             <q-btn
               dense
               flat
@@ -74,14 +68,14 @@
   </q-header>
 </template>
 <script>
-import ChatNotifyButton from './ChatNotifyButton.vue'
+import ChatButtonNotify from './ChatButtonNotify.vue'
 import ButtonGrab from 'components/ButtonGrab.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions, mapMutations, mapGetters } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'ChatHeader',
-  components: { ChatNotifyButton, ButtonGrab },
+  components: { ChatButtonNotify, ButtonGrab },
   props: {
     inputSearchVisible: { type: Boolean, required: false },
     tabHistoryShow: { type: Boolean, required: false },
@@ -95,7 +89,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['config', 'isSoundNotification', 'sendByEnter', 'leftPanel', 'rightPanel']),
+    ...mapGetters(['config', 'isSoundNotification', 'leftPanel', 'rightPanel']),
     miniMode: {
       get() {
         return this.$store.getters['Chat/miniMode']
@@ -117,28 +111,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['toggleRightPanel', 'toggleLeftPanel', 'maximize']),
-    ...mapMutations([
-      'setDialog',
-      'setLeftPanel',
-      'setRightPanel',
-      'setSendByEnter',
-      'setSoundNotification',
-    ]),
+    ...mapActions(['maximize']),
+    ...mapMutations(['setDialog', 'setSoundNotification']),
     showTabHistory: function(value) {
       this.$emit('showTabHistory', value)
     },
     toggleSize() {
-      if (!this.miniMode) {
-        this.miniMode = true
-        this.setLeftPanel(false)
-        this.setRightPanel(false)
-      } else {
-        this.miniMode = false
-      }
-    },
-    toggleEnter() {
-      this.setSendByEnter(!this.sendByEnter)
+      this.miniMode = !this.miniMode
     },
     toggleSoundNotification() {
       this.setSoundNotification(!this.isSoundNotification)

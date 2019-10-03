@@ -51,26 +51,40 @@
         <template v-for="participant in participantsList">
           <q-item
             :active="!!participant.message"
-            active-class="opacity-1"
+            active-class="opacity-1 text-black"
             :key="participant.user_id"
             v-if="participant.user_name === participant.user_name"
             class="q-py-xs opacity-5"
           >
             <q-item-section avatar>
-              <q-avatar style="height: unset;">
+              <q-avatar>
                 <img v-if="participant.image" :src="participant.image" />
                 <q-icon v-else name="mdi-account" size="40px" />
               </q-avatar>
             </q-item-section>
             <q-item-section>
-              <div class="row">
-                <span class="col-12">{{ participant.user_name }}</span>
-                <span class="col-12 text-caption text-blue-6 text-weight-medium" v-html="participant.role_name"></span>
-                <span class="col-12 text-caption text-grey-5" v-html="participant.message"></span>
+              <div class="row line-height-small">
+                <span class="col-12 ellipsis-1-line" :title="participant.user_name"
+                  >{{ participant.user_name }}
+                  <span v-if="participant.isAdmin && config.showRoleName">
+                    <q-icon name="mdi-crown" class="align-baseline" />
+                    <q-tooltip>{{ translate(`JS_CHAT_PARTICIPANT_ADMIN`) }}</q-tooltip>
+                  </span>
+                </span>
+                <span
+                  v-if="config.showRoleName"
+                  class="col-12 text-caption text-blue-6 text-weight-medium ellipsis-1-line"
+                  v-html="participant.role_name"
+                  :title="participant.role_name"
+                ></span>
+                <span
+                  class="col-12 text-caption text-grey-5 ellipsis-1-line"
+                  :title="participant.message ? stripHtml(participant.message) : ''"
+                  v-html="participant.message"
+                ></span>
               </div>
             </q-item-section>
-            <q-item-section avatar>
-              <q-icon v-if="participant.isAdmin" name="mdi-crown" />
+            <q-item-section side>
               <q-btn
                 v-if="isUserModerator && participant.user_id !== userId"
                 @click.stop="
@@ -84,9 +98,12 @@
                 dense
                 round
                 flat
-                size="xs"
-                :icon="'mdi-pin'"
-              />
+                color="primary"
+                :size="itemActionsIconSize"
+                icon="mdi-pin"
+              >
+                <q-tooltip>{{ translate(`JS_CHAT_PARTICIPANT_UNPIN`) }}</q-tooltip>
+              </q-btn>
             </q-item-section>
           </q-item>
         </template>
@@ -99,7 +116,7 @@ import RoomUserSelect from './Rooms/RoomUserSelect.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
-  name: 'ChatRightPanel',
+  name: 'ChatPanelRight',
   components: { RoomUserSelect },
   props: {
     participants: {
@@ -111,7 +128,8 @@ export default {
     return {
       filterParticipants: '',
       userId: CONFIG.userId,
-      showAddPanel: false
+      showAddPanel: false,
+      itemActionsIconSize: 'xs'
     }
   },
   computed: {
@@ -163,15 +181,23 @@ export default {
       } else {
         return -1
       }
-    }
+		},
+		stripHtml(html) {
+			return app.stripHtml(html)
+		}
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .opacity-5 {
   opacity: 0.5;
 }
 .opacity-1 {
   opacity: 1;
+}
+.line-height-small {
+  span {
+    line-height: 1.4;
+  }
 }
 </style>

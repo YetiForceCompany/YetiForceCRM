@@ -1,15 +1,14 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <q-drawer
-    :breakpoint="drawerBreakpoint"
+    v-model="computedModel"
+    :class="{ 'backdrop-fix': mobileMode && !computedModel }"
+    :breakpoint="layout.drawer.breakpoint"
     no-swipe-close
     no-swipe-open
-    :show-if-above="false"
-    v-model="leftPanel"
-    side="left"
     bordered
-    @hide="setLeftPanel(false)"
-    @input="onDrawerClose"
+    :show-if-above="false"
+    side="left"
   >
     <div class="fit bg-grey-11">
       <slot name="top"></slot>
@@ -42,14 +41,8 @@ import RoomRecord from './Rooms/RoomRecord.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
-  name: 'ChatLeftPanel',
+  name: 'ChatPanelLeft',
   components: { RoomPrivate, RoomGroup, RoomGlobal, RoomRecord },
-  props: {
-    drawerBreakpoint: {
-      type: Number,
-      required: true
-    }
-  },
   data() {
     return {
       filterRooms: '',
@@ -62,12 +55,16 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['data', 'layout']),
-    leftPanel: {
+    ...mapGetters(['data', 'layout', 'miniMode', 'mobileMode', 'leftPanel', 'leftPanelMobile']),
+    computedModel: {
       get() {
-        return this.$store.getters['Chat/leftPanel']
+        return this.mobileMode ? this.leftPanelMobile : this.leftPanel
       },
-      set(isOpen) {}
+      set(isOpen) {
+        if (this.mobileMode) {
+          this.setLeftPanelMobile(isOpen)
+        }
+      }
     },
     roomList() {
       if (this.filterRooms === '') {
@@ -88,20 +85,15 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setLeftPanel']),
+    ...mapMutations(['setLeftPanelMobile']),
     filterRoomByName(room) {
       return room.name.toLowerCase().includes(this.filterRooms.toLowerCase())
     },
     sortByRoomName(a, b) {
       return a.name > b.name ? 1 : -1
-    },
-    onDrawerClose(ev) {
-      if (!ev) {
-        this.setLeftPanel(false)
-      }
     }
   }
 }
 </script>
-<style lang="sass" scoped>
+<style lang="scss" scoped>
 </style>

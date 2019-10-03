@@ -21,10 +21,10 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
-  name: 'ChatNotifyButton',
+  name: 'ChatButtonNotify',
   props: {
     size: {
-      type: String,
+      type: String
     },
     styles: {
       type: Object
