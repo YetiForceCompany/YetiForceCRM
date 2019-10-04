@@ -249,6 +249,11 @@ class Privilege
 				return true;
 			}
 		}
+		if (($modules = \App\Config::security('permittedModulesByCreatorField')) && \in_array($moduleName, $modules) && $userId === $recordMetaData['smcreatorid'] && (3 == $actionId || 4 == $actionId)) {
+			static::$isPermittedLevel = 'SEC_RECORD_CREATOR_CURRENT_USER';
+			\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_CREATOR_CURRENT_USER');
+			return true;
+		}
 		if (\App\Config::security('PERMITTED_BY_SHARED_OWNERS')) {
 			$shownerids = Fields\SharedOwner::getById($record);
 			if (\in_array($userId, $shownerids) || \count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
@@ -265,11 +270,6 @@ class Privilege
 			if ($userId === $recOwnId) {
 				static::$isPermittedLevel = 'SEC_RECORD_OWNER_CURRENT_USER';
 				\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_OWNER_CURRENT_USER');
-				return true;
-			}
-			if (($modules = \App\Config::security('permittedModulesByCreatorField')) && \in_array($moduleName, $modules) && $userId === $recordMetaData['smcreatorid'] && (3 == $actionId || 4 == $actionId)) {
-				static::$isPermittedLevel = 'SEC_RECORD_CREATOR_CURRENT_USER';
-				\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_CREATOR_CURRENT_USER');
 				return true;
 			}
 			if (\App\Config::security('PERMITTED_BY_ROLES')) {
