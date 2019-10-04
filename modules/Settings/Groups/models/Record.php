@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * *********************************************************************************** */
 
 /**
@@ -26,7 +27,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to set the Id.
 	 *
-	 * @param  <Number> Group Id
+	 * @param int $id Group Id
 	 *
 	 * @return <Settings_Groups_Reord_Model> instance
 	 */
@@ -99,6 +100,16 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
+	 * Gets member ID.
+	 *
+	 * @return string
+	 */
+	public function getMemberId()
+	{
+		return Settings_Groups_Member_Model::getQualifiedId(Settings_Groups_Member_Model::MEMBER_TYPE_GROUPS, $this->getId());
+	}
+
+	/**
 	 * Function to get the Modules.
 	 *
 	 * @return <Array>
@@ -141,7 +152,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			$this->setId($groupId);
 		}
 
-		if ($mode == 'edit') {
+		if ('edit' == $mode) {
 			$db->createCommand()->update('vtiger_groups', [
 				'groupname' => $this->getName(),
 				'description' => $this->getDescription(),
@@ -154,37 +165,37 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			])->execute();
 		}
 		$members = $this->get('group_members');
-		if (is_array($members)) {
+		if (\is_array($members)) {
 			$db->createCommand()->delete('vtiger_users2group', ['groupid' => $groupId])->execute();
 			$db->createCommand()->delete('vtiger_group2grouprel', ['groupid' => $groupId])->execute();
 			$db->createCommand()->delete('vtiger_group2role', ['groupid' => $groupId])->execute();
 			$db->createCommand()->delete('vtiger_group2rs', ['groupid' => $groupId])->execute();
 
-			$noOfMembers = count($members);
+			$noOfMembers = \count($members);
 			for ($i = 0; $i < $noOfMembers; ++$i) {
 				$id = $members[$i];
 				$idComponents = Settings_Groups_Member_Model::getIdComponentsFromQualifiedId($id);
-				if ($idComponents && count($idComponents) == 2) {
+				if ($idComponents && 2 == \count($idComponents)) {
 					$memberType = $idComponents[0];
 					$memberId = $idComponents[1];
 
-					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_USERS) {
+					if (Settings_Groups_Member_Model::MEMBER_TYPE_USERS == $memberType) {
 						$db->createCommand()->insert('vtiger_users2group', ['userid' => $memberId, 'groupid' => $groupId])->execute();
 					}
-					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_GROUPS) {
+					if (Settings_Groups_Member_Model::MEMBER_TYPE_GROUPS == $memberType) {
 						$db->createCommand()->insert('vtiger_group2grouprel', ['containsgroupid' => $memberId, 'groupid' => $groupId])->execute();
 					}
-					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_ROLES) {
+					if (Settings_Groups_Member_Model::MEMBER_TYPE_ROLES == $memberType) {
 						$db->createCommand()->insert('vtiger_group2role', ['roleid' => $memberId, 'groupid' => $groupId])->execute();
 					}
-					if ($memberType == Settings_Groups_Member_Model::MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
+					if (Settings_Groups_Member_Model::MEMBER_TYPE_ROLE_AND_SUBORDINATES == $memberType) {
 						$db->createCommand()->insert('vtiger_group2rs', ['roleandsubid' => $memberId, 'groupid' => $groupId])->execute();
 					}
 				}
 			}
 		}
 		$modules = $this->get('modules');
-		if (is_array($modules)) {
+		if (\is_array($modules)) {
 			$oldModules = array_flip($this->getModules());
 			$removed = array_diff($oldModules, $modules);
 			$add = array_diff($modules, $oldModules);
@@ -417,16 +428,17 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		return null;
 	}
 
-	/* Function to get the instance of the group by Name
-	 * @param type $name -- name of the group
+	/** Function to get the instance of the group by Name
+	 * @param type  $name             -- name of the group
+	 * @param array $excludedRecordId
+	 *
 	 * @return null/group instance
 	 */
-
 	public static function getInstanceByName($name, $excludedRecordId = [])
 	{
 		$query = new App\Db\Query();
 		$query->from('vtiger_groups')->where(['groupname' => $name]);
-		$containsEmpty = in_array('', $excludedRecordId, true);
+		$containsEmpty = \in_array('', $excludedRecordId, true);
 
 		if (!empty($excludedRecordId && !$containsEmpty)) {
 			$query->andWhere(['not in', 'groupid', $excludedRecordId]);
@@ -445,10 +457,10 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$data = $this->getData();
 		$modules = [];
-		if (!is_array($data['modules'])) {
+		if (!\is_array($data['modules'])) {
 			$data['modules'] = [$data['modules']];
 		}
-		if (!is_array($data['group_members'])) {
+		if (!\is_array($data['group_members'])) {
 			$data['group_members'] = [$data['group_members']];
 		}
 		foreach ($data['modules'] as $tabId) {
@@ -459,15 +471,15 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$groupMembers = [];
 		foreach ($data['group_members'] as $member) {
 			$info = explode(':', $member);
-			if ($info[0] == 'Users') {
+			if ('Users' == $info[0]) {
 				$userModel = Users_Record_Model::getInstanceById($info[1], 'Users');
 				$groupMembers[] = $userModel->getName();
 			}
-			if ($info[0] == 'Roles' || $info[0] == 'RoleAndSubordinates') {
+			if ('Roles' == $info[0] || 'RoleAndSubordinates' == $info[0]) {
 				$roleModel = Settings_Roles_Record_Model::getInstanceById($info[1]);
 				$groupMembers[] = $roleModel->getName();
 			}
-			if ($info[0] == 'Groups') {
+			if ('Groups' == $info[0]) {
 				$groupModel = self::getInstance($info[1]);
 				$groupMembers[] = $groupModel->getName();
 			}

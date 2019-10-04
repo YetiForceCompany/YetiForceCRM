@@ -5,6 +5,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): YetiForce Sp. z o.o.
 *************************************************************************************}
 {strip}
 	<div class="tpl-Settings-Groups-EditView editViewContainer">
@@ -79,6 +80,7 @@
 						</div>
 						<div class="col-12">
 							{assign var="GROUP_MEMBERS" value=$RECORD_MODEL->getMembers()}
+							{assign var="RECORD_MEMBER_ID" value=$RECORD_MODEL->getMemberId()}
 							<select id="memberList" class="members form-control select2 groupMembersColors"
 									multiple="true" name="members[]"
 									data-placeholder="{\App\Language::translate('LBL_ADD_USERS_ROLES', $QUALIFIED_MODULE)}"
@@ -86,7 +88,7 @@
 								{foreach from=$MEMBER_GROUPS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 									<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
 										{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
-											{if $MEMBER->getName() neq $RECORD_MODEL->getName()}
+											{if $MEMBER->getId() neq $RECORD_MEMBER_ID}
 												{assign var="MEMBER_ID" value=$MEMBER->getId()}
 												<option class="{$GROUP_LABEL}" value="{$MEMBER->getId()}"
 														data-member-type="{$GROUP_LABEL}"
