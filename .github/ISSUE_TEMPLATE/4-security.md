@@ -14,4 +14,8 @@ Reporting this type of issues publicly on GitHub might expose other users to att
 
 Thank you!
 
+PGP key:
+http://hkps.pool.sks-keyservers.net/pks/lookup?search=m.krzaczkowski%40yetiforce.com&fingerprint=on&op=index
+https://keys.openpgp.org/search?q=m.krzaczkowski%40yetiforce.com
+
 🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅-->
