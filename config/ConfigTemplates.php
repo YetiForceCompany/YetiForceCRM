@@ -879,11 +879,17 @@ return [
 		],
 		'permittedModulesByCreatorField' => [
 			'default' => [],
-			'description' => 'List of modules to which access is based on the record creation. Read only access.',
+			'description' => 'List of modules to which access is based on the record creation.',
 			'validation' => function () {
 				$arg = func_get_arg(0);
 				return \is_array($arg) && array_diff($arg, App\Module::getAllModuleNames());
 			}
+		],
+		'permittedWriteAccessByCreatorField' => [
+			'default' => [],
+			'description' => 'Permission level access based on the record creation',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'CACHING_PERMISSION_TO_RECORD' => [
 			'default' => false,
