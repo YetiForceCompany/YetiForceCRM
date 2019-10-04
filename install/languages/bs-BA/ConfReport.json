@@ -13,7 +13,7 @@
     "LBL_RECOMMENDED": "Preporučena konfiguracija",
     "LBL_SYSTEM_STABILITY": "Konfiguracija stabilnosti sistema",
     "LBL_SYSTEM_SECURITY": "Konfiguracija sigurnosti sistema",
-    "LBL_HEADERS_SECURITY": "System headers configuration",
+    "LBL_HEADERS_SECURITY": "Konfiguracija zaglavlja sistema",
     "LBL_FILES_PERMISSIONS": "Datoteke / Mape",
     "LBL_FILE": "Naziv",
     "LBL_PATH": "Putanja",

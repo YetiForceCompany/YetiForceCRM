@@ -3,8 +3,8 @@
     "ConfReport": "Konfiguracija strežnika",
     "On": "Vklopljeno",
     "Off": "Izklopljeno",
-    "LBL_YES": "Yes",
-    "LBL_NO": "No",
+    "LBL_YES": "Da",
+    "LBL_NO": "Ne",
     "NOT RECOMMENDED": "Ni priporočljivo",
     "LBL_CONFIGURATION": "Konfiguracija strežnika",
     "LBL_CONFREPORT_DESCRIPTION": "Omogoča, da preverite ali so nastavitve glavnega strežnika združljive s priporočenimi parametri.",
@@ -73,7 +73,7 @@
     "LBL_CRON_PHP_SAPI": "Cron - API strežnik",
     "LBL_LABEL_OPERATING_SYSTEM": "Operacijski sistem",
     "LBL_LATEST_PHP_TITLE": "PHP.net",
-    "LBL_LATEST_PHP_VERSIONS_ARE": "Latest PHP versions: %s",
+    "LBL_LATEST_PHP_VERSIONS_ARE": "Najnovejše različice PHP %s",
     "BTN_CHECK_LATEST_VERSION": "Preverite najnovejšo različico PHP",
     "BTN_SERVER_SPEED_TEST": "Test hitrosti strežnika",
     "LBL_SERVER_SPEED_TEST": "Hitrosti strežnika",
@@ -96,14 +96,14 @@
     "LBL_HELP_CACERTBUNDLE": "The parameter determines whether a repository of trusted certification authorities (CA) is available for verification of external service certificates.",
     "LBL_LABEL_DB_DRIVER": "Engine type",
     "LBL_LABEL_DB_CLIENT_VERSION": "Različica odjemalca",
-    "LBL_LABEL_DB_SERVER_VERSION": "Version",
-    "LBL_LABEL_DB_VERSION_COMMENT": "Version comment",
-    "LBL_LABEL_DB_CONNECTION_STATUS": "Connection status",
-    "LBL_LABEL_DB_SERVER_INFO": "Server information",
+    "LBL_LABEL_DB_SERVER_VERSION": "Različica",
+    "LBL_LABEL_DB_VERSION_COMMENT": "Različica komentar",
+    "LBL_LABEL_DB_CONNECTION_STATUS": "Stanje povezave",
+    "LBL_LABEL_DB_SERVER_INFO": "Informacije o strežniku",
     "LBL_DENY_PUBLIC_DIR_TITLE": "Preverjanje dovoljenj za imenike",
     "LBL_PUBLIC_DIR": "Directory path",
     "LBL_DENY_PUBLIC_DIR_STATUS": "Is access denied?",
-    "LBL_LABEL_LAST_CRON_START": "Time Cron was last run",
+    "LBL_LABEL_LAST_CRON_START": "Cron je bil nazadnje zagnan",
     "LBL_LABEL_PROTOCOL_VERSION": "HTTP protocol version",
     "LBL_LABEL_HTTP_METHODS": "HTTP metoda",
     "LBL_HELP_MBSTRING": "Extension used to manage strings. Used to convert strings to different encodings.",
@@ -221,10 +221,10 @@
     "LBL_FN_NAME": "Name",
     "LBL_FUNCTIONAL_VERIFICATION_TITLE": "Functional verification",
     "LBL_IT_WORKS_PROPERLY": "It works properly",
-    "LBL_LABEL_FOOTER": "Footer",
-    "LBL_LABEL_PREMIUM_MODULES": "Premium modules"
+    "LBL_LABEL_FOOTER": "Noga",
+    "LBL_LABEL_PREMIUM_MODULES": "Premium moduli"
   },
   "js": {
-    "JS_SPEED_TEST_START": "Checking speed..."
+    "JS_SPEED_TEST_START": "Preverjanje hitrosti..."
   }
 }

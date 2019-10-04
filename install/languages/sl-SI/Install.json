@@ -120,10 +120,10 @@
     "LBL_HOSTING_SELF": "Own server",
     "LBL_MY_SERVER_TITLE": "Use your own server or hosting",
     "LBL_MY_SERVER_DESC": "You can install YetiForce anywhere you want without any fees. If you ever experience any issues related to the CRM system you can find free support in our GitHub repository or purchase support directly from YetiForce.",
-    "LBL_HOSTING_SHARED": "YetiForce hosting",
+    "LBL_HOSTING_SHARED": "YetiForce gostovanje",
     "LBL_HOSTING_CLOUD": "YetiForce oblak",
-    "LBL_BUY": "Buy",
-    "LBL_SHOW_MORE": "More information about product"
+    "LBL_BUY": "Nakup",
+    "LBL_SHOW_MORE": "Več informacij o izdelku"
   },
   "js": {
     "JS_ALL": "Vsi",

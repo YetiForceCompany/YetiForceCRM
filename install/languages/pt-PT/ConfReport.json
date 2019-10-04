@@ -13,7 +13,7 @@
     "LBL_RECOMMENDED": "Recommended configuration",
     "LBL_SYSTEM_STABILITY": "System stability configuration",
     "LBL_SYSTEM_SECURITY": "System security configuration",
-    "LBL_HEADERS_SECURITY": "System headers configuration",
+    "LBL_HEADERS_SECURITY": "Configuração de cabeçalhos do sistema",
     "LBL_FILES_PERMISSIONS": "Files/Folders",
     "LBL_FILE": "Name",
     "LBL_PATH": "Path",
