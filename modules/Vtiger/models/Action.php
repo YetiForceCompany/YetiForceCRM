@@ -79,7 +79,7 @@ class Vtiger_Action_Model extends \App\Base
 		if (!$module->isEntityModule()) {
 			return false;
 		}
-		if (in_array($this->getName(), self::$standardActions)) {
+		if (\in_array($this->getName(), self::$standardActions)) {
 			return true;
 		}
 		$tabId = $module->getId();
@@ -101,11 +101,10 @@ class Vtiger_Action_Model extends \App\Base
 	{
 		$className = 'Vtiger_Action_Model';
 		$actionName = $row['actionname'];
-		if (!in_array($actionName, self::$standardActions)) {
+		if (!\in_array($actionName, self::$standardActions)) {
 			$className = 'Vtiger_Utility_Model';
 		}
 		$actionModel = new $className();
-
 		return $actionModel->setData($row);
 	}
 
@@ -131,7 +130,7 @@ class Vtiger_Action_Model extends \App\Base
 		}
 		if (self::$cachedInstances) {
 			$actionid = vtlib\Utils::isNumber($value) ? $value : false;
-			if ($actionid === false && isset(self::$cachedInstances[$value])) {
+			if (false === $actionid && isset(self::$cachedInstances[$value])) {
 				return self::$cachedInstances[$value];
 			}
 			foreach (self::$cachedInstances as $instance) {
@@ -182,7 +181,7 @@ class Vtiger_Action_Model extends \App\Base
 		}
 		if ($configurable) {
 			foreach ($rows as $key => &$row) {
-				if (in_array($row['actionname'], self::$nonConfigurableActions)) {
+				if (\in_array($row['actionname'], self::$nonConfigurableActions)) {
 					unset($rows[$key]);
 				}
 			}
