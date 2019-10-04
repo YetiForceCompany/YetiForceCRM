@@ -24,7 +24,7 @@ class YetiForceInstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 	 * {@inheritdoc}
 	 */
 	public $prices = [
-		'Micro' => 50,
+		'Micro' => 40,
 		'Small' => 100,
 		'Medium' => 200,
 		'Large' => 400,
