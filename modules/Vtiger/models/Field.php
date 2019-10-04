@@ -512,7 +512,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			if ('picklist' === $fieldDataType) {
 				$fieldValue = $this->get('fieldvalue');
 				if (!empty($fieldValue) && !isset($fieldPickListValues[$fieldValue])) {
-					$fieldPickListValues[$fieldValue] = \App\Purifier::decodeHtml($fieldValue);
+					$fieldPickListValues[$fieldValue] = \App\Language::translate($fieldValue, $this->getModuleName());
 					$this->set('isEditableReadOnly', true);
 				}
 			}
