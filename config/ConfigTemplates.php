@@ -886,7 +886,7 @@ return [
 			}
 		],
 		'permittedWriteAccessByCreatorField' => [
-			'default' => [],
+			'default' => false,
 			'description' => 'Permission level access based on the record creation',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
