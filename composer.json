@@ -65,6 +65,7 @@
     "parsecsv/php-parsecsv": "^1.1.0",
     "guzzlehttp/guzzle": "^6.3.3",
     "nette/php-generator": "^3.2.1",
+    "zircote/swagger-php": "^3.0.2",
     "yetiforce/csrf-magic": "^v1.0.9",
     "yetiforce/debugbar": "^1.13.1.1",
     "yetiforce/yii2": "2.0.15.3",
