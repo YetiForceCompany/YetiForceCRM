@@ -9,10 +9,10 @@ return [
 	'api' => [
 		'enabledServices' => [
 			'default' => [],
-			'description' => 'List of active services. Available: dav, webservices, webservice',
+			'description' => 'List of active services. Available: dav, webservice',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return \is_array($arg) && empty(array_diff($arg, ['dav', 'webservices', 'webservice']));
+				return \is_array($arg) && empty(array_diff($arg, ['dav', 'webservice']));
 			}
 		],
 		'enableBrowser' => [

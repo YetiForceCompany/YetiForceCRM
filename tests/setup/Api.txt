@@ -17,8 +17,8 @@ namespace Config;
  */
 class Api
 {
-	/** List of active services. Available: dav, webservices, webservice */
-	public static $enabledServices = ['dav', 'webservices', 'webservice',];
+	/** List of active services. Available: dav, webservice */
+	public static $enabledServices = ['dav', 'webservice'];
 
 	/** Dav configuration. Available: false, true */
 	public static $enableBrowser = true;
