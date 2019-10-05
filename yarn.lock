@@ -330,9 +330,9 @@ inputmask@^4.0:
   resolved "https://github.com/YetiForceCompany/jQuery-Validation-Engine#4e4a37d1473875aa79b6cf0598826a7a1760f714"
 
 jquery-hoverintent@^1.10.0:
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/jquery-hoverintent/-/jquery-hoverintent-1.10.0.tgz#cb5f96486f86d0787408bfe315171b2dbbc83130"
-  integrity sha512-84vzq3xj44kX7KxAa6IeMdFxeyNLRH1YUSs8AFt/mlQ4X2AojCiHYg2mtew8Os0jGCH4nMzK0zBNq/Y7ubFYJA==
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/jquery-hoverintent/-/jquery-hoverintent-1.10.1.tgz#ea1220259334a1e9df5629424c6988c075eccc89"
+  integrity sha512-PNZAVnNcuIB5MDmZPWK7H2lQINRJ4Z8+EGLseIZd/gnd5Q9W3dBOKv0vKG7WPFxG2/Na1YX0/soeufucO6bCJQ==
   dependencies:
     jquery ">=1.7.0"
 
