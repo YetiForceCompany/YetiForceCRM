@@ -44,7 +44,7 @@ paths:
               $ref: '#/components/schemas/UsersLoginRequestBody'
       responses:
         '200':
-          description: 'A list with products'
+          description: 'User details'
           content:
             application/json:
               schema:

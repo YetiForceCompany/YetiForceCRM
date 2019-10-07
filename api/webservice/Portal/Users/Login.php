@@ -82,7 +82,7 @@ class Login extends \Api\Core\BaseAction
 	 *    ),
 	 *		@OA\Response(
 	 *				response=200,
-	 *				description="A list with products",
+	 *				description="User details",
 	 *				@OA\JsonContent(ref="#/components/schemas/UsersLoginResponseBody"),
 	 *		),
 	 *		@OA\Response(
