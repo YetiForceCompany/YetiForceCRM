@@ -24,30 +24,29 @@ class ReferenceField extends BaseField
 	public function getRelatedTableName()
 	{
 		if ($this->related) {
-			if(\App\Config::performance('SEARCH_REFERENCE_BY_AJAX')){
+			if (\App\Config::performance('SEARCH_REFERENCE_BY_AJAX')) {
 				return [$this->fieldModel->getTableName() . $this->related['sourceField'] . '.' . $this->fieldModel->getColumnName()];
-			}else{
-				$relatedTableName = $referenceFields = [];
-				$relatedModuleModel = \Vtiger_Module_Model::getInstance($this->related['relatedModule']);
-				$fieldModel = $relatedModuleModel->getField($this->related['relatedField']);
-				$referenceFields = $fieldModel->getReferenceList();
-				foreach ($referenceFields as $moduleName) {
-					$entityFieldInfo = \App\Module::getEntityInfo($moduleName);
-					$referenceTable = $entityFieldInfo['tablename'] . $this->related['relatedField'];
-					if (\count($entityFieldInfo['fieldnameArr']) > 1) {
-						$sqlString = 'CONCAT(';
-						foreach ($entityFieldInfo['fieldnameArr'] as $column) {
-							$sqlString .= "$referenceTable.$column,' ',";
-						}
-						$formattedName = new \yii\db\Expression(rtrim($sqlString, ',\' \',') . ')');
-					} else {
-						$formattedName = "$referenceTable.{$entityFieldInfo['fieldname']}";
-					}
-					$relatedTableName[$moduleName] = $formattedName;
-					$this->queryGenerator->addJoin(['LEFT JOIN', $entityFieldInfo['tablename'] . ' ' . $referenceTable, $this->getColumnName() . " = $referenceTable.{$entityFieldInfo['entityidfield']}"]);
-				}
-				return $relatedTableName;
 			}
+			$relatedTableName = $referenceFields = [];
+			$relatedModuleModel = \Vtiger_Module_Model::getInstance($this->related['relatedModule']);
+			$fieldModel = $relatedModuleModel->getField($this->related['relatedField']);
+			$referenceFields = $fieldModel->getReferenceList();
+			foreach ($referenceFields as $moduleName) {
+				$entityFieldInfo = \App\Module::getEntityInfo($moduleName);
+				$referenceTable = $entityFieldInfo['tablename'] . $this->related['relatedField'];
+				if (\count($entityFieldInfo['fieldnameArr']) > 1) {
+					$sqlString = 'CONCAT(';
+					foreach ($entityFieldInfo['fieldnameArr'] as $column) {
+						$sqlString .= "$referenceTable.$column,' ',";
+					}
+					$formattedName = new \yii\db\Expression(rtrim($sqlString, ',\' \',') . ')');
+				} else {
+					$formattedName = "$referenceTable.{$entityFieldInfo['fieldname']}";
+				}
+				$relatedTableName[$moduleName] = $formattedName;
+				$this->queryGenerator->addJoin(['LEFT JOIN', $entityFieldInfo['tablename'] . ' ' . $referenceTable, $this->getColumnName() . " = $referenceTable.{$entityFieldInfo['entityidfield']}"]);
+			}
+			return $relatedTableName;
 		}
 		$relatedTableName = [];
 		foreach ($this->getTables() as $moduleName) {
@@ -100,6 +99,16 @@ class ReferenceField extends BaseField
 			$condition[] = ['=', $formattedName, $this->getValue()];
 		}
 		return $condition;
+	}
+
+	/**
+	 * Equals Id operator.
+	 *
+	 * @return array
+	 */
+	public function operatorEid()
+	{
+		return [$this->getColumnName() => $this->getValue()];
 	}
 
 	/**
