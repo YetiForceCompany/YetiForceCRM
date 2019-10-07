@@ -7,6 +7,21 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ *
+ * @OA\Info(
+ * 		title="YetiForce API for Webservice Apps",
+ * 		version="0.1",
+ *   	@OA\Contact(
+ *     		email="devs@yetiforce.com",
+ *     		name="Devs API Team",
+ *     		url="https://yetiforce.com/"
+ *   	),
+ *   	@OA\License(
+ *    		name="YetiForce Public License v3",
+ *     		url="https://yetiforce.com/en/yetiforce/license"
+ *   	),
+ *   	termsOfService="https://yetiforce.com/"
+ * )
  */
 
 namespace Api\Portal;

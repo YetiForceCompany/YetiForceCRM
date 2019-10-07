@@ -1,10 +1,20 @@
 openapi: 3.0.0
 info:
   title: 'YetiForce API for Webservice Apps'
+  termsOfService: 'https://yetiforce.com/'
+  contact:
+    name: 'Devs API Team'
+    url: 'https://yetiforce.com/'
+    email: devs@yetiforce.com
+  license:
+    name: 'YetiForce Public License v3'
+    url: 'https://yetiforce.com/en/yetiforce/license'
   version: '0.1'
 paths:
   /webservice/Users/Login:
     post:
+      tags:
+        - Users
       summary: 'Logs user into the system'
       operationId: 'Api\Portal\Users\Login::post'
       parameters:
@@ -185,3 +195,7 @@ components:
       description: 'Webservice api key'
       name: X-API-KEY
       in: header
+tags:
+  -
+    name: Users
+    description: 'Access to user methods'

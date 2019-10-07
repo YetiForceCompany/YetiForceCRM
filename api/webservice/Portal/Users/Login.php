@@ -6,8 +6,6 @@
  *
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- *
- * @OA\Info(title="YetiForce API for Webservice Apps", version="0.1")
  */
 
 namespace Api\Portal\Users;
@@ -51,6 +49,7 @@ class Login extends \Api\Core\BaseAction
 	 * @OA\Post(
 	 *		path="/webservice/Users/Login",
 	 *		summary="Logs user into the system",
+	 *		tags={"Users"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : ""}
 	 *    },
@@ -182,6 +181,10 @@ class Login extends \Api\Core\BaseAction
 	 * 				),
 	 *    ),
 	 * ),
+	 * @OA\Tag(
+	 *   name="Users",
+	 *   description="Access to user methods"
+	 * )
 	 */
 	public function post()
 	{
