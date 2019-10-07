@@ -1,0 +1,187 @@
+openapi: 3.0.0
+info:
+  title: 'YetiForce API for Webservice Apps'
+  version: '0.1'
+paths:
+  /webservice/Users/Login:
+    post:
+      summary: 'Logs user into the system'
+      operationId: 'Api\Portal\Users\Login::post'
+      parameters:
+        -
+          name: Authorization
+          in: header
+          required: true
+        -
+          name: X-API-KEY
+          in: header
+          required: true
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/X-ENCRYPTED'
+      requestBody:
+        description: 'Input data format'
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UsersLoginRequestBody'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsersLoginRequestBody'
+      responses:
+        '200':
+          description: 'A list with products'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersLoginResponseBody'
+        '401':
+          description: 'Invalid data access OR Invalid user password OR No crmid'
+      security:
+        -
+          basicAuth: ''
+          ApiKeyAuth: ''
+components:
+  schemas:
+    X-ENCRYPTED:
+      description: 'Is the content request is encrypted'
+      type: string
+      default: '0'
+      enum:
+        - '0'
+        - '1'
+    UsersLoginRequestBody:
+      title: 'Users login request body'
+      description: 'JSON or form-data'
+      properties:
+        userName:
+          description: 'Webservice user name'
+          type: string
+        password:
+          description: 'Webservice user password'
+          type: string
+        params:
+          description: 'Additional parameters sent by the user, extending the current settings, e.g. language'
+          type: array
+          items:
+            type: string
+      type: object
+    UsersLoginResponseBody:
+      title: 'Users login response body'
+      description: 'JSON data'
+      properties:
+        status:
+          description: 'Webservice user name'
+          type: integer
+        result:
+          description: 'Webservice user password'
+          properties:
+            token:
+              description: 'Post method.'
+              type: string
+            name:
+              description: 'Post method.'
+              type: string
+            parentName:
+              description: 'Post method.'
+              type: string
+            lastLoginTime:
+              description: 'Post method.'
+              type: datetime
+            lastLogoutTime:
+              description: 'Post method.'
+              type: datetime
+            language:
+              description: 'Post method.'
+              type: string
+            type:
+              description: 'Post method.'
+              type: integer
+            companyId:
+              description: 'Post method.'
+              type: integer
+            companyDetails:
+              description: 'Post method.'
+              type: array
+              items:
+                type: string
+            logged:
+              description: 'Post method.'
+              type: bool
+            preferences:
+              description: 'Post method.'
+              properties:
+                activity_view:
+                  description: 'Post method.'
+                  type: string
+                hour_format:
+                  description: 'Post method.'
+                  type: integer
+                start_hour:
+                  description: 'Post method.'
+                  type: string
+                date_format:
+                  description: 'Post method.'
+                  type: string
+                date_format_js:
+                  description: 'Post method.'
+                  type: string
+                dayoftheweek:
+                  description: 'Post method.'
+                  type: string
+                time_zone:
+                  description: 'Post method.'
+                  type: string
+                currency_id:
+                  description: 'Post method.'
+                  type: integer
+                currency_grouping_pattern:
+                  description: 'Post method.'
+                  type: string
+                currency_decimal_separator:
+                  description: 'Post method.'
+                  type: string
+                currency_grouping_separator:
+                  description: 'Post method.'
+                  type: string
+                currency_symbol_placement:
+                  description: 'Post method.'
+                  type: string
+                no_of_currency_decimals:
+                  description: 'Post method.'
+                  type: integer
+                truncate_trailing_zeros:
+                  description: 'Post method.'
+                  type: integer
+                end_hour:
+                  description: 'Post method.'
+                  type: string
+                currency_name:
+                  description: 'Post method.'
+                  type: string
+                currency_code:
+                  description: 'Post method.'
+                  type: string
+                currency_symbol:
+                  description: 'Post method.'
+                  type: string
+                conv_rate:
+                  description: 'Post method.'
+                  type: float
+              type: object
+          type: object
+      type: object
+  securitySchemes:
+    basicAuth:
+      type: http
+      in: header
+      scheme: basic
+    ApiKeyAuth:
+      type: apiKey
+      description: 'Webservice api key'
+      name: X-API-KEY
+      in: header

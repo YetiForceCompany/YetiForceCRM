@@ -1,12 +1,19 @@
 <?php
+/**
+ * Users Login action file.
+ *
+ * @package Api
+ *
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ *
+ * @OA\Info(title="YetiForce API for Webservice Apps", version="0.1")
+ */
 
 namespace Api\Portal\Users;
 
 /**
  * Users Login action class.
- *
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Login extends \Api\Core\BaseAction
 {
@@ -40,6 +47,141 @@ class Login extends \Api\Core\BaseAction
 	 * Post method.
 	 *
 	 * @return array
+	 *
+	 * @OA\Post(
+	 *		path="/webservice/Users/Login",
+	 *		summary="Logs user into the system",
+	 *		security={
+	 *			{"basicAuth" : "", "ApiKeyAuth" : ""}
+	 *    },
+	 *		@OA\RequestBody(
+	 *  			required=true,
+	 *  			description="Input data format",
+	 *    		@OA\JsonContent(ref="#/components/schemas/UsersLoginRequestBody"),
+	 *     		@OA\MediaType(
+	 *         		mediaType="multipart/form-data",
+	 *         		@OA\Schema(ref="#/components/schemas/UsersLoginRequestBody")
+	 *     		)
+	 *	  ),
+	 *    @OA\Parameter(
+	 *        name="Authorization",
+	 *        in="header",
+	 *        required=true,
+	 *        @OA\SecurityScheme(ref="#/components/schemas/securitySchemes")
+	 *    ),
+	 *    @OA\Parameter(
+	 *        name="X-API-KEY",
+	 *        in="header",
+	 *        required=true,
+	 *        @OA\SecurityScheme(ref="#/components/schemas/X-API-KEY")
+	 *    ),
+	 *    @OA\Parameter(
+	 *        name="X-ENCRYPTED",
+	 *        in="header",
+	 *        required=true,
+	 * 				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *    ),
+	 *		@OA\Response(
+	 *				response=200,
+	 *				description="A list with products",
+	 *				@OA\JsonContent(ref="#/components/schemas/UsersLoginResponseBody"),
+	 *		),
+	 *		@OA\Response(
+	 *				response=401,
+	 *				description="Invalid data access OR Invalid user password OR No crmid"
+	 *		),
+	 * ),
+	 * @OA\SecurityScheme(
+	 *		securityScheme="basicAuth",
+	 *		type="http",
+	 *    in="header",
+	 *		scheme="basic"
+	 * ),
+	 * @OA\SecurityScheme(
+	 *		securityScheme="ApiKeyAuth",
+	 *   	type="apiKey",
+	 *    in="header",
+	 * 		name="X-API-KEY",
+	 *   	description="Webservice api key"
+	 * ),
+	 * @OA\Schema(
+	 *	  schema="X-ENCRYPTED",
+	 *		type="string",
+	 *  	description="Is the content request is encrypted",
+	 *  	enum={"0", "1"},
+	 *   	default="0"
+	 * ),
+	 * @OA\Schema(
+	 * 		schema="UsersLoginRequestBody",
+	 * 		title="Users login request body",
+	 * 		description="JSON or form-data",
+	 *		type="object",
+	 *  	@OA\Property(
+	 *       	property="userName",
+	 *        description="Webservice user name",
+	 *     	  type="string",
+	 * 		),
+	 *    @OA\Property(
+	 *     	  property="password",
+	 *     	 	description="Webservice user password",
+	 *    	 	type="string"
+	 *    ),
+	 *    @OA\Property(
+	 *     	  property="params",
+	 *     	 	description="Additional parameters sent by the user, extending the current settings, e.g. language",
+	 *   		 	type="array",
+	 * 				@OA\Items(type="string"),
+	 *    )
+	 * ),
+	 * @OA\Schema(
+	 * 		schema="UsersLoginResponseBody",
+	 * 		title="Users login response body",
+	 * 		description="JSON data",
+	 *		type="object",
+	 *  	@OA\Property(
+	 *       	property="status",
+	 *        description="Webservice user name",
+	 *     	  type="integer",
+	 * 		),
+	 *    @OA\Property(
+	 *     	  property="result",
+	 *     	 	description="Webservice user password",
+	 *    	 	type="object",
+	 *   			@OA\Property(property="token", type="string"),
+	 *   			@OA\Property(property="name", type="string"),
+	 *    		@OA\Property(property="parentName", type="string"),
+	 *    		@OA\Property(property="lastLoginTime", type="datetime"),
+	 *    		@OA\Property(property="lastLogoutTime", type="datetime"),
+	 *    		@OA\Property(property="language", type="string"),
+	 *    		@OA\Property(property="type", type="integer"),
+	 *    		@OA\Property(property="companyId", type="integer"),
+	 *    		@OA\Property(property="companyDetails", type="array", @OA\Items(type="string")),
+	 *    		@OA\Property(property="logged", type="bool"),
+	 *    		@OA\Property(
+	 * 						property="preferences",
+	 * 						type="object",
+	 *    				@OA\Property(property="activity_view", type="string"),
+	 *    				@OA\Property(property="hour_format", type="integer"),
+	 *    				@OA\Property(property="start_hour", type="string"),
+	 *    				@OA\Property(property="date_format", type="string"),
+	 *    				@OA\Property(property="date_format_js", type="string"),
+	 *    				@OA\Property(property="dayoftheweek", type="string"),
+	 *    				@OA\Property(property="time_zone", type="string"),
+	 *    				@OA\Property(property="currency_id", type="integer"),
+	 *    				@OA\Property(property="currency_grouping_pattern", type="string"),
+	 *    				@OA\Property(property="currency_decimal_separator", type="string"),
+	 *    				@OA\Property(property="currency_grouping_separator", type="string"),
+	 *    				@OA\Property(property="currency_symbol_placement", type="string"),
+	 *    				@OA\Property(property="no_of_currency_decimals", type="integer"),
+	 *    				@OA\Property(property="truncate_trailing_zeros", type="integer"),
+	 *    				@OA\Property(property="end_hour", type="string"),
+	 *    				@OA\Property(property="currency_name", type="string"),
+	 *    				@OA\Property(property="currency_code", type="string"),
+	 *    				@OA\Property(property="currency_symbol", type="string"),
+	 *    				@OA\Property(property="conv_rate", type="float"),
+	 * 				),
+	 *    ),
+	 * ),
 	 */
 	public function post()
 	{
@@ -122,7 +264,7 @@ class Login extends \Api\Core\BaseAction
 		if (!empty($params['language'])) {
 			$language = $params['language'];
 		} else {
-			$language = empty($row['language'] ? $this->getLanguage() : $row['language']);
+			$language = empty($row['language']) ? $this->getLanguage() : $row['language'];
 		}
 		$db->createCommand()->insert('w_#__portal_session', [
 			'id' => $token,
@@ -135,7 +277,6 @@ class Login extends \Api\Core\BaseAction
 		$row['token'] = $token;
 		$row['language'] = $language;
 		$db->createCommand()->delete('w_#__portal_session', ['<', 'changed', date(static::DATE_TIME_FORMAT, strtotime('-1 day'))])->execute();
-
 		return $row;
 	}
 }
