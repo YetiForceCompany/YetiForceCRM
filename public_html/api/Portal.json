@@ -140,11 +140,13 @@
                             },
                             "lastLoginTime": {
                                 "description": "Post method.",
-                                "type": "datetime"
+                                "type": "string",
+                                "format": "date-time"
                             },
                             "lastLogoutTime": {
                                 "description": "Post method.",
-                                "type": "datetime"
+                                "type": "string",
+                                "format": "date-time"
                             },
                             "language": {
                                 "description": "Post method.",
@@ -167,7 +169,7 @@
                             },
                             "logged": {
                                 "description": "Post method.",
-                                "type": "bool"
+                                "type": "boolfffean"
                             },
                             "preferences": {
                                 "description": "Post method.",
@@ -246,7 +248,8 @@
                                     },
                                     "conv_rate": {
                                         "description": "Post method.",
-                                        "type": "float"
+                                        "type": "number",
+                                        "format": "float"
                                     }
                                 },
                                 "type": "object"
