@@ -67,9 +67,9 @@ before_script:
   - php -i
 
 script:
-  - pwd
   - cd tests
   - pwd
+  - sudo ls ../vendor/bin/phpunit -all
   - ../vendor/bin/phpunit --verbose --testsuite Init,Base,Integrations,Settings,Apps
   - sudo ls -all
   - cd ..
