@@ -511,10 +511,10 @@ tiny-emitter@^2.0.0:
   resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
   integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
 
-tributejs@^3.7.1:
-  version "3.7.3"
-  resolved "https://registry.yarnpkg.com/tributejs/-/tributejs-3.7.3.tgz#24f0405aff6383db5e1dc76b9dc1e503e71db9b9"
-  integrity sha512-0al6SLgRjSEvdy4/DCz44Zgq6PzXFsOoYuwyg9obuUnneu5xDfASw2xU0Ww4KKCWH1Fb25gVGQz+B6VZmaNcEQ==
+tributejs@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/tributejs/-/tributejs-4.0.0.tgz#805c24e737c0af7cc502bba47a3d39798fcfc972"
+  integrity sha512-X9EdTOX2VRafrwB+T5bDJ+SLW3hAm+Adf6QNtQFnos5xuLTYVLtCwA+GAzrbVuoHcnmIpl57ivXVvEzJEK4X6A==
 
 vue-observe-visibility@^0.4.3:
   version "0.4.4"
