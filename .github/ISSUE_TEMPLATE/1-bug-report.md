@@ -45,7 +45,7 @@ Steps to reproduce the behavior:
 ### 👷 Testing 
 <!-- ✔️ Test the error and tick the following options, it is required to perform tests on current versions before reporting the error. Please include a video to confirm you performed the tests. ✔️  -->
 - [ ] I confirm that I tested it at https://gitstable.yetiforce.com 
-* [ ] I confirm that I tested it at https://gitdeveloper.yetiforce.com
+- [ ] I confirm that I tested it at https://gitdeveloper.yetiforce.com
 
 ### 📷 Screenshot of configuration
 <!--  Before reporting an issue, check if your server has been properly configured.  
