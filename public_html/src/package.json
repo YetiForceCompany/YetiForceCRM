@@ -35,7 +35,7 @@
     "@vue/cli-service": "^3.7.0",
     "@vue/eslint-config-prettier": "^5.0.0",
     "babel-preset-vue": "^2.0.2",
-    "cross-env": "^5.2.1",
+    "cross-env": "^6.0.3",
     "eslint": "^6.4.0",
     "eslint-plugin-vue": "^5.2.3",
     "findit": "^2.0.0",
