@@ -1798,6 +1798,19 @@ var app = (window.app = {
 		form.submit();
 		form.remove();
 	},
+	convertUrlToObject(url) {
+		let urlObject = {};
+		url
+			.split('index.php?')[1]
+			.split('&')
+			.forEach(el => {
+				if (el.includes('=')) {
+					let values = el.split('=');
+					urlObject[values[0]] = values[1];
+				}
+			});
+		return urlObject;
+	},
 	showConfirmation: function(data, element) {
 		var params = {};
 		if (data) {

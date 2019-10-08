@@ -23,13 +23,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 		this.showInitialModal();
 	}
 	showInitialModal() {
-		let request = {};
-		window.location.href.split('&').forEach(el => {
-			if (el.includes('=')) {
-				let values = el.split('=');
-				request[values[0]] = values[1];
-			}
-		});
+		const request = app.convertUrlToObject(window.location.href);
 		if (request.mode) {
 			if (request.showBuyModal === 'buy') {
 				this.showBuyModal(request.product, request.department);

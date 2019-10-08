@@ -1059,10 +1059,25 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	 * Register popover buttons' click
 	 */
 	registerPopoverButtonsClickEvent() {
-		$(document).on('click', '.js-calendar-popover__button', e => {
+		$(document).on('click', '.js-calendar-popover__button', this.showCalendarPopoverLinkInSidebar.bind(this));
+	}
+
+	/**
+	 * Show popover link in sidebar
+	 *
+	 * @param   {Object}  e  click event
+	 */
+	showCalendarPopoverLinkInSidebar(e) {
+		let href = e.currentTarget.href;
+		const hrefObject = app.convertUrlToObject(href);
+		if (hrefObject.module !== 'Calendar' || (hrefObject.view !== 'Edit' && hrefObject.view !== 'Detail')) {
+			return true;
+		} else {
 			e.preventDefault();
-			this.getCalendarSidebarData($(e.currentTarget).attr('href'));
-		});
+			const sidebarView = hrefObject.view === 'Edit' ? 'EventForm' : 'ActivityState';
+			href = href.replace(hrefObject.view, sidebarView);
+			this.getCalendarSidebarData(href);
+		}
 	}
 
 	/**

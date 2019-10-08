@@ -122,7 +122,7 @@
 					<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap
 						{if $smarty.foreach.listHeaderForeach.iteration eq $RELATED_HEADER_COUNT}colspan="2"{/if}>
 						{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
-							<a class="modCT_{$RELATED_MODULE_NAME} js-list__field" data-js="width" title=""
+							<a class="modCT_{$RELATED_MODULE_NAME} js-list__field js-popover-tooltip--record" data-js="width" title=""
 							   href="{$RELATED_RECORD->getDetailViewUrl()}">
 								{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
 							</a>

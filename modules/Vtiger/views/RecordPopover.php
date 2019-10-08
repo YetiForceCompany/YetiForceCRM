@@ -17,7 +17,7 @@ class Vtiger_RecordPopover_View extends \App\Controller\View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record', true) || !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -27,7 +27,7 @@ class Vtiger_RecordPopover_View extends \App\Controller\View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordPopoverModel = Vtiger_RecordPopover_Model::getInstance($moduleName, $request->getInteger('record'));
