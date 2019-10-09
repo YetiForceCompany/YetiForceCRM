@@ -43,28 +43,28 @@ class Record extends \Api\Core\BaseAction
 		if ('POST' === $method) {
 			$this->recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
 			if (!$this->recordModel->isCreateable()) {
-				throw new \Api\Core\Exception('No permissions to create record', 401);
+				throw new \Api\Core\Exception('No permissions to create record', 403);
 			}
 		} else {
 			$record = $this->controller->request->get('record');
 			if (!$record || !\App\Record::isExists($record, $moduleName)) {
-				throw new \Api\Core\Exception('Record doesn\'t exist', 401);
+				throw new \Api\Core\Exception('Record doesn\'t exist', 404);
 			}
 			$this->recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			switch ($method) {
 				case 'DELETE':
 					if (!$this->recordModel->privilegeToMoveToTrash()) {
-						throw new \Api\Core\Exception('No permissions to remove record', 401);
+						throw new \Api\Core\Exception('No permissions to remove record', 403);
 					}
 					break;
 				case 'GET':
 					if (!$this->recordModel->isViewable()) {
-						throw new \Api\Core\Exception('No permissions to view record', 401);
+						throw new \Api\Core\Exception('No permissions to view record', 403);
 					}
 					break;
 				case 'PUT':
 					if (!$this->recordModel->isEditable()) {
-						throw new \Api\Core\Exception('No permissions to edit record', 401);
+						throw new \Api\Core\Exception('No permissions to edit record', 403);
 					}
 					break;
 				default:

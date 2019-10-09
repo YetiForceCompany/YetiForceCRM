@@ -28,20 +28,19 @@ class Request extends \App\Request
 
 	public function getData()
 	{
-		if ($this->getRequestMethod() === 'GET') {
+		if ('GET' === $this->getRequestMethod()) {
 			return $this;
-		} else {
-			$encrypted = $this->getHeader('encrypted');
-			$content = file_get_contents('php://input');
-			if (\App\Config::api('ENCRYPT_DATA_TRANSFER') && $encrypted && (int) $encrypted === 1) {
-				$content = $this->decryptData($content);
-			}
 		}
+		$encrypted = $this->getHeader('encrypted');
+		$content = file_get_contents('php://input');
+		if (\App\Config::api('ENCRYPT_DATA_TRANSFER') && $encrypted && 1 === (int) $encrypted) {
+			$content = $this->decryptData($content);
+		}
+
 		if (empty($content)) {
 			return false;
 		}
 		$this->rawValues = array_merge($this->contentParse($content), $this->rawValues);
-
 		return $this;
 	}
 
@@ -57,18 +56,22 @@ class Request extends \App\Request
 		}
 		switch ($type) {
 			case 'form-data':
-				parse_str($content, $data);
-
-				return $data;
+			case 'x-www-form-urlencoded':
+				mb_parse_str($content, $data);
+				$return = $data;
+				break;
 			case 'json':
+				$return = json_decode($content, 1);
+				break;
 			default:
-				return json_decode($content, 1);
+					$return = [];
 		}
+		return $return;
 	}
 
 	public function decryptData($data)
 	{
-		$privateKey = 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \App\Config::api('PRIVATE_KEY');
+		$privateKey = 'file://' . ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \App\Config::api('PRIVATE_KEY');
 		if (!$privateKey = openssl_pkey_get_private($privateKey)) {
 			throw new \App\Exceptions\AppException('Private Key failed');
 		}
