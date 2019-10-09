@@ -49,7 +49,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function isEntityModule()
 	{
-		return ('1' == $this->isentitytype);
+		return '1' == $this->isentitytype;
 	}
 
 	/**
@@ -106,7 +106,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (property_exists($this, $propertyName)) {
 			return $this->{$propertyName};
 		}
-		throw new \App\Exceptions\AppException($propertyName . ' doest not exists in class ' . get_class($this));
+		throw new \App\Exceptions\AppException($propertyName . ' doest not exists in class ' . \get_class($this));
 	}
 
 	/**
@@ -131,7 +131,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function isActive()
 	{
-		return in_array($this->get('presence'), [0, 2]);
+		return \in_array($this->get('presence'), [0, 2]);
 	}
 
 	/**
@@ -538,12 +538,12 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getFieldsByType($type)
 	{
-		if (!is_array($type)) {
+		if (!\is_array($type)) {
 			$type = [$type];
 		}
 		$fieldList = [];
 		foreach ($this->getFields() as &$field) {
-			if (in_array($field->getFieldDataType(), $type)) {
+			if (\in_array($field->getFieldDataType(), $type)) {
 				$fieldList[$field->getName()] = $field;
 			}
 		}
@@ -575,7 +575,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	{
 		$fieldList = [];
 		foreach ($this->getFields() as $field) {
-			if ($field->isActiveField() && $field->isReferenceField() && in_array($moduleName, $field->getReferenceList())) {
+			if ($field->isActiveField() && $field->isReferenceField() && \in_array($moduleName, $field->getReferenceList())) {
 				$fieldList[$field->getName()] = $field;
 			}
 		}
@@ -648,6 +648,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function gives list fields for save.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
 	 *
 	 * @return array
 	 */
@@ -745,11 +747,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 	{
 		if (!empty($this->getEntityInstance()->search_fields_name)) {
 			return $this->getEntityInstance()->search_fields_name;
-		} else {
-			$queryGenerator = new \App\QueryGenerator($this->getName());
-			$queryGenerator->initForDefaultCustomView(true, true);
-			return $queryGenerator->getFields();
 		}
+		$queryGenerator = new \App\QueryGenerator($this->getName());
+		$queryGenerator->initForDefaultCustomView(true, true);
+		return $queryGenerator->getFields();
 	}
 
 	public function isWorkflowSupported()
@@ -800,14 +801,14 @@ class Vtiger_Module_Model extends \vtlib\Module
 		}
 		if ($presence && $moduleModels) {
 			foreach ($moduleModels as $key => $moduleModel) {
-				if (!in_array($moduleModel->get('presence'), $presence)) {
+				if (!\in_array($moduleModel->get('presence'), $presence)) {
 					unset($moduleModels[$key]);
 				}
 			}
 		}
 		if ($restrictedModulesList && $moduleModels) {
 			foreach ($moduleModels as $key => $moduleModel) {
-				if (in_array($moduleModel->getName(), $restrictedModulesList)) {
+				if (\in_array($moduleModel->getName(), $restrictedModulesList)) {
 					unset($moduleModels[$key]);
 				}
 			}
@@ -836,7 +837,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$moduleModels = self::getAll($presence);
 			$restrictedModules = ['Integration', 'Dashboard'];
 			foreach ($moduleModels as $key => $moduleModel) {
-				if (in_array($moduleModel->getName(), $restrictedModules) || 1 != $moduleModel->get('isentitytype')) {
+				if (\in_array($moduleModel->getName(), $restrictedModules) || 1 != $moduleModel->get('isentitytype')) {
 					unset($moduleModels[$key]);
 				}
 			}
@@ -1124,22 +1125,22 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceExtend', $moduleName);
 		$referenceLinkInstance = new $referenceLinkClass();
-		if (in_array($this->getName(), $referenceLinkInstance->getReferenceList())) {
+		if (\in_array($this->getName(), $referenceLinkInstance->getReferenceList())) {
 			$relationField = 'linkextend';
 		} else {
 			$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $moduleName);
 			$referenceProcessInstance = new $referenceProcessClass();
-			if (in_array($this->getName(), $referenceProcessInstance->getReferenceList())) {
+			if (\in_array($this->getName(), $referenceProcessInstance->getReferenceList())) {
 				$relationField = 'link';
 			} else {
 				$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $moduleName);
 				$referenceSubProcessInstance = new $referenceSubProcessClass();
-				if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
+				if (\in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
 					$relationField = 'process';
 				} else {
 					$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $moduleName);
 					$referenceSubProcessInstance = new $referenceSubProcessClass();
-					if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
+					if (\in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
 						$relationField = 'subprocess';
 					} else {
 						throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
@@ -1303,9 +1304,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function searches the records in the module
+	 * Function searches the records in the module.
 	 *
-	 * @param string $searchValue   Search value
+	 * @param string $searchValue Search value
 	 *
 	 * @return Vtiger_Record_Model[]
 	 */
@@ -1481,7 +1482,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 						foreach ($referenceList as $referenceModule) {
 							$fieldMap[$referenceModule] = $fieldName;
 						}
-						if (in_array($sourceModule, $referenceList)) {
+						if (\in_array($sourceModule, $referenceList)) {
 							$relationField = $fieldName;
 						}
 					}
@@ -1530,14 +1531,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 * Function changes the module type.
 	 *
 	 * @param int $type
+	 *
 	 * @return bool
 	 */
 	public function changeType(int $type): bool
 	{
 		$result = false;
-		if($type !== $this->getModuleType() && in_array($type, [static::ADVANCED_TYPE,static::STANDARD_TYPE])){
+		if ($type !== $this->getModuleType() && \in_array($type, [static::ADVANCED_TYPE, static::STANDARD_TYPE])) {
 			$result = \App\Db::getInstance()->createCommand()->update('vtiger_tab', ['type' => $type], ['name' => $this->getName()])->execute();
-			if($result && $type === static::ADVANCED_TYPE){
+			if ($result && $type === static::ADVANCED_TYPE) {
 				Vtiger_Inventory_Model::getInstance($this->getName())->createInventoryTables();
 			}
 			$tabId = \App\Module::getModuleId($this->getName());
