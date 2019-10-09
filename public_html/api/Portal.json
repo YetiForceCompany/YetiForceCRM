@@ -57,7 +57,17 @@
                     "200": {
                         "description": "User details",
                         "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UsersLoginResponseBody"
+                                }
+                            },
                             "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UsersLoginResponseBody"
+                                }
+                            },
+                            "application/xml": {
                                 "schema": {
                                     "$ref": "#/components/schemas/UsersLoginResponseBody"
                                 }
@@ -154,7 +164,8 @@
                             },
                             "language": {
                                 "description": "Post method.",
-                                "type": "string"
+                                "type": "string",
+                                "example": "pl-PL"
                             },
                             "type": {
                                 "description": "Post method.",

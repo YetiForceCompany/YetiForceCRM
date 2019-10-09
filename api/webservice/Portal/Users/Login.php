@@ -35,6 +35,8 @@ class Login extends \Api\Core\BaseAction
 	 * Check permission to module.
 	 *
 	 * @throws \Api\Core\Exception
+	 *
+	 * @return bool
 	 */
 	public function checkPermissionToModule()
 	{
@@ -76,6 +78,11 @@ class Login extends \Api\Core\BaseAction
 	 *				response=200,
 	 *				description="User details",
 	 *				@OA\JsonContent(ref="#/components/schemas/UsersLoginResponseBody"),
+	 *				@OA\XmlContent(ref="#/components/schemas/UsersLoginResponseBody"),
+	 *     		@OA\MediaType(
+	 *         		mediaType="text/html",
+	 *         		@OA\Schema(ref="#/components/schemas/UsersLoginResponseBody")
+	 *     		),
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,
@@ -148,7 +155,7 @@ class Login extends \Api\Core\BaseAction
 	 *    		@OA\Property(property="parentName", type="string"),
 	 *    		@OA\Property(property="lastLoginTime", type="string", format="date-time", example="2019-10-07 08:32:38"),
 	 *    		@OA\Property(property="lastLogoutTime", type="string", format="date-time", example="null"),
-	 *    		@OA\Property(property="language", type="string"),
+	 *    		@OA\Property(property="language", type="string", example="pl-PL"),
 	 *    		@OA\Property(property="type", type="integer"),
 	 *    		@OA\Property(property="companyId", type="integer"),
 	 *    		@OA\Property(property="companyDetails", type="array", @OA\Items(type="string")),

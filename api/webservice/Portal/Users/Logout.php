@@ -17,6 +17,8 @@ class Logout extends \Api\Core\BaseAction
 	 * Check permission to module.
 	 *
 	 * @throws \Api\Core\Exception
+	 *
+	 * @return bool
 	 */
 	public function checkPermissionToModule()
 	{
@@ -26,7 +28,7 @@ class Logout extends \Api\Core\BaseAction
 	/**
 	 * Put method.
 	 *
-	 * @return array
+	 * @return bool
 	 */
 	public function put()
 	{
@@ -37,8 +39,8 @@ class Logout extends \Api\Core\BaseAction
 		$db->createCommand()
 			->update('w_#__portal_user', [
 				'logout_time' => date('Y-m-d H:i:s'),
-				], ['id' => $this->session->get('id')])
-				->execute();
+			], ['id' => $this->session->get('id')])
+			->execute();
 
 		return true;
 	}
