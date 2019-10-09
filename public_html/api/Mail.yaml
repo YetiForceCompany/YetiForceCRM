@@ -1,0 +1,122 @@
+openapi: 3.0.0
+info:
+  title: 'YetiForce API for Webservice App. Type: Mail'
+  termsOfService: 'https://yetiforce.com/'
+  contact:
+    name: 'Devs API Team'
+    url: 'https://yetiforce.com/'
+    email: devs@yetiforce.com
+  license:
+    name: 'YetiForce Public License v3'
+    url: 'https://yetiforce.com/en/yetiforce/license'
+  version: '0.1'
+paths:
+  /webservice/Install:
+    post:
+      tags:
+        - BaseAction
+      summary: 'Action to check configuration and API connection test'
+      operationId: 'Api\Mail\BaseAction\Install::put'
+      parameters:
+        -
+          name: Authorization
+          in: header
+          required: true
+        -
+          name: X-API-KEY
+          in: header
+          required: true
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/X-ENCRYPTED'
+      requestBody:
+        description: 'Content of the request'
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InstallRequestBody'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InstallRequestBody'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InstallRequestBody'
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstallResponseBody'
+        '401':
+          description: 'Invalid api key'
+        '405':
+          description: 'Invalid method'
+      security:
+        -
+          basicAuth: ''
+          ApiKeyAuth: ''
+components:
+  schemas:
+    X-ENCRYPTED:
+      description: 'Is the content request is encrypted'
+      type: string
+      default: '0'
+      enum:
+        - '0'
+        - '1'
+    InstallRequestBody:
+      title: 'Install request body'
+      description: 'The body content is optional, if it is sent then the API will send it in response'
+      type: object
+    InstallResponseBody:
+      title: 'Install response body'
+      description: 'JSON data'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error'
+          type: integer
+          enum:
+            - '0'
+            - '1'
+        result:
+          description: 'Content of responses from a given method'
+          properties:
+            serverTime:
+              title: 'current time on the server'
+              description: 'Put method.'
+              type: string
+              format: date-time
+              example: '2019-10-09 11:41:40'
+            tokenExist:
+              title: 'Does the token exist in the header?'
+              description: 'Put method.'
+              type: boolean
+            apiKey:
+              title: 'api key sent in header'
+              description: 'Put method.'
+              type: string
+            data:
+              title: 'Data that was sent in the request'
+              description: 'Put method.'
+              type: object
+          type: object
+      type: object
+  securitySchemes:
+    basicAuth:
+      type: http
+      in: header
+      scheme: basic
+    ApiKeyAuth:
+      type: apiKey
+      description: 'Webservice api key'
+      name: X-API-KEY
+      in: header
+tags:
+  -
+    name: BaseAction
+    description: 'Basic Webservice API methods'

@@ -39,6 +39,9 @@ paths:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/UsersLoginRequestBody'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsersLoginRequestBody'
           application/json:
             schema:
               $ref: '#/components/schemas/UsersLoginRequestBody'
@@ -51,6 +54,8 @@ paths:
                 $ref: '#/components/schemas/UsersLoginResponseBody'
         '401':
           description: 'Invalid data access OR Invalid user password OR No crmid'
+        '405':
+          description: 'Invalid method'
       security:
         -
           basicAuth: ''
@@ -85,10 +90,13 @@ components:
       description: 'JSON data'
       properties:
         status:
-          description: 'Webservice user name'
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error'
           type: integer
+          enum:
+            - '0'
+            - '1'
         result:
-          description: 'Webservice user password'
+          description: 'Content of responses from a given method'
           properties:
             token:
               description: 'Post method.'
@@ -103,10 +111,12 @@ components:
               description: 'Post method.'
               type: string
               format: date-time
+              example: '2019-10-07 08:32:38'
             lastLogoutTime:
               description: 'Post method.'
               type: string
               format: date-time
+              example: 'null'
             language:
               description: 'Post method.'
               type: string
@@ -123,7 +133,7 @@ components:
                 type: string
             logged:
               description: 'Post method.'
-              type: boolfffean
+              type: boolean
             preferences:
               description: 'Post method.'
               properties:

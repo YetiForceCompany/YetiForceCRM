@@ -60,7 +60,11 @@ class Login extends \Api\Core\BaseAction
 	 *     		@OA\MediaType(
 	 *         		mediaType="multipart/form-data",
 	 *         		@OA\Schema(ref="#/components/schemas/UsersLoginRequestBody")
-	 *     		)
+	 *     		),
+	 *     		@OA\MediaType(
+	 *         		mediaType="application/x-www-form-urlencoded",
+	 *         		@OA\Schema(ref="#/components/schemas/UsersLoginRequestBody")
+	 *     		),
 	 *	  ),
 	 *    @OA\Parameter(
 	 *        name="Authorization",
@@ -88,6 +92,10 @@ class Login extends \Api\Core\BaseAction
 	 *		@OA\Response(
 	 *				response=401,
 	 *				description="Invalid data access OR Invalid user password OR No crmid"
+	 *		),
+	 *		@OA\Response(
+	 *				response=405,
+	 *				description="Invalid method"
 	 *		),
 	 * ),
 	 * @OA\SecurityScheme(
@@ -139,18 +147,19 @@ class Login extends \Api\Core\BaseAction
 	 *		type="object",
 	 *  	@OA\Property(
 	 *       	property="status",
-	 *        description="Webservice user name",
+	 *        description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+	 * 				enum={"0", "1"},
 	 *     	  type="integer",
 	 * 		),
 	 *    @OA\Property(
 	 *     	  property="result",
-	 *     	 	description="Webservice user password",
+	 *     	 	description="Content of responses from a given method",
 	 *    	 	type="object",
 	 *   			@OA\Property(property="token", type="string"),
 	 *   			@OA\Property(property="name", type="string"),
 	 *    		@OA\Property(property="parentName", type="string"),
-	 *    		@OA\Property(property="lastLoginTime", type="string", format="date-time"),
-	 *    		@OA\Property(property="lastLogoutTime", type="string", format="date-time"),
+	 *    		@OA\Property(property="lastLoginTime", type="string", format="date-time", example="2019-10-07 08:32:38"),
+	 *    		@OA\Property(property="lastLogoutTime", type="string", format="date-time", example="null"),
 	 *    		@OA\Property(property="language", type="string"),
 	 *    		@OA\Property(property="type", type="integer"),
 	 *    		@OA\Property(property="companyId", type="integer"),

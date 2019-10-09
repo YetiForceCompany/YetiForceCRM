@@ -51,6 +51,11 @@
                                 "$ref": "#/components/schemas/UsersLoginRequestBody"
                             }
                         },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UsersLoginRequestBody"
+                            }
+                        },
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/UsersLoginRequestBody"
@@ -71,6 +76,9 @@
                     },
                     "401": {
                         "description": "Invalid data access OR Invalid user password OR No crmid"
+                    },
+                    "405": {
+                        "description": "Invalid method"
                     }
                 },
                 "security": [
@@ -120,11 +128,15 @@
                 "description": "JSON data",
                 "properties": {
                     "status": {
-                        "description": "Webservice user name",
-                        "type": "integer"
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            "0",
+                            "1"
+                        ]
                     },
                     "result": {
-                        "description": "Webservice user password",
+                        "description": "Content of responses from a given method",
                         "properties": {
                             "token": {
                                 "description": "Post method.",
@@ -141,12 +153,14 @@
                             "lastLoginTime": {
                                 "description": "Post method.",
                                 "type": "string",
-                                "format": "date-time"
+                                "format": "date-time",
+                                "example": "2019-10-07 08:32:38"
                             },
                             "lastLogoutTime": {
                                 "description": "Post method.",
                                 "type": "string",
-                                "format": "date-time"
+                                "format": "date-time",
+                                "example": "null"
                             },
                             "language": {
                                 "description": "Post method.",
@@ -169,7 +183,7 @@
                             },
                             "logged": {
                                 "description": "Post method.",
-                                "type": "boolfffean"
+                                "type": "boolean"
                             },
                             "preferences": {
                                 "description": "Post method.",
