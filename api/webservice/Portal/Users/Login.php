@@ -67,18 +67,6 @@ class Login extends \Api\Core\BaseAction
 	 *     		),
 	 *	  ),
 	 *    @OA\Parameter(
-	 *        name="Authorization",
-	 *        in="header",
-	 *        required=true,
-	 *        @OA\SecurityScheme(ref="#/components/schemas/securitySchemes")
-	 *    ),
-	 *    @OA\Parameter(
-	 *        name="X-API-KEY",
-	 *        in="header",
-	 *        required=true,
-	 *        @OA\SecurityScheme(ref="#/components/schemas/X-API-KEY")
-	 *    ),
-	 *    @OA\Parameter(
 	 *        name="X-ENCRYPTED",
 	 *        in="header",
 	 *        required=true,

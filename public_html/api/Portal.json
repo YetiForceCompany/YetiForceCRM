@@ -24,16 +24,6 @@
                 "operationId": "Api\\Portal\\Users\\Login::post",
                 "parameters": [
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "name": "X-API-KEY",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "name": "X-ENCRYPTED",
                         "in": "header",
                         "required": true,

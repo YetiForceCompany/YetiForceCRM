@@ -47,7 +47,7 @@ final class Install extends \Api\Core\BaseAction
 	 *
 	 * @return array
 	 *
-	 * @OA\Post(
+	 * @OA\Put(
 	 *		path="/webservice/Install",
 	 *		summary="Action to check configuration and API connection test",
 	 *		tags={"BaseAction"},
@@ -67,18 +67,6 @@ final class Install extends \Api\Core\BaseAction
 	 *         		@OA\Schema(ref="#/components/schemas/InstallRequestBody")
 	 *     		),
 	 *	  ),
-	 *    @OA\Parameter(
-	 *        name="Authorization",
-	 *        in="header",
-	 *        required=true,
-	 *        @OA\SecurityScheme(ref="#/components/schemas/securitySchemes")
-	 *    ),
-	 *    @OA\Parameter(
-	 *        name="X-API-KEY",
-	 *        in="header",
-	 *        required=true,
-	 *        @OA\SecurityScheme(ref="#/components/schemas/X-API-KEY")
-	 *    ),
 	 *    @OA\Parameter(
 	 *        name="X-ENCRYPTED",
 	 *        in="header",

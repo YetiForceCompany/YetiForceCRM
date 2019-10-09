@@ -12,20 +12,12 @@ info:
   version: '0.1'
 paths:
   /webservice/Install:
-    post:
+    put:
       tags:
         - BaseAction
       summary: 'Action to check configuration and API connection test'
       operationId: 'Api\Mail\BaseAction\Install::put'
       parameters:
-        -
-          name: Authorization
-          in: header
-          required: true
-        -
-          name: X-API-KEY
-          in: header
-          required: true
         -
           name: X-ENCRYPTED
           in: header
