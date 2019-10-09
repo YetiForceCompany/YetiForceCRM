@@ -53,14 +53,18 @@ class Vtiger_Paging_Model extends \App\Base
 	 */
 	public function getPageLimit()
 	{
-		$pageLimit = $this->get('limit');
+		$currentUser = \Users_Record_Model::getCurrentUserModel();
+		$pageLimit = $currentUser->get('records_limit');
 		if (empty($pageLimit)) {
-			$pageLimit = \App\Config::main('list_max_entries_per_page');
+			$pageLimit = $this->get('limit');
 			if (empty($pageLimit)) {
-				$pageLimit = self::PAGE_LIMIT;
+				$pageLimit = \App\Config::main('list_max_entries_per_page');
+				if (empty($pageLimit)) {
+					$pageLimit = self::PAGE_LIMIT;
+				}
+			} elseif ($pageLimit === 0) {
+				$pageLimit = self::PAGE_MAX_LIMIT;
 			}
-		} elseif (0 === $pageLimit) {
-			$pageLimit = self::PAGE_MAX_LIMIT;
 		}
 		return (int) $pageLimit;
 	}
