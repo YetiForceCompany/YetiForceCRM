@@ -1225,7 +1225,14 @@ jQuery.Class(
 									type: 'info',
 									textTrusted: true
 								});
-								if (postSaveRecordDetails['isEditable'] === false) {
+								if (postSaveRecordDetails['isViewable'] === false) {
+									let urlObject = app.convertUrlToObject(window.location.href);
+									if (window !== window.parent) {
+										window.parent.location.href = 'index.php?module='+urlObject['module']+'&view=ListPreview';
+									} else {
+										window.location.href = 'index.php?module='+urlObject['module']+'&view=List';
+									}
+								} else if (postSaveRecordDetails['isEditable'] === false) {
 									jQuery.progressIndicator({
 										position: 'html',
 										blockInfo: {
