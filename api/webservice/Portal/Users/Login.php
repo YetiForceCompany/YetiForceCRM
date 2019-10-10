@@ -150,7 +150,7 @@ class Login extends \Api\Core\BaseAction
 	 *     	  property="result",
 	 *     	 	description="Content of responses from a given method",
 	 *    	 	type="object",
-	 *   			@OA\Property(property="token", type="string"),
+	 *   			@OA\Property(property="token", type="string", minLength=40, maxLength=40),
 	 *   			@OA\Property(property="name", type="string"),
 	 *    		@OA\Property(property="parentName", type="string"),
 	 *    		@OA\Property(property="lastLoginTime", type="string", format="date-time", example="2019-10-07 08:32:38"),
@@ -273,7 +273,7 @@ class Login extends \Api\Core\BaseAction
 	public function updateSession($row)
 	{
 		$db = \App\Db::getInstance('webservice');
-		$token = md5(microtime(true) . random_int(PHP_INT_MIN, PHP_INT_MAX));
+		$row['token'] = hash('sha1', microtime(true) . random_int(PHP_INT_MIN, PHP_INT_MAX));
 		$params = $this->controller->request->getArray('params');
 		if (!empty($params['language'])) {
 			$language = $params['language'];
@@ -281,14 +281,13 @@ class Login extends \Api\Core\BaseAction
 			$language = empty($row['language']) ? $this->getLanguage() : $row['language'];
 		}
 		$db->createCommand()->insert('w_#__portal_session', [
-			'id' => $token,
+			'id' => $row['token'],
 			'user_id' => $row['id'],
 			'created' => date(static::DATE_TIME_FORMAT),
 			'changed' => date(static::DATE_TIME_FORMAT),
 			'language' => $language,
 			'params' => \App\Json::encode($params),
 		])->execute();
-		$row['token'] = $token;
 		$row['language'] = $language;
 		$db->createCommand()->delete('w_#__portal_session', ['<', 'changed', date(static::DATE_TIME_FORMAT, strtotime('-1 day'))])->execute();
 		return $row;

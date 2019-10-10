@@ -9,7 +9,7 @@
  * @author Tomasz Kur <t.kur@yetiforce.com>
  *
  * @OA\Info(
- * 		title="YetiForce API for Webservice Apps",
+ * 		title="YetiForce API for Webservice App. Type: Portal",
  * 		version="0.1",
  *   	@OA\Contact(
  *     		email="devs@yetiforce.com",

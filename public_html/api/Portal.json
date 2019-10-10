@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "YetiForce API for Webservice Apps",
+        "title": "YetiForce API for Webservice App. Type: Portal",
         "termsOfService": "https://yetiforce.com/",
         "contact": {
             "name": "Devs API Team",
@@ -88,6 +88,57 @@
                     }
                 ]
             }
+        },
+        "/webservice/Users/Logout": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Logout user out the system",
+                "operationId": "Api\\Portal\\Users\\Logout::put",
+                "parameters": [
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false
+                },
+                "responses": {
+                    "200": {
+                        "description": "User details",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UsersLogoutResponseBody"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UsersLogoutResponseBody"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UsersLogoutResponseBody"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": "",
+                        "ApiKeyAuth": "",
+                        "token": ""
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -140,7 +191,9 @@
                         "properties": {
                             "token": {
                                 "description": "Post method.",
-                                "type": "string"
+                                "type": "string",
+                                "maxLength": 40,
+                                "minLength": 40
                             },
                             "name": {
                                 "description": "Post method.",
@@ -176,11 +229,23 @@
                                 "type": "integer"
                             },
                             "companyDetails": {
+                                "title": "Company details, optional parameter depending on the user type",
                                 "description": "Post method.",
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                }
+                                "properties": {
+                                    "check_stock_levels": {
+                                        "description": "Post method.",
+                                        "type": "boolean"
+                                    },
+                                    "sum_open_orders": {
+                                        "description": "Post method.",
+                                        "type": "integer"
+                                    },
+                                    "creditlimit": {
+                                        "description": "Post method.",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
                             },
                             "logged": {
                                 "description": "Post method.",
@@ -274,6 +339,25 @@
                     }
                 },
                 "type": "object"
+            },
+            "UsersLogoutResponseBody": {
+                "title": "Users logout response body",
+                "description": "JSON data",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            "0",
+                            "1"
+                        ]
+                    },
+                    "result": {
+                        "description": "Content of responses from a given method",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
             }
         },
         "securitySchemes": {
@@ -286,6 +370,12 @@
                 "type": "apiKey",
                 "description": "Webservice api key",
                 "name": "X-API-KEY",
+                "in": "header"
+            },
+            "token": {
+                "type": "apiKey",
+                "description": "Webservice api token, generated when logging into the system, required for communication",
+                "name": "X-TOKEN",
                 "in": "header"
             }
         }
