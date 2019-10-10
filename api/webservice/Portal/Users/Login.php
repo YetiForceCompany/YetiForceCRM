@@ -161,6 +161,7 @@ class Login extends \Api\Core\BaseAction
 	 *    		@OA\Property(
 	 * 						property="companyDetails",
 	 * 						type="object",
+	 * 						title="Company details",
 	 *  					@OA\Property(property="check_stock_levels", type="boolean"),
 	 * 						@OA\Property(property="sum_open_orders", type="integer"),
 	 * 						@OA\Property(property="creditlimit", type="integer")

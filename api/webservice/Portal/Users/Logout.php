@@ -38,17 +38,7 @@ class Logout extends \Api\Core\BaseAction
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
 	 *    },
 	 *		@OA\RequestBody(
-	 *  			required=true,
-	 *  			description="Input data format",
-	 *    		@OA\JsonContent(ref="#/components/schemas/UsersLogoutRequestBody"),
-	 *     		@OA\MediaType(
-	 *         		mediaType="multipart/form-data",
-	 *         		@OA\Schema(ref="#/components/schemas/UsersLogoutRequestBody")
-	 *     		),
-	 *     		@OA\MediaType(
-	 *         		mediaType="application/x-www-form-urlencoded",
-	 *         		@OA\Schema(ref="#/components/schemas/UsersLogoutRequestBody")
-	 *     		),
+	 *  			required=false,
 	 *	  ),
 	 *    @OA\Parameter(
 	 *        name="X-ENCRYPTED",
@@ -74,12 +64,17 @@ class Logout extends \Api\Core\BaseAction
 	 * 		name="X-TOKEN",
 	 *   	description="Webservice api token, generated when logging into the system, required for communication"
 	 * ),
-	 *
 	 * @OA\Schema(
 	 * 		schema="UsersLogoutResponseBody",
 	 * 		title="Users logout response body",
 	 * 		description="JSON data",
 	 *		type="object",
+	 * 		@OA\Property(
+	 *       	property="status",
+	 *        description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+	 * 				enum={"0", "1"},
+	 *     	  type="integer",
+	 * 		),
 	 *    @OA\Property(
 	 *     	  property="result",
 	 *     	 	description="Content of responses from a given method",
