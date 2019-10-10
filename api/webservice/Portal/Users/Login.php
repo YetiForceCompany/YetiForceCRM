@@ -158,7 +158,14 @@ class Login extends \Api\Core\BaseAction
 	 *    		@OA\Property(property="language", type="string", example="pl-PL"),
 	 *    		@OA\Property(property="type", type="integer"),
 	 *    		@OA\Property(property="companyId", type="integer"),
-	 *    		@OA\Property(property="companyDetails", type="array", @OA\Items(type="string")),
+	 *    		@OA\Property(
+	 * 						property="companyDetails",
+	 * 						type="object",
+	 * 						title="Company details, optional parameter depending on the user type",
+	 *  					@OA\Property(property="check_stock_levels", type="boolean"),
+	 * 						@OA\Property(property="sum_open_orders", type="integer"),
+	 * 						@OA\Property(property="creditlimit", type="integer")
+	 * 				),
 	 *    		@OA\Property(property="logged", type="boolean"),
 	 *    		@OA\Property(
 	 * 						property="preferences",
