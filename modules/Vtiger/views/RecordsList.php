@@ -149,7 +149,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 					$relatedParentId = $linkRecord;
 				}
 			}
-		} elseif (!empty($filterFields['parent_id'])) {
+		} elseif (!empty($filterFields['parent_id']) && 0 !== $relatedParentId) {
 			$linkRecord = $filterFields['parent_id'];
 			$linkModule = \App\Record::getType($linkRecord);
 			if (\in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
