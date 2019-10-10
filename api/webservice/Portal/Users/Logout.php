@@ -29,6 +29,63 @@ class Logout extends \Api\Core\BaseAction
 	 * Put method.
 	 *
 	 * @return bool
+	 *
+	 * @OA\Put(
+	 *		path="/webservice/Users/Logout",
+	 *		summary="Logout user out the system",
+	 *		tags={"Users"},
+	 *		security={
+	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *    },
+	 *		@OA\RequestBody(
+	 *  			required=true,
+	 *  			description="Input data format",
+	 *    		@OA\JsonContent(ref="#/components/schemas/UsersLogoutRequestBody"),
+	 *     		@OA\MediaType(
+	 *         		mediaType="multipart/form-data",
+	 *         		@OA\Schema(ref="#/components/schemas/UsersLogoutRequestBody")
+	 *     		),
+	 *     		@OA\MediaType(
+	 *         		mediaType="application/x-www-form-urlencoded",
+	 *         		@OA\Schema(ref="#/components/schemas/UsersLogoutRequestBody")
+	 *     		),
+	 *	  ),
+	 *    @OA\Parameter(
+	 *        name="X-ENCRYPTED",
+	 *        in="header",
+	 *        required=true,
+	 * 				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *    ),
+	 *		@OA\Response(
+	 *				response=200,
+	 *				description="User details",
+	 *				@OA\JsonContent(ref="#/components/schemas/UsersLogoutResponseBody"),
+	 *				@OA\XmlContent(ref="#/components/schemas/UsersLogoutResponseBody"),
+	 *     		@OA\MediaType(
+	 *         		mediaType="text/html",
+	 *         		@OA\Schema(ref="#/components/schemas/UsersLogoutResponseBody")
+	 *     		),
+	 *		),
+	 * ),
+	 * @OA\SecurityScheme(
+	 *		securityScheme="token",
+	 *   	type="apiKey",
+	 *    in="header",
+	 * 		name="X-TOKEN",
+	 *   	description="Webservice api token, generated when logging into the system, required for communication"
+	 * ),
+	 *
+	 * @OA\Schema(
+	 * 		schema="UsersLogoutResponseBody",
+	 * 		title="Users logout response body",
+	 * 		description="JSON data",
+	 *		type="object",
+	 *    @OA\Property(
+	 *     	  property="result",
+	 *     	 	description="Content of responses from a given method",
+	 *    	 	type="boolean",
+	 *    ),
+	 * ),
 	 */
 	public function put()
 	{
