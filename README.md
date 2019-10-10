@@ -45,7 +45,7 @@ We design an innovative CRM system that is dedicated for large and medium sized 
 
 #### Code Documentation: https://doc.yetiforce.com/code/
 
-#### <tag>API documentation</tag>: https://doc.yetiforce.com/api/ (in progres)
+#### API documentation: https://doc.yetiforce.com/api/ (in progres)
 
 Join our [LinkedIn group](https://www.linkedin.com/groups/8177576) and connect with other users and community members to discuss topics surrounding CRM and YetiForce.
 
