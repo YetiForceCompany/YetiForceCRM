@@ -7,7 +7,7 @@
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="UITYPE_MODEL" value=$FIELD_MODEL->getUITypeModel()}
 	{assign var=TABINDEX value=$FIELD_MODEL->getTabIndex()}
-	<div class="tpl-List-Field-ReferenceSubProcess">
+	<div class="invUitype_{$MODULE}_{$FIELD_NAME} tpl-List-Field-ReferenceSubProcess">
 		{if {$REFERENCE_LIST_COUNT} eq 1}
 			<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}"
 				   value="{reset($REFERENCE_LIST)}"/>
@@ -38,7 +38,7 @@
 			<div class="input-group-prepend">
 				{if $REFERENCE_LIST_COUNT > 1}
 					<div class="referenceModulesListGroup">
-						<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown"
+						<select id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_dropDown"
 								class="select2 referenceModulesList" tabindex="{$TABINDEX}" title="{\App\Language::translate('LBL_RELATED_MODULE_TYPE')}" required="required">
 							{foreach key=index item=REFERENCE from=$REFERENCE_LIST}
 								{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE)}
