@@ -66,7 +66,7 @@ paths:
           schema:
             $ref: '#/components/schemas/X-ENCRYPTED'
       requestBody:
-        description: 'Input data format'
+        description: 'The data in different formats'
         required: true
         content:
           multipart/form-data:
@@ -92,13 +92,47 @@ paths:
               schema:
                 $ref: '#/components/schemas/UsersLoginResponseBody'
         '401':
-          description: 'Invalid data access OR Invalid user password OR No crmid'
+          description: 'Invalid data access OR Invalid user password'
         '405':
           description: 'Invalid method'
       security:
         -
           basicAuth: ''
           ApiKeyAuth: ''
+  /webservice/Users/Logout:
+    put:
+      tags:
+        - Users
+      summary: 'Logout user out the system'
+      operationId: 'Api\Portal\Users\Logout::put'
+      parameters:
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/X-ENCRYPTED'
+      requestBody:
+        description: 'The body of the request is empty'
+        required: false
+      responses:
+        '200':
+          description: 'Logout status'
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/UsersLogoutResponseBody'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersLogoutResponseBody'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UsersLogoutResponseBody'
+      security:
+        -
+          basicAuth: ''
+          ApiKeyAuth: ''
+          token: ''
 components:
   schemas:
     X-ENCRYPTED:
@@ -163,7 +197,7 @@ components:
       type: object
     UsersLoginResponseBody:
       title: 'Users login response body'
-      description: 'JSON data'
+      description: 'Users login response body'
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error'
@@ -180,10 +214,8 @@ components:
               maxLength: 40
               minLength: 40
             name:
-              description: 'Post method.'
-              type: string
-            parentName:
-              description: 'Post method.'
+              title: '1111'
+              description: '2222'
               type: string
             lastLoginTime:
               description: 'Post method.'
@@ -199,75 +231,58 @@ components:
               description: 'Post method.'
               type: string
               example: pl-PL
-            type:
-              description: 'Post method.'
-              type: integer
-            companyId:
-              description: 'Post method.'
-              type: integer
-            companyDetails:
-              description: 'Post method.'
-              type: array
-              items:
-                type: string
-            logged:
-              description: 'Post method.'
-              type: boolean
-            preferences:
+            userDetails:
               description: 'Post method.'
               properties:
-                activity_view:
-                  description: 'Post method.'
-                  type: string
-                hour_format:
+                hourFormat:
                   description: 'Post method.'
                   type: integer
-                start_hour:
+                startHour:
                   description: 'Post method.'
                   type: string
-                date_format:
+                endHour:
                   description: 'Post method.'
                   type: string
-                date_format_js:
+                dateFormat:
                   description: 'Post method.'
                   type: string
-                dayoftheweek:
+                dateJsFormat:
                   description: 'Post method.'
                   type: string
-                time_zone:
+                firstDayOfTheWeek:
                   description: 'Post method.'
                   type: string
-                currency_id:
+                timeZone:
+                  description: 'Post method.'
+                  type: string
+                currencyGroupingPattern:
+                  description: 'Post method.'
+                  type: string
+                currencyDecimalSeparator:
+                  description: 'Post method.'
+                  type: string
+                currencyGroupingSeparator:
+                  description: 'Post method.'
+                  type: string
+                currencySymbolPlacement:
+                  description: 'Post method.'
+                  type: string
+                noOfCurrencyDecimals:
                   description: 'Post method.'
                   type: integer
-                currency_grouping_pattern:
-                  description: 'Post method.'
-                  type: string
-                currency_decimal_separator:
-                  description: 'Post method.'
-                  type: string
-                currency_grouping_separator:
-                  description: 'Post method.'
-                  type: string
-                currency_symbol_placement:
-                  description: 'Post method.'
-                  type: string
-                no_of_currency_decimals:
+                truncateTrailingZeros:
                   description: 'Post method.'
                   type: integer
-                truncate_trailing_zeros:
+                currencyId:
                   description: 'Post method.'
                   type: integer
-                end_hour:
+                currencyName:
                   description: 'Post method.'
                   type: string
-                currency_name:
+                currencyCode:
                   description: 'Post method.'
                   type: string
-                currency_code:
-                  description: 'Post method.'
-                  type: string
-                currency_symbol:
+                currencySymbol:
                   description: 'Post method.'
                   type: string
                 conv_rate:
@@ -276,6 +291,20 @@ components:
                   format: float
               type: object
           type: object
+      type: object
+    UsersLogoutResponseBody:
+      title: 'Users logout response body'
+      description: 'Logout status'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error'
+          type: integer
+          enum:
+            - '0'
+            - '1'
+        result:
+          description: 'Content of responses from a given method'
+          type: boolean
       type: object
   securitySchemes:
     basicAuth:
@@ -286,6 +315,11 @@ components:
       type: apiKey
       description: 'Webservice api key'
       name: X-API-KEY
+      in: header
+    token:
+      type: apiKey
+      description: 'Webservice api token, generated when logging into the system, required for communication'
+      name: X-TOKEN
       in: header
 tags:
   -

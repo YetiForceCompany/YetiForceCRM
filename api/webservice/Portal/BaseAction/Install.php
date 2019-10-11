@@ -72,7 +72,7 @@ class Install extends \Api\Core\BaseAction
 	 *    @OA\Property(
 	 *     	  property="result",
 	 *     	 	description="Content of responses from a given method",
-	 *    	 	type="array"
+	 *    	 	type="object"
 	 *    ),
 	 * ),
 	 * @OA\Tag(

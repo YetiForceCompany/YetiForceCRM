@@ -11,6 +11,39 @@ info:
     url: 'https://yetiforce.com/en/yetiforce/license'
   version: '0.1'
 paths:
+  /webservice/BaseAction/Install:
+    put:
+      tags:
+        - BaseAction
+      summary: 'Install the system'
+      operationId: 'Api\Portal\BaseAction\Install::put'
+      parameters:
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/X-ENCRYPTED'
+      requestBody:
+        description: 'Base action install request body'
+        required: false
+      responses:
+        '200':
+          description: 'Base action details'
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/BaseActionInstallResponseBody'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseActionInstallResponseBody'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BaseActionInstallResponseBody'
+      security:
+        -
+          basicAuth: ''
+          ApiKeyAuth: ''
   /webservice/Users/Login:
     post:
       tags:
@@ -72,6 +105,7 @@ paths:
           schema:
             $ref: '#/components/schemas/X-ENCRYPTED'
       requestBody:
+        description: 'Users logout request body'
         required: false
       responses:
         '200':
@@ -93,6 +127,20 @@ paths:
           token: ''
 components:
   schemas:
+    BaseActionInstallResponseBody:
+      title: 'Base action install'
+      description: 'The representation of a base action install'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error'
+          type: integer
+          enum:
+            - '0'
+            - '1'
+        result:
+          description: 'Content of responses from a given method'
+          type: object
+      type: object
     X-ENCRYPTED:
       description: 'Is the content request is encrypted'
       type: string
@@ -118,7 +166,7 @@ components:
       type: object
     UsersLoginResponseBody:
       title: 'Users login response body'
-      description: 'JSON data'
+      description: 'Users login response body'
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error'
@@ -271,6 +319,9 @@ components:
       name: X-TOKEN
       in: header
 tags:
+  -
+    name: BaseAction
+    description: 'Access to user methods'
   -
     name: Users
     description: 'Access to user methods'
