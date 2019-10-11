@@ -61,14 +61,16 @@ class Response
 			$encryptDataTransfer = 0;
 		}
 		$requestContentType = strtolower(\App\Request::_getServer('HTTP_ACCEPT'));
-		header('access-control-allow-origin: *');
-		header('access-control-allow-methods: *');
-		header('access-control-allow-headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(',', static::$acceptableHeaders));
-		header("content-type: $requestContentType");
-		header(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $this->status . ' ' . $this->requestStatus());
-		header('encrypted: ' . $encryptDataTransfer);
-		foreach ($this->headers as $key => $header) {
-			header(\strtolower($key) . ': ' . $header);
+		if (!headers_sent()) {
+			header('access-control-allow-origin: *');
+			header('access-control-allow-methods: GET, POST, DELETE, PUT');
+			header('access-control-allow-headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(',', static::$acceptableHeaders));
+			header("content-type: $requestContentType");
+			header(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $this->status . ' ' . $this->requestStatus());
+			header('encrypted: ' . $encryptDataTransfer);
+			foreach ($this->headers as $key => $header) {
+				header(\strtolower($key) . ': ' . $header);
+			}
 		}
 		if (!empty($this->body)) {
 			if ($encryptDataTransfer) {
@@ -94,7 +96,6 @@ class Response
 	public function encryptData($data)
 	{
 		openssl_public_encrypt($data, $encrypted, 'file://' . ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \App\Config::api('PUBLIC_KEY'), OPENSSL_PKCS1_OAEP_PADDING);
-
 		return $encrypted;
 	}
 
@@ -117,7 +118,7 @@ class Response
 	{
 		$htmlResponse = "<table border='1'>";
 		foreach ($responseData as $key => $value) {
-			$htmlResponse .= "<tr><td>$key</td><td>" . (is_array($value) ? $this->encodeHtml($value) : nl2br($value)) . '</td></tr>';
+			$htmlResponse .= "<tr><td>$key</td><td>" . (\is_array($value) ? $this->encodeHtml($value) : nl2br($value)) . '</td></tr>';
 		}
 		return $htmlResponse . '</table>';
 	}
@@ -141,7 +142,7 @@ class Response
 			if (is_numeric($key)) {
 				$key = 'item' . $key;
 			}
-			if (is_array($value)) {
+			if (\is_array($value)) {
 				$subnode = $xmlData->addChild($key);
 				$this->toXml($value, $subnode);
 			} else {

@@ -69,6 +69,6 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 */
 	protected function isRawData(): bool
 	{
-		return 1 === (int) $this->controller->headers['x-raw-data'];
+		return 1 === $this->controller->headers['x-raw-data'];
 	}
 }

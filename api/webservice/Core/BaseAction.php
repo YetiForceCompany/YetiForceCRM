@@ -110,7 +110,7 @@ class BaseAction
 	{
 		$language = '';
 		if (!empty($this->controller->headers['accept-language'])) {
-			$language = $this->controller->headers['accept-language'];
+			$language = str_replace('_', '-', \Locale::acceptFromHttp($this->controller->headers['accept-language']));
 		} elseif ($this->session && !$this->session->isEmpty('sessionLanguage')) {
 			$language = $this->session->get('sessionLanguage');
 		} elseif ($this->session && !$this->session->isEmpty('language')) {
@@ -167,7 +167,7 @@ class BaseAction
 	 */
 	public function getParentCrmId()
 	{
-		if ($this->controller && $parentId = (int) $this->controller->request->getHeader('x-parent-id')) {
+		if ($this->controller && ($parentId = $this->controller->request->getHeader('x-parent-id'))) {
 			$hierarchy = new \Api\Portal\BaseModule\Hierarchy();
 			$hierarchy->session = $this->session;
 			$hierarchy->findId = $parentId;
