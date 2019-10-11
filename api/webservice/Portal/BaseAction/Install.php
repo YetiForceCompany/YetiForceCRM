@@ -39,7 +39,7 @@ class Install extends \Api\Core\BaseAction
 	 *    },
 	 *		@OA\RequestBody(
 	 *  			required=false,
-	 *  			description="Input data format",
+	 *  			description="Base action install request body",
 	 *	  ),
 	 *    @OA\Parameter(
 	 *        name="X-ENCRYPTED",
@@ -49,7 +49,7 @@ class Install extends \Api\Core\BaseAction
 	 *    ),
 	 *		@OA\Response(
 	 *				response=200,
-	 *				description="User details",
+	 *				description="Base action details",
 	 *				@OA\JsonContent(ref="#/components/schemas/BaseActionInstallResponseBody"),
 	 *				@OA\XmlContent(ref="#/components/schemas/BaseActionInstallResponseBody"),
 	 *     		@OA\MediaType(
@@ -58,30 +58,10 @@ class Install extends \Api\Core\BaseAction
 	 *     		),
 	 *		),
 	 * ),
-	 * @OA\SecurityScheme(
-	 *		securityScheme="basicAuth",
-	 *		type="http",
-	 *    in="header",
-	 *		scheme="basic"
-	 * ),
-	 * @OA\SecurityScheme(
-	 *		securityScheme="ApiKeyAuth",
-	 *   	type="apiKey",
-	 *    in="header",
-	 * 		name="X-API-KEY",
-	 *   	description="Webservice api key"
-	 * ),
-	 * @OA\Schema(
-	 *	  schema="X-ENCRYPTED",
-	 *		type="string",
-	 *  	description="Is the content request is encrypted",
-	 *  	enum={"0", "1"},
-	 *   	default="0"
-	 * ),
 	 * @OA\Schema(
 	 * 		schema="BaseActionInstallResponseBody",
-	 * 		title="Base action install response body",
-	 * 		description="JSON data",
+	 * 		title="Base action install",
+	 * 		description="The representation of a base action install",
 	 *		type="object",
 	 *  	@OA\Property(
 	 *       	property="status",
