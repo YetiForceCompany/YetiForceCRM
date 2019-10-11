@@ -19,19 +19,20 @@ class Developer
 	/**
 	 * Generate interactive OpenAPI documentation for your RESTful API using doctrine annotations.
 	 *
-	 * @return void
+	 * @return string
 	 */
-	public static function generateSwagger(): void
+	public static function generateSwagger(): string
 	{
 		set_error_handler(function ($errNo, $errStr, $errFile, $errLine) {
 			$errorString = \App\ErrorHandler::error2string($errNo);
 			$msg = reset($errorString) . ": $errStr in $errFile, line $errLine" . PHP_EOL;
 			echo "<pre>$msg</pre><hr>";
 		}, E_ALL);
-
+		$json = '';
 		foreach (['Portal', 'Mail'] as $type) {
-			self::generateSwaggerByType($type, false);
+			$json .= self::generateSwaggerByType($type, false);
 		}
+		return $json;
 	}
 
 	/**
@@ -40,9 +41,9 @@ class Developer
 	 * @param string $type
 	 * @param bool   $errorHandler
 	 *
-	 * @return void
+	 * @return string
 	 */
-	public static function generateSwaggerByType(string $type, $errorHandler = true): void
+	public static function generateSwaggerByType(string $type, $errorHandler = true): string
 	{
 		if ($errorHandler) {
 			set_error_handler(function ($errNo, $errStr, $errFile, $errLine) {
@@ -52,11 +53,8 @@ class Developer
 			}, E_ALL);
 		}
 		$openApi = \OpenApi\scan(ROOT_DIRECTORY . '/api/webservice/' . $type);
-		if (!headers_sent()) {
-			header('Content-Type: application/json');
-			echo $openApi->toJson();
-		}
 		$openApi->saveAs(ROOT_DIRECTORY . "/public_html/api/{$type}.json");
 		$openApi->saveAs(ROOT_DIRECTORY . "/public_html/api/{$type}.yaml");
+		return $openApi->toJson();
 	}
 }
