@@ -22,6 +22,7 @@
     "PLL_ACTIVE": "Active",
     "PLL_INACTIVE": "Inactive",
     "LBL_CREATE_RECORD": "Create",
+    "Mail": "Mail",
     "FL_STORAGE": "Storage"
   },
   "js": {
