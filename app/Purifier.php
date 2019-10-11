@@ -46,7 +46,10 @@ class Purifier
 	 * Purify type Alnum.
 	 */
 	public const ALNUM = 'Alnum';
-
+	/**
+	 * Purify type Alnum.
+	 */
+	public const ALNUM_EXTENDED = 'AlnumExtended';
 	/**
 	 * Default charset.
 	 *
@@ -320,6 +323,9 @@ class Purifier
 				case 'Alnum': // word and int
 				case 2:
 					$value = Validator::alnum($input) ? $input : null;
+					break;
+				case 'AlnumExtended':
+					$value = preg_match('/^[\sA-Za-z0-9\,\_\.]+$/', $input) ? $input : null;
 					break;
 				case 'DateInUserFormat': // date in user format
 					if (!$input) {

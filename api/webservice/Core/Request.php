@@ -12,6 +12,25 @@ namespace Api\Core;
 class Request extends \App\Request
 {
 	/**
+	 * List of headings and sanitization methods.
+	 *
+	 * @var array
+	 */
+	public $headersPurifierMap = [
+		'x-token' => \App\Purifier::ALNUM,
+		'x-api-key' => \App\Purifier::ALNUM,
+		'x-raw-data' => \App\Purifier::INTEGER,
+		'authorization' => \App\Purifier::ALNUM_EXTENDED,
+		'x-parent-id' => \App\Purifier::INTEGER,
+		'encrypted' => \App\Purifier::INTEGER,
+		'x-row-limit' => \App\Purifier::INTEGER,
+		'x-row-offset' => \App\Purifier::INTEGER,
+		'x-unit-price' => \App\Purifier::INTEGER,
+		'x-unit-gross' => \App\Purifier::INTEGER,
+		'x-product-bundles' => \App\Purifier::INTEGER,
+	];
+
+	/**
 	 * Static instance initialization.
 	 *
 	 * @param bool|array $request

@@ -90,6 +90,13 @@ class Request
 	 * @var array
 	 */
 	protected $purifiedValuesByHtml = [];
+	/**
+	 * List of headings and sanitization methods.
+	 *
+	 * @var array
+	 */
+	public $headersPurifierMap = [
+	];
 
 	/**
 	 * Constructor.
@@ -461,16 +468,15 @@ class Request
 			foreach ($_SERVER as $key => $value) {
 				if ('HTTP_' === substr($key, 0, 5)) {
 					$key = str_replace(' ', '-', \strtolower(str_replace('_', ' ', substr($key, 5))));
-					$data[$key] = Purifier::purify($value);
+					$data[$key] = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
 				}
 			}
 		} else {
 			$data = array_change_key_case(apache_request_headers(), \CASE_LOWER);
-			foreach ($data as &$value) {
-				$value = Purifier::purify($value);
+			foreach ($data as $key => &$value) {
+				$value = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
 			}
 		}
-
 		return $this->headers = $data;
 	}
 
@@ -486,7 +492,6 @@ class Request
 		if (!isset($this->headers)) {
 			$this->getHeaders();
 		}
-
 		return isset($this->headers[$key]) ? $this->headers[$key] : null;
 	}
 
