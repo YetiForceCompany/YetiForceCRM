@@ -39,6 +39,7 @@ class Logout extends \Api\Core\BaseAction
 	 *    },
 	 *		@OA\RequestBody(
 	 *  			required=false,
+	 * 				description="Users logout request body",
 	 *	  ),
 	 *    @OA\Parameter(
 	 *        name="X-ENCRYPTED",
