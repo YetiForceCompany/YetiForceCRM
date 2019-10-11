@@ -131,8 +131,8 @@ final class Install extends \Api\Core\BaseAction
 	 * 				@OA\Property(property="serverTime", type="string", format="date-time", example="2019-10-09 11:41:40", title="current time on the server"),
 	 *   			@OA\Property(property="tokenExist", type="boolean", title="Does the token exist in the header?"),
 	 *   			@OA\Property(property="apiKey", type="string", title="api key sent in header"),
+	 * 				@OA\Property(property="languages", type="object", title="List of languages available in the system"),
 	 *    		@OA\Property(property="data", type="object", title="Data that was sent in the request"),
-	 * 				),
 	 *    ),
 	 * ),
 	 * @OA\Tag(
@@ -146,6 +146,7 @@ final class Install extends \Api\Core\BaseAction
 			'serverTime' => date('Y-m-d H:i:s'),
 			'tokenExist' => !empty($this->controller->headers['x-token']),
 			'apiKey' => $this->controller->headers['x-api-key'],
+			'languages' => \App\Language::getAll(),
 			'data' => $this->controller->request->getAllRaw()
 		];
 	}

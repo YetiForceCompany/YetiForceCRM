@@ -173,6 +173,10 @@ components:
               title: 'api key sent in header'
               description: 'Put method.'
               type: string
+            languages:
+              title: 'List of languages available in the system'
+              description: 'Put method.'
+              type: object
             data:
               title: 'Data that was sent in the request'
               description: 'Put method.'
