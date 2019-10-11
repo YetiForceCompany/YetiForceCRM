@@ -138,7 +138,7 @@ class Login extends \Api\Core\BaseAction
 	 * @OA\Schema(
 	 * 		schema="UsersLoginResponseBody",
 	 * 		title="Users login response body",
-	 * 		description="JSON data",
+	 * 		description="Users login response body",
 	 *		type="object",
 	 *  	@OA\Property(
 	 *       	property="status",

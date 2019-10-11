@@ -963,7 +963,7 @@ CREATE TABLE `s_yf_address_finder_config` (
   `type` varchar(50) NOT NULL,
   `val` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_auto_record_flow_updater` */
 
@@ -9069,28 +9069,64 @@ CREATE TABLE `vtiger_ws_userauthtoken` (
   UNIQUE KEY `userid_idx` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `w_yf_mail_session` */
+
+CREATE TABLE `w_yf_mail_session` (
+  `id` char(40) NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `language` varchar(10) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `changed` datetime NOT NULL,
+  `params` text DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `w_yf_mail_session_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `w_yf_mail_user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `w_yf_mail_user` */
+
+CREATE TABLE `w_yf_mail_user` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `server_id` int(10) unsigned NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `user_name` varchar(50) NOT NULL,
+  `password_h` varchar(200) DEFAULT NULL,
+  `password_t` varchar(200) DEFAULT NULL,
+  `login_time` datetime DEFAULT NULL,
+  `logout_time` datetime DEFAULT NULL,
+  `language` varchar(10) DEFAULT NULL,
+  `user_id` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_name` (`user_name`),
+  KEY `user_name_status` (`user_name`,`status`),
+  KEY `server_id` (`server_id`),
+  CONSTRAINT `w_yf_mail_user_ibfk_1` FOREIGN KEY (`server_id`) REFERENCES `w_yf_servers` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `w_yf_portal_session` */
 
 CREATE TABLE `w_yf_portal_session` (
-  `id` varchar(32) NOT NULL,
-  `user_id` int(10) DEFAULT NULL,
+  `id` char(40) NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
   `language` varchar(10) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `changed` datetime DEFAULT NULL,
   `params` text DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `w_yf_portal_session_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `w_yf_portal_user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `w_yf_portal_user` */
 
 CREATE TABLE `w_yf_portal_user` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `server_id` int(10) DEFAULT NULL,
-  `status` tinyint(1) DEFAULT 0,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `server_id` int(10) unsigned NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
   `user_name` varchar(50) NOT NULL,
   `password_h` varchar(200) DEFAULT NULL,
   `password_t` varchar(200) DEFAULT NULL,
-  `type` tinyint(1) unsigned DEFAULT 1,
+  `type` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `login_time` datetime DEFAULT NULL,
   `logout_time` datetime DEFAULT NULL,
   `language` varchar(10) DEFAULT NULL,
@@ -9099,13 +9135,15 @@ CREATE TABLE `w_yf_portal_user` (
   `istorage` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_name` (`user_name`),
-  KEY `user_name_2` (`user_name`,`status`)
+  KEY `user_name_2` (`user_name`,`status`),
+  KEY `server_id` (`server_id`),
+  CONSTRAINT `w_yf_portal_user_ibfk_1` FOREIGN KEY (`server_id`) REFERENCES `w_yf_servers` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `w_yf_servers` */
 
 CREATE TABLE `w_yf_servers` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `pass` varchar(100) DEFAULT NULL,
   `acceptable_url` varchar(255) DEFAULT NULL,

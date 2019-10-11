@@ -18280,6 +18280,10 @@ insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (38,'Documen
 
 /*Data for the table `vtiger_ws_userauthtoken` */
 
+/*Data for the table `w_yf_mail_session` */
+
+/*Data for the table `w_yf_mail_user` */
+
 /*Data for the table `w_yf_portal_session` */
 
 /*Data for the table `w_yf_portal_user` */
