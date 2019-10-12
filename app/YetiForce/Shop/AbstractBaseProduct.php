@@ -236,7 +236,7 @@ abstract class AbstractBaseProduct
 			'src' => 1,
 			'sra' => 1,
 			't3' => 'M',
-			'p3' => \date('d'),
+			'p3' => 1,
 			'item_name' => $this->name,
 			'currency_code' => $this->currencyCode,
 			'on0' => 'Package'
