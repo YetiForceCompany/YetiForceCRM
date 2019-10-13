@@ -178,9 +178,9 @@ color-name@^1.0.0:
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
 core-js@^2.5.7:
-  version "2.6.9"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.9.tgz#6b4b214620c834152e179323727fc19741b084f2"
-  integrity sha512-HOpZf6eXmnl7la+cUdMnLvUxKNqLUzJvgIziQ0DiF3JwSImNphIqdGqzj6hIKyX04MmV0poclQ7+wjWvxQyR2A==
+  version "2.6.10"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.10.tgz#8a5b8391f8cc7013da703411ce5b585706300d7f"
+  integrity sha512-I39t74+4t+zau64EN1fE5v2W31Adtc/REhzWN+gWRRXg6WH5qAsZm62DHpQ1+Yhe4047T55jvzz7MUqF/dBBlA==
 
 css-element-queries@^1.0.5:
   version "1.2.1"
@@ -242,9 +242,9 @@ device-uuid@^1.0.4:
   integrity sha1-9pc+WPGbkqI3rsp7FqOVrnGVqIM=
 
 emoji-mart-vue-fast@^6.0.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/emoji-mart-vue-fast/-/emoji-mart-vue-fast-6.1.1.tgz#06a13973b9fac71e7f792e960260eafac753427b"
-  integrity sha512-MqjdejpHgM6Z4IOl5EeqUXdFHPPGyN7Pk6PkAAn6KSr9XaQ+1xV7rmAQ3hBJ/a82GFVYxPJEox8qSMHs3UDbZQ==
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/emoji-mart-vue-fast/-/emoji-mart-vue-fast-6.1.2.tgz#6591f25358b799cafee52db7431470f3db498165"
+  integrity sha512-hLodAowd47wpEF38m36RgeKOJu3JjIgQW03lyMD375plr2+rnXJcWo4ufEXrZGjD8UaAe63DggVx2KuTqvoRbQ==
   dependencies:
     "@babel/polyfill" "7.2.5"
     "@babel/runtime" "7.3.4"
