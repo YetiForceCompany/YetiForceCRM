@@ -24,7 +24,7 @@ class Menu extends \Api\Core\BaseAction
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/BaseAction/Menu",
-	 *		summary="Logs user into the system",
+	 *		summary="Base action menu into the system",
 	 *		tags={"BaseAction"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : ""}
