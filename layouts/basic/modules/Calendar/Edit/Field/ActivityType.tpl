@@ -21,9 +21,8 @@
 					{if !empty($ACTIVITYTYPE_ICON[$PICKLIST_NAME])}
 						<span class="{$ACTIVITYTYPE_ICON[$PICKLIST_NAME]} align-middle"
 						   title="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}"></span>
-					{else}
-						<span>{\App\Purifier::encodeHtml($PICKLIST_VALUE)}</span>
 					{/if}
+					<span>&nbsp;{\App\Purifier::encodeHtml($PICKLIST_VALUE)}</span>
 				</label>
 			{/foreach}
 		</div>
