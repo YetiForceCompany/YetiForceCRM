@@ -55,6 +55,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			}
 			if (!$request->isAjax()) {
 				header('location: index.php');
+				return true;
 			}
 			throw new \App\Exceptions\Unauthorized('LBL_LOGIN_IS_REQUIRED', 401);
 		}
@@ -166,8 +167,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if (App\Config::main('csrfProtection') && 'demo' !== App\Config::main('systemMode')) { // Ensure handler validates the request
 				$handler->validateRequest($request);
 			}
-			if ($handler->loginRequired()) {
-				$this->checkLogin($request);
+			if ($handler->loginRequired() && $this->checkLogin($request)) {
+				return true;
 			}
 			if ($handler->isSessionExtend($request)) {
 				\App\Session::set('last_activity', \App\Process::$startTime);
