@@ -23,7 +23,6 @@
 						   title="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}"></span>
 					{/if}
 					<span>&nbsp;{\App\Purifier::encodeHtml($PICKLIST_VALUE)}</span>
-
 				</label>
 			{/foreach}
 		</div>
