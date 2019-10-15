@@ -50,26 +50,6 @@ class Menu extends \Api\Core\BaseAction
 	 *     		),
 	 *		),
 	 * ),
-	 * @OA\SecurityScheme(
-	 *		securityScheme="basicAuth",
-	 *		type="http",
-	 *		in="header",
-	 *		scheme="basic"
-	 * ),
-	 * @OA\SecurityScheme(
-	 *		securityScheme="ApiKeyAuth",
-	 *		type="apiKey",
-	 *		in="header",
-	 *		name="X-API-KEY",
-	 *		description="Webservice api key"
-	 * ),
-	 * @OA\SecurityScheme(
-	 *		securityScheme="token",
-	 *   	type="apiKey",
-	 *    in="header",
-	 * 		name="X-TOKEN",
-	 *   	description="Webservice api token,"
-	 * ),
 	 * @OA\Schema(
 	 * 		schema="BaseActionMenuResponseBody",
 	 * 		title="Base action menu",
