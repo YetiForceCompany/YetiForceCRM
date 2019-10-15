@@ -1,5 +1,21 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
+@include media-breakpoint-down(xs) {
+	.modal-header,
+	.modal-body,
+	.modal-footer {
+		padding: 0.5rem;
+	}
+	.modal {
+		padding: 0 !important; //overwrite padding added by js
+	}
+	.modal-dialog {
+		margin: 0;
+	}
+	.modal-content {
+		border: none;
+	}
+}
 .modal-backdrop {
 	z-index: 1032;
 }
@@ -53,19 +69,6 @@
 @include media-breakpoint-up(lg) {
 	.modal-dialog.c-modal--fit-lg {
 		width: fit-content;
-
-	}
-}
-
-@include media-breakpoint-down(xs) {
-	.modal-header,
-	.modal-body,
-	.modal-footer {
-		padding: 0.5rem;
-	}
-
-	.modal {
-		padding: 0;
 	}
 }
 
