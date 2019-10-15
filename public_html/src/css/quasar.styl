@@ -51,18 +51,4 @@
 body .quasar-reset, .q-notifications
 	@import '../../libraries/quasar/src/css/core/typography'
 	@import './quasar.flex.styl'
-
-.q-message-avatar {
-	width:  48px !important;
-}
-
-.backdrop-fix .q-drawer__backdrop {
-  background-color: rgba(0, 0, 0, 0) !important;
-}
-
-.ellipsis-1-line {
-	overflow: hidden;
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 1;
-}
+	@import './quasar.overwrite.styl'
