@@ -2,7 +2,7 @@
 {strip}
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-	<div class="listViewEntriesDiv u-overflow-scroll-touch-device contents-bottomscroll">
+	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop contents-bottomscroll">
 		<table class="table tableBorderHeadBody listViewEntriesTable {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if}">
 			<thead>
 			<tr class="listViewHeaders">

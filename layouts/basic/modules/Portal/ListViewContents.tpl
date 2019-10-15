@@ -30,7 +30,7 @@
 		<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 	</div>
 	<div class="listViewContentDiv" id="listViewContents">
-		<div class="listViewEntriesDiv u-overflow-scroll-touch-device">
+		<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">
 			<input type="hidden" value="{$COLUMN_NAME}" id="orderBy" />
 			<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 			<span class="listViewLoadingImageBlock d-none modal noprint" id="loadingListViewModal">

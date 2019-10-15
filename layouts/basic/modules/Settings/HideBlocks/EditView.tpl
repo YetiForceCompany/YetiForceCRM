@@ -8,7 +8,7 @@
 		</div>
 		<form method="post" action="index.php?module={$MODULE}&parent=Settings&view=Conditions">
 			<input type="hidden" name="record" value="{$RECORD_ID}" />
-			<div class="listViewEntriesDiv u-overflow-scroll-touch-device contents-bottomscroll mt-2" style="overflow-x: visible !important;">
+			<div class="listViewEntriesDiv u-overflow-scroll-non-desktop contents-bottomscroll mt-2" style="overflow-x: visible !important;">
 				<div class="bottomscroll-div table-responsive">
 					<table class="table table-bordered" width="100%" name="targetModuleFields">
 						<tr class="blockHeader">

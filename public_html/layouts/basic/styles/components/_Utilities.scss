@@ -547,7 +547,7 @@
 }
 
 body:not(.desktop) {
-	.u-overflow-scroll-touch-device {
+	.u-overflow-scroll-non-desktop {
 		overflow: scroll !important;
 	}
 }

@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-Settings-CronTasks-ListViewContents listViewEntriesDiv u-overflow-scroll-touch-device mt-2">
+	<div class="tpl-Settings-CronTasks-ListViewContents listViewEntriesDiv u-overflow-scroll-non-desktop mt-2">
 		<span class="listViewLoadingImageBlock d-none modal" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image"
 				 title="{\App\Language::translate('LBL_LOADING')}"/>

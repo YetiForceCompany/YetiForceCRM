@@ -21,7 +21,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="listViewContentDiv" id="listViewContents">
-						<div class="listViewEntriesDiv u-overflow-scroll-touch-device">
+						<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">
 							<table class="table table-bordered listViewEntriesTable">
 								<thead>
 								<tr class="listViewHeaders">

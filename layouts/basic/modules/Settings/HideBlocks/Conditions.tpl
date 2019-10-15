@@ -26,7 +26,7 @@
 				<input type="hidden" name="enabled" value="{$ENABLED}" />
 				<input type="hidden" name="views" value="{$VIEWS}" />
 				<input type="hidden" name="conditions" class="advanced_filter" value="{$ENABLED}" />
-				<div class="listViewEntriesDiv u-overflow-scroll-touch-device contents-bottomscroll" style="overflow-x: visible !important;">
+				<div class="listViewEntriesDiv u-overflow-scroll-non-desktop contents-bottomscroll" style="overflow-x: visible !important;">
 					<div class="bottomscroll-div">
 						{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl') RECORD_STRUCTURE=$RECORD_STRUCTURE}
 					</div>
