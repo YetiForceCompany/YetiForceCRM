@@ -13870,3 +13870,12 @@ body .quasar-reset .ellipsis-1-line,
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
 }
+body .quasar-reset .ellipsis-1-line,
+.q-notifications .ellipsis-1-line,
+body .quasar-reset .ellipsis-2-line,
+.q-notifications .ellipsis-2-line,
+body .quasar-reset .ellipsis-3-line,
+.q-notifications .ellipsis-3-line {
+  white-space: normal;
+  word-break: break-word;
+}
