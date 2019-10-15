@@ -372,9 +372,14 @@ ul.ui-autocomplete {
 }
 
 //-------- perfectscrollbar --------//
-
-.leftPanel .ps-scrollbar-y-rail {
-	display: none !important;
+body:not(.desktop) {
+	.leftPanel .ps-scrollbar-y-rail {
+		display: none !important;
+	}
+	.ps__rail-x,
+	.ps__rail-y {
+		display: none !important;
+	}
 }
 
 .c-scrollbar-x--small {

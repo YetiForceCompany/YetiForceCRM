@@ -10,7 +10,7 @@
 			<div class="alert alert-warning">
 				{\App\Language::translate('LBL_MANDATORY_FIELDS_EXIST', $QUALIFIED_MODULE)}
 			</div>
-			<br />	
+			<br />
 			<div class="float-right">
 				<button class="btn btn-warning text-white" type="reset" onclick="javascript:window.history.back();"><span
 							class="fa fa-caret-left u-mr-5px"></span>{\App\Language::translate('LBL_BACK', $MODULE)}</button>
@@ -26,12 +26,12 @@
 				<input type="hidden" name="enabled" value="{$ENABLED}" />
 				<input type="hidden" name="views" value="{$VIEWS}" />
 				<input type="hidden" name="conditions" class="advanced_filter" value="{$ENABLED}" />
-				<div class="listViewEntriesDiv u-overflow-scroll-xsm-down contents-bottomscroll" style="overflow-x: visible !important;">
+				<div class="listViewEntriesDiv u-overflow-scroll-non-desktop contents-bottomscroll" style="overflow-x: visible !important;">
 					<div class="bottomscroll-div">
 						{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl') RECORD_STRUCTURE=$RECORD_STRUCTURE}
 					</div>
 				</div>
-				<br />	
+				<br />
 				<div class="">
 					<div class="float-right">
 						<button class="saveLink btn btn-success text-white" ><strong><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
@@ -40,7 +40,7 @@
 					</div>
 					<div class="clearfix"></div>
 				</div>
-			</form>	
+			</form>
 		{/if}
 	</div>
 {/strip}

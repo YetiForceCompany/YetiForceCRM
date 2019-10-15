@@ -2110,7 +2110,7 @@ jQuery.Class(
 			app.registerMiddleClickScroll(container);
 		},
 		registerFixedThead(container) {
-			if ($(window).width() < app.breakpoints.sm) {
+			if (!Quasar.plugins.Platform.is.desktop) {
 				this.listFloatThead = container.find('.js-fixed-thead');
 				this.listFloatThead.floatThead('destroy');
 				this.listFloatThead.floatThead({
@@ -2128,7 +2128,7 @@ jQuery.Class(
 			return this.listFloatThead;
 		},
 		reflowThead() {
-			if ($(window).width() > app.breakpoints.sm) {
+			if (Quasar.plugins.Platform.is.desktop) {
 				this.getFloatTheadContainer().floatThead('reflow');
 			}
 		},
@@ -2170,13 +2170,13 @@ jQuery.Class(
 		 * @param {jQuery} listViewContainer
 		 */
 		registerDesktopEvents(listViewContainer) {
-			if ($(window).width() > app.breakpoints.sm) {
+			if (Quasar.plugins.Platform.is.desktop) {
 				this.registerListScroll(listViewContainer);
 				this.registerFixedThead(listViewContainer);
 			}
 		},
 		registerPostLoadDesktopEvents(listViewContainer) {
-			if ($(window).width() > app.breakpoints.sm) {
+			if (Quasar.plugins.Platform.is.desktop) {
 				new PerfectScrollbar(listViewContainer[0]).destroy();
 				listViewContainer.find('.js-fixed-thead').floatThead('destroy');
 				listViewContainer.siblings('.floatThead-container').remove();

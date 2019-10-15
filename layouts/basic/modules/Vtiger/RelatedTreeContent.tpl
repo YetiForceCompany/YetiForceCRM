@@ -1,7 +1,7 @@
 {strip}
 	{if count($RELATED_RECORDS) > 0}
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-		<div class="listViewEntriesDiv u-overflow-scroll-xsm-down contents-bottomscroll">
+		<div class="listViewEntriesDiv u-overflow-scroll-non-desktop contents-bottomscroll">
 			<table class="table noStyle">
 				<thead>
 					<tr>

@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />
-	<div class="listViewEntriesDiv u-overflow-scroll-xsm-down">
+	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">
 		<span class="listViewLoadingImageBlock d-none modal" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
@@ -30,7 +30,7 @@
 							<button id="deleteButton" class="btn btn-danger c-btn-block-sm-down" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"><span class="fas fa-trash-alt"></span></button>
 					</div>
 				</div>
-				<div class="feedListContainer pushDown"> 
+				<div class="feedListContainer pushDown">
 					{include file=\App\Layout::getTemplatePath('RssFeedContents.tpl', $MODULE)}
 				</div>
 			{else}

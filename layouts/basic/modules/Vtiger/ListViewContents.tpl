@@ -23,7 +23,7 @@
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE_NAME)}
 	<div class="clearfix"></div>
-	<div class="listViewEntriesDiv u-overflow-scroll-xsm-down">
+	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy"/>
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder"/>
 		<div class="listViewLoadingImageBlock d-none modal noprint" id="loadingListViewModal">

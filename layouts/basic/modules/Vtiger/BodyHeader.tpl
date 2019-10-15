@@ -262,7 +262,7 @@
 				   data-js="click" role="button" aria-expanded="false" aria-controls="o-action-menu__container">
 					<span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 				</a>
-				<div class="o-action-menu__container d-flex flex-sm-nowrap" id="o-action-menu__container">
+				<div class="o-action-menu__container d-flex flex-md-nowrap flex-column flex-md-row" id="o-action-menu__container">
 					{assign var=QUICKCREATE_MODULES_PARENT value=Vtiger_Module_Model::getQuickCreateModules(true, true)}
 					{if !empty($QUICKCREATE_MODULES_PARENT)}
 						<div class="o-action-menu__item commonActionsContainer">
