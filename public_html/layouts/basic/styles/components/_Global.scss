@@ -12,17 +12,12 @@
 	margin-top: 0;
 	padding-top: 0;
 	padding-bottom: 15px;
-
-	@include media-breakpoint-down(xs) {
-		overflow-y: scroll;
-		-webkit-overflow-scrolling: touch;
-	}
 }
 
-@include media-breakpoint-down(xs) {
-	.ps__rail-x,
-	.ps__rail-y {
-		display: none !important;
+body:not(.desktop) {
+	.bodyContent {
+		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;
 	}
 }
 

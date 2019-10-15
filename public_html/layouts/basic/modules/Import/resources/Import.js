@@ -9,12 +9,12 @@
  ************************************************************************************/
 'use strict';
 
-if (typeof (ImportJs) === "undefined") {
+if (typeof ImportJs === 'undefined') {
 	/*
 	 * Namespaced javascript class for Import
 	 */
 	var ImportJs = {
-		toogleMergeConfiguration: function () {
+		toogleMergeConfiguration: function() {
 			var mergeChecked = jQuery('#auto_merge').is(':checked');
 			var duplicateMergeConfiguration = jQuery('#duplicates_merge_configuration');
 			if (mergeChecked) {
@@ -23,7 +23,7 @@ if (typeof (ImportJs) === "undefined") {
 				duplicateMergeConfiguration.hide();
 			}
 		},
-		checkFileType: function () {
+		checkFileType: function() {
 			var filePath = jQuery('#import_file').val();
 			if (filePath != '') {
 				var fileExtension = filePath.split('.').pop();
@@ -31,7 +31,7 @@ if (typeof (ImportJs) === "undefined") {
 				ImportJs.handleFileTypeChange();
 			}
 		},
-		handleFileTypeChange: function () {
+		handleFileTypeChange: function() {
 			var fileType = jQuery('.js-type').val();
 			var delimiterContainer = jQuery('.js-delimiter-container');
 			var hasHeaderContainer = jQuery('.js-has-header-container');
@@ -57,19 +57,19 @@ if (typeof (ImportJs) === "undefined") {
 					xmlTpl.addClass('d-none');
 			}
 		},
-		uploadAndParse: function () {
-			if (!ImportJs.validateFilePath())
-				return false;
-			if (!ImportJs.validateMergeCriteria())
-				return false;
+		uploadAndParse: function() {
+			if (!ImportJs.validateFilePath()) return false;
+			if (!ImportJs.validateMergeCriteria()) return false;
 			return true;
 		},
 		registerImportClickEvent() {
-			$('#importButton').removeAttr('disabled').on('click', function (e) {
-				return ImportJs.sanitizeAndSubmit();
-			});
+			$('#importButton')
+				.removeAttr('disabled')
+				.on('click', function(e) {
+					return ImportJs.sanitizeAndSubmit();
+				});
 		},
-		validateFilePath: function () {
+		validateFilePath: function() {
 			var importFile = jQuery('#import_file');
 			var filePath = importFile.val();
 			if (jQuery.trim(filePath) == '') {
@@ -82,15 +82,15 @@ if (typeof (ImportJs) === "undefined") {
 				importFile.focus();
 				return false;
 			}
-			if (!ImportJs.uploadFilter("import_file", "csv|vcf|xml|zip|ics|ical")) {
+			if (!ImportJs.uploadFilter('import_file', 'csv|vcf|xml|zip|ics|ical')) {
 				return false;
 			}
-			if (!ImportJs.uploadFileSize("import_file")) {
+			if (!ImportJs.uploadFileSize('import_file')) {
 				return false;
 			}
 			return true;
 		},
-		uploadFilter: function (elementId, allowedExtensions) {
+		uploadFilter: function(elementId, allowedExtensions) {
 			var obj = jQuery('#' + elementId);
 			if (obj) {
 				var filePath = obj.val();
@@ -110,13 +110,18 @@ if (typeof (ImportJs) === "undefined") {
 			}
 			return true;
 		},
-		uploadFileSize: function (elementId) {
+		uploadFileSize: function(elementId) {
 			var element = jQuery('#' + elementId);
 			var importMaxUploadSize = element.closest('td').data('importUploadSize');
 			var importMaxUploadSizeInMb = element.closest('td').data('importUploadSizeMb');
 			var uploadedFileSize = element.get(0).files[0].size;
 			if (uploadedFileSize > importMaxUploadSize) {
-				var errorMessage = app.vtranslate('JS_UPLOADED_FILE_SIZE_EXCEEDS') + " " + importMaxUploadSizeInMb + " MB." + app.vtranslate('JS_PLEASE_SPLIT_FILE_AND_IMPORT_AGAIN');
+				var errorMessage =
+					app.vtranslate('JS_UPLOADED_FILE_SIZE_EXCEEDS') +
+					' ' +
+					importMaxUploadSizeInMb +
+					' MB.' +
+					app.vtranslate('JS_PLEASE_SPLIT_FILE_AND_IMPORT_AGAIN');
 				var params = {
 					text: errorMessage,
 					type: 'error'
@@ -126,7 +131,7 @@ if (typeof (ImportJs) === "undefined") {
 			}
 			return true;
 		},
-		validateMergeCriteria: function () {
+		validateMergeCriteria: function() {
 			var mergeChecked = jQuery('#auto_merge').is(':checked');
 			if (mergeChecked) {
 				var selectedOptions = jQuery('#selected_merge_fields option');
@@ -134,7 +139,7 @@ if (typeof (ImportJs) === "undefined") {
 					var errorMessage = app.vtranslate('JS_PLEASE_SELECT_ONE_FIELD_FOR_MERGE');
 					var params = {
 						text: errorMessage,
-						'type': 'error'
+						type: 'error'
 					};
 					Vtiger_Helper_Js.showMessage(params);
 					return false;
@@ -143,28 +148,25 @@ if (typeof (ImportJs) === "undefined") {
 			ImportJs.convertOptionsToJSONArray('#selected_merge_fields', '#merge_fields');
 			return true;
 		},
-		convertOptionsToJSONArray: function (objName, targetObjName) {
+		convertOptionsToJSONArray: function(objName, targetObjName) {
 			var obj = jQuery(objName);
 			var arr = [];
-			if (typeof (obj) !== "undefined" && obj[0] != '') {
+			if (typeof obj !== 'undefined' && obj[0] != '') {
 				for (var i = 0; i < obj[0].length; ++i) {
 					arr.push(obj[0].options[i].value);
 				}
 			}
-			if (targetObjName !== "undefined") {
+			if (targetObjName !== 'undefined') {
 				var targetObj = $(targetObjName);
-				if (typeof (targetObj) !== "undefined")
-					targetObj.val(JSON.stringify(arr));
+				if (typeof targetObj !== 'undefined') targetObj.val(JSON.stringify(arr));
 			}
 			return arr;
 		},
-		copySelectedOptions: function (source, destination) {
-
+		copySelectedOptions: function(source, destination) {
 			var srcObj = jQuery(source);
 			var destObj = jQuery(destination);
 
-			if (typeof (srcObj) === "undefined" || typeof (destObj) === "undefined")
-				return;
+			if (typeof srcObj === 'undefined' || typeof destObj === 'undefined') return;
 
 			for (var i = 0; i < srcObj[0].length; i++) {
 				if (srcObj[0].options[i].selected == true) {
@@ -185,13 +187,12 @@ if (typeof (ImportJs) === "undefined") {
 						jQuery(destObj[0]).append(opt);
 						srcObj[0].options[i].selected = false;
 					} else {
-						if (existingObj != null)
-							existingObj.selected = true;
+						if (existingObj != null) existingObj.selected = true;
 					}
 				}
 			}
 		},
-		removeSelectedOptions: function (objName) {
+		removeSelectedOptions: function(objName) {
 			var obj = jQuery(objName);
 			if (!obj.length) {
 				return;
@@ -202,14 +203,12 @@ if (typeof (ImportJs) === "undefined") {
 				}
 			}
 		},
-		sanitizeAndSubmit: function () {
-			if (!ImportJs.sanitizeFieldMapping())
-				return false;
-			if (!ImportJs.validateCustomMap())
-				return false;
+		sanitizeAndSubmit: function() {
+			if (!ImportJs.sanitizeFieldMapping()) return false;
+			if (!ImportJs.validateCustomMap()) return false;
 			return true;
 		},
-		sanitizeFieldMapping: function () {
+		sanitizeFieldMapping: function() {
 			var fieldsList = jQuery('.fieldIdentifier');
 			var mappedFields = {};
 			var inventoryMappedFields = {};
@@ -232,7 +231,11 @@ if (typeof (ImportJs) === "undefined") {
 				if (selectedFieldName != '') {
 					var stopImmediately;
 					if (selectElement.hasClass('inventory')) {
-						stopImmediately = ImportJs.checkIfMappedFieldExist(selectedFieldName, inventoryMappedFields, selectedFieldElement);
+						stopImmediately = ImportJs.checkIfMappedFieldExist(
+							selectedFieldName,
+							inventoryMappedFields,
+							selectedFieldElement
+						);
 						inventoryMappedFields[selectedFieldName] = rowId - 1;
 					} else {
 						stopImmediately = ImportJs.checkIfMappedFieldExist(selectedFieldName, mappedFields, selectedFieldElement);
@@ -260,7 +263,7 @@ if (typeof (ImportJs) === "undefined") {
 				errorMessage = app.vtranslate('JS_MAP_MANDATORY_FIELDS') + missingMandatoryFields.join(',');
 				params = {
 					text: errorMessage,
-					'type': 'error'
+					type: 'error'
 				};
 				Vtiger_Helper_Js.showMessage(params);
 				return false;
@@ -270,19 +273,19 @@ if (typeof (ImportJs) === "undefined") {
 			jQuery('#default_values').val(JSON.stringify(mappedDefaultValues));
 			return true;
 		},
-		checkIfMappedFieldExist: function (selectedFieldName, mappedFields, selectedFieldElement) {
+		checkIfMappedFieldExist: function(selectedFieldName, mappedFields, selectedFieldElement) {
 			if (selectedFieldName in mappedFields) {
-				var errorMessage = app.vtranslate('JS_FIELD_MAPPED_MORE_THAN_ONCE') + " " + selectedFieldElement.data('label');
+				var errorMessage = app.vtranslate('JS_FIELD_MAPPED_MORE_THAN_ONCE') + ' ' + selectedFieldElement.data('label');
 				var params = {
 					text: errorMessage,
-					'type': 'error'
+					type: 'error'
 				};
 				Vtiger_Helper_Js.showMessage(params);
 				return true;
 			}
 			return false;
 		},
-		validateCustomMap: function () {
+		validateCustomMap: function() {
 			var errorMessage;
 			var params = {};
 			var saveMap = jQuery('#save_map').is(':checked');
@@ -292,7 +295,7 @@ if (typeof (ImportJs) === "undefined") {
 					errorMessage = app.vtranslate('JS_MAP_NAME_CAN_NOT_BE_EMPTY');
 					params = {
 						text: errorMessage,
-						'type': 'error'
+						type: 'error'
 					};
 					Vtiger_Helper_Js.showMessage(params);
 					return false;
@@ -304,7 +307,7 @@ if (typeof (ImportJs) === "undefined") {
 						errorMessage = app.vtranslate('JS_MAP_NAME_ALREADY_EXISTS');
 						params = {
 							text: errorMessage,
-							'type': 'error'
+							type: 'error'
 						};
 						Vtiger_Helper_Js.showMessage(params);
 						return false;
@@ -313,12 +316,12 @@ if (typeof (ImportJs) === "undefined") {
 			}
 			return true;
 		},
-		loadSavedMap: function () {
+		loadSavedMap: function() {
 			var selectedMapElement = jQuery('#saved_maps option:selected');
 			var mapId = selectedMapElement.attr('id');
 			var fieldsList = jQuery('.fieldIdentifier');
 			var deleteMapContainer = jQuery('#delete_map_container');
-			fieldsList.each(function (i, element) {
+			fieldsList.each(function(i, element) {
 				var fieldElement = jQuery(element);
 				jQuery('[name=mapped_fields]', fieldElement).val('');
 			});
@@ -328,8 +331,7 @@ if (typeof (ImportJs) === "undefined") {
 			}
 			deleteMapContainer.show();
 			var mappingString = selectedMapElement.val();
-			if (mappingString == '')
-				return;
+			if (mappingString == '') return;
 			var mappingPairs = mappingString.split('&');
 			var mapping = {};
 			for (var i = 0; i < mappingPairs.length; ++i) {
@@ -339,7 +341,7 @@ if (typeof (ImportJs) === "undefined") {
 				header = header.replace(/\/amp\//g, '&');
 				mapping["'" + header + "'"] = mappingPair[1];
 			}
-			fieldsList.each(function (i, element) {
+			fieldsList.each(function(i, element) {
 				var fieldElement = jQuery(element);
 				var mappedFields = jQuery('[name=mapped_fields]', fieldElement);
 				var rowId = jQuery('[name=row_counter]', fieldElement).get(0).value;
@@ -354,34 +356,35 @@ if (typeof (ImportJs) === "undefined") {
 				ImportJs.loadDefaultValueWidget(fieldElement.attr('id'));
 			});
 		},
-		deleteMap: function (module) {
-			let callback = function () {
+		deleteMap: function(module) {
+			let callback = function() {
 				var selectedMapElement = jQuery('#saved_maps option:selected');
 				var mapId = selectedMapElement.attr('id');
 				var status = jQuery('#status');
 				status.show();
 				var postData = {
-					"module": module,
-					"view": 'Import',
-					"mode": 'deleteMap',
-					"mapid": mapId
+					module: module,
+					view: 'Import',
+					mode: 'deleteMap',
+					mapid: mapId
 				};
 
-				AppConnector.request(postData).done(function (data) {
-					jQuery('#savedMapsContainer').html(data);
-					status.hide();
-					var parent = jQuery("#saved_maps");
-					App.Fields.Picklist.changeSelectElementView(parent);
-				}).fail(function (error, err) {
-					console.error(error)
-				});
+				AppConnector.request(postData)
+					.done(function(data) {
+						jQuery('#savedMapsContainer').html(data);
+						status.hide();
+						var parent = jQuery('#saved_maps');
+						App.Fields.Picklist.changeSelectElementView(parent);
+					})
+					.fail(function(error, err) {
+						console.error(error);
+					});
 			};
 			app.showConfirmModal(app.vtranslate('LBL_DELETE_CONFIRMATION'), callback);
 		},
-		loadDefaultValueWidget: function (rowIdentifierId) {
+		loadDefaultValueWidget: function(rowIdentifierId) {
 			var affectedRow = jQuery('#' + rowIdentifierId);
-			if (typeof affectedRow === "undefined" || affectedRow == null)
-				return;
+			if (typeof affectedRow === 'undefined' || affectedRow == null) return;
 			var selectedFieldElement = jQuery('[name=mapped_fields]', affectedRow).get(0);
 			var selectedFieldName = jQuery(selectedFieldElement).val();
 			var defaultValueContainer = jQuery(jQuery('[name=default_value_container]', affectedRow).get(0));
@@ -390,35 +393,37 @@ if (typeof (ImportJs) === "undefined") {
 				var copyOfDefaultValueWidget = jQuery(':first', defaultValueContainer).detach();
 				copyOfDefaultValueWidget.appendTo(allDefaultValuesContainer);
 			}
-			var selectedFieldDefValueContainer = jQuery('#' + selectedFieldName + '_defaultvalue_container', allDefaultValuesContainer);
+			var selectedFieldDefValueContainer = jQuery(
+				'#' + selectedFieldName + '_defaultvalue_container',
+				allDefaultValuesContainer
+			);
 			var defaultValueWidget = selectedFieldDefValueContainer.detach();
 			defaultValueWidget.appendTo(defaultValueContainer);
 		},
-		loadDefaultValueWidgetForMappedFields: function () {
+		loadDefaultValueWidgetForMappedFields: function() {
 			var fieldsList = jQuery('.fieldIdentifier');
-			fieldsList.each(function (i, element) {
+			fieldsList.each(function(i, element) {
 				var fieldElement = jQuery(element);
 				var mappedFieldName = jQuery('[name=mapped_fields]', fieldElement).val();
 				if (mappedFieldName != '') {
 					ImportJs.loadDefaultValueWidget(fieldElement.attr('id'));
 				}
 			});
-
 		},
-		submitAction: function () {
+		submitAction: function() {
 			var form = jQuery('[name="importAdvanced"]');
-			form.on('submit', function () {
+			form.on('submit', function() {
 				$.progressIndicator({
-					'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
-					'position': 'html',
-					'blockInfo': {
-						'enabled': true
+					message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+					position: 'html',
+					blockInfo: {
+						enabled: true
 					}
 				});
 			});
 		},
-		openListInModal: function () {
-			$('.js-open-list-in-modal').on('click', function () {
+		openListInModal: function() {
+			$('.js-open-list-in-modal').on('click', function() {
 				let element = $(this),
 					moduleName = element.data('module-name'),
 					type = '',
@@ -427,24 +432,35 @@ if (typeof (ImportJs) === "undefined") {
 				if ($(this).attr('data-type') !== '') {
 					type = '&type=' + element.data('type');
 				}
-				app.showModalWindow(null, 'index.php?module=' + moduleName + '&view=List&mode=getImportDetails' + type + '&start=1&foruser=' + forUser + '&forModule=' + forModule, function (data) {
-					let container = data.find('.listViewEntriesDiv'),
-						containerH = container.height(),
-						containerOffsetTop = container.offset().top,
-						footerH = $('.js-footer').height(),
-						windowH = $(window).height();
-					if ($(window).width() > app.breakpoints.sm) {
-						if ((containerH + containerOffsetTop + footerH) > windowH) {
-							container.height(windowH - (containerOffsetTop + footerH));
+				app.showModalWindow(
+					null,
+					'index.php?module=' +
+						moduleName +
+						'&view=List&mode=getImportDetails' +
+						type +
+						'&start=1&foruser=' +
+						forUser +
+						'&forModule=' +
+						forModule,
+					function(data) {
+						let container = data.find('.listViewEntriesDiv'),
+							containerH = container.height(),
+							containerOffsetTop = container.offset().top,
+							footerH = $('.js-footer').height(),
+							windowH = $(window).height();
+						if (Quasar.plugins.Platform.is.desktop) {
+							if (containerH + containerOffsetTop + footerH > windowH) {
+								container.height(windowH - (containerOffsetTop + footerH));
+							}
+							app.showNewScrollbarTopBottomRight(container);
 						}
-						app.showNewScrollbarTopBottomRight(container);
 					}
-				});
+				);
 			});
 		}
 	};
 
-	jQuery(document).ready(function () {
+	jQuery(document).ready(function() {
 		ImportJs.toogleMergeConfiguration();
 		ImportJs.openListInModal();
 		ImportJs.submitAction();

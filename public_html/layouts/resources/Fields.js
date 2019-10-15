@@ -2237,7 +2237,7 @@ window.App.Fields = {
 	Utils: {
 		registerMobileDateRangePicker(element) {
 			this.hideMobileKeyboard(element);
-			if ($(window).width() < app.breakpoints.sm) {
+			if (!Quasar.plugins.Platform.is.desktop) {
 				element
 					.on('showCalendar.daterangepicker', (ev, picker) => {
 						picker.container.addClass('js-visible');
@@ -2248,7 +2248,7 @@ window.App.Fields = {
 			}
 		},
 		hideMobileKeyboard(element) {
-			if ($(window).width() < app.breakpoints.sm) {
+			if (!Quasar.plugins.Platform.is.desktop) {
 				element.attr('readonly', 'true').addClass('bg-white');
 			}
 		},

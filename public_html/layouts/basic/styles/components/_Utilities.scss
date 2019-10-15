@@ -546,8 +546,8 @@
 	overflow-x: hidden !important;
 }
 
-@include media-breakpoint-down(xsm) {
-	.u-overflow-scroll-xsm-down {
+body:not(.desktop) {
+	.u-overflow-scroll-touch-device {
 		overflow: scroll !important;
 	}
 }

@@ -12,7 +12,7 @@
 	<input type='hidden' value="{$PAGE_NUMBER}" id="pageNumber">
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id="pageLimit">
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
-	<div class="listViewEntriesDiv u-overflow-scroll-xsm-down" style='overflow-x:auto;'>
+	<div class="listViewEntriesDiv u-overflow-scroll-touch-device" style='overflow-x:auto;'>
 		{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}

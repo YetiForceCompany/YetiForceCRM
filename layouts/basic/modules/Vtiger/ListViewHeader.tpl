@@ -89,7 +89,7 @@
 						<input type="hidden" value="0" id="customFilter"/>
 					{/if}
 				</div>
-				<div class="c-list__right-container d-flex flex-nowrap u-overflow-scroll-xsm-down">
+				<div class="c-list__right-container d-flex flex-nowrap u-overflow-scroll-touch-device">
 					{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 				</div>
 			</div>

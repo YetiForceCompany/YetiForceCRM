@@ -6,7 +6,7 @@
 	<input type="hidden" value="0" id="totalCount">
 	<input type="hidden" id="previousPageExist" value="false"/>
 	<input type="hidden" id="nextPageExist" value="false"/>
-	<div class="listViewEntriesDiv u-overflow-scroll-xsm-down">
+	<div class="listViewEntriesDiv u-overflow-scroll-touch-device">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 		<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
