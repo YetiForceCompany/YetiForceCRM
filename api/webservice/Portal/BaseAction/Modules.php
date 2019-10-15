@@ -24,7 +24,7 @@ class Modules extends \Api\Core\BaseAction
 	 *		summary="Base action modules into the system",
 	 *		tags={"BaseAction"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : ""}
+	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
 	 *    },
 	 *		@OA\RequestBody(
 	 *  			required=false,
