@@ -27,11 +27,11 @@ class Menu extends \Api\Core\BaseAction
 	 *		summary="Base action menu into the system",
 	 *		tags={"BaseAction"},
 	 *		security={
-	 *			{"basicAuth" : "", "ApiKeyAuth" : ""}
+	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
 	 *    },
 	 *		@OA\RequestBody(
 	 *  			required=false,
-	 *  			description="Base action menu request body",
+	 *  			description="Request body does not occur",
 	 *	  ),
 	 *    @OA\Parameter(
 	 *        name="X-ENCRYPTED",
@@ -41,7 +41,7 @@ class Menu extends \Api\Core\BaseAction
 	 *    ),
 	 *		@OA\Response(
 	 *				response=200,
-	 *				description="Base action menu details",
+	 *				description="Menu details",
 	 *				@OA\JsonContent(ref="#/components/schemas/BaseActionMenuResponseBody"),
 	 *				@OA\XmlContent(ref="#/components/schemas/BaseActionMenuResponseBody"),
 	 *     		@OA\MediaType(
@@ -49,6 +49,26 @@ class Menu extends \Api\Core\BaseAction
 	 *         		@OA\Schema(ref="#/components/schemas/BaseActionMenuResponseBody")
 	 *     		),
 	 *		),
+	 * ),
+	 * @OA\SecurityScheme(
+	 *		securityScheme="basicAuth",
+	 *		type="http",
+	 *		in="header",
+	 *		scheme="basic"
+	 * ),
+	 * @OA\SecurityScheme(
+	 *		securityScheme="ApiKeyAuth",
+	 *		type="apiKey",
+	 *		in="header",
+	 *		name="X-API-KEY",
+	 *		description="Webservice api key"
+	 * ),
+	 * @OA\SecurityScheme(
+	 *		securityScheme="token",
+	 *   	type="apiKey",
+	 *    in="header",
+	 * 		name="X-TOKEN",
+	 *   	description="Webservice api token,"
 	 * ),
 	 * @OA\Schema(
 	 * 		schema="BaseActionMenuResponseBody",
@@ -63,9 +83,30 @@ class Menu extends \Api\Core\BaseAction
 	 * 		),
 	 *    @OA\Property(
 	 *     	  property="result",
-	 *     	 	description="Gets menu items",
+	 *     	 	description="Menu items selected in the system, consists of parents and children",
 	 *    	 	type="object",
+	 * 				@OA\Property(
+	 * 					property="items",
+	 * 					type="object",
+	 * 					title="Parent parameters",
+	 * 					@OA\Property(property="id", type="integer"),
+	 * 					@OA\Property(property="tabid", type="integer"),
+	 * 					@OA\Property(property="mod", type="string"),
+	 * 					@OA\Property(property="name", type="string"),
+	 * 					@OA\Property(property="type", type="string"),
+	 * 					@OA\Property(property="sequence", type="integer"),
+	 * 					@OA\Property(property="newwindow", type="integer"),
+	 * 					@OA\Property(property="dataurl", type="string"),
+	 * 					@OA\Property(property="icon", type="string"),
+	 * 					@OA\Property(property="parent", type="integer"),
+	 * 					@OA\Property(property="hotkey", type="string"),
+	 * 					@OA\Property(property="filters", type="string"),
+	 * 					@OA\Property(
+	 * 						property="childs",
+	 * 						type="object",
+	 * 						title="Children parameters",
 	 * 				),
+	 * 			),
 	 *    ),
 	 * ),
 	 */
