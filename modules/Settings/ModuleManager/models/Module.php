@@ -265,7 +265,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field6->label = 'Created By';
 		$field6->table = 'vtiger_crmentity';
 		$field6->column = 'smcreatorid';
-		$field6->uitype = 53;
+		$field6->uitype = 52;
 		$field6->typeofdata = 'V~O';
 		$field6->displaytype = 2;
 		$field6->quickcreate = 3;
