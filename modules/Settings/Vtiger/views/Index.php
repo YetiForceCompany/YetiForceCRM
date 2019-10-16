@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Settings_Vtiger_Index_View extends Vtiger_Basic_View
+class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 {
 	use \App\Controller\ExposeMethod;
 

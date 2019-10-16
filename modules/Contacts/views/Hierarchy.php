@@ -7,7 +7,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
-class Contacts_Hierarchy_View extends \App\Controller\View
+class Contacts_Hierarchy_View extends \App\Controller\View\Page
 {
 	use App\Controller\ClearProcess;
 

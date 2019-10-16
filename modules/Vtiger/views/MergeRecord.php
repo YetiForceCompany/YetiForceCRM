@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * ************************************************************************************ */
 
-class Vtiger_MergeRecord_View extends \App\Controller\View
+class Vtiger_MergeRecord_View extends \App\Controller\View\Page
 {
 	public function checkPermission(\App\Request $request)
 	{

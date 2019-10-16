@@ -7,7 +7,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class SSalesProcesses_Hierarchy_View extends \App\Controller\View
+class SSalesProcesses_Hierarchy_View extends \App\Controller\View\Page
 {
 	use App\Controller\ClearProcess;
 

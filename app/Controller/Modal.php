@@ -12,7 +12,7 @@ namespace App\Controller;
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-abstract class Modal extends View
+abstract class Modal extends View\Base
 {
 	/**
 	 * Modal size.

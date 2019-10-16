@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Vtiger_TooltipAjax_View extends \App\Controller\View
+class Vtiger_TooltipAjax_View extends \App\Controller\View\Page
 {
 	/**
 	 * Checking permissions.

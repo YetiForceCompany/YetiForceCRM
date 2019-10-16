@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Users_Login_View extends \App\Controller\View
+class Users_Login_View extends \App\Controller\View\Page
 {
 	/**
 	 * {@inheritdoc}

@@ -31,14 +31,13 @@
 	</div>
 	</div>
 	</div>
-	</div>
 	<input class="tpl-Footer d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}"/>
 	{if \App\Privilege::isPermitted('Chat')}
 		<div class="quasar-reset">
 			<div id="ChatModalVue"></div>
 		</div>
 	{/if}
-	{if $SHOW_FOOTER}
+	{if $SHOW_FOOTER_BAR}
 		<footer class="c-footer fixed-bottom js-footer{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active{/if} {if $DISABLE_BRANDING} c-footer--limited {/if}"
 				data-js="height">
 			{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
@@ -221,12 +220,5 @@
 			</div>
 		</div>
 	{/if}
-	{* javascript files *}
-	{include file=\App\Layout::getTemplatePath('JSResources.tpl')}
-	{if \App\Debuger::isDebugBar()}
-		{\App\Debuger::getDebugBar()->getJavascriptRenderer()->render()}
-	{/if}
-	</body>
-	</html>
 	<!-- /tpl-Base-Footer -->
 {/strip}

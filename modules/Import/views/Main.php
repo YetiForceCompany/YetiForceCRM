@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Import_Main_View extends \App\Controller\View
+class Import_Main_View extends \App\Controller\View\Page
 {
 	public $request;
 	public $user;

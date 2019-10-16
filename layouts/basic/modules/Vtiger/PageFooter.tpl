@@ -6,12 +6,21 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce Sp. z o.o
 ********************************************************************************/
 -->*}
 {strip}
-{include file=\App\Layout::getTemplatePath('PageHeader.tpl', $MODULE_NAME)}
-<div class="bodyContents">
-	<div class="mainContainer">
-		<div class="contentsDiv u-ml-0px col-md-12 px-2" id="centerPanel">
-			{/strip}
+	<!-- tpl-Base-PageFooter -->
+	</div>
+	{if $SHOW_FOOTER}
+		{include file=\App\Layout::getTemplatePath('Footer.tpl')}
+	{/if}
+	{* javascript files *}
+	{include file=\App\Layout::getTemplatePath('JSResources.tpl')}
+	{if \App\Debuger::isDebugBar()}
+		{\App\Debuger::getDebugBar()->getJavascriptRenderer()->render()}
+	{/if}
+	</body>
+	</html>
+	<!-- /tpl-Base-PageFooter -->
+{/strip}

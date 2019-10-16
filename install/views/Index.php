@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Install_Index_View extends \App\Controller\View
+class Install_Index_View extends \App\Controller\View\Page
 {
 	use \App\Controller\ExposeMethod;
 

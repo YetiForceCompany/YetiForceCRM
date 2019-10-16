@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract view controller class.
+ * Abstract base view controller file.
  *
  * @package   Controller
  *
@@ -9,12 +9,12 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace App\Controller;
+namespace App\Controller\View;
 
 /**
- * Class View.
+ * Abstract base view controller class.
  */
-abstract class View extends Base
+abstract class Base extends \App\Controller\Base
 {
 	/**
 	 * Viewer instance.
@@ -38,23 +38,19 @@ abstract class View extends Base
 	protected $breadcrumbTitle;
 
 	/**
-	 * Show body header.
-	 *
-	 * @return bool
+	 * {@inheritdoc}
 	 */
 	protected function showBodyHeader()
 	{
-		return true;
+		return false;
 	}
 
 	/**
-	 * Show footer.
-	 *
-	 * @return bool
+	 * {@inheritdoc}
 	 */
 	protected function showFooter()
 	{
-		return true;
+		return false;
 	}
 
 	/**
@@ -134,10 +130,7 @@ abstract class View extends Base
 	}
 
 	/**
-	 * Pre process function.
-	 *
-	 * @param \App\Request $request
-	 * @param bool         $display
+	 * {@inheritdoc}
 	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
@@ -145,11 +138,7 @@ abstract class View extends Base
 		$view = $this->getViewer($request);
 		$title = $this->getPageTitle($request);
 		$this->loadJsConfig($request);
-		if (\App\Config::performance('BROWSING_HISTORY_WORKING')) {
-			\Vtiger_BrowsingHistory_Helper::saveHistory($title);
-		}
 		$view->assign('PAGETITLE', $title);
-		$view->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($request));
 		$view->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
 		$view->assign('STYLES', $this->getHeaderCss($request));
 		$view->assign('SKIN_PATH', \Vtiger_Theme::getCurrentUserThemePath());
@@ -158,12 +147,10 @@ abstract class View extends Base
 		$view->assign('LANGUAGE', \App\Language::getLanguage());
 		$view->assign('HTMLLANG', \App\Language::getShortLanguageName());
 		$view->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
-		$view->assign('SHOW_BREAD_CRUMBS', $this->showBreadCrumbLine());
 		$view->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
 		$view->assign('CURRENT_USER', \App\User::getCurrentUserModel());
 		$view->assign('MODULE', $moduleName);
 		$view->assign('VIEW', $request->getByType('view', 1));
-		$view->assign('MODULE_NAME', $moduleName);
 		$view->assign('PARENT_MODULE', $request->getByType('parent', 2));
 		$view->assign('NONCE', \App\Session::get('CSP_TOKEN'));
 		if ($display) {
@@ -190,7 +177,7 @@ abstract class View extends Base
 	 */
 	protected function preProcessTplName(\App\Request $request)
 	{
-		return 'Header.tpl';
+		return 'PageHeader.tpl';
 	}
 
 	/**
@@ -202,11 +189,11 @@ abstract class View extends Base
 	public function postProcess(\App\Request $request, $display = true)
 	{
 		$view = $this->getViewer($request);
-		$currentUser = \Users_Record_Model::getCurrentUserModel();
-		$view->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
 		$view->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
-		$view->assign('SHOW_FOOTER', $this->showFooter() && 8 !== \App\YetiForce\Register::getStatus());
-		$view->view('Footer.tpl');
+		$view->assign('SHOW_FOOTER', false);
+		if ($display) {
+			$view->view('PageFooter.tpl');
+		}
 	}
 
 	/**
@@ -308,10 +295,14 @@ abstract class View extends Base
 			'~layouts/resources/libraries/quasar.config.js',
 			'~libraries/quasar/dist/quasar.umd.min.js',
 			'~libraries/quasar/dist/icon-set/mdi-v3.umd.min.js',
-			'~layouts/resources/app.js',
 			'~libraries/blueimp-file-upload/js/jquery.fileupload.js',
 			'~libraries/floatthead/dist/jquery.floatThead.js',
 			'~libraries/store/dist/store.legacy.min.js',
+			'~libraries/clockpicker/dist/bootstrap4-clockpicker.js',
+			'~libraries/inputmask/dist/jquery.inputmask.bundle.js',
+			'~libraries/mousetrap/mousetrap.js',
+			'~libraries/html2canvas/dist/html2canvas.min.js',
+			'~layouts/resources/app.js',
 			'~layouts/resources/fields/MultiImage.js',
 			'~layouts/resources/Fields.js',
 			'~layouts/resources/Tools.js',
@@ -319,15 +310,6 @@ abstract class View extends Base
 			'~layouts/resources/Connector.js',
 			'~layouts/resources/ProgressIndicator.js'
 		];
-		if (\App\Privilege::isPermitted('OSSMail')) {
-			$jsFileNames[] = '~layouts/basic/modules/OSSMail/resources/checkmails.js';
-		}
-		if (\App\Privilege::isPermitted('Chat')) {
-			$jsFileNames[] = '~layouts/basic/modules/Chat/Chat.vue.js';
-		}
-		if (\App\Privilege::isPermitted('KnowledgeBase')) {
-			$jsFileNames[] = '~layouts/resources/views/KnowledgeBase/KnowledgeBase.vue.js';
-		}
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
 		$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
 		if (!file_exists(\Vtiger_Loader::resolveNameToPath($fileName, 'js'))) {
@@ -605,18 +587,6 @@ abstract class View extends Base
 		}
 		foreach ($jsEnv as $key => $value) {
 			\App\Config::setJsEnv($key, $value);
-		}
-		if (\App\Session::has('ShowAuthy2faModal')) {
-			\App\Config::setJsEnv('ShowAuthy2faModal', \App\Session::get('ShowAuthy2faModal'));
-			if ('TOTP_OPTIONAL' === \App\Config::security('USER_AUTHY_MODE')) {
-				\App\Session::delete('ShowAuthy2faModal');
-			}
-		}
-		if (\App\Session::has('ShowUserPasswordChange')) {
-			\App\Config::setJsEnv('ShowUserPasswordChange', \App\Session::get('ShowUserPasswordChange'));
-			if (1 === (int) \App\Session::get('ShowUserPasswordChange')) {
-				\App\Session::delete('ShowUserPasswordChange');
-			}
 		}
 	}
 }

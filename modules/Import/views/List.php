@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Import_List_View extends \App\Controller\View
+class Import_List_View extends \App\Controller\View\Page
 {
 	use \App\Controller\ExposeMethod;
 

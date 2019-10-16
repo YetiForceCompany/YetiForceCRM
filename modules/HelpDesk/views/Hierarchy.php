@@ -13,7 +13,7 @@
 /**
  * Class HelpDesk_Hierarchy_View.
  */
-class HelpDesk_Hierarchy_View extends \App\Controller\View
+class HelpDesk_Hierarchy_View extends \App\Controller\View\Page
 {
 	use App\Controller\ClearProcess;
 

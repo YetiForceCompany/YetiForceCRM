@@ -977,9 +977,9 @@ class ConfReport
 			$row['js'] = static::$request[$header]['js'] ?? '';
 			$row['css'] = static::$request[$header]['css'] ?? '';
 			$row['status'] = strtolower($row['www']) === strtolower($row['recommended']) && strtolower($row['js']) === strtolower($row['recommended']) && strtolower($row['css']) === strtolower($row['recommended']);
-		} elseif($row['recommended'] === '') {
+		} elseif ('' === $row['recommended']) {
 			$row['status'] = true;
-		} else{
+		} else {
 			$row['status'] = false;
 		}
 		return $row;
@@ -1189,7 +1189,8 @@ class ConfReport
 		$view->assign('ACTIVITY_REMINDER', 0);
 		$view->assign('FOOTER_SCRIPTS', []);
 		$view->assign('SHOW_FOOTER', true);
-		$html = $view->view('Footer.tpl', '', true);
+		$view->assign('SHOW_FOOTER_BAR', true);
+		$html = $view->view('PageFooter.tpl', '', true);
 		$row['status'] = true;
 		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
 			$row['status'] = false !== \strpos($html, '&copy; YetiForce.com All rights reserved') || !empty(\App\Config::component('Branding', 'footerName'));

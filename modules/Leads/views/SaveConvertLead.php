@@ -10,7 +10,7 @@
  * *********************************************************************************** */
 Vtiger_Loader::includeOnce('~include/Webservices/ConvertLead.php');
 
-class Leads_SaveConvertLead_View extends \App\Controller\View
+class Leads_SaveConvertLead_View extends \App\Controller\View\Page
 {
 	/**
 	 * Record model instance.

@@ -12,7 +12,7 @@
 /**
  * Class Vtiger_RecordPopover_View.
  */
-class Vtiger_RecordPopover_View extends \App\Controller\View
+class Vtiger_RecordPopover_View extends \App\Controller\View\Page
 {
 	/**
 	 * {@inheritdoc}

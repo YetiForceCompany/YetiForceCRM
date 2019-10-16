@@ -8,7 +8,7 @@
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class IStorages_Hierarchy_View extends \App\Controller\View
+class IStorages_Hierarchy_View extends \App\Controller\View\Page
 {
 	use App\Controller\ClearProcess;
 

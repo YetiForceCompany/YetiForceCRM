@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Vtiger_Index_View extends Vtiger_Basic_View
+class Vtiger_Index_View extends \App\Controller\View\Page
 {
 	/**
 	 * Function to check permission.
@@ -18,14 +18,14 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
@@ -42,12 +42,12 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 		}
 	}
 
-	protected function preProcessTplName(\App\Request $request)
+	protected function preProcessTplName(App\Request $request)
 	{
 		return 'IndexViewPreProcess.tpl';
 	}
 
-	public function postProcess(\App\Request $request, $display = true)
+	public function postProcess(App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -56,7 +56,7 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 		parent::postProcess($request);
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -70,7 +70,7 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 	 *
 	 * @return Vtiger_JsScript_Model[]
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$view = $request->getByType('view', 1);
@@ -84,7 +84,7 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
-	public function validateRequest(\App\Request $request)
+	public function validateRequest(App\Request $request)
 	{
 		$request->validateReadAccess();
 	}

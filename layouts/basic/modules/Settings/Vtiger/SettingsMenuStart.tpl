@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE_NAME)}
+{include file=\App\Layout::getTemplatePath('PageHeader.tpl', $MODULE_NAME)}
 <div class="bodyContents">
 	{if $USER_MODEL->isAdminUser() && !\App\YetiForce\Register::verify(true)}
 		<div class="o-register-error bg-danger text-white u-font-weight-700 w-100 pb-1 pt-1 justify-content-center d-flex js-popover-tooltip--ellipsis-icon"
