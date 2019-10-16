@@ -5708,6 +5708,7 @@ a.q-btn {
 }
 .q-btn-group--stretch {
   align-self: stretch;
+  border-radius: 0;
 }
 .q-btn-group--glossy > .q-btn-item {
   background-image: linear-gradient(to bottom, rgba(255,255,255,0.3), rgba(255,255,255,0) 50%, rgba(0,0,0,0.12) 51%, rgba(0,0,0,0.04)) !important;
@@ -6811,7 +6812,7 @@ body.desktop .q-toggle--dense:focus:not(.disabled) .q-toggle__thumb:before {
 .q-table__progress {
   height: 0 !important;
 }
-.q-table__progress td {
+.q-table__progress th {
   padding: 0 !important;
   border-bottom: 1px solid transparent !important;
 }
@@ -6867,8 +6868,7 @@ body.desktop .q-toggle--dense:focus:not(.disabled) .q-toggle__thumb:before {
 .q-table--square {
   border-radius: 0;
 }
-.q-table__linear-progress,
-.q-table--grid .q-table__middle {
+.q-table__linear-progress {
   height: 2px;
 }
 .q-table--no-wrap th,
@@ -6878,14 +6878,22 @@ body.desktop .q-toggle--dense:focus:not(.disabled) .q-toggle__thumb:before {
 .q-table--grid {
   box-shadow: none;
 }
+.q-table--grid .q-table__top {
+  padding-bottom: 4px;
+}
+.q-table--grid .q-table__middle {
+  min-height: 2px;
+  margin-bottom: 4px;
+}
+.q-table--grid .q-table__middle thead,
+.q-table--grid .q-table__middle thead th {
+  border: 0 !important;
+}
+.q-table--grid .q-table__linear-progress {
+  bottom: 0;
+}
 .q-table--grid .q-table__bottom {
   border-top: 0;
-}
-.q-table--grid .q-table {
-  height: 2px;
-}
-.q-table--grid .q-table thead {
-  border: 0;
 }
 .q-table__grid-item-card {
   vertical-align: top;
@@ -7108,7 +7116,7 @@ body.desktop .q-toggle--dense:focus:not(.disabled) .q-toggle__thumb:before {
   background: rgba(0,0,0,0.4);
 }
 body.platform-ios .q-dialog__inner--minimized > div,
-body.platform-android:not(.cordova) .q-dialog__inner--minimized > div {
+body.platform-android:not(.native-mobile) .q-dialog__inner--minimized > div {
   max-height: calc(100vh - 108px);
 }
 body.q-ios-padding .q-dialog__inner {
@@ -7601,6 +7609,7 @@ body.mobile .q-tabs__arrow {
   border-radius: 50%;
   width: 48px;
   height: 48px;
+  min-width: 48px;
 }
 .q-message {
   margin-bottom: 8px;
@@ -7859,22 +7868,22 @@ body.mobile .q-tabs__arrow {
   color: #fff;
   background: #424242;
 }
-body.mobile:not(.cordova) .q-select__dialog {
+body.mobile:not(.native-mobile) .q-select__dialog {
   max-height: calc(100vh - 108px) !important;
 }
-body.platform-android.cordova .q-dialog__inner--top .q-select__dialog {
+body.platform-android.native-mobile .q-dialog__inner--top .q-select__dialog {
   max-height: calc(100vh - 24px) !important;
 }
-body.platform-android:not(.cordova) .q-dialog__inner--top .q-select__dialog {
+body.platform-android:not(.native-mobile) .q-dialog__inner--top .q-select__dialog {
   max-height: calc(100vh - 80px) !important;
 }
-body.platform-ios.cordova .q-dialog__inner--top > div {
+body.platform-ios.native-mobile .q-dialog__inner--top > div {
   border-radius: 4px;
 }
-body.platform-ios.cordova .q-dialog__inner--top .q-select__dialog--focused {
+body.platform-ios.native-mobile .q-dialog__inner--top .q-select__dialog--focused {
   max-height: 47vh !important;
 }
-body.platform-ios:not(.cordova) .q-dialog__inner--top .q-select__dialog--focused {
+body.platform-ios:not(.native-mobile) .q-dialog__inner--top .q-select__dialog--focused {
   max-height: 50vh !important;
 }
 .q-menu {
@@ -13841,15 +13850,32 @@ body .quasar-reset .q-col-gutter-xl > *,
     width: auto;
   }
 }
-.q-message-avatar {
-  width: 48px !important;
+body .quasar-reset .q-message-avatar,
+.q-notifications .q-message-avatar {
+  visibility: hidden;
 }
-.backdrop-fix .q-drawer__backdrop {
+body .quasar-reset .q-message-avatar[src],
+.q-notifications .q-message-avatar[src] {
+  width: 48px !important;
+  visibility: visible;
+}
+body .quasar-reset .backdrop-fix .q-drawer__backdrop,
+.q-notifications .backdrop-fix .q-drawer__backdrop {
   background-color: rgba(0,0,0,0) !important;
 }
-.ellipsis-1-line {
+body .quasar-reset .ellipsis-1-line,
+.q-notifications .ellipsis-1-line {
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
+}
+body .quasar-reset .ellipsis-1-line,
+.q-notifications .ellipsis-1-line,
+body .quasar-reset .ellipsis-2-line,
+.q-notifications .ellipsis-2-line,
+body .quasar-reset .ellipsis-3-line,
+.q-notifications .ellipsis-3-line {
+  white-space: normal;
+  word-break: break-word;
 }
