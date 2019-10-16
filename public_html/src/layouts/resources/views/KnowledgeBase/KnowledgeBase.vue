@@ -149,7 +149,7 @@
                   <q-item
                     v-for="account in accountsList"
                     :active="activeAccount === account.name"
-                    :key="account"
+                    :key="account.id"
                     @click="
                       fetchData(null, account.id)
                       activeAccount = account.name
