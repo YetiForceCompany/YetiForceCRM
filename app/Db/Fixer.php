@@ -44,9 +44,10 @@ class Fixer
 	public static function baseModuleTools(): int
 	{
 		$i = 0;
-		$missing = $curentProfile2utility = [];
+		$allUtility = $missing = $curentProfile2utility = [];
 		foreach ((new \App\Db\Query())->from('vtiger_profile2utility')->all() as $row) {
-			$curentProfile2utility[$row['profileid']][$row['tabid']][$row['activityid']] = $row['permission'];
+			$curentProfile2utility[$row['profileid']][$row['tabid']][$row['activityid']] = true;
+			$allUtility[$row['tabid']][$row['activityid']] = true;
 		}
 		$profileIds = \vtlib\Profile::getAllIds();
 		$moduleIds = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['isentitytype' => 1])->column();
@@ -57,6 +58,13 @@ class Fixer
 				foreach ($baseActionIds as $actionId) {
 					if (!isset($curentProfile2utility[$profileId][$moduleId][$actionId])) {
 						$missing[] = ['profileid' => $profileId, 'tabid' => $moduleId, 'activityid' => $actionId];
+					}
+				}
+				if (isset($allUtility[$moduleId])) {
+					foreach ($allUtility[$moduleId] as $actionId => $value) {
+						if (!isset($curentProfile2utility[$profileId][$moduleId][$actionId])) {
+							$missing[] = ['profileid' => $profileId, 'tabid' => $moduleId, 'activityid' => $actionId];
+						}
 					}
 				}
 			}
