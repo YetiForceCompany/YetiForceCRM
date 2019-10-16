@@ -100,7 +100,7 @@
         v-model="left"
         side="left"
         elevated
-        :mini="$q.platform.is.desktop ? miniState : false"
+        :mini="miniState"
         :width="searchData ? 0 : 250"
         :breakpoint="700"
         content-class="bg-white text-black"
@@ -149,7 +149,7 @@
                   <q-item
                     v-for="account in accountsList"
                     :active="activeAccount === account.name"
-                    :key="account"
+                    :key="account.id"
                     @click="
                       fetchData(null, account.id)
                       activeAccount = account.name
@@ -224,7 +224,7 @@
         </q-page>
       </q-page-container>
     </q-layout>
-    <article-preview :isDragResize="true" :previewDialog="previewDialog" @onDialogToggle="onDialogToggle" />
+    <article-preview :isDragResize="true" :previewDialog.sync="previewDialog" @onDialogToggle="onDialogToggle" />
   </div>
 </template>
 <script>
@@ -400,7 +400,7 @@ export default {
       })
     },
     toggleDrawer() {
-      if (this.$q.platform.is.desktop && (!this.coordinates.width || this.coordinates.width > 700)) {
+      if (!this.$refs.drawer.belowBreakpoint) {
         this.miniState = !this.miniState
       } else {
         this.left = !this.left

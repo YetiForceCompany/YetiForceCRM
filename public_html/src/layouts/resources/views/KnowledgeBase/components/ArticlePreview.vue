@@ -9,18 +9,14 @@
 -->
 <template>
   <q-dialog
-    v-model="previewDialog"
+    v-model="dialog"
     :maximized="maximizedOnly ? true : previewMaximized"
     transition-show="slide-up"
     transition-hide="slide-down"
     content-class="quasar-reset"
   >
     <drag-resize v-if="isDragResize" :coordinates.sync="coordinates" :maximized="previewMaximized">
-      <article-preview-content
-        :height="coordinates.height"
-        :previewMaximized="previewMaximized"
-        @onMaximizedToggle="onMaximizedToggle"
-      />
+      <article-preview-content :height="coordinates.height" :previewMaximized.sync="previewMaximized" />
     </drag-resize>
     <article-preview-content v-else>
       <template slot="header-right">
@@ -62,14 +58,14 @@ export default {
       previewMaximized: true
     }
   },
-  watch: {
-    previewDialog() {
-      this.$emit('onDialogToggle', this.previewDialog)
-    }
-  },
-  methods: {
-    onMaximizedToggle(val) {
-      this.previewMaximized = val
+  computed: {
+    dialog: {
+      get() {
+        return this.previewDialog
+      },
+      set(val) {
+        this.$emit('update:previewDialog', val)
+      }
     }
   }
 }
