@@ -70,6 +70,7 @@ class Modules extends \Api\Core\BaseAction
 	 *			property="result",
 	 *			description="List of modules accessed",
 	 *			type="object",
+	 *			@OA\Property(property="items", description="Module name", type="string", example="Accounts"),
 	 * 		),
 	 *	),
 	 */
