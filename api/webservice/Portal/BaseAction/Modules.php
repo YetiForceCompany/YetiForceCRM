@@ -57,8 +57,8 @@ class Modules extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 *		schema="BaseActionModulesResponseBody",
-	 *		title="Base action modules",
-	 *		description="Base action modules response body",
+	 *		title="List items",
+	 *		description="List of obtained items",
 	 *		type="object",
 	 *		@OA\Property(
 	 *			property="status",
@@ -68,7 +68,7 @@ class Modules extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Property(
 	 *			property="result",
-	 *			description="Returns module permissions",
+	 *			description="List of modules accessed",
 	 *			type="object",
 	 * 		),
 	 *	),
