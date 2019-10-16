@@ -35,7 +35,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	protected $pageTitle = 'LBL_VIEW_DETAIL';
 
 	/**
-	 * Construct
+	 * Construct.
 	 */
 	public function __construct()
 	{
@@ -126,7 +126,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 				}
 			}
 		}
-		if (isset($detailViewLinks['DETAILVIEWTAB']) && is_array($detailViewLinks['DETAILVIEWTAB'])) {
+		if (isset($detailViewLinks['DETAILVIEWTAB']) && \is_array($detailViewLinks['DETAILVIEWTAB'])) {
 			foreach ($detailViewLinks['DETAILVIEWTAB'] as $link) {
 				if ($link->getLabel() === $selectedTabLabel) {
 					$params = vtlib\Functions::getQueryParams($link->getUrl());
@@ -298,7 +298,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
-		if (is_callable($moduleName . '_Record_Model', 'getStructure')) {
+		if (\is_callable($moduleName . '_Record_Model', 'getStructure')) {
 			$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
 		}
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
@@ -354,9 +354,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function showRecentActivities(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!\App\Privilege::isPermitted('ModTracker')) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
 		if (!\App\Privilege::isPermitted($moduleName, 'ModTracker')) {
 			return false;
 		}
@@ -378,10 +375,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$pagingModel->set('limit', $limit);
 		}
 		if (!empty($whereCondition)) {
-			$type = is_array($whereCondition) ? current($whereCondition) : $whereCondition;
+			$type = \is_array($whereCondition) ? current($whereCondition) : $whereCondition;
 		}
 		$recentActivities = ModTracker_Record_Model::getUpdates($parentRecordId, $pagingModel, $type);
-		$pagingModel->calculatePageRange(count($recentActivities));
+		$pagingModel->calculatePageRange(\count($recentActivities));
 
 		if ($pagingModel->getCurrentPage() == ceil(ModTracker_Record_Model::getTotalRecordCount($parentRecordId, $type) / $pagingModel->getPageLimit())) {
 			$pagingModel->set('nextPageExists', false);
@@ -444,7 +441,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$hierarchyValue = $this->getHierarchyValue($request);
 		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $moduleName, $this->getHierarchy($request), $pagingModel);
-		$pagingModel->calculatePageRange(count($parentCommentModels));
+		$pagingModel->calculatePageRange(\count($parentCommentModels));
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		$viewer = $this->getViewer($request);
@@ -702,11 +699,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
 		$hierarchyValue = $this->getHierarchyValue($request);
 		if (0 === $level) {
-			$hierarchy = in_array('related', $hierarchyValue) ? [1, 2, 3] : [];
+			$hierarchy = \in_array('related', $hierarchyValue) ? [1, 2, 3] : [];
 		} elseif (1 === $level) {
-			$hierarchy = in_array('related', $hierarchyValue) ? [2, 3] : [];
+			$hierarchy = \in_array('related', $hierarchyValue) ? [2, 3] : [];
 		}
-		if (in_array('current', $hierarchyValue)) {
+		if (\in_array('current', $hierarchyValue)) {
 			$hierarchy[] = $level;
 		}
 		return $hierarchy;
@@ -870,7 +867,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$links = $relationListView->getLinks();
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
-		$noOfEntries = count($models);
+		$noOfEntries = \count($models);
 
 		if ($request->has('col')) {
 			$columns = $request->getInteger('col');
