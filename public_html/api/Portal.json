@@ -66,6 +66,64 @@
                 ]
             }
         },
+        "/webservice/BaseAction/Modules": {
+            "get": {
+                "tags": [
+                    "BaseAction"
+                ],
+                "summary": "Gets the module list action, along with their translated action",
+                "operationId": "Api\\Portal\\BaseAction\\Modules::get",
+                "parameters": [
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "The content of the request is empty",
+                    "required": false
+                },
+                "responses": {
+                    "200": {
+                        "description": "List of active modules",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseActionModulesResponseBody"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseActionModulesResponseBody"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseActionModulesResponseBody"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No sent token OR Invalid token"
+                    },
+                    "403": {
+                        "description": "No permissions for module"
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": "",
+                        "ApiKeyAuth": "",
+                        "token": ""
+                    }
+                ]
+            }
+        },
         "/webservice/Users/Login": {
             "post": {
                 "tags": [
@@ -209,6 +267,32 @@
                     },
                     "result": {
                         "description": "Content of responses from a given method",
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "BaseActionModulesResponseBody": {
+                "title": "List items",
+                "description": "List of obtained items",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            "0",
+                            "1"
+                        ]
+                    },
+                    "result": {
+                        "description": "List of modules accessed",
+                        "properties": {
+                            "items": {
+                                "description": "Module name",
+                                "type": "string",
+                                "example": "Accounts"
+                            }
+                        },
                         "type": "object"
                     }
                 },
