@@ -32,7 +32,7 @@
 					</a>
 					<div class="c-mds-input input-group ml-sm-auto h-100 u-max-w-250px">
 						<input type="text" class="js-shop-search form-control form-control-sm u-max-w-250px ml-2 u-outline-none" aria-label="{\App\Language::translate('LBL_SEARCH_PLACEHOLDER', $QUALIFIED_MODULE)}" placeholder="{\App\Language::translate('LBL_SEARCH_PLACEHOLDER', $QUALIFIED_MODULE)}" aria-describedby="{\App\Language::translate('LBL_SEARCH_PLACEHOLDER', $QUALIFIED_MODULE)}">
-						<div class="input-group-append pl-1 d-flex align-items-center">
+						<div class="input-group-append pl-1 d-none d-xsm-flex align-items-center">
 							<span class="fas fa-search fa-sm  " id="{\App\Language::translate('LBL_SEARCH_PLACEHOLDER', $QUALIFIED_MODULE)}"></span>
   						</div>
 					</div>

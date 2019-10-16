@@ -132,6 +132,8 @@ label.btn[class*="btn-outline-"] {
 	}
 	.nav-link {
 		padding: calculate-rem(3px) calculate-rem(4px);
-		margin-right: calculate-rem(60px);
+		@include media-breakpoint-up(sm) {
+			margin-right: calculate-rem(60px);
+		}
 	}
 }
