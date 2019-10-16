@@ -281,8 +281,8 @@ class Privilege
 			}
 			if (\App\Config::security('PERMITTED_BY_ROLES')) {
 				//Checking if the Record Owner is the Subordinate User
-				foreach ($userPrivileges['subordinate_roles_users'] as &$userids) {
-					if (\in_array($recOwnId, $userids)) {
+				foreach ($userPrivileges['subordinate_roles_users'] as $usersByRole) {
+					if (isset($usersByRole[$recOwnId])) {
 						static::$isPermittedLevel = 'SEC_RECORD_OWNER_SUBORDINATE_USER';
 						\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_OWNER_SUBORDINATE_USER');
 						return true;
