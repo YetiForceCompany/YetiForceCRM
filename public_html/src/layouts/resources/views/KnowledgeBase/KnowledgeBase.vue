@@ -224,7 +224,7 @@
         </q-page>
       </q-page-container>
     </q-layout>
-    <article-preview :isDragResize="true" :previewDialog="previewDialog" @onDialogToggle="onDialogToggle" />
+    <article-preview :isDragResize="true" :previewDialog.sync="previewDialog" @onDialogToggle="onDialogToggle" />
   </div>
 </template>
 <script>

@@ -63,7 +63,7 @@
             dense
             flat
             :icon="previewMaximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
-            @click="previewMaximized = !previewMaximized"
+            @click="toggleMaximized()"
           >
             <q-tooltip>{{ previewMaximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
           </q-btn>
@@ -178,8 +178,7 @@ export default {
       default: 0
     },
     previewMaximized: {
-      type: Boolean,
-      true: 0
+      type: Boolean
     }
   },
   computed: {
@@ -203,11 +202,6 @@ export default {
       return this.record ? this.record.related.base.ModComments.length !== 0 : false
     }
   },
-  watch: {
-    previewMaximized() {
-      this.$emit('onMaximizedToggle', this.previewMaximized)
-    }
-  },
   methods: {
     ...mapActions(['fetchCategories', 'fetchRecord', 'initState']),
     onResize(size) {
@@ -216,6 +210,9 @@ export default {
           .find('img')
           .css('max-width', size.width)
       }
+    },
+    toggleMaximized() {
+      this.$emit('update:previewMaximized', !this.previewMaximized)
     }
   }
 }
