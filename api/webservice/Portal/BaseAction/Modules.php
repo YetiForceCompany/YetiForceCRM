@@ -21,50 +21,57 @@ class Modules extends \Api\Core\BaseAction
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/BaseAction/Modules",
-	 *		summary="Base action modules into the system",
+	 *		summary="Gets the module list action, along with their translated action",
 	 *		tags={"BaseAction"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
-	 *    },
+	 *		},
 	 *		@OA\RequestBody(
-	 *  			required=false,
-	 *  			description="Base action modules request body",
-	 *	  ),
-	 *    @OA\Parameter(
-	 *        name="X-ENCRYPTED",
-	 *        in="header",
-	 *        required=true,
-	 * 				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
-	 *    ),
+	 *				required=false,
+	 *				description="The content of the request is empty",
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="X-ENCRYPTED",
+	 *			in="header",
+	 *			required=true,
+	 *				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *		),
 	 *		@OA\Response(
-	 *				response=200,
-	 *				description="Base action modules details",
-	 *				@OA\JsonContent(ref="#/components/schemas/BaseActionModulesResponseBody"),
-	 *				@OA\XmlContent(ref="#/components/schemas/BaseActionModulesResponseBody"),
-	 *     		@OA\MediaType(
-	 *         		mediaType="text/html",
-	 *         		@OA\Schema(ref="#/components/schemas/BaseActionModulesResponseBody")
-	 *     		),
+	 *			response=200,
+	 *			description="List of active modules",
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseActionModulesResponseBody"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseActionModulesResponseBody"),
+	 *			@OA\MediaType(
+	 *				mediaType="text/html",
+	 *				@OA\Schema(ref="#/components/schemas/BaseActionModulesResponseBody")
+	 *			),
+	 *		),
+	 *		@OA\Response(
+	 *				response=401,
+	 *				description="No sent token OR Invalid token",
+	 *		),
+	 *		@OA\Response(
+	 *				response=403,
+	 *				description="No permissions for module",
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 * 		schema="BaseActionModulesResponseBody",
-	 * 		title="Base action modules",
-	 * 		description="Base action modules response body",
+	 *		schema="BaseActionModulesResponseBody",
+	 *		title="Base action modules",
+	 *		description="Base action modules response body",
 	 *		type="object",
-	 *  	@OA\Property(
-	 *       	property="status",
-	 *        description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
-	 * 				enum={"0", "1"},
-	 *     	  type="integer",
+	 *		@OA\Property(
+	 *			property="status",
+	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+	 *			enum={"0", "1"},
+	 *			type="integer",
+	 *		),
+	 *		@OA\Property(
+	 *			property="result",
+	 *			description="Returns module permissions",
+	 *			type="object",
 	 * 		),
-	 *    @OA\Property(
-	 *     	  property="result",
-	 *     	 	description="Returns module permissions",
-	 *    	 	type="object",
-	 * 				),
-	 *    ),
-	 * ),
+	 *	),
 	 */
 	public function get()
 	{
