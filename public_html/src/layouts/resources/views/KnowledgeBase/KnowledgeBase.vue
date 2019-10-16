@@ -100,7 +100,7 @@
         v-model="left"
         side="left"
         elevated
-        :mini="$q.platform.is.desktop ? miniState : false"
+        :mini="miniState"
         :width="searchData ? 0 : 250"
         :breakpoint="700"
         content-class="bg-white text-black"
@@ -400,7 +400,7 @@ export default {
       })
     },
     toggleDrawer() {
-      if (this.$q.platform.is.desktop && (!this.coordinates.width || this.coordinates.width > 700)) {
+      if (!this.$refs.drawer.belowBreakpoint) {
         this.miniState = !this.miniState
       } else {
         this.left = !this.left
