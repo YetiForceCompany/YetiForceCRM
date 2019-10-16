@@ -41,7 +41,7 @@
 						</div>
 					</div>
 					<div class="modal-body row no-gutters m-0 pt-0">
-						<div class="col-8 pt-2">
+						<div class="col col-lg-8 pt-2">
 							<input type="hidden" id="hiddenDays"
 								   value="{\App\Purifier::encodeHtml(\App\Json::encode(App\Config::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"/>
 							<input value="{$WEEK_COUNT}" type="hidden" id="weekCount"/>
@@ -54,7 +54,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="js-calendar-right-panel col-4 pl-3" data-js="container | html">
+						<div class="js-calendar-right-panel col col-lg-4 pl-3" data-js="container | html">
 							<div class="js-qc-form" >
 								{include file=\App\Layout::getTemplatePath('Extended/EventForm.tpl', $MODULE_NAME)}
 							</div>
