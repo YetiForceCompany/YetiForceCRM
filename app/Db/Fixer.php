@@ -57,13 +57,13 @@ class Fixer
 			foreach ($moduleIds as $moduleId) {
 				foreach ($baseActionIds as $actionId) {
 					if (!isset($curentProfile2utility[$profileId][$moduleId][$actionId])) {
-						$missing[] = ['profileid' => $profileId, 'tabid' => $moduleId, 'activityid' => $actionId];
+						$missing["$profileId:$moduleId:$actionId"] = ['profileid' => $profileId, 'tabid' => $moduleId, 'activityid' => $actionId];
 					}
 				}
 				if (isset($allUtility[$moduleId])) {
 					foreach ($allUtility[$moduleId] as $actionId => $value) {
 						if (!isset($curentProfile2utility[$profileId][$moduleId][$actionId])) {
-							$missing[] = ['profileid' => $profileId, 'tabid' => $moduleId, 'activityid' => $actionId];
+							$missing["$profileId:$moduleId:$actionId"] = ['profileid' => $profileId, 'tabid' => $moduleId, 'activityid' => $actionId];
 						}
 					}
 				}
