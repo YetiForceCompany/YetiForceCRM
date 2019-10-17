@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Users_Login_View extends \App\Controller\View\Page
+class Users_Login_View extends \App\Controller\View\Base
 {
 	/**
 	 * {@inheritdoc}
@@ -34,13 +34,7 @@ class Users_Login_View extends \App\Controller\View\Page
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
-
-		$selectedModule = $request->getModule();
-		$viewer->assign('MODULE', $selectedModule);
-		$viewer->assign('MODULE_NAME', $selectedModule);
-		$viewer->assign('QUALIFIED_MODULE', $selectedModule);
-		$viewer->assign('VIEW', $request->getByType('view'));
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('QUALIFIED_MODULE', $request->getModule());
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -59,7 +53,6 @@ class Users_Login_View extends \App\Controller\View\Page
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('IS_BLOCKED_IP', Settings_BruteForce_Module_Model::getCleanInstance()->isBlockedIp());
 		if (\App\Session::has('UserLoginMessage')) {
 			$viewer->assign('MESSAGE', \App\Session::get('UserLoginMessage'));
