@@ -20,7 +20,7 @@ class IntegerField extends BaseField
 	 */
 	public function operatorA()
 	{
-		$value = html_entity_decode($this->value);
+		$value = \App\Purifier::decodeHtml($this->value);
 		$condition = ['and'];
 		$conditionFound = false;
 		foreach (static::$extendedOperators as $exo) {

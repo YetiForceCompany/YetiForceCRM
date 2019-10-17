@@ -21,6 +21,19 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$this->validate($value, true);
+		preg_match('/\D+/', $value, $matches);
+		if ($matches && \in_array(App\Purifier::decodeHtml($matches[0]), App\Conditions\QueryFields\IntegerField::$extendedOperators)) {
+			return App\Purifier::decodeHtml($matches[0]) . $this->getDBValue($value);
+		}
+		return $this->getDBValue($value);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		return App\Fields\Integer::formatToDisplay($value);
