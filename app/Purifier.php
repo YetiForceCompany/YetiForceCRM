@@ -325,7 +325,7 @@ class Purifier
 					$value = Validator::alnum($input) ? $input : null;
 					break;
 				case 'AlnumExtended':
-					$value = preg_match('/^[\sA-Za-z0-9\,\_\.\=]+$/', $input) ? $input : null;
+					$value = preg_match('/^[\sA-Za-z0-9\,\_\.\=\-]+$/', $input) ? $input : null;
 					break;
 				case 'DateInUserFormat': // date in user format
 					if (!$input) {
