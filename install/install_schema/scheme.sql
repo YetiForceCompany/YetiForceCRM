@@ -4884,7 +4884,7 @@ CREATE TABLE `vtiger_crmentityrel` (
 CREATE TABLE `vtiger_cron_task` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
-  `handler_file` varchar(100) DEFAULT NULL,
+  `handler_class` varchar(100) DEFAULT NULL,
   `frequency` int(10) DEFAULT NULL,
   `laststart` int(10) unsigned DEFAULT NULL,
   `lastend` int(10) unsigned DEFAULT NULL,
@@ -4894,7 +4894,7 @@ CREATE TABLE `vtiger_cron_task` (
   `description` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
-  UNIQUE KEY `handler_file` (`handler_file`),
+  UNIQUE KEY `handler_class` (`handler_class`),
   KEY `vtiger_cron_task_status_idx` (`status`),
   KEY `vtiger_cron_task_sequence_idx` (`sequence`)
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;

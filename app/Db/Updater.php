@@ -139,7 +139,7 @@ class Updater
 				continue;
 			}
 			$cronData = $cron['data'];
-			$isExists = (new \App\Db\Query())->from('vtiger_cron_task')->where(['name' => $cronData[0], 'handler_file' => $cronData[1]])->exists();
+			$isExists = (new \App\Db\Query())->from('vtiger_cron_task')->where(['name' => $cronData[0], 'handler_class' => $cronData[1]])->exists();
 			if (!$isExists && 'add' === $cron['type']) {
 				\vtlib\Cron::register($cronData[0], $cronData[1], $cronData[2], $cronData[6], $cronData[5], 0, $cronData[8]);
 				$cronAction[] = $cronData[0];
