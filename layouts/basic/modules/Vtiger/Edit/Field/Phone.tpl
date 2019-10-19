@@ -20,7 +20,7 @@
 			{if $NUMBER}
 				{assign var="PHONE_DETAIL" value=App\Fields\Phone::getDetails($NUMBER)}
 			{else}
-				{assign var="PHONE_DETAIL" value=false}
+				{assign var="PHONE_DETAIL" value=['country' => substr(\App\Language::getLanguage(),-2)]}
 			{/if}
 			{assign var="FIELD_NAME_EXTRA" value=$FIELD_MODEL->getFieldName()|cat:'_extra'}
 			{assign var="FIELD_MODEL_EXTRA" value=$FIELD_MODEL->getModule()->getFieldByName($FIELD_NAME_EXTRA)}
