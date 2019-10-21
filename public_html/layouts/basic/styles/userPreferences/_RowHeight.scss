@@ -41,24 +41,6 @@ td.listViewEntryValue.narrow {
 		line-height: calculate-rem(25px);
 	}
 
-	&.fieldValue {
-		input:not([type="checkbox"]) {
-			height: calculate-rem(27px);
-		}
-
-		.input-group-addon {
-			&.referenceModulesListGroup {
-				padding: 0;
-			}
-
-			padding: calculate-rem(4px) calculate-rem(10px);
-		}
-
-		.chosen-container-single .chosen-single div b {
-			background-position-y: calculate-rem(4px);
-		}
-	}
-
 	.chosen-container {
 		height: calculate-rem(27px);
 		line-height: calculate-rem(27px);

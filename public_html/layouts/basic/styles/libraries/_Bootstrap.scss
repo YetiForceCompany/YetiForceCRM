@@ -142,6 +142,11 @@ label.btn[class*="btn-outline-"] {
 		@extend .form-control-sm;
 	}
 }
+.input-group-lg {
+	.form-control {
+		@extend .form-control-lg;
+	}
+}
 @include media-breakpoint-down(sm) {
 	.breadcrumb {
 		padding: 0;
