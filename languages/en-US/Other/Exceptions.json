@@ -42,6 +42,8 @@
     "ERR_CANNOT_PARSE_SERVER_RESPONSE": "Error while parsing server responses",
     "ERR_CANNOT_CONNECT_TO_REMOTE": "Error while connecting to remote server",
     "ERR_NO_INTERNET_CONNECTION": "No Internet connection",
-    "ERR_OBJECT_MUST_HAVE_INTERFACE": "The object must have an interface %s"
+    "ERR_OBJECT_MUST_HAVE_INTERFACE": "The object must have an interface %s",
+    "ERR_CLASS_NOT_FOUND": "Class %s not found",
+    "ERR_CLASS_MUST_BE": "Class must be %s"
   }
 }

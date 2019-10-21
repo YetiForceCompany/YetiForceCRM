@@ -82,8 +82,17 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 			$response .= sprintf('%s | %s - Start task' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 
 			ob_start();
-			vtlib\Deprecated::checkFileAccess($cronTask->getHandlerFile());
-			require_once $cronTask->getHandlerFile();
+			$className = $cronTask->getHandlerClass();
+			if (class_exists($className)) {
+				$cronHandler = new $className();
+				if ($cronHandler instanceof \App\CronHandler) {
+					$cronHandler->process();
+				} else {
+					throw new \App\Exceptions\AppException('ERR_CLASS_MUST_BE||' . \App\CronHandler::class);
+				}
+			} else {
+				throw new \App\Exceptions\AppException('ERR_CLASS_NOT_FOUND||' . $className);
+			}
 			$taskResponse = ob_get_contents();
 			ob_end_clean();
 

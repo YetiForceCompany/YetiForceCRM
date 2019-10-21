@@ -724,7 +724,7 @@ class PackageExport
 			$this->outputNode($cronTask->getName(), 'name');
 			$this->outputNode($cronTask->getFrequency(), 'frequency');
 			$this->outputNode($cronTask->getStatus(), 'status');
-			$this->outputNode($cronTask->getHandlerFile(), 'handler');
+			$this->outputNode($cronTask->getHandlerClass(), 'handler');
 			$this->outputNode($cronTask->getSequence(), 'sequence');
 			$this->outputNode($cronTask->getDescription(), 'description');
 			$this->closeNode('cron');
