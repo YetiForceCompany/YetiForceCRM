@@ -397,7 +397,10 @@
 
 //breadcrumbs
 .o-breadcrumb {
-	min-height: calculate-rem(48px);
+	@include media-breakpoint-up(sm) {
+		min-height: calculate-rem(48px);
+	}
+	min-height: calculate-rem(32px);
 	&__container {
 		width: 100%;
 		display: flex;
