@@ -895,7 +895,7 @@ jQuery.Class(
 				}
 				thisInstance.addRelatedRecord(element);
 			});
-			this.content.find('button.selectRelation').on('click', function(e) {
+			this.content.find('.relatedHeader button.selectRelation').on('click', function(e) {
 				let restrictionsField = $(this).data('rf');
 				let params = {};
 				if (restrictionsField && Object.keys(restrictionsField).length > 0) {

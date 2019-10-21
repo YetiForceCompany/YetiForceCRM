@@ -327,6 +327,7 @@ jQuery.Class(
 			const thisInstance = this,
 				contentContainer = $('.js-detail-widget-content', widgetContainer);
 			let relatedModuleName;
+			this.registerFilterForAddingModuleRelatedRecordFromSummaryWidget(widgetContainer);
 			if (widgetContainer.find('[name="relatedModule"]').length) {
 				relatedModuleName = widgetContainer.find('[name="relatedModule"]').val();
 			} else {
@@ -1228,9 +1229,9 @@ jQuery.Class(
 								if (postSaveRecordDetails['isViewable'] === false) {
 									let urlObject = app.convertUrlToObject(window.location.href);
 									if (window !== window.parent) {
-										window.parent.location.href = 'index.php?module='+urlObject['module']+'&view=ListPreview';
+										window.parent.location.href = 'index.php?module=' + urlObject['module'] + '&view=ListPreview';
 									} else {
-										window.location.href = 'index.php?module='+urlObject['module']+'&view=List';
+										window.location.href = 'index.php?module=' + urlObject['module'] + '&view=List';
 									}
 								} else if (postSaveRecordDetails['isEditable'] === false) {
 									jQuery.progressIndicator({
@@ -1426,9 +1427,9 @@ jQuery.Class(
 		/**
 		 * Function to add module related record from summary widget
 		 */
-		registerFilterForAddingModuleRelatedRecordFromSummaryWidget: function() {
+		registerFilterForAddingModuleRelatedRecordFromSummaryWidget: function(container) {
 			var thisInstance = this;
-			jQuery('.createRecordFromFilter').on('click', function(e) {
+			container.find('.createRecordFromFilter').on('click', function(e) {
 				var currentElement = jQuery(e.currentTarget);
 				var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
 				var widgetDataContainer = summaryWidgetContainer.find('.js-detail-widget-content');
@@ -1474,7 +1475,7 @@ jQuery.Class(
 					progress.progressIndicator({ mode: 'hide' });
 				});
 			});
-			$('.js-detail-widget button.selectRelation').on('click', function(e) {
+			container.find('button.selectRelation').on('click', function(e) {
 				let summaryWidgetContainer = jQuery(e.currentTarget).closest('.js-detail-widget');
 				let referenceModuleName = summaryWidgetContainer.find('.js-detail-widget-content [name="relatedModule"]').val();
 				let restrictionsField = $(this).data('rf');
@@ -1625,7 +1626,6 @@ jQuery.Class(
 			this.registerEventForActivityWidget();
 			this.registerChangeFilterForWidget();
 			this.registerChangeSwitchForWidget(summaryViewContainer);
-			this.registerFilterForAddingModuleRelatedRecordFromSummaryWidget();
 			this.registerAddingInventoryRecords();
 			this.registerEmailEvent();
 			/**
