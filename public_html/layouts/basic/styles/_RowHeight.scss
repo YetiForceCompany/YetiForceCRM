@@ -1,0 +1,130 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.table td.wide,
+.listViewEntries td.wide,
+td.listViewEntryValue.wide {
+	padding: calculate-rem(8px) !important;
+	line-height: calculate-rem(31px);
+}
+
+.table td.medium,
+.listViewEntries td.medium,
+td.listViewEntryValue.medium {
+	padding: calculate-rem(3px) calculate-rem(6px) !important;
+	line-height: calculate-rem(29px);
+}
+
+.table td.narrow,
+.listViewEntries td.narrow,
+td.listViewEntryValue.narrow {
+	padding: calculate-rem(2px) calculate-rem(4px) !important;
+	line-height: calculate-rem(27px);
+}
+
+.table thead th.narrow {
+	vertical-align: middle;
+}
+
+.narrow {
+	&.fieldValue .chosen-container-single {
+		.chosen-single {
+			height: calculate-rem(27px);
+			line-height: calculate-rem(25px);
+		}
+
+		height: calculate-rem(27px);
+		line-height: calculate-rem(25px);
+	}
+
+	&.fieldLabel .chosen-container-single .chosen-single {
+		height: calculate-rem(27px);
+		line-height: calculate-rem(25px);
+	}
+
+	&.fieldValue {
+		input:not([type="checkbox"]) {
+			height: calculate-rem(27px);
+		}
+
+		.input-group-addon {
+			&.referenceModulesListGroup {
+				padding: 0;
+			}
+
+			padding: calculate-rem(4px) calculate-rem(10px);
+		}
+
+		.chosen-container-single .chosen-single div b {
+			background-position-y: calculate-rem(4px);
+		}
+	}
+
+	.chosen-container {
+		height: calculate-rem(27px);
+		line-height: calculate-rem(27px);
+	}
+
+	.referenceGroup .referenceModulesListGroup .chosen-container {
+		height: calculate-rem(25px);
+
+		.chosen-single {
+			height: calculate-rem(25px);
+		}
+	}
+}
+@media screen and (max-width: 992px) {
+	.quickCreateContent .fieldsLabelValue {
+		&.narrow {
+			padding-top: calculate-rem(5px);
+			padding-bottom: calculate-rem(2px);
+		}
+
+		&.medium {
+			padding-top: calculate-rem(10px);
+			padding-bottom: calculate-rem(10px);
+		}
+
+		&.wide {
+			padding-top: calculate-rem(15px);
+			padding-bottom: calculate-rem(15px);
+		}
+	}
+}
+
+@media only screen and (min-width: 992px) {
+	.quickCreateContent {
+		.fieldsLabelValue {
+			&.narrow {
+				padding-top: calculate-rem(5px);
+				padding-bottom: calculate-rem(2px);
+			}
+
+			&.medium {
+				padding: calculate-rem(10px) 0;
+			}
+
+			&.wide {
+				padding-top: calculate-rem(15px);
+				padding-bottom: calculate-rem(15px);
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.quickCreateContent .fieldsLabelValue {
+		&.wide {
+			padding-top: calculate-rem(5px);
+			padding-bottom: calculate-rem(15px);
+		}
+
+		&.narrow {
+			padding-bottom: calculate-rem(5px);
+		}
+
+		&.medium {
+			padding-top: 0;
+			padding-bottom: calculate-rem(10px);
+		}
+	}
+}
