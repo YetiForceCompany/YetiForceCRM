@@ -15,7 +15,8 @@
 @import "libraries/_Quasar";
 //-------- base --------//
 @import "_Style";
-@import "_RowHeight";
+//-------- user preferences styles --------//
+@import "userPreferences/_RowHeight";
 //-------- components --------//
 @import "components/_Utilities";
 @import "components/_Global";
