@@ -43,7 +43,7 @@
 							{if $SOURCE_MODULE eq 'Home'}
 								<div class="textAlignCenter">{\App\Language::translate('LBL_PLEASE_SELECT_MODULE',$MODULE)}</div>
 							{else}
-								{include file=\App\Layout::getTemplatePath('ConditionBuilder.tpl') MODULE_NAME=$SOURCE_MODULE}
+								{include file=\App\Layout::getTemplatePath('ConditionBuilder.tpl') MODULE_NAME=$SOURCE_MODULE ADVANCE_CRITERIA=[]}
 							{/if}
 						</form>
 					</div>
