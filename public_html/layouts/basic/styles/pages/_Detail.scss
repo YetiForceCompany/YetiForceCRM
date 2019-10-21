@@ -154,7 +154,9 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 .c-detail-widget {
 	@extend .card;
 	margin-bottom: calculate-rem(8px);
-
+	@include media-breakpoint-down(sm) {
+		margin-bottom: calculate-rem(4px);
+	}
 	&__header {
 		@extend .card-header;
 		@extend .py-0, .px-2, .border-bottom-0;
@@ -464,6 +466,10 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	.details {
 		padding-bottom: calculate-rem(10px);
 		padding-top: calculate-rem(10px);
+		@include media-breakpoint-down(sm) {
+			padding-bottom: calculate-rem(4px);
+			padding-top: calculate-rem(4px);
+		}
 	}
 }
 
