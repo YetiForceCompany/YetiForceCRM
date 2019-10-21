@@ -21,19 +21,22 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		}
 	}
 
-	.fieldLabel.medium, .fieldValue.medium {
-		padding: 10px;
-		min-height: 40px;
+	.fieldLabel.medium,
+	.fieldValue.medium {
+		padding: calculate-rem(10px);
+		min-height: calculate-rem(40px);
 	}
 
-	.fieldLabel.narrow, .fieldValue.narrow {
-		padding: 5px;
-		min-height: 25px;
+	.fieldLabel.narrow,
+	.fieldValue.narrow {
+		padding: calculate-rem(5px);
+		min-height: calculate-rem(25px);
 	}
 
-	.fieldLabel.wide, .fieldValue.wide {
-		padding: 15px;
-		min-height: 50px;
+	.fieldLabel.wide,
+	.fieldValue.wide {
+		padding: calculate-rem(15px);
+		min-height: calculate-rem(50px);
 	}
 
 	.fieldsLabelValue:last-child::after {
@@ -54,7 +57,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	list-style: none;
 
 	&:before {
-		content: '';
+		content: "";
 		position: absolute;
 		top: 0;
 		bottom: 0;
@@ -67,7 +70,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 	> li {
 		position: relative;
-		padding-bottom: 10px;
+		padding-bottom: calculate-rem(10px);
 
 		&:before {
 			content: " ";
@@ -93,22 +96,22 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 			> {
 				.imageContainer {
-					width: 30px;
+					width: calculate-rem(30px);
 
 					> {
 						.userImage {
 							margin: 0 auto;
-							width: 30px;
-							height: 30px;
-							padding: 2px;
+							width: calculate-rem(30px);
+							height: calculate-rem(30px);
+							padding: calculate-rem(2px);
 							border: 2px solid #d2d6de;
-							font-size: 32px;
+							font-size: calculate-rem(32px);
 						}
 
 						@include media-breakpoint-up(sm) {
 							.userImage {
-								width: 40px;
-								height: 40px;
+								width: calculate-rem(40px);
+								height: calculate-rem(40px);
 							}
 						}
 					}
@@ -121,11 +124,11 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 				@include media-breakpoint-up(sm) {
 					.imageContainer {
-						width: 40px;
+						width: calculate-rem(40px);
 					}
 
 					.timeline-body {
-						padding-left: 44px;
+						padding-left: calculate-rem(44px);
 						font-size: 1em;
 					}
 				}
@@ -193,15 +196,16 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	box-shadow: 1px 1px 3px #ddd;
 	border-radius: 2px;
 	background: #fff;
-	margin-bottom: 10px;
-	padding: 25px 20px 5px;
+	margin-bottom: calculate-rem(10px);
+	padding: calculate-rem(25px) calculate-rem(20px) calculate-rem(5px);
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	word-wrap: break-word;
 
 	.c-detail-widget__table tr.summaryViewEntries:last-child {
-		.fieldValue, .fieldLabel {
+		.fieldValue,
+		.fieldLabel {
 			border-bottom: 1px solid #ddd;
 		}
 	}
@@ -209,7 +213,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	.summaryViewEntries {
 		.fieldLabel {
 			vertical-align: top;
-			padding: 5px 0 5px 5%;
+			padding: calculate-rem(5px) 0 calculate-rem(5px) 5%;
 			border-top: 1px solid #ddd;
 			border-right: 1px solid #ddd;
 			width: 35%;
@@ -217,7 +221,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 		.fieldValue {
 			vertical-align: top;
-			padding: 5px 0 5px 5px;
+			padding: calculate-rem(5px) 0 calculate-rem(5px) calculate-rem(5px);
 
 			/*ie fix from 5px 0 5px 5%*/
 			border-top: 1px solid #ddd;
@@ -226,7 +230,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	}
 
 	.toggleViewByMode {
-		margin: 8px 0;
+		margin: calculate-rem(8px) 0;
 		padding-right: 0;
 
 		.changeDetailViewMode {
@@ -242,8 +246,8 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	box-shadow: 1px 1px 3px #ddd;
 	border: 1px solid #eaeaea;
 	background: #fff;
-	margin-bottom: 10px;
-	padding: 15px;
+	margin-bottom: calculate-rem(10px);
+	padding: calculate-rem(15px);
 }
 
 .commentContainer .commentTitle {
@@ -251,7 +255,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	word-wrap: break-word;
-	margin-bottom: 10px;
+	margin-bottom: calculate-rem(10px);
 
 	textarea {
 		-webkit-box-sizing: border-box;
@@ -263,16 +267,18 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 .recordEditView {
 	.contentHeader {
-		padding: 5px 0;
+		padding: calculate-rem(5px) 0;
 	}
 
 	.table {
-		.fieldLabel, .fieldValue {
+		.fieldLabel,
+		.fieldValue {
 			vertical-align: middle;
 		}
 
 		tbody tr:hover {
-			td, th {
+			td,
+			th {
 				background: #f7f7f9;
 			}
 		}
@@ -290,7 +296,6 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		visibility: visible;
 	}
 }
-
 
 .commentContainer {
 	border-radius: 2px;
@@ -312,7 +317,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		width: 100%;
 		margin-bottom: 0;
 		border-radius: 2px;
-		padding: 10px 0 0 0;
+		padding: calculate-rem(10px) 0 0 0;
 		display: inline-block;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
@@ -325,10 +330,10 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	}
 
 	.addCommentBlock .commentcontent {
-		min-height: 56px !important;
+		min-height: calculate-rem(56px !important);
 		overflow-x: hidden;
 		overflow-y: hidden;
-		padding: 7px !important;
+		padding: calculate-rem(7px !important);
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
@@ -337,7 +342,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	}
 
 	.commentInfoContent {
-		padding: 1px 0;
+		padding: calculate-rem(1px) 0;
 		word-wrap: break-word;
 	}
 }
@@ -349,8 +354,8 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	word-wrap: break-word;
 
 	img {
-		width: 32px;
-		height: 32px;
+		width: calculate-rem(32px);
+		height: calculate-rem(32px);
 	}
 }
 
@@ -409,7 +414,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 		word-wrap: break-word;
-		height: 15px;
+		height: calculate-rem(15px);
 
 		p {
 			margin-bottom: 0;
@@ -443,11 +448,11 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 }
 
 .detailViewInfo {
-	margin-top: 5px;
+	margin-top: calculate-rem(5px);
 
 	.details {
-		padding-bottom: 10px;
-		padding-top: 10px;
+		padding-bottom: calculate-rem(10px);
+		padding-top: calculate-rem(10px);
 	}
 }
 
@@ -462,7 +467,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 }
 
 .detailViewTitle {
-	padding: 0 15px 0 15px;
+	padding: 0 calculate-rem(15px) 0 calculate-rem(15px);
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -473,7 +478,8 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		top: -43px;
 		left: -27px;
 
-		@at-root .IStorages_Detail #{&}, .SSalesProcesses_Detail #{&} {
+		@at-root .IStorages_Detail #{&},
+			.SSalesProcesses_Detail #{&} {
 			top: -41px;
 			left: -19px;
 		}
@@ -485,12 +491,12 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	}
 
 	.popover {
-		min-width: 130px;
+		min-width: calculate-rem(130px);
 		text-align: center;
 	}
 
 	.spanModuleIcon {
-		margin-right: 10px;
+		margin-right: calculate-rem(10px);
 		height: 100%;
 	}
 
@@ -498,7 +504,8 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		float: left;
 	}
 
-	.btn-toolbar, .btn-toolbar .btn-group:first-child {
+	.btn-toolbar,
+	.btn-toolbar .btn-group:first-child {
 		margin: 0;
 	}
 }
@@ -549,8 +556,9 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		align-items: center;
 		position: relative;
 
-		&:after, &:before {
-			content: '';
+		&:after,
+		&:before {
+			content: "";
 			position: absolute;
 			top: calculate-rem(10px);
 			width: 50%;
@@ -566,7 +574,8 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		}
 
 		&.after {
-			&:before, &:after {
+			&:before,
+			&:after {
 				background: $progress-bg--inactive;
 			}
 
