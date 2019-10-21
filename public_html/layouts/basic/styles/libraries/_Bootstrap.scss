@@ -137,3 +137,8 @@ label.btn[class*="btn-outline-"] {
 		}
 	}
 }
+.input-group-sm {
+	.form-control {
+		@extend .form-control-sm;
+	}
+}

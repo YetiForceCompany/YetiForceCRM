@@ -167,6 +167,11 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	p {
 		@extend .mb-0;
 	}
+	&--general-info {
+		label {
+			margin-bottom: 0;
+		}
+	}
 }
 
 .c-table {
