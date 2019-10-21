@@ -66,9 +66,9 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		position: absolute;
 		top: 0;
 		bottom: 0;
-		width: 4px;
+		width: calculate-rem(4px);
 		background: #ddd;
-		left: 13px;
+		left: calculate-rem(13px);
 		margin: 0;
 		border-radius: 2px;
 	}
@@ -492,18 +492,18 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 	.hierarchy {
 		position: relative;
-		top: -43px;
-		left: -27px;
+		top: calculate-rem(-43px);
+		left: calculate-rem(-27px);
 
 		@at-root .IStorages_Detail #{&},
 			.SSalesProcesses_Detail #{&} {
-			top: -41px;
-			left: -19px;
+			top: calculate-rem(-41px);
+			left: calculate-rem(-19px);
 		}
 
 		@at-root .MultiCompany_Detail #{&} {
-			top: -44px;
-			left: -22px;
+			top: calculate-rem(-44px);
+			left: calculate-rem(-22px);
 		}
 	}
 
