@@ -1,5 +1,10 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 $progress-dot-size: calc(100% - #{calculate-rem(6px)});
+.o-view-detail {
+	@include media-breakpoint-down(sm) {
+		font-size: 90%;
+	}
+}
 
 .o-detail__icon {
 	font-size: calculate-rem(48px);

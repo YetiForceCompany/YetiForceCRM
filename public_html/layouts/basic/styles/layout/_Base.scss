@@ -67,7 +67,12 @@
 
 .contentsDiv,
 .centerPanel {
-	@extend .mx-2;
+	margin-left: calculate-rem(4px);
+	margin-right: calculate-rem(4px);
+	@include media-breakpoint-up(sm) {
+		margin-left: calculate-rem(8px);
+		margin-right: calculate-rem(8px);
+	}
 }
 
 .massEditTable {
