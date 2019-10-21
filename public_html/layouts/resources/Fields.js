@@ -521,6 +521,7 @@ window.App.Fields = {
 				let config = {
 					language: CONFIG.langKey,
 					allowedContent: true,
+					extraAllowedContent: 'div{page-break-after*}',
 					format_tags: 'p;h1;h2;h3;h4;h5;h6;pre;address;div',
 					removeButtons: '',
 					scayt_autoStartup: false,
