@@ -300,8 +300,8 @@
 			background-color: darken($gray-100, 2%);
 			z-index: 2000;
 			padding: 30px;
-			-webkit-transition: right ease-in-out 0.35s;
-			transition: right ease-in-out 0.35s;
+			-webkit-transition: ease-in-out 0.35s;
+			transition: ease-in-out 0.35s;
 			text-align: center;
 			overflow: auto;
 
@@ -313,8 +313,18 @@
 
 	.o-header-toggle__detail {
 		.o-header-toggle__actions {
-			top: 193px !important;
+			&-btn {
+				position: fixed;
+				bottom: 17px;
+				z-index: 9999999;
+				border-radius: 50%;
+				width: fit-content;
+			}
+			bottom: -100%;
 			position: absolute !important;
+			&.is-active {
+				bottom: 40px;
+			}
 		}
 
 		.c-btn-link--responsive {
