@@ -4,7 +4,7 @@
 	<div class="tpl-DetailViewProductsServicesContents">
 		{assign var=PRODUCTS value=\App\Module::getModuleId('Products')}
 		{if isset($RELATIONS[$PRODUCTS])}
-			<div class="c-detail-widget js-detail-widget u-mb-13px" data-js="container">
+			<div class="c-detail-widget js-detail-widget" data-js="container">
 				<div class="widgetContainer_products hideActionImages"
 					 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Products&mode=showRelatedRecords&page=1&limit={$LIMIT}"
 					 data-name="LBL_RELATED_PRODUCTS">
@@ -68,7 +68,7 @@
 		{* Summary View OutsourcedProducts Widget*}
 		{assign var=OUTSOURCEDPRODUCTS value=\App\Module::getModuleId('OutsourcedProducts')}
 		{if isset($RELATIONS[$OUTSOURCEDPRODUCTS])}
-			<div class="c-detail-widget js-detail-widget u-mb-13px" data-js="container">
+			<div class="c-detail-widget js-detail-widget" data-js="container">
 				<div class="widgetContainer_assets"
 					 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=OutsourcedProducts&mode=showRelatedRecords&page=1&limit={$LIMIT}"
 					 data-name="LBL_RELATED_OP">
@@ -132,7 +132,7 @@
 		{* Summary View Assets Widget*}
 		{assign var=ASSETS value=\App\Module::getModuleId('Assets')}
 		{if isset($RELATIONS[$ASSETS])}
-			<div class="c-detail-widget js-detail-widget u-mb-13px" data-js="container">
+			<div class="c-detail-widget js-detail-widget" data-js="container">
 				<div class="widgetContainer_assets2"
 					 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Assets&mode=showRelatedRecords&page=1&limit={$LIMIT}"
 					 data-name="LBL_RELATED_ASSETS">
@@ -164,7 +164,7 @@
 		{* Summary View Services Widget Ends Here*}
 		{assign var=SERVICES value=\App\Module::getModuleId('Services')}
 		{if isset($RELATIONS[$SERVICES])}
-			<div class="c-detail-widget js-detail-widget u-mb-13px" data-js="container">
+			<div class="c-detail-widget js-detail-widget" data-js="container">
 				<div class="widgetContainer_service hideActionImages"
 					 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Services&mode=showRelatedRecords&page=1&limit={$LIMIT}"
 					 data-name="LBL_RELATED_SERVICES">
@@ -227,7 +227,7 @@
 		{* Summary View OSSOutsourcedServices Widget Start Here*}
 		{assign var=OSSOUTSOURCEDSERVICES value=\App\Module::getModuleId('OSSOutsourcedServices')}
 		{if isset($RELATIONS[$OSSOUTSOURCEDSERVICES])}
-			<div class="c-detail-widget js-detail-widget u-mb-13px" data-js="container">
+			<div class="c-detail-widget js-detail-widget" data-js="container">
 				<div class="widgetContainer_service"
 					 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=OSSOutsourcedServices&mode=showRelatedRecords&page=1&limit={$LIMIT}"
 					 data-name="LBL_RELATED_OSSOS">
@@ -291,7 +291,7 @@
 		{/if}
 		{assign var=OSSSOLDSERVICES value=\App\Module::getModuleId('OSSSoldServices')}
 		{if isset($RELATIONS[$OSSSOLDSERVICES])}
-			<div class="c-detail-widget js-detail-widget u-mb-13px" data-js="container">
+			<div class="c-detail-widget js-detail-widget" data-js="container">
 				<div class="widgetContainer_service"
 					 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=OSSSoldServices&mode=showRelatedRecords&page=1&limit={$LIMIT}"
 					 data-name="LBL_RELATED_OSSSS">

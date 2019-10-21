@@ -1,5 +1,5 @@
 {strip}
-	<div class="tpl-Detail-Widget-SummaryCategory c-detail-widget c-detail-widget--summmary-category u-mb-13px js-detail-widget recordDetails" data-js="container">
+	<div class="tpl-Detail-Widget-SummaryCategory c-detail-widget c-detail-widget--summmary-category mb-1 js-detail-widget recordDetails" data-js="container">
 		{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
 			<div>
 				<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">

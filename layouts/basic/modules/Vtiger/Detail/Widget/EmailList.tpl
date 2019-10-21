@@ -1,6 +1,6 @@
 {strip}
 	{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
-	<div class="c-detail-widget u-mb-13px js-detail-widget" data-js="container">
+	<div class="c-detail-widget js-detail-widget" data-js="container">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}"
 			 data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 			<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">

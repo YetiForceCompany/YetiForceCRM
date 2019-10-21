@@ -147,7 +147,8 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 //--- Widgets ---
 .c-detail-widget {
-	@extend .card, .m-1;
+	@extend .card;
+	margin-bottom: calculate-rem(8px);
 
 	&__header {
 		@extend .card-header;

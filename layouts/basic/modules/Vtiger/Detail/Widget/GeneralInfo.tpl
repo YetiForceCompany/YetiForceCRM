@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Base-Detail-Widget-GeneralInfo -->
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-	<div class="c-detail-widget u-mb-13px c-detail-widget--general-info js-widget-general-info" data-js="edit/save">
+	<div class="c-detail-widget c-detail-widget--general-info js-widget-general-info" data-js="edit/save">
 		<div>
 			<div class="c-detail-widget__header">
 				<h5 class="mb-0 py-2"> {\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}</h5>
