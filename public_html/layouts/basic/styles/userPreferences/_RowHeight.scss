@@ -3,22 +3,22 @@
 .table td.wide,
 .listViewEntries td.wide,
 td.listViewEntryValue.wide {
-	padding: calculate-rem(8px) !important;
-	line-height: calculate-rem(31px);
+	padding: calculate-rem(12px) !important;
+	line-height: calculate-rem(15px);
 }
 
 .table td.medium,
 .listViewEntries td.medium,
 td.listViewEntryValue.medium {
-	padding: calculate-rem(3px) calculate-rem(6px) !important;
-	line-height: calculate-rem(29px);
+	padding: calculate-rem(8px) !important;
+	line-height: calculate-rem(15px);
 }
 
 .table td.narrow,
 .listViewEntries td.narrow,
 td.listViewEntryValue.narrow {
-	padding: calculate-rem(2px) calculate-rem(4px) !important;
-	line-height: calculate-rem(27px);
+	padding: calculate-rem(4px) !important;
+	line-height: calculate-rem(15px);
 }
 
 .table thead th.narrow {
