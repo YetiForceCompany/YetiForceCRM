@@ -124,22 +124,4 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 		}
 		return $hierarchy;
 	}
-
-	public function getRecordListViewLinksLeftSide()
-	{
-		$links = parent::getRecordListViewLinksLeftSide();
-		$recordLinks = [];
-		$recordLinks[] = [
-			'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-			'linklabel' => 'CCCCC',
-			'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetail&modalSize=u-w-3per-250px&record=' . $this->getId(),
-			'linkicon' => 'far fa-caret-square-right',
-			'linkclass' => 'btn-sm btn-default',
-			'modalView' => true,
-		];
-		foreach ($recordLinks as $recordLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
-		}
-		return $links;
-	}
 }
