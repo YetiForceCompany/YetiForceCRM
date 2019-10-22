@@ -316,8 +316,7 @@
 			box-shadow: $box-shadow-lg;
 			bottom: -100%;
 			padding: calculate-rem(10px);
-			margin: calculate-rem(30px);
-			width: unset;
+			padding-bottom: calculate-rem(60px);
 			.btn {
 				text-align: left;
 			}
@@ -331,7 +330,7 @@
 				opacity: 0.8;
 			}
 			&.is-active {
-				bottom: calculate-rem(60px);
+				bottom: 0;
 			}
 		}
 
