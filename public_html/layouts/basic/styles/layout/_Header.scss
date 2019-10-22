@@ -299,7 +299,7 @@
 			color: $color-navbar;
 			background-color: darken($gray-100, 2%);
 			z-index: 2000;
-			padding: 30px;
+			padding: calculate-rem(30px);
 			-webkit-transition: ease-in-out 0.35s;
 			transition: ease-in-out 0.35s;
 			text-align: center;
@@ -313,17 +313,25 @@
 
 	.o-header-toggle__detail {
 		.o-header-toggle__actions {
+			box-shadow: $box-shadow-lg;
+			bottom: -100%;
+			padding: calculate-rem(10px);
+			margin: calculate-rem(30px);
+			width: unset;
+			.btn {
+				text-align: left;
+			}
 			&-btn {
 				position: fixed;
 				bottom: 17px;
 				z-index: 9999999;
 				border-radius: 50%;
-				width: fit-content;
+				width: 35px;
+				height: 35px;
+				opacity: 0.8;
 			}
-			bottom: -100%;
-			position: absolute !important;
 			&.is-active {
-				bottom: 40px;
+				bottom: calculate-rem(60px);
 			}
 		}
 
