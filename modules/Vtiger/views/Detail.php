@@ -439,8 +439,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		}
-		$hierarchyValue = $this->getHierarchyValue($request);
-		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $moduleName, $this->getHierarchy($request), $pagingModel);
+		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $moduleName, $this->getHierarchy($request, ['current']), $pagingModel);
 		$pagingModel->calculatePageRange(\count($parentCommentModels));
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
@@ -449,8 +448,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('HIERARCHY_VALUE', $hierarchyValue);
-		$viewer->assign('HIERARCHY', \App\ModuleHierarchy::getModuleLevel($moduleName));
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
@@ -689,15 +686,18 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * Get comments hierarchy.
 	 *
 	 * @param \App\Request $request
+	 * @param array        $hierarchyValue
 	 *
 	 * @return array
 	 */
-	public function getHierarchy(App\Request $request)
+	public function getHierarchy(App\Request $request, array $hierarchyValue = [])
 	{
+		if (empty($hierarchyValue)) {
+			$hierarchyValue = $this->getHierarchyValue($request);
+		}
 		$moduleName = $request->getModule();
 		$hierarchy = [];
 		$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
-		$hierarchyValue = $this->getHierarchyValue($request);
 		if (0 === $level) {
 			$hierarchy = \in_array('related', $hierarchyValue) ? [1, 2, 3] : [];
 		} elseif (1 === $level) {

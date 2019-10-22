@@ -35,36 +35,6 @@
 				</div>
 			{/if}
 		</div>
-		<div class="col-md-12 form-row commentsHeader my-3 mx-0 px-0">
-			<div class="col-3 col-xl-7 col-lg-12 col-md-12 col-sm-12 col-12 p-0 d-flex justify-content-xl-end justify-content-lg-center justify-content-center mt-lg-2 mt-sm-2 mt-0 m-xl-0">
-				{if $HIERARCHY !== false && $HIERARCHY < 2}
-					<div class="btn-group btn-group-toggle float-right float-md-none text-truncate"
-						 data-toggle="buttons">
-						<label class="js-hierarchy-comments-btn u-h-fit mt-1 mt-sm-0 btn btn-sm text-truncate btn-outline-primary {if in_array('current', $HIERARCHY_VALUE)}active{/if}"
-							   title="{\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}" data-js="click">
-							<input type="checkbox"
-								   class="js-hierarchy-comments"
-								   data-js="val"
-								   value="current"
-									{if in_array('current', $HIERARCHY_VALUE)} checked="checked"{/if}
-								   autocomplete="off"/>
-							{\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
-						</label>
-						<label class="js-hierarchy-comments-btn u-h-fit mt-1 mt-sm-0 btn btn-sm text-truncate btn-outline-primary {if in_array('related', $HIERARCHY_VALUE)}active{/if}"
-							   title="{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}" data-js="click">
-							<input type="checkbox"
-								   class="js-hierarchy-comments"
-								   data-js="val"
-								   value="related"
-									{if in_array('related', $HIERARCHY_VALUE)} checked="checked"{/if}
-								   autocomplete="off"/>
-
-							{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}
-						</label>
-					</div>
-				{/if}
-			</div>
-		</div>
 		<hr>
 		<div class="js-comments-body js-completions__messages commentsBody" data-js="html | click">
 			{if !empty($PARENT_COMMENTS)}
