@@ -41,9 +41,9 @@
 											{/if}
 									</label>
 								</td>
-								<td class="fieldValue {$WIDTHTYPE}">
+								<td class="fieldValue {$WIDTHTYPE} u-line-h-normal">
 									<div class="row">
-										<div class="value col-10 u-line-h-normal"
+										<div class="value col-10"
 											 {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName()) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 										</div>
