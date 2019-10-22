@@ -872,7 +872,7 @@ return [
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'PERMITTED_BY_PRIVATE_FIELD' => [
-			'default' => false,
+			'default' => true,
 			'description' => 'Permitted by private field.',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'

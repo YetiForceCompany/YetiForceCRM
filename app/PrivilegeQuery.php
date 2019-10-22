@@ -66,6 +66,19 @@ class PrivilegeQuery
 			$userId = \App\User::getCurrentUserId();
 		}
 		$userModel = \Users_Privileges_Model::getInstanceById($userId);
+		if (!$userModel->isAdminUser() && \App\Config::security('PERMITTED_BY_PRIVATE_FIELD') && ($fieldInfo = \App\Field::getFieldInfo('private', $moduleName)) && \in_array($fieldInfo['presence'], [0, 2])) {
+			$conditions = ['or'];
+			$conditions[] = ['vtiger_crmentity.private' => 0];
+			$subConditions = ['or', ['vtiger_crmentity.smownerid' => $userId]];
+			if (\App\Config::security('PERMITTED_BY_SHARED_OWNERS')) {
+				$subQuery = (new \App\Db\Query())->select(['crmid'])->distinct()
+					->from('u_yf_crmentity_showners')
+					->where(['userid' => array_merge([$userId], $userModel->groups)]);
+				$subConditions[] = ['vtiger_crmentity.crmid' => $subQuery];
+			}
+			$conditions[] = ['and', ['vtiger_crmentity.private' => 1], $subConditions];
+			$query->andWhere($conditions);
+		}
 		if (false !== $relatedRecord && \App\Config::security('PERMITTED_BY_RECORD_HIERARCHY')) {
 			$role = $userModel->getRoleDetail();
 			if (2 == $role->get('listrelatedrecord')) {

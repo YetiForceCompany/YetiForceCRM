@@ -48,7 +48,13 @@ class Security
 	public static $PERMITTED_BY_ADVANCED_PERMISSION = true;
 
 	/** Permitted by private field. */
-	public static $PERMITTED_BY_PRIVATE_FIELD = false;
+	public static $PERMITTED_BY_PRIVATE_FIELD = true;
+
+	/** List of modules to which access is based on the record creation. */
+	public static $permittedModulesByCreatorField = [];
+
+	/** Permission level access based on the record creation */
+	public static $permittedWriteAccessByCreatorField = false;
 
 	/**
 	 * Configuration of the permission mechanism on records list.
@@ -72,7 +78,7 @@ class Security
 	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_ALLOWED = [];
 
 	/** List of modules excluded from restricted domains validation. */
-	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_EXCLUDED = [];
+	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_EXCLUDED = ['OSSEmployees', 'Users'];
 
 	/** Remember user credentials */
 	public static $LOGIN_PAGE_REMEMBER_CREDENTIALS = false;

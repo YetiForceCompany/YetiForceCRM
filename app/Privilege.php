@@ -208,7 +208,8 @@ class Privilege
 			}
 			return false;
 		}
-		if (\App\Config::security('PERMITTED_BY_PRIVATE_FIELD') && $recordMetaData['private']) {
+		if (\App\Config::security('PERMITTED_BY_PRIVATE_FIELD') && $recordMetaData['private'] &&
+			($fieldInfo = \App\Field::getFieldInfo('private', $recordMetaData['setype'])) && \in_array($fieldInfo['presence'], [0, 2])) {
 			$level = 'SEC_PRIVATE_RECORD_NO';
 			$isPermittedPrivateRecord = false;
 			$recOwnId = $recordMetaData['smownerid'];
@@ -224,9 +225,9 @@ class Privilege
 					$isPermittedPrivateRecord = true;
 				}
 			}
-			if (!$isPermittedPrivateRecord) {
-				$shownerids = Fields\SharedOwner::getById($record);
-				if (\in_array($userId, $shownerids) || \count(array_intersect($shownerids, $userPrivileges['groups'])) > 0) {
+			if (!$isPermittedPrivateRecord && \App\Config::security('PERMITTED_BY_SHARED_OWNERS')) {
+				$shownerIds = Fields\SharedOwner::getById($record);
+				if (\in_array($userId, $shownerIds) || \count(array_intersect($shownerIds, $userPrivileges['groups'])) > 0) {
 					$level = 'SEC_PRIVATE_RECORD_SHARED_OWNER';
 					$isPermittedPrivateRecord = true;
 				}
