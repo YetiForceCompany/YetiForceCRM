@@ -15,7 +15,7 @@
 		<div class="commentTitle">
 			{if !$IS_READ_ONLY && $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 				<div class="js-add-comment-block addCommentBlock" data-js="container|remove">
-					<div class="input-group">
+					<div class="input-group input-group-sm">
 						<div class="input-group-prepend">
 							<span class="input-group-text">
 								<span class="fas fa-comments"></span>
@@ -36,21 +36,6 @@
 			{/if}
 		</div>
 		<div class="col-md-12 form-row commentsHeader my-3 mx-0 px-0">
-			<div class="col-9 col-xl-5 col-lg-12 col-md-12 col-sm-12 p-0 col-12">
-				<div class="input-group input-group-sm">
-					<input type="text" class="js-comment-search form-control"
-						   placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
-						   aria-describedby="commentSearchAddon"
-						   data-container="widget"
-						   data-js="keypress|data">
-					<div class="input-group-append">
-						<button class="btn btn-light js-search-icon" type="button"
-								data-js="click">
-							<span class="fas fa-search fa-fw" title="{\App\Language::translate('LBL_SEARCH')}"></span>
-						</button>
-					</div>
-				</div>
-			</div>
 			<div class="col-3 col-xl-7 col-lg-12 col-md-12 col-sm-12 col-12 p-0 d-flex justify-content-xl-end justify-content-lg-center justify-content-center mt-lg-2 mt-sm-2 mt-0 m-xl-0">
 				{if $HIERARCHY !== false && $HIERARCHY < 2}
 					<div class="btn-group btn-group-toggle float-right float-md-none text-truncate"
