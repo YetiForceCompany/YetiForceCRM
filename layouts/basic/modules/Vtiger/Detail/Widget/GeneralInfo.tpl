@@ -27,7 +27,7 @@
 					{foreach item=FIELD_MODEL key=FIELD_NAME from=$SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS']}
 						{if $FIELD_MODEL->getName() neq 'modifiedtime' && $FIELD_MODEL->getName() neq 'createdtime'}
 							<tr class="c-table__row--hover">
-								<td class="{$WIDTHTYPE} u-line-h-normal">
+								<td class="{$WIDTHTYPE}">
 									<label class="font-weight-bold mb-0">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}
 											{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
 										{if $HELPINFO_LABEL}
@@ -41,7 +41,7 @@
 											{/if}
 									</label>
 								</td>
-								<td class="fieldValue {$WIDTHTYPE} u-line-h-normal">
+								<td class="fieldValue {$WIDTHTYPE}">
 									<div class="row">
 										<div class="value col-10"
 											 {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
