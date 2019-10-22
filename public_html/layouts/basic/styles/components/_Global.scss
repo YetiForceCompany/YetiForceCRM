@@ -29,7 +29,10 @@ body:not(.desktop) {
 
 .c-panel {
 	@extend .card;
-	@extend .mb-2;
+	margin-bottom: calculate-rem(8px);
+	@include media-breakpoint-down(sm) {
+		margin-bottom: calculate-rem(4px);
+	}
 	&__header {
 		@extend .card-header;
 		cursor: pointer;

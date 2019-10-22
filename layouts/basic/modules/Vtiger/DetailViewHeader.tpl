@@ -17,7 +17,7 @@
 <div class="detailViewContainer">
 	<div class="row detailViewTitle {if $BREADCRUMBS_ACTIVE}p-0{else}pt-3{/if}">
 		{if $SHOW_BREAD_CRUMBS && $BREADCRUMBS_ACTIVE}
-			<div class="o-breadcrumb widget_header mb-2 d-flex justify-content-between px-2 w-100">
+			<div class="o-breadcrumb widget_header mb-2 d-flex justify-content-between px-3 px-sm-2 w-100">
 				<div class="o-breadcrumb__container">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				</div>

@@ -1,5 +1,5 @@
 {strip}
-	<div class="c-detail-widget u-mb-13px js-detail-widget summaryWidgetFastEditing" data-js="container">
+	<div class="c-detail-widget js-detail-widget summaryWidgetFastEditing" data-js="container">
 		<div class="widgetContainer_{$key}" data-name="{$WIDGET['label']}">
 			{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
 				<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">

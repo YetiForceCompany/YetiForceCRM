@@ -1,5 +1,5 @@
 {strip}
-	<div class="tpl-Detail-Widget-Basic c-detail-widget u-mb-13px js-detail-widget" data-js="container">
+	<div class="tpl-Detail-Widget-Basic c-detail-widget js-detail-widget" data-js="container">
 		{assign var=RELATED_MODULE_NAME value=App\Module::getModuleName($WIDGET['data']['relatedmodule'])}
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}"
 			 data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}">

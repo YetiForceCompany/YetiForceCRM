@@ -137,3 +137,24 @@ label.btn[class*="btn-outline-"] {
 		}
 	}
 }
+.input-group-sm {
+	.form-control {
+		@extend .form-control-sm;
+	}
+}
+.input-group-lg {
+	.form-control {
+		@extend .form-control-lg;
+	}
+}
+@include media-breakpoint-down(sm) {
+	.breadcrumb {
+		padding: 0;
+	}
+	.breadcrumb-item + .breadcrumb-item {
+		padding-left: calculate-rem(2px);
+		&::before {
+			padding-right: calculate-rem(2px);
+		}
+	}
+}

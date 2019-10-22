@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!DOCTYPE html>
-<html lang="{$HTMLLANG}">
+<html lang="{$HTMLLANG}" class="o-view-{$VIEW|lower}">
 <head>
 	<title>{$PAGETITLE}</title>
 	<link REL="SHORTCUT ICON" HREF="{\App\Layout::getImagePath('favicon.ico')}">
