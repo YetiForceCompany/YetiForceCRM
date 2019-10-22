@@ -12,36 +12,35 @@
 {strip}
 	{* Change to this also refer: AddCommentForm.tpl *}
 	<div class="tpl-Base-RecentComments js-comments-container js-completions__container commentContainer recentComments" data-js="container">
-		<div class="commentTitle">
-			{if !$IS_READ_ONLY && $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-				<div class="js-add-comment-block addCommentBlock" data-js="container|remove">
-					<div class="input-group input-group-sm">
-						<div class="input-group-prepend">
-							<span class="input-group-text">
-								<span class="fas fa-comments"></span>
-							</span>
-						</div>
-						<div name="commentcontent" contenteditable="true"
-							 class="js-comment-content js-completions commentcontent form-control"
-							 title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
-							 placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
-							 data-js="html | tribute.js"></div>
-						<div class="input-group-append">
-							<button class="btn btn-success js-detail-view-save-comment" type="button" data-mode="add">
-								<span class="fa fa-plus"></span>
-							</button>
-						</div>
-					</div>
-				</div>
-			{/if}
-		</div>
-		<hr>
 		<div class="js-comments-body js-completions__messages commentsBody" data-js="html | click">
 			{if !empty($PARENT_COMMENTS)}
 				{include file=\App\Layout::getTemplatePath('Comments.tpl') PARENT_COMMENTS=$PARENT_COMMENTS CURRENT_COMMENT=$CURRENT_COMMENT}
 			{else}
 				{include file=\App\Layout::getTemplatePath('NoComments.tpl')}
 			{/if}
+			<div class="commentTitle">
+				{if !$IS_READ_ONLY && $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
+					<div class="js-add-comment-block addCommentBlock" data-js="container|remove">
+						<div class="input-group input-group-sm">
+							<div class="input-group-prepend">
+								<span class="input-group-text">
+									<span class="fas fa-comments"></span>
+								</span>
+							</div>
+							<div name="commentcontent" contenteditable="true"
+								class="js-comment-content js-completions commentcontent form-control"
+								title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+								placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+								data-js="html | tribute.js"></div>
+							<div class="input-group-append">
+								<button class="btn btn-success js-detail-view-save-comment" type="button" data-mode="add">
+									<span class="fa fa-plus"></span>
+								</button>
+							</div>
+						</div>
+					</div>
+				{/if}
+			</div>
 			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
 				<div class="col-12 float-right p-0 mb-2">
 					<a href="javascript:void(0)"

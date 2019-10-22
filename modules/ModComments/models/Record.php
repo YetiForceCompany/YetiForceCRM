@@ -378,7 +378,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 					'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'),
 				],
 				'linkicon' => 'fas fa-archive',
-				'linkclass' => 'btn-xs entityStateBtn',
+				'linkclass' => 'entityStateBtn rounded-circle',
 				'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
 				'showLabel' => false,
 			]);
@@ -393,7 +393,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 					'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC'),
 				],
 				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn-xs entityStateBtn',
+				'linkclass' => 'entityStateBtn rounded-circle',
 				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 				'showLabel' => false,
 			]);
