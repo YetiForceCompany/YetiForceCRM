@@ -383,7 +383,7 @@ body:not(.desktop) {
 .c-circle-icon {
 	height: calculate-rem(30px);
 	width: calculate-rem(30px);
-	max-width: calculate-rem(30px);
+	min-width: calculate-rem(30px);
 	display: flex;
 	justify-content: center;
 	align-items: center;
