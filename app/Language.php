@@ -138,6 +138,21 @@ class Language
 	}
 
 	/**
+	 * Function that returns region for language prefix.
+	 *
+	 * @param string|null $lang
+	 *
+	 * @return string
+	 */
+	public static function getLanguageRegion(?string $lang = null): string
+	{
+		if (!$lang) {
+			$lang = static::getLanguage();
+		}
+		return \Locale::parseLocale($lang)['region'] ?? substr($lang, -2);
+	}
+
+	/**
 	 * Functions that gets translated string.
 	 *
 	 * @param string      $key        - string which need to be translated

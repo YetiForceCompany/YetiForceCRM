@@ -19,8 +19,10 @@
 		{if \App\Config::main('phoneFieldAdvancedVerification',false)}
 			{if $NUMBER}
 				{assign var="PHONE_DETAIL" value=App\Fields\Phone::getDetails($NUMBER)}
+				{assign var="COUNTRY" value=$PHONE_DETAIL['country']}
 			{else}
-				{assign var="PHONE_DETAIL" value=['country' => substr(\App\Language::getLanguage(),-2)]}
+				{assign var="PHONE_DETAIL" value=[]}
+				{assign var="COUNTRY" value=\App\Language::getLanguageRegion()}
 			{/if}
 			{assign var="FIELD_NAME_EXTRA" value=$FIELD_MODEL->getFieldName()|cat:'_extra'}
 			{assign var="FIELD_MODEL_EXTRA" value=$FIELD_MODEL->getModule()->getFieldByName($FIELD_NAME_EXTRA)}
@@ -32,7 +34,7 @@
 							<select name="{$FIELD_MODEL->getFieldName()}_country" tabindex="{$TABINDEX}" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="select2 phoneCountryList" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate" required="required" data-dropdown-auto-width="true">
 								{foreach key=KEY item=ROW from=App\Fields\Country::getAll('phone')}
 									{assign var="TRANSLATE" value=\App\Language::translateSingleMod($ROW['name'],'Other.Country')}
-									<option value="{$KEY}" {if $PHONE_DETAIL && $PHONE_DETAIL['country'] == $KEY} selected {/if} title="{$TRANSLATE}" data-template="<span><span class='flag-icon flag-icon-{$KEY|lower} mr-2'></span>{$TRANSLATE}</span>">{$TRANSLATE}</option>
+									<option value="{$KEY}" {if $COUNTRY === $KEY} selected {/if} title="{$TRANSLATE}" data-template="<span><span class='flag-icon flag-icon-{$KEY|lower} mr-2'></span>{$TRANSLATE}</span>">{$TRANSLATE}</option>
 								{/foreach}
 							</select>
 						</div>
