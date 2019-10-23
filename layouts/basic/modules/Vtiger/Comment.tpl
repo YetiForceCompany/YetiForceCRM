@@ -39,8 +39,8 @@
 									<strong>{$COMMENT->getDisplayValue('related_to')}</strong>
 								</a>
 							{/if}
-							<span class="q-message-text-content flex">
-								<div class="js-comment-info u-w-fit" data-js="html">{$COMMENT->getDisplayValue('commentcontent')}</div>
+							<span class="q-message-text-content">
+								<div class="js-comment-info" data-js="html">{$COMMENT->getDisplayValue('commentcontent')}</div>
 								<div class="u-w-fit q-message-stamp ml-auto">{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</div>
 							</span>
 						</div>

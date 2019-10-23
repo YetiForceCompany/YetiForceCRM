@@ -393,6 +393,12 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		.q-message-received .q-message-text:last-child:before {
 			display: none;
 		}
+		.q-message-text {
+			border-radius: 4px;
+			&:last-child {
+				min-height: unset;
+			}
+		}
 	}
 	.q-fab__actions--left {
 		right: 95%;
