@@ -257,9 +257,9 @@ emoji-mart-vue-fast@^6.0.1:
     tether "^1.4.0"
 
 flag-icon-css@^3.3.0:
-  version "3.4.2"
-  resolved "https://registry.yarnpkg.com/flag-icon-css/-/flag-icon-css-3.4.2.tgz#9d76e2ce96bee87bd65ef241c238fff5ab7dac93"
-  integrity sha512-x/Tw0qx7V2zut50GTeeJbvo9EiWtv+TPxI3fi1OiicbI8esZ1s4G2LnR1EJ96pDQlWqEVuD17sDPf/ZLifZeIg==
+  version "3.4.5"
+  resolved "https://registry.yarnpkg.com/flag-icon-css/-/flag-icon-css-3.4.5.tgz#584d618563034e69cb9a5b7a7c8477ec8c029a49"
+  integrity sha512-COo/PuJY/JddBLkdi7jL3gWF0z/hcvBRA4kfMXUjLeLglFf5IsyAzKZuXaXfCubVrkraVizmEp7Bn05upTXofA==
   dependencies:
     opencollective-postinstall "2.0.2"
 
