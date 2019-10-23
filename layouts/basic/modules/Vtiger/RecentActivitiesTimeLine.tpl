@@ -33,7 +33,7 @@
 												<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
 											</span>
 											<div class="flex-grow-1 ml-1 p-1 timeline-item {if $NEW_CHANGE} bgWarning{/if} isCreate">
-												<div class="float-sm-left imageContainer">
+												<div class="float-sm-left imageContainer d-sm-block d-none">
 													{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 													{if $IMAGE}
 														<img class="userImage" src="{$IMAGE['url']}">
@@ -48,7 +48,7 @@
 													<div>
 														{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 															{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
-																<div class='font-x-small updateInfoContainer'>
+																<div class='font-x-small updateInfoContainer d-flex flex-wrap'>
 																	<span>{\App\Language::translate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
 																	{if $FIELDMODEL->get('postvalue') neq ''}
 																		<strong class="moreContent">
@@ -77,7 +77,7 @@
 												<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
 											</span>
 											<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
-												<div class="float-sm-left imageContainer">
+												<div class="float-sm-left imageContainer d-sm-block d-none">
 													{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 													{if $IMAGE}
 														<img class="userImage" src="{$IMAGE['url']}">
@@ -92,7 +92,7 @@
 													<div>
 														{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 															{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
-																<div class='font-x-small updateInfoContainer'>
+																<div class='font-x-small updateInfoContainer d-flex flex-wrap'>
 																	<span>{\App\Language::translate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
 																	{if $FIELDMODEL->get('prevalue') neq '' && $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELDMODEL->get('postvalue') eq '0' || $FIELDMODEL->get('prevalue') eq '0'))}
 																		&nbsp;{\App\Language::translate('LBL_FROM')}&nbsp;
@@ -143,7 +143,7 @@
 												<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
 											</span>
 											<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isRelationLink isRelationUnLink">
-												<div class="float-sm-left imageContainer">
+												<div class="float-sm-left imageContainer d-sm-block d-none">
 													{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 													{if $IMAGE}
 														<img class="userImage" src="{$IMAGE['url']}">
@@ -185,7 +185,7 @@
 												<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
 											</span>
 											<div class="flex-grow-1 ml-1 p-1 timeline-item isDisplayed">
-												<div class="imageContainer float-left">
+												<div class="imageContainer float-left d-sm-block d-none">
 													{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 													{if $IMAGE}
 														<img class="userImage" src="{$IMAGE['url']}">
@@ -207,7 +207,7 @@
 												<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
 											</span>
 											<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
-												<div class="float-left imageContainer">
+												<div class="float-left imageContainer d-sm-block d-none">
 													{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 													{if $IMAGE}
 														<img class="userImage" src="{$IMAGE['url']}">
@@ -229,7 +229,7 @@
 												<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
 											</span>
 											<div class="flex-grow-1 ml-1 p-1 timeline-item isDisplayed">
-												<div class="float-left imageContainer">
+												<div class="float-left imageContainer d-sm-block d-none">
 													{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 													{if $IMAGE}
 														<img class="userImage" src="{$IMAGE['url']}">

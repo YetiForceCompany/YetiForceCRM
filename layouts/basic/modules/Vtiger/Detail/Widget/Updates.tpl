@@ -4,7 +4,7 @@
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}"
 			 data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 			<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">
-				<div class="form-row align-items-center py-1">
+				<div class="form-row d-flex justify-content-between align-items-center py-1 px-2">
 					<div class="col-8 col-xl-5 col-lg-12 col-sm-5">
 						<div class="widgetTitle u-text-ellipsis">
 							<h5 class="mb-0 modCT_{$WIDGET['label']}">
@@ -18,31 +18,31 @@
 								<input class="js-switch" type="radio" name="options" id="option1" data-js="change"
 									   data-on-val="{$WIDGET['switchHeader']['on']}" data-urlparams="whereCondition"
 									   autocomplete="off"
-									   checked> {$WIDGET['switchHeaderLables']['on']}
+									   checked> <span class="fas fa-redo" title="{$WIDGET['switchHeaderLables']['on']}"></span>
 							</label>
 							<label class="btn btn-sm btn-outline-primary">
 								<input class="js-switch" type="radio" name="options" id="option2" data-js="change"
 									   data-off-val="{$WIDGET['switchHeader']['off']}"
 									   data-urlparams="whereCondition"
-									   autocomplete="off"> {$WIDGET['switchHeaderLables']['off']}
+									   autocomplete="off"> <span class="fas fa-history" title="{$WIDGET['switchHeaderLables']['off']}"></span>
 							</label>
 						</div>
 					{/if}
-					<div class="col text-right">
-						<div class="btn-group">
-							{if $WIDGET['newChanege'] && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $USER_MODEL->getId() eq $USER_MODEL->getRealId()}
-								<div class="float-right btn-group">
-									<button id="btnChangesReviewedOn" type="button"
-											class="btn btn-success btn-sm btnChangesReviewedOn"
-											title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
-										<span class="far fa-check-circle"></span>
-									</button>
-								</div>
-							{/if}
+					{if $WIDGET['newChanege'] && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $USER_MODEL->getId() eq $USER_MODEL->getRealId()}
+						<div class="col text-right">
+							<div class="btn-group">
+									<div class="float-right btn-group">
+										<button id="btnChangesReviewedOn" type="button"
+												class="btn btn-success btn-sm btnChangesReviewedOn"
+												title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
+											<span class="far fa-check-circle"></span>
+										</button>
+									</div>
+							</div>
 						</div>
-					</div>
+					{/if}
 				</div>
-				<hr class="widgetHr"/>
+				<hr class="widgetHr mt-0"/>
 			</div>
 			<div class="c-detail-widget__content js-detail-widget-content" data-js="container|value">
 			</div>
