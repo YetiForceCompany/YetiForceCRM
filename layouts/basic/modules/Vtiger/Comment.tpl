@@ -39,14 +39,13 @@
 									<strong>{$COMMENT->getDisplayValue('related_to')}</strong>
 								</a>
 							{/if}
-							<span class="q-message-text-content">
-								<div class="js-comment-info" data-js="html">{$COMMENT->getDisplayValue('commentcontent')}</div>
-								<div class="u-w-fit q-message-stamp float-right">{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</div>
-								<div class="clear-fix"></div>
+							<span class="q-message-text-content flex">
+								<div class="js-comment-info u-w-fit" data-js="html">{$COMMENT->getDisplayValue('commentcontent')}</div>
+								<div class="u-w-fit q-message-stamp ml-auto">{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</div>
 							</span>
 						</div>
 					</div>
-					<div class="q-fab z-fab row inline justify-center js-comment-actions__container">
+					<div class="q-fab z-fab row inline justify-center js-comment-actions__container mb-1">
 						<button type="button" tabindex="0" class="js-comment-actions__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable {if $IS_CURRENT_USER}q-mr-sm{else}q-ml-sm{/if} u-font-size-13px">
 							<div tabindex="-1" class="q-focus-helper"></div>
 							<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
