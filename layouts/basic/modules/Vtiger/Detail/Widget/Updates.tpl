@@ -42,7 +42,7 @@
 						</div>
 					{/if}
 				</div>
-				<hr class="widgetHr mt-0"/>
+				<hr class="widgetHr my-0"/>
 			</div>
 			<div class="c-detail-widget__content js-detail-widget-content" data-js="container|value">
 			</div>

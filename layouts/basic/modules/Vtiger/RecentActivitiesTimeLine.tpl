@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Base-RecentActivitiesTimeLine recentActivitiesContainer pt-2">
+	<div class="tpl-Base-RecentActivitiesTimeLine recentActivitiesContainer pt-1">
 		<input type="hidden" id="updatesCurrentPage" value="{$PAGING_MODEL->get('page')}"/>
 		<input type="hidden" id="updatesPageLimit" value="{$PAGING_MODEL->getPageLimit()}"/>
 		{if !empty($RECENT_ACTIVITIES)}
@@ -44,7 +44,7 @@
 												<div class="timeline-body small">
 													<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
 													&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
-													<div class="float-right time text-muted">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getParent()->get('createdtime'))}</div>
+													<div class="float-right time text-muted ml-1">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getParent()->get('createdtime'))}</div>
 													<div>
 														{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 															{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
@@ -88,7 +88,7 @@
 												<div class="timeline-body small">
 													<strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}
 														&nbsp;</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}
-													<div class="float-right time text-muted">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</div>
+													<div class="float-right time text-muted ml-1">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</div>
 													<div>
 														{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 															{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
@@ -152,7 +152,7 @@
 													{/if}
 												</div>
 												<div class="timeline-body small">
-													<div class="float-right time text-muted">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</div>
+													<div class="float-right time text-muted ml-1">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</div>
 													<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}
 															&nbsp;</strong></span>
 													{assign var=RELATION value=$RECENT_ACTIVITY->getRelationInstance()}
@@ -194,7 +194,7 @@
 													{/if}
 												</div>
 												<div class="timeline-body small">
-													<div class="float-right time text-muted">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</div>
+													<div class="float-right time text-muted ml-1">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</div>
 													<div><strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
 													</div>
 												</div>
@@ -258,7 +258,7 @@
 				<p class="textAlignCenter">{\App\Language::translate('LBL_NO_RECENT_UPDATES')}</p></div>
 		{/if}
 		<input type="hidden" id="newChange" value="{$NEW_CHANGE}"/>
-		<div class="d-flex py-1 px-1 js-more-link">
+		<div class="d-flex pt-0 pb-2 px-0 js-more-link">
 			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
 				<div class="ml-auto">
 					<button type="button"
