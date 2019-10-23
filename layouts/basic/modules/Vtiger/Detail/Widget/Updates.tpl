@@ -7,11 +7,11 @@
 				<div class="d-flex align-items-center py-1">
 					<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 					<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
-						<div class="widgetTitle u-text-ellipsis">
-							<h5 class="mb-0 modCT_{$WIDGET['label']}">
-								{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
-							</h5>
-						</div>
+					<div class="widgetTitle u-text-ellipsis">
+						<h5 class="mb-0 modCT_{$WIDGET['label']}">
+							{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
+						</h5>
+					</div>
 					{if isset($WIDGET['switchHeader'])}
 						<div class="btn-group btn-group-toggle ml-auto" data-toggle="buttons">
 							<label class="btn btn-sm btn-outline-primary active">
@@ -42,7 +42,6 @@
 						</div>
 					{/if}
 				</div>
-				<hr class="widgetHr mt-0"/>
 			</div>
 			<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$WIDGET['label']}-collapse" aria-labelledby="{$WIDGET['label']}" data-js="container|value">
 			</div>

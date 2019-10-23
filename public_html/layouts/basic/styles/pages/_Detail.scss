@@ -159,8 +159,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	}
 	&__header {
 		@extend .card-header;
-		@extend .py-0, .px-2, .border-bottom-0;
-
+		@extend .py-0, .px-0, .mx-2;
 		background: inherit;
 	}
 

@@ -3,10 +3,11 @@
 		<div class="widgetContainer_{$key}" data-name="{$WIDGET['label']}">
 			{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
 				<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">
-					<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
-					<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
-					<h5 class="mb-0 py-2">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
-					<hr class="widgetHr">
+					<div class="d-flex align-items-center py-1">
+						<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+						<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
+						<h5 class="mb-0">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
+					</div>
 				</div>
 			{/if}
 			{assign var=MODULEINSTANCE value=vtlib\Module::getInstance($MODULE_NAME)}

@@ -80,7 +80,6 @@
 						</div>
 					</div>
 				</div>
-				<hr class="widgetHr"/>
 				<div class="row">
 					{if (isset($WIDGET['data']['filter']) && $WIDGET['data']['filter'] neq '-') AND (isset($WIDGET['data']['checkbox']) && $WIDGET['data']['checkbox'] neq '-')}
 						{assign var=span value='col-6'}

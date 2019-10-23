@@ -3,22 +3,19 @@
 	<!-- tpl-Base-Detail-Widget-GeneralInfo -->
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="c-detail-widget c-detail-widget--general-info js-widget-general-info" data-js="edit/save">
-		<div class="d-flex justify-content-between px-2">
-			<div class="c-detail-widget__header">
+		<div class="c-detail-widget__header">
+			<div class="d-flex align-items-center py-1">
 				<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 				<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
-				<h5 class="mb-0 py-2">{\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}</h5>
-			</div>
-			<div class="d-flex align-items-center">
+				<h5 class="mb-0">{\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}</h5>
 				{if !$IS_READ_ONLY}
 					{assign var="CURRENT_VIEW" value="full"}
 					{assign var="CURRENT_MODE_LABEL" value="{\App\Language::translate('LBL_COMPLETE_DETAILS',{$MODULE_NAME})}"}
-					<button type="button"
-							class="btn btn-sm btn-outline-secondary btn-block changeDetailViewMode u-cursor-pointer">
-						 <span title="{\App\Language::translate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}" class="fas fa-th-list alignMiddle"></strong></button>
+					<button type="button" class="btn btn-sm btn-light changeDetailViewMode ml-auto">
+						<span title="{\App\Language::translate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}" class="fas fa-th-list"></span>
+					</button>
 					{assign var="FULL_MODE_URL" value={$RECORD->getDetailViewUrl()|cat:'&mode=showDetailViewByMode&requestMode=full'} }
-					<input type="hidden" name="viewMode" value="{$CURRENT_VIEW}" data-nextviewname="full"
-						   data-currentviewlabel="{$CURRENT_MODE_LABEL}" data-full-url="{$FULL_MODE_URL}"/>
+					<input type="hidden" name="viewMode" value="{$CURRENT_VIEW}" data-nextviewname="full" data-currentviewlabel="{$CURRENT_MODE_LABEL}" data-full-url="{$FULL_MODE_URL}"/>
 				{/if}
 			</div>
 		</div>

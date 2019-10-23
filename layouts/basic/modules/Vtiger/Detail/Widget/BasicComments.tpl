@@ -36,7 +36,6 @@
 						</div>
 					</div>
 				</div>
-				<hr class="widgetHr mt-0"/>
 			</div>
 			<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$WIDGET['label']}-collapse" aria-labelledby="{$WIDGET['label']}" data-js="container|value">
 			</div>
