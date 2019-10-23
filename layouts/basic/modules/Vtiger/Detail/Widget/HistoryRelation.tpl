@@ -7,11 +7,13 @@
 					<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 					<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
 					<h5 class="mb-0 mr-1 modCT_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
-					<select class="ml-auto u-max-w-250px select2 form-control form-control-sm relatedHistoryTypes" multiple>
-						{foreach from=Vtiger_HistoryRelation_Widget::getActions() item=ACTIONS}
-							<option selected value="{$ACTIONS}">{\App\Language::translate($ACTIONS, $ACTIONS)}</option>
-						{/foreach}
-					</select>
+					<div class="ml-auto w-100 u-max-w-md-60 input-group-sm">
+						<select class="select2 relatedHistoryTypes" multiple>
+							{foreach from=Vtiger_HistoryRelation_Widget::getActions() item=ACTIONS}
+								<option selected value="{$ACTIONS}">{\App\Language::translate($ACTIONS, $ACTIONS)}</option>
+							{/foreach}
+						</select>
+					</div>
 					<button type="button" title="{\App\Language::translate('LBL_FULLSCREEN')}" data-title="{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}" class="widgetFullscreen btn btn-sm btn-light ml-1">
 						<span class="fas fa-expand-arrows-alt"></span>
 					</button>
