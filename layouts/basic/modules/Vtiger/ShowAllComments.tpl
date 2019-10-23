@@ -14,9 +14,31 @@
 	{* Change to this also refer: RecentComments.tpl *}
 	{assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 	<div class="js-completions__container" data-js="container">
+		{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
+			<div class="js-add-comment-block addCommentBlock mb-2" data-js="container">
+				<div class="input-group">
+					<span class="input-group-prepend">
+						<div class="input-group-text"><span class="fas fa-comments"></span></div>
+					</span>
+					<div name="commentcontent" contenteditable="true"
+								class="js-comment-content commentcontent form-control js-chat-message js-completions"
+								title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+								placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
+								data-js="html | tribute.js"></div>
+					<div class="input-group-append">
+						<button class="btn btn-success js-save-comment" type="button"
+								data-mode="add"
+								data-js="click|data-mode">
+							<span class="visible-xs-inline fas fa-plus"></span>
+							<span class="d-none d-md-inline ml-1">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		{/if}
 		<input type="hidden" id="currentComment" value="{if !empty($CURRENT_COMMENT)}{$CURRENT_COMMENT->getId()}{/if}">
-			<div class="commentsHeader d-flex flex-wrap justify-content-center alidng-items-center">
-				<div class="input-group u-max-w-250px mx-auto">
+			<div class="commentsHeader d-flex flex-wrap justify-content-center justify-content-md-between alidng-items-center">
+				<div class="input-group u-max-w-250px">
 					<input type="text" class="js-comment-search form-control"
 								placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
 								aria-describedby="commentSearchAddon"
@@ -28,7 +50,7 @@
 					</div>
 				</div>
 				{if $HIERARCHY !== false && $HIERARCHY < 2}
-					<div class="mx-auto"
+					<div
 						 data-toggle="buttons">
 						<div class="btn-group btn-group-toggle detailCommentsHierarchy" data-toggle="buttons">
 							<label class="js-detail-hierarchy-comments-btn u-text-ellipsis c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-primary {if in_array('current', $HIERARCHY_VALUE)}active{/if}"
@@ -59,30 +81,6 @@
 			<div class="js-completions__messages commentsList col-md-12 px-0" data-js="click">
 				{include file=\App\Layout::getTemplatePath('CommentsList.tpl') COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
 			</div>
-		</div>
-		<div class="col-md-12 form-row m-0 commentsBar px-0">
-			{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-				<div class="commentTitle col-12 pt-2">
-					<div class="js-add-comment-block addCommentBlock" data-js="container">
-						<div class="input-group">
-						<span class="input-group-prepend">
-							<div class="input-group-text"><span class="fas fa-comments"></span></div>
-						</span>
-							<div name="commentcontent" contenteditable="true"
-								 class="js-comment-content commentcontent form-control js-chat-message js-completions"
-								 title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
-								 placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
-								 data-js="html | tribute.js"></div>
-						</div>
-						<button class="btn btn-success mt-3 js-save-comment float-right" type="button"
-								data-mode="add"
-								data-js="click|data-mode">
-							<span class="visible-xs-inline fas fa-check"></span>
-							<span class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</span>
-						</button>
-					</div>
-				</div>
-			{/if}
 		</div>
 	</div>
 	<!-- /tpl-ShowAllComments -->

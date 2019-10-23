@@ -41,7 +41,8 @@
 							{/if}
 							<span class="q-message-text-content">
 								<div class="js-comment-info" data-js="html">{$COMMENT->getDisplayValue('commentcontent')}</div>
-								<div class="u-w-fit q-ml-auto q-message-stamp">{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</div>
+								<div class="u-w-fit q-message-stamp float-right">{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</div>
+								<div class="clear-fix"></div>
 							</span>
 						</div>
 					</div>
