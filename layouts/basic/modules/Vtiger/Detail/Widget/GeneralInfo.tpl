@@ -43,7 +43,7 @@
 								</td>
 								<td class="fieldValue {$WIDTHTYPE}">
 									<div class="d-flex align-items-center col-12 px-0">
-										<div class="value col-10 px-0"
+										<div class="value col-11 px-0"
 											 {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName()) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD CLASS='col-12 px-0'}
 										</div>
@@ -66,7 +66,7 @@
 														   data-prev-value='{\App\Purifier::encodeHtml($FIELD_VALUE)}'/>
 												{/if}
 											</div>
-											<div class="c-table__action--hover js-detail-quick-edit  u-cursor-pointer col-2 px-0 ml-1"
+											<div class="c-table__action--hover js-detail-quick-edit  u-cursor-pointer col-1 px-0 ml-1"
 												 data-js="click">
 												<div class="float-right">
 													<span class="fas fa-edit"
