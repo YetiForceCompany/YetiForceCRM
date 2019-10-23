@@ -320,17 +320,11 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	.commentsList > .liStyleNone > .commentDetails .comment-div {
 		width: 100%;
 	}
-
-	.singleComment {
-		border-bottom: 1px solid #ddd;
-	}
-
 	.commentDetails {
 		background: #fff;
 		width: 100%;
 		margin-bottom: 0;
 		border-radius: 2px;
-		padding: calculate-rem(10px) 0 0 0;
 		display: inline-block;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
@@ -391,6 +385,20 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 	.commentActionsDiv p {
 		margin-bottom: 0;
+	}
+	@include media-breakpoint-down(sm) {
+		.q-message-sent .q-message-text:last-child:before {
+			display: none;
+		}
+		.q-message-received .q-message-text:last-child:before {
+			display: none;
+		}
+	}
+	.q-fab__actions--left {
+		right: 95%;
+	}
+	.q-fab__actions--right {
+		left: 95%;
 	}
 }
 

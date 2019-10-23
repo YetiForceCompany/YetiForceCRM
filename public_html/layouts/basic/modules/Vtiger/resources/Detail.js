@@ -2706,6 +2706,9 @@ jQuery.Class(
 					currentTargetParent.hide();
 				});
 			});
+			detailContentsHolder.on('click', '.js-comment-actions__btn', (e) => {
+				$(e.currentTarget).parent('.js-comment-actions__container').toggleClass('q-fab--opened')
+			});
 			detailContentsHolder.on('click', '.hideThread', function(e) {
 				var currentTarget = jQuery(e.currentTarget);
 				var currentTargetParent = currentTarget.parent();
