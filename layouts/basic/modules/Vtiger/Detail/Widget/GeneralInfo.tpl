@@ -20,7 +20,7 @@
 				{/if}
 			</div>
 		</div>
-		<div class="c-detail-widget__content table-responsive-sm">
+		<div class="c-detail-widget__content">
 			<table class="c-detail-widget__table">
 				<tbody>
 				{if !empty($SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS'])}
@@ -42,13 +42,13 @@
 									</label>
 								</td>
 								<td class="fieldValue {$WIDTHTYPE}">
-									<div class="row">
-										<div class="value col-10"
+									<div class="d-flex align-items-center col-12 px-0">
+										<div class="value col-10 px-0"
 											 {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
-											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName()) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
+											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName()) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD CLASS='col-12 px-0'}
 										</div>
 										{if !$IS_READ_ONLY && $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $IS_AJAX_ENABLED && $FIELD_MODEL->isAjaxEditable() eq 'true'}
-											<div class="d-none edit col-12 input-group input-group-sm">
+											<div class="d-none edit input-group input-group-sm col-12 px-0">
 												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
 												{if $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}
 													<input type="hidden" class="fieldname"
@@ -66,7 +66,7 @@
 														   data-prev-value='{\App\Purifier::encodeHtml($FIELD_VALUE)}'/>
 												{/if}
 											</div>
-											<div class="c-table__action--hover js-detail-quick-edit col-2 u-cursor-pointer"
+											<div class="c-table__action--hover js-detail-quick-edit  u-cursor-pointer col-2 px-0 ml-1"
 												 data-js="click">
 												<div class="float-right">
 													<span class="fas fa-edit"

@@ -9,6 +9,6 @@
 *
 ********************************************************************************/
 -->*}
-<div class="tpl-Detail-Field-Base u-paragraph-m-0">
+<div class="tpl-Detail-Field-Base u-paragraph-m-0 {if isset($CLASS)} {$CLASS} {/if} u-word-break">
 {$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}
 </div>
