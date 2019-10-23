@@ -139,7 +139,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$fieldModel->set('helpinfo', implode(',', $views));
 		$fieldModel->save();
 		$label = $fieldModel->getModuleName() . '|' . $fieldModel->getFieldLabel();
-		\App\Language::translationModify($request->getByType('lang'), 'Other/HelpInfo', 'php', $label, str_replace("\n", '', $request->getForHtml('context')));
+		\App\Language::translationModify($request->getByType('lang'), 'Other__HelpInfo', 'php', $label, str_replace("\n", '', $request->getForHtml('context')));
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => true]);
 		$response->emit();
