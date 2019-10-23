@@ -4,16 +4,16 @@
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}"
 			 data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 			<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">
-				<div class="form-row d-flex justify-content-between align-items-center py-1 px-2">
-					<div class="col-8 col-xl-5 col-lg-12 col-sm-5">
+				<div class="d-flex align-items-center py-1">
+					<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
 						<div class="widgetTitle u-text-ellipsis">
 							<h5 class="mb-0 modCT_{$WIDGET['label']}">
 								{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
 							</h5>
 						</div>
-					</div>
 					{if isset($WIDGET['switchHeader'])}
-						<div class="btn-group btn-group-toggle ml-1" data-toggle="buttons">
+						<div class="btn-group btn-group-toggle ml-auto" data-toggle="buttons">
 							<label class="btn btn-sm btn-outline-primary active">
 								<input class="js-switch" type="radio" name="options" id="option1" data-js="change"
 									   data-on-val="{$WIDGET['switchHeader']['on']}" data-urlparams="whereCondition"
@@ -29,9 +29,9 @@
 						</div>
 					{/if}
 					{if $WIDGET['newChanege'] && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $USER_MODEL->getId() eq $USER_MODEL->getRealId()}
-						<div class="col text-right">
+						<div class="text-right ml-auto">
 							<div class="btn-group">
-									<div class="float-right btn-group">
+									<div class="btn-group">
 										<button id="btnChangesReviewedOn" type="button"
 												class="btn btn-success btn-sm btnChangesReviewedOn"
 												title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
@@ -44,7 +44,7 @@
 				</div>
 				<hr class="widgetHr mt-0"/>
 			</div>
-			<div class="c-detail-widget__content js-detail-widget-content" data-js="container|value">
+			<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$WIDGET['label']}-collapse" aria-labelledby="{$WIDGET['label']}" data-js="container|value">
 			</div>
 		</div>
 	</div>

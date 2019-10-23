@@ -3,54 +3,53 @@
 	<div class="c-detail-widget js-detail-widget" data-js="container">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}"
 			 data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
-			<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">
-				<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}"/>
-				<div class="widgetTitle form-row align-items-center py-1">
-					<div class="col-7">
-						<h5 class="mb-0 modCT_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
+			<div class="c-detail-widget__header js-detail-widget-header d-flex align-items-center py-1 flex-wrap" data-js="container|value">
+				<div class="d-flex w-100 align-items-center">
+					<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}"/>
+					<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
+					<div class="widgetTitle align-items-center py-1">
+							<h5 class="mb-0 modCT_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
 					</div>
-					<div class="col-5">
-						<div class="float-right">
-							<button type="button" class="btn btn-sm btn-light showMailsModal mr-2"
-									data-url="index.php?module=OSSMailView&view=MailsPreview&smodule={$MODULE_NAME}&srecord={$RECORD->getId()}&mode=showEmailsList">
-								<span class="body-icon fas fa-search"
-									  title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAILS','OSSMailView')}"></span>
-							</button>
-							{if App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
-								{if $USER_MODEL->get('internal_mailer') == 1}
-									{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
-									<button type="button" class="btn btn-sm btn-light sendMailBtn" data-url="{$URLDATA}"
-											data-module="{$MODULE_NAME}" data-record="{$RECORD->getId()}"
-											data-popup="{$CONFIG['popup']}"
+					<div class="ml-auto">
+						<button type="button" class="btn btn-sm btn-light showMailsModal mr-2"
+								data-url="index.php?module=OSSMailView&view=MailsPreview&smodule={$MODULE_NAME}&srecord={$RECORD->getId()}&mode=showEmailsList">
+							<span class="body-icon fas fa-search"
+									title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAILS','OSSMailView')}"></span>
+						</button>
+						{if App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
+							{if $USER_MODEL->get('internal_mailer') == 1}
+								{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
+								<button type="button" class="btn btn-sm btn-light sendMailBtn" data-url="{$URLDATA}"
+										data-module="{$MODULE_NAME}" data-record="{$RECORD->getId()}"
+										data-popup="{$CONFIG['popup']}"
+										title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
+									<span class="fas fa-envelope"
+											title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+								</button>
+								&nbsp;
+							{else}
+								{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
+								{if $URLDATA}
+									<a class="btn btn-sm btn-light" href="{$URLDATA}"
 											title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
 										<span class="fas fa-envelope"
-											  title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
-									</button>
+												title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+									</a>
 									&nbsp;
-								{else}
-									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
-									{if $URLDATA}
-										<a class="btn btn-sm btn-light" href="{$URLDATA}"
-										   title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
-											<span class="fas fa-envelope"
-												  title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
-										</a>
-										&nbsp;
-									{/if}
 								{/if}
 							{/if}
-							{if \App\Privilege::isPermitted('OSSMailView', 'ReloadRelationRecord')}
-								<button type="button" class="btn btn-sm btn-light resetRelationsEmail">
-									<span class="body-icon fas fa-retweet"
-										  title="{\App\Language::translate('BTN_RESET_RELATED_MAILS', 'OSSMailView')}"></span>
-								</button>
-							{/if}
-						</div>
+						{/if}
+						{if \App\Privilege::isPermitted('OSSMailView', 'ReloadRelationRecord')}
+							<button type="button" class="btn btn-sm btn-light resetRelationsEmail">
+								<span class="body-icon fas fa-retweet"
+										title="{\App\Language::translate('BTN_RESET_RELATED_MAILS', 'OSSMailView')}"></span>
+							</button>
+						{/if}
 					</div>
 				</div>
-				<hr class="widgetHr">
-				<div class="row">
-					<div class="col-6 paddingRightZero">
+				<div class="row w-100 no-gutters">
+					<div class="col-6 pr-2">
 						<div class="input-group input-group-sm">
 							<select name="mail-type" title="{\App\Language::translate('LBL_CHANGE_MAIL_TYPE')}"
 									class="form-control select2">
@@ -103,8 +102,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="c-detail-widget__content js-detail-widget-content widgetContent mailsList"
-				 data-js="container|value"></div>
+			<div class="c-detail-widget__content widgetContent mailsList js-detail-widget-content collapse multi-collapse" id="{$WIDGET['label']}-collapse" aria-labelledby="{$WIDGET['label']}" data-js="container|value"></div>
 		</div>
 	</div>
 {/strip}

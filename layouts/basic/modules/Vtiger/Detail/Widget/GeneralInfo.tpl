@@ -5,6 +5,8 @@
 	<div class="c-detail-widget c-detail-widget--general-info js-widget-general-info" data-js="edit/save">
 		<div class="d-flex justify-content-between px-2">
 			<div class="c-detail-widget__header">
+				<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+				<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
 				<h5 class="mb-0 py-2">{\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}</h5>
 			</div>
 			<div class="d-flex align-items-center">
@@ -20,7 +22,7 @@
 				{/if}
 			</div>
 		</div>
-		<div class="c-detail-widget__content">
+		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}-collapse" aria-labelledby="{\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}" data-js="container|value">
 			<table class="c-detail-widget__table">
 				<tbody>
 				{if !empty($SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS'])}

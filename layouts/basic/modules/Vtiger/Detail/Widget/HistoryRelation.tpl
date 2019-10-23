@@ -4,6 +4,8 @@
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 			<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">
 				<div class="widgetTitle form-row align-items-center py-1">
+					<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
 					<div class="col-4">
 						<h5 class="mb-0 modCT_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
 					</div>
@@ -22,7 +24,7 @@
 				</div>
 				<hr class="widgetHr">
 			</div>
-			<div class="c-detail-widget__content js-detail-widget-content widgetContent" data-js="container|value">
+			<div class="c-detail-widget__content widgetContent js-detail-widget-content collapse multi-collapse" id="{$WIDGET['label']}-collapse" aria-labelledby="{$WIDGET['label']}" data-js="container|value">
 			</div>
 		</div>
 	</div>
