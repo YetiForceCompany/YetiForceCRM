@@ -20,7 +20,7 @@
 							</h5>
 						</div>
 					</div>
-					<div class="input-group input-group-sm">
+					<div class="input-group input-group-sm u-max-w-250px ml-auto">
 						<input type="text" class="js-comment-search form-control"
 								placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
 								aria-describedby="commentSearchAddon"
@@ -34,7 +34,7 @@
 						</div>
 					</div>
 				</div>
-				<hr class="widgetHr"/>
+				<hr class="widgetHr mt-0"/>
 			</div>
 			<div class="c-detail-widget__content js-detail-widget-content" data-js="container|value">
 			</div>

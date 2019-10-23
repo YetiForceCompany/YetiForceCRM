@@ -39,13 +39,13 @@
 									<strong>{$COMMENT->getDisplayValue('related_to')}</strong>
 								</a>
 							{/if}
-							<span class="q-message-text-content js-comment-info" data-js="html">
-								<div>{$COMMENT->getDisplayValue('commentcontent')}</div>
-								<div class="u-w-fit q-ml-auto q-message-stamp">{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</div>
+							<span class="q-message-text-content">
+								<div class="js-comment-info" data-js="html">{$COMMENT->getDisplayValue('commentcontent')}</div>
+								<div class="u-w-fit q-message-stamp ml-auto">{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</div>
 							</span>
 						</div>
 					</div>
-					<div class="q-fab z-fab row inline justify-center js-comment-actions__container">
+					<div class="q-fab z-fab row inline justify-center js-comment-actions__container mb-1">
 						<button type="button" tabindex="0" class="js-comment-actions__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable {if $IS_CURRENT_USER}q-mr-sm{else}q-ml-sm{/if} u-font-size-13px">
 							<div tabindex="-1" class="q-focus-helper"></div>
 							<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
@@ -58,13 +58,13 @@
 								{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 							{/if}
 							{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-								<button type="button" class="btn rounded-circle btn-success js-reply-comment mr-1"
+								<button type="button" class="btn btn-success js-reply-comment mr-1"
 										title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}" data-js="click">
 									<span class="fas fa-share"></span>
 								</button>
 							{/if}
 							{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-								<button type="button" class="btn rounded-circle btn-primary js-edit-comment feedback mr-1"
+								<button type="button" class="btn btn-primary js-edit-comment feedback mr-1"
 										data-js="click" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}">
 									<span class="fas fa-edit"></span>
 								</button>
@@ -72,7 +72,7 @@
 							{assign var=LINKS value=$COMMENT->getCommentLinks()}
 							{if count($LINKS) > 0}
 								{foreach from=$LINKS item=LINK}
-									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='comment' MODULE=$MODULE_NAME}
+									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='comment' MODULE=$MODULE_NAME CLASS="mr-1"}
 								{/foreach}
 							{/if}
 							{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
@@ -80,7 +80,7 @@
 								<span class="js-view-thread-block viewThreadBlock"
 										data-child-comments-count="{$CHILD_COMMENTS_COUNT}"
 										data-js="data-child-comments-count">
-							<button type="button" class="btn rounded-circle btn-info viewThread"
+							<button type="button" class="btn btn-info viewThread u-text-ellipsis"
 									title="{$CHILD_COMMENTS_COUNT}&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}"
 									data-js="click">
 								<span class="js-child-comments-count">{$CHILD_COMMENTS_COUNT}</span>
@@ -99,7 +99,7 @@
 								<span class="js-view-thread-block viewThreadBlock"
 										data-child-comments-count="{$CHILD_COMMENTS_COUNT}"
 										data-js="data-child-comments-count">
-							<button type="button" class="btn rounded-circle btn-info viewThread"
+							<button type="button" class="btn btn-info viewThread"
 									title="{$CHILD_COMMENTS_COUNT}&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}"
 									data-js="click">
 								<span class="js-child-comments-count" data-js="text">{$CHILD_COMMENTS_COUNT}</span>
@@ -118,7 +118,7 @@
 							{if !empty($BUTTON_SHOW_PARENT) && !empty($COMMENT->get('parents'))}
 								<span class="view-parent-thread-block">
 							<button type="button"
-									class="btn rounded-circle btn-secondary js-view-parent-thread"
+									class="btn btn-secondary js-view-parent-thread"
 									data-js="click" title="{\App\Language::translate('LBL_THREAD',$MODULE_NAME)}">
 								<span class="fas fa-share"></span>
 							</button>
@@ -130,7 +130,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="js-comment-container  d-flex flex-wrap justify-content-between align-items-center m-0"
+		<div class="js-comment-container  d-flex flex-wrap justify-content-between align-items-center m-0 mt-n2"
 			 data-js="hide|show">
 			{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
 			<div class="js-edited-status edited-status w-100" name="editStatus" data-js="class: d-none">

@@ -18,7 +18,14 @@
 			{else}
 				{include file=\App\Layout::getTemplatePath('NoComments.tpl')}
 			{/if}
-			<div class="commentTitle">
+			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
+				<a href="javascript:void(0)"
+						class="js-more-recent-comments btn btn-sm btn-info float-right my-1"
+						data-js="click">
+					{\App\Language::translate('LBL_MORE',$MODULE_NAME)}...
+				</a>
+			{/if}
+			<div class="my-1">
 				{if !$IS_READ_ONLY && $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 					<div class="js-add-comment-block addCommentBlock" data-js="container|remove">
 						<div class="input-group input-group-sm">
@@ -41,21 +48,12 @@
 					</div>
 				{/if}
 			</div>
-			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
-				<div class="col-12 float-right p-0 mb-2">
-					<a href="javascript:void(0)"
-					   class="js-more-recent-comments btn btn-sm btn-info marginTop5 marginRight15"
-					   data-js="click">
-						{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..
-					</a>
-				</div>
-			{/if}
 		</div>
 		{if !$IS_READ_ONLY}
-			<div class="d-none basicAddCommentBlock my-2">
+			<div class="d-none basicAddCommentBlock mt-1">
 				<div class="row">
 					<div class="col-md-12">
-						<div class="input-group">
+						<div class="input-group input-group-sm mb-1">
 							<span class="input-group-prepend">
 								<span class="input-group-text"><span class="fas fa-comments"></span></span>
 							</span>
@@ -65,12 +63,12 @@
 								 title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
 								 placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" data-js="html | tribute.js"></div>
 						</div>
-						<button class="u-cursor-pointer js-close-comment-block mt-3 btn btn-warning float-right ml-1 cancel"
+						<button class="u-cursor-pointer js-close-comment-block btn btn-warning float-right ml-1 cancel"
 								type="reset">
 							<span class="visible-xs-inline fas fa-times"></span>
 							<span class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</span>
 						</button>
-						<button class="btn btn-success js-save-comment mt-3 float-right" type="button"
+						<button class="btn btn-success js-save-comment float-right" type="button"
 								data-mode="add"
 								data-js="click|data-mode">
 							<span class="visible-xs-inline fas fa-check"></span>
@@ -81,19 +79,19 @@
 				<div class="clearfix"></div>
 			</div>
 			<div class="d-none basicEditCommentBlock">
-				<div class="row">
-					<div class="col-md-12 my-2">
+				<div class="row mb-1">
+					<div class="col-md-12">
 						<input type="text" name="reasonToEdit"
 							   title="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
 							   placeholder="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"
-							   class="js-reason-to-edit input-block-level form-control"
+							   class="js-reason-to-edit input-block-level form-control form-control-sm"
 							   data-js="value"
 						>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-12 mb-2">
-						<div class="input-group">
+					<div class="col-md-12">
+						<div class="input-group input-group-sm mb-1">
 							<span class="input-group-prepend">
 								<span class="input-group-text"><span class="fas fa-comments"></span></span>
 							</span>
@@ -103,12 +101,12 @@
 								 title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"
 								 placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" data-js="html | tribute.js"></div>
 						</div>
-						<button class="u-cursor-pointer js-close-comment-block mt-3 btn btn-warning float-right ml-1 cancel"
+						<button class="u-cursor-pointer js-close-comment-block btn btn-warning float-right ml-1 cancel"
 								type="reset">
 							<span class="visible-xs-inline fas fa-times"></span>
 							<span class="d-none d-sm-none d-md-inline ml-1">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</span>
 						</button>
-						<button class="btn btn-success js-save-comment mt-3 float-right" type="button"
+						<button class="btn btn-success js-save-comment float-right" type="button"
 								data-mode="edit"
 								data-js="click|data-mode">
 							<span class="visible-xs-inline fas fa-check"></span>
@@ -116,7 +114,6 @@
 						</button>
 					</div>
 				</div>
-				<div class="clearfix"></div>
 			</div>
 		{/if}
 	</div>
