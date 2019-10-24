@@ -11,7 +11,7 @@ info:
     url: 'https://yetiforce.com/en/yetiforce/license'
   version: '0.1'
 paths:
-  /webservice/BaseAction/Install:
+  /webservice/Install:
     put:
       tags:
         - BaseAction
@@ -44,7 +44,7 @@ paths:
         -
           basicAuth: ''
           ApiKeyAuth: ''
-  /webservice/BaseAction/Modules:
+  /webservice/Modules:
     get:
       tags:
         - BaseAction
