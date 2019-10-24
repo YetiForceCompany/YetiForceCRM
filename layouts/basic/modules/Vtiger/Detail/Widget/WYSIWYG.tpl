@@ -13,11 +13,11 @@
 				<h5 class="mb-0 py-1">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
 			</div>
 		</div>
-		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}"  aria-labelledby="{$WIDGET_UID}" data-js="container|value">
-			<div class="m-2">
+		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse pt-1" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}"  aria-labelledby="{$WIDGET_UID}" data-js="container|value">
+			<div class="mt-0 mx-0 moreContent">
 				{assign var=FULL_TEXT value=$RECORD->getDisplayValue($WIDGET['data']['field_name'])}
 				{assign var=TRUNCATE_TEXT value=\App\TextParser::htmlTruncate($FULL_TEXT,600,true,$IS_TRUNCATED)}
-				<div class="moreContent table-responsive">
+				<div class="table-responsive">
 					<span class="teaserContent">
 						{$TRUNCATE_TEXT}
 					</span>
@@ -25,11 +25,15 @@
 						<span class="fullContent d-none">
 							{$FULL_TEXT}
 						</span>
+					{/if}
+				</div>
+				{if $IS_TRUNCATED}
+					<div class="my-1 text-right">
 						<button type="button" class="btn btn-info btn-sm moreBtn"
 								data-on="{\App\Language::translate('LBL_MORE_BTN')}"
 								data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
-					{/if}
-				</div>
+					</div>
+				{/if}
 			</div>
 		</div>
 	</div>
