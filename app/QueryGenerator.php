@@ -141,7 +141,7 @@ class QueryGenerator
 	/**
 	 * Get module model.
 	 *
-	 * @return string
+	 * @return \Vtiger_Module_Model
 	 */
 	public function getModuleModel()
 	{
@@ -151,7 +151,7 @@ class QueryGenerator
 	/**
 	 * Get query fields.
 	 *
-	 * @return array
+	 * @return \Vtiger_Field_Model[]
 	 */
 	public function getFields()
 	{

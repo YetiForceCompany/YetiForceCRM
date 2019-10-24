@@ -13,6 +13,19 @@ namespace App\Fields;
 class RecordNumber extends \App\Base
 {
 	/**
+	 * Instance cache by module id.
+	 *
+	 * @var \App\Fields\RecordNumber[]
+	 */
+	private static $instanceCache = [];
+	/**
+	 * Sequence number field cache by module id.
+	 *
+	 * @var array
+	 */
+	private static $sequenceNumberFieldCache = [];
+
+	/**
 	 * Function to get instance.
 	 *
 	 * @param int|string $tabId
@@ -21,6 +34,9 @@ class RecordNumber extends \App\Base
 	 */
 	public static function getInstance($tabId): self
 	{
+		if (isset(self::$instanceCache[$tabId])) {
+			return self::$instanceCache[$tabId];
+		}
 		$instance = new static();
 		if (!\is_numeric($tabId)) {
 			$tabId = \App\Module::getModuleId($tabId);
@@ -28,7 +44,7 @@ class RecordNumber extends \App\Base
 		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
 		$row['tabid'] = $tabId;
 		$instance->setData($row);
-		return $instance;
+		return self::$instanceCache[$tabId] = $instance;
 	}
 
 	/**
@@ -303,5 +319,36 @@ class RecordNumber extends \App\Base
 			'cur_sequence' => $this->get('cur_sequence')],
 				['tabid' => $this->get('tabid')])
 			->execute();
+	}
+
+	/**
+	 * Get sequence number field.
+	 *
+	 * @param int $tabId
+	 *
+	 * @return string|bool
+	 */
+	public static function getSequenceNumberField(int $tabId)
+	{
+		if (isset(self::$sequenceNumberFieldCache[$tabId])) {
+			return self::$sequenceNumberFieldCache[$tabId];
+		}
+		return self::$sequenceNumberFieldCache[$tabId] = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')
+			->where(['tabid' => $tabId, 'uitype' => 4, 'presence' => [0, 2]])->scalar();
+	}
+
+	/**
+	 * Clean sequence number field cache.
+	 *
+	 * @param int|null $tabId
+	 *
+	 * @return void
+	 */
+	public static function cleanSequenceNumberFieldCache(?int $tabId)
+	{
+		if ($tabId) {
+			unset(self::$sequenceNumberFieldCache[$tabId]);
+		}
+		self::$sequenceNumberFieldCache = null;
 	}
 }
