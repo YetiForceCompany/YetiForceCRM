@@ -1,6 +1,6 @@
 {strip}
 <!-- tpl-Base-Detail-Widget-EmailList -->
-	{assign var=WIDGET_UID value=\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}
+	{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
 	{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
 	<div class="c-detail-widget js-detail-widget" data-js="container">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}"

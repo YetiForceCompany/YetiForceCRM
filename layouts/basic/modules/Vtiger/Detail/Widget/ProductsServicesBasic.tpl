@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Base-Detail-Widget-ProductsServicesBasic -->
-	{assign var=WIDGET_UID value=\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}
+	{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
 	<div class="c-detail-widget js-detail-widget productsServicesWidgetContainer" data-js="container">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}"
 			 data-name="{$WIDGET['label']}">

@@ -164,12 +164,17 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	}
 
 	&__content {
-		@extend .card-body, .px-2, .py-0;
+		@extend .card-body;
+		padding: calculate-rem(8px) calculate-rem(8px) 0 calculate-rem(8px);
 	}
 
 	&__table {
 		@extend .table, .mb-0;
 		table-layout: fixed;
+	}
+	&__toggle {
+		font-size: calculate-rem(23px);
+		margin: calculate-rem(-5px) calculate-rem(1px) calculate-rem(-5px) calculate-rem(-4px);
 	}
 
 	p {

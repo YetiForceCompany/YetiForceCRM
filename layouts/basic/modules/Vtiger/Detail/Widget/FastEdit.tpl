@@ -1,6 +1,6 @@
 {strip}
 <!-- tpl-Base-Detail-Widget-FastEdit -->
-	{assign var=WIDGET_UID value=\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}
+	{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
 	<div class="c-detail-widget js-detail-widget summaryWidgetFastEditing" data-js="container">
 		<div class="widgetContainer_{$key}" data-name="{$WIDGET['label']}">
 			{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
@@ -10,7 +10,7 @@
 						<span class="mdi mdi-chevron-up" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 						<span class="mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
 					</div>
-						<h5 class="mb-0">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
+						<h5 class="mb-0 py-1">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
 					</div>
 				</div>
 			{/if}

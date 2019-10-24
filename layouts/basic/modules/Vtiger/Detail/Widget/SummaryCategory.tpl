@@ -1,6 +1,6 @@
 {strip}
 <!-- tpl-Base-Detail-Widget-SummaryCategory -->
-	{assign var=WIDGET_UID value=\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}
+	{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
 	<div class="tpl-Detail-Widget-SummaryCategory c-detail-widget c-detail-widget--summmary-category mb-1 js-detail-widget recordDetails" data-js="container">
 		{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
 			<div class="c-detail-widget__header js-detail-widget-header collapsed" data-js="container|value">
@@ -9,7 +9,7 @@
 						<span class="mdi mdi-chevron-up" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 					<span class="mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
 					</div>
-					<h5 class="mb-0">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
+					<h5 class="mb-0 py-1">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
 				</div>
 			</div>
 		{/if}
