@@ -216,7 +216,55 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 				sequenceExists = true;
 			}
 		}
+		this.checkAdavancedSequenceBtn();
 		return sequenceExists;
+	},
+
+	/**
+	 * Function to enable button if prefix or postfix has picklist value
+	 */
+	checkAdavancedSequenceBtn: function(){
+		const editViewForm = this.getForm();
+		const sequenceBtn = editViewForm.find('.js-adavanced-sequence');
+		const prefix = editViewForm.find('[name="prefix"]').val();
+		const postfix = editViewForm.find('[name="postfix"]').val();
+		let regex = new RegExp("{{picklist:([a-z0-9_]+)}}", 'g');
+		let regexResult = (postfix + prefix).match(regex);
+		if ((regexResult && regexResult.length > 1) || !regexResult) {
+			sequenceBtn.attr('disabled', 'disabled');
+		} else {
+			sequenceBtn.removeAttr('disabled');
+		}
+	},
+
+	/**
+	 * Function to register event on button
+	 */
+	registerAdavancedSequenceEvent: function(){
+		const editViewForm = this.getForm();
+		const sequenceBtn = editViewForm.find('.js-adavanced-sequence');
+		sequenceBtn.on('click', function(){
+			let picklistName = '';
+			let prefix = editViewForm.find('[name="prefix"]').val();
+			let postfix = editViewForm.find('[name="postfix"]').val();
+			let regex = new RegExp("{{picklist:([a-z0-9_]+)}}", 'g');
+			if ((prefix).match(regex)){
+				picklistName = prefix;
+			} else if((postfix).match(regex)){
+				picklistName = postfix;
+			}
+			AppConnector.request({
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				view: "CustomRecordNumberingAdvanced",
+				sourceModule: editViewForm.find('[name="sourceModule"]').val(),
+				picklist: picklistName,
+			}).done(function (data) {
+				if(data){
+					app.showModalWindow(data);
+				}
+			});
+		});
 	},
 
 	/**
@@ -228,6 +276,8 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 		this.registerOnChangeEventOfSourceModule();
 		this.registerEventToUpdateRecordsWithSequenceNumber();
 		this.registerChangeEvent();
+		this.checkAdavancedSequenceBtn();
+		this.registerAdavancedSequenceEvent();
 		let params = app.validationEngineOptions;
 		params.onValidationComplete = function (editViewForm, valid) {
 			if (valid) {
@@ -240,7 +290,7 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 		this.registerCopyClipboard(editViewForm);
 	}
 });
-jQuery(document).ready(function () {
-	var customRecordNumberingInstance = new Settings_CustomRecordNumbering_Js();
+$(document).ready(function () {
+	let customRecordNumberingInstance = new Settings_CustomRecordNumbering_Js();
 	customRecordNumberingInstance.registerEvents();
 });

@@ -17,22 +17,27 @@ class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_V
 	 */
 	protected $pageTitle = 'LBL_CUSTOMIZE_RECORD_NUMBERING';
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$supportedModules = Settings_Vtiger_CustomRecordNumberingModule_Model::getSupportedModules();
-
 		$sourceModule = $request->getByType('sourceModule', 2);
 		if ($sourceModule) {
 			$defaultModuleModel = $supportedModules[\App\Module::getModuleId($sourceModule)];
 		} else {
 			$defaultModuleModel = reset($supportedModules);
 		}
-
+		$picklistFields = [];
+		$picklistsModels = $defaultModuleModel->getFieldsByType(['picklist']);
+		foreach ($picklistsModels as $fieldModel) {
+			if (!empty(array_filter(array_column(\App\Fields\Picklist::getValues($fieldModel->getFieldName()), 'prefix')))) {
+				$picklistFields[$fieldModel->getName()] = $fieldModel;
+			}
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SUPPORTED_MODULES', $supportedModules);
 		$viewer->assign('DEFAULT_MODULE_MODEL', $defaultModuleModel);
-		$viewer->assign('PICKLISTS', $defaultModuleModel->getFieldsByType(['picklist']));
+		$viewer->assign('PICKLISTS', $picklistFields);
 		$viewer->view('CustomRecordNumbering.tpl', $qualifiedModuleName);
 	}
 
@@ -43,7 +48,7 @@ class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_V
 	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Settings.Vtiger.resources.CustomRecordNumbering',

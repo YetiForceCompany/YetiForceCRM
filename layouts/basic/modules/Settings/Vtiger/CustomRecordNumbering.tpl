@@ -225,6 +225,14 @@
 								</select>
 							</td>
 						</tr>
+						<tr>
+							<td colspan="2">
+								<button class="btn btn-success float-right js-adavanced-sequence" type="button"
+										title="{\App\Language::translate('LBL_SHOW_ADVANCED_SEQUENCE_SETTINGS', $QUALIFIED_MODULE)}" data-js="click" disabled="disabled">
+									<span class="yfi yfi-system-configuration"></span> {\App\Language::translate('LBL_SHOW_ADVANCED_SEQUENCE_SETTINGS', $QUALIFIED_MODULE)}
+								</button>
+							</td>
+						</tr>
 						</tbody>
 					</table>
 				</div>
