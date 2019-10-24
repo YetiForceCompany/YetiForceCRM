@@ -170,6 +170,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 	&__table {
 		@extend .table, .mb-0;
+		table-layout: fixed;
 	}
 
 	p {
@@ -184,6 +185,9 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 .c-table {
 	&__row--hover {
+		td {
+			vertical-align: middle !important;
+		}
 		.c-table__action--hover {
 			opacity: 0;
 
@@ -191,7 +195,11 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 			filter: alpha(opacity=0);
 		}
-
+		@include media-breakpoint-down(sm) {
+			.c-table__action--hover {
+				opacity: 1;
+			}
+		}
 		&:hover .c-table__action--hover {
 			opacity: 1;
 
