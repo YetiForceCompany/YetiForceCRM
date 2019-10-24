@@ -23,7 +23,7 @@
 					</button>
 				</div>
 			</div>
-			<div class="c-detail-widget__content widgetContent js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse" aria-labelledby="{$WIDGET_UID}" data-js="container|value">
+			<div class="c-detail-widget__content widgetContent js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}"  aria-labelledby="{$WIDGET_UID}" data-js="container|value">
 			</div>
 		</div>
 	</div>

@@ -13,7 +13,7 @@
 				</div>
 			</div>
 		{/if}
-		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse" aria-labelledby="{$WIDGET_UID}" data-js="container|value">
+		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}"  aria-labelledby="{$WIDGET_UID}" data-js="container|value">
 			<div class="mx-2">
 				{foreach item=SUMMARY_CATEGORY from=$RECORD->getSummaryInfo()}
 					<div class="row text-center o-summary-category__row">

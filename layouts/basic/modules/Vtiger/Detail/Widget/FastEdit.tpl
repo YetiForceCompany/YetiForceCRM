@@ -15,7 +15,7 @@
 				</div>
 			{/if}
 			{assign var=MODULEINSTANCE value=vtlib\Module::getInstance($MODULE_NAME)}
-			<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse" aria-labelledby="{$WIDGET_UID}" data-js="container|value">
+			<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}"  aria-labelledby="{$WIDGET_UID}" data-js="container|value">
 				{if !$WIDGET['data']['FastEdit']}
 					{\App\Language::translate('LBL_RECORDS_NO_FOUND',$MODULE_NAME)}
 				{else}

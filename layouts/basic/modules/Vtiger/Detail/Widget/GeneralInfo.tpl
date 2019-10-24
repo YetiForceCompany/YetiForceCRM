@@ -22,7 +22,7 @@
 				{/if}
 			</div>
 		</div>
-		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$TRANSLATED_LABEL}-collapse" aria-labelledby="{$TRANSLATED_LABEL}" data-js="container|value">
+		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$TRANSLATED_LABEL}-collapse" data-storage-key="GeneralInfo" aria-labelledby="{$TRANSLATED_LABEL}" data-js="container|value">
 			<table class="c-detail-widget__table">
 				<tbody>
 				{if !empty($SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS'])}

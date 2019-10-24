@@ -106,7 +106,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="c-detail-widget__content widgetContent mailsList js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse" aria-labelledby="{$WIDGET_UID}" data-js="container|value"></div>
+			<div class="c-detail-widget__content widgetContent mailsList js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}"  aria-labelledby="{$WIDGET_UID}" data-js="container|value"></div>
 		</div>
 	</div>
 <!-- /tpl-Base-Detail-Widget-EmailList -->
