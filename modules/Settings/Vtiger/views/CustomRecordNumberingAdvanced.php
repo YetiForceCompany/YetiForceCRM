@@ -9,15 +9,23 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
-class Settings_Vtiger_CustomRecordNumberingAdvanced_View extends Settings_Vtiger_BasicModal_View
+class Settings_Vtiger_CustomRecordNumberingAdvanced_View extends \App\Controller\ModalSettings
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function preProcessAjax(App\Request $request)
+	{
+		$this->qualifiedModuleName = $request->getModule(false);
+		$this->pageTitle = \App\Language::translate('LBL_ADVANCED_RECORD_NUMBERING', $this->qualifiedModuleName);
+		parent::preProcessAjax($request);
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
 	public function process(App\Request $request)
 	{
-		$this->preProcess($request);
-		$moduleName = $request->getModule(false);
 		$supportedModules = Settings_Vtiger_CustomRecordNumberingModule_Model::getSupportedModules();
 		$sourceModule = $request->getByType('sourceModule', 2);
 		$moduleModel = \Vtiger_Module_Model::getInstance($sourceModule);
@@ -41,25 +49,14 @@ class Settings_Vtiger_CustomRecordNumberingAdvanced_View extends Settings_Vtiger
 				}
 			}
 		}
+		if (empty($picklist)) {
+			$this->successBtn = '';
+			$this->dangerBtn = '';
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SUPPORTED_MODULES', $supportedModules);
 		$viewer->assign('DEFAULT_MODULE_MODEL', $defaultModuleModel);
 		$viewer->assign('PICKLISTS_VALUES', $picklist);
-		$viewer->view('CustomRecordNumberingAdvanced.tpl', $moduleName);
-		$this->postProcess($request);
-	}
-
-	/**
-	 * Function to get the list of Script models to be included.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
-	 */
-	public function getModalScripts(App\Request $request)
-	{
-		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
-			'modules.Settings.Vtiger.resources.CustomRecordNumberingAdvanced',
-		]));
+		$viewer->view('CustomRecordNumberingAdvanced.tpl', $request->getModule(false));
 	}
 }

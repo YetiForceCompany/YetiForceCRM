@@ -33,7 +33,6 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 		parent::checkPermission($request);
 		$request->getModule(false);
 		$sourceModule = $request->getByType('sourceModule', 2);
-
 		if (!$sourceModule) {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
@@ -101,24 +100,21 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	public function saveModuleCustomNumberingAdvanceData(App\Request $request)
 	{
 		$updated = false;
-		$qualifiedModuleName = $request->getByType('sourceModule', 2);
-		$moduleId = \App\Module::getModuleId($qualifiedModuleName);
-		$picklistValues = $request->getArray('sequenceNumber');
+		$sourceModule = $request->getByType('sourceModule', 2);
+		$moduleId = \App\Module::getModuleId($sourceModule);
+		$picklistValues = $request->getArray('sequenceNumber', 'Integer');
 		if (!empty($moduleId) && !empty($picklistValues)) {
 			$updated = true;
 			foreach ($picklistValues as $picklistKey => $picklistSequence) {
-				if ((new \App\Db\Query())->from('u_#__modentity_sequences')->where(['value' => $picklistKey, 'tabid' => $moduleId])->exists()) {
-					\App\Db::getInstance()->createCommand()->update('u_#__modentity_sequences', ['cur_id' => $picklistSequence], ['value' => $picklistKey, 'tabid' => $moduleId])->execute();
-				} else {
-					\App\Db::getInstance()->createCommand()->insert('u_#__modentity_sequences', ['cur_id' => $picklistSequence, 'tabid' => $moduleId, 'value' => $picklistKey])->execute();
-				}
+				$sequenceField = \App\Fields\RecordNumber::getInstance($moduleId);
+				$sequenceField->updateNumberSequence($picklistSequence, $picklistKey);
 			}
 		}
 		$response = new Vtiger_Response();
 		if ($updated) {
-			$response->setResult(App\Language::translate('LBL_SUCCESSFULLY_UPDATED', $qualifiedModuleName));
+			$response->setResult(App\Language::translate('LBL_SUCCESSFULLY_UPDATED', $sourceModule));
 		} else {
-			$response->setError(false, App\Language::translate('LBL_ERROR_WHILE_UPDATING', $qualifiedModuleName));
+			$response->setError(false, App\Language::translate('LBL_ERROR_WHILE_UPDATING', $sourceModule));
 		}
 		$response->emit();
 	}

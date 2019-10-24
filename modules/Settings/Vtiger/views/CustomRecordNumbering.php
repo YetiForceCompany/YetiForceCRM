@@ -30,7 +30,7 @@ class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_V
 		$picklistFields = [];
 		$picklistsModels = $defaultModuleModel->getFieldsByType(['picklist']);
 		foreach ($picklistsModels as $fieldModel) {
-			if (!empty(array_filter(array_column(\App\Fields\Picklist::getValues($fieldModel->getFieldName()), 'prefix')))) {
+			if (\App\Fields\Picklist::prefixExist($fieldModel->getFieldName())) {
 				$picklistFields[$fieldModel->getName()] = $fieldModel;
 			}
 		}

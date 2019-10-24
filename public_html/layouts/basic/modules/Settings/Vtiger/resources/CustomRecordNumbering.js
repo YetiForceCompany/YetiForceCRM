@@ -23,14 +23,16 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 	 */
 	registerOnChangeEventOfSourceModule() {
 		const editViewForm = this.getForm();
+		const sequenceBtn = editViewForm.find('.js-adavanced-sequence');
 		editViewForm.find('[name="sourceModule"]').on('change', function (e) {
 			$('.saveButton').removeAttr('disabled');
+			sequenceBtn.addClass('d-none');
 			AppConnector.request({
-				'module': app.getModuleName(),
-				'parent': app.getParentModuleName(),
-				'action': "CustomRecordNumberingAjax",
-				'mode': "getModuleCustomNumberingData",
-				'sourceModule': $(e.currentTarget).val()
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				action: 'CustomRecordNumberingAjax',
+				mode: 'getModuleCustomNumberingData',
+				sourceModule: $(e.currentTarget).val()
 			}).done(function (data) {
 				if (data) {
 					editViewForm.find('[name="prefix"]').val(data.result.prefix);
@@ -74,8 +76,8 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 		AppConnector.request({
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
-			action: "CustomRecordNumberingAjax",
-			mode: "saveModuleCustomNumberingData",
+			action: 'CustomRecordNumberingAjax',
+			mode: 'saveModuleCustomNumberingData',
 			sourceModule: sourceModule,
 			prefix: currentPrefix,
 			leading_zeros: leadingZeros,
@@ -231,9 +233,9 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 		let regex = new RegExp("{{picklist:([a-z0-9_]+)}}", 'g');
 		let regexResult = (postfix + prefix).match(regex);
 		if ((regexResult && regexResult.length > 1) || !regexResult) {
-			sequenceBtn.attr('disabled', 'disabled');
+			sequenceBtn.addClass('d-none');
 		} else {
-			sequenceBtn.removeAttr('disabled');
+			sequenceBtn.removeClass('d-none');
 		}
 	},
 
@@ -244,6 +246,7 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 		const editViewForm = this.getForm();
 		const sequenceBtn = editViewForm.find('.js-adavanced-sequence');
 		sequenceBtn.on('click', function(){
+			let sourceModule = editViewForm.find('[name="sourceModule"]').val();
 			let picklistName = '';
 			let prefix = editViewForm.find('[name="prefix"]').val();
 			let postfix = editViewForm.find('[name="postfix"]').val();
@@ -256,12 +259,41 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 			AppConnector.request({
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
-				view: "CustomRecordNumberingAdvanced",
-				sourceModule: editViewForm.find('[name="sourceModule"]').val(),
+				view: 'CustomRecordNumberingAdvanced',
+				sourceModule: sourceModule,
 				picklist: picklistName,
 			}).done(function (data) {
 				if(data){
-					app.showModalWindow(data);
+					app.showModalWindow(data, function (container) {
+						let modalForm = container.find('form');
+						modalForm.validationEngine(app.validationEngineOptionsForRecord);
+						container.on('click', '.js-modal__save', function(e) {
+							if (modalForm.validationEngine('validate')){
+								let progressIndicatorElement = $.progressIndicator({
+									position: 'html',
+									blockInfo: {
+										enabled: true
+									}
+								});
+								AppConnector.request({
+									module: app.getModuleName(),
+									parent: app.getParentModuleName(),
+									action: 'CustomRecordNumberingAjax',
+									mode: 'saveModuleCustomNumberingAdvanceData',
+									sourceModule: sourceModule,
+									sequenceNumber: modalForm.serializeFormData()
+								}).done(function (data) {
+									progressIndicatorElement.progressIndicator({mode: 'hide'});
+									if (data.success === true) {
+										Settings_Vtiger_Index_Js.showMessage({
+											text: app.vtranslate('JS_RECORD_NUMBERING_SAVED_SUCCESSFULLY_FOR') + ' ' + editViewForm.find('option[value="' + sourceModule + '"]').text()
+										});
+										app.hideModalWindow();
+									}
+								});
+							}
+						});
+					});
 				}
 			});
 		});
