@@ -2,12 +2,15 @@
 {strip}
 	<!-- tpl-Base-Detail-Widget-GeneralInfo -->
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+	{assign var=TRANSLATED_LABEL value=\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}
 	<div class="c-detail-widget c-detail-widget--general-info js-widget-general-info" data-js="edit/save">
-		<div class="c-detail-widget__header">
+		<div class="c-detail-widget__header js-detail-widget-header collapsed">
 			<div class="d-flex align-items-center py-1">
-				<span class="mdi mdi-chevron-up mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
-				<span class="mdi mdi-chevron-down mx-2 u-font-size-26" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
-				<h5 class="mb-0">{\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}</h5>
+				<div class="c-detail-widget__toggle collapsed" id="{$TRANSLATED_LABEL}" data-toggle="collapse" data-target="#{$TRANSLATED_LABEL}-collapse" aria-expanded="false" aria-controls="{$TRANSLATED_LABEL}-collapse">
+					<span class="mdi mdi-chevron-up" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<span class="mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
+				</div>
+				<h5 class="mb-0">{$TRANSLATED_LABEL}</h5>
 				{if !$IS_READ_ONLY}
 					{assign var="CURRENT_VIEW" value="full"}
 					{assign var="CURRENT_MODE_LABEL" value="{\App\Language::translate('LBL_COMPLETE_DETAILS',{$MODULE_NAME})}"}
@@ -19,7 +22,7 @@
 				{/if}
 			</div>
 		</div>
-		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}-collapse" aria-labelledby="{\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}" data-js="container|value">
+		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$TRANSLATED_LABEL}-collapse" aria-labelledby="{$TRANSLATED_LABEL}" data-js="container|value">
 			<table class="c-detail-widget__table">
 				<tbody>
 				{if !empty($SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS'])}
