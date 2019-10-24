@@ -769,16 +769,32 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function hasSequenceNumberField()
 	{
 		if (!empty($this->fields)) {
-			$fieldList = $this->getFields();
-			foreach ($fieldList as $fieldModel) {
-				if ('4' === $fieldModel->get('uitype')) {
+			foreach ($this->getFields() as $fieldModel) {
+				if (4 === $fieldModel->getUIType()) {
 					return true;
 				}
 			}
 		} else {
-			return (new App\Db\Query())->from('vtiger_field')
-				->where(['uitype' => 4, 'tabid' => $this->getId()])
-				->exists();
+			return (bool) \App\Fields\RecordNumber::getSequenceNumberField($this->getId());
+		}
+		return false;
+	}
+
+	/**
+	 * Get sequence number field name.
+	 *
+	 * @return string|bool
+	 */
+	public function getSequenceNumberFieldName()
+	{
+		if (!empty($this->fields)) {
+			foreach ($this->getFields() as $fieldModel) {
+				if (4 === $fieldModel->getUIType() && $fieldModel->isActiveField()) {
+					return $fieldModel->getName();
+				}
+			}
+		} else {
+			return \App\Fields\RecordNumber::getSequenceNumberField($this->getId());
 		}
 		return false;
 	}

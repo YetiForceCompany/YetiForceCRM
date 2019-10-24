@@ -20,7 +20,7 @@ class Modules extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\Get(
-	 *		path="/webservice/BaseAction/Modules",
+	 *		path="/webservice/Modules",
 	 *		summary="Gets the module list action, along with their translated action",
 	 *		tags={"BaseAction"},
 	 *		security={

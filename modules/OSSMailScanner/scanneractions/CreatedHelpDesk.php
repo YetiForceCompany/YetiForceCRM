@@ -22,7 +22,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 	public function process(OSSMail_Mail_Model $mail)
 	{
 		$id = 0;
-		$prefix = App\Fields\Email::findRecordNumber($mail->get('subject'), 'HelpDesk');
+		$prefix = \App\Mail\RecordFinder::getRecordNumberFromString($mail->get('subject'), 'HelpDesk');
 		$exceptionsAll = OSSMailScanner_Record_Model::getConfig('exceptions');
 		if (!empty($exceptionsAll['crating_tickets'])) {
 			$exceptions = explode(',', $exceptionsAll['crating_tickets']);

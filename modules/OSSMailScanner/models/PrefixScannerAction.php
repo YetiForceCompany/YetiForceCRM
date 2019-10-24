@@ -20,6 +20,8 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 
 	/**
 	 * Process.
+	 *
+	 * @param OSSMail_Mail_Model $mail
 	 */
 	abstract public function process(OSSMail_Mail_Model $mail);
 
@@ -46,7 +48,7 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 		if (!empty($returnIds)) {
 			return $returnIds;
 		}
-		$this->prefix = \App\Fields\Email::findRecordNumber($this->mail->get('subject'), $this->moduleName);
+		$this->prefix = \App\Mail\RecordFinder::getRecordNumberFromString($this->mail->get('subject'), $this->moduleName);
 		if (!$this->prefix) {
 			return false;
 		}

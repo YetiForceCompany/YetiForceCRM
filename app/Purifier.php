@@ -364,6 +364,9 @@ class Purifier
 				case 'DateTimeInUserFormat':
 					$value = Validator::dateTimeInUserFormat($input) ? $input : null;
 					break;
+				case 'DateTimeInIsoFormat': // date in base format yyyy-mm-dd
+					$value = Validator::dateTimeInIsoFormat($input) ? \App\Fields\DateTime::formatToDb(strtotime($input)) : null;
+					break;
 				case 'Bool':
 					$value = self::bool($input);
 					break;
@@ -386,6 +389,9 @@ class Purifier
 					break;
 				case 'Phone':
 					$value = preg_match('/^[\s0-9+\-()]+$/', $input) ? $input : null;
+					break;
+				case 'Email':
+					$value = Validator::email($input) ? $input : null;
 					break;
 				case 'Html':
 					$value = self::purifyHtml($input);

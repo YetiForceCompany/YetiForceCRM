@@ -151,8 +151,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$moduleModel = $recordModel->getModule();
 			if (!\in_array($moduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))))) {
-				$fieldName = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleModel->getId(), 'uitype' => 4])->scalar();
-				if ($fieldName) {
+				if ($fieldName = $moduleModel->getSequenceNumberFieldName()) {
 					$subject = "subject=[$fieldName] ";
 					if ('new' == $type) {
 						switch ($moduleName) {
@@ -208,7 +207,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$recordModel = Vtiger_Record_Model::getInstanceById($srecord);
 			$moduleModel = $recordModel->getModule();
 			if (!\in_array($smoduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))))) {
-				$fieldName = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleModel->getId(), 'uitype' => 4])->scalar();
+				$fieldName = $moduleModel->getSequenceNumberFieldName();
 				if ($fieldName) {
 					$subject = "[$fieldName] $subject";
 				}

@@ -31,7 +31,7 @@ class Install extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\Put(
-	 *		path="/webservice/BaseAction/Install",
+	 *		path="/webservice/Install",
 	 *		summary="Install the system",
 	 *		tags={"BaseAction"},
 	 *		security={

@@ -15,7 +15,7 @@
         "version": "0.1"
     },
     "paths": {
-        "/webservice/BaseAction/Install": {
+        "/webservice/Install": {
             "put": {
                 "tags": [
                     "BaseAction"
@@ -66,7 +66,7 @@
                 ]
             }
         },
-        "/webservice/BaseAction/Modules": {
+        "/webservice/Modules": {
             "get": {
                 "tags": [
                     "BaseAction"

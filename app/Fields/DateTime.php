@@ -71,7 +71,6 @@ class DateTime
 			if (!empty($dbTimeValue) && strrpos($dbTimeValue, ':') == (\strlen($dbTimeValue) - 1)) {
 				$dbTimeValue = $dbTimeValue . '00';
 			}
-
 			return (new \DateTimeField($valueList[0] . ' ' . $dbTimeValue))->getDBInsertDateTimeValue();
 		}
 		return (new \DateTimeField($value))->getDBInsertDateTimeValue();
