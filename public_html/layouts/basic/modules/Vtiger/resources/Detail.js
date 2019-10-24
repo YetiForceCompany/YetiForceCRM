@@ -3047,6 +3047,44 @@ jQuery.Class(
 				thisInstance.loadSubProducts($(this), false);
 			});
 		},
+		registerCollapsiblePanels(detailViewContainer) {
+			const panels = detailViewContainer.find('.js-detail-widget-content');
+			const storageName = `yf-${app.getModuleName()}-detail-widgets`;
+			if (Quasar.plugins.LocalStorage.has(storageName)) {
+				this.setPanels({ panels, storageName });
+			} else {
+				panels.collapse('show');
+				let panelsStorage = {};
+				for (let item of panels) {
+					panelsStorage[item.dataset.storageId] = 'shown';
+				}
+				Quasar.plugins.LocalStorage.set(storageName, panelsStorage);
+			}
+			panels.on('hidden.bs.collapse shown.bs.collapse', e => {
+				this.updatePanelsStorage({ id: e.target.dataset.storageKey, type: e.type, storageName });
+			});
+			panels.on('hide.bs.collapse show.bs.collapse', function(e) {
+				$(e.currentTarget)
+					.siblings('.js-detail-widget-header')
+					.toggleClass('collapsed');
+			});
+		},
+		setPanels({ panels, storageName }) {
+			const panelsStorage = Quasar.plugins.LocalStorage.getItem(storageName);
+			for (let item of panels) {
+				if (panelsStorage[item.dataset.storageKey] === 'shown') {
+					$(item).collapse('show');
+					$(item)
+						.siblings('.js-detail-widget-header')
+						.toggleClass('collapsed');
+				}
+			}
+		},
+		updatePanelsStorage({ id, type, storageName }) {
+			const panelsStorage = Quasar.plugins.LocalStorage.getItem(storageName);
+			panelsStorage[id] = type;
+			Quasar.plugins.LocalStorage.set(storageName, panelsStorage);
+		},
 		registerEvents: function() {
 			//this.triggerDisplayTypeEvent();
 			this.registerHelpInfo();
@@ -3074,6 +3112,7 @@ jQuery.Class(
 			this.registerEventForTotalRecordsCount();
 			this.registerProgress();
 			this.registerChat(detailViewContainer);
+			this.registerCollapsiblePanels(detailViewContainer);
 		}
 	}
 );

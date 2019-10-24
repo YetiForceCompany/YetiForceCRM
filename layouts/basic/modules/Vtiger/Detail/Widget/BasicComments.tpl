@@ -1,14 +1,19 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
 	<div class="tpl-Detail-Widget-BasicComments c-detail-widget js-detail-widget BasicComments updatesWidgetContainer"
 		 data-js=”container”>
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}"
 			 data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}"
 			 data-limit="{$WIDGET['limit']}"
 			 data-js="data-url|data-type|data-limit">
-			<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">
+			<div class="c-detail-widget__header js-detail-widget-header collapsed" data-js="container|value">
 				<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}"/>
 				<div class="d-flex align-items-center my-1">
+					<div class="c-detail-widget__toggle collapsed" id="{$WIDGET_UID}" data-toggle="collapse" data-target="#{$WIDGET_UID}-collapse" aria-expanded="false" aria-controls="{$WIDGET_UID}-collapse">
+						<span class="mdi mdi-chevron-up" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+						<span class="mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
+					</div>
 					<div class="mr-2">
 						<div class="widgetTitle u-text-ellipsis">
 							<h5 class="mb-0 modCT_{$WIDGET['label']}">
@@ -34,9 +39,8 @@
 						</div>
 					</div>
 				</div>
-				<hr class="widgetHr mt-0"/>
 			</div>
-			<div class="c-detail-widget__content js-detail-widget-content" data-js="container|value">
+			<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}"  aria-labelledby="{$WIDGET_UID}" data-js="container|value">
 			</div>
 		</div>
 	</div>

@@ -2,25 +2,27 @@
 {strip}
 	<!-- tpl-Base-Detail-Widget-GeneralInfo -->
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+	{assign var=TRANSLATED_LABEL value=\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}
 	<div class="c-detail-widget c-detail-widget--general-info js-widget-general-info" data-js="edit/save">
-		<div class="d-flex justify-content-between px-2">
-			<div class="c-detail-widget__header">
-				<h5 class="mb-0 py-2">{\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}</h5>
-			</div>
-			<div class="d-flex align-items-center">
+		<div class="c-detail-widget__header js-detail-widget-header collapsed">
+			<div class="d-flex align-items-center py-1">
+				<div class="c-detail-widget__toggle collapsed" id="{$TRANSLATED_LABEL}" data-toggle="collapse" data-target="#{$TRANSLATED_LABEL}-collapse" aria-expanded="false" aria-controls="{$TRANSLATED_LABEL}-collapse">
+					<span class="mdi mdi-chevron-up" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<span class="mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
+				</div>
+				<h5 class="mb-0">{$TRANSLATED_LABEL}</h5>
 				{if !$IS_READ_ONLY}
 					{assign var="CURRENT_VIEW" value="full"}
 					{assign var="CURRENT_MODE_LABEL" value="{\App\Language::translate('LBL_COMPLETE_DETAILS',{$MODULE_NAME})}"}
-					<button type="button"
-							class="btn btn-sm btn-outline-secondary btn-block changeDetailViewMode u-cursor-pointer">
-						 <span title="{\App\Language::translate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}" class="fas fa-th-list alignMiddle"></strong></button>
+					<button type="button" class="btn btn-sm btn-light changeDetailViewMode ml-auto">
+						<span title="{\App\Language::translate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}" class="fas fa-th-list"></span>
+					</button>
 					{assign var="FULL_MODE_URL" value={$RECORD->getDetailViewUrl()|cat:'&mode=showDetailViewByMode&requestMode=full'} }
-					<input type="hidden" name="viewMode" value="{$CURRENT_VIEW}" data-nextviewname="full"
-						   data-currentviewlabel="{$CURRENT_MODE_LABEL}" data-full-url="{$FULL_MODE_URL}"/>
+					<input type="hidden" name="viewMode" value="{$CURRENT_VIEW}" data-nextviewname="full" data-currentviewlabel="{$CURRENT_MODE_LABEL}" data-full-url="{$FULL_MODE_URL}"/>
 				{/if}
 			</div>
 		</div>
-		<div class="c-detail-widget__content">
+		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$TRANSLATED_LABEL}-collapse" data-storage-key="GeneralInfo" aria-labelledby="{$TRANSLATED_LABEL}" data-js="container|value">
 			<table class="c-detail-widget__table">
 				<tbody>
 				{if !empty($SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS'])}

@@ -98,24 +98,24 @@ body:not(.desktop) {
 			margin: 0 1rem;
 		}
 	}
-	&--collapsible {
-		.c-panel__header {
-			.mdi-chevron-up {
-				display: inline-block;
-			}
-			.mdi-chevron-down {
-				display: none;
-			}
-			&.collapsed {
-				.mdi-chevron-up {
-					display: none;
-				}
-				.mdi-chevron-down {
-					display: inline-block;
-				}
-				border-bottom: none;
-			}
+}
+
+.c-panel--collapsible .c-panel__header,
+.c-detail-widget .c-detail-widget__header {
+	.mdi-chevron-up {
+		display: inline-block;
+	}
+	.mdi-chevron-down {
+		display: none;
+	}
+	&.collapsed {
+		.mdi-chevron-up {
+			display: none;
 		}
+		.mdi-chevron-down {
+			display: inline-block;
+		}
+		border-bottom: none;
 	}
 }
 

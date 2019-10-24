@@ -1,14 +1,21 @@
 {strip}
+<!-- tpl-Base-Detail-Widget-FastEdit -->
+	{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
 	<div class="c-detail-widget js-detail-widget summaryWidgetFastEditing" data-js="container">
 		<div class="widgetContainer_{$key}" data-name="{$WIDGET['label']}">
 			{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
-				<div class="c-detail-widget__header js-detail-widget-header" data-js="container|value">
-					<h5 class="mb-0 py-2">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
-					<hr class="widgetHr">
+				<div class="c-detail-widget__header js-detail-widget-header collapsed" data-js="container|value">
+					<div class="d-flex align-items-center py-1">
+						<div class="c-detail-widget__toggle collapsed" id="{$WIDGET_UID}" data-toggle="collapse" data-target="#{$WIDGET_UID}-collapse" aria-expanded="false" aria-controls="{$WIDGET_UID}-collapse">
+						<span class="mdi mdi-chevron-up" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+						<span class="mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
+					</div>
+						<h5 class="mb-0 py-1">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
+					</div>
 				</div>
 			{/if}
 			{assign var=MODULEINSTANCE value=vtlib\Module::getInstance($MODULE_NAME)}
-			<div class="c-detail-widget__content">
+			<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}"  aria-labelledby="{$WIDGET_UID}" data-js="container|value">
 				{if !$WIDGET['data']['FastEdit']}
 					{\App\Language::translate('LBL_RECORDS_NO_FOUND',$MODULE_NAME)}
 				{else}
@@ -47,4 +54,5 @@
 			</div>
 		</div>
 	</div>
+<!-- /tpl-Base-Detail-Widget-FastEdit -->
 {/strip}
