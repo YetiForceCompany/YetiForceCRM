@@ -417,7 +417,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$return[] = [
-				'key' => $row['fieldname'] . '=' . $row['name'],
+				'key' => "{$row['fieldname']}={$row['name']}={$row['uitype']}",
+				'value' => "{$row['fieldname']}={$row['name']}", // item to delete in next version
 				'fieldlabel' => $row['fieldlabel'],
 				'tablename' => $row['tablename'],
 				'columnname' => $row['columnname'],
@@ -427,7 +428,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			];
 		}
 		$dataReader->close();
-
 		return $return;
 	}
 
@@ -451,7 +451,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$return = explode(',', $value);
 		}
 		\App\Cache::staticSave($cacheKey, $cacheValue, $return);
-
 		return $return;
 	}
 
