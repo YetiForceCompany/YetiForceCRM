@@ -456,7 +456,7 @@ var app = (window.app = {
 			offsetTop = offsetTop - popoverHeight - popoverPadding;
 		}
 		if (popoverWidth + offsetLeft + popoverPadding > windowWidth) {
-			offsetLeft = 0;
+			offsetLeft = offsetLeft - popoverWidth - popoverPadding;
 		}
 		popover.css({
 			transform: `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`
@@ -608,7 +608,7 @@ var app = (window.app = {
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 	},
 	showModalWindow: function(data, url, cb, paramsObject) {
-		if (window.parent !== window) {
+		if (window.parent !== window && !paramsObject.showInIframe) {
 			this.childFrame = true;
 			window.parent.app.showModalWindow(data, url, cb, paramsObject);
 			return;
