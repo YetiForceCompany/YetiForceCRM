@@ -33,7 +33,7 @@ class Updater
 		$fullVer = \explode('.', \App\Version::get());
 		array_pop($fullVer);
 		self::$version = \implode('.', $fullVer);
-		$file = \ROOT_DIRECTORY . '/app_data/Updater.json';
+		$file = \ROOT_DIRECTORY . '/app_data/SystemUpdater.json';
 		if (\file_exists($file) && filemtime($file) > strtotime('-5 minute')) {
 			return \App\Json::read($file);
 		}

@@ -22,6 +22,7 @@
 						{elseif $ITEM->getStatus() == 2}
 							<span class="fas fa-minus"></span>
 						{/if}&nbsp;
+						<span class="d-none">{$ITEM->getStatus()}</span>
 					</td>
 					<td data-order="{$ITEM->getPriority()}" class="text-center">{$ITEM->getPriority()}</td>
 					<td class="text-center">

@@ -30,7 +30,9 @@ Settings_Vtiger_Index_Js('Settings_Logs_Index_Js', {
 	},
 	registerWarningsList: function(container) {
 		container.find('table').dataTable({
-			order: [[2, 'desc']]
+			order: [[2, 'desc'], [1, 'asc']],
+			lengthMenu: [20, 40, 60, 80, 100],
+			pageLength: 20
 		});
 		container.find('.showDescription').on('click', e => {
 			app.showModalWindow(

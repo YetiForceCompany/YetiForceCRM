@@ -22,6 +22,22 @@ class Languages
 	private static $lastErrorMessage;
 
 	/**
+	 * Get updates to install.
+	 *
+	 * @return bool
+	 */
+	public static function getToInstall(): bool
+	{
+		$langs = self::getAll();
+		foreach (\App\Language::getAll(true, true) as $key => $row) {
+			if (isset($langs[$key]) && strtotime($langs[$key]['time']) > strtotime($row['lastupdated'])) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Get all languages for the current version.
 	 *
 	 * @return string[]
@@ -32,6 +48,10 @@ class Languages
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
 			return [];
 		}
+		$file = \ROOT_DIRECTORY . '/app_data/LanguagesUpdater.json';
+		if (\file_exists($file) && filemtime($file) > strtotime('-5 minute')) {
+			return \App\Json::read($file);
+		}
 		$endpoint = \App\Config::developer('LANGUAGES_UPDATE_DEV_MODE') ? 'Developer' : \App\Version::get();
 		$languages = [];
 		try {
@@ -39,6 +59,7 @@ class Languages
 			if (200 === $response->getStatusCode()) {
 				$body = \App\Json::decode($response->getBody());
 				if ($body) {
+					\file_put_contents($file, $response->getBody());
 					foreach ($body as $prefix => $row) {
 						$languages[$prefix] = \array_merge($row, [
 							'name' => \App\Language::getDisplayName($prefix),

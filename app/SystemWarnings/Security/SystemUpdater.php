@@ -10,17 +10,17 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace App\SystemWarnings\YetiForce;
+namespace App\SystemWarnings\Security;
 
 /**
  * Updater warning class.
  */
-class Updater extends \App\SystemWarnings\Template
+class SystemUpdater extends \App\SystemWarnings\Template
 {
 	/**
 	 * @var string Warning title
 	 */
-	protected $title = 'LBL_UPDATER';
+	protected $title = 'LBL_SYSTEM_UPDATER';
 	/**
 	 * @var int Warning priority
 	 */
