@@ -175,6 +175,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	&__toggle {
 		font-size: calculate-rem(23px);
 		margin: calculate-rem(-5px) calculate-rem(1px) calculate-rem(-5px) calculate-rem(-4px);
+		cursor: pointer;
 	}
 
 	p {
