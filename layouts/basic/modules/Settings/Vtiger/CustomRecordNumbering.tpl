@@ -196,7 +196,7 @@
 									<div class="input-group-append">
 										<button class="btn btn-success float-right js-adavanced-sequence d-none" type="button"
 										title="{\App\Language::translate('LBL_SHOW_ADVANCED_SEQUENCE_SETTINGS', $QUALIFIED_MODULE)}" data-js="click">
-											<span class="yfi yfi-system-configuration"></span> {\App\Language::translate('LBL_SHOW_ADVANCED_SEQUENCE_SETTINGS', $QUALIFIED_MODULE)}
+											<span class="yfi yfi-system-configuration"></span>
 										</button>
 									</div>
 								</div>
