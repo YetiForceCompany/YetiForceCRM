@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Base-Detail-Widget-WYSIWYG -->
-	{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
+	{assign var=WIDGET_UID value="id-{str_replace(' ', '', \App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME)))}"}
 	<div class="tpl-Base-Detail-WYSIWYG c-detail-widget js-detail-widget c-detail-widget--wysiwyg"
 		 data-js="container">
 		<div class="c-detail-widget__header js-detail-widget-header collapsed" data-js="container|value">

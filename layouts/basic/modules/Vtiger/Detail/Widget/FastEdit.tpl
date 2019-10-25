@@ -1,6 +1,6 @@
 {strip}
 <!-- tpl-Base-Detail-Widget-FastEdit -->
-	{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
+	{assign var=WIDGET_UID value="id-{str_replace(' ', '', \App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME)))}"}
 	<div class="c-detail-widget js-detail-widget summaryWidgetFastEditing" data-js="container">
 		<div class="widgetContainer_{$key}" data-name="{$WIDGET['label']}">
 			{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
