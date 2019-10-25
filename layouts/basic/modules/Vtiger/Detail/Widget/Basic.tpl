@@ -1,6 +1,6 @@
 {strip}
 	<!-- tpl-Base-Detail-Widget-Basic -->
-	{assign var=WIDGET_UID value="id-{str_replace(' ', '', \App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME)))}"}
+	{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
 	<div class="tpl-Detail-Widget-Basic c-detail-widget js-detail-widget" data-js="container">
 		{assign var=RELATED_MODULE_NAME value=App\Module::getModuleName($WIDGET['data']['relatedmodule'])}
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}"
