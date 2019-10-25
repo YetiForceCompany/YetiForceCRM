@@ -14,35 +14,27 @@
 			</div>
 		</div>
 		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse pt-1" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}"  aria-labelledby="{$WIDGET_UID}" data-js="container|value">
-			{assign var=FULL_TEXT value=$RECORD->getDisplayValue($WIDGET['data']['field_name'])}
-			{assign var=TRUNCATE_TEXT value=\App\TextParser::htmlTruncate($FULL_TEXT,600,true,$IS_TRUNCATED)}
-			{if !empty($TRUNCATE_TEXT)}
-				<div class="mt-0 mx-0 moreContent">
-					<div class="table-responsive">
-						<span class="teaserContent">
-							{$TRUNCATE_TEXT}
-						</span>
-						{if $IS_TRUNCATED}
-							<span class="fullContent d-none">
-								{$FULL_TEXT}
-							</span>
-						{/if}
-					</div>
+			<div class="mt-0 mx-0 moreContent">
+				{assign var=FULL_TEXT value=$RECORD->getDisplayValue($WIDGET['data']['field_name'])}
+				{assign var=TRUNCATE_TEXT value=\App\TextParser::htmlTruncate($FULL_TEXT,600,true,$IS_TRUNCATED)}
+				<div class="table-responsive">
+					<span class="teaserContent">
+						{$TRUNCATE_TEXT}
+					</span>
 					{if $IS_TRUNCATED}
-						<div class="my-1 text-right">
-							<button type="button" class="btn btn-info btn-sm moreBtn"
-									data-on="{\App\Language::translate('LBL_MORE_BTN')}"
-									data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
-						</div>
+						<span class="fullContent d-none">
+							{$FULL_TEXT}
+						</span>
 					{/if}
 				</div>
-			{else}
-				<div class="summaryWidgetContainer">
-					<p class="textAlignCenter">
-						{\App\Language::translate('LBL_NO_ENTRIES')}
-					</p>
-				</div>
-			{/if}
+				{if $IS_TRUNCATED}
+					<div class="my-1 text-right">
+						<button type="button" class="btn btn-info btn-sm moreBtn"
+									data-on="{\App\Language::translate('LBL_MORE_BTN')}"
+									data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+					</div>
+				{/if}
+			</div>
 		</div>
 	</div>
 <!-- /tpl-Base-Detail-Widget-WYSIWYG -->
