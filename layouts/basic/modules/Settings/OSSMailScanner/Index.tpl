@@ -218,7 +218,7 @@
 							{if !isset($last_value) || $last_value neq $item['name']}
 								<optgroup label="{\App\Language::translate($item['name'], $item['name'])}">
 							{/if}
-							<option value="{$item['key']}" {if in_array($item['key'], $EMAILSEARCHLIST) } selected="selected"{/if}>{\App\Language::translate($item['name'], $item['name'])}
+							<option value="{$item['key']}" {if in_array($item['key'], $EMAILSEARCHLIST) || in_array($item['value'], $EMAILSEARCHLIST)} selected="selected"{/if}>{\App\Language::translate($item['name'], $item['name'])}
 							- {\App\Language::translate($item['fieldlabel'], $item['name'])}</option>
 							{assign var=last_value value=$item['name']}
 							{if $last_value neq $item['name']}
