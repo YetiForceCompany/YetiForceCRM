@@ -683,8 +683,8 @@ var app = (window.app = {
 	 * Function which you can use to hide the modal
 	 * This api assumes that we are using block ui plugin and uses unblock api to unblock it
 	 */
-	hideModalWindow: function(callback, id) {
-		if (window.parent !== window) {
+	hideModalWindow: function(callback, id, params = {}) {
+		if (window.parent !== window && !params.showInIframe) {
 			this.childFrame = true;
 			window.parent.app.hideModalWindow(callback, id);
 			return;
