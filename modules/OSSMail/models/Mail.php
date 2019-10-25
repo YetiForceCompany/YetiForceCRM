@@ -137,13 +137,13 @@ class OSSMail_Mail_Model extends \App\Base
 			return $this->mailType;
 		}
 		$account = $this->getAccount();
-		$fromEmailUser = $this->findEmailUser($this->get('fromaddress'));
-		$toEmailUser = $this->findEmailUser($this->get('toaddress'));
-		$ccEmailUser = $this->findEmailUser($this->get('ccaddress'));
-		$bccEmailUser = $this->findEmailUser($this->get('bccaddress'));
+		$fromEmailUser = $this->findEmailUser($this->get('from_email'));
+		$toEmailUser = $this->findEmailUser($this->get('to_email'));
+		$ccEmailUser = $this->findEmailUser($this->get('cc_email'));
+		$bccEmailUser = $this->findEmailUser($this->get('bcc_email'));
 		$existIdentitie = false;
 		foreach (OSSMailScanner_Record_Model::getIdentities($account['user_id']) as $identitie) {
-			if ($identitie['email'] == $this->get('fromaddress')) {
+			if ($identitie['email'] == $this->get('from_email')) {
 				$existIdentitie = true;
 			}
 		}
@@ -208,7 +208,7 @@ class OSSMail_Mail_Model extends \App\Base
 		if ($this->has('cid')) {
 			return $this->get('cid');
 		}
-		$uid = sha1($this->get('fromaddress') . '|' . $this->get('date') . '|' . $this->get('subject') . '|' . $this->get('body'));
+		$uid = hash('sha256', $this->get('from_email') . '|' . $this->get('date') . '|' . $this->get('subject') . '|' . $this->get('message_id'));
 		$this->set('cid', $uid);
 		return $uid;
 	}
@@ -388,7 +388,7 @@ class OSSMail_Mail_Model extends \App\Base
 	public function saveAttachments()
 	{
 		$userId = $this->getAccountOwner();
-		$useTime = $this->get('udate_formated');
+		$useTime = $this->get('date');
 		$files = $this->get('files');
 		$params = [
 			'created_user_id' => $userId,
@@ -401,14 +401,14 @@ class OSSMail_Mail_Model extends \App\Base
 			$maxSize = \App\Config::main('upload_maxsize');
 			foreach ($attachments as $attachment) {
 				if ($maxSize < ($size = \strlen($attachment['attachment']))) {
-					\App\Log::error("Error - downloaded the file is too big '{$attachment['filename']}', size: {$size}, in mail: {$this->get('date')} | {$this->get('fromaddress')} | {$this->get('subject')} | mailSize: {$this->get('Size')} | folder: {$this->getFolder()} | message_id:{$this->get('message_id')}", __CLASS__);
+					\App\Log::error("Error - downloaded the file is too big '{$attachment['filename']}', size: {$size}, in mail: {$this->get('date')} | {$this->get('from_email')} | {$this->get('subject')} | folder: {$this->getFolder()} | message_id:{$this->get('message_id')}", __CLASS__);
 					continue;
 				}
 				$fileInstance = \App\Fields\File::loadFromContent($attachment['attachment'], $attachment['filename'], ['validateAllCodeInjection' => true]);
 				if ($fileInstance && $fileInstance->validateAndSecure() && ($id = App\Fields\File::saveFromContent($fileInstance, $params))) {
 					$files[] = $id;
 				} else {
-					\App\Log::error("Error downloading the file '{$attachment['filename']}' in mail: {$this->get('date')} | {$this->get('fromaddress')} | {$this->get('subject')}", __CLASS__);
+					\App\Log::error("Error downloading the file '{$attachment['filename']}' in mail: {$this->get('date')} | {$this->get('from_email')} | {$this->get('subject')}", __CLASS__);
 				}
 			}
 		}

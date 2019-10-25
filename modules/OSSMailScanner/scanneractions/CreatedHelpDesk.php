@@ -27,7 +27,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		if (!empty($exceptionsAll['crating_tickets'])) {
 			$exceptions = explode(',', $exceptionsAll['crating_tickets']);
 			foreach ($exceptions as $exception) {
-				if (false !== strpos($mail->get('fromaddress'), $exception)) {
+				if (false !== strpos($mail->get('from_email'), $exception)) {
 					return '';
 				}
 			}
@@ -51,8 +51,8 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 	 */
 	public function add(OSSMail_Mail_Model $mail)
 	{
-		$contactId = (int) $mail->findEmailAdress('fromaddress', 'Contacts', false);
-		$parentId = (int) $mail->findEmailAdress('fromaddress', 'Accounts', false);
+		$contactId = (int) $mail->findEmailAdress('from_email', 'Contacts', false);
+		$parentId = (int) $mail->findEmailAdress('from_email', 'Accounts', false);
 		$record = Vtiger_Record_Model::getCleanInstance('HelpDesk');
 
 		$dbCommand = \App\Db::getInstance()->createCommand();
@@ -101,7 +101,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		}
 
 		if ($mailId = $mail->getMailCrmId()) {
-			(new OSSMailView_Relation_Model())->addRelation($mailId, $id, $mail->get('udate_formated'));
+			(new OSSMailView_Relation_Model())->addRelation($mailId, $id, $mail->get('date'));
 			$query = (new App\Db\Query())->select(['documentsid'])->from('vtiger_ossmailview_files')->where(['ossmailviewid' => $mailId]);
 			$dataReader = $query->createCommand()->query();
 			while ($documentId = $dataReader->readColumn(0)) {
@@ -109,7 +109,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 			}
 			$dataReader->close();
 		}
-		$dbCommand->update('vtiger_crmentity', ['createdtime' => $mail->get('udate_formated'), 'smcreatorid' => $accountOwner, 'modifiedby' => $accountOwner], ['crmid' => $id])->execute();
+		$dbCommand->update('vtiger_crmentity', ['createdtime' => $mail->get('date'), 'smcreatorid' => $accountOwner, 'modifiedby' => $accountOwner], ['crmid' => $id])->execute();
 		return $id;
 	}
 }

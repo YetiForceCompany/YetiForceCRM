@@ -22,7 +22,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 		$exceptionsAll = OSSMailScanner_Record_Model::getConfig('exceptions');
 		if (!empty($exceptionsAll['crating_mails'])) {
 			$exceptions = explode(',', $exceptionsAll['crating_mails']);
-			$mailForExceptions = (0 === $type) ? $mail->get('toaddress') : $mail->get('fromaddress');
+			$mailForExceptions = (0 === $type) ? $mail->get('to_email') : $mail->get('from_email');
 			foreach ($exceptions as $exception) {
 				if (false !== strpos($mailForExceptions, $exception)) {
 					return false;
@@ -30,29 +30,27 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			}
 		}
 		if (false === $mail->getMailCrmId()) {
-			$fromIds = array_merge($mail->findEmailAdress('fromaddress'), $mail->findEmailAdress('reply_toaddress'));
-			$toIds = array_merge($mail->findEmailAdress('toaddress'), $mail->findEmailAdress('ccaddress'), $mail->findEmailAdress('bccaddress'));
+			$fromIds = array_merge($mail->findEmailAdress('from_email'), $mail->findEmailAdress('reply_toaddress'));
+			$toIds = array_merge($mail->findEmailAdress('to_email'), $mail->findEmailAdress('cc_email'), $mail->findEmailAdress('bcc_email'));
 			$account = $mail->getAccount();
 			$record = Vtiger_Record_Model::getCleanInstance('OSSMailView');
 			$record->set('assigned_user_id', $mail->getAccountOwner());
-			$maxLengthSubject = $record->getField('subject')->get('maximumlength');
-			$subject = $mail->isEmpty('subject') ? '-' : \App\Purifier::purify($mail->get('subject'));
-			$record->setFromUserValue('subject', $maxLengthSubject ? \App\TextParser::textTruncate($subject, $maxLengthSubject, false) : $subject);
-			$record->set('to_email', \App\Purifier::purify($mail->get('toaddress')));
-			$record->set('from_email', \App\Purifier::purify($mail->get('fromaddress')));
-			$record->set('reply_to_email', \App\Purifier::purify($mail->get('reply_toaddress')));
-			$record->set('cc_email', \App\Purifier::purify($mail->get('ccaddress')));
-			$record->set('bcc_email', \App\Purifier::purify($mail->get('bccaddress')));
-			$record->set('fromaddress', \App\Purifier::purify($mail->get('from')));
+			$record->set('subject', $mail->isEmpty('subject') ? '-' : $mail->get('subject'));
+			$record->set('to_email', $mail->get('to_email'));
+			$record->set('from_email', $mail->get('from_email'));
+			$record->set('reply_to_email', $mail->get('reply_toaddress'));
+			$record->set('cc_email', $mail->get('cc_email'));
+			$record->set('bcc_email', $mail->get('bcc_email'));
+			$record->set('from_email', $mail->get('from'));
 			$maxLengthOrginal = $record->getField('orginal_mail')->get('maximumlength');
 			$orginal = \App\Purifier::purifyHtml($mail->get('clean'));
 			$record->set('orginal_mail', $maxLengthOrginal ? \App\TextParser::htmlTruncate($orginal, $maxLengthOrginal, false) : $orginal);
-			$record->set('uid', \App\Purifier::purify($mail->get('message_id')))->set('rc_user', $account['user_id']);
+			$record->set('uid', $mail->get('message_id'))->set('rc_user', $account['user_id']);
 			$record->set('ossmailview_sendtype', $mail->getTypeEmail(true));
 			$record->set('mbox', $mail->getFolder())->set('type', $type)->set('mid', $mail->get('id'));
 			$record->set('from_id', implode(',', array_unique($fromIds)))->set('to_id', implode(',', array_unique($toIds)));
-			$record->set('created_user_id', $mail->getAccountOwner())->set('createdtime', $mail->get('udate_formated'));
-			$record->set('date', $mail->get('udate_formated'));
+			$record->set('created_user_id', $mail->getAccountOwner())->set('createdtime', $mail->get('date'));
+			$record->set('date', $mail->get('date'));
 			$maxLengthContent = $record->getField('content')->get('maximumlength');
 			$content = $this->parseContent($mail);
 			$record->set('content', $maxLengthContent ? \App\TextParser::htmlTruncate($content, $maxLengthContent, false) : $content);
@@ -124,8 +122,8 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			'created_user_id' => $mail->getAccountOwner(),
 			'assigned_user_id' => $mail->getAccountOwner(),
 			'modifiedby' => $mail->getAccountOwner(),
-			'createdtime' => $mail->get('udate_formated'),
-			'modifiedtime' => $mail->get('udate_formated'),
+			'createdtime' => $mail->get('date'),
+			'modifiedtime' => $mail->get('date'),
 		];
 
 		$files = [];

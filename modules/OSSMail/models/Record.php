@@ -238,26 +238,14 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$mail->set('header', $header);
 		$mail->set('id', $id);
 		$mail->set('Msgno', $header->Msgno);
-		$mail->set('message_id', $messageId);
-		$mail->set('toaddress', $mail->getEmail('to'));
-		$mail->set('fromaddress', $mail->getEmail('from'));
-		$mail->set('reply_toaddress', $mail->getEmail('reply_to'));
-		$mail->set('ccaddress', $mail->getEmail('cc'));
-		$mail->set('bccaddress', $mail->getEmail('bcc'));
-		$mail->set('senderaddress', $mail->getEmail('sender'));
-		$mail->set('subject', self::decodeText($header->subject));
-		$mail->set('MailDate', $header->MailDate);
-		$mail->set('date', $header->date);
-		$mail->set('udate', $header->udate);
-		$mail->set('udate_formated', date('Y-m-d H:i:s', $header->udate));
-		$mail->set('Recent', $header->Recent);
-		$mail->set('Unseen', $header->Unseen);
-		$mail->set('Flagged', $header->Flagged);
-		$mail->set('Answered', $header->Answered);
-		$mail->set('Deleted', $header->Deleted);
-		$mail->set('Draft', $header->Draft);
-		$mail->set('Size', $header->Size);
-
+		$mail->set('message_id', \App\Purifier::purifyByType($messageId, 'MailId'));
+		$mail->set('to_email', \App\Purifier::purify($mail->getEmail('to')));
+		$mail->set('from_email', \App\Purifier::purify($mail->getEmail('from')));
+		$mail->set('reply_toaddress', \App\Purifier::purify($mail->getEmail('reply_to')));
+		$mail->set('cc_email', \App\Purifier::purify($mail->getEmail('cc')));
+		$mail->set('bcc_email', \App\Purifier::purify($mail->getEmail('bcc')));
+		$mail->set('subject', \App\TextParser::textTruncate(\App\Purifier::purify(self::decodeText($header->subject)), 65535, false));
+		$mail->set('date', date('Y-m-d H:i:s', $header->udate));
 		if ($fullMode) {
 			$structure = self::getBodyAttach($mbox, $id, $msgno);
 			$mail->set('body', $structure['body']);

@@ -17,7 +17,7 @@
 											<span class="body-icon fas fa-chevron-down"></span>
 										</button>
 									</div>
-									<span class="float-left">{\App\Language::translate('From', 'OSSMailView')}: {\App\Purifier::encodeHtml($item->get('fromaddress'))}</span>
+									<span class="float-left">{\App\Language::translate('From', 'OSSMailView')}: {\App\Purifier::encodeHtml($item->get('from_email'))}</span>
 								</div>
 								<div class="col-md-12 mailBody" style="display: none;border: 1px solid #ddd;">
 									{\App\Purifier::purifyHtml($item->get('body'))}

@@ -842,13 +842,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$mail->setMailCrmId($row['ossmailviewid']);
 		$mail->setFolder($row['mbox']);
 		$mail->set('message_id', $row['uid']);
-		$mail->set('toaddress', $row['to_email']);
-		$mail->set('fromaddress', $row['from_email']);
+		$mail->set('to_email', $row['to_email']);
+		$mail->set('from_email', $row['from_email']);
 		$mail->set('reply_to_email', $row['reply_to_email']);
-		$mail->set('ccaddress', $row['cc_email']);
-		$mail->set('bccaddress', $row['bcc_email']);
+		$mail->set('cc_email', $row['cc_email']);
+		$mail->set('bcc_email', $row['bcc_email']);
 		$mail->set('subject', $row['subject']);
-		$mail->set('udate_formated', $row['date']);
+		$mail->set('date', $row['date']);
 		$mail->set('body', $row['content']);
 
 		foreach ($actions as $action) {
