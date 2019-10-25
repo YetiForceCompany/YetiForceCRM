@@ -24,7 +24,13 @@
 				<div class="q-message-container row items-end no-wrap">
 					{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 						{assign var=IMAGE value=$COMMENT->getImage()}
-					<img class="q-message-avatar gt-sm" alt="userImage" src="{if $IMAGE}{$IMAGE.url}{/if}">
+					{if $IMAGE}
+						<img class="q-message-avatar gt-sm" alt="userImage" src="{$IMAGE.url}">
+					{else}
+						<div class="q-message-avatar gt-sm visible u-font-size-26 flex flex-center">
+							<span class="fas fa-user"></span>
+						</div>
+					{/if}
 					<div class="full-width">
 						<span class="q-message-name">
 							{$COMMENTOR->getName()}
