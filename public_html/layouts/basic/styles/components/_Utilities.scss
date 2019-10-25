@@ -483,7 +483,7 @@
 	outline: none;
 }
 
-//--- BACKGROUND ---//
+//--- COLORS ---//
 .u-bg-twilight {
 	background-color: #404952 !important;
 	color: #fff;
@@ -500,6 +500,10 @@
 
 .u-text-gray {
 	color: #d1d1db !important;
+}
+
+.u-text-unset {
+	color: unset;
 }
 
 .u-rotate-90 {
