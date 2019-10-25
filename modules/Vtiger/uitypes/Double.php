@@ -26,7 +26,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	{
 		$this->validate($value, true);
 		preg_match('/\D+/', $value, $matches);
-		if ($matches && \in_array(App\Purifier::decodeHtml($matches[0]), App\Conditions\QueryFields\IntegerField::$extendedOperators)) {
+		if ($matches && \in_array(App\Purifier::decodeHtml($matches[0]), App\Conditions\QueryFields\DoubleField::$extendedOperators)) {
 			return App\Purifier::decodeHtml($matches[0]) . $this->getDBValue($value);
 		}
 		return $this->getDBValue($value);
@@ -46,7 +46,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
-		$maximumLength = (float) $this->getFieldModel()->get('maximumlength') + 1;
+		$maximumLength = (float) $this->getFieldModel()->get('maximumlength');
 		if ($maximumLength && ($value > $maximumLength || $value < -$maximumLength)) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
