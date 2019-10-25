@@ -346,8 +346,10 @@ body:not(.desktop) {
 }
 
 .c-popover--link {
-	max-width: 30%;
-
+	max-width: 100%;
+	@include media-breakpoint-up(md) {
+		max-width: 30%;
+	}
 	.popover-body {
 		padding: 0;
 		border-top-left-radius: calc(0.3rem - 1px);
