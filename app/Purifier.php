@@ -365,7 +365,7 @@ class Purifier
 					$value = Validator::dateTimeInUserFormat($input) ? $input : null;
 					break;
 				case 'DateTimeInIsoFormat': // date in base format yyyy-mm-dd
-					$value = Validator::dateTimeInIsoFormat($input) ? \App\Fields\DateTime::formatToDb(strtotime($input)) : null;
+					$value = Validator::dateTimeInIsoFormat($input) ? \App\Fields\DateTime::formatToDb(date('Y-m-d H:i:s', strtotime($input))) : null;
 					break;
 				case 'Bool':
 					$value = self::bool($input);
@@ -419,6 +419,9 @@ class Purifier
 					break;
 				case 'Path':
 					$value = Fields\File::checkFilePath($input) ? static::encodeHtml(static::purify($input)) : null;
+					break;
+				case 'MailId':
+					$value = preg_match('/^[\sA-Za-z0-9\<\>\_\.\=\-\@]+$/', $input) ? $input : null;
 					break;
 				case 'Text':
 				default:
