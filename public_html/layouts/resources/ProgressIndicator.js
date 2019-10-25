@@ -105,13 +105,15 @@
 			var jQImageHtml = jQuery(imageHtml).css(this.imageContainerCss);
 
 			var jQMessage = thisInstance.options.message;
-			if (jQMessage.length == 0) {
-				jQMessage = app.vtranslate('JS_LOADING_PLEASE_WAIT');
+			if (jQMessage !== false) {
+				if (jQMessage.length == 0) {
+					jQMessage = app.vtranslate('JS_LOADING_PLEASE_WAIT');
+				}
+				if (!(jQMessage instanceof jQuery)) {
+					jQMessage = jQuery('<span></span>').html(jQMessage);
+				}
+				var messageContainer = jQuery('<div class="message"></div>').append(jQMessage);
 			}
-			if (!(jQMessage instanceof jQuery)) {
-				jQMessage = jQuery('<span></span>').html(jQMessage);
-			}
-			var messageContainer = jQuery('<div class="message"></div>').append(jQMessage);
 			jQImageHtml.append(messageContainer);
 			if (this.isBlockMode()) {
 				jQImageHtml.addClass('blockMessageContainer');
