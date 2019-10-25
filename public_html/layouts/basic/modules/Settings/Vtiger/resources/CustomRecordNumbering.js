@@ -281,7 +281,7 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 									action: 'CustomRecordNumberingAjax',
 									mode: 'saveModuleCustomNumberingAdvanceData',
 									sourceModule: sourceModule,
-									sequenceNumber: modalForm.serializeFormData()
+									sequenceNumber: modalForm.find('.js-picklist-sequence').serializeFormData()
 								}).done(function (data) {
 									progressIndicatorElement.progressIndicator({mode: 'hide'});
 									if (data.success === true) {

@@ -24,9 +24,9 @@
 								{\App\Language::translate($PICKLIST_VALUE['prefix'], $QUALIFIED_MODULE)}
 							</td>
 							<td class="py-2 position-relative w-50 border-bottom">
-								<input type="text" class="form-control" value="{$PICKLIST_VALUE['cur_id']}"
+								<input type="text" class="form-control js-picklist-sequence" value="{$PICKLIST_VALUE['cur_id']}"
 								data-old-sequence-number="{$PICKLIST_VALUE['cur_id']}"
-								name="{$PICKLIST_VALUE['prefix']}"
+								name="{$PICKLIST_VALUE['prefix']}" data-js="value"
 								data-validation-engine="validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]"/>
 							</td>
 						</tr>
