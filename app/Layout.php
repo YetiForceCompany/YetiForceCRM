@@ -123,6 +123,6 @@ class Layout
 	 */
 	public static function getUniqueId($name = '')
 	{
-		return $name . random_int(100, 99999);
+		return str_replace([' ', '"', "'"], '', $name) . random_int(100, 99999);
 	}
 }
