@@ -257,9 +257,9 @@ emoji-mart-vue-fast@^6.0.1:
     tether "^1.4.0"
 
 flag-icon-css@^3.3.0:
-  version "3.4.2"
-  resolved "https://registry.yarnpkg.com/flag-icon-css/-/flag-icon-css-3.4.2.tgz#9d76e2ce96bee87bd65ef241c238fff5ab7dac93"
-  integrity sha512-x/Tw0qx7V2zut50GTeeJbvo9EiWtv+TPxI3fi1OiicbI8esZ1s4G2LnR1EJ96pDQlWqEVuD17sDPf/ZLifZeIg==
+  version "3.4.5"
+  resolved "https://registry.yarnpkg.com/flag-icon-css/-/flag-icon-css-3.4.5.tgz#584d618563034e69cb9a5b7a7c8477ec8c029a49"
+  integrity sha512-COo/PuJY/JddBLkdi7jL3gWF0z/hcvBRA4kfMXUjLeLglFf5IsyAzKZuXaXfCubVrkraVizmEp7Bn05upTXofA==
   dependencies:
     opencollective-postinstall "2.0.2"
 
@@ -442,14 +442,14 @@ pnotify@4.0.0:
   integrity sha512-Fs3xlxmnlgXjUdM3xFfImfkLh5RmTgfRyPS5yT43w0OIrVULbGu1g3mpiH9H2nlAZ5dFEJRqh43sQXl/mVW6yA==
 
 popper.js@>=1.12.9, popper.js@^1.15.0:
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.15.0.tgz#5560b99bbad7647e9faa475c6b8056621f5a4ff2"
-  integrity sha512-w010cY1oCUmI+9KwwlWki+r5jxKfTFDVoadl7MSrIujHU5MJ5OR6HTDj6Xo8aoR/QsA56x8jKjA59qGH4ELtrA==
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.0.tgz#2e1816bcbbaa518ea6c2e15a466f4cb9c6e2fbb3"
+  integrity sha512-+G+EkOPoE5S/zChTpmBSSDYmhXJ5PsW8eMhH8cP/CQHMFPBG/kC9Y5IIw6qNYgdJ+/COf0ddY2li28iHaZRSjw==
 
 quasar@^1.1.0:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.2.1.tgz#83117f5b17adcc7c08526b9aadc4ca7c2ab21287"
-  integrity sha512-7PbX8HecdrDzpG9zcZk5PSuPRFicU6b07N9Dk0uk5N+2LNGEFGBwIuQnLeDpq03Xdv98Q6GpTTZNaWpXdYBZcg==
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.2.5.tgz#eefc723b347b20ce324954aff9b412be9520dca3"
+  integrity sha512-O/bQtdu4Bn0+VfnvIZW8QY4FvfybCCQVoXmDFq7e3yW/V/1pvIjWPKei/qVKY5v303YohxJoTrGoAkmMMjYp8Q==
 
 regenerator-runtime@^0.12.0:
   version "0.12.1"
@@ -517,9 +517,9 @@ tributejs@^4.0.0:
   integrity sha512-X9EdTOX2VRafrwB+T5bDJ+SLW3hAm+Adf6QNtQFnos5xuLTYVLtCwA+GAzrbVuoHcnmIpl57ivXVvEzJEK4X6A==
 
 vue-observe-visibility@^0.4.3:
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/vue-observe-visibility/-/vue-observe-visibility-0.4.4.tgz#cf3e945bf80c1317a1c32bc516d6cfd4dda8f8fd"
-  integrity sha512-2eDYHgL2MJ2wkkNZnus56D0CG8m80BFLuvEcGnD7rQ9jxFogpXMsM9aM5Md+XT8AmYGYCqVfOVBaWFtVvwbpmw==
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/vue-observe-visibility/-/vue-observe-visibility-0.4.6.tgz#878cb8ebcf3078e40807af29774e97105ebd519e"
+  integrity sha512-xo0CEVdkjSjhJoDdLSvoZoQrw/H2BlzB5jrCBKGZNXN2zdZgMuZ9BKrxXDjNP2AxlcCoKc8OahI3F3r3JGLv2Q==
 
 vue-resize@^0.4.5:
   version "0.4.5"
