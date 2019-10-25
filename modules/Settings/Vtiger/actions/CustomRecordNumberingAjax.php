@@ -53,7 +53,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 		}
 		$picklistsModels = Vtiger_Module_Model::getInstance($sourceModule)->getFieldsByType(['picklist']);
 		foreach ($picklistsModels as $fieldModel) {
-			if (!empty(array_column(\App\Fields\Picklist::getValues($fieldModel->getFieldName()), 'prefix'))) {
+			if (\App\Fields\Picklist::prefixExist($fieldModel->getFieldName())) {
 				$moduleData['picklists'][$fieldModel->getName()] = App\Language::translate($fieldModel->getFieldLabel(), $sourceModule);
 			}
 		}

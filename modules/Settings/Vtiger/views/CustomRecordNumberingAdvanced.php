@@ -40,8 +40,8 @@ class Settings_Vtiger_CustomRecordNumberingAdvanced_View extends \App\Controller
 		if ($moduleModel->getFieldByName($picklistName[1]) && !empty($picklistName[1])) {
 			foreach (\App\Fields\Picklist::getValues($picklistName[1]) as $value) {
 				if (!empty($value['prefix'])) {
-					if (isset($picklistSequences[$value['picklistValue']])) {
-						$value['cur_id'] = $picklistSequences[$value['picklistValue']];
+					if (isset($picklistSequences[$value['prefix']])) {
+						$value['cur_id'] = $picklistSequences[$value['prefix']];
 					} else {
 						$value['cur_id'] = 1;
 					}
