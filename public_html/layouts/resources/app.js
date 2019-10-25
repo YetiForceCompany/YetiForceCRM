@@ -608,7 +608,7 @@ var app = (window.app = {
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 	},
 	showModalWindow: function(data, url, cb, paramsObject) {
-		if (window.parent !== window) {
+		if (window.parent !== window && !paramsObject.showInIframe) {
 			this.childFrame = true;
 			window.parent.app.showModalWindow(data, url, cb, paramsObject);
 			return;
