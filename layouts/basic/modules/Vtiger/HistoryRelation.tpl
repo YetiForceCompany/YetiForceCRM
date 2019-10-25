@@ -66,7 +66,7 @@
 												<span class="fas fa-th-list mx-1" title="{\App\Language::translate('LBL_DETAILS', $MODULE_NAME)}"></span>
 											</a>
 										</div>
-										<div class="time text-muted ml-auto">
+										<div class="time text-muted ml-sm-0 ml-auto">
 											<span>{\App\Fields\DateTime::formatToViewDate($HISTORY['time'])}</span>
 										</div>
 									</div>
