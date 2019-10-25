@@ -1,6 +1,6 @@
 {strip}
 <!-- tpl-Base-Detail-Widget-SummaryCategory -->
-	{assign var=WIDGET_UID value="id-{str_replace(' ', '', \App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME)))}"}
+	{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
 	<div class="tpl-Detail-Widget-SummaryCategory c-detail-widget c-detail-widget--summmary-category mb-1 js-detail-widget recordDetails" data-js="container">
 		{if $WIDGET['label'] neq ' ' && $WIDGET['label'] neq ''}
 			<div class="c-detail-widget__header js-detail-widget-header collapsed" data-js="container|value">
