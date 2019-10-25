@@ -456,7 +456,7 @@ var app = (window.app = {
 			offsetTop = offsetTop - popoverHeight - popoverPadding;
 		}
 		if (popoverWidth + offsetLeft + popoverPadding > windowWidth) {
-			offsetLeft = offsetLeft - popoverWidth - popoverPadding;
+			offsetLeft = 0;
 		}
 		popover.css({
 			transform: `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`

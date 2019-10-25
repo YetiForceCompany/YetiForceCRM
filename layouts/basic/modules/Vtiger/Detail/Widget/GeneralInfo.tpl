@@ -3,10 +3,11 @@
 	<!-- tpl-Base-Detail-Widget-GeneralInfo -->
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{assign var=TRANSLATED_LABEL value=\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}
+	{assign var=TRANSLATED_LABEL_ID value=str_replace(' ', '', \App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME))}
 	<div class="c-detail-widget c-detail-widget--general-info js-widget-general-info" data-js="edit/save">
 		<div class="c-detail-widget__header js-detail-widget-header collapsed">
 			<div class="d-flex align-items-center py-1">
-				<div class="c-detail-widget__toggle collapsed" id="{$TRANSLATED_LABEL}" data-toggle="collapse" data-target="#{$TRANSLATED_LABEL}-collapse" aria-expanded="false" aria-controls="{$TRANSLATED_LABEL}-collapse">
+				<div class="c-detail-widget__toggle collapsed" id="{$TRANSLATED_LABEL_ID}" data-toggle="collapse" data-target="#{$TRANSLATED_LABEL_ID}-collapse" aria-expanded="false" aria-controls="{$TRANSLATED_LABEL_ID}-collapse">
 					<span class="mdi mdi-chevron-up" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 					<span class="mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
 				</div>
@@ -22,7 +23,7 @@
 				{/if}
 			</div>
 		</div>
-		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$TRANSLATED_LABEL}-collapse" data-storage-key="GeneralInfo" aria-labelledby="{$TRANSLATED_LABEL}" data-js="container|value">
+		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$TRANSLATED_LABEL_ID}-collapse" data-storage-key="GeneralInfo" aria-labelledby="{$TRANSLATED_LABEL_ID}" data-js="container|value">
 			<table class="c-detail-widget__table">
 				<tbody>
 				{if !empty($SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS'])}
