@@ -10,14 +10,14 @@ td.listViewEntryValue.wide {
 .table td.medium,
 .listViewEntries td.medium,
 td.listViewEntryValue.medium {
-	padding: calculate-rem(3px) calculate-rem(6px) !important;
-	line-height: calculate-rem(15px);
+	padding: calculate-rem(3px) !important;
+	line-height: calculate-rem(18px);
 }
 
 .table td.narrow,
 .listViewEntries td.narrow,
 td.listViewEntryValue.narrow {
-	padding: calculate-rem(2px) calculate-rem(4px) !important;
+	padding: calculate-rem(2px) !important;
 	line-height: calculate-rem(15px);
 }
 
