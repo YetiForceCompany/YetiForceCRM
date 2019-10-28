@@ -2,7 +2,7 @@
   "extends": ["config:base", ":assignee(mariuszkrzaczkowski)", ":label(dependencies)"],
   "rangeStrategy": "update-lockfile",
   "assignees": ["mariuszkrzaczkowski", "rskrzypczak", "TomaszQr"],
-  "schedule": ["every weekend", "after 10pm every weekday", "before 5am every weekday"],
+  "schedule": ["every weekend"],
   "timezone": "Europe/Warsaw",
   "baseBranches": ["developer"],
   "packageRules": [
