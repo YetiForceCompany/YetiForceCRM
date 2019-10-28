@@ -71,10 +71,9 @@
 										</div>
 									</div>
 									<div class="q-fab z-fab row inline justify-center js-comment-actions__container ml-auto quasar-reset mr-1 d-sm-none d-block float-right">
-											<button type="button" tabindex="0" class="js-comment-actions__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable u-font-size-13px">
-												<div tabindex="-1" class="q-focus-helper"></div>
+											<button type="button" tabindex="0" class="js-comment-actions__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat text-grey-6 q-focusable q-hoverable u-font-size-10px p-0">
 												<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
-													<i aria-hidden="true" class="mdi mdi-wrench q-icon mt-1"></i>
+													<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
 												</div>
 											</button>
 											<div class="q-fab__actions flex flex-row no-wrap inline items-center q-fab__actions--left js-comment-actions">
@@ -115,7 +114,7 @@
 													<span class="fas fa-th-list mx-1" title="{\App\Language::translate('LBL_DETAILS', $MODULE_NAME)}"></span>
 												</a>
 											</div>
-										</div>
+									</div>
 									<div class="u-word-break">{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML($HISTORY['content']))}</div>
 									<div class="u-word-break">
 										{if $HISTORY['attachments_exist'] eq 1}

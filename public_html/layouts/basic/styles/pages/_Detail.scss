@@ -124,7 +124,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 				.timeline-body {
 					padding-left: 0;
-					font-size: 0.7em;
+					font-size: 0.75em;
 				}
 
 				@include media-breakpoint-up(sm) {
