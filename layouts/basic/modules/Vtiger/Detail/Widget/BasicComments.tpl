@@ -15,8 +15,8 @@
 						<span class="mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
 					</div>
 					<div class="mr-2">
-						<div class="widgetTitle u-text-ellipsis">
-							<h5 class="mb-0 modCT_{$WIDGET['label']}">
+						<div class="widgetTitle text-truncate">
+							<h5 class="mb-0 text-truncate modCT_{$WIDGET['label']}">
 								{if $WIDGET['label'] eq ''}
 									{\App\Language::translate($WIDGET['data']['relatedmodule'],$WIDGET['data']['relatedmodule'])}
 								{else}
@@ -25,14 +25,14 @@
 							</h5>
 						</div>
 					</div>
-					<div class="q-fab z-fab row inline justify-center js-comment-actions__container ml-auto quasar-reset full-width">
-						<button type="button" tabindex="0" class="js-comment-actions__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable u-font-size-13px q-ml-auto">
+					<div class="c-detail-widget__actions q-fab z-fab row inline justify-center js-comment-actions__container ml-auto quasar-reset position-absolute">
+						<button type="button" tabindex="0" class="js-comment-actions__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable u-font-size-10px q-ml-auto">
 							<div tabindex="-1" class="q-focus-helper"></div>
 							<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
 								<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
 							</div>
 						</button>
-						<div class="q-fab__actions flex no-wrap inline items-center q-fab__actions--left js-comment-actions" style="right: 45px;">
+						<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions">
 							<div class="input-group input-group-sm">
 								<input type="text" class="js-comment-search form-control"
 										placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"

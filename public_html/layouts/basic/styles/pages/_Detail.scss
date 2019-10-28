@@ -187,6 +187,25 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		margin: calculate-rem(-5px) calculate-rem(1px) calculate-rem(-5px) calculate-rem(-4px);
 		cursor: pointer;
 	}
+	$w-fab-button: calculate-rem(35px);
+	&__actions {
+		right: calculate-rem(15px);
+
+		&.q-fab--opened {
+			width: 100%;
+		}
+
+		.q-fab__actions {
+			right: $w-fab-button;
+			padding: 2px;
+			top: -3px;
+			border-radius: 3px;
+			height: fit-content;
+			max-width: calc(100% - #{$w-fab-button});
+			box-shadow: 0 0 3px 0px;
+			background: $white;
+		}
+	}
 
 	p {
 		@extend .mb-0;
