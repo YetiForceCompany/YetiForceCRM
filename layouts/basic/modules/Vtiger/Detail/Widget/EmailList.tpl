@@ -8,7 +8,7 @@
 		<div
 			class="c-detail-widget__header js-detail-widget-header collapsed c-detail-widget__header__container d-flex align-items-center py-1 flex-wrap"
 			data-js="container|value">
-			<div class="d-flex w-100 align-items-center">
+			<div class="c-detail-widget__header__container d-flex w-100 align-items-center">
 				<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
 				<div class="c-detail-widget__toggle collapsed" id="{$WIDGET_UID}" data-toggle="collapse"
 					data-target="#{$WIDGET_UID}-collapse" aria-expanded="false" aria-controls="{$WIDGET_UID}-collapse">

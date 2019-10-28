@@ -13,8 +13,10 @@
 					<span class="mdi mdi-chevron-up" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 					<span class="mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
 				</div>
-				<h5 class="mb-0 mb-0 mr-auto mr-sm-1 modCT_{$WIDGET['label']}">
-					{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
+				<div class="c-detail-widget__header__title">
+					<h5 class="mb-0 modCT_{$WIDGET['label']}">
+						{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
+				</div>
 				<div
 					class="c-detail-widget__actions q-fab z-fab row inline justify-center js-comment-actions__container ml-auto quasar-reset">
 					<button type="button" tabindex="0"
