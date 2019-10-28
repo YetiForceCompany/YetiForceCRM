@@ -84,7 +84,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-12 px-0 pb-1 row m-0">
+				<div class="col-12 px-0 {if $WIDGET['data']['checkbox'] neq '-'} pb-1 {/if} row m-0">
 					{if (isset($WIDGET['data']['filter']) && $WIDGET['data']['filter'] neq '-') AND (isset($WIDGET['data']['checkbox']) && $WIDGET['data']['checkbox'] neq '-')}
 						{assign var=span value='col-6'}
 					{else}
