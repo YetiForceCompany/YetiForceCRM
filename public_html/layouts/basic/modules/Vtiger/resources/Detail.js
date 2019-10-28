@@ -2625,6 +2625,7 @@ jQuery.Class(
 			thisInstance.registerMapsEvents(detailContentsHolder);
 			thisInstance.registerSocialMediaEvents(detailContentsHolder);
 			thisInstance.registerSubProducts(detailContentsHolder);
+			thisInstance.registerCollapsiblePanels(detailContentsHolder);
 			App.Fields.Date.register(detailContentsHolder);
 			App.Fields.DateTime.register(detailContentsHolder);
 			App.Fields.MultiImage.register(detailContentsHolder);
@@ -3112,7 +3113,6 @@ jQuery.Class(
 			this.registerEventForTotalRecordsCount();
 			this.registerProgress();
 			this.registerChat(detailViewContainer);
-			this.registerCollapsiblePanels(detailViewContainer);
 		}
 	}
 );

@@ -240,7 +240,7 @@ $.Class(
 					thisInstance.registerHelpInfo(quickCreateForm);
 				},
 				'',
-				{ showInIframe: true }
+				{ showInIframe: !!params.showInIframe }
 			);
 		},
 		isFreeDay: function(dayOfWeek) {
@@ -302,7 +302,7 @@ $.Class(
 						targetInstance.quickCreateSave(form).done(function(data) {
 							let modalContainer = form.closest('.modalContainer');
 							if (modalContainer.length) {
-								app.hideModalWindow(false, modalContainer[0].id);
+								app.hideModalWindow(false, modalContainer[0].id, params);
 							}
 							var parentModule = app.getModuleName();
 							var viewname = app.getViewName();
