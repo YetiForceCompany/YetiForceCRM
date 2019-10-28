@@ -1,5 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 $progress-dot-size: calc(100% - #{calculate-rem(6px)});
+
 .o-view-detail {
 	@include media-breakpoint-down(sm) {
 		font-size: 90%;
@@ -14,13 +15,16 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		display: inline;
 	}
 }
+
 .o-detail__record-img {
 	img {
 		height: calculate-rem(80px);
 	}
 }
+
 .moduleIcon:not(.o-detail__record-img) {
 	display: none;
+
 	@include media-breakpoint-up(md) {
 		display: inline-block;
 	}
@@ -165,15 +169,27 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 .c-detail-widget {
 	@extend .card;
 	margin-bottom: calculate-rem(8px);
+
 	@include media-breakpoint-down(sm) {
 		margin-bottom: calculate-rem(4px);
 	}
+
 	&__header {
 		@extend .card-header;
 		@extend .py-0, .px-0, .mx-2;
 		background: inherit;
 	}
 
+	&__header__container {
+		position: relative;
+		padding-right: 1rem;
+	}
+	&__header__title {
+		@include text-truncate;
+		h5 {
+			@include text-truncate;
+		}
+	}
 	&__content {
 		@extend .card-body;
 		padding: calculate-rem(8px) calculate-rem(8px) 0 calculate-rem(8px);
@@ -183,13 +199,18 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		@extend .table, .mb-0;
 		table-layout: fixed;
 	}
+
 	&__toggle {
 		font-size: calculate-rem(23px);
 		margin: calculate-rem(-5px) calculate-rem(1px) calculate-rem(-5px) calculate-rem(-4px);
 		cursor: pointer;
 	}
+
 	$w-fab-button: calculate-rem(35px);
+	$fab-padding: calculate-rem(4px);
+
 	&__actions {
+		position: absolute;
 		right: calculate-rem(15px);
 
 		&.q-fab--opened {
@@ -198,19 +219,24 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 		.q-fab__actions {
 			right: $w-fab-button;
-			padding: 2px;
+			padding: 0 $fab-padding $fab-padding $fab-padding;
 			top: -3px;
 			border-radius: 3px;
 			height: fit-content;
 			max-width: calc(100% - #{$w-fab-button});
 			box-shadow: 0 0 3px 0px;
 			background: $white;
+
+			& > * {
+				padding-top: $fab-padding;
+			}
 		}
 	}
 
 	p {
 		@extend .mb-0;
 	}
+
 	&--general-info {
 		label {
 			margin-bottom: 0;
@@ -223,6 +249,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		td {
 			vertical-align: middle !important;
 		}
+
 		.c-table__action--hover {
 			opacity: 0;
 
@@ -230,11 +257,13 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 			filter: alpha(opacity=0);
 		}
+
 		@include media-breakpoint-down(sm) {
 			.c-table__action--hover {
 				opacity: 1;
 			}
 		}
+
 		&:hover .c-table__action--hover {
 			opacity: 1;
 
@@ -363,6 +392,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	.commentsList > .liStyleNone > .commentDetails .comment-div {
 		width: 100%;
 	}
+
 	.commentDetails {
 		background: #fff;
 		width: 100%;
@@ -429,31 +459,40 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	.commentActionsDiv p {
 		margin-bottom: 0;
 	}
+
 	.q-fab__actions--left {
 		right: calculate-rem(39px);
 	}
+
 	.q-fab__actions--right {
 		left: calculate-rem(48px);
 	}
+
 	.q-fab__actions--left {
 		right: calculate-rem(42px);
 	}
+
 	@include media-breakpoint-down(md) {
 		.q-message-sent .q-message-text:last-child:before {
 			display: none;
 		}
+
 		.q-message-received .q-message-text:last-child:before {
 			display: none;
 		}
+
 		.q-message-text {
 			border-radius: 4px;
+
 			&:last-child {
 				min-height: unset;
 			}
 		}
+
 		.q-fab__actions--left {
 			right: calculate-rem(39px);
 		}
+
 		.q-fab__actions--right {
 			left: calculate-rem(43px);
 		}
@@ -532,6 +571,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	.details {
 		padding-bottom: calculate-rem(10px);
 		padding-top: calculate-rem(10px);
+
 		@include media-breakpoint-down(sm) {
 			padding-bottom: calculate-rem(4px);
 			padding-top: calculate-rem(4px);
@@ -582,6 +622,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		@include media-breakpoint-up(md) {
 			margin-right: calculate-rem(10px);
 		}
+
 		height: 100%;
 	}
 

@@ -1,38 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-//--- MIXINS ---//
-@mixin u-transition($settings) {
-	-webkit-transition: $settings;
-	-moz-transition: $settings;
-	-ms-transition: $settings;
-	-o-transition: $settings;
-	transition: $settings;
-}
-
-@mixin u-box-shadow($settings) {
-	-moz-box-shadow: $settings;
-	-webkit-box-shadow: $settings;
-	box-shadow: $settings;
-}
-
-@mixin u-column-count($number) {
-	-webkit-column-count: $number;
-	-moz-column-count: $number;
-	column-count: $number;
-}
-
-@mixin u-column-gap($number) {
-	-webkit-column-gap: $number;
-	-moz-column-gap: $number;
-	column-gap: $number;
-}
-
-@mixin u-column-width($number) {
-	-webkit-column-width: $number;
-	-moz-column-width: $number;
-	column-width: $number;
-}
-
 //--- TEXT ---//
 .u-text-small-bold {
 	@extend .small;
