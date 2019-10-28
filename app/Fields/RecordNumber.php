@@ -156,7 +156,6 @@ class RecordNumber extends \App\Base
 	 * Update number sequence.
 	 *
 	 * @param int    $reqNo
-	 * @param string $value
 	 * @param string $prefix
 	 *
 	 * @return bool|int

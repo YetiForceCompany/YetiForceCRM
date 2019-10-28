@@ -16,8 +16,7 @@ class Settings_Vtiger_CustomRecordNumberingAdvanced_View extends \App\Controller
 	 */
 	public function preProcessAjax(App\Request $request)
 	{
-		$this->qualifiedModuleName = $request->getModule(false);
-		$this->pageTitle = \App\Language::translate('LBL_ADVANCED_RECORD_NUMBERING', $this->qualifiedModuleName);
+		$this->pageTitle = \App\Language::translate('LBL_ADVANCED_RECORD_NUMBERING', $request->getModule(false));
 		parent::preProcessAjax($request);
 	}
 
@@ -37,7 +36,7 @@ class Settings_Vtiger_CustomRecordNumberingAdvanced_View extends \App\Controller
 		} else {
 			$defaultModuleModel = reset($supportedModules);
 		}
-		if ($moduleModel->getFieldByName($picklistName[1]) && !empty($picklistName[1])) {
+		if (!empty($picklistName[1]) && $moduleModel->getFieldByName($picklistName[1])) {
 			foreach (\App\Fields\Picklist::getValues($picklistName[1]) as $value) {
 				if (!empty($value['prefix'])) {
 					if (isset($picklistSequences[$value['prefix']])) {
