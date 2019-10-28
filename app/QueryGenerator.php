@@ -896,9 +896,6 @@ class QueryGenerator
 						$this->addJoin(['LEFT JOIN', 'vtiger_groups vtiger_groups' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_groups{$fieldName}.groupid"]);
 					}
 				}
-			} elseif ('owner' === $field->getFieldDataType() && 'userCreator' === $field->getFieldDataType()) {
-				$this->addJoin(['LEFT JOIN', 'vtiger_users vtiger_users' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_users{$fieldName}.id"]);
-				$this->addJoin(['LEFT JOIN', 'vtiger_groups vtiger_groups' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_groups{$fieldName}.groupid"]);
 			}
 			if (!isset($this->tablesList[$field->getTableName()])) {
 				$this->tablesList[$field->getTableName()] = $field->getTableName();

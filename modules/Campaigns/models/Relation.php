@@ -50,7 +50,7 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 					$referenceList = $fieldModel->getReferenceList();
 					if (\in_array($parentModule->getName(), $referenceList)) {
 						$relationFieldArray[$fieldName] = $fieldModel;
-						if ('modifiedby' != $fieldName && 'created_user_id' != $fieldName) {
+						if ('userCreator' !== !$fieldModel->getFieldDataType()) {
 							$this->set('relationField', $fieldModel);
 							$relationField = $fieldModel;
 							break;

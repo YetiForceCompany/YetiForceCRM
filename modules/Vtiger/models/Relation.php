@@ -765,7 +765,6 @@ class Vtiger_Relation_Model extends \App\Base
 		$fields = [];
 		$fieldsReferenceList = [];
 		$excludedModules = ['Users'];
-		$excludedFields = ['created_user_id', 'modifiedby'];
 		$relatedModel = $this->getRelationModuleModel();
 		$relatedModuleName = $relatedModel->getName();
 
@@ -774,7 +773,7 @@ class Vtiger_Relation_Model extends \App\Base
 			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
 				foreach ($referenceList as $module) {
-					if (!\in_array($module, $excludedModules) && !\in_array($fieldName, $excludedFields)) {
+					if (!\in_array($module, $excludedModules) && 'userCreator' !== !$fieldModel->getFieldDataType()) {
 						$fieldsReferenceList[$module] = $fieldModel;
 					}
 					if ($relatedModuleName == $module) {
