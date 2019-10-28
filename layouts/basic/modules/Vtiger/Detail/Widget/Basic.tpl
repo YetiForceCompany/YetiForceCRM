@@ -5,15 +5,15 @@
 	{assign var=RELATED_MODULE_NAME value=App\Module::getModuleName($WIDGET['data']['relatedmodule'])}
 	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}"
 		data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}">
-		<div class="c-detail-widget__header js-detail-widget-header collapsed border-bottom-0" data-js="container|value">
+		<div class="c-detail-widget__header js-detail-widget-header collapsed" data-js="container|value">
 			<input type="hidden" name="relatedModule" value="{$RELATED_MODULE_NAME}" />
-			<div class="d-flex align-items-center py-1 position-relative pr-3">
+			<div class="c-detail-widget__header__container d-flex align-items-center py-1">
 				<div class="c-detail-widget__toggle collapsed" id="{$WIDGET_UID}" data-toggle="collapse"
 					data-target="#{$WIDGET_UID}-collapse" aria-expanded="false" aria-controls="{$WIDGET_UID}-collapse">
 					<span class="mdi mdi-chevron-up" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 					<span class="mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
 				</div>
-				<div class="widgetTitle text-truncate">
+				<div class="c-detail-widget__header__title">
 					<h5 class="mb-0 text-truncate modCT_{$WIDGET['label']}">
 						{if $WIDGET['label'] eq ''}
 						{\App\Language::translate($RELATED_MODULE_NAME,$RELATED_MODULE_NAME)}
@@ -23,7 +23,7 @@
 					</h5>
 				</div>
 				<div
-					class="c-detail-widget__actions q-fab z-fab row inline justify-center js-comment-actions__container ml-auto quasar-reset position-absolute">
+					class="c-detail-widget__actions q-fab z-fab row inline justify-center js-comment-actions__container ml-auto quasar-reset">
 					<button type="button" tabindex="0"
 						class="js-comment-actions__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable u-font-size-10px q-ml-auto">
 						<div tabindex="-1" class="q-focus-helper"></div>
@@ -125,12 +125,11 @@
 						{/if}
 						{if isset($WIDGET['data']['checkbox']) && $WIDGET['data']['checkbox'] neq '-'}
 						{assign var=checkbox value=$WIDGET['data']['checkbox']}
-						<div class="ml-auto  btn-group btn-group-toggle" data-toggle="buttons">
+						<div class="btn-group btn-group-toggle" data-toggle="buttons">
 							<label class="btn btn-sm btn-outline-primary active">
 								<input class="js-switch" type="radio" name="options" id="option1" data-js="change"
 									data-on-val='{\App\Purifier::encodeHtml($WIDGET[' checkbox']['on'])}' data-urlparams="search_params"
-									autocomplete="off" checked> <span class="far fa-check-circle fa-lg"
-									title="{$WIDGET['checkboxLables']['on']}"></span>
+									autocomplete="off" checked> {$WIDGET['checkboxLables']['on']}
 							</label>
 							<label class="btn btn-sm btn-outline-primary">
 								<input class="js-switch" type="radio" name="options" id="option2" data-js="change"
@@ -144,9 +143,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse pt-0"
-			id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}"
-			data-js="container|value">
+		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse"
+			data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}" data-js="container|value">
 		</div>
 	</div>
 </div>
