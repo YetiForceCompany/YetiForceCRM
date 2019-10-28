@@ -123,14 +123,13 @@
 							{/if}
 							{if !empty($BUTTON_SHOW_PARENT) && !empty($COMMENT->get('parents'))}
 								<span class="view-parent-thread-block">
-							<button type="button"
-									class="btn btn-secondary js-view-parent-thread"
-									data-js="click" title="{\App\Language::translate('LBL_THREAD',$MODULE_NAME)}">
-								<span class="fas fa-share"></span>
-							</button>
-						</span>
+									<button type="button"
+											class="btn btn-secondary js-view-parent-thread"
+											data-js="click" title="{\App\Language::translate('LBL_THREAD',$MODULE_NAME)}">
+										<span class="fas fa-share"></span>
+									</button>
+								</span>
 							{/if}
-							</small></p>
 						</div>
 					</div>
 				</div>
