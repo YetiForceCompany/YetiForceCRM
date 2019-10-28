@@ -4,7 +4,7 @@
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{assign var=TRANSLATED_LABEL value=\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}
 	<div class="c-detail-widget c-detail-widget--general-info js-widget-general-info" data-js="edit/save">
-		<div class="c-detail-widget__header js-detail-widget-header collapsed">
+		<div class="c-detail-widget__header js-detail-widget-header collapsed border-bottom-0">
 			<div class="d-flex align-items-center py-1">
 				<div class="c-detail-widget__toggle collapsed" id="{$TRANSLATED_LABEL}" data-toggle="collapse" data-target="#{$TRANSLATED_LABEL}-collapse" aria-expanded="false" aria-controls="{$TRANSLATED_LABEL}-collapse">
 					<span class="mdi mdi-chevron-up" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
@@ -22,7 +22,7 @@
 				{/if}
 			</div>
 		</div>
-		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$TRANSLATED_LABEL}-collapse" data-storage-key="GeneralInfo" aria-labelledby="{$TRANSLATED_LABEL}" data-js="container|value">
+		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse pt-0" id="{$TRANSLATED_LABEL}-collapse" data-storage-key="GeneralInfo" aria-labelledby="{$TRANSLATED_LABEL}" data-js="container|value">
 			<table class="c-detail-widget__table">
 				<tbody>
 				{if !empty($SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS'])}
@@ -43,7 +43,7 @@
 											{/if}
 									</label>
 								</td>
-								<td class="fieldValue {$WIDTHTYPE}">
+								<td class="fieldValue {$WIDTHTYPE} u-w-60per">
 									<div class="d-flex align-items-center px-0">
 										<div class="value px-0 w-100"
 											 {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
