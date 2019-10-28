@@ -14,6 +14,17 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		display: inline;
 	}
 }
+.o-detail__record-img {
+	img {
+		height: calculate-rem(80px);
+	}
+}
+.moduleIcon:not(.o-detail__record-img) {
+	display: none;
+	@include media-breakpoint-up(md) {
+		display: inline-block;
+	}
+}
 
 .detailViewTable {
 	.fieldRow {
@@ -549,7 +560,9 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	}
 
 	.spanModuleIcon {
-		margin-right: calculate-rem(10px);
+		@include media-breakpoint-up(md) {
+			margin-right: calculate-rem(10px);
+		}
 		height: 100%;
 	}
 

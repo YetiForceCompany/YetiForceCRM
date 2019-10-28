@@ -14,11 +14,10 @@
 		<div class="u-min-w-md-70 w-100">
 			<div>
 				<div class="float-left spanModuleIcon moduleIcon{$MODULE_NAME}">
-					<span class="moduleIcon">
+					<span class="moduleIcon o-detail__record-img">
 						{assign var=IMAGE value=$RECORD->getImage()}
 						{if $IMAGE}
-							<img class="pushDown js-detail-hierarchy" data-js="click" title="{$RECORD->getName()}" height="80" align="left" src="{$IMAGE.url}">
-							<br/>
+							<img class="js-detail-hierarchy" data-js="click" title="{$RECORD->getName()}" src="{$IMAGE.url}">
 						{else}
 							<span class="pl-0 o-detail__icon js-detail__icon js-detail-hierarchy userIcon-{$MODULE}" data-js="click"></span>
 						{/if}
