@@ -10,7 +10,6 @@
 			<div class="c-detail-widget__toggle collapsed" id="{$TRANSLATED_LABEL}" data-toggle="collapse"
 				data-target="#{$TRANSLATED_LABEL}-collapse" aria-expanded="false" aria-controls="{$TRANSLATED_LABEL}-collapse">
 				<span class="mdi mdi-chevron-up" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
-				<span class="mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}"></span>
 			</div>
 			<div class="c-detail-widget__header__title">
 				<h5 class="mb-0" title="{$TRANSLATED_LABEL}">{$TRANSLATED_LABEL}</h5>
