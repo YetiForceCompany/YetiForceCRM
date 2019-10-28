@@ -23,7 +23,7 @@
 			</div>
 		</div>
 		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse pt-0" id="{$TRANSLATED_LABEL}-collapse" data-storage-key="GeneralInfo" aria-labelledby="{$TRANSLATED_LABEL}" data-js="container|value">
-			<table class="c-detail-widget__table">
+			<table class="c-detail-widget__table u-table-fixed">
 				<tbody>
 				{if !empty($SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS'])}
 					{foreach item=FIELD_MODEL key=FIELD_NAME from=$SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS']}

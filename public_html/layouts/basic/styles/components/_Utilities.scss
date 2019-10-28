@@ -304,6 +304,10 @@
 	width: 37% !important;
 }
 
+.u-w-40per {
+	width: 40% !important;
+}
+
 .u-w-fit {
 	width: fit-content !important;
 }
@@ -615,6 +619,9 @@ body:not(.desktop) {
 	opacity: 0.2;
 }
 
+.u-table-fixed {
+	table-layout: fixed;
+}
 //--- COLUMNS ---///
 .u-columns {
 	&__item {
@@ -686,7 +693,7 @@ body:not(.desktop) {
 	}
 
 	&:before {
-		content: "";
+		content: '';
 		display: block;
 	}
 }
