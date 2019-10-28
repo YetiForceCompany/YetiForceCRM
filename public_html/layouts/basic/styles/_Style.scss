@@ -106,12 +106,11 @@ hr {
 
 .blockProgressContainer.imageHolder {
 	padding: 40px 0;
-	background: radial-gradient(#fff 55%, transparent 70%);
 }
 
 .message {
 	font-weight: bold;
-	color: $primary;
+	color: $bg-navbar;
 }
 
 .modal .imageHolder .message {
@@ -119,8 +118,8 @@ hr {
 }
 
 .sk-cube-grid {
-	width: 45px;
-	height: 45px;
+	width: 70px;
+	height: 70px;
 	margin: 10px auto;
 }
 
@@ -158,7 +157,7 @@ hr {
 	.sk-cube {
 		width: 33%;
 		height: 33%;
-		background-color: $primary;
+		background-color: $bg-navbar;
 		float: left;
 		-webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
 		animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
