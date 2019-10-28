@@ -17,9 +17,8 @@
 							</label>
 							<div class="col-sm-6 controls">
 								<input type="text" class="module_name form-control"
-									   data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField], funcCall[Settings_Module_Manager_Js.validateModuleName]]"
-									   name="module_name" maxlength="{Settings_ModuleManager_Module_Model::$maxLengthModuleName}"
-									   placeholder="HelpDesk" required="true">
+									   data-validation-engine="validate[required, maxSize[{Settings_ModuleManager_Module_Model::$maxLengthModuleName}], funcCall[Settings_Module_Manager_Js.validateField], funcCall[Settings_Module_Manager_Js.validateModuleName]]"
+									   name="module_name" placeholder="HelpDesk" required="true">
 							</div>
 						</div>
 						<div class="form-group row">
@@ -28,8 +27,7 @@
 							</label>
 							<div class="col-sm-6 controls">
 								<input type="text" class="module_name form-control"
-									   data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]"
-										 maxlength="{Settings_ModuleManager_Module_Model::$maxLengthModuleLabel}"
+									   data-validation-engine="validate[required, maxSize[{Settings_ModuleManager_Module_Model::$maxLengthModuleLabel}], funcCall[Settings_Module_Manager_Js.validateField]]"
 									   name="module_label" placeholder="Help Desk" required="true">
 							</div>
 						</div>
@@ -39,9 +37,8 @@
 							</label>
 							<div class="col-sm-6 controls">
 								<input type="text" class="entityfieldname form-control"
-									   data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]"
-									   name="entityfieldname" maxlength="{Settings_ModuleManager_Module_Model::$maxLengthFieldName}"
-									   placeholder="{\App\Language::translate('LBL_SAMPLE_FIELD_NAME', $QUALIFIED_MODULE)}"
+									   data-validation-engine="validate[required, maxSize[{Settings_ModuleManager_Module_Model::$maxLengthFieldName}], funcCall[Settings_Module_Manager_Js.validateField]]"
+									   name="entityfieldname" placeholder="{\App\Language::translate('LBL_SAMPLE_FIELD_NAME', $QUALIFIED_MODULE)}"
 									   required="true">
 							</div>
 						</div>
@@ -51,9 +48,8 @@
 							</label>
 							<div class="col-sm-6 controls">
 								<input type="text" class="entityfieldlabel form-control"
-									   data-validation-engine="validate[required, funcCall[Settings_Module_Manager_Js.validateField]]"
-									   name="entityfieldlabel" maxlength="{Settings_ModuleManager_Module_Model::$maxLengthFieldLabel}"
-									   placeholder="{\App\Language::translate('LBL_SAMPLE_LABEL', $QUALIFIED_MODULE)}"
+									   data-validation-engine="validate[required, maxSize[{Settings_ModuleManager_Module_Model::$maxLengthFieldLabel}], funcCall[Settings_Module_Manager_Js.validateField]]"
+									   name="entityfieldlabel" placeholder="{\App\Language::translate('LBL_SAMPLE_LABEL', $QUALIFIED_MODULE)}"
 									   required="true">
 							</div>
 						</div>
