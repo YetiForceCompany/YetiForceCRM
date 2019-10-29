@@ -16,39 +16,28 @@
 					<h5 class="mb-0 modCT_{$WIDGET['label']}" title="{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}">
 						{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h5>
 				</div>
-				<div
-					class="c-detail-widget__actions q-fab z-fab row inline justify-center js-comment-actions__container ml-auto quasar-reset">
-					<button type="button" tabindex="0"
-						class="js-comment-actions__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable u-font-size-10px q-ml-auto">
-						<div tabindex="-1" class="q-focus-helper"></div>
-						<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
-							<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
-						</div>
-					</button>
-					<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions">
-						<div class="ml-auto btn-group flex-wrap">
-							{assign var="DEFAULT_MODULE" value='Products'}
-							{if isset($WIDGET['data']['filter'])}
-							{assign var="DEFAULT_MODULE" value=$WIDGET['data']['filter']}
-							{/if}
-							{foreach name=BTN item=COUNT key=MODULE_DATA
-							from=Products_SummaryWidget_Model::getModulesAndCount($RECORD)}
-							<label
-								class="btn btn-sm btn-light mb-0 js-switch__btn u-cursor-pointer {if $DEFAULT_MODULE eq $MODULE_DATA}active{/if}"
-								title="{App\Language::translate($MODULE_DATA,$MODULE_DATA)}" data-js="class: active">
-								<input type="radio" name="mod" class="js-switch" value="{$MODULE_DATA}" data-off-val="{$MODULE_DATA}"
-									data-urlparams="mod" data-js="change" {if $DEFAULT_MODULE eq $MODULE_DATA} checked="checked" {/if}>
-									<span class="mx-1 userIcon-{$MODULE_DATA}"></span>
-								<span class="badge">{$COUNT}</span>
-							</label>
-							{/foreach}
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
-		<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse"
-			data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}" data-js="container|value">
+		<div class="c-detail-widget__content collapse multi-collapse d-flex flex-column" id="{$WIDGET_UID}-collapse"
+			data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}">
+			<div class="btn-group flex-wrap mx-auto mb-2">
+				{assign var="DEFAULT_MODULE" value='Products'}
+				{if isset($WIDGET['data']['filter'])}
+				{assign var="DEFAULT_MODULE" value=$WIDGET['data']['filter']}
+				{/if}
+				{foreach name=BTN item=COUNT key=MODULE_DATA
+				from=Products_SummaryWidget_Model::getModulesAndCount($RECORD)}
+				<label
+					class="btn btn-sm btn-light mb-0 js-switch__btn u-cursor-pointer {if $DEFAULT_MODULE eq $MODULE_DATA}active{/if}"
+					title="{App\Language::translate($MODULE_DATA,$MODULE_DATA)}" data-js="class: active">
+					<input type="radio" name="mod" class="js-switch" value="{$MODULE_DATA}" data-off-val="{$MODULE_DATA}"
+						data-urlparams="mod" data-js="change" {if $DEFAULT_MODULE eq $MODULE_DATA} checked="checked" {/if}> <span
+						class="mx-1 userIcon-{$MODULE_DATA}"></span>
+					<span class="badge">{$COUNT}</span>
+				</label>
+				{/foreach}
+			</div>
+			<div class="js-detail-widget-content" data-js="container|value"></div>
 		</div>
 	</div>
 </div>
