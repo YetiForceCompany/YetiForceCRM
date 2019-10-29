@@ -62,7 +62,7 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 		if (!\is_array($value)) {
 			$value = [$value];
 		}
-		$value = ',' . implode(',', $value) . ',';
+		$value = implode(',', $value);
 		return \App\Purifier::decodeHtml($value);
 	}
 
