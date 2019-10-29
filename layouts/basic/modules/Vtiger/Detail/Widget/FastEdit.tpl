@@ -15,7 +15,7 @@
 				</div>
 			{/if}
 			{assign var=MODULEINSTANCE value=vtlib\Module::getInstance($MODULE_NAME)}
-			<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}"  aria-labelledby="{$WIDGET_UID}" data-js="container|value">
+			<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse pt-0" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}"  aria-labelledby="{$WIDGET_UID}" data-js="container|value">
 				{if !$WIDGET['data']['FastEdit']}
 					{\App\Language::translate('LBL_RECORDS_NO_FOUND',$MODULE_NAME)}
 				{else}
@@ -25,10 +25,12 @@
 						<div class="row mb-1 editField"
 							 data-prevvalue="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}"
 							 data-fieldname="q_{$FIELD_MODEL->getFieldName()}">
-							<div class="col-md-5 m-0">
-								<h4>{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}</h4>
+							<div class="d-flex align-items-center m-0 col-lg-4 col-md-12 col-sm-4">
+								<label class="font-weight-bold mb-0">
+									{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}
+								</label>
 							</div>
-							<div class="col-md-7">
+							<div class="col-lg-8 col-md-12 col-sm-8">
 								{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 								{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 								{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
