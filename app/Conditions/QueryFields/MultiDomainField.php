@@ -1,5 +1,4 @@
 <?php
-
 /**
  * MultiDomain Query Field Class.
  *
@@ -24,6 +23,6 @@ class MultiDomainField extends BaseField
 	 */
 	public function operatorA()
 	{
-		return ['like', $this->getColumnName(), ",{$this->getValue()},"];
+		return $this->operatorC();
 	}
 }
