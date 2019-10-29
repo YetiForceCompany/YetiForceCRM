@@ -24,7 +24,7 @@
 			class=""
 		{/if}
 	{/function}
-	<div>
+	<div class="pt-md-0 pt-1">
 		<div class="o-breadcrumb widget_header mb-2 d-flex px-2 row">
 			<div class="o-breadcrumb__container flex-md-wrap">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}

@@ -12,7 +12,7 @@
 {strip}
 {include file=\App\Layout::getTemplatePath('PageHeader.tpl', $MODULE_NAME)}
 <div class="bodyContents">
-	<div class="mainContainer">
+	<div class="mainContainer pt-md-0 pt-1">
 		<div class="o-breadcrumb widget_header d-flex justify-content-between align-items-center px-2 flex-column flex-sm-row" data-js="height">
 			<div class="mr-auto">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
