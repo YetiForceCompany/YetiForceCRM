@@ -1270,14 +1270,6 @@ CREATE TABLE `u_yf_approvals` (
   CONSTRAINT `fk_1_u_yf_approvalsapprovalsid` FOREIGN KEY (`approvalsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `u_yf_approvalscf` */
-
-CREATE TABLE `u_yf_approvalscf` (
-  `approvalsid` int(10) NOT NULL,
-  PRIMARY KEY (`approvalsid`),
-  CONSTRAINT `fk_1_u_yf_approvalscfapprovalsid` FOREIGN KEY (`approvalsid`) REFERENCES `u_yf_approvals` (`approvalsid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `u_yf_approvalsregister` */
 
 CREATE TABLE `u_yf_approvalsregister` (
@@ -1292,14 +1284,6 @@ CREATE TABLE `u_yf_approvalsregister` (
   KEY `u_yf_approvalsregister_approvalsid_idx` (`approvalsid`),
   KEY `u_yf_approvalsregister_contactid_idx` (`contactid`),
   CONSTRAINT `fk_1_u_yf_approvalsregisterapprovalsregisterid` FOREIGN KEY (`approvalsregisterid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `u_yf_approvalsregistercf` */
-
-CREATE TABLE `u_yf_approvalsregistercf` (
-  `approvalsregisterid` int(10) NOT NULL,
-  PRIMARY KEY (`approvalsregisterid`),
-  CONSTRAINT `fk_1_u_yf_approvalsregistercfapprovalsregisterid` FOREIGN KEY (`approvalsregisterid`) REFERENCES `u_yf_approvalsregister` (`approvalsregisterid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_auditregister` */
