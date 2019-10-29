@@ -41,7 +41,7 @@
     "findit": "^2.0.0",
     "gulp": "^4.0.2",
     "gulp-stylus": "^2.7.0",
-    "postcss": "^7.0.18",
+    "postcss": "^7.0.21",
     "rollup": "^1.23.1",
     "rollup-plugin-alias": "^2.0.1",
     "rollup-plugin-babel": "^4.3.3",
