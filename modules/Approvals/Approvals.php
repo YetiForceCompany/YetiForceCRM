@@ -1,16 +1,18 @@
 <?php
-/* +**********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * ********************************************************************************** */
-
+/**
+ * Main module file.
+ *
+ * @package CRMEntity
+ *
+ * @copyright YetiForce Sp. z o.o.
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
 include_once 'modules/Vtiger/CRMEntity.php';
 
+/**
+ * Approvals class.
+ */
 class Approvals extends Vtiger_CRMEntity
 {
 	public $table_name = 'u_yf_approvals';
@@ -19,20 +21,19 @@ class Approvals extends Vtiger_CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = ['u_yf_approvalscf', 'approvalsid'];
+	public $customFieldTable = [];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = ['vtiger_crmentity', 'u_yf_approvals', 'u_yf_approvalscf'];
+	public $tab_name = ['vtiger_crmentity', 'u_yf_approvals'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
-		'u_yf_approvals' => 'approvalsid',
-		'u_yf_approvalscf' => 'approvalsid',
+		'u_yf_approvals' => 'approvalsid'
 	];
 
 	/**
@@ -76,16 +77,16 @@ class Approvals extends Vtiger_CRMEntity
 	/**
 	 * Invoked when special actions are performed on the module.
 	 *
-	 * @param string Module name
-	 * @param string Event Type
+	 * @param string $moduleName
+	 * @param string $eventType
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
-		} elseif ($eventType === 'module.disabled') {
-		} elseif ($eventType === 'module.preuninstall') {
-		} elseif ($eventType === 'module.preupdate') {
-		} elseif ($eventType === 'module.postupdate') {
+		if ('module.postinstall' === $eventType) {
+		} elseif ('module.disabled' === $eventType) {
+		} elseif ('module.preuninstall' === $eventType) {
+		} elseif ('module.preupdate' === $eventType) {
+		} elseif ('module.postupdate' === $eventType) {
 		}
 	}
 }
