@@ -36,3 +36,42 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+@mixin c-detail-widget__actions($breakpoint-down, $breakpoint-up) {
+	.c-detail-widget__actions {
+		@include media-breakpoint-down($breakpoint-down) {
+			position: absolute;
+			right: calculate-rem(15px);
+			$w-fab-button: calculate-rem(35px);
+			$fab-padding: calculate-rem(4px);
+			&.q-fab--opened {
+				width: 100%;
+			}
+			.q-fab__actions {
+				right: $w-fab-button;
+				padding: 0 0 $fab-padding $fab-padding;
+				top: -3px;
+				border-radius: 3px;
+				height: fit-content;
+				max-width: calc(100% - #{$w-fab-button});
+				box-shadow: 0 0 3px 0px;
+				background: $white;
+
+				& > * {
+					margin-top: $fab-padding;
+					margin-right: $fab-padding;
+				}
+			}
+		}
+		@include media-breakpoint-up($breakpoint-up) {
+			.q-btn {
+				display: none;
+			}
+			.q-fab__actions {
+				position: static;
+				opacity: 1;
+				transform: none;
+				pointer-events: unset;
+			}
+		}
+	}
+}

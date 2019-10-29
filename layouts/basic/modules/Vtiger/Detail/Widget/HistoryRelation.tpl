@@ -27,32 +27,25 @@
 						</div>
 					</button>
 					<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions">
-						<div class="ml-auto w-100 u-max-w-md-60 input-group-sm d-sm-block d-none">
-							<select class="select2 relatedHistoryTypes" multiple>
-								{foreach from=Vtiger_HistoryRelation_Widget::getActions() item=ACTIONS}
-								<option selected value="{$ACTIONS}">{\App\Language::translate($ACTIONS, $ACTIONS)}</option>
-								{/foreach}
-							</select>
-						</div>
 						<button type="button" title="{\App\Language::translate('LBL_FULLSCREEN')}"
 							data-title="{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}"
 							class="widgetFullscreen btn btn-sm btn-light ml-1">
 							<span class="fas fa-expand-arrows-alt"></span>
 						</button>
-						<div class="w-100 u-max-w-md-60 input-group-sm d-sm-none d-block">
-							<select class="select2 relatedHistoryTypes" multiple>
-								{foreach from=Vtiger_HistoryRelation_Widget::getActions() item=ACTIONS}
-								<option selected value="{$ACTIONS}">{\App\Language::translate($ACTIONS, $ACTIONS)}</option>
-								{/foreach}
-							</select>
-						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="c-detail-widget__content widgetContent js-detail-widget-content collapse multi-collapse pt-1"
-			id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}"
-			data-js="container|value">
+		<div class="c-detail-widget__content collapse multi-collapse pt-1" id="{$WIDGET_UID}-collapse"
+			data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}" data-js="container|value">
+			<div class="w-100 mb-2 input-group-sm">
+				<select class="select2 relatedHistoryTypes" multiple>
+					{foreach from=Vtiger_HistoryRelation_Widget::getActions() item=ACTIONS}
+					<option selected value="{$ACTIONS}">{\App\Language::translate($ACTIONS, $ACTIONS)}</option>
+					{/foreach}
+				</select>
+			</div>
+			<div class="js-detail-widget-content widgetContent"></div>
 		</div>
 	</div>
 </div>
