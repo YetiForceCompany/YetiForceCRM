@@ -344,7 +344,10 @@ class Vtiger_Field_Model extends vtlib\Field
 						$fieldDataType = 'serverAccess';
 						break;
 					case 319:
-					$fieldDataType = 'multiDomain';
+						$fieldDataType = 'multiDomain';
+						break;
+					case 320:
+						$fieldDataType = 'multiListFields';
 						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
