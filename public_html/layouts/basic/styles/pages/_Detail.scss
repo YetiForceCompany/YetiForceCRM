@@ -206,34 +206,6 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		cursor: pointer;
 	}
 
-	$w-fab-button: calculate-rem(35px);
-	$fab-padding: calculate-rem(4px);
-
-	&__actions {
-		position: absolute;
-		right: calculate-rem(15px);
-
-		&.q-fab--opened {
-			width: 100%;
-		}
-
-		.q-fab__actions {
-			right: $w-fab-button;
-			padding: 0 0 $fab-padding $fab-padding;
-			top: -3px;
-			border-radius: 3px;
-			height: fit-content;
-			max-width: calc(100% - #{$w-fab-button});
-			box-shadow: 0 0 3px 0px;
-			background: $white;
-
-			& > * {
-				margin-top: $fab-padding;
-				margin-right: $fab-padding;
-			}
-		}
-	}
-
 	p {
 		@extend .mb-0;
 	}
@@ -242,6 +214,17 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		label {
 			margin-bottom: 0;
 		}
+	}
+}
+.o-detail-widgets {
+	& > .col-md-4 {
+		@include c-detail-widget__actions(lg, xl);
+	}
+	& > .col-md-6 {
+		@include c-detail-widget__actions(md, lg);
+	}
+	& > .col-md-12 {
+		@include c-detail-widget__actions(sm, md);
 	}
 }
 
