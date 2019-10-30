@@ -1,5 +1,4 @@
 <?php
-
 /**
  * MultiDomain Query Field Class.
  *
@@ -18,12 +17,20 @@ namespace App\Conditions\QueryFields;
 class MultiDomainField extends BaseField
 {
 	/**
+	 * {@inheritdoc}
+	 */
+	public function getValue()
+	{
+		return trim($this->value, ',');
+	}
+
+	/**
 	 * Contains operator.
 	 *
 	 * @return array
 	 */
 	public function operatorA()
 	{
-		return ['like', $this->getColumnName(), ",{$this->getValue()},"];
+		return $this->operatorC();
 	}
 }
