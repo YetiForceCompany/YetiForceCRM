@@ -87,7 +87,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="c-detail-widget__content collapse multi-collapse" id="{$WIDGET_UID}-collapse"
+		<div class="c-detail-widget__content js-detail-widget-collapse collapse multi-collapse" id="{$WIDGET_UID}-collapse"
 			data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}">
 			<div class="row no-gutters mb-2">
 				<div class="col-6 pr-2">

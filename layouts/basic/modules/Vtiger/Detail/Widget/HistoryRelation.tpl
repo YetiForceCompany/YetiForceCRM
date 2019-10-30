@@ -36,7 +36,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="c-detail-widget__content collapse multi-collapse pt-1" id="{$WIDGET_UID}-collapse"
+		<div class="c-detail-widget__content js-detail-widget-collapse collapse multi-collapse pt-1" id="{$WIDGET_UID}-collapse"
 			data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}" data-js="container|value">
 			<div class="w-100 mb-2 input-group-sm">
 				<select class="select2 relatedHistoryTypes" multiple>

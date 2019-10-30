@@ -16,7 +16,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="c-detail-widget__content js-detail-widget-content collapse multi-collapse pt-1"
+	<div class="c-detail-widget__content js-detail-widget-collapse js-detail-widget-content collapse multi-collapse pt-1"
 		id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}"
 		data-js="container|value">
 		<div class="mt-0 mx-0 moreContent">

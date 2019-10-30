@@ -3049,7 +3049,7 @@ jQuery.Class(
 			});
 		},
 		registerCollapsiblePanels(detailViewContainer) {
-			const panels = detailViewContainer.find('.js-detail-widget-content');
+			const panels = detailViewContainer.find('.js-detail-widget-collapse');
 			const storageName = `yf-${app.getModuleName()}-detail-widgets`;
 			if (Quasar.plugins.LocalStorage.has(storageName)) {
 				this.setPanels({ panels, storageName });
