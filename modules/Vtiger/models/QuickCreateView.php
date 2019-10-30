@@ -56,7 +56,7 @@ class Vtiger_QuickCreateView_Model extends \App\Base
 			'showLabel' => 1,
 			'linkicon' => 'fas fa-edit',
 			'linkdata' => ['js' => 'click', 'url' => $this->getModule()->getCreateRecordUrl()],
-			'linkclass' => 'btn-light js-full-editlink fontBold u-text-ellipsis mb-2 mb-md-0 col-12'
+			'linkclass' => 'js-popover-tooltip btn-light js-full-editlink fontBold u-text-ellipsis mb-md-0'
 		]);
 		return $links;
 	}

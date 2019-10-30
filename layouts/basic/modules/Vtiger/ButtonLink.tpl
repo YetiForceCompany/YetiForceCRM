@@ -18,14 +18,14 @@
 		{assign var="BTN_MODULE" value=$LINK->getRelatedModuleName($MODULE)}
 		{if $LINK->get('linkhref')}<a role="button"{else}
 		<button type="button"{/if} {if !$LINK->isActive()}{' '}disabled{/if}{' '}{if isset($TABINDEX)}tabindex="{$TABINDEX}"{/if}
-				class="{if isset($BTN_CLASS)}$BTN_CLASS {/if}btn {if $LINK->getClassName() neq ''}{if $LINK->getClassName()|strrpos:"btn-" === false}btn-outline-dark {/if}{$LINK->getClassName()}{else}btn-outline-dark{/if}  {if $LINK->get('modalView')}showModal{/if} {$MODULE}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} js-popover-tooltip"
+				class="{if isset($BTN_CLASS)}{$BTN_CLASS}{/if}btn {if $LINK->getClassName() neq ''}{if $LINK->getClassName()|strrpos:"btn-" === false}btn-outline-dark {/if}{$LINK->getClassName()}{else}btn-outline-dark{/if}  {if $LINK->get('modalView')}showModal{/if} {$MODULE}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)} {if $LABEL neq '' && $LINK->get('showLabel') != '1'}"
 				data-js="popover{/if}"
 				{if $LINK->get('linkdata') neq '' && is_array($LINK->get('linkdata'))}
 					{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
 						{' '}data-{$NAME}="{$DATA}"
 					{/foreach}
 				{/if}
-				{if $LABEL neq '' && $LINK->get('showLabel') != 1}{' '}
+				{if ($LABEL neq '' && $LINK->get('showLabel') != 1) || (isset($POPOVER_ACTIVE) && $POPOVER_ACTIVE == 1)}{' '}
 					data-placement="{if $BUTTON_VIEW|strrpos:'listView'!==false}top{else}bottom{/if}"{' '}
 					data-content="{\App\Language::translate($LABEL, $BTN_MODULE)}"
 					data-target="focus hover"
@@ -60,7 +60,7 @@
 				{/if}
 		>
 			{if !empty($LINK->get('linkicon'))}
-				<span class="{$LINK->get('linkicon')} {if !empty($LINK->get('linkimg')) || !empty($LINK->get('linkicon')) && $LINK->get('showLabel') neq null && $BUTTON_VIEW neq 'detailViewBasic'}mr-1{/if}"></span>
+				<span class="{$LINK->get('linkicon')} {if !empty($LINK->get('linkimg')) || !empty($LINK->get('linkicon')) && $LINK->get('showLabel') neq null && $BUTTON_VIEW neq 'detailViewBasic' && !isset($BREAKPOINT)}mr-1{/if}"></span>
 			{/if}
 			{if !empty($LINK->get('linksecondicon'))}
 				<span class="{$LINK->get('linksecondicon')} {if !empty($LINK->get('linkimg')) || !empty($LINK->get('linksecondicon')) && $LINK->get('showLabel') neq null && $BUTTON_VIEW neq 'detailViewBasic'}mr-1{/if}"></span>
@@ -71,7 +71,7 @@
 			{if !empty($LABEL) && !empty($CLASS) && $CLASS == 'c-btn-link--responsive'}
 				<span class="d-{if isset($BREAKPOINT)}{$BREAKPOINT}{else}sm{/if}-none ml-1">{\App\Language::translate($LABEL, $BTN_MODULE)}</span>
 			{elseif !empty($LABEL) && $LINK->get('showLabel') == 1}
-				{\App\Language::translate($LABEL, $BTN_MODULE)}
+				<span class="d-{if isset($BREAKPOINT)}{$BREAKPOINT}{/if}-inline d-none ml-1">{\App\Language::translate($LABEL, $BTN_MODULE)}</span>
 			{/if}
 			{if $LINK->get('linkhref')}</a>{else}</button>{/if}
 	</div>
