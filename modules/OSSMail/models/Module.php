@@ -65,7 +65,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				$return['to'] = $email;
 			}
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			if (!\in_array($moduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3)))) || 'Campaigns' === $moduleName) {
+			if (!\in_array($moduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(0), \App\ModuleHierarchy::getModulesByLevel(3)))) || 'Campaigns' === $moduleName) {
 				$subject = '';
 				if ('new' === $type || 'Campaigns' === $moduleName) {
 					$return['title'] = $recordModel->getName();
@@ -150,7 +150,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$url .= '?';
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$moduleModel = $recordModel->getModule();
-			if (!\in_array($moduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))))) {
+			if (!\in_array($moduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(0), \App\ModuleHierarchy::getModulesByLevel(3))))) {
 				if ($fieldName = $moduleModel->getSequenceNumberFieldName()) {
 					$subject = "subject=[$fieldName] ";
 					if ('new' == $type) {
@@ -206,7 +206,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if (!empty($srecord) && !empty($smoduleName)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($srecord);
 			$moduleModel = $recordModel->getModule();
-			if (!\in_array($smoduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))))) {
+			if (!\in_array($smoduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(0), \App\ModuleHierarchy::getModulesByLevel(3))))) {
 				$fieldName = $moduleModel->getSequenceNumberFieldName();
 				if ($fieldName) {
 					$subject = "[$fieldName] $subject";
