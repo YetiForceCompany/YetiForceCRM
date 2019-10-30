@@ -1280,6 +1280,7 @@ CREATE TABLE `u_yf_approvalsregister` (
   `contactid` int(11) unsigned DEFAULT 0,
   `approvals_register_status` varchar(255) DEFAULT '',
   `approvals_register_type` varchar(255) DEFAULT '',
+  `registration_date` datetime DEFAULT NULL,
   PRIMARY KEY (`approvalsregisterid`),
   KEY `u_yf_approvalsregister_approvalsid_idx` (`approvalsid`),
   KEY `u_yf_approvalsregister_contactid_idx` (`contactid`),
@@ -5532,7 +5533,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`eventhandler_id`),
   KEY `event_name_class` (`event_name`,`handler_class`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_expectedresponse` */
 
@@ -5658,7 +5659,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2898 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2899 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
