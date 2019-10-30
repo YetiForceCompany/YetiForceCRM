@@ -2043,7 +2043,10 @@ var app = (window.app = {
 			'.js-popover-tooltip, .js-popover-tooltip--record, .js-popover-tooltip--ellipsis, [data-field-type="reference"], [data-field-type="multireference"]',
 			e => {
 				let currentTarget = $(e.currentTarget);
-				if (currentTarget.find('.js-popover-tooltip--record').length) {
+				if (
+					currentTarget.find('.js-popover-tooltip--record').length ||
+					$(window).width() > app.breakpoints[currentTarget.data('popover-breakpoint')]
+				) {
 					return;
 				}
 				if (!currentTarget.hasClass('popover-triggered')) {
