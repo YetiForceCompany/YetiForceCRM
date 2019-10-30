@@ -70,8 +70,8 @@ class Vtiger_MultiListFields_UIType extends Vtiger_Multipicklist_UIType
 			$fieldData = array_map('trim', $fieldData);
 			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldData[0]);
 			$moduleName = $fieldModel->getModuleName();
-			if ($moduleModel) {
-				$translatedValues[] = App\Language::translate($moduleModel, $moduleModel) . ' - ' . App\Language::translate($fieldModel->getFieldLabel(), $moduleModel);
+			if ($moduleName) {
+				$translatedValues[] = App\Language::translate($moduleName, $moduleName) . ' - ' . App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 			}
 		}
 		return \App\Purifier::encodeHtml(implode(', ', $translatedValues));
