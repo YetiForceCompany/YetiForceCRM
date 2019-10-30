@@ -123,14 +123,13 @@
 							{/if}
 							{if !empty($BUTTON_SHOW_PARENT) && !empty($COMMENT->get('parents'))}
 								<span class="view-parent-thread-block">
-							<button type="button"
-									class="btn btn-secondary js-view-parent-thread"
-									data-js="click" title="{\App\Language::translate('LBL_THREAD',$MODULE_NAME)}">
-								<span class="fas fa-share"></span>
-							</button>
-						</span>
+									<button type="button"
+											class="btn btn-secondary js-view-parent-thread"
+											data-js="click" title="{\App\Language::translate('LBL_THREAD',$MODULE_NAME)}">
+										<span class="fas fa-share"></span>
+									</button>
+								</span>
 							{/if}
-							</small></p>
 						</div>
 					</div>
 				</div>
@@ -144,7 +143,6 @@
 					<p class="d-flex flex-wrap small">
 						<span>
 							[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] :
-
 							<span name="editReason" class="js-edit-reason-span ml-1" data-js="text">
 								{nl2br($REASON_TO_EDIT)}
 							</span>

@@ -104,16 +104,11 @@ body:not(.desktop) {
 .c-detail-widget .c-detail-widget__header {
 	.mdi-chevron-up {
 		display: inline-block;
-	}
-	.mdi-chevron-down {
-		display: none;
+		@include u-transition(transform 0.5s ease);
 	}
 	&.collapsed {
 		.mdi-chevron-up {
-			display: none;
-		}
-		.mdi-chevron-down {
-			display: inline-block;
+			transform: rotate(180deg);
 		}
 		border-bottom: none;
 	}
