@@ -5,7 +5,7 @@
 <div class="tpl-Detail-Widget-Basic c-detail-widget js-detail-widget" data-js="container">
 	{assign var=RELATED_MODULE_NAME value=App\Module::getModuleName($WIDGET['data']['relatedmodule'])}
 	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}">
-		<div class="c-detail-widget__header js-detail-widget-header collapsed" data-js="container|value">
+		<div class="c-detail-widget__header js-detail-widget-header collapsed border-bottom-0" data-js="container|value">
 			<input type="hidden" name="relatedModule" value="{$RELATED_MODULE_NAME}" />
 			<div class="c-detail-widget__header__container d-flex align-items-center py-1">
 				<div class="c-detail-widget__toggle collapsed" id="{$WIDGET_UID}" data-toggle="collapse" data-target="#{$WIDGET_UID}-collapse" aria-expanded="false" aria-controls="{$WIDGET_UID}-collapse">
@@ -82,7 +82,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="c-detail-widget__content js-detail-widget-collapse collapse multi-collapse" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}">
+		<div class="c-detail-widget__content js-detail-widget-collapse collapse multi-collapse pt-0" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}">
 				<div class="{if $WIDGET['data']['checkbox'] neq '-'} pb-2 {/if} d-flex m-0">
 				{if (isset($WIDGET['data']['filter']) && $WIDGET['data']['filter'] neq '-') AND (isset($WIDGET['data']['checkbox']) && $WIDGET['data']['checkbox'] neq '-')}
 					{assign var=span value='col-6'}

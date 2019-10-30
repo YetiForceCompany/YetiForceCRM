@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="d-flex flex-wrap flex-md-nowrap px-3 w-100">
+	<div class="d-flex flex-wrap flex-md-nowrap px-md-3 px-1 w-100">
 		<div class="u-min-w-md-70 w-100">
 			<div class="moduleIcon">
 				<span class="o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
