@@ -158,3 +158,9 @@ label.btn[class*="btn-outline-"] {
 		}
 	}
 }
+
+.list-group-item-action {
+	a:hover {
+		color: unset;
+	}
+}
