@@ -42,7 +42,11 @@ class PackageImport extends PackageExport
 	 */
 	public function __parseManifestFile(\App\Zip $zip)
 	{
-		$this->_modulexml = simplexml_load_string($zip->getFromName('manifest.xml'));
+		if ($content = $zip->getFromName('manifest.xml')) {
+			$this->_modulexml = simplexml_load_string($content);
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -269,61 +273,51 @@ class PackageImport extends PackageExport
 	 */
 	public function checkZip($zipfile)
 	{
-		$manifestxml_found = $languagefile_found = $layoutfile_found = $updatefile_found = $extensionfile_found = $moduleVersionFound = $fontfile_found = false;
-		$modulename = $language_modulename = null;
+		$manifestFound = $languagefile_found = $layoutfile_found = $updatefile_found = $extensionfile_found = $moduleVersionFound = $fontfile_found = false;
+		$moduleName = null;
 		$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
-		$this->__parseManifestFile($zip);
+		if ($this->__parseManifestFile($zip)) {
+			$manifestFound = true;
+			$moduleName = (string) $this->_modulexml->name;
+			$isModuleBundle = (string) $this->_modulexml->modulebundle;
+			if ('true' === $isModuleBundle && (!empty($this->_modulexml)) &&
+					(!empty($this->_modulexml->dependencies)) &&
+					(!empty($this->_modulexml->dependencies->vtiger_version))) {
+				$languagefile_found = true;
+			}
+			// Do we need to check the zip further?
+			if ($this->isLanguageType()) {
+				$languagefile_found = true; // No need to search for module language file.
+			}
+			if ($this->isLayoutType()) {
+				$layoutfile_found = true; // No need to search for module language file.
+			}
+			if ($this->isExtensionType()) {
+				$extensionfile_found = true; // No need to search for module language file.
+			}
+			if ($this->isUpdateType()) {
+				$updatefile_found = true; // No need to search for module language file.
+			}
+			if ($this->isFontType()) {
+				$fontfile_found = true; // No need to search for module language file.
+			}
+		}
 		for ($i = 0; $i < $zip->numFiles; ++$i) {
 			$fileName = $zip->getNameIndex($i);
 			$matches = [];
-			if ('manifest.xml' === $fileName) {
-				$manifestxml_found = true;
-				$modulename = (string) $this->_modulexml->name;
-				$isModuleBundle = (string) $this->_modulexml->modulebundle;
-				if ('true' === $isModuleBundle && (!empty($this->_modulexml)) &&
-					(!empty($this->_modulexml->dependencies)) &&
-					(!empty($this->_modulexml->dependencies->vtiger_version))) {
-					$languagefile_found = true;
-					break;
-				}
-				// Do we need to check the zip further?
-				if ($this->isLanguageType()) {
-					$languagefile_found = true; // No need to search for module language file.
-					break;
-				}
-				if ($this->isLayoutType()) {
-					$layoutfile_found = true; // No need to search for module language file.
-					break;
-				}
-				if ($this->isExtensionType()) {
-					$extensionfile_found = true; // No need to search for module language file.
-					break;
-				}
-				if ($this->isUpdateType()) {
-					$updatefile_found = true; // No need to search for module language file.
-					break;
-				}
-				if ($this->isFontType()) {
-					$fontfile_found = true; // No need to search for module language file.
-					break;
-				}
-				continue;
-			}
 			$pattern = '/languages[\/\\\]' . \App\Config::main('default_language') . '[\/\\\]([^\/]+)\.json/';
 			preg_match($pattern, $fileName, $matches);
-			if (\count($matches)) {
-				$language_modulename = $matches[1];
+			if (\count($matches) && \in_array($moduleName, $matches)) {
+				$languagefile_found = true;
 			}
 			$settingsPattern = '/languages[\/\\\]' . \App\Config::main('default_language') . '[\/\\\]Settings[\/\\\]([^\/]+)\.json/';
 			preg_match($settingsPattern, $fileName, $matches);
-			if (\count($matches)) {
-				$language_modulename = $matches[1];
+			if (\count($matches) && \in_array($moduleName, $matches)) {
+				$languagefile_found = true;
 			}
 		}
 		// Verify module language file.
-		if (!empty($language_modulename) && $language_modulename === $modulename) {
-			$languagefile_found = true;
-		} elseif (!$fontfile_found && !$updatefile_found && !$layoutfile_found && !$languagefile_found) {
+		if (!$fontfile_found && !$updatefile_found && !$layoutfile_found && !$languagefile_found) {
 			$errorText = \App\Language::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
 			$errorText = str_replace('__DEFAULTLANGUAGE__', \App\Config::main('default_language'), $errorText);
 			$this->_errorText = $errorText;
@@ -343,28 +337,30 @@ class PackageImport extends PackageExport
 			}
 		}
 		$validzip = false;
-		if ($manifestxml_found && $languagefile_found && $moduleVersionFound) {
-			$validzip = true;
-		}
-		if ($manifestxml_found && $layoutfile_found && $moduleVersionFound) {
-			$validzip = true;
-		}
-		if ($manifestxml_found && $extensionfile_found && $moduleVersionFound) {
-			$validzip = true;
-		}
-		if ($manifestxml_found && $updatefile_found && $moduleVersionFound) {
-			$validzip = true;
-		}
-		if ($manifestxml_found && $fontfile_found) {
-			$validzip = true;
-		}
-		if ($this->isLanguageType() && $manifestxml_found && false !== strpos($this->_modulexml->prefix, '/')) {
-			$validzip = false;
-			$this->_errorText = \App\Language::translate('LBL_ERROR_NO_VALID_PREFIX', 'Settings:ModuleManager');
-		}
-		if ($manifestxml_found && !empty($modulename) && !empty($this->_modulexml->type) && \Settings_ModuleManager_Module_Model::checkModuleName($modulename) && \in_array(strtolower($this->_modulexml->type), ['entity', 'inventory', 'extension'])) {
-			$validzip = false;
-			$this->_errorText = \App\Language::translate('LBL_INVALID_MODULE_NAME', 'Settings:ModuleManager');
+		if ($manifestFound) {
+			if ($languagefile_found && $moduleVersionFound) {
+				$validzip = true;
+			}
+			if ($layoutfile_found && $moduleVersionFound) {
+				$validzip = true;
+			}
+			if ($extensionfile_found && $moduleVersionFound) {
+				$validzip = true;
+			}
+			if ($updatefile_found && $moduleVersionFound) {
+				$validzip = true;
+			}
+			if ($fontfile_found) {
+				$validzip = true;
+			}
+			if ($this->isLanguageType() && false !== strpos($this->_modulexml->prefix, '/')) {
+				$validzip = false;
+				$this->_errorText = \App\Language::translate('LBL_ERROR_NO_VALID_PREFIX', 'Settings:ModuleManager');
+			}
+			if (!empty($moduleName) && !empty($this->_modulexml->type) && \Settings_ModuleManager_Module_Model::checkModuleName($moduleName) && \in_array(strtolower($this->_modulexml->type), ['entity', 'inventory', 'extension'])) {
+				$validzip = false;
+				$this->_errorText = \App\Language::translate('LBL_INVALID_MODULE_NAME', 'Settings:ModuleManager');
+			}
 		}
 		if ($validzip && !empty($this->_modulexml->license)) {
 			if (!empty($this->_modulexml->license->inline)) {
