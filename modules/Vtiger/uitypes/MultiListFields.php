@@ -63,6 +63,7 @@ class Vtiger_MultiListFields_UIType extends Vtiger_Multipicklist_UIType
 		if (empty($value)) {
 			return null;
 		}
+		$translatedValues = [];
 		$value = str_replace(',', ', ', trim($value, ','));
 		$fieldValues = explode(',', $value);
 		foreach ($fieldValues as $fieldValue) {
@@ -70,9 +71,7 @@ class Vtiger_MultiListFields_UIType extends Vtiger_Multipicklist_UIType
 			$fieldData = array_map('trim', $fieldData);
 			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldData[0]);
 			$moduleName = $fieldModel->getModuleName();
-			if ($moduleName) {
-				$translatedValues[] = App\Language::translate($moduleName, $moduleName) . ' - ' . App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
-			}
+			$translatedValues[] = App\Language::translate($moduleName, $moduleName) . ' - ' . App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 		}
 		return \App\Purifier::encodeHtml(implode(', ', $translatedValues));
 	}
