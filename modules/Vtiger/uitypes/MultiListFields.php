@@ -31,10 +31,10 @@ class Vtiger_MultiListFields_UIType extends Vtiger_Base_UIType
 		}
 		foreach ($value as $item) {
 			if (!\is_string($item)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
 			}
-			if ($item != strip_tags($item)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+			if ($item != strip_tags($item) || $item != \App\Purifier::purify($item) || preg_match('/[^a-zA-Z0-9_|]/', $item)) {
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
 			}
 		}
 		$this->validate[$hashValue] = true;
@@ -78,7 +78,7 @@ class Vtiger_MultiListFields_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return null;
 		}
-		$value = str_ireplace(',', ', ', trim($value, ','));
+		$value = str_replace(',', ', ', trim($value, ','));
 		$fieldValues = explode(',', $value);
 		foreach ($fieldValues as $fieldValue) {
 			$fieldData = explode('|', $fieldValue);

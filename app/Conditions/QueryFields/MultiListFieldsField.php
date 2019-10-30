@@ -1,6 +1,8 @@
 <?php
 /**
- * MultiListFields Query Field Class.
+ * MultiListFields query field.
+ *
+ * @package   App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -10,7 +12,7 @@
 namespace App\Conditions\QueryFields;
 
 /**
- * MultiListFields Field Class.
+ * MultiListFieldsField class.
  */
 class MultiListFieldsField extends MultipicklistField
 {

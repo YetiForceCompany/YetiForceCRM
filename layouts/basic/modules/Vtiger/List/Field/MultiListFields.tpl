@@ -8,7 +8,7 @@
 	{else}
 		{assign var="SEARCH_VALUES" value=[]}
 	{/if}
-	<div class="tpl-List-Field-MultiList picklistSearchField">
+	<div class="picklistSearchField">
 		<select class="select2noactive listSearchContributor" name="{$FIELD_MODEL->getName()}"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple="multiple"
 				data-fieldinfo='{$FIELD_INFO|escape}'
