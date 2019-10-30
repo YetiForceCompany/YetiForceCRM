@@ -94,14 +94,14 @@ $.Class(
 		 * Register the click event for listView headers
 		 */
 		registerHeadersClickEvent: function() {
-			const thisInstance = this;
+			const self = this;
 			this.container.on('click', '.js-change-order', function(e) {
 				e.preventDefault();
 				const element = $(this);
 				if (typeof element.data('nextOrder') === 'undefined') {
 					return;
 				}
-				thisInstance.loadRecordList({
+				self.loadRecordList({
 					orderby: element.data('name'),
 					sortorder: element.data('nextOrder')
 				});
@@ -130,29 +130,27 @@ $.Class(
 		 * Register pagination events
 		 */
 		registerPaginationEvents: function() {
-			const thisInstance = this;
+			const self = this;
 			this.container.find('.js-next-page').on('click', function() {
 				if ($(this).hasClass('disabled')) {
 					return;
 				}
-				if (
-					thisInstance.container.find('.js-no-entries').val() == thisInstance.container.find('.js-page-limit').val()
-				) {
-					let pageNumber = thisInstance.container.find('.js-page-number');
+				if (self.container.find('.js-no-entries').val() == self.container.find('.js-page-limit').val()) {
+					let pageNumber = self.container.find('.js-page-number');
 					let nextPageNumber = parseInt(parseFloat(pageNumber.val())) + 1;
 					pageNumber.val(nextPageNumber);
-					thisInstance.loadRecordList().done(function() {
-						thisInstance.updatePagination();
+					self.loadRecordList().done(function() {
+						self.updatePagination();
 					});
 				}
 			});
 			this.container.find('.js-page--previous').on('click', function() {
-				let pageNumber = thisInstance.container.find('.js-page-number');
+				let pageNumber = self.container.find('.js-page-number');
 				if (pageNumber.val() > 1) {
 					let nextPageNumber = parseInt(parseFloat(pageNumber.val())) - 1;
 					pageNumber.val(nextPageNumber);
-					thisInstance.loadRecordList().done(function() {
-						thisInstance.updatePagination();
+					self.loadRecordList().done(function() {
+						self.updatePagination();
 					});
 				}
 			});
@@ -160,9 +158,9 @@ $.Class(
 				if ($(this).hasClass('disabled')) {
 					return;
 				}
-				thisInstance.container.find('.js-page-number').val($(this).data('id'));
-				thisInstance.loadRecordList().done(function() {
-					thisInstance.updatePagination();
+				self.container.find('.js-page-number').val($(this).data('id'));
+				self.loadRecordList().done(function() {
+					self.updatePagination();
 				});
 			});
 			this.container.find('.js-count-number-records').on('click', function() {
@@ -172,7 +170,7 @@ $.Class(
 					text: app.vtranslate('JS_GET_PAGINATION_INFO'),
 					type: 'info'
 				});
-				thisInstance.updatePagination(true);
+				self.updatePagination(true);
 			});
 			this.container
 				.find('.js-page--jump-drop-down')
@@ -188,10 +186,10 @@ $.Class(
 							element.validationEngine('showPrompt', response, '', 'topLeft', true);
 						} else {
 							element.validationEngine('hideAll');
-							let pageNumber = thisInstance.container.find('.js-page-number');
+							let pageNumber = self.container.find('.js-page-number');
 							let currentPageNumber = pageNumber.val();
 							let newPageNumber = parseInt($(this).val());
-							var totalPages = parseInt(thisInstance.container.find('.js-page--total').text());
+							var totalPages = parseInt(self.container.find('.js-page--total').text());
 							if (newPageNumber > totalPages) {
 								var error = app.vtranslate('JS_PAGE_NOT_EXIST');
 								element.validationEngine('showPrompt', error, '', 'topLeft', true);
@@ -205,8 +203,8 @@ $.Class(
 								return;
 							}
 							pageNumber.val(newPageNumber);
-							thisInstance.loadRecordList().done(function() {
-								thisInstance.updatePagination();
+							self.loadRecordList().done(function() {
+								self.updatePagination();
 							});
 						}
 					}
@@ -223,14 +221,14 @@ $.Class(
 		 * Register list events
 		 */
 		registerListEvents: function() {
-			const thisInstance = this;
+			const self = this;
 			let additional = this.container.find('.js-additional-informations').val() == 1;
-			thisInstance.container.on('click', '.js-select-row', function(e) {
+			self.container.on('click', '.js-select-row', function(e) {
 				if ($(e.target).hasClass('js-select-checkbox') || $(e.target).hasClass('u-cursor-auto')) {
 					return true;
 				}
 				let data = $(this).data();
-				if (thisInstance.container.find('.js-multi-select').val() === 'true') {
+				if (self.container.find('.js-multi-select').val() === 'true') {
 					let selected = {};
 					if (additional) {
 						selected[data.id] = [];
@@ -248,15 +246,15 @@ $.Class(
 					} else {
 						selected[data.id] = data.name;
 					}
-					thisInstance.selectEvent(selected, e);
+					self.selectEvent(selected, e);
 				} else {
-					thisInstance.selectEvent(data, e);
+					self.selectEvent(data, e);
 				}
-				app.hideModalWindow(false, thisInstance.container.parent().attr('id'));
+				app.hideModalWindow(false, self.container.parent().attr('id'), { showInIframe: self.showInIframe });
 			});
-			thisInstance.container.on('click', '.js-selected-rows', function(e) {
+			self.container.on('click', '.js-selected-rows', function(e) {
 				let selected = {};
-				thisInstance.container.find('table tr.js-select-row .js-select-checkbox').each(function(index, element) {
+				self.container.find('table tr.js-select-row .js-select-checkbox').each(function(index, element) {
 					element = $(element);
 					if (!element.is(':checked')) {
 						return true;
@@ -284,19 +282,19 @@ $.Class(
 						text: app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD')
 					});
 				} else {
-					thisInstance.selectEvent(selected, e);
+					self.selectEvent(selected, e);
 					app.hideModalWindow($(e.target).closest('.js-modal-container'));
 				}
 			});
-			thisInstance.container.on('change', '.js-hierarchy-records', function() {
-				thisInstance.container.find('.js-related-parent-id').val(this.value);
-				thisInstance.container.find('.js-total-count').val('');
-				thisInstance.container.find('.js-page-number').val(1);
-				thisInstance.loadRecordList().done(function() {
-					thisInstance.updatePagination();
+			self.container.on('change', '.js-hierarchy-records', function() {
+				self.container.find('.js-related-parent-id').val(this.value);
+				self.container.find('.js-total-count').val('');
+				self.container.find('.js-page-number').val(1);
+				self.loadRecordList().done(function() {
+					self.updatePagination();
 				});
 			});
-			thisInstance.container.on('click', '.js-select-checkbox', function(e) {
+			self.container.on('click', '.js-select-checkbox', function(e) {
 				let parentElem, element;
 				parentElem = element = $(this);
 				if (element.data('type') === 'all') {
@@ -326,7 +324,8 @@ $.Class(
 		 * Register modal events
 		 * @param {jQuery} modalContainer
 		 */
-		registerEvents: function(modalContainer) {
+		registerEvents: function(modalContainer, showInIframe) {
+			this.showInIframe = showInIframe || false;
 			this.container = modalContainer;
 			this.moduleName = this.container.data('module');
 			this.registerBasicEvents();

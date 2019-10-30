@@ -607,7 +607,7 @@ var app = (window.app = {
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 	},
-	showModalWindow: function(data, url, cb, paramsObject) {
+	showModalWindow: function(data, url, cb, paramsObject = {}) {
 		if (window.parent !== window && !paramsObject.showInIframe) {
 			this.childFrame = true;
 			window.parent.app.showModalWindow(data, url, cb, paramsObject);
@@ -711,7 +711,7 @@ var app = (window.app = {
 		}
 		modalContainer.one('hidden.bs.modal', callback);
 	},
-	registerModalController: function(modalId, modalContainer, cb) {
+	registerModalController: function(modalId, modalContainer, cb, showInIframe = false) {
 		let windowParent = this.childFrame ? window.parent : window;
 		if (modalId === undefined) {
 			modalId = Window.lastModalId;
@@ -725,7 +725,7 @@ var app = (window.app = {
 			if (typeof cb === 'function') {
 				cb(modalContainer, instance);
 			}
-			instance.registerEvents(modalContainer);
+			instance.registerEvents(modalContainer, showInIframe);
 			if (modalId && app.modalEvents[modalId]) {
 				app.modalEvents[modalId](modalContainer, instance);
 			}
@@ -736,7 +736,7 @@ var app = (window.app = {
 			if (typeof cb === 'function') {
 				cb(modalContainer, instance);
 			}
-			instance.registerEvents(modalContainer);
+			instance.registerEvents(modalContainer, showInIframe);
 			if (modalId && app.modalEvents[modalId]) {
 				app.modalEvents[modalId](modalContainer, instance);
 			}
@@ -1863,7 +1863,7 @@ var app = (window.app = {
 		}
 		return result.trim();
 	},
-	showRecordsList: function(params, cb, afterShowModal) {
+	showRecordsList: function(params = {}, cb, afterShowModal) {
 		if (!params.view) {
 			params.view = 'RecordsList';
 		}
@@ -1871,7 +1871,8 @@ var app = (window.app = {
 			if (typeof afterShowModal === 'function') {
 				afterShowModal(modal);
 			}
-			app.registerModalController(false, modal, cb);
+			const showInIframe = params.modalParams ? params.modalParams.showInIframe : false;
+			app.registerModalController(false, modal, cb, showInIframe);
 		});
 	},
 	/**
@@ -1883,9 +1884,14 @@ var app = (window.app = {
 		const aDeferred = $.Deferred();
 		AppConnector.request(params)
 			.done(function(requestData) {
-				app.showModalWindow(requestData, function(modal) {
-					aDeferred.resolve(modal);
-				});
+				app.showModalWindow(
+					requestData,
+					'',
+					function(modal) {
+						aDeferred.resolve(modal);
+					},
+					params.modalParams || {}
+				);
 			})
 			.fail(function(textStatus, errorThrown) {
 				aDeferred.reject(textStatus, errorThrown);
