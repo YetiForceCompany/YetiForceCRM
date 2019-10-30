@@ -12,8 +12,23 @@
 /**
  *  UIType multi list fields field class.
  */
-class Vtiger_MultiListFields_UIType extends Vtiger_Base_UIType
+class Vtiger_MultiListFields_UIType extends Vtiger_Multipicklist_UIType
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		if (empty($value)) {
+			return null;
+		}
+		if (!\is_array($value)) {
+			$value = [$value];
+		}
+		$value = implode(',', $value);
+		return \App\Purifier::decodeHtml($value);
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -33,41 +48,11 @@ class Vtiger_MultiListFields_UIType extends Vtiger_Base_UIType
 			if (!\is_string($item)) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
 			}
-			if ($item != strip_tags($item) || $item != \App\Purifier::purify($item) || preg_match('/[^a-zA-Z0-9_|]/', $item)) {
+			if ($item != strip_tags($item) || $item != \App\Purifier::purify($item) || preg_match('/[^a-zA-Z0-9\_\|]/', $item)) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
 			}
 		}
 		$this->validate[$hashValue] = true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getDbConditionBuilderValue($value, string $operator)
-	{
-		$values = [];
-		if (!\is_array($value)) {
-			$value = $value ? explode('##', $value) : [];
-		}
-		foreach ($value as $val) {
-			$values[] = parent::getDbConditionBuilderValue($val, $operator);
-		}
-		return implode(',', $values);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getDBValue($value, $recordModel = false)
-	{
-		if (empty($value)) {
-			return null;
-		}
-		if (!\is_array($value)) {
-			$value = [$value];
-		}
-		$value = implode(',', $value);
-		return \App\Purifier::decodeHtml($value);
 	}
 
 	/**
@@ -83,9 +68,10 @@ class Vtiger_MultiListFields_UIType extends Vtiger_Base_UIType
 		foreach ($fieldValues as $fieldValue) {
 			$fieldData = explode('|', $fieldValue);
 			$fieldData = array_map('trim', $fieldData);
-			$moduleModel = Vtiger_Module_Model::getInstance($fieldData[0]);
+			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldData[0]);
+			$moduleModel = $fieldModel->getModuleName();
 			if ($moduleModel) {
-				$translatedValues[] = App\Language::translate($fieldData[0], $fieldData[0]) . ' - ' . App\Language::translate($moduleModel->getFieldByName($fieldData[1])->getFieldLabel(), $fieldData[0]);
+				$translatedValues[] = App\Language::translate($moduleModel, $moduleModel) . ' - ' . App\Language::translate($fieldModel->getFieldLabel(), $moduleModel);
 			}
 		}
 		return \App\Purifier::encodeHtml(implode(', ', $translatedValues));
@@ -125,22 +111,6 @@ class Vtiger_MultiListFields_UIType extends Vtiger_Base_UIType
 	public function getOperatorTemplateName(string $operator = '')
 	{
 		return 'ConditionBuilder/MultiListFields.tpl';
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getAllowedColumnTypes()
-	{
-		return ['text'];
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getQueryOperators()
-	{
-		return ['e', 'n', 'c', 'k', 'y', 'ny'];
 	}
 
 	/**

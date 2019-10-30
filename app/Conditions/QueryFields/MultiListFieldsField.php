@@ -17,52 +17,7 @@ namespace App\Conditions\QueryFields;
 class MultiListFieldsField extends MultipicklistField
 {
 	/**
-	 * Separator.
-	 *
-	 * @var string
+	 * {@inheritdoc}
 	 */
 	protected $separator = ',';
-
-	/**
-	 * Function to get combinations of string from Array.
-	 *
-	 * @param array  $array
-	 * @param string $tempString
-	 *
-	 * @return array
-	 */
-	public function getCombinations($array, $tempString = '')
-	{
-		$countArray = \count($array);
-		$result = [];
-		for ($i = 0; $i < $countArray; ++$i) {
-			$splicedArray = $array;
-			$element = array_splice($splicedArray, $i, 1);
-			if (\count($splicedArray) > 0) {
-				$result = array_merge($result, $this->getCombinations($splicedArray, $tempString . $this->separator . $element[0]));
-			} else {
-				return [$tempString . $this->separator . $element[0]];
-			}
-		}
-		return $result ?? [];
-	}
-
-	/**
-	 * Get value.
-	 *
-	 * @return array
-	 */
-	public function getValue(): array
-	{
-		$value = $this->value;
-		$valueArray = array_filter(explode(',', $value));
-		if (\in_array($this->operator, ['e', 'n'])) {
-			foreach ($this->getCombinations($valueArray) as $key => $value) {
-				if (!empty($value)) {
-					$valueArray[$key] = ltrim($value, $this->separator);
-				}
-			}
-		}
-		return $valueArray;
-	}
 }
