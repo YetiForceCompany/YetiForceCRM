@@ -352,6 +352,12 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 321:
 						$fieldDataType = 'multiReference';
 						break;
+					case 322:
+						$fieldDataType = 'mailScannerActions';
+						break;
+					case 323:
+						$fieldDataType = 'mailScannerFields';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
