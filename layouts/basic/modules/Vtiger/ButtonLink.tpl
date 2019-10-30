@@ -22,10 +22,13 @@
 				data-js="popover{/if}"
 				{if $LINK->get('linkdata') neq '' && is_array($LINK->get('linkdata'))}
 					{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
+					{if $NAME === 'popover-breakpoint'}
+						{assign var=IS_POPOVER_BREAKPOINT value=$NAME}
+					{/if}
 						{' '}data-{$NAME}="{$DATA}"
 					{/foreach}
 				{/if}
-				{if ($LABEL neq '' && $LINK->get('showLabel') != 1) || (isset($POPOVER_ACTIVE) && $POPOVER_ACTIVE == 1)}{' '}
+				{if ($LABEL neq '' && $LINK->get('showLabel') != 1) || isset($IS_POPOVER_BREAKPOINT)}{' '}
 					data-placement="{if $BUTTON_VIEW|strrpos:'listView'!==false}top{else}bottom{/if}"{' '}
 					data-content="{\App\Language::translate($LABEL, $BTN_MODULE)}"
 					data-target="focus hover"

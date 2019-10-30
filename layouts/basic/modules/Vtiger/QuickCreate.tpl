@@ -34,7 +34,7 @@
 							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
 							{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
 								{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' BREAKPOINT='sm' POPOVER_ACTIVE=1 TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq}
+									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' BREAKPOINT='sm' TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq}
 								{/foreach}
 							{/if}
 							<button class="btn btn-success mr-1" type="submit" tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}"
