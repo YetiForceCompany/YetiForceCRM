@@ -29,22 +29,20 @@ class MultiListFieldsField extends MultipicklistField
 	 *
 	 * @return array
 	 */
-	public function getCombinations(array $array, string $tempString = ''): array
+	public function getCombinations($array, $tempString = '')
 	{
 		$countArray = \count($array);
+		$result = [];
 		for ($i = 0; $i < $countArray; ++$i) {
 			$splicedArray = $array;
 			$element = array_splice($splicedArray, $i, 1);
 			if (\count($splicedArray) > 0) {
-				if (!\is_array($result)) {
-					$result = [];
-				}
 				$result = array_merge($result, $this->getCombinations($splicedArray, $tempString . $this->separator . $element[0]));
 			} else {
 				return [$tempString . $this->separator . $element[0]];
 			}
 		}
-		return $result;
+		return $result ?? [];
 	}
 
 	/**
