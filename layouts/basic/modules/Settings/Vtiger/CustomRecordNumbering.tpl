@@ -20,7 +20,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-6 col-xl-3 col-12 d-flex align-items-center mb-xl-0 mb-3">
+				<div class="col-6 col-xl-3 col-12 d-flex align-items-center mb-xl-0 mb-3 pt-md-0 pt-1">
 					<button type="button" class="btn btn-info float-right" name="updateRecordWithSequenceNumber">
 						<span class="fas fa-exchange-alt u-mr-5px"></span>{\App\Language::translate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}
 					</button>
