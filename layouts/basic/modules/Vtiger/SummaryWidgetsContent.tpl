@@ -138,19 +138,18 @@
 					{foreach item=RELATED_RECORD from=$RELATED_RECORDS name=recordlist}
 						<div class="carousel-item  js-carousel-item {if $smarty.foreach.recordlist.first}active{/if}"
 							 data-id="{$RELATED_RECORD->getId()}" data-js="click">
-							<table class="c-detail-widget__table">
+							<table class="c-detail-widget__table u-table-fixed">
 								<tbody>
 								{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 									<tr class="c-table__row--hover border-bottom">
-										<td class="u-w-37per {$WIDTHTYPE}">
-											<label class="font-weight-bold">
+										<td class="u-w-40per {$WIDTHTYPE} px-0">
+											<label class="font-weight-bold mb-0">
 												{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 											</label>
 										</td>
 										{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
-										<td class="fieldValue  {$WIDTHTYPE}">
-											<div class="form-row">
-												<div class="value u-text-ellipsis col-10 pr-0">
+										<td class="fieldValue {$WIDTHTYPE} px-0">
+												<div class="value u-word-break pr-0">
 													{if ($HEADER_FIELD->isNameField() eq true) && $RELATED_RECORD->isViewable()}
 														<a class="modCT_{$RELATED_MODULE_NAME}"
 														   title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}"
@@ -161,7 +160,6 @@
 														{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
 													{/if}
 												</div>
-											</div>
 										</td>
 									</tr>
 								{/foreach}
@@ -262,23 +260,20 @@
 			{foreach item=RELATED_RECORD from=$RELATED_RECORDS name=recordlist}
 				{assign var=ID value=$RELATED_RECORD->getId()}
 				<div class="hide summaryRelRecordView summaryRelRecordView{$ID}" data-id="{$ID}">
-					<span class="float-right far fa-times-circle hideSummaryRelRecordView u-cursor-pointer"></span>
-					<table class="c-detail-widget__table">
+					<table class="c-detail-widget__table u-table-fixed">
 						<tbody>
 						{foreach item=HEADER_FIELD from=$RELATED_SUMMARY_HEADERS}
 							<tr class="c-table__row--hover border-bottom">
-								<td class="u-w-37per {$WIDTHTYPE}">
-									<label class="font-weight-bold">
+								<td class="u-w-40per {$WIDTHTYPE} px-0">
+									<label class="font-weight-bold mb-0">
 										{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 									</label>
 								</td>
 								{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
-								<td class="fieldValue  {$WIDTHTYPE}">
-									<div class="form-row">
-										<div class="value u-text-ellipsis col-10 pr-0">
+								<td class="fieldValue {$WIDTHTYPE} px-0">
+										<div class="value u-word-break pr-0">
 											{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
 										</div>
-									</div>
 								</td>
 							</tr>
 						{/foreach}
@@ -303,6 +298,9 @@
 								</button>
 							</a>
 						{/if}
+						<button type="button"  class="btn btn-sm btn-light js-popover-tooltip">
+							<span class="far fa-times-circle hideSummaryRelRecordView u-cursor-pointer"></span>
+						</button>
 					</div>
 				</div>
 			{/foreach}
