@@ -51,7 +51,7 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 			$relatedRecords = $mailViewModel->getRelatedRecords($record);
 			$viewer->assign('RELATED_RECORDS', $relatedRecords);
 		}
-		\App\ModuleHierarchy::getModulesByLevel();
+		\App\ModuleHierarchy::getModulesByLevel(0);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('URL', App\Config::main('site_URL'));
 		$viewer->view('MailActionBar.tpl', $moduleName);

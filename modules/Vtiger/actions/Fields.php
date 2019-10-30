@@ -144,12 +144,6 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 */
 	public function getReference(App\Request $request)
 	{
-		if (!App\Config::performance('SEARCH_REFERENCE_BY_AJAX')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-		if (!$this->fieldModel->isReferenceField()) {
-			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
-		}
 		$response = new Vtiger_Response();
 		$rows = (new \App\RecordSearch($request->getByType('value', 'Text'), $this->fieldModel->getReferenceList()))->search();
 		$data = $modules = $ids = [];
@@ -158,7 +152,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 			$modules[$row['setype']][] = $row['crmid'];
 		}
 		$labels = \App\Record::getLabel($ids);
-		foreach ($modules as $moduleName => &$rows) {
+		foreach ($modules as $moduleName => $rows) {
 			$data[] = ['name' => App\Language::translateSingleMod($moduleName, $moduleName), 'type' => 'optgroup'];
 			foreach ($rows as $id) {
 				$data[] = ['id' => $id, 'name' => $labels[$id]];

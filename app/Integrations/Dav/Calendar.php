@@ -736,7 +736,7 @@ class Calendar
 					}
 				}
 				$crmid = 0;
-				$records = $this->findRecordByEmail($value, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(4))));
+				$records = $this->findRecordByEmail($value, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(0), \App\ModuleHierarchy::getModulesByLevel(4))));
 				if (!empty($records)) {
 					$recordCrm = current($records);
 					$crmid = $recordCrm['crmid'];

@@ -9,7 +9,7 @@
 		{/if}
 	{elseif \App\Privilege::isPermitted('OSSMailView', 'DetailView', $RECORD)}
 		<input type="hidden" id="mailActionBarID" value="{$RECORD}"/>
-		{assign var="MODULES_LEVEL_0" value=\App\ModuleHierarchy::getModulesByLevel()}
+		{assign var="MODULES_LEVEL_0" value=\App\ModuleHierarchy::getModulesByLevel(0)}
 		{assign var="MODULES_LEVEL_1" value=\App\ModuleHierarchy::getModulesByLevel(1)}
 		{assign var="MODULES_LEVEL_2" value=\App\ModuleHierarchy::getModulesByLevel(2)}
 		{assign var="MODULES_LEVEL_3" value=\App\ModuleHierarchy::getModulesByLevel(3)}

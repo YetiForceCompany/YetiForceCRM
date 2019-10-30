@@ -349,6 +349,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 320:
 						$fieldDataType = 'multiListFields';
 						break;
+					case 321:
+						$fieldDataType = 'multiReference';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
