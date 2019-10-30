@@ -83,14 +83,14 @@
 			</div>
 		</div>
 		<div class="c-detail-widget__content js-detail-widget-collapse collapse multi-collapse" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}">
-			<div class="row mb-2">
+				<div class="{if $WIDGET['data']['checkbox'] neq '-'} pb-2 {/if} d-flex m-0">
 				{if (isset($WIDGET['data']['filter']) && $WIDGET['data']['filter'] neq '-') AND (isset($WIDGET['data']['checkbox']) && $WIDGET['data']['checkbox'] neq '-')}
 					{assign var=span value='col-6'}
 				{else}
 					{assign var=span value='col-12'}
 				{/if}
 				{if isset($WIDGET['data']['filter']) && $WIDGET['data']['filter'] neq '-'}
-					<div class="{$span} form-group-sm">
+					<div class="form-group-sm w-100 mr-2">
 						{assign var=FILTER value=$WIDGET['data']['filter']}
 						{assign var=RELATED_MODULE_MODEL value=Vtiger_Module_Model::getInstance($RELATED_MODULE_NAME)}
 						{assign var=FIELD_MODEL value=$RELATED_MODULE_MODEL->getField($FILTER)}
@@ -111,14 +111,14 @@
 				{/if}
 				{if isset($WIDGET['data']['checkbox']) && $WIDGET['data']['checkbox'] neq '-'}
 					{assign var=checkbox value=$WIDGET['data']['checkbox']}
-					<div class="btn-group btn-group-toggle" data-toggle="buttons">
+					{assign var=FIELD_NAME value=explode('.', $checkbox)}
+					<div class="js-popover-tooltip ml-auto btn-group btn-group-toggle" data-toggle="buttons" {if !empty($RELATED_MODULE_MODEL->getFieldByName($FIELD_NAME[1]))} data-js="popover" data-content="{\App\Language::translate($RELATED_MODULE_MODEL->getFieldByName($FIELD_NAME[1])->getFieldLabel(),$RELATED_MODULE_NAME)}" {/if}>
 						<label class="btn btn-sm btn-outline-primary active">
 							<input class="js-switch" type="radio" name="options" id="option1" data-js="change" data-on-val='{\App\Purifier::encodeHtml($WIDGET[' checkbox']['on'])}' data-urlparams="search_params" autocomplete="off"
-								checked> {$WIDGET['checkboxLables']['on']}
+								checked> <span class="far fa-check-circle fa-lg" title="{$WIDGET['checkboxLables']['on']}">
 						</label>
 						<label class="btn btn-sm btn-outline-primary">
-							<input class="js-switch" type="radio" name="options" id="option2" data-js="change" data-off-val='{\App\Purifier::encodeHtml($WIDGET[' checkbox']['off'])}' data-urlparams="search_params" autocomplete="off">
-							{$WIDGET['checkboxLables']['off']}
+							<input class="js-switch" type="radio" name="options" id="option2" data-js="change" data-off-val='{\App\Purifier::encodeHtml($WIDGET[' checkbox']['off'])}' data-urlparams="search_params" autocomplete="off"> <span class="far fa-times-circle fa-lg" title="{$WIDGET['checkboxLables']['off']}"></span>
 						</label>
 					</div>
 				{/if}

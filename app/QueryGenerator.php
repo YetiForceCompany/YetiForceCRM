@@ -435,6 +435,7 @@ class QueryGenerator
 	public function addTableToQuery($tableName)
 	{
 		$this->tablesList[$tableName] = $tableName;
+		return $this;
 	}
 
 	/**

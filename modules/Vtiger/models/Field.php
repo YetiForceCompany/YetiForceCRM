@@ -867,6 +867,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'currencyList':
 			case 'fileLocationType':
 			case 'taxes':
+			case 'multiListFields':
 				$pickListValues = $this->getPicklistValues();
 				if (!empty($pickListValues)) {
 					$this->fieldInfo['picklistvalues'] = $pickListValues;
