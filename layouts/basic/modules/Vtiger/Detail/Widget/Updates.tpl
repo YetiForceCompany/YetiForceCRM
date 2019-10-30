@@ -1,5 +1,4 @@
-{*
-<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Base-Detail-Widget-Updates -->
 {assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
@@ -24,28 +23,27 @@
 					</button>
 					<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions">
 						{if isset($WIDGET['switchHeader'])}
-						<div class="btn-group btn-group-toggle ml-auto" data-toggle="buttons">
-							<label class="btn btn-sm btn-outline-primary active">
-								<input class="js-switch" type="radio" name="options" id="option1" data-js="change" data-on-val="{$WIDGET['switchHeader']['on']}" data-urlparams="whereCondition" autocomplete="off" checked> <span
-									class="fas fa-redo" title="{$WIDGET['switchHeaderLables']['on']}"></span>
-							</label>
-							<label class="btn btn-sm btn-outline-primary">
-								<input class="js-switch" type="radio" name="options" id="option2" data-js="change" data-off-val="{$WIDGET['switchHeader']['off']}" data-urlparams="whereCondition" autocomplete="off">
-								<span class="fas fa-history" title="{$WIDGET['switchHeaderLables']['off']}"></span>
-							</label>
-						</div>
+							<div class="btn-group btn-group-toggle ml-auto" data-toggle="buttons">
+								<label class="btn btn-sm btn-outline-primary active">
+									<input class="js-switch" type="radio" name="options" id="option1" data-js="change" data-on-val="{$WIDGET['switchHeader']['on']}" data-urlparams="whereCondition" autocomplete="off" checked> <span
+										class="fas fa-redo" title="{$WIDGET['switchHeaderLables']['on']}"></span>
+								</label>
+								<label class="btn btn-sm btn-outline-primary">
+									<input class="js-switch" type="radio" name="options" id="option2" data-js="change" data-off-val="{$WIDGET['switchHeader']['off']}" data-urlparams="whereCondition" autocomplete="off">
+									<span class="fas fa-history" title="{$WIDGET['switchHeaderLables']['off']}"></span>
+								</label>
+							</div>
 						{/if}
-						{if $WIDGET['newChanege'] && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $USER_MODEL->getId() eq
-						$USER_MODEL->getRealId()}
-						<div class="text-right ml-auto">
-							<div class="btn-group">
+						{if $WIDGET['newChanege'] && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $USER_MODEL->getId() eq $USER_MODEL->getRealId()}
+							<div class="text-right ml-auto">
 								<div class="btn-group">
-									<button id="btnChangesReviewedOn" type="button" class="btn btn-success btn-sm btnChangesReviewedOn" title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
-										<span class="far fa-check-circle"></span>
-									</button>
+									<div class="btn-group">
+										<button id="btnChangesReviewedOn" type="button" class="btn btn-success btn-sm btnChangesReviewedOn" title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
+											<span class="far fa-check-circle"></span>
+										</button>
+									</div>
 								</div>
 							</div>
-						</div>
 						{/if}
 					</div>
 				</div>

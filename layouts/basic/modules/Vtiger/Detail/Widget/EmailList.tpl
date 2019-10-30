@@ -1,3 +1,4 @@
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Base-Detail-Widget-EmailList -->
 {assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
@@ -35,34 +36,32 @@
 									title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAILS','OSSMailView')}"></span>
 							</button>
 							{if App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
-							{if $USER_MODEL->get('internal_mailer') == 1}
-							{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail',
-							'new')}
-							<button type="button" class="btn btn-sm btn-light sendMailBtn" data-url="{$URLDATA}"
-								data-module="{$MODULE_NAME}" data-record="{$RECORD->getId()}" data-popup="{$CONFIG['popup']}"
-								title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
-								<span class="fas fa-envelope"
-									title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
-							</button>
-							&nbsp;
-							{else}
-							{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl($MODULE_NAME, $RECORD->getId(), 'Detail',
-							'new')}
-							{if $URLDATA}
-							<a class="btn btn-sm btn-light" href="{$URLDATA}"
-								title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
-								<span class="fas fa-envelope"
-									title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
-							</a>
-							&nbsp;
-							{/if}
-							{/if}
+								{if $USER_MODEL->get('internal_mailer') == 1}
+									{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
+									<button type="button" class="btn btn-sm btn-light sendMailBtn" data-url="{$URLDATA}"
+										data-module="{$MODULE_NAME}" data-record="{$RECORD->getId()}" data-popup="{$CONFIG['popup']}"
+										title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
+										<span class="fas fa-envelope"
+											title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+									</button>
+									&nbsp;
+								{else}
+									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
+									{if $URLDATA}
+										<a class="btn btn-sm btn-light" href="{$URLDATA}"
+											title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
+											<span class="fas fa-envelope"
+												title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+										</a>
+										&nbsp;
+									{/if}
+								{/if}
 							{/if}
 							{if \App\Privilege::isPermitted('OSSMailView', 'ReloadRelationRecord')}
-							<button type="button" class="btn btn-sm btn-light resetRelationsEmail">
-								<span class="body-icon fas fa-retweet"
-									title="{\App\Language::translate('BTN_RESET_RELATED_MAILS', 'OSSMailView')}"></span>
-							</button>
+								<button type="button" class="btn btn-sm btn-light resetRelationsEmail">
+									<span class="body-icon fas fa-retweet"
+										title="{\App\Language::translate('BTN_RESET_RELATED_MAILS', 'OSSMailView')}"></span>
+								</button>
 							{/if}
 						</div>
 					</div>
@@ -111,14 +110,14 @@
 				</div>
 				<div class="col-6">
 					{if $MODULE_NAME == 'Accounts'}
-					<div class="input-group input-group-sm">
-						<select name="mailFilter" title="{\App\Language::translate('LBL_CHANGE_FILTER', 'OSSMailView')}"
-							class="form-control select2">
-							<option value="All">{\App\Language::translate('LBL_FILTER_ALL', 'OSSMailView')}</option>
-							<option value="Accounts">{\App\Language::translate('LBL_FILTER_ACCOUNTS', 'OSSMailView')}</option>
-							<option value="Contacts">{\App\Language::translate('LBL_FILTER_CONTACTS', 'OSSMailView')}</option>
-						</select>
-					</div>
+						<div class="input-group input-group-sm">
+							<select name="mailFilter" title="{\App\Language::translate('LBL_CHANGE_FILTER', 'OSSMailView')}"
+								class="form-control select2">
+								<option value="All">{\App\Language::translate('LBL_FILTER_ALL', 'OSSMailView')}</option>
+								<option value="Accounts">{\App\Language::translate('LBL_FILTER_ACCOUNTS', 'OSSMailView')}</option>
+								<option value="Contacts">{\App\Language::translate('LBL_FILTER_CONTACTS', 'OSSMailView')}</option>
+							</select>
+						</div>
 					{/if}
 				</div>
 			</div>

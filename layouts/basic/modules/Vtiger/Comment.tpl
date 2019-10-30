@@ -143,7 +143,6 @@
 					<p class="d-flex flex-wrap small">
 						<span>
 							[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] :
-
 							<span name="editReason" class="js-edit-reason-span ml-1" data-js="text">
 								{nl2br($REASON_TO_EDIT)}
 							</span>
