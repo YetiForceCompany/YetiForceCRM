@@ -115,7 +115,8 @@
 					{/if}
 					{if isset($WIDGET['data']['checkbox']) && $WIDGET['data']['checkbox'] neq '-'}
 						{assign var=checkbox value=$WIDGET['data']['checkbox']}
-						<div class="ml-auto  btn-group btn-group-toggle" data-toggle="buttons">
+						{assign var=FIELD_NAME value=explode('.', $checkbox)}
+						<div class="js-popover-tooltip ml-auto btn-group btn-group-toggle" data-toggle="buttons" {if !empty($RELATED_MODULE_MODEL->getFieldByName($FIELD_NAME[1]))}  data-js="popover" data-content="{\App\Language::translate($RELATED_MODULE_MODEL->getFieldByName($FIELD_NAME[1])->getFieldLabel(),$RELATED_MODULE_NAME)}" {/if}>
 							<label class="btn btn-sm btn-outline-primary active">
 								<input class="js-switch" type="radio" name="options" id="option1" data-js="change"
 									   data-on-val='{\App\Purifier::encodeHtml($WIDGET['checkbox']['on'])}'
