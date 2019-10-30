@@ -229,7 +229,7 @@ jQuery.Class(
 					searchOperator = 'e';
 				} else if (fieldInfo.type == 'date' || fieldInfo.type == 'datetime') {
 					searchOperator = 'bw';
-				} else if (fieldInfo.type == 'multipicklist' || fieldInfo.type == 'categoryMultipicklist') {
+				} else if (fieldInfo.type == 'multipicklist' || fieldInfo.type == 'categoryMultipicklist' || fieldInfo.type == 'multiListFields') {
 					searchOperator = 'c';
 				}
 				let sourceFieldName = searchContributorElement.data('sourceFieldName');
