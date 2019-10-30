@@ -13478,6 +13478,9 @@ label.btn[class*="btn-outline-"]:not(.active) {
     padding-left: 0.125rem; }
     .breadcrumb-item + .breadcrumb-item::before {
       padding-right: 0.125rem; } }
+.list-group-item-action a:hover {
+  color: unset; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .dashboardWidgetCalendar .fc-widget-content .fc-scroller.fc-day-grid-container {
   height: 18.6rem !important; }
