@@ -12,7 +12,7 @@
 /**
  *  UIType mail scanner actions field class.
  */
-class Vtiger_MailScannerActions_UIType extends Vtiger_Base_UIType
+class Vtiger_MailScannerActions_UIType extends Vtiger_MultiListFields_UIType
 {
 	/**
 	 * {@inheritdoc}
@@ -23,51 +23,21 @@ class Vtiger_MailScannerActions_UIType extends Vtiger_Base_UIType
 		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
-		// if (\is_string($value)) {
-		// 	$value = array_filter(explode(',', $value));
-		// }
-		// if (!\is_array($value)) {
-		// 	throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
-		// }
-		// foreach ($value as $item) {
-		// 	if (!\is_string($item) || $item !== strip_tags($item) || false === filter_var($item, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
-		// 		throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
-		// 	}
-		// }
-		$this->validate[$hashValue] = true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getDbConditionBuilderValue($value, string $operator)
-	{
-		// $values = [];
-		// if (!\is_array($value)) {
-		// 	$value = $value ? array_filter(explode(',', $value)) : [];
-		// }
-		// foreach ($value as $val) {
-		// 	$values[] = parent::getDbConditionBuilderValue($val, $operator);
-		// }
-		// if (empty($values)) {
-		// 	return null;
-		// }
-		return implode(',', $values);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getDBValue($value, $recordModel = false)
-	{
-		if (empty($value)) {
-			return null;
+		if (\is_string($value)) {
+			$value = explode(',', $value);
 		}
-		// if (!\is_array($value)) {
-		// 	$value = [$value];
-		// }
-		// $value = ',' . implode(',', $value) . ',';
-		return \App\Purifier::decodeHtml($value);
+		if (!\is_array($value)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+		}
+		foreach ($value as $item) {
+			if (!\is_string($item)) {
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
+			}
+			if ($item != strip_tags($item) || $item != \App\Purifier::purify($item) || !\in_array($item, App\Mail\ScannerAction::getActions())) {
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
+			}
+		}
+		$this->validate[$hashValue] = true;
 	}
 
 	/**
@@ -78,11 +48,11 @@ class Vtiger_MailScannerActions_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return null;
 		}
-		// $value = str_ireplace(',', ', ', trim($value, ','));
-		// if (\is_int($length)) {
-		// 	$value = \App\TextParser::textTruncate($value, $length);
-		// }
-		return \App\Purifier::encodeHtml($value);
+		$fieldValues = explode(',', \App\Purifier::encodeHtml(trim($value, ',')));
+		foreach ($fieldValues as &$fieldValue) {
+			$fieldValue = App\Language::translate('LBL_' . strtoupper($fieldValue), 'MailIntegration');
+		}
+		return implode(', ', $fieldValues);
 	}
 
 	/**
@@ -90,30 +60,27 @@ class Vtiger_MailScannerActions_UIType extends Vtiger_Base_UIType
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return array_filter(explode(',', \App\Purifier::encodeHtml($value)));
+		return explode(',', \App\Purifier::encodeHtml(trim($value, ',')));
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getTemplateName()
-	{
-		return 'Edit/Field/MailScannerActions.tpl';
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getAllowedColumnTypes()
-	{
-		return ['text'];
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getQueryOperators()
+	public function getQueryOperators(): array
 	{
 		return ['c', 'k', 'y', 'ny'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPicklistValues(): array
+	{
+		$value = [];
+		$mailActions = \App\Mail\ScannerAction::getActions();
+		foreach ($mailActions as $fieldValue) {
+			$value[$fieldValue] = App\Language::translate('LBL_' . strtoupper($fieldValue), 'MailIntegration');
+		}
+		return $value;
 	}
 }
