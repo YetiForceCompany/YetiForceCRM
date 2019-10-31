@@ -1891,14 +1891,9 @@ var app = (window.app = {
 		const aDeferred = $.Deferred();
 		AppConnector.request(params)
 			.done(function(requestData) {
-				app.showModalWindow(
-					requestData,
-					'',
-					function(modal) {
-						aDeferred.resolve(modal);
-					},
-					params.modalParams || {}
-				);
+				app.showModalWindow(requestData, function(modal) {
+					aDeferred.resolve(modal);
+				});
 			})
 			.fail(function(textStatus, errorThrown) {
 				aDeferred.reject(textStatus, errorThrown);
