@@ -29,11 +29,9 @@ class Vtiger_MailScannerActions_UIType extends Vtiger_MultiListFields_UIType
 		if (!\is_array($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
+		$actions = App\Mail\ScannerAction::getActions();
 		foreach ($value as $item) {
-			if (!\is_string($item)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
-			}
-			if ($item != strip_tags($item) || $item != \App\Purifier::purify($item) || !\in_array($item, App\Mail\ScannerAction::getActions())) {
+			if (!\is_string($item) || !\in_array($item, $actions)) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $item, 406);
 			}
 		}

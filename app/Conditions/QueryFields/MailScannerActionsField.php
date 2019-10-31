@@ -1,6 +1,6 @@
 <?php
 /**
- * MailScannerActions query field.
+ * Mail scanner actions query file.
  *
  * @package   App
  *
@@ -12,7 +12,7 @@
 namespace App\Conditions\QueryFields;
 
 /**
- * MailScannerActionsField class.
+ * Mail scanner actions query field class.
  */
 class MailScannerActionsField extends MultipicklistField
 {
