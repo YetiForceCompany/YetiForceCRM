@@ -532,18 +532,19 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function gives fields based on the type.
 	 *
-	 * @param string $type - field type
+	 * @param string $type   - field type
+	 * @param bool   $active
 	 *
 	 * @return Vtiger_Field_Model[] - list of field models
 	 */
-	public function getFieldsByType($type)
+	public function getFieldsByType(string $type, bool $active = false): array
 	{
 		if (!\is_array($type)) {
 			$type = [$type];
 		}
 		$fieldList = [];
 		foreach ($this->getFields() as &$field) {
-			if (\in_array($field->getFieldDataType(), $type)) {
+			if (\in_array($field->getFieldDataType(), $type) && (!$active || ($active && $field->isActiveField()))) {
 				$fieldList[$field->getName()] = $field;
 			}
 		}
