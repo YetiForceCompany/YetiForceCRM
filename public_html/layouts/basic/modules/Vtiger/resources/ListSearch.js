@@ -227,7 +227,7 @@ jQuery.Class(
 					searchOperator = 'e';
 				} else if (fieldInfo.type == 'date' || fieldInfo.type == 'datetime') {
 					searchOperator = 'bw';
-				} else if ($.inArray(fieldInfo.type, ['multipicklist', 'categoryMultipicklist', 'multiListFields', 'mailScannerFields']) != -1) {
+				} else if ($.inArray(fieldInfo.type, ['multipicklist', 'categoryMultipicklist', 'multiListFields', 'mailScannerFields', 'mailScannerActions']) != -1) {
 					searchOperator = 'c';
 				}
 				let sourceFieldName = searchContributorElement.data('sourceFieldName');

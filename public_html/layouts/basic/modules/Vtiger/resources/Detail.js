@@ -1077,7 +1077,7 @@ jQuery.Class(
 				var fieldName = jQuery(element).val();
 				var elementTarget = jQuery(element);
 				var elementName =
-					jQuery.inArray(elementTarget.data('type'), ['taxes', 'sharedOwner', 'multipicklist', 'multiListFields', 'multiDomain', 'mailScannerFields']) != -1
+					jQuery.inArray(elementTarget.data('type'), ['taxes', 'sharedOwner', 'multipicklist', 'multiListFields', 'multiDomain', 'mailScannerFields', 'mailScannerActions']) != -1
 						? fieldName + '[]'
 						: fieldName;
 				var fieldElement = jQuery('[name="' + elementName + '"]:not([type="hidden"])', editElement);
