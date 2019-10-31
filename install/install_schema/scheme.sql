@@ -4596,7 +4596,7 @@ CREATE TABLE `vtiger_blocks` (
   KEY `block_tabid_idx` (`tabid`),
   KEY `block_sequence_idx` (`sequence`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=452 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=456 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -5659,7 +5659,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2899 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2901 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -7018,29 +7018,29 @@ CREATE TABLE `vtiger_ossmailview` (
   `from_email` varchar(255) DEFAULT NULL,
   `to_email` text DEFAULT NULL,
   `subject` text DEFAULT NULL,
-  `content` mediumtext DEFAULT NULL,
   `cc_email` text DEFAULT NULL,
   `bcc_email` text DEFAULT NULL,
+  `reply_to_email` text DEFAULT NULL,
+  `content` mediumtext DEFAULT NULL,
   `date` datetime DEFAULT NULL,
   `cid` char(64) DEFAULT NULL,
-  `id` int(10) unsigned NOT NULL,
-  `mbox` varchar(100) DEFAULT NULL,
-  `uid` varchar(150) DEFAULT NULL,
-  `rc_user` int(10) unsigned NOT NULL,
-  `reply_to_email` text DEFAULT NULL,
+  `uid` varchar(255) DEFAULT NULL,
   `ossmailview_sendtype` varchar(30) DEFAULT NULL,
-  `attachments_exist` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `type` tinyint(1) unsigned DEFAULT NULL,
-  `from_id` text NOT NULL,
-  `to_id` text NOT NULL,
+  `attachments_exist` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `id` int(10) unsigned DEFAULT NULL,
+  `mbox` varchar(100) DEFAULT NULL,
+  `rc_user` int(10) unsigned DEFAULT NULL,
+  `from_id` text DEFAULT NULL,
+  `to_id` text DEFAULT NULL,
   `orginal_mail` mediumtext DEFAULT NULL,
   `verify` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`ossmailviewid`),
+  UNIQUE KEY `ossmailview_cid_idx` (`cid`),
   KEY `ossmailview_id_idx` (`id`),
   KEY `ossmailview_verify_idx` (`verify`),
   KEY `ossmailview_messageid_idx` (`uid`,`rc_user`),
   KEY `ossmailview_mbox_idx` (`mbox`),
-  KEY `ossmailview_cid_idx` (`cid`),
   KEY `ossmailview_date_idx` (`date`),
   CONSTRAINT `fk_1_vtiger_ossmailview` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -8885,6 +8885,8 @@ CREATE TABLE `vtiger_users` (
   `default_search_override` tinyint(1) DEFAULT NULL,
   `primary_phone` varchar(50) DEFAULT NULL,
   `primary_phone_extra` varchar(100) DEFAULT NULL,
+  `mail_scanner_actions` text DEFAULT NULL,
+  `mail_scanner_fields` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),
