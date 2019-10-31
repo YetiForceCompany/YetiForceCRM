@@ -30,6 +30,26 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	];
 
 	/**
+	 * @var int Max length module name based on database structure
+	 */
+	public static $maxLengthModuleName = 25;
+
+	/**
+	 * @var int Max length module label based on database structure
+	 */
+	public static $maxLengthModuleLabel = 25;
+
+	/**
+	 * @var int Max length main field name
+	 */
+	public static $maxLengthFieldName = 30;
+
+	/**
+	 * @var int Max length main field label
+	 */
+	public static $maxLengthFieldLabel = 50;
+
+	/**
 	 * Get module base tools exceptions parse to ids.
 	 *
 	 * @return array
@@ -114,7 +134,8 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 			preg_match('/Vtiger/i', $name) ||
 			preg_match('/CustomView/i', $name) ||
 			preg_match('/PickList/i', $name) ||
-			preg_match('/[^A-Za-z]/i', $name);
+			preg_match('/[^A-Za-z]/i', $name) ||
+			\strlen($name) > static::$maxLengthModuleName;
 	}
 
 	/**
