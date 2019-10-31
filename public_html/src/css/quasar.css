@@ -5467,6 +5467,9 @@ body.q-ios-padding .q-layout--standard .q-drawer--top-padding .q-drawer__content
     padding: 24px;
   }
 }
+body.platform-ios .q-layout--containerized {
+  position: unset !important;
+}
 .q-toolbar {
   position: relative;
   padding: 0 12px;
@@ -6925,9 +6928,7 @@ body.desktop .q-toggle--dense:focus:not(.disabled) .q-toggle__thumb:before {
   margin-right: 4px;
 }
 .q-table--col-auto-width {
-  opacity: 1 !important;
   width: 1px;
-  padding-right: 0 !important;
 }
 .q-table--flat {
   box-shadow: none;
@@ -7027,14 +7028,6 @@ body.desktop .q-toggle--dense:focus:not(.disabled) .q-toggle__thumb:before {
 .q-table--cell-separator .q-table__top {
   border-bottom: 1px solid rgba(0,0,0,0.12);
 }
-.q-table .q-table--col-auto-width {
-  border-left: 0;
-  border-right: 0;
-}
-.q-table .q-table--col-auto-width + td,
-.q-table .q-table--col-auto-width + th {
-  border-left: 0;
-}
 .q-table--dense .q-table__bottom {
   min-height: 42px;
 }
@@ -7070,14 +7063,6 @@ body.desktop .q-toggle--dense:focus:not(.disabled) .q-toggle__thumb:before {
 .q-table td {
   border-color: rgba(0,0,0,0.12);
 }
-.q-table th {
-  opacity: 0.54;
-  transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-}
-.q-table th.sortable:hover,
-.q-table th.sorted {
-  opacity: 0.86;
-}
 .q-table tbody tr.selected {
   background: rgba(0,0,0,0.06);
 }
@@ -7087,6 +7072,10 @@ body.desktop .q-toggle--dense:focus:not(.disabled) .q-toggle__thumb:before {
 .q-table__card--dark {
   color: #fff;
   background: #424242;
+  border-color: rgba(255,255,255,0.48);
+}
+.q-table--dark {
+  border-color: rgba(255,255,255,0.48);
 }
 .q-table--dark .q-table__bottom {
   border-top: 1px solid rgba(255,255,255,0.48);
@@ -7486,7 +7475,6 @@ body.q-ios-padding .q-dialog__inner > div {
   width: 1px;
   min-width: 1px;
   height: inherit;
-  min-height: 100%;
 }
 .q-separator--vertical.q-separator--spaced {
   margin-left: 8px;
@@ -10886,75 +10874,101 @@ body.electron .q-electron-drag--exception {
 .q-transition--flip-down-leave-to {
   transform: perspective(400px) rotate3d(1, 0, 0, -180deg);
 }
-.no-margin {
+body .quasar-reset .no-margin,
+.q-notifications .no-margin {
   margin: 0 !important;
 }
-.no-padding {
+body .quasar-reset .no-padding,
+.q-notifications .no-padding {
   padding: 0 !important;
 }
-.no-border {
+body .quasar-reset .no-border,
+.q-notifications .no-border {
   border: 0 !important;
 }
-.no-border-radius {
+body .quasar-reset .no-border-radius,
+.q-notifications .no-border-radius {
   border-radius: 0 !important;
 }
-.no-box-shadow {
+body .quasar-reset .no-box-shadow,
+.q-notifications .no-box-shadow {
   box-shadow: none !important;
 }
-.no-outline {
+body .quasar-reset .no-outline,
+.q-notifications .no-outline {
   outline: 0 !important;
 }
-.ellipsis {
+body .quasar-reset .ellipsis,
+.q-notifications .ellipsis {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
-.ellipsis-2-lines,
-.ellipsis-3-lines {
+body .quasar-reset .ellipsis-2-lines,
+.q-notifications .ellipsis-2-lines,
+body .quasar-reset .ellipsis-3-lines,
+.q-notifications .ellipsis-3-lines {
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
 }
-.ellipsis-2-lines {
+body .quasar-reset .ellipsis-2-lines,
+.q-notifications .ellipsis-2-lines {
   -webkit-line-clamp: 2;
 }
-.ellipsis-3-lines {
+body .quasar-reset .ellipsis-3-lines,
+.q-notifications .ellipsis-3-lines {
   -webkit-line-clamp: 3;
 }
-.readonly {
+body .quasar-reset .readonly,
+.q-notifications .readonly {
   cursor: default !important;
 }
-.disabled,
-[disabled],
-.disabled *,
-[disabled] * {
+body .quasar-reset .disabled,
+.q-notifications .disabled,
+body .quasar-reset [disabled],
+.q-notifications [disabled],
+body .quasar-reset .disabled *,
+.q-notifications .disabled *,
+body .quasar-reset [disabled] *,
+.q-notifications [disabled] * {
   outline: 0 !important;
   cursor: not-allowed !important;
 }
-.disabled,
-[disabled] {
+body .quasar-reset .disabled,
+.q-notifications .disabled,
+body .quasar-reset [disabled],
+.q-notifications [disabled] {
   opacity: 0.6 !important;
 }
-.hidden {
+body .quasar-reset .hidden,
+.q-notifications .hidden {
   display: none !important;
 }
-.invisible {
+body .quasar-reset .invisible,
+.q-notifications .invisible {
   visibility: hidden !important;
 }
-.transparent {
+body .quasar-reset .transparent,
+.q-notifications .transparent {
   background: transparent !important;
 }
-.overflow-auto {
+body .quasar-reset .overflow-auto,
+.q-notifications .overflow-auto {
   overflow: auto !important;
 }
-.overflow-hidden {
+body .quasar-reset .overflow-hidden,
+.q-notifications .overflow-hidden {
   overflow: hidden !important;
 }
-.overflow-hidden-y {
+body .quasar-reset .overflow-hidden-y,
+.q-notifications .overflow-hidden-y {
   overflow-y: hidden !important;
 }
-.dimmed:after,
-.light-dimmed:after {
+body .quasar-reset .dimmed:after,
+.q-notifications .dimmed:after,
+body .quasar-reset .light-dimmed:after,
+.q-notifications .light-dimmed:after {
   content: '';
   position: absolute;
   top: 0;
@@ -10962,144 +10976,222 @@ body.electron .q-electron-drag--exception {
   bottom: 0;
   left: 0;
 }
-.dimmed:after {
+body .quasar-reset .dimmed:after,
+.q-notifications .dimmed:after {
   background: rgba(0,0,0,0.4) !important;
 }
-.light-dimmed:after {
+body .quasar-reset .light-dimmed:after,
+.q-notifications .light-dimmed:after {
   background: rgba(255,255,255,0.6) !important;
 }
-.z-top {
+body .quasar-reset .z-top,
+.q-notifications .z-top {
   z-index: 7000 !important;
 }
-.z-max {
+body .quasar-reset .z-max,
+.q-notifications .z-max {
   z-index: 9998 !important;
 }
-body:not(.desktop) .desktop-only,
-body.desktop .desktop-hide {
+body .quasar-reset body:not(.desktop) .desktop-only,
+.q-notifications body:not(.desktop) .desktop-only,
+body .quasar-reset body.desktop .desktop-hide,
+.q-notifications body.desktop .desktop-hide {
   display: none !important;
 }
-body:not(.mobile) .mobile-only,
-body.mobile .mobile-hide {
+body .quasar-reset body:not(.mobile) .mobile-only,
+.q-notifications body:not(.mobile) .mobile-only,
+body .quasar-reset body.mobile .mobile-hide,
+.q-notifications body.mobile .mobile-hide {
   display: none !important;
 }
-body:not(.cordova) .cordova-only,
-body.cordova .cordova-hide {
+body .quasar-reset body:not(.native-mobile) .native-mobile-only,
+.q-notifications body:not(.native-mobile) .native-mobile-only,
+body .quasar-reset body.native-mobile .native-mobile-hide,
+.q-notifications body.native-mobile .native-mobile-hide {
   display: none !important;
 }
-body:not(.electron) .electron-only,
-body.electron .electron-hide {
+body .quasar-reset body:not(.cordova) .cordova-only,
+.q-notifications body:not(.cordova) .cordova-only,
+body .quasar-reset body.cordova .cordova-hide,
+.q-notifications body.cordova .cordova-hide {
   display: none !important;
 }
-body:not(.ios) .ios-only,
-body.ios .ios-hide {
+body .quasar-reset body:not(.capacitor) .capacitor-only,
+.q-notifications body:not(.capacitor) .capacitor-only,
+body .quasar-reset body.capacitor .capacitor-hide,
+.q-notifications body.capacitor .capacitor-hide {
   display: none !important;
 }
-body:not(.mat) .mat-only,
-body.mat .mat-hide {
+body .quasar-reset body:not(.electron) .electron-only,
+.q-notifications body:not(.electron) .electron-only,
+body .quasar-reset body.electron .electron-hide,
+.q-notifications body.electron .electron-hide {
   display: none !important;
 }
-body:not(.touch) .touch-only,
-body.touch .touch-hide {
+body .quasar-reset body:not(.touch) .touch-only,
+.q-notifications body:not(.touch) .touch-only,
+body .quasar-reset body.touch .touch-hide,
+.q-notifications body.touch .touch-hide {
   display: none !important;
 }
-body:not(.within-iframe) .within-iframe-only,
-body.within-iframe .within-iframe-hide {
+body .quasar-reset body:not(.within-iframe) .within-iframe-only,
+.q-notifications body:not(.within-iframe) .within-iframe-only,
+body .quasar-reset body.within-iframe .within-iframe-hide,
+.q-notifications body.within-iframe .within-iframe-hide {
   display: none !important;
 }
-body:not(.platform-ios) .platform-ios-only,
-body.platform-ios .platform-ios-hide {
+body .quasar-reset body:not(.platform-ios) .platform-ios-only,
+.q-notifications body:not(.platform-ios) .platform-ios-only,
+body .quasar-reset body.platform-ios .platform-ios-hide,
+.q-notifications body.platform-ios .platform-ios-hide {
   display: none !important;
 }
-body:not(.platform-android) .platform-android-only,
-body.platform-android .platform-android-hide {
+body .quasar-reset body:not(.platform-android) .platform-android-only,
+.q-notifications body:not(.platform-android) .platform-android-only,
+body .quasar-reset body.platform-android .platform-android-hide,
+.q-notifications body.platform-android .platform-android-hide {
   display: none !important;
 }
 @media all and (orientation: portrait) {
-  .orientation-landscape {
+  body .quasar-reset .orientation-landscape,
+  .q-notifications .orientation-landscape {
     display: none !important;
   }
 }
 @media all and (orientation: landscape) {
-  .orientation-portrait {
+  body .quasar-reset .orientation-portrait,
+  .q-notifications .orientation-portrait {
     display: none !important;
   }
 }
 @media screen {
-  .print-only {
+  body .quasar-reset .print-only,
+  .q-notifications .print-only {
     display: none !important;
   }
 }
 @media print {
-  .print-hide {
+  body .quasar-reset .print-hide,
+  .q-notifications .print-hide {
     display: none !important;
   }
 }
 @media (max-width: 599px) {
-  .xs-hide,
-  .gt-xs,
-  .sm,
-  .gt-sm,
-  .md,
-  .gt-md,
-  .lg,
-  .gt-lg,
-  .xl {
+  body .quasar-reset .xs-hide,
+  .q-notifications .xs-hide,
+  body .quasar-reset .gt-xs,
+  .q-notifications .gt-xs,
+  body .quasar-reset .sm,
+  .q-notifications .sm,
+  body .quasar-reset .gt-sm,
+  .q-notifications .gt-sm,
+  body .quasar-reset .md,
+  .q-notifications .md,
+  body .quasar-reset .gt-md,
+  .q-notifications .gt-md,
+  body .quasar-reset .lg,
+  .q-notifications .lg,
+  body .quasar-reset .gt-lg,
+  .q-notifications .gt-lg,
+  body .quasar-reset .xl,
+  .q-notifications .xl {
     display: none !important;
   }
 }
 @media (min-width: 600px) and (max-width: 1023px) {
-  .sm-hide,
-  .xs,
-  .lt-sm,
-  .gt-sm,
-  .md,
-  .gt-md,
-  .lg,
-  .gt-lg,
-  .xl {
+  body .quasar-reset .sm-hide,
+  .q-notifications .sm-hide,
+  body .quasar-reset .xs,
+  .q-notifications .xs,
+  body .quasar-reset .lt-sm,
+  .q-notifications .lt-sm,
+  body .quasar-reset .gt-sm,
+  .q-notifications .gt-sm,
+  body .quasar-reset .md,
+  .q-notifications .md,
+  body .quasar-reset .gt-md,
+  .q-notifications .gt-md,
+  body .quasar-reset .lg,
+  .q-notifications .lg,
+  body .quasar-reset .gt-lg,
+  .q-notifications .gt-lg,
+  body .quasar-reset .xl,
+  .q-notifications .xl {
     display: none !important;
   }
 }
 @media (min-width: 1024px) and (max-width: 1439px) {
-  .md-hide,
-  .xs,
-  .lt-sm,
-  .sm,
-  .lt-md,
-  .gt-md,
-  .lg,
-  .gt-lg,
-  .xl {
+  body .quasar-reset .md-hide,
+  .q-notifications .md-hide,
+  body .quasar-reset .xs,
+  .q-notifications .xs,
+  body .quasar-reset .lt-sm,
+  .q-notifications .lt-sm,
+  body .quasar-reset .sm,
+  .q-notifications .sm,
+  body .quasar-reset .lt-md,
+  .q-notifications .lt-md,
+  body .quasar-reset .gt-md,
+  .q-notifications .gt-md,
+  body .quasar-reset .lg,
+  .q-notifications .lg,
+  body .quasar-reset .gt-lg,
+  .q-notifications .gt-lg,
+  body .quasar-reset .xl,
+  .q-notifications .xl {
     display: none !important;
   }
 }
 @media (min-width: 1440px) and (max-width: 1919px) {
-  .lg-hide,
-  .xs,
-  .lt-sm,
-  .sm,
-  .lt-md,
-  .md,
-  .lt-lg,
-  .gt-lg,
-  .xl {
+  body .quasar-reset .lg-hide,
+  .q-notifications .lg-hide,
+  body .quasar-reset .xs,
+  .q-notifications .xs,
+  body .quasar-reset .lt-sm,
+  .q-notifications .lt-sm,
+  body .quasar-reset .sm,
+  .q-notifications .sm,
+  body .quasar-reset .lt-md,
+  .q-notifications .lt-md,
+  body .quasar-reset .md,
+  .q-notifications .md,
+  body .quasar-reset .lt-lg,
+  .q-notifications .lt-lg,
+  body .quasar-reset .gt-lg,
+  .q-notifications .gt-lg,
+  body .quasar-reset .xl,
+  .q-notifications .xl {
     display: none !important;
   }
 }
 @media (min-width: 1920px) {
-  .xl-hide,
-  .xs,
-  .lt-sm,
-  .sm,
-  .lt-md,
-  .md,
-  .lt-lg,
-  .lg,
-  .lt-xl {
+  body .quasar-reset .xl-hide,
+  .q-notifications .xl-hide,
+  body .quasar-reset .xs,
+  .q-notifications .xs,
+  body .quasar-reset .lt-sm,
+  .q-notifications .lt-sm,
+  body .quasar-reset .sm,
+  .q-notifications .sm,
+  body .quasar-reset .lt-md,
+  .q-notifications .lt-md,
+  body .quasar-reset .md,
+  .q-notifications .md,
+  body .quasar-reset .lt-lg,
+  .q-notifications .lt-lg,
+  body .quasar-reset .lg,
+  .q-notifications .lg,
+  body .quasar-reset .lt-xl,
+  .q-notifications .lt-xl {
     display: none !important;
   }
 }
-body.desktop .q-focus-helper {
+body .quasar-reset .q-focus-helper,
+.q-notifications .q-focus-helper {
+  outline: 0;
+}
+body .quasar-reset body.desktop .q-focus-helper,
+.q-notifications body.desktop .q-focus-helper {
   position: absolute;
   top: 0;
   left: 0 /* rtl:ignore */;
@@ -11107,12 +11199,13 @@ body.desktop .q-focus-helper {
   height: 100%;
   pointer-events: none;
   border-radius: inherit;
-  outline: 0;
   opacity: 0;
   transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.5, 1), opacity 0.4s cubic-bezier(0.25, 0.8, 0.5, 1);
 }
-body.desktop .q-focus-helper:before,
-body.desktop .q-focus-helper:after {
+body .quasar-reset body.desktop .q-focus-helper:before,
+.q-notifications body.desktop .q-focus-helper:before,
+body .quasar-reset body.desktop .q-focus-helper:after,
+.q-notifications body.desktop .q-focus-helper:after {
   content: '';
   position: absolute;
   top: 0;
@@ -11123,41 +11216,59 @@ body.desktop .q-focus-helper:after {
   border-radius: inherit;
   transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.5, 1), opacity 0.6s cubic-bezier(0.25, 0.8, 0.5, 1);
 }
-body.desktop .q-focus-helper:before {
+body .quasar-reset body.desktop .q-focus-helper:before,
+.q-notifications body.desktop .q-focus-helper:before {
   background: #000;
 }
-body.desktop .q-focus-helper:after {
+body .quasar-reset body.desktop .q-focus-helper:after,
+.q-notifications body.desktop .q-focus-helper:after {
   background: #fff;
 }
-body.desktop .q-focus-helper--rounded {
+body .quasar-reset body.desktop .q-focus-helper--rounded,
+.q-notifications body.desktop .q-focus-helper--rounded {
   border-radius: 4px;
 }
-body.desktop .q-focus-helper--round {
+body .quasar-reset body.desktop .q-focus-helper--round,
+.q-notifications body.desktop .q-focus-helper--round {
   border-radius: 50%;
 }
-body.desktop .q-focusable,
-body.desktop .q-manual-focusable,
-body.desktop .q-hoverable {
+body .quasar-reset body.desktop .q-focusable,
+.q-notifications body.desktop .q-focusable,
+body .quasar-reset body.desktop .q-manual-focusable,
+.q-notifications body.desktop .q-manual-focusable,
+body .quasar-reset body.desktop .q-hoverable,
+.q-notifications body.desktop .q-hoverable {
   outline: 0;
 }
-body.desktop .q-focusable:focus > .q-focus-helper,
-body.desktop .q-manual-focusable--focused > .q-focus-helper,
-body.desktop .q-hoverable:hover > .q-focus-helper {
+body .quasar-reset body.desktop .q-focusable:focus > .q-focus-helper,
+.q-notifications body.desktop .q-focusable:focus > .q-focus-helper,
+body .quasar-reset body.desktop .q-manual-focusable--focused > .q-focus-helper,
+.q-notifications body.desktop .q-manual-focusable--focused > .q-focus-helper,
+body .quasar-reset body.desktop .q-hoverable:hover > .q-focus-helper,
+.q-notifications body.desktop .q-hoverable:hover > .q-focus-helper {
   background: currentColor;
   opacity: 0.15;
 }
-body.desktop .q-focusable:focus > .q-focus-helper:before,
-body.desktop .q-manual-focusable--focused > .q-focus-helper:before,
-body.desktop .q-hoverable:hover > .q-focus-helper:before {
+body .quasar-reset body.desktop .q-focusable:focus > .q-focus-helper:before,
+.q-notifications body.desktop .q-focusable:focus > .q-focus-helper:before,
+body .quasar-reset body.desktop .q-manual-focusable--focused > .q-focus-helper:before,
+.q-notifications body.desktop .q-manual-focusable--focused > .q-focus-helper:before,
+body .quasar-reset body.desktop .q-hoverable:hover > .q-focus-helper:before,
+.q-notifications body.desktop .q-hoverable:hover > .q-focus-helper:before {
   opacity: 0.1;
 }
-body.desktop .q-focusable:focus > .q-focus-helper:after,
-body.desktop .q-manual-focusable--focused > .q-focus-helper:after,
-body.desktop .q-hoverable:hover > .q-focus-helper:after {
+body .quasar-reset body.desktop .q-focusable:focus > .q-focus-helper:after,
+.q-notifications body.desktop .q-focusable:focus > .q-focus-helper:after,
+body .quasar-reset body.desktop .q-manual-focusable--focused > .q-focus-helper:after,
+.q-notifications body.desktop .q-manual-focusable--focused > .q-focus-helper:after,
+body .quasar-reset body.desktop .q-hoverable:hover > .q-focus-helper:after,
+.q-notifications body.desktop .q-hoverable:hover > .q-focus-helper:after {
   opacity: 0.4;
 }
-body.desktop .q-focusable:focus > .q-focus-helper,
-body.desktop .q-manual-focusable--focused > .q-focus-helper {
+body .quasar-reset body.desktop .q-focusable:focus > .q-focus-helper,
+.q-notifications body.desktop .q-focusable:focus > .q-focus-helper,
+body .quasar-reset body.desktop .q-manual-focusable--focused > .q-focus-helper,
+.q-notifications body.desktop .q-manual-focusable--focused > .q-focus-helper {
   opacity: 0.22;
 }
 body .quasar-reset body,
