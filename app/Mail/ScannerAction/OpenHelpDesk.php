@@ -24,7 +24,7 @@ class OpenHelpDesk extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public static function process(): void
+	public function process(): void
 	{
 	}
 }
