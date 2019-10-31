@@ -677,6 +677,14 @@ var app = (window.app = {
 		}
 		return container;
 	},
+	/**
+	 * Check if current window is target for a modal and trigger in correct window if not
+	 *
+	 * @param   {String}  sourceFunction  source function name in dot prop notation object
+	 * @param   {Array}  args            source function arguments
+	 *
+	 * @return  {Boolean}                  isCurrentWindowTarget
+	 */
 	isCurrentWindowTarget(sourceFunction, args) {
 		let isCurrentWindowTarget = true;
 		if (CONFIG.modalParams.target === 'parentIframe') {
