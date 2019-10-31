@@ -358,6 +358,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 323:
 						$fieldDataType = 'mailScannerFields';
 						break;
+					case 324:
+						$fieldDataType = 'token';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
