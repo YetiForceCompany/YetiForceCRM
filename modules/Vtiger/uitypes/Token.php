@@ -63,6 +63,14 @@ class Vtiger_Token_UIType extends Vtiger_Base_UIType
 		return ['y', 'ny'];
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isActiveSearchView()
+	{
+		return false;
+	}
+
 	public function generateToken(bool $repeated = false)
 	{
 		$fieldModel = $this->getFieldModel();
