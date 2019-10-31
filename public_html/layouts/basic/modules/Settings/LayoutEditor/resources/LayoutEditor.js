@@ -1227,18 +1227,20 @@ $.Class(
 				.done(function(data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					var params = {};
-					if (data['success']) {
+					let result = data.result;
+					if (data['success'] && result.success) {
 						thisInstance.removeDeletedBlock(blockId);
 						thisInstance.removeBlockFromBlocksList(blockId);
 						params['text'] = app.vtranslate('JS_CUSTOM_BLOCK_DELETED');
-					} else {
-						params['text'] = data['error']['message'];
+					} else if (result && result.message) {
+						params['text'] = result.message;
 						params['type'] = 'error';
 					}
 					Settings_Vtiger_Index_Js.showMessage(params);
 				})
-				.fail(function(error) {
+				.fail(function(error, err) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					app.errorLog(error, err);
 				});
 		},
 		/**
