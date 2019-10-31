@@ -185,15 +185,15 @@ jQuery.Class(
 			});
 		},
 		getListSearchParams: function(urlSearchParams) {
-			var listViewPageDiv = this.getContainer();
-			var listViewTable = listViewPageDiv.find('.listViewEntriesTable');
-			var searchParams = [];
+			let listViewPageDiv = this.getContainer();
+			let listViewTable = listViewPageDiv.find('.listViewEntriesTable');
+			let searchParams = [];
 			listViewTable.find('.listSearchContributor').each(function(index, domElement) {
-				var searchInfo = [];
-				var searchContributorElement = jQuery(domElement);
-				var fieldInfo = searchContributorElement.data('fieldinfo');
-				var fieldName = searchContributorElement.attr('name');
-				var searchValue = searchContributorElement.val();
+				let searchInfo = [];
+				let searchContributorElement = $(domElement);
+				let fieldInfo = searchContributorElement.data('fieldinfo');
+				let fieldName = searchContributorElement.attr('name');
+				let searchValue = searchContributorElement.val();
 				if (typeof searchValue == 'object') {
 					if (searchValue == null) {
 						searchValue = '';
@@ -203,15 +203,13 @@ jQuery.Class(
 				}
 				searchValue = searchValue.trim();
 				if (searchValue.length <= 0) {
-					//continue
 					return true;
 				}
-
-				var searchOperator = 'a';
+				let searchOperator = 'a';
 				if (fieldInfo.hasOwnProperty('searchOperator')) {
 					searchOperator = fieldInfo.searchOperator;
 				} else if (
-					jQuery.inArray(fieldInfo.type, [
+					$.inArray(fieldInfo.type, [
 						'modules',
 						'time',
 						'userCreator',
@@ -229,7 +227,7 @@ jQuery.Class(
 					searchOperator = 'e';
 				} else if (fieldInfo.type == 'date' || fieldInfo.type == 'datetime') {
 					searchOperator = 'bw';
-				} else if (fieldInfo.type == 'multipicklist' || fieldInfo.type == 'categoryMultipicklist' || fieldInfo.type == 'multiListFields') {
+				} else if ($.inArray(fieldInfo.type, ['multipicklist', 'categoryMultipicklist', 'multiListFields', 'mailScannerFields']) != -1) {
 					searchOperator = 'c';
 				}
 				let sourceFieldName = searchContributorElement.data('sourceFieldName');
@@ -241,7 +239,7 @@ jQuery.Class(
 				searchInfo.push(searchOperator);
 				searchInfo.push(searchValue);
 				if (fieldInfo.type == 'tree' || fieldInfo.type == 'categoryMultipicklist') {
-					var searchInSubcategories = jQuery(
+					let searchInSubcategories = jQuery(
 						'.listViewHeaders .searchInSubcategories[data-columnname="' + fieldName + '"]'
 					).prop('checked');
 					searchInfo.push(searchInSubcategories);
@@ -249,16 +247,16 @@ jQuery.Class(
 				searchParams.push(searchInfo);
 			});
 			if (urlSearchParams) {
-				var valueInSearch = null;
-				var url = app.getUrlVar('search_params');
+				let valueInSearch = null;
+				let url = app.getUrlVar('search_params');
 				if (url != undefined && url.length) {
-					var lengthUrl = url.length;
+					let lengthUrl = url.length;
 					if (url.charAt(lengthUrl - 1) === '#') {
 						url = url.substr(0, lengthUrl - 1);
 					}
 					url = JSON.parse(decodeURIComponent(url));
 					$.each(url[0], function(index, value) {
-						var exist = false;
+						let exist = false;
 						$.each(searchParams, function(index, searchParam) {
 							if (searchParam[0] == value[0]) {
 								exist = true;
