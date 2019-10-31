@@ -4592,6 +4592,7 @@ CREATE TABLE `vtiger_blocks` (
   `detail_view` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `display_status` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `iscustom` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `icon` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`blockid`),
   KEY `block_tabid_idx` (`tabid`),
   KEY `block_sequence_idx` (`sequence`),
