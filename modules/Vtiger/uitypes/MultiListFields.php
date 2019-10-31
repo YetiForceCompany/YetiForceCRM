@@ -64,11 +64,9 @@ class Vtiger_MultiListFields_UIType extends Vtiger_Multipicklist_UIType
 			return null;
 		}
 		$translatedValues = [];
-		$value = str_replace(',', ', ', trim($value, ','));
 		$fieldValues = explode(',', $value);
 		foreach ($fieldValues as $fieldValue) {
 			$fieldData = explode('|', $fieldValue);
-			$fieldData = array_map('trim', $fieldData);
 			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldData[0]);
 			$moduleName = $fieldModel->getModuleName();
 			$translatedValues[] = App\Language::translate($moduleName, $moduleName) . ' - ' . App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
@@ -81,7 +79,7 @@ class Vtiger_MultiListFields_UIType extends Vtiger_Multipicklist_UIType
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return array_filter(explode(',', \App\Purifier::encodeHtml($value)));
+		return explode(',', \App\Purifier::encodeHtml(trim($value, ',')));
 	}
 
 	/**
