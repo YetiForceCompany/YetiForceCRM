@@ -12,7 +12,7 @@ class Vtiger_DetailPreview_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcessTplName(\App\Request $request)
+	public function preProcessTplName(App\Request $request)
 	{
 		return 'DetailPreviewPreProcess.tpl';
 	}
@@ -44,7 +44,7 @@ class Vtiger_DetailPreview_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $moduleName);
@@ -56,7 +56,7 @@ class Vtiger_DetailPreview_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $moduleName);
@@ -73,5 +73,16 @@ class Vtiger_DetailPreview_View extends Vtiger_Detail_View
 			'modules.Vtiger.resources.DetailPreview',
 			"modules.$moduleName.resources.DetailPreview",
 		]));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function loadJsConfig(App\Request $request)
+	{
+		parent::loadJsConfig($request);
+		$modalParams = \App\Config::getJsEnvByKey('modalParams');
+		$modalParams['target'] = 'parentIframe';
+		\App\Config::setJsEnv('modalParams', $modalParams);
 	}
 }

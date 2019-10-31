@@ -557,7 +557,9 @@ abstract class Base extends \App\Controller\Base
 			'searchShowOwnerOnlyInList' => \App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
 			'fieldsReferencesDependent' => \App\Config::security('FIELDS_REFERENCES_DEPENDENT'),
 			'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
-			'debug' => (bool) \App\Config::debug('JS_DEBUG')];
+			'debug' => (bool) \App\Config::debug('JS_DEBUG'),
+			'modalParams' => ['target' => 'base']
+		];
 		if (\App\Session::has('authenticated_user_id')) {
 			$userModel = \App\User::getCurrentUserModel();
 			$jsEnv += [
