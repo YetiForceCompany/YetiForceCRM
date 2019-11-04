@@ -20,8 +20,8 @@
 						{/if}
 					</h5>
 				</div>
-				<div class="c-detail-widget__actions q-fab z-fab row inline justify-center js-comment-actions__container ml-auto quasar-reset">
-					<button type="button" tabindex="0" class="js-comment-actions__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable u-font-size-10px q-ml-auto">
+				<div class="c-detail-widget__actions q-fab z-fab row inline justify-center js-fab__container ml-auto quasar-reset">
+					<button type="button" tabindex="0" class="js-fab__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable u-font-size-10px q-ml-auto">
 						<div tabindex="-1" class="q-focus-helper"></div>
 						<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
 							<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
@@ -31,11 +31,11 @@
 						{if isset($WIDGET['switchHeader'])}
 						<div class="ml-auto btn-group btn-group-toggle" data-toggle="buttons">
 							<label class="btn btn-sm btn-outline-primary active">
-								<input class="js-switch" type="radio" name="options" id="option1" data-js="change" data-on-val='{\App\Purifier::encodeHtml($WIDGET[' switchHeader']['on'])}' data-urlparams="search_params"
+								<input class="js-switch" type="radio" name="options" id="option1" data-js="change" data-on-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}' data-urlparams="search_params"
 									autocomplete="off" checked> {$WIDGET['switchHeaderLables']['on']}
 							</label>
 							<label class="btn btn-sm btn-outline-primary">
-								<input class="js-switch" type="radio" name="options" id="option2" data-js="change" data-off-val='{\App\Purifier::encodeHtml($WIDGET[' switchHeader']['off'])}' data-urlparams="search_params"
+								<input class="js-switch" type="radio" name="options" id="option2" data-js="change" data-off-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}' data-urlparams="search_params"
 									autocomplete="off"> {$WIDGET['switchHeaderLables']['off']}
 							</label>
 						</div>

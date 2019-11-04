@@ -2,7 +2,7 @@
 {strip}
 <div class="tpl-Settings-TreesManager-ListViewHeader listViewPageDiv">
 	<div class="listViewTopMenuDiv">
-		<div class="widget_header row">
+		<div class="o-breadcrumb widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>

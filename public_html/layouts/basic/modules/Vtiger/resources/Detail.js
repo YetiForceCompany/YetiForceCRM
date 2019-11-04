@@ -1077,7 +1077,15 @@ jQuery.Class(
 				var fieldName = jQuery(element).val();
 				var elementTarget = jQuery(element);
 				var elementName =
-					jQuery.inArray(elementTarget.data('type'), ['taxes', 'sharedOwner', 'multipicklist', 'multiListFields', 'multiDomain', 'mailScannerFields', 'mailScannerActions']) != -1
+					jQuery.inArray(elementTarget.data('type'), [
+						'taxes',
+						'sharedOwner',
+						'multipicklist',
+						'multiListFields',
+						'multiDomain',
+						'mailScannerFields',
+						'mailScannerActions'
+					]) != -1
 						? fieldName + '[]'
 						: fieldName;
 				var fieldElement = jQuery('[name="' + elementName + '"]:not([type="hidden"])', editElement);
@@ -1463,7 +1471,11 @@ jQuery.Class(
 				}
 				quickCreateParams['noCache'] = true;
 				quickCreateParams['callbackFunction'] = postQuickCreateSave;
-				var progress = jQuery.progressIndicator();
+				var progress = jQuery.progressIndicator({
+					blockInfo: {
+						enabled: true
+					}
+				});
 				let headerInstance;
 				if (window !== window.parent) {
 					headerInstance = window.parent.Vtiger_Header_Js.getInstance();
@@ -2707,12 +2719,12 @@ jQuery.Class(
 					currentTargetParent.hide();
 				});
 			});
-			detailContentsHolder.on('click', '.js-comment-actions__btn', e => {
+			detailContentsHolder.on('click', '.js-fab__btn', e => {
 				$(e.currentTarget)
-					.parent('.js-comment-actions__container')
+					.closest('.js-fab__container')
 					.toggleClass('q-fab--opened');
 			});
-			detailContentsHolder.find('.js-comment-actions__container').on('clickoutside', e => {
+			detailContentsHolder.find('.js-fab__container').on('clickoutside', e => {
 				$(e.currentTarget).removeClass('q-fab--opened');
 			});
 			detailContentsHolder.on('click', '.hideThread', function(e) {

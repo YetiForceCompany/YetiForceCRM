@@ -11,7 +11,7 @@
 			{if !empty($RECORD_ID)}
 				<input type="hidden" name="record" id="recordId" value="{$RECORD_ID}"/>
 			{/if}
-			<div class="widget_header row mb-3">
+			<div class="o-breadcrumb widget_header row mb-3">
 				<div class="col-md-8">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 				</div>

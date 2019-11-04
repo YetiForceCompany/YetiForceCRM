@@ -611,6 +611,15 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 	.moduleIcon {
 		float: left;
+		&.o-detail__record-img {
+			position: relative;
+			.hierarchy {
+				position: absolute;
+				top: calculate-rem(-7px);
+				right: 0;
+				left: unset;
+			}
+		}
 	}
 
 	.btn-toolbar,

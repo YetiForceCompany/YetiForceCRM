@@ -40,7 +40,7 @@
 				<input type="hidden" name="{$FIELD_NAME}"
 					   value="{\App\Purifier::encodeHtml($RECORD->get($FIELD_NAME))}"/>
 			{/foreach}
-			<div class="widget_header row">
+			<div class="o-breadcrumb widget_header row">
 				<div class="col-12">
 					{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 					<span class="float-left">

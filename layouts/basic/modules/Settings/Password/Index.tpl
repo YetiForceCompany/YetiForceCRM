@@ -3,7 +3,7 @@
 	<div class="">
 		<div class="clearfix">
 			<form id="PassForm" class="form-horizontal">
-				<div class="widget_header form-row mb-2">
+				<div class="o-breadcrumb widget_header form-row mb-2">
 					<div class="col-md-12">
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 					</div>

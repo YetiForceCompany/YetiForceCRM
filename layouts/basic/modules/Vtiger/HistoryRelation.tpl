@@ -70,8 +70,8 @@
 											<span>{\App\Fields\DateTime::formatToViewDate($HISTORY['time'])}</span>
 										</div>
 									</div>
-									<div class="q-fab z-fab row inline justify-center js-comment-actions__container ml-auto quasar-reset mr-1 d-sm-none d-block float-right">
-											<button type="button" tabindex="0" class="js-comment-actions__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat text-grey-6 q-focusable q-hoverable u-font-size-10px p-0">
+									<div class="q-fab z-fab row inline justify-center js-fab__container ml-auto quasar-reset mr-1 d-sm-none d-block float-right">
+											<button type="button" tabindex="0" class="js-fab__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat text-grey-6 q-focusable q-hoverable u-font-size-10px p-0">
 												<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
 													<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
 												</div>

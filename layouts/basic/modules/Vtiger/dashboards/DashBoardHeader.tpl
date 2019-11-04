@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class="row">
-		<nav class="widget_header col-12 px-3 d-xsm-flex align-items-center flex-xsm-row" aria-label="{\App\Language::translate("LBL_BREADCRUMB")}">
+		<nav class="o-breadcrumb widget_header col-12 px-3 d-xsm-flex align-items-center flex-xsm-row" aria-label="{\App\Language::translate("LBL_BREADCRUMB")}">
 			{if {$MODULE} neq 'Home'}
 				<div class="listViewMassActions px-2">
 					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] BTN_GROUP=false CLASS=buttonTextHolder}

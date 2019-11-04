@@ -2,7 +2,7 @@
 {strip}
 	<input type="hidden" id="view" value="{$VIEW}"/>
 	<div class="tpl-Settings-Inventory-Index" id="inventory">
-		<div class="widget_header form-row">
+		<div class="o-breadcrumb widget_header form-row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>

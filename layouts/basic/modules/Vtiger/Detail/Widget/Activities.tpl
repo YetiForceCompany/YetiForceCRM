@@ -20,31 +20,33 @@
 					</h5>
 				</div>
 				<div
-					class="c-detail-widget__actions q-fab z-fab row inline justify-center js-comment-actions__container ml-auto quasar-reset">
+					class="c-detail-widget__actions q-fab z-fab row inline justify-center js-fab__container ml-auto quasar-reset">
 					<button type="button" tabindex="0"
-						class="js-comment-actions__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable u-font-size-10px q-ml-auto">
+						class="js-fab__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable u-font-size-10px q-ml-auto">
 						<div tabindex="-1" class="q-focus-helper"></div>
 						<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
 							<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
 						</div>
 					</button>
 					<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions">
-						<div class="btn-group btn-group-toggle" data-toggle="buttons">
-							<label class="btn btn-sm btn-outline-primary active">
-								<input class="js-switch" type="radio" name="options" id="option1" data-js="change"
-									data-on-text="{App\Language::translate('LBL_CURRENT')}"
-									data-on-val="{if isset($WIDGET['switchHeader']['on'])}{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}{/if}"
-									data-basic-text="{App\Language::translate('LBL_CURRENT')}" autocomplete="off">
-								{App\Language::translate('LBL_CURRENT')}
-							</label>
-							<label class="btn btn-sm btn-outline-primary">
-								<input class="js-switch" type="radio" name="options" id="option2" data-js="change"
-									data-basic-text="{App\Language::translate('LBL_HISTORY')}"
-									data-off-text="data-off-text {App\Language::translate('LBL_HISTORY')}"
-									data-off-val="{if isset($WIDGET['switchHeader']['off'])}{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}{/if}"
-									autocomplete="off"> {App\Language::translate('LBL_HISTORY')}
-							</label>
-						</div>
+						{if isset($WIDGET['switchHeader'])}
+							<div class="btn-group btn-group-toggle" data-toggle="buttons">
+								<label class="btn btn-sm btn-outline-primary active">
+									<input class="js-switch" type="radio" name="options" id="option1" data-js="change"
+										data-on-text="{App\Language::translate('LBL_CURRENT')}"
+										data-on-val="{if isset($WIDGET['switchHeader']['on'])}{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}{/if}"
+										data-basic-text="{App\Language::translate('LBL_CURRENT')}" autocomplete="off">
+									{App\Language::translate('LBL_CURRENT')}
+								</label>
+								<label class="btn btn-sm btn-outline-primary">
+									<input class="js-switch" type="radio" name="options" id="option2" data-js="change"
+										data-basic-text="{App\Language::translate('LBL_HISTORY')}"
+										data-off-text="data-off-text {App\Language::translate('LBL_HISTORY')}"
+										data-off-val="{if isset($WIDGET['switchHeader']['off'])}{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}{/if}"
+										autocomplete="off"> {App\Language::translate('LBL_HISTORY')}
+								</label>
+							</div>
+						{/if}
 						<button class="btn btn-sm btn-light addButton createActivity"
 							data-url="sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true"
 							type="button" title="{App\Language::translate('LBL_ADD',$MODULE_NAME)}">

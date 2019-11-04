@@ -2,10 +2,10 @@
 {strip}
 	<!-- tpl-Base-ButtonLink -->
 	{if empty($CLASS)}
-		{assign var='CLASS' value=''}
+		{assign var=CLASS value=''}
 	{/if}
 	{if !isset($BUTTON_VIEW) }
-		{assign var='BUTTON_VIEW' value=''}
+		{assign var=BUTTON_VIEW value=''}
 	{/if}
 	<div class="c-btn-link btn-group {if $BUTTON_VIEW|strrpos:'listView' !== false && $USER_MODEL->get('rowheight') eq 'narrow'}btn-group-sm{/if} {$CLASS}">
 		{assign var="LABEL" value=$LINK->getLabel()}
@@ -26,7 +26,7 @@
 					{/foreach}
 				{/if}
 				{if $LABEL neq '' && $LINK->get('showLabel') != 1}{' '}
-					data-placement="{if $BUTTON_VIEW|strrpos:'listView'!==false}top{else}bottom{/if}"{' '}
+					data-placement="top"{' '}
 					data-content="{\App\Language::translate($LABEL, $BTN_MODULE)}"
 					data-target="focus hover"
 				{/if}

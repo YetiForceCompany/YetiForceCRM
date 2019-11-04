@@ -14,7 +14,7 @@
 			<input type="hidden" name="action" value="Save"/>
 			<input type="hidden" name="parent" value="Settings"/>
 			<input type="hidden" name="record" value="{$RECORD_MODEL->getId()}">
-			<div class="widget_header row mb-3">
+			<div class="o-breadcrumb widget_header row mb-3">
 				<div class="col-12 d-flex">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				</div>
