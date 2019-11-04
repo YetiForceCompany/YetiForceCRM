@@ -8934,6 +8934,7 @@ insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,1
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,126,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,127,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,128,0);
+insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,129,0);
 
 /*Data for the table `vtiger_profile2utility` */
 
@@ -17977,6 +17978,7 @@ insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`cu
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (126,'RecycleBin',0,27,'RecycleBin',0,0,0,'0','',NULL,0,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (127,'Approvals',0,28,'Approvals',0,0,1,'0','',NULL,0,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (128,'ApprovalsRegister',0,29,'ApprovalsRegister',0,0,1,'0','',NULL,0,0,0);
+insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (129,'MailIntegration',0,30,'MailIntegration',0,0,0,'0','',NULL,0,0,1);
 
 /*Data for the table `vtiger_tab_info` */
 
@@ -18063,6 +18065,7 @@ insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (120,'vtig
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (126,'vtiger_min_version','4.4.0');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (127,'vtiger_min_version','5.2.40');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (128,'vtiger_min_version','5.2.40');
+insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (129,'vtiger_min_version','5.2.x');
 
 /*Data for the table `vtiger_taskpriority` */
 
