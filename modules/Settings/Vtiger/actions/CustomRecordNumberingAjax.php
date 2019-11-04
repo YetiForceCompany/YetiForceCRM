@@ -17,6 +17,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 		parent::__construct();
 		$this->exposeMethod('getModuleCustomNumberingData');
 		$this->exposeMethod('saveModuleCustomNumberingData');
+		$this->exposeMethod('saveModuleCustomNumberingAdvanceData');
 		$this->exposeMethod('updateRecordsWithSequenceNumber');
 	}
 
@@ -27,12 +28,11 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
 		$request->getModule(false);
 		$sourceModule = $request->getByType('sourceModule', 2);
-
 		if (!$sourceModule) {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
@@ -43,7 +43,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getModuleCustomNumberingData(\App\Request $request)
+	public function getModuleCustomNumberingData(App\Request $request)
 	{
 		$sourceModule = $request->getByType('sourceModule', 2);
 		$instance = \App\Fields\RecordNumber::getInstance($sourceModule);
@@ -53,7 +53,9 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 		}
 		$picklistsModels = Vtiger_Module_Model::getInstance($sourceModule)->getFieldsByType(['picklist']);
 		foreach ($picklistsModels as $fieldModel) {
-			$moduleData['picklists'][$fieldModel->getName()] = App\Language::translate($fieldModel->getFieldLabel(), $sourceModule);
+			if (\App\Fields\Picklist::prefixExist($fieldModel->getFieldName())) {
+				$moduleData['picklists'][$fieldModel->getName()] = App\Language::translate($fieldModel->getFieldLabel(), $sourceModule);
+			}
 		}
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
@@ -66,7 +68,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	 *
 	 * @param \App\Request $request
 	 */
-	public function saveModuleCustomNumberingData(\App\Request $request)
+	public function saveModuleCustomNumberingData(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($request->getByType('sourceModule', 2));
@@ -74,7 +76,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 		$moduleModel->set('leading_zeros', $request->getByType('leading_zeros', 'Integer'));
 		$moduleModel->set('sequenceNumber', $request->getByType('sequenceNumber', 'Integer'));
 		$moduleModel->set('postfix', $request->getByType('postfix', 'Text'));
-		if (!$request->isEmpty('reset_sequence') && in_array($request->getByType('reset_sequence'), ['Y', 'M', 'D'])) {
+		if (!$request->isEmpty('reset_sequence') && \in_array($request->getByType('reset_sequence'), ['Y', 'M', 'D'])) {
 			$moduleModel->set('reset_sequence', $request->getByType('reset_sequence'));
 		} else {
 			$moduleModel->set('reset_sequence', '');
@@ -91,11 +93,38 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	}
 
 	/**
+	 * Function save module advanced numbering data.
+	 *
+	 * @param App\Request $request
+	 */
+	public function saveModuleCustomNumberingAdvanceData(App\Request $request)
+	{
+		$updated = false;
+		$sourceModule = $request->getByType('sourceModule', 2);
+		$moduleId = \App\Module::getModuleId($sourceModule);
+		$picklistValues = $request->getArray('sequenceNumber', 'Integer');
+		if (!empty($moduleId) && !empty($picklistValues)) {
+			$updated = true;
+			foreach ($picklistValues as $picklistKey => $picklistSequence) {
+				$sequenceField = \App\Fields\RecordNumber::getInstance($moduleId);
+				$sequenceField->updateNumberSequence($picklistSequence, $picklistKey);
+			}
+		}
+		$response = new Vtiger_Response();
+		if ($updated) {
+			$response->setResult(App\Language::translate('LBL_SUCCESSFULLY_UPDATED', $sourceModule));
+		} else {
+			$response->setError(false, App\Language::translate('LBL_ERROR_WHILE_UPDATING', $sourceModule));
+		}
+		$response->emit();
+	}
+
+	/**
 	 * Function to update record with sequence number.
 	 *
 	 * @param \App\Request $request
 	 */
-	public function updateRecordsWithSequenceNumber(\App\Request $request)
+	public function updateRecordsWithSequenceNumber(App\Request $request)
 	{
 		$result = App\Fields\RecordNumber::getInstance($request->getByType('sourceModule', 2))->updateRecords();
 		$response = new Vtiger_Response();

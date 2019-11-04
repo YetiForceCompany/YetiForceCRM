@@ -380,7 +380,10 @@
     "LBL_BUSINESS_HOURS": "Business hours",
     "LBL_SEARCH_PLACEHOLDER": "Search...",
     "LBL_VULNERABILITIES": "Vulnerabilities",
-    "LBL_VULNERABILITIES_DESCRIPTION": "List of libraries vulnerabilities"
+    "LBL_VULNERABILITIES_DESCRIPTION": "List of libraries vulnerabilities",
+    "LBL_SHOW_ADVANCED_SEQUENCE_SETTINGS": "Picklist sequence settings",
+    "LBL_ADVANCED_RECORD_NUMBERING": "Picklist sequence settings",
+    "LBL_PREFIX": "Prefix"
   },
   "js": {
     "JS_AUTHORIZATION_COMPLETE": "Authorization successful",

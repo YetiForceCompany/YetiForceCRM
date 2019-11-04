@@ -319,6 +319,18 @@ class Picklist
 	}
 
 	/**
+	 * Check if the prefix exists in given picklist name.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return bool
+	 */
+	public static function prefixExist(string $fieldName): bool
+	{
+		return !empty(array_filter(array_column(static::getValues($fieldName), 'prefix')));
+	}
+
+	/**
 	 * Clear cache.
 	 *
 	 * @param string $fieldName

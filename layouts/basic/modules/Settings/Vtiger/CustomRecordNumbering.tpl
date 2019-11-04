@@ -188,10 +188,18 @@
 								</label>
 							</td>
 							<td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
-								<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA->get('cur_id')}"
-									   data-old-sequence-number="{$DEFAULT_MODULE_DATA->get('cur_id')}"
-									   name="sequenceNumber"
-									   data-validation-engine="validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]"/>
+								<div class="input-group w-100">
+									<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA->get('cur_id')}"
+											data-old-sequence-number="{$DEFAULT_MODULE_DATA->get('cur_id')}"
+											name="sequenceNumber"
+											data-validation-engine="validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]"/>
+									<div class="input-group-append">
+										<button class="btn btn-success float-right js-adavanced-sequence d-none" type="button"
+										title="{\App\Language::translate('LBL_SHOW_ADVANCED_SEQUENCE_SETTINGS', $QUALIFIED_MODULE)}" data-js="click">
+											<span class="yfi yfi-system-configuration"></span>
+										</button>
+									</div>
+								</div>
 							</td>
 						</tr>
 						<tr>

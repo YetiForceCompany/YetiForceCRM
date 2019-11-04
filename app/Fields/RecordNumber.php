@@ -139,7 +139,7 @@ class RecordNumber extends \App\Base
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	private function setNumberSequence(int $reqNo, string $actualSequence)
+	public function setNumberSequence(int $reqNo, string $actualSequence)
 	{
 		$data = ['cur_sequence' => $actualSequence];
 		$this->set('cur_sequence', $actualSequence);
@@ -147,13 +147,27 @@ class RecordNumber extends \App\Base
 			$data['cur_id'] = $reqNo;
 			$this->set('cur_id', $reqNo);
 		} else {
-			if ((new \App\Db\Query())->from('u_#__modentity_sequences')->where(['value' => $this->getPicklistValue($piclistName), 'tabid' => $this->get('tabid')])->exists()) {
-				\App\Db::getInstance()->createCommand()->update('u_#__modentity_sequences', ['cur_id' => $reqNo], ['value' => $this->getPicklistValue($piclistName), 'tabid' => $this->get('tabid')])->execute();
-			} else {
-				\App\Db::getInstance()->createCommand()->insert('u_#__modentity_sequences', ['cur_id' => $reqNo, 'tabid' => $this->get('tabid'), 'value' => $this->getPicklistValue($piclistName)])->execute();
-			}
+			$this->updateNumberSequence($reqNo, $this->getPicklistValue($piclistName));
 		}
 		\App\Db::getInstance()->createCommand()->update('vtiger_modentity_num', $data, ['tabid' => $this->get('tabid')])->execute();
+	}
+
+	/**
+	 * Update number sequence.
+	 *
+	 * @param int    $reqNo
+	 * @param string $prefix
+	 *
+	 * @return bool|int
+	 */
+	public function updateNumberSequence(int $reqNo, string $prefix)
+	{
+		if ((new \App\Db\Query())->from('u_#__modentity_sequences')->where(['value' => $prefix, 'tabid' => $this->get('tabid')])->exists()) {
+			$value = \App\Db::getInstance()->createCommand()->update('u_#__modentity_sequences', ['cur_id' => $reqNo], ['value' => $prefix, 'tabid' => $this->get('tabid')])->execute();
+		} else {
+			$value = \App\Db::getInstance()->createCommand()->insert('u_#__modentity_sequences', ['cur_id' => $reqNo, 'tabid' => $this->get('tabid'), 'value' => $prefix])->execute();
+		}
+		return $value;
 	}
 
 	/**
