@@ -14,8 +14,8 @@
 		<div class="u-min-w-md-70 w-100">
 			<div>
 				<div class="float-left spanModuleIcon moduleIcon{$MODULE_NAME}">
-					<span class="moduleIcon o-detail__record-img">
-						{assign var=IMAGE value=$RECORD->getImage()}
+					{assign var=IMAGE value=$RECORD->getImage()}
+					<span class="moduleIcon{if $IMAGE} o-detail__record-img{/if}">
 						{if $IMAGE}
 							<img class="js-detail-hierarchy" data-js="click" title="{$RECORD->getName()}" src="{$IMAGE.url}">
 						{else}
