@@ -1226,7 +1226,7 @@ jQuery.Class(
 		},
 		registerListScroll: function() {
 			let container = $('.listViewEntriesDiv');
-			if (this.relatedView !== 'ListPreview') {
+			if (this.relatedView !== 'ListPreview' && Quasar.plugins.Platform.is.desktop) {
 				container.each((index, element) => {
 					if (container.closest('.js-detail-widget-content').length) {
 						element = container.closest('.js-detail-widget-content');
