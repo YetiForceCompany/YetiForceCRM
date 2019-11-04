@@ -12,7 +12,7 @@
 {strip}
 	<div class="tpl-Settings-Vtiger-ConfigEditorDetail" id="ConfigEditorDetails">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-		<div class="widget_header row">
+		<div class="o-breadcrumb widget_header row">
 			<div class="col-md-8">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>

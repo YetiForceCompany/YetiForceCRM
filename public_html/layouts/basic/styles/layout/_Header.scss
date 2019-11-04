@@ -292,6 +292,7 @@
 		}
 
 		&__actions {
+			visibility: visible;
 			position: fixed;
 			left: auto;
 			right: -100%;
@@ -419,7 +420,9 @@
 	}
 
 	@include media-breakpoint-down(sm) {
-		display: none !important;
+		visibility: hidden;
+		height: 0;
+		min-height: 0;
 	}
 
 	min-height: calculate-rem(32px);

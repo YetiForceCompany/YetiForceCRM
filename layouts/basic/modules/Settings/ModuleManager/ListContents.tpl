@@ -12,7 +12,7 @@
 {strip}
 	<!-- tpl-Settings-ModuleManager-ListContents -->
 	<div id="moduleManagerContents">
-		<div class="widget_header row mb-2">
+		<div class="o-breadcrumb widget_header row mb-2">
 			<div class="col-md-7 d-flex align-items-center">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>

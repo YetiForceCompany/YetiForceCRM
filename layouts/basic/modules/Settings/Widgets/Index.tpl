@@ -5,7 +5,7 @@
 <input type="hidden" id="switchHeaderAll" value='{$SWITCHES_HEADER}'>
 <div class="WidgetsManage">
 	<input type="hidden" name="tabid" value="{$SOURCE}">
-	<div class="widget_header row">
+	<div class="o-breadcrumb widget_header row">
 		<div class="col-md-8">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>

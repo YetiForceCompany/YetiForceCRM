@@ -13,7 +13,7 @@
 <!-- tpl-Settings-Worklfows-ListViewHeader -->
 <div class="listViewPageDiv">
 	<div class="listViewTopMenuDiv">
-		<div class="widget_header row">
+		<div class="o-breadcrumb widget_header row">
 			<div class="col-md-6">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>

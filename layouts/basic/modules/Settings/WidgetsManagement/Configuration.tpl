@@ -2,7 +2,7 @@
 {strip}
 	<div class="tpl-Settings-WidgetsManagement-Configuration" id="widgetsManagementEditorContainer">
 		<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}"/>
-		<div class="widget_header row align-items-lg-center">
+		<div class="o-breadcrumb widget_header row align-items-lg-center">
 			<div class="col-md-9">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>

@@ -12,7 +12,7 @@
 {strip}
 	<div class="tpl-Settings-Vtiger-CustomRecordNumbering">
 		<form id="EditView" method="POST">
-			<div class="widget_header row mb-3">
+			<div class="o-breadcrumb widget_header row mb-3">
 				<div class="col-6 col-xl-9 col-12">
 					<div class="o-breadcrumb widget_header mb-2 d-flex justify-content-between px-2 w-100">
 						<div class="o-breadcrumb__container">

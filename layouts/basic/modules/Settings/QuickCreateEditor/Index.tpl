@@ -15,7 +15,7 @@
 {strip}
 	<div class="tpl-Settings-QuickCreateEditor-Index" id="quickCreateEditorContainer">
 		<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}"/>
-		<div class="widget_header row align-items-center">
+		<div class="o-breadcrumb widget_header row align-items-center">
 			<div class="col-md-8">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
