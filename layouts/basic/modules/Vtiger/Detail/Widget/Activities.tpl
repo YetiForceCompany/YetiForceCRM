@@ -20,9 +20,9 @@
 					</h5>
 				</div>
 				<div
-					class="c-detail-widget__actions q-fab z-fab row inline justify-center js-comment-actions__container ml-auto quasar-reset">
+					class="c-detail-widget__actions q-fab z-fab row inline justify-center js-fab__container ml-auto quasar-reset">
 					<button type="button" tabindex="0"
-						class="js-comment-actions__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable u-font-size-10px q-ml-auto">
+						class="js-fab__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable u-font-size-10px q-ml-auto">
 						<div tabindex="-1" class="q-focus-helper"></div>
 						<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
 							<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
