@@ -607,11 +607,9 @@ var app = (window.app = {
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 	},
-	showModalWindow: function(data, url, cb, paramsObject) {
-		if (window.parent !== window && !paramsObject.showInIframe) {
-			this.childFrame = true;
-			window.parent.app.showModalWindow(data, url, cb, paramsObject);
-			return;
+	showModalWindow: function(data, url, cb, paramsObject = {}) {
+		if (!app.isCurrentWindowTarget('app.showModalWindow', arguments)) {
+			return false;
 		}
 		const thisInstance = this;
 		let sendByAjaxCb;
@@ -680,14 +678,32 @@ var app = (window.app = {
 		return container;
 	},
 	/**
+	 * Check if current window is target for a modal and trigger in correct window if not
+	 *
+	 * @param   {String}  sourceFunction  source function name in dot prop notation object
+	 * @param   {Array}  args            source function arguments
+	 *
+	 * @return  {Boolean}                  isCurrentWindowTarget
+	 */
+	isCurrentWindowTarget(sourceFunction, args) {
+		let isCurrentWindowTarget = true;
+		if (CONFIG.modalParams.target === 'parentIframe') {
+			this.childFrame = true;
+			sourceFunction = sourceFunction.split('.');
+			sourceFunction.unshift('parent');
+			sourceFunction = sourceFunction.reduce((o, i) => o[i], window);
+			sourceFunction.apply(window.parent.app, args);
+			isCurrentWindowTarget = false;
+		}
+		return isCurrentWindowTarget;
+	},
+	/**
 	 * Function which you can use to hide the modal
 	 * This api assumes that we are using block ui plugin and uses unblock api to unblock it
 	 */
-	hideModalWindow: function(callback, id, params = {}) {
-		if (window.parent !== window && !params.showInIframe) {
-			this.childFrame = true;
-			window.parent.app.hideModalWindow(callback, id);
-			return;
+	hideModalWindow: function(callback, id) {
+		if (!app.isCurrentWindowTarget('app.hideModalWindow', arguments)) {
+			return false;
 		}
 		let container;
 		if (callback && typeof callback === 'object') {
@@ -1863,7 +1879,7 @@ var app = (window.app = {
 		}
 		return result.trim();
 	},
-	showRecordsList: function(params, cb, afterShowModal) {
+	showRecordsList: function(params = {}, cb, afterShowModal) {
 		if (!params.view) {
 			params.view = 'RecordsList';
 		}

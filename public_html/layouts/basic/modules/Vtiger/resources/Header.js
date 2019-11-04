@@ -221,27 +221,22 @@ $.Class(
 				params = {};
 			}
 			var thisInstance = this;
-			app.showModalWindow(
-				data,
-				function(container) {
-					var quickCreateForm = container.find('form[name="QuickCreate"]');
-					var moduleName = quickCreateForm.find('[name="module"]').val();
-					var editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
-					editViewInstance.registerBasicEvents(quickCreateForm);
-					let moduleClassName = moduleName + '_QuickCreate_Js';
-					if (typeof window[moduleClassName] !== 'undefined') {
-						new window[moduleClassName]().registerEvents(container);
-					}
-					quickCreateForm.validationEngine(app.validationEngineOptions);
-					if (typeof params.callbackPostShown !== 'undefined') {
-						params.callbackPostShown(quickCreateForm);
-					}
-					thisInstance.registerQuickCreatePostLoadEvents(quickCreateForm, params);
-					thisInstance.registerHelpInfo(quickCreateForm);
-				},
-				'',
-				{ showInIframe: !!params.showInIframe }
-			);
+			app.showModalWindow(data, function(container) {
+				var quickCreateForm = container.find('form[name="QuickCreate"]');
+				var moduleName = quickCreateForm.find('[name="module"]').val();
+				var editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+				editViewInstance.registerBasicEvents(quickCreateForm);
+				let moduleClassName = moduleName + '_QuickCreate_Js';
+				if (typeof window[moduleClassName] !== 'undefined') {
+					new window[moduleClassName]().registerEvents(container);
+				}
+				quickCreateForm.validationEngine(app.validationEngineOptions);
+				if (typeof params.callbackPostShown !== 'undefined') {
+					params.callbackPostShown(quickCreateForm);
+				}
+				thisInstance.registerQuickCreatePostLoadEvents(quickCreateForm, params);
+				thisInstance.registerHelpInfo(quickCreateForm);
+			});
 		},
 		isFreeDay: function(dayOfWeek) {
 			if (dayOfWeek == 0 || dayOfWeek == 6) {
@@ -302,7 +297,7 @@ $.Class(
 						targetInstance.quickCreateSave(form).done(function(data) {
 							let modalContainer = form.closest('.modalContainer');
 							if (modalContainer.length) {
-								app.hideModalWindow(false, modalContainer[0].id, params);
+								app.hideModalWindow(false, modalContainer[0].id);
 							}
 							var parentModule = app.getModuleName();
 							var viewname = app.getViewName();
@@ -489,7 +484,7 @@ $.Class(
 			});
 		},
 		quickCreateModule: function(moduleName, params) {
-			if (window !== window.parent && !params.showInIframe) {
+			if (CONFIG.modalParams.target === 'parentIframe') {
 				window.parent.Vtiger_Header_Js.getInstance().quickCreateModule(moduleName, params);
 				return;
 			}
