@@ -17,20 +17,6 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 	public $typeApi;
 
 	/**
-	 * Table name.
-	 *
-	 * @var string[]
-	 */
-	public $baseTable = ['Portal' => 'w_#__portal_user'];
-
-	/**
-	 * Table name.
-	 *
-	 * @var string[]
-	 */
-	public $baseIndex = ['Portal' => 'id'];
-
-	/**
 	 * Module Name.
 	 *
 	 * @var string
@@ -38,11 +24,19 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 	public $name = 'WebserviceUsers';
 
 	/**
-	 * List of fields displayed in list view.
+	 * Gets service record instance.
 	 *
-	 * @var string[]
+	 * @return \Settings_WebserviceUsers_Record_Model
 	 */
-	public $listFields = ['Portal' => ['server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'type' => 'FL_TYPE', 'login_time' => 'FL_LOGIN_TIME', 'logout_time' => 'FL_LOGOUT_TIME', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER']];
+	public function getService()
+	{
+		$recordService = null;
+		$class = "Settings_WebserviceUsers_{$this->typeApi}_Service";
+		if (class_exists($class)) {
+			$recordService = new $class();
+		}
+		return $recordService;
+	}
 
 	/**
 	 * Function to retrieve name fields of a module.
@@ -61,9 +55,9 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		if (!isset($this->listFieldModels)) {
 			$fieldObjects = [];
-			if ($this->typeApi && isset($this->listFields[$this->typeApi])) {
-				$fields = $this->listFields[$this->typeApi];
-				foreach ($fields as $fieldName => $fieldLabel) {
+			$service = $this->getService();
+			if ($service) {
+				foreach ($service->listFields as $fieldName => $fieldLabel) {
 					$fieldObjects[$fieldName] = new \App\Base(['name' => $fieldName, 'label' => $fieldLabel]);
 				}
 			}
@@ -79,7 +73,7 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getBaseTable()
 	{
-		return $this->baseTable[$this->typeApi];
+		return $this->getService()->baseTable;
 	}
 
 	/**
@@ -89,7 +83,7 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getTableIndex()
 	{
-		return $this->baseIndex[$this->typeApi];
+		return$this->getService()->baseIndex;
 	}
 
 	/**
