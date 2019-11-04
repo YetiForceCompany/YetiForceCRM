@@ -213,7 +213,7 @@ class Record
 				$dbCommand->insert('u_#__crmentity_label', ['crmid' => $id, 'label' => $label])->execute();
 			}
 			if (($insertMode || !$searchRowCount) && 'label' !== $updater) {
-				$dbCommand->insert('u_#__crmentity_search_label', ['crmid' => $id, 'searchlabel' => $search, 'setype' => $moduleName])->execute();
+				$dbCommand->insert('u_#__crmentity_search_label', ['crmid' => $id, 'searchlabel' => $search, 'setype' => $moduleName, 'userid' => ','.\App\User::getCurrentUserId().','])->execute();
 			}
 			Cache::save('recordLabel', $id, $labelInfo[$id]['name']);
 		}
@@ -248,7 +248,7 @@ class Record
 		$db = \App\Db::getInstance();
 		if ($recordModel->isNew()) {
 			$db->createCommand()->insert('u_#__crmentity_label', ['crmid' => $recordModel->getId(), 'label' => $label])->execute();
-			$db->createCommand()->insert('u_#__crmentity_search_label', ['crmid' => $recordModel->getId(), 'searchlabel' => $search, 'setype' => $recordModel->getModuleName()])->execute();
+			$db->createCommand()->insert('u_#__crmentity_search_label', ['crmid' => $recordModel->getId(), 'searchlabel' => $search, 'setype' => $recordModel->getModuleName(), 'userid' => ','.\App\User::getCurrentUserId().','])->execute();
 		} else {
 			$db->createCommand()
 				->update('u_#__crmentity_label', ['label' => $label], ['crmid' => $recordModel->getId()])
