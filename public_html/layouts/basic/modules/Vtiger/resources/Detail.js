@@ -1077,7 +1077,15 @@ jQuery.Class(
 				var fieldName = jQuery(element).val();
 				var elementTarget = jQuery(element);
 				var elementName =
-					jQuery.inArray(elementTarget.data('type'), ['taxes', 'sharedOwner', 'multipicklist', 'multiListFields', 'multiDomain', 'mailScannerFields', 'mailScannerActions']) != -1
+					jQuery.inArray(elementTarget.data('type'), [
+						'taxes',
+						'sharedOwner',
+						'multipicklist',
+						'multiListFields',
+						'multiDomain',
+						'mailScannerFields',
+						'mailScannerActions'
+					]) != -1
 						? fieldName + '[]'
 						: fieldName;
 				var fieldElement = jQuery('[name="' + elementName + '"]:not([type="hidden"])', editElement);
@@ -1463,7 +1471,11 @@ jQuery.Class(
 				}
 				quickCreateParams['noCache'] = true;
 				quickCreateParams['callbackFunction'] = postQuickCreateSave;
-				var progress = jQuery.progressIndicator();
+				var progress = jQuery.progressIndicator({
+					blockInfo: {
+						enabled: true
+					}
+				});
 				let headerInstance;
 				if (window !== window.parent) {
 					headerInstance = window.parent.Vtiger_Header_Js.getInstance();
