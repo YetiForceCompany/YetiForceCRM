@@ -26,5 +26,33 @@ class CreatedMail extends Base
 	 */
 	public function process(): void
 	{
+		$scanner = $this->scannerEngine;
+		if (false === $scanner->getMailCrmId()) {
+			$record = \Vtiger_Record_Model::getCleanInstance('OSSMailView');
+			$record->set('assigned_user_id', $scanner->getUserId());
+			$record->set('created_user_id', $scanner->getUserId());
+			$record->set('subject', $scanner->isEmpty('subject') ? '-' : $scanner->get('subject'));
+			$record->set('to_email', implode(',', $scanner->get('to_email')));
+			$record->set('from_email', $scanner->get('from_email'));
+			if ($scanner->has('cc_email')) {
+				$record->set('cc_email', implode(',', $scanner->get('cc_email')));
+			}
+			if ($scanner->has('bcc_email')) {
+				$record->set('bcc_email', implode(',', $scanner->get('bcc_email')));
+			}
+			$record->set('date', $scanner->get('date'));
+			$record->set('createdtime', $scanner->get('date'));
+			$maxLengthContent = $record->getField('content')->get('maximumlength');
+			$record->set('content', $maxLengthContent ? \App\TextParser::htmlTruncate($scanner->get('body'), $maxLengthContent, false) : $scanner->get('body'));
+			$record->setHandlerExceptions(['disableHandlers' => true]);
+			$record->setDataForSave(['vtiger_ossmailview' => [
+				'cid' => $scanner->getCid(),
+			]]);
+			$record->save();
+			$record->setHandlerExceptions([]);
+			if ($id = $record->getId()) {
+				$scanner->set('mailCrmId', $id);
+			}
+		}
 	}
 }

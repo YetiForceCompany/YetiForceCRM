@@ -22,6 +22,22 @@ abstract class Base
 	 * @var int
 	 */
 	public static $priority = 9;
+	/**
+	 * Scanner engine instance.
+	 *
+	 * @var \App\Mail\ScannerEngine\Base
+	 */
+	protected $scannerEngine;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param \App\Mail\ScannerEngine\Base $scannerEngine
+	 */
+	public function __construct(\App\Mail\ScannerEngine\Base $scannerEngine)
+	{
+		$this->scannerEngine = $scannerEngine;
+	}
 
 	/**
 	 * Main function to execute action.
