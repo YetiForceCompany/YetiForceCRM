@@ -33,7 +33,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$fromIds = array_merge($mail->findEmailAdress('from_email'), $mail->findEmailAdress('reply_toaddress'));
 			$toIds = array_merge($mail->findEmailAdress('to_email'), $mail->findEmailAdress('cc_email'), $mail->findEmailAdress('bcc_email'));
 			$account = $mail->getAccount();
-			$record = Vtiger_Record_Model::getCleanInstance('OSSMailView');
+			$record = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 			$record->set('assigned_user_id', $mail->getAccountOwner());
 			$record->set('subject', $mail->isEmpty('subject') ? '-' : $mail->get('subject'));
 			$record->set('to_email', $mail->get('to_email'));

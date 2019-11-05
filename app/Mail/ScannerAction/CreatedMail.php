@@ -28,7 +28,7 @@ class CreatedMail extends Base
 	{
 		$scanner = $this->scannerEngine;
 		if (false === $scanner->getMailCrmId()) {
-			$record = \Vtiger_Record_Model::getCleanInstance('OSSMailView');
+			$record = \OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 			$record->set('assigned_user_id', $scanner->getUserId());
 			$record->set('created_user_id', $scanner->getUserId());
 			$record->set('subject', $scanner->isEmpty('subject') ? '-' : $scanner->get('subject'));

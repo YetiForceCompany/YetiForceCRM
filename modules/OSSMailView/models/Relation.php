@@ -47,7 +47,6 @@ class OSSMailView_Relation_Model extends Vtiger_Relation_Model
 				$eventHandler->trigger('EntityAfterLink');
 			}
 		}
-
 		return $return;
 	}
 }

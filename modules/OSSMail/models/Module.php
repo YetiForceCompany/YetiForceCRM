@@ -59,7 +59,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 
 		$return = [];
 		if (!empty($record) && \App\Record::isExists($record) && \App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
-			$recordModel_OSSMailView = Vtiger_Record_Model::getCleanInstance('OSSMailView');
+			$recordModel_OSSMailView = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
 			if (!empty($email)) {
 				$return['to'] = $email;
@@ -142,7 +142,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 	{
 		$url = 'mailto:';
 		if (!empty($record) && \App\Record::isExists($record) && \App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
-			$recordModel_OSSMailView = Vtiger_Record_Model::getCleanInstance('OSSMailView');
+			$recordModel_OSSMailView = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
 			if (!empty($email)) {
 				$url .= $email;
