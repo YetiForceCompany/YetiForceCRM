@@ -367,7 +367,13 @@
     "FL_DEFAULT_SEARCH_MODULE": "Default module",
     "FL_OVERRIDE_SEARCH_MODULE": "Force the default selection",
     "LBL_GLOBAL_SEARCH_SETTINGS": "Global search settings",
-    "FL_PRIMARY_PHONE": "Primary phone"
+    "FL_PRIMARY_PHONE": "Primary phone",
+    "LBL_USER_MAIL": " Mail",
+    "LBL_USER_GUI": "Layout",
+    "LBL_USER_INTEGRATION": "Integration",
+    "LBL_USER_AUTOMATION": "Automation",
+    "FL_MAIL_SCANNER_ACTIONS": "Mail scanner actions",
+    "FL_MAIL_SCANNER_FIELDS": "Mail scanner fields"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Decimal separator and grouping separator can't be the same.",
