@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-MailIntegration-Detail-Panel -->
-	<div class="tpl-MailIntegration-Detail-Panel" data-mail-id="{$MAIL_ID}">
+	<div class="tpl-MailIntegration-Detail-Panel js-panel" data-mail-id="{$MAIL_ID}" data-js="data">
 		{if isset($URL)}
 			<div class="mx-1">
 				{if $MAIL_ID}

@@ -65,4 +65,28 @@ abstract class Base extends \App\Base
 		$this->set('cid', $cid);
 		return $cid;
 	}
+
+	/**
+	 * Get related records.
+	 *
+	 * @return array
+	 */
+	public function getRelatedRecords(): array
+	{
+		$relations = [];
+		$query = (new \App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype'])
+			->from('vtiger_ossmailview_relation')
+			->innerJoin('vtiger_crmentity', 'vtiger_ossmailview_relation.crmid = vtiger_crmentity.crmid')
+			->where(['vtiger_ossmailview_relation.ossmailviewid' => $this->getMailCrmId(), 'vtiger_crmentity.deleted' => 0]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$relations[] = [
+				'id' => $row['crmid'],
+				'module' => $row['setype'],
+				'label' => \App\Record::getLabel($row['crmid']),
+			];
+		}
+		$dataReader->close();
+		return $relations;
+	}
 }

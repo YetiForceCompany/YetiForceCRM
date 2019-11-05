@@ -2,7 +2,7 @@
 /**
  * Import action file.
  *
- * @package   View
+ * @package   Action
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -32,14 +32,8 @@ class MailIntegration_Import_Action extends \App\Controller\Action
 	 */
 	public function process(App\Request $request)
 	{
-		$mail = App\Mail\Message::getScannerByEngine('Outlook');
-		$mail->set('subject', $request->isEmpty('mailSubject') ? '-' : \App\TextParser::textTruncate($request->getByType('mailSubject', 'Text'), 65535, false));
-		$mail->set('from_email', $request->getByType('mailFrom', 'Email'));
-		$mail->set('to_email', $request->getArray('mailTo', 'Email'));
-		$mail->set('cc_email', $request->getArray('mailCc', 'Email'));
-		$mail->set('date', $request->getByType('mailDateTimeCreated', 'DateTimeInIsoFormat'));
-		$mail->set('message_id', $request->getByType('mailMessageId', 'MailId'));
-		$mail->set('body', $request->getForHtml('mailBody'));
+		$mail = App\Mail\Message::getScannerByEngine($request->getByType('source'));
+		$mail->initFromRequest($request);
 		$mail->process();
 
 		$response = new Vtiger_Response();

@@ -2,7 +2,7 @@
 
 Office.onReady(info => {
 	window.PanelParams = {
-		source: 'outlook',
+		source: 'Outlook',
 		device: Office.context.mailbox.diagnostics.hostName
 	};
 	console.log(Office.context.mailbox);

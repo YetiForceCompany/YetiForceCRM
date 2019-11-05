@@ -1,6 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 const MailIntegration_Detail = {
+	mailId: 0,
 	container: {},
 	iframe: {},
 	iframeWindow: {},
@@ -11,10 +12,11 @@ const MailIntegration_Detail = {
 		message: false
 	},
 	registerRowEvents() {
-		this.container.on('click', '.js-row-click', this.registerRowClick.bind(this));
-		this.container.on('click', '.js-add-related-record', this.registerQuickCreateClick.bind(this));
+		this.container.on('click', '.js-row-click', this.rowClick.bind(this));
+		this.container.on('click', '.js-add-related-record', this.showQuickCreateClick.bind(this));
+		this.container.on('click', '.js-remove-record', this.deleteRelationshipClick.bind(this));
 	},
-	registerRowClick(event) {
+	rowClick(event) {
 		let currentTarget = $(event.currentTarget);
 		this.changeIframeSource(currentTarget);
 		event.preventDefault();
@@ -26,14 +28,32 @@ const MailIntegration_Detail = {
 		this.iframe.attr('src', targetRow.find('.js-record-link').attr('href'));
 		this.showIframeLoader();
 	},
-	registerQuickCreateClick(event) {
+	deleteRelationshipClick(event) {
 		const currentTarget = $(event.currentTarget);
 		const recordData = currentTarget.closest('.js-row-click').data();
-		let relatedParams = {
+		AppConnector.request({
+			module: 'MailIntegration',
+			action: 'Mail',
+			mode: 'deleteRelation',
+			mailId: this.mailId,
+			record: recordData.id,
+			recordModule: recordData.module
+		})
+			.done(function(responseData) {
+				console.info(responseData);
+			})
+			.fail(function(error) {
+				console.error(error);
+			});
+		return false;
+	},
+	showQuickCreateClick(event) {
+		const currentTarget = $(event.currentTarget);
+		const recordData = currentTarget.closest('.js-row-click').data();
+		this.showQuickCreateForm(event.currentTarget.dataset.module, {
 			sourceModule: recordData.module,
 			sourceRecord: recordData.id
-		};
-		this.showQuickCreateForm(event.currentTarget.dataset.module, relatedParams);
+		});
 		return false;
 	},
 	showQuickCreateForm(moduleName, relatedParams = {}) {
@@ -145,29 +165,25 @@ const MailIntegration_Detail = {
 		this.iframeLoader = $.progressIndicator(this.loaderParams);
 	},
 	registerModulesSelect() {
-		let actionsParams = {};
 		this.moduleSelect = App.Fields.Picklist.showSelect2ElementView(this.container.find('.js-modules'));
 		this.moduleSelect.on('change', this.registerModulesSelectChange.bind(this));
 		this.container.find('.js-select-record').on('click', e => {
 			const params = {
 				module: this.moduleSelect[0].value,
-				src_module: this.moduleSelect[0].value,
+				src_module: 'OSSMailView',
 				modalParams: {
 					showInIframe: true
 				}
 			};
 			this.iframeWindow.app.showRecordsList(params, (modal, instance) => {
 				instance.setSelectEvent((responseData, e) => {
-					actionsParams['newCrmId'] = responseData.id;
-					//params to overwrite - action adding related record
 					AppConnector.request({
-						async: false,
-						dataType: 'json',
-						data: {
-							module: 'MailIntegration',
-							action: 'AddRelated',
-							params: actionsParams
-						}
+						module: 'MailIntegration',
+						action: 'Mail',
+						mode: 'addRelation',
+						mailId: this.mailId,
+						record: responseData.id,
+						recordModule: params.module
 					}).done(data => {
 						let response = data['result'];
 						let notifyParams = {
@@ -211,14 +227,17 @@ const MailIntegration_Detail = {
 		this.iframe = $('#js-iframe');
 		this.iframeWindow = this.iframe[0].contentWindow;
 		this.addRecordBtn = this.container.find('.js-add-record');
-		//if are privileges
+		this.mailId = this.container.find('.js-panel').data('mailId');
 		if (this.iframe.length) {
 			this.registerRowEvents();
 			this.registerIframeEvents();
 			this.setIframeHeight();
-			this.registerImportClick();
-			this.registerModulesSelect();
-			this.registerAddRecord();
+			if (this.mailId) {
+				this.registerModulesSelect();
+				this.registerAddRecord();
+			} else {
+				this.registerImportClick();
+			}
 		}
 	}
 };

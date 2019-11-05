@@ -40,14 +40,15 @@ class MailIntegration_Detail_View extends \App\Controller\Modal
 		$viewer = $this->getViewer($request);
 		if (Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			$this->getModules($request);
-			if ($mailId = $this->getMailId($request)) {
-				$viewer->assign('MAIL_ID', $mailId);
+			$mail = App\Mail\Message::getScannerByEngine($request->getByType('source'));
+			$mail->initFromRequest($request);
+			if ($mailId = $mail->getMailCrmId()) {
 				$viewer->assign('MODULES', $this->getModules());
-				$viewer->assign('RELATIONS', $this->getRelatedDetails($request));
+				$viewer->assign('RELATIONS', $mail->getRelatedRecords());
 			} else {
-				$viewer->assign('MAIL_ID', false);
-				$viewer->assign('RELATIONS', $this->getRelatedDetails($request));
+				$viewer->assign('RELATIONS', $this->getRelatedRecords($request));
 			}
+			$viewer->assign('MAIL_ID', $mailId);
 			$viewer->assign('URL', App\Config::main('site_URL'));
 			$viewer->assign('MODAL_SCRIPTS', $this->getModalScripts($request));
 		}
@@ -80,13 +81,13 @@ class MailIntegration_Detail_View extends \App\Controller\Modal
 	}
 
 	/**
-	 * Get related details if the mail does not exist.
+	 * Get related records if the mail does not exist.
 	 *
 	 * @param App\Request $request
 	 *
 	 * @return array
 	 */
-	public function getRelatedDetails(App\Request $request): array
+	public function getRelatedRecords(App\Request $request): array
 	{
 		$records = array_merge(array_flatten(App\Mail\RecordFinder::findByEmail([$request->getByType('mailFrom', 'Email')])), App\Mail\RecordFinder::findBySubject($request->getByType('mailSubject', 'Text'), ['HelpDesk']));
 		foreach ($records as &$record) {
@@ -97,24 +98,6 @@ class MailIntegration_Detail_View extends \App\Controller\Modal
 			];
 		}
 		return $records;
-	}
-
-	/**
-	 * Get mail crm id.
-	 *
-	 * @param App\Request $request
-	 *
-	 * @return bool|int
-	 */
-	public function getMailId(App\Request $request)
-	{
-		$mail = new OSSMail_Mail_Model();
-		$mail->set('from_email', $request->getByType('mailFrom', 'Email'));
-		$mail->set('subject', $request->getByType('mailSubject', 'Text'));
-		$mail->set('date', $request->getByType('mailDateTimeCreated', 'DateTimeInIsoFormat'));
-		$mail->set('message_id', $request->getByType('mailMessageId', 'MailId'));
-		$query = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['cid' => $mail->getUniqueId()])->limit(1);
-		return $query->scalar();
 	}
 
 	/**
