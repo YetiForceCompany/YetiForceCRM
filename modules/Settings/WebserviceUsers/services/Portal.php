@@ -28,58 +28,18 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 	public $baseIndex = 'id';
 
 	/**
-	 * Edit fields.
-	 *
-	 * @var string[]
+	 * {@inheritdoc}
 	 */
-	private $editFields = [
+	public $editFields = [
 		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'password_t' => 'FL_PASSWORD', 'type' => 'FL_TYPE', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', 'istorage' => 'FL_STORAGE'
 	];
+
 	/**
-	 * List of fields displayed in list view.
-	 *
-	 * @var string[]
+	 * {@inheritdoc}
 	 */
 	public $listFields = [
 		'server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'type' => 'FL_TYPE', 'login_time' => 'FL_LOGIN_TIME', 'logout_time' => 'FL_LOGOUT_TIME', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER'
 	];
-
-	/**
-	 * Function to get Module instance.
-	 *
-	 * @return Settings_WebserviceUsers_Module_Model
-	 */
-	public function getModule()
-	{
-		if (!$this->module) {
-			$this->module = Settings_Vtiger_Module_Model::getInstance('Settings:WebserviceUsers');
-		}
-		return $this->module;
-	}
-
-	/**
-	 * Function to set Module instance.
-	 *
-	 * @param Settings_WebserviceUsers_Module_Model $moduleModel
-	 *
-	 * @return $this
-	 */
-	public function setModule($moduleModel)
-	{
-		$this->module = $moduleModel;
-
-		return $this;
-	}
-
-	/**
-	 * Function determines fields available in edition view.
-	 *
-	 * @return string[]
-	 */
-	public function getEditFields()
-	{
-		return $this->editFields;
-	}
 
 	/**
 	 * {@inheritdoc}
@@ -89,21 +49,6 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 		$data['password_t'] = App\Encryption::getInstance()->decrypt($data['password_t']);
 		$this->setData($data);
 		return $this;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getListFields(): array
-	{
-		if (!isset($this->listFieldModels)) {
-			$fieldObjects = [];
-			foreach ($this->listFields as $fieldName => $fieldLabel) {
-				$fieldObjects[$fieldName] = new \App\Base(['name' => $fieldName, 'label' => $fieldLabel]);
-			}
-			$this->listFieldModels = $fieldObjects;
-		}
-		return $this->listFieldModels;
 	}
 
 	/**
@@ -194,25 +139,24 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 					throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||{$field}", 406);
 						break;
 				}
+				$this->set($field, $this->getValueToSave($field, $value));
 			}
-			$this->set($field, $value);
 		}
 	}
 
 	/**
-	 * Function to validate.
+	 * Check if the data is correct.
 	 *
-	 * @return bool
+	 * @return bool|string
 	 */
-	public function validate()
+	public function checkData()
 	{
+		$result = parent::checkData();
 		$query = (new \App\Db\Query())->from($this->baseTable)->where(['server_id' => $this->get('server_id'), 'user_name' => $this->get('user_name')]);
 		if ($this->getId()) {
 			$query->andWhere(['<>', 'id', $this->getId()]);
 		}
-		if ($query->exists()) {
-			throw new \App\Exceptions\IllegalValue('ERR_DUPLICATE_LOGIN', 406);
-		}
+		return !$result && $query->exists() ? 'LBL_DUPLICATE_LOGIN' : $result;
 	}
 
 	/**
@@ -265,7 +209,6 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 				return $this->get($name) ? \App\Language::getLanguageLabel($this->get($name)) : '';
 			case 'type':
 				$label = \App\Language::translate($this->getTypeValues($this->get($name)), $this->getModule()->getName(true));
-
 				return \App\TextParser::textTruncate($label);
 			default:
 				break;

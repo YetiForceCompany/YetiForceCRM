@@ -25,10 +25,14 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 		$recordModel->setDataFromRequest($request);
 
 		try {
-			$recordModel->save();
-			$result = ['success' => true];
+			if ($response = $recordModel->checkData()) {
+				$result = ['success' => false, 'message' => \App\Language::translate($response, $request->getModule(false))];
+			} else {
+				$recordModel->save();
+				$result = ['success' => true];
+			}
 		} catch (\Exception $e) {
-			$result = ['success' => false, 'message' => \App\Language::translate('LBL_DUPLICATE_LOGIN')];
+			$result = ['success' => false, 'message' => \App\Language::translate('ERR_NOT_ALLOWED_VALUE')];
 		}
 
 		$response = new Vtiger_Response();

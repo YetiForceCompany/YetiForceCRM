@@ -14,7 +14,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @var array
 	 */
-	private $changes = [];
+	public $changes = [];
 	/**
 	 * Table name.
 	 *
@@ -35,6 +35,20 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 * @var string
 	 */
 	public $name = 'WebserviceUsers';
+
+	/**
+	 * Edit fields.
+	 *
+	 * @var string[]
+	 */
+	public $editFields = [];
+
+	/**
+	 * List of fields displayed in list view.
+	 *
+	 * @var string[]
+	 */
+	public $listFields = [];
 
 	/**
 	 * Record ID.
@@ -114,6 +128,31 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
+	 * Function determines fields available in edition view.
+	 *
+	 * @return string[]
+	 */
+	public function getEditFields()
+	{
+		return $this->editFields;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getListFields(): array
+	{
+		if (!isset($this->listFieldModels)) {
+			$fieldObjects = [];
+			foreach ($this->listFields as $fieldName => $fieldLabel) {
+				$fieldObjects[$fieldName] = new \App\Base(['name' => $fieldName, 'label' => $fieldLabel]);
+			}
+			$this->listFieldModels = $fieldObjects;
+		}
+		return $this->listFieldModels;
+	}
+
+	/**
 	 * Function to get the instance, given id.
 	 *
 	 * @param int    $id
@@ -156,25 +195,46 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
+	 * Function gives list fields for save.
+	 *
+	 * @return array
+	 */
+	public function getFieldsForSave()
+	{
+		return array_intersect_key($this->getEditFields(), $this->changes);
+	}
+
+	/**
+	 * Function gives data for save.
+	 *
+	 * @return array
+	 */
+	public function getDataForSave()
+	{
+		return array_intersect_key($this->getData(), $this->getFieldsForSave());
+	}
+
+	/**
+	 * Check if the data is correct.
+	 *
+	 * @return bool|string false - if everything is ok
+	 */
+	public function checkData()
+	{
+		return false;
+	}
+
+	/**
 	 * Function to save.
 	 *
 	 * @return bool
 	 */
 	public function save()
 	{
-		$this->validate();
 		$db = App\Db::getInstance('webservice');
 		$table = $this->baseTable;
 		$index = $this->baseIndex;
-		$fields = $this->getEditFields();
-		$data = $this->getData();
-		foreach ($data as $key => $value) {
-			if (isset($fields[$key])) {
-				$data[$key] = $this->getValueToSave($key, $value);
-			} else {
-				unset($data[$key]);
-			}
-		}
+		$data = $this->getDataForSave();
 		if (empty($this->getId())) {
 			$success = $db->createCommand()->insert($table, $data)->execute();
 			if ($success) {
