@@ -71,6 +71,13 @@ class Vtiger_Token_UIType extends Vtiger_Base_UIType
 		return false;
 	}
 
+	/**
+	 * Gets unique token.
+	 *
+	 * @param bool $repeated
+	 *
+	 * @return string
+	 */
 	public function generateToken(bool $repeated = false)
 	{
 		$fieldModel = $this->getFieldModel();

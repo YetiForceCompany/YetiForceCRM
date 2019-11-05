@@ -10,16 +10,12 @@
 class Settings_WebserviceUsers_ManageConsents_Service extends Settings_WebserviceUsers_Record_Model
 {
 	/**
-	 * Table name.
-	 *
-	 * @var string
+	 * {@inheritdoc}
 	 */
 	public $baseTable = 'w_#__manage_consents_user';
 
 	/**
-	 * Table name.
-	 *
-	 * @var string
+	 * {@inheritdoc}
 	 */
 	public $baseIndex = 'id';
 
