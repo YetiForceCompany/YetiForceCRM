@@ -245,4 +245,19 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		return $success;
 	}
+
+	/**
+	 * Function removes record.
+	 *
+	 * @return bool
+	 */
+	public function delete()
+	{
+		$db = App\Db::getInstance('webservice');
+		$result = false;
+		if ($recordId = $this->getId()) {
+			$result = (bool) $db->createCommand()->delete($this->baseTable, [$this->baseIndex => $recordId])->execute();
+		}
+		return $result;
+	}
 }

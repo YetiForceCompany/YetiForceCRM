@@ -1,3 +1,8 @@
+/*
+SQLyog Ultimate
+MySQL - 10.2.13-MariaDB : Database - current
+*********************************************************************
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -9132,6 +9137,23 @@ CREATE TABLE `vtiger_ws_userauthtoken` (
   PRIMARY KEY (`userid`,`expiretime`),
   UNIQUE KEY `userid_idx` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `w_yf_manage_consents_user` */
+
+CREATE TABLE `w_yf_manage_consents_user` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `server_id` int(10) unsigned NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
+  `token` char(64) NOT NULL,
+  `type` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `login_time` datetime DEFAULT NULL,
+  `logout_time` datetime DEFAULT NULL,
+  `language` varchar(10) DEFAULT NULL,
+  `user_id` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_uq` (`server_id`,`token`),
+  CONSTRAINT `w_yf_manage_consents_user_fk1` FOREIGN KEY (`server_id`) REFERENCES `w_yf_servers` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `w_yf_portal_session` */
 
