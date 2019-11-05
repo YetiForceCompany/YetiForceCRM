@@ -75,6 +75,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	margin: 0;
 	padding: 0;
 	list-style: none;
+	font-size: calculate-rem(13px);
 
 	&:before {
 		content: "";
@@ -112,7 +113,7 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 			color: #444;
 			padding: 0;
 			position: relative;
-
+			min-width: 0;
 			> {
 				.imageContainer {
 					width: calculate-rem(30px);
