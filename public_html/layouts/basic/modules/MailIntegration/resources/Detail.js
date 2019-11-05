@@ -13,19 +13,29 @@ const MailIntegration_Detail = {
 	},
 	registerRowEvents() {
 		this.container.on('click', '.js-row-click', this.rowClick.bind(this));
+		$(document).on('click', '.popover a', this.linkClick.bind(this));
 		this.container.on('click', '.js-add-related-record', this.showQuickCreateClick.bind(this));
 		this.container.on('click', '.js-remove-record', this.deleteRelationshipClick.bind(this));
 	},
 	rowClick(event) {
 		let currentTarget = $(event.currentTarget);
-		this.changeIframeSource(currentTarget);
+		this.toggleActiveListItems(currentTarget);
+		this.linkClick(event, currentTarget.find('.js-record-link').attr('href'));
+	},
+	toggleActiveListItems(targetRow) {
+		targetRow.siblings().removeClass('active');
+		targetRow.addClass('active');
+	},
+	linkClick(event, href) {
+		if (!href) {
+			href = $(event.currentTarget).attr('href');
+		}
+		this.changeIframeSource(href);
 		event.preventDefault();
 		return false;
 	},
-	changeIframeSource(targetRow) {
-		targetRow.siblings().removeClass('active');
-		targetRow.addClass('active');
-		this.iframe.attr('src', targetRow.find('.js-record-link').attr('href'));
+	changeIframeSource(href) {
+		this.iframe.attr('src', href);
 		this.showIframeLoader();
 	},
 	deleteRelationshipClick(event) {
