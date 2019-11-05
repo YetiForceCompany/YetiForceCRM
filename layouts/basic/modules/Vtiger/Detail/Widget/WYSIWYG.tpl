@@ -19,7 +19,7 @@
 	<div class="c-detail-widget__content js-detail-widget-collapse js-detail-widget-content collapse multi-collapse pt-1"
 		id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}"
 		data-js="container|value">
-		<div class="mt-0 mx-0 moreContent">
+		<div class="mt-0 mx-0 js-more-content">
 			{assign var=FULL_TEXT value=$RECORD->getDisplayValue($WIDGET['data']['field_name'])}
 			{assign var=TRUNCATE_TEXT value=\App\TextParser::htmlTruncate($FULL_TEXT,600,true,$IS_TRUNCATED)}
 			<div class="table-responsive">
@@ -34,8 +34,7 @@
 			</div>
 			{if $IS_TRUNCATED}
 			<div class="my-1 text-right">
-				<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}"
-					data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+				<button type="button" class="btn btn-link btn-sm js-more">{\App\Language::translate('LBL_MORE_BTN')}</button>
 			</div>
 			{/if}
 		</div>

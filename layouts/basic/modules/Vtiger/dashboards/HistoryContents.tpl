@@ -62,11 +62,11 @@
 														{/if}
 														{if $FIELD->get('postvalue') neq '' && !($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELD->get('postvalue') eq '0')}
 															&nbsp;{\App\Language::translate('LBL_TO')}&nbsp;<strong>{Vtiger_Util_Helper::toVtiger6SafeHTML(App\Purifier::decodeHtml($FIELD->getNewValue()))}</strong>
-														{/if}    
+														{/if}
 													</div>
 												{/if}
 											{else}
-												<a class="btn btn-info btn-sm moreBtn" href="{$PARENT->getUpdatesUrl()}">{\App\Language::translate('LBL_MORE')}</a>
+												<a class="btn btn-link btn-sm" role="button" href="{$PARENT->getUpdatesUrl()}">{\App\Language::translate('LBL_MORE')}</a>
 												{break}
 											{/if}
 										{/foreach}

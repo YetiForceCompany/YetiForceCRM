@@ -1605,17 +1605,22 @@ var app = (window.app = {
 			}
 		});
 	},
-	registerMoreContent: function(container) {
-		container.on('click', function(e) {
-			var btn = $(e.currentTarget);
-			var content = btn.closest('.moreContent');
-			content.find('.teaserContent').toggleClass('d-none');
-			content.find('.fullContent').toggleClass('d-none');
-			if (btn.text() == btn.data('on')) {
-				btn.text(btn.data('off'));
-			} else {
-				btn.text(btn.data('on'));
-			}
+	registerMoreContent() {
+		$(document).on('click', '.js-more', e => {
+			const btn = $(e.currentTarget);
+			const content = btn.closest('.js-more-content');
+			bootbox.dialog({
+				message: content.find('.fullContent').html(),
+				className: 'u-word-break',
+				size: 'xl',
+				buttons: {
+					danger: {
+						label: '<span class="fas fa-times mr-1"></span>' + app.vtranslate('JS_CLOSE'),
+						className: 'btn-danger',
+						callback: function() {}
+					}
+				}
+			});
 		});
 	},
 	registerMenu: function() {
@@ -2152,7 +2157,7 @@ $(document).ready(function() {
 	app.registerPopover();
 	app.registerFormatNumber();
 	app.registerSticky();
-	app.registerMoreContent($('body').find('button.moreBtn'));
+	app.registerMoreContent();
 	app.registerModal();
 	app.registerMenu();
 	app.registerTabdrop();
