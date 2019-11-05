@@ -28,6 +28,8 @@ class Request extends \App\Request
 		'x-unit-price' => \App\Purifier::INTEGER,
 		'x-unit-gross' => \App\Purifier::INTEGER,
 		'x-product-bundles' => \App\Purifier::INTEGER,
+		'x-row-order-field' => \App\Purifier::ALNUM_EXTENDED,
+		'x-row-order' => \App\Purifier::ALNUM,
 	];
 
 	/**

@@ -59,6 +59,9 @@ class RecordsList extends \Api\Core\BaseAction
 		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
 			$limit = (int) $requestLimit;
 		}
+		if ($orderField = $this->controller->request->getHeader('x-row-order-field')) {
+			$queryGenerator->setOrder($orderField, $this->controller->request->getHeader('x-row-order'));
+		}
 		$offset = 0;
 		if ($requestOffset = $this->controller->request->getHeader('x-row-offset')) {
 			$offset = (int) $requestOffset;
