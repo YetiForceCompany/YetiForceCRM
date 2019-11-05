@@ -90,6 +90,7 @@ const MailIntegration_Detail = {
 	},
 	registerImportClick() {
 		this.container.on('click', '.js-import-mail', e => {
+			this.showIframeLoader();
 			this.getMailDetails().then(mails => {
 				console.log(mails);
 				AppConnector.request(
@@ -102,11 +103,17 @@ const MailIntegration_Detail = {
 						window.PanelParams
 					)
 				)
-					.done(function(responseData) {
-						console.info(responseData);
+					.done(result => {
+						console.log(result);
+						this.hideIframeLoader();
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate('JS_OUTLOOK_IMPORT'),
+							type: 'success'
+						});
 					})
-					.fail(function(error) {
+					.fail(error => {
 						console.error(error);
+						this.hideIframeLoader();
 					});
 			});
 		});
@@ -170,6 +177,9 @@ const MailIntegration_Detail = {
 	},
 	showIframeLoader() {
 		this.iframeLoader.progressIndicator(this.loaderParams);
+	},
+	hideIframeLoader() {
+		this.iframeLoader.progressIndicator({ mode: 'hide' });
 	},
 	initIframeLoader() {
 		this.iframeLoader = $.progressIndicator(this.loaderParams);

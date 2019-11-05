@@ -3,7 +3,7 @@
 <!-- tpl-MailIntegration-Detail-ActionsNoMail -->
 	<div>
 		{if \App\Privilege::isPermitted('OSSMailView', 'CreateView')}
-			<div class="alert alert-warning mb-1 p-1 d-flex align-items-center" role="alert">
+			<div class="alert alert-warning mb-1 p-1 d-flex flex-wrap align-items-center" role="alert">
 				{\App\Language::translate('LBL_MAIL_NOT_FOUND_IN_DB',$MODULE_NAME)}
 				<button class="btn btn-outline-dark btn-sm ml-auto js-import-mail js-popover-tooltip" data-content="{\App\Language::translate('LBL_IMPORT_MAIL_MANUALLY_DESC', $MODULE_NAME)}" data-js="popover">
 					<span class="fas fa-download mr-1"></span>
