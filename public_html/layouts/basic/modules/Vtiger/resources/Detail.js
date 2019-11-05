@@ -360,7 +360,6 @@ jQuery.Class(
 					contentContainer.html(data);
 					App.Fields.Picklist.showSelect2ElementView(widgetContainer.find('.select2'));
 					app.registerModal(contentContainer);
-					app.registerMoreContent(contentContainer.find('button.moreBtn'));
 					if (relatedModuleName) {
 						let relatedController = Vtiger_RelatedList_Js.getInstance(
 							thisInstance.getRecordId(),
@@ -1917,7 +1916,6 @@ jQuery.Class(
 							element.progressIndicator({ mode: 'hide' });
 							thisInstance.registerHelpInfo();
 							app.registerModal(detailContentsHolder);
-							app.registerMoreContent(detailContentsHolder.find('button.moreBtn'));
 							if (typeof callBack == 'function') {
 								callBack(data);
 							}
@@ -2868,7 +2866,6 @@ jQuery.Class(
 					container.find('#updatesCurrentPage').val(dataContainer.find('#updatesCurrentPage').val());
 					container.find('.js-more-link').html(dataContainer.find('.js-more-link').html());
 					container.find('#updates ul').append(dataContainer.find('#updates ul').html());
-					app.registerMoreContent(container.find('button.moreBtn'));
 					app.event.trigger('DetailView.UpdatesWidget.AddMore', data, thisInstance);
 				});
 			});

@@ -61,8 +61,18 @@ var Vtiger_Index_Js = {
 						var selectedTabElement = detailView.getSelectedTab();
 						if (selectedTabElement.data('reference') === relatedModuleName) {
 							detailView.reloadTabContent();
-						}else if(detailView.getContentHolder().find('.detailViewBlockLink').data('reference') === relatedModuleName){
-							Vtiger_RelatedList_Js.getInstance(detailView.getRecordId(), app.getModuleName(), selectedTabElement, 	relatedModuleName).loadRelatedList();
+						} else if (
+							detailView
+								.getContentHolder()
+								.find('.detailViewBlockLink')
+								.data('reference') === relatedModuleName
+						) {
+							Vtiger_RelatedList_Js.getInstance(
+								detailView.getRecordId(),
+								app.getModuleName(),
+								selectedTabElement,
+								relatedModuleName
+							).loadRelatedList();
 						} else {
 							var updatesWidget = detailView
 								.getContentHolder()
@@ -362,7 +372,6 @@ var Vtiger_Index_Js = {
 		AppConnector.request(url)
 			.done(function(data) {
 				content.html(data);
-				app.registerMoreContent(content.find('button.moreBtn'));
 				thisInstance.refreshReminderCount(content, element, 'js-count-notifications-reminder');
 				content.find('.js-set-marked').on('click', function(e) {
 					var currentElement = $(e.currentTarget);

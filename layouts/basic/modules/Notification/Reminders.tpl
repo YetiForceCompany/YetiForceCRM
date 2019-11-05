@@ -33,7 +33,7 @@
 							<div class="font-weight-normal">
 								{$RECORD->getTitle()}
 							</div>
-							<div class="moreContent font-weight-light font-italic">
+							<div class="js-more-content font-weight-light font-italic">
 								{assign var=FULL_TEXT value=$RECORD->getMessage()}
 								<span class="teaserContent">
 									{if strip_tags($FULL_TEXT)|strlen <= 200}
@@ -49,9 +49,7 @@
 										{$FULL_TEXT}
 									</span>
 									<div class="text-right mb-1">
-										<button type="button" class="btn btn-info btn-sm moreBtn"
-												data-on="{\App\Language::translate('LBL_MORE_BTN')}"
-												data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+										<button type="button" class="btn btn-link btn-sm js-more">{\App\Language::translate('LBL_MORE_BTN')}</button>
 									</div>
 								{/if}
 							</div>

@@ -143,7 +143,7 @@
 			{if $PAGING_MODEL->isNextPageExists()}
 				<div class="ml-auto">
 					<button type="button"
-							class="btn btn-primary btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
+							class="btn btn-link btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
 						..
 					</button>
 				</div>

@@ -50,14 +50,11 @@
 															<div class='font-x-small updateInfoContainer d-flex flex-wrap'>
 																<span>{\App\Language::translate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
 																{if $FIELDMODEL->get('postvalue') neq ''}
-																	<strong class="moreContent">
+																	<strong class="js-more-content">
 																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}</span>
 																		{if $FIELDMODEL->has('fullPostValue')}
 																			<span class="fullContent d-none">{$FIELDMODEL->get('fullPostValue')}</span>
-																			<button type="button"
-																					class="btn btn-info btn-sm moreBtn"
-																					data-on="{\App\Language::translate('LBL_MORE_BTN')}"
-																					data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																			<button type="button" class="btn btn-link btn-sm js-more">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																		{/if}
 																	</strong>
 																{/if}
@@ -75,7 +72,7 @@
 												style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
 											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
 										</span>
-										<div class="flex-grow-1 overflow-hidden ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
+										<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
 											<div class="float-sm-left imageContainer d-sm-block d-none">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
@@ -95,14 +92,12 @@
 																<span>{\App\Language::translate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
 																{if $FIELDMODEL->get('prevalue') neq '' && $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELDMODEL->get('postvalue') eq '0' || $FIELDMODEL->get('prevalue') eq '0'))}
 																	&nbsp;{\App\Language::translate('LBL_FROM')}&nbsp;
-																	<strong class="moreContent">
+																	<strong class="js-more-content">
 																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</span>
 																		{if $FIELDMODEL->has('fullPreValue')}
 																			<span class="fullContent d-none">{$FIELDMODEL->get('fullPreValue')}</span>
 																			<button type="button"
-																					class="btn btn-info btn-sm moreBtn"
-																					data-on="{\App\Language::translate('LBL_MORE_BTN')}"
-																					data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																					class="btn btn-link btn-sm js-more">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																		{/if}
 																	</strong>
 																{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
@@ -116,14 +111,12 @@
 																{/if}
 																{if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
 																	&nbsp;{\App\Language::translate('LBL_TO')}&nbsp;
-																	<strong class="moreContent">
+																	<strong class="js-more-content">
 																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}</span>
 																		{if $FIELDMODEL->has('fullPostValue')}
 																			<span class="fullContent d-none">{$FIELDMODEL->get('fullPostValue')}</span>
 																			<button type="button"
-																					class="btn btn-info btn-sm moreBtn"
-																					data-on="{\App\Language::translate('LBL_MORE_BTN')}"
-																					data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																					class="btn btn-link btn-sm js-more">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																		{/if}
 																	</strong>
 																{/if}
@@ -159,15 +152,12 @@
 													&nbsp;</span>
 												<span>
 													{if \App\Privilege::isPermitted($RELATION->getLinkedRecord()->getModuleName(), 'DetailView', $RELATION->getLinkedRecord()->getId())}
-														<strong class="moreContent">
+														<strong class="js-more-content">
 															<span class="teaserContent">
 																{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML(\App\Purifier::decodeHtml($RELATION->getValue())))}</span>
 															{if $RELATION->has('fullValue')}
 																<span class="fullContent d-none">{$RELATION->get('fullValue')}</span>
-																<button type="button"
-																		class="btn btn-info btn-sm moreBtn"
-																		data-on="{\App\Language::translate('LBL_MORE_BTN')}"
-																		data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																<button type="button" class="btn btn-info btn-sm js-more">{\App\Language::translate('LBL_MORE_BTN')}</button>
 															{/if}
 														</strong>
 													{/if}
@@ -260,7 +250,7 @@
 			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
 				<div class="ml-auto">
 					<button type="button"
-							class="btn btn-primary btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
+							class="btn btn-link btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
 						..
 					</button>
 				</div>
