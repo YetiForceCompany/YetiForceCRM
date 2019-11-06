@@ -73,8 +73,7 @@ const MailIntegration_Detail = {
 			noCache: true,
 			showInIframe: true
 		};
-		const headerInstance = new this.iframeWindow.Vtiger_Header_Js();
-		headerInstance.quickCreateModule(moduleName, quickCreateParams);
+		App.Components.QuickCreate.createRecord(moduleName, quickCreateParams);
 	},
 	registerIframeEvents() {
 		const link = this.container.find('.js-row-click').first();

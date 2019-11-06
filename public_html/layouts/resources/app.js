@@ -73,8 +73,21 @@ var App = (window.App = {
 				}
 			}
 		},
+		/**
+		 * Quick create object used by Header.js and yf plugins
+		 *
+		 */
 		QuickCreate: {
-			quickCreateModuleCache: {},
+			/**
+			 * module quick create data cache
+			 */
+			moduleCache: {},
+			/**
+			 * createRecord
+			 *
+			 * @param   {string}  moduleName
+			 * @param   {object}  params
+			 */
 			createRecord(moduleName, params = {}) {
 				if ('parentIframe' === CONFIG.modalParams.target) {
 					window.parent.App.Components.QuickCreate.createRecord(moduleName, params);
@@ -93,19 +106,29 @@ var App = (window.App = {
 				}
 				const progress = $.progressIndicator();
 				this.getForm(url, moduleName, params).done(data => {
-					this.handleData(data, params);
+					this.showModal(data, params);
 					app.registerEventForClockPicker();
 					progress.progressIndicator({
 						mode: 'hide'
 					});
 				});
 			},
+			/**
+			 * Get quick create form
+			 *
+			 * @param   {string}  url
+			 * @param   {string}  moduleName
+			 * @param   {object}  params
+			 *
+			 * @return  {Promise} aDeferred
+			 */
 			getForm(url, moduleName, params = {}) {
 				const aDeferred = $.Deferred();
 				let requestParams;
-				if (!params.noCache || typeof params.noCache === 'undefined') {
-					if (typeof App.Components.QuickCreate.quickCreateModuleCache[moduleName] !== 'undefined') {
-						aDeferred.resolve(App.Components.QuickCreate.quickCreateModuleCache[moduleName]);
+				let isCacheActive = !params.noCache || undefined === params.noCache;
+				if (isCacheActive) {
+					if (App.Components.QuickCreate.moduleCache[moduleName]) {
+						aDeferred.resolve(App.Components.QuickCreate.moduleCache[moduleName]);
 						return aDeferred.promise();
 					}
 				}
@@ -116,15 +139,21 @@ var App = (window.App = {
 					requestParams['url'] = url;
 				}
 				AppConnector.request(requestParams).done(function(data) {
-					if (!params.noCache || typeof params.noCache === 'undefined') {
-						App.Components.QuickCreate.quickCreateModuleCache[moduleName] = data;
+					if (isCacheActive) {
+						App.Components.QuickCreate.moduleCache[moduleName] = data;
 					}
 					aDeferred.resolve(data);
 				});
 				return aDeferred.promise();
 			},
-			handleData(data, params = {}) {
-				app.showModalWindow(data, container => {
+			/**
+			 * Show modal
+			 *
+			 * @param   {string}  html
+			 * @param   {object}  params
+			 */
+			showModal(html, params = {}) {
+				app.showModalWindow(html, container => {
 					const quickCreateForm = container.find('form[name="QuickCreate"]');
 					const moduleName = quickCreateForm.find('[name="module"]').val();
 					const editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
@@ -141,12 +170,17 @@ var App = (window.App = {
 					this.registerHelpInfo(quickCreateForm);
 				});
 			},
+			/**
+			 * Register post load events
+			 *
+			 * @param   {object}  form jQuery
+			 * @param   {object}  params
+			 *
+			 * @return  {boolean}
+			 */
 			registerPostLoadEvents(form, params) {
-				var submitSuccessCallbackFunction = params.callbackFunction;
-				var goToFullFormCallBack = params.goToFullFormcallback;
-				if (typeof submitSuccessCallbackFunction === 'undefined') {
-					submitSuccessCallbackFunction = function() {};
-				}
+				const submitSuccessCallback = params.callbackFunction || function() {};
+				const goToFullFormCallBack = params.goToFullFormcallback || function() {};
 				form.on('submit', e => {
 					const form = $(e.currentTarget);
 					if (form.hasClass('not_validation')) {
@@ -195,7 +229,7 @@ var App = (window.App = {
 									const listInstance = new Vtiger_List_Js();
 									listInstance.getListViewRecords();
 								}
-								submitSuccessCallbackFunction(data);
+								submitSuccessCallback(data);
 								app.event.trigger('QuickCreate.AfterSaveFinal', data, form);
 								progress.progressIndicator({ mode: 'hide' });
 								if (data.success) {
@@ -217,17 +251,25 @@ var App = (window.App = {
 				form.find('.js-full-editlink').on('click', e => {
 					const form = $(e.currentTarget).closest('form');
 					const editViewUrl = $(e.currentTarget).data('url');
-					if (typeof goToFullFormCallBack !== 'undefined') {
-						goToFullFormCallBack(form);
-					}
+					goToFullFormCallBack(form);
 					this.goToFullForm(form, editViewUrl);
 				});
 
 				this.registerTabEvents(form);
 			},
+			/**
+			 * Register help info
+			 *
+			 * @param   {object}  container jQuery
+			 */
 			registerHelpInfo(container = $('form[name="QuickCreate"]')) {
 				app.showPopoverElementView(container.find('.js-help-info'));
 			},
+			/**
+			 * Function to navigate from quick create to edit iew full form
+			 *
+			 * @param   {object}  form  jQuery
+			 */
 			goToFullForm(form) {
 				//As formData contains information about both view and action removed action and directed to view
 				form.find('input[name="action"]').remove();
@@ -238,6 +280,11 @@ var App = (window.App = {
 				form.addClass('not_validation');
 				form.submit();
 			},
+			/**
+			 * Register tab events
+			 *
+			 * @param   {object}  form  jQuery
+			 */
 			registerTabEvents(form) {
 				const tabElements = form.find('.nav.nav-pills , .nav.nav-tabs').find('a');
 				//This will remove the name attributes and assign it to data-element-name . We are doing this to avoid
@@ -271,6 +318,13 @@ var App = (window.App = {
 					quickCreateTabOnHide($(this).attr('data-target'));
 				});
 			},
+			/**
+			 * Save quick create form
+			 *
+			 * @param   {object}  form  jQuery
+			 *
+			 * @return  {Promise}        aDeferred
+			 */
 			save(form) {
 				const aDeferred = $.Deferred();
 				const quickCreateSaveUrl = form.serializeFormData();

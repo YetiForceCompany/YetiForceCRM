@@ -258,35 +258,77 @@ $.Class(
 				}
 			});
 		},
+		/**
+		 * Invoke App.Components.QuickCreate.createRecord
+		 *
+		 * @param   {string}  moduleName
+		 * @param   {object}  params
+		 */
 		quickCreateModule: function(moduleName, params = {}) {
 			App.Components.QuickCreate.createRecord(moduleName, params);
 		},
+		/**
+		 * Invoke App.Components.QuickCreate.getForm
+		 *
+		 * @param   {string}  url
+		 * @param   {string}  moduleName
+		 * @param   {object}  params
+		 *
+		 * @return  {function} which return aDeferred
+		 */
 		getQuickCreateForm: function(url, moduleName, params = {}) {
 			return App.Components.QuickCreate.getForm(url, moduleName, params);
 		},
-		handleQuickCreateData: function(data, params = {}) {
-			App.Components.QuickCreate.handleData(data, params);
+		/**
+		 * Invoke App.Components.QuickCreate.showModal
+		 *
+		 * @param   {string}  html
+		 * @param   {object}  params
+		 */
+		handleQuickCreateData: function(html, params = {}) {
+			App.Components.QuickCreate.showModal(html, params);
 		},
+		/**
+		 * Invoke App.Components.QuickCreate.registerPostLoadEvents
+		 *
+		 * @param   {object}  form jQuery
+		 * @param   {object}  params
+		 *
+		 * @return  {function} which return boolean
+		 */
 		registerQuickCreatePostLoadEvents: function(form, params) {
 			App.Components.QuickCreate.registerPostLoadEvents(form, params);
 		},
+		/**
+		 * Invoke App.Components.QuickCreate.registerHelpInfo
+		 *
+		 * @param   {object}  container jQuery
+		 */
 		registerHelpInfo: function(container = $('form[name="QuickCreate"]')) {
 			App.Components.QuickCreate.registerHelpInfo(container);
 		},
 		/**
-		 * Function to navigate from quickcreate to editView Fullform
-		 * @param accepts form element as parameter
+		 * Invoke App.Components.QuickCreate.goToFullForm
+		 *
+		 * @param   {object}  form  jQuery
 		 */
 		quickCreateGoToFullForm: function(form, editViewUrl) {
 			App.Components.QuickCreate.goToFullForm(form, editViewUrl);
 		},
+		/**
+		 * Invoke App.Components.QuickCreate.registerTabEvents
+		 *
+		 * @param   {object}  form  jQuery
+		 */
 		registerTabEventsInQuickCreate: function(form) {
 			App.Components.QuickCreate.registerTabEvents(form);
 		},
 		/**
-		 * Function to save the quickcreate module
-		 * @param accepts form element as parameter
-		 * @return returns deferred promise
+		 * Invoke App.Components.QuickCreate.quickCreateSave
+		 *
+		 * @param   {object}  form  jQuery
+		 *
+		 * @return  {function}        which return aDeferred
 		 */
 		quickCreateSave: function(form) {
 			return App.Components.QuickCreate.save(form);

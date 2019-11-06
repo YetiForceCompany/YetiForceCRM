@@ -75,9 +75,14 @@ class MailIntegration_Detail_View extends \App\Controller\Modal
 	public function getModalScripts(App\Request $request)
 	{
 		$viewName = $request->getByType('view', 2);
-		return $this->checkAndConvertJsScripts([
-			"modules.{$request->getModule()}.resources.$viewName"
-		]);
+		$jsFileNames = [
+			"modules.{$request->getModule()}.resources.$viewName",
+			'modules.Vtiger.resources.Edit',
+			'~layouts/resources/Field.js',
+			'~layouts/resources/validator/BaseValidator.js',
+			'~layouts/resources/validator/FieldValidator.js'
+		];
+		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
 	/**
