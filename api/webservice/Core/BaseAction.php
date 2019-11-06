@@ -11,9 +11,10 @@ namespace Api\Core;
  */
 class BaseAction
 {
-	/** @var array Permitted modules */
+	/** @var array Allowed method */
 	public $allowedMethod;
-
+	/** @var array Allowed headers */
+	public $allowedHeaders = [];
 	/** @var \Api\Controller */
 	public $controller;
 

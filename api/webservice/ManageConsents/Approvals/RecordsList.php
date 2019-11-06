@@ -17,8 +17,14 @@ namespace Api\ManageConsents\BaseModule;
  */
 class RecordsList extends \Api\ManageConsents\BaseAction
 {
-	/** @var string[] Allowed request methods */
+	/**
+	 * {@inheritdoc}
+	 */
 	public $allowedMethod = ['GET'];
+	/**
+	 * {@inheritdoc}
+	 */
+	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit'];
 
 	/**
 	 * Gets consents.

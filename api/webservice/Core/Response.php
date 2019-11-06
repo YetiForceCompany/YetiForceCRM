@@ -11,7 +11,18 @@ namespace Api\Core;
  */
 class Response
 {
-	protected static $acceptableHeaders = ['x-api-key', 'x-encrypted', 'x-token'];
+	/**
+	 * Access control allow headers.
+	 *
+	 * @var string[]
+	 */
+	protected $acceptableHeaders = ['x-api-key', 'x-encrypted', 'x-token'];
+	/**
+	 * Access control allow methods.
+	 *
+	 * @var string[]
+	 */
+	protected $acceptableMethods = [];
 	protected static $instance = false;
 	protected $body;
 	protected $headers = [];
@@ -40,6 +51,30 @@ class Response
 		$this->body = $body;
 	}
 
+	/**
+	 * Set acceptable methods.
+	 *
+	 * @param string[] $methods
+	 *
+	 * @return void
+	 */
+	public function setAcceptableMethods($methods)
+	{
+		$this->acceptableMethods = array_merge($this->acceptableMethods, $methods);
+	}
+
+	/**
+	 * Set acceptable headers.
+	 *
+	 * @param string[] $headers
+	 *
+	 * @return void
+	 */
+	public function setAcceptableHeaders($headers)
+	{
+		$this->acceptableHeaders = array_merge($this->acceptableHeaders, $headers);
+	}
+
 	private function requestStatus()
 	{
 		$statusCodes = [
@@ -50,7 +85,6 @@ class Response
 			405 => 'Method Not Allowed',
 			500 => 'Internal Server Error',
 		];
-
 		return ($statusCodes[$this->status]) ? $statusCodes[$this->status] : $statusCodes[500];
 	}
 
@@ -63,8 +97,8 @@ class Response
 		$requestContentType = strtolower(\App\Request::_getServer('HTTP_ACCEPT'));
 		if (!headers_sent()) {
 			header('access-control-allow-origin: *');
-			header('access-control-allow-methods: GET, POST, DELETE, PUT');
-			header('access-control-allow-headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(',', static::$acceptableHeaders));
+			header('access-control-allow-methods: ' . implode(', ', $this->acceptableMethods));
+			header('access-control-allow-headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(', ', $this->acceptableHeaders));
 			header("content-type: $requestContentType");
 			header(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $this->status . ' ' . $this->requestStatus());
 			header('encrypted: ' . $encryptDataTransfer);
