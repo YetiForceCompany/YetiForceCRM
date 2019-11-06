@@ -361,22 +361,19 @@ class Vtiger_Record_Model extends \App\Base
 	 * @param bool     $rawText
 	 * @param bool|int $length    Length of the text
 	 *
-	 * @return bool
+	 * @return bool|string
 	 */
 	public function getDisplayValue($fieldName, $record = false, $rawText = false, $length = false)
 	{
 		if (empty($record)) {
 			$record = $this->getId();
 		}
+		$result = false;
 		$fieldModel = $this->getModule()->getFieldByName($fieldName);
 		if ($fieldModel) {
-			return $fieldModel->getDisplayValue($this->get($fieldName), $record, $this, $rawText, $length);
+			$result = $fieldModel->getDisplayValue($this->get($fieldName), $record, $this, $rawText, $length);
 		}
-		$fieldModelByColumn = $this->getModule()->getFieldByColumn($fieldName);
-		if ($fieldModelByColumn) {
-			return $fieldModelByColumn->getDisplayValue($this->get($fieldName), $record, $this, $rawText, $length);
-		}
-		return false;
+		return $result;
 	}
 
 	/**
