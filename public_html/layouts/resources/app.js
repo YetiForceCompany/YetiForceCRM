@@ -74,7 +74,32 @@ var App = (window.App = {
 			}
 		},
 		QuickCreate: {
-			quickCreateModuleCache: {}
+			quickCreateModuleCache: {},
+			createRecord(moduleName, params) {
+				if (CONFIG.modalParams.target === 'parentIframe') {
+					window.parent.App.Components.QuickCreate.createRecord(moduleName, params);
+					return;
+				}
+				if (typeof params.callbackFunction === 'undefined') {
+					params.callbackFunction = function() {};
+				}
+				var url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
+				if (
+					(app.getViewName() === 'Detail' || (app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
+					app.getParentModuleName() != 'Settings'
+				) {
+					url += '&sourceModule=' + app.getModuleName();
+					url += '&sourceRecord=' + app.getRecordId();
+				}
+				var progress = $.progressIndicator();
+				this.getQuickCreateForm(url, moduleName, params).done(data => {
+					this.handleQuickCreateData(data, params);
+					app.registerEventForClockPicker();
+					progress.progressIndicator({
+						mode: 'hide'
+					});
+				});
+			}
 		}
 	}
 });

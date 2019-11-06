@@ -465,29 +465,7 @@ $.Class(
 			});
 		},
 		quickCreateModule: function(moduleName, params = {}) {
-			if (CONFIG.modalParams.target === 'parentIframe') {
-				window.parent.Vtiger_Header_Js.getInstance().quickCreateModule(moduleName, params);
-				return;
-			}
-			if (typeof params.callbackFunction === 'undefined') {
-				params.callbackFunction = function() {};
-			}
-			var url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
-			if (
-				(app.getViewName() === 'Detail' || (app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
-				app.getParentModuleName() != 'Settings'
-			) {
-				url += '&sourceModule=' + app.getModuleName();
-				url += '&sourceRecord=' + app.getRecordId();
-			}
-			var progress = $.progressIndicator();
-			this.getQuickCreateForm(url, moduleName, params).done(data => {
-				this.handleQuickCreateData(data, params);
-				app.registerEventForClockPicker();
-				progress.progressIndicator({
-					mode: 'hide'
-				});
-			});
+			App.Components.QuickCreate.createRecord(moduleName, params);
 		},
 		registerReminderNotice: function() {
 			var self = this;
