@@ -1825,6 +1825,7 @@
     "JS_EMOJI_FLAGS": "flags",
     "JS_EMOJI_CUSTOM": "custom",
     "JS_EMOJI_SEARCH": "Search…",
-    "JS_CANT_CLOSE_NEW_RECROD": "You cannot close a new ticket"
+    "JS_CANT_CLOSE_NEW_RECROD": "You cannot close a new ticket",
+    "JS_REMOVED_RELATIONS_SUCCESSFULLY": "Removed relations successfully."
   }
 }
