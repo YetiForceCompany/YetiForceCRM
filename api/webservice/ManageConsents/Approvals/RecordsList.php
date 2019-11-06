@@ -28,55 +28,55 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 * @OA\GET(
 	 *		path="/webservice/Approvals/RecordsList",
 	 *		summary="Gets the list of consents",
-	 *		tags={"Consents"},
-	 *      security={
+	 *		tags={"Approvals"},
+	 *    security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
 	 *    },
 	 *		@OA\RequestBody(
 	 *				required=false,
 	 *				description="The content of the request is empty",
 	 *		),
-	 *		 @OA\Parameter(
-	 *  		 name="x-row-limit",
-	 *  		 description="Limit",
-	 *  		 @OA\Schema(
-	 *  		   type="integer",
-	 *  		   format="int64",
+	 *		@OA\Parameter(
+	 *				name="x-row-limit",
+	 *  		 	description="Limit",
+	 *  		 	@OA\Schema(
+	 *  		  		type="integer",
+	 *  		 			format="int64",
 	 *  		 ),
 	 *  		 in="header",
-	 * 			 example="0",
+	 * 			 example=0,
 	 *  		 required=false
 	 * 		),
-	 *		 @OA\Parameter(
-	 *		   name="x-row-offset",
-	 * 		  description="Offset",
-	 * 		  @OA\Schema(
-	 * 		    type="integer",
-	 * 		    format="int64",
-	 * 		  ),
-	 *  		 in="header",
-	 * 			 example="0",
-	 *  		 required=false
+	 *		@OA\Parameter(
+	 *		  	name="x-row-offset",
+	 * 		  	description="Offset",
+	 * 		  	@OA\Schema(
+	 * 		    		type="integer",
+	 * 		    		format="int64",
+	 * 		  	),
+	 *  		 	in="header",
+	 * 			 	example=0,
+	 *  		 	required=false
 	 * 		),
-	 *		 @OA\Parameter(
-	 *		   name="x-raw-data",
-	 * 		  description="Gets raw data",
-	 * 		  @OA\Schema(
-	 * 		    type="integer",
-	 * 		    format="int64",
-	 * 		  ),
-	 *  		 in="header",
-	 * 			 example="1",
-	 *  		 required=false
+	 *		@OA\Parameter(
+	 *		   	name="x-raw-data",
+	 * 		  	description="Gets raw data",
+	 * 		  	@OA\Schema(
+	 * 		    	type="integer",
+	 * 		    	format="int64",
+	 * 		  	),
+	 *  		 	in="header",
+	 * 			 	example=1,
+	 *  		 	required=false
 	 * 		),
 	 *		@OA\Response(
-	 *			response=200,
-	 *			description="List of consents",
-	 *			@OA\JsonContent(ref="#/components/schemas/ConsentsResponseBody"),
-	 *			@OA\MediaType(
-	 *				mediaType="text/html",
-	 *				@OA\Schema(ref="#/components/schemas/ConsentsResponseBody")
-	 *			),
+	 *				response=200,
+	 *				description="List of consents",
+	 *				@OA\JsonContent(ref="#/components/schemas/ConsentsResponseBody"),
+	 *				@OA\MediaType(
+	 *						mediaType="text/html",
+	 *						@OA\Schema(ref="#/components/schemas/ConsentsResponseBody")
+	 *				),
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,
@@ -117,43 +117,51 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *		description="List of obtained consents",
 	 *		type="object",
 	 *		@OA\Property(
-	 *			property="status",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 *			enum={"0", "1"},
-	 *			type="integer",
-	 *          example="1"
+	 *				property="status",
+	 *				description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *				enum={0, 1},
+	 *				type="integer",
+	 *        example=1
 	 *		),
 	 *		@OA\Property(
-	 *			property="result",
-	 *			description="Specific response",
-	 *			type="object",
+	 *				property="result",
+	 *				description="Specific response",
+	 *				type="object",
 	 * 				@OA\Property(
-	 * 					property="records",
-	 * 					type="object",
-	 * 					@OA\Property(
-	 * 						property="24862",
+	 * 						property="records",
 	 * 						type="object",
-	 * 						@OA\Property(property="id", description="Consent ID", type="integer", example="24862"),
-	 * 						@OA\Property(property="name", description="Text", type="string", example="Consent for email"),
-	 * 						@OA\Property(property="number", description="Text", type="string", example="N12"),
-	 * 						@OA\Property(property="assigned_user_id", description="Assigned user name", type="string", example="Kowalski Adam"),
-	 * 						@OA\Property(property="approvals_status", description="Status", type="string", example="Active"),
-	 * 						@OA\Property(property="description", description="Description", type="string", example="I confirm to have read.."),
-	 * 					),
+	 * 						@OA\Property(
+	 * 								property="integer",
+	 * 								type="object",
+	 * 								@OA\Property(property="id", description="Consent ID", type="integer", example=24862),
+	 * 								@OA\Property(property="name", description="Text", type="string", example="Consent for email"),
+	 * 								@OA\Property(property="approvals_status", description="Status", type="string", example="Active"),
+	 * 								@OA\Property(property="number", description="Text", type="string", example="N12"),
+	 * 								@OA\Property(property="assigned_user_id", description="Assigned user name", type="string", example="Kowalski Adam"),
+	 *								@OA\Property(property="createdtime", type="string", format="date-time", example="2019-10-07 08:32:38"),
+	 *								@OA\Property(property="modifiedtime", type="string", format="date-time", example="2019-10-07 08:32:38"),
+	 * 								@OA\Property(property="created_user_id", description="Assigned user name", type="string", example="Kowalski Adam"),
+	 * 								@OA\Property(property="shownerid", description="Assigned user name", type="string", example="Kowalski Adam"),
+	 * 								@OA\Property(property="description", description="Description", type="string", example="I confirm to have read.."),
+	 * 						),
 	 * 				),
 	 * 				@OA\Property(
-	 * 					property="rawData",
-	 * 					type="object",
-	 * 					@OA\Property(
-	 * 						property="24862",
+	 * 						property="rawData",
 	 * 						type="object",
-	 * 						@OA\Property(property="id", description="Consent ID", type="integer", example="24862"),
-	 * 						@OA\Property(property="name", description="Text", type="string", example="Consent for email"),
-	 * 						@OA\Property(property="number", description="Text", type="string", example="N12"),
-	 * 						@OA\Property(property="assigned_user_id", description="Assigned user ID", type="integer", example="245"),
-	 * 						@OA\Property(property="approvals_status", description="Status", type="string", example="PLL_ACTIVE"),
-	 * 						@OA\Property(property="description", description="Description", type="string", example="I confirm to have read.."),
-	 * 					),
+	 * 						@OA\Property(
+	 * 								property="integer",
+	 * 								type="object",
+	 * 								@OA\Property(property="id", description="Consent ID", type="integer", example=24862),
+	 * 								@OA\Property(property="name", description="Text", type="string", example="Consent for email"),
+	 * 								@OA\Property(property="approvals_status", description="Status", type="string", example="PLL_ACTIVE"),
+	 * 								@OA\Property(property="number", description="Text", type="string", example="N12"),
+	 * 								@OA\Property(property="assigned_user_id", description="Assigned user ID", type="integer", example=245),
+	 *								@OA\Property(property="createdtime", type="string", format="date-time", example="2019-10-07 08:32:38"),
+	 *								@OA\Property(property="modifiedtime", type="string", format="date-time", example="2019-10-07 08:32:38"),
+	 * 								@OA\Property(property="created_user_id", description="Assigned user ID", type="integer", example=245),
+	 * 								@OA\Property(property="shownerid", description="Assigned user name", type="string", example="Kowalski Adam"),
+	 * 								@OA\Property(property="description", description="Description", type="string", example="I confirm to have read.."),
+	 * 						),
 	 * 				),
 	 * 				@OA\Property(property="isMorePages", description="There are more entries", type="boolean", example="true"),
 	 * 		),

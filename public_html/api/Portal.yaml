@@ -201,10 +201,10 @@ components:
     X-ENCRYPTED:
       description: 'Is the content request is encrypted'
       type: string
-      default: '0'
+      default: 0
       enum:
-        - '0'
-        - '1'
+        - 0
+        - 1
     UsersLoginRequestBody:
       title: 'Users login request body'
       description: 'JSON or form-data'
@@ -229,8 +229,9 @@ components:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error'
           type: integer
           enum:
-            - '0'
-            - '1'
+            - 0
+            - 1
+          example: 1
         result:
           description: 'Content of responses from a given method'
           properties:
@@ -354,8 +355,9 @@ components:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error'
           type: integer
           enum:
-            - '0'
-            - '1'
+            - 0
+            - 1
+          example: 1
         result:
           description: 'Content of responses from a given method'
           type: boolean
