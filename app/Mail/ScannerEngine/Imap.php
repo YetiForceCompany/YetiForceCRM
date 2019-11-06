@@ -21,7 +21,7 @@ class Imap extends Base
 	 *
 	 * @var string
 	 */
-	public $name = 'Outlook';
+	public $name = 'Imap';
 
 	/**
 	 * {@inheritdoc}
@@ -41,5 +41,30 @@ class Imap extends Base
 		$mailCrmId = $query->scalar();
 		$this->set('mailCrmId', $mailCrmId);
 		return  $mailCrmId;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEmailsFields(?string $searchModuleName = null): array
+	{
+		$cacheKey = $searchModuleName ?? '-';
+		if (isset($this->emailsFieldsCache[$cacheKey])) {
+			return $this->emailsFieldsCache[$cacheKey];
+		}
+		$return = [];
+		foreach (\OSSMailScanner_Record_Model::getEmailSearchList() as $field) {
+			$field = explode('=', $field);
+			if (empty($field[2])) {
+				$fieldModel = \Vtiger_Field_Model::getInstance($field[0], \Vtiger_Module_Model::getInstance($field[1]));
+				$field[2] = $fieldModel->getUIType();
+			}
+			if ($searchModuleName && $searchModuleName !== $field[1]) {
+				continue;
+			}
+			$return[$field[1]][$field[2]][] = $field[0];
+		}
+		$this->emailsFieldsCache[$cacheKey] = $fields;
+		return $return;
 	}
 }

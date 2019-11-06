@@ -26,6 +26,9 @@ class Message
 	public static function getScannerByEngine(string $engineName): ScannerEngine\Base
 	{
 		$class = "App\\Mail\\ScannerEngine\\{$engineName}";
+		if (!class_exists($class)) {
+			throw new \App\Exceptions\NotAllowedMethod('ERR_PARAMETER_DOES_NOT_EXIST|$engineName|' . $engineName, 406);
+		}
 		return new $class();
 	}
 

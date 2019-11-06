@@ -17,6 +17,13 @@ namespace App\Mail\ScannerEngine;
 class Outlook extends Base
 {
 	/**
+	 * Scanner engine name.
+	 *
+	 * @var string
+	 */
+	public $name = 'Outlook';
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function process(): void
@@ -32,7 +39,9 @@ class Outlook extends Base
 	 */
 	public function getActions(): array
 	{
-		return ['CreatedMail', 'LinkByFields'];
+		$user = \App\User::getCurrentUserModel();
+		return array_filter(explode(',', $user->getDetail('mail_scanner_actions')));
+		//return ['CreatedMail', 'LinkByFields'];
 	}
 
 	/**
@@ -45,7 +54,7 @@ class Outlook extends Base
 		}
 		$mailCrmId = \App\Mail\Message::findByCid($this->getCid());
 		$this->set('mailCrmId', $mailCrmId);
-		return  $mailCrmId;
+		return $mailCrmId;
 	}
 
 	/**
@@ -78,5 +87,78 @@ class Outlook extends Base
 		if ($request->has('mailBody')) {
 			$this->set('body', $request->getForHtml('mailBody'));
 		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function findRelatedRecords(bool $onlyId = false): array
+	{
+		$emails = $this->get('to_email');
+		$emails[] = $this->get('from_email');
+		if ($this->has('cc_email')) {
+			$emails = array_merge($emails, $this->get('cc_email'));
+		}
+		if ($this->has('bcc_email')) {
+			$emails = array_merge($emails, $this->get('bcc_email'));
+		}
+		$ids = array_flatten(\App\Mail\RecordFinder::findByEmail($emails, $this->getEmailsFields()));
+		if ($idsBySubject = \App\Mail\RecordFinder::findBySubject($this->get('subject'), $this->getNumberFields())) {
+			$ids = array_merge($ids, $idsBySubject);
+		}
+		if (!$onlyId) {
+			foreach ($ids as &$id) {
+				$id = [
+					'id' => $id,
+					'module' => \App\Record::getType($id),
+					'label' => \App\Record::getLabel($id),
+				];
+			}
+		}
+		return $ids;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEmailsFields(?string $searchModuleName = null): array
+	{
+		$cacheKey = $searchModuleName ?? '-';
+		if (isset($this->emailsFieldsCache[$cacheKey])) {
+			return $this->emailsFieldsCache[$cacheKey];
+		}
+		$user = \App\User::getCurrentUserModel();
+		$fields = [];
+		foreach (array_filter(explode(',', $user->getDetail('mail_scanner_fields'))) as $field) {
+			$field = explode('|', $field);
+			if (($searchModuleName && $searchModuleName !== $field[1]) || !\in_array($field[3], [13, 319])) {
+				continue;
+			}
+			$fields[$field[1]][$field[3]][] = $field[2];
+		}
+		$this->emailsFieldsCache[$cacheKey] = $fields;
+		return $fields;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getNumberFields(?string $searchModuleName = null): array
+	{
+		$cacheKey = $searchModuleName ?? '-';
+		if (isset($this->numberFieldsCache[$cacheKey])) {
+			return $this->numberFieldsCache[$cacheKey];
+		}
+		$user = \App\User::getCurrentUserModel();
+		$fields = [];
+		foreach (array_filter(explode(',', $user->getDetail('mail_scanner_fields'))) as $field) {
+			$field = explode('|', $field);
+			if (($searchModuleName && $searchModuleName !== $field[1]) || 4 !== (int) $field[3]) {
+				continue;
+			}
+			$fields[$field[1]][$field[3]][] = $field[2];
+		}
+		$this->numberFieldsCache[$cacheKey] = $fields;
+		return $fields;
 	}
 }
