@@ -72,6 +72,9 @@ var App = (window.App = {
 					return this.treeData;
 				}
 			}
+		},
+		QuickCreate: {
+			quickCreateModuleCache: {}
 		}
 	}
 });

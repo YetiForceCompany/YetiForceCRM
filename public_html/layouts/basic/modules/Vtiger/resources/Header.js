@@ -25,7 +25,6 @@ if (
 $.Class(
 	'Vtiger_Header_Js',
 	{
-		quickCreateModuleCache: {},
 		self: false,
 		getInstance: function() {
 			if (this.self != false) {
@@ -38,7 +37,6 @@ $.Class(
 	{
 		menuContainer: false,
 		contentContainer: false,
-		quickCreateCallBacks: [],
 		init: function() {
 			this.setContentsContainer('.js-base-container');
 		},
@@ -88,8 +86,8 @@ $.Class(
 				params = {};
 			}
 			if (!params.noCache || typeof params.noCache === 'undefined') {
-				if (typeof Vtiger_Header_Js.quickCreateModuleCache[moduleName] !== 'undefined') {
-					aDeferred.resolve(Vtiger_Header_Js.quickCreateModuleCache[moduleName]);
+				if (typeof App.Components.QuickCreate.quickCreateModuleCache[moduleName] !== 'undefined') {
+					aDeferred.resolve(App.Components.QuickCreate.quickCreateModuleCache[moduleName]);
 					return aDeferred.promise();
 				}
 			}
@@ -101,18 +99,11 @@ $.Class(
 			}
 			AppConnector.request(requestParams).done(function(data) {
 				if (!params.noCache || typeof params.noCache === 'undefined') {
-					Vtiger_Header_Js.quickCreateModuleCache[moduleName] = data;
+					App.Components.QuickCreate.quickCreateModuleCache[moduleName] = data;
 				}
 				aDeferred.resolve(data);
 			});
 			return aDeferred.promise();
-		},
-		registerQuickCreateCallBack: function(callBackFunction) {
-			if (typeof callBackFunction != 'function') {
-				return false;
-			}
-			this.quickCreateCallBacks.push(callBackFunction);
-			return true;
 		},
 		/**
 		 * Function to save the quickcreate module
@@ -220,8 +211,7 @@ $.Class(
 			if (typeof params === 'undefined') {
 				params = {};
 			}
-			var thisInstance = this;
-			app.showModalWindow(data, function(container) {
+			app.showModalWindow(data, container => {
 				var quickCreateForm = container.find('form[name="QuickCreate"]');
 				var moduleName = quickCreateForm.find('[name="module"]').val();
 				var editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
@@ -234,8 +224,8 @@ $.Class(
 				if (typeof params.callbackPostShown !== 'undefined') {
 					params.callbackPostShown(quickCreateForm);
 				}
-				thisInstance.registerQuickCreatePostLoadEvents(quickCreateForm, params);
-				thisInstance.registerHelpInfo(quickCreateForm);
+				this.registerQuickCreatePostLoadEvents(quickCreateForm, params);
+				this.registerHelpInfo(quickCreateForm);
 			});
 		},
 		isFreeDay: function(dayOfWeek) {
@@ -246,14 +236,13 @@ $.Class(
 		},
 
 		registerQuickCreatePostLoadEvents: function(form, params) {
-			var thisInstance = this;
 			var submitSuccessCallbackFunction = params.callbackFunction;
 			var goToFullFormCallBack = params.goToFullFormcallback;
 			if (typeof submitSuccessCallbackFunction === 'undefined') {
 				submitSuccessCallbackFunction = function() {};
 			}
 
-			form.on('submit', function(e) {
+			form.on('submit', e => {
 				var form = $(e.currentTarget);
 				if (form.hasClass('not_validation')) {
 					return true;
@@ -282,8 +271,8 @@ $.Class(
 						module: module
 					});
 					if (!recordPreSaveEvent.isDefaultPrevented()) {
-						var targetInstance = thisInstance;
-						var moduleInstance = Vtiger_Edit_Js.getInstanceByModuleName(module);
+						let targetInstance = this;
+						const moduleInstance = Vtiger_Edit_Js.getInstanceByModuleName(module);
 						if (typeof moduleInstance.quickCreateSave === 'function') {
 							targetInstance = moduleInstance;
 						}
@@ -294,7 +283,7 @@ $.Class(
 								enabled: true
 							}
 						});
-						targetInstance.quickCreateSave(form).done(function(data) {
+						targetInstance.quickCreateSave(form).done(data => {
 							let modalContainer = form.closest('.modalContainer');
 							if (modalContainer.length) {
 								app.hideModalWindow(false, modalContainer[0].id);
@@ -306,14 +295,6 @@ $.Class(
 								listinstance.getListViewRecords();
 							}
 							submitSuccessCallbackFunction(data);
-							var registeredCallBackList = thisInstance.quickCreateCallBacks;
-							for (var index = 0; index < registeredCallBackList.length; index++) {
-								var callBack = registeredCallBackList[index];
-								callBack({
-									data: data,
-									name: form.find('[name="module"]').val()
-								});
-							}
 							app.event.trigger('QuickCreate.AfterSaveFinal', data, form);
 							progress.progressIndicator({ mode: 'hide' });
 							if (data.success) {
@@ -483,14 +464,10 @@ $.Class(
 				}
 			});
 		},
-		quickCreateModule: function(moduleName, params) {
+		quickCreateModule: function(moduleName, params = {}) {
 			if (CONFIG.modalParams.target === 'parentIframe') {
 				window.parent.Vtiger_Header_Js.getInstance().quickCreateModule(moduleName, params);
 				return;
-			}
-			var thisInstance = this;
-			if (typeof params === 'undefined') {
-				params = {};
 			}
 			if (typeof params.callbackFunction === 'undefined') {
 				params.callbackFunction = function() {};
@@ -504,8 +481,8 @@ $.Class(
 				url += '&sourceRecord=' + app.getRecordId();
 			}
 			var progress = $.progressIndicator();
-			thisInstance.getQuickCreateForm(url, moduleName, params).done(function(data) {
-				thisInstance.handleQuickCreateData(data, params);
+			this.getQuickCreateForm(url, moduleName, params).done(data => {
+				this.handleQuickCreateData(data, params);
 				app.registerEventForClockPicker();
 				progress.progressIndicator({
 					mode: 'hide'
