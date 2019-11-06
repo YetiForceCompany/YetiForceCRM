@@ -24,13 +24,6 @@ class MailIntegration_Detail_View extends \App\Controller\Modal
 	public $showFooter = false;
 
 	/**
-	 * Are there relations with the record.
-	 *
-	 * @var bool
-	 */
-	private $areRelations = false;
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function checkPermission(App\Request $request)
@@ -55,7 +48,6 @@ class MailIntegration_Detail_View extends \App\Controller\Modal
 			} else {
 				$relations = $this->getRelatedRecords($request);
 			}
-			$this->areRelations = !empty($relations);
 			$viewer->assign('RELATIONS', $relations);
 			$viewer->assign('MAIL_ID', $mailId);
 			$viewer->assign('URL', App\Config::main('site_URL'));
@@ -86,15 +78,11 @@ class MailIntegration_Detail_View extends \App\Controller\Modal
 		$viewName = $request->getByType('view', 2);
 		$jsFileNames = [
 			"modules.{$request->getModule()}.resources.$viewName",
+			'modules.Vtiger.resources.Edit',
+			'~layouts/resources/Field.js',
+			'~layouts/resources/validator/BaseValidator.js',
+			'~layouts/resources/validator/FieldValidator.js'
 		];
-		if (!$this->areRelations) {
-			$jsFileNames = array_merge($jsFileNames, [
-				'modules.Vtiger.resources.Edit',
-				'~layouts/resources/Field.js',
-				'~layouts/resources/validator/BaseValidator.js',
-				'~layouts/resources/validator/FieldValidator.js'
-			]);
-		}
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
