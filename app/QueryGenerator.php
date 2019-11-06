@@ -399,8 +399,9 @@ class QueryGenerator
 	 */
 	public function addRelatedField($field)
 	{
-		$this->relatedFields[] = $field;
-
+		if (!\in_array($field, $this->relatedFields)) {
+			$this->relatedFields[] = $field;
+		}
 		return $this;
 	}
 

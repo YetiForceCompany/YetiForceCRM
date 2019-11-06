@@ -55,9 +55,6 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		$col = $row = 1;
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $filter);
 		$customView = CustomView_Record_Model::getInstanceById($filter);
-		$queryGenerator = self::getQuery($request);
-		$queryGenerator->initForCustomViewById($filter, true);
-		$listViewModel->set('query_generator', $queryGenerator);
 		$pagingModel = (new \Vtiger_Paging_Model())->set('limit', Vtiger_Paging_Model::PAGE_MAX_LIMIT);
 		$headers = $listViewModel->getListViewHeaders();
 		foreach ($headers as $fieldModel) {
