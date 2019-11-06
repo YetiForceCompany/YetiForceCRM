@@ -44,11 +44,10 @@ class MailIntegration_Detail_View extends \App\Controller\Modal
 			$mail->initFromRequest($request);
 			if ($mailId = $mail->getMailCrmId()) {
 				$viewer->assign('MODULES', $this->getModules());
-				$relations = $mail->getRelatedRecords();
+				$viewer->assign('RELATIONS', $mail->getRelatedRecords());
 			} else {
-				$relations = $this->getRelatedRecords($request);
+				$viewer->assign('RELATIONS', $this->getRelatedRecords($request));
 			}
-			$viewer->assign('RELATIONS', $relations);
 			$viewer->assign('MAIL_ID', $mailId);
 			$viewer->assign('URL', App\Config::main('site_URL'));
 			$viewer->assign('MODAL_SCRIPTS', $this->getModalScripts($request));
