@@ -9141,7 +9141,6 @@ CREATE TABLE `w_yf_manage_consents_user` (
   `token` char(64) NOT NULL,
   `type` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `login_time` datetime DEFAULT NULL,
-  `logout_time` datetime DEFAULT NULL,
   `language` varchar(10) DEFAULT NULL,
   `user_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
