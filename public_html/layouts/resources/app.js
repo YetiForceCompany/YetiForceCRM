@@ -106,7 +106,7 @@ var App = (window.App = {
 				}
 				const progress = $.progressIndicator();
 				this.getForm(url, moduleName, params).done(data => {
-					this.handleData(data, params);
+					this.showModal(data, params);
 					app.registerEventForClockPicker();
 					progress.progressIndicator({
 						mode: 'hide'
