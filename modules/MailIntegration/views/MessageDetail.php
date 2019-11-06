@@ -45,6 +45,8 @@ class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 	{
 		$jsFileNames = [
 			"modules.{$request->getModule()}.resources.{$request->getByType('source')}{$request->getByType('view')}",
+			'modules.Vtiger.resources.Edit',
+			"modules.{$request->getModule()}.resources.Edit"
 		];
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
