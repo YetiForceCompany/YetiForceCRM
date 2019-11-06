@@ -18,9 +18,14 @@ namespace Api\Portal\BaseModule;
  */
 class Record extends \Api\Core\BaseAction
 {
-	/** @var string[] Allowed request methods */
+	/**
+	 * {@inheritdoc}
+	 */
 	public $allowedMethod = ['GET', 'DELETE', 'PUT', 'POST'];
-
+	/**
+	 * {@inheritdoc}
+	 */
+	public $allowedHeaders = ['x-parent-id'];
 	/**
 	 * Record model.
 	 *

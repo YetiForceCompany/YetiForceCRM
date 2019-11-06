@@ -17,6 +17,10 @@ namespace Api\Portal\Products;
 class Record extends \Api\Portal\BaseModule\Record
 {
 	/**
+	 * {@inheritdoc}
+	 */
+	public $allowedHeaders = ['x-parent-id', 'x-unit-price', 'x-unit-gross', 'x-product-bundles'];
+	/**
 	 * Is user permissions.
 	 *
 	 * @var bool
