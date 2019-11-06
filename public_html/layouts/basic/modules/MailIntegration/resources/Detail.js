@@ -11,6 +11,9 @@ const MailIntegration_Detail = {
 		blockInfo: { enabled: true },
 		message: false
 	},
+	areRelations() {
+		return this.container.find('.js-row-click').length;
+	},
 	registerRowEvents() {
 		this.container.on('click', '.js-row-click', this.rowClick.bind(this));
 		$(document).on('click', '.popover a', this.linkClick.bind(this));
@@ -73,7 +76,7 @@ const MailIntegration_Detail = {
 			noCache: true,
 			showInIframe: true
 		};
-		const quickCreateComponent = $('.js-row-click').length
+		const quickCreateComponent = this.areRelations()
 			? this.iframeWindow.App.Components.QuickCreate
 			: App.Components.QuickCreate;
 		quickCreateComponent.createRecord(moduleName, quickCreateParams);
