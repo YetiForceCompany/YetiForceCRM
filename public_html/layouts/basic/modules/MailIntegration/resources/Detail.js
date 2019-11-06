@@ -194,7 +194,7 @@ const MailIntegration_Detail = {
 					showInIframe: true
 				}
 			};
-			this.iframeWindow.app.showRecordsList(params, (modal, instance) => {
+			app.showRecordsList(params, (modal, instance) => {
 				instance.setSelectEvent((responseData, e) => {
 					AppConnector.request({
 						module: 'MailIntegration',

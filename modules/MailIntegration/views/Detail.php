@@ -77,6 +77,7 @@ class MailIntegration_Detail_View extends \App\Controller\Modal
 		$viewName = $request->getByType('view', 2);
 		$jsFileNames = [
 			"modules.{$request->getModule()}.resources.$viewName",
+			'~layouts/resources/helper.js',
 			'modules.Vtiger.resources.Edit',
 			'~layouts/resources/Field.js',
 			'~layouts/resources/validator/BaseValidator.js',
