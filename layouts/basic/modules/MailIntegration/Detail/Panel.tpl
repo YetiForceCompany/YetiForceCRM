@@ -12,7 +12,7 @@
 					{include file=\App\Layout::getTemplatePath('Detail/ActionsNoMail.tpl', $MODULE_NAME)}
 				{/if}
 			</div>
-			<iframe id="js-iframe" frameborder="0" width="100%" style="height: 76vh;" frameborder="0" allowfullscreen="true" data-js="iframe"></iframe>
+			<iframe id="js-iframe" frameborder="0" width="100%" frameborder="0" allowfullscreen="true" data-js="iframe"></iframe>
 			{foreach item=MODEL from=$MODAL_SCRIPTS}
 				<script type="{$MODEL->getType()}" src="{$MODEL->getSrc()}"></script>
 			{/foreach}

@@ -49,8 +49,9 @@ const MailIntegration_Detail = {
 			record: recordData.id,
 			recordModule: recordData.module
 		})
-			.done(function(responseData) {
-				console.info(responseData);
+			.done(responseData => {
+				console.log(responseData);
+				this.reloadView();
 			})
 			.fail(function(error) {
 				console.error(error);
@@ -109,6 +110,7 @@ const MailIntegration_Detail = {
 							text: app.vtranslate('JS_OUTLOOK_IMPORT'),
 							type: 'success'
 						});
+						this.reloadView();
 					})
 					.fail(error => {
 						console.error(error);
@@ -206,14 +208,13 @@ const MailIntegration_Detail = {
 					}).done(data => {
 						let response = data['result'];
 						let notifyParams = {
-							text: response['data'],
-							animation: 'show'
+							text: response['data']
 						};
 						if (response['success']) {
-							notifyParams.type = 'info';
+							notifyParams.type = 'success';
 						}
-						this.iframeWindow.Vtiger_Helper_Js.showPnotify(notifyParams);
-						this.loadRelationsList();
+						Vtiger_Helper_Js.showPnotify(notifyParams);
+						this.reloadView();
 					});
 				});
 			});
@@ -231,15 +232,8 @@ const MailIntegration_Detail = {
 			this.showQuickCreateForm(this.moduleSelect[0].value);
 		});
 	},
-	loadRelationsList() {
-		//params to overwrite - action loading
-		const params = {
-			module: 'MailIntegration',
-			view: 'ActionsMailExist'
-		};
-		AppConnector.request(params).done(response => {
-			this.container.find('.js-relations-container').html(response);
-		});
+	reloadView() {
+		window.location.reload();
 	},
 	registerEvents() {
 		this.container = $('#page');
