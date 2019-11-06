@@ -17,6 +17,13 @@ namespace App\Mail\ScannerEngine;
 class Imap extends Base
 {
 	/**
+	 * Scanner engine name.
+	 *
+	 * @var string
+	 */
+	public $name = 'Outlook';
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function getMailCrmId()

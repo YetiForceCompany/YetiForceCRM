@@ -17,6 +17,12 @@ namespace App\Mail;
 class RecordFinder
 {
 	/**
+	 * Scanner engine.
+	 *
+	 * @var string|null
+	 */
+	public static $scannerEngine;
+	/**
 	 * Emails fields cache.
 	 *
 	 * @var string[]
@@ -82,6 +88,44 @@ class RecordFinder
 		if (isset(self::$emailsFieldsCache)) {
 			return self::$emailsFieldsCache;
 		}
+		if ('Imap' === self::$scannerEngine) {
+			self::$emailsFieldsCache = self::getEmailsFieldsFromImap($searchModuleName);
+		} else {
+			self::$emailsFieldsCache = self::getEmailsFieldsFromUser($searchModuleName);
+		}
+		return self::$emailsFieldsCache;
+	}
+
+	/**
+	 * Get emails fields from user.
+	 *
+	 * @param string|null $searchModuleName
+	 *
+	 * @return array
+	 */
+	private static function getEmailsFieldsFromUser(?string $searchModuleName = null): array
+	{
+		$user = \App\User::getCurrentUserModel();
+		$fields = [];
+		foreach (array_filter(explode(',', $user->getDetail('mail_scanner_fields'))) as $field) {
+			$field = explode('|', $field);
+			if ($searchModuleName && $searchModuleName !== $field[1]) {
+				continue;
+			}
+			$fields[$field[1]][$field[3]][] = $field[2];
+		}
+		return $fields;
+	}
+
+	/**
+	 * Get emails fields from OSSMailScanner.
+	 *
+	 * @param string|null $searchModuleName
+	 *
+	 * @return array
+	 */
+	private static function getEmailsFieldsFromImap(?string $searchModuleName = null): array
+	{
 		$return = [];
 		foreach (\OSSMailScanner_Record_Model::getEmailSearchList() as $field) {
 			$field = explode('=', $field);
@@ -94,7 +138,7 @@ class RecordFinder
 			}
 			$return[$field[1]][$field[2]][] = $field[0];
 		}
-		return self::$emailsFieldsCache = $return;
+		return $return;
 	}
 
 	/**
