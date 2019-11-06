@@ -13,19 +13,29 @@ const MailIntegration_Detail = {
 	},
 	registerRowEvents() {
 		this.container.on('click', '.js-row-click', this.rowClick.bind(this));
+		$(document).on('click', '.popover a', this.linkClick.bind(this));
 		this.container.on('click', '.js-add-related-record', this.showQuickCreateClick.bind(this));
 		this.container.on('click', '.js-remove-record', this.deleteRelationshipClick.bind(this));
 	},
 	rowClick(event) {
 		let currentTarget = $(event.currentTarget);
-		this.changeIframeSource(currentTarget);
+		this.toggleActiveListItems(currentTarget);
+		this.linkClick(event, currentTarget.find('.js-record-link').attr('href'));
+	},
+	toggleActiveListItems(targetRow) {
+		targetRow.siblings().removeClass('active');
+		targetRow.addClass('active');
+	},
+	linkClick(event, href) {
+		if (!href) {
+			href = $(event.currentTarget).attr('href');
+		}
+		this.changeIframeSource(href);
 		event.preventDefault();
 		return false;
 	},
-	changeIframeSource(targetRow) {
-		targetRow.siblings().removeClass('active');
-		targetRow.addClass('active');
-		this.iframe.attr('src', targetRow.find('.js-record-link').attr('href'));
+	changeIframeSource(href) {
+		this.iframe.attr('src', href);
 		this.showIframeLoader();
 	},
 	deleteRelationshipClick(event) {
@@ -80,6 +90,7 @@ const MailIntegration_Detail = {
 	},
 	registerImportClick() {
 		this.container.on('click', '.js-import-mail', e => {
+			this.showIframeLoader();
 			this.getMailDetails().then(mails => {
 				console.log(mails);
 				AppConnector.request(
@@ -92,11 +103,17 @@ const MailIntegration_Detail = {
 						window.PanelParams
 					)
 				)
-					.done(function(responseData) {
-						console.info(responseData);
+					.done(result => {
+						console.log(result);
+						this.hideIframeLoader();
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate('JS_OUTLOOK_IMPORT'),
+							type: 'success'
+						});
 					})
-					.fail(function(error) {
+					.fail(error => {
 						console.error(error);
+						this.hideIframeLoader();
 					});
 			});
 		});
@@ -160,6 +177,9 @@ const MailIntegration_Detail = {
 	},
 	showIframeLoader() {
 		this.iframeLoader.progressIndicator(this.loaderParams);
+	},
+	hideIframeLoader() {
+		this.iframeLoader.progressIndicator({ mode: 'hide' });
 	},
 	initIframeLoader() {
 		this.iframeLoader = $.progressIndicator(this.loaderParams);

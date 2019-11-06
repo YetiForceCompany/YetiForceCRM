@@ -479,6 +479,9 @@
 
 .u-text-unset {
 	color: unset;
+	&:hover {
+		color: unset;
+	}
 }
 
 .u-rotate-90 {

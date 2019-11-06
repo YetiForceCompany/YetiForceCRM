@@ -5,5 +5,8 @@
     "LBL_MAIL_NOT_FOUND_IN_DB": "Mail not found in the database.",
     "LBL_IMPORT_MAIL_MANUALLY": "Import",
     "LBL_IMPORT_MAIL_MANUALLY_DESC": "Import an email to the CRM, it will let you manage relations better"
+  },
+  "js": {
+    "JS_OUTLOOK_IMPORT": "The e-mail was imported successfully"
   }
 }
