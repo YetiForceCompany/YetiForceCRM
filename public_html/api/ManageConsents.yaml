@@ -1,0 +1,113 @@
+openapi: 3.0.0
+paths:
+  /webservice/Approvals/RecordsList:
+    get:
+      tags:
+        - Consents
+      summary: 'Gets the list of consents'
+      operationId: 'Api\ManageConsents\BaseModule\RecordsList::get'
+      parameters:
+        -
+          name: x-row-limit
+          in: header
+          description: Limit
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: '0'
+        -
+          name: x-row-offset
+          in: header
+          description: Offset
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: '0'
+        -
+          name: x-raw-data
+          in: header
+          description: 'Gets raw data'
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: '1'
+      requestBody:
+        description: 'The content of the request is empty'
+        required: false
+      responses:
+        '200':
+          description: 'List of consents'
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/ConsentsResponseBody'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsentsResponseBody'
+        '401':
+          description: 'No sent token OR Invalid token'
+        '403':
+          description: 'No permissions for module'
+        '405':
+          description: 'Method Not Allowed'
+      security:
+        -
+          basicAuth: ''
+          ApiKeyAuth: ''
+          token: ''
+components:
+  schemas:
+    ConsentsResponseBody:
+      title: 'List of consents'
+      description: 'List of obtained consents'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - '0'
+            - '1'
+          example: '1'
+        result:
+          description: 'Specific response'
+          properties:
+            records:
+              description: 'Gets consents.'
+              properties:
+                '24862':
+                  description: 'Gets consents.'
+                  properties: { id: { description: 'Consent ID', type: integer, example: '24862' }, name: { description: Text, type: string, example: 'Consent for email' }, number: { description: Text, type: string, example: N12 }, assigned_user_id: { description: 'Assigned user name', type: string, example: 'Kowalski Adam' }, approvals_status: { description: Status, type: string, example: Active }, description: { description: Description, type: string, example: 'I confirm to have read..' } }
+                  type: object
+              type: object
+            rawData:
+              description: 'Gets consents.'
+              properties:
+                '24862':
+                  description: 'Gets consents.'
+                  properties: { id: { description: 'Consent ID', type: integer, example: '24862' }, name: { description: Text, type: string, example: 'Consent for email' }, number: { description: Text, type: string, example: N12 }, assigned_user_id: { description: 'Assigned user ID', type: integer, example: '245' }, approvals_status: { description: Status, type: string, example: PLL_ACTIVE }, description: { description: Description, type: string, example: 'I confirm to have read..' } }
+                  type: object
+              type: object
+            isMorePages:
+              description: 'There are more entries'
+              type: boolean
+              example: 'true'
+          type: object
+      type: object
+  securitySchemes:
+    basicAuth:
+      type: http
+      in: header
+      scheme: basic
+    ApiKeyAuth:
+      type: apiKey
+      description: 'Webservice api key'
+      name: X-API-KEY
+      in: header
+    token:
+      type: apiKey
+      description: 'Webservice api token by user'
+      name: X-TOKEN
+      in: header
