@@ -58,7 +58,7 @@ class Response
 	 *
 	 * @return void
 	 */
-	public function setAcceptableMethods($methods)
+	public function setAcceptableMethods(array $methods)
 	{
 		$this->acceptableMethods = array_merge($this->acceptableMethods, $methods);
 	}
@@ -70,7 +70,7 @@ class Response
 	 *
 	 * @return void
 	 */
-	public function setAcceptableHeaders($headers)
+	public function setAcceptableHeaders(array $headers)
 	{
 		$this->acceptableHeaders = array_merge($this->acceptableHeaders, $headers);
 	}
