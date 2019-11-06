@@ -44,12 +44,7 @@ class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 	public function getFooterScripts(App\Request $request)
 	{
 		$jsFileNames = [
-			"modules.{$request->getModule()}.resources.{$request->getByType('source')}{$request->getByType('view')}",
-			'modules.Vtiger.resources.Edit',
-			"modules.{$request->getModule()}.resources.Edit",
-			'~layouts/resources/Field.js',
-			'~layouts/resources/validator/BaseValidator.js',
-			'~layouts/resources/validator/FieldValidator.js',
+			"modules.{$request->getModule()}.resources.{$request->getByType('source')}{$request->getByType('view')}"
 		];
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
