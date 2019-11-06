@@ -25,7 +25,6 @@ if (
 $.Class(
 	'Vtiger_Header_Js',
 	{
-		quickCreateModuleCache: {},
 		self: false,
 		getInstance: function() {
 			if (this.self != false) {
@@ -38,7 +37,6 @@ $.Class(
 	{
 		menuContainer: false,
 		contentContainer: false,
-		quickCreateCallBacks: [],
 		init: function() {
 			this.setContentsContainer('.js-base-container');
 		},
@@ -80,71 +78,6 @@ $.Class(
 							.show();
 					});
 			});
-		},
-		getQuickCreateForm: function(url, moduleName, params) {
-			var aDeferred = $.Deferred();
-			var requestParams;
-			if (typeof params === 'undefined') {
-				params = {};
-			}
-			if (!params.noCache || typeof params.noCache === 'undefined') {
-				if (typeof Vtiger_Header_Js.quickCreateModuleCache[moduleName] !== 'undefined') {
-					aDeferred.resolve(Vtiger_Header_Js.quickCreateModuleCache[moduleName]);
-					return aDeferred.promise();
-				}
-			}
-			requestParams = url;
-			if (typeof params.data !== 'undefined') {
-				requestParams = {};
-				requestParams['data'] = params.data;
-				requestParams['url'] = url;
-			}
-			AppConnector.request(requestParams).done(function(data) {
-				if (!params.noCache || typeof params.noCache === 'undefined') {
-					Vtiger_Header_Js.quickCreateModuleCache[moduleName] = data;
-				}
-				aDeferred.resolve(data);
-			});
-			return aDeferred.promise();
-		},
-		registerQuickCreateCallBack: function(callBackFunction) {
-			if (typeof callBackFunction != 'function') {
-				return false;
-			}
-			this.quickCreateCallBacks.push(callBackFunction);
-			return true;
-		},
-		/**
-		 * Function to save the quickcreate module
-		 * @param accepts form element as parameter
-		 * @return returns deferred promise
-		 */
-		quickCreateSave: function(form) {
-			var aDeferred = $.Deferred();
-			var quickCreateSaveUrl = form.serializeFormData();
-			AppConnector.request(quickCreateSaveUrl).done(
-				function(data) {
-					aDeferred.resolve(data);
-				},
-				function(textStatus, errorThrown) {
-					aDeferred.reject(textStatus, errorThrown);
-				}
-			);
-			return aDeferred.promise();
-		},
-		/**
-		 * Function to navigate from quickcreate to editView Fullform
-		 * @param accepts form element as parameter
-		 */
-		quickCreateGoToFullForm: function(form, editViewUrl) {
-			//As formData contains information about both view and action removed action and directed to view
-			form.find('input[name="action"]').remove();
-			form.append('<input type="hidden" name="view" value="Edit" />');
-			$.each(form.find('[data-validation-engine]'), function(key, data) {
-				$(data).removeAttr('data-validation-engine');
-			});
-			form.addClass('not_validation');
-			form.submit();
 		},
 		showAnnouncement: function() {
 			var thisInstance = this;
@@ -210,169 +143,11 @@ $.Class(
 				className: 'globalCalendar'
 			});
 		},
-		registerHelpInfo: function(container) {
-			if (typeof container === 'undefined') {
-				container = $('form[name="QuickCreate"]');
-			}
-			app.showPopoverElementView(container.find('.js-help-info'));
-		},
-		handleQuickCreateData: function(data, params) {
-			if (typeof params === 'undefined') {
-				params = {};
-			}
-			var thisInstance = this;
-			app.showModalWindow(data, function(container) {
-				var quickCreateForm = container.find('form[name="QuickCreate"]');
-				var moduleName = quickCreateForm.find('[name="module"]').val();
-				var editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
-				editViewInstance.registerBasicEvents(quickCreateForm);
-				let moduleClassName = moduleName + '_QuickCreate_Js';
-				if (typeof window[moduleClassName] !== 'undefined') {
-					new window[moduleClassName]().registerEvents(container);
-				}
-				quickCreateForm.validationEngine(app.validationEngineOptions);
-				if (typeof params.callbackPostShown !== 'undefined') {
-					params.callbackPostShown(quickCreateForm);
-				}
-				thisInstance.registerQuickCreatePostLoadEvents(quickCreateForm, params);
-				thisInstance.registerHelpInfo(quickCreateForm);
-			});
-		},
 		isFreeDay: function(dayOfWeek) {
 			if (dayOfWeek == 0 || dayOfWeek == 6) {
 				return true;
 			}
 			return false;
-		},
-
-		registerQuickCreatePostLoadEvents: function(form, params) {
-			var thisInstance = this;
-			var submitSuccessCallbackFunction = params.callbackFunction;
-			var goToFullFormCallBack = params.goToFullFormcallback;
-			if (typeof submitSuccessCallbackFunction === 'undefined') {
-				submitSuccessCallbackFunction = function() {};
-			}
-
-			form.on('submit', function(e) {
-				var form = $(e.currentTarget);
-				if (form.hasClass('not_validation')) {
-					return true;
-				}
-				var module = form.find('[name="module"]').val();
-				//Form should submit only once for multiple clicks also
-				if (typeof form.data('submit') !== 'undefined') {
-					return false;
-				} else {
-					var invalidFields = form.data('jqv').InvalidFields;
-					if (invalidFields.length > 0) {
-						//If validation fails, form should submit again
-						form.removeData('submit');
-						$.progressIndicator({ mode: 'hide' });
-						e.preventDefault();
-						return;
-					} else {
-						//Once the form is submiting add data attribute to that form element
-						form.data('submit', 'true');
-						$.progressIndicator({ mode: 'hide' });
-					}
-
-					var recordPreSaveEvent = $.Event(Vtiger_Edit_Js.recordPreSave);
-					form.trigger(recordPreSaveEvent, {
-						value: 'edit',
-						module: module
-					});
-					if (!recordPreSaveEvent.isDefaultPrevented()) {
-						var targetInstance = thisInstance;
-						var moduleInstance = Vtiger_Edit_Js.getInstanceByModuleName(module);
-						if (typeof moduleInstance.quickCreateSave === 'function') {
-							targetInstance = moduleInstance;
-						}
-						let progress = $.progressIndicator({
-							message: app.vtranslate('JS_SAVE_LOADER_INFO'),
-							position: 'html',
-							blockInfo: {
-								enabled: true
-							}
-						});
-						targetInstance.quickCreateSave(form).done(function(data) {
-							let modalContainer = form.closest('.modalContainer');
-							if (modalContainer.length) {
-								app.hideModalWindow(false, modalContainer[0].id);
-							}
-							var parentModule = app.getModuleName();
-							var viewname = app.getViewName();
-							if (module == parentModule && viewname == 'List') {
-								var listinstance = new Vtiger_List_Js();
-								listinstance.getListViewRecords();
-							}
-							submitSuccessCallbackFunction(data);
-							var registeredCallBackList = thisInstance.quickCreateCallBacks;
-							for (var index = 0; index < registeredCallBackList.length; index++) {
-								var callBack = registeredCallBackList[index];
-								callBack({
-									data: data,
-									name: form.find('[name="module"]').val()
-								});
-							}
-							app.event.trigger('QuickCreate.AfterSaveFinal', data, form);
-							progress.progressIndicator({ mode: 'hide' });
-							if (data.success) {
-								Vtiger_Helper_Js.showPnotify({
-									text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
-									type: 'success'
-								});
-							}
-						});
-					} else {
-						//If validation fails in recordPreSaveEvent, form should submit again
-						form.removeData('submit');
-						$.progressIndicator({ mode: 'hide' });
-					}
-					e.preventDefault();
-				}
-			});
-
-			form.find('.js-full-editlink').on('click', function(e) {
-				var form = $(e.currentTarget).closest('form');
-				var editViewUrl = $(e.currentTarget).data('url');
-				if (typeof goToFullFormCallBack !== 'undefined') {
-					goToFullFormCallBack(form);
-				}
-				thisInstance.quickCreateGoToFullForm(form, editViewUrl);
-			});
-
-			this.registerTabEventsInQuickCreate(form);
-		},
-		registerTabEventsInQuickCreate: function(form) {
-			var tabElements = form.find('.nav.nav-pills , .nav.nav-tabs').find('a');
-			//This will remove the name attributes and assign it to data-element-name . We are doing this to avoid
-			//Multiple element to send as in calendar
-			var quickCreateTabOnHide = function(target) {
-				var container = $(target);
-				container.find('[name]').each(function(index, element) {
-					element = $(element);
-					element.attr('data-element-name', element.attr('name')).removeAttr('name');
-				});
-			};
-			//This will add the name attributes and get value from data-element-name . We are doing this to avoid
-			//Multiple element to send as in calendar
-			var quickCreateTabOnShow = function(target) {
-				var container = $(target);
-				container.find('[data-element-name]').each(function(index, element) {
-					element = $(element);
-					element.attr('name', element.attr('data-element-name')).removeAttr('data-element-name');
-				});
-			};
-			tabElements.on('click', function(e) {
-				quickCreateTabOnHide(tabElements.not('[aria-expanded="false"]').attr('data-target'));
-				quickCreateTabOnShow($(this).attr('data-target'));
-				//while switching tabs we have to clear the invalid fields list
-				form.data('jqv').InvalidFields = [];
-			});
-			//To show aleady non active element , this we are doing so that on load we can remove name attributes for other fields
-			tabElements.filter('a:not(.active)').each(function(e) {
-				quickCreateTabOnHide($(this).attr('data-target'));
-			});
 		},
 		basicSearch: function() {
 			var thisInstance = this;
@@ -483,34 +258,38 @@ $.Class(
 				}
 			});
 		},
-		quickCreateModule: function(moduleName, params) {
-			if (CONFIG.modalParams.target === 'parentIframe') {
-				window.parent.Vtiger_Header_Js.getInstance().quickCreateModule(moduleName, params);
-				return;
-			}
-			var thisInstance = this;
-			if (typeof params === 'undefined') {
-				params = {};
-			}
-			if (typeof params.callbackFunction === 'undefined') {
-				params.callbackFunction = function() {};
-			}
-			var url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
-			if (
-				(app.getViewName() === 'Detail' || (app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
-				app.getParentModuleName() != 'Settings'
-			) {
-				url += '&sourceModule=' + app.getModuleName();
-				url += '&sourceRecord=' + app.getRecordId();
-			}
-			var progress = $.progressIndicator();
-			thisInstance.getQuickCreateForm(url, moduleName, params).done(function(data) {
-				thisInstance.handleQuickCreateData(data, params);
-				app.registerEventForClockPicker();
-				progress.progressIndicator({
-					mode: 'hide'
-				});
-			});
+		quickCreateModule: function(moduleName, params = {}) {
+			App.Components.QuickCreate.createRecord(moduleName, params);
+		},
+		getQuickCreateForm: function(url, moduleName, params = {}) {
+			return App.Components.QuickCreate.getForm(url, moduleName, params);
+		},
+		handleQuickCreateData: function(data, params = {}) {
+			App.Components.QuickCreate.handleData(data, params);
+		},
+		registerQuickCreatePostLoadEvents: function(form, params) {
+			App.Components.QuickCreate.registerPostLoadEvents(form, params);
+		},
+		registerHelpInfo: function(container = $('form[name="QuickCreate"]')) {
+			App.Components.QuickCreate.registerHelpInfo(container);
+		},
+		/**
+		 * Function to navigate from quickcreate to editView Fullform
+		 * @param accepts form element as parameter
+		 */
+		quickCreateGoToFullForm: function(form, editViewUrl) {
+			App.Components.QuickCreate.goToFullForm(form, editViewUrl);
+		},
+		registerTabEventsInQuickCreate: function(form) {
+			App.Components.QuickCreate.registerTabEvents(form);
+		},
+		/**
+		 * Function to save the quickcreate module
+		 * @param accepts form element as parameter
+		 * @return returns deferred promise
+		 */
+		quickCreateSave: function(form) {
+			return App.Components.QuickCreate.save(form);
 		},
 		registerReminderNotice: function() {
 			var self = this;

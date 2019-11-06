@@ -72,6 +72,218 @@ var App = (window.App = {
 					return this.treeData;
 				}
 			}
+		},
+		QuickCreate: {
+			quickCreateModuleCache: {},
+			createRecord(moduleName, params = {}) {
+				if ('parentIframe' === CONFIG.modalParams.target) {
+					window.parent.App.Components.QuickCreate.createRecord(moduleName, params);
+					return;
+				}
+				let url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
+				if (undefined === params.callbackFunction) {
+					params.callbackFunction = function() {};
+				}
+				if (
+					(app.getViewName() === 'Detail' || (app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
+					app.getParentModuleName() != 'Settings'
+				) {
+					url += '&sourceModule=' + app.getModuleName();
+					url += '&sourceRecord=' + app.getRecordId();
+				}
+				const progress = $.progressIndicator();
+				this.getForm(url, moduleName, params).done(data => {
+					this.handleData(data, params);
+					app.registerEventForClockPicker();
+					progress.progressIndicator({
+						mode: 'hide'
+					});
+				});
+			},
+			getForm(url, moduleName, params = {}) {
+				const aDeferred = $.Deferred();
+				let requestParams;
+				if (!params.noCache || typeof params.noCache === 'undefined') {
+					if (typeof App.Components.QuickCreate.quickCreateModuleCache[moduleName] !== 'undefined') {
+						aDeferred.resolve(App.Components.QuickCreate.quickCreateModuleCache[moduleName]);
+						return aDeferred.promise();
+					}
+				}
+				requestParams = url;
+				if (typeof params.data !== 'undefined') {
+					requestParams = {};
+					requestParams['data'] = params.data;
+					requestParams['url'] = url;
+				}
+				AppConnector.request(requestParams).done(function(data) {
+					if (!params.noCache || typeof params.noCache === 'undefined') {
+						App.Components.QuickCreate.quickCreateModuleCache[moduleName] = data;
+					}
+					aDeferred.resolve(data);
+				});
+				return aDeferred.promise();
+			},
+			handleData(data, params = {}) {
+				app.showModalWindow(data, container => {
+					const quickCreateForm = container.find('form[name="QuickCreate"]');
+					const moduleName = quickCreateForm.find('[name="module"]').val();
+					const editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+					const moduleClassName = moduleName + '_QuickCreate_Js';
+					editViewInstance.registerBasicEvents(quickCreateForm);
+					if (typeof window[moduleClassName] !== 'undefined') {
+						new window[moduleClassName]().registerEvents(container);
+					}
+					quickCreateForm.validationEngine(app.validationEngineOptions);
+					if (typeof params.callbackPostShown !== 'undefined') {
+						params.callbackPostShown(quickCreateForm);
+					}
+					this.registerPostLoadEvents(quickCreateForm, params);
+					this.registerHelpInfo(quickCreateForm);
+				});
+			},
+			registerPostLoadEvents(form, params) {
+				var submitSuccessCallbackFunction = params.callbackFunction;
+				var goToFullFormCallBack = params.goToFullFormcallback;
+				if (typeof submitSuccessCallbackFunction === 'undefined') {
+					submitSuccessCallbackFunction = function() {};
+				}
+				form.on('submit', e => {
+					const form = $(e.currentTarget);
+					if (form.hasClass('not_validation')) {
+						return true;
+					}
+					const moduleName = form.find('[name="module"]').val();
+					//Form should submit only once for multiple clicks also
+					if (typeof form.data('submit') !== 'undefined') {
+						return false;
+					} else {
+						if (form.data('jqv').InvalidFields.length > 0) {
+							//If validation fails, form should submit again
+							form.removeData('submit');
+							$.progressIndicator({ mode: 'hide' });
+							e.preventDefault();
+							return;
+						} else {
+							//Once the form is submiting add data attribute to that form element
+							form.data('submit', 'true');
+							$.progressIndicator({ mode: 'hide' });
+						}
+
+						const recordPreSaveEvent = $.Event(Vtiger_Edit_Js.recordPreSave);
+						form.trigger(recordPreSaveEvent, {
+							value: 'edit',
+							module: moduleName
+						});
+						if (!recordPreSaveEvent.isDefaultPrevented()) {
+							const moduleInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+							const saveHandler = !!moduleInstance.quickCreateSave ? moduleInstance.quickCreateSave : this.save;
+							let progress = $.progressIndicator({
+								message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+								position: 'html',
+								blockInfo: {
+									enabled: true
+								}
+							});
+							saveHandler(form).done(data => {
+								const modalContainer = form.closest('.modalContainer');
+								const parentModuleName = app.getModuleName();
+								const viewName = app.getViewName();
+								if (modalContainer.length) {
+									app.hideModalWindow(false, modalContainer[0].id);
+								}
+								if (moduleName === parentModuleName && 'List' === viewName) {
+									const listInstance = new Vtiger_List_Js();
+									listInstance.getListViewRecords();
+								}
+								submitSuccessCallbackFunction(data);
+								app.event.trigger('QuickCreate.AfterSaveFinal', data, form);
+								progress.progressIndicator({ mode: 'hide' });
+								if (data.success) {
+									Vtiger_Helper_Js.showPnotify({
+										text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
+										type: 'success'
+									});
+								}
+							});
+						} else {
+							//If validation fails in recordPreSaveEvent, form should submit again
+							form.removeData('submit');
+							$.progressIndicator({ mode: 'hide' });
+						}
+						e.preventDefault();
+					}
+				});
+
+				form.find('.js-full-editlink').on('click', e => {
+					const form = $(e.currentTarget).closest('form');
+					const editViewUrl = $(e.currentTarget).data('url');
+					if (typeof goToFullFormCallBack !== 'undefined') {
+						goToFullFormCallBack(form);
+					}
+					this.goToFullForm(form, editViewUrl);
+				});
+
+				this.registerTabEvents(form);
+			},
+			registerHelpInfo(container = $('form[name="QuickCreate"]')) {
+				app.showPopoverElementView(container.find('.js-help-info'));
+			},
+			goToFullForm(form) {
+				//As formData contains information about both view and action removed action and directed to view
+				form.find('input[name="action"]').remove();
+				form.append('<input type="hidden" name="view" value="Edit" />');
+				$.each(form.find('[data-validation-engine]'), function(key, data) {
+					$(data).removeAttr('data-validation-engine');
+				});
+				form.addClass('not_validation');
+				form.submit();
+			},
+			registerTabEvents(form) {
+				const tabElements = form.find('.nav.nav-pills , .nav.nav-tabs').find('a');
+				//This will remove the name attributes and assign it to data-element-name . We are doing this to avoid
+				//Multiple element to send as in calendar
+				const quickCreateTabOnHide = function(target) {
+					$(target)
+						.find('[name]')
+						.each(function(index, element) {
+							element = $(element);
+							element.attr('data-element-name', element.attr('name')).removeAttr('name');
+						});
+				};
+				//This will add the name attributes and get value from data-element-name . We are doing this to avoid
+				//Multiple element to send as in calendar
+				const quickCreateTabOnShow = function(target) {
+					$(target)
+						.find('[data-element-name]')
+						.each(function(index, element) {
+							element = $(element);
+							element.attr('name', element.attr('data-element-name')).removeAttr('data-element-name');
+						});
+				};
+				tabElements.on('click', function(e) {
+					quickCreateTabOnHide(tabElements.not('[aria-expanded="false"]').attr('data-target'));
+					quickCreateTabOnShow($(this).attr('data-target'));
+					//while switching tabs we have to clear the invalid fields list
+					form.data('jqv').InvalidFields = [];
+				});
+				//To show aleady non active element , this we are doing so that on load we can remove name attributes for other fields
+				tabElements.filter('a:not(.active)').each(function(e) {
+					quickCreateTabOnHide($(this).attr('data-target'));
+				});
+			},
+			save(form) {
+				const aDeferred = $.Deferred();
+				const quickCreateSaveUrl = form.serializeFormData();
+				AppConnector.request(quickCreateSaveUrl).done(
+					data => {
+						aDeferred.resolve(data);
+					},
+					(textStatus, errorThrown) => {
+						aDeferred.reject(textStatus, errorThrown);
+					}
+				);
+				return aDeferred.promise();
+			}
 		}
 	}
 });
