@@ -44,10 +44,11 @@ class MailIntegration_Detail_View extends \App\Controller\Modal
 			$mail->initFromRequest($request);
 			if ($mailId = $mail->getMailCrmId()) {
 				$viewer->assign('MODULES', $this->getModules());
-				$viewer->assign('RELATIONS', $mail->getRelatedRecords());
+				$relations = $mail->getRelatedRecords();
 			} else {
-				$viewer->assign('RELATIONS', $this->getRelatedRecords($request));
+				$relations = $mail->findRelatedRecords();
 			}
+			$viewer->assign('RELATIONS', $relations);
 			$viewer->assign('MAIL_ID', $mailId);
 			$viewer->assign('URL', App\Config::main('site_URL'));
 			$viewer->assign('MODAL_SCRIPTS', $this->getModalScripts($request));
@@ -74,35 +75,13 @@ class MailIntegration_Detail_View extends \App\Controller\Modal
 	 */
 	public function getModalScripts(App\Request $request)
 	{
-		$viewName = $request->getByType('view', 2);
-		$jsFileNames = [
-			"modules.{$request->getModule()}.resources.$viewName",
+		return $this->checkAndConvertJsScripts([
+			"modules.{$request->getModule()}.resources.{$request->getByType('view', 2)}",
 			'modules.Vtiger.resources.Edit',
 			'~layouts/resources/Field.js',
 			'~layouts/resources/validator/BaseValidator.js',
 			'~layouts/resources/validator/FieldValidator.js'
-		];
-		return $this->checkAndConvertJsScripts($jsFileNames);
-	}
-
-	/**
-	 * Get related records if the mail does not exist.
-	 *
-	 * @param App\Request $request
-	 *
-	 * @return array
-	 */
-	public function getRelatedRecords(App\Request $request): array
-	{
-		$records = array_merge(array_flatten(App\Mail\RecordFinder::findByEmail([$request->getByType('mailFrom', 'Email')])), App\Mail\RecordFinder::findBySubject($request->getByType('mailSubject', 'Text'), ['HelpDesk']));
-		foreach ($records as &$record) {
-			$record = [
-				'id' => $record,
-				'module' => \App\Record::getType($record),
-				'label' => \App\Record::getLabel($record),
-			];
-		}
-		return $records;
+		]);
 	}
 
 	/**

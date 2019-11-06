@@ -17,18 +17,6 @@ namespace App\Mail;
 class RecordFinder
 {
 	/**
-	 * Scanner engine.
-	 *
-	 * @var string|null
-	 */
-	public static $scannerEngine;
-	/**
-	 * Emails fields cache.
-	 *
-	 * @var string[]
-	 */
-	private static $emailsFieldsCache;
-	/**
 	 * Emails cache.
 	 *
 	 * @var array
@@ -50,12 +38,12 @@ class RecordFinder
 	/**
 	 * Find email address.
 	 *
-	 * @param mixed       $emails
-	 * @param string|null $searchModuleName
+	 * @param mixed $emails
+	 * @param array $modulesFields
 	 *
 	 * @return array
 	 */
-	public static function findByEmail($emails, ?string $searchModuleName = null): array
+	public static function findByEmail($emails, array $modulesFields): array
 	{
 		if (empty($emails)) {
 			return [];
@@ -64,7 +52,7 @@ class RecordFinder
 			$emails = explode(',', $emails);
 		}
 		$ids = [];
-		foreach (self::getEmailsFields($searchModuleName) as $module => $fieldsByType) {
+		foreach ($modulesFields as $module => $fieldsByType) {
 			foreach ($fieldsByType as $uiType => $fields) {
 				if (319 === $uiType) {
 					$ids = array_merge_recursive($ids, static::findByDomainField($module, $fields, $emails));
@@ -74,71 +62,6 @@ class RecordFinder
 			}
 		}
 		return $ids;
-	}
-
-	/**
-	 * Get emails fields for search engine.
-	 *
-	 * @param string|null $searchModuleName
-	 *
-	 * @return array
-	 */
-	private static function getEmailsFields(?string $searchModuleName = null): array
-	{
-		if (isset(self::$emailsFieldsCache)) {
-			return self::$emailsFieldsCache;
-		}
-		if ('Imap' === self::$scannerEngine) {
-			self::$emailsFieldsCache = self::getEmailsFieldsFromImap($searchModuleName);
-		} else {
-			self::$emailsFieldsCache = self::getEmailsFieldsFromUser($searchModuleName);
-		}
-		return self::$emailsFieldsCache;
-	}
-
-	/**
-	 * Get emails fields from user.
-	 *
-	 * @param string|null $searchModuleName
-	 *
-	 * @return array
-	 */
-	private static function getEmailsFieldsFromUser(?string $searchModuleName = null): array
-	{
-		$user = \App\User::getCurrentUserModel();
-		$fields = [];
-		foreach (array_filter(explode(',', $user->getDetail('mail_scanner_fields'))) as $field) {
-			$field = explode('|', $field);
-			if ($searchModuleName && $searchModuleName !== $field[1]) {
-				continue;
-			}
-			$fields[$field[1]][$field[3]][] = $field[2];
-		}
-		return $fields;
-	}
-
-	/**
-	 * Get emails fields from OSSMailScanner.
-	 *
-	 * @param string|null $searchModuleName
-	 *
-	 * @return array
-	 */
-	private static function getEmailsFieldsFromImap(?string $searchModuleName = null): array
-	{
-		$return = [];
-		foreach (\OSSMailScanner_Record_Model::getEmailSearchList() as $field) {
-			$field = explode('=', $field);
-			if (empty($field[2])) {
-				$fieldModel = \Vtiger_Field_Model::getInstance($field[0], \Vtiger_Module_Model::getInstance($field[1]));
-				$field[2] = $fieldModel->getUIType();
-			}
-			if ($searchModuleName && $searchModuleName !== $field[1]) {
-				continue;
-			}
-			$return[$field[1]][$field[2]][] = $field[0];
-		}
-		return $return;
 	}
 
 	/**
@@ -246,17 +169,20 @@ class RecordFinder
 	/**
 	 * Find email address.
 	 *
-	 * @param string      $subject
-	 * @param string|null $searchModuleName
-	 * @param array       $modules
+	 * @param string $subject
+	 * @param array  $modulesFields
 	 *
 	 * @return array
 	 */
-	public static function findBySubject($subject, array $modules): array
+	public static function findBySubject($subject, array $modulesFields): array
 	{
 		$records = [];
-		foreach ($modules as $module) {
-			$records = array_merge($records, array_flatten(self::findByRecordNumber($subject, $module)));
+		foreach ($modulesFields as $moduleName => $fields) {
+			$numbers = self::getRecordNumberFromString($subject, $moduleName, true);
+			if (!$numbers || !$fields) {
+				continue;
+			}
+			$records = array_merge($records, array_flatten(self::findByRecordNumber($numbers, $moduleName, array_flatten($fields))));
 		}
 		return $records;
 	}
@@ -268,7 +194,7 @@ class RecordFinder
 	 * @param string $moduleName
 	 * @param bool   $multi
 	 *
-	 * @return bool|string
+	 * @return bool|string|array
 	 */
 	public static function getRecordNumberFromString(string $value, string $moduleName, bool $multi = false)
 	{
@@ -303,22 +229,14 @@ class RecordFinder
 	/**
 	 * Find record by sequence number field.
 	 *
-	 * @param string $value
+	 * @param array  $numbers
 	 * @param string $moduleName
+	 * @param array  $fields
 	 *
 	 * @return array
 	 */
-	public static function findByRecordNumber(string $value, string $moduleName): array
+	public static function findByRecordNumber(array $numbers, string $moduleName, array $fields): array
 	{
-		$numbers = self::getRecordNumberFromString($value, $moduleName, true);
-		if (!$numbers) {
-			return [];
-		}
-		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
-		$fieldName = $moduleModel->getSequenceNumberFieldName();
-		if (!$fieldName) {
-			return [];
-		}
 		$return = [];
 		foreach ($numbers as $i => $number) {
 			if (isset(self::$recordNumberCache[$moduleName][$number])) {
@@ -328,13 +246,17 @@ class RecordFinder
 		}
 		if ($numbers) {
 			$queryGenerator = new \App\QueryGenerator($moduleName);
-			$queryGenerator->setFields(['id', $fieldName]);
+			$queryGenerator->setFields(array_merge(['id'], $fields));
 			$queryGenerator->permissions = false;
-			$queryGenerator->addCondition($fieldName, $numbers, 'e');
+			foreach ($fields as $fieldName) {
+				$queryGenerator->addCondition($fieldName, $numbers, 'e', false);
+			}
 			$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$number = $row[$fieldName];
-				self::$recordNumberCache[$moduleName][$number] = $return[$number][] = $row['id'];
+				foreach ($fields as $fieldName) {
+					$number = $row[$fieldName];
+					self::$recordNumberCache[$moduleName][$number] = $return[$number][] = $row['id'];
+				}
 			}
 		}
 		return $return;

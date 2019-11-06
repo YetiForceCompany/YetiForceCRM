@@ -37,7 +37,7 @@ class MailIntegration_Import_Action extends \App\Controller\Action
 		$mail->process();
 
 		$response = new Vtiger_Response();
-		$response->setResult($mail->getMailCrmId());
+		$response->setResult($mail->processData);
 		$response->emit();
 	}
 }

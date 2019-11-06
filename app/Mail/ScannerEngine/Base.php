@@ -22,6 +22,18 @@ abstract class Base extends \App\Base
 	 * @var array
 	 */
 	public $processData = [];
+	/**
+	 * Emails fields cache.
+	 *
+	 * @var string[]
+	 */
+	protected $emailsFieldsCache = [];
+	/**
+	 * Number fields cache.
+	 *
+	 * @var string[]
+	 */
+	protected $numberFieldsCache = [];
 
 	/**
 	 * Main function to execute scanner engine actions.
@@ -52,19 +64,22 @@ abstract class Base extends \App\Base
 	abstract public function getUserId(): int;
 
 	/**
-	 * Generation crm unique id.
+	 * Get emails fields to search.
 	 *
-	 * @return string
+	 * @param string|null $searchModuleName
+	 *
+	 * @return array
 	 */
-	public function getCid(): string
-	{
-		if ($this->has('cid')) {
-			return $this->get('cid');
-		}
-		$cid = hash('sha256', $this->get('from_email') . '|' . $this->get('date') . '|' . $this->get('subject') . '|' . $this->get('message_id'));
-		$this->set('cid', $cid);
-		return $cid;
-	}
+	abstract public function getEmailsFields(?string $searchModuleName = null): array;
+
+	/**
+	 * Find related records.
+	 *
+	 * @param bool $onlyId
+	 *
+	 * @return int[]
+	 */
+	abstract public function findRelatedRecords(bool $onlyId = false): array;
 
 	/**
 	 * Get related records.
@@ -88,5 +103,20 @@ abstract class Base extends \App\Base
 		}
 		$dataReader->close();
 		return $relations;
+	}
+
+	/**
+	 * Generation crm unique id.
+	 *
+	 * @return string
+	 */
+	public function getCid(): string
+	{
+		if ($this->has('cid')) {
+			return $this->get('cid');
+		}
+		$cid = hash('sha256', $this->get('from_email') . '|' . $this->get('date') . '|' . $this->get('subject') . '|' . $this->get('message_id'));
+		$this->set('cid', $cid);
+		return $cid;
 	}
 }

@@ -21,5 +21,19 @@ class LinkByFields extends Base
 	 */
 	public function process(): void
 	{
+		$scanner = $this->scannerEngine;
+		if (empty($scanner->processData['CreatedMail']) || false === $scanner->getMailCrmId()) {
+			return;
+		}
+		$returnIds = [];
+		if ($ids = $scanner->findRelatedRecords(true)) {
+			$relationModel = new \OSSMailView_Relation_Model();
+			foreach ($ids as $id) {
+				if ($relationModel->addRelation($scanner->getMailCrmId(), $id, $scanner->get('date'))) {
+					$returnIds[] = $id;
+				}
+			}
+		}
+		$scanner->processData['LinkByFields'] = $returnIds;
 	}
 }

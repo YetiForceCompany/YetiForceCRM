@@ -53,6 +53,7 @@ class CreatedMail extends Base
 			if ($id = $record->getId()) {
 				$scanner->set('mailCrmId', $id);
 			}
+			$scanner->processData['CreatedMail'] = $id;
 		}
 	}
 }
