@@ -23,7 +23,7 @@
 			</div>
 		{/if}
 		{if !empty($RELATIONS)}
-			<div class="mb-1 mx-1">
+			<div class="mb-1">
 				<ul class="list-group">
 					{foreach item="RELATION" from=$RELATIONS}
 						{include file=\App\Layout::getTemplatePath('Detail/Row.tpl', $MODULE_NAME) ROW=$RELATION REMOVE_RECORD=true}

@@ -11,6 +11,21 @@ const MailIntegration_Detail = {
 		blockInfo: { enabled: true },
 		message: false
 	},
+	showResponseMessage(success, successLabel) {
+		if (success) {
+			Office.context.mailbox.item.notificationMessages.addAsync('information', {
+				type: 'informationalMessage',
+				message: app.vtranslate(successLabel),
+				icon: 'iconid',
+				persistent: false
+			});
+		} else {
+			Office.context.mailbox.item.notificationMessages.addAsync('error', {
+				type: 'errorMessage',
+				message: app.vtranslate('JS_MAILINTEGRATION_ERROR')
+			});
+		}
+	},
 	registerRowEvents() {
 		this.container.on('click', '.js-row-click', this.rowClick.bind(this));
 		$(document).on('click', '.popover a', this.linkClick.bind(this));
@@ -50,11 +65,8 @@ const MailIntegration_Detail = {
 			recordModule: recordData.module
 		})
 			.done(response => {
-				Vtiger_Helper_Js.showPnotify({
-					text: app.vtranslate('JS_REMOVED_RELATIONS_SUCCESSFULLY'),
-					type: response['success'] ? 'success' : 'error'
-				});
-				this.reloadView();
+				this.showResponseMessage(response['success'], 'JS_MAILINTEGRATION_REMOVED_RELATION_SUCCESSFULLY');
+				this.reloadView(response['success']);
 			})
 			.fail(function(error) {
 				console.error(error);
@@ -81,11 +93,8 @@ const MailIntegration_Detail = {
 			record: recordId,
 			recordModule: moduleName
 		}).done(response => {
-			Vtiger_Helper_Js.showPnotify({
-				text: app.vtranslate('JS_ADDED_RELATION_SUCCESSFULLY'),
-				type: response['success'] ? 'success' : 'error'
-			});
-			this.reloadView();
+			this.showResponseMessage(response['success'], 'JS_MAILINTEGRATION_ADDED_RELATION_SUCCESSFULLY');
+			this.reloadView(response['success']);
 		});
 	},
 	showQuickCreateForm(moduleName, quickCreateParams = {}) {
@@ -118,13 +127,10 @@ const MailIntegration_Detail = {
 						window.PanelParams
 					)
 				)
-					.done(result => {
+					.done(response => {
 						this.hideIframeLoader();
-						Vtiger_Helper_Js.showPnotify({
-							text: app.vtranslate('JS_OUTLOOK_IMPORT'),
-							type: 'success'
-						});
-						this.reloadView();
+						this.showResponseMessage(response['success'], 'JS_MAILINTEGRATION_IMPORT');
+						this.reloadView(response['success']);
 					})
 					.fail(error => {
 						console.error(error);
@@ -228,8 +234,10 @@ const MailIntegration_Detail = {
 			this.showQuickCreateForm(moduleName, { callbackFunction });
 		});
 	},
-	reloadView() {
-		window.location.reload();
+	reloadView(condition) {
+		if (condition) {
+			window.location.reload();
+		}
 	},
 	registerEvents() {
 		this.container = $('#page');
