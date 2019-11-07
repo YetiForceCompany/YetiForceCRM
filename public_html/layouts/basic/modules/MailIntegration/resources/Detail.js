@@ -11,11 +11,11 @@ const MailIntegration_Detail = {
 		blockInfo: { enabled: true },
 		message: false
 	},
-	showResponseMessage(isSuccess, successText) {
-		if (isSuccess) {
+	showResponseMessage(success, message) {
+		if (success) {
 			Office.context.mailbox.item.notificationMessages.replaceAsync('information', {
 				type: 'informationalMessage',
-				message: successText,
+				message: message,
 				icon: 'iconid',
 				persistent: false
 			});
