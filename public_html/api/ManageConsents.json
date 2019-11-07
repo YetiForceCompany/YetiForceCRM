@@ -242,7 +242,7 @@
         "schemas": {
             "ApprovalsRegisterRequestBody": {
                 "title": "A list of fields required while creating an entry",
-                "description": "The list is based on fields in the Consent register module. \n  * Accepting or declining consent takes place based on the value in the approvals_register_status field.",
+                "description": "The list is based on fields in the Consent register module. Accepting or declining consent takes place based on the value in the approvals_register_status field.",
                 "type": "object",
                 "example": {
                     "subject": "Text",

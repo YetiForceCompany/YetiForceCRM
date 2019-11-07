@@ -98,16 +98,15 @@ class Record extends \Api\ManageConsents\BaseAction
 	 * @OA\Schema(
 	 *		schema="ApprovalsRegisterRequestBody",
 	 *		title="A list of fields required while creating an entry",
-	 *		description="The list is based on fields in the Consent register module. 
-	 * Accepting or declining consent takes place based on the value in the approvals_register_status field.",
+	 *		description="The list is based on fields in the Consent register module. Accepting or declining consent takes place based on the value in the approvals_register_status field.",
 	 *		type="object",
 	 * 		example={
-	 * 			"subject": "Text",
-	 *			"approvalsid": "123",
-	 *			"contactid": "321",
-	 *			"approvals_register_type": "PLL_ACCEPTANCE",
-	 *			"approvals_register_status": "PLL_FOR_VERIFICATION",
-	 *			"registration_date": "2019-11-12 12:00"
+	 * 			"subject" : "Text",
+	 *			"approvalsid" : "123",
+	 *			"contactid" : "321",
+	 *			"approvals_register_type" : "PLL_ACCEPTANCE",
+	 *			"approvals_register_status" : "PLL_FOR_VERIFICATION",
+	 *			"registration_date" : "2019-11-12 12:00"
 	 * 		}
 	 *	),
 	 * @OA\Schema(
@@ -157,7 +156,6 @@ class Record extends \Api\ManageConsents\BaseAction
 		}
 		if ($message) {
 			$response['error'] = $message;
-			echo '<pre>', print_r($this->controller->request->getAll()); echo '</pre>'; //exit;
 		} else {
 			$this->recordModel->save();
 			$response['id'] = $this->recordModel->getId();
