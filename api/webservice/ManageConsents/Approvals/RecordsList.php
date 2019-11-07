@@ -12,6 +12,8 @@
 
 namespace Api\ManageConsents\BaseModule;
 
+use OpenApi\Annotations as OA;
+
 /**
  * RecordsList class.
  */
@@ -34,7 +36,7 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 * @OA\GET(
 	 *		path="/webservice/Approvals/RecordsList",
 	 *		summary="Gets the list of consents",
-	 *		tags={"Approvals"},
+	 *		tags={"Consents"},
 	 *    security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
 	 *    },
@@ -50,7 +52,7 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *  		 			format="int64",
 	 *  		 ),
 	 *  		 in="header",
-	 * 			 example=0,
+	 * 			 example="0",
 	 *  		 required=false
 	 * 		),
 	 *		@OA\Parameter(
@@ -61,7 +63,7 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 * 		    		format="int64",
 	 * 		  	),
 	 *  		 	in="header",
-	 * 			 	example=0,
+	 * 			 	example="0",
 	 *  		 	required=false
 	 * 		),
 	 *		@OA\Parameter(
@@ -72,7 +74,7 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 * 		    	format="int64",
 	 * 		  	),
 	 *  		 	in="header",
-	 * 			 	example=1,
+	 * 			 	example="1",
 	 *  		 	required=false
 	 * 		),
 	 *		@OA\Response(
@@ -137,7 +139,7 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 * 						property="records",
 	 * 						type="object",
 	 * 						@OA\Property(
-	 * 								property="integer",
+	 * 								property="24862",
 	 * 								type="object",
 	 * 								@OA\Property(property="id", description="Consent ID", type="integer", example=24862),
 	 * 								@OA\Property(property="name", description="Text", type="string", example="Consent for email"),
@@ -155,7 +157,7 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 * 						property="rawData",
 	 * 						type="object",
 	 * 						@OA\Property(
-	 * 								property="integer",
+	 * 								property="24862",
 	 * 								type="object",
 	 * 								@OA\Property(property="id", description="Consent ID", type="integer", example=24862),
 	 * 								@OA\Property(property="name", description="Text", type="string", example="Consent for email"),

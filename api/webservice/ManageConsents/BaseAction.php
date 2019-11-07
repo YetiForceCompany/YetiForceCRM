@@ -8,6 +8,14 @@
  * @license 	YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace Api\ManageConsents;
+
+use OpenApi\Annotations as OA;
+
+/**
+ * BaseAction class.
  *
  * @OA\Info(
  * 		title="YetiForce API for Webservice App. Type: Manage consents",
@@ -23,12 +31,6 @@
  *   	),
  *   	termsOfService="https://yetiforce.com/"
  * )
- */
-
-namespace Api\ManageConsents;
-
-/**
- * BaseAction class.
  */
 class BaseAction extends \Api\Core\BaseAction
 {
