@@ -646,3 +646,15 @@ input[type="checkbox"][disabled] {
 		}
 	}
 }
+.c-search-item {
+	&:hover {
+		.c-search-item__btn {
+			color: white;
+			border-color: white;
+		}
+	}
+	&__btn {
+		font-size: 0.8em !important;
+		height: fit-content;
+	}
+}

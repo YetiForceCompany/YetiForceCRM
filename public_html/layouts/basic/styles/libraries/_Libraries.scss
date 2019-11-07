@@ -317,14 +317,14 @@ header {
 .ui-autocomplete {
 	padding: 0 !important;
 
-	a.ui-menu-item-wrapper,
-	a.ui-menu-item-wrapper:hover {
+	.ui-menu-item-wrapper,
+	.ui-menu-item-wrapper:hover {
 		font-weight: inherit !important;
 	}
 }
 
-ul.ui-autocomplete {
-	div.ui-menu-item-wrapper {
+.ui-autocomplete:not(.mobile) {
+	.ui-menu-item-wrapper {
 		@extend .u-text-ellipsis;
 	}
 }
