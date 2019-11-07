@@ -59,6 +59,33 @@ class Outlook extends Base
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getMailType(): int
+	{
+		if ($this->has('mailType')) {
+			return $this->get('mailType');
+		}
+		$to = false;
+		$from = (bool) \App\Mail\RecordFinder::findUserEmail([$this->get('from_email')]);
+		if ($this->has('to_email')) {
+			$to = (bool) \App\Mail\RecordFinder::findUserEmail($this->get('to_email'));
+		} elseif ($this->has('cc_email')) {
+			$to = (bool) \App\Mail\RecordFinder::findUserEmail($this->get('cc_email'));
+		} elseif ($this->has('bcc_email')) {
+			$to = (bool) \App\Mail\RecordFinder::findUserEmail($this->get('bcc_email'));
+		}
+		$key = self::MAIL_TYPE_RECEIVED;
+		if ($from && $to) {
+			$key = self::MAIL_TYPE_INTERNAL;
+		} elseif ($from) {
+			$key = self::MAIL_TYPE_SENT;
+		}
+		$this->set('mailType', $key);
+		return $key;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getUserId(): int
 	{
 		return \App\User::getCurrentUserRealId();
@@ -77,13 +104,16 @@ class Outlook extends Base
 		$this->set('from_email', $request->getByType('mailFrom', 'Email'));
 		$this->set('date', $request->getByType('mailDateTimeCreated', 'DateTimeInIsoFormat'));
 		$this->set('message_id', $request->getByType('mailMessageId', 'MailId'));
-		if ($request->has('mailTo')) {
+		if (!$request->isEmpty('mailTo')) {
 			$this->set('to_email', $request->getArray('mailTo', 'Email'));
 		}
-		if ($request->has('mailCc')) {
+		if (!$request->isEmpty('mailCc', true)) {
 			$this->set('cc_email', $request->getArray('mailCc', 'Email'));
 		}
-		if ($request->has('mailBody')) {
+		if (!$request->isEmpty('mailBcc', true)) {
+			$this->set('bcc_email', $request->getArray('mailBcc', 'Email'));
+		}
+		if (!$request->isEmpty('mailBody', true)) {
 			$this->set('body', $request->getForHtml('mailBody'));
 		}
 	}
@@ -128,7 +158,7 @@ class Outlook extends Base
 		}
 		$user = \App\User::getCurrentUserModel();
 		$fields = [];
-		foreach (array_filter(explode(',', $user->getDetail('mail_scanner_fields'))) as $field) {
+		foreach (explode(',', trim($user->getDetail('mail_scanner_fields'), ',')) as $field) {
 			$field = explode('|', $field);
 			if (($searchModuleName && $searchModuleName !== $field[1]) || !\in_array($field[3], [13, 319])) {
 				continue;
@@ -150,7 +180,7 @@ class Outlook extends Base
 		}
 		$user = \App\User::getCurrentUserModel();
 		$fields = [];
-		foreach (array_filter(explode(',', $user->getDetail('mail_scanner_fields'))) as $field) {
+		foreach (explode(',', trim($user->getDetail('mail_scanner_fields'), ',')) as $field) {
 			$field = explode('|', $field);
 			if (($searchModuleName && $searchModuleName !== $field[1]) || 4 !== (int) $field[3]) {
 				continue;
@@ -159,5 +189,13 @@ class Outlook extends Base
 		}
 		$this->numberFieldsCache[$cacheKey] = $fields;
 		return $fields;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getExceptions(): array
+	{
+		return [];
 	}
 }

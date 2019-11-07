@@ -16,6 +16,17 @@ namespace App\Mail\ScannerEngine;
  */
 abstract class Base extends \App\Base
 {
+	const MAIL_TYPE_SENT = 0;
+	const MAIL_TYPE_RECEIVED = 1;
+	const MAIL_TYPE_INTERNAL = 2;
+	/**
+	 * Mail types map.
+	 */
+	const MAIL_TYPES = [
+		0 => 'Sent',
+		1 => 'Received',
+		2 => 'Internal',
+	];
 	/**
 	 * Process data.
 	 *
@@ -80,6 +91,23 @@ abstract class Base extends \App\Base
 	 * @return int[]
 	 */
 	abstract public function findRelatedRecords(bool $onlyId = false): array;
+
+	/**
+	 * Get exceptions.
+	 *
+	 * @return array
+	 */
+	abstract public function getExceptions(): array;
+
+	/**
+	 * Get mail type.
+	 * 0 = Sent
+	 * 1 = Received
+	 * 2 = Internal.
+	 *
+	 * @return int
+	 */
+	abstract public function getMailType(): int;
 
 	/**
 	 * Get related records.

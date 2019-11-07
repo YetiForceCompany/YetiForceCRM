@@ -261,4 +261,23 @@ class RecordFinder
 		}
 		return $return;
 	}
+
+	/**
+	 * Find user email.
+	 *
+	 * @param array $emails
+	 *
+	 * @return bool
+	 */
+	public static function findUserEmail(array $emails)
+	{
+		if ($emails) {
+			foreach ($emails as $key => $email) {
+				if (!\Users_Module_Model::checkMailExist($email)) {
+					unset($emails[$key]);
+				}
+			}
+		}
+		return $emails;
+	}
 }

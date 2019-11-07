@@ -45,4 +45,21 @@ abstract class Base
 	 * @return void
 	 */
 	abstract public function process(): void;
+
+	/**
+	 * Check exceptions.
+	 *
+	 * @param string $type
+	 *
+	 * @return bool
+	 */
+	public function checkExceptions(string $type): bool
+	{
+		$return = false;
+		if ($exceptions = $this->scannerEngine->getExceptions()[$type] ?? false) {
+			$mailForExceptions = (0 === $this->scannerEngine->getMailType()) ? $this->scannerEngine->get('to_email') : [$this->scannerEngine->get('from_email')];
+			$return = (bool) array_intersect($exceptions, $mailForExceptions);
+		}
+		return $return;
+	}
 }
