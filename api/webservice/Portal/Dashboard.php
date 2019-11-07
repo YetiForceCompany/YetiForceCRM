@@ -7,6 +7,17 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ */
+
+namespace Api\Portal;
+
+use App\Db\Query;
+use App\Language;
+use App\Module;
+use OpenApi\Annotations as OA;
+
+/**
+ * Model dashboard.
  *
  * @OA\Info(
  * 		title="YetiForce API for Webservice App. Type: Portal",
@@ -22,16 +33,6 @@
  *   	),
  *   	termsOfService="https://yetiforce.com/"
  * )
- */
-
-namespace Api\Portal;
-
-use App\Db\Query;
-use App\Language;
-use App\Module;
-
-/**
- * Model dashboard.
  */
 class Dashboard
 {

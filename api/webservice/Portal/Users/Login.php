@@ -10,6 +10,8 @@
 
 namespace Api\Portal\Users;
 
+use OpenApi\Annotations as OA;
+
 /**
  * Users Login action class.
  */

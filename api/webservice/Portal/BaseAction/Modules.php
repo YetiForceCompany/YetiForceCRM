@@ -1,7 +1,5 @@
 <?php
 
-namespace Api\Portal\BaseAction;
-
 /**
  * Get modules list action class.
  *
@@ -9,6 +7,11 @@ namespace Api\Portal\BaseAction;
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+namespace Api\Portal\BaseAction;
+
+use OpenApi\Annotations as OA;
+
 class Modules extends \Api\Core\BaseAction
 {
 	/** @var string[] Allowed request methods */
