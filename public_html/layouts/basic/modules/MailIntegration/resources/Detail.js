@@ -11,18 +11,18 @@ const MailIntegration_Detail = {
 		blockInfo: { enabled: true },
 		message: false
 	},
-	showResponseMessage(success, successLabel) {
-		if (success) {
-			Office.context.mailbox.item.notificationMessages.addAsync('information', {
+	showResponseMessage(isSuccess, successText) {
+		if (isSuccess) {
+			Office.context.mailbox.item.notificationMessages.replaceAsync('information', {
 				type: 'informationalMessage',
-				message: app.vtranslate(successLabel),
+				message: successText,
 				icon: 'iconid',
 				persistent: false
 			});
 		} else {
-			Office.context.mailbox.item.notificationMessages.addAsync('error', {
+			Office.context.mailbox.item.notificationMessages.replaceAsync('error', {
 				type: 'errorMessage',
-				message: app.vtranslate('JS_MAILINTEGRATION_ERROR')
+				message: app.vtranslate('JS_ERROR')
 			});
 		}
 	},
@@ -65,7 +65,7 @@ const MailIntegration_Detail = {
 			recordModule: recordData.module
 		})
 			.done(response => {
-				this.showResponseMessage(response['success'], 'JS_MAILINTEGRATION_REMOVED_RELATION_SUCCESSFULLY');
+				this.showResponseMessage(response['success'], app.vtranslate('JS_REMOVED_RELATION_SUCCESSFULLY'));
 				this.reloadView(response['success']);
 			})
 			.fail(function(error) {
@@ -84,7 +84,7 @@ const MailIntegration_Detail = {
 		});
 		return false;
 	},
-	addRelation({ recordId, moduleName }) {
+	addRelation(recordId, moduleName) {
 		AppConnector.request({
 			module: 'MailIntegration',
 			action: 'Mail',
@@ -93,12 +93,12 @@ const MailIntegration_Detail = {
 			record: recordId,
 			recordModule: moduleName
 		}).done(response => {
-			this.showResponseMessage(response['success'], 'JS_MAILINTEGRATION_ADDED_RELATION_SUCCESSFULLY');
+			this.showResponseMessage(response['success'], app.vtranslate('JS_ADDED_RELATION_SUCCESSFULLY'));
 			this.reloadView(response['success']);
 		});
 	},
 	showQuickCreateForm(moduleName, quickCreateParams = {}) {
-		quickCreateParams = Object.assign({ noCache: true, showInIframe: true, data: {} }, quickCreateParams);
+		quickCreateParams = Object.assign({ noCache: true, data: {} }, quickCreateParams);
 		quickCreateParams.data.relationOperation = true;
 		App.Components.QuickCreate.createRecord(moduleName, quickCreateParams);
 	},
@@ -129,7 +129,7 @@ const MailIntegration_Detail = {
 				)
 					.done(response => {
 						this.hideIframeLoader();
-						this.showResponseMessage(response['success'], 'JS_MAILINTEGRATION_IMPORT');
+						this.showResponseMessage(response['success'], app.vtranslate('JS_IMPORT'));
 						this.reloadView(response['success']);
 					})
 					.fail(error => {
@@ -206,14 +206,11 @@ const MailIntegration_Detail = {
 		this.container.find('.js-select-record').on('click', e => {
 			const params = {
 				module: this.moduleSelect[0].value,
-				src_module: 'OSSMailView',
-				modalParams: {
-					showInIframe: true
-				}
+				src_module: 'OSSMailView'
 			};
 			app.showRecordsList(params, (modal, instance) => {
 				instance.setSelectEvent((responseData, e) => {
-					this.addRelation({ recordId: responseData.id, moduleName: params.module });
+					this.addRelation(responseData.id, params.module);
 				});
 			});
 		});
@@ -229,7 +226,7 @@ const MailIntegration_Detail = {
 		this.addRecordBtn.on('click', e => {
 			const moduleName = this.moduleSelect[0].value;
 			const callbackFunction = ({ result }) => {
-				this.addRelation({ moduleName, recordId: result._recordId });
+				this.addRelation(moduleName, result._recordId);
 			};
 			this.showQuickCreateForm(moduleName, { callbackFunction });
 		});

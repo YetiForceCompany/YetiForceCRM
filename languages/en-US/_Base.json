@@ -1825,10 +1825,6 @@
     "JS_EMOJI_FLAGS": "flags",
     "JS_EMOJI_CUSTOM": "custom",
     "JS_EMOJI_SEARCH": "Search…",
-    "JS_CANT_CLOSE_NEW_RECROD": "You cannot close a new ticket",
-    "JS_MAILINTEGRATION_ERROR": "YetiForce message: add-in error, please contact system administrator.",
-    "JS_MAILINTEGRATION_REMOVED_RELATION_SUCCESSFULLY": "YetiForce message: Removed relation successfully.",
-    "JS_MAILINTEGRATION_ADDED_RELATION_SUCCESSFULLY": "YetiForce message: Added relation successfully.",
-    "JS_MAILINTEGRATION_IMPORT": "YetiForce message: e-mail imported successfully."
+    "JS_CANT_CLOSE_NEW_RECROD": "You cannot close a new ticket"
   }
 }
