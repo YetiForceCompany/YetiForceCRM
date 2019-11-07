@@ -270,28 +270,21 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public static function getInstanceFromField($fieldModel)
 	{
-		$fieldDataType = $fieldModel->getFieldDataType();
-		$uiTypeClassSuffix = ucfirst($fieldDataType);
+		$uiType = ucfirst($fieldModel->getFieldDataType());
 		$moduleName = $fieldModel->getModuleName();
-		$moduleSpecificUiTypeClassName = $moduleName . '_' . $uiTypeClassSuffix . '_UIType';
-		$uiTypeClassName = 'Vtiger_' . $uiTypeClassSuffix . '_UIType';
-		$fallBackClassName = 'Vtiger_Base_UIType';
-
-		$moduleSpecificFileName = 'modules.' . $moduleName . '.uitypes.' . $uiTypeClassSuffix;
-		$uiTypeClassFileName = 'modules.Vtiger.uitypes.' . $uiTypeClassSuffix;
-
-		$moduleSpecificFilePath = Vtiger_Loader::resolveNameToPath($moduleSpecificFileName);
-		$completeFilePath = Vtiger_Loader::resolveNameToPath($uiTypeClassFileName);
-
-		if (file_exists($moduleSpecificFilePath)) {
-			$instance = new $moduleSpecificUiTypeClassName();
-		} elseif (file_exists($completeFilePath)) {
-			$instance = new $uiTypeClassName();
+		if (file_exists(Vtiger_Loader::resolveNameToPath("modules.$moduleName.uitypes.$uiType"))) {
+			$className = "{$moduleName}_{$uiType}_UIType";
+			$instance = new $className();
+		} elseif (file_exists(Vtiger_Loader::resolveNameToPath('modules.Vtiger.uitypes.' . $uiType))) {
+			$className = "Vtiger_{$uiType}_UIType";
+			$instance = new $className();
+		} elseif (file_exists(Vtiger_Loader::resolveNameToPath("modules.$moduleName.uitypes.Base"))) {
+			$className = $moduleName . '_Base_UIType';
+			$instance = new $className();
 		} else {
-			$instance = new $fallBackClassName();
+			$instance = new self();
 		}
 		$instance->set('field', $fieldModel);
-
 		return $instance;
 	}
 
