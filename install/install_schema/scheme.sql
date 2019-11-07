@@ -4812,6 +4812,7 @@ CREATE TABLE `vtiger_contactdetails` (
   `sum_time` decimal(10,2) DEFAULT 0.00,
   `phone_extra` varchar(100) DEFAULT NULL,
   `mobile_extra` varchar(100) DEFAULT NULL,
+  `approvals` text DEFAULT NULL,
   PRIMARY KEY (`contactid`),
   KEY `contactdetails_accountid_idx` (`parentid`),
   KEY `email_idx` (`email`),
@@ -5659,7 +5660,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2901 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2902 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
