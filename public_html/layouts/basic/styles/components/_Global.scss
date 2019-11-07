@@ -647,8 +647,12 @@ input[type="checkbox"][disabled] {
 	}
 }
 .c-search-item {
+	&__mail {
+		color: $gray-600;
+	}
 	&:hover {
-		.c-search-item__btn {
+		.c-search-item__btn,
+		.c-search-item__mail {
 			color: white;
 			border-color: white;
 		}
