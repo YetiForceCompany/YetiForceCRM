@@ -11,6 +11,21 @@ const MailIntegration_Detail = {
 		blockInfo: { enabled: true },
 		message: false
 	},
+	showResponseMessage(success, message) {
+		if (success) {
+			Office.context.mailbox.item.notificationMessages.replaceAsync('information', {
+				type: 'informationalMessage',
+				message: message,
+				icon: 'iconid',
+				persistent: false
+			});
+		} else {
+			Office.context.mailbox.item.notificationMessages.replaceAsync('error', {
+				type: 'errorMessage',
+				message: app.vtranslate('JS_ERROR')
+			});
+		}
+	},
 	registerRowEvents() {
 		this.container.on('click', '.js-row-click', this.rowClick.bind(this));
 		$(document).on('click', '.popover a', this.linkClick.bind(this));
@@ -49,8 +64,9 @@ const MailIntegration_Detail = {
 			record: recordData.id,
 			recordModule: recordData.module
 		})
-			.done(function(responseData) {
-				console.info(responseData);
+			.done(response => {
+				this.showResponseMessage(response['success'], app.vtranslate('JS_REMOVED_RELATION_SUCCESSFULLY'));
+				this.reloadView(response['success']);
 			})
 			.fail(function(error) {
 				console.error(error);
@@ -61,18 +77,29 @@ const MailIntegration_Detail = {
 		const currentTarget = $(event.currentTarget);
 		const recordData = currentTarget.closest('.js-row-click').data();
 		this.showQuickCreateForm(event.currentTarget.dataset.module, {
-			sourceModule: recordData.module,
-			sourceRecord: recordData.id
+			data: {
+				sourceModule: recordData.module,
+				sourceRecord: recordData.id
+			}
 		});
 		return false;
 	},
-	showQuickCreateForm(moduleName, relatedParams = {}) {
-		relatedParams['relationOperation'] = true;
-		const quickCreateParams = {
-			data: relatedParams,
-			noCache: true,
-			showInIframe: true
-		};
+	addRelation(recordId, moduleName) {
+		AppConnector.request({
+			module: 'MailIntegration',
+			action: 'Mail',
+			mode: 'addRelation',
+			mailId: this.mailId,
+			record: recordId,
+			recordModule: moduleName
+		}).done(response => {
+			this.showResponseMessage(response['success'], app.vtranslate('JS_ADDED_RELATION_SUCCESSFULLY'));
+			this.reloadView(response['success']);
+		});
+	},
+	showQuickCreateForm(moduleName, quickCreateParams = {}) {
+		quickCreateParams = Object.assign({ noCache: true, data: {} }, quickCreateParams);
+		quickCreateParams.data.relationOperation = true;
 		App.Components.QuickCreate.createRecord(moduleName, quickCreateParams);
 	},
 	registerIframeEvents() {
@@ -83,7 +110,6 @@ const MailIntegration_Detail = {
 			this.iframe.attr('src', link.find('.js-record-link').attr('href'));
 		}
 		this.iframe.on('load', () => {
-			console.log('loaded');
 			this.iframeLoader.progressIndicator({ mode: 'hide' });
 		});
 	},
@@ -91,7 +117,6 @@ const MailIntegration_Detail = {
 		this.container.on('click', '.js-import-mail', e => {
 			this.showIframeLoader();
 			this.getMailDetails().then(mails => {
-				console.log(mails);
 				AppConnector.request(
 					Object.assign(
 						{
@@ -102,13 +127,10 @@ const MailIntegration_Detail = {
 						window.PanelParams
 					)
 				)
-					.done(result => {
-						console.log(result);
+					.done(response => {
 						this.hideIframeLoader();
-						Vtiger_Helper_Js.showPnotify({
-							text: app.vtranslate('JS_OUTLOOK_IMPORT'),
-							type: 'success'
-						});
+						this.showResponseMessage(response['success'], app.vtranslate('JS_IMPORT'));
+						this.reloadView(response['success']);
 					})
 					.fail(error => {
 						console.error(error);
@@ -119,14 +141,10 @@ const MailIntegration_Detail = {
 	},
 	getMailDetails() {
 		let mailItem = Office.context.mailbox.item;
-		// mailItem.internetHeaders.getAsync(['Date', 'date'], function(body) {
-		// 	console.log(body);
-		// });
 		if (mailItem.attachments.length > 0) {
 			let outputString = '';
 			for (let i = 0; i < mailItem.attachments.length; i++) {
 				let attachment = mailItem.attachments[i];
-				console.log(attachment);
 				outputString += '<BR>' + i + '. Name: ';
 				outputString += attachment.name;
 				outputString += '<BR>ID: ' + attachment.id;
@@ -135,7 +153,6 @@ const MailIntegration_Detail = {
 				outputString += '<BR>attachmentType: ' + attachment.attachmentType;
 				outputString += '<BR>isInline: ' + attachment.isInline;
 			}
-			console.log(outputString);
 		}
 		return new Promise((resolve, reject) => {
 			mailItem.body.getAsync(Office.CoercionType.Html, body => {
@@ -189,32 +206,11 @@ const MailIntegration_Detail = {
 		this.container.find('.js-select-record').on('click', e => {
 			const params = {
 				module: this.moduleSelect[0].value,
-				src_module: 'OSSMailView',
-				modalParams: {
-					showInIframe: true
-				}
+				src_module: 'OSSMailView'
 			};
-			this.iframeWindow.app.showRecordsList(params, (modal, instance) => {
+			app.showRecordsList(params, (modal, instance) => {
 				instance.setSelectEvent((responseData, e) => {
-					AppConnector.request({
-						module: 'MailIntegration',
-						action: 'Mail',
-						mode: 'addRelation',
-						mailId: this.mailId,
-						record: responseData.id,
-						recordModule: params.module
-					}).done(data => {
-						let response = data['result'];
-						let notifyParams = {
-							text: response['data'],
-							animation: 'show'
-						};
-						if (response['success']) {
-							notifyParams.type = 'info';
-						}
-						this.iframeWindow.Vtiger_Helper_Js.showPnotify(notifyParams);
-						this.loadRelationsList();
-					});
+					this.addRelation(responseData.id, params.module);
 				});
 			});
 		});
@@ -228,18 +224,17 @@ const MailIntegration_Detail = {
 	},
 	registerAddRecord() {
 		this.addRecordBtn.on('click', e => {
-			this.showQuickCreateForm(this.moduleSelect[0].value);
+			const moduleName = this.moduleSelect[0].value;
+			const callbackFunction = ({ result }) => {
+				this.addRelation(moduleName, result._recordId);
+			};
+			this.showQuickCreateForm(moduleName, { callbackFunction });
 		});
 	},
-	loadRelationsList() {
-		//params to overwrite - action loading
-		const params = {
-			module: 'MailIntegration',
-			view: 'ActionsMailExist'
-		};
-		AppConnector.request(params).done(response => {
-			this.container.find('.js-relations-container').html(response);
-		});
+	reloadView(condition) {
+		if (condition) {
+			window.location.reload();
+		}
 	},
 	registerEvents() {
 		this.container = $('#page');
