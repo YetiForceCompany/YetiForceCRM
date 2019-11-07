@@ -71,10 +71,10 @@
 									{else}
 									{assign var=COUNTER value=$COUNTER+1}
 									{/if}
-									<div class="col-md-6 py-2 form-row d-flex justify-content-center px-0 m-0 {$WIDTHTYPE} ">
+									<div class="col-md-6 py-xl-2 py-0 form-row d-flex justify-content-center px-0 m-0 {$WIDTHTYPE} ">
 										<div class="fieldLabel col-lg-12 col-xl-3 pl-0 text-lg-left text-xl-right u-text-ellipsis">
 											{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
-											<label class="text-right muted small font-weight-bold">
+											<label class="text-right muted small font-weight-bold mb-xl-1 mb-0">
 												{if $FIELD_MODEL->isMandatory() eq true}
 													<span class="redColor">*</span>
 												{/if}
