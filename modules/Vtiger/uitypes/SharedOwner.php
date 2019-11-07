@@ -255,6 +255,6 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		foreach (\App\Fields\SharedOwner::getById($recordId) as $owner) {
 			$values[] = \App\Fields\Owner::getLabel($owner);
 		}
-		return $value = implode(',', $values);
+		return implode(',', $values);
 	}
 }

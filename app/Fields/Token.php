@@ -27,7 +27,7 @@ class Token
 		$token = '';
 		if (\App\Record::isExists($recordId, $moduleName)) {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$fieldToken = current($recordModel->getModule()->getFieldsByType('token'));
+			$fieldToken = current($recordModel->getModule()->getFieldsByType('token', true));
 			if ($fieldToken && !($token = $recordModel->get($fieldToken->getName()))) {
 				$recordModel->set($fieldToken->getName(), $fieldToken->getUITypeModel()->generateToken())->save();
 				$token = $recordModel->get($fieldToken->getName());

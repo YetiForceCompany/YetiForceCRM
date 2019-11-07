@@ -41,7 +41,6 @@ class Outlook extends Base
 	{
 		$user = \App\User::getCurrentUserModel();
 		return array_filter(explode(',', $user->getDetail('mail_scanner_actions')));
-		//return ['CreatedMail', 'LinkByFields'];
 	}
 
 	/**

@@ -151,6 +151,14 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		return $value ? explode(self::COMMA, $value) : [];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/MultiReference.tpl';

@@ -101,11 +101,7 @@ class MailIntegration_Mail_Action extends \App\Controller\Action
 		$addressBookFile = ROOT_DIRECTORY . '/cache/addressBook/mails_' . App\User::getCurrentUserRealId() . '.php';
 		if (is_file($addressBookFile)) {
 			include $addressBookFile;
-			foreach ($bookMails as $row) {
-				if (false !== stripos($row, $search)) {
-					$contacts[] = $row;
-				}
-			}
+			$contacts = preg_grep("/{$search}/i", $bookMails);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($contacts);
