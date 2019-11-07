@@ -374,10 +374,10 @@ class Functions
 			$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
 			$trace = '';
 			if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && \is_object($e)) {
-				$trace = str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
+				$trace = str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', "{$e->getFile()}({$e->getLine()})\n{$e->getTraceAsString()}");
 			}
 			if (\is_object($e)) {
-				$response->setHeader(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $e->getCode() . ' ' . str_ireplace(["\r\n", "\r", "\n"], [' ', ' ', ' '], $e->getMessage()));
+				$response->setHeader(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $e->getCode() . ' ' . str_ireplace(["\r\n", "\r", "\n"], ' ', $e->getMessage()));
 				$response->setError($e->getCode(), $e->getMessage(), $trace);
 			} else {
 				$response->setError($code, $message, $trace);
@@ -388,7 +388,7 @@ class Functions
 				if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && \is_object($e)) {
 					$message = [
 						'message' => $message,
-						'trace' => str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString())
+						'trace' => str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', "{$e->getFile()}({$e->getLine()})\n{$e->getTraceAsString()}")
 					];
 					$code = $e->getCode();
 				}
