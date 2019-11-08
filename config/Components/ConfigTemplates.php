@@ -130,6 +130,10 @@ return [
 			'default' => ['Accounts', 'Contacts', 'OSSEmployees', 'Leads', 'Vendors', 'Partners', 'Competition'],
 			'description' => 'List of of modules from which you can choose e-mail address in the mail.'
 		],
+		'helpdeskCreatedStatus' => [
+			'default' => 'Open',
+			'description' => 'What status should be set when a ticket is created.'
+		],
 		'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS' => [
 			'default' => 'Answered',
 			'description' => 'What status should be set when a new mail is received regarding a ticket, whose status is awaiting response.'

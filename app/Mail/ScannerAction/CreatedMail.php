@@ -33,7 +33,7 @@ class CreatedMail extends Base
 		$record = \OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 		$record->set('assigned_user_id', $scanner->getUserId());
 		$record->set('created_user_id', $scanner->getUserId());
-		$record->set('subject', $scanner->isEmpty('subject') ? '-' : $scanner->get('subject'));
+		$record->set('subject', $scanner->get('subject'));
 		$record->set('to_email', implode(',', $scanner->get('to_email')));
 		$record->set('from_email', $scanner->get('from_email'));
 		if ($scanner->has('cc_email')) {

@@ -88,7 +88,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		$maxLengthDescription = $record->getField('description')->get('maximumlength');
 		$description = \App\Purifier::purifyHtml($mail->get('body'));
 		$record->set('description', $maxLengthDescription ? \App\TextParser::htmlTruncate($description, $maxLengthDescription, false) : $description);
-		$record->set('ticketstatus', 'Open');
+		$record->set('ticketstatus', \Config\Components\Mail::$helpdeskCreatedStatus);
 		if ($contactId) {
 			$record->ext['relationsEmail']['Contacts'] = $contactId;
 		}

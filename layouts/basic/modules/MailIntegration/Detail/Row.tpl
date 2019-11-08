@@ -2,6 +2,7 @@
 {strip}
 <!-- tpl-MailIntegration-Detail-Row -->
 	<li class="list-group-item list-group-item-action py-0 px-2 js-row-click" data-id="{$ROW['id']}" data-module="{$ROW['module']}">
+	{assign var=MODULE_MODEL value=Vtiger_Module_Model::getInstance($ROW['module'])}
 		{assign var=DETAIL_VIEW_PERMITTED value=\App\Privilege::isPermitted($ROW['module'], 'DetailView', $ROW['id'])}
 	  <div class="d-flex w-100 align-items-center">
 			<a class="modCT_{$ROW['module']} js-record-link js-popover-tooltip--record small u-text-unset u-text-ellipsis" {if $DETAIL_VIEW_PERMITTED}href="{$URL}index.php?module={$ROW['module']}&view=Detail&record={$ROW['id']}"{/if} target="_blank">
@@ -15,7 +16,7 @@
 							<span class="yfm-Calendar" aria-hidden="true"></span>
 						</button>
 					{/if}
-					{if \App\Privilege::isPermitted('ModComments','CreateView')}
+					{if \App\Privilege::isPermitted('ModComments','CreateView') && $MODULE_MODEL->isCommentEnabled()}
 						<button class="js-add-related-record btn u-text-unset js-popover-tooltip" data-module="ModComments" data-js="popover" data-content="{\App\Language::translate('LBL_ADD_MODCOMMENTS',$MODULE_NAME)}">
 							<span class="yfm-ModComments"></span>
 						</button>

@@ -39,8 +39,7 @@ class Outlook extends Base
 	 */
 	public function getActions(): array
 	{
-		$user = \App\User::getCurrentUserModel();
-		return array_filter(explode(',', $user->getDetail('mail_scanner_actions')));
+		return array_filter(explode(',', \App\User::getCurrentUserModel()->getDetail('mail_scanner_actions')));
 	}
 
 	/**
@@ -123,17 +122,9 @@ class Outlook extends Base
 	 */
 	public function findRelatedRecords(bool $onlyId = false): array
 	{
-		$emails = $this->get('to_email');
-		$emails[] = $this->get('from_email');
-		if ($this->has('cc_email')) {
-			$emails = array_merge($emails, $this->get('cc_email'));
-		}
-		if ($this->has('bcc_email')) {
-			$emails = array_merge($emails, $this->get('bcc_email'));
-		}
-		$ids = array_flatten(\App\Mail\RecordFinder::findByEmail($emails, $this->getEmailsFields()));
-		if ($idsBySubject = \App\Mail\RecordFinder::findBySubject($this->get('subject'), $this->getNumberFields())) {
-			$ids = array_merge($ids, $idsBySubject);
+		$ids = $this->findRelatedRecordsByEmail();
+		if ($idsBySubject = $this->findRelatedRecordsBySubject()) {
+			$ids[] = current($idsBySubject);
 		}
 		if (!$onlyId) {
 			foreach ($ids as &$id) {
@@ -145,6 +136,36 @@ class Outlook extends Base
 			}
 		}
 		return $ids;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function findRelatedRecordsByEmail(): array
+	{
+		if (isset($this->processData['findByEmail'])) {
+			return  $this->processData['findByEmail'];
+		}
+		$emails = $this->get('to_email');
+		$emails[] = $this->get('from_email');
+		if ($this->has('cc_email')) {
+			$emails = array_merge($emails, $this->get('cc_email'));
+		}
+		if ($this->has('bcc_email')) {
+			$emails = array_merge($emails, $this->get('bcc_email'));
+		}
+		return $this->processData['findByEmail'] = array_flatten(\App\Mail\RecordFinder::findByEmail($emails, $this->getEmailsFields()));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function findRelatedRecordsBySubject(): array
+	{
+		if (isset($this->processData['findBySubject'])) {
+			return  $this->processData['findBySubject'];
+		}
+		return $this->processData['findBySubject'] = \App\Mail\RecordFinder::findBySubject($this->get('subject'), $this->getNumberFields());
 	}
 
 	/**

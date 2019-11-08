@@ -19,6 +19,11 @@ class LinkByFields extends Base
 	/**
 	 * {@inheritdoc}
 	 */
+	public static $priority = 3;
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(): void
 	{
 		$scanner = $this->scannerEngine;

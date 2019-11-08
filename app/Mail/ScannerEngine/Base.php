@@ -93,6 +93,20 @@ abstract class Base extends \App\Base
 	abstract public function findRelatedRecords(bool $onlyId = false): array;
 
 	/**
+	 * Find related records by emails.
+	 *
+	 * @return int[]
+	 */
+	abstract public function findRelatedRecordsByEmail(): array;
+
+	/**
+	 * Find related records by subject.
+	 *
+	 * @return int[]
+	 */
+	abstract public function findRelatedRecordsBySubject(): array;
+
+	/**
 	 * Get exceptions.
 	 *
 	 * @return array

@@ -11,6 +11,8 @@
 
 namespace App\Mail\ScannerAction;
 
+use App\Mail\RecordFinder;
+
 /**
  * Base mail scanner action class.
  */
@@ -26,5 +28,85 @@ class CreatedHelpDesk extends Base
 	 */
 	public function process(): void
 	{
+		if ($this->checkExceptions('CreatedHelpDesk')) {
+			return;
+		}
+		$scanner = $this->scannerEngine;
+		if (($prefix = RecordFinder::getRecordNumberFromString($scanner->get('subject'), 'HelpDesk')) && \App\Record::getIdByRecordNumber($prefix, 'HelpDesk')) {
+			return;
+		}
+		$fromEmail = [$scanner->get('from_email')];
+		$contactId = current(array_flatten(RecordFinder::findByEmail($fromEmail, $scanner->getEmailsFields('Contacts'))));
+		$parentId = current(array_flatten(RecordFinder::findByEmail($fromEmail, $scanner->getEmailsFields('Accounts'))));
+		if (!$parentId) {
+			$parentId = current(array_flatten(RecordFinder::findByEmail($fromEmail, $scanner->getEmailsFields('Vendors'))));
+		}
+		if (!$parentId && $contactId) {
+			$parentId = \App\Record::getParentRecord($contactId, 'Contacts');
+		}
+		$recordModel = \Vtiger_Record_Model::getCleanInstance('HelpDesk');
+		$this->loadServiceContracts($recordModel, $parentId);
+		$recordModel->set('assigned_user_id', $scanner->getUserId());
+		$recordModel->set('created_user_id', $scanner->getUserId());
+		$recordModel->set('createdtime', $scanner->get('date'));
+		$titleMaxLength = $recordModel->getField('ticket_title')->get('maximumlength');
+		$recordModel->setFromUserValue('ticket_title', $titleMaxLength ? \App\TextParser::textTruncate($scanner->get('subject'), $titleMaxLength, false) : $scanner->get('subject'));
+		$descriptionMaxLength = $recordModel->getField('description')->get('maximumlength');
+		$recordModel->set('description', $descriptionMaxLength ? \App\TextParser::htmlTruncate($scanner->get('body'), $descriptionMaxLength, false) : $scanner->get('body'));
+		$recordModel->set('ticketstatus', \Config\Components\Mail::$helpdeskCreatedStatus);
+		if ($contactId) {
+			$recordModel->ext['relationsEmail']['Contacts'] = $contactId;
+		}
+		$recordModel->save();
+		$id = $recordModel->getId();
+		$scanner->processData['CreatedHelpDesk'] = $id;
+		if ($contactId) {
+			$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), \Vtiger_Module_Model::getInstance('Contacts'));
+			$relationModel->addRelation($id, $contactId);
+			unset($relationModel);
+		}
+		if ($scanner->getMailCrmId()) {
+			$dbCommand = \App\Db::getInstance()->createCommand();
+			$relationModel = new \OSSMailView_Relation_Model();
+			$relationModel->addRelation($scanner->getMailCrmId(), $id, $scanner->get('date'));
+			$query = (new App\Db\Query())->select(['documentsid'])->from('vtiger_ossmailview_files')->where(['ossmailviewid' => $scanner->getMailCrmId()]);
+			$dataReader = $query->createCommand()->query();
+			while ($documentId = $dataReader->readColumn(0)) {
+				$dbCommand->insert('vtiger_senotesrel', ['crmid' => $id, 'notesid' => $documentId])->execute();
+			}
+			$dataReader->close();
+			unset($dataReader,$query, $dbCommand, $recordModel, $relationModel);
+		}
+	}
+
+	/**
+	 * Find service contracts and init data.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 * @param int|bool            $parentId
+	 *
+	 * @return void
+	 */
+	private function loadServiceContracts(\Vtiger_Record_Model $recordModel, $parentId)
+	{
+		if (!$parentId) {
+			return;
+		}
+		$recordModel->set('parent_id', $parentId);
+		$queryGenerator = new \App\QueryGenerator('ServiceContracts');
+		$queryGenerator->setFields(['id', 'contract_priority']);
+		$queryGenerator->addNativeCondition(['vtiger_servicecontracts.sc_related_to' => $parentId]);
+		$queryGenerator->permissions = false;
+		$queryGenerator->addCondition('contract_status', 'In Progress', 'e');
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		if (1 === $dataReader->count()) {
+			$serviceContracts = $dataReader->read();
+			$recordModel->set('servicecontractsid', $serviceContracts['id']);
+			if (\App\Fields\Picklist::isExists('ticketpriorities', $serviceContracts['contract_priority'])) {
+				$recordModel->set('ticketpriorities', $serviceContracts['contract_priority']);
+			}
+		}
+		$dataReader->close();
+		unset($dataReader, $queryGenerator);
 	}
 }
