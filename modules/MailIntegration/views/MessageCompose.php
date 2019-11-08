@@ -51,18 +51,4 @@ class MailIntegration_MessageCompose_View extends \App\Controller\View\Base
 		];
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function setHeaders()
-	{
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function setCspHeaders()
-	{
-	}
 }

@@ -57,20 +57,6 @@ class MailIntegration_Detail_View extends \App\Controller\Modal
 	}
 
 	/**
-	 * Set HTTP Headers.
-	 */
-	public function setHeaders()
-	{
-	}
-
-	/**
-	 * Set CSP Headers.
-	 */
-	public function setCspHeaders()
-	{
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function getModalScripts(App\Request $request)
