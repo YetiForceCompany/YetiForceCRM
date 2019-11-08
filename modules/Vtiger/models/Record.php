@@ -265,12 +265,14 @@ class Vtiger_Record_Model extends \App\Base
 		return $this;
 	}
 
-	public function getRecordNumber()
+	/**
+	 * Get record number.
+	 *
+	 * @return string
+	 */
+	public function getRecordNumber(): string
 	{
-		$fieldModel = $this->getModule()->getFieldsByUiType(4);
-		$fieldModel = reset($fieldModel);
-
-		return $this->get($fieldModel->getName());
+		return $this->get($this->getModule()->getSequenceNumberFieldName());
 	}
 
 	/**
@@ -521,7 +523,7 @@ class Vtiger_Record_Model extends \App\Base
 		$forSave = $this->getEntityDataForSave();
 
 		if (!$this->isNew()) {
-			$saveFields = array_intersect($saveFields, array_merge(array_keys($this->changes), array_keys($moduleModel->getFieldsByUiType(4))));
+			$saveFields = array_intersect($saveFields, array_merge(array_keys($this->changes), [$moduleModel->getSequenceNumberFieldName()]));
 		} else {
 			$entityModel = $this->getEntity();
 			$forSave[$entityModel->table_name] = [];

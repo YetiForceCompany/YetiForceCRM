@@ -336,19 +336,36 @@ class RecordNumber extends \App\Base
 	}
 
 	/**
-	 * Get sequence number field.
+	 * Get sequence number field name.
 	 *
 	 * @param int $tabId
 	 *
 	 * @return string|bool
+	 */
+	public static function getSequenceNumberFieldName(int $tabId)
+	{
+		if (isset(self::$sequenceNumberFieldCache[$tabId]['fieldname'])) {
+			return self::$sequenceNumberFieldCache[$tabId]['fieldname'];
+		}
+		self::$sequenceNumberFieldCache[$tabId] = (new \App\Db\Query())->select(['fieldname', 'columnname', 'tablename'])->from('vtiger_field')
+			->where(['tabid' => $tabId, 'uitype' => 4, 'presence' => [0, 2]])->one();
+		return self::$sequenceNumberFieldCache[$tabId]['fieldname'];
+	}
+
+	/**
+	 * Get sequence number field.
+	 *
+	 * @param int $tabId
+	 *
+	 * @return string[]|bool
 	 */
 	public static function getSequenceNumberField(int $tabId)
 	{
 		if (isset(self::$sequenceNumberFieldCache[$tabId])) {
 			return self::$sequenceNumberFieldCache[$tabId];
 		}
-		return self::$sequenceNumberFieldCache[$tabId] = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')
-			->where(['tabid' => $tabId, 'uitype' => 4, 'presence' => [0, 2]])->scalar();
+		return self::$sequenceNumberFieldCache[$tabId] = (new \App\Db\Query())->select(['fieldname', 'columnname', 'tablename'])->from('vtiger_field')
+			->where(['tabid' => $tabId, 'uitype' => 4, 'presence' => [0, 2]])->one();
 	}
 
 	/**

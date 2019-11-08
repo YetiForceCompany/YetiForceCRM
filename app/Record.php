@@ -332,8 +332,8 @@ class Record
 	 */
 	public static function getParentRecord($recordId, $moduleName = false)
 	{
-		if (Cache::has('getParentRecord', $recordId)) {
-			return Cache::get('getParentRecord', $recordId);
+		if (Cache::has(__METHOD__, $recordId)) {
+			return Cache::get(__METHOD__, $recordId);
 		}
 		if (!$moduleName) {
 			$moduleName = static::getType($recordId);
@@ -341,18 +341,43 @@ class Record
 		$parentId = false;
 		if ($parentModules = ModuleHierarchy::getModulesMap1M($moduleName)) {
 			foreach ($parentModules as $parentModule) {
-				if ($fields = Field::getRelatedFieldForModule($moduleName, $parentModule)) {
+				if ($field = Field::getRelatedFieldForModule($moduleName, $parentModule)) {
 					$entity = \CRMEntity::getInstance($moduleName);
-					$index = $entity->tab_name_index[$fields['tablename']];
-					$parentId = (new \App\Db\Query())->select(["{$fields['tablename']}.{$fields['columnname']}"])
-						->from($fields['tablename'])
-						->innerJoin('vtiger_crmentity', "{$fields['tablename']}.{$index} = vtiger_crmentity.crmid")
-						->where(["{$fields['tablename']}.{$index}" => $recordId, 'vtiger_crmentity.deleted' => 0])
+					$index = $entity->tab_name_index[$field['tablename']];
+					$parentId = (new \App\Db\Query())->select(["{$field['tablename']}.{$field['columnname']}"])
+						->from($field['tablename'])
+						->innerJoin('vtiger_crmentity', "{$field['tablename']}.{$index} = vtiger_crmentity.crmid")
+						->where(["{$field['tablename']}.{$index}" => $recordId, 'vtiger_crmentity.deleted' => 0])
 						->scalar();
 				}
 			}
 		}
-		Cache::save('getParentRecord', $recordId, $parentId);
+		Cache::save(__METHOD__, $recordId, $parentId);
 		return $parentId;
+	}
+
+	/**
+	 * Get record id by record number .
+	 *
+	 * @param string $recordNumber
+	 * @param string $moduleName
+	 *
+	 * @return int|bool
+	 */
+	public static function getIdByRecordNumber(string $recordNumber, string $moduleName)
+	{
+		if (Cache::staticHas(__METHOD__, $recordNumber)) {
+			return Cache::staticGet(__METHOD__, $recordNumber);
+		}
+		$field = Fields\RecordNumber::getSequenceNumberField(Module::getModuleId($moduleName));
+		$entity = \CRMEntity::getInstance($moduleName);
+		$index = $entity->tab_name_index[$field['tablename']];
+		$id = (new \App\Db\Query())->select(['vtiger_crmentity.crmid'])
+			->from($field['tablename'])
+			->innerJoin('vtiger_crmentity', "{$field['tablename']}.{$index} = vtiger_crmentity.crmid")
+			->where(["{$field['tablename']}.{$field['columnname']}" => $recordNumber, 'vtiger_crmentity.deleted' => 0])
+			->scalar();
+		Cache::staticSave(__METHOD__, $recordNumber, $id);
+		return $id;
 	}
 }

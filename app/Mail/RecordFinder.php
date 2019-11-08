@@ -251,6 +251,7 @@ class RecordFinder
 			foreach ($fields as $fieldName) {
 				$queryGenerator->addCondition($fieldName, $numbers, 'e', false);
 			}
+			$queryGenerator->setOrder('id', 'DESC');
 			$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				foreach ($fields as $fieldName) {

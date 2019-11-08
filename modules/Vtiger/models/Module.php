@@ -776,7 +776,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 		} else {
-			return (bool) \App\Fields\RecordNumber::getSequenceNumberField($this->getId());
+			return (bool) \App\Fields\RecordNumber::getSequenceNumberFieldName($this->getId());
 		}
 		return false;
 	}
@@ -795,7 +795,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 		} else {
-			return \App\Fields\RecordNumber::getSequenceNumberField($this->getId());
+			return \App\Fields\RecordNumber::getSequenceNumberFieldName($this->getId());
 		}
 		return false;
 	}
