@@ -11,7 +11,20 @@ const MailIntegration_Detail = {
 		blockInfo: { enabled: true },
 		message: false
 	},
-	showResponseMessage(success, message) {
+	/**
+	 * AppConnector wrapper
+	 *
+	 * @param   {object}  request
+	 *
+	 * @return  {object}           AppConnector object with done method
+	 */
+	connector(request) {
+		return AppConnector.request(request).fail(error => {
+			this.hideIframeLoader();
+			this.showResponseMessage(false);
+		});
+	},
+	showResponseMessage(success, message = '') {
 		if (success) {
 			Office.context.mailbox.item.notificationMessages.replaceAsync('information', {
 				type: 'informationalMessage',
@@ -22,7 +35,7 @@ const MailIntegration_Detail = {
 		} else {
 			Office.context.mailbox.item.notificationMessages.replaceAsync('error', {
 				type: 'errorMessage',
-				message: app.vtranslate('JS_ERROR')
+				message: app.vtranslate('JS_ERROR') + ' ' + message
 			});
 		}
 	},
@@ -42,38 +55,34 @@ const MailIntegration_Detail = {
 		targetRow.addClass('active');
 	},
 	linkClick(event, href) {
+		event.preventDefault();
 		if (!href) {
 			href = $(event.currentTarget).attr('href');
 		}
 		this.changeIframeSource(href);
-		event.preventDefault();
-		return false;
 	},
 	changeIframeSource(href) {
 		this.iframe.attr('src', href);
 		this.showIframeLoader();
 	},
 	deleteRelationshipClick(event) {
+		event.stopPropagation();
 		const currentTarget = $(event.currentTarget);
 		const recordData = currentTarget.closest('.js-row-click').data();
-		AppConnector.request({
+		this.connector({
 			module: 'MailIntegration',
 			action: 'Mail',
 			mode: 'deleteRelation',
 			mailId: this.mailId,
 			record: recordData.id,
 			recordModule: recordData.module
-		})
-			.done(response => {
-				this.showResponseMessage(response['success'], app.vtranslate('JS_REMOVED_RELATION_SUCCESSFULLY'));
-				this.reloadView(response['success']);
-			})
-			.fail(function(error) {
-				console.error(error);
-			});
-		return false;
+		}).done(response => {
+			this.showResponseMessage(response['success'], app.vtranslate('JS_REMOVED_RELATION_SUCCESSFULLY'));
+			this.reloadView(response['success']);
+		});
 	},
 	showQuickCreateClick(event) {
+		event.stopPropagation();
 		const currentTarget = $(event.currentTarget);
 		const recordData = currentTarget.closest('.js-row-click').data();
 		this.showQuickCreateForm(event.currentTarget.dataset.module, {
@@ -82,10 +91,9 @@ const MailIntegration_Detail = {
 				sourceRecord: recordData.id
 			}
 		});
-		return false;
 	},
 	addRelation(recordId, moduleName) {
-		AppConnector.request({
+		this.connector({
 			module: 'MailIntegration',
 			action: 'Mail',
 			mode: 'addRelation',
@@ -119,7 +127,7 @@ const MailIntegration_Detail = {
 		this.container.on('click', '.js-import-mail', e => {
 			this.showIframeLoader();
 			this.getMailDetails().then(mails => {
-				AppConnector.request(
+				this.connector(
 					Object.assign(
 						{
 							module: 'MailIntegration',
@@ -128,16 +136,11 @@ const MailIntegration_Detail = {
 						mails,
 						window.PanelParams
 					)
-				)
-					.done(response => {
-						this.hideIframeLoader();
-						this.showResponseMessage(response['success'], app.vtranslate('JS_IMPORT'));
-						this.reloadView(response['success']);
-					})
-					.fail(error => {
-						console.error(error);
-						this.hideIframeLoader();
-					});
+				).done(response => {
+					this.hideIframeLoader();
+					this.showResponseMessage(response['success'], app.vtranslate('JS_IMPORT'));
+					this.reloadView(response['success']);
+				});
 			});
 		});
 	},
