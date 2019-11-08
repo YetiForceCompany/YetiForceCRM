@@ -88,7 +88,7 @@
 		</div>
 		<div class="c-detail-widget__content js-detail-widget-collapse collapse multi-collapse" id="{$WIDGET_UID}-collapse"
 			data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}">
-			<div class="row no-gutters mb-2">
+			<div class="row no-gutters mb-0">
 				<div class="col-6 pr-2">
 					<div class="input-group input-group-sm">
 						<select name="mail-type" title="{\App\Language::translate('LBL_CHANGE_MAIL_TYPE')}"
