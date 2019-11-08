@@ -25,7 +25,7 @@
 		{/if}
 		{assign var=NUMBER_OF_RECORDS value=count($RELATED_RECORDS)}
 		{if $NUMBER_OF_RECORDS == 0}
-			<div class="summaryWidgetContainer js-no-comments-msg-container">
+			<div class="summaryWidgetContainer js-no-comments-msg-container p-md-2 p-1">
 				<p class="textAlignCenter">{\App\Language::translate('LBL_NO_RECORDS_FOUND',$MODULE_NAME)}</p>
 			</div>
 		{/if}

@@ -630,7 +630,7 @@ jQuery.Class(
 				relatedTo = thisInstance.getRecordId();
 			}
 			let postData = {
-				commentcontent: commentContentValue,
+				commentcontent: commentContentValue.replace(/\/|br|/gi, ''),
 				related_to: relatedTo,
 				module: 'ModComments'
 			};
