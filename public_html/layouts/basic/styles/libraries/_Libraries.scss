@@ -505,3 +505,23 @@ body:not(.desktop) {
 		vertical-align: calculate-rem(1px);
 	}
 }
+
+//-------- pnotify --------//
+@include media-breakpoint-down(md) {
+	.ui-pnotify-container {
+		padding: 0.50rem !important;
+	}
+
+	.ui-pnotify-icon {
+		display: none !important;
+	}
+
+	.ui-pnotify-title {
+		margin: 0px !important;
+	}
+
+	.ui-pnotify-text {
+		font-size: calculate-rem(13.5px) !important;
+		margin: 0px !important;
+	}
+}
