@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-MailIntegration-Detail-ActionsMailExist -->
+<!-- tpl-MailIntegration-RelationPreview-ActionsMailExist -->
 	<div>
 		{if $MODULES}
 			<div class="input-group input-group-sm my-1">
@@ -26,11 +26,11 @@
 			<div class="mb-1">
 				<ul class="list-group">
 					{foreach item="RELATION" from=$RELATIONS}
-						{include file=\App\Layout::getTemplatePath('Detail/Row.tpl', $MODULE_NAME) ROW=$RELATION REMOVE_RECORD=true}
+						{include file=\App\Layout::getTemplatePath('RelationPreview/Row.tpl', $MODULE_NAME) ROW=$RELATION REMOVE_RECORD=true}
 					{/foreach}
 				</ul>
 			</div>
 		{/if}
 	</div>
-<!-- /tpl-MailIntegration-Detail-ActionsMailExist -->
+<!-- /tpl-MailIntegration-RelationPreview-ActionsMailExist -->
 {/strip}

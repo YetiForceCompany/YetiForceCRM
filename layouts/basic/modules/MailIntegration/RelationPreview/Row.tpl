@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-MailIntegration-Detail-Row -->
+<!-- tpl-MailIntegration-RelationPreview-Row -->
 	<li class="list-group-item list-group-item-action py-0 px-2 js-row-click" data-id="{$ROW['id']}" data-module="{$ROW['module']}">
 	{assign var=MODULE_MODEL value=Vtiger_Module_Model::getInstance($ROW['module'])}
 		{assign var=DETAIL_VIEW_PERMITTED value=\App\Privilege::isPermitted($ROW['module'], 'DetailView', $ROW['id'])}
@@ -30,5 +30,5 @@
 			{/if}
 		</div>
 	</li>
-<!-- /tpl-MailIntegration-Detail-Row -->
+<!-- /tpl-MailIntegration-RelationPreview-Row -->
 {/strip}
