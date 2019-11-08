@@ -127,16 +127,15 @@ class Layout
 	}
 
 	/**
-	 * Truncating HTML/text and adding a button showing all the text.
+	 * Truncating HTML/text  and adding a button showing all the text.
 	 *
-	 * @param       $html
-	 * @param int   $length
-	 * @param mixed $isHtml
-	 * @param mixed $text
+	 * @param string $text
+	 * @param int    $length
+	 * @param bool   $isHtml
 	 *
 	 * @return string
 	 */
-	public static function truncate($text, $length, $isHtml = true)
+	public static function truncate(string $text, int $length, bool $isHtml = true): string
 	{
 		if ($isHtml) {
 			$isTruncated = \mb_strlen(strip_tags($text)) > $length;
