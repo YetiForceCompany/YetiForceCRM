@@ -4,7 +4,7 @@
 <div class="mb-1">
 	<ul class="list-group">
 		{foreach item="RELATION" from=$RELATIONS}
-			{include file=\App\Layout::getTemplatePath('RelationPreview/PanelListItem.tpl', $MODULE_NAME) ROW=$RELATION REMOVE_RECORD=$REMOVE_RECORD}
+			{include file=\App\Layout::getTemplatePath('RelationPreview/PanelListItem.tpl', $MODULE_NAME) RECORD=$RELATION REMOVE_RECORD=$REMOVE_RECORD}
 		{/foreach}
 	</ul>
 </div>

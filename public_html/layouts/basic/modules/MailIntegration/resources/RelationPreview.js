@@ -47,34 +47,25 @@ const MailIntegration_RelationPreview = {
 		}
 	},
 	/**
-	 * Register row events
+	 * Register list item events
 	 */
-	registerRowEvents() {
-		this.container.on('click', '.js-row-click', this.onClickRow.bind(this));
+	registerListItemEvents() {
+		this.container.on('click', '.js-list-item-click', this.onClickListItem.bind(this));
 		$(document).on('click', '.popover a', this.onClickLink.bind(this));
 		this.container.on('click', '.js-add-related-record', this.onClickQuickCreateBtn.bind(this));
 		this.container.on('click', '.js-remove-record', this.onClickDeleteRelation.bind(this));
 	},
 	/**
-	 * On row click actions
+	 * On ListItem click actions
 	 *
 	 * @param   {[type]}  event  [event description]
 	 *
 	 * @return  {[type]}         [return description]
 	 */
-	onClickRow(event) {
+	onClickListItem(event) {
 		let currentTarget = $(event.currentTarget);
 		this.toggleActiveListItems(currentTarget);
 		this.onClickLink(event, currentTarget.find('.js-record-link').attr('href'));
-	},
-	/**
-	 * Toggle active list items
-	 *
-	 * @param   {object}  targetRow  jQuery
-	 */
-	toggleActiveListItems(targetRow) {
-		targetRow.siblings().removeClass('active');
-		targetRow.addClass('active');
 	},
 	/**
 	 * On link click
@@ -90,15 +81,6 @@ const MailIntegration_RelationPreview = {
 		this.changeIframeSource(url);
 	},
 	/**
-	 * Change iframe source
-	 *
-	 * @param   {string}  url
-	 */
-	changeIframeSource(url) {
-		this.iframe.attr('src', url);
-		this.showIframeLoader();
-	},
-	/**
 	 * On delete relation click
 	 *
 	 * @param   {object}  event  click event
@@ -106,7 +88,7 @@ const MailIntegration_RelationPreview = {
 	onClickDeleteRelation(event) {
 		event.stopPropagation();
 		const currentTarget = $(event.currentTarget);
-		const recordData = currentTarget.closest('.js-row-click').data();
+		const recordData = currentTarget.closest('.js-list-item-click').data();
 		this.connector({
 			module: 'MailIntegration',
 			action: 'Mail',
@@ -127,13 +109,35 @@ const MailIntegration_RelationPreview = {
 	onClickQuickCreateBtn(event) {
 		event.stopPropagation();
 		const currentTarget = $(event.currentTarget);
-		const recordData = currentTarget.closest('.js-row-click').data();
+		const recordData = currentTarget.closest('.js-list-item-click').data();
+		const callbackFunction = () => {
+			this.iframeWindow.location.reload();
+		};
 		this.showQuickCreateForm(event.currentTarget.dataset.module, {
 			data: {
 				sourceModule: recordData.module,
 				sourceRecord: recordData.id
-			}
+			},
+			callbackFunction
 		});
+	},
+	/**
+	 * Toggle active list items
+	 *
+	 * @param   {object}  targetListItem  jQuery
+	 */
+	toggleActiveListItems(targetListItem) {
+		targetListItem.siblings().removeClass('active');
+		targetListItem.addClass('active');
+	},
+	/**
+	 * Change iframe source
+	 *
+	 * @param   {string}  url
+	 */
+	changeIframeSource(url) {
+		this.iframe.attr('src', url);
+		this.showIframeLoader();
 	},
 	/**
 	 * Add relation
@@ -166,7 +170,7 @@ const MailIntegration_RelationPreview = {
 		App.Components.QuickCreate.createRecord(moduleName, quickCreateParams);
 	},
 	registerIframeEvents() {
-		const link = this.container.find('.js-row-click').first();
+		const link = this.container.find('.js-list-item-click').first();
 		this.initIframeLoader();
 		if (link.length) {
 			link.addClass('active');
@@ -345,7 +349,7 @@ const MailIntegration_RelationPreview = {
 		this.addRecordBtn = this.container.find('.js-add-record');
 		this.mailId = this.container.find('.js-panel').data('mailId');
 		if (this.iframe.length) {
-			this.registerRowEvents();
+			this.registerListItemEvents();
 			this.registerIframeEvents();
 			this.setIframeHeight();
 			if (this.mailId) {
