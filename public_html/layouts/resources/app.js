@@ -104,7 +104,7 @@ var App = (window.App = {
 					url += '&sourceModule=' + app.getModuleName();
 					url += '&sourceRecord=' + app.getRecordId();
 				}
-				const progress = $.progressIndicator();
+				const progress = $.progressIndicator({ blockInfo: { enabled: true } });
 				this.getForm(url, moduleName, params).done(data => {
 					this.showModal(data, params);
 					app.registerEventForClockPicker();

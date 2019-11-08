@@ -6,7 +6,11 @@
     "LBL_IMPORT_MAIL_MANUALLY": "Import",
     "LBL_IMPORT_MAIL_MANUALLY_DESC": "Import an email to the CRM, it will let you manage relations better",
     "LBL_SEARCH_EMAIL": "Search e-mail address",
-    "LBL_SEARCH_AND_COPY_EMAIL": "Search and choose message recipient"
+    "LBL_SEARCH_AND_COPY_EMAIL": "Search and select message recipient",
+    "LBL_ADD_CALENDAR": "Add event",
+    "LBL_ADD_MODCOMMENTS": "Add comment",
+    "LBL_SELECT_RECORD": "Select related record",
+    "LBL_ADD_RECORD": "Add related record"
   },
   "js": {
     "JS_ERROR": "YetiForce message: add-in error, please contact system administrator.",

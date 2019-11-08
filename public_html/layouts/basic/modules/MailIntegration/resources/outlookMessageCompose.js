@@ -1,6 +1,45 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
+
 const MailIntegration_Compose = {
+	/**
+	 * AppConnector wrapper
+	 *
+	 * @param   {object}  request
+	 *
+	 * @return  {object}           AppConnector object with done method
+	 */
+	connector(request) {
+		return AppConnector.request(request).fail(error => {
+			this.showResponseMessage(false);
+		});
+	},
+	/**
+	 * Show response message
+	 *
+	 * @param   {boolean}  success
+	 * @param   {string}  message
+	 */
+	showResponseMessage(success, message = '') {
+		if (success) {
+			Office.context.mailbox.item.notificationMessages.replaceAsync('information', {
+				type: 'informationalMessage',
+				message: message,
+				icon: 'iconid',
+				persistent: false
+			});
+		} else {
+			Office.context.mailbox.item.notificationMessages.replaceAsync('error', {
+				type: 'errorMessage',
+				message: app.vtranslate('JS_ERROR') + ' ' + message
+			});
+		}
+	},
+	/**
+	 * Registered autocomplete template
+	 *
+	 * @return  {object}  overwrite ui-autocomplete list item template
+	 */
 	registerAutocompleteTemplate() {
 		$.widget('ui.autocomplete', $.ui.autocomplete, {
 			_renderItem: function(ul, item) {
@@ -31,38 +70,51 @@ const MailIntegration_Compose = {
 			}
 		});
 	},
+	/**
+	 * Register autocomplete
+	 *
+	 * @return  {object}  autocomplete instance
+	 */
 	registerAutocomplete() {
-		this.container.find('.js-search-input').autocomplete({
+		return this.container.find('.js-search-input').autocomplete({
 			delay: '600',
 			minLength: '3',
 			classes: {
 				'ui-autocomplete': 'mobile'
 			},
 			source: this.findEmail.bind(this),
-			select: this.onRecipientSelect.bind(this)
+			select: this.onSelectRecipient.bind(this)
 		});
 	},
+	/**
+	 * Find mail action for autocomplete source
+	 *
+	 * @param   {object}  request   autocomplete param
+	 * @param   {fuction}  callBack  autocomplete callBack
+	 */
 	findEmail(request, callBack) {
-		AppConnector.request({
+		this.connector({
 			module: 'MailIntegration',
 			action: 'Mail',
 			mode: 'findEmail',
 			search: request.term
-		})
-			.done(responseData => {
-				const data = responseData.result.map(user => {
-					let userData = user.split(' <');
-					const name = userData[0];
-					const mail = userData[1].slice(0, -1);
-					return { name, mail };
-				});
-				callBack(data);
-			})
-			.fail(function(error) {
-				console.error(error);
+		}).done(responseData => {
+			const data = responseData.result.map(user => {
+				let userData = user.split(' <');
+				const name = userData[0];
+				const mail = userData[1].slice(0, -1);
+				return { name, mail };
 			});
+			callBack(data);
+		});
 	},
-	onRecipientSelect({ toElement }, { item }) {
+	/**
+	 * [onRecipientSelect description]
+	 *
+	 * @param   {object}  toElement  html node object
+	 * @param   {object}  item       selected item object
+	 */
+	onSelectRecipient({ toElement }, { item }) {
 		const newRecipient = [
 			{
 				displayName: item.name,
@@ -72,6 +124,12 @@ const MailIntegration_Compose = {
 		const recipientsField = toElement.dataset.copyTarget ? toElement.dataset.copyTarget : 'to';
 		this.copyRecipient(recipientsField, newRecipient);
 	},
+	/**
+	 * Copy recipient to outlook field
+	 *
+	 * @param   {string}  recipientsField  to, cc, bcc
+	 * @param   {object}  newRecipient
+	 */
 	copyRecipient(recipientsField, newRecipient) {
 		Office.context.mailbox.item[recipientsField].addAsync(newRecipient, function(result) {
 			if (result.error) {

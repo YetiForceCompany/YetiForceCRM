@@ -13273,8 +13273,8 @@ header .c-header__btn__container .select2-selection {
 
 .ui-autocomplete {
   padding: 0 !important; }
-  .ui-autocomplete a.ui-menu-item-wrapper,
-  .ui-autocomplete a.ui-menu-item-wrapper:hover {
+  .ui-autocomplete .ui-menu-item-wrapper,
+  .ui-autocomplete .ui-menu-item-wrapper:hover {
     font-weight: inherit !important; }
 
 .sortTableUl {
@@ -16371,13 +16371,13 @@ td.listViewEntryValue.narrow {
 .u-font-weight-900 {
   font-weight: 900 !important; }
 
-.u-text-ellipsis, ul.ui-autocomplete div.ui-menu-item-wrapper {
+.u-text-ellipsis, .ui-autocomplete:not(.mobile) .ui-menu-item-wrapper {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; }
-  .u-text-ellipsis:hover, ul.ui-autocomplete div.ui-menu-item-wrapper:hover {
+  .u-text-ellipsis:hover, .ui-autocomplete:not(.mobile) .ui-menu-item-wrapper:hover {
     overflow: initial; }
-  .u-text-ellipsis.u-text-ellipsis--bg-white:hover, ul.ui-autocomplete div.u-text-ellipsis--bg-white.ui-menu-item-wrapper:hover {
+  .u-text-ellipsis.u-text-ellipsis--bg-white:hover, .ui-autocomplete:not(.mobile) .u-text-ellipsis--bg-white.ui-menu-item-wrapper:hover {
     background: #fff;
     z-index: 1000000;
     position: absolute;
@@ -17301,6 +17301,8 @@ td.listViewEntryValue.narrow {
 
 .u-text-unset {
   color: unset; }
+  .u-text-unset:hover {
+    color: unset; }
 
 .u-rotate-90 {
   transform: rotate(0.75turn);
@@ -18289,6 +18291,16 @@ input[type="checkbox"][disabled] {
     .c-mds-input .form-control:focus ~ .input-group-prepend {
       border-color: #5bb1ff !important; }
 
+.c-search-item__mail {
+  color: #6c757d; }
+.c-search-item:hover .c-search-item__btn,
+.c-search-item:hover .c-search-item__mail {
+  color: white;
+  border-color: white; }
+.c-search-item__btn {
+  font-size: 0.8em !important;
+  height: fit-content; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
   color: #212529;
@@ -18666,6 +18678,9 @@ body > .o-exception-fixed-block {
   position: static;
   transform: none; }
 
+.o-view-messagecompose {
+  overflow-x: hidden; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-header {
   background-color: #4a5364;
@@ -18810,7 +18825,7 @@ body > .o-exception-fixed-block {
     min-width: 150px; }
 
 @media (max-width: 1199.98px) {
-  .ui-menu.ui-widget {
+  .ui-menu.ui-widget:not(.mobile) {
     top: 253px !important; } }
 @media (max-width: 991.98px) {
   .ui-menu.ui-widget {
@@ -18853,6 +18868,7 @@ body > .o-exception-fixed-block {
     padding-right: 0.4rem;
     width: 100%; }
   .o-header-toggle__actions {
+    visibility: visible;
     position: fixed;
     left: auto;
     right: -100%;
@@ -18940,7 +18956,9 @@ body > .o-exception-fixed-block {
       min-height: 3rem; } }
   @media (max-width: 767.98px) {
     .o-breadcrumb {
-      display: none !important; } }
+      visibility: hidden;
+      height: 0;
+      min-height: 0; } }
   .o-breadcrumb__container {
     width: 100%;
     display: flex; }
@@ -20237,7 +20255,8 @@ body > .o-exception-fixed-block {
   position: relative;
   margin: 0;
   padding: 0;
-  list-style: none; }
+  list-style: none;
+  font-size: 0.8125rem; }
   .timeline:before {
     content: "";
     position: absolute;
@@ -20267,7 +20286,7 @@ body > .o-exception-fixed-block {
       color: #444;
       padding: 0;
       position: relative;
-      width: 100%; }
+      min-width: 0; }
       .timeline > li .timeline-item > .imageContainer {
         width: 1.875rem; }
         .timeline > li .timeline-item > .imageContainer > .userImage {
@@ -20646,6 +20665,13 @@ body > .o-exception-fixed-block {
         margin-right: 0.625rem; } }
   .detailViewTitle .moduleIcon {
     float: left; }
+    .detailViewTitle .moduleIcon.o-detail__record-img {
+      position: relative; }
+      .detailViewTitle .moduleIcon.o-detail__record-img .hierarchy {
+        position: absolute;
+        top: -0.4375rem;
+        right: 0;
+        left: unset; }
   .detailViewTitle .btn-toolbar,
   .detailViewTitle .btn-toolbar .btn-group:first-child {
     margin: 0; }

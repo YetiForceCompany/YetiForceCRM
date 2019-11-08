@@ -1,5 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
+
 const MailIntegration_Detail = {
 	mailId: 0,
 	container: {},
@@ -11,7 +12,26 @@ const MailIntegration_Detail = {
 		blockInfo: { enabled: true },
 		message: false
 	},
-	showResponseMessage(success, message) {
+	/**
+	 * AppConnector wrapper
+	 *
+	 * @param   {object}  request
+	 *
+	 * @return  {object}           AppConnector object with done method
+	 */
+	connector(request) {
+		return AppConnector.request(request).fail(error => {
+			this.hideIframeLoader();
+			this.showResponseMessage(false);
+		});
+	},
+	/**
+	 * Show response message
+	 *
+	 * @param   {boolean}  success
+	 * @param   {string}  message
+	 */
+	showResponseMessage(success, message = '') {
 		if (success) {
 			Office.context.mailbox.item.notificationMessages.replaceAsync('information', {
 				type: 'informationalMessage',
@@ -22,58 +42,90 @@ const MailIntegration_Detail = {
 		} else {
 			Office.context.mailbox.item.notificationMessages.replaceAsync('error', {
 				type: 'errorMessage',
-				message: app.vtranslate('JS_ERROR')
+				message: app.vtranslate('JS_ERROR') + ' ' + message
 			});
 		}
 	},
+	/**
+	 * Register row events
+	 */
 	registerRowEvents() {
-		this.container.on('click', '.js-row-click', this.rowClick.bind(this));
-		$(document).on('click', '.popover a', this.linkClick.bind(this));
-		this.container.on('click', '.js-add-related-record', this.showQuickCreateClick.bind(this));
-		this.container.on('click', '.js-remove-record', this.deleteRelationshipClick.bind(this));
+		this.container.on('click', '.js-row-click', this.onClickRow.bind(this));
+		$(document).on('click', '.popover a', this.onClickLink.bind(this));
+		this.container.on('click', '.js-add-related-record', this.onClickQuickCreateBtn.bind(this));
+		this.container.on('click', '.js-remove-record', this.onClickDeleteRelation.bind(this));
 	},
-	rowClick(event) {
+	/**
+	 * On row click actions
+	 *
+	 * @param   {[type]}  event  [event description]
+	 *
+	 * @return  {[type]}         [return description]
+	 */
+	onClickRow(event) {
 		let currentTarget = $(event.currentTarget);
 		this.toggleActiveListItems(currentTarget);
-		this.linkClick(event, currentTarget.find('.js-record-link').attr('href'));
+		this.onClickLink(event, currentTarget.find('.js-record-link').attr('href'));
 	},
+	/**
+	 * Toggle active list items
+	 *
+	 * @param   {object}  targetRow  jQuery
+	 */
 	toggleActiveListItems(targetRow) {
 		targetRow.siblings().removeClass('active');
 		targetRow.addClass('active');
 	},
-	linkClick(event, href) {
-		if (!href) {
-			href = $(event.currentTarget).attr('href');
-		}
-		this.changeIframeSource(href);
+	/**
+	 * On link click
+	 *
+	 * @param   {object}  event  click event object
+	 * @param   {string}  url
+	 */
+	onClickLink(event, url) {
 		event.preventDefault();
-		return false;
+		if (!url) {
+			url = $(event.currentTarget).attr('href');
+		}
+		this.changeIframeSource(url);
 	},
-	changeIframeSource(href) {
-		this.iframe.attr('src', href);
+	/**
+	 * Change iframe source
+	 *
+	 * @param   {string}  url
+	 */
+	changeIframeSource(url) {
+		this.iframe.attr('src', url);
 		this.showIframeLoader();
 	},
-	deleteRelationshipClick(event) {
+	/**
+	 * On delete relation click
+	 *
+	 * @param   {object}  event  click event
+	 */
+	onClickDeleteRelation(event) {
+		event.stopPropagation();
 		const currentTarget = $(event.currentTarget);
 		const recordData = currentTarget.closest('.js-row-click').data();
-		AppConnector.request({
+		this.connector({
 			module: 'MailIntegration',
 			action: 'Mail',
 			mode: 'deleteRelation',
 			mailId: this.mailId,
 			record: recordData.id,
 			recordModule: recordData.module
-		})
-			.done(response => {
-				this.showResponseMessage(response['success'], app.vtranslate('JS_REMOVED_RELATION_SUCCESSFULLY'));
-				this.reloadView(response['success']);
-			})
-			.fail(function(error) {
-				console.error(error);
-			});
-		return false;
+		}).done(response => {
+			this.showResponseMessage(response['success'], app.vtranslate('JS_REMOVED_RELATION_SUCCESSFULLY'));
+			this.reloadView(response['success']);
+		});
 	},
-	showQuickCreateClick(event) {
+	/**
+	 * On quick create btn click
+	 *
+	 * @param   {object}  event  click event
+	 */
+	onClickQuickCreateBtn(event) {
+		event.stopPropagation();
 		const currentTarget = $(event.currentTarget);
 		const recordData = currentTarget.closest('.js-row-click').data();
 		this.showQuickCreateForm(event.currentTarget.dataset.module, {
@@ -82,10 +134,15 @@ const MailIntegration_Detail = {
 				sourceRecord: recordData.id
 			}
 		});
-		return false;
 	},
+	/**
+	 * Add relation
+	 *
+	 * @param   {number}  recordId
+	 * @param   {string}  moduleName
+	 */
 	addRelation(recordId, moduleName) {
-		AppConnector.request({
+		this.connector({
 			module: 'MailIntegration',
 			action: 'Mail',
 			mode: 'addRelation',
@@ -97,6 +154,12 @@ const MailIntegration_Detail = {
 			this.reloadView(response['success']);
 		});
 	},
+	/**
+	 * Show quick create form
+	 *
+	 * @param   {string}  moduleName
+	 * @param   {object}  quickCreateParams
+	 */
 	showQuickCreateForm(moduleName, quickCreateParams = {}) {
 		quickCreateParams = Object.assign({ noCache: true, data: {} }, quickCreateParams);
 		quickCreateParams.data.relationOperation = true;
@@ -115,11 +178,14 @@ const MailIntegration_Detail = {
 			this.hideIframeLoader();
 		}
 	},
+	/**
+	 * Register import click
+	 */
 	registerImportClick() {
 		this.container.on('click', '.js-import-mail', e => {
 			this.showIframeLoader();
 			this.getMailDetails().then(mails => {
-				AppConnector.request(
+				this.connector(
 					Object.assign(
 						{
 							module: 'MailIntegration',
@@ -128,19 +194,19 @@ const MailIntegration_Detail = {
 						mails,
 						window.PanelParams
 					)
-				)
-					.done(response => {
-						this.hideIframeLoader();
-						this.showResponseMessage(response['success'], app.vtranslate('JS_IMPORT'));
-						this.reloadView(response['success']);
-					})
-					.fail(error => {
-						console.error(error);
-						this.hideIframeLoader();
-					});
+				).done(response => {
+					this.hideIframeLoader();
+					this.showResponseMessage(response['success'], app.vtranslate('JS_IMPORT'));
+					this.reloadView(response['success']);
+				});
 			});
 		});
 	},
+	/**
+	 * Get mail details
+	 *
+	 * @return  {object}  Promise
+	 */
 	getMailDetails() {
 		let mailItem = Office.context.mailbox.item;
 		if (mailItem.attachments.length > 0) {
@@ -176,6 +242,13 @@ const MailIntegration_Detail = {
 			});
 		});
 	},
+	/**
+	 * Parse email address details
+	 *
+	 * @param   {object}  data
+	 *
+	 * @return  {string}        e-mail address
+	 */
 	parseEmailAddressDetails(data) {
 		let fn = function(row) {
 			return row.emailAddress;
@@ -190,18 +263,33 @@ const MailIntegration_Detail = {
 			return fn(data);
 		}
 	},
+	/**
+	 * Set iframe height
+	 */
 	setIframeHeight() {
 		this.iframe.height($(window).height() - this.iframe.offset().top);
 	},
+	/**
+	 * Show iframe loader
+	 */
 	showIframeLoader() {
 		this.iframeLoader.progressIndicator(this.loaderParams);
 	},
+	/**
+	 * Hide iframe loader
+	 */
 	hideIframeLoader() {
 		this.iframeLoader.progressIndicator({ mode: 'hide' });
 	},
+	/**
+	 * Init iframe loader
+	 */
 	initIframeLoader() {
 		this.iframeLoader = $.progressIndicator(this.loaderParams);
 	},
+	/**
+	 * Register modules select
+	 */
 	registerModulesSelect() {
 		this.moduleSelect = App.Fields.Picklist.showSelect2ElementView(this.container.find('.js-modules'));
 		this.moduleSelect.on('change', this.registerModulesSelectChange.bind(this));
@@ -217,6 +305,9 @@ const MailIntegration_Detail = {
 			});
 		});
 	},
+	/**
+	 * Register modules select change
+	 */
 	registerModulesSelectChange() {
 		if (this.moduleSelect.select2('data')[0].element.dataset.addRecord) {
 			this.addRecordBtn.removeClass('d-none');
@@ -224,20 +315,29 @@ const MailIntegration_Detail = {
 			this.addRecordBtn.addClass('d-none');
 		}
 	},
+	/**
+	 * Register add record
+	 */
 	registerAddRecord() {
 		this.addRecordBtn.on('click', e => {
 			const moduleName = this.moduleSelect[0].value;
 			const callbackFunction = ({ result }) => {
-				this.addRelation(moduleName, result._recordId);
+				this.addRelation(result._recordId, moduleName);
 			};
 			this.showQuickCreateForm(moduleName, { callbackFunction });
 		});
 	},
+	/**
+	 * Reload view
+	 */
 	reloadView(condition) {
 		if (condition) {
 			window.location.reload();
 		}
 	},
+	/**
+	 * Register events
+	 */
 	registerEvents() {
 		this.container = $('#page');
 		this.iframe = $('#js-iframe');

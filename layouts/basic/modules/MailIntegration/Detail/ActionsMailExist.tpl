@@ -13,10 +13,10 @@
 					{/foreach}
 				</select>
 				<div class="input-group-append">
-					<button class="btn btn-light js-add-record mr-3px{if !$IS_EDIT_PERMITTED} d-none{/if}" title="{\App\Language::translate('LBL_ADD_RECORD')}" data-js="click">
+					<button class="btn btn-light js-add-record js-popover-tooltip mr-3px{if !$IS_EDIT_PERMITTED} d-none{/if}" data-js="popover | click" data-content="{\App\Language::translate('LBL_ADD_RECORD', $MODULE)}" data-js="click">
 						<span class="fas fa-plus"></span>
 					</button>
-					<button class="btn btn-light js-select-record" title="{\App\Language::translate('LBL_SELECT_RECORD')}" data-js="click">
+					<button class="btn btn-light js-select-record js-popover-tooltip" data-js="popover | click" data-content="{\App\Language::translate('LBL_SELECT_RECORD', $MODULE)}" data-js="click">
 						<span class="fas fa-search"></span>
 					</button>
 				</div>

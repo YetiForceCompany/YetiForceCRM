@@ -5,7 +5,7 @@
 	{assign var=MODULE_MODEL value=Vtiger_Module_Model::getInstance($ROW['module'])}
 		{assign var=DETAIL_VIEW_PERMITTED value=\App\Privilege::isPermitted($ROW['module'], 'DetailView', $ROW['id'])}
 	  <div class="d-flex w-100 align-items-center">
-			<a class="modCT_{$ROW['module']} js-record-link js-popover-tooltip--record small u-text-unset u-text-ellipsis" {if $DETAIL_VIEW_PERMITTED}href="{$URL}index.php?module={$ROW['module']}&view=Detail&record={$ROW['id']}"{/if} target="_blank">
+			<a class="modCT_{$ROW['module']} js-record-link js-popover-tooltip--record small u-text-unset text-truncate" {if $DETAIL_VIEW_PERMITTED}href="{$URL}index.php?module={$ROW['module']}&view=Detail&record={$ROW['id']}"{/if} target="_blank">
 				<span class="relatedModuleIcon yfm-{$ROW['module']} mr-1" aria-hidden="true"></span>
 				<span class="relatedName">{$ROW['label']}</span>
 			</a>
