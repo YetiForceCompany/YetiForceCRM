@@ -50,10 +50,10 @@ const MailIntegration_Detail = {
 	 * Register row events
 	 */
 	registerRowEvents() {
-		this.container.on('click', '.js-row-click', this.onRowClick.bind(this));
-		$(document).on('click', '.popover a', this.onLinkClick.bind(this));
-		this.container.on('click', '.js-add-related-record', this.onQuickCreateBtnClick.bind(this));
-		this.container.on('click', '.js-remove-record', this.onDeleteRelationClick.bind(this));
+		this.container.on('click', '.js-row-click', this.onClickRow.bind(this));
+		$(document).on('click', '.popover a', this.onClickLink.bind(this));
+		this.container.on('click', '.js-add-related-record', this.onClickQuickCreateBtn.bind(this));
+		this.container.on('click', '.js-remove-record', this.onClickDeleteRelation.bind(this));
 	},
 	/**
 	 * On row click actions
@@ -62,10 +62,10 @@ const MailIntegration_Detail = {
 	 *
 	 * @return  {[type]}         [return description]
 	 */
-	onRowClick(event) {
+	onClickRow(event) {
 		let currentTarget = $(event.currentTarget);
 		this.toggleActiveListItems(currentTarget);
-		this.onLinkClick(event, currentTarget.find('.js-record-link').attr('href'));
+		this.onClickLink(event, currentTarget.find('.js-record-link').attr('href'));
 	},
 	/**
 	 * Toggle active list items
@@ -82,7 +82,7 @@ const MailIntegration_Detail = {
 	 * @param   {object}  event  click event object
 	 * @param   {string}  url
 	 */
-	onLinkClick(event, url) {
+	onClickLink(event, url) {
 		event.preventDefault();
 		if (!url) {
 			url = $(event.currentTarget).attr('href');
@@ -103,7 +103,7 @@ const MailIntegration_Detail = {
 	 *
 	 * @param   {object}  event  click event
 	 */
-	onDeleteRelationClick(event) {
+	onClickDeleteRelation(event) {
 		event.stopPropagation();
 		const currentTarget = $(event.currentTarget);
 		const recordData = currentTarget.closest('.js-row-click').data();
@@ -124,7 +124,7 @@ const MailIntegration_Detail = {
 	 *
 	 * @param   {object}  event  click event
 	 */
-	onQuickCreateBtnClick(event) {
+	onClickQuickCreateBtn(event) {
 		event.stopPropagation();
 		const currentTarget = $(event.currentTarget);
 		const recordData = currentTarget.closest('.js-row-click').data();
@@ -322,7 +322,7 @@ const MailIntegration_Detail = {
 		this.addRecordBtn.on('click', e => {
 			const moduleName = this.moduleSelect[0].value;
 			const callbackFunction = ({ result }) => {
-				this.addRelation(moduleName, result._recordId);
+				this.addRelation(result._recordId, moduleName);
 			};
 			this.showQuickCreateForm(moduleName, { callbackFunction });
 		});

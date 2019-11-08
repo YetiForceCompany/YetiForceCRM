@@ -50,7 +50,7 @@ const MailIntegration_Compose = {
 				'ui-autocomplete': 'mobile'
 			},
 			source: this.findEmail.bind(this),
-			select: this.onRecipientSelect.bind(this)
+			select: this.onSelectRecipient.bind(this)
 		});
 	},
 	/**
@@ -85,7 +85,7 @@ const MailIntegration_Compose = {
 	 * @param   {object}  toElement  html node object
 	 * @param   {object}  item       selected item object
 	 */
-	onRecipientSelect({ toElement }, { item }) {
+	onSelectRecipient({ toElement }, { item }) {
 		const newRecipient = [
 			{
 				displayName: item.name,
