@@ -8,7 +8,10 @@
  */
 class OSSMailView_Module_Model extends Vtiger_Module_Model
 {
-	public function getSettingLinks()
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getSettingLinks(): array
 	{
 		$settingsLinks = parent::getSettingLinks();
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');

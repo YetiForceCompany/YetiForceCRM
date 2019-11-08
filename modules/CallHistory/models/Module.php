@@ -26,22 +26,21 @@ class CallHistory_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Overided to make editview=false for this module.
+	 *
+	 * @param mixed $actionName
 	 */
 	public function isPermitted($actionName)
 	{
-		if ($actionName === 'EditView' || $actionName === 'Edit' || $actionName === 'CreateView') {
+		if ('EditView' === $actionName || 'Edit' === $actionName || 'CreateView' === $actionName) {
 			return false;
-		} else {
-			return $this->isActive() && \App\Privilege::isPermitted($this->getName(), $actionName);
 		}
+		return $this->isActive() && \App\Privilege::isPermitted($this->getName(), $actionName);
 	}
 
 	/**
-	 * Function to get Settings links.
-	 *
-	 * @return <Array>
+	 * {@inheritdoc}
 	 */
-	public function getSettingLinks()
+	public function getSettingLinks(): array
 	{
 		if (!$this->isEntityModule()) {
 			return [];

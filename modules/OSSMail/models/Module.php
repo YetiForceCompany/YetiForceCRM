@@ -13,7 +13,10 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return 'Index';
 	}
 
-	public function getSettingLinks()
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getSettingLinks(): array
 	{
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 		$settingsLinks = [];

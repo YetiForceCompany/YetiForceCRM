@@ -1248,11 +1248,11 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to get Settings links.
+	 * Get settings links,will be shown in the panel ModuleManager.
 	 *
-	 * @return <Array>
+	 * @return string[]
 	 */
-	public function getSettingLinks()
+	public function getSettingLinks(): array
 	{
 		if (!$this->isEntityModule()) {
 			return [];

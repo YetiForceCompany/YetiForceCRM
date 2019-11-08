@@ -48,11 +48,9 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get Settings links.
-	 *
-	 * @return <Array>
+	 * {@inheritdoc}
 	 */
-	public function getSettingLinks()
+	public function getSettingLinks(): array
 	{
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 		$settingsLinks = [];
