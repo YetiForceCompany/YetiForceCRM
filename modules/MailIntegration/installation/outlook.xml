@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+	xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="MailApp">
+	<Id>{__CRM_GUID__}</Id>
+	<Version>1.0.0.0</Version>
+	<ProviderName>YetiForceCompany</ProviderName>
+	<DefaultLocale>en-US</DefaultLocale>
+	<DisplayName DefaultValue="YetiForceOutlook"/>
+	<Description DefaultValue="Outlook integration extension for YetiForce"/>
+	<IconUrl DefaultValue="{__CRM_URL__}layouts/basic/modules/MailIntegration/outlook/img/logo-32.png"/>
+	<HighResolutionIconUrl DefaultValue="{__CRM_URL__}layouts/basic/modules/MailIntegration/outlook/img/logo-80.png"/>
+	<SupportUrl DefaultValue="https://yetiforce.com/"/>
+	<AppDomains>
+		<AppDomain>yetiforce.com</AppDomain>
+	</AppDomains>
+	<Hosts>
+		<Host Name="Mailbox"/>
+	</Hosts>
+	<Requirements>
+		<Sets>
+			<Set Name="Mailbox" MinVersion="1.1"/>
+		</Sets>
+	</Requirements>
+	<FormSettings>
+		<Form xsi:type="ItemRead">
+			<DesktopSettings>
+				<SourceLocation DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Detail.php?ItemRead"/>
+				<RequestedHeight>450</RequestedHeight>
+			</DesktopSettings>
+		</Form>
+		<Form xsi:type="ItemEdit">
+			<DesktopSettings>
+				<SourceLocation DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Detail.php?ItemEdit"/>
+			</DesktopSettings>
+		</Form>
+	</FormSettings>
+	<Permissions>ReadWriteItem</Permissions>
+	<Rule xsi:type="RuleCollection" Mode="Or">
+		<Rule xsi:type="ItemIs" ItemType="Message" FormType="Read"/>
+		<Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
+	</Rule>
+	<DisableEntityHighlighting>false</DisableEntityHighlighting>
+	<VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+		<Requirements>
+			<bt:Sets DefaultMinVersion="1.3">
+				<bt:Set Name="Mailbox"/>
+			</bt:Sets>
+		</Requirements>
+		<Hosts>
+			<Host xsi:type="MailHost">
+				<DesktopFormFactor>
+					<FunctionFile resid="FunctionFileUrl"/>
+					<ExtensionPoint xsi:type="MessageComposeCommandSurface">
+						<OfficeTab id="TabDefault">
+							<Group id="msgComposeGroup">
+								<Label resid="MessageCompose.Group" />
+								<Control xsi:type="Button" id="msgComposeFunctionButton">
+									<Label resid="MessageCompose.FunctionButton" />
+									<Supertip>
+										<Title resid="MessageCompose.TaskpaneBtn" />
+										<Description resid="MessageCompose.TaskpaneBtnDesc" />
+									</Supertip>
+									<Icon>
+										<bt:Image size="16" resid="Icon16"/>
+										<bt:Image size="32" resid="Icon32"/>
+										<bt:Image size="80" resid="Icon80"/>
+									</Icon>
+									<Action xsi:type="ShowTaskpane">
+										<SourceLocation resid="MessageCompose.TaskpaneUrl" />
+									</Action>
+								</Control>
+							</Group>
+						</OfficeTab>
+					</ExtensionPoint>
+					<ExtensionPoint xsi:type="MessageReadCommandSurface">
+						<OfficeTab id="TabDefault">
+							<Group id="msgReadGroup">
+								<Label resid="MessageRead.Group"/>
+								<Control xsi:type="Button" id="msgReadOpenPaneButton">
+									<Label resid="MessageRead.FunctionButton"/>
+									<Supertip>
+										<Title resid="MessageRead.TaskpaneBtn"/>
+										<Description resid="MessageRead.TaskpaneBtnDesc"/>
+									</Supertip>
+									<Icon>
+										<bt:Image size="16" resid="Icon16"/>
+										<bt:Image size="32" resid="Icon32"/>
+										<bt:Image size="80" resid="Icon80"/>
+									</Icon>
+									<Action xsi:type="ShowTaskpane">
+										<SourceLocation resid="MessageRead.TaskpaneUrl"/>
+									</Action>
+								</Control>
+							</Group>
+						</OfficeTab>
+					</ExtensionPoint>
+				</DesktopFormFactor>
+			</Host>
+		</Hosts>
+		<Resources>
+			<bt:Images>
+				<bt:Image id="Icon16" DefaultValue="{__CRM_URL__}layouts/basic/modules/MailIntegration/outlook/img/logo-16.png"/>
+				<bt:Image id="Icon32" DefaultValue="{__CRM_URL__}layouts/basic/modules/MailIntegration/outlook/img/logo-32.png"/>
+				<bt:Image id="Icon80" DefaultValue="{__CRM_URL__}layouts/basic/modules/MailIntegration/outlook/img/logo-80.png"/>
+			</bt:Images>
+			<bt:Urls>
+				<bt:Url id="FunctionFileUrl" DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Detail.php?FunctionFileUrl"/>
+				<bt:Url id="MessageCompose.TaskpaneUrl" DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Compose.php?TaskpaneUrl"/>
+				<bt:Url id="MessageRead.TaskpaneUrl" DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Detail.php?TaskpaneUrl"/>
+			</bt:Urls>
+			<bt:ShortStrings>
+				<bt:String id="MessageCompose.FunctionButton" DefaultValue="Yeti Add-in 1"/>
+				<bt:String id="MessageCompose.Group" DefaultValue="Yeti Add-in 2"/>
+				<bt:String id="MessageCompose.TaskpaneBtn" DefaultValue="Yeti Add-in 3"/>
+				<bt:String id="MessageRead.Group" DefaultValue="Yeti Add-in 4"/>
+				<bt:String id="MessageRead.FunctionButton" DefaultValue="Yeti Add-in 5"/>
+				<bt:String id="MessageRead.TaskpaneBtn" DefaultValue="Yeti Add-in 6"/>
+			</bt:ShortStrings>
+			<bt:LongStrings>
+				<bt:String id="MessageCompose.TaskpaneBtnDesc" DefaultValue="Yeti Add-in 7"/>
+				<bt:String id="MessageRead.TaskpaneBtnDesc" DefaultValue="Yeti Add-in 8"/>
+			</bt:LongStrings>
+		</Resources>
+		<!-- VersionOverrides for the v1.1 schema -->
+		<VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+			<Requirements>
+				<bt:Sets DefaultMinVersion="1.3">
+					<bt:Set Name="Mailbox"/>
+				</bt:Sets>
+			</Requirements>
+			<Hosts>
+				<Host xsi:type="MailHost">
+					<DesktopFormFactor>
+						<FunctionFile resid="FunctionFileUrl"/>
+						<ExtensionPoint xsi:type="MessageReadCommandSurface">
+							<OfficeTab id="TabDefault">
+								<Group id="msgReadGroup">
+									<Label resid="MessageRead.Group"/>
+									<Control xsi:type="Button" id="msgReadOpenPaneButton">
+										<Label resid="MessageRead.FunctionButton"/>
+										<Supertip>
+											<Title resid="MessageRead.TaskpaneBtn"/>
+											<Description resid="MessageRead.TaskpaneBtnDesc"/>
+										</Supertip>
+										<Icon>
+											<bt:Image size="16" resid="Icon16"/>
+											<bt:Image size="32" resid="Icon32"/>
+											<bt:Image size="80" resid="Icon80"/>
+										</Icon>
+										<Action xsi:type="ShowTaskpane">
+											<SourceLocation resid="MessageRead.TaskpaneUrl"/>
+											<SupportsPinning>true</SupportsPinning>
+										</Action>
+									</Control>
+								</Group>
+							</OfficeTab>
+						</ExtensionPoint>
+						<ExtensionPoint xsi:type="MessageComposeCommandSurface">
+							<OfficeTab id="TabDefault">
+								<Group id="msgComposeGroup">
+									<Label resid="MessageCompose.Group" />
+									<Control xsi:type="Button" id="msgComposeFunctionButton">
+										<Label resid="MessageCompose.FunctionButton" />
+										<Supertip>
+											<Title resid="MessageCompose.TaskpaneBtn" />
+											<Description resid="MessageCompose.TaskpaneBtnDesc" />
+										</Supertip>
+										<Icon>
+											<bt:Image size="16" resid="Icon16"/>
+											<bt:Image size="32" resid="Icon32"/>
+											<bt:Image size="80" resid="Icon80"/>
+										</Icon>
+										<Action xsi:type="ShowTaskpane">
+											<SourceLocation resid="MessageCompose.TaskpaneUrl" />
+										</Action>
+									</Control>
+								</Group>
+							</OfficeTab>
+						</ExtensionPoint>
+					</DesktopFormFactor>
+					<MobileFormFactor>
+						<FunctionFile resid="MobileFunctionFileUrl"/>
+						<ExtensionPoint xsi:type="MobileMessageReadCommandSurface">
+							<Group id="mobileMsgRead">
+								<Label resid="MessageRead.Group"/>
+								<Control xsi:type="MobileButton" id="msgMobileReadOpenPaneButton">
+									<Label resid="MessageRead.MobileFunctionBtn"/>
+									<Icon xsi:type="bt:MobileIconList">
+										<bt:Image size="25" scale="1" resid="Icon32" />
+										<bt:Image size="25" scale="2" resid="Icon32" />
+										<bt:Image size="25" scale="3" resid="Icon32" />
+
+										<bt:Image size="32" scale="1" resid="Icon32" />
+										<bt:Image size="32" scale="2" resid="Icon32" />
+										<bt:Image size="32" scale="3" resid="Icon32" />
+
+										<bt:Image size="48" scale="1" resid="Icon80" />
+										<bt:Image size="48" scale="2" resid="Icon80" />
+										<bt:Image size="48" scale="3" resid="Icon80" />
+									</Icon>
+									<Action xsi:type="ShowTaskpane">
+										<SourceLocation resid="MessageRead.MobileTaskpaneUrl"/>
+										<SupportsPinning>true</SupportsPinning>
+									</Action>
+								</Control>
+							</Group>
+						</ExtensionPoint>
+						<ExtensionPoint xsi:type="MobileMessageComposeCommandSurface">
+							<Group id="msgMobileComposeGroup">
+								<Label resid="MessageCompose.Group" />
+								<Control xsi:type="MobileButton" id="msgMobileComposeFunctionButton">
+									<Label resid="MessageCompose.MobileFunctionBtn" />
+									<Icon xsi:type="bt:MobileIconList">
+										<bt:Image size="25" scale="1" resid="Icon32" />
+										<bt:Image size="25" scale="2" resid="Icon32" />
+										<bt:Image size="25" scale="3" resid="Icon32" />
+
+										<bt:Image size="32" scale="1" resid="Icon32" />
+										<bt:Image size="32" scale="2" resid="Icon32" />
+										<bt:Image size="32" scale="3" resid="Icon32" />
+
+										<bt:Image size="48" scale="1" resid="Icon80" />
+										<bt:Image size="48" scale="2" resid="Icon80" />
+										<bt:Image size="48" scale="3" resid="Icon80" />
+									</Icon>
+									<Action xsi:type="ShowTaskpane">
+										<SourceLocation resid="MessageCompose.MobileTaskpaneUrl" />
+									</Action>
+								</Control>
+							</Group>
+						</ExtensionPoint>
+					</MobileFormFactor>
+				</Host>
+			</Hosts>
+			<Resources>
+				<bt:Images>
+					<bt:Image id="Icon16" DefaultValue="{__CRM_URL__}layouts/basic/modules/MailIntegration/outlook/img/logo-16.png"/>
+					<bt:Image id="Icon32" DefaultValue="{__CRM_URL__}layouts/basic/modules/MailIntegration/outlook/img/logo-32.png"/>
+					<bt:Image id="Icon80" DefaultValue="{__CRM_URL__}layouts/basic/modules/MailIntegration/outlook/img/logo-80.png"/>
+				</bt:Images>
+				<bt:Urls>
+					<bt:Url id="FunctionFileUrl" DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Detail.php?FunctionFileUrl"/>
+					<bt:Url id="MobileFunctionFileUrl" DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Detail.php?MobileFunctionFileUrl"/>
+					<bt:Url id="MessageCompose.TaskpaneUrl" DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Compose.php?TaskpaneUrl"/>
+					<bt:Url id="MessageCompose.MobileTaskpaneUrl" DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Compose.php?MobileTaskpaneUrl"/>
+					<bt:Url id="MessageRead.TaskpaneUrl" DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Detail.php?TaskpaneUrl"/>
+					<bt:Url id="MessageRead.MobileTaskpaneUrl" DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Detail.php?MobileTaskpaneUrl"/>
+				</bt:Urls>
+				<bt:ShortStrings>
+					<bt:String id="MessageCompose.FunctionButton" DefaultValue="YetiForceOutlook"/>
+					<bt:String id="MessageCompose.MobileFunctionBtn" DefaultValue="YetiForceOutlook"/>
+					<bt:String id="MessageCompose.Group" DefaultValue="YetiForceOutlook"/>
+					<bt:String id="MessageCompose.TaskpaneBtn" DefaultValue="YetiForceOutlook"/>
+					<bt:String id="MessageRead.Group" DefaultValue="YetiForceOutlook"/>
+					<bt:String id="MessageRead.FunctionButton" DefaultValue="YetiForceOutlook"/>
+					<bt:String id="MessageRead.MobileFunctionBtn" DefaultValue="YetiForceOutlook"/>
+					<bt:String id="MessageRead.TaskpaneBtn" DefaultValue="YetiForceOutlook"/>
+				</bt:ShortStrings>
+				<bt:LongStrings>
+					<bt:String id="MessageCompose.TaskpaneBtnDesc" DefaultValue="YetiForceOutlook"/>
+					<bt:String id="MessageRead.TaskpaneBtnDesc" DefaultValue="YetiForceOutlook"/>
+				</bt:LongStrings>
+			</Resources>
+		</VersionOverrides>
+	</VersionOverrides>
+</OfficeApp>
