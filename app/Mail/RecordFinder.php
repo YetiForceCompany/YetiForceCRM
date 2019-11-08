@@ -267,15 +267,13 @@ class RecordFinder
 	 *
 	 * @param array $emails
 	 *
-	 * @return bool
+	 * @return string[]
 	 */
-	public static function findUserEmail(array $emails)
+	public static function findUserEmail(array $emails): array
 	{
-		if ($emails) {
-			foreach ($emails as $key => $email) {
-				if (!\Users_Module_Model::checkMailExist($email)) {
-					unset($emails[$key]);
-				}
+		foreach ($emails as $key => $email) {
+			if (!\Users_Module_Model::checkMailExist($email)) {
+				unset($emails[$key]);
 			}
 		}
 		return $emails;

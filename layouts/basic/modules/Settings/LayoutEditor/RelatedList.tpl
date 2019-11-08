@@ -135,7 +135,7 @@
 															<optgroup
 																	label='{\App\Language::translate($BLOCK_LABEL, $RELATED_MODULE_NAME)}'>
 																{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
-																	{if !isset($SELECTED_FIELDS[$FIELD_MODEL->getId()])}
+																	{if empty($SELECTED_FIELDS[$FIELD_MODEL->getId()])}
 																		<option value="{$FIELD_MODEL->getId()}"
 																				data-field-name="{$FIELD_NAME}">
 																			{\App\Language::translate($FIELD_MODEL->get('label'), $RELATED_MODULE_NAME)}
