@@ -537,7 +537,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 *
 	 * @return Vtiger_Field_Model[] - list of field models
 	 */
-	public function getFieldsByType(string $type, bool $active = false): array
+	public function getFieldsByType($type, bool $active = false): array
 	{
 		if (!\is_array($type)) {
 			$type = [$type];
