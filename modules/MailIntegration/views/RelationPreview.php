@@ -53,7 +53,7 @@ class MailIntegration_RelationPreview_View extends \App\Controller\Modal
 			$viewer->assign('URL', App\Config::main('site_URL'));
 			$viewer->assign('MODAL_SCRIPTS', $this->getModalScripts($request));
 		}
-		$viewer->view('RelationPreview/Panel.tpl', $moduleName);
+		$viewer->view('RelationPreview/Container.tpl', $moduleName);
 	}
 
 	/**
