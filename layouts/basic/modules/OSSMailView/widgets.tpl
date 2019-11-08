@@ -102,7 +102,7 @@
 						{assign var=FIRST_LETTER_CLASS value='bgBlue'}
 					{/if}
 					<div class="d-inline-flex w-100 col-10 pr-0 pl-0">
-						<div class="firstLetter {$FIRST_LETTER_CLASS}">
+						<div class="firstLetter {$FIRST_LETTER_CLASS} d-sm-block d-none">
 							{$ROW['firstLetter']}
 						</div>
 						<div class="w-100">
