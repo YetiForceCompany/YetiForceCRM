@@ -1,6 +1,11 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 const MailIntegration_Compose = {
+	/**
+	 * Registered autocomplete template
+	 *
+	 * @return  {object}  overwrite ui-autocomplete list item template
+	 */
 	registerAutocompleteTemplate() {
 		$.widget('ui.autocomplete', $.ui.autocomplete, {
 			_renderItem: function(ul, item) {
@@ -31,8 +36,13 @@ const MailIntegration_Compose = {
 			}
 		});
 	},
+	/**
+	 * Register autocomplete
+	 *
+	 * @return  {object}  autocomplete instance
+	 */
 	registerAutocomplete() {
-		this.container.find('.js-search-input').autocomplete({
+		return this.container.find('.js-search-input').autocomplete({
 			delay: '600',
 			minLength: '3',
 			classes: {
@@ -42,6 +52,12 @@ const MailIntegration_Compose = {
 			select: this.onRecipientSelect.bind(this)
 		});
 	},
+	/**
+	 * Find mail action for autocomplete source
+	 *
+	 * @param   {object}  request   autocomplete param
+	 * @param   {fuction}  callBack  autocomplete callBack
+	 */
 	findEmail(request, callBack) {
 		AppConnector.request({
 			module: 'MailIntegration',
@@ -62,6 +78,12 @@ const MailIntegration_Compose = {
 				console.error(error);
 			});
 	},
+	/**
+	 * [onRecipientSelect description]
+	 *
+	 * @param   {object}  toElement  html node object
+	 * @param   {object}  item       selected item object
+	 */
 	onRecipientSelect({ toElement }, { item }) {
 		const newRecipient = [
 			{
@@ -72,6 +94,12 @@ const MailIntegration_Compose = {
 		const recipientsField = toElement.dataset.copyTarget ? toElement.dataset.copyTarget : 'to';
 		this.copyRecipient(recipientsField, newRecipient);
 	},
+	/**
+	 * Copy recipient to outlook field
+	 *
+	 * @param   {string}  recipientsField  to, cc, bcc
+	 * @param   {object}  newRecipient
+	 */
 	copyRecipient(recipientsField, newRecipient) {
 		Office.context.mailbox.item[recipientsField].addAsync(newRecipient, function(result) {
 			if (result.error) {
