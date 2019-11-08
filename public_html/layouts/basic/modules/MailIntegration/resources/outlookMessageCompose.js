@@ -3,6 +3,39 @@
 
 const MailIntegration_Compose = {
 	/**
+	 * AppConnector wrapper
+	 *
+	 * @param   {object}  request
+	 *
+	 * @return  {object}           AppConnector object with done method
+	 */
+	connector(request) {
+		return AppConnector.request(request).fail(error => {
+			this.showResponseMessage(false);
+		});
+	},
+	/**
+	 * Show response message
+	 *
+	 * @param   {boolean}  success
+	 * @param   {string}  message
+	 */
+	showResponseMessage(success, message = '') {
+		if (success) {
+			Office.context.mailbox.item.notificationMessages.replaceAsync('information', {
+				type: 'informationalMessage',
+				message: message,
+				icon: 'iconid',
+				persistent: false
+			});
+		} else {
+			Office.context.mailbox.item.notificationMessages.replaceAsync('error', {
+				type: 'errorMessage',
+				message: app.vtranslate('JS_ERROR') + ' ' + message
+			});
+		}
+	},
+	/**
 	 * Registered autocomplete template
 	 *
 	 * @return  {object}  overwrite ui-autocomplete list item template
@@ -60,24 +93,20 @@ const MailIntegration_Compose = {
 	 * @param   {fuction}  callBack  autocomplete callBack
 	 */
 	findEmail(request, callBack) {
-		AppConnector.request({
+		this.connector({
 			module: 'MailIntegration',
 			action: 'Mail',
 			mode: 'findEmail',
 			search: request.term
-		})
-			.done(responseData => {
-				const data = responseData.result.map(user => {
-					let userData = user.split(' <');
-					const name = userData[0];
-					const mail = userData[1].slice(0, -1);
-					return { name, mail };
-				});
-				callBack(data);
-			})
-			.fail(function(error) {
-				console.error(error);
+		}).done(responseData => {
+			const data = responseData.result.map(user => {
+				let userData = user.split(' <');
+				const name = userData[0];
+				const mail = userData[1].slice(0, -1);
+				return { name, mail };
 			});
+			callBack(data);
+		});
 	},
 	/**
 	 * [onRecipientSelect description]
