@@ -28,7 +28,7 @@ class OpenHelpDesk extends Base
 	{
 		$scanner = $this->scannerEngine;
 		if ($this->checkExceptions('CreatedHelpDesk') || false === $scanner->getMailCrmId() || 1 !== $scanner->getMailType()) {
-			return $scanner->findRelatedRecordsBySubject();
+			$scanner->findRelatedRecordsBySubject();
 		}
 	}
 }
