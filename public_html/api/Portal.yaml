@@ -44,6 +44,40 @@ paths:
         -
           basicAuth: ''
           ApiKeyAuth: ''
+  /webservice/BaseAction/Menu:
+    get:
+      tags:
+        - BaseAction
+      summary: 'Base action menu into the system'
+      operationId: 'Api\Portal\BaseAction\Menu::get'
+      parameters:
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/X-ENCRYPTED'
+      requestBody:
+        description: 'Request body does not occur'
+        required: false
+      responses:
+        '200':
+          description: 'Menu details'
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/BaseActionMenuResponseBody'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseActionMenuResponseBody'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BaseActionMenuResponseBody'
+      security:
+        -
+          basicAuth: ''
+          ApiKeyAuth: ''
+          token: ''
   /webservice/Modules:
     get:
       tags:
@@ -177,6 +211,66 @@ components:
             - '1'
         result:
           description: 'Content of responses from a given method'
+          type: object
+      type: object
+    BaseActionMenuResponseBody:
+      title: 'Base action menu'
+      description: 'Base action menu response body'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error'
+          type: integer
+          enum:
+            - '0'
+            - '1'
+        result:
+          description: 'Menu items selected in the system, consists of parents and children'
+          properties:
+            items:
+              title: 'Parent parameters'
+              description: 'Get method.'
+              properties:
+                id:
+                  description: 'Get method.'
+                  type: integer
+                tabid:
+                  description: 'Get method.'
+                  type: integer
+                mod:
+                  description: 'Get method.'
+                  type: string
+                name:
+                  description: 'Get method.'
+                  type: string
+                type:
+                  description: 'Get method.'
+                  type: string
+                sequence:
+                  description: 'Get method.'
+                  type: integer
+                newwindow:
+                  description: 'Get method.'
+                  type: integer
+                dataurl:
+                  description: 'Get method.'
+                  type: string
+                icon:
+                  description: 'Get method.'
+                  type: string
+                parent:
+                  description: 'Get method.'
+                  type: integer
+                hotkey:
+                  description: 'Get method.'
+                  type: string
+                filters:
+                  description: 'Get method.'
+                  type: string
+                childs:
+                  title: 'Children parameters'
+                  description: 'Get method.'
+                  type: object
+              type: object
           type: object
       type: object
     BaseActionModulesResponseBody:

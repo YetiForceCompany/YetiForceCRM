@@ -101,7 +101,7 @@
     "LBL_SHOP_INTEGRATOR_DESC": "要求\n\n 1.正确注册合作伙伴和合作伙伴客户使用的所有YetiForce安装。\n  2.拥有GitHub帐户并积极参与YetiForce存储库。\n 优点\n\n   1.在与系统操作，API和配置相关的高级问题方面，直接支持YetiForce团队的支持（聊天，电子邮件，GitHub）。支持可以波兰语或英语提供。如果合作伙伴无法帮助其客户，也可能向合作伙伴的客户提供支持。\n 2.聘请YetiForce员工进行大规模实施的可能性（服务可额外收费，远程提供，波兰语和英语交流）。\n 3.在招标中合作的机会（共享客户推荐，共同的专家列表，价格估算支持）。\n 4.能够在Internet上使用“YetiForce Integrator”徽标。\n 5.在官方网站和YetiForce系统的合作目录中进行推广。\n 6. YetiForce生产商和其他合作伙伴（也是合作伙伴自己的客户）在市场上提供的所有产品的10％折扣。预订项目的可能性 - 折扣可能是20％，但它将被授予合作伙伴，该合作伙伴首先预订项目。\n 7.对系统开发方向和新功能的影响。\n  成本\n 1. YetiForce Integrator合作伙伴关系的月参与费为250欧元。",
     "LBL_SHOP_YETIFORCEDEVELOPMENTSUPPORT": "YetiForce 开发",
     "LBL_SHOP_YETIFORCEDEVELOPMENTSUPPORT_INTRO": "对 YetiForce CRM 的专门支持",
-    "LBL_SHOP_YETIFORCEDEVELOPMENTSUPPORT_DESC": "This support package is dedicated to companies that need to customize the system, add new functionalities or integrations with external systems. Note: Leftover hours can be carried over to the following month only once. Any hours not used within this period will expire.",
+    "LBL_SHOP_YETIFORCEDEVELOPMENTSUPPORT_DESC": "此支持包专用于定制系统、添加新功能或与第三方系统集成公司。注意：剩余时间只能结转到下个月一次。在此时间段内未使用的任何小时都将过期。",
     "LBL_SHOP_YETIFORCEINSTALLINCLOUD": "YetiForce 云",
     "LBL_SHOP_YETIFORCEINSTALLINCLOUD_INTRO": "高性能又安全的云服务",
     "LBL_SHOP_YETIFORCEINSTALLINCLOUD_DESC": "我们将在最高效的基础架构上安装该系统，以满足最苛刻客户的期望。我们将关注安全、性能，并解决任何基础设施问题，以方便您。每个用户将收到几个到几 GB 的公司数据，数据库将放置在高性能英特尔 Optane 驱动器上。除了生产版本外，我们将配置系统的测试版本，您将获得对应用程序备份的完全访问权限。 \n 注意：我们从星期一到星期五上午8点至下午4点（CEST）工作，需要一个工作日来处理您的订单。",

@@ -108,10 +108,12 @@ const MailIntegration_Detail = {
 		if (link.length) {
 			link.addClass('active');
 			this.iframe.attr('src', link.find('.js-record-link').attr('href'));
+			this.iframe.on('load', () => {
+				this.hideIframeLoader();
+			});
+		} else {
+			this.hideIframeLoader();
 		}
-		this.iframe.on('load', () => {
-			this.iframeLoader.progressIndicator({ mode: 'hide' });
-		});
 	},
 	registerImportClick() {
 		this.container.on('click', '.js-import-mail', e => {
