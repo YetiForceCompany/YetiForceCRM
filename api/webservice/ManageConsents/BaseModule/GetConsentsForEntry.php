@@ -23,9 +23,6 @@ class GetConsentsForEntry extends \Api\ManageConsents\BaseAction
 	 * {@inheritdoc}
 	 */
 	public $allowedMethod = ['POST'];
-	/**
-	 * {@inheritdoc}
-	 */
 
 	/**
 	 * Gets consents.

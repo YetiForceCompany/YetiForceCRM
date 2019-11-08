@@ -50,6 +50,8 @@
 									   href="{$RELATED_RECORD->getDetailViewUrl()}">
 										{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
 									</a>
+								{elseif $HEADER_FIELD->get('fromOutsideList') eq true}
+									{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}
 								{else}
 									{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
 								{/if}

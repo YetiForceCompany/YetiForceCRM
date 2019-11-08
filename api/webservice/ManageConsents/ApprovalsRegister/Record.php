@@ -24,11 +24,6 @@ class Record extends \Api\ManageConsents\BaseAction
 	public $allowedMethod = ['POST'];
 
 	/**
-	 * {@inheritdoc}
-	 */
-	// public $allowedHeaders = ['x-raw-data'];
-
-	/**
 	 * Record model.
 	 *
 	 * @var \Vtiger_Record_Model
