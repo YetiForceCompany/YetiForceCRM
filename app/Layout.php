@@ -125,4 +125,29 @@ class Layout
 	{
 		return str_replace([' ', '"', "'"], '', $name) . random_int(100, 99999);
 	}
+
+	/**
+	 * Truncating HTML/text and adding a button showing all the text.
+	 *
+	 * @param       $html
+	 * @param int   $length
+	 * @param mixed $isHtml
+	 * @param mixed $text
+	 *
+	 * @return string
+	 */
+	public static function truncate($text, $length, $isHtml = true)
+	{
+		if ($isHtml) {
+			$isTruncated = \mb_strlen(strip_tags($text)) > $length;
+		} else {
+			$isTruncated = \mb_strlen($text) > $length;
+		}
+		if (!$isTruncated) {
+			return $text;
+		}
+		$teaser = $isHtml ? TextParser::htmlTruncate($text, $length, true) : TextParser::textTruncate($text, $length, true);
+		$btn = \App\Language::translate('LBL_MORE_BTN');
+		return "<div class=\"js-more-content\"><span class=\"teaserContent\">$teaser</span><span class=\"fullContent d-none\">$text</span><span class=\"text-right mb-1\"><button type=\"button\" class=\"btn btn-link btn-sm js-more\">{$btn}</button></span></div>";
+	}
 }
