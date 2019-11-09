@@ -308,14 +308,13 @@ good-listener@^1.2.2:
   dependencies:
     delegate "^3.1.2"
 
-gridstack@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-0.4.0.tgz#9b1fbf5bccb73cc41f26cd1dc45b248ef5b4f37d"
-  integrity sha512-N8ehAjdZWNm1lik9J34X9YrjGla9+9odm0RmrpLmUaQUit99ap+ve8TdYkJR/JlUMfI1zBgmxNcAxVWMKKpkWw==
+gridstack@^0.5.0:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-0.5.1.tgz#6ffdf7a594b1fd1bbbad9c93719362a129f4d999"
+  integrity sha512-bahJkFWIwdLDkOgcPXGawcuf8zYh9iDDKUmsgdcy9HWkKCZbZh8cleb8BvkZ/QhVYkpbVRRZ+D4SDvHESOLvrw==
   dependencies:
     jquery "^3.1.0"
     jquery-ui "^1.12.0"
-    lodash "^4.17.10"
 
 html2canvas@^1.0.0-alpha.12:
   version "1.0.0-rc.5"
@@ -417,11 +416,6 @@ leaflet@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.5.1.tgz#9afb9d963d66c870066b1342e7a06f92840f46bf"
   integrity sha512-ekM9KAeG99tYisNBg0IzEywAlp0hYI5XRipsqRXyRTeuU8jcuntilpp+eFf5gaE0xubc9RuSNIVtByEKwqFV0w==
-
-lodash@^4.17.10:
-  version "4.17.15"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
 moment@^2.10.2, moment@^2.23.0, moment@^2.9.0:
   version "2.24.0"
