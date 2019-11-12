@@ -33,14 +33,14 @@ const MailIntegration_RelationPreview = {
 	 */
 	showResponseMessage(success, message = '') {
 		if (success) {
-			Office.context.mailbox.item.notificationMessages.replaceAsync('information', {
+			this.mailItem.notificationMessages.replaceAsync('information', {
 				type: 'informationalMessage',
 				message: message,
 				icon: 'iconid',
 				persistent: false
 			});
 		} else {
-			Office.context.mailbox.item.notificationMessages.replaceAsync('error', {
+			this.mailItem.notificationMessages.replaceAsync('error', {
 				type: 'errorMessage',
 				message: app.vtranslate('JS_ERROR') + ' ' + message
 			});
@@ -113,12 +113,62 @@ const MailIntegration_RelationPreview = {
 		const callbackFunction = () => {
 			this.iframeWindow.location.reload();
 		};
+		let newRecordData = {
+			sourceModule: recordData.module,
+			sourceRecord: recordData.id
+		};
 		this.showQuickCreateForm(event.currentTarget.dataset.module, {
-			data: {
-				sourceModule: recordData.module,
-				sourceRecord: recordData.id
-			},
+			data: newRecordData,
 			callbackFunction
+		});
+	},
+	fillNewRecordData(moduleName) {
+		const data = {};
+		const fillNameFields = () => {
+			const nameData = this.mailItem.from.displayName.split(' ');
+			const firstName = nameData.shift();
+			const lastName = nameData.join(' ');
+			data.firstname = firstName;
+			data.lastname = lastName;
+		};
+		switch (moduleName) {
+			case 'Leads':
+				data.company = this.mailItem.from.displayName;
+				fillNameFields();
+				break;
+			case 'Contacts':
+				fillNameFields();
+				break;
+			case 'Project':
+				data.projectname = this.mailItem.subject;
+				break;
+			case 'HelpDesk':
+				data.ticket_title = this.mailItem.subject;
+				break;
+			case 'Products':
+				data.productname = this.mailItem.subject;
+				break;
+			case 'Services':
+				data.servicename = this.mailItem.subject;
+				break;
+			default:
+				break;
+		}
+		data.email = this.mailItem.from.emailAddress;
+		data.email1 = this.mailItem.from.emailAddress;
+		data.relationOperation = true;
+		data.relatedRecords = $.map(this.container.find('.js-list-item-click'), record => {
+			return { module: record.dataset.module, id: record.dataset.id };
+		});
+		return new Promise((resolve, reject) => {
+			this.mailItem.body.getAsync(Office.CoercionType.Html, body => {
+				if (body.status === 'succeeded') {
+					data.description = body.value;
+					resolve(data);
+				} else {
+					reject(body);
+				}
+			});
 		});
 	},
 	/**
@@ -166,8 +216,10 @@ const MailIntegration_RelationPreview = {
 	 */
 	showQuickCreateForm(moduleName, quickCreateParams = {}) {
 		quickCreateParams = Object.assign({ noCache: true, data: {} }, quickCreateParams);
-		quickCreateParams.data.relationOperation = true;
-		App.Components.QuickCreate.createRecord(moduleName, quickCreateParams);
+		this.fillNewRecordData(moduleName).then(data => {
+			quickCreateParams.data = Object.assign(data, quickCreateParams.data);
+			App.Components.QuickCreate.createRecord(moduleName, quickCreateParams);
+		});
 	},
 	registerIframeEvents() {
 		const link = this.container.find('.js-list-item-click').first();
@@ -212,7 +264,7 @@ const MailIntegration_RelationPreview = {
 	 * @return  {object}  Promise
 	 */
 	getMailDetails() {
-		let mailItem = Office.context.mailbox.item;
+		let mailItem = this.mailItem;
 		if (mailItem.attachments.length > 0) {
 			let outputString = '';
 			for (let i = 0; i < mailItem.attachments.length; i++) {
@@ -348,6 +400,7 @@ const MailIntegration_RelationPreview = {
 		this.iframeWindow = this.iframe[0].contentWindow;
 		this.addRecordBtn = this.container.find('.js-add-record');
 		this.mailId = this.container.find('.js-panel').data('mailId');
+		this.mailItem = Office.context.mailbox.item;
 		if (this.iframe.length) {
 			this.registerListItemEvents();
 			this.registerIframeEvents();
