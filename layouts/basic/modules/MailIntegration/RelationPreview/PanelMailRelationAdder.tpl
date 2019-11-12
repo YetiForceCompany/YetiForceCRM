@@ -7,7 +7,7 @@
 			{if $smarty.foreach.MODULES_SELECT.first}
 				{assign var=IS_EDIT_PERMITTED value=App\Privilege::isPermitted($MODULE, 'EditView')}
 			{/if}
-			<option value="{$MODULE}" data-is-inventory="{\Vtiger_Module_Model::getInstance($MODULE)->isInventory()}" data-add-record="{App\Privilege::isPermitted($MODULE, 'EditView')}">{\App\Language::translate($MODULE, $MODULE)}</option>
+			<option value="{$MODULE}" data-add-record="{App\Privilege::isPermitted($MODULE, 'CreateView') && !Vtiger_Module_Model::getInstance($MODULE)->isInventory()}">{\App\Language::translate($MODULE, $MODULE)}</option>
 		{/foreach}
 	</select>
 	<div class="input-group-append">

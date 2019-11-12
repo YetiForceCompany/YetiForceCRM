@@ -401,9 +401,6 @@ const MailIntegration_RelationPreview = {
 				this.addRelation(result._recordId, moduleName);
 			};
 			const quickCreateParams = { callbackFunction };
-			if (this.moduleSelect.select2('data')[0].element.dataset.isInventory) {
-				quickCreateParams.newTab = true;
-			}
 			this.showQuickCreateForm(moduleName, quickCreateParams);
 		});
 	},
