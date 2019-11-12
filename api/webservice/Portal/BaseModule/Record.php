@@ -82,6 +82,121 @@ class Record extends \Api\Core\BaseAction
 	 * Get record detail.
 	 *
 	 * @return array
+	 *
+	 * @OA\Get(
+	 *		path="/webservice/BaseModule/Record",
+	 *		summary="Gets data for the record",
+	 *		tags={"BaseModule"},
+	 *		security={
+	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *    },
+	 *		@OA\RequestBody(
+	 *  			required=false,
+	 *  			description="The content of the request is empty.",
+	 *	  ),
+	 *    @OA\Parameter(
+	 *        name="X-ENCRYPTED",
+	 *        in="header",
+	 *        required=true,
+	 * 				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *    ),
+	 * 		@OA\Parameter(
+	 *		   	name="x-raw-data",
+	 * 		  	description="Gets raw data",
+	 * 		  	@OA\Schema(
+	 * 		    	type="integer",
+	 * 		    	format="int64",
+	 * 		  	),
+	 *  		 	in="header",
+	 * 			 	example="1",
+	 *  		 	required=false
+	 * 		),
+	 * 	@OA\Parameter(
+	 *		   	name="x-parent-id",
+	 * 		  	description="Gets parent id",
+	 * 		  	@OA\Schema(
+	 * 		    	type="integer",
+	 * 		    	format="int64",
+	 * 		  	),
+	 *  		 	in="header",
+	 * 			 	example="1",
+	 *  		 	required=false
+	 * 		),
+	 *		@OA\Response(
+	 *				response=200,
+	 *				description="Gets data for the record",
+	 *				@OA\JsonContent(ref="#/components/schemas/BaseModuleRecordResponseBody"),
+	 *				@OA\XmlContent(ref="#/components/schemas/BaseModuleRecordResponseBody"),
+	 *     		@OA\MediaType(
+	 *         		mediaType="text/html",
+	 *         		@OA\Schema(ref="#/components/schemas/BaseModuleRecordResponseBody")
+	 *     		),
+	 *		),
+	 *	 @OA\Response(
+	 *				response=403,
+	 *				description="No permissions to remove record OR No permissions to view record OR No permissions to edit record"
+	 *		),
+	 *	 @OA\Response(
+	 *				response=404,
+	 *				description="Record doesn't exist"
+	 *		),
+	 * ),
+	 * @OA\SecurityScheme(
+	 *		securityScheme="basicAuth",
+	 *		type="http",
+	 *    in="header",
+	 *		scheme="basic"
+	 * ),
+	 * @OA\SecurityScheme(
+	 *		securityScheme="ApiKeyAuth",
+	 *   	type="apiKey",
+	 *    in="header",
+	 * 		name="X-API-KEY",
+	 *   	description="Webservice api key"
+	 * ),
+	 * @OA\SecurityScheme(
+	 *		securityScheme="token",
+	 *   	type="apiKey",
+	 *    in="header",
+	 * 		name="X-TOKEN",
+	 *   	description="Webservice api token by user"
+	 * ),
+	 * @OA\Schema(
+	 * 		schema="BaseModuleRecordResponseBody",
+	 * 		title="Data",
+	 * 		description="Data for the records",
+	 *		type="object",
+	 *  	@OA\Property(
+	 *       	property="status",
+	 *        description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+	 * 				enum={"0", "1"},
+	 *     	  type="integer",
+	 * 		),
+	 *    @OA\Property(
+	 *     	  property="result",
+	 *     	 	description="Record data",
+	 *    	 	type="object",
+	 * 					@OA\Property(name="name", description="Record name", type="string", example="Driving school"),
+	 * 					@OA\Property(name="id", description="Record Id", type="integer", example="Contractor's name"),
+	 * 					@OA\Property(name="fields", description="Text", type="string", example="Contractor's name"),
+	 * 					@OA\Property(name="data", description="Rocord data", type="object"),
+	 * 					@OA\Property(
+	 * 						name="privileges",
+	 * 						description="Text",
+	 * 						type="object",
+	 * 						@OA\Property(name="isEditable", description="Check if record is editable", type="boolean", example="true"),
+	 * 						@OA\Property(name="moveToTrash", description="Permission to delete", type="boolean", example="false"),
+	 * 					),
+	 * 					@OA\Property(name="inventory", description="Value invetory data", type="object"),
+	 * 					@OA\Property(name="summaryInventory", description="Value summary invetory data", type="string"),
+	 * 					@OA\Property(name="rawData", description="Tax selected in inventory", type="object"),
+	 * 					@OA\Property(name="rawInventory", description="Inventory data", type="object"),
+	 *    ),
+	 * ),
+	 * @OA\Tag(
+	 *   name="BaseModule",
+	 *   description="Access to record methods"
+	 * )
 	 */
 	public function get(): array
 	{
@@ -148,6 +263,52 @@ class Record extends \Api\Core\BaseAction
 	 * Delete record.
 	 *
 	 * @return bool
+	 *
+	 * @OA\Delete(
+	 *		path="/webservice/BaseModule/Record",
+	 *		summary="List of records moved to the trash",
+	 *		tags={"BaseModule"},
+	 *		security={
+	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *    },
+	 *		@OA\RequestBody(
+	 *  			required=false,
+	 *  			description="The content of the request is empty.",
+	 *	  ),
+	 *    @OA\Parameter(
+	 *        name="X-ENCRYPTED",
+	 *        in="header",
+	 *        required=true,
+	 * 				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *    ),
+	 *		@OA\Response(
+	 *				response=200,
+	 *				description="List of records moved to the trash",
+	 *				@OA\JsonContent(ref="#/components/schemas/BaseModuleRecordResponseBody"),
+	 *				@OA\XmlContent(ref="#/components/schemas/BaseModuleRecordResponseBody"),
+	 *     		@OA\MediaType(
+	 *         		mediaType="text/html",
+	 *         		@OA\Schema(ref="#/components/schemas/BaseModuleRecordResponseBody")
+	 *     		),
+	 *		),
+	 * ),
+	 * @OA\Schema(
+	 * 		schema="BaseModuleRecordResponseBody",
+	 * 		title="Transfer to the trash",
+	 * 		description="List of records moved to the trash",
+	 *		type="object",
+	 *  	@OA\Property(
+	 *       	property="status",
+	 *        description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+	 * 				enum={"0", "1"},
+	 *     	  type="integer",
+	 * 		),
+	 *    @OA\Property(
+	 *     	  property="result",
+	 *     	 	description="Status of successful transfer of the record to the recycle bin",
+	 *    	 	type="boolean",
+	 *    ),
+	 * ),
 	 */
 	public function delete(): bool
 	{
@@ -160,6 +321,54 @@ class Record extends \Api\Core\BaseAction
 	 * Edit record.
 	 *
 	 * @return array
+	 *
+	 * @OA\Put(
+	 *		path="/webservice/BaseModule/Record",
+	 *		summary="List of edited records",
+	 *		tags={"BaseModule"},
+	 *		security={
+	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *    },
+	 *		@OA\RequestBody(
+	 *  			required=false,
+	 *  			description="The content of the request is empty.",
+	 *	  ),
+	 *    @OA\Parameter(
+	 *        name="X-ENCRYPTED",
+	 *        in="header",
+	 *        required=true,
+	 * 				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *    ),
+	 *		@OA\Response(
+	 *				response=200,
+	 *				description="List of edited records",
+	 *				@OA\JsonContent(ref="#/components/schemas/BaseModuleRecordResponseBody"),
+	 *				@OA\XmlContent(ref="#/components/schemas/BaseModuleRecordResponseBody"),
+	 *     		@OA\MediaType(
+	 *         		mediaType="text/html",
+	 *         		@OA\Schema(ref="#/components/schemas/BaseModuleRecordResponseBody")
+	 *     		),
+	 *		),
+	 * ),
+	 * @OA\Schema(
+	 * 		schema="BaseModuleRecordResponseBody",
+	 * 		title=" ",
+	 * 		description=" ",
+	 *		type="object",
+	 *  	@OA\Property(
+	 *       	property="status",
+	 *        description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+	 * 				enum={"0", "1"},
+	 *     	  type="integer",
+	 * 		),
+	 *    @OA\Property(
+	 *     	  property="result",
+	 *     	 	title="Parameters record",
+	 *     	 	description="Parameters the edited record."
+	 *    	 	type="object",
+	 * 				@OA\Property(property="id", description="Id the edited record", type="integer"),
+	 *    ),
+	 * ),
 	 */
 	public function put()
 	{
@@ -170,6 +379,54 @@ class Record extends \Api\Core\BaseAction
 	 * Create record.
 	 *
 	 * @return array
+	 *
+	 * @OA\Post(
+	 *		path="/webservice/BaseModule/Record",
+	 *		summary="List of records created",
+	 *		tags={"BaseModule"},
+	 *		security={
+	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *    },
+	 *		@OA\RequestBody(
+	 *  			required=false,
+	 *  			description="The content of the request is empty.",
+	 *	  ),
+	 *    @OA\Parameter(
+	 *        name="X-ENCRYPTED",
+	 *        in="header",
+	 *        required=true,
+	 * 				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *    ),
+	 *		@OA\Response(
+	 *				response=200,
+	 *				description="List of records created",
+	 *				@OA\JsonContent(ref="#/components/schemas/BaseModuleRecordResponseBody"),
+	 *				@OA\XmlContent(ref="#/components/schemas/BaseModuleRecordResponseBody"),
+	 *     		@OA\MediaType(
+	 *         		mediaType="text/html",
+	 *         		@OA\Schema(ref="#/components/schemas/BaseModuleRecordResponseBody")
+	 *     		),
+	 *		),
+	 * ),
+	 * @OA\Schema(
+	 * 		schema="BaseModuleRecordResponseBody",
+	 * 		title="Created records",
+	 * 		description="List of records created",
+	 *		type="object",
+	 *  	@OA\Property(
+	 *       	property="status",
+	 *        description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+	 * 				enum={"0", "1"},
+	 *     	  type="integer",
+	 * 		),
+	 *    @OA\Property(
+	 *     	  property="result",
+	 * 				title="Parameters record",
+	 *     	 	description="Parameters the saved record.",
+	 *    	 	type="object",
+	 * 				@OA\Property(property="id", description="Id of the newly created record", type="integer"),
+	 *    ),
+	 * ),
 	 */
 	public function post()
 	{
