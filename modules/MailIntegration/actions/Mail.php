@@ -104,7 +104,7 @@ class MailIntegration_Mail_Action extends \App\Controller\Action
 			$contacts = preg_grep("/{$search}/i", $bookMails);
 		}
 		$response = new Vtiger_Response();
-		$response->setResult($contacts);
+		$response->setResult(array_values($contacts));
 		$response->emit();
 	}
 }
