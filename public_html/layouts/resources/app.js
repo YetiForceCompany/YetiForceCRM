@@ -338,6 +338,22 @@ var App = (window.App = {
 				);
 				return aDeferred.promise();
 			}
+		},
+		Scrollbar: {
+			defaults: {
+				scrollbars: {
+					autoHide: 'leave'
+				}
+			},
+			y(element, options) {
+				const yOptions = {
+					overflowBehavior: {
+						x: 'h'
+					}
+				};
+				const mergedOptions = Object.assign(this.defaults, options, yOptions);
+				element.overlayScrollbars(mergedOptions);
+			}
 		}
 	}
 });
@@ -2454,6 +2470,7 @@ $(document).ready(function() {
 	app.registerMenu();
 	app.registerTabdrop();
 	app.registesterScrollbar(document);
+	App.Components.Scrollbar.y($('.mainBody'));
 	String.prototype.toCamelCase = function() {
 		let value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
