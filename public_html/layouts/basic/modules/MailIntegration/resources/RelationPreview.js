@@ -224,6 +224,9 @@ const MailIntegration_RelationPreview = {
 			App.Components.QuickCreate.createRecord(moduleName, quickCreateParams);
 		});
 	},
+	/**
+	 * Register iframe events
+	 */
 	registerIframeEvents() {
 		const link = this.container.find('.js-list-item-click').first();
 		this.initIframeLoader();
@@ -397,7 +400,11 @@ const MailIntegration_RelationPreview = {
 			const callbackFunction = ({ result }) => {
 				this.addRelation(result._recordId, moduleName);
 			};
-			this.showQuickCreateForm(moduleName, { callbackFunction });
+			const quickCreateParams = { callbackFunction };
+			if (this.moduleSelect.select2('data')[0].element.dataset.isInventory) {
+				quickCreateParams.newTab = true;
+			}
+			this.showQuickCreateForm(moduleName, quickCreateParams);
 		});
 	},
 	/**
