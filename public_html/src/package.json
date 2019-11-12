@@ -37,7 +37,7 @@
     "babel-preset-vue": "^2.0.2",
     "cross-env": "^6.0.3",
     "eslint": "^6.6.0",
-    "eslint-plugin-vue": "^5.2.3",
+    "eslint-plugin-vue": "^6.0.0",
     "findit": "^2.0.0",
     "gulp": "^4.0.2",
     "gulp-stylus": "^2.7.0",
