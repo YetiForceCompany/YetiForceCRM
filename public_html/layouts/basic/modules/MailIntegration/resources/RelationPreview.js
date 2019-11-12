@@ -123,7 +123,14 @@ const MailIntegration_RelationPreview = {
 		});
 	},
 	fillNewRecordData(moduleName) {
-		const data = {};
+		const data = {
+			email: this.mailItem.from.emailAddress,
+			email1: this.mailItem.from.emailAddress,
+			relationOperation: true,
+			relatedRecords: $.map(this.container.find('.js-list-item-click'), record => {
+				return { module: record.dataset.module, id: record.dataset.id };
+			})
+		};
 		const fillNameFields = () => {
 			const nameData = this.mailItem.from.displayName.split(' ');
 			const firstName = nameData.shift();
@@ -154,22 +161,11 @@ const MailIntegration_RelationPreview = {
 			default:
 				break;
 		}
-		data.email = this.mailItem.from.emailAddress;
-		data.email1 = this.mailItem.from.emailAddress;
-		data.relationOperation = true;
-		data.relatedRecords = $.map(this.container.find('.js-list-item-click'), record => {
-			return { module: record.dataset.module, id: record.dataset.id };
-		});
-		return new Promise((resolve, reject) => {
-			this.mailItem.body.getAsync(Office.CoercionType.Html, body => {
-				if (body.status === 'succeeded') {
-					data.description = body.value;
-					resolve(data);
-				} else {
-					reject(body);
-				}
-			});
-		});
+		const mailBodyCallback = body => {
+			data.description = body;
+			return data;
+		};
+		return this.asyncGetMailBody(mailBodyCallback);
 	},
 	/**
 	 * Toggle active list items
@@ -278,20 +274,27 @@ const MailIntegration_RelationPreview = {
 				outputString += '<BR>isInline: ' + attachment.isInline;
 			}
 		}
+		const mailDetails = {
+			mailFrom: this.parseEmailAddressDetails(mailItem.from),
+			mailSender: mailItem.sender.emailAddress,
+			mailTo: this.parseEmailAddressDetails(mailItem.to),
+			mailCc: this.parseEmailAddressDetails(mailItem.cc),
+			mailMessageId: mailItem.internetMessageId,
+			mailSubject: mailItem.subject,
+			mailNormalizedSubject: mailItem.normalizedSubject,
+			mailDateTimeCreated: mailItem.dateTimeCreated.toISOString()
+		};
+		const mailBodyCallback = body => {
+			mailDetails.mailBody = body;
+			return mailDetails;
+		};
+		return this.asyncGetMailBody(mailBodyCallback);
+	},
+	asyncGetMailBody(callback) {
 		return new Promise((resolve, reject) => {
-			mailItem.body.getAsync(Office.CoercionType.Html, body => {
+			this.mailItem.body.getAsync(Office.CoercionType.Html, body => {
 				if (body.status === 'succeeded') {
-					resolve({
-						mailFrom: this.parseEmailAddressDetails(mailItem.from),
-						mailSender: mailItem.sender.emailAddress,
-						mailTo: this.parseEmailAddressDetails(mailItem.to),
-						mailCc: this.parseEmailAddressDetails(mailItem.cc),
-						mailMessageId: mailItem.internetMessageId,
-						mailSubject: mailItem.subject,
-						mailNormalizedSubject: mailItem.normalizedSubject,
-						mailDateTimeCreated: mailItem.dateTimeCreated.toISOString(),
-						mailBody: body.value
-					});
+					resolve(callback(body.value));
 				} else {
 					reject(body);
 				}
