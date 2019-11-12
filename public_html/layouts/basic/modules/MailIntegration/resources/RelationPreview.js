@@ -122,6 +122,13 @@ const MailIntegration_RelationPreview = {
 			callbackFunction
 		});
 	},
+	/**
+	 * Fill new record data in quick create form
+	 *
+	 * @param   {string}  moduleName  [moduleName description]
+	 *
+	 * @return  {object}              call asyncGetMailBody which returns Promise
+	 */
 	fillNewRecordData(moduleName) {
 		const data = {
 			email: this.mailItem.from.emailAddress,
@@ -290,6 +297,13 @@ const MailIntegration_RelationPreview = {
 		};
 		return this.asyncGetMailBody(mailBodyCallback);
 	},
+	/**
+	 * Get mail body async function
+	 *
+	 * @param   {function}  callback
+	 *
+	 * @return  {object}            Promise
+	 */
 	asyncGetMailBody(callback) {
 		return new Promise((resolve, reject) => {
 			this.mailItem.body.getAsync(Office.CoercionType.Html, body => {
