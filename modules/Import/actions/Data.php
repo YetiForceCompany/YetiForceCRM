@@ -251,7 +251,10 @@ class Import_Data_Action extends \App\Controller\Action
 					$comparisonValue = $fieldData[$mergeField];
 					$fieldInstance = $moduleFields[$mergeField];
 					if ('owner' == $fieldInstance->getFieldDataType()) {
-						$ownerId = \App\User::getUserIdByFullName($comparisonValue);
+						$ownerId = \App\User::getUserIdByName(trim($comparisonValue));
+						if (empty($ownerId)) {
+							$ownerId = \App\User::getUserIdByFullName(trim($comparisonValue));
+						}
 						if (empty($ownerId)) {
 							$ownerId = \App\Fields\Owner::getGroupId($comparisonValue);
 						}
@@ -500,7 +503,10 @@ class Import_Data_Action extends \App\Controller\Action
 	{
 		$defaultFieldValues = $this->getDefaultFieldValues();
 		$fieldName = $fieldInstance->getFieldName();
-		$ownerId = \App\User::getUserIdByFullName(trim($fieldValue));
+		$ownerId = \App\User::getUserIdByName(trim($fieldValue));
+		if (empty($ownerId)) {
+			$ownerId = \App\User::getUserIdByFullName(trim($fieldValue));
+		}
 		if (empty($ownerId)) {
 			$ownerId = \App\Fields\Owner::getGroupId($fieldValue);
 		}
@@ -532,7 +538,10 @@ class Import_Data_Action extends \App\Controller\Action
 		if ($fieldValue) {
 			$owners = explode(',', $fieldValue);
 			foreach ($owners as $owner) {
-				$ownerId = \App\User::getUserIdByFullName(trim($owner));
+				$ownerId = \App\User::getUserIdByName(trim($owner));
+				if (empty($ownerId)) {
+					$ownerId = \App\User::getUserIdByFullName(trim($owner));
+				}
 				if (empty($ownerId)) {
 					$ownerId = \App\Fields\Owner::getGroupId($owner);
 				}
