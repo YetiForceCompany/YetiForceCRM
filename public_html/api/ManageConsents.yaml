@@ -160,6 +160,57 @@ paths:
           basicAuth: ''
           ApiKeyAuth: ''
           token: ''
+  '/webservice/{moduleName}/SendEmail':
+    post:
+      tags:
+        - Consents
+      summary: 'Send e-mail'
+      operationId: 'Api\ManageConsents\BaseModule\SendEmail::post'
+      parameters:
+        -
+          name: moduleName
+          in: path
+          description: 'Module name'
+          required: true
+          schema:
+            type: string
+          example: Contacts
+      requestBody:
+        description: 'Required data for communication'
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SendEmailRequestBody'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendEmailRequestBody'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailRequestBody'
+      responses:
+        '200':
+          description: 'List of consents for specific entry'
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/SendEmailResponseBody'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEmailResponseBody'
+        '401':
+          description: 'No sent token OR Invalid token'
+        '403':
+          description: 'No permissions for module'
+        '404':
+          description: 'Not Found'
+        '405':
+          description: 'Method Not Allowed'
+      security:
+        -
+          basicAuth: ''
+          ApiKeyAuth: ''
+          token: ''
 components:
   schemas:
     ApprovalsRegisterRequestBody:
@@ -264,6 +315,31 @@ components:
                 type: integer
                 example: 24862
           type: object
+      type: object
+    SendEmailRequestBody:
+      title: 'Request body for SendEmail'
+      properties:
+        e-mail:
+          description: 'E-mail address (Token type field in the module is required)'
+          type: string
+        templateId:
+          description: 'Specific ID of the email template'
+          type: integer
+      type: object
+    SendEmailResponseBody:
+      title: 'Response body for SendEmail'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - 0
+            - 1
+          example: 1
+        result:
+          description: 'Added mail to quote for send: true - success , false - fail'
+          type: bool
+          example: true
       type: object
   securitySchemes:
     basicAuth:
