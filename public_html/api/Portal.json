@@ -310,7 +310,7 @@
                 "description": "The representation of a base action install",
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             "0",
@@ -329,7 +329,7 @@
                 "description": "Base action menu response body",
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             "0",
@@ -410,7 +410,7 @@
                 "description": "List of obtained items",
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             "0",
@@ -467,7 +467,7 @@
                 "description": "Users login response body",
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,
@@ -634,7 +634,7 @@
                 "description": "JSON data",
                 "properties": {
                     "status": {
-                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
                         "type": "integer",
                         "enum": [
                             0,

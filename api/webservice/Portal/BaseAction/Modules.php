@@ -65,7 +65,7 @@ class Modules extends \Api\Core\BaseAction
 	 *		type="object",
 	 *		@OA\Property(
 	 *			property="status",
-	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
 	 *			enum={"0", "1"},
 	 *			type="integer",
 	 *		),

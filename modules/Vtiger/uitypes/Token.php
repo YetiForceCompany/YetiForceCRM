@@ -50,6 +50,14 @@ class Vtiger_Token_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
+	{
+		return $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getAllowedColumnTypes()
 	{
 		return ['string'];
