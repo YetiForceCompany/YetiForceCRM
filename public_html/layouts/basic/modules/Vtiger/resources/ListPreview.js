@@ -86,16 +86,28 @@ Vtiger_List_Js(
 		 * Registers list events.
 		 * @param {jQuery} container - current container for reference.
 		 */
-		registerListEvents: function(container) {
-			var listPreview = container.find('.js-detail-preview');
-			var mainBody = container.closest('.mainBody');
-			var commActHeight = $('.commonActionsContainer').height();
+		registerListEvents: function() {
+			var mainBody = this.container.closest('.mainBody');
 			app.showNewScrollbarTopBottomRight(this.list, { wheelPropagation: false });
 			this.registerFixedThead();
-			mainBody.scrollTop(0); // reset scroll to set correct start position
+			this.registerScrollEvent(mainBody);
+			this.list.on('click', '.listViewEntries', () => {
+				if (this.split.getSizes()[1] < 10) {
+					const defaultGutterPosition = this.getDefaultSplitSizes();
+					this.split.setSizes(defaultGutterPosition);
+					this.preview.show();
+					this.sideBlockRight.removeClass('d-block');
+					app.moduleCacheSet('userSplitSet', defaultGutterPosition);
+				}
+			});
+		},
+		registerScrollEvent(mainBody) {
+			var headerActionsH = $('.commonActionsContainer').height();
+			let scrollInstance = App.Components.Scrollbar.pageScrollbar;
+			scrollInstance.scroll({ y: 0 }); // reset scroll to set correct start position
 			$(window).on('resize', () => {
-				if (mainBody.scrollTop() >= this.list.offset().top + commActHeight) {
-					container.find('.gutter').css('left', listPreview.offset().left - 8);
+				if (scrollInstance.scroll().position.y >= this.list.offset().top + headerActionsH) {
+					this.container.find('.gutter').css('left', this.preview.offset().left - 8);
 				}
 			});
 			let listOffsetTop = this.list.offset().top - this.headerH;
@@ -103,32 +115,24 @@ Vtiger_List_Js(
 			let mainViewPortHeightCss = { height: mainBody.height() };
 			let mainViewPortWidthCss = { width: mainBody.height() };
 			this.gutter.addClass('js-fixed-scroll');
-			let fixedElements = container.find('.js-fixed-scroll');
+			let fixedElements = this.container.find('.js-fixed-scroll');
 			let fixedThead = this.list.siblings('.floatThead-container');
-			mainBody.on('scroll', () => {
-				if (mainBody.scrollTop() >= listOffsetTop) {
-					fixedThead.add(fixedElements).css({ top: mainBody.scrollTop() - listOffsetTop });
+			const onScroll = () => {
+				if (scrollInstance.scroll().position.y >= listOffsetTop) {
+					fixedThead.add(fixedElements).css({ top: scrollInstance.scroll().position.y - listOffsetTop });
 					fixedElements.css(mainViewPortHeightCss);
 					this.rotatedText.css(mainViewPortHeightCss);
 					this.rotatedText.css(mainViewPortWidthCss);
 				} else {
 					fixedThead.add(fixedElements).css({ top: 'initial' });
-					fixedElements.css({ height: initialH + mainBody.scrollTop() });
+					fixedElements.css({ height: initialH + scrollInstance.scroll().position.y });
 					this.rotatedText.css({
-						width: initialH + mainBody.scrollTop(),
-						height: initialH + mainBody.scrollTop()
+						width: initialH + scrollInstance.scroll().position.y,
+						height: initialH + scrollInstance.scroll().position.y
 					});
 				}
-			});
-			this.list.on('click', '.listViewEntries', () => {
-				if (this.split.getSizes()[1] < 10) {
-					const defaultGutterPosition = this.getDefaultSplitSizes();
-					this.split.setSizes(defaultGutterPosition);
-					listPreview.show();
-					this.sideBlockRight.removeClass('d-block');
-					app.moduleCacheSet('userSplitSet', defaultGutterPosition);
-				}
-			});
+			};
+			scrollInstance.options({ callbacks: { onScroll } });
 		},
 		registerFixedThead() {
 			let list = this.list;
@@ -157,7 +161,8 @@ Vtiger_List_Js(
 			});
 			return maxWidth;
 		},
-		getDomParams: function(container) {
+		setDomParams: function(container) {
+			this.container = container;
 			this.listColumnFirstWidth = container
 				.find('.listViewEntriesDiv .listViewHeaders th')
 				.first()
@@ -169,6 +174,7 @@ Vtiger_List_Js(
 			this.sideBlockLeft = this.sideBlocks.first();
 			this.sideBlockRight = this.sideBlocks.last();
 			this.list = container.find('.js-list-preview');
+			this.preview = container.find('.js-detail-preview');
 			this.rotatedText = container.find('.u-rotate-90');
 			this.footerH = $('.js-footer').outerHeight();
 			this.headerH = $('.js-header').outerHeight();
@@ -395,7 +401,7 @@ Vtiger_List_Js(
 		registerPreviewEvent: function() {
 			const iframe = $('.listPreviewframe');
 			const container = this.getListViewContentContainer();
-			this.getDomParams(container);
+			this.setDomParams(container);
 			this.toggleSplit(container);
 			if ($(window).width() > 993) {
 				this.registerListEvents(container);

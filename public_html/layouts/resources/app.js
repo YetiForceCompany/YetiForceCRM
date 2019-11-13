@@ -345,6 +345,13 @@ var App = (window.App = {
 					autoHide: 'leave'
 				}
 			},
+			pageScrollbar: {},
+			init() {
+				console.log('pagescroll');
+				this.pageScrollbar = this.y($('.mainBody'));
+				console.log(this.pageScrollbar);
+				console.log(App.Components.Scrollbar.pageScrollbar);
+			},
 			y(element, options) {
 				const yOptions = {
 					overflowBehavior: {
@@ -352,7 +359,7 @@ var App = (window.App = {
 					}
 				};
 				const mergedOptions = Object.assign(this.defaults, options, yOptions);
-				element.overlayScrollbars(mergedOptions);
+				return element.overlayScrollbars(mergedOptions).overlayScrollbars();
 			}
 		}
 	}
@@ -2470,7 +2477,7 @@ $(document).ready(function() {
 	app.registerMenu();
 	app.registerTabdrop();
 	app.registesterScrollbar(document);
-	App.Components.Scrollbar.y($('.mainBody'));
+	App.Components.Scrollbar.init();
 	String.prototype.toCamelCase = function() {
 		let value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
