@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Base-RecentActivitiesTimeLine recentActivitiesContainer pt-1">
+	<div class="tpl-Base-RecentActivitiesTimeLine recentActivitiesContainer pt-sm-1 pt-0">
 		<input type="hidden" id="updatesCurrentPage" value="{$PAGING_MODEL->get('page')}"/>
 		<input type="hidden" id="updatesPageLimit" value="{$PAGING_MODEL->getPageLimit()}"/>
 		{if !empty($RECENT_ACTIVITIES)}
@@ -27,9 +27,9 @@
 								{$COUNT=$COUNT+1}
 								{if $RECENT_ACTIVITY->isCreate()}
 									<div class="d-flex">
-										<span class="c-circle-icon mt-2 bg-success"
+										<span class="c-circle-icon mt-2 bg-success d-sm-inline d-none text-center"
 												style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]} !important;">
-											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
+											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light mt-2"></span>
 										</span>
 										<div class="flex-grow-1 ml-1 p-1 timeline-item {if $NEW_CHANGE} bgWarning{/if} isCreate">
 											<div class="float-sm-left imageContainer d-sm-block d-none">
@@ -68,11 +68,11 @@
 									</div>
 								{else if $RECENT_ACTIVITY->isUpdate() || $RECENT_ACTIVITY->isTransferEdit()}
 									<div class="d-flex">
-										<span class="c-circle-icon mt-2"
+										<span class="c-circle-icon mt-2 d-sm-inline d-none text-center"
 												style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
-											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
+											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light mt-2"></span>
 										</span>
-										<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
+										<div class="flex-grow-1 ml-sm-1 ml-0 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
 											<div class="float-sm-left imageContainer d-sm-block d-none">
 												{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImage()}
 												{if $IMAGE}
@@ -130,9 +130,9 @@
 									</div>
 								{elseif ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink() || $RECENT_ACTIVITY->isTransferLink() || $RECENT_ACTIVITY->isTransferUnLink())}
 									<div class="d-flex">
-										<span class="c-circle-icon mt-2"
+										<span class="c-circle-icon mt-2 d-sm-inline d-none text-center"
 												style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
-											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
+											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light mt-2"></span>
 										</span>
 										<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isRelationLink isRelationUnLink">
 											<div class="float-sm-left imageContainer d-sm-block d-none">
@@ -169,9 +169,9 @@
 									</div>
 								{else if $RECENT_ACTIVITY->isChangeState() || $RECENT_ACTIVITY->isTransferDelete()}
 									<div class="d-flex">
-										<span class="c-circle-icon mt-2"
+										<span class="c-circle-icon mt-2 d-sm-inline d-none text-center"
 												style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
-											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
+											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light mt-2"></span>
 										</span>
 										<div class="flex-grow-1 ml-1 p-1 timeline-item isDisplayed">
 											<div class="imageContainer float-left d-sm-block d-none">
@@ -191,9 +191,9 @@
 									</div>
 								{else if $RECENT_ACTIVITY->isConvertToAccount()}
 									<div class="d-flex">
-										<span class="c-circle-icon mt-2"
+										<span class="c-circle-icon mt-2 d-sm-inline d-none text-center"
 												style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
-											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
+											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light mt-2"></span>
 										</span>
 										<div class="flex-grow-1 ml-1 p-1 timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
 											<div class="float-left imageContainer d-sm-block d-none">
@@ -213,9 +213,9 @@
 									</div>
 								{else if $RECENT_ACTIVITY->isDisplayed()}
 									<div class="d-flex">
-										<span class="c-circle-icon mt-2"
+										<span class="c-circle-icon mt-2 d-sm-inline d-none text-center"
 												style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">
-											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light"></span>
+											<span class="{ModTracker::$iconActions[$RECENT_ACTIVITY->get('status')]} fa-fw text-light mt-2"></span>
 										</span>
 										<div class="flex-grow-1 ml-1 p-1 timeline-item isDisplayed">
 											<div class="float-left imageContainer d-sm-block d-none">
