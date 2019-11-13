@@ -5,7 +5,7 @@
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() && !($FIELD_MODEL->isMandatory() eq true && $FIELD_VALUE neq ''))}
-	{assign var=IS_LAZY value=count($PICKLIST_VALUES) > 50}
+	{assign var=IS_LAZY value=count($PICKLIST_VALUES) > \App\Config::performance('picklistLimit')}
 	<div class="tpl-Edit-Field-Country">
 		<select name="{$FIELD_MODEL->getFieldName()}" class="select2 form-control" tabindex="{$FIELD_MODEL->getTabIndex()}"
 				{if $IS_LAZY} data-select-lazy="true"{/if}

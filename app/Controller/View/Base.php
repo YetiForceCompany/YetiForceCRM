@@ -555,6 +555,7 @@ abstract class Base extends \App\Controller\Base
 			'intervalForNotificationNumberCheck' => \App\Config::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
 			'recordPopoverDelay' => \App\Config::performance('RECORD_POPOVER_DELAY'),
 			'searchShowOwnerOnlyInList' => \App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST'),
+			'picklistLimit' => \App\Config::performance('picklistLimit'),
 			'fieldsReferencesDependent' => \App\Config::security('FIELDS_REFERENCES_DEPENDENT'),
 			'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
 			'debug' => (bool) \App\Config::debug('JS_DEBUG'),

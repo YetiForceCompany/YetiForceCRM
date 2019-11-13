@@ -1059,7 +1059,7 @@ window.App.Fields = {
 			params = this.registerParams(selectElement, params);
 			if (params.selectLazy && !selectElement.hasClass('js-lazy-select-active')) {
 				return App.Fields.Picklist.showLazySelect(selectElement, {
-					lazyElements: 5,
+					lazyElements: app.getMainParams('picklistLimit'),
 					data: this.registerLazySelectOptions(selectElement),
 					selectParams: params
 				});

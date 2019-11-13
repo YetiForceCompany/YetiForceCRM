@@ -27,12 +27,16 @@
 			{assign var="FIELD_NAME_EXTRA" value=$FIELD_MODEL->getFieldName()|cat:'_extra'}
 			{assign var="FIELD_MODEL_EXTRA" value=$FIELD_MODEL->getModule()->getFieldByName($FIELD_NAME_EXTRA)}
 			{assign var="ACTIVE_EXTRA_FIELD" value=($VIEW == 'Edit' || $VIEW == 'QuickCreateAjax') && $FIELD_MODEL_EXTRA && $FIELD_MODEL_EXTRA->isWritable()}
+			{assign var=PICKLIST_VALUES value=App\Fields\Country::getAll('phone')}
+			{assign var=IS_LAZY value=count($PICKLIST_VALUES) > \App\Config::performance('picklistLimit')}
 			<div class="form-row">
 				<div class="{if $ACTIVE_EXTRA_FIELD}col-md-8{else}col-md-12{/if}">
 					<div class="input-group phoneGroup mb-1">
 						<div class="input-group-prepend m-0 p-0">
-							<select name="{$FIELD_MODEL->getFieldName()}_country" tabindex="{$TABINDEX}" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="select2 phoneCountryList" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate" required="required" data-dropdown-auto-width="true">
-								{foreach key=KEY item=ROW from=App\Fields\Country::getAll('phone')}
+							<select name="{$FIELD_MODEL->getFieldName()}_country" tabindex="{$TABINDEX}"
+							{if $IS_LAZY} data-select-lazy="true"{/if}
+							 id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="select2 phoneCountryList" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate" required="required" data-dropdown-auto-width="true">
+								{foreach key=KEY item=ROW from=$PICKLIST_VALUES}
 									{assign var="TRANSLATE" value=\App\Language::translateSingleMod($ROW['name'],'Other.Country')}
 									<option value="{$KEY}" {if $COUNTRY === $KEY} selected {/if} title="{$TRANSLATE}" data-template="<span><span class='flag-icon flag-icon-{$KEY|lower} mr-2'></span>{$TRANSLATE}</span>">{$TRANSLATE}</option>
 								{/foreach}
