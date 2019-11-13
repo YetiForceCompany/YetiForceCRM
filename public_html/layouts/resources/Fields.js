@@ -1120,8 +1120,11 @@ window.App.Fields = {
 			}
 			return optionFounded ? createOption() : false;
 		},
-		selectOption(selectElement, option, type = 'value') {
+		setValue(selectElement, option, type = 'value') {
 			option = this.findOption(selectElement, option, type);
+			if (!option) {
+				return false;
+			}
 			if (selectElement.hasClass('js-lazy-select-active')) {
 				this.createSelectedOption(selectElement, option.text, option.value);
 			} else {
@@ -2307,6 +2310,11 @@ window.App.Fields = {
 				picker.drops = 'down';
 			}
 			picker.move();
+		},
+		setValue(fieldElement, value) {
+			if (fieldElement.is('select')) {
+				App.Fields.Picklist.setValue(fieldElement, value);
+			}
 		}
 	}
 };
