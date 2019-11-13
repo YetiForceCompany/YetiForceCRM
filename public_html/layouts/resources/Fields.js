@@ -1089,39 +1089,64 @@ window.App.Fields = {
 				}
 			});
 		},
+		/**
+		 * Create selected option
+		 *
+		 * @param   {object}  selectElement  jQuery
+		 * @param   {string}  text
+		 * @param   {string}  value
+		 */
 		createSelectedOption(selectElement, text, value) {
 			const newOption = new Option(text, value, true, true);
 			selectElement.append(newOption).trigger('change');
 		},
-		findOption(selectElement, option, type = 'value') {
-			let optionFounded = false;
+		/**
+		 * Find option.
+		 *
+		 * @param   {object}  selectElement  [selectElement description]
+		 * @param   {string}  searchValue
+		 * @param   {string}  type           value|text|all
+		 *
+		 * @return  {boolean|object}         false or option object
+		 */
+		findOption(selectElement, searchValue, type = 'value') {
+			let foundOption = false;
 			const selectValues = selectElement.data('fieldinfo').picklistvalues;
-			const getFieldValueFromText = () => Object.keys(selectValues).find(key => selectValues[key] === option);
-			const valueExists = () => selectValues.hasOwnProperty(option);
+			const getFieldValueFromText = () => Object.keys(selectValues).find(key => selectValues[key] === searchValue);
+			const valueExists = () => selectValues.hasOwnProperty(searchValue);
 			const createOption = () => {
-				return { text: selectValues[optionFounded], value: optionFounded };
+				return { text: selectValues[foundOption], value: foundOption };
 			};
 			switch (type) {
 				case 'value':
 					if (valueExists()) {
-						optionFounded = option;
+						foundOption = searchValue;
 					}
 					break;
 				case 'text':
-					optionFounded = getFieldValueFromText();
+					foundOption = getFieldValueFromText();
 					break;
 				case 'all':
 					if (valueExists()) {
-						optionFounded = option;
+						foundOption = searchValue;
 					} else {
-						optionFounded = getFieldValueFromText();
+						foundOption = getFieldValueFromText();
 					}
 					break;
 			}
-			return optionFounded ? createOption() : false;
+			return foundOption ? createOption() : false;
 		},
-		setValue(selectElement, option, type = 'value') {
-			option = this.findOption(selectElement, option, type);
+		/**
+		 * Set value.
+		 *
+		 * @param   {object}  selectElement  [selectElement description]
+		 * @param   {string}  searchValue
+		 * @param   {string}  type           value|text|all
+		 *
+		 * @return  {boolean|string}         false or set value
+		 */
+		setValue(selectElement, searchValue, type = 'value') {
+			const option = this.findOption(selectElement, searchValue, type);
 			if (!option) {
 				return false;
 			}
@@ -1130,6 +1155,7 @@ window.App.Fields = {
 			} else {
 				selectElement.val(option.value).trigger('change');
 			}
+			return option.value;
 		},
 		/**
 		 * Function which will show the select2 element for select boxes . This will use select2 library
@@ -2311,9 +2337,17 @@ window.App.Fields = {
 			}
 			picker.move();
 		},
+		/**
+		 * Set value
+		 *
+		 * @param   {object}  fieldElement  jQuery
+		 * @param   {string|boolean}  value
+		 */
 		setValue(fieldElement, value) {
 			if (fieldElement.is('select')) {
 				App.Fields.Picklist.setValue(fieldElement, value);
+			} else {
+				fieldElement.val(value);
 			}
 		}
 	}
