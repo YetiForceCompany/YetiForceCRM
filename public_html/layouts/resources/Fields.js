@@ -1056,7 +1056,8 @@ window.App.Fields = {
 					this.showSelect2ElementView($(element).eq(0), params);
 				});
 			}
-			if (selectElement.hasClass('js-lazy-select')) {
+			params = this.registerParams(selectElement, params);
+			if (params.selectLazy && !selectElement.hasClass('js-lazy-select-active')) {
 				let items = $.map(selectElement.data('fieldinfo').picklistvalues, function(val, key) {
 					return { id: key, text: val };
 				});
@@ -1066,7 +1067,6 @@ window.App.Fields = {
 					selectParams: params
 				});
 			}
-			params = this.registerParams(selectElement, params);
 			const computeDropdownHeight = (e, dropdownContainer) => {
 				setTimeout(() => {
 					if (!dropdownContainer.find('.select2-dropdown--above').length) {
@@ -1455,7 +1455,6 @@ window.App.Fields = {
 					ajax: {},
 					dataAdapter: CustomData
 				});
-				selectElement.removeClass('js-lazy-select');
 				selectElement.addClass('js-lazy-select-active');
 				this.showSelect2ElementView(selectElement, params.selectParams);
 				let selectedOption = selectElement.data('selected-value');
