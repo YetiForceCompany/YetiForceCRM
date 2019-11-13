@@ -1111,7 +1111,7 @@ window.App.Fields = {
 		 */
 		findOption(selectElement, searchValue, type = 'value') {
 			let foundOption = false;
-			const selectValues = selectElement.data('fieldinfo').picklistvalues;
+			const selectValues = this.getSelectOptions(selectElement);
 			const getFieldValueFromText = () => Object.keys(selectValues).find(key => selectValues[key] === searchValue);
 			const valueExists = () => selectValues.hasOwnProperty(searchValue);
 			const createOption = () => {
@@ -1135,6 +1135,24 @@ window.App.Fields = {
 					break;
 			}
 			return foundOption ? createOption() : false;
+		},
+		/**
+		 * Get select options
+		 *
+		 * @param   {object}  selectElement  jQuery
+		 *
+		 * @return  {object}                 [return description]
+		 */
+		getSelectOptions(selectElement) {
+			if (selectElement.data('fieldinfo') && selectElement.data('fieldinfo').picklistvalues) {
+				return selectElement.data('fieldinfo').picklistvalues;
+			} else {
+				let optionsObject = {};
+				selectElement.find('option').each((i, element) => {
+					optionsObject[element.value] = element.text;
+				});
+				return optionsObject;
+			}
 		},
 		/**
 		 * Set value.
