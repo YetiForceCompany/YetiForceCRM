@@ -1077,6 +1077,7 @@ window.App.Fields = {
 					dataAdapter: CustomData
 				});
 				selectElement.removeClass('js-lazy-select');
+				selectElement.addClass('js-lazy-select-active');
 				this.showSelect2ElementView(selectElement, params.selectParams);
 				let selectedOption = selectElement.data('selected-value');
 				if (selectedOption) {
@@ -1084,10 +1085,48 @@ window.App.Fields = {
 					if (selectElement.data('fieldinfo').picklistvalues.hasOwnProperty(selectedOption)) {
 						text = selectElement.data('fieldinfo').picklistvalues[selectedOption];
 					}
-					const newOption = new Option(text, selectedOption, true, true);
-					selectElement.append(newOption).trigger('change');
+					this.createSelectedOption(selectElement, text, selectedOption);
 				}
 			});
+		},
+		createSelectedOption(selectElement, text, value) {
+			const newOption = new Option(text, value, true, true);
+			selectElement.append(newOption).trigger('change');
+		},
+		findOption(selectElement, option, type = 'value') {
+			let optionFounded = false;
+			const selectValues = selectElement.data('fieldinfo').picklistvalues;
+			const getFieldValueFromText = () => Object.keys(selectValues).find(key => selectValues[key] === option);
+			const valueExists = () => selectValues.hasOwnProperty(option);
+			const createOption = () => {
+				return { text: selectValues[optionFounded], value: optionFounded };
+			};
+			switch (type) {
+				case 'value':
+					if (valueExists()) {
+						optionFounded = option;
+					}
+					break;
+				case 'text':
+					optionFounded = getFieldValueFromText();
+					break;
+				case 'all':
+					if (valueExists()) {
+						optionFounded = option;
+					} else {
+						optionFounded = getFieldValueFromText();
+					}
+					break;
+			}
+			return optionFounded ? createOption() : false;
+		},
+		selectOption(selectElement, option, type = 'value') {
+			option = this.findOption(selectElement, option, type);
+			if (selectElement.hasClass('js-lazy-select-active')) {
+				this.createSelectedOption(selectElement, option.text, option.value);
+			} else {
+				selectElement.val(option.value).trigger('change');
+			}
 		},
 		/**
 		 * Function which will show the select2 element for select boxes . This will use select2 library
