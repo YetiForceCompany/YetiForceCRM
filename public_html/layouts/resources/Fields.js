@@ -1058,12 +1058,9 @@ window.App.Fields = {
 			}
 			params = this.registerParams(selectElement, params);
 			if (params.selectLazy && !selectElement.hasClass('js-lazy-select-active')) {
-				let items = $.map(selectElement.data('fieldinfo').picklistvalues, function(val, key) {
-					return { id: key, text: val };
-				});
 				return App.Fields.Picklist.showLazySelect(selectElement, {
-					lazyElements: 50,
-					data: items,
+					lazyElements: 5,
+					data: this.registerLazySelectOptions(selectElement),
 					selectParams: params
 				});
 			}
@@ -1305,7 +1302,7 @@ window.App.Fields = {
 			return params;
 		},
 		/**
-		 * Prepend template with a flag, function is calling by select2
+		 * Prepend template with a flag, function is called select2
 		 * @param optionData
 		 * @returns {Mixed|jQuery|HTMLElement}
 		 */
@@ -1465,6 +1462,24 @@ window.App.Fields = {
 					}
 					this.createSelectedOption(selectElement, text, selectedOption);
 				}
+			});
+		},
+		/**
+		 * Register lazy select options
+		 *
+		 * @param   {object}  selectElement  [selectElement description]
+		 *
+		 * @return  {object}                 [return description]
+		 */
+		registerLazySelectOptions(selectElement) {
+			return $.map(selectElement.find('option'), item => {
+				return {
+					id: item.value,
+					element: item,
+					text: item.text,
+					selected: item.selected,
+					disabled: item.disabled
+				};
 			});
 		},
 		/**
