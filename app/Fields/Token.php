@@ -15,25 +15,33 @@ namespace App\Fields;
 class Token
 {
 	/**
-	 * Gets token by record ID.
+	 * Sets token data.
 	 *
-	 * @param int         $recordId
-	 * @param string|null $moduleName
-	 *
-	 * @return string|null
+	 * @param string $fieldName
+	 * @param string $moduleName
 	 */
-	public static function getToken(int $recordId, ?string $moduleName = null): ?string
+	public static function setTokens(string $fieldName, string $moduleName)
 	{
-		$token = '';
-		if (\App\Record::isExists($recordId, $moduleName)) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$fieldToken = current($recordModel->getModule()->getFieldsByType('token', true));
-			if ($fieldToken && !($token = $recordModel->get($fieldToken->getName()))) {
-				$recordModel->set($fieldToken->getName(), $fieldToken->getUITypeModel()->generateToken())->save();
-				$token = $recordModel->get($fieldToken->getName());
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		$fieldModel = $moduleModel->getFieldByName($fieldName);
+		if ($fieldModel && $fieldModel->isActiveField()) {
+			$limit = 5000;
+			$dataReader = (new \App\QueryGenerator($moduleName))
+				->addCondition($fieldModel->getName(), '', 'y')
+				->setFields(['id'])
+				->createQuery()
+				->createCommand()
+				->query();
+			while ($recordId = $dataReader->readColumn(0)) {
+				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+				$recordModel->set($fieldModel->getName(), $fieldModel->getUITypeModel()->generateToken())->save();
+				if (!$limit) {
+					break;
+				}
+				--$limit;
 			}
+			(new \App\BatchMethod(['method' => __METHOD__, 'params' => [$fieldName, $moduleName]]))->save();
 		}
-		return $token;
 	}
 
 	/**

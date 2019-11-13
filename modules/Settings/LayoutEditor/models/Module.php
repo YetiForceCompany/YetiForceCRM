@@ -207,6 +207,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			\App\Db::getInstance()->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
 		} elseif ('ServerAccess' === $fieldType) {
 			$fieldParams = (int) $params['server'];
+		} elseif ('Token' === $fieldType) {
+			(new \App\BatchMethod(['method' => '\App\Fields\Token::setTokens', 'params' => [$name, $moduleName]]))->save();
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
 		$uitype = $details['uitype'];
