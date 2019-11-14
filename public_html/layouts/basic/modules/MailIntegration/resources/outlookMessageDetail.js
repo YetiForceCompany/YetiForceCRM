@@ -16,7 +16,7 @@ const MailIntegration_Start = {
 			$.extend(
 				{
 					module: 'MailIntegration',
-					view: 'RelationPreview',
+					view: 'Iframe',
 					mailFrom: mailItem.from.emailAddress,
 					mailSender: mailItem.sender.emailAddress,
 					mailSubject: mailItem.subject,

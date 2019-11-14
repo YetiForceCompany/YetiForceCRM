@@ -12,7 +12,7 @@
 /**
  * Detail view class.
  */
-class MailIntegration_RelationPreview_View extends \App\Controller\Modal
+class MailIntegration_Iframe_View extends \App\Controller\Modal
 {
 	/**
 	 * {@inheritdoc}
@@ -53,7 +53,7 @@ class MailIntegration_RelationPreview_View extends \App\Controller\Modal
 			$viewer->assign('URL', App\Config::main('site_URL'));
 			$viewer->assign('MODAL_SCRIPTS', $this->getModalScripts($request));
 		}
-		$viewer->view('RelationPreview/Container.tpl', $moduleName);
+		$viewer->view('Iframe/Container.tpl', $moduleName);
 	}
 
 	/**

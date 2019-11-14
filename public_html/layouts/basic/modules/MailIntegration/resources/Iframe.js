@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-const MailIntegration_RelationPreview = {
+const MailIntegration_Iframe = {
 	mailId: 0,
 	container: {},
 	iframe: {},
@@ -420,7 +420,7 @@ const MailIntegration_RelationPreview = {
 		this.iframe = $('#js-iframe');
 		this.iframeWindow = this.iframe[0].contentWindow;
 		this.addRecordBtn = this.container.find('.js-add-record');
-		this.mailId = this.container.find('.js-panel').data('mailId');
+		this.mailId = this.container.find('.js-iframe-container').data('mailId');
 		this.mailItem = Office.context.mailbox.item;
 		if (this.iframe.length) {
 			this.registerListItemEvents();
@@ -437,5 +437,5 @@ const MailIntegration_RelationPreview = {
 };
 
 (function($) {
-	MailIntegration_RelationPreview.registerEvents();
+	MailIntegration_Iframe.registerEvents();
 })($);

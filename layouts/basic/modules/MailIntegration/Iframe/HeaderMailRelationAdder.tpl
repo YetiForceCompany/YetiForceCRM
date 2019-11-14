@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-MailIntegration-RelationPreview-PanelMailRelationAdder -->
+<!-- tpl-MailIntegration-Iframe-HeaderMailRelationAdder -->
 <div class="input-group input-group-sm my-1">
 	<select class="select2 form-control js-modules" data-js="change">
 		{foreach item=MODULE from=$MODULES name=MODULES_SELECT}
@@ -19,5 +19,5 @@
 		</button>
 	</div>
 </div>
-<!-- /tpl-MailIntegration-RelationPreview-PanelMailRelationAdder -->
+<!-- /tpl-MailIntegration-Iframe-HeaderMailRelationAdder -->
 {/strip}
