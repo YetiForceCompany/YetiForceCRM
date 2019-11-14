@@ -89,10 +89,6 @@ var App = (window.App = {
 			 * @param   {object}  params
 			 */
 			createRecord(moduleName, params = {}) {
-				if (params.newTab) {
-					this.openFormInNewTab(moduleName, params);
-					return;
-				}
 				if ('parentIframe' === CONFIG.modalParams.target) {
 					window.parent.App.Components.QuickCreate.createRecord(moduleName, params);
 					return;
@@ -116,21 +112,6 @@ var App = (window.App = {
 						mode: 'hide'
 					});
 				});
-			},
-			/**
-			 * Open form in new tab
-			 *
-			 * @param   {string}  moduleName
-			 * @param   {object}  params
-			 */
-			openFormInNewTab(moduleName, params = {}) {
-				const baseUrl = CONFIG.siteUrl + '/index.php?';
-				let data = {
-					module: moduleName,
-					view: 'Edit',
-					...params.data
-				};
-				window.open(app.convertObjectToUrl(data, baseUrl), '_blank');
 			},
 			/**
 			 * Get quick create form
