@@ -709,6 +709,11 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
+		'picklistLimit' => [
+			'default' => 50,
+			'description' => 'Number of items displayed in picklists.',
+			'validation' => '\App\Validator::naturalNumber',
+		],
 		'recursiveTranslate' => [
 			'default' => false,
 			'description' => 'If there is no translation in the chosen language, then get from the default language.'
@@ -957,7 +962,7 @@ return [
 			'default' => 3600,
 			'description' => 'Cache lifetime for SensioLabs security checker.',
 			'validation' => '\App\Validator::naturalNumber',
-		],
+		]
 	],
 	'sounds' => [
 		'IS_ENABLED' => [

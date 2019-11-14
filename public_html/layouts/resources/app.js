@@ -2475,6 +2475,9 @@ $(document).ready(function() {
 	$.fn.getNumberFromText = function() {
 		return App.Fields.Double.formatToDb($(this).text());
 	};
+	$.fn.setValue = function(value, type = 'value') {
+		return App.Fields.Utils.setValue($(this), value, type);
+	};
 	$.fn.formatNumber = function() {
 		let element = $(this);
 		element.val(App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val()), false));

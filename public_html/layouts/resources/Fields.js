@@ -1043,53 +1043,6 @@ window.App.Fields = {
 			}
 		},
 		/**
-		 * Show lazy select based on data passed in js.
-		 *
-		 * @param   {object}  selectElement  jQuery
-		 * @param   {object}  params         contains selectParams object, lazyElements number, data array
-		 */
-		showLazySelect(selectElement, params) {
-			$.fn.select2.amd.require(['select2/data/array', 'select2/utils'], (ArrayData, Utils) => {
-				function CustomData($element, params) {
-					CustomData.__super__.constructor.call(this, $element, params);
-				}
-				Utils.Extend(CustomData, ArrayData);
-				CustomData.prototype.query = (options, callback) => {
-					let results = [];
-					if (options.term && options.term !== '') {
-						results = params.data.filter(e => {
-							return e.text.toUpperCase().indexOf(options.term.toUpperCase()) >= 0;
-						});
-					} else {
-						results = params.data;
-					}
-					if (!('page' in options)) {
-						options.page = 1;
-					}
-					let data = {};
-					data.results = results.slice((options.page - 1) * params.lazyElements, options.page * params.lazyElements);
-					data.pagination = {};
-					data.pagination.more = options.page * params.lazyElements < results.length;
-					callback(data);
-				};
-				params.selectParams = Object.assign(params.selectParams, {
-					ajax: {},
-					dataAdapter: CustomData
-				});
-				selectElement.removeClass('js-lazy-select');
-				this.showSelect2ElementView(selectElement, params.selectParams);
-				let selectedOption = selectElement.data('selected-value');
-				if (selectedOption) {
-					let text = selectedOption;
-					if (selectElement.data('fieldinfo').picklistvalues.hasOwnProperty(selectedOption)) {
-						text = selectElement.data('fieldinfo').picklistvalues[selectedOption];
-					}
-					const newOption = new Option(text, selectedOption, true, true);
-					selectElement.append(newOption).trigger('change');
-				}
-			});
-		},
-		/**
 		 * Function which will show the select2 element for select boxes . This will use select2 library
 		 */
 		showSelect2ElementView(selectElement, params) {
@@ -1103,17 +1056,14 @@ window.App.Fields = {
 					this.showSelect2ElementView($(element).eq(0), params);
 				});
 			}
-			if (selectElement.hasClass('js-lazy-select')) {
-				let items = $.map(selectElement.data('fieldinfo').picklistvalues, function(val, key) {
-					return { id: key, text: val };
-				});
+			params = this.registerParams(selectElement, params);
+			if (params.selectLazy && !selectElement.hasClass('js-lazy-select-active')) {
 				return App.Fields.Picklist.showLazySelect(selectElement, {
-					lazyElements: 50,
-					data: items,
+					lazyElements: app.getMainParams('picklistLimit'),
+					data: this.registerLazySelectOptions(selectElement),
 					selectParams: params
 				});
 			}
-			params = this.registerParams(selectElement, params);
 			const computeDropdownHeight = (e, dropdownContainer) => {
 				setTimeout(() => {
 					if (!dropdownContainer.find('.select2-dropdown--above').length) {
@@ -1352,7 +1302,7 @@ window.App.Fields = {
 			return params;
 		},
 		/**
-		 * Prepend template with a flag, function is calling by select2
+		 * Prepend template with a flag, function is called select2
 		 * @param optionData
 		 * @returns {Mixed|jQuery|HTMLElement}
 		 */
@@ -1467,6 +1417,164 @@ window.App.Fields = {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					});
 			});
+		},
+		/**
+		 * Show lazy select based on data passed in js.
+		 *
+		 * @param   {object}  selectElement  jQuery
+		 * @param   {object}  params         contains selectParams object, lazyElements number, data array
+		 */
+		showLazySelect(selectElement, params) {
+			$.fn.select2.amd.require(['select2/data/array', 'select2/utils'], (ArrayData, Utils) => {
+				function CustomData($element, params) {
+					CustomData.__super__.constructor.call(this, $element, params);
+				}
+				Utils.Extend(CustomData, ArrayData);
+				CustomData.prototype.query = (options, callback) => {
+					let results = [];
+					if (options.term && options.term !== '') {
+						results = params.data.filter(e => {
+							return e.text.toUpperCase().indexOf(options.term.toUpperCase()) >= 0;
+						});
+					} else {
+						results = params.data;
+					}
+					if (!('page' in options)) {
+						options.page = 1;
+					}
+					let data = {};
+					data.results = results.slice((options.page - 1) * params.lazyElements, options.page * params.lazyElements);
+					data.pagination = {};
+					data.pagination.more = options.page * params.lazyElements < results.length;
+					callback(data);
+				};
+				params.selectParams = Object.assign(params.selectParams, {
+					ajax: {},
+					dataAdapter: CustomData
+				});
+				selectElement.addClass('js-lazy-select-active');
+				this.showSelect2ElementView(selectElement, params.selectParams);
+				let selectedOption = selectElement.data('selected-value');
+				if (selectedOption) {
+					let text = selectedOption;
+					if (selectElement.data('fieldinfo').picklistvalues.hasOwnProperty(selectedOption)) {
+						text = selectElement.data('fieldinfo').picklistvalues[selectedOption];
+					}
+					this.createSelectedOption(selectElement, text, selectedOption);
+				}
+			});
+		},
+		/**
+		 * Register lazy select options
+		 *
+		 * @param   {object}  selectElement  [selectElement description]
+		 *
+		 * @return  {object}                 [return description]
+		 */
+		registerLazySelectOptions(selectElement) {
+			let options = [];
+			if (selectElement.data('fieldinfo') && selectElement.data('fieldinfo').picklistvalues) {
+				options = $.map(selectElement.data('fieldinfo').picklistvalues, function(val, key) {
+					return { id: key, text: val };
+				});
+			} else {
+				options = $.map(selectElement.find('option'), item => {
+					return {
+						id: item.value,
+						element: item,
+						text: item.text,
+						selected: item.selected,
+						disabled: item.disabled
+					};
+				});
+			}
+			return options;
+		},
+		/**
+		 * Set value.
+		 *
+		 * @param   {object}  selectElement  [selectElement description]
+		 * @param   {string}  searchValue
+		 * @param   {string}  type           value|text|all
+		 *
+		 * @return  {boolean|string}         false or set value
+		 */
+		setValue(selectElement, searchValue, type = 'value') {
+			const option = this.findOption(selectElement, searchValue, type);
+			if (!option) {
+				return false;
+			}
+			if (selectElement.hasClass('js-lazy-select-active')) {
+				this.createSelectedOption(selectElement, option.text, option.value);
+			} else {
+				selectElement.val(option.value).trigger('change');
+			}
+			return option.value;
+		},
+		/**
+		 * Find option.
+		 *
+		 * @param   {object}  selectElement  [selectElement description]
+		 * @param   {string}  searchValue
+		 * @param   {string}  type           value|text|all
+		 *
+		 * @return  {boolean|object}         false or option object
+		 */
+		findOption(selectElement, searchValue, type = 'value') {
+			let foundOption = false;
+			const selectValues = this.getSelectOptions(selectElement);
+			const getFieldValueFromText = () => Object.keys(selectValues).find(key => selectValues[key] === searchValue);
+			const valueExists = () => selectValues.hasOwnProperty(searchValue);
+			const createOption = () => {
+				return { text: selectValues[foundOption], value: foundOption };
+			};
+			switch (type) {
+				case 'value':
+					if (valueExists()) {
+						foundOption = searchValue;
+					}
+					break;
+				case 'text':
+					foundOption = getFieldValueFromText();
+					break;
+				case 'all':
+					if (valueExists()) {
+						foundOption = searchValue;
+					} else {
+						foundOption = getFieldValueFromText();
+					}
+					break;
+			}
+			return foundOption ? createOption() : false;
+		},
+		/**
+		 * Get select options
+		 *
+		 * @param   {object}  selectElement  jQuery
+		 *
+		 * @return  {object}                 [return description]
+		 */
+		getSelectOptions(selectElement) {
+			if (selectElement.data('fieldinfo') && selectElement.data('fieldinfo').picklistvalues) {
+				return selectElement.data('fieldinfo').picklistvalues;
+			} else {
+				let optionsObject = {};
+				selectElement.find('option').each((i, element) => {
+					optionsObject[element.value] = element.text;
+				});
+				return optionsObject;
+			}
+		},
+		/**
+		 * Create selected option
+		 *
+		 * @param   {object}  selectElement  jQuery
+		 * @param   {string}  text
+		 * @param   {string}  value
+		 */
+		createSelectedOption(selectElement, text, value) {
+			const newOption = new Option(text, value, true, true);
+			selectElement.append(newOption).trigger('change');
 		}
 	},
 	MultiImage: {
@@ -2268,6 +2376,19 @@ window.App.Fields = {
 				picker.drops = 'down';
 			}
 			picker.move();
+		},
+		/**
+		 * Set value
+		 *
+		 * @param   {object}  fieldElement  jQuery
+		 * @param   {string|boolean}  value
+		 */
+		setValue(fieldElement, value) {
+			if (fieldElement.is('select')) {
+				App.Fields.Picklist.setValue(fieldElement, value);
+			} else {
+				fieldElement.val(value);
+			}
 		}
 	}
 };

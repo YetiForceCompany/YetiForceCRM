@@ -16,11 +16,12 @@
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() && !($FIELD_MODEL->isMandatory() eq true && $FIELD_VALUE neq ''))}
-	{assign var=IS_LAZY value=count($PICKLIST_VALUES) > 50}
+	{assign var=IS_LAZY value=count($PICKLIST_VALUES) > \App\Config::performance('picklistLimit')}
 	<div class="w-100">
-		<select name="{$FIELD_MODEL->getFieldName()}" class="select2 form-control {if $IS_LAZY}js-lazy-select{/if}" data-fieldinfo='{$FIELD_INFO|escape}' tabindex="{$FIELD_MODEL->getTabIndex()}"
+		<select name="{$FIELD_MODEL->getFieldName()}" class="select2 form-control" data-fieldinfo='{$FIELD_INFO|escape}' tabindex="{$FIELD_MODEL->getTabIndex()}"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+				{if $IS_LAZY} data-select-lazy="true"{/if}
 				{if !empty($PLACE_HOLDER)}
 					data-select="allowClear"
 					data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}"
@@ -32,13 +33,13 @@
 					<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 				</optgroup>
 			{/if}
-			{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-				{if !$IS_LAZY}
+			{if !$IS_LAZY}
+				{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 					<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" title="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}" {if trim($FIELD_VALUE) eq trim($PICKLIST_NAME)}selected{/if}>
 						{\App\Purifier::encodeHtml($PICKLIST_VALUE)}
 					</option>
-				{/if}
-			{/foreach}
+				{/foreach}
+			{/if}
 		</select>
 	</div>
 	<!-- /tpl-Base-Edit-Field-Picklist -->
