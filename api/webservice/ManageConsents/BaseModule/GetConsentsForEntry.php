@@ -136,7 +136,7 @@ class GetConsentsForEntry extends \Api\ManageConsents\BaseAction
 				break;
 			}
 		}
-		$recordData = (int) $queryGenerator->setFields(['id', $referenceFieldModel->getName()])
+		$recordData = $queryGenerator->setFields(['id', $referenceFieldModel->getName()])
 			->addCondition($fieldToken->getName(), $this->controller->request->getByType('token', \App\Purifier::ALNUM), 'e')
 			->createQuery()
 			->one();

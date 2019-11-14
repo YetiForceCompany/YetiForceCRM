@@ -35,7 +35,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if ('findAddress' !== $request->getMode()) {
+		if ('findAddress' !== $request->getMode() && 'getReference' !== $request->getMode()) {
 			$this->fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
 			if (!$this->fieldModel || !$this->fieldModel->isEditable()) {
 				throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD', 406);
@@ -144,8 +144,12 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 */
 	public function getReference(App\Request $request)
 	{
+		$fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
+		if (!$fieldModel || !$fieldModel->isActiveField() || !$fieldModel->isViewEnabled()) {
+			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD', 406);
+		}
 		$response = new Vtiger_Response();
-		$rows = (new \App\RecordSearch($request->getByType('value', 'Text'), $this->fieldModel->getReferenceList()))->search();
+		$rows = (new \App\RecordSearch($request->getByType('value', 'Text'), $fieldModel->getReferenceList()))->search();
 		$data = $modules = $ids = [];
 		foreach ($rows as $row) {
 			$ids[] = $row['crmid'];
