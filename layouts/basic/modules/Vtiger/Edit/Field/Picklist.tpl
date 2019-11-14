@@ -33,11 +33,13 @@
 					<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 				</optgroup>
 			{/if}
-			{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-				<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" title="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}" {if trim($FIELD_VALUE) eq trim($PICKLIST_NAME)}selected{/if}>
-					{\App\Purifier::encodeHtml($PICKLIST_VALUE)}
-				</option>
-			{/foreach}
+			{if !$IS_LAZY}
+				{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
+					<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" title="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}" {if trim($FIELD_VALUE) eq trim($PICKLIST_NAME)}selected{/if}>
+						{\App\Purifier::encodeHtml($PICKLIST_VALUE)}
+					</option>
+				{/foreach}
+			{/if}
 		</select>
 	</div>
 	<!-- /tpl-Base-Edit-Field-Picklist -->

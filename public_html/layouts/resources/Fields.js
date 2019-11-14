@@ -1472,15 +1472,23 @@ window.App.Fields = {
 		 * @return  {object}                 [return description]
 		 */
 		registerLazySelectOptions(selectElement) {
-			return $.map(selectElement.find('option'), item => {
-				return {
-					id: item.value,
-					element: item,
-					text: item.text,
-					selected: item.selected,
-					disabled: item.disabled
-				};
-			});
+			let options = [];
+			if (selectElement.data('fieldinfo') && selectElement.data('fieldinfo').picklistvalues) {
+				options = $.map(selectElement.data('fieldinfo').picklistvalues, function(val, key) {
+					return { id: key, text: val };
+				});
+			} else {
+				options = $.map(selectElement.find('option'), item => {
+					return {
+						id: item.value,
+						element: item,
+						text: item.text,
+						selected: item.selected,
+						disabled: item.disabled
+					};
+				});
+			}
+			return options;
 		},
 		/**
 		 * Set value.
