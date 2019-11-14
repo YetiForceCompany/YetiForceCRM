@@ -5,7 +5,6 @@ Office.onReady(info => {
 		source: 'Outlook',
 		device: Office.context.mailbox.diagnostics.hostName
 	};
-	console.log(Office.context.mailbox);
 	if (info.host === Office.HostType.Outlook) {
 		MailIntegration_Start.registerEvents(Office.context.mailbox);
 	}
@@ -13,12 +12,11 @@ Office.onReady(info => {
 
 const MailIntegration_Start = {
 	showDetailView(mailItem) {
-		console.log(mailItem);
 		AppConnector.request(
 			$.extend(
 				{
 					module: 'MailIntegration',
-					view: 'Detail',
+					view: 'Iframe',
 					mailFrom: mailItem.from.emailAddress,
 					mailSender: mailItem.sender.emailAddress,
 					mailSubject: mailItem.subject,
@@ -29,11 +27,14 @@ const MailIntegration_Start = {
 				window.PanelParams
 			)
 		)
-			.done(function(responseData) {
+			.done(responseData => {
 				$('#page').html(responseData);
 			})
-			.fail(function(error) {
-				console.error(error);
+			.fail(_ => {
+				Office.context.mailbox.item.notificationMessages.replaceAsync('error', {
+					type: 'errorMessage',
+					message: app.vtranslate('JS_ERROR')
+				});
 			});
 	},
 	registerEvents(mailbox) {

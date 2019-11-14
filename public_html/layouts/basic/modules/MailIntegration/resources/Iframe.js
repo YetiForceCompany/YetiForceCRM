@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-const MailIntegration_Detail = {
+const MailIntegration_Iframe = {
 	mailId: 0,
 	container: {},
 	iframe: {},
@@ -33,48 +33,39 @@ const MailIntegration_Detail = {
 	 */
 	showResponseMessage(success, message = '') {
 		if (success) {
-			Office.context.mailbox.item.notificationMessages.replaceAsync('information', {
+			this.mailItem.notificationMessages.replaceAsync('information', {
 				type: 'informationalMessage',
 				message: message,
 				icon: 'iconid',
 				persistent: false
 			});
 		} else {
-			Office.context.mailbox.item.notificationMessages.replaceAsync('error', {
+			this.mailItem.notificationMessages.replaceAsync('error', {
 				type: 'errorMessage',
 				message: app.vtranslate('JS_ERROR') + ' ' + message
 			});
 		}
 	},
 	/**
-	 * Register row events
+	 * Register list item events
 	 */
-	registerRowEvents() {
-		this.container.on('click', '.js-row-click', this.onClickRow.bind(this));
+	registerListItemEvents() {
+		this.container.on('click', '.js-list-item-click', this.onClickListItem.bind(this));
 		$(document).on('click', '.popover a', this.onClickLink.bind(this));
 		this.container.on('click', '.js-add-related-record', this.onClickQuickCreateBtn.bind(this));
 		this.container.on('click', '.js-remove-record', this.onClickDeleteRelation.bind(this));
 	},
 	/**
-	 * On row click actions
+	 * On ListItem click actions
 	 *
 	 * @param   {[type]}  event  [event description]
 	 *
 	 * @return  {[type]}         [return description]
 	 */
-	onClickRow(event) {
+	onClickListItem(event) {
 		let currentTarget = $(event.currentTarget);
 		this.toggleActiveListItems(currentTarget);
 		this.onClickLink(event, currentTarget.find('.js-record-link').attr('href'));
-	},
-	/**
-	 * Toggle active list items
-	 *
-	 * @param   {object}  targetRow  jQuery
-	 */
-	toggleActiveListItems(targetRow) {
-		targetRow.siblings().removeClass('active');
-		targetRow.addClass('active');
 	},
 	/**
 	 * On link click
@@ -90,15 +81,6 @@ const MailIntegration_Detail = {
 		this.changeIframeSource(url);
 	},
 	/**
-	 * Change iframe source
-	 *
-	 * @param   {string}  url
-	 */
-	changeIframeSource(url) {
-		this.iframe.attr('src', url);
-		this.showIframeLoader();
-	},
-	/**
 	 * On delete relation click
 	 *
 	 * @param   {object}  event  click event
@@ -106,7 +88,7 @@ const MailIntegration_Detail = {
 	onClickDeleteRelation(event) {
 		event.stopPropagation();
 		const currentTarget = $(event.currentTarget);
-		const recordData = currentTarget.closest('.js-row-click').data();
+		const recordData = currentTarget.closest('.js-list-item-click').data();
 		this.connector({
 			module: 'MailIntegration',
 			action: 'Mail',
@@ -127,13 +109,88 @@ const MailIntegration_Detail = {
 	onClickQuickCreateBtn(event) {
 		event.stopPropagation();
 		const currentTarget = $(event.currentTarget);
-		const recordData = currentTarget.closest('.js-row-click').data();
+		const recordData = currentTarget.closest('.js-list-item-click').data();
+		const callbackFunction = () => {
+			this.iframeWindow.location.reload();
+		};
+		let newRecordData = {
+			sourceModule: recordData.module,
+			sourceRecord: recordData.id
+		};
 		this.showQuickCreateForm(event.currentTarget.dataset.module, {
-			data: {
-				sourceModule: recordData.module,
-				sourceRecord: recordData.id
-			}
+			data: newRecordData,
+			callbackFunction
 		});
+	},
+	/**
+	 * Fill new record data in quick create form
+	 *
+	 * @param   {string}  moduleName  [moduleName description]
+	 *
+	 * @return  {object}              call asyncGetMailBody which returns Promise
+	 */
+	fillNewRecordData(moduleName) {
+		const data = {
+			email: this.mailItem.from.emailAddress,
+			email1: this.mailItem.from.emailAddress,
+			relationOperation: true,
+			relatedRecords: $.map(this.container.find('.js-list-item-click'), record => {
+				return { module: record.dataset.module, id: record.dataset.id };
+			})
+		};
+		const fillNameFields = () => {
+			const nameData = this.mailItem.from.displayName.split(' ');
+			const firstName = nameData.shift();
+			const lastName = nameData.join(' ');
+			data.firstname = firstName;
+			data.lastname = lastName;
+		};
+		switch (moduleName) {
+			case 'Leads':
+				data.company = this.mailItem.from.displayName;
+				fillNameFields();
+				break;
+			case 'Contacts':
+				fillNameFields();
+				break;
+			case 'Project':
+				data.projectname = this.mailItem.subject;
+				break;
+			case 'HelpDesk':
+				data.ticket_title = this.mailItem.subject;
+				break;
+			case 'Products':
+				data.productname = this.mailItem.subject;
+				break;
+			case 'Services':
+				data.servicename = this.mailItem.subject;
+				break;
+			default:
+				break;
+		}
+		const mailBodyCallback = body => {
+			data.description = body;
+			return data;
+		};
+		return this.asyncGetMailBody(mailBodyCallback);
+	},
+	/**
+	 * Toggle active list items
+	 *
+	 * @param   {object}  targetListItem  jQuery
+	 */
+	toggleActiveListItems(targetListItem) {
+		targetListItem.siblings().removeClass('active');
+		targetListItem.addClass('active');
+	},
+	/**
+	 * Change iframe source
+	 *
+	 * @param   {string}  url
+	 */
+	changeIframeSource(url) {
+		this.iframe.attr('src', url);
+		this.showIframeLoader();
 	},
 	/**
 	 * Add relation
@@ -162,11 +219,16 @@ const MailIntegration_Detail = {
 	 */
 	showQuickCreateForm(moduleName, quickCreateParams = {}) {
 		quickCreateParams = Object.assign({ noCache: true, data: {} }, quickCreateParams);
-		quickCreateParams.data.relationOperation = true;
-		App.Components.QuickCreate.createRecord(moduleName, quickCreateParams);
+		this.fillNewRecordData(moduleName).then(data => {
+			quickCreateParams.data = Object.assign(data, quickCreateParams.data);
+			App.Components.QuickCreate.createRecord(moduleName, quickCreateParams);
+		});
 	},
+	/**
+	 * Register iframe events
+	 */
 	registerIframeEvents() {
-		const link = this.container.find('.js-row-click').first();
+		const link = this.container.find('.js-list-item-click').first();
 		this.initIframeLoader();
 		if (link.length) {
 			link.addClass('active');
@@ -208,7 +270,7 @@ const MailIntegration_Detail = {
 	 * @return  {object}  Promise
 	 */
 	getMailDetails() {
-		let mailItem = Office.context.mailbox.item;
+		let mailItem = this.mailItem;
 		if (mailItem.attachments.length > 0) {
 			let outputString = '';
 			for (let i = 0; i < mailItem.attachments.length; i++) {
@@ -222,20 +284,34 @@ const MailIntegration_Detail = {
 				outputString += '<BR>isInline: ' + attachment.isInline;
 			}
 		}
+		const mailDetails = {
+			mailFrom: this.parseEmailAddressDetails(mailItem.from),
+			mailSender: mailItem.sender.emailAddress,
+			mailTo: this.parseEmailAddressDetails(mailItem.to),
+			mailCc: this.parseEmailAddressDetails(mailItem.cc),
+			mailMessageId: mailItem.internetMessageId,
+			mailSubject: mailItem.subject,
+			mailNormalizedSubject: mailItem.normalizedSubject,
+			mailDateTimeCreated: mailItem.dateTimeCreated.toISOString()
+		};
+		const mailBodyCallback = body => {
+			mailDetails.mailBody = body;
+			return mailDetails;
+		};
+		return this.asyncGetMailBody(mailBodyCallback);
+	},
+	/**
+	 * Get mail body async function
+	 *
+	 * @param   {function}  callback
+	 *
+	 * @return  {object}            Promise
+	 */
+	asyncGetMailBody(callback) {
 		return new Promise((resolve, reject) => {
-			mailItem.body.getAsync(Office.CoercionType.Html, body => {
+			this.mailItem.body.getAsync(Office.CoercionType.Html, body => {
 				if (body.status === 'succeeded') {
-					resolve({
-						mailFrom: this.parseEmailAddressDetails(mailItem.from),
-						mailSender: mailItem.sender.emailAddress,
-						mailTo: this.parseEmailAddressDetails(mailItem.to),
-						mailCc: this.parseEmailAddressDetails(mailItem.cc),
-						mailMessageId: mailItem.internetMessageId,
-						mailSubject: mailItem.subject,
-						mailNormalizedSubject: mailItem.normalizedSubject,
-						mailDateTimeCreated: mailItem.dateTimeCreated.toISOString(),
-						mailBody: body.value
-					});
+					resolve(callback(body.value));
 				} else {
 					reject(body);
 				}
@@ -324,7 +400,8 @@ const MailIntegration_Detail = {
 			const callbackFunction = ({ result }) => {
 				this.addRelation(result._recordId, moduleName);
 			};
-			this.showQuickCreateForm(moduleName, { callbackFunction });
+			const quickCreateParams = { callbackFunction };
+			this.showQuickCreateForm(moduleName, quickCreateParams);
 		});
 	},
 	/**
@@ -343,9 +420,10 @@ const MailIntegration_Detail = {
 		this.iframe = $('#js-iframe');
 		this.iframeWindow = this.iframe[0].contentWindow;
 		this.addRecordBtn = this.container.find('.js-add-record');
-		this.mailId = this.container.find('.js-panel').data('mailId');
+		this.mailId = this.container.find('.js-iframe-container').data('mailId');
+		this.mailItem = Office.context.mailbox.item;
 		if (this.iframe.length) {
-			this.registerRowEvents();
+			this.registerListItemEvents();
 			this.registerIframeEvents();
 			this.setIframeHeight();
 			if (this.mailId) {
@@ -359,5 +437,5 @@ const MailIntegration_Detail = {
 };
 
 (function($) {
-	MailIntegration_Detail.registerEvents();
+	MailIntegration_Iframe.registerEvents();
 })($);

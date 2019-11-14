@@ -1,13 +1,13 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-MailIntegration-Detail-Row -->
-	<li class="list-group-item list-group-item-action py-0 px-2 js-row-click" data-id="{$ROW['id']}" data-module="{$ROW['module']}">
-	{assign var=MODULE_MODEL value=Vtiger_Module_Model::getInstance($ROW['module'])}
-		{assign var=DETAIL_VIEW_PERMITTED value=\App\Privilege::isPermitted($ROW['module'], 'DetailView', $ROW['id'])}
+<!-- tpl-MailIntegration-Iframe-HeaderListItem -->
+	<li class="list-group-item list-group-item-action py-0 px-2 js-list-item-click" data-id="{$RECORD['id']}" data-module="{$RECORD['module']}">
+	{assign var=MODULE_MODEL value=Vtiger_Module_Model::getInstance($RECORD['module'])}
+		{assign var=DETAIL_VIEW_PERMITTED value=\App\Privilege::isPermitted($RECORD['module'], 'DetailView', $RECORD['id'])}
 	  <div class="d-flex w-100 align-items-center">
-			<a class="modCT_{$ROW['module']} js-record-link js-popover-tooltip--record small u-text-unset text-truncate" {if $DETAIL_VIEW_PERMITTED}href="{$URL}index.php?module={$ROW['module']}&view=Detail&record={$ROW['id']}"{/if} target="_blank">
-				<span class="relatedModuleIcon yfm-{$ROW['module']} mr-1" aria-hidden="true"></span>
-				<span class="relatedName">{$ROW['label']}</span>
+			<a class="modCT_{$RECORD['module']} js-record-link js-popover-tooltip--record small u-text-unset text-truncate" {if $DETAIL_VIEW_PERMITTED}href="{$URL}index.php?module={$RECORD['module']}&view=Detail&record={$RECORD['id']}"{/if} target="_blank">
+				<span class="relatedModuleIcon yfm-{$RECORD['module']} mr-1" aria-hidden="true"></span>
+				<span class="relatedName">{$RECORD['label']}</span>
 			</a>
 			{if $DETAIL_VIEW_PERMITTED}
 				<div class="ml-auto btn-group btn-group-sm" role="group" aria-label="record actions">
@@ -21,7 +21,7 @@
 							<span class="yfm-ModComments"></span>
 						</button>
 					{/if}
-					{if $REMOVE_RECORD && \App\Privilege::isPermitted($ROW['module'], 'RemoveRelation')}
+					{if $REMOVE_RECORD && \App\Privilege::isPermitted($RECORD['module'], 'RemoveRelation')}
 						<button class="js-remove-record btn u-text-unset js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_REMOVE_RELATION',$MODULE_NAME)}">
 							<span class="fas fa-times"></span>
 						</button>
@@ -30,5 +30,5 @@
 			{/if}
 		</div>
 	</li>
-<!-- /tpl-MailIntegration-Detail-Row -->
+<!-- /tpl-MailIntegration-Iframe-HeaderListItem -->
 {/strip}

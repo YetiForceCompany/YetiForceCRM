@@ -2085,6 +2085,13 @@ var app = (window.app = {
 		form.submit();
 		form.remove();
 	},
+	/**
+	 * Convert url string to object
+	 *
+	 * @param   {string}  url  example: index.php?module=LayoutEditor&parent=Settings
+	 *
+	 * @return  {object}       urlObject
+	 */
 	convertUrlToObject(url) {
 		let urlObject = {};
 		url
@@ -2097,6 +2104,25 @@ var app = (window.app = {
 				}
 			});
 		return urlObject;
+	},
+	/**
+	 * Convert object to url string
+	 *
+	 * @param   {object}  urlData
+	 * @param   {string}  entryFile
+	 *
+	 * @return  {string}          url
+	 */
+	convertObjectToUrl(urlData = {}, entryFile = 'index.php?') {
+		let url = entryFile;
+		Object.keys(urlData).forEach(key => {
+			let value = urlData[key];
+			if (typeof value === 'object' || (typeof value === 'string' && value.startsWith('<'))) {
+				return;
+			}
+			url += key + '=' + value + '&';
+		});
+		return url;
 	},
 	showConfirmation: function(data, element) {
 		var params = {};
