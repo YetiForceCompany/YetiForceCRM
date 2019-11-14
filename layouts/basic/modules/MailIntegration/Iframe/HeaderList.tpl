@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-MailIntegration-Iframe-List -->
+<!-- tpl-MailIntegration-Iframe-HeaderList -->
 <div class="mb-1">
 	<ul class="list-group">
 		{foreach item="RELATION" from=$RELATIONS}
@@ -8,5 +8,5 @@
 		{/foreach}
 	</ul>
 </div>
-<!-- /tpl-MailIntegration-Iframe-List -->
+<!-- /tpl-MailIntegration-Iframe-HeaderList -->
 {/strip}
