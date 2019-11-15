@@ -64,12 +64,12 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
-  name: 'RoomRecordSelect',
+  name: 'RoomListSelect',
   props: {
     isVisible: {
       type: Boolean
     },
-    modules: {
+    options: {
       type: Array
     }
   },
@@ -99,13 +99,13 @@ export default {
     filter(val, update) {
       if (val === '') {
         update(() => {
-          this.searchModules = this.modules
+          this.searchModules = this.options
         })
         return
       }
       update(() => {
         const needle = val.toLowerCase()
-        this.searchModules = this.modules.filter(
+        this.searchModules = this.options.filter(
           v => v.label.toLowerCase().indexOf(needle) > -1
         )
       })
@@ -134,7 +134,7 @@ export default {
     }
   },
   created() {
-    this.searchModules = this.modules
+    this.searchModules = this.options
   }
 }
 </script>

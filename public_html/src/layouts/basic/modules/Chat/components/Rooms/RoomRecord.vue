@@ -8,7 +8,15 @@
     :filterRooms="filterRooms"
   >
     <template #labelRight>
-      <q-btn dense flat round size="sm" color="primary" icon="mdi-plus" @click="showAddRoomPanel = !showAddRoomPanel">
+      <q-btn
+        dense
+        flat
+        round
+        size="sm"
+        color="primary"
+        icon="mdi-plus"
+        @click="showAddRoomPanel = !showAddRoomPanel"
+      >
         <q-tooltip>{{ translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE') }}</q-tooltip>
       </q-btn>
     </template>
@@ -26,20 +34,27 @@
       />
     </template>
     <template #aboveItems>
-      <q-item v-if="config.dynamicAddingRooms" v-show="showAddRoomPanel">
-        <RoomRecordSelect :modules="config.chatModules" :isVisible.sync="showAddRoomPanel" class="q-pb-xs" />
+      <q-item
+        v-if="config.dynamicAddingRooms"
+        v-show="showAddRoomPanel"
+      >
+        <RoomListSelect
+          :modules="config.chatModules"
+          :isVisible.sync="showAddRoomPanel"
+          class="q-pb-xs"
+        />
       </q-item>
     </template>
   </RoomList>
 </template>
 <script>
-import RoomRecordSelect from './RoomRecordSelect.vue'
+import RoomListSelect from './RoomListSelect.vue'
 import RoomList from './RoomList.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters } = createNamespacedHelpers('Chat')
 export default {
   name: 'RoomRecord',
-  components: { RoomRecordSelect, RoomList },
+  components: { RoomListSelect, RoomList },
   props: {
     roomData: {
       type: Array,

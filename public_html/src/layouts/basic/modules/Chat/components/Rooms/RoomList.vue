@@ -26,6 +26,17 @@
           <q-tooltip>{{ translate(showAllRooms ? 'JS_CHAT_HIDE_ROOMS' : 'JS_CHAT_SHOW_ROOMS') }}</q-tooltip>
         </q-btn>
         <slot name="labelRight"></slot>
+        <q-btn
+          dense
+          flat
+          round
+          size="sm"
+          color="primary"
+          icon="mdi-magnify"
+          @click="showSearchRoom = !showSearchRoom"
+        >
+          <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
+        </q-btn>
         <q-icon
           class="q-pr-xs"
           :size="layout.drawer.fs"
@@ -36,6 +47,13 @@
       </div>
     </q-item-label>
     <slot name="aboveItems"></slot>
+    <q-item v-show="showSearchRoom">
+      <RoomListSelect
+        :options="config.chatModules"
+        :isVisible.sync="showSearchRoom"
+        class="q-pb-xs"
+      />
+    </q-item>
     <template v-for="(room, roomId) of roomData">
       <q-item
         v-if="!room.isHidden"
@@ -109,12 +127,13 @@
   </q-list>
 </template>
 <script>
+import RoomListSelect from './RoomListSelect.vue'
 import { getGroupIcon } from '../../utils/utils.js'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'RoomList',
-  components: {},
+  components: { RoomListSelect },
   props: {
     roomType: {
       type: String,
@@ -135,7 +154,8 @@ export default {
   },
   data() {
     return {
-      showAllRooms: false
+      showAllRooms: false,
+      showSearchRoom: false
     }
   },
   computed: {
