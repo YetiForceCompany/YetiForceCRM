@@ -211,10 +211,11 @@ final class Chat
 	 * List of private chat rooms.
 	 *
 	 * @param int|null $userId
+	 * @param bool     $pinned
 	 *
 	 * @return array
 	 */
-	public static function getRoomsPrivatePinned(?int $userId = null)
+	public static function getRoomsPrivate(int $userId, ?bool $pinned = true)
 	{
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
@@ -232,12 +233,19 @@ final class Chat
 				'cnt_new_message' => $cntQuery,
 			])
 			->from(['CR' => 'u_yf_chat_rooms_private']);
-		$dataReader = (new Db\Query())
+		$query = (new Db\Query())
 			->select(['name', 'recordid' => 'GL.private_room_id', 'CNT.cnt_new_message', 'CNT.userid', 'creatorid', 'created'])
 			->where(['archived' => 0])
-			->from(['GL' => 'u_#__chat_private'])
-			->rightJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.private_room_id AND CNT.userid = {$userId}")
-			->createCommand()->query();
+			->from(['GL' => 'u_#__chat_private']);
+		$joinArguments = [['CNT' => $subQuery], "CNT.{$roomIdName} = GL.private_room_id AND CNT.userid = {$userId}"];
+		if ($pinned) {
+			$query->rightJoin($joinArguments[0], $joinArguments[1]);
+		} elseif (User::getUserModel($userId)->isAdmin()) {
+			$query->leftJoin($joinArguments[0], $joinArguments[1]);
+		} else {
+			$query->innerJoin($joinArguments[0], $joinArguments[1]);
+		}
+		$dataReader = $query->createCommand()->query();
 		$rooms = [];
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
@@ -247,7 +255,7 @@ final class Chat
 		}
 		$dataReader->close();
 		return $rooms;
-  }
+	}
 
 	/**
 	 * List of chat room groups.
@@ -367,7 +375,7 @@ final class Chat
 			'crm' => static::getRoomsCrm($userId),
 			'group' => static::getRoomsGroup($userId),
 			'global' => static::getRoomsGlobal(),
-			'private' => static::getRoomsPrivatePinned($userId)
+			'private' => static::getRoomsPrivate($userId)
 		];
 		Cache::staticSave('ChatGetRoomsByUser', $userId);
 		return $roomsByUser;
