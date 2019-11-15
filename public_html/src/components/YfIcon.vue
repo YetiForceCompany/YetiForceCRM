@@ -9,11 +9,26 @@
 -->
 <template>
   <div class="flex">
-    <q-icon v-if="/^mdi|^fa/.test(icon)" :name="icon" :size="size" dense />
-    <q-avatar v-else-if="icon.includes('/')" :size="size">
+    <q-icon
+      v-if="/^mdi|^fa/.test(icon)"
+      key="icon-lib"
+      :name="icon"
+      :size="size"
+      dense
+    />
+    <q-avatar
+      v-else-if="icon.includes('/')"
+      key="icon-img"
+      :size="size"
+    >
       <q-img :src="icon" />
     </q-avatar>
-    <q-icon v-else :class="[icon, 'q-icon']" :style="{ 'font-size': size ? size : '1.4em' }" />
+    <q-icon
+      v-else
+      key="icon-yf"
+      :class="[icon, 'q-icon']"
+      :style="{ 'font-size': size ? size : '1.4em' }"
+    />
   </div>
 </template>
 
@@ -33,5 +48,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

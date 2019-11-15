@@ -9,16 +9,16 @@
 -->
 <template>
   <vue-drag-resize
-    :isResizable="false"
-    :isDraggable="true"
-    v-on:dragging="drag"
-		:dragHandle="dragHandleClass"
-    @dragstop="correctCoordinates"
+    ref="drag"
+    isResizable
+    isDraggable
+    :dragHandle="dragHandleClass"
     :x="coordinates.left"
     :y="coordinates.top"
     :w="width"
     :h="height"
-    ref="drag"
+    @dragging="drag"
+    @dragstop="correctCoordinates"
   >
     <slot></slot>
   </vue-drag-resize>
@@ -43,11 +43,11 @@ export default {
     height: {
       type: Number,
       default: 42
-		},
-		dragHandleClass: {
+    },
+    dragHandleClass: {
       type: String,
       required: false
-		}
+    }
   },
   methods: {
     drag(newRect, e) {
@@ -75,5 +75,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

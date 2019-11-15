@@ -2,22 +2,32 @@
 <template>
   <div class="full-width">
     <q-input
+      ref="addRoomInput"
       v-model="addRoom"
-      @keydown.enter="validateRoomName()"
-      dense
       :placeholder="translate('JS_CHAT_ADD_PRIVATE_ROOM')"
       :error="!isValid"
+      :loading="isValidating"
       @input="isValid = true"
-			:loading="isValidating"
-      ref="addRoomInput"
+      dense
+      @keydown.enter="validateRoomName()"
     >
       <template #prepend>
-        <q-btn color="primary" flat dense icon="mdi-plus" @click="validateRoomName()">
+        <q-btn
+          color="primary"
+          flat
+          dense
+          icon="mdi-plus"
+          @click="validateRoomName()"
+        >
           <q-tooltip anchor="top middle">{{ translate('JS_ADD') }}</q-tooltip>
         </q-btn>
       </template>
       <template #append>
-        <q-icon name="mdi-close" @click="$emit('update:showAddPrivateRoom', false)" class="cursor-pointer" />
+        <q-icon
+          class="cursor-pointer"
+          name="mdi-close"
+          @click="$emit('update:showAddPrivateRoom', false)"
+        />
         <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
       </template>
       <template #error>
@@ -41,8 +51,8 @@ export default {
     return {
       addRoom: '',
       isValid: true,
-			errorMessage: '',
-			isValidating: false
+      errorMessage: '',
+      isValidating: false
     }
   },
   watch: {
@@ -60,7 +70,7 @@ export default {
     ...mapMutations(['updateRooms']),
     validateRoomName() {
       if (this.addRoom.length && !this.isValidating) {
-				this.isValidating = true
+        this.isValidating = true
         let roomExist = false
         for (let room in this.data.roomList.private) {
           if (this.data.roomList.private[room].name === this.addRoom) {
@@ -71,8 +81,8 @@ export default {
         if (!roomExist) {
           this.addPrivateRoom({ name: this.addRoom }).then(({ result }) => {
             this.addRoom = ''
-						this.updateRooms(result)
-						this.isValidating = false
+            this.updateRooms(result)
+            this.isValidating = false
             this.$q.notify({
               position: 'top',
               color: 'success',
@@ -82,8 +92,8 @@ export default {
           })
         } else {
           this.errorMessage = this.translate('JS_CHAT_ROOM_EXISTS')
-					this.isValid = false
-					this.isValidating = false
+          this.isValid = false
+          this.isValidating = false
         }
       } else {
         this.errorMessage = this.translate('JS_CHAT_ROOM_NAME_EMPTY')

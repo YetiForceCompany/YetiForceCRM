@@ -10,7 +10,7 @@ const gulp = require('gulp')
 const stylus = require('gulp-stylus')
 
 const license =
-	'/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n'
+  '/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n'
 
 const stylusSrc = 'css/**/*.styl'
 
@@ -22,15 +22,12 @@ const stylusSrc = 'css/**/*.styl'
  * @returns {function} task
  */
 function getCompileCssTask(src = stylusSrc) {
-	return function compileCssTask() {
-		return gulp
-			.src(src, { sourcemaps: true })
-			.pipe(stylus())
-			.pipe(
-				gulp.dest('./css'),
-				{ sourcemaps: true }
-			)
-	}
+  return function compileCssTask() {
+    return gulp
+      .src(src, { sourcemaps: true })
+      .pipe(stylus())
+      .pipe(gulp.dest('./css'), { sourcemaps: true })
+  }
 }
 
 /**

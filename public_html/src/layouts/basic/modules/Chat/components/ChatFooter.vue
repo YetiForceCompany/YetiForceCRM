@@ -11,7 +11,10 @@
           />
           {{ currentTab.label }}
         </q-breadcrumbs-el>
-        <q-breadcrumbs-el v-if="tab !== 'unread'" class="text-white">
+        <q-breadcrumbs-el
+          v-if="tab !== 'unread'"
+          class="text-white"
+        >
           <YfIcon
             class="q-breadcrumbs__el-icon q-breadcrumbs__el-icon--with-label q-icon"
             :icon="roomType.icon"

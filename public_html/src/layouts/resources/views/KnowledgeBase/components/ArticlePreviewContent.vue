@@ -9,33 +9,62 @@
 -->
 <template>
   <q-card class="KnowledgeBase__ArticlePreview fit">
-    <q-bar dark class="bg-yeti text-white dialog-header">
+    <q-bar
+      class="bg-yeti text-white dialog-header"
+      dark
+    >
       <div class="flex items-center">
         <div class="flex items-center no-wrap ellipsis q-mr-sm-sm">
-          <q-icon name="mdi-text" class="q-mr-sm" />
+          <q-icon
+            class="q-mr-sm"
+            name="mdi-text"
+          />
           {{ record.subject }}
         </div>
         <div class="flex items-center text-grey-4 small">
           <div class="flex items-center">
-            <q-icon :name="tree.topCategory.icon" size="15px"></q-icon>
-            <q-icon size="1.5em" name="mdi-chevron-right" />
-            <span v-html="record.category" class="flex items-center"></span>
+            <q-icon
+              :name="tree.topCategory.icon"
+              size="15px"
+            ></q-icon>
+            <q-icon
+              size="1.5em"
+              name="mdi-chevron-right"
+            />
+            <span
+              v-html="record.category"
+              class="flex items-center"
+            ></span>
             <q-tooltip>
               {{ translate('JS_KB_CATEGORY') }}
             </q-tooltip>
           </div>
-          <q-separator dark vertical spaced />
+          <q-separator
+            dark
+            vertical
+            spaced
+          />
           <div>
-            <q-icon name="mdi-calendar-clock" size="15px"></q-icon>
+            <q-icon
+              name="mdi-calendar-clock"
+              size="15px"
+            ></q-icon>
             {{ record.short_createdtime }}
             <q-tooltip>
               {{ translate('JS_KB_CREATED') + ': ' + record.full_createdtime }}
             </q-tooltip>
           </div>
           <template v-if="record.short_modifiedtime">
-            <q-separator dark vertical spaced />
+            <q-separator
+              dark
+              vertical
+              spaced
+            />
             <div>
-              <q-icon name="mdi-square-edit-outline" size="15px"></q-icon>
+              <q-icon
+                name="mdi-square-edit-outline"
+                size="15px"
+              ></q-icon>
               {{ record.short_modifiedtime }}
               <q-tooltip>
                 {{ translate('JS_KB_MODIFIED') + ': ' + record.full_modifiedtime }}
@@ -43,12 +72,19 @@
             </div>
           </template>
           <template v-if="record.accountId">
-            <q-separator dark vertical spaced />
-            <YfIcon icon="userIcon-Accounts" size="15px"></YfIcon>
+            <q-separator
+              dark
+              vertical
+              spaced
+            />
+            <YfIcon
+              icon="userIcon-Accounts"
+              size="15px"
+            ></YfIcon>
             <a
               class="js-popover-tooltip--record ellipsis q-ml-xs text-grey-4"
               :href="`index.php?module=Accounts&view=Detail&record=${record.accountId}`"
-              >{{ record.accountName }}
+            >{{ record.accountName }}
             </a>
           </template>
         </div>
@@ -56,19 +92,32 @@
       <q-space />
       <slot name="header-right">
         <template v-if="$q.platform.is.desktop">
-          <a v-show="!previewMaximized" class="flex grabbable text-decoration-none text-white" href="#">
-            <q-icon class="js-drag" name="mdi-drag" size="19px" />
+          <a
+            v-show="!previewMaximized"
+            class="flex grabbable text-decoration-none text-white"
+            href="#"
+          >
+            <q-icon
+              class="js-drag"
+              name="mdi-drag"
+              size="19px"
+            />
           </a>
           <q-btn
+            :icon="previewMaximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
             dense
             flat
-            :icon="previewMaximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
             @click="toggleMaximized()"
           >
             <q-tooltip>{{ previewMaximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
           </q-btn>
         </template>
-        <q-btn dense flat icon="mdi-close" v-close-popup>
+        <q-btn
+          dense
+          flat
+          icon="mdi-close"
+          v-close-popup
+        >
           <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
         </q-btn>
       </slot>
@@ -83,7 +132,10 @@
       <div v-show="record.content">
         <q-resize-observer @resize="onResize" />
         <div ref="content">
-          <carousel v-if="record.view === 'PLL_PRESENTATION' && record.content.length > 1" :record="record" />
+          <carousel
+            v-if="record.view === 'PLL_PRESENTATION' && record.content.length > 1"
+            :record="record"
+          />
           <div v-else>
             <q-separator />
             <div v-html="typeof record.content === 'object' ? record.content[0] : record.content"></div>
@@ -94,11 +146,24 @@
         <q-separator />
         <div class="q-pa-md q-table__title">{{ translate('JS_KB_COMMENTS') }}</div>
         <q-list padding>
-          <q-item v-for="(relatedRecord, relatedRecordId) in record.related.base.ModComments" :key="relatedRecordId">
-            <q-item-section avatar top>
+          <q-item
+            v-for="(relatedRecord, relatedRecordId) in record.related.base.ModComments"
+            :key="relatedRecordId"
+          >
+            <q-item-section
+              avatar
+              top
+            >
               <q-avatar size="iconSize">
-                <img v-if="relatedRecord.avatar.url !== undefined" :src="relatedRecord.avatar.url" />
-                <q-icon v-else name="mdi-account" />
+                <img
+                  v-if="relatedRecord.avatar.url !== undefined"
+                  :src="relatedRecord.avatar.url"
+                  alt="user image"
+                />
+                <q-icon
+                  v-else
+                  name="mdi-account"
+                />
               </q-avatar>
             </q-item-section>
             <q-item-section>
@@ -106,14 +171,22 @@
                 <a
                   class="js-popover-tooltip--record"
                   :href="`index.php?module=Users&view=Detail&record=${relatedRecord.userid}`"
-                  >{{ relatedRecord.userName }}
+                >{{ relatedRecord.userName }}
                 </a>
               </q-item-label>
-              <q-item-label><div v-html="relatedRecord.comment"></div></q-item-label>
+              <q-item-label>
+                <div v-html="relatedRecord.comment"></div>
+              </q-item-label>
             </q-item-section>
-            <q-item-section side top>
+            <q-item-section
+              side
+              top
+            >
               <q-item-label caption>{{ relatedRecord.modifiedShort }}</q-item-label>
-              <q-tooltip anchor="top middle" self="center middle">
+              <q-tooltip
+                anchor="top middle"
+                self="center middle"
+              >
                 {{ translate('JS_KB_MODIFIED') + ': ' + relatedRecord.modifiedFull }}
               </q-tooltip>
             </q-item-section>
@@ -133,16 +206,28 @@
         <div class="q-pa-md q-table__title">{{ translate('JS_KB_RELATED_RECORDS') }}</div>
         <columns-grid :columnBlocks="relatedRecords">
           <template #default="slotProps">
-            <q-list bordered padding dense>
-              <q-item header clickable class="text-black flex">
-                <YfIcon :icon="'userIcon-' + slotProps.relatedBlock" :size="iconSize" class="mr-2"></YfIcon>
+            <q-list
+              bordered
+              padding
+              dense
+            >
+              <q-item
+                header
+                clickable
+                class="text-black flex"
+              >
+                <YfIcon
+                  :icon="'userIcon-' + slotProps.relatedBlock"
+                  :size="iconSize"
+                  class="mr-2"
+                ></YfIcon>
                 {{ record.translations[slotProps.relatedBlock] }}
               </q-item>
               <q-item
-                clickable
                 v-for="(relatedRecord, relatedRecordId) in record.related.dynamic[slotProps.relatedBlock]"
                 :key="relatedRecordId"
                 class="text-subtitle2"
+                clickable
                 v-ripple
               >
                 <q-item-section class="align-items-center flex-row no-wrap justify-content-start">

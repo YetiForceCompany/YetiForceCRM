@@ -7,7 +7,7 @@
           {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
         </div>
         <div v-for="(room, roomName) in rooms" :key="roomName">
-          <a @click="showChatRoom(room[0].recordid, roomType)" class="text-info full-width flex" href="#">
+          <a class="text-info full-width flex" href="#" @click="showChatRoom(room[0].recordid, roomType)">
             {{ roomName }}
           </a>
           <q-chat-message
@@ -100,5 +100,4 @@ export default {
   }
 }
 </script>
-<style lang="sass">
-</style>
+<style lang="sass"></style>

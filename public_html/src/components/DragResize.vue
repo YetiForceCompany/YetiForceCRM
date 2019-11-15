@@ -11,15 +11,13 @@
   <div>
     <vue-drag-resize
       v-if="$q.platform.is.desktop"
-      :preventActiveBehavior="true"
+			key="desktop"
+      ref="resize"
+      :class="[maximized ? 'fit position-static' : 'modal-mini', 'overflow-hidden']"
+      preventActiveBehavior
+      isResizable
       :isActive="active"
-      @activated="onActivated"
-      @dragstop="correctCoordinates"
-      @resizestop="correctCoordinates"
-      :isResizable="true"
       :isDraggable="!maximized"
-      v-on:resizing="resize"
-      v-on:dragging="resize"
       dragHandle=".js-drag"
       :sticks="sticks"
       :x="coordinates.left"
@@ -28,14 +26,17 @@
       :h="coordinates.height"
       :minh="minHeight"
       :minw="minWidth"
-      :class="[maximized ? 'fit position-static' : 'modal-mini', 'overflow-hidden']"
-      ref="resize"
+      @resizing="resize"
+      @dragging="resize"
+      @activated="onActivated"
+      @dragstop="correctCoordinates"
+      @resizestop="correctCoordinates"
     >
       <div class="fit">
         <slot></slot>
       </div>
     </vue-drag-resize>
-    <div class="fit" v-else>
+    <div v-else key="mobile" class="fit">
       <slot></slot>
     </div>
   </div>

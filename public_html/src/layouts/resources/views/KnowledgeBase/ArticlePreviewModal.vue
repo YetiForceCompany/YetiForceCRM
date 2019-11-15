@@ -8,9 +8,18 @@
  */
 -->
 <template>
-  <article-preview :isDragResize="false" :maximizedOnly="true" :previewDialog="true">
+  <article-preview
+    isDragResize
+    maximizedOnly
+    previewDialog
+  >
     <template slot="header-right">
-      <q-btn dense flat icon="mdi-close" @click="hideModal()">
+      <q-btn
+        dense
+        flat
+        icon="mdi-close"
+        @click="hideModal()"
+      >
         <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
       </q-btn>
     </template>
@@ -45,5 +54,4 @@ export default {
   }
 }
 </script>
-<style>
-</style>
+<style></style>

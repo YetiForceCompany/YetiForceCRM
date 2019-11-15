@@ -12,14 +12,18 @@
     <q-table
       :data="data"
       :columns="columns"
+      :pagination.sync="pagination"
+      :title="title"
       row-key="subject"
       grid
       hide-header
-      :pagination.sync="pagination"
-      :title="title"
     >
       <template #item="props">
-        <q-list class="full-width" padding @click.prevent="onClickRecord(props.row.id)">
+        <q-list
+          class="full-width"
+          padding
+          @click.prevent="onClickRecord(props.row.id)"
+        >
           <q-item clickable>
             <q-item-section avatar>
               <q-icon name="mdi-text" />
@@ -33,17 +37,23 @@
                   {{ props.row.subject }}
                 </a>
               </q-item-label>
-              <q-item-label class="flex items-center" overline>
-                <q-breadcrumbs class="mr-2 text-grey-8" active-color="grey-8">
+              <q-item-label
+                class="flex items-center"
+                overline
+              >
+                <q-breadcrumbs
+                  class="mr-2 text-grey-8"
+                  active-color="grey-8"
+                >
                   <q-breadcrumbs-el
                     v-for="category in tree.categories[props.row.category].parentTree"
                     :key="tree.categories[category].label"
                   >
                     <YfIcon
                       v-if="tree.categories[category].icon"
+                      class="q-mr-sm"
                       :size="iconSize"
                       :icon="tree.categories[category].icon"
-                      class="q-mr-sm"
                     />
                     {{ tree.categories[category].label }}
                   </q-breadcrumbs-el>
@@ -52,11 +62,17 @@
                   </q-tooltip>
                 </q-breadcrumbs>
                 | {{ translate('JS_KB_AUTHORED_BY') }}:
-                <span v-html="props.row.assigned_user_id" class="q-ml-sm"></span>
+                <span
+                  class="q-ml-sm"
+                  v-html="props.row.assigned_user_id"
+                ></span>
               </q-item-label>
               <q-item-label caption>{{ props.row.introduction }}</q-item-label>
             </q-item-section>
-            <q-item-section side top>
+            <q-item-section
+              side
+              top
+            >
               <q-item-label caption>{{ props.row.short_time }}</q-item-label>
               <q-tooltip>
                 {{ props.row.full_time }}
@@ -68,7 +84,10 @@
       <template #bottom="props"> </template>
     </q-table>
     <div :class="['flex items-center q-px-lg q-py-sm', hasData ? 'hidden' : '']">
-      <q-icon name="mdi-alert-outline" class="q-mr-sm"></q-icon>
+      <q-icon
+        class="q-mr-sm"
+        name="mdi-alert-outline"
+      ></q-icon>
       {{ translate('JS_NO_RESULTS_FOUND') }}
     </div>
   </div>
