@@ -2,18 +2,24 @@
 <template>
   <div v-if="config.isChatAllowed">
     <div class="btn-absolute">
-      <YfDrag :coordinates.sync="buttonCoordinates" @dragstop="onDragstop">
-        <transition :enter-active-class="buttonAnimationClasses" mode="out-in">
+      <YfDrag
+        :coordinates.sync="buttonCoordinates"
+        @dragstop="onDragstop"
+      >
+        <transition
+          :enter-active-class="buttonAnimationClasses"
+          mode="out-in"
+        >
           <q-btn
+            ref="chatBtn"
+            :key="parseInt(data.amountOfNewMessages)"
+            :loading="dialogLoading"
             round
             color="primary"
             class="glossy animation-duration"
+            style="z-index: 99999999999;"
             @mouseup="showDialog"
             @touchend="showDialog"
-            :loading="dialogLoading"
-            ref="chatBtn"
-            :key="parseInt(data.amountOfNewMessages)"
-            style="z-index: 99999999999;"
           >
             <YfIcon icon="yfi-branding-chat" />
             <q-badge
@@ -28,13 +34,16 @@
             </q-badge>
             <q-badge
               v-if="hasCurrentRecordChat"
-              @mouseup="addRecordRoomToChat()"
-              @touchend="addRecordRoomToChat()"
               class="shadow-3 text-primary btn-badge btn-badge--left-top"
               color="white"
               floating
+              @mouseup="addRecordRoomToChat()"
+              @touchend="addRecordRoomToChat()"
             >
-              <q-icon name="mdi-plus" size="1rem" />
+              <q-icon
+                name="mdi-plus"
+                size="1rem"
+              />
               <q-tooltip>{{ translate('JS_CHAT_ROOM_ADD_CURRENT') }}</q-tooltip>
             </q-badge>
           </q-btn>
@@ -43,16 +52,23 @@
     </div>
     <q-dialog
       v-model="dialogModel"
-      seamless
       :maximized="!computedMiniMode"
+      :content-class="dialogClasses"
       transition-show="slide-up"
       transition-hide="slide-down"
-      :content-class="dialogClasses"
+      seamless
       @show="dialogLoading = false"
       @hide="dialogLoading = false"
     >
-      <DragResize :coordinates.sync="coordinates" @dragstop="onDragstop" :maximized="!computedMiniMode">
-        <ChatContainer container :parentRefs="$refs" />
+      <DragResize
+        :coordinates.sync="coordinates"
+        :maximized="!computedMiniMode"
+        @dragstop="onDragstop"
+      >
+        <ChatContainer
+          :parentRefs="$refs"
+          container
+        />
       </DragResize>
     </q-dialog>
     <ChatUpdateWatcher />
@@ -77,7 +93,7 @@ export default {
       windowConfig: CONFIG,
       addingRoom: false,
       dialogLoading: false,
-      dialogModel: true,
+      dialogModel: false,
       dragTimeout: 300
     }
   },
@@ -146,10 +162,18 @@ export default {
       }
     }
   },
+  updated() {
+    this.initDialogModel()
+  },
   methods: {
     ...mapMutations(['setDialog', 'setCoordinates', 'setButtonCoordinates', 'updateRooms']),
+    initDialogModel() {
+      if (!this.dialogModel && this.dialog) {
+        this.dialogModel = true
+      }
+    },
     showDialog() {
-			this.dragging = false
+      this.dragging = false
       setTimeout(_ => {
         if (!this.dragging && !this.addingRoom) {
           this.dialog = !this.dialog
