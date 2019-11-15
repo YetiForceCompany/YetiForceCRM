@@ -2,8 +2,14 @@
 <template>
   <div v-if="config.isChatAllowed">
     <div class="btn-absolute">
-      <YfDrag :coordinates.sync="buttonCoordinates" @dragstop="onDragstop">
-        <transition :enter-active-class="buttonAnimationClasses" mode="out-in">
+      <YfDrag
+        :coordinates.sync="buttonCoordinates"
+        @dragstop="onDragstop"
+      >
+        <transition
+          :enter-active-class="buttonAnimationClasses"
+          mode="out-in"
+        >
           <q-btn
             round
             color="primary"
@@ -34,7 +40,10 @@
               color="white"
               floating
             >
-              <q-icon name="mdi-plus" size="1rem" />
+              <q-icon
+                name="mdi-plus"
+                size="1rem"
+              />
               <q-tooltip>{{ translate('JS_CHAT_ROOM_ADD_CURRENT') }}</q-tooltip>
             </q-badge>
           </q-btn>
@@ -51,8 +60,15 @@
       @show="dialogLoading = false"
       @hide="dialogLoading = false"
     >
-      <DragResize :coordinates.sync="coordinates" @dragstop="onDragstop" :maximized="!computedMiniMode">
-        <ChatContainer container :parentRefs="$refs" />
+      <DragResize
+        :coordinates.sync="coordinates"
+        @dragstop="onDragstop"
+        :maximized="!computedMiniMode"
+      >
+        <ChatContainer
+          container
+          :parentRefs="$refs"
+        />
       </DragResize>
     </q-dialog>
     <ChatUpdateWatcher />
@@ -77,7 +93,7 @@ export default {
       windowConfig: CONFIG,
       addingRoom: false,
       dialogLoading: false,
-      dialogModel: true,
+      dialogModel: false,
       dragTimeout: 300
     }
   },
@@ -146,10 +162,18 @@ export default {
       }
     }
   },
+  updated() {
+    this.initDialogModel()
+  },
   methods: {
     ...mapMutations(['setDialog', 'setCoordinates', 'setButtonCoordinates', 'updateRooms']),
+    initDialogModel() {
+      if (!this.dialogModel && this.dialog) {
+        this.dialogModel = true
+      }
+    },
     showDialog() {
-			this.dragging = false
+      this.dragging = false
       setTimeout(_ => {
         if (!this.dragging && !this.addingRoom) {
           this.dialog = !this.dialog
