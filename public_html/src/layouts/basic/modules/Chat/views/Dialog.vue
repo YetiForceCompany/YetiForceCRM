@@ -11,15 +11,15 @@
           mode="out-in"
         >
           <q-btn
+            ref="chatBtn"
+            :key="parseInt(data.amountOfNewMessages)"
+            :loading="dialogLoading"
             round
             color="primary"
             class="glossy animation-duration"
+            style="z-index: 99999999999;"
             @mouseup="showDialog"
             @touchend="showDialog"
-            :loading="dialogLoading"
-            ref="chatBtn"
-            :key="parseInt(data.amountOfNewMessages)"
-            style="z-index: 99999999999;"
           >
             <YfIcon icon="yfi-branding-chat" />
             <q-badge
@@ -34,11 +34,11 @@
             </q-badge>
             <q-badge
               v-if="hasCurrentRecordChat"
-              @mouseup="addRecordRoomToChat()"
-              @touchend="addRecordRoomToChat()"
               class="shadow-3 text-primary btn-badge btn-badge--left-top"
               color="white"
               floating
+              @mouseup="addRecordRoomToChat()"
+              @touchend="addRecordRoomToChat()"
             >
               <q-icon
                 name="mdi-plus"
@@ -52,22 +52,22 @@
     </div>
     <q-dialog
       v-model="dialogModel"
-      seamless
       :maximized="!computedMiniMode"
+      :content-class="dialogClasses"
       transition-show="slide-up"
       transition-hide="slide-down"
-      :content-class="dialogClasses"
+      seamless
       @show="dialogLoading = false"
       @hide="dialogLoading = false"
     >
       <DragResize
         :coordinates.sync="coordinates"
-        @dragstop="onDragstop"
         :maximized="!computedMiniMode"
+        @dragstop="onDragstop"
       >
         <ChatContainer
-          container
           :parentRefs="$refs"
+          container
         />
       </DragResize>
     </q-dialog>
