@@ -30,6 +30,9 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		}
 	}
 
+	/**
+	 * Constructor.
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -39,28 +42,29 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$this->exposeMethod('saveInventoryColumnScheme');
 	}
 
+	/**
+	 * Function to validate date.
+	 *
+	 * @param App\Request $request
+	 */
 	public function validateRecords(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$records = $request->getArray('records', 'Integer');
-		$templates = $request->getArray('templates', 'Integer');
-		$allRecords = \count($records);
-		$output = ['valid_records' => [], 'message' => \App\Language::translateArgs('LBL_VALID_RECORDS', $moduleName, 0, $allRecords)];
-
-		if (!empty($templates) && \count($templates) > 0) {
-			foreach ($templates as $templateId) {
-				$templateRecord = Vtiger_PDF_Model::getInstanceById((int) $templateId);
-				foreach ($records as $recordId) {
-					if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) && !$templateRecord->checkFiltersForRecord((int) $recordId) && false !== ($key = array_search($recordId, $records))) {
-						unset($records[$key]);
-					}
+		$templates = $request->getArray('templates', \App\Purifier::INTEGER);
+		$recordId = $request->getInteger('record');
+		$records = $recordId ? [$recordId] : \Vtiger_Mass_Action::getRecordsListFromRequest($request);
+		$result = false;
+		foreach ($templates as $templateId) {
+			$templateRecord = Vtiger_PDF_Model::getInstanceById($templateId);
+			foreach ($records as $recordId) {
+				if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) && $templateRecord->checkFiltersForRecord((int) $recordId)) {
+					$result = true;
+					break 2;
 				}
 			}
-			$selectedRecords = \count($records);
-			$output = ['valid_records' => $records, 'message' => \App\Language::translateArgs('LBL_VALID_RECORDS', $moduleName, $selectedRecords, $allRecords)];
 		}
 		$response = new Vtiger_Response();
-		$response->setResult($output);
+		$response->setResult(['valid' => $result, 'message' => \App\Language::translateArgs('LBL_NO_DATA_AVAILABLE', $moduleName)]);
 		$response->emit();
 	}
 
@@ -74,7 +78,9 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	public function generate(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordIds = $request->getArray('record', 'Integer');
+		$recordId = $request->getInteger('record');
+		$recordIds = $recordId ? [$recordId] : \Vtiger_Mass_Action::getRecordsListFromRequest($request);
+
 		$templateIds = $request->getArray('pdf_template', 'Integer');
 		$singlePdf = 1 === $request->getInteger('single_pdf');
 		$emailPdf = 1 === $request->getInteger('email_pdf');
@@ -96,14 +102,26 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				$template = Vtiger_PDF_Model::getInstanceById($templateId);
 				switch ($template->get('type')) {
 					case Vtiger_PDF_Model::TEMPLATE_TYPE_SUMMARY:
-						$skip[$templateId] = $recordIds;
-						$template->setVariable('recordsId', $recordIds);
+						$skip[$templateId] = true;
+						$validRecords = [];
+						foreach ($recordIds as $record) {
+							if ($template->checkFiltersForRecord($record)) {
+								$validRecords[] = $record;
+							}
+						}
+						$template->setVariable('recordsId', $validRecords);
 						break;
 					case Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC:
+						if (!$template->checkFiltersForRecord($recordId)) {
+							break 2;
+						}
 						$template->setVariable('recordId', $recordId);
 						$template->setVariable($key, $request->getArray($key, 'Alnum', null));
 						break;
 					default:
+						if (!$template->checkFiltersForRecord($recordId)) {
+							break 2;
+						}
 						$template->setVariable('recordId', $recordId);
 						break;
 				}
@@ -192,8 +210,9 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		if (!\App\Privilege::isPermitted($moduleName, 'RecordPdfInventory')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		$records = $request->getArray('records', 'Integer');
-		$columns = $request->getArray('inventoryColumns', 'String');
+		$recordId = $request->getInteger('record');
+		$records = $recordId ? [$recordId] : \Vtiger_Mass_Action::getRecordsListFromRequest($request);
+		$columns = $request->getArray('inventoryColumns');
 		$save = [];
 		foreach ($records as $recordId) {
 			$save[$recordId] = $columns;
