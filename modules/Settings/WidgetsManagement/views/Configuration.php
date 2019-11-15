@@ -15,7 +15,7 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
 		$sourceModule = $request->getByType('sourceModule', 2);
@@ -46,6 +46,7 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$viewer->assign('FILTER_SELECT', $filterSelect);
 		$viewer->assign('FILTER_SELECT_DEFAULT', $filterSelectDefault);
 		$viewer->assign('DATE_SELECT_DEFAULT', Settings_WidgetsManagement_Module_Model::getDateSelectDefault());
+		$viewer->assign('WIDGETS_WITH_FILTER_TITLE', Settings_WidgetsManagement_Module_Model::getWidgetsWithTitle());
 		$viewer->assign('WIDGETS_WITH_FILTER_DATE', Settings_WidgetsManagement_Module_Model::getWidgetsWithDate());
 		$viewer->assign('WIDGETS_WITH_FILTER_USERS', $widgetsWithFilterUsers);
 		$viewer->assign('ALL_AUTHORIZATION', $authorization);

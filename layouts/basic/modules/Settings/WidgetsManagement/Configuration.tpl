@@ -44,6 +44,7 @@
 						</button>
 					</div>
 					<div id="moduleBlocks">
+						<input type="hidden" name="filter_title" value='{\App\Json::encode($WIDGETS_WITH_FILTER_TITLE)}'>
 						<input type="hidden" name="filter_date" value='{\App\Json::encode($WIDGETS_WITH_FILTER_DATE)}'>
 						<input type="hidden" name="filter_users"
 							   value='{\App\Json::encode($WIDGETS_WITH_FILTER_USERS)}'>
@@ -337,6 +338,16 @@
 														</option>
 													{/foreach}
 												</select>
+											</div>
+										</div>
+										<div class="row mb-2 widgetFilterTitle d-none">
+											<div class="col-sm-4 col-form-label">
+												{App\Language::translate('LBL_WIDGET_NAME','Home')}
+												<span class="redColor">*</span>
+											</div>
+											<div class="col-sm-8">
+												<input type="text" class="form-control" name="title" value=""
+											   data-validation-engine="validate[required]" disabled>
 											</div>
 										</div>
 										<div class="row mb-2">

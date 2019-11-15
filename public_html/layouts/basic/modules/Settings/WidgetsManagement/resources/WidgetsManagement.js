@@ -13,12 +13,22 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	},
 	widgetWithFilterDate: [],
 	setWidgetWithFilterDate: function () {
-		var thisInstance = this;
-		var element = jQuery('[name="filter_date"]').val();
-		if (element)
+		let thisInstance = this;
+		let element = $('[name="filter_date"]').val();
+		if (element){
 			thisInstance.widgetWithFilterDate = JSON.parse(element);
-		else
+		} else {
 			thisInstance.widgetWithFilterDate = [];
+		}
+	},
+	setWidgetWithFilterTitle: function () {
+		let thisInstance = this;
+		let element = $('[name="filter_title"]').val();
+		if (element){
+			thisInstance.widgetWithFilterTitle = JSON.parse(element);
+		} else {
+			thisInstance.widgetWithFilterTitle = [];
+		}
 	},
 	restrictFilter: [],
 	setRestrictFilter: function () {
@@ -46,6 +56,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			fields.push(jQuery(this).data('linkid').toString());
 		});
 		return fields;
+	},
+	multipleWidgets: function (){
+		return ['Multifilter'];
 	},
 	getCurrentDashboardId() {
 		return $('.selectDashboard li a.active').parent().data('id');
@@ -203,20 +216,20 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	},
 	registerAddCustomFieldEvent: function () {
 		var thisInstance = this;
-		var contents = jQuery('#layoutDashBoards');
+		var contents = $('#layoutDashBoards');
 		contents.find('.addCustomField').on('click', function (e) {
-			var continer = jQuery(e.currentTarget).closest('.editFieldsTable');
+			var continer = $(e.currentTarget).closest('.editFieldsTable');
 			var blockId = continer.data('block-id');
 			var addFieldContainer = contents.find('.createFieldModal').clone(true, true);
 			var allFieldsInBlock = thisInstance.getAllFieldsInBlock(continer);
 			var selectWidgets = addFieldContainer.find('select.widgets');
 			selectWidgets.find('option').each(function () {
-				if (jQuery.inArray(jQuery(this).val(), allFieldsInBlock) != -1) {
-					jQuery(this).remove();
+				if ($.inArray($(this).val(), allFieldsInBlock) != -1 && $.inArray($(this).data('name'), thisInstance.multipleWidgets()) == -1) {
+					$(this).remove();
 				}
 			});
 			var name = selectWidgets.find(':first-child').data('name');
-			if (jQuery.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
+			if ($.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
 				addFieldContainer.find('.widgetFilter').removeClass('d-none').find('select').removeAttr('disabled').show();
 				var restrictFilter = thisInstance.restrictFilter[name];
 				if (restrictFilter) {
@@ -225,25 +238,27 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					}
 				}
 			}
-			if (jQuery.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
+			if ($.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
 				addFieldContainer.find('.widgetFilterDate').removeClass('d-none').find('select').removeAttr('disabled').show();
 			}
-
+			if ($.inArray(name, thisInstance.widgetWithFilterTitle) != -1) {
+				addFieldContainer.find('.widgetFilterTitle').removeClass('d-none').removeAttr('disabled').show();
+			}
 			var callBackFunction = function (data) {
-				//register all select2 Elements
 				App.Fields.Picklist.showSelect2ElementView(data.find('select'));
 				data.find('select.widgets').on('change', function () {
 					data.find('.widgetFilter').remove();
 					data.find('.widgetFilterDate').remove();
-					var elementsToFilter = contents.find('.createFieldModal .widgetFilter').clone(true, true);
-					var elementsToFilterDate = contents.find('.createFieldModal .widgetFilterDate').clone(true, true);
-
+					let elementsToFilterTitle = contents.find('.createFieldModal .widgetFilterTitle').clone(true, true);
+					let elementsToFilter = contents.find('.createFieldModal .widgetFilter').clone(true, true);
+					let elementsToFilterDate = contents.find('.createFieldModal .widgetFilterDate').clone(true, true);
+					data.find('.modal-body').append(elementsToFilterTitle);
 					data.find('.modal-body').append(elementsToFilter);
 					data.find('.modal-body').append(elementsToFilterDate);
-					var name = jQuery(this).find(':selected').data('name');
-					if (jQuery.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
+					let name = $(this).find(':selected').data('name');
+					if ($.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
 						elementsToFilter.removeClass('d-none').find('select').prop('disabled', false);
-						var restrictFilter = thisInstance.restrictFilter[name];
+						let restrictFilter = thisInstance.restrictFilter[name];
 						if (restrictFilter) {
 							for (var i in restrictFilter) {
 								addFieldContainer.find('.widgetFilter select option[value="' + restrictFilter[i] + '"]').remove();
@@ -253,17 +268,22 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					} else {
 						elementsToFilter.addClass('d-none').find('select').prop('disabled', true);
 					}
-					if (jQuery.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
+					if ($.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
 						elementsToFilterDate.removeClass('d-none').find('select').prop('disabled', false);
 						App.Fields.Picklist.showSelect2ElementView(elementsToFilterDate.find('select'));
 					} else {
 						elementsToFilterDate.addClass('d-none').find('select').prop('disabled', true);
 					}
+					if ($.inArray(name, thisInstance.widgetWithFilterTitle) != -1) {
+						elementsToFilterTitle.removeClass('d-none').find('input').prop('disabled', false);
+					} else {
+						elementsToFilterTitle.addClass('d-none').find('input').prop('disabled', true);
+					}
 				});
 
-				var form = data.find('.createCustomFieldForm');
+				let form = data.find('.createCustomFieldForm');
 				form.attr('id', 'createFieldForm');
-				var widgets = form.find('[name="widgets"]');
+				let widgets = form.find('[name="widgets"]');
 				form.validationEngine($.extend(true, {
 					onValidationComplete: function (form, valid) {
 						if (valid) {
@@ -1083,6 +1103,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		thisInstance.setWidgetWithFilterUsers();
 		thisInstance.setRestrictFilter();
 		thisInstance.setWidgetWithFilterDate();
+		thisInstance.setWidgetWithFilterTitle();
 		thisInstance.registerAddedDashboard();
 		thisInstance.registerSelectDashboard();
 		thisInstance.registerDashboardAction();
