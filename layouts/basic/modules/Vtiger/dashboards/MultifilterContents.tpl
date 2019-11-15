@@ -6,16 +6,15 @@
 		 data-url="{\App\Purifier::encodeHtml($MULTIFILTER_WIDGET_MODEL->getTotalCountURL())}">
 		<div class="js-toggle-panel c-panel" data-js="click|data-dynamic">
 			<div class="blockHeader c-panel__header">
-				<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-1" data-js="click"
-					  alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"
-					  data-id="{$TYPE_VIEW}_{$RELATED_MODULE_NAME}"></span>
-				<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-1 d-none" data-js="click"
-					  alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"
-					  data-id="{$TYPE_VIEW}_{$RELATED_MODULE_NAME}"></span>
-				<h7>
+				<h6 class="c-panel__title my-0 u-font-size-100per">
 					{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}
 					-{\App\Language::translate($CUSTOM_VIEW_NAME,$MODULE_NAME)}
-				</h7>
+				</h6>
+				<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-1" data-js="click"
+					  alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
+				<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-1 d-none" data-js="click"
+					  alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
+
 				<div class="position-absolute u-position-r-5px u-position-t-5px">
 					<a class="mr-1" href="{\App\Purifier::encodeHtml($LIST_VIEW_URL)}"><span class="fa fa-list"></span></a>
 					<span class="js-count badge count badge badge-danger c-badge--md">0</span>
