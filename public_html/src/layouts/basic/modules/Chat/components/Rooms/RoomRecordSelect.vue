@@ -27,15 +27,27 @@
         </q-item>
       </template>
       <template #prepend>
-        <q-icon @click.prevent="showRecordsModal(selectModule)" name="mdi-magnify" class="cursor-pointer" />
+        <q-icon
+          class="cursor-pointer"
+          name="mdi-magnify"
+          @click.prevent="showRecordsModal(selectModule)"
+        />
         <q-tooltip anchor="top middle">{{ translate('JS_CHAT_SEARCH_RECORDS_OF_THE_SELECTED_MODULE') }}</q-tooltip>
       </template>
       <template #append>
-        <q-icon name="mdi-close" @click.prevent="$emit('update:isVisible', false)" class="cursor-pointer" />
+        <q-icon
+          class="cursor-pointer"
+          name="mdi-close"
+          @click.prevent="$emit('update:isVisible', false)"
+        />
         <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
       </template>
       <template #option="scope">
-        <q-item dense v-bind="scope.itemProps" v-on="scope.itemEvents">
+        <q-item
+          dense
+          v-bind="scope.itemProps"
+          v-on="scope.itemEvents"
+        >
           <q-item-section avatar>
             <YfIcon :icon="`userIcon-${scope.opt.id}`" />
           </q-item-section>
@@ -93,7 +105,9 @@ export default {
       }
       update(() => {
         const needle = val.toLowerCase()
-        this.searchModules = this.modules.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        this.searchModules = this.modules.filter(
+          v => v.label.toLowerCase().indexOf(needle) > -1
+        )
       })
     },
     showRecordsModal(val) {
@@ -101,19 +115,22 @@ export default {
         this.$refs.selectModule.showPopup()
         return
       }
-      app.showRecordsList({ module: val, src_module: val }, (modal, instance) => {
-        instance.setSelectEvent((responseData, e) => {
-          AppConnector.request({
-            module: 'Chat',
-            action: 'Room',
-            mode: 'addToFavorites',
-            roomType: 'crm',
-            recordId: responseData.id
-          }).done(({ result }) => {
-            this.updateRooms(result)
+      app.showRecordsList(
+        { module: val, src_module: val },
+        (modal, instance) => {
+          instance.setSelectEvent((responseData, e) => {
+            AppConnector.request({
+              module: 'Chat',
+              action: 'Room',
+              mode: 'addToFavorites',
+              roomType: 'crm',
+              recordId: responseData.id
+            }).done(({ result }) => {
+              this.updateRooms(result)
+            })
           })
-        })
-      })
+        }
+      )
     }
   },
   created() {

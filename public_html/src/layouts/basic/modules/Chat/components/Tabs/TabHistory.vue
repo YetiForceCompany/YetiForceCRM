@@ -3,27 +3,44 @@
   <div>
     <q-tabs
       v-model="historyTab"
-      @input="tabChange"
+      class="text-teal"
       align="left"
       dense
       shrink
       inline-label
       narrow-indicator
-      class="text-teal"
+      @input="tabChange"
     >
-      <q-tab v-for="(room, roomType) of data.roomList" :key="roomType" :name="roomType">
-        <YfIcon class="q-icon q-tab__icon" size="20px" :icon="getGroupIcon(roomType)" />
+      <q-tab
+        v-for="(room, roomType) of data.roomList"
+        :key="roomType"
+        :name="roomType"
+      >
+        <YfIcon
+          class="q-icon q-tab__icon"
+          size="20px"
+          :icon="getGroupIcon(roomType)"
+        />
         <span class="q-tab__label">{{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}</span>
       </q-tab>
     </q-tabs>
-    <q-tab-panels v-model="historyTab" animated style="min-height: inherit;" class="chat-panels">
-      <q-tab-panel v-for="(room, roomType) of data.roomList" :key="roomType" :name="roomType">
+    <q-tab-panels
+      v-model="historyTab"
+      class="chat-panels"
+      animated
+      style="min-height: inherit;"
+    >
+      <q-tab-panel
+        v-for="(room, roomType) of data.roomList"
+        :key="roomType"
+        :name="roomType"
+      >
         <TabMessages
-          @earlierClick="earlierClick"
           :fetchingEarlier="fetchingEarlier"
           :header="messageHeader"
           :roomData="data.history"
           :messageOnClick="showChatRoom"
+          @earlierClick="earlierClick"
         />
       </q-tab-panel>
     </q-tab-panels>

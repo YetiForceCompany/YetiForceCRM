@@ -1,51 +1,84 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <div class="flex column justify-between" style="min-height: inherit;">
+  <div
+    class="flex column justify-between"
+    style="min-height: inherit;"
+  >
     <div class="flex no-wrap items-center q-px-sm">
-      <q-btn dense flat round :color="leftPanel ? 'info' : 'grey'" @click="toggleLeftPanel()">
+      <q-btn
+        dense
+        flat
+        round
+        :color="leftPanel ? 'info' : 'grey'"
+        @click="toggleLeftPanel()"
+      >
         <YfIcon icon="yfi-menu-group-room" />
         <q-tooltip>{{ translate('JS_CHAT_ROOMS_MENU') }}</q-tooltip>
       </q-btn>
       <q-input
+        v-model="inputSearch"
         class="full-width q-px-sm"
-        @keydown.enter="search()"
         dense
         :loading="searching"
-        v-model="inputSearch"
         :placeholder="translate('JS_CHAT_SEARCH_MESSAGES')"
+        @keydown.enter="search()"
       >
         <template #prepend>
-          <q-icon @click="search()" name="mdi-magnify" class="cursor-pointer" />
+          <q-icon
+            @click="search()"
+            class="cursor-pointer"
+            name="mdi-magnify"
+          />
         </template>
         <template #append>
-          <q-icon v-show="inputSearch.length > 0" name="mdi-close" @click="inputSearch = ''" class="cursor-pointer" />
+          <q-icon
+            v-show="inputSearch.length > 0"
+            class="cursor-pointer"
+            name="mdi-close"
+            @click="inputSearch = ''"
+          />
           <q-btn
             v-show="isSearchActive"
+            :label="translate('JS_LBL_CANCEL')"
             color="danger"
             flat
             dense
-            :label="translate('JS_LBL_CANCEL')"
             @click="clearSearch()"
           />
         </template>
       </q-input>
-      <q-btn dense flat round :color="rightPanel ? 'info' : 'grey'" @click="toggleRightPanel()">
+      <q-btn
+        :color="rightPanel ? 'info' : 'grey'"
+        dense
+        flat
+        round
+        @click="toggleRightPanel()"
+      >
         <YfIcon icon="yfi-menu-entrant" />
         <q-tooltip>{{ translate('JS_CHAT_PARTICIPANTS_MENU') }}</q-tooltip>
       </q-btn>
     </div>
-    <div class="flex-grow-1" style="min-height: 100%; height: 0; overflow: hidden">
-      <q-scroll-area ref="scrollContainer" :class="[scrollbarHidden ? 'scrollbarHidden' : '']">
+    <div
+      class="flex-grow-1"
+      style="min-height: 100%; height: 0; overflow: hidden"
+    >
+      <q-scroll-area
+        ref="scrollContainer"
+        :class="[scrollbarHidden ? 'scrollbarHidden' : '']"
+      >
         <TabMessages
-          :roomData="isSearchActive ? roomData.searchData : roomData"
-          @earlierClick="earlierClick()"
-          :fetchingEarlier="fetchingEarlier"
           ref="messagesContainer"
+          :roomData="isSearchActive ? roomData.searchData : roomData"
+          :fetchingEarlier="fetchingEarlier"
+          @earlierClick="earlierClick()"
         />
       </q-scroll-area>
       <q-resize-observer @resize="onResize" />
     </div>
-    <TabChatInput @onSended="scrollDown()" :roomData="roomData" />
+    <TabChatInput
+      :roomData="roomData"
+      @onSended="scrollDown()"
+    />
   </div>
 </template>
 <script>
@@ -80,14 +113,26 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['miniMode', 'data', 'config', 'currentRoomData', 'dialog', 'leftPanel', 'rightPanel']),
+    ...mapGetters([
+      'miniMode',
+      'data',
+      'config',
+      'currentRoomData',
+      'dialog',
+      'leftPanel',
+      'rightPanel'
+    ]),
     roomMessages() {
       return this.roomData.chatEntries
     }
   },
   watch: {
     roomData() {
-      if ((this.roomData.recordid !== this.roomId || this.roomData.roomType !== this.roomType) && this.dataReady) {
+      if (
+        (this.roomData.recordid !== this.roomId ||
+          this.roomData.roomType !== this.roomType) &&
+        this.dataReady
+      ) {
         this.disableNewMessagesListener()
         this.updateComponentsRoom()
         this.enableNewMessagesListener()
@@ -162,7 +207,9 @@ export default {
     },
     scrollDown() {
       this.scrollbarHidden = true
-      this.$refs.scrollContainer.setScrollPosition(this.$refs.messagesContainer.$el.clientHeight)
+      this.$refs.scrollContainer.setScrollPosition(
+        this.$refs.messagesContainer.$el.clientHeight
+      )
       setTimeout(() => {
         this.scrollbarHidden = false
       }, 1800)
@@ -175,8 +222,14 @@ export default {
       this.addActiveRoom({ recordId: this.roomId, roomType: this.roomType })
     },
     disableNewMessagesListener() {
-      if (this.data.roomList[this.roomType] && this.data.roomList[this.roomType][this.roomId]) {
-        this.removeActiveRoom({ recordId: this.roomId, roomType: this.roomType })
+      if (
+        this.data.roomList[this.roomType] &&
+        this.data.roomList[this.roomType][this.roomId]
+      ) {
+        this.removeActiveRoom({
+          recordId: this.roomId,
+          roomType: this.roomType
+        })
       }
     },
     registerPostLoadEvents() {

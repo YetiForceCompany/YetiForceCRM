@@ -17,7 +17,10 @@
     }"
   >
     <template v-for="relatedBlock in columnBlocks">
-      <div class="columns-grid__block" :key="relatedBlock">
+      <div
+        :key="relatedBlock"
+        class="columns-grid__block"
+      >
         <slot :relatedBlock="relatedBlock"></slot>
       </div>
     </template>

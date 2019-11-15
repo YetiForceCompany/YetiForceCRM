@@ -15,8 +15,15 @@
     transition-hide="slide-down"
     content-class="quasar-reset"
   >
-    <drag-resize v-if="isDragResize" :coordinates.sync="coordinates" :maximized="previewMaximized">
-      <article-preview-content :height="coordinates.height" :previewMaximized.sync="previewMaximized" />
+    <drag-resize
+      v-if="isDragResize"
+      :coordinates.sync="coordinates"
+      :maximized="previewMaximized"
+    >
+      <article-preview-content
+        :height="coordinates.height"
+        :previewMaximized.sync="previewMaximized"
+      />
     </drag-resize>
     <article-preview-content v-else>
       <template slot="header-right">
@@ -70,5 +77,4 @@ export default {
   }
 }
 </script>
-<style>
-</style>
+<style></style>

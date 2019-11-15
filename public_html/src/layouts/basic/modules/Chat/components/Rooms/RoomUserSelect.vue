@@ -37,10 +37,22 @@
         <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
       </template>
       <template #option="scope">
-        <q-item dense v-bind="scope.itemProps" v-on="scope.itemEvents">
+        <q-item
+          dense
+          v-bind="scope.itemProps"
+          v-on="scope.itemEvents"
+        >
           <q-item-section avatar>
-            <img v-if="scope.opt.img" :src="scope.opt.img" :alt="scope.opt.label" style="height: 1.7rem;" />
-            <q-icon v-else name="mdi-account" />
+            <img
+              v-if="scope.opt.img"
+              :src="scope.opt.img"
+              :alt="scope.opt.label"
+              style="height: 1.7rem;"
+            />
+            <q-icon
+              v-else
+              name="mdi-account"
+            />
           </q-item-section>
           <q-item-section>
             {{ scope.opt.label }}
@@ -58,7 +70,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
-  name: 'selectUsers',
+  name: 'SelectUsers',
   props: {
     isVisible: {
       type: Boolean
@@ -101,7 +113,10 @@ export default {
           }
         }
         if (!userExists) {
-          this.addParticipant({ recordId: this.currentRoomData.recordid, userId: val }).then(({ result }) => {
+          this.addParticipant({
+            recordId: this.currentRoomData.recordid,
+            userId: val
+          }).then(({ result }) => {
             if (result.message) {
               this.errorMessage = this.translate(result.message)
               this.isValid = false
@@ -139,7 +154,9 @@ export default {
       }
       update(() => {
         const needle = val.toLowerCase()
-        this.searchUsers = this.users.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        this.searchUsers = this.users.filter(
+          v => v.label.toLowerCase().indexOf(needle) > -1
+        )
       })
     }
   },

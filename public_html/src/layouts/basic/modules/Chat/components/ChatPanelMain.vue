@@ -2,19 +2,36 @@
 <template>
   <q-page-container>
     <q-page>
-      <q-tab-panels v-model="tab" animated style="min-height: inherit;" class="chat-panels">
-        <q-tab-panel name="chat" style="min-height: inherit;">
-          <TabChat @onContentLoaded="isLoading = false" :roomData="currentRoomData" />
+      <q-tab-panels
+        v-model="tab"
+        class="chat-panels"
+        style="min-height: inherit;"
+        animated
+      >
+        <q-tab-panel
+          name="chat"
+          style="min-height: inherit;"
+        >
+          <TabChat
+            :roomData="currentRoomData"
+            @onContentLoaded="isLoading = false"
+          />
         </q-tab-panel>
         <q-tab-panel name="unread">
-          <TabUnread @onContentLoaded="isLoading = false" class="q-pa-md" />
+          <TabUnread
+            class="q-pa-md"
+            @onContentLoaded="isLoading = false"
+          />
         </q-tab-panel>
         <q-tab-panel name="history">
           <TabHistory @onContentLoaded="isLoading = false" />
         </q-tab-panel>
       </q-tab-panels>
       <q-inner-loading :showing="isLoading">
-        <q-spinner-cube color="primary" size="50px" />
+        <q-spinner-cube
+          color="primary"
+          size="50px"
+        />
       </q-inner-loading>
     </q-page>
   </q-page-container>

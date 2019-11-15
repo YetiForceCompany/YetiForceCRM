@@ -1,7 +1,14 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-layout view="hHh LpR fFf" container :class="['bg-white', miniMode ? 'chat-mini' : '']">
-    <ChatHeader @visibleInputSearch="inputSearchVisible = $event" @showTabHistory="tabHistoryShow = $event" />
+  <q-layout
+    :class="['bg-white', miniMode ? 'chat-mini' : '']"
+    view="hHh LpR fFf"
+    container
+  >
+    <ChatHeader
+      @visibleInputSearch="inputSearchVisible = $event"
+      @showTabHistory="tabHistoryShow = $event"
+    />
     <ChatPanelLeft>
       <template #top>
         <YfBackdrop v-show="tab !== 'chat'" />
@@ -11,10 +18,10 @@
       v-model="computedModel"
       :class="{ 'backdrop-fix': mobileMode && !computedModel }"
       :breakpoint="layout.drawer.breakpoint"
+      :show-if-above="false"
       no-swipe-close
       no-swipe-open
       bordered
-      :show-if-above="false"
       side="right"
     >
       <ChatPanelRight :participants="currentRoomData.participants || []">

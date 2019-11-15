@@ -10,26 +10,41 @@
 <template>
   <div class="KnowledgeBase h-100">
     <q-layout
-      view="hHh Lpr fFf"
-      container
       class="absolute"
       :style="coordinates.height && !maximized ? { 'max-height': `${coordinates.height - 31.14}px` } : {}"
+      view="hHh Lpr fFf"
+      container
     >
-      <q-header elevated class="bg-white text-primary">
+      <q-header
+        class="bg-white text-primary"
+        elevated
+      >
         <q-toolbar class="flex-md-nowrap flex-wrap items-center q-gutter-x-md q-gutter-y-sm q-pl-md q-pr-none q-py-xs">
           <div :class="['flex items-center no-wrap flex-md-grow-1 q-mr-sm-sm', searchData ? 'invisible' : '']">
-            <q-btn dense round push icon="mdi-menu" @click="toggleDrawer()">
+            <q-btn
+              dense
+              round
+              push
+              icon="mdi-menu"
+              @click="toggleDrawer()"
+            >
               <q-tooltip>{{ translate('JS_KB_TOGGLE_CATEGORY_MENU') }}</q-tooltip>
             </q-btn>
-            <q-breadcrumbs class="ml-2" v-show="tab === 'categories'">
+            <q-breadcrumbs
+              class="ml-2"
+              v-show="tab === 'categories'"
+            >
               <template #separator>
-                <q-icon size="1.5em" name="mdi-chevron-right" />
+                <q-icon
+                  size="1.5em"
+                  name="mdi-chevron-right"
+                />
               </template>
               <q-breadcrumbs-el
+                :class="[activeCategory === '' ? 'text-black' : 'cursor-pointer']"
                 :icon="tree.topCategory.icon"
                 :label="translate(tree.topCategory.label)"
                 @click="activeCategory === '' ? '' : fetchData()"
-                :class="[activeCategory === '' ? 'text-black' : 'cursor-pointer']"
               />
               <template v-if="activeCategory !== ''">
                 <q-breadcrumbs-el
@@ -42,54 +57,89 @@
                 >
                   <YfIcon
                     v-if="tree.categories[category].icon"
+                    class="q-mr-sm"
                     :size="iconSize"
                     :icon="tree.categories[category].icon"
-                    class="q-mr-sm"
                   ></YfIcon>
                   {{ tree.categories[category].label }}
                 </q-breadcrumbs-el>
               </template>
             </q-breadcrumbs>
-            <q-breadcrumbs class="ml-2" v-show="tab === 'accounts'">
-              <q-breadcrumbs-el v-if="activeAccount !== ''" class="text-black">
-                <YfIcon :size="iconSize" :icon="'userIcon-Accounts'" class="q-mr-sm"></YfIcon>
+            <q-breadcrumbs
+              class="ml-2"
+              v-show="tab === 'accounts'"
+            >
+              <q-breadcrumbs-el
+                v-if="activeAccount !== ''"
+                class="text-black"
+              >
+                <YfIcon
+                  :size="iconSize"
+                  :icon="'userIcon-Accounts'"
+                  class="q-mr-sm"
+                ></YfIcon>
                 {{ activeAccount }}
               </q-breadcrumbs-el>
             </q-breadcrumbs>
           </div>
           <div class="tree-search flex flex-grow-1 no-wrap order-sm-none order-xs-last">
             <q-input
-              class="full-width"
               v-model="filter"
+              class="full-width"
               :placeholder="translate('JS_KB_SEARCH_PLACEHOLDER')"
               rounded
               outlined
               type="search"
-              @input="search"
               autofocus
+              @input="search"
             >
               <template #prepend>
                 <q-icon name="mdi-magnify" />
-                <q-tooltip v-model="inputFocus" anchor="top middle" self="center middle">{{
+                <q-tooltip
+                  v-model="inputFocus"
+                  anchor="top middle"
+                  self="center middle"
+                >{{
                   translate('JS_INPUT_TOO_SHORT').replace('_LENGTH_', '3')
                 }}</q-tooltip>
               </template>
               <template #append>
-                <q-icon v-if="filter !== ''" name="mdi-close" @click.stop="clearSearch()" class="cursor-pointer" />
+                <q-icon
+                  v-if="filter !== ''"
+                  name="mdi-close"
+                  class="cursor-pointer"
+                  @click.stop="clearSearch()"
+                />
                 <div class="flex items-center q-ml-sm">
                   <icon-info :customOptions="{ iconSize: '21px' }">
-                    <div style="white-space: pre-line;" v-html="translate('JS_FULL_TEXT_SEARCH_INFO')"></div>
+                    <div
+                      style="white-space: pre-line;"
+                      v-html="translate('JS_FULL_TEXT_SEARCH_INFO')"
+                    ></div>
                   </icon-info>
                 </div>
-                <div v-show="activeCategory !== ''" class="flex">
-                  <q-toggle v-model="categorySearch" icon="mdi-file-tree" />
+                <div
+                  v-show="activeCategory !== ''"
+                  class="flex"
+                >
+                  <q-toggle
+                    v-model="categorySearch"
+                    icon="mdi-file-tree"
+                  />
                   <q-tooltip>{{ translate('JS_KB_SEARCH_CURRENT_CATEGORY') }}</q-tooltip>
                 </div>
               </template>
             </q-input>
           </div>
           <div class="flex-md-grow-1 flex justify-end q-ml-sm-sm">
-            <q-btn round dense color="white" text-color="primary" icon="mdi-plus" @click="openQuickCreateModal()">
+            <q-btn
+              round
+              dense
+              color="white"
+              text-color="primary"
+              icon="mdi-plus"
+              @click="openQuickCreateModal()"
+            >
               <q-tooltip>{{ translate('JS_KB_QUICK_CREATE') }}</q-tooltip>
             </q-btn>
           </div>
@@ -97,49 +147,70 @@
       </q-header>
       <q-drawer
         v-show="!searchData"
+        ref="drawer"
         v-model="left"
-        side="left"
-        elevated
         :mini="miniState"
         :width="searchData ? 0 : 250"
         :breakpoint="700"
+        side="left"
+        elevated
         content-class="bg-white text-black"
-        ref="drawer"
         content-style="overflow: hidden !important"
       >
         <template v-if="showAccounts">
           <q-tabs
             v-model="tab"
-            dense
             class="text-grey"
+            dense
             active-color="primary"
             indicator-color="primary"
             align="justify"
             narrow-indicator
             @input="onTabChange"
           >
-            <q-tab name="categories" :label="translate('JS_KB_CATEGORIES')" />
-            <q-tab name="accounts" :label="translate('JS_KB_ACCOUNTS')" />
+            <q-tab
+              name="categories"
+              :label="translate('JS_KB_CATEGORIES')"
+            />
+            <q-tab
+              name="accounts"
+              :label="translate('JS_KB_ACCOUNTS')"
+            />
           </q-tabs>
-          <q-tab-panels v-model="tab" animated style="height: calc(100% - 36px)">
+          <q-tab-panels
+            v-model="tab"
+            style="height: calc(100% - 36px)"
+            animated
+          >
             <q-tab-panel name="categories">
               <q-scroll-area class="fit">
-                <categories-list :data="data" :activeCategory="activeCategory" @fetchData="fetchData" />
+                <categories-list
+                  :data="data"
+                  :activeCategory="activeCategory"
+                  @fetchData="fetchData"
+                />
               </q-scroll-area>
             </q-tab-panel>
             <q-tab-panel name="accounts">
               <div class="q-px-sm">
-                <q-input v-model="accountSearch" :placeholder="translate('JS_KB_SEARCH_PLACEHOLDER')" dense>
+                <q-input
+                  v-model="accountSearch"
+                  :placeholder="translate('JS_KB_SEARCH_PLACEHOLDER')"
+                  dense
+                >
                   <template #prepend>
-                    <q-icon name="mdi-magnify" size="16px" />
+                    <q-icon
+                      name="mdi-magnify"
+                      size="16px"
+                    />
                   </template>
                   <template #append>
                     <q-icon
                       v-show="accountSearch !== ''"
-                      name="mdi-close"
-                      @click="accountSearch = ''"
                       class="cursor-pointer"
+                      name="mdi-close"
                       size="16px"
+                      @click="accountSearch = ''"
                     />
                   </template>
                 </q-input>
@@ -148,20 +219,20 @@
                 <q-list>
                   <q-item
                     v-for="account in accountsList"
-                    :active="activeAccount === account.name"
                     :key="account.id"
+                    :active="activeAccount === account.name"
+                    clickable
                     @click="
                       fetchData(null, account.id)
                       activeAccount = account.name
                     "
-                    clickable
                   >
                     <q-item-section>{{ account.name }}</q-item-section>
                     <q-item-section avatar>
                       <a
                         class="js-popover-tooltip--record ellipsis"
-                        @click.prevent=""
                         :href="`index.php?module=Accounts&view=Detail&record=${account.id}`"
+                        @click.prevent=""
                       >
                         <q-icon name="mdi-link" />
                       </a>
@@ -172,35 +243,62 @@
             </q-tab-panel>
           </q-tab-panels>
         </template>
-        <q-scroll-area v-else class="fit">
-          <categories-list :data="data" :activeCategory="activeCategory" @fetchData="fetchData" />
+        <q-scroll-area
+          v-else
+          class="fit"
+        >
+          <categories-list
+            :data="data"
+            :activeCategory="activeCategory"
+            @fetchData="fetchData"
+          />
         </q-scroll-area>
       </q-drawer>
       <q-page-container>
         <q-page class="q-pa-sm">
           <div v-show="!searchData">
-            <columns-grid v-show="featuredCategories.length" :columnBlocks="featuredCategories" class="q-pa-sm">
+            <columns-grid
+              v-show="featuredCategories.length"
+              :columnBlocks="featuredCategories"
+              class="q-pa-sm"
+            >
               <template #default="slotProps">
-                <q-list bordered padding dense>
-                  <q-item header clickable class="text-black flex" @click="fetchData(slotProps.relatedBlock)">
-                    <YfIcon :icon="tree.categories[slotProps.relatedBlock].icon" :size="iconSize" class="mr-2"></YfIcon>
+                <q-list
+                  bordered
+                  padding
+                  dense
+                >
+                  <q-item
+                    header
+                    clickable
+                    class="text-black flex"
+                    @click="fetchData(slotProps.relatedBlock)"
+                  >
+                    <YfIcon
+                      :icon="tree.categories[slotProps.relatedBlock].icon"
+                      :size="iconSize"
+                      class="mr-2"
+                    ></YfIcon>
                     {{ tree.categories[slotProps.relatedBlock].label }}
                   </q-item>
                   <q-item
-                    clickable
                     v-for="featuredValue in selectedTabData.featured[slotProps.relatedBlock]"
                     :key="featuredValue.id"
                     class="text-subtitle2"
+                    clickable
                     v-ripple
                     @click.prevent="showArticlePreview(featuredValue.id)"
                   >
                     <q-item-section class="align-items-center flex-row no-wrap justify-content-start">
-                      <q-icon name="mdi-star" :size="iconSize" class="mr-2"></q-icon>
+                      <q-icon
+                        class="mr-2"
+                        name="mdi-star"
+                        :size="iconSize"
+                      ></q-icon>
                       <a
                         class="js-popover-tooltip--record ellipsis"
                         :href="`index.php?module=${moduleName}&view=Detail&record=${featuredValue.id}`"
-                        >{{ featuredValue.subject }}</a
-                      >
+                      >{{ featuredValue.subject }}</a>
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -224,7 +322,11 @@
         </q-page>
       </q-page-container>
     </q-layout>
-    <article-preview :isDragResize="true" :previewDialog.sync="previewDialog" @onDialogToggle="onDialogToggle" />
+    <article-preview
+      isDragResize
+      :previewDialog.sync="previewDialog"
+      @onDialogToggle="onDialogToggle"
+    />
   </div>
 </template>
 <script>

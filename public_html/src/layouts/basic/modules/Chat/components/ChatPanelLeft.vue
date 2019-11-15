@@ -4,24 +4,38 @@
     v-model="computedModel"
     :class="{ 'backdrop-fix': mobileMode && !computedModel }"
     :breakpoint="layout.drawer.breakpoint"
+    :show-if-above="false"
     no-swipe-close
     no-swipe-open
     bordered
-    :show-if-above="false"
     side="left"
   >
     <div class="fit bg-grey-11">
       <slot name="top"></slot>
       <div class="bg-grey-11">
-        <q-input dense v-model="filterRooms" :placeholder="translate('JS_CHAT_FILTER_ROOMS')" class="q-px-sm">
+        <q-input
+          v-model="filterRooms"
+          class="q-px-sm"
+          :placeholder="translate('JS_CHAT_FILTER_ROOMS')"
+          dense
+        >
           <template #prepend>
             <q-icon name="mdi-magnify" />
           </template>
           <template #append>
-            <q-icon v-show="filterRooms.length > 0" name="mdi-close" @click="filterRooms = ''" class="cursor-pointer" />
+            <q-icon
+              v-show="filterRooms.length > 0"
+              class="cursor-pointer"
+              name="mdi-close"
+              @click="filterRooms = ''"
+            />
           </template>
         </q-input>
-        <div v-for="(roomGroup, roomType) of roomList" :key="roomType" :style="{ fontSize: layout.drawer.fs }">
+        <div
+          v-for="(roomGroup, roomType) of roomList"
+          :key="roomType"
+          :style="{ fontSize: layout.drawer.fs }"
+        >
           <component
             :is="roomsMap[roomType]"
             :roomType="roomType"

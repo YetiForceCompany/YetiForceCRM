@@ -1,6 +1,6 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-list v-if="isVisible" dense class="q-mb-none">
+  <q-list v-if="isVisible" class="q-mb-none" dense>
     <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
       <q-item-section avatar>
         <YfIcon :icon="getGroupIcon(roomType)" :size="layout.drawer.fs" />
@@ -10,17 +10,17 @@
         <q-btn
           v-if="hideUnpinned"
           v-show="areUnpinned && !filterRooms.length"
+          :icon="showAllRooms ? 'mdi-chevron-up' : 'mdi-chevron-down'"
           dense
           flat
           round
           color="primary"
-          :icon="showAllRooms ? 'mdi-chevron-up' : 'mdi-chevron-down'"
           @click="showAllRooms = !showAllRooms"
         >
           <q-tooltip>{{ translate(showAllRooms ? 'JS_CHAT_HIDE_UNPINNED' : 'JS_CHAT_SHOW_UNPINNED') }}</q-tooltip>
         </q-btn>
         <slot name="labelRight"></slot>
-        <q-icon :size="layout.drawer.fs" name="mdi-information" class="q-pr-xs">
+        <q-icon class="q-pr-xs" :size="layout.drawer.fs" name="mdi-information">
           <q-tooltip>{{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
         </q-icon>
       </div>
@@ -153,5 +153,4 @@ export default {
   }
 }
 </script>
-<style lang="sass" scoped>
-</style>
+<style lang="sass" scoped></style>

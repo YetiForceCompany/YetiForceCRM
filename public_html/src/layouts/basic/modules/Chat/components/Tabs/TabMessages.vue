@@ -2,7 +2,7 @@
 <template>
   <div>
     <div v-show="roomData.showMoreButton" class="text-center q-mt-md">
-      <q-btn :loading="fetchingEarlier" @click="$emit('earlierClick')" icon="mdi-chevron-double-up">
+      <q-btn :loading="fetchingEarlier" icon="mdi-chevron-double-up" @click="$emit('earlierClick')" >
         {{ translate('JS_CHAT_EARLIER') }}
         <template #loading>
           <q-spinner-facebook />
@@ -11,8 +11,7 @@
     </div>
     <div class="q-pa-md">
       <template v-for="row in roomData.chatEntries">
-        <!-- <q-chat-message :key="row.id" /> -->
-        <div @click="messageOnClick ? messageOnClick(row, $event) : ''" :data-id="row.recordid" :key="row.id">
+        <div  :data-id="row.recordid" :key="row.id" @click="messageOnClick ? messageOnClick(row, $event) : ''">
           <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
             <q-chat-message
               :key="row.id"

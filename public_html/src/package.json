@@ -20,7 +20,8 @@
   "license": "YetiForce Public License v3",
   "scripts": {
     "prod": "cross-env NODE_ENV=production node rollup.js",
-    "watch": "cross-env NODE_ENV=development node rollup.js"
+    "watch": "cross-env NODE_ENV=development node rollup.js",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "lodash.get": "^4.4.2",
@@ -31,18 +32,22 @@
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
+    "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-eslint": "^4.0.5",
     "@vue/cli-service": "^4.0.5",
     "@vue/eslint-config-prettier": "^5.0.0",
+    "babel-eslint": "^10.0.3",
     "babel-preset-vue": "^2.0.2",
     "cross-env": "^6.0.3",
     "eslint": "^6.6.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^6.0.1",
     "findit": "^2.0.0",
     "gulp": "^4.0.2",
     "gulp-stylus": "^2.7.0",
     "node-sass": "^4.13.0",
     "postcss": "^7.0.21",
+    "prettier": "^1.19.1",
     "rollup": "^1.26.3",
     "rollup-plugin-alias": "^2.0.1",
     "rollup-plugin-babel": "^4.3.3",
