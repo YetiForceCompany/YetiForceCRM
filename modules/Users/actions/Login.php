@@ -12,6 +12,23 @@
 class Users_Login_Action extends \App\Controller\Action
 {
 	/**
+	 * {@inheritdoc}
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->headers->csp['default-src'] = '\'self\'';
+		$this->headers->csp['img-src'] = '\'self\'';
+		$this->headers->csp['script-src'] = str_replace([
+			' \'unsafe-inline\'', ' blob:'
+		], '', $this->headers->csp['script-src']);
+		$this->headers->csp['form-action'] = '\'self\'';
+		$this->headers->csp['style-src'] = '\'self\'';
+		$this->headers->csp['base-uri'] = '\'self\'';
+		$this->headers->csp['object-src'] = '\'none\'';
+	}
+
+	/**
 	 * Users record model.
 	 *
 	 * @var Users_Record_Model
@@ -205,13 +222,5 @@ class Users_Login_Action extends \App\Controller\Action
 		}
 		Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
 		header('location: index.php?module=Users&view=Login');
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function setCspHeaders()
-	{
-		header("content-security-policy: default-src 'self' 'nonce-" . App\Session::get('CSP_TOKEN') . "'; object-src 'none';base-uri 'self'; frame-ancestors 'self';");
 	}
 }

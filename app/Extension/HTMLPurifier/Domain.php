@@ -12,6 +12,10 @@ namespace App\Extension\HTMLPurifier;
 class Domain extends \HTMLPurifier_URIFilter
 {
 	/**
+	 * {@inheritdoc}
+	 */
+	public $name = 'Domain';
+	/**
 	 * Allowed domains.
 	 *
 	 * @var string[]
@@ -23,7 +27,7 @@ class Domain extends \HTMLPurifier_URIFilter
 	 */
 	public function prepare($config)
 	{
-		$this->allowedDomains = \App\Config::security('PURIFIER_ALLOWED_DOMAINS') ?: $this->allowedDomains;
+		$this->allowedDomains = \Config\Security::$purifierAllowedDomains ?? [];
 	}
 
 	/**
@@ -31,10 +35,13 @@ class Domain extends \HTMLPurifier_URIFilter
 	 */
 	public function filter(&$uri, $config, $context)
 	{
-		if ('data' === $uri->scheme || 'mailto' === $uri->scheme) {
+		$host = $uri->host;
+		if (null === $uri->scheme) {
+			$host = parse_url('xxx://' . $uri->path)['host'] ?? '';
+		} elseif ('data' === $uri->scheme || 'mailto' === $uri->scheme || 'tel' === $uri->scheme) {
 			return true;
 		}
-		if (!\in_array($uri->host, $this->allowedDomains)) {
+		if (false !== strpos($host, '.') && !\in_array($host, $this->allowedDomains)) {
 			return false;
 		}
 		return true;

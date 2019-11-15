@@ -932,20 +932,6 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
-		'HPKP_KEYS' => [
-			'default' => [],
-			'description' => "HTTP Public-Key-Pins (HPKP) pin-sha256 For HPKP to work properly at least 2 keys are needed.\nhttps://scotthelme.co.uk/hpkp-http-public-key-pinning/, https://sekurak.pl/mechanizm-http-public-key-pinning/.",
-		],
-		'CSP_ACTIVE' => [
-			'default' => true,
-			'description' => 'Content Security Policy',
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool'
-		],
-		'PURIFIER_ALLOWED_DOMAINS' => [
-			'default' => [],
-			'description' => 'List of allowed domains for fields with HTML support',
-		],
 		'MAX_LIFETIME_SESSION' => [
 			'default' => 21600,
 			'description' => 'Lifetime session (in seconds)',
@@ -962,7 +948,45 @@ return [
 			'default' => 3600,
 			'description' => 'Cache lifetime for SensioLabs security checker.',
 			'validation' => '\App\Validator::naturalNumber',
-		]
+		],
+		'hpkpKeys' => [
+			'default' => [],
+			'description' => "HTTP Public-Key-Pins (HPKP) pin-sha256 For HPKP to work properly at least 2 keys are needed.\nhttps://scotthelme.co.uk/hpkp-http-public-key-pinning/, https://sekurak.pl/mechanizm-http-public-key-pinning/.",
+		],
+		'cspActive' => [
+			'default' => true,
+			'description' => 'HTTP Content Security Policy response header allows web site administrators to control resources the user agent is allowed to load for a given page',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'allowedImageDomains' => [
+			'default' => [
+				'a.tile.openstreetmap.org',
+				'b.tile.openstreetmap.org',
+				'c.tile.openstreetmap.org'
+			],
+			'description' => 'Allowed domains for loading images, used in CSP.',
+		],
+		'allowedFrameDomains' => [
+			'default' => [],
+			'description' => 'Allowed domains for loading frame, used in CSP.',
+		],
+		'allowedScriptDomains' => [
+			'default' => [],
+			'description' => 'Allowed domains for loading script, used in CSP.',
+		],
+		'allowedFormDomains' => [
+			'default' => ['paypal.com'],
+			'description' => 'Allowed domains which can be used as the target of a form submissions from a given context, used in CSP.',
+		],
+		'generallyAllowedDomains' => [
+			'default' => [],
+			'description' => 'Generally allowed domains, used in CSP.',
+		],
+		'purifierAllowedDomains' => [
+			'default' => [],
+			'description' => 'List of allowed domains for fields with HTML support',
+		],
 	],
 	'sounds' => [
 		'IS_ENABLED' => [
