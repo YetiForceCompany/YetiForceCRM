@@ -109,4 +109,33 @@ class Security
 
 	/** Cache lifetime for SensioLabs security checker. */
 	public static $CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER = 3600;
+
+	/**
+	 * HTTP Public-Key-Pins (HPKP) pin-sha256 For HPKP to work properly at least 2 keys are needed.
+	 * https://scotthelme.co.uk/hpkp-http-public-key-pinning/, https://sekurak.pl/mechanizm-http-public-key-pinning/.
+	 */
+	public static $hpkpKeys = [];
+
+	/** HTTP Content Security Policy response header allows web site administrators to control resources the user agent is allowed to load for a given page */
+	public static $cspActive = true;
+
+	/** Allowed domains for loading images, used in CSP. */
+	public static $allowedImageDomains = ['a.tile.openstreetmap.org', 'b.tile.openstreetmap.org', 'c.tile.openstreetmap.org'];
+
+	/** Allowed domains for loading frame, used in CSP. */
+	//public static $allowedFrameDomains = [];
+	public static $allowedFrameDomains = [];
+
+	/** Allowed domains for loading script, used in CSP. */
+	//public static $allowedScriptDomains = [];
+	public static $allowedScriptDomains = [];
+
+	/** Allowed domains which can be used as the target of a form submissions from a given context, used in CSP. */
+	public static $allowedFormDomains = ['paypal.com'];
+
+	/** Generally allowed domains, used in CSP. */
+	public static $generallyAllowedDomains = [];
+
+	/** List of allowed domains for fields with HTML support */
+	public static $purifierAllowedDomains = [];
 }

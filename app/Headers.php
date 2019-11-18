@@ -31,6 +31,7 @@ class Headers
 		'referrer-policy' => 'no-referrer',
 		'expect-ct' => 'enforce; max-age=3600',
 		'access-control-allow-methods' => 'GET, POST',
+		'access-control-allow-origin' => '*',
 		'x-robots-tag' => 'none',
 		'x-permitted-cross-domain-policies' => 'none',
 	];
