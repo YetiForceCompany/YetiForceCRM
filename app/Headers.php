@@ -20,18 +20,18 @@ class Headers
 	 * @var string[]
 	 */
 	protected $headers = [
+		'access-control-allow-methods' => 'GET, POST',
+		'access-control-allow-origin' => '*',
 		'expires' => '-',
 		'last-modified' => '-',
 		'pragma' => 'no-cache',
 		'cache-control' => 'private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0',
 		'content-type' => 'text/html; charset=UTF-8',
-		'x-frame-options' => 'SAMEORIGIN',
-		'x-xss-protection' => '1; mode=block',
-		'x-content-type-options' => 'nosniff',
 		'referrer-policy' => 'no-referrer',
 		'expect-ct' => 'enforce; max-age=3600',
-		'access-control-allow-methods' => 'GET, POST',
-		'access-control-allow-origin' => '*',
+		'x-frame-options' => 'sameorigin',
+		'x-xss-protection' => '1; mode=block',
+		'x-content-type-options' => 'nosniff',
 		'x-robots-tag' => 'none',
 		'x-permitted-cross-domain-policies' => 'none',
 	];
