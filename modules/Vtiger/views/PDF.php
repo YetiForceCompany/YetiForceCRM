@@ -47,7 +47,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		$handlerClass = \Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdfModel = new $handlerClass();
 
-		$dynamicTemplates = $records = $templateIds = [];
+		$dynamicTemplates = $records = [];
 		$active = false;
 		$activeDynamic = false;
 
@@ -64,7 +64,6 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		foreach ($templates as $key => $template) {
 			$isTemplateActive = $template->get('default');
 			if ($isTemplateActive && !$active) {
-				$templateIds[] = $key;
 				foreach ($records as $record) {
 					if ($template->checkFiltersForRecord((int) $record)) {
 						$active = true;
