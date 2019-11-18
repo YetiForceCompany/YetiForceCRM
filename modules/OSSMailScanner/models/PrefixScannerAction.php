@@ -35,15 +35,12 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 		$mailId = $this->mail->getMailCrmId();
 		$recordId = 0;
 		if ($mailId) {
-			$returnIds = [];
-			$query = (new \App\Db\Query())->select(['crmid'])->from('vtiger_ossmailview_relation')->where(['ossmailviewid' => $mailId]);
-			$dataReader = $query->createCommand()->query();
-			while ($crmId = $dataReader->readColumn(0)) {
-				if (\App\Record::getType($crmId) === $this->moduleName) {
-					$returnIds[] = $crmId;
-				}
-			}
-			$dataReader->close();
+			$query = (new \App\Db\Query())->select(['vtiger_ossmailview_relation.crmid'])
+			->from('vtiger_ossmailview_relation')
+			->innerJoin('vtiger_crmentity', "vtiger_crmentity.crmid = vtiger_ossmailview_relation.crmid")
+			->where(['ossmailviewid' => $mailId, 'setype' => $this->moduleName])
+			->andWhere(['<>', 'vtiger_crmentity.deleted', 1]);
+			$returnIds = $query->column();
 			if (!empty($returnIds)) {
 				$recordId = $returnIds;
 			} else {
@@ -51,9 +48,7 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 				if ($this->prefix) {
 					$recordId = $this->add();
 				} elseif (\App\Config::module('OSSMailScanner', 'SEARCH_PREFIX_IN_BODY') && $this->prefix = \App\Fields\Email::findRecordNumber($this->mail->get('body'), $this->moduleName, true)) {
-					if ($this->prefix) {
-						$recordId = $this->addByBody();
-					}
+					$recordId = $this->addByBody();
 				}
 			}
 		}
@@ -129,8 +124,7 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 	{
 		$queryGenerator = new App\QueryGenerator($this->moduleName);
 		$statusFieldName = \App\RecordStatus::getFieldName($this->moduleName);
-		$queryGenerator->addCondition($statusFieldName,
-		\App\RecordStatus::getStates($this->moduleName, \App\RecordStatus::RECORD_STATE_OPEN), 'e', false);
+		$queryGenerator->addCondition($statusFieldName,\App\RecordStatus::getStates($this->moduleName, \App\RecordStatus::RECORD_STATE_OPEN), 'e', false);
 		$queryGenerator->addNativeCondition([$this->tableName . '.' . $this->tableColumn => $this->prefix]);
 		$queryGenerator->setOrder('modifiedtime', 'DESC');
 		return $queryGenerator->createQuery()->createCommand()->queryScalar() ?? false;
