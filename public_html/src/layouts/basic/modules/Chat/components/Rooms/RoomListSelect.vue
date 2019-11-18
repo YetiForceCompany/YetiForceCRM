@@ -2,24 +2,24 @@
 <template>
   <div class="full-width">
     <q-select
+      ref="selectedOption"
+      v-model="selectedOption"
+      class="full-width"
+      :hint="translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE')"
+      :options="searchModules"
       dense
-      v-model="selectModule"
       use-input
       fill-input
       hide-selected
       input-debounce="0"
-      :options="searchModules"
       option-value="id"
       option-label="label"
       emit-value
       map-options
-      :hint="translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE')"
-      @filter="filter"
-      @input="showRecordsModal"
       hide-bottom-space
       popup-content-class="quasar-reset"
-      class="full-width"
-      ref="selectModule"
+      @input="callbackInput($event)"
+      @filter="filter"
     >
       <template #no-option>
         <q-item>
@@ -27,12 +27,10 @@
         </q-item>
       </template>
       <template #prepend>
-        <q-icon
-          class="cursor-pointer"
-          name="mdi-magnify"
-          @click.prevent="showRecordsModal(selectModule)"
-        />
-        <q-tooltip anchor="top middle">{{ translate('JS_CHAT_SEARCH_RECORDS_OF_THE_SELECTED_MODULE') }}</q-tooltip>
+        <slot
+          name="prepend"
+          :selected="selectedOption"
+        ></slot>
       </template>
       <template #append>
         <q-icon
@@ -75,7 +73,7 @@ export default {
   },
   data() {
     return {
-      selectModule: null,
+      selectedOption: null,
       searchModules: []
     }
   },
@@ -83,11 +81,11 @@ export default {
     isVisible(val) {
       if (val) {
         setTimeout(() => {
-          this.$refs.selectModule.showPopup()
+          this.$refs.selectedOption.showPopup()
         }, 100)
       } else {
-        this.selectModule = null
-        this.$refs.selectModule.hidePopup()
+        this.selectedOption = null
+        this.$refs.selectedOption.hidePopup()
       }
     }
   },
@@ -95,7 +93,6 @@ export default {
     ...mapGetters(['config'])
   },
   methods: {
-    ...mapMutations(['updateRooms']),
     filter(val, update) {
       if (val === '') {
         update(() => {
@@ -110,27 +107,8 @@ export default {
         )
       })
     },
-    showRecordsModal(val) {
-      if (!val) {
-        this.$refs.selectModule.showPopup()
-        return
-      }
-      app.showRecordsList(
-        { module: val, src_module: val },
-        (modal, instance) => {
-          instance.setSelectEvent((responseData, e) => {
-            AppConnector.request({
-              module: 'Chat',
-              action: 'Room',
-              mode: 'addToFavorites',
-              roomType: 'crm',
-              recordId: responseData.id
-            }).done(({ result }) => {
-              this.updateRooms(result)
-            })
-          })
-        }
-      )
+    callbackInput(e) {
+      this.$emit('input', e)
     }
   },
   created() {

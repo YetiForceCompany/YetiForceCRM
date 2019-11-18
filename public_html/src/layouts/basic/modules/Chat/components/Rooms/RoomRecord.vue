@@ -39,10 +39,20 @@
         v-show="showAddRoomPanel"
       >
         <RoomListSelect
-          :modules="config.chatModules"
-          :isVisible.sync="showAddRoomPanel"
           class="q-pb-xs"
-        />
+          :options="config.chatModules"
+          :isVisible.sync="showAddRoomPanel"
+          @input="showRecordsModal"
+        >
+          <template #prepend="{ selected }">
+            <q-icon
+              class="cursor-pointer"
+              name="mdi-magnify"
+              @click.prevent="showRecordsModal(selected)"
+            />
+            <q-tooltip anchor="top middle">{{ translate('JS_CHAT_SEARCH_RECORDS_OF_THE_SELECTED_MODULE') }}</q-tooltip>
+          </template>
+        </RoomListSelect>
       </q-item>
     </template>
   </RoomList>
@@ -51,7 +61,7 @@
 import RoomListSelect from './RoomListSelect.vue'
 import RoomList from './RoomList.vue'
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters } = createNamespacedHelpers('Chat')
+const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'RoomRecord',
   components: { RoomListSelect, RoomList },
@@ -76,6 +86,28 @@ export default {
   },
   computed: {
     ...mapGetters(['config'])
+  },
+  methods: {
+    ...mapMutations(['updateRooms']),
+    showRecordsModal(val) {
+      console.log(val)
+      app.showRecordsList(
+        { module: val, src_module: val },
+        (modal, instance) => {
+          instance.setSelectEvent((responseData, e) => {
+            AppConnector.request({
+              module: 'Chat',
+              action: 'Room',
+              mode: 'addToFavorites',
+              roomType: 'crm',
+              recordId: responseData.id
+            }).done(({ result }) => {
+              this.updateRooms(result)
+            })
+          })
+        }
+      )
+    }
   }
 }
 </script>

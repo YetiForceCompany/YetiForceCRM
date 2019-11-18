@@ -49,7 +49,7 @@
     <slot name="aboveItems"></slot>
     <q-item v-show="showSearchRoom">
       <RoomListSelect
-        :options="config.chatModules"
+        :options="[]"
         :isVisible.sync="showSearchRoom"
         class="q-pb-xs"
       />
