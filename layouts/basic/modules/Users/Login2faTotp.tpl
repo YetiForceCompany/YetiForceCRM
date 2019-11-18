@@ -31,7 +31,7 @@
 										   class="form-control form-control-lg"
 										   placeholder="{\App\Language::translate('PLL_AUTHY_TOTP',$MODULE)}"
 										   required="" autocomplete="off"
-										   autofocus="" data-validation-engine="validate[custom[integer]]">
+										   data-validation-engine="validate[custom[integer]]">
 									<div class="input-group-append">
 										<div class="input-group-text"><i class="fas fa-key"></i></div>
 									</div>

@@ -32,8 +32,7 @@
 										   class="form-control form-control-lg"
 										   {if \App\Config::main('systemMode') === 'demo'}value="demo"{/if}
 										   placeholder="{\App\Language::translate('LBL_USER',$MODULE)}"
-										   required="" {if !App\Config::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}
-										   autofocus="">
+										   required="" {if !App\Config::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}>
 									<div class="input-group-append">
 										<div class="input-group-text"><i class="fas fa-user"></i></div>
 									</div>
