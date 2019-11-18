@@ -26,12 +26,13 @@
 		};
 
 		this.blockOverlayCSS = {
-			opacity: '0.2'
+			opacity: '0.2',
+			'background-color': ''
 		};
 
 		this.blockCss = {
 			border: '',
-			backgroundColor: '',
+			'background-color': '',
 			'background-clip': 'border-box',
 			'border-radius': '2px'
 		};
@@ -46,12 +47,12 @@
 
 		this.showOnTop = false;
 
-		this.init = function(element, options) {
-			if (typeof options === 'undefined') {
-				options = {};
-			}
-
+		this.init = function(element, options = {}) {
 			thisInstance.options = $.extend(true, this.defaults, options);
+			thisInstance.blockOverlayCSS = Object.assign(
+				thisInstance.blockOverlayCSS,
+				options.blockOverlayCSS ? options.blockOverlayCSS : {}
+			);
 			thisInstance.container = element;
 			thisInstance.position = options.position;
 			if (typeof options.imageContainerCss !== 'undefined') {

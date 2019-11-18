@@ -11,6 +11,10 @@ Office.onReady(info => {
 });
 
 const MailIntegration_Start = {
+	iframe: {},
+	setIframe() {
+		this.iframe = $('#js-iframe');
+	},
 	showDetailView(mailItem) {
 		AppConnector.request(
 			$.extend(
@@ -29,6 +33,7 @@ const MailIntegration_Start = {
 		)
 			.done(responseData => {
 				$('#page').html(responseData);
+				this.registerLogoutEvents();
 			})
 			.fail(_ => {
 				Office.context.mailbox.item.notificationMessages.replaceAsync('error', {
@@ -37,10 +42,45 @@ const MailIntegration_Start = {
 				});
 			});
 	},
-	registerLoginActions() {},
+	registerLogoutEvents() {
+		this.setIframe();
+		let reloadPanelAfterLogout = () => {
+			if (!this.isUserLoggedIn()) {
+				window.location.reload();
+			}
+		};
+		this.iframe.on('load', reloadPanelAfterLogout);
+	},
+	registerLoginEvents() {
+		let loader;
+		let reloadPanelAfterLogin = () => {
+			if (this.isUserLoggedIn()) {
+				window.location.reload();
+			} else {
+				loader.progressIndicator({ mode: 'hide' });
+			}
+		};
+		let showLoader = () => {
+			loader = $.progressIndicator({
+				blockInfo: { enabled: true },
+				message: false,
+				blockOverlayCSS: {
+					'background-color': 'white',
+					opacity: 1
+				}
+			});
+		};
+		this.iframe.on('load', reloadPanelAfterLogin);
+		$(this.iframe[0].contentWindow).on('unload', showLoader);
+	},
+	isUserLoggedIn() {
+		let iframeCONFIG = this.iframe[0].contentWindow.CONFIG;
+		return iframeCONFIG && iframeCONFIG.userId;
+	},
 	registerEvents(mailbox) {
-		if ($('#js-iframe').data('view') === 'login') {
-			this.registerLoginActions();
+		this.setIframe();
+		if (this.iframe.data('view') === 'login') {
+			this.registerLoginEvents();
 		} else {
 			this.showDetailView(mailbox.item);
 		}
