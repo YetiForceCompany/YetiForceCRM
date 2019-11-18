@@ -84,8 +84,17 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$templateIds = $request->getArray('pdf_template', 'Integer');
 		$singlePdf = 1 === $request->getInteger('single_pdf');
 		$emailPdf = 1 === $request->getInteger('email_pdf');
+		$view = $request->getByType('fromview', \App\Purifier::STANDARD);
 		$key = 'inventoryColumns';
-		if (($emailPdf && !\App\Privilege::isPermitted('OSSMail')) || ($request->has($key) && !\App\Privilege::isPermitted($moduleName, 'RecordPdfInventory'))) {
+
+		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
+		$pdfModel = new $handlerClass();
+		$templates = $recordId ? $pdfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName) : $pdfModel->getActiveTemplatesForModule($moduleName, $view);
+
+		if (($emailPdf && !\App\Privilege::isPermitted('OSSMail')) ||
+			($request->has($key) && !\App\Privilege::isPermitted($moduleName, 'RecordPdfInventory')) ||
+			array_diff($templateIds, array_keys($templates))
+			) {
 			throw new \App\Exceptions\NoPermitted('LBL_EXPORT_ERROR');
 		}
 		$increment = $skip = $pdfFiles = [];
@@ -110,6 +119,13 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 							}
 						}
 						$template->setVariable('recordsId', $validRecords);
+						foreach (['viewname', 'search_value', 'search_key', 'search_params', 'operator'] as $keyName) {
+							if ('search_params' === $keyName) {
+								$template->setVariable($keyName, App\Condition::validSearchParams($moduleName, $request->getArray($keyName)));
+							} else {
+								$template->setVariable($keyName, $request->isEmpty($keyName) ? '' : $request->getByType($keyName, \App\Purifier::ALNUM));
+							}
+						}
 						break;
 					case Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC:
 						if (!$template->checkFiltersForRecord($recordId)) {

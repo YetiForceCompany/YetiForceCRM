@@ -53,7 +53,7 @@ class Vtiger_PDF_Model extends \App\Base
 	protected $variables = [];
 
 	/**
-	 * View to picklist assigment array.
+	 * View to picklist assignment array.
 	 *
 	 * @var array
 	 */
@@ -218,7 +218,7 @@ class Vtiger_PDF_Model extends \App\Base
 	public function getActiveTemplatesForModule($moduleName, $view)
 	{
 		$templates = $this->getTemplatesByModule($moduleName);
-		foreach ($templates as $id => &$template) {
+		foreach ($templates as $id => $template) {
 			if (!$template->isVisible($view) || !$template->checkUserPermissions()) {
 				unset($templates[$id]);
 			}
@@ -243,7 +243,7 @@ class Vtiger_PDF_Model extends \App\Base
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdf = new $handlerClass();
 			$pdf->setData($row);
-			$templates[] = $pdf;
+			$templates[$pdf->getId()] = $pdf;
 		}
 		return $templates;
 	}
@@ -270,7 +270,7 @@ class Vtiger_PDF_Model extends \App\Base
 			}
 			\App\Cache::save($cache, $recordId, $pdf);
 		}
-		return $pdf;
+		return $pdf ? clone $pdf : $pdf;
 	}
 
 	/**
@@ -315,10 +315,7 @@ class Vtiger_PDF_Model extends \App\Base
 	public function isVisible($view)
 	{
 		$visibility = explode(',', $this->get('visibility'));
-		if (\in_array($this->viewToPicklistValue[$view], $visibility)) {
-			return true;
-		}
-		return false;
+		return \in_array($this->viewToPicklistValue[$view], $visibility);
 	}
 
 	/**
@@ -334,11 +331,14 @@ class Vtiger_PDF_Model extends \App\Base
 		if (\App\Cache::staticHas(__METHOD__, $key)) {
 			return \App\Cache::staticGet(__METHOD__, $key);
 		}
-		Vtiger_Loader::includeOnce('~/modules/com_vtiger_workflow/VTJsonCondition.php');
-		$conditionStrategy = new VTJsonCondition();
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-		$conditions = htmlspecialchars_decode($this->getRaw('conditions'));
-		$test = $conditionStrategy->evaluate($conditions, $recordModel);
+		$test = \App\Json::isEmpty($this->getRaw('conditions'));
+		if (!$test) {
+			Vtiger_Loader::includeOnce('~/modules/com_vtiger_workflow/VTJsonCondition.php');
+			$conditionStrategy = new VTJsonCondition();
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+			$conditions = htmlspecialchars_decode($this->getRaw('conditions'));
+			$test = $conditionStrategy->evaluate($conditions, $recordModel);
+		}
 		\App\Cache::staticSave(__METHOD__, $key, $test);
 
 		return $test;

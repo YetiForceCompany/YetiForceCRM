@@ -17,10 +17,13 @@
 			<input type="hidden" name="operator" value="{$OPERATOR}"/>
 			<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}"/>
 			<input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}"/>
+			<input type="hidden" name="sortorder" value="{$SORT_ORDER}">
+			<input type="hidden" name="orderby" value="{$ORDER_BY}">
 			<input type="hidden" name="record" value="{$RECORD_ID}"/>
 			<input type="hidden" name="fromview" value="{$FROM_VIEW}"/>
 			<input type="hidden" name="single_pdf" value="0" />
 			<input type="hidden" name="email_pdf" value="0" />
+			<input type="hidden" name="isSortActive" value="1" />
 			{function TEMPLATE_LIST STANDARD_TEMPLATES=[]}
 				{foreach from=$STANDARD_TEMPLATES item=TEMPLATE}
 					<div class="form-group row">
