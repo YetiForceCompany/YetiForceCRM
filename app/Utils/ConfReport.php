@@ -98,7 +98,7 @@ class ConfReport
 		'session.cookie_httponly' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => false],
 		'session.use_only_cookies' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.cookie_secure' => ['recommended' => '?', 'type' => 'CookieSecure', 'container' => 'php', 'testCli' => false],
-		'session.cookie_samesite' => ['recommended' => 'Strict', 'type' => 'CookieSamesite', 'container' => 'php', 'testCli' => true],
+		'session.cookie_samesite' => ['recommended' => '', 'type' => 'CookieSamesite', 'container' => 'php', 'testCli' => true],
 		'session.name' => ['recommended' => 'YTSID', 'container' => 'php', 'type' => 'Equal', 'testCli' => false],
 		'expose_php' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session_regenerate_id' => ['recommended' => 'On', 'type' => 'SessionRegenerate', 'testCli' => true],
