@@ -69,7 +69,7 @@ class CreatedHelpDesk extends Base
 			$dbCommand = \App\Db::getInstance()->createCommand();
 			$relationModel = new \OSSMailView_Relation_Model();
 			$relationModel->addRelation($scanner->getMailCrmId(), $id, $scanner->get('date'));
-			$query = (new App\Db\Query())->select(['documentsid'])->from('vtiger_ossmailview_files')->where(['ossmailviewid' => $scanner->getMailCrmId()]);
+			$query = (new \App\Db\Query())->select(['documentsid'])->from('vtiger_ossmailview_files')->where(['ossmailviewid' => $scanner->getMailCrmId()]);
 			$dataReader = $query->createCommand()->query();
 			while ($documentId = $dataReader->readColumn(0)) {
 				$dbCommand->insert('vtiger_senotesrel', ['crmid' => $id, 'notesid' => $documentId])->execute();

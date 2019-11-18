@@ -77,6 +77,7 @@ abstract class Base extends \App\Controller\Base
 			$this->viewer->assign('APPTITLE', \App\Language::translate('APPTITLE'));
 			$this->viewer->assign('YETIFORCE_VERSION', \App\Version::get());
 			$this->viewer->assign('MODULE_NAME', $request->getModule());
+			$this->viewer->assign('NONCE', \App\Session::get('CSP_TOKEN'));
 			if ($request->isAjax()) {
 				$this->viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
 				if (!$request->isEmpty('parent', true) && 'Settings' === $request->getByType('parent', 2)) {
@@ -152,7 +153,6 @@ abstract class Base extends \App\Controller\Base
 		$view->assign('MODULE', $moduleName);
 		$view->assign('VIEW', $request->getByType('view', 1));
 		$view->assign('PARENT_MODULE', $request->getByType('parent', 2));
-		$view->assign('NONCE', \App\Session::get('CSP_TOKEN'));
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}

@@ -971,6 +971,7 @@ class ConfReport
 	 */
 	private static function validateHeader(string $name, array $row, string $sapi)
 	{
+		unset($sapi);
 		$header = strtolower(\str_replace('Header: ', '', $name));
 		if (isset(static::$request[$header])) {
 			$row['www'] = static::$request[$header]['root'] ?? '';
@@ -1211,6 +1212,7 @@ class ConfReport
 	 */
 	private static function validatePremiumModules(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		$row['status'] = true;
 		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
 		return $row;
