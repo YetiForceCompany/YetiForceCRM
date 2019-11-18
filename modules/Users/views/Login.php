@@ -17,8 +17,10 @@ class Users_Login_View extends \App\Controller\View\Base
 	public function __construct()
 	{
 		parent::__construct();
+		if ($nonce = \App\Session::get('CSP_TOKEN')) {
+			$this->headers->csp['script-src'] .= " 'nonce-{$nonce}'";
+		}
 		$this->headers->csp['default-src'] = '\'self\'';
-		$this->headers->csp['img-src'] = '\'self\'';
 		$this->headers->csp['script-src'] = str_replace([
 			' \'unsafe-inline\'', ' blob:'
 		], '', $this->headers->csp['script-src']);

@@ -37,7 +37,12 @@ const MailIntegration_Start = {
 				});
 			});
 	},
+	registerLoginActions() {},
 	registerEvents(mailbox) {
-		this.showDetailView(mailbox.item);
+		if ($('#js-iframe').data('view') === 'login') {
+			this.registerLoginActions();
+		} else {
+			this.showDetailView(mailbox.item);
+		}
 	}
 };

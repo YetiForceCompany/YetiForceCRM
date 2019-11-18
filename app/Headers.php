@@ -30,7 +30,7 @@ class Headers
 		'x-content-type-options' => 'nosniff',
 		'referrer-policy' => 'no-referrer',
 		'expect-ct' => 'enforce; max-age=3600',
-		'access-control-allow-methods' => 'GET, POST, PUT, DELETE',
+		'access-control-allow-methods' => 'GET, POST',
 		'x-robots-tag' => 'none',
 		'x-permitted-cross-domain-policies' => 'none',
 	];
@@ -157,9 +157,6 @@ class Headers
 		}
 		if (\Config\Security::$allowedScriptDomains) {
 			$this->csp['script-src'] .= ' ' . \implode(' ', \Config\Security::$allowedScriptDomains);
-		}
-		if ($nonce = \App\Session::get('CSP_TOKEN')) {
-			$this->csp['script-src'] .= " 'nonce-{$nonce}'";
 		}
 		if (\Config\Security::$allowedFormDomains) {
 			$this->csp['form-action'] .= ' ' . \implode(' ', \Config\Security::$allowedFormDomains);
