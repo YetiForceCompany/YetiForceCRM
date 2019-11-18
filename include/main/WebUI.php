@@ -177,7 +177,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				header('location: index.php?module=Home&view=DashBoard');
 			}
 			$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Install', 'ModTracker'];
-			if (!\in_array($moduleName, $skipList) && false === stripos($qualifiedModuleName, 'Settings')) {
+			if ($handler->loginRequired() && !\in_array($moduleName, $skipList) && false === stripos($qualifiedModuleName, 'Settings')) {
 				$this->triggerCheckPermission($handler, $request);
 			} elseif (0 === stripos($qualifiedModuleName, 'Settings') || \in_array($moduleName, $skipList)) {
 				$handler->checkPermission($request);
@@ -241,7 +241,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$this->userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if ($this->userPrivilegesModel->hasModulePermission($moduleName)) {
 			$handler->checkPermission($request);
-
 			return true;
 		}
 		\App\Log::error("No permissions to the module: $moduleName", 'NoPermitted');
