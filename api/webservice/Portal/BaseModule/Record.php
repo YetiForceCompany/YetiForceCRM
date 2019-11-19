@@ -91,96 +91,116 @@ class Record extends \Api\Core\BaseAction
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
 	 *		},
 	 *		@OA\RequestBody(
-	 *				required=false,
-	 *				description="The content of the request is empty.",
+	 *			required=false,
+	 *			description="The content of the request is empty.",
 	 *		),
 	 *		@OA\Parameter(
-	 *				name="moduleName",
-	 *				description="Module name",
-	 *				@OA\Schema(
-	 *						type="string"
-	 *				),
-	 *				in="path",
-	 *				example="Contacts",
-	 *				required=true
+	 *			name="moduleName",
+	 *			description="Module name",
+	 *			@OA\Schema(
+	 *				type="string"
+	 *			),
+	 *			in="path",
+	 *			example="Contacts",
+	 *			required=true
 	 *		),
 	 *		@OA\Parameter(
-	 *				name="X-ENCRYPTED",
-	 *				in="header",
-	 *				required=true,
-	 *				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *			name="X-ENCRYPTED",
+	 *			in="header",
+	 *			required=true,
+	 *			@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
 	 *		),
 	 *		@OA\Parameter(
-	 *				name="x-raw-data",
-	 *				description="Gets raw data",
-	 *				@OA\Schema(
-	 *						type="integer",
-	 *						format="int64",
-	 *				),
-	 *				in="header",
-	 *				example=1,
-	 *				required=false
+	 *			name="x-raw-data",
+	 *			description="Gets raw data",
+	 *			@OA\Schema(
+	 *					type="integer",
+	 *					format="int64",
+	 *			),
+	 *			in="header",
+	 *			example=1,
+	 *			required=false
 	 *		),
 	 *		@OA\Parameter(
-	 *				name="x-parent-id",
-	 *				description="Gets parent id",
-	 *				@OA\Schema(
-	 *						type="integer",
-	 *						format="int64",
-	 *				),
-	 *				in="header",
-	 *				example=1,
-	 *				required=false
+	 *			name="x-parent-id",
+	 *			description="Gets parent id",
+	 *			@OA\Schema(
+	 *					type="integer",
+	 *					format="int64",
+	 *			),
+	 *			in="header",
+	 *			example=1,
+	 *			required=false
 	 *		),
 	 *		@OA\Response(
-	 *				response=200,
-	 *				description="Gets data for the record",
-	 *				@OA\JsonContent(ref="#/components/schemas/BaseModuleRecordResponseBody"),
-	 *				@OA\XmlContent(ref="#/components/schemas/BaseModuleRecordResponseBody"),
-	 *				@OA\MediaType(
-	 *						mediaType="text/html",
-	 *						@OA\Schema(ref="#/components/schemas/BaseModuleRecordResponseBody")
-	 *				),
+	 *			response=200,
+	 *			description="Gets data for the record",
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Get_Record_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Get_Record_Response"),
+	 *			@OA\MediaType(
+	 *					mediaType="text/html",
+	 *					@OA\Schema(ref="#/components/schemas/BaseModule_Get_Record_Response")
+	 *			),
 	 *		),
 	 *		@OA\Response(
-	 *				response=403,
-	 *				description="No permissions to remove record OR No permissions to view record OR No permissions to edit record"
+	 *			response=403,
+	 *			description="No permissions to remove record OR No permissions to view record OR No permissions to edit record"
 	 *		),
 	 *		@OA\Response(
-	 *				response=404,
-	 *				description="Record doesn't exist"
+	 *			response=404,
+	 *			description="Record doesn't exist"
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="BaseModuleRecordResponseBody",
-	 *		title="Data",
-	 *		description="Data for the records",
+	 *		schema="BaseModule_Get_Record_Response",
+	 *		title="Response body for Record",
 	 *		type="object",
 	 *		@OA\Property(
-	 *				property="status",
-	 *				description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
-	 *				enum={"0", "1"},
-	 *				type="integer",
+	 *			property="status",
+	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			enum={0, 1},
+	 *			type="integer",
+	 *        	example=1
 	 *		),
 	 *		@OA\Property(
-	 *				property="result",
-	 *				description="Record data",
-	 *				type="object",
-	 *				@OA\Property(name="name", description="Record name", type="string", example="Driving school"),
-	 *				@OA\Property(name="id", description="Record Id", type="integer", example="Contractor's name"),
-	 *				@OA\Property(name="fields", description="Text", type="string", example="Contractor's name"),
-	 *				@OA\Property(name="data", description="Rocord data", type="object"),
-	 *				@OA\Property(
-	 *						name="privileges",
-	 *						description="Text",
-	 * 						type="object",
-	 *						@OA\Property(name="isEditable", description="Check if record is editable", type="boolean", example="true"),
-	 *						@OA\Property(name="moveToTrash", description="Permission to delete", type="boolean", example="false"),
+	 *			property="result",
+	 *			description="Record data",
+	 *			type="object",
+	 *			@OA\Property(property="name", description="Record name", type="string", example="Driving school"),
+	 *			@OA\Property(property="id", description="Record Id", type="integer", example="152"),
+	 *			@OA\Property(
+	 * 					property="fields",
+	 *					description="Field name items",
+	 *					type="array",
+	 *					@OA\Items(items="Contractor's name", description="Field name", type="string", example="Contractor's name"),
+	 *			),
+	 *			@OA\Property(
+	 *					property="data",
+	 *					description="Record data",
+	 *					type="array",
+	 *					@OA\Items(items="Contractor's name", description="Field value", type="string", example="Kowalski"),
+	 *			),
+	 *			@OA\Property(
+	 *					property="privileges",
+	 *					description="Parameters determining checking of editing rights and moving to the trash",
+	 * 					type="array",
+	 *					@OA\Items(items="isEditable", description="Check if record is editable", type="boolean", example="true"),
+	 *					@OA\Items(items="moveToTrash", description="Permission to delete", type="boolean", example="false"),
 	 *				),
-	 *				@OA\Property(name="inventory", description="Value invetory data", type="object"),
-	 *				@OA\Property(name="summaryInventory", description="Value summary invetory data", type="string"),
-	 *				@OA\Property(name="rawData", description="Tax selected in inventory", type="object"),
-	 *				@OA\Property(name="rawInventory", description="Inventory data", type="object"),
+	 *			@OA\Property(
+	 *					property="inventory",
+	 *					description="Value inventory data",
+	 * 					type="array",
+	 *					@OA\Items(items="unitPrice", description="Field value inventory", type="string", example="250"),
+	 *				),
+	 *			@OA\Property(
+	 *					property="summaryInventory",
+	 *					description="Value summary inventory data",
+	 * 					type="array",
+	 *					@OA\Items(items="unitPrice", description="Sum of field values", type="string"),
+	 *				),
+	 *			@OA\Property(property="rawData", description="Tax selected in inventory", type="object"),
+	 *			@OA\Property(property="rawInventory", description="Inventory data", type="object"),
 	 *		),
 	 * ),
 	 * @OA\Tag(
@@ -274,22 +294,22 @@ class Record extends \Api\Core\BaseAction
 	 *		@OA\Response(
 	 *				response=200,
 	 *				description="List of records moved to the trash",
-	 *				@OA\JsonContent(ref="#/components/schemas/BaseModuleRecordResponseBody"),
-	 *				@OA\XmlContent(ref="#/components/schemas/BaseModuleRecordResponseBody"),
+	 *				@OA\JsonContent(ref="#/components/schemas/BaseModule_Delete_Record_Response"),
+	 *				@OA\XmlContent(ref="#/components/schemas/BaseModule_Delete_Record_Response"),
 	 *				@OA\MediaType(
 	 *						mediaType="text/html",
-	 *						@OA\Schema(ref="#/components/schemas/BaseModuleRecordResponseBody")
+	 *						@OA\Schema(ref="#/components/schemas/BaseModule_Delete_Record_Response")
 	 *			),
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="BaseModuleRecordResponseBody",
+	 *		schema="BaseModule_Delete_Record_Response",
 	 *		title="Transfer to the trash",
 	 *		description="List of records moved to the trash",
 	 *		type="object",
 	 *		@OA\Property(
 	 *				property="status",
-	 *				description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+	 *				description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
 	 *				enum={"0", "1"},
 	 * 				type="integer",
 	 *		),
@@ -332,31 +352,31 @@ class Record extends \Api\Core\BaseAction
 	 *		@OA\Response(
 	 *				response=200,
 	 *				description="List of edited records",
-	 *				@OA\JsonContent(ref="#/components/schemas/BaseModuleRecordResponseBody"),
-	 *				@OA\XmlContent(ref="#/components/schemas/BaseModuleRecordResponseBody"),
+	 *				@OA\JsonContent(ref="#/components/schemas/BaseModule_Put_Record_Response"),
+	 *				@OA\XmlContent(ref="#/components/schemas/BaseModule_Put_Record_Response"),
 	 *				@OA\MediaType(
 	 *						mediaType="text/html",
-	 *						@OA\Schema(ref="#/components/schemas/BaseModuleRecordResponseBody")
+	 *						@OA\Schema(ref="#/components/schemas/BaseModule_Put_Record_Response")
 	 *				),
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="BaseModuleRecordResponseBody",
-	 *		title=" ",
-	 *		description=" ",
+	 *		schema="BaseModule_Put_Record_Response",
+	 *		title="Response body for Record",
+	 *		description="List of edited records",
 	 *		type="object",
 	 *		@OA\Property(
 	 *				property="status",
-	 *				description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+	 *				description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
 	 *				enum={"0", "1"},
 	 *				type="integer",
 	 *		),
 	 *		@OA\Property(
 	 *				property="result",
 	 *				title="Parameters record",
-	 *				description="Parameters the edited record."
-	 *				type="object",
-	 *				@OA\Property(property="id", description="Id the edited record", type="integer"),
+	 *				description="Parameters the edited record.",
+	 *				type="array",
+	 *				@OA\Items(items="id", description="Id the edited record", type="integer"),
 	 *		),
 	 * ),
 	 */
@@ -390,22 +410,22 @@ class Record extends \Api\Core\BaseAction
 	 *		@OA\Response(
 	 *				response=200,
 	 *				description="List of records created",
-	 *				@OA\JsonContent(ref="#/components/schemas/BaseModuleRecordResponseBody"),
-	 *				@OA\XmlContent(ref="#/components/schemas/BaseModuleRecordResponseBody"),
+	 *				@OA\JsonContent(ref="#/components/schemas/BaseModule_Post_Record_Response"),
+	 *				@OA\XmlContent(ref="#/components/schemas/BaseModule_Post_Record_Response"),
 	 *				@OA\MediaType(
 	 *						mediaType="text/html",
-	 *						@OA\Schema(ref="#/components/schemas/BaseModuleRecordResponseBody")
+	 *						@OA\Schema(ref="#/components/schemas/BaseModule_Post_Record_Response")
 	 *			),
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="BaseModuleRecordResponseBody",
+	 *		schema="BaseModule_Post_Record_Response",
 	 *		title="Created records",
 	 *		description="List of records created",
 	 *		type="object",
 	 *		@OA\Property(
 	 *				property="status",
-	 *				description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - sukcess , 0 - error",
+	 *				description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
 	 *				enum={"0", "1"},
 	 *				type="integer",
 	 *		),
@@ -413,8 +433,8 @@ class Record extends \Api\Core\BaseAction
 	 *				property="result",
 	 *				title="Parameters record",
 	 *				description="Parameters the saved record.",
-	 *				type="object",
-	 *				@OA\Property(property="id", description="Id of the newly created record", type="integer"),
+	 *				type="array",
+	 *				@OA\Items(items="id", description="Id of the newly created record", type="integer"),
 	 *		),
 	 * ),
 	 */
