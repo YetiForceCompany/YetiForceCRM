@@ -14,7 +14,18 @@
         size="sm"
         color="primary"
         icon="mdi-plus"
-        @click="showAddPrivateRoom = !showAddPrivateRoom"
+        @click="toggleAddInput()"
+      >
+        <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
+      </q-btn>
+      <q-btn
+        dense
+        flat
+        round
+        size="sm"
+        color="primary"
+        icon="mdi-plus"
+        @click="toggleRoomSelect()"
       >
         <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
       </q-btn>
@@ -39,8 +50,11 @@
       </q-btn>
     </template>
     <template #aboveItems>
-      <q-item v-show="showAddPrivateRoom">
-        <RoomPrivateInput :showAddPrivateRoom.sync="showAddPrivateRoom" />
+      <q-item v-show="isAddInputVisible">
+        <RoomPrivateInput :showAddPrivateRoom.sync="isAddInputVisible" />
+      </q-item>
+      <q-item v-show="isSelectVisible">
+        <RoomSelectAsync :isVisible.sync="isSelectVisible" />
       </q-item>
     </template>
     <template #belowItems>
@@ -84,11 +98,12 @@
 <script>
 import RoomPrivateInput from './RoomPrivateInput.vue'
 import RoomList from './RoomList.vue'
+import RoomSelectAsync from './RoomSelectAsync.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'RoomPrivate',
-  components: { RoomPrivateInput, RoomList },
+  components: { RoomPrivateInput, RoomList, RoomSelectAsync },
   props: {
     roomData: {
       type: Array,
@@ -105,9 +120,10 @@ export default {
   },
   data() {
     return {
-      showAddPrivateRoom: false,
       confirm: false,
       isArchiving: false,
+      isAddInputVisible: false,
+      isSelectVisible: false,
       roomToArchive: {}
     }
   },
@@ -141,6 +157,12 @@ export default {
       this.archivePrivateRoom(roomToArchive).then(e => {
         this.isArchiving = false
       })
+    },
+    toggleRoomSelect() {
+      this.isSelectVisible = !this.isSelectVisible
+    },
+    toggleAddInput() {
+      this.isAddInputVisible = !this.isAddInputVisible
     }
   }
 }
