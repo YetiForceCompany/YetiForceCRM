@@ -6,7 +6,7 @@
       v-model="selectedOption"
       class="full-width"
       :hint="translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE')"
-      :options="searchModules"
+      :options="options"
       dense
       use-input
       fill-input
@@ -40,19 +40,14 @@
         />
         <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
       </template>
-      <template #option="scope">
-        <q-item
-          dense
-          v-bind="scope.itemProps"
-          v-on="scope.itemEvents"
-        >
-          <q-item-section avatar>
-            <YfIcon :icon="`userIcon-${scope.opt.id}`" />
-          </q-item-section>
-          <q-item-section>
-            {{ scope.opt.label }}
-          </q-item-section>
-        </q-item>
+      <template
+        v-if="hasOptionSlot"
+        #option="scope"
+      >
+        <slot
+          name="option"
+          :scope="scope"
+        ></slot>
       </template>
     </q-select>
   </div>
@@ -69,12 +64,21 @@ export default {
     },
     options: {
       type: Array
+    },
+    filter: {
+      type: Function,
+      required: false
     }
   },
   data() {
     return {
       selectedOption: null,
-      searchModules: []
+      computedOptions: []
+    }
+  },
+  computed: {
+    hasOptionSlot() {
+      return !!this.$scopedSlots.option
     }
   },
   watch: {
@@ -89,30 +93,10 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapGetters(['config'])
-  },
   methods: {
-    filter(val, update) {
-      if (val === '') {
-        update(() => {
-          this.searchModules = this.options
-        })
-        return
-      }
-      update(() => {
-        const needle = val.toLowerCase()
-        this.searchModules = this.options.filter(
-          v => v.label.toLowerCase().indexOf(needle) > -1
-        )
-      })
-    },
     callbackInput(e) {
       this.$emit('input', e)
     }
-  },
-  created() {
-    this.searchModules = this.options
   }
 }
 </script>

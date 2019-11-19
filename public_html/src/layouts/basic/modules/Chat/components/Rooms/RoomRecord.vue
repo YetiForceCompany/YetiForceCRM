@@ -7,19 +7,6 @@
     :hideUnpinned="false"
     :filterRooms="filterRooms"
   >
-    <template #labelRight>
-      <q-btn
-        dense
-        flat
-        round
-        size="sm"
-        color="primary"
-        icon="mdi-plus"
-        @click="showAddRoomPanel = !showAddRoomPanel"
-      >
-        <q-tooltip>{{ translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE') }}</q-tooltip>
-      </q-btn>
-    </template>
     <template #itemRight="{ room }">
       <q-btn
         size="xs"
@@ -33,15 +20,16 @@
         :href="`index.php?module=${room.moduleName}&view=Detail&record=${room.recordid}`"
       />
     </template>
-    <template #aboveItems>
+    <template #aboveItems="{ showSearchRoom }">
       <q-item
         v-if="config.dynamicAddingRooms"
-        v-show="showAddRoomPanel"
+        v-show="showSearchRoom"
       >
         <RoomListSelect
           class="q-pb-xs"
-          :options="config.chatModules"
-          :isVisible.sync="showAddRoomPanel"
+          :options="modulesList"
+          :isVisible.sync="showSearchRoom"
+          :filter="filter"
           @input="showRecordsModal"
         >
           <template #prepend="{ selected }">
@@ -51,6 +39,20 @@
               @click.prevent="showRecordsModal(selected)"
             />
             <q-tooltip anchor="top middle">{{ translate('JS_CHAT_SEARCH_RECORDS_OF_THE_SELECTED_MODULE') }}</q-tooltip>
+          </template>
+          <template #option="{ scope }">
+            <q-item
+              dense
+              v-bind="scope.itemProps"
+              v-on="scope.itemEvents"
+            >
+              <q-item-section avatar>
+                <YfIcon :icon="`userIcon-${scope.opt.id}`" />
+              </q-item-section>
+              <q-item-section>
+                {{ scope.opt.label }}
+              </q-item-section>
+            </q-item>
           </template>
         </RoomListSelect>
       </q-item>
@@ -81,7 +83,8 @@ export default {
   },
   data() {
     return {
-      showAddRoomPanel: false
+      showAddRoomPanel: false,
+      modulesList: []
     }
   },
   computed: {
@@ -90,7 +93,6 @@ export default {
   methods: {
     ...mapMutations(['updateRooms']),
     showRecordsModal(val) {
-      console.log(val)
       app.showRecordsList(
         { module: val, src_module: val },
         (modal, instance) => {
@@ -107,7 +109,24 @@ export default {
           })
         }
       )
+    },
+    filter(val, update) {
+      if (val === '') {
+        update(() => {
+          this.modulesList = this.config.chatModules
+        })
+        return
+      }
+      update(() => {
+        const needle = val.toLowerCase()
+        this.modulesList = this.config.chatModules.filter(
+          v => v.label.toLowerCase().indexOf(needle) > -1
+        )
+      })
     }
+  },
+  created() {
+    this.modulesList = this.config.chatModules
   }
 }
 </script>

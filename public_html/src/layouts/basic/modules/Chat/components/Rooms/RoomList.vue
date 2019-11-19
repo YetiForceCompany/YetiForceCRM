@@ -25,18 +25,19 @@
         >
           <q-tooltip>{{ translate(showAllRooms ? 'JS_CHAT_HIDE_ROOMS' : 'JS_CHAT_SHOW_ROOMS') }}</q-tooltip>
         </q-btn>
-        <slot name="labelRight"></slot>
-        <q-btn
-          dense
-          flat
-          round
-          size="sm"
-          color="primary"
-          icon="mdi-magnify"
-          @click="showSearchRoom = !showSearchRoom"
-        >
-          <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
-        </q-btn>
+        <slot name="labelRight">
+          <q-btn
+            dense
+            flat
+            round
+            size="sm"
+            color="primary"
+            icon="mdi-magnify"
+            @click="showSearchRoom = !showSearchRoom"
+          >
+            <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
+          </q-btn>
+        </slot>
         <q-icon
           class="q-pr-xs"
           :size="layout.drawer.fs"
@@ -46,14 +47,19 @@
         </q-icon>
       </div>
     </q-item-label>
-    <slot name="aboveItems"></slot>
-    <q-item v-show="showSearchRoom">
-      <RoomListSelect
-        :options="[]"
-        :isVisible.sync="showSearchRoom"
-        class="q-pb-xs"
-      />
-    </q-item>
+    <slot
+      name="aboveItems"
+      :showSearchRoom="showSearchRoom"
+    >
+      <q-item v-show="showSearchRoom">
+        <RoomListSelect
+          class="q-pb-xs"
+          :options="customOptions"
+          :filter="customFilter"
+          :isVisible.sync="showSearchRoom"
+        />
+      </q-item>
+    </slot>
     <template v-for="(room, roomId) of roomData">
       <q-item
         v-if="!room.isHidden"
@@ -155,7 +161,8 @@ export default {
   data() {
     return {
       showAllRooms: false,
-      showSearchRoom: false
+      showSearchRoom: false,
+      customOptions: []
     }
   },
   computed: {
@@ -186,6 +193,22 @@ export default {
       if (this.mobileMode) {
         this.setLeftPanelMobile(false)
       }
+    },
+    customFilter(val, update) {
+      const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
+      setTimeout(() => {
+        update(() => {
+          console.log(val)
+          if (val === '') {
+            this.customOptions = stringOptions
+          } else {
+            const needle = val.toLowerCase()
+            this.customOptions = stringOptions.filter(
+              v => v.toLowerCase().indexOf(needle) > -1
+            )
+          }
+        })
+      }, 1500)
     }
   }
 }
