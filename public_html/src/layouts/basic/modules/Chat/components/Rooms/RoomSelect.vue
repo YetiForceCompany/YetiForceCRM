@@ -57,7 +57,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
-  name: 'RoomListSelect',
+  name: 'RoomSelect',
   props: {
     isVisible: {
       type: Boolean

@@ -25,7 +25,7 @@
         v-if="config.dynamicAddingRooms"
         v-show="showSearchRoom"
       >
-        <RoomListSelect
+        <RoomSelect
           class="q-pb-xs"
           :options="modulesList"
           :isVisible.sync="showSearchRoom"
@@ -54,19 +54,19 @@
               </q-item-section>
             </q-item>
           </template>
-        </RoomListSelect>
+        </RoomSelect>
       </q-item>
     </template>
   </RoomList>
 </template>
 <script>
-import RoomListSelect from './RoomListSelect.vue'
+import RoomSelect from './RoomSelect.vue'
 import RoomList from './RoomList.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'RoomRecord',
-  components: { RoomListSelect, RoomList },
+  components: { RoomSelect, RoomList },
   props: {
     roomData: {
       type: Array,

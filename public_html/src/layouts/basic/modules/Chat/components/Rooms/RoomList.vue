@@ -52,11 +52,10 @@
       :showSearchRoom="showSearchRoom"
     >
       <q-item v-show="showSearchRoom">
-        <RoomListSelect
+        <RoomSelectAsync
           class="q-pb-xs"
-          :options="customOptions"
-          :filter="customFilter"
-          :isVisible.sync="showSearchRoom"
+          :roomType="roomType"
+          :showSearchRoom.sync="showSearchRoom"
         />
       </q-item>
     </slot>
@@ -133,13 +132,13 @@
   </q-list>
 </template>
 <script>
-import RoomListSelect from './RoomListSelect.vue'
+import RoomSelectAsync from './RoomSelectAsync.vue'
 import { getGroupIcon } from '../../utils/utils.js'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'RoomList',
-  components: { RoomListSelect },
+  components: { RoomSelectAsync },
   props: {
     roomType: {
       type: String,
@@ -152,17 +151,12 @@ export default {
     isVisible: {
       type: Boolean,
       required: true
-    },
-    filterRooms: {
-      type: String,
-      required: true
     }
   },
   data() {
     return {
       showAllRooms: false,
-      showSearchRoom: false,
-      customOptions: []
+      showSearchRoom: false
     }
   },
   computed: {
@@ -193,22 +187,6 @@ export default {
       if (this.mobileMode) {
         this.setLeftPanelMobile(false)
       }
-    },
-    customFilter(val, update) {
-      const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
-      setTimeout(() => {
-        update(() => {
-          console.log(val)
-          if (val === '') {
-            this.customOptions = stringOptions
-          } else {
-            const needle = val.toLowerCase()
-            this.customOptions = stringOptions.filter(
-              v => v.toLowerCase().indexOf(needle) > -1
-            )
-          }
-        })
-      }, 1500)
     }
   }
 }
