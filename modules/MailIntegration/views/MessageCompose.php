@@ -19,6 +19,7 @@ class MailIntegration_MessageCompose_View extends \App\Controller\View\Base
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
+		\CsrfMagic\Csrf::$frameBreaker = false;
 	}
 
 	/**

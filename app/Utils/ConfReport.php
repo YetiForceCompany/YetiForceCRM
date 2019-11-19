@@ -1008,8 +1008,8 @@ class ConfReport
 	{
 		unset($name);
 		if (\App\Config::main('site_URL')) {
-			$row[$sapi] = \App\Config::main('session_regenerate_id') ? 'On' : 'Off';
-			$row['status'] = \App\Config::main('session_regenerate_id');
+			$row[$sapi] = \Config\Security::$loginSessionRegenerate ? 'On' : 'Off';
+			$row['status'] = \Config\Security::$loginSessionRegenerate;
 		} else {
 			$row['mode'] = 'skipParam';
 		}

@@ -35,6 +35,7 @@ class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
+		\CsrfMagic\Csrf::$frameBreaker = false;
 		if (!\App\User::getCurrentUserId()) {
 			$viewer = $this->getViewer($request);
 			$viewer->view('LoginIframe.tpl', $moduleName);

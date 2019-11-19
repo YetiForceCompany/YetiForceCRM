@@ -91,10 +91,10 @@ class Headers
 		if ($browser->https) {
 			$this->headers['strict-transport-security'] = 'max-age=31536000; includeSubDomains; preload';
 		}
-		if (\App\Config::security('cspActive')) {
+		if (\App\Config::security('cspHeaderActive')) {
 			$this->loadCsp();
 		}
-		if ($keys = \App\Config::security('hpkpKeys')) {
+		if ($keys = \App\Config::security('hpkpKeysHeader')) {
 			$this->headers['public-key-pins'] = 'pin-sha256="' . implode('"; pin-sha256="', $keys) . '"; max-age=10000;';
 		}
 	}
