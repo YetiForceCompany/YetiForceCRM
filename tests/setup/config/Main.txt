@@ -73,7 +73,7 @@ class Main
 	public static $list_max_entries_per_page = 20;
 
 	/** Default module: default value = Home */
-	public static $default_module = 'Home';
+	public static $default_module = 'Accounts';
 
 	/** Default charset:  default value = "UTF-8" */
 	public static $default_charset = 'UTF-8';
@@ -82,7 +82,7 @@ class Main
 	public static $default_language = 'en-US';
 
 	/** Unique Application Key */
-	public static $application_unique_key = 'ed7d9c52b7981b35644f61e7cb7dd61a';
+	public static $application_unique_key = 't482de8c65d6fee22j4a2362fe4dfd6bbecc0290';
 
 	/** Trim descriptions, titles in listviews to this value */
 	public static $listview_max_textlength = 40;
@@ -106,25 +106,16 @@ class Main
 	public static $MINIMUM_CRON_FREQUENCY = 1;
 
 	/** Update the current session id with a newly generated one after login */
-	public static $session_regenerate_id = true;
-
-	/** Update the current session id with a newly generated one after login */
 	public static $davStorageDir = 'storage/Files';
 
 	/** System mode. Available: prod, demo, test */
 	public static $systemMode = 'test';
-
-	/** Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option. */
-	public static $forceSSL = false;
 
 	/** Maximum number of records in a mass edition */
 	public static $listMaxEntriesMassEdit = 500;
 
 	/** Enable closing of mondal window by clicking on the background */
 	public static $backgroundClosingModal = true;
-
-	/** Enable CSRF protection */
-	public static $csrfProtection = false;
 
 	/** Is sending emails active. */
 	public static $isActiveSendingMails = true;
@@ -143,9 +134,6 @@ class Main
 
 	/** Set the default layout */
 	public static $defaultLayout = 'basic';
-
-	/** Redirect to proper url when wrong url is entered. */
-	public static $forceRedirect = true;
 
 	/** Enable advanced phone number validation. Enabling  it will block saving invalid phone number. */
 	public static $phoneFieldAdvancedVerification = true;

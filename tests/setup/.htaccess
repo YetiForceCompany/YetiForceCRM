@@ -1,8 +1,9 @@
 <IfModule mod_rewrite.c>
 	RewriteEngine On
-	RewriteRule webservice/(.*)/(.*)/(.*)$ webservice.php?module=$1&action=$2&record=$3 [QSA,NC,L]
-	RewriteRule webservice/(.*)/(.*)$ webservice.php?module=$1&action=$2 [QSA,NC,L]
-	RewriteRule webservice/(.*)$ webservice.php?action=$1 [QSA,NC,L]
+	RewriteRule ^webservice/(.*)/(.*)/(.*)/(.*)$ webservice.php?module=$1&action=$2&record=$3&param=$4 [QSA,NC,L]
+	RewriteRule ^webservice/(.*)/(.*)/(.*)$ webservice.php?module=$1&action=$2&record=$3 [QSA,NC,L]
+	RewriteRule ^webservice/(.*)/(.*)$ webservice.php?module=$1&action=$2 [QSA,NC,L]
+	RewriteRule ^webservice/(.*)$ webservice.php?action=$1 [QSA,NC,L]
 
 	RewriteRule ^\.well-known/carddav dav.php/addressbooks/ [R]
 	RewriteRule ^\.well-known/caldav dav.php/calendars/ [R]

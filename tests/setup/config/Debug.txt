@@ -4,7 +4,7 @@
  * Configuration file.
  * This file is auto-generated.
  *
- * @package   Config
+ * @package Config
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -27,10 +27,10 @@ class Debug
 	public static $LOG_TO_PROFILE = false;
 
 	/** Level of saved/displayed logs. Values: false = All / 3 = error and warning / ["error", "warning", "info", "trace", "profile"] */
-	public static $LOG_LEVELS = ["error", "warning"];
+	public static $LOG_LEVELS = ['error', 'warning'];
 
 	/** Level of saved/displayed tracerts. // Values: int */
-	public static $LOG_TRACE_LEVEL = 8;
+	public static $LOG_TRACE_LEVEL = 9;
 
 	/** Display main debug console */
 	public static $DISPLAY_DEBUG_CONSOLE = false;
