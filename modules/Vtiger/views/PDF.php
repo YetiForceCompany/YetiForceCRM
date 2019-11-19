@@ -104,7 +104,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		$viewer->assign('SELECTED_IDS', $request->getArray('selected_ids', \App\Purifier::INTEGER));
 		$viewer->assign('EXCLUDED_IDS', $request->getArray('excluded_ids', \App\Purifier::INTEGER));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', \App\Purifier::ALNUM));
-		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($moduleName, $request->getArray('search_params')));
+		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($moduleName, $request->getArray('search_params'), false));
 		$viewer->assign('ORDER_BY', $request->getForSql('orderby'));
 		$viewer->assign('SORT_ORDER', $request->getForSql('sortorder'));
 		$viewer->view('ExportPDF.tpl', $moduleName);
