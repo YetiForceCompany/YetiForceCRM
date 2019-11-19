@@ -165,7 +165,8 @@ clipboard@>=2.0.0:
 
 "clockpicker@https://github.com/YetiForceCompany/clockpicker#master":
   version "0.0.7"
-  resolved "https://github.com/YetiForceCompany/clockpicker#3e0cafce699640f0060d445d8a76038ae63e7b63"
+  uid "0715faf27c92aded031c6a2fa4c135a5caa481c2"
+  resolved "https://github.com/YetiForceCompany/clockpicker#0715faf27c92aded031c6a2fa4c135a5caa481c2"
 
 color-convert@^1.9.3:
   version "1.9.3"
