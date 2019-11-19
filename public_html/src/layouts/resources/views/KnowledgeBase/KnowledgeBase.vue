@@ -512,9 +512,10 @@ export default {
       this.previewDialog = val
     }
   },
-  async created() {
-    await this.fetchCategories()
-    await this.fetchData()
+  created() {
+    this.fetchCategories().then(_ => {
+      this.fetchData()
+    })
   },
   mounted() {
     const debounceDelay = 1000

@@ -1,12 +1,4 @@
-<!--
-/**
- * ArticlesList component
- *
- * @description Articles list component
- * @license YetiForce Public License 3.0
- * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
- */
--->
+
 <template>
   <div class="KnowledgeBase__ArticlesList">
     <q-table
