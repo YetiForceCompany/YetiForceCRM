@@ -1,11 +1,13 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <RoomList
+    ref="roomList"
     :isVisible="config.dynamicAddingRooms"
     :roomData="roomData"
     :roomType="roomType"
     :hideUnpinned="false"
     :filterRooms="filterRooms"
+    @toggleSelectRoom="onToggleSelectRoom"
   >
     <template #itemRight="{ room }">
       <q-btn
@@ -20,17 +22,18 @@
         :href="`index.php?module=${room.moduleName}&view=Detail&record=${room.recordid}`"
       />
     </template>
-    <template #aboveItems="{ showSearchRoom }">
+    <template #selectRoom>
       <q-item
         v-if="config.dynamicAddingRooms"
-        v-show="showSearchRoom"
+        v-show="isSelectVisible"
       >
         <RoomSelect
           class="q-pb-xs"
           :options="modulesList"
-          :isVisible.sync="showSearchRoom"
+          :isVisible.sync="isSelectVisible"
           :filter="filter"
           @input="showRecordsModal"
+          v-on:update:isVisible="updateRoomListSelect"
         >
           <template #prepend="{ selected }">
             <q-icon
@@ -84,13 +87,20 @@ export default {
   data() {
     return {
       showAddRoomPanel: false,
+      isSelectVisible: false,
       modulesList: []
     }
   },
   computed: {
     ...mapGetters(['config'])
   },
+  created() {
+    this.modulesList = this.config.chatModules
+  },
   methods: {
+    updateRoomListSelect(val) {
+      this.$refs.roomList.toggleRoomSelect()
+    },
     ...mapMutations(['updateRooms']),
     showRecordsModal(val) {
       app.showRecordsList(
@@ -123,10 +133,10 @@ export default {
           v => v.label.toLowerCase().indexOf(needle) > -1
         )
       })
+    },
+    onToggleSelectRoom(val) {
+      this.isSelectVisible = val
     }
-  },
-  created() {
-    this.modulesList = this.config.chatModules
   }
 }
 </script>

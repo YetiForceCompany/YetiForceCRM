@@ -18,17 +18,6 @@
       >
         <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
       </q-btn>
-      <q-btn
-        dense
-        flat
-        round
-        size="sm"
-        color="primary"
-        icon="mdi-plus"
-        @click="toggleRoomSelect()"
-      >
-        <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
-      </q-btn>
     </template>
     <template #itemRight="{ room }">
       <q-btn
@@ -52,9 +41,6 @@
     <template #aboveItems>
       <q-item v-show="isAddInputVisible">
         <RoomPrivateInput :showAddPrivateRoom.sync="isAddInputVisible" />
-      </q-item>
-      <q-item v-show="isSelectVisible">
-        <RoomSelectAsync :isVisible.sync="isSelectVisible" />
       </q-item>
     </template>
     <template #belowItems>
@@ -123,7 +109,6 @@ export default {
       confirm: false,
       isArchiving: false,
       isAddInputVisible: false,
-      isSelectVisible: false,
       roomToArchive: {}
     }
   },
@@ -157,9 +142,6 @@ export default {
       this.archivePrivateRoom(roomToArchive).then(e => {
         this.isArchiving = false
       })
-    },
-    toggleRoomSelect() {
-      this.isSelectVisible = !this.isSelectVisible
     },
     toggleAddInput() {
       this.isAddInputVisible = !this.isAddInputVisible

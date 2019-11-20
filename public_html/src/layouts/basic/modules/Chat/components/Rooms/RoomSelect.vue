@@ -36,7 +36,7 @@
         <q-icon
           class="cursor-pointer"
           name="mdi-close"
-          @click.prevent="$emit('update:isVisible', false)"
+          @click.prevent="hideSelect()"
         />
         <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
       </template>
@@ -96,6 +96,9 @@ export default {
   methods: {
     callbackInput(e) {
       this.$emit('input', e)
+    },
+    hideSelect() {
+      this.$emit('update:isVisible', false)
     }
   }
 }

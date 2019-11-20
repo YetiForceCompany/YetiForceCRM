@@ -26,6 +26,8 @@
           <q-tooltip>{{ translate(showAllRooms ? 'JS_CHAT_HIDE_ROOMS' : 'JS_CHAT_SHOW_ROOMS') }}</q-tooltip>
         </q-btn>
         <slot name="labelRight">
+        </slot>
+        <slot name="selectRoomButton">
           <q-btn
             dense
             flat
@@ -33,7 +35,7 @@
             size="sm"
             color="primary"
             icon="mdi-magnify"
-            @click="showSearchRoom = !showSearchRoom"
+            @click="toggleRoomSelect()"
           >
             <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
           </q-btn>
@@ -47,15 +49,14 @@
         </q-icon>
       </div>
     </q-item-label>
-    <slot
-      name="aboveItems"
-      :showSearchRoom="showSearchRoom"
-    >
-      <q-item v-show="showSearchRoom">
+    <slot name="aboveItems">
+    </slot>
+    <slot name="selectRoom">
+      <q-item v-show="isSelectRoomVisible">
         <RoomSelectAsync
           class="q-pb-xs"
           :roomType="roomType"
-          :showSearchRoom.sync="showSearchRoom"
+          :isVisible.sync="isSelectRoomVisible"
         />
       </q-item>
     </slot>
@@ -156,7 +157,7 @@ export default {
   data() {
     return {
       showAllRooms: false,
-      showSearchRoom: false
+      isSelectRoomVisible: false
     }
   },
   computed: {
@@ -166,6 +167,11 @@ export default {
       'roomSoundNotificationsOff',
       'layout'
     ])
+  },
+  watch: {
+    isSelectRoomVisible(value) {
+      this.$emit('toggleSelectRoom', value)
+    }
   },
   methods: {
     ...mapActions([
@@ -187,6 +193,9 @@ export default {
       if (this.mobileMode) {
         this.setLeftPanelMobile(false)
       }
+    },
+    toggleRoomSelect() {
+      this.isSelectRoomVisible = !this.isSelectRoomVisible
     }
   }
 }

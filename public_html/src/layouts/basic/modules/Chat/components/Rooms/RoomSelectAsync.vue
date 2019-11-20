@@ -2,9 +2,9 @@
 <template>
   <RoomSelect
     class="q-pb-xs"
-    :options="customOptions"
-    :filter="customFilter"
-    :isVisible.sync="showSearchRoom"
+    :options="asyncOptions"
+    :filter="asyncFilter"
+    :isVisible.sync="getIsVisible"
   />
 </template>
 <script>
@@ -18,9 +18,6 @@ export default {
     isVisible: {
       type: Boolean
     },
-    showSearchRoom: {
-      type: Boolean
-    },
     roomType: {
       type: String,
       required: true
@@ -28,26 +25,28 @@ export default {
   },
   data() {
     return {
-      customOptions: []
+      asyncOptions: []
+    }
+  },
+  computed: {
+    getIsVisible: {
+      get() {
+        return this.isVisible
+      },
+      set(isVisible) {
+        this.$emit('update:isVisible', isVisible)
+      }
     }
   },
   methods: {
-    customFilter(val, update) {
-      console.log(this.roomType)
-      const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
-      setTimeout(() => {
+    asyncFilter(val, update) {
         update(() => {
-          console.log(val)
           if (val === '') {
-            this.customOptions = stringOptions
+            this.asyncOptions = []
           } else {
-            const needle = val.toLowerCase()
-            this.customOptions = stringOptions.filter(
-              v => v.toLowerCase().indexOf(needle) > -1
-            )
+this.asyncOptions = []
           }
         })
-      }, 1500)
     }
   }
 }
