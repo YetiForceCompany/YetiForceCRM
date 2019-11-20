@@ -969,7 +969,7 @@ return [
 		],
 		'allowedFrameDomains' => [
 			'default' => [],
-			'description' => 'Allowed domains for loading frame, used in CSP.',
+			'description' => 'Allowed domains for loading frame, used in CSP and validate referer.',
 		],
 		'allowedImageDomains' => [
 			'default' => [
