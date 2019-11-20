@@ -1,12 +1,4 @@
-<!--
-/**
- * ArticlePreview component
- *
- * @description Article preview parent component
- * @license YetiForce Public License 3.0
- * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
- */
--->
+
 <template>
   <transition
     :enter-active-class="'animated ' + animationIn"

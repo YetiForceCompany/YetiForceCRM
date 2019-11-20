@@ -441,11 +441,12 @@ class Vtiger_ListView_Model extends \App\Base
 				$headerFields[] = $fieldModel;
 			}
 		}
-		foreach ($headerFields as $fieldsModel) {
-			if ($fieldsModel && (!$fieldsModel->isViewable() || !$fieldsModel->getPermissions())) {
+		foreach ($headerFields as $fieldModel) {
+			if ($fieldModel && (!$fieldModel->isViewable() || !$fieldModel->getPermissions())) {
 				continue;
 			}
-			$headerFieldModels[] = $fieldsModel;
+			$name = $fieldModel->get('source_field_name') ? "{$fieldModel->getName()}:{$fieldModel->getModuleName()}:{$fieldModel->get('source_field_name')}" : $fieldModel->getName();
+			$headerFieldModels[$name] = $fieldModel;
 		}
 		return $headerFieldModels;
 	}

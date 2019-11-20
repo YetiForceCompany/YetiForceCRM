@@ -23,6 +23,11 @@ class Purifier
 	public const INTEGER = 'Integer';
 
 	/**
+	 * Purify type integer.
+	 */
+	public const STANDARD = 'Standard';
+
+	/**
 	 * Purify type text.
 	 */
 	public const TEXT = 'Text';

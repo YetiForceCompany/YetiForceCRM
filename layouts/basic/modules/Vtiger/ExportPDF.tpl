@@ -8,15 +8,22 @@
 			</button>
 		</div>
 		<div class="modal-body">
-			<input type="hidden" name="all_records" id="all_records" value="{\App\Purifier::encodeHtml(\App\Json::encode($ALL_RECORDS))}" />
-			<input type="hidden" name="selectedRecords" value="[]" />
-			<input type="hidden" name="validRecords" value="[]" />
-			<input type="hidden" name="template" value="[]" />
+			<input type="hidden" name="module" value="{$MODULE_NAME}"/>
+			<input type="hidden" name="action" value="PDF"/>
+			<input type="hidden" name="viewname" value="{$VIEW_NAME}"/>
+			<input type="hidden" name="selected_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}">
+			<input type="hidden" name="excluded_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}">
+			<input type="hidden" name="search_key" value="{$SEARCH_KEY}"/>
+			<input type="hidden" name="operator" value="{$OPERATOR}"/>
+			<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}"/>
+			<input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}"/>
+			<input type="hidden" name="sortorder" value="{$SORT_ORDER}">
+			<input type="hidden" name="orderby" value="{$ORDER_BY}">
+			<input type="hidden" name="record" value="{$RECORD_ID}"/>
+			<input type="hidden" name="fromview" value="{$FROM_VIEW}"/>
 			<input type="hidden" name="single_pdf" value="0" />
 			<input type="hidden" name="email_pdf" value="0" />
-			{foreach from=$EXPORT_VARS key=INDEX item=VALUE}
-				<input type="hidden" name="{$INDEX}" value="{$VALUE}" />
-			{/foreach}
+			<input type="hidden" name="isSortActive" value="1" />
 			{function TEMPLATE_LIST STANDARD_TEMPLATES=[]}
 				{foreach from=$STANDARD_TEMPLATES item=TEMPLATE}
 					<div class="form-group row">
@@ -25,7 +32,8 @@
 							<span class="secondaryName ml-2">[ {\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)} ]</span>
 						</label>
 						<div class="col-sm-1">
-							<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
+							<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}"
+								{if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
 						</div>
 					</div>
 				{/foreach}
@@ -99,14 +107,14 @@
 					</div>
 				</div>
 			{/if}
+		<span class="js-records-info pl-3 text-info d-none" data-js="text"></span>
 		<div class="modal-footer">
 			<div class="btn-group mr-0">
-				<button id="generate_pdf" type="submit" class="btn btn-success">
+				<button id="generate_pdf" type="submit" class="btn btn-success js-submit-button"{if !$ACTIVE} disabled="disabled"{/if} data-js="click">
 					<span class="fas fa-file-pdf mr-1"></span>{\App\Language::translate('LBL_GENERATE', $MODULE_NAME)}
 				</button>
-				{if count($ALL_RECORDS) > 1}
-					<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
-							aria-haspopup="true" aria-expanded="false">
+					<button type="button" class="btn btn-success dropdown-toggle js-submit-button" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false"{if !$ACTIVE} disabled="disabled"{/if} >
 					</button>
 					<ul class="dropdown-menu">
 						<li>
@@ -115,10 +123,9 @@
 							</a>
 						</li>
 					</ul>
-				{/if}
 			</div>
 			{if \App\Privilege::isPermitted('OSSMail')}
-				<button id="email_pdf" type="submit" class="btn btn-info mr-0">
+				<button id="email_pdf" type="submit" class="btn btn-info mr-0 js-submit-button"{if !$ACTIVE} disabled="disabled"{/if}>
 					<span class="fas fa-envelope mr-1"></span>{\App\Language::translate('LBL_SEND_EMAIL', $MODULE_NAME)}
 				</button>
 			{/if}

@@ -20,17 +20,18 @@ class Headers
 	 * @var string[]
 	 */
 	protected $headers = [
+		'access-control-allow-methods' => 'GET, POST',
+		'access-control-allow-origin' => '*',
 		'expires' => '-',
 		'last-modified' => '-',
 		'pragma' => 'no-cache',
 		'cache-control' => 'private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0',
 		'content-type' => 'text/html; charset=UTF-8',
-		'x-frame-options' => 'SAMEORIGIN',
-		'x-xss-protection' => '1; mode=block',
-		'x-content-type-options' => 'nosniff',
 		'referrer-policy' => 'no-referrer',
 		'expect-ct' => 'enforce; max-age=3600',
-		'access-control-allow-methods' => 'GET, POST, PUT, DELETE',
+		'x-frame-options' => 'sameorigin',
+		'x-xss-protection' => '1; mode=block',
+		'x-content-type-options' => 'nosniff',
 		'x-robots-tag' => 'none',
 		'x-permitted-cross-domain-policies' => 'none',
 	];
@@ -90,10 +91,10 @@ class Headers
 		if ($browser->https) {
 			$this->headers['strict-transport-security'] = 'max-age=31536000; includeSubDomains; preload';
 		}
-		if (\App\Config::security('cspActive')) {
+		if (\App\Config::security('cspHeaderActive')) {
 			$this->loadCsp();
 		}
-		if ($keys = \App\Config::security('hpkpKeys')) {
+		if ($keys = \App\Config::security('hpkpKeysHeader')) {
 			$this->headers['public-key-pins'] = 'pin-sha256="' . implode('"; pin-sha256="', $keys) . '"; max-age=10000;';
 		}
 	}
@@ -157,9 +158,6 @@ class Headers
 		}
 		if (\Config\Security::$allowedScriptDomains) {
 			$this->csp['script-src'] .= ' ' . \implode(' ', \Config\Security::$allowedScriptDomains);
-		}
-		if ($nonce = \App\Session::get('CSP_TOKEN')) {
-			$this->csp['script-src'] .= " 'nonce-{$nonce}'";
 		}
 		if (\Config\Security::$allowedFormDomains) {
 			$this->csp['form-action'] .= ' ' . \implode(' ', \Config\Security::$allowedFormDomains);

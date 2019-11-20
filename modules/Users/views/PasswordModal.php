@@ -25,18 +25,18 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		switch ($request->getMode()) {
 			case 'reset':
 			case 'change':
-				if ($currentUserModel->isAdminUser() === true || (int) $currentUserModel->get('id') === $request->getInteger('record')) {
+				if (true === $currentUserModel->isAdminUser() || (int) $currentUserModel->get('id') === $request->getInteger('record')) {
 					return true;
 				}
 				break;
 			case 'massReset':
-				if ($currentUserModel->isAdminUser() === true) {
+				if (true === $currentUserModel->isAdminUser()) {
 					return true;
 				}
 				break;
@@ -49,7 +49,7 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcessAjax(\App\Request $request)
+	public function preProcessAjax(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
@@ -79,8 +79,10 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 
 	/**
 	 * Reset user password.
+	 *
+	 * @param \App\Request $request
 	 */
-	public function reset(\App\Request $request)
+	public function reset(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -94,8 +96,10 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 
 	/**
 	 * Change user password.
+	 *
+	 * @param \App\Request $request
 	 */
-	public function change(\App\Request $request)
+	public function change(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -108,13 +112,13 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 		$viewer->assign('PASS_CONFIG', $passConfig);
 		if (App\User::getCurrentUserId() === $request->getInteger('record')) {
 			$userModel = App\User::getCurrentUserModel();
-			if ((int) $userModel->getDetail('force_password_change') === 1) {
+			if (1 === (int) $userModel->getDetail('force_password_change')) {
 				$this->modalClass = 'static';
 				$viewer->assign('LOCK_EXIT', true);
 				$viewer->assign('WARNING', \App\Language::translate('LBL_FORCE_PASSWORD_CHANGE_ALERT', 'Users'));
 			} else {
 				$time = (int) $passConfig['change_time'];
-				if ($time !== 0) {
+				if (0 !== $time) {
 					$time += (int) $passConfig['lock_time'];
 					if (date('Y-m-d') > date('Y-m-d', strtotime("+{$passConfig['change_time']} day", strtotime($userModel->getDetail('date_password_change'))))) {
 						$viewer->assign('WARNING', \App\Language::translateArgs('LBL_YOUR_PASSWORD_WILL_EXPIRE', $moduleName, \App\Fields\DateTime::getDiff(date('Y-m-d'), date('Y-m-d', strtotime("+$time day", strtotime($userModel->getDetail('date_password_change')))), 'days')));
@@ -129,8 +133,10 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 
 	/**
 	 * Mass reset user password.
+	 *
+	 * @param \App\Request $request
 	 */
-	public function massReset(\App\Request $request)
+	public function massReset(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -140,14 +146,14 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 		$viewer->assign('ACTIVE_SMTP', App\Mail::getDefaultSmtp());
 		$viewer->assign('SELECTED_IDS', $request->getArray('selected_ids', 2));
 		$viewer->assign('EXCLUDED_IDS', $request->getArray('excluded_ids', 2));
-		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($moduleName, $request->getArray('search_params')));
+		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($moduleName, $request->getArray('search_params'), false));
 		$viewer->view('PasswordModal.tpl', $moduleName);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function postProcessAjax(\App\Request $request)
+	public function postProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		if (!$request->getBoolean('onlyBody')) {

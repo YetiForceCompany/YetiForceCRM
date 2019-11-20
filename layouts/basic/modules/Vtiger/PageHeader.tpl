@@ -17,6 +17,7 @@
 	<!--[if IE]>
 		<script type="text/javascript" src="public_html/libraries/html5shiv/html5shiv.js"></script>
 		<script type="text/javascript" src="public_html/libraries/respond.js/dist/respond.min.js"></script>
+		<script type="text/javascript" src="public_html/libraries/quasar.ie.polyfills.min.js"></script>
 	<![endif]-->
 	{* ends *}
 	{assign var="HEAD_LOCKS" value=$USER_MODEL->getHeadLocks()}

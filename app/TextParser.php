@@ -1024,6 +1024,7 @@ class TextParser
 	 */
 	protected function custom($params)
 	{
+		$instance = null;
 		if (false !== strpos($params, '||')) {
 			$params = explode('||', $params);
 			$parserName = array_shift($params);
@@ -1041,25 +1042,16 @@ class TextParser
 				$module = $this->moduleName;
 			}
 		}
-		if ($module) {
-			$handlerClass = \Vtiger_Loader::getComponentClassName('TextParser', $parserName, $module, false);
-			if (!$handlerClass) {
-				Log::error("Not found custom class: $parserName|{$module}");
-				return '';
-			}
-			$instance = new $handlerClass($this, $params);
+		$className = "\\App\\TextParser\\$parserName";
+		if ($module && $handlerClass = \Vtiger_Loader::getComponentClassName('TextParser', $parserName, $module, false)) {
+			$className = $handlerClass;
+		}
+		if (!class_exists($className)) {
+			Log::error("Not found custom class: $parserName|{$module}");
 		} else {
-			$className = "\\App\\TextParser\\$parserName";
-			if (!class_exists($className)) {
-				Log::error("Not found custom class $parserName");
-				return '';
-			}
 			$instance = new $className($this, $baseParams);
 		}
-		if ($instance->isActive()) {
-			return $instance->process();
-		}
-		return '';
+		return $instance && $instance->isActive() ? $instance->process() : '';
 	}
 
 	/**

@@ -14,11 +14,19 @@
  */
 class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function checkPermission(App\Request $request)
 	{
-		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function loginRequired()
+	{
+		return false;
 	}
 
 	/**
@@ -26,6 +34,14 @@ class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 	 */
 	public function process(App\Request $request)
 	{
+		$moduleName = $request->getModule();
+		\CsrfMagic\Csrf::$frameBreaker = false;
+		if (!\App\User::getCurrentUserId()) {
+			$viewer = $this->getViewer($request);
+			$viewer->view('LoginIframe.tpl', $moduleName);
+		} elseif (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($moduleName)) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
 	}
 
 	/**

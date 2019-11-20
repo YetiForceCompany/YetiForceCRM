@@ -13,6 +13,11 @@
 require __DIR__ . '/include/main/WebUI.php';
 require __DIR__ . '/include/RequirementsValidation.php';
 
+if ('OPTIONS' === $_SERVER['REQUEST_METHOD']) {
+	\App\Headers::getInstance()->send();
+	return;
+}
+
 if (!\App\Config::main('application_unique_key', false)) {
 	header('location: install/Install.php');
 }

@@ -4086,7 +4086,7 @@ CREATE TABLE `u_yf_watchdog_schedule` (
 CREATE TABLE `vtiger_account` (
   `accountid` int(10) NOT NULL DEFAULT 0,
   `account_no` varchar(100) NOT NULL,
-  `accountname` varchar(100) NOT NULL,
+  `accountname` varchar(255) NOT NULL,
   `parentid` int(10) DEFAULT 0,
   `account_type` varchar(200) DEFAULT NULL,
   `industry` varchar(200) DEFAULT NULL,

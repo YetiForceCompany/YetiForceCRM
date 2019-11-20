@@ -17,8 +17,10 @@ class Users_Login_Action extends \App\Controller\Action
 	public function __construct()
 	{
 		parent::__construct();
+		if ($nonce = \App\Session::get('CSP_TOKEN')) {
+			$this->headers->csp['script-src'] .= " 'nonce-{$nonce}'";
+		}
 		$this->headers->csp['default-src'] = '\'self\'';
-		$this->headers->csp['img-src'] = '\'self\'';
 		$this->headers->csp['script-src'] = str_replace([
 			' \'unsafe-inline\'', ' blob:'
 		], '', $this->headers->csp['script-src']);
@@ -156,7 +158,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	public function afterLogin(App\Request $request)
 	{
-		if (App\Config::main('session_regenerate_id')) {
+		if (\Config\Security::$loginSessionRegenerate) {
 			\App\Session::regenerateId(true); // to overcome session id reuse.
 		}
 		if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId())) {

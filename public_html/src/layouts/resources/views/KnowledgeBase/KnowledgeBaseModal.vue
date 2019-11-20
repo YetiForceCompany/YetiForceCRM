@@ -106,8 +106,8 @@ export default {
   methods: {
     ...mapActions(['fetchCategories', 'initState'])
   },
-  async created() {
-    await this.initState(this.$options.state)
+  created() {
+    this.initState(this.$options.state)
   }
 }
 </script>

@@ -2,6 +2,9 @@
 
 'use strict';
 $(document).ready(() => {
+	$('input:visible')
+		.first()
+		.focus();
 	$('#fingerPrint').val(new DeviceUUID().get());
 	$('button.close').on('click', () => {
 		$('.visible-phone').css('visibility', 'hidden');

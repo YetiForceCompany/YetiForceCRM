@@ -23,7 +23,7 @@ class MailIntegration
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ('module.postinstall' === $eventType) {
+		if ($moduleName && 'module.postinstall' === $eventType) {
 		} elseif ('module.disabled' === $eventType) {
 		} elseif ('module.preuninstall' === $eventType) {
 		} elseif ('module.preupdate' === $eventType) {
