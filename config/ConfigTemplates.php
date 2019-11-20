@@ -938,7 +938,7 @@ return [
 			'description' => 'Update the current session id with a newly generated one after login and logout'
 		],
 		'forceHttpsRedirection' => [
-			'default' => true,
+			'default' => false,
 			'description' => 'Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.'
 		],
 		'forceUrlRedirection' => [
