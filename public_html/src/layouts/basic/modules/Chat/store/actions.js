@@ -58,6 +58,27 @@ export default {
       })
     })
   },
+  fetchRoomsUnpinned({ commit, dispatch }, { id, roomType }) {
+    return new Promise((resolve, reject) => {
+      // AppConnector.request({
+      //   module: 'Chat',
+      //   action: 'ChatAjax',
+      //   mode: 'getMessages',
+      //   recordId: id,
+      //   roomType,
+      //   recordRoom: false
+      // }).done(({ result }) => {
+      //   if (result.amountOfNewMessages) {
+      //     dispatch('updateAmountOfNewMessages', result.amountOfNewMessages)
+      //     commit('mergeData', { currentRoom: result.currentRoom, roomList: result.roomList })
+      //   } else {
+      //     commit('mergeData', result)
+      //   }
+      //   resolve(result)
+      // })
+      resolve(true)
+    })
+  },
   archivePrivateRoom({ commit, dispatch }, room) {
     return new Promise((resolve, reject) => {
       AppConnector.request({

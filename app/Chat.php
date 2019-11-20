@@ -261,10 +261,11 @@ final class Chat
 	 * List of chat room groups.
 	 *
 	 * @param int|null $userId
+	 * @param bool     $pinned
 	 *
 	 * @return array
 	 */
-	public static function getRoomsGroup(?int $userId = null)
+	public static function getRoomsGroup(?int $userId = null, ?bool $pinned = true)
 	{
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
@@ -276,20 +277,27 @@ final class Chat
 			->innerJoin(['CM' => static::TABLE_NAME['message']['group']], 'CM.groupid = CR.groupid')
 			->where(['>', 'CM.id', new \yii\db\Expression('CR.last_message')])
 			->groupBy(['CR.groupid', 'CR.userid']);
-		$dataReader = (new Db\Query())
+		$query = (new Db\Query())
 			->select(['GR.roomid', 'GR.userid', 'recordid' => 'GR.groupid', 'name' => 'VGR.groupname', 'CNT.cnt_new_message'])
 			->from(['GR' => 'u_#__chat_rooms_group'])
-			->innerJoin(['VGR' => 'vtiger_groups'], 'VGR.groupid = GR.groupid')
 			->leftJoin(['CNT' => $subQuery], 'CNT.groupid = GR.groupid AND CNT.userid = GR.userid')
-			->where(['GR.userid' => $userId])->createCommand()->query();
+			->where(['GR.userid' => $userId]);
+		$joinArguments = [['VGR' => 'vtiger_groups'], 'VGR.groupid = GR.groupid'];
+		if ($pinned) {
+			$query->rightJoin($joinArguments[0], $joinArguments[1]);
+		} else {
+			$query->innerJoin($joinArguments[0], $joinArguments[1]);
+		}
+		$dataReader = $query->createCommand()->query();
 		$rows = [];
+		$groupsTemp = [];
 		while ($row = $dataReader->read()) {
 			if (isset($groups[$row['recordid']])) {
 				$row['isPinned'] = true;
-				$groups[$row['recordid']] = $row;
+				$groupsTemp[$row['recordid']] = $row;
 			}
 		}
-		foreach ($groups as $id => $group) {
+		foreach ($groupsTemp as $id => $group) {
 			if (\is_string($group)) {
 				$group = ['recordid' => $id, 'name' => $group, 'isPinned' => false];
 			}

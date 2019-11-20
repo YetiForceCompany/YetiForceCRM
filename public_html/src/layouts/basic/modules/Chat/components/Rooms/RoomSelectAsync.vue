@@ -38,15 +38,22 @@ export default {
       }
     }
   },
+  created() {
+    console.log(this.roomType)
+  },
   methods: {
+    ...mapActions(['fetchRoomsUnpinned']),
     asyncFilter(val, update) {
-        update(() => {
-          if (val === '') {
-            this.asyncOptions = []
-          } else {
-this.asyncOptions = []
-          }
-        })
+      this.fetchRoomsUnpinned().then(data => {
+        console.log(data)
+              update(() => {
+        if (val === '') {
+          this.asyncOptions = []
+        } else {
+          this.asyncOptions = []
+        }
+      })
+      })
     }
   }
 }
