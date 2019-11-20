@@ -16,45 +16,45 @@ const { mapActions } = createNamespacedHelpers('KnowledgeBase')
 store.registerModule('KnowledgeBase', moduleStore)
 
 Vue.mixin({
-  methods: {
-    translate(key) {
-      return app.vtranslate(key)
-    }
-  }
+	methods: {
+		translate(key) {
+			return app.vtranslate(key)
+		}
+	}
 })
 window.KnowledgeBase = {
-  component: KnowledgeBaseComponent,
-  mount(config) {
-    KnowledgeBaseComponent.state = config.state
-    return new Vue({
-      store,
-      render: h => h(KnowledgeBaseComponent),
-      methods: {
-        ...mapActions(['fetchCategories', 'initState'])
-      },
-      async created() {
-        await this.initState(config.state)
-      }
-    }).$mount(config.el)
-  }
+	component: KnowledgeBaseComponent,
+	mount(config) {
+		KnowledgeBaseComponent.state = config.state
+		return new Vue({
+			store,
+			render: h => h(KnowledgeBaseComponent),
+			methods: {
+				...mapActions(['fetchCategories', 'initState'])
+			},
+			created() {
+				this.initState(config.state)
+			}
+		}).$mount(config.el)
+	}
 }
 window.ArticlePreviewVueComponent = {
-  component: ArticlePreviewComponent,
-  mount(config) {
-    ArticlePreviewComponent.state = config.state
-    return new Vue({
-      store,
-      render: h => h(ArticlePreviewComponent)
-    }).$mount(config.el)
-  }
+	component: ArticlePreviewComponent,
+	mount(config) {
+		ArticlePreviewComponent.state = config.state
+		return new Vue({
+			store,
+			render: h => h(ArticlePreviewComponent)
+		}).$mount(config.el)
+	}
 }
 window.KnowledgeBaseModalVueComponent = {
-  component: KnowledgeBaseModal,
-  mount(config) {
-    KnowledgeBaseModal.state = config.state
-    return new Vue({
-      store,
-      render: h => h(KnowledgeBaseModal)
-    }).$mount(config.el)
-  }
+	component: KnowledgeBaseModal,
+	mount(config) {
+		KnowledgeBaseModal.state = config.state
+		return new Vue({
+			store,
+			render: h => h(KnowledgeBaseModal)
+		}).$mount(config.el)
+	}
 }

@@ -9,16 +9,16 @@
 -->
 <template>
   <article-preview
-    isDragResize
+    :isDragResize="false"
     maximizedOnly
     previewDialog
   >
-    <template slot="header-right">
+    <template #headerRight>
       <q-btn
         dense
         flat
         icon="mdi-close"
-        @click="hideModal()"
+        @click="hideModal"
       >
         <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
       </q-btn>
@@ -32,6 +32,16 @@ const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'ArticlePreviewModal',
   components: { ArticlePreview },
+  created() {
+    this.initState(this.$options.state)
+    this.fetchCategories()
+    this.fetchRecord(this.$options.state.recordId)
+    document.addEventListener('keyup', evt => {
+      if (evt.keyCode === 27) {
+        this.hideModal()
+      }
+    })
+  },
   methods: {
     hideModal() {
       app.hideModalWindow()
@@ -41,16 +51,6 @@ export default {
       this.$destroy()
     },
     ...mapActions(['fetchCategories', 'fetchRecord', 'initState'])
-  },
-  async created() {
-    await this.initState(this.$options.state)
-    await this.fetchCategories()
-    await this.fetchRecord(this.$options.state.recordId)
-    document.addEventListener('keyup', evt => {
-      if (evt.keyCode === 27) {
-        this.hideModal()
-      }
-    })
   }
 }
 </script>

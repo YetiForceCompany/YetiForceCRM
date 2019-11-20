@@ -1,12 +1,4 @@
-<!--
-/**
- * ArticlePreviewContent component
- *
- * @description Part of q-dialog
- * @license YetiForce Public License 3.0
- * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
- */
--->
+
 <template>
   <q-card class="KnowledgeBase__ArticlePreview fit">
     <q-bar
@@ -90,7 +82,7 @@
         </div>
       </div>
       <q-space />
-      <slot name="header-right">
+      <slot name="headerRight">
         <template v-if="$q.platform.is.desktop">
           <a
             v-show="!previewMaximized"
@@ -281,10 +273,14 @@ export default {
       }
     },
     hasRelatedArticles() {
-      return this.record ? this.record.related.base.Articles.length !== 0 : false
+      return this.record
+        ? this.record.related.base.Articles.length !== 0
+        : false
     },
     hasRelatedComments() {
-      return this.record ? this.record.related.base.ModComments.length !== 0 : false
+      return this.record
+        ? this.record.related.base.ModComments.length !== 0
+        : false
     }
   },
   methods: {

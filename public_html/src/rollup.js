@@ -42,8 +42,21 @@ const plugins = [
   commonjs(),
   globals(),
   babel({
-    presets: ['vue'],
-    exclude: 'node_modules/**'
+    presets: [
+      [
+        '@babel/env',
+        {
+          useBuiltIns: 'usage',
+          corejs: '3.4',
+          forceAllTransforms: true
+        }
+      ]
+    ],
+    plugins: ['@babel/plugin-transform-typeof-symbol', '@babel/plugin-transform-regenerator'],
+    exclude: [/\/core-js\//],
+    runtimeHelpers: true,
+    sourceMap: true,
+    extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', '.vue']
   })
 ]
 
