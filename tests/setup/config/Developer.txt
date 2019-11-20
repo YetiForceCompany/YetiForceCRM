@@ -4,7 +4,7 @@
  * Configuration file.
  * This file is auto-generated.
  *
- * @package   Config
+ * @package Config
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -39,5 +39,5 @@ class Developer
 	public static $LANGUAGES_UPDATE_DEV_MODE = true;
 
 	/** Developer updater mode */
-	public static $updaterDevMode = 'developer';
+	public static $updaterDevMode = true;
 }

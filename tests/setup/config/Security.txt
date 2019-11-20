@@ -24,7 +24,7 @@ class Security
 	public static $USER_ENCRYPT_PASSWORD_COST = 10;
 
 	/** Possible to reset the password while logging in (true/false) */
-	public static $RESET_LOGIN_PASSWORD = false;
+	public static $RESET_LOGIN_PASSWORD = true;
 
 	/** Show my preferences */
 	public static $SHOW_MY_PREFERENCES = true;
@@ -72,7 +72,7 @@ class Security
 	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_ACTIVE = false;
 
 	/** Restricted domains */
-	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES = [];
+	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES = ['yetiforce.com'];
 
 	/** List of modules where restricted domains are enabled, if empty it will be enabled everywhere. */
 	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_ALLOWED = [];
@@ -91,9 +91,10 @@ class Security
 
 	/**
 	 * User authentication mode.
+	 *
 	 * @see \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.
 	 */
-	public static $USER_AUTHY_MODE = 'TOTP_OPTIONAL';
+	public static $USER_AUTHY_MODE = 'TOTP_OFF';
 
 	/** Cache lifetime for SensioLabs security checker. */
 	public static $CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER = 3600;
@@ -102,7 +103,7 @@ class Security
 	public static $loginSessionRegenerate = true;
 
 	/** Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option. */
-	public static $forceHttpsRedirection = false;
+	public static $forceHttpsRedirection = true;
 
 	/** Redirect to proper url when wrong url is entered. */
 	public static $forceUrlRedirection = true;
@@ -141,5 +142,5 @@ class Security
 	public static $generallyAllowedDomains = [];
 
 	/** List of allowed domains for fields with HTML support */
-	public static $purifierAllowedDomains = [];
+	public static $purifierAllowedDomains = ['yetiforce.com', 'github.com'];
 }

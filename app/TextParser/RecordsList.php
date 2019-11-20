@@ -66,12 +66,11 @@ class RecordsList extends Base
 		$html .= '<table border="1" class="products-table" style="border-collapse:collapse;width:100%;"><thead><tr>';
 		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
 		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px4px;';
-		$columns = [];
 
 		foreach ($fields as $fieldModel) {
 			$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $this->textParser->moduleName) . '</th>';
-			$columns[$fieldModel->getName()] = $fieldModel;
 		}
+
 		$html .= '</tr></thead><tbody>';
 		foreach ($ids as $recordId) {
 			$html .= '<tr>';

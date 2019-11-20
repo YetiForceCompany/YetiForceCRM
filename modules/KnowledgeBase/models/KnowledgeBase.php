@@ -156,10 +156,11 @@ class KnowledgeBase_KnowledgeBase_Model extends \App\Base
 	{
 		$rows = [];
 		while ($row = $dataReader->read()) {
+			$introduction = $row['introduction'] ?? '';
 			$rows[$row['id']] = [
 				'assigned_user_id' => App\Fields\Owner::getLabel($row['assigned_user_id']),
 				'subject' => $row['subject'],
-				'introduction' => nl2br(\App\Utils\Completions::decode(\App\Purifier::purifyHtml($row['introduction']))),
+				'introduction' => $introduction ? nl2br(\App\Utils\Completions::decode(\App\Purifier::purifyHtml($introduction))) : '',
 				'category' => $row['category'],
 				'full_time' => App\Fields\DateTime::formatToDisplay($row['modifiedtime']),
 				'short_time' => \Vtiger_Util_Helper::formatDateDiffInStrings($row['modifiedtime']),

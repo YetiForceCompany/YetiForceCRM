@@ -228,10 +228,6 @@ return [
 				return (int) func_get_arg(0);
 			}
 		],
-		'session_regenerate_id' => [
-			'default' => true,
-			'description' => 'Update the current session id with a newly generated one after login'
-		],
 		'davStorageDir' => [
 			'default' => 'storage/Files',
 			'description' => 'Update the current session id with a newly generated one after login',
@@ -239,10 +235,6 @@ return [
 		'systemMode' => [
 			'default' => 'prod',
 			'description' => 'System mode. Available: prod, demo, test'
-		],
-		'forceSSL' => [
-			'default' => false,
-			'description' => 'Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.'
 		],
 		'listMaxEntriesMassEdit' => [
 			'default' => 500,
@@ -260,10 +252,6 @@ return [
 			'description' => 'Enable closing of mondal window by clicking on the background',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
-		],
-		'csrfProtection' => [
-			'default' => true,
-			'description' => 'Enable CSRF protection'
 		],
 		'isActiveSendingMails' => [
 			'default' => true,
@@ -295,10 +283,6 @@ return [
 			'validation' => function () {
 				return isset(\App\Layout::getAllLayouts()[func_get_arg(0)]);
 			}
-		],
-		'forceRedirect' => [
-			'default' => true,
-			'description' => 'Redirect to proper url when wrong url is entered.'
 		],
 		'phoneFieldAdvancedVerification' => [
 			'default' => true,
@@ -949,15 +933,43 @@ return [
 			'description' => 'Cache lifetime for SensioLabs security checker.',
 			'validation' => '\App\Validator::naturalNumber',
 		],
-		'hpkpKeys' => [
+		'loginSessionRegenerate' => [
+			'default' => true,
+			'description' => 'Update the current session id with a newly generated one after login and logout'
+		],
+		'forceHttpsRedirection' => [
+			'default' => false,
+			'description' => 'Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.'
+		],
+		'forceUrlRedirection' => [
+			'default' => true,
+			'description' => 'Redirect to proper url when wrong url is entered.'
+		],
+		'hpkpKeysHeader' => [
 			'default' => [],
 			'description' => "HTTP Public-Key-Pins (HPKP) pin-sha256 For HPKP to work properly at least 2 keys are needed.\nhttps://scotthelme.co.uk/hpkp-http-public-key-pinning/, https://sekurak.pl/mechanizm-http-public-key-pinning/.",
 		],
-		'cspActive' => [
+		'cspHeaderActive' => [
 			'default' => true,
 			'description' => 'HTTP Content Security Policy response header allows web site administrators to control resources the user agent is allowed to load for a given page',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
+		],
+		'csrfActive' => [
+			'default' => true,
+			'description' => 'Enable CSRF protection'
+		],
+		'csrfFrameBreaker' => [
+			'default' => true,
+			'description' => 'Enable verified frame protection, used in CSRF'
+		],
+		'csrfFrameBreakerWindow' => [
+			'default' => 'top',
+			'description' => 'Which window should be verified? It is used to check if the system is loaded in the frame, used in CSRF.',
+		],
+		'allowedFrameDomains' => [
+			'default' => [],
+			'description' => 'Allowed domains for loading frame, used in CSP.',
 		],
 		'allowedImageDomains' => [
 			'default' => [
@@ -966,10 +978,6 @@ return [
 				'c.tile.openstreetmap.org'
 			],
 			'description' => 'Allowed domains for loading images, used in CSP.',
-		],
-		'allowedFrameDomains' => [
-			'default' => [],
-			'description' => 'Allowed domains for loading frame, used in CSP.',
 		],
 		'allowedScriptDomains' => [
 			'default' => [],

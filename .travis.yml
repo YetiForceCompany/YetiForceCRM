@@ -70,6 +70,8 @@ script:
   - cd tests
   - pwd
   - sudo ls ../ -all
+  - sudo ls ../vendor/bin/ -all
+  - sudo ls ../vendor/ -all
   - ../vendor/bin/phpunit --verbose --testsuite Init,Base,Integrations,Settings,Apps
   - sudo ls -all
   - cd ..

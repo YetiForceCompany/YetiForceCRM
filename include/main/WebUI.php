@@ -89,10 +89,10 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	 */
 	public function process(App\Request $request)
 	{
-		if (App\Config::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
+		if (\Config\Security::$forceHttpsRedirection && !\App\RequestUtil::getBrowserInfo()->https) {
 			header("location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
-		if (App\Config::main('forceRedirect')) {
+		if (\Config\Security::$forceUrlRedirection) {
 			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $request->getServer('HTTP_HOST') . $request->getServer('REQUEST_URI');
 			if (0 !== stripos($requestUrl, App\Config::main('site_URL'))) {
 				header('location: ' . App\Config::main('site_URL'), true, 301);
@@ -147,7 +147,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			}
 			// Better place this here as session get initiated
 			//skipping the csrf checking for the forgot(reset) password
-			if (App\Config::main('csrfProtection') && 'reset' !== $request->getMode() && 'Login' !== $action && 'demo' !== App\Config::main('systemMode')) {
+			if (App\Config::security('csrfActive') && 'reset' !== $request->getMode() && 'Login' !== $action && 'demo' !== App\Config::main('systemMode')) {
 				require_once 'config/csrf_config.php';
 				\CsrfMagic\Csrf::init();
 			}
@@ -164,7 +164,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				\App\Log::error("HandlerClass: $handlerClass", 'Loader');
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
 			}
-			if (App\Config::main('csrfProtection') && 'demo' !== App\Config::main('systemMode')) { // Ensure handler validates the request
+			if (\App\Config::security('csrfActive') && 'demo' !== App\Config::main('systemMode')) { // Ensure handler validates the request
 				$handler->validateRequest($request);
 			}
 			if ($handler->loginRequired() && $this->checkLogin($request)) {

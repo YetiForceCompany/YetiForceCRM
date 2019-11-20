@@ -158,7 +158,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	public function afterLogin(App\Request $request)
 	{
-		if (App\Config::main('session_regenerate_id')) {
+		if (\Config\Security::$loginSessionRegenerate) {
 			\App\Session::regenerateId(true); // to overcome session id reuse.
 		}
 		if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId())) {
