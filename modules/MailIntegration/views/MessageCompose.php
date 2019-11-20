@@ -16,7 +16,7 @@ class MailIntegration_MessageCompose_View extends \App\Controller\View\Base
 {
 	public function checkPermission(App\Request $request)
 	{
-		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
+		if ((explode('-', $request->getByType('query', 'AlnumExtended'))[0] ?? '') !== substr(\App\YetiForce\Register::getInstanceKey(), 0, 30)) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		\CsrfMagic\Csrf::$frameBreaker = false;
@@ -28,8 +28,12 @@ class MailIntegration_MessageCompose_View extends \App\Controller\View\Base
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$viewer = $this->getViewer($request);
-		$viewer->view('MessageCompose.tpl', $moduleName);
+		if (!\App\User::getCurrentUserId()) {
+			$viewer = $this->getViewer($request);
+			$viewer->view('MessageCompose.tpl', $moduleName);
+		} elseif (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($moduleName)) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
 	}
 
 	/**
