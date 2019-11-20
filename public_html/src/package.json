@@ -50,6 +50,8 @@
     "eslint-plugin-vue": "^6.0.1",
     "findit": "^2.0.0",
     "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-clean-css": "^4.2.0",
     "gulp-stylus": "^2.7.0",
     "node-sass": "^4.13.0",
     "postcss": "^7.0.21",
