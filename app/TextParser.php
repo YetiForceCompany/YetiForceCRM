@@ -1051,9 +1051,6 @@ class TextParser
 		} else {
 			$instance = new $className($this, $baseParams);
 		}
-		if ($instance->isActive()) {
-			return $instance->process();
-		}
 		return $instance && $instance->isActive() ? $instance->process() : '';
 	}
 

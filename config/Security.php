@@ -102,7 +102,7 @@ class Security
 	public static $loginSessionRegenerate = true;
 
 	/** Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option. */
-	public static $forceHttpsRedirection = true;
+	public static $forceHttpsRedirection = false;
 
 	/** Redirect to proper url when wrong url is entered. */
 	public static $forceUrlRedirection = true;
