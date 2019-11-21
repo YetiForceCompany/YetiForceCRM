@@ -59,14 +59,15 @@ final class Chat
 			'crm' => 'crmid',
 			'group' => 'groupid',
 			'global' => 'globalid',
-			'private' => 'privateid'
+			'private' => 'privateid',
+			'user' => 'roomid'
 		],
 		'room' => [
 			'crm' => 'crmid',
 			'group' => 'groupid',
 			'global' => 'global_room_id',
 			'private' => 'private_room_id',
-			'user' => 'roomid',
+			'user' => 'roomid'
 		],
 		'room_name' => [
 			'crm' => 'label',
@@ -1363,6 +1364,13 @@ final class Chat
 					->leftJoin(['U' => static::TABLE_NAME['users']], 'U.id = C.userid')
 					->where(['privateid' => $this->recordId]);
 				break;
+			case 'user':
+				$query = (new Db\Query())
+					->select(['C.*', 'U.user_name', 'U.last_name'])
+					->from(['C' => 'u_#__chat_messages_user'])
+					->leftJoin(['U' => static::TABLE_NAME['users']], 'U.id = C.userid')
+					->where(['roomid' => $this->recordId]);
+				break;
 			default:
 				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 		}
@@ -1410,6 +1418,12 @@ final class Chat
 					->from(['CG' => 'u_#__chat_private'])
 					->leftJoin(['CR' => 'u_#__chat_rooms_private'], "CR.private_room_id = CG.private_room_id AND CR.userid = {$this->userId}")
 					->where(['CG.private_room_id' => $this->recordId]);
+			case 'user':
+				return (new Db\Query())
+					->select(['CG.*', 'CR.userid', 'record_id' => 'CR.roomid', 'CR.last_message'])
+					->from(['CG' => 'u_#__chat_user'])
+					->leftJoin(['CR' => 'u_#__chat_rooms_user'], "CR.roomid = CG.roomid AND CR.userid = {$this->userId}")
+					->where(['CG.roomid' => $this->recordId]);
 			default:
 				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 				break;
