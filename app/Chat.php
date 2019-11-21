@@ -205,7 +205,7 @@ final class Chat
 				'CNT.userid' => $userId
 			]);
 		} else {
-			$query->where(['!=', 'CNT.userid', $userId]);
+			$query->where(['or', ['not', ['CNT.userid' => $userId]], ['CNT.userid' => null]]);
 		}
 		$dataReader = $query->createCommand()->query();
 		$rooms = [];

@@ -151,7 +151,7 @@ export default {
     },
     isVisible: {
       type: Boolean,
-      required: true
+      default: true
     }
   },
   data() {
