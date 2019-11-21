@@ -15,6 +15,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('showFieldLayout');
 		$this->exposeMethod('showRelatedListLayout');
 	}
