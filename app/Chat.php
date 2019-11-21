@@ -173,9 +173,11 @@ final class Chat
 	/**
 	 * Global list of chat rooms.
 	 *
+	 * @param bool $pinned
+	 *
 	 * @return array
 	 */
-	public static function getRoomsGlobal()
+	public static function getRoomsGlobal(?bool $pinned = true)
 	{
 		$userId = User::getCurrentUserId();
 		$roomIdName = static::COLUMN_NAME['room']['global'];
@@ -183,24 +185,29 @@ final class Chat
 			->select([new \yii\db\Expression('COUNT(*)')])
 			->from(['CM' => 'u_yf_chat_messages_global'])
 			->where([
-				'CM.globalid' => new \yii\db\Expression('CR.global_room_id')
+				'CM.globalid' => new \yii\db\Expression("CR.{$roomIdName}")
 			])->andWhere(['>', 'CM.id', new \yii\db\Expression('CR.last_message')]);
 		$subQuery = (new Db\Query())
 			->select([
 				'CR.*',
 				'cnt_new_message' => $cntQuery
 			])
-			->from(['CR' => 'u_yf_chat_rooms_global']);
-		$dataReader = (new Db\Query())
-			->select(['name', 'recordid' => 'GL.global_room_id', 'CNT.cnt_new_message', 'CNT.userid'])
-			->from(['GL' => 'u_#__chat_global'])
-			->leftJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.global_room_id AND CNT.userid = {$userId}")
-			->createCommand()->query();
+			->from(['CR' => static::TABLE_NAME['room']['global']]);
+		$query = (new Db\Query())
+			->select(['name', 'recordid' => "GL.{$roomIdName}", 'CNT.cnt_new_message', 'CNT.userid'])
+			->from(['GL' => 'u_#__chat_global']);
+		$joinArguments = [['CNT' => $subQuery], "CNT.{$roomIdName} = GL.{$roomIdName} AND CNT.userid = {$userId}"];
+		if ($pinned) {
+			$query->rightJoin($joinArguments[0], $joinArguments[1]);
+		} else {
+			$query->leftJoin($joinArguments[0], $joinArguments[1]);
+		}
+		$dataReader = $query->createCommand()->query();
 		$rooms = [];
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
 			$row['roomType'] = 'global';
-			$row['isPinned'] = isset($row['userid']);
+			$row['isPinned'] = $pinned;
 			$rooms[$row['recordid']] = $row;
 		}
 		$dataReader->close();
@@ -1016,9 +1023,12 @@ final class Chat
 	 * @param ?int $userId
 	 *
 	 * @throws \yii\db\Exception
+	 *
+	 * @return bool $success
 	 */
 	public function removeFromFavorites(?int $userId = null)
 	{
+		$success = false;
 		if (empty($userId)) {
 			$userId = $this->userId;
 		}
@@ -1029,7 +1039,8 @@ final class Chat
 					'userid' => $userId,
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
 				]
-			)->execute();
+	)->execute();
+			$success = true;
 		}
 		if ($userId === $this->userId) {
 			unset($this->room['userid']);
@@ -1038,6 +1049,7 @@ final class Chat
 				static::setCurrentRoomDefault();
 			}
 		}
+		return $success;
 	}
 
 	/**

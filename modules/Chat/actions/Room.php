@@ -51,9 +51,9 @@ class Chat_Room_Action extends \App\Controller\Action
 	public function removeFromFavorites(App\Request $request)
 	{
 		$this->checkPermissionByRoom($request);
-		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->removeFromFavorites();
+		$result = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->removeFromFavorites();
 		$response = new Vtiger_Response();
-		$response->setResult(true);
+		$response->setResult($result);
 		$response->emit();
 	}
 
