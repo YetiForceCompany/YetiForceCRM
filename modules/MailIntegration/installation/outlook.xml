@@ -207,30 +207,6 @@
 								</Control>
 							</Group>
 						</ExtensionPoint>
-						<ExtensionPoint xsi:type="MobileMessageComposeCommandSurface">
-							<Group id="msgMobileComposeGroup">
-								<Label resid="MessageCompose.Group" />
-								<Control xsi:type="MobileButton" id="msgMobileComposeFunctionButton">
-									<Label resid="MessageCompose.MobileFunctionBtn" />
-									<Icon xsi:type="bt:MobileIconList">
-										<bt:Image size="25" scale="1" resid="Icon32" />
-										<bt:Image size="25" scale="2" resid="Icon32" />
-										<bt:Image size="25" scale="3" resid="Icon32" />
-
-										<bt:Image size="32" scale="1" resid="Icon32" />
-										<bt:Image size="32" scale="2" resid="Icon32" />
-										<bt:Image size="32" scale="3" resid="Icon32" />
-
-										<bt:Image size="48" scale="1" resid="Icon80" />
-										<bt:Image size="48" scale="2" resid="Icon80" />
-										<bt:Image size="48" scale="3" resid="Icon80" />
-									</Icon>
-									<Action xsi:type="ShowTaskpane">
-										<SourceLocation resid="MessageCompose.MobileTaskpaneUrl" />
-									</Action>
-								</Control>
-							</Group>
-						</ExtensionPoint>
 					</MobileFormFactor>
 				</Host>
 			</Hosts>
@@ -243,14 +219,12 @@
 				<bt:Urls>
 					<bt:Url id="FunctionFileUrl" DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Detail.php?{__ACCESS_TOKEN__}-FunctionFileUrl"/>
 					<bt:Url id="MobileFunctionFileUrl" DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Detail.php?{__ACCESS_TOKEN__}-MobileFunctionFileUrl"/>
-					<bt:Url id="MessageCompose.TaskpaneUrl" DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Compose.php?TaskpaneUrl"/>
-					<bt:Url id="MessageCompose.MobileTaskpaneUrl" DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Compose.php?{__ACCESS_TOKEN__}-MobileTaskpaneUrl"/>
+					<bt:Url id="MessageCompose.TaskpaneUrl" DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Compose.php?{__ACCESS_TOKEN__}-TaskpaneUrl"/>
 					<bt:Url id="MessageRead.TaskpaneUrl" DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Detail.php?{__ACCESS_TOKEN__}-TaskpaneUrl"/>
 					<bt:Url id="MessageRead.MobileTaskpaneUrl" DefaultValue="{__CRM_URL__}modules/MailIntegration/html/outlook/Detail.php?{__ACCESS_TOKEN__}-MobileTaskpaneUrl"/>
 				</bt:Urls>
 				<bt:ShortStrings>
 					<bt:String id="MessageCompose.FunctionButton" DefaultValue="CRM"/>
-					<bt:String id="MessageCompose.MobileFunctionBtn" DefaultValue="YetiForce CRM"/>
 					<bt:String id="MessageCompose.Group" DefaultValue="YetiForce"/>
 					<bt:String id="MessageCompose.TaskpaneBtn" DefaultValue="CRM"/>
 					<bt:String id="MessageRead.Group" DefaultValue="YetiForce"/>
