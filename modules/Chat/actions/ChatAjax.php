@@ -424,9 +424,9 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	public function getRoomsUnpinned(App\Request $request)
 	{
 		$roomType = $request->getByType('roomType');
-		$methodName = 'getRooms' . ucfirst($roomType);
+		$methodName = 'getRooms' . ucfirst($roomType) . 'Unpinned';
 		$response = new Vtiger_Response();
-		$response->setResult(\App\Chat::{$methodName}(null, false));
+		$response->setResult(\App\Chat::{$methodName}());
 		$response->emit();
 	}
 

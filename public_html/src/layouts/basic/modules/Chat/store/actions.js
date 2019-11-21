@@ -66,12 +66,6 @@ export default {
         mode: 'getRoomsUnpinned',
         roomType
       }).done(({ result }) => {
-        // if (result.amountOfNewMessages) {
-        //   dispatch('updateAmountOfNewMessages', result.amountOfNewMessages)
-        //   commit('mergeData', { currentRoom: result.currentRoom, roomList: result.roomList })
-        // } else {
-        //   commit('mergeData', result)
-        // }
         resolve(result)
       })
     })
