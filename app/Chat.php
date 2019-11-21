@@ -408,6 +408,39 @@ final class Chat
 		}
 		return $rows;
 	}
+
+	/**
+	 * Get rooms user unpinned.
+	 *
+	 * @param int|null $userId
+	 *
+	 * @return array
+	 */
+	public static function getRoomsUser(?int $userId = null): array
+	{
+		if (empty($userId)) {
+			$userId = User::getCurrentUserId();
+		}
+		$roomType = 'user';
+		$query = (new Db\Query())
+			->select(['ROOM_PINNED.last_message', 'ROOM_SRC.userid', 'ROOM_SRC.reluserid', 'recordid' => 'ROOM_SRC.roomid'])
+			->from(['ROOM_PINNED' => static::TABLE_NAME['room'][$roomType]])
+			->where(['ROOM_PINNED.userid' => $userId])
+			->leftJoin(['ROOM_SRC' => static::TABLE_NAME['room_name'][$roomType]], 'ROOM_PINNED.roomid = ROOM_SRC.roomid');
+		$dataReader = $query->createCommand()->query();
+		$rooms = [];
+		while ($row = $dataReader->read()) {
+			$relUser = $row['userid'] === $userId ? $row['reluserid'] : $row['userid'];
+			$roomData = static::getUserInfo($relUser);
+			$roomData['name'] = $roomData['user_name'];
+			$roomData['recordid'] = $row['recordid'];
+			$roomData['roomType'] = 'user';
+			$rooms[$row['recordid']] = $roomData;
+		}
+		$dataReader->close();
+		return $rooms;
+	}
+
 	/**
 	 * Get rooms user unpinned.
 	 *
@@ -422,12 +455,12 @@ final class Chat
 		}
 		$roomType = 'user';
 		$query = (new Db\Query())
-		->select(['USERS.id','USERS.user_name', 'USERS.first_name','USERS.last_name'])
-		->from(['USERS' => static::TABLE_NAME['users']])
-		->where(['and', ['USERS.status' => 'Active'], ['USERS.deleted' => 0]])
-		->andWhere(['not', ['USERS.id' => $userId]])
-		->leftJoin(['ROOM_PINNED' => static::TABLE_NAME['room'][$roomType]], "ROOM_PINNED.userid = USERS.id")
-		->andWhere(['or', ['not', ['ROOM_PINNED.userid' => $userId]], ['ROOM_PINNED.userid' => null]]);
+			->select(['USERS.id', 'USERS.user_name', 'USERS.first_name', 'USERS.last_name'])
+			->from(['USERS' => static::TABLE_NAME['users']])
+			->where(['and', ['USERS.status' => 'Active'], ['USERS.deleted' => 0]])
+			->andWhere(['not', ['USERS.id' => $userId]])
+			->leftJoin(['ROOM_PINNED' => static::TABLE_NAME['room'][$roomType]], 'ROOM_PINNED.userid = USERS.id')
+			->andWhere(['or', ['not', ['ROOM_PINNED.userid' => $userId]], ['ROOM_PINNED.userid' => null]]);
 		$dataReader = $query->createCommand()->query();
 		$rooms = [];
 		while ($row = $dataReader->read()) {
@@ -533,7 +566,7 @@ final class Chat
 			'group' => static::getRoomsGroup($userId),
 			'global' => static::getRoomsGlobal($userId),
 			'private' => static::getRoomsPrivate($userId),
-			'user' => []
+			'user' => static::getRoomsUser($userId)
 		];
 		Cache::staticSave('ChatGetRoomsByUser', $userId);
 		return $roomsByUser;
@@ -569,7 +602,7 @@ final class Chat
 	 *
 	 * @return array
 	 */
-	public function getUserInfo(int $userId)
+	public static function getUserInfo(int $userId)
 	{
 		if (User::isExists($userId)) {
 			$userModel = User::getUserModel($userId);
@@ -870,7 +903,7 @@ final class Chat
 				'user_name' => $row['user_name'],
 				'role_name' => $row['role_name'],
 				'image' => $row['image']
-			] = $this->getUserInfo($row['userid']);
+			] = static::getUserInfo($row['userid']);
 			$rows[] = $row;
 			$mid = (int) $row['id'];
 			if ($this->lastMessageId < $mid) {
@@ -1141,7 +1174,7 @@ final class Chat
 		$participants = [];
 		$dataReader = $allUsersQuery->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$user = $this->getUserInfo($row['userid']);
+			$user = static::getUserInfo($row['userid']);
 			$participants[$row['userid']] = [
 				'user_id' => $row['userid'],
 				'user_name' => $user['user_name'],
