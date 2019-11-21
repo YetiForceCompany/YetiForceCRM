@@ -42,7 +42,8 @@ export default {
   data() {
     return {
       asyncOptions: [],
-      searchDebounce: 1000
+      allOptions: [],
+      searchDebounce: 0
     }
   },
   computed: {
@@ -58,16 +59,29 @@ export default {
   methods: {
     ...mapActions(['fetchRoomsUnpinned', 'pinRoom']),
     asyncFilter(val, update) {
-      this.fetchRoomsUnpinned({ roomType: this.roomType }).then(data => {
-        let result = data ? Object.values(data) : []
-        update(() => {
-          if (val === '') {
-            this.asyncOptions = result
-          } else {
-            this.asyncOptions = result
-          }
+      if (val === '' && !this.allOptions.length) {
+        this.fetchRoomsUnpinned({ roomType: this.roomType }).then(data => {
+          let result = data ? Object.values(data) : []
+          update(() => {
+            this.allOptions = this.asyncOptions = result
+          })
         })
-      })
+      } else {
+        if (val === '') {
+          update(() => {
+            this.asyncOptions = this.allOptions
+          })
+          return
+        }
+        update(() => {
+          const needle = val.toLowerCase()
+          this.asyncOptions = this.allOptions.filter(v => {
+            console.log(needle)
+            console.log(v)
+            return v.name.toLowerCase().indexOf(needle) > -1
+          })
+        })
+      }
     }
   }
 }
