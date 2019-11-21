@@ -467,6 +467,7 @@ final class Chat
 		while ($row = $dataReader->read()) {
 			$row['name'] = $row['first_name'] . ' ' . $row['last_name'];
 			$row['roomType'] = 'user';
+			$row['recordid'] = $row['id'];
 			$rooms[$row['id']] = $row;
 		}
 		$dataReader->close();
@@ -1236,6 +1237,10 @@ final class Chat
 	 */
 	public function addToFavorites()
 	{
+		if ('user' === $this->roomType) {
+			$this->addToFavoritesUserRoom();
+			return;
+		}
 		if (!empty($this->roomType) && !empty($this->recordId)) {
 			$lastMessage = static::getRoomLastMessage($this->recordId, $this->roomType);
 			Db::getInstance()->createCommand()->insert(
@@ -1246,6 +1251,35 @@ final class Chat
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
 				]
 			)->execute();
+			$this->room['userid'] = $this->userId;
+		}
+	}
+
+	/**
+	 * Add room to favorites.
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public function addToFavoritesUserRoom()
+	{
+		if (!empty($this->roomType) && !empty($this->recordId)) {
+			$roomsTable = static::TABLE_NAME['room_name'][$this->roomType];
+			$roomExists = (new Db\Query())
+				->select(['roomid'])
+				->from($roomsTable)
+				->where(['or', ['and', ['userid' => $this->recordId], ['reluserid' => $this->userId]], ['and', ['userid' => $this->userId], ['reluserid' => $this->recordId]]])
+				->one();
+			if ($roomExists) {
+				$lastMessage = static::getRoomLastMessage($this->recordId, $this->roomType);
+				Db::getInstance()->createCommand()->insert(
+					static::TABLE_NAME['room'][$this->roomType],
+					[
+						'last_message' => $lastMessage['id'] ?? 0,
+						'userid' => $this->userId,
+						static::COLUMN_NAME['room'][$this->roomType] => $roomExists['roomid']
+					]
+				)->execute();
+			}
 			$this->room['userid'] = $this->userId;
 		}
 	}
