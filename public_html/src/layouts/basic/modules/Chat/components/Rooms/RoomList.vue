@@ -105,7 +105,7 @@
                 round
                 flat
                 size="xs"
-                @click.stop="togglePinned({ roomType, room })"
+                @click.stop="unpinRoom({ roomType, room })"
                 icon="mdi-pin-off"
               >
                 <q-tooltip>{{ translate('JS_CHAT_UNPIN') }}</q-tooltip>
@@ -156,7 +156,7 @@ export default {
   },
   data() {
     return {
-      showAllRooms: false,
+      showAllRooms: true,
       isSelectRoomVisible: false
     }
   },
@@ -176,7 +176,7 @@ export default {
   methods: {
     ...mapActions([
       'fetchRoom',
-      'togglePinned',
+      'unpinRoom',
       'toggleRoomSoundNotification',
       'mobileMode'
     ]),

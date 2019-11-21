@@ -33,7 +33,7 @@
           :isVisible.sync="isSelectVisible"
           :filter="filter"
           @input="showRecordsModal"
-          v-on:update:isVisible="updateRoomListSelect"
+          @update:isVisible="updateRoomListSelect"
         >
           <template #prepend="{ selected }">
             <q-icon

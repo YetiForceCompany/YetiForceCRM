@@ -5,7 +5,23 @@
     :options="asyncOptions"
     :filter="asyncFilter"
     :isVisible.sync="getIsVisible"
-  />
+    :debounce="searchDebounce"
+    option-value="recordid"
+    option-label="name"
+    @input="pinRoom({recordId: $event, roomType})"
+  >
+    <template #option="{ scope }">
+      <q-item
+        dense
+        v-bind="scope.itemProps"
+        v-on="scope.itemEvents"
+      >
+        <q-item-section>
+          {{ scope.opt.name }}
+        </q-item-section>
+      </q-item>
+    </template>
+  </RoomSelect>
 </template>
 <script>
 import RoomSelect from './RoomSelect.vue'
@@ -25,7 +41,8 @@ export default {
   },
   data() {
     return {
-      asyncOptions: []
+      asyncOptions: [],
+      searchDebounce: 1000
     }
   },
   computed: {
@@ -38,21 +55,18 @@ export default {
       }
     }
   },
-  created() {
-    console.log(this.roomType)
-  },
   methods: {
-    ...mapActions(['fetchRoomsUnpinned']),
+    ...mapActions(['fetchRoomsUnpinned', 'pinRoom']),
     asyncFilter(val, update) {
-      this.fetchRoomsUnpinned().then(data => {
-        console.log(data)
-              update(() => {
-        if (val === '') {
-          this.asyncOptions = []
-        } else {
-          this.asyncOptions = []
-        }
-      })
+      this.fetchRoomsUnpinned({ roomType: this.roomType }).then(data => {
+        let result = data ? Object.values(data) : []
+        update(() => {
+          if (val === '') {
+            this.asyncOptions = result
+          } else {
+            this.asyncOptions = result
+          }
+        })
       })
     }
   }

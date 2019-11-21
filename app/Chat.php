@@ -174,12 +174,15 @@ final class Chat
 	 * Global list of chat rooms.
 	 *
 	 * @param bool $pinned
+	 * @param int  $userId
 	 *
 	 * @return array
 	 */
-	public static function getRoomsGlobal(?bool $pinned = true)
+	public static function getRoomsGlobal(?int $userId = null, ?bool $pinned = true)
 	{
-		$userId = User::getCurrentUserId();
+		if (empty($userId)) {
+			$userId = User::getCurrentUserId();
+		}
 		$roomIdName = static::COLUMN_NAME['room']['global'];
 		$cntQuery = (new Db\Query())
 			->select([new \yii\db\Expression('COUNT(*)')])
@@ -195,12 +198,14 @@ final class Chat
 			->from(['CR' => static::TABLE_NAME['room']['global']]);
 		$query = (new Db\Query())
 			->select(['name', 'recordid' => "GL.{$roomIdName}", 'CNT.cnt_new_message', 'CNT.userid'])
-			->from(['GL' => 'u_#__chat_global']);
-		$joinArguments = [['CNT' => $subQuery], "CNT.{$roomIdName} = GL.{$roomIdName} AND CNT.userid = {$userId}"];
+			->from(['GL' => 'u_#__chat_global'])
+			->leftJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.{$roomIdName}");
 		if ($pinned) {
-			$query->rightJoin($joinArguments[0], $joinArguments[1]);
+			$query->where([
+				'CNT.userid' => $userId
+			]);
 		} else {
-			$query->leftJoin($joinArguments[0], $joinArguments[1]);
+			$query->where(['!=', 'CNT.userid', $userId]);
 		}
 		$dataReader = $query->createCommand()->query();
 		$rooms = [];
@@ -222,7 +227,7 @@ final class Chat
 	 *
 	 * @return array
 	 */
-	public static function getRoomsPrivate(int $userId, ?bool $pinned = true)
+	public static function getRoomsPrivate(?int $userId = null, ?bool $pinned = true)
 	{
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
@@ -389,7 +394,7 @@ final class Chat
 		$roomsByUser = [
 			'crm' => static::getRoomsCrm($userId),
 			'group' => static::getRoomsGroup($userId),
-			'global' => static::getRoomsGlobal(),
+			'global' => static::getRoomsGlobal($userId),
 			'private' => static::getRoomsPrivate($userId)
 		];
 		Cache::staticSave('ChatGetRoomsByUser', $userId);
@@ -1039,15 +1044,15 @@ final class Chat
 					'userid' => $userId,
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
 				]
-	)->execute();
-			$success = true;
-		}
-		if ($userId === $this->userId) {
-			unset($this->room['userid']);
-			$currentRoom = static::getCurrentRoom();
-			if ($currentRoom['recordId'] === $this->recordId && $currentRoom['roomType'] === $this->roomType) {
-				static::setCurrentRoomDefault();
+  )->execute();
+			if ($userId === $this->userId) {
+				unset($this->room['userid']);
+				$currentRoom = static::getCurrentRoom();
+				if ($currentRoom['recordId'] === $this->recordId && $currentRoom['roomType'] === $this->roomType) {
+					static::setCurrentRoomDefault();
+				}
 			}
+			$success = true;
 		}
 		return $success;
 	}

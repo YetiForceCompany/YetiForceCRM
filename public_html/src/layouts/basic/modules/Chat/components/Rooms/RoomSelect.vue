@@ -7,13 +7,13 @@
       class="full-width"
       :hint="translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE')"
       :options="options"
+      :option-value="optionValue"
+      :option-label="optionLabel"
+      :input-debounce="debounce"
       dense
       use-input
       fill-input
       hide-selected
-      input-debounce="0"
-      option-value="id"
-      option-label="label"
       emit-value
       map-options
       hide-bottom-space
@@ -68,6 +68,18 @@ export default {
     filter: {
       type: Function,
       required: false
+    },
+    optionValue: {
+      type: String,
+      default: 'id'
+    },
+    optionLabel: {
+      type: String,
+      default: 'label'
+    },
+    debounce: {
+      type: Number,
+      default: 0
     }
   },
   data() {

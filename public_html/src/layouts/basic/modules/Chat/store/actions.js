@@ -58,25 +58,22 @@ export default {
       })
     })
   },
-  fetchRoomsUnpinned({ commit, dispatch }, { id, roomType }) {
+  fetchRoomsUnpinned({ commit, dispatch }, { roomType }) {
     return new Promise((resolve, reject) => {
-      // AppConnector.request({
-      //   module: 'Chat',
-      //   action: 'ChatAjax',
-      //   mode: 'getMessages',
-      //   recordId: id,
-      //   roomType,
-      //   recordRoom: false
-      // }).done(({ result }) => {
-      //   if (result.amountOfNewMessages) {
-      //     dispatch('updateAmountOfNewMessages', result.amountOfNewMessages)
-      //     commit('mergeData', { currentRoom: result.currentRoom, roomList: result.roomList })
-      //   } else {
-      //     commit('mergeData', result)
-      //   }
-      //   resolve(result)
-      // })
-      resolve(true)
+      AppConnector.request({
+        module: 'Chat',
+        action: 'ChatAjax',
+        mode: 'getRoomsUnpinned',
+        roomType
+      }).done(({ result }) => {
+        // if (result.amountOfNewMessages) {
+        //   dispatch('updateAmountOfNewMessages', result.amountOfNewMessages)
+        //   commit('mergeData', { currentRoom: result.currentRoom, roomList: result.roomList })
+        // } else {
+        //   commit('mergeData', result)
+        // }
+        resolve(result)
+      })
     })
   },
   archivePrivateRoom({ commit, dispatch }, room) {
@@ -177,8 +174,7 @@ export default {
       })
     })
   },
-  togglePinned({ dispatch, commit, getters }, { roomType, room }) {
-    commit('setPinned', { roomType, room })
+  unpinRoom({ dispatch, commit, getters }, { roomType, room }) {
     AppConnector.request({
       module: 'Chat',
       action: 'Room',
@@ -186,12 +182,25 @@ export default {
       roomType,
       recordId: room.recordid
     }).done(_ => {
+      commit('setPinned', { roomType, room })
       if (getters.data.currentRoom.roomType === roomType && getters.data.currentRoom.recordId === room.recordid) {
         dispatch('fetchRoom', { id: undefined, roomType: undefined })
       }
     })
   },
-
+  pinRoom({ dispatch, commit, getters }, { roomType, recordId }) {
+    return new Promise((resolve, reject) => {
+      AppConnector.request({
+        module: 'Chat',
+        action: 'Room',
+        mode: 'addToFavorites',
+        roomType,
+        recordId
+      }).done(data => {
+        resolve(data)
+      })
+    })
+  },
   removeUserFromRoom({ dispatch, commit, getters }, { roomType, recordId, userId }) {
     return new Promise((resolve, reject) => {
       AppConnector.request({
