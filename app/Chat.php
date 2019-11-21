@@ -47,7 +47,8 @@ final class Chat
 			'global' => 'u_#__chat_global',
 			'private' => 'u_#__chat_private',
 			'user' => 'u_#__chat_user'
-		]
+		],
+		'users' => 'vtiger_users'
 	];
 
 	/**
@@ -64,7 +65,8 @@ final class Chat
 			'crm' => 'crmid',
 			'group' => 'groupid',
 			'global' => 'global_room_id',
-			'private' => 'private_room_id'
+			'private' => 'private_room_id',
+			'user' => 'roomid',
 		],
 		'room_name' => [
 			'crm' => 'label',
@@ -405,6 +407,36 @@ final class Chat
 			}
 		}
 		return $rows;
+	}
+	/**
+	 * Get rooms user unpinned.
+	 *
+	 * @param int|null $userId
+	 *
+	 * @return array
+	 */
+	public static function getRoomsUserUnpinned(?int $userId = null): array
+	{
+		if (empty($userId)) {
+			$userId = User::getCurrentUserId();
+		}
+		$roomType = 'user';
+		$query = (new Db\Query())
+		->select(['USERS.id','USERS.user_name', 'USERS.first_name','USERS.last_name'])
+		->from(['USERS' => static::TABLE_NAME['users']])
+		->where(['and', ['USERS.status' => 'Active'], ['USERS.deleted' => 0]])
+		->andWhere(['not', ['USERS.id' => $userId]])
+		->leftJoin(['ROOM_PINNED' => static::TABLE_NAME['room'][$roomType]], "ROOM_PINNED.userid = USERS.id")
+		->andWhere(['or', ['not', ['ROOM_PINNED.userid' => $userId]], ['ROOM_PINNED.userid' => null]]);
+		$dataReader = $query->createCommand()->query();
+		$rooms = [];
+		while ($row = $dataReader->read()) {
+			$row['name'] = $row['first_name'] . ' ' . $row['last_name'];
+			$row['roomType'] = 'user';
+			$rooms[$row['id']] = $row;
+		}
+		$dataReader->close();
+		return $rooms;
 	}
 
 	/**
@@ -1274,28 +1306,28 @@ final class Chat
 				$query = (new Db\Query())
 					->select(['C.*', 'U.user_name', 'U.last_name'])
 					->from(['C' => 'u_#__chat_messages_crm'])
-					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
+					->leftJoin(['U' => static::TABLE_NAME['users']], 'U.id = C.userid')
 					->where(['crmid' => $this->recordId]);
 				break;
 			case 'group':
 				$query = (new Db\Query())
 					->select(['C.*', 'U.user_name', 'U.last_name'])
 					->from(['C' => 'u_#__chat_messages_group'])
-					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
+					->leftJoin(['U' => static::TABLE_NAME['users']], 'U.id = C.userid')
 					->where(['groupid' => $this->recordId]);
 				break;
 			case 'global':
 				$query = (new Db\Query())
 					->select(['C.*', 'U.user_name', 'U.last_name'])
 					->from(['C' => 'u_#__chat_messages_global'])
-					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
+					->leftJoin(['U' => static::TABLE_NAME['users']], 'U.id = C.userid')
 					->where(['globalid' => $this->recordId]);
 				break;
 			case 'private':
 				$query = (new Db\Query())
 					->select(['C.*', 'U.user_name', 'U.last_name'])
 					->from(['C' => 'u_#__chat_messages_private'])
-					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
+					->leftJoin(['U' => static::TABLE_NAME['users']], 'U.id = C.userid')
 					->where(['privateid' => $this->recordId]);
 				break;
 			default:
