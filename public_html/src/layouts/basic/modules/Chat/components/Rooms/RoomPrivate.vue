@@ -14,7 +14,7 @@
         size="sm"
         color="primary"
         icon="mdi-plus"
-        @click="showAddPrivateRoom = !showAddPrivateRoom"
+        @click="toggleAddInput()"
       >
         <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
       </q-btn>
@@ -39,8 +39,8 @@
       </q-btn>
     </template>
     <template #aboveItems>
-      <q-item v-show="showAddPrivateRoom">
-        <RoomPrivateInput :showAddPrivateRoom.sync="showAddPrivateRoom" />
+      <q-item v-show="isAddInputVisible">
+        <RoomPrivateInput :showAddPrivateRoom.sync="isAddInputVisible" />
       </q-item>
     </template>
     <template #belowItems>
@@ -84,11 +84,12 @@
 <script>
 import RoomPrivateInput from './RoomPrivateInput.vue'
 import RoomList from './RoomList.vue'
+import RoomSelectAsync from './RoomSelectAsync.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'RoomPrivate',
-  components: { RoomPrivateInput, RoomList },
+  components: { RoomPrivateInput, RoomList, RoomSelectAsync },
   props: {
     roomData: {
       type: Array,
@@ -105,9 +106,9 @@ export default {
   },
   data() {
     return {
-      showAddPrivateRoom: false,
       confirm: false,
       isArchiving: false,
+      isAddInputVisible: false,
       roomToArchive: {}
     }
   },
@@ -141,6 +142,9 @@ export default {
       this.archivePrivateRoom(roomToArchive).then(e => {
         this.isArchiving = false
       })
+    },
+    toggleAddInput() {
+      this.isAddInputVisible = !this.isAddInputVisible
     }
   }
 }

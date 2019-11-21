@@ -1,17 +1,14 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <RoomList
+    ref="roomList"
     :isVisible="config.dynamicAddingRooms"
     :roomData="roomData"
     :roomType="roomType"
     :hideUnpinned="false"
     :filterRooms="filterRooms"
+    @toggleSelectRoom="onToggleSelectRoom"
   >
-    <template #labelRight>
-      <q-btn dense flat round size="sm" color="primary" icon="mdi-plus" @click="showAddRoomPanel = !showAddRoomPanel">
-        <q-tooltip>{{ translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE') }}</q-tooltip>
-      </q-btn>
-    </template>
     <template #itemRight="{ room }">
       <q-btn
         size="xs"
@@ -25,21 +22,54 @@
         :href="`index.php?module=${room.moduleName}&view=Detail&record=${room.recordid}`"
       />
     </template>
-    <template #aboveItems>
-      <q-item v-if="config.dynamicAddingRooms" v-show="showAddRoomPanel">
-        <RoomRecordSelect :modules="config.chatModules" :isVisible.sync="showAddRoomPanel" class="q-pb-xs" />
+    <template #selectRoom>
+      <q-item
+        v-if="config.dynamicAddingRooms"
+        v-show="isSelectVisible"
+      >
+        <RoomSelect
+          class="q-pb-xs"
+          :options="modulesList"
+          :isVisible.sync="isSelectVisible"
+          :filter="filter"
+          @input="showRecordsModal"
+          @update:isVisible="updateRoomListSelect"
+        >
+          <template #prepend="{ selected }">
+            <q-icon
+              class="cursor-pointer"
+              name="mdi-magnify"
+              @click.prevent="showRecordsModal(selected)"
+            />
+            <q-tooltip anchor="top middle">{{ translate('JS_CHAT_SEARCH_RECORDS_OF_THE_SELECTED_MODULE') }}</q-tooltip>
+          </template>
+          <template #option="{ scope }">
+            <q-item
+              dense
+              v-bind="scope.itemProps"
+              v-on="scope.itemEvents"
+            >
+              <q-item-section avatar>
+                <YfIcon :icon="`userIcon-${scope.opt.id}`" />
+              </q-item-section>
+              <q-item-section>
+                {{ scope.opt.label }}
+              </q-item-section>
+            </q-item>
+          </template>
+        </RoomSelect>
       </q-item>
     </template>
   </RoomList>
 </template>
 <script>
-import RoomRecordSelect from './RoomRecordSelect.vue'
+import RoomSelect from './RoomSelect.vue'
 import RoomList from './RoomList.vue'
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters } = createNamespacedHelpers('Chat')
+const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'RoomRecord',
-  components: { RoomRecordSelect, RoomList },
+  components: { RoomSelect, RoomList },
   props: {
     roomData: {
       type: Array,
@@ -56,11 +86,57 @@ export default {
   },
   data() {
     return {
-      showAddRoomPanel: false
+      showAddRoomPanel: false,
+      isSelectVisible: false,
+      modulesList: []
     }
   },
   computed: {
     ...mapGetters(['config'])
+  },
+  created() {
+    this.modulesList = this.config.chatModules
+  },
+  methods: {
+    updateRoomListSelect(val) {
+      this.$refs.roomList.toggleRoomSelect()
+    },
+    ...mapMutations(['updateRooms']),
+    showRecordsModal(val) {
+      app.showRecordsList(
+        { module: val, src_module: val },
+        (modal, instance) => {
+          instance.setSelectEvent((responseData, e) => {
+            AppConnector.request({
+              module: 'Chat',
+              action: 'Room',
+              mode: 'addToFavorites',
+              roomType: 'crm',
+              recordId: responseData.id
+            }).done(({ result }) => {
+              this.updateRooms(result)
+            })
+          })
+        }
+      )
+    },
+    filter(val, update) {
+      if (val === '') {
+        update(() => {
+          this.modulesList = this.config.chatModules
+        })
+        return
+      }
+      update(() => {
+        const needle = val.toLowerCase()
+        this.modulesList = this.config.chatModules.filter(
+          v => v.label.toLowerCase().indexOf(needle) > -1
+        )
+      })
+    },
+    onToggleSelectRoom(val) {
+      this.isSelectVisible = val
+    }
   }
 }
 </script>

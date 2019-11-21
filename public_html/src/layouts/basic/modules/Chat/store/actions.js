@@ -58,6 +58,18 @@ export default {
 			})
 		})
 	},
+	fetchRoomsUnpinned({ commit, dispatch }, { roomType }) {
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'getRoomsUnpinned',
+				roomType
+			}).done(({ result }) => {
+				resolve(result)
+			})
+		})
+	},
 	archivePrivateRoom({ commit, dispatch }, room) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
@@ -156,26 +168,38 @@ export default {
 			})
 		})
 	},
-	togglePinned({ dispatch, commit, getters }, { roomType, room }) {
-		const mode = room.isPinned || roomType === 'crm' ? 'removeFromFavorites' : 'addToFavorites'
-		commit('setPinned', { roomType, room })
+	unpinRoom({ dispatch, commit, getters }, { roomType, recordId }) {
 		AppConnector.request({
 			module: 'Chat',
 			action: 'Room',
-			mode,
+			mode: 'removeFromFavorites',
 			roomType,
-			recordId: room.recordid
-		}).done(_ => {
-			if (
-				mode === 'removeFromFavorites' &&
-				(roomType === 'crm' || roomType === 'private') &&
-				(getters.data.currentRoom.roomType === roomType && getters.data.currentRoom.recordId === room.recordid)
-			) {
+			recordId
+		}).done(data => {
+			if (data) {
+				if (getters.data.currentRoom.roomType === roomType && getters.data.currentRoom.recordId === recordId) {
+					dispatch('fetchRoom', { id: undefined, roomType: undefined }).then(_ => {
+						commit('unsetRoom', { roomType, recordId })
+					})
+				} else {
+					commit('unsetRoom', { roomType, recordId })
+				}
+			}
+		})
+	},
+	pinRoom({ dispatch, commit }, { roomType, recordId }) {
+		AppConnector.request({
+			module: 'Chat',
+			action: 'Room',
+			mode: 'addToFavorites',
+			roomType,
+			recordId
+		}).done(({ success, result }) => {
+			if (success) {
 				dispatch('fetchRoom', { id: undefined, roomType: undefined })
 			}
 		})
 	},
-
 	removeUserFromRoom({ dispatch, commit, getters }, { roomType, recordId, userId }) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({

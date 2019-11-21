@@ -136,23 +136,11 @@ export default {
 			}
 		}
 	},
-	setPinned(state, { roomType, room }) {
-		const roomList = state.data.roomList
-		if (roomType === 'crm') {
-			for (let roomId in roomList.crm) {
-				if (parseInt(roomId) === room.recordid) {
-					roomList.crm[roomId].isPinned = false
-					break
-				}
-			}
-		} else {
-			for (let roomId in roomList[roomType]) {
-				if (parseInt(roomId) === room.recordid) {
-					roomList[roomType][roomId].isPinned = !roomList[roomType][roomId].isPinned
-					break
-				}
-			}
-		}
+	unsetRoom(state, { roomType, recordId }) {
+		Vue.delete(state.data.roomList[roomType], recordId)
+	},
+	setRoom(state, { roomType, recordId, room }) {
+		Vue.set(state.data.roomList[roomType], recordId, room)
 	},
 	setConfig(state, config) {
 		state.config = mergeDeepReactive(state.config, config)

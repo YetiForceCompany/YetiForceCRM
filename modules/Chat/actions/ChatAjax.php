@@ -28,6 +28,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('getUnread');
 		$this->exposeMethod('getHistory');
 		$this->exposeMethod('getRooms');
+		$this->exposeMethod('getRoomsUnpinned');
 		$this->exposeMethod('getRecordRoom');
 		$this->exposeMethod('getChatUsers');
 		$this->exposeMethod('send');
@@ -410,6 +411,22 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$response->setResult([
 			'roomList' => \App\Chat::getRoomsByUser()
 		]);
+		$response->emit();
+	}
+
+	/**
+	 * Get rooms unpinned.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function getRoomsUnpinned(App\Request $request)
+	{
+		$roomType = $request->getByType('roomType');
+		$methodName = 'getRooms' . ucfirst($roomType) . 'Unpinned';
+		$response = new Vtiger_Response();
+		$response->setResult(\App\Chat::{$methodName}());
 		$response->emit();
 	}
 
