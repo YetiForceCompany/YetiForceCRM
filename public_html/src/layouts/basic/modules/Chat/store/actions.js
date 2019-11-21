@@ -178,13 +178,16 @@ export default {
     }).done(data => {
       if (data) {
         if (getters.data.currentRoom.roomType === roomType && getters.data.currentRoom.recordId === recordId) {
-          dispatch('fetchRoom', { id: undefined, roomType: undefined })
+          dispatch('fetchRoom', { id: undefined, roomType: undefined }).then(_ => {
+            commit('unsetRoom', { roomType, recordId })
+          })
+        } else {
+          commit('unsetRoom', { roomType, recordId })
         }
-        commit('unsetRoom', { roomType, recordId })
       }
     })
   },
-  pinRoom({ commit }, { roomType, recordId }) {
+  pinRoom({ dispatch, commit }, { roomType, recordId }) {
     AppConnector.request({
       module: 'Chat',
       action: 'Room',
@@ -193,7 +196,7 @@ export default {
       recordId
     }).done(({ success, result }) => {
       if (success) {
-        commit('setRoom', { roomType, recordId, room: result })
+        dispatch('fetchRoom', { id: undefined, roomType: undefined })
       }
     })
   },
