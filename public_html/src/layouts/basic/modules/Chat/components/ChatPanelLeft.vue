@@ -57,7 +57,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatPanelLeft',
-  components: { RoomPrivate, RoomGroup, RoomGlobal, RoomUser },
+  components: { RoomPrivate, RoomGroup, RoomGlobal, RoomRecord, RoomUser },
   data() {
     return {
       filterRooms: '',
