@@ -235,7 +235,6 @@ final class Chat
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
 			$row['roomType'] = 'global';
-			$row['isPinned'] = true;
 			$rooms[$row['recordid']] = $row;
 		}
 		$dataReader->close();
@@ -260,7 +259,6 @@ final class Chat
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
 			$row['roomType'] = 'global';
-			$row['isPinned'] = false;
 			$rooms[$row['recordid']] = $row;
 		}
 		$dataReader->close();
@@ -302,7 +300,6 @@ final class Chat
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
 			$row['roomType'] = 'private';
-			$row['isPinned'] = true;
 			$rooms[$row['recordid']] = $row;
 		}
 		$dataReader->close();
@@ -330,7 +327,6 @@ final class Chat
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
 			$row['roomType'] = 'private';
-			$row['isPinned'] = false;
 			$rooms[$row['recordid']] = $row;
 		}
 		$dataReader->close();
@@ -365,7 +361,6 @@ final class Chat
 		$dataReader = $query->createCommand()->query();
 		$rows = [];
 		while ($row = $dataReader->read()) {
-			$row['isPinned'] = true;
 			$row['roomType'] = 'group';
 			$rows[$row['recordid']] = $row;
 		}
@@ -399,8 +394,11 @@ final class Chat
 		$dataReader->close();
 		foreach ($groups as $id => $groupName) {
 			if (!\in_array($id, $pinned)) {
-				$group = ['recordid' => $id, 'name' => $groupName, 'roomType' => 'group', 'isPinned' => false];
-				$rows[$id] = $group;
+				$rows[$id] = [
+          'recordid' => $id,
+          'name' => $groupName,
+          'roomType' => 'group'
+        ];
 			}
 		}
 		return $rows;
@@ -437,7 +435,6 @@ final class Chat
 			if ($recordModel->isViewable()) {
 				$row['moduleName'] = $recordModel->getModuleName();
 				$row['roomType'] = 'crm';
-				$row['isPinned'] = true;
 				$rows[$row['recordid']] = $row;
 			}
 		}
@@ -1317,7 +1314,7 @@ final class Chat
 	 *
 	 * @return \App\Db\Query
 	 */
-	private function getQueryRoom(): Db\Query
+	public function getQueryRoom(): Db\Query
 	{
 		switch ($this->roomType) {
 			case 'crm':

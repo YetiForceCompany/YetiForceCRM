@@ -75,11 +75,7 @@ export default {
         }
         update(() => {
           const needle = val.toLowerCase()
-          this.asyncOptions = this.allOptions.filter(v => {
-            console.log(needle)
-            console.log(v)
-            return v.name.toLowerCase().indexOf(needle) > -1
-          })
+          this.asyncOptions = this.allOptions.filter(v => v.name.toLowerCase().indexOf(needle) > -1)
         })
       }
     }

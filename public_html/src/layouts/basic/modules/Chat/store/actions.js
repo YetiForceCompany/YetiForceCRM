@@ -168,31 +168,33 @@ export default {
       })
     })
   },
-  unpinRoom({ dispatch, commit, getters }, { roomType, room }) {
+  unpinRoom({ dispatch, commit, getters }, { roomType, recordId }) {
     AppConnector.request({
       module: 'Chat',
       action: 'Room',
       mode: 'removeFromFavorites',
       roomType,
-      recordId: room.recordid
-    }).done(_ => {
-      commit('setPinned', { roomType, room })
-      if (getters.data.currentRoom.roomType === roomType && getters.data.currentRoom.recordId === room.recordid) {
-        dispatch('fetchRoom', { id: undefined, roomType: undefined })
+      recordId
+    }).done(data => {
+      if (data) {
+        if (getters.data.currentRoom.roomType === roomType && getters.data.currentRoom.recordId === recordId) {
+          dispatch('fetchRoom', { id: undefined, roomType: undefined })
+        }
+        commit('unsetRoom', { roomType, recordId })
       }
     })
   },
-  pinRoom({ dispatch, commit, getters }, { roomType, recordId }) {
-    return new Promise((resolve, reject) => {
-      AppConnector.request({
-        module: 'Chat',
-        action: 'Room',
-        mode: 'addToFavorites',
-        roomType,
-        recordId
-      }).done(data => {
-        resolve(data)
-      })
+  pinRoom({ commit }, { roomType, recordId }) {
+    AppConnector.request({
+      module: 'Chat',
+      action: 'Room',
+      mode: 'addToFavorites',
+      roomType,
+      recordId
+    }).done(({ success, result }) => {
+      if (success) {
+        commit('setRoom', { roomType, recordId, room: result })
+      }
     })
   },
   removeUserFromRoom({ dispatch, commit, getters }, { roomType, recordId, userId }) {

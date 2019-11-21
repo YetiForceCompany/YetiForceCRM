@@ -105,7 +105,7 @@
                 round
                 flat
                 size="xs"
-                @click.stop="unpinRoom({ roomType, room })"
+                @click.stop="unpinClick({ roomType, recordId: room.recordid })"
                 icon="mdi-pin-off"
               >
                 <q-tooltip>{{ translate('JS_CHAT_UNPIN') }}</q-tooltip>
@@ -196,6 +196,9 @@ export default {
     },
     toggleRoomSelect() {
       this.isSelectRoomVisible = !this.isSelectRoomVisible
+    },
+    unpinClick({ roomType, recordId }) {
+      this.unpinRoom({ roomType, recordId })
     }
   }
 }
