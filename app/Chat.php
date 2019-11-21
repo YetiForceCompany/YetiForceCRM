@@ -31,19 +31,22 @@ final class Chat
 			'crm' => 'u_#__chat_messages_crm',
 			'group' => 'u_#__chat_messages_group',
 			'global' => 'u_#__chat_messages_global',
-			'private' => 'u_#__chat_messages_private'
+			'private' => 'u_#__chat_messages_private',
+			'user' => 'u_#__chat_messages_user'
 		],
 		'room' => [
 			'crm' => 'u_#__chat_rooms_crm',
 			'group' => 'u_#__chat_rooms_group',
 			'global' => 'u_#__chat_rooms_global',
-			'private' => 'u_#__chat_rooms_private'
+			'private' => 'u_#__chat_rooms_private',
+			'user' => 'u_#__chat_rooms_user'
 		],
 		'room_name' => [
 			'crm' => 'u_#__crmentity_label',
 			'group' => 'vtiger_groups',
 			'global' => 'u_#__chat_global',
-			'private' => 'u_#__chat_private'
+			'private' => 'u_#__chat_private',
+			'user' => 'u_#__chat_user'
 		]
 	];
 
@@ -395,10 +398,10 @@ final class Chat
 		foreach ($groups as $id => $groupName) {
 			if (!\in_array($id, $pinned)) {
 				$rows[$id] = [
-          'recordid' => $id,
-          'name' => $groupName,
-          'roomType' => 'group'
-        ];
+					'recordid' => $id,
+					'name' => $groupName,
+					'roomType' => 'group'
+				];
 			}
 		}
 		return $rows;
