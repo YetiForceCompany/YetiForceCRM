@@ -500,7 +500,8 @@ final class Chat
 			'crm' => static::getRoomsCrm($userId),
 			'group' => static::getRoomsGroup($userId),
 			'global' => static::getRoomsGlobal($userId),
-			'private' => static::getRoomsPrivate($userId)
+			'private' => static::getRoomsPrivate($userId),
+			'user' => []
 		];
 		Cache::staticSave('ChatGetRoomsByUser', $userId);
 		return $roomsByUser;
@@ -516,7 +517,7 @@ final class Chat
 		$numberOfNewMessages = 0;
 		$roomInfo = static::getRoomsByUser();
 		$roomList = [];
-		foreach (['crm', 'group', 'global', 'private'] as $roomType) {
+		foreach (['crm', 'group', 'global', 'private', 'user'] as $roomType) {
 			foreach ($roomInfo[$roomType] as $room) {
 				if (!empty($room['cnt_new_message'])) {
 					$numberOfNewMessages += $room['cnt_new_message'];

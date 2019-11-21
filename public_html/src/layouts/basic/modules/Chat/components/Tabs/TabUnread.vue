@@ -2,12 +2,22 @@
 <template>
   <div>
     <template v-for="(rooms, roomType) in unread">
-      <div v-if="Object.entries(rooms).length" :key="roomType">
+      <div
+        v-if="Object.entries(rooms).length"
+        :key="roomType"
+      >
         <div class="text-uppercase text-primary full-width flex justify-center">
           {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
         </div>
-        <div v-for="(room, roomName) in rooms" :key="roomName">
-          <a class="text-info full-width flex" href="#" @click="showChatRoom(room[0].recordid, roomType)">
+        <div
+          v-for="(room, roomName) in rooms"
+          :key="roomName"
+        >
+          <a
+            class="text-info full-width flex"
+            href="#"
+            @click="showChatRoom(room[0].recordid, roomType)"
+          >
             {{ roomName }}
           </a>
           <q-chat-message
@@ -42,7 +52,8 @@ export default {
         crm: [],
         global: [],
         group: [],
-        private: []
+        private: [],
+        user: []
       }
     }
   },
@@ -61,7 +72,8 @@ export default {
         crm: {},
         global: {},
         group: {},
-        private: {}
+        private: {},
+        user: {}
       }
       if (this.areUnread) {
         let tempRoomName = ''

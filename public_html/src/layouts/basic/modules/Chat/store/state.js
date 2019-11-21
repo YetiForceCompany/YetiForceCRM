@@ -34,7 +34,8 @@ export default {
 			crm: [],
 			global: [],
 			group: [],
-			private: []
+			private: [],
+			user: []
 		}
 	},
 	data: {
@@ -43,7 +44,8 @@ export default {
 			private: {},
 			group: {},
 			global: {},
-			crm: {}
+			crm: {},
+			user: {}
 		},
 		currentRoom: {},
 		history: {

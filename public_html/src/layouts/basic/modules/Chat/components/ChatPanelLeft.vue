@@ -52,11 +52,12 @@ import RoomPrivate from './Rooms/RoomPrivate.vue'
 import RoomGroup from './Rooms/RoomGroup.vue'
 import RoomGlobal from './Rooms/RoomGlobal.vue'
 import RoomRecord from './Rooms/RoomRecord.vue'
+import RoomUser from './Rooms/RoomUser.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatPanelLeft',
-  components: { RoomPrivate, RoomGroup, RoomGlobal, RoomRecord },
+  components: { RoomPrivate, RoomGroup, RoomGlobal, RoomUser },
   data() {
     return {
       filterRooms: '',
@@ -64,12 +65,20 @@ export default {
         private: 'RoomPrivate',
         group: 'RoomGroup',
         global: 'RoomGlobal',
-        crm: 'RoomRecord'
+        crm: 'RoomRecord',
+        user: 'RoomUser'
       }
     }
   },
   computed: {
-    ...mapGetters(['data', 'layout', 'miniMode', 'mobileMode', 'leftPanel', 'leftPanelMobile']),
+    ...mapGetters([
+      'data',
+      'layout',
+      'miniMode',
+      'mobileMode',
+      'leftPanel',
+      'leftPanelMobile'
+    ]),
     computedModel: {
       get() {
         return this.mobileMode ? this.leftPanelMobile : this.leftPanel
@@ -81,21 +90,21 @@ export default {
       }
     },
     roomList() {
+      let roomList = {}
       if (this.filterRooms === '') {
-        return {
-          private: Object.values(this.data.roomList.private).sort(this.sortByRoomName),
-          group: Object.values(this.data.roomList.group).sort(this.sortByRoomName),
-          global: Object.values(this.data.roomList.global).sort(this.sortByRoomName),
-          crm: Object.values(this.data.roomList.crm).sort(this.sortByRoomName)
+        for (let roomName in this.roomsMap) {
+          roomList[roomName] = Object.values(this.data.roomList[roomName]).sort(
+            this.sortByRoomName
+          )
         }
       } else {
-        return {
-          private: Object.values(this.data.roomList.private).filter(this.filterRoomByName),
-          group: Object.values(this.data.roomList.group).filter(this.filterRoomByName),
-          global: Object.values(this.data.roomList.global).filter(this.filterRoomByName),
-          crm: Object.values(this.data.roomList.crm).filter(this.filterRoomByName)
+        for (let roomName in this.roomsMap) {
+          roomList[roomName] = Object.values(
+            this.data.roomList[roomName]
+          ).filter(this.filterRoomByName)
         }
       }
+      return roomList
     }
   },
   methods: {

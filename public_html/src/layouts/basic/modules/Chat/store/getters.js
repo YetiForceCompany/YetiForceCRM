@@ -63,7 +63,8 @@ export default {
 		return Object.values(get(state, 'data.roomList.crm', {})).concat(
 			Object.values(get(state, 'data.roomList.group', {})),
 			Object.values(get(state, 'data.roomList.global', {})),
-			Object.values(get(state, 'data.roomList.private', {}))
+			Object.values(get(state, 'data.roomList.private', {})),
+			Object.values(get(state, 'data.roomList.user', {}))
 		)
 	},
 	currentRoomData(state, getters) {
