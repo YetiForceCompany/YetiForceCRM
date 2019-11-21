@@ -678,8 +678,18 @@ class Request
 	public function validateReadAccess()
 	{
 		// Referer check if present - to over come && Check for user post authentication.
-		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId() && (0 !== stripos($_SERVER['HTTP_REFERER'], \App\Config::main('site_URL'))) && ('Install' !== $this->get('module'))) {
-			throw new \App\Exceptions\Csrf('Illegal request');
+		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId() && 'Install' !== $this->get('module')) {
+			$allowed = \Config\Security::$allowedFrameDomains;
+			$allowed[] = \App\Config::main('site_URL');
+			$throw = true;
+			foreach ($allowed as $value) {
+				if (0 === stripos($_SERVER['HTTP_REFERER'], $value)) {
+					$throw = false;
+				}
+			}
+			if ($throw) {
+				throw new \App\Exceptions\Csrf('Illegal request');
+			}
 		}
 	}
 

@@ -559,7 +559,8 @@ abstract class Base extends \App\Controller\Base
 			'fieldsReferencesDependent' => \App\Config::security('FIELDS_REFERENCES_DEPENDENT'),
 			'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
 			'debug' => (bool) \App\Config::debug('JS_DEBUG'),
-			'modalParams' => ['target' => 'base']
+			'modalTarget' => 'base',
+			'openUrlTarget' => 'base'
 		];
 		if (\App\Session::has('authenticated_user_id')) {
 			$userModel = \App\User::getCurrentUserModel();

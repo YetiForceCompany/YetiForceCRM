@@ -89,7 +89,7 @@ var App = (window.App = {
 			 * @param   {object}  params
 			 */
 			createRecord(moduleName, params = {}) {
-				if ('parentIframe' === CONFIG.modalParams.target) {
+				if ('parentIframe' === CONFIG.modalTarget) {
 					window.parent.App.Components.QuickCreate.createRecord(moduleName, params);
 					return;
 				}
@@ -953,7 +953,7 @@ var app = (window.app = {
 	 */
 	isCurrentWindowTarget(sourceFunction, args) {
 		let isCurrentWindowTarget = true;
-		if (CONFIG.modalParams.target === 'parentIframe') {
+		if (CONFIG.modalTarget === 'parentIframe') {
 			this.childFrame = true;
 			sourceFunction = sourceFunction.split('.');
 			sourceFunction.unshift('parent');
@@ -2058,8 +2058,8 @@ var app = (window.app = {
 	 * @param string url
 	 */
 	openUrl(url) {
-		if (window.location !== window.top.location) {
-			window.top.location.href = url;
+		if (CONFIG.openUrlTarget === 'parentIframe') {
+			window.parent.location.href = url;
 		} else {
 			window.location.href = url;
 		}

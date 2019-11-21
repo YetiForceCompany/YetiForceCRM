@@ -179,7 +179,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Install', 'ModTracker'];
 			if ($handler->loginRequired() && !\in_array($moduleName, $skipList) && false === stripos($qualifiedModuleName, 'Settings')) {
 				$this->triggerCheckPermission($handler, $request);
-			} elseif (0 === stripos($qualifiedModuleName, 'Settings') || \in_array($moduleName, $skipList)) {
+			} elseif (0 === stripos($qualifiedModuleName, 'Settings') || \in_array($moduleName, $skipList) || !$handler->loginRequired()) {
 				$handler->checkPermission($request);
 			}
 			$this->triggerPreProcess($handler, $request);

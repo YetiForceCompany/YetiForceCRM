@@ -19,6 +19,10 @@ class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 	 */
 	public function checkPermission(App\Request $request)
 	{
+		if ((explode('-', $request->getByType('query', 'AlnumExtended'))[0] ?? '') !== substr(\App\YetiForce\Register::getInstanceKey(), 0, 30)) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		\CsrfMagic\Csrf::$frameBreaker = false;
 	}
 
 	/**
@@ -35,7 +39,6 @@ class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		\CsrfMagic\Csrf::$frameBreaker = false;
 		if (!\App\User::getCurrentUserId()) {
 			$viewer = $this->getViewer($request);
 			$viewer->view('LoginIframe.tpl', $moduleName);

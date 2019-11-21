@@ -9,10 +9,13 @@
 # ********************************************************************************
 
 export CRM_ROOT_DIR=`dirname "$0"`/..
+
 export USE_PHP=php
-#export USE_PHP=/usr/local/php53/bin/php
-#export USE_PHP=/usr/local/php56/bin/php56
+#export USE_PHP=/usr/local/php71/bin/php71
+#export USE_PHP=/usr/local/php72/bin/php72
+#export USE_PHP=/usr/local/php73/bin/php73
 
 cd $CRM_ROOT_DIR
-# TO RUN ALL CORN JOBS
-$USE_PHP -f cron.php 
+
+#       TO RUN ALL CORN JOBS
+$USE_PHP -f cron.php
