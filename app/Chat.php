@@ -201,14 +201,13 @@ final class Chat
 	}
 
 	/**
-	 * Global list of chat rooms.
+	 * List global chat rooms.
 	 *
-	 * @param bool $pinned
-	 * @param int  $userId
+	 * @param int $userId
 	 *
 	 * @return array
 	 */
-	public static function getRoomsGlobal(?int $userId = null, ?bool $pinned = true)
+	public static function getRoomsGlobal(?int $userId = null): array
 	{
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
@@ -229,20 +228,39 @@ final class Chat
 		$query = (new Db\Query())
 			->select(['name', 'recordid' => "GL.{$roomIdName}", 'CNT.cnt_new_message', 'CNT.userid'])
 			->from(['GL' => 'u_#__chat_global'])
-			->leftJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.{$roomIdName}");
-		if ($pinned) {
-			$query->where([
-				'CNT.userid' => $userId
-			]);
-		} else {
-			$query->where(['or', ['not', ['CNT.userid' => $userId]], ['CNT.userid' => null]]);
-		}
+			->leftJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.{$roomIdName}")
+			->where(['CNT.userid' => $userId]);
 		$dataReader = $query->createCommand()->query();
 		$rooms = [];
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
 			$row['roomType'] = 'global';
-			$row['isPinned'] = $pinned;
+			$row['isPinned'] = true;
+			$rooms[$row['recordid']] = $row;
+		}
+		$dataReader->close();
+		return $rooms;
+	}
+
+	/**
+	 * List unpinned global chat rooms.
+	 *
+	 * @param int $userId
+	 *
+	 * @return array
+	 */
+	public static function getRoomsGlobalUnpinned(?int $userId = null): array
+	{
+		if (empty($userId)) {
+			$userId = User::getCurrentUserId();
+		}
+		$query = self::getRoomsUnpinnedQuery('global', $userId);
+		$dataReader = $query->createCommand()->query();
+		$rooms = [];
+		while ($row = $dataReader->read()) {
+			$row['name'] = Language::translate($row['name'], 'Chat');
+			$row['roomType'] = 'global';
+			$row['isPinned'] = false;
 			$rooms[$row['recordid']] = $row;
 		}
 		$dataReader->close();
@@ -256,7 +274,7 @@ final class Chat
 	 *
 	 * @return array
 	 */
-	public static function getRoomsPrivate(?int $userId = null)
+	public static function getRoomsPrivate(?int $userId = null): array
 	{
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
@@ -277,8 +295,8 @@ final class Chat
 		$query = (new Db\Query())
 			->select(['name', 'recordid' => 'GL.private_room_id', 'CNT.cnt_new_message', 'CNT.userid', 'creatorid', 'created'])
 			->where(['archived' => 0])
-      ->from(['GL' => 'u_#__chat_private'])
-      ->rightJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.private_room_id AND CNT.userid = {$userId}");
+			->from(['GL' => 'u_#__chat_private'])
+			->rightJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.private_room_id AND CNT.userid = {$userId}");
 		$dataReader = $query->createCommand()->query();
 		$rooms = [];
 		while ($row = $dataReader->read()) {
@@ -298,18 +316,12 @@ final class Chat
 	 *
 	 * @return array
 	 */
-	public static function getRoomsPrivateUnpinned(?int $userId = null)
+	public static function getRoomsPrivateUnpinned(?int $userId = null): array
 	{
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
 		}
-		$roomIdName = static::COLUMN_NAME['room']['private'];
-		$query = (new Db\Query())
-			->select(['ROOM_SRC.*', 'recordid' => 'ROOM_SRC.private_room_id'])
-			->from(['ROOM_SRC' => static::TABLE_NAME['room_name']['private']])
-			->leftJoin(['ROOM_PINNED' => static::TABLE_NAME['room']['private']], "ROOM_PINNED.{$roomIdName} = ROOM_SRC.{$roomIdName}")
-			->where(['ROOM_SRC.archived' => 0])
-      ->where(['or', ['not', ['ROOM_PINNED.userid' => $userId]], ['ROOM_PINNED.userid' => null]]);
+		$query = self::getRoomsUnpinnedQuery('private', $userId);
 		if (!User::getUserModel($userId)->isAdmin()) {
 			$query->andWhere(['creatorid' => $userId]);
 		}
@@ -332,7 +344,7 @@ final class Chat
 	 *
 	 * @return array
 	 */
-	public static function getRoomsGroup(?int $userId = null)
+	public static function getRoomsGroup(?int $userId = null): array
 	{
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
@@ -360,13 +372,15 @@ final class Chat
 		$dataReader->close();
 		return $rows;
 	}
-  /**
-   * Get rooms group unpinned
-   *
-   * @param integer|null $userId
-   * @return array
-   */
-	public static function getRoomsGroupUnpinned(?int $userId = null)
+
+	/**
+	 * Get rooms group unpinned.
+	 *
+	 * @param int|null $userId
+	 *
+	 * @return array
+	 */
+	public static function getRoomsGroupUnpinned(?int $userId = null): array
 	{
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
@@ -399,7 +413,7 @@ final class Chat
 	 *
 	 * @return array
 	 */
-	public static function getRoomsCrm(?int $userId = null)
+	public static function getRoomsCrm(?int $userId = null): array
 	{
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
@@ -429,6 +443,25 @@ final class Chat
 		}
 		$dataReader->close();
 		return $rows;
+	}
+
+	/**
+	 * Create query for unpinned rooms.
+	 *
+	 * @param string $roomType
+	 * @param int    $userId
+	 *
+	 * @return object
+	 */
+	public static function getRoomsUnpinnedQuery(string $roomType, int $userId): object
+	{
+		$roomIdName = static::COLUMN_NAME['room'][$roomType];
+		return (object) (new Db\Query())
+			->select(['ROOM_SRC.*', 'recordid' => "ROOM_SRC.{$roomIdName}"])
+			->from(['ROOM_SRC' => static::TABLE_NAME['room_name'][$roomType]])
+			->leftJoin(['ROOM_PINNED' => static::TABLE_NAME['room'][$roomType]], "ROOM_PINNED.{$roomIdName} = ROOM_SRC.{$roomIdName}")
+			->where(['ROOM_SRC.archived' => 0])
+			->where(['or', ['not', ['ROOM_PINNED.userid' => $userId]], ['ROOM_PINNED.userid' => null]]);
 	}
 
 	/**
