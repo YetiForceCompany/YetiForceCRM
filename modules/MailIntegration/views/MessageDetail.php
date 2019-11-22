@@ -7,6 +7,9 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ *
+ * @see https://support.microsoft.com/en-us/help/4482725/custom-add-ins-may-not-display-all-fields-correctly-in-outlook
+ * @see https://docs.microsoft.com/en-us/office/dev/add-ins/concepts/browsers-used-by-office-web-add-ins
  */
 
 /**
