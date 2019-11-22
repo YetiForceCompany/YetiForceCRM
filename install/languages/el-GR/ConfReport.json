@@ -10,7 +10,7 @@
     "LBL_CONFREPORT_DESCRIPTION": "Σας επιτρέπει να επαληθεύσετε ότι οι κύριες ρυθμίσεις του server είναι συμβατές με τις συνιστώμενες παραμέτρους.",
     "LBL_PARAMETER": "Παράμετρος",
     "LBL_VALUE": "Τιμή",
-    "LBL_RECOMMENDED": "Συνιστώμενη ρύθμιση",
+    "LBL_RECOMMENDED": "Recommended",
     "LBL_SYSTEM_STABILITY": "Ρύθμιση παραμέτρων για σταθερότητα συστήματος",
     "LBL_SYSTEM_SECURITY": "Ρύθμιση παραμέτρων για ασφάλεια συστήματος",
     "LBL_HEADERS_SECURITY": "System headers configuration",
@@ -222,7 +222,11 @@
     "LBL_FUNCTIONAL_VERIFICATION_TITLE": "Επαλήθευση λειτουργικότητας",
     "LBL_IT_WORKS_PROPERLY": "Λειτουργεί σωστά",
     "LBL_LABEL_FOOTER": "Υποσέλιδο",
-    "LBL_LABEL_PREMIUM_MODULES": "Premium modules"
+    "LBL_LABEL_PREMIUM_MODULES": "Premium modules",
+    "LBL_FILE_OWNER": "Owner",
+    "LBL_FILE_PERMISSIONS": "Permissions",
+    "LBL_LABEL_SCRIPT_USER": "Script calling user",
+    "LBL_ERROR_DURING_VERIFICATION": "Error occurred during verification"
   },
   "js": {
     "JS_SPEED_TEST_START": "Έλεγχος ταχύτητας..."

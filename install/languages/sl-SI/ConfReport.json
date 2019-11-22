@@ -10,7 +10,7 @@
     "LBL_CONFREPORT_DESCRIPTION": "Omogoča, da preverite ali so nastavitve glavnega strežnika združljive s priporočenimi parametri.",
     "LBL_PARAMETER": "Parameter",
     "LBL_VALUE": "Vrednost",
-    "LBL_RECOMMENDED": "Priporočena konfiguracija",
+    "LBL_RECOMMENDED": "Recommended",
     "LBL_SYSTEM_STABILITY": "Konfiguracija za stabilnost sistema",
     "LBL_SYSTEM_SECURITY": "Konfiguracija za stabilnost sistema",
     "LBL_HEADERS_SECURITY": "System headers configuration",
@@ -222,7 +222,11 @@
     "LBL_FUNCTIONAL_VERIFICATION_TITLE": "Functional verification",
     "LBL_IT_WORKS_PROPERLY": "It works properly",
     "LBL_LABEL_FOOTER": "Noga",
-    "LBL_LABEL_PREMIUM_MODULES": "Premium moduli"
+    "LBL_LABEL_PREMIUM_MODULES": "Premium moduli",
+    "LBL_FILE_OWNER": "Owner",
+    "LBL_FILE_PERMISSIONS": "Permissions",
+    "LBL_LABEL_SCRIPT_USER": "Script calling user",
+    "LBL_ERROR_DURING_VERIFICATION": "Error occurred during verification"
   },
   "js": {
     "JS_SPEED_TEST_START": "Preverjanje hitrosti..."

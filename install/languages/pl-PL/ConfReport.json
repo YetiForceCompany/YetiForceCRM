@@ -10,7 +10,7 @@
     "LBL_CONFREPORT_DESCRIPTION": "Pozwala zweryfikować czy najważniejsze ustawienia serwera są zgodne z zalecanymi.",
     "LBL_PARAMETER": "Parametr",
     "LBL_VALUE": "Wartość",
-    "LBL_RECOMMENDED": "Zalecana konfiguracja",
+    "LBL_RECOMMENDED": "Zalecany",
     "LBL_SYSTEM_STABILITY": "Konfiguracja stabilności systemu",
     "LBL_SYSTEM_SECURITY": "Konfiguracja bezpieczeństwa systemu",
     "LBL_HEADERS_SECURITY": "Konfiguracja nagłówków systemowych",
@@ -222,7 +222,11 @@
     "LBL_FUNCTIONAL_VERIFICATION_TITLE": "Weryfikacja funkcjonalności",
     "LBL_IT_WORKS_PROPERLY": "Działa poprawnie",
     "LBL_LABEL_FOOTER": "Stopka",
-    "LBL_LABEL_PREMIUM_MODULES": "Moduły premium"
+    "LBL_LABEL_PREMIUM_MODULES": "Moduły premium",
+    "LBL_FILE_OWNER": "Właściciel",
+    "LBL_FILE_PERMISSIONS": "Uprawnienia",
+    "LBL_LABEL_SCRIPT_USER": "Użytkownik wywołujący skrypt",
+    "LBL_ERROR_DURING_VERIFICATION": "Podczas weryfikacji wystapił błąd"
   },
   "js": {
     "JS_SPEED_TEST_START": "Trwa sprawdzanie szybkości..."

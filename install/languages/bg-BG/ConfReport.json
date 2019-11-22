@@ -10,7 +10,7 @@
     "LBL_CONFREPORT_DESCRIPTION": "Позволява ви да проверите дали основните настройки на сървъра са съвместими с препоръчителните параметри.",
     "LBL_PARAMETER": "Параметър",
     "LBL_VALUE": "Стойност",
-    "LBL_RECOMMENDED": "Препоръчителна конфигурация",
+    "LBL_RECOMMENDED": "Recommended",
     "LBL_SYSTEM_STABILITY": "Конфигурация за стабилността на системата",
     "LBL_SYSTEM_SECURITY": "Конфигурация за стабилността на системата",
     "LBL_HEADERS_SECURITY": "System headers configuration",
@@ -222,7 +222,11 @@
     "LBL_FUNCTIONAL_VERIFICATION_TITLE": "Функционална проверка",
     "LBL_IT_WORKS_PROPERLY": "Работи правилно",
     "LBL_LABEL_FOOTER": "Долна част",
-    "LBL_LABEL_PREMIUM_MODULES": "Премиум модули"
+    "LBL_LABEL_PREMIUM_MODULES": "Премиум модули",
+    "LBL_FILE_OWNER": "Owner",
+    "LBL_FILE_PERMISSIONS": "Permissions",
+    "LBL_LABEL_SCRIPT_USER": "Script calling user",
+    "LBL_ERROR_DURING_VERIFICATION": "Error occurred during verification"
   },
   "js": {
     "JS_SPEED_TEST_START": "Checking speed..."

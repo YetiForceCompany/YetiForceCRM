@@ -10,7 +10,7 @@
     "LBL_CONFREPORT_DESCRIPTION": "Allows you to verify that the main server settings are compatible with the recommended parameters.",
     "LBL_PARAMETER": "Parameter",
     "LBL_VALUE": "Value",
-    "LBL_RECOMMENDED": "Recommended configuration",
+    "LBL_RECOMMENDED": "Recommended",
     "LBL_SYSTEM_STABILITY": "System stability configuration",
     "LBL_SYSTEM_SECURITY": "System security configuration",
     "LBL_HEADERS_SECURITY": "System headers configuration",
@@ -222,7 +222,11 @@
     "LBL_FUNCTIONAL_VERIFICATION_TITLE": "Funkční ověření",
     "LBL_IT_WORKS_PROPERLY": "Funguje správně",
     "LBL_LABEL_FOOTER": "Pata stránky",
-    "LBL_LABEL_PREMIUM_MODULES": "Prémiové moduly"
+    "LBL_LABEL_PREMIUM_MODULES": "Prémiové moduly",
+    "LBL_FILE_OWNER": "Owner",
+    "LBL_FILE_PERMISSIONS": "Permissions",
+    "LBL_LABEL_SCRIPT_USER": "Script calling user",
+    "LBL_ERROR_DURING_VERIFICATION": "Error occurred during verification"
   },
   "js": {
     "JS_SPEED_TEST_START": "Checking speed..."

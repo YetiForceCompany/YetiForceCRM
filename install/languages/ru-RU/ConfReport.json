@@ -10,7 +10,7 @@
     "LBL_CONFREPORT_DESCRIPTION": "Здесь вы можете посмотреть конфигурацию сервера и получить информацию о том, какие основные настройки вашего сервера соответствуют рекоммендованным.",
     "LBL_PARAMETER": "Параметр",
     "LBL_VALUE": "Значение",
-    "LBL_RECOMMENDED": "Рекомендуемое значение",
+    "LBL_RECOMMENDED": "Recommended",
     "LBL_SYSTEM_STABILITY": "Настройки стабильности системы",
     "LBL_SYSTEM_SECURITY": "Настройки безопасности системы",
     "LBL_HEADERS_SECURITY": "Конфигурация системных заголовков",
@@ -222,7 +222,11 @@
     "LBL_FUNCTIONAL_VERIFICATION_TITLE": "Functional verification",
     "LBL_IT_WORKS_PROPERLY": "It works properly",
     "LBL_LABEL_FOOTER": "Footer",
-    "LBL_LABEL_PREMIUM_MODULES": "Premium modules"
+    "LBL_LABEL_PREMIUM_MODULES": "Premium modules",
+    "LBL_FILE_OWNER": "Owner",
+    "LBL_FILE_PERMISSIONS": "Permissions",
+    "LBL_LABEL_SCRIPT_USER": "Script calling user",
+    "LBL_ERROR_DURING_VERIFICATION": "Error occurred during verification"
   },
   "js": {
     "JS_SPEED_TEST_START": "Проверяем скорость..."

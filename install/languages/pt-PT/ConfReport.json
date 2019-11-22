@@ -10,7 +10,7 @@
     "LBL_CONFREPORT_DESCRIPTION": "Allows you to verify that the main server settings are compatible with the recommended parameters.",
     "LBL_PARAMETER": "Parameter",
     "LBL_VALUE": "Value",
-    "LBL_RECOMMENDED": "Recommended configuration",
+    "LBL_RECOMMENDED": "Recomendado",
     "LBL_SYSTEM_STABILITY": "System stability configuration",
     "LBL_SYSTEM_SECURITY": "System security configuration",
     "LBL_HEADERS_SECURITY": "Configuração de cabeçalhos do sistema",
@@ -222,7 +222,11 @@
     "LBL_FUNCTIONAL_VERIFICATION_TITLE": "Verificação funcional",
     "LBL_IT_WORKS_PROPERLY": "It works properly",
     "LBL_LABEL_FOOTER": "Footer",
-    "LBL_LABEL_PREMIUM_MODULES": "Premium modules"
+    "LBL_LABEL_PREMIUM_MODULES": "Premium modules",
+    "LBL_FILE_OWNER": "Proprietário",
+    "LBL_FILE_PERMISSIONS": "Permissões",
+    "LBL_LABEL_SCRIPT_USER": "Script de chamada do usuário",
+    "LBL_ERROR_DURING_VERIFICATION": "Ocorreu um erro durante a validação"
   },
   "js": {
     "JS_SPEED_TEST_START": "Checking speed..."

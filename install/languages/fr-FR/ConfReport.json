@@ -10,7 +10,7 @@
     "LBL_CONFREPORT_DESCRIPTION": "Permets de vérifier que les paramètres actuels sont alignés avec ceux recommandés.",
     "LBL_PARAMETER": "Paramètre",
     "LBL_VALUE": "Configuration actuelle",
-    "LBL_RECOMMENDED": "Configuration recommandée",
+    "LBL_RECOMMENDED": "Recommended",
     "LBL_SYSTEM_STABILITY": "Configuration de la stabilité du système",
     "LBL_SYSTEM_SECURITY": "Configuration de la sécurité du système",
     "LBL_HEADERS_SECURITY": "Configuration des en-têtes du système",
@@ -222,7 +222,11 @@
     "LBL_FUNCTIONAL_VERIFICATION_TITLE": "Functional verification",
     "LBL_IT_WORKS_PROPERLY": "It works properly",
     "LBL_LABEL_FOOTER": "Footer",
-    "LBL_LABEL_PREMIUM_MODULES": "Premium modules"
+    "LBL_LABEL_PREMIUM_MODULES": "Premium modules",
+    "LBL_FILE_OWNER": "Owner",
+    "LBL_FILE_PERMISSIONS": "Permissions",
+    "LBL_LABEL_SCRIPT_USER": "Script calling user",
+    "LBL_ERROR_DURING_VERIFICATION": "Error occurred during verification"
   },
   "js": {
     "JS_SPEED_TEST_START": "Vérification de la vitesse..."

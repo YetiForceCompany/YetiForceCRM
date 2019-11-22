@@ -10,7 +10,7 @@
     "LBL_CONFREPORT_DESCRIPTION": "允许您验证主服务器设置与推荐参数的兼容性.",
     "LBL_PARAMETER": "参数",
     "LBL_VALUE": "值",
-    "LBL_RECOMMENDED": "推荐的配置",
+    "LBL_RECOMMENDED": "Recommended",
     "LBL_SYSTEM_STABILITY": "系统稳定性配置",
     "LBL_SYSTEM_SECURITY": "系统安全配置",
     "LBL_HEADERS_SECURITY": "系统安全配置",
@@ -222,7 +222,11 @@
     "LBL_FUNCTIONAL_VERIFICATION_TITLE": "功能验证",
     "LBL_IT_WORKS_PROPERLY": "工作正常",
     "LBL_LABEL_FOOTER": "底部",
-    "LBL_LABEL_PREMIUM_MODULES": "高级模块"
+    "LBL_LABEL_PREMIUM_MODULES": "高级模块",
+    "LBL_FILE_OWNER": "Owner",
+    "LBL_FILE_PERMISSIONS": "Permissions",
+    "LBL_LABEL_SCRIPT_USER": "Script calling user",
+    "LBL_ERROR_DURING_VERIFICATION": "Error occurred during verification"
   },
   "js": {
     "JS_SPEED_TEST_START": "检查速度..."

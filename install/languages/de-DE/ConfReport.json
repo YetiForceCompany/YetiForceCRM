@@ -10,7 +10,7 @@
     "LBL_CONFREPORT_DESCRIPTION": "Zeigt die aktuelle Konfiguration des Servers im Vergleich zur empfohlenen Konfiguration.",
     "LBL_PARAMETER": "Parameter",
     "LBL_VALUE": "Wert",
-    "LBL_RECOMMENDED": "Empfohlene Konfiguration",
+    "LBL_RECOMMENDED": "Recommended",
     "LBL_SYSTEM_STABILITY": "Konfiguration zur Systemstabilität",
     "LBL_SYSTEM_SECURITY": "Konfiguration zur Systemsicherheit",
     "LBL_HEADERS_SECURITY": "Systemkonfiguration",
@@ -222,7 +222,11 @@
     "LBL_FUNCTIONAL_VERIFICATION_TITLE": "Funktionsprüfungen",
     "LBL_IT_WORKS_PROPERLY": "Es funktioniert ordnungsgemäß",
     "LBL_LABEL_FOOTER": "Fußzeile",
-    "LBL_LABEL_PREMIUM_MODULES": "Premium-Module"
+    "LBL_LABEL_PREMIUM_MODULES": "Premium-Module",
+    "LBL_FILE_OWNER": "Owner",
+    "LBL_FILE_PERMISSIONS": "Permissions",
+    "LBL_LABEL_SCRIPT_USER": "Script calling user",
+    "LBL_ERROR_DURING_VERIFICATION": "Error occurred during verification"
   },
   "js": {
     "JS_SPEED_TEST_START": "Performance wird ermittelt ..."
