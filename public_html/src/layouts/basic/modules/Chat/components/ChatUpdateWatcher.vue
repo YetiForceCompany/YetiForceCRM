@@ -21,9 +21,21 @@ export default {
   computed: {
     ...mapGetters(['data', 'config', 'tab', 'allRooms'])
   },
+  /**
+   * Init component event listener and timeout
+   */
+  created() {
+    this.adjustUpdateRequestToChatState()
+    this.activeRooms = this.allRooms.filter(el => el.active)
+    if (this.activeRooms.length) {
+      this.initMessageTimer()
+    } else {
+      this.initAmountTimer()
+    }
+  },
   methods: {
     ...mapActions(['notifyAboutNewMessages', 'fetchRoom']),
-    ...mapMutations(['updateChatData', 'setPrivateRooms']),
+    ...mapMutations(['updateChatData', 'setPinnedRooms']),
     /**
      * Init vuex event for adjusting request for updating chat rooms
      */
@@ -36,7 +48,10 @@ export default {
             this.timerAmount = false
             this.initMessageTimer()
           }
-        } else if (mutation.type === 'Chat/unsetActiveRoom' && !this.allRooms.filter(el => el.active).length) {
+        } else if (
+          mutation.type === 'Chat/unsetActiveRoom' &&
+          !this.allRooms.filter(el => el.active).length
+        ) {
           if (!this.timerAmount) {
             clearInterval(this.timerMessage)
             this.timerMessage = false
@@ -49,7 +64,10 @@ export default {
      * Init amount timer
      */
     initMessageTimer() {
-      this.timerMessage = setTimeout(this.fetchNewMessages, this.config.refreshMessageTime)
+      this.timerMessage = setTimeout(
+        this.fetchNewMessages,
+        this.config.refreshMessageTime
+      )
     },
     /**
      * Fetch new messages timeout function
@@ -62,37 +80,59 @@ export default {
         mode: 'getRoomsMessages',
         rooms: this.activeRooms
       }).done(({ result }) => {
+        this.updateRoomsUser(result.roomList.user)
         this.notifyAboutNewMessages(result.amountOfNewMessages)
-        if (
-          typeof result.roomList.private === 'object' &&
-          Object.keys(result.roomList.private).length !== Object.keys(this.data.roomList.private).length
-        ) {
-          if (
-            this.data.currentRoom.roomType === 'private' &&
-            !result.roomList.private[this.data.currentRoom.recordId]
-          ) {
-            this.fetchRoom({ id: this.config.defaultRoom.recordId, roomType: this.config.defaultRoom.roomType }).then(
-              _ => {
-                this.setPrivateRooms(result.roomList.private)
-              }
-            )
-          } else {
-            this.setPrivateRooms(result.roomList.private)
-          }
-        }
+        this.updateRoomsPrivate(result.roomList.private)
         if (result.areNewEntries) {
-          this.updateChatData({ roomsToUpdate: currentActiveRooms, newData: result })
+          this.updateChatData({
+            roomsToUpdate: currentActiveRooms,
+            newData: result
+          })
         }
         if (this.timerMessage) {
           this.initMessageTimer()
         }
       })
     },
+    updateRoomsPrivate(rooms) {
+      if (
+        typeof rooms === 'object' &&
+        Object.keys(rooms).length !==
+          Object.keys(this.data.roomList.private).length
+      ) {
+        if (
+          this.data.currentRoom.roomType === 'private' &&
+          !rooms[this.data.currentRoom.recordId]
+        ) {
+          this.fetchRoom({
+            id: this.config.defaultRoom.recordId,
+            roomType: this.config.defaultRoom.roomType
+          }).then(_ => {
+            this.setPinnedRooms({ rooms, roomType: 'private' })
+          })
+        } else {
+          this.setPinnedRooms({ rooms, roomType: 'private' })
+        }
+      }
+    },
+    updateRoomsUser(rooms) {
+      if (
+        typeof rooms === 'object' &&
+        Object.keys(rooms).length !==
+          Object.keys(this.data.roomList.user).length
+      ) {
+        this.setPinnedRooms({ rooms, roomType: 'user' })
+      }
+    },
+
     /**
      * Init amount timer
      */
     initAmountTimer() {
-      this.timerAmount = setTimeout(this.fetchAmountOfNewMessages, this.config.refreshTimeGlobal)
+      this.timerAmount = setTimeout(
+        this.fetchAmountOfNewMessages,
+        this.config.refreshTimeGlobal
+      )
     },
     /**
      * Fetch new messages timeout function
@@ -108,18 +148,6 @@ export default {
           this.initAmountTimer()
         }
       })
-    }
-  },
-  /**
-   * Init component event listener and timeout
-   */
-  created() {
-    this.adjustUpdateRequestToChatState()
-    this.activeRooms = this.allRooms.filter(el => el.active)
-    if (this.activeRooms.length) {
-      this.initMessageTimer()
-    } else {
-      this.initAmountTimer()
     }
   }
 }

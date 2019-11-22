@@ -58,12 +58,12 @@ export default {
 		state.data.currentRoom = data.currentRoom
 		state.data.roomList = data.roomList
 	},
-	setPrivateRooms(state, data) {
-		if (state.data.currentRoom.roomType === 'private' && data[state.data.currentRoom.recordId]) {
-			data[state.data.currentRoom.recordId].chatEntries =
-				state.data.roomList.private[state.data.currentRoom.recordId].chatEntries
+	setPinnedRooms(state, { rooms, roomType }) {
+		if (state.data.currentRoom.roomType === roomType && rooms[state.data.currentRoom.recordId]) {
+			rooms[state.data.currentRoom.recordId].chatEntries =
+				state.data.roomList[roomType][state.data.currentRoom.recordId].chatEntries
 		}
-		state.data.roomList.private = data
+		state.data.roomList[roomType] = rooms
 	},
 	mergeData(state, data) {
 		state.data = mergeDeepReactive(state.data, data)
