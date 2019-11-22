@@ -774,10 +774,7 @@ return [
 		'GLOBAL_SEARCH_DEFAULT_OPERATOR' => [
 			'default' => 'FulltextBegin',
 			'description' => 'Global search - Default search operator. (FulltextBegin,FulltextWord,Contain,Begin,End)',
-			'validation' => function () {
-				$arg = func_get_arg(0);
-				return \in_array($arg, ['FulltextBegin', 'FulltextWord', 'Contain', 'Begin', 'End']);
-			}
+			'validationValues' => ['FulltextBegin', 'FulltextWord', 'Contain', 'Begin', 'End']
 		],
 		'LIST_ENTITY_STATE_COLOR' => [
 			'default' => [
@@ -957,19 +954,26 @@ return [
 		],
 		'csrfActive' => [
 			'default' => true,
-			'description' => 'Enable CSRF protection'
+			'description' => 'Enable CSRF protection',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'csrfFrameBreaker' => [
 			'default' => true,
-			'description' => 'Enable verified frame protection, used in CSRF'
+			'description' => 'Enable verified frame protection, used in CSRF',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'csrfFrameBreakerWindow' => [
 			'default' => 'top',
 			'description' => 'Which window should be verified? It is used to check if the system is loaded in the frame, used in CSRF.',
+			'validationValues' => ['top', 'parent']
 		],
 		'allowedFrameDomains' => [
 			'default' => [],
 			'description' => 'Allowed domains for loading frame, used in CSP and validate referer.',
+			'loopValidate' => true,
+			'validation' => '\App\Validator::url',
 		],
 		'allowedImageDomains' => [
 			'default' => [
@@ -982,6 +986,8 @@ return [
 		'allowedScriptDomains' => [
 			'default' => [],
 			'description' => 'Allowed domains for loading script, used in CSP.',
+			'loopValidate' => true,
+			'validation' => '\App\Validator::url',
 		],
 		'allowedFormDomains' => [
 			'default' => ['paypal.com'],
