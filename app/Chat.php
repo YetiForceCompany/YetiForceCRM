@@ -466,7 +466,7 @@ final class Chat
 		$rooms = [];
 		while ($row = $dataReader->read()) {
 			$row['name'] = $row['first_name'] . ' ' . $row['last_name'];
-			$row['roomType'] = 'user';
+			$row['roomType'] = $roomType;
 			$row['recordid'] = $row['id'];
 			$rooms[$row['id']] = $row;
 		}
@@ -1237,11 +1237,10 @@ final class Chat
 	 */
 	public function addToFavorites()
 	{
-		if ('user' === $this->roomType) {
-			$this->addToFavoritesUserRoom();
-			return;
-		}
 		if (!empty($this->roomType) && !empty($this->recordId)) {
+			if ('user' === $this->roomType) {
+				$this->setUserRoomRecordId();
+			}
 			$lastMessage = static::getRoomLastMessage($this->recordId, $this->roomType);
 			Db::getInstance()->createCommand()->insert(
 				static::TABLE_NAME['room'][$this->roomType],
@@ -1256,31 +1255,29 @@ final class Chat
 	}
 
 	/**
-	 * Add room to favorites.
+	 * Set user room recordId.
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public function addToFavoritesUserRoom()
+	public function setUserRoomRecordId()
 	{
-		if (!empty($this->roomType) && !empty($this->recordId)) {
-			$roomsTable = static::TABLE_NAME['room_name'][$this->roomType];
-			$roomExists = (new Db\Query())
-				->select(['roomid'])
-				->from($roomsTable)
-				->where(['or', ['and', ['userid' => $this->recordId], ['reluserid' => $this->userId]], ['and', ['userid' => $this->userId], ['reluserid' => $this->recordId]]])
-				->one();
-			if ($roomExists) {
-				$lastMessage = static::getRoomLastMessage($this->recordId, $this->roomType);
-				Db::getInstance()->createCommand()->insert(
-					static::TABLE_NAME['room'][$this->roomType],
-					[
-						'last_message' => $lastMessage['id'] ?? 0,
-						'userid' => $this->userId,
-						static::COLUMN_NAME['room'][$this->roomType] => $roomExists['roomid']
-					]
-				)->execute();
-			}
-			$this->room['userid'] = $this->userId;
+		$roomsTable = static::TABLE_NAME['room_name'][$this->roomType];
+		$roomExists = (new Db\Query())
+			->select(['roomid'])
+			->from($roomsTable)
+			->where(['or', ['and', ['userid' => $this->recordId], ['reluserid' => $this->userId]], ['and', ['userid' => $this->userId], ['reluserid' => $this->recordId]]])
+			->one();
+		if ($roomExists) {
+			$this->recordId = $roomExists['roomid'];
+		} else {
+			Db::getInstance()->createCommand()->insert(
+				$roomsTable,
+				[
+					'userid' => $this->userId,
+					'reluserid' => $this->recordId
+				]
+			)->execute();
+			$this->recordId = Db::getInstance()->getLastInsertID("{$roomsTable}_roomid_seq");
 		}
 	}
 
