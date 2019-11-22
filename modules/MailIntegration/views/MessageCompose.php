@@ -28,7 +28,7 @@ class MailIntegration_MessageCompose_View extends \App\Controller\View\Base
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!\App\User::getCurrentUserId()) {
+		if (\App\User::getCurrentUserId()) {
 			$viewer = $this->getViewer($request);
 			$viewer->view('MessageCompose.tpl', $moduleName);
 		} elseif (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($moduleName)) {
