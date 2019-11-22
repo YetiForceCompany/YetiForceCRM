@@ -17,6 +17,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 	 */
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('checkLimits');
 		$this->exposeMethod('getDetails');
 		$this->exposeMethod('getTableData');

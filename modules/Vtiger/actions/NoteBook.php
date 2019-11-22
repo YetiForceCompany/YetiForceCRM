@@ -20,7 +20,7 @@ class Vtiger_NoteBook_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -30,10 +30,11 @@ class Vtiger_NoteBook_Action extends \App\Controller\Action
 
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('noteBookCreate');
 	}
 
-	public function noteBookCreate(\App\Request $request)
+	public function noteBookCreate(App\Request $request)
 	{
 		$dataValue['contents'] = $request->getByType('notePadContent', 'Text');
 		$dataValue['lastSavedOn'] = date('Y-m-d H:i:s');

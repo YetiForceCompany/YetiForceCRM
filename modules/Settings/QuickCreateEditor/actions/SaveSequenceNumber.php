@@ -10,6 +10,7 @@ class Settings_QuickCreateEditor_SaveSequenceNumber_Action extends Settings_Vtig
 {
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('move');
 	}
 
@@ -18,7 +19,7 @@ class Settings_QuickCreateEditor_SaveSequenceNumber_Action extends Settings_Vtig
 	 *
 	 * @param \App\Request $request
 	 */
-	public function move(\App\Request $request)
+	public function move(App\Request $request)
 	{
 		$updatedFieldsList = $request->getArray('updatedFields', 'Integer');
 		$result = Settings_QuickCreateEditor_Module_Model::updateFieldSequenceNumber($updatedFieldsList);

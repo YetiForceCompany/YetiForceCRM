@@ -204,20 +204,8 @@ class Colors
 	 */
 	public static function getPicklistFieldsByModule($moduleName)
 	{
-		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
-		$moduleBlockFields = \Vtiger_Field_Model::getAllForModule($moduleModel);
-		$type = ['picklist', 'multipicklist'];
-		$fieldList = [];
-		foreach ($moduleBlockFields as $moduleFields) {
-			foreach ($moduleFields as $moduleField) {
-				$block = $moduleField->get('block');
-				if (!$block || !\in_array($moduleField->getFieldDataType(), $type)) {
-					continue;
-				}
-				$fieldList[$moduleField->get('name')] = $moduleField;
-			}
-		}
-		return $fieldList;
+		$types = ['picklist', 'multipicklist'];
+		return \Vtiger_Module_Model::getInstance($moduleName)->getFieldsByType($types, true);
 	}
 
 	/**

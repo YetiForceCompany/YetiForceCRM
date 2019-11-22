@@ -18,6 +18,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('add');
 		$this->exposeMethod('rename');
 		$this->exposeMethod('processStatus');

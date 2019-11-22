@@ -12,6 +12,7 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 {
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('save');
 		$this->exposeMethod('updateSequenceNumber');
 		$this->exposeMethod('delete');

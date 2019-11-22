@@ -32,6 +32,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 	 */
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('exportToExcel');
 	}
 

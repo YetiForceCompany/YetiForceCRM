@@ -18,10 +18,11 @@ class Import_List_View extends \App\Controller\View\Page
 
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('getImportDetails');
 	}
 
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getByType('forModule'))) {
@@ -34,7 +35,7 @@ class Import_List_View extends \App\Controller\View\Page
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$mode = $request->getMode();
@@ -50,7 +51,7 @@ class Import_List_View extends \App\Controller\View\Page
 
 	// Function to initialize the required data in smarty to display the List View Contents
 
-	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getByType('forModule');
 		$cvId = $request->getByType('viewname', 2);
@@ -62,7 +63,7 @@ class Import_List_View extends \App\Controller\View\Page
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
-		if ($sortOrder == 'ASC') {
+		if ('ASC' == $sortOrder) {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'downArrowSmall.png';
 		} else {
@@ -91,7 +92,7 @@ class Import_List_View extends \App\Controller\View\Page
 		if (!$this->listViewEntries) {
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
-		$noOfEntries = count($this->listViewEntries);
+		$noOfEntries = \count($this->listViewEntries);
 		$viewer->assign('MODULE', $moduleName);
 
 		$viewer->assign('PAGING_MODEL', $pagingModel);
@@ -112,7 +113,7 @@ class Import_List_View extends \App\Controller\View\Page
 		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 	}
 
-	public function getImportDetails(\App\Request $request)
+	public function getImportDetails(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
