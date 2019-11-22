@@ -1416,6 +1416,17 @@ CREATE TABLE `u_yf_chat_messages_private` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_chat_messages_user` */
+
+CREATE TABLE `u_yf_chat_messages_user` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `roomid` int(10) DEFAULT NULL,
+  `userid` smallint(5) unsigned NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `messages` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_chat_private` */
 
 CREATE TABLE `u_yf_chat_private` (
@@ -1427,6 +1438,14 @@ CREATE TABLE `u_yf_chat_private` (
   PRIMARY KEY (`private_room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_chat_user` */
+
+CREATE TABLE `u_yf_chat_user` (
+  `roomid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` int(10) NOT NULL,
+  `reluserid` int(10) NOT NULL,
+  PRIMARY KEY (`roomid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*Table structure for table `u_yf_chat_rooms_crm` */
 
 CREATE TABLE `u_yf_chat_rooms_crm` (
@@ -1479,6 +1498,14 @@ CREATE TABLE `u_yf_chat_rooms_private` (
   `private_room_id` int(10) unsigned NOT NULL,
   `last_message` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`roomid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_chat_rooms_user` */
+
+CREATE TABLE `u_yf_chat_rooms_user` (
+  `roomid` int(10) unsigned NOT NULL,
+  `userid` int(10) NOT NULL,
+  `last_message` int(10) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_cinternaltickets` */

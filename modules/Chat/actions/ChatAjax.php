@@ -364,6 +364,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 			'group' => \App\Chat::getUnreadByType('group'),
 			'global' => \App\Chat::getUnreadByType('global'),
 			'private' => \App\Chat::getUnreadByType('private'),
+			'user' => \App\Chat::getUnreadByType('user')
 		]);
 		$response->emit();
 	}
