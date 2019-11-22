@@ -1267,20 +1267,28 @@ final class Chat
 			->from($roomsTable)
 			->where(['or', ['and', ['userid' => $this->recordId], ['reluserid' => $this->userId]], ['and', ['userid' => $this->userId], ['reluserid' => $this->recordId]]])
 			->one();
-		if ($roomExists) {
-			$this->recordId = $roomExists['roomid'];
-		} else {
-			Db::getInstance()->createCommand()->insert(
-				$roomsTable,
-				[
-					'userid' => $this->userId,
-					'reluserid' => $this->recordId
-				]
-			)->execute();
-			$this->recordId = Db::getInstance()->getLastInsertID("{$roomsTable}_roomid_seq");
-		}
+			$this->recordId = $roomExists ? $roomExists['roomid'] : $this->createUserRoom($this->recordId);
 	}
 
+	/**
+	 * Create user room.
+	 *
+	 * @param int $relUserId
+	 *
+	 * @return int
+	 */
+	public function createUserRoom(int $relUserId): int
+	{
+		$roomsTable = static::TABLE_NAME['room_name']['user'];
+		Db::getInstance()->createCommand()->insert(
+			$roomsTable,
+			[
+				'userid' => $this->userId,
+				'reluserid' => $relUserId
+			]
+		)->execute();
+		return Db::getInstance()->getLastInsertID("{$roomsTable}_roomid_seq");
+	}
 	/**
 	 * Create private room.
 	 *
