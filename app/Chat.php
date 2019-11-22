@@ -873,6 +873,9 @@ final class Chat
 	 */
 	public function addMessage(string $message): int
 	{
+		if ('user' === $this->roomType) {
+			$this->pinTargetUserRoom();
+		}
 		$table = static::TABLE_NAME['message'][$this->roomType];
 		$db = Db::getInstance();
 		$db->createCommand()->insert($table, [
@@ -882,6 +885,30 @@ final class Chat
 			static::COLUMN_NAME['message'][$this->roomType] => $this->recordId
 		])->execute();
 		return $this->lastMessageId = (int) $db->getLastInsertID("{$table}_id_seq");
+	}
+
+	/**
+	 * Pin target user room when is unpinned.
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public function pinTargetUserRoom()
+	{
+		$roomsTable = static::TABLE_NAME['room'][$this->roomType];
+		$roomPinned = (new Db\Query())
+			->select(['roomid'])
+			->from($roomsTable)
+			->where(['roomid' => $this->recordId])
+			->all();
+		if (2 !== \count($roomPinned)) {
+			$roomUsers = (new Db\Query())
+				->select(['userid', 'reluserid'])
+				->from(static::TABLE_NAME['room_name'][$this->roomType])
+				->where(['roomid' => $this->recordId])
+				->one();
+			$targetUserId = $roomUsers['userid'] === $this->userId ? $roomUsers['reluserid'] : $roomUsers['userid'];
+			$this->addToFavoritesQuery($targetUserId);
+		}
 	}
 
 	/**
@@ -1248,17 +1275,29 @@ final class Chat
 			if ('user' === $this->roomType) {
 				$this->setUserRoomRecordId();
 			}
-			$lastMessage = static::getRoomLastMessage($this->recordId, $this->roomType);
-			Db::getInstance()->createCommand()->insert(
-				static::TABLE_NAME['room'][$this->roomType],
-				[
-					'last_message' => $lastMessage['id'] ?? 0,
-					'userid' => $this->userId,
-					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
-				]
-			)->execute();
+			$this->addToFavoritesQuery();
 			$this->room['userid'] = $this->userId;
 		}
+	}
+
+	/**
+	 * Add room to favorites query.
+	 *
+	 * @param ?int $userId
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public function addToFavoritesQuery(?int $userId = null)
+	{
+		$lastMessage = static::getRoomLastMessage($this->recordId, $this->roomType);
+		Db::getInstance()->createCommand()->insert(
+			static::TABLE_NAME['room'][$this->roomType],
+			[
+				'last_message' => $lastMessage['id'] ?? 0,
+				'userid' => !empty($userId) ? $userId : $this->userId,
+				static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
+			]
+		)->execute();
 	}
 
 	/**
