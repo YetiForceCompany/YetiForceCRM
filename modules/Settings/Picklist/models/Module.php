@@ -25,15 +25,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function gives fields based on the type.
-	 *
-	 * @param string|string[] $type - field type
-	 *
-	 * @return Settings_Picklist_Field_Model[] - list of field models
+	 * {@inheritdoc}
 	 */
-	public function getFieldsByType($type)
+	public function getFieldsByType($type, bool $active = false): array
 	{
-		$fieldModels = parent::getFieldsByType($type);
+		$fieldModels = parent::getFieldsByType($type, $active);
 		$fields = [];
 		foreach ($fieldModels as $fieldName => $fieldModel) {
 			$field = Settings_Picklist_Field_Model::getInstanceFromFieldObject($fieldModel);

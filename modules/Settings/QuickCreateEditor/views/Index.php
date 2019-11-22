@@ -13,6 +13,7 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('showFieldLayout');
 	}
 
@@ -21,7 +22,7 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
 		if ($this->isMethodExposed($mode)) {
@@ -36,7 +37,7 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function showFieldLayout(\App\Request $request)
+	public function showFieldLayout(App\Request $request)
 	{
 		$sourceModule = $request->getByType('sourceModule', 2);
 		$menuModelsList = Vtiger_Module_Model::getQuickCreateModules();

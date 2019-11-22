@@ -128,6 +128,8 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 				'presence' => 2,
 				'sequence' => new \yii\db\Expression($caseExpression),
 			], ['fieldid' => $fieldIdsList])->execute();
+		\App\Cache::clear();
+		\App\Colors::generate('picklist');
 	}
 
 	/**

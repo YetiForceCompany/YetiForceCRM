@@ -170,7 +170,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 					'blocked' => $blocked,
 				], ['id' => $bfData['id']])
 				->execute();
-			$this->isBlocked = $blocked === self::BLOCKED;
+			$this->isBlocked = self::BLOCKED === $blocked;
 			$this->blockedId = $bfData['id'];
 		}
 		$this->clearBlockedByIp($ip, $checkData);
@@ -255,11 +255,12 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 			])->execute();
 		$db->createCommand()->delete('a_#__bruteforce_users')->execute();
 		if (!empty($data['selectedUsers'])) {
-			$users = !is_array($data['selectedUsers']) ? [$data['selectedUsers']] : $data['selectedUsers'];
+			$users = !\is_array($data['selectedUsers']) ? [$data['selectedUsers']] : $data['selectedUsers'];
 			foreach ($users as $userId) {
 				$db->createCommand()->insert('a_#__bruteforce_users', ['id' => $userId])->execute();
 			}
 		}
+		App\Cache::delete('BruteForce', 'Settings');
 	}
 
 	/**
@@ -280,7 +281,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		\App\Log::trace('Start ' . __METHOD__);
 		if (!empty($this->get('sent'))) {
 			$usersId = self::getUsersForNotifications();
-			if (count($usersId) === 0) {
+			if (0 === \count($usersId)) {
 				\App\Log::trace('End ' . __METHOD__ . ' - No brute force users found to send email');
 
 				return false;
