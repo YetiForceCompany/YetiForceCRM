@@ -423,8 +423,14 @@ final class Chat
 			$userId = User::getCurrentUserId();
 		}
 		$roomType = 'user';
+		$cntQuery = (new Db\Query())
+			->select([new \yii\db\Expression('COUNT(*)')])
+			->from(['MESSAGES' => static::TABLE_NAME['message'][$roomType]])
+			->where([
+				'MESSAGES.roomid' => new \yii\db\Expression('ROOM_PINNED.roomid')
+			])->andWhere(['>', 'MESSAGES.id', new \yii\db\Expression('ROOM_PINNED.last_message')]);
 		$query = (new Db\Query())
-			->select(['ROOM_PINNED.last_message', 'ROOM_SRC.userid', 'ROOM_SRC.reluserid', 'recordid' => 'ROOM_SRC.roomid'])
+			->select(['ROOM_PINNED.last_message', 'ROOM_SRC.userid', 'ROOM_SRC.reluserid', 'recordid' => 'ROOM_SRC.roomid', 'cnt_new_message' => $cntQuery])
 			->from(['ROOM_PINNED' => static::TABLE_NAME['room'][$roomType]])
 			->where(['ROOM_PINNED.userid' => $userId])
 			->leftJoin(['ROOM_SRC' => static::TABLE_NAME['room_name'][$roomType]], 'ROOM_PINNED.roomid = ROOM_SRC.roomid');
@@ -433,9 +439,10 @@ final class Chat
 		while ($row = $dataReader->read()) {
 			$relUser = $row['userid'] === $userId ? $row['reluserid'] : $row['userid'];
 			$roomData = static::getUserInfo($relUser);
-			$roomData['name'] = $roomData['user_name'];
+			$roomData['cnt_new_message'] = $row['cnt_new_message'];
 			$roomData['recordid'] = $row['recordid'];
-			$roomData['roomType'] = 'user';
+			$roomData['name'] = $roomData['user_name'];
+			$roomData['roomType'] = $roomType;
 			$rooms[$row['recordid']] = $roomData;
 		}
 		$dataReader->close();
@@ -1267,7 +1274,7 @@ final class Chat
 			->from($roomsTable)
 			->where(['or', ['and', ['userid' => $this->recordId], ['reluserid' => $this->userId]], ['and', ['userid' => $this->userId], ['reluserid' => $this->recordId]]])
 			->one();
-			$this->recordId = $roomExists ? $roomExists['roomid'] : $this->createUserRoom($this->recordId);
+		$this->recordId = $roomExists ? $roomExists['roomid'] : $this->createUserRoom($this->recordId);
 	}
 
 	/**
@@ -1289,6 +1296,7 @@ final class Chat
 		)->execute();
 		return Db::getInstance()->getLastInsertID("{$roomsTable}_roomid_seq");
 	}
+
 	/**
 	 * Create private room.
 	 *
