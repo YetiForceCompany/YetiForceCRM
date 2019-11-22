@@ -1346,10 +1346,16 @@ class ConfReport
 	/**
 	 * Get all configuration error values.
 	 *
+	 * @param bool $cache
+	 *
 	 * @return array
 	 */
-	public static function getAllErrors()
+	public static function getAllErrors(bool $cache = false)
 	{
+		$fileCache = ROOT_DIRECTORY . '/app_data/ConfReport_AllErrors.php';
+		if ($cache && file_exists($fileCache) && filemtime($fileCache) > strtotime('-5 minute')) {
+			return require $fileCache;
+		}
 		$result = [];
 		foreach (static::getAll() as $category => $params) {
 			foreach ($params as $param => $data) {
@@ -1366,6 +1372,9 @@ class ConfReport
 					$result[$category][$param] = $val;
 				}
 			}
+		}
+		if ($cache) {
+			\App\Utils::saveToFile($fileCache, $result, '', 0, true);
 		}
 		return $result;
 	}

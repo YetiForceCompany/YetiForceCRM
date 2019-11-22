@@ -16,7 +16,7 @@ class Log extends Logger
 	public static $logToConsole;
 	public static $logToFile;
 	public static $logToProfile;
-
+	public $logToLevels;
 	/**
 	 * Column mapping by table.
 	 *
@@ -29,6 +29,49 @@ class Log extends Logger
 		'access_to_record' => ['date', 'username', 'ip', 'module', 'record', 'url', 'agent', 'request', 'referer'],
 		'csrf' => ['date', 'username', 'ip', 'referer', 'url', 'agent'],
 	];
+	public static $levelMap = [
+		'error' => Logger::LEVEL_ERROR,
+		'warning' => Logger::LEVEL_WARNING,
+		'info' => Logger::LEVEL_INFO,
+		'trace' => Logger::LEVEL_TRACE,
+		'profile' => Logger::LEVEL_PROFILE,
+	];
+
+	/**
+	 * Initializes the logger by registering [[flush()]] as a shutdown function.
+	 */
+	public function init()
+	{
+		parent::init();
+		$this->setLevels(\Config\Debug::$LOG_LEVELS);
+	}
+
+	/**
+	 * Sets the message levels that this target is interested in.
+	 *
+	 * @param array|int $levels message levels that this target is interested in.
+	 */
+	public function setLevels($levels)
+	{
+		if (\is_array($levels)) {
+			$this->logToLevels = 0;
+			foreach ($levels as $level) {
+				if (isset(self::$levelMap[$level])) {
+					$this->logToLevels |= self::$levelMap[$level];
+				} else {
+					throw new Exceptions\AppException("Unrecognized level: $level");
+				}
+			}
+		} else {
+			$bitmapValues = array_reduce($levelMap, function ($carry, $item) {
+				return $carry | $item;
+			});
+			if (!($bitmapValues & $levels) && 0 !== $levels) {
+				throw new Exceptions\AppException("Incorrect $levels value");
+			}
+			$this->logToLevels = $levels;
+		}
+	}
 
 	/**
 	 * Logs a message with the given type and category.
@@ -44,6 +87,9 @@ class Log extends Logger
 	 */
 	public function log($message, $level, $category = '')
 	{
+		if (!($this->logToLevels & $level)) {
+			return;
+		}
 		$traces = '';
 		if ($this->traceLevel) {
 			$traces = Debuger::getBacktrace(2, $this->traceLevel, ' - ');
