@@ -190,9 +190,9 @@ core-js@^2.5.7:
   integrity sha512-I39t74+4t+zau64EN1fE5v2W31Adtc/REhzWN+gWRRXg6WH5qAsZm62DHpQ1+Yhe4047T55jvzz7MUqF/dBBlA==
 
 css-element-queries@^1.0.5:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.2.1.tgz#70d1a0f676fc0bd0a3306522a5b2d3bcc55c9fe6"
-  integrity sha512-hiI1tSzf+U/gE13qhfwnCvN90Ay0THnE+mT3pjN/c/mvFmEUHZVNrvMJrrkw2ppOzkl69FdgH2ZGZENYQUaN2A==
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.2.2.tgz#e80ce4c523e41079152b1a3a8ec5b7afb0b45c96"
+  integrity sha512-mpzx/1w9qqu5WLrxvX/wRP+ZwU2ZZ0yRiBkQ9jf4QjStaNuiDbejw9KcvfW3me5f4MZRAnAsctGRECrSf1PBYw==
 
 css-line-break@1.1.1:
   version "1.1.1"
