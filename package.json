@@ -37,7 +37,7 @@
     "ckeditor-image-to-base": "^0.0.3",
     "clipboard": ">=2.0.0",
     "clockpicker": "https://github.com/YetiForceCompany/clockpicker#master",
-    "css-element-queries": "^1.0.5",
+    "css-element-queries": "^1.2.2",
     "datatables.net": "^1.10.19",
     "datatables.net-bs4": "^1.10.19",
     "datatables.net-responsive-bs4": "^2.2.3",
