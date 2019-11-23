@@ -53,7 +53,7 @@
     "sabre/dav": "3.2.3",
     "rmccue/requests": "v1.7.0",
     "smarty/smarty": "^v3.1.33",
-    "phpmailer/phpmailer": "^v6.0.6",
+    "phpmailer/phpmailer": "^vv6.0.6",
     "ezyang/htmlpurifier": "^v4.11.0",
     "simshaun/recurr": "v4.0",
     "giggsey/libphonenumber-for-php": "^8.8.11",
