@@ -27,11 +27,7 @@ export default {
   created() {
     this.adjustUpdateRequestToChatState()
     this.activeRooms = this.allRooms.filter(el => el.active)
-    if (this.activeRooms.length) {
-      this.initMessageTimer()
-    } else {
-      this.initAmountTimer()
-    }
+    this.startTimer()
   },
   methods: {
     ...mapActions(['notifyAboutNewMessages', 'fetchRoom']),
@@ -61,6 +57,16 @@ export default {
       })
     },
     /**
+     * Start timer, when component is created.
+     */
+    startTimer() {
+      if (this.activeRooms.length) {
+        this.fetchNewMessages({ firstFetch: true })
+      } else {
+        this.fetchAmountOfNewMessages({ firstFetch: true })
+      }
+    },
+    /**
      * Init amount timer
      */
     initMessageTimer() {
@@ -72,7 +78,7 @@ export default {
     /**
      * Fetch new messages timeout function
      */
-    fetchNewMessages() {
+    fetchNewMessages({ firstFetch } = { firstFetch: false }) {
       let currentActiveRooms = [...this.activeRooms]
       AppConnector.request({
         module: 'Chat',
@@ -81,7 +87,10 @@ export default {
         rooms: this.activeRooms
       }).done(({ result }) => {
         this.updateRoomsUser(result.roomList.user)
-        this.notifyAboutNewMessages(result.amountOfNewMessages)
+        this.notifyAboutNewMessages({
+          ...result.amountOfNewMessages,
+          firstFetch
+        })
         this.updateRoomsPrivate(result.roomList.private)
         if (result.areNewEntries) {
           this.updateChatData({
@@ -89,7 +98,7 @@ export default {
             newData: result
           })
         }
-        if (this.timerMessage) {
+        if (this.timerMessage || firstFetch) {
           this.initMessageTimer()
         }
       })
@@ -137,14 +146,14 @@ export default {
     /**
      * Fetch new messages timeout function
      */
-    fetchAmountOfNewMessages() {
+    fetchAmountOfNewMessages({ firstFetch } = { firstFetch: false }) {
       AppConnector.request({
         module: 'Chat',
         action: 'ChatAjax',
         mode: 'trackNewMessages'
       }).done(({ result }) => {
-        this.notifyAboutNewMessages(result)
-        if (this.timerAmount) {
+        this.notifyAboutNewMessages({ ...result, firstFetch })
+        if (this.timerAmount || firstFetch) {
           this.initAmountTimer()
         }
       })
