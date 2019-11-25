@@ -81,7 +81,7 @@ import YfDrag from 'components/YfDrag.vue'
 import DragResize from 'components/DragResize.vue'
 import isEqual from 'lodash.isequal'
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
+const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'Dialog',
   components: { ChatUpdateWatcher, ChatContainer, DragResize, YfDrag },
@@ -105,6 +105,7 @@ export default {
       },
       set(isOpen) {
         this.setDialog(isOpen)
+        this.fetchRoom()
       }
     },
     coordinates: {
@@ -121,7 +122,12 @@ export default {
         return this.$store.getters['Chat/buttonCoordinates']
       },
       set(coords) {
-        if (!isEqual({ left: coords.left, top: coords.top }, { ...this.$store.getters['Chat/buttonCoordinates'] })) {
+        if (
+          !isEqual(
+            { left: coords.left, top: coords.top },
+            { ...this.$store.getters['Chat/buttonCoordinates'] }
+          )
+        ) {
           this.setDragState()
           this.setButtonCoordinates(coords)
         }
@@ -138,7 +144,12 @@ export default {
       if (this.isDetail) {
         id = app.getRecordId()
       }
-      if (this.getDetailPreview && this.config.chatModules.some(el => el.id === this.getDetailPreview.module)) {
+      if (
+        this.getDetailPreview &&
+        this.config.chatModules.some(
+          el => el.id === this.getDetailPreview.module
+        )
+      ) {
         id = this.getDetailPreview.id
       }
       if (id && !this.data.roomList.crm[id]) {
@@ -149,7 +160,8 @@ export default {
     },
     isDetail() {
       return (
-        this.windowConfig.view === 'Detail' && this.config.chatModules.some(el => el.id === this.windowConfig.module)
+        this.windowConfig.view === 'Detail' &&
+        this.config.chatModules.some(el => el.id === this.windowConfig.module)
       )
     },
     dialogClasses() {
@@ -166,7 +178,13 @@ export default {
     this.initDialogModel()
   },
   methods: {
-    ...mapMutations(['setDialog', 'setCoordinates', 'setButtonCoordinates', 'updateRooms']),
+    ...mapMutations([
+      'setDialog',
+      'setCoordinates',
+      'setButtonCoordinates',
+      'updateRooms'
+    ]),
+    ...mapActions(['fetchRoom']),
     initDialogModel() {
       if (!this.dialogModel && this.dialog) {
         this.dialogModel = true
