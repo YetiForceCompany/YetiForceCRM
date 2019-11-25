@@ -94,7 +94,7 @@
 								{/if}
 								<div class="{if $FIELD_MODEL->getUIType() neq "300"} col-sm-6 form-row align-items-center my-1 mx-0 {else} w-100 {/if}">
 									{if $FIELD_MODEL->getUIType() neq "300"}
-										<div class="col-lg-12 col-xl-3 text-lg-left text-xl-right fieldLabel  {$WIDTHTYPE}">
+										<div class="labelColor_{$MODULE}_{$FIELD_MODEL->getFieldName()} col-lg-12 col-xl-3 text-lg-left text-xl-right fieldLabel  {$WIDTHTYPE}">
 											<label class="u-text-small-bold m-0 pr-1">
 												{if $FIELD_MODEL->isMandatory() eq true}
 													<span class="redColor">*</span>

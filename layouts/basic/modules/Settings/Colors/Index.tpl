@@ -6,8 +6,8 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<div class="contents tabbable mt-2">
-			<ul class="nav nav-tabs layoutTabs massEditTabs">
+		<div class="contents tabbable mt-2 js-colors-container" data-js="container">
+			<ul class="nav nav-tabs layoutTabs massEditTabs js-colors-tab" data-js="container">
 				<li class="nav-item"><a class="nav-link" data-toggle="tab"
 										href="#userColors"><strong>{\App\Language::translate('LBL_USERS_COLORS', $QUALIFIED_MODULE)}</strong></a>
 				</li>
@@ -17,8 +17,11 @@
 				<li class="nav-item"><a class="nav-link" data-toggle="tab"
 										href="#modulesColors"><strong>{\App\Language::translate('LBL_MODULES', $QUALIFIED_MODULE)}</strong></a>
 				</li>
-				<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#picklistsColors"
+				<li class="nav-item"><a class="nav-link js-change-tab" data-js="click" data-toggle="tab" href="#picklistsColors" data-mode="getPickListView"
 										id="picklistsColorsTab"><strong>{\App\Language::translate('LBL_PICKLISTS', $QUALIFIED_MODULE)}</strong></a>
+				</li>
+				<li class="nav-item"><a class="nav-link js-change-tab" data-js="click" data-toggle="tab" href="#fieldsColor" data-mode="getFieldsColorView"
+										id="fieldsColorTab"><strong>{\App\Language::translate('LBL_FIELDS_COLORS', $QUALIFIED_MODULE)}</strong></a>
 				</li>
 			</ul>
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
@@ -135,11 +138,13 @@
 					</table>
 				</div>
 				<div class="tab-pane" id="picklistsColors">
-					<div class="listViewContentDiv picklistViewContentDiv">
-
+					<div class="listViewContentDiv picklistViewContentDiv js-color-contents" data-js="container">
 					</div>
 				</div>
-
+				<div class="tab-pane" id="fieldsColor">
+					<div class="js-color-contents" data-js="container">
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="modal editColorContainer fade" tabindex="-1">

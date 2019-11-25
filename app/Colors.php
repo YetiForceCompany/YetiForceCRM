@@ -36,10 +36,14 @@ class Colors
 			case 'picklist':
 				static::generatePicklists();
 				break;
+				case 'field':
+				static::generateFields();
+				break;
 			default:
 				static::generateOwners();
 				static::generateModules();
 				static::generatePicklists();
+				static::generateFields();
 				break;
 		}
 	}
@@ -340,5 +344,33 @@ class Colors
 	{
 		$contrastRatio = 1.9; // higher number = more black color
 		return hexdec($hexcolor) > 0xffffff / $contrastRatio ? 'black' : 'white';
+	}
+
+	/**
+	 * Update field color code and generate stylesheet file.
+	 *
+	 * @param int    $ieldId
+	 * @param string $color
+	 */
+	public static function updateFieldColor($ieldId, $color)
+	{
+		Db::getInstance()->createCommand()->update('vtiger_field', ['color' => $color], ['fieldid' => $ieldId])->execute();
+		static::generate('field');
+	}
+
+	/**
+	 * Generate fields colors stylesheet.
+	 */
+	private static function generateFields()
+	{
+		$css = '';
+		$query = (new \App\Db\Query())->select(['tabid', 'fieldname', 'color'])->from('vtiger_field');
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			if (ltrim($row['color'], '#')) {
+				$css .= '.labelColor_' . Module::getModuleName($row['tabid']) . '_' . $row['fieldname'] . '{ color: ' . $row['color'] . '; }' . PHP_EOL;
+			}
+		}
+		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/fields.css', $css);
 	}
 }

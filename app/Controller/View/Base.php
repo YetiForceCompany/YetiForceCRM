@@ -232,6 +232,7 @@ abstract class Base extends \App\Controller\Base
 			'~layouts/resources/colors/owners.css',
 			'~layouts/resources/colors/modules.css',
 			'~layouts/resources/colors/picklists.css',
+			'~layouts/resources/colors/fields.css',
 			'~layouts/resources/styleTemplate.css',
 			'~' . \Vtiger_Theme::getBaseStylePath(),
 		]);
