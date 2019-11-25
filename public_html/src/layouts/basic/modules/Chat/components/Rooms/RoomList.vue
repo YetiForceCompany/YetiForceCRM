@@ -37,7 +37,7 @@
             icon="mdi-magnify"
             @click="toggleRoomSelect()"
           >
-            <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
+            <q-tooltip>{{ translate(`JS_CHAT_ADD_ROOM_${roomType.toUpperCase()}`) }}</q-tooltip>
           </q-btn>
         </slot>
         <q-icon
