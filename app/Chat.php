@@ -1065,8 +1065,8 @@ final class Chat
 					)
 					->leftJoin(['RN' => 'vtiger_groups'], "RN.groupid = M.{$columnMessage}");
 				break;
-			case 'global' || 'private':
-				$query->select(['M.*', 'name' => 'RN.name', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
+			case 'user':
+				$query->select(['M.*', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
 					->leftJoin(
 						['R' => static::TABLE_NAME['room'][$roomType]],
 						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
@@ -1074,10 +1074,30 @@ final class Chat
 					->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
 				break;
 			default:
+			static::getDefaultUnreadQuery($query, $roomType);
 				break;
 		}
 		return $query->where(['or', ['R.last_message' => null], ['<', 'R.last_message', new \yii\db\Expression('M.id')]])
 			->orderBy(["M.{$columnMessage}" => \SORT_ASC, 'id' => \SORT_DESC]);
+	}
+
+	/**
+	 * Get default unread query
+	 *
+	 * @param object $query
+	 * @param string $roomType
+	 * @return object
+	 */
+	private static function getDefaultUnreadQuery(object $query, string $roomType): object {
+		$userId = User::getCurrentUserId();
+		$columnRoom = static::COLUMN_NAME['room'][$roomType];
+		$columnMessage = static::COLUMN_NAME['message'][$roomType];
+		return $query->select(['M.*', 'name' => 'RN.name', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
+		->leftJoin(
+			['R' => static::TABLE_NAME['room'][$roomType]],
+			"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
+		)
+		->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
 	}
 
 	/**
@@ -1146,6 +1166,9 @@ final class Chat
 			$image = $userModel->getImage();
 			if ('global' === $roomType) {
 				$row['name'] = Language::translate($row['name']);
+			}
+			if ('user' === $roomType) {
+				$row['name'] = $userModel->getName();
 			}
 			$rows[] = [
 				'id' => $row['id'],
