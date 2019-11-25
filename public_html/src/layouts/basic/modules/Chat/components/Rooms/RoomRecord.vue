@@ -66,7 +66,7 @@
 import RoomSelect from './RoomSelect.vue'
 import RoomList from './RoomList.vue'
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
+const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'RoomRecord',
   components: { RoomSelect, RoomList },
@@ -101,7 +101,7 @@ export default {
     updateRoomListSelect(val) {
       this.$refs.roomList.toggleRoomSelect()
     },
-    ...mapMutations(['updateRooms']),
+    ...mapActions(['fetchRoom']),
     showRecordsModal(val) {
       app.showRecordsList(
         { module: val, src_module: val },
@@ -114,7 +114,7 @@ export default {
               roomType: 'crm',
               recordId: responseData.id
             }).done(({ result }) => {
-              this.updateRooms(result)
+              this.fetchRoom()
             })
           })
         }
