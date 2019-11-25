@@ -86,12 +86,11 @@ export default {
         mode: 'getRoomsMessages',
         rooms: this.activeRooms
       }).done(({ result }) => {
-        this.updateRoomsUser(result.roomList.user)
+        this.addLackingRooms(result.roomList)
         this.notifyAboutNewMessages({
           ...result.amountOfNewMessages,
           firstFetch
         })
-        this.updateRoomsPrivate(result.roomList.private)
         if (result.areNewEntries) {
           this.updateChatData({
             roomsToUpdate: currentActiveRooms,
@@ -102,6 +101,10 @@ export default {
           this.initMessageTimer()
         }
       })
+    },
+    addLackingRooms(roomList) {
+      this.updateRoomsUser(roomList.user)
+      this.updateRoomsPrivate(roomList.private)
     },
     updateRoomsPrivate(rooms) {
       if (
@@ -125,15 +128,11 @@ export default {
       }
     },
     updateRoomsUser(rooms) {
-      if (
-        typeof rooms === 'object' &&
-        Object.keys(rooms).length !==
-          Object.keys(this.data.roomList.user).length
-      ) {
-        this.setPinnedRooms({ rooms, roomType: 'user' })
+      if (typeof rooms === 'object' && Object.keys(rooms).length) {
+				this.setPinnedRooms({ rooms, roomType: 'user' })
+				this.fetchRoom()
       }
     },
-
     /**
      * Init amount timer
      */
@@ -152,6 +151,7 @@ export default {
         action: 'ChatAjax',
         mode: 'trackNewMessages'
       }).done(({ result }) => {
+        this.addLackingRooms(result.roomList)
         this.notifyAboutNewMessages({ ...result, firstFetch })
         if (this.timerAmount || firstFetch) {
           this.initAmountTimer()
