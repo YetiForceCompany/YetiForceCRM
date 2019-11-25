@@ -38,7 +38,7 @@ export default {
 			})
 		})
 	},
-	fetchRoom({ commit, dispatch }, { id, roomType }) {
+	fetchRoom({ commit, dispatch }, { id, roomType } = {}) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
 				module: 'Chat',
@@ -79,7 +79,7 @@ export default {
 				recordId: room.recordid
 			}).done(({ result }) => {
 				commit('hideRoom', { roomType: 'private', roomId: room.recordid })
-				dispatch('fetchRoom', { id: undefined, roomType: undefined }).then(e => {
+				dispatch('fetchRoom').then(e => {
 					resolve(result)
 				})
 			})
@@ -178,7 +178,7 @@ export default {
 		}).done(data => {
 			if (data) {
 				if (getters.data.currentRoom.roomType === roomType && getters.data.currentRoom.recordId === recordId) {
-					dispatch('fetchRoom', { id: undefined, roomType: undefined }).then(_ => {
+					dispatch('fetchRoom').then(_ => {
 						commit('unsetRoom', { roomType, recordId })
 					})
 				} else {
@@ -196,7 +196,7 @@ export default {
 			recordId
 		}).done(({ success, result }) => {
 			if (success) {
-				dispatch('fetchRoom', { id: undefined, roomType: undefined })
+				dispatch('fetchRoom')
 			}
 		})
 	},
@@ -305,16 +305,20 @@ export default {
 		})
 	},
 
-	notifyAboutNewMessages({ dispatch, getters }, { roomList, amount }) {
+	notifyAboutNewMessages({ dispatch, getters }, { roomList, amount, firstFetch }) {
 		if (amount > getters.data.amountOfNewMessages) {
 			if (getters.isSoundNotification) {
+				let areNewMessagesForRoom = (roomType, room) =>
+					roomList[roomType][room].cnt_new_message > getters.data.roomList[roomType][room].cnt_new_message
+				if (firstFetch) {
+					areNewMessagesForRoom = (roomType, room) =>
+						roomList[roomType][room].cnt_new_message >= getters.data.roomList[roomType][room].cnt_new_message
+				}
 				for (let roomType in roomList) {
 					let played = false
 					for (let room in roomList[roomType]) {
-						if (
-							roomList[roomType][room].cnt_new_message > getters.data.roomList[roomType][room].cnt_new_message &&
-							!getters.roomSoundNotificationsOff[roomType].includes(parseInt(room))
-						) {
+						let isSoundOn = !getters.roomSoundNotificationsOff[roomType].includes(parseInt(room))
+						if (areNewMessagesForRoom(roomType, room) && isSoundOn) {
 							app.playSound('CHAT')
 							played = true
 							break

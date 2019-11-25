@@ -176,7 +176,7 @@ final class Chat
 		$recordIdName = static::COLUMN_NAME['room'][$roomType];
 		Db::getInstance()->createCommand()->insert($table, [
 			'userid' => $userId,
-			'last_message' => null,
+			'last_message' => 0,
 			$recordIdName => $recordId
 		])->execute();
 		$instance->recordId = $recordId;
@@ -1394,14 +1394,7 @@ final class Chat
 			->where(['and', [$privateRoomsIdColumn => $this->recordId], ['userid' => $userId]])
 			->exists();
 		if (!$alreadyInvited) {
-			Db::getInstance()->createCommand()->insert(
-					$privateRoomsTable,
-					[
-						'userid' => $userId,
-						'last_message' => null,
-						$privateRoomsIdColumn => $this->recordId,
-					]
-				)->execute();
+			$this->addToFavoritesQuery($userId);
 		}
 		return $alreadyInvited;
 	}

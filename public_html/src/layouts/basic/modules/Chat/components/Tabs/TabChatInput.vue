@@ -104,10 +104,22 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['config', 'sendByEnter']),
+    ...mapGetters(['config', 'sendByEnter', 'currentRoomData']),
     containerHeight() {
-      if (this.$refs.textContainer !== undefined) return this.$refs.textContainer.clientHeight + 'px'
+      if (this.$refs.textContainer !== undefined)
+        return this.$refs.textContainer.clientHeight + 'px'
     }
+  },
+  watch: {
+    currentRoomData() {
+      this.focusInput()
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      new App.Fields.Text.Completions(this.$refs.input, { emojiPanel: false })
+      this.registerEmojiPanelClickOutside()
+    })
   },
   methods: {
     ...mapActions(['sendMessage']),
@@ -142,12 +154,17 @@ export default {
         this.send(e)
       }
     },
+    focusInput() {
+      this.$refs.input.focus()
+    },
     registerEmojiPanelClickOutside() {
       document.addEventListener('click', e => {
         try {
           if (
             this.emojiPanel &&
-            !e.target.parentNode.className.split(' ').some(c => /emoji-mart.*/.test(c)) &&
+            !e.target.parentNode.className
+              .split(' ')
+              .some(c => /emoji-mart.*/.test(c)) &&
             !e.target.className.split(' ').some(c => /emoji-mart.*/.test(c)) &&
             !e.target.classList.contains('js-emoji-trigger')
           ) {
@@ -156,12 +173,6 @@ export default {
         } catch (error) {}
       })
     }
-  },
-  mounted() {
-    this.$nextTick(() => {
-      new App.Fields.Text.Completions(this.$refs.input, { emojiPanel: false })
-      this.registerEmojiPanelClickOutside()
-    })
   }
 }
 </script>
