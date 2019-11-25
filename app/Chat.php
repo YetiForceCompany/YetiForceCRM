@@ -21,7 +21,7 @@ final class Chat
 	/**
 	 * Information about allowed types of rooms.
 	 */
-	const ALLOWED_ROOM_TYPES = ['crm', 'group', 'global', 'private'];
+	const ALLOWED_ROOM_TYPES = ['crm', 'group', 'global', 'private', 'user'];
 
 	/**
 	 * Information about the tables of the database.
@@ -73,7 +73,8 @@ final class Chat
 			'crm' => 'label',
 			'group' => 'groupname',
 			'global' => 'name',
-			'private' => 'name'
+			'private' => 'name',
+			'user' => 'roomid'
 		]
 	];
 
@@ -968,12 +969,12 @@ final class Chat
 		$roomNameId = 'global' === $roomType || 'private' === $roomType ? static::COLUMN_NAME['room'][$roomType] : $columnMessage;
 		$query = (new Db\Query())
 			->select([
-				'id', 'messages', 'userid', 'GL.created',
+				'id', 'messages', 'GL.userid', 'GL.created',
 				'recordid' => "GL.{$columnMessage}", 'room_name' => "RN.{$columnRoomName}"
 			])
 			->from(['GL' => static::TABLE_NAME['message'][$roomType]])
 			->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$roomNameId} = GL.{$columnMessage}")
-			->where(['userid' => $this->userId])
+			->where(['GL.userid' => $this->userId])
 			->orderBy(['id' => \SORT_DESC])
 			->limit(\App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
 		if (null !== $messageId) {
@@ -1002,6 +1003,9 @@ final class Chat
 			}
 			if ('global' === $roomType) {
 				$row['room_name'] = Language::translate($row['room_name']);
+			}
+			if ('user' === $roomType) {
+				$row['room_name'] = '';
 			}
 			$row['image'] = $userImage;
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
