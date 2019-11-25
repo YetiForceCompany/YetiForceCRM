@@ -3,7 +3,7 @@
 	<!-- tpl-Settings-ConfReport-Index -->
 	{function SHOW_HELP_TEXT ITEM=[] KEY=''}
 		{if empty($ITEM['label'])}{$KEY}{else}{\App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE_NAME)}{/if}
-		{if !$ITEM['status']}
+		{if !$ITEM['status'] || !empty($ITEM['showHelp'])}
 			{assign var="HELP_TEXT" value='LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY))}
 			{assign var="HELP_TEXT_TRANS" value=\App\Language::translateEncodeHtml($HELP_TEXT, $MODULE_NAME)}
 			{if !empty($HELP_TEXT_TRANS) && $HELP_TEXT_TRANS!==$HELP_TEXT }

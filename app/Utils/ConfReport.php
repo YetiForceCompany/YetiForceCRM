@@ -176,6 +176,7 @@ class ConfReport
 		'version_comment' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_COMMENT'],
 		'connectionStatus' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CONNECTION_STATUS'],
 		'serverInfo' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_INFO'],
+		'maximumMemorySize' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false, 'label' => 'DB_MAXIMUM_MEMORY_SIZE', 'showHelp' => true],
 		'innodb_lock_wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
 		'wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
 		'interactive_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
