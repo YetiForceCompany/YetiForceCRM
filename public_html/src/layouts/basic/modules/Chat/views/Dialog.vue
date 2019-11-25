@@ -105,7 +105,6 @@ export default {
       },
       set(isOpen) {
         this.setDialog(isOpen)
-        this.fetchRoom()
       }
     },
     coordinates: {
