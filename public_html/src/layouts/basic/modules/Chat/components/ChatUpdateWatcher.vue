@@ -130,7 +130,6 @@ export default {
     updateRoomsUser(rooms) {
       if (typeof rooms === 'object' && Object.keys(rooms).length) {
 				this.setPinnedRooms({ rooms, roomType: 'user' })
-				this.fetchRoom()
       }
     },
     /**
