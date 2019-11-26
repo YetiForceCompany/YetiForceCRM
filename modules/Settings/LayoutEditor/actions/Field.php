@@ -103,6 +103,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		} catch (Error $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
+		App\Colors::generateFields();
 		$response->emit();
 	}
 

@@ -40,7 +40,7 @@
 				{/if}
 				<div class="col-sm-6">
 					<div class="form-row">
-						<div class="labelColor_{$MODULE}_{$FIELD_MODEL->getFieldName()} fieldLabel border-top border-left col-sm-6  {$WIDTHTYPE}"
+						<div class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} fieldLabel border-top border-left col-sm-6  {$WIDTHTYPE}"
 							 id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 							<label class="muted small font-weight-bold float-sm-left float-md-right float-lg-right">
 								{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}

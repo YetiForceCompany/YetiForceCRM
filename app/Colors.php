@@ -351,24 +351,31 @@ class Colors
 	 *
 	 * @param int    $fieldId
 	 * @param string $color
+	 *
+	 * @return bool
 	 */
-	public static function updateFieldColor($fieldId, $color)
+	public static function updateFieldColor($fieldId, $color): bool
 	{
-		Db::getInstance()->createCommand()->update('vtiger_field', ['color' => $color], ['fieldid' => $fieldId])->execute();
+		$fieldHasColor = (bool) (new \App\Db\Query())->select(['color'])->from('vtiger_field')->where(['fieldid' => $fieldid])->scalar();
+		$updateFieldColorResult = (bool) Db::getInstance()->createCommand()->update('vtiger_field', ['color' => $color], ['fieldid' => $fieldId])->execute();
 		static::generate('field');
+		if ($updateFieldColorResult || !$fieldHasColor) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
 	 * Generate fields colors stylesheet.
 	 */
-	private static function generateFields()
+	public static function generateFields()
 	{
 		$css = '';
-		$query = (new \App\Db\Query())->select(['tabid', 'fieldname', 'color'])->from('vtiger_field');
+		$query = (new \App\Db\Query())->select(['tabid', 'fieldname', 'color'])->from('vtiger_field')->where(['presence' => [0, 2]]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			if (ltrim($row['color'], '#')) {
-				$css .= '.labelColor_' . Module::getModuleName($row['tabid']) . '_' . $row['fieldname'] . '{ color: ' . $row['color'] . '; }' . PHP_EOL;
+				$css .= '.flCT_' . Module::getModuleName($row['tabid']) . '_' . $row['fieldname'] . '{ color: ' . $row['color'] . '; }' . PHP_EOL;
 			}
 		}
 		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/fields.css', $css);

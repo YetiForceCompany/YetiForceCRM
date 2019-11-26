@@ -29,7 +29,7 @@
 							{assign var=FIELD_ID value=$FIELD->getId()}
 							<tr data-id="{$FIELD_ID}" data-color="{$FIELD->get('color')}">
 								<td>{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE_NAME)}</td>
-								<td class="js-color-preview{$FIELD_ID} calendarColor" data-color="{$FIELD->get('color')}" data-field-id="{$FIELD_ID}" style="background: {$FIELD->get('color')};"></td>
+								<td class="js-color-preview" data-js="container" data-color="{$FIELD->get('color')}" data-field-id="{$FIELD_ID}" style="background: {$FIELD->get('color')};"></td>
 								<td>
 									<button data-field-id="{$FIELD_ID}"
 											class="btn btn-sm btn-danger mr-1 float-right js-remove-color" data-js="click"><span

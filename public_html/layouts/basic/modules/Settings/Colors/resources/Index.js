@@ -697,7 +697,7 @@ Settings_Vtiger_Index_Js(
 		generateColor: function(e, self) {
 			const container = self.getContainer();
 			const fieldId = $(e.currentTarget).attr("data-field-id");
-			let colorPreview = container.find(".js-color-preview" + fieldId);
+			let colorPreview = container.find('.js-color-preview[data-field-id="' + fieldId + '"]');
 			let progress = $.progressIndicator({
 				message: app.vtranslate("JS_LOADING_PLEASE_WAIT"),
 				blockInfo: {
@@ -726,7 +726,7 @@ Settings_Vtiger_Index_Js(
 			const fieldId = $(e.currentTarget).attr("data-field-id");
 			let editColorModal = container.find(".editColorContainer");
 			let clonedContainer = editColorModal.clone(true, true);
-			let colorPreview = container.find(".js-color-preview" + fieldId);
+			let colorPreview = container.find('.js-color-preview[data-field-id="' + fieldId + '"]');
 			let callBackFunction = function(data) {
 				data
 					.find(".editColorContainer")
@@ -775,7 +775,7 @@ Settings_Vtiger_Index_Js(
 		removeFieldColor: function(e, self) {
 			const container = self.getContainer();
 			const fieldId = $(e.currentTarget).attr("data-field-id");
-			let colorPreview = container.find(".js-color-preview" + fieldId);
+			let colorPreview = container.find('.js-color-preview[data-field-id="' + fieldId + '"]');
 			let progress = $.progressIndicator({
 				message: app.vtranslate("JS_LOADING_PLEASE_WAIT"),
 				blockInfo: {
