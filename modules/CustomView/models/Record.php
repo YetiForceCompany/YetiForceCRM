@@ -298,7 +298,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getRecordIds($skipRecords = false, $module = false, $lockRecords = false)
 	{
-		$queryGenerator = $this->getRecordsListQuery($skipRecords, $module, $lockRecords);
+		$queryGenerator = $this->getRecordsListQuery($skipRecords, $module, $lockRecords)->setFields(['id']);
 
 		return $queryGenerator->createQuery()->column();
 	}
@@ -325,8 +325,6 @@ class CustomView_Record_Model extends \App\Base
 		} else {
 			$queryGenerator->initForDefaultCustomView();
 		}
-		$queryGenerator->setFields(['id']);
-
 		$searchKey = $this->get('search_key');
 		$searchValue = $this->get('search_value');
 		if (!empty($searchValue) && ($operator = $this->get('operator'))) {

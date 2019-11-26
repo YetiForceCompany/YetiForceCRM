@@ -33,7 +33,7 @@ abstract class Vtiger_Mass_Action extends \App\Controller\Action
 		$selectedIds = $request->getArray('selected_ids', 2);
 		if ($selectedIds && 'all' !== $selectedIds[0]) {
 			$queryGenerator = new App\QueryGenerator($moduleName);
-			$queryGenerator->setFields(['id']);
+			$queryGenerator->initForCustomViewById($cvId);
 			$queryGenerator->addCondition('id', $selectedIds, 'e');
 			$queryGenerator->setStateCondition($request->getByType('entityState'));
 			return $queryGenerator;
