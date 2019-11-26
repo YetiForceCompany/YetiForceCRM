@@ -349,12 +349,12 @@ class Colors
 	/**
 	 * Update field color code and generate stylesheet file.
 	 *
-	 * @param int    $ieldId
+	 * @param int    $fieldId
 	 * @param string $color
 	 */
-	public static function updateFieldColor($ieldId, $color)
+	public static function updateFieldColor($fieldId, $color)
 	{
-		Db::getInstance()->createCommand()->update('vtiger_field', ['color' => $color], ['fieldid' => $ieldId])->execute();
+		Db::getInstance()->createCommand()->update('vtiger_field', ['color' => $color], ['fieldid' => $fieldId])->execute();
 		static::generate('field');
 	}
 
