@@ -24,7 +24,7 @@
     "add": "^2.0.6",
     "animate.css": "^3.7",
     "block-ui": "^2.70.1",
-    "blueimp-file-upload": "^10.0.0",
+    "blueimp-file-upload": "^10.4.0",
     "bootbox": "^5.1.2",
     "bootstrap": "^4.3.1",
     "bootstrap-colorpicker": "^3.1.2",
