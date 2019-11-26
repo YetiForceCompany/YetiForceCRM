@@ -15,24 +15,33 @@ export default {
   data() {
     return {
       timerAmount: false,
-      timerMessage: false,
-      activeRooms: []
+      timerMessage: false
     }
   },
   computed: {
-    ...mapGetters(['data', 'config', 'tab', 'allRooms'])
+    ...mapGetters(['data', 'config', 'tab', 'allRooms']),
+    activeRooms() {
+      return this.allRooms.length ? this.allRooms.filter(el => el.active) : []
+    },
+    inactiveRooms() {
+      return this.allRooms.length ? this.allRooms.filter(el => !el.active) : []
+    }
   },
   /**
    * Init component event listener and timeout
    */
   created() {
-    this.adjustUpdateRequestToChatState()
-    this.activeRooms = this.allRooms.filter(el => el.active)
+    // this.adjustUpdateRequestToChatState()
     this.startTimer()
   },
   methods: {
-    ...mapActions(['notifyAboutNewMessages', 'fetchRoom']),
-    ...mapMutations(['updateChatData', 'setPinnedRooms']),
+    ...mapActions(['notifyAboutNewMessages', 'fetchRoomList']),
+    ...mapMutations([
+      'updateActiveRooms',
+      'updateInactiveRooms',
+      'setPinnedRooms',
+      'mergeData'
+    ]),
     /**
      * Init vuex event for adjusting request for updating chat rooms
      */
@@ -62,11 +71,11 @@ export default {
      * Start timer, when component is created.
      */
     startTimer() {
-      if (this.activeRooms.length) {
-        this.fetchNewMessages({ firstFetch: true })
-      } else {
-        this.fetchAmountOfNewMessages({ firstFetch: true })
-      }
+      //   if (this.activeRooms.length) {
+      this.fetchNewMessages({ firstFetch: true })
+      //   } else {
+      //   this.fetchAmountOfNewMessages({ firstFetch: true })
+      //   }
     },
     /**
      * Init amount timer
@@ -81,24 +90,43 @@ export default {
      * Fetch new messages timeout function
      */
     fetchNewMessages({ firstFetch } = { firstFetch: false }) {
-      let currentActiveRooms = [...this.activeRooms]
       AppConnector.request({
         module: 'Chat',
         action: 'ChatAjax',
         mode: 'getRoomsMessages',
         rooms: this.activeRooms
       }).done(({ result }) => {
-        this.addLackingRooms(result.roomList)
+        // this.addLackingRooms(result.roomList)
+        const areNewRooms = () => {
+          for (let roomType in result.roomList) {
+            if (
+              Object.keys(result.roomList[roomType]).some(
+                room => !this.data.roomList[roomType][room]
+              )
+            ) {
+              return true
+            }
+          }
+          return false
+        }
+        if (result.areNewEntries) {
+          this.updateActiveRooms({
+            roomsToUpdate: [...this.activeRooms],
+            newData: result
+          })
+        }
+        if (areNewRooms()) {
+          console.log('newRooms')
+          this.updateInactiveRooms({
+            roomsToUpdate: [...this.inactiveRooms],
+            newData: result
+          })
+        }
+        // console.log(result)
         this.notifyAboutNewMessages({
           ...result.amountOfNewMessages,
           firstFetch
         })
-        if (result.areNewEntries) {
-          this.updateChatData({
-            roomsToUpdate: currentActiveRooms,
-            newData: result
-          })
-        }
         if (this.timerMessage || firstFetch) {
           this.initMessageTimer()
         }

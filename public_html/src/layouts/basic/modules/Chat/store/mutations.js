@@ -1,5 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import unionby from 'lodash.unionby'
+import stateMerge from 'vue-object-merge'
+
 import { mergeDeepReactive } from '../utils/utils.js'
 
 export default {
@@ -54,15 +56,11 @@ export default {
 		state.data = data
 	},
 	setPinnedRooms(state, { rooms, roomType }) {
-		if (state.data.currentRoom.roomType === roomType && rooms[state.data.currentRoom.recordId]) {
-			rooms[state.data.currentRoom.recordId].chatEntries =
-				state.data.roomList[roomType][state.data.currentRoom.recordId].chatEntries
-		}
-		state.data.roomList[roomType] = rooms
+		Vue.set(state.data.roomList, roomType, rooms)
 	},
 	mergeData(state, data) {
 		state.data = mergeDeepReactive(state.data, data)
-	},
+	}, // stateMerge(state.data, data, null, true)
 
 	setHistoryData(state, data) {
 		state.data.history = mergeDeepReactive(state.data.history, data)
@@ -72,7 +70,7 @@ export default {
 		state.data.roomList[roomType][recordId].showMoreButton = result.showMoreButton
 		state.data.roomList[roomType][recordId].participants = result.participants
 	},
-	updateChatData(state, { roomsToUpdate, newData }) {
+	updateActiveRooms(state, { roomsToUpdate, newData }) {
 		state.data.amountOfNewMessages = newData.amountOfNewMessages.amount
 		roomsToUpdate.forEach(room => {
 			state.data.roomList[room.roomType][room.recordid].showMoreButton =
@@ -84,6 +82,14 @@ export default {
 				newData.roomList[room.roomType][room.recordid].chatEntries,
 				'id'
 			)
+		})
+	},
+	updateInactiveRooms(state, { roomsToUpdate, newData }) {
+		roomsToUpdate.forEach(room => {
+			console.log(room.roomType, room.recordid)
+
+			Vue.set(state.data.roomList[room.roomType], room.recordid, newData.roomList[room.roomType][room.recordid])
+			console.log(room)
 		})
 	},
 	updateRooms(state, data) {
