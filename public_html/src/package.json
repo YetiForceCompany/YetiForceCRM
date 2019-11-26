@@ -55,7 +55,7 @@
     "node-sass": "^4.13.0",
     "postcss": "^7.0.21",
     "prettier": "^1.19.1",
-    "rollup": "^1.26.3",
+    "rollup": "^1.27.5",
     "rollup-plugin-alias": "^2.0.1",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-babel-minify": "^9.1.0",
