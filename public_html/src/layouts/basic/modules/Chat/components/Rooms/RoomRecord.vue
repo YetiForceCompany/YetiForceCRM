@@ -101,7 +101,7 @@ export default {
     updateRoomListSelect(val) {
       this.$refs.roomList.toggleRoomSelect()
     },
-    ...mapActions(['fetchRoom']),
+    ...mapActions(['fetchRoomList']),
     showRecordsModal(val) {
       app.showRecordsList(
         { module: val, src_module: val },
@@ -114,7 +114,7 @@ export default {
               roomType: 'crm',
               recordId: responseData.id
             }).done(({ result }) => {
-              this.fetchRoom()
+              this.fetchRoomList()
             })
           })
         }

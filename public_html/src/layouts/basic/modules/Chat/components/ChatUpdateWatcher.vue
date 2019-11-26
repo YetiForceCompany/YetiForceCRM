@@ -47,7 +47,8 @@ export default {
           }
         } else if (
           mutation.type === 'Chat/unsetActiveRoom' &&
-          !this.allRooms.filter(el => el.active).length
+          !this.allRooms.filter(el => el.active).length &&
+          this.tab !== 'chat'
         ) {
           if (!this.timerAmount) {
             clearInterval(this.timerMessage)
@@ -119,10 +120,7 @@ export default {
           this.data.currentRoom.roomType === roomType &&
           !rooms[this.data.currentRoom.recordId]
         ) {
-          this.fetchRoom({
-            id: this.config.defaultRoom.recordId,
-            roomType: this.config.defaultRoom.roomType
-          }).then(_ => {
+          this.fetchRoomList().then(_ => {
             this.setPinnedRooms({ rooms, roomType })
           })
         } else {

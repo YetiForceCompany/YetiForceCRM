@@ -60,6 +60,20 @@ export default {
 			})
 		})
 	},
+	fetchRoomList({ commit, dispatch }, { id, roomType } = {}) {
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'getRooms'
+			}).done(({ result }) => {
+				if (result) {
+					commit('mergeData', result)
+				}
+				resolve(result)
+			})
+		})
+	},
 	fetchRoomsUnpinned({ commit, dispatch }, { roomType }) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
@@ -81,7 +95,7 @@ export default {
 				recordId: room.recordid
 			}).done(({ result }) => {
 				commit('hideRoom', { roomType: 'private', roomId: room.recordid })
-				dispatch('fetchRoom').then(e => {
+				dispatch('fetchRoomList').then(e => {
 					resolve(result)
 				})
 			})
@@ -194,7 +208,7 @@ export default {
 			recordId
 		}).done(({ success, result }) => {
 			if (success) {
-				dispatch('fetchRoom')
+				dispatch('fetchRoomList')
 			}
 		})
 	},
