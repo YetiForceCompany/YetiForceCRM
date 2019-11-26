@@ -657,7 +657,7 @@ Settings_Vtiger_Index_Js(
 					self.registerModuleChangeEvent();
 					self.initEvants();
 					self.registerModulePickListChangeEvent();
-					jQuery("#modulePickList").trigger("change"); /// to psrawdzic
+					jQuery("#modulePickList").trigger("change");
 				});
 			});
 		},
