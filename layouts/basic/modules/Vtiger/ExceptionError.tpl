@@ -86,10 +86,19 @@
 				</div>
 			{/if}
 		{/if}
+		<div class="js-backtrace-content" data-js="html"></div>
 	</div>
-	<script type="text/javascript"  {if \App\Session::get('CSP_TOKEN')}nonce="{\App\Session::get('CSP_TOKEN')}"{/if}>
+	<script type="text/javascript" {if \App\Session::get('CSP_TOKEN')}nonce="{\App\Session::get('CSP_TOKEN')}"{/if}>
 		function errorLog() {
 			console.error(document.querySelector('.js-exception-error').textContent);
+			let html = '';
+			if(document.querySelector('.js-exception-backtrace')){
+				html += document.querySelector('.js-exception-backtrace').textContent;
+			}
+			if(document.querySelector('.js-exception-logs')){
+				html += document.querySelector('.js-exception-logs').textContent;
+			}
+			document.querySelector('.js-backtrace-content').textContent = html;
 		}
 		if (document.readyState === 'loading') {
 			document.addEventListener('DOMContentLoaded', errorLog);

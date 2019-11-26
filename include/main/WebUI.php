@@ -198,11 +198,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			\vtlib\Functions::throwNewException($e, false, $messageHeader);
 			if (!$request->isAjax()) {
 				if (App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
-					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->__toString())) . '</pre>';
+					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow js-exception-backtrace">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->__toString())) . '</pre>';
 					$response = false;
 				}
 				if (App\Config::debug('DISPLAY_EXCEPTION_LOGS')) {
-					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs())) . '</pre>';
+					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow js-exception-logs">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs())) . '</pre>';
 					$response = false;
 				}
 			}
