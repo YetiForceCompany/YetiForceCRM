@@ -171,8 +171,8 @@ jQuery.Class(
 			return $('#sortOrder', this.content).val();
 		},
 		getCompleteParams: function() {
-			var container = this.getRelatedContainer();
-			var params = {
+			let container = this.getRelatedContainer();
+			let params = {
 				view: 'Detail',
 				module: this.parentModuleName,
 				record: this.getParentId(),
@@ -182,6 +182,7 @@ jQuery.Class(
 				page: this.getCurrentPageNum(),
 				relatedView: this.relatedView,
 				mode: 'showRelatedList',
+				relationId: container.find('#relationId').val(),
 				tab_label: container.find('#tab_label').val()
 			};
 			if (container.find('.pagination').length) {

@@ -972,7 +972,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleModel = $recordModel->getModule();
 
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
-		$viewer->assign('RELATIONS', \Vtiger_Relation_Model::getAllRelations($moduleModel, false));
+		$viewer->assign('RELATIONS', \Vtiger_Relation_Model::getAllRelations($moduleModel, false, true, true, 'modulename'));
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 

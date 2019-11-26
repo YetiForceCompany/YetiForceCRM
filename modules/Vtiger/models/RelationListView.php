@@ -126,30 +126,28 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 *
 	 * @param Vtiger_Record_Model $parentRecordModel
 	 * @param string              $relationModuleName
-	 * @param bool|string         $label
+	 * @param bool|int            $relationId
 	 *
 	 * @return self
 	 */
-	public static function getInstance(Vtiger_Record_Model $parentRecordModel, string $relationModuleName, $label = false)
+	public static function getInstance(Vtiger_Record_Model $parentRecordModel, string $relationModuleName, $relationId = false)
 	{
-		$parentModuleName = $parentRecordModel->getModule()->get('name');
-		$className = Vtiger_Loader::getComponentClassName('Model', 'RelationListView', $parentModuleName);
-		$instance = new $className();
-
 		$parentModuleModel = $parentRecordModel->getModule();
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relationModuleName);
-		$instance->setRelatedModuleModel($relatedModuleModel);
-
-		$relationModelInstance = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModuleModel, $label);
-		$instance->setParentRecordModel($parentRecordModel);
+		$className = Vtiger_Loader::getComponentClassName('Model', 'RelationListView', $parentModuleModel->getName());
+		$instance = new $className();
+		if ($relationId) {
+			$relationModelInstance = Vtiger_Relation_Model::getInstanceById($parentModuleModel, $relationId);
+		} else {
+			$relationModelInstance = Vtiger_Relation_Model::getInstance($parentModuleModel, $relationModuleName, $relationId);
+		}
 		if (!$relationModelInstance) {
 			return false;
 		}
-		$queryGenerator = new \App\QueryGenerator($relatedModuleModel->getName());
-		$relationModelInstance->set('query_generator', $queryGenerator);
+		$instance->setParentRecordModel($parentRecordModel);
+		$instance->setRelatedModuleModel($relationModelInstance->getRelationModuleModel());
+		$relationModelInstance->set('query_generator', new \App\QueryGenerator($relationModelInstance->getRelationModuleModel()->getName()));
 		$relationModelInstance->set('parentRecord', $parentRecordModel);
 		$instance->setRelationModel($relationModelInstance);
-
 		return $instance;
 	}
 

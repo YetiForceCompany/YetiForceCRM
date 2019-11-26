@@ -90,13 +90,11 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 			$sourceModule = Vtiger_Module_Model::getInstance($moduleName)->getName();
 		}
 		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($sourceModule);
-		$relatedModuleModels = $moduleModel->getRelations();
-
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', $supportedModulesList);
-		$viewer->assign('RELATED_MODULES', $relatedModuleModels);
+		$viewer->assign('RELATED_MODULES', $moduleModel->getRelations());
 		$viewer->assign('MODULE', $qualifiedModule);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);

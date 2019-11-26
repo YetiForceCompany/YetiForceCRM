@@ -47,7 +47,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		if (!$request->isEmpty('related_module', true) && !$userPrivilegesModel->hasModulePermission($request->getByType('related_module', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 		}
-		if (!$request->isEmpty('relatedModule', true) && !is_array($relatedModule = $request->getByType('relatedModule', 2)) && 'ProductsAndServices' !== $relatedModule) {
+		if (!$request->isEmpty('relatedModule', true) && !\is_array($relatedModule = $request->getByType('relatedModule', 2)) && 'ProductsAndServices' !== $relatedModule) {
 			if ('ModTracker' === $relatedModule) {
 				if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'ModTracker')) {
 					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
@@ -78,7 +78,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			return $queryGenerator;
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $request->getByType('relatedModule', 'Alnum'), $request->getByType('tab_label', 'Text'));
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $request->getByType('relatedModule', 'Alnum'), $request->getInteger('relationId'));
 		if ($request->has('entityState')) {
 			$relationListView->set('entityState', $request->getByType('entityState'));
 		}
@@ -93,14 +93,14 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$relationListView->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $relationListView->getQueryGenerator()->getModule(), $searchKey, $operator));
 		}
 		$searchParmams = App\Condition::validSearchParams($request->getByType('relatedModule', 'Alnum'), $request->getArray('search_params'));
-		if (empty($searchParmams) || !is_array($searchParmams)) {
+		if (empty($searchParmams) || !\is_array($searchParmams)) {
 			$searchParmams = [];
 		}
 		$relationListView->set('search_params', $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParmams));
 		$queryGenerator = $relationListView->getRelationQuery(true);
 		$queryGenerator->setFields(['id']);
 		$excludedIds = $request->getArray('excluded_ids', 'Integer');
-		if ($excludedIds && is_array($excludedIds)) {
+		if ($excludedIds && \is_array($excludedIds)) {
 			$queryGenerator->addCondition('id', $excludedIds, 'n');
 		}
 		return $queryGenerator;
@@ -371,7 +371,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $parentId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$label = $request->getByType('tab_label', 'Text');
+		$relationId = $request->getInteger('relationId');
 		$totalCount = 0;
 		$pageCount = 0;
 		if ('ModComments' === $firstRelatedModuleName) {
@@ -380,9 +380,9 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$count = (int) ($unreviewed = current(ModTracker_Record_Model::getUnreviewed($parentId, false, true))) ? array_sum($unreviewed) : '';
 			$totalCount = $count ? $count : '';
 		} else {
-			$relModules = !empty($relatedModuleName) && is_array($relatedModuleName) ? $relatedModuleName : [];
+			$relModules = !empty($relatedModuleName) && \is_array($relatedModuleName) ? $relatedModuleName : [];
 			if ('ProductsAndServices' === $firstRelatedModuleName) {
-				$label = '';
+				$relationId = false;
 				$relModules = ['Products', 'OutsourcedProducts', 'Assets', 'Services', 'OSSOutsourcedServices', 'OSSSoldServices'];
 			}
 			$categoryCount = ['Products', 'OutsourcedProducts', 'Services', 'OSSOutsourcedServices'];
@@ -393,11 +393,11 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				if (!$currentUserPriviligesModel->hasModulePermission($relModule)) {
 					continue;
 				}
-				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relModule, $label);
+				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relModule, $relationId);
 				if (!$relationListView) {
 					continue;
 				}
-				if ('ProductsAndServices' === $relatedModuleName && in_array($relModule, $categoryCount)) {
+				if ('ProductsAndServices' === $relatedModuleName && \in_array($relModule, $categoryCount)) {
 					$totalCount += (int) $relationListView->getRelatedTreeEntriesCount();
 				}
 				if ('Calendar' === $relatedModuleName && \App\Config::module($relatedModuleName, 'SHOW_ONLY_CURRENT_RECORDS_COUNT')) {
@@ -474,7 +474,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	{
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$records = $this->getRecordsListFromRequest($request);
-		if (1 === count($records)) {
+		if (1 === \count($records)) {
 			$documentRecordModel = Vtiger_Record_Model::getInstanceById($records[0], $relatedModuleName);
 			$documentRecordModel->downloadFile();
 			$documentRecordModel->updateDownloadCount();

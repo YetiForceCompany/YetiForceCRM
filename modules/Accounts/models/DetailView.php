@@ -68,13 +68,8 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			'related' => 'Details',
 		];
 		if (App\Config::module($moduleName, 'SHOW_SUMMARY_PRODUCTS_SERVICES')) {
-			$relations = \Vtiger_Relation_Model::getAllRelations($parentModuleModel, false);
-			if (isset($relations[\App\Module::getModuleId('OutsourcedProducts')]) ||
-				isset($relations[\App\Module::getModuleId('Products')]) ||
-				isset($relations[\App\Module::getModuleId('Services')]) ||
-				isset($relations[\App\Module::getModuleId('OSSOutsourcedServices')]) ||
-				isset($relations[\App\Module::getModuleId('Assets')]) ||
-				isset($relations[\App\Module::getModuleId('OSSSoldServices')])) {
+			$relations = \Vtiger_Relation_Model::getAllRelations($parentModuleModel, false, true, true, 'modulename');
+			if (isset($relations['Products']) || isset($relations['Services']) || isset($relations['OSSOutsourcedServices']) || isset($relations['Assets']) || isset($relations['OSSSoldServices']) || isset($relations['OutsourcedProducts'])) {
 				$relatedLinks[] = [
 					'linktype' => 'DETAILVIEWTAB',
 					'linklabel' => 'LBL_RECORD_SUMMARY_PRODUCTS_SERVICES',
@@ -141,6 +136,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 					'linkurl' => $relation->getListUrl($recordModel),
 					'linkicon' => '',
 					'relatedModuleName' => $relation->get('relatedModuleName'),
+					'relationId' => $relation->getId(),
 				];
 			}
 		}

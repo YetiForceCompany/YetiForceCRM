@@ -69,7 +69,7 @@ Vtiger_List_Js(
 				var parent = app.getParentModuleName();
 				var relatedModuleName = jQuery('[name="relatedModuleName"]').val();
 				var recordId = app.getRecordId();
-				var tab_label = detailInstance.getSelectedTab().data('labelKey');
+				let selectedTab = detailInstance.getSelectedTab();
 				AppConnector.request({
 					module: module,
 					parent: parent,
@@ -78,7 +78,8 @@ Vtiger_List_Js(
 					mode: 'getRecordsCount',
 					relatedModule: relatedModuleName,
 					record: recordId,
-					tab_label: tab_label
+					tab_label: selectedTab.data('labelKey'),
+					relationId: selectedTab.data('relationId')
 				}).done(function(data) {
 					jQuery('#recordsCount').val(data['result']['count']);
 					count = data['result']['count'];

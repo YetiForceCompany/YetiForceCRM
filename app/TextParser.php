@@ -712,14 +712,19 @@ class TextParser
 	/**
 	 * Parsing related records list.
 	 *
-	 * @param string $params Parameter construction: RelatedModuleName|Columns|Conditions|CustomViewIdOrName|Limit, Example: Contacts|firstname,lastname,modifiedtime|[[["firstname","a","Tom"]]]||2
+	 * @param string $params Parameter construction: RelatedModuleNameOrRelationId|Columns|Conditions|CustomViewIdOrName|Limit, Example: Contacts|firstname,lastname,modifiedtime|[[["firstname","a","Tom"]]]||2
 	 *
 	 * @return string
 	 */
 	protected function relatedRecordsList($params)
 	{
 		[$reletedModuleName, $columns, $conditions, $viewIdOrName, $limit, $maxLength] = array_pad(explode('|', $params), 6, '');
-		$relationListView = \Vtiger_RelationListView_Model::getInstance($this->recordModel, $reletedModuleName, '');
+		if (is_numeric($reletedModuleName)) {
+			$relationListView = \Vtiger_RelationListView_Model::getInstance($this->recordModel, '', $reletedModuleName);
+			$reletedModuleName = $relationListView->getRelatedModuleModel()->getName();
+		} else {
+			$relationListView = \Vtiger_RelationListView_Model::getInstance($this->recordModel, $reletedModuleName);
+		}
 		if (!$relationListView || !Privilege::isPermitted($reletedModuleName)) {
 			return '';
 		}
@@ -1257,10 +1262,13 @@ class TextParser
 	{
 		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
 		$variables = [];
-		$relationModels = $moduleModel->getRelations();
-		foreach ($relationModels as $relation) {
+		foreach ($moduleModel->getRelations() as $relation) {
+			$var = $relation->get('relatedModuleName');
+			if ($relation->get('field_name')) {
+				$var = $relation->get('relation_id');
+			}
 			$variables[] = [
-				'key' => '$(relatedRecordsList : ' . $relation->get('relatedModuleName') . ')$',
+				'key' => "$(relatedRecordsList : $var)$",
 				'label' => Language::translate($relation->get('label'), $relation->get('relatedModuleName')),
 			];
 		}

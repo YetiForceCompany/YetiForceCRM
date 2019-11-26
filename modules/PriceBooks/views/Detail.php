@@ -23,7 +23,6 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$parentId = $request->getInteger('record');
-		$label = $request->getByType('tab_label', 'Text');
 		if ($request->isEmpty('relatedView', true)) {
 			$relatedView = empty($_SESSION['relatedView'][$moduleName][$relatedModuleName]) ? 'List' : $_SESSION['relatedView'][$moduleName][$relatedModuleName];
 		} else {
@@ -38,7 +37,7 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 			$pagingModel->set('limit', $request->getInteger('limit'));
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'));
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
 		if ('ASC' === $sortOrder) {
@@ -49,7 +48,7 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 			$sortImage = 'fas fa-chevron-up';
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
-			$relatedInstance = CRMEntity::getInstance($relatedModuleName);
+			$relatedInstance = $relationListView->getRelatedModuleModel()->getEntityInstance();
 			$orderBy = $relatedInstance->default_order_by;
 			$sortOrder = $relatedInstance->default_sort_order;
 		}

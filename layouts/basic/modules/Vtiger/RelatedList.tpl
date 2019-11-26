@@ -26,6 +26,7 @@
 		<input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids="">
 		<input type="hidden" id="recordsCount" value=""/>
 		<input type="hidden" id="tab_label" value="{\App\Purifier::encodeHtml($VIEW_MODEL->getRelationModel()->get('label'))}"/>
+		<input type="hidden" id="relationId" value="{$VIEW_MODEL->getRelationModel()->getId()}"/>
 		<div class="relatedHeader my-1">
 			<div class="d-inline-flex flex-wrap w-100 justify-content-between">
 				<div class="u-w-sm-down-100 d-flex flex-wrap flex-sm-nowrap mb-1 mb-md-0">

@@ -360,6 +360,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linkurl' => $relation->getListUrl($recordModel),
 					'linkicon' => '',
 					'relatedModuleName' => $relation->get('relatedModuleName'),
+					'relationId' => $relation->getId(),
 				];
 			}
 		}
@@ -382,6 +383,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linkurl' => $relation->getListUrl($recordModel),
 					'linkicon' => '',
 					'relatedModuleName' => $relation->get('relatedModuleName'),
+					'relationId' => $relation->getId(),
 				]);
 			}
 		}

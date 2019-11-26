@@ -2197,6 +2197,7 @@ jQuery.Class(
 						record: app.getRecordId(),
 						relatedModule: item.data('reference'),
 						mode: 'getRelatedListPageCount',
+						relationId: item.data('relationId'),
 						tab_label: item.data('label-key')
 					}).done(response => {
 						if (response.success) {

@@ -245,21 +245,22 @@ const MailIntegration_Iframe = {
 	 */
 	registerImportClick() {
 		this.container.on('click', '.js-import-mail', e => {
-			this.showIframeLoader();
+			//this.showIframeLoader();
 			this.getMailDetails().then(mails => {
 				this.connector(
 					Object.assign(
 						{
 							module: 'MailIntegration',
-							action: 'Import'
+							action: 'Import',
+							ewsUrl: Office.context.mailbox.ewsUrl
 						},
 						mails,
 						window.PanelParams
 					)
 				).done(response => {
-					this.hideIframeLoader();
-					this.showResponseMessage(response['success'], app.vtranslate('JS_IMPORT'));
-					this.reloadView(response['success']);
+					//this.hideIframeLoader();
+					//this.showResponseMessage(response['success'], app.vtranslate('JS_IMPORT'));
+					//this.reloadView(response['success']);
 				});
 			});
 		});
@@ -271,20 +272,24 @@ const MailIntegration_Iframe = {
 	 */
 	getMailDetails() {
 		let mailItem = this.mailItem;
+		let attachments = [];
 		if (mailItem.attachments.length > 0) {
-			let outputString = '';
 			for (let i = 0; i < mailItem.attachments.length; i++) {
 				let attachment = mailItem.attachments[i];
-				outputString += '<BR>' + i + '. Name: ';
-				outputString += attachment.name;
-				outputString += '<BR>ID: ' + attachment.id;
-				outputString += '<BR>contentType: ' + attachment.contentType;
-				outputString += '<BR>size: ' + attachment.size;
-				outputString += '<BR>attachmentType: ' + attachment.attachmentType;
-				outputString += '<BR>isInline: ' + attachment.isInline;
+				attachments.push({
+					id: attachment.id,
+					attachmentType: attachment.attachmentType,
+					contentType: attachment.contentType,
+					isInline: attachment.isInline,
+					name: attachment.name,
+					size: attachment.size
+				});
+				console.log(attachment);
 			}
 		}
+
 		const mailDetails = {
+			mailId: mailItem.itemId,
 			mailFrom: this.parseEmailAddressDetails(mailItem.from),
 			mailSender: mailItem.sender.emailAddress,
 			mailTo: this.parseEmailAddressDetails(mailItem.to),
@@ -292,8 +297,19 @@ const MailIntegration_Iframe = {
 			mailMessageId: mailItem.internetMessageId,
 			mailSubject: mailItem.subject,
 			mailNormalizedSubject: mailItem.normalizedSubject,
-			mailDateTimeCreated: mailItem.dateTimeCreated.toISOString()
+			mailDateTimeCreated: mailItem.dateTimeCreated.toISOString(),
+			mailAttachments: attachments
 		};
+		Office.context.auth.getAccessTokenAsync(function(result) {
+			console.log(result);
+		});
+		console.log(Office.context.mailbox);
+		console.log(Office.context.mailbox.item.itemId);
+		console.log(Office.MailboxEnums.RestVersion.v2_0);
+		console.log(
+			Office.context.mailbox.convertToRestId(Office.context.mailbox.item.itemId, Office.MailboxEnums.RestVersion.v2_0)
+		);
+
 		const mailBodyCallback = body => {
 			mailDetails.mailBody = body;
 			return mailDetails;

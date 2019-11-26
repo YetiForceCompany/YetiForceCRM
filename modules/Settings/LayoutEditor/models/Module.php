@@ -605,7 +605,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getRelations()
 	{
 		if (null === $this->relations) {
-			$this->relations = Vtiger_Relation_Model::getAllRelations($this, false);
+			$this->relations = Vtiger_Relation_Model::getAllRelations($this, false, true, true, 'related_tabid');
 		}
 		// Contacts relation-tab is turned into custom block on DetailView.
 		if ('Calendar' === $this->getName()) {
