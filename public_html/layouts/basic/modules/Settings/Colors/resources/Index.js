@@ -611,13 +611,7 @@ Settings_Vtiger_Index_Js(
 						const activeTabPanel = container.find(activeTabPanelHref + " .js-color-contents");
 						activeTabPanel.html(data);
 						progressIndicatorElement.progressIndicator({ mode: "hide" });
-						switch (mode) {
-							case "getPickListView":
-								activeTabPanel.find(".modulePickList").trigger("change");
-								break;
-							case "getFieldsColorView":
-								break;
-						}
+						activeTabPanel.find(".modulePickList").trigger("change");
 						self.registerModuleChangeEvent();
 						App.Fields.Picklist.changeSelectElementView(container);
 					});
