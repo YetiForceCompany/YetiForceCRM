@@ -1818,6 +1818,7 @@
     "JS_CHAT_ROOM_ARCHIVE_MESSAGE": "Messages from archived rooms are visible only in the user chat history. Are you sure you want to archive \"${roomToArchive}\" chat room?",
     "JS_CHAT_ROOM_ARCHIVE": "Archive room",
     "JS_CHAT_ROOM_ADD_CURRENT": "Add current record to chat record rooms",
+    "JS_CHAT_ROOM_NO_SELECTED": "Select chat room from the room list.",
     "JS_ADD": "Add",
     "JS_ARCHIVE": "Archive",
     "JS_EMOJI_NOTFOUND": "No Emoji Found",

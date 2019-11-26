@@ -1,95 +1,108 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <div
-    class="flex column justify-between"
-    style="min-height: inherit;"
-  >
-    <div class="flex no-wrap items-center q-px-sm">
-      <q-btn
-        dense
-        flat
-        round
-        :color="leftPanel ? 'info' : 'grey'"
-        @click="toggleLeftPanel()"
+  <div style="min-height: inherit;">
+    <div
+      v-if="isRoom"
+      :key="isRoom"
+      class="flex column justify-between"
+      style="min-height: inherit;"
+    >
+      <div class="flex no-wrap items-center q-px-sm">
+        <q-btn
+          dense
+          flat
+          round
+          :color="leftPanel ? 'info' : 'grey'"
+          @click="toggleLeftPanel()"
+        >
+          <YfIcon icon="yfi-menu-group-room" />
+          <q-tooltip>{{ translate('JS_CHAT_ROOMS_MENU') }}</q-tooltip>
+        </q-btn>
+        <q-input
+          v-model="inputSearch"
+          class="full-width q-px-sm"
+          dense
+          :loading="searching"
+          :placeholder="translate('JS_CHAT_SEARCH_MESSAGES')"
+          @keydown.enter="search()"
+        >
+          <template #prepend>
+            <q-icon
+              @click="search()"
+              class="cursor-pointer"
+              name="mdi-magnify"
+            />
+          </template>
+          <template #append>
+            <q-icon
+              v-show="inputSearch.length > 0"
+              class="cursor-pointer"
+              name="mdi-close"
+              @click="inputSearch = ''"
+            />
+            <q-btn
+              v-show="isSearchActive"
+              :label="translate('JS_LBL_CANCEL')"
+              color="danger"
+              flat
+              dense
+              @click="clearSearch()"
+            />
+          </template>
+        </q-input>
+        <q-btn
+          :color="rightPanel ? 'info' : 'grey'"
+          dense
+          flat
+          round
+          @click="toggleRightPanel()"
+        >
+          <YfIcon icon="yfi-menu-entrant" />
+          <q-tooltip>{{ translate('JS_CHAT_PARTICIPANTS_MENU') }}</q-tooltip>
+        </q-btn>
+      </div>
+      <div
+        class="flex-grow-1"
+        style="min-height: 100%; height: 0; overflow: hidden"
       >
-        <YfIcon icon="yfi-menu-group-room" />
-        <q-tooltip>{{ translate('JS_CHAT_ROOMS_MENU') }}</q-tooltip>
-      </q-btn>
-      <q-input
-        v-model="inputSearch"
-        class="full-width q-px-sm"
-        dense
-        :loading="searching"
-        :placeholder="translate('JS_CHAT_SEARCH_MESSAGES')"
-        @keydown.enter="search()"
-      >
-        <template #prepend>
-          <q-icon
-            @click="search()"
-            class="cursor-pointer"
-            name="mdi-magnify"
+        <q-scroll-area
+          ref="scrollContainer"
+          :class="[scrollbarHidden ? 'scrollbarHidden' : '']"
+        >
+          <TabMessages
+            ref="messagesContainer"
+            :roomData="isSearchActive ? roomData.searchData : roomData"
+            :fetchingEarlier="fetchingEarlier"
+            @earlierClick="earlierClick()"
           />
-        </template>
-        <template #append>
-          <q-icon
-            v-show="inputSearch.length > 0"
-            class="cursor-pointer"
-            name="mdi-close"
-            @click="inputSearch = ''"
-          />
-          <q-btn
-            v-show="isSearchActive"
-            :label="translate('JS_LBL_CANCEL')"
-            color="danger"
-            flat
-            dense
-            @click="clearSearch()"
-          />
-        </template>
-      </q-input>
-      <q-btn
-        :color="rightPanel ? 'info' : 'grey'"
-        dense
-        flat
-        round
-        @click="toggleRightPanel()"
-      >
-        <YfIcon icon="yfi-menu-entrant" />
-        <q-tooltip>{{ translate('JS_CHAT_PARTICIPANTS_MENU') }}</q-tooltip>
-      </q-btn>
+        </q-scroll-area>
+        <q-resize-observer @resize="onResize" />
+      </div>
+      <TabChatInput
+        :roomData="roomData"
+        @onSended="scrollDown()"
+      />
     </div>
     <div
-      class="flex-grow-1"
-      style="min-height: 100%; height: 0; overflow: hidden"
+      v-else
+      :key="isRoom"
     >
-      <q-scroll-area
-        ref="scrollContainer"
-        :class="[scrollbarHidden ? 'scrollbarHidden' : '']"
-      >
-        <TabMessages
-          ref="messagesContainer"
-          :roomData="isSearchActive ? roomData.searchData : roomData"
-          :fetchingEarlier="fetchingEarlier"
-          @earlierClick="earlierClick()"
-        />
-      </q-scroll-area>
-      <q-resize-observer @resize="onResize" />
+      <slot name="noRoom">
+				<TabChatNoRoom />
+			</slot>
     </div>
-    <TabChatInput
-      :roomData="roomData"
-      @onSended="scrollDown()"
-    />
   </div>
 </template>
 <script>
 import TabChatInput from './TabChatInput.vue'
 import TabMessages from './TabMessages.vue'
+import TabChatNoRoom from './TabChatNoRoom.vue'
+
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
-
 export default {
   name: 'TabChat',
-  components: { TabChatInput, TabMessages },
+  components: { TabChatInput, TabMessages, TabChatNoRoom },
   props: {
     roomData: {
       type: Object,
@@ -124,11 +137,15 @@ export default {
     ]),
     roomMessages() {
       return this.roomData.chatEntries
+    },
+    isRoom() {
+      return Object.keys(this.currentRoomData).length
     }
   },
   watch: {
     roomData() {
       if (
+        this.isRoom &&
         (this.roomData.recordid !== this.roomId ||
           this.roomData.roomType !== this.roomType) &&
         this.dataReady
@@ -139,7 +156,7 @@ export default {
       }
     },
     roomMessages() {
-      if (!this.fetchingEarlier) {
+      if (!this.fetchingEarlier && this.isRoom) {
         this.$nextTick(function() {
           this.scrollDown()
         })
@@ -246,8 +263,12 @@ export default {
         this.fetchRoom({
           id: this.roomData.recordid,
           roomType: this.roomData.roomType
-        }).then(e => {
-          this.registerPostLoadEvents()
+        }).then(result => {
+          if (result) {
+            this.registerPostLoadEvents()
+          } else {
+            this.$emit('onContentLoaded', true)
+          }
         })
       } else {
         this.registerPostLoadEvents()
