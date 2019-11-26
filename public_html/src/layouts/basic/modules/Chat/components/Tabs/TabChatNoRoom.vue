@@ -23,8 +23,8 @@
         <q-tooltip>{{ translate('JS_CHAT_PARTICIPANTS_MENU') }}</q-tooltip>
       </q-btn>
     </div>
-    <div class="flex  flex-center">
-      <h3>{{ translate('JS_CHAT_ROOM_NO_SELECTED') }}</h3>
+    <div class="flex flex-center text-muted">
+      <h5>{{ translate('JS_CHAT_ROOM_NO_SELECTED') }}</h5>
     </div>
   </div>
 </template>

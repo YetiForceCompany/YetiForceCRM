@@ -119,7 +119,7 @@ final class Chat
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public static function setCurrentRoom($roomType, $recordId)
+	public static function setCurrentRoom(?string $roomType, ?int $recordId)
 	{
 		$_SESSION['chat'] = [
 			'roomType' => $roomType, 'recordId' => $recordId
