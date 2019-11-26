@@ -88,8 +88,8 @@
       :key="isRoom"
     >
       <slot name="noRoom">
-				<TabChatNoRoom />
-			</slot>
+        <TabChatNoRoom />
+      </slot>
     </div>
   </div>
 </template>
