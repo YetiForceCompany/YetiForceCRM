@@ -1,6 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template></template>
 <script>
+import difference from 'lodash.difference'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 /**
@@ -46,7 +47,8 @@ export default {
           }
         } else if (
           mutation.type === 'Chat/unsetActiveRoom' &&
-          !this.allRooms.filter(el => el.active).length
+          !this.allRooms.filter(el => el.active).length &&
+          this.tab !== 'chat'
         ) {
           if (!this.timerAmount) {
             clearInterval(this.timerMessage)
@@ -103,33 +105,32 @@ export default {
       })
     },
     addLackingRooms(roomList) {
-      this.updateRoomsUser(roomList.user)
-      this.updateRoomsPrivate(roomList.private)
+      this.updateRooms(roomList.user, 'user')
+      this.updateRooms(roomList.private, 'private')
     },
-    updateRoomsPrivate(rooms) {
+    updateRooms(rooms, roomType) {
       if (
         typeof rooms === 'object' &&
-        Object.keys(rooms).length !==
-          Object.keys(this.data.roomList.private).length
+        difference(
+          Object.keys(rooms),
+          Object.keys(this.data.roomList[roomType])
+        ).length
       ) {
         if (
-          this.data.currentRoom.roomType === 'private' &&
+          this.data.currentRoom.roomType === roomType &&
           !rooms[this.data.currentRoom.recordId]
         ) {
-          this.fetchRoom({
-            id: this.config.defaultRoom.recordId,
-            roomType: this.config.defaultRoom.roomType
-          }).then(_ => {
-            this.setPinnedRooms({ rooms, roomType: 'private' })
+          this.fetchRoomList().then(_ => {
+            this.setPinnedRooms({ rooms, roomType })
           })
         } else {
-          this.setPinnedRooms({ rooms, roomType: 'private' })
+          this.setPinnedRooms({ rooms, roomType })
         }
       }
     },
     updateRoomsUser(rooms) {
       if (typeof rooms === 'object' && Object.keys(rooms).length) {
-				this.setPinnedRooms({ rooms, roomType: 'user' })
+        this.setPinnedRooms({ rooms, roomType: 'user' })
       }
     },
     /**

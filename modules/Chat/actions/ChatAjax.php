@@ -113,7 +113,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		} else {
 			$currentRoom = \App\Chat::getCurrentRoom();
 			if (!$currentRoom || !isset($currentRoom['roomType']) || !isset($currentRoom['recordId'])) {
-				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+				return false;
 			}
 			$roomType = $currentRoom['roomType'];
 			$recordId = $currentRoom['recordId'];

@@ -48,10 +48,26 @@ export default {
 				roomType,
 				recordRoom: false
 			}).done(({ result }) => {
-				if (result.amountOfNewMessages) {
-					dispatch('updateAmountOfNewMessages', result.amountOfNewMessages)
-					commit('mergeData', { currentRoom: result.currentRoom, roomList: result.roomList })
-				} else {
+				if (result) {
+					if (result.amountOfNewMessages) {
+						dispatch('updateAmountOfNewMessages', result.amountOfNewMessages)
+						commit('mergeData', { currentRoom: result.currentRoom, roomList: result.roomList })
+					} else {
+						commit('mergeData', result)
+					}
+				}
+				resolve(result)
+			})
+		})
+	},
+	fetchRoomList({ commit, dispatch }, { id, roomType } = {}) {
+		return new Promise((resolve, reject) => {
+			AppConnector.request({
+				module: 'Chat',
+				action: 'ChatAjax',
+				mode: 'getRooms'
+			}).done(({ result }) => {
+				if (result) {
 					commit('mergeData', result)
 				}
 				resolve(result)
@@ -79,7 +95,7 @@ export default {
 				recordId: room.recordid
 			}).done(({ result }) => {
 				commit('hideRoom', { roomType: 'private', roomId: room.recordid })
-				dispatch('fetchRoom').then(e => {
+				dispatch('fetchRoomList').then(e => {
 					resolve(result)
 				})
 			})
@@ -115,8 +131,10 @@ export default {
 	removeActiveRoom({ commit }, { recordId, roomType }) {
 		commit('unsetActiveRoom', { recordId, roomType })
 	},
-	addActiveRoom({ commit }, { recordId, roomType }) {
-		commit('setActiveRoom', { recordId, roomType })
+	addActiveRoom({ commit, getters }, { recordId, roomType }) {
+		if (roomType && getters.data.roomList[roomType][recordId]) {
+			commit('setActiveRoom', { recordId, roomType })
+		}
 	},
 	addPrivateRoom({ dispatch, commit, getters }, { name }) {
 		return new Promise((resolve, reject) => {
@@ -177,13 +195,7 @@ export default {
 			recordId
 		}).done(data => {
 			if (data) {
-				if (getters.data.currentRoom.roomType === roomType && getters.data.currentRoom.recordId === recordId) {
-					dispatch('fetchRoom').then(_ => {
-						commit('unsetRoom', { roomType, recordId })
-					})
-				} else {
-					commit('unsetRoom', { roomType, recordId })
-				}
+				commit('unsetRoom', { roomType, recordId })
 			}
 		})
 	},
@@ -196,7 +208,7 @@ export default {
 			recordId
 		}).done(({ success, result }) => {
 			if (success) {
-				dispatch('fetchRoom')
+				dispatch('fetchRoomList')
 			}
 		})
 	},

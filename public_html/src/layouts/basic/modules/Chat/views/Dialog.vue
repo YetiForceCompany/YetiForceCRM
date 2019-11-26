@@ -105,7 +105,6 @@ export default {
       },
       set(isOpen) {
         this.setDialog(isOpen)
-        this.fetchRoom()
       }
     },
     coordinates: {
@@ -184,7 +183,6 @@ export default {
       'setButtonCoordinates',
       'updateRooms'
     ]),
-    ...mapActions(['fetchRoom']),
     initDialogModel() {
       if (!this.dialogModel && this.dialog) {
         this.dialogModel = true

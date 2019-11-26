@@ -52,6 +52,7 @@
     "gulp-autoprefixer": "^7.0.1",
     "gulp-clean-css": "^4.2.0",
     "gulp-stylus": "^2.7.0",
+    "lodash.difference": "^4.5.0",
     "node-sass": "^4.13.0",
     "postcss": "^7.0.21",
     "prettier": "^1.19.1",

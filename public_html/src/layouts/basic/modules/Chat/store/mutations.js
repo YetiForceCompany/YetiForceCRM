@@ -53,11 +53,6 @@ export default {
 	setData(state, data) {
 		state.data = data
 	},
-	setRoomData(state, data) {
-		state.data.amountOfNewMessages = data.amountOfNewMessages
-		state.data.currentRoom = data.currentRoom
-		state.data.roomList = data.roomList
-	},
 	setPinnedRooms(state, { rooms, roomType }) {
 		if (state.data.currentRoom.roomType === roomType && rooms[state.data.currentRoom.recordId]) {
 			rooms[state.data.currentRoom.recordId].chatEntries =

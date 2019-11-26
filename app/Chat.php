@@ -119,7 +119,7 @@ final class Chat
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public static function setCurrentRoom(string $roomType, ?int $recordId)
+	public static function setCurrentRoom(?string $roomType, ?int $recordId)
 	{
 		$_SESSION['chat'] = [
 			'roomType' => $roomType, 'recordId' => $recordId
@@ -1031,8 +1031,8 @@ final class Chat
 		$row = (new Db\Query())->from('u_#__chat_global')->where(['name' => 'LBL_GENERAL'])->one();
 		if (false !== $row) {
 			$room = [
-				'roomType' => 'global',
-				'recordId' => $row[static::COLUMN_NAME['room']['global']]
+				'roomType' => null,
+				'recordId' => null
 			];
 		}
 		Cache::save('Chat', 'DefaultRoom', $room);
@@ -1086,22 +1086,24 @@ final class Chat
 	}
 
 	/**
-	 * Get default unread query
+	 * Get default unread query.
 	 *
 	 * @param object $query
 	 * @param string $roomType
+	 *
 	 * @return object
 	 */
-	private static function getDefaultUnreadQuery(object $query, string $roomType): object {
+	private static function getDefaultUnreadQuery(object $query, string $roomType): object
+	{
 		$userId = User::getCurrentUserId();
 		$columnRoom = static::COLUMN_NAME['room'][$roomType];
 		$columnMessage = static::COLUMN_NAME['message'][$roomType];
 		return $query->select(['M.*', 'name' => 'RN.name', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
-		->leftJoin(
+			->leftJoin(
 			['R' => static::TABLE_NAME['room'][$roomType]],
 			"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
 		)
-		->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
+			->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
 	}
 
 	/**
