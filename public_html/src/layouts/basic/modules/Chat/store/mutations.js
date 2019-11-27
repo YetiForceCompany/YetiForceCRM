@@ -89,6 +89,15 @@ export default {
 			Vue.set(state.data.roomList[room.roomType], room.recordId, newData[room.roomType][room.recordId])
 		})
 	},
+	unsetUnpinnedRooms(state, roomsToUnpin) {
+		Object.keys(roomsToUnpin).forEach(roomType => {
+			if (roomsToUnpin[roomType].length) {
+				roomsToUnpin[roomType].forEach(recordId => {
+					Vue.delete(state.data.roomList[roomType], recordId)
+				})
+			}
+		})
+	},
 	updateRooms(state, data) {
 		state.data.roomList = mergeDeepReactive(state.data.roomList, data)
 	},
