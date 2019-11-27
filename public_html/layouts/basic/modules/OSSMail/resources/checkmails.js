@@ -60,7 +60,7 @@ function handleChangeUserEvent() {
 	};
 	AppConnector.request(params).done(function (response) {
 		if (app.getModuleName() == 'OSSMail') {
-			location.reload();
+			window.location.href = window.location.href;
 		} else {
 			window.location.href = "index.php?module=OSSMail&view=Index";
 		}
