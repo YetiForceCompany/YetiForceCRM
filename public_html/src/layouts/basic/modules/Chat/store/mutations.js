@@ -1,6 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import unionby from 'lodash.unionby'
-import stateMerge from 'vue-object-merge'
 
 import { mergeDeepReactive } from '../utils/utils.js'
 
@@ -60,7 +59,7 @@ export default {
 	},
 	mergeData(state, data) {
 		state.data = mergeDeepReactive(state.data, data)
-	}, // stateMerge(state.data, data, null, true)
+	},
 
 	setHistoryData(state, data) {
 		state.data.history = mergeDeepReactive(state.data.history, data)
@@ -100,9 +99,6 @@ export default {
 	},
 	updateRooms(state, data) {
 		state.data.roomList = mergeDeepReactive(state.data.roomList, data)
-	},
-	hideRoom(state, { roomType, roomId }) {
-		state.data.roomList[roomType][roomId].isHidden = true
 	},
 	updateParticipants(state, { roomType, recordId, data }) {
 		if (state.data.currentRoom.roomType === roomType) state.data.roomList[roomType][recordId].participants = data

@@ -88,18 +88,18 @@ export default {
 			})
 		})
 	},
-	archivePrivateRoom({ commit, dispatch }, room) {
+	archivePrivateRoom({ commit }, { recordId }) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
 				mode: 'archivePrivateRoom',
-				recordId: room.recordid
+				recordId: recordId
 			}).done(({ result }) => {
-				commit('hideRoom', { roomType: 'private', roomId: room.recordid })
-				dispatch('fetchRoomList').then(e => {
-					resolve(result)
-				})
+				if (result) {
+					commit('unsetRoom', { roomType: 'private', recordId })
+				}
+				resolve(result)
 			})
 		})
 	},
@@ -192,7 +192,7 @@ export default {
 			})
 		})
 	},
-	unpinRoom({ commit, getters }, { roomType, recordId }) {
+	unpinRoom({ dispatch }, { roomType, recordId }) {
 		AppConnector.request({
 			module: 'Chat',
 			action: 'Room',
@@ -201,13 +201,16 @@ export default {
 			recordId
 		}).done(data => {
 			if (data) {
-				commit('unsetRoom', { roomType, recordId })
-				let currentRoom = getters.data.currentRoom
-				if (currentRoom.roomType === roomType && currentRoom.recordId === recordId) {
-					commit('unsetCurrentRoom')
-				}
+				dispatch('unsetRoom', { roomType, recordId })
 			}
 		})
+	},
+	unsetRoom({ commit, getters }, { roomType, recordId }) {
+		commit('unsetRoom', { roomType, recordId })
+		let currentRoom = getters.data.currentRoom
+		if (currentRoom.roomType === roomType && currentRoom.recordId === recordId) {
+			commit('unsetCurrentRoom')
+		}
 	},
 	pinRoom({ dispatch, commit }, { roomType, recordId }) {
 		AppConnector.request({
