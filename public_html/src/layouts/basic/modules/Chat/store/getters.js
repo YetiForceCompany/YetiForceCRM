@@ -79,5 +79,8 @@ export default {
 	},
 	getDetailPreview(state) {
 		return state.config.detailPreview
+	},
+	getInterval(state, getters) {
+		return getters.dialog ? getters.config.refreshMessageTime : getters.config.refreshTimeGlobal
 	}
 }

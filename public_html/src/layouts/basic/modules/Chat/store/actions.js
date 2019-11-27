@@ -1,5 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import difference from 'lodash.difference'
+let timer = false
 
 export default {
 	maximize({ commit }, isMini) {
@@ -321,7 +322,6 @@ export default {
 			})
 		})
 	},
-
 	notifyAboutNewMessages({ dispatch, getters }, { roomList, amount, firstFetch }) {
 		if (amount > getters.data.amountOfNewMessages) {
 			if (getters.isSoundNotification) {
@@ -402,5 +402,46 @@ export default {
 		if (areDifferences) {
 			commit('unsetUnpinnedRooms', roomsToUnpin)
 		}
+	},
+	/**
+	 * Init timer
+	 */
+	startUpdatesListener({ dispatch }) {
+		dispatch('fetchNewMessages', { firstFetch: true })
+	},
+	/**
+	 * Init timer
+	 */
+	initTimer({ dispatch, getters }) {
+		let timeoutCallback = () => dispatch('fetchNewMessages')
+		timer = setTimeout(timeoutCallback, getters.getInterval)
+	},
+	/**
+	 * Fetch new messages timeout function
+	 */
+	fetchNewMessages({ getters, commit, dispatch }, { firstFetch } = { firstFetch: false }) {
+		let activeRooms = getters.allRooms.length ? getters.allRooms.filter(el => el.active) : []
+		AppConnector.request({
+			module: 'Chat',
+			action: 'ChatAjax',
+			mode: 'getRoomsMessages',
+			rooms: activeRooms
+		}).done(({ result }) => {
+			dispatch('unsetUnpinnedRooms', result.roomList)
+			dispatch('setNewRooms', result.roomList)
+			if (result.areNewEntries) {
+				commit('updateActiveRooms', {
+					roomsToUpdate: [...activeRooms],
+					newData: result
+				})
+			}
+			dispatch('notifyAboutNewMessages', {
+				...result.amountOfNewMessages,
+				firstFetch
+			})
+			if (timer || firstFetch) {
+				dispatch('initTimer')
+			}
+		})
 	}
 }
