@@ -70,6 +70,6 @@ abstract class Vtiger_Mass_Action extends \App\Controller\Action
 		}
 		$queryGenerator = static::getQuery($request);
 
-		return $queryGenerator ? $queryGenerator->createQuery()->column() : [];
+		return $queryGenerator ? $queryGenerator->setFields(['id'])->createQuery()->column() : [];
 	}
 }
