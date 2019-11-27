@@ -84,12 +84,9 @@ export default {
 			)
 		})
 	},
-	updateInactiveRooms(state, { roomsToUpdate, newData }) {
-		roomsToUpdate.forEach(room => {
-			console.log(room.roomType, room.recordid)
-
-			Vue.set(state.data.roomList[room.roomType], room.recordid, newData.roomList[room.roomType][room.recordid])
-			console.log(room)
+	setNewRooms(state, { newRooms, newData }) {
+		newRooms.forEach(room => {
+			Vue.set(state.data.roomList[room.roomType], room.recordId, newData[room.roomType][room.recordId])
 		})
 	},
 	updateRooms(state, data) {

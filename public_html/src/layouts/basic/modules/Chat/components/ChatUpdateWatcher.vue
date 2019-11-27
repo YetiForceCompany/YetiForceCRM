@@ -15,33 +15,28 @@ export default {
   data() {
     return {
       timerAmount: false,
-      timerMessage: false
+      timerMessage: false,
+      activeRooms: [],
+      inactiveRooms: []
     }
   },
   computed: {
-    ...mapGetters(['data', 'config', 'tab', 'allRooms']),
-    activeRooms() {
-      return this.allRooms.length ? this.allRooms.filter(el => el.active) : []
-    },
-    inactiveRooms() {
-      return this.allRooms.length ? this.allRooms.filter(el => !el.active) : []
+    ...mapGetters(['data', 'config', 'tab', 'allRooms', 'dialog']),
+    timer() {
+      return this.dialog
+        ? this.config.refreshMessageTime
+        : this.config.refreshTimeGlobal
     }
   },
   /**
    * Init component event listener and timeout
    */
   created() {
-    // this.adjustUpdateRequestToChatState()
     this.startTimer()
   },
   methods: {
     ...mapActions(['notifyAboutNewMessages', 'fetchRoomList']),
-    ...mapMutations([
-      'updateActiveRooms',
-      'updateInactiveRooms',
-      'setPinnedRooms',
-      'mergeData'
-    ]),
+    ...mapMutations(['updateActiveRooms', 'setNewRooms', 'setPinnedRooms']),
     /**
      * Init vuex event for adjusting request for updating chat rooms
      */
@@ -71,70 +66,63 @@ export default {
      * Start timer, when component is created.
      */
     startTimer() {
-      //   if (this.activeRooms.length) {
       this.fetchNewMessages({ firstFetch: true })
-      //   } else {
-      //   this.fetchAmountOfNewMessages({ firstFetch: true })
-      //   }
     },
     /**
      * Init amount timer
      */
     initMessageTimer() {
-      this.timerMessage = setTimeout(
-        this.fetchNewMessages,
-        this.config.refreshMessageTime
-      )
+      this.timerMessage = setTimeout(this.fetchNewMessages, this.timer)
     },
     /**
      * Fetch new messages timeout function
      */
     fetchNewMessages({ firstFetch } = { firstFetch: false }) {
+      this.activeRooms = this.allRooms.length
+        ? this.allRooms.filter(el => el.active)
+        : []
       AppConnector.request({
         module: 'Chat',
         action: 'ChatAjax',
         mode: 'getRoomsMessages',
         rooms: this.activeRooms
       }).done(({ result }) => {
-        // this.addLackingRooms(result.roomList)
-        const areNewRooms = () => {
-          for (let roomType in result.roomList) {
-            if (
-              Object.keys(result.roomList[roomType]).some(
-                room => !this.data.roomList[roomType][room]
-              )
-            ) {
-              return true
-            }
-          }
-          return false
-        }
+        const newRooms = this.newRooms()
         if (result.areNewEntries) {
           this.updateActiveRooms({
             roomsToUpdate: [...this.activeRooms],
             newData: result
           })
         }
-        if (areNewRooms()) {
-          console.log('newRooms')
-          this.updateInactiveRooms({
-            roomsToUpdate: [...this.inactiveRooms],
-            newData: result
+        if (newRooms.length) {
+          this.setNewRooms({
+            newRooms,
+            newData: result.roomList
           })
         }
-        // console.log(result)
         this.notifyAboutNewMessages({
           ...result.amountOfNewMessages,
           firstFetch
         })
+        this.updateRooms(roomList.private, 'private')
         if (this.timerMessage || firstFetch) {
           this.initMessageTimer()
         }
       })
     },
-    addLackingRooms(roomList) {
-      this.updateRooms(roomList.user, 'user')
-      this.updateRooms(roomList.private, 'private')
+    newRooms(roomList) {
+      let newRooms = []
+      for (let roomType in roomList) {
+        Object.keys(roomList[roomType]).forEach(room => {
+          if (!this.data.roomList[roomType][room]) {
+            newRooms.push({
+              roomType,
+              recordId: roomList[roomType][room].recordid
+            })
+          }
+        })
+      }
+      return newRooms
     },
     updateRooms(rooms, roomType) {
       if (
@@ -155,36 +143,6 @@ export default {
           this.setPinnedRooms({ rooms, roomType })
         }
       }
-    },
-    updateRoomsUser(rooms) {
-      if (typeof rooms === 'object' && Object.keys(rooms).length) {
-        this.setPinnedRooms({ rooms, roomType: 'user' })
-      }
-    },
-    /**
-     * Init amount timer
-     */
-    initAmountTimer() {
-      this.timerAmount = setTimeout(
-        this.fetchAmountOfNewMessages,
-        this.config.refreshTimeGlobal
-      )
-    },
-    /**
-     * Fetch new messages timeout function
-     */
-    fetchAmountOfNewMessages({ firstFetch } = { firstFetch: false }) {
-      AppConnector.request({
-        module: 'Chat',
-        action: 'ChatAjax',
-        mode: 'trackNewMessages'
-      }).done(({ result }) => {
-        this.addLackingRooms(result.roomList)
-        this.notifyAboutNewMessages({ ...result, firstFetch })
-        if (this.timerAmount || firstFetch) {
-          this.initAmountTimer()
-        }
-      })
     }
   }
 }

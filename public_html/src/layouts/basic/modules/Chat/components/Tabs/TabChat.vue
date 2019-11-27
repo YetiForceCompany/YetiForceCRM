@@ -146,9 +146,9 @@ export default {
     roomData() {
       if (
         this.isRoom &&
+        this.dataReady &&
         (this.roomData.recordid !== this.roomId ||
-          this.roomData.roomType !== this.roomType) &&
-        this.dataReady
+          this.roomData.roomType !== this.roomType)
       ) {
         this.disableNewMessagesListener()
         this.updateComponentsRoom()
@@ -166,7 +166,7 @@ export default {
     },
     dialog() {
       if (this.dialog) {
-        this.showTabChatEvent()
+        this.onShowTabChatEvent()
       } else {
         this.disableNewMessagesListener()
       }
@@ -256,9 +256,8 @@ export default {
       if (!this.recordRoom) {
         this.enableNewMessagesListener()
       }
-      this.dataReady = true
     },
-    showTabChatEvent() {
+    onShowTabChatEvent() {
       if (!this.recordRoom && !this.currentRoomData.recordid) {
         this.fetchRoom({
           id: this.roomData.recordid,
@@ -277,10 +276,11 @@ export default {
   },
   mounted() {
     if (this.dialog) {
-      this.showTabChatEvent()
+      this.onShowTabChatEvent()
     } else if (this.recordRoom) {
       this.registerPostLoadEvents()
     }
+    this.dataReady = true
   },
   beforeDestroy() {
     this.disableNewMessagesListener()
