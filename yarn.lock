@@ -308,13 +308,12 @@ good-listener@^1.2.2:
   dependencies:
     delegate "^3.1.2"
 
-gridstack@^0.5.2:
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-0.5.2.tgz#9394b72e21e1627b447fd5ea09725db8ef5b1368"
-  integrity sha512-mn9ned8C6wnr8QNQJJ1sPMKcPXPO5wAHQv49auf9lRLG8Jx0i8+MbzZvnhsA0k+9Q/2RA7SuvnrrMUX7un8HQQ==
+gridstack@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-0.5.4.tgz#73043b7c6459e8aa54bb6159315c9bb3f3072872"
+  integrity sha512-XTfDOqGKRa7Kt231Z+e5OYoHBUNmBZmXfWuemJpF6vp3DpWLa+kXDcll89AM0atDnZUZq7mbWTZv+SEcIbDjcw==
   dependencies:
-    jquery "^3.1.0"
-    jquery-ui "^1.12.0"
+    jquery "^1.8 || 2 || 3"
 
 html2canvas@^1.0.0-alpha.12:
   version "1.0.0-rc.5"
@@ -373,17 +372,12 @@ jquery-ui-touch-punch@^0.2.3:
   resolved "https://registry.yarnpkg.com/jquery-ui-touch-punch/-/jquery-ui-touch-punch-0.2.3.tgz#eed82242733ba243f46b3e87c1841b308191da68"
   integrity sha1-7tgiQnM7okP0az6HwYQbMIGR2mg=
 
-jquery-ui@^1.12.0:
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/jquery-ui/-/jquery-ui-1.12.1.tgz#bcb4045c8dd0539c134bc1488cdd3e768a7a9e51"
-  integrity sha1-vLQEXI3QU5wTS8FIjN0+dop6nlE=
-
 jquery.class.js@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/jquery.class.js/-/jquery.class.js-1.0.0.tgz#43616c36d76eff36caf2139ddacda621aa24ed30"
   integrity sha1-Q2FsNtdu/zbK8hOd2s2mIaok7TA=
 
-"jquery@>= 1.7", jquery@>=1.10, jquery@>=1.12.0, jquery@>=1.4.4, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1, jquery@>=2.1.0, jquery@^3.1.0, jquery@^3.4.1:
+"jquery@>= 1.7", jquery@>=1.10, jquery@>=1.12.0, jquery@>=1.4.4, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1, jquery@>=2.1.0, "jquery@^1.8 || 2 || 3", jquery@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
   integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
