@@ -63,7 +63,7 @@ class Log extends Logger
 				}
 			}
 		} else {
-			$bitmapValues = array_reduce($levelMap, function ($carry, $item) {
+			$bitmapValues = array_reduce(self::$levelMap, function ($carry, $item) {
 				return $carry | $item;
 			});
 			if (!($bitmapValues & $levels) && 0 !== $levels) {
