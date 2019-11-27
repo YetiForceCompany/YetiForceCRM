@@ -192,7 +192,7 @@ export default {
 			})
 		})
 	},
-	unpinRoom({ dispatch, commit, getters }, { roomType, recordId }) {
+	unpinRoom({ commit, getters }, { roomType, recordId }) {
 		AppConnector.request({
 			module: 'Chat',
 			action: 'Room',
@@ -202,6 +202,10 @@ export default {
 		}).done(data => {
 			if (data) {
 				commit('unsetRoom', { roomType, recordId })
+				let currentRoom = getters.data.currentRoom
+				if (currentRoom.roomType === roomType && currentRoom.recordId === recordId) {
+					commit('unsetCurrentRoom')
+				}
 			}
 		})
 	},

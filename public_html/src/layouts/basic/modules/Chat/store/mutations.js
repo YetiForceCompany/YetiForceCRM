@@ -149,6 +149,9 @@ export default {
 	setRoom(state, { roomType, recordId, room }) {
 		Vue.set(state.data.roomList[roomType], recordId, room)
 	},
+	unsetCurrentRoom(state) {
+		Vue.set(state.data, 'currentRoom', {})
+	},
 	setConfig(state, config) {
 		state.config = mergeDeepReactive(state.config, config)
 	},
