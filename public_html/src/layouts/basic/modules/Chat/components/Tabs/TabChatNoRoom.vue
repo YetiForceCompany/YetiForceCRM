@@ -1,7 +1,7 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <div class="flex column">
-    <div class="flex no-wrap justify-between q-px-sm">
+    <div class="flex no-wrap justify-between q-px-sm q-pt-xs">
       <q-btn
         dense
         flat

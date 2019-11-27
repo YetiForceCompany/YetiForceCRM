@@ -69,7 +69,7 @@ export default {
 	},
 	currentRoomData(state, getters) {
 		const currentRoom = getters.data.currentRoom
-		if (state.data.roomList === undefined || currentRoom.roomType === undefined) {
+		if (state.data.roomList === undefined || !currentRoom.roomType) {
 			return {}
 		}
 		return state.data.roomList[currentRoom.roomType][currentRoom.recordId] || {}

@@ -275,11 +275,13 @@ export default {
     }
   },
   mounted() {
-    if (this.dialog) {
+    if (this.dialog && this.isRoom) {
       this.onShowTabChatEvent()
     } else if (this.recordRoom) {
       this.registerPostLoadEvents()
-    }
+    } else {
+		this.$emit('onContentLoaded', true)
+	}
     this.dataReady = true
   },
   beforeDestroy() {
