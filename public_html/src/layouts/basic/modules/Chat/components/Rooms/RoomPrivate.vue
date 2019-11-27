@@ -139,7 +139,7 @@ export default {
       this.roomToArchive = room
     },
     archive(roomToArchive) {
-      this.archivePrivateRoom(roomToArchive).then(e => {
+      this.archivePrivateRoom({recordId: roomToArchive.recordid}).then(e => {
         this.isArchiving = false
       })
     },

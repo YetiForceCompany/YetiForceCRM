@@ -1,5 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import unionby from 'lodash.unionby'
+
 import { mergeDeepReactive } from '../utils/utils.js'
 
 export default {
@@ -54,11 +55,7 @@ export default {
 		state.data = data
 	},
 	setPinnedRooms(state, { rooms, roomType }) {
-		if (state.data.currentRoom.roomType === roomType && rooms[state.data.currentRoom.recordId]) {
-			rooms[state.data.currentRoom.recordId].chatEntries =
-				state.data.roomList[roomType][state.data.currentRoom.recordId].chatEntries
-		}
-		state.data.roomList[roomType] = rooms
+		Vue.set(state.data.roomList, roomType, rooms)
 	},
 	mergeData(state, data) {
 		state.data = mergeDeepReactive(state.data, data)
@@ -72,7 +69,7 @@ export default {
 		state.data.roomList[roomType][recordId].showMoreButton = result.showMoreButton
 		state.data.roomList[roomType][recordId].participants = result.participants
 	},
-	updateChatData(state, { roomsToUpdate, newData }) {
+	updateActiveRooms(state, { roomsToUpdate, newData }) {
 		state.data.amountOfNewMessages = newData.amountOfNewMessages.amount
 		roomsToUpdate.forEach(room => {
 			state.data.roomList[room.roomType][room.recordid].showMoreButton =
@@ -86,11 +83,22 @@ export default {
 			)
 		})
 	},
+	setNewRooms(state, { newRooms, newData }) {
+		newRooms.forEach(room => {
+			Vue.set(state.data.roomList[room.roomType], room.recordId, newData[room.roomType][room.recordId])
+		})
+	},
+	unsetUnpinnedRooms(state, roomsToUnpin) {
+		Object.keys(roomsToUnpin).forEach(roomType => {
+			if (roomsToUnpin[roomType].length) {
+				roomsToUnpin[roomType].forEach(recordId => {
+					Vue.delete(state.data.roomList[roomType], recordId)
+				})
+			}
+		})
+	},
 	updateRooms(state, data) {
 		state.data.roomList = mergeDeepReactive(state.data.roomList, data)
-	},
-	hideRoom(state, { roomType, roomId }) {
-		state.data.roomList[roomType][roomId].isHidden = true
 	},
 	updateParticipants(state, { roomType, recordId, data }) {
 		if (state.data.currentRoom.roomType === roomType) state.data.roomList[roomType][recordId].participants = data
@@ -136,6 +144,9 @@ export default {
 	},
 	setRoom(state, { roomType, recordId, room }) {
 		Vue.set(state.data.roomList[roomType], recordId, room)
+	},
+	unsetCurrentRoom(state) {
+		Vue.set(state.data, 'currentRoom', {})
 	},
 	setConfig(state, config) {
 		state.config = mergeDeepReactive(state.config, config)

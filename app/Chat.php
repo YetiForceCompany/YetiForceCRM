@@ -326,6 +326,7 @@ final class Chat
 			$userId = User::getCurrentUserId();
 		}
 		$query = self::getRoomsUnpinnedQuery('private', $userId);
+		$query->andWhere(['ROOM_SRC.archived' => 0]);
 		if (!User::getUserModel($userId)->isAdmin()) {
 			$query->andWhere(['creatorid' => $userId]);
 		}
@@ -535,7 +536,6 @@ final class Chat
 			->select(['ROOM_SRC.*', 'recordid' => "ROOM_SRC.{$roomIdName}"])
 			->from(['ROOM_SRC' => static::TABLE_NAME['room_name'][$roomType]])
 			->leftJoin(['ROOM_PINNED' => static::TABLE_NAME['room'][$roomType]], "ROOM_PINNED.{$roomIdName} = ROOM_SRC.{$roomIdName}")
-			->where(['ROOM_SRC.archived' => 0])
 			->where(['or', ['not', ['ROOM_PINNED.userid' => $userId]], ['ROOM_PINNED.userid' => null]]);
 	}
 

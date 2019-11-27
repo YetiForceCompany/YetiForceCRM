@@ -71,11 +71,9 @@
         />
       </DragResize>
     </q-dialog>
-    <ChatUpdateWatcher />
   </div>
 </template>
 <script>
-import ChatUpdateWatcher from '../components/ChatUpdateWatcher.vue'
 import ChatContainer from '../components/ChatContainer.vue'
 import YfDrag from 'components/YfDrag.vue'
 import DragResize from 'components/DragResize.vue'
@@ -84,7 +82,7 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'Dialog',
-  components: { ChatUpdateWatcher, ChatContainer, DragResize, YfDrag },
+  components: { ChatContainer, DragResize, YfDrag },
   data() {
     return {
       timerGlobal: null,
@@ -173,6 +171,9 @@ export default {
       }
     }
   },
+  created() {
+    this.startUpdatesListener()
+  },
   updated() {
     this.initDialogModel()
   },
@@ -183,6 +184,7 @@ export default {
       'setButtonCoordinates',
       'updateRooms'
     ]),
+    ...mapActions(['startUpdatesListener']),
     initDialogModel() {
       if (!this.dialogModel && this.dialog) {
         this.dialogModel = true

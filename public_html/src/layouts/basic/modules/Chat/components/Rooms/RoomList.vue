@@ -62,7 +62,6 @@
     </slot>
     <template v-for="(room, roomId) of roomData">
       <q-item
-        v-if="!room.isHidden"
         v-show="showAllRooms"
         class="q-pl-sm u-hover-container"
         clickable
