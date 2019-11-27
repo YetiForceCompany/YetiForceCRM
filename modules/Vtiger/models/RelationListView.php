@@ -138,7 +138,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		if ($relationId) {
 			$relationModelInstance = Vtiger_Relation_Model::getInstanceById($parentModuleModel, $relationId);
 		} else {
-			$relationModelInstance = Vtiger_Relation_Model::getInstance($parentModuleModel, $relationModuleName, $relationId);
+			$relationModelInstance = Vtiger_Relation_Model::getInstance($parentModuleModel, Vtiger_Module_Model::getInstance($relationModuleName), $relationId);
 		}
 		if (!$relationModelInstance) {
 			return false;
@@ -387,7 +387,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$parentModule = $parentRecordModule->getModule();
 
 		$createViewUrl = $relatedModel->getCreateRecordUrl() . '&sourceModule=' . $parentModule->get('name') .
-			'&sourceRecord=' . $parentRecordModule->getId() . '&relationOperation=true';
+			'&sourceRecord=' . $parentRecordModule->getId() . '&relationOperation=true&relationId=' . $relationModelInstance->getId();
 
 		//To keep the reference fieldname and record value in the url if it is direct relation
 		if ($relationModelInstance->isDirectRelation()) {
