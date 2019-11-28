@@ -111,14 +111,11 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$fieldId = $request->getInteger('fieldid');
 		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
 		$response = new Vtiger_Response();
-
 		if (!$fieldInstance->isCustomField()) {
 			$response->setError('122', 'Cannot delete Non custom field');
 			$response->emit();
-
 			return;
 		}
-
 		try {
 			$fieldInstance->delete();
 			$response->setResult(['success' => true]);

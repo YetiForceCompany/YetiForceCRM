@@ -28,7 +28,7 @@ class Vtiger_Viewer extends SmartyBC
 	protected function log($message, $delimiter = '\n')
 	{
 		static $file = null;
-		if ($file === null) {
+		if (null === $file) {
 			$file = __DIR__ . '/../../cache/logs/viewer-debug.log';
 		}
 		if (self::$debugViewer) {
@@ -75,7 +75,7 @@ class Vtiger_Viewer extends SmartyBC
 		// Escape all {$variable} to overcome XSS
 		// We need to use {$variable nofilter} to overcome double escaping
 		static $debugViewerURI = false;
-		if (self::$debugViewer && $debugViewerURI === false) {
+		if (self::$debugViewer && false === $debugViewerURI) {
 			$debugViewerURI = parse_url(\App\Request::_getServer('REQUEST_URI'), PHP_URL_PATH);
 			if (!empty($_POST)) {
 				$debugViewerURI .= '?' . http_build_query($_POST);
@@ -129,28 +129,27 @@ class Vtiger_Viewer extends SmartyBC
 			if (!empty($moduleName) && file_exists($completeFilePath)) {
 				$filePath = "modules/$moduleName/$templateName";
 				break;
-			} else {
-				// Fall back lookup on actual module, in case where parent module doesn't contain actual module within in (directory structure)
-				if (strpos($moduleName, '/')) {
-					$moduleHierarchyParts = explode('/', $moduleName);
-					$actualModuleName = $moduleHierarchyParts[count($moduleHierarchyParts) - 1];
-					$baseModuleName = $moduleHierarchyParts[0];
-					$fallBackOrder = [
-						"$actualModuleName",
-						"$baseModuleName/Vtiger",
-					];
-					foreach ($fallBackOrder as $fallBackModuleName) {
-						$intermediateFallBackFileName = 'modules/' . $fallBackModuleName . '/' . $templateName;
-						$intermediateFallBackFilePath = $templateDir . DIRECTORY_SEPARATOR . $intermediateFallBackFileName;
-						if (file_exists($intermediateFallBackFilePath)) {
-							\App\Cache::save('ViewerTemplatePath', $cacheKey, $intermediateFallBackFileName, \App\Cache::LONG);
+			}
+			// Fall back lookup on actual module, in case where parent module doesn't contain actual module within in (directory structure)
+			if (strpos($moduleName, '/')) {
+				$moduleHierarchyParts = explode('/', $moduleName);
+				$actualModuleName = $moduleHierarchyParts[\count($moduleHierarchyParts) - 1];
+				$baseModuleName = $moduleHierarchyParts[0];
+				$fallBackOrder = [
+					"$actualModuleName",
+					"$baseModuleName/Vtiger",
+				];
+				foreach ($fallBackOrder as $fallBackModuleName) {
+					$intermediateFallBackFileName = 'modules/' . $fallBackModuleName . '/' . $templateName;
+					$intermediateFallBackFilePath = $templateDir . DIRECTORY_SEPARATOR . $intermediateFallBackFileName;
+					if (file_exists($intermediateFallBackFilePath)) {
+						\App\Cache::save('ViewerTemplatePath', $cacheKey, $intermediateFallBackFileName, \App\Cache::LONG);
 
-							return $intermediateFallBackFileName;
-						}
+						return $intermediateFallBackFileName;
 					}
 				}
-				$filePath = "modules/Vtiger/$templateName";
 			}
+			$filePath = "modules/Vtiger/$templateName";
 		}
 		\App\Cache::save('ViewerTemplatePath', $cacheKey, $filePath, \App\Cache::LONG);
 
@@ -180,16 +179,16 @@ class Vtiger_Viewer extends SmartyBC
 			$templatePathToLog = $templatePath;
 			$qualifiedModuleName = str_replace(':', '/', $moduleName);
 			// In case we found a fallback template, log both lookup and target template resolved to.
-			if (!empty($moduleName) && strpos($templatePath, "modules/$qualifiedModuleName/") !== 0) {
+			if (!empty($moduleName) && 0 !== strpos($templatePath, "modules/$qualifiedModuleName/")) {
 				$templatePathToLog = "modules/$qualifiedModuleName/$templateName > $templatePath";
 			}
 			$this->log("VIEW: $templatePathToLog, FOUND: " . ($templateFound ? '1' : '0'));
 			foreach ($this->tpl_vars as $key => $smarty_variable) {
 				// Determine type of value being pased.
 				$valueType = 'literal';
-				if (is_object($smarty_variable->value)) {
-					$valueType = get_class($smarty_variable->value);
-				} elseif (is_array($smarty_variable->value)) {
+				if (\is_object($smarty_variable->value)) {
+					$valueType = \get_class($smarty_variable->value);
+				} elseif (\is_array($smarty_variable->value)) {
 					$valueType = 'array';
 				}
 				$this->log(sprintf('DATA: %s, TYPE: %s', $key, $valueType));
@@ -202,9 +201,8 @@ class Vtiger_Viewer extends SmartyBC
 			}
 			if ($fetch) {
 				return $this->fetch($templatePath);
-			} else {
-				$this->display($templatePath);
 			}
+			$this->display($templatePath);
 
 			return true;
 		}
@@ -225,7 +223,6 @@ class Vtiger_Viewer extends SmartyBC
 		}
 		$instance = new self($media);
 		self::$instance = $instance;
-
 		return $instance;
 	}
 }

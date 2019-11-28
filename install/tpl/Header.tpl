@@ -16,6 +16,13 @@
 <head>
 	<title>YetiForce</title>
 	<link REL="SHORTCUT ICON" HREF="../{\App\Layout::getImagePath('favicon.ico')}">
+	{if !empty($IS_IE)}
+		<meta http-equiv="X-UA-Compatible" content="IE=11" >
+		<!--[if IE]>
+		<script type="text/javascript" src="public_html/libraries/html5shiv/html5shiv.js"></script>
+		<script type="text/javascript" src="public_html/libraries/respond.js/dist/respond.min.js"></script>
+		<![endif]-->
+	{/if}
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	{foreach key=index item=cssModel from=$STYLES}
@@ -32,10 +39,6 @@
 			}
 		}
 	</style>
-	<!--[if IE]>
-	<script type="text/javascript" src="public_html/libraries/html5shiv/html5shiv.js"></script>
-	<script type="text/javascript" src="public_html/libraries/respond.js/dist/respond.min.js"></script>
-	<![endif]-->
 	{* ends *}
 	<script type="text/javascript">
 		var CONFIG = {\App\Config::getJsEnv()};

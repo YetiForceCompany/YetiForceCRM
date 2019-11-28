@@ -2,6 +2,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		{if !empty($IS_IE)}
+			<meta http-equiv="X-UA-Compatible" content="IE=11" >
+		{/if}
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<style>
 			p{

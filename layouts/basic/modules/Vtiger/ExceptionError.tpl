@@ -29,6 +29,9 @@
 	<html>
 	<head>
 		<title>Yetiforce: {\App\Purifier::encodeHtml($HEADER_MESSAGE)}</title>
+		{if !empty($IS_IE)}
+			<meta http-equiv="X-UA-Compatible" content="IE=11" >
+		{/if}
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" href="{\App\Layout::getPublicUrl('layouts/basic/styles/Main.css')}">
