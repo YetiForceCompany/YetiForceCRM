@@ -103,7 +103,7 @@ abstract class Page extends Base
 		if (\App\Privilege::isPermitted('OSSMail')) {
 			$jsFileNames[] = '~layouts/basic/modules/OSSMail/resources/checkmails.js';
 		}
-		if (\App\Privilege::isPermitted('Chat')) {
+		if (\App\User::getCurrentUserRealId() === \App\User::getCurrentUserId() && \App\Privilege::isPermitted('Chat')) {
 			$jsFileNames[] = '~layouts/basic/modules/Chat/Chat.vue.js';
 		}
 		if (\App\Privilege::isPermitted('KnowledgeBase')) {

@@ -77,8 +77,9 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 
 			return $queryGenerator;
 		}
+		$relationId = $request->isEmpty('relationId') ? 0 : $request->getInteger('relationId');
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $request->getByType('relatedModule', 'Alnum'), $request->getInteger('relationId'));
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $request->getByType('relatedModule', 'Alnum'), $relationId);
 		if ($request->has('entityState')) {
 			$relationListView->set('entityState', $request->getByType('entityState'));
 		}
@@ -371,7 +372,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $parentId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$relationId = $request->getInteger('relationId');
+		$relationId = $request->isEmpty('relationId') ? 0 : $request->getInteger('relationId');
 		$totalCount = 0;
 		$pageCount = 0;
 		if ('ModComments' === $firstRelatedModuleName) {
@@ -382,7 +383,6 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		} else {
 			$relModules = !empty($relatedModuleName) && \is_array($relatedModuleName) ? $relatedModuleName : [];
 			if ('ProductsAndServices' === $firstRelatedModuleName) {
-				$relationId = false;
 				$relModules = ['Products', 'OutsourcedProducts', 'Assets', 'Services', 'OSSOutsourcedServices', 'OSSSoldServices'];
 			}
 			$categoryCount = ['Products', 'OutsourcedProducts', 'Services', 'OSSOutsourcedServices'];

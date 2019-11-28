@@ -7,8 +7,7 @@
 		<input type="hidden" class="js-related-parent-module" data-js="value" value="{$RELATED_PARENT_MODULE}"/>
 		<input type="hidden" class="js-related-parent-id" data-js="value" value="{$RELATED_PARENT_ID}"/>
 		<input type="hidden" class="js-multi-select" data-js="value" value="{$MULTI_SELECT}"/>
-		<input type="hidden" class="js-order-by" data-js="value" value="{$ORDER_BY}"/>
-		<input type="hidden" class="js-sort-order" data-js="value" value="{$SORT_ORDER}"/>
+		<input type="hidden" id="orderBy" value="{\App\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}">
 		<input type='hidden' class='js-page-number' data-js="value" value="{$PAGE_NUMBER}">
 		<input type="hidden" class="js-total-count" data-js="value" value="{$LISTVIEW_COUNT}"/>
 		<input type='hidden' class="js-page-limit" data-js="value" value="{$PAGING_MODEL->getPageLimit()}"/>
@@ -29,16 +28,17 @@
 						{/if}
 					</th>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-						<th class="{$WIDTHTYPE}">
-							<a href="#" class="{if $LISTVIEW_HEADER->isListviewSortable()}js-change-order{/if}"
-							   data-js="click" data-name="{$LISTVIEW_HEADER->getFieldName()}"
-							   data-next-order="{if $ORDER_BY eq $LISTVIEW_HEADER->getFieldName()}{$NEXT_SORT_ORDER}{else}ASC{/if}">
-								{App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE_NAME)}
-								{if $ORDER_BY eq $LISTVIEW_HEADER->getFieldName()}
-									<span class="{$SORT_IMAGE} ml-2"
-										  alt="{if $SORT_ORDER eq 'ASC'}{App\Language::translate('LBL_SORT_ASCENDING')}{else}{App\Language::translate('LBL_SORT_DESCENDING')}{/if}"></span>
+						{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getFullName()}
+						<th class="{$WIDTHTYPE}{if isset($ORDER_BY[$LISTVIEW_HEADER_NAME])} columnSorted{/if}">
+							<span class="listViewHeaderValues float-left {if $LISTVIEW_HEADER->isListviewSortable()} js-change-order u-cursor-pointer{/if}"
+								data-nextsortorderval="{if isset($ORDER_BY[$LISTVIEW_HEADER_NAME]) && $ORDER_BY[$LISTVIEW_HEADER_NAME] eq \App\Db::ASC}{\App\Db::DESC}{else}{\App\Db::ASC}{/if}"
+								data-columnname="{$LISTVIEW_HEADER_NAME}"
+								data-js="click">
+								{$LISTVIEW_HEADER->getFullLabelTranslation($MODULE_MODEL)}
+								{if isset($ORDER_BY[$LISTVIEW_HEADER_NAME])}
+									&nbsp;&nbsp;<span class="fas {if $ORDER_BY[$LISTVIEW_HEADER_NAME] eq \App\Db::DESC}fa-chevron-down{else}fa-chevron-up{/if}"></span>
 								{/if}
-							</a>
+							</span>
 						</th>
 					{/foreach}
 				</tr>

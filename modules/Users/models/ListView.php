@@ -55,7 +55,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		$links = [];
 		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$massActionLinks = [];
-		if ($linkParams['MODULE'] === 'Users' && $linkParams['ACTION'] === 'List' && $privilegesModel->isAdminUser()) {
+		if ('Users' === $linkParams['MODULE'] && 'List' === $linkParams['ACTION'] && $privilegesModel->isAdminUser()) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_EDIT',
@@ -68,7 +68,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'index.php?module=Users&view=PasswordModal&mode=massReset',
 				'linkicon' => 'fas fa-redo-alt',
 			];
-			if (App\Config::security('USER_AUTHY_MODE') !== 'TOTP_OFF') {
+			if ('TOTP_OFF' !== App\Config::security('USER_AUTHY_MODE')) {
 				$massActionLinks[] = [
 					'linktype' => 'LISTVIEWMASSACTION',
 					'linklabel' => 'BTN_MASS_OFF_2FA',
@@ -102,8 +102,8 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		$searchParams = $this->getArray('search_params');
 		foreach ($searchParams as &$params) {
 			foreach ($params as &$param) {
-				if ($param['field_name'] === 'is_admin') {
-					$param['value'] = $param['value'] == '0' ? 'off' : 'on';
+				if ('is_admin' === $param['field_name']) {
+					$param['value'] = '0' == $param['value'] ? 'off' : 'on';
 				}
 			}
 		}
@@ -121,7 +121,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		$headerFieldModels = [];
 		$headerFields = $this->getQueryGenerator()->getListViewFields();
 		foreach ($headerFields as $fieldName => &$fieldsModel) {
-			if ($fieldsModel && ((!$fieldsModel->isViewable() && $fieldsModel->getUitype() !== 106) || !$fieldsModel->getPermissions())) {
+			if ($fieldsModel && ((!$fieldsModel->isViewable() && 106 !== $fieldsModel->getUitype()) || !$fieldsModel->getPermissions())) {
 				continue;
 			}
 			$headerFieldModels[$fieldName] = $fieldsModel;
@@ -129,11 +129,11 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		return $headerFieldModels;
 	}
 
-	/*
-	 * Function to give advance links of Users module
+	/**
+	 * Function to give advance links of Users module.
+	 *
 	 * @return array of advanced links
 	 */
-
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
@@ -155,5 +155,25 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 			];
 		}
 		return $advancedLinks;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function loadListViewOrderBy()
+	{
+		$orderBy = $this->getForSql('orderby');
+		if (!empty($orderBy)) {
+			[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $orderBy), 3, false);
+			if ($sourceFieldName) {
+				return $this->getQueryGenerator()->setRelatedOrder([
+					'sourceField' => $sourceFieldName,
+					'relatedModule' => $moduleName,
+					'relatedField' => $fieldName,
+					'relatedSortOrder' => $this->getForSql('sortorder')
+				]);
+			}
+			return $this->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
+		}
 	}
 }

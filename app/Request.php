@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App;
@@ -218,7 +219,7 @@ class Request
 	 *
 	 * @return array
 	 */
-	public function getArray($key, $type = false, $value = [])
+	public function getArray($key, $type = false, $value = [], ?string $keyType = null)
 	{
 		if (isset($this->purifiedValuesByArray[$key])) {
 			return $this->purifiedValuesByArray[$key];
@@ -237,7 +238,16 @@ class Request
 				}
 			}
 			if ($value) {
-				$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
+				if (\is_array($value)) {
+					$input = [];
+					foreach ($value as $k => $v) {
+						$k = $keyType ? Purifier::purifyByType($k, $keyType) : Purifier::purify($k);
+						$input[$k] = $type ? Purifier::purifyByType($v, $type) : Purifier::purify($v);
+					}
+					$value = $input;
+				}else{
+					$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
+				}
 			}
 
 			return $this->purifiedValuesByArray[$key] = (array) $value;
@@ -735,7 +745,7 @@ class Request
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return mied
+	 * @return mixed
 	 */
 	public static function __callStatic($name, $arguments = null)
 	{

@@ -516,13 +516,15 @@ jQuery.Class(
 		getDefaultParams: function() {
 			let params = {
 				module: app.getModuleName(),
-				page: jQuery('#pageNumber').val(),
+				page: $('#pageNumber').val(),
 				view: app.getViewName(),
 				viewname: this.getCurrentCvId(),
-				orderby: jQuery('#orderBy').val(),
-				sortorder: jQuery('#sortOrder').val(),
-				entityState: jQuery('#entityState').val()
+				orderby: $('#orderBy').val(),
+				entityState: $('#entityState').val()
 			};
+			if($('#sortOrder').length){
+				params.sortorder = $('#sortOrder').val();
+			}
 			if (app.getParentModuleName()) {
 				params.parent = app.getParentModuleName();
 			}
@@ -1357,19 +1359,8 @@ jQuery.Class(
 		 * Function to register the click event for listView headers
 		 */
 		registerHeadersClickEvent: function() {
-			var listViewPageDiv = this.getListViewContainer();
-			var thisInstance = this;
-			listViewPageDiv.on('click', '.js-listview_header', function(e) {
-				var fieldName = jQuery(e.currentTarget).data('columnname');
-				var sortOrderVal = jQuery(e.currentTarget).data('nextsortorderval');
-				if (typeof sortOrderVal === 'undefined') return;
-				var cvId = thisInstance.getCurrentCvId();
-				var urlParams = {
-					orderby: fieldName,
-					sortorder: sortOrderVal,
-					viewname: cvId
-				};
-				thisInstance.getListViewRecords(urlParams);
+			YetiForce_ListSearch_Js.registerSearch(this.getListViewContainer(), (data) => {
+				this.getListViewRecords(data);
 			});
 		},
 		/*

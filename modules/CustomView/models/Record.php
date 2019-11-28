@@ -16,7 +16,6 @@ class CustomView_Record_Model extends \App\Base
 {
 	protected $isFeatured = false;
 	protected $isDefault = false;
-	protected $sortOrderBy = false;
 
 	/**
 	 * Function to get the Id.
@@ -342,17 +341,19 @@ class CustomView_Record_Model extends \App\Base
 		if ($this->has('entityState')) {
 			$queryGenerator->setStateCondition($this->get('entityState'));
 		}
-		if ($orderBy = $this->get('orderby')) {
-			[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $orderBy), 3, false);
-			if ($sourceFieldName) {
-				$queryGenerator->setRelatedOrder([
-					'sourceField' => $sourceFieldName,
-					'relatedModule' => $moduleName,
-					'relatedField' => $fieldName,
-					'relatedSortOrder' => $this->get('sortorder')
-				]);
-			} else {
-				$queryGenerator->setOrder($orderBy, $this->get('sortorder'));
+		if (($orderBy = $this->get('orderby')) && is_array($orderBy)) {
+			foreach($orderBy as $fieldName => $sortFlag){
+				[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $fieldName), 3, false);
+				if ($sourceFieldName) {
+					$queryGenerator->setRelatedOrder([
+						'sourceField' => $sourceFieldName,
+						'relatedModule' => $moduleName,
+						'relatedField' => $fieldName,
+						'relatedSortOrder' => $sortFlag
+					]);
+				}else{
+					$queryGenerator->setOrder($fieldName, $sortFlag);
+				}
 			}
 		}
 		if ($lockRecords) {
@@ -957,23 +958,13 @@ class CustomView_Record_Model extends \App\Base
 		}
 		return self::getInstanceById($viewId);
 	}
-
-	public function getSortOrderBy($name = '')
+/**
+ * Get sort data
+ *
+ * @return array
+ */
+	public function getSortOrderBy()
 	{
-		if (false === $this->sortOrderBy) {
-			$this->sortOrderBy = explode(',', $this->get('sort'));
-		}
-		$return = $this->sortOrderBy;
-		switch ($name) {
-			case 'orderBy':
-				$return = $return[0];
-				break;
-			case 'sortOrder':
-				$return = $return[1] ?? '';
-				break;
-			default:
-				break;
-		}
-		return $return;
+		return empty($this->get('sort')) ? [] : \App\Json::decode($this->get('sort'));
 	}
 }

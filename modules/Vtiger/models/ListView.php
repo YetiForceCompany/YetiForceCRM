@@ -456,18 +456,21 @@ class Vtiger_ListView_Model extends \App\Base
 	 */
 	public function loadListViewOrderBy()
 	{
-		$orderBy = $this->getForSql('orderby');
-		if (!empty($orderBy)) {
-			[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $orderBy), 3, false);
-			if ($sourceFieldName) {
-				return $this->getQueryGenerator()->setRelatedOrder([
-					'sourceField' => $sourceFieldName,
-					'relatedModule' => $moduleName,
-					'relatedField' => $fieldName,
-					'relatedSortOrder' => $this->getForSql('sortorder')
-				]);
+		$orderBy = $this->get('orderby');
+		if (!empty($orderBy) && \is_array($orderBy)) {
+			foreach ($orderBy as $fieldName => $sortFlag) {
+				[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $fieldName), 3, false);
+				if ($sourceFieldName) {
+					$this->getQueryGenerator()->setRelatedOrder([
+						'sourceField' => $sourceFieldName,
+						'relatedModule' => $moduleName,
+						'relatedField' => $fieldName,
+						'relatedSortOrder' => $sortFlag
+					]);
+				} else {
+					$this->getQueryGenerator()->setOrder($fieldName, $sortFlag);
+				}
 			}
-			return $this->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
 		}
 	}
 

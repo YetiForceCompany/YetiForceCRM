@@ -326,6 +326,7 @@ final class Chat
 			$userId = User::getCurrentUserId();
 		}
 		$query = self::getRoomsUnpinnedQuery('private', $userId);
+		$query->andWhere(['ROOM_SRC.archived' => 0]);
 		if (!User::getUserModel($userId)->isAdmin()) {
 			$query->andWhere(['creatorid' => $userId]);
 		}
@@ -535,7 +536,6 @@ final class Chat
 			->select(['ROOM_SRC.*', 'recordid' => "ROOM_SRC.{$roomIdName}"])
 			->from(['ROOM_SRC' => static::TABLE_NAME['room_name'][$roomType]])
 			->leftJoin(['ROOM_PINNED' => static::TABLE_NAME['room'][$roomType]], "ROOM_PINNED.{$roomIdName} = ROOM_SRC.{$roomIdName}")
-			->where(['ROOM_SRC.archived' => 0])
 			->where(['or', ['not', ['ROOM_PINNED.userid' => $userId]], ['ROOM_PINNED.userid' => null]]);
 	}
 
@@ -982,7 +982,7 @@ final class Chat
 		}
 		$userModel = User::getUserModel($this->userId);
 		$groups = $userModel->getGroupNames();
-		$userImage = $userModel->getImage()['url'] ?? '';
+		$userImage = $userModel->getImage()['url'] ?? null;
 		$userName = $userModel->getName();
 		$userRoleName = $userModel->getRoleInstance()->getName();
 		$rows = [];
@@ -1051,59 +1051,22 @@ final class Chat
 		$userId = User::getCurrentUserId();
 		$columnRoom = static::COLUMN_NAME['room'][$roomType];
 		$columnMessage = static::COLUMN_NAME['message'][$roomType];
+		$columnName = static::COLUMN_NAME['room_name'][$roomType];
 		$query = (new Db\Query())->from(['M' => static::TABLE_NAME['message'][$roomType]]);
-		switch ($roomType) {
-			case 'crm':
-				$query->select(['M.*', 'name' => 'RN.label', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
-					->innerJoin(
+		if ('user' === $roomType) {
+			$query->select(['M.*', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
+				->leftJoin(
 						['R' => static::TABLE_NAME['room'][$roomType]],
 						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
 					)
-					->leftJoin(['RN' => 'u_#__crmentity_label'], "RN.crmid = M.{$columnMessage}");
-				break;
-			case 'group':
-				$query->select(['M.*', 'name' => 'RN.groupname', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
-					->innerJoin(
-						['R' => static::TABLE_NAME['room'][$roomType]],
-						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
-					)
-					->leftJoin(['RN' => 'vtiger_groups'], "RN.groupid = M.{$columnMessage}");
-				break;
-			case 'user':
-				$query->select(['M.*', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
-					->leftJoin(
-						['R' => static::TABLE_NAME['room'][$roomType]],
-						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
-					)
-					->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
-				break;
-			default:
-			static::getDefaultUnreadQuery($query, $roomType);
-				break;
+				->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
+		} else {
+			$query->select(['M.*', 'name' => "RN.{$columnName}", 'R.last_message', 'recordid' => "M.{$columnMessage}"])
+			->innerJoin(['R' => static::TABLE_NAME['room'][$roomType]], "R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}")
+			->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
 		}
 		return $query->where(['or', ['R.last_message' => null], ['<', 'R.last_message', new \yii\db\Expression('M.id')]])
 			->orderBy(["M.{$columnMessage}" => \SORT_ASC, 'id' => \SORT_DESC]);
-	}
-
-	/**
-	 * Get default unread query.
-	 *
-	 * @param object $query
-	 * @param string $roomType
-	 *
-	 * @return object
-	 */
-	private static function getDefaultUnreadQuery(object $query, string $roomType): object
-	{
-		$userId = User::getCurrentUserId();
-		$columnRoom = static::COLUMN_NAME['room'][$roomType];
-		$columnMessage = static::COLUMN_NAME['message'][$roomType];
-		return $query->select(['M.*', 'name' => 'RN.name', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
-			->leftJoin(
-			['R' => static::TABLE_NAME['room'][$roomType]],
-			"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
-		)
-			->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
 	}
 
 	/**
@@ -1183,7 +1146,7 @@ final class Chat
 				'created' => Fields\DateTime::formatToShort($row['created']),
 				'user_name' => $userModel->getName(),
 				'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
-				'image' => $image['url'] ?? '',
+				'image' => $image['url'] ?? null,
 				'room_name' => $row['name'],
 				'recordid' => $row['recordid'],
 				'last_message' => $row['last_message'],

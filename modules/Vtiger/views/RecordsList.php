@@ -100,8 +100,6 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$moduleName = $request->getModule($request);
 		$pageNumber = $request->isEmpty('page', true) ? 1 : $request->getInteger('page');
 		$totalCount = $request->isEmpty('totalCount', true) ? false : $request->getInteger('totalCount');
-		$orderBy = $request->getForSql('orderby');
-		$sortOrder = $request->getForSql('sortorder');
 		$sourceModule = $request->getByType('src_module', 2);
 		$sourceRecord = $request->isEmpty('src_record', true) ? 0 : $request->getInteger('src_record');
 		$sourceField = $request->isEmpty('src_field', true) ? '' : $request->getByType('src_field', 2);
@@ -178,13 +176,13 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		} else {
 			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
 		}
-		if (empty($orderBy) && empty($sortOrder)) {
+		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
+		if (empty($orderBy)) {
 			$moduleInstance = CRMEntity::getInstance($moduleName);
-			$orderBy = $moduleInstance->default_order_by;
-			$sortOrder = $moduleInstance->default_sort_order;
+			$orderBy = $moduleInstance->default_order_by ? [$moduleInstance->default_order_by => $moduleInstance->default_sort_order] : [];
 		}
 		if (!empty($orderBy)) {
-			$listViewModel->set('orderby', $orderBy)->set('sortorder', $sortOrder);
+			$listViewModel->set('orderby', $orderBy);
 		}
 		if (!empty($filterFields)) {
 			$listViewModel->set('filterFields', $filterFields);
@@ -228,17 +226,6 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			$listViewHeaders = $listViewModel->getListViewHeaders();
 			$listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
-		$noOfEntries = \count($listViewEntries);
-		if (empty($sortOrder)) {
-			$sortOrder = 'ASC';
-		}
-		if ('ASC' === $sortOrder) {
-			$nextSortOrder = 'DESC';
-			$sortImage = 'fas fa-chevron-down';
-		} else {
-			$nextSortOrder = 'ASC';
-			$sortImage = 'fas fa-chevron-up';
-		}
 		if (App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || ($request->getBoolean('showTotalCount') && !$totalCount)) {
 			if (method_exists($listViewModel, 'getListViewCount')) {
 				$totalCount = $listViewModel->getListViewCount();
@@ -257,7 +244,8 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('START_PAGIN_FROM', $pagingModel->getStartPagingFrom());
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
+		$viewer->assign('LISTVIEW_ENTRIES_COUNT', \count($listViewEntries));
+		$viewer->assign('MODULE_MODEL', Vtiger_Module_Model::getInstance($moduleName));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('RELATED_MODULE', $moduleName);
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -267,9 +255,6 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('RELATED_PARENT_MODULE', $relatedParentModule);
 		$viewer->assign('RELATED_PARENT_ID', $relatedParentId);
 		$viewer->assign('ORDER_BY', $orderBy);
-		$viewer->assign('SORT_ORDER', $sortOrder);
-		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
-		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('CURRENCY_ID', $currencyId);
 		$viewer->assign('FILTER_FIELDS', $filterFields);
 		$viewer->assign('ADDITIONAL_INFORMATIONS', $request->getBoolean('additionalInformations'));

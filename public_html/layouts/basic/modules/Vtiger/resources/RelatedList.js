@@ -342,27 +342,6 @@ jQuery.Class(
 				});
 		},
 		/**
-		 * Function to handle Sort
-		 */
-		sortHandler: function(headerElement) {
-			var aDeferred = jQuery.Deferred();
-			var sortOrderVal = headerElement.data('nextsortorderval');
-			if (typeof sortOrderVal === 'undefined') {
-				return;
-			}
-			this.loadRelatedList({
-				orderby: headerElement.data('fieldname'),
-				sortorder: sortOrderVal
-			})
-				.done(function(data) {
-					aDeferred.resolve(data);
-				})
-				.fail(function(textStatus, errorThrown) {
-					aDeferred.reject(textStatus, errorThrown);
-				});
-			return aDeferred.promise();
-		},
-		/**
 		 * Function to handle next page navigation
 		 */
 		nextPageHandler: function() {
@@ -856,9 +835,6 @@ jQuery.Class(
 		registerListEvents: function() {
 			var relatedContent = this.content;
 			var thisInstance = this;
-			this.content.on('click', '.relatedListHeaderValues', function(e) {
-				thisInstance.sortHandler($(this));
-			});
 			this.content.find('a.favorites').on('click', function(e) {
 				var progressInstance = jQuery.progressIndicator({
 					position: 'html',
@@ -1436,6 +1412,9 @@ jQuery.Class(
 			this.registerMainCheckBoxClickEvent();
 			this.registerSelectAllClickEvent();
 			this.registerDeselectAllClickEvent();
+			YetiForce_ListSearch_Js.registerSearch(this.content, (data) => {
+				this.loadRelatedList(data);
+			});
 		}
 	}
 );

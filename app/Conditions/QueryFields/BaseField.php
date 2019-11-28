@@ -114,10 +114,8 @@ class BaseField
 	 */
 	public function getOrderBy($order = false)
 	{
-		if ($order && 'DESC' === strtoupper($order)) {
-			return [$this->getColumnName() => SORT_DESC];
-		}
-		return [$this->getColumnName() => SORT_ASC];
+		$order = $order && \App\Db::DESC === strtoupper($order) ? SORT_DESC : SORT_ASC;
+		return [$this->getColumnName() => $order];
 	}
 
 	/**

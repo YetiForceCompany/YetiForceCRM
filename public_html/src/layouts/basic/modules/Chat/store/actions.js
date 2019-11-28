@@ -1,4 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+import difference from 'lodash.difference'
+let timer = false
 
 export default {
 	maximize({ commit }, isMini) {
@@ -86,18 +88,18 @@ export default {
 			})
 		})
 	},
-	archivePrivateRoom({ commit, dispatch }, room) {
+	archivePrivateRoom({ commit }, { recordId }) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
 				mode: 'archivePrivateRoom',
-				recordId: room.recordid
+				recordId: recordId
 			}).done(({ result }) => {
-				commit('hideRoom', { roomType: 'private', roomId: room.recordid })
-				dispatch('fetchRoomList').then(e => {
-					resolve(result)
-				})
+				if (result) {
+					commit('unsetRoom', { roomType: 'private', recordId })
+				}
+				resolve(result)
 			})
 		})
 	},
@@ -178,7 +180,11 @@ export default {
 			}).done(({ result }) => {
 				if (result.message) {
 					commit('setData', result.data)
-					Quasar.Plugins.Notify({ position: 'top', textColor: 'negative', message: app.vtranslate(result.message) })
+					Quasar.Plugins.Notify({
+						position: 'top',
+						textColor: 'negative',
+						message: app.vtranslate(result.message)
+					})
 				} else {
 					commit('pushSended', { result, roomType, recordId })
 				}
@@ -186,7 +192,7 @@ export default {
 			})
 		})
 	},
-	unpinRoom({ dispatch, commit, getters }, { roomType, recordId }) {
+	unpinRoom({ dispatch }, { roomType, recordId }) {
 		AppConnector.request({
 			module: 'Chat',
 			action: 'Room',
@@ -195,9 +201,16 @@ export default {
 			recordId
 		}).done(data => {
 			if (data) {
-				commit('unsetRoom', { roomType, recordId })
+				dispatch('unsetRoom', { roomType, recordId })
 			}
 		})
+	},
+	unsetRoom({ commit, getters }, { roomType, recordId }) {
+		commit('unsetRoom', { roomType, recordId })
+		let currentRoom = getters.data.currentRoom
+		if (currentRoom.roomType === roomType && currentRoom.recordId === recordId) {
+			commit('unsetCurrentRoom')
+		}
 	},
 	pinRoom({ dispatch, commit }, { roomType, recordId }) {
 		AppConnector.request({
@@ -316,7 +329,6 @@ export default {
 			})
 		})
 	},
-
 	notifyAboutNewMessages({ dispatch, getters }, { roomList, amount, firstFetch }) {
 		if (amount > getters.data.amountOfNewMessages) {
 			if (getters.isSoundNotification) {
@@ -324,7 +336,8 @@ export default {
 					roomList[roomType][room].cnt_new_message > getters.data.roomList[roomType][room].cnt_new_message
 				if (firstFetch) {
 					areNewMessagesForRoom = (roomType, room) =>
-						roomList[roomType][room].cnt_new_message >= getters.data.roomList[roomType][room].cnt_new_message
+						roomList[roomType][room].cnt_new_message >=
+						getters.data.roomList[roomType][room].cnt_new_message
 				}
 				for (let roomType in roomList) {
 					let played = false
@@ -361,5 +374,81 @@ export default {
 			commit('setAmountOfNewMessages', amount)
 			commit('setAmountOfNewMessagesByRoom', roomList)
 		}
+	},
+	setNewRooms({ commit, getters }, roomList) {
+		let newRooms = []
+		for (let roomType in roomList) {
+			for (let room in roomList[roomType]) {
+				if (!getters.data.roomList[roomType][room]) {
+					newRooms.push({
+						roomType,
+						recordId: roomList[roomType][room].recordid
+					})
+				}
+			}
+		}
+		if (newRooms.length) {
+			commit('setNewRooms', {
+				newRooms,
+				newData: roomList
+			})
+		}
+	},
+	unsetUnpinnedRooms({ commit, getters }, roomList) {
+		let roomsToUnpin = {}
+		let areDifferences = false
+		for (let roomType in roomList) {
+			roomsToUnpin[roomType] = difference(
+				Object.keys(getters.data.roomList[roomType]),
+				Object.keys(roomList[roomType])
+			)
+			if (roomsToUnpin[roomType].length) {
+				areDifferences = true
+			}
+		}
+		if (areDifferences) {
+			commit('unsetUnpinnedRooms', roomsToUnpin)
+		}
+	},
+	/**
+	 * Init timer
+	 */
+	startUpdatesListener({ dispatch }) {
+		dispatch('fetchNewMessages', { firstFetch: true })
+	},
+	/**
+	 * Init timer
+	 */
+	initTimer({ dispatch, getters }) {
+		let timeoutCallback = () => dispatch('fetchNewMessages')
+		timer = setTimeout(timeoutCallback, getters.getInterval)
+	},
+	/**
+	 * Fetch new messages timeout function
+	 */
+	fetchNewMessages({ getters, commit, dispatch }, { firstFetch } = { firstFetch: false }) {
+		let activeRooms = getters.allRooms.length ? getters.allRooms.filter(el => el.active) : []
+		AppConnector.request({
+			module: 'Chat',
+			action: 'ChatAjax',
+			mode: 'getRoomsMessages',
+			rooms: activeRooms
+		}).done(({ result }) => {
+			dispatch('unsetUnpinnedRooms', result.roomList)
+			dispatch('setNewRooms', result.roomList)
+			if (result.areNewEntries) {
+				commit('updateActiveRooms', {
+					roomsToUpdate: [...activeRooms],
+					newData: result
+				})
+			}
+			dispatch('notifyAboutNewMessages', {
+				...result.amountOfNewMessages,
+				firstFetch
+			})
+			if (timer || firstFetch) {
+				dispatch('initTimer')
+			}
+		})
 	}
 }

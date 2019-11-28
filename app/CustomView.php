@@ -97,38 +97,7 @@ class CustomView
 	 */
 	public static function getCurrentView($moduleName)
 	{
-		if (!empty($_SESSION['lvs'][$moduleName]['viewname'])) {
-			return $_SESSION['lvs'][$moduleName]['viewname'];
-		}
-	}
-
-	/**
-	 * Get sort directions.
-	 *
-	 * @param string $moduleName
-	 *
-	 * @return string
-	 */
-	public static function getSorder($moduleName)
-	{
-		if (!empty($_SESSION['lvs'][$moduleName]['sorder'])) {
-			return $_SESSION['lvs'][$moduleName]['sorder'];
-		}
-	}
-
-	/**
-	 * Set sort directions.
-	 *
-	 * @param string $moduleName
-	 * @param string $order
-	 */
-	public static function setSorder($moduleName, $order)
-	{
-		if (empty($order)) {
-			unset($_SESSION['lvs'][$moduleName]['sorder']);
-		} else {
-			$_SESSION['lvs'][$moduleName]['sorder'] = $order;
-		}
+		return $_SESSION['lvs'][$moduleName]['viewname'] ?? null;
 	}
 
 	/**
@@ -138,47 +107,23 @@ class CustomView
 	 *
 	 * @return string
 	 */
-	public static function getSortby($moduleName)
+	public static function getSortBy($moduleName)
 	{
-		if (!empty($_SESSION['lvs'][$moduleName]['sortby'])) {
-			return $_SESSION['lvs'][$moduleName]['sortby'];
-		}
+		return empty($_SESSION['lvs'][$moduleName]['sortby']) ? [] : $_SESSION['lvs'][$moduleName]['sortby'];
 	}
 
 	/**
 	 * Set sorted by.
 	 *
 	 * @param string $moduleName
-	 * @param string $sortby
+	 * @param mixed $sortBy
 	 */
-	public static function setSortby($moduleName, $sortby)
+	public static function setSortBy(string $moduleName, $sortBy)
 	{
-		if (empty($sortby)) {
+		if (empty($sortBy)) {
 			unset($_SESSION['lvs'][$moduleName]['sortby']);
 		} else {
-			$_SESSION['lvs'][$moduleName]['sortby'] = $sortby;
-		}
-	}
-
-	/**
-	 * Set default sort order by.
-	 *
-	 * @param string $moduleName
-	 * @param string $defaultSortOrderBy
-	 */
-	public static function setDefaultSortOrderBy($moduleName, $defaultSortOrderBy = [])
-	{
-		if (Request::_has('orderby')) {
-			$_SESSION['lvs'][$moduleName]['sortby'] = Request::_getForSql('orderby');
-		}
-		if (Request::_has('sortorder')) {
-			$_SESSION['lvs'][$moduleName]['sorder'] = Request::_getForSql('sortorder');
-		}
-		if (isset($defaultSortOrderBy['orderBy'])) {
-			$_SESSION['lvs'][$moduleName]['sortby'] = $defaultSortOrderBy['orderBy'];
-		}
-		if (isset($defaultSortOrderBy['sortOrder'])) {
-			$_SESSION['lvs'][$moduleName]['sorder'] = $defaultSortOrderBy['sortOrder'];
+			$_SESSION['lvs'][$moduleName]['sortby'] = $sortBy;
 		}
 	}
 
@@ -190,12 +135,11 @@ class CustomView
 	 *
 	 * @return bool
 	 */
-	public static function hasViewChanged($moduleName, $viewId = false)
+	public static function hasViewChanged(string $moduleName, $viewId = false): bool
 	{
-		if (empty($_SESSION['lvs'][$moduleName]['viewname']) || ($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) || (!Request::_isEmpty('viewname') && (Request::_get('viewname') !== $_SESSION['lvs'][$moduleName]['viewname']))) {
-			return true;
-		}
-		return false;
+		return empty($_SESSION['lvs'][$moduleName]['viewname']) ||
+		($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) ||
+		!isset($_SESSION['lvs'][$moduleName]['sortby']);
 	}
 
 	/**

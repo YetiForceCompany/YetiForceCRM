@@ -23,26 +23,42 @@
 			<tr class="listViewHeaders">
 				{assign var=COUNT value=0}
 				<th class="noWrap">
-					{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
-						<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="relatedListViewEntriesMainCheckBox"/>
-					{/if}
+					<div class="d-flex align-items-center">
+						{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
+						<label class="sr-only" for="relatedListViewEntriesMainCheckBox">{\App\Language::translate('LBL_SELECT_ALL')}</label>
+							<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="relatedListViewEntriesMainCheckBox"/>
+						{/if}
+						{if $RELATED_MODULE->isAdvSortEnabled()}
+							<button type="button"
+								class="ml-2 btn btn-info btn-xs js-show-modal"
+								data-url="index.php?view=SortOrderModal&fromView={$VIEW}&module={$RELATED_MODULE_NAME}"
+								data-modalid="sortOrderModal-{\App\Layout::getUniqueId()}">
+								<span class="fas fa-sort"></span>
+							</button>
+						{/if}
+						<div class="js-list-reload" data-js="click">
+					</div>
 				</th>
 				{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 					{if !empty($COLUMNS) && $COUNT == $COLUMNS }
 						{break}
 					{/if}
+					{assign var=HEADER_FIELD_NAME value=$HEADER_FIELD->getFullName()}
 					{assign var=COUNT value=$COUNT+1}
-					<th {if $HEADER_FIELD@last} colspan="2"{/if} nowrap>
+					<th {if $HEADER_FIELD@last} colspan="2"{/if} nowrap class="{if isset($ORDER_BY[$HEADER_FIELD_NAME])} columnSorted{/if}">
 						{if $HEADER_FIELD->getColumnName() eq 'access_count' or $HEADER_FIELD->getColumnName() eq 'idlists' }
 							<a href="javascript:void(0);"
 							   class="noSorting">{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}</a>
 						{else}
-							<a href="javascript:void(0);" class="relatedListHeaderValues"
-							   {if $HEADER_FIELD->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->getColumnName()}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if}
-							   data-fieldname="{$HEADER_FIELD->getColumnName()}">{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
-								&nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->getColumnName()}<span
-								class="{$SORT_IMAGE}"></span>{/if}
-							</a>
+							<span class="listViewHeaderValues float-left  {if $HEADER_FIELD->isListviewSortable()} js-change-order u-cursor-pointer{/if}"
+								data-nextsortorderval="{if isset($ORDER_BY[$HEADER_FIELD_NAME]) && $ORDER_BY[$HEADER_FIELD_NAME] eq \App\Db::ASC}{\App\Db::DESC}{else}{\App\Db::ASC}{/if}"
+								data-columnname="{$HEADER_FIELD_NAME}"
+								data-js="click">
+								{$HEADER_FIELD->getFullLabelTranslation($RELATED_MODULE)}
+								{if isset($ORDER_BY[$HEADER_FIELD_NAME])}
+									&nbsp;&nbsp;<span class="fas {if $ORDER_BY[$HEADER_FIELD_NAME] eq \App\Db::DESC}fa-chevron-down{else}fa-chevron-up{/if}"></span>
+								{/if}
+							</span>
 						{/if}
 					</th>
 				{/foreach}
