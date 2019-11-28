@@ -103,11 +103,13 @@ abstract class Page extends Base
 		if (\App\Privilege::isPermitted('OSSMail')) {
 			$jsFileNames[] = '~layouts/basic/modules/OSSMail/resources/checkmails.js';
 		}
-		if (\App\User::getCurrentUserRealId() === \App\User::getCurrentUserId() && \App\Privilege::isPermitted('Chat')) {
-			$jsFileNames[] = '~layouts/basic/modules/Chat/Chat.vue.js';
-		}
-		if (\App\Privilege::isPermitted('KnowledgeBase')) {
-			$jsFileNames[] = '~layouts/resources/views/KnowledgeBase/KnowledgeBase.vue.js';
+		if (!\App\RequestUtil::getBrowserInfo()->ie) {
+			if (\App\User::getCurrentUserRealId() === \App\User::getCurrentUserId() && \App\Privilege::isPermitted('Chat')) {
+				$jsFileNames[] = '~layouts/basic/modules/Chat/Chat.vue.js';
+			}
+			if (\App\Privilege::isPermitted('KnowledgeBase')) {
+				$jsFileNames[] = '~layouts/resources/views/KnowledgeBase/KnowledgeBase.vue.js';
+			}
 		}
 		foreach (\Vtiger_Link_Model::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERSCRIPT']) as $headerScripts) {
 			foreach ($headerScripts as $headerScript) {

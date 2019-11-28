@@ -281,7 +281,7 @@
 							<a class="c-header__btn ml-2 btn-light btn js-popover-tooltip js-knowledge-base-modal"
 							   role="button"
 							   data-js="popover|modal" data-content="{\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}"
-							   href="#">
+							   href="{if \App\RequestUtil::getBrowserInfo()->ie}index.php?module=KnowledgeBase&view=List{else}#{/if}">
 								<span class="userIcon-KnowledgeBase"
 									  title="{\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}"></span>
 								<span class="c-header__label--sm-down"> {\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}</span>
