@@ -59,23 +59,14 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'));
-		$orderBy = $request->getForSql('orderby');
-		$sortOrder = $request->getForSql('sortorder');
-		if ('ASC' === $sortOrder) {
-			$nextSortOrder = 'DESC';
-			$sortImage = 'fas fa-chevron-down';
-		} else {
-			$nextSortOrder = 'ASC';
-			$sortImage = 'fas fa-chevron-up';
-		}
-		if (empty($orderBy) && empty($sortOrder)) {
-			$relatedInstance = $relationListView->getRelatedModuleModel()->getEntityInstance();
-			$orderBy = $relatedInstance->default_order_by;
-			$sortOrder = $relatedInstance->default_sort_order;
+
+		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
+		if (empty($orderBy)) {
+			$moduleInstance = $relationListView->getRelatedModuleModel()->getEntityInstance();
+			$orderBy = $moduleInstance->default_order_by ? [$moduleInstance->default_order_by => $moduleInstance->default_sort_order] : [];
 		}
 		if (!empty($orderBy)) {
 			$relationListView->set('orderby', $orderBy);
-			$relationListView->set('sortorder', $sortOrder);
 		}
 		if ($request->has('entityState')) {
 			$relationListView->set('entityState', $request->getByType('entityState'));
@@ -141,10 +132,6 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('ORDER_BY', $orderBy);
-		$viewer->assign('SORT_ORDER', $sortOrder);
-		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
-		$viewer->assign('SORT_IMAGE', $sortImage);
-		$viewer->assign('COLUMN_NAME', $orderBy);
 		$viewer->assign('INVENTORY_FIELDS', $relationModel->getRelationInventoryFields());
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());

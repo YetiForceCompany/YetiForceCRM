@@ -790,8 +790,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$pageNumber = $request->getInteger('page');
 		$limit = 10;
 		$relatedModuleName = $request->getByType('relatedModule', 2);
-		$orderBy = $request->getForSql('orderby');
-		$sortOrder = $request->getForSql('sortorder');
 		$columns = 0;
 		$moduleName = $request->getModule();
 		$searchParams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
@@ -805,20 +803,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$limit = $request->getInteger('limit');
 		}
 		$pagingModel->set('limit', $limit);
-		if ('ASC' === $sortOrder) {
-			$nextSortOrder = 'DESC';
-			$sortImage = 'fas fa-chevron-down';
-		} else {
-			$nextSortOrder = 'ASC';
-			$sortImage = 'fas fa-chevron-up';
-		}
 		if (is_numeric($relatedModuleName)) {
 			$relatedModuleName = \App\Module::getModuleName($relatedModuleName);
-		}
-		if (empty($orderBy) && empty($sortOrder)) {
-			$relatedInstance = CRMEntity::getInstance($relatedModuleName);
-			$orderBy = $relatedInstance->default_order_by;
-			$sortOrder = $relatedInstance->default_sort_order;
 		}
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -839,9 +825,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$searchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$relationListView->set('search_params', $searchParams);
 		}
+		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
+		if (empty($orderBy)) {
+			$moduleInstance = CRMEntity::getInstance($relatedModuleName);
+			$orderBy = $moduleInstance->default_order_by ? [$moduleInstance->default_order_by => $moduleInstance->default_sort_order] : [];
+		}
 		if (!empty($orderBy)) {
 			$relationListView->set('orderby', $orderBy);
-			$relationListView->set('sortorder', $sortOrder);
 		}
 		$viewer = $this->getViewer($request);
 		$viewType = !$request->isEmpty('viewType') ? $request->getByType('viewType') : '';
@@ -902,10 +892,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('ORDER_BY', $orderBy);
-		$viewer->assign('SORT_ORDER', $sortOrder);
-		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
-		$viewer->assign('SORT_IMAGE', $sortImage);
-		$viewer->assign('COLUMN_NAME', $orderBy);
 		$viewer->assign('COLUMNS', $columns);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->privilegeToDelete());

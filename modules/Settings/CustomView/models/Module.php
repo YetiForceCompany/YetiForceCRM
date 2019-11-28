@@ -111,9 +111,8 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 			}
 			$dbCommand->update('vtiger_customview', [$name => $params['value']], ['cvid' => $cvid])->execute();
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	public static function upadteSequences($params)
@@ -174,11 +173,9 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$customViewModel = CustomView_Record_Model::getInstanceById($params['cvid']);
 		$moduleName = $customViewModel->get('entitytype');
-		$curretView = App\CustomView::getCurrentView($moduleName);
-		if ($curretView == $params['cvid']) {
-			$sortOrder = array_pad(explode(',', $params['value']), 2, '');
-			App\CustomView::setSorder($moduleName, $sortOrder[1]);
-			App\CustomView::setSortby($moduleName, $sortOrder[0]);
+		$currentView = App\CustomView::getCurrentView($moduleName);
+		if ($currentView === $params['cvid']) {
+			App\CustomView::setSortBy($moduleName, $params['value'] ? \App\Json::decode($params['value']) : null);
 		}
 	}
 }

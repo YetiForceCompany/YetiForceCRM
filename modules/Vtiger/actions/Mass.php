@@ -46,8 +46,7 @@ abstract class Vtiger_Mass_Action extends \App\Controller\Action
 			$customViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $searchKey, $operator));
 		}
 		if ($request->getBoolean('isSortActive') && !$request->isEmpty('orderby')) {
-			$customViewModel->set('sortorder', $request->getForSql('sortorder'))
-				->set('orderby', $request->getForSql('orderby'));
+			$customViewModel->set('orderby', $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL));
 		}
 		$customViewModel->set('search_params', App\Condition::validSearchParams($moduleName, $request->getArray('search_params')));
 		$customViewModel->set('entityState', $request->getByType('entityState'));

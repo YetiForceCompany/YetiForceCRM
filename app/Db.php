@@ -12,6 +12,16 @@ namespace App;
 class Db extends \yii\db\Connection
 {
 	/**
+	 * Sorting order flag.
+	 */
+	public const ASC = 'ASC';
+
+	/**
+	 * Sorting order flag.
+	 */
+	public const DESC = 'DESC';
+
+	/**
 	 * @var bool whether to turn on prepare emulation. Defaults to false, meaning PDO
 	 *           will use the native prepare support if available. For some databases (such as MySQL),
 	 *           this may need to be set true so that PDO can emulate the prepare support to bypass

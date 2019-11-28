@@ -36,8 +36,7 @@
 								<optgroup
 										label='{\App\Language::translate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}'>
 									{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
-										<option data-orderby="{$CUSTOM_VIEW->getSortOrderBy('orderBy')}"
-												data-sortorder="{$CUSTOM_VIEW->getSortOrderBy('sortOrder')}"
+										<option
 												data-editurl="{$CUSTOM_VIEW->getEditUrl()}"
 												data-deleteurl="{$CUSTOM_VIEW->getDeleteUrl()}"
 												data-approveurl="{$CUSTOM_VIEW->getApproveUrl()}"

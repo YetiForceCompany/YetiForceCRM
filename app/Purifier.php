@@ -23,9 +23,14 @@ class Purifier
 	public const INTEGER = 'Integer';
 
 	/**
-	 * Purify type integer.
+	 * Purify type standard.
 	 */
 	public const STANDARD = 'Standard';
+
+	/**
+	 * Purify type sql.
+	 */
+	public const SQL = 'Sql';
 
 	/**
 	 * Purify type text.
@@ -289,7 +294,7 @@ class Purifier
 	 */
 	public static function purifySql($input, $skipEmpty = true)
 	{
-		if ((empty($input) && $skipEmpty) || preg_match('/^[_a-zA-Z0-9.,:]+$/', $input)) {
+		if ((empty($input) && $skipEmpty) || Validator::sql($input)) {
 			return $input;
 		}
 		\App\Log::error('purifySql: ' . $input, 'IllegalValue');
@@ -427,6 +432,9 @@ class Purifier
 					break;
 				case 'MailId':
 					$value = preg_match('/^[\sA-Za-z0-9\<\>\_\.\=\-\@]+$/', $input) ? $input : null;
+					break;
+				case self::SQL:
+					$value = $input && Validator::sql($input) ? $input : null;
 					break;
 				case 'Text':
 				default:

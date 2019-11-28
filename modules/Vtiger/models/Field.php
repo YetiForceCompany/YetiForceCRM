@@ -102,7 +102,35 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
+	 * Get full name.
+	 *
+	 * @return string
+	 */
+	public function getFullName()
+	{
+		return $this->get('source_field_name') ? "{$this->getName()}:{$this->getModuleName()}:{$this->get('source_field_name')}" : $this->getName();
+	}
+
+	/**
+	 * Get full label translation.
+	 *
+	 * @param Vtiger_Module_Model $module
+	 *
+	 * @return string
+	 */
+	public function getFullLabelTranslation(Vtiger_Module_Model $module)
+	{
+		$translation = '';
+		if ($this->get('source_field_name')) {
+			$translation = \App\Language::translate($module->getFieldByName($this->get('source_field_name'))->getFieldLabel(), $module->getName()) . ' - ';
+		}
+		return $translation .= \App\Language::translate($this->getFieldLabel(), $this->getModuleName());
+	}
+
+	/**
 	 * Get field name.
+	 *
+	 * @deprecated Use $this->getName()
 	 *
 	 * @return string
 	 */

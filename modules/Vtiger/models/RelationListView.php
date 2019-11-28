@@ -255,16 +255,15 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 */
 	public function loadOrderBy()
 	{
-		$orderBy = $this->getForSql('orderby');
-		if (!empty($orderBy)) {
-			$field = $this->getRelationModel()->getRelationModuleModel()->getFieldByColumn($orderBy);
-			if ($field) {
-				$orderBy = $field->getName();
+		$orderBy = $this->get('orderby');
+		if (!empty($orderBy) && \is_array($orderBy)) {
+			foreach ($orderBy as $fieldName => $sortFlag) {
+				$field = $this->getRelationModel()->getRelationModuleModel()->getFieldByName($fieldName);
+				if ($field || 'id' === $fieldName) {
+					return $this->getRelationModel()->getQueryGenerator()->setOrder($fieldName, $sortFlag);
+				}
+				\App\Log::warning("[RelationListView] Incorrect value of sorting: '$fieldName'");
 			}
-			if ($field || 'id' === $orderBy) {
-				return $this->getRelationModel()->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
-			}
-			\App\Log::warning("[RelationListView] Incorrect value of sorting: '$orderBy'");
 		}
 	}
 
