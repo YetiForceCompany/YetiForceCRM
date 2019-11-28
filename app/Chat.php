@@ -982,7 +982,7 @@ final class Chat
 		}
 		$userModel = User::getUserModel($this->userId);
 		$groups = $userModel->getGroupNames();
-		$userImage = $userModel->getImage()['url'] ?? '';
+		$userImage = $userModel->getImage()['url'] ?? null;
 		$userName = $userModel->getName();
 		$userRoleName = $userModel->getRoleInstance()->getName();
 		$rows = [];
@@ -1146,7 +1146,7 @@ final class Chat
 				'created' => Fields\DateTime::formatToShort($row['created']),
 				'user_name' => $userModel->getName(),
 				'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
-				'image' => $image['url'] ?? '',
+				'image' => $image['url'] ?? null,
 				'room_name' => $row['name'],
 				'recordid' => $row['recordid'],
 				'last_message' => $row['last_message'],
