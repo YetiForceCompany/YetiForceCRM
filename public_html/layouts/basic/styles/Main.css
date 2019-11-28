@@ -18578,6 +18578,9 @@ input[type="radio"]:checked:before {
     height: 1.4375rem; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+body {
+  overflow: hidden; }
+
 .mainBody {
   position: absolute;
   top: 3.125rem;
