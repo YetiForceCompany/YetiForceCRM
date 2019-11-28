@@ -148,6 +148,7 @@ abstract class Base extends \App\Controller\Base
 		$view->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$view->assign('LANGUAGE', \App\Language::getLanguage());
 		$view->assign('HTMLLANG', \App\Language::getShortLanguageName());
+		$view->assign('ARE_MIN_FILES', \vtlib\Functions::getMinimizationOptions('css') && \vtlib\Functions::getMinimizationOptions('js'));
 		$view->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 		$view->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
 		$view->assign('CURRENT_USER', \App\User::getCurrentUserModel());
@@ -247,9 +248,18 @@ abstract class Base extends \App\Controller\Base
 	 */
 	public function getHeaderScripts(\App\Request $request)
 	{
-		return $this->checkAndConvertJsScripts([
+		$jsFileNames = [
 			'libraries.jquery.dist.jquery',
-		]);
+		];
+		if (\App\RequestUtil::getBrowserInfo()->ie) {
+			$polyfills = [
+				'~libraries/html5shiv/html5shiv.js',
+				'~libraries/respond.js/dist/respond.min.js',
+				'~libraries/whatwg-fetch/dist/fetch.umd.js'
+			];
+			$jsFileNames = array_merge($polyfills, $jsFileNames);
+		}
+		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
 	/**
