@@ -892,7 +892,8 @@ jQuery.Class(
 			var detailContentsHolder = this.getContentHolder();
 			detailContentsHolder.on('click', '.listViewEntries', function(e) {
 				var targetElement = jQuery(e.target, jQuery(e.currentTarget));
-				if (targetElement.is('td:first-child') && targetElement.children('input[type="checkbox"]').length > 0) return;
+				if (targetElement.is('td:first-child') && targetElement.children('input[type="checkbox"]').length > 0)
+					return;
 				if (jQuery(e.target).is('input[type="checkbox"]')) return;
 				var elem = jQuery(e.currentTarget);
 				var recordUrl = elem.data('recordurl');
@@ -1236,7 +1237,8 @@ jQuery.Class(
 								if (postSaveRecordDetails['isViewable'] === false) {
 									let urlObject = app.convertUrlToObject(window.location.href);
 									if (window !== window.parent) {
-										window.parent.location.href = 'index.php?module=' + urlObject['module'] + '&view=ListPreview';
+										window.parent.location.href =
+											'index.php?module=' + urlObject['module'] + '&view=ListPreview';
 									} else {
 										window.location.href = 'index.php?module=' + urlObject['module'] + '&view=List';
 									}
@@ -1248,12 +1250,18 @@ jQuery.Class(
 										}
 									});
 									if (window !== window.parent) {
-										window.location.href = window.location.href.replace('view=Detail', 'view=DetailPreview');
+										window.location.href = window.location.href.replace(
+											'view=Detail',
+											'view=DetailPreview'
+										);
 									} else {
 										window.location.reload();
 									}
 								}
-								fieldElement.trigger(thisInstance.fieldUpdatedEvent, { old: previousValue, new: fieldValue });
+								fieldElement.trigger(thisInstance.fieldUpdatedEvent, {
+									old: previousValue,
+									new: fieldValue
+								});
 								ajaxEditNewValue = ajaxEditNewValue === undefined ? '' : ajaxEditNewValue; //data cannot be undefined
 								elementTarget.data('prevValue', ajaxEditNewValue);
 								fieldElement.data('selectedValue', ajaxEditNewValue);
@@ -1274,7 +1282,9 @@ jQuery.Class(
 									thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 									thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 									thisInstance.registerEventForRelatedList();
-								} else if (selectedTabElement.data('linkKey') == thisInstance.detailViewDetailsTabLabel) {
+								} else if (
+									selectedTabElement.data('linkKey') == thisInstance.detailViewDetailsTabLabel
+								) {
 									thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
 								}
 								thisInstance.updateRecordsPDFTemplateBtn(thisInstance.getForm());
@@ -1344,8 +1354,12 @@ jQuery.Class(
 				var fullFormUrl = element.data('url');
 				var preQuickCreateSave = function(data) {
 					thisInstance.addElementsToQuickCreateForCreatingRelation(data, customParams);
-					var taskGoToFullFormButton = data.find('[class^="CalendarQuikcCreateContents"]').find('.js-full-editlink');
-					var eventsGoToFullFormButton = data.find('[class^="EventsQuikcCreateContents"]').find('.js-full-editlink');
+					var taskGoToFullFormButton = data
+						.find('[class^="CalendarQuikcCreateContents"]')
+						.find('.js-full-editlink');
+					var eventsGoToFullFormButton = data
+						.find('[class^="EventsQuikcCreateContents"]')
+						.find('.js-full-editlink');
 					var taskFullFormUrl = taskGoToFullFormButton.data('url') + '&' + fullFormUrl;
 					var eventsFullFormUrl = eventsGoToFullFormButton.data('url') + '&' + fullFormUrl;
 					taskGoToFullFormButton.data('url', taskFullFormUrl);
@@ -1488,7 +1502,9 @@ jQuery.Class(
 			});
 			container.find('button.selectRelation').on('click', function(e) {
 				let summaryWidgetContainer = jQuery(e.currentTarget).closest('.js-detail-widget');
-				let referenceModuleName = summaryWidgetContainer.find('.js-detail-widget-content [name="relatedModule"]').val();
+				let referenceModuleName = summaryWidgetContainer
+					.find('.js-detail-widget-content [name="relatedModule"]')
+					.val();
 				let restrictionsField = $(this).data('rf');
 				let params = {
 					module: referenceModuleName,
@@ -1502,9 +1518,11 @@ jQuery.Class(
 				}
 				app.showRecordsList(params, (modal, instance) => {
 					instance.setSelectEvent(responseData => {
-						thisInstance.addRelationBetweenRecords(referenceModuleName, Object.keys(responseData)).done(function(data) {
-							thisInstance.loadWidget(summaryWidgetContainer.find('.widgetContentBlock'));
-						});
+						thisInstance
+							.addRelationBetweenRecords(referenceModuleName, Object.keys(responseData))
+							.done(function(data) {
+								thisInstance.loadWidget(summaryWidgetContainer.find('.widgetContentBlock'));
+							});
 					});
 				});
 			});
@@ -1568,7 +1586,10 @@ jQuery.Class(
 					var name = element.data('urlparams');
 					if (element.attr('type') == 'radio') {
 						if (element.prop('checked')) {
-							value = typeof element.data('on-val') !== 'undefined' ? element.data('on-val') : element.data('off-val');
+							value =
+								typeof element.data('on-val') !== 'undefined'
+									? element.data('on-val')
+									: element.data('off-val');
 						}
 					} else {
 						var selectedFilter = element.find('option:selected').val();
@@ -1680,7 +1701,9 @@ jQuery.Class(
 									let widget = currentTarget.closest('.widgetContentBlock');
 									if (widget.length) {
 										thisInstance.loadWidget(widget);
-										let updatesWidget = thisInstance.getContentHolder().find("[data-type='Updates']");
+										let updatesWidget = thisInstance
+											.getContentHolder()
+											.find("[data-type='Updates']");
 										if (updatesWidget.length > 0) {
 											thisInstance.loadWidget(updatesWidget);
 										}
@@ -2157,7 +2180,10 @@ jQuery.Class(
 					return;
 				}
 				var preFieldSaveEvent = jQuery.Event(thisInstance.fieldPreSave);
-				fieldElement.trigger(preFieldSaveEvent, { fieldValue: fieldValue, recordId: thisInstance.getRecordId() });
+				fieldElement.trigger(preFieldSaveEvent, {
+					fieldValue: fieldValue,
+					recordId: thisInstance.getRecordId()
+				});
 				var fieldNameValueMap = {};
 				fieldNameValueMap['value'] = fieldValue;
 				fieldNameValueMap['field'] = fieldName;
@@ -2296,8 +2322,7 @@ jQuery.Class(
 				self.removeCommentBlockIfExists();
 				let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single');
 				commentInfoBlock.find('.js-comment-container').hide();
-				self
-					.getCommentBlock()
+				self.getCommentBlock()
 					.appendTo(commentInfoBlock)
 					.show();
 			});
@@ -2315,8 +2340,7 @@ jQuery.Class(
 			detailContentsHolder.on('click', '.js-detail-view-save-comment', function(e) {
 				let element = $(e.currentTarget);
 				if (!element.is(':disabled')) {
-					self
-						.saveComment(e)
+					self.saveComment(e)
 						.done(function() {
 							self.registerRelatedModulesRecordCount();
 							self.loadWidget(detailContentsHolder.find("[data-type='Comments']")).done(function() {
@@ -2332,10 +2356,11 @@ jQuery.Class(
 			detailContentsHolder.on('click', '.js-save-comment', function(e) {
 				let element = $(e.currentTarget);
 				if (!element.is(':disabled')) {
-					self
-						.saveComment(e)
+					self.saveComment(e)
 						.done(function(data) {
-							self.registerRelatedModulesRecordCount(self.getTabByLabel(self.detailViewRecentCommentsTabLabel));
+							self.registerRelatedModulesRecordCount(
+								self.getTabByLabel(self.detailViewRecentCommentsTabLabel)
+							);
 							self.addComment(element, data);
 							element.removeAttr('disabled');
 						})
@@ -2569,11 +2594,10 @@ jQuery.Class(
 				message: app.vtranslate('JS_CHANGE_VALUE_CONFIRMATION')
 			}).done(() => {
 				const progressIndicatorElement = $.progressIndicator();
-				self
-					.saveFieldValues({
-						value: picklistValue,
-						field: picklistName
-					})
+				self.saveFieldValues({
+					value: picklistValue,
+					field: picklistName
+				})
 					.done(() => {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						window.location.reload();
@@ -2858,7 +2882,9 @@ jQuery.Class(
 						let switchBtn = jQuery('.active .js-switch--recentActivities');
 						url +=
 							'&whereCondition=' +
-							(typeof switchBtn.data('on-val') === 'undefined' ? switchBtn.data('off-val') : switchBtn.data('on-val'));
+							(typeof switchBtn.data('on-val') === 'undefined'
+								? switchBtn.data('off-val')
+								: switchBtn.data('on-val'));
 					}
 				}
 				AppConnector.request(url).done(function(data) {
@@ -2944,7 +2970,9 @@ jQuery.Class(
 			});
 			thisInstance.registerEventForRelatedList();
 			thisInstance.registerBlockAnimationEvent();
-			thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]'));
+			thisInstance.registerMailPreviewWidget(
+				detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]')
+			);
 			thisInstance.registerMailPreviewWidget(
 				detailContentsHolder.find('.widgetContentBlock[data-type="HistoryRelation"]')
 			);
@@ -2958,7 +2986,9 @@ jQuery.Class(
 						valueOn = $(this).data('on-val'),
 						valueOff = $(this).data('off-val');
 					let url = tabElement.data('url');
-					url = url.replace('&' + variableName + '=' + valueOn, '').replace('&' + variableName + '=' + valueOff, '');
+					url = url
+						.replace('&' + variableName + '=' + valueOn, '')
+						.replace('&' + variableName + '=' + valueOff, '');
 					if (typeof currentTarget.data('on-val') !== 'undefined') {
 						url += '&' + variableName + '=' + valueOn;
 					} else if (typeof currentTarget.data('off-val') !== 'undefined') {
@@ -3066,9 +3096,9 @@ jQuery.Class(
 			} else {
 				panels.collapse('show');
 				let panelsStorage = {};
-				for (let item of panels) {
+				panels.each((i, item) => {
 					panelsStorage[item.dataset.storageId] = 'shown';
-				}
+				});
 				Quasar.plugins.LocalStorage.set(storageName, panelsStorage);
 			}
 			panels.on('hidden.bs.collapse shown.bs.collapse', e => {
@@ -3082,14 +3112,14 @@ jQuery.Class(
 		},
 		setPanels({ panels, storageName }) {
 			const panelsStorage = Quasar.plugins.LocalStorage.getItem(storageName);
-			for (let item of panels) {
+			panels.each((i, item) => {
 				if (panelsStorage[item.dataset.storageKey] === 'shown') {
 					$(item).collapse('show');
 					$(item)
 						.siblings('.js-detail-widget-header')
 						.toggleClass('collapsed');
 				}
-			}
+			});
 		},
 		updatePanelsStorage({ id, type, storageName }) {
 			const panelsStorage = Quasar.plugins.LocalStorage.getItem(storageName);
