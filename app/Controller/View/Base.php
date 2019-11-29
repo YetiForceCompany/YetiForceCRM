@@ -254,6 +254,7 @@ abstract class Base extends \App\Controller\Base
 			$polyfills = [
 				'~libraries/html5shiv/html5shiv.js',
 				'~libraries/respond.js/dist/respond.min.js',
+				'~libraries/quasar/dist/quasar.ie.polyfills.umd.min.js',
 				'~libraries/whatwg-fetch/dist/fetch.umd.js'
 			];
 			$jsFileNames = array_merge($polyfills, $jsFileNames);
