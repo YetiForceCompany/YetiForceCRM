@@ -49,12 +49,12 @@ Vtiger_Detail_Js(
 		 */
 		getTemplateTableHtml(rows) {
 			let somethingChecked = false;
-			for (let row of rows) {
+			rows.each((i, row) => {
 				if (row.checked) {
 					somethingChecked = true;
-					break;
+					return false;
 				}
-			}
+			});
 			if (!somethingChecked && typeof rows[0] !== 'undefined') {
 				rows[0].checked = true;
 			}
@@ -105,7 +105,9 @@ Vtiger_Detail_Js(
 			}).done(data => {
 				progress.progressIndicator({ mode: 'hide' });
 				if (data.success) {
-					this.container.find('.js-sla-policy-template--container').html(this.getTemplateTableHtml(data.result));
+					this.container
+						.find('.js-sla-policy-template--container')
+						.html(this.getTemplateTableHtml(data.result));
 				}
 			});
 		},

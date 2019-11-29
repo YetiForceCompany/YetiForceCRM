@@ -247,9 +247,18 @@ abstract class Base extends \App\Controller\Base
 	 */
 	public function getHeaderScripts(\App\Request $request)
 	{
-		return $this->checkAndConvertJsScripts([
+		$jsFileNames = [
 			'libraries.jquery.dist.jquery',
-		]);
+		];
+		if (\App\RequestUtil::getBrowserInfo()->ie) {
+			$polyfills = [
+				'~libraries/html5shiv/html5shiv.js',
+				'~libraries/respond.js/dist/respond.min.js',
+				'~libraries/whatwg-fetch/dist/fetch.umd.js'
+			];
+			$jsFileNames = array_merge($polyfills, $jsFileNames);
+		}
+		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
 	/**

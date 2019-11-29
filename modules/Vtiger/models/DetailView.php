@@ -342,7 +342,7 @@ class Vtiger_DetailView_Model extends \App\Base
 		}
 		if (
 			\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() &&
-			\App\Module::isModuleActive('Chat') &&
+			\App\Module::isModuleActive('Chat') && !\App\RequestUtil::getBrowserInfo()->ie &&
 			false !== \App\ModuleHierarchy::getModuleLevel($parentModuleModel->getName())
 		) {
 			$relatedLinks[] = [
