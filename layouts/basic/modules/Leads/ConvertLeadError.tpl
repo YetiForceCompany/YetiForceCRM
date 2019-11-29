@@ -14,7 +14,7 @@
 <head>
 	<title>Yetiforce: {\App\Language::translate('LBL_ERROR')}</title>
 	{if !empty($IS_IE)}
-		<meta http-equiv="X-UA-Compatible" content="IE=11" >
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" >
 	{/if}
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="SHORTCUT ICON" href="{\App\Layout::getImagePath('favicon.ico')}">

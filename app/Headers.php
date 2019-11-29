@@ -84,9 +84,12 @@ class Headers
 		$browser = RequestUtil::getBrowserInfo();
 		$this->headers['expires'] = gmdate('D, d M Y H:i:s') . ' GMT';
 		$this->headers['last-modified'] = gmdate('D, d M Y H:i:s') . ' GMT';
-		if ($browser->ie && $browser->https) {
-			$this->headers['pragma'] = 'private';
-			$this->headers['cache-control'] = 'private, must-revalidate';
+		if ($browser->ie) {
+			$this->headers['x-ua-compatible'] = 'IE=edge';
+			if ($browser->https) {
+				$this->headers['pragma'] = 'private';
+				$this->headers['cache-control'] = 'private, must-revalidate';
+			}
 		}
 		if ($browser->https) {
 			$this->headers['strict-transport-security'] = 'max-age=31536000; includeSubDomains; preload';
