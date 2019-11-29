@@ -937,7 +937,6 @@ jQuery.Class(
 					thisInstance.getSelectedTab(),
 					relatedModuleName
 				);
-				console.log(detailContentsHolder.find('.listPreviewframe'))
 				relatedController.setRelatedContainer(detailContentsHolder);
 				relatedController.registerRelatedEvents();
 			}

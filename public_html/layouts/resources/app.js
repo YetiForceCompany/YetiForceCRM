@@ -353,6 +353,10 @@ var App = (window.App = {
 				callbacks: []
 			},
 			init() {
+				if ('DashBoard' === app.getMainParams('view')) {
+					this.pageScrollbar = false;
+					return;
+				}
 				this.pageScrollbar.instance = this.y($('.mainBody'), {
 					callbacks: {
 						onScroll: function(e) {
@@ -1870,48 +1874,6 @@ var app = (window.app = {
 			audio.play();
 		}
 	},
-	registerSticky: function() {
-		const elements = $('.stick');
-		elements.each(function() {
-			let currentElement = $(this),
-				position = currentElement.data('position'),
-				offsetTop;
-			if (position === 'top') {
-				offsetTop = currentElement.offset().top - 50;
-				$('.mainBody').on('scroll', function() {
-					if ($(this).scrollTop() > offsetTop)
-						currentElement.css({
-							position: 'fixed',
-							top: '50px',
-							width: currentElement.width()
-						});
-					else if ($(this).scrollTop() <= offsetTop)
-						currentElement.css({
-							position: '',
-							top: '',
-							width: ''
-						});
-				});
-			}
-			if (position === 'bottom') {
-				offsetTop = currentElement.offset().top - $(window).height();
-				$('.mainBody').on('scroll', function() {
-					if ($(this).scrollTop() < offsetTop)
-						currentElement.css({
-							position: 'fixed',
-							bottom: '33px',
-							width: currentElement.width()
-						});
-					else if ($(this).scrollTop() >= offsetTop)
-						currentElement.css({
-							position: '',
-							bottom: '',
-							width: ''
-						});
-				});
-			}
-		});
-	},
 	registerMoreContent() {
 		$(document).on('click', '.js-more', e => {
 			const btn = $(e.currentTarget);
@@ -2493,7 +2455,6 @@ $(document).ready(function() {
 	app.registerPopoverEllipsisIcon();
 	app.registerPopover();
 	app.registerFormatNumber();
-	app.registerSticky();
 	app.registerMoreContent();
 	app.registerModal();
 	app.registerMenu();
