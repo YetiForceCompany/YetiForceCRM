@@ -122,7 +122,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		if (!$chat->isRoomExists()) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 		}
-		$chatEntries = $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : null);
+		$chatEntries = $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : 0);
 		$isNextPage = $this->isNextPage(\count($chatEntries));
 		if ($isNextPage) {
 			array_shift($chatEntries);
@@ -172,7 +172,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 				continue;
 			}
 			$lastEntries = !empty($room['chatEntries']) ? array_pop($room['chatEntries']) : false;
-			$chatEntries = $chat->getEntries($lastEntries ? $lastEntries['id'] : null);
+			$chatEntries = $chat->getEntries($lastEntries ? $lastEntries['id'] : 0);
 			$isNextPage = $this->isNextPage(\count($chatEntries));
 			if ($isNextPage) {
 				array_shift($chatEntries);

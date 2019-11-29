@@ -1497,7 +1497,7 @@ CREATE TABLE `u_yf_chat_rooms_private` (
 CREATE TABLE `u_yf_chat_rooms_user` (
   `roomid` int(10) unsigned NOT NULL,
   `userid` int(10) NOT NULL,
-  `last_message` int(10) unsigned DEFAULT NULL
+  `last_message` int(10) unsigned DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_chat_user` */

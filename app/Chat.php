@@ -109,7 +109,7 @@ final class Chat
 	 *
 	 * @var int|null
 	 */
-	private $lastMessageId;
+	private $lastMessageId = 0;
 
 	/**
 	 * Set current room ID, type.
@@ -925,7 +925,7 @@ final class Chat
 	 *
 	 * @return array
 	 */
-	public function getEntries(?int $messageId = null, string $condition = '>', ?string $searchVal = null)
+	public function getEntries(?int $messageId = 0, string $condition = '>', ?string $searchVal = null)
 	{
 		if (!$this->isRoomExists()) {
 			return [];
@@ -1445,7 +1445,7 @@ final class Chat
 			default:
 				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 		}
-		if (null !== $messageId) {
+		if (!empty($messageId)) {
 			$query->andWhere([$condition, 'C.id', $messageId]);
 		}
 		if (!empty($searchVal)) {
