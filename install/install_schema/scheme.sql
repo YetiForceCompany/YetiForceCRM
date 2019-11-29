@@ -1438,14 +1438,6 @@ CREATE TABLE `u_yf_chat_private` (
   PRIMARY KEY (`private_room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `u_yf_chat_user` */
-
-CREATE TABLE `u_yf_chat_user` (
-  `roomid` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `userid` int(10) NOT NULL,
-  `reluserid` int(10) NOT NULL,
-  PRIMARY KEY (`roomid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*Table structure for table `u_yf_chat_rooms_crm` */
 
 CREATE TABLE `u_yf_chat_rooms_crm` (
@@ -1506,6 +1498,15 @@ CREATE TABLE `u_yf_chat_rooms_user` (
   `roomid` int(10) unsigned NOT NULL,
   `userid` int(10) NOT NULL,
   `last_message` int(10) unsigned DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_chat_user` */
+
+CREATE TABLE `u_yf_chat_user` (
+  `roomid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` int(10) NOT NULL,
+  `reluserid` int(10) NOT NULL,
+  PRIMARY KEY (`roomid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_cinternaltickets` */
@@ -7861,10 +7862,9 @@ CREATE TABLE `vtiger_relatedlists` (
   `creator_detail` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `relation_comment` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `view_type` varchar(100) NOT NULL DEFAULT 'RelatedTab',
+  `field_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`relation_id`),
-  KEY `tabid` (`tabid`),
   KEY `related_tabid` (`related_tabid`),
-  KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
 ) ENGINE=InnoDB AUTO_INCREMENT=623 DEFAULT CHARSET=utf8;
