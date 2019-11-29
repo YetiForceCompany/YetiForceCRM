@@ -100,7 +100,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$action = $request->getByType('action', 2);
 			$response = false;
 			if (!$hasLogin) {
-				if (($returnUrl = $request->getServer('QUERY_STRING')) && !\App\Session::has('return_params')) {
+				if ('GET' === $_SERVER['REQUEST_METHOD'] && ($returnUrl = $request->getServer('QUERY_STRING')) && !\App\Session::has('return_params')) {
 					//Take the url that user would like to redirect after they have successfully logged in.
 					\App\Session::set('return_params', str_replace('&amp;', '&', $returnUrl));
 				}
