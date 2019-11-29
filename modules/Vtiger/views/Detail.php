@@ -824,6 +824,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$searchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$relationListView->set('search_params', $searchParams);
 		}
+		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
+		if (empty($orderBy)) {
+			$moduleInstance = CRMEntity::getInstance($relatedModuleName);
+			$orderBy = $moduleInstance->default_order_by ? [$moduleInstance->default_order_by => $moduleInstance->default_sort_order] : [];
+		}
 		if (!empty($orderBy)) {
 			$relationListView->set('orderby', $orderBy);
 		}
