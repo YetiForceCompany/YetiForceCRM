@@ -1219,15 +1219,11 @@ jQuery.Class(
 				container.each((index, element) => {
 					if (container.closest('.js-detail-widget-content').length) {
 						element = container.closest('.js-detail-widget-content');
-						element.each((index, el) => {
-							if (!$(el).hasClass('ps')) {
-								app.showNewScrollbarTopBottomRight($(el));
-							}
+						element.each((i, el) => {
+							App.Components.Scrollbar.xy($(el));
 						});
 					} else {
-						if (!$(element).hasClass('ps')) {
-							app.showNewScrollbarTopBottomRight($(element));
-						}
+						App.Components.Scrollbar.xy($(element));
 					}
 				});
 			}

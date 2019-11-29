@@ -364,6 +364,9 @@ var App = (window.App = {
 					}
 				});
 			},
+			xy(element, options = {}) {
+				return element.overlayScrollbars(options).overlayScrollbars();
+			},
 			y(element, options) {
 				const yOptions = {
 					overflowBehavior: {
