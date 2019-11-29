@@ -7,6 +7,7 @@ language: php
 php:
   - 7.1
   - 7.3
+  - 7.4
   - nightly
 
 stages:
@@ -19,6 +20,7 @@ matrix:
   allow_failures:
     - php: nightly
     - php: 7.3
+    - php: 7.4
 
 env:
   global:
@@ -57,6 +59,8 @@ before_script:
   - export COMMIT_AUTHOR_EMAIL="$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
   - export COMMIT_AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
   - ls ~/.phpenv/versions
+  - phpenv versions
+  - php --version
   - sudo lscpu
   - sudo lshw
   - sudo cat /proc/cpuinfo
@@ -124,6 +128,9 @@ jobs:
           branch_pattern: coverity_scan
       before_script:
         - if [ "$TRAVIS_SECURE_ENV_VARS" = true ]; then git fetch --unshallow; fi
+        - ls ~/.phpenv/versions
+        - phpenv versions
+        - php --version
         - sudo chmod -R 777 tests/setup/
         - ./tests/setup/before_script.sh
         - ./tests/setup/apache.sh
