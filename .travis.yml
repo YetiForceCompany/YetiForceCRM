@@ -56,6 +56,7 @@ mysql:
 before_script:
   - export COMMIT_AUTHOR_EMAIL="$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
   - export COMMIT_AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
+  - ls ~/.phpenv/versions
   - sudo lscpu
   - sudo lshw
   - sudo cat /proc/cpuinfo
