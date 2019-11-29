@@ -98,7 +98,8 @@ var App = (window.App = {
 					params.callbackFunction = function() {};
 				}
 				if (
-					(app.getViewName() === 'Detail' || (app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
+					(app.getViewName() === 'Detail' ||
+						(app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
 					app.getParentModuleName() != 'Settings'
 				) {
 					url += '&sourceModule=' + app.getModuleName();
@@ -210,7 +211,9 @@ var App = (window.App = {
 						});
 						if (!recordPreSaveEvent.isDefaultPrevented()) {
 							const moduleInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
-							const saveHandler = !!moduleInstance.quickCreateSave ? moduleInstance.quickCreateSave : this.save;
+							const saveHandler = !!moduleInstance.quickCreateSave
+								? moduleInstance.quickCreateSave
+								: this.save;
 							let progress = $.progressIndicator({
 								message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 								position: 'html',
@@ -345,12 +348,21 @@ var App = (window.App = {
 					autoHide: 'leave'
 				}
 			},
-			pageScrollbar: {},
+			pageScrollbar: {
+				instance: {},
+				callbacks: []
+			},
 			init() {
-				console.log('pagescroll');
-				this.pageScrollbar = this.y($('.mainBody'));
-				console.log(this.pageScrollbar);
-				console.log(App.Components.Scrollbar.pageScrollbar);
+				this.pageScrollbar.instance = this.y($('.mainBody'), {
+					callbacks: {
+						onScroll: function(e) {
+							let callbacks = App.Components.Scrollbar.pageScrollbar.callbacks;
+							for (let i = 0; i < callbacks.length; i++) {
+								callbacks[i].call(this, e);
+							}
+						}
+					}
+				});
 			},
 			y(element, options) {
 				const yOptions = {
@@ -1825,7 +1837,10 @@ var app = (window.app = {
 							if (typeof call !== 'undefined') {
 								if (call.indexOf('.') !== -1) {
 									var callerArray = call.split('.');
-									if (typeof window[callerArray[0]] === 'object' || typeof window[callerArray[0]] === 'function') {
+									if (
+										typeof window[callerArray[0]] === 'object' ||
+										typeof window[callerArray[0]] === 'function'
+									) {
 										window[callerArray[0]][callerArray[1]](container);
 									}
 								} else {
@@ -1985,7 +2000,9 @@ var app = (window.app = {
 			} else {
 				pinButton.addClass('u-opacity-muted');
 				baseContainer.removeClass('c-menu--open');
-				self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
+				self.sidebar
+					.on('mouseenter', self.openSidebar.bind(self))
+					.on('mouseleave', self.closeSidebar.bind(self));
 				self.closeSidebar.bind(self);
 			}
 			AppConnector.request({
@@ -2117,8 +2134,7 @@ var app = (window.app = {
 	 */
 	convertUrlToObject(url) {
 		let urlObject = {};
-		url
-			.split('index.php?')[1]
+		url.split('index.php?')[1]
 			.split('&')
 			.forEach(el => {
 				if (el.includes('=')) {
@@ -2386,7 +2402,10 @@ var app = (window.app = {
 					if (currentTarget.hasClass('js-popover-tooltip--record')) {
 						app.registerPopoverRecord(currentTarget, {}, container);
 						currentTarget.trigger('mouseenter');
-					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && currentTarget.data('field-type')) {
+					} else if (
+						!currentTarget.hasClass('js-popover-tooltip--record') &&
+						currentTarget.data('field-type')
+					) {
 						app.registerPopoverRecord(currentTarget.children('a'), {}, container); //popoverRecord on children doesn't need triggering
 					} else if (
 						!currentTarget.hasClass('js-popover-tooltip--record') &&
@@ -2548,7 +2567,8 @@ $(document).ready(function() {
 	// Case-insensitive :icontains expression
 	$.expr[':'].icontains = function(obj, index, meta, stack) {
 		return (
-			(obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !== -1
+			(obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !==
+			-1
 		);
 	};
 	$.fn.removeTextNode = function() {

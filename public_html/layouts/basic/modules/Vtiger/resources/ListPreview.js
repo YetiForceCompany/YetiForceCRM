@@ -22,7 +22,9 @@ Vtiger_List_Js(
 			var defaultView = '';
 			if (app.getMainParams('defaultDetailViewName')) {
 				defaultView =
-					defaultView + '&mode=showDetailViewByMode&requestMode=' + app.getMainParams('defaultDetailViewName'); // full, summary
+					defaultView +
+					'&mode=showDetailViewByMode&requestMode=' +
+					app.getMainParams('defaultDetailViewName'); // full, summary
 			}
 			frame.attr('src', url.replace('view=Detail', 'view=DetailPreview') + defaultView);
 		},
@@ -91,6 +93,7 @@ Vtiger_List_Js(
 			app.showNewScrollbarTopBottomRight(this.list, { wheelPropagation: false });
 			this.registerFixedThead();
 			this.registerScrollEvent(mainBody);
+			this.registerResizeEvent();
 			this.list.on('click', '.listViewEntries', () => {
 				if (this.split.getSizes()[1] < 10) {
 					const defaultGutterPosition = this.getDefaultSplitSizes();
@@ -102,14 +105,8 @@ Vtiger_List_Js(
 			});
 		},
 		registerScrollEvent(mainBody) {
-			var headerActionsH = $('.commonActionsContainer').height();
-			let scrollInstance = App.Components.Scrollbar.pageScrollbar;
+			let scrollInstance = App.Components.Scrollbar.pageScrollbar.instance;
 			scrollInstance.scroll({ y: 0 }); // reset scroll to set correct start position
-			$(window).on('resize', () => {
-				if (scrollInstance.scroll().position.y >= this.list.offset().top + headerActionsH) {
-					this.container.find('.gutter').css('left', this.preview.offset().left - 8);
-				}
-			});
 			let listOffsetTop = this.list.offset().top - this.headerH;
 			let initialH = this.sideBlocks.height();
 			let mainViewPortHeightCss = { height: mainBody.height() };
@@ -132,7 +129,17 @@ Vtiger_List_Js(
 					});
 				}
 			};
-			scrollInstance.options({ callbacks: { onScroll } });
+			App.Components.Scrollbar.pageScrollbar.callbacks.push(onScroll);
+		},
+		registerResizeEvent() {
+			$(window).on('resize', () => {
+				if (
+					App.Components.Scrollbar.pageScrollbar.instance.scroll().position.y >=
+					this.list.offset().top + $('.commonActionsContainer').height()
+				) {
+					this.container.find('.gutter').css('left', this.preview.offset().left - 8);
+				}
+			});
 		},
 		registerFixedThead() {
 			let list = this.list;
