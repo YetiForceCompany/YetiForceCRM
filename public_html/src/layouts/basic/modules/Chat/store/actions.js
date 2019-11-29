@@ -361,7 +361,8 @@ export default {
 					{
 						text: message,
 						title: app.vtranslate('JS_CHAT'),
-						type: 'success'
+						type: 'success',
+						delay: '4000'
 					},
 					true
 				)
