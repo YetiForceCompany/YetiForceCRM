@@ -35,7 +35,6 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 	{
 		$sourceModule = $request->getByType('sourceModule', 2);
 		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
-
 		if (empty($sourceModule)) {
 			//To get the first element
 			$sourceModule = reset($supportedModulesList);
@@ -52,17 +51,18 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 				$inactiveFields[$fieldModel->getBlockId()][$fieldModel->getId()] = \App\Language::translate($fieldModel->get('label'), $sourceModule);
 			}
 		}
-
 		foreach ($blockModels as $blockModel) {
 			if (isset($blockIdFieldMap[$blockModel->get('id')])) {
 				$fieldModelList = $blockIdFieldMap[$blockModel->get('id')];
 				$blockModel->setFields($fieldModelList);
 			}
 		}
-
 		$qualifiedModule = $request->getModule(false);
 		$type = $moduleModel->isInventory() ? Vtiger_Module_Model::STANDARD_TYPE : Vtiger_Module_Model::ADVANCED_TYPE;
-		$batchMethod = (new \App\BatchMethod(['method' => '\App\Module::changeType', 'params' => ['module' => $sourceModule, 'type' => $type]]));
+		$batchMethod = (new \App\BatchMethod([
+			'method' => '\App\Module::changeType',
+			'params' => ['module' => $sourceModule, 'type' => $type]
+		]));
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', $supportedModulesList);
@@ -81,13 +81,13 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 
 	public function showRelatedListLayout(App\Request $request)
 	{
-		$sourceModule = $request->getByType('sourceModule', 2);
 		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
-
-		if (empty($sourceModule)) {
+		if ($request->isEmpty('sourceModule', true)) {
 			//To get the first element
 			$moduleName = reset($supportedModulesList);
 			$sourceModule = Vtiger_Module_Model::getInstance($moduleName)->getName();
+		} else {
+			$sourceModule = $request->getByType('sourceModule', 2);
 		}
 		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($sourceModule);
 		$qualifiedModule = $request->getModule(false);
