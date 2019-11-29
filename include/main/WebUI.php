@@ -48,15 +48,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	protected function checkLogin(App\Request $request)
 	{
 		if (!$this->hasLogin()) {
-			$returnUrl = $request->getServer('QUERY_STRING');
-			if ($returnUrl && !\App\Session::has('return_params')) {
-				//Take the url that user would like to redirect after they have successfully logged in.
-				\App\Session::set('return_params', str_replace('&amp;', '&', $returnUrl));
-			}
-			if (!$request->isAjax()) {
-				header('location: index.php');
-				return true;
-			}
 			throw new \App\Exceptions\Unauthorized('LBL_LOGIN_IS_REQUIRED', 401);
 		}
 	}
@@ -102,13 +93,24 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			App\Session::init();
 			// common utils api called, depend on this variable right now
 			$this->getLogin();
+			$hasLogin = $this->hasLogin();
 			$moduleName = $request->getModule();
 			$qualifiedModuleName = $request->getModule(false);
 			$view = $request->getByType('view', 2);
 			$action = $request->getByType('action', 2);
 			$response = false;
+			if (!$hasLogin) {
+				if (($returnUrl = $request->getServer('QUERY_STRING')) && !\App\Session::has('return_params')) {
+					//Take the url that user would like to redirect after they have successfully logged in.
+					\App\Session::set('return_params', str_replace('&amp;', '&', $returnUrl));
+				}
+				if (!$request->isAjax()) {
+					$qualifiedModuleName = $moduleName = 'Users';
+					$view = 'Login';
+				}
+			}
 			if (empty($moduleName)) {
-				if ($this->hasLogin()) {
+				if ($hasLogin) {
 					$defaultModule = App\Config::main('default_module');
 					if (!empty($defaultModule) && 'Home' !== $defaultModule && \App\Privilege::isPermitted($defaultModule)) {
 						$moduleName = $defaultModule;
@@ -118,13 +120,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 							$view = 'Calendar';
 						}
 					} else {
-						$moduleName = 'Home';
-						$qualifiedModuleName = 'Home';
+						$qualifiedModuleName = $moduleName = 'Home';
 						$view = 'DashBoard';
 					}
 				} else {
-					$moduleName = 'Users';
-					$qualifiedModuleName = $moduleName;
+					$qualifiedModuleName = $moduleName = 'Users';
 					$view = 'Login';
 				}
 				$request->set('module', $moduleName);
