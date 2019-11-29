@@ -245,7 +245,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldModel->setRelatedModules($moduleList);
 			foreach ($moduleList as $module) {
 				$targetModule = vtlib\Module::getInstance($module);
-				$targetModule->setRelatedList($this, $moduleName, ['Add'], 'getDependentsList');
+				$targetModule->setRelatedList($this, $moduleName, ['Add'], 'getDependentsList', $name);
 			}
 		}
 		App\Cache::clear();

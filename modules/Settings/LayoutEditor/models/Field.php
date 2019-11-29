@@ -17,6 +17,10 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	public function delete()
 	{
 		$db = \App\Db::getInstance();
+		$uiType = $this->getUIType();
+		if (10 === $uiType) {
+			$reference = $this->getReferenceList();
+		}
 		parent::delete();
 
 		$fldModule = $this->getModuleName();
@@ -58,12 +62,15 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		}
 
 		//MultiReferenceValue
-		if (305 === $this->getUIType()) {
+		if (305 === $uiType) {
 			$fieldParams = \App\Json::decode($this->get('fieldparams'));
 			$destModule = $fieldParams['module'];
 			$db->createCommand()->delete('s_#__multireference', ['source_module' => $fldModule, 'dest_module' => $destModule])->execute();
 			\App\Cache::delete('mrvfbm', "{$fldModule},{$destModule}");
 			\App\Cache::delete('getMultiReferenceModules', $destModule);
+		}
+		if (10 === $uiType && $reference) {
+			$db->createCommand()->delete('vtiger_relatedlists', ['field_name' => $fieldname, 'related_tabid' => $tabId, 'tabid' => array_map('App\Module::getModuleId', $reference)])->execute();
 		}
 		$tabIds = (new \App\Db\Query())
 			->select(['fieldid', 'tabid'])

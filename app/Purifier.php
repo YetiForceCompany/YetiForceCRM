@@ -337,6 +337,9 @@ class Purifier
 				case 'AlnumExtended':
 					$value = preg_match('/^[\sA-Za-z0-9\,\_\.\=\-]+$/', $input) ? $input : null;
 					break;
+				case 'AlnumType2':
+					$value = preg_match('/^[\sA-Za-z0-9\/\+]+$/', $input) ? $input : null;
+					break;
 				case 'DateInUserFormat': // date in user format
 					if (!$input) {
 						return '';
@@ -429,6 +432,9 @@ class Purifier
 					break;
 				case 'Path':
 					$value = Fields\File::checkFilePath($input) ? static::encodeHtml(static::purify($input)) : null;
+					break;
+				case 'Url':
+					$value = Validator::url($input) ? $input : null;
 					break;
 				case 'MailId':
 					$value = preg_match('/^[\sA-Za-z0-9\<\>\_\.\=\-\@]+$/', $input) ? $input : null;

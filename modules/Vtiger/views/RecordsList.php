@@ -172,7 +172,8 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			if (!$parentRecordModel->isViewable()) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
-			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);
+			$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
+			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName, $relationId);
 		} else {
 			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
 		}

@@ -144,13 +144,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable());
 		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->privilegeToMoveToTrash());
 		$viewer->assign('VIEW_MODEL', $this->record);
-		$linkModels = $this->record->getSideBarLinks(['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)]);
-		$viewer->assign('QUICK_LINKS', $linkModels);
+		$viewer->assign('QUICK_LINKS', $this->record->getSideBarLinks([
+			'MODULE' => $moduleName,
+			'ACTION' => $request->getByType('view', 1)
+		]));
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
-
-		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
-		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
-
+		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -825,11 +824,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$searchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$relationListView->set('search_params', $searchParams);
 		}
-		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
-		if (empty($orderBy)) {
-			$moduleInstance = CRMEntity::getInstance($relatedModuleName);
-			$orderBy = $moduleInstance->default_order_by ? [$moduleInstance->default_order_by => $moduleInstance->default_sort_order] : [];
-		}
 		if (!empty($orderBy)) {
 			$relationListView->set('orderby', $orderBy);
 		}
@@ -938,15 +932,15 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$recordModel = $this->record->getRecord();
-
-		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->getByType('view', 2)];
-		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORDID', $recordId);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('VIEW_MODEL', $this->record);
-		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
+		$viewer->assign('DETAILVIEW_LINKS', $this->record->getDetailViewLinks([
+			'MODULE' => $moduleName,
+			'RECORD' => $recordId,
+			'VIEW' => $request->getByType('view', 2)
+			]));
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('LIMIT', 0);
@@ -954,14 +948,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		}
 		$structuredValues = $this->recordStructure->getStructure();
-
 		$moduleModel = $recordModel->getModule();
-
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('RELATIONS', \Vtiger_Relation_Model::getAllRelations($moduleModel, false, true, true, 'modulename'));
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-
 		return $viewer->view('DetailViewProductsServicesContents.tpl', $moduleName, true);
 	}
 

@@ -770,7 +770,7 @@ class Vtiger_Relation_Model extends \App\Base
 	/**
 	 * Getting all relations.
 	 *
-	 * @param \Vtiger_Module_Model $parentModuleModel
+	 * @param \Vtiger_Module_Model $moduleModel
 	 * @param bool                 $selected
 	 * @param bool                 $onlyActive
 	 * @param bool                 $permissions
@@ -778,9 +778,9 @@ class Vtiger_Relation_Model extends \App\Base
 	 *
 	 * @return \Vtiger_Relation_Model[]
 	 */
-	public static function getAllRelations(Vtiger_Module_Model $parentModuleModel, bool $selected = true, bool $onlyActive = true, bool $permissions = true, string $key = 'relation_id')
+	public static function getAllRelations(Vtiger_Module_Model $moduleModel, bool $selected = true, bool $onlyActive = true, bool $permissions = true, string $key = 'relation_id')
 	{
-		$cacheName = "{$parentModuleModel->getId()}:$selected:$onlyActive";
+		$cacheName = "{$moduleModel->getId()}:$selected:$onlyActive";
 		if (\App\Cache::has('getAllRelations', $cacheName)) {
 			$relationList = \App\Cache::get('getAllRelations', $cacheName);
 		} else {
@@ -788,7 +788,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$query->select(['vtiger_relatedlists.*', 'modulename' => 'vtiger_tab.name', 'moduleid' => 'vtiger_tab.tabid'])
 				->from('vtiger_relatedlists')
 				->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
-				->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId()]);
+				->where(['vtiger_relatedlists.tabid' => $moduleModel->getId()]);
 			if ($selected) {
 				$query->andWhere(['<>', 'vtiger_relatedlists.presence', 1]);
 			}
@@ -799,15 +799,15 @@ class Vtiger_Relation_Model extends \App\Base
 			\App\Cache::save('getAllRelations', $cacheName, $relationList);
 		}
 		$relationModels = [];
-		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
+		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $moduleModel->get('name'));
 		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		foreach ($relationList as $row) {
 			// Skip relation where target module does not exits or is no permitted for view.
-			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
+			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['modulename'], 'DetailView')) {
 				continue;
 			}
 			$relationModel = new $relationModelClassName();
-			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->set('relatedModuleName', $row['modulename']);
+			$relationModel->setData($row)->setParentModuleModel($moduleModel)->set('relatedModuleName', $row['modulename']);
 			$relationModels[$row[$key]] = $relationModel;
 		}
 		return $relationModels;

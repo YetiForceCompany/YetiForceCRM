@@ -77,8 +77,8 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 
 			return $queryGenerator;
 		}
-		$relationId = $request->isEmpty('relationId') ? 0 : $request->getInteger('relationId');
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $request->getByType('relatedModule', 'Alnum'), $relationId);
 		if ($request->has('entityState')) {
 			$relationListView->set('entityState', $request->getByType('entityState'));
@@ -121,7 +121,6 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			return $selectedIds;
 		}
 		$queryGenerator = static::getQuery($request);
-
 		return $queryGenerator ? $queryGenerator->createQuery()->column() : [];
 	}
 
@@ -144,8 +143,11 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+		if ($request->isEmpty('relationId')) {
+			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, Vtiger_Module_Model::getInstance($relatedModule));
+		} else {
+			$relationModel = Vtiger_Relation_Model::getInstanceById($sourceModuleModel, $request->getInteger('relationId'));
+		}
 		foreach ($request->getArray('related_record_list', 'Integer') as $relatedRecordId) {
 			if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {
 				$relationModel->addRelation($sourceRecordId, $relatedRecordId);
@@ -170,8 +172,11 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$relatedModule = $request->getByType('related_module', 2);
 		$relatedRecordIdList = $request->getArray('related_record_list', 'Integer');
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+		if ($request->isEmpty('relationId')) {
+			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, Vtiger_Module_Model::getInstance($relatedModule));
+		} else {
+			$relationModel = Vtiger_Relation_Model::getInstanceById($sourceModuleModel, $request->getInteger('relationId'));
+		}
 		$result = false;
 		if ($relationModel->privilegeToDelete()) {
 			foreach ($relatedRecordIdList as $relatedRecordId) {
@@ -196,7 +201,8 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$sourceRecordId = $request->getInteger('src_record');
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
+		$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $relationId);
 		$rows = $this->getRecordsListFromRequest($request);
 		$relationModel = $relationListView->getRelationModel();
 		foreach ($rows as $relatedRecordId) {
@@ -221,7 +227,8 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$sourceRecordId = $request->getInteger('src_record');
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
+		$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $relationId);
 		$rows = $this->getRecordsListFromRequest($request);
 		$workbook = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 		$worksheet = $workbook->setActiveSheetIndex(0);
@@ -321,8 +328,11 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$categoryToAdd = $request->getArray('categoryToAdd', 'Alnum');
 		$categoryToRemove = $request->getArray('categoryToRemove', 'Alnum');
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+		if ($request->isEmpty('relationId')) {
+			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, Vtiger_Module_Model::getInstance($relatedModule));
+		} else {
+			$relationModel = Vtiger_Relation_Model::getInstanceById($sourceModuleModel, $request->getInteger('relationId'));
+		}
 		if (!empty($recordsToAdd)) {
 			foreach ($recordsToAdd as $relatedRecordId) {
 				if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {
@@ -372,7 +382,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $parentId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$relationId = $request->isEmpty('relationId') ? 0 : $request->getInteger('relationId');
+		$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
 		$totalCount = 0;
 		$pageCount = 0;
 		if ('ModComments' === $firstRelatedModuleName) {
@@ -423,9 +433,11 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	public function updateFavoriteForRecord(App\Request $request)
 	{
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($request->getModule());
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($request->getByType('relatedModule', 2));
-		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-
+		if ($request->isEmpty('relationId')) {
+			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, Vtiger_Module_Model::getInstance($request->getByType('relatedModule', 2)));
+		} else {
+			$relationModel = Vtiger_Relation_Model::getInstanceById($sourceModuleModel, $request->getInteger('relationId'));
+		}
 		if (!empty($relationModel)) {
 			$result = $relationModel->updateFavoriteForRecord($request->getByType('actionMode'), ['crmid' => $request->getInteger('record'), 'relcrmid' => $request->getInteger('relcrmid')]);
 		}

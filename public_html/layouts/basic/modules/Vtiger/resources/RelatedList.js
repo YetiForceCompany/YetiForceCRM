@@ -118,7 +118,10 @@ jQuery.Class(
 				thisInstance = this;
 			this.verifyFileExist(self.readSelectedIds(true)).done(function(data) {
 				if (true === data) {
-					thisInstance.triggerMassAction(massActionUrl.substring(0, massActionUrl.indexOf('&mode=multiple')), type);
+					thisInstance.triggerMassAction(
+						massActionUrl.substring(0, massActionUrl.indexOf('&mode=multiple')),
+						type
+					);
 				}
 			});
 		}
@@ -290,6 +293,7 @@ jQuery.Class(
 				mode: 'addRelation',
 				related_module: this.moduleName,
 				src_record: this.parentRecordId,
+				relationId: this.getCompleteParams()['relationId'],
 				related_record_list: $.isArray(idList) ? JSON.stringify(idList) : idList
 			})
 				.done(function(responseData) {
@@ -312,6 +316,7 @@ jQuery.Class(
 					mode: 'deleteRelation',
 					related_module: this.moduleName,
 					src_record: this.parentRecordId,
+					relationId: this.getCompleteParams()['relationId'],
 					related_record_list: JSON.stringify([id])
 				};
 			}
@@ -468,9 +473,10 @@ jQuery.Class(
 			var relatedParams = {};
 			var relatedField = element.data('name');
 			var fullFormUrl = element.data('url');
-			relatedParams[relatedField] = parentId;
+			if (relatedField) {
+				relatedParams[relatedField] = parentId;
+			}
 			var eliminatedKeys = new Array('view', 'module', 'mode', 'action');
-
 			var preQuickCreateSave = function(data) {
 				var index, queryParam, queryParamComponents;
 				let queryParameters = [];
@@ -556,6 +562,7 @@ jQuery.Class(
 					action: 'RelationAjax',
 					mode: 'getRelatedListPageCount',
 					record: this.getParentId(),
+					relationId: this.getCompleteParams()['relationId'],
 					relatedModule: this.moduleName
 				})
 					.done(function(data) {
@@ -584,6 +591,7 @@ jQuery.Class(
 					record: this.getParentId(),
 					relcrmid: relcrmId,
 					relatedModule: this.moduleName,
+					relationId: this.getCompleteParams()['relationId'],
 					actionMode: state ? 'delete' : 'add'
 				})
 					.done(function(data) {
@@ -609,7 +617,9 @@ jQuery.Class(
 			var defaultView = '';
 			if (app.getMainParams('defaultDetailViewName')) {
 				defaultView =
-					defaultView + '&mode=showDetailViewByMode&requestMode=' + app.getMainParams('defaultDetailViewName'); // full, summary
+					defaultView +
+					'&mode=showDetailViewByMode&requestMode=' +
+					app.getMainParams('defaultDetailViewName'); // full, summary
 			}
 			frame.attr('src', url.replace('view=Detail', 'view=DetailPreview') + defaultView);
 		},
@@ -874,11 +884,14 @@ jQuery.Class(
 			});
 			this.content.find('.relatedHeader button.selectRelation').on('click', function(e) {
 				let restrictionsField = $(this).data('rf');
-				let params = {};
+				let params = {
+					relationId: thisInstance.getCompleteParams()['relationId']
+				};
 				if (restrictionsField && Object.keys(restrictionsField).length > 0) {
 					params = {
 						search_key: restrictionsField.key,
-						search_value: restrictionsField.name
+						search_value: restrictionsField.name,
+						relationId: thisInstance.getCompleteParams()['relationId']
 					};
 				}
 				thisInstance.showSelectRelation(params);
