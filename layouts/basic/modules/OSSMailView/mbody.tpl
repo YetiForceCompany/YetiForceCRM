@@ -3,7 +3,7 @@
 <html>
 	<head>
 		{if !empty($IS_IE)}
-			<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+			<meta http-equiv="x-ua-compatible" content="IE=11,edge" >
 		{/if}
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<style>

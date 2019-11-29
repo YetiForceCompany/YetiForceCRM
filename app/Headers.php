@@ -85,7 +85,7 @@ class Headers
 		$this->headers['expires'] = gmdate('D, d M Y H:i:s') . ' GMT';
 		$this->headers['last-modified'] = gmdate('D, d M Y H:i:s') . ' GMT';
 		if ($browser->ie) {
-			$this->headers['x-ua-compatible'] = 'IE=edge';
+			$this->headers['x-ua-compatible'] = 'IE=11,edge';
 			if ($browser->https) {
 				$this->headers['pragma'] = 'private';
 				$this->headers['cache-control'] = 'private, must-revalidate';

@@ -30,7 +30,7 @@
 	<head>
 		<title>Yetiforce: {\App\Purifier::encodeHtml($HEADER_MESSAGE)}</title>
 		{if !empty($IS_IE)}
-			<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+			<meta http-equiv="x-ua-compatible" content="IE=11,edge" >
 		{/if}
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
