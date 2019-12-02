@@ -105,8 +105,8 @@ Vtiger_List_Js(
 			});
 		},
 		registerScrollEvent(mainBody) {
-			let scrollInstance = App.Components.Scrollbar.pageScrollbar.instance;
-			scrollInstance.scroll({ y: 0 }); // reset scroll to set correct start position
+			let scrollContainer = App.Components.Scrollbar.page.element;
+			scrollContainer.scrollTop(0); // reset scroll to set correct start position
 			let listOffsetTop = this.list.offset().top - this.headerH;
 			let initialH = this.sideBlocks.height();
 			let mainViewPortHeightCss = { height: mainBody.height() };
@@ -115,26 +115,26 @@ Vtiger_List_Js(
 			let fixedElements = this.container.find('.js-fixed-scroll');
 			let fixedThead = this.list.siblings('.floatThead-container');
 			const onScroll = () => {
-				if (scrollInstance.scroll().position.y >= listOffsetTop) {
-					fixedThead.add(fixedElements).css({ top: scrollInstance.scroll().position.y - listOffsetTop });
+				if (scrollContainer.scrollTop() >= listOffsetTop) {
+					fixedThead.add(fixedElements).css({ top: scrollContainer.scrollTop() - listOffsetTop });
 					fixedElements.css(mainViewPortHeightCss);
 					this.rotatedText.css(mainViewPortHeightCss);
 					this.rotatedText.css(mainViewPortWidthCss);
 				} else {
 					fixedThead.add(fixedElements).css({ top: 'initial' });
-					fixedElements.css({ height: initialH + scrollInstance.scroll().position.y });
+					fixedElements.css({ height: initialH + scrollContainer.scrollTop() });
 					this.rotatedText.css({
-						width: initialH + scrollInstance.scroll().position.y,
-						height: initialH + scrollInstance.scroll().position.y
+						width: initialH + scrollContainer.scrollTop(),
+						height: initialH + scrollContainer.scrollTop()
 					});
 				}
 			};
-			App.Components.Scrollbar.pageScrollbar.callbacks.push(onScroll);
+			scrollContainer.on('scroll', onScroll);
 		},
 		registerResizeEvent() {
 			$(window).on('resize', () => {
 				if (
-					App.Components.Scrollbar.pageScrollbar.instance.scroll().position.y >=
+					App.Components.Scrollbar.page.element.scrollTop() >=
 					this.list.offset().top + $('.commonActionsContainer').height()
 				) {
 					this.container.find('.gutter').css('left', this.preview.offset().left - 8);

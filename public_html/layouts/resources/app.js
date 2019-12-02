@@ -348,25 +348,17 @@ var App = (window.App = {
 					autoHide: 'leave'
 				}
 			},
-			pageScrollbar: {
+			page: {
 				instance: {},
-				callbacks: []
+				element: null
 			},
-			init() {
-				if ('DashBoard' === app.getMainParams('view')) {
-					this.pageScrollbar = false;
-					return;
+			initPage() {
+				let scrollbarContainer = $('.mainBody');
+				if (!scrollbarContainer.length) {
+					return false;
 				}
-				this.pageScrollbar.instance = this.y($('.mainBody'), {
-					callbacks: {
-						onScroll: function(e) {
-							let callbacks = App.Components.Scrollbar.pageScrollbar.callbacks;
-							for (let i = 0; i < callbacks.length; i++) {
-								callbacks[i].call(this, e);
-							}
-						}
-					}
-				});
+				this.page.instance = this.y(scrollbarContainer);
+				this.page.element = $(this.page.instance.getElements().viewport);
 			},
 			xy(element, options = {}) {
 				return element.overlayScrollbars(options).overlayScrollbars();
@@ -2460,7 +2452,7 @@ $(document).ready(function() {
 	app.registerMenu();
 	app.registerTabdrop();
 	app.registesterScrollbar(document);
-	App.Components.Scrollbar.init();
+	App.Components.Scrollbar.initPage();
 	String.prototype.toCamelCase = function() {
 		let value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
