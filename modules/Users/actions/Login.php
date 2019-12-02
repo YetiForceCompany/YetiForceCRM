@@ -106,8 +106,9 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	private function redirectUser()
 	{
-		if (isset($_SESSION['return_params'])) {
-			header('location: index.php?' . $_SESSION['return_params']);
+		if ($param = ($_SESSION['return_params'] ?? false)) {
+			unset($_SESSION['return_params']);
+			header('location: index.php?' . $param);
 		} elseif (App\Config::performance('SHOW_ADMIN_PANEL') && $this->userModel->isAdmin()) {
 			header('location: index.php?module=Vtiger&parent=Settings&view=Index');
 		} else {
