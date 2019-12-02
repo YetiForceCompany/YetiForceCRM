@@ -10,7 +10,7 @@
     "LBL_CONFREPORT_DESCRIPTION": "Consente di verificare che le impostazioni del server siano compatibili con i parametri consigliati.",
     "LBL_PARAMETER": "Parametro",
     "LBL_VALUE": "Valore",
-    "LBL_RECOMMENDED": "Recommended",
+    "LBL_RECOMMENDED": "Consigliato",
     "LBL_SYSTEM_STABILITY": "Configurazione di stabilità di sistema",
     "LBL_SYSTEM_SECURITY": "Configurazione di sicurezza di sistema",
     "LBL_HEADERS_SECURITY": "Configurazione header di sistema",
@@ -106,6 +106,8 @@
     "LBL_LABEL_LAST_CRON_START": "Ultima esecuzione Cron",
     "LBL_LABEL_PROTOCOL_VERSION": "Versione protocollo HTTP",
     "LBL_LABEL_HTTP_METHODS": "Metodi HTTP",
+    "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "Quantità massima di RAM",
+    "LBL_HELP_MAXIMUMMEMORYSIZE": "La quantità massima di RAM calcolata sulla base dei parametri di configurazione correnti. Questa è la quantità massima di RAM necessaria affinché il motore di database funzioni correttamente. Questa quantità di RAM è riservata solo al motore di database. key_buffer_size + query_cache_size + tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_memol_size + innodb_log_buffer_size + max_connection * (sort_buffer_size + read_buffer_size + read_buffer_buffer_size + join_buffer_size + thread_stack + binlog_cache_size)",
     "LBL_HELP_MBSTRING": "Estensione utilizzata per gestire le stringhe. Usata per convertire le stringhe in diverse codifiche.",
     "LBL_HELP_FILTER": "Estensione utilizzata per filtrare i dati della richiesta in arrivo.",
     "LBL_HELP_BCMATH": "Operazioni matematiche più accurate.",
@@ -223,10 +225,10 @@
     "LBL_IT_WORKS_PROPERLY": "Funziona correttamente",
     "LBL_LABEL_FOOTER": "Footer",
     "LBL_LABEL_PREMIUM_MODULES": "Moduli Premium",
-    "LBL_FILE_OWNER": "Owner",
-    "LBL_FILE_PERMISSIONS": "Permissions",
-    "LBL_LABEL_SCRIPT_USER": "Script calling user",
-    "LBL_ERROR_DURING_VERIFICATION": "Error occurred during verification"
+    "LBL_FILE_OWNER": "Proprietario",
+    "LBL_FILE_PERMISSIONS": "Permessi",
+    "LBL_LABEL_SCRIPT_USER": "Utente per chiamata script",
+    "LBL_ERROR_DURING_VERIFICATION": "Si è verificato un errore durante la verifica"
   },
   "js": {
     "JS_SPEED_TEST_START": "Controllo velocità ..."

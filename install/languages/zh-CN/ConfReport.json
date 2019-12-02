@@ -106,6 +106,8 @@
     "LBL_LABEL_LAST_CRON_START": "时间克伦最后一次跑",
     "LBL_LABEL_PROTOCOL_VERSION": "HTTP 协议版本",
     "LBL_LABEL_HTTP_METHODS": "HTTP 方法",
+    "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "Maximum amount of RAM",
+    "LBL_HELP_MAXIMUMMEMORYSIZE": "The maximum amount of RAM calculated on the basis of current configuration parameters. This is the peak amount of RAM that is required for the database engine to work properly. This amount of RAM is only reserved for the database engine. key_buffer_size + query_cache_size + tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + max_connections * (sort_buffer_size + read_buffer_size + read_rnd_buffer_size + join_buffer_size + thread_stack + binlog_cache_size)",
     "LBL_HELP_MBSTRING": "用于管理字符串的扩展。用于将字符串转换为不同的编码。",
     "LBL_HELP_FILTER": "用于筛选传入请求数据的扩展。",
     "LBL_HELP_BCMATH": "更精确的数学运算。",
