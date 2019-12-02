@@ -504,7 +504,9 @@ jQuery.Class(
 					//If their is no element with the relatedField name,we are adding hidden element with
 					//name as relatedField name,for saving of record with relation to parent record
 					if (field.length == 0) {
-						jQuery('<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />').appendTo(data);
+						jQuery('<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />').appendTo(
+							data
+						);
 					}
 				}
 				for (index = 0; index < queryParameters.length; index++) {
@@ -515,7 +517,11 @@ jQuery.Class(
 						data.find('[name="' + queryParamComponents[0] + '"]').length == 0
 					) {
 						jQuery(
-							'<input type="hidden" name="' + queryParamComponents[0] + '" value="' + queryParamComponents[1] + '" />'
+							'<input type="hidden" name="' +
+								queryParamComponents[0] +
+								'" value="' +
+								queryParamComponents[1] +
+								'" />'
 						).appendTo(data);
 					}
 				}
@@ -930,9 +936,9 @@ jQuery.Class(
 				this.registerPreviewEvent();
 				if (!this.content.find('.gutter').length) {
 					if (!this.content.find('.js-list-preview').length) return;
-					this.getDomParams(this.content);
+					this.setDomParams(this.content);
 					this.toggleSplit(this.content);
-					this.registerListPreviewEvents(this.content);
+					this.registerListPreviewEvents();
 				}
 			}
 			this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
@@ -954,7 +960,7 @@ jQuery.Class(
 			});
 			return maxWidth;
 		},
-		getDomParams: function(container) {
+		setDomParams: function(container) {
 			this.listColumnFirstWidth = container
 				.find('.listViewEntriesDiv .listViewHeaders th')
 				.first()
@@ -985,58 +991,59 @@ jQuery.Class(
 				return this.getDefaultSplitSizes();
 			}
 		},
-		registerListPreviewEvents: function(container) {
-			var listPreview = container.find('.js-detail-preview');
-			var mainBody = container.closest('.mainBody');
-			app.showNewScrollbarTopBottom(container.find('.js-list-preview--scroll'));
+		registerListPreviewEvents() {
+			app.showNewScrollbarTopBottom(this.content.find('.js-list-preview--scroll'));
 			app.showNewScrollbarLeft(this.list);
-			mainBody.scrollTop(0); // reset scroll to set correct start position
-			let listOffsetTop = this.list.offset().top - this.headerH;
-			let initialH = this.sideBlocks.height();
-			let mainViewPortHeightCss = { height: mainBody.height() };
-			let mainViewPortWidthCss = { width: mainBody.height() };
-			this.gutter.addClass('js-fixed-scroll');
-			let fixedElements = container.find('.js-fixed-scroll');
-			if (!mainBody.length) {
-				mainBody = $(top.document).find('.mainBody');
-				this.headerH = $(top.document)
-					.find('.js-header')
-					.outerHeight();
-				let iframe = $(top.document).find('.js-detail-preview');
-				listOffsetTop = this.list.offset().top + iframe.offset().top - this.headerH + 1;
-				mainViewPortHeightCss = { height: mainBody.height() };
-				mainViewPortWidthCss = { width: mainBody.height() };
-			}
 			this.list.on('click', '.listViewEntries', () => {
 				if (this.split.getSizes()[1] < 10) {
 					const defaultGutterPosition = this.getDefaultSplitSizes();
 					this.split.setSizes(defaultGutterPosition);
-					listPreview.show();
+					this.preview.show();
 					this.sideBlockRight.removeClass('d-block');
 					app.moduleCacheSet('userRelatedSplitSet', defaultGutterPosition);
 				}
 			});
-			if (this.list.parents('.blockContent').length) {
-				return;
+			if (!this.list.parents('.blockContent').length) {
+				this.registerScrollEvent();
 			}
-			mainBody.on('scroll', () => {
-				if (mainBody.scrollTop() >= listOffsetTop) {
-					fixedElements.css({ top: mainBody.scrollTop() - listOffsetTop });
-					this.sideBlocks.css({ top: mainBody.scrollTop() - listOffsetTop + 56 });
+		},
+		registerScrollEvent() {
+			let scrollInstance = App.Components.Scrollbar.pageScrollbar.instance;
+			let listOffsetTop = this.list.offset().top - this.headerH;
+			let initialH = this.sideBlocks.height();
+			let mainViewPortHeightCss = { height: this.mainBody.height() };
+			let mainViewPortWidthCss = { width: this.mainBody.height() };
+			let fixedElements = this.mainBody.find('.js-fixed-scroll');
+			this.gutter.addClass('js-fixed-scroll');
+			if (!this.mainBody.length) {
+				this.mainBody = $(top.document).find('.mainBody');
+				this.headerH = $(top.document)
+					.find('.js-header')
+					.outerHeight();
+				scrollInstance = top.window.App.Components.Scrollbar.pageScrollbar.instance;
+				let iframe = $(top.document).find('.js-detail-preview');
+				listOffsetTop = this.list.offset().top + iframe.offset().top - this.headerH + 1;
+				mainViewPortHeightCss = { height: this.mainBody.height() };
+				mainViewPortWidthCss = { width: this.mainBody.height() };
+			}
+			const onScroll = () => {
+				if (scrollInstance.scroll().position.y >= listOffsetTop) {
+					fixedElements.css({ top: scrollInstance.scroll().position.y - listOffsetTop });
+					this.sideBlocks.css({ top: scrollInstance.scroll().position.y - listOffsetTop + 56 });
 					fixedElements.css(mainViewPortHeightCss);
 					this.rotatedText.css(mainViewPortHeightCss);
 					this.rotatedText.css(mainViewPortWidthCss);
 				} else {
 					fixedElements.css({ top: 'initial' });
-					fixedElements.css({ height: initialH + mainBody.scrollTop() });
+					fixedElements.css({ height: initialH + scrollInstance.scroll().position.y });
 					this.rotatedText.css({
-						width: initialH + mainBody.scrollTop(),
-						height: initialH + mainBody.scrollTop()
+						width: initialH + scrollInstance.scroll().position.y,
+						height: initialH + scrollInstance.scroll().position.y
 					});
 				}
-			});
+			};
+			top.window.App.Components.Scrollbar.pageScrollbar.callbacks.push(onScroll);
 		},
-
 		/**
 		 * Registers split's events.
 		 * @param {jQuery} container - current container for reference.
@@ -1220,15 +1227,11 @@ jQuery.Class(
 				container.each((index, element) => {
 					if (container.closest('.js-detail-widget-content').length) {
 						element = container.closest('.js-detail-widget-content');
-						element.each((index, el) => {
-							if (!$(el).hasClass('ps')) {
-								app.showNewScrollbarTopBottomRight($(el));
-							}
+						element.each((i, el) => {
+							App.Components.Scrollbar.xy($(el));
 						});
 					} else {
-						if (!$(element).hasClass('ps')) {
-							app.showNewScrollbarTopBottomRight($(element));
-						}
+						App.Components.Scrollbar.xy($(element));
 					}
 				});
 			}
@@ -1425,7 +1428,7 @@ jQuery.Class(
 			this.registerMainCheckBoxClickEvent();
 			this.registerSelectAllClickEvent();
 			this.registerDeselectAllClickEvent();
-			YetiForce_ListSearch_Js.registerSearch(this.content, (data) => {
+			YetiForce_ListSearch_Js.registerSearch(this.content, data => {
 				this.loadRelatedList(data);
 			});
 		}
