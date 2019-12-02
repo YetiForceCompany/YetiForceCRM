@@ -3092,8 +3092,11 @@ jQuery.Class(
 			const panels = detailViewContainer.find('.js-detail-widget-collapse');
 			const storageName = `yf-${app.getModuleName()}-detail-widgets`;
 			if (Quasar.plugins.LocalStorage.has(storageName)) {
+				console.log(panels, storageName);
+
 				this.setPanels({ panels, storageName });
 			} else {
+				console.log(panels);
 				panels.collapse('show');
 				let panelsStorage = {};
 				panels.each((i, item) => {
@@ -3113,7 +3116,10 @@ jQuery.Class(
 		setPanels({ panels, storageName }) {
 			const panelsStorage = Quasar.plugins.LocalStorage.getItem(storageName);
 			panels.each((i, item) => {
-				if (panelsStorage[item.dataset.storageKey] === 'shown') {
+				if (
+					panelsStorage[item.dataset.storageKey] === 'shown' ||
+					undefined === panelsStorage[item.dataset.storageKey]
+				) {
 					$(item).collapse('show');
 					$(item)
 						.siblings('.js-detail-widget-header')
