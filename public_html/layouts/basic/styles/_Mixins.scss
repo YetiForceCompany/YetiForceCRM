@@ -41,6 +41,7 @@
 		@include media-breakpoint-down($breakpoint-down) {
 			position: absolute;
 			right: calculate-rem(15px);
+			bottom: 0;
 			$w-fab-button: calculate-rem(35px);
 			$fab-padding: calculate-rem(4px);
 			&.q-fab--opened {
