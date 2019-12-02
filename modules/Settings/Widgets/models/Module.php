@@ -83,12 +83,12 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$ffs = scandir($dir);
 		foreach ($ffs as $ff) {
 			$action = str_replace('.php', '', $ff);
-			if ($ff != '.' && $ff != '..' && !is_dir($dir . '/' . $ff) && $action != 'Basic') {
+			if ('.' != $ff && '..' != $ff && !is_dir($dir . '/' . $ff) && 'Basic' != $action) {
 				$folderFiles[$action] = $action;
 				Vtiger_Loader::includeOnce('~~' . $dir . $ff);
 				$modelClassName = Vtiger_Loader::getComponentClassName('Widget', $action, 'Vtiger');
 				$instance = new $modelClassName();
-				if ($instance->allowedModules && !in_array($moduleName, $instance->allowedModules) || ($action == 'Comments' && !$moduleModel->isCommentEnabled())) {
+				if ($instance->allowedModules && !\in_array($moduleName, $instance->allowedModules) || ('Comments' == $action && !$moduleModel->isCommentEnabled())) {
 					unset($folderFiles[$action]);
 				}
 			}
@@ -134,7 +134,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$filetrs = [];
 		$tabid = [];
 		foreach ($modules as $value) {
-			if (!in_array($value['related_tabid'], $tabid)) {
+			if (!\in_array($value['related_tabid'], $tabid)) {
 				$dataReader = (new \App\Db\Query())->select(['columnname', 'tablename', 'fieldlabel', 'fieldname'])
 					->from('vtiger_field')
 					->where(['tabid' => $value['related_tabid'], 'uitype' => [15, 16]])
@@ -161,7 +161,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$checkboxs = [];
 		$tabid = [];
 		foreach ($modules as $value) {
-			if (!in_array($value['related_tabid'], $tabid)) {
+			if (!\in_array($value['related_tabid'], $tabid)) {
 				$dataReader = (new \App\Db\Query())->select(['columnname', 'tablename', 'fieldlabel', 'fieldname'])
 					->from('vtiger_field')
 					->where(['tabid' => $value['related_tabid'], 'uitype' => [56]])
@@ -228,7 +228,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		unset($data['type']);
 		if (isset($data['FastEdit'])) {
 			$FastEdit = [];
-			if (!is_array($data['FastEdit'])) {
+			if (!\is_array($data['FastEdit'])) {
 				$FastEdit[] = $data['FastEdit'];
 				$data['FastEdit'] = $FastEdit;
 			}
@@ -355,11 +355,11 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		];
 		if (empty($index)) {
 			return $data;
-		} elseif ($data[$index[0]]) {
-			return $data[$index[0]][$index[1]];
-		} else {
-			return [];
 		}
+		if ($data[$index[0]]) {
+			return $data[$index[0]][$index[1]];
+		}
+		return [];
 	}
 
 	/**
@@ -373,7 +373,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$linkList = [];
 		$moduleName = \App\Module::getModuleName($moduleId);
-		if ($moduleName === 'Documents') {
+		if ('Documents' === $moduleName) {
 			$linkList[] = [
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', $moduleName),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',

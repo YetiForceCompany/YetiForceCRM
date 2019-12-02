@@ -17,13 +17,16 @@ jQuery.Class(
 			var progressIndicatorElement = jQuery.progressIndicator({ position: 'html' });
 			app.showModalWindow(
 				null,
-				'index.php?parent=Settings&module=Widgets&view=Widget&mode=createStep2&type=' + type + '&tabId=' + tabId,
+				'index.php?parent=Settings&module=Widgets&view=Widget&mode=createStep2&type=' +
+					type +
+					'&tabId=' +
+					tabId,
 				function(wizardContainer) {
 					app.showPopoverElementView(wizardContainer.find('.js-help-info'));
 					if (type === 'RelatedModule') {
 						thisInstance.loadFilters(wizardContainer);
 						thisInstance.relatedModuleFields(wizardContainer);
-						wizardContainer.find("select[name='relatedmodule']").on('change', function() {
+						wizardContainer.find("select[name='relation_id']").on('change', function() {
 							thisInstance.changeRelatedModule();
 							thisInstance.relatedModuleFields(wizardContainer);
 						});
@@ -137,21 +140,27 @@ jQuery.Class(
 			return aDeferred.promise();
 		},
 		loadFilters: function(contener) {
-			var types = ['filter', 'checkbox', 'switchHeader'];
-			var relatedmodule = contener.find("select[name='relatedmodule'] option:selected").val();
-			for (var i in types) {
-				var filters = app.getMainParams(types[i] + 'All', true);
-				var filterField = contener.find("select[name='" + types[i] + "']");
-				var filterSelected = contener.find('input#' + types[i] + '_selected').val();
+			let types = ['filter', 'checkbox', 'switchHeader'];
+			let selected = contener.find("select[name='relation_id'] option:selected");
+			let relatedModuleInput = contener.find("input[name='relatedmodule']");
+			let relatedModule = relatedModuleInput.val();
+			if (relatedModule == 0) {
+				relatedModule = selected.data('relatedmodule');
+				relatedModuleInput.val(selected.data('relatedmodule'));
+			}
+			for (let i in types) {
+				let filters = app.getMainParams(types[i] + 'All', true);
+				let filterField = contener.find("select[name='" + types[i] + "']");
+				let filterSelected = contener.find('input#' + types[i] + '_selected').val();
 				filterField.empty();
 				filterField.append($('<option/>', { value: '-', text: app.vtranslate('None') }));
-				if (filters[relatedmodule] !== undefined) {
+				if (filters[relatedModule] !== undefined) {
 					filterField.closest('.form-group').removeClass('d-none');
-					$.each(filters[relatedmodule], function(index, value) {
+					$.each(filters[relatedModule], function(index, value) {
 						if (typeof value === 'object') {
 							value = value.label;
 						}
-						var option = { value: index, text: value };
+						let option = { value: index, text: value };
 						if (filterSelected == index) {
 							option.selected = 'selected';
 						}
@@ -164,7 +173,7 @@ jQuery.Class(
 			}
 		},
 		relatedModuleFields: function(container) {
-			const relatedModule = parseInt(container.find("select[name='relatedmodule']").val());
+			const relatedModule = parseInt(container.find("input[name='relatedmodule']").val());
 			const relatedfields = container.find("select[name='relatedfields']");
 			relatedfields.find('optgroup').each(function(index, optgroup) {
 				optgroup = $(optgroup);
@@ -247,17 +256,19 @@ jQuery.Class(
 			container.find('.js-widget__add').on('click', function(e) {
 				var progressIndicatorElement = jQuery.progressIndicator({ position: 'html' });
 				var module = $('.WidgetsManage select.js-module__list').val();
-				app.showModalWindow(null, 'index.php?parent=Settings&module=Widgets&view=Widget&mod=' + module, function(
-					wizardContainer
-				) {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					var form = jQuery('form', wizardContainer);
-					form.on('submit', function(e) {
-						e.preventDefault();
-						var type = form.find('[name="type"]').val();
-						thisInstance.createStep2(type);
-					});
-				});
+				app.showModalWindow(
+					null,
+					'index.php?parent=Settings&module=Widgets&view=Widget&mod=' + module,
+					function(wizardContainer) {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						var form = jQuery('form', wizardContainer);
+						form.on('submit', function(e) {
+							e.preventDefault();
+							var type = form.find('[name="type"]').val();
+							thisInstance.createStep2(type);
+						});
+					}
+				);
 			});
 			container.find('.js-widget__edit').on('click', e => {
 				app.showModalWindow({

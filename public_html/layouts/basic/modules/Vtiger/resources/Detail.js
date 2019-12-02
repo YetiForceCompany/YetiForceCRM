@@ -1453,8 +1453,7 @@ jQuery.Class(
 			container.find('.createRecordFromFilter').on('click', function(e) {
 				var currentElement = jQuery(e.currentTarget);
 				var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
-				var widgetDataContainer = summaryWidgetContainer.find('.js-detail-widget-content');
-				var referenceModuleName = widgetDataContainer.find('[name="relatedModule"]').val();
+				var referenceModuleName = summaryWidgetContainer.data('moduleName');
 				var quickcreateUrl = currentElement.data('url');
 				var parentId = thisInstance.getRecordId();
 				var quickCreateParams = {};
@@ -1502,15 +1501,14 @@ jQuery.Class(
 			});
 			container.find('button.selectRelation').on('click', function(e) {
 				let summaryWidgetContainer = jQuery(e.currentTarget).closest('.js-detail-widget');
-				let referenceModuleName = summaryWidgetContainer
-					.find('.js-detail-widget-content [name="relatedModule"]')
-					.val();
+				let referenceModuleName = summaryWidgetContainer.data('moduleName');
 				let restrictionsField = $(this).data('rf');
 				let params = {
 					module: referenceModuleName,
 					src_module: app.getModuleName(),
 					src_record: thisInstance.getRecordId(),
-					multi_select: true
+					multi_select: true,
+					relationId: summaryWidgetContainer.data('relationId')
 				};
 				if (restrictionsField && Object.keys(restrictionsField).length > 0) {
 					params['search_key'] = restrictionsField.key;

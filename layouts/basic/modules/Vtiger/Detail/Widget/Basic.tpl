@@ -2,8 +2,8 @@
 {strip}
 <!-- tpl-Base-Detail-Widget-Basic -->
 {assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
-<div class="tpl-Detail-Widget-Basic c-detail-widget js-detail-widget" data-js="container">
-	{assign var=RELATED_MODULE_NAME value=App\Module::getModuleName($WIDGET['data']['relatedmodule'])}
+{assign var=RELATED_MODULE_NAME value=App\Module::getModuleName($WIDGET['data']['relatedmodule'])}
+<div class="tpl-Detail-Widget-Basic c-detail-widget js-detail-widget" data-name="{$WIDGET['label']}" data-module-name="{$RELATED_MODULE_NAME}" data-relation-id="{$WIDGET['data']['relation_id']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}" data-js="container">
 	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}">
 		<div class="c-detail-widget__header js-detail-widget-header collapsed border-bottom-0" data-js="container|value">
 			<input type="hidden" name="relatedModule" value="{$RELATED_MODULE_NAME}" />

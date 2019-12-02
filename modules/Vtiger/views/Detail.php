@@ -787,6 +787,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
+		$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
 		$limit = 10;
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$columns = 0;
@@ -812,7 +813,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $relationId);
 		$relationModel = $relationListView->getRelationModel();
 		if ($relationModel->isFavorites() && \App\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
@@ -898,6 +899,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('NO_RESULT_TEXT', $request->getBoolean('no_result_text'));
+		$viewer->assign('RELATION_ID', $relationId);
 
 		return $viewer->view('SummaryWidgets.tpl', $moduleName, true);
 	}
@@ -945,7 +948,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'MODULE' => $moduleName,
 			'RECORD' => $recordId,
 			'VIEW' => $request->getByType('view', 2)
-			]));
+		]));
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('LIMIT', 0);
