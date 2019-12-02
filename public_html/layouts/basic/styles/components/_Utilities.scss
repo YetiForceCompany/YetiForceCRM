@@ -477,10 +477,10 @@
 	color: #d1d1db !important;
 }
 
-.u-text-unset {
-	color: unset;
+.u-text-inherit {
+	color: inherit;
 	&:hover {
-		color: unset;
+		color: inherit;
 	}
 }
 
