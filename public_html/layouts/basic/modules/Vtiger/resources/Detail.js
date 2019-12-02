@@ -3092,11 +3092,8 @@ jQuery.Class(
 			const panels = detailViewContainer.find('.js-detail-widget-collapse');
 			const storageName = `yf-${app.getModuleName()}-detail-widgets`;
 			if (Quasar.plugins.LocalStorage.has(storageName)) {
-				console.log(panels, storageName);
-
 				this.setPanels({ panels, storageName });
 			} else {
-				console.log(panels);
 				panels.collapse('show');
 				let panelsStorage = {};
 				panels.each((i, item) => {
