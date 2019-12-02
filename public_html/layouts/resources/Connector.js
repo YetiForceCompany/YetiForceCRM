@@ -152,8 +152,7 @@ window.AppConnector = {
 			} else if (fullUrl.indexOf('index.php?') === -1) {
 				fullUrl = 'index.php?' + fullUrl;
 			}
-			const inIframe = $('body').hasClass('within-iframe');
-			if (!inIframe && history.pushState && fullUrl !== '') {
+			if (app.isWindowTop() && history.pushState && fullUrl !== '') {
 				const currentHref = window.location.href;
 				if (!history.state) {
 					history.replaceState(currentHref, 'title 1', currentHref);

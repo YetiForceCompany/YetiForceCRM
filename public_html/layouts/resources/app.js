@@ -491,6 +491,12 @@ var app = (window.app = {
 		}
 	},
 	/**
+	 * Check if current window is window top
+	 */
+	isWindowTop() {
+		return window.top === window.self
+	},
+	/**
 	 * Function gets current window parent
 	 * @returns {boolean}
 	 */
