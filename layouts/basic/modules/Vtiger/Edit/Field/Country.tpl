@@ -19,6 +19,7 @@
 				</optgroup>
 			{/if}
 			{if $FIELD_VALUE && empty($PICKLIST_VALUES[$FIELD_VALUE])}
+				{assign var=FIELD_VALUE value=\App\Purifier::encodeHtml($FIELD_VALUE)}
 				<optgroup label="{\App\Language::translate('LBL_VALUE_NOT_FOUND')}">
 					<option value="{$FIELD_VALUE}" title="{$FIELD_VALUE}" selected>{$FIELD_VALUE}</option>
 				</optgroup>
