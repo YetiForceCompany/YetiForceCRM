@@ -111,7 +111,7 @@ $.Class(
 		},
 		loadWidgets: function() {
 			const thisInstance = this;
-			this.scrollContainer = $('.mainBody');
+			this.scrollContainer = App.Components.Scrollbar.page.element;
 			if (!Quasar.plugins.Platform.is.desktop) {
 				this.scrollContainer = $('.bodyContent');
 				app.showNewScrollbar(this.scrollContainer);
@@ -121,7 +121,7 @@ $.Class(
 				.find('.dashboardWidget')
 				.Lazy({
 					threshold: 0,
-					appendScroll: thisInstance.scrollContainer,
+					appendScroll: this.scrollContainer,
 					widgetLoader(element) {
 						thisInstance.loadWidget(element);
 					}
@@ -326,7 +326,9 @@ $.Class(
 				.off('click', '.addChartFilter')
 				.on('click', '.addChartFilter', function(e) {
 					var element = $(e.currentTarget);
-					app.showModalWindow(null, 'index.php?module=Home&view=ChartFilter&step=step1', function(wizardContainer) {
+					app.showModalWindow(null, 'index.php?module=Home&view=ChartFilter&step=step1', function(
+						wizardContainer
+					) {
 						var form = $('form', wizardContainer);
 						form.on('keypress', function(event) {
 							return event.keyCode != 13;
@@ -445,7 +447,13 @@ $.Class(
 								};
 								form.find('.saveParam').each(function(index, element) {
 									element = $(element);
-									if (!(element.is('input') && element.prop('type') === 'checkbox' && !element.prop('checked'))) {
+									if (
+										!(
+											element.is('input') &&
+											element.prop('type') === 'checkbox' &&
+											!element.prop('checked')
+										)
+									) {
 										data[element.attr('name')] = element.val();
 									}
 								});
@@ -527,7 +535,9 @@ $.Class(
 				.off('click', '.addFilter')
 				.on('click', '.addFilter', function(e) {
 					const element = $(e.currentTarget);
-					app.showModalWindow(null, 'index.php?module=Home&view=MiniListWizard&step=step1', function(wizardContainer) {
+					app.showModalWindow(null, 'index.php?module=Home&view=MiniListWizard&step=step1', function(
+						wizardContainer
+					) {
 						const form = $('form', wizardContainer);
 						form.on('keypress', function(event) {
 							return event.keyCode != 13;

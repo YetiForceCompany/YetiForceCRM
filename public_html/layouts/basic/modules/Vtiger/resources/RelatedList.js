@@ -1008,41 +1008,41 @@ jQuery.Class(
 			}
 		},
 		registerScrollEvent() {
-			let scrollInstance = App.Components.Scrollbar.pageScrollbar.instance;
+			this.gutter.addClass('js-fixed-scroll');
+			let scrollContainer = App.Components.Scrollbar.page.element;
 			let listOffsetTop = this.list.offset().top - this.headerH;
 			let initialH = this.sideBlocks.height();
 			let mainViewPortHeightCss = { height: this.mainBody.height() };
 			let mainViewPortWidthCss = { width: this.mainBody.height() };
 			let fixedElements = this.mainBody.find('.js-fixed-scroll');
-			this.gutter.addClass('js-fixed-scroll');
 			if (!this.mainBody.length) {
 				this.mainBody = $(top.document).find('.mainBody');
 				this.headerH = $(top.document)
 					.find('.js-header')
 					.outerHeight();
-				scrollInstance = top.window.App.Components.Scrollbar.pageScrollbar.instance;
+				scrollContainer = top.window.App.Components.Scrollbar.page.element;
 				let iframe = $(top.document).find('.js-detail-preview');
 				listOffsetTop = this.list.offset().top + iframe.offset().top - this.headerH + 1;
 				mainViewPortHeightCss = { height: this.mainBody.height() };
 				mainViewPortWidthCss = { width: this.mainBody.height() };
 			}
 			const onScroll = () => {
-				if (scrollInstance.scroll().position.y >= listOffsetTop) {
-					fixedElements.css({ top: scrollInstance.scroll().position.y - listOffsetTop });
-					this.sideBlocks.css({ top: scrollInstance.scroll().position.y - listOffsetTop + 56 });
+				if (scrollContainer.scrollTop() >= listOffsetTop) {
+					fixedElements.css({ top: scrollContainer.scrollTop() - listOffsetTop });
+					this.sideBlocks.css({ top: scrollContainer.scrollTop() - listOffsetTop + 56 });
 					fixedElements.css(mainViewPortHeightCss);
 					this.rotatedText.css(mainViewPortHeightCss);
 					this.rotatedText.css(mainViewPortWidthCss);
 				} else {
 					fixedElements.css({ top: 'initial' });
-					fixedElements.css({ height: initialH + scrollInstance.scroll().position.y });
+					fixedElements.css({ height: initialH + scrollContainer.scrollTop() });
 					this.rotatedText.css({
-						width: initialH + scrollInstance.scroll().position.y,
-						height: initialH + scrollInstance.scroll().position.y
+						width: initialH + scrollContainer.scrollTop(),
+						height: initialH + scrollContainer.scrollTop()
 					});
 				}
 			};
-			top.window.App.Components.Scrollbar.pageScrollbar.callbacks.push(onScroll);
+			scrollContainer.on('scroll', onScroll);
 		},
 		/**
 		 * Registers split's events.
