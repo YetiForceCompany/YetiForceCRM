@@ -82,6 +82,7 @@
     "split.js": "^1.5.10",
     "store": "^2.0.12",
     "tributejs": "^4.0.0",
+    "url-polyfill": "^1.1.7",
     "vue": "^2.6.10",
     "whatwg-fetch": "^3.0.0"
   },
