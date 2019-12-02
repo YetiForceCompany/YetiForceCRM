@@ -124,7 +124,12 @@ window.AppConnector = {
 					);
 					console.error(
 						'Error: ' + errorThrown,
-						'\n' + sep + '\nTrace:\n' + sep + '\n' + (jqXHR.responseJSON ? jqXHR.responseJSON.error.trace : ''),
+						'\n' +
+							sep +
+							'\nTrace:\n' +
+							sep +
+							'\n' +
+							(jqXHR.responseJSON ? jqXHR.responseJSON.error.trace : ''),
 						'\n' + sep + '\nParams:\n' + sep + '\n' + JSON.stringify(params, null, '\t')
 					);
 				} else {
@@ -147,7 +152,8 @@ window.AppConnector = {
 			} else if (fullUrl.indexOf('index.php?') === -1) {
 				fullUrl = 'index.php?' + fullUrl;
 			}
-			if (history.pushState && fullUrl !== '') {
+			const inIframe = $('body').hasClass('within-iframe');
+			if (!inIframe && history.pushState && fullUrl !== '') {
 				const currentHref = window.location.href;
 				if (!history.state) {
 					history.replaceState(currentHref, 'title 1', currentHref);
