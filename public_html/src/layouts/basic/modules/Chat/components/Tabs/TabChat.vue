@@ -119,6 +119,7 @@ export default {
   watch: {
     roomData() {
       if (
+        !this.recordRoom &&
         this.isRoom &&
         this.dataReady &&
         (this.roomData.recordid !== this.roomId ||
@@ -139,10 +140,12 @@ export default {
       }
     },
     dialog() {
-      if (this.dialog) {
-        this.onShowTabChatEvent()
-      } else {
-        this.disableNewMessagesListener()
+      if (!this.recordRoom) {
+        if (this.dialog) {
+          this.onShowTabChatEvent()
+        } else {
+          this.disableNewMessagesListener()
+        }
       }
     }
   },
