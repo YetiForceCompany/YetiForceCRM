@@ -103,7 +103,9 @@ Vtiger_Base_Validator_Js(
 				var group = field.closest('.input-group');
 				var phoneCountryList = group.find('.phoneCountryList');
 				field.attr('readonly', true);
-				let moduleName = form.find('[name="module"]').length ? form.find('[name="module"]').val() : app.getModuleName();
+				let moduleName = form.find('[name="module"]').length
+					? form.find('[name="module"]').val()
+					: app.getModuleName();
 				if (moduleName === 'LayoutEditor') {
 					moduleName = $('#selectedModuleName').val();
 				}
@@ -162,7 +164,8 @@ Vtiger_Base_Validator_Js(
 		validate: function() {
 			let fieldValue = this.getFieldValue();
 			let fieldData = this.getElement().data();
-			const maximumLength = typeof fieldData.fieldinfo !== 'undefined' ? fieldData.fieldinfo.maximumlength : '3,64';
+			const maximumLength =
+				typeof fieldData.fieldinfo !== 'undefined' ? fieldData.fieldinfo.maximumlength : '3,64';
 			let ranges = maximumLength.split(',');
 			if (fieldValue.length < parseInt(ranges[0])) {
 				this.setError(app.vtranslate('JS_ENTERED_VALUE_IS_TOO_SHORT'));
@@ -539,7 +542,10 @@ Vtiger_Base_Validator_Js(
 			const selectElementValue = fieldInstance.val();
 			if (Array.isArray(selectElementValue)) {
 				for (let value of selectElementValue) {
-					if (value && !/(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/iu.test(value)) {
+					if (
+						value &&
+						!/(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/iu.test(value)
+					) {
 						this.setError(app.vtranslate('JS_PLEASE_SELECT_VALID_DOMAIN_NAMES'));
 						return false;
 					}
@@ -905,7 +911,12 @@ Vtiger_Base_Validator_Js(
 					var comparedDateVal = todayDateInstance - dependentFieldDateInstance;
 					if (comparedDateVal < 0 && status == 'Held') {
 						var errorInfo =
-							fieldLabel + ' ' + app.vtranslate('JS_FUTURE_EVENT_CANNOT_BE_HELD') + ' ' + dependentFieldLabel + '';
+							fieldLabel +
+							' ' +
+							app.vtranslate('JS_FUTURE_EVENT_CANNOT_BE_HELD') +
+							' ' +
+							dependentFieldLabel +
+							'';
 						this.setError(errorInfo);
 						return false;
 					}
@@ -947,7 +958,12 @@ Vtiger_Base_Validator_Js(
 					var comparedDateVal = fieldDateInstance - dependentFieldDateInstance;
 					if (comparedDateVal > 0) {
 						var errorInfo =
-							fieldLabel + ' ' + app.vtranslate('JS_SHOULD_BE_LESS_THAN_OR_EQUAL_TO') + ' ' + dependentFieldLabel + '';
+							fieldLabel +
+							' ' +
+							app.vtranslate('JS_SHOULD_BE_LESS_THAN_OR_EQUAL_TO') +
+							' ' +
+							dependentFieldLabel +
+							'';
 						this.setError(errorInfo);
 						return false;
 					}
@@ -998,7 +1014,9 @@ Vtiger_Base_Validator_Js(
 				return response;
 			}
 			let fieldData = this.getElement().data();
-			let decimalSeparator = fieldData.decimalSeparator ? fieldData.decimalSeparator : CONFIG.currencyDecimalSeparator;
+			let decimalSeparator = fieldData.decimalSeparator
+				? fieldData.decimalSeparator
+				: CONFIG.currencyDecimalSeparator;
 			let groupSeparator = fieldData.groupSeparator ? fieldData.groupSeparator : CONFIG.currencyGroupingSeparator;
 
 			let strippedValue = this.getFieldValue().replace(decimalSeparator, '');
@@ -1118,9 +1136,9 @@ Vtiger_Base_Validator_Js(
 				} else {
 					fieldValue = [fieldValue];
 				}
-				for (let key in fieldValue) {
-					Vtiger_Helper_Js.getDateInstance(fieldValue[key], fieldDateFormat);
-				}
+				fieldValue.forEach(key => {
+					Vtiger_Helper_Js.getDateInstance(key, fieldDateFormat);
+				});
 			} catch (err) {
 				var errorInfo = app.vtranslate('JS_PLEASE_ENTER_VALID_DATE');
 				this.setError(errorInfo);
@@ -1658,7 +1676,9 @@ Vtiger_Base_Validator_Js(
 				field.data('fieldinfo').maximumlength &&
 				new TextEncoder().encode(fieldValue).byteLength > field.data('fieldinfo').maximumlength
 			) {
-				this.setError(app.vtranslate('JS_MAXIMUM_TEXT_SIZE_IN_BYTES') + ' ' + field.data('fieldinfo').maximumlength);
+				this.setError(
+					app.vtranslate('JS_MAXIMUM_TEXT_SIZE_IN_BYTES') + ' ' + field.data('fieldinfo').maximumlength
+				);
 				return false;
 			}
 			return true;
