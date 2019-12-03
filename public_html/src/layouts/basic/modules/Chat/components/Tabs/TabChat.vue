@@ -8,16 +8,7 @@
       style="min-height: inherit;"
     >
       <div class="flex no-wrap items-center q-px-sm">
-        <q-btn
-          dense
-          flat
-          round
-          :color="leftPanel ? 'info' : 'grey'"
-          @click="toggleLeftPanel()"
-        >
-          <YfIcon icon="yfi-menu-group-room" />
-          <q-tooltip>{{ translate('JS_CHAT_ROOMS_MENU') }}</q-tooltip>
-        </q-btn>
+        <slot name="searchPrepend" />
         <q-input
           v-model="inputSearch"
           class="full-width q-px-sm"
@@ -50,16 +41,7 @@
             />
           </template>
         </q-input>
-        <q-btn
-          :color="rightPanel ? 'info' : 'grey'"
-          dense
-          flat
-          round
-          @click="toggleRightPanel()"
-        >
-          <YfIcon icon="yfi-menu-entrant" />
-          <q-tooltip>{{ translate('JS_CHAT_PARTICIPANTS_MENU') }}</q-tooltip>
-        </q-btn>
+        <slot name="searchAppend" />
       </div>
       <div
         class="flex-grow-1"
@@ -126,15 +108,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'miniMode',
-      'data',
-      'config',
-      'currentRoomData',
-      'dialog',
-      'leftPanel',
-      'rightPanel'
-    ]),
+    ...mapGetters(['miniMode', 'data', 'config', 'currentRoomData', 'dialog']),
     roomMessages() {
       return this.roomData.chatEntries
     },
@@ -179,11 +153,10 @@ export default {
       'fetchRoom',
       'fetchUnread',
       'addActiveRoom',
-      'removeActiveRoom',
-      'toggleLeftPanel',
-      'toggleRightPanel'
+      'removeActiveRoom'
     ]),
     onResize({ height }) {
+      if (!this.isRoom) return
       Quasar.utils.dom.css(this.$refs.scrollContainer.$el, {
         height: height + 'px'
       })
@@ -223,6 +196,7 @@ export default {
       })
     },
     scrollDown() {
+      if (!this.isRoom) return
       this.scrollbarHidden = true
       this.$refs.scrollContainer.setScrollPosition(
         this.$refs.messagesContainer.$el.clientHeight
@@ -258,7 +232,7 @@ export default {
       }
     },
     onShowTabChatEvent() {
-      if (!this.recordRoom && this.currentRoomData.recordid) {
+      if (this.currentRoomData.recordid) {
         this.fetchRoom({
           id: this.roomData.recordid,
           roomType: this.roomData.roomType
@@ -275,12 +249,10 @@ export default {
     }
   },
   mounted() {
-    if (this.dialog && this.isRoom) {
+    if (this.dialog && this.isRoom && !this.recordRoom) {
       this.onShowTabChatEvent()
-    } else if (this.recordRoom) {
-      this.registerPostLoadEvents()
     } else {
-      this.$emit('onContentLoaded', true)
+      this.registerPostLoadEvents()
     }
     this.dataReady = true
   },
