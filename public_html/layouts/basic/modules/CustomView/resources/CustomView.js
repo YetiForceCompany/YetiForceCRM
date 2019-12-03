@@ -10,17 +10,19 @@
 'use strict';
 
 class CustomView {
-
 	constructor(url) {
 		let progressIndicatorElement = $.progressIndicator();
 		app.showModalWindow(null, url, () => {
 			this.contentsCotainer = $('.js-filter-modal__container');
-			this.advanceFilterInstance = new Vtiger_ConditionBuilder_Js(this.contentsCotainer.find('.js-condition-builder'), this.contentsCotainer.find('#sourceModule').val());
+			this.advanceFilterInstance = new Vtiger_ConditionBuilder_Js(
+				this.contentsCotainer.find('.js-condition-builder'),
+				this.contentsCotainer.find('#sourceModule').val()
+			);
 			this.advanceFilterInstance.registerEvents();
 			//This will store the columns selection container
 			this.columnSelectElement = false;
 			this.registerEvents();
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({ mode: 'hide' });
 		});
 	}
 
@@ -28,8 +30,8 @@ class CustomView {
 		let selectedDateFilter = $('#standardDateFilter option:selected');
 		let currentDate = selectedDateFilter.data('currentdate');
 		let endDate = selectedDateFilter.data('enddate');
-		$("#standardFilterCurrentDate").val(currentDate);
-		$("#standardFilterEndDate").val(endDate);
+		$('#standardFilterCurrentDate').val(currentDate);
+		$('#standardFilterEndDate').val(endDate);
 	}
 
 	/**
@@ -65,21 +67,25 @@ class CustomView {
 
 	saveFilter() {
 		let aDeferred = $.Deferred();
-		let formData = $("#CustomView").serializeFormData();
-		AppConnector.request(formData, true).done(function (data) {
-			aDeferred.resolve(data);
-		}).fail(function (error) {
-			aDeferred.reject(error);
-		});
+		let formData = $('#CustomView').serializeFormData();
+		AppConnector.request(formData, true)
+			.done(function(data) {
+				aDeferred.resolve(data);
+			})
+			.fail(function(error) {
+				aDeferred.reject(error);
+			});
 		return aDeferred.promise();
 	}
 
 	saveAndViewFilter() {
-		this.saveFilter().done(function (response) {
+		this.saveFilter().done(function(response) {
 			if (response.success) {
 				let url;
 				if (app.getParentModuleName() == 'Settings') {
-					url = 'index.php?module=CustomView&parent=Settings&view=Index&sourceModule=' + $('#sourceModule').val();
+					url =
+						'index.php?module=CustomView&parent=Settings&view=Index&sourceModule=' +
+						$('#sourceModule').val();
 				} else {
 					url = response['result']['listviewurl'];
 				}
@@ -95,22 +101,30 @@ class CustomView {
 	}
 
 	registerIconEvents() {
-		this.getContentsContainer().find('.js-filter-preferences').on('change', '.js-filter-preference', (e) => {
-			let currentTarget = $(e.currentTarget);
-			let iconElement = currentTarget.next();
-			if (currentTarget.prop('checked')) {
-				iconElement.removeClass(iconElement.data('unchecked')).addClass(iconElement.data('check'));
-			} else {
-				iconElement.removeClass(iconElement.data('check')).addClass(iconElement.data('unchecked'));
-			}
-		});
+		this.getContentsContainer()
+			.find('.js-filter-preferences')
+			.on('change', '.js-filter-preference', e => {
+				let currentTarget = $(e.currentTarget);
+				let iconElement = currentTarget.next();
+				if (currentTarget.prop('checked')) {
+					iconElement.removeClass(iconElement.data('unchecked')).addClass(iconElement.data('check'));
+				} else {
+					iconElement.removeClass(iconElement.data('check')).addClass(iconElement.data('unchecked'));
+				}
+			});
 	}
 
 	registerBlockToggleEvent() {
 		const container = this.getContentsContainer();
-		container.on('click', '.blockHeader', function (e) {
+		container.on('click', '.blockHeader', function(e) {
 			const target = $(e.target);
-			if (target.is('input') || target.is('button') || target.parents().is('button') || target.hasClass('js-stop-propagation') || target.parents().hasClass('js-stop-propagation')) {
+			if (
+				target.is('input') ||
+				target.is('button') ||
+				target.parents().is('button') ||
+				target.hasClass('js-stop-propagation') ||
+				target.parents().hasClass('js-stop-propagation')
+			) {
 				return false;
 			}
 			const blockHeader = $(e.currentTarget);
@@ -138,27 +152,33 @@ class CustomView {
 	 * Get list of fields to duplicates
 	 * @returns {Array}
 	 */
-	getDuplicateFields(){
+	getDuplicateFields() {
 		let fields = [];
 		const container = this.getContentsContainer();
-		container.find('.js-duplicates-container .js-duplicates-row').each(function(){
+		container.find('.js-duplicates-container .js-duplicates-row').each(function() {
 			fields.push({
-				fieldid: $(this).find('.js-duplicates-field').val(),
-				ignore: $(this).find('.js-duplicates-ignore').is(':checked')
-			})
+				fieldid: $(this)
+					.find('.js-duplicates-field')
+					.val(),
+				ignore: $(this)
+					.find('.js-duplicates-ignore')
+					.is(':checked')
+			});
 		});
 		return fields;
 	}
 	/**
 	 * Register events for block "Find duplicates"
 	 */
-	registerDuplicatesEvents(){
+	registerDuplicatesEvents() {
 		const container = this.getContentsContainer();
 		App.Fields.Picklist.showSelect2ElementView(container.find('.js-duplicates-container .js-duplicates-field'));
 		container.on('click', '.js-duplicates-remove', function(e) {
-			$(this).closest('.js-duplicates-row').remove();
+			$(this)
+				.closest('.js-duplicates-row')
+				.remove();
 		});
-		container.find('.js-duplicate-add-field').on('click', function(){
+		container.find('.js-duplicate-add-field').on('click', function() {
 			let template = container.find('.js-duplicates-field-template').clone();
 			template.removeClass('d-none');
 			template.removeClass('js-duplicates-field-template');
@@ -167,9 +187,9 @@ class CustomView {
 		});
 	}
 	registerSubmitEvent(select2Element) {
-		$("#CustomView").on('submit', (e) => {
+		$('#CustomView').on('submit', e => {
 			let selectElement = this.getColumnSelectElement();
-			if ($('#viewname').val().length > 40) {
+			if ($('#viewname').val().length > 100) {
 				Vtiger_Helper_Js.showPnotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_VIEWNAME_ALERT')
@@ -209,7 +229,11 @@ class CustomView {
 				//handled standard filters saved values.
 				let stdfilterlist = {};
 
-				if (($('#standardFilterCurrentDate').val() != '') && ($('#standardFilterEndDate').val() != '') && ($('select.standardFilterColumn option:selected').val() != 'none')) {
+				if (
+					$('#standardFilterCurrentDate').val() != '' &&
+					$('#standardFilterEndDate').val() != '' &&
+					$('select.standardFilterColumn option:selected').val() != 'none'
+				) {
 					stdfilterlist['columnname'] = $('select.standardFilterColumn option:selected').val();
 					stdfilterlist['stdfilter'] = $('select#standardDateFilter option:selected').val();
 					stdfilterlist['startdate'] = $('#standardFilterCurrentDate').val();
@@ -220,7 +244,9 @@ class CustomView {
 				let advfilterlist = this.advanceFilterInstance.getConditions();
 				$('#advfilterlist').val(JSON.stringify(advfilterlist));
 				$('[name="duplicatefields"]').val(JSON.stringify(this.getDuplicateFields()));
-				$('input[name="columnslist"]', this.getContentsContainer()).val(JSON.stringify(this.getSelectedColumns()));
+				$('input[name="columnslist"]', this.getContentsContainer()).val(
+					JSON.stringify(this.getSelectedColumns())
+				);
 				this.saveAndViewFilter();
 				return false;
 			} else {
@@ -229,16 +255,17 @@ class CustomView {
 		});
 	}
 
-
 	/**
 	 * Block submit on press enter key
 	 */
 	registerDisableSubmitOnEnter() {
-		this.getContentsContainer().find('#viewname, [name="color"]').keydown(function (e) {
-			if (e.keyCode === 13) {
-				e.preventDefault();
-			}
-		});
+		this.getContentsContainer()
+			.find('#viewname, [name="color"]')
+			.keydown(function(e) {
+				if (e.keyCode === 13) {
+					e.preventDefault();
+				}
+			});
 	}
 
 	registerEvents() {
@@ -250,10 +277,10 @@ class CustomView {
 		let select2Element = App.Fields.Picklist.showSelect2ElementView(this.getColumnSelectElement());
 		this.registerSubmitEvent(select2Element);
 		$('.stndrdFilterDateSelect').datepicker();
-		$("#standardDateFilter").on('change', () => {
+		$('#standardDateFilter').on('change', () => {
 			this.loadDateFilterValues();
 		});
 		$('#CustomView').validationEngine(app.validationEngineOptions);
 		this.registerDisableSubmitOnEnter();
 	}
-};
+}
