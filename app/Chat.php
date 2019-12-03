@@ -305,7 +305,7 @@ final class Chat
 		$dataReader = $query->createCommand()->query();
 		$rooms = [];
 		while ($row = $dataReader->read()) {
-			$row['name'] = Language::translate($row['name'], 'Chat');
+			$row['name'] = \App\Purifier::decodeHtml($row['name']);
 			$row['roomType'] = 'private';
 			$rooms[$row['recordid']] = $row;
 		}
@@ -369,6 +369,7 @@ final class Chat
 		$dataReader = $query->createCommand()->query();
 		$rows = [];
 		while ($row = $dataReader->read()) {
+			$row['name'] = \App\Purifier::decodeHtml($row['name']);
 			$row['roomType'] = 'group';
 			$rows[$row['recordid']] = $row;
 		}
@@ -443,7 +444,7 @@ final class Chat
 			$roomData = static::getUserInfo($relUser);
 			$roomData['cnt_new_message'] = $row['cnt_new_message'];
 			$roomData['recordid'] = $row['recordid'];
-			$roomData['name'] = $roomData['user_name'];
+			$roomData['name'] = \App\Purifier::decodeHtml($roomData['user_name']);
 			$roomData['roomType'] = $roomType;
 			$rooms[$row['recordid']] = $roomData;
 		}
@@ -514,6 +515,7 @@ final class Chat
 			if ($recordModel->isViewable()) {
 				$row['moduleName'] = $recordModel->getModuleName();
 				$row['roomType'] = 'crm';
+				$row['name'] = \App\Purifier::decodeHtml($row['name']);
 				$rows[$row['recordid']] = $row;
 			}
 		}

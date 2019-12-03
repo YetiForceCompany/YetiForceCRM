@@ -139,7 +139,7 @@ export default {
       return this.roomData.chatEntries
     },
     isRoom() {
-      return Object.keys(this.currentRoomData).length
+      return !!Object.keys(this.currentRoomData).length
     }
   },
   watch: {
@@ -258,7 +258,7 @@ export default {
       }
     },
     onShowTabChatEvent() {
-      if (!this.recordRoom && !this.currentRoomData.recordid) {
+      if (!this.recordRoom && this.currentRoomData.recordid) {
         this.fetchRoom({
           id: this.roomData.recordid,
           roomType: this.roomData.roomType
@@ -280,8 +280,8 @@ export default {
     } else if (this.recordRoom) {
       this.registerPostLoadEvents()
     } else {
-		this.$emit('onContentLoaded', true)
-	}
+      this.$emit('onContentLoaded', true)
+    }
     this.dataReady = true
   },
   beforeDestroy() {

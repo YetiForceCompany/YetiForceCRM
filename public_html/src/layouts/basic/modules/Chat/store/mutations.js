@@ -148,6 +148,9 @@ export default {
 	unsetCurrentRoom(state) {
 		Vue.set(state.data, 'currentRoom', {})
 	},
+	setCurrentRoom(state, data) {
+		Vue.set(state.data, 'currentRoom', data)
+	},
 	setConfig(state, config) {
 		state.config = mergeDeepReactive(state.config, config)
 	},
