@@ -36,6 +36,7 @@ export default {
 			}).done(({ result }) => {
 				commit('setConfig', result.config)
 				commit('setAmountOfNewMessagesByRoom', result.roomList)
+				commit('setCurrentRoom', result.currentRoom)
 				resolve(result)
 			})
 		})
