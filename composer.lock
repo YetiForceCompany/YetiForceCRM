@@ -8,21 +8,21 @@
     "packages": [
         {
             "name": "abraham/twitteroauth",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/abraham/twitteroauth.git",
-                "reference": "ed70c5de0ea33439fde124d0d7109460bbb59a71"
+                "reference": "d54b71c2eee94252154e7b50656e17422fa0b9e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abraham/twitteroauth/zipball/ed70c5de0ea33439fde124d0d7109460bbb59a71",
-                "reference": "ed70c5de0ea33439fde124d0d7109460bbb59a71",
+                "url": "https://api.github.com/repos/abraham/twitteroauth/zipball/d54b71c2eee94252154e7b50656e17422fa0b9e1",
+                "reference": "d54b71c2eee94252154e7b50656e17422fa0b9e1",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "php": "^5.6 || ^7.0 || ^7.1 || ^7.2"
+                "php": "^7.2 || ^7.3"
             },
             "require-dev": {
                 "phpmd/phpmd": "~2.6",
@@ -58,7 +58,7 @@
                 "social",
                 "twitter"
             ],
-            "time": "2019-01-20T17:52:37+00:00"
+            "time": "2019-11-29T14:55:32+00:00"
         },
         {
             "name": "ckeditor/ckeditor",
