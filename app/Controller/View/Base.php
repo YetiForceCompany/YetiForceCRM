@@ -257,7 +257,8 @@ abstract class Base extends \App\Controller\Base
 				'~libraries/respond.js/dist/respond.min.js',
 				'~libraries/quasar/dist/quasar.ie.polyfills.umd.min.js',
 				'~libraries/whatwg-fetch/dist/fetch.umd.js',
-				'~libraries/url-polyfill/url-polyfill.js'
+				'~libraries/url-polyfill/url-polyfill.js',
+				'~libraries/gridstack/dist/gridstack-poly.min.js'
 			];
 			$jsFileNames = array_merge($polyfills, $jsFileNames);
 		}
