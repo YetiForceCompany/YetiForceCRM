@@ -160,10 +160,10 @@ class Db extends \yii\db\Connection
 		$fullVersion = $statement->fetch(\PDO::FETCH_COLUMN);
 		[$version] = explode('-', $conf['version']);
 		$conf['version_comment'] = $conf['version_comment'] . '|' . $fullVersion;
-		if (0 === stripos($conf['version_comment'], 'MariaDb')) {
+		if (false !== stripos($conf['version_comment'], 'MariaDb')) {
 			$typeDb = 'MariaDb';
 		}
-		if (0 === stripos($conf['version_comment'], 'MySQL')) {
+		if (false !== stripos($conf['version_comment'], 'MySQL')) {
 			$typeDb = 'MySQL';
 		}
 		$memory = $conf['key_buffer_size'] + $conf['query_cache_size'] + $conf['tmp_table_size'] + $conf['innodb_buffer_pool_size'] +
