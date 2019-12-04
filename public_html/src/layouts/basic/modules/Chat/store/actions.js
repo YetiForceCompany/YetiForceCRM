@@ -332,12 +332,12 @@ export default {
 	},
 	notifyAboutNewMessages({ dispatch, getters }, { roomList, amount, firstFetch }) {
 		if (amount > getters.data.amountOfNewMessages) {
-			dispatch('playNotificationSound', roomList)
+			dispatch('playNotificationSound', { roomList, firstFetch })
 			dispatch('showDesktopNotification', amount)
 		}
 		dispatch('updateAmountOfNewMessages', { roomList, amount })
 	},
-	playNotificationSound({ getters }, roomList) {
+	playNotificationSound({ getters }, { roomList, firstFetch }) {
 		if (getters.isSoundNotification) {
 			let areNewMessagesForRoom = (roomType, room) =>
 				roomList[roomType][room].cnt_new_message > getters.data.roomList[roomType][room].cnt_new_message
