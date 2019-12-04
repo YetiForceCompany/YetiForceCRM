@@ -16,7 +16,7 @@ class Log extends Logger
 	public static $logToConsole;
 	public static $logToFile;
 	public static $logToProfile;
-	public $logToLevels;
+	public $logToLevels = 0;
 	/**
 	 * Column mapping by table.
 	 *
@@ -43,7 +43,9 @@ class Log extends Logger
 	public function init()
 	{
 		parent::init();
-		$this->setLevels(\Config\Debug::$LOG_LEVELS);
+		if (\Config\Debug::$LOG_LEVELS) {
+			$this->setLevels(\Config\Debug::$LOG_LEVELS);
+		}
 	}
 
 	/**
@@ -54,7 +56,6 @@ class Log extends Logger
 	public function setLevels($levels)
 	{
 		if (\is_array($levels)) {
-			$this->logToLevels = 0;
 			foreach ($levels as $level) {
 				if (isset(self::$levelMap[$level])) {
 					$this->logToLevels |= self::$levelMap[$level];
