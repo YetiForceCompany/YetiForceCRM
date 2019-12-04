@@ -808,6 +808,17 @@ $h-calendar-form-actions: calculate-rem(49px);
 				}
 			}
 		}
+		.user-info--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
+			height: calc(
+				100vh - #{$h-footer-user-info} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings}
+			);
+		}
+
+		.limited-footer--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
+			height: calc(
+				100vh - #{$h-footer-limited} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings}
+			);
+		}
 
 		.o-calendar__form__actions[min-height~="70px"] {
 			padding-bottom: 0;
@@ -830,12 +841,6 @@ $h-calendar-form-actions: calculate-rem(49px);
 	}
 }
 
-.user-info--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
-	height: calc(
-		100vh - #{$h-footer-user-info} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings}
-	);
-}
-
 .limited-footer--active .o-calendar {
 	&__tab--filters,
 	&__form {
@@ -843,23 +848,11 @@ $h-calendar-form-actions: calculate-rem(49px);
 	}
 }
 
-.limited-footer--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
-	height: calc(
-		100vh - #{$h-footer-limited} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings}
-	);
-}
-
 .limited-footer--active .o-calendar {
 	&__tab--filters,
 	&__form {
 		height: $h-main-viewport-limited-footer;
 	}
-}
-
-.limited-footer--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
-	height: calc(
-		100vh - #{$h-footer} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings}
-	);
 }
 
 .tpl-Calendar-Extended-QuickCreate {
