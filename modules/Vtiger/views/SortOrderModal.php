@@ -41,8 +41,7 @@ class Vtiger_SortOrderModal_View extends \App\Controller\Modal
 	 */
 	public function preProcessAjax(App\Request $request)
 	{
-		$moduleName = $request->getModule($request);
-		$this->modalIcon = "modCT_{$moduleName} userIcon-{$moduleName}";
+		$this->modalIcon = 'fas fa-sort';
 		parent::preProcessAjax($request);
 	}
 

@@ -458,16 +458,17 @@ class Vtiger_ListView_Model extends \App\Base
 	{
 		$orderBy = $this->get('orderby');
 		if (!empty($orderBy) && \is_array($orderBy)) {
+			$fields = $this->getModule()->getFields();
 			foreach ($orderBy as $fieldName => $sortFlag) {
 				[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $fieldName), 3, false);
-				if ($sourceFieldName) {
+				if ($sourceFieldName && isset($fields[$sourceFieldName])) {
 					$this->getQueryGenerator()->setRelatedOrder([
 						'sourceField' => $sourceFieldName,
 						'relatedModule' => $moduleName,
 						'relatedField' => $fieldName,
 						'relatedSortOrder' => $sortFlag
 					]);
-				} else {
+				} elseif (isset($fields[$fieldName])) {
 					$this->getQueryGenerator()->setOrder($fieldName, $sortFlag);
 				}
 			}

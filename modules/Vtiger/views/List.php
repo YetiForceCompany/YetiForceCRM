@@ -123,14 +123,14 @@ class Vtiger_List_View extends Vtiger_Index_View
 			if (!isset($this->viewName)) {
 				$this->viewName = App\CustomView::getInstance($moduleName)->getViewId();
 			}
+			$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
 			if (App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
-				$customViewModel = CustomView_Record_Model::getInstanceById($this->viewName);
-				if ($customViewModel) {
-					App\CustomView::setSortBy($moduleName, $customViewModel->getSortOrderBy());
+				if ($orderBy || ($customViewModel = CustomView_Record_Model::getInstanceById($this->viewName))) {
+					App\CustomView::setSortBy($moduleName, $orderBy ? $orderBy : $customViewModel->getSortOrderBy());
 				}
 				App\CustomView::setCurrentView($moduleName, $this->viewName);
 			} else {
-				App\CustomView::setSortBy($moduleName, $request->getMultiDimensionArray('orderby', [\App\Purifier::STANDARD]));
+				App\CustomView::setSortBy($moduleName, $orderBy);
 				if ($request->has('page')) {
 					App\CustomView::setCurrentPage($moduleName, $this->viewName, $request->getInteger('page'));
 				}
