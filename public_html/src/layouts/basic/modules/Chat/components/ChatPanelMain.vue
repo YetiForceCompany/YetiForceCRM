@@ -15,32 +15,7 @@
           <TabChat
             :roomData="currentRoomData"
             @onContentLoaded="isLoading = false"
-          >
-            <template #searchPrepend>
-              <q-btn
-                dense
-                flat
-                round
-                :color="leftPanel ? 'info' : 'grey'"
-                @click="toggleLeftPanel()"
-              >
-                <YfIcon icon="yfi-menu-group-room" />
-                <q-tooltip>{{ translate('JS_CHAT_ROOMS_MENU') }}</q-tooltip>
-              </q-btn>
-            </template>
-            <template #searchAppend>
-              <q-btn
-                :color="rightPanel ? 'info' : 'grey'"
-                dense
-                flat
-                round
-                @click="toggleRightPanel()"
-              >
-                <YfIcon icon="yfi-menu-entrant" />
-                <q-tooltip>{{ translate('JS_CHAT_PARTICIPANTS_MENU') }}</q-tooltip>
-              </q-btn>
-            </template>
-          </TabChat>
+          />
         </q-tab-panel>
         <q-tab-panel name="unread">
           <TabUnread
@@ -77,15 +52,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['tab', 'currentRoomData', 'leftPanel', 'rightPanel'])
+    ...mapGetters(['tab', 'currentRoomData'])
   },
   watch: {
     tab() {
       this.isLoading = true
     }
-  },
-  methods: {
-    ...mapActions(['toggleLeftPanel', 'toggleRightPanel'])
   }
 }
 </script>
