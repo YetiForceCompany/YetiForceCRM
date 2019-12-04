@@ -355,7 +355,7 @@ var App = (window.App = {
 			initPage() {
 				let scrollbarContainer = $('.mainBody');
 				if (!scrollbarContainer.length) {
-					return false;
+					scrollbarContainer = $('body');
 				}
 				this.page.instance = this.y(scrollbarContainer);
 				this.page.element = $(this.page.instance.getElements().viewport);
@@ -494,7 +494,7 @@ var app = (window.app = {
 	 * Check if current window is window top
 	 */
 	isWindowTop() {
-		return window.top === window.self
+		return window.top === window.self;
 	},
 	/**
 	 * Function gets current window parent
