@@ -16,6 +16,11 @@
     "type": "git",
     "url": "git+https://github.com/YetiForceCompany/YetiForceCRM.git"
   },
+  "browserslist": [
+    "last 1 version",
+    "> 1%",
+    "IE 11"
+  ],
   "author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
   "license": "YetiForce Public License v3",
   "dependencies": {
