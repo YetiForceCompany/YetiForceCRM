@@ -332,44 +332,49 @@ export default {
 	},
 	notifyAboutNewMessages({ dispatch, getters }, { roomList, amount, firstFetch }) {
 		if (amount > getters.data.amountOfNewMessages) {
-			if (getters.isSoundNotification) {
-				let areNewMessagesForRoom = (roomType, room) =>
-					roomList[roomType][room].cnt_new_message > getters.data.roomList[roomType][room].cnt_new_message
-				if (firstFetch) {
-					areNewMessagesForRoom = (roomType, room) =>
-						roomList[roomType][room].cnt_new_message >=
-						getters.data.roomList[roomType][room].cnt_new_message
-				}
-				for (let roomType in roomList) {
-					let played = false
-					for (let room in roomList[roomType]) {
-						let isSoundOn = !getters.roomSoundNotificationsOff[roomType].includes(parseInt(room))
-						if (areNewMessagesForRoom(roomType, room) && isSoundOn) {
-							app.playSound('CHAT')
-							played = true
-							break
-						}
-					}
-					if (played) break
-				}
-			}
-			if (getters.isDesktopNotification && !PNotify.modules.Desktop.checkPermission()) {
-				let message = app.vtranslate('JS_CHAT_NEW_MESSAGE')
-				if (getters.config.showNumberOfNewMessages) {
-					message += ' ' + amount
-				}
-				app.showNotify(
-					{
-						text: message,
-						title: app.vtranslate('JS_CHAT'),
-						type: 'success',
-						delay: '4000'
-					},
-					true
-				)
-			}
+			dispatch('playNotificationSound', roomList)
+			dispatch('showDesktopNotification', amount)
 		}
 		dispatch('updateAmountOfNewMessages', { roomList, amount })
+	},
+	playNotificationSound({ getters }, roomList) {
+		if (getters.isSoundNotification) {
+			let areNewMessagesForRoom = (roomType, room) =>
+				roomList[roomType][room].cnt_new_message > getters.data.roomList[roomType][room].cnt_new_message
+			if (firstFetch) {
+				areNewMessagesForRoom = (roomType, room) =>
+					roomList[roomType][room].cnt_new_message >= getters.data.roomList[roomType][room].cnt_new_message
+			}
+			for (let roomType in roomList) {
+				let played = false
+				for (let room in roomList[roomType]) {
+					let isSoundOn = !getters.roomSoundNotificationsOff[roomType].includes(parseInt(room))
+					if (areNewMessagesForRoom(roomType, room) && isSoundOn) {
+						app.playSound('CHAT')
+						played = true
+						break
+					}
+				}
+				if (played) break
+			}
+		}
+	},
+	showDesktopNotification({ getters }, amount) {
+		if (getters.isDesktopNotification && !PNotify.modules.Desktop.checkPermission()) {
+			let message = app.vtranslate('JS_CHAT_NEW_MESSAGE')
+			if (getters.config.showNumberOfNewMessages) {
+				message += ' ' + amount
+			}
+			app.showNotify(
+				{
+					text: message,
+					title: app.vtranslate('JS_CHAT'),
+					type: 'success',
+					delay: '4000'
+				},
+				true
+			)
+		}
 	},
 	updateAmountOfNewMessages({ commit, getters }, { roomList, amount }) {
 		if (amount !== getters.data.amountOfNewMessages && amount !== undefined) {
