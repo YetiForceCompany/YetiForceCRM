@@ -50,7 +50,7 @@
     "ext-filter": "*",
     "ext-zlib": "*",
     "composer/ca-bundle": "^1.1",
-    "sabre/dav": "3.2.3",
+    "sabre/dav": "4.0.2",
     "rmccue/requests": "v1.7.0",
     "smarty/smarty": "^v3.1.33",
     "phpmailer/phpmailer": "^v6.0.6",
