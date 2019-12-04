@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "817579d30e9b410e7e75a4f6f47d6247",
+    "content-hash": "d6214d4151d1777d277922727663bc3e",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -2196,16 +2196,16 @@
         },
         {
             "name": "simshaun/recurr",
-            "version": "v4.0",
+            "version": "v4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simshaun/recurr.git",
-                "reference": "e7bccac5704b9710c8512fdd7cf78fb5445523a2"
+                "reference": "d6f85ec8652366f45f6d1ba07292c9653939631a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simshaun/recurr/zipball/e7bccac5704b9710c8512fdd7cf78fb5445523a2",
-                "reference": "e7bccac5704b9710c8512fdd7cf78fb5445523a2",
+                "url": "https://api.github.com/repos/simshaun/recurr/zipball/d6f85ec8652366f45f6d1ba07292c9653939631a",
+                "reference": "d6f85ec8652366f45f6d1ba07292c9653939631a",
                 "shasum": ""
             },
             "require": {
@@ -2223,8 +2223,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Recurr\\": "src/Recurr/",
-                    "Recurr\\Test\\": "tests/"
+                    "Recurr\\": "src/Recurr/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2234,8 +2233,8 @@
             "authors": [
                 {
                     "name": "Shaun Simmons",
-                    "email": "shaun@envysphere.com",
-                    "homepage": "http://envysphere.com"
+                    "email": "shaun@shaun.pub",
+                    "homepage": "https://shaun.pub"
                 }
             ],
             "description": "PHP library for working with recurrence rules",
@@ -2247,7 +2246,7 @@
                 "recurring",
                 "rrule"
             ],
-            "time": "2019-02-24T03:15:15+00:00"
+            "time": "2019-11-18T17:48:08+00:00"
         },
         {
             "name": "smarty/smarty",
