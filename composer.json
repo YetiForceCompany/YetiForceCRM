@@ -73,7 +73,7 @@
   },
   "require-dev": {
     "zircote/swagger-php": "^3.0.2",
-    "facebook/webdriver": "^1.6.0",
+    "facebook/webdriver": "^1.7.1",
     "phpunit/phpunit": "7.*",
     "seld/jsonlint": "*",
     "php-console/php-console": "^3.1"
