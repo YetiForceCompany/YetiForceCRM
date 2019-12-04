@@ -74,7 +74,8 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 				'showNumberOfNewMessages' => \App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES'),
 				'showRoleName' => \App\Config::module('Users', 'SHOW_ROLE_NAME')
 			],
-			'roomList' => \App\Chat::getRoomsByUser()
+			'roomList' => \App\Chat::getRoomsByUser(),
+			'currentRoom' => \App\Chat::getCurrentRoom()
 		];
 		if ($result['config']['dynamicAddingRooms']) {
 			$result['config']['chatModules'] = \App\Chat::getChatModules();

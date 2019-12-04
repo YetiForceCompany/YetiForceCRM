@@ -41,7 +41,7 @@ import TabChat from './Tabs/TabChat.vue'
 import TabUnread from './Tabs/TabUnread.vue'
 import TabHistory from './Tabs/TabHistory.vue'
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters } = createNamespacedHelpers('Chat')
+const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'ChatPanelMain',

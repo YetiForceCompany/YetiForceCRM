@@ -219,6 +219,7 @@ $btn-badge-size: 23px;
 }
 
 .btn-badge {
+	pointer-events: all;
 	justify-content: center;
 	align-items: center;
 	width: $btn-badge-size;
