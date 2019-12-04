@@ -213,9 +213,10 @@ class Request
 	/**
 	 * Function to get the array values for a given key.
 	 *
-	 * @param string $key
-	 * @param mixed  $type
-	 * @param array  $value
+	 * @param string  $key
+	 * @param mixed   $type
+	 * @param array   $value
+	 * @param ?string $keyType
 	 *
 	 * @return array
 	 */
@@ -245,7 +246,7 @@ class Request
 						$input[$k] = $type ? Purifier::purifyByType($v, $type) : Purifier::purify($v);
 					}
 					$value = $input;
-				}else{
+				} else {
 					$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
 				}
 			}
@@ -689,7 +690,7 @@ class Request
 	{
 		// Referer check if present - to over come && Check for user post authentication.
 		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId() && 'Install' !== $this->get('module')) {
-			$allowed = \Config\Security::$allowedFrameDomains;
+			$allowed = array_merge(\Config\Security::$allowedFrameDomains, \Config\Security::$allowedFormDomains);
 			$allowed[] = \App\Config::main('site_URL');
 			$throw = true;
 			foreach ($allowed as $value) {

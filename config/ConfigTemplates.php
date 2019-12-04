@@ -990,7 +990,7 @@ return [
 			'validation' => '\App\Validator::url',
 		],
 		'allowedFormDomains' => [
-			'default' => ['paypal.com'],
+			'default' => ['https://www.paypal.com'],
 			'description' => 'Allowed domains which can be used as the target of a form submissions from a given context, used in CSP.',
 		],
 		'generallyAllowedDomains' => [
