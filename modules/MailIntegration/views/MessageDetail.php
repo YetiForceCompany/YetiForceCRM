@@ -18,15 +18,11 @@
 class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 {
 	/**
-	 * {@inheritdoc}
+	 * Error message.
+	 *
+	 * @var string
 	 */
-	public function checkPermission(App\Request $request)
-	{
-		if ((explode('-', $request->getByType('query', 'AlnumExtended'))[0] ?? '') !== substr(\App\YetiForce\Register::getInstanceKey(), 0, 30)) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-		\CsrfMagic\Csrf::$frameBreaker = false;
-	}
+	protected $error;
 
 	/**
 	 * {@inheritdoc}
@@ -39,6 +35,19 @@ class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 	/**
 	 * {@inheritdoc}
 	 */
+	public function checkPermission(App\Request $request)
+	{
+		if ((explode('-', $request->getByType('query', 'AlnumExtended'))[0] ?? '') !== substr(\App\YetiForce\Register::getInstanceKey(), 0, 30)) {
+			$this->error = 'LBL_PERMISSION_DENIED';
+			\App\Log::error("Incorrect integration key: {$request->getByType('query', 'AlnumExtended')}.");
+			new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		\CsrfMagic\Csrf::$frameBreaker = \Config\Security::$csrfFrameBreaker = false;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -46,7 +55,17 @@ class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 			$viewer = $this->getViewer($request);
 			$viewer->view('LoginIframe.tpl', $moduleName);
 		} elseif (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($moduleName)) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			$this->error = 'LBL_PERMISSION_DENIED';
+			$id = \App\User::getCurrentUserRealId();
+			\App\Log::error("No access to the module: {$id}.");
+			new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		if (isset($this->error)) {
+			$viewer = $this->getViewer($request);
+			$viewer->assign('MESSAGE', \App\Language::translate($this->error));
+			$viewer->assign('MESSAGE_EXPANDED', false);
+			$viewer->assign('HEADER_MESSAGE', \App\Language::translate('LBL_ERROR'));
+			$viewer->view('ExceptionError.tpl', 'Vtiger');
 		}
 	}
 
@@ -65,9 +84,8 @@ class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 	 */
 	public function getFooterScripts(App\Request $request)
 	{
-		$jsFileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			"modules.{$request->getModule()}.resources.{$request->getByType('source')}{$request->getByType('view')}"
-		];
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
+		]));
 	}
 }

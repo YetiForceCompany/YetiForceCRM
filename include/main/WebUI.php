@@ -104,10 +104,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 					//Take the url that user would like to redirect after they have successfully logged in.
 					\App\Session::set('return_params', str_replace('&amp;', '&', $returnUrl));
 				}
-				if (!$request->isAjax()) {
-					$qualifiedModuleName = $moduleName = 'Users';
-					$view = 'Login';
-				}
 			}
 			if (empty($moduleName)) {
 				if ($hasLogin) {
