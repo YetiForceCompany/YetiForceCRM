@@ -123,11 +123,7 @@ export default {
     this.registerMountedEvents()
   },
   methods: {
-    ...mapActions([
-      'fetchEarlierEntries',
-      'fetchSearchData',
-      'removeActiveRoom'
-    ]),
+    ...mapActions(['fetchEarlierEntries', 'fetchSearchData']),
     onResize({ height }) {
       if (!this.isVisible) return
       Quasar.utils.dom.css(this.$refs.scrollContainer.$el, {
