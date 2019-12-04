@@ -88,7 +88,7 @@ class Log extends Logger
 	 */
 	public function log($message, $level, $category = '')
 	{
-		if (!($this->logToLevels & $level)) {
+		if (0 !== $this->logToLevels && !($this->logToLevels & $level)) {
 			return;
 		}
 		$traces = '';
