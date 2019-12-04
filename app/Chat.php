@@ -589,11 +589,13 @@ final class Chat
 	 *
 	 * @return array
 	 */
-	public static function getNumberOfNewMessages(): array
+	public static function getNumberOfNewMessages(?array $roomInfo = null): array
 	{
 		$numberOfNewMessages = 0;
-		$roomInfo = static::getRoomsByUser();
 		$roomList = [];
+		if (empty($roomInfo)) {
+			$roomInfo = static::getRoomsByUser();
+		}
 		foreach (['crm', 'group', 'global', 'private', 'user'] as $roomType) {
 			foreach ($roomInfo[$roomType] as $room) {
 				if (!empty($room['cnt_new_message'])) {
