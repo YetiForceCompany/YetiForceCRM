@@ -370,7 +370,10 @@ export default {
 			return
 		}
 		let text = lastMessage.messages
-		let roomCrumb = 'user' === lastMessage.roomData.roomType ? '' : ` / ${lastMessage.roomData.roomType}`
+		let roomCrumb =
+			'user' === lastMessage.roomData.roomType
+				? ''
+				: ` / ${app.vtranslate('JS_CHAT_ROOM_' + lastMessage.roomData.roomType.toUpperCase())}`
 		let userName = lastMessage.userData.user_name
 		let title = `${app.vtranslate('JS_CHAT')}${roomCrumb} / ${userName}`
 		let icon = lastMessage.userData.image
