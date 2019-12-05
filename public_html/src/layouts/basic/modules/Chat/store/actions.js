@@ -330,10 +330,10 @@ export default {
 			})
 		})
 	},
-	notifyAboutNewMessages({ dispatch, getters }, { roomList, amount, firstFetch }) {
+	notifyAboutNewMessages({ dispatch, getters }, { roomList, amount, lastMessage, firstFetch }) {
 		if (amount > getters.data.amountOfNewMessages) {
 			dispatch('playNotificationSound', { roomList, firstFetch })
-			dispatch('showDesktopNotification', amount)
+			dispatch('showDesktopNotification', { amount, lastMessage })
 		}
 		dispatch('updateAmountOfNewMessages', { roomList, amount })
 	},
@@ -359,21 +359,23 @@ export default {
 			}
 		}
 	},
-	showDesktopNotification({ getters }, amount) {
+	showDesktopNotification({ getters }, { amount, lastMessage }) {
 		if (getters.isDesktopNotification && !PNotify.modules.Desktop.checkPermission()) {
-			let message = app.vtranslate('JS_CHAT_NEW_MESSAGE')
+			let text = lastMessage.messages
+			let roomType = 'user' === lastMessage.roomData.roomType ? '' : ` / ${lastMessage.roomData.roomType}`
+			let userName = lastMessage.userData.user_name
+			let title = `${app.vtranslate('JS_CHAT')}${roomType} / ${userName}`
+			let icon = lastMessage.userData.image
+				? lastMessage.userData.image
+				: CONFIG.layoutPath + '/../resources/Logo/logo'
 			if (getters.config.showNumberOfNewMessages) {
-				message += ' ' + amount
+				title = `(${amount}) ${title}`
 			}
-			app.showNotify(
-				{
-					text: message,
-					title: app.vtranslate('JS_CHAT'),
-					type: 'success',
-					delay: '4000'
-				},
-				true
-			)
+			app.showDesktopNotification({
+				icon,
+				text,
+				title
+			})
 		}
 	},
 	updateAmountOfNewMessages({ commit, getters }, { roomList, amount }) {
