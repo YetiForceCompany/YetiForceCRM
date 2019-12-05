@@ -332,8 +332,13 @@ export default {
 	},
 	notifyAboutNewMessages({ dispatch, getters }, { roomList, amount, lastMessage, firstFetch }) {
 		if (amount > getters.data.amountOfNewMessages) {
-			dispatch('playNotificationSound', { roomList, firstFetch })
-			dispatch('showDesktopNotification', { amount, lastMessage })
+			const storageKey = lastMessage.roomid + '-' + lastMessage.id
+			const isNotified = app.cacheGet('chat-desktop-notify') === storageKey
+			if (!isNotified) {
+				dispatch('playNotificationSound', { roomList, firstFetch })
+				dispatch('showDesktopNotification', { amount, lastMessage })
+				app.cacheSet('chat-desktop-notify', storageKey)
+			}
 		}
 		dispatch('updateAmountOfNewMessages', { roomList, amount })
 	},
@@ -360,23 +365,21 @@ export default {
 		}
 	},
 	showDesktopNotification({ getters }, { amount, lastMessage }) {
-		if (getters.isDesktopNotification && !PNotify.modules.Desktop.checkPermission()) {
-			let text = lastMessage.messages
-			let roomType = 'user' === lastMessage.roomData.roomType ? '' : ` / ${lastMessage.roomData.roomType}`
-			let userName = lastMessage.userData.user_name
-			let title = `${app.vtranslate('JS_CHAT')}${roomType} / ${userName}`
-			let icon = lastMessage.userData.image
-				? lastMessage.userData.image
-				: CONFIG.layoutPath + '/../resources/Logo/logo'
-			if (getters.config.showNumberOfNewMessages) {
-				title = `(${amount}) ${title}`
-			}
-			app.showDesktopNotification({
-				icon,
-				text,
-				title
-			})
+		const notificationActive = getters.isDesktopNotification && !PNotify.modules.Desktop.checkPermission()
+		if (!notificationActive) {
+			return
 		}
+		let text = lastMessage.messages
+		let roomCrumb = 'user' === lastMessage.roomData.roomType ? '' : ` / ${lastMessage.roomData.roomType}`
+		let userName = lastMessage.userData.user_name
+		let title = `${app.vtranslate('JS_CHAT')}${roomCrumb} / ${userName}`
+		let icon = lastMessage.userData.image
+			? lastMessage.userData.image
+			: app.getMainParams('layoutPath') + '/../resources/Logo/logo'
+		if (getters.config.showNumberOfNewMessages) {
+			title = `(${amount}) ${title}`
+		}
+		app.showDesktopNotification({ icon, text, title })
 	},
 	updateAmountOfNewMessages({ commit, getters }, { roomList, amount }) {
 		if (amount !== getters.data.amountOfNewMessages && amount !== undefined) {
