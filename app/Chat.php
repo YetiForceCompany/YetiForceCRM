@@ -638,6 +638,7 @@ final class Chat
 			return $a['created'] > $b['created'] ? $a : $b;
 		});
 		if (isset($lastMessage)) {
+			$lastMessage['messages'] = static::decodeNoHtmlMessage($lastMessage['messages'], false);
 			$lastMessage['userData'] = static::getUserInfo($lastMessage['userid']);
 		}
 		return ['roomList' => $roomList, 'amount' => $numberOfNewMessages, 'lastMessage' => $lastMessage];
@@ -1588,12 +1589,17 @@ final class Chat
 	 * Decode message without html except completions.
 	 *
 	 * @param string $message
+	 * @param bool   $linksAllowed
 	 *
 	 * @return string
 	 */
-	private static function decodeNoHtmlMessage(string $message): string
+	private static function decodeNoHtmlMessage(string $message, ?bool $linksAllowed = true): string
 	{
-		return static::decodeMessage(strip_tags(\App\Purifier::decodeHtml($message)));
+		$format = $linksAllowed ? 'HTML' : 'Text';
+		$tagsToReplace = ['<br >', '<br>', '<br/>', '<br />', '</div><div>'];
+		$message = (string) str_ireplace($tagsToReplace, "\r\n", $message);
+		$message = \App\Utils\Completions::decode(\App\Purifier::purifyHtml(strip_tags($message)), $format);
+		return (string) str_ireplace($tagsToReplace, "", $message);
 	}
 
 	/**
