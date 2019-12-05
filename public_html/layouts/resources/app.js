@@ -2386,23 +2386,26 @@ var app = (window.app = {
 			}
 		);
 	},
-	showNotify: function(params, desktop = false) {
+	showNotify: function(params) {
 		if (typeof params.type === 'undefined') {
 			params.type = 'info';
 		}
 		if (typeof params.title === 'undefined') {
 			params.title = app.vtranslate('JS_MESSAGE');
 		}
-		if (desktop) {
-			params = $.extend(params, {
-				modules: {
-					Desktop: {
-						desktop: true
-					}
-				}
-			});
-		}
 		Vtiger_Helper_Js.showPnotify(params);
+	},
+	showDesktopNotification: function(params) {
+		params = $.extend(params, {
+			modules: {
+				Desktop: {
+					desktop: true,
+					fallback: false,
+					icon: params.icon
+				}
+			}
+		});
+		PNotify.notice(params);
 	},
 	/**
 	 * Set Pnotify defaults options
