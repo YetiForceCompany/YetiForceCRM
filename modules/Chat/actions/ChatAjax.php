@@ -33,7 +33,6 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('getChatUsers');
 		$this->exposeMethod('send');
 		$this->exposeMethod('search');
-		$this->exposeMethod('trackNewMessages');
 		$this->exposeMethod('addPrivateRoom');
 		$this->exposeMethod('archivePrivateRoom');
 		$this->exposeMethod('addParticipant');
@@ -188,7 +187,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$result['roomList'] = $roomList;
 		$result['areNewEntries'] = $areNewEntries;
 		if (App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
-			$result['amountOfNewMessages'] = \App\Chat::getNumberOfNewMessages();
+			$result['amountOfNewMessages'] = \App\Chat::getNumberOfNewMessages($roomList);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
@@ -429,22 +428,6 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$methodName = 'getRooms' . ucfirst($roomType) . 'Unpinned';
 		$response = new Vtiger_Response();
 		$response->setResult(\App\Chat::{$methodName}());
-		$response->emit();
-	}
-
-	/**
-	 * Track the number of new messages.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function trackNewMessages(App\Request $request)
-	{
-		$response = new Vtiger_Response();
-		if (App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
-			$response->setResult(\App\Chat::getNumberOfNewMessages());
-		} else {
-			$response->setResult(\App\Chat::isNewMessages() ? 1 : 0);
-		}
 		$response->emit();
 	}
 

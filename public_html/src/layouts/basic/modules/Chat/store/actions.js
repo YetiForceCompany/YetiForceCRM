@@ -330,46 +330,59 @@ export default {
 			})
 		})
 	},
-	notifyAboutNewMessages({ dispatch, getters }, { roomList, amount, firstFetch }) {
+	notifyAboutNewMessages({ dispatch, getters }, { roomList, amount, lastMessage, firstFetch }) {
 		if (amount > getters.data.amountOfNewMessages) {
-			if (getters.isSoundNotification) {
-				let areNewMessagesForRoom = (roomType, room) =>
-					roomList[roomType][room].cnt_new_message > getters.data.roomList[roomType][room].cnt_new_message
-				if (firstFetch) {
-					areNewMessagesForRoom = (roomType, room) =>
-						roomList[roomType][room].cnt_new_message >=
-						getters.data.roomList[roomType][room].cnt_new_message
-				}
-				for (let roomType in roomList) {
-					let played = false
-					for (let room in roomList[roomType]) {
-						let isSoundOn = !getters.roomSoundNotificationsOff[roomType].includes(parseInt(room))
-						if (areNewMessagesForRoom(roomType, room) && isSoundOn) {
-							app.playSound('CHAT')
-							played = true
-							break
-						}
-					}
-					if (played) break
-				}
-			}
-			if (getters.isDesktopNotification && !PNotify.modules.Desktop.checkPermission()) {
-				let message = app.vtranslate('JS_CHAT_NEW_MESSAGE')
-				if (getters.config.showNumberOfNewMessages) {
-					message += ' ' + amount
-				}
-				app.showNotify(
-					{
-						text: message,
-						title: app.vtranslate('JS_CHAT'),
-						type: 'success',
-						delay: '4000'
-					},
-					true
-				)
+			const storageKey = lastMessage.roomid + '-' + lastMessage.id
+			const isNotified = app.cacheGet('chat-desktop-notify') === storageKey
+			if (!isNotified) {
+				dispatch('playNotificationSound', { roomList, firstFetch })
+				dispatch('showDesktopNotification', { amount, lastMessage })
+				app.cacheSet('chat-desktop-notify', storageKey)
 			}
 		}
 		dispatch('updateAmountOfNewMessages', { roomList, amount })
+	},
+	playNotificationSound({ getters }, { roomList, firstFetch }) {
+		if (getters.isSoundNotification) {
+			let areNewMessagesForRoom = (roomType, room) =>
+				roomList[roomType][room].cnt_new_message > getters.data.roomList[roomType][room].cnt_new_message
+			if (firstFetch) {
+				areNewMessagesForRoom = (roomType, room) =>
+					roomList[roomType][room].cnt_new_message >= getters.data.roomList[roomType][room].cnt_new_message
+			}
+			for (let roomType in roomList) {
+				let played = false
+				for (let room in roomList[roomType]) {
+					let isSoundOn = !getters.roomSoundNotificationsOff[roomType].includes(parseInt(room))
+					if (areNewMessagesForRoom(roomType, room) && isSoundOn) {
+						app.playSound('CHAT')
+						played = true
+						break
+					}
+				}
+				if (played) break
+			}
+		}
+	},
+	showDesktopNotification({ getters }, { amount, lastMessage }) {
+		const notificationActive = getters.isDesktopNotification && !PNotify.modules.Desktop.checkPermission()
+		if (!notificationActive) {
+			return
+		}
+		let text = lastMessage.messages
+		let roomCrumb =
+			'user' === lastMessage.roomData.roomType
+				? ''
+				: ` / ${app.vtranslate('JS_CHAT_ROOM_' + lastMessage.roomData.roomType.toUpperCase())}`
+		let userName = lastMessage.userData.user_name
+		let title = `${app.vtranslate('JS_CHAT')}${roomCrumb} / ${userName}`
+		let icon = lastMessage.userData.image
+			? lastMessage.userData.image
+			: app.getMainParams('layoutPath') + '/../resources/Logo/logo'
+		if (getters.config.showNumberOfNewMessages) {
+			text += `\n✉️ ${app.vtranslate('JS_CHAT_SUM_UNREAD')}: ${amount}`
+		}
+		app.showDesktopNotification({ icon, text, title })
 	},
 	updateAmountOfNewMessages({ commit, getters }, { roomList, amount }) {
 		if (amount !== getters.data.amountOfNewMessages && amount !== undefined) {
