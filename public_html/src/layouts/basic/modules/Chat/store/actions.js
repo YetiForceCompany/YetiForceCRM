@@ -380,7 +380,7 @@ export default {
 			? lastMessage.userData.image
 			: app.getMainParams('layoutPath') + '/../resources/Logo/logo'
 		if (getters.config.showNumberOfNewMessages) {
-			title = `(${amount}) ${title}`
+			text += `\n✉️ ${app.vtranslate('JS_CHAT_SUM_UNREAD')}: ${amount}`
 		}
 		app.showDesktopNotification({ icon, text, title })
 	},
