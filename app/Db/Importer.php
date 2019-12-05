@@ -19,8 +19,13 @@ class Importer
 	 *
 	 * @var string
 	 */
-	public $logs = "\n";
-
+	public $logs;
+	/**
+	 * Start time.
+	 *
+	 * @var [type]
+	 */
+	private $startTime;
 	/**
 	 * Path to the directory with files to import.
 	 *
@@ -48,6 +53,15 @@ class Importer
 	 * @var App\Db\Importers\Base[]
 	 */
 	private $importers = [];
+
+	/**
+	 * Construct.
+	 */
+	public function __construct()
+	{
+		$this->logs = '-------------' . date('Y-m-d H:i:s') . "-------------\n";
+		$this->startTime = microtime(true);
+	}
 
 	/**
 	 * Load all files for import.
@@ -111,13 +125,17 @@ class Importer
 	public function addTables(Base $importer)
 	{
 		$this->logs .= "> start add tables\n";
+		$startMain = microtime(true);
 		foreach ($importer->tables as $tableName => $table) {
 			$this->logs .= "  > add table: $tableName ... ";
+			$start = microtime(true);
 			try {
 				$importer->db->createCommand()->createTable($tableName, $this->getColumns($importer, $table), $this->getOptions($importer, $table))->execute();
-				$this->logs .= "done\n";
+				$time = round((microtime(true) - $start), 2);
+				$this->logs .= "done ($time sec)\n";
 			} catch (\Throwable $e) {
-				$this->logs .= " | Error(1) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
+				$time = round((microtime(true) - $start), 2);
+				$this->logs .= " ($time sec) | Error(1) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 				if ($this->dieOnError) {
 					throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
@@ -125,11 +143,14 @@ class Importer
 			if ($indexes = $this->getIndexes($importer, $table)) {
 				foreach ($indexes as $index) {
 					$this->logs .= "  > create index: {$index[0]} ... ";
+					$start = microtime(true);
 					try {
 						$importer->db->createCommand()->createIndex($index[0], $tableName, $index[1], (isset($index[2]) && $index[2]) ? true : false)->execute();
-						$this->logs .= "done\n";
+						$time = round((microtime(true) - $start), 2);
+						$this->logs .= "done ($time sec)\n";
 					} catch (\Throwable $e) {
-						$this->logs .= " | Error(2) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
+						$time = round((microtime(true) - $start), 2);
+						$this->logs .= " ($time sec) | Error(2) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 						if ($this->dieOnError) {
 							throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 						}
@@ -139,11 +160,14 @@ class Importer
 			if (isset($table['primaryKeys'])) {
 				foreach ($table['primaryKeys'] as $primaryKey) {
 					$this->logs .= "  > add primary key: {$primaryKey[0]} ... ";
+					$start = microtime(true);
 					try {
 						$importer->db->createCommand()->addPrimaryKey($primaryKey[0], $tableName, $primaryKey[1])->execute();
-						$this->logs .= "done\n";
+						$time = round((microtime(true) - $start), 2);
+						$this->logs .= "done ($time sec)\n";
 					} catch (\Throwable $e) {
-						$this->logs .= " | Error(3) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
+						$time = round((microtime(true) - $start), 2);
+						$this->logs .= " ($time sec) | Error(3) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 						if ($this->dieOnError) {
 							throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 						}
@@ -151,7 +175,8 @@ class Importer
 				}
 			}
 		}
-		$this->logs .= "# end add tables\n";
+		$time = round((microtime(true) - $startMain) / 60, 2);
+		$this->logs .= "# end add tables ($time min)\n";
 	}
 
 	/**
@@ -236,19 +261,24 @@ class Importer
 			return;
 		}
 		$this->logs .= "> start add foreign key\n";
+		$startMain = microtime(true);
 		foreach ($importer->foreignKey as $key) {
 			$this->logs .= "  > add: {$key[0]}, {$key[1]} ... ";
+			$start = microtime(true);
 			try {
 				$importer->db->createCommand()->addForeignKey($key[0], $key[1], $key[2], $key[3], $key[4], $key[5], $key[6])->execute();
-				$this->logs .= "done\n";
+				$time = round((microtime(true) - $start), 2);
+				$this->logs .= "done ($time sec)\n";
 			} catch (\Throwable $e) {
-				$this->logs .= " | Error(4) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
+				$time = round((microtime(true) - $start), 2);
+				$this->logs .= " ($time sec) | Error(4) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 				if ($this->dieOnError) {
 					throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
 			}
 		}
-		$this->logs .= "# end add foreign key\n";
+		$time = round((microtime(true) - $startMain) / 60, 2);
+		$this->logs .= "# end add foreign key ($time min)\n";
 	}
 
 	/**
@@ -262,6 +292,7 @@ class Importer
 			return;
 		}
 		$this->logs .= "> start add data rows\n";
+		$startMain = microtime(true);
 		foreach ($importer->data as $tableName => $table) {
 			$this->logs .= "  > add data to table: $tableName ... ";
 			try {
@@ -270,10 +301,12 @@ class Importer
 					if ((new \App\Db\Query())->from($tableName)->where(array_combine($keys, $table['values'][0]))->exists($importer->db)) {
 						$this->logs .= "| Error: skipped because it exist first row\n";
 					} else {
+						$start = microtime(true);
 						foreach ($table['values'] as $values) {
 							$importer->db->createCommand()->insert($tableName, array_combine($keys, $values))->execute();
 						}
-						$this->logs .= "done\n";
+						$time = round((microtime(true) - $start), 2);
+						$this->logs .= "done ($time sec)\n";
 					}
 				} else {
 					$this->logs .= "| Error: No values\n";
@@ -285,8 +318,10 @@ class Importer
 				}
 			}
 		}
-		$this->logs .= "# end add data rows\n";
+		$time = round((microtime(true) - $startMain) / 60, 2);
+		$this->logs .= "# end add data rows ($time min)\n";
 		$this->logs .= "> start reset sequence\n";
+		$startMain = microtime(true);
 		foreach ($importer->data as $tableName => $table) {
 			$tableSchema = $importer->db->getTableSchema($tableName);
 			$isAutoIncrement = false;
@@ -298,11 +333,14 @@ class Importer
 			}
 			if ($isAutoIncrement) {
 				$this->logs .= "  > reset sequence: $tableName ... ";
+				$start = microtime(true);
 				try {
 					$importer->db->createCommand()->resetSequence($tableName)->execute();
-					$this->logs .= "done\n";
+					$time = round((microtime(true) - $start), 2);
+					$this->logs .= "done ($time sec)\n";
 				} catch (\Throwable $e) {
-					$this->logs .= " | Error(6) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
+					$time = round((microtime(true) - $start), 2);
+					$this->logs .= " ($time sec) | Error(6) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 					if ($this->dieOnError) {
 						throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 					}
@@ -315,7 +353,8 @@ class Importer
 				}
 			}
 		}
-		$this->logs .= "# end reset sequence\n";
+		$time = round((microtime(true) - $startMain) / 60, 2);
+		$this->logs .= "# end reset sequence ($time min)\n";
 	}
 
 	/**
@@ -331,16 +370,20 @@ class Importer
 	public function renameTables($tables)
 	{
 		$this->logs .= "> start rename tables\n";
+		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
 		foreach ($tables as $table) {
 			$this->logs .= "  > rename table, {$table[0]} ... ";
 			if ($db->isTableExists($table[0])) {
+				$start = microtime(true);
 				try {
 					$dbCommand->renameTable($table[0], $table[1])->execute();
-					$this->logs .= "done\n";
+					$time = round((microtime(true) - $start), 2);
+					$this->logs .= "done ($time sec)\n";
 				} catch (\Throwable $e) {
-					$this->logs .= " | Error(11) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+					$time = round((microtime(true) - $start), 2);
+					$this->logs .= " ($time sec) | Error(11) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 				}
 			} elseif ($db->isTableExists($table[1])) {
 				$this->logs .= " | Info - table {$table[1]} is exists\n";
@@ -348,7 +391,8 @@ class Importer
 				$this->logs .= " | Error - table does not exist\n";
 			}
 		}
-		$this->logs .= "# end rename tables\n";
+		$time = round((microtime(true) - $startMain) / 60, 2);
+		$this->logs .= "# end rename tables ($time min)\n";
 	}
 
 	/**
@@ -359,6 +403,7 @@ class Importer
 	public function dropTable($tables)
 	{
 		$this->logs .= "> start drop tables\n";
+		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		if (\is_string($tables)) {
 			$tables = [$tables];
@@ -366,17 +411,21 @@ class Importer
 		foreach ($tables as $tableName) {
 			$this->logs .= "  > drop table, {$tableName} ... ";
 			if ($db->isTableExists($tableName)) {
+				$start = microtime(true);
 				try {
 					$db->createCommand()->dropTable($tableName)->execute();
-					$this->logs .= "done\n";
+					$time = round((microtime(true) - $start), 2);
+					$this->logs .= "done ($time sec)\n";
 				} catch (\Throwable $e) {
-					$this->logs .= " | Error(12) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+					$time = round((microtime(true) - $start), 2);
+					$this->logs .= " ($time sec) | Error(12) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 				}
 			} else {
 				$this->logs .= " | Info - table does not exist\n";
 			}
 		}
-		$this->logs .= "# end drop tables\n";
+		$time = round((microtime(true) - $startMain) / 60, 2);
+		$this->logs .= "# end drop tables ($time min)\n";
 	}
 
 	/**
@@ -387,24 +436,29 @@ class Importer
 	public function dropIndexes(array $tables)
 	{
 		$this->logs .= "> start drop indexes\n";
+		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		foreach ($tables as $tableName => $indexes) {
 			$dbIndexes = $db->getTableKeys($tableName);
 			foreach ($indexes as $index) {
 				$this->logs .= "  > drop index, {$tableName}:{$index} ... ";
 				if (isset($dbIndexes[$index])) {
+					$start = microtime(true);
 					try {
 						$db->createCommand()->dropIndex($index, $tableName)->execute();
-						$this->logs .= "done\n";
+						$time = round((microtime(true) - $start), 2);
+						$this->logs .= "done ($time sec)\n";
 					} catch (\Throwable $e) {
-						$this->logs .= " | Error(12) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+						$time = round((microtime(true) - $start), 2);
+						$this->logs .= " ($time sec) | Error(12) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 					}
 				} else {
 					$this->logs .= " | Info - index not exists\n";
 				}
 			}
 		}
-		$this->logs .= "# end drop indexes\n";
+		$time = round((microtime(true) - $startMain) / 60, 2);
+		$this->logs .= "# end drop indexes ($time min)\n";
 	}
 
 	/**
@@ -415,6 +469,7 @@ class Importer
 	public function dropForeignKeys(array $foreignKeys)
 	{
 		$this->logs .= "> start drop foreign keys\n";
+		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		foreach ($foreignKeys as $keyName => $tableName) {
 			$this->logs .= "  > drop foreign key, {$tableName}:{$keyName} ... ";
@@ -422,11 +477,14 @@ class Importer
 			if ($tableSchema) {
 				$keyName = str_replace('#__', $db->tablePrefix, $keyName);
 				if (isset($tableSchema->foreignKeys[$keyName])) {
+					$start = microtime(true);
 					try {
 						$db->createCommand()->dropForeignKey($keyName, $tableName)->execute();
-						$this->logs .= "done\n";
+						$time = round((microtime(true) - $start), 2);
+						$this->logs .= "done ($time sec)\n";
 					} catch (\Throwable $e) {
-						$this->logs .= " | Error [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+						$time = round((microtime(true) - $start), 2);
+						$this->logs .= " ($time sec) | Error [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 					}
 				} else {
 					$this->logs .= " | Info - foreign key not exists\n";
@@ -435,7 +493,8 @@ class Importer
 				$this->logs .= " | Error - table does not exists\n";
 			}
 		}
-		$this->logs .= "# end drop foreign keys\n";
+		$time = round((microtime(true) - $startMain) / 60, 2);
+		$this->logs .= "# end drop foreign keys ($time min)\n";
 	}
 
 	/**
@@ -451,6 +510,7 @@ class Importer
 	public function renameColumns($columns)
 	{
 		$this->logs .= "> start rename columns\n";
+		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
 		$schema = $db->getSchema();
@@ -458,17 +518,21 @@ class Importer
 			$tableSchema = $schema->getTableSchema($column[0]);
 			$this->logs .= "  > rename column: {$column[0]}:{$column[1]} ... ";
 			if ($tableSchema && isset($tableSchema->columns[$column[1]]) && !isset($tableSchema->columns[$column[2]])) {
+				$start = microtime(true);
 				try {
 					$dbCommand->renameColumn($column[0], $column[1], $column[2])->execute();
-					$this->logs .= "done\n";
+					$time = round((microtime(true) - $start), 2);
+					$this->logs .= "done ($time sec)\n";
 				} catch (\Throwable $e) {
-					$this->logs .= " | Error(13) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+					$time = round((microtime(true) - $start), 2);
+					$this->logs .= " ($time sec) | Error(13) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 				}
 			} else {
 				$this->logs .= " | Warning - table or column does not exists\n";
 			}
 		}
-		$this->logs .= "# end rename columns\n";
+		$time = round((microtime(true) - $startMain) / 60, 2);
+		$this->logs .= "# end rename columns ($time min)\n";
 	}
 
 	/**
@@ -484,6 +548,7 @@ class Importer
 	public function dropColumns($columns)
 	{
 		$this->logs .= "> start drop columns\n";
+		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
 		$schema = $db->getSchema();
@@ -491,17 +556,21 @@ class Importer
 			$tableSchema = $schema->getTableSchema($column[0]);
 			$this->logs .= "  > drop column: {$column[0]}:{$column[1]} ... ";
 			if ($tableSchema && isset($tableSchema->columns[$column[1]])) {
+				$start = microtime(true);
 				try {
 					$dbCommand->dropColumn($column[0], $column[1])->execute();
-					$this->logs .= "done\n";
+					$time = round((microtime(true) - $start), 2);
+					$this->logs .= "done ($time sec)\n";
 				} catch (\Throwable $e) {
-					$this->logs .= " | Error(14) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+					$time = round((microtime(true) - $start), 2);
+					$this->logs .= " ($time sec) | Error(14) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 				}
 			} else {
 				$this->logs .= " | Info - table or column does not exist\n";
 			}
 		}
-		$this->logs .= "# end drop columns\n";
+		$time = round((microtime(true) - $startMain) / 60, 2);
+		$this->logs .= "# end drop columns ($time min)\n";
 	}
 
 	/**
@@ -519,10 +588,11 @@ class Importer
 	 */
 	public function logs($show = true)
 	{
+		$time = round((microtime(true) - $this->startTime) / 60, 2);
 		if ($show) {
-			echo $this->logs;
+			echo $this->logs . '---------  ' . date('Y-m-d H:i:s') . "  ($time min)  -------------\n";
 		} else {
-			file_put_contents('cache/logs/Importer.log', $this->logs);
+			file_put_contents('cache/logs/Importer.log', $this->logs . '-------------  ' . date('Y-m-d H:i:s') . " ($time min)   -------------\n");
 		}
 	}
 
@@ -546,6 +616,7 @@ class Importer
 	public function updateTables(Base $importer)
 	{
 		$this->logs .= "> start update tables\n";
+		$startMain = microtime(true);
 		$schema = $importer->db->getSchema();
 		$queryBuilder = $schema->getQueryBuilder();
 		$dbCommand = $importer->db->createCommand();
@@ -553,15 +624,19 @@ class Importer
 			try {
 				if (!$importer->db->isTableExists($tableName)) {
 					$this->logs .= "  > add table: $tableName ... ";
+					$start = microtime(true);
 					$dbCommand->createTable($tableName, $this->getColumns($importer, $table), $this->getOptions($importer, $table))->execute();
-					$this->logs .= "done\n";
+					$time = round((microtime(true) - $start), 2);
+					$this->logs .= "done ($time sec)\n";
 				} else {
 					$tableSchema = $schema->getTableSchema($tableName);
 					foreach ($this->getColumns($importer, $table) as $columnName => $column) {
 						if (!isset($tableSchema->columns[$columnName])) {
 							$this->logs .= "  > add column: $tableName:$columnName ... ";
+							$start = microtime(true);
 							$dbCommand->addColumn($tableName, $columnName, $column)->execute();
-							$this->logs .= "done\n";
+							$time = round((microtime(true) - $start), 2);
+							$this->logs .= "done ($time sec)\n";
 						} else {
 							if ($this->comperColumns($queryBuilder, $tableSchema->columns[$columnName], $column)) {
 								$primaryKey = false;
@@ -573,8 +648,10 @@ class Importer
 									$primaryKey = true;
 								}
 								$this->logs .= "  > alter column: $tableName:$columnName ... ";
+								$start = microtime(true);
 								$dbCommand->alterColumn($tableName, $columnName, $column)->execute();
-								$this->logs .= "done\n";
+								$time = round((microtime(true) - $start), 2);
+								$this->logs .= "done ($time sec)\n";
 								if ($primaryKey) {
 									if (!isset($table['primaryKeys'])) {
 										$table['primaryKeys'] = [];
@@ -608,14 +685,18 @@ class Importer
 							}
 							if ($update) {
 								$this->logs .= "  > update index: {$index[0]} ... ";
+								$start = microtime(true);
 								$dbCommand->dropIndex($index[0], $tableName)->execute();
 								$dbCommand->createIndex($index[0], $tableName, $index[1], (isset($index[2]) && $index[2]) ? true : false)->execute();
-								$this->logs .= "done\n";
+								$time = round((microtime(true) - $start), 2);
+								$this->logs .= "done ($time sec)\n";
 							}
 						} else {
 							$this->logs .= "  > create index: {$index[0]} ... ";
+							$start = microtime(true);
 							$dbCommand->createIndex($index[0], $tableName, $index[1], (isset($index[2]) && $index[2]) ? true : false)->execute();
-							$this->logs .= "done\n";
+							$time = round((microtime(true) - $start), 2);
+							$this->logs .= "done ($time sec)\n";
 						}
 					} catch (\Throwable $e) {
 						$this->logs .= " | Error(8) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
@@ -636,6 +717,7 @@ class Importer
 					}
 					if ($status) {
 						$this->logs .= "  > update primary key: {$primaryKey[0]} , table: $tableName , column: {$primaryKey[1]} ... ";
+						$start = microtime(true);
 						try {
 							if (isset($dbPrimaryKeys[$primaryKey[0]])) {
 								$dbCommand->dropPrimaryKey($primaryKey[0], $tableName)->execute();
@@ -643,9 +725,11 @@ class Importer
 								$dbCommand->dropPrimaryKey(key($dbPrimaryKeys), $tableName)->execute();
 							}
 							$dbCommand->addPrimaryKey($primaryKey[0], $tableName, $primaryKey[1])->execute();
-							$this->logs .= "done\n";
+							$time = round((microtime(true) - $start), 2);
+							$this->logs .= "done ($time sec)\n";
 						} catch (\Throwable $e) {
-							$this->logs .= " | Error(10) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+							$time = round((microtime(true) - $start), 2);
+							$this->logs .= " ($time sec) | Error(10) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 							if ($this->dieOnError) {
 								throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 							}
@@ -654,7 +738,8 @@ class Importer
 				}
 			}
 		}
-		$this->logs .= "# end update tables\n";
+		$time = round((microtime(true) - $startMain) / 60, 2);
+		$this->logs .= "# end update tables ($time sec)\n";
 	}
 
 	/**
@@ -695,6 +780,7 @@ class Importer
 			return;
 		}
 		$this->logs .= "> start update foreign key\n";
+		$startMain = microtime(true);
 		$dbCommand = $importer->db->createCommand();
 		$schema = $importer->db->getSchema();
 		foreach ($importer->foreignKey as $key) {
@@ -710,14 +796,18 @@ class Importer
 			}
 			if ($add) {
 				$this->logs .= "  > add: $keyName, $sourceTableName ... ";
+				$start = microtime(true);
 				try {
 					$dbCommand->addForeignKey($keyName, $sourceTableName, $key[2], $destTableName, $key[4], $key[5], $key[6])->execute();
-					$this->logs .= "done\n";
+					$time = round((microtime(true) - $start), 2);
+					$this->logs .= "done ($time sec)\n";
 				} catch (\Throwable $e) {
-					$this->logs .= " | Error(10) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+					$time = round((microtime(true) - $start), 2);
+					$this->logs .= "  ($time sec) | Error(10) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 				}
 			}
 		}
-		$this->logs .= "# end update foreign key\n";
+		$time = round((microtime(true) - $startMain) / 60, 2);
+		$this->logs .= "# end update foreign key ($time sec)\n";
 	}
 }
