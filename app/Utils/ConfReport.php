@@ -18,6 +18,12 @@ namespace App\Utils;
 class ConfReport
 {
 	/**
+	 * System URL.
+	 *
+	 * @var string
+	 */
+	private static $crmUrl;
+	/**
 	 * Optional database configuration for offline use.
 	 *
 	 * @var array
@@ -57,7 +63,7 @@ class ConfReport
 	 */
 	public static $stability = [
 		'phpVersion' => ['recommended' => '7.2.x, 7.3.x', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
-		'protocolVersion' => ['recommended' => '1.x, 2.0', 'type' => 'Version', 'container' => 'env', 'testCli' => false, 'Install' => false, 'label' => 'PROTOCOL_VERSION'],
+		'protocolVersion' => ['recommended' => '2.0, 1.x', 'type' => 'Version', 'container' => 'env', 'testCli' => false, 'label' => 'PROTOCOL_VERSION'],
 		'error_reporting' => ['recommended' => 'E_ALL & ~E_NOTICE', 'type' => 'ErrorReporting', 'container' => 'php', 'testCli' => true],
 		'output_buffering' => ['recommended' => 'On', 'type' => 'OnOffInt', 'container' => 'php', 'testCli' => true],
 		'max_execution_time' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
@@ -431,6 +437,11 @@ class ConfReport
 	 */
 	private static function init(string $type)
 	{
+		if (\App\Config::main('site_URL')) {
+			static::$crmUrl = \App\Config::main('site_URL');
+		} elseif (isset(\App\Process::$requestMode) && 'Install' === \App\Process::$requestMode) {
+			static::$crmUrl = str_replace('/install/', '/', \App\RequestUtil::getBrowserInfo()->siteUrl);
+		}
 		$types = static::$container;
 		if (isset(static::${$type})) {
 			$types = \array_unique(\array_column(static::${$type}, 'container'));
@@ -534,7 +545,7 @@ class ConfReport
 	 */
 	private static function getRequest()
 	{
-		$requestUrl = \App\Config::main('site_URL') ?: \App\RequestUtil::getBrowserInfo()->siteUrl;
+		$requestUrl = static::$crmUrl;
 		if (!IS_PUBLIC_DIR) {
 			$requestUrl .= 'public_html/';
 		}
@@ -1008,7 +1019,7 @@ class ConfReport
 	private static function validateSessionRegenerate(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if (\App\Config::main('site_URL')) {
+		if ('Install' !== \App\Process::$requestMode) {
 			$row[$sapi] = \Config\Security::$loginSessionRegenerate ? 'On' : 'Off';
 			$row['status'] = \Config\Security::$loginSessionRegenerate;
 		} else {
@@ -1158,7 +1169,7 @@ class ConfReport
 	private static function validateExistsUrl(string $name, array $row, string $sapi)
 	{
 		unset($sapi);
-		$row['status'] = !\App\Fields\File::isExistsUrl(\App\Config::main('site_URL') . $name);
+		$row['status'] = !\App\Fields\File::isExistsUrl(static::$crmUrl . $name);
 		return $row;
 	}
 
@@ -1225,7 +1236,7 @@ class ConfReport
 	{
 		unset($name);
 		$supported = [];
-		$requestUrl = \App\Config::main('site_URL') . 'shorturl.php';
+		$requestUrl = static::$crmUrl . 'shorturl.php';
 		foreach (\explode(', ', $row['recommended']) as $type) {
 			try {
 				$response = (new \GuzzleHttp\Client())->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);

@@ -48,6 +48,12 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	protected function checkLogin(App\Request $request)
 	{
 		if (!$this->hasLogin()) {
+			if (!$request->isAjax()) {
+				$request->set('module', 'Users');
+				$request->set('view', 'Login');
+				$this->process($request);
+				return true;
+			}
 			throw new \App\Exceptions\Unauthorized('LBL_LOGIN_IS_REQUIRED', 401);
 		}
 	}
