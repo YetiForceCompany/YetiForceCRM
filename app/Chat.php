@@ -222,7 +222,7 @@ final class Chat
 		$roomIdName = static::COLUMN_NAME['room']['global'];
 		$cntQuery = (new Db\Query())
 			->select([new \yii\db\Expression('COUNT(*)')])
-			->from(['CM' => 'u_yf_chat_messages_global'])
+			->from(['CM' => static::TABLE_NAME['message']['global']])
 			->where([
 				'CM.globalid' => new \yii\db\Expression("CR.{$roomIdName}")
 			])->andWhere(['>', 'CM.id', new \yii\db\Expression('CR.last_message')]);
@@ -233,8 +233,8 @@ final class Chat
 			])
 			->from(['CR' => static::TABLE_NAME['room']['global']]);
 		$query = (new Db\Query())
-			->select(['name', 'recordid' => "GL.{$roomIdName}", 'CNT.cnt_new_message', 'CNT.userid'])
-			->from(['GL' => 'u_#__chat_global'])
+			->select(['name', 'recordid' => "GL.{$roomIdName}", 'CNT.last_message', 'CNT.cnt_new_message', 'CNT.userid'])
+			->from(['GL' => static::TABLE_NAME['room_name']['global']])
 			->leftJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.{$roomIdName}")
 			->where(['CNT.userid' => $userId]);
 		$dataReader = $query->createCommand()->query();
@@ -287,7 +287,7 @@ final class Chat
 		$roomIdName = static::COLUMN_NAME['room']['private'];
 		$cntQuery = (new Db\Query())
 			->select([new \yii\db\Expression('COUNT(*)')])
-			->from(['CM' => 'u_yf_chat_messages_private'])
+			->from(['CM' => static::TABLE_NAME['message']['private']])
 			->where([
 				'CM.privateid' => new \yii\db\Expression('CR.private_room_id')
 			])->andWhere(['>', 'CM.id', new \yii\db\Expression('CR.last_message')]);
@@ -296,11 +296,11 @@ final class Chat
 				'CR.*',
 				'cnt_new_message' => $cntQuery,
 			])
-			->from(['CR' => 'u_yf_chat_rooms_private']);
+			->from(['CR' => static::TABLE_NAME['room']['private']]);
 		$query = (new Db\Query())
-			->select(['name', 'recordid' => 'GL.private_room_id', 'CNT.cnt_new_message', 'CNT.userid', 'creatorid', 'created'])
+			->select(['name', 'recordid' => 'GL.private_room_id', 'CNT.last_message', 'CNT.cnt_new_message', 'CNT.userid', 'creatorid', 'created'])
 			->where(['archived' => 0])
-			->from(['GL' => 'u_#__chat_private'])
+			->from(['GL' => static::TABLE_NAME['room_name']['private']])
 			->rightJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.private_room_id AND CNT.userid = {$userId}");
 		$dataReader = $query->createCommand()->query();
 		$rooms = [];
@@ -360,7 +360,7 @@ final class Chat
 			->where(['>', 'CM.id', new \yii\db\Expression('CR.last_message')])
 			->groupBy(['CR.groupid', 'CR.userid']);
 		$query = (new Db\Query())
-			->select(['GR.roomid', 'GR.userid', 'recordid' => 'GR.groupid', 'name' => 'VGR.groupname', 'CNT.cnt_new_message'])
+			->select(['GR.roomid', 'GR.last_message', 'GR.userid', 'recordid' => 'GR.groupid', 'name' => 'VGR.groupname', 'CNT.cnt_new_message'])
 			->from(['GR' => static::TABLE_NAME['room']['group']])
 			->leftJoin(['CNT' => $subQuery], 'CNT.groupid = GR.groupid AND CNT.userid = GR.userid')
 			->where(['GR.userid' => $userId]);
@@ -504,9 +504,9 @@ final class Chat
 			->orWhere(['CR.last_message' => null])
 			->groupBy(['CR.crmid', 'CR.userid']);
 		$dataReader = (new Db\Query())
-			->select(['C.roomid', 'C.userid', 'recordid' => 'C.crmid', 'name' => 'CL.label', 'CNT.cnt_new_message'])
-			->from(['C' => 'u_#__chat_rooms_crm'])
-			->leftJoin(['CL' => 'u_#__crmentity_label'], 'CL.crmid = C.crmid')
+			->select(['C.roomid', 'C.userid', 'recordid' => 'C.crmid', 'name' => 'CL.label', 'C.last_message', 'CNT.cnt_new_message'])
+			->from(['C' => static::TABLE_NAME['room']['crm']])
+			->leftJoin(['CL' => static::TABLE_NAME['room_name']['crm']], 'CL.crmid = C.crmid')
 			->leftJoin(['CNT' => $subQuery], 'CNT.crmid = C.crmid AND CNT.userid = C.userid')
 			->where(['C.userid' => $userId])->createCommand()->query();
 		$rows = [];
@@ -559,6 +559,21 @@ final class Chat
 	}
 
 	/**
+	 * Get room type last message.
+	 *
+	 * @param string $roomType
+	 *
+	 * @return array
+	 */
+	public static function getRoomTypeLastMessage(string $roomType): array
+	{
+		return (array) (new Db\Query())
+			->from(static::TABLE_NAME['message'][$roomType])
+			->orderBy(['id' => \SORT_DESC])
+			->one();
+	}
+
+	/**
 	 * Get all chat rooms by user.
 	 *
 	 * @param int|null $userId
@@ -587,24 +602,38 @@ final class Chat
 	/**
 	 * Rerun the number of new messages.
 	 *
+	 * @param ?array $roomInfo
+	 *
 	 * @return array
 	 */
 	public static function getNumberOfNewMessages(?array $roomInfo = null): array
 	{
 		$numberOfNewMessages = 0;
 		$roomList = [];
+		$lastMessagesByType = [];
+		$lastMessagesData = [];
 		if (empty($roomInfo)) {
 			$roomInfo = static::getRoomsByUser();
 		}
 		foreach (['crm', 'group', 'global', 'private', 'user'] as $roomType) {
+			$lastMessagesByType[$roomType] = 0;
 			foreach ($roomInfo[$roomType] as $room) {
 				if (!empty($room['cnt_new_message'])) {
 					$numberOfNewMessages += $room['cnt_new_message'];
 					$roomList[$roomType][$room['recordid']]['cnt_new_message'] = $room['cnt_new_message'];
+					if ($lastMessagesByType[$roomType] < $room['last_message']) {
+						$lastMessagesByType[$roomType] = $room['last_message'];
+					}
 				}
 			}
+			if (0 !== $lastMessagesByType[$roomType]) {
+				$lastMessagesData[] = static::getRoomTypeLastMessage($roomType);
+			}
 		}
-		return ['roomList' => $roomList, 'amount' => $numberOfNewMessages];
+		$lastMessage = array_reduce($lastMessagesData, function ($a, $b) {
+			return $a['created'] > $b['created'] ? $a : $b;
+		});
+		return ['roomList' => $roomList, 'amount' => $numberOfNewMessages, 'lastMessage' => $lastMessage];
 	}
 
 	/**
@@ -1066,8 +1095,8 @@ final class Chat
 				->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
 		} else {
 			$query->select(['M.*', 'name' => "RN.{$columnName}", 'R.last_message', 'recordid' => "M.{$columnMessage}"])
-			->innerJoin(['R' => static::TABLE_NAME['room'][$roomType]], "R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}")
-			->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
+				->innerJoin(['R' => static::TABLE_NAME['room'][$roomType]], "R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}")
+				->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
 		}
 		return $query->where(['or', ['R.last_message' => null], ['<', 'R.last_message', new \yii\db\Expression('M.id')]])
 			->orderBy(["M.{$columnMessage}" => \SORT_ASC, 'id' => \SORT_DESC]);
