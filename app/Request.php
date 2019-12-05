@@ -213,10 +213,10 @@ class Request
 	/**
 	 * Function to get the array values for a given key.
 	 *
-	 * @param string  $key
-	 * @param mixed   $type
-	 * @param array   $value
-	 * @param ?string $keyType
+	 * @param string      $key
+	 * @param mixed       $type
+	 * @param array       $value
+	 * @param string|null $keyType
 	 *
 	 * @return array
 	 */
