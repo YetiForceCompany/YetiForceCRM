@@ -443,6 +443,7 @@ final class Chat
 			$relUser = $row['userid'] === $userId ? $row['reluserid'] : $row['userid'];
 			$roomData = static::getUserInfo($relUser);
 			$roomData['cnt_new_message'] = $row['cnt_new_message'];
+			$roomData['last_message'] = $row['last_message'];
 			$roomData['recordid'] = $row['recordid'];
 			$roomData['name'] = \App\Purifier::decodeHtml($roomData['user_name']);
 			$roomData['roomType'] = $roomType;
@@ -610,29 +611,35 @@ final class Chat
 	{
 		$numberOfNewMessages = 0;
 		$roomList = [];
-		$lastMessagesByType = [];
 		$lastMessagesData = [];
 		if (empty($roomInfo)) {
 			$roomInfo = static::getRoomsByUser();
 		}
 		foreach (['crm', 'group', 'global', 'private', 'user'] as $roomType) {
-			$lastMessagesByType[$roomType] = 0;
+			$lastMessageId = 0;
+			$lastMessageRoomId = 0;
 			foreach ($roomInfo[$roomType] as $room) {
 				if (!empty($room['cnt_new_message'])) {
 					$numberOfNewMessages += $room['cnt_new_message'];
 					$roomList[$roomType][$room['recordid']]['cnt_new_message'] = $room['cnt_new_message'];
-					if ($lastMessagesByType[$roomType] < $room['last_message']) {
-						$lastMessagesByType[$roomType] = $room['last_message'];
+					if ($lastMessageId < $room['last_message']) {
+						$lastMessageId = $room['last_message'];
+						$lastMessageRoomId = $room['recordid'];
 					}
 				}
 			}
-			if (0 !== $lastMessagesByType[$roomType]) {
-				$lastMessagesData[] = static::getRoomTypeLastMessage($roomType);
+			if (0 !== $lastMessageRoomId) {
+				$roomLastMessage = static::getRoomTypeLastMessage($roomType);
+				$roomLastMessage['roomData'] = $roomInfo[$roomType][$lastMessageRoomId];
+				$lastMessagesData[] = $roomLastMessage;
 			}
 		}
 		$lastMessage = array_reduce($lastMessagesData, function ($a, $b) {
 			return $a['created'] > $b['created'] ? $a : $b;
 		});
+		if (isset($lastMessage)) {
+			$lastMessage['userData'] = static::getUserInfo($lastMessage['userid']);
+		}
 		return ['roomList' => $roomList, 'amount' => $numberOfNewMessages, 'lastMessage' => $lastMessage];
 	}
 
