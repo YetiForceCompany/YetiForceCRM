@@ -263,6 +263,11 @@
 					<span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 				</a>
 				<div class="o-action-menu__container d-flex flex-md-nowrap flex-column flex-md-row" id="o-action-menu__container">
+	{if \App\Privilege::isPermitted('Chat')}
+		<div class="quasar-reset">
+			<div id="ChatModalVue"></div>
+		</div>
+	{/if}
 					{assign var=QUICKCREATE_MODULES_PARENT value=Vtiger_Module_Model::getQuickCreateModules(true, true)}
 					{if !empty($QUICKCREATE_MODULES_PARENT)}
 						<div class="o-action-menu__item commonActionsContainer">

@@ -9,8 +9,9 @@
 -->
 <template>
   <vue-drag-resize
+    class="position-fixed"
     ref="drag"
-    isResizable
+    :isResizable="false"
     isDraggable
     :dragHandle="dragHandleClass"
     :x="coordinates.left"

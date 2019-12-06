@@ -32,11 +32,6 @@
 	</div>
 	</div>
 	<input class="tpl-Footer d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}"/>
-	{if \App\Privilege::isPermitted('Chat')}
-		<div class="quasar-reset">
-			<div id="ChatModalVue"></div>
-		</div>
-	{/if}
 	{if $SHOW_FOOTER_BAR}
 		<footer class="c-footer fixed-bottom js-footer{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active{/if} {if $DISABLE_BRANDING} c-footer--limited {/if}"
 				data-js="height">
