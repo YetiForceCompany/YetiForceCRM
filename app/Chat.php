@@ -623,7 +623,7 @@ final class Chat
 				if (!empty($room['cnt_new_message'])) {
 					$numberOfNewMessages += $room['cnt_new_message'];
 					$roomList[$roomType][$room['recordid']]['cnt_new_message'] = $room['cnt_new_message'];
-					if ($lastMessageId < $room['last_message']) {
+					if ($lastMessageId < $room['last_message'] || $room['last_message'] === 0) {
 						$lastMessageId = $room['last_message'];
 						$lastMessageRoomId = $room['recordid'];
 					}
