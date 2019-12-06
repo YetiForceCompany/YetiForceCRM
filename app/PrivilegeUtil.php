@@ -133,7 +133,7 @@ class PrivilegeUtil
 			}
 		}
 		Cache::save('getUsersNameByRole', $roleId, $roleRelatedUsers);
-		return $users;
+		return $roleRelatedUsers;
 	}
 
 	/**

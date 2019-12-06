@@ -415,13 +415,13 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$roleModel->set('parentrole', $newChildParentRoleString);
 			$roleModel->save();
 		}
+		\App\Privilege::setAllUpdater();
 		if (is_array($usersInRole)) {
 			foreach ($usersInRole as $userid) {
 				\App\UserPrivilegesFile::createUserPrivilegesfile($userid);
 				\App\UserPrivilegesFile::createUserSharingPrivilegesfile($userid);
 			}
 		}
-		\App\Privilege::setAllUpdater();
 	}
 
 	/**
