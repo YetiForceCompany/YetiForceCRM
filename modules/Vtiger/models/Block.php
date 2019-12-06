@@ -51,21 +51,21 @@ class Vtiger_Block_Model extends vtlib\Block
 	public function get($propertyName)
 	{
 		if (property_exists($this, $propertyName)) {
-			return $this->$propertyName;
+			return $this->{$propertyName};
 		}
 	}
 
 	public function set($propertyName, $value)
 	{
 		if (property_exists($this, $propertyName)) {
-			$this->$propertyName = $value;
+			$this->{$propertyName} = $value;
 		}
 		return $this;
 	}
 
 	public function isCustomized()
 	{
-		return ($this->iscustom != 0) ? true : false;
+		return (0 != $this->iscustom) ? true : false;
 	}
 
 	/**
@@ -204,7 +204,7 @@ class Vtiger_Block_Model extends vtlib\Block
 		$blockClassName = Vtiger_Loader::getComponentClassName('Model', 'Block', $blockObject->module->name);
 		$blockModel = new $blockClassName();
 		foreach ($objectProperties as $properName => $propertyValue) {
-			$blockModel->$properName = $propertyValue;
+			$blockModel->{$properName} = $propertyValue;
 		}
 		return $blockModel;
 	}
@@ -273,6 +273,7 @@ class Vtiger_Block_Model extends vtlib\Block
 	 *
 	 * @param string $blockLabel
 	 * @param number ModuleId
+	 * @param mixed $tabId
 	 *
 	 * @return bool true/false
 	 */
