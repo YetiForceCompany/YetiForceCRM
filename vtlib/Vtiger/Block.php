@@ -138,7 +138,7 @@ class Block
 	 * @param Module Instance of the module to which this block is associated
 	 * @param mixed $moduleInstance
 	 */
-	public function save($moduleInstance = false)
+	public function save(?ModuleBasic $moduleInstance = null)
 	{
 		if ($this->id) {
 			$this->__update();
@@ -146,7 +146,7 @@ class Block
 			if ($moduleInstance) {
 				$this->tabid = $moduleInstance->getId();
 			}
-			$this->__create($moduleInstance);
+			$this->__create();
 		}
 		return $this->id;
 	}
