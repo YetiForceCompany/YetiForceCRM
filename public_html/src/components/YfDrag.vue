@@ -9,8 +9,10 @@
 -->
 <template>
   <vue-drag-resize
+    v-if="active"
+    :key="active"
     ref="drag"
-    isResizable
+    :isResizable="false"
     isDraggable
     :dragHandle="dragHandleClass"
     :x="coordinates.left"
@@ -22,16 +24,26 @@
   >
     <slot></slot>
   </vue-drag-resize>
+  <div
+    v-else
+    :key="active"
+  >
+    <slot></slot>
+  </div>
 </template>
 <script>
 import VueDragResize from '~/node_modules/vue-drag-resize/src/components/vue-drag-resize.vue'
 import { keepElementInWindow } from '~/mixins/DragResize'
-import { createNamespacedHelpers } from 'vuex'
 export default {
   name: 'YfDrag',
   mixins: [keepElementInWindow],
   components: { VueDragResize },
   props: {
+    active: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
     coordinates: {
       type: Object,
       required: true

@@ -63,6 +63,7 @@ export default {
 		showNumberOfNewMessages: null,
 		showRoleName: null,
 		dynamicAddingRooms: null,
+		draggableButton: null,
 		detailPreview: { id: null, module: null }
 	}
 }

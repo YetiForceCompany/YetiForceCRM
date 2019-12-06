@@ -603,7 +603,7 @@ final class Chat
 	/**
 	 * Rerun the number of new messages.
 	 *
-	 * @param ?array $roomInfo
+	 * @param array|null $roomInfo
 	 *
 	 * @return array
 	 */
@@ -1599,7 +1599,7 @@ final class Chat
 		$tagsToReplace = ['<br >', '<br>', '<br/>', '<br />', '</div><div>'];
 		$message = (string) str_ireplace($tagsToReplace, "\r\n", $message);
 		$message = \App\Utils\Completions::decode(\App\Purifier::purifyHtml(strip_tags($message)), $format);
-		return (string) str_ireplace($tagsToReplace, "", $message);
+		return (string) str_ireplace($tagsToReplace, '', $message);
 	}
 
 	/**
