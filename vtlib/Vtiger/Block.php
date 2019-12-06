@@ -71,6 +71,7 @@ class Block
 		$this->ineditview = $valuemap['edit_view'] ?? $this->ineditview ?? 0;
 		$this->indetailview = $valuemap['detail_view'] ?? $this->indetailview ?? 0;
 		$this->icon = $valuemap['icon'] ?? $this->icon ?? null;
+		$this->module = Module::getInstance($this->tabid);
 	}
 
 	/**
