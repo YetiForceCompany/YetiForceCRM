@@ -1014,7 +1014,7 @@ return [
 			'description' => 'Sets the type of sound of reminders',
 		],
 		'CHAT' => [
-			'default' => 'sound_1.mp3',
+			'default' => 'sound_2.mp3',
 			'description' => 'Sets the type of sound of chat',
 		],
 		'MAILS' => [
