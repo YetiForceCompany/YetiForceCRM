@@ -436,6 +436,7 @@ final class Chat
 			->select(['ROOM_PINNED.last_message', 'ROOM_SRC.userid', 'ROOM_SRC.reluserid', 'recordid' => 'ROOM_SRC.roomid', 'cnt_new_message' => $cntQuery])
 			->from(['ROOM_PINNED' => static::TABLE_NAME['room'][$roomType]])
 			->where(['ROOM_PINNED.userid' => $userId])
+			->andWhere(['or', ['ROOM_SRC.reluserid' => $userId], ['ROOM_SRC.userid' => $userId]])
 			->leftJoin(['ROOM_SRC' => static::TABLE_NAME['room_name'][$roomType]], 'ROOM_PINNED.roomid = ROOM_SRC.roomid');
 		$dataReader = $query->createCommand()->query();
 		$rooms = [];
@@ -1196,23 +1197,6 @@ final class Chat
 		$dataReader->close();
 		static::markAsRead($roomType, $rows);
 		return $rows;
-	}
-
-	/**
-	 * Get all unread messages.
-	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return array
-	 */
-	public static function getUnread()
-	{
-		return [
-			'crm' => static::getUnreadByType('crm'),
-			'group' => static::getUnreadByType('group'),
-			'global' => static::getUnreadByType('global'),
-			'private' => static::getUnreadByType('private'),
-		];
 	}
 
 	/**
