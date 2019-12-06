@@ -586,6 +586,7 @@ class PackageImport extends PackageExport
 					}
 				}
 			} else {
+				$this->packageType = strtolower($this->_modulexml->type);
 				switch ((string) $this->_modulexml->type) {
 					case 'update':
 						Functions::recurseDelete('cache/updates');
@@ -614,7 +615,6 @@ class PackageImport extends PackageExport
 		$tabname = $this->_modulexml->name;
 		$tabLabel = $this->_modulexml->label;
 		$tabVersion = $this->_modulexml->version;
-
 		$isextension = false;
 		$moduleType = 0;
 		if (!empty($this->_modulexml->type)) {

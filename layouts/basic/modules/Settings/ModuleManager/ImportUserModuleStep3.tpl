@@ -19,16 +19,15 @@
 		<div class="contents">
 			<div>
 				<div id="vtlib_modulemanager_import_div">
-					<form method="POST" action="index.php">
-						<table class="table table-bordered">
-							<thead>
+					<table class="table table-bordered mt-2">
+						<thead>
 							<tr class="blockHeader">
 								<th colspan="2">
 									<strong>{\App\Language::translate('LBL_IMPORTING_MODULE',$QUALIFIED_MODULE)}</strong>
 								</th>
 							</tr>
-							</thead>
-							<tbody>
+						</thead>
+						<tbody>
 							<tr valign=top>
 								<td class='cellText small'>
 									{if isset($MODULEIMPORT_ERROR) && $MODULEIMPORT_ERROR}
@@ -48,21 +47,26 @@
 										{else if $IMPORT_MODULE_TYPE eq 'extension'}
 											{\App\Language::translate('LBL_IMPORTED_EXTENSION', $QUALIFIED_MODULE)}
 										{else if $IMPORT_MODULE_TYPE eq 'update'}
-											{\App\Language::translate('LBL_IMPORTED_UPDATE', $QUALIFIED_MODULE)}
+											{\App\Language::translateArgs('LBL_IMPORTED_UPDATE', $QUALIFIED_MODULE, $MODULEIMPORT_LABEL)}
 										{else if $IMPORT_MODULE_TYPE eq 'font'}
 											{\App\Language::translate('LBL_IMPORTED_FONT', $QUALIFIED_MODULE)}
 										{else}
-											{\App\Language::translateArgs('LBL_IMPORTED_MODULE', $QUALIFIED_MODULE, $IMPORT_MODULE_NAME)}
+											{\App\Language::translateArgs('LBL_IMPORTED_MODULE', $QUALIFIED_MODULE, $MODULEIMPORT_LABEL)}
 										{/if}
 									{/if}
 								</td>
 							</tr>
-							</tbody>
-						</table>
-						<a href="{if $IMPORT_MODULE_TYPE eq 'update'}index.php?parent=Settings&module=Updates&view=Index{else}index.php?module=ModuleManager&parent=Settings&view=List{/if}" role="button" class="btn btn-success">
-							<span	class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
+						</tbody>
+					</table>
+					{if $IMPORT_MODULE_TYPE eq 'update'}
+						<a href="index.php?parent=Settings&module=Updates&view=Index" role="button" class="btn btn-success">
+							<span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
 						</a>
-					</form>
+					{else}
+						<a href="index.php?module=ModuleManager&parent=Settings&view=List" role="button" class="btn btn-success">
+							<span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
+						</a>
+					{/if}
 				</div>
 			</div>
 		</div>
