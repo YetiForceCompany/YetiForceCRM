@@ -8,14 +8,14 @@
 
 const rollup = require('rollup'),
 	finder = require('findit')('layouts'),
-	alias = require('rollup-plugin-alias'),
+	alias = require('@rollup/plugin-alias'),
 	path = require('path'),
 	vue = require('rollup-plugin-vue'),
 	sass = require('rollup-plugin-sass'),
 	commonjs = require('rollup-plugin-commonjs'),
 	resolve = require('rollup-plugin-node-resolve'),
 	globals = require('rollup-plugin-node-globals'),
-	json = require('rollup-plugin-json'),
+	json = require('@rollup/plugin-json'),
 	babel = require('rollup-plugin-babel'),
 	{ terser } = require('rollup-plugin-terser')
 
