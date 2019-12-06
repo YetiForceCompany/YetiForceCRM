@@ -1549,9 +1549,12 @@ final class Chat
 		) {
 			Db::getInstance()
 				->createCommand()
-				->update(static::TABLE_NAME['room'][$this->roomType], ['last_message' => $this->lastMessageId], [
+				->update(static::TABLE_NAME['room'][$this->roomType],
+				['last_message' => $this->lastMessageId],
+				['and', [
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId,
 					'userid' => $this->userId
+					]
 				])->execute();
 			$this->room['last_message'] = $this->lastMessageId;
 		}
