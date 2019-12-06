@@ -1097,11 +1097,11 @@ final class Chat
 		$query = (new Db\Query())->from(['M' => static::TABLE_NAME['message'][$roomType]]);
 		if ('user' === $roomType) {
 			$query->select(['M.*', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
-				->leftJoin(
+				->innerJoin(
 						['R' => static::TABLE_NAME['room'][$roomType]],
 						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
 					)
-				->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
+				->innerJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
 		} else {
 			$query->select(['M.*', 'name' => "RN.{$columnName}", 'R.last_message', 'recordid' => "M.{$columnMessage}"])
 				->innerJoin(['R' => static::TABLE_NAME['room'][$roomType]], "R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}")
