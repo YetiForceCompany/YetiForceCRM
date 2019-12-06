@@ -59,18 +59,18 @@ class Block
 	 */
 	public function initialize($valuemap)
 	{
-		$this->id = $valuemap['blockid'] ?? null;
-		$this->label = $valuemap['blocklabel'] ?? null;
-		$this->display_status = $valuemap['display_status'] ?? null;
-		$this->sequence = $valuemap['sequence'] ?? null;
-		$this->iscustom = $valuemap['iscustom'] ?? null;
-		$this->tabid = $valuemap['tabid'];
-		$this->showtitle = $valuemap['show_title'] ?? null;
-		$this->visible = $valuemap['visible'] ?? 0;
-		$this->increateview = $valuemap['create_view'] ?? 0;
-		$this->ineditview = $valuemap['edit_view'] ?? 0;
-		$this->indetailview = $valuemap['detail_view'] ?? 0;
-		$this->icon = $valuemap['icon'] ?? null;
+		$this->id = $valuemap['blockid'] ?? $this->id ?? null;
+		$this->label = $valuemap['blocklabel'] ?? $this->label ?? null;
+		$this->display_status = $valuemap['display_status'] ?? $this->display_status ?? null;
+		$this->sequence = $valuemap['sequence'] ?? $this->sequence ?? null;
+		$this->iscustom = $valuemap['iscustom'] ?? $this->iscustom ?? null;
+		$this->tabid = $valuemap['tabid'] ?? $this->tabid;
+		$this->showtitle = $valuemap['show_title'] ?? $this->showtitle ?? null;
+		$this->visible = $valuemap['visible'] ?? $this->visible ?? 0;
+		$this->increateview = $valuemap['create_view'] ?? $this->increateview ?? 0;
+		$this->ineditview = $valuemap['edit_view'] ?? $this->ineditview ?? 0;
+		$this->indetailview = $valuemap['detail_view'] ?? $this->indetailview ?? 0;
+		$this->icon = $valuemap['icon'] ?? $this->icon ?? null;
 	}
 
 	/**
