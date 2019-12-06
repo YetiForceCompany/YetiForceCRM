@@ -21,7 +21,7 @@ class Announcements extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = ['vtiger_crmentity', 'u_yf_announcement', 'u_yf_announcementcf', 'u_yf_announcement_mark'];
+	public $tab_name = ['vtiger_crmentity', 'u_yf_announcement', 'u_yf_announcementcf'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
@@ -29,8 +29,7 @@ class Announcements extends Vtiger_CRMEntity
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_announcement' => 'announcementid',
-		'u_yf_announcementcf' => 'announcementid',
-		'u_yf_announcement_mark' => 'announcementid',
+		'u_yf_announcementcf' => 'announcementid'
 	];
 
 	/**
@@ -73,12 +72,12 @@ class Announcements extends Vtiger_CRMEntity
 	/**
 	 * Invoked when special actions are performed on the module.
 	 *
-	 * @param string Module name
-	 * @param string Event Type
+	 * @param string $moduleName
+	 * @param string $eventType
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => 'Announcements'])->execute();
 		}
 	}
