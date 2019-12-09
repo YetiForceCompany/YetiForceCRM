@@ -312,7 +312,7 @@ abstract class Base extends \App\Controller\Base
 			'~libraries/floatthead/dist/jquery.floatThead.js',
 			'~libraries/store/dist/store.legacy.min.js',
 			'~libraries/clockpicker/dist/bootstrap4-clockpicker.js',
-			'~libraries/inputmask/dist/jquery.inputmask.bundle.js',
+			'~libraries/inputmask/dist/jquery.inputmask.js',
 			'~libraries/mousetrap/mousetrap.js',
 			'~libraries/html2canvas/dist/html2canvas.js',
 			'~libraries/overlayscrollbars/js/jquery.overlayScrollbars.js',
