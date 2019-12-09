@@ -73,7 +73,8 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 				'refreshTimeGlobal' => \App\Config::module('Chat', 'REFRESH_TIME_GLOBAL'),
 				'showNumberOfNewMessages' => \App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES'),
 				'showRoleName' => \App\Config::module('Users', 'SHOW_ROLE_NAME'),
-				'activeRoomTypes' => \App\Chat::getActiveRoomTypes()
+				'activeRoomTypes' => \App\Chat::getActiveRoomTypes(),
+				'userRoomPin' => \App\Config::module('Chat', 'userRoomPin')
 			],
 			'roomList' => \App\Chat::getRoomsByUser(),
 			'currentRoom' => \App\Chat::getCurrentRoom()

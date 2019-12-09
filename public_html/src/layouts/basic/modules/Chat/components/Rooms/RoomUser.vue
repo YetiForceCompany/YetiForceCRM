@@ -4,12 +4,14 @@
     :filterRooms="filterRooms"
     :roomData="roomData"
     :roomType="roomType"
-  />
+    :selectRoom="config.userRoomPin"
+  >
+  </RoomList>
 </template>
 <script>
 import RoomList from './RoomList.vue'
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
+const { mapGetters} = createNamespacedHelpers('Chat')
 export default {
   name: 'RoomUser',
   components: { RoomList },
@@ -26,7 +28,10 @@ export default {
       type: String,
       required: true
     }
-	}
+  },
+  computed: {
+    ...mapGetters(['config'])
+  },
 }
 </script>
 <style lang="sass" scoped></style>

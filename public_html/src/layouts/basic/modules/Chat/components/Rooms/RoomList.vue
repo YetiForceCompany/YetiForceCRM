@@ -27,7 +27,7 @@
         </q-btn>
         <slot name="labelRight">
         </slot>
-        <slot name="selectRoomButton">
+        <slot v-if="selectRoom" name="selectRoomButton">
           <q-btn
             dense
             flat
@@ -51,7 +51,7 @@
     </q-item-label>
     <slot name="aboveItems">
     </slot>
-    <slot name="selectRoom">
+    <slot v-if="selectRoom" name="selectRoom">
       <q-item v-show="isSelectRoomVisible">
         <RoomSelectAsync
           class="q-pb-xs"
@@ -149,6 +149,10 @@ export default {
       required: true
     },
     isVisible: {
+      type: Boolean,
+      default: true
+    },
+    selectRoom: {
       type: Boolean,
       default: true
     }
