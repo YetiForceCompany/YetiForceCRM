@@ -623,7 +623,7 @@ final class Chat
 				if (!empty($room['cnt_new_message'])) {
 					$numberOfNewMessages += $room['cnt_new_message'];
 					$roomList[$roomType][$room['recordid']]['cnt_new_message'] = $room['cnt_new_message'];
-					if ($lastMessageId < $room['last_message']) {
+					if ($lastMessageId < $room['last_message'] || $room['last_message'] === 0) {
 						$lastMessageId = $room['last_message'];
 						$lastMessageRoomId = $room['recordid'];
 					}
@@ -1097,11 +1097,11 @@ final class Chat
 		$query = (new Db\Query())->from(['M' => static::TABLE_NAME['message'][$roomType]]);
 		if ('user' === $roomType) {
 			$query->select(['M.*', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
-				->leftJoin(
+				->innerJoin(
 						['R' => static::TABLE_NAME['room'][$roomType]],
 						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
 					)
-				->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
+				->innerJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
 		} else {
 			$query->select(['M.*', 'name' => "RN.{$columnName}", 'R.last_message', 'recordid' => "M.{$columnMessage}"])
 				->innerJoin(['R' => static::TABLE_NAME['room'][$roomType]], "R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}")
@@ -1549,9 +1549,12 @@ final class Chat
 		) {
 			Db::getInstance()
 				->createCommand()
-				->update(static::TABLE_NAME['room'][$this->roomType], ['last_message' => $this->lastMessageId], [
+				->update(static::TABLE_NAME['room'][$this->roomType],
+				['last_message' => $this->lastMessageId],
+				['and', [
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId,
 					'userid' => $this->userId
+					]
 				])->execute();
 			$this->room['last_message'] = $this->lastMessageId;
 		}
