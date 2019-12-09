@@ -146,6 +146,7 @@ class Block
 		} else {
 			if ($moduleInstance) {
 				$this->tabid = $moduleInstance->getId();
+				$this->module = $moduleInstance;
 			}
 			$this->__create();
 		}
