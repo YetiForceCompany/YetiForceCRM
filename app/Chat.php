@@ -476,22 +476,11 @@ final class Chat
 	 */
 	public static function getRoomsUserUnpinned(?int $userId = null): array
 	{
-		if (empty($userId)) {
-			$userId = User::getCurrentUserId();
-		}
-		$roomType = 'user';
-		$query = (new Db\Query())
-			->select(['USERS.id', 'USERS.user_name', 'USERS.first_name', 'USERS.last_name'])
-			->from(['USERS' => static::TABLE_NAME['users']])
-			->where(['and', ['USERS.status' => 'Active'], ['USERS.deleted' => 0]])
-			->andWhere(['not', ['USERS.id' => $userId]])
-			->leftJoin(['ROOM_PINNED' => static::TABLE_NAME['room'][$roomType]], 'ROOM_PINNED.userid = USERS.id')
-			->andWhere(['or', ['not', ['ROOM_PINNED.userid' => $userId]], ['ROOM_PINNED.userid' => null]]);
-		$dataReader = $query->createCommand()->query();
 		$rooms = [];
+		$dataReader = static::getRoomsUserUnpinnedQuery($userId)->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$row['name'] = $row['first_name'] . ' ' . $row['last_name'];
-			$row['roomType'] = $roomType;
+			$row['roomType'] = 'user';
 			$row['recordid'] = $row['id'];
 			$rooms[$row['id']] = $row;
 		}
@@ -499,6 +488,31 @@ final class Chat
 		return $rooms;
 	}
 
+	/**
+	 * Get rooms user unpinned query.
+	 *
+	 * @param int|null $userId
+	 *
+	 * @return object
+	 */
+	public static function getRoomsUserUnpinnedQuery(?int $userId = null): object
+	{
+		if (empty($userId)) {
+			$userId = User::getCurrentUserId();
+		}
+		$roomType = 'user';
+		$pinnedUsersQuery = (new Db\Query())
+			->select(['ROOM_USER.userid', 'ROOM_USER.reluserid'])
+			->from(['ROOM_PINNED' => static::TABLE_NAME['room'][$roomType]])
+			->where(['ROOM_PINNED.userid' => $userId])
+			->leftJoin(['ROOM_USER' => static::TABLE_NAME['room_name'][$roomType]], 'ROOM_PINNED.roomid = ROOM_USER.roomid');
+		return (new Db\Query())
+			->select(['USERS.id', 'USERS.user_name', 'USERS.first_name', 'USERS.last_name'])
+			->from(['USERS' => static::TABLE_NAME['users']])
+			->where(['and', ['USERS.status' => 'Active'], ['USERS.deleted' => 0], ['not', ['USERS.id' => $userId]]])
+			->leftJoin(['PINNED' => $pinnedUsersQuery], 'USERS.id = PINNED.userid OR USERS.id = PINNED.reluserid')
+			->andWhere(['and', ['PINNED.userid' => null], ['PINNED.reluserid' => null]]);
+	}
 	/**
 	 * CRM list of chat rooms.
 	 *
@@ -1329,18 +1343,27 @@ final class Chat
 	}
 
 	/**
+	 * Check if user room is created.
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public static function isUserRoomCreated($userId, $relUserId)
+	{
+		$roomsTable = static::TABLE_NAME['room_name']['user'];
+		return (new Db\Query())
+			->select(['roomid'])
+			->from($roomsTable)
+			->where(['or', ['and', ['userid' => $relUserId], ['reluserid' => $userId]], ['and', ['userid' => $userId], ['reluserid' => $relUserId]]])
+			->one();
+	}
+	/**
 	 * Set user room recordId.
 	 *
 	 * @throws \yii\db\Exception
 	 */
 	public function setUserRoomRecordId()
 	{
-		$roomsTable = static::TABLE_NAME['room_name'][$this->roomType];
-		$roomExists = (new Db\Query())
-			->select(['roomid'])
-			->from($roomsTable)
-			->where(['or', ['and', ['userid' => $this->recordId], ['reluserid' => $this->userId]], ['and', ['userid' => $this->userId], ['reluserid' => $this->recordId]]])
-			->one();
+		$roomExists = self::isUserRoomCreated($this->userId, $this->recordId);
 		$this->recordId = $roomExists ? $roomExists['roomid'] : $this->createUserRoom($this->recordId);
 	}
 
@@ -1618,5 +1641,41 @@ final class Chat
 			}
 		}
 		return $activeModules;
+	}
+
+	/**
+	 * Get chat modules.
+	 *
+	 * @param mixed $onlyId
+	 *
+	 * @return array
+	 */
+	public static function getChatUsers(): array
+	{
+		$owner = Fields\Owner::getInstance();
+		$data = [];
+		if ($users = $owner->getAccessibleUsers('private', 'owner')) {
+			foreach ($users as $key => $value) {
+				if (\Users_Privileges_Model::getInstanceById($key)->hasModulePermission('Chat')) {
+						$data[] = [
+							'id' => $key,
+							'label' => $value,
+							'img' => User::getImageById($key) ? User::getImageById($key)['url'] : '',
+						];
+
+				}
+			}
+		}
+		return $data;
+	}
+
+	public static function setUserList($userId)
+	{
+		$dataReader = static::getRoomsUserUnpinnedQuery($userId)->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$chat = self::getInstance('user', $row['id']);
+			$chat->addToFavorites();
+		}
+		$dataReader->close();
 	}
 }
