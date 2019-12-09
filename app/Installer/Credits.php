@@ -44,9 +44,41 @@ class Credits
 	 * @var array
 	 */
 	public static $libraries = [
-		'YetiForce' => ['name' => 'Yetiforce', 'version' => '4.4', 'license' => 'YetiForce Public License v3', 'homepage' => 'https://yetiforce.com/en/yetiforce/license', 'notPackageFile' => true, 'showLicenseModal' => true],
-		'Vtiger' => ['name' => 'Vtiger', 'version' => '6.4.0 rev. 14548', 'license' => 'VPL 1.1', 'homepage' => 'https://www.vtiger.com/', 'notPackageFile' => true, 'showLicenseModal' => true, 'description' => 'LBL_VTIGER_DESCRIPTION'],
-		'Sugar' => ['name' => 'Sugar CRM', 'version' => '', 'license' => 'SPL-1.1.2', 'homepage' => 'https://www.sugarcrm.com/', 'notPackageFile' => true, 'showLicenseModal' => true, 'description' => 'LBL_SUGAR_DESCRIPTION']];
+		'YetiForce' => [
+			'name' => 'Yetiforce',
+			'version' => '4.4',
+			'license' => 'YetiForce Public License v3',
+			'homepage' => 'https://yetiforce.com/en/yetiforce/license',
+			'notPackageFile' => true,
+			'showLicenseModal' => true
+		],
+		'Vtiger' => [
+			'name' => 'Vtiger',
+			'version' => '6.4.0 rev. 14548',
+			'license' => 'VPL 1.1', 'homepage' => 'https://www.vtiger.com/',
+			'notPackageFile' => true,
+			'showLicenseModal' => true,
+			'description' => 'LBL_VTIGER_DESCRIPTION'
+		],
+		'Sugar' => [
+			'name' => 'Sugar CRM',
+			'version' => '',
+			'license' => 'SPL-1.1.2',
+			'homepage' => 'https://www.sugarcrm.com/',
+			'notPackageFile' => true,
+			'showLicenseModal' => true,
+			'description' => 'LBL_SUGAR_DESCRIPTION'
+		],
+		'ChatSound' => [
+			'name' => 'Notification Sounds - Time Is Now',
+			'version' => '',
+			'license' => 'CC-BY-4.0',
+			'homepage' => 'https://notificationsounds.com/notification-sounds/time-is-now-585',
+			'notPackageFile' => true,
+			'showLicenseModal' => false,
+			'description' => 'LBL_CHAT_SOUND_DESCRIPTION'
+		],
+	];
 
 	/**
 	 * Function gets libraries from vendor.
