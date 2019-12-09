@@ -77,6 +77,9 @@ export default {
 	config(state) {
 		return state.config
 	},
+	activeRoomTypes(state, getters) {
+		return getters.config.activeRoomTypes
+	},
 	getDetailPreview(state) {
 		return state.config.detailPreview
 	},

@@ -327,6 +327,14 @@ insert  into `u_yf_chat_global`(`global_room_id`,`name`) values (1,'LBL_GENERAL'
 
 /*Data for the table `u_yf_chat_private` */
 
+/*Data for the table `u_yf_chat_rooms` */
+
+insert  into `u_yf_chat_rooms`(`id`,`type`,`sequence`,`active`) values (1,'crm',NULL,1);
+insert  into `u_yf_chat_rooms`(`id`,`type`,`sequence`,`active`) values (2,'global',NULL,1);
+insert  into `u_yf_chat_rooms`(`id`,`type`,`sequence`,`active`) values (3,'group',NULL,1);
+insert  into `u_yf_chat_rooms`(`id`,`type`,`sequence`,`active`) values (4,'private',NULL,1);
+insert  into `u_yf_chat_rooms`(`id`,`type`,`sequence`,`active`) values (5,'user',NULL,1);
+
 /*Data for the table `u_yf_chat_rooms_crm` */
 
 /*Data for the table `u_yf_chat_rooms_global` */

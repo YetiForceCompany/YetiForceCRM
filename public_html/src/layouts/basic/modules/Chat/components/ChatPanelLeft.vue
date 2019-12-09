@@ -37,7 +37,7 @@
           :style="{ fontSize: layout.drawer.fs }"
         >
           <component
-            :is="roomsMap[roomType]"
+            :is="roomComponent(roomType)"
             :roomType="roomType"
             :roomData="roomList[roomType]"
             :filterRooms="filterRooms"
@@ -51,13 +51,13 @@
 import RoomPrivate from './Rooms/RoomPrivate.vue'
 import RoomGroup from './Rooms/RoomGroup.vue'
 import RoomGlobal from './Rooms/RoomGlobal.vue'
-import RoomRecord from './Rooms/RoomRecord.vue'
+import RoomCrm from './Rooms/RoomCrm.vue'
 import RoomUser from './Rooms/RoomUser.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatPanelLeft',
-  components: { RoomPrivate, RoomGroup, RoomGlobal, RoomRecord, RoomUser },
+  components: { RoomPrivate, RoomGroup, RoomGlobal, RoomCrm, RoomUser },
   data() {
     return {
       filterRooms: '',
@@ -65,7 +65,7 @@ export default {
         private: 'RoomPrivate',
         group: 'RoomGroup',
         global: 'RoomGlobal',
-        crm: 'RoomRecord',
+        crm: 'RoomCrm',
         user: 'RoomUser'
       }
     }
@@ -77,8 +77,13 @@ export default {
       'miniMode',
       'mobileMode',
       'leftPanel',
-      'leftPanelMobile'
+      'leftPanelMobile',
+      'activeRoomTypes'
     ]),
+    roomComponent() {
+      return roomType =>
+        `Room${roomType.charAt(0).toUpperCase() + roomType.slice(1)}`
+    },
     computedModel: {
       get() {
         return this.mobileMode ? this.leftPanelMobile : this.leftPanel
@@ -92,17 +97,17 @@ export default {
     roomList() {
       let roomList = {}
       if (this.filterRooms === '') {
-        for (let roomName in this.roomsMap) {
+        this.activeRoomTypes.forEach(roomName => {
           roomList[roomName] = Object.values(this.data.roomList[roomName]).sort(
             this.sortByRoomName
           )
-        }
+        })
       } else {
-        for (let roomName in this.roomsMap) {
+        this.activeRoomTypes.forEach(roomName => {
           roomList[roomName] = Object.values(
             this.data.roomList[roomName]
           ).filter(this.filterRoomByName)
-        }
+        })
       }
       return roomList
     }
