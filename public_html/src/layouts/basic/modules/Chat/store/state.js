@@ -64,6 +64,7 @@ export default {
 		showRoleName: null,
 		dynamicAddingRooms: null,
 		draggableButton: null,
-		detailPreview: { id: null, module: null }
+		detailPreview: { id: null, module: null },
+		activeRoomTypes: []
 	}
 }

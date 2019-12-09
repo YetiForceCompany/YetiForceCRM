@@ -68,7 +68,7 @@ import RoomList from './RoomList.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('Chat')
 export default {
-  name: 'RoomRecord',
+  name: 'RoomCrm',
   components: { RoomSelect, RoomList },
   props: {
     roomData: {

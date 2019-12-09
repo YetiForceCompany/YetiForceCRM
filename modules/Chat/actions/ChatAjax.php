@@ -72,7 +72,8 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 				'maxLengthMessage' => \App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
 				'refreshTimeGlobal' => \App\Config::module('Chat', 'REFRESH_TIME_GLOBAL'),
 				'showNumberOfNewMessages' => \App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES'),
-				'showRoleName' => \App\Config::module('Users', 'SHOW_ROLE_NAME')
+				'showRoleName' => \App\Config::module('Users', 'SHOW_ROLE_NAME'),
+				'activeRoomTypes' => \App\Chat::getActiveRoomTypes()
 			],
 			'roomList' => \App\Chat::getRoomsByUser(),
 			'currentRoom' => \App\Chat::getCurrentRoom()
@@ -359,14 +360,12 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 */
 	public function getUnread(App\Request $request)
 	{
+		$unreadMessages = [];
+		foreach (\App\Chat::getActiveRoomTypes() as $roomType) {
+			$unreadMessages[$roomType] = \App\Chat::getUnreadByType($roomType);
+		}
 		$response = new Vtiger_Response();
-		$response->setResult([
-			'crm' => \App\Chat::getUnreadByType('crm'),
-			'group' => \App\Chat::getUnreadByType('group'),
-			'global' => \App\Chat::getUnreadByType('global'),
-			'private' => \App\Chat::getUnreadByType('private'),
-			'user' => \App\Chat::getUnreadByType('user')
-		]);
+		$response->setResult($unreadMessages);
 		$response->emit();
 	}
 

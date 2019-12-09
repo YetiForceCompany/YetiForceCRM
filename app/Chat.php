@@ -128,13 +128,11 @@ final class Chat
 
 	/**
 	 * Set default room as current room.
-	 *
-	 * @return array
 	 */
 	public static function setCurrentRoomDefault()
 	{
 		$defaultRoom = static::getDefaultRoom();
-		return static::setCurrentRoom($defaultRoom['roomType'], $defaultRoom['recordId']);
+		static::setCurrentRoom($defaultRoom['roomType'], $defaultRoom['recordId']);
 	}
 
 	/**
@@ -156,6 +154,22 @@ final class Chat
 			$result = $_SESSION['chat'];
 		}
 		return $result;
+	}
+
+	/**
+	 * Get active room types.
+	 *
+	 * @return array
+	 */
+	public static function getActiveRoomTypes(): array
+	{
+		$activeRoomTypes = (new Db\Query())
+			->select(['type'])
+			->from(['u_#__chat_rooms'])
+			->where([
+				'active' => 1
+			])->all();
+		return array_column($activeRoomTypes, 'type');
 	}
 
 	/**
@@ -584,19 +598,17 @@ final class Chat
 	 */
 	public static function getRoomsByUser(?int $userId = null)
 	{
+		$roomsByUser = [];
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
 		}
 		if (Cache::staticHas('ChatGetRoomsByUser', $userId)) {
 			return Cache::staticGet('ChatGetRoomsByUser', $userId);
 		}
-		$roomsByUser = [
-			'crm' => static::getRoomsCrm($userId),
-			'group' => static::getRoomsGroup($userId),
-			'global' => static::getRoomsGlobal($userId),
-			'private' => static::getRoomsPrivate($userId),
-			'user' => static::getRoomsUser($userId)
-		];
+		foreach (\App\Chat::getActiveRoomTypes() as $roomType) {
+			$methodName = 'getRooms' . ucfirst($roomType);
+			$roomsByUser[$roomType] = static::{$methodName}($userId);
+		}
 		Cache::staticSave('ChatGetRoomsByUser', $userId);
 		return $roomsByUser;
 	}
@@ -616,7 +628,7 @@ final class Chat
 		if (empty($roomInfo)) {
 			$roomInfo = static::getRoomsByUser();
 		}
-		foreach (['crm', 'group', 'global', 'private', 'user'] as $roomType) {
+		foreach (array_keys($roomInfo) as $roomType) {
 			$lastMessageId = 0;
 			$lastMessageRoomId = 0;
 			foreach ($roomInfo[$roomType] as $room) {
