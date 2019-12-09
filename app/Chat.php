@@ -166,9 +166,9 @@ final class Chat
 		$activeRoomTypes = (new Db\Query())
 			->select(['type'])
 			->from(['u_#__chat_rooms'])
-			->where([
-				'active' => 1
-			])->all();
+			->where(['active' => 1])
+			->orderBy(['sequence' => \SORT_ASC])
+			->all();
 		return array_column($activeRoomTypes, 'type');
 	}
 
@@ -605,7 +605,7 @@ final class Chat
 		if (Cache::staticHas('ChatGetRoomsByUser', $userId)) {
 			return Cache::staticGet('ChatGetRoomsByUser', $userId);
 		}
-		foreach (\App\Chat::getActiveRoomTypes() as $roomType) {
+		foreach (self::getActiveRoomTypes() as $roomType) {
 			$methodName = 'getRooms' . ucfirst($roomType);
 			$roomsByUser[$roomType] = static::{$methodName}($userId);
 		}
@@ -635,7 +635,7 @@ final class Chat
 				if (!empty($room['cnt_new_message'])) {
 					$numberOfNewMessages += $room['cnt_new_message'];
 					$roomList[$roomType][$room['recordid']]['cnt_new_message'] = $room['cnt_new_message'];
-					if ($lastMessageId < $room['last_message'] || $room['last_message'] === 0) {
+					if ($lastMessageId < $room['last_message'] || 0 === $room['last_message']) {
 						$lastMessageId = $room['last_message'];
 						$lastMessageRoomId = $room['recordid'];
 					}
@@ -1566,7 +1566,7 @@ final class Chat
 				['and', [
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId,
 					'userid' => $this->userId
-					]
+				]
 				])->execute();
 			$this->room['last_message'] = $this->lastMessageId;
 		}
