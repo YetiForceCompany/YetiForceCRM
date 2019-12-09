@@ -1438,6 +1438,16 @@ CREATE TABLE `u_yf_chat_private` (
   PRIMARY KEY (`private_room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_chat_rooms` */
+
+CREATE TABLE `u_yf_chat_rooms` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(50) DEFAULT NULL,
+  `sequence` tinyint(4) DEFAULT NULL,
+  `active` tinyint(1) DEFAULT 1,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_chat_rooms_crm` */
 
 CREATE TABLE `u_yf_chat_rooms_crm` (
