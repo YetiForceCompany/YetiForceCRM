@@ -163,13 +163,12 @@ final class Chat
 	 */
 	public static function getActiveRoomTypes(): array
 	{
-		$activeRoomTypes = (new Db\Query())
+		return (new Db\Query())
 			->select(['type'])
 			->from(['u_#__chat_rooms'])
 			->where(['active' => 1])
 			->orderBy(['sequence' => \SORT_ASC])
-			->all();
-		return array_column($activeRoomTypes, 'type');
+			->column();
 	}
 
 	/**
