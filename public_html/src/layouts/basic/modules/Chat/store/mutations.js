@@ -101,7 +101,8 @@ export default {
 		state.data.roomList = mergeDeepReactive(state.data.roomList, data)
 	},
 	updateParticipants(state, { roomType, recordId, data }) {
-		if (state.data.currentRoom.roomType === roomType) state.data.roomList[roomType][recordId].participants = data
+		if (state.data.currentRoom.roomType === roomType)
+			Vue.set(state.data.roomList[roomType][recordId], 'participants', data)
 	},
 	pushOlderEntries(state, { result, roomType, recordId }) {
 		state.data.roomList[roomType][recordId].chatEntries.unshift(...result.chatEntries)
