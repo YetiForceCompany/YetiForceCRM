@@ -182,7 +182,7 @@ export default {
 			}).done(({ result }) => {
 				if (result.message) {
 					commit('setData', result.data)
-					Quasar.Plugins.Notify({
+					Quasar.plugins.Notify.create({
 						position: 'top',
 						textColor: 'negative',
 						message: app.vtranslate(result.message)
@@ -237,6 +237,13 @@ export default {
 				roomType,
 				userId
 			}).done(({ result }) => {
+				commit('unsetParticipant', { roomId: recordId, participantId: userId })
+				Quasar.plugins.Notify.create({
+					position: 'top',
+					color: 'success',
+					message: app.vtranslate('JS_CHAT_PARTICIPANT_REMOVED'),
+					icon: 'mdi-check'
+				})
 				resolve(result)
 			})
 		})

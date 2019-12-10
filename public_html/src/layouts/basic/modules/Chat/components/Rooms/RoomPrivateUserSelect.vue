@@ -19,6 +19,7 @@
       :hint="translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE')"
       @filter="asyncFilter"
       @input="validateParticipant"
+      @remove="unpinUser"
       :error="!isValid"
       hide-bottom-space
       popup-content-class="quasar-reset"
@@ -76,6 +77,10 @@ export default {
   props: {
     isVisible: {
       type: Boolean
+    },
+    roomData: {
+      type: Object,
+      required: true
     }
   },
   data() {
@@ -84,7 +89,8 @@ export default {
       users: [],
       searchUsers: [],
       isValid: true,
-      errorMessage: ''
+      errorMessage: '',
+      addedUsers: []
     }
   },
   watch: {
@@ -100,56 +106,50 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentRoomData', 'layout'])
+    ...mapGetters(['layout'])
   },
   methods: {
-    ...mapActions(['fetchPrivateRoomUnpinnedUsers', 'addParticipant']),
+    ...mapActions([
+      'fetchPrivateRoomUnpinnedUsers',
+      'addParticipant',
+      'removeUserFromRoom'
+    ]),
     ...mapMutations(['updateParticipants']),
+    unpinUser({ value }) {
+      let userId = value.pop()
+      let recordId = this.roomData.recordid
+      this.removeUserFromRoom({ roomType: 'private', recordId, userId })
+    },
     validateParticipant(val) {
-      if (val) {
-        let userExists = false
-        for (let participant of this.currentRoomData.participants) {
-          if (participant.user_id === val && participant.active) {
-            userExists = true
-            break
+      let userToAdd = [...val].pop()
+      if (userToAdd) {
+        this.addParticipant({
+          recordId: this.roomData.recordid,
+          userId: userToAdd
+        }).then(({ result }) => {
+          if (result.message) {
+            this.errorMessage = this.translate(result.message)
+            this.isValid = false
+          } else {
+            this.isValid = true
+            this.updateParticipants({
+              recordId: this.roomData.recordid,
+              roomType: this.roomData.roomType,
+              data: result
+            })
+            this.$q.notify({
+              position: 'top',
+              color: 'success',
+              message: this.translate('JS_CHAT_PARTICIPANT_ADDED'),
+              icon: 'mdi-check'
+            })
           }
-        }
-        if (!userExists) {
-          this.addParticipant({
-            recordId: this.currentRoomData.recordid,
-            userId: val.pop()
-          }).then(({ result }) => {
-            if (result.message) {
-              this.errorMessage = this.translate(result.message)
-              this.isValid = false
-            } else {
-              this.selectUser = null
-              this.isValid = true
-              this.updateParticipants({
-                recordId: this.currentRoomData.recordid,
-                roomType: this.currentRoomData.roomType,
-                data: result
-              })
-              this.$q.notify({
-                position: 'top',
-                color: 'success',
-                message: this.translate('JS_CHAT_PARTICIPANT_ADDED'),
-                icon: 'mdi-check'
-              })
-            }
-          })
-        } else {
-          this.errorMessage = this.translate('JS_CHAT_PARTICIPANT_EXISTS')
-          this.isValid = false
-        }
-      } else {
-        this.errorMessage = this.translate('JS_CHAT_PARTICIPANT_NAME_EMPTY')
-        this.isValid = false
+        })
       }
     },
     asyncFilter(val, update) {
       if (val === '') {
-        this.fetchPrivateRoomUnpinnedUsers(this.currentRoomData.recordid).then(
+        this.fetchPrivateRoomUnpinnedUsers(this.roomData.recordid).then(
           users => {
             update(() => {
               this.users = this.searchUsers = users

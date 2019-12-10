@@ -58,6 +58,7 @@
           <RoomPrivateUserSelect
             class="q-pb-xs"
             :isVisible.sync="showAddPanel"
+            :roomData="currentRoomData"
           />
         </q-item>
         <template v-for="participant in participantsList">
@@ -121,11 +122,10 @@
                 color="primary"
                 icon="mdi-pin"
                 @click.stop="
-                  unpinUser({
+                  removeUserFromRoom({
                     roomType: currentRoomData.roomType,
                     recordId: currentRoomData.recordid,
-                    userId: participant.user_id,
-                    active: !!participant.message
+                    userId: participant.user_id
                   })
                 "
               >
@@ -188,20 +188,6 @@ export default {
   },
   methods: {
     ...mapActions(['removeUserFromRoom']),
-    ...mapMutations(['unsetParticipant']),
-    unpinUser({ roomType, recordId, userId, active }) {
-      this.removeUserFromRoom({ roomType, recordId, userId }).then(
-        ({ result }) => {
-          this.unsetParticipant({ roomId: recordId, participantId: userId })
-          this.$q.notify({
-            position: 'top',
-            color: 'success',
-            message: this.translate('JS_CHAT_PARTICIPANT_REMOVED'),
-            icon: 'mdi-check'
-          })
-        }
-      )
-    },
     sortByCurrentUserMessagesName(a, b) {
       if (a.user_id === this.userId) {
         return -1
