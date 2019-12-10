@@ -1772,6 +1772,7 @@
     "JS_CHAT_ADD_ROOM_PRIVATE": "Pin private room",
     "JS_CHAT_ADD_ROOM_USER": "Pin user room",
     "JS_CHAT_ADD_PRIVATE_ROOM": "Add private room",
+    "JS_CHAT_ADD_USERS_TO_NEW_ROOM": "Add users to new room",
     "JS_CHAT_ROOM_NOT_ALLOWED": "Chat room is not allowed. You were redirected to the default room.",
     "JS_CHAT_MESSAGE": "Enter your message here. Press SHIFT + ENTER to add a new line.",
     "JS_CHAT_PARTICIPANTS": "Participants",
