@@ -39,17 +39,15 @@ class Occurrences_RelationListView_Model extends Vtiger_RelationListView_Model
 					->set('fromOutsideList', true)
 					->setModule($moduleModel);
 				$headerFields[$field->getName()] = $field;
-
 				$field = new \Vtiger_Field_Model();
 				$field->set('name', 'rating_rel')
 					->set('column', 'rating_rel')
 					->set('label', 'LBL_RATING_REL')
-					->set('uitype', 7)
-					->set('typeofdata', 'I~O')
+					->set('uitype', 16)
+					->set('typeofdata', 'V~O')
 					->set('fromOutsideList', true)
 					->setModule($moduleModel);
 				$headerFields[$field->getName()] = $field;
-
 				$field = new \Vtiger_Field_Model();
 				$field->set('name', 'comment_rel')
 					->set('column', 'comment_rel')
