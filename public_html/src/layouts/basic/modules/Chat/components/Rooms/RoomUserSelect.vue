@@ -7,6 +7,7 @@
       use-input
       fill-input
       hide-selected
+      multiple
       input-debounce="0"
       :options="searchUsers"
       option-value="id"
@@ -115,7 +116,7 @@ export default {
         if (!userExists) {
           this.addParticipant({
             recordId: this.currentRoomData.recordid,
-            userId: val
+            userId: val.pop()
           }).then(({ result }) => {
             if (result.message) {
               this.errorMessage = this.translate(result.message)

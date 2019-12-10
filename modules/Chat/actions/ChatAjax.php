@@ -30,7 +30,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('getRooms');
 		$this->exposeMethod('getRoomsUnpinned');
 		$this->exposeMethod('getRecordRoom');
-		$this->exposeMethod('getChatUsers');
+		$this->exposeMethod('getRoomPrivateUnpinnedUsers');
 		$this->exposeMethod('send');
 		$this->exposeMethod('search');
 		$this->exposeMethod('addPrivateRoom');
