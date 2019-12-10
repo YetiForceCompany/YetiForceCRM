@@ -61,7 +61,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$userRealID = \App\User::getCurrentUserRealId();
 		$userRoomPin = \App\Config::module('Chat', 'userRoomPin');
 		if (!$userRoomPin) {
-			\App\Chat::setUserList($userRealID);
+			\App\Chat::pinAllUsers($userRealID);
 		}
 		$result = [
 			'config' => [

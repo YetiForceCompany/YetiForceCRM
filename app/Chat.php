@@ -1644,9 +1644,7 @@ final class Chat
 	}
 
 	/**
-	 * Get chat modules.
-	 *
-	 * @param mixed $onlyId
+	 * Get chat users.
 	 *
 	 * @return array
 	 */
@@ -1669,7 +1667,12 @@ final class Chat
 		return $data;
 	}
 
-	public static function setUserList($userId)
+	/**
+	 * Pin all users.
+	 *
+	 * @param int $userId
+	 */
+	public static function pinAllUsers($userId)
 	{
 		$dataReader = static::getRoomsUserUnpinnedQuery($userId)->createCommand()->query();
 		while ($row = $dataReader->read()) {
