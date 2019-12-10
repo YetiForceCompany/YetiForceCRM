@@ -101,7 +101,7 @@ export default {
     ...mapGetters(['currentRoomData', 'layout'])
   },
   methods: {
-    ...mapActions(['fetchChatUsers', 'addParticipant']),
+    ...mapActions(['fetchPrivateRoomUnpinnedUsers', 'addParticipant']),
     ...mapMutations(['updateParticipants']),
     validateParticipant(val) {
       if (val) {
@@ -161,10 +161,12 @@ export default {
     }
   },
   created() {
-    this.fetchChatUsers().then(users => {
-      this.users = users
-      this.searchUsers = this.users
-    })
+    this.fetchPrivateRoomUnpinnedUsers(this.currentRoomData.recordid).then(
+      users => {
+        this.users = users
+        this.searchUsers = this.users
+      }
+    )
   }
 }
 </script>

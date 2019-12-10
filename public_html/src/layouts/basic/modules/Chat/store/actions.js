@@ -120,12 +120,13 @@ export default {
 	/**
 	 * Fetch all chat users
 	 */
-	fetchChatUsers() {
+	fetchPrivateRoomUnpinnedUsers({}, roomId) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
-				mode: 'getChatUsers'
+				mode: 'getRoomPrivateUnpinnedUsers',
+				roomId
 			}).done(({ result }) => {
 				resolve(result)
 			})
