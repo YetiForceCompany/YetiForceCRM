@@ -78,7 +78,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$response = new Vtiger_Response();
 
 		if ('getAttachments' === $type && 'Documents' !== $target) {
-			$response->setError(\App\Language::translate('LBL_WRONG_RELATION', 'Settings::LayoutEditor'));
+			$response->setResult(['success' => false, 'message' => \App\Language::translate('LBL_WRONG_RELATION', 'Settings::LayoutEditor')]);
 		} else {
 			$module = vtlib\Module::getInstance($source);
 			$moduleInstance = vtlib\Module::getInstance($target);

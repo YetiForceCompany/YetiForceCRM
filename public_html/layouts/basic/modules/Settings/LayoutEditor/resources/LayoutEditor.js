@@ -166,8 +166,7 @@ $.Class(
 					});
 					data.find('[name="type"]').on('change', function() {
 						if ($(this).val() === 'getAttachments') {
-							data
-								.find('[name="target"] option')
+							data.find('[name="target"] option')
 								.not('[value="Documents"]')
 								.addClass('d-none');
 							App.Fields.Picklist.showSelect2ElementView(data.find('[name="target"]'));
@@ -185,12 +184,17 @@ $.Class(
 						params['mode'] = 'addRelation';
 						$.extend(params, form);
 						AppConnector.request(params).done(function(data) {
-							thisInstance
-								.getRelModuleLayoutEditor(container.find('[name="layoutEditorRelModules"]').val())
-								.done(function(data) {
-									contentsDiv.html(data);
-									thisInstance.registerEvents();
-								});
+							let response = data.result;
+							if (response && response.success) {
+								thisInstance
+									.getRelModuleLayoutEditor(container.find('[name="layoutEditorRelModules"]').val())
+									.done(function(data) {
+										contentsDiv.html(data);
+										thisInstance.registerEvents();
+									});
+							} else if (response && response.message) {
+								Settings_Vtiger_Index_Js.showMessage({ type: 'error', text: response.message });
+							}
 						});
 					});
 				};
@@ -626,16 +630,34 @@ $.Class(
 									i,
 									select2Element,
 									specialChars = /["]/;
-								if (fieldNameValue.toLowerCase() === 'status' || 'picklist' === fieldNameValue.toLowerCase()) {
+								if (
+									fieldNameValue.toLowerCase() === 'status' ||
+									'picklist' === fieldNameValue.toLowerCase()
+								) {
 									message = app.vtranslate('JS_RESERVED_PICKLIST_NAME');
-									$('[name="fieldName"]', form).validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
+									$('[name="fieldName"]', form).validationEngine(
+										'showPrompt',
+										message,
+										'error',
+										'bottomLeft',
+										true
+									);
 									return false;
 								}
 								for (i = 0; i < pickListValuesArray.length; i++) {
 									if (specialChars.test(pickListValuesArray[i])) {
 										select2Element = app.getSelect2ElementFromSelect(pickListValueElement);
-										message = app.vtranslate('JS_SPECIAL_CHARACTERS') + ' " ' + app.vtranslate('JS_NOT_ALLOWED');
-										select2Element.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
+										message =
+											app.vtranslate('JS_SPECIAL_CHARACTERS') +
+											' " ' +
+											app.vtranslate('JS_NOT_ALLOWED');
+										select2Element.validationEngine(
+											'showPrompt',
+											message,
+											'error',
+											'bottomLeft',
+											true
+										);
 										return false;
 									}
 								}
@@ -643,7 +665,8 @@ $.Class(
 										return item.toLowerCase();
 									}),
 									uniqueLowerCasedpickListValuesArray = $.uniqueSort(lowerCasedpickListValuesArray),
-									uniqueLowerCasedpickListValuesArraySize = uniqueLowerCasedpickListValuesArray.length,
+									uniqueLowerCasedpickListValuesArraySize =
+										uniqueLowerCasedpickListValuesArray.length,
 									arrayDiffSize = pickListValuesArraySize - uniqueLowerCasedpickListValuesArraySize;
 								if (arrayDiffSize > 0) {
 									select2Element = app.getSelect2ElementFromSelect(pickListValueElement);
@@ -656,7 +679,13 @@ $.Class(
 								let treeListElement = form.find('select.TreeList');
 								if (treeListElement.val() == '-') {
 									message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
-									form.find('.TreeList').validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
+									form.find('.TreeList').validationEngine(
+										'showPrompt',
+										message,
+										'error',
+										'bottomLeft',
+										true
+									);
 									return false;
 								}
 							}
@@ -664,7 +693,13 @@ $.Class(
 								let serverListElement = form.find('select[name="server"]');
 								if (serverListElement.val() == '-') {
 									message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
-									serverListElement.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
+									serverListElement.validationEngine(
+										'showPrompt',
+										message,
+										'error',
+										'bottomLeft',
+										true
+									);
 									return false;
 								}
 							}
@@ -878,8 +913,7 @@ $.Class(
 				var addBlockContainer = contents.find('.addBlockModal').clone(true, true);
 
 				var callBackFunction = function(data) {
-					data
-						.find('.addBlockModal')
+					data.find('.addBlockModal')
 						.removeClass('d-none')
 						.show();
 					//register all select2 Elements
@@ -981,7 +1015,9 @@ $.Class(
 				newBlockCloneCopy.find('.addCustomField').removeClass('d-none');
 			}
 			beforeBlock.after(
-				newBlockCloneCopy.removeClass('d-none newCustomBlockCopy').addClass('editFieldsTable block_' + result['id'])
+				newBlockCloneCopy
+					.removeClass('d-none newCustomBlockCopy')
+					.addClass('editFieldsTable block_' + result['id'])
 			);
 
 			newBlockCloneCopy.find('.blockFieldsList').sortable({ connectWith: '.blockFieldsList' });
@@ -1085,8 +1121,7 @@ $.Class(
 					var inActiveFieldsContainer = contents.find('.inactiveFieldsModal').clone(true, true);
 
 					var callBackFunction = function(data) {
-						data
-							.find('.inactiveFieldsModal')
+						data.find('.inactiveFieldsModal')
 							.removeClass('d-none')
 							.show();
 						thisInstance.reactiveFieldsList = [];
@@ -1504,7 +1539,9 @@ $.Class(
 				var block = fieldRow.closest('.editFieldsTable');
 				var blockId = block.data('blockId');
 				app.showModalWindow({
-					url: 'index.php?parent=Settings&module=LayoutEditor&view=EditField&fieldId=' + fieldRow.data('fieldId'),
+					url:
+						'index.php?parent=Settings&module=LayoutEditor&view=EditField&fieldId=' +
+						fieldRow.data('fieldId'),
 					cb: function(modalContainer) {
 						thisInstance.registerFieldDetailsChange(modalContainer);
 						thisInstance.lockCheckbox(modalContainer);
@@ -1872,22 +1909,20 @@ $.Class(
 							}
 						});
 						var editFields = liElement.find('.editFields');
-						app
-							.saveAjax('delete', null, {
-								sourceModule: selectedModule,
-								fieldName: editFields.data('name')
-							})
-							.done(function(response) {
-								let param = {};
-								if (response.result) {
-									liElement.remove();
-									param = { type: 'success', text: app.vtranslate('JS_SAVE_CHANGES') };
-								} else {
-									param = { type: 'error', text: app.vtranslate('JS_ERROR') };
-								}
-								Settings_Vtiger_Index_Js.showMessage(param);
-								progressIndicatorElement.progressIndicator({ mode: 'hide' });
-							});
+						app.saveAjax('delete', null, {
+							sourceModule: selectedModule,
+							fieldName: editFields.data('name')
+						}).done(function(response) {
+							let param = {};
+							if (response.result) {
+								liElement.remove();
+								param = { type: 'success', text: app.vtranslate('JS_SAVE_CHANGES') };
+							} else {
+								param = { type: 'error', text: app.vtranslate('JS_ERROR') };
+							}
+							Settings_Vtiger_Index_Js.showMessage(param);
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						});
 					})
 					.fail(function(error, err) {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -2253,7 +2288,8 @@ Vtiger_Base_Validator_Js(
 			var specialChars = /[&\<\>\:\'\"\,]/;
 
 			if (specialChars.test(fieldValue)) {
-				var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS') + ' & < > \' " : , ' + app.vtranslate('JS_NOT_ALLOWED');
+				var errorInfo =
+					app.vtranslate('JS_SPECIAL_CHARACTERS') + ' & < > \' " : , ' + app.vtranslate('JS_NOT_ALLOWED');
 				this.setError(errorInfo);
 				return false;
 			}
@@ -2293,7 +2329,9 @@ Vtiger_Base_Validator_Js(
 			let r = true;
 			$.each(fieldValue, (i, val) => {
 				if (specialChars.test(val)) {
-					this.setError(app.vtranslate('JS_SPECIAL_CHARACTERS') + ' < > " , # ' + app.vtranslate('JS_NOT_ALLOWED'));
+					this.setError(
+						app.vtranslate('JS_SPECIAL_CHARACTERS') + ' < > " , # ' + app.vtranslate('JS_NOT_ALLOWED')
+					);
 					r = false;
 				}
 			});
