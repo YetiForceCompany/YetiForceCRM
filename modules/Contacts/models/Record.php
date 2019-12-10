@@ -106,7 +106,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 				'linklabel' => 'LBL_CHANGE_RELATION_DATA',
 				'dataUrl' => "index.php?module={$relationModel->getParentModuleModel()->getName()}&view=ChangeRelationData&record={$this->getId()}&fromRecord={$parentRecord->getId()}&relationId={$relationModel->getId()}",
 				'linkicon' => 'mdi mdi-briefcase-edit-outline',
-				'linkclass' => 'btn-sm btn-warning showModal js-pdf'
+				'linkclass' => 'btn-sm btn-warning showModal'
 			]);
 		}
 		return $links;
