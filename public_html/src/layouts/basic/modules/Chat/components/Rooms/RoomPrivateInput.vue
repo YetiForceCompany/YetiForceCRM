@@ -80,6 +80,7 @@ export default {
         }
         if (!roomExist) {
           this.addPrivateRoom({ name: this.addRoom }).then(({ result }) => {
+            this.$emit('addedRoom', Object.keys(result.private).pop())
             this.addRoom = ''
             this.updateRooms(result)
             this.isValidating = false
@@ -100,8 +101,7 @@ export default {
         this.isValid = false
       }
     }
-  },
-  created() {}
+  }
 }
 </script>
 <style lang="sass">

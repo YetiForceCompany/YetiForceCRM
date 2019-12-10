@@ -2,29 +2,31 @@
 <template>
   <div class="full-width">
     <q-select
-      dense
       v-model="selectUser"
+      ref="selectUser"
+      class="full-width"
+      dense
       use-input
       fill-input
       hide-selected
       multiple
       input-debounce="0"
-      :options="searchUsers"
+      hide-bottom-space
+      emit-value
+      map-options
+      popup-content-class="quasar-reset"
       option-value="id"
       option-label="label"
       option-img="img"
-      emit-value
-      map-options
+      :options="searchUsers"
       :label="translate('JS_CHAT_FILTER_USERS')"
-      :hint="translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE')"
-      @filter="asyncFilter"
-      @input="validateParticipant"
-      @remove="unpinUser"
+      :hint="translate('JS_CHAT_ADD_USERS_TO_NEW_ROOM')"
       :error="!isValid"
-      hide-bottom-space
-      popup-content-class="quasar-reset"
-      class="full-width"
-      ref="selectUser"
+      :behavior="dialog ? 'dialog' : 'default'"
+      @filter="asyncFilter"
+      @add="validateParticipant"
+      @remove="unpinUser"
+      @popup-hide="selectUser = null"
     >
       <template #no-option>
         <q-item>
@@ -37,7 +39,7 @@
           @click.prevent="$emit('update:isVisible', false), (isValid = true)"
           class="cursor-pointer"
         />
-        <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
+        <q-tooltip :anchor="tooltipAnchor">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
       </template>
       <template #option="scope">
         <q-item
@@ -73,14 +75,19 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 const roomType = 'private'
 export default {
-  name: 'SelectUsers',
+  name: 'RoomPrivateUserSelect',
   props: {
-    isVisible: {
-      type: Boolean
-    },
     roomId: {
       type: Number,
       required: true
+    },
+    isVisible: {
+      type: Boolean,
+      default: false
+    },
+    dialog: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -100,13 +107,15 @@ export default {
           this.$refs.selectUser.showPopup()
         }, 100)
       } else {
-        this.selectUser = null
         this.$refs.selectUser.hidePopup()
       }
     }
   },
   computed: {
-    ...mapGetters(['layout'])
+    ...mapGetters(['layout']),
+    tooltipAnchor() {
+      return `${this.dialog ? 'bottom' : 'top'} middle`
+    }
   },
   methods: {
     ...mapActions([
@@ -120,32 +129,29 @@ export default {
       let recordId = this.roomId
       this.removeUserFromRoom({ roomType, recordId, userId })
     },
-    validateParticipant(val) {
-      let userToAdd = [...val].pop()
-      if (userToAdd) {
-        this.addParticipant({
-          recordId: this.roomId,
-          userId: userToAdd
-        }).then(({ result }) => {
-          if (result.message) {
-            this.errorMessage = this.translate(result.message)
-            this.isValid = false
-          } else {
-            this.isValid = true
-            this.updateParticipants({
-              recordId: this.roomId,
-              roomType,
-              data: result
-            })
-            this.$q.notify({
-              position: 'top',
-              color: 'success',
-              message: this.translate('JS_CHAT_PARTICIPANT_ADDED'),
-              icon: 'mdi-check'
-            })
-          }
-        })
-      }
+    validateParticipant({ value }) {
+      this.addParticipant({
+        recordId: this.roomId,
+        userId: value
+      }).then(({ result }) => {
+        if (result.message) {
+          this.errorMessage = this.translate(result.message)
+          this.isValid = false
+        } else {
+          this.isValid = true
+          this.updateParticipants({
+            recordId: this.roomId,
+            roomType,
+            data: result
+          })
+          this.$q.notify({
+            position: 'top',
+            color: 'success',
+            message: this.translate('JS_CHAT_PARTICIPANT_ADDED'),
+            icon: 'mdi-check'
+          })
+        }
+      })
     },
     asyncFilter(val, update) {
       if (val === '') {

@@ -40,7 +40,10 @@
     </template>
     <template #aboveItems>
       <q-item v-show="isAddInputVisible">
-        <RoomPrivateInput :showAddPrivateRoom.sync="isAddInputVisible" />
+        <RoomPrivateInput
+          :showAddPrivateRoom.sync="isAddInputVisible"
+          @addedRoom="showUserSelect"
+        />
       </q-item>
     </template>
     <template #belowItems>
@@ -78,17 +81,26 @@
           </q-card-actions>
         </q-card>
       </q-dialog>
+      <RoomPrivateUserSelect
+        v-show="false"
+        ref="newRoomUserSelect"
+        class="q-pb-xs"
+        :roomId="newRoomId"
+        @update:isVisible="$refs.privateUserSelect.$refs.selectUser.hidePopup()"
+        :dialog="true"
+      />
     </template>
   </RoomList>
 </template>
 <script>
 import RoomPrivateInput from './RoomPrivateInput.vue'
+import RoomPrivateUserSelect from './RoomPrivateUserSelect.vue'
 import RoomList from './RoomList.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'RoomPrivate',
-  components: { RoomPrivateInput, RoomList },
+  components: { RoomPrivateInput, RoomPrivateUserSelect, RoomList },
   props: {
     roomData: {
       type: Array,
@@ -108,7 +120,8 @@ export default {
       confirm: false,
       isArchiving: false,
       isAddInputVisible: false,
-      roomToArchive: {}
+      roomToArchive: {},
+      newRoomId: 0
     }
   },
   computed: {
@@ -144,6 +157,12 @@ export default {
     },
     toggleAddInput() {
       this.isAddInputVisible = !this.isAddInputVisible
+    },
+    showUserSelect(user) {
+      this.newRoomId = parseInt(user)
+      setTimeout(() => {
+        this.$refs.privateUserSelect.$refs.selectUser.showPopup()
+      }, 100)
     }
   }
 }

@@ -53,7 +53,7 @@
         </q-item-label>
         <q-item
           v-if="isUserModerator"
-          v-show="showAddPanel"
+          v-show="showAddPanel && isUserModerator"
         >
           <RoomPrivateUserSelect
             class="q-pb-xs"
