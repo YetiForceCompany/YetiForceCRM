@@ -1,0 +1,23 @@
+{
+  "php": {
+    "Occurrences": "Occurrences",
+    "SINGLE_Occurrences": "Occurrences",
+    "LBL_CUSTOM_INFORMATION": "Custom Information",
+    "LBL_BASIC_INFORMATION": "Basic Information",
+    "FL_TOPIC": "Topic",
+    "FL_STATUS": "Status",
+    "FL_TYPE": "Type",
+    "FL_DATE_START": "Start date",
+    "FL_DATE_END": "End date",
+    "FL_DESCRIPTION": "Description",
+    "FL_PARTNERS": "Partners",
+    "FL_ATTENTION": "Attention",
+    "PLL_TRAINING_OPEN":"Training open",
+    "PLL_TRAINING_CLOSED":"Training closed",
+    "PLL_CONFERENCE":"Conference",
+    "PLL_WORKSHOPS":"Workshops",
+    "PLL_WEBINARS":"Webinars",
+    "PLL_IN_REALIZATION":"In realization",
+    "PLL_ARCHIVED":"Archived"
+  }
+}

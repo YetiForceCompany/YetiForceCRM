@@ -98,6 +98,17 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
+		$relationModel = $viewModel->getRelationModel();
+		$parentRecord = $relationModel->get('parentRecord');
+		if (\in_array($relationModel->get('name'), ['getRelatedContacts', 'getRelatedMembers']) && $parentRecord->isEditable() && $this->isEditable()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_CHANGE_RELATION_DATA',
+				'dataUrl' => "index.php?module={$relationModel->getParentModuleModel()->getName()}&view=ChangeRelationData&record={$this->getId()}&fromRecord={$parentRecord->getId()}&relationId={$relationModel->getId()}",
+				'linkicon' => 'mdi mdi-briefcase-edit-outline',
+				'linkclass' => 'btn-sm btn-warning showModal js-pdf'
+			]);
+		}
 		return $links;
 	}
 
