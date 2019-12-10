@@ -55,7 +55,7 @@
           v-if="isUserModerator"
           v-show="showAddPanel"
         >
-          <RoomUserSelect
+          <RoomPrivateUserSelect
             class="q-pb-xs"
             :isVisible.sync="showAddPanel"
           />
@@ -139,12 +139,12 @@
   </div>
 </template>
 <script>
-import RoomUserSelect from './Rooms/RoomUserSelect.vue'
+import RoomPrivateUserSelect from './Rooms/RoomPrivateUserSelect.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatPanelRight',
-  components: { RoomUserSelect },
+  components: { RoomPrivateUserSelect },
   props: {
     participants: {
       type: Array,

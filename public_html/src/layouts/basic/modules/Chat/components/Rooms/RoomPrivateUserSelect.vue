@@ -15,8 +15,9 @@
       option-img="img"
       emit-value
       map-options
+      :label="translate('JS_CHAT_FILTER_USERS')"
       :hint="translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE')"
-      @filter="filter"
+      @filter="asyncFilter"
       @input="validateParticipant"
       :error="!isValid"
       hide-bottom-space
@@ -146,28 +147,24 @@ export default {
         this.isValid = false
       }
     },
-    filter(val, update) {
+    asyncFilter(val, update) {
       if (val === '') {
-        update(() => {
-          this.searchUsers = this.users
-        })
-        return
-      }
-      update(() => {
-        const needle = val.toLowerCase()
-        this.searchUsers = this.users.filter(
-          v => v.label.toLowerCase().indexOf(needle) > -1
+        this.fetchPrivateRoomUnpinnedUsers(this.currentRoomData.recordid).then(
+          users => {
+            update(() => {
+              this.users = this.searchUsers = users
+            })
+          }
         )
-      })
-    }
-  },
-  created() {
-    this.fetchPrivateRoomUnpinnedUsers(this.currentRoomData.recordid).then(
-      users => {
-        this.users = users
-        this.searchUsers = this.users
+      } else {
+        update(() => {
+          const needle = val.toLowerCase()
+          this.searchUsers = this.users.filter(
+            v => v.label.toLowerCase().indexOf(needle) > -1
+          )
+        })
       }
-    )
+    }
   }
 }
 </script>
