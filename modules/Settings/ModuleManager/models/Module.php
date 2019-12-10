@@ -330,6 +330,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		if (1 === $module->type) {
 			\Vtiger_Inventory_Model::getInstance($module->name)->createInventoryTables();
 		}
+		(new \App\BatchMethod(['method' => '\App\UserPrivilegesFile::recalculateAll', 'params' => []]))->save();
 		return $module;
 	}
 
