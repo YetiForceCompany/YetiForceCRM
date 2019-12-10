@@ -23,9 +23,9 @@
   integrity sha512-XiUPoS79r1G7PcpnNtq85TJ7inJWe0v+b5oZJZKb0pGHNIV6+UiNeQWiFGmuQ0aj7GEhnD/v9iqxIsjuRKtEnQ==
 
 "@mdi/font@^4.4.95":
-  version "4.6.95"
-  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-4.6.95.tgz#f97ecbdfd59c183d19f3a24a6fe4f84f579cf287"
-  integrity sha512-m5AjVnVS9Xi4xbQQt2rh+ClVcWT9oFqSmo8mZs7teOGbAmUrZ9km1RuNRNKIr7LV3vy/zCeEfMc154Z9l+ab0g==
+  version "4.7.95"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-4.7.95.tgz#46fddf35aad64dd623a8b1837f78ca4ed7bc48b1"
+  integrity sha512-/SWooHIFz2dXkQJk3VhEXSbBplOU1lIkGSELAmw0peFEgR8KPqyM//M3vD8WDZETuEOSRVhVqLevP3okrsM5dw==
 
 add@^2.0.6:
   version "2.0.6"
@@ -186,9 +186,9 @@ color-name@^1.0.0:
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
 core-js@^2.5.7:
-  version "2.6.10"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.10.tgz#8a5b8391f8cc7013da703411ce5b585706300d7f"
-  integrity sha512-I39t74+4t+zau64EN1fE5v2W31Adtc/REhzWN+gWRRXg6WH5qAsZm62DHpQ1+Yhe4047T55jvzz7MUqF/dBBlA==
+  version "2.6.11"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
+  integrity sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
 
 css-element-queries@^1.0.5:
   version "1.2.2"
@@ -448,9 +448,9 @@ popper.js@>=1.10, popper.js@>=1.12.9, popper.js@^1.15.0:
   integrity sha512-+G+EkOPoE5S/zChTpmBSSDYmhXJ5PsW8eMhH8cP/CQHMFPBG/kC9Y5IIw6qNYgdJ+/COf0ddY2li28iHaZRSjw==
 
 quasar@^1.5.5:
-  version "1.5.5"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.5.5.tgz#8bb297d9f611b648ed68460b591fc29b86788710"
-  integrity sha512-BavM2Tfphu9FaA3hifQ9kdzQQvlEYap8Pkg3Xa+aPp4Dn95NmnpZkpxX9sF4NN0ewkpzh1GDacVkUyC9KAZrog==
+  version "1.5.7"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.5.7.tgz#b21ae7858513a75175435bb889e24c570bf4bf9c"
+  integrity sha512-b/0LDYS5SleQUCb92yxLGrakpv5Bssl61mmxYqABootOU1rSytFjupkC2+hB+KBtWvjgGhjpty+Kir8/0X78zA==
 
 regenerator-runtime@^0.12.0:
   version "0.12.1"
