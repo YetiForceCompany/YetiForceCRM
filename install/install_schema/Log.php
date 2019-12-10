@@ -19,7 +19,7 @@ class Log extends \App\Db\Importers\Base
 			'l_#__batchmethod' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),
-					'method' => $this->stringType(50)->notNull(),
+					'method' => $this->stringType()->notNull(),
 					'params' => $this->text(),
 					'status' => $this->smallInteger(1)->unsigned()->notNull(),
 					'userid' => $this->integer(),
@@ -28,6 +28,31 @@ class Log extends \App\Db\Importers\Base
 				],
 				'columns_mysql' => [
 					'status' => $this->tinyInteger(1)->unsigned()->notNull(),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'l_#__mail' => [
+				'columns' => [
+					'id' => $this->primaryKey(10)->unsigned(),
+					'date' => $this->dateTime()->notNull(),
+					'error_code' => $this->integer(10)->unsigned()->notNull(),
+					'smtp_id' => $this->integer(10)->unsigned()->notNull()->defaultValue(1),
+					'owner' => $this->integer(10)->notNull(),
+					'status' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'from' => $this->text(),
+					'subject' => $this->text(),
+					'to' => $this->text(),
+					'content' => $this->text(),
+					'cc' => $this->text(),
+					'bcc' => $this->text(),
+					'attachments' => $this->text(),
+				],
+				'columns_mysql' => [
+					'status' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
+				],
+				'index' => [
+					['smtp_id', 'smtp_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -68,12 +93,28 @@ class Log extends \App\Db\Importers\Base
 			'l_#__settings_tracker_detail' => [
 				'columns' => [
 					'id' => $this->integer(10)->unsigned()->notNull(),
-					'prev_value' => $this->stringType()->notNull()->defaultValue(''),
-					'post_value' => $this->stringType()->notNull()->defaultValue(''),
+					'prev_value' => $this->text()->notNull()->defaultValue('\'\''),
+					'post_value' => $this->text()->notNull()->defaultValue('\'\''),
 					'field' => $this->stringType()->notNull(),
 				],
 				'index' => [
 					['id', 'id'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'l_#__social_media_logs' => [
+				'columns' => [
+					'id' => $this->primaryKey(20),
+					'date' => $this->dateTime()->notNull(),
+					'type' => $this->stringType(16)->notNull(),
+					'name' => $this->stringType(16)->notNull(),
+					'message' => $this->text()->notNull(),
+				],
+				'index' => [
+					['date', 'date'],
+					['type', 'type'],
+					['name', 'name'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -116,7 +157,7 @@ class Log extends \App\Db\Importers\Base
 			],
 			'l_#__username_history' => [
 				'columns' => [
-					'user_name' => $this->stringType(32),
+					'user_name' => $this->stringType(64),
 					'user_id' => $this->integer(10)->unsigned(),
 					'date' => $this->dateTime(),
 				],
@@ -148,7 +189,7 @@ class Log extends \App\Db\Importers\Base
 					'module' => $this->stringType(30)->notNull(),
 					'url' => $this->stringType(300)->notNull(),
 					'agent' => $this->stringType()->notNull(),
-					'request' => $this->stringType(300)->notNull(),
+					'request' => $this->text()->notNull(),
 					'referer' => $this->stringType(300),
 				],
 				'engine' => 'InnoDB',
@@ -162,7 +203,7 @@ class Log extends \App\Db\Importers\Base
 					'ip' => $this->stringType(100)->notNull(),
 					'url' => $this->stringType(300)->notNull(),
 					'agent' => $this->stringType()->notNull(),
-					'request' => $this->stringType(300)->notNull(),
+					'request' => $this->text()->notNull(),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -176,7 +217,7 @@ class Log extends \App\Db\Importers\Base
 					'module' => $this->stringType(30)->notNull(),
 					'url' => $this->stringType(300)->notNull(),
 					'agent' => $this->stringType(),
-					'request' => $this->stringType(300)->notNull(),
+					'request' => $this->text()->notNull(),
 					'referer' => $this->stringType(300),
 				],
 				'engine' => 'InnoDB',
@@ -192,7 +233,7 @@ class Log extends \App\Db\Importers\Base
 					'module' => $this->stringType(30)->notNull(),
 					'url' => $this->stringType(300)->notNull(),
 					'agent' => $this->stringType()->notNull(),
-					'request' => $this->stringType(300)->notNull(),
+					'request' => $this->text()->notNull(),
 					'referer' => $this->stringType(300),
 				],
 				'engine' => 'InnoDB',
@@ -201,7 +242,7 @@ class Log extends \App\Db\Importers\Base
 			'o_#__csrf' => [
 				'columns' => [
 					'id' => $this->primaryKey(10)->unsigned(),
-					'username' => $this->stringType(50)->notNull(),
+					'username' => $this->stringType(100)->notNull(),
 					'date' => $this->dateTime()->notNull(),
 					'ip' => $this->stringType(100)->notNull(),
 					'referer' => $this->stringType(300)->notNull(),
