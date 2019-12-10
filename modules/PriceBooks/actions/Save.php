@@ -32,7 +32,9 @@ class PriceBooks_Save_Action extends Vtiger_Save_Action
 			//To store the relationship between Products/Services and PriceBooks
 			if ($parentRecordId && ('Products' === $parentModuleName || 'Services' === $parentModuleName)) {
 				$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
-				$recordModel->updateListPrice($parentRecordId, $parentRecordModel->get('unit_price'));
+				$recordModel->updateListPrice($parentRecordId, $parentRecordModel->getField('unit_price')->getUITypeModel()->getValueForCurrency(
+					$parentRecordModel->get('unit_price'), $recordModel->get('currency_id'))
+				);
 			}
 		}
 		return $recordModel;
