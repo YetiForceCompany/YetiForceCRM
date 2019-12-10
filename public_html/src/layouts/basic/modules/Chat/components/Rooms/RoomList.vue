@@ -27,7 +27,10 @@
         </q-btn>
         <slot name="labelRight">
         </slot>
-        <slot v-if="selectRoom" name="selectRoomButton">
+        <slot
+          v-if="selectRoom"
+          name="selectRoomButton"
+        >
           <q-btn
             dense
             flat
@@ -51,7 +54,10 @@
     </q-item-label>
     <slot name="aboveItems">
     </slot>
-    <slot v-if="selectRoom" name="selectRoom">
+    <slot
+      v-if="selectRoom"
+      name="selectRoom"
+    >
       <q-item v-show="isSelectRoomVisible">
         <RoomSelectAsync
           class="q-pb-xs"
@@ -99,16 +105,11 @@
                 name="itemRight"
                 :room="room"
               ></slot>
-              <q-btn
-                dense
-                round
-                flat
-                size="xs"
-                @click.stop="unpinClick({ roomType, recordId: room.recordid })"
-                icon="mdi-pin-off"
-              >
-                <q-tooltip>{{ translate('JS_CHAT_UNPIN') }}</q-tooltip>
-              </q-btn>
+              <RoomUnpinButton
+                v-if="selectRoom"
+                :roomType="roomType"
+                :recordId="room.recordid"
+              />
               <q-btn
                 @click.stop="toggleRoomSoundNotification({ roomType, id: room.recordid })"
                 dense
@@ -133,12 +134,13 @@
 </template>
 <script>
 import RoomSelectAsync from './RoomSelectAsync.vue'
+import RoomUnpinButton from './RoomUnpinButton.vue'
 import { getGroupIcon } from '../../utils/utils.js'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'RoomList',
-  components: { RoomSelectAsync },
+  components: { RoomSelectAsync, RoomUnpinButton },
   props: {
     roomType: {
       type: String,
@@ -177,12 +179,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-      'fetchRoom',
-      'unpinRoom',
-      'toggleRoomSoundNotification',
-      'mobileMode'
-    ]),
+    ...mapActions(['fetchRoom', 'toggleRoomSoundNotification', 'mobileMode']),
     ...mapMutations(['setLeftPanelMobile']),
     getGroupIcon,
     isSoundActive(roomType, id) {
@@ -199,9 +196,6 @@ export default {
     },
     toggleRoomSelect() {
       this.isSelectRoomVisible = !this.isSelectRoomVisible
-    },
-    unpinClick({ roomType, recordId }) {
-      this.unpinRoom({ roomType, recordId })
     }
   }
 }
