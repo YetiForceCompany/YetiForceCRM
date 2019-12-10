@@ -38,7 +38,7 @@ class Vtiger_GetRelatedList_Relation implements RelationInterface
 	 */
 	public function delete(int $sourceRecordId, int $destinationRecordId): bool
 	{
-		return (bool) App\Db::getInstance()->createCommand()->delete(self::TABLE_NAME, [
+		return (bool) App\Db::getInstance()->createCommand()->delete(static::TABLE_NAME, [
 			'or',
 			[
 				'crmid' => $sourceRecordId,

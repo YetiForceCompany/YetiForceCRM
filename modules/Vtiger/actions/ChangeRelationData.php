@@ -3,12 +3,17 @@
 /**
  * Action change relation data.
  *
+ * @package   Action
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Arkadiusz Dudek <a.dudekk@yetiforce.com>
  */
-class Occurrences_ChangeRelationData_Action extends Vtiger_BasicAjax_Action
+/**
+ * Class ChangeRelationData.
+ */
+class Vtiger_ChangeRelationData_Action extends Vtiger_BasicAjax_Action
 {
 	/**
 	 * Function to check permission.
@@ -28,7 +33,7 @@ class Occurrences_ChangeRelationData_Action extends Vtiger_BasicAjax_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(App\Request $request)
+	public function process(App\Request $request): void
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
@@ -44,9 +49,6 @@ class Occurrences_ChangeRelationData_Action extends Vtiger_BasicAjax_Action
 				$updateData[$fieldModel->getColumnName()] = $fieldModel->getUITypeModel()->getDBValue($value);
 			}
 		}
-
-		#echo $relationView->getRelationModel()->getRelationModuleName();
-		#die();
 		$result = $relationView->getRelationModel()->getTypeRelationModel()->updateRelationData($parentRecordId, $recordId, $updateData);
 		$response = new Vtiger_Response();
 		$response->setResult($result);

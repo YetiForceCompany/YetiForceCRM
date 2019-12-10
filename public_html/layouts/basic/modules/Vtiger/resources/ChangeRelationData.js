@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
-jQuery.Class(
-  'Occurrences_ChangeRelationData_Js',
+$.Class(
+  'Vtiger_ChangeRelationData_Js',
   {},
   {
     registerEvents() {
@@ -15,16 +15,14 @@ jQuery.Class(
             app.hideModalWindow();
             let params = {};
             if (data.result) {
-              params.text = app.vtranslate('JS_SAVE_NOTIFY_OK');
-              params.type = 'success';
-              var detailInstance = Vtiger_Detail_Js.getInstance();
-              var selectedTabElement = detailInstance.getSelectedTab();
+			  params = {text: app.vtranslate('JS_SAVE_NOTIFY_OK'), type: 'success'};
+              let detailInstance = Vtiger_Detail_Js.getInstance(),
+			  selectedTabElement = detailInstance.getSelectedTab();
               if (selectedTabElement) {
                 selectedTabElement.trigger('click');
               }
             } else {
-              params.text = app.vtranslate('JS_ERROR');
-              params.type = 'error';
+			  params = {text: app.vtranslate('JS_ERROR'), type: 'error'};
             }
             Vtiger_Helper_Js.showPnotify(params);
           })
@@ -33,8 +31,7 @@ jQuery.Class(
     }
   }
 );
-
-jQuery(document).ready(function(e) {
-  var instance = new Occurrences_ChangeRelationData_Js();
+$(document).ready(function(e) {
+  var instance = new Vtiger_ChangeRelationData_Js();
   instance.registerEvents();
 });

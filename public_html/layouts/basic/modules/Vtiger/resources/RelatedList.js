@@ -124,6 +124,15 @@ jQuery.Class(
 					);
 				}
 			});
+		},
+		triggerSendEmail: function() {
+			Vtiger_List_Js.triggerSendEmail({
+				relatedLoad: true,
+				sourceModule: app.getModuleName(),
+				sourceRecord: app.getRecordId(),
+				module: $('.relatedModuleName').val(),
+				cvid: $('#customFilter').val()
+			});
 		}
 	},
 	{

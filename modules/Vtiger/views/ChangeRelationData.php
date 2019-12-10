@@ -9,7 +9,10 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
-class Occurrences_ChangeRelationData_View extends \App\Controller\Modal
+/**
+ * Class ChangeRelationData.
+ */
+class Vtiger_ChangeRelationData_View extends \App\Controller\Modal
 {
 	/**
 	 * {@inheritdoc}

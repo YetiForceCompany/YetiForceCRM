@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="modal-body tpl-ChangeRelationData">
-		<form class="form-horizontal" name="massMerge" method="post" action="index.php">
+	<div class="tpl-Modals-ChangeRelationData modal-body">
+		<form class="form-horizontal" name="changeRelation" method="post" action="index.php">
 			<input type="hidden" name="module" value="{$MODULE_NAME}"/>
 			<input type="hidden" name="action" value="ChangeRelationData"/>
 			<input type="hidden" name="record" value="{$RECORD}"/>

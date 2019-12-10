@@ -1,6 +1,6 @@
 <?php
 /**
- * Main file that includes basic operations on relations.
+ * Includes GetRelatedMembers relations.
  *
  * @package   Relation
  *
@@ -11,6 +11,6 @@
 /**
  * Contacts_GetRelatedMembers_Relation class.
  */
-class Contacts_GetRelatedMembers_Relation extends Occurrences_GetRelatedMembers_Relation
+class Contacts_GetRelatedMembers_Relation extends Vtiger_GetRelatedMembers_Relation
 {
 }

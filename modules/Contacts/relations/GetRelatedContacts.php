@@ -1,6 +1,6 @@
 <?php
 /**
- * Main file that includes basic operations on relations.
+ * Includes GetRelatedContacts relation.
  *
  * @package   Relation
  *
@@ -9,8 +9,8 @@
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
 /**
- * Contacts_GetRelatedContacts_Relation class.
+ * Class GetRelatedContact.
  */
-class Contacts_GetRelatedContacts_Relation extends Occurrences_GetRelatedContacts_Relation
+class Contacts_GetRelatedContacts_Relation extends Vtiger_GetRelatedContacts_Relation
 {
 }

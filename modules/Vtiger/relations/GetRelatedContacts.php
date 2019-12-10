@@ -1,6 +1,6 @@
 <?php
 /**
- * Main file that includes basic operations on relations.
+ * Includes GetRelatedContacts relation.
  *
  * @package   Relation
  *
@@ -10,9 +10,9 @@
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
 /**
- * Occurrences_GetRelatedContacts_Relation class.
+ * Class GetRelatedContacts.
  */
-class Occurrences_GetRelatedContacts_Relation extends Vtiger_GetRelatedList_Relation
+class Vtiger_GetRelatedContacts_Relation extends Vtiger_GetRelatedList_Relation
 {
 	/**
 	 * {@inheritdoc}
@@ -48,24 +48,6 @@ class Occurrences_GetRelatedContacts_Relation extends Vtiger_GetRelatedList_Rela
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	public function delete(int $sourceRecordId, int $destinationRecordId): bool
-	{
-		return (bool) App\Db::getInstance()->createCommand()->delete(static::TABLE_NAME, [
-			'or',
-			[
-				'crmid' => $sourceRecordId,
-				'relcrmid' => $destinationRecordId,
-			],
-			[
-				'relcrmid' => $sourceRecordId,
-				'crmid' => $destinationRecordId,
-			],
-		])->execute();
-	}
-
-	/**
 	 * updateRelationData function.
 	 *
 	 * @param int   $sourceRecordId
@@ -88,6 +70,14 @@ class Occurrences_GetRelatedContacts_Relation extends Vtiger_GetRelatedList_Rela
 		return $result;
 	}
 
+	/**
+	 * Get relation data.
+	 *
+	 * @param int $sourceRecordId
+	 * @param int $destinationRecordId
+	 *
+	 * @return array
+	 */
 	public function getRelationData(int $sourceRecordId, int $destinationRecordId)
 	{
 		return (new \App\Db\Query())->from(static::TABLE_NAME)->where([
