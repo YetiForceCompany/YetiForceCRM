@@ -65,6 +65,7 @@ export default {
 		dynamicAddingRooms: null,
 		draggableButton: null,
 		detailPreview: { id: null, module: null },
-		activeRoomTypes: []
+		activeRoomTypes: [],
+		userRoomPin: null
 	}
 }

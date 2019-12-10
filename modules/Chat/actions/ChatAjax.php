@@ -58,10 +58,14 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 */
 	public function getChatConfig(App\Request $request)
 	{
-		$response = new Vtiger_Response();
+		$userRealID = \App\User::getCurrentUserRealId();
+		$userRoomPin = \App\Config::module('Chat', 'userRoomPin');
+		if (!$userRoomPin) {
+			\App\Chat::pinAllUsers($userRealID);
+		}
 		$result = [
 			'config' => [
-				'isChatAllowed' => \App\User::getCurrentUserRealId() === \App\User::getCurrentUserId(),
+				'isChatAllowed' => $userRealID === \App\User::getCurrentUserId(),
 				'isAdmin' => \Users_Privileges_Model::getCurrentUserPrivilegesModel()->isAdminUser(),
 				'isDefaultSoundNotification' => \App\Config::module('Chat', 'DEFAULT_SOUND_NOTIFICATION'),
 				'refreshMessageTime' => \App\Config::module('Chat', 'REFRESH_MESSAGE_TIME'),
@@ -73,7 +77,8 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 				'refreshTimeGlobal' => \App\Config::module('Chat', 'REFRESH_TIME_GLOBAL'),
 				'showNumberOfNewMessages' => \App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES'),
 				'showRoleName' => \App\Config::module('Users', 'SHOW_ROLE_NAME'),
-				'activeRoomTypes' => \App\Chat::getActiveRoomTypes()
+				'activeRoomTypes' => \App\Chat::getActiveRoomTypes(),
+				'userRoomPin' => $userRoomPin
 			],
 			'roomList' => \App\Chat::getRoomsByUser(),
 			'currentRoom' => \App\Chat::getCurrentRoom()
@@ -81,6 +86,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		if ($result['config']['dynamicAddingRooms']) {
 			$result['config']['chatModules'] = \App\Chat::getChatModules();
 		}
+		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -473,21 +479,8 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 */
 	public function getChatUsers(App\Request $request)
 	{
-		$owner = App\Fields\Owner::getInstance();
-		$data = [];
-		if ($users = $owner->getAccessibleUsers('private', 'owner')) {
-			foreach ($users as $key => $value) {
-				if (Users_Privileges_Model::getInstanceById($key)->hasModulePermission('Chat')) {
-					$data[] = [
-						'id' => $key,
-						'label' => $value,
-						'img' => \App\User::getImageById($key) ? \App\User::getImageById($key)['url'] : '',
-					];
-				}
-			}
-		}
 		$response = new Vtiger_Response();
-		$response->setResult($data);
+		$response->setResult(\App\Chat::getChatUsers());
 		$response->emit();
 	}
 

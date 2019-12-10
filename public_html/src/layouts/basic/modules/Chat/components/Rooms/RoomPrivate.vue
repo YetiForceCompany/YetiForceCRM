@@ -84,12 +84,11 @@
 <script>
 import RoomPrivateInput from './RoomPrivateInput.vue'
 import RoomList from './RoomList.vue'
-import RoomSelectAsync from './RoomSelectAsync.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'RoomPrivate',
-  components: { RoomPrivateInput, RoomList, RoomSelectAsync },
+  components: { RoomPrivateInput, RoomList },
   props: {
     roomData: {
       type: Array,
@@ -139,7 +138,7 @@ export default {
       this.roomToArchive = room
     },
     archive(roomToArchive) {
-      this.archivePrivateRoom({recordId: roomToArchive.recordid}).then(e => {
+      this.archivePrivateRoom({ recordId: roomToArchive.recordid }).then(e => {
         this.isArchiving = false
       })
     },

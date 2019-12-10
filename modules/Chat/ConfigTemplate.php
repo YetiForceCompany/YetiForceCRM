@@ -54,5 +54,11 @@ return [
 		'description' => 'True - chat button draggable, false - chat button in header.',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
+	],
+	'userRoomPin' => [
+		'default' => true,
+		'description' => 'True - user rooms can be pinned/unpinned, false - all user rooms are pinned.',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
 	]
 ];
