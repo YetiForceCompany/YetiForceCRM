@@ -58,7 +58,7 @@
           <RoomPrivateUserSelect
             class="q-pb-xs"
             :isVisible.sync="showAddPanel"
-            :roomData="currentRoomData"
+            :roomId="currentRoomData.recordid"
           />
         </q-item>
         <template v-for="participant in participantsList">

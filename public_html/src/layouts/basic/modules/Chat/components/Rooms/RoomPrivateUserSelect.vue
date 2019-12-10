@@ -71,15 +71,15 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
-
+const roomType = 'private'
 export default {
   name: 'SelectUsers',
   props: {
     isVisible: {
       type: Boolean
     },
-    roomData: {
-      type: Object,
+    roomId: {
+      type: Number,
       required: true
     }
   },
@@ -117,14 +117,14 @@ export default {
     ...mapMutations(['updateParticipants']),
     unpinUser({ value }) {
       let userId = value.pop()
-      let recordId = this.roomData.recordid
-      this.removeUserFromRoom({ roomType: 'private', recordId, userId })
+      let recordId = this.roomId
+      this.removeUserFromRoom({ roomType, recordId, userId })
     },
     validateParticipant(val) {
       let userToAdd = [...val].pop()
       if (userToAdd) {
         this.addParticipant({
-          recordId: this.roomData.recordid,
+          recordId: this.roomId,
           userId: userToAdd
         }).then(({ result }) => {
           if (result.message) {
@@ -133,8 +133,8 @@ export default {
           } else {
             this.isValid = true
             this.updateParticipants({
-              recordId: this.roomData.recordid,
-              roomType: this.roomData.roomType,
+              recordId: this.roomId,
+              roomType,
               data: result
             })
             this.$q.notify({
@@ -149,13 +149,11 @@ export default {
     },
     asyncFilter(val, update) {
       if (val === '') {
-        this.fetchPrivateRoomUnpinnedUsers(this.roomData.recordid).then(
-          users => {
-            update(() => {
-              this.users = this.searchUsers = users
-            })
-          }
-        )
+        this.fetchPrivateRoomUnpinnedUsers(this.roomId).then(users => {
+          update(() => {
+            this.users = this.searchUsers = users
+          })
+        })
       } else {
         update(() => {
           const needle = val.toLowerCase()
