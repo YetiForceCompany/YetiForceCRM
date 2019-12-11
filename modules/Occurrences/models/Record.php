@@ -30,7 +30,7 @@ class Occurrences_Record_Model extends Vtiger_Record_Model
 				'linklabel' => 'LBL_CHANGE_RELATION_DATA',
 				'dataUrl' => "index.php?module={$this->getModuleName()}&view=ChangeRelationData&record={$this->getId()}&fromRecord={$parentRecord->getId()}&relationId={$relationModel->getId()}",
 				'linkicon' => 'mdi mdi-briefcase-edit-outline',
-				'linkclass' => 'btn-sm btn-warning showModal'
+				'linkclass' => 'btn-sm btn-warning js-show-modal'
 			]);
 		}
 		return $links;

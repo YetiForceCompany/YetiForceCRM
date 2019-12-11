@@ -1,16 +1,18 @@
 <?php
-/* +**********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * ********************************************************************************** */
-
+/**
+ * Main Occurrences module class.
+ *
+ * @package   App
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author Arkadiusz Dudek <a.dudek@yetiforce.com>
+ */
 include_once 'modules/Vtiger/CRMEntity.php';
 
+/**
+ * Class Occurrences.
+ */
 class Occurrences extends Vtiger_CRMEntity
 {
 	public $table_name = 'u_yf_occurrences';
@@ -24,7 +26,7 @@ class Occurrences extends Vtiger_CRMEntity
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = ['vtiger_crmentity', 'u_yf_occurrences', 'u_yf_occurrencescf'];
+	public $tab_name = ['vtiger_crmentity', 'u_yf_occurrences'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
@@ -78,14 +80,16 @@ class Occurrences extends Vtiger_CRMEntity
 	 *
 	 * @param string Module name
 	 * @param string Event Type
+	 * @param mixed $moduleName
+	 * @param mixed $eventType
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
-		} elseif ($eventType === 'module.disabled') {
-		} elseif ($eventType === 'module.preuninstall') {
-		} elseif ($eventType === 'module.preupdate') {
-		} elseif ($eventType === 'module.postupdate') {
+		if ('module.postinstall' === $eventType) {
+		} elseif ('module.disabled' === $eventType) {
+		} elseif ('module.preuninstall' === $eventType) {
+		} elseif ('module.preupdate' === $eventType) {
+		} elseif ('module.postupdate' === $eventType) {
 		}
 	}
 }
