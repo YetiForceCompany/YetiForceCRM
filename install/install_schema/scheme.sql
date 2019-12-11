@@ -1446,7 +1446,7 @@ CREATE TABLE `u_yf_chat_rooms` (
   `sequence` tinyint(4) DEFAULT NULL,
   `active` tinyint(1) DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_chat_rooms_crm` */
 
@@ -7233,9 +7233,9 @@ CREATE TABLE `vtiger_osstimecontrol` (
   `osstimecontrol_no` varchar(255) DEFAULT NULL,
   `osstimecontrol_status` varchar(128) DEFAULT NULL,
   `date_start` date NOT NULL,
-  `time_start` varchar(50) DEFAULT NULL,
+  `time_start` time DEFAULT NULL,
   `due_date` date DEFAULT NULL,
-  `time_end` varchar(50) DEFAULT NULL,
+  `time_end` time DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT 0.00,
   `deleted` int(1) DEFAULT 0,
   `timecontrol_type` varchar(255) DEFAULT NULL,
@@ -7669,7 +7669,7 @@ CREATE TABLE `vtiger_projectmilestone` (
   `projectmilestoneid` int(10) NOT NULL,
   `projectmilestonename` varchar(255) DEFAULT NULL,
   `projectmilestone_no` varchar(100) DEFAULT NULL,
-  `projectmilestonedate` varchar(255) DEFAULT NULL,
+  `projectmilestonedate` date DEFAULT NULL,
   `projectmilestone_status` varchar(255) DEFAULT '',
   `projectid` int(10) DEFAULT NULL,
   `projectmilestonetype` varchar(100) DEFAULT NULL,
@@ -7907,9 +7907,9 @@ CREATE TABLE `vtiger_reservations` (
   `reservations_no` varchar(255) DEFAULT NULL,
   `reservations_status` varchar(128) DEFAULT NULL,
   `date_start` date NOT NULL,
-  `time_start` varchar(50) DEFAULT NULL,
+  `time_start` time DEFAULT NULL,
   `due_date` date DEFAULT NULL,
-  `time_end` varchar(50) DEFAULT NULL,
+  `time_end` time DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT 0.00,
   `link` int(10) DEFAULT 0,
   `process` int(10) DEFAULT 0,
