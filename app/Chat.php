@@ -357,7 +357,7 @@ final class Chat
 	/**
 	 * List of unpinned users to private room.
 	 *
-	 * @param int|null $userId
+	 * @param int $roomId
 	 *
 	 * @return array
 	 */
