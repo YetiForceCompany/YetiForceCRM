@@ -6,25 +6,29 @@
     dense
   >
     <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
-      <q-item-section avatar>
+      <q-item-section
+        avatar
+        :class="itemAvatarClass"
+      >
         <YfIcon
           :icon="getGroupIcon(roomType)"
           :size="layout.drawer.fs"
         />
-      </q-item-section>
-      {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
-      <div class="q-ml-auto">
         <q-btn
-          v-show="roomData.length"
+          v-show="showAllRoomsButton"
           :icon="showAllRooms ? 'mdi-chevron-up' : 'mdi-chevron-down'"
           dense
           flat
           round
           color="primary"
+          class="q-mx-xs"
           @click="showAllRooms = !showAllRooms"
         >
           <q-tooltip>{{ translate(showAllRooms ? 'JS_CHAT_HIDE_ROOMS' : 'JS_CHAT_SHOW_ROOMS') }}</q-tooltip>
         </q-btn>
+      </q-item-section>
+      {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
+      <div class="q-ml-auto">
         <slot name="labelRight">
         </slot>
         <slot
@@ -171,7 +175,13 @@ export default {
       'isSoundNotification',
       'roomSoundNotificationsOff',
       'layout'
-    ])
+    ]),
+    itemAvatarClass() {
+      return [this.showAllRoomsButton ? 'flex-row items-center q-pr-none' : '']
+    },
+    showAllRoomsButton() {
+      return this.roomData.length
+    }
   },
   watch: {
     isSelectRoomVisible(value) {
