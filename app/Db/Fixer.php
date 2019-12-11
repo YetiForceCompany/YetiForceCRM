@@ -118,20 +118,6 @@ class Fixer
 	 */
 	public static function maximumFieldsLength(): array
 	{
-		$uiTypeMaxLength = [
-			120 => 65535,
-			106 => '3,64',
-			156 => '3',
-		];
-		$typesMaxLength = [
-			'tinytext' => 255,
-			'text' => 65535,
-			'mediumtext' => 16777215,
-			'longtext' => 4294967295,
-			'blob' => 65535,
-			'mediumblob' => 16777215,
-			'longblob' => 4294967295,
-		];
 		$typesNotSupported = ['datetime', 'date', 'year', 'timestamp', 'time'];
 		$uiTypeNotSupported = [30];
 		$updated = $requiresVerification = $typeNotFound = $notSupported = 0;
@@ -148,10 +134,10 @@ class Fixer
 				++$notSupported;
 				continue;
 			}
-			if (isset($uiTypeMaxLength[$field['uitype']])) {
-				$range = $uiTypeMaxLength[$field['uitype']];
-			} elseif (isset($typesMaxLength[$type])) {
-				$range = $typesMaxLength[$type];
+			if (isset(\Vtiger_Field_Model::$uiTypeMaxLength[$field['uitype']])) {
+				$range = \Vtiger_Field_Model::$uiTypeMaxLength[$field['uitype']];
+			} elseif (isset(\Vtiger_Field_Model::$typesMaxLength[$type])) {
+				$range = \Vtiger_Field_Model::$typesMaxLength[$type];
 			} else {
 				switch ($type) {
 					case 'binary':
@@ -162,7 +148,8 @@ class Fixer
 						break;
 					case 'bigint':
 					case 'mediumint':
-						throw new \Exception('type not allowed');
+						\App\Log::error("Type not allowed: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
+						break;
 					case 'integer':
 					case 'int':
 						if ($column->unsigned) {

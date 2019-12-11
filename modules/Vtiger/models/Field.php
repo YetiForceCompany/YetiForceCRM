@@ -48,6 +48,30 @@ class Vtiger_Field_Model extends vtlib\Field
 	const QUICKCREATE_NOT_ENABLED = 1;
 	const QUICKCREATE_ENABLED = 2;
 	const QUICKCREATE_NOT_PERMITTED = 3;
+	/**
+	 * Field maximum length by UiType.
+	 *
+	 * @var array
+	 */
+	public static $uiTypeMaxLength = [
+		120 => 65535,
+		106 => '3,64',
+		156 => '3',
+	];
+	/**
+	 * Field maximum length by db type.
+	 *
+	 * @var int[]
+	 */
+	public static $typesMaxLength = [
+		'tinytext' => 255,
+		'text' => 65535,
+		'mediumtext' => 16777215,
+		'longtext' => 4294967295,
+		'blob' => 65535,
+		'mediumblob' => 16777215,
+		'longblob' => 4294967295,
+	];
 
 	/**
 	 * Function to get the value of a given property.
@@ -249,7 +273,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function getFieldDataType()
 	{
 		if (!isset($this->fieldDataType)) {
-			$uiType = $this->get('uitype');
+			$uiType = $this->getUIType();
 			if (55 === $uiType) {
 				$cacheName = $uiType . '-' . $this->getName();
 			} else {
@@ -1509,32 +1533,55 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (!\in_array($data['type'], $allowedTypes)) {
 			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_TYPE');
 		}
-		switch ($data['type']) {
-			case 'binary':
-			case 'string':
-				return $data['size'];
-			case 'integer':
-				if ($data['unsigned']) {
-					return '4294967295';
-				}
-					return '-2147483648,2147483647';
-			case 'smallint':
-				if ($data['unsigned']) {
-					return '65535';
-				}
-					return '-32768,32767';
-			case 'tinyint':
-				if ($data['unsigned']) {
-					return '255';
-				}
-					return '-128,127';
-			case 'decimal':
-				return pow(10, $data['size'] - $data['scale']) - 1;
-			case 'text':
-				return '65535';
-			default:
-				return null;
+		preg_match('/^([\w\-]+)/i', $data['dbType'], $matches);
+		$type = $matches[1] ?? $data['type'];
+		$uitype = $this->getUIType();
+		if (isset(self::$uiTypeMaxLength[$uitype])) {
+			$range = self::$uiTypeMaxLength[$uitype];
+		} elseif (isset(self::$typesMaxLength[$type])) {
+			$range = self::$typesMaxLength[$type];
+		} else {
+			switch ($type) {
+				case 'binary':
+				case 'string':
+				case 'varchar':
+				case 'varbinary':
+					$range = (int) $data['size'];
+					break;
+				case 'bigint':
+				case 'mediumint':
+					throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_TYPE');
+				case 'integer':
+				case 'int':
+					if ($data['unsigned']) {
+						$range = '4294967295';
+					} else {
+						$range = '-2147483648,2147483647';
+					}
+					break;
+				case 'smallint':
+					if ($data['unsigned']) {
+						$range = '65535';
+					} else {
+						$range = '-32768,32767';
+					}
+					break;
+				case 'tinyint':
+					if ($data['unsigned']) {
+						$range = '255';
+					} else {
+						$range = '-128,127';
+					}
+					break;
+				case 'decimal':
+					$range = pow(10, ((int) $data['size']) - ((int) $data['scale'])) - 1;
+					break;
+				default:
+					$range = null;
+					break;
+			}
 		}
+		return $range;
 	}
 
 	/**
