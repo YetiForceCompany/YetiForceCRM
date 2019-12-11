@@ -5,26 +5,36 @@
     class="q-mb-none"
     dense
   >
-    <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
-      <q-item-section avatar>
+    <q-item-label
+      class="flex items-center text-bold text-muted q-py-sm q-px-md"
+      @click="showAllRoomsButton ? toggleRoomExpanded(roomType) : ''"
+    >
+      <q-item-section
+        avatar
+        :class="itemAvatarClass"
+      >
         <YfIcon
           :icon="getGroupIcon(roomType)"
           :size="layout.drawer.fs"
+          :style="roomType === 'user' ? {'margin-left': '-2px', 'margin-right': '2px'} : {}"
         />
-      </q-item-section>
-      {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
-      <div class="q-ml-auto">
         <q-btn
-          v-show="roomData.length"
-          :icon="showAllRooms ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+          v-show="showAllRoomsButton"
+          :icon="isRoomExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down'"
           dense
           flat
           round
           color="primary"
-          @click="showAllRooms = !showAllRooms"
+          class="q-mx-xs"
         >
-          <q-tooltip>{{ translate(showAllRooms ? 'JS_CHAT_HIDE_ROOMS' : 'JS_CHAT_SHOW_ROOMS') }}</q-tooltip>
+          <q-tooltip>{{ translate(isRoomExpanded ? 'JS_CHAT_HIDE_ROOMS' : 'JS_CHAT_SHOW_ROOMS') }}</q-tooltip>
         </q-btn>
+      </q-item-section>
+      {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
+      <div
+        class="q-ml-auto"
+        @click.stop
+      >
         <slot name="labelRight">
         </slot>
         <slot
@@ -68,7 +78,7 @@
     </slot>
     <template v-for="(room, roomId) of roomData">
       <q-item
-        v-show="showAllRooms"
+        v-show="isRoomExpanded"
         class="q-pl-sm u-hover-container"
         clickable
         v-ripple
@@ -79,11 +89,9 @@
       >
         <div class="full-width flex items-center justify-between no-wrap">
           <div class="ellipsis-2-lines">
-            <YfIcon
-              v-if="roomType === 'crm'"
-              class="inline-block"
-              :icon="'userIcon-' + room.moduleName"
-              size="0.7rem"
+            <slot
+              name="itemAvatar"
+              :room="room"
             />
             {{ room.name }}
           </div>
@@ -170,8 +178,18 @@ export default {
       'data',
       'isSoundNotification',
       'roomSoundNotificationsOff',
-      'layout'
-    ])
+      'layout',
+      'roomsExpanded'
+    ]),
+    itemAvatarClass() {
+      return [this.showAllRoomsButton ? 'flex-row items-center q-pr-none' : '']
+    },
+    showAllRoomsButton() {
+      return this.roomData.length
+    },
+    isRoomExpanded() {
+      return this.roomsExpanded.includes(this.roomType)
+    }
   },
   watch: {
     isSelectRoomVisible(value) {
@@ -179,7 +197,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchRoom', 'toggleRoomSoundNotification', 'mobileMode']),
+    ...mapActions([
+      'fetchRoom',
+      'toggleRoomSoundNotification',
+      'toggleRoomExpanded',
+      'mobileMode'
+    ]),
     ...mapMutations(['setLeftPanelMobile']),
     getGroupIcon,
     isSoundActive(roomType, id) {

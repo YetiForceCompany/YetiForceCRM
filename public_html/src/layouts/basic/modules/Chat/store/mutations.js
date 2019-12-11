@@ -48,6 +48,12 @@ export default {
 	addRoomSoundNotificationsOff(state, { roomType, id }) {
 		state.local.roomSoundNotificationsOff[roomType].push(id)
 	},
+	removeRoomExpanded(state, roomType) {
+		state.local.roomsExpanded = state.local.roomsExpanded.filter(room => room !== roomType)
+	},
+	addRoomExpanded(state, roomType) {
+		state.local.roomsExpanded.push(roomType)
+	},
 	setDesktopNotification(state, val) {
 		state.local.isDesktopNotification = val
 	},

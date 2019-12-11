@@ -89,7 +89,7 @@ export default {
       ]
     },
     buttonSize() {
-      return this.config.draggableButton ? '' : '13px'
+      return this.config.draggableButton ? '' : '0.826rem'
     },
     addBadgeClass() {
       return [
@@ -125,6 +125,9 @@ export default {
       return this.data.amountOfNewMessages ? 'animated shake' : ''
     },
     hasCurrentRecordChat() {
+      if (!this.config.activeRoomTypes.includes('crm')) {
+        return false
+      }
       let id = false
       if (this.isDetail) {
         id = app.getRecordId()
