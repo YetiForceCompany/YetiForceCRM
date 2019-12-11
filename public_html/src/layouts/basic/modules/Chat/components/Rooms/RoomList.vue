@@ -5,7 +5,10 @@
     class="q-mb-none"
     dense
   >
-    <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
+    <q-item-label
+      class="flex items-center text-bold text-muted q-py-sm q-px-md"
+      @click="showAllRoomsButton ? toggleRoomExpanded(roomType) : ''"
+    >
       <q-item-section
         avatar
         :class="itemAvatarClass"
@@ -23,13 +26,15 @@
           round
           color="primary"
           class="q-mx-xs"
-          @click.stop="toggleRoomExpanded(roomType)"
         >
           <q-tooltip>{{ translate(isRoomExpanded ? 'JS_CHAT_HIDE_ROOMS' : 'JS_CHAT_SHOW_ROOMS') }}</q-tooltip>
         </q-btn>
       </q-item-section>
       {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
-      <div class="q-ml-auto">
+      <div
+        class="q-ml-auto"
+        @click.stop
+      >
         <slot name="labelRight">
         </slot>
         <slot
