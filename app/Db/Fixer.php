@@ -110,4 +110,107 @@ class Fixer
 		\Settings_SharingAccess_Module_Model::recalculateSharingRules();
 		return $i;
 	}
+
+	/**
+	 * Fixes the maximum value allowed for fields.
+	 *
+	 * @return int[]
+	 */
+	public static function maximumFieldsLength(): array
+	{
+		$uiTypeMaxLength = [
+			120 => 65535,
+			106 => '3,64',
+			156 => '3',
+		];
+		$typesMaxLength = [
+			'tinytext' => 255,
+			'text' => 65535,
+			'mediumtext' => 16777215,
+			'longtext' => 4294967295,
+			'blob' => 65535,
+			'mediumblob' => 16777215,
+			'longblob' => 4294967295,
+		];
+		$typesNotSupported = ['datetime', 'date', 'year', 'timestamp', 'time'];
+		$uiTypeNotSupported = [30];
+		$updated = $requiresVerification = $typeNotFound = $notSupported = 0;
+		$db = \App\Db::getInstance();
+		$dbCommand = $db->createCommand();
+		$schema = $db->getSchema();
+		$query = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldid', 'maximumlength', 'uitype'])->from('vtiger_field');
+		$dataReader = $query->createCommand()->query();
+		while ($field = $dataReader->read()) {
+			$column = $schema->getTableSchema($field['tablename'])->columns[$field['columnname']];
+			preg_match('/^([\w\-]+)/i', $column->dbType, $matches);
+			$type = $matches[1] ?? $column->type;
+			if (\in_array($type, $typesNotSupported) || \in_array($field['uitype'], $uiTypeNotSupported)) {
+				++$notSupported;
+				continue;
+			}
+			if (isset($uiTypeMaxLength[$field['uitype']])) {
+				$range = $uiTypeMaxLength[$field['uitype']];
+			} elseif (isset($typesMaxLength[$type])) {
+				$range = $typesMaxLength[$type];
+			} else {
+				switch ($type) {
+					case 'binary':
+					case 'string':
+					case 'varchar':
+					case 'varbinary':
+						$range = (int) $column->size;
+						break;
+					case 'bigint':
+					case 'mediumint':
+						throw new \Exception('type not allowed');
+					case 'integer':
+					case 'int':
+						if ($column->unsigned) {
+							$range = '4294967295';
+						} else {
+							$range = '-2147483648,2147483647';
+						}
+						break;
+					case 'smallint':
+						if ($column->unsigned) {
+							$range = '65535';
+						} else {
+							$range = '-32768,32767';
+						}
+						break;
+					case 'tinyint':
+						if ($column->unsigned) {
+							$range = '255';
+						} else {
+							$range = '-128,127';
+						}
+						break;
+					case 'decimal':
+						$range = pow(10, ((int) $column->size) - ((int) $column->scale)) - 1;
+						break;
+					default:
+						$range = false;
+						break;
+				}
+			}
+			$update = false;
+			if (false === $range) {
+				\App\Log::warning("Type not found: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
+				++$typeNotFound;
+			} elseif ($field['maximumlength'] != $range) {
+				if (\in_array($field['uitype'], [1, 7, 10, 16, 56, 71, 72, 156, 308, 317])) {
+					$update = true;
+				} else {
+					\App\Log::warning("Requires verification: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} <> {$range} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
+					++$requiresVerification;
+				}
+			}
+			if ($update && false !== $range) {
+				$dbCommand->update('vtiger_field', ['maximumlength' => $range], ['fieldid' => $field['fieldid']])->execute();
+				++$updated;
+				\App\Log::trace("Updated: {$field['tablename']}.{$field['columnname']} |maximumlength:  before:{$field['maximumlength']} after: $range |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
+			}
+		}
+		return ['NotSupported' => $notSupported, 'TypeNotFound' => $typeNotFound, 'RequiresVerification' => $requiresVerification, 'Updated' => $updated];
+	}
 }
