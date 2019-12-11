@@ -89,7 +89,7 @@ export default {
       ]
     },
     buttonSize() {
-      return this.config.draggableButton ? '' : '13px'
+      return this.config.draggableButton ? '' : '0.826rem'
     },
     addBadgeClass() {
       return [
