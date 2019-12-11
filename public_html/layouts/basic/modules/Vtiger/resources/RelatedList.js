@@ -130,8 +130,7 @@ jQuery.Class(
 				relatedLoad: true,
 				sourceModule: app.getModuleName(),
 				sourceRecord: app.getRecordId(),
-				module: $('.relatedModuleName').val(),
-				cvid: $('#customFilter').val()
+				module: $('.relatedModuleName').val()
 			});
 		}
 	},
