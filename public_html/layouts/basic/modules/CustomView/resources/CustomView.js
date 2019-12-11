@@ -80,21 +80,19 @@ class CustomView {
 
 	saveAndViewFilter() {
 		this.saveFilter().done(function(response) {
-			if (response.success) {
+			if (response.result.success) {
 				let url;
 				if (app.getParentModuleName() == 'Settings') {
-					url =
-						'index.php?module=CustomView&parent=Settings&view=Index&sourceModule=' +
-						$('#sourceModule').val();
+					url = 'index.php?module=CustomView&parent=Settings&view=Index&sourceModule=' + $('#sourceModule').val();
 				} else {
-					url = response['result']['listviewurl'];
+					url = response.result.listviewurl;
 				}
 				window.location.href = url;
 			} else {
 				$.unblockUI();
 				Vtiger_Helper_Js.showPnotify({
 					title: app.vtranslate('JS_DUPLICATE_RECORD'),
-					text: response.error['message']
+					text: response.result.message
 				});
 			}
 		});
