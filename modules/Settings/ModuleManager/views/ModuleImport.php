@@ -95,7 +95,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 				$moduleLicence = App\Purifier::purify($package->getLicense());
 				$viewer->assign('MODULEIMPORT_FILE', $uploadFile);
 				$viewer->assign('MODULEIMPORT_TYPE', $package->type());
-				$viewer->assign('MODULEIMPORT_LABEL', (string) $this->_modulexml->label ?? $this->_modulexml->name);
+				$viewer->assign('MODULEIMPORT_LABEL', (string) ($package->_modulexml->label ?? $package->_modulexml->name));
 				$viewer->assign('MODULEIMPORT_NAME', $importModuleName);
 				$viewer->assign('MODULEIMPORT_PACKAGE', $package);
 				$viewer->assign('MODULEIMPORT_DEP_VTVERSION', $importModuleDepVtVersion);
