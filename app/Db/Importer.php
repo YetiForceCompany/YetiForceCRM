@@ -88,6 +88,29 @@ class Importer
 	}
 
 	/**
+	 * Refresh db schema.
+	 */
+	public function refreshSchema()
+	{
+		\App\Db::getInstance()->getSchema()->getTableSchemas('', true);
+	}
+
+	/**
+	 * Show or save logs.
+	 *
+	 * @param bool $show
+	 */
+	public function logs($show = true)
+	{
+		$time = round((microtime(true) - $this->startTime) / 60, 2);
+		if ($show) {
+			echo $this->logs . '---------  ' . date('Y-m-d H:i:s') . "  ($time min)  -------------\n";
+		} else {
+			file_put_contents('cache/logs/Importer.log', $this->logs . '-------------  ' . date('Y-m-d H:i:s') . " ($time min)   -------------\n");
+		}
+	}
+
+	/**
 	 * Import database structure.
 	 */
 	public function importScheme()
@@ -118,13 +141,33 @@ class Importer
 	}
 
 	/**
+	 * Update db scheme.
+	 */
+	public function updateScheme()
+	{
+		foreach ($this->importers as &$importer) {
+			$this->updateTables($importer);
+		}
+	}
+
+	/**
+	 * Post Process action.
+	 */
+	public function postUpdate()
+	{
+		foreach ($this->importers as &$importer) {
+			$this->updateForeignKey($importer);
+		}
+	}
+
+	/**
 	 * Creating tables.
 	 *
 	 * @param Base $importer
 	 */
 	public function addTables(Base $importer)
 	{
-		$this->logs .= "> start add tables\n";
+		$this->logs .= "> start add tables ({$importer->dbType})\n";
 		$startMain = microtime(true);
 		foreach ($importer->tables as $tableName => $table) {
 			$this->logs .= "  > add table: $tableName ... ";
@@ -260,7 +303,7 @@ class Importer
 		if (!isset($importer->foreignKey)) {
 			return;
 		}
-		$this->logs .= "> start add foreign key\n";
+		$this->logs .= "> start add foreign key ({$importer->dbType})\n";
 		$startMain = microtime(true);
 		foreach ($importer->foreignKey as $key) {
 			$this->logs .= "  > add: {$key[0]}, {$key[1]} ... ";
@@ -291,7 +334,7 @@ class Importer
 		if (!isset($importer->data)) {
 			return;
 		}
-		$this->logs .= "> start add data rows\n";
+		$this->logs .= "> start add data rows ({$importer->dbType})\n";
 		$startMain = microtime(true);
 		foreach ($importer->data as $tableName => $table) {
 			$this->logs .= "  > add data to table: $tableName ... ";
@@ -369,7 +412,7 @@ class Importer
 	 */
 	public function renameTables($tables)
 	{
-		$this->logs .= "> start rename tables\n";
+		$this->logs .= "> start rename tables ({$importer->dbType})\n";
 		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
@@ -402,7 +445,7 @@ class Importer
 	 */
 	public function dropTable($tables)
 	{
-		$this->logs .= "> start drop tables\n";
+		$this->logs .= "> start drop tables ({$importer->dbType})\n";
 		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		if (\is_string($tables)) {
@@ -435,7 +478,7 @@ class Importer
 	 */
 	public function dropIndexes(array $tables)
 	{
-		$this->logs .= "> start drop indexes\n";
+		$this->logs .= "> start drop indexes ({$importer->dbType})\n";
 		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		foreach ($tables as $tableName => $indexes) {
@@ -468,7 +511,7 @@ class Importer
 	 */
 	public function dropForeignKeys(array $foreignKeys)
 	{
-		$this->logs .= "> start drop foreign keys\n";
+		$this->logs .= "> start drop foreign keys ({$importer->dbType})\n";
 		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		foreach ($foreignKeys as $keyName => $tableName) {
@@ -509,7 +552,7 @@ class Importer
 	 */
 	public function renameColumns($columns)
 	{
-		$this->logs .= "> start rename columns\n";
+		$this->logs .= "> start rename columns ({$importer->dbType})\n";
 		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
@@ -547,7 +590,7 @@ class Importer
 	 */
 	public function dropColumns($columns)
 	{
-		$this->logs .= "> start drop columns\n";
+		$this->logs .= "> start drop columns ({$importer->dbType})\n";
 		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
@@ -574,39 +617,6 @@ class Importer
 	}
 
 	/**
-	 * Refresh db schema.
-	 */
-	public function refreshSchema()
-	{
-		\App\Db::getInstance()->getSchema()->getTableSchemas('', true);
-	}
-
-	/**
-	 * Show or save logs.
-	 *
-	 * @param bool $show
-	 */
-	public function logs($show = true)
-	{
-		$time = round((microtime(true) - $this->startTime) / 60, 2);
-		if ($show) {
-			echo $this->logs . '---------  ' . date('Y-m-d H:i:s') . "  ($time min)  -------------\n";
-		} else {
-			file_put_contents('cache/logs/Importer.log', $this->logs . '-------------  ' . date('Y-m-d H:i:s') . " ($time min)   -------------\n");
-		}
-	}
-
-	/**
-	 * Update db scheme.
-	 */
-	public function updateScheme()
-	{
-		foreach ($this->importers as &$importer) {
-			$this->updateTables($importer);
-		}
-	}
-
-	/**
 	 * Update tables structure.
 	 *
 	 * @param Base $importer
@@ -615,7 +625,7 @@ class Importer
 	 */
 	public function updateTables(Base $importer)
 	{
-		$this->logs .= "> start update tables\n";
+		$this->logs .= "> start update tables ({$importer->dbType})\n";
 		$startMain = microtime(true);
 		$schema = $importer->db->getSchema();
 		$queryBuilder = $schema->getQueryBuilder();
@@ -760,16 +770,6 @@ class Importer
 	}
 
 	/**
-	 * Post Process action.
-	 */
-	public function postUpdate()
-	{
-		foreach ($this->importers as &$importer) {
-			$this->updateForeignKey($importer);
-		}
-	}
-
-	/**
 	 * Update a foreign key constraint to an existing table.
 	 *
 	 * @param Base $importer
@@ -779,7 +779,7 @@ class Importer
 		if (!isset($importer->foreignKey)) {
 			return;
 		}
-		$this->logs .= "> start update foreign key\n";
+		$this->logs .= "> start update foreign key ({$importer->dbType})\n";
 		$startMain = microtime(true);
 		$dbCommand = $importer->db->createCommand();
 		$schema = $importer->db->getSchema();
