@@ -83,11 +83,9 @@
       >
         <div class="full-width flex items-center justify-between no-wrap">
           <div class="ellipsis-2-lines">
-            <YfIcon
-              v-if="roomType === 'crm'"
-              class="inline-block"
-              :icon="'userIcon-' + room.moduleName"
-              size="0.7rem"
+            <slot
+              name="itemAvatar"
+              :room="room"
             />
             {{ room.name }}
           </div>

@@ -22,6 +22,14 @@
         :href="`index.php?module=${room.moduleName}&view=Detail&record=${room.recordid}`"
       />
     </template>
+    <template #itemAvatar="{ room }">
+      <YfIcon
+        class="inline-block"
+        :icon="'userIcon-' + room.moduleName"
+        style="vertical-align: text-bottom;"
+        size="inherit"
+      />
+    </template>
     <template #selectRoom>
       <q-item
         v-if="config.dynamicAddingRooms"
