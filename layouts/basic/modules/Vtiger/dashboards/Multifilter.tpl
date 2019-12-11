@@ -6,7 +6,7 @@
 	{assign var=CURRENTUSERID value=$USER_MODEL->getId()}
 	<div class="js-multifilterControls tpl-dashboards-Multifilter dashboardWidgetHeader"
 		 data-js="container|data-widgetid"
-		 data-widgetid="{$WIDGET->get('linkid')}">
+		 data-widgetid="{$WIDGET->get('id')}">
 		<div class="row">
 			<div class="col-md-8">
 				<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}">

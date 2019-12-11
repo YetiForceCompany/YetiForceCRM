@@ -205,7 +205,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	{
 		return ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all'];
 	}
-	
+
 	/**
 	 * Function to get filters with customizable title.
 	 *
@@ -317,7 +317,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				if (empty($data['customMultiFilter']) || !\is_array($data['customMultiFilter'])) {
 					$data['customMultiFilter'] = [$data['customMultiFilter'] ?? ''];
 				}
-				$insert['data'] = \App\Json::encode(['customMultiFilter' => $data['customMultiFilter']]);
+				$insert['data'] = \App\Json::encode(['customMultiFilter' => $data['customMultiFilter'], 'showFullName' => $data['showFullName'] ?? '']);
 			} elseif ('Calendar' === $dataType) {
 				$insert['data'] = \App\Json::encode(['defaultFilter' => $data['defaultFilter'] ?? '']);
 			}

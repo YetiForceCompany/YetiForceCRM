@@ -291,7 +291,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 								let saveButton = form.find(':submit'),
 									field = form.find('[name="widgets"]');
 								saveButton.attr('disabled', 'disabled');
-
 								let paramsForm = form.serializeFormData();
 								paramsForm['action'] = 'addWidget';
 								paramsForm['blockid'] = blockId;
@@ -300,6 +299,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 								paramsForm['name'] = field.find(':selected').data('name');
 								paramsForm['height'] = form.find('[name="height"]').val();
 								paramsForm['width'] = form.find('[name="width"]').val();
+								if (form.find('[name="showFullName"]').prop("checked"))
+									paramsForm['showFullName'] = 1;
 								if (form.find('[name="isdefault"]').prop("checked"))
 									paramsForm['isdefault'] = 1;
 								if (form.find('[name="cache"]').prop("checked"))
@@ -393,6 +394,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	 */
 	setFieldDetails: function (result, form) {
 		form.find('.modal-header').html($('<h5 class="modal-title">' + result['label'] + '</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'));
+		if (result['showFullName']) {
+			form.find('[name="showFullName"]').filter(':checkbox').attr('checked', true);
+		}
 		if (result['isdefault']) {
 			form.find('[name="isdefault"]').filter(':checkbox').attr('checked', true);
 		}
@@ -448,6 +452,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 							return true;
 						}
 						let paramsForm = form.serializeFormData();
+						if (form.find('[name="showFullName"]').prop("checked"))
+							paramsForm['showFullName'] = 1;
 						if (form.find('[name="isdefault"]').prop("checked"))
 							paramsForm['isdefault'] = 1;
 						if (form.find('[name="cache"]').prop("checked"))

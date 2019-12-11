@@ -7,8 +7,9 @@
 		<div class="js-toggle-panel c-panel" data-js="click|data-dynamic">
 			<div class="blockHeader c-panel__header">
 				<h6 class="c-panel__title my-0 u-font-size-100per">
-					{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}
-					-{\App\Language::translate($CUSTOM_VIEW_NAME,$MODULE_NAME)}
+					{if $WIDGET_SHOW_FULL_NAME}
+						{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}&nbsp;-&nbsp;
+					{/if}{\App\Language::translate($CUSTOM_VIEW_NAME,$MODULE_NAME)}
 				</h6>
 				<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-1" data-js="click"
 					  alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
