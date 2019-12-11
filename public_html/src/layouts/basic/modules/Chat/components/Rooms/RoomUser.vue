@@ -6,12 +6,28 @@
     :roomType="roomType"
     :selectRoom="config.userRoomPin"
   >
+    <template #itemAvatar="{ room }">
+      <span style="margin-left: -3px;">
+        <q-avatar
+          v-if="room.image"
+          size="20px"
+        >
+          <img :src="room.image" />
+        </q-avatar>
+        <YfIcon
+          v-else
+          class="inline-block"
+          size="20px"
+          icon="mdi-account"
+        />
+      </span>
+    </template>
   </RoomList>
 </template>
 <script>
 import RoomList from './RoomList.vue'
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters} = createNamespacedHelpers('Chat')
+const { mapGetters } = createNamespacedHelpers('Chat')
 export default {
   name: 'RoomUser',
   components: { RoomList },
@@ -31,7 +47,7 @@ export default {
   },
   computed: {
     ...mapGetters(['config'])
-  },
+  }
 }
 </script>
 <style lang="sass" scoped></style>

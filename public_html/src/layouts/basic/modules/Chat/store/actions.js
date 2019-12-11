@@ -27,6 +27,13 @@ export default {
 			commit('addRoomSoundNotificationsOff', { roomType, id })
 		}
 	},
+	toggleRoomExpanded({ commit, getters }, roomType) {
+		if (getters.roomsExpanded.includes(roomType)) {
+			commit('removeRoomExpanded', roomType)
+		} else {
+			commit('addRoomExpanded', roomType)
+		}
+	},
 	fetchChatConfig({ commit }) {
 		return new Promise((resolve, reject) => {
 			AppConnector.request({

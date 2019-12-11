@@ -264,7 +264,7 @@
 				</a>
 				<div class="o-action-menu__container d-flex flex-md-nowrap flex-column flex-md-row" id="o-action-menu__container">
 					{if \App\Privilege::isPermitted('Chat') && !\App\Config::module('Chat', 'draggableButton')}
-						<div class="quasar-reset">
+						<div class="o-action-menu__item ml-2 quasar-reset">
 							<div id="ChatModalVue"></div>
 						</div>
 					{/if}

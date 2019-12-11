@@ -36,7 +36,8 @@ export default {
 			group: [],
 			private: [],
 			user: []
-		}
+		},
+		roomsExpanded: []
 	},
 	data: {
 		amountOfNewMessages: 0,
