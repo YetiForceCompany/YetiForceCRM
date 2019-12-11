@@ -13,6 +13,7 @@
         <YfIcon
           :icon="getGroupIcon(roomType)"
           :size="layout.drawer.fs"
+          :style="roomType === 'user' ? {'margin-left': '-2px', 'margin-right': '2px'} : {}"
         />
         <q-btn
           v-show="showAllRoomsButton"

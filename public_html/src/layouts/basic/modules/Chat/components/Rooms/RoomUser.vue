@@ -7,18 +7,20 @@
     :selectRoom="config.userRoomPin"
   >
     <template #itemAvatar="{ room }">
-      <q-avatar
-        v-if="room.image"
-        size="20px"
-      >
-        <img :src="room.image" />
-      </q-avatar>
-      <YfIcon
-        v-else
-        class="inline-block"
-        size="20px"
-        icon="mdi-account"
-      />
+      <span style="margin-left: -3px;">
+        <q-avatar
+          v-if="room.image"
+          size="20px"
+        >
+          <img :src="room.image" />
+        </q-avatar>
+        <YfIcon
+          v-else
+          class="inline-block"
+          size="20px"
+          icon="mdi-account"
+        />
+      </span>
     </template>
   </RoomList>
 </template>
