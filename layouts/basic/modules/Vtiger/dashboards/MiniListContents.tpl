@@ -39,18 +39,18 @@
 				{assign var="LAST_RECORD" value=$smarty.foreach.minilistWidgetModelRowHeaders.last}
 				{assign var="FIELD_VALUE" value=$RECORD->get($FIELD->get('name'))}
 				<div class="p-0 col-sm-{$SPANSIZE_ARRAY[$ITERATION]}">
-					{if $LAST_RECORD}
+					{if empty($FIELD_HREF) && $LAST_RECORD}
 						<a href="{$RECORD->getDetailViewUrl()}" class="float-right"><span
 									title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}"
 									class="fas fa-th-list alignMiddle"></span></a>
 					{/if}
 					<div class="pr-2">
 						{if $FIELD_VALUE}
-						{assign var=HAS_LINK value=empty($FIELD->get('source_field_name')) && $FIELD->isNameField() && $RECORD->getModule()->isListViewNameFieldNavigationEnabled() && $RECORD->isViewable()}
+							{assign var=HAS_LINK value=empty($FIELD->get('source_field_name')) && $FIELD->isNameField() && $RECORD->getModule()->isListViewNameFieldNavigationEnabled() && $RECORD->isViewable()}
 							<div {if !$HAS_LINK}class="js-popover-tooltip--ellipsis" data-toggle="popover"
 								 data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}"
 								 data-js="popover"{else}class="text-truncate"{/if}>
-								{if $HAS_LINK}
+								{if $HAS_LINK || (!empty($FIELD_HREF) && $FIELD_HREF === $FIELD->get('name'))}
 									<a class="modCT_{$RECORD->getModuleName()} js-popover-tooltip--record" href="{$RECORD->getDetailViewUrl()}">
 										{$RECORD->getDisplayValue($FIELD->get('name'))}
 									</a>

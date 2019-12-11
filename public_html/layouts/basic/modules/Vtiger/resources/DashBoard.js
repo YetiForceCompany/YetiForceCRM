@@ -534,15 +534,18 @@ $.Class(
 						});
 						const moduleNameSelectDOM = $('select[name="module"]', wizardContainer);
 						const filteridSelectDOM = $('select[name="filterid"]', wizardContainer);
+						const fieldHrefDOM = $('select[name="field_href"]', wizardContainer);
 						const fieldsSelectDOM = $('select[name="fields"]', wizardContainer);
 						const filterFieldsSelectDOM = $('select[name="filter_fields"]', wizardContainer);
-
 						const moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(moduleNameSelectDOM, {
 							placeholder: app.vtranslate('JS_SELECT_MODULE')
 						});
 						const filteridSelect2 = App.Fields.Picklist.showSelect2ElementView(filteridSelectDOM, {
 							placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
 							dropdownParent: wizardContainer
+						});
+						const fieldHrefSelect2 = App.Fields.Picklist.showSelect2ElementView(fieldHrefDOM, {
+							allowClear: true
 						});
 						const fieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(fieldsSelectDOM, {
 							placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
@@ -553,12 +556,11 @@ $.Class(
 							placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')
 						});
 						const footer = $('.modal-footer', wizardContainer);
-
 						filteridSelectDOM.closest('tr').hide();
 						fieldsSelectDOM.closest('tr').hide();
+						fieldHrefDOM.closest('tr').hide();
 						footer.hide();
-
-						moduleNameSelect2.on('change', function() {
+						moduleNameSelect2.on('change', function () {
 							if (!moduleNameSelect2.val()) {
 								return;
 							}
@@ -611,9 +613,17 @@ $.Class(
 									.$selection.find('.select2-search__field')
 									.parent()
 									.css('width', '100%');
+								fieldHrefSelect2.closest('tr').show();
 							});
 						});
 						fieldsSelect2.on('change', function() {
+							fieldHrefDOM.find('option:not([value=""]').remove();
+							$(this).find('option:checked').each(function(index, element) {
+								let option = $(element);
+								let newOption = new Option(option.text(), option.val(), true, true);
+								fieldHrefSelect2.append(newOption);
+							});
+							fieldHrefSelect2.val('').trigger('change');
 							if (!fieldsSelect2.val()) {
 								footer.hide();
 							} else {
@@ -632,7 +642,8 @@ $.Class(
 									{
 										module: moduleNameSelect2.val(),
 										fields: selectedFields,
-										filterFields: filterFieldsSelect2.val()
+										filterFields: filterFieldsSelect2.val(),
+										fieldHref: fieldHrefSelect2.val()
 									},
 									element,
 									moduleNameSelect2.find(':selected').text(),

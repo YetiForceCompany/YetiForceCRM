@@ -837,42 +837,42 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		// 1. Show popup window for selection (module, filter, fields)
 		// 2. Compute the dynamic mini-list widget url
 		// 3. Add widget with URL to the page.
-		var thisInstance = this;
-		element = jQuery(element);
-
+		const thisInstance = this;
+		element = $(element);
 		app.showModalWindow(null, "index.php?module=Home&view=MiniListWizard&step=step1", function (wizardContainer) {
-			var form = jQuery('form', wizardContainer);
-
-			var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
-			var filteridSelectDOM = jQuery('select[name="filterid"]', wizardContainer);
-			var fieldsSelectDOM = jQuery('select[name="fields"]', wizardContainer);
-			var filterFieldsSelectDOM = jQuery('select[name="filter_fields"]', wizardContainer);
-
-			var moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(moduleNameSelectDOM, {
+			let form = $('form', wizardContainer),
+			moduleNameSelectDOM = $('select[name="module"]', wizardContainer),
+			filteridSelectDOM = $('select[name="filterid"]', wizardContainer),
+			fieldHrefDOM = $('select[name="field_href"]', wizardContainer),
+			fieldsSelectDOM = $('select[name="fields"]', wizardContainer),
+			filterFieldsSelectDOM = $('select[name="filter_fields"]', wizardContainer),
+			moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(moduleNameSelectDOM, {
 				placeholder: app.vtranslate('JS_SELECT_MODULE')
-			});
-			var filteridSelect2 = App.Fields.Picklist.showSelect2ElementView(filteridSelectDOM, {
+			}),
+			filteridSelect2 = App.Fields.Picklist.showSelect2ElementView(filteridSelectDOM, {
 				placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')
-			});
-			var fieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(fieldsSelectDOM, {
+			}),
+			fieldHrefSelect2 = App.Fields.Picklist.showSelect2ElementView(fieldHrefDOM, {
+				allowClear: true
+			}),
+			fieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(fieldsSelectDOM, {
 				placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
 				closeOnSelect: true,
 				maximumSelectionLength: 6
-			});
-			var filterFieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(filterFieldsSelectDOM, {
+			}),
+			filterFieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(filterFieldsSelectDOM, {
 				placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')
-			});
-			var footer = jQuery('.modal-footer', wizardContainer);
-
+			}),
+			footer = $('.modal-footer', wizardContainer);
 			filteridSelectDOM.closest('tr').hide();
+			fieldHrefDOM.closest('tr').hide();
 			fieldsSelectDOM.closest('tr').hide();
 			filterFieldsSelectDOM.closest('tr').hide();
 			footer.hide();
-
 			moduleNameSelect2.on('change', function () {
-				if (!moduleNameSelect2.val())
+				if (!moduleNameSelect2.val()){
 					return;
-
+				}
 				AppConnector.request({
 					module: 'Home',
 					view: 'MiniListWizard',
@@ -886,8 +886,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				});
 			});
 			filteridSelect2.on('change', function () {
-				if (!filteridSelect2.val())
+				if (!filteridSelect2.val()){
 					return;
+				}
 				footer.hide();
 				fieldsSelectDOM.closest('tr').hide();
 				filterFieldsSelectDOM.closest('tr').hide();
@@ -902,12 +903,20 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					fieldsSelectDOM.empty().html(res.find('select[name="fields"]').html()).trigger('change');
 					filterFieldsSelectDOM.empty().html(res.find('select[name="filter_fields"]').html()).trigger('change');
 					fieldsSelect2.closest('tr').show();
+					fieldHrefSelect2.closest('tr').show();
 					filterFieldsSelect2.closest('tr').show();
 					fieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
 					filterFieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
 				});
 			});
 			fieldsSelect2.on('change', function () {
+				fieldHrefDOM.find('option:not([value=""]').remove();
+				$(this).find('option:checked').each(function(index, element) {
+					let option = $(element);
+					let newOption = new Option(option.text(), option.val(), true, true);
+					fieldHrefSelect2.append(newOption);
+				});
+				fieldHrefSelect2.val('').trigger('change');
 				if (!fieldsSelect2.val()) {
 					footer.hide();
 				} else {
@@ -925,6 +934,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				};
 				data['fields'] = selectedFields;
 				data['filterFields'] = filterFieldsSelect2.val();
+				data['fieldHref'] = fieldHrefSelect2.val();
 				let paramsForm = {
 					data: JSON.stringify(data),
 					action: 'addWidget',

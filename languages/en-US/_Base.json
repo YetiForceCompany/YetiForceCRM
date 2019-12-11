@@ -1386,7 +1386,9 @@
     "LBL_USER_CURRENTLY_NOT_LOGGED": "user currently not logged",
     "LBL_CREATEDMAIL": "Create email message",
     "LBL_LINKBYFIELDS": "Creating links to email message",
-    "LBL_SHOW_FULL_NAME": "Show filter name with module name"
+    "LBL_SHOW_FULL_NAME": "Show filter name with module name",
+    "LBL_FIELD_HREF": "Link column",
+    "LBL_FIELD_HREF_TOOLTIP": "If you select the label field, the icon visible in the list will be hidden. Then the selected field will be converted into a link."
   },
   "js": {
     "JS_APPROVE": "Approve",
