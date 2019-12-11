@@ -184,11 +184,11 @@ class Base
 	 */
 	public function mediumText($length = null)
 	{
-		return $this->schema->createColumnSchemaBuilder('meduimtext', $length);
+		return $this->schema->createColumnSchemaBuilder('MEDIUMTEXT', $length);
 	}
 
 	/**
-	 * Creates a tinyint column. Available only in MySql.
+	 * Creates a tiny int column. Available only in MySql.
 	 *
 	 * @param int $length column size or precision definition
 	 *
