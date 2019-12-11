@@ -59,7 +59,7 @@ export default {
   methods: {
     ...mapActions(['fetchRoomsUnpinned', 'pinRoom']),
     asyncFilter(val, update) {
-      if (val === '' && !this.allOptions.length) {
+      if (val === '') {
         this.fetchRoomsUnpinned({ roomType: this.roomType }).then(data => {
           let result = data ? Object.values(data) : []
           update(() => {
@@ -67,15 +67,11 @@ export default {
           })
         })
       } else {
-        if (val === '') {
-          update(() => {
-            this.asyncOptions = this.allOptions
-          })
-          return
-        }
         update(() => {
           const needle = val.toLowerCase()
-          this.asyncOptions = this.allOptions.filter(v => v.name.toLowerCase().indexOf(needle) > -1)
+          this.asyncOptions = this.allOptions.filter(
+            v => v.name.toLowerCase().indexOf(needle) > -1
+          )
         })
       }
     }

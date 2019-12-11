@@ -355,6 +355,38 @@ final class Chat
 	}
 
 	/**
+	 * List of unpinned users to private room.
+	 *
+	 * @param int $roomId
+	 *
+	 * @return array
+	 */
+	public static function getRoomPrivateUnpinnedUsers(int $roomId): array
+	{
+		$userId = User::getCurrentUserId();
+		$roomType = 'private';
+		$pinnedUsersQuery = (new Db\Query())
+			->select(['USER_PINNED.userid'])
+			->from(['USER_PINNED' => static::TABLE_NAME['room'][$roomType]])
+			->where(['USER_PINNED.private_room_id' => $roomId]);
+		$query = (new Db\Query())
+			->select(['USERS.id', 'USERS.first_name', 'USERS.last_name'])
+			->from(['USERS' => static::TABLE_NAME['users']])
+			->where(['and', ['USERS.status' => 'Active'], ['USERS.deleted' => 0], ['not', ['USERS.id' => $userId]]])
+			->leftJoin(['PINNED' => $pinnedUsersQuery], 'USERS.id = PINNED.userid')
+			->andWhere(['PINNED.userid' => null]);
+		$dataReader = $query->createCommand()->query();
+		$rows = [];
+		while ($row = $dataReader->read()) {
+				$row['img'] = User::getImageById($row['id']) ? User::getImageById($row['id'])['url'] : '';
+				$row['label'] = $row['last_name'] . ' ' . $row['first_name'];
+				$rows[] = $row;
+		}
+		$dataReader->close();
+		return $rows;
+	}
+
+	/**
 	 * List of chat room groups.
 	 *
 	 * @param int|null $userId

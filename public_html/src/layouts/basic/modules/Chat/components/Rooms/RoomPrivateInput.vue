@@ -34,14 +34,25 @@
         {{ errorMessage }}
       </template>
     </q-input>
+    <RoomPrivateUserSelect
+      v-show="false"
+      ref="select"
+      class="q-pb-xs"
+      :roomId="newRoomId"
+      @update:isVisible="$refs.select.$refs.selectUser.hidePopup()"
+      :dialog="true"
+    />
   </div>
 </template>
 <script>
+import RoomPrivateUserSelect from './RoomPrivateUserSelect.vue'
+
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
 
 export default {
   name: 'RoomPrivateInput',
+  components: { RoomPrivateUserSelect },
   props: {
     showAddPrivateRoom: {
       type: Boolean
@@ -52,7 +63,8 @@ export default {
       addRoom: '',
       isValid: true,
       errorMessage: '',
-      isValidating: false
+      isValidating: false,
+      newRoomId: 0
     }
   },
   watch: {
@@ -80,6 +92,7 @@ export default {
         }
         if (!roomExist) {
           this.addPrivateRoom({ name: this.addRoom }).then(({ result }) => {
+            this.showUserSelect(Object.keys(result.private).pop())
             this.addRoom = ''
             this.updateRooms(result)
             this.isValidating = false
@@ -99,9 +112,14 @@ export default {
         this.errorMessage = this.translate('JS_CHAT_ROOM_NAME_EMPTY')
         this.isValid = false
       }
+    },
+    showUserSelect(user) {
+      this.newRoomId = parseInt(user)
+      setTimeout(() => {
+        this.$refs.select.$refs.selectUser.showPopup()
+      }, 100)
     }
-  },
-  created() {}
+  }
 }
 </script>
 <style lang="sass">

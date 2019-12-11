@@ -53,11 +53,12 @@
         </q-item-label>
         <q-item
           v-if="isUserModerator"
-          v-show="showAddPanel"
+          v-show="showAddPanel && isUserModerator"
         >
-          <RoomUserSelect
+          <RoomPrivateUserSelect
             class="q-pb-xs"
             :isVisible.sync="showAddPanel"
+            :roomId="currentRoomData.recordid"
           />
         </q-item>
         <template v-for="participant in participantsList">
@@ -121,11 +122,10 @@
                 color="primary"
                 icon="mdi-pin"
                 @click.stop="
-                  unpinUser({
+                  removeUserFromRoom({
                     roomType: currentRoomData.roomType,
                     recordId: currentRoomData.recordid,
-                    userId: participant.user_id,
-                    active: !!participant.message
+                    userId: participant.user_id
                   })
                 "
               >
@@ -139,12 +139,12 @@
   </div>
 </template>
 <script>
-import RoomUserSelect from './Rooms/RoomUserSelect.vue'
+import RoomPrivateUserSelect from './Rooms/RoomPrivateUserSelect.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatPanelRight',
-  components: { RoomUserSelect },
+  components: { RoomPrivateUserSelect },
   props: {
     participants: {
       type: Array,
@@ -188,20 +188,6 @@ export default {
   },
   methods: {
     ...mapActions(['removeUserFromRoom']),
-    ...mapMutations(['unsetParticipant']),
-    unpinUser({ roomType, recordId, userId, active }) {
-      this.removeUserFromRoom({ roomType, recordId, userId }).then(
-        ({ result }) => {
-          this.unsetParticipant({ roomId: recordId, participantId: userId })
-          this.$q.notify({
-            position: 'top',
-            color: 'success',
-            message: this.translate('JS_CHAT_PARTICIPANT_REMOVED'),
-            icon: 'mdi-check'
-          })
-        }
-      )
-    },
     sortByCurrentUserMessagesName(a, b) {
       if (a.user_id === this.userId) {
         return -1

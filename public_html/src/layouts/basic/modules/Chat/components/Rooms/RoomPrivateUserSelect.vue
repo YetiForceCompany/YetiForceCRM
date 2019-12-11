@@ -2,26 +2,31 @@
 <template>
   <div class="full-width">
     <q-select
-      dense
       v-model="selectUser"
+      ref="selectUser"
+      class="full-width"
+      dense
       use-input
       fill-input
       hide-selected
+      multiple
       input-debounce="0"
-      :options="searchUsers"
+      hide-bottom-space
+      emit-value
+      map-options
+      popup-content-class="quasar-reset"
       option-value="id"
       option-label="label"
       option-img="img"
-      emit-value
-      map-options
-      :hint="translate('JS_CHAT_ADD_FAVORITE_ROOM_FROM_MODULE')"
-      @filter="filter"
-      @input="validateParticipant"
+      :options="searchUsers"
+      :label="translate('JS_CHAT_FILTER_USERS')"
+      :hint="translate('JS_CHAT_ADD_USERS_TO_NEW_ROOM')"
       :error="!isValid"
-      hide-bottom-space
-      popup-content-class="quasar-reset"
-      class="full-width"
-      ref="selectUser"
+      :behavior="dialog ? 'dialog' : 'default'"
+      @filter="asyncFilter"
+      @add="validateParticipant"
+      @remove="unpinUser"
+      @popup-hide="selectUser = null"
     >
       <template #no-option>
         <q-item>
@@ -34,7 +39,7 @@
           @click.prevent="$emit('update:isVisible', false), (isValid = true)"
           class="cursor-pointer"
         />
-        <q-tooltip anchor="top middle">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
+        <q-tooltip :anchor="tooltipAnchor">{{ translate('JS_CHAT_HIDE_ADD_PANEL') }}</q-tooltip>
       </template>
       <template #option="scope">
         <q-item
@@ -68,12 +73,21 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
-
+const roomType = 'private'
 export default {
-  name: 'SelectUsers',
+  name: 'RoomPrivateUserSelect',
   props: {
+    roomId: {
+      type: Number,
+      required: true
+    },
     isVisible: {
-      type: Boolean
+      type: Boolean,
+      default: false
+    },
+    dialog: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -82,7 +96,8 @@ export default {
       users: [],
       searchUsers: [],
       isValid: true,
-      errorMessage: ''
+      errorMessage: '',
+      addedUsers: []
     }
   },
   watch: {
@@ -92,79 +107,68 @@ export default {
           this.$refs.selectUser.showPopup()
         }, 100)
       } else {
-        this.selectUser = null
         this.$refs.selectUser.hidePopup()
       }
     }
   },
   computed: {
-    ...mapGetters(['currentRoomData', 'layout'])
-  },
-  methods: {
-    ...mapActions(['fetchChatUsers', 'addParticipant']),
-    ...mapMutations(['updateParticipants']),
-    validateParticipant(val) {
-      if (val) {
-        let userExists = false
-        for (let participant of this.currentRoomData.participants) {
-          if (participant.user_id === val && participant.active) {
-            userExists = true
-            break
-          }
-        }
-        if (!userExists) {
-          this.addParticipant({
-            recordId: this.currentRoomData.recordid,
-            userId: val
-          }).then(({ result }) => {
-            if (result.message) {
-              this.errorMessage = this.translate(result.message)
-              this.isValid = false
-            } else {
-              this.selectUser = null
-              this.isValid = true
-              this.updateParticipants({
-                recordId: this.currentRoomData.recordid,
-                roomType: this.currentRoomData.roomType,
-                data: result
-              })
-              this.$q.notify({
-                position: 'top',
-                color: 'success',
-                message: this.translate('JS_CHAT_PARTICIPANT_ADDED'),
-                icon: 'mdi-check'
-              })
-            }
-          })
-        } else {
-          this.errorMessage = this.translate('JS_CHAT_PARTICIPANT_EXISTS')
-          this.isValid = false
-        }
-      } else {
-        this.errorMessage = this.translate('JS_CHAT_PARTICIPANT_NAME_EMPTY')
-        this.isValid = false
-      }
-    },
-    filter(val, update) {
-      if (val === '') {
-        update(() => {
-          this.searchUsers = this.users
-        })
-        return
-      }
-      update(() => {
-        const needle = val.toLowerCase()
-        this.searchUsers = this.users.filter(
-          v => v.label.toLowerCase().indexOf(needle) > -1
-        )
-      })
+    ...mapGetters(['layout']),
+    tooltipAnchor() {
+      return `${this.dialog ? 'bottom' : 'top'} middle`
     }
   },
-  created() {
-    this.fetchChatUsers().then(users => {
-      this.users = users
-      this.searchUsers = this.users
-    })
+  methods: {
+    ...mapActions([
+      'fetchPrivateRoomUnpinnedUsers',
+      'addParticipant',
+      'removeUserFromRoom'
+    ]),
+    ...mapMutations(['updateParticipants']),
+    unpinUser({ value }) {
+      let userId = value.pop()
+      let recordId = this.roomId
+      this.removeUserFromRoom({ roomType, recordId, userId })
+    },
+    validateParticipant({ value }) {
+      this.addParticipant({
+        recordId: this.roomId,
+        userId: value
+      }).then(({ result }) => {
+        if (result.message) {
+          this.errorMessage = this.translate(result.message)
+          this.isValid = false
+        } else {
+          this.isValid = true
+          this.updateParticipants({
+            recordId: this.roomId,
+            roomType,
+            data: result
+          })
+          this.$q.notify({
+            position: 'top',
+            color: 'success',
+            message: this.translate('JS_CHAT_PARTICIPANT_ADDED'),
+            icon: 'mdi-check'
+          })
+        }
+      })
+    },
+    asyncFilter(val, update) {
+      if (val === '') {
+        this.fetchPrivateRoomUnpinnedUsers(this.roomId).then(users => {
+          update(() => {
+            this.users = this.searchUsers = users
+          })
+        })
+      } else {
+        update(() => {
+          const needle = val.toLowerCase()
+          this.searchUsers = this.users.filter(
+            v => v.label.toLowerCase().indexOf(needle) > -1
+          )
+        })
+      }
+    }
   }
 }
 </script>

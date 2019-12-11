@@ -30,7 +30,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('getRooms');
 		$this->exposeMethod('getRoomsUnpinned');
 		$this->exposeMethod('getRecordRoom');
-		$this->exposeMethod('getChatUsers');
+		$this->exposeMethod('getRoomPrivateUnpinnedUsers');
 		$this->exposeMethod('send');
 		$this->exposeMethod('search');
 		$this->exposeMethod('addPrivateRoom');
@@ -473,14 +473,14 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Get chat users.
+	 * Get room private unpinned users.
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getChatUsers(App\Request $request)
+	public function getRoomPrivateUnpinnedUsers(App\Request $request)
 	{
 		$response = new Vtiger_Response();
-		$response->setResult(\App\Chat::getChatUsers());
+		$response->setResult(\App\Chat::getRoomPrivateUnpinnedUsers($request->getInteger('roomId')));
 		$response->emit();
 	}
 
