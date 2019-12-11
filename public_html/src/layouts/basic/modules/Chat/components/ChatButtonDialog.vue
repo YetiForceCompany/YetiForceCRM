@@ -125,6 +125,9 @@ export default {
       return this.data.amountOfNewMessages ? 'animated shake' : ''
     },
     hasCurrentRecordChat() {
+      if (!this.config.activeRoomTypes.includes('crm')) {
+        return false
+      }
       let id = false
       if (this.isDetail) {
         id = app.getRecordId()
