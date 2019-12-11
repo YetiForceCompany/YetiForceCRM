@@ -21,7 +21,7 @@ class Occurrences extends Vtiger_CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = ['u_yf_occurrencescf', 'occurrencesid'];
+	public $customFieldTable = [];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
@@ -34,7 +34,6 @@ class Occurrences extends Vtiger_CRMEntity
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_occurrences' => 'occurrencesid',
-		'u_yf_occurrencescf' => 'occurrencesid',
 	];
 
 	/**
@@ -78,10 +77,8 @@ class Occurrences extends Vtiger_CRMEntity
 	/**
 	 * Invoked when special actions are performed on the module.
 	 *
-	 * @param string Module name
-	 * @param string Event Type
-	 * @param mixed $moduleName
-	 * @param mixed $eventType
+	 * @param string $moduleName
+	 * @param string $eventType
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
