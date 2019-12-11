@@ -89,6 +89,7 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 			$row['parent'] = App\Fields\Tree::getParentIdx($row);
 			unset($row['templateid'], $row['depth'], $row['state'], $row['name']);
 			$row['parentTree'] = explode('::', $row['parentTree']);
+			$row['label'] = \App\Language::translate($row['label'], $request->getModule());
 			$categories[$row['tree']] = $row;
 		}
 		$response = new Vtiger_Response();
