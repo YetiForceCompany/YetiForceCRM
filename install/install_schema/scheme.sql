@@ -1044,7 +1044,7 @@ CREATE TABLE `s_yf_companies` (
   `address` varchar(255) DEFAULT NULL,
   `post_code` varchar(20) DEFAULT NULL,
   `country` varchar(100) DEFAULT NULL,
-  `companysize` mediumint(6) unsigned DEFAULT 0,
+  `companysize` int(10) unsigned DEFAULT 0,
   `website` varchar(255) DEFAULT NULL,
   `logo` longtext DEFAULT NULL,
   `firstname` varchar(255) DEFAULT NULL,
@@ -5537,7 +5537,7 @@ CREATE TABLE `vtiger_end_hour` (
 
 CREATE TABLE `vtiger_entity_stats` (
   `crmid` int(10) NOT NULL,
-  `crmactivity` mediumint(8) DEFAULT NULL,
+  `crmactivity` int(10) DEFAULT NULL,
   PRIMARY KEY (`crmid`),
   CONSTRAINT `fk_1_vtiger_entity_stats` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -8864,9 +8864,9 @@ CREATE TABLE `vtiger_users` (
   `language` varchar(36) DEFAULT NULL,
   `user_password` varchar(200) DEFAULT NULL,
   `internal_mailer` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `reports_to_id` mediumint(10) unsigned DEFAULT NULL,
+  `reports_to_id` int(10) unsigned DEFAULT NULL,
   `modified_user_id` varchar(36) DEFAULT NULL,
-  `currency_id` mediumint(10) NOT NULL DEFAULT 1,
+  `currency_id` int(10) NOT NULL DEFAULT 1,
   `description` text DEFAULT NULL,
   `date_entered` timestamp NULL DEFAULT NULL,
   `date_modified` timestamp NULL DEFAULT NULL,
