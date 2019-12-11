@@ -56,6 +56,9 @@ export default {
 	isDesktopNotification(state) {
 		return state.local.isDesktopNotification
 	},
+	roomsExpanded(state) {
+		return state.local.roomsExpanded
+	},
 	data(state) {
 		return state.data
 	},

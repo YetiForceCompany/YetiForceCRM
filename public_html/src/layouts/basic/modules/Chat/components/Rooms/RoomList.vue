@@ -17,15 +17,15 @@
         />
         <q-btn
           v-show="showAllRoomsButton"
-          :icon="showAllRooms ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+          :icon="isRoomExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down'"
           dense
           flat
           round
           color="primary"
           class="q-mx-xs"
-          @click="showAllRooms = !showAllRooms"
+          @click.stop="toggleRoomExpanded(roomType)"
         >
-          <q-tooltip>{{ translate(showAllRooms ? 'JS_CHAT_HIDE_ROOMS' : 'JS_CHAT_SHOW_ROOMS') }}</q-tooltip>
+          <q-tooltip>{{ translate(isRoomExpanded ? 'JS_CHAT_HIDE_ROOMS' : 'JS_CHAT_SHOW_ROOMS') }}</q-tooltip>
         </q-btn>
       </q-item-section>
       {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
@@ -73,7 +73,7 @@
     </slot>
     <template v-for="(room, roomId) of roomData">
       <q-item
-        v-show="showAllRooms"
+        v-show="isRoomExpanded"
         class="q-pl-sm u-hover-container"
         clickable
         v-ripple
@@ -173,13 +173,17 @@ export default {
       'data',
       'isSoundNotification',
       'roomSoundNotificationsOff',
-      'layout'
+      'layout',
+      'roomsExpanded'
     ]),
     itemAvatarClass() {
       return [this.showAllRoomsButton ? 'flex-row items-center q-pr-none' : '']
     },
     showAllRoomsButton() {
       return this.roomData.length
+    },
+    isRoomExpanded() {
+      return this.roomsExpanded.includes(this.roomType)
     }
   },
   watch: {
@@ -188,7 +192,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchRoom', 'toggleRoomSoundNotification', 'mobileMode']),
+    ...mapActions([
+      'fetchRoom',
+      'toggleRoomSoundNotification',
+      'toggleRoomExpanded',
+      'mobileMode'
+    ]),
     ...mapMutations(['setLeftPanelMobile']),
     getGroupIcon,
     isSoundActive(roomType, id) {
