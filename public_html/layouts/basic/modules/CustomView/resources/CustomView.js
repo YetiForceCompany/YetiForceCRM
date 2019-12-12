@@ -79,20 +79,21 @@ class CustomView {
 	}
 
 	saveAndViewFilter() {
-		this.saveFilter().done(function(response) {
-			if (response.result.success) {
+		this.saveFilter().done(function(data) {
+			let response = data.result;
+			if (response && response.success) {
 				let url;
 				if (app.getParentModuleName() == 'Settings') {
 					url = 'index.php?module=CustomView&parent=Settings&view=Index&sourceModule=' + $('#sourceModule').val();
 				} else {
-					url = response.result.listviewurl;
+					url = response.listviewurl;
 				}
 				window.location.href = url;
 			} else {
 				$.unblockUI();
 				Vtiger_Helper_Js.showPnotify({
 					title: app.vtranslate('JS_DUPLICATE_RECORD'),
-					text: response.result.message
+					text: response.message
 				});
 			}
 		});
