@@ -22,17 +22,6 @@ $h-calendar-form-actions: calculate-rem(49px);
 	@extend .pt-2;
 }
 
-@media (min-width: map_get($grid-breakpoints, lg)) {
-	.container-fluid {
-		&[class$="calendarextended-container"],
-		&[class$="calendar-container"] {
-			.mainBody {
-				overflow: hidden;
-			}
-		}
-	}
-}
-
 .o-label-container {
 	@extend .mr-auto;
 	@extend .my-auto;

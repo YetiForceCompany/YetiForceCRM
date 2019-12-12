@@ -354,13 +354,6 @@ var App = (window.App = {
 			},
 			initPage() {
 				let scrollbarContainer = $('.mainBody');
-				if (
-					scrollbarContainer.closest('[class$=calendarextended-container], [class$=calendar-container]')
-						.length &&
-					$(window).width() > app.breakpoints.lg
-				) {
-					return;
-				}
 				if (!scrollbarContainer.length) {
 					scrollbarContainer = $('body');
 				}

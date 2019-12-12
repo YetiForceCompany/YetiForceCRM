@@ -293,7 +293,7 @@ window.Calendar_Js = class {
 	 * @returns {(number|string)}
 	 */
 	setCalendarHeight() {
-		let calendarH;
+		const defaultHeightValue = 'auto';
 		if ($(window).width() > 993) {
 			let calendarContainer = this.container.find('.js-calendar__container'),
 				calendarPadding;
@@ -313,15 +313,11 @@ window.Calendar_Js = class {
 					calendarPadding
 				);
 			};
-			calendarH = setCalendarH();
 			new ResizeSensor(this.container.find('.contentsDiv'), () => {
 				calendarContainer.fullCalendar('option', 'height', setCalendarH());
-				calendarContainer.height(calendarH + 10); // without this line calendar scroll stops working
 			});
-		} else if ($(window).width() < 993) {
-			calendarH = 'auto';
 		}
-		return calendarH;
+		return defaultHeightValue;
 	}
 
 	/**
@@ -647,13 +643,15 @@ window.Calendar_Js = class {
 						filterUsers.closest('.js-toggle-panel').removeClass('d-none');
 					}
 					if (filterGroups.length) {
-						AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getGroupsList`).done(groupsData => {
-							filterGroups.html(groupsData);
-							if (groupsData) {
-								filterGroups.closest('.js-toggle-panel').removeClass('d-none');
+						AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getGroupsList`).done(
+							groupsData => {
+								filterGroups.html(groupsData);
+								if (groupsData) {
+									filterGroups.closest('.js-toggle-panel').removeClass('d-none');
+								}
+								this.registerSelect2Event();
 							}
-							this.registerSelect2Event();
-						});
+						);
 					} else {
 						this.registerSelect2Event();
 					}
