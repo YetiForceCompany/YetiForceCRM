@@ -1948,7 +1948,10 @@ window.App.Fields = {
 				value = value.toFixed(numberOfDecimal);
 			}
 			let splittedFloat = value.toString().split('.');
-			let integer = App.Fields.Integer.formatToDisplay(splittedFloat[0]);
+			let integer = splittedFloat[0];
+			if(integer !== '-0' && integer !== '0'){
+				integer = App.Fields.Integer.formatToDisplay(integer);
+			}
 			let decimal = splittedFloat[1];
 			if (numberOfDecimal) {
 				if (!CONFIG.truncateTrailingZeros && decimal) {
