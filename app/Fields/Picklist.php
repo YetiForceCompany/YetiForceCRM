@@ -90,7 +90,7 @@ class Picklist
 	 */
 	public static function isPicklistExist(string $fieldName): bool
 	{
-		return null !== \App\Db::getInstance()->getSchema()->getTableSchema("vtiger_{$fieldName}", true);
+		return \App\Db::getInstance()->isTableExists("vtiger_{$fieldName}");
 	}
 
 	/**
