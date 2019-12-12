@@ -35,7 +35,7 @@
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 							{/if}>
 						{if !$IS_READ_ONLY}
-							<td class="{$WIDTHTYPE} noWrap leftRecordActions">
+							<td class="noWrap leftRecordActions listButtons">
 								{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
 							</td>
 						{/if}
@@ -84,7 +84,7 @@
 						{/if}
 						{if $IS_INVENTORY}
 							{$COUNT = $COUNT+1}
-							<td class="medium" nowrap>
+							<td nowrap>
 								<button type="button" class="btn btn-sm btn-info js-popover-tooltip showInventoryRow"
 										data-js="popover" data-placement="left"
 										data-content="{\App\Language::translate('LBL_SHOW_INVENTORY_ROW')}">
@@ -220,7 +220,7 @@
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 							{/if}>
 						{if !$IS_READ_ONLY}
-							<td class="{$WIDTHTYPE} noWrap leftRecordActions">
+							<td class="noWrap leftRecordActions listButtons">
 								{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
 							</td>
 						{/if}

@@ -270,7 +270,7 @@
 						{assign var="RECORD_COLORS" value=$RELATED_RECORD->getListViewColor()}
 						<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}'
 							data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'>
-							<td class="medium noWrap leftRecordActions {$WIDTHTYPE}"
+							<td class="noWrap leftRecordActions listButtons"
 								{if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
 								<div>
 									<input type="checkbox" value="{$RELATED_RECORD->getId()}"
