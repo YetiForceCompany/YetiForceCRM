@@ -89,17 +89,23 @@
 				</div>
 			{/if}
 		{/if}
-		<div class="js-backtrace-content" data-js="html"></div>
+	</div>
+	<div class="my-5 mx-auto card p-3 u-w-fit shadow">
+		<pre class="js-backtrace-content" data-js="html"></pre>
 	</div>
 	<script type="text/javascript" {if \App\Session::get('CSP_TOKEN')}nonce="{\App\Session::get('CSP_TOKEN')}"{/if}>
 		function errorLog() {
 			console.error(document.querySelector('.js-exception-error').textContent);
-			let html = '';
-			if(document.querySelector('.js-exception-backtrace')){
-				html += document.querySelector('.js-exception-backtrace').textContent;
+			var html = '';
+			var backtrace = document.querySelector('.js-exception-backtrace');
+			var logs = document.querySelector('.js-exception-logs');
+			if(backtrace){
+				html += backtrace.textContent;
+				backtrace.remove()
 			}
-			if(document.querySelector('.js-exception-logs')){
-				html += document.querySelector('.js-exception-logs').textContent;
+			if(logs){
+				html += logs.textContent;
+				logs.remove()
 			}
 			document.querySelector('.js-backtrace-content').textContent = html;
 		}
