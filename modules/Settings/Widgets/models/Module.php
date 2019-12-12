@@ -222,7 +222,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			$dbParams = $widgetInstance->dbParams;
 		}
 		$data = array_merge($dbParams, $data);
-		$label = $data['label'];
+		$label = $data['label'] ?? '';
 		unset($data['label']);
 		$type = $data['type'];
 		unset($data['type']);

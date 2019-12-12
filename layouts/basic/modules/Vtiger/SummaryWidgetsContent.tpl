@@ -13,7 +13,7 @@
 					{/if}
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						<th nowrap class="p-1">
-							{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
+							{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $HEADER_FIELD->getModuleName())}
 						</th>
 					{/foreach}
 					{if $SHOW_CREATOR_DETAIL}
