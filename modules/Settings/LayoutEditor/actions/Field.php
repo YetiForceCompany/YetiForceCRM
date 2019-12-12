@@ -20,6 +20,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('move');
 		$this->exposeMethod('unHide');
 		$this->exposeMethod('getPicklist');
+		$this->exposeMethod('checkPicklistExist');
 	}
 
 	public function add(App\Request $request)
@@ -158,6 +159,19 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
+		$response->emit();
+	}
+
+	/**
+	 * Check if picklist exist.
+	 *
+	 * @param App\Request $request
+	 *
+	 */
+	public function checkPicklistExist(App\Request $request)
+	{
+		$response = new Vtiger_Response();
+		$response->setResult(\App\Fields\Picklist::isPicklistExist($request->getByType('fieldName', 'Alnum')));
 		$response->emit();
 	}
 
