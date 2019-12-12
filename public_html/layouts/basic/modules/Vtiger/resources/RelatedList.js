@@ -170,23 +170,12 @@ jQuery.Class(
 		getOrderBy: function() {
 			return $('#orderBy', this.content).val();
 		},
-		getSortOrder: function() {
-			return $('#sortOrder', this.content).val();
-		},
-		getCompleteParams: function() {
+		getDefaultParams: function() {
 			let container = this.getRelatedContainer();
 			let params = {
-				view: 'Detail',
-				module: this.parentModuleName,
-				record: this.getParentId(),
-				relatedModule: this.moduleName,
-				sortorder: this.getSortOrder(),
-				orderby: this.getOrderBy(),
-				page: this.getCurrentPageNum(),
-				relatedView: this.relatedView,
-				mode: 'showRelatedList',
 				relationId: container.find('#relationId').val(),
-				tab_label: container.find('#tab_label').val()
+				orderby: this.getOrderBy(),
+				page: this.getCurrentPageNum()
 			};
 			if (container.find('.pagination').length) {
 				params['totalCount'] = container.find('.pagination').data('totalCount');
@@ -210,6 +199,19 @@ jQuery.Class(
 				}
 			}
 			return params;
+		},
+		getCompleteParams: function() {
+			let container = this.getRelatedContainer();
+			let params = {
+				view: 'Detail',
+				module: this.parentModuleName,
+				record: this.getParentId(),
+				relatedModule: this.moduleName,
+				relatedView: this.relatedView,
+				mode: 'showRelatedList',
+				tab_label: container.find('#tab_label').val()
+			};
+			return $.extend(this.getDefaultParams(), params);
 		},
 		loadRelatedList: function(params) {
 			var aDeferred = jQuery.Deferred();
