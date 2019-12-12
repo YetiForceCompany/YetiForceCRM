@@ -295,40 +295,32 @@ class Vtiger_Relation_Model extends \App\Base
 	/**
 	 * Get relation model instance by relation id.
 	 *
-	 * @param Vtiger_Module_Model $parentModuleModel
-	 * @param int                 $relationId
+	 * @param int $relationId
 	 *
 	 * @return self|bool
 	 */
-	public static function getInstanceById(Vtiger_Module_Model $parentModuleModel, int $relationId)
+	public static function getInstanceById(int $relationId)
 	{
-		if (isset(self::$cachedInstancesById[$relationId])) {
-			return self::$cachedInstancesById[$relationId];
-		}
-		$query = (new \App\Db\Query())->select(['vtiger_relatedlists.*', 'modulename' => 'vtiger_tab.name'])
-			->from('vtiger_relatedlists')
-			->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
-			->where(['<>', 'vtiger_tab.presence', 1]);
-		$query->andWhere(['vtiger_relatedlists.relation_id' => $relationId]);
-		if ($row = $query->one()) {
-			$relatedModuleName = \App\Module::getModuleName($row['related_tabid']);
-			$parentModuleName = $parentModuleModel->getName();
-			if ('ModComments' === $relatedModuleName) {
-				if ($parentModuleModel->isCommentEnabled()) {
-					$parentModuleName = 'ModComments';
-				} else {
-					return false;
+		if (!isset(self::$cachedInstancesById[$relationId])) {
+			$query = (new \App\Db\Query())->select(['vtiger_relatedlists.*', 'modulename' => 'vtiger_tab.name'])
+				->from('vtiger_relatedlists')
+				->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
+				->where(['<>', 'vtiger_tab.presence', 1]);
+			$query->andWhere(['vtiger_relatedlists.relation_id' => $relationId]);
+			$relationModel = false;
+			if ($row = $query->one()) {
+				$relatedModuleName = \App\Module::getModuleName($row['related_tabid']);
+				$parentModuleModel = Vtiger_Module_Model::getInstance($row['tabid']);
+				$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
+				$relationModel = new $relationModelClassName();
+				$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel(Vtiger_Module_Model::getInstance($relatedModuleName));
+				if (method_exists($relationModel, 'setExceptionData')) {
+					$relationModel->setExceptionData();
 				}
 			}
-			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleName);
-			$relationModel = new $relationModelClassName();
-			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel(Vtiger_Module_Model::getInstance($relatedModuleName));
-			if (method_exists($relationModel, 'setExceptionData')) {
-				$relationModel->setExceptionData();
-			}
-			return self::$cachedInstancesById[$relationId] = $relationModel;
+			self::$cachedInstancesById[$relationId] = $relationModel;
 		}
-		return false;
+		return self::$cachedInstancesById[$relationId];
 	}
 
 	/**

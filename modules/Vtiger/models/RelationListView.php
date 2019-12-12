@@ -136,7 +136,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$className = Vtiger_Loader::getComponentClassName('Model', 'RelationListView', $parentModuleModel->getName());
 		$instance = new $className();
 		if ($relationId) {
-			$relationModelInstance = Vtiger_Relation_Model::getInstanceById($parentModuleModel, $relationId);
+			$relationModelInstance = Vtiger_Relation_Model::getInstanceById($relationId);
 		} else {
 			$relationModelInstance = Vtiger_Relation_Model::getInstance($parentModuleModel, Vtiger_Module_Model::getInstance($relationModuleName), $relationId);
 		}
