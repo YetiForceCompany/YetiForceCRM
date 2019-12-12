@@ -89,6 +89,7 @@
 						{/if}>
 					{assign var=COUNT value=0}
 					{* create id for possword *}
+					{assign var="PASS_ID" value=''}
 					{if array_key_exists('password',$RELATED_HEADERS)}
 						{assign var=PASS_ID value=$RELATED_RECORD->get('id')}
 					{/if}
@@ -103,7 +104,7 @@
 						{assign var=COUNT value=$COUNT+1}
 						{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 					<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}"
-						nowrap {if $RELATED_HEADERNAME eq 'password'} id="{$PASS_ID}"{/if} {if $smarty.foreach.listHeaderForeach.iteration eq $RELATED_HEADER_COUNT}colspan="2"{/if}>
+						nowrap {if $RELATED_HEADERNAME eq 'password'} id="pass_{$PASS_ID}"{/if} {if $smarty.foreach.listHeaderForeach.iteration eq $RELATED_HEADER_COUNT}colspan="2"{/if}>
 						{if $RELATED_HEADERNAME eq 'password'}
 							{str_repeat('*', 10)}
 						{elseif ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}

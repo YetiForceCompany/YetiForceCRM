@@ -236,6 +236,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function setModule($moduleInstance)
 	{
 		$this->module = $moduleInstance;
+		return $this;
 	}
 
 	/**
@@ -796,7 +797,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isListviewSortable()
 	{
-		return $this->getUITypeModel()->isListviewSortable();
+		return !$this->get('fromOutsideList') && $this->getUITypeModel()->isListviewSortable();
 	}
 
 	/**

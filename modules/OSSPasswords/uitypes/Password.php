@@ -26,6 +26,14 @@ class OSSPasswords_Password_UIType extends Vtiger_Password_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
+	{
+		return $rawText ? parent::getListViewDisplayValue($value, $record, $recordModel, $rawText) : str_repeat('*', 10);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function validate($value, $isUserFormat = false)
 	{
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSPasswords');

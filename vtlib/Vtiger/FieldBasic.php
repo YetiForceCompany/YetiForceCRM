@@ -285,10 +285,15 @@ class FieldBasic
 	 */
 	public function getModuleName()
 	{
+		$moduleName = '';
 		if ($this->tabid) {
-			return \App\Module::getModuleName($this->tabid);
+			$moduleName = \App\Module::getModuleName($this->tabid);
+		} elseif (!empty($this->block) && \is_object($this->block)) {
+			$moduleName = $this->block->module->name;
+		} elseif ($this->module) {
+			$moduleName = $this->module->getName();
 		}
-		return (!empty($this->block) && \is_object($this->block)) ? $this->block->module->name : '';
+		return $moduleName;
 	}
 
 	/**
