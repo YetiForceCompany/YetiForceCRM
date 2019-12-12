@@ -37,7 +37,7 @@
 		<link rel="stylesheet" href="{\App\Layout::getPublicUrl('layouts/basic/styles/Main.css')}">
 		<link rel="stylesheet" href="{\App\Layout::getPublicUrl('libraries/@fortawesome/fontawesome-free/css/all.css')}">
 	</head>
-	<body class="h-auto bg-color-amber-50">
+	<body class="h-auto bg-color-amber-50 overflow-auto">
 	<div class="o-exception-fixed-block container u-white-space-n u-word-break">
 		<div class="card mx-auto mt-5 u-w-fit shadow" role="alert">
 			<div class="card-header d-flex color-red-a200 bg-color-red-50 justify-content-center flex-wrap">
