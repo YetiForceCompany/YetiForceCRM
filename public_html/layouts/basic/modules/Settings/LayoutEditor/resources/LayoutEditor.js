@@ -611,7 +611,7 @@ $.Class(
 						aDeferred.resolve(false);
 					});
 				} else {
-					aDeferred.resolve(false);
+					aDeferred.resolve(true);
 				}
 			});
 			return aDeferred.promise();
@@ -742,6 +742,9 @@ $.Class(
 			}
 			return true;
 		},
+		/**
+		 * Function to save field and show message
+		 */
 		saveCustomField: function(blockId, form){
 			let saveButton = form.find(':submit');
 			this.addCustomField(blockId, form).done(data => {
