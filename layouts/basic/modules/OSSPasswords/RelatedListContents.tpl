@@ -93,7 +93,7 @@
 					{if array_key_exists('password',$RELATED_HEADERS)}
 						{assign var=PASS_ID value=$RELATED_RECORD->get('id')}
 					{/if}
-					<td class="noWrap leftRecordActions listButtons"
+					<td class="noWrap leftRecordActions listButtons {$WIDTHTYPE}"
 						{if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
 						{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
 					</td>

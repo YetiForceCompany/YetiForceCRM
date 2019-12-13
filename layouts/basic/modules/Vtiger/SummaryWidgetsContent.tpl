@@ -35,7 +35,7 @@
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 							{/if}>
 						{if !$IS_READ_ONLY}
-							<td class="noWrap leftRecordActions listButtons">
+							<td class="noWrap leftRecordActions listButtons {$WIDTHTYPE}">
 								{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
 							</td>
 						{/if}
@@ -220,7 +220,7 @@
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 							{/if}>
 						{if !$IS_READ_ONLY}
-							<td class="noWrap leftRecordActions listButtons">
+							<td class="noWrap leftRecordActions listButtons {$WIDTHTYPE}">
 								{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
 							</td>
 						{/if}
