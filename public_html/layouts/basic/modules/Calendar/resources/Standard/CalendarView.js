@@ -31,11 +31,15 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 							progressInstance.progressIndicator({ mode: 'hide' });
 						};
 						app.showModalWindow({
-							url: `index.php?module=Calendar&view=ActivityStateModal&record=${link.searchParams.get('record')}`,
+							url: `index.php?module=${
+								this.module
+							}&view=ActivityStateModal&record=${link.searchParams.get('record')}`,
 							cb: callbackFunction
 						});
 					} else {
-						window.location.assign(`index.php?module=Calendar&view=Detail&record=${link.searchParams.get('record')}`);
+						window.location.assign(
+							`index.php?module=${this.module}&view=Detail&record=${link.searchParams.get('record')}`
+						);
 					}
 				}
 			};
@@ -154,7 +158,11 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 
 	isNewEventToDisplay(eventObject) {
 		if (super.isNewEventToDisplay(eventObject)) {
-			let taskstatus = $.inArray(eventObject.activitystatus.value, ['PLL_POSTPONED', 'PLL_CANCELLED', 'PLL_COMPLETED']);
+			let taskstatus = $.inArray(eventObject.activitystatus.value, [
+				'PLL_POSTPONED',
+				'PLL_CANCELLED',
+				'PLL_COMPLETED'
+			]);
 			var state = $('.fc-toolbar .js-switch--label-on')
 				.last()
 				.hasClass('active');
@@ -194,11 +202,10 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 
 	loadCalendarCreateView() {
 		var aDeferred = jQuery.Deferred();
-		var moduleName = app.getModuleName();
-		var url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
+		var url = `index.php?module=${this.module}&view=QuickCreateAjax`;
 		var headerInstance = Vtiger_Header_Js.getInstance();
 		headerInstance
-			.getQuickCreateForm(url, moduleName)
+			.getQuickCreateForm(url, this.module)
 			.done(function(data) {
 				aDeferred.resolve(jQuery(data));
 			})

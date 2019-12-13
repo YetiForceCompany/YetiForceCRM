@@ -156,7 +156,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('id');
 		$delta = $request->getArray('delta');
-		$start = DateTimeField::convertToDBTimeZone($request->get('start'));
+		$start = DateTimeField::convertToDBTimeZone($request->get('start'), \App\User::getCurrentUserModel(), false);
 		$date_start = $start->format('Y-m-d');
 		$time_start = $start->format('H:i:s');
 		try {

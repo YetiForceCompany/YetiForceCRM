@@ -18,6 +18,7 @@ window.Calendar_Js = class {
 		this.browserHistoryConfig = readonly ? {} : this.setBrowserHistoryOptions();
 		this.calendarOptions = this.setCalendarOptions();
 		this.eventTypeKeyName = false;
+		this.module = app.getModuleName();
 	}
 
 	/**
@@ -262,6 +263,8 @@ window.Calendar_Js = class {
 				if (!response['result']) {
 					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 					revertFunc();
+				} else {
+					window.popoverCache = {};
 				}
 				progressInstance.progressIndicator({ mode: 'hide' });
 			})
