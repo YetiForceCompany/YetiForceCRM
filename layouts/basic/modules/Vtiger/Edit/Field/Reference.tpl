@@ -39,7 +39,7 @@
 		{/if}
 		{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_LIST[0])}
 		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$VALUE}" title="{$FIELD_VALUE}" class="sourceField" data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{$FIELD_VALUE}" data-fieldinfo='{$FIELD_INFO}' {if $IS_EDITABLE_READ_ONLY}readonly="readonly"{/if} />
-		<div class="input-group referenceGroup">
+		<div class="input-group referenceGroup {$WIDTHTYPE_GROUP}">
 			{if $REFERENCE_LIST_COUNT > 1}
 				<div class="input-group-prepend referenceModulesListGroup">
 					<select class="select2 referenceModulesList" tabindex="{$TABINDEX}" title="{\App\Language::translate('LBL_RELATED_MODULE_TYPE')}" required="required" {if $IS_EDITABLE_READ_ONLY}disabled{/if}>

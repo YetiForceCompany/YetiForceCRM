@@ -103,7 +103,14 @@
 											</label>
 										</div>
 									{/if}
-									<div class="fieldValue {$WIDTHTYPE}{if $WIDTHTYPE eq 'narrow'} input-group-sm{elseif $WIDTHTYPE eq 'wide'} input-group-lg{/if} {if $FIELD_MODEL->getUIType() eq '300'} col-md-12 {assign var=COUNTER value=$COUNTER+1} {else} col-lg-12 col-xl-9  {/if}">
+									{if $WIDTHTYPE eq 'narrow'}
+										{assign var=WIDTHTYPE_GROUP value=input-group-sm}
+									{elseif $WIDTHTYPE eq 'wide'} 
+										{assign var=WIDTHTYPE_GROUP value=input-group-lg}
+									{else}
+										{assign var=WIDTHTYPE_GROUP value=''}
+									{/if}
+									<div class="fieldValue {$WIDTHTYPE} {$WIDTHTYPE_GROUP}{if $FIELD_MODEL->getUIType() eq '300'} col-md-12 {assign var=COUNTER value=$COUNTER+1} {else} col-lg-12 col-xl-9{/if}">
 										<div class="form-row">
 											<div class="col-md-12">
 												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}

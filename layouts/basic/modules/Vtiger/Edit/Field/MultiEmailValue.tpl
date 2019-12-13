@@ -11,7 +11,7 @@
 		<label for="staticEmail2" class="sr-only" for="email-value">
 			{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}
 		</label>
-		<div class="input-group">
+		<div class="input-group {$WIDTHTYPE_GROUP}">
 			<div class="input-group-prepend">
 				<button type="button" class="btn btn-outline-danger border js-remove-item" tabindex="{$TABINDEX}" data-js="click">
 					<span class="fas fa-times" title="{\App\Language::translate('LBL_REMOVE', $MODULE)}"></span>
