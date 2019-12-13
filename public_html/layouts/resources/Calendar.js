@@ -8,14 +8,15 @@ window.Calendar_Js = class {
 	 * @param {jQuery} container
 	 * @param {bool} readonly
 	 */
-	constructor(container = $('.js-base-container'), readonly = false) {
+	constructor(container = $('.js-base-container'), readonly = false, browserHistory = true) {
 		this.calendarView = false;
 		this.calendarCreateView = false;
 		this.container = container;
 		this.readonly = readonly;
 		this.eventCreate = app.getMainParams('eventCreate');
 		this.eventEdit = app.getMainParams('eventEdit');
-		this.browserHistoryConfig = readonly ? {} : this.setBrowserHistoryOptions();
+		this.browserHistory = !readonly && browserHistory
+		this.browserHistoryConfig = this.browserHistory ? {} : this.setBrowserHistoryOptions();
 		this.calendarOptions = this.setCalendarOptions();
 		this.eventTypeKeyName = false;
 		this.module = app.getModuleName();

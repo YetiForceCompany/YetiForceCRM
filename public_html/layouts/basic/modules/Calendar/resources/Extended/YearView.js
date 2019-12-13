@@ -111,7 +111,7 @@ FC.views.year = View.extend({
 			}`
 		};
 		let connectorMethod = window['AppConnector']['request'];
-		if (!this.readonly && window.calendarLoaded) {
+		if (this.browserHistory && window.calendarLoaded) {
 			connectorMethod = window['AppConnector']['requestPjax'];
 		}
 		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && window.calendarLoaded) {
@@ -139,6 +139,7 @@ FC.views.year = View.extend({
 							self.selectDays(start, end);
 						},
 						hiddenDays: calendar.view.options.hiddenDays,
+						showNonCurrentDates: false,
 						defaultDate: moment(calendar.getDate().year() + '-' + (i + 1), 'YYYY-MM-DD'),
 						eventRender: function(event, element) {
 							if (event.rendering === 'background') {
@@ -152,7 +153,7 @@ FC.views.year = View.extend({
 								event.countShow = event.count;
 							}
 							element = `<div class="js-show-day cell-calendar u-cursor-pointer d-flex" data-date="${event.date}" data-js="click">
-							<a class="fc-year__show-day-btn mx-auto" href="#" data-date="${event.date}" title="${event.count}">
+							<a class="u-z-index-100 fc-year__show-day-btn mx-auto" href="#" data-date="${event.date}" title="${event.count}">
 								  <span class="fc-year__show-day-btn__container">
 									<span class="fas fa-calendar fa-lg"></span>
 									<span class="fc-year__show-day-btn__text fa-inverse u-font-weight-700">${event.countShow}</span>

@@ -544,7 +544,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			)}&user=${user}&time=${app.getMainParams('showType')}&cvid=${cvid}&hiddenDays=${view.options.hiddenDays}`
 		};
 		let connectorMethod = window['AppConnector']['request'];
-		if (!this.readonly && window.calendarLoaded) {
+		if (this.browserHistory && window.calendarLoaded) {
 			connectorMethod = window['AppConnector']['requestPjax'];
 		}
 		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && !window.calendarLoaded) {
