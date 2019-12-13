@@ -1503,6 +1503,15 @@ class Vtiger_Record_Model extends \App\Base
 					'linkclass' => 'btn-sm btn-dark relationDelete entityStateBtn'
 				]);
 			}
+			if (!empty($relationModel->getTypeRelationModel()->customFields) && ($relationModel->getTypeRelationModel()->getFields()) && ($parentRecord = $relationModel->get('parentRecord')) && $parentRecord->isEditable() && $this->isEditable()) {
+				$links['BUTTONS'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_CHANGE_RELATION_DATA',
+					'dataUrl' => "index.php?module={$relationModel->getParentModuleModel()->getName()}&view=ChangeRelationData&record={$this->getId()}&fromRecord={$parentRecord->getId()}&relationId={$relationModel->getId()}",
+					'linkicon' => 'mdi mdi-briefcase-edit-outline',
+					'linkclass' => 'btn-sm btn-warning js-show-modal'
+				]);
+			}
 		}
 		return $links;
 	}

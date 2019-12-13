@@ -1386,7 +1386,8 @@
     "LBL_USER_CURRENTLY_NOT_LOGGED": "user currently not logged",
     "LBL_CREATEDMAIL": "Create email message",
     "LBL_LINKBYFIELDS": "Creating links to email message",
-    "LBL_SORTING_SETTINGS": "Sorting settings"
+    "LBL_SORTING_SETTINGS": "Sorting settings",
+    "LBL_CHANGE_RELATION_DATA": "Change addidtional data"
   },
   "js": {
     "JS_APPROVE": "Approve",
