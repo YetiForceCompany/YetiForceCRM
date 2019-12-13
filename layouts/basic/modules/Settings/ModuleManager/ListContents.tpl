@@ -110,48 +110,51 @@
 			<table class="table table-bordered table-sm">
 				<tr>
 					{foreach item=MODULE_MODEL key=MODULE_ID from=$ALL_MODULES}
-					{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
+					{assign var=ITEM_NAME value=$MODULE_MODEL->get('name')}
 					{assign var=MODULE_ACTIVE value=$MODULE_MODEL->isActive()}
 				</tr>
-				<tr class=" col-sm-12 col-lg-6 col-xl-4 float-left p-0">
-					<td class="d-flex justify-content-center">
-						<div class="form-row px-3 w-100 align-items-center justify-content-center">
-							<div class="col-1 col-md-1 text-center float-left p-1">
-								<input type="checkbox" value="" name="moduleStatus" data-module="{$MODULE_NAME}" data-module-translation="{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
-							</div>
-							<div class="col-2 col-sm-2 col-md-2 text-center text-md-left p-1 {if !$MODULE_ACTIVE}dull {/if}">
-								<span class="fa-2x userIcon-{$MODULE_NAME}"></span>
-							</div>
-							<div class="col-9 col-sm-6 col-md-4 text-center text-md-left p-1 {if !$MODULE_ACTIVE}dull {/if}">
-								<h5 class="m-0 u-text-ellipsis text-left">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h5>
-							</div>
-							<div class="col-12 col-sm-2 col-md-5 p-1 form-row align-items-md-center justify-content-end">
-								{if !empty($ICONS[$MODULE_MODEL->get('premium')])}
-									<span class="{$ICONS[$MODULE_MODEL->get('premium')]}"></span>
-								{/if}
-								{if $MODULE_MODEL->isExportable()}
-									<form class="c-btn-block-sm-down" method="POST" action="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}">
-										<button type="submit" class="btn btn-primary btn-sm float-right ml-0 ml-md-2 c-btn-block-sm-down mb-1 mb-md-0"><i class="far fa-arrow-alt-circle-down"></i></button>
-									</form>
-								{/if}
-								{if $MODULE_MODEL->get('customized')}
-									<button type="button" class="deleteModule btn btn-danger btn-sm float-right ml-0 ml-md-2 c-btn-block-sm-down mb-1 mb-md-0" name="{$MODULE_NAME}"><span class="fas fa-trash-alt"></span> </button>
-								{/if}
-								{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
-								{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
-									<div class="btn-group-sm d-flex justify-content-end ml-0 ml-md-2 c-btn-block-sm-down u-remove-dropdown-icon {if !$MODULE_ACTIVE}d-none{/if}" role="group">
-										<button class="btn dropdown-toggle btn-outline-secondary c-btn-block-sm-down" data-toggle="dropdown">
-											<strong><span class="fas fa-cog"></span></strong>
-										</button>
-										<div class="dropdown-menu float-right">
-											{foreach item=SETTINGS_LINK from=$SETTINGS_LINKS}
-												<a class="dropdown-item" href="{$SETTINGS_LINK['linkurl']}"><span class="  {$SETTINGS_LINK['linkicon']} mr-2"></span>{\App\Language::translate($SETTINGS_LINK['linklabel'], $MODULE_NAME)}
-												</a>
-											{/foreach}
-										</div>
+				<tr class="c-module-table-row col-sm-12 col-lg-6 col-xl-4 float-left p-0">
+					<td class="d-flex w-100 align-items-center flex-nowrap">
+						<div class="mx-md-2 u-h-fit">
+							<input type="checkbox" value="" name="moduleStatus" data-module="{$ITEM_NAME}" data-module-translation="{\App\Language::translate($ITEM_NAME, $ITEM_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
+						</div>
+						<div class="text-center text-md-left p-1 {if !$MODULE_ACTIVE}dull {/if}">
+							<span class="fa-2x userIcon-{$ITEM_NAME}"></span>
+						</div>
+						<div class="text-center u-ellipsis-in-flex text-md-left p-1 {if !$MODULE_ACTIVE}dull {/if}">
+							<h5 class="m-0 u-text-ellipsis--no-hover text-left" title="{\App\Language::translate($ITEM_NAME, $ITEM_NAME)}">{\App\Language::translate($ITEM_NAME, $ITEM_NAME)} {\App\Language::translate($ITEM_NAME, $ITEM_NAME)} {\App\Language::translate($ITEM_NAME, $ITEM_NAME)}</h5>
+						</div>
+						<div class="d-flex flex-row align-items-center ml-auto mr-md-1">
+							{if !empty($ICONS[$MODULE_MODEL->get('premium')])}
+								<span class="{$ICONS[$MODULE_MODEL->get('premium')]} js-popover-tooltip" data-content="{\App\Language::translate('LBL_PREMIUM_MODULE', $QUALIFIED_MODULE)}"></span>
+							{/if}
+							{if $MODULE_MODEL->isExportable()}
+								<form class="" method="POST" action="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$ITEM_NAME}">
+									<button type="submit" class="btn btn-primary btn-sm ml-0 ml-md-2 js-popover-tooltip" data-content="{\App\Language::translate('LBL_EXPORT_MODULE', $QUALIFIED_MODULE)}">
+										<i class="far fa-arrow-alt-circle-down"></i>
+									</button>
+								</form>
+							{/if}
+							{if $MODULE_MODEL->get('customized')}
+								<button type="button" class="deleteModule btn btn-danger btn-sm ml-1 ml-md-2 js-popover-tooltip" name="{$ITEM_NAME}" data-content="{\App\Language::translate('LBL_DELETE_MODULE', $QUALIFIED_MODULE)}">
+									<span class="fas fa-trash-alt"></span>
+								</button>
+							{/if}
+							{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
+							{if !in_array($ITEM_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
+								<div class="btn-group-sm d-flex justify-content-end ml-1 ml-md-2 u-remove-dropdown-icon {if !$MODULE_ACTIVE}d-none{/if}" role="group">
+									<button class="btn dropdown-toggle btn-outline-secondary js-popover-tooltip" data-toggle="dropdown" data-content="{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}">
+										<strong><span class="fas fa-cog"></span></strong>
+									</button>
+									<div class="dropdown-menu">
+										{foreach item=SETTINGS_LINK from=$SETTINGS_LINKS}
+											<a class="dropdown-item" href="{$SETTINGS_LINK['linkurl']}">
+											    <span class="{$SETTINGS_LINK['linkicon']} mr-2"></span>{\App\Language::translate($SETTINGS_LINK['linklabel'], $ITEM_NAME)}
+											</a>
+										{/foreach}
 									</div>
-								{/if}
-							</div>
+								</div>
+							{/if}
 						</td>
 					{/foreach}
 				</tr>
