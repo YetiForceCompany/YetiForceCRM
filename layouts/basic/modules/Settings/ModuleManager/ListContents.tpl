@@ -37,7 +37,7 @@
 		</div>
 		<div class="contents">
 			<div class="js-scrollbar position-relative" data-js="container">
-				<table class="table table-bordered table-sm position-relative">
+				<table class="table table-bordered table-with-flex table-sm position-relative">
 					<thead>
 					<tr class="blockHeader">
 						<th>
@@ -107,7 +107,7 @@
 				</table>
 			</div>
 			<br/>
-			<table class="table table-bordered table-sm">
+			<table class="table table-bordered table-with-flex table-sm">
 				<tr>
 					{foreach item=MODULE_MODEL key=MODULE_ID from=$ALL_MODULES}
 					{assign var=ITEM_NAME value=$MODULE_MODEL->get('name')}
@@ -122,7 +122,7 @@
 							<span class="fa-2x userIcon-{$ITEM_NAME}"></span>
 						</div>
 						<div class="text-center u-ellipsis-in-flex text-md-left p-1 {if !$MODULE_ACTIVE}dull {/if}">
-							<h5 class="m-0 u-text-ellipsis--no-hover text-left" title="{\App\Language::translate($ITEM_NAME, $ITEM_NAME)}">{\App\Language::translate($ITEM_NAME, $ITEM_NAME)} {\App\Language::translate($ITEM_NAME, $ITEM_NAME)} {\App\Language::translate($ITEM_NAME, $ITEM_NAME)}</h5>
+							<h5 class="m-0 u-text-ellipsis--no-hover text-left u-font-weight-450" title="{\App\Language::translate($ITEM_NAME, $ITEM_NAME)}">{\App\Language::translate($ITEM_NAME, $ITEM_NAME)} {\App\Language::translate($ITEM_NAME, $ITEM_NAME)} {\App\Language::translate($ITEM_NAME, $ITEM_NAME)}</h5>
 						</div>
 						<div class="d-flex flex-row align-items-center ml-auto mr-md-1">
 							{if !empty($ICONS[$MODULE_MODEL->get('premium')])}

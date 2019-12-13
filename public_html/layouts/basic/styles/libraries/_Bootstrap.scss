@@ -158,3 +158,12 @@ label.btn[class*="btn-outline-"] {
 		}
 	}
 }
+
+.table-with-flex {
+	border-right: none;
+	td {
+		border-left: none;
+		border-bottom: none;
+		border-right: $table-border-width solid $table-border-color;
+	}
+}
