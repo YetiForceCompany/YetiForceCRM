@@ -96,12 +96,12 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 	 * function to Save the Custom Rule
 	 */
 	saveCustomRule: function (form, e) {
-		var thisInstance = this;
-		var data = form.serializeFormData();
+		const thisInstance = this;
+		let data = form.serializeFormData();
 		if (typeof data === "undefined") {
 			data = {};
 		}
-		var progressIndicatorElement = jQuery.progressIndicator({
+		let progressIndicatorElement = jQuery.progressIndicator({
 			position: 'html',
 			blockInfo: {
 				enabled: true
@@ -113,10 +113,21 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 		data.mode = 'saveRule';
 		AppConnector.request(data).done(function (data) {
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
-			app.hideModalWindow();
-			thisInstance.displaySaveCustomRuleResponse(data);
-			var moduleName = jQuery('[name="for_module"]', form).val();
-			thisInstance.loadCustomRulesList(moduleName);
+			let response = data.result;
+			if (response && response.success) {
+				app.hideModalWindow();
+				let moduleName = $('[name="for_module"]', form).val();
+				thisInstance.loadCustomRulesList(moduleName);
+				Vtiger_Helper_Js.showPnotify({
+					type: 'success',
+					text: response.message
+				});
+			} else {
+				Vtiger_Helper_Js.showPnotify({
+					type: 'error',
+					text: response.message
+				});
+			}
 		});
 	},
 
@@ -131,37 +142,6 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 			var customRuleListContainer = jQuery('.' + thisInstance.getCustomRuleContainerClassName(moduleName), contentTable);
 			customRuleListContainer.find('td.js-custom-rule-container').html(data);
 		});
-	},
-
-	/*
-	 * Function to display the SaveCustomRule response message
-	 */
-	displaySaveCustomRuleResponse: function (data) {
-		var thisInstance = this;
-		var success = data['success'];
-		var params = {};
-		if (success) {
-			params = {
-				text: app.vtranslate('JS_CUSTOM_RULE_SAVED_SUCCESSFULLY'),
-				type: 'success'
-			};
-		} else {
-			params = {
-				text: app.vtranslate('JS_CUSTOM_RULE_SAVING_FAILED'),
-				type: 'error'
-			};
-		}
-		thisInstance.showNotify(params);
-	},
-
-	//This will show the notification message of SaveCustomRule using pnotify
-	showNotify: function (customParams) {
-		var params = {
-			text: customParams.text,
-			type: customParams.type,
-			delay: '3000'
-		};
-		Vtiger_Helper_Js.showPnotify(params);
 	},
 
 	editCustomRule: function (url) {
@@ -256,26 +236,25 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 	},
 
 	registerEvents: function () {
-		var thisInstance = this;
-		var contentTable = this.getContentTable();
-		var contentContainer = this.getContentContainer();
+		const thisInstance = this;
+		let contentTable = thisInstance.getContentTable(),
+			contentContainer = thisInstance.getContentContainer();
 		thisInstance.registerSharingAccessEdit();
 		thisInstance.registerDependentModulesPrivilegesChange();
-
 		contentTable.on('click', 'td.triggerCustomSharingAccess', function (e) {
-			var element = jQuery(e.currentTarget);
-			var trElement = element.closest('tr');
-			var moduleName = trElement.data('moduleName');
-			var customRuleListContainer = jQuery('.' + thisInstance.getCustomRuleContainerClassName(moduleName), contentTable);
+			let element = $(e.currentTarget),
+				trElement = element.closest('tr'),
+				moduleName = trElement.data('moduleName'),
+				customRuleListContainer = $('.' + thisInstance.getCustomRuleContainerClassName(moduleName), contentTable);
 			if (customRuleListContainer.length > 0) {
 				if (app.isHidden(customRuleListContainer)) {
 					customRuleListContainer.show();
-					jQuery('.ruleListContainer', customRuleListContainer).slideDown('slow');
+					$('.ruleListContainer', customRuleListContainer).slideDown('slow');
 					trElement.addClass('collapseRow');
 					element.find('button.arrowDown').addClass('d-none');
 					element.find('button.arrowUp').removeClass('d-none').show();
 				} else {
-					jQuery('.ruleListContainer', customRuleListContainer).slideUp('slow', function (e) {
+					$('.ruleListContainer', customRuleListContainer).slideUp('slow', function (e) {
 						customRuleListContainer.css('display', 'none');
 					});
 					element.find('button.arrowUp').addClass('d-none');
@@ -284,14 +263,12 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 				}
 				return;
 			}
-
-			var progressIndicatorElement = jQuery.progressIndicator({
+			let progressIndicatorElement = $.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
-
 			thisInstance.getCustomRules(moduleName).done(function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				thisInstance.showCustomRulesNextToElement(trElement, data);
@@ -300,36 +277,35 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 			});
 		});
 		contentTable.on('click', '.js-add-custom-rule', function (e) {
-			var button = jQuery(e.currentTarget);
+			let button = $(e.currentTarget);
 			thisInstance.editCustomRule(button.data('url'));
 		});
 		contentTable.on('click', '.js-edit', function (e) {
-			var editElement = jQuery(e.currentTarget);
-			var editUrl = editElement.data('url');
+			let editElement = $(e.currentTarget),
+				editUrl = editElement.data('url');
 			thisInstance.editCustomRule(editUrl);
 		});
 		contentTable.on('click', '.js-delete', function (e) {
-			var deleteElement = jQuery(e.currentTarget);
+			let deleteElement = $(e.currentTarget);
 			thisInstance.deleteCustomRule(deleteElement);
 		});
 		contentContainer.on('submit', '#js-edit-sharing-access', function (e) {
 			e.preventDefault();
-			var form = jQuery(e.currentTarget);
-			var data = form.serializeFormData();
+			let form = $(e.currentTarget),
+				data = form.serializeFormData();
 			thisInstance.save(data).done(function (data) {
 				contentContainer.find('button:submit').addClass('d-none');
 				thisInstance.registerSharingAccessEdit();
-				var params = {
+				Vtiger_Helper_Js.showPnotify({
 					text: app.vtranslate('JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY'),
 					type: 'success'
-				};
-				thisInstance.showNotify(params);
+				});
 			});
 		});
 	}
 });
 
-jQuery(document).ready(function () {
-	var settingSharingAcessInstance = new Settings_Sharing_Access_Js();
+$(document).ready(function () {
+	let settingSharingAcessInstance = new Settings_Sharing_Access_Js();
 	settingSharingAcessInstance.registerEvents();
 });
