@@ -139,6 +139,7 @@ FC.views.year = View.extend({
 							self.selectDays(start, end);
 						},
 						hiddenDays: calendar.view.options.hiddenDays,
+						showNonCurrentDates: false,
 						defaultDate: moment(calendar.getDate().year() + '-' + (i + 1), 'YYYY-MM-DD'),
 						eventRender: function(event, element) {
 							if (event.rendering === 'background') {
