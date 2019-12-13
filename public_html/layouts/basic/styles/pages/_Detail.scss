@@ -41,24 +41,6 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		}
 	}
 
-	.fieldLabel.medium,
-	.fieldValue.medium {
-		padding: calculate-rem(10px);
-		min-height: calculate-rem(40px);
-	}
-
-	.fieldLabel.narrow,
-	.fieldValue.narrow {
-		padding: calculate-rem(5px);
-		min-height: calculate-rem(25px);
-	}
-
-	.fieldLabel.wide,
-	.fieldValue.wide {
-		padding: calculate-rem(15px);
-		min-height: calculate-rem(50px);
-	}
-
 	.fieldsLabelValue:last-child::after {
 		content: "";
 		float: left;
