@@ -61,7 +61,10 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 				$response->setError($e->getCode(), $e->getMessage());
 			}
 		} else {
-			$response->setError('502', \App\Language::translate('LBL_DUPLICATES_EXIST', $request->getModule(false)));
+			$response->setResult([
+				'success' => false,
+				'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))
+			]);
 		}
 		$response->emit();
 	}

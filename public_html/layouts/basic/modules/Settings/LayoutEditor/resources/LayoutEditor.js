@@ -754,7 +754,7 @@ $.Class(
 			blocksListSelect.find('option').each(function(index, ele) {
 				var option = $(ele);
 				var label = option.data('label');
-				thisInstance.blockNamesList.push(label);
+				thisInstance.blockNamesList.push(label.toLowerCase());
 			});
 		},
 		/**
@@ -907,46 +907,36 @@ $.Class(
 		 * Function to register click event for add custom block button
 		 */
 		registerAddCustomBlockEvent: function() {
-			var thisInstance = this;
-			var contents = $('#layoutEditorContainer').find('.contents');
+			const thisInstance = this;
+			let contents = $('#layoutEditorContainer').find('.contents');
 			contents.find('.addCustomBlock').on('click', function(e) {
-				var addBlockContainer = contents.find('.addBlockModal').clone(true, true);
-
-				var callBackFunction = function(data) {
+				let addBlockContainer = contents.find('.addBlockModal').clone(true, true),
+					callBackFunction = function(data) {
 					data.find('.addBlockModal')
 						.removeClass('d-none')
 						.show();
-					//register all select2 Elements
 					App.Fields.Picklist.showSelect2ElementView(data.find('select'));
-
-					var form = data.find('.addCustomBlockForm');
+					let form = data.find('.addCustomBlockForm');
 					thisInstance.setBlocksListArray(form);
-					var fieldLabel = form.find('[name="label"]');
-					var params = Object.create(app.validationEngineOptions);
+					let fieldLabel = form.find('[name="label"]'),
+						params = Object.create(app.validationEngineOptions);
 					params.onValidationComplete = function(form, valid) {
 						if (valid) {
-							var formData = form.serializeFormData();
-							if ($.inArray(formData['label'], thisInstance.blockNamesList) == -1) {
+							let formData = form.serializeFormData();
+							if ($.inArray(formData['label'].toLowerCase(), thisInstance.blockNamesList) == -1) {
 								thisInstance.saveBlockDetails(form).done(function(data) {
-									var params = {};
 									if (data['success']) {
-										var result = data['result'];
+										let result = data['result'];
 										thisInstance.displayNewCustomBlock(result);
 										thisInstance.updateNewSequenceForBlocks(result['sequenceList']);
 										thisInstance.appendNewBlockToBlocksList(result, form);
 										thisInstance.makeFieldsListSortable();
-
-										params['text'] = app.vtranslate('JS_CUSTOM_BLOCK_ADDED');
-									} else {
-										params['text'] = data['error']['message'];
-										params['type'] = 'error';
 									}
-									Settings_Vtiger_Index_Js.showMessage(params);
 								});
 								app.hideModalWindow();
 								return valid;
 							} else {
-								var result = app.vtranslate('JS_BLOCK_NAME_EXISTS');
+								let result = app.vtranslate('JS_BLOCK_NAME_EXISTS');
 								fieldLabel.validationEngine('showPrompt', result, 'error', 'topLeft', true);
 								e.preventDefault();
 								return;
@@ -954,7 +944,6 @@ $.Class(
 						}
 					};
 					form.validationEngine(params);
-
 					form.on('submit', function(e) {
 						e.preventDefault();
 					});
@@ -988,11 +977,22 @@ $.Class(
 
 			AppConnector.request(params)
 				.done(function(data) {
+					let response = data.result;
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					aDeferred.resolve(data);
+					if (response && response.success) {
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate('JS_CUSTOM_BLOCK_ADDED')
+						});
+						aDeferred.resolve(data);
+					} else {
+						Vtiger_Helper_Js.showPnotify({
+							type: 'error',
+							text: response.message
+						});
+						aDeferred.reject(false);
+					}
 				})
 				.fail(function(error) {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					aDeferred.reject(error);
 				});
 			return aDeferred.promise();
@@ -1290,32 +1290,33 @@ $.Class(
 		 * Function to register the click event for delete custom field
 		 */
 		registerDeleteCustomFieldEvent: function(contents) {
-			var thisInstance = this;
+			const thisInstance = this;
 			if (typeof contents === 'undefined') {
 				contents = $('#layoutEditorContainer').find('.contents');
 			}
 			contents.find('.deleteCustomField').on('click', function(e) {
-				var currentTarget = $(e.currentTarget);
-				var fieldId = currentTarget.data('fieldId');
-				var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
+				let currentTarget = $(e.currentTarget),
+					fieldId = currentTarget.data('fieldId'),
+					message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
 				Vtiger_Helper_Js.showConfirmationBox({ message: message })
 					.done(function(e) {
 						thisInstance
 							.deleteCustomField(fieldId)
 							.done(function(data) {
-								var field = currentTarget.closest('div.editFields');
-								var blockId = field.data('blockId');
-								field
-									.parent()
-									.fadeOut('slow')
-									.remove();
-								var block = $('#block_' + blockId);
-								thisInstance.reArrangeBlockFields(block);
-								var params = {};
-								params['text'] = app.vtranslate('JS_CUSTOM_FIELD_DELETED');
-								Settings_Vtiger_Index_Js.showMessage(params);
+								let response = data.result;
+								if (response && response.success) {
+									let field = currentTarget.closest('div.editFields'),
+										blockId = field.data('blockId');
+									field
+										.parent()
+										.fadeOut('slow')
+										.remove();
+									thisInstance.reArrangeBlockFields($('#block_' + blockId));
+									Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_CUSTOM_FIELD_DELETED')});
+								} else {
+									Settings_Vtiger_Index_Js.showMessage({type: 'error', text: response.message});
+								}
 							})
-							.fail(function(error, err) {});
 					})
 					.fail(function(error, err) {});
 			});
