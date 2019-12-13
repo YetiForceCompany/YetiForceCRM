@@ -174,7 +174,8 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
 		Vtiger_Helper_Js.showConfirmationBox({'message': message}).done(function (data) {
 			AppConnector.request(deleteUrl).done(function (data) {
-				if (data.success == true) {
+				let response = data.result;
+				if (response && response.success) {
 					currentRow.fadeOut('slow');
 					var customRuleTable = currentRow.closest('.js-custom-rule-table');
 					//after delete the custom rule, update the sequence number of existing rules
@@ -195,7 +196,7 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 						customRuleTable.addClass('d-none');
 					}
 				} else {
-					Vtiger_Helper_Js.showPnotify(data.error.message);
+					Vtiger_Helper_Js.showPnotify(response.message);
 				}
 			});
 		});
