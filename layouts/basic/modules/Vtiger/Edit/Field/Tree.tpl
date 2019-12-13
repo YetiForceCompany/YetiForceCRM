@@ -12,7 +12,7 @@
 			   data-multiple="{if $FIELD_MODEL->getUIType() == 309 }1{else}0{/if}"
 			   data-treetemplate="{$FIELD_MODEL->getFieldParams()}" data-modulename="{$FIELD_MODEL->getModuleName()}">
 		{assign var="displayId" value=$FIELD_MODEL->get('fieldvalue')}
-		<div class="input-group">
+		<div class="input-group {$WIDTHTYPE_GROUP}">
 			{if $FIELD_MODEL->get('displaytype') != 10}
 				<span class="input-group-prepend clearTreeSelection u-cursor-pointer">
 				<span class="input-group-text">

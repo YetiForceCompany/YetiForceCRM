@@ -60,6 +60,13 @@
 					<div class="quickCreateContent">
 						<div class="modal-body m-0">
 							<div class="massEditTable border-0 px-1 mx-auto m-0">
+								{if $WIDTHTYPE eq 'narrow'}
+									{assign var=WIDTHTYPE_GROUP value='input-group-sm'}
+								{elseif $WIDTHTYPE eq 'wide'}
+									{assign var=WIDTHTYPE_GROUP value='input-group-lg'}
+								{else}
+									{assign var=WIDTHTYPE_GROUP value=''}
+								{/if}
 								<div class="px-0 m-0 form-row d-flex justify-content-center">
 									{assign var=COUNTER value=0}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
@@ -90,7 +97,7 @@
 												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 											</label>
 										</div>
-										<div class="fieldValue col-lg-12 col-xl-9 px-0 px-sm-1">
+										<div class="fieldValue col-lg-12 col-xl-9 px-0 px-sm-1 {$WIDTHTYPE} {$WIDTHTYPE_GROUP}">
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) RECORD=null}
 										</div>
 									</div>

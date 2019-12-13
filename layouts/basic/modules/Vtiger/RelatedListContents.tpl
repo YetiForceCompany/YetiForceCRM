@@ -118,7 +118,7 @@
 						data-recordUrl="{$RELATED_RECORD->getDetailViewUrl()}"
 					{/if}>
 					{assign var=COUNT value=0}
-					<td class="{$WIDTHTYPE} noWrap leftRecordActions"
+					<td class="noWrap leftRecordActions listButtons {$WIDTHTYPE}"
 						{if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
 						{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
 							<div>
@@ -174,7 +174,7 @@
 					{/if}
 					{if $IS_INVENTORY}
 						{$COUNT = $COUNT+1}
-						<td class="medium" nowrap>
+						<td class="rightRecordActions listButtons {$WIDTHTYPE}" nowrap>
 							<button type="button"
 									class="btn btn-sm btn-info float-right js-popover-tooltip showInventoryRow"
 									data-js="popover" data-placement="left"

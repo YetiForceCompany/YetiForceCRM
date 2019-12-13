@@ -3,7 +3,7 @@
 	<!-- tpl-Base-Edit-Field-DateTime -->
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-	<div class="input-group dateTime">
+	<div class="input-group {$WIDTHTYPE_GROUP} dateTime">
 		<input name="{$FIELD_MODEL->getFieldName()}" class=" {if !$FIELD_MODEL->isEditableReadOnly()} dateTimePickerField {/if} form-control"
 			   value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}"
 			   id="{$MODULE_NAME}_editView_fieldName_{$FIELD_MODEL->getName()}" type="text" data-hour-format="{$USER_MODEL->get('hour_format')}"

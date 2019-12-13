@@ -31,7 +31,7 @@
 			{assign var=IS_LAZY value=count($PICKLIST_VALUES) > \App\Config::performance('picklistLimit')}
 			<div class="form-row">
 				<div class="{if $ACTIVE_EXTRA_FIELD}col-md-8{else}col-md-12{/if}">
-					<div class="input-group phoneGroup mb-1">
+					<div class="input-group {$WIDTHTYPE_GROUP} phoneGroup mb-1">
 						<div class="input-group-prepend m-0 p-0">
 							<select name="{$FIELD_MODEL->getFieldName()}_country" tabindex="{$TABINDEX}"
 							{if $IS_LAZY} data-select-lazy="true"{/if}

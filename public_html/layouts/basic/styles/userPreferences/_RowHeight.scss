@@ -3,57 +3,31 @@
 .table td.wide,
 .listViewEntries td.wide,
 td.listViewEntryValue.wide {
-	padding: calculate-rem(8px) !important;
-	line-height: calculate-rem(15px);
+	&:not(.listButtons) {
+		padding: calculate-rem(15px);
+	}
 }
 
 .table td.medium,
 .listViewEntries td.medium,
 td.listViewEntryValue.medium {
-	padding: calculate-rem(3px) !important;
-	line-height: calculate-rem(18px);
+	&:not(.listButtons) {
+		padding: calculate-rem(10px);
+	}
 }
 
 .table td.narrow,
 .listViewEntries td.narrow,
 td.listViewEntryValue.narrow {
-	padding: calculate-rem(2px) !important;
-	line-height: calculate-rem(15px);
+	&:not(.listButtons) {
+		padding: calculate-rem(6px);
+	}
 }
 
 .table thead th.narrow {
 	vertical-align: middle;
 }
 
-.narrow {
-	&.fieldValue .chosen-container-single {
-		.chosen-single {
-			height: calculate-rem(27px);
-			line-height: calculate-rem(25px);
-		}
-
-		height: calculate-rem(27px);
-		line-height: calculate-rem(25px);
-	}
-
-	&.fieldLabel .chosen-container-single .chosen-single {
-		height: calculate-rem(27px);
-		line-height: calculate-rem(25px);
-	}
-
-	.chosen-container {
-		height: calculate-rem(27px);
-		line-height: calculate-rem(27px);
-	}
-
-	.referenceGroup .referenceModulesListGroup .chosen-container {
-		height: calculate-rem(25px);
-
-		.chosen-single {
-			height: calculate-rem(25px);
-		}
-	}
-}
 @media screen and (max-width: 992px) {
 	.quickCreateContent .fieldsLabelValue {
 		&.narrow {
@@ -108,5 +82,37 @@ td.listViewEntryValue.narrow {
 			padding-top: 0;
 			padding-bottom: calculate-rem(10px);
 		}
+	}
+}
+.detailViewTable {
+	.fieldLabel.narrow,
+	.fieldValue.narrow {
+		min-height: calculate-rem(30px);
+	}
+
+	.fieldLabel.medium,
+	.fieldValue.medium {
+		min-height: calculate-rem(40px);
+	}
+
+	.fieldLabel.wide,
+	.fieldValue.wide {
+		min-height: calculate-rem(50px);
+	}
+}
+table {
+	.listButtons.narrow {
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+
+	.listButtons.medium {
+		padding-top: calculate-rem(3px);
+		padding-bottom: calculate-rem(3px);
+	}
+
+	.listButtons.wide {
+		padding-top: calculate-rem(9px);
+		padding-bottom: calculate-rem(9px);
 	}
 }

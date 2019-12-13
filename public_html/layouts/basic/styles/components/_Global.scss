@@ -72,7 +72,7 @@ body:not(.desktop) {
 		@extend .justify-content-sm-start;
 		@extend .justify-content-lg-end;
 		@extend .col-sm-12;
-
+		align-items: center;
 		label {
 			line-height: 1.7;
 			margin-bottom: 0;
