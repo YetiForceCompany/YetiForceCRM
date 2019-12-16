@@ -17323,7 +17323,7 @@ h3 {
     position: fixed;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
-    z-index: 10000000000000002000000 !important;
+    z-index: 1864712049423024127 !important;
   }
   .daterangepicker.show-calendar.js-visible .drp-buttons {
     position: fixed;
@@ -17807,6 +17807,15 @@ label.btn[class*=btn-outline-]:not(.active):hover {
     padding-right: 0.125rem;
   }
 }
+.table-with-flex {
+  border-right: none;
+}
+.table-with-flex td {
+  border-left: none;
+  border-bottom: none;
+  border-right: 1px solid #dee2e6;
+}
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .dashboardWidgetCalendar .fc-widget-content .fc-scroller.fc-day-grid-container {
   height: 18.6rem !important;
@@ -18016,19 +18025,23 @@ label.btn[class*=btn-outline-]:not(.active):hover {
 }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.quasar-reset .row {
+.quasar-reset .row,
+body > .q-dialog:not(.quasar-reset) .row {
   margin: unset;
   margin-right: unset;
   margin-left: unset;
 }
 .quasar-reset .col,
-.quasar-reset [class*=col-] {
+.quasar-reset [class*=col-],
+body > .q-dialog:not(.quasar-reset) .col,
+body > .q-dialog:not(.quasar-reset) [class*=col-] {
   position: unset;
   padding: unset;
   padding-right: unset;
   padding-left: unset;
 }
-.quasar-reset .q-field .col {
+.quasar-reset .q-field .col,
+body > .q-dialog:not(.quasar-reset) .q-field .col {
   position: relative;
 }
 
@@ -21201,52 +21214,26 @@ ul.tweets li {
 }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.table td.wide, .c-detail-widget__table td.wide,
-.listViewEntries td.wide,
-td.listViewEntryValue.wide {
-  padding: 0.5rem !important;
-  line-height: 0.9375rem;
+.table td.wide:not(.listButtons), .c-detail-widget__table td.wide:not(.listButtons),
+.listViewEntries td.wide:not(.listButtons),
+td.listViewEntryValue.wide:not(.listButtons) {
+  padding: 0.9375rem;
 }
 
-.table td.medium, .c-detail-widget__table td.medium,
-.listViewEntries td.medium,
-td.listViewEntryValue.medium {
-  padding: 0.1875rem !important;
-  line-height: 1.125rem;
+.table td.medium:not(.listButtons), .c-detail-widget__table td.medium:not(.listButtons),
+.listViewEntries td.medium:not(.listButtons),
+td.listViewEntryValue.medium:not(.listButtons) {
+  padding: 0.625rem;
 }
 
-.table td.narrow, .c-detail-widget__table td.narrow,
-.listViewEntries td.narrow,
-td.listViewEntryValue.narrow {
-  padding: 0.125rem !important;
-  line-height: 0.9375rem;
+.table td.narrow:not(.listButtons), .c-detail-widget__table td.narrow:not(.listButtons),
+.listViewEntries td.narrow:not(.listButtons),
+td.listViewEntryValue.narrow:not(.listButtons) {
+  padding: 0.375rem;
 }
 
 .table thead th.narrow, .c-detail-widget__table thead th.narrow {
   vertical-align: middle;
-}
-
-.narrow.fieldValue .chosen-container-single {
-  height: 1.6875rem;
-  line-height: 1.5625rem;
-}
-.narrow.fieldValue .chosen-container-single .chosen-single {
-  height: 1.6875rem;
-  line-height: 1.5625rem;
-}
-.narrow.fieldLabel .chosen-container-single .chosen-single {
-  height: 1.6875rem;
-  line-height: 1.5625rem;
-}
-.narrow .chosen-container {
-  height: 1.6875rem;
-  line-height: 1.6875rem;
-}
-.narrow .referenceGroup .referenceModulesListGroup .chosen-container {
-  height: 1.5625rem;
-}
-.narrow .referenceGroup .referenceModulesListGroup .chosen-container .chosen-single {
-  height: 1.5625rem;
 }
 
 @media screen and (max-width: 992px) {
@@ -21289,6 +21276,32 @@ td.listViewEntryValue.narrow {
     padding-bottom: 0.625rem;
   }
 }
+.detailViewTable .fieldLabel.narrow,
+.detailViewTable .fieldValue.narrow {
+  min-height: 1.875rem;
+}
+.detailViewTable .fieldLabel.medium,
+.detailViewTable .fieldValue.medium {
+  min-height: 2.5rem;
+}
+.detailViewTable .fieldLabel.wide,
+.detailViewTable .fieldValue.wide {
+  min-height: 3.125rem;
+}
+
+table .listButtons.narrow {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+table .listButtons.medium {
+  padding-top: 0.1875rem;
+  padding-bottom: 0.1875rem;
+}
+table .listButtons.wide {
+  padding-top: 0.5625rem;
+  padding-bottom: 0.5625rem;
+}
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .u-font-size-10px {
   font-size: 0.625rem;
@@ -21457,6 +21470,10 @@ td.listViewEntryValue.narrow {
   -moz-box-shadow: 2px 2px 10px #ced4da;
   -webkit-box-shadow: 2px 2px 10px #ced4da;
   box-shadow: 2px 2px 10px #ced4da;
+}
+
+.u-ellipsis-in-flex {
+  min-width: 0;
 }
 
 .u-text-ellipsis--no-hover,
@@ -23535,6 +23552,9 @@ body:not(.desktop) .bodyContent {
 .c-panel__body {
   padding: 0 0.25rem;
 }
+.c-panel__label {
+  align-items: center;
+}
 .c-panel__label label {
   line-height: 1.7;
   margin-bottom: 0;
@@ -24520,11 +24540,7 @@ body {
   }
 }
 .o-exception-fixed-block {
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  position: fixed;
-  height: 100%;
+  width: 100%;
   z-index: 11111111111111;
 }
 
@@ -25688,11 +25704,6 @@ body > .o-exception-fixed-block {
   }
 }
 
-@media (min-width: 992px) {
-  .container-fluid[class*=-calendar-container] .mainBody, [class*=-calendar-container].container-sm .mainBody, [class*=-calendar-container].container-md .mainBody, [class*=-calendar-container].container-lg .mainBody, [class*=-calendar-container].container-xl .mainBody {
-    overflow: hidden;
-  }
-}
 .hideToggleSiteBarRightButton {
   right: 0 !important;
 }
@@ -26490,21 +26501,6 @@ body > .o-exception-fixed-block {
     height: inherit;
   }
 }
-.detailViewTable .fieldLabel.medium,
-.detailViewTable .fieldValue.medium {
-  padding: 0.625rem;
-  min-height: 2.5rem;
-}
-.detailViewTable .fieldLabel.narrow,
-.detailViewTable .fieldValue.narrow {
-  padding: 0.3125rem;
-  min-height: 1.5625rem;
-}
-.detailViewTable .fieldLabel.wide,
-.detailViewTable .fieldValue.wide {
-  padding: 0.9375rem;
-  min-height: 3.125rem;
-}
 .detailViewTable .fieldsLabelValue:last-child::after {
   content: "";
   float: left;
@@ -27238,7 +27234,8 @@ body > .o-exception-fixed-block {
   width: 30%;
 }
 
-td.fieldValue input, td.fieldValue .input-group {
+td.fieldValue input,
+td.fieldValue .input-group {
   margin-bottom: 0;
 }
 
@@ -27301,26 +27298,31 @@ td.fieldValue input, td.fieldValue .input-group {
   padding: 5px;
 }
 
-.listViewEntries td {
+.listViewEntries td:not(.listButtons) {
   vertical-align: middle;
   cursor: pointer;
   overflow: visible;
   padding: 5px;
 }
 
-.listViewEntriesTable td.listViewEntryValue:hover .actionImages, .listViewEntries td:hover .actionImages, .listViewEntriesTable td.listViewEntryValue:hover .actions, .listViewEntries td:hover .actions {
+.listViewEntriesTable td.listViewEntryValue:hover .actionImages,
+.listViewEntries td:hover .actionImages,
+.listViewEntriesTable td.listViewEntryValue:hover .actions,
+.listViewEntries td:hover .actions {
   opacity: 1;
   /*for IE*/
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=100);
 }
 
-#selectAllMsgDiv, #deSelectAllMsgDiv {
+#selectAllMsgDiv,
+#deSelectAllMsgDiv {
   display: none;
   background-color: #fafad2;
   text-align: center;
 }
-#selectAllMsgDiv div, #deSelectAllMsgDiv div {
+#selectAllMsgDiv div,
+#deSelectAllMsgDiv div {
   width: 100%;
   top: 0;
   left: 0;
@@ -27498,6 +27500,18 @@ td.fieldValue input, td.fieldValue .input-group {
 }
 .o-shop__nav__item .yfi.yfi-for-partners {
   font-size: 1.1875rem;
+}
+
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+@media (max-width: 991.98px) {
+  .c-module-table-row {
+    width: calc(100vw - 4.125rem);
+  }
+}
+@media (max-width: 767.98px) {
+  .c-module-table-row {
+    width: calc(100vw - 0.5rem);
+  }
 }
 
 /*# sourceMappingURL=Main.css.map */
