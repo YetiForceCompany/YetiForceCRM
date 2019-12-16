@@ -122,7 +122,7 @@
 							<span class="fa-2x userIcon-{$ITEM_NAME}"></span>
 						</div>
 						<div class="text-center u-ellipsis-in-flex text-md-left p-1 {if !$MODULE_ACTIVE}dull {/if}">
-							<h5 class="m-0 u-text-ellipsis--no-hover text-left u-font-weight-450" title="{\App\Language::translate($ITEM_NAME, $ITEM_NAME)}">{\App\Language::translate($ITEM_NAME, $ITEM_NAME)} {\App\Language::translate($ITEM_NAME, $ITEM_NAME)} {\App\Language::translate($ITEM_NAME, $ITEM_NAME)}</h5>
+							<h5 class="m-0 u-text-ellipsis--no-hover text-left u-font-weight-450" title="{\App\Language::translate($ITEM_NAME, $ITEM_NAME)}"></h5>{\App\Language::translate($ITEM_NAME, $ITEM_NAME)}</h5>
 						</div>
 						<div class="d-flex flex-row align-items-center ml-auto mr-md-1">
 							{if !empty($ICONS[$MODULE_MODEL->get('premium')])}
