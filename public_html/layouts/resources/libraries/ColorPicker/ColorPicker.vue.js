@@ -4166,39 +4166,37 @@
   var vueColor_min_1 = vueColor_min.VueColor;
 
   //
-  var colors = {
-    hex: '#194d33',
-    hsl: {
-      h: 150,
-      s: 0.5,
-      l: 0.2,
-      a: 1
-    },
-    hsv: {
-      h: 150,
-      s: 0.66,
-      v: 0.3,
-      a: 1
-    },
-    rgba: {
-      r: 25,
-      g: 77,
-      b: 51,
-      a: 1
-    },
-    a: 1
-  };
   var script = {
     components: {
       Photoshop: VueColor.Photoshop
     },
+    props: {
+      currentColor: {
+        type: String
+      }
+    },
     data: function data() {
       return {
-        colors: colors
+        newColor: null
       };
     },
-    created: function created() {
-      console.log('asdfadsf');
+    computed: {
+      color: {
+        get: function get() {
+          return this.currentColor;
+        },
+        set: function set(val) {
+          this.newColor = val;
+        }
+      }
+    },
+    methods: {
+      getColor: function getColor() {
+        return this.newColor;
+      }
+    },
+    mounted: function mounted() {
+      this.newColor = this.currentColor;
     }
   };
 
@@ -4298,13 +4296,13 @@
 
     var _c = _vm._self._c || _h;
 
-    return _c("div", [_vm._v("\n  gergegergegr\n  asdfasdf\n  "), _c("Photoshop", {
+    return _c("div", [_c("Photoshop", {
       model: {
-        value: _vm.colors,
+        value: _vm.color,
         callback: function callback($$v) {
-          _vm.colors = $$v;
+          _vm.color = $$v;
         },
-        expression: "colors"
+        expression: "color"
       }
     })], 1);
   };
@@ -4316,7 +4314,7 @@
   var __vue_inject_styles__ = undefined;
   /* scoped */
 
-  var __vue_scope_id__ = "data-v-6e9f40ba";
+  var __vue_scope_id__ = "data-v-338735d8";
   /* module identifier */
 
   var __vue_module_identifier__ = undefined;
@@ -4336,10 +4334,22 @@
   Vue.config.productionTip = false;
   window.ColorPicker = {
     component: ColorPicker,
-    mount: function mount(el) {
+    mount: function mount(_ref) {
+      var el = _ref.el,
+          currentColor = _ref.currentColor;
       return new Vue({
         render: function render(h) {
-          return h(ColorPicker);
+          return h(ColorPicker, {
+            ref: 'ColorPicker',
+            props: {
+              currentColor: currentColor
+            }
+          });
+        },
+        methods: {
+          getColor: function getColor() {
+            return this.$refs.ColorPicker.getColor();
+          }
         }
       }).$mount(el);
     }

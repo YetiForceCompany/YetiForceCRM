@@ -44,14 +44,8 @@ Settings_Vtiger_Index_Js(
 			container.find('.removeCalendarColor').on('click', this.removeCalendarColor);
 		},
 		registerColorPicker: function(data, colorObject) {
-			// data.find('.js-color-picker').colorpicker({
-			// 	format: 'hex',
-			// 	inline: true,
-			// 	container: true,
-			// 	color: colorObject.data('color')
-			// });
 			let el = data.find('.js-color-picker')[0];
-			window.ColorPicker.mount(el);
+			return window.ColorPicker.mount({ el, currentColor: colorObject.data('color') });
 		},
 		updateUserColor: function(e, thisInstance) {
 			var target = $(e.currentTarget);
@@ -64,8 +58,7 @@ Settings_Vtiger_Index_Js(
 					.show();
 				var selectedColor = data.find('.selectedColor');
 				selectedColor.val(colorPreview.data('color'));
-				//register color picker
-				thisInstance.registerColorPicker(data, colorPreview);
+				let picker = thisInstance.registerColorPicker(data, colorPreview);
 				data.find('[name="saveButton"]').on('click', function(e) {
 					var progress = $.progressIndicator({
 						message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
@@ -78,7 +71,7 @@ Settings_Vtiger_Index_Js(
 						parent: 'Settings',
 						action: 'SaveAjax',
 						mode: 'updateUserColor',
-						color: selectedColor.val(),
+						color: picker.getColor().hex,
 						record: target.data('record')
 					}).done(function(data) {
 						Vtiger_Helper_Js.showPnotify({

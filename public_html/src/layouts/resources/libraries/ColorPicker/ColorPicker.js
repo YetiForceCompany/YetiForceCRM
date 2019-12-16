@@ -5,9 +5,14 @@ Vue.config.productionTip = false
 
 window.ColorPicker = {
 	component: ColorPicker,
-	mount(el) {
+	mount({ el, currentColor }) {
 		return new Vue({
-			render: h => h(ColorPicker)
+			render: h => h(ColorPicker, { ref: 'ColorPicker', props: { currentColor } }),
+			methods: {
+				getColor() {
+					return this.$refs.ColorPicker.getColor()
+				}
+			}
 		}).$mount(el)
 	}
 }
