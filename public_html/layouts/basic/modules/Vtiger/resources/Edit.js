@@ -177,21 +177,30 @@ $.Class(
 						if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
 							let mapFieldElement = formElement.find('[name="' + key + '"]');
 							let fieldinfo = mapFieldElement.data('fieldinfo');
-							if (data['result']['type'][value[0]] === 'date' || data['result']['type'][value[0]] === 'datetime') {
+							if (
+								data['result']['type'][value[0]] === 'date' ||
+								data['result']['type'][value[0]] === 'datetime'
+							) {
 								mapFieldElement.val(data['result']['displayData'][value[0]]);
 							} else if (data['result']['type'][value[0]] === 'multipicklist') {
-								let mapFieldElementMultiselect = formElement.find('[name="'+key + '[]"]');
+								let mapFieldElementMultiselect = formElement.find('[name="' + key + '[]"]');
 								if (mapFieldElementMultiselect.length > 0) {
 									let multipleAttr = mapFieldElement.attr('multiple');
 									let splitValues = response[value[0]].split(' |##| ');
-									if(typeof multipleAttr !== undefined && multipleAttr !== false && splitValues.length > 0) {
+									if (
+										typeof multipleAttr !== undefined &&
+										multipleAttr !== false &&
+										splitValues.length > 0
+									) {
 										mapFieldElementMultiselect.val(splitValues).trigger('change');
 									}
 								}
 							} else if (mapFieldElement.is('select')) {
 								if (mapFieldElement.find('option[value="' + response[value[0]] + '"]').length) {
 									mapFieldElement.val(response[value[0]]).trigger('change');
-								} else if(mapFieldElement.data('fieldinfo').picklistvalues.hasOwnProperty(response[value[0]])){
+								} else if (
+									mapFieldElement.data('fieldinfo').picklistvalues.hasOwnProperty(response[value[0]])
+								) {
 									let newOption = new Option(response[value[0]], response[value[0]], true, true);
 									mapFieldElement.append(newOption).trigger('change');
 								}
@@ -205,9 +214,13 @@ $.Class(
 							}
 							let mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
 							if (mapFieldDisplayElement.length > 0) {
-								mapFieldDisplayElement.val(data['result']['displayData'][value[0]]).attr('readonly', true);
+								mapFieldDisplayElement
+									.val(data['result']['displayData'][value[0]])
+									.attr('readonly', true);
 								if (fieldinfo.type === 'reference') {
-									let referenceModulesList = mapFieldElement.closest('.fieldValue').find('.referenceModulesList');
+									let referenceModulesList = mapFieldElement
+										.closest('.fieldValue')
+										.find('.referenceModulesList');
 									if (referenceModulesList.length > 0 && value[1]) {
 										referenceModulesList.val(value[1]).trigger('change');
 									}
@@ -815,8 +828,7 @@ $.Class(
 		},
 		copyAddressDetailsRef: function(data, container) {
 			var thisInstance = this;
-			app
-				.getRecordDetails(data)
+			app.getRecordDetails(data)
 				.done(function(data) {
 					var response = data['result'];
 					thisInstance.mapAddressDetails(response, container);
@@ -1311,8 +1323,14 @@ $.Class(
 			var thisInstance = this;
 			var processfieldElement = container.find('input[data-fieldtype="referenceProcess"]').closest('.fieldValue');
 			var referenceProcess = processfieldElement.find('input[name="popupReferenceModule"]').val();
-			var subProcessfieldElement = container.find('input[data-fieldtype="referenceSubProcess"]').closest('.fieldValue');
-			Vtiger_Helper_Js.hideOptions(subProcessfieldElement.find('.referenceModulesList'), 'parent', referenceProcess);
+			var subProcessfieldElement = container
+				.find('input[data-fieldtype="referenceSubProcess"]')
+				.closest('.fieldValue');
+			Vtiger_Helper_Js.hideOptions(
+				subProcessfieldElement.find('.referenceModulesList'),
+				'parent',
+				referenceProcess
+			);
 			var subProcessValue = subProcessfieldElement.find('.referenceModulesList').val();
 			subProcessfieldElement.find('[name="popupReferenceModule"]').val(subProcessValue);
 			thisInstance.checkSubProcessModulesList(subProcessfieldElement.find('.referenceModulesList'));
@@ -1381,7 +1399,9 @@ $.Class(
 						}
 					}
 				});
-			elementToFocus.focus();
+			if (elementToFocus) {
+				elementToFocus.focus();
+			}
 		},
 		registerCopyValue: function(container) {
 			container.find('.fieldValue [data-copy-to-field]').on('change', function(e) {
