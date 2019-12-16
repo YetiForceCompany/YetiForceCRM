@@ -139,28 +139,29 @@ Settings_Vtiger_Index_Js(
 			var editColorModal = jQuery('.UserColors .editColorContainer');
 			var clonedContainer = editColorModal.clone(true, true);
 			var colorPreview = $('#calendarColorPreviewGroup' + target.data('record'));
-			var callBackFunction = function(data) {
-				data.find('.editColorContainer')
+			var callBackFunction = function(container) {
+				container
+					.find('.editColorContainer')
 					.removeClass('d-none')
 					.show();
-				var selectedColor = data.find('.selectedColor');
-				selectedColor.val(colorPreview.data('color'));
-				//register color picker
-				thisInstance.registerColorPicker(data, colorPreview);
-				//save the user calendar with color
-				data.find('[name="saveButton"]').on('click', function(e) {
+				let currentColor = colorPreview.data('color');
+				let selectedColor = container.find('.js-previous-color');
+				let picker = thisInstance.registerColorPicker(container, currentColor);
+				selectedColor.css('background', currentColor);
+				container.find('[name="saveButton"]').on('click', function(e) {
 					var progress = $.progressIndicator({
 						message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 						blockInfo: {
 							enabled: true
 						}
 					});
+					let newColor = picker.getColor().hex;
 					AppConnector.request({
 						module: 'Colors',
 						parent: 'Settings',
 						action: 'SaveAjax',
 						mode: 'updateGroupColor',
-						color: selectedColor.val(),
+						color: newColor,
 						record: target.data('record')
 					}).done(function(data) {
 						Vtiger_Helper_Js.showPnotify({
@@ -169,8 +170,8 @@ Settings_Vtiger_Index_Js(
 						});
 						return data['result'];
 					});
-					colorPreview.css('background', selectedColor.val());
-					target.data('color', selectedColor.val());
+					colorPreview.css('background', newColor);
+					colorPreview.data('color', newColor);
 					progress.progressIndicator({ mode: 'hide' });
 					app.hideModalWindow();
 				});
@@ -226,28 +227,30 @@ Settings_Vtiger_Index_Js(
 			var editColorModal = jQuery('.UserColors .editColorContainer');
 			var clonedContainer = editColorModal.clone(true, true);
 			var colorPreview = $('#calendarColorPreviewModule' + target.data('record'));
-			var callBackFunction = function(data) {
-				data.find('.editColorContainer')
+			var callBackFunction = function(container) {
+				container
+					.find('.editColorContainer')
 					.removeClass('d-none')
 					.show();
-				var selectedColor = data.find('.selectedColor');
-				selectedColor.val(colorPreview.data('color'));
-				//register color picker
-				thisInstance.registerColorPicker(data, colorPreview);
+				let currentColor = colorPreview.data('color');
+				var selectedColor = container.find('.js-previous-color');
+				selectedColor.css('background', currentColor);
+				let picker = thisInstance.registerColorPicker(container, currentColor);
 				//save the user calendar with color
-				data.find('[name="saveButton"]').on('click', function(e) {
+				container.find('[name="saveButton"]').on('click', function(e) {
 					var progress = $.progressIndicator({
 						message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 						blockInfo: {
 							enabled: true
 						}
 					});
+					let newColor = picker.getColor().hex;
 					AppConnector.request({
 						module: 'Colors',
 						parent: 'Settings',
 						action: 'SaveAjax',
 						mode: 'updateModuleColor',
-						color: selectedColor.val(),
+						color: newColor,
 						record: target.data('record')
 					}).done(function(data) {
 						Vtiger_Helper_Js.showPnotify({
@@ -256,8 +259,8 @@ Settings_Vtiger_Index_Js(
 						});
 						return data['result'];
 					});
-					colorPreview.css('background', selectedColor.val());
-					target.data('color', selectedColor.val());
+					colorPreview.css('background', newColor);
+					colorPreview.data('color', newColor);
 					progress.progressIndicator({ mode: 'hide' });
 					app.hideModalWindow();
 				});
@@ -352,29 +355,29 @@ Settings_Vtiger_Index_Js(
 			var editColorModal = jQuery('.UserColors .editColorContainer');
 			var clonedContainer = editColorModal.clone(true, true);
 			var colorPreview = container.find('#calendarColorPreviewPicklistValue' + target.data('fieldvalueid'));
-			var callBackFunction = function(data) {
-				data.find('.editColorContainer')
+			var callBackFunction = function(container) {
+				container
+					.find('.editColorContainer')
 					.removeClass('d-none')
 					.show();
-				var selectedColor = data.find('.selectedColor');
-				selectedColor.val(colorPreview.data('color'));
-				//register color picker
-				thisInstance.registerColorPicker(data, colorPreview);
-				//save the user calendar with color
-				data.find('[name="saveButton"]').on('click', function(e) {
+				let currentColor = colorPreview.data('color');
+				var selectedColor = container.find('.js-previous-color');
+				selectedColor.css('background', currentColor);
+				let picker = thisInstance.registerColorPicker(container, currentColor);
+				container.find('[name="saveButton"]').on('click', function(e) {
 					var progress = $.progressIndicator({
 						message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 						blockInfo: {
 							enabled: true
 						}
 					});
-
+					let newColor = picker.getColor().hex;
 					AppConnector.request({
 						module: 'Colors',
 						parent: 'Settings',
 						action: 'SaveAjax',
 						mode: 'updatePicklistValueColor',
-						color: selectedColor.val(),
+						color: newColor,
 						fieldId: target.data('fieldid'),
 						fieldValueId: target.data('fieldvalueid')
 					}).done(function(data) {
@@ -384,8 +387,8 @@ Settings_Vtiger_Index_Js(
 						});
 						return data['result'];
 					});
-					colorPreview.css('background', selectedColor.val());
-					target.data('color', selectedColor.val());
+					colorPreview.css('background', newColor);
+					colorPreview.data('color', newColor);
 					progress.progressIndicator({ mode: 'hide' });
 					app.hideModalWindow();
 				});
@@ -479,28 +482,29 @@ Settings_Vtiger_Index_Js(
 			var editColorModal = jQuery('.UserColors .editColorContainer');
 			var clonedContainer = editColorModal.clone(true, true);
 
-			var callBackFunction = function(data) {
-				data.find('.editColorContainer')
+			var callBackFunction = function(container) {
+				container
+					.find('.editColorContainer')
 					.removeClass('d-none')
 					.show();
-				var selectedColor = data.find('.selectedColor');
-				selectedColor.val(closestTrElement.data('color'));
-				//register color picker
-				thisInstance.registerColorPicker(data, closestTrElement);
-				//save the user calendar with color
-				data.find('[name="saveButton"]').on('click', function(e) {
+				let currentColor = colorPreview.data('color');
+				var selectedColor = container.find('.js-previous-color');
+				selectedColor.css('background', currentColor);
+				let picker = thisInstance.registerColorPicker(container, currentColor);
+				container.find('[name="saveButton"]').on('click', function(e) {
 					var progress = $.progressIndicator({
 						message: app.vtranslate('Update labels'),
 						blockInfo: {
 							enabled: true
 						}
 					});
+					let newColor = picker.getColor().hex;
 					AppConnector.request({
 						module: 'Colors',
 						parent: 'Settings',
 						action: 'SaveAjax',
 						mode: 'updateCalendarColor',
-						color: selectedColor.val(),
+						color: newColor,
 						id: closestTrElement.data('id'),
 						table: closestTrElement.data('table'),
 						field: closestTrElement.data('field')
@@ -511,8 +515,8 @@ Settings_Vtiger_Index_Js(
 						});
 						return data['result'];
 					});
-					closestTrElement.find('.calendarColor').css('background', selectedColor.val());
-					closestTrElement.data('color', selectedColor.val());
+					colorPreview.css('background', newColor);
+					colorPreview.data('color', newColor);
 					progress.progressIndicator({ mode: 'hide' });
 					app.hideModalWindow();
 				});
