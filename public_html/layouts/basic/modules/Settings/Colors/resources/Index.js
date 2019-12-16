@@ -43,35 +43,37 @@ Settings_Vtiger_Index_Js(
 			container.find('.generateColor').on('click', this.generateCalendarColor);
 			container.find('.removeCalendarColor').on('click', this.removeCalendarColor);
 		},
-		registerColorPicker: function(data, colorObject) {
-			let el = data.find('.js-color-picker')[0];
-			return window.ColorPicker.mount({ el, currentColor: colorObject.data('color') });
+		registerColorPicker: function(container, color) {
+			return window.ColorPicker.mount({ el: container.find('.js-color-picker')[0], currentColor: color });
 		},
 		updateUserColor: function(e, thisInstance) {
 			var target = $(e.currentTarget);
 			var editColorModal = jQuery('.UserColors .editColorContainer');
 			var clonedContainer = editColorModal.clone(true, true);
 			var colorPreview = $('#calendarColorPreviewUser' + target.data('record'));
-			var callBackFunction = function(data) {
-				data.find('.editColorContainer')
+			var callBackFunction = function(container) {
+				container
+					.find('.editColorContainer')
 					.removeClass('d-none')
 					.show();
-				var selectedColor = data.find('.selectedColor');
-				selectedColor.val(colorPreview.data('color'));
-				let picker = thisInstance.registerColorPicker(data, colorPreview);
-				data.find('[name="saveButton"]').on('click', function(e) {
+				let currentColor = colorPreview.data('color');
+				var selectedColor = container.find('.js-previous-color');
+				selectedColor.css('background', currentColor);
+				let picker = thisInstance.registerColorPicker(container, currentColor);
+				container.find('[name="saveButton"]').on('click', function(e) {
 					var progress = $.progressIndicator({
 						message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 						blockInfo: {
 							enabled: true
 						}
 					});
+					let newColor = picker.getColor().hex;
 					AppConnector.request({
 						module: 'Colors',
 						parent: 'Settings',
 						action: 'SaveAjax',
 						mode: 'updateUserColor',
-						color: picker.getColor().hex,
+						color: newColor,
 						record: target.data('record')
 					}).done(function(data) {
 						Vtiger_Helper_Js.showPnotify({
@@ -80,8 +82,8 @@ Settings_Vtiger_Index_Js(
 						});
 						return data['result'];
 					});
-					colorPreview.css('background', selectedColor.val());
-					target.data('color', selectedColor.val());
+					colorPreview.css('background', newColor);
+					colorPreview.data('color', newColor);
 					progress.progressIndicator({ mode: 'hide' });
 					app.hideModalWindow();
 				});

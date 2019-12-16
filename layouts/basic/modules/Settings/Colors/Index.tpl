@@ -143,7 +143,7 @@
 			</div>
 		</div>
 		<div class="modal editColorContainer fade" tabindex="-1" role="dialog">
-			<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-dialog modal-xl" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title">{\App\Language::translate('LBL_EDIT_COLOR', $QUALIFIED_MODULE)}</h5>
@@ -155,7 +155,11 @@
 					<div class="modal-body">
 						<form class="form-horizontal">
 							<div class="form-group form-row">
-								<label class=" col-12 col-form-label u-text-small-bold">{\App\Language::translate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</label>
+								<div class="col-12 d-flex align-items-center flex-wrap">
+									<span class="col-form-label u-text-small-bold">{\App\Language::translate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</span>
+									<span class="ml-auto mr-2">{\App\Language::translate('LBL_PREVIOUS_COLOR', $QUALIFIED_MODULE)}</span>
+									<span class="c-badge__icon d-inline-flex js-previous-color" data-js="css"></span>
+								</div>
 								<div class=" col-12 controls">
 									<input type="hidden" class="selectedColor" value=""/>
 									<div class="js-color-picker" data-js="color-picker">
