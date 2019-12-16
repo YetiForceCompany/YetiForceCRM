@@ -20,10 +20,10 @@ if ('OPTIONS' === $_SERVER['REQUEST_METHOD']) {
 
 if (!\App\Config::main('application_unique_key', false)) {
 	header('location: install/Install.php');
+} else {
+	\App\Process::$startTime = microtime(true);
+	\App\Process::$requestMode = 'WebUI';
+
+	$webUI = new Vtiger_WebUI();
+	$webUI->process(\App\Request::init());
 }
-
-\App\Process::$startTime = microtime(true);
-\App\Process::$requestMode = 'WebUI';
-
-$webUI = new Vtiger_WebUI();
-$webUI->process(\App\Request::init());
