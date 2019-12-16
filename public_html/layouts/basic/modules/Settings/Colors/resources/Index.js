@@ -46,9 +46,7 @@ Settings_Vtiger_Index_Js(
 		registerColorPicker: function(container, color) {
 			return window.ColorPicker.mount({ el: container.find('.js-color-picker')[0], currentColor: color });
 		},
-		updateUserColor: function(e) {
-			let target = $(e.currentTarget);
-			let colorPreview = $('#calendarColorPreviewUser' + target.data('record'));
+		updateColorModal(colorPreview, request) {
 			let cb = color => {
 				let progress = $.progressIndicator({
 					message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
@@ -56,25 +54,35 @@ Settings_Vtiger_Index_Js(
 						enabled: true
 					}
 				});
-				AppConnector.request({
-					module: 'Colors',
-					parent: 'Settings',
-					action: 'SaveAjax',
-					mode: 'updateUserColor',
-					color,
-					record: target.data('record')
-				}).done(function(data) {
+				request(color).then(data => {
 					Vtiger_Helper_Js.showPnotify({
 						text: data['result']['message'],
 						type: 'success'
 					});
 					colorPreview.data('color', color);
 					progress.progressIndicator({ mode: 'hide' });
-
-					return data['result'];
 				});
 			};
 			App.Fields.Colors.showPicker({ color: colorPreview.data('color'), bgToUpdate: colorPreview, cb });
+		},
+		updateUserColor: function(e) {
+			let target = $(e.currentTarget);
+			let colorPreview = $('#calendarColorPreviewUser' + target.data('record'));
+			let request = color => {
+				return new Promise((resolve, reject) => {
+					AppConnector.request({
+						module: 'Colors',
+						parent: 'Settings',
+						action: 'SaveAjax',
+						mode: 'updateUserColor',
+						color,
+						record: target.data('record')
+					}).done(data => {
+						resolve(data);
+					});
+				});
+			};
+			this.updateColorModal(colorPreview, request);
 		},
 		generateUserColor: function(e) {
 			var target = $(e.currentTarget);
