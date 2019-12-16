@@ -232,14 +232,19 @@ class Log extends Logger
 	/**
 	 * Get last logs.
 	 *
+	 * @param bool|string[] $types
+	 *
 	 * @return string
 	 */
-	public static function getlastLogs()
+	public static function getlastLogs($types = false)
 	{
 		$content = '';
 		$i = 0;
 		foreach (\Yii::getLogger()->messages as $message) {
 			$level = \yii\log\Logger::getLevelName($message[1]);
+			if (false !== $types && !\in_array($level, $types)) {
+				continue;
+			}
 			$category = $message[2];
 			$content .= "#$i [$level] {$message[0]}";
 			if ($category) {
