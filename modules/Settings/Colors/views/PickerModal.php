@@ -12,11 +12,20 @@ class Settings_Colors_PickerModal_View extends \App\Controller\ModalSettings
 	/**
 	 * {@inheritdoc}
 	 */
-	public $pageTitle = 'LBL_EDIT_COLOR';
-	/**
-	 * {@inheritdoc}
-	 */
 	public $modalSize = 'modal-xl';
+
+	/**
+	 * Set modal title.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function preProcessAjax(App\Request $request)
+	{
+		$this->qualifiedModuleName = $request->getModule(false);
+		$this->modalIcon = 'yfi-calendar-labels-colors';
+		$this->pageTitle = \App\Language::translate('LBL_EDIT_COLOR', $this->qualifiedModuleName);
+		parent::preProcessAjax($request);
+	}
 
 	/**
 	 * Tree in popup.
@@ -25,9 +34,9 @@ class Settings_Colors_PickerModal_View extends \App\Controller\ModalSettings
 	 */
 	public function process(App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$viewer->view('Modals/ColorModal.tpl', $moduleName);
+		$viewer->assign('COLOR', $request->getRaw('color'));
+		$viewer->view('ColorModal.tpl', $this->qualifiedModuleName);
 	}
 
 	/**

@@ -26,21 +26,4 @@ class Settings_Colors_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
-
-	/**
-	 * Get footer scripts.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return array
-	 */
-	public function getFooterScripts(App\Request $request)
-	{
-		$jsFileNames = [
-			'modules.Settings.' . $request->getModule() . '.resources.Colors',
-			'~layouts/resources/libraries/ColorPicker/ColorPicker.vue.js',
-		];
-
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
-	}
 }

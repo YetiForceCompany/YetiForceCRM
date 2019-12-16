@@ -405,6 +405,19 @@ window.App.Fields = {
 				colors.push(this.getRandomColor());
 			}
 			return colors;
+		},
+		showPicker(color, cb) {
+			let registerPickerEvents = modalContainer => {
+				window.ColorPicker.mount({ el: modalContainer.find('.js-color-picker')[0], currentColor: color });
+
+				modalContainer.find('.js-modal__save').on('click', _ => {
+					cb();
+				});
+			};
+			app.showModalWindow({
+				url: `index.php?module=Colors&parent=Settings&view=PickerModal&color=${color.substring(1)}`,
+				cb: registerPickerEvents.bind(this)
+			});
 		}
 	},
 	Text: {
@@ -1072,7 +1085,10 @@ window.App.Fields = {
 						const selectOffsetTop = $(e.currentTarget).offset().top;
 						dropdownList.css({
 							'max-height':
-								$(window).height() - selectOffsetTop - marginBottom - (dropdownList.offset().top - selectOffsetTop)
+								$(window).height() -
+								selectOffsetTop -
+								marginBottom -
+								(dropdownList.offset().top - selectOffsetTop)
 						});
 					}
 				}, 100);
@@ -1166,10 +1182,19 @@ window.App.Fields = {
 
 			//formatSelectionTooBig param is not defined even it has the maximumSelectionLength,
 			//then we should send our custom function for formatSelectionTooBig
-			if (typeof params.maximumSelectionLength !== 'undefined' && typeof params.formatSelectionTooBig === 'undefined') {
+			if (
+				typeof params.maximumSelectionLength !== 'undefined' &&
+				typeof params.formatSelectionTooBig === 'undefined'
+			) {
 				//custom function which will return the maximum selection size exceeds message.
 				var formatSelectionExceeds = function(limit) {
-					return app.vtranslate('JS_YOU_CAN_SELECT_ONLY') + ' ' + limit.maximum + ' ' + app.vtranslate('JS_ITEMS');
+					return (
+						app.vtranslate('JS_YOU_CAN_SELECT_ONLY') +
+						' ' +
+						limit.maximum +
+						' ' +
+						app.vtranslate('JS_ITEMS')
+					);
 				};
 				params.language.maximumSelected = formatSelectionExceeds;
 			}
@@ -1184,7 +1209,10 @@ window.App.Fields = {
 						$(container).addClass(data.element.className);
 					}
 					let actualElement = $(data.element);
-					if (typeof selectElement.data('showAdditionalIcons') !== 'undefined' && actualElement.is('option')) {
+					if (
+						typeof selectElement.data('showAdditionalIcons') !== 'undefined' &&
+						actualElement.is('option')
+					) {
 						return (
 							'<div class="js-element__title d-flex justify-content-between" data-js="appendTo"><div class="u-text-ellipsis--no-hover">' +
 							actualElement.text() +
@@ -1401,10 +1429,14 @@ window.App.Fields = {
 						if (response && response.result) {
 							if (optionElement.attr('data-state') === 'active') {
 								optionElement.attr('data-state', 'inactive');
-								currentTarget.toggleClass(currentElementData.iconActive + ' ' + currentElementData.iconInactive);
+								currentTarget.toggleClass(
+									currentElementData.iconActive + ' ' + currentElementData.iconInactive
+								);
 							} else {
 								optionElement.attr('data-state', 'active');
-								currentTarget.toggleClass(currentElementData.iconInactive + ' ' + currentElementData.iconActive);
+								currentTarget.toggleClass(
+									currentElementData.iconInactive + ' ' + currentElementData.iconActive
+								);
 							}
 							if (response.message) {
 								Vtiger_Helper_Js.showPnotify({ text: response.message, type: 'success' });
@@ -1443,7 +1475,10 @@ window.App.Fields = {
 						options.page = 1;
 					}
 					let data = {};
-					data.results = results.slice((options.page - 1) * params.lazyElements, options.page * params.lazyElements);
+					data.results = results.slice(
+						(options.page - 1) * params.lazyElements,
+						options.page * params.lazyElements
+					);
 					data.pagination = {};
 					data.pagination.more = options.page * params.lazyElements < results.length;
 					callback(data);
@@ -1523,7 +1558,8 @@ window.App.Fields = {
 		findOption(selectElement, searchValue, type = 'value') {
 			let foundOption = false;
 			const selectValues = this.getSelectOptions(selectElement);
-			const getFieldValueFromText = () => Object.keys(selectValues).find(key => selectValues[key] === searchValue);
+			const getFieldValueFromText = () =>
+				Object.keys(selectValues).find(key => selectValues[key] === searchValue);
 			const valueExists = () => selectValues.hasOwnProperty(searchValue);
 			const createOption = () => {
 				return { text: selectValues[foundOption], value: foundOption };
@@ -1949,7 +1985,7 @@ window.App.Fields = {
 			}
 			let splittedFloat = value.toString().split('.');
 			let integer = splittedFloat[0];
-			if(integer !== '-0' && integer !== '0'){
+			if (integer !== '-0' && integer !== '0') {
 				integer = App.Fields.Integer.formatToDisplay(integer);
 			}
 			let decimal = splittedFloat[1];
@@ -1986,7 +2022,9 @@ window.App.Fields = {
 				let element = $(e.target),
 					parentElem = element.closest('.js-tree-container'),
 					sourceFieldElement = parentElem.find('input[class="sourceField"]'),
-					fieldDisplayElement = parentElem.find('input[name="' + sourceFieldElement.attr('name') + '_display"]');
+					fieldDisplayElement = parentElem.find(
+						'input[name="' + sourceFieldElement.attr('name') + '_display"]'
+					);
 				AppConnector.request({
 					module: sourceFieldElement.data('modulename'),
 					view: 'TreeModal',
@@ -2160,7 +2198,9 @@ window.App.Fields = {
 			$('.js-multicurrency-event', this.container)
 				.off('click')
 				.on('click', () => {
-					let modal = $('<form>').append(this.container.find('.js-currencies-container .js-currencies-modal').clone());
+					let modal = $('<form>').append(
+						this.container.find('.js-currencies-container .js-currencies-modal').clone()
+					);
 					this.registerEnableCurrencyEvent(modal);
 					this.registerResetCurrencyEvent(modal);
 					this.loadData(modal);
@@ -2294,7 +2334,10 @@ window.App.Fields = {
 				let element = $(domElement);
 				if (!element.is(baseCurrencyConversionRate)) {
 					element.val(
-						App.Fields.Double.formatToDisplay(element.getNumberFromValue() / baseCurrencyRatePrevValue, false)
+						App.Fields.Double.formatToDisplay(
+							element.getNumberFromValue() / baseCurrencyRatePrevValue,
+							false
+						)
 					);
 				}
 			});
@@ -2310,7 +2353,9 @@ window.App.Fields = {
 				let parentRow = element.closest('tr');
 				if (element.is(':checked')) {
 					element.attr('checked', 'checked');
-					let price = this.getField().getNumberFromValue() * parentRow.find('.js-conversion-rate').getNumberFromValue();
+					let price =
+						this.getField().getNumberFromValue() *
+						parentRow.find('.js-conversion-rate').getNumberFromValue();
 					$('input', parentRow).removeAttr('disabled');
 					parentRow.find('.js-currency-reset').removeAttr('disabled');
 					parentRow.find('.js-converted-price').val(App.Fields.Double.formatToDisplay(price));
@@ -2341,7 +2386,8 @@ window.App.Fields = {
 		registerResetCurrencyEvent(container) {
 			container.on('click', '.js-currency-reset', e => {
 				let parentElem = $(e.currentTarget).closest('tr');
-				let price = this.getField().getNumberFromValue() * parentElem.find('.js-conversion-rate').getNumberFromValue();
+				let price =
+					this.getField().getNumberFromValue() * parentElem.find('.js-conversion-rate').getNumberFromValue();
 				$('.js-converted-price', parentElem).val(App.Fields.Double.formatToDisplay(price));
 			});
 		}
