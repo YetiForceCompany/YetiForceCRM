@@ -157,9 +157,9 @@
 							<div class="form-group form-row">
 								<label class=" col-sm-4 col-form-label u-text-small-bold">{\App\Language::translate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</label>
 								<div class=" col-sm-8 controls">
-									<p class="js-color-picker" data-js="color-picker">
-										<input type="hidden" class="selectedColor" value=""/>
-									</p>
+									<input type="hidden" class="selectedColor" value=""/>
+									<div class="js-color-picker" data-js="color-picker">
+									</div>
 								</div>
 							</div>
 						</form>
