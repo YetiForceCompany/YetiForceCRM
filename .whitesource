@@ -1,4 +1,5 @@
 {
+  "devDep": false,
   "generalSettings": {
     "shouldScanRepo": true
   },
