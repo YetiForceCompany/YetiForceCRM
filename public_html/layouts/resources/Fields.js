@@ -406,12 +406,18 @@ window.App.Fields = {
 			}
 			return colors;
 		},
-		showPicker(color, cb) {
+		showPicker({ color, fieldToUpdate, bgToUpdate, cb }) {
 			let registerPickerEvents = modalContainer => {
-				window.ColorPicker.mount({ el: modalContainer.find('.js-color-picker')[0], currentColor: color });
-
+				let picker = window.ColorPicker.mount({
+					el: modalContainer.find('.js-color-picker')[0],
+					currentColor: color
+				});
 				modalContainer.find('.js-modal__save').on('click', _ => {
-					cb();
+					let newColor = picker.getColor().hex;
+					cb && cb(newColor);
+					bgToUpdate && bgToUpdate.css('background', newColor);
+					fieldToUpdate && fieldToUpdate.val(newColor);
+					app.hideModalWindow();
 				});
 			};
 			app.showModalWindow({

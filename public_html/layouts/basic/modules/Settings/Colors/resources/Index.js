@@ -46,57 +46,35 @@ Settings_Vtiger_Index_Js(
 		registerColorPicker: function(container, color) {
 			return window.ColorPicker.mount({ el: container.find('.js-color-picker')[0], currentColor: color });
 		},
-		updateUserColor: function(e, thisInstance) {
-			var target = $(e.currentTarget);
-			var editColorModal = jQuery('.UserColors .editColorContainer');
-			var clonedContainer = editColorModal.clone(true, true);
-			var colorPreview = $('#calendarColorPreviewUser' + target.data('record'));
-			var callBackFunction = function(container) {
-				container
-					.find('.editColorContainer')
-					.removeClass('d-none')
-					.show();
-				let currentColor = colorPreview.data('color');
-				var selectedColor = container.find('.js-previous-color');
-				selectedColor.css('background', currentColor);
-				let picker = thisInstance.registerColorPicker(container, currentColor);
-				container.find('[name="saveButton"]').on('click', function(e) {
-					var progress = $.progressIndicator({
-						message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
-						blockInfo: {
-							enabled: true
-						}
+		updateUserColor: function(e) {
+			let target = $(e.currentTarget);
+			let colorPreview = $('#calendarColorPreviewUser' + target.data('record'));
+			let cb = color => {
+				let progress = $.progressIndicator({
+					message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
+					blockInfo: {
+						enabled: true
+					}
+				});
+				AppConnector.request({
+					module: 'Colors',
+					parent: 'Settings',
+					action: 'SaveAjax',
+					mode: 'updateUserColor',
+					color,
+					record: target.data('record')
+				}).done(function(data) {
+					Vtiger_Helper_Js.showPnotify({
+						text: data['result']['message'],
+						type: 'success'
 					});
-					let newColor = picker.getColor().hex;
-					AppConnector.request({
-						module: 'Colors',
-						parent: 'Settings',
-						action: 'SaveAjax',
-						mode: 'updateUserColor',
-						color: newColor,
-						record: target.data('record')
-					}).done(function(data) {
-						Vtiger_Helper_Js.showPnotify({
-							text: data['result']['message'],
-							type: 'success'
-						});
-						return data['result'];
-					});
-					colorPreview.css('background', newColor);
-					colorPreview.data('color', newColor);
+					colorPreview.data('color', color);
 					progress.progressIndicator({ mode: 'hide' });
-					app.hideModalWindow();
+
+					return data['result'];
 				});
 			};
-			app.showModalWindow(
-				clonedContainer,
-				function(data) {
-					if (typeof callBackFunction == 'function') {
-						callBackFunction(data);
-					}
-				},
-				{ width: '1000px' }
-			);
+			App.Fields.Colors.showPicker({ color: colorPreview.data('color'), bgToUpdate: colorPreview, cb });
 		},
 		generateUserColor: function(e) {
 			var target = $(e.currentTarget);
