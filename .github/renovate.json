@@ -12,10 +12,8 @@
       "enabled": true
     },
     {
-      "depTypeList": [
-        "devDependencies"
-      ],
+      "depTypeList": ["devDependencies"],
       "enabled": false
-    },
+    }
   ]
 }
