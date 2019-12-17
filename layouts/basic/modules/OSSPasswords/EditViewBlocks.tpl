@@ -104,9 +104,9 @@
 										</div>
 									{/if}
 									{if $WIDTHTYPE eq 'narrow'}
-										{assign var=WIDTHTYPE_GROUP value=input-group-sm}
-									{elseif $WIDTHTYPE eq 'wide'} 
-										{assign var=WIDTHTYPE_GROUP value=input-group-lg}
+										{assign var=WIDTHTYPE_GROUP value="input-group-sm"}
+									{elseif $WIDTHTYPE eq 'wide'}
+										{assign var=WIDTHTYPE_GROUP value="input-group-lg"}
 									{else}
 										{assign var=WIDTHTYPE_GROUP value=''}
 									{/if}

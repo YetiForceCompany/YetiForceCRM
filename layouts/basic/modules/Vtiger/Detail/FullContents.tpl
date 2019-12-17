@@ -1,6 +1,13 @@
 {strip}
     {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
     {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+	{if $WIDTHTYPE eq 'narrow'}
+		{assign var=WIDTHTYPE_GROUP value="input-group-sm"}
+	{elseif $WIDTHTYPE eq 'wide'}
+		{assign var=WIDTHTYPE_GROUP value="input-group-lg"}
+	{else}
+		{assign var=WIDTHTYPE_GROUP value=''}
+	{/if}
     {include file=\App\Layout::getTemplatePath('DetailViewBlockLink.tpl', $MODULE_NAME) TYPE_VIEW='DetailTop'}
     {include file=\App\Layout::getTemplatePath('Detail/BlockView.tpl', $MODULE_NAME) RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
     {if $MODULE_TYPE == '1'}
