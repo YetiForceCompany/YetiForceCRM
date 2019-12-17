@@ -509,7 +509,13 @@ jQuery.Class(
 		},
 		markTabAsSelected: function(tabElement) {
 			tabElement.addClass('active');
-			jQuery('.related .dropdown [data-reference="' + tabElement.data('reference') + '"]').addClass('active');
+			$(
+				'.related .dropdown [data-reference="' +
+					tabElement.data('reference') +
+					'"][data-relation-id="' +
+					tabElement.data('relation-id') +
+					'"]'
+			).addClass('active');
 		},
 		reloadTabContent: function() {
 			this.getSelectedTab().trigger('click');
