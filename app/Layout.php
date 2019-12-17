@@ -147,6 +147,42 @@ class Layout
 		}
 		$teaser = $isHtml ? TextParser::htmlTruncate($text, $length, true) : TextParser::textTruncate($text, $length, true);
 		$btn = \App\Language::translate('LBL_MORE_BTN');
-		return "<div class=\"js-more-content\"><span class=\"teaserContent\">$teaser</span><span class=\"fullContent d-none\">$text</span><span class=\"text-right mb-1\"><button type=\"button\" class=\"btn btn-link btn-sm js-more\">{$btn}</button></span></div>";
+		return "<div class=\" js-more-content\"><span class=\"teaserContent\">$teaser</span><span class=\"fullContent d-none\">$text</span><span class=\"text-right mb-1\"><button type=\"button\" class=\"btn btn-link btn-sm js-more\">{$btn}</button></span></div>";
+	}
+
+	/**
+	 * Truncating plain text and adding a button showing all the text.
+	 *
+	 * @param string $text
+	 * @param int    $length
+	 *
+	 * @return string
+	 */
+	public static function truncateText(string $text, int $length): string
+	{
+		if (\mb_strlen($text) < $length) {
+			return $text;
+		}
+		$teaser = TextParser::textTruncate($text, $length, true);
+		$btn = \App\Language::translate('LBL_MORE_BTN');
+		return "<div class=\"js-more-content\"><span class=\"teaserContent\">$teaser</span><span class=\"fullContent d-none\">$text</span><span class=\"text-right mb-1\"><button type=\"button\" class=\"btn btn-link btn-sm pt-0 js-more\">{$btn}</button></span></div>";
+	}
+
+	/**
+	 * Truncating HTML and adding a button showing all the text.
+	 *
+	 * @param string $html
+	 * @param int    $length
+	 *
+	 * @return string
+	 */
+	public static function truncateHtml(string $html, int $length): string
+	{
+		$css = $attr = '';
+		if ($length <= 200) {
+			$css = 'height: 2.9rem;';
+			$attr = 'scrolling="no"';
+		}
+		return "<div class=\"js-iframe-content\"><iframe width=\"100%\" frameborder=\"0\" {$attr} style=\"border: 0;width: 100%;{$css}\" srcdoc=\"$html\"></iframe><button type=\"button\" class=\"btn btn-link btn-sm js-more\"><span class=\"mdi mdi-fullscreen\"></span></button></div>";
 	}
 }

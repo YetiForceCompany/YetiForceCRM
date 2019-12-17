@@ -1378,15 +1378,8 @@ class TextParser
 		if (!$length) {
 			$length = \App\Config::main('listview_max_textlength');
 		}
-		if (\function_exists('mb_strlen')) {
-			if (mb_strlen($text) > $length) {
-				$text = mb_substr($text, 0, $length, \App\Config::main('default_charset'));
-				if ($addDots) {
-					$text .= '...';
-				}
-			}
-		} elseif (\strlen($text) > $length) {
-			$text = substr($text, 0, $length);
+		if (mb_strlen($text) > $length) {
+			$text = mb_substr($text, 0, $length, \App\Config::main('default_charset'));
 			if ($addDots) {
 				$text .= '...';
 			}
@@ -1403,10 +1396,7 @@ class TextParser
 	 */
 	public static function getTextLength($text)
 	{
-		if (\function_exists('mb_strlen')) {
-			return mb_strlen($text);
-		}
-		return \strlen($text);
+		return mb_strlen($text);
 	}
 
 	/**
