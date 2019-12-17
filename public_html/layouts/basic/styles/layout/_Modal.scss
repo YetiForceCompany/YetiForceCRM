@@ -41,7 +41,7 @@
 		margin-right: 0;
 		min-height: calc(100% - 80px); // if not - nested modals will be cutted
 		iframe.modal-iframe {
-			height: calc(100vh - #{calculate-rem(215px)});
+			height: calc(100vh - #{calculate-rem(254px)});
 		}
 	}
 }
