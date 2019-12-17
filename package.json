@@ -32,7 +32,6 @@
     "blueimp-file-upload": "^10.0.0",
     "bootbox": "^5.1.2",
     "bootstrap": "^4.3.1",
-    "bootstrap-colorpicker": "3.1.2",
     "bootstrap-datepicker": "^1.9.0",
     "bootstrap-daterangepicker": "^3.0.4",
     "bootstrap-tabdrop": "https://github.com/jmschabdach/bootstrap-tabdrop",
@@ -88,7 +87,7 @@
     "store": "^2.0.12",
     "tributejs": "^4.0.0",
     "url-polyfill": "^1.1.7",
-    "vue": "^2.6.10",
+    "vue": "^2.6.11",
     "whatwg-fetch": "^3.0.0"
   },
   "resolutions": {},
