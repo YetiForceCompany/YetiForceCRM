@@ -129,7 +129,7 @@ class Vtiger_Viewer extends SmartyBC
 				$filePath = "components/$templateName";
 				break;
 			}
-			$completeFilePath = $templateDir . "components/$templateName";
+			$completeFilePath = $templateDir . "modules/$moduleName/$templateName";
 			if (!empty($moduleName) && file_exists($completeFilePath)) {
 				$filePath = "modules/$moduleName/$templateName";
 				break;
