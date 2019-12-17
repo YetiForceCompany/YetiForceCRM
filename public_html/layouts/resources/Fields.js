@@ -417,7 +417,7 @@ window.App.Fields = {
 					cb && cb(newColor);
 					bgToUpdate && bgToUpdate.css('background', newColor);
 					fieldToUpdate && fieldToUpdate.val(newColor);
-					app.hideModalWindow();
+					app.hideModalWindow(false, modalContainer.closest('.js-modal-container')[0].id);
 				});
 			};
 			app.showModalWindow({

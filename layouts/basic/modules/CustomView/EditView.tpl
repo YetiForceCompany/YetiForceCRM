@@ -126,11 +126,14 @@
 										<label class="float-left col-form-label ">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE_NAME)}
 											:</label>
 										<div class="col-md-7">
+											{assign var=COLOR value=$CUSTOMVIEW_MODEL->get('color')}
 											<div class="input-group js-color-picker" data-js="color-picker">
-												<input type="text" class="form-control" name="color"
-													   value="{$CUSTOMVIEW_MODEL->get('color')}"/>
+												<input type="text" class="form-control js-color-picker__field" name="color"
+													   value="{$COLOR}"/>
 												<div class="input-group-append">
-													<div class="input-group-text colorpicker-input-addon"><i></i></div>
+													<div class="input-group-text" >
+														<span class="c-circle c-circle--small js-color-picker__color" style="background-color: {$COLOR}"></span>
+													</div>
 												</div>
 											</div>
 										</div>

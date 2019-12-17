@@ -142,9 +142,14 @@ class CustomView {
 
 	registerColorEvent() {
 		const container = this.getContentsContainer();
-		container.find('.js-color-picker').colorpicker({
-			format: 'hex',
-			autoInputFallback: false
+		let picker = container.find('.js-color-picker');
+		let pickerField = picker.find('.js-color-picker__field');
+		pickerField.on('focus', e => {
+			App.Fields.Colors.showPicker({
+				color: pickerField.val(),
+				bgToUpdate: picker.find('.js-color-picker__color'),
+				fieldToUpdate: pickerField
+			});
 		});
 	}
 

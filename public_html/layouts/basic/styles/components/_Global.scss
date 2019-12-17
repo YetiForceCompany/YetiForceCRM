@@ -136,6 +136,17 @@ body:not(.desktop) {
 	z-index: 100;
 }
 
+.c-circle {
+	$size: 30;
+	@extend .rounded-circle;
+	width: #{$size}px;
+	height: #{$size}px;
+	&--small {
+		width: #{$size * 0.66}px;
+		height: #{$size * 0.66}px;
+	}
+}
+
 .childrenMarginRight > * {
 	@extend .mr-2;
 }
