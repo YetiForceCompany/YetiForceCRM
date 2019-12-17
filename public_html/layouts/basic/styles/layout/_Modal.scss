@@ -30,7 +30,8 @@
 	}
 }
 @include media-breakpoint-up(md) {
-	.modal-fullscreen {
+	.modal-fullscreen:not(.bootbox),
+	.bootbox.modal-fullscreen > .modal-dialog {
 		top: 21px;
 		right: 32px;
 		left: 0;
@@ -39,6 +40,9 @@
 		margin-left: 50px;
 		margin-right: 0;
 		min-height: calc(100% - 80px); // if not - nested modals will be cutted
+		iframe.modal-iframe {
+			height: calc(100vh - #{calculate-rem(215px)});
+		}
 	}
 }
 

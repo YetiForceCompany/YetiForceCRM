@@ -2032,11 +2032,18 @@ var app = (window.app = {
 	registerMoreContent() {
 		$(document).on('click', '.js-more', e => {
 			const btn = $(e.currentTarget);
-			const content = btn.closest('.js-more-content');
+			const message = btn.data('iframe')
+				? btn
+						.siblings('iframe')
+						.clone()
+						.show()
+				: btn
+						.closest('.js-more-content')
+						.find('.fullContent')
+						.html();
 			bootbox.dialog({
-				message: content.find('.fullContent').html(),
-				className: 'u-word-break',
-				size: 'xl',
+				message,
+				className: 'u-word-break modal-fullscreen',
 				buttons: {
 					danger: {
 						label: '<span class="fas fa-times mr-1"></span>' + app.vtranslate('JS_CLOSE'),
