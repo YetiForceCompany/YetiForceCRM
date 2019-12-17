@@ -27,7 +27,7 @@
 				{/if}
 			</div>
 			<div class="col-ceq-xsm-6">
-				{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
+				{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME) SOURCE_MODULE=$BASE_MODULE}
 			</div>
 		</div>
 	</div>
