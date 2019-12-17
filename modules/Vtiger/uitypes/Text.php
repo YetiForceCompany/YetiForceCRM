@@ -87,7 +87,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		return parent::getListViewDisplayValue(trim(strip_tags($value)), $record, $recordModel, $rawText);
+		return $this->getDisplayValue($value, $record, $recordModel, $rawText, $this->getFieldModel()->get('maxlengthtext') ?? 100);
 	}
 
 	/**
