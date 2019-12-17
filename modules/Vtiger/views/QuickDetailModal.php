@@ -36,7 +36,7 @@ class Vtiger_QuickDetailModal_View extends \App\Controller\Modal
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -51,7 +51,7 @@ class Vtiger_QuickDetailModal_View extends \App\Controller\Modal
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$detailModel = Vtiger_DetailView_Model::getInstance($moduleName, $request->getInteger('record'));
@@ -73,13 +73,13 @@ class Vtiger_QuickDetailModal_View extends \App\Controller\Modal
 						$label = '';
 						if (!empty($widget['label'])) {
 							$label = App\Language::translate($widget['label'], $moduleName);
-						} elseif ($widget['type'] === 'RelatedModule') {
+						} elseif ('RelatedModule' === $widget['type']) {
 							$relatedModule = App\Module::getModuleName($widget['data']['relatedmodule']);
 							$label = App\Language::translate($relatedModule, $relatedModule);
 						}
-						$widgets[] = ['title' => $label, 'content' => $detailView->$method($widgetRequest)];
+						$widgets[] = ['title' => $label, 'content' => $detailView->{$method}($widgetRequest)];
 					}
-				} elseif ($widget['type'] === 'Summary') {
+				} elseif ('Summary' === $widget['type']) {
 					$request->set('isReadOnly', 'true');
 					$widgets[] = [
 						'content' => $detailView->showModuleSummaryView($request),
@@ -91,6 +91,41 @@ class Vtiger_QuickDetailModal_View extends \App\Controller\Modal
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('WIDGETS', $widgets);
+		$viewer->assign('LINKS', $this->getModalLinks($recordModel));
 		$viewer->view('Modals/QuickDetailModal.tpl', $moduleName);
+	}
+
+	/**
+	 * Links.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 *
+	 * @return Vtiger_Link_Model[]
+	 */
+	public function getModalLinks(Vtiger_Record_Model $recordModel)
+	{
+		$links = Vtiger_Link_Model::getAllByType($recordModel->getModule()->getId(), ['QUICK_DETAIL_MODAL_HEADER'])['QUICK_DETAIL_MODAL_HEADER'] ?? [];
+		if ($recordModel->isEditable()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'DETAIL_VIEW_BASIC',
+				'linklabel' => 'BTN_RECORD_EDIT',
+				'linkurl' => $recordModel->getEditViewUrl(),
+				'linkicon' => 'fas fa-edit',
+				'linkclass' => 'btn btn-outline-dark btn-sm',
+				'linkhint' => 'BTN_RECORD_EDIT',
+				'linkhref' => true,
+			]);
+		}
+		if ($recordModel->isViewable()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
+				'linkurl' => $recordModel->getFullDetailViewUrl(),
+				'linkicon' => 'fas fa-th-list',
+				'linkclass' => 'btn-sm btn-default',
+				'linkhref' => true,
+			]);
+		}
+		return $links;
 	}
 }
