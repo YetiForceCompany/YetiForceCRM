@@ -342,6 +342,137 @@ var App = (window.App = {
 				return aDeferred.promise();
 			}
 		},
+		QuickEdit: {
+			/**
+			 * Show modal
+			 *
+			 * @param   {string}  html
+			 * @param   {object}  params
+			 */
+			showModal(params = {}) {
+				const self = this;
+				params['view'] = 'QuickEditModal';
+				AppConnector.request(params).done(function(html) {
+					app.showModalWindow(html, container => {
+						let form = container.find('form[name="QuickEdit"]');
+						let moduleName = form.find('[name="module"]').val();
+						let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+						let moduleClassName = moduleName + '_QuickEdit_Js';
+						editViewInstance.registerBasicEvents(form);
+						if (typeof window[moduleClassName] !== 'undefined') {
+							new window[moduleClassName]().registerEvents(container);
+						}
+						form.validationEngine(app.validationEngineOptions);
+						if (typeof params.callbackPostShown !== 'undefined') {
+							params.callbackPostShown(form, params);
+						}
+						self.registerPostLoadEvents(form, params);
+					});
+				});
+			},
+			/**
+			 * Register post load events
+			 *
+			 * @param   {object}  form jQuery
+			 * @param   {object}  params
+			 *
+			 * @return  {boolean}
+			 */
+			registerPostLoadEvents(form, params) {
+				const submitSuccessCallback = params.callbackFunction || function() {};
+				form.on('submit', e => {
+					const form = $(e.currentTarget);
+					if (form.hasClass('not_validation')) {
+						return true;
+					}
+					const moduleName = form.find('[name="module"]').val();
+					//Form should submit only once for multiple clicks also
+					if (typeof form.data('submit') !== 'undefined') {
+						return false;
+					} else {
+						if (form.data('jqv').InvalidFields.length > 0) {
+							//If validation fails, form should submit again
+							form.removeData('submit');
+							$.progressIndicator({ mode: 'hide' });
+							e.preventDefault();
+							return;
+						} else {
+							//Once the form is submiting add data attribute to that form element
+							form.data('submit', 'true');
+							$.progressIndicator({ mode: 'hide' });
+						}
+
+						const recordPreSaveEvent = $.Event(Vtiger_Edit_Js.recordPreSave);
+						form.trigger(recordPreSaveEvent, {
+							value: 'edit',
+							module: moduleName
+						});
+						if (!recordPreSaveEvent.isDefaultPrevented()) {
+							const moduleInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+							const saveHandler = !!moduleInstance.quickEditSave
+								? moduleInstance.quickEditSave
+								: this.save;
+							let progress = $.progressIndicator({
+								message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+								position: 'html',
+								blockInfo: {
+									enabled: true
+								}
+							});
+							saveHandler(form).done(data => {
+								const modalContainer = form.closest('.modalContainer');
+								const parentModuleName = app.getModuleName();
+								const viewName = app.getViewName();
+								if (modalContainer.length) {
+									app.hideModalWindow(false, modalContainer[0].id);
+								}
+								if (moduleName === parentModuleName && 'List' === viewName) {
+									const listInstance = new Vtiger_List_Js();
+									listInstance.getListViewRecords();
+								}
+								submitSuccessCallback(data);
+								app.event.trigger('QuickEdit.AfterSaveFinal', data, form);
+								progress.progressIndicator({ mode: 'hide' });
+								if (data.success) {
+									Vtiger_Helper_Js.showPnotify({
+										text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
+										type: 'success'
+									});
+								}
+								if ('Detail' === viewName && app.getRecordId() === form.find('[name="record"]').val()) {
+									window.location.reload();
+								}
+							});
+						} else {
+							//If validation fails in recordPreSaveEvent, form should submit again
+							form.removeData('submit');
+							$.progressIndicator({ mode: 'hide' });
+						}
+						e.preventDefault();
+					}
+				});
+			},
+			/**
+			 * Save quick create form
+			 *
+			 * @param   {object}  form  jQuery
+			 *
+			 * @return  {Promise}        aDeferred
+			 */
+			save(form) {
+				const aDeferred = $.Deferred();
+				const quickCreateSaveUrl = form.serializeFormData();
+				AppConnector.request(quickCreateSaveUrl).done(
+					data => {
+						aDeferred.resolve(data);
+					},
+					(textStatus, errorThrown) => {
+						aDeferred.reject(textStatus, errorThrown);
+					}
+				);
+				return aDeferred.promise();
+			}
+		},
 		Scrollbar: {
 			defaults: {
 				scrollbars: {
@@ -1817,6 +1948,32 @@ var app = (window.app = {
 			console.error(errorThrown);
 		}
 	},
+	registerQuickEditModal: function(container) {
+		if (typeof container === 'undefined') {
+			container = $('body');
+		}
+		container.on('click', '.js-quick-edit-modal', function(e) {
+			e.preventDefault();
+			let element = $(this);
+			let data = {
+				module: element.data('module'),
+				record: element.data('record')
+			};
+			if (element.data('values')) {
+				$.extend(data, element.data('values'));
+			}
+			if (element.data('mandatoryFields')) {
+				data.mandatoryFields = element.data('mandatoryFields');
+			}
+			if (element.data('showLayout')) {
+				data.showLayout = element.data('showLayout');
+			}
+			if (element.data('editFields')) {
+				data.editFields = element.data('editFields');
+			}
+			App.Components.QuickEdit.showModal(data);
+		});
+	},
 	registerModal: function(container) {
 		if (typeof container === 'undefined') {
 			container = $('body');
@@ -2458,6 +2615,7 @@ $(document).ready(function() {
 	app.registerFormatNumber();
 	app.registerMoreContent();
 	app.registerModal();
+	app.registerQuickEditModal();
 	app.registerMenu();
 	app.registerTabdrop();
 	app.registesterScrollbar(document);

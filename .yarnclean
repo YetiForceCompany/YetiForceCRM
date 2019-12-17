@@ -7,7 +7,6 @@ powered-test
 # Git and GitHub meta files
 .github
 .babelrc
-.bin
 *.d.ts
 test.js
 .DS_Store

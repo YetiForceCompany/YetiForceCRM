@@ -1343,6 +1343,16 @@ class Vtiger_Record_Model extends \App\Base
 				'linkclass' => 'btn-sm btn-default',
 				'linkhref' => true,
 			];
+			$recordLinks[] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_QUICK_EDIT',
+				'linkicon' => 'far fa-edit',
+				'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
+				'linkdata' => [
+					'module' => $this->getModuleName(),
+					'record' => $this->getId(),
+				]
+			];
 		}
 		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
 			$watching = (int) ($this->isWatchingRecord());
@@ -1444,6 +1454,15 @@ class Vtiger_Record_Model extends \App\Base
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'fas fa-edit',
 				'linkclass' => 'btn-sm btn-default',
+			]);
+			$links['LBL_QUICK_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_QUICK_EDIT',
+				'linkicon' => 'far fa-edit',
+				'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
+				'linkdata' => [
+					'module' => $this->getModuleName(),
+					'record' => $this->getId(),
+				]
 			]);
 		}
 		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {

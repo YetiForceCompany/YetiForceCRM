@@ -42,9 +42,11 @@ $.Class(
 			return this.container;
 		},
 		getCurrentDashboard: function() {
-			return $('.selectDashboard li a.active')
-				.closest('li')
-				.data('id');
+			let dashboardId = $('.selectDashboard li a.active').closest('li').data('id');
+			if(!dashboardId){
+				dashboardId = 1;
+			}
+			return dashboardId;
 		},
 		getWidgetInstance: function(widgetContainer) {
 			var id = widgetContainer.attr('id');

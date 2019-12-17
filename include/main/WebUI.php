@@ -159,8 +159,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if ($qualifiedModuleName && 0 === stripos($qualifiedModuleName, 'Settings') && empty(\App\User::getCurrentUserId())) {
 				header('location: ' . App\Config::main('site_URL'), true);
 			}
-
-			$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
+			if ('AppComponents' === $moduleName) {
+				$handlerClass = "App\\Components\\{$componentName}";
+			} else {
+				$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
+			}
 			$handler = new $handlerClass();
 			if (!$handler) {
 				\App\Log::error("HandlerClass: $handlerClass", 'Loader');
@@ -178,7 +181,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if ('ModComments' === $moduleName && 'List' === $view) {
 				header('location: index.php?module=Home&view=DashBoard');
 			}
-			$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Install', 'ModTracker'];
+			$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Install', 'ModTracker', 'AppComponents'];
 			if ($handler->loginRequired() && !\in_array($moduleName, $skipList) && false === stripos($qualifiedModuleName, 'Settings')) {
 				$this->triggerCheckPermission($handler, $request);
 			} elseif (0 === stripos($qualifiedModuleName, 'Settings') || \in_array($moduleName, $skipList) || !$handler->loginRequired()) {

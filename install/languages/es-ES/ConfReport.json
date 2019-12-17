@@ -10,7 +10,7 @@
     "LBL_CONFREPORT_DESCRIPTION": "Le permite verificar que la configuración del servidor principal es compatible con los parámetros recomendados.",
     "LBL_PARAMETER": "Parámetro",
     "LBL_VALUE": "Valor",
-    "LBL_RECOMMENDED": "Recommended",
+    "LBL_RECOMMENDED": "Recomendado",
     "LBL_SYSTEM_STABILITY": "Estabilidad del sistema",
     "LBL_SYSTEM_SECURITY": "Seguridad del sistema",
     "LBL_HEADERS_SECURITY": "Configuración de encabezados del sistema",
@@ -106,8 +106,8 @@
     "LBL_LABEL_LAST_CRON_START": "Time Cron fue la última ejecución",
     "LBL_LABEL_PROTOCOL_VERSION": "Versión del protocolo HTTP",
     "LBL_LABEL_HTTP_METHODS": "Métodos HTTP",
-    "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "Maximum amount of RAM",
-    "LBL_HELP_MAXIMUMMEMORYSIZE": "The maximum amount of RAM calculated on the basis of current configuration parameters. This is the peak amount of RAM that is required for the database engine to work properly. This amount of RAM is only reserved for the database engine. key_buffer_size + query_cache_size + tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + max_connections * (sort_buffer_size + read_buffer_size + read_rnd_buffer_size + join_buffer_size + thread_stack + binlog_cache_size)",
+    "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "Cantidad máxima de memoria RAM",
+    "LBL_HELP_MAXIMUMMEMORYSIZE": "Cantidad mínima de memoria RAM calculada sobre la base de la configuración actual. Ésta es la cantidad mínima de memoria RAM requerida por el motor de la base de datos para funcionar correctamente. Ésta cantidad de memoria está reservada solo para el motor de la base de datos. key_buffer_size + query_cache_size + tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + max_connections * (sort_buffer_size + read_buffer_size + read_rnd_buffer_size + join_buffer_size + thread_stack + binlog_cache_size)",
     "LBL_HELP_MBSTRING": "Extensión usada para administrar cadenas. Utilizada para convertir cadenas a diferentes codificaciones.",
     "LBL_HELP_FILTER": "Extensión usada para filtrar datos de la solicitud entrante.",
     "LBL_HELP_BCMATH": "Operaciones matemáticas más precisas.",
@@ -225,10 +225,10 @@
     "LBL_IT_WORKS_PROPERLY": "It works properly",
     "LBL_LABEL_FOOTER": "Footer",
     "LBL_LABEL_PREMIUM_MODULES": "Premium modules",
-    "LBL_FILE_OWNER": "Owner",
-    "LBL_FILE_PERMISSIONS": "Permissions",
-    "LBL_LABEL_SCRIPT_USER": "Script calling user",
-    "LBL_ERROR_DURING_VERIFICATION": "Error occurred during verification"
+    "LBL_FILE_OWNER": "Propietario",
+    "LBL_FILE_PERMISSIONS": "Permisos",
+    "LBL_LABEL_SCRIPT_USER": "Nombre de usuario del script",
+    "LBL_ERROR_DURING_VERIFICATION": "Error de la verificación"
   },
   "js": {
     "JS_SPEED_TEST_START": "Comprobando la velocidad..."

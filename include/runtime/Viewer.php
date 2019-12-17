@@ -125,6 +125,10 @@ class Vtiger_Viewer extends SmartyBC
 			return \App\Cache::get('ViewerTemplatePath', $cacheKey);
 		}
 		foreach ($this->getTemplateDir() as $templateDir) {
+			if ('AppComponents' === $moduleName && file_exists($templateDir . "components/$templateName")) {
+				$filePath = "components/$templateName";
+				break;
+			}
 			$completeFilePath = $templateDir . "modules/$moduleName/$templateName";
 			if (!empty($moduleName) && file_exists($completeFilePath)) {
 				$filePath = "modules/$moduleName/$templateName";
@@ -144,7 +148,6 @@ class Vtiger_Viewer extends SmartyBC
 					$intermediateFallBackFilePath = $templateDir . DIRECTORY_SEPARATOR . $intermediateFallBackFileName;
 					if (file_exists($intermediateFallBackFilePath)) {
 						\App\Cache::save('ViewerTemplatePath', $cacheKey, $intermediateFallBackFileName, \App\Cache::LONG);
-
 						return $intermediateFallBackFileName;
 					}
 				}
@@ -152,7 +155,6 @@ class Vtiger_Viewer extends SmartyBC
 			$filePath = "modules/Vtiger/$templateName";
 		}
 		\App\Cache::save('ViewerTemplatePath', $cacheKey, $filePath, \App\Cache::LONG);
-
 		return $filePath;
 	}
 

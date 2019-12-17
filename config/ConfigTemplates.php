@@ -701,7 +701,17 @@ return [
 		'recursiveTranslate' => [
 			'default' => false,
 			'description' => 'If there is no translation in the chosen language, then get from the default language.'
-		]
+		],
+		'quickEditLayout' => [
+			'default' => 'blocks',
+			'description' => 'Parameter defining how fields are displayed in quick edit. Available values: standard,blocks,vertical',
+			'validationValues' => ['blocks', 'standard', 'vertical']
+		],
+		'quickCreateLayout' => [
+			'default' => 'standard',
+			'description' => 'Parameter defining how fields are displayed in quick create. Available values: blocks,standard',
+			'validationValues' => ['blocks', 'standard']
+		],
 	],
 	'relation' => [
 		'COMMENT_MAX_LENGTH' => [

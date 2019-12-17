@@ -212,6 +212,7 @@
     "LBL_DUE": "due in",
     "LBL_DUPLICATE": "Duplicate",
     "LBL_EDIT": "Edit",
+    "LBL_QUICK_EDIT": "Quick edit",
     "BTN_RECORD_EDIT": "Edit view",
     "LBL_EDITING": "Edit",
     "LBL_EDIT_FIELDS": "Edit fields",
@@ -1387,7 +1388,8 @@
     "LBL_CREATEDMAIL": "Create email message",
     "LBL_LINKBYFIELDS": "Creating links to email message",
     "LBL_SORTING_SETTINGS": "Sorting settings",
-    "LBL_CHANGE_RELATION_DATA": "Change addidtional data"
+    "LBL_CHANGE_RELATION_DATA": "Change addidtional data",
+    "LBL_EMPTY_DASHBOARD": "Selected dashboard is empty."
   },
   "js": {
     "JS_APPROVE": "Approve",

@@ -10,6 +10,10 @@
       "baseBranchList": ["developer"],
       "assignees": ["mariuszkrzaczkowski"],
       "enabled": true
+    },
+    {
+      "depTypeList": ["devDependencies"],
+      "enabled": false
     }
   ]
 }
