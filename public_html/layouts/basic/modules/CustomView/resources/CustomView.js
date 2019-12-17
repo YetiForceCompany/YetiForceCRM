@@ -144,13 +144,14 @@ class CustomView {
 		const container = this.getContentsContainer();
 		let picker = container.find('.js-color-picker');
 		let pickerField = picker.find('.js-color-picker__field');
-		pickerField.on('focus', e => {
+		let showPicker = () => {
 			App.Fields.Colors.showPicker({
 				color: pickerField.val(),
 				bgToUpdate: picker.find('.js-color-picker__color'),
 				fieldToUpdate: pickerField
 			});
-		});
+		};
+		picker.on('click', showPicker);
 	}
 
 	/**

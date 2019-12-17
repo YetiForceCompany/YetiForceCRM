@@ -137,13 +137,14 @@ body:not(.desktop) {
 }
 
 .c-circle {
-	$size: 30;
+	$circle-size: calculate-rem(30px);
+	$circle-size-sm: calculate-rem(23px);
 	@extend .rounded-circle;
-	width: #{$size}px;
-	height: #{$size}px;
+	width: $circle-size;
+	height: $circle-size;
 	&--small {
-		width: #{$size * 0.66}px;
-		height: #{$size * 0.66}px;
+		width: $circle-size-sm;
+		height: $circle-size-sm;
 	}
 }
 
