@@ -178,15 +178,12 @@ class Layout
 	 */
 	public static function truncateHtml(string $html, int $length): string
 	{
-		$teaser = $css = $attr = '';
+		$teaser = $css = '';
 		if ($length <= 200) {
 			$css = 'display: none;';
-			$attr = 'scrolling="no"';
 			$teaser = TextParser::textTruncate(trim(strip_tags($html)), $length);
-			$btn = \App\Language::translate('LBL_MORE_BTN');
-		} else {
-			$btn = '<span class="mdi mdi-fullscreen"></span>';
 		}
-		return "<div class=\"js-iframe-content\">$teaser<iframe width=\"100%\" frameborder=\"0\" {$attr} style=\"border: 0;width: 100%;{$css}\" srcdoc=\"$html\"></iframe><button type=\"button\" class=\"btn btn-link btn-sm pt-0 js-iframe-more\">{$btn}</button></div>";
+		$btn = \App\Language::translate('LBL_MORE_BTN');
+		return "<div class=\"js-iframe-content\">$teaser<iframe class=\"modal-iframe\" width=\"100%\" frameborder=\"0\" style=\"border: 0;width: 100%;{$css}\" srcdoc=\"$html\"></iframe><button type=\"button\" class=\"btn btn-link btn-sm pt-0 float-right js-more\" data-iframe=\"true\">{$btn}</button></div>";
 	}
 }
