@@ -420,10 +420,10 @@ window.App.Fields = {
 					app.hideModalWindow(false, modalContainer.closest('.js-modal-container')[0].id);
 				});
 			};
-			app.showModalWindow({
-				url: `index.php?module=Colors&parent=Settings&view=PickerModal&color=${color.substring(1)}`,
-				cb: registerPickerEvents.bind(this)
-			});
+			let url = `index.php?module=AppComponents&view=ColorPickerModal${
+				color ? '&color=' + color.substring(1) : ''
+			}`;
+			app.showModalWindow({ url, cb: registerPickerEvents.bind(this) });
 		}
 	},
 	Text: {
