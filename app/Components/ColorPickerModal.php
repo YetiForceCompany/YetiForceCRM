@@ -29,5 +29,7 @@ class ColorPickerModal extends \App\Controller\Modal
 	 */
 	public function process(\App\Request $request)
 	{
+		$viewer = $this->getViewer($request);
+		$viewer->view('ColorPickerModal.tpl', $request->getModule());
 	}
 }
