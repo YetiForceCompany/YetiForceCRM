@@ -3003,7 +3003,6 @@ jQuery.Class(
 			detailContentsHolder.find('.js-iframe-full-height').each(function() {
 				let iframe = $(this);
 				iframe.on('load', e => {
-					console.log('load');
 					iframe.height(
 						iframe
 							.contents()
