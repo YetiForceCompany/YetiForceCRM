@@ -148,17 +148,34 @@ class Layout
 	 * Truncating HTML and adding a button showing all the text.
 	 *
 	 * @param string $html
+	 * @param string $size
+	 * @param int    $length
 	 *
 	 * @return string
 	 */
-	public static function truncateHtml(string $html): string
+	public static function truncateHtml(string $html, ?string $size = 'medium', ?int $length = 20): string
 	{
+		$teaser = $css = $btn = $iframeClass = '';
+		if ('full' === $size) {
+			$iframeClass = 'js-iframe-full-height';
+		} elseif ('mini' === $size) {
+			$btnText = \App\Language::translate('LBL_MORE_BTN');
+			$btn = "
+				<a href=\"#\" class=\"js-more font-weight-lighter\" data-iframe=\"true\">
+					{$btnText}
+				</a>";
+			$css = 'display: none;';
+			$teaser = TextParser::textTruncate(trim(strip_tags($html)), $length);
+		} elseif ('medium' === $size) {
+			$btn = '<button type="button" class="btn btn-primary c-btn-floating-right-bottom js-more btnNoFastEdit" data-iframe="true">
+			<span class="mdi mdi-fullscreen"></span>
+			</button>';
+		}
 		return "
-		<div class=\"js-iframe-content\">
-			<iframe class=\"modal-iframe w-100\" sandbox frameborder=\"0\" srcdoc=\"$html\"></iframe>
-			<button type=\"button\" class=\"btn btn-primary c-btn-floating-right-bottom js-more\" data-iframe=\"true\">
-					<span class=\"mdi mdi-fullscreen\"></span>
-				</button>
+		<div class=\"js-iframe-content\" >
+			$teaser
+			<iframe class=\"modal-iframe js-iframe-full-height w-100 {$iframeClass}\" frameborder=\"0\" style=\"{$css}\" srcdoc=\"$html\"></iframe>
+			{$btn}
 		</div>";
 	}
 }
