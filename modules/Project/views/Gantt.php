@@ -67,7 +67,6 @@ class Project_Gantt_View extends Vtiger_Index_View
 	 */
 	public function getFooterScripts(App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$jsFileNames = [
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js',
