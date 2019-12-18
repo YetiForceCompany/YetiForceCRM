@@ -49,7 +49,7 @@
 										{$FULL_TEXT}
 									</span>
 									<div class="text-right mb-1">
-										<button type="button" class="btn btn-link btn-sm js-more">{\App\Language::translate('LBL_MORE_BTN')}</button>
+										<a href="#" class="js-more font-weight-lighter">{\App\Language::translate('LBL_MORE_BTN')}</a>
 									</div>
 								{/if}
 							</div>

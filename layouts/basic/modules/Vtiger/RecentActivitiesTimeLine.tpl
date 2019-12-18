@@ -54,7 +54,7 @@
 																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}</span>
 																		{if $FIELDMODEL->has('fullPostValue')}
 																			<span class="fullContent d-none">{$FIELDMODEL->get('fullPostValue')}</span>
-																			<button type="button" class="btn btn-link btn-sm js-more">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																			<a href="#" class="js-more font-weight-lighter">{\App\Language::translate('LBL_MORE_BTN')}</a>
 																		{/if}
 																	</strong>
 																{/if}
@@ -96,8 +96,7 @@
 																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</span>
 																		{if $FIELDMODEL->has('fullPreValue')}
 																			<span class="fullContent d-none">{$FIELDMODEL->get('fullPreValue')}</span>
-																			<button type="button"
-																					class="btn btn-link btn-sm js-more">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																			<a href="#" class="js-more font-weight-lighter">{\App\Language::translate('LBL_MORE_BTN')}</a>
 																		{/if}
 																	</strong>
 																{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
@@ -115,8 +114,7 @@
 																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}</span>
 																		{if $FIELDMODEL->has('fullPostValue')}
 																			<span class="fullContent d-none">{$FIELDMODEL->get('fullPostValue')}</span>
-																			<button type="button"
-																					class="btn btn-link btn-sm js-more">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																			<a href="#" class="js-more font-weight-lighter">{\App\Language::translate('LBL_MORE_BTN')}</a>
 																		{/if}
 																	</strong>
 																{/if}
@@ -157,7 +155,7 @@
 																{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML(\App\Purifier::decodeHtml($RELATION->getValue())))}</span>
 															{if $RELATION->has('fullValue')}
 																<span class="fullContent d-none">{$RELATION->get('fullValue')}</span>
-																<button type="button" class="btn btn-info btn-sm js-more">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																<button type="button" class="btn btn-info btn-sm js-more font-weight-lighter">{\App\Language::translate('LBL_MORE_BTN')}</button>
 															{/if}
 														</strong>
 													{/if}
