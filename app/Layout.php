@@ -176,14 +176,28 @@ class Layout
 	 *
 	 * @return string
 	 */
-	public static function truncateHtml(string $html, int $length): string
+	public static function truncateHtml(string $html, $length): string
 	{
 		$teaser = $css = '';
-		if ($length <= 200) {
+		$btnText = \App\Language::translate('LBL_MORE_BTN');
+		$btn = "
+			<a href=\"#\" class=\"js-more font-weight-lighter\" data-iframe=\"true\">
+				{$btnText}
+			</a>";
+		if ('full' === $length) {
+			$btn = '
+				<button type="button" class="btn btn-primary c-btn-floating-right-bottom js-more" data-iframe="true">
+					<span class="mdi mdi-fullscreen"></span>
+				</button>';
+		} elseif ($length <= 200) {
 			$css = 'display: none;';
 			$teaser = TextParser::textTruncate(trim(strip_tags($html)), $length);
 		}
-		$btn = \App\Language::translate('LBL_MORE_BTN');
-		return "<div class=\"js-iframe-content\">$teaser<iframe class=\"modal-iframe\" width=\"100%\" frameborder=\"0\" style=\"border: 0;width: 100%;{$css}\" srcdoc=\"$html\"></iframe><button type=\"button\" class=\"btn btn-link btn-sm pt-0 float-right js-more\" data-iframe=\"true\">{$btn}</button></div>";
+		return "
+		<div class=\"js-iframe-content\">
+			$teaser
+			<iframe class=\"modal-iframe w-100\" frameborder=\"0\" style=\"{$css}\" srcdoc=\"$html\"></iframe>
+			{$btn}
+		</div>";
 	}
 }

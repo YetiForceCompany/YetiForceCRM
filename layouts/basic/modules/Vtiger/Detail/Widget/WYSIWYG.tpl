@@ -19,7 +19,7 @@
 	<div class="c-detail-widget__content js-detail-widget-collapse js-detail-widget-content collapse multi-collapse pt-1"
 		id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}"
 		data-js="container|value">
-			{$RECORD->getDisplayValue($WIDGET['data']['field_name'],false,false,600)}
+			{$RECORD->getDisplayValue($WIDGET['data']['field_name'],false,false,'full')}
 	</div>
 </div>
 <!-- /tpl-Base-Detail-Widget-WYSIWYG -->

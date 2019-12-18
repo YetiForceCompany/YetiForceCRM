@@ -67,7 +67,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return '';
 		}
-		if (!\is_int($length)) {
+		if (!\is_int($length) && $length !== 'full') {
 			$length = 200;
 		}
 		if (300 === $this->getFieldModel()->getUIType() && \App\Utils::isHtml($value)) {
