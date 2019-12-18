@@ -49,7 +49,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		if (!$rawText) {
 			$value = \App\Utils\Completions::decode($value);
 		}
-		return $length ? \App\Layout::truncateHtml($value, $length) : $value;
+		return $length ? \App\Layout::truncateHtml($value) : $value;
 	}
 
 	/**

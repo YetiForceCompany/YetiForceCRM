@@ -152,7 +152,7 @@ class Layout
 	 *
 	 * @return string
 	 */
-	public static function truncateHtml(string $html, $length): string
+	public static function truncateHtml(string $html): string
 	{
 		return "
 		<div class=\"js-iframe-content\">

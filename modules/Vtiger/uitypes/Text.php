@@ -76,7 +76,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 			if (!$rawText) {
 				$value = \App\Utils\Completions::decode($value);
 			}
-			$value = \App\Layout::truncateHtml($value, $length);
+			$value = \App\Layout::truncateHtml($value);
 		} else {
 			if ($rawText) {
 				$value = nl2br(\App\TextParser::textTruncate(\App\Purifier::purify($value), $length, false));
