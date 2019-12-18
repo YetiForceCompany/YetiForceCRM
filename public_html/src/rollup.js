@@ -110,15 +110,7 @@ async function build(filePath, isWatched = false) {
 
 finder.on('directory', (dir, stat, stop) => {
 	const base = path.basename(dir)
-	if (
-		base === 'node_modules' ||
-		base === 'libraries' ||
-		base === 'vendor' ||
-		base === '_private' ||
-		base === 'store' ||
-		base === 'utils'
-	)
-		stop()
+	if (base === 'node_modules' || base === 'store' || base === 'utils') stop()
 })
 
 finder.on('file', (file, stat) => {

@@ -1389,7 +1389,10 @@
     "LBL_LINKBYFIELDS": "Creating links to email message",
     "LBL_SORTING_SETTINGS": "Sorting settings",
     "LBL_CHANGE_RELATION_DATA": "Change addidtional data",
-    "LBL_EMPTY_DASHBOARD": "Selected dashboard is empty."
+    "LBL_EMPTY_DASHBOARD": "Selected dashboard is empty.",
+    "LBL_EDIT_COLOR": "Edit color",
+    "LBL_SELECT_COLOR": "Select color:",
+    "LBL_PREVIOUS_COLOR": "Previous color:"
   },
   "js": {
     "JS_APPROVE": "Approve",
