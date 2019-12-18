@@ -148,7 +148,6 @@ class Layout
 	 * Truncating HTML and adding a button showing all the text.
 	 *
 	 * @param string $html
-	 * @param int    $length
 	 *
 	 * @return string
 	 */
