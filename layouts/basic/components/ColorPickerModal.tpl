@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+<!-- tpl-Components-ColorPickerModal-->
 	<div class="modal-body">
 		<form class="form-horizontal">
 			<div class="form-group form-row">
@@ -16,4 +17,5 @@
 			</div>
 		</form>
 	</div>
+<!-- /tpl-Components-ColorPickerModal-->
 {/strip}
