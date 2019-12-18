@@ -66,8 +66,13 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 		$sourceRecord = $request->getInteger('sourceRecord');
 		$result = false;
 		if (!empty($template) && !empty($field)) {
+			$emails = [];
 			$dataReader = $this->getQuery($request)->createCommand()->query();
 			while ($row = $dataReader->read()) {
+				if (isset($emails[$row[$field]])) {
+					continue;
+				}
+				$emails[$row[$field]] = true;
 				if ('Campaigns' === $sourceModule) {
 					$result = \App\Mailer::sendFromTemplate([
 						'template' => $template,

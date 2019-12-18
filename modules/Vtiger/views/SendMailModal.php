@@ -59,14 +59,19 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 	public function getRecordsListFromRequest(App\Request $request)
 	{
 		$dataReader = $this->getQuery($request)->createCommand()->query();
-		$count = ['all' => 0, 'emails' => 0];
+		$count = ['all' => 0, 'emails' => 0, 'duplicate' => 0];
 		foreach ($this->fields as $fieldName => $fieldModel) {
 			$count[$fieldName] = 0;
 		}
+		$emails = [];
 		while ($row = $dataReader->read()) {
 			++$count['all'];
 			foreach ($this->fields as $fieldName => $fieldModel) {
 				if (!empty($row[$fieldName])) {
+					if (isset($emails[$row[$fieldName]])) {
+						++$count['duplicate'];
+					}
+					$emails[$row[$fieldName]] = true;
 					++$count[$fieldName];
 					++$count['emails'];
 				}
