@@ -23,9 +23,26 @@
 			<input type="hidden" name="single_pdf" value="0" />
 			<input type="hidden" name="email_pdf" value="0" />
 			<input type="hidden" name="isSortActive" value="1" />
+			{function TEMPLATE_USER_VARIABLE}
+				<div class="js-pdf-user-variable row col-12{if !$TEMPLATE->get('default')} d-none{/if}">
+					{assign var=TEMPLATE_CONTENT value="{$TEMPLATE->getBody()}{$TEMPLATE->getHeader()}{$TEMPLATE->getFooter()}"}
+					{assign var=TEMPLATE_USER_VARIABLES value=$TEMPLATE->getParser()->getUserVariables($TEMPLATE_CONTENT)}
+					{if $TEMPLATE_USER_VARIABLES}
+						{foreach from=$TEMPLATE_USER_VARIABLES item=USER_VARIABLE key=FIELD_NAME}
+							<div class="col-md-6 mb-1">
+								<input type="text" name="userVariables[{$TEMPLATE->getId()}][{\App\Purifier::encodeHtml($FIELD_NAME)}]"
+								class="form-control form-control-sm"
+								title="{\App\Language::translate($USER_VARIABLE['label'], $MODULE_NAME)}"
+								placeholder="{\App\Language::translate($USER_VARIABLE['label'], $MODULE_NAME)}"
+								value="{\App\Language::translate($USER_VARIABLE['default'], $MODULE_NAME)}"/>
+							</div>
+						{/foreach}
+					{/if}
+				</div>
+			{/function}
 			{function TEMPLATE_LIST STANDARD_TEMPLATES=[]}
 				{foreach from=$STANDARD_TEMPLATES item=TEMPLATE}
-					<div class="form-group row">
+					<div class="js-pdf-template-content form-group row" data-js="container">
 						<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
 							{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)}
 							<span class="secondaryName ml-2">[ {\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)} ]</span>
@@ -34,13 +51,14 @@
 							<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}"
 								{if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
 						</div>
+						{TEMPLATE_USER_VARIABLE}
 					</div>
 				{/foreach}
 			{/function}
 			{function TEMPLATE_LIST_DYNAMIC DYNAMIC_TEMPLATES=[]}
 				{foreach from=$DYNAMIC_TEMPLATES item=TEMPLATE name=dynamicTemplates}
 							<div class="dynamic-template-container" data-js="container">
-								<div class="form-group row">
+								<div class="js-pdf-template-content form-group row" data-js="container">
 									<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
 										{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)}
 										<span class="secondaryName ml-2">[ {\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)} ]</span>
@@ -48,6 +66,7 @@
 									<div class="col-sm-1">
 										<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox dynamic-template" data-dynamic="1" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} data-js="change" />
 									</div>
+									{TEMPLATE_USER_VARIABLE}
 								</div>
 								{if $smarty.foreach.dynamicTemplates.last}
 									<h6 class="pt-4 border-top"><label><input type="checkbox" name="isCustomMode" class="mr-2 checkbox" value="1"{if !$CAN_CHANGE_SCHEME} disabled="disabled"{/if}>{\App\Language::translate('LBL_SELECT_COLUMNS',$MODULE_NAME)}</label></h6>

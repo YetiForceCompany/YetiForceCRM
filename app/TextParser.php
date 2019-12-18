@@ -89,7 +89,7 @@ class TextParser
 	 *
 	 * @var string[]
 	 */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date', 'inventory'];
+	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date', 'inventory', 'userVariable'];
 
 	/**
 	 * List of source modules.
@@ -142,7 +142,7 @@ class TextParser
 	 *
 	 * @var string
 	 */
-	protected $content;
+	protected $content = '';
 
 	/**
 	 * Rwa content.
@@ -298,15 +298,29 @@ class TextParser
 	}
 
 	/**
+	 * Set param value.
+	 *
+	 * @param string $key
+	 * @param mixed  $value
+	 *
+	 * @return $this
+	 */
+	public function setParam(string $key, $value)
+	{
+		$this->params[$key] = $value;
+		return $this;
+	}
+
+	/**
 	 * Get additional params.
 	 *
 	 * @param string $key
 	 *
 	 * @return mixed
 	 */
-	public function getParam($key)
+	public function getParam(string $key)
 	{
-		return isset($this->params[$key]) ? $this->params[$key] : false;
+		return $this->params[$key] ?? null;
 	}
 
 	/**
@@ -360,7 +374,7 @@ class TextParser
 	}
 
 	/**
-	 * Text parse function.
+	 * All text parse function.
 	 *
 	 * @return $this
 	 */
@@ -372,15 +386,24 @@ class TextParser
 		if (isset($this->language)) {
 			Language::setTemporaryLanguage($this->language);
 		}
-		$this->content = preg_replace_callback(static::VARIABLE_REGEX, function ($matches) {
-			[, $function, $params] = array_pad($matches, 3, '');
-			if (\in_array($function, static::$baseFunctions)) {
-				return $this->{$function}($params);
-			}
-			return '';
-		}, $this->content);
+		$this->content = $this->parseData($this->content);
 		Language::clearTemporaryLanguage();
 		return $this;
+	}
+
+	/**
+	 * Text parse function.
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 */
+	public function parseData(string $content)
+	{
+		return preg_replace_callback(static::VARIABLE_REGEX, function ($matches) {
+			[, $function, $params] = array_pad($matches, 3, '');
+			return \in_array($function, static::$baseFunctions) ? $this->{$function}($params) : '';
+		}, $content);
 	}
 
 	/**
@@ -1223,7 +1246,8 @@ class TextParser
 				if (isset($this->type) && $this->type !== $instance->type) {
 					continue;
 				}
-				$variables["$(custom : $fileName)$"] = Language::translate($instance->name, 'Other.TextParser');
+				$key = $instance->default ?? "$(custom : $fileName)$";
+				$variables[$key] = Language::translate($instance->name, 'Other.TextParser');
 			}
 		}
 		return $variables;
@@ -1397,6 +1421,55 @@ class TextParser
 	public static function getTextLength($text)
 	{
 		return mb_strlen($text);
+	}
+
+	/**
+	 * Gets user variables.
+	 *
+	 * @param string $text
+	 * @param bool   $useRegex
+	 *
+	 * @return array
+	 */
+	public function getUserVariables(string $text, bool $useRegex = true)
+	{
+		$data = [];
+		if ($useRegex) {
+			preg_match_all('/\$\(userVariable : ([,"\+\%\.\=\-\[\]\&\w\s\|\)\(\:]+)\)\$/u', str_replace(['%20%3A%20', '%20:%20'], ' : ', $text), $matches);
+			$matches = $matches[1] ?? [];
+		} else {
+			$matches = [$text];
+		}
+		foreach ($matches as $param) {
+			$part = [];
+			foreach (explode('|', $param) as $type) {
+				[$name, $value] = explode('=', $type, 2);
+				$part[$name] = $value;
+			}
+			if (!empty($part['name']) && !(isset($data[$part['name']]))) {
+				$data[$part['name']] = $part;
+			}
+		}
+		return $data;
+	}
+
+	/**
+	 * Parsing user variable.
+	 *
+	 * @param string $params
+	 *
+	 * @return string
+	 */
+	protected function userVariable($params)
+	{
+		$instance = null;
+		$className = '\\App\\TextParser\\' . ucfirst(__FUNCTION__);
+		if (!class_exists($className)) {
+			Log::error("Not found custom class: $className");
+		} else {
+			$instance = new $className($this, $params);
+		}
+		return $instance && $instance->isActive() ? $instance->process() : '';
 	}
 
 	/**

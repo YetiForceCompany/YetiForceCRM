@@ -54,6 +54,10 @@ $.Class('Vtiger_PDF_Js', {
 					enabled: true
 				}
 			});
+
+			let templateContainer = $(this).closest('.js-pdf-template-content');
+			templateContainer.find('.js-pdf-user-variable').toggleClass('d-none');
+
 			let templates = [];
 			templateElements.filter(':checked').each(function() {
 				templates.push($(this).val());
