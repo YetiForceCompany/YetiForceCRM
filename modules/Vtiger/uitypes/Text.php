@@ -68,7 +68,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		if (!\is_int($length)) {
-			$length = 200;
+			$length = 'Detail' === \App\Process::$processName ? 600 : 200;
 		}
 		if (300 === $this->getFieldModel()->getUIType()) {
 			$value = \App\Purifier::purifyHtml($value);
