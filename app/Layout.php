@@ -155,7 +155,8 @@ class Layout
 	 */
 	public static function truncateHtml(string $html, ?string $size = 'medium', ?int $length = 20): string
 	{
-		$teaser = $css = $btn = $iframeClass = '';
+		$teaser = $css = $btn = '';
+		$iframeClass = 'modal-iframe';
 		if ('full' === $size) {
 			$iframeClass = 'js-iframe-full-height';
 		} elseif ('mini' === $size) {
@@ -174,7 +175,7 @@ class Layout
 		return "
 		<div class=\"js-iframe-content\" >
 			$teaser
-			<iframe class=\"modal-iframe js-iframe-full-height w-100 {$iframeClass}\" frameborder=\"0\" style=\"{$css}\" srcdoc=\"$html\"></iframe>
+			<iframe class=\"w-100 {$iframeClass}\" frameborder=\"0\" style=\"{$css}\" srcdoc=\"$html\"></iframe>
 			{$btn}
 		</div>";
 	}
