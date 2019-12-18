@@ -14,6 +14,9 @@ td.listViewEntryValue.medium {
 	&:not(.listButtons) {
 		padding: calculate-rem(10px);
 	}
+	&[data-field-type="text"] {
+		padding: 0;
+	}
 }
 
 .table td.narrow,
@@ -21,6 +24,9 @@ td.listViewEntryValue.medium {
 td.listViewEntryValue.narrow {
 	&:not(.listButtons) {
 		padding: calculate-rem(6px);
+	}
+	&[data-field-type="text"] {
+		padding: 0;
 	}
 }
 
@@ -101,18 +107,17 @@ td.listViewEntryValue.narrow {
 	}
 }
 table {
-	.listButtons.narrow {
+	.listButtons {
 		padding-top: 0;
 		padding-bottom: 0;
+		vertical-align: middle;
 	}
-
-	.listButtons.medium {
-		padding-top: calculate-rem(3px);
-		padding-bottom: calculate-rem(3px);
-	}
-
-	.listButtons.wide {
-		padding-top: calculate-rem(9px);
-		padding-bottom: calculate-rem(9px);
+	.listButtons.narrow {
+		.btn.btn-sm {
+			@extend .btn-xs;
+		}
+		.c-badge__icon {
+			font-size: calculate-rem(10px);
+		}
 	}
 }

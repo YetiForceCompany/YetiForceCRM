@@ -33,25 +33,8 @@
 							<div class="font-weight-normal">
 								{$RECORD->getTitle()}
 							</div>
-							<div class="js-more-content font-weight-light font-italic">
-								{assign var=FULL_TEXT value=$RECORD->getMessage()}
-								<span class="teaserContent">
-									{if strip_tags($FULL_TEXT)|strlen <= 200}
-										{$FULL_TEXT}
-										{assign var=SHOW_BUTTON value=false}
-									{else}
-										{\App\TextParser::htmlTruncate($FULL_TEXT,200)}
-										{assign var=SHOW_BUTTON value=true}
-									{/if}
-								</span>
-								{if $SHOW_BUTTON}
-									<span class="fullContent d-none">
-										{$FULL_TEXT}
-									</span>
-									<div class="text-right mb-1">
-										<a href="#" class="js-more font-weight-lighter">{\App\Language::translate('LBL_MORE_BTN')}</a>
-									</div>
-								{/if}
+							<div class="font-weight-light font-italic">
+								{$RECORD->getMessage()}
 							</div>
 						</div>
 						<div class="d-flex flex-column">

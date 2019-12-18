@@ -15,7 +15,7 @@ class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$supportedModule = $request->getByType('sourceModule', 2);
@@ -49,32 +49,13 @@ class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$jsFileNames = [
-			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
 			'modules.CustomView.resources.CustomView',
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 
 		return array_merge(parent::getFooterScripts($request), $jsScriptInstances);
-	}
-
-	/**
-	 * Retrieves css styles that need to loaded in the page.
-	 *
-	 * @param \App\Request $request - request model
-	 *
-	 * @return <array> - array of Vtiger_CssScript_Model
-	 */
-	public function getHeaderCss(\App\Request $request)
-	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = [
-			'~libraries/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css',
-		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-
-		return array_merge($headerCssInstances, $cssInstances);
 	}
 }

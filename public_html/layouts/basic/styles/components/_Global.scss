@@ -136,6 +136,18 @@ body:not(.desktop) {
 	z-index: 100;
 }
 
+.c-circle {
+	$circle-size: calculate-rem(30px);
+	$circle-size-sm: calculate-rem(23px);
+	@extend .rounded-circle;
+	width: $circle-size;
+	height: $circle-size;
+	&--small {
+		width: $circle-size-sm;
+		height: $circle-size-sm;
+	}
+}
+
 .childrenMarginRight > * {
 	@extend .mr-2;
 }

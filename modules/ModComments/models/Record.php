@@ -15,7 +15,7 @@
 class ModComments_Record_Model extends Vtiger_Record_Model
 {
 	/**
-	 * Functions gets the comment id.
+	 * {@inheritdoc}
 	 */
 	public function getId()
 	{
@@ -26,9 +26,30 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		return $this->get('modcommentsid');
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function setId($id)
 	{
 		return $this->set('modcommentsid', $id);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayValue($fieldName, $record = false, $rawText = false, $length = false)
+	{
+		if ('commentcontent' !== $fieldName) {
+			parent::getDisplayValue($fieldName, $record, $rawText, $length);
+		}
+		if (empty($record)) {
+			$record = $this->getId();
+		}
+		$value = \App\Purifier::purifyHtml($this->get($fieldName));
+		if (!$rawText) {
+			$value = \App\Utils\Completions::decode($value);
+		}
+		return $length ? \App\Layout::truncateHtml($value, $length) : $value;
 	}
 
 	/**

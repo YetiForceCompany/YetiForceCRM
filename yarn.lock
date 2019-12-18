@@ -55,9 +55,9 @@ blueimp-canvas-to-blob@3:
   integrity sha512-r5TRlxH5Y0iKrRajCfiW1K4o2U1JniarjLXuNJrC5nnlWV/UopieF8sysw9pAYBauxg2I3Ah1hUp3NEuinwmkA==
 
 blueimp-file-upload@^10.0.0:
-  version "10.4.0"
-  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-10.4.0.tgz#dd08e865d193c4ee564ef4b4c30698306a8382ac"
-  integrity sha512-4iwp+cPBGysyltsWa8DKAJdHm+1IOm4TsE9ZLbkH2okG3GTzTJKRuU20eI2VtlLppghbaBDueHOs6HPmOLCcUQ==
+  version "10.5.0"
+  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-10.5.0.tgz#4b1d8a604cdb88b9bff2c84fcaa3067820b5b734"
+  integrity sha512-+zXw/DFyqz33BS2hFQZ+xl6l2iVfrNUM9xOcx6Y6/6zGTdEX6xkEZupJ5ELTiHqP8GH+pPvcP+cYXvn+95VQzw==
   optionalDependencies:
     blueimp-canvas-to-blob "3"
     blueimp-load-image "2"
@@ -82,14 +82,13 @@ bootbox@^5.1.2:
     jquery ">=1.12.0"
     popper.js ">=1.12.9"
 
-bootstrap-colorpicker@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-3.2.0.tgz#42b053b865a866b2674527813cd59f90137b9704"
-  integrity sha512-twW93EFLf4MzZ/st+MkfdLCWEEA7r43WPlPnGckzm3Lj2FsbmVS/qgJH2c9IcmO3re5Q1320NO9bhuViwHR9Qw==
+bootstrap-colorpicker@3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-3.1.2.tgz#42737d7fb3f52b42ad9e33ac97f021252307dfae"
+  integrity sha512-yUWegXox8GYoXVtYdrEIN3QMOeEFbcSFGDadZu2pWmmMgTaw4ECX9T8GvYQzJkRusvK9uzi39FjE0W2k8lQECA==
   dependencies:
     bootstrap ">=4.0"
     jquery ">=2.1.0"
-    popper.js ">=1.10"
 
 bootstrap-datepicker@^1.9.0:
   version "1.9.0"
@@ -442,7 +441,7 @@ pnotify@4.0.0:
   resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.0.tgz#22b29ae91f0f4727cb3caf137411d0e3777a8017"
   integrity sha512-Fs3xlxmnlgXjUdM3xFfImfkLh5RmTgfRyPS5yT43w0OIrVULbGu1g3mpiH9H2nlAZ5dFEJRqh43sQXl/mVW6yA==
 
-popper.js@>=1.10, popper.js@>=1.12.9, popper.js@^1.15.0:
+popper.js@>=1.12.9, popper.js@^1.15.0:
   version "1.16.0"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.0.tgz#2e1816bcbbaa518ea6c2e15a466f4cb9c6e2fbb3"
   integrity sha512-+G+EkOPoE5S/zChTpmBSSDYmhXJ5PsW8eMhH8cP/CQHMFPBG/kC9Y5IIw6qNYgdJ+/COf0ddY2li28iHaZRSjw==
@@ -542,9 +541,9 @@ vue-virtual-scroller@^1.0.0-rc.2:
     vue-resize "^0.4.5"
 
 vue@^2.6.10:
-  version "2.6.10"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
-  integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
+  version "2.6.11"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
+  integrity sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ==
 
 whatwg-fetch@^3.0.0:
   version "3.0.0"

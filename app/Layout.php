@@ -127,30 +127,6 @@ class Layout
 	}
 
 	/**
-	 * Truncating HTML/text  and adding a button showing all the text.
-	 *
-	 * @param string $text
-	 * @param int    $length
-	 * @param bool   $isHtml
-	 *
-	 * @return string
-	 */
-	public static function truncate(string $text, int $length, bool $isHtml = true): string
-	{
-		if ($isHtml) {
-			$isTruncated = \mb_strlen(strip_tags($text)) > $length;
-		} else {
-			$isTruncated = \mb_strlen($text) > $length;
-		}
-		if (!$isTruncated) {
-			return $text;
-		}
-		$teaser = $isHtml ? TextParser::htmlTruncate($text, $length, true) : TextParser::textTruncate($text, $length, true);
-		$btn = \App\Language::translate('LBL_MORE_BTN');
-		return "<div class=\" js-more-content\"><span class=\"teaserContent\">$teaser</span><span class=\"fullContent d-none\">$text</span><span class=\"text-right mb-1\"><button type=\"button\" class=\"btn btn-link btn-sm js-more\">{$btn}</button></span></div>";
-	}
-
-	/**
 	 * Truncating plain text and adding a button showing all the text.
 	 *
 	 * @param string $text
@@ -178,26 +154,12 @@ class Layout
 	 */
 	public static function truncateHtml(string $html, $length): string
 	{
-		$teaser = $css = '';
-		$btnText = \App\Language::translate('LBL_MORE_BTN');
-		$btn = "
-			<a href=\"#\" class=\"js-more font-weight-lighter\" data-iframe=\"true\">
-				{$btnText}
-			</a>";
-		if ('full' === $length) {
-			$btn = '
-				<button type="button" class="btn btn-primary c-btn-floating-right-bottom js-more" data-iframe="true">
-					<span class="mdi mdi-fullscreen"></span>
-				</button>';
-		} elseif ($length <= 200) {
-			$css = 'display: none;';
-			$teaser = TextParser::textTruncate(trim(strip_tags($html)), $length);
-		}
 		return "
 		<div class=\"js-iframe-content\">
-			$teaser
-			<iframe class=\"modal-iframe w-100\" frameborder=\"0\" style=\"{$css}\" srcdoc=\"$html\"></iframe>
-			{$btn}
+			<iframe class=\"modal-iframe w-100\" frameborder=\"0\" srcdoc=\"$html\"></iframe>
+			<button type=\"button\" class=\"btn btn-primary c-btn-floating-right-bottom js-more\" data-iframe=\"true\">
+					<span class=\"mdi mdi-fullscreen\"></span>
+				</button>
 		</div>";
 	}
 }

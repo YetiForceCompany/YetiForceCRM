@@ -12,7 +12,7 @@
 						{assign var=PROCEED value= TRUE}
 						{if ($RECENT_ACTIVITY->isRelationLink()) or ($RECENT_ACTIVITY->isRelationUnLink())}
 							{assign var=RELATION value=$RECENT_ACTIVITY->getRelationInstance()}
-							{if !($RELATION->getLinkedRecord())}
+							{if !($RELATION->getValue())}
 								{assign var=PROCEED value= FALSE}
 							{/if}
 						{/if}
@@ -50,13 +50,7 @@
 															<div class='font-x-small updateInfoContainer d-flex flex-wrap'>
 																<span>{\App\Language::translate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
 																{if $FIELDMODEL->get('postvalue') neq ''}
-																	<strong class="js-more-content">
-																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}</span>
-																		{if $FIELDMODEL->has('fullPostValue')}
-																			<span class="fullContent d-none">{$FIELDMODEL->get('fullPostValue')}</span>
-																			<a href="#" class="js-more font-weight-lighter">{\App\Language::translate('LBL_MORE_BTN')}</a>
-																		{/if}
-																	</strong>
+																	<strong>{$FIELDMODEL->getNewValue()}</strong>
 																{/if}
 															</div>
 														{/if}
@@ -92,13 +86,9 @@
 																<span>{\App\Language::translate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
 																{if $FIELDMODEL->get('prevalue') neq '' && $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELDMODEL->get('postvalue') eq '0' || $FIELDMODEL->get('prevalue') eq '0'))}
 																	&nbsp;{\App\Language::translate('LBL_FROM')}&nbsp;
-																	<strong class="js-more-content">
-																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</span>
-																		{if $FIELDMODEL->has('fullPreValue')}
-																			<span class="fullContent d-none">{$FIELDMODEL->get('fullPreValue')}</span>
-																			<a href="#" class="js-more font-weight-lighter">{\App\Language::translate('LBL_MORE_BTN')}</a>
-																		{/if}
-																	</strong>
+																	{if $FIELDMODEL->get('postvalue') neq ''}
+																		<strong>{$FIELDMODEL->getOldValue()}</strong>
+																	{/if}
 																{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
 																	&nbsp;
 																	<strong>{\App\Language::translate('LBL_DELETED','ModTracker')}</strong>
@@ -109,14 +99,7 @@
 																	&nbsp;{\App\Language::translate('LBL_CHANGED')}
 																{/if}
 																{if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-																	&nbsp;{\App\Language::translate('LBL_TO')}&nbsp;
-																	<strong class="js-more-content">
-																		<span class="teaserContent">{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}</span>
-																		{if $FIELDMODEL->has('fullPostValue')}
-																			<span class="fullContent d-none">{$FIELDMODEL->get('fullPostValue')}</span>
-																			<a href="#" class="js-more font-weight-lighter">{\App\Language::translate('LBL_MORE_BTN')}</a>
-																		{/if}
-																	</strong>
+																	&nbsp;{\App\Language::translate('LBL_TO')}&nbsp;<strong>{$FIELDMODEL->getNewValue()}</strong>
 																{/if}
 															</div>
 														{/if}
@@ -143,24 +126,25 @@
 											</div>
 											<div class="timeline-body small">
 												<div class="float-right time text-muted ml-1">{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</div>
-												<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}
-														&nbsp;</strong></span>
+												<span>
+													<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}&nbsp;</strong>
+												</span>
 												{assign var=RELATION value=$RECENT_ACTIVITY->getRelationInstance()}
 												<span>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}
 													&nbsp;</span>
 												<span>
-													{if \App\Privilege::isPermitted($RELATION->getLinkedRecord()->getModuleName(), 'DetailView', $RELATION->getLinkedRecord()->getId())}
+													{if \App\Privilege::isPermitted($RELATION->get('targetmodule'), 'DetailView', $RELATION->get('targetid'))}
 														<strong class="js-more-content">
 															<span class="teaserContent">
 																{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML(\App\Purifier::decodeHtml($RELATION->getValue())))}</span>
 															{if $RELATION->has('fullValue')}
 																<span class="fullContent d-none">{$RELATION->get('fullValue')}</span>
-																<button type="button" class="btn btn-info btn-sm js-more font-weight-lighter">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																<a href="#" class="js-more font-weight-lighter">{\App\Language::translate('LBL_MORE_BTN')}</a>
 															{/if}
 														</strong>
 													{/if}
 												</span>
-												<span>&nbsp;({\App\Language::translate('SINGLE_'|cat:$RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())}
+												<span>&nbsp;({\App\Language::translate('SINGLE_'|cat:$RELATION->get('targetmodule'), $RELATION->get('targetmodule'))}
 													)</span>
 											</div>
 										</div>
@@ -241,16 +225,14 @@
 			</div>
 		{else}
 			<div class="summaryWidgetContainer">
-				<p class="textAlignCenter">{\App\Language::translate('LBL_NO_RECENT_UPDATES')}</p></div>
+				<p class="textAlignCenter">{\App\Language::translate('LBL_NO_RECENT_UPDATES')}</p>
+			</div>
 		{/if}
 		<input type="hidden" id="newChange" value="{$NEW_CHANGE}"/>
 		<div class="d-flex pt-0 pb-2 px-0 js-more-link">
 			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
 				<div class="ml-auto">
-					<button type="button"
-							class="btn btn-link btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
-						..
-					</button>
+					<button type="button" class="btn btn-link btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}	..</button>
 				</div>
 			{/if}
 		</div>
