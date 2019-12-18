@@ -155,7 +155,7 @@ class Layout
 	{
 		return "
 		<div class=\"js-iframe-content\">
-			<iframe class=\"modal-iframe w-100\" frameborder=\"0\" srcdoc=\"$html\"></iframe>
+			<iframe class=\"modal-iframe w-100\" sandbox frameborder=\"0\" srcdoc=\"$html\"></iframe>
 			<button type=\"button\" class=\"btn btn-primary c-btn-floating-right-bottom js-more\" data-iframe=\"true\">
 					<span class=\"mdi mdi-fullscreen\"></span>
 				</button>
