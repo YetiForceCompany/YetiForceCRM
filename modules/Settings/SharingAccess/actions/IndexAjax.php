@@ -46,10 +46,7 @@ class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 				'message' => \App\Language::translate('LBL_CUSTOM_RULE_SAVED_SUCCESSFULLY', $request->getModule(false))
 			]);
 		} catch (\App\Exceptions\AppException $e) {
-			$response->setResult([
-				'success' => false,
-				'message' => \App\Language::translate('LBL_CUSTOM_RULE_SAVED_FAILED', $request->getModule(false))
-			]);
+			$response->setError(\App\Language::translate('LBL_CUSTOM_RULE_SAVED_FAILED', $request->getModule(false)));
 		}
 		$response->emit();
 	}
@@ -67,10 +64,7 @@ class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		try {
 			$ruleModel->delete();
 		} catch (\App\Exceptions\AppException $e) {
-			$response->setResult([
-				'success' => false,
-				'message' => \App\Language::translate('LBL_CUSTOM_RULE_DELETING_FAILED', $request->getModule(false))
-			]);
+			$response->setError(\App\Language::translate('LBL_CUSTOM_RULE_DELETING_FAILED', $request->getModule(false)));
 		}
 		$response->emit();
 	}

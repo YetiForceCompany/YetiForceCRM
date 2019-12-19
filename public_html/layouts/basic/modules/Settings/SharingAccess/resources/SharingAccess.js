@@ -122,11 +122,6 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 					type: 'success',
 					text: response.message
 				});
-			} else {
-				Vtiger_Helper_Js.showPnotify({
-					type: 'error',
-					text: response.message
-				});
 			}
 		});
 	},
@@ -195,8 +190,6 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 						customRuleTable.parent().find('.js-record-details').removeClass('d-none');
 						customRuleTable.addClass('d-none');
 					}
-				} else {
-					Vtiger_Helper_Js.showPnotify(response.message);
 				}
 			});
 		});
