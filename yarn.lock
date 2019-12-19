@@ -82,14 +82,6 @@ bootbox@^5.1.2:
     jquery ">=1.12.0"
     popper.js ">=1.12.9"
 
-bootstrap-colorpicker@3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-3.1.2.tgz#42737d7fb3f52b42ad9e33ac97f021252307dfae"
-  integrity sha512-yUWegXox8GYoXVtYdrEIN3QMOeEFbcSFGDadZu2pWmmMgTaw4ECX9T8GvYQzJkRusvK9uzi39FjE0W2k8lQECA==
-  dependencies:
-    bootstrap ">=4.0"
-    jquery ">=2.1.0"
-
 bootstrap-datepicker@^1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/bootstrap-datepicker/-/bootstrap-datepicker-1.9.0.tgz#e4bfce3fcce1967876b21dc6833ec5994aaed090"
@@ -109,7 +101,7 @@ bootstrap-daterangepicker@^3.0.4:
   version "0.0.0"
   resolved "https://github.com/jmschabdach/bootstrap-tabdrop#1eb8b8aeaa79d7ca211059daff7981c9908327a1"
 
-bootstrap@>=3.0.0, bootstrap@>=4.0, bootstrap@^4.3.1:
+bootstrap@>=3.0.0, bootstrap@^4.3.1:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.4.1.tgz#8582960eea0c5cd2bede84d8b0baf3789c3e8b01"
   integrity sha512-tbx5cHubwE6e2ZG7nqM3g/FZ5PQEDMWmMGNrCUBVRPHXTJaH7CBDdsLeu3eCh3B1tzAxTnAbtmrzvWEvT2NNEA==
@@ -234,9 +226,9 @@ datatables.net@1.10.20, datatables.net@^1.10.15, datatables.net@^1.10.19:
     jquery ">=1.7"
 
 dayjs@^1.8.16:
-  version "1.8.17"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.17.tgz#53ec413f2a7b02afbea1846d61bb260fa8567cea"
-  integrity sha512-47VY/htqYqr9GHd7HW/h56PpQzRBSJcxIQFwqL3P20bMF/3az5c3PWdVY3LmPXFl6cQCYHL7c79b9ov+2bOBbw==
+  version "1.8.18"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.18.tgz#c9b3fcd5a8eca96ed20a907f4491516d6eda15c9"
+  integrity sha512-JBMJZghNK8TtuoPnKNIzW9xavVVigld/zmZNpZSyQbkb2Opp55YIfZUpE4OEqPF/iyUVQTKcn1bC2HtC8B7s3g==
 
 delegate@^3.1.2:
   version "3.2.0"
@@ -328,9 +320,9 @@ html5shiv@^3.7.3:
   integrity sha1-14qEo2e8uacQEA1XgCw4ewhGMdI=
 
 inputmask@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-5.0.0.tgz#fba1d8b2be7c69dca2820a0b536f0c5b696c07c2"
-  integrity sha512-mQVXonXQnlsH3NZKqVqbSECS9R6D9mTT/5v9TFMGlMRNzvWJ9/sJeTYvlWNyT4iufAM3sIEUqRTS3CMELzE+Mg==
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-5.0.1.tgz#32acf45c3b3600ba7760fcd90fef3f40362b5e23"
+  integrity sha512-Q/xo98j2gKycYSpYAjbxr4KEtLGZeBgxefc1u+qvrQKvB5MwP21EXEfjDKb+rMQdhNgjzHuKw7PCkOKyQ9FaRQ==
 
 "jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master":
   version "0.0.0"
@@ -377,7 +369,7 @@ jquery.class.js@^1.0.0:
   resolved "https://registry.yarnpkg.com/jquery.class.js/-/jquery.class.js-1.0.0.tgz#43616c36d76eff36caf2139ddacda621aa24ed30"
   integrity sha1-Q2FsNtdu/zbK8hOd2s2mIaok7TA=
 
-"jquery@>= 1.7", jquery@>=1.10, jquery@>=1.12.0, jquery@>=1.4.4, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1, jquery@>=2.1.0, "jquery@^1.8 || 2 || 3", jquery@^3.4.1:
+"jquery@>= 1.7", jquery@>=1.10, jquery@>=1.12.0, jquery@>=1.4.4, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1, "jquery@^1.8 || 2 || 3", jquery@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
   integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
@@ -540,7 +532,7 @@ vue-virtual-scroller@^1.0.0-rc.2:
     vue-observe-visibility "^0.4.3"
     vue-resize "^0.4.5"
 
-vue@^2.6.10:
+vue@^2.6.10, vue@^2.6.11:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
   integrity sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ==
