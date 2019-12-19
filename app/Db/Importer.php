@@ -412,7 +412,7 @@ class Importer
 	 */
 	public function renameTables($tables)
 	{
-		$this->logs .= "> start rename tables ({$importer->dbType})\n";
+		$this->logs .= "> start rename tables\n";
 		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
@@ -445,7 +445,7 @@ class Importer
 	 */
 	public function dropTable($tables)
 	{
-		$this->logs .= "> start drop tables ({$importer->dbType})\n";
+		$this->logs .= "> start drop tables\n";
 		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		if (\is_string($tables)) {
@@ -478,7 +478,7 @@ class Importer
 	 */
 	public function dropIndexes(array $tables)
 	{
-		$this->logs .= "> start drop indexes ({$importer->dbType})\n";
+		$this->logs .= "> start drop indexes\n";
 		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		foreach ($tables as $tableName => $indexes) {
@@ -511,7 +511,7 @@ class Importer
 	 */
 	public function dropForeignKeys(array $foreignKeys)
 	{
-		$this->logs .= "> start drop foreign keys ({$importer->dbType})\n";
+		$this->logs .= "> start drop foreign keys\n";
 		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		foreach ($foreignKeys as $keyName => $tableName) {
@@ -552,7 +552,7 @@ class Importer
 	 */
 	public function renameColumns($columns)
 	{
-		$this->logs .= "> start rename columns ({$importer->dbType})\n";
+		$this->logs .= "> start rename columns\n";
 		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
@@ -590,7 +590,7 @@ class Importer
 	 */
 	public function dropColumns($columns)
 	{
-		$this->logs .= "> start drop columns ({$importer->dbType})\n";
+		$this->logs .= "> start drop columns\n";
 		$startMain = microtime(true);
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();

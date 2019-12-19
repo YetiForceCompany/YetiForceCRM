@@ -437,7 +437,7 @@ class Purifier
 					$value = Validator::url($input) ? $input : null;
 					break;
 				case 'MailId':
-					$value = preg_match('/^[\sA-Za-z0-9\<\>\_\.\=\-\@]+$/', $input) ? $input : null;
+					$value = preg_match('/^[\sA-Za-z0-9\<\>\_\.\=\-\+\@]+$/', $input) ? $input : null;
 					break;
 				case self::SQL:
 					$value = $input && Validator::sql($input) ? $input : null;
