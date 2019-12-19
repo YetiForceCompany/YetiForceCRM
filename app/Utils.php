@@ -103,6 +103,18 @@ class Utils
 	}
 
 	/**
+	 * Strip tags content.
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 */
+	public static function htmlToText(string $content): string
+	{
+		return trim(preg_replace('/[ \t\n]+/', ' ', strip_tags($content)));
+	}
+
+	/**
 	 * Function to save php file with cleaning file cache.
 	 *
 	 * @param string       $pathDirectory

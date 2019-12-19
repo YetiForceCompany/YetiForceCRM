@@ -73,26 +73,25 @@
 				</div>
 				<hr>
 				<form class="form-horizontal emailPreview">
-					<div class="row no-gutters padding-bottom1per">
-								<span class="col-2">
-									<span class="float-right muted">{\App\Language::translate('From',$MODULENAME)}</span>
-								</span>
+					<div class="row no-gutters pb-1">
+						<span class="col-1">
+							<span class="float-right muted">{\App\Language::translate('From',$MODULENAME)}</span>
+						</span>
 						<span class="col-10 pl-2 pl-md-4">
-									<span id="emailPreview_From" class="">{$FROM}</span>
-								</span>
+							<span id="emailPreview_From" class="">{$RECORD_MODEL->getDisplayValue('from_email')}</span>
+						</span>
 					</div>
-					<div class="row no-gutters padding-bottom1per">
-								<span class="col-2">
-									<span class="float-right muted">{\App\Language::translate('To',$MODULENAME)}</span>
-								</span>
+					<div class="row no-gutters pb-1">
+						<span class="col-1">
+							<span class="float-right muted">{\App\Language::translate('To',$MODULENAME)}</span>
+						</span>
 						<span class="col-10 pl-2 pl-md-4">
-									<span id="emailPreview_To"
-										  class="">{assign var=TO_EMAILS value=","|implode:$TO}{$TO_EMAILS}</span>
-								</span>
+							<span id="emailPreview_To" class="">{assign var=TO_EMAILS value=","|implode:$TO}{$TO_EMAILS}</span>
+						</span>
 					</div>
 					{if !empty($CC)}
-						<div class="row no-gutters padding-bottom1per">
-									<span class="col-2">
+						<div class="row no-gutters pb-1">
+									<span class="col-1">
 										<span class="float-right muted">{\App\Language::translate('CC',$MODULENAME)}</span>
 									</span>
 							<span class="col-10 pl-2 pl-md-4">
@@ -103,8 +102,8 @@
 						</div>
 					{/if}
 					{if !empty($BCC)}
-						<div class="row no-gutters padding-bottom1per">
-									<span class="col-2">
+						<div class="row no-gutters pb-1">
+									<span class="col-1">
 										<span class="float-right muted">{\App\Language::translate('BCC',$MODULENAME)}</span>
 									</span>
 							<span class="col-10 pl-2 pl-md-4">
@@ -114,55 +113,44 @@
 									</span>
 						</div>
 					{/if}
-					<div class="row no-gutters padding-bottom1per">
-								<span class="col-2">
-									<span class="float-right muted">{\App\Language::translate('Subject',$MODULENAME)}</span>
-								</span>
+					<div class="row no-gutters pb-1">
+						<span class="col-1">
+							<span class="float-right muted">{\App\Language::translate('Subject',$MODULENAME)}</span>
+						</span>
 						<span class="col-10 pl-2 pl-md-4">
-									<span id="emailPreview_Subject" class="">
-										{$SUBJECT}
-									</span>
-								</span>
+							<span id="emailPreview_Subject" class="">
+								{$RECORD_MODEL->getDisplayValue('subject')}
+							</span>
+						</span>
 					</div>
 					{if !empty($ATTACHMENTS)}
-						<div class="row no-gutters padding-bottom1per">
-									<span class="col-2">
-										<span class="float-right muted">{\App\Language::translate('Attachments_Exist',$MODULENAME)}</span>
-									</span>
+						<div class="row no-gutters pb-1">
+							<span class="col-1">
+								<span class="float-right muted">{\App\Language::translate('Attachments_Exist',$MODULENAME)}</span>
+							</span>
 							<span class="col-10 pl-2 pl-md-4">
-										<span id="emailPreview_attachment" class="">
-											{foreach item=ATTACHMENT from=$ATTACHMENTS}
-												<a class="btn btn-sm btn-primary"
-												   href="file.php?module=OSSMailView&action=DownloadFile&record={$RECORD}&attachment={$ATTACHMENT['id']}">
-													<span class="fas fa-paperclip mr-1"></span>
-													{$ATTACHMENT['file']}
-												</a>
-											{/foreach}
-										</span>
-									</span>
+								<span id="emailPreview_attachment" class="">
+									{foreach item=ATTACHMENT from=$ATTACHMENTS}
+										<a class="btn btn-sm btn-primary mr-1 mb-1" href="file.php?module=OSSMailView&action=DownloadFile&record={$RECORD}&attachment={$ATTACHMENT['id']}">
+											<span class="fas fa-paperclip mr-1"></span>
+											{$ATTACHMENT['file']}
+										</a>
+									{/foreach}
+								</span>
+							</span>
 						</div>
 					{/if}
-					<div class="row no-gutters padding-bottom1per content">
-								<span class="col-2">
-									<span class="float-right muted">{\App\Language::translate('Content',$MODULENAME)}</span>
-								</span>
-						<span class="col-md-10 row no-gutters">
-									<iframe id="emailPreview_Content" class="col-12 {if $ISMODAL}u-h-70vh{/if}"
-											src="{$URL}"
-											frameborder="0"></iframe>
-								</span>
+					<hr/>
+					<div class="no-gutters pb-1 content">
+						{$CONTENT}
 					</div>
 					<hr/>
-
-					<div class="textAlignCenter">
-								<span class="muted">
-									<small><em>{\App\Language::translate('Sent',$MODULENAME)}</em></small>
-									<span><small><em>&nbsp;{$SENT}</em></small></span>
-								</span>
-					</div>
-					<div class="textAlignCenter">
-					<span><strong> {\App\Language::translate('LBL_OWNER')}
-							: {\App\Fields\Owner::getLabel($OWNER)}</strong></span>
+					<div class="textAlignCenter mb-1">
+						<span class="muted">
+							<small><em>{\App\Language::translate('Sent',$MODULENAME)}</em></small>
+							<span><small><em>&nbsp;{$SENT}</em></small></span>
+						</span>
+						<span class="ml-2"><strong>{\App\Language::translate('LBL_OWNER')}: {\App\Fields\Owner::getLabel($OWNER)}</strong></span>
 					</div>
 				</form>
 			</div>

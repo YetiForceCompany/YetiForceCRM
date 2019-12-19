@@ -2997,20 +2997,7 @@ jQuery.Class(
 					tabElement.data('url', url);
 					tabElement.trigger('click');
 				});
-			thisInstance.registerFullTextIframes(detailContentsHolder);
-		},
-		registerFullTextIframes(detailContentsHolder) {
-			detailContentsHolder.find('.js-iframe-full-height').each(function() {
-				let iframe = $(this);
-				iframe.on('load', e => {
-					iframe.height(
-						iframe
-							.contents()
-							.find('body')
-							.height() + 50
-					);
-				});
-			});
+			app.registerIframeEvents(detailContentsHolder);
 		},
 		reloadWidgetActivitesStats: function(container) {
 			var countElement = container.find('.countActivities');

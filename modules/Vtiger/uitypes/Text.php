@@ -68,10 +68,9 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		$size = 'mini';
-		if (!\is_int($length) && !\is_string($length)) {
-			$length = 'Detail' === \App\Process::$processName ? 600 : 200;
-		}
-		if (\is_string($length)) {
+		if (empty($length)) {
+			$length = 400;
+		} elseif (\is_string($length)) {
 			$size = $length;
 			$length = 200;
 		}
@@ -96,7 +95,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		return $this->getDisplayValue($value, $record, $recordModel, $rawText, $this->getFieldModel()->get('maxlengthtext') ?? 100);
+		return $this->getDisplayValue($value, $record, $recordModel, $rawText, $this->getFieldModel()->get('maxlengthtext') ?: 50);
 	}
 
 	/**

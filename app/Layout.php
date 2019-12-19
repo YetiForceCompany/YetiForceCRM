@@ -153,30 +153,21 @@ class Layout
 	 *
 	 * @return string
 	 */
-	public static function truncateHtml(string $html, ?string $size = 'medium', ?int $length = 20): string
+	public static function truncateHtml(string $html, ?string $size = 'medium', ?int $length = 200): string
 	{
 		$teaser = $css = $btn = '';
-		$iframeClass = 'modal-iframe';
+		$iframeClass = 'modal-iframe js-modal-iframe';
 		if ('full' === $size) {
 			$iframeClass = 'js-iframe-full-height';
 		} elseif ('mini' === $size) {
 			$btnText = \App\Language::translate('LBL_MORE_BTN');
-			$btn = "
-				<a href=\"#\" class=\"js-more font-weight-lighter\" data-iframe=\"true\">
-					{$btnText}
-				</a>";
+			$btn = "<a href=\"#\" class=\"js-more font-weight-lighter\" data-iframe=\"true\">{$btnText}</a>";
 			$css = 'display: none;';
 			$teaser = TextParser::textTruncate(trim(strip_tags($html)), $length);
 		} elseif ('medium' === $size) {
-			$btn = '<button type="button" class="btn btn-primary c-btn-floating-right-bottom js-more btnNoFastEdit" data-iframe="true">
-			<span class="mdi mdi-fullscreen"></span>
-			</button>';
+			$btn = '<button type="button" class="btn btn-primary c-btn-floating-right-bottom js-more btnNoFastEdit" data-iframe="true"><span class="mdi mdi-fullscreen"></span></button>';
 		}
-		return "
-		<div class=\"js-iframe-content\" >
-			$teaser
-			<iframe class=\"w-100 {$iframeClass}\" frameborder=\"0\" style=\"{$css}\" srcdoc=\"$html\"></iframe>
-			{$btn}
-		</div>";
+		$html = Purifier::encodeHtml($html);
+		return "<div class=\"js-iframe-content\" >$teaser <iframe sandbox=\"allow-same-origin\" class=\"w-100 {$iframeClass}\" frameborder=\"0\" style=\"{$css}\" srcdoc=\"$html\"></iframe>{$btn}</div>";
 	}
 }

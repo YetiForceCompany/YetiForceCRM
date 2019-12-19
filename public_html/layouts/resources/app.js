@@ -2029,7 +2029,7 @@ var app = (window.app = {
 			audio.play();
 		}
 	},
-	registerMoreContent() {
+	registerIframeAndMoreContent() {
 		$(document).on('click', '.js-more', e => {
 			const btn = $(e.currentTarget);
 			const message = btn.data('iframe')
@@ -2051,6 +2051,31 @@ var app = (window.app = {
 						className: 'btn-danger',
 						callback: function() {}
 					}
+				}
+			});
+		});
+	},
+	registerIframeEvents(content) {
+		content.find('.js-iframe-full-height').each(function() {
+			let iframe = $(this);
+			iframe.on('load', e => {
+				iframe.height(
+					iframe
+						.contents()
+						.find('body')
+						.height() + 50
+				);
+			});
+		});
+		content.find('.js-modal-iframe').each(function() {
+			let iframe = $(this);
+			iframe.on('load', e => {
+				let height = iframe
+					.contents()
+					.find('body')
+					.height();
+				if (height && height < iframe.height()) {
+					iframe.height(height + 50);
 				}
 			});
 		});
@@ -2621,11 +2646,12 @@ $(document).ready(function() {
 	app.registerPopoverEllipsisIcon();
 	app.registerPopover();
 	app.registerFormatNumber();
-	app.registerMoreContent();
+	app.registerIframeAndMoreContent();
 	app.registerModal();
 	app.registerQuickEditModal();
 	app.registerMenu();
 	app.registerTabdrop();
+	app.registerIframeEvents(document);
 	app.registesterScrollbar(document);
 	App.Components.Scrollbar.initPage();
 	String.prototype.toCamelCase = function() {

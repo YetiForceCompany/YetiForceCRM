@@ -1,9 +1,12 @@
-{*
-<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Detail-Field-Text -->
-<div class="tpl-Detail-Field-Text u-paragraph-m-0 u-word-break">
-	{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD, false, 'full')}
+{assign var=SIZE value='mini'}
+{if $SOURCE_TPL eq 'BlockView'}
+	{assign var=SIZE value='medium'}
+{/if}
+<div class="u-paragraph-m-0 u-word-break">
+	{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD, false, $SIZE)}
 </div>
 <!-- /tpl-Detail-Field-Text -->
 {/strip}

@@ -153,7 +153,7 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'content' => $content,
-			'introduction' => $recordModel->getDisplayValue('introduction'),
+			'introduction' => $recordModel->getForHtml('introduction'),
 			'subject' => $recordModel->get('subject'),
 			'view' => $recordModel->get('knowledgebase_view'),
 			'assigned_user_id' => $recordModel->getDisplayValue('assigned_user_id', false, true),
