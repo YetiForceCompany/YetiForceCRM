@@ -139,7 +139,7 @@
 																{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML(\App\Purifier::decodeHtml($RELATION->getValue())))}</span>
 															{if $RELATION->has('fullValue')}
 																<span class="fullContent d-none">{$RELATION->get('fullValue')}</span>
-																<button type="button" class="btn btn-info btn-sm js-more">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																<a href="#" class="js-more font-weight-lighter">{\App\Language::translate('LBL_MORE_BTN')}</a>
 															{/if}
 														</strong>
 													{/if}

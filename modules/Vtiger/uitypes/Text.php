@@ -67,15 +67,20 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return '';
 		}
-		if (!\is_int($length)) {
+		$size = 'mini';
+		if (!\is_int($length) && !\is_string($length)) {
 			$length = 'Detail' === \App\Process::$processName ? 600 : 200;
+		}
+		if (\is_string($length)) {
+			$size = $length;
+			$length = 200;
 		}
 		if (300 === $this->getFieldModel()->getUIType()) {
 			$value = \App\Purifier::purifyHtml($value);
 			if (!$rawText) {
 				$value = \App\Utils\Completions::decode($value);
 			}
-			$value = \App\Layout::truncateHtml($value, $length);
+			$value = \App\Layout::truncateHtml($value, $size, $length);
 		} else {
 			if ($rawText) {
 				$value = nl2br(\App\TextParser::textTruncate(\App\Purifier::purify($value), $length, false));
@@ -116,5 +121,13 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDetailViewTemplateName()
+	{
+		return 'Detail/Field/Text.tpl';
 	}
 }

@@ -2688,12 +2688,8 @@ jQuery.Class(
 				thisInstance.loadContents(nextPageUrl);
 			});
 			detailContentsHolder.on('click', 'div.detailViewTable div.fieldValue:not(.is-edit-active)', function(e) {
-				if (
-					jQuery(e.target)
-						.closest('a')
-						.hasClass('btnNoFastEdit')
-				)
-					return;
+				let target = $(e.target);
+				if (target.closest('a').hasClass('.btnNoFastEdit')) return;
 				var currentTdElement = jQuery(e.currentTarget);
 				currentTdElement.addClass('is-edit-active');
 				thisInstance.ajaxEditHandling(currentTdElement);
@@ -3001,6 +2997,20 @@ jQuery.Class(
 					tabElement.data('url', url);
 					tabElement.trigger('click');
 				});
+			thisInstance.registerFullTextIframes(detailContentsHolder);
+		},
+		registerFullTextIframes(detailContentsHolder) {
+			detailContentsHolder.find('.js-iframe-full-height').each(function() {
+				let iframe = $(this);
+				iframe.on('load', e => {
+					iframe.height(
+						iframe
+							.contents()
+							.find('body')
+							.height() + 50
+					);
+				});
+			});
 		},
 		reloadWidgetActivitesStats: function(container) {
 			var countElement = container.find('.countActivities');
