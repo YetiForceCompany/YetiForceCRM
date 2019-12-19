@@ -257,17 +257,17 @@
 					</a>
 				</div>
 			{/if}
+			{if \App\Privilege::isPermitted('Chat') && !\App\Config::module('Chat', 'draggableButton')}
+				<div class="ml-2 quasar-reset">
+					<div id="ChatModalVue"></div>
+				</div>
+			{/if}
 			<nav class="actionMenu" aria-label="{\App\Language::translate("QUICK_ACCESS_MENU")}">
 				<a class="btn btn-light c-header__btn ml-2 c-header__btn--mobile js-quick-action-btn" href="#"
 				   data-js="click" role="button" aria-expanded="false" aria-controls="o-action-menu__container">
 					<span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 				</a>
 				<div class="o-action-menu__container d-flex flex-md-nowrap flex-column flex-md-row" id="o-action-menu__container">
-					{if \App\Privilege::isPermitted('Chat') && !\App\Config::module('Chat', 'draggableButton')}
-						<div class="o-action-menu__item ml-2 quasar-reset">
-							<div id="ChatModalVue"></div>
-						</div>
-					{/if}
 					{assign var=QUICKCREATE_MODULES_PARENT value=Vtiger_Module_Model::getQuickCreateModules(true, true)}
 					{if !empty($QUICKCREATE_MODULES_PARENT)}
 						<div class="o-action-menu__item commonActionsContainer">
