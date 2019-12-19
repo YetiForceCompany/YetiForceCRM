@@ -69,7 +69,7 @@
 															  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 													</div>
 												</div>
-												<div class="d-none edit col-12">
+												<div class="d-none edit input-group input-group-sm px-0 col-12">
 													{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
 													{if $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}
 														<input type="hidden" class="fieldname"
