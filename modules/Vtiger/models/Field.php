@@ -851,7 +851,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getCustomViewSelectColumnName(string $sourceFieldName = '')
 	{
-		return "{$this->getModuleName()}:{$this->get('name')}" . ($sourceFieldName ? ":$sourceFieldName" : '');
+		return "{$this->get('name')}:{$this->getModuleName()}" . ($sourceFieldName ? ":{$sourceFieldName}" : '');
 	}
 
 	/**
@@ -1097,7 +1097,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public static function getInstanceFromFilter($fieldInfo)
 	{
 		if (\is_string($fieldInfo)) {
-			$fieldInfo = array_combine(['module_name', 'field_name', 'source_field_name'], array_pad(explode(':', $fieldInfo), 3, false));
+			$fieldInfo = array_combine(['field_name', 'module_name', 'source_field_name'], array_pad(explode(':', $fieldInfo), 3, false));
 		}
 		return static::getInstance($fieldInfo['field_name'], Vtiger_Module_Model::getInstance($fieldInfo['module_name']));
 	}

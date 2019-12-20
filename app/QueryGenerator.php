@@ -727,7 +727,7 @@ class QueryGenerator
 			if (isset($rule['condition'])) {
 				$where[] = $this->parseConditions($rule);
 			} else {
-				[$moduleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
+				[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
 				if (!empty($sourceFieldName)) {
 					$condition = $this->getRelatedCondition([
 						'relatedModule' => $moduleName,

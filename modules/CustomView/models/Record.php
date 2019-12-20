@@ -341,8 +341,8 @@ class CustomView_Record_Model extends \App\Base
 		if ($this->has('entityState')) {
 			$queryGenerator->setStateCondition($this->get('entityState'));
 		}
-		if (($orderBy = $this->get('orderby')) && is_array($orderBy)) {
-			foreach($orderBy as $fieldName => $sortFlag){
+		if (($orderBy = $this->get('orderby')) && \is_array($orderBy)) {
+			foreach ($orderBy as $fieldName => $sortFlag) {
 				[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $fieldName), 3, false);
 				if ($sourceFieldName) {
 					$queryGenerator->setRelatedOrder([
@@ -351,7 +351,7 @@ class CustomView_Record_Model extends \App\Base
 						'relatedField' => $fieldName,
 						'relatedSortOrder' => $sortFlag
 					]);
-				}else{
+				} else {
 					$queryGenerator->setOrder($fieldName, $sortFlag);
 				}
 			}
@@ -488,7 +488,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	private function addCondition(array $rule, int $parentId, int $index)
 	{
-		[$fieldModuleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
+		[$fieldName, $fieldModuleName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
 		$operator = $rule['operator'];
 		$value = $rule['value'] ?? '';
 		if (!$this->get('advfilterlistDbFormat') && !\in_array($operator, App\Condition::OPERATORS_WITHOUT_VALUES + array_keys(App\Condition::DATE_OPERATORS))) {
@@ -562,8 +562,8 @@ class CustomView_Record_Model extends \App\Base
 			$db->createCommand()->insert('vtiger_cvcolumnlist', [
 				'cvid' => $cvId,
 				'columnindex' => $index,
-				'field_name' => $columnInfo[1],
-				'module_name' => $columnInfo[0],
+				'field_name' => $columnInfo[0],
+				'module_name' => $columnInfo[1],
 				'source_field_name' => $columnInfo[2] ?? null,
 			])->execute();
 		}
@@ -676,7 +676,7 @@ class CustomView_Record_Model extends \App\Base
 			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
 			->createCommand()->queryAllByGroup(1);
 		return array_map(function ($item) {
-			return "{$item['module_name']}:{$item['field_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
+			return "{$item['field_name']}:{$item['module_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
 		}, $selectedFields);
 	}
 
@@ -958,11 +958,12 @@ class CustomView_Record_Model extends \App\Base
 		}
 		return self::getInstanceById($viewId);
 	}
-/**
- * Get sort data
- *
- * @return array
- */
+
+	/**
+	 * Get sort data.
+	 *
+	 * @return array
+	 */
 	public function getSortOrderBy()
 	{
 		return empty($this->get('sort')) ? [] : \App\Json::decode($this->get('sort'));

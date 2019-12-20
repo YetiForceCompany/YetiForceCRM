@@ -116,7 +116,7 @@ class CustomView
 	 * Set sorted by.
 	 *
 	 * @param string $moduleName
-	 * @param mixed $sortBy
+	 * @param mixed  $sortBy
 	 */
 	public static function setSortBy(string $moduleName, $sortBy)
 	{
@@ -317,7 +317,7 @@ class CustomView
 				$isEmptyCondition = true;
 			}
 			$value = $condition['value'];
-			$fieldName = "{$condition['module_name']}:{$condition['field_name']}" . ($condition['source_field_name'] ? ':' . $condition['source_field_name'] : '');
+			$fieldName = "{$condition['field_name']}:{$condition['module_name']}" . ($condition['source_field_name'] ? ':' . $condition['source_field_name'] : '');
 			if (isset($referenceParent[$condition['parent_id']], $referenceGroup[$condition['group_id']])) {
 				$referenceParent[$condition['parent_id']][$condition['condition_index']] = [
 					'fieldname' => $fieldName,

@@ -212,7 +212,7 @@ class Condition
 					$operator = $condition['operator'];
 					$value = $condition['value'] ?? '';
 					if (!\in_array($operator, self::OPERATORS_WITHOUT_VALUES + array_keys(self::DATE_OPERATORS))) {
-						[$fieldModuleName, $fieldName,] = array_pad(explode(':', $condition['fieldname']), 3, false);
+						[$fieldName, $fieldModuleName,] = array_pad(explode(':', $condition['fieldname']), 3, false);
 						$value = \Vtiger_Field_Model::getInstance($fieldName, \Vtiger_Module_Model::getInstance($fieldModuleName))
 							->getUITypeModel()
 							->getDbConditionBuilderValue($value, $operator);
@@ -281,7 +281,7 @@ class Condition
 	 */
 	public static function checkCondition(array $rule, \Vtiger_Record_Model $recordModel): bool
 	{
-		[$moduleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
+		[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
 		if (!empty($sourceFieldName)) {
 			if ($recordModel->isEmpty($sourceFieldName)) {
 				return false;
