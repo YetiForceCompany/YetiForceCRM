@@ -161,7 +161,7 @@ class Layout
 			$iframeClass = 'js-iframe-full-height';
 		} elseif ('mini' === $size) {
 			$btnText = \App\Language::translate('LBL_MORE_BTN');
-			$btn = "<a href=\"#\" class=\"js-more font-weight-lighter\" data-iframe=\"true\">{$btnText}</a>";
+			$btn = "<a href=\"#\" class=\"js-more btnNoFastEdit font-weight-lighter\" data-iframe=\"true\">{$btnText}</a>";
 			$css = 'display: none;';
 			$teaser = TextParser::textTruncate(trim(strip_tags($html)), $length);
 		} elseif ('medium' === $size) {

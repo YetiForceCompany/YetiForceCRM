@@ -2685,9 +2685,8 @@ jQuery.Class(
 			});
 			detailContentsHolder.on('click', 'div.detailViewTable div.fieldValue:not(.is-edit-active)', function(e) {
 				let target = $(e.target);
-				console.log(target);
 				if (target.closest('a').hasClass('btnNoFastEdit') || target.hasClass('btnNoFastEdit')) return;
-				var currentTdElement = jQuery(e.currentTarget);
+				let currentTdElement = jQuery(e.currentTarget);
 				currentTdElement.addClass('is-edit-active');
 				thisInstance.ajaxEditHandling(currentTdElement);
 			});
