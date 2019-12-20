@@ -32,7 +32,7 @@
 		{if !$IS_READ_ONLY && $LIMIT neq 0 && $RELATED_ENTIRES_COUNT >= $LIMIT}
 			<div class="d-flex py-1">
 				<div class="ml-auto">
-					<button type="button" class="btn btn-primary btn-sm moreRecentRecords" data-label-key="{$RELATED_MODULE_NAME}">
+					<button type="button" class="btn btn-primary btn-sm moreRecentRecords" data-label-key="{$RELATED_MODULE_NAME}" data-relation-id="{$RELATION_ID}">
 						{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
 					</button>
 				</div>
