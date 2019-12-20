@@ -2030,7 +2030,9 @@ var app = (window.app = {
 		}
 	},
 	registerIframeAndMoreContent() {
-		$(document).on('click', '.js-more', e => {
+		let showMoreModal = e => {
+			e.preventDefault();
+			e.stopPropagation();
 			const btn = $(e.currentTarget);
 			const message = btn.data('iframe')
 				? btn
@@ -2053,7 +2055,9 @@ var app = (window.app = {
 					}
 				}
 			});
-		});
+		};
+		$('.js-more').on('click', showMoreModal);
+		$(document).on('click', '.js-more', showMoreModal);
 	},
 	registerIframeEvents(content) {
 		content.find('.js-iframe-full-height').each(function() {
