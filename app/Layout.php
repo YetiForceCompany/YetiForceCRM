@@ -165,7 +165,7 @@ class Layout
 			$css = 'display: none;';
 			$teaser = TextParser::textTruncate(trim(strip_tags($html)), $length);
 		} elseif ('medium' === $size) {
-			$btn = '<button type="button" class="btn btn-primary c-btn-floating-right-bottom js-more btnNoFastEdit" data-iframe="true"><span class="mdi mdi-fullscreen"></span></button>';
+			$btn = '<a role="button" href="#" class="btn btn-primary c-btn-floating-right-bottom js-more btnNoFastEdit" data-iframe="true"><span class="mdi mdi-fullscreen"></span></a>';
 		}
 		$html = Purifier::encodeHtml($html);
 		return "<div class=\"js-iframe-content\" >$teaser <iframe sandbox=\"allow-same-origin\" class=\"w-100 {$iframeClass}\" frameborder=\"0\" style=\"{$css}\" srcdoc=\"$html\"></iframe>{$btn}</div>";
