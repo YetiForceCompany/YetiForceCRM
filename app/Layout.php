@@ -156,16 +156,23 @@ class Layout
 	public static function truncateHtml(string $html, ?string $size = 'medium', ?int $length = 200): string
 	{
 		$teaser = $css = $btn = '';
+		$btnTemplate = function ($btnClass = '') {
+			$popoverText = \App\Language::translate('LBL_SHOW_ORIGINAL_CONTENT');
+			return "
+			<a href=\"#\" class=\"js-more btnNoFastEdit font-weight-lighter js-popover-tooltip {$btnClass}\" data-iframe=\"true\" data-content=\"{$popoverText}\">
+				<span class=\"mdi mdi-fullscreen\"></span>
+			</a>
+			";
+		};
 		$iframeClass = 'modal-iframe js-modal-iframe';
 		if ('full' === $size) {
 			$iframeClass = 'js-iframe-full-height';
 		} elseif ('mini' === $size) {
-			$btnText = \App\Language::translate('LBL_MORE_BTN');
-			$btn = "<a href=\"#\" class=\"js-more btnNoFastEdit font-weight-lighter\" data-iframe=\"true\">{$btnText}</a>";
+			$btn = $btnTemplate();
 			$css = 'display: none;';
 			$teaser = TextParser::textTruncate(trim(strip_tags($html)), $length);
 		} elseif ('medium' === $size) {
-			$btn = '<a role="button" href="#" class="btn btn-primary c-btn-floating-right-bottom js-more btnNoFastEdit" data-iframe="true"><span class="mdi mdi-fullscreen"></span></a>';
+			$btn = $btnTemplate('c-btn-floating-right-bottom btn btn-primary');
 		}
 		$html = Purifier::encodeHtml($html);
 		return "<div class=\"js-iframe-content\" >$teaser <iframe sandbox=\"allow-same-origin\" class=\"w-100 {$iframeClass}\" frameborder=\"0\" style=\"{$css}\" srcdoc=\"$html\"></iframe>{$btn}</div>";
