@@ -1072,18 +1072,18 @@ jQuery.Class(
 		 * which will expects the currentTdElement
 		 */
 		ajaxEditHandling: function(currentTdElement) {
-			var thisInstance = this;
-			var readRecord = jQuery('.setReadRecord');
+			const thisInstance = this;
+			let readRecord = $('.setReadRecord'),
+				detailViewValue = $('.value', currentTdElement),
+				editElement = $('.edit', currentTdElement),
+				actionElement = $('.js-detail-quick-edit', currentTdElement),
+				fieldElement = $('.fieldname', editElement);
 			readRecord.prop('disabled', true);
-			var detailViewValue = jQuery('.value', currentTdElement);
-			var editElement = jQuery('.edit', currentTdElement);
-			var actionElement = jQuery('.js-detail-quick-edit', currentTdElement);
-			var fieldElement = jQuery('.fieldname', editElement);
-			jQuery(fieldElement).each(function(index, element) {
-				var fieldName = jQuery(element).val();
-				var elementTarget = jQuery(element);
-				var elementName =
-					jQuery.inArray(elementTarget.data('type'), [
+			$(fieldElement).each(function(index, element) {
+				let fieldName = $(element).val(),
+					elementTarget = $(element),
+					elementName =
+					$.inArray(elementTarget.data('type'), [
 						'taxes',
 						'sharedOwner',
 						'multipicklist',
@@ -1094,7 +1094,7 @@ jQuery.Class(
 					]) != -1
 						? fieldName + '[]'
 						: fieldName;
-				var fieldElement = jQuery('[name="' + elementName + '"]:not([type="hidden"])', editElement);
+				let fieldElement = $('[name="' + elementName + '"]:not([type="hidden"])', editElement);
 				if (fieldElement.attr('disabled') == 'disabled') {
 					return;
 				}
@@ -1115,9 +1115,9 @@ jQuery.Class(
 					.filter('input[type!="hidden"]input[type!="image"],select')
 					.filter(':first')
 					.focus();
-				var saveHandler = function(e) {
+				let saveHandler = function(e) {
 					thisInstance.registerNameAjaxEditEvent();
-					var element = jQuery(e.target);
+					let element = $(e.target);
 					if ($(e.currentTarget).find('.dateTimePickerField').length) {
 						if (element.closest('.drp-calendar').length || element.hasClass('drp-calendar')) {
 							return;
@@ -1133,20 +1133,16 @@ jQuery.Class(
 					}
 					currentTdElement.removeAttr('tabindex');
 					currentTdElement.removeClass('is-edit-active');
-					var previousValue = elementTarget.data('prevValue');
-					var formElement = thisInstance.getForm();
-					var formData = formElement.serializeFormData();
-					var ajaxEditNewValue = formData[fieldName] ? formData[fieldName] : formData[elementName];
-					//value that need to send to the server
-					var fieldValue = ajaxEditNewValue;
-					var fieldInfo = Vtiger_Field_Js.getInstance(fieldElement.data('fieldinfo'));
-					var dateTimeField = [];
-					var dateTime = false;
+					let previousValue = elementTarget.data('prevValue'),
+						ajaxEditNewValue = elementTarget.closest('.edit').find('[name="'+elementTarget.val()+'"]').val(),
+						fieldInfo = Vtiger_Field_Js.getInstance(fieldElement.data('fieldinfo')),
+						dateTimeField = [],
+						dateTime = false;
 					if (editElement.find('[data-fieldinfo]').length == 2) {
 						editElement.find('[data-fieldinfo]').each(function() {
-							var field = {
-								name: jQuery(this).attr('name'),
-								type: jQuery(this).data('fieldinfo').type
+							let field = {
+								name: $(this).attr('name'),
+								type: $(this).data('fieldinfo').type
 							};
 							if (field['type'] == 'datetime') {
 								dateTime = true;
@@ -1154,7 +1150,6 @@ jQuery.Class(
 							dateTimeField.push(field);
 						});
 					}
-					// Since checkbox will be sending only on and off and not 1 or 0 as currrent value
 					if (fieldElement.is('input:checkbox')) {
 						if (fieldElement.is(':checked')) {
 							ajaxEditNewValue = '1';
@@ -1163,20 +1158,16 @@ jQuery.Class(
 						}
 						fieldElement = fieldElement.filter('[type="checkbox"]');
 					}
-					//If validation fails
 					if (fieldElement.validationEngine('validate')) {
 						if (fieldElement.attr('data-inputmask')) {
 							fieldElement.inputmask();
 						}
 						return;
 					}
-
 					function toStr(v) {
 						return v === undefined || v === null ? '' : v + '';
 					}
-
 					fieldElement.validationEngine('hide');
-					//Before saving ajax edit values we need to check if the value is changed then only we have to save
 					if (toStr(previousValue) === toStr(ajaxEditNewValue)) {
 						editElement.addClass('d-none');
 						detailViewValue.removeClass('d-none');
@@ -1184,21 +1175,19 @@ jQuery.Class(
 						readRecord.prop('disabled', false);
 						editElement.off('clickoutside');
 					} else {
-						var preFieldSaveEvent = jQuery.Event(thisInstance.fieldPreSave);
+						let preFieldSaveEvent = jQuery.Event(thisInstance.fieldPreSave),
+							fieldNameValueMap = {};
 						fieldElement.trigger(preFieldSaveEvent, {
-							fieldValue: fieldValue,
+							fieldValue: ajaxEditNewValue,
 							recordId: thisInstance.getRecordId()
 						});
 						if (preFieldSaveEvent.isDefaultPrevented()) {
-							//Stop the save
 							readRecord.prop('disabled', false);
 							return;
 						}
 						currentTdElement.progressIndicator();
 						editElement.addClass('d-none');
-						var fieldNameValueMap = {};
-
-						fieldNameValueMap['value'] = fieldValue;
+						fieldNameValueMap['value'] = ajaxEditNewValue;
 						fieldNameValueMap['field'] = fieldName;
 						fieldNameValueMap = thisInstance.getCustomFieldNameValueMap(fieldNameValueMap);
 						thisInstance
@@ -1213,8 +1202,8 @@ jQuery.Class(
 									return;
 								}
 								const postSaveRecordDetails = response.result;
-								let displayValue = postSaveRecordDetails[fieldName].display_value;
-								let prevDisplayValue = postSaveRecordDetails[fieldName].prev_display_value;
+								let displayValue = postSaveRecordDetails[fieldName].display_value,
+									prevDisplayValue = postSaveRecordDetails[fieldName].prev_display_value;
 								if (dateTimeField.length && dateTime) {
 									displayValue =
 										postSaveRecordDetails[dateTimeField[0].name].display_value +
@@ -1249,7 +1238,7 @@ jQuery.Class(
 										window.location.href = 'index.php?module=' + urlObject['module'] + '&view=List';
 									}
 								} else if (postSaveRecordDetails['isEditable'] === false) {
-									jQuery.progressIndicator({
+									$.progressIndicator({
 										position: 'html',
 										blockInfo: {
 											enabled: true
@@ -1266,14 +1255,13 @@ jQuery.Class(
 								}
 								fieldElement.trigger(thisInstance.fieldUpdatedEvent, {
 									old: previousValue,
-									new: fieldValue
+									new: ajaxEditNewValue
 								});
 								ajaxEditNewValue = ajaxEditNewValue === undefined ? '' : ajaxEditNewValue; //data cannot be undefined
 								elementTarget.data('prevValue', ajaxEditNewValue);
 								fieldElement.data('selectedValue', ajaxEditNewValue);
-								//After saving source field value, If Target field value need to change by user, show the edit view of target field.
 								if (thisInstance.targetPicklistChange) {
-									if (jQuery('.js-widget-general-info', thisInstance.getForm()).length > 0) {
+									if ($('.js-widget-general-info', thisInstance.getForm()).length > 0) {
 										thisInstance.targetPicklist.find('.js-detail-quick-edit').trigger('click');
 									} else {
 										thisInstance.targetPicklist.trigger('click');
@@ -1281,9 +1269,9 @@ jQuery.Class(
 									thisInstance.targetPicklistChange = false;
 									thisInstance.targetPicklist = false;
 								}
-								var selectedTabElement = thisInstance.getSelectedTab();
+								let selectedTabElement = thisInstance.getSelectedTab();
 								if (selectedTabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
-									var detailContentsHolder = thisInstance.getContentHolder();
+									let detailContentsHolder = thisInstance.getContentHolder();
 									thisInstance.reloadTabContent();
 									thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 									thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());
