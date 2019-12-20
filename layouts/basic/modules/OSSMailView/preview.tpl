@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-OSSMailView-preview -->
 	{if !$NOLOADLIBS}
-		{include file="modules/Vtiger/Header.tpl"}
+		{include file=\App\Layout::getTemplatePath('PageHeader.tpl')}
 	{/if}
 {if $ISMODAL}
 	<div class="modelContainer modal fade" tabindex="-1">
@@ -159,7 +159,7 @@
 	</div>
 {/if}
 	{if !$NOLOADLIBS}
-		{include file=\App\Layout::getTemplatePath('JSResources.tpl')}
+		{include file=\App\Layout::getTemplatePath('PageFooter.tpl')}
 	{/if}
 	{if !$ISMODAL}
 		<script>

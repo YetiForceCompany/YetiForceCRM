@@ -1346,7 +1346,7 @@ class Vtiger_Record_Model extends \App\Base
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_QUICK_EDIT',
-				'linkicon' => 'far fa-edit',
+				'linkicon' => 'mdi mdi-square-edit-outline',
 				'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
 				'linkdata' => [
 					'module' => $this->getModuleName(),
@@ -1457,7 +1457,7 @@ class Vtiger_Record_Model extends \App\Base
 			]);
 			$links['LBL_QUICK_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_QUICK_EDIT',
-				'linkicon' => 'far fa-edit',
+				'linkicon' => 'mdi mdi-square-edit-outline',
 				'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
 				'linkdata' => [
 					'module' => $this->getModuleName(),
