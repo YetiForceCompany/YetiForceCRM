@@ -156,8 +156,8 @@ class Layout
 	public static function truncateHtml(string $html, ?string $size = 'medium', ?int $length = 200): string
 	{
 		$teaser = $css = $btn = '';
-		$btnTemplate = function ($btnClass = '') {
-			$popoverText = \App\Language::translate('LBL_SHOW_ORIGINAL_CONTENT');
+		$btnTemplate = function (string $popoverText = '', ?string $btnClass = ''): string {
+			$popoverText = \App\Language::translate($popoverText);
 			return "
 			<a href=\"#\" class=\"js-more btnNoFastEdit font-weight-lighter js-popover-tooltip {$btnClass}\" data-iframe=\"true\" data-content=\"{$popoverText}\">
 				<span class=\"mdi mdi-fullscreen\"></span>
@@ -168,11 +168,11 @@ class Layout
 		if ('full' === $size) {
 			$iframeClass = 'js-iframe-full-height';
 		} elseif ('mini' === $size) {
-			$btn = $btnTemplate();
+			$btn = $btnTemplate('LBL_SHOW_ORIGINAL_CONTENT');
 			$css = 'display: none;';
 			$teaser = TextParser::textTruncate(trim(strip_tags($html)), $length);
 		} elseif ('medium' === $size) {
-			$btn = $btnTemplate('c-btn-floating-right-bottom btn btn-primary');
+			$btn = $btnTemplate('LBL_FULLSCREEN', 'c-btn-floating-right-bottom btn btn-primary');
 		}
 		$html = Purifier::encodeHtml($html);
 		return "<div class=\"js-iframe-content\" >$teaser <iframe sandbox=\"allow-same-origin\" class=\"w-100 {$iframeClass}\" frameborder=\"0\" style=\"{$css}\" srcdoc=\"$html\"></iframe>{$btn}</div>";
