@@ -38,6 +38,14 @@ class IntegerField extends BaseField
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperator()
+	{
+		return 'a' === $this->operator ? 'e' : $this->operator;
+	}
+
+	/**
 	 * Lower operator.
 	 *
 	 * @return array

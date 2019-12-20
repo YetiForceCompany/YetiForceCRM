@@ -25,12 +25,10 @@ class MultiDomainField extends BaseField
 	}
 
 	/**
-	 * Contains operator.
-	 *
-	 * @return array
+	 * {@inheritdoc}
 	 */
-	public function operatorA()
+	public function getOperator()
 	{
-		return $this->operatorC();
+		return 'a' === $this->operator ? 'c' : $this->operator;
 	}
 }

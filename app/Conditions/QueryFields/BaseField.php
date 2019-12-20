@@ -161,11 +161,13 @@ class BaseField
 	/**
 	 * Get condition.
 	 *
+	 * @param string|null $operator
+	 *
 	 * @return array|bool
 	 */
-	public function getCondition()
+	public function getCondition(?string $operator = null)
 	{
-		$fn = 'operator' . ucfirst($this->operator);
+		$fn = 'operator' . ucfirst($operator ?? $this->operator);
 		if (method_exists($this, $fn)) {
 			Log::trace("Entering to $fn in " . __CLASS__);
 			return $this->{$fn}();
@@ -181,13 +183,18 @@ class BaseField
 	 */
 	public function operatorA()
 	{
-		if (false !== strpos($this->getValue(), '*')) {
-			return ['like', $this->getColumnName(), str_replace('*', '%', "%{$this->getValue()}%"), false];
-		}
-		if (false !== strpos($this->getValue(), '_')) {
-			return ['like', $this->getColumnName(), "%{$this->getValue()}%", false];
-		}
-		return $this->operatorC();
+		return $this->getCondition($this->getOperator());
+	}
+
+	/**
+	 * Search for a specified pattern in a column.
+	 * Wildcard - asterisk.
+	 *
+	 * @return array
+	 */
+	public function operatorWca()
+	{
+		return ['like', $this->getColumnName(), str_replace('*', '%', "%{$this->getValue()}%"), false];
 	}
 
 	/**
@@ -293,5 +300,22 @@ class BaseField
 	{
 		$this->fullColumnName = null;
 		$this->tableName = null;
+	}
+
+	/**
+	 * Gets real operator.
+	 *
+	 * @return string
+	 */
+	public function getOperator()
+	{
+		$operator = $this->operator;
+		if ('a' === $this->operator) {
+			$operator = 'c';
+			if (false !== strpos($this->getValue(), '*')) {
+				$operator = 'wca';
+			}
+		}
+		return $operator;
 	}
 }

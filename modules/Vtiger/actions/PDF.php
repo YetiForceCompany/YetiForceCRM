@@ -86,7 +86,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$emailPdf = 1 === $request->getInteger('email_pdf');
 		$view = $request->getByType('fromview', \App\Purifier::STANDARD);
 		$key = 'inventoryColumns';
-		$userVariables = $request->getMultiDimensionArray('userVariables', [\App\Purifier::INTEGER => [\App\Purifier::TEXT]]);
+		$userVariables = $request->getArray('userVariables', \App\Purifier::TEXT);
 
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdfModel = new $handlerClass();
