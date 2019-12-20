@@ -1086,17 +1086,17 @@ jQuery.Class(
 				let fieldName = $(element).val(),
 					elementTarget = $(element),
 					elementName =
-					$.inArray(elementTarget.data('type'), [
-						'taxes',
-						'sharedOwner',
-						'multipicklist',
-						'multiListFields',
-						'multiDomain',
-						'mailScannerFields',
-						'mailScannerActions'
-					]) != -1
-						? fieldName + '[]'
-						: fieldName;
+						$.inArray(elementTarget.data('type'), [
+							'taxes',
+							'sharedOwner',
+							'multipicklist',
+							'multiListFields',
+							'multiDomain',
+							'mailScannerFields',
+							'mailScannerActions'
+						]) != -1
+							? fieldName + '[]'
+							: fieldName;
 				let fieldElement = $('[name="' + elementName + '"]:not([type="hidden"])', editElement);
 				if (fieldElement.attr('disabled') == 'disabled') {
 					return;
@@ -1137,7 +1137,10 @@ jQuery.Class(
 					currentTdElement.removeAttr('tabindex');
 					currentTdElement.removeClass('is-edit-active');
 					let previousValue = elementTarget.data('prevValue'),
-						ajaxEditNewValue = elementTarget.closest('.edit').find('[name="'+elementTarget.val()+'"]').val(),
+						ajaxEditNewValue = elementTarget
+							.closest('.edit')
+							.find('[name="' + elementTarget.val() + '"]')
+							.val(),
 						fieldInfo = Vtiger_Field_Js.getInstance(fieldElement.data('fieldinfo')),
 						dateTimeField = [],
 						dateTime = false;
@@ -2211,14 +2214,16 @@ jQuery.Class(
 			}
 			relationContainer.each((n, item) => {
 				item = $(item);
+				let relationId = item.data('relationId'),
+					relatedModule = item.data('reference');
 				if (item.data('count') === 1) {
 					AppConnector.request({
 						module: app.getModuleName(),
 						action: 'RelationAjax',
 						record: app.getRecordId(),
-						relatedModule: item.data('reference'),
+						relatedModule: relatedModule,
 						mode: 'getRelatedListPageCount',
-						relationId: item.data('relationId'),
+						relationId: relationId,
 						tab_label: item.data('label-key')
 					}).done(response => {
 						if (response.success) {
@@ -2227,7 +2232,7 @@ jQuery.Class(
 							}
 							item.find('.count').text(response.result.numberOfRecords);
 							moreList
-								.find('[data-reference="' + item.data('reference') + '"] .count')
+								.find('[data-reference="${relatedModule}"][data-relation-id="${relationId}"] .count')
 								.text(response.result.numberOfRecords);
 						}
 					});
