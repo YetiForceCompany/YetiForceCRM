@@ -40,8 +40,16 @@
 		margin-left: 50px;
 		margin-right: 0;
 		min-height: calc(100% - 80px); // if not - nested modals will be cutted
+	}
+	.bootbox.modal-fullscreen {
+		.modal-body {
+			padding-bottom: 0;
+		}
+		.bootbox-body {
+			margin-bottom: calculate-rem(-5px);
+		}
 		iframe.modal-iframe {
-			height: calc(100vh - #{calculate-rem(254px)});
+			height: calc(100vh - #{calculate-rem(229px)});
 		}
 	}
 }
