@@ -146,7 +146,11 @@ class RecordsList extends Base
 					$queryValue = false !== strpos($queryValue, $separator) ? explode($separator, $queryValue) : [$queryValue];
 				}
 				foreach ($queryValue as $val) {
-					$value[] = \App\Language::translate($fieldModel->getDisplayValue($val, false, false, true), $fieldModel->getModuleName());
+					if ($fieldModel->isReferenceField()) {
+						$value[] = \App\Language::translate($val, $fieldModel->getModuleName());
+					} else {
+						$value[] = \App\Language::translate($fieldModel->getDisplayValue($val, false, false, true), $fieldModel->getModuleName());
+					}
 				}
 				$value = implode(', ', $value);
 
