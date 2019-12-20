@@ -466,7 +466,7 @@ jQuery.Class(
 			});
 			return aDeferred.promise();
 		},
-		getUpdatefFieldsArray: function() {
+		getUpdateFieldsArray: function() {
 			return this.updatedFields;
 		},
 		/**
@@ -486,12 +486,15 @@ jQuery.Class(
 			});
 			return targetTab;
 		},
-		getTabByModule: function(moduleName) {
+		getTabByModule: function(moduleName, relationId = '') {
 			var tabs = this.getTabs();
 			var targetTab = false;
 			tabs.each(function(index, element) {
 				var tab = jQuery(element);
-				if (tab.data('reference') == moduleName) {
+				if (
+					tab.data('reference') == moduleName &&
+					(!relationId || (relationId && relationId == tab.data('relation-id')))
+				) {
 					targetTab = tab;
 					return false;
 				}
@@ -856,7 +859,7 @@ jQuery.Class(
 			}
 
 			var name = currentElement.attr('name');
-			var updatedFields = this.getUpdatefFieldsArray();
+			var updatedFields = this.getUpdateFieldsArray();
 			var detailContentsHolder = thisInstance.getContentHolder();
 			if (jQuery.inArray(name, updatedFields) != '-1') {
 				var recordLabel = currentElement.val();
@@ -2760,7 +2763,10 @@ jQuery.Class(
 			});
 			detailContentsHolder.on('click', '.moreRecentRecords', function(e) {
 				e.preventDefault();
-				var recentCommentsTab = thisInstance.getTabByModule($(this).data('label-key'));
+				var recentCommentsTab = thisInstance.getTabByModule(
+					$(this).data('label-key'),
+					$(this).data('relation-id')
+				);
 				if (recentCommentsTab.length) {
 					recentCommentsTab.trigger('click');
 				} else {
