@@ -37,7 +37,7 @@
   "devDependencies": {
     "@babel/core": "^7.7.5",
     "@babel/preset-env": "^7.7.5",
-    "@rollup/plugin-alias": "^2.2.0",
+    "@rollup/plugin-alias": "^3.0.0",
     "@rollup/plugin-json": "^4.0.0",
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-eslint": "^4.0.5",
