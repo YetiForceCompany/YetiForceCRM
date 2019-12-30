@@ -48,7 +48,6 @@
 									<div class="fieldValue position-relative">
 										<input type="file" class="js-validation-zip" data-js="container"
 											   name="moduleZip" id="moduleZip"
-											   size="80px"
 											   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 											   accept=".ZIP"
 										/>
