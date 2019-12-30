@@ -79,7 +79,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		}
 		$response = new Vtiger_Response();
 		if (empty($searchValue)) {
-			$response->setError('NO');
+			$response->setResult(['items' => []]);
 		} else {
 			$owner = App\Fields\Owner::getInstance($moduleName);
 			$owner->find($searchValue);
@@ -126,7 +126,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		$searchValue = $request->getByType('value', 'Text');
 		$response = new Vtiger_Response();
 		if (empty($searchValue)) {
-			$response->setError('NO');
+			$response->setResult(['items' => []]);
 		} else {
 			$rows = $this->fieldModel->getUITypeModel()->getSearchValues($searchValue);
 			foreach ($rows as $key => $value) {

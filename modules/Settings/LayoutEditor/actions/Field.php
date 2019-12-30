@@ -109,19 +109,17 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 
 	public function delete(App\Request $request)
 	{
-		$fieldId = $request->getInteger('fieldid');
-		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
+		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($request->getInteger('fieldid'));
 		$response = new Vtiger_Response();
 		if (!$fieldInstance->isCustomField()) {
-			$response->setError('122', 'Cannot delete Non custom field');
-			$response->emit();
-			return;
-		}
-		try {
-			$fieldInstance->delete();
-			$response->setResult(['success' => true]);
-		} catch (Exception $e) {
-			$response->setError($e->getCode(), $e->getMessage());
+			$response->setResult(['success' => false, 'message' => \App\Language::translate('LBL_NON_CUSTOM_FIELD_CANNOT_DELETE', 'Settings::LayoutEditor')]);
+		} else {
+			try {
+				$fieldInstance->delete();
+				$response->setResult(['success' => true]);
+			} catch (Exception $e) {
+				$response->setError($e->getCode(), $e->getMessage());
+			}
 		}
 		$response->emit();
 	}

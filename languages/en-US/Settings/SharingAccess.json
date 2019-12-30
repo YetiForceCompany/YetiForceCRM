@@ -28,10 +28,12 @@
     "Private": "Private",
     "Public: Read Only": "Public: Read only",
     "Public: Read, Create\/Edit, Delete": "Public: Read, Create\/Edit, Delete",
-    "Public: Read, Create\/Edit": "Public: Read, Create\/Edit"
+    "Public: Read, Create\/Edit": "Public: Read, Create\/Edit",
+    "LBL_CUSTOM_RULE_SAVED_SUCCESSFULLY": "Custom sharing rule saved successfully",
+    "LBL_CUSTOM_RULE_SAVED_FAILED": "Saving sharing access rule failed",
+    "LBL_CUSTOM_RULE_DELETING_FAILED": "Deleting sharing access rule failed"
   },
   "js": {
-    "JS_CUSTOM_RULE_SAVED_SUCCESSFULLY": "Custom sharing rule saved successfully",
     "JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE": "Opportunities, Tickets, Quotes & Invoice access must be set to private when the Account access is set to private",
     "JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY": "New sharing rules applied successfully",
     "JS_SELECT_ANY_OTHER_ACCESSING_USER": "Select any other accessing user"
