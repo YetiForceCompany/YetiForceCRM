@@ -36,7 +36,7 @@
 	<input type="hidden" id="gsAutocomplete" value="{App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE')}"/>
 	<input type="hidden" id="gsMinLength" value="{App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH')}"/>
 	<input type="hidden" id="gsAmountResponse" value="{App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT')}"/>
-	<input type="hidden" id="module" value="{$MODULE}"/>
+	<input type="hidden" id="module" value="{$MODULE_NAME}"/>
 	<input type="hidden" id="parent" value="{$PARENT_MODULE}"/>
 	<input type="hidden" id="view" value="{$VIEW}"/>
 	<input type="hidden" id="sounds" value="{\App\Purifier::encodeHtml(\App\Json::encode(App\Config::sounds()))}"/>
@@ -44,6 +44,6 @@
 </div>
 <div id="page">
 	{if $SHOW_BODY_HEADER}
-		{include file=\App\Layout::getTemplatePath('Body.tpl', $MODULE)}
+		{include file=\App\Layout::getTemplatePath('Body.tpl', $MODULE_NAME)}
 	{/if}
 {/strip}
