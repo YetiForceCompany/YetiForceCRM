@@ -32,6 +32,8 @@ class OSSMailView_Preview_View extends Vtiger_Index_View
 		$load = $request->get('noloadlibs');
 		$recordModel = OSSMailView_Record_Model::getInstanceById($record, $moduleName);
 		$viewer = $this->getViewer($request);
+		$viewer->assign('SHOW_FOOTER', false);
+		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('NOLOADLIBS', $load);
 		$viewer->assign('TO', explode(',', $recordModel->getDisplayValue('to_email')));

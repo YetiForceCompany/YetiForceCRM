@@ -109,7 +109,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			];
 		}
 		$dataReader->close();
-
 		return $return;
 	}
 
