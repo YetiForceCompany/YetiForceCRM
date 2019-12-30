@@ -49,7 +49,7 @@ class Vtiger_Index_View extends \App\Controller\View\Page
 
 	public function postProcess(App\Request $request, $display = true)
 	{
-		parent::postProcess($request, false);
+		parent::postProcess($request, $display);
 		$this->getViewer($request)->view('IndexPostProcess.tpl', $request->getModule());
 	}
 
