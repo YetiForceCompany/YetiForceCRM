@@ -160,7 +160,7 @@ class Layout
 			$popoverText = \App\Language::translate($popoverText);
 			return "
 			<a href=\"#\" class=\"js-more btnNoFastEdit font-weight-lighter js-popover-tooltip {$btnClass}\" data-iframe=\"true\" data-content=\"{$popoverText}\">
-				<span class=\"mdi mdi-fullscreen\"></span>
+				<span class=\"mdi mdi-overscan\"></span>
 			</a>
 			";
 		};

@@ -120,19 +120,17 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getLastEndDateTime()
 	{
-		if ($this->get('lastend') !== null) {
+		if (null !== $this->get('lastend')) {
 			$lastScannedTime = App\Fields\DateTime::formatToDisplay(date('Y-m-d H:i:s', $this->get('lastend')));
 			$hourFormat = \App\User::getCurrentUserModel()->getDetail('hour_format');
-			if ($hourFormat == '24') {
+			if ('24' == $hourFormat) {
 				return $lastScannedTime;
-			} else {
-				$dateTimeList = explode(' ', $lastScannedTime);
-
-				return $dateTimeList[0] . ' ' . date('g:i:sa', strtotime($dateTimeList[1]));
 			}
-		} else {
-			return '';
+			$dateTimeList = explode(' ', $lastScannedTime);
+
+			return $dateTimeList[0] . ' ' . date('g:i:sa', strtotime($dateTimeList[1]));
 		}
+		return '';
 	}
 
 	/**
@@ -160,7 +158,8 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		if ($this->isRunning() && !$this->hadTimedout()) {
 			return 'running';
-		} elseif ($this->hadTimedout()) {
+		}
+		if ($this->hadTimedout()) {
 			return 'timeout';
 		}
 		return \App\Fields\RangeTime::formatHourToDisplay(\App\Fields\Time::secondsToDecimal((int) $this->get('lastend') - $lastStart), $type, true);
@@ -169,14 +168,14 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to get display value of every field from this record.
 	 *
-	 * @param string $fieldName
+	 * @param string $key
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($fieldName)
+	public function getDisplayValue(string $key)
 	{
-		$fieldValue = $this->get($fieldName);
-		switch ($fieldName) {
+		$fieldValue = $this->get($key);
+		switch ($key) {
 			case 'frequency':
 				$fieldValue = (int) $fieldValue;
 				$hours = str_pad((int) (($fieldValue / (60 * 60))), 2, 0, STR_PAD_LEFT);
