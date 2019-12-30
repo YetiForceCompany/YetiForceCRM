@@ -2045,7 +2045,7 @@ var app = (window.app = {
 						.html();
 			bootbox.dialog({
 				message,
-				title: app.vtranslate('JS_FULL_TEXT'),
+				title: '<span class="mdi mdi-overscan"></span>  ' + app.vtranslate('JS_FULL_TEXT'),
 				className: 'u-word-break modal-fullscreen',
 				buttons: {
 					danger: {
