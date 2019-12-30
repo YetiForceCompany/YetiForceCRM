@@ -10,7 +10,7 @@
     "LBL_CONFREPORT_DESCRIPTION": "允许您验证主服务器设置与推荐参数的兼容性.",
     "LBL_PARAMETER": "参数",
     "LBL_VALUE": "值",
-    "LBL_RECOMMENDED": "Recommended",
+    "LBL_RECOMMENDED": "推荐",
     "LBL_SYSTEM_STABILITY": "系统稳定性配置",
     "LBL_SYSTEM_SECURITY": "系统安全配置",
     "LBL_HEADERS_SECURITY": "系统安全配置",
@@ -59,7 +59,7 @@
     "LBL_PHP_VALUE": "php",
     "LBL_LABEL_PHPINI": "PHP设置",
     "LBL_LABEL_PHPINIS": "其他 PHP 设置",
-    "LBL_LABEL_LOG_FILE": "错误日志 (error_log)",
+    "LBL_LABEL_LOG_FILE": "错误日志",
     "LBL_LABEL_CRM_DIR": "CRM本地文件夹",
     "LBL_SOAP_LIBRARY": "SOAP",
     "LBL_LABEL_PHP_SAPI": "服务器 API",
@@ -106,8 +106,8 @@
     "LBL_LABEL_LAST_CRON_START": "时间克伦最后一次跑",
     "LBL_LABEL_PROTOCOL_VERSION": "HTTP 协议版本",
     "LBL_LABEL_HTTP_METHODS": "HTTP 方法",
-    "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "Maximum amount of RAM",
-    "LBL_HELP_MAXIMUMMEMORYSIZE": "The maximum amount of RAM calculated on the basis of current configuration parameters. This is the peak amount of RAM that is required for the database engine to work properly. This amount of RAM is only reserved for the database engine. key_buffer_size + query_cache_size + tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + max_connections * (sort_buffer_size + read_buffer_size + read_rnd_buffer_size + join_buffer_size + thread_stack + binlog_cache_size)",
+    "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "最大内存",
+    "LBL_HELP_MAXIMUMMEMORYSIZE": "根据当前配置参数计算的最大内存。这是数据库引擎正常工作所需的内存峰值量。此内存仅保留给数据库引擎. key_buffer_size + query_cache_size + tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + max_connections * (sort_buffer_size + read_buffer_size + read_rnd_buffer_size + join_buffer_size + thread_stack + binlog_cache_size)",
     "LBL_HELP_MBSTRING": "用于管理字符串的扩展。用于将字符串转换为不同的编码。",
     "LBL_HELP_FILTER": "用于筛选传入请求数据的扩展。",
     "LBL_HELP_BCMATH": "更精确的数学运算。",
@@ -225,10 +225,10 @@
     "LBL_IT_WORKS_PROPERLY": "工作正常",
     "LBL_LABEL_FOOTER": "底部",
     "LBL_LABEL_PREMIUM_MODULES": "高级模块",
-    "LBL_FILE_OWNER": "Owner",
-    "LBL_FILE_PERMISSIONS": "Permissions",
-    "LBL_LABEL_SCRIPT_USER": "Script calling user",
-    "LBL_ERROR_DURING_VERIFICATION": "Error occurred during verification"
+    "LBL_FILE_OWNER": "所有者",
+    "LBL_FILE_PERMISSIONS": "权限",
+    "LBL_LABEL_SCRIPT_USER": "脚本执行人",
+    "LBL_ERROR_DURING_VERIFICATION": "再校验期间发生错误"
   },
   "js": {
     "JS_SPEED_TEST_START": "检查速度..."
