@@ -18079,8 +18079,8 @@ insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (117,'vtig
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (118,'vtiger_min_version','4.0.999');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (120,'vtiger_min_version','4.4.0');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (126,'vtiger_min_version','4.4.0');
-insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (127,'vtiger_min_version','5.2.40');
-insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (128,'vtiger_min_version','5.2.40');
+insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (127,'vtiger_min_version','5.2.x');
+insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (128,'vtiger_min_version','5.2.x');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (129,'vtiger_min_version','5.2.x');
 
 /*Data for the table `vtiger_taskpriority` */
@@ -18409,7 +18409,7 @@ insert  into `vtiger_verification`(`verificationid`,`verification`,`presence`,`p
 
 /*Data for the table `vtiger_version` */
 
-insert  into `vtiger_version`(`id`,`old_version`,`current_version`) values (1,'2.2.0','2.2.0');
+insert  into `vtiger_version`(`id`,`old_version`,`current_version`) values (1,'5.3.0','5.3.0');
 
 /*Data for the table `vtiger_view_date_format` */
 
