@@ -29,7 +29,7 @@
     "add": "^2.0.6",
     "animate.css": "^3.7",
     "block-ui": "^2.70.1",
-    "blueimp-file-upload": "^10.6.0",
+    "blueimp-file-upload": "^10.7.0",
     "bootbox": "^5.4.0",
     "bootstrap": "^4.3.1",
     "bootstrap-datepicker": "^1.9.0",
