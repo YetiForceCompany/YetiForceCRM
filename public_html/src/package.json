@@ -57,7 +57,7 @@
     "gulp-stylus": "^2.7.0",
     "lodash.difference": "^4.5.0",
     "node-sass": "^4.13.0",
-    "postcss": "^7.0.24",
+    "postcss": "^7.0.26",
     "prettier": "^1.19.1",
     "rollup": "^1.27.14",
     "rollup-plugin-babel": "^4.3.3",
