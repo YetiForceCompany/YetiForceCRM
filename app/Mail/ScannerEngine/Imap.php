@@ -26,6 +26,62 @@ class Imap extends Base
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getActions(): array
+	{
+		return [];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function findRelatedRecords(bool $onlyId = false): array
+	{
+		return [];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function findRelatedRecordsByEmail(): array
+	{
+		return [];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function findRelatedRecordsBySubject(): array
+	{
+		return [];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getExceptions(): array
+	{
+		return [];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getUserId(): int
+	{
+		return 0;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getMailType(): int
+	{
+		return 0;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getMailCrmId()
 	{
 		if ($this->has('mailCrmId')) {

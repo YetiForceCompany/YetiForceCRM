@@ -51,7 +51,13 @@ abstract class Base extends \App\Base
 	 *
 	 * @return void
 	 */
-	abstract public function process(): void;
+	public function process(): void
+	{
+		foreach ($this->getActions() as $action) {
+			$class = "App\\Mail\\ScannerAction\\{$action}";
+			(new $class($this))->process();
+		}
+	}
 
 	/**
 	 * Get scanner actions.
