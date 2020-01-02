@@ -9,8 +9,6 @@ php:
     - 7.4
     - nightly
 
-jdk: oraclejdk8
-
 stages:
     - composer validate
     - test
@@ -34,6 +32,7 @@ addons:
         packages:
             - apache2
             - libapache2-mod-fastcgi
+			- openjdk8
 
 cache:
     yarn: true
