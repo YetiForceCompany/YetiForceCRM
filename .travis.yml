@@ -9,6 +9,8 @@ php:
     - 7.4
     - nightly
 
+jdk: openjdk8
+
 stages:
     - composer validate
     - test
