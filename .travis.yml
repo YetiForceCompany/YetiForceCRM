@@ -131,13 +131,14 @@ jobs:
               - phpenv versions
               - php --version
               - sudo chmod -R 777 tests/setup/
+              - java -version
+              - PATH=$(echo "$PATH" | sed -e 's/:\/usr\/local\/lib\/jvm\/openjdk11\/bin//')
+              - JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+              - java -version
               - ./tests/setup/before_script.sh
               - ./tests/setup/apache.sh
               - ./tests/setup/selenium.sh
               - php -i
-              - PATH=$(echo "$PATH" | sed -e 's/:\/usr\/local\/lib\/jvm\/openjdk11\/bin//')
-              - JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
-              - java -version
           script:
               - cd tests
               - ../vendor/bin/phpunit --verbose --log-junit 'tests/execution.xml' --coverage-clover 'tests/coverage.xml'
