@@ -32,7 +32,7 @@ addons:
         packages:
             - apache2
             - libapache2-mod-fastcgi
-			- openjdk8
+            - openjdk8
 
 cache:
     yarn: true
@@ -49,6 +49,7 @@ branches:
 
 services:
     - mysql
+    - xvfb
 
 mysql:
     database: yetiforce
@@ -56,8 +57,8 @@ mysql:
     encoding: utf8
 
 before_install:
-	- PATH=$(echo "$PATH" | sed -e 's/:\/usr\/local\/lib\/jvm\/openjdk11\/bin//')
-	- JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+    - PATH=$(echo "$PATH" | sed -e 's/:\/usr\/local\/lib\/jvm\/openjdk11\/bin//')
+    - JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
 
 before_script:
     - export COMMIT_AUTHOR_EMAIL="$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
