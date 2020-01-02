@@ -39,6 +39,10 @@ echo " -----  /usr/lib/cgi-bin/  -----"
 
 sudo ls -all /usr/lib/cgi-bin/
 
+echo " -----  /var/lib/apache2/  -----"
+
+sudo ls -all /var/lib/apache2/
+
 echo " -----  -----"
 
 echo " all service: "
