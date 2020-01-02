@@ -69,7 +69,6 @@ before_script:
     - ./tests/setup/before_script.sh
     - ./tests/setup/apache.sh
     - php -i
-    - sudo ls /usr/lib/jvm/ -all
 
 script:
     - cd tests
@@ -137,6 +136,7 @@ jobs:
               - ./tests/setup/apache.sh
               - ./tests/setup/selenium.sh
               - php -i
+              - sudo ls /usr/lib/jvm/ -all
               - PATH=$(echo "$PATH" | sed -e 's/:\/usr\/local\/lib\/jvm\/openjdk11\/bin//')
               - JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
           script:
