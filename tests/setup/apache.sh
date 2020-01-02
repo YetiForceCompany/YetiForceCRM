@@ -43,6 +43,14 @@ echo " -----  /var/lib/apache2/  -----"
 
 sudo ls -all /var/lib/apache2/
 
+echo " -----  /etc/apache2/  -----"
+
+sudo ls -all /etc/apache2/
+
+echo " -----  /etc/apache2/apache2.conf  -----"
+
+cat /etc/apache2/apache2.conf
+
 echo " -----  -----"
 
 echo " all service: "
