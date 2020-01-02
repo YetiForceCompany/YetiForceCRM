@@ -1,6 +1,6 @@
 serverUrl='http://127.0.0.1:4444'
 CHROME_DRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`
-SELENIUM_STANDALONE_VERSION=3.13.0
+SELENIUM_STANDALONE_VERSION=3.6.0
 SELENIUM_SUBDIR=$(echo "$SELENIUM_STANDALONE_VERSION" | cut -d"." -f-2)
 
 if [ ! -f $HOME/build/YetiForceCompany/cache/chromedriver_linux64.zip ]; then wget -N http://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip -O $HOME/build/YetiForceCompany/cache/chromedriver_linux64.zip; fi
