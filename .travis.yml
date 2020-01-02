@@ -14,13 +14,6 @@ stages:
     - test
     - coverage
 
-matrix:
-    fast_finish: true
-    allow_failures:
-        - php: nightly
-        - php: 7.3
-        - php: 7.4
-
 env:
     global:
         # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
@@ -69,6 +62,7 @@ before_script:
     - ./tests/setup/before_script.sh
     - ./tests/setup/apache.sh
     - php -i
+    - sudo ls /usr/lib/jvm/ -all
 
 script:
     - cd tests
@@ -97,6 +91,11 @@ after_script:
     - sudo ls -all ../screenshots
 
 jobs:
+    fast_finish: true
+    allow_failures:
+        - php: nightly
+        - php: 7.3
+        - php: 7.4
     include:
         - stage: composer validate
           php: 7.3
@@ -136,7 +135,6 @@ jobs:
               - ./tests/setup/apache.sh
               - ./tests/setup/selenium.sh
               - php -i
-              - sudo ls /usr/lib/jvm/ -all
               - PATH=$(echo "$PATH" | sed -e 's/:\/usr\/local\/lib\/jvm\/openjdk11\/bin//')
               - JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
           script:
