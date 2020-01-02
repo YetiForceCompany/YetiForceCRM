@@ -43,6 +43,10 @@ echo " -----  /var/lib/apache2/  -----"
 
 sudo ls -all /var/lib/apache2/
 
+echo " -----  /var/lib/apache2/module  -----"
+
+sudo ls -all /var/lib/apache2/module
+
 echo " -----  /etc/apache2/  -----"
 
 sudo ls -all /etc/apache2/
