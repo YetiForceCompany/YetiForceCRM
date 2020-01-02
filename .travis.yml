@@ -32,7 +32,7 @@ addons:
         packages:
             - apache2
             - libapache2-mod-fastcgi
-            - openjdk8
+            - openjdk-8-jdk
 
 cache:
     yarn: true
@@ -75,6 +75,7 @@ before_script:
     - ./tests/setup/before_script.sh
     - ./tests/setup/apache.sh
     - php -i
+    - sudo ls /usr/lib/jvm/ -all
 
 script:
     - cd tests
