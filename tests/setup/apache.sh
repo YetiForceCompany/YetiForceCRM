@@ -37,3 +37,9 @@ free -m
 
 echo " all service: "
 service --status-all
+
+echo " -----  /etc/apache2/sites-available/000-default.conf  -----"
+
+cat /etc/apache2/sites-available/000-default.conf
+
+echo " -----  -----"
