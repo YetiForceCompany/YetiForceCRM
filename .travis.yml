@@ -9,7 +9,7 @@ php:
     - 7.4
     - nightly
 
-jdk: openjdk8
+jdk: oraclejdk8
 
 stages:
     - composer validate
@@ -50,6 +50,7 @@ branches:
 
 services:
     - mysql
+	- xvfb
 
 mysql:
     database: yetiforce
