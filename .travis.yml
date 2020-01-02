@@ -48,7 +48,6 @@ branches:
 
 services:
     - mysql
-    - xvfb
 
 mysql:
     database: yetiforce
