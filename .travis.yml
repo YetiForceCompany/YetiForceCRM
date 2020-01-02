@@ -49,7 +49,7 @@ branches:
 
 services:
     - mysql
-	- xvfb
+    - xvfb
 
 mysql:
     database: yetiforce
