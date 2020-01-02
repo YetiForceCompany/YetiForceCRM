@@ -741,14 +741,15 @@ class TextParser
 	 */
 	protected function relatedRecordsList($params)
 	{
-		[$reletedModuleName, $columns, $conditions, $viewIdOrName, $limit, $maxLength] = array_pad(explode('|', $params), 6, '');
-		if (is_numeric($reletedModuleName)) {
-			$relationListView = \Vtiger_RelationListView_Model::getInstance($this->recordModel, '', $reletedModuleName);
-			$reletedModuleName = $relationListView->getRelatedModuleModel()->getName();
+		[$relatedModuleName, $columns, $conditions, $viewIdOrName, $limit, $maxLength] = array_pad(explode('|', $params), 6, '');
+		if (is_numeric($relatedModuleName)) {
+			if ($relationListView = \Vtiger_RelationListView_Model::getInstance($this->recordModel, '', $relatedModuleName)) {
+				$relatedModuleName = $relationListView->getRelatedModuleModel()->getName();
+			}
 		} else {
-			$relationListView = \Vtiger_RelationListView_Model::getInstance($this->recordModel, $reletedModuleName);
+			$relationListView = \Vtiger_RelationListView_Model::getInstance($this->recordModel, $relatedModuleName);
 		}
-		if (!$relationListView || !Privilege::isPermitted($reletedModuleName)) {
+		if (!$relationListView || !Privilege::isPermitted($relatedModuleName)) {
 			return '';
 		}
 		$pagingModel = new \Vtiger_Paging_Model();
@@ -757,12 +758,12 @@ class TextParser
 		}
 		if ($viewIdOrName) {
 			if (!is_numeric($viewIdOrName)) {
-				$customView = CustomView::getInstance($reletedModuleName);
+				$customView = CustomView::getInstance($relatedModuleName);
 				if ($cvId = $customView->getViewIdByName($viewIdOrName)) {
 					$viewIdOrName = $cvId;
 				} else {
 					$viewIdOrName = false;
-					Log::warning("No view found. Module: $reletedModuleName, view name: $viewIdOrName", 'TextParser');
+					Log::warning("No view found. Module: $relatedModuleName, view name: $viewIdOrName", 'TextParser');
 				}
 			}
 			if ($viewIdOrName) {
@@ -781,9 +782,9 @@ class TextParser
 		foreach ($fields as $fieldModel) {
 			if ($fieldModel->isViewable()) {
 				if ($this->withoutTranslations) {
-					$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">$(translate : {$fieldModel->getFieldLabel()}|$reletedModuleName)$</th>";
+					$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">$(translate : {$fieldModel->getFieldLabel()}|$relatedModuleName)$</th>";
 				} else {
-					$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $reletedModuleName) . '</th>';
+					$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $relatedModuleName) . '</th>';
 				}
 			}
 		}

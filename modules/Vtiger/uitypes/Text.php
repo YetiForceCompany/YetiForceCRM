@@ -93,6 +93,22 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
+	{
+		if (empty($value)) {
+			return '';
+		}
+		if (300 === $this->getFieldModel()->getUIType()) {
+			$value = \App\Utils\Completions::decodeEmoji(\App\Purifier::purifyHtml($value));
+		} else {
+			$value = nl2br(\App\Purifier::purify($value));
+		}
+		return $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
 		return $this->getDisplayValue($value, $record, $recordModel, $rawText, $this->getFieldModel()->get('maxlengthtext') ?: 50);

@@ -88,6 +88,25 @@ class Completions
 	}
 
 	/**
+	 * Get processed text in display Emoji.
+	 *
+	 * @param string $text
+	 *
+	 * @return string
+	 */
+	public static function decodeEmoji(string $text): string
+	{
+		$emojis = static::getEmojis();
+		return \preg_replace_callback(
+			static::EMOJI_REGEX,
+			function (array $matches) use ($emojis) {
+				return $emojis[$matches[0]] ?? $matches[0];
+			},
+			$text
+		);
+	}
+
+	/**
 	 * Get text to edit mode.
 	 *
 	 * @param string $text
