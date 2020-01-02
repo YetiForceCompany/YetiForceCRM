@@ -112,7 +112,6 @@ jobs:
               apt:
                   packages:
                       - apache2
-                      - libapache2-mod-fastcgi
                       - openjdk-8-jdk
               chrome: stable
               sonarcloud:
