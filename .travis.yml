@@ -32,7 +32,6 @@ addons:
         packages:
             - apache2
             - libapache2-mod-fastcgi
-            - openjdk-8-jdk
 
 cache:
     yarn: true
@@ -55,10 +54,6 @@ mysql:
     database: yetiforce
     username: root
     encoding: utf8
-
-before_install:
-    - PATH=$(echo "$PATH" | sed -e 's/:\/usr\/local\/lib\/jvm\/openjdk11\/bin//')
-    - JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
 
 before_script:
     - export COMMIT_AUTHOR_EMAIL="$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
@@ -121,6 +116,7 @@ jobs:
                   packages:
                       - apache2
                       - libapache2-mod-fastcgi
+                      - openjdk-8-jdk
               chrome: stable
               sonarcloud:
                   organization: 'yetiforcecompany'
@@ -142,6 +138,8 @@ jobs:
               - ./tests/setup/apache.sh
               - ./tests/setup/selenium.sh
               - php -i
+              - PATH=$(echo "$PATH" | sed -e 's/:\/usr\/local\/lib\/jvm\/openjdk11\/bin//')
+              - JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
           script:
               - cd tests
               - ../vendor/bin/phpunit --verbose --log-junit 'tests/execution.xml' --coverage-clover 'tests/coverage.xml'
