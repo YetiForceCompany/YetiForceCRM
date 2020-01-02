@@ -48,6 +48,10 @@ echo " -----  -----"
 echo " all service: "
 service --status-all
 
+echo " Apache enabled modules: "
+
+apache2ctl -M
+
 echo " -----  /etc/apache2/sites-available/000-default.conf  -----"
 
 cat /etc/apache2/sites-available/000-default.conf
