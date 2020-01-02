@@ -35,6 +35,12 @@ php -i | grep memory_limit
 echo " free: "
 free -m
 
+echo " -----  /usr/lib/cgi-bin/  -----"
+
+sudo ls -all /usr/lib/cgi-bin/
+
+echo " -----  -----"
+
 echo " all service: "
 service --status-all
 
