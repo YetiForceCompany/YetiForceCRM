@@ -189,7 +189,7 @@ $.Class(
 						var url = 'index.php?module=' + item.module + '&view=Detail&record=' + item.id;
 						return $('<li>')
 							.data('item.autocomplete', item)
-							.append($("<a href='" + url + "'></a>").html(item.label))
+							.append($("<a href='" + url + "' title='" + item.label + "'></a>").html(item.label))
 							.appendTo(ul);
 					}
 				});
@@ -211,10 +211,18 @@ $.Class(
 							response(reponseDataList);
 						});
 					},
+					classes: {
+						'ui-autocomplete':
+							'u-overflow-y-auto u-overflow-x-hidden u-max-h-70vh u-max-w-sm-70 u-max-w-lg-40'
+					},
 					select: function(event, ui) {
 						var selectedItemData = ui.item;
 						if (selectedItemData.permitted) {
-							var url = 'index.php?module=' + selectedItemData.module + '&view=Detail&record=' + selectedItemData.id;
+							var url =
+								'index.php?module=' +
+								selectedItemData.module +
+								'&view=Detail&record=' +
+								selectedItemData.id;
 							window.location.href = url;
 						}
 						return false;
