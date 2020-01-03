@@ -275,12 +275,12 @@ class ConfReport
 		'spaceStorage' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_STORAGE'],
 		'spaceTemp' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_TEMP'],
 		'lastCronStart' => ['container' => 'env', 'testCli' => false, 'label' => 'LAST_CRON_START', 'isHtml' => true],
-		'open_basedir' => ['container' => 'php', 'testCli' => true],
+		'open_basedir' => ['container' => 'php',  'type' => 'NotEmpty', 'testCli' => true, 'mode' => 'showWarnings'],
 		'cacertbundle' => ['recommended' => 'On', 'container' => 'env', 'type' => 'OnOff', 'testCli' => true, 'label' => 'CACERTBUNDLE'],
 		'SSL_CERT_FILE' => ['container' => 'env', 'testCli' => true],
 		'SSL_CERT_DIR' => ['container' => 'env', 'testCli' => true],
-		'openssl.cafile' => ['container' => 'php', 'testCli' => true],
-		'openssl.capath' => ['container' => 'php', 'testCli' => true],
+		'openssl.cafile' => ['container' => 'php',  'type' => 'NotEmpty', 'testCli' => true, 'mode' => 'showWarnings'],
+		'openssl.capath' => ['container' => 'php',  'type' => 'NotEmpty', 'testCli' => true, 'mode' => 'showWarnings'],
 	];
 
 	/**

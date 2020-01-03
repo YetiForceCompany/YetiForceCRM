@@ -80,7 +80,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['libraries'] key=KEY item=ITEM}
-						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -143,7 +143,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['performance'] key=KEY item=ITEM}
-						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -196,7 +196,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['publicDirectoryAccess'] key=KEY item=ITEM}
-						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -231,7 +231,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['functionalVerification'] key=KEY item=ITEM}
-						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -242,6 +242,56 @@
 									<u>{$ITEM['www']}</u>
 								{/if}
 							</td>
+						</tr>
+					{/foreach}
+					</tbody>
+				</table>
+			</div>
+			<div class="u-columns__item pb-3 environment table-responsive-md">
+				<table class="table table-bordered table-sm m-0">
+					<thead>
+					<tr>
+						<th colspan="3" scope="col">
+							{\App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', $MODULE_NAME)}
+						</th>
+					</tr>
+					<tr>
+						<th colspan="1" scope="col" class="text-left">
+							{App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
+						</th>
+						<th colspan=" 1
+							" scope="col">
+							{App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
+						</th>
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_CLI_VALUE', $MODULE_NAME)}
+						</th>
+					</tr>
+					</thead>
+					<tbody class="u-word-break-all small">
+					{foreach from=$ALL['environment'] key=KEY item=ITEM}
+						<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+							<td class="bg-light text-left u-word-break-keep-all">
+								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+							</td>
+							{if empty($ITEM['testCli'])}
+								<td colspan="2">
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
+								</td>
+							{else}
+								<td>
+									{if !empty($ITEM['www'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+									{/if}
+								</td>
+								<td>
+									{if !empty($ITEM['cron'])}
+										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
+									{/if}
+								</td>
+							{/if}
 						</tr>
 					{/foreach}
 					</tbody>
@@ -272,7 +322,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['stability'] key=KEY item=ITEM}
-						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -306,113 +356,6 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="u-columns__item pb-3 environment table-responsive-md">
-				<table class="table table-bordered table-sm m-0">
-					<thead>
-					<tr>
-						<th colspan="3" scope="col">
-							{\App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', $MODULE_NAME)}
-						</th>
-					</tr>
-					<tr>
-						<th colspan="1" scope="col" class="text-left">
-							{App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
-						</th>
-						<th colspan=" 1
-							" scope="col">
-							{App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
-						</th>
-						<th colspan="1" scope="col">
-							{App\Language::translate('LBL_CLI_VALUE', $MODULE_NAME)}
-						</th>
-					</tr>
-					</thead>
-					<tbody class="u-word-break-all small">
-					{foreach from=$ALL['environment'] key=KEY item=ITEM}
-						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
-							<td class="bg-light text-left u-word-break-keep-all">
-								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
-							</td>
-							{if empty($ITEM['testCli'])}
-								<td colspan="2">
-									{if !empty($ITEM['www'])}
-										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
-									{/if}
-								</td>
-							{else}
-								<td>
-									{if !empty($ITEM['www'])}
-										{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
-									{/if}
-								</td>
-								<td>
-									{if !empty($ITEM['cron'])}
-										{if isset($ITEM['isHtml'])} {$ITEM['cron']} {else} {\App\Language::translate($ITEM['cron'], $MODULE_NAME)} {/if}
-									{/if}
-								</td>
-							{/if}
-						</tr>
-					{/foreach}
-					</tbody>
-				</table>
-			</div>
-			<div class="u-columns__item pb-3 writableFilesAndFolders table-responsive-md">
-				<table class="table table-bordered table-sm m-0">
-					<thead>
-					<tr>
-						<th colspan="5" scope="col">
-							{\App\Language::translate('LBL_FILES_PERMISSIONS', $QUALIFIED_MODULE)}
-						</th>
-					</tr>
-					<tr>
-						<th colspan="1" scope="col" class="text-left">
-							{App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
-						</th>
-						<th colspan="1" scope="col">
-							{App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
-						</th>
-						<th colspan="1" scope="col">
-							{App\Language::translate('LBL_CLI_VALUE', $MODULE_NAME)}
-						</th>
-						<th colspan="1" scope="col">
-							{App\Language::translate('LBL_FILE_OWNER', $MODULE_NAME)}
-						</th>
-						<th colspan="1" scope="col">
-							{App\Language::translate('LBL_FILE_PERMISSIONS', $MODULE_NAME)}
-						</th>
-					</tr>
-					</thead>
-					<tbody class="u-word-break-all small">
-					{foreach from=$ALL['writableFilesAndFolders'] key=KEY item=ITEM}
-						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
-							<td class="bg-light text-left u-word-break-keep-all">
-								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
-							</td>
-							<td>
-								{if !empty($ITEM['www'])}
-									{\App\Language::translate($ITEM['www'], $MODULE_NAME)}
-								{/if}
-							</td>
-							<td>
-								{if !empty($ITEM['cron'])}
-									{\App\Language::translate($ITEM['cron'], $MODULE_NAME)}
-								{/if}
-							</td>
-							<td>
-								{if !empty($ITEM['owner'])}
-									{\App\Purifier::encodeHtml($ITEM['owner'], $MODULE_NAME)}
-								{else}-{/if}
-							</td>
-							<td>
-								{if !empty($ITEM['perms'])}
-									{\App\Purifier::encodeHtml($ITEM['perms'], $MODULE_NAME)}
-								{else}-{/if}
-							</td>
-						</tr>
-					{/foreach}
-					</tbody>
-				</table>
-			</div>
 			<div class="u-columns__item pb-3 security table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>
@@ -438,7 +381,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['security'] key=KEY item=ITEM}
-						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -498,7 +441,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['headers'] key=KEY item=ITEM}
-						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -527,6 +470,63 @@
 					</tbody>
 				</table>
 			</div>
+			<div class="u-columns__item pb-3 writableFilesAndFolders table-responsive-md">
+				<table class="table table-bordered table-sm m-0">
+					<thead>
+					<tr>
+						<th colspan="5" scope="col">
+							{\App\Language::translate('LBL_FILES_PERMISSIONS', $QUALIFIED_MODULE)}
+						</th>
+					</tr>
+					<tr>
+						<th colspan="1" scope="col" class="text-left">
+							{App\Language::translate('LBL_PARAMETER', $MODULE_NAME)}
+						</th>
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_WWW_VALUE', $MODULE_NAME)}
+						</th>
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_CLI_VALUE', $MODULE_NAME)}
+						</th>
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_FILE_OWNER', $MODULE_NAME)}
+						</th>
+						<th colspan="1" scope="col">
+							{App\Language::translate('LBL_FILE_PERMISSIONS', $MODULE_NAME)}
+						</th>
+					</tr>
+					</thead>
+					<tbody class="u-word-break-all small">
+					{foreach from=$ALL['writableFilesAndFolders'] key=KEY item=ITEM}
+						<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+							<td class="bg-light text-left u-word-break-keep-all">
+								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
+							</td>
+							<td>
+								{if !empty($ITEM['www'])}
+									{\App\Language::translate($ITEM['www'], $MODULE_NAME)}
+								{/if}
+							</td>
+							<td>
+								{if !empty($ITEM['cron'])}
+									{\App\Language::translate($ITEM['cron'], $MODULE_NAME)}
+								{/if}
+							</td>
+							<td>
+								{if !empty($ITEM['owner'])}
+									{\App\Purifier::encodeHtml($ITEM['owner'], $MODULE_NAME)}
+								{else}-{/if}
+							</td>
+							<td>
+								{if !empty($ITEM['perms'])}
+									{\App\Purifier::encodeHtml($ITEM['perms'], $MODULE_NAME)}
+								{else}-{/if}
+							</td>
+						</tr>
+					{/foreach}
+					</tbody>
+				</table>
+			</div>
 			<div class="u-columns__item pb-3 database table-responsive-md">
 				<table class="table table-bordered table-sm m-0">
 					<thead>
@@ -549,7 +549,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['database'] key=KEY item=ITEM}
-						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
