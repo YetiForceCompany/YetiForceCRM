@@ -5,6 +5,7 @@ dist: xenial
 language: php
 
 php:
+    - 7.2
     - 7.3
     - 7.4
     - nightly
@@ -94,8 +95,7 @@ jobs:
     fast_finish: true
     allow_failures:
         - php: nightly
-        - php: 7.3
-        - php: 7.4
+        - php: 7.2
     include:
         - stage: composer validate
           php: 7.3
