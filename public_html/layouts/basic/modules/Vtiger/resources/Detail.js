@@ -1137,10 +1137,11 @@ jQuery.Class(
 					currentTdElement.removeAttr('tabindex');
 					currentTdElement.removeClass('is-edit-active');
 					let previousValue = elementTarget.data('prevValue'),
-						ajaxEditNewValue = elementTarget
-							.closest('.edit')
-							.find('[name="' + elementTarget.val() + '"]')
-							.val(),
+						editElement = elementTarget.closest('.edit'),
+						ajaxEditNewValue =
+							editElement.find('[name="' + elementName + '"]').length > 0
+								? editElement.find('[name="' + elementName + '"]').val()
+								: editElement.find('[name="' + fieldName + '"]').val(),
 						fieldInfo = Vtiger_Field_Js.getInstance(fieldElement.data('fieldinfo')),
 						dateTimeField = [],
 						dateTime = false;
