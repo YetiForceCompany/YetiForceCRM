@@ -95,8 +95,7 @@ jobs:
     fast_finish: true
     allow_failures:
         - php: nightly
-        - if: stage = coverage
-          env: TWO=4   
+        - env: BROWSER_NAME="chrome" CHROME_HEADLESS="1" DEPENDENCIES="--prefer-lowest"
     include:
         - stage: composer validate
           php: 7.3
