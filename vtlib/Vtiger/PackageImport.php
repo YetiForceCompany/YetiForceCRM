@@ -1142,6 +1142,7 @@ class PackageImport extends PackageExport
 		\App\Cache::clearOpcache();
 		Functions::recurseDelete('app_data/LanguagesUpdater.json');
 		Functions::recurseDelete('app_data/SystemUpdater.json');
+		Functions::recurseDelete('app_data/cron.php');
 		file_put_contents('cache/logs/update.log', ob_get_contents(), FILE_APPEND);
 		ob_end_clean();
 	}

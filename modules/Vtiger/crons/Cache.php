@@ -18,7 +18,7 @@ class Vtiger_Cache_Cron extends \App\CronHandler
 	public function process()
 	{
 		$time = strtotime('-30 day');
-		$dirs = ['pdf', 'import', 'mail', 'session'];
+		$dirs = ['pdf', 'import', 'mail', 'session', 'vtlib', 'rss_cache', 'upload'];
 		$exclusion = ['.htaccess', 'index.html'];
 		foreach ($dirs as $dir) {
 			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . $dir, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {

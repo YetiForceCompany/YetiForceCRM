@@ -1070,8 +1070,8 @@ return [
 		],
 		'db_hostname' => [
 			'type' => 'function',
-			'default' => 'return self::$db_server . ":" . self::$db_port;',
-			'description' => 'Gets host name'
+			'default' => 'return self::$db_server . \':\' . self::$db_port;',
+			'description' => 'Gets host name.'
 		],
 		'base' => [
 			'type' => 'function',
@@ -1085,7 +1085,7 @@ return [
 	'tablePrefix' => 'yf_',
 	'charset' => 'utf8',
 ];",
-			'description' => 'Basic database configuration'
+			'description' => 'Basic database configuration.'
 		],
 	]
 ];
