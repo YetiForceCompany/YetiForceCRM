@@ -211,7 +211,7 @@ class User
 	 */
 	public function getDetail($fieldName)
 	{
-		return $this->privileges['details'][$fieldName];
+		return $this->privileges['details'][$fieldName] ?? null;
 	}
 
 	/**
@@ -223,7 +223,7 @@ class User
 	 */
 	public function getDetails()
 	{
-		return $this->privileges['details'];
+		return $this->privileges['details'] ?? null;
 	}
 
 	/**
@@ -233,7 +233,7 @@ class User
 	 */
 	public function getProfiles()
 	{
-		return $this->privileges['profiles'];
+		return $this->privileges['profiles'] ?? null;
 	}
 
 	/**
@@ -243,7 +243,7 @@ class User
 	 */
 	public function getGroups()
 	{
-		return $this->privileges['groups'];
+		return $this->privileges['groups'] ?? null;
 	}
 
 	/**
