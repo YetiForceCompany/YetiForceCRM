@@ -63,12 +63,12 @@
     "milon/barcode": "^6.0.0",
     "ckeditor/ckeditor": "^4.9.2",
     "parsecsv/php-parsecsv": "^1.1.0",
-    "guzzlehttp/guzzle": "^6.3.3",
+    "guzzlehttp/guzzle": "^6.3",
     "nette/php-generator": "^3.2.1",
     "yetiforce/csrf-magic": "^v1.1.1",
     "yetiforce/debugbar": "^1.13.1.1",
     "yetiforce/yii2": "2.0.15.3",
-    "yetiforce/yetiforcepdf": "0.1.27",
+    "yetiforce/yetiforcepdf": "0.1.28",
     "abraham/twitteroauth": "^1.0"
   },
   "require-dev": {
