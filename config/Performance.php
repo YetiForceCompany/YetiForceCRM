@@ -155,4 +155,10 @@ class Performance
 
 	/** If there is no translation in the chosen language, then get from the default language. */
 	public static $recursiveTranslate = false;
+
+	/** Parameter defining how fields are displayed in quick edit. Available values: standard,blocks,vertical */
+	public static $quickEditLayout = 'blocks';
+
+	/** Parameter defining how fields are displayed in quick create. Available values: blocks,standard */
+	public static $quickCreateLayout = 'standard';
 }
