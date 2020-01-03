@@ -80,7 +80,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['libraries'] key=KEY item=ITEM}
-						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -143,7 +143,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['performance'] key=KEY item=ITEM}
-						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -196,7 +196,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['publicDirectoryAccess'] key=KEY item=ITEM}
-						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -231,7 +231,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['functionalVerification'] key=KEY item=ITEM}
-						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -272,7 +272,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['stability'] key=KEY item=ITEM}
-						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -329,7 +329,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['environment'] key=KEY item=ITEM}
-						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -384,7 +384,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['writableFilesAndFolders'] key=KEY item=ITEM}
-						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -438,7 +438,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['security'] key=KEY item=ITEM}
-						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -498,7 +498,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['headers'] key=KEY item=ITEM}
-						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>
@@ -549,7 +549,7 @@
 					</thead>
 					<tbody class="u-word-break-all small">
 					{foreach from=$ALL['database'] key=KEY item=ITEM}
-						<tr {HIGHLIGHT_ROW ITEM=$ITEM}>
+						<tr data-key="{$KEY}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 							<td class="bg-light text-left u-word-break-keep-all">
 								{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 							</td>

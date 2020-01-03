@@ -517,7 +517,7 @@ class ConfReport
 				'crmDir' => ROOT_DIRECTORY,
 				'operatingSystem' => 'demo' === \App\Config::main('systemMode') ? php_uname('s') : php_uname(),
 				'serverSoftware' => $_SERVER['SERVER_SOFTWARE'] ?? '-',
-				'currentUser' => get_current_user() . ' [' . getmyuid() . ']',
+				'currentUser' => get_current_user() . ' [' . (getmyuid() ?: '-') . ']',
 				'tempDir' => \App\Fields\File::getTmpPath(),
 				'spaceRoot' => '',
 				'spaceStorage' => '',
