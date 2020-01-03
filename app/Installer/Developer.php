@@ -29,7 +29,7 @@ class Developer
 			echo "<pre>$msg</pre><hr>";
 		}, E_ALL);
 		$json = '';
-		foreach (['Portal'] as $type) {
+		foreach (['Portal', 'ManageConsents'] as $type) {
 			$json .= self::generateSwaggerByType($type, false);
 		}
 		return $json;

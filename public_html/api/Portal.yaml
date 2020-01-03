@@ -116,6 +116,170 @@ paths:
           basicAuth: ''
           ApiKeyAuth: ''
           token: ''
+  '/webservice/{moduleName}/Record':
+    get:
+      tags:
+        - BaseModule
+      summary: 'Gets data for the record'
+      operationId: 'Api\Portal\BaseModule\Record::get'
+      parameters:
+        -
+          name: moduleName
+          in: path
+          description: 'Module name'
+          required: true
+          schema:
+            type: string
+          example: Contacts
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/X-ENCRYPTED'
+        -
+          name: x-raw-data
+          in: header
+          description: 'Gets raw data'
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: 1
+        -
+          name: x-parent-id
+          in: header
+          description: 'Gets parent id'
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        description: 'The content of the request is empty.'
+        required: false
+      responses:
+        '200':
+          description: 'Gets data for the record'
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Get_Record_Response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Get_Record_Response'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Get_Record_Response'
+        '403':
+          description: 'No permissions to remove record OR No permissions to view record OR No permissions to edit record'
+        '404':
+          description: 'Record doesn''t exist'
+      security:
+        -
+          basicAuth: ''
+          ApiKeyAuth: ''
+          token: ''
+  /webservice/BaseModule/Record:
+    put:
+      tags:
+        - BaseModule
+      summary: 'List of edited records'
+      operationId: 'Api\Portal\BaseModule\Record::put'
+      parameters:
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/X-ENCRYPTED'
+      requestBody:
+        description: 'The content of the request is empty.'
+        required: false
+      responses:
+        '200':
+          description: 'List of edited records'
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Put_Record_Response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Put_Record_Response'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Put_Record_Response'
+      security:
+        -
+          basicAuth: ''
+          ApiKeyAuth: ''
+          token: ''
+    post:
+      tags:
+        - BaseModule
+      summary: 'List of records created'
+      operationId: 'Api\Portal\BaseModule\Record::post'
+      parameters:
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/X-ENCRYPTED'
+      requestBody:
+        description: 'The content of the request is empty.'
+        required: false
+      responses:
+        '200':
+          description: 'List of records created'
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Post_Record_Response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Post_Record_Response'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Post_Record_Response'
+      security:
+        -
+          basicAuth: ''
+          ApiKeyAuth: ''
+          token: ''
+    delete:
+      tags:
+        - BaseModule
+      summary: 'List of records moved to the trash'
+      operationId: 'Api\Portal\BaseModule\Record::delete'
+      parameters:
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/X-ENCRYPTED'
+      requestBody:
+        description: 'The content of the request is empty.'
+        required: false
+      responses:
+        '200':
+          description: 'List of records moved to the trash'
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Delete_Record_Response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Delete_Record_Response'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Delete_Record_Response'
+      security:
+        -
+          basicAuth: ''
+          ApiKeyAuth: ''
+          token: ''
   /webservice/Users/Login:
     post:
       tags:
@@ -291,6 +455,126 @@ components:
               type: string
               example: Accounts
           type: object
+      type: object
+    BaseModule_Get_Record_Response:
+      title: 'Response body for Record'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - 0
+            - 1
+          example: 1
+        result:
+          description: 'Record data'
+          properties:
+            name:
+              description: 'Record name'
+              type: string
+              example: 'Driving school'
+            id:
+              description: 'Record Id'
+              type: integer
+              example: '152'
+            fields:
+              description: 'Field name items'
+              type: array
+              items:
+                description: 'Field name'
+                type: string
+                items: 'Contractor''s name'
+                example: 'Contractor''s name'
+            data:
+              description: 'Record data'
+              type: array
+              items:
+                description: 'Field value'
+                type: string
+                items: 'Contractor''s name'
+                example: Kowalski
+            privileges:
+              description: 'Parameters determining checking of editing rights and moving to the trash'
+              type: array
+              items:
+                description: 'Check if record is editable'
+                type: boolean
+                items: isEditable
+                example: 'true'
+            inventory:
+              description: 'Value inventory data'
+              type: array
+              items:
+                description: 'Field value inventory'
+                type: string
+                items: unitPrice
+                example: '250'
+            summaryInventory:
+              description: 'Value summary inventory data'
+              type: array
+              items:
+                description: 'Sum of field values'
+                type: string
+                items: unitPrice
+            rawData:
+              description: 'Tax selected in inventory'
+              type: object
+            rawInventory:
+              description: 'Inventory data'
+              type: object
+          type: object
+      type: object
+    BaseModule_Delete_Record_Response:
+      title: 'Transfer to the trash'
+      description: 'List of records moved to the trash'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - '0'
+            - '1'
+        result:
+          description: 'Status of successful transfer of the record to the recycle bin'
+          type: boolean
+      type: object
+    BaseModule_Put_Record_Response:
+      title: 'Response body for Record'
+      description: 'List of edited records'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - '0'
+            - '1'
+        result:
+          title: 'Parameters record'
+          description: 'Parameters the edited record.'
+          type: array
+          items:
+            description: 'Id the edited record'
+            type: integer
+            items: id
+      type: object
+    BaseModule_Post_Record_Response:
+      title: 'Created records'
+      description: 'List of records created'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - '0'
+            - '1'
+        result:
+          title: 'Parameters record'
+          description: 'Parameters the saved record.'
+          type: array
+          items:
+            description: 'Id of the newly created record'
+            type: integer
+            items: id
       type: object
     X-ENCRYPTED:
       description: 'Is the content request is encrypted'
@@ -475,6 +759,9 @@ tags:
   -
     name: BaseAction
     description: 'Access to user methods'
+  -
+    name: BaseModule
+    description: 'Access to record methods'
   -
     name: Users
     description: 'Access to user methods'
