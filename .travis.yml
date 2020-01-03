@@ -96,7 +96,7 @@ jobs:
     allow_failures:
         - php: nightly
         - if: stage = coverage
-          env: TWO=two   
+          env: TWO=4   
     include:
         - stage: composer validate
           php: 7.3
