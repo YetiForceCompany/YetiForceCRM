@@ -12,9 +12,9 @@ const cleanCSS = require('gulp-clean-css')
 const autoprefixer = require('gulp-autoprefixer')
 
 const license =
-  '/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n'
+	'/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n'
 
-const stylusSrc = 'css/**/*.styl'
+const stylusSrc = 'css/quasar.styl'
 
 /**
  * Compile .css file
@@ -24,29 +24,29 @@ const stylusSrc = 'css/**/*.styl'
  * @returns {function} task
  */
 function getCompileCssTask(src = stylusSrc) {
-  return function compileCssTask() {
-    return gulp
-      .src(src, { sourcemaps: true })
-      .pipe(stylus())
-      .pipe(
-        autoprefixer(
-          'safari 6',
-          'ios 7',
-          'ie 11',
-          'last 2 Chrome versions',
-          'last 2 Firefox versions',
-          'Explorer >= 11',
-          'last 1 Edge versions'
-        )
-      )
-      .pipe(
-        cleanCSS({}, details => {
-          console.log(`${details.name}: ${details.stats.originalSize}`)
-          console.log(`${details.name}: ${details.stats.minifiedSize}`)
-        })
-      )
-      .pipe(gulp.dest('./css'), { sourcemaps: true })
-  }
+	return function compileCssTask() {
+		return gulp
+			.src(src, { sourcemaps: true })
+			.pipe(stylus())
+			.pipe(
+				autoprefixer(
+					'safari 6',
+					'ios 7',
+					'ie 11',
+					'last 2 Chrome versions',
+					'last 2 Firefox versions',
+					'Explorer >= 11',
+					'last 1 Edge versions'
+				)
+			)
+			.pipe(
+				cleanCSS({}, details => {
+					console.log(`${details.name}: ${details.stats.originalSize}`)
+					console.log(`${details.name}: ${details.stats.minifiedSize}`)
+				})
+			)
+			.pipe(gulp.dest('./css'), { sourcemaps: true })
+	}
 }
 
 /**
