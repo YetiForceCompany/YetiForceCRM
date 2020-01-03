@@ -62,7 +62,7 @@ class ConfReport
 	 * @var array
 	 */
 	public static $stability = [
-		'phpVersion' => ['recommended' => '7.2.x, 7.3.x', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
+		'phpVersion' => ['recommended' => '7.2.x, 7.3.x, 7.4.x (dev)', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
 		'protocolVersion' => ['recommended' => '2.0, 1.x', 'type' => 'Version', 'container' => 'env', 'testCli' => false, 'label' => 'PROTOCOL_VERSION'],
 		'error_reporting' => ['recommended' => 'E_ALL & ~E_NOTICE', 'type' => 'ErrorReporting', 'container' => 'php', 'testCli' => true],
 		'output_buffering' => ['recommended' => 'On', 'type' => 'OnOffInt', 'container' => 'php', 'testCli' => true],

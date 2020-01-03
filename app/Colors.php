@@ -332,13 +332,13 @@ class Colors
 	/**
 	 * Get contrast color.
 	 *
-	 * @param $hexcolor
+	 * @param mixed $hexColor
 	 *
 	 * @return string
 	 */
-	public static function getContrast($hexcolor)
+	public static function getContrast($hexColor)
 	{
 		$contrastRatio = 1.9; // higher number = more black color
-		return hexdec($hexcolor) > 0xffffff / $contrastRatio ? 'black' : 'white';
+		return (ctype_xdigit($hexColor) && (hexdec($hexColor) > 0xffffff / $contrastRatio)) ? 'black' : 'white';
 	}
 }
