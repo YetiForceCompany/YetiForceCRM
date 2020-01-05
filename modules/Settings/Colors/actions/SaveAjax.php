@@ -302,10 +302,9 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		} else {
 			$color = $request->getByType('color', 'Color');
 		}
-		\App\Colors::updateFieldColor($fieldId, $color);
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'success' => true,
+			'success' => App\Colors::updateFieldColor($fieldId, $color),
 			'color' => $color,
 			'message' => App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false)),
 		]);
@@ -319,10 +318,9 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function removeFieldColor(App\Request $request)
 	{
-		\App\Colors::updateFieldColor($request->getInteger('fieldId'), '');
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'success' => true,
+			'success' => \App\Colors::updateFieldColor($request->getInteger('fieldId'), ''),
 			'color' => '',
 			'message' => \App\Language::translate('LBL_REMOVED_COLOR', $request->getModule(false)),
 		]);
