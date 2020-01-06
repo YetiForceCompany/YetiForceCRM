@@ -218,4 +218,31 @@ class Vtiger_Menu_Model
 		}
 		return '';
 	}
+
+    /**
+     * @param $menu
+     *
+     * @return bool
+     */
+    public static function isShowTopLevelMenuItem($menu)
+    {
+        if(isset($menu['childs']) && count($menu['childs'])>0) {
+            foreach ($menu['childs'] as $id=>$subMenu) {
+
+                $privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+                if(\App\Module::isModuleActive($subMenu['mod'])==false) {
+                    return false;
+                }
+
+                if ($privilegesModel->isAdminUser() ||
+                    $privilegesModel->hasGlobalReadPermission() ||
+                    $privilegesModel->hasModulePermission($subMenu['tabid']) ) {
+                    return true;
+                }
+
+            }
+        }
+
+        return true;
+    }
 }

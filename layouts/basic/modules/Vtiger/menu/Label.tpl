@@ -6,6 +6,14 @@
 	{else}
 		{assign var=ACTIVE value='false'}
 	{/if}
+
+	{if $MENU_MODULE=='Settings::Vtiger'}
+		{assign var=SHOWITEMMENU value='true'}
+	{else}
+		{assign var=SHOWITEMMENU value=Vtiger_Menu_Model::isShowTopLevelMenuItem($MENU, $MENU_MODULE)}
+	{/if}
+
+	{if $SHOWITEMMENU=='true'}
 	<li class="tpl-menu-Label c-menu__item js-menu__item nav-item menuLabel {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}"
 		data-js="mouseenter mouseleave">
 		<a class="nav-link {if $ACTIVE=='true'}active{else}collapsed{/if}{if $ICON} hasIcon{/if}{if $HASCHILDS == 'true'} js-submenu-toggler is-submenu-toggler{/if}" href="#"
@@ -18,4 +26,5 @@
 		</a>
 		{include file=\App\Layout::getTemplatePath('menu/SubMenu.tpl', $MODULE)}
 	</li>
+	{/if}
 {/strip}
