@@ -19,9 +19,11 @@
   "author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
   "license": "YetiForce Public License v3",
   "scripts": {
-    "prod": "cross-env NODE_ENV=production node rollup.js",
-    "watch": "cross-env NODE_ENV=development node rollup.js",
-    "lint": "vue-cli-service lint"
+    "vue-prod": "cross-env NODE_ENV=production node buildVue.js",
+    "vue-watch": "cross-env NODE_ENV=development node buildVue.js",
+    "vue-lint": "vue-cli-service lint",
+    "minify-js": "node build.js",
+    "minify-css": "gulp minify-css"
   },
   "browserslist": [
     "extends browserslist-config-vue"
