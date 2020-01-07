@@ -64,7 +64,8 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$layout = $request->getByType('showLayout') ?: Config\Performance::$quickEditLayout ?? 'blocks';
-		if ('blocks' === $layout && 'Calendar' !== $moduleName) {
+		$layout = 'Calendar' === $moduleName ? 'standard' : $layout;
+		if ('blocks' === $layout) {
 			$layout = 'blocks';
 			$blockModels = $moduleModel->getBlocks();
 			$blockRecordStructure = $blockIdFieldMap = [];
