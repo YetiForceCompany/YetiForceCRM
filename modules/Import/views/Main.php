@@ -15,7 +15,7 @@ class Import_Main_View extends \App\Controller\View\Page
 	public $user;
 	public $numberOfRecords;
 
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
@@ -23,7 +23,7 @@ class Import_Main_View extends \App\Controller\View\Page
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 	}
 
@@ -33,7 +33,7 @@ class Import_Main_View extends \App\Controller\View\Page
 	 * @param \App\Request $request
 	 * @param App\User     $user
 	 */
-	public function __construct(\App\Request $request, App\User $user)
+	public function __construct(App\Request $request, App\User $user)
 	{
 		$this->request = $request;
 		$this->user = $user;
@@ -45,7 +45,7 @@ class Import_Main_View extends \App\Controller\View\Page
 	 * @param \App\Request $request
 	 * @param App\User     $user
 	 */
-	public static function import(\App\Request $request, \App\User $user)
+	public static function import(App\Request $request, App\User $user)
 	{
 		$importController = new self($request, $user);
 		$importController->saveMap();
@@ -81,6 +81,10 @@ class Import_Main_View extends \App\Controller\View\Page
 		$importDataController->importData();
 		Import_Queue_Action::updateStatus($importInfo['id'], Import_Queue_Action::$IMPORT_STATUS_HALTED);
 		$importInfo = Import_Queue_Action::getImportInfo($moduleName, $this->user);
+		if (($relationId = $this->request->getInteger('relationId')) && ($srcRecord = $this->request->getInteger('src_record'))) {
+			$importInfo['relationId'] = $relationId;
+			$importInfo['src_record'] = $srcRecord;
+		}
 		self::showImportStatus($importInfo, $this->user);
 	}
 
@@ -92,7 +96,7 @@ class Import_Main_View extends \App\Controller\View\Page
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public static function showImportStatus($importInfo, \App\User $user)
+	public static function showImportStatus($importInfo, App\User $user)
 	{
 		if (empty($importInfo)) {
 			Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
@@ -130,12 +134,18 @@ class Import_Main_View extends \App\Controller\View\Page
 
 	public static function showResult($importInfo, $importStatusCount)
 	{
+		$moduleName = $importInfo['module'];
+		$importModule = Vtiger_Module_Model::getInstance('Import')
+			->setImportModule($moduleName)
+			->set('src_record', $importInfo['src_record'] ?? 0)
+			->set('relationId', $importInfo['relationId'] ?? 0);
 		$viewer = new Vtiger_Viewer();
-		$viewer->assign('FOR_MODULE', $importInfo['module']);
+		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE_NAME', 'Import');
 		$viewer->assign('OWNER_ID', $importInfo['user_id']);
 		$viewer->assign('IMPORT_RESULT', $importStatusCount);
 		$viewer->assign('MERGE_ENABLED', $importInfo['merge_type']);
+		$viewer->assign('MODULE_MODEL', $importModule);
 		$viewer->view('ImportResult.tpl', 'Import');
 	}
 
@@ -145,7 +155,6 @@ class Import_Main_View extends \App\Controller\View\Page
 		$importId = $importInfo['id'];
 
 		$viewer = new Vtiger_Viewer();
-
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
 		$viewer->assign('IMPORT_ID', $importId);
@@ -160,7 +169,7 @@ class Import_Main_View extends \App\Controller\View\Page
 		if ($saveMap && !empty($mapName)) {
 			$fieldMapping = $this->request->get('field_mapping');
 			$fileReader = Import_Module_Model::getFileReader($this->request, $this->user);
-			if ($fileReader === null) {
+			if (null === $fileReader) {
 				return false;
 			}
 			$hasHeader = $fileReader->hasHeader();
@@ -191,15 +200,14 @@ class Import_Main_View extends \App\Controller\View\Page
 		$fileReader = Import_Module_Model::getFileReader($this->request, $this->user);
 		$fileReader->read();
 		$fileReader->deleteFile();
-		if ($fileReader->getStatus() === 'success') {
+		if ('success' === $fileReader->getStatus()) {
 			$this->numberOfRecords = $fileReader->getNumberOfRecordsRead();
 			return true;
-		} else {
-			Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_FILE_READ_FAILED', 'Import') . ' - ' .
+		}
+		Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_FILE_READ_FAILED', 'Import') . ' - ' .
 				\App\Language::translate($fileReader->getErrorMessage(), 'Import'));
 
-			return false;
-		}
+		return false;
 	}
 
 	public function queueDataImport()
@@ -218,7 +226,7 @@ class Import_Main_View extends \App\Controller\View\Page
 	 *
 	 * @param \App\Request $request
 	 */
-	public static function deleteMap(\App\Request $request)
+	public static function deleteMap(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$mapId = $request->getInteger('mapid');
