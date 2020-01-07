@@ -18974,7 +18974,6 @@ insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('convers
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','groups','');
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','status','');
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','convert_status','PLL_LEAD_ACQUIRED');
-insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','currentuser_status','false');
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('conversion','create_always','false');
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('conversion','mapping','[{\"company\":\"accountname\"}]');
 

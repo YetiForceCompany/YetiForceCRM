@@ -9473,7 +9473,6 @@ class Base4 extends \App\Db\Importers\Base
 					['lead', 'groups', ''],
 					['lead', 'status', ''],
 					['lead', 'convert_status', 'PLL_LEAD_ACQUIRED'],
-					['lead', 'currentuser_status', 'false'],
 					['conversion', 'create_always', 'false'],
 					['conversion', 'mapping', '[{"company":"accountname"}]'],
 				]

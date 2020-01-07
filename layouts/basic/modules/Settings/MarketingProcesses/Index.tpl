@@ -162,12 +162,6 @@
 							</select>
 						</td>
 					</tr>
-					<tr>
-						<td><label>{\App\Language::translate('LBL_CURRENTUSER_STATUS', $QUALIFIED_MODULE)}</label></td>
-						<td>
-							<input class="configField" type="checkbox" data-type="lead" name="currentuser_status"  {if $LEAD['currentuser_status'] == 'true'}checked{/if} />
-						</td>
-					</tr>
 				</tbody>
 			</table>
 		</div>
