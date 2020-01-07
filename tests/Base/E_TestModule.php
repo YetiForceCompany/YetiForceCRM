@@ -46,7 +46,7 @@ class E_TestModule extends \Tests\Base
 	 *
 	 * @codeCoverageIgnore
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		if (\file_exists(static::$testDataPath)) {
 			$this->fileUrl = static::$testDataPath;
@@ -74,7 +74,7 @@ class E_TestModule extends \Tests\Base
 	/**
 	 * Testing the installation of the sample data module.
 	 */
-	public function testInstallSampleData()
+	public function testInstallSampleData(): void
 	{
 		if (static::$skipTest) {
 			$this->markTestSkipped(static::$skipTest);
