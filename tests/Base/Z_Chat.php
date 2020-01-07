@@ -415,7 +415,7 @@ class Z_Chat extends \Tests\Base
 	 *
 	 * @throws \Exception
 	 */
-	public function testRemoveRecordCrm()
+	public function testRemoveRecordCrm(): void
 	{
 		$recordModel = \Vtiger_Record_Model::getInstanceById(static::$listId[0]);
 		$recordId = $recordModel->getId();
@@ -437,7 +437,7 @@ class Z_Chat extends \Tests\Base
 	/**
 	 * Test the current chat room after deleting the record.
 	 */
-	public function testCurrentRoomAfterDeletingRecord()
+	public function testCurrentRoomAfterDeletingRecord(): void
 	{
 		$this->assertSame($_SESSION['chat']['roomType'], 'crm');
 		$this->assertSame($_SESSION['chat']['recordId'], static::$listId[0]);
@@ -455,7 +455,7 @@ class Z_Chat extends \Tests\Base
 	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \yii\db\Exception
 	 */
-	public function testRemoveUser()
+	public function testRemoveUser(): void
 	{
 		\App\User::setCurrentUserId(static::$users[0]);
 		// $chat = \App\Chat::getInstance('global', static::$globalRoom['global_room_id']);
@@ -496,7 +496,7 @@ class Z_Chat extends \Tests\Base
 	 * @codeCoverageIgnore
 	 * Cleaning after tests.
 	 */
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass(): void
 	{
 		unset(static::$listId[0]);
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());

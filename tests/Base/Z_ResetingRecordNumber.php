@@ -206,7 +206,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	 * Test method "IncrementNumberMonth".
 	 * Test record number resetting with new month.
 	 */
-	public function testIncrementNumberMonth()
+	public function testIncrementNumberMonth(): void
 	{
 		$actualNumber = 1;
 		$prefix = '{{YYYY}}-{{MM}}-{{DD}}/';
@@ -256,7 +256,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	 * Test method "IncrementNumberYear".
 	 * Test record number resetting with new year.
 	 */
-	public function testIncrementNumberYear()
+	public function testIncrementNumberYear(): void
 	{
 		$actualNumber = 1;
 		$prefix = '{{YYYY}}-{{MM}}-{{DD}}/';
@@ -306,7 +306,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	 * Test method "LeadingZeros"
 	 * Test leading zeros in numbers generation.
 	 */
-	public function testLeadingZeros()
+	public function testLeadingZeros(): void
 	{
 		for ($leadingZeros = 0; $leadingZeros < 7; ++$leadingZeros) {
 			$actualNumber = 1;
@@ -359,7 +359,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	 * @codeCoverageIgnore
 	 * Cleaning after tests.
 	 */
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass(): void
 	{
 		static::$transaction->rollBack();
 		\App\Cache::clear();

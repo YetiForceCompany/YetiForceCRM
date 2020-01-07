@@ -37,9 +37,9 @@ class Twitter extends \Tests\Base
 	 * @throws \yii\db\Exception
 	 * @codeCoverageIgnore
 	 */
-	private static function addTwitter(string $twitterLogin)
+	private static function addTwitter(string $twitterLogin): void
 	{
-		$db = \App\Db::getInstance()
+		\App\Db::getInstance()
 			->createCommand()
 			->insert('u_#__social_media_twitter', [
 				'id_twitter' => static::$idTwitter++,
@@ -76,7 +76,7 @@ class Twitter extends \Tests\Base
 	/**
 	 * Testing configuration for module.
 	 */
-	public function testConfigModule()
+	public function testConfigModule(): void
 	{
 		$this->assertInternalType(
 			'array', \App\Config::component('Social', 'TWITTER_ENABLE_FOR_MODULES'),
@@ -91,7 +91,7 @@ class Twitter extends \Tests\Base
 	/**
 	 * Check if the Twitter field exists.
 	 */
-	public function testFieldTwitter()
+	public function testFieldTwitter(): void
 	{
 		$this->assertIsInt(static::$twitterFields[0]->getId());
 		$this->assertTrue(
@@ -119,7 +119,7 @@ class Twitter extends \Tests\Base
 	 *
 	 * @dataProvider providerUiTypeWrongData
 	 */
-	public function testUiTypeWrongData($value)
+	public function testUiTypeWrongData($value): void
 	{
 		$this->expectExceptionCode(406);
 		static::$twitterFields[0]->getUITypeModel()->validate($value, false);
@@ -134,7 +134,7 @@ class Twitter extends \Tests\Base
 	 *
 	 * @dataProvider providerUiTypeWrongData
 	 */
-	public function testUiTypeUserFormatWrongData($value)
+	public function testUiTypeUserFormatWrongData($value): void
 	{
 		$this->expectExceptionCode(406);
 		static::$twitterFields[0]->getUITypeModel()->validate($value, true);
@@ -148,7 +148,7 @@ class Twitter extends \Tests\Base
 	 * @throws \App\Exceptions\Security
 	 * @dataProvider providerUiTypeGoodData
 	 */
-	public function testUiTypeGoodData($value)
+	public function testUiTypeGoodData($value): void
 	{
 		$this->assertNull(static::$twitterFields[0]->getUITypeModel()->validate($value, false));
 	}
@@ -188,7 +188,7 @@ class Twitter extends \Tests\Base
 	 *
 	 * @throws \Exception
 	 */
-	public function testAddTwitter()
+	public function testAddTwitter(): void
 	{
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
 		$recordModel->set('assigned_user_id', \App\User::getActiveAdminId());
@@ -215,7 +215,7 @@ class Twitter extends \Tests\Base
 	 *
 	 * @throws \Exception
 	 */
-	public function testEditTwitter()
+	public function testEditTwitter(): void
 	{
 		$recordModel = \Vtiger_Record_Model::getInstanceById(static::$listId[0]);
 		$recordModel->set(static::$twitterFields[0]->getColumnName(), 'yeti');
@@ -241,7 +241,7 @@ class Twitter extends \Tests\Base
 	 *
 	 * @throws \Exception
 	 */
-	public function testEditTwitterEmpty()
+	public function testEditTwitterEmpty(): void
 	{
 		$recordModel = \Vtiger_Record_Model::getInstanceById(static::$listId[0]);
 		$recordModel->set(static::$twitterFields[0]->getColumnName(), '');
@@ -259,7 +259,7 @@ class Twitter extends \Tests\Base
 	 *
 	 * @throws \Exception
 	 */
-	public function testEditTwitterNotEmpty()
+	public function testEditTwitterNotEmpty(): void
 	{
 		$recordModel = \Vtiger_Record_Model::getInstanceById(static::$listId[0]);
 		$recordModel->set(static::$twitterFields[0]->getColumnName(), 'forceen');
@@ -274,7 +274,7 @@ class Twitter extends \Tests\Base
 	 *
 	 * @throws \Exception
 	 */
-	public function testDeleteTwitter()
+	public function testDeleteTwitter(): void
 	{
 		$recordModel = \Vtiger_Record_Model::getInstanceById(static::$listId[0]);
 		$recordModel->delete();
@@ -287,7 +287,7 @@ class Twitter extends \Tests\Base
 	 * @codeCoverageIgnore
 	 * Cleaning after tests.
 	 */
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass(): void
 	{
 		\App\Config::set('component', 'Social', 'TWITTER_ENABLE_FOR_MODULES', []);
 		foreach (static::$twitterFields as $fieldModel) {

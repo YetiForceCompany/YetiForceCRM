@@ -219,7 +219,7 @@ class Purifier extends \Tests\Base
 	 *
 	 * @throws \Exception
 	 */
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass(): void
 	{
 		$userModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
 		$userModel->set('currency_decimal_separator', static::$separatorDecimal);
