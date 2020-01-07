@@ -16,8 +16,9 @@ const rollup = require('rollup'),
 	resolve = require('rollup-plugin-node-resolve'),
 	globals = require('rollup-plugin-node-globals'),
 	json = require('@rollup/plugin-json'),
-	babel = require('rollup-plugin-babel'),
+	buble = require('@rollup/plugin-buble'),
 	{ terser } = require('rollup-plugin-terser')
+const dirModules = __dirname + '/node_modules/'
 
 let filesToMin = []
 const sourcemap = true
@@ -38,26 +39,17 @@ const plugins = [
 			indentedSyntax: true
 		}
 	}),
+	buble({
+		transforms: {
+			arrow: true,
+			modules: false,
+			dangerousForOf: true
+		},
+		objectAssign: 'Object.assign'
+	}),
 	resolve(),
 	commonjs(),
-	globals(),
-	babel({
-		presets: [
-			[
-				'@babel/preset-env',
-				{
-					targets: {
-						ie: '11'
-					}
-				}
-			]
-		],
-		plugins: ['@babel/plugin-transform-typeof-symbol', '@babel/plugin-transform-regenerator'],
-		exclude: [/\/core-js\//],
-		runtimeHelpers: true,
-		sourceMap: true,
-		extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', '.vue']
-	})
+	globals()
 ]
 
 if (process.env.NODE_ENV === 'production') {
