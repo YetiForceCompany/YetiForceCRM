@@ -51,7 +51,7 @@ class Z_StringFormatting extends \Tests\Base
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		parent::setUpBeforeClass();
 		$userModel = \App\User::getCurrentUserModel();

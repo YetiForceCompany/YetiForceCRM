@@ -32,7 +32,7 @@ class Z_Authy2FA extends \Tests\Base
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		static::$userAuthyMode = \App\Config::security('USER_AUTHY_MODE');
 		static::$transaction = \App\Db::getInstance()->beginTransaction();

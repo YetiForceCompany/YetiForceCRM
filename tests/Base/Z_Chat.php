@@ -130,7 +130,7 @@ class Z_Chat extends \Tests\Base
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		static::$chatActive = \App\Module::isModuleActive('Chat');
 		if (!static::$chatActive) {

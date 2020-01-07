@@ -42,7 +42,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		static::$backupDir = \App\Utils\Backup::getBackupCatalogPath();
 		static::$testDir = App\Fields\File::getTmpPath() . 'backups' . DIRECTORY_SEPARATOR;

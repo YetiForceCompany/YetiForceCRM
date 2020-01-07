@@ -77,7 +77,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		static::$transaction = \App\Db::getInstance()->beginTransaction();
 	}

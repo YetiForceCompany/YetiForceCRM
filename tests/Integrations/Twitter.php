@@ -54,7 +54,7 @@ class Twitter extends \Tests\Base
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		\App\Config::set('component', 'Social', 'TWITTER_ENABLE_FOR_MODULES', ['Contacts']);
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Contacts');

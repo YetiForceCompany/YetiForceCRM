@@ -22,7 +22,7 @@ class ConfReport extends \Tests\Base
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		static::$confReportAll = \App\Utils\ConfReport::getAll();
 	}
