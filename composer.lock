@@ -1230,16 +1230,16 @@
         },
         {
             "name": "parsecsv/php-parsecsv",
-            "version": "1.1.1",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/parsecsv/parsecsv-for-php.git",
-                "reference": "65566adcd3383da4820cd3bca27e51fe3fbaf15c"
+                "reference": "548a9fe551f47c24c15453458df25005df90f23f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/parsecsv/parsecsv-for-php/zipball/65566adcd3383da4820cd3bca27e51fe3fbaf15c",
-                "reference": "65566adcd3383da4820cd3bca27e51fe3fbaf15c",
+                "url": "https://api.github.com/repos/parsecsv/parsecsv-for-php/zipball/548a9fe551f47c24c15453458df25005df90f23f",
+                "reference": "548a9fe551f47c24c15453458df25005df90f23f",
                 "shasum": ""
             },
             "require": {
@@ -1252,10 +1252,14 @@
                 "illuminate/support": "Fluent array interface for map functions"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
-                    "ParseCsv\\": "src",
-                    "ParseCsv\\extensions\\": "src\\extensions"
+                    "ParseCsv\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1281,7 +1285,7 @@
                 }
             ],
             "description": "CSV data parser for PHP",
-            "time": "2019-02-02T19:40:45+00:00"
+            "time": "2020-01-07T08:32:12+00:00"
         },
         {
             "name": "phenx/php-font-lib",
