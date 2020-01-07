@@ -114,12 +114,12 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 	 */
 	public function syncRowData($keys, $values)
 	{
-		$noOfHeaders = count($keys);
-		$noOfFirstRowData = count($values);
+		$noOfHeaders = \count($keys);
+		$noOfFirstRowData = \count($values);
 		if ($noOfHeaders > $noOfFirstRowData) {
 			$values = array_merge($values, array_fill($noOfFirstRowData, $noOfHeaders - $noOfFirstRowData, ''));
 		} elseif ($noOfHeaders < $noOfFirstRowData) {
-			$values = array_slice($values, 0, count($keys), true);
+			$values = \array_slice($values, 0, \count($keys), true);
 		}
 		return $values;
 	}
@@ -136,6 +136,8 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 			$inventoryModel = Vtiger_Inventory_Model::getInstance($this->moduleModel->getName());
 			$inventoryFields = $inventoryModel->getFields();
 		}
+		$sourceId = $this->request->getInteger('src_record');
+		$relationId = $this->request->getInteger('relationId');
 		$skip = $importId = $skipData = false;
 		foreach ($this->data as $i => $data) {
 			if ($this->request->get('has_header') && 0 === $i) {
@@ -152,6 +154,10 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 				continue;
 			}
 			$mappedData = $inventoryMappedData = [];
+			if ($sourceId && $relationId) {
+				$mappedData['src_record'] = $sourceId;
+				$mappedData['relation_id'] = $relationId;
+			}
 			$allValuesEmpty = true;
 			foreach ($fieldMapping as $fieldName => $index) {
 				$fieldValue = $data[$index];
@@ -170,7 +176,7 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 				$inventoryMappedData[$i][$fieldName] = $fieldValue;
 				$fieldModel = $inventoryFields[$fieldName];
 				foreach ($fieldModel->getCustomColumn() as $columnParamsName => $dataType) {
-					if (in_array($columnParamsName, $inventoryNames)) {
+					if (\in_array($columnParamsName, $inventoryNames)) {
 						$key = array_search($columnParamsName, $inventoryNames);
 						$inventoryMappedData[$i][$columnParamsName] = $data[$key];
 					}

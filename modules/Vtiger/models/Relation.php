@@ -534,7 +534,7 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function getListUrl(Vtiger_Record_Model $parentRecordModel): string
 	{
-		$url = 'module=' . $this->getParentModuleModel()->get('name') . '&relatedModule=' . $this->get('modulename') .
+		$url = 'index.php?module=' . $this->getParentModuleModel()->get('name') . '&relatedModule=' . $this->get('modulename') .
 			'&view=Detail&record=' . $parentRecordModel->getId() . '&mode=showRelatedList&relationId=' . $this->getId();
 		if ('Calendar' == $this->get('modulename')) {
 			$url .= '&time=current';

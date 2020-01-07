@@ -35,10 +35,19 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'Import') || !$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'CreateView')) {
+		$relationId = $request->getInteger('relationId');
+		if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'Import') || !$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'CreateView') || (
+			$relationId && (
+				!($relationModel = Vtiger_Relation_Model::getInstanceById($relationId)) ||
+				!$relationModel->isAddActionSupported() ||
+				$relationModel->getRelationModuleName() !== $request->getModule() ||
+				!($recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('src_record'))) ||
+				!$recordModel->isViewable() ||
+				$relationModel->getParentModuleModel()->getName() !== $recordModel->getModuleName()
+			))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -48,7 +57,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		if ($request->isEmpty('mode')) {
 			if (!$this->checkImportStatus($request)) {
@@ -57,7 +66,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		} else {
 			$mode = $request->getMode();
 			// Added to check the status of import
-			if ($mode === 'continueImport' || $mode === 'uploadAndParse' || $mode === 'importBasicStep') {
+			if ('continueImport' === $mode || 'uploadAndParse' === $mode || 'importBasicStep' === $mode) {
 				$this->checkImportStatus($request);
 			}
 			$this->invokeExposedMethod($mode, $request);
@@ -71,7 +80,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$jsFileNames = [
 			'modules.Import.resources.Import',
@@ -85,11 +94,13 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function importBasicStep(\App\Request $request)
+	public function importBasicStep(App\Request $request)
 	{
 		$uploadMaxSize = App\Config::main('upload_maxsize');
 		$moduleName = $request->getModule();
 		$importModule = Vtiger_Module_Model::getInstance('Import')->setImportModule($moduleName);
+		$importModule->set('src_record', $request->getInteger('src_record'));
+		$importModule->set('relationId', $request->getInteger('relationId'));
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
@@ -104,6 +115,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$viewer->assign('ERROR_MESSAGE', $request->getByType('error_message', 'Text'));
 		$viewer->assign('IMPORT_UPLOAD_SIZE', $uploadMaxSize);
 		$viewer->assign('IMPORT_UPLOAD_SIZE_MB', round($uploadMaxSize / 1024 / 1024, 2));
+		$viewer->assign('MODULE_MODEL', $importModule);
 		return $viewer->view('ImportBasicStep.tpl', 'Import');
 	}
 
@@ -112,12 +124,12 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function uploadAndParse(\App\Request $request)
+	public function uploadAndParse(App\Request $request)
 	{
 		if (Import_Utils_Helper::validateFileUpload($request)) {
 			$user = App\User::getCurrentUserModel();
 			$fileReader = Import_Module_Model::getFileReader($request, $user);
-			if ($fileReader === null) {
+			if (null === $fileReader) {
 				$this->importBasicStep($request);
 				return;
 			}
@@ -157,23 +169,26 @@ class Vtiger_Import_View extends Vtiger_Index_View
 				$viewer->assign('INVENTORY_BLOCKS', $inventoryFieldsBlock);
 				$viewer->assign('INVENTORY', true);
 			}
-			$importModule = Vtiger_Module_Model::getInstance('Import')->setImportModule($moduleName);
+			$importModule = Vtiger_Module_Model::getInstance('Import')
+				->setImportModule($moduleName)
+				->set('src_record', $request->getInteger('src_record'))
+				->set('relationId', $request->getInteger('relationId'));
 			$viewer->assign('AVAILABLE_BLOCKS', $importModule->getFieldsByBlocks());
 			$viewer->assign('ENCODED_MANDATORY_FIELDS', \App\Json::encode($mandatoryFields));
 			$viewer->assign('SAVED_MAPS', Import_Map_Model::getAllByModule($moduleName));
 			$viewer->assign('USERS_LIST', Import_Utils_Helper::getAssignedToUserList($moduleName));
 			$viewer->assign('GROUPS_LIST', Import_Utils_Helper::getAssignedToGroupList($moduleName));
-			$viewer->assign('CREATE_RECORDS_BY_MODEL', in_array($request->getByType('type', 1), ['xml', 'zip']));
+			$viewer->assign('CREATE_RECORDS_BY_MODEL', \in_array($request->getByType('type', 1), ['xml', 'zip']));
+			$viewer->assign('MODULE_MODEL', $importModule);
 			return $viewer->view('ImportAdvanced.tpl', 'Import');
-		} else {
-			$this->importBasicStep($request);
 		}
+		$this->importBasicStep($request);
 	}
 
 	/**
 	 * @param \App\Request $request
 	 */
-	public function import(\App\Request $request)
+	public function import(App\Request $request)
 	{
 		Import_Main_View::import($request, App\User::getCurrentUserModel());
 	}
@@ -183,12 +198,12 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function continueImport(\App\Request $request)
+	public function continueImport(App\Request $request)
 	{
 		$this->checkImportStatus($request);
 	}
 
-	public function undoImport(\App\Request $request)
+	public function undoImport(App\Request $request)
 	{
 		$viewer = new Vtiger_Viewer();
 		$moduleName = $request->getModule();
@@ -199,7 +214,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			$viewer->view('ExceptionError.tpl', 'Vtiger');
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		list($noOfRecords, $noOfRecordsDeleted) = $this->undoRecords($moduleName);
+		[$noOfRecords, $noOfRecordsDeleted] = $this->undoRecords($moduleName);
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE_NAME', 'Import');
 		$viewer->assign('TOTAL_RECORDS', $noOfRecords);
@@ -231,29 +246,29 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		return [$noOfRecords, $noOfRecordsDeleted];
 	}
 
-	public function lastImportedRecords(\App\Request $request)
+	public function lastImportedRecords(App\Request $request)
 	{
 		$importList = new Import_List_View();
 		$importList->process($request);
 	}
 
-	public function deleteMap(\App\Request $request)
+	public function deleteMap(App\Request $request)
 	{
 		Import_Main_View::deleteMap($request);
 	}
 
-	public function clearCorruptedData(\App\Request $request)
+	public function clearCorruptedData(App\Request $request)
 	{
 		Import_Module_Model::clearUserImportInfo(\App\User::getCurrentUserModel());
 		$this->importBasicStep($request);
 	}
 
-	public function cancelImport(\App\Request $request)
+	public function cancelImport(App\Request $request)
 	{
 		$importId = $request->getInteger('import_id');
 		$user = App\User::getCurrentUserModel();
 		$importInfo = Import_Queue_Action::getImportInfoById($importId);
-		if ($importInfo !== null && ($importInfo['user_id'] === $user->getId() || $user->isAdmin())) {
+		if (null !== $importInfo && ($importInfo['user_id'] === $user->getId() || $user->isAdmin())) {
 			$importDataController = new Import_Data_Action($importInfo, \App\User::getUserModel($importInfo['user_id']));
 			$importStatusCount = $importDataController->getImportStatusCount();
 			$importDataController->finishImport();
@@ -261,7 +276,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		}
 	}
 
-	public function checkImportStatus(\App\Request $request)
+	public function checkImportStatus(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$user = \App\User::getCurrentUserModel();
@@ -272,33 +287,31 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			if ($user->getId() !== $lockedBy && !$user->isAdmin()) {
 				Import_Utils_Helper::showImportLockedError($lockInfo);
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-			} else {
-				$mode = $request->isEmpty('mode') ? '' : $request->getMode();
-				if ($mode === 'continueImport' && $user->getId() === $lockedBy) {
-					$importController = new Import_Main_View($request, $user);
-					$importController->triggerImport(true);
-				} else {
-					$importInfo = Import_Queue_Action::getImportInfoById($lockInfo['importid']);
-					$lockOwner = $user;
-					if ($user->getId() !== $lockedBy) {
-						$lockOwner = \App\User::getUserModel($lockInfo['userid']);
-					}
-					Import_Main_View::showImportStatus($importInfo, $lockOwner);
-				}
-				return true;
 			}
+			$mode = $request->isEmpty('mode') ? '' : $request->getMode();
+			if ('continueImport' === $mode && $user->getId() === $lockedBy) {
+				$importController = new Import_Main_View($request, $user);
+				$importController->triggerImport(true);
+			} else {
+				$importInfo = Import_Queue_Action::getImportInfoById($lockInfo['importid']);
+				$lockOwner = $user;
+				if ($user->getId() !== $lockedBy) {
+					$lockOwner = \App\User::getUserModel($lockInfo['userid']);
+				}
+				Import_Main_View::showImportStatus($importInfo, $lockOwner);
+			}
+			return true;
 		}
 		if (Import_Module_Model::isUserImportBlocked($user)) {
 			$importInfo = Import_Queue_Action::getUserCurrentImportInfo($user);
-			if ($importInfo !== null) {
+			if (null !== $importInfo) {
 				Import_Main_View::showImportStatus($importInfo, $user);
 				return true;
-			} else {
-				Import_Utils_Helper::showImportTableBlockedError($moduleName);
-				return true;
 			}
+			Import_Utils_Helper::showImportTableBlockedError($moduleName);
+			return true;
 		}
-		if ($request->getMode() !== 'continueImport') {
+		if ('continueImport' !== $request->getMode()) {
 			Import_Module_Model::clearUserImportInfo($user);
 		}
 		return false;

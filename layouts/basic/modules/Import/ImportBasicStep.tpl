@@ -15,6 +15,8 @@
 			<input type="hidden" name="module" value="{$FOR_MODULE}" />
 			<input type="hidden" name="view" value="Import" />
 			<input type="hidden" name="mode" value="uploadAndParse" />
+			<input type="hidden" name="src_record" value="{$MODULE_MODEL->get('src_record')}" />
+			<input type="hidden" name="relationId" value="{$MODULE_MODEL->get('relationId')}" />
 			<div class='widget_header row '>
 				<div class="col-12">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
