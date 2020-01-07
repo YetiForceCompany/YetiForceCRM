@@ -1,0 +1,39 @@
+version: 1
+update_configs:
+    - package_manager: 'php:composer'
+      directory: '/'
+      update_schedule: 'weekly'
+      target_branch: 'developer'
+      default_assignees:
+      - "mariuszkrzaczkowski"
+      default_reviewers:
+      - "mariuszkrzaczkowski"
+      commit_message:
+          prefix: '[PROD]'
+          prefix_development: '[DEV]'
+          include_scope: true
+    - package_manager: 'javascript'
+      directory: '/'
+      update_schedule: 'weekly'
+      target_branch: 'developer'
+      default_assignees:
+      - "mariuszkrzaczkowski"
+      default_reviewers:
+      - "mariuszkrzaczkowski"
+      commit_message:
+          prefix: '[PROD]'
+          prefix_development: '[DEV]'
+          include_scope: true
+    - package_manager: 'javascript'
+      directory: '/public_html/src/'
+      update_schedule: 'weekly'
+      target_branch: 'developer'
+      default_assignees:
+      - "mariuszkrzaczkowski"
+      target_branch: 'developer'
+      default_reviewers:
+      - "mariuszkrzaczkowski"
+      commit_message:
+          prefix: '[PROD]'
+          prefix_development: '[DEV]'
+          include_scope: true
