@@ -29,7 +29,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	 *
 	 * @param \Throwable $t
 	 */
-	protected function onNotSuccessfulTest(\Throwable $t)
+	protected function onNotSuccessfulTest(\Throwable $t): void
 	{
 		if (isset($this->logs)) {
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
@@ -45,7 +45,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	/**
 	 * Setup test.
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		parent::setUp();
 		if (null === $this->driver) {
@@ -63,7 +63,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	 *
 	 * @throws \ReflectionException
 	 */
-	public function url(string $url)
+	public function url(string $url): void
 	{
 		$this->driver->get(\App\Config::main('site_URL') . $url);
 	}
@@ -71,7 +71,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	/**
 	 * Testing login page display.
 	 */
-	public function login()
+	public function login(): void
 	{
 		$this->driver->get(\App\Config::main('site_URL') . 'index.php?module=Users&view=Login');
 		$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');
