@@ -231,7 +231,7 @@ class Vtiger_Menu_Model
 
                 $privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
                 if(\App\Module::isModuleActive($subMenu['mod'])==false) {
-                    return false;
+                    continue;
                 }
 
                 if ($privilegesModel->isAdminUser() ||
@@ -241,6 +241,8 @@ class Vtiger_Menu_Model
                 }
 
             }
+
+            return false;
         }
 
         return true;
