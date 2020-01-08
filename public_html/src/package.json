@@ -23,7 +23,8 @@
     "vue-watch": "cross-env NODE_ENV=development node buildVue.js",
     "vue-lint": "vue-cli-service lint",
     "minify-js": "node build.js",
-    "minify-css": "gulp minify-css"
+    "minify-css": "gulp minify-css",
+    "compile-quasar-css": "gulp compile-quasar-css"
   },
   "browserslist": [
     "extends browserslist-config-vue"

@@ -13,22 +13,16 @@ const autoprefixer = require('gulp-autoprefixer')
 const sourcemaps = require('gulp-sourcemaps')
 const rename = require('gulp-rename')
 
-const license =
-	'/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n'
-
-const stylusSrc = 'css/quasar.styl'
-
 /**
- * Compile .css file
- *
- * @param {string|array} src
+ * Compile quasar.css file
  *
  * @returns {function} task
  */
-function getCompileCssTask(src = stylusSrc) {
+function getCompileCssTask() {
 	return function compileCssTask() {
+		const quasarCssPath = 'css/quasar.styl'
 		return gulp
-			.src(src, { sourcemaps: true })
+			.src(quasarCssPath, { sourcemaps: true })
 			.pipe(stylus())
 			.pipe(
 				autoprefixer(
@@ -51,9 +45,7 @@ function getCompileCssTask(src = stylusSrc) {
 	}
 }
 /**
- * Compile .css file
- *
- * @param {string|array} src
+ * Compile Main.min.css file
  *
  * @returns {function} task
  */
@@ -90,5 +82,5 @@ function getMinifyCssTask() {
 	}
 }
 
-gulp.task('compileCss', getCompileCssTask())
+gulp.task('compile-quasar-css', getCompileCssTask())
 gulp.task('minify-css', getMinifyCssTask())
