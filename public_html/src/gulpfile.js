@@ -20,11 +20,12 @@ sass.compiler = require('node-sass')
  *
  * @returns {function} task
  */
-function getCompileCssTask() {
+function getCompileQuasarCssTask() {
 	return function compileCssTask() {
 		const quasarCssPath = 'css/quasar.styl'
 		return gulp
-			.src(quasarCssPath, { sourcemaps: true })
+			.src(quasarCssPath)
+			.pipe(sourcemaps.init())
 			.pipe(stylus())
 			.pipe(autoprefixer())
 			.pipe(
@@ -33,7 +34,8 @@ function getCompileCssTask() {
 					console.log(`${details.name}: ${details.stats.minifiedSize}`)
 				})
 			)
-			.pipe(gulp.dest('./css'), { sourcemaps: true })
+			.pipe(sourcemaps.write('./'))
+			.pipe(gulp.dest('./css'))
 	}
 }
 /**
@@ -59,7 +61,7 @@ function getMinifyCssTask() {
 					console.log(`${details.name}: ${details.stats.minifiedSize}`)
 				})
 			)
-			.pipe(sourcemaps.write())
+			.pipe(sourcemaps.write('./'))
 			.pipe(gulp.dest(stylesPath))
 	}
 }
@@ -67,7 +69,9 @@ function getMinifyCssTask() {
 gulp.task('compile-css', function() {
 	return gulp
 		.src(`${stylesPath}Main.scss`)
+		.pipe(sourcemaps.init())
 		.pipe(sass().on('error', sass.logError))
+		.pipe(sourcemaps.write('./'))
 		.pipe(gulp.dest(stylesPath))
 })
 
@@ -75,5 +79,5 @@ gulp.task('watch-css', function() {
 	gulp.watch(`${stylesPath}**/*.scss`, gulp.series('compile-css'))
 })
 
-gulp.task('compile-quasar-css', getCompileCssTask())
+gulp.task('compile-quasar-css', getCompileQuasarCssTask())
 gulp.task('minify-css', getMinifyCssTask())
