@@ -47,13 +47,14 @@ const stylesPath = '../layouts/basic/styles/'
 function getMinifyCssTask() {
 	return function minifyCssTask() {
 		return gulp
-			.src(`${stylesPath}Main.css`)
-			.pipe(sourcemaps.init())
+			.src(`${stylesPath}Main.scss`)
 			.pipe(
 				rename({
 					suffix: '.min'
 				})
 			)
+			.pipe(sourcemaps.init())
+			.pipe(sass().on('error', sass.logError))
 			.pipe(autoprefixer())
 			.pipe(
 				cleanCSS({}, details => {
