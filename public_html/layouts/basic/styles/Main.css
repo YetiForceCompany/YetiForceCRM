@@ -12553,13 +12553,7 @@ body:not(.desktop) .ps__rail-y {
     font-size: 0.84375rem !important;
     margin: 0px !important; } }
 
-.mdi {
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  display: inline-block;
-  font-style: normal;
-  font-variant: normal;
-  text-rendering: auto;
+.mdi:before {
   font-size: 1.4em;
   vertical-align: text-bottom;
   line-height: 0.9;
