@@ -139,8 +139,8 @@ export default {
 	},
 	unsetParticipant(state, { roomId, participantId }) {
 		let participants = state.data.roomList.private[roomId].participants
-		for (const [i, participant] of participants.entries()) {
-			if (participant.user_id === participantId) {
+		for (let i = 0; i < participants.length; i++) {
+			if (participants[i].user_id === participantId) {
 				participants.splice(i, 1)
 				break
 			}
