@@ -10,35 +10,21 @@ const gulp = require('gulp')
 const stylus = require('gulp-stylus')
 const cleanCSS = require('gulp-clean-css')
 const autoprefixer = require('gulp-autoprefixer')
-
-const license =
-	'/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */\n'
-
-const stylusSrc = 'css/quasar.styl'
+const sourcemaps = require('gulp-sourcemaps')
+const rename = require('gulp-rename')
 
 /**
- * Compile .css file
- *
- * @param {string|array} src
+ * Compile quasar.css file
  *
  * @returns {function} task
  */
-function getCompileCssTask(src = stylusSrc) {
+function getCompileCssTask() {
 	return function compileCssTask() {
+		const quasarCssPath = 'css/quasar.styl'
 		return gulp
-			.src(src, { sourcemaps: true })
+			.src(quasarCssPath, { sourcemaps: true })
 			.pipe(stylus())
-			.pipe(
-				autoprefixer(
-					'safari 6',
-					'ios 7',
-					'ie 11',
-					'last 2 Chrome versions',
-					'last 2 Firefox versions',
-					'Explorer >= 11',
-					'last 1 Edge versions'
-				)
-			)
+			.pipe(autoprefixer())
 			.pipe(
 				cleanCSS({}, details => {
 					console.log(`${details.name}: ${details.stats.originalSize}`)
@@ -48,8 +34,33 @@ function getCompileCssTask(src = stylusSrc) {
 			.pipe(gulp.dest('./css'), { sourcemaps: true })
 	}
 }
-
 /**
- * Compile css task
+ * Compile Main.min.css file
+ *
+ * @returns {function} task
  */
-gulp.task('compileCss', getCompileCssTask())
+function getMinifyCssTask() {
+	return function minifyCssTask() {
+		const stylesPath = '../layouts/basic/styles/'
+		return gulp
+			.src(`${stylesPath}Main.css`)
+			.pipe(sourcemaps.init())
+			.pipe(
+				rename({
+					suffix: '.min'
+				})
+			)
+			.pipe(autoprefixer())
+			.pipe(
+				cleanCSS({}, details => {
+					console.log(`${details.name}: ${details.stats.originalSize}`)
+					console.log(`${details.name}: ${details.stats.minifiedSize}`)
+				})
+			)
+			.pipe(sourcemaps.write())
+			.pipe(gulp.dest(stylesPath))
+	}
+}
+
+gulp.task('compile-quasar-css', getCompileCssTask())
+gulp.task('minify-css', getMinifyCssTask())
