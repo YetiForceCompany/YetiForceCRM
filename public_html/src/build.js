@@ -44,7 +44,7 @@ async function build(fileName) {
 	// create a bundle
 	const bundle = await rollup.rollup(inputOptions)
 	// generate code and a sourcemap
-	const { code, map } = await bundle.generate(outputOptions)
+	await bundle.generate(outputOptions)
 	// or write the bundle to disk
 	await bundle.write(outputOptions)
 }
