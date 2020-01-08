@@ -2,15 +2,13 @@ const rollup = require('rollup'),
 	babel = require('rollup-plugin-babel'),
 	finder = require('findit')('../'),
 	path = require('path'),
-	sourcemaps = require('rollup-plugin-sourcemaps'),
-	{ terser } = require('rollup-plugin-terser')
+	sourcemaps = require('rollup-plugin-sourcemaps')
 const dirModules = __dirname + '/node_modules/'
 let filesToMin = []
 async function build(fileName) {
 	const inputOptions = {
 			input: fileName,
 			plugins: [
-				sourcemaps(),
 				babel({
 					babelrc: false,
 					presets: [
@@ -22,6 +20,14 @@ async function build(fileName) {
 									browsers: ['ie >= 11']
 								}
 							}
+						],
+						[
+							`${dirModules}babel-preset-minify`,
+							{
+								typeConstructors: false,
+								mangle: false,
+								builtIns: false
+							}
 						]
 					],
 					plugins: [
@@ -30,7 +36,7 @@ async function build(fileName) {
 						`${dirModules}babel-plugin-transform-es2015-classes`
 					]
 				}),
-				terser({ mangle: false })
+				sourcemaps()
 			]
 		},
 		outputOptions = {
