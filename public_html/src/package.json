@@ -24,6 +24,8 @@
     "vue-lint": "vue-cli-service lint",
     "minify-js": "node build.js",
     "minify-css": "node ./node_modules/gulp/bin/gulp.js minify-css",
+    "compile-css": "node ./node_modules/gulp/bin/gulp.js compile-css",
+    "watch-css": "node ./node_modules/gulp/bin/gulp.js watch-css",
     "compile-quasar-css": "node ./node_modules/gulp/bin/gulp.js compile-quasar-css"
   },
   "browserslist": [
@@ -69,6 +71,7 @@
     "gulp-autoprefixer": "^7.0.1",
     "gulp-clean-css": "^4.2.0",
     "gulp-rename": "^2.0.0",
+    "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-stylus": "^2.7.0",
     "lodash.difference": "^4.5.0",

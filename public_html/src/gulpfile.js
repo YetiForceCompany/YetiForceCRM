@@ -12,6 +12,8 @@ const cleanCSS = require('gulp-clean-css')
 const autoprefixer = require('gulp-autoprefixer')
 const sourcemaps = require('gulp-sourcemaps')
 const rename = require('gulp-rename')
+const sass = require('gulp-sass')
+sass.compiler = require('node-sass')
 
 /**
  * Compile quasar.css file
@@ -39,9 +41,9 @@ function getCompileCssTask() {
  *
  * @returns {function} task
  */
+const stylesPath = '../layouts/basic/styles/'
 function getMinifyCssTask() {
 	return function minifyCssTask() {
-		const stylesPath = '../layouts/basic/styles/'
 		return gulp
 			.src(`${stylesPath}Main.css`)
 			.pipe(sourcemaps.init())
@@ -61,6 +63,17 @@ function getMinifyCssTask() {
 			.pipe(gulp.dest(stylesPath))
 	}
 }
+
+gulp.task('compile-css', function() {
+	return gulp
+		.src(`${stylesPath}Main.scss`)
+		.pipe(sass().on('error', sass.logError))
+		.pipe(gulp.dest(stylesPath))
+})
+
+gulp.task('watch-css', function() {
+	gulp.watch(`${stylesPath}**/*.scss`, gulp.series('compile-css'))
+})
 
 gulp.task('compile-quasar-css', getCompileCssTask())
 gulp.task('minify-css', getMinifyCssTask())
