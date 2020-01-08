@@ -24,17 +24,7 @@ function getCompileCssTask() {
 		return gulp
 			.src(quasarCssPath, { sourcemaps: true })
 			.pipe(stylus())
-			.pipe(
-				autoprefixer(
-					'safari 6',
-					'ios 7',
-					'ie 11',
-					'last 2 Chrome versions',
-					'last 2 Firefox versions',
-					'Explorer >= 11',
-					'last 1 Edge versions'
-				)
-			)
+			.pipe(autoprefixer())
 			.pipe(
 				cleanCSS({}, details => {
 					console.log(`${details.name}: ${details.stats.originalSize}`)
@@ -60,17 +50,7 @@ function getMinifyCssTask() {
 					suffix: '.min'
 				})
 			)
-			.pipe(
-				autoprefixer(
-					'safari 6',
-					'ios 7',
-					'ie 11',
-					'last 2 Chrome versions',
-					'last 2 Firefox versions',
-					'Explorer >= 11',
-					'last 1 Edge versions'
-				)
-			)
+			.pipe(autoprefixer())
 			.pipe(
 				cleanCSS({}, details => {
 					console.log(`${details.name}: ${details.stats.originalSize}`)

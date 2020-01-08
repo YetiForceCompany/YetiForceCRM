@@ -15,10 +15,7 @@ async function build(fileName) {
 						[
 							`${dirModules}babel-preset-env`,
 							{
-								modules: false,
-								targets: {
-									browsers: ['ie >= 11']
-								}
+								modules: false
 							}
 						],
 						[

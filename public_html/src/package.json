@@ -23,11 +23,17 @@
     "vue-watch": "cross-env NODE_ENV=development node buildVue.js",
     "vue-lint": "vue-cli-service lint",
     "minify-js": "node build.js",
-    "minify-css": "gulp minify-css",
-    "compile-quasar-css": "gulp compile-quasar-css"
+    "minify-css": "node ./node_modules/gulp/bin/gulp.js minify-css",
+    "compile-quasar-css": "node ./node_modules/gulp/bin/gulp.js compile-quasar-css"
   },
   "browserslist": [
-    "extends browserslist-config-vue"
+    "safari 6",
+    "ios 7",
+    "ie 11",
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "Explorer >= 11",
+    "last 1 Edge versions"
   ],
   "dependencies": {
     "lodash.get": "^4.4.2",
