@@ -238,7 +238,11 @@ if (typeof ImportJs === 'undefined') {
 						);
 						inventoryMappedFields[selectedFieldName] = rowId - 1;
 					} else {
-						stopImmediately = ImportJs.checkIfMappedFieldExist(selectedFieldName, mappedFields, selectedFieldElement);
+						stopImmediately = ImportJs.checkIfMappedFieldExist(
+							selectedFieldName,
+							mappedFields,
+							selectedFieldElement
+						);
 						mappedFields[selectedFieldName] = rowId - 1;
 					}
 					if (stopImmediately) {
@@ -275,7 +279,8 @@ if (typeof ImportJs === 'undefined') {
 		},
 		checkIfMappedFieldExist: function(selectedFieldName, mappedFields, selectedFieldElement) {
 			if (selectedFieldName in mappedFields) {
-				var errorMessage = app.vtranslate('JS_FIELD_MAPPED_MORE_THAN_ONCE') + ' ' + selectedFieldElement.data('label');
+				var errorMessage =
+					app.vtranslate('JS_FIELD_MAPPED_MORE_THAN_ONCE') + ' ' + selectedFieldElement.data('label');
 				var params = {
 					text: errorMessage,
 					type: 'error'
@@ -371,8 +376,9 @@ if (typeof ImportJs === 'undefined') {
 
 				AppConnector.request(postData)
 					.done(function(data) {
-						jQuery('#savedMapsContainer').html(data);
+						let mapContainer = $('#savedMapsContainer').html(data);
 						status.hide();
+						App.Fields.Picklist.showSelect2ElementView(mapContainer.find('select'));
 						var parent = jQuery('#saved_maps');
 						App.Fields.Picklist.changeSelectElementView(parent);
 					})

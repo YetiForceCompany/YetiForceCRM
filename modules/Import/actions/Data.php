@@ -589,6 +589,8 @@ class Import_Data_Action extends \App\Controller\Action
 	{
 		$defaultFieldValues = $this->getDefaultFieldValues();
 		$fieldName = $fieldInstance->getFieldName();
+		$fieldValueDetails = [];
+		$referenceModuleName = '';
 		$entityId = false;
 		if ('' === $fieldValue) {
 			return $fieldValue;
@@ -605,14 +607,27 @@ class Import_Data_Action extends \App\Controller\Action
 				$entityId = \App\Record::getCrmIdByLabel($referenceModuleName, App\Purifier::decodeHtml($entityLabel));
 			} else {
 				$referenceModuleName = $defaultFieldValues[$fieldName];
+				if (false !== strpos($referenceModuleName, '::')) {
+					[$referenceModuleName, ] = explode('::', $referenceModuleName);
+				}
 				$referencedModules = $fieldInstance->getReferenceList();
-				if ($referenceModuleName && \in_array($defaultFieldValues[$fieldName], $referencedModules)) {
+				if ($referenceModuleName && \in_array($referenceModuleName, $referencedModules)) {
 					$entityId = \App\Record::getCrmIdByLabel($referenceModuleName, $entityLabel);
 				}
 			}
 		} else {
-			$referencedModules = $fieldInstance->getReferenceList();
 			$entityLabel = $fieldValue;
+			$referencedModules = $fieldInstance->getReferenceList();
+			if (!empty($defaultFieldValues[$fieldName]) && false !== strpos($defaultFieldValues[$fieldName], '::')) {
+				[$refModule, $refFieldName] = explode('::', $defaultFieldValues[$fieldName]);
+				if (\in_array($refModule, $referencedModules)) {
+					$referenceModuleName = $refModule;
+					$queryGenerator = new \App\QueryGenerator($refModule);
+					$queryGenerator->permissions = false;
+					$queryGenerator->setFields(['id'])->addCondition($refFieldName, $fieldValue, 'e');
+					$entityId = $queryGenerator->createQuery()->scalar();
+				}
+			}
 			foreach ($referencedModules as $referenceModule) {
 				$referenceModuleName = $referenceModule;
 				if ('Users' === $referenceModule) {
