@@ -290,7 +290,7 @@ class FieldBasic
 			$moduleName = \App\Module::getModuleName($this->tabid);
 		} elseif (!empty($this->block) && \is_object($this->block)) {
 			$moduleName = $this->block->module->name;
-		} elseif ($this->module) {
+		} elseif (isset($this->module)) {
 			$moduleName = $this->module->getName();
 		}
 		return $moduleName;
