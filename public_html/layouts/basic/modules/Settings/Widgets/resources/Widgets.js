@@ -144,7 +144,7 @@ jQuery.Class(
 			let selected = contener.find("select[name='relation_id'] option:selected");
 			let relatedModuleInput = contener.find("input[name='relatedmodule']");
 			let relatedModule = relatedModuleInput.val();
-			if (relatedModule == 0) {
+			if (selected.length) {
 				relatedModule = selected.data('relatedmodule');
 				relatedModuleInput.val(selected.data('relatedmodule'));
 			}
