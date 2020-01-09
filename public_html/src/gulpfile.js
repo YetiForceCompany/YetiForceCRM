@@ -1,5 +1,5 @@
 /**
- * gulpfile
+ * gulpfile.js
  *
  * @description contains css tasks
  * @license YetiForce Public License 3.0
@@ -15,6 +15,13 @@ const rename = require('gulp-rename')
 const sass = require('gulp-sass')
 sass.compiler = require('node-sass')
 
+const mainCssPath = '../layouts/basic/styles/'
+const mainScss = 'Main.scss'
+const graySkinPath = '../layouts/basic/skins/gray/'
+const grayScss = 'style.scss'
+const quasarCssPath = './css/'
+const quasarStyl = 'quasar.styl'
+
 /**
  * Compile quasar.css file
  *
@@ -22,9 +29,8 @@ sass.compiler = require('node-sass')
  */
 function getCompileQuasarCssTask() {
 	return function compileCssTask() {
-		const quasarCssPath = 'css/quasar.styl'
 		return gulp
-			.src(quasarCssPath)
+			.src(quasarCssPath + quasarStyl)
 			.pipe(sourcemaps.init())
 			.pipe(stylus())
 			.pipe(autoprefixer())
@@ -35,19 +41,22 @@ function getCompileQuasarCssTask() {
 				})
 			)
 			.pipe(sourcemaps.write('./'))
-			.pipe(gulp.dest('./css'))
+			.pipe(gulp.dest(quasarCssPath))
 	}
 }
+
 /**
- * Compile Main.min.css file
+ * Compile *.min.css file
  *
- * @returns {function} task
+ * @param   {string}  path  css path
+ * @param   {string}  name  scss file name
+ *
+ * @return  {function} minifyCssTask
  */
-const stylesPath = '../layouts/basic/styles/'
-function getMinifyCssTask() {
+function getMinifyCssTask(path, name) {
 	return function minifyCssTask() {
 		return gulp
-			.src(`${stylesPath}Main.scss`)
+			.src(path + name)
 			.pipe(
 				rename({
 					suffix: '.min'
@@ -63,22 +72,38 @@ function getMinifyCssTask() {
 				})
 			)
 			.pipe(sourcemaps.write('./'))
-			.pipe(gulp.dest(stylesPath))
+			.pipe(gulp.dest(path))
 	}
 }
 
-gulp.task('compile-css', function() {
-	return gulp
-		.src(`${stylesPath}Main.scss`)
-		.pipe(sourcemaps.init())
-		.pipe(sass().on('error', sass.logError))
-		.pipe(sourcemaps.write('./'))
-		.pipe(gulp.dest(stylesPath))
-})
-
-gulp.task('watch-css', function() {
-	gulp.watch(`${stylesPath}**/*.scss`, gulp.series('compile-css'))
-})
+/**
+ * Compile *.css file
+ *
+ * @param   {string}  path  css path
+ * @param   {string}  name  scss file name
+ *
+ * @return  {function} compileCss
+ */
+function getCompileCss(path, name) {
+	return function compileCss() {
+		return gulp
+			.src(path + name)
+			.pipe(sourcemaps.init())
+			.pipe(sass().on('error', sass.logError))
+			.pipe(sourcemaps.write('./'))
+			.pipe(gulp.dest(path))
+	}
+}
 
 gulp.task('compile-quasar-css', getCompileQuasarCssTask())
-gulp.task('minify-css', getMinifyCssTask())
+gulp.task('compile-main-css', getCompileCss(mainCssPath, mainScss))
+gulp.task('compile-gray-css', getCompileCss(graySkinPath, grayScss))
+gulp.task('compile-css', gulp.series('compile-main-css', 'compile-gray-css'))
+gulp.task('minify-main-css', getMinifyCssTask(mainCssPath, mainScss))
+gulp.task('minify-gray-css', getMinifyCssTask(graySkinPath, grayScss))
+gulp.task('minify-css', gulp.series('minify-main-css', 'minify-gray-css'))
+
+gulp.task('watch-css', function() {
+	gulp.watch(`${mainCssPath}**/*.scss`, gulp.series('compile-main-css'))
+	gulp.watch(`${graySkinPath}**/*.scss`, gulp.series('compile-gray-css'))
+})

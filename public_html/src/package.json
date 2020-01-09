@@ -25,9 +25,9 @@
     "minify-js": "node build.js",
     "minify-css": "node ./node_modules/gulp/bin/gulp.js minify-css",
     "compile-css": "node ./node_modules/gulp/bin/gulp.js compile-css",
-    "watch-css": "node ./node_modules/gulp/bin/gulp.js watch-css",
     "compile-quasar-css": "node ./node_modules/gulp/bin/gulp.js compile-quasar-css",
-    "compile-all": "yarn run vue-lint && yarn run vue-prod && yarn run minify-js && yarn run compile-css && yarn run minify-css && yarn run compile-quasar-css"
+    "compile-all": "yarn run vue-lint && yarn run vue-prod && yarn run minify-js && yarn run compile-css && yarn run minify-css && yarn run compile-quasar-css",
+    "watch-css": "node ./node_modules/gulp/bin/gulp.js watch-css"
   },
   "browserslist": [
     "safari 6",
