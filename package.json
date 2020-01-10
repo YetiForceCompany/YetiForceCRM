@@ -37,7 +37,7 @@
     "bootstrap-tabdrop": "https://github.com/jmschabdach/bootstrap-tabdrop",
     "chart.js": "^2.8.0",
     "chartjs-plugin-datalabels": "^0.7.0",
-    "chartjs-plugin-funnel": "^1.1.2",
+    "chartjs-plugin-funnel": "^1.1.5",
     "ckeditor-image-to-base": "^0.0.3",
     "clipboard": ">=2.0.0",
     "clockpicker": "https://github.com/YetiForceCompany/clockpicker#master",
