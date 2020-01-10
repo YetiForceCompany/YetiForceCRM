@@ -1423,9 +1423,13 @@ jQuery.Class(
 		 * Register quick edit save event description.
 		 */
 		registerQuickEditSaveEvent() {
-			app.event.on('QuickEdit.AfterSaveFinal', (e, data, instance) => {
+			app.event.on('QuickEdit.AfterSaveFinal', (e, data, instance, element) => {
 				if (this.moduleName === instance.data('moduleName')) {
-					this.loadRelatedList(data.result);
+					if (element.closest('.js-detail-widget').length) {
+						Vtiger_Detail_Js.getInstance().postSummaryWidgetAddRecord(data, element);
+					} else {
+						this.loadRelatedList(data.result);
+					}
 				}
 			});
 		},
