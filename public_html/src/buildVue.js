@@ -17,7 +17,8 @@ const rollup = require('rollup'),
 	globals = require('rollup-plugin-node-globals'),
 	json = require('@rollup/plugin-json'),
 	buble = require('@rollup/plugin-buble'),
-	{ terser } = require('rollup-plugin-terser')
+	{ terser } = require('rollup-plugin-terser'),
+	{ done } = require('@vue/cli-shared-utils')
 
 let filesToMin = []
 const plugins = [
@@ -72,30 +73,36 @@ async function build(filePath, isWatched = false) {
 		sourcemap: true
 	}
 
-	if (process.env.NODE_ENV === 'development') {
-		if (!isWatched) {
-			const watcher = rollup.watch({
-				...inputOptions,
-				output: [outputOptions],
-				watch: {
-					exclude: 'node_modules/**'
-				}
-			})
+	if (process.env.NODE_ENV === 'development' && !isWatched) {
+		const watcher = rollup.watch({
+			...inputOptions,
+			output: [outputOptions],
+			watch: {
+				exclude: 'node_modules/**'
+			}
+		})
 
-			watcher.on('event', event => {
-				if (event.code === 'START') {
-					console.log('Building... ' + filePath)
-					build(filePath, true).then(e => {
-						console.log('Finished! ' + filePath)
-					})
-				}
-			})
-		}
+		watcher.on('event', event => {
+			if (event.code === 'START') {
+				runBuild(filePath, true)
+			}
+		})
+	} else {
+		const bundle = await rollup.rollup(inputOptions)
+		await bundle.generate(outputOptions)
+		await bundle.write(outputOptions)
 	}
+}
 
-	const bundle = await rollup.rollup(inputOptions)
-	await bundle.generate(outputOptions)
-	await bundle.write(outputOptions)
+function runBuild(file, isWatched = false) {
+	console.log('Building... ' + file)
+	build(file, isWatched)
+		.then(e => {
+			done(file)
+		})
+		.catch(err => {
+			console.log(err)
+		})
 }
 
 finder.on('directory', (dir, stat, stop) => {
@@ -111,7 +118,10 @@ finder.on('file', (file, stat) => {
 
 finder.on('end', () => {
 	filesToMin.forEach(file => {
-		console.log(file)
-		build(file)
+		if (process.env.NODE_ENV === 'development') {
+			build(file)
+		} else {
+			runBuild(file)
+		}
 	})
 })
