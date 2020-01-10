@@ -1,4 +1,5 @@
 {
+  "productName":"YetiForceCRM",
   "devDep": false,
   "generalSettings": {
     "shouldScanRepo": true
