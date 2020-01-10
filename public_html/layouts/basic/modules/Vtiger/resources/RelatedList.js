@@ -1424,7 +1424,9 @@ jQuery.Class(
 		 */
 		registerQuickEditSaveEvent() {
 			app.event.on('QuickEdit.AfterSaveFinal', (e, data, instance) => {
-				this.loadRelatedList(data.result);
+				if (this.moduleName === instance.data('moduleName')) {
+					this.loadRelatedList(data.result);
+				}
 			});
 		},
 		registerRelatedEvents: function() {

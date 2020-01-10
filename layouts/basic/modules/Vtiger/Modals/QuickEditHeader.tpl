@@ -12,7 +12,7 @@
 				<script type="{$MODEL->getType()}" src="{$MODEL->getSrc()}"></script>
 			{/foreach}
 			<script type="text/javascript">app.registerModalController();</script>
-			<form class="form-horizontal recordEditView" name="QuickEdit" method="post" action="index.php">
+			<form class="form-horizontal recordEditView" name="QuickEdit" method="post" action="index.php" data-module-name="{$MODULE_NAME}">
 				<div class="modal-header align-items-center form-row d-flex justify-content-between py-2{if isset($MODAL_VIEW->headerClass)} {$MODAL_VIEW->headerClass}{/if}">
 					<div class="col-xl-9 col-12">
 						<h5 class="modal-title form-row text-center text-xl-left mb-2 mb-xl-0">
