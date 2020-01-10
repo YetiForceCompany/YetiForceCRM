@@ -61,8 +61,8 @@ class CreatedMail extends Base
 		if ($scanner->has('bcc_email')) {
 			$toEmails = array_merge($toEmails, $scanner->get('bcc_email'));
 		}
-		$record->set('from_id', implode(',', array_unique(array_flatten(\App\Mail\RecordFinder::findByEmail([$scanner->get('from_email')], $scanner->getEmailsFields())))));
-		$record->set('to_id', implode(',', array_unique(array_flatten(\App\Mail\RecordFinder::findByEmail($toEmails, $scanner->getEmailsFields())))));
+		$record->set('from_id', implode(',', array_unique(\App\Utils::flatten(\App\Mail\RecordFinder::findByEmail([$scanner->get('from_email')], $scanner->getEmailsFields())))));
+		$record->set('to_id', implode(',', array_unique(\App\Utils::flatten(\App\Mail\RecordFinder::findByEmail($toEmails, $scanner->getEmailsFields())))));
 		$record->save();
 		$record->setHandlerExceptions([]);
 		if ($id = $record->getId()) {

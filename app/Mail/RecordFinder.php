@@ -182,7 +182,7 @@ class RecordFinder
 			if (!$numbers || !$fields) {
 				continue;
 			}
-			$records = array_merge($records, \Illuminate\Support\Arr::flatten(self::findByRecordNumber($numbers, $moduleName, \Illuminate\Support\Arr::flatten($fields))));
+			$records = array_merge($records, \App\Utils::flatten(self::findByRecordNumber($numbers, $moduleName, \App\Utils::flatten($fields))));
 		}
 		return $records;
 	}

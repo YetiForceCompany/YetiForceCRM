@@ -36,10 +36,10 @@ class CreatedHelpDesk extends Base
 			return;
 		}
 		$fromEmail = [$scanner->get('from_email')];
-		$contactId = current(\Illuminate\Support\Arr::flatten(RecordFinder::findByEmail($fromEmail, $scanner->getEmailsFields('Contacts'))));
-		$parentId = current(\Illuminate\Support\Arr::flatten(RecordFinder::findByEmail($fromEmail, $scanner->getEmailsFields('Accounts'))));
+		$contactId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $scanner->getEmailsFields('Contacts'))));
+		$parentId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $scanner->getEmailsFields('Accounts'))));
 		if (!$parentId) {
-			$parentId = current(\Illuminate\Support\Arr::flatten(RecordFinder::findByEmail($fromEmail, $scanner->getEmailsFields('Vendors'))));
+			$parentId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $scanner->getEmailsFields('Vendors'))));
 		}
 		if (!$parentId && $contactId) {
 			$parentId = \App\Record::getParentRecord($contactId, 'Contacts');

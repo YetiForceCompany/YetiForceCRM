@@ -29,6 +29,7 @@ class Composer
 	 */
 	public static $clearFiles = [
 		'.github',
+		'.dependabot',
 		'.git',
 		'.gitattributes',
 		'.gitignore',

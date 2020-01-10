@@ -26,17 +26,6 @@ class Outlook extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(): void
-	{
-		foreach ($this->getActions() as $action) {
-			$class = "App\\Mail\\ScannerAction\\{$action}";
-			(new $class($this))->process();
-		}
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getActions(): array
 	{
 		return array_filter(explode(',', \App\User::getCurrentUserModel()->getDetail('mail_scanner_actions')));
@@ -154,7 +143,7 @@ class Outlook extends Base
 		if ($this->has('bcc_email')) {
 			$emails = array_merge($emails, $this->get('bcc_email'));
 		}
-		return $this->processData['findByEmail'] = array_flatten(\App\Mail\RecordFinder::findByEmail($emails, $this->getEmailsFields()));
+		return $this->processData['findByEmail'] = \App\Utils::flatten(\App\Mail\RecordFinder::findByEmail($emails, $this->getEmailsFields()));
 	}
 
 	/**
