@@ -1987,7 +1987,8 @@ window.App.Fields = {
 			}
 			value = parseFloat(value);
 			if (fixed) {
-				value = value.toFixed(numberOfDecimal);
+				let base = 10 ** numberOfDecimal;
+				value = (Math.round(value * base) / base).toFixed(numberOfDecimal);
 			}
 			let splittedFloat = value.toString().split('.');
 			let integer = splittedFloat[0];

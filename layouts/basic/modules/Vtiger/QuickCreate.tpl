@@ -61,9 +61,9 @@
 						<div class="modal-body m-0">
 							<div class="massEditTable border-0 px-1 mx-auto m-0">
 								{if $WIDTHTYPE eq 'narrow'}
-									{assign var=WIDTHTYPE_GROUP value='input-group-sm'}
+									{assign var=WIDTHTYPE_GROUP value="input-group-sm"}
 								{elseif $WIDTHTYPE eq 'wide'}
-									{assign var=WIDTHTYPE_GROUP value='input-group-lg'}
+									{assign var=WIDTHTYPE_GROUP value="input-group-lg"}
 								{else}
 									{assign var=WIDTHTYPE_GROUP value=''}
 								{/if}
