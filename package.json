@@ -57,7 +57,7 @@
     "gridstack": "^0.6.0",
     "html2canvas": "^1.0.0-alpha.12",
     "html5shiv": "^3.7.3",
-    "inputmask": "^5.0.0",
+    "inputmask": "^5.0.2",
     "jQuery-Validation-Engine": "https://github.com/YetiForceCompany/jQuery-Validation-Engine#master",
     "jquery": "^3.4.1",
     "jquery-hoverintent": "^1.10.0",

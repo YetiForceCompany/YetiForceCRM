@@ -319,10 +319,10 @@ html5shiv@^3.7.3:
   resolved "https://registry.yarnpkg.com/html5shiv/-/html5shiv-3.7.3.tgz#d78a84a367bcb9a710100d57802c387b084631d2"
   integrity sha1-14qEo2e8uacQEA1XgCw4ewhGMdI=
 
-inputmask@^5.0.0:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-5.0.1.tgz#32acf45c3b3600ba7760fcd90fef3f40362b5e23"
-  integrity sha512-Q/xo98j2gKycYSpYAjbxr4KEtLGZeBgxefc1u+qvrQKvB5MwP21EXEfjDKb+rMQdhNgjzHuKw7PCkOKyQ9FaRQ==
+inputmask@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-5.0.2.tgz#943c3c1c1edfff96de2623f3009bd22167ea4171"
+  integrity sha512-cO9Z2TzK73vknBiOHT5FIrIW7Mn7T0wXd5W0pwmUCxbVoUUF3IYkul2yg8XpoReWjBttG9VUaLggKeu8T/dTQw==
 
 "jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master":
   version "0.0.0"
