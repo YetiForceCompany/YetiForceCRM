@@ -31,6 +31,8 @@ class Condition
 		'prevfq' => ['label' => 'LBL_PREVIOUS_FQ'],
 		'thisfq' => ['label' => 'LBL_CURRENT_FQ'],
 		'nextfq' => ['label' => 'LBL_NEXT_FQ'],
+		'previousworkingday' => ['label' => 'LBL_PREVIOUS_WORKING_DAY'],
+		'nextworkingday' => ['label' => 'LBL_NEXT_WORKING_DAY'],
 		'yesterday' => ['label' => 'LBL_YESTERDAY'],
 		'today' => ['label' => 'LBL_TODAY'],
 		'untiltoday' => ['label' => 'LBL_UNTIL_TODAY'],
@@ -115,6 +117,8 @@ class Condition
 		'next60days',
 		'next90days',
 		'next120days',
+		'lastworkingday',
+		'nextworkingday',
 	];
 
 	/**

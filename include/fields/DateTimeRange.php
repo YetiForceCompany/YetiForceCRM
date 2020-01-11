@@ -206,6 +206,14 @@ class DateTimeRange
 			case 'thisfq':
 				$dateValue = self::getPresentQuarterRange($thisMonth, $dateObject);
 				break;
+			case 'previousworkingday':
+				$dateValue[0] = \App\Utils::getWorkingDayFromDate($today, 'previous');
+				$dateValue[1] = $dateValue[0];
+				break;
+			case 'nextworkingday':
+				$dateValue[0] = \App\Utils::getWorkingDayFromDate($today, 'next');
+				$dateValue[1] = $dateValue[0];
+				break;
 			default:
 				$dateValue[0] = '';
 				$dateValue[1] = '';
