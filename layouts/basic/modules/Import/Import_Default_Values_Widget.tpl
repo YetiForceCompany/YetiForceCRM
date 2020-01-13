@@ -48,12 +48,12 @@
 					<select id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small select2">
 						{foreach item=_REFERENCE_DETAILS from=$_FIELDS[$_FIELD_NAME]->getReferenceList()}
 							{assign var="REFERENCE_MODULE" value=Vtiger_Module_Model::getInstance($_REFERENCE_DETAILS)}
-							<option value="{$_REFERENCE_DETAILS}">{\App\Language::translate($_REFERENCE_DETAILS, $FOR_MODULE)}</option>
+							<option value="{$_REFERENCE_DETAILS}">{\App\Language::translate($_REFERENCE_DETAILS, $_REFERENCE_DETAILS)}</option>
 							{if $REFERENCE_MODULE && \App\Privilege::isPermitted($_REFERENCE_DETAILS)}
 								<option value="{$_REFERENCE_DETAILS}::id">
 									{\App\Language::translate($_REFERENCE_DETAILS, $_REFERENCE_DETAILS)}: {\App\Language::translate('LBL_SELF_ID', $_REFERENCE_DETAILS)}
 								</option>
-								{foreach item=REFERENCE_FIELD from=$REFERENCE_MODULE->getFieldsByType(['string'], true)}
+								{foreach item=REFERENCE_FIELD from=$REFERENCE_MODULE->getFieldsByType(['string', 'recordNumber'], true)}
 									<option value="{$_REFERENCE_DETAILS}::{$REFERENCE_FIELD->getName()}">
 										{\App\Language::translate($_REFERENCE_DETAILS, $_REFERENCE_DETAILS)}: {\App\Language::translate($REFERENCE_FIELD->getFieldLabel(), $_REFERENCE_DETAILS)}
 									</option>
