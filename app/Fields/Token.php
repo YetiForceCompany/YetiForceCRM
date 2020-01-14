@@ -40,7 +40,7 @@ class Token
 				}
 				--$limit;
 			}
-			(new \App\BatchMethod(['method' => __METHOD__, 'params' => [$fieldName, $moduleName]]))->save();
+			(new \App\BatchMethod(['method' => __METHOD__, 'params' => [$fieldName, $moduleName, time()]]))->save();
 		}
 	}
 

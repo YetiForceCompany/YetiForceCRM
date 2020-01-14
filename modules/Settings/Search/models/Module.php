@@ -43,6 +43,8 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Get fields.
 	 *
+	 * @param mixed $blocks
+	 *
 	 * @return array
 	 */
 	public static function getFieldFromModule($blocks = true)
@@ -79,18 +81,20 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		$db = App\Db::getInstance();
 		$name = $params['name'];
 		$tabId = (int) $params['tabid'];
-		if ($name === 'searchcolumn' || $name === 'fieldname') {
+		if ('searchcolumn' === $name || 'fieldname' === $name) {
 			if (array_diff($params['value'], array_keys(self::getFieldFromModule(false)[$tabId]))) {
 				throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE');
 			}
 			$db->createCommand()
 				->update('vtiger_entityname', [$name => implode(',', $params['value'])], ['tabid' => $tabId])
 				->execute();
-		} elseif ($name === 'turn_off') {
+		} elseif ('turn_off' === $name) {
 			$db->createCommand()
 				->update('vtiger_entityname', ['turn_off' => (int) $params['value']], ['tabid' => $tabId])
 				->execute();
 		}
+		\App\Cache::delete('ModuleEntityById', $tabId);
+		\App\Cache::delete('ModuleEntityByName', \App\Module::getModuleName($tabId));
 		return true;
 	}
 
