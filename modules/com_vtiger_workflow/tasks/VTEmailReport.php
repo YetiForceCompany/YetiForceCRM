@@ -36,11 +36,12 @@ class VTEmailReport extends VTTask
 		foreach (array_unique($users) as $user) {
 			$userRecodModel = \Vtiger_Record_Model::getInstanceById($user, 'Users');
 			if (!empty($userEmail = $userRecodModel->get('email1'))) {
-				(new \App\BatchMethod(['method' => '\App\Mailer::sendFromTemplate', ['params' => [
-					'moduleName' => 'Accounts',
+				(new \App\BatchMethod(['method' => '\App\Mailer::sendFromTemplate', 'params' =>['params' => [
 					'template' => $this->template,
 					'to' => $userEmail,
-					'userId' => $user,
+					'textParserParams' => [
+						'userId' => $user
+					]
 				]]]))->save();
 			}
 		}
