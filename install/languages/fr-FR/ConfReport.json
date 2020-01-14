@@ -82,7 +82,7 @@
     "LBL_CPU": "Processeur",
     "LBL_RAM": "Mémoire RAM",
     "LBL_DB": "Base de données",
-    "LBL_LABEL_DB_VERSION_TYPE": "The name of the engine",
+    "LBL_LABEL_DB_VERSION_TYPE": "Le nom du moteur",
     "LBL_PER_SECOND": "/s",
     "LBL_LABEL_CRM_VERSION": "Version CRM",
     "LBL_LABEL_CRM_DATE": "Date de sortie de la version",
