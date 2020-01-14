@@ -117,7 +117,7 @@ class Condition
 		'next60days',
 		'next90days',
 		'next120days',
-		'lastworkingday',
+		'previousworkingday',
 		'nextworkingday',
 	];
 
