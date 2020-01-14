@@ -352,6 +352,8 @@
     "LBL_NEXT_FY": "Next FY",
     "LBL_NEXT_MONTH": "Next month",
     "LBL_NEXT_WEEK": "Next week",
+    "LBL_NEXT_WORKING_DAY": "Next working day",
+    "LBL_PREVIOUS_WORKING_DAY": "Previous working day",
     "LBL_GREATER_THAN_NOW": "Date greater than now",
     "LBL_SMALLER_THAN_NOW": "Date smaller than now",
     "LBL_NO": "No",

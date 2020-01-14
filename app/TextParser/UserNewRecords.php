@@ -23,6 +23,9 @@ class UserNewRecords extends Base
 	/** @var mixed Parser type */
 	public $type = 'pdf';
 
+	/** @var string Default template */
+	public $default = '$(custom : UserNewRecords|__MODULE_NAME__|__DATE_OPERATOR__|__FIELDS_LIST__)$';
+
 	/**
 	 * Process.
 	 *

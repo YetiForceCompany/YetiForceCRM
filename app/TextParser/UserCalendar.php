@@ -23,6 +23,9 @@ class UserCalendar extends Base
 	/** @var mixed Parser type */
 	public $type = 'pdf';
 
+	/** @var string Default template */
+	public $default = '$(custom : UserCalendar|__DATE_OPERATOR__)$';
+
 	/**
 	 * Process.
 	 *

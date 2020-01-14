@@ -23,6 +23,9 @@ class UserOverdue extends Base
 	/** @var mixed Parser type */
 	public $type = 'pdf';
 
+	/** @var string Default template */
+	public $default = '$(custom : UserOverdue)$';
+
 	/**
 	 * Process.
 	 *

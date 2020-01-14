@@ -23,6 +23,9 @@ class UserSSalesProcesses extends Base
 	/** @var mixed Parser type */
 	public $type = 'pdf';
 
+	/** @var string Default template */
+	public $default = '$(custom : UserSSalesProcesses|__DATE_OPERATOR__|__SORT_CONDITION__)$';
+
 	/**
 	 * Process.
 	 *
