@@ -277,7 +277,7 @@ class Date
 	 *
 	 * @return string
 	 */
-	public static function getWorkingDayFromDate(\DateTime &$date, string $modify)
+	public static function getWorkingDayFromDate(\DateTime &$date, string $modify): string
 	{
 		$value = $date->modify($modify)->format('Y-m-d');
 		$holidays = \App\Fields\Date::getHolidays();
