@@ -99,8 +99,8 @@ class TextParser
 	public static $sourceModules = [
 		'Campaigns' => ['Leads', 'Accounts', 'Contacts', 'Vendors', 'Partners', 'Competition'],
 	];
-	private static $recordVariable;
-	private static $relatedVariable;
+	protected static $recordVariable;
+	protected static $relatedVariable;
 
 	/**
 	 * Record id.
@@ -662,37 +662,37 @@ class TextParser
 		if (empty($relatedId)) {
 			return '';
 		}
-		if (empty($relatedModule) && \in_array($this->recordModel->getField($fieldName)->getFieldDataType(), ['owner'])) {
+		if (empty($relatedModule) && \in_array($this->recordModel->getField($fieldName)->getFieldDataType(), ['owner', 'sharedOwner'])) {
 			$relatedModule = 'Users';
 		}
 		if ('Users' === $relatedModule) {
-			$ownerType = Fields\Owner::getType($relatedId);
-			if ('Users' === $ownerType) {
-				$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedId);
-				if ('Active' === $userRecordModel->get('status')) {
-					$instance = static::getInstanceByModel($userRecordModel);
-					foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
-						if (isset($this->{$key})) {
-							$instance->{$key} = $this->{$key};
-						}
-					}
-
-					return $instance->record($relatedField, false);
-				}
-
-				return '';
-			}
 			$return = [];
-			foreach (PrivilegeUtil::getUsersByGroup($relatedId) as $userId) {
-				$userRecordModel = \Users_Privileges_Model::getInstanceById($userId);
-				if ('Active' === $userRecordModel->get('status')) {
-					$instance = static::getInstanceByModel($userRecordModel);
-					foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
-						if (isset($this->{$key})) {
-							$instance->{$key} = $this->{$key};
+			foreach (explode(',', $relatedId) as $relatedValueId) {
+				$ownerType = Fields\Owner::getType($relatedValueId);
+				if ('Users' === $ownerType) {
+					$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedValueId);
+					if ('Active' === $userRecordModel->get('status')) {
+						$instance = static::getInstanceByModel($userRecordModel);
+						foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
+							if (isset($this->{$key})) {
+								$instance->{$key} = $this->{$key};
+							}
 						}
+						$return[] = $instance->record($relatedField, false);
 					}
-					$return[] = $instance->record($relatedField, false);
+					continue;
+				}
+				foreach (PrivilegeUtil::getUsersByGroup($relatedValueId) as $userId) {
+					$userRecordModel = \Users_Privileges_Model::getInstanceById($userId);
+					if ('Active' === $userRecordModel->get('status')) {
+						$instance = static::getInstanceByModel($userRecordModel);
+						foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
+							if (isset($this->{$key})) {
+								$instance->{$key} = $this->{$key};
+							}
+						}
+						$return[] = $instance->record($relatedField, false);
+					}
 				}
 			}
 			return implode($this->relatedRecordSeparator, $return);
@@ -1173,8 +1173,8 @@ class TextParser
 		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
 		$variables = [];
 		$entityVariables = Language::translate('LBL_ENTITY_VARIABLES', 'Other.TextParser');
-		foreach ($moduleModel->getFieldsByType(array_merge(\Vtiger_Field_Model::$referenceTypes, ['userCreator', 'owner', 'multireference'])) as $parentFieldName => $field) {
-			if ('owner' === $field->getFieldDataType()) {
+		foreach ($moduleModel->getFieldsByType(array_merge(\Vtiger_Field_Model::$referenceTypes, ['userCreator', 'owner', 'multiReference', 'sharedOwner'])) as $parentFieldName => $field) {
+			if ('owner' === $field->getFieldDataType() || 'sharedOwner' === $field->getFieldDataType()) {
 				$relatedModules = ['Users'];
 			} else {
 				$relatedModules = $field->getReferenceList();
@@ -1207,7 +1207,6 @@ class TextParser
 			}
 		}
 		static::$relatedVariable[$cacheKey] = $variables;
-
 		return $variables;
 	}
 
