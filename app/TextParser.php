@@ -433,8 +433,19 @@ class TextParser
 	 */
 	public function date($param)
 	{
-		$timestamp = strtotime($param);
-		return $timestamp ? date('Y-m-d', $timestamp) : '';
+		switch($param){
+			case 'previousworkingday':
+				$dateTime = new \DateTime();
+				$date = \App\Fields\Date::getWorkingDayFromDate($dateTime, '-1 day');
+				break;
+			case 'nextworkingday':
+				$dateTime = new \DateTime();
+				$date = \App\Fields\Date::getWorkingDayFromDate($dateTime, '+1 day');
+				break;
+			default:
+				$date = date('Y-m-d', strtotime($param));
+		}
+		return $date ?? '';
 	}
 
 	/**
