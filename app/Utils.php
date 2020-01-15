@@ -143,32 +143,4 @@ class Utils
 		}
 		return (bool) $value;
 	}
-
-	/**
-	 * Get closest working day from given data.
-	 *
-	 * @param string $date
-	 * @param string $direction
-	 *
-	 * @return string
-	 */
-	public static function getWorkingDayFromDate(string $date = '', string $direction = 'previous')
-	{
-		if (empty($date)) {
-			$date = new \DateTime();
-		} else {
-			$date = new \DateTime($date);
-		}
-		if ('previous' === $direction) {
-			$date->modify('-1 day');
-		} else {
-			$date->modify('+1 day');
-		}
-		$value = $date->format('Y-m-d');
-		$holidays = \App\Fields\Date::getHolidays();
-		if (isset($holidays[$value])) {
-			$value = self::getWorkingDayFromDate($value, $direction);
-		}
-		return $value;
-	}
 }

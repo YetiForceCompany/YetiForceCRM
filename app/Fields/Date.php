@@ -270,6 +270,24 @@ class Date
 	}
 
 	/**
+	 * Get closest working day from given data.
+	 *
+	 * @param string $date
+	 * @param string $direction
+	 *
+	 * @return string
+	 */
+	public static function getWorkingDayFromDate(\DateTime &$date, string $modify)
+	{
+		$value = $date->modify($modify)->format('Y-m-d');
+		$holidays = \App\Fields\Date::getHolidays();
+		if (isset($holidays[$value])) {
+			$value = self::getWorkingDayFromDate($date, $modify[0].'1 day');
+		}
+		return $value;
+	}
+
+	/**
 	 * Function changes the date format to the database format without changing the time zone.
 	 *
 	 * @param string $date

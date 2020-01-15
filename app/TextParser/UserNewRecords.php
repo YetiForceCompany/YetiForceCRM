@@ -1,7 +1,7 @@
 <?php
 
 /**
- * User Accounts class.
+ * User Accounts.
  *
  * @package 	App
  *

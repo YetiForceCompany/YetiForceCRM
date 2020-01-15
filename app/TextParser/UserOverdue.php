@@ -1,7 +1,7 @@
 <?php
 
 /**
- * User overdue class.
+ * User overdue.
  *
  * @package 	App
  *

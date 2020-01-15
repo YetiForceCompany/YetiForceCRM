@@ -1,11 +1,16 @@
 <?php
 
 /**
- * Email Template Report Task Class.
+ * Email Template Report Task.
+ *
+ * @package 	App
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Dudek <a.dudek@yetiforce.com>
+ */
+/**
+ * VTEmailReport class.
  */
 class VTEmailReport extends VTTask
 {
@@ -36,7 +41,7 @@ class VTEmailReport extends VTTask
 		foreach (array_unique($users) as $user) {
 			$userRecodModel = \Vtiger_Record_Model::getInstanceById($user, 'Users');
 			if (!empty($userEmail = $userRecodModel->get('email1'))) {
-				(new \App\BatchMethod(['method' => '\App\Mailer::sendFromTemplate', 'params' =>['params' => [
+				(new \App\BatchMethod(['method' => '\App\Mailer::sendFromTemplate', 'params' => ['params' => [
 					'template' => $this->template,
 					'to' => $userEmail,
 					'textParserParams' => [

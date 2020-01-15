@@ -1,7 +1,7 @@
 <?php
 
 /**
- * User SSalesProcesses class.
+ * User SSalesProcesses.
  *
  * @package 	App
  *
