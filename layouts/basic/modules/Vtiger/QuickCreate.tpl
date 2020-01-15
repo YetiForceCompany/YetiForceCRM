@@ -13,6 +13,13 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
+	{if $WIDTHTYPE eq 'narrow'}
+		{assign var=WIDTHTYPE_GROUP value="input-group-sm"}
+	{elseif $WIDTHTYPE eq 'wide'}
+		{assign var=WIDTHTYPE_GROUP value="input-group-lg"}
+	{else}
+		{assign var=WIDTHTYPE_GROUP value=''}
+	{/if}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="tpl-QuickCreate modal quickCreateContainer" tabindex="-3" role="dialog">
 		<div class="modal-dialog modal-lg modal-full" role="document">
@@ -60,13 +67,6 @@
 					<div class="quickCreateContent">
 						<div class="modal-body m-0">
 							<div class="massEditTable border-0 px-1 mx-auto m-0">
-								{if $WIDTHTYPE eq 'narrow'}
-									{assign var=WIDTHTYPE_GROUP value="input-group-sm"}
-								{elseif $WIDTHTYPE eq 'wide'}
-									{assign var=WIDTHTYPE_GROUP value="input-group-lg"}
-								{else}
-									{assign var=WIDTHTYPE_GROUP value=''}
-								{/if}
 								<div class="px-0 m-0 form-row d-flex justify-content-center">
 									{assign var=COUNTER value=0}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}

@@ -17,6 +17,13 @@
 		<input type="hidden" name="{$FIELD_NAME}" value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}"/>
 	{/foreach}
 {/if}
+{if $WIDTHTYPE eq 'narrow'}
+	{assign var=WIDTHTYPE_GROUP value="input-group-sm"}
+{elseif $WIDTHTYPE eq 'wide'}
+	{assign var=WIDTHTYPE_GROUP value="input-group-lg"}
+{else}
+	{assign var=WIDTHTYPE_GROUP value=''}
+{/if}
 <div class="quickCreateContent">
 	<div class="modal-body m-0">
 		{if $LAYOUT === 'blocks'}

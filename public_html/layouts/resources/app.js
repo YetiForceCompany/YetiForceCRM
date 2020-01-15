@@ -461,8 +461,14 @@ var App = (window.App = {
 			 */
 			save(form) {
 				const aDeferred = $.Deferred();
-				const quickCreateSaveUrl = form.serializeFormData();
-				AppConnector.request(quickCreateSaveUrl).done(
+				let formData = new FormData(form[0]);
+				AppConnector.request({
+					url: 'index.php',
+					type: 'POST',
+					data: formData,
+					processData: false,
+					contentType: false
+				}).done(
 					data => {
 						aDeferred.resolve(data);
 					},

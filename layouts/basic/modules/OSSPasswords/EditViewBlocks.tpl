@@ -1,5 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+{if $WIDTHTYPE eq 'narrow'}
+	{assign var=WIDTHTYPE_GROUP value="input-group-sm"}
+{elseif $WIDTHTYPE eq 'wide'}
+	{assign var=WIDTHTYPE_GROUP value="input-group-lg"}
+{else}
+	{assign var=WIDTHTYPE_GROUP value=''}
+{/if}
 <div class='verticalScroll'>
 	<div class="editViewContainer">
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php"
@@ -102,13 +109,6 @@
 												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 											</label>
 										</div>
-									{/if}
-									{if $WIDTHTYPE eq 'narrow'}
-										{assign var=WIDTHTYPE_GROUP value="input-group-sm"}
-									{elseif $WIDTHTYPE eq 'wide'}
-										{assign var=WIDTHTYPE_GROUP value="input-group-lg"}
-									{else}
-										{assign var=WIDTHTYPE_GROUP value=''}
 									{/if}
 									<div class="fieldValue {$WIDTHTYPE} {$WIDTHTYPE_GROUP}{if $FIELD_MODEL->getUIType() eq '300'} col-md-12 {assign var=COUNTER value=$COUNTER+1} {else} col-lg-12 col-xl-9{/if}">
 										<div class="form-row">
