@@ -268,6 +268,7 @@ class Module
 	public static function createModuleMetaFile()
 	{
 		Cache::delete('moduleTabs', 'all');
+		Cache::delete('getTrackingModules', 'all');
 		$filename = ROOT_DIRECTORY . '/user_privileges/tabdata.php';
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {

@@ -5746,6 +5746,7 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (362,3,'DASHBOARDWIDGET','LBL_COMPLETED_PROJECT_TASKS','index.php?module=ProjectTask&view=ShowWidget&name=CompletedProjectTasks',NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (363,3,'DASHBOARDWIDGET','LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES','index.php?module=Home&view=ShowWidget&name=CreatedNotMineOverdueActivities','',0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (364,34,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (366,3,'DASHBOARDWIDGET','LBL_UPDATES','index.php?module=ModTracker&view=ShowWidget&name=Updates',NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Data for the table `vtiger_locationregister_status` */
 

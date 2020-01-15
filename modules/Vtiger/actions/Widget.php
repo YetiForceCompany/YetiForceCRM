@@ -31,7 +31,7 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$mode = $request->getMode();
@@ -39,7 +39,7 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 			$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($request->getInteger('widgetid'), \App\User::getCurrentUserId());
 			$label = $widget->get('linklabel');
 		} else {
-			if ($mode === 'add') {
+			if ('add' === $mode) {
 				$linkDdata = \vtlib\Link::getLinkData($request->getInteger('linkid'));
 				$label = $linkDdata['linklabel'];
 			} else {
@@ -47,9 +47,9 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 				$label = $widget->get('linklabel');
 			}
 		}
-		if (($mode === 'remove' && !$widget->isDefault() && \App\Privilege::isPermitted($moduleName)) ||
-			($label === 'Mini List' && \App\Privilege::isPermitted($moduleName, 'CreateDashboardFilter')) ||
-			($label === 'ChartFilter' && \App\Privilege::isPermitted($moduleName, 'CreateDashboardChartFilter'))) {
+		if (('remove' === $mode && !$widget->isDefault() && \App\Privilege::isPermitted($moduleName)) ||
+			('Mini List' === $label && \App\Privilege::isPermitted($moduleName, 'CreateDashboardFilter')) ||
+			('ChartFilter' === $label && \App\Privilege::isPermitted($moduleName, 'CreateDashboardChartFilter'))) {
 			return true;
 		}
 		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
@@ -60,7 +60,7 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function remove(\App\Request $request)
+	public function remove(App\Request $request)
 	{
 		$linkId = $request->getInteger('linkid');
 		$response = new Vtiger_Response();
@@ -86,7 +86,7 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function add(\App\Request $request)
+	public function add(App\Request $request)
 	{
 		$data = $request->getMultiDimensionArray('form', [
 			'data' => 'Text',
@@ -114,7 +114,7 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 		$moduleName = $request->getByType('sourceModule', 2);
 		$addToUser = $request->getBoolean('addToUser');
 		$linkId = $request->getInteger('linkid');
-		if (!is_array($data) || !$data) {
+		if (!\is_array($data) || !$data) {
 			$result = ['success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName)];
 		} else {
 			$data['linkid'] = $linkId;
@@ -131,7 +131,7 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function removeWidgetFromList(\App\Request $request)
+	public function removeWidgetFromList(App\Request $request)
 	{
 		Vtiger_Widget_Model::removeWidgetFromList($request->getInteger('widgetid'));
 		$response = new Vtiger_Response();

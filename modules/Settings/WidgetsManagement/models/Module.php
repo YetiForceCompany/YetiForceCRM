@@ -22,7 +22,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function getWidgetsWithLimit()
 	{
-		return ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'LBL_EXPIRING_SOLD_PRODUCTS', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES', 'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'Multifilter'];
+		return ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'LBL_EXPIRING_SOLD_PRODUCTS', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES', 'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'Multifilter', 'LBL_UPDATES'];
 	}
 
 	public static function getWidgetSpecial()
@@ -155,7 +155,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		}
 		$owners = \App\Json::decode(html_entity_decode($widgetModel->get('owners')));
 		if ($owner) {
-			if (('all' !== $owner && !isset($accessibleUsers[$owner]) && !isset($accessibleGroups[$owner])) || ('all' === $owner && !in_array($owner, $owners['available']))) {
+			if (('all' !== $owner && !isset($accessibleUsers[$owner]) && !isset($accessibleGroups[$owner])) || ('all' === $owner && !\in_array($owner, $owners['available']))) {
 				return false;
 			}
 
@@ -163,20 +163,20 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		}
 		$defaultSelected = $owners['default'];
 
-		if (!is_array($owners['available'])) {
+		if (!\is_array($owners['available'])) {
 			$owners['available'] = [$owners['available']];
 		}
 
-		if ('mine' == $defaultSelected && in_array($defaultSelected, $owners['available'])) {
+		if ('mine' == $defaultSelected && \in_array($defaultSelected, $owners['available'])) {
 			$user = $currentUser->getId();
-		} elseif ('all' == $defaultSelected && in_array($defaultSelected, $owners['available'])) {
+		} elseif ('all' == $defaultSelected && \in_array($defaultSelected, $owners['available'])) {
 			$user = $defaultSelected;
-		} elseif (in_array('users', $owners['available'])) {
+		} elseif (\in_array('users', $owners['available'])) {
 			if (key($accessibleUsers) == $currentUser->getId()) {
 				next($accessibleUsers);
 			}
 			$user = key($accessibleUsers);
-		} elseif (in_array('groups', $owners['available'])) {
+		} elseif (\in_array('groups', $owners['available'])) {
 			$user = key($accessibleGroups);
 		}
 		if (empty($user) && $owners['available']) {
@@ -223,7 +223,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Calendar',
 			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES', 'DW_SUMMATION_BY_MONTHS', 'LBL_ALL_TIME_CONTROL',
 			'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_ACCOUNTS_BY_INDUSTRY',
-			'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS', 'LBL_UPCOMING_PROJECT_TASKS', 'LBL_COMPLETED_PROJECT_TASKS'
+			'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS', 'LBL_UPCOMING_PROJECT_TASKS', 'LBL_COMPLETED_PROJECT_TASKS', 'LBL_UPDATES'
 		];
 	}
 
@@ -302,7 +302,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			} elseif ('DW_SUMMATION_BY_USER' === $dataType) {
 				$insert['data'] = \App\Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
 			} elseif ('Multifilter' === $dataType) {
-				if (empty($data['customMultiFilter']) || !is_array($data['customMultiFilter'])) {
+				if (empty($data['customMultiFilter']) || !\is_array($data['customMultiFilter'])) {
 					$data['customMultiFilter'] = [$data['customMultiFilter'] ?? ''];
 				}
 				$insert['data'] = \App\Json::encode(['customMultiFilter' => $data['customMultiFilter']]);
@@ -352,7 +352,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$db = App\Db::getInstance();
 		$status = false;
 		$widgetWithLimit = self::getWidgetsWithLimit();
-		if (!empty($data['name']) && in_array($data['name'], $widgetWithLimit)) {
+		if (!empty($data['name']) && \in_array($data['name'], $widgetWithLimit)) {
 			$status = true;
 		}
 		if ($status && empty($data['limit'])) {
@@ -362,21 +362,21 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$data['isdefault'] = 0;
 		}
 		if (!empty($data['filterid'])) {
-			if (is_string($data['filterid'])) {
+			if (\is_string($data['filterid'])) {
 				$filters = explode(',', $data['filterid']);
-			} elseif (is_array($data['filterid'])) {
+			} elseif (\is_array($data['filterid'])) {
 				$filters = $data['filterid'];
 			}
-			if (count($filters) > \App\Config::performance('CHART_MULTI_FILTER_LIMIT')) {
+			if (\count($filters) > \App\Config::performance('CHART_MULTI_FILTER_LIMIT')) {
 				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filterid||' . $data['filterid'], 406);
 			}
 			// if filters total length will be longer than database column
-			if (strlen(implode(',', $filters)) > \App\Config::performance('CHART_MULTI_FILTER_STR_LEN')) {
+			if (\strlen(implode(',', $filters)) > \App\Config::performance('CHART_MULTI_FILTER_STR_LEN')) {
 				throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||filterid||' . $data['filterid'], 406);
 			}
 		}
 		$data['data'] = App\Json::decode(\App\Purifier::decodeHtml($data['data'] ?? ''));
-		if (!empty($data['data']['additionalFiltersFields']) && count($data['data']['additionalFiltersFields']) > \App\Config::performance('CHART_ADDITIONAL_FILTERS_LIMIT')) {
+		if (!empty($data['data']['additionalFiltersFields']) && \count($data['data']['additionalFiltersFields']) > \App\Config::performance('CHART_ADDITIONAL_FILTERS_LIMIT')) {
 			throw new App\Exceptions\IllegalValue('ERR_VALUE_IS_TOO_LONG||additionalFiltersFields||' . implode(',', $data['data']['additionalFiltersFields']), 406);
 		}
 		$data['data'] = App\Json::encode($data['data']);
