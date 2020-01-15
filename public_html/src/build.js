@@ -2,7 +2,9 @@ const rollup = require('rollup'),
 	babel = require('rollup-plugin-babel'),
 	finder = require('findit')('../'),
 	path = require('path'),
-	sourcemaps = require('rollup-plugin-sourcemaps')
+	sourcemaps = require('rollup-plugin-sourcemaps'),
+	{ done } = require('@vue/cli-shared-utils')
+
 const dirModules = __dirname + '/node_modules/'
 let filesToMin = []
 async function build(fileName) {
@@ -65,7 +67,13 @@ finder.on('file', (file, stat) => {
 finder.on('end', () => {
 	filesToMin.forEach(file => {
 		//log files to minify
-		console.log(file)
+		console.log('Building... ' + file)
 		build(file)
+			.then(_ => {
+				done(file)
+			})
+			.catch(err => {
+				console.log(err)
+			})
 	})
 })
