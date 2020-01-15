@@ -23,7 +23,7 @@ class VTJsonCondition
 	{
 		$expr = \App\Json::decode($condition);
 		$finalResult = true;
-		if (\is_array($expr)) {
+		if (!empty($expr) && \is_array($expr)) {
 			$finalResult = false;
 			$groupResults = [];
 			$expressionResults = [];
