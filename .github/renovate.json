@@ -4,6 +4,7 @@
   "assignees": ["mariuszkrzaczkowski", "rskrzypczak", "TomaszQr"],
   "schedule": ["every weekend"],
   "timezone": "Europe/Warsaw",
+  "commitMessagePrefix": "[PROD](renovate)",
   "baseBranches": ["developer"],
   "packageRules": [
     {
