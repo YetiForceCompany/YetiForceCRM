@@ -23,7 +23,11 @@ class UserSSalesProcesses extends Base
 	/** @var mixed Parser type */
 	public $type = 'pdf';
 
-	/** @var string Default template */
+	/**
+	 * @var string Default template
+	 *
+	 * @see \App\Condition::DATE_OPERATORS
+	 */
 	public $default = '$(custom : UserSSalesProcesses|__DATE_OPERATOR__|__SORT_CONDITION__)$';
 
 	/**
@@ -58,14 +62,14 @@ class UserSSalesProcesses extends Base
 			}
 			$query->limit(\App\Config::performance('REPORT_RECORD_NUMBERS'));
 			$dataReader = $query->createCommand()->query();
-			$columns = [];
-			foreach (['subject', 'related_to', 'estimated', 'estimated_date', 'ssalesprocesses_status'] as $column) {
-				if (!($fieldModel = $moduleModel->getFieldByColumn($column)) || !$fieldModel->isActiveField()) {
+			$fields = [];
+			foreach (['subject' => '', 'related_to' => '', 'estimated' => 'LBL_FOR_VALUE', 'estimated_date' => 'LBL_UNTIL_DAY', 'ssalesprocesses_status' => 'LBL_ACTUAL_STATUS'] as $fieldName => $fieldLabel) {
+				if (!($fieldModel = $moduleModel->getFieldByName($fieldName)) || !$fieldModel->isActiveField()) {
 					continue;
 				}
-				$columns[$column] = $fieldModel;
+				$fields[$fieldName] = $fieldLabel;
 			}
-			if (!empty($columns)) {
+			if (!empty($fields)) {
 				$count = 1;
 				while ($row = $dataReader->read()) {
 					$relatedRecordModel = null;
@@ -74,24 +78,18 @@ class UserSSalesProcesses extends Base
 						$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedTo);
 					}
 					$html .= $count . '. ';
-					if (isset($columns['subject'])) {
-						$html .= ' <a href="' . \App\Config::main('site_URL') . $recordModel->getDetailViewUrl() . '">' . $recordModel->getDisplayValue($columns['subject']->getName(), false, true) . '</a> ';
-					}
-					if (isset($columns['related_to'])) {
-						if (!empty($relatedRecordModel) && $recordModel->isViewable()) {
-							$html .= ' [<a href="' . \App\Config::main('site_URL') . $relatedRecordModel->getDetailViewUrl() . '">' . $recordModel->getDisplayValue($columns['related_to']->getName(), false, true) . '</a>] ';
+					foreach ($fields as $fieldName => $fieldLabel) {
+						if ('subject' === $fieldName) {
+							$html .= ' <a href="' . \App\Config::main('site_URL') . $recordModel->getDetailViewUrl() . '">' . $recordModel->getDisplayValue($fieldName, false, true) . '</a> ';
+						} elseif ('related_to' === $fieldName) {
+							if (!empty($relatedRecordModel) && $recordModel->isViewable()) {
+								$html .= ' [<a href="' . \App\Config::main('site_URL') . $relatedRecordModel->getDetailViewUrl() . '">' . $recordModel->getDisplayValue($fieldName, false, true) . '</a>] ';
+							} else {
+								$html .= ' [' . $recordModel->getDisplayValue($fieldName, false, true) . '] ';
+							}
 						} else {
-							$html .= ' [' . $recordModel->getDisplayValue($columns['related_to']->getName(), false, true) . '] ';
+							$html .= \App\Language::translate($fieldLabel, 'Other.Reports') . " <b>{$recordModel->getDisplayValue($fieldName, false, true)}</b> ";
 						}
-					}
-					if (isset($columns['estimated'])) {
-						$html .= \App\Language::translate('LBL_FOR_VALUE', 'Other.Reports') . " <b>{$recordModel->getDisplayValue($columns['estimated']->getName(), false, true)}</b> ";
-					}
-					if (isset($columns['estimated_date'])) {
-						$html .= \App\Language::translate('LBL_UNTIL_DAY', 'Other.Reports') . " <b>{$recordModel->getDisplayValue($columns['estimated_date']->getName(), false, true)}</b> ";
-					}
-					if (isset($columns['ssalesprocesses_status'])) {
-						$html .= \App\Language::translate('LBL_ACTUAL_STATUS', 'Other.Reports') . " <b>{$recordModel->getDisplayValue($columns['ssalesprocesses_status']->getName(), false, true)}</b> ";
 					}
 					$html .= '<br>';
 					++$count;

@@ -23,7 +23,10 @@ class UserNewRecords extends Base
 	/** @var mixed Parser type */
 	public $type = 'pdf';
 
-	/** @var string Default template */
+	/**
+	 * @var string Default template
+	 * @see \App\Condition::DATE_OPERATORS
+	*/
 	public $default = '$(custom : UserNewRecords|__MODULE_NAME__|__DATE_OPERATOR__|__FIELDS_LIST__)$';
 
 	/**
@@ -50,20 +53,20 @@ class UserNewRecords extends Base
 				$query->orderBy(['vtiger_crmentity.createdtime' => \SORT_DESC]);
 				$query->limit(\App\Config::performance('REPORT_RECORD_NUMBERS'));
 				$dataReader = $query->createCommand()->query();
-				$columns = [];
-				foreach (explode(':', $this->params[2]) as $column) {
-					if (!($fieldModel = $moduleModel->getFieldByColumn($column)) || !$fieldModel->isActiveField()) {
+				$fields = [];
+				foreach (explode(':', $this->params[2]) as $fieldName) {
+					if (!($fieldModel = $moduleModel->getFieldByName($fieldName)) || !$fieldModel->isActiveField()) {
 						continue;
 					}
-					$columns[$column] = $fieldModel;
+					$fields[$fieldName] = $fieldModel;
 				}
 				$count = 1;
 				$html = '';
 				while ($row = $dataReader->read()) {
 					$recordHtml = '';
 					$recordModel = \Vtiger_Record_Model::getInstanceById($row['id']);
-					foreach ($columns as $column) {
-						if (!empty($value = $recordModel->getDisplayValue($column->getName(), false, true))) {
+					foreach ($fields as $field) {
+						if (!empty($value = $recordModel->getDisplayValue($field->getName(), false, true))) {
 							$recordHtml .= $value . ' ';
 						}
 					}
