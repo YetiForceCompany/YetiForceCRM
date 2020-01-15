@@ -1419,6 +1419,20 @@ jQuery.Class(
 				self.writeExcludedIds([]);
 			});
 		},
+		/**
+		 * Register quick edit save event description.
+		 */
+		registerQuickEditSaveEvent() {
+			app.event.on('QuickEdit.AfterSaveFinal', (e, data, instance, element) => {
+				if (this.moduleName === instance.data('moduleName')) {
+					if (element.closest('.js-detail-widget').length) {
+						Vtiger_Detail_Js.getInstance().postSummaryWidgetAddRecord(data, element);
+					} else {
+						this.loadRelatedList(data.result);
+					}
+				}
+			});
+		},
 		registerRelatedEvents: function() {
 			this.registerUnreviewedCountEvent();
 			this.registerChangeEntityStateEvent();
@@ -1430,6 +1444,7 @@ jQuery.Class(
 			this.registerMainCheckBoxClickEvent();
 			this.registerSelectAllClickEvent();
 			this.registerDeselectAllClickEvent();
+			this.registerQuickEditSaveEvent();
 			YetiForce_ListSearch_Js.registerSearch(this.content, data => {
 				this.loadRelatedList(data);
 			});

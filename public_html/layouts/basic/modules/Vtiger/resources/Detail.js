@@ -1451,55 +1451,60 @@ jQuery.Class(
 		 */
 		registerFilterForAddingModuleRelatedRecordFromSummaryWidget: function(container) {
 			var thisInstance = this;
-			container.find('.createRecordFromFilter').on('click', function(e) {
-				var currentElement = jQuery(e.currentTarget);
-				var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
-				var referenceModuleName = summaryWidgetContainer.data('moduleName');
-				var quickcreateUrl = currentElement.data('url');
-				var parentId = thisInstance.getRecordId();
-				var quickCreateParams = {};
-				var relatedField = currentElement.data('prf');
-				var autoCompleteFields = currentElement.data('acf');
-				var moduleName = currentElement
-					.closest('.js-detail-widget-header')
-					.find('[name="relatedModule"]')
-					.val();
-				var relatedParams = {};
-				var postQuickCreateSave = function(data) {
-					thisInstance.postSummaryWidgetAddRecord(data, currentElement);
-					if (referenceModuleName == 'ProjectTask') {
-						thisInstance.loadModuleSummary();
+			container
+				.find('.createRecordFromFilter')
+				.off()
+				.on('click', function(e) {
+					var currentElement = jQuery(e.currentTarget);
+					var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
+					var referenceModuleName = summaryWidgetContainer.data('moduleName');
+					var quickcreateUrl = currentElement.data('url');
+					var parentId = thisInstance.getRecordId();
+					var quickCreateParams = {};
+					var relatedField = currentElement.data('prf');
+					var autoCompleteFields = currentElement.data('acf');
+					var moduleName = currentElement
+						.closest('.js-detail-widget-header')
+						.find('[name="relatedModule"]')
+						.val();
+					var relatedParams = {};
+					var postQuickCreateSave = function(data) {
+						thisInstance.postSummaryWidgetAddRecord(data, currentElement);
+						if (referenceModuleName == 'ProjectTask') {
+							thisInstance.loadModuleSummary();
+						}
+					};
+					if (typeof relatedField !== 'undefined') {
+						relatedParams[relatedField] = parentId;
 					}
-				};
-				if (typeof relatedField !== 'undefined') {
-					relatedParams[relatedField] = parentId;
-				}
-				if (typeof autoCompleteFields !== 'undefined') {
-					$.each(autoCompleteFields, function(index, value) {
-						relatedParams[index] = value;
+					if (typeof autoCompleteFields !== 'undefined') {
+						$.each(autoCompleteFields, function(index, value) {
+							relatedParams[index] = value;
+						});
+					}
+					if (Object.keys(relatedParams).length > 0) {
+						quickCreateParams['data'] = relatedParams;
+					}
+					quickCreateParams['noCache'] = true;
+					quickCreateParams['callbackFunction'] = postQuickCreateSave;
+					var progress = jQuery.progressIndicator({
+						blockInfo: {
+							enabled: true
+						}
 					});
-				}
-				if (Object.keys(relatedParams).length > 0) {
-					quickCreateParams['data'] = relatedParams;
-				}
-				quickCreateParams['noCache'] = true;
-				quickCreateParams['callbackFunction'] = postQuickCreateSave;
-				var progress = jQuery.progressIndicator({
-					blockInfo: {
-						enabled: true
+					let headerInstance;
+					if (window !== window.parent) {
+						headerInstance = window.parent.Vtiger_Header_Js.getInstance();
+					} else {
+						headerInstance = Vtiger_Header_Js.getInstance();
 					}
+					headerInstance
+						.getQuickCreateForm(quickcreateUrl, moduleName, quickCreateParams)
+						.done(function(data) {
+							headerInstance.handleQuickCreateData(data, quickCreateParams);
+							progress.progressIndicator({ mode: 'hide' });
+						});
 				});
-				let headerInstance;
-				if (window !== window.parent) {
-					headerInstance = window.parent.Vtiger_Header_Js.getInstance();
-				} else {
-					headerInstance = Vtiger_Header_Js.getInstance();
-				}
-				headerInstance.getQuickCreateForm(quickcreateUrl, moduleName, quickCreateParams).done(function(data) {
-					headerInstance.handleQuickCreateData(data, quickCreateParams);
-					progress.progressIndicator({ mode: 'hide' });
-				});
-			});
 			container.find('button.selectRelation').on('click', function(e) {
 				let summaryWidgetContainer = jQuery(e.currentTarget).closest('.js-detail-widget');
 				let referenceModuleName = summaryWidgetContainer.data('moduleName');
