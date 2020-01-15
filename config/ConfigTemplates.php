@@ -712,6 +712,11 @@ return [
 			'description' => 'Parameter defining how fields are displayed in quick create. Available values: blocks,standard',
 			'validationValues' => ['blocks', 'standard']
 		],
+		'REPORT_RECORD_NUMBERS' => [
+			'default' => 10,
+			'description' => "Value how much records can be show in report mail",
+			'validation' => '\App\Validator::naturalNumber'
+		],
 	],
 	'relation' => [
 		'COMMENT_MAX_LENGTH' => [

@@ -37,8 +37,9 @@ class DateTimeRange
 			$dateObject = new DateTime($dateObject);
 		}
 		$thisMonth = $dateObject->format('m');
-		$today = $dateObject->format('Y-m-d');
-		$todayName = $dateObject->format('l');
+		$todayObject = clone $dateObject;
+		$today = $todayObject->format('Y-m-d');
+		$todayName = $todayObject->format('l');
 		switch ($type) {
 			case 'today':
 				$dateValue[0] = $today;
@@ -205,6 +206,14 @@ class DateTimeRange
 				break;
 			case 'thisfq':
 				$dateValue = self::getPresentQuarterRange($thisMonth, $dateObject);
+				break;
+			case 'previousworkingday':
+				$dateValue[0] = \App\Fields\Date::getWorkingDayFromDate($todayObject, '-1 day');
+				$dateValue[1] = $dateValue[0];
+				break;
+			case 'nextworkingday':
+				$dateValue[0] = \App\Fields\Date::getWorkingDayFromDate($todayObject, '+1 day');
+				$dateValue[1] = $dateValue[0];
 				break;
 			default:
 				$dateValue[0] = '';
