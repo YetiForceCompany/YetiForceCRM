@@ -173,11 +173,25 @@ class CustomView
 	}
 
 	/** @var \Vtiger_Module_Model */
+	private $module;
 	private $moduleName;
 	private $user;
 	private $defaultViewId;
 	private $cvStatus;
 	private $cvUserId;
+
+	/**
+	 * Gets module object.
+	 *
+	 * @return false|\Vtiger_Module_Model
+	 */
+	public function getModule()
+	{
+		if (!$this->module) {
+			$this->module = \Vtiger_Module_Model::getInstance($this->moduleName);
+		}
+		return $this->module;
+	}
 
 	/**
 	 * Get custom view from file.
@@ -232,8 +246,18 @@ class CustomView
 	{
 		\App\Log::trace(__METHOD__ . ' - ' . $cvId);
 		if (is_numeric($cvId)) {
-			$query = (new Db\Query())->select(['columnindex', 'field_name', 'module_name', 'source_field_name'])->from('vtiger_cvcolumnlist')->where(['cvid' => $cvId])->orderBy('columnindex');
-			$columnList = $query->createCommand()->queryAllByGroup(1);
+			$dataReader = (new Db\Query())->select(['field_name', 'module_name', 'source_field_name'])
+				->from('vtiger_cvcolumnlist')
+				->innerJoin('vtiger_tab', 'vtiger_tab.name=vtiger_cvcolumnlist.module_name')
+				->innerJoin('vtiger_field', 'vtiger_tab.tabid = vtiger_field.tabid AND vtiger_field.fieldname = vtiger_cvcolumnlist.field_name')
+				->where(['cvid' => $cvId, 'vtiger_field.presence' => [0, 2]])->orderBy('columnindex')->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				if (!empty($row['source_field_name']) && !$this->getModule()->getFieldByName($row['source_field_name'])->isActiveField()) {
+					continue;
+				}
+				$columnList[] = $row;
+			}
+			$dataReader->close();
 			if ($columnList) {
 				Cache::save('getColumnsListByCvid', $cvId, $columnList);
 			}
