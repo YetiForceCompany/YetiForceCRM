@@ -196,7 +196,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	private function isMultiFactorAuthentication(): bool
 	{
-		return Users_Totp_Authmethod::isActive($this->userRecordModel->getId()) && !\in_array(\App\RequestUtil::getRemoteIP(true), \App\Config::security('whitelistIp'));
+		return Users_Totp_Authmethod::isActive($this->userRecordModel->getId()) && !\in_array(\App\RequestUtil::getRemoteIP(true), \App\Config::security('WhitelistIp2fa', []));
 	}
 
 	/**
