@@ -714,7 +714,7 @@ return [
 		],
 		'REPORT_RECORD_NUMBERS' => [
 			'default' => 10,
-			'description' => "Value how much records can be show in report mail",
+			'description' => 'Value how much records can be show in report mail',
 			'validation' => '\App\Validator::naturalNumber'
 		],
 	],
@@ -939,6 +939,10 @@ return [
 				$arg = func_get_arg(0);
 				return \in_array($arg, \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE);
 			}
+		],
+		'WhitelistIp2fa' => [
+			'default' => [],
+			'description' => "IP address whitelisting.\nAllow access without 2FA."
 		],
 		'CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER' => [
 			'default' => 3600,

@@ -95,6 +95,12 @@ class Security
 	 */
 	public static $USER_AUTHY_MODE = 'TOTP_OPTIONAL';
 
+	/**
+	 * IP address whitelisting.
+	 * Allow access without 2FA.
+	 */
+	public static $WhitelistIp2fa = [];
+
 	/** Cache lifetime for SensioLabs security checker. */
 	public static $CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER = 3600;
 
@@ -125,11 +131,15 @@ class Security
 	/** Which window should be verified? It is used to check if the system is loaded in the frame, used in CSRF. */
 	public static $csrfFrameBreakerWindow = 'top';
 
-	/** Allowed domains for loading frame, used in CSP. */
+	/** Allowed domains for loading frame, used in CSP and validate referer. */
 	public static $allowedFrameDomains = [];
 
 	/** Allowed domains for loading images, used in CSP. */
-	public static $allowedImageDomains = ['a.tile.openstreetmap.org', 'b.tile.openstreetmap.org', 'c.tile.openstreetmap.org'];
+	public static $allowedImageDomains = [
+		'a.tile.openstreetmap.org',
+		'b.tile.openstreetmap.org',
+		'c.tile.openstreetmap.org',
+	];
 
 	/** Allowed domains for loading script, used in CSP. */
 	public static $allowedScriptDomains = [];

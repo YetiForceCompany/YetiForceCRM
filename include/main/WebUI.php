@@ -105,11 +105,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$view = $request->getByType('view', 2);
 			$action = $request->getByType('action', 2);
 			$response = false;
-			if (!$hasLogin) {
-				if ('GET' === $_SERVER['REQUEST_METHOD'] && ($returnUrl = $request->getServer('QUERY_STRING')) && !\App\Session::has('return_params')) {
-					//Take the url that user would like to redirect after they have successfully logged in.
-					\App\Session::set('return_params', str_replace('&amp;', '&', $returnUrl));
-				}
+			if (!$hasLogin && 'GET' === $_SERVER['REQUEST_METHOD'] && ($returnUrl = $request->getServer('QUERY_STRING')) && !\App\Session::has('return_params')) {
+				//Take the url that user would like to redirect after they have successfully logged in.
+				\App\Session::set('return_params', str_replace('&amp;', '&', $returnUrl));
 			}
 			if (empty($moduleName)) {
 				if ($hasLogin) {
@@ -119,7 +117,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 						$qualifiedModuleName = $defaultModule;
 						$view = 'List';
 						if ('Calendar' === $moduleName) {
-							$view = 'Calendar';
+							$view = Vtiger_Module_Model::getInstance($moduleName)->getDefaultViewName();
 						}
 					} else {
 						$qualifiedModuleName = $moduleName = 'Home';
@@ -144,8 +142,12 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$componentName = $view;
 				\App\Config::setJsEnv('view', $view);
 			}
-			if ('Login' === $view && 'Users' === $moduleName && !\App\Session::has('CSP_TOKEN')) {
-				\App\Session::set('CSP_TOKEN', hash('sha256', \App\Encryption::generatePassword(10)));
+			if ($hasLogin && 'Login' === $view && 'Users' === $moduleName) {
+				if (!\App\Session::has('CSP_TOKEN')) {
+					\App\Session::set('CSP_TOKEN', hash('sha256', \App\Encryption::generatePassword(10)));
+				}
+				header('location: index.php');
+				return false;
 			}
 			// Better place this here as session get initiated
 			//skipping the csrf checking for the forgot(reset) password

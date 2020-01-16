@@ -141,8 +141,8 @@ class Users_Login_Action extends \App\Controller\Action
 			}
 			$this->afterLogin($request);
 			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($userName)); //Track the login History
-			if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId()) && !Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
-				header('location: index.php?module=Users&view=Login');
+			if ($this->isMultiFactorAuthentication() && !Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
+				header('location: index.php');
 			} else {
 				$this->redirectUser();
 			}
@@ -162,7 +162,7 @@ class Users_Login_Action extends \App\Controller\Action
 		if (\Config\Security::$loginSessionRegenerate) {
 			\App\Session::regenerateId(true); // to overcome session id reuse.
 		}
-		if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId())) {
+		if ($this->isMultiFactorAuthentication()) {
 			if (Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
 				\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
 				\App\Session::set('ShowAuthy2faModal', true);
@@ -187,6 +187,16 @@ class Users_Login_Action extends \App\Controller\Action
 		if ($request->has('layout')) {
 			\App\Session::set('layout', $request->getByType('layout'));
 		}
+	}
+
+	/**
+	 * Check whether to run multi-factor authentication.
+	 *
+	 * @return bool
+	 */
+	private function isMultiFactorAuthentication(): bool
+	{
+		return Users_Totp_Authmethod::isActive($this->userRecordModel->getId()) && !\in_array(\App\RequestUtil::getRemoteIP(true), \App\Config::security('whitelistIp'));
 	}
 
 	/**
