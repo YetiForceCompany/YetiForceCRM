@@ -279,8 +279,9 @@ class Purifier
 			$def->addAttribute('a', 'data-id', 'Text');
 			$def->addAttribute('a', 'data-module', 'Text');
 		}
-		$uri = $config->getDefinition('URI');
-		$uri->addFilter(new Extension\HTMLPurifier\Domain(), $config);
+		if ($uriDef = $config->getURIDefinition()) {
+			$uriDef->addFilter(new Extension\HTMLPurifier\Domain(), $config);
+		}
 		return $config;
 	}
 
