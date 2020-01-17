@@ -257,7 +257,7 @@ CREATE TABLE `com_vtiger_workflow_tasktypes` (
   `modules` varchar(500) DEFAULT NULL,
   `sourcemodule` varchar(255) DEFAULT NULL,
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflows` */
 
@@ -6577,6 +6577,8 @@ CREATE TABLE `vtiger_loginhistory` (
   `login_time` timestamp NULL DEFAULT NULL,
   `status` varchar(25) DEFAULT NULL,
   `browser` varchar(25) DEFAULT NULL,
+  `userid` int(10) DEFAULT NULL,
+  `agent` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`login_id`),
   KEY `user_name` (`user_name`),
   KEY `user_ip` (`user_ip`,`login_time`,`status`)

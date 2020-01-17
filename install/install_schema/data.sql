@@ -90,6 +90,7 @@ insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classn
 insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classname`,`classpath`,`templatepath`,`modules`,`sourcemodule`) values (16,'VTWatchdog','LBL_NOTIFICATIONS','VTWatchdog','modules/com_vtiger_workflow/tasks/VTWatchdog.php','com_vtiger_workflow/taskforms/VTWatchdog.tpl','{\"include\":[],\"exclude\":[]}',NULL);
 insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classname`,`classpath`,`templatepath`,`modules`,`sourcemodule`) values (17,'VTAutoAssign','LBL_AUTO_ASSIGN','VTAutoAssign','modules/com_vtiger_workflow/tasks/VTAutoAssign.php','com_vtiger_workflow/taskforms/VTAutoAssign.tpl','{\"include\":[],\"exclude\":[]}',NULL);
 insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classname`,`classpath`,`templatepath`,`modules`,`sourcemodule`) values (18,'SumFieldFromDependent','LBL_SUM_FIELD_FROM_DEPENDENT','SumFieldFromDependent','modules/com_vtiger_workflow/tasks/SumFieldFromDependent.php','com_vtiger_workflow/taskforms/SumFieldFromDependent.tpl','{\"include\":[],\"exclude\":[]}','');
+insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classname`,`classpath`,`templatepath`,`modules`,`sourcemodule`) values (19,'VTEmailReport','LBL_EMAIL_REPORT','VTEmailReport','modules/com_vtiger_workflow/tasks/VTEmailReport.php','com_vtiger_workflow/taskforms/VTEmailTemplateTask.tpl','{\"include\":[],\"exclude\":[]}',NULL);
 
 /*Data for the table `com_vtiger_workflows` */
 
