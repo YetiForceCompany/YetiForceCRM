@@ -145,6 +145,10 @@ return [
 		'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING' => [
 			'default' => false,
 			'description' => 'Required acceptation before sending mails.'
+		],
+		'defaultRelationModule' => [
+			'default' => '',
+			'description' => "Default selected relation module in mail bar.\n@var string Module name"
 		]
 	],
 	'YetiForce' => [
