@@ -433,17 +433,10 @@ class TextParser
 	 */
 	public function date($param)
 	{
-		switch($param){
-			case 'previousworkingday':
-				$dateTime = new \DateTime();
-				$date = \App\Fields\Date::getWorkingDayFromDate($dateTime, '-1 day');
-				break;
-			case 'nextworkingday':
-				$dateTime = new \DateTime();
-				$date = \App\Fields\Date::getWorkingDayFromDate($dateTime, '+1 day');
-				break;
-			default:
-				$date = date('Y-m-d', strtotime($param));
+		if(isset(\App\Condition::DATE_OPERATORS[$param])){
+			$date = implode(' - ', array_unique(\DateTimeRange::getDateRangeByType($param)));
+		} else {
+			$date = date('Y-m-d', strtotime($param));
 		}
 		return $date ?? '';
 	}
