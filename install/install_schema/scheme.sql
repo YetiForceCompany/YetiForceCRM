@@ -257,7 +257,7 @@ CREATE TABLE `com_vtiger_workflow_tasktypes` (
   `modules` varchar(500) DEFAULT NULL,
   `sourcemodule` varchar(255) DEFAULT NULL,
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflows` */
 
@@ -638,7 +638,7 @@ CREATE TABLE `l_yf_switch_users` (
   `busername` varchar(50) NOT NULL,
   `dusername` varchar(50) NOT NULL,
   `ip` varchar(100) NOT NULL,
-  `agent` varchar(255) NOT NULL,
+  `agent` varchar(500) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `baseid` (`baseid`),
   KEY `destid` (`destid`)
@@ -672,7 +672,7 @@ CREATE TABLE `o_yf_access_for_admin` (
   `ip` varchar(100) NOT NULL,
   `module` varchar(30) NOT NULL,
   `url` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
+  `agent` varchar(500) NOT NULL,
   `request` text NOT NULL,
   `referer` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -686,7 +686,7 @@ CREATE TABLE `o_yf_access_for_api` (
   `date` datetime NOT NULL,
   `ip` varchar(100) NOT NULL,
   `url` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
+  `agent` varchar(500) NOT NULL,
   `request` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -700,7 +700,7 @@ CREATE TABLE `o_yf_access_for_user` (
   `ip` varchar(100) DEFAULT NULL,
   `module` varchar(30) NOT NULL,
   `url` varchar(300) NOT NULL,
-  `agent` varchar(255) DEFAULT NULL,
+  `agent` varchar(500) DEFAULT NULL,
   `request` text NOT NULL,
   `referer` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -716,7 +716,7 @@ CREATE TABLE `o_yf_access_to_record` (
   `record` int(10) NOT NULL,
   `module` varchar(30) NOT NULL,
   `url` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
+  `agent` varchar(500) NOT NULL,
   `request` text NOT NULL,
   `referer` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -731,7 +731,7 @@ CREATE TABLE `o_yf_csrf` (
   `ip` varchar(100) NOT NULL,
   `referer` varchar(300) NOT NULL,
   `url` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
+  `agent` varchar(500) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6577,9 +6577,12 @@ CREATE TABLE `vtiger_loginhistory` (
   `login_time` timestamp NULL DEFAULT NULL,
   `status` varchar(25) DEFAULT NULL,
   `browser` varchar(25) DEFAULT NULL,
+  `userid` int(10) DEFAULT NULL,
+  `agent` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`login_id`),
   KEY `user_name` (`user_name`),
-  KEY `user_ip` (`user_ip`,`login_time`,`status`)
+  KEY `user_ip` (`user_ip`,`login_time`,`status`),
+  KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_lout_dimensions` */
