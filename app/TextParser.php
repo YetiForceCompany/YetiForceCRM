@@ -438,7 +438,7 @@ class TextParser
 		} else {
 			$date = date('Y-m-d', strtotime($param));
 		}
-		return $date ?? '';
+		return $date;
 	}
 
 	/**
