@@ -135,27 +135,24 @@ class Users_Totp_Authmethod
 	 */
 	public static function isActive($userId = null)
 	{
-		if ('demo' === \App\Config::main('systemMode')) {
-			return false;
-		}
+		$isActive = false;
 		if (empty($userId)) {
 			$userId = \App\User::getCurrentUserRealId();
 		}
 		$userModel = \App\User::getUserModel($userId);
-		if ('PLL_PASSWORD_2FA' !== $userModel->getDetail('login_method')) {
-			return false;
+		if ('PLL_PASSWORD_2FA' === $userModel->getDetail('login_method')) {
+			switch (App\Config::security('USER_AUTHY_MODE')) {
+				case 'TOTP_OPTIONAL':
+					$isActive = 'PLL_AUTHY_TOTP' === $userModel->getDetail('authy_methods');
+					break;
+				case 'TOTP_OBLIGATORY':
+					$isActive = true;
+					break;
+				default:
+					break;
+			}
 		}
-		switch (App\Config::security('USER_AUTHY_MODE')) {
-			case 'TOTP_OFF':
-				return false;
-			case 'TOTP_OPTIONAL':
-				return 'PLL_AUTHY_TOTP' === $userModel->getDetail('authy_methods');
-			case 'TOTP_OBLIGATORY':
-				return true;
-			default:
-				break;
-		}
-		return false;
+		return $isActive;
 	}
 
 	/**

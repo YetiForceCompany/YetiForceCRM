@@ -130,14 +130,14 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 		}
 		$queryGenerator = (new \App\QueryGenerator($moduleName));
 		$emailFields = $queryGenerator->getModuleModel()->getFieldsByType('email', true);
-		if ($emailFields) {
+		if ($emailFields && $email) {
 			foreach ($emailFields as $fieldModel) {
 				$queryGenerator->addCondition($fieldModel->getName(), $email, 'e', false);
 			}
 			$recordId = $queryGenerator->setFields(['id'])->createQuery()->scalar();
 		}
 		if (!$recordId) {
-			throw new \Api\Core\Exception('Not Found ' . $queryGenerator->createQuery()->createCommand()->getRawSql(), 404);
+			throw new \Api\Core\Exception('Not Found', 404);
 		}
 
 		return \App\Mailer::sendFromTemplate([
