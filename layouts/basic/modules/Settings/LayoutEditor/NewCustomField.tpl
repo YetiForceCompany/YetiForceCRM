@@ -11,16 +11,14 @@
 -->*}
 {strip}
 	<li class="newCustomFieldCopy d-none">
-		<div class="marginLeftZero border1px" data-field-id="" data-sequence="">
-			<div class="row padding1per">
-				<span class="col-md-2">&nbsp;
+		<div class="marginLeftZero border1px ml-0" data-block-id="" data-field-id="" data-sequence="">
+			<div class="px-2 py-1">
+				<div class="col-12 pr-0 fieldContainer" style="word-wrap: break-word;">
 					{if $IS_SORTABLE}
-						<a>
-							<img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+						<a class="mr-3">
+							<img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 						</a>
 					{/if}
-				</span>
-				<div class="col-md-10 marginLeftZero fieldContainer">
 					<span class="fieldLabel"></span>
 					<input type="hidden" value="" id="relatedFieldValue" />
 					<span class="float-right actions">

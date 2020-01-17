@@ -54,7 +54,7 @@
 					</li>
 				{/if}
 			</ul>
-			<div class="tab-content layoutContent p-3 themeTableColor overflowVisible">
+			<div class="tab-content layoutContent pt-3 themeTableColor overflowVisible">
 				<div class="tab-pane fade show active" id="detailViewLayout" role="tabpanel"
 					 aria-labelledby="detailViewLayout">
 					{assign var=FIELD_TYPE_INFO value=$SELECTED_MODULE_MODEL->getAddFieldTypeInfo()}
@@ -63,11 +63,11 @@
 					{assign var=ALL_BLOCK_LABELS value=[]}
 					{if $IS_SORTABLE}
 						<div class="btn-toolbar" id="layoutEditorButtons">
-							<button class="btn btn-success addButton addCustomBlock" type="button">
+							<button class="btn btn-success btn-sm addButton addCustomBlock" type="button">
 								<span class="fas fa-plus"></span>
 								<strong class="ml-1">{App\Language::translate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</strong>
 							</button>
-							<button class="btn btn-success saveFieldSequence ml-1 d-none" type="button">
+							<button class="btn btn-success saveFieldSequence btn-sm ml-1 d-none" type="button">
 								<span class="fas fa-check"></span>
 								<strong class="ml-1">{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 							</button>
@@ -141,52 +141,43 @@
 										{foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist}
 											{if $smarty.foreach.fieldlist.index % 2 eq 0}
 												<li>
-													<div class="opacity editFields ml-0 border1px"
-														 data-block-id="{$BLOCK_ID}"
-														 data-field-id="{$FIELD_MODEL->get('id')}"
-														 data-sequence="{$FIELD_MODEL->get('sequence')}">
-														<div class="row p-2">
+													<div class="opacity editFields ml-0 border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
+														<div class="px-2 py-1">
 															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-															<div class="col-2 col-sm-2">&nbsp;
+															<div class="col-12 pr-0 fieldContainer" style="word-wrap: break-word;">
 																{if $FIELD_MODEL->isEditable()}
-																	<a>
-																		<img src="{\App\Layout::getImagePath('drag.png')}"
-																			 border="0"
-																			 alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+																	<a class="mr-3">
+																		<img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 																	</a>
 																{/if}
-															</div>
-															<div class="col-10 col-sm-10 ml-0 fieldContainer"
-																 style="word-wrap: break-word;">
-                                                                <span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
-																	&nbsp;[{$FIELD_MODEL->getName()}]
+																<span class="fieldLabel">
+																	{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
 																	{/if}
+																	<span class="ml-3 font-weight-normal" title="UiType: {$FIELD_MODEL->getUIType()}">[ {$FIELD_MODEL->getName()}&nbsp;&nbsp;-&nbsp;&nbsp;{$FIELD_MODEL->getFieldDataType()} ]</span>
 																</span>
 																<span class="float-right actions">
-																	<input type="hidden"
-																		   value="{$FIELD_MODEL->getName()}"
-																		   id="relatedFieldValue{$FIELD_MODEL->get('id')}"/>
-																	<button class="btn btn-primary btn-sm copyFieldLabel float-right ml-1"
-																			data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
-																		<span class="fas fa-copy"
-																			  title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
-																	</button>
+																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}"/>
 																	{if $FIELD_MODEL->isEditable()}
-																		<button class="btn btn-success btn-sm editFieldDetails ml-1">
+																		<button class="btn btn-success btn-xs editFieldDetails ml-1">
 																			<span class="fas fa-edit"
 																				  title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
+																	<button class="btn btn-primary btn-xs copyFieldLabel ml-1"
+																			data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
+																		<span class="fas fa-copy"
+																			  title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
+																	</button>
 																	{if $FIELD_MODEL->isCustomField() eq 'true'}
-																		<button class="btn btn-danger btn-sm deleteCustomField ml-1"
+																		<button class="btn btn-danger btn-xs deleteCustomField ml-1"
 																				data-field-id="{$FIELD_MODEL->get('id')}">
 																			<span class="fas fa-trash-alt"
 																				  title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
-																	<button class="btn btn-info btn-sm js-context-help ml-1"
+																	<button class="btn btn-info btn-xs js-context-help ml-1"
 																			data-js="click"
 																			data-field-id="{$FIELD_MODEL->get('id')}"
 																			data-url="index.php?module=LayoutEditor&parent=Settings&view=HelpInfo&field={$FIELD_MODEL->get('id')}&source={$SELECTED_MODULE_NAME}">
@@ -207,52 +198,44 @@
 										{foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist1}
 											{if $smarty.foreach.fieldlist1.index % 2 neq 0}
 												<li>
-													<div class="opacity editFields ml-0 border1px"
-														 data-block-id="{$BLOCK_ID}"
-														 data-field-id="{$FIELD_MODEL->get('id')}"
-														 data-sequence="{$FIELD_MODEL->get('sequence')}">
-														<div class="row p-2">
+													<div class="opacity editFields ml-0 border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
+														<div class="px-2 py-1">
 															{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-															<div class="col-2 col-sm-2">&nbsp;
+															<div class="col-12 pr-0 fieldContainer" style="word-wrap: break-word;">
 																{if $FIELD_MODEL->isEditable()}
-																	<a>
-																		<img src="{\App\Layout::getImagePath('drag.png')}"
-																			 border="0"
-																			 alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+																	<a class="mr-3">
+																		<img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 																	</a>
 																{/if}
-															</div>
-															<div class="col-10 col-sm-10 ml-0 fieldContainer"
-																 style="word-wrap: break-word;">
-																<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
-																	&nbsp;[{$FIELD_MODEL->getName()}]
+																<span class="fieldLabel">
+																	{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
 																	{/if}
+																	<span class="ml-3 font-weight-normal" title="UiType: {$FIELD_MODEL->getUIType()}">[ {$FIELD_MODEL->getName()}&nbsp;&nbsp;-&nbsp;&nbsp;{$FIELD_MODEL->getFieldDataType()} ]</span>
 																</span>
 																<span class="float-right actions">
-																	<button class="btn btn-primary btn-sm copyFieldLabel float-right ml-1"
-																			data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
-																		<span class="fas fa-copy"
-																			  title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
-																	</button>
-																	<input type="hidden"
-																		   value="{$FIELD_MODEL->getName()}"
-																		   id="relatedFieldValue{$FIELD_MODEL->get('id')}"/>
+																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}"/>
 																	{if $FIELD_MODEL->isEditable()}
-																		<button class="btn btn-success btn-sm editFieldDetails ml-1">
+																		<button class="btn btn-success btn-xs editFieldDetails ml-1">
 																			<span class="fas fa-edit"
 																				  title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
+																	<button class="btn btn-primary btn-xs copyFieldLabel ml-1"
+																			data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
+																		<span class="fas fa-copy"
+																			  title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
+																	</button>
+
 																	{if $FIELD_MODEL->isCustomField() eq 'true'}
-																		<button class="btn btn-danger btn-sm deleteCustomField ml-1"
+																		<button class="btn btn-danger btn-xs deleteCustomField ml-1"
 																				data-field-id="{$FIELD_MODEL->get('id')}">
 																			<span class="fas fa-trash-alt"
 																				  title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
-																	<button class="btn btn-info btn-sm js-context-help ml-1"
+																	<button class="btn btn-info btn-xs js-context-help ml-1"
 																			data-js="click"
 																			data-field-id="{$FIELD_MODEL->get('id')}"
 																			data-url="index.php?module=LayoutEditor&parent=Settings&view=HelpInfo&field={$FIELD_MODEL->get('id')}&source={$SELECTED_MODULE_NAME}">
