@@ -320,9 +320,9 @@ html5shiv@^3.7.3:
   integrity sha1-14qEo2e8uacQEA1XgCw4ewhGMdI=
 
 inputmask@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-5.0.2.tgz#943c3c1c1edfff96de2623f3009bd22167ea4171"
-  integrity sha512-cO9Z2TzK73vknBiOHT5FIrIW7Mn7T0wXd5W0pwmUCxbVoUUF3IYkul2yg8XpoReWjBttG9VUaLggKeu8T/dTQw==
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-5.0.3.tgz#f6758de84b7a67c3c246f520c5f3e2c383b3fd68"
+  integrity sha512-v1l5IoJK6NE8TapI2g6n/y1/ksMwyVLkkaIS6VPTkdvpgEITLzDtSi7n9Jpp471hL2DdJlae9HpMnFmTpf5VXA==
 
 "jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master":
   version "0.0.0"
