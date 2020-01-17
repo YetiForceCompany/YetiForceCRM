@@ -13,7 +13,7 @@
 namespace App\TextParser;
 
 /**
- * UserLoginHistory class.
+ * User login history class.
  */
 class UserLoginHistory extends \App\TextParser\Base
 {
