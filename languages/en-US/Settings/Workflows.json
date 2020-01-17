@@ -243,6 +243,7 @@
     "LBL_WATCHDOG_INFO": "This task works correctly only with hierarchy modules.",
     "LBL_WORKFLOW_TRIGGER_SHOW_TASKS": "Show tasks",
     "LBL_WORKFLOW_TRIGGER_ENABLE_DEACTIVATION_TASKS": "Enable deactivation tasks",
+    "LBL_EMAIL_REPORT": "Email report",
     "LBL_SELECT_USERS": "Select users, groups, roles",
     "LBL_SELECT_USERS_INFO": "Select users, groups, roles to whom the report should be sent"
   },
