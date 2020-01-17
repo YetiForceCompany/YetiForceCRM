@@ -76,7 +76,7 @@
 										{if $ACCESS_PARENT}
 											<optgroup label="{\App\Language::translate($MODULE,$MODULE)}">
 												{foreach item="PARENT_ITEM" key="PARENT_MODULE" from=$ACCESS_PARENT}
-													<option value="{$PARENT_MODULE}"{if $DEFAULT_RELATION_MODULE eq $MODULE} selected="selected"{/if}>
+													<option value="{$PARENT_MODULE}"{if $DEFAULT_RELATION_MODULE eq $PARENT_MODULE} selected="selected"{/if}>
 														{\App\Language::translate($PARENT_MODULE, $PARENT_MODULE)}
 													</option>
 												{/foreach}
