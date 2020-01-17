@@ -180,13 +180,20 @@ paths:
           basicAuth: ''
           ApiKeyAuth: ''
           token: ''
-  /webservice/BaseModule/Record:
     put:
       tags:
         - BaseModule
       summary: 'List of edited records'
       operationId: 'Api\Portal\BaseModule\Record::put'
       parameters:
+        -
+          name: moduleName
+          in: path
+          description: 'Module name'
+          required: true
+          schema:
+            type: string
+          example: Contacts
         -
           name: X-ENCRYPTED
           in: header
@@ -221,6 +228,14 @@ paths:
       operationId: 'Api\Portal\BaseModule\Record::post'
       parameters:
         -
+          name: moduleName
+          in: path
+          description: 'Module name'
+          required: true
+          schema:
+            type: string
+          example: Contacts
+        -
           name: X-ENCRYPTED
           in: header
           required: true
@@ -253,6 +268,14 @@ paths:
       summary: 'List of records moved to the trash'
       operationId: 'Api\Portal\BaseModule\Record::delete'
       parameters:
+        -
+          name: moduleName
+          in: path
+          description: 'Module name'
+          required: true
+          schema:
+            type: string
+          example: Contacts
         -
           name: X-ENCRYPTED
           in: header

@@ -277,7 +277,7 @@ class Record extends \Api\Core\BaseAction
 	 * @return bool
 	 *
 	 * @OA\Delete(
-	 *		path="/webservice/BaseModule/Record",
+	 *		path="/webservice/{moduleName}/Record",
 	 *		summary="List of records moved to the trash",
 	 *		tags={"BaseModule"},
 	 *		security={
@@ -286,6 +286,16 @@ class Record extends \Api\Core\BaseAction
 	 *		@OA\RequestBody(
 	 *				required=false,
 	 *				description="The content of the request is empty.",
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="moduleName",
+	 *			description="Module name",
+	 *			@OA\Schema(
+	 *				type="string"
+	 *			),
+	 *			in="path",
+	 *			example="Contacts",
+	 *			required=true
 	 *		),
 	 *		@OA\Parameter(
 	 *				name="X-ENCRYPTED",
@@ -335,7 +345,7 @@ class Record extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\Put(
-	 *		path="/webservice/BaseModule/Record",
+	 *		path="/webservice/{moduleName}/Record",
 	 *		summary="List of edited records",
 	 *		tags={"BaseModule"},
 	 *		security={
@@ -344,6 +354,16 @@ class Record extends \Api\Core\BaseAction
 	 *		@OA\RequestBody(
 	 *				required=false,
 	 *				description="The content of the request is empty.",
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="moduleName",
+	 *			description="Module name",
+	 *			@OA\Schema(
+	 *				type="string"
+	 *			),
+	 *			in="path",
+	 *			example="Contacts",
+	 *			required=true
 	 *		),
 	 *		@OA\Parameter(
 	 *				name="X-ENCRYPTED",
@@ -393,7 +413,7 @@ class Record extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\Post(
-	 *		path="/webservice/BaseModule/Record",
+	 *		path="/webservice/{moduleName}/Record",
 	 *		summary="List of records created",
 	 *		tags={"BaseModule"},
 	 *		security={
@@ -402,6 +422,16 @@ class Record extends \Api\Core\BaseAction
 	 *		@OA\RequestBody(
 	 *				required=false,
 	 *				description="The content of the request is empty.",
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="moduleName",
+	 *			description="Module name",
+	 *			@OA\Schema(
+	 *				type="string"
+	 *			),
+	 *			in="path",
+	 *			example="Contacts",
+	 *			required=true
 	 *		),
 	 *		@OA\Parameter(
 	 *				name="X-ENCRYPTED",
