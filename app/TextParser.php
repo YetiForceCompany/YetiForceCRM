@@ -433,8 +433,12 @@ class TextParser
 	 */
 	public function date($param)
 	{
-		$timestamp = strtotime($param);
-		return $timestamp ? date('Y-m-d', $timestamp) : '';
+		if(isset(\App\Condition::DATE_OPERATORS[$param])){
+			$date = implode(' - ', array_unique(\DateTimeRange::getDateRangeByType($param)));
+		} else {
+			$date = date('Y-m-d', strtotime($param));
+		}
+		return $date;
 	}
 
 	/**
