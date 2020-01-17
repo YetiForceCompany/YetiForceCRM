@@ -3,24 +3,6 @@
 	<div id="VTEmailReportContainer tpl-Settings-Workflows-Tasks-VTEmailReport">
 		<div class="">
 			<div class="row pb-3">
-				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
-				<div class="col-md-4">
-					<select id="task_timefields" name="smtp" class="select2 form-control"
-							data-validation-engine="validate[required]"
-							data-placeholder="{\App\Language::translate('LBL_DEFAULT',$QUALIFIED_MODULE)}"
-							data-select="allowClear">
-						<optgroup class="p-0">
-							<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>
-						</optgroup>
-						{foreach from=App\Mail::getAll() item=ITEM key=ID}
-							<option value="{$ID}" {if isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp == $ID}selected{/if}>{$ITEM['name']}
-								({$ITEM['host']})
-							</option>
-						{/foreach}
-					</select>
-				</div>
-			</div>
-			<div class="row pb-3">
 				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('EmailTempleteList', $QUALIFIED_MODULE)}</span>
 				<div class="col-md-4">
 					<select class="select2 form-control" name="template" data-validation-engine="validate[required]"
