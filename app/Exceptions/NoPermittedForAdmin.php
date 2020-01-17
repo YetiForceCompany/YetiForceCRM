@@ -29,12 +29,12 @@ class NoPermittedForAdmin extends Security
 		$data = [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
-			'ip' => \App\RequestUtil::getRemoteIP(),
+			'ip' => \App\TextParser::textTruncate(\App\RequestUtil::getRemoteIP(), 100, false),
 			'module' => $request->getModule(),
-			'url' => \App\RequestUtil::getBrowserInfo()->url,
-			'agent' => \App\Request::_getServer('HTTP_USER_AGENT', '-'),
+			'url' => \App\TextParser::textTruncate(\App\RequestUtil::getBrowserInfo()->url, 300, false),
+			'agent' => \App\TextParser::textTruncate(\App\Request::_getServer('HTTP_USER_AGENT', '-'), 500, false),
 			'request' => json_encode($_REQUEST),
-			'referer' => \App\Request::_getServer('HTTP_REFERER', '-'),
+			'referer' => \App\TextParser::textTruncate(\App\Request::_getServer('HTTP_REFERER', '-'), 300, false)
 		];
 		\App\Db::getInstance()->createCommand()->insert('o_#__access_for_admin', $data)->execute();
 	}
