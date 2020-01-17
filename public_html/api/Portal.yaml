@@ -116,7 +116,7 @@ paths:
           basicAuth: ''
           ApiKeyAuth: ''
           token: ''
-  '/webservice/{moduleName}/Record':
+  '/webservice/{moduleName}/Record/{recordId}':
     get:
       tags:
         - BaseModule
@@ -131,6 +131,15 @@ paths:
           schema:
             type: string
           example: Contacts
+        -
+          name: recordId
+          in: path
+          description: 'Record id'
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 116
         -
           name: X-ENCRYPTED
           in: header
@@ -183,7 +192,7 @@ paths:
     put:
       tags:
         - BaseModule
-      summary: 'List of edited records'
+      summary: 'Edit record'
       operationId: 'Api\Portal\BaseModule\Record::put'
       parameters:
         -
@@ -195,6 +204,15 @@ paths:
             type: string
           example: Contacts
         -
+          name: recordId
+          in: path
+          description: 'Record id'
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 116
+        -
           name: X-ENCRYPTED
           in: header
           required: true
@@ -205,7 +223,7 @@ paths:
         required: false
       responses:
         '200':
-          description: 'List of edited records'
+          description: 'Gets data for the record'
           content:
             text/html:
               schema:
@@ -221,10 +239,61 @@ paths:
           basicAuth: ''
           ApiKeyAuth: ''
           token: ''
+    delete:
+      tags:
+        - BaseModule
+      summary: 'List of records moved to the trash'
+      operationId: 'Api\Portal\BaseModule\Record::delete'
+      parameters:
+        -
+          name: moduleName
+          in: path
+          description: 'Module name'
+          required: true
+          schema:
+            type: string
+          example: Contacts
+        -
+          name: recordId
+          in: path
+          description: 'Record id'
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 116
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/X-ENCRYPTED'
+      requestBody:
+        description: 'The content of the request is empty.'
+        required: false
+      responses:
+        '200':
+          description: 'List of records moved to the trash'
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Delete_Record_Response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Delete_Record_Response'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Delete_Record_Response'
+      security:
+        -
+          basicAuth: ''
+          ApiKeyAuth: ''
+          token: ''
+  '/webservice/{moduleName}/Record':
     post:
       tags:
         - BaseModule
-      summary: 'List of records created'
+      summary: 'Create record'
       operationId: 'Api\Portal\BaseModule\Record::post'
       parameters:
         -
@@ -257,47 +326,6 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/BaseModule_Post_Record_Response'
-      security:
-        -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
-    delete:
-      tags:
-        - BaseModule
-      summary: 'List of records moved to the trash'
-      operationId: 'Api\Portal\BaseModule\Record::delete'
-      parameters:
-        -
-          name: moduleName
-          in: path
-          description: 'Module name'
-          required: true
-          schema:
-            type: string
-          example: Contacts
-        -
-          name: X-ENCRYPTED
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
-      requestBody:
-        description: 'The content of the request is empty.'
-        required: false
-      responses:
-        '200':
-          description: 'List of records moved to the trash'
-          content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/BaseModule_Delete_Record_Response'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BaseModule_Delete_Record_Response'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/BaseModule_Delete_Record_Response'
       security:
         -
           basicAuth: ''
@@ -591,7 +619,7 @@ components:
             - '0'
             - '1'
         result:
-          title: 'Parameters record'
+          title: 'Gets data for the record'
           description: 'Parameters the saved record.'
           type: array
           items:
