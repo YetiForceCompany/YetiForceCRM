@@ -23,8 +23,9 @@ class VTJsonCondition
 	{
 		$expr = \App\Json::decode($condition);
 		$finalResult = true;
+		$andFinalResult = true;
+		$orFinalResult = false;
 		if (!empty($expr) && \is_array($expr)) {
-			$finalResult = false;
 			$groupResults = [];
 			$expressionResults = [];
 			$i = 0;
@@ -41,7 +42,6 @@ class VTJsonCondition
 					$referenceModule = $matches[2];
 					$fieldname = $matches[3];
 					$result = false;
-
 					$referenceFieldId = $recordModel->get($referenceField);
 					if (!empty($referenceFieldId)) {
 						$cond['fieldname'] = $fieldname;
@@ -95,10 +95,10 @@ class VTJsonCondition
 					if (!empty($logicalOperator)) {
 						switch ($logicalOperator) {
 							case 'and':
-								$finalResult = ($finalResult && $result);
+								$andFinalResult = ($andFinalResult && $result);
 								break;
 							case 'or':
-								$finalResult = ($finalResult || $result);
+								$orFinalResult = ($orFinalResult || $result);
 								break;
 							default:
 								break;
@@ -108,6 +108,7 @@ class VTJsonCondition
 					}
 				}
 			}
+			$finalResult = $andFinalResult && $orFinalResult && $finalResult;
 		}
 		return $finalResult;
 	}
