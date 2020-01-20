@@ -242,7 +242,7 @@ paths:
     delete:
       tags:
         - BaseModule
-      summary: 'List of records moved to the trash'
+      summary: 'Delete record (move to the trash)'
       operationId: 'Api\Portal\BaseModule\Record::delete'
       parameters:
         -

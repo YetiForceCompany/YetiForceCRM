@@ -289,7 +289,7 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @OA\Delete(
 	 *		path="/webservice/{moduleName}/Record/{recordId}",
-	 *		summary="List of records moved to the trash",
+	 *		summary="Delete record (move to the trash)",
 	 *		tags={"BaseModule"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
