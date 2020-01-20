@@ -84,6 +84,27 @@ class Workflow
 	public static $SCHEDULED_5_MINUTES = 10;
 
 	/**
+	 * Scheduled closest working day.
+	 *
+	 * @var int
+	 */
+	public static $SCHEDULED_WORKINGDAY_DAY = 11;
+
+	/**
+	 * Scheduled first working day in week.
+	 *
+	 * @var int
+	 */
+	public static $SCHEDULED_WORKINGDAY_WEEK = 12;
+
+	/**
+	 * Scheduled first working day in month.
+	 *
+	 * @var int
+	 */
+	public static $SCHEDULED_WORKINGDAY_MONTH = 13;
+
+	/**
 	 * Scheduled list.
 	 *
 	 * @var int[]
@@ -99,6 +120,9 @@ class Workflow
 		5 => 'LBL_MONTHLY_BY_DATE',
 		6 => 'LBL_MONTHLY_BY_WEEKDAY',
 		7 => 'LBL_YEARLY',
+		11 => 'LBL_WORKINGDAY_DAY',
+		12 => 'LBL_WORKINGDAY_WEEK',
+		13 => 'LBL_WORKINGDAY_MONTH',
 	];
 
 	/**
@@ -362,6 +386,18 @@ class Workflow
 				break;
 			case self::$SCHEDULED_ANNUALLY:
 					$nextTime = $this->getNextTriggerTimeForAnnualDates($this->getWFScheduleAnnualDates(), $this->getWFScheduleTime());
+				break;
+			case self::$SCHEDULED_WORKINGDAY_DAY:
+					$firstWorkingDay = new DateTime();
+					$nextTime = \App\Fields\Date::getWorkingDayFromDate($firstWorkingDay, '+1 day') . ' ' . $this->getWFScheduleTime();
+				break;
+			case self::$SCHEDULED_WORKINGDAY_WEEK:
+					$firstDayNextWeek = new DateTime('monday next week');
+					$nextTime = \App\Fields\Date::getWorkingDayFromDate($firstDayNextWeek, '+0 day') . ' ' . $this->getWFScheduleTime();
+				break;
+			case self::$SCHEDULED_WORKINGDAY_MONTH:
+					$firstDayNextMonth = new DateTime('first day of next month');
+					$nextTime = \App\Fields\Date::getWorkingDayFromDate($firstDayNextMonth, '+0 day') . ' ' . $this->getWFScheduleTime();
 				break;
 		}
 		date_default_timezone_set($default_timezone);
