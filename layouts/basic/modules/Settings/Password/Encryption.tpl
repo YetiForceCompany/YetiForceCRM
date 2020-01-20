@@ -85,11 +85,9 @@
 						</div>
 						{if !$ENCRYPT->isEmpty('method') && isset($MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')])}
 							<div class="js-password-alert alert alert-info show mt-2" role="alert" data-js="container|class:d-none">
-								{\App\Language::translate('LBL_PASSWORD_LENGTH_IS', $QUALIFIED_MODULE)}&nbsp;
-								<span class="js-password-length" data-js="text">
+								{\App\Language::translateArgs('LBL_PASSWORD_LENGTH_IS',$QUALIFIED_MODULE,"<span class='js-password-length' data-js='text'>
 									{$MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')]}
-								</span>
-								&nbsp;{\App\Language::translate('LBL_PASSWORD_CHARS', $QUALIFIED_MODULE)}
+								</span>")}
 							</div>
 						{/if}
 					</div>
