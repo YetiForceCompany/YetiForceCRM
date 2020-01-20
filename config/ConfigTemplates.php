@@ -940,7 +940,7 @@ return [
 				return \in_array($arg, \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE);
 			}
 		],
-		'WhitelistIp2fa' => [
+		'whitelistIp2fa' => [
 			'default' => [],
 			'description' => "IP address whitelisting.\nAllow access without 2FA."
 		],

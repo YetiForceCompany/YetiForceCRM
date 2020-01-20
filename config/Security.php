@@ -99,7 +99,7 @@ class Security
 	 * IP address whitelisting.
 	 * Allow access without 2FA.
 	 */
-	public static $WhitelistIp2fa = [];
+	public static $whitelistIp2fa = [];
 
 	/** Cache lifetime for SensioLabs security checker. */
 	public static $CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER = 3600;
