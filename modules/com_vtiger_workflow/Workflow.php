@@ -388,8 +388,9 @@ class Workflow
 					$nextTime = $this->getNextTriggerTimeForAnnualDates($this->getWFScheduleAnnualDates(), $this->getWFScheduleTime());
 				break;
 			case self::$SCHEDULED_WORKINGDAY_DAY:
-					$firstWorkingDay = new DateTime();
-					$nextTime = \App\Fields\Date::getWorkingDayFromDate($firstWorkingDay, '+1 day') . ' ' . $this->getWFScheduleTime();
+					$nextTime = $this->getNextTriggerTimeForDaily($this->getWFScheduleTime());
+					$firstWorkingDay = new DateTime($nextTime);
+					$nextTime = \App\Fields\Date::getWorkingDayFromDate($firstWorkingDay, '+0 day') . ' ' . $this->getWFScheduleTime();
 				break;
 			case self::$SCHEDULED_WORKINGDAY_WEEK:
 					$firstDayNextWeek = new DateTime('monday next week');

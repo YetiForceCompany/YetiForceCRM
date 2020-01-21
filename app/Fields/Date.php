@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Fields;
@@ -272,17 +273,27 @@ class Date
 	/**
 	 * Get closest working day from given data.
 	 *
-	 * @param string $date
-	 * @param string $direction
+	 * @param \DateTime $date
+	 * @param string    $modify
+	 * @param int       $id
 	 *
 	 * @return string
 	 */
-	public static function getWorkingDayFromDate(\DateTime &$date, string $modify): string
+	public static function getWorkingDayFromDate(\DateTime $date, string $modify, int $id = \App\Utils\BusinessHours::DEFAULT_BUSINESS_HOURS_ID): string
 	{
 		$value = $date->modify($modify)->format('Y-m-d');
-		$holidays = \App\Fields\Date::getHolidays();
-		if (isset($holidays[$value])) {
-			$value = self::getWorkingDayFromDate($date, $modify[0].'1 day');
+		$businessHours = \App\Utils\BusinessHours::getBusinessHoursById($id);
+		$workingDays = explode(',', $businessHours['working_days'] ?? '1,2,3,4,5');
+		$holidays = [];
+		if ($businessHours['holidays'] ?? 1) {
+			$holidays = self::getHolidays();
+		}
+		$iterator = 31;
+		while (isset($holidays[$value]) || !\in_array($date->format('N'), $workingDays)) {
+			$value = $date->modify($modify[0] . '1 day')->format('Y-m-d');
+			if (0 === --$iterator) {
+				throw new \App\Exceptions\AppException('Exceeded the recursive limit, a loop might have been created.');
+			}
 		}
 		return $value;
 	}
