@@ -95,7 +95,7 @@
 					{if !empty($ANY_CONDITION_CRITERIA['condition'])}
 						{assign var=GROUP_CONDITION value=$ANY_CONDITION_CRITERIA['condition']}
 					{else}
-						{assign var=GROUP_CONDITION value="or"}
+						{assign var=GROUP_CONDITION value="and"}
 					{/if}
 					<input type="hidden" name="condition" value="{$GROUP_CONDITION}"/>
 				</div>
