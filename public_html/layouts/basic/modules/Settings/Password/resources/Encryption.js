@@ -31,10 +31,14 @@ jQuery.Class('Settings_Password_Encryption_Js', {}, {
 			var length = mapLengthVector[methodElement.val()];
 			var validator = '';
 			var passwordElement = container.find('[name="password"]');
+			var passwordInfoAlert = container.find('.js-password-alert');
 			if (typeof length === "undefined" || length === 0) {
+				passwordInfoAlert.addClass('d-none');
 				passwordElement.val('');
 				passwordElement.attr('disabled', 'disabled');
 			} else {
+				passwordInfoAlert.removeClass('d-none');
+				passwordInfoAlert.find('.js-password-length').text(length);
 				passwordElement.removeAttr('disabled');
 				validator = 'validate[required,maxSize[' + length + '],minSize[' + length + ']]';
 			}
