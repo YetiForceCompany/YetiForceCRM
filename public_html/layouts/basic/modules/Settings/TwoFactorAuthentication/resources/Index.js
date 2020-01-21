@@ -32,15 +32,15 @@ jQuery.Class('Settings_TwoFactorAuthentication_Index_Js', {}, {
 	sendForm: function(){
 		this.container.validationEngine(app.validationEngineOptions);
 		if (this.container.validationEngine('validate')) {
-			let progressIndicatorElement = jQuery.progressIndicator({
+			let progressIndicatorElement = $.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
-			});
-			let params = this.container.serializeFormData();
-			let ipAddresses = [];
-			let ipAddressContainer = this.container.find('.js-ip-container_element').not('.js-base-element');
+			}),
+				params = this.container.serializeFormData(),
+				ipAddresses = [],
+				ipAddressContainer = this.container.find('.js-ip-container_element').not('.js-base-element');
 			ipAddressContainer.find('.js-ip-address').each(function() {
 				ipAddresses.push($(this).val());
 			});
