@@ -34,6 +34,7 @@
 				<div class="action-bar__head js-data">
 					{if !empty($MODULES_LEVEL_0) || !empty($MODULES_LEVEL_3) || !empty($MODULES_LEVEL_1) || !empty($MODULES_LEVEL_2) || !empty($MODULES_LEVEL_4)}
 						<div data-type="link" class="action-bar__head__container js-head-container" data-js="container">
+							<input type="hidden" id="autoCompleteFields" class="js-mailAutoCompleteFields" value="{\App\Purifier::encodeHtml(\App\Json::encode(\App\Config::component('Mail','autoCompleteFields', [])))}"/>
 							{assign var="DEFAULT_RELATION_MODULE" value=\App\Config::component('Mail','defaultRelationModule')}
 							{assign var="ACCESS_LEVEL_0" value=\App\ModuleHierarchy::accessModulesByLevel()}
 							{assign var="ACCESS_LEVEL_1" value=\App\ModuleHierarchy::accessModulesByLevel(1)}
