@@ -14,8 +14,6 @@
     "LBL_HELLO": "Hi",
     "LBL_REPORT_DAY_CONTENT": "Below is a daily summary of activities in YetiForce ",
     "LBL_REPORT_WEEK_CONTENT": "Below is a weekly summary of activities in YetiForce ",
-    "LBL_REPORT_MONTH_CONTENT": "Below is a monthly summary of activities in YetiForce ",
-    "LBL_IP": "IP address",
-    "LBL_AGENT": "Browser agent"
+    "LBL_REPORT_MONTH_CONTENT": "Below is a monthly summary of activities in YetiForce "
   }
 }

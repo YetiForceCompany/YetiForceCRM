@@ -1396,7 +1396,9 @@
     "LBL_EDIT_COLOR": "Edit color",
     "LBL_SELECT_COLOR": "Select color:",
     "LBL_PREVIOUS_COLOR": "Previous color:",
-    "LBL_SHOW_ORIGINAL_CONTENT": "Show original content"
+    "LBL_SHOW_ORIGINAL_CONTENT": "Show original content",
+    "LBL_IP_ADDRESS": "IP Address",
+    "LBL_BROWSER": "Browser"
   },
   "js": {
     "JS_APPROVE": "Approve",
