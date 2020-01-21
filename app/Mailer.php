@@ -316,6 +316,9 @@ class Mailer
 	 */
 	public function content($message)
 	{
+		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
+			$message .= "<table style=\"font-family:'DejaVu Sans';font-size:9px;width:100%; margin: 0;\"><tbody><tr><td style=\"width:50%;text-align: center;\">Powered by YetiForce</td></tr></tbody></table>";
+		}
 		$this->mailer->isHTML(true);
 		$this->mailer->msgHTML($message);
 		return $this;
