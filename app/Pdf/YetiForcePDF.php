@@ -130,14 +130,8 @@ class YetiForcePDF extends PDF
 	{
 		$this->setInputCharset(\App\Config::main('default_charset') ?? 'UTF-8');
 		$this->pdf = (new Document())->init();
-		if (!\App\Config::component('Branding', 'is_customer_branding_active')) {
-			$this->footer = $this->footerYetiForce = "<table style=\"font-family:'DejaVu Sans';font-size:6px;width:100%; margin: 0;\">
-				<tbody>
-					<tr>
-						<td style=\"width:50%;\">Powered by YetiForce</td>
-					</tr>
-				</tbody>
-			</table>";
+		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
+			$this->footer = $this->footerYetiForce = "<table style=\"font-family:'DejaVu Sans';font-size:6px;width:100%; margin: 0;\"><tbody><tr><td style=\"width:50%\">Powered by YetiForce</td></tr></tbody></table>";
 		}
 	}
 
