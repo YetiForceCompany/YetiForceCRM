@@ -44,7 +44,7 @@
 												<span class="fas fa-times-circle"></span>
 											</button>
 										</div>
-										<input type="text" name="ip" value="{$IP_ADDRESS}" class="form-control js-ip-address validate[custom[ipv4]]">
+										<input type="text" name="ip" value="{$IP_ADDRESS}" class="form-control js-ip-address validate[required,funcCall[Settings_TwoFactorAuthentication_Index_Js.checkIP]]">
 									</div>
 								{/foreach}
 								<div class="input-group js-ip-container_element flex-nowrap mb-2{if $BASIC} js-base-element d-none{/if}" data-js="container">
@@ -54,7 +54,7 @@
 											<span class="fas fa-times-circle"></span>
 										</button>
 									</div>
-									<input type="text" name="ip" class="form-control js-ip-address validate[custom[ipv4]]">
+									<input type="text" name="ip" class="form-control js-ip-address validate[required,funcCall[Settings_TwoFactorAuthentication_Index_Js.checkIP]]">
 								</div>
 							</div>
 							<button type="button" class="btn btn-default js-add float-right mt-2" data-js="click"
