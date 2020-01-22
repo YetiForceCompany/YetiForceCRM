@@ -40,25 +40,25 @@
 									<div class="input-group js-ip-container_element flex-nowrap mb-2" data-js="container">
 										<div class="input-group-prepend">
 											<button type="button" class="btn btn-danger js-clear" data-js="click"
-													title="{\App\Language::translate('LBL_REMOVE', $MODULE_NAME)}">
+													title="{\App\Language::translate('LBL_REMOVE', $QUALIFIED_MODULE)}">
 												<span class="fas fa-times-circle"></span>
 											</button>
 										</div>
-										<input type="text" name="ip[]" value="{$IP_ADDRESS}" class="form-control js-ip-address validate[custom[ipv4]]">
+										<input type="text" name="ip" value="{$IP_ADDRESS}" class="form-control js-ip-address validate[custom[ipv4]]">
 									</div>
 								{/foreach}
 								<div class="input-group js-ip-container_element flex-nowrap mb-2{if $BASIC} js-base-element d-none{/if}" data-js="container">
 									<div class="input-group-prepend">
 										<button type="button" class="btn btn-danger js-clear" data-js="click"
-												title="{\App\Language::translate('LBL_REMOVE', $MODULE_NAME)}">
+												title="{\App\Language::translate('LBL_REMOVE', $QUALIFIED_MODULE)}">
 											<span class="fas fa-times-circle"></span>
 										</button>
 									</div>
-									<input type="text" name="ip[]" class="form-control js-ip-address validate[custom[ipv4]]">
+									<input type="text" name="ip" class="form-control js-ip-address validate[custom[ipv4]]">
 								</div>
 							</div>
 							<button type="button" class="btn btn-default js-add float-right mt-2" data-js="click"
-									title="{\App\Language::translate('LBL_ADD', $MODULE_NAME)}">
+									title="{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)}">
 								<span class="fas fa-plus"></span>
 							</button>
 						</div>

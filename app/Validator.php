@@ -364,4 +364,23 @@ class Validator
 	{
 		return preg_match('/^[0-9]{1,18}\:(d|H|i){1}$/', $input);
 	}
+
+	/**
+	 * Check if input is an ip value.
+	 *
+	 * @param string[] $input
+	 *
+	 * @return bool
+	 */
+	public static function ip($input): bool
+	{
+		$input = \is_array($input) ? $input : [$input];
+		$result = true;
+		foreach ($input as $ipAddress) {
+			if(!filter_var($ipAddress, FILTER_VALIDATE_IP)){
+				$result = false;
+			}
+		}
+		return $result;
+	}
 }

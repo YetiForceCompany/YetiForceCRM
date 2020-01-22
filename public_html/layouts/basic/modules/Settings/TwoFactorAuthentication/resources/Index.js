@@ -37,14 +37,14 @@ jQuery.Class('Settings_TwoFactorAuthentication_Index_Js', {}, {
 				blockInfo: {
 					enabled: true
 				}
-			}),
-				params = this.container.serializeFormData(),
-				ipAddresses = [],
-				ipAddressContainer = this.container.find('.js-ip-container_element').not('.js-base-element');
-			ipAddressContainer.find('.js-ip-address').each(function() {
-				ipAddresses.push($(this).val());
 			});
-			params['ip[]'] = ipAddresses;
+			let params = this.container.serializeFormData();
+			let ipAddresses = [];
+			let ipAddressContainer = this.container.find('.js-ip-container_element').not('.js-base-element');
+			ipAddressContainer.find('.js-ip-address').each(function() {
+			 	ipAddresses.push($(this).val());
+			 });
+			params['ip'] = ipAddresses;
 			AppConnector.request(params).done((response) => {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
 				Vtiger_Helper_Js.showPnotify({

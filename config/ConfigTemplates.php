@@ -943,16 +943,7 @@ return [
 		'whitelistIp2fa' => [
 			'default' => [],
 			'description' => "IP address whitelisting.\nAllow access without 2FA.",
-			'validation' => function () {
-				$ipAddresses = func_get_arg(0);
-				foreach ($ipAddresses as $ipAddress) {
-					if(!filter_var($ipAddress, FILTER_VALIDATE_IP)){
-						return false;
-					}
-				}
-				return true;
-			}
-
+			'validation' => '\App\Validator::ip'
 		],
 		'CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER' => [
 			'default' => 3600,
