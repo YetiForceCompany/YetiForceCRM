@@ -127,12 +127,21 @@ class Controller
 		if (\App\Config::debug('WEBSERVICE_DEBUG')) {
 			$log = '============ Request ======  ' . date('Y-m-d H:i:s') . "  ======\n";
 			$log .= 'REQUEST_METHOD: ' . $this->request->getRequestMethod() . PHP_EOL;
-			$log .= "Headers: \n";
+			$log .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
+			$log .= 'QUERY_STRING: ' . $_SERVER['QUERY_STRING'] . PHP_EOL;
+			$log .= 'PATH_INFO: ' . $_SERVER['PATH_INFO'] . PHP_EOL;
+			$log .= '----------- Headers -----------' . PHP_EOL;
 			foreach ($this->request->getHeaders() as $key => $header) {
 				$log .= "$key : $header\n";
 			}
-			$log .= "----------- Request data -----------\n";
+			$log .= '----------- Request data -----------' . PHP_EOL;
 			$log .= print_r($this->request->getAllRaw(), true) . PHP_EOL;
+			$log .= "----------- _GET -----------\n";
+			$log .= print_r($_GET, true) . PHP_EOL;
+			$log .= "----------- _POST -----------\n";
+			$log .= print_r($_POST, true) . PHP_EOL;
+			$log .= "----------- Request payload -----------\n";
+			$log .= print_r(file_get_contents('php://input'), true) . PHP_EOL;
 			file_put_contents('cache/logs/webserviceDebug.log', $log, FILE_APPEND);
 		}
 	}

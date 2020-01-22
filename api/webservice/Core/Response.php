@@ -136,11 +136,18 @@ class Response
 	public function debugResponse()
 	{
 		if (\App\Config::debug('WEBSERVICE_DEBUG')) {
+			$request = Request::init();
 			$log = '-------------  Response  -----  ' . date('Y-m-d H:i:s') . "  ------\n";
 			$log .= "Status: {$this->status}\n";
-			$log .= 'Headers: ' . PHP_EOL;
-			foreach ($this->headers as $key => $header) {
-				$log .= "$key : $header\n";
+			$log .= 'REQUEST_METHOD: ' . $request->getRequestMethod() . PHP_EOL;
+			$log .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
+			$log .= 'QUERY_STRING: ' . $_SERVER['QUERY_STRING'] . PHP_EOL;
+			$log .= 'PATH_INFO: ' . $_SERVER['PATH_INFO'] . PHP_EOL;
+			if ($this->headers) {
+				$log .= "----------- Response Headers -----------\n";
+				foreach ($this->headers as $key => $header) {
+					$log .= "$key : $header\n";
+				}
 			}
 			$log .= "----------- Response data -----------\n";
 			$log .= print_r($this->body, true) . PHP_EOL;
