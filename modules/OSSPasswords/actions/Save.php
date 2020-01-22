@@ -8,7 +8,7 @@
  */
 class OSSPasswords_Save_Action extends Vtiger_Save_Action
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
 		if ($request->getBoolean('relationOperation')) {
@@ -31,7 +31,7 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 	 *
 	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
-	public function saveRecord(\App\Request $request)
+	public function saveRecord(App\Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		// check if encryption is enabled
@@ -44,7 +44,7 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 		$properPassword = $recordModel->get('password');
 		// edit mode
 		if (!$recordModel->isNew()) {
-			if ($properPassword == '**********') { // hidden password sent in edit mode, get the correct one
+			if ('**********' == $properPassword) { // hidden password sent in edit mode, get the correct one
 				if ($config) { // when encryption is on
 					$properPassword = (new \App\Db\Query())->select(['pass' => new \yii\db\Expression('AES_DECRYPT(`password`, :configKey)', [':configKey' => $config['key']])])->from('vtiger_osspasswords')->where(['osspasswordsid' => $recordModel->getId()])->scalar();
 				} else {  // encryption mode is off
@@ -73,14 +73,10 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 			}
 		}
 		if ($request->getBoolean('relationOperation')) {
-			$parentModuleName = $request->getByType('sourceModule', 2);
-			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
-			$parentRecordId = $request->getInteger('sourceRecord');
-			$relatedModule = $recordModel->getModule();
-			$relatedRecordId = $recordModel->getId();
-
-			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
-			$relationModel->addRelation($parentRecordId, $relatedRecordId);
+			$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
+			if ($relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($request->getByType('sourceModule', 2)), $recordModel->getModule(), $relationId)) {
+				$relationModel->addRelation($request->getInteger('sourceRecord'), $recordModel->getId());
+			}
 		}
 		return $recordModel;
 	}

@@ -77,6 +77,8 @@ abstract class Base extends \App\Controller\Base
 			$this->viewer->assign('APPTITLE', \App\Language::translate('APPTITLE'));
 			$this->viewer->assign('YETIFORCE_VERSION', \App\Version::get());
 			$this->viewer->assign('MODULE_NAME', $request->getModule());
+			$this->viewer->assign('NONCE', \App\Session::get('CSP_TOKEN'));
+			$this->viewer->assign('IS_IE', \App\RequestUtil::getBrowserInfo()->ie);
 			if ($request->isAjax()) {
 				$this->viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
 				if (!$request->isEmpty('parent', true) && 'Settings' === $request->getByType('parent', 2)) {
@@ -152,7 +154,6 @@ abstract class Base extends \App\Controller\Base
 		$view->assign('MODULE', $moduleName);
 		$view->assign('VIEW', $request->getByType('view', 1));
 		$view->assign('PARENT_MODULE', $request->getByType('parent', 2));
-		$view->assign('NONCE', \App\Session::get('CSP_TOKEN'));
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -226,7 +227,8 @@ abstract class Base extends \App\Controller\Base
 			'~libraries/tributejs/dist/tribute.css',
 			'~libraries/emojipanel/dist/emojipanel.css',
 			'~libraries/emoji-mart-vue-fast/css/emoji-mart.css',
-			'~libraries/@mdi/font/css/materialdesignicons.min.css',
+			'~libraries/@mdi/font/css/materialdesignicons.css',
+			'~libraries/overlayscrollbars/css/OverlayScrollbars.css',
 			'~src/css/quasar.css',
 			'~layouts/resources/colors/calendar.css',
 			'~layouts/resources/colors/owners.css',
@@ -246,9 +248,21 @@ abstract class Base extends \App\Controller\Base
 	 */
 	public function getHeaderScripts(\App\Request $request)
 	{
-		return $this->checkAndConvertJsScripts([
+		$jsFileNames = [
 			'libraries.jquery.dist.jquery',
-		]);
+		];
+		if (\App\RequestUtil::getBrowserInfo()->ie) {
+			$polyfills = [
+				'~libraries/html5shiv/html5shiv.js',
+				'~libraries/respond.js/dist/respond.min.js',
+				'~libraries/quasar/dist/quasar.ie.polyfills.umd.min.js',
+				'~libraries/whatwg-fetch/dist/fetch.umd.js',
+				'~libraries/url-polyfill/url-polyfill.js',
+				'~libraries/gridstack/dist/gridstack-poly.min.js'
+			];
+			$jsFileNames = array_merge($polyfills, $jsFileNames);
+		}
+		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
 	/**
@@ -283,7 +297,6 @@ abstract class Base extends \App\Controller\Base
 			'~libraries/jQuery-Validation-Engine/js/jquery.validationEngine.js',
 			'~libraries/moment/min/moment.min.js',
 			'~libraries/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
-			'~libraries/bootstrap-datepicker/dist/locales/' . \App\Language::getLanguage() . '.min.js',
 			'~libraries/bootstrap-daterangepicker/daterangepicker.js',
 			'~libraries/jquery-outside-events/jquery.ba-outside-events.js',
 			'~libraries/footable/dist/footable.js',
@@ -299,9 +312,10 @@ abstract class Base extends \App\Controller\Base
 			'~libraries/floatthead/dist/jquery.floatThead.js',
 			'~libraries/store/dist/store.legacy.min.js',
 			'~libraries/clockpicker/dist/bootstrap4-clockpicker.js',
-			'~libraries/inputmask/dist/jquery.inputmask.bundle.js',
+			'~libraries/inputmask/dist/jquery.inputmask.js',
 			'~libraries/mousetrap/mousetrap.js',
-			'~libraries/html2canvas/dist/html2canvas.min.js',
+			'~libraries/html2canvas/dist/html2canvas.js',
+			'~libraries/overlayscrollbars/js/jquery.overlayScrollbars.js',
 			'~layouts/resources/app.js',
 			'~layouts/resources/fields/MultiImage.js',
 			'~layouts/resources/Fields.js',
@@ -559,7 +573,8 @@ abstract class Base extends \App\Controller\Base
 			'fieldsReferencesDependent' => \App\Config::security('FIELDS_REFERENCES_DEPENDENT'),
 			'soundFilesPath' => \App\Layout::getPublicUrl('layouts/resources/sounds/'),
 			'debug' => (bool) \App\Config::debug('JS_DEBUG'),
-			'modalParams' => ['target' => 'base']
+			'modalTarget' => 'base',
+			'openUrlTarget' => 'base'
 		];
 		if (\App\Session::has('authenticated_user_id')) {
 			$userModel = \App\User::getCurrentUserModel();

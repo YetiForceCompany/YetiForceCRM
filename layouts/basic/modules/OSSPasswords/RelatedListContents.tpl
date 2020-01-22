@@ -7,24 +7,39 @@
 			<thead>
 			<tr class="listViewHeaders">
 				{assign var=COUNT value=0}
-				<th class="noWrap"></th>
+				<th class="noWrap">
+					<div class="d-flex align-items-center">
+						{if $RELATED_MODULE->isAdvSortEnabled()}
+							<button type="button"
+								class="ml-2 btn btn-info btn-xs js-show-modal"
+								data-url="index.php?view=SortOrderModal&fromView={$VIEW}&module={$RELATED_MODULE_NAME}"
+								data-modalid="sortOrderModal-{\App\Layout::getUniqueId()}">
+								<span class="fas fa-sort"></span>
+							</button>
+						{/if}
+						<div class="js-list-reload" data-js="click">
+					</div>
+				</th>
 				{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 					{if !empty($COLUMNS) && $COUNT == $COLUMNS }
 						{break}
 					{/if}
 					{assign var=COUNT value=$COUNT+1}
-					<th {if $HEADER_FIELD@last} colspan="2" {/if} nowrap>
+					{assign var=HEADER_FIELD_NAME value=$HEADER_FIELD->getFullName()}
+					<th {if $HEADER_FIELD@last} colspan="2" {/if} nowrap class="{if isset($ORDER_BY[$HEADER_FIELD_NAME])} columnSorted{/if}">
 						{if $HEADER_FIELD->getColumnName() eq 'access_count' or $HEADER_FIELD->getColumnName() eq 'idlists' }
 							<a href="javascript:void(0);"
 							   class="noSorting">{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}</a>
-						{elseif $HEADER_FIELD->getColumnName() eq 'time_start'}
-						{else}
-							<a href="javascript:void(0);" class="relatedListHeaderValues"
-							   {if $HEADER_FIELD->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->getColumnName()}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if}
-							   data-fieldname="{$HEADER_FIELD->getColumnName()}">{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
-								&nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->getColumnName()}<span
-								class="{$SORT_IMAGE}"></span>{/if}
-							</a>
+						{elseif $HEADER_FIELD->getColumnName() neq 'time_start'}
+							<span class="listViewHeaderValues float-left  {if $HEADER_FIELD->isListviewSortable()} js-change-order u-cursor-pointer{/if}"
+								data-nextsortorderval="{if isset($ORDER_BY[$HEADER_FIELD_NAME]) && $ORDER_BY[$HEADER_FIELD_NAME] eq \App\Db::ASC}{\App\Db::DESC}{else}{\App\Db::ASC}{/if}"
+								data-columnname="{$HEADER_FIELD_NAME}"
+								data-js="click">
+								{$HEADER_FIELD->getFullLabelTranslation($RELATED_MODULE)}
+								{if isset($ORDER_BY[$HEADER_FIELD_NAME])}
+									&nbsp;&nbsp;<span class="fas {if $ORDER_BY[$HEADER_FIELD_NAME] eq \App\Db::DESC}fa-chevron-down{else}fa-chevron-up{/if}"></span>
+								{/if}
+							</span>
 						{/if}
 					</th>
 				{/foreach}
@@ -74,10 +89,11 @@
 						{/if}>
 					{assign var=COUNT value=0}
 					{* create id for possword *}
+					{assign var="PASS_ID" value=''}
 					{if array_key_exists('password',$RELATED_HEADERS)}
 						{assign var=PASS_ID value=$RELATED_RECORD->get('id')}
 					{/if}
-					<td class="{$WIDTHTYPE} noWrap leftRecordActions"
+					<td class="noWrap leftRecordActions listButtons {$WIDTHTYPE}"
 						{if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
 						{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
 					</td>
@@ -88,7 +104,7 @@
 						{assign var=COUNT value=$COUNT+1}
 						{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 					<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}"
-						nowrap {if $RELATED_HEADERNAME eq 'password'} id="{$PASS_ID}"{/if} {if $smarty.foreach.listHeaderForeach.iteration eq $RELATED_HEADER_COUNT}colspan="2"{/if}>
+						nowrap {if $RELATED_HEADERNAME eq 'password'} id="pass_{$PASS_ID}"{/if} {if $smarty.foreach.listHeaderForeach.iteration eq $RELATED_HEADER_COUNT}colspan="2"{/if}>
 						{if $RELATED_HEADERNAME eq 'password'}
 							{str_repeat('*', 10)}
 						{elseif ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}

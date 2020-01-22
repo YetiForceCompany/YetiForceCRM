@@ -2,6 +2,13 @@
 {strip}
 <!-- tpl-Base-Detail-Widget-GeneralInfo -->
 {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+{if $WIDTHTYPE eq 'narrow'}
+	{assign var=WIDTHTYPE_GROUP value="input-group-sm"}
+{elseif $WIDTHTYPE eq 'wide'}
+	{assign var=WIDTHTYPE_GROUP value="input-group-lg"}
+{else}
+	{assign var=WIDTHTYPE_GROUP value=''}
+{/if}
 {assign var=TRANSLATED_LABEL value=\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}
 <div class="c-detail-widget c-detail-widget--general-info js-widget-general-info" data-js="edit/save">
 	<div class="c-detail-widget__header js-detail-widget-header collapsed border-bottom-0">
@@ -57,7 +64,7 @@
 										<div class="value px-0 w-100" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'
 											or $FIELD_MODEL->getUIType() eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName())
-											FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
+											FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD SOURCE_TPL='GeneralInfoWidget'}
 										</div>
 										{if !$IS_READ_ONLY && $FIELD_MODEL->isEditable() eq 'true' &&
 										($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $IS_AJAX_ENABLED &&

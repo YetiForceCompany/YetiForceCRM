@@ -208,7 +208,6 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			->where(['role' => $roleId, 'parentid' => $parent, 'source' => $source])
 			->orderBy(' yetiforce_menu.sequence', 'yetiforce_menu.parentid');
 		$dataReader = $query->createCommand()->query();
-
 		while ($row = $dataReader->read()) {
 			$menu[] = [
 				'id' => $row['id'],
@@ -229,7 +228,6 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			];
 		}
 		$dataReader->close();
-
 		return $menu;
 	}
 
@@ -347,8 +345,9 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function adds records to task queue that updates reviewing changes in records.
 	 *
-	 * @param int $fromRole - Copy from role
-	 * @param int $toRole   - Copy to role
+	 * @param int   $fromRole - Copy from role
+	 * @param int   $toRole   - Copy to role
+	 * @param mixed $roleId
 	 */
 	public function copyMenu($fromRole, $toRole, $roleId)
 	{

@@ -117,11 +117,8 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		//if it is relation edit
 		$viewer->assign('IS_RELATION_OPERATION', $isRelationOperation);
 		if ($isRelationOperation) {
-			$sourceModule = $request->getByType('sourceModule', 2);
-			$sourceRecord = $request->getInteger('sourceRecord');
-
-			$viewer->assign('SOURCE_MODULE', $sourceModule);
-			$viewer->assign('SOURCE_RECORD', $sourceRecord);
+			$viewer->assign('SOURCE_MODULE', $request->getByType('sourceModule', 2));
+			$viewer->assign('SOURCE_RECORD', $request->getInteger('sourceRecord'));
 			$sourceRelatedField = $moduleModel->getValuesFromSource($request);
 			foreach ($recordStructure as &$block) {
 				foreach ($sourceRelatedField as $field => $value) {
@@ -162,6 +159,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 
 	public function getDuplicate()
 	{
+		$fromRecord = $this->record->getId();
 		$this->record->set('id', '');
 		//While Duplicating record, If the related record is deleted then we are removing related record info in record model
 		$mandatoryFieldModels = $this->record->getModule()->getMandatoryFieldModels();
@@ -173,6 +171,14 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 				}
 			}
 		}
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setRecordModel($this->record);
+		$eventHandler->setModuleName($this->record->getModuleName());
+		$eventHandler->setParams([
+			'fromRecord' => $fromRecord,
+			'viewInstance' => $this,
+		]);
+		$eventHandler->trigger('EditViewDuplicate');
 	}
 
 	/**

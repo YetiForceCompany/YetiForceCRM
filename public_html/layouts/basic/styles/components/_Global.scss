@@ -72,7 +72,7 @@ body:not(.desktop) {
 		@extend .justify-content-sm-start;
 		@extend .justify-content-lg-end;
 		@extend .col-sm-12;
-
+		align-items: center;
 		label {
 			line-height: 1.7;
 			margin-bottom: 0;
@@ -134,6 +134,18 @@ body:not(.desktop) {
 	top: -5px;
 	right: 0;
 	z-index: 100;
+}
+
+.c-circle {
+	$circle-size: calculate-rem(30px);
+	$circle-size-sm: calculate-rem(23px);
+	@extend .rounded-circle;
+	width: $circle-size;
+	height: $circle-size;
+	&--small {
+		width: $circle-size-sm;
+		height: $circle-size-sm;
+	}
 }
 
 .childrenMarginRight > * {
@@ -265,7 +277,7 @@ body:not(.desktop) {
 			padding: 0.2rem;
 			margin-top: -0.2rem;
 			min-width: unset;
-
+			line-height: 1;
 			.btn-group {
 				vertical-align: top;
 			}

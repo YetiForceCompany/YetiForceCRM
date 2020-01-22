@@ -5,24 +5,24 @@
 	{assign var=MODULE_MODEL value=Vtiger_Module_Model::getInstance($RECORD['module'])}
 		{assign var=DETAIL_VIEW_PERMITTED value=\App\Privilege::isPermitted($RECORD['module'], 'DetailView', $RECORD['id'])}
 	  <div class="d-flex w-100 align-items-center">
-			<a class="modCT_{$RECORD['module']} js-record-link js-popover-tooltip--record small u-text-unset text-truncate" {if $DETAIL_VIEW_PERMITTED}href="{$URL}index.php?module={$RECORD['module']}&view=Detail&record={$RECORD['id']}"{/if} target="_blank">
+			<a class="modCT_{$RECORD['module']} js-record-link js-popover-tooltip--record small u-text-inherit text-truncate" {if $DETAIL_VIEW_PERMITTED}href="{$URL}index.php?module={$RECORD['module']}&view=Detail&record={$RECORD['id']}"{/if} target="_blank">
 				<span class="relatedModuleIcon yfm-{$RECORD['module']} mr-1" aria-hidden="true"></span>
 				<span class="relatedName">{$RECORD['label']}</span>
 			</a>
 			{if $DETAIL_VIEW_PERMITTED}
 				<div class="ml-auto btn-group btn-group-sm" role="group" aria-label="record actions">
 					{if \App\Privilege::isPermitted('Calendar','CreateView')}
-						<button class="js-add-related-record btn u-text-unset js-popover-tooltip" data-module="Calendar" data-js="popover" data-content="{\App\Language::translate('LBL_ADD_CALENDAR',$MODULE_NAME)}">
+						<button class="js-add-related-record btn u-text-inherit js-popover-tooltip" data-module="Calendar" data-js="popover" data-content="{\App\Language::translate('LBL_ADD_CALENDAR',$MODULE_NAME)}">
 							<span class="yfm-Calendar" aria-hidden="true"></span>
 						</button>
 					{/if}
 					{if \App\Privilege::isPermitted('ModComments','CreateView') && $MODULE_MODEL->isCommentEnabled()}
-						<button class="js-add-related-record btn u-text-unset js-popover-tooltip" data-module="ModComments" data-js="popover" data-content="{\App\Language::translate('LBL_ADD_MODCOMMENTS',$MODULE_NAME)}">
+						<button class="js-add-related-record btn u-text-inherit js-popover-tooltip" data-module="ModComments" data-js="popover" data-content="{\App\Language::translate('LBL_ADD_MODCOMMENTS',$MODULE_NAME)}">
 							<span class="yfm-ModComments"></span>
 						</button>
 					{/if}
 					{if $REMOVE_RECORD && \App\Privilege::isPermitted($RECORD['module'], 'RemoveRelation')}
-						<button class="js-remove-record btn u-text-unset js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_REMOVE_RELATION',$MODULE_NAME)}">
+						<button class="js-remove-record btn u-text-inherit js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_REMOVE_RELATION',$MODULE_NAME)}">
 							<span class="fas fa-times"></span>
 						</button>
 					{/if}

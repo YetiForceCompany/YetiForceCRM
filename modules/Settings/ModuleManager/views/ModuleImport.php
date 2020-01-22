@@ -28,6 +28,16 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getViewer(App\Request $request)
+	{
+		$viewer = parent::getViewer($request);
+		$viewer->assign('MODULE_NAME', $request->getModule(false));
+		return $viewer;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(App\Request $request)
 	{
 		$systemMode = \App\Config::main('systemMode');
@@ -41,6 +51,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		}
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
+
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('importUserModuleStep1.tpl', $qualifiedModuleName);
 	}
@@ -154,6 +165,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 
 		$viewer->assign('IMPORT_MODULE_TYPE', $importModuleType);
 		$viewer->assign('IMPORT_MODULE_NAME', $importModuleName);
+		$viewer->assign('MODULEIMPORT_LABEL', (string) ($package->_modulexml->label ?? $package->_modulexml->name));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('ImportUserModuleStep3.tpl', $qualifiedModuleName);
 	}

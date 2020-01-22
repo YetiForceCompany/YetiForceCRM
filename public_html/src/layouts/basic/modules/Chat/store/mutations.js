@@ -1,5 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import unionby from 'lodash.unionby'
+
 import { mergeDeepReactive } from '../utils/utils.js'
 
 export default {
@@ -47,23 +48,20 @@ export default {
 	addRoomSoundNotificationsOff(state, { roomType, id }) {
 		state.local.roomSoundNotificationsOff[roomType].push(id)
 	},
+	removeRoomExpanded(state, roomType) {
+		state.local.roomsExpanded = state.local.roomsExpanded.filter(room => room !== roomType)
+	},
+	addRoomExpanded(state, roomType) {
+		state.local.roomsExpanded.push(roomType)
+	},
 	setDesktopNotification(state, val) {
 		state.local.isDesktopNotification = val
 	},
 	setData(state, data) {
 		state.data = data
 	},
-	setRoomData(state, data) {
-		state.data.amountOfNewMessages = data.amountOfNewMessages
-		state.data.currentRoom = data.currentRoom
-		state.data.roomList = data.roomList
-	},
-	setPrivateRooms(state, data) {
-		if (state.data.currentRoom.roomType === 'private' && data[state.data.currentRoom.recordId]) {
-			data[state.data.currentRoom.recordId].chatEntries =
-				state.data.roomList.private[state.data.currentRoom.recordId].chatEntries
-		}
-		state.data.roomList.private = data
+	setPinnedRooms(state, { rooms, roomType }) {
+		Vue.set(state.data.roomList, roomType, rooms)
 	},
 	mergeData(state, data) {
 		state.data = mergeDeepReactive(state.data, data)
@@ -77,7 +75,7 @@ export default {
 		state.data.roomList[roomType][recordId].showMoreButton = result.showMoreButton
 		state.data.roomList[roomType][recordId].participants = result.participants
 	},
-	updateChatData(state, { roomsToUpdate, newData }) {
+	updateActiveRooms(state, { roomsToUpdate, newData }) {
 		state.data.amountOfNewMessages = newData.amountOfNewMessages.amount
 		roomsToUpdate.forEach(room => {
 			state.data.roomList[room.roomType][room.recordid].showMoreButton =
@@ -91,14 +89,26 @@ export default {
 			)
 		})
 	},
+	setNewRooms(state, { newRooms, newData }) {
+		newRooms.forEach(room => {
+			Vue.set(state.data.roomList[room.roomType], room.recordId, newData[room.roomType][room.recordId])
+		})
+	},
+	unsetUnpinnedRooms(state, roomsToUnpin) {
+		Object.keys(roomsToUnpin).forEach(roomType => {
+			if (roomsToUnpin[roomType].length) {
+				roomsToUnpin[roomType].forEach(recordId => {
+					Vue.delete(state.data.roomList[roomType], recordId)
+				})
+			}
+		})
+	},
 	updateRooms(state, data) {
 		state.data.roomList = mergeDeepReactive(state.data.roomList, data)
 	},
-	hideRoom(state, { roomType, roomId }) {
-		state.data.roomList[roomType][roomId].isHidden = true
-	},
 	updateParticipants(state, { roomType, recordId, data }) {
-		if (state.data.currentRoom.roomType === roomType) state.data.roomList[roomType][recordId].participants = data
+		if (state.data.currentRoom.roomType === roomType)
+			Vue.set(state.data.roomList[roomType][recordId], 'participants', data)
 	},
 	pushOlderEntries(state, { result, roomType, recordId }) {
 		state.data.roomList[roomType][recordId].chatEntries.unshift(...result.chatEntries)
@@ -129,30 +139,24 @@ export default {
 	},
 	unsetParticipant(state, { roomId, participantId }) {
 		let participants = state.data.roomList.private[roomId].participants
-		for (const [i, participant] of participants.entries()) {
-			if (participant.user_id === participantId) {
+		for (let i = 0; i < participants.length; i++) {
+			if (participants[i].user_id === participantId) {
 				participants.splice(i, 1)
 				break
 			}
 		}
 	},
-	setPinned(state, { roomType, room }) {
-		const roomList = state.data.roomList
-		if (roomType === 'crm') {
-			for (let roomId in roomList.crm) {
-				if (parseInt(roomId) === room.recordid) {
-					roomList.crm[roomId].isPinned = false
-					break
-				}
-			}
-		} else {
-			for (let roomId in roomList[roomType]) {
-				if (parseInt(roomId) === room.recordid) {
-					roomList[roomType][roomId].isPinned = !roomList[roomType][roomId].isPinned
-					break
-				}
-			}
-		}
+	unsetRoom(state, { roomType, recordId }) {
+		Vue.delete(state.data.roomList[roomType], recordId)
+	},
+	setRoom(state, { roomType, recordId, room }) {
+		Vue.set(state.data.roomList[roomType], recordId, room)
+	},
+	unsetCurrentRoom(state) {
+		Vue.set(state.data, 'currentRoom', {})
+	},
+	setCurrentRoom(state, data) {
+		Vue.set(state.data, 'currentRoom', data)
 	},
 	setConfig(state, config) {
 		state.config = mergeDeepReactive(state.config, config)

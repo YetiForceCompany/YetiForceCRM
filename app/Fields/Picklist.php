@@ -82,6 +82,18 @@ class Picklist
 	}
 
 	/**
+	 * Check if picklist exist.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return bool
+	 */
+	public static function isPicklistExist(string $fieldName): bool
+	{
+		return \App\Db::getInstance()->isTableExists("vtiger_{$fieldName}");
+	}
+
+	/**
 	 * Function which will give the editable picklist values for a field.
 	 *
 	 * @param string $fieldName -- string

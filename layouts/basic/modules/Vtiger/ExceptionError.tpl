@@ -29,12 +29,15 @@
 	<html>
 	<head>
 		<title>Yetiforce: {\App\Purifier::encodeHtml($HEADER_MESSAGE)}</title>
+		{if !empty($IS_IE)}
+			<meta http-equiv="x-ua-compatible" content="IE=11,edge" >
+		{/if}
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" href="{\App\Layout::getPublicUrl('layouts/basic/styles/Main.css')}">
 		<link rel="stylesheet" href="{\App\Layout::getPublicUrl('libraries/@fortawesome/fontawesome-free/css/all.css')}">
 	</head>
-	<body class="h-auto bg-color-amber-50">
+	<body class="h-auto bg-color-amber-50 overflow-auto">
 	<div class="o-exception-fixed-block container u-white-space-n u-word-break">
 		<div class="card mx-auto mt-5 u-w-fit shadow" role="alert">
 			<div class="card-header d-flex color-red-a200 bg-color-red-50 justify-content-center flex-wrap">
@@ -87,9 +90,24 @@
 			{/if}
 		{/if}
 	</div>
-	<script type="text/javascript"  {if \App\Session::get('CSP_TOKEN')}nonce="{\App\Session::get('CSP_TOKEN')}"{/if}>
+	<div class="my-5 mx-auto card p-3 u-w-fit shadow">
+		<pre class="js-backtrace-content" data-js="html"></pre>
+	</div>
+	<script type="text/javascript" {if \App\Session::get('CSP_TOKEN')}nonce="{\App\Session::get('CSP_TOKEN')}"{/if}>
 		function errorLog() {
 			console.error(document.querySelector('.js-exception-error').textContent);
+			var html = '';
+			var backtrace = document.querySelector('.js-exception-backtrace');
+			var logs = document.querySelector('.js-exception-logs');
+			if(backtrace){
+				html += backtrace.textContent;
+				backtrace.remove()
+			}
+			if(logs){
+				html += logs.textContent;
+				logs.remove()
+			}
+			document.querySelector('.js-backtrace-content').textContent = html;
 		}
 		if (document.readyState === 'loading') {
 			document.addEventListener('DOMContentLoaded', errorLog);

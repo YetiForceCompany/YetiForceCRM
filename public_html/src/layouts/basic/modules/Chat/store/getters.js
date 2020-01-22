@@ -56,6 +56,9 @@ export default {
 	isDesktopNotification(state) {
 		return state.local.isDesktopNotification
 	},
+	roomsExpanded(state) {
+		return state.local.roomsExpanded
+	},
 	data(state) {
 		return state.data
 	},
@@ -63,12 +66,13 @@ export default {
 		return Object.values(get(state, 'data.roomList.crm', {})).concat(
 			Object.values(get(state, 'data.roomList.group', {})),
 			Object.values(get(state, 'data.roomList.global', {})),
-			Object.values(get(state, 'data.roomList.private', {}))
+			Object.values(get(state, 'data.roomList.private', {})),
+			Object.values(get(state, 'data.roomList.user', {}))
 		)
 	},
 	currentRoomData(state, getters) {
 		const currentRoom = getters.data.currentRoom
-		if (state.data.roomList === undefined || currentRoom.roomType === undefined) {
+		if (state.data.roomList === undefined || !currentRoom.roomType) {
 			return {}
 		}
 		return state.data.roomList[currentRoom.roomType][currentRoom.recordId] || {}
@@ -76,7 +80,13 @@ export default {
 	config(state) {
 		return state.config
 	},
+	activeRoomTypes(state, getters) {
+		return getters.config.activeRoomTypes
+	},
 	getDetailPreview(state) {
 		return state.config.detailPreview
+	},
+	getInterval(state, getters) {
+		return getters.dialog ? getters.config.refreshMessageTime : getters.config.refreshTimeGlobal
 	}
 }

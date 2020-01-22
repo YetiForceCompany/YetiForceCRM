@@ -1,0 +1,13 @@
+{
+  "productName":"YetiForceCRM",
+  "devDep": false,
+  "generalSettings": {
+    "shouldScanRepo": true
+  },
+  "checkRunSettings": {
+    "vulnerableCheckRunConclusionLevel": "failure"
+  },
+  "issueSettings": {
+    "minSeverityLevel": "LOW"
+  }
+}

@@ -53,10 +53,6 @@ class Privilege
 		} else {
 			$user = \App\User::getUserModel($userId);
 		}
-		$permissionFieldInfo = \Api\Core\Module::getApiFieldPermission($moduleName, $user->get('permission_app'));
-		if (!$permissionFieldInfo) {
-			return false;
-		}
 		switch ($user->get('permission_type')) {
 			case self::USER_PERMISSIONS:
 				return \App\Privilege::checkPermission($moduleName, $actionName, $record, $userId);
@@ -73,6 +69,9 @@ class Privilege
 			default:
 				throw new \Api\Core\Exception('Invalid permissions ', 400);
 		}
+		if (!($permissionFieldInfo = \Api\Core\Module::getApiFieldPermission($moduleName, $user->get('permission_app')))) {
+			return false;
+		}
 		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName)) {
 			return $parentRecordId === $record;
 		}
@@ -86,7 +85,7 @@ class Privilege
 			$field = $fields[$parentModule];
 			return ((int) $recordModel->get($field['fieldname'])) === $parentRecordId;
 		}
-		if (in_array($moduleName, ['Products', 'Services'])) {
+		if (\in_array($moduleName, ['Products', 'Services'])) {
 			return (bool) $recordModel->get('discontinued');
 		}
 		if ($fields) {

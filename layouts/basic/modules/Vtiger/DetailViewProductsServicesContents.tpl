@@ -2,8 +2,7 @@
 {strip}
 	{* Summary View Products Widget*}
 	<div class="tpl-DetailViewProductsServicesContents">
-		{assign var=PRODUCTS value=\App\Module::getModuleId('Products')}
-		{if isset($RELATIONS[$PRODUCTS])}
+		{if isset($RELATIONS['Products'])}
 			<div class="c-detail-widget js-detail-widget" data-js="container">
 				<div class="widgetContainer_products hideActionImages"
 					 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Products&mode=showRelatedRecords&page=1&limit={$LIMIT}"
@@ -40,7 +39,7 @@
 					</div>
 					<div class="c-detail-widget__content js-detail-widget-content" data-js="container|value"></div>
 				</div>
-				{if $RELATIONS[$PRODUCTS]->isTreeRelation()}
+				{if $RELATIONS['Products']->isTreeRelation()}
 					<div class="widgetContainer_productsCategory"
 						 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Products&mode=showRelatedTree"
 						 data-name="LBL_RELATED_PRODUCTS">
@@ -66,8 +65,7 @@
 			</div>
 		{/if}
 		{* Summary View OutsourcedProducts Widget*}
-		{assign var=OUTSOURCEDPRODUCTS value=\App\Module::getModuleId('OutsourcedProducts')}
-		{if isset($RELATIONS[$OUTSOURCEDPRODUCTS])}
+		{if isset($RELATIONS['OutsourcedProducts'])}
 			<div class="c-detail-widget js-detail-widget" data-js="container">
 				<div class="widgetContainer_assets"
 					 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=OutsourcedProducts&mode=showRelatedRecords&page=1&limit={$LIMIT}"
@@ -104,7 +102,7 @@
 					</div>
 					<div class="c-detail-widget__content js-detail-widget-content" data-js="container|value"></div>
 				</div>
-				{if $RELATIONS[$OUTSOURCEDPRODUCTS]->isTreeRelation()}
+				{if $RELATIONS['OutsourcedProducts']->isTreeRelation()}
 					<div class="widgetContainer_productsCategory"
 						 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=OutsourcedProducts&mode=showRelatedTree"
 						 data-name="LBL_RELATED_OP">
@@ -130,8 +128,7 @@
 			</div>
 		{/if}
 		{* Summary View Assets Widget*}
-		{assign var=ASSETS value=\App\Module::getModuleId('Assets')}
-		{if isset($RELATIONS[$ASSETS])}
+		{if isset($RELATIONS['Assets'])}
 			<div class="c-detail-widget js-detail-widget" data-js="container">
 				<div class="widgetContainer_assets2"
 					 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Assets&mode=showRelatedRecords&page=1&limit={$LIMIT}"
@@ -162,8 +159,7 @@
 			</div>
 		{/if}
 		{* Summary View Services Widget Ends Here*}
-		{assign var=SERVICES value=\App\Module::getModuleId('Services')}
-		{if isset($RELATIONS[$SERVICES])}
+		{if isset($RELATIONS['Services'])}
 			<div class="c-detail-widget js-detail-widget" data-js="container">
 				<div class="widgetContainer_service hideActionImages"
 					 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Services&mode=showRelatedRecords&page=1&limit={$LIMIT}"
@@ -199,7 +195,7 @@
 					</div>
 					<div class="c-detail-widget__content js-detail-widget-content" data-js="container|value"></div>
 				</div>
-				{if $RELATIONS[$SERVICES]->isTreeRelation()}
+				{if $RELATIONS['Services']->isTreeRelation()}
 					<div class="widgetContainer_productsCategory"
 						 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=Services&mode=showRelatedTree"
 						 data-name="LBL_RELATED_SERVICES">
@@ -225,8 +221,7 @@
 			</div>
 		{/if}
 		{* Summary View OSSOutsourcedServices Widget Start Here*}
-		{assign var=OSSOUTSOURCEDSERVICES value=\App\Module::getModuleId('OSSOutsourcedServices')}
-		{if isset($RELATIONS[$OSSOUTSOURCEDSERVICES])}
+		{if isset($RELATIONS['OSSOutsourcedServices'])}
 			<div class="c-detail-widget js-detail-widget" data-js="container">
 				<div class="widgetContainer_service"
 					 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=OSSOutsourcedServices&mode=showRelatedRecords&page=1&limit={$LIMIT}"
@@ -264,7 +259,7 @@
 					</div>
 					<div class="c-detail-widget__content js-detail-widget-content" data-js="container|value"></div>
 				</div>
-				{if $RELATIONS[$OSSOUTSOURCEDSERVICES]->isTreeRelation()}
+				{if $RELATIONS['OSSOutsourcedServices']->isTreeRelation()}
 					<div class="widgetContainer_productsCategory"
 						 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=OSSOutsourcedServices&mode=showRelatedTree"
 						 data-name="LBL_RELATED_OSSOS">
@@ -289,8 +284,7 @@
 				{/if}
 			</div>
 		{/if}
-		{assign var=OSSSOLDSERVICES value=\App\Module::getModuleId('OSSSoldServices')}
-		{if isset($RELATIONS[$OSSSOLDSERVICES])}
+		{if isset($RELATIONS['OSSSoldServices'])}
 			<div class="c-detail-widget js-detail-widget" data-js="container">
 				<div class="widgetContainer_service"
 					 data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule=OSSSoldServices&mode=showRelatedRecords&page=1&limit={$LIMIT}"

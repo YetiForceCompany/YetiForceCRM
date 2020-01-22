@@ -22,7 +22,7 @@
 							{assign var=PROCEED value= TRUE}
 							{if ($RECENT_ACTIVITY->isRelationLink()) or ($RECENT_ACTIVITY->isRelationUnLink())}
 								{assign var=RELATION value=$RECENT_ACTIVITY->getRelationInstance()}
-								{if !($RELATION->getLinkedRecord())}
+								{if !($RELATION->getValue())}
 									{assign var=PROCEED value= FALSE}
 								{/if}
 							{/if}
@@ -101,11 +101,18 @@
 											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()} </strong></span>
 											<span>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</span>
 											<span>
-												{if $RELATION->getLinkedRecord()->getModuleName() eq 'Calendar'}
-													{if \App\Privilege::isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId())} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {else} {/if}
-												{else} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {/if}</span>
-											(<span>{\App\Language::translate($RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())}</span>)
-											<span class="float-right"><p class="muted no-margin"><small>{\App\Fields\DateTime::formatToViewDate($RELATION->get('changedon'))}</small></p></span>
+												{if $RELATION->get('targetmodule') eq 'Calendar'}
+													{if \App\Privilege::isPermitted('Calendar', 'DetailView', $RELATION->get('targetid'))}
+														<strong>{$RELATION->getValue()}</strong>
+													{/if}
+												{else}
+													<strong>{$RELATION->getValue()}</strong>
+												{/if}
+											</span>
+											(<span>{\App\Language::translate($RELATION->get('targetmodule'), $RELATION->get('targetmodule'))}</span>)
+											<span class="float-right">
+												<p class="muted no-margin"><small>{\App\Fields\DateTime::formatToViewDate($RELATION->get('changedon'))}</small></p>
+											</span>
 										</div>
 									</li>
 								{else if $RECENT_ACTIVITY->isDisplayed()}

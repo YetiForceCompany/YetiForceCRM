@@ -94,17 +94,8 @@ $.Class(
 		 * Register the click event for listView headers
 		 */
 		registerHeadersClickEvent: function() {
-			const self = this;
-			this.container.on('click', '.js-change-order', function(e) {
-				e.preventDefault();
-				const element = $(this);
-				if (typeof element.data('nextOrder') === 'undefined') {
-					return;
-				}
-				self.loadRecordList({
-					orderby: element.data('name'),
-					sortorder: element.data('nextOrder')
-				});
+			YetiForce_ListSearch_Js.registerSearch(this.container, (data) => {
+				this.loadRecordList(data);
 			});
 		},
 		/**

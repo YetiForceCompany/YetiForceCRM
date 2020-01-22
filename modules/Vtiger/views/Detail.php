@@ -144,13 +144,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable());
 		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->privilegeToMoveToTrash());
 		$viewer->assign('VIEW_MODEL', $this->record);
-		$linkModels = $this->record->getSideBarLinks(['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)]);
-		$viewer->assign('QUICK_LINKS', $linkModels);
+		$viewer->assign('QUICK_LINKS', $this->record->getSideBarLinks([
+			'MODULE' => $moduleName,
+			'ACTION' => $request->getByType('view', 1)
+		]));
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
-
-		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
-		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
-
+		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -788,10 +787,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
+		$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
 		$limit = 10;
 		$relatedModuleName = $request->getByType('relatedModule', 2);
-		$orderBy = $request->getForSql('orderby');
-		$sortOrder = $request->getForSql('sortorder');
 		$columns = 0;
 		$moduleName = $request->getModule();
 		$searchParams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
@@ -805,20 +803,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$limit = $request->getInteger('limit');
 		}
 		$pagingModel->set('limit', $limit);
-		if ('ASC' === $sortOrder) {
-			$nextSortOrder = 'DESC';
-			$sortImage = 'fas fa-chevron-down';
-		} else {
-			$nextSortOrder = 'ASC';
-			$sortImage = 'fas fa-chevron-up';
-		}
 		if (is_numeric($relatedModuleName)) {
 			$relatedModuleName = \App\Module::getModuleName($relatedModuleName);
-		}
-		if (empty($orderBy) && empty($sortOrder)) {
-			$relatedInstance = CRMEntity::getInstance($relatedModuleName);
-			$orderBy = $relatedInstance->default_order_by;
-			$sortOrder = $relatedInstance->default_sort_order;
 		}
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -827,7 +813,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $relationId);
 		$relationModel = $relationListView->getRelationModel();
 		if ($relationModel->isFavorites() && \App\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
@@ -839,9 +825,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$searchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$relationListView->set('search_params', $searchParams);
 		}
+		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
+		if (empty($orderBy)) {
+			$moduleInstance = CRMEntity::getInstance($relatedModuleName);
+			$orderBy = $moduleInstance->default_order_by ? [$moduleInstance->default_order_by => $moduleInstance->default_sort_order] : [];
+		}
 		if (!empty($orderBy)) {
 			$relationListView->set('orderby', $orderBy);
-			$relationListView->set('sortorder', $sortOrder);
 		}
 		$viewer = $this->getViewer($request);
 		$viewType = !$request->isEmpty('viewType') ? $request->getByType('viewType') : '';
@@ -902,10 +892,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('ORDER_BY', $orderBy);
-		$viewer->assign('SORT_ORDER', $sortOrder);
-		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
-		$viewer->assign('SORT_IMAGE', $sortImage);
-		$viewer->assign('COLUMN_NAME', $orderBy);
 		$viewer->assign('COLUMNS', $columns);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->privilegeToDelete());
@@ -913,6 +899,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('NO_RESULT_TEXT', $request->getBoolean('no_result_text'));
+		$viewer->assign('RELATION_ID', $relationId);
 
 		return $viewer->view('SummaryWidgets.tpl', $moduleName, true);
 	}
@@ -952,15 +940,15 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$recordModel = $this->record->getRecord();
-
-		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->getByType('view', 2)];
-		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORDID', $recordId);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('VIEW_MODEL', $this->record);
-		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
+		$viewer->assign('DETAILVIEW_LINKS', $this->record->getDetailViewLinks([
+			'MODULE' => $moduleName,
+			'RECORD' => $recordId,
+			'VIEW' => $request->getByType('view', 2)
+		]));
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('LIMIT', 0);
@@ -968,14 +956,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		}
 		$structuredValues = $this->recordStructure->getStructure();
-
 		$moduleModel = $recordModel->getModule();
-
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
-		$viewer->assign('RELATIONS', \Vtiger_Relation_Model::getAllRelations($moduleModel, false));
+		$viewer->assign('RELATIONS', \Vtiger_Relation_Model::getAllRelations($moduleModel, false, true, true, 'modulename'));
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-
 		return $viewer->view('DetailViewProductsServicesContents.tpl', $moduleName, true);
 	}
 

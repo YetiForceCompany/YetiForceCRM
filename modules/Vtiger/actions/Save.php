@@ -25,7 +25,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!$request->isEmpty('record', true)) {
@@ -56,12 +56,11 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
 		if ($request->getBoolean('relationOperation')) {
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 2));
-			$loadUrl = $parentRecordModel->getDetailViewUrl();
+			$loadUrl = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 2))->getDetailViewUrl();
 		} elseif ($request->getBoolean('returnToList')) {
 			$loadUrl = $recordModel->getModule()->getListViewUrl();
 		} else {
@@ -82,17 +81,14 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	 *
 	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
-	public function saveRecord(\App\Request $request)
+	public function saveRecord(App\Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
 		if ($request->getBoolean('relationOperation')) {
-			$parentModuleModel = Vtiger_Module_Model::getInstance($request->getByType('sourceModule', 2));
-			$relatedModule = $recordModel->getModule();
-			$relatedRecordId = $recordModel->getId();
-			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
-			if ($relationModel) {
-				$relationModel->addRelation($request->getInteger('sourceRecord'), $relatedRecordId);
+			$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
+			if ($relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($request->getByType('sourceModule', 2)), $recordModel->getModule(), $relationId)) {
+				$relationModel->addRelation($request->getInteger('sourceRecord'), $recordModel->getId());
 			}
 		}
 		return $recordModel;
@@ -105,7 +101,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	 *
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	protected function getRecordModelFromRequest(\App\Request $request)
+	protected function getRecordModelFromRequest(App\Request $request)
 	{
 		if (empty($this->record)) {
 			$this->record = $request->isEmpty('record', true) ? Vtiger_Record_Model::getCleanInstance($request->getModule()) : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());

@@ -17,6 +17,19 @@ jQuery.Class(
 			}
 			instance.moduleName = moduleName;
 			return instance;
+		},
+		registerSearch: function(container, callBack) {
+			container.on("click", ".js-change-order", function(e) {
+				let element = $(e.currentTarget);
+				callBack({ orderby: { [element.data("columnname")]: element.data("nextsortorderval") } });
+			});
+			container.on("click", ".js-listview_header", function(e) {
+				let element = $(e.currentTarget);
+				callBack({ orderby: element.data("columnname"), sortorder: element.data("nextsortorderval")});
+			});
+			container.on("click", ".js-list-reload", function(e, data) {
+				callBack(data);
+			});
 		}
 	},
 	{

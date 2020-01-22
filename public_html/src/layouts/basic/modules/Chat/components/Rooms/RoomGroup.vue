@@ -1,6 +1,10 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <RoomList :isVisible="!!Object.entries(roomData).length" :filterRooms="filterRooms" :roomData="roomData" :roomType="roomType" />
+  <RoomList
+    :filterRooms="filterRooms"
+    :roomData="roomData"
+    :roomType="roomType"
+  />
 </template>
 <script>
 import RoomList from './RoomList.vue'
@@ -25,5 +29,4 @@ export default {
   }
 }
 </script>
-<style lang="sass" scoped>
-</style>
+<style lang="sass" scoped></style>

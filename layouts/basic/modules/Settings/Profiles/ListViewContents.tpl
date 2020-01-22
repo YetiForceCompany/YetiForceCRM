@@ -29,7 +29,7 @@
 								&nbsp;{\App\Language::translate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
 								{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 								</td>
-								<td nowrap class="{$WIDTHTYPE} rightRecordActions">
+								<td nowrap class="{$WIDTHTYPE} rightRecordActions listButtons {$WIDTHTYPE}">
 									{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordLinks()}
 									{if count($LINKS) > 0}
 										<div class="actions">

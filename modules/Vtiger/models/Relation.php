@@ -11,7 +11,18 @@
 
 class Vtiger_Relation_Model extends \App\Base
 {
+	/**
+	 *  Cached instances.
+	 *
+	 * @var Vtiger_Relation_Model[]
+	 */
 	protected static $cachedInstances = [];
+	/**
+	 * Cached instances by relation id.
+	 *
+	 * @var Vtiger_Relation_Model[]
+	 */
+	protected static $cachedInstancesById = [];
 	protected $parentModule = false;
 	protected $relatedModule = false;
 	/**
@@ -236,17 +247,17 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Get relation list model instance.
+	 * Get relation model instance.
 	 *
 	 * @param Vtiger_Module_Model $parentModuleModel
 	 * @param Vtiger_Module_Model $relatedModuleModel
-	 * @param bool|string         $label
+	 * @param bool|int            $relationId
 	 *
 	 * @return self|false
 	 */
-	public static function getInstance($parentModuleModel, $relatedModuleModel, $label = false)
+	public static function getInstance($parentModuleModel, $relatedModuleModel, $relationId = false)
 	{
-		$relKey = $parentModuleModel->getId() . '_' . $relatedModuleModel->getId() . '_' . ($label ? 1 : 0);
+		$relKey = $parentModuleModel->getId() . '_' . $relatedModuleModel->getId() . '_' . $relationId;
 		if (isset(self::$cachedInstances[$relKey])) {
 			return self::$cachedInstances[$relKey];
 		}
@@ -259,7 +270,6 @@ class Vtiger_Relation_Model extends \App\Base
 				$relationModel->setExceptionData();
 			}
 			self::$cachedInstances[$relKey] = $relationModel;
-
 			return $relationModel;
 		}
 		$query = (new \App\Db\Query())->select(['vtiger_relatedlists.*', 'modulename' => 'vtiger_tab.name'])
@@ -267,8 +277,8 @@ class Vtiger_Relation_Model extends \App\Base
 			->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
 			->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId(), 'related_tabid' => $relatedModuleModel->getId()])
 			->andWhere(['<>', 'vtiger_tab.presence', 1]);
-		if (!empty($label)) {
-			$query->andWhere(['label' => $label]);
+		if (!empty($relationId)) {
+			$query->andWhere(['vtiger_relatedlists.relation_id' => $relationId]);
 		}
 		$row = $query->one();
 		if ($row) {
@@ -276,10 +286,41 @@ class Vtiger_Relation_Model extends \App\Base
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
 			self::$cachedInstances[$relKey] = $relationModel;
-
+			self::$cachedInstancesById[$row['relation_id']] = $relationModel;
 			return $relationModel;
 		}
 		return false;
+	}
+
+	/**
+	 * Get relation model instance by relation id.
+	 *
+	 * @param int $relationId
+	 *
+	 * @return self|bool
+	 */
+	public static function getInstanceById(int $relationId)
+	{
+		if (!isset(self::$cachedInstancesById[$relationId])) {
+			$query = (new \App\Db\Query())->select(['vtiger_relatedlists.*', 'modulename' => 'vtiger_tab.name'])
+				->from('vtiger_relatedlists')
+				->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
+				->where(['<>', 'vtiger_tab.presence', 1]);
+			$query->andWhere(['vtiger_relatedlists.relation_id' => $relationId]);
+			$relationModel = false;
+			if ($row = $query->one()) {
+				$relatedModuleName = \App\Module::getModuleName($row['related_tabid']);
+				$parentModuleModel = Vtiger_Module_Model::getInstance($row['tabid']);
+				$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
+				$relationModel = new $relationModelClassName();
+				$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel(Vtiger_Module_Model::getInstance($relatedModuleName));
+				if (method_exists($relationModel, 'setExceptionData')) {
+					$relationModel->setExceptionData();
+				}
+			}
+			self::$cachedInstancesById[$relationId] = $relationModel;
+		}
+		return self::$cachedInstancesById[$relationId];
 	}
 
 	/**
@@ -318,11 +359,9 @@ class Vtiger_Relation_Model extends \App\Base
 			App\Log::error('No value parentRecord in ' . __METHOD__);
 			throw new \App\Exceptions\IllegalValue('ERR_NO_VALUE||parentRecord');
 		}
-
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->setSourceRecord($this->get('parentRecord')->getId());
 		$object->getQuery();
-
 		if ($this->showCreatorDetail()) {
 			$queryGenerator->setCustomColumn('rel_created_user');
 			$queryGenerator->setCustomColumn('rel_created_time');
@@ -333,7 +372,6 @@ class Vtiger_Relation_Model extends \App\Base
 		$fields = array_keys($this->getQueryFields());
 		$fields[] = 'id';
 		$queryGenerator->setFields($fields);
-
 		return $queryGenerator;
 	}
 
@@ -355,7 +393,6 @@ class Vtiger_Relation_Model extends \App\Base
 		}
 		if ($relatedListFields) {
 			$this->set('QueryFields', $relatedListFields);
-
 			return $relatedListFields;
 		}
 		$queryGenerator = $this->getQueryGenerator();
@@ -377,11 +414,9 @@ class Vtiger_Relation_Model extends \App\Base
 		}
 		if ($relatedListFields) {
 			$this->set('QueryFields', $relatedListFields);
-
 			return $relatedListFields;
 		}
 		$this->set('QueryFields', $relatedListFields);
-
 		return $relatedListFields;
 	}
 
@@ -397,20 +432,23 @@ class Vtiger_Relation_Model extends \App\Base
 		}
 		$relatedModuleModel = $this->getRelationModuleModel();
 		$parentModuleName = $this->getParentModuleModel()->getName();
-		$relatedModuleName = $relatedModuleModel->getName();
-		$fieldRel = App\Field::getRelatedFieldForModule($relatedModuleName, $parentModuleName);
 		$relatedModelFields = $relatedModuleModel->getFields();
-		if (isset($fieldRel['fieldid'])) {
-			foreach ($relatedModelFields as &$fieldModel) {
-				if ($fieldModel->getId() === $fieldRel['fieldid']) {
-					$relationField = $fieldModel;
-					break;
+		if (!$this->isEmpty('field_name') && isset($relatedModelFields[$this->get('field_name')])) {
+			$relationField = $relatedModelFields[$this->get('field_name')];
+		} else {
+			$fieldRel = App\Field::getRelatedFieldForModule($relatedModuleModel->getName(), $parentModuleName);
+			if (isset($fieldRel['fieldid'])) {
+				foreach ($relatedModelFields as $fieldModel) {
+					if ($fieldModel->getId() === $fieldRel['fieldid']) {
+						$relationField = $fieldModel;
+						break;
+					}
 				}
 			}
 		}
-		if (!isset($relationField) || !$relationField) {
+		if (empty($relationField)) {
 			$relationField = false;
-			foreach ($relatedModelFields as &$fieldModel) {
+			foreach ($relatedModelFields as $fieldModel) {
 				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
 					if (!empty($referenceList) && \in_array($parentModuleName, $referenceList)) {
@@ -421,7 +459,6 @@ class Vtiger_Relation_Model extends \App\Base
 			}
 		}
 		$this->set('RelationField', $relationField ? $relationField : false);
-
 		return $relationField;
 	}
 
@@ -488,10 +525,17 @@ class Vtiger_Relation_Model extends \App\Base
 		return $this->getRelationModuleModel()->isPermitted('RemoveRelation');
 	}
 
-	public function getListUrl($parentRecordModel)
+	/**
+	 * Get list url for record.
+	 *
+	 * @param Vtiger_Module_Model $parentRecordModel
+	 *
+	 * @return string
+	 */
+	public function getListUrl(Vtiger_Record_Model $parentRecordModel): string
 	{
-		$url = 'module=' . $this->getParentModuleModel()->get('name') . '&relatedModule=' . $this->get('modulename') .
-			'&view=Detail&record=' . $parentRecordModel->getId() . '&mode=showRelatedList&tab_label=' . $this->get('label');
+		$url = 'index.php?module=' . $this->getParentModuleModel()->get('name') . '&relatedModule=' . $this->get('modulename') .
+			'&view=Detail&record=' . $parentRecordModel->getId() . '&mode=showRelatedList&relationId=' . $this->getId();
 		if ('Calendar' == $this->get('modulename')) {
 			$url .= '&time=current';
 		}
@@ -718,16 +762,17 @@ class Vtiger_Relation_Model extends \App\Base
 	/**
 	 * Getting all relations.
 	 *
-	 * @param \Vtiger_Module_Model $parentModuleModel
+	 * @param \Vtiger_Module_Model $moduleModel
 	 * @param bool                 $selected
 	 * @param bool                 $onlyActive
 	 * @param bool                 $permissions
+	 * @param string               $key
 	 *
 	 * @return \Vtiger_Relation_Model[]
 	 */
-	public static function getAllRelations(Vtiger_Module_Model $parentModuleModel, bool $selected = true, bool $onlyActive = true, bool $permissions = true)
+	public static function getAllRelations(Vtiger_Module_Model $moduleModel, bool $selected = true, bool $onlyActive = true, bool $permissions = true, string $key = 'relation_id')
 	{
-		$cacheName = "{$parentModuleModel->getId()}:$selected:$onlyActive";
+		$cacheName = "{$moduleModel->getId()}:$selected:$onlyActive";
 		if (\App\Cache::has('getAllRelations', $cacheName)) {
 			$relationList = \App\Cache::get('getAllRelations', $cacheName);
 		} else {
@@ -735,7 +780,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$query->select(['vtiger_relatedlists.*', 'modulename' => 'vtiger_tab.name', 'moduleid' => 'vtiger_tab.tabid'])
 				->from('vtiger_relatedlists')
 				->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
-				->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId()]);
+				->where(['vtiger_relatedlists.tabid' => $moduleModel->getId()]);
 			if ($selected) {
 				$query->andWhere(['<>', 'vtiger_relatedlists.presence', 1]);
 			}
@@ -746,16 +791,16 @@ class Vtiger_Relation_Model extends \App\Base
 			\App\Cache::save('getAllRelations', $cacheName, $relationList);
 		}
 		$relationModels = [];
-		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
+		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $moduleModel->get('name'));
 		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		foreach ($relationList as $row) {
 			// Skip relation where target module does not exits or is no permitted for view.
-			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
+			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['modulename'], 'DetailView')) {
 				continue;
 			}
 			$relationModel = new $relationModelClassName();
-			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->set('relatedModuleName', $row['modulename']);
-			$relationModels[$row['related_tabid']] = $relationModel;
+			$relationModel->setData($row)->setParentModuleModel($moduleModel)->set('relatedModuleName', $row['modulename']);
+			$relationModels[$row[$key]] = $relationModel;
 		}
 		return $relationModels;
 	}

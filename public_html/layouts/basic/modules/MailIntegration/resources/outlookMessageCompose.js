@@ -141,12 +141,13 @@ const MailIntegration_Compose = {
 		});
 	},
 	registerEvents() {
-		this.container = $('#page');
-		this.registerAutocompleteTemplate();
-		this.registerAutocomplete();
+		if (!$('.js-exception-error').length) {
+			this.container = $('#page');
+			this.registerAutocompleteTemplate();
+			this.registerAutocomplete();
+		}
 	}
 };
-
 (function($) {
 	Office.onReady(info => {
 		if (info.host === Office.HostType.Outlook) {

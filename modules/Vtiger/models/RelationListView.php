@@ -126,30 +126,28 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 *
 	 * @param Vtiger_Record_Model $parentRecordModel
 	 * @param string              $relationModuleName
-	 * @param bool|string         $label
+	 * @param bool|int            $relationId
 	 *
 	 * @return self
 	 */
-	public static function getInstance(Vtiger_Record_Model $parentRecordModel, string $relationModuleName, $label = false)
+	public static function getInstance(Vtiger_Record_Model $parentRecordModel, string $relationModuleName, $relationId = false)
 	{
-		$parentModuleName = $parentRecordModel->getModule()->get('name');
-		$className = Vtiger_Loader::getComponentClassName('Model', 'RelationListView', $parentModuleName);
-		$instance = new $className();
-
 		$parentModuleModel = $parentRecordModel->getModule();
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relationModuleName);
-		$instance->setRelatedModuleModel($relatedModuleModel);
-
-		$relationModelInstance = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModuleModel, $label);
-		$instance->setParentRecordModel($parentRecordModel);
+		$className = Vtiger_Loader::getComponentClassName('Model', 'RelationListView', $parentModuleModel->getName());
+		$instance = new $className();
+		if ($relationId) {
+			$relationModelInstance = Vtiger_Relation_Model::getInstanceById($relationId);
+		} else {
+			$relationModelInstance = Vtiger_Relation_Model::getInstance($parentModuleModel, Vtiger_Module_Model::getInstance($relationModuleName), $relationId);
+		}
 		if (!$relationModelInstance) {
 			return false;
 		}
-		$queryGenerator = new \App\QueryGenerator($relatedModuleModel->getName());
-		$relationModelInstance->set('query_generator', $queryGenerator);
+		$instance->setParentRecordModel($parentRecordModel);
+		$instance->setRelatedModuleModel($relationModelInstance->getRelationModuleModel());
+		$relationModelInstance->set('query_generator', new \App\QueryGenerator($relationModelInstance->getRelationModuleModel()->getName()));
 		$relationModelInstance->set('parentRecord', $parentRecordModel);
 		$instance->setRelationModel($relationModelInstance);
-
 		return $instance;
 	}
 
@@ -257,16 +255,15 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 */
 	public function loadOrderBy()
 	{
-		$orderBy = $this->getForSql('orderby');
-		if (!empty($orderBy)) {
-			$field = $this->getRelationModel()->getRelationModuleModel()->getFieldByColumn($orderBy);
-			if ($field) {
-				$orderBy = $field->getName();
+		$orderBy = $this->get('orderby');
+		if (!empty($orderBy) && \is_array($orderBy)) {
+			foreach ($orderBy as $fieldName => $sortFlag) {
+				$field = $this->getRelationModel()->getRelationModuleModel()->getFieldByName($fieldName);
+				if ($field || 'id' === $fieldName) {
+					return $this->getRelationModel()->getQueryGenerator()->setOrder($fieldName, $sortFlag);
+				}
+				\App\Log::warning("[RelationListView] Incorrect value of sorting: '$fieldName'");
 			}
-			if ($field || 'id' === $orderBy) {
-				return $this->getRelationModel()->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
-			}
-			\App\Log::warning("[RelationListView] Incorrect value of sorting: '$orderBy'");
 		}
 	}
 
@@ -283,6 +280,10 @@ class Vtiger_RelationListView_Model extends \App\Base
 			if (!$fieldModel->isViewable()) {
 				unset($fields[$fieldName]);
 			}
+		}
+		$relationObject = $this->getRelationModel()->getTypeRelationModel();
+		if (method_exists($relationObject, 'getFields')) {
+			$fields = array_merge($fields, $relationObject->getFields());
 		}
 		return $fields;
 	}
@@ -389,7 +390,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$parentModule = $parentRecordModule->getModule();
 
 		$createViewUrl = $relatedModel->getCreateRecordUrl() . '&sourceModule=' . $parentModule->get('name') .
-			'&sourceRecord=' . $parentRecordModule->getId() . '&relationOperation=true';
+			'&sourceRecord=' . $parentRecordModule->getId() . '&relationOperation=true&relationId=' . $relationModelInstance->getId();
 
 		//To keep the reference fieldname and record value in the url if it is direct relation
 		if ($relationModelInstance->isDirectRelation()) {

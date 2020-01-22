@@ -24,9 +24,16 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$this->validate($value, true);
-		preg_match('/\D+/', $value, $matches);
-		if ($matches && \in_array(App\Purifier::decodeHtml($matches[0]), App\Conditions\QueryFields\IntegerField::$extendedOperators)) {
-			return App\Purifier::decodeHtml($matches[0]) . $this->getDBValue($value);
+		preg_match_all('/\D+/', $value, $matches);
+		if ($matches && $operators = \array_intersect(array_map('App\\Purifier::decodeHtml', $matches[0]), App\Conditions\QueryFields\IntegerField::$extendedOperators)) {
+			$value = \App\Purifier::decodeHtml($value);
+			$valueConvert = '';
+			foreach ($operators as $operator) {
+				$ev = explode($operator, $value);
+				$valueConvert .= $operator . (int) $ev[1];
+				$value = str_replace($valueConvert, '', $value);
+			}
+			return $valueConvert;
 		}
 		return $this->getDBValue($value);
 	}
@@ -99,25 +106,5 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'];
-	}
-
-	/**
-	 * Generate valid sample value.
-	 *
-	 * @throws \Exception
-	 *
-	 * @return int
-	 */
-	public function getSampleValue()
-	{
-		$min = 0;
-		$max = $this->getFieldModel()->get('maximumlength');
-		if (strpos($max, ',')) {
-			$max = (int) explode(',', $max)[1];
-		}
-		if ($max > 9999 || $max < 0) {
-			$max = 9999;
-		}
-		return \App\Fields\Integer::formatToDb(random_int($min, (int) $max));
 	}
 }

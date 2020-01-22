@@ -31,10 +31,10 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		$this->extraData = $this->widgetModel->get('data');
 
 		// Decode data if not done already.
-		if (is_string($this->extraData)) {
+		if (\is_string($this->extraData)) {
 			$this->extraData = \App\Json::decode(App\Purifier::decodeHtml($this->extraData));
 		}
-		if ($this->extraData === null) {
+		if (null === $this->extraData) {
 			throw new \App\Exceptions\AppException('Invalid data');
 		}
 	}
@@ -57,7 +57,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 	public function getTargetFields()
 	{
 		$fields = $this->extraData['fields'];
-		if (!in_array('id', $fields)) {
+		if (!\in_array('id', $fields)) {
 			$fields[] = 'id';
 		}
 		return $fields;
@@ -112,7 +112,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 	public function getHeaderCount()
 	{
-		return count($this->getHeaders());
+		return \count($this->getHeaders());
 	}
 
 	public function getRecordLimit()
@@ -125,7 +125,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		$this->initListViewController();
 		if (!$user) {
 			$user = App\User::getCurrentUserId();
-		} elseif ($user === 'all') {
+		} elseif ('all' === $user) {
 			$user = '';
 		}
 
@@ -140,9 +140,21 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$targetModuleName = $this->getTargetModule();
 			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);
 			$filterModel = CustomView_Record_Model::getInstanceById($this->widgetModel->get('filterid'));
-			if ($filterModel && !empty($filterModel->get('sort'))) {
-				list($orderby, $sort) = explode(',', $filterModel->get('sort'));
-				$this->queryGenerator->setOrder($orderby, $sort);
+			if ($filterModel && ($orderBy = $filterModel->getSortOrderBy()) && \is_array($orderBy)) {
+				$fields = $this->queryGenerator->getModuleModel()->getFields();
+				foreach ($orderBy as $fieldName => $sortFlag) {
+					[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $fieldName), 3, false);
+					if ($sourceFieldName && isset($fields[$sourceFieldName])) {
+						$this->queryGenerator->setRelatedOrder([
+							'sourceField' => $sourceFieldName,
+							'relatedModule' => $moduleName,
+							'relatedField' => $fieldName,
+							'relatedSortOrder' => $sortFlag
+						]);
+					} elseif (isset($fields[$fieldName])) {
+						$this->queryGenerator->setOrder($fieldName, $sortFlag);
+					}
+				}
 			} elseif ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
 				$this->queryGenerator->setOrder($targetModuleFocus->default_order_by, $targetModuleFocus->default_sort_order);
 			}
@@ -176,7 +188,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 				$searcParams[] = $value;
 			}
 		}
-		if ($user !== 'all') {
+		if ('all' !== $user) {
 			$searcParams[] = ['assigned_user_id', 'e', $user];
 		}
 		if ($searcParams) {
@@ -204,7 +216,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 				$searcParams[] = $value;
 			}
 		}
-		if ($user !== 'all') {
+		if ('all' !== $user) {
 			$searcParams[] = ['assigned_user_id', 'e', $user];
 		}
 		if ($searcParams) {

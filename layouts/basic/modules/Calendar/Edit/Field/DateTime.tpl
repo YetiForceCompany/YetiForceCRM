@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Calendar-Edit-Field-DateTime -->
 	{if $FIELD_MODEL->getName() == 'date_start'}
 		{assign var=DATE_FIELD value=$FIELD_MODEL}
 		{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
@@ -43,4 +44,5 @@
 			{include file=\App\Layout::getTemplatePath('Edit/Field/Time.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$TIME_FIELD}
 		</div>
 	</div>
+	<!-- /tpl-Calendar-Edit-Field-DateTime -->
 {/strip}

@@ -59,8 +59,12 @@ $.Class(
 						container.find('#iconName').val(data.text);
 						container.find('#iconType').val(data.type);
 						if (data.type === 'icon') {
-							container.find('.iconExample').html(`<span class="${data.text}" aria-hidden="true"></span>`);
-							return $(`<span class="${data.text}" aria-hidden="true"></span><span> - ${data.text}</span>`);
+							container
+								.find('.iconExample')
+								.html(`<span class="${data.text}" aria-hidden="true"></span>`);
+							return $(
+								`<span class="${data.text}" aria-hidden="true"></span><span> - ${data.text}</span>`
+							);
 						} else if (data.type === 'image') {
 							container.find('.iconName').text(data.text);
 							container.find('#iconName').val(data.text);
@@ -74,9 +78,13 @@ $.Class(
 						}
 						let option;
 						if (data.type === 'icon') {
-							option = $(`<span class="${data.text}" aria-hidden="true"></span><span> - ${data.text}</span>`);
+							option = $(
+								`<span class="${data.text}" aria-hidden="true"></span><span> - ${data.text}</span>`
+							);
 						} else if (data.type === 'image') {
-							option = $(`<img width="24px" src="${data.url}" title="${data.text}" /><span> - ${data.text}</span>`);
+							option = $(
+								`<img width="24px" src="${data.url}" title="${data.text}" /><span> - ${data.text}</span>`
+							);
 						}
 						return option;
 					},
@@ -90,7 +98,9 @@ $.Class(
 			$('li[data-mode="systemWarnings"] a').click();
 		},
 		showSecurity: function() {
-			app.openUrl('index.php?module=Log&parent=' + app.getParentModuleName() + '&view=Index&type=access_for_admin');
+			app.openUrl(
+				'index.php?module=Log&parent=' + app.getParentModuleName() + '&view=Index&type=access_for_admin'
+			);
 		}
 	},
 	{
@@ -131,7 +141,8 @@ $.Class(
 		registerPinShortCutEvent: function(element) {
 			const id = element.data('id');
 			const url =
-				'index.php?module=Vtiger&parent=Settings&action=Basic&mode=updateFieldPinnedStatus&pin=true&fieldid=' + id;
+				'index.php?module=Vtiger&parent=Settings&action=Basic&mode=updateFieldPinnedStatus&pin=true&fieldid=' +
+				id;
 			const progressIndicatorElement = $.progressIndicator({
 				blockInfo: {
 					enabled: true
@@ -257,11 +268,11 @@ $.Class(
 		},
 		setPanels(panels) {
 			const panelsStorage = Quasar.plugins.LocalStorage.getItem('yf-settings-panels');
-			for (let item of panels) {
+			panels.each((i, item) => {
 				if (panelsStorage[item.id] === 'shown') {
 					$(item).collapse('show');
 				}
-			}
+			});
 		},
 		loadEditorElement: function() {
 			new App.Fields.Text.Editor($('.js-editor'), {});

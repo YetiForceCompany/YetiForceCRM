@@ -79,7 +79,6 @@ class RecordTransfer
 	public static function relations(int $sourceId, array $records)
 	{
 		$sourceRecord = \Vtiger_Record_Model::getInstanceById($sourceId);
-		$sourceRelations = \Vtiger_Relation_Model::getAllRelations($sourceRecord->getModule(), false, true, false);
 		foreach ($records as $recordId) {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId);
 			if (!$recordModel->isViewable()) {
@@ -90,34 +89,35 @@ class RecordTransfer
 				\ModComments::transferRecords($recordId, $sourceId);
 			}
 			$relations = \Vtiger_Relation_Model::getAllRelations($recordModel->getModule(), false, true, false);
-			foreach ($relations as $relation) {
-				if (isset($sourceRelations[$relation->get('related_tabid')]) && $relation->get('name') === $sourceRelations[$relation->get('related_tabid')]->get('name')) {
-					$sourceRelation = $sourceRelations[$relation->get('related_tabid')];
-					$queryGenerator = $sourceRelation->set('parentRecord', $sourceRecord)->getQuery()->setFields(['id']);
-					$queryGenerator->permissions = false;
-					$queryGenerator->setStateCondition('All');
-					$sourceRelationIds = $queryGenerator->createQuery()->column();
-					$queryGenerator = $relation->set('parentRecord', $recordModel)->getQuery()->setFields(['id']);
-					$queryGenerator->permissions = false;
-					$queryGenerator->setStateCondition('All');
-					$relationIds = $queryGenerator->createQuery()->column();
-					foreach (array_diff($relationIds, $sourceRelationIds) as $relId) {
-						$sourceRelation->transfer([$relId => $recordModel->getId()]);
-						if (!$relation->isDirectRelation()) {
-							$relation->transferDelete($relId);
-						}
-					}
-					foreach (array_intersect($relationIds, $sourceRelationIds) as $relId) {
-						$relation->transferDelete($relId);
-					}
-					if ($relation->isTreeRelation()) {
-						$relTrees = $relation->getRelationTreeQuery()->select(['ttd.tree', 'crmid'])->createCommand()->queryAllByGroup();
-						$sourceTrees = $sourceRelation->getRelationTreeQuery()->select(['ttd.tree', 'crmid'])->createCommand()->queryAllByGroup();
-						foreach ($relTrees as $tree => $crmid) {
-							if (!isset($sourceTrees[$tree])) {
-								$sourceRelation->transferTree([$tree => $crmid]);
+			foreach (\Vtiger_Relation_Model::getAllRelations($sourceRecord->getModule(), false, true, false) as $sourceRelation) {
+				foreach ($relations as $destRelation) {
+					if ($sourceRelation->get('related_tabid') === $destRelation->get('related_tabid') && $sourceRelation->get('name') === $destRelation->get('name') && $sourceRelation->get('field_name') === $destRelation->get('field_name')) {
+						$queryGenerator = $sourceRelation->set('parentRecord', $sourceRecord)->getQuery()->setFields(['id']);
+						$queryGenerator->permissions = false;
+						$queryGenerator->setStateCondition('All');
+						$sourceRelationIds = $queryGenerator->createQuery()->column();
+						$queryGenerator = $destRelation->set('parentRecord', $recordModel)->getQuery()->setFields(['id']);
+						$queryGenerator->permissions = false;
+						$queryGenerator->setStateCondition('All');
+						$relationIds = $queryGenerator->createQuery()->column();
+						foreach (array_diff($relationIds, $sourceRelationIds) as $relId) {
+							$sourceRelation->transfer([$relId => $recordModel->getId()]);
+							if (!$destRelation->isDirectRelation()) {
+								$destRelation->transferDelete($relId);
 							}
-							$relation->deleteRelationTree($recordModel->getId(), $tree);
+						}
+						foreach (array_intersect($relationIds, $sourceRelationIds) as $relId) {
+							$destRelation->transferDelete($relId);
+						}
+						if ($destRelation->isTreeRelation()) {
+							$relTrees = $destRelation->getRelationTreeQuery()->select(['ttd.tree', 'crmid'])->createCommand()->queryAllByGroup();
+							$sourceTrees = $sourceRelation->getRelationTreeQuery()->select(['ttd.tree', 'crmid'])->createCommand()->queryAllByGroup();
+							foreach ($relTrees as $tree => $crmid) {
+								if (!isset($sourceTrees[$tree])) {
+									$sourceRelation->transferTree([$tree => $crmid]);
+								}
+								$destRelation->deleteRelationTree($recordModel->getId(), $tree);
+							}
 						}
 					}
 				}

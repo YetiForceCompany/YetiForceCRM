@@ -17,24 +17,24 @@ class PriceBooks_Save_Action extends Vtiger_Save_Action
 	 *
 	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
-	public function saveRecord(\App\Request $request)
+	public function saveRecord(App\Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
 		if ($request->getBoolean('relationOperation')) {
 			$parentModuleName = $request->getByType('sourceModule', 2);
-			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
 			$parentRecordId = $request->getInteger('sourceRecord');
-			$relatedModule = $recordModel->getModule();
-			$relatedRecordId = $recordModel->getId();
 
-			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
-			$relationModel->addRelation($parentRecordId, $relatedRecordId);
-
+			$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
+			if ($relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($parentModuleName), $recordModel->getModule(), $relationId)) {
+				$relationModel->addRelation($parentRecordId, $recordModel->getId());
+			}
 			//To store the relationship between Products/Services and PriceBooks
-			if ($parentRecordId && ($parentModuleName === 'Products' || $parentModuleName === 'Services')) {
+			if ($parentRecordId && ('Products' === $parentModuleName || 'Services' === $parentModuleName)) {
 				$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
-				$recordModel->updateListPrice($parentRecordId, $parentRecordModel->get('unit_price'));
+				$recordModel->updateListPrice($parentRecordId, $parentRecordModel->getField('unit_price')->getUITypeModel()->getValueForCurrency(
+					$parentRecordModel->get('unit_price'), $recordModel->get('currency_id'))
+				);
 			}
 		}
 		return $recordModel;

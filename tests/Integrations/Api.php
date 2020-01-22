@@ -59,7 +59,7 @@ class Api extends \Tests\Base
 	private static $authUserParams;
 	private static $recordId;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 		static::$url = \App\Config::main('site_URL') . 'webservice/';
@@ -68,7 +68,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing add configuration.
 	 */
-	public function testAddConfiguration()
+	public function testAddConfiguration(): void
 	{
 		$webserviceApps = \Settings_WebserviceApps_Record_Model::getCleanInstance();
 		$webserviceApps->set('type', 'Portal');
@@ -125,7 +125,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing login.
 	 */
-	public function testLogIn()
+	public function testLogIn(): void
 	{
 		$request = \Requests::post(static::$url . 'Users/Login', static::$requestHeaders, \App\Json::encode([
 			'userName' => 'demo@yetiforce.com',
@@ -141,7 +141,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing add record.
 	 */
-	public function testAddRecord()
+	public function testAddRecord(): void
 	{
 		$recordData = [
 			'accountname' => 'Api YetiForce Sp. z o.o.',
@@ -161,7 +161,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing edit record.
 	 */
-	public function testEditRecord()
+	public function testEditRecord(): void
 	{
 		$recordData = [
 			'accountname' => 'Api YetiForce Sp. z o.o. New name',
@@ -176,7 +176,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing record list.
 	 */
-	public function testRecordList()
+	public function testRecordList(): void
 	{
 		$request = \Requests::get(static::$url . 'Accounts/RecordsList', static::$requestHeaders, static::$requestOptions);
 		$this->logs = $request->raw;
@@ -187,7 +187,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing get fields.
 	 */
-	public function testGetFields()
+	public function testGetFields(): void
 	{
 		$request = \Requests::get(static::$url . 'Accounts/Fields', static::$requestHeaders, static::$requestOptions);
 		$this->logs = $request->raw;
@@ -200,7 +200,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing get privileges.
 	 */
-	public function testGetPrivileges()
+	public function testGetPrivileges(): void
 	{
 		$request = \Requests::get(static::$url . 'Accounts/Privileges', static::$requestHeaders, static::$requestOptions);
 		$this->logs = $request->raw;
@@ -212,7 +212,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing get modules.
 	 */
-	public function testGetModules()
+	public function testGetModules(): void
 	{
 		$request = \Requests::get(static::$url . 'Modules', static::$requestHeaders, static::$requestOptions);
 		$this->logs = $request->raw;
@@ -224,7 +224,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing get api methods.
 	 */
-	public function testGetMethods()
+	public function testGetMethods(): void
 	{
 		$request = \Requests::get(static::$url . 'Methods', static::$requestHeaders, static::$requestOptions);
 		$this->logs = $request->raw;
@@ -238,7 +238,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing delete configuration.
 	 */
-	public function testDeleteConfiguration()
+	public function testDeleteConfiguration(): void
 	{
 		\Settings_WebserviceUsers_Record_Model::getInstanceById(static::$apiUserId, 'Portal')->delete();
 		\Settings_WebserviceApps_Record_Model::getInstanceById(static::$serverId)->delete();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Conf report class.
  *
@@ -17,6 +18,12 @@ namespace App\Utils;
 class ConfReport
 {
 	/**
+	 * System URL.
+	 *
+	 * @var string
+	 */
+	private static $crmUrl;
+	/**
 	 * Optional database configuration for offline use.
 	 *
 	 * @var array
@@ -33,7 +40,7 @@ class ConfReport
 	 *
 	 * @var array
 	 */
-	public static $urlsToCheck = ['root' => 'shorturl.php', 'js' => 'layouts/resources/Tools.js', 'css' => 'layouts/resources/fonts/fonts.css'];
+	public static $urlsToCheck = ['root' => 'index.php', 'js' => 'layouts/resources/Tools.js', 'css' => 'layouts/resources/fonts/fonts.css'];
 
 	/**
 	 * List all variables.
@@ -55,8 +62,8 @@ class ConfReport
 	 * @var array
 	 */
 	public static $stability = [
-		'phpVersion' => ['recommended' => '7.1.x, 7.2.x, 7.3.x', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
-		'protocolVersion' => ['recommended' => '1.x, 2.0', 'type' => 'Version', 'container' => 'env', 'testCli' => false, 'Install' => false, 'label' => 'PROTOCOL_VERSION'],
+		'phpVersion' => ['recommended' => '7.2.x, 7.3.x, 7.4.x (dev)', 'type' => 'Version', 'container' => 'env', 'testCli' => true, 'label' => 'PHP'],
+		'protocolVersion' => ['recommended' => '2.0, 1.x', 'type' => 'Version', 'container' => 'env', 'testCli' => false, 'label' => 'PROTOCOL_VERSION'],
 		'error_reporting' => ['recommended' => 'E_ALL & ~E_NOTICE', 'type' => 'ErrorReporting', 'container' => 'php', 'testCli' => true],
 		'output_buffering' => ['recommended' => 'On', 'type' => 'OnOffInt', 'container' => 'php', 'testCli' => true],
 		'max_execution_time' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
@@ -97,6 +104,7 @@ class ConfReport
 		'session.cookie_httponly' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => false],
 		'session.use_only_cookies' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.cookie_secure' => ['recommended' => '?', 'type' => 'CookieSecure', 'container' => 'php', 'testCli' => false],
+		'session.cookie_samesite' => ['recommended' => '', 'type' => 'CookieSamesite', 'container' => 'php', 'testCli' => true],
 		'session.name' => ['recommended' => 'YTSID', 'container' => 'php', 'type' => 'Equal', 'testCli' => false],
 		'expose_php' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session_regenerate_id' => ['recommended' => 'On', 'type' => 'SessionRegenerate', 'testCli' => true],
@@ -112,14 +120,17 @@ class ConfReport
 	public static $headers = [
 		'Header: server' => ['recommended' => '', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: x-powered-by' => ['recommended' => '', 'type' => 'Header', 'contaiuse_only_cookiesner' => 'request', 'testCli' => false],
+		'Header: access-control-allow-methods' => ['recommended' => 'GET, POST', 'type' => 'Header', 'container' => 'request', 'testCli' => false, 'onlyPhp' => true],
+		'Header: access-control-allow-origin' => ['recommended' => '*', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: referrer-policy' => ['recommended' => 'no-referrer', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: expect-ct' => ['recommended' => 'enforce; max-age=3600', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: x-frame-options' => ['recommended' => 'sameorigin', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: x-xss-protection' => ['recommended' => '1; mode=block', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: x-content-type-options' => ['recommended' => 'nosniff', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: x-robots-tag' => ['recommended' => 'none', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: x-permitted-cross-domain-policies' => ['recommended' => 'none', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
-		'Header: expect-ct' => ['recommended' => 'enforce; max-age=3600', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
-		'Header: referrer-policy' => ['recommended' => 'no-referrer', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
-		'Header: strict-transport-security' => ['recommended' => 'max-age=31536000; includeSubDomains; preload', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: strict-transport-security' => ['recommended' => 'max-age=31536000; includeSubDomains; preload', 'type' => 'Header', 'container' => 'request', 'testCli' => false, 'httpsRequired' => true],
+		'Header: content-security-policy' => ['recommended' => '', 'type' => 'HeaderCsp', 'container' => 'request', 'testCli' => false],
 	];
 
 	/**
@@ -171,6 +182,7 @@ class ConfReport
 		'version_comment' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_VERSION_COMMENT'],
 		'connectionStatus' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_CONNECTION_STATUS'],
 		'serverInfo' => ['container' => 'db', 'testCli' => false, 'label' => 'DB_SERVER_INFO'],
+		'maximumMemorySize' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false, 'label' => 'DB_MAXIMUM_MEMORY_SIZE', 'showHelp' => true],
 		'innodb_lock_wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
 		'wait_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
 		'interactive_timeout' => ['recommended' => 600, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
@@ -251,6 +263,7 @@ class ConfReport
 		'crmDate' => ['container' => 'env', 'testCli' => false, 'label' => 'CRM_DATE'],
 		'operatingSystem' => ['container' => 'env', 'testCli' => false, 'label' => 'OPERATING_SYSTEM'],
 		'serverSoftware' => ['container' => 'env', 'testCli' => false, 'label' => 'SERVER_SOFTWARE'],
+		'currentUser' => ['container' => 'env', 'type' => 'CronEqual', 'testCli' => true, 'label' => 'SCRIPT_USER'],
 		'tempDir' => ['container' => 'env', 'testCli' => false, 'label' => 'TMP_DIR'],
 		'crmDir' => ['container' => 'env', 'testCli' => false, 'label' => 'CRM_DIR'],
 		'sapi' => ['container' => 'env', 'testCli' => true, 'label' => 'PHP_SAPI'],
@@ -262,12 +275,12 @@ class ConfReport
 		'spaceStorage' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_STORAGE'],
 		'spaceTemp' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_TEMP'],
 		'lastCronStart' => ['container' => 'env', 'testCli' => false, 'label' => 'LAST_CRON_START', 'isHtml' => true],
-		'open_basedir' => ['container' => 'php', 'testCli' => true],
+		'open_basedir' => ['container' => 'php',  'type' => 'NotEmpty', 'testCli' => true, 'mode' => 'showWarnings'],
 		'cacertbundle' => ['recommended' => 'On', 'container' => 'env', 'type' => 'OnOff', 'testCli' => true, 'label' => 'CACERTBUNDLE'],
 		'SSL_CERT_FILE' => ['container' => 'env', 'testCli' => true],
 		'SSL_CERT_DIR' => ['container' => 'env', 'testCli' => true],
-		'openssl.cafile' => ['container' => 'php', 'testCli' => true],
-		'openssl.capath' => ['container' => 'php', 'testCli' => true],
+		'openssl.cafile' => ['container' => 'php',  'type' => 'NotEmpty', 'testCli' => true, 'mode' => 'showWarnings'],
+		'openssl.capath' => ['container' => 'php',  'type' => 'NotEmpty', 'testCli' => true, 'mode' => 'showWarnings'],
 	];
 
 	/**
@@ -290,6 +303,14 @@ class ConfReport
 	 */
 	public static $writableFilesAndFolders = [
 		'app_data/' => ['type' => 'IsWritable', 'testCli' => true],
+		'app_data/cron.php' => ['type' => 'IsWritable', 'testCli' => true],
+		'app_data/registration.php' => ['type' => 'IsWritable', 'testCli' => true],
+		'app_data/moduleHierarchy.php' => ['type' => 'IsWritable', 'testCli' => true],
+		'app_data/shop.php' => ['type' => 'IsWritable', 'testCli' => true],
+		'app_data/icons.php' => ['type' => 'IsWritable', 'testCli' => true],
+		'app_data/LanguagesUpdater.json' => ['type' => 'IsWritable', 'testCli' => true],
+		'app_data/SystemUpdater.json' => ['type' => 'IsWritable', 'testCli' => true],
+		'app_data/libraries.json' => ['type' => 'IsWritable', 'testCli' => true],
 		'app_data/shop/' => ['type' => 'IsWritable', 'testCli' => true],
 		'config/' => ['type' => 'IsWritable', 'testCli' => true],
 		'config/Components' => ['type' => 'IsWritable', 'testCli' => true],
@@ -302,13 +323,19 @@ class ConfReport
 		'cache/addressBook/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/images/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/import/' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/mail/' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/pdf/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/logs/' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/logs/system.log' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/logs/cron/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/session/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/templates_c/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/upload/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/vtlib/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/vtlib/HTML' => ['type' => 'IsWritable', 'testCli' => true],
 		'cron/modules/' => ['type' => 'IsWritable', 'testCli' => true],
+		'languages/' => ['type' => 'IsWritable', 'testCli' => true],
+		'install/' => ['type' => 'IsWritable', 'testCli' => true],
 		'modules/' => ['type' => 'IsWritable', 'testCli' => true],
 		'storage/' => ['type' => 'IsWritable', 'testCli' => true],
 		'storage/Products/' => ['type' => 'IsWritable', 'testCli' => true],
@@ -369,6 +396,12 @@ class ConfReport
 	 * @var string
 	 */
 	public static $sapi = 'www';
+	/**
+	 * Errors.
+	 *
+	 * @var string[]
+	 */
+	public static $errors = [];
 
 	/**
 	 * Get all configuration values.
@@ -413,6 +446,11 @@ class ConfReport
 	 */
 	private static function init(string $type)
 	{
+		if (\App\Config::main('site_URL')) {
+			static::$crmUrl = \App\Config::main('site_URL');
+		} elseif (isset(\App\Process::$requestMode) && 'Install' === \App\Process::$requestMode) {
+			static::$crmUrl = str_replace('/install/', '/', \App\RequestUtil::getBrowserInfo()->siteUrl);
+		}
 		$types = static::$container;
 		if (isset(static::${$type})) {
 			$types = \array_unique(\array_column(static::${$type}, 'container'));
@@ -479,6 +517,7 @@ class ConfReport
 				'crmDir' => ROOT_DIRECTORY,
 				'operatingSystem' => 'demo' === \App\Config::main('systemMode') ? php_uname('s') : php_uname(),
 				'serverSoftware' => $_SERVER['SERVER_SOFTWARE'] ?? '-',
+				'currentUser' => get_current_user() . ' [' . (getmyuid() ?: '-') . ']',
 				'tempDir' => \App\Fields\File::getTmpPath(),
 				'spaceRoot' => '',
 				'spaceStorage' => '',
@@ -515,19 +554,20 @@ class ConfReport
 	 */
 	private static function getRequest()
 	{
-		$requestUrl = \App\Config::main('site_URL') ?: \App\RequestUtil::getBrowserInfo()->siteUrl;
+		$requestUrl = static::$crmUrl;
 		if (!IS_PUBLIC_DIR) {
 			$requestUrl .= 'public_html/';
 		}
 		$request = [];
 		try {
 			foreach (static::$urlsToCheck as $type => $url) {
-				$res = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $requestUrl . $url);
+				$res = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('OPTIONS', $requestUrl . $url);
 				foreach ($res->getHeaders() as $key => $value) {
 					$request[strtolower($key)][$type] = \is_array($value) ? implode(',', $value) : $value;
 				}
 			}
 		} catch (\Throwable $e) {
+			self::$errors[__FUNCTION__] = $e->getMessage();
 		}
 		return $request;
 	}
@@ -784,6 +824,24 @@ class ConfReport
 	}
 
 	/**
+	 * Validate equal value "cron == www".
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateCronEqual(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		if ('www' === $sapi && strtolower($row['www'] ?? '') !== strtolower($row['cron'] ?? '')) {
+			$row['status'] = false;
+		}
+		return $row;
+	}
+
+	/**
 	 * Validate date timezone.
 	 *
 	 * @param string $name
@@ -924,6 +982,25 @@ class ConfReport
 	}
 
 	/**
+	 * Validate session.cookie_samesite.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateCookieSamesite(string $name, array $row, string $sapi)
+	{
+		if ($name && version_compare(PHP_VERSION, '7.3', '>')) {
+			$row['status'] = ($row[$sapi] ?? '') === $row['recommended'];
+		} else {
+			$row['mode'] = 'skipParam';
+		}
+		return $row;
+	}
+
+	/**
 	 * Parser on or off value.
 	 *
 	 * @param string $name
@@ -951,9 +1028,9 @@ class ConfReport
 	private static function validateSessionRegenerate(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if (\App\Config::main('site_URL')) {
-			$row[$sapi] = \App\Config::main('session_regenerate_id') ? 'On' : 'Off';
-			$row['status'] = \App\Config::main('session_regenerate_id');
+		if ('Install' !== \App\Process::$requestMode) {
+			$row[$sapi] = \Config\Security::$loginSessionRegenerate ? 'On' : 'Off';
+			$row['status'] = \Config\Security::$loginSessionRegenerate;
 		} else {
 			$row['mode'] = 'skipParam';
 		}
@@ -971,14 +1048,63 @@ class ConfReport
 	 */
 	private static function validateHeader(string $name, array $row, string $sapi)
 	{
+		unset($sapi);
 		$header = strtolower(\str_replace('Header: ', '', $name));
+		if (!empty($row['httpsRequired']) && !\App\RequestUtil::getBrowserInfo()->https) {
+			$row['recommended'] = '';
+		}
+		$onlyPhp = empty($row['onlyPhp']);
 		if (isset(static::$request[$header])) {
-			$row['www'] = static::$request[$header]['root'] ?? '';
-			$row['js'] = static::$request[$header]['js'] ?? '';
-			$row['css'] = static::$request[$header]['css'] ?? '';
-			$row['status'] = strtolower($row['www']) === strtolower($row['recommended']) && strtolower($row['js']) === strtolower($row['recommended']) && strtolower($row['css']) === strtolower($row['recommended']);
+			$row['www'] = static::$request[$header]['root'] ?? '-';
+			$row['js'] = static::$request[$header]['js'] ?? '-';
+			$row['css'] = static::$request[$header]['css'] ?? '-';
+			$row['status'] = strtolower($row['www']) === strtolower($row['recommended']);
+			if ($onlyPhp) {
+				$row['status'] = $row['status'] && strtolower($row['js']) === strtolower($row['recommended']) && strtolower($row['css']) === strtolower($row['recommended']);
+			}
 		} elseif ('' === $row['recommended']) {
 			$row['status'] = true;
+		} else {
+			$row['status'] = false;
+		}
+		return $row;
+	}
+
+	/**
+	 * Validate header CSP.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateHeaderCsp(string $name, array $row, string $sapi)
+	{
+		unset($sapi);
+		$header = strtolower(\str_replace('Header: ', '', $name));
+		$row['recommended'] = trim(\App\Headers::getInstance()->getCspHeader());
+		if (isset(static::$request[$header])) {
+			$row['www'] = static::$request[$header]['root'] ?? '-';
+			$row['status'] = strtolower($row['www']) === strtolower($row['recommended']);
+			if (!$row['status']) {
+				$www = [];
+				foreach (explode(';', $row['www']) as  $value) {
+					if ($value) {
+						$name = explode(' ', trim($value))[0];
+						$www[$name] = $value;
+					}
+				}
+				foreach (explode(';', $row['recommended']) as  $value) {
+					if ($value) {
+						$name = explode(' ', trim($value))[0];
+						if ($www[$name] !== $value) {
+							$row['recommended'] = str_replace($value, "<b class=\"text-danger\">$value</b>", $row['recommended']);
+							$row['isHtml'] = true;
+						}
+					}
+				}
+			}
 		} else {
 			$row['status'] = false;
 		}
@@ -1052,7 +1178,7 @@ class ConfReport
 	private static function validateExistsUrl(string $name, array $row, string $sapi)
 	{
 		unset($sapi);
-		$row['status'] = !\App\Fields\File::isExistsUrl(\App\Config::main('site_URL') . $name);
+		$row['status'] = !\App\Fields\File::isExistsUrl(static::$crmUrl . $name);
 		return $row;
 	}
 
@@ -1119,7 +1245,7 @@ class ConfReport
 	{
 		unset($name);
 		$supported = [];
-		$requestUrl = \App\Config::main('site_URL') . 'shorturl.php';
+		$requestUrl = static::$crmUrl . 'shorturl.php';
 		foreach (\explode(', ', $row['recommended']) as $type) {
 			try {
 				$response = (new \GuzzleHttp\Client())->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
@@ -1162,10 +1288,13 @@ class ConfReport
 	 */
 	private static function validateIsWritable(string $name, array $row, string $sapi)
 	{
-		$row['status'] = \App\Fields\File::isWriteable($name);
-		$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
 		if (!file_exists(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $name)) {
 			$row['mode'] = 'skipParam';
+		} else {
+			$row['status'] = \App\Fields\File::isWriteable($name);
+			$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
+			$row['owner'] = fileowner(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $name);
+			$row['perms'] = substr(sprintf('%o', fileperms(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $name)), -4);
 		}
 		return $row;
 	}
@@ -1211,6 +1340,7 @@ class ConfReport
 	 */
 	private static function validatePremiumModules(string $name, array $row, string $sapi)
 	{
+		unset($name);
 		$row['status'] = true;
 		$row[$sapi] = \App\Language::translate($row['status'] ? 'LBL_YES' : 'LBL_NO');
 		return $row;
@@ -1237,10 +1367,16 @@ class ConfReport
 	/**
 	 * Get all configuration error values.
 	 *
+	 * @param bool $cache
+	 *
 	 * @return array
 	 */
-	public static function getAllErrors()
+	public static function getAllErrors(bool $cache = false)
 	{
+		$fileCache = ROOT_DIRECTORY . '/app_data/ConfReport_AllErrors.php';
+		if ($cache && file_exists($fileCache) && filemtime($fileCache) > strtotime('-5 minute')) {
+			return require $fileCache;
+		}
 		$result = [];
 		foreach (static::getAll() as $category => $params) {
 			foreach ($params as $param => $data) {
@@ -1257,6 +1393,9 @@ class ConfReport
 					$result[$category][$param] = $val;
 				}
 			}
+		}
+		if ($cache) {
+			\App\Utils::saveToFile($fileCache, $result, '', 0, true);
 		}
 		return $result;
 	}
@@ -1326,54 +1465,4 @@ class ConfReport
 		return $ver;
 	}
 
-	/**
-	 * Test server speed.
-	 *
-	 * @return array
-	 */
-	public static function testSpeed()
-	{
-		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'speed' . \DIRECTORY_SEPARATOR;
-		if (!is_dir($dir)) {
-			mkdir($dir, 0755);
-		}
-		$testStartTime = microtime(true);
-		$ram = $cpu = $filesWrite = 0;
-		while ((microtime(true) - $testStartTime) < 1) {
-			file_put_contents("{$dir}{$testStartTime}{$filesWrite}.txt", $testStartTime);
-			++$filesWrite;
-		}
-		$iterator = new \DirectoryIterator($dir);
-		$readS = microtime(true);
-		foreach ($iterator as $item) {
-			if ($item->isFile()) {
-				file_get_contents($item->getPathname());
-			}
-		}
-		$filesRead = $filesWrite / (microtime(true) - $readS);
-		$testStartTime = microtime(true);
-		while ((microtime(true) - $testStartTime) < 1) {
-			$cpuTmp = sha1($cpu);
-			unset($cpuTmp);
-			++$cpu;
-		}
-		$testStartTime = microtime(true);
-		$test = [];
-		while ((microtime(true) - $testStartTime) < 1) {
-			$test[] = [[[$ram]]];
-			unset($test);
-			++$ram;
-		}
-		\vtlib\Functions::recurseDelete('cache/speed');
-		$dbs = microtime(true);
-		\App\Db::getInstance()->createCommand('SELECT BENCHMARK(1000000,1+1);')->execute();
-		$dbe = microtime(true);
-		return [
-			'FilesRead' => (int) $filesRead,
-			'FilesWrite' => $filesWrite,
-			'CPU' => $cpu,
-			'RAM' => $ram,
-			'DB' => (int) (1000000 / ($dbe - $dbs))
-		];
-	}
 }

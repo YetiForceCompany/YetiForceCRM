@@ -100,7 +100,9 @@ class Cron
 	 */
 	public static function generateStatusFile()
 	{
-		return file_put_contents(ROOT_DIRECTORY . '/app_data/cron.php', '<?php return ' . Utils::varExport(array_merge(Utils\ConfReport::getAll(), ['last_start' => time()])) . ';');
+		$all = Utils\ConfReport::getAll();
+		$all['last_start'] = time();
+		return file_put_contents(ROOT_DIRECTORY . '/app_data/cron.php', '<?php return ' . Utils::varExport($all) . ';');
 	}
 
 	/**

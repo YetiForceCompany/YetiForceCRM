@@ -15,6 +15,8 @@ export function getGroupIcon(roomType) {
 			return 'yfi-global-room'
 		case 'private':
 			return 'yfi-group-room'
+		case 'user':
+			return 'yfi-user'
 	}
 }
 

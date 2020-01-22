@@ -8,7 +8,7 @@
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_RangeTime_UIType extends Vtiger_Base_UIType
+class Vtiger_RangeTime_UIType extends Vtiger_Integer_UIType
 {
 	/**
 	 * {@inheritdoc}
@@ -40,7 +40,7 @@ class Vtiger_RangeTime_UIType extends Vtiger_Base_UIType
 	 */
 	public function getAllowedColumnTypes()
 	{
-		return null;
+		return ['integer'];
 	}
 
 	/**

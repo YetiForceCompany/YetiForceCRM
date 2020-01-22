@@ -26,17 +26,6 @@ class Outlook extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(): void
-	{
-		foreach ($this->getActions() as $action) {
-			$class = "App\\Mail\\ScannerAction\\{$action}";
-			(new $class($this))->process();
-		}
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getActions(): array
 	{
 		return array_filter(explode(',', \App\User::getCurrentUserModel()->getDetail('mail_scanner_actions')));
@@ -154,7 +143,7 @@ class Outlook extends Base
 		if ($this->has('bcc_email')) {
 			$emails = array_merge($emails, $this->get('bcc_email'));
 		}
-		return $this->processData['findByEmail'] = array_flatten(\App\Mail\RecordFinder::findByEmail($emails, $this->getEmailsFields()));
+		return $this->processData['findByEmail'] = \App\Utils::flatten(\App\Mail\RecordFinder::findByEmail($emails, $this->getEmailsFields()));
 	}
 
 	/**
@@ -179,12 +168,14 @@ class Outlook extends Base
 		}
 		$user = \App\User::getCurrentUserModel();
 		$fields = [];
-		foreach (explode(',', trim($user->getDetail('mail_scanner_fields'), ',')) as $field) {
-			$field = explode('|', $field);
-			if (($searchModuleName && $searchModuleName !== $field[1]) || !\in_array($field[3], [13, 319])) {
-				continue;
+		if ($mailScannerFields = $user->getDetail('mail_scanner_fields')) {
+			foreach (explode(',', trim($mailScannerFields, ',')) as $field) {
+				$field = explode('|', $field);
+				if (($searchModuleName && $searchModuleName !== $field[1]) || !\in_array($field[3], [13, 319])) {
+					continue;
+				}
+				$fields[$field[1]][$field[3]][] = $field[2];
 			}
-			$fields[$field[1]][$field[3]][] = $field[2];
 		}
 		$this->emailsFieldsCache[$cacheKey] = $fields;
 		return $fields;
@@ -201,12 +192,14 @@ class Outlook extends Base
 		}
 		$user = \App\User::getCurrentUserModel();
 		$fields = [];
-		foreach (explode(',', trim($user->getDetail('mail_scanner_fields'), ',')) as $field) {
-			$field = explode('|', $field);
-			if (($searchModuleName && $searchModuleName !== $field[1]) || 4 !== (int) $field[3]) {
-				continue;
+		if ($mailScannerFields = $user->getDetail('mail_scanner_fields')) {
+			foreach (explode(',', trim($mailScannerFields, ',')) as $field) {
+				$field = explode('|', $field);
+				if (($searchModuleName && $searchModuleName !== $field[1]) || 4 !== (int) $field[3]) {
+					continue;
+				}
+				$fields[$field[1]][$field[3]][] = $field[2];
 			}
-			$fields[$field[1]][$field[3]][] = $field[2];
 		}
 		$this->numberFieldsCache[$cacheKey] = $fields;
 		return $fields;

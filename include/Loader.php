@@ -12,6 +12,7 @@ class Vtiger_Loader
 {
 	protected static $includeCache = [];
 	protected static $includePathCache = [];
+	protected static $componentClassCache = [];
 	protected static $loaderDirs = [
 		'custom.modules.',
 		'modules.',
@@ -21,6 +22,7 @@ class Vtiger_Loader
 	 * Static function to resolve the qualified php filename to absolute path.
 	 *
 	 * @param string $qualifiedName
+	 * @param mixed  $fileExtension
 	 *
 	 * @return string Absolute File Name
 	 */
@@ -28,15 +30,15 @@ class Vtiger_Loader
 	{
 		$allowedExtensions = ['php', 'js', 'css', 'less'];
 		$file = '';
-		if (!in_array($fileExtension, $allowedExtensions)) {
+		if (!\in_array($fileExtension, $allowedExtensions)) {
 			return '';
 		}
 		$prefix = '';
-		if ($fileExtension !== 'php') {
+		if ('php' !== $fileExtension) {
 			$prefix = 'public_html' . DIRECTORY_SEPARATOR;
 		}
 		// TO handle loading vtiger files
-		if (strpos($qualifiedName, '~') === 0) {
+		if (0 === strpos($qualifiedName, '~')) {
 			$file = str_replace('~', '', $qualifiedName);
 			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $prefix . $file;
 		} else {
@@ -70,7 +72,7 @@ class Vtiger_Loader
 
 		$status = include_once $file;
 
-		$success = ($status !== 0);
+		$success = (0 !== $status);
 
 		if ($success) {
 			self::$includeCache[$qualifiedName] = $file;
@@ -99,6 +101,7 @@ class Vtiger_Loader
 	 * @param string $componentType
 	 * @param string $componentName
 	 * @param string $moduleName
+	 * @param mixed  $throwException
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
@@ -106,64 +109,41 @@ class Vtiger_Loader
 	 */
 	public static function getComponentClassName($componentType, $componentName, $moduleName = 'Vtiger', $throwException = true)
 	{
+		$cacheKey = "$componentType|$componentName|$moduleName";
+		if (isset(self::$componentClassCache[$cacheKey])) {
+			return self::$componentClassCache[$cacheKey];
+		}
 		// Change component type from view to views, action to actions to navigate to the right path.
 		$componentTypeDirectory = strtolower($componentType) . 's';
-		// Fall Back Directory & Fall Back Class
-		$fallBackModuleDir = $fallBackModuleClassPath = 'Vtiger';
-		// Intermediate Fall Back Directories & Classes, before relying on final fall back
-		// Default module directory & class name
-		$moduleDir = $moduleClassPath = $moduleName;
 		// Change the Module directory & class, along with intermediate fall back directory and class, if module names has submodule as well
-		if (strpos($moduleName, ':') > 0) {
+		if (false !== strpos($moduleName, ':')) {
+			$load = [
+				str_replace(':', '_', $moduleName) => str_replace(':', '.', $moduleName),
+			];
 			$moduleHierarchyParts = explode(':', $moduleName);
-			$moduleDir = str_replace(':', '.', $moduleName);
-			$moduleClassPath = str_replace(':', '_', $moduleName);
-			$actualModule = $moduleHierarchyParts[count($moduleHierarchyParts) - 1];
-			$secondFallBackModuleDir = $secondFallBackModuleClassPath = $actualModule;
-			if ($actualModule !== 'Users') {
+			$actualModule = $moduleHierarchyParts[\count($moduleHierarchyParts) - 1];
+			if ('Users' !== $actualModule) {
 				$baseModule = $moduleHierarchyParts[0];
-				if ($baseModule === 'Settings') {
+				if ('Settings' === $baseModule) {
 					$baseModule = 'Settings:Vtiger';
 				}
-				$firstFallBackDir = str_replace(':', '.', $baseModule);
-				$firstFallBackClassPath = str_replace(':', '_', $baseModule);
+				$load[str_replace(':', '_', $baseModule)] = str_replace(':', '.', $baseModule);
 			}
+			$load[$actualModule] = $actualModule;
+			$load['Vtiger'] = 'Vtiger';
+		} else {
+			$load = [
+				$moduleName => $moduleName,
+				'Vtiger' => 'Vtiger',
+			];
 		}
-		// search for file in all predefined directories
-		foreach (self::$loaderDirs as $dir) {
-			// Build module specific file path and class name
-			$moduleSpecificComponentFilePath = self::resolveNameToPath($dir . $moduleDir . '.' . $componentTypeDirectory . '.' . $componentName);
-			$moduleSpecificComponentClassName = $moduleClassPath . '_' . $componentName . '_' . $componentType;
-			if (file_exists($moduleSpecificComponentFilePath)) {
-				return $moduleSpecificComponentClassName;
-			}
-
-			// Build first intermediate fall back file path and class name
-			if (!empty($firstFallBackDir) && !empty($firstFallBackClassPath)) {
-				$fallBackComponentFilePath = self::resolveNameToPath($dir . $firstFallBackDir . '.' . $componentTypeDirectory . '.' . $componentName);
-				$fallBackComponentClassName = $firstFallBackClassPath . '_' . $componentName . '_' . $componentType;
-				if (file_exists($fallBackComponentFilePath)) {
-					return $fallBackComponentClassName;
+		foreach ($load as $classPath => $classDir) {
+			foreach (self::$loaderDirs as $dir) {
+				if (file_exists(self::resolveNameToPath("$dir$classDir.$componentTypeDirectory.$componentName"))) {
+					return self::$componentClassCache[$cacheKey] = "{$classPath}_{$componentName}_{$componentType}";
 				}
 			}
-
-			// Build intermediate fall back file path and class name
-			if (!empty($secondFallBackModuleDir) && !empty($secondFallBackModuleClassPath)) {
-				$fallBackComponentFilePath = self::resolveNameToPath($dir . $secondFallBackModuleDir . '.' . $componentTypeDirectory . '.' . $componentName);
-				$fallBackComponentClassName = $secondFallBackModuleClassPath . '_' . $componentName . '_' . $componentType;
-				if (file_exists($fallBackComponentFilePath)) {
-					return $fallBackComponentClassName;
-				}
-			}
-
-			// Build fall back file path and class name
-			$fallBackComponentFilePath = self::resolveNameToPath($dir . $fallBackModuleDir . '.' . $componentTypeDirectory . '.' . $componentName);
-			$fallBackComponentClassName = $fallBackModuleClassPath . '_' . $componentName . '_' . $componentType;
-			if (file_exists($fallBackComponentFilePath)) {
-				return $fallBackComponentClassName;
-			}
 		}
-
 		if ($throwException) {
 			\App\Log::error("Error Vtiger_Loader::getComponentClassName($componentType, $componentName, $moduleName): Handler not found");
 			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
@@ -181,7 +161,7 @@ class Vtiger_Loader
 	public static function autoLoad($className)
 	{
 		$parts = explode('_', $className);
-		$noOfParts = count($parts);
+		$noOfParts = \count($parts);
 		if ($noOfParts > 2) {
 			foreach (self::$loaderDirs as $filePath) {
 				// Append modules and sub modules names to the path
@@ -192,7 +172,6 @@ class Vtiger_Loader
 				$fileName = $parts[$noOfParts - 2];
 				$fileComponentName = strtolower($parts[$noOfParts - 1]) . 's';
 				$filePath .= $fileComponentName . '.' . $fileName;
-
 				if (file_exists(self::resolveNameToPath($filePath))) {
 					return self::includeOnce($filePath);
 				}

@@ -1,24 +1,33 @@
-<!--
-/**
- * ArticlePreview component
- *
- * @description Article preview parent component
- * @license YetiForce Public License 3.0
- * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
- */
--->
+
 <template>
-  <transition :enter-active-class="'animated ' + animationIn" :leave-active-class="'animated ' + animationOut">
+  <transition
+    :enter-active-class="'animated ' + animationIn"
+    :leave-active-class="'animated ' + animationOut"
+  >
     <q-list v-show="show">
-      <q-item v-show="activeCategoryDelayed === ''" active>
+      <q-item
+        v-show="activeCategoryDelayed === ''"
+        active
+      >
         <q-item-section avatar>
-          <q-icon :name="tree.topCategory.icon" :size="iconSize" />
+          <q-icon
+            :name="tree.topCategory.icon"
+            :size="iconSize"
+          />
         </q-item-section>
         <q-item-section>{{ translate(tree.topCategory.label) }}</q-item-section>
       </q-item>
-      <q-item v-if="activeCategoryDelayed !== ''" clickable active @click="fetchParentCategoryData()">
+      <q-item
+        v-if="activeCategoryDelayed !== ''"
+        clickable
+        active
+        @click="fetchParentCategoryData()"
+      >
         <q-item-section avatar>
-          <YfIcon :size="iconSize" :icon="tree.categories[activeCategoryDelayed].icon || defaultTreeIcon" />
+          <YfIcon
+            :size="iconSize"
+            :icon="tree.categories[activeCategoryDelayed].icon || defaultTreeIcon"
+          />
         </q-item-section>
         <q-item-section>{{ tree.categories[activeCategoryDelayed].label }}</q-item-section>
         <q-item-section avatar>
@@ -33,7 +42,10 @@
         @click="fetchChildCategoryData(categoryValue)"
       >
         <q-item-section avatar>
-          <YfIcon :size="iconSize" :icon="tree.categories[categoryValue].icon || defaultTreeIcon" />
+          <YfIcon
+            :size="iconSize"
+            :icon="tree.categories[categoryValue].icon || defaultTreeIcon"
+          />
         </q-item-section>
         <q-item-section>{{ tree.categories[categoryValue].label }}</q-item-section>
         <q-item-section avatar>
@@ -89,7 +101,8 @@ export default {
       this.show = false
       this.data.categories = []
       let parentCategory = ''
-      const parentTreeArray = this.tree.categories[this.activeCategory].parentTree
+      const parentTreeArray = this.tree.categories[this.activeCategory]
+        .parentTree
       if (parentTreeArray.length !== 1) {
         parentCategory = parentTreeArray[parentTreeArray.length - 2]
       }
@@ -108,5 +121,4 @@ export default {
   }
 }
 </script>
-<style>
-</style>
+<style></style>

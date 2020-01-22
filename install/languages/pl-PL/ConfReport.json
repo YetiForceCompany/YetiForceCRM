@@ -10,7 +10,7 @@
     "LBL_CONFREPORT_DESCRIPTION": "Pozwala zweryfikować czy najważniejsze ustawienia serwera są zgodne z zalecanymi.",
     "LBL_PARAMETER": "Parametr",
     "LBL_VALUE": "Wartość",
-    "LBL_RECOMMENDED": "Zalecana konfiguracja",
+    "LBL_RECOMMENDED": "Zalecany",
     "LBL_SYSTEM_STABILITY": "Konfiguracja stabilności systemu",
     "LBL_SYSTEM_SECURITY": "Konfiguracja bezpieczeństwa systemu",
     "LBL_HEADERS_SECURITY": "Konfiguracja nagłówków systemowych",
@@ -106,6 +106,8 @@
     "LBL_LABEL_LAST_CRON_START": "Czas ostatniego uruchomienia crona",
     "LBL_LABEL_PROTOCOL_VERSION": "Wersja protokołu HTTP",
     "LBL_LABEL_HTTP_METHODS": "Metody HTTP",
+    "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "Maksymalna ilość pamięci RAM",
+    "LBL_HELP_MAXIMUMMEMORYSIZE": "Maksymalna ilość pamięci RAM, wyliczona na podstawie aktualnych parametrów konfiguracyjnych. Jest to szczytowa ilość pamięci RAM jaką potrzebuje silnik bazy danych do prawidłowej pracy. Jest to ilość pamięci zarezerwowana tylko dla silnika bazy danych. key_buffer_size + query_cache_size + tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + max_connections * (sort_buffer_size + read_buffer_size + read_rnd_buffer_size + join_buffer_size + thread_stack + binlog_cache_size)",
     "LBL_HELP_MBSTRING": "Rozszerzeniem używane do zarządzania ciągami. Służy do konwersji łańcuchów na różne kodowania.",
     "LBL_HELP_FILTER": "Rozszerzenie do filtrowania danych wejściowych.",
     "LBL_HELP_BCMATH": "Bardziej dokładne operacji matematycznych.",
@@ -222,7 +224,11 @@
     "LBL_FUNCTIONAL_VERIFICATION_TITLE": "Weryfikacja funkcjonalności",
     "LBL_IT_WORKS_PROPERLY": "Działa poprawnie",
     "LBL_LABEL_FOOTER": "Stopka",
-    "LBL_LABEL_PREMIUM_MODULES": "Moduły premium"
+    "LBL_LABEL_PREMIUM_MODULES": "Moduły premium",
+    "LBL_FILE_OWNER": "Właściciel",
+    "LBL_FILE_PERMISSIONS": "Uprawnienia",
+    "LBL_LABEL_SCRIPT_USER": "Użytkownik wywołujący skrypt",
+    "LBL_ERROR_DURING_VERIFICATION": "Podczas weryfikacji wystapił błąd"
   },
   "js": {
     "JS_SPEED_TEST_START": "Trwa sprawdzanie szybkości..."

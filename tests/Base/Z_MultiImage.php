@@ -32,7 +32,7 @@ class Z_MultiImage extends \Tests\Base
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		\mkdir(\ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'MultiImage', 0777, true);
 	}
@@ -80,7 +80,7 @@ class Z_MultiImage extends \Tests\Base
 	 * @throws \App\Exceptions\AppException
 	 * @dataProvider providerImageForRecord
 	 */
-	public function testAttachImageToRecord($module, $field, $file)
+	public function testAttachImageToRecord($module, $field, $file): void
 	{
 		switch ($module) {
 			case 'Users':
@@ -139,7 +139,7 @@ class Z_MultiImage extends \Tests\Base
 	 * @throws \App\Exceptions\AppException
 	 * @dataProvider providerDeleteImageForRecord
 	 */
-	public function testDeleteImage($module, $field, $file)
+	public function testDeleteImage($module, $field, $file): void
 	{
 		switch ($module) {
 			case 'Users':
@@ -172,7 +172,7 @@ class Z_MultiImage extends \Tests\Base
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function testAddMultiImage()
+	public function testAddMultiImage(): void
 	{
 		$recordModel = \Vtiger_Record_Model::getInstanceById(\Tests\Base\C_RecordActions::createProductRecord(false)->getId(), 'Products');
 		$attach = [];
@@ -216,7 +216,7 @@ class Z_MultiImage extends \Tests\Base
 	 * @codeCoverageIgnore
 	 * Cleaning after tests.
 	 */
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass(): void
 	{
 		\vtlib\Functions::recurseDelete('tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR, true);
 	}

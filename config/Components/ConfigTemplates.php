@@ -145,6 +145,40 @@ return [
 		'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING' => [
 			'default' => false,
 			'description' => 'Required acceptation before sending mails.'
+		],
+		'defaultRelationModule' => [
+			'default' => '',
+			'description' => "Default selected relation module in mail bar.\n@var string Module name"
+		],
+		'autoCompleteFields' => [
+			'default' => [
+				'Accounts' => ['accountname' => 'subject'],
+				'Leads' => ['lastname' => 'fromNameSecondPart', 'company' => 'fromName'],
+				'Vendors' => ['vendorname' => 'subject'],
+				'Partners' => ['subject' => 'subject'],
+				'Competition' => ['subject' => 'subject'],
+				'OSSEmployees' => ['name' => 'fromNameFirstPart', 'last_name' => 'fromNameSecondPart'],
+				'Contacts' => ['firstname' => 'fromNameFirstPart', 'lastname' => 'fromNameSecondPart'],
+				'SSalesProcesses' => ['subject' => 'subject'],
+				'Project' => ['projectname' => 'subject'],
+				'ServiceContracts' => ['subject' => 'subject'],
+				'Campaigns' => ['campaignname' => 'subject'],
+				'FBookkeeping' => ['subject' => 'subject'],
+				'HelpDesk' => ['ticket_title' => 'subject'],
+				'ProjectMilestone' => ['projectmilestonename' => 'subject'],
+				'SQuoteEnquiries' => ['subject' => 'subject'],
+				'SRequirementsCards' => ['subject' => 'subject'],
+				'SCalculations' => ['subject' => 'subject'],
+				'SQuotes' => ['subject' => 'subject'],
+				'SSingleOrders' => ['subject' => 'subject'],
+				'SRecurringOrders' => ['subject' => 'subject'],
+				'FInvoice' => ['subject' => 'subject'],
+				'SVendorEnquiries' => ['subject' => 'subject'],
+				'ProjectTask' => ['projecttaskname' => 'subject'],
+				'Services' => ['servicename' => 'subject'],
+				'Products' => ['productname' => 'subject']
+			],
+			'description' => "Default auto-complete data from mail bar.\n@var array Map. Example ['Accounts' => ['accountname' => 'subject']]"
 		]
 	],
 	'YetiForce' => [

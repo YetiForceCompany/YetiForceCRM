@@ -144,24 +144,21 @@ class Performance
 	/** Is divided layout style on edit view in modules with products */
 	public static $INVENTORY_EDIT_VIEW_LAYOUT = true;
 
-	/**
-	 * Any modifications of this parameter require the vendor's consent.
-	 * Any unauthorised modification breaches the terms and conditions of YetiForce Public License.
-	 */
-	public static $LIMITED_INFO_IN_FOOTER = false;
-
-	/**
-	 * Any modifications of this parameter require the vendor's consent.
-	 * Any unauthorised modification breaches the terms and conditions of YetiForce Public License.
-	 */
-	public static $LIMITED_INFO_SUPPORT = false;
-
 	/** Popover record's trigger delay in ms */
 	public static $RECORD_POPOVER_DELAY = 500;
 
 	/** Empty value when is not selected item in picklist dependency */
 	public static $PICKLIST_DEPENDENCY_DEFAULT_EMPTY = true;
 
+	/** Number of items displayed in picklists. */
+	public static $picklistLimit = 50;
+
 	/** If there is no translation in the chosen language, then get from the default language. */
 	public static $recursiveTranslate = false;
+
+	/** Parameter defining how fields are displayed in quick edit. Available values: standard,blocks,vertical */
+	public static $quickEditLayout = 'blocks';
+
+	/** Parameter defining how fields are displayed in quick create. Available values: blocks,standard */
+	public static $quickCreateLayout = 'standard';
 }

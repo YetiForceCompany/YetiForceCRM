@@ -131,9 +131,11 @@ class FileTarget extends \yii\log\FileTarget
 		if (ROOT_DIRECTORY !== getcwd()) {
 			chdir(ROOT_DIRECTORY);
 		}
-		$context = \array_merge(\yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars), \App\Utils\ConfReport::getAllErrors());
 		$result = '';
-		foreach ($context as $key => $value) {
+		foreach (\yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars) as $key => $value) {
+			$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($value);
+		}
+		foreach (\App\Utils\ConfReport::getAllErrors(true) as $key => $value) {
 			$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($value);
 		}
 		$result .= PHP_EOL;

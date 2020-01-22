@@ -38,6 +38,6 @@ class ScannerAction
 			}
 		}
 		ksort($actions);
-		return array_flatten($actions);
+		return \App\Utils::flatten($actions);
 	}
 }

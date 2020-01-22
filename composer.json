@@ -26,7 +26,7 @@
     }
   ],
   "require": {
-    "php": ">=7.1.0",
+    "php": ">=7.2.0",
     "ext-imap": "*",
     "ext-pdo": "*",
     "ext-pdo_mysql": "*",
@@ -60,21 +60,21 @@
     "dg/rss-php": "^1.2",
     "phpoffice/phpspreadsheet": "^1.3.1",
     "sonata-project/google-authenticator": "^2.1.0",
-    "milon/barcode": "^5.3",
+    "milon/barcode": "^6.0.0",
     "ckeditor/ckeditor": "^4.9.2",
     "parsecsv/php-parsecsv": "^1.1.0",
-    "guzzlehttp/guzzle": "^6.3.3",
+    "guzzlehttp/guzzle": "^6.3",
     "nette/php-generator": "^3.2.1",
-    "yetiforce/csrf-magic": "^v1.0.9",
+    "yetiforce/csrf-magic": "^v1.1.1",
     "yetiforce/debugbar": "^1.13.1.1",
     "yetiforce/yii2": "2.0.15.3",
-    "yetiforce/yetiforcepdf": "0.1.27",
+    "yetiforce/yetiforcepdf": "0.1.28",
     "abraham/twitteroauth": "^1.0"
   },
   "require-dev": {
     "zircote/swagger-php": "^3.0.2",
     "facebook/webdriver": "^1.6.0",
-    "phpunit/phpunit": "7.*",
+    "phpunit/phpunit": "8.*",
     "seld/jsonlint": "*",
     "php-console/php-console": "^3.1"
   },

@@ -232,7 +232,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel)
 	{
-		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel);
+		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, false, App\Config::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 	}
 
 	/**

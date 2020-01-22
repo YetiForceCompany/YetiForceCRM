@@ -8,32 +8,57 @@
 			</button>
 		</div>
 		<div class="modal-body">
-			<input type="hidden" name="all_records" id="all_records" value="{\App\Purifier::encodeHtml(\App\Json::encode($ALL_RECORDS))}" />
-			<input type="hidden" name="selectedRecords" value="[]" />
-			<input type="hidden" name="validRecords" value="[]" />
-			<input type="hidden" name="template" value="[]" />
+			<input type="hidden" name="module" value="{$MODULE_NAME}"/>
+			<input type="hidden" name="action" value="PDF"/>
+			<input type="hidden" name="viewname" value="{$VIEW_NAME}"/>
+			<input type="hidden" name="selected_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}">
+			<input type="hidden" name="excluded_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}">
+			<input type="hidden" name="search_key" value="{$SEARCH_KEY}"/>
+			<input type="hidden" name="operator" value="{$OPERATOR}"/>
+			<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}"/>
+			<input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}"/>
+			<input type="hidden" name="orderby" value="{\App\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}"/>
+			<input type="hidden" name="record" value="{$RECORD_ID}"/>
+			<input type="hidden" name="fromview" value="{$FROM_VIEW}"/>
 			<input type="hidden" name="single_pdf" value="0" />
 			<input type="hidden" name="email_pdf" value="0" />
-			{foreach from=$EXPORT_VARS key=INDEX item=VALUE}
-				<input type="hidden" name="{$INDEX}" value="{$VALUE}" />
-			{/foreach}
+			<input type="hidden" name="isSortActive" value="1" />
+			{function TEMPLATE_USER_VARIABLE}
+				<div class="js-pdf-user-variable row col-12{if !$TEMPLATE->get('default')} d-none{/if}">
+					{assign var=TEMPLATE_CONTENT value="{$TEMPLATE->getBody()}{$TEMPLATE->getHeader()}{$TEMPLATE->getFooter()}"}
+					{assign var=TEMPLATE_USER_VARIABLES value=$TEMPLATE->getParser()->getUserVariables($TEMPLATE_CONTENT)}
+					{if $TEMPLATE_USER_VARIABLES}
+						{foreach from=$TEMPLATE_USER_VARIABLES item=USER_VARIABLE key=FIELD_NAME}
+							<div class="col-md-6 mb-1">
+								<input type="text" name="userVariables[{$TEMPLATE->getId()}][{\App\Purifier::encodeHtml($FIELD_NAME)}]"
+								class="form-control form-control-sm"
+								title="{\App\Language::translate($USER_VARIABLE['label'], $MODULE_NAME)}"
+								placeholder="{\App\Language::translate($USER_VARIABLE['label'], $MODULE_NAME)}"
+								value="{\App\Language::translate($USER_VARIABLE['default'], $MODULE_NAME)}"/>
+							</div>
+						{/foreach}
+					{/if}
+				</div>
+			{/function}
 			{function TEMPLATE_LIST STANDARD_TEMPLATES=[]}
 				{foreach from=$STANDARD_TEMPLATES item=TEMPLATE}
-					<div class="form-group row">
+					<div class="js-pdf-template-content form-group row" data-js="container">
 						<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
 							{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)}
 							<span class="secondaryName ml-2">[ {\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)} ]</span>
 						</label>
 						<div class="col-sm-1">
-							<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
+							<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}"
+								{if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
 						</div>
+						{TEMPLATE_USER_VARIABLE}
 					</div>
 				{/foreach}
 			{/function}
 			{function TEMPLATE_LIST_DYNAMIC DYNAMIC_TEMPLATES=[]}
 				{foreach from=$DYNAMIC_TEMPLATES item=TEMPLATE name=dynamicTemplates}
 							<div class="dynamic-template-container" data-js="container">
-								<div class="form-group row">
+								<div class="js-pdf-template-content form-group row" data-js="container">
 									<label class="col-sm-11 col-form-label text-left pt-0" for="pdfTpl{$TEMPLATE->getId()}">
 										{\App\Language::translate($TEMPLATE->get('primary_name'), $MODULE_NAME)}
 										<span class="secondaryName ml-2">[ {\App\Language::translate($TEMPLATE->get('secondary_name'), $MODULE_NAME)} ]</span>
@@ -41,6 +66,7 @@
 									<div class="col-sm-1">
 										<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox dynamic-template" data-dynamic="1" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} data-js="change" />
 									</div>
+									{TEMPLATE_USER_VARIABLE}
 								</div>
 								{if $smarty.foreach.dynamicTemplates.last}
 									<h6 class="pt-4 border-top"><label><input type="checkbox" name="isCustomMode" class="mr-2 checkbox" value="1"{if !$CAN_CHANGE_SCHEME} disabled="disabled"{/if}>{\App\Language::translate('LBL_SELECT_COLUMNS',$MODULE_NAME)}</label></h6>
@@ -99,14 +125,14 @@
 					</div>
 				</div>
 			{/if}
+		<span class="js-records-info pl-3 text-info d-none" data-js="text"></span>
 		<div class="modal-footer">
 			<div class="btn-group mr-0">
-				<button id="generate_pdf" type="submit" class="btn btn-success">
+				<button id="generate_pdf" type="submit" class="btn btn-success js-submit-button"{if !$ACTIVE} disabled="disabled"{/if} data-js="click">
 					<span class="fas fa-file-pdf mr-1"></span>{\App\Language::translate('LBL_GENERATE', $MODULE_NAME)}
 				</button>
-				{if count($ALL_RECORDS) > 1}
-					<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
-							aria-haspopup="true" aria-expanded="false">
+					<button type="button" class="btn btn-success dropdown-toggle js-submit-button" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false"{if !$ACTIVE} disabled="disabled"{/if} >
 					</button>
 					<ul class="dropdown-menu">
 						<li>
@@ -115,10 +141,9 @@
 							</a>
 						</li>
 					</ul>
-				{/if}
 			</div>
 			{if \App\Privilege::isPermitted('OSSMail')}
-				<button id="email_pdf" type="submit" class="btn btn-info mr-0">
+				<button id="email_pdf" type="submit" class="btn btn-info mr-0 js-submit-button"{if !$ACTIVE} disabled="disabled"{/if}>
 					<span class="fas fa-envelope mr-1"></span>{\App\Language::translate('LBL_SEND_EMAIL', $MODULE_NAME)}
 				</button>
 			{/if}

@@ -289,6 +289,6 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getProviderInstance()
 	{
-		return SMSNotifier_Module_Model::getProviderInstance($this->get('providertype'));
+		return SMSNotifier_Module_Model::getProviderInstance($this->get('providertype'), $this->get('parameters'));
 	}
 }

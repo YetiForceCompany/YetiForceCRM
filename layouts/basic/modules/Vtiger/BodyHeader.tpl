@@ -257,6 +257,11 @@
 					</a>
 				</div>
 			{/if}
+			{if \App\Privilege::isPermitted('Chat') && !\App\Config::module('Chat', 'draggableButton')}
+				<div class="ml-2 quasar-reset">
+					<div id="ChatModalVue"></div>
+				</div>
+			{/if}
 			<nav class="actionMenu" aria-label="{\App\Language::translate("QUICK_ACCESS_MENU")}">
 				<a class="btn btn-light c-header__btn ml-2 c-header__btn--mobile js-quick-action-btn" href="#"
 				   data-js="click" role="button" aria-expanded="false" aria-controls="o-action-menu__container">
@@ -276,7 +281,7 @@
 							</a>
 						</div>
 					{/if}
-					{if \App\Privilege::isPermitted('KnowledgeBase')}
+					{if !$IS_IE && \App\Privilege::isPermitted('KnowledgeBase')}
 						<div class="o-action-menu__item">
 							<a class="c-header__btn ml-2 btn-light btn js-popover-tooltip js-knowledge-base-modal"
 							   role="button"

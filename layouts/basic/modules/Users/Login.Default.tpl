@@ -16,12 +16,12 @@
 		<div id="login-area" class="login-area">
 			<div class="login-space"></div>
 			<div class="logo">
-				<img title="Logo" height="256px" class="logo" alt="Logo"
+				<img class="logo__img" title="Logo" class="logo" alt="Logo"
 					 src="{\App\Layout::getPublicUrl('layouts/resources/Logo/logo')}">
 			</div>
 			<div class="" id="loginDiv">
 				{if !$IS_BLOCKED_IP}
-					<form class="login-form" action="index.php?module=Users&action=Login" method="POST"
+					<form class="login-form row" action="index.php?module=Users&action=Login" method="POST"
 						  {if !App\Config::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}>
 						<div class='fieldContainer mx-0 form-row col-md-12'>
 							<div class='mx-0 col-sm-10'>
@@ -32,8 +32,7 @@
 										   class="form-control form-control-lg"
 										   {if \App\Config::main('systemMode') === 'demo'}value="demo"{/if}
 										   placeholder="{\App\Language::translate('LBL_USER',$MODULE)}"
-										   required="" {if !App\Config::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}
-										   autofocus="">
+										   required="" {if !App\Config::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}>
 									<div class="input-group-append">
 										<div class="input-group-text"><i class="fas fa-user"></i></div>
 									</div>
@@ -116,7 +115,7 @@
 			</div>
 			{if App\Config::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
 				<div class="d-none" id="forgotPasswordDiv">
-					<form class="forgot-form" action="index.php?module=Users&action=ForgotPassword" method="POST">
+					<form class="forgot-form row" action="index.php?module=Users&action=ForgotPassword" method="POST">
 						<div class="fieldContainer mx-0 form-row col-md-12">
 							<div class="login-form mx-0 form-row col-sm-10">
 								<label for="usernameFp"
@@ -143,10 +142,9 @@
 							</div>
 							<div class="col-sm-2">
 								<button type="submit" id="retrievePassword"
-										class="btn btn-lg btn-primary btn-block sbutton heightDiv_5"
+										class="btn btn-lg btn-primary btn-block"
 										title="Retrieve Password">
-									{*\App\Language::translate('LBL_SEND',$MODULE)*}
-									<strong>></strong>
+									<strong><span class="fas fa-chevron-right"></span></strong>
 								</button>
 							</div>
 						</div>

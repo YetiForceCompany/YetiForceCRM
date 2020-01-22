@@ -28,11 +28,11 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('getUnread');
 		$this->exposeMethod('getHistory');
 		$this->exposeMethod('getRooms');
+		$this->exposeMethod('getRoomsUnpinned');
 		$this->exposeMethod('getRecordRoom');
-		$this->exposeMethod('getChatUsers');
+		$this->exposeMethod('getRoomPrivateUnpinnedUsers');
 		$this->exposeMethod('send');
 		$this->exposeMethod('search');
-		$this->exposeMethod('trackNewMessages');
 		$this->exposeMethod('addPrivateRoom');
 		$this->exposeMethod('archivePrivateRoom');
 		$this->exposeMethod('addParticipant');
@@ -58,26 +58,35 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 */
 	public function getChatConfig(App\Request $request)
 	{
-		$response = new Vtiger_Response();
+		$userRealID = \App\User::getCurrentUserRealId();
+		$userRoomPin = \App\Config::module('Chat', 'userRoomPin');
+		if (!$userRoomPin) {
+			\App\Chat::pinAllUsers($userRealID);
+		}
 		$result = [
 			'config' => [
-				'isChatAllowed' => \App\User::getCurrentUserRealId() === \App\User::getCurrentUserId(),
+				'isChatAllowed' => $userRealID === \App\User::getCurrentUserId(),
 				'isAdmin' => \Users_Privileges_Model::getCurrentUserPrivilegesModel()->isAdminUser(),
 				'isDefaultSoundNotification' => \App\Config::module('Chat', 'DEFAULT_SOUND_NOTIFICATION'),
 				'refreshMessageTime' => \App\Config::module('Chat', 'REFRESH_MESSAGE_TIME'),
 				'refreshRoomTime' => \App\Config::module('Chat', 'REFRESH_ROOM_TIME'),
 				'defaultRoom' => \App\Chat::getDefaultRoom(),
 				'dynamicAddingRooms' => \App\Config::module('Chat', 'dynamicAddingRooms'),
+				'draggableButton' => \App\Config::module('Chat', 'draggableButton'),
 				'maxLengthMessage' => \App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
 				'refreshTimeGlobal' => \App\Config::module('Chat', 'REFRESH_TIME_GLOBAL'),
 				'showNumberOfNewMessages' => \App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES'),
-				'showRoleName' => \App\Config::module('Users', 'SHOW_ROLE_NAME')
+				'showRoleName' => \App\Config::module('Users', 'SHOW_ROLE_NAME'),
+				'activeRoomTypes' => \App\Chat::getActiveRoomTypes(),
+				'userRoomPin' => $userRoomPin
 			],
-			'roomList' => \App\Chat::getRoomsByUser()
+			'roomList' => \App\Chat::getRoomsByUser(),
+			'currentRoom' => \App\Chat::getCurrentRoom()
 		];
 		if ($result['config']['dynamicAddingRooms']) {
 			$result['config']['chatModules'] = \App\Chat::getChatModules();
 		}
+		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -112,7 +121,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		} else {
 			$currentRoom = \App\Chat::getCurrentRoom();
 			if (!$currentRoom || !isset($currentRoom['roomType']) || !isset($currentRoom['recordId'])) {
-				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
+				return false;
 			}
 			$roomType = $currentRoom['roomType'];
 			$recordId = $currentRoom['recordId'];
@@ -121,7 +130,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		if (!$chat->isRoomExists()) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 		}
-		$chatEntries = $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : null);
+		$chatEntries = $chat->getEntries($request->has('lastId') ? $request->getInteger('lastId') : 0);
 		$isNextPage = $this->isNextPage(\count($chatEntries));
 		if ($isNextPage) {
 			array_shift($chatEntries);
@@ -171,7 +180,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 				continue;
 			}
 			$lastEntries = !empty($room['chatEntries']) ? array_pop($room['chatEntries']) : false;
-			$chatEntries = $chat->getEntries($lastEntries ? $lastEntries['id'] : null);
+			$chatEntries = $chat->getEntries($lastEntries ? $lastEntries['id'] : 0);
 			$isNextPage = $this->isNextPage(\count($chatEntries));
 			if ($isNextPage) {
 				array_shift($chatEntries);
@@ -186,7 +195,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 		$result['roomList'] = $roomList;
 		$result['areNewEntries'] = $areNewEntries;
 		if (App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
-			$result['amountOfNewMessages'] = \App\Chat::getNumberOfNewMessages();
+			$result['amountOfNewMessages'] = \App\Chat::getNumberOfNewMessages($roomList);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
@@ -357,13 +366,12 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	 */
 	public function getUnread(App\Request $request)
 	{
+		$unreadMessages = [];
+		foreach (\App\Chat::getActiveRoomTypes() as $roomType) {
+			$unreadMessages[$roomType] = \App\Chat::getUnreadByType($roomType);
+		}
 		$response = new Vtiger_Response();
-		$response->setResult([
-			'crm' => \App\Chat::getUnreadByType('crm'),
-			'group' => \App\Chat::getUnreadByType('group'),
-			'global' => \App\Chat::getUnreadByType('global'),
-			'private' => \App\Chat::getUnreadByType('private'),
-		]);
+		$response->setResult($unreadMessages);
 		$response->emit();
 	}
 
@@ -414,18 +422,18 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Track the number of new messages.
+	 * Get rooms unpinned.
 	 *
-	 * @param \App\Request $request
+	 * @param App\Request $request
+	 *
+	 * @return void
 	 */
-	public function trackNewMessages(App\Request $request)
+	public function getRoomsUnpinned(App\Request $request)
 	{
+		$roomType = $request->getByType('roomType');
+		$methodName = 'getRooms' . ucfirst($roomType) . 'Unpinned';
 		$response = new Vtiger_Response();
-		if (App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
-			$response->setResult(\App\Chat::getNumberOfNewMessages());
-		} else {
-			$response->setResult(\App\Chat::isNewMessages() ? 1 : 0);
-		}
+		$response->setResult(\App\Chat::{$methodName}());
 		$response->emit();
 	}
 
@@ -465,27 +473,14 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Get chat users.
+	 * Get room private unpinned users.
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getChatUsers(App\Request $request)
+	public function getRoomPrivateUnpinnedUsers(App\Request $request)
 	{
-		$owner = App\Fields\Owner::getInstance();
-		$data = [];
-		if ($users = $owner->getAccessibleUsers('private', 'owner')) {
-			foreach ($users as $key => $value) {
-				if (Users_Privileges_Model::getInstanceById($key)->hasModulePermission('Chat')) {
-					$data[] = [
-						'id' => $key,
-						'label' => $value,
-						'img' => \App\User::getImageById($key) ? \App\User::getImageById($key)['url'] : '',
-					];
-				}
-			}
-		}
 		$response = new Vtiger_Response();
-		$response->setResult($data);
+		$response->setResult(\App\Chat::getRoomPrivateUnpinnedUsers($request->getInteger('roomId')));
 		$response->emit();
 	}
 

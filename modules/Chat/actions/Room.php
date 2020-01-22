@@ -51,9 +51,9 @@ class Chat_Room_Action extends \App\Controller\Action
 	public function removeFromFavorites(App\Request $request)
 	{
 		$this->checkPermissionByRoom($request);
-		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->removeFromFavorites();
+		$result = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->removeFromFavorites();
 		$response = new Vtiger_Response();
-		$response->setResult(true);
+		$response->setResult($result);
 		$response->emit();
 	}
 
@@ -85,9 +85,10 @@ class Chat_Room_Action extends \App\Controller\Action
 	public function addToFavorites(App\Request $request)
 	{
 		$this->checkPermissionByRoom($request);
-		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->addToFavorites();
+		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
+		$chat->addToFavorites();
 		$response = new Vtiger_Response();
-		$response->setResult(\App\Chat::getRoomsByUser());
+		$response->setResult($chat->getQueryRoom()->one());
 		$response->emit();
 	}
 
@@ -121,13 +122,15 @@ class Chat_Room_Action extends \App\Controller\Action
 					throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 				}
 				break;
-			case 'global':
-				break;
 			case 'private':
 				$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
 				if (!$chat->isRoomModerator($request->getInteger('recordId')) && !$chat->isRecordOwner()) {
 					throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 				}
+				break;
+			case 'global':
+				break;
+			case 'user':
 				break;
 			default:
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);

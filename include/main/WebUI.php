@@ -48,13 +48,10 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	protected function checkLogin(App\Request $request)
 	{
 		if (!$this->hasLogin()) {
-			$returnUrl = $request->getServer('QUERY_STRING');
-			if ($returnUrl && !\App\Session::has('return_params')) {
-				//Take the url that user would like to redirect after they have successfully logged in.
-				\App\Session::set('return_params', str_replace('&amp;', '&', $returnUrl));
-			}
 			if (!$request->isAjax()) {
-				header('location: index.php');
+				$request->set('module', 'Users');
+				$request->set('view', 'Login');
+				$this->process($request);
 				return true;
 			}
 			throw new \App\Exceptions\Unauthorized('LBL_LOGIN_IS_REQUIRED', 401);
@@ -89,10 +86,10 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	 */
 	public function process(App\Request $request)
 	{
-		if (App\Config::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
+		if (\Config\Security::$forceHttpsRedirection && !\App\RequestUtil::getBrowserInfo()->https) {
 			header("location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
-		if (App\Config::main('forceRedirect')) {
+		if (\Config\Security::$forceUrlRedirection) {
 			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $request->getServer('HTTP_HOST') . $request->getServer('REQUEST_URI');
 			if (0 !== stripos($requestUrl, App\Config::main('site_URL'))) {
 				header('location: ' . App\Config::main('site_URL'), true, 301);
@@ -102,29 +99,32 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			App\Session::init();
 			// common utils api called, depend on this variable right now
 			$this->getLogin();
+			$hasLogin = $this->hasLogin();
 			$moduleName = $request->getModule();
 			$qualifiedModuleName = $request->getModule(false);
 			$view = $request->getByType('view', 2);
 			$action = $request->getByType('action', 2);
 			$response = false;
+			if (!$hasLogin && 'GET' === $_SERVER['REQUEST_METHOD'] && ($returnUrl = $request->getServer('QUERY_STRING')) && !\App\Session::has('return_params')) {
+				//Take the url that user would like to redirect after they have successfully logged in.
+				\App\Session::set('return_params', str_replace('&amp;', '&', $returnUrl));
+			}
 			if (empty($moduleName)) {
-				if ($this->hasLogin()) {
+				if ($hasLogin) {
 					$defaultModule = App\Config::main('default_module');
 					if (!empty($defaultModule) && 'Home' !== $defaultModule && \App\Privilege::isPermitted($defaultModule)) {
 						$moduleName = $defaultModule;
 						$qualifiedModuleName = $defaultModule;
 						$view = 'List';
 						if ('Calendar' === $moduleName) {
-							$view = 'Calendar';
+							$view = Vtiger_Module_Model::getInstance($moduleName)->getDefaultViewName();
 						}
 					} else {
-						$moduleName = 'Home';
-						$qualifiedModuleName = 'Home';
+						$qualifiedModuleName = $moduleName = 'Home';
 						$view = 'DashBoard';
 					}
 				} else {
-					$moduleName = 'Users';
-					$qualifiedModuleName = $moduleName;
+					$qualifiedModuleName = $moduleName = 'Users';
 					$view = 'Login';
 				}
 				$request->set('module', $moduleName);
@@ -142,12 +142,16 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$componentName = $view;
 				\App\Config::setJsEnv('view', $view);
 			}
-			if ('Login' === $view && 'Users' === $moduleName && !\App\Session::has('CSP_TOKEN')) {
-				\App\Session::set('CSP_TOKEN', hash('sha256', \App\Encryption::generatePassword(10)));
+			if ($hasLogin && 'Login' === $view && 'Users' === $moduleName) {
+				if (!\App\Session::has('CSP_TOKEN')) {
+					\App\Session::set('CSP_TOKEN', hash('sha256', \App\Encryption::generatePassword(10)));
+				}
+				header('location: index.php');
+				return false;
 			}
 			// Better place this here as session get initiated
 			//skipping the csrf checking for the forgot(reset) password
-			if (App\Config::main('csrfProtection') && 'reset' !== $request->getMode() && 'Login' !== $action && 'demo' !== App\Config::main('systemMode')) {
+			if (App\Config::security('csrfActive') && 'reset' !== $request->getMode() && 'Login' !== $action && 'demo' !== App\Config::main('systemMode')) {
 				require_once 'config/csrf_config.php';
 				\CsrfMagic\Csrf::init();
 			}
@@ -157,14 +161,17 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if ($qualifiedModuleName && 0 === stripos($qualifiedModuleName, 'Settings') && empty(\App\User::getCurrentUserId())) {
 				header('location: ' . App\Config::main('site_URL'), true);
 			}
-
-			$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
+			if ('AppComponents' === $moduleName) {
+				$handlerClass = "App\\Components\\{$componentName}";
+			} else {
+				$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
+			}
 			$handler = new $handlerClass();
 			if (!$handler) {
 				\App\Log::error("HandlerClass: $handlerClass", 'Loader');
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
 			}
-			if (App\Config::main('csrfProtection') && 'demo' !== App\Config::main('systemMode')) { // Ensure handler validates the request
+			if (\App\Config::security('csrfActive') && 'demo' !== App\Config::main('systemMode')) { // Ensure handler validates the request
 				$handler->validateRequest($request);
 			}
 			if ($handler->loginRequired() && $this->checkLogin($request)) {
@@ -176,10 +183,10 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if ('ModComments' === $moduleName && 'List' === $view) {
 				header('location: index.php?module=Home&view=DashBoard');
 			}
-			$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Install', 'ModTracker'];
-			if (!\in_array($moduleName, $skipList) && false === stripos($qualifiedModuleName, 'Settings')) {
+			$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Install', 'ModTracker', 'AppComponents'];
+			if ($handler->loginRequired() && !\in_array($moduleName, $skipList) && false === stripos($qualifiedModuleName, 'Settings')) {
 				$this->triggerCheckPermission($handler, $request);
-			} elseif (0 === stripos($qualifiedModuleName, 'Settings') || \in_array($moduleName, $skipList)) {
+			} elseif (0 === stripos($qualifiedModuleName, 'Settings') || \in_array($moduleName, $skipList) || !$handler->loginRequired()) {
 				$handler->checkPermission($request);
 			}
 			$this->triggerPreProcess($handler, $request);
@@ -198,11 +205,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			\vtlib\Functions::throwNewException($e, false, $messageHeader);
 			if (!$request->isAjax()) {
 				if (App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
-					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->__toString())) . '</pre>';
+					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow js-exception-backtrace">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->__toString())) . '</pre>';
 					$response = false;
 				}
 				if (App\Config::debug('DISPLAY_EXCEPTION_LOGS')) {
-					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs())) . '</pre>';
+					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow js-exception-logs">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', \App\Log::getlastLogs())) . '</pre>';
 					$response = false;
 				}
 			}
@@ -241,7 +248,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$this->userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if ($this->userPrivilegesModel->hasModulePermission($moduleName)) {
 			$handler->checkPermission($request);
-
 			return true;
 		}
 		\App\Log::error("No permissions to the module: $moduleName", 'NoPermitted');
@@ -258,6 +264,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	 */
 	protected function triggerPreProcess(App\Controller\Base $handler, App\Request $request)
 	{
+		$handler->sendHeaders();
 		if ($request->isAjax()) {
 			$handler->preProcessAjax($request);
 			return true;

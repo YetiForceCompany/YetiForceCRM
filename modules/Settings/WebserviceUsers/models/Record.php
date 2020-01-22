@@ -213,7 +213,12 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDataForSave()
 	{
-		return array_intersect_key($this->getData(), $this->getFieldsForSave());
+		if (empty($this->getId())) {
+			$fields = $this->getEditFields();
+		} else {
+			$fields = $this->getFieldsForSave();
+		}
+		return array_intersect_key($this->getData(), $fields);
 	}
 
 	/**

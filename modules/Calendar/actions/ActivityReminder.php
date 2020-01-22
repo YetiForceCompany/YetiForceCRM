@@ -15,6 +15,7 @@ class Calendar_ActivityReminder_Action extends \App\Controller\Action
 
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('postpone');
 	}
 
@@ -25,7 +26,7 @@ class Calendar_ActivityReminder_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -40,7 +41,7 @@ class Calendar_ActivityReminder_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function postpone(\App\Request $request)
+	public function postpone(App\Request $request)
 	{
 		$time = $request->getByType('time', 'Alnum');
 		$module = $request->getModule();

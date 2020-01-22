@@ -25,10 +25,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	public function get($key)
 	{
 		$value = parent::get($key);
-		if ('content' === $key && 'Detail' === \App\Request::_get('view')) {
-			return vtlib\Functions::getHtmlOrPlainText($value);
-		}
-		if ('uid' === $key || 'content' === $key) {
+		if ('uid' === $key) {
 			return App\Purifier::decodeHtml($value);
 		}
 		return $value;
@@ -106,13 +103,12 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				'to' => $to,
 				'url' => "index.php?module=OSSMailView&view=Preview&record={$row['ossmailviewid']}&srecord=$srecord&smodule=$smodule",
 				'type' => $row['type'],
-				'teaser' => App\TextParser::textTruncate(trim(preg_replace('/[ \t]+/', ' ', strip_tags($content))), 100),
+				'teaser' => App\TextParser::textTruncate(\App\Utils::htmlToText($content), 120),
 				'body' => $content,
 				'bodyRaw' => $row['content'],
 			];
 		}
 		$dataReader->close();
-
 		return $return;
 	}
 

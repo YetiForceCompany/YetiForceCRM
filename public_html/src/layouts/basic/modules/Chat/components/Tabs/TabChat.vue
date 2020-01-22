@@ -1,171 +1,116 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <div class="flex column justify-between" style="min-height: inherit;">
-    <div class="flex no-wrap items-center q-px-sm">
-      <q-btn dense flat round :color="leftPanel ? 'info' : 'grey'" @click="toggleLeftPanel()">
+  <ChatContent
+    ref="chat"
+    :roomData="roomData || {}"
+    :isVisible="isSetCurrentRoom"
+    @onContentLoaded="$emit('onContentLoaded', true)"
+  >
+    <template #searchPrepend>
+      <q-btn
+        dense
+        flat
+        round
+        :color="leftPanel ? 'info' : 'grey'"
+        @click="toggleLeftPanel()"
+      >
         <YfIcon icon="yfi-menu-group-room" />
         <q-tooltip>{{ translate('JS_CHAT_ROOMS_MENU') }}</q-tooltip>
       </q-btn>
-      <q-input
-        class="full-width q-px-sm"
-        @keydown.enter="search()"
+    </template>
+    <template #searchAppend>
+      <q-btn
+        :color="rightPanel ? 'info' : 'grey'"
         dense
-        :loading="searching"
-        v-model="inputSearch"
-        :placeholder="translate('JS_CHAT_SEARCH_MESSAGES')"
+        flat
+        round
+        @click="toggleRightPanel()"
       >
-        <template #prepend>
-          <q-icon @click="search()" name="mdi-magnify" class="cursor-pointer" />
-        </template>
-        <template #append>
-          <q-icon v-show="inputSearch.length > 0" name="mdi-close" @click="inputSearch = ''" class="cursor-pointer" />
-          <q-btn
-            v-show="isSearchActive"
-            color="danger"
-            flat
-            dense
-            :label="translate('JS_LBL_CANCEL')"
-            @click="clearSearch()"
-          />
-        </template>
-      </q-input>
-      <q-btn dense flat round :color="rightPanel ? 'info' : 'grey'" @click="toggleRightPanel()">
         <YfIcon icon="yfi-menu-entrant" />
         <q-tooltip>{{ translate('JS_CHAT_PARTICIPANTS_MENU') }}</q-tooltip>
       </q-btn>
-    </div>
-    <div class="flex-grow-1" style="min-height: 100%; height: 0; overflow: hidden">
-      <q-scroll-area ref="scrollContainer" :class="[scrollbarHidden ? 'scrollbarHidden' : '']">
-        <TabMessages
-          :roomData="isSearchActive ? roomData.searchData : roomData"
-          @earlierClick="earlierClick()"
-          :fetchingEarlier="fetchingEarlier"
-          ref="messagesContainer"
-        />
-      </q-scroll-area>
-      <q-resize-observer @resize="onResize" />
-    </div>
-    <TabChatInput @onSended="scrollDown()" :roomData="roomData" />
-  </div>
+    </template>
+    <template #noRoom>
+      <TabChatNoRoom />
+    </template>
+  </ChatContent>
 </template>
 <script>
-import TabChatInput from './TabChatInput.vue'
-import TabMessages from './TabMessages.vue'
+import ChatContent from '../ChatContent.vue'
+import TabChatNoRoom from './TabChatNoRoom.vue'
+
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions, mapMutations } = createNamespacedHelpers('Chat')
-
 export default {
   name: 'TabChat',
-  components: { TabChatInput, TabMessages },
+  components: { ChatContent, TabChatNoRoom },
   props: {
     roomData: {
       type: Object,
       required: true
-    },
-    recordRoom: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
     return {
-      inputSearch: '',
-      isSearchActive: false,
-      searching: false,
-      fetchingEarlier: false,
-      scrollbarHidden: false,
-      dataReady: false,
       roomId: null,
-      roomType: null
+      roomType: null,
+      dataReady: false
     }
   },
   computed: {
-    ...mapGetters(['miniMode', 'data', 'config', 'currentRoomData', 'dialog', 'leftPanel', 'rightPanel']),
-    roomMessages() {
-      return this.roomData.chatEntries
+    ...mapGetters([
+      'data',
+      'currentRoomData',
+      'dialog',
+      'leftPanel',
+      'rightPanel'
+    ]),
+    isSetCurrentRoom() {
+      return !!Object.keys(this.currentRoomData).length
     }
   },
   watch: {
     roomData() {
-      if ((this.roomData.recordid !== this.roomId || this.roomData.roomType !== this.roomType) && this.dataReady) {
+      if (
+        this.isSetCurrentRoom &&
+        this.dataReady &&
+        (this.roomData.recordid !== this.roomId ||
+          this.roomData.roomType !== this.roomType)
+      ) {
         this.disableNewMessagesListener()
         this.updateComponentsRoom()
         this.enableNewMessagesListener()
       }
     },
-    roomMessages() {
-      if (!this.fetchingEarlier) {
-        this.$nextTick(function() {
-          this.scrollDown()
-        })
-      } else {
-        this.fetchingEarlier = false
-      }
-    },
     dialog() {
       if (this.dialog) {
-        this.showTabChatEvent()
+        this.onShowTabChatEvent()
       } else {
         this.disableNewMessagesListener()
       }
     }
   },
+  mounted() {
+    if (this.dialog && this.isSetCurrentRoom) {
+      this.onShowTabChatEvent()
+    }
+    this.updateComponentsRoom()
+    this.dataReady = true
+  },
+  beforeDestroy() {
+    this.disableNewMessagesListener()
+  },
   methods: {
     ...mapActions([
-      'fetchEarlierEntries',
-      'fetchSearchData',
       'fetchRoom',
-      'fetchUnread',
       'addActiveRoom',
-      'removeActiveRoom',
       'toggleLeftPanel',
-      'toggleRightPanel'
+      'toggleRightPanel',
+      'removeActiveRoom'
     ]),
-    onResize({ height }) {
-      Quasar.utils.dom.css(this.$refs.scrollContainer.$el, {
-        height: height + 'px'
-      })
-    },
-    earlierClick() {
-      this.fetchingEarlier = true
-      if (!this.isSearchActive) {
-        this.fetchEarlierEntries({
-          chatEntries: this.roomData.chatEntries,
-          roomType: this.roomData.roomType,
-          recordId: this.roomData.recordid
-        })
-      } else {
-        this.fetchSearchData({
-          value: this.inputSearch,
-          roomData: this.roomData,
-          showMore: true
-        })
-      }
-    },
-    clearSearch() {
-      this.isSearchActive = false
-      this.inputSearch = ''
-      this.$nextTick(function() {
-        this.scrollDown()
-      })
-    },
-    search() {
-      this.searching = true
-      this.fetchSearchData({
-        value: this.inputSearch,
-        roomData: this.roomData,
-        showMore: false
-      }).then(e => {
-        this.isSearchActive = true
-        this.searching = false
-      })
-    },
-    scrollDown() {
-      this.scrollbarHidden = true
-      this.$refs.scrollContainer.setScrollPosition(this.$refs.messagesContainer.$el.clientHeight)
-      setTimeout(() => {
-        this.scrollbarHidden = false
-      }, 1800)
+    registerPostLoadEvents() {
+      this.$refs.chat.registerMountedEvents()
+      this.enableNewMessagesListener()
     },
     updateComponentsRoom() {
       this.roomId = this.roomData.recordid
@@ -174,47 +119,35 @@ export default {
     enableNewMessagesListener() {
       this.addActiveRoom({ recordId: this.roomId, roomType: this.roomType })
     },
-    disableNewMessagesListener() {
-      if (this.data.roomList[this.roomType] && this.data.roomList[this.roomType][this.roomId]) {
-        this.removeActiveRoom({ recordId: this.roomId, roomType: this.roomType })
-      }
-    },
-    registerPostLoadEvents() {
-      this.scrollDown()
-      this.$emit('onContentLoaded', true)
-      this.updateComponentsRoom()
-      if (!this.recordRoom) {
-        this.enableNewMessagesListener()
-      }
-      this.dataReady = true
-    },
-    showTabChatEvent() {
-      if (!this.recordRoom && !this.currentRoomData.recordid) {
+    onShowTabChatEvent() {
+      if (this.currentRoomData.recordid) {
         this.fetchRoom({
           id: this.roomData.recordid,
           roomType: this.roomData.roomType
-        }).then(e => {
-          this.registerPostLoadEvents()
+        }).then(result => {
+          if (result) {
+            this.registerPostLoadEvents()
+          } else {
+            this.$emit('onContentLoaded', true)
+          }
         })
       } else {
         this.registerPostLoadEvents()
       }
+    },
+    disableNewMessagesListener() {
+      if (
+        this.data.roomList[this.roomType] &&
+        this.data.roomList[this.roomType][this.roomId]
+      ) {
+        this.removeActiveRoom({
+          recordId: this.roomId,
+          roomType: this.roomType
+        })
+      }
     }
-  },
-  mounted() {
-    if (this.dialog) {
-      this.showTabChatEvent()
-    } else if (this.recordRoom) {
-      this.registerPostLoadEvents()
-    }
-  },
-  beforeDestroy() {
-    this.disableNewMessagesListener()
   }
 }
 </script>
-<style lang="sass">
-.scrollbarHidden
-	.q-scrollarea__thumb
-		visibility: hidden
+<style lang="scss">
 </style>

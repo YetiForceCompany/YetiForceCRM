@@ -6,14 +6,9 @@ powered-test
 
 # Git and GitHub meta files
 .github
-.babelrc
-.bin
 *.d.ts
-test.js
 .DS_Store
-.less
 CODE_OF_CONDUCT.md
-node_modules
 
 # asset directories
 docs
@@ -67,7 +62,7 @@ wercker.yml
 .yarn-metadata.json
 .travis.yml
 .idea
-*.yml 
+*.yml
 
 # readme
 readme

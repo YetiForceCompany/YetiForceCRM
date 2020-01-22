@@ -22,7 +22,7 @@
 	<div class="js-multicurrency-container">
 			<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_VALUE))}" class="js-multicurrency-field-to-save"
 				  {if $FIELD_MODEL->isEditableReadOnly()} disabled="disabled"{/if} tabindex="{$TABINDEX}">
-			<div class="input-group">
+			<div class="input-group {$WIDTHTYPE_GROUP}">
 				{if !$SYMBOL_PLACEMENT_ON_RIGHT}
 					{FUNC_CURRENCY_SYMBOL_PLACEMENT CURRENCY_SYMBOL=$CURRENCY_SYMBOL}
 				{/if}

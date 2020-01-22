@@ -15,8 +15,7 @@
 		{assign var=INVENTORY_MODULE value=$RELATED_MODULE->isInventory()}
 		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}">
 		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}">
-		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder"/>
+		<input type="hidden" id="orderBy" value="{\App\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}">
 		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
 		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
@@ -26,6 +25,7 @@
 		<input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids="">
 		<input type="hidden" id="recordsCount" value=""/>
 		<input type="hidden" id="tab_label" value="{\App\Purifier::encodeHtml($VIEW_MODEL->getRelationModel()->get('label'))}"/>
+		<input type="hidden" id="relationId" value="{$VIEW_MODEL->getRelationModel()->getId()}"/>
 		<div class="relatedHeader my-1">
 			<div class="d-inline-flex flex-wrap w-100 justify-content-between">
 				<div class="u-w-sm-down-100 d-flex flex-wrap flex-sm-nowrap mb-1 mb-md-0">

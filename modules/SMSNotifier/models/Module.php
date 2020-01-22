@@ -75,19 +75,27 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 	 * Function to get instance of provider model.
 	 *
 	 * @param string $providerName
+	 * @param string $jsonParams
 	 *
 	 * @return bool|\SMSNotifier_Basic_Provider
 	 */
-	public static function getProviderInstance($providerName)
+	public static function getProviderInstance($providerName, $jsonParams = '')
 	{
+		$provider = false;
 		if (!empty($providerName)) {
 			$providerName = trim($providerName);
 			$className = Vtiger_Loader::getComponentClassName('Provider', $providerName, 'SMSNotifier');
 			if ($className && class_exists($className)) {
-				return new $className();
+				$provider = new $className();
+				if (!empty($jsonParams)) {
+					$params = \App\Json::decode(App\Purifier::decodeHtml($jsonParams));
+					foreach ($params as $key => $value) {
+						$provider->set($key, $value);
+					}
+				}
 			}
 		}
-		return false;
+		return $provider;
 	}
 
 	/**
@@ -100,7 +108,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 		$iterator = new \DirectoryIterator(__DIR__ . '/../providers');
 		foreach ($iterator as $item) {
 			if ($item->isFile() && 'Basic.php' !== $item->getFilename() && 'php' === $item->getExtension()) {
-				$providers[] = self::getProviderInstance($item->getBasename('.php'));
+				$providers[] = self::getProviderInstance($item->getBasename('.php'), '');
 			}
 		}
 		return $providers;
@@ -121,13 +129,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 		$provider = false;
 		$data = (new App\Db\Query())->from('a_#__smsnotifier_servers')->where(['isactive' => 1])->one();
 		if ($data) {
-			$provider = self::getProviderInstance($data['providertype']);
-			if (!empty($data['parameters'])) {
-				$parameters = \App\Json::decode(App\Purifier::decodeHtml($data['parameters']));
-				foreach ($parameters as $k => $v) {
-					$provider->set($k, $v);
-				}
-			}
+			$provider = self::getProviderInstance($data['providertype'], $data['parameters']);
 			$provider->set('api_key', \App\Encryption::getInstance()->decrypt($data['api_key']));
 		}
 		\App\Cache::save('SMSNotifierConfig', 'activeProviderInstance', $provider, \App\Cache::LONG);

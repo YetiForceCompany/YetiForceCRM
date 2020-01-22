@@ -245,7 +245,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldModel->setRelatedModules($moduleList);
 			foreach ($moduleList as $module) {
 				$targetModule = vtlib\Module::getInstance($module);
-				$targetModule->setRelatedList($this, $moduleName, ['Add'], 'getDependentsList');
+				$targetModule->setRelatedList($this, $moduleName, ['Add'], 'getDependentsList', $name);
 			}
 		}
 		App\Cache::clear();
@@ -357,11 +357,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			case 'Integer':
 				$fieldLength = $params['fieldLength'];
 				$uitype = 7;
-				if ($fieldLength > 10) {
-					$type = $importerType->bigInteger($fieldLength)->defaultValue(0);
-				} else {
-					$type = $importerType->integer($fieldLength)->defaultValue(0);
-				}
+				$type = $importerType->integer($fieldLength)->defaultValue(0);
 				$uichekdata = 'I~O';
 				break;
 			case 'Related1M':
@@ -383,7 +379,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			case 'MultiReferenceValue':
 				$uitype = 305;
 				$type = $importerType->text();
-				$uichekdata = 'C~O';
+				$uichekdata = 'V~O';
 				$displayType = 5;
 				break;
 			case 'MultiImage':
@@ -515,7 +511,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'id', 'seq', 'header_type', 'header_class',
 			'module', 'parent', 'action', 'mode', 'view', 'selected_ids',
 			'excluded_ids', 'search_params', 'search_key', 'page', 'operator',
-			'source_module', 'viewname', 'sortorder', 'orderby', 'inventory', 'private'
+			'source_module', 'viewname', 'sortorder', 'orderby', 'inventory', 'private', 'src_record', 'relationId', 'relation_id'
 		]);
 	}
 
@@ -605,7 +601,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getRelations()
 	{
 		if (null === $this->relations) {
-			$this->relations = Vtiger_Relation_Model::getAllRelations($this, false);
+			$this->relations = Vtiger_Relation_Model::getAllRelations($this, false, true, true, 'related_tabid');
 		}
 		// Contacts relation-tab is turned into custom block on DetailView.
 		if ('Calendar' === $this->getName()) {

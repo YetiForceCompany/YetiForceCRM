@@ -9,7 +9,7 @@
 				</div>
 				<div class="col-md-5">
 					<div class="btn-toolbar justify-content-end form-row">
-						{if App\Config::developer('CHANGE_RELATIONS')}
+						{if \Config\Developer::$CHANGE_RELATIONS}
 							<button class="btn btn-primary float-right addRelation mr-2" type="button">
 								<span class="fas fa-plus"></span>&nbsp;&nbsp;
 								{\App\Language::translate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}
@@ -52,36 +52,30 @@
 									{assign var=STATUS value='0'}
 								{/if}
 								{assign var=SELECTED_FIELDS value=Settings_LayoutEditor_Module_Model::getRelationFields($MODULE_MODEL->getId())}
-								<div class="relatedModule mainBlockTable card mb-2"
-									 data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
+								<div class="relatedModule mainBlockTable card mb-2" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
 									<div class="mainBlockTableHeader card-header d-flex justify-content-between align-items-center px-2 py-1">
 										<h5 class="card-title my-0">
 											<div class="relatedModuleLabel mainBlockTableLabel">
-												<a><img class="align-baseline"
-														src="{\App\Layout::getImagePath('drag.png')}"
-														title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/></a>
-												&nbsp;&nbsp;
-												<span class="userIcon-{$RELATED_MODULE_NAME}"></span> {\App\Language::translate($MODULE_MODEL->get('label'), $RELATED_MODULE_NAME)}
+												<a>
+													<img class="align-baseline" src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+												</a>
+												<span class="yfm-{$RELATED_MODULE_NAME} ml-2 mr-2"></span>
+												{\App\Language::translate($MODULE_MODEL->get('label'), $RELATED_MODULE_NAME)}{if \Config\Developer::$CHANGE_RELATIONS} ({$MODULE_MODEL->get('name')}){/if}
 											</div>
 										</h5>
 										<div class="btn-toolbar btn-group-xs">
 											{assign var=FAVORITES value=$MODULE_MODEL->isFavorites()}
-											<button class="btn btn-sm btn-outline-secondary addToFavorites mr-1"
-													type="button" data-state="{$MODULE_MODEL->get('favorites')}">
-												<span class="fas fa-star {if !$FAVORITES}d-none{/if}"
-													  title="{\App\Language::translate('LBL_DEACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>
-												<span class="far fa-star {if $FAVORITES}d-none{/if}"
-													  title="{\App\Language::translate('LBL_ACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>
+											<button class="btn btn-sm btn-outline-secondary addToFavorites mr-1" type="button" data-state="{$MODULE_MODEL->get('favorites')}">
+												<span class="fas fa-star {if !$FAVORITES}d-none{/if}" title="{\App\Language::translate('LBL_DEACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>
+												<span class="far fa-star {if $FAVORITES}d-none{/if}" title="{\App\Language::translate('LBL_ACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>
 											</button>
-											<button class="btn btn-sm btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} d-none{/if} mr-1"
-													type="button"><span
-														class="fas fa-check"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong>
+											<button class="btn btn-sm btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} d-none{/if} mr-1" type="button">
+												<span class="fas fa-check"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong>
 											</button>
-											<button class="btn btn-sm btn-warning activeRelationModule{if $MODULE_MODEL->isActive()} d-none{/if} mr-1"
-													type="button"><span
-														class="fas fa-times"></span>&nbsp;<strong>{\App\Language::translate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong>
+											<button class="btn btn-sm btn-warning activeRelationModule{if $MODULE_MODEL->isActive()} d-none{/if} mr-1" type="button">
+												<span class="fas fa-times"></span>&nbsp;<strong>{\App\Language::translate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong>
 											</button>
-											{if App\Config::developer('CHANGE_RELATIONS')}
+											{if \Config\Developer::$CHANGE_RELATIONS}
 												<button type="button"
 														class="btn btn-sm btn-danger removeRelation float-right"
 														title="{\App\Language::translate('LBL_REMOVE_RELATION', $QUALIFIED_MODULE)}">

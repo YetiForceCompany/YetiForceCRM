@@ -6,12 +6,12 @@
         <div class="flex no-wrap">
           <ChatButtonNotify />
           <q-btn
-            @click="toggleSoundNotification()"
+            :icon="isSoundNotification ? 'mdi-volume-high' : 'mdi-volume-off'"
+            :color="isSoundNotification ? 'info' : ''"
             dense
             round
             flat
-            :icon="isSoundNotification ? 'mdi-volume-high' : 'mdi-volume-off'"
-            :color="isSoundNotification ? 'info' : ''"
+            @click="toggleSoundNotification()"
           >
             <q-tooltip>{{ translate(isSoundNotification ? 'JS_CHAT_SOUND_ON' : 'JS_CHAT_SOUND_OFF') }}</q-tooltip>
           </q-btn>
@@ -19,24 +19,39 @@
         <q-tabs
           v-model="tab"
           class="chat-tabs"
+          indicator-color="info"
+          active-color="info"
           dense
           shrink
           inline-label
           narrow-indicator
-          indicator-color="info"
-          active-color="info"
         >
-          <q-tab name="chat" :style="{ 'min-width': '40px' }">
-            <YfIcon class="q-icon q-tab__icon" size="20px" icon="yfi-branding-chat" />
+          <q-tab
+            :style="{ 'min-width': '40px' }"
+            name="chat"
+          >
+            <YfIcon
+              class="q-icon q-tab__icon"
+              size="20px"
+              icon="yfi-branding-chat"
+            />
             <span class="q-tab__label">{{ isSmall ? '' : translate('JS_CHAT') }}</span>
             <q-tooltip>{{ translate('JS_CHAT_DESC') }}</q-tooltip>
           </q-tab>
           <q-tab name="unread">
-            <YfIcon class="q-icon q-tab__icon" size="20px" icon="yfi-unread-messages" />
+            <YfIcon
+              class="q-icon q-tab__icon"
+              size="20px"
+              icon="yfi-unread-messages"
+            />
             <span class="q-tab__label">{{ isSmall ? '' : translate('JS_CHAT_UNREAD') }}</span>
             <q-tooltip>{{ translate('JS_CHAT_UNREAD_DESC') }}</q-tooltip>
           </q-tab>
-          <q-tab name="history" icon="mdi-history" :label="isSmall ? '' : translate('JS_CHAT_HISTORY')">
+          <q-tab
+            name="history"
+            :label="isSmall ? '' : translate('JS_CHAT_HISTORY')"
+            icon="mdi-history"
+          >
             <q-tooltip>{{ translate('JS_CHAT_HISTORY_DESC') }}</q-tooltip>
           </q-tab>
         </q-tabs>
@@ -50,16 +65,22 @@
               size="19px"
             />
             <q-btn
+              :icon="miniMode ? 'mdi-window-maximize' : 'mdi-window-restore'"
               dense
               flat
               round
-              :icon="miniMode ? 'mdi-window-maximize' : 'mdi-window-restore'"
               @click="toggleSize()"
             >
               <q-tooltip>{{ miniMode ? translate('JS_MAXIMIZE') : translate('JS_MINIMIZE') }}</q-tooltip>
             </q-btn>
           </template>
-          <q-btn dense flat round icon="mdi-close" @click="setDialog(false)">
+          <q-btn
+            dense
+            flat
+            round
+            icon="mdi-close"
+            @click="setDialog(false)"
+          >
             <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
           </q-btn>
         </div>

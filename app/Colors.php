@@ -204,20 +204,8 @@ class Colors
 	 */
 	public static function getPicklistFieldsByModule($moduleName)
 	{
-		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
-		$moduleBlockFields = \Vtiger_Field_Model::getAllForModule($moduleModel);
-		$type = ['picklist', 'multipicklist'];
-		$fieldList = [];
-		foreach ($moduleBlockFields as $moduleFields) {
-			foreach ($moduleFields as $moduleField) {
-				$block = $moduleField->get('block');
-				if (!$block || !\in_array($moduleField->getFieldDataType(), $type)) {
-					continue;
-				}
-				$fieldList[$moduleField->get('name')] = $moduleField;
-			}
-		}
-		return $fieldList;
+		$types = ['picklist', 'multipicklist'];
+		return \Vtiger_Module_Model::getInstance($moduleName)->getFieldsByType($types, true);
 	}
 
 	/**
@@ -344,13 +332,13 @@ class Colors
 	/**
 	 * Get contrast color.
 	 *
-	 * @param $hexcolor
+	 * @param mixed $hexColor
 	 *
 	 * @return string
 	 */
-	public static function getContrast($hexcolor)
+	public static function getContrast($hexColor)
 	{
 		$contrastRatio = 1.9; // higher number = more black color
-		return hexdec($hexcolor) > 0xffffff / $contrastRatio ? 'black' : 'white';
+		return (ctype_xdigit($hexColor) && (hexdec($hexColor) > 0xffffff / $contrastRatio)) ? 'black' : 'white';
 	}
 }

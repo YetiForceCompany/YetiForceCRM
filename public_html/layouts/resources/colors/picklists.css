@@ -1,7 +1,11 @@
-.picklistCBr_Leads_leadstatus_PLL_PENDING { border-color: #E6FAD8 !important; }
-.picklistCBg_Leads_leadstatus_PLL_PENDING { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Leads_leadstatus_PLL_PENDING { color: #E6FAD8 !important; }
-.picklistLb_Leads_leadstatus_PLL_PENDING { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_Accounts_industry_Administration { border-color: #C5CAE9 !important; }
+.picklistCBg_Accounts_industry_Administration { background: #C5CAE9 !important; font-weight: 500 !important; color: black !important;}
+.picklistCT_Accounts_industry_Administration { color: #C5CAE9 !important; }
+.picklistLb_Accounts_industry_Administration { background: #C5CAE9; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_Leads_leadstatus_PLL_PENDING { border-color: #C8E6C9 !important; }
+.picklistCBg_Leads_leadstatus_PLL_PENDING { background: #C8E6C9 !important; font-weight: 500 !important; color: black !important;}
+.picklistCT_Leads_leadstatus_PLL_PENDING { color: #C8E6C9 !important; }
+.picklistLb_Leads_leadstatus_PLL_PENDING { background: #C8E6C9; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
 .picklistCBr_Leads_leadstatus_PLL_TO_REALIZE { border-color: #E6FAD8 !important; }
 .picklistCBg_Leads_leadstatus_PLL_TO_REALIZE { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
 .picklistCT_Leads_leadstatus_PLL_TO_REALIZE { color: #E6FAD8 !important; }
@@ -26,6 +30,10 @@
 .picklistCBg_Leads_leadstatus_PLL_LEAD_ACQUIRED { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
 .picklistCT_Leads_leadstatus_PLL_LEAD_ACQUIRED { color: #E6FAD8 !important; }
 .picklistLb_Leads_leadstatus_PLL_LEAD_ACQUIRED { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_Leads_industry_Administration { border-color: #C5CAE9 !important; }
+.picklistCBg_Leads_industry_Administration { background: #C5CAE9 !important; font-weight: 500 !important; color: black !important;}
+.picklistCT_Leads_industry_Administration { color: #C5CAE9 !important; }
+.picklistLb_Leads_industry_Administration { background: #C5CAE9; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
 .picklistCBr_Calendar_activitytype_Call { border-color: #80B584 !important; }
 .picklistCBg_Calendar_activitytype_Call { background: #80B584 !important; font-weight: 500 !important; color: white !important;}
 .picklistCT_Calendar_activitytype_Call { color: #80B584 !important; }

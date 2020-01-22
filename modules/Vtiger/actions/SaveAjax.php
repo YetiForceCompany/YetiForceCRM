@@ -16,7 +16,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
 		$fieldModelList = $recordModel->getModule()->getFields();
@@ -27,7 +27,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 			}
 			$recordFieldValue = $recordModel->get($fieldName);
 			$prevDisplayValue = false;
-			if (($recordFieldValuePrev = $recordModel->getPreviousValue($fieldName)) !== false) {
+			if (false !== ($recordFieldValuePrev = $recordModel->getPreviousValue($fieldName))) {
 				$prevDisplayValue = $fieldModel->getDisplayValue($recordFieldValuePrev, $recordModel->getId(), $recordModel);
 			}
 			$result[$fieldName] = [
@@ -55,9 +55,9 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 	 *
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	public function getRecordModelFromRequest(\App\Request $request)
+	public function getRecordModelFromRequest(App\Request $request)
 	{
-		if (!$request->isEmpty('record')) {
+		if ('QuickEdit' !== $request->getByType('fromView') && !$request->isEmpty('record')) {
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 			$fieldModel = $recordModel->getModule()->getFieldByName($request->getByType('field', 2));
 			if ($fieldModel && $fieldModel->isEditable()) {
@@ -96,7 +96,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 						if ($relFieldValue && $relFieldModel && $toModel && $toModel->isWritable()) {
 							if ($toModel->isReferenceField() || $relFieldModel->isReferenceField()) {
 								$sourceType = \App\Record::getType($relFieldValue);
-								if (in_array($sourceType, $toModel->getReferenceList())) {
+								if (\in_array($sourceType, $toModel->getReferenceList())) {
 									$recordModel->set($toModel->getName(), $relFieldValue);
 								}
 							} else {

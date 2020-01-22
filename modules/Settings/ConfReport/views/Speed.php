@@ -21,7 +21,7 @@ class Settings_ConfReport_Speed_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if (!\App\User::getCurrentUserModel()->isAdmin()) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
@@ -31,11 +31,11 @@ class Settings_ConfReport_Speed_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('TESTS', \App\Utils\ConfReport::testSpeed());
+		$viewer->assign('BENCHMARKS', \App\Utils\Benchmarks::all());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->view('Speed.tpl', $qualifiedModule);
 	}
@@ -43,7 +43,7 @@ class Settings_ConfReport_Speed_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getPageTitle(\App\Request $request)
+	public function getPageTitle(App\Request $request)
 	{
 		return \App\Language::translate('LBL_SERVER_SPEED_TEST', $request->getModule(false));
 	}

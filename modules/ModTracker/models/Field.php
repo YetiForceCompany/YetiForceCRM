@@ -14,6 +14,7 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 	 * Function to set parent to this model.
 	 *
 	 * @param Vtiger_Record_Model
+	 * @param mixed $parent
 	 */
 	public function setParent($parent)
 	{
@@ -36,6 +37,7 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 	 * Function to set Field instance.
 	 *
 	 * @param Vtiger_Field_Model
+	 * @param mixed $fieldModel
 	 */
 	public function setFieldInstance($fieldModel)
 	{
@@ -61,15 +63,7 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 	 */
 	public function getOldValue()
 	{
-		$value = $this->fieldInstance->getUITypeModel()->getHistoryDisplayValue($this->get('prevalue'), $this->parent);
-		if ($this->fieldInstance->getFieldDataType() !== 'text') {
-			return $value;
-		}
-		$teaser = App\TextParser::textTruncate($value, App\Config::module('ModTracker', 'TEASER_TEXT_LENGTH'));
-		if (substr($teaser, -3) === '...') {
-			$this->set('fullPreValue', $value);
-		}
-		return $teaser;
+		return $this->fieldInstance->getUITypeModel()->getHistoryDisplayValue($this->get('prevalue'), $this->parent);
 	}
 
 	/**
@@ -79,15 +73,7 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 	 */
 	public function getNewValue()
 	{
-		$value = $this->fieldInstance->getUITypeModel()->getHistoryDisplayValue($this->get('postvalue'), $this->parent);
-		if ($this->fieldInstance->getFieldDataType() !== 'text') {
-			return $value;
-		}
-		$teaser = App\TextParser::textTruncate($value, App\Config::module('ModTracker', 'TEASER_TEXT_LENGTH'));
-		if (substr($teaser, -3) === '...') {
-			$this->set('fullPostValue', $value);
-		}
-		return $teaser;
+		return $this->fieldInstance->getUITypeModel()->getHistoryDisplayValue($this->get('postvalue'), $this->parent);
 	}
 
 	/**

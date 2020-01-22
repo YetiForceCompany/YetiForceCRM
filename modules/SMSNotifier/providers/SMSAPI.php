@@ -78,6 +78,7 @@ class SMSNotifier_SMSAPI_Provider extends SMSNotifier_Basic_Provider
 			if ('from' === $name) {
 				$field['uitype'] = 1;
 				$field['label'] = 'FL_SMSAPI_FROM';
+				$field['fieldvalue'] = $this->has($name) ? $this->get($name) : '';
 				$fields[] = $field;
 			}
 		}

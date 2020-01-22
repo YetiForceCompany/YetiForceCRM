@@ -273,7 +273,7 @@ class FieldBasic
 			return $this->tabid;
 		}
 		if (!empty($this->block)) {
-			return $this->block->module->id;
+			return $this->block->tabid;
 		}
 		return false;
 	}
@@ -285,10 +285,15 @@ class FieldBasic
 	 */
 	public function getModuleName()
 	{
+		$moduleName = '';
 		if ($this->tabid) {
-			return \App\Module::getModuleName($this->tabid);
+			$moduleName = \App\Module::getModuleName($this->tabid);
+		} elseif (!empty($this->block) && \is_object($this->block)) {
+			$moduleName = $this->block->module->name;
+		} elseif (!empty($this->module)) {
+			$moduleName = $this->module->getName();
 		}
-		return (!empty($this->block) && \is_object($this->block)) ? $this->block->module->name : '';
+		return $moduleName;
 	}
 
 	/**

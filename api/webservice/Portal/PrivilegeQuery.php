@@ -53,7 +53,7 @@ class PrivilegeQuery
 			return;
 		}
 		$where = ['and'];
-		$where[] = [$fieldInfo['tablename'] . '.' . $fieldInfo['columnname'] => 1];
+			$where[] = [$fieldInfo['tablename'] . '.' . $fieldInfo['columnname'] => 1];
 		$parentModule = \App\Record::getType($parentId);
 		$fields = \App\Field::getRelatedFieldForModule($moduleName);
 		$foundField = true;
@@ -63,7 +63,7 @@ class PrivilegeQuery
 		} elseif (isset($fields[$parentModule]) && $fields[$parentModule]['name'] !== $fields[$parentModule]['relmod']) {
 			$field = $fields[$parentModule];
 			$where[] = ["{$field['tablename']}.{$field['columnname']}" => $parentId];
-		} elseif (in_array($moduleName, ['Products', 'Services'])) {
+		} elseif (\in_array($moduleName, ['Products', 'Services'])) {
 			$fieldModel = \Vtiger_Field_Model::getInstance('discontinued', \Vtiger_Module_Model::getInstance($moduleName));
 			$where[] = ["{$fieldModel->getTableName()}.{$fieldModel->getColumnName()}" => 1];
 		} elseif ($fields) {

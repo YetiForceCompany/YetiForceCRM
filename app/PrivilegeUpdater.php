@@ -205,6 +205,7 @@ class PrivilegeUpdater
 	 */
 	public static function setAllUpdater()
 	{
+		\App\Cache::clear();
 		$modules = \vtlib\Functions::getAllModules();
 		foreach ($modules as $module) {
 			static::setUpdater($module['name']);
@@ -213,7 +214,6 @@ class PrivilegeUpdater
 		if (\App\Config::module('ModTracker', 'WATCHDOG')) {
 			\Vtiger_Watchdog_Model::reloadCache();
 		}
-		\App\Cache::clear();
 	}
 
 	/**

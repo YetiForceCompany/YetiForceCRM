@@ -41,6 +41,7 @@
 		@include media-breakpoint-down($breakpoint-down) {
 			position: absolute;
 			right: calculate-rem(15px);
+			bottom: 0;
 			$w-fab-button: calculate-rem(35px);
 			$fab-padding: calculate-rem(4px);
 			&.q-fab--opened {
@@ -75,4 +76,18 @@
 			}
 		}
 	}
+}
+
+@mixin c-btn-floating-right-bottom($right: 5px, $bottom: 17px) {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	bottom: calculate-rem($bottom);
+	right: calculate-rem($right);
+	z-index: 9999999;
+	border-radius: 50%;
+	width: calculate-rem(35px);
+	height: calculate-rem(35px);
+	opacity: 0.8;
 }

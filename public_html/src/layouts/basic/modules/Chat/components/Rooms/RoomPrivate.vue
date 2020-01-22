@@ -1,6 +1,11 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <RoomList isVisible :filterRooms="filterRooms" :roomData="roomData" :roomType="roomType">
+  <RoomList
+    isVisible
+    :filterRooms="filterRooms"
+    :roomData="roomData"
+    :roomType="roomType"
+  >
     <template #labelRight>
       <q-btn
         dense
@@ -9,7 +14,7 @@
         size="sm"
         color="primary"
         icon="mdi-plus"
-        @click="showAddPrivateRoom = !showAddPrivateRoom"
+        @click="toggleAddInput()"
       >
         <q-tooltip>{{ translate('JS_CHAT_ADD_PRIVATE_ROOM') }}</q-tooltip>
       </q-btn>
@@ -34,21 +39,35 @@
       </q-btn>
     </template>
     <template #aboveItems>
-      <q-item v-show="showAddPrivateRoom">
-        <RoomPrivateInput :showAddPrivateRoom.sync="showAddPrivateRoom" />
+      <q-item v-show="isAddInputVisible">
+        <RoomPrivateInput :showAddPrivateRoom.sync="isAddInputVisible" />
       </q-item>
     </template>
     <template #belowItems>
-      <q-dialog v-if="arePrivateRooms" v-model="confirm" persistent content-class="quasar-reset">
+      <q-dialog
+        v-if="arePrivateRooms"
+        v-model="confirm"
+        persistent
+        content-class="quasar-reset"
+      >
         <q-card>
           <q-card-section class="row items-center">
-            <q-avatar icon="mdi-alert-circle-outline" text-color="negative" />
+            <q-avatar
+              icon="mdi-alert-circle-outline"
+              text-color="negative"
+            />
             <span class="q-ml-sm">{{
               translate('JS_CHAT_ROOM_ARCHIVE_MESSAGE').replace('${roomToArchive}', roomToArchive.name)
             }}</span>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn flat :label="translate('JS_CANCEL')" color="black" @click="isArchiving = false" v-close-popup />
+            <q-btn
+              flat
+              :label="translate('JS_CANCEL')"
+              color="black"
+              @click="isArchiving = false"
+              v-close-popup
+            />
             <q-btn
               @click="archive(roomToArchive)"
               flat
@@ -86,9 +105,9 @@ export default {
   },
   data() {
     return {
-      showAddPrivateRoom: false,
       confirm: false,
       isArchiving: false,
+      isAddInputVisible: false,
       roomToArchive: {}
     }
   },
@@ -104,7 +123,10 @@ export default {
     },
     isHiddenOnHover() {
       return roomName => {
-        return this.$q.platform.is.desktop && (!this.isArchiving || this.roomToArchive.name !== roomName)
+        return (
+          this.$q.platform.is.desktop &&
+          (!this.isArchiving || this.roomToArchive.name !== roomName)
+        )
       }
     }
   },
@@ -116,9 +138,12 @@ export default {
       this.roomToArchive = room
     },
     archive(roomToArchive) {
-      this.archivePrivateRoom(roomToArchive).then(e => {
+      this.archivePrivateRoom({ recordId: roomToArchive.recordid }).then(e => {
         this.isArchiving = false
       })
+    },
+    toggleAddInput() {
+      this.isAddInputVisible = !this.isAddInputVisible
     }
   }
 }

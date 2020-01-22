@@ -249,6 +249,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field2->typeofdata = 'V~O';
 		$field2->columntype = 'string(32)';
 		$field2->maximumlength = '32';
+		$field2->displaytype = 2;
 		$blockcf->addField($field2);
 
 		$field3 = new vtlib\Field();
@@ -330,6 +331,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		if (1 === $module->type) {
 			\Vtiger_Inventory_Model::getInstance($module->name)->createInventoryTables();
 		}
+		(new \App\BatchMethod(['method' => '\App\UserPrivilegesFile::recalculateAll', 'params' => []]))->save();
 		return $module;
 	}
 

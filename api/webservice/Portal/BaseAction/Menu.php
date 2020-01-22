@@ -9,6 +9,8 @@
 
 namespace Api\Portal\BaseAction;
 
+use OpenApi\Annotations as OA;
+
 /**
  * Action to get menu.
  */

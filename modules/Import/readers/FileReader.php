@@ -24,7 +24,7 @@ class Import_FileReader_Reader
 	 * @param \App\Request $request
 	 * @param \App\User    $user
 	 */
-	public function __construct(\App\Request $request, \App\User $user)
+	public function __construct(App\Request $request, App\User $user)
 	{
 		$this->request = $request;
 		$this->user = $user;
@@ -48,7 +48,7 @@ class Import_FileReader_Reader
 
 	public function hasHeader()
 	{
-		if ($this->request->get('has_header') == 'on' || $this->request->get('has_header') == 1 || $this->request->get('has_header') === true) {
+		if ('on' == $this->request->get('has_header') || 1 == $this->request->get('has_header') || true === $this->request->get('has_header')) {
 			return true;
 		}
 		return false;
@@ -86,6 +86,10 @@ class Import_FileReader_Reader
 
 	/**
 	 * @deprecated Use \App\Utils::convertCharacterEncoding()
+	 *
+	 * @param mixed $value
+	 * @param mixed $fromCharset
+	 * @param mixed $toCharset
 	 */
 	public function convertCharacterEncoding($value, $fromCharset, $toCharset)
 	{
@@ -118,10 +122,14 @@ class Import_FileReader_Reader
 			'temp_status' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_SMALLINT, 1)->defaultValue(0),
 			'recordid' => 'integer',
 		];
+		if ($sourceId = $this->request->getInteger('src_record') && $relationId = $this->request->getInteger('relationId')) {
+			$columns['src_record'] = 'integer';
+			$columns['relation_id'] = $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_SMALLINT, 5)->defaultValue(0);
+		}
 		foreach ($fieldMapping as $fieldName => $index) {
 			if ($field = $moduleFields[$fieldName]) {
 				$stringTypes = array_merge(Vtiger_Field_Model::$referenceTypes, ['owner', 'currencyList', 'sharedOwner']);
-				if (in_array($field->getFieldDataType(), $stringTypes)) {
+				if (\in_array($field->getFieldDataType(), $stringTypes)) {
 					$columns[$fieldName] = $schema->createColumnSchemaBuilder('string', 255);
 				} else {
 					$columns[$fieldName] = $field->getDBColumnType();
@@ -138,14 +146,14 @@ class Import_FileReader_Reader
 			];
 			foreach ($inventoryModel->getFields() as $fieldObject) {
 				$dbType = $fieldObject->getDBType();
-				if (in_array($fieldObject->getType(), ['Name', 'Reference', 'Currency'])) {
+				if (\in_array($fieldObject->getType(), ['Name', 'Reference', 'Currency'])) {
 					$dbType = $schema->createColumnSchemaBuilder('string', 200);
-				} elseif (is_array($dbType)) {
+				} elseif (\is_array($dbType)) {
 					$dbType = $schema->createColumnSchemaBuilder($dbType[0], $dbType[1]);
 				}
 				$columns[$fieldObject->getColumnName()] = $dbType;
 				foreach ($fieldObject->getCustomColumn() as $name => $dbType) {
-					if (is_array($dbType)) {
+					if (\is_array($dbType)) {
 						$dbType = $schema->createColumnSchemaBuilder($dbType[0], $dbType[1]);
 					}
 					$columns[$name] = $dbType;

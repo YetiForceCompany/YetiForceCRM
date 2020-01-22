@@ -2,38 +2,10 @@
 'use strict';
 
 $.Class('Vtiger_PDF_Js', {
-	validateSubmit: function(container) {
-		var templateIds = [];
-		var i = 0;
-		container.find('[name="pdf_template[]"]').each(function() {
-			if ($(this).is(':checked')) {
-				templateIds[i] = $(this).val();
-				i++;
-			}
-		});
-		if (templateIds.length > 0) {
-			container.find('#generate_pdf').attr('disabled', false);
-			var view = app.getUrlVar('view');
-			if (
-				templateIds.length > 1 ||
-				(view &&
-					view.replace('#', '') === 'List' &&
-					JSON.parse(container.find('[name="validRecords"]').val()).length > 0)
-			) {
-				container.find('#single_pdf').show();
-			} else {
-				container.find('#single_pdf').hide();
-			}
-		} else {
-			container.find('#generate_pdf').attr('disabled', true);
-			container.find('#single_pdf').hide();
-		}
-	},
-
 	/**
 	 * Proceed form submission
 	 */
-	proceedSubmit(templateIds, mode) {
+	proceedSubmit(mode) {
 		const loader = $.progressIndicator({
 			message: app.vtranslate('JS_PDF_GENERATING'),
 			position: 'html',
@@ -41,7 +13,6 @@ $.Class('Vtiger_PDF_Js', {
 				enabled: true
 			}
 		});
-		this.container.find('[name="template"]').val(templateIds);
 		switch (mode) {
 			case 'generate_pdf':
 				break;
@@ -63,87 +34,64 @@ $.Class('Vtiger_PDF_Js', {
 	 */
 	registerPreSubmitEvent: function(container) {
 		const self = this;
-		container.find('#generate_pdf, #single_pdf, #email_pdf').on('click', function(e) {
-			const templateIds = [];
-			container.find('[name="pdf_template[]"]').each(function() {
-				if ($(this).is(':checked')) {
-					templateIds.push($(this).val());
-				}
-			});
-			const view = app.getUrlVar('view');
-			if (view && view.replace('#', '') === 'List') {
-				container.find('[name="record"]').val(container.find('[name="validRecords"]').val());
-			}
-			self.proceedSubmit.apply(self, [templateIds, $(this).attr('id')]);
+		container.find('#generate_pdf, #single_pdf, #email_pdf').on('click', e => {
+			self.proceedSubmit.apply(self, [$(e.currentTarget).attr('id')]);
 		});
 	},
-	/**
-	 * Register validate submit
-	 *
-	 * @param   {jQuery}  container
-	 */
-	registerValidateSubmit(container) {
-		this.validateSubmit(container);
-		container.find('[name="pdf_template[]"]').on('change', () => {
-			this.validateSubmit(container);
-		});
-	},
+
 	/**
 	 * Register list view check records
 	 *
 	 * @param   {jQuery}  container
 	 */
 	registerListViewCheckRecords(container) {
-		const thisInstance = this;
-		container.find('[name="pdf_template[]"]').on('change', function() {
-			document.progressLoader = jQuery.progressIndicator({
+		let templateElements = container.find('[name="pdf_template[]"]');
+		templateElements.on('change', function() {
+			document.progressLoader = $.progressIndicator({
 				message: app.vtranslate('JS_PDF_RECALCULATING'),
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
-			const selectedRecords = container.find('[name="selectedRecords"]').val();
-			const selectedTemplates = [];
-			container.find('[name="pdf_template[]"]:checked').each(() => {
-				selectedTemplates.push($(this).val());
+
+			let templateContainer = $(this).closest('.js-pdf-template-content');
+			templateContainer.find('.js-pdf-user-variable').toggleClass('d-none');
+
+			let templates = [];
+			templateElements.filter(':checked').each(function() {
+				templates.push($(this).val());
 			});
-			const params = {};
-			params.data = {
-				module: app.getModuleName(),
-				action: 'PDF',
-				mode: 'validateRecords',
-				records: selectedRecords,
-				view: app.getViewName(),
-				templates: selectedTemplates
-			};
-			params.dataType = 'json';
+
+			let params = container.find('form').serializeFormData();
+			params.mode = 'validateRecords';
+			params.templates = templates;
+
 			AppConnector.request(params)
 				.done(function(data) {
-					var response = data['result'];
-					if (data['success']) {
-						container.find('[name="validRecords"]').val(JSON.stringify(response.valid_records));
-						container.find('#recordsInfo').text(response.message);
+					var response = data.result;
+					if (data.success) {
+						let valid = response.valid;
+						let info = container
+							.find('.js-records-info')
+							.text(response.message)
+							.removeClass('d-none');
+						if (valid) {
+							info.addClass('d-none');
+						}
 						setTimeout(function() {
 							document.progressLoader.progressIndicator({ mode: 'hide' });
 						}, 500);
-						thisInstance.validateSubmit(container);
+
+						container.find('.js-submit-button').each(function() {
+							$(this).attr('disabled', !valid);
+						});
 					}
 				})
 				.fail(function(data, err) {
 					app.errorLog(data, err);
 				});
 		});
-	},
-	/**
-	 * Count selected records
-	 *
-	 * @param   {jQuery}  container
-	 *
-	 * @return  {number}
-	 */
-	countSelectedRecords(container) {
-		return JSON.parse(container.find('[name="selectedRecords"]').val()).length;
 	},
 
 	/**
@@ -175,22 +123,11 @@ $.Class('Vtiger_PDF_Js', {
 				}
 			});
 
-			const records = JSON.parse(this.container.find('[name="selectedRecords"]').val());
-			const record = parseInt(this.container.find('[name="record"]').val());
-			if (record) {
-				records.push(record);
-			}
-			AppConnector.request({
-				data: {
-					module: app.getModuleName(),
-					mode: 'saveInventoryColumnScheme',
-					action: 'PDF',
-					records,
-					inventoryColumns: this.container.find('[name="inventoryColumns[]"]').val(),
-					isCustomMode: this.container.find('[name="isCustomMode"]').is(':checked')
-				},
-				dataType: 'json'
-			})
+			let params = this.container.find('form').serializeFormData();
+			params.mode = 'saveInventoryColumnScheme';
+			params.isCustomMode = this.container.find('[name="isCustomMode"]').is(':checked');
+
+			AppConnector.request(params)
 				.done(function(data) {
 					const response = data['result'];
 					if (data['success']) {
@@ -212,28 +149,13 @@ $.Class('Vtiger_PDF_Js', {
 	 * Register events
 	 */
 	registerEvents() {
-		const container = (this.container = $('div.modal-content'));
+		const container = (this.container = $('#pdfExportModal').closest('.js-modal-container'));
 		this.dynamicTemplatesCount = 0;
+		this.recordId = parseInt(container.find('[name="record"]').val());
 		this.registerPreSubmitEvent(container);
 		this.registerSaveInventoryColumnSchemeClick();
 		this.registerSelectCustomColumnsChange();
-		if (app.getViewName() === 'Detail') {
-			this.registerValidateSubmit(container);
-		}
-		if (app.getViewName() === 'List') {
-			this.validateSubmit(container);
-			this.registerListViewCheckRecords(container);
-			const selectedRecords = JSON.parse(container.find('#all_records').val());
-			const recordsInput = container.find('[name="selectedRecords"]');
-			const validInput = container.find('[name="validRecords"]');
-			container.find('div.modal-body').append('<p id="recordsInfo">' + app.vtranslate('JS_RECORD_INFO'), +'</p>');
-			recordsInput.val(JSON.stringify(selectedRecords));
-			validInput.val(JSON.stringify(selectedRecords));
-			$('#recordsInfo').text(
-				selectedRecords.length + ' from ' + selectedRecords.length + ' are valid for chosen template.'
-			);
-			this.validateSubmit(container);
-		}
+		this.registerListViewCheckRecords(container);
 	}
 });
 $(function() {

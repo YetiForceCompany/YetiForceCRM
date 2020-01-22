@@ -21,24 +21,61 @@ final class Chat
 	/**
 	 * Information about allowed types of rooms.
 	 */
-	const ALLOWED_ROOM_TYPES = ['crm', 'group', 'global', 'private'];
+	const ALLOWED_ROOM_TYPES = ['crm', 'group', 'global', 'private', 'user'];
 
 	/**
 	 * Information about the tables of the database.
 	 */
 	const TABLE_NAME = [
-		'message' => ['crm' => 'u_#__chat_messages_crm', 'group' => 'u_#__chat_messages_group', 'global' => 'u_#__chat_messages_global', 'private' => 'u_#__chat_messages_private'],
-		'room' => ['crm' => 'u_#__chat_rooms_crm', 'group' => 'u_#__chat_rooms_group', 'global' => 'u_#__chat_rooms_global', 'private' => 'u_#__chat_rooms_private'],
-		'room_name' => ['crm' => 'u_#__crmentity_label', 'group' => 'vtiger_groups', 'global' => 'u_#__chat_global', 'private' => 'u_#__chat_private']
+		'message' => [
+			'crm' => 'u_#__chat_messages_crm',
+			'group' => 'u_#__chat_messages_group',
+			'global' => 'u_#__chat_messages_global',
+			'private' => 'u_#__chat_messages_private',
+			'user' => 'u_#__chat_messages_user'
+		],
+		'room' => [
+			'crm' => 'u_#__chat_rooms_crm',
+			'group' => 'u_#__chat_rooms_group',
+			'global' => 'u_#__chat_rooms_global',
+			'private' => 'u_#__chat_rooms_private',
+			'user' => 'u_#__chat_rooms_user'
+		],
+		'room_name' => [
+			'crm' => 'u_#__crmentity_label',
+			'group' => 'vtiger_groups',
+			'global' => 'u_#__chat_global',
+			'private' => 'u_#__chat_private',
+			'user' => 'u_#__chat_user'
+		],
+		'users' => 'vtiger_users'
 	];
 
 	/**
 	 * Information about the columns of the database.
 	 */
 	const COLUMN_NAME = [
-		'message' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'globalid', 'private' => 'privateid'],
-		'room' => ['crm' => 'crmid', 'group' => 'groupid', 'global' => 'global_room_id', 'private' => 'private_room_id'],
-		'room_name' => ['crm' => 'label', 'group' => 'groupname', 'global' => 'name', 'private' => 'name']
+		'message' => [
+			'crm' => 'crmid',
+			'group' => 'groupid',
+			'global' => 'globalid',
+			'private' => 'privateid',
+			'user' => 'roomid'
+		],
+		'room' => [
+			'crm' => 'crmid',
+			'group' => 'groupid',
+			'global' => 'global_room_id',
+			'private' => 'private_room_id',
+			'user' => 'roomid'
+		],
+		'room_name' => [
+			'crm' => 'label',
+			'group' => 'groupname',
+			'global' => 'name',
+			'private' => 'name',
+			'user' => 'roomid'
+		]
 	];
 
 	/**
@@ -72,7 +109,7 @@ final class Chat
 	 *
 	 * @var int|null
 	 */
-	private $lastMessageId;
+	private $lastMessageId = 0;
 
 	/**
 	 * Set current room ID, type.
@@ -82,7 +119,7 @@ final class Chat
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public static function setCurrentRoom(string $roomType, ?int $recordId)
+	public static function setCurrentRoom(?string $roomType, ?int $recordId)
 	{
 		$_SESSION['chat'] = [
 			'roomType' => $roomType, 'recordId' => $recordId
@@ -91,13 +128,11 @@ final class Chat
 
 	/**
 	 * Set default room as current room.
-	 *
-	 * @return array
 	 */
 	public static function setCurrentRoomDefault()
 	{
 		$defaultRoom = static::getDefaultRoom();
-		return static::setCurrentRoom($defaultRoom['roomType'], $defaultRoom['recordId']);
+		static::setCurrentRoom($defaultRoom['roomType'], $defaultRoom['recordId']);
 	}
 
 	/**
@@ -122,6 +157,21 @@ final class Chat
 	}
 
 	/**
+	 * Get active room types.
+	 *
+	 * @return array
+	 */
+	public static function getActiveRoomTypes(): array
+	{
+		return (new Db\Query())
+			->select(['type'])
+			->from(['u_#__chat_rooms'])
+			->where(['active' => 1])
+			->orderBy(['sequence' => \SORT_ASC])
+			->column();
+	}
+
+	/**
 	 * Create chat room.
 	 *
 	 * @param string $roomType
@@ -140,7 +190,7 @@ final class Chat
 		$recordIdName = static::COLUMN_NAME['room'][$roomType];
 		Db::getInstance()->createCommand()->insert($table, [
 			'userid' => $userId,
-			'last_message' => null,
+			'last_message' => 0,
 			$recordIdName => $recordId
 		])->execute();
 		$instance->recordId = $recordId;
@@ -171,36 +221,64 @@ final class Chat
 	}
 
 	/**
-	 * Global list of chat rooms.
+	 * List global chat rooms.
+	 *
+	 * @param int $userId
 	 *
 	 * @return array
 	 */
-	public static function getRoomsGlobal()
+	public static function getRoomsGlobal(?int $userId = null): array
 	{
-		$userId = User::getCurrentUserId();
+		if (empty($userId)) {
+			$userId = User::getCurrentUserId();
+		}
 		$roomIdName = static::COLUMN_NAME['room']['global'];
 		$cntQuery = (new Db\Query())
 			->select([new \yii\db\Expression('COUNT(*)')])
-			->from(['CM' => 'u_yf_chat_messages_global'])
+			->from(['CM' => static::TABLE_NAME['message']['global']])
 			->where([
-				'CM.globalid' => new \yii\db\Expression('CR.global_room_id')
+				'CM.globalid' => new \yii\db\Expression("CR.{$roomIdName}")
 			])->andWhere(['>', 'CM.id', new \yii\db\Expression('CR.last_message')]);
 		$subQuery = (new Db\Query())
 			->select([
 				'CR.*',
 				'cnt_new_message' => $cntQuery
 			])
-			->from(['CR' => 'u_yf_chat_rooms_global']);
-		$dataReader = (new Db\Query())
-			->select(['name', 'recordid' => 'GL.global_room_id', 'CNT.cnt_new_message', 'CNT.userid'])
-			->from(['GL' => 'u_#__chat_global'])
-			->leftJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.global_room_id AND CNT.userid = {$userId}")
-			->createCommand()->query();
+			->from(['CR' => static::TABLE_NAME['room']['global']]);
+		$query = (new Db\Query())
+			->select(['name', 'recordid' => "GL.{$roomIdName}", 'CNT.last_message', 'CNT.cnt_new_message', 'CNT.userid'])
+			->from(['GL' => static::TABLE_NAME['room_name']['global']])
+			->leftJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.{$roomIdName}")
+			->where(['CNT.userid' => $userId]);
+		$dataReader = $query->createCommand()->query();
 		$rooms = [];
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
 			$row['roomType'] = 'global';
-			$row['isPinned'] = isset($row['userid']);
+			$rooms[$row['recordid']] = $row;
+		}
+		$dataReader->close();
+		return $rooms;
+	}
+
+	/**
+	 * List unpinned global chat rooms.
+	 *
+	 * @param int $userId
+	 *
+	 * @return array
+	 */
+	public static function getRoomsGlobalUnpinned(?int $userId = null): array
+	{
+		if (empty($userId)) {
+			$userId = User::getCurrentUserId();
+		}
+		$query = self::getRoomsUnpinnedQuery('global', $userId);
+		$dataReader = $query->createCommand()->query();
+		$rooms = [];
+		while ($row = $dataReader->read()) {
+			$row['name'] = Language::translate($row['name'], 'Chat');
+			$row['roomType'] = 'global';
 			$rooms[$row['recordid']] = $row;
 		}
 		$dataReader->close();
@@ -214,7 +292,7 @@ final class Chat
 	 *
 	 * @return array
 	 */
-	public static function getRoomsPrivate(?int $userId = null)
+	public static function getRoomsPrivate(?int $userId = null): array
 	{
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
@@ -222,7 +300,7 @@ final class Chat
 		$roomIdName = static::COLUMN_NAME['room']['private'];
 		$cntQuery = (new Db\Query())
 			->select([new \yii\db\Expression('COUNT(*)')])
-			->from(['CM' => 'u_yf_chat_messages_private'])
+			->from(['CM' => static::TABLE_NAME['message']['private']])
 			->where([
 				'CM.privateid' => new \yii\db\Expression('CR.private_room_id')
 			])->andWhere(['>', 'CM.id', new \yii\db\Expression('CR.last_message')]);
@@ -231,26 +309,81 @@ final class Chat
 				'CR.*',
 				'cnt_new_message' => $cntQuery,
 			])
-			->from(['CR' => 'u_yf_chat_rooms_private']);
+			->from(['CR' => static::TABLE_NAME['room']['private']]);
 		$query = (new Db\Query())
-			->select(['name', 'recordid' => 'GL.private_room_id', 'CNT.cnt_new_message', 'CNT.userid', 'creatorid', 'created'])
+			->select(['name', 'recordid' => 'GL.private_room_id', 'CNT.last_message', 'CNT.cnt_new_message', 'CNT.userid', 'creatorid', 'created'])
 			->where(['archived' => 0])
-			->from(['GL' => 'u_#__chat_private']);
-		if (User::getUserModel($userId)->isAdmin()) {
-			$query->leftJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.private_room_id AND CNT.userid = {$userId}");
-		} else {
-			$query->innerJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.private_room_id AND CNT.userid = {$userId}");
+			->from(['GL' => static::TABLE_NAME['room_name']['private']])
+			->rightJoin(['CNT' => $subQuery], "CNT.{$roomIdName} = GL.private_room_id AND CNT.userid = {$userId}");
+		$dataReader = $query->createCommand()->query();
+		$rooms = [];
+		while ($row = $dataReader->read()) {
+			$row['name'] = \App\Purifier::decodeHtml($row['name']);
+			$row['roomType'] = 'private';
+			$rooms[$row['recordid']] = $row;
+		}
+		$dataReader->close();
+		return $rooms;
+	}
+
+	/**
+	 * List of unpinned private chat rooms.
+	 *
+	 * @param int|null $userId
+	 *
+	 * @return array
+	 */
+	public static function getRoomsPrivateUnpinned(?int $userId = null): array
+	{
+		if (empty($userId)) {
+			$userId = User::getCurrentUserId();
+		}
+		$query = self::getRoomsUnpinnedQuery('private', $userId);
+		$query->andWhere(['ROOM_SRC.archived' => 0]);
+		if (!User::getUserModel($userId)->isAdmin()) {
+			$query->andWhere(['creatorid' => $userId]);
 		}
 		$dataReader = $query->createCommand()->query();
 		$rooms = [];
 		while ($row = $dataReader->read()) {
 			$row['name'] = Language::translate($row['name'], 'Chat');
 			$row['roomType'] = 'private';
-			$row['isPinned'] = isset($row['userid']) ? true : false;
 			$rooms[$row['recordid']] = $row;
 		}
 		$dataReader->close();
 		return $rooms;
+	}
+
+	/**
+	 * List of unpinned users to private room.
+	 *
+	 * @param int $roomId
+	 *
+	 * @return array
+	 */
+	public static function getRoomPrivateUnpinnedUsers(int $roomId): array
+	{
+		$userId = User::getCurrentUserId();
+		$roomType = 'private';
+		$pinnedUsersQuery = (new Db\Query())
+			->select(['USER_PINNED.userid'])
+			->from(['USER_PINNED' => static::TABLE_NAME['room'][$roomType]])
+			->where(['USER_PINNED.private_room_id' => $roomId]);
+		$query = (new Db\Query())
+			->select(['USERS.id', 'USERS.first_name', 'USERS.last_name'])
+			->from(['USERS' => static::TABLE_NAME['users']])
+			->where(['and', ['USERS.status' => 'Active'], ['USERS.deleted' => 0], ['not', ['USERS.id' => $userId]]])
+			->leftJoin(['PINNED' => $pinnedUsersQuery], 'USERS.id = PINNED.userid')
+			->andWhere(['PINNED.userid' => null]);
+		$dataReader = $query->createCommand()->query();
+		$rows = [];
+		while ($row = $dataReader->read()) {
+				$row['img'] = User::getImageById($row['id']) ? User::getImageById($row['id'])['url'] : '';
+				$row['label'] = $row['last_name'] . ' ' . $row['first_name'];
+				$rows[] = $row;
+		}
+		$dataReader->close();
+		return $rows;
 	}
 
 	/**
@@ -260,42 +393,158 @@ final class Chat
 	 *
 	 * @return array
 	 */
-	public static function getRoomsGroup(?int $userId = null)
+	public static function getRoomsGroup(?int $userId = null): array
 	{
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
 		}
-		$groups = User::getUserModel($userId)->getGroupNames();
 		$subQuery = (new Db\Query())
 			->select(['CR.groupid', 'CR.userid', 'cnt_new_message' => 'COUNT(*)'])
 			->from(['CR' => static::TABLE_NAME['room']['group']])
 			->innerJoin(['CM' => static::TABLE_NAME['message']['group']], 'CM.groupid = CR.groupid')
 			->where(['>', 'CM.id', new \yii\db\Expression('CR.last_message')])
 			->groupBy(['CR.groupid', 'CR.userid']);
-		$dataReader = (new Db\Query())
-			->select(['GR.roomid', 'GR.userid', 'recordid' => 'GR.groupid', 'name' => 'VGR.groupname', 'CNT.cnt_new_message'])
-			->from(['GR' => 'u_#__chat_rooms_group'])
-			->innerJoin(['VGR' => 'vtiger_groups'], 'VGR.groupid = GR.groupid')
+		$query = (new Db\Query())
+			->select(['GR.roomid', 'GR.last_message', 'GR.userid', 'recordid' => 'GR.groupid', 'name' => 'VGR.groupname', 'CNT.cnt_new_message'])
+			->from(['GR' => static::TABLE_NAME['room']['group']])
 			->leftJoin(['CNT' => $subQuery], 'CNT.groupid = GR.groupid AND CNT.userid = GR.userid')
-			->where(['GR.userid' => $userId])->createCommand()->query();
+			->where(['GR.userid' => $userId]);
+		$joinArguments = [['VGR' => static::TABLE_NAME['room_name']['group']], 'VGR.groupid = GR.groupid'];
+		$query->rightJoin($joinArguments[0], $joinArguments[1]);
+		$dataReader = $query->createCommand()->query();
 		$rows = [];
 		while ($row = $dataReader->read()) {
-			if (isset($groups[$row['recordid']])) {
-				$row['isPinned'] = true;
-				$groups[$row['recordid']] = $row;
-			}
-		}
-		foreach ($groups as $id => $group) {
-			if (\is_string($group)) {
-				$group = ['recordid' => $id, 'name' => $group, 'isPinned' => false];
-			}
-			$group['roomType'] = 'group';
-			$rows[$id] = $group;
+			$row['name'] = \App\Purifier::decodeHtml($row['name']);
+			$row['roomType'] = 'group';
+			$rows[$row['recordid']] = $row;
 		}
 		$dataReader->close();
 		return $rows;
 	}
 
+	/**
+	 * Get rooms group unpinned.
+	 *
+	 * @param int|null $userId
+	 *
+	 * @return array
+	 */
+	public static function getRoomsGroupUnpinned(?int $userId = null): array
+	{
+		if (empty($userId)) {
+			$userId = User::getCurrentUserId();
+		}
+		$groups = User::getUserModel($userId)->getGroupNames();
+		$pinned = [];
+		$rows = [];
+		$query = (new Db\Query())
+			->select(['recordid' => 'ROOM_PINNED.groupid'])
+			->from(['ROOM_PINNED' => static::TABLE_NAME['room']['group']])
+			->where(['ROOM_PINNED.userid' => $userId]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$pinned[] = $row['recordid'];
+		}
+		$dataReader->close();
+		foreach ($groups as $id => $groupName) {
+			if (!\in_array($id, $pinned)) {
+				$rows[$id] = [
+					'recordid' => $id,
+					'name' => $groupName,
+					'roomType' => 'group'
+				];
+			}
+		}
+		return $rows;
+	}
+
+	/**
+	 * Get rooms user unpinned.
+	 *
+	 * @param int|null $userId
+	 *
+	 * @return array
+	 */
+	public static function getRoomsUser(?int $userId = null): array
+	{
+		if (empty($userId)) {
+			$userId = User::getCurrentUserId();
+		}
+		$roomType = 'user';
+		$cntQuery = (new Db\Query())
+			->select([new \yii\db\Expression('COUNT(*)')])
+			->from(['MESSAGES' => static::TABLE_NAME['message'][$roomType]])
+			->where([
+				'MESSAGES.roomid' => new \yii\db\Expression('ROOM_PINNED.roomid')
+			])->andWhere(['>', 'MESSAGES.id', new \yii\db\Expression('ROOM_PINNED.last_message')]);
+		$query = (new Db\Query())
+			->select(['ROOM_PINNED.last_message', 'ROOM_SRC.userid', 'ROOM_SRC.reluserid', 'recordid' => 'ROOM_SRC.roomid', 'cnt_new_message' => $cntQuery])
+			->from(['ROOM_PINNED' => static::TABLE_NAME['room'][$roomType]])
+			->where(['ROOM_PINNED.userid' => $userId])
+			->andWhere(['or', ['ROOM_SRC.reluserid' => $userId], ['ROOM_SRC.userid' => $userId]])
+			->leftJoin(['ROOM_SRC' => static::TABLE_NAME['room_name'][$roomType]], 'ROOM_PINNED.roomid = ROOM_SRC.roomid');
+		$dataReader = $query->createCommand()->query();
+		$rooms = [];
+		while ($row = $dataReader->read()) {
+			$relUser = $row['userid'] === $userId ? $row['reluserid'] : $row['userid'];
+			$roomData = static::getUserInfo($relUser);
+			$roomData['cnt_new_message'] = $row['cnt_new_message'];
+			$roomData['last_message'] = $row['last_message'];
+			$roomData['recordid'] = $row['recordid'];
+			$roomData['name'] = \App\Purifier::decodeHtml($roomData['user_name']);
+			$roomData['roomType'] = $roomType;
+			$rooms[$row['recordid']] = $roomData;
+		}
+		$dataReader->close();
+		return $rooms;
+	}
+
+	/**
+	 * Get rooms user unpinned.
+	 *
+	 * @param int|null $userId
+	 *
+	 * @return array
+	 */
+	public static function getRoomsUserUnpinned(?int $userId = null): array
+	{
+		$rooms = [];
+		$dataReader = static::getRoomsUserUnpinnedQuery($userId)->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$row['name'] = $row['first_name'] . ' ' . $row['last_name'];
+			$row['roomType'] = 'user';
+			$row['recordid'] = $row['id'];
+			$rooms[$row['id']] = $row;
+		}
+		$dataReader->close();
+		return $rooms;
+	}
+
+	/**
+	 * Get rooms user unpinned query.
+	 *
+	 * @param int|null $userId
+	 *
+	 * @return object
+	 */
+	public static function getRoomsUserUnpinnedQuery(?int $userId = null): object
+	{
+		if (empty($userId)) {
+			$userId = User::getCurrentUserId();
+		}
+		$roomType = 'user';
+		$pinnedUsersQuery = (new Db\Query())
+			->select(['ROOM_USER.userid', 'ROOM_USER.reluserid'])
+			->from(['ROOM_PINNED' => static::TABLE_NAME['room'][$roomType]])
+			->where(['ROOM_PINNED.userid' => $userId])
+			->leftJoin(['ROOM_USER' => static::TABLE_NAME['room_name'][$roomType]], 'ROOM_PINNED.roomid = ROOM_USER.roomid');
+		return (new Db\Query())
+			->select(['USERS.id', 'USERS.user_name', 'USERS.first_name', 'USERS.last_name'])
+			->from(['USERS' => static::TABLE_NAME['users']])
+			->where(['and', ['USERS.status' => 'Active'], ['USERS.deleted' => 0], ['not', ['USERS.id' => $userId]]])
+			->leftJoin(['PINNED' => $pinnedUsersQuery], 'USERS.id = PINNED.userid OR USERS.id = PINNED.reluserid')
+			->andWhere(['and', ['PINNED.userid' => null], ['PINNED.reluserid' => null]]);
+	}
 	/**
 	 * CRM list of chat rooms.
 	 *
@@ -303,7 +552,7 @@ final class Chat
 	 *
 	 * @return array
 	 */
-	public static function getRoomsCrm(?int $userId = null)
+	public static function getRoomsCrm(?int $userId = null): array
 	{
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
@@ -316,9 +565,9 @@ final class Chat
 			->orWhere(['CR.last_message' => null])
 			->groupBy(['CR.crmid', 'CR.userid']);
 		$dataReader = (new Db\Query())
-			->select(['C.roomid', 'C.userid', 'recordid' => 'C.crmid', 'name' => 'CL.label', 'CNT.cnt_new_message'])
-			->from(['C' => 'u_#__chat_rooms_crm'])
-			->leftJoin(['CL' => 'u_#__crmentity_label'], 'CL.crmid = C.crmid')
+			->select(['C.roomid', 'C.userid', 'recordid' => 'C.crmid', 'name' => 'CL.label', 'C.last_message', 'CNT.cnt_new_message'])
+			->from(['C' => static::TABLE_NAME['room']['crm']])
+			->leftJoin(['CL' => static::TABLE_NAME['room_name']['crm']], 'CL.crmid = C.crmid')
 			->leftJoin(['CNT' => $subQuery], 'CNT.crmid = C.crmid AND CNT.userid = C.userid')
 			->where(['C.userid' => $userId])->createCommand()->query();
 		$rows = [];
@@ -327,12 +576,30 @@ final class Chat
 			if ($recordModel->isViewable()) {
 				$row['moduleName'] = $recordModel->getModuleName();
 				$row['roomType'] = 'crm';
-				$row['isPinned'] = true;
+				$row['name'] = \App\Purifier::decodeHtml($row['name']);
 				$rows[$row['recordid']] = $row;
 			}
 		}
 		$dataReader->close();
 		return $rows;
+	}
+
+	/**
+	 * Create query for unpinned rooms.
+	 *
+	 * @param string $roomType
+	 * @param int    $userId
+	 *
+	 * @return object
+	 */
+	public static function getRoomsUnpinnedQuery(string $roomType, int $userId): object
+	{
+		$roomIdName = static::COLUMN_NAME['room'][$roomType];
+		return (object) (new Db\Query())
+			->select(['ROOM_SRC.*', 'recordid' => "ROOM_SRC.{$roomIdName}"])
+			->from(['ROOM_SRC' => static::TABLE_NAME['room_name'][$roomType]])
+			->leftJoin(['ROOM_PINNED' => static::TABLE_NAME['room'][$roomType]], "ROOM_PINNED.{$roomIdName} = ROOM_SRC.{$roomIdName}")
+			->where(['or', ['not', ['ROOM_PINNED.userid' => $userId]], ['ROOM_PINNED.userid' => null]]);
 	}
 
 	/**
@@ -353,6 +620,21 @@ final class Chat
 	}
 
 	/**
+	 * Get room type last message.
+	 *
+	 * @param string $roomType
+	 *
+	 * @return array
+	 */
+	public static function getRoomTypeLastMessage(string $roomType): array
+	{
+		return (array) (new Db\Query())
+			->from(static::TABLE_NAME['message'][$roomType])
+			->orderBy(['id' => \SORT_DESC])
+			->one();
+	}
+
+	/**
 	 * Get all chat rooms by user.
 	 *
 	 * @param int|null $userId
@@ -361,18 +643,17 @@ final class Chat
 	 */
 	public static function getRoomsByUser(?int $userId = null)
 	{
+		$roomsByUser = [];
 		if (empty($userId)) {
 			$userId = User::getCurrentUserId();
 		}
 		if (Cache::staticHas('ChatGetRoomsByUser', $userId)) {
 			return Cache::staticGet('ChatGetRoomsByUser', $userId);
 		}
-		$roomsByUser = [
-			'crm' => static::getRoomsCrm($userId),
-			'group' => static::getRoomsGroup($userId),
-			'global' => static::getRoomsGlobal(),
-			'private' => static::getRoomsPrivate($userId)
-		];
+		foreach (self::getActiveRoomTypes() as $roomType) {
+			$methodName = 'getRooms' . ucfirst($roomType);
+			$roomsByUser[$roomType] = static::{$methodName}($userId);
+		}
 		Cache::staticSave('ChatGetRoomsByUser', $userId);
 		return $roomsByUser;
 	}
@@ -380,22 +661,45 @@ final class Chat
 	/**
 	 * Rerun the number of new messages.
 	 *
+	 * @param array|null $roomInfo
+	 *
 	 * @return array
 	 */
-	public static function getNumberOfNewMessages(): array
+	public static function getNumberOfNewMessages(?array $roomInfo = null): array
 	{
 		$numberOfNewMessages = 0;
-		$roomInfo = static::getRoomsByUser();
 		$roomList = [];
-		foreach (['crm', 'group', 'global', 'private'] as $roomType) {
+		$lastMessagesData = [];
+		if (empty($roomInfo)) {
+			$roomInfo = static::getRoomsByUser();
+		}
+		foreach (array_keys($roomInfo) as $roomType) {
+			$lastMessageId = 0;
+			$lastMessageRoomId = 0;
 			foreach ($roomInfo[$roomType] as $room) {
 				if (!empty($room['cnt_new_message'])) {
 					$numberOfNewMessages += $room['cnt_new_message'];
 					$roomList[$roomType][$room['recordid']]['cnt_new_message'] = $room['cnt_new_message'];
+					if ($lastMessageId < $room['last_message'] || 0 === $room['last_message']) {
+						$lastMessageId = $room['last_message'];
+						$lastMessageRoomId = $room['recordid'];
+					}
 				}
 			}
+			if (0 !== $lastMessageRoomId) {
+				$roomLastMessage = static::getRoomTypeLastMessage($roomType);
+				$roomLastMessage['roomData'] = $roomInfo[$roomType][$lastMessageRoomId];
+				$lastMessagesData[] = $roomLastMessage;
+			}
 		}
-		return ['roomList' => $roomList, 'amount' => $numberOfNewMessages];
+		$lastMessage = array_reduce($lastMessagesData, function ($a, $b) {
+			return $a['created'] > $b['created'] ? $a : $b;
+		});
+		if (isset($lastMessage)) {
+			$lastMessage['messages'] = static::decodeNoHtmlMessage($lastMessage['messages'], false);
+			$lastMessage['userData'] = static::getUserInfo($lastMessage['userid']);
+		}
+		return ['roomList' => $roomList, 'amount' => $numberOfNewMessages, 'lastMessage' => $lastMessage];
 	}
 
 	/**
@@ -407,7 +711,7 @@ final class Chat
 	 *
 	 * @return array
 	 */
-	public function getUserInfo(int $userId)
+	public static function getUserInfo(int $userId)
 	{
 		if (User::isExists($userId)) {
 			$userModel = User::getUserModel($userId);
@@ -669,6 +973,9 @@ final class Chat
 	 */
 	public function addMessage(string $message): int
 	{
+		if ('user' === $this->roomType) {
+			$this->pinTargetUserRoom();
+		}
 		$table = static::TABLE_NAME['message'][$this->roomType];
 		$db = Db::getInstance();
 		$db->createCommand()->insert($table, [
@@ -678,6 +985,30 @@ final class Chat
 			static::COLUMN_NAME['message'][$this->roomType] => $this->recordId
 		])->execute();
 		return $this->lastMessageId = (int) $db->getLastInsertID("{$table}_id_seq");
+	}
+
+	/**
+	 * Pin target user room when is unpinned.
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public function pinTargetUserRoom()
+	{
+		$roomsTable = static::TABLE_NAME['room'][$this->roomType];
+		$roomPinned = (new Db\Query())
+			->select(['roomid'])
+			->from($roomsTable)
+			->where(['roomid' => $this->recordId])
+			->all();
+		if (2 !== \count($roomPinned)) {
+			$roomUsers = (new Db\Query())
+				->select(['userid', 'reluserid'])
+				->from(static::TABLE_NAME['room_name'][$this->roomType])
+				->where(['roomid' => $this->recordId])
+				->one();
+			$targetUserId = $roomUsers['userid'] === $this->userId ? $roomUsers['reluserid'] : $roomUsers['userid'];
+			$this->addToFavoritesQuery($targetUserId);
+		}
 	}
 
 	/**
@@ -693,7 +1024,7 @@ final class Chat
 	 *
 	 * @return array
 	 */
-	public function getEntries(?int $messageId = null, string $condition = '>', ?string $searchVal = null)
+	public function getEntries(?int $messageId = 0, string $condition = '>', ?string $searchVal = null)
 	{
 		if (!$this->isRoomExists()) {
 			return [];
@@ -708,7 +1039,7 @@ final class Chat
 				'user_name' => $row['user_name'],
 				'role_name' => $row['role_name'],
 				'image' => $row['image']
-			] = $this->getUserInfo($row['userid']);
+			] = static::getUserInfo($row['userid']);
 			$rows[] = $row;
 			$mid = (int) $row['id'];
 			if ($this->lastMessageId < $mid) {
@@ -737,12 +1068,12 @@ final class Chat
 		$roomNameId = 'global' === $roomType || 'private' === $roomType ? static::COLUMN_NAME['room'][$roomType] : $columnMessage;
 		$query = (new Db\Query())
 			->select([
-				'id', 'messages', 'userid', 'GL.created',
+				'id', 'messages', 'GL.userid', 'GL.created',
 				'recordid' => "GL.{$columnMessage}", 'room_name' => "RN.{$columnRoomName}"
 			])
 			->from(['GL' => static::TABLE_NAME['message'][$roomType]])
 			->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$roomNameId} = GL.{$columnMessage}")
-			->where(['userid' => $this->userId])
+			->where(['GL.userid' => $this->userId])
 			->orderBy(['id' => \SORT_DESC])
 			->limit(\App\Config::module('Chat', 'CHAT_ROWS_LIMIT') + 1);
 		if (null !== $messageId) {
@@ -750,7 +1081,7 @@ final class Chat
 		}
 		$userModel = User::getUserModel($this->userId);
 		$groups = $userModel->getGroupNames();
-		$userImage = $userModel->getImage()['url'] ?? '';
+		$userImage = $userModel->getImage()['url'] ?? null;
 		$userName = $userModel->getName();
 		$userRoleName = $userModel->getRoleInstance()->getName();
 		$rows = [];
@@ -771,6 +1102,9 @@ final class Chat
 			}
 			if ('global' === $roomType) {
 				$row['room_name'] = Language::translate($row['room_name']);
+			}
+			if ('user' === $roomType) {
+				$row['room_name'] = '';
 			}
 			$row['image'] = $userImage;
 			$row['created'] = Fields\DateTime::formatToShort($row['created']);
@@ -796,8 +1130,8 @@ final class Chat
 		$row = (new Db\Query())->from('u_#__chat_global')->where(['name' => 'LBL_GENERAL'])->one();
 		if (false !== $row) {
 			$room = [
-				'roomType' => 'global',
-				'recordId' => $row[static::COLUMN_NAME['room']['global']]
+				'roomType' => null,
+				'recordId' => null
 			];
 		}
 		Cache::save('Chat', 'DefaultRoom', $room);
@@ -816,34 +1150,19 @@ final class Chat
 		$userId = User::getCurrentUserId();
 		$columnRoom = static::COLUMN_NAME['room'][$roomType];
 		$columnMessage = static::COLUMN_NAME['message'][$roomType];
+		$columnName = static::COLUMN_NAME['room_name'][$roomType];
 		$query = (new Db\Query())->from(['M' => static::TABLE_NAME['message'][$roomType]]);
-		switch ($roomType) {
-			case 'crm':
-				$query->select(['M.*', 'name' => 'RN.label', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
-					->innerJoin(
+		if ('user' === $roomType) {
+			$query->select(['M.*', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
+				->innerJoin(
 						['R' => static::TABLE_NAME['room'][$roomType]],
 						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
 					)
-					->leftJoin(['RN' => 'u_#__crmentity_label'], "RN.crmid = M.{$columnMessage}");
-				break;
-			case 'group':
-				$query->select(['M.*', 'name' => 'RN.groupname', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
-					->innerJoin(
-						['R' => static::TABLE_NAME['room'][$roomType]],
-						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
-					)
-					->leftJoin(['RN' => 'vtiger_groups'], "RN.groupid = M.{$columnMessage}");
-				break;
-			case 'global' || 'private':
-				$query->select(['M.*', 'name' => 'RN.name', 'R.last_message', 'recordid' => "M.{$columnMessage}"])
-					->leftJoin(
-						['R' => static::TABLE_NAME['room'][$roomType]],
-						"R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}"
-					)
-					->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
-				break;
-			default:
-				break;
+				->innerJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
+		} else {
+			$query->select(['M.*', 'name' => "RN.{$columnName}", 'R.last_message', 'recordid' => "M.{$columnMessage}"])
+				->innerJoin(['R' => static::TABLE_NAME['room'][$roomType]], "R.{$columnRoom} = M.{$columnMessage} AND R.userid = {$userId}")
+				->leftJoin(['RN' => static::TABLE_NAME['room_name'][$roomType]], "RN.{$columnRoom} = M.{$columnMessage}");
 		}
 		return $query->where(['or', ['R.last_message' => null], ['<', 'R.last_message', new \yii\db\Expression('M.id')]])
 			->orderBy(["M.{$columnMessage}" => \SORT_ASC, 'id' => \SORT_DESC]);
@@ -916,6 +1235,9 @@ final class Chat
 			if ('global' === $roomType) {
 				$row['name'] = Language::translate($row['name']);
 			}
+			if ('user' === $roomType) {
+				$row['name'] = $userModel->getName();
+			}
 			$rows[] = [
 				'id' => $row['id'],
 				'userid' => $row['userid'],
@@ -923,7 +1245,7 @@ final class Chat
 				'created' => Fields\DateTime::formatToShort($row['created']),
 				'user_name' => $userModel->getName(),
 				'role_name' => Language::translate($userModel->getRoleInstance()->getName()),
-				'image' => $image['url'] ?? '',
+				'image' => $image['url'] ?? null,
 				'room_name' => $row['name'],
 				'recordid' => $row['recordid'],
 				'last_message' => $row['last_message'],
@@ -932,23 +1254,6 @@ final class Chat
 		$dataReader->close();
 		static::markAsRead($roomType, $rows);
 		return $rows;
-	}
-
-	/**
-	 * Get all unread messages.
-	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return array
-	 */
-	public static function getUnread()
-	{
-		return [
-			'crm' => static::getUnreadByType('crm'),
-			'group' => static::getUnreadByType('group'),
-			'global' => static::getUnreadByType('global'),
-			'private' => static::getUnreadByType('private'),
-		];
 	}
 
 	/**
@@ -979,7 +1284,7 @@ final class Chat
 		$participants = [];
 		$dataReader = $allUsersQuery->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$user = $this->getUserInfo($row['userid']);
+			$user = static::getUserInfo($row['userid']);
 			$participants[$row['userid']] = [
 				'user_id' => $row['userid'],
 				'user_name' => $user['user_name'],
@@ -1004,9 +1309,12 @@ final class Chat
 	 * @param ?int $userId
 	 *
 	 * @throws \yii\db\Exception
+	 *
+	 * @return bool $success
 	 */
 	public function removeFromFavorites(?int $userId = null)
 	{
+		$success = false;
 		if (empty($userId)) {
 			$userId = $this->userId;
 		}
@@ -1017,15 +1325,17 @@ final class Chat
 					'userid' => $userId,
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
 				]
-			)->execute();
-		}
-		if ($userId === $this->userId) {
-			unset($this->room['userid']);
-			$currentRoom = static::getCurrentRoom();
-			if ($currentRoom['recordId'] === $this->recordId && $currentRoom['roomType'] === $this->roomType) {
-				static::setCurrentRoomDefault();
+  )->execute();
+			if ($userId === $this->userId) {
+				unset($this->room['userid']);
+				$currentRoom = static::getCurrentRoom();
+				if ($currentRoom['recordId'] === $this->recordId && $currentRoom['roomType'] === $this->roomType) {
+					static::setCurrentRoomDefault();
+				}
 			}
+			$success = true;
 		}
+		return $success;
 	}
 
 	/**
@@ -1036,17 +1346,77 @@ final class Chat
 	public function addToFavorites()
 	{
 		if (!empty($this->roomType) && !empty($this->recordId)) {
-			$lastMessage = static::getRoomLastMessage($this->recordId, $this->roomType);
-			Db::getInstance()->createCommand()->insert(
-				static::TABLE_NAME['room'][$this->roomType],
-				[
-					'last_message' => $lastMessage['id'] ?? 0,
-					'userid' => $this->userId,
-					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
-				]
-			)->execute();
+			if ('user' === $this->roomType) {
+				$this->setUserRoomRecordId();
+			}
+			$this->addToFavoritesQuery();
 			$this->room['userid'] = $this->userId;
 		}
+	}
+
+	/**
+	 * Add room to favorites query.
+	 *
+	 * @param ?int $userId
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public function addToFavoritesQuery(?int $userId = null)
+	{
+		$lastMessage = static::getRoomLastMessage($this->recordId, $this->roomType);
+		Db::getInstance()->createCommand()->insert(
+			static::TABLE_NAME['room'][$this->roomType],
+			[
+				'last_message' => $lastMessage['id'] ?? 0,
+				'userid' => !empty($userId) ? $userId : $this->userId,
+				static::COLUMN_NAME['room'][$this->roomType] => $this->recordId
+			]
+		)->execute();
+	}
+
+	/**
+	 * Check if user room is created.
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public static function isUserRoomCreated($userId, $relUserId)
+	{
+		$roomsTable = static::TABLE_NAME['room_name']['user'];
+		return (new Db\Query())
+			->select(['roomid'])
+			->from($roomsTable)
+			->where(['or', ['and', ['userid' => $relUserId], ['reluserid' => $userId]], ['and', ['userid' => $userId], ['reluserid' => $relUserId]]])
+			->one();
+	}
+	/**
+	 * Set user room recordId.
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	public function setUserRoomRecordId()
+	{
+		$roomExists = self::isUserRoomCreated($this->userId, $this->recordId);
+		$this->recordId = $roomExists ? $roomExists['roomid'] : $this->createUserRoom($this->recordId);
+	}
+
+	/**
+	 * Create user room.
+	 *
+	 * @param int $relUserId
+	 *
+	 * @return int
+	 */
+	public function createUserRoom(int $relUserId): int
+	{
+		$roomsTable = static::TABLE_NAME['room_name']['user'];
+		Db::getInstance()->createCommand()->insert(
+			$roomsTable,
+			[
+				'userid' => $this->userId,
+				'reluserid' => $relUserId
+			]
+		)->execute();
+		return Db::getInstance()->getLastInsertID("{$roomsTable}_roomid_seq");
 	}
 
 	/**
@@ -1107,14 +1477,7 @@ final class Chat
 			->where(['and', [$privateRoomsIdColumn => $this->recordId], ['userid' => $userId]])
 			->exists();
 		if (!$alreadyInvited) {
-			Db::getInstance()->createCommand()->insert(
-					$privateRoomsTable,
-					[
-						'userid' => $userId,
-						'last_message' => null,
-						$privateRoomsIdColumn => $this->recordId,
-					]
-				)->execute();
+			$this->addToFavoritesQuery($userId);
 		}
 		return $alreadyInvited;
 	}
@@ -1139,34 +1502,41 @@ final class Chat
 				$query = (new Db\Query())
 					->select(['C.*', 'U.user_name', 'U.last_name'])
 					->from(['C' => 'u_#__chat_messages_crm'])
-					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
+					->leftJoin(['U' => static::TABLE_NAME['users']], 'U.id = C.userid')
 					->where(['crmid' => $this->recordId]);
 				break;
 			case 'group':
 				$query = (new Db\Query())
 					->select(['C.*', 'U.user_name', 'U.last_name'])
 					->from(['C' => 'u_#__chat_messages_group'])
-					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
+					->leftJoin(['U' => static::TABLE_NAME['users']], 'U.id = C.userid')
 					->where(['groupid' => $this->recordId]);
 				break;
 			case 'global':
 				$query = (new Db\Query())
 					->select(['C.*', 'U.user_name', 'U.last_name'])
 					->from(['C' => 'u_#__chat_messages_global'])
-					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
+					->leftJoin(['U' => static::TABLE_NAME['users']], 'U.id = C.userid')
 					->where(['globalid' => $this->recordId]);
 				break;
 			case 'private':
 				$query = (new Db\Query())
 					->select(['C.*', 'U.user_name', 'U.last_name'])
 					->from(['C' => 'u_#__chat_messages_private'])
-					->leftJoin(['U' => 'vtiger_users'], 'U.id = C.userid')
+					->leftJoin(['U' => static::TABLE_NAME['users']], 'U.id = C.userid')
 					->where(['privateid' => $this->recordId]);
+				break;
+			case 'user':
+				$query = (new Db\Query())
+					->select(['C.*', 'U.user_name', 'U.last_name'])
+					->from(['C' => 'u_#__chat_messages_user'])
+					->leftJoin(['U' => static::TABLE_NAME['users']], 'U.id = C.userid')
+					->where(['roomid' => $this->recordId]);
 				break;
 			default:
 				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 		}
-		if (null !== $messageId) {
+		if (!empty($messageId)) {
 			$query->andWhere([$condition, 'C.id', $messageId]);
 		}
 		if (!empty($searchVal)) {
@@ -1183,7 +1553,7 @@ final class Chat
 	 *
 	 * @return \App\Db\Query
 	 */
-	private function getQueryRoom(): Db\Query
+	public function getQueryRoom(): Db\Query
 	{
 		switch ($this->roomType) {
 			case 'crm':
@@ -1210,6 +1580,12 @@ final class Chat
 					->from(['CG' => 'u_#__chat_private'])
 					->leftJoin(['CR' => 'u_#__chat_rooms_private'], "CR.private_room_id = CG.private_room_id AND CR.userid = {$this->userId}")
 					->where(['CG.private_room_id' => $this->recordId]);
+			case 'user':
+				return (new Db\Query())
+					->select(['CG.*', 'CR.userid', 'record_id' => 'CR.roomid', 'CR.last_message'])
+					->from(['CG' => 'u_#__chat_user'])
+					->leftJoin(['CR' => 'u_#__chat_rooms_user'], "CR.roomid = CG.roomid AND CR.userid = {$this->userId}")
+					->where(['CG.roomid' => $this->recordId]);
 			default:
 				throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$this->roomType", 406);
 				break;
@@ -1239,9 +1615,12 @@ final class Chat
 		) {
 			Db::getInstance()
 				->createCommand()
-				->update(static::TABLE_NAME['room'][$this->roomType], ['last_message' => $this->lastMessageId], [
+				->update(static::TABLE_NAME['room'][$this->roomType],
+				['last_message' => $this->lastMessageId],
+				['and', [
 					static::COLUMN_NAME['room'][$this->roomType] => $this->recordId,
 					'userid' => $this->userId
+				]
 				])->execute();
 			$this->room['last_message'] = $this->lastMessageId;
 		}
@@ -1263,12 +1642,17 @@ final class Chat
 	 * Decode message without html except completions.
 	 *
 	 * @param string $message
+	 * @param bool   $linksAllowed
 	 *
 	 * @return string
 	 */
-	private static function decodeNoHtmlMessage(string $message): string
+	private static function decodeNoHtmlMessage(string $message, ?bool $linksAllowed = true): string
 	{
-		return static::decodeMessage(strip_tags(\App\Purifier::decodeHtml($message)));
+		$format = $linksAllowed ? 'HTML' : 'Text';
+		$tagsToReplace = ['<br >', '<br>', '<br/>', '<br />', '</div><div>'];
+		$message = (string) str_ireplace($tagsToReplace, "\r\n", $message);
+		$message = \App\Utils\Completions::decode(\App\Purifier::purifyHtml(strip_tags($message)), $format);
+		return (string) str_ireplace($tagsToReplace, '', $message);
 	}
 
 	/**
@@ -1289,5 +1673,44 @@ final class Chat
 			}
 		}
 		return $activeModules;
+	}
+
+	/**
+	 * Get chat users.
+	 *
+	 * @return array
+	 */
+	public static function getChatUsers(): array
+	{
+		$owner = Fields\Owner::getInstance();
+		$data = [];
+		if ($users = $owner->getAccessibleUsers('private', 'owner')) {
+			foreach ($users as $key => $value) {
+				if (\Users_Privileges_Model::getInstanceById($key)->hasModulePermission('Chat')) {
+						$data[] = [
+							'id' => $key,
+							'label' => $value,
+							'img' => User::getImageById($key) ? User::getImageById($key)['url'] : '',
+						];
+
+				}
+			}
+		}
+		return $data;
+	}
+
+	/**
+	 * Pin all users.
+	 *
+	 * @param int $userId
+	 */
+	public static function pinAllUsers($userId)
+	{
+		$dataReader = static::getRoomsUserUnpinnedQuery($userId)->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$chat = self::getInstance('user', $row['id']);
+			$chat->addToFavorites();
+		}
+		$dataReader->close();
 	}
 }

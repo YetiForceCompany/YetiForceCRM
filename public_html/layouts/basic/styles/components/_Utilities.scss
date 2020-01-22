@@ -39,7 +39,7 @@
 }
 
 .u-fs-sm {
-	font-size: 0.875rem;
+	font-size: 0.876rem;
 }
 
 .u-fs-lg {
@@ -76,6 +76,10 @@
 			@include u-box-shadow(2px 2px 10px $gray-400);
 		}
 	}
+}
+
+.u-ellipsis-in-flex {
+	min-width: 0;
 }
 
 .u-text-ellipsis--no-hover,
@@ -417,6 +421,10 @@
 	min-height: calculate-rem(120px);
 }
 
+.u-max-h-70vh {
+	max-height: 70vh;
+}
+
 //--- BORDER ---//
 .u-border-right-10px {
 	border-right: 10px solid;
@@ -477,10 +485,10 @@
 	color: #d1d1db !important;
 }
 
-.u-text-unset {
-	color: unset;
+.u-text-inherit {
+	color: inherit;
 	&:hover {
-		color: unset;
+		color: inherit;
 	}
 }
 

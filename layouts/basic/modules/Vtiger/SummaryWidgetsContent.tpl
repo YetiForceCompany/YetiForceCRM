@@ -13,7 +13,7 @@
 					{/if}
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						<th nowrap class="p-1">
-							{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
+							{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $HEADER_FIELD->getModuleName())}
 						</th>
 					{/foreach}
 					{if $SHOW_CREATOR_DETAIL}
@@ -35,7 +35,7 @@
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 							{/if}>
 						{if !$IS_READ_ONLY}
-							<td class="{$WIDTHTYPE} noWrap leftRecordActions">
+							<td class="noWrap leftRecordActions listButtons {$WIDTHTYPE}">
 								{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
 							</td>
 						{/if}
@@ -84,7 +84,7 @@
 						{/if}
 						{if $IS_INVENTORY}
 							{$COUNT = $COUNT+1}
-							<td class="medium" nowrap>
+							<td nowrap>
 								<button type="button" class="btn btn-sm btn-info js-popover-tooltip showInventoryRow"
 										data-js="popover" data-placement="left"
 										data-content="{\App\Language::translate('LBL_SHOW_INVENTORY_ROW')}">
@@ -220,7 +220,7 @@
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 							{/if}>
 						{if !$IS_READ_ONLY}
-							<td class="{$WIDTHTYPE} noWrap leftRecordActions">
+							<td class="noWrap leftRecordActions listButtons {$WIDTHTYPE}">
 								{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
 							</td>
 						{/if}

@@ -9,8 +9,9 @@
 		<div class="col-md-9">
 			<select class="select2 form-control" name="type" data-validation-engine="validate[required]">
 				{foreach from=\App\Fields\Picklist::getValuesName('notification_type') key=KEY item=ITEM}
-					<option {if isset($TASK_OBJECT->type) && $TASK_OBJECT->type eq $ITEM}selected="selected"{/if}
-							value="{$ITEM}">{\App\Language::translate($ITEM, $TASK_OBJECT->srcWatchdogModule)}</option>
+					<option {if isset($TASK_OBJECT->type) && $TASK_OBJECT->type eq $ITEM}selected="selected"{/if} value="{$ITEM}">
+						{\App\Language::translate($ITEM, $TASK_OBJECT->srcWatchdogModule)}
+					</option>
 				{/foreach}
 			</select>
 		</div>
@@ -24,6 +25,9 @@
 				</option>
 				<option {if isset($TASK_OBJECT->recipients) && $TASK_OBJECT->recipients eq 'owner'}selected="selected"{/if} value="owner">
 					{\App\Language::translate('LBL_OWNER_REKORD', $QUALIFIED_MODULE)}
+				</option>
+				<option {if isset($TASK_OBJECT->recipients) && $TASK_OBJECT->recipients eq 'owner_and_showner'}selected="selected"{/if} value="owner_and_showner">
+					{\App\Language::translate('LBL_OWNER_REKORD', $QUALIFIED_MODULE)} + {\App\Language::translate('Share with users', $SOURCE_MODULE)}
 				</option>
 				{foreach from=\App\PrivilegeUtil::getMembers() key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 					<optgroup label="{\App\Language::translate($GROUP_LABEL)}">

@@ -12,6 +12,16 @@ namespace App;
 class Db extends \yii\db\Connection
 {
 	/**
+	 * Sorting order flag.
+	 */
+	public const ASC = 'ASC';
+
+	/**
+	 * Sorting order flag.
+	 */
+	public const DESC = 'DESC';
+
+	/**
 	 * @var bool whether to turn on prepare emulation. Defaults to false, meaning PDO
 	 *           will use the native prepare support if available. For some databases (such as MySQL),
 	 *           this may need to be set true so that PDO can emulate the prepare support to bypass
@@ -140,18 +150,30 @@ class Db extends \yii\db\Connection
 		$statement = $pdo->prepare('SHOW VARIABLES');
 		$statement->execute();
 		$conf = $statement->fetchAll(\PDO::FETCH_KEY_PAIR);
+
+		$statement = $pdo->prepare('SHOW STATUS');
+		$statement->execute();
+		$conf = array_merge($conf, $statement->fetchAll(\PDO::FETCH_KEY_PAIR));
+
+		$statement = $pdo->prepare('SELECT VERSION()');
+		$statement->execute();
+		$fullVersion = $statement->fetch(\PDO::FETCH_COLUMN);
 		[$version] = explode('-', $conf['version']);
-		$versionComment = $conf['version_comment'];
-		if (0 === stripos($versionComment, 'MariaDb')) {
+		$conf['version_comment'] = $conf['version_comment'] . '|' . $fullVersion;
+		if (false !== stripos($conf['version_comment'], 'MariaDb')) {
 			$typeDb = 'MariaDb';
 		}
-		if (0 === stripos($versionComment, 'MySQL')) {
+		if (false !== stripos($conf['version_comment'], 'MySQL')) {
 			$typeDb = 'MySQL';
 		}
+		$memory = $conf['key_buffer_size'] + $conf['query_cache_size'] + $conf['tmp_table_size'] + $conf['innodb_buffer_pool_size'] +
+		($conf['innodb_additional_mem_pool_size'] ?? 0) + $conf['innodb_log_buffer_size'] + ($conf['max_connections'] * ($conf['sort_buffer_size']
+				+ $conf['read_buffer_size'] + $conf['read_rnd_buffer_size'] + $conf['join_buffer_size'] + $conf['thread_stack'] + $conf['binlog_cache_size']));
 		return \array_merge($conf, [
 			'driver' => $this->getDriverName(),
 			'typeDb' => $typeDb,
 			'serverVersion' => $version,
+			'maximumMemorySize' => $memory,
 			'clientVersion' => $pdo->getAttribute(\PDO::ATTR_CLIENT_VERSION),
 			'connectionStatus' => $pdo->getAttribute(\PDO::ATTR_CONNECTION_STATUS),
 			'serverInfo' => $pdo->getAttribute(\PDO::ATTR_SERVER_INFO),

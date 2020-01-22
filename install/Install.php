@@ -18,6 +18,9 @@ foreach ($requiredVendors as $dir) {
 // Adjust error_reporting favourable to deployment.
 $checkLibrary = true;
 require_once 'include/main/WebUI.php';
+\App\Language::$customDirectory = 'install';
+\App\Process::$startTime = microtime(true);
+\App\Process::$requestMode = 'Install';
 include_once 'include/RequirementsValidation.php';
 require_once 'install/views/Index.php';
 require_once 'install/models/Utils.php';
@@ -25,9 +28,6 @@ require_once 'install/models/InitSchema.php';
 
 \App\Config::set('performance', 'recursiveTranslate', true);
 App\Session::init();
-\App\Language::$customDirectory = 'install';
-\App\Process::$startTime = microtime(true);
-\App\Process::$requestMode = 'Install';
 
 $request = App\Request::init();
 if (!$request->getMode() && \App\Config::main('application_unique_key')) {

@@ -9,7 +9,7 @@
 {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 {if $BLOCKS_HIDE}
 <div class="tpl-OSSPasswrds-DetailViewBlock detailViewTable">
-	<div class="js-toggle-panel c-panel" data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if} data-label="{$BLOCK_LABEL}">
+	<div class="js-toggle-panel c-panel" data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if} data-label="{$BLOCK_LABEL_KEY}">
 		<div class="blockHeader card-header px-0">
 			<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 {if !($IS_HIDDEN)}d-none{/if}"
 				  data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"
@@ -50,7 +50,7 @@
 							 id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} {assign var=COUNTER value=$COUNTER+1} {/if} {if $FIELD_MODEL->getName() eq 'password'}onclick="PasswordHelper.showPasswordQuickEdit('{$smarty.get.record}');" {/if}>
 											<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}"
 												  {if $FIELD_MODEL->getName() eq 'password'}id="detailPassword" {/if}>
-												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
+												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD SOURCE_TPL='BlockView'}
 											</span>
 							{if $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $IS_AJAX_ENABLED && $FIELD_MODEL->isAjaxEditable() eq 'true'}
 								<span class="d-none edit">

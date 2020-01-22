@@ -97,38 +97,7 @@ class CustomView
 	 */
 	public static function getCurrentView($moduleName)
 	{
-		if (!empty($_SESSION['lvs'][$moduleName]['viewname'])) {
-			return $_SESSION['lvs'][$moduleName]['viewname'];
-		}
-	}
-
-	/**
-	 * Get sort directions.
-	 *
-	 * @param string $moduleName
-	 *
-	 * @return string
-	 */
-	public static function getSorder($moduleName)
-	{
-		if (!empty($_SESSION['lvs'][$moduleName]['sorder'])) {
-			return $_SESSION['lvs'][$moduleName]['sorder'];
-		}
-	}
-
-	/**
-	 * Set sort directions.
-	 *
-	 * @param string $moduleName
-	 * @param string $order
-	 */
-	public static function setSorder($moduleName, $order)
-	{
-		if (empty($order)) {
-			unset($_SESSION['lvs'][$moduleName]['sorder']);
-		} else {
-			$_SESSION['lvs'][$moduleName]['sorder'] = $order;
-		}
+		return $_SESSION['lvs'][$moduleName]['viewname'] ?? null;
 	}
 
 	/**
@@ -138,47 +107,23 @@ class CustomView
 	 *
 	 * @return string
 	 */
-	public static function getSortby($moduleName)
+	public static function getSortBy($moduleName)
 	{
-		if (!empty($_SESSION['lvs'][$moduleName]['sortby'])) {
-			return $_SESSION['lvs'][$moduleName]['sortby'];
-		}
+		return empty($_SESSION['lvs'][$moduleName]['sortby']) ? [] : $_SESSION['lvs'][$moduleName]['sortby'];
 	}
 
 	/**
 	 * Set sorted by.
 	 *
 	 * @param string $moduleName
-	 * @param string $sortby
+	 * @param mixed  $sortBy
 	 */
-	public static function setSortby($moduleName, $sortby)
+	public static function setSortBy(string $moduleName, $sortBy)
 	{
-		if (empty($sortby)) {
+		if (empty($sortBy)) {
 			unset($_SESSION['lvs'][$moduleName]['sortby']);
 		} else {
-			$_SESSION['lvs'][$moduleName]['sortby'] = $sortby;
-		}
-	}
-
-	/**
-	 * Set default sort order by.
-	 *
-	 * @param string $moduleName
-	 * @param string $defaultSortOrderBy
-	 */
-	public static function setDefaultSortOrderBy($moduleName, $defaultSortOrderBy = [])
-	{
-		if (Request::_has('orderby')) {
-			$_SESSION['lvs'][$moduleName]['sortby'] = Request::_getForSql('orderby');
-		}
-		if (Request::_has('sortorder')) {
-			$_SESSION['lvs'][$moduleName]['sorder'] = Request::_getForSql('sortorder');
-		}
-		if (isset($defaultSortOrderBy['orderBy'])) {
-			$_SESSION['lvs'][$moduleName]['sortby'] = $defaultSortOrderBy['orderBy'];
-		}
-		if (isset($defaultSortOrderBy['sortOrder'])) {
-			$_SESSION['lvs'][$moduleName]['sorder'] = $defaultSortOrderBy['sortOrder'];
+			$_SESSION['lvs'][$moduleName]['sortby'] = $sortBy;
 		}
 	}
 
@@ -190,12 +135,11 @@ class CustomView
 	 *
 	 * @return bool
 	 */
-	public static function hasViewChanged($moduleName, $viewId = false)
+	public static function hasViewChanged(string $moduleName, $viewId = false): bool
 	{
-		if (empty($_SESSION['lvs'][$moduleName]['viewname']) || ($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) || (!Request::_isEmpty('viewname') && (Request::_get('viewname') !== $_SESSION['lvs'][$moduleName]['viewname']))) {
-			return true;
-		}
-		return false;
+		return empty($_SESSION['lvs'][$moduleName]['viewname']) ||
+		($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) ||
+		!isset($_SESSION['lvs'][$moduleName]['sortby']);
 	}
 
 	/**
@@ -229,11 +173,25 @@ class CustomView
 	}
 
 	/** @var \Vtiger_Module_Model */
+	private $module;
 	private $moduleName;
 	private $user;
 	private $defaultViewId;
 	private $cvStatus;
 	private $cvUserId;
+
+	/**
+	 * Gets module object.
+	 *
+	 * @return false|\Vtiger_Module_Model
+	 */
+	public function getModule()
+	{
+		if (!$this->module) {
+			$this->module = \Vtiger_Module_Model::getInstance($this->moduleName);
+		}
+		return $this->module;
+	}
 
 	/**
 	 * Get custom view from file.
@@ -288,8 +246,18 @@ class CustomView
 	{
 		\App\Log::trace(__METHOD__ . ' - ' . $cvId);
 		if (is_numeric($cvId)) {
-			$query = (new Db\Query())->select(['columnindex', 'field_name', 'module_name', 'source_field_name'])->from('vtiger_cvcolumnlist')->where(['cvid' => $cvId])->orderBy('columnindex');
-			$columnList = $query->createCommand()->queryAllByGroup(1);
+			$dataReader = (new Db\Query())->select(['field_name', 'module_name', 'source_field_name'])
+				->from('vtiger_cvcolumnlist')
+				->innerJoin('vtiger_tab', 'vtiger_tab.name=vtiger_cvcolumnlist.module_name')
+				->innerJoin('vtiger_field', 'vtiger_tab.tabid = vtiger_field.tabid AND vtiger_field.fieldname = vtiger_cvcolumnlist.field_name')
+				->where(['cvid' => $cvId, 'vtiger_field.presence' => [0, 2]])->orderBy('columnindex')->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				if (!empty($row['source_field_name']) && !$this->getModule()->getFieldByName($row['source_field_name'])->isActiveField()) {
+					continue;
+				}
+				$columnList[] = $row;
+			}
+			$dataReader->close();
 			if ($columnList) {
 				Cache::save('getColumnsListByCvid', $cvId, $columnList);
 			}
@@ -373,7 +341,7 @@ class CustomView
 				$isEmptyCondition = true;
 			}
 			$value = $condition['value'];
-			$fieldName = "{$condition['module_name']}:{$condition['field_name']}" . ($condition['source_field_name'] ? ':' . $condition['source_field_name'] : '');
+			$fieldName = "{$condition['field_name']}:{$condition['module_name']}" . ($condition['source_field_name'] ? ':' . $condition['source_field_name'] : '');
 			if (isset($referenceParent[$condition['parent_id']], $referenceGroup[$condition['group_id']])) {
 				$referenceParent[$condition['parent_id']][$condition['condition_index']] = [
 					'fieldname' => $fieldName,

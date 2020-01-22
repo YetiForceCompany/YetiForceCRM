@@ -26,7 +26,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	 */
 	public function checkActive()
 	{
-		if (\App\Request::_get('view') == 'Login' || !$this->isActive()) {
+		if ('Login' == \App\Request::_get('view') || !$this->isActive()) {
 			return false;
 		}
 		$this->loadAnnouncements();
@@ -40,7 +40,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	public function loadAnnouncements()
 	{
 		$queryGenerator = new \App\QueryGenerator($this->getName());
-		$queryGenerator->setFields(['id', 'subject', 'description', 'assigned_user_id', 'createdtime', 'is_mandatory']);
+		$queryGenerator->setFields(['id', 'subject', 'description', 'assigned_user_id', 'createdtime', 'is_mandatory', 'interval']);
 		$query = $queryGenerator->createQuery();
 		$query->andWhere(['announcementstatus' => 'PLL_PUBLISHED']);
 		$dataReader = $query->createCommand()->query();
@@ -49,11 +49,15 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 				->from('u_#__announcement_mark')
 				->where(['announcementid' => $row['id'], 'userid' => \App\User::getCurrentUserId()]);
 			if (!empty($row['interval'])) {
-				$date = date('Y-m-d H:i:s', strtotime('+' . $row['interval'] . ' day', strtotime('now')));
-				$query->andWhere(['status' => 0]);
-				$query->andWhere(['<', 'date', $date]);
+				$query->andWhere(['or',
+					['status' => 1],
+					['and',
+						['status' => 0],
+						['>', 'date', date('Y-m-d H:i:s')]
+					]
+				]);
 			}
-			if ($query->count() !== 0) {
+			if (0 !== $query->count()) {
 				continue;
 			}
 			$recordModel = $this->getRecordFromArray($row);
@@ -88,21 +92,23 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		$query = (new \App\Db\Query())
 			->from('u_#__announcement_mark')
 			->where(['announcementid' => $record, 'userid' => \App\User::getCurrentUserId()])->limit(1);
-		if ($query->scalar() === false) {
+		$recordModel = Vtiger_Record_Model::getInstanceById($record, $this);
+		$date = date('Y-m-d H:i:s', strtotime('+' . (int) $recordModel->get('interval') . ' day'));
+		if (false === $query->scalar()) {
 			$db->createCommand()
 				->insert('u_#__announcement_mark', [
 					'announcementid' => $record,
 					'userid' => \App\User::getCurrentUserId(),
-					'date' => date('Y-m-d H:i:s'),
+					'date' => $date,
 					'status' => $state,
 				])->execute();
 		} else {
 			$db->createCommand()
 				->update('u_#__announcement_mark', [
-					'date' => date('Y-m-d H:i:s'),
+					'date' => $date,
 					'status' => $state,
-					], ['announcementid' => $record, 'userid' => \App\User::getCurrentUserId()])
-					->execute();
+				], ['announcementid' => $record, 'userid' => \App\User::getCurrentUserId()])
+				->execute();
 		}
 		$this->checkStatus($record);
 	}

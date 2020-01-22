@@ -5,6 +5,9 @@
 <head>
 	<title>{$PAGETITLE}</title>
 	<link REL="SHORTCUT ICON" HREF="{\App\Layout::getImagePath('favicon.ico')}">
+	{if !empty($IS_IE)}
+		<meta http-equiv="x-ua-compatible" content="IE=11,edge" >
+	{/if}
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<meta name="robots" content="noindex,nofollow"/>
@@ -14,11 +17,6 @@
 	{foreach key=index item=jsModel from=$HEADER_SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
-	<!--[if IE]>
-		<script type="text/javascript" src="public_html/libraries/html5shiv/html5shiv.js"></script>
-		<script type="text/javascript" src="public_html/libraries/respond.js/dist/respond.min.js"></script>
-	<![endif]-->
-	{* ends *}
 	{assign var="HEAD_LOCKS" value=$USER_MODEL->getHeadLocks()}
 	{if $HEAD_LOCKS}
 		<script type="text/javascript" {if $NONCE}nonce="{$NONCE}"{/if}>{$HEAD_LOCKS}</script>
@@ -38,7 +36,7 @@
 	<input type="hidden" id="gsAutocomplete" value="{App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE')}"/>
 	<input type="hidden" id="gsMinLength" value="{App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH')}"/>
 	<input type="hidden" id="gsAmountResponse" value="{App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT')}"/>
-	<input type="hidden" id="module" value="{$MODULE}"/>
+	<input type="hidden" id="module" value="{$MODULE_NAME}"/>
 	<input type="hidden" id="parent" value="{$PARENT_MODULE}"/>
 	<input type="hidden" id="view" value="{$VIEW}"/>
 	<input type="hidden" id="sounds" value="{\App\Purifier::encodeHtml(\App\Json::encode(App\Config::sounds()))}"/>
@@ -46,6 +44,6 @@
 </div>
 <div id="page">
 	{if $SHOW_BODY_HEADER}
-		{include file=\App\Layout::getTemplatePath('Body.tpl', $MODULE)}
+		{include file=\App\Layout::getTemplatePath('Body.tpl', $MODULE_NAME)}
 	{/if}
 {/strip}

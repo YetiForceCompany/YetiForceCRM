@@ -112,18 +112,6 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	}
 
 	/**
-	 * Generate valid sample value.
-	 *
-	 * @throws \Exception
-	 *
-	 * @return false|string
-	 */
-	public function getSampleValue()
-	{
-		return date('Y-m-d H:i:s', random_int(strtotime('-1 month'), strtotime('+1 month')));
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)

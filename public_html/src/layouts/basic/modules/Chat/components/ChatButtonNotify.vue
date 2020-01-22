@@ -1,17 +1,17 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <q-btn
-    @click="toggleDesktopNotification()"
+    :loading="isWaitingForPermission"
+    :color="isDesktopNotification ? 'info' : ''"
     dense
     round
     flat
-    :loading="isWaitingForPermission"
-    :color="isDesktopNotification ? 'info' : ''"
+    @click="toggleDesktopNotification()"
   >
     <YfIcon
+      :style="styles"
       :size="size"
       :icon="isDesktopNotification ? 'yfi-chat-notification-on' : 'yfi-chat-notification-off'"
-      :style="styles"
     />
     <q-tooltip>{{ translate('JS_CHAT_NOTIFICATION') }}</q-tooltip>
   </q-btn>
@@ -32,8 +32,7 @@ export default {
   },
   data() {
     return {
-      isWaitingForPermission: false,
-      isNotificationPermitted: PNotify.modules.Desktop.checkPermission() === 0
+      isWaitingForPermission: false
     }
   },
   computed: {
@@ -41,12 +40,15 @@ export default {
   },
   methods: {
     ...mapMutations(['setDesktopNotification']),
+    isNotificationPermitted() {
+		return PNotify.modules.Desktop.checkPermission() === 0
+	},
     toggleDesktopNotification() {
-      if (!this.isDesktopNotification && !this.isNotificationPermitted) {
+      if (!this.isDesktopNotification && !this.isNotificationPermitted()) {
         this.isWaitingForPermission = true
         PNotify.modules.Desktop.permission()
         setTimeout(() => {
-          if (!this.isNotificationPermitted) {
+          if (!this.isNotificationPermitted()) {
             Vtiger_Helper_Js.showPnotify({
               text: app.vtranslate('JS_NO_DESKTOP_PERMISSION'),
               type: 'info',
@@ -63,7 +65,7 @@ export default {
     }
   },
   created() {
-    if (this.isDesktopNotification && !this.isNotificationPermitted) {
+    if (this.isDesktopNotification && !this.isNotificationPermitted()) {
       this.setDesktopNotification(false)
     }
   }

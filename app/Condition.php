@@ -31,6 +31,8 @@ class Condition
 		'prevfq' => ['label' => 'LBL_PREVIOUS_FQ'],
 		'thisfq' => ['label' => 'LBL_CURRENT_FQ'],
 		'nextfq' => ['label' => 'LBL_NEXT_FQ'],
+		'previousworkingday' => ['label' => 'LBL_PREVIOUS_WORKING_DAY'],
+		'nextworkingday' => ['label' => 'LBL_NEXT_WORKING_DAY'],
 		'yesterday' => ['label' => 'LBL_YESTERDAY'],
 		'today' => ['label' => 'LBL_TODAY'],
 		'untiltoday' => ['label' => 'LBL_UNTIL_TODAY'],
@@ -115,6 +117,8 @@ class Condition
 		'next60days',
 		'next90days',
 		'next120days',
+		'previousworkingday',
+		'nextworkingday',
 	];
 
 	/**
@@ -212,7 +216,7 @@ class Condition
 					$operator = $condition['operator'];
 					$value = $condition['value'] ?? '';
 					if (!\in_array($operator, self::OPERATORS_WITHOUT_VALUES + array_keys(self::DATE_OPERATORS))) {
-						[$fieldModuleName, $fieldName,] = array_pad(explode(':', $condition['fieldname']), 3, false);
+						[$fieldName, $fieldModuleName,] = array_pad(explode(':', $condition['fieldname']), 3, false);
 						$value = \Vtiger_Field_Model::getInstance($fieldName, \Vtiger_Module_Model::getInstance($fieldModuleName))
 							->getUITypeModel()
 							->getDbConditionBuilderValue($value, $operator);
@@ -281,7 +285,7 @@ class Condition
 	 */
 	public static function checkCondition(array $rule, \Vtiger_Record_Model $recordModel): bool
 	{
-		[$moduleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
+		[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
 		if (!empty($sourceFieldName)) {
 			if ($recordModel->isEmpty($sourceFieldName)) {
 				return false;

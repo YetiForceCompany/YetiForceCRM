@@ -81,8 +81,7 @@ class Vtiger_DetailPreview_View extends Vtiger_Detail_View
 	public function loadJsConfig(App\Request $request)
 	{
 		parent::loadJsConfig($request);
-		$modalParams = \App\Config::getJsEnvByKey('modalParams');
-		$modalParams['target'] = 'parentIframe';
-		\App\Config::setJsEnv('modalParams', $modalParams);
+		\App\Config::setJsEnv('modalTarget', 'parentIframe');
+		\App\Config::setJsEnv('openUrlTarget', 'parentIframe');
 	}
 }

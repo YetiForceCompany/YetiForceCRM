@@ -34,7 +34,7 @@
 			   title="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" class="sourceField"
 			   data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{$FIELD_VALUE}"
 			   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
-		<div class="input-group referenceGroup">
+		<div class="input-group referenceGroup {$WIDTHTYPE_GROUP}">
 			<div class="input-group-prepend">
 				{if $REFERENCE_LIST_COUNT > 1}
 					<div class="referenceModulesListGroup">

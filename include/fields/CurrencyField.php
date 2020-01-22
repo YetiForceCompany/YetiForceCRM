@@ -233,7 +233,7 @@ class CurrencyField
 				break;
 			case '$1.0':
 			default:
-				$returnValue = $currencySymbol . ' ' . $currencyValue;
+				$returnValue = html_entity_decode($currencySymbol, ENT_COMPAT) . ' ' . $currencyValue;
 		}
 		return $returnValue;
 	}

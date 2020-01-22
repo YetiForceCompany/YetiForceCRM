@@ -1,56 +1,107 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <q-list v-if="isVisible" dense class="q-mb-none">
-    <q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md">
-      <q-item-section avatar>
-        <YfIcon :icon="getGroupIcon(roomType)" :size="layout.drawer.fs" />
-      </q-item-section>
-      {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
-      <div class="q-ml-auto">
+  <q-list
+    v-if="isVisible"
+    class="q-mb-none"
+    dense
+  >
+    <q-item-label
+      class="flex items-center text-bold text-muted q-py-sm q-px-md"
+      @click="showAllRoomsButton ? toggleRoomExpanded(roomType) : ''"
+    >
+      <q-item-section
+        avatar
+        :class="itemAvatarClass"
+      >
+        <YfIcon
+          :icon="getGroupIcon(roomType)"
+          :size="layout.drawer.fs"
+          :style="roomType === 'user' ? {'margin-left': '-2px', 'margin-right': '2px'} : {}"
+        />
         <q-btn
-          v-if="hideUnpinned"
-          v-show="areUnpinned && !filterRooms.length"
+          v-show="showAllRoomsButton"
+          :icon="isRoomExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down'"
           dense
           flat
           round
           color="primary"
-          :icon="showAllRooms ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-          @click="showAllRooms = !showAllRooms"
+          class="q-mx-xs"
         >
-          <q-tooltip>{{ translate(showAllRooms ? 'JS_CHAT_HIDE_UNPINNED' : 'JS_CHAT_SHOW_UNPINNED') }}</q-tooltip>
+          <q-tooltip>{{ translate(isRoomExpanded ? 'JS_CHAT_HIDE_ROOMS' : 'JS_CHAT_SHOW_ROOMS') }}</q-tooltip>
         </q-btn>
-        <slot name="labelRight"></slot>
-        <q-icon :size="layout.drawer.fs" name="mdi-information" class="q-pr-xs">
+      </q-item-section>
+      {{ translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`) }}
+      <div
+        class="q-ml-auto"
+        @click.stop
+      >
+        <slot name="labelRight">
+        </slot>
+        <slot
+          v-if="selectRoom"
+          name="selectRoomButton"
+        >
+          <q-btn
+            dense
+            flat
+            round
+            size="sm"
+            color="primary"
+            icon="mdi-magnify"
+            @click="toggleRoomSelect()"
+          >
+            <q-tooltip>{{ translate(`JS_CHAT_ADD_ROOM_${roomType.toUpperCase()}`) }}</q-tooltip>
+          </q-btn>
+        </slot>
+        <q-icon
+          class="q-pr-xs"
+          :size="layout.drawer.fs"
+          name="mdi-information"
+        >
           <q-tooltip>{{ translate(`JS_CHAT_ROOM_DESCRIPTION_${roomType.toUpperCase()}`) }}</q-tooltip>
         </q-icon>
       </div>
     </q-item-label>
-    <slot name="aboveItems"></slot>
+    <slot name="aboveItems">
+    </slot>
+    <slot
+      v-if="selectRoom"
+      name="selectRoom"
+    >
+      <q-item v-show="isSelectRoomVisible">
+        <RoomSelectAsync
+          class="q-pb-xs"
+          :roomType="roomType"
+          :isVisible.sync="isSelectRoomVisible"
+        />
+      </q-item>
+    </slot>
     <template v-for="(room, roomId) of roomData">
       <q-item
-        v-if="!room.isHidden"
-        v-show="hideUnpinned ? room.isPinned || showAllRooms || filterRooms.length : room.isPinned"
+        v-show="isRoomExpanded"
+        class="q-pl-sm u-hover-container"
         clickable
         v-ripple
         :key="roomId"
-        class="q-pl-sm u-hover-container"
         :active="data.currentRoom.recordId === room.recordid && data.currentRoom.roomType === roomType"
         active-class="bg-teal-1 text-grey-8"
-        @click="onRoomClick({ id: room.recordid, roomType: roomType })"
+        @click="onRoomClick({ id: room.recordid, roomType })"
       >
         <div class="full-width flex items-center justify-between no-wrap">
           <div class="ellipsis-2-lines">
-            <YfIcon
-              v-if="roomType === 'crm'"
-              class="inline-block"
-              :icon="'userIcon-' + room.moduleName"
-              size="0.7rem"
+            <slot
+              name="itemAvatar"
+              :room="room"
             />
             {{ room.name }}
           </div>
           <div class="flex items-center justify-end no-wrap">
             <div class="text-no-wrap">
-              <transition appear enter-active-class="animated flash" mode="out-in">
+              <transition
+                appear
+                enter-active-class="animated flash"
+                mode="out-in"
+              >
                 <q-badge
                   v-if="room.cnt_new_message !== undefined && room.cnt_new_message > 0"
                   color="danger"
@@ -58,18 +109,15 @@
                   :key="room.cnt_new_message"
                 />
               </transition>
-              <slot name="itemRight" :room="room"></slot>
-              <q-btn
-                dense
-                round
-                flat
-                size="xs"
-                @click.stop="togglePinned({ roomType, room })"
-                :color="room.isPinned ? 'primary' : ''"
-                :icon="room.isPinned ? 'mdi-pin' : 'mdi-pin-off'"
-              >
-                <q-tooltip>{{ translate(room.isPinned ? 'JS_CHAT_UNPIN' : 'JS_CHAT_PIN') }}</q-tooltip>
-              </q-btn>
+              <slot
+                name="itemRight"
+                :room="room"
+              ></slot>
+              <RoomUnpinButton
+                v-if="selectRoom"
+                :roomType="roomType"
+                :recordId="room.recordid"
+              />
               <q-btn
                 @click.stop="toggleRoomSoundNotification({ roomType, id: room.recordid })"
                 dense
@@ -93,12 +141,14 @@
   </q-list>
 </template>
 <script>
+import RoomSelectAsync from './RoomSelectAsync.vue'
+import RoomUnpinButton from './RoomUnpinButton.vue'
 import { getGroupIcon } from '../../utils/utils.js'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers('Chat')
 export default {
   name: 'RoomList',
-  components: {},
+  components: { RoomSelectAsync, RoomUnpinButton },
   props: {
     roomType: {
       type: String,
@@ -108,50 +158,69 @@ export default {
       type: Array,
       required: true
     },
-    hideUnpinned: {
+    isVisible: {
       type: Boolean,
       default: true
     },
-    isVisible: {
+    selectRoom: {
       type: Boolean,
-      required: true
-    },
-    filterRooms: {
-      type: String,
-      required: true
+      default: true
     }
   },
   data() {
     return {
-      showAllRooms: false
+      showAllRooms: true,
+      isSelectRoomVisible: false
     }
   },
   computed: {
-    ...mapGetters(['data', 'isSoundNotification', 'roomSoundNotificationsOff', 'layout']),
-    areUnpinned() {
-      for (let room in this.data.roomList[this.roomType]) {
-        if (!this.data.roomList[this.roomType][room].isPinned) {
-          return true
-        }
-      }
-      return false
+    ...mapGetters([
+      'data',
+      'isSoundNotification',
+      'roomSoundNotificationsOff',
+      'layout',
+      'roomsExpanded'
+    ]),
+    itemAvatarClass() {
+      return [this.showAllRoomsButton ? 'flex-row items-center q-pr-none' : '']
+    },
+    showAllRoomsButton() {
+      return this.roomData.length
+    },
+    isRoomExpanded() {
+      return this.roomsExpanded.includes(this.roomType)
+    }
+  },
+  watch: {
+    isSelectRoomVisible(value) {
+      this.$emit('toggleSelectRoom', value)
     }
   },
   methods: {
-    ...mapActions(['fetchRoom', 'togglePinned', 'toggleRoomSoundNotification', 'mobileMode']),
+    ...mapActions([
+      'fetchRoom',
+      'toggleRoomSoundNotification',
+      'toggleRoomExpanded',
+      'mobileMode'
+    ]),
     ...mapMutations(['setLeftPanelMobile']),
     getGroupIcon,
     isSoundActive(roomType, id) {
-      return this.isSoundNotification && !this.roomSoundNotificationsOff[roomType].includes(id)
+      return (
+        this.isSoundNotification &&
+        !this.roomSoundNotificationsOff[roomType].includes(id)
+      )
     },
     onRoomClick({ id, roomType }) {
       this.fetchRoom({ id, roomType })
       if (this.mobileMode) {
         this.setLeftPanelMobile(false)
       }
+    },
+    toggleRoomSelect() {
+      this.isSelectRoomVisible = !this.isSelectRoomVisible
     }
   }
 }
 </script>
-<style lang="sass" scoped>
-</style>
+<style lang="sass" scoped></style>

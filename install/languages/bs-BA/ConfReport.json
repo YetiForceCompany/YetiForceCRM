@@ -10,7 +10,7 @@
     "LBL_CONFREPORT_DESCRIPTION": "Omogućuje vam da provjerite jesu li glavne postavke servera kompatibilne s preporučenim parametrima.",
     "LBL_PARAMETER": "Parametar",
     "LBL_VALUE": "Vrijednost",
-    "LBL_RECOMMENDED": "Preporučena konfiguracija",
+    "LBL_RECOMMENDED": "Preporučeno",
     "LBL_SYSTEM_STABILITY": "Konfiguracija stabilnosti sistema",
     "LBL_SYSTEM_SECURITY": "Konfiguracija sigurnosti sistema",
     "LBL_HEADERS_SECURITY": "Konfiguracija zaglavlja sistema",
@@ -106,6 +106,8 @@
     "LBL_LABEL_LAST_CRON_START": "Vrijeme zadnjeg pokretanja Cron-a",
     "LBL_LABEL_PROTOCOL_VERSION": "HTTP protokol verzija",
     "LBL_LABEL_HTTP_METHODS": "HTTP metode",
+    "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "Maksimalna količina RAM-a",
+    "LBL_HELP_MAXIMUMMEMORYSIZE": "Maksimalna količina RAM-a izračunata na temelju trenutnih konfiguracijskih parametara. Ovo je najveća količina RAM-a potrebna za ispravno funkcioniranje motora baze podataka. Ova količina RAM-a rezervirana je samo za pokretanje baze podataka. key_buffer_size + query_cache_size + tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + max_connections * (sort_buffer_size + read_buffer_size + read_rnd_buffer_size + join_buffer_size + thread_stack + binlog_cache_size)",
     "LBL_HELP_MBSTRING": "Proširenje se koristi za upravljanje nizovima. Koristi se za pretvaranje struna u različite kodove.",
     "LBL_HELP_FILTER": "Proširenje se koristi za filtriranje podataka dolaznih zahtjeva.",
     "LBL_HELP_BCMATH": "Tačnije matematičke operacije.",
@@ -222,7 +224,11 @@
     "LBL_FUNCTIONAL_VERIFICATION_TITLE": "Funkcionalna provjera",
     "LBL_IT_WORKS_PROPERLY": "Radi kako treba",
     "LBL_LABEL_FOOTER": "Podnožje",
-    "LBL_LABEL_PREMIUM_MODULES": "Premium moduli"
+    "LBL_LABEL_PREMIUM_MODULES": "Premium moduli",
+    "LBL_FILE_OWNER": "Vlasnik",
+    "LBL_FILE_PERMISSIONS": "Dozvole",
+    "LBL_LABEL_SCRIPT_USER": "Korisnik za pozivanje skripte",
+    "LBL_ERROR_DURING_VERIFICATION": "Desila se greška tokom verifikacije"
   },
   "js": {
     "JS_SPEED_TEST_START": "Provjeravam brzinu..."

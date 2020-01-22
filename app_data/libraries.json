@@ -1,4 +1,13 @@
 {
+    "clamp": {
+        "name": "clamp",
+        "version": "1.0.1",
+        "license": "MIT",
+        "homepage": "https:\/\/yarnpkg.com\/en\/package\/clamp",
+        "licenseError": false,
+        "licenseToDisplay": "",
+        "showLicenseModal": false
+    },
     "lodash.get": {
         "name": "lodash.get",
         "version": "4.4.2",
@@ -17,11 +26,47 @@
         "licenseToDisplay": "",
         "showLicenseModal": false
     },
+    "lodash.throttle": {
+        "name": "lodash.throttle",
+        "version": "4.1.1",
+        "license": "MIT",
+        "homepage": "https:\/\/lodash.com\/",
+        "licenseError": false,
+        "licenseToDisplay": "",
+        "showLicenseModal": false
+    },
     "lodash.unionby": {
         "name": "lodash.unionby",
         "version": "4.8.0",
         "license": "MIT",
         "homepage": "https:\/\/lodash.com\/",
+        "licenseError": false,
+        "licenseToDisplay": "",
+        "showLicenseModal": false
+    },
+    "material-colors": {
+        "name": "material-colors",
+        "version": "1.2.6",
+        "license": "ISC",
+        "homepage": "https:\/\/github.com\/shuhei\/material-colors",
+        "licenseError": false,
+        "licenseToDisplay": "",
+        "showLicenseModal": false
+    },
+    "tinycolor2": {
+        "name": "tinycolor2",
+        "version": "1.4.1",
+        "license": "MIT",
+        "homepage": "https:\/\/yarnpkg.com\/en\/package\/tinycolor2",
+        "licenseError": false,
+        "licenseToDisplay": "",
+        "showLicenseModal": false
+    },
+    "vue-color": {
+        "name": "vue-color",
+        "version": "2.7.0",
+        "license": "MIT",
+        "homepage": "https:\/\/yarnpkg.com\/en\/package\/vue-color",
         "licenseError": false,
         "licenseToDisplay": "",
         "showLicenseModal": false
@@ -37,7 +82,7 @@
     },
     "vuex": {
         "name": "vuex",
-        "version": "3.1.1",
+        "version": "3.1.2",
         "license": "MIT",
         "homepage": "https:\/\/github.com\/vuejs\/vuex#readme",
         "licenseError": false,

@@ -69,7 +69,7 @@ class YetiForceGeocoder extends Base
 		$rows = [];
 		try {
 			$response = (new \GuzzleHttp\Client(\array_merge(\App\RequestHttp::getOptions(), ['InsKey' => \App\YetiForce\Register::getInstanceKey()])))
-				->request('GET', 'https://openstreetmap.yetiforce.eu/?' . \http_build_query($params), [
+				->request('GET', 'https://osm-search.yetiforce.eu/?' . \http_build_query($params), [
 					'auth' => [$product['params']['login'], $product['params']['pass']]
 				]);
 			if (200 !== $response->getStatusCode()) {

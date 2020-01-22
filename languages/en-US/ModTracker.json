@@ -44,6 +44,8 @@
     "LBL_TRANSFER_LINK": "relation was added in the transfer process",
     "LBL_INV_ADDED": "Added",
     "LBL_INV_UPDATED": "Updated",
-    "LBL_INV_DELETED": "Deleted"
+    "LBL_INV_DELETED": "Deleted",
+    "LBL_UPDATES_WIDGET_CONFIGURATION": "Updates widget config",
+    "LBL_PERSON_MAKING_CHANGES": "Person making changes"
   }
 }

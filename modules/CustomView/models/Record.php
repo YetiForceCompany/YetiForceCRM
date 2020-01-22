@@ -16,7 +16,6 @@ class CustomView_Record_Model extends \App\Base
 {
 	protected $isFeatured = false;
 	protected $isDefault = false;
-	protected $sortOrderBy = false;
 
 	/**
 	 * Function to get the Id.
@@ -94,7 +93,7 @@ class CustomView_Record_Model extends \App\Base
 	public function isDefault()
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . ' method ...');
-		if ($this->isDefault === false) {
+		if (false === $this->isDefault) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$cvId = $this->getId();
 			if (!$cvId) {
@@ -113,7 +112,7 @@ class CustomView_Record_Model extends \App\Base
 
 	public function isSystem()
 	{
-		return $this->get('status') == App\CustomView::CV_STATUS_SYSTEM;
+		return App\CustomView::CV_STATUS_SYSTEM == $this->get('status');
 	}
 
 	/**
@@ -125,7 +124,7 @@ class CustomView_Record_Model extends \App\Base
 	{
 		$userPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
-		return $this->get('status') == App\CustomView::CV_STATUS_DEFAULT || $this->get('userid') == $userPrivilegeModel->getId();
+		return App\CustomView::CV_STATUS_DEFAULT == $this->get('status') || $this->get('userid') == $userPrivilegeModel->getId();
 	}
 
 	/**
@@ -135,7 +134,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function isPublic()
 	{
-		return !$this->isMine() && $this->get('status') == App\CustomView::CV_STATUS_PUBLIC;
+		return !$this->isMine() && App\CustomView::CV_STATUS_PUBLIC == $this->get('status');
 	}
 
 	/**
@@ -145,7 +144,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function isPrivate()
 	{
-		return $this->get('status') == App\CustomView::CV_STATUS_PRIVATE;
+		return App\CustomView::CV_STATUS_PRIVATE == $this->get('status');
 	}
 
 	/**
@@ -155,7 +154,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function isPending()
 	{
-		return !$this->isMine() && $this->get('status') == App\CustomView::CV_STATUS_PENDING;
+		return !$this->isMine() && App\CustomView::CV_STATUS_PENDING == $this->get('status');
 	}
 
 	/**
@@ -165,7 +164,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function isOthers()
 	{
-		return !$this->isMine() && $this->get('status') != App\CustomView::CV_STATUS_PUBLIC;
+		return !$this->isMine() && App\CustomView::CV_STATUS_PUBLIC != $this->get('status');
 	}
 
 	/**
@@ -175,13 +174,13 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function isSetPublic()
 	{
-		return $this->get('status') == App\CustomView::CV_STATUS_PUBLIC || $this->get('status') == App\CustomView::CV_STATUS_PENDING;
+		return App\CustomView::CV_STATUS_PUBLIC == $this->get('status') || App\CustomView::CV_STATUS_PENDING == $this->get('status');
 	}
 
 	public function isFeatured($editView = false)
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . ' method ...');
-		if ($this->isFeatured === false) {
+		if (false === $this->isFeatured) {
 			if (empty($editView)) {
 				if (!empty($this->get('featured'))) {
 					$this->isFeatured = true;
@@ -240,9 +239,9 @@ class CustomView_Record_Model extends \App\Base
 		$moduleName = $moduleModel->get('name');
 		if (!\App\CustomView::getInstance($this->getModule()->getName())->isPermittedCustomView($this->getId())) {
 			$returnVal = false;
-		} elseif ($this->get('presence') !== 2 && \App\User::getCurrentUserModel()->isAdmin()) {
+		} elseif (2 !== $this->get('presence') && \App\User::getCurrentUserModel()->isAdmin()) {
 			$returnVal = true;
-		} elseif ($this->get('privileges') === 0 || $this->get('presence') === 2) {
+		} elseif (0 === $this->get('privileges') || 2 === $this->get('presence')) {
 			$returnVal = false;
 		} elseif (!\App\Privilege::isPermitted($moduleName, 'CreateCustomFilter')) {
 			$returnVal = false;
@@ -264,12 +263,12 @@ class CustomView_Record_Model extends \App\Base
 	public static function setFeaturedFilterView($cvId, $user, $action)
 	{
 		$db = \App\Db::getInstance();
-		if ($action === 'add') {
+		if ('add' === $action) {
 			$db->createCommand()->insert('u_#__featured_filter', [
 				'user' => $user,
 				'cvid' => $cvId,
 			])->execute();
-		} elseif ($action === 'remove') {
+		} elseif ('remove' === $action) {
 			$db->createCommand()
 				->delete('u_#__featured_filter', ['user' => $user, 'cvid' => $cvId])
 				->execute();
@@ -284,7 +283,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function privilegeToDelete(): bool
 	{
-		return $this->isEditable() && $this->get('presence') != 0;
+		return $this->isEditable() && 0 != $this->get('presence');
 	}
 
 	/**
@@ -298,7 +297,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getRecordIds($skipRecords = false, $module = false, $lockRecords = false)
 	{
-		$queryGenerator = $this->getRecordsListQuery($skipRecords, $module, $lockRecords);
+		$queryGenerator = $this->getRecordsListQuery($skipRecords, $module, $lockRecords)->setFields(['id']);
 
 		return $queryGenerator->createQuery()->column();
 	}
@@ -320,13 +319,11 @@ class CustomView_Record_Model extends \App\Base
 		$baseTableName = $moduleModel->get('basetable');
 		$baseTableId = $moduleModel->get('basetableid');
 		$queryGenerator = new App\QueryGenerator($moduleName);
-		if (!empty($cvId) && $cvId != 0) {
+		if (!empty($cvId) && 0 != $cvId) {
 			$queryGenerator->initForCustomViewById($cvId);
 		} else {
 			$queryGenerator->initForDefaultCustomView();
 		}
-		$queryGenerator->setFields(['id']);
-
 		$searchKey = $this->get('search_key');
 		$searchValue = $this->get('search_value');
 		if (!empty($searchValue) && ($operator = $this->get('operator'))) {
@@ -338,11 +335,26 @@ class CustomView_Record_Model extends \App\Base
 		}
 		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParams);
 		$queryGenerator->parseAdvFilter($transformedSearchParams);
-		if (is_array($skipRecords) && count($skipRecords) > 0) {
+		if (\is_array($skipRecords) && \count($skipRecords) > 0) {
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId", $skipRecords]);
 		}
 		if ($this->has('entityState')) {
 			$queryGenerator->setStateCondition($this->get('entityState'));
+		}
+		if (($orderBy = $this->get('orderby')) && \is_array($orderBy)) {
+			foreach ($orderBy as $fieldName => $sortFlag) {
+				[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $fieldName), 3, false);
+				if ($sourceFieldName) {
+					$queryGenerator->setRelatedOrder([
+						'sourceField' => $sourceFieldName,
+						'relatedModule' => $moduleName,
+						'relatedField' => $fieldName,
+						'relatedSortOrder' => $sortFlag
+					]);
+				} else {
+					$queryGenerator->setOrder($fieldName, $sortFlag);
+				}
+			}
 		}
 		if ($lockRecords) {
 			$lockFields = Vtiger_CRMEntity::getInstance($moduleName)->getLockFields();
@@ -367,7 +379,7 @@ class CustomView_Record_Model extends \App\Base
 		$status = $this->get('status');
 		$featured = $this->get('featured');
 
-		if ($status == App\CustomView::CV_STATUS_PENDING && $currentUserModel->isAdminUser()) {
+		if (App\CustomView::CV_STATUS_PENDING == $status && $currentUserModel->isAdminUser()) {
 			$status = App\CustomView::CV_STATUS_PUBLIC;
 			$this->set('status', $status);
 		}
@@ -476,10 +488,10 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	private function addCondition(array $rule, int $parentId, int $index)
 	{
-		[$fieldModuleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
+		[$fieldName, $fieldModuleName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
 		$operator = $rule['operator'];
 		$value = $rule['value'] ?? '';
-		if (!$this->get('advfilterlistDbFormat') && !in_array($operator, App\Condition::OPERATORS_WITHOUT_VALUES + array_keys(App\Condition::DATE_OPERATORS))) {
+		if (!$this->get('advfilterlistDbFormat') && !\in_array($operator, App\Condition::OPERATORS_WITHOUT_VALUES + array_keys(App\Condition::DATE_OPERATORS))) {
 			$value = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldModuleName))
 				->getUITypeModel()
 				->getDbConditionBuilderValue($value, $operator);
@@ -498,7 +510,7 @@ class CustomView_Record_Model extends \App\Base
 	/**
 	 * Add group to database.
 	 *
-	 * @param null|array $rule
+	 * @param array|null $rule
 	 * @param int        $parentId
 	 * @param int        $index
 	 *
@@ -515,7 +527,7 @@ class CustomView_Record_Model extends \App\Base
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('u_#__cv_condition_group', [
 			'cvid' => $this->getId(),
-			'condition' => $rule['condition'] === 'AND' ? 'AND' : 'OR',
+			'condition' => 'AND' === $rule['condition'] ? 'AND' : 'OR',
 			'parent_id' => $parentId,
 			'index' => $index
 		])->execute();
@@ -550,8 +562,8 @@ class CustomView_Record_Model extends \App\Base
 			$db->createCommand()->insert('vtiger_cvcolumnlist', [
 				'cvid' => $cvId,
 				'columnindex' => $index,
-				'field_name' => $columnInfo[1],
-				'module_name' => $columnInfo[0],
+				'field_name' => $columnInfo[0],
+				'module_name' => $columnInfo[1],
 				'source_field_name' => $columnInfo[2] ?? null,
 			])->execute();
 		}
@@ -664,7 +676,7 @@ class CustomView_Record_Model extends \App\Base
 			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
 			->createCommand()->queryAllByGroup(1);
 		return array_map(function ($item) {
-			return "{$item['module_name']}:{$item['field_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
+			return "{$item['field_name']}:{$item['module_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
 		}, $selectedFields);
 	}
 
@@ -806,7 +818,7 @@ class CustomView_Record_Model extends \App\Base
 		$customViews = [];
 		while ($row = $dataReader->read()) {
 			$customView = new self();
-			if (strlen(App\Purifier::decodeHtml($row['viewname'])) > 40) {
+			if (\strlen(App\Purifier::decodeHtml($row['viewname'])) > 40) {
 				$row['viewname'] = substr(App\Purifier::decodeHtml($row['viewname']), 0, 36) . '...';
 			}
 			$customViews[$row['cvid']] = $customView->setData($row)->setModule($row['entitytype']);
@@ -879,10 +891,10 @@ class CustomView_Record_Model extends \App\Base
 			} else {
 				require 'user_privileges/menu_0.php';
 			}
-			if (count($menus) == 0) {
+			if (0 == \count($menus)) {
 				require 'user_privileges/menu_0.php';
 			}
-			if (array_key_exists($menuId, $filterList)) {
+			if (\array_key_exists($menuId, $filterList)) {
 				$filtersMenu = explode(',', $filterList[$menuId]['filters']);
 				$filters = array_intersect($filtersMenu, $filters);
 				if (empty($filters)) {
@@ -947,22 +959,13 @@ class CustomView_Record_Model extends \App\Base
 		return self::getInstanceById($viewId);
 	}
 
-	public function getSortOrderBy($name = '')
+	/**
+	 * Get sort data.
+	 *
+	 * @return array
+	 */
+	public function getSortOrderBy()
 	{
-		if ($this->sortOrderBy === false) {
-			$this->sortOrderBy = explode(',', $this->get('sort'));
-		}
-		$return = $this->sortOrderBy;
-		switch ($name) {
-			case 'orderBy':
-				$return = $return[0];
-				break;
-			case 'sortOrder':
-				$return = $return[1] ?? '';
-				break;
-			default:
-				break;
-		}
-		return $return;
+		return empty($this->get('sort')) ? [] : \App\Json::decode($this->get('sort'));
 	}
 }

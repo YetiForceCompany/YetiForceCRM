@@ -586,6 +586,7 @@ class PackageImport extends PackageExport
 					}
 				}
 			} else {
+				$this->packageType = strtolower($this->_modulexml->type);
 				switch ((string) $this->_modulexml->type) {
 					case 'update':
 						Functions::recurseDelete('cache/updates');
@@ -614,7 +615,6 @@ class PackageImport extends PackageExport
 		$tabname = $this->_modulexml->name;
 		$tabLabel = $this->_modulexml->label;
 		$tabVersion = $this->_modulexml->version;
-
 		$isextension = false;
 		$moduleType = 0;
 		if (!empty($this->_modulexml->type)) {
@@ -1142,6 +1142,7 @@ class PackageImport extends PackageExport
 		\App\Cache::clearOpcache();
 		Functions::recurseDelete('app_data/LanguagesUpdater.json');
 		Functions::recurseDelete('app_data/SystemUpdater.json');
+		Functions::recurseDelete('app_data/cron.php');
 		file_put_contents('cache/logs/update.log', ob_get_contents(), FILE_APPEND);
 		ob_end_clean();
 	}

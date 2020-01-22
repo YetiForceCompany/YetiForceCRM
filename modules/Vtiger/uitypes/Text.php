@@ -67,17 +67,41 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return '';
 		}
-		if (!\is_int($length)) {
+		$size = 'mini';
+		if (empty($length)) {
+			$length = 400;
+		} elseif (\is_string($length)) {
+			$size = $length;
 			$length = 200;
 		}
 		if (300 === $this->getFieldModel()->getUIType()) {
-			if ($rawText) {
-				$value = \App\Layout::truncate(\App\Purifier::purifyHtml($value), $length);
-			} else {
-				$value = \App\Utils\Completions::decode(\App\Layout::truncate(\App\Purifier::purifyHtml($value), $length));
+			$value = \App\Purifier::purifyHtml($value);
+			if (!$rawText) {
+				$value = \App\Utils\Completions::decode($value);
 			}
+			$value = \App\Layout::truncateHtml($value, $size, $length);
 		} else {
-			$value = nl2br(\App\Layout::truncate(\App\Purifier::purify($value), $length, false));
+			if ($rawText) {
+				$value = nl2br(\App\TextParser::textTruncate(\App\Purifier::purify($value), $length, false));
+			} else {
+				$value = nl2br(\App\Layout::truncateText(\App\Purifier::purify($value), $length));
+			}
+		}
+		return $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
+	{
+		if (empty($value)) {
+			return '';
+		}
+		if (300 === $this->getFieldModel()->getUIType()) {
+			$value = \App\Utils\Completions::decodeEmoji(\App\Purifier::purifyHtml($value));
+		} else {
+			$value = nl2br(\App\Purifier::purify($value));
 		}
 		return $value;
 	}
@@ -87,7 +111,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		return parent::getListViewDisplayValue(trim(strip_tags($value)), $record, $recordModel, $rawText);
+		return $this->getDisplayValue($value, $record, $recordModel, $rawText, $this->getFieldModel()->get('maxlengthtext') ?: 50);
 	}
 
 	/**
@@ -112,5 +136,13 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	public function getQueryOperators()
 	{
 		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDetailViewTemplateName()
+	{
+		return 'Detail/Field/Text.tpl';
 	}
 }

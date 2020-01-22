@@ -166,8 +166,7 @@ $.Class(
 					});
 					data.find('[name="type"]').on('change', function() {
 						if ($(this).val() === 'getAttachments') {
-							data
-								.find('[name="target"] option')
+							data.find('[name="target"] option')
 								.not('[value="Documents"]')
 								.addClass('d-none');
 							App.Fields.Picklist.showSelect2ElementView(data.find('[name="target"]'));
@@ -185,12 +184,17 @@ $.Class(
 						params['mode'] = 'addRelation';
 						$.extend(params, form);
 						AppConnector.request(params).done(function(data) {
-							thisInstance
-								.getRelModuleLayoutEditor(container.find('[name="layoutEditorRelModules"]').val())
-								.done(function(data) {
-									contentsDiv.html(data);
-									thisInstance.registerEvents();
-								});
+							let response = data.result;
+							if (response && response.success) {
+								thisInstance
+									.getRelModuleLayoutEditor(container.find('[name="layoutEditorRelModules"]').val())
+									.done(function(data) {
+										contentsDiv.html(data);
+										thisInstance.registerEvents();
+									});
+							} else if (response && response.message) {
+								Settings_Vtiger_Index_Js.showMessage({ type: 'error', text: response.message });
+							}
 						});
 					});
 				};
@@ -587,21 +591,44 @@ $.Class(
 				});
 		},
 		/**
+		 * Function to check if picklist exist
+		 */
+		checkPicklistExist(fieldNameValue){
+			let aDeferred = $.Deferred();
+			AppConnector.request({
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				action: 'Field',
+				mode: 'checkPicklistExist',
+				fieldName: fieldNameValue.toLowerCase()
+			}).done(function(data) {
+				if(data.result){
+					Vtiger_Helper_Js.showConfirmationBox({message: app.vtranslate('JS_EXIST_PICKLIST_NAME')})
+					.done(function(data) {
+						aDeferred.resolve(true);
+					})
+					.fail(function(error) {
+						aDeferred.resolve(false);
+					});
+				} else {
+					aDeferred.resolve(true);
+				}
+			});
+			return aDeferred.promise();
+		},
+		/**
 		 * Function to register click evnet add custom field button
 		 */
 		registerAddCustomFieldEvent() {
+			const thisInstance = this;
 			let container = $('#layoutEditorContainer'),
 				contents = container.find('.contents');
 			contents.find('.addCustomField').on('click', e => {
-				let blockId = $(e.currentTarget)
-						.closest('.editFieldsTable')
-						.data('blockId'),
+				let blockId = $(e.currentTarget).closest('.editFieldsTable').data('blockId'),
 					addFieldContainer = container.find('.createFieldModal').clone(true, true);
 				addFieldContainer.removeClass('d-none').show();
 				let callBackFunction = data => {
-					//register all select2 Elements
 					App.Fields.Picklist.showSelect2ElementView(data.find('select'), { width: '100%' });
-
 					let form = data.find('.createCustomFieldForm');
 					form.attr('id', 'createFieldForm');
 					App.Fields.Picklist.showSelect2ElementView(form.find('[name="pickListValues"]'), {
@@ -611,93 +638,29 @@ $.Class(
 					this.registerFieldTypeChangeEvent(form);
 					this.registerMultiReferenceFieldsChangeEvent(form);
 					this.registerMultiReferenceFilterFieldChangeEvent(form);
-
 					let params = app.getvalidationEngineOptions(true);
 					params.onValidationComplete = (form, valid) => {
-						if (valid) {
-							let fieldTypeValue = $('[name="fieldType"]', form).val(),
+						if (valid && thisInstance.validateFieldsValue(form)) {
+							let saveButton = form.find(':submit'),
 								fieldNameValue = $('[name="fieldName"]', form).val(),
-								message;
-
-							if (fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
-								let pickListValueElement = $('#pickListValues', form),
-									pickListValuesArray = pickListValueElement.val(),
-									pickListValuesArraySize = pickListValuesArray.length,
-									i,
-									select2Element,
-									specialChars = /["]/;
-								if (fieldNameValue.toLowerCase() === 'status' || 'picklist' === fieldNameValue.toLowerCase()) {
-									message = app.vtranslate('JS_RESERVED_PICKLIST_NAME');
-									$('[name="fieldName"]', form).validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
-									return false;
-								}
-								for (i = 0; i < pickListValuesArray.length; i++) {
-									if (specialChars.test(pickListValuesArray[i])) {
-										select2Element = app.getSelect2ElementFromSelect(pickListValueElement);
-										message = app.vtranslate('JS_SPECIAL_CHARACTERS') + ' " ' + app.vtranslate('JS_NOT_ALLOWED');
-										select2Element.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
-										return false;
-									}
-								}
-								let lowerCasedpickListValuesArray = $.map(pickListValuesArray, (item, index) => {
-										return item.toLowerCase();
-									}),
-									uniqueLowerCasedpickListValuesArray = $.uniqueSort(lowerCasedpickListValuesArray),
-									uniqueLowerCasedpickListValuesArraySize = uniqueLowerCasedpickListValuesArray.length,
-									arrayDiffSize = pickListValuesArraySize - uniqueLowerCasedpickListValuesArraySize;
-								if (arrayDiffSize > 0) {
-									select2Element = app.getSelect2ElementFromSelect(pickListValueElement);
-									message = app.vtranslate('JS_DUPLICATES_VALUES_FOUND');
-									select2Element.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
-									return false;
-								}
-							}
-							if (fieldTypeValue == 'Tree' || fieldTypeValue == 'CategoryMultipicklist') {
-								let treeListElement = form.find('select.TreeList');
-								if (treeListElement.val() == '-') {
-									message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
-									form.find('.TreeList').validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
-									return false;
-								}
-							}
-							if (fieldTypeValue == 'ServerAccess') {
-								let serverListElement = form.find('select[name="server"]');
-								if (serverListElement.val() == '-') {
-									message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
-									serverListElement.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
-									return false;
-								}
-							}
-							let saveButton = form.find(':submit');
+								fieldTypeValue = $('[name="fieldType"]', form).val();
 							saveButton.attr('disabled', 'disabled');
-							this.addCustomField(blockId, form).done(data => {
-								let result = data['result'],
-									params = {};
-								if (data['success']) {
-									app.hideModalWindow();
-									params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
-									Settings_Vtiger_Index_Js.showMessage(params);
-									this.showCustomField(result);
-								} else {
-									message = data['error']['message'];
-									Vtiger_Helper_Js.showPnotify({
-										title:
-											data['error']['code'] != 513
-												? form.find('.fieldNameForm').text()
-												: form.find('.fieldLabelForm').text(),
-										type: 'error',
-										text: data['error']['message']
-									});
-									saveButton.removeAttr('disabled');
-								}
-							});
+							if (fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
+								thisInstance.checkPicklistExist(fieldNameValue).done(result => {
+									if (result) {
+										thisInstance.saveCustomField(blockId, form);
+									} else {
+										saveButton.removeAttr('disabled');
+									}
+								});
+							} else {
+								thisInstance.saveCustomField(blockId, form);
+							}
 						}
-						//To prevent form submit
 						return false;
 					};
 					form.validationEngine(params);
 				};
-
 				app.showModalWindow(
 					addFieldContainer,
 					data => {
@@ -710,6 +673,103 @@ $.Class(
 			});
 		},
 		/**
+		 * Function to validate fields value
+		 */
+		validateFieldsValue: function(form){
+			let fieldTypeValue = $('[name="fieldType"]', form).val(),
+				fieldNameValue = $('[name="fieldName"]', form).val(),
+				message;
+			if (fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
+				let pickListValueElement = $('#pickListValues', form),
+					pickListValuesArray = pickListValueElement.val(),
+					pickListValuesArraySize = pickListValuesArray.length,
+					i,
+					select2Element,
+					specialChars = /["]/;
+				if (fieldNameValue.toLowerCase() === 'status' || 'picklist' === fieldNameValue.toLowerCase()) {
+					message = app.vtranslate('JS_RESERVED_PICKLIST_NAME');
+					$('[name="fieldName"]', form).validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
+					return false;
+				}
+				for (i = 0; i < pickListValuesArraySize; i++) {
+					if (specialChars.test(pickListValuesArray[i])) {
+						select2Element = app.getSelect2ElementFromSelect(pickListValueElement);
+						message = app.vtranslate('JS_SPECIAL_CHARACTERS') + ' " ' + app.vtranslate('JS_NOT_ALLOWED');
+						select2Element.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
+						return false;
+					}
+				}
+				let lowerCasedpickListValuesArray = $.map(pickListValuesArray, (item, index) => {
+						return item.toLowerCase();
+					}),
+					uniqueLowerCasedpickListValuesArray = $.uniqueSort(lowerCasedpickListValuesArray),
+					uniqueLowerCasedpickListValuesArraySize = uniqueLowerCasedpickListValuesArray.length,
+					arrayDiffSize = pickListValuesArraySize - uniqueLowerCasedpickListValuesArraySize;
+				if (arrayDiffSize > 0) {
+					select2Element = app.getSelect2ElementFromSelect(pickListValueElement);
+					message = app.vtranslate('JS_DUPLICATES_VALUES_FOUND');
+					select2Element.validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
+					return false;
+				}
+			}
+			if (fieldTypeValue == 'Tree' || fieldTypeValue == 'CategoryMultipicklist') {
+				let treeListElement = form.find('select.TreeList');
+				if (treeListElement.val() == '-') {
+					message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
+					form.find('.TreeList').validationEngine(
+						'showPrompt',
+						message,
+						'error',
+						'bottomLeft',
+						true
+					);
+					return false;
+				}
+			}
+			if (fieldTypeValue == 'ServerAccess') {
+				let serverListElement = form.find('select[name="server"]');
+				if (serverListElement.val() == '-') {
+					message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
+					serverListElement.validationEngine(
+						'showPrompt',
+						message,
+						'error',
+						'bottomLeft',
+						true
+					);
+					return false;
+				}
+			}
+			return true;
+		},
+		/**
+		 * Function to save field and show message
+		 */
+		saveCustomField: function(blockId, form){
+			let saveButton = form.find(':submit');
+			this.addCustomField(blockId, form).done(data => {
+				let result = data['result'],
+					params = {};
+				if (data['success']) {
+					app.hideModalWindow();
+					params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
+					Settings_Vtiger_Index_Js.showMessage(params);
+					this.showCustomField(result);
+				} else {
+					message = data['error']['message'];
+					Vtiger_Helper_Js.showPnotify({
+						title:
+							data['error']['code'] != 513
+								? form.find('.fieldNameForm').text()
+								: form.find('.fieldLabelForm').text(),
+						type: 'error',
+						text: data['error']['message']
+					});
+					saveButton.removeAttr('disabled');
+				}
+			});
+		},
+		/**
 		 * Function to create the array of block names list
 		 */
 		setBlocksListArray: function(form) {
@@ -719,7 +779,7 @@ $.Class(
 			blocksListSelect.find('option').each(function(index, ele) {
 				var option = $(ele);
 				var label = option.data('label');
-				thisInstance.blockNamesList.push(label);
+				thisInstance.blockNamesList.push(label.toLowerCase());
 			});
 		},
 		/**
@@ -872,47 +932,36 @@ $.Class(
 		 * Function to register click event for add custom block button
 		 */
 		registerAddCustomBlockEvent: function() {
-			var thisInstance = this;
-			var contents = $('#layoutEditorContainer').find('.contents');
+			const thisInstance = this;
+			let contents = $('#layoutEditorContainer').find('.contents');
 			contents.find('.addCustomBlock').on('click', function(e) {
-				var addBlockContainer = contents.find('.addBlockModal').clone(true, true);
-
-				var callBackFunction = function(data) {
-					data
-						.find('.addBlockModal')
+				let addBlockContainer = contents.find('.addBlockModal').clone(true, true),
+					callBackFunction = function(data) {
+					data.find('.addBlockModal')
 						.removeClass('d-none')
 						.show();
-					//register all select2 Elements
 					App.Fields.Picklist.showSelect2ElementView(data.find('select'));
-
-					var form = data.find('.addCustomBlockForm');
+					let form = data.find('.addCustomBlockForm');
 					thisInstance.setBlocksListArray(form);
-					var fieldLabel = form.find('[name="label"]');
-					var params = Object.create(app.validationEngineOptions);
+					let fieldLabel = form.find('[name="label"]'),
+						params = Object.create(app.validationEngineOptions);
 					params.onValidationComplete = function(form, valid) {
 						if (valid) {
-							var formData = form.serializeFormData();
-							if ($.inArray(formData['label'], thisInstance.blockNamesList) == -1) {
+							let formData = form.serializeFormData();
+							if ($.inArray(formData['label'].toLowerCase(), thisInstance.blockNamesList) == -1) {
 								thisInstance.saveBlockDetails(form).done(function(data) {
-									var params = {};
 									if (data['success']) {
-										var result = data['result'];
+										let result = data['result'];
 										thisInstance.displayNewCustomBlock(result);
 										thisInstance.updateNewSequenceForBlocks(result['sequenceList']);
 										thisInstance.appendNewBlockToBlocksList(result, form);
 										thisInstance.makeFieldsListSortable();
-
-										params['text'] = app.vtranslate('JS_CUSTOM_BLOCK_ADDED');
-									} else {
-										params['text'] = data['error']['message'];
-										params['type'] = 'error';
 									}
-									Settings_Vtiger_Index_Js.showMessage(params);
 								});
 								app.hideModalWindow();
 								return valid;
 							} else {
-								var result = app.vtranslate('JS_BLOCK_NAME_EXISTS');
+								let result = app.vtranslate('JS_BLOCK_NAME_EXISTS');
 								fieldLabel.validationEngine('showPrompt', result, 'error', 'topLeft', true);
 								e.preventDefault();
 								return;
@@ -920,7 +969,6 @@ $.Class(
 						}
 					};
 					form.validationEngine(params);
-
 					form.on('submit', function(e) {
 						e.preventDefault();
 					});
@@ -954,11 +1002,22 @@ $.Class(
 
 			AppConnector.request(params)
 				.done(function(data) {
+					let response = data.result;
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					aDeferred.resolve(data);
+					if (response && response.success) {
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate('JS_CUSTOM_BLOCK_ADDED')
+						});
+						aDeferred.resolve(data);
+					} else {
+						Vtiger_Helper_Js.showPnotify({
+							type: 'error',
+							text: response.message
+						});
+						aDeferred.reject(false);
+					}
 				})
 				.fail(function(error) {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					aDeferred.reject(error);
 				});
 			return aDeferred.promise();
@@ -981,7 +1040,9 @@ $.Class(
 				newBlockCloneCopy.find('.addCustomField').removeClass('d-none');
 			}
 			beforeBlock.after(
-				newBlockCloneCopy.removeClass('d-none newCustomBlockCopy').addClass('editFieldsTable block_' + result['id'])
+				newBlockCloneCopy
+					.removeClass('d-none newCustomBlockCopy')
+					.addClass('editFieldsTable block_' + result['id'])
 			);
 
 			newBlockCloneCopy.find('.blockFieldsList').sortable({ connectWith: '.blockFieldsList' });
@@ -1085,8 +1146,7 @@ $.Class(
 					var inActiveFieldsContainer = contents.find('.inactiveFieldsModal').clone(true, true);
 
 					var callBackFunction = function(data) {
-						data
-							.find('.inactiveFieldsModal')
+						data.find('.inactiveFieldsModal')
 							.removeClass('d-none')
 							.show();
 						thisInstance.reactiveFieldsList = [];
@@ -1255,32 +1315,33 @@ $.Class(
 		 * Function to register the click event for delete custom field
 		 */
 		registerDeleteCustomFieldEvent: function(contents) {
-			var thisInstance = this;
+			const thisInstance = this;
 			if (typeof contents === 'undefined') {
 				contents = $('#layoutEditorContainer').find('.contents');
 			}
 			contents.find('.deleteCustomField').on('click', function(e) {
-				var currentTarget = $(e.currentTarget);
-				var fieldId = currentTarget.data('fieldId');
-				var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
+				let currentTarget = $(e.currentTarget),
+					fieldId = currentTarget.data('fieldId'),
+					message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
 				Vtiger_Helper_Js.showConfirmationBox({ message: message })
 					.done(function(e) {
 						thisInstance
 							.deleteCustomField(fieldId)
 							.done(function(data) {
-								var field = currentTarget.closest('div.editFields');
-								var blockId = field.data('blockId');
-								field
-									.parent()
-									.fadeOut('slow')
-									.remove();
-								var block = $('#block_' + blockId);
-								thisInstance.reArrangeBlockFields(block);
-								var params = {};
-								params['text'] = app.vtranslate('JS_CUSTOM_FIELD_DELETED');
-								Settings_Vtiger_Index_Js.showMessage(params);
+								let response = data.result;
+								if (response && response.success) {
+									let field = currentTarget.closest('div.editFields'),
+										blockId = field.data('blockId');
+									field
+										.parent()
+										.fadeOut('slow')
+										.remove();
+									thisInstance.reArrangeBlockFields($('#block_' + blockId));
+									Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_CUSTOM_FIELD_DELETED')});
+								} else {
+									Settings_Vtiger_Index_Js.showMessage({type: 'error', text: response.message});
+								}
 							})
-							.fail(function(error, err) {});
 					})
 					.fail(function(error, err) {});
 			});
@@ -1504,7 +1565,9 @@ $.Class(
 				var block = fieldRow.closest('.editFieldsTable');
 				var blockId = block.data('blockId');
 				app.showModalWindow({
-					url: 'index.php?parent=Settings&module=LayoutEditor&view=EditField&fieldId=' + fieldRow.data('fieldId'),
+					url:
+						'index.php?parent=Settings&module=LayoutEditor&view=EditField&fieldId=' +
+						fieldRow.data('fieldId'),
 					cb: function(modalContainer) {
 						thisInstance.registerFieldDetailsChange(modalContainer);
 						thisInstance.lockCheckbox(modalContainer);
@@ -1872,22 +1935,20 @@ $.Class(
 							}
 						});
 						var editFields = liElement.find('.editFields');
-						app
-							.saveAjax('delete', null, {
-								sourceModule: selectedModule,
-								fieldName: editFields.data('name')
-							})
-							.done(function(response) {
-								let param = {};
-								if (response.result) {
-									liElement.remove();
-									param = { type: 'success', text: app.vtranslate('JS_SAVE_CHANGES') };
-								} else {
-									param = { type: 'error', text: app.vtranslate('JS_ERROR') };
-								}
-								Settings_Vtiger_Index_Js.showMessage(param);
-								progressIndicatorElement.progressIndicator({ mode: 'hide' });
-							});
+						app.saveAjax('delete', null, {
+							sourceModule: selectedModule,
+							fieldName: editFields.data('name')
+						}).done(function(response) {
+							let param = {};
+							if (response.result) {
+								liElement.remove();
+								param = { type: 'success', text: app.vtranslate('JS_SAVE_CHANGES') };
+							} else {
+								param = { type: 'error', text: app.vtranslate('JS_ERROR') };
+							}
+							Settings_Vtiger_Index_Js.showMessage(param);
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						});
 					})
 					.fail(function(error, err) {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -2253,7 +2314,8 @@ Vtiger_Base_Validator_Js(
 			var specialChars = /[&\<\>\:\'\"\,]/;
 
 			if (specialChars.test(fieldValue)) {
-				var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS') + ' & < > \' " : , ' + app.vtranslate('JS_NOT_ALLOWED');
+				var errorInfo =
+					app.vtranslate('JS_SPECIAL_CHARACTERS') + ' & < > \' " : , ' + app.vtranslate('JS_NOT_ALLOWED');
 				this.setError(errorInfo);
 				return false;
 			}
@@ -2293,7 +2355,9 @@ Vtiger_Base_Validator_Js(
 			let r = true;
 			$.each(fieldValue, (i, val) => {
 				if (specialChars.test(val)) {
-					this.setError(app.vtranslate('JS_SPECIAL_CHARACTERS') + ' < > " , # ' + app.vtranslate('JS_NOT_ALLOWED'));
+					this.setError(
+						app.vtranslate('JS_SPECIAL_CHARACTERS') + ' < > " , # ' + app.vtranslate('JS_NOT_ALLOWED')
+					);
 					r = false;
 				}
 			});

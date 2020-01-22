@@ -18,7 +18,7 @@
 			<button type="button" class="btn btn-sm btn-danger fas fa-trash-alt deleteRow"
 					title="{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}"></button>
 			{if $COUNT_FIELDS2 > 0 && $IS_VISIBLE_COMMENTS}
-				<button type="button" class="btn btn-sm btn-light toggleVisibility ml-1 js-toggle-icon__container" data-status="IS_OPENED_COMMENTS"
+				<button type="button" class="btn btn-sm btn-light toggleVisibility ml-1 js-toggle-icon__container" data-status="{$IS_OPENED_COMMENTS}"
 						href="#" data-js="click">
 					<span class="js-toggle-icon fas fa-angle-{if $IS_OPENED_COMMENTS}up{else}down{/if}" data-active="fa-angle-up" data-inactive="fa-angle-down" data-js="click"></span>
 				</button>

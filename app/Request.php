@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App;
@@ -212,13 +213,14 @@ class Request
 	/**
 	 * Function to get the array values for a given key.
 	 *
-	 * @param string $key
-	 * @param mixed  $type
-	 * @param array  $value
+	 * @param string      $key
+	 * @param mixed       $type
+	 * @param array       $value
+	 * @param string|null $keyType
 	 *
 	 * @return array
 	 */
-	public function getArray($key, $type = false, $value = [])
+	public function getArray($key, $type = false, $value = [], ?string $keyType = null)
 	{
 		if (isset($this->purifiedValuesByArray[$key])) {
 			return $this->purifiedValuesByArray[$key];
@@ -237,7 +239,16 @@ class Request
 				}
 			}
 			if ($value) {
-				$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
+				if (\is_array($value)) {
+					$input = [];
+					foreach ($value as $k => $v) {
+						$k = $keyType ? Purifier::purifyByType($k, $keyType) : Purifier::purify($k);
+						$input[$k] = $type ? Purifier::purifyByType($v, $type) : Purifier::purify($v);
+					}
+					$value = $input;
+				} else {
+					$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
+				}
 			}
 
 			return $this->purifiedValuesByArray[$key] = (array) $value;
@@ -678,8 +689,18 @@ class Request
 	public function validateReadAccess()
 	{
 		// Referer check if present - to over come && Check for user post authentication.
-		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId() && (0 !== stripos($_SERVER['HTTP_REFERER'], \App\Config::main('site_URL'))) && ('Install' !== $this->get('module'))) {
-			throw new \App\Exceptions\Csrf('Illegal request');
+		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId() && 'Install' !== $this->get('module')) {
+			$allowed = array_merge(\Config\Security::$allowedFrameDomains, \Config\Security::$allowedFormDomains);
+			$allowed[] = \App\Config::main('site_URL');
+			$throw = true;
+			foreach ($allowed as $value) {
+				if (0 === stripos($_SERVER['HTTP_REFERER'], $value)) {
+					$throw = false;
+				}
+			}
+			if ($throw) {
+				throw new \App\Exceptions\Csrf('Illegal request');
+			}
 		}
 	}
 
@@ -725,7 +746,7 @@ class Request
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return mied
+	 * @return mixed
 	 */
 	public static function __callStatic($name, $arguments = null)
 	{

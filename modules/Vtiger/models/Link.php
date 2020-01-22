@@ -29,7 +29,7 @@ class Vtiger_Link_Model extends vtlib\Link
 	public function get($propertyName)
 	{
 		if (property_exists($this, $propertyName)) {
-			return $this->$propertyName;
+			return $this->{$propertyName};
 		}
 	}
 
@@ -43,7 +43,7 @@ class Vtiger_Link_Model extends vtlib\Link
 	 */
 	public function set($propertyName, $propertyValue)
 	{
-		$this->$propertyName = $propertyValue;
+		$this->{$propertyName} = $propertyValue;
 
 		return $this;
 	}
@@ -202,13 +202,13 @@ class Vtiger_Link_Model extends vtlib\Link
 	 */
 	public function hasChild()
 	{
-		(count($this->childlinks) > 0) ? true : false;
+		(\count($this->childlinks) > 0) ? true : false;
 	}
 
 	public function isPageLoadLink()
 	{
 		$url = $this->get('linkurl');
-		if (strpos($url, 'index') === 0) {
+		if (0 === strpos($url, 'index')) {
 			return true;
 		}
 		return false;
@@ -235,38 +235,38 @@ class Vtiger_Link_Model extends vtlib\Link
 		$sourceRecord = false;
 		$parametersParts = explode('&', $url);
 		foreach ($parametersParts as $index => $keyValue) {
-			if (strpos($keyValue, '=') === false) {
+			if (false === strpos($keyValue, '=')) {
 				continue;
 			}
 			$urlParts = explode('=', $keyValue);
 			$key = $urlParts[0];
 			$value = $urlParts[1];
 
-			if (strcmp($key, 'module') === 0 || strcmp($key, 'index.php?module') === 0) {
+			if (0 === strcmp($key, 'module') || 0 === strcmp($key, 'index.php?module')) {
 				$module = $value;
 			}
 
-			if (strcmp($key, 'action') === 0 && strpos($value, 'View')) {
+			if (0 === strcmp($key, 'action') && strpos($value, 'View')) {
 				$value = str_replace('View', '', $value);
 				$key = 'view';
 			}
-			if (strcmp($key, 'return_module') === 0) {
+			if (0 === strcmp($key, 'return_module')) {
 				$key = 'sourceModule';
 				//Indicating that it is an relation operation
 				$parametersParts[] = 'relationOperation=true';
 			}
-			if (strcmp($key, 'return_id') === 0) {
+			if (0 === strcmp($key, 'return_id')) {
 				$key = 'sourceRecord';
 			}
 
-			if (strcmp($key, 'sourceRecord') === 0) {
+			if (0 === strcmp($key, 'sourceRecord')) {
 				$sourceRecord = $value;
 			}
 
-			if (strcmp($key, 'sourceModule') === 0) {
+			if (0 === strcmp($key, 'sourceModule')) {
 				$sourceModule = $value;
 			}
-			if (strcmp($key, 'parent') === 0) {
+			if (0 === strcmp($key, 'parent')) {
 				$parent = $value;
 			}
 			$newUrlParts = [];
@@ -287,7 +287,7 @@ class Vtiger_Link_Model extends vtlib\Link
 				foreach ($fieldList as $fieldModel) {
 					if ($fieldModel->isReferenceField()) {
 						$referenceList = $fieldModel->getReferenceList();
-						if (in_array($sourceModuleModel->get('name'), $referenceList)) {
+						if (\in_array($sourceModuleModel->get('name'), $referenceList)) {
 							$parametersParts[] = $fieldModel->get('name') . '=' . $sourceRecord;
 						}
 					}
@@ -317,8 +317,8 @@ class Vtiger_Link_Model extends vtlib\Link
 
 		// To set other properties for Link Model
 		foreach ($valueMap as $property => $value) {
-			if (!isset($linkModel->$property)) {
-				$linkModel->$property = $value;
+			if (!isset($linkModel->{$property})) {
+				$linkModel->{$property} = $value;
 			}
 		}
 		return $linkModel;
@@ -340,16 +340,16 @@ class Vtiger_Link_Model extends vtlib\Link
 			$params = \App\Json::decode($objectProperties['params']);
 			if (!empty($params)) {
 				foreach ($params as $properName => $propertyValue) {
-					$linkModel->$properName = $propertyValue;
+					$linkModel->{$properName} = $propertyValue;
 				}
 			}
 			unset($objectProperties['params']);
 		}
 		foreach ($objectProperties as $properName => $propertyValue) {
-			$linkModel->$properName = $propertyValue;
+			$linkModel->{$properName} = $propertyValue;
 		}
 		// added support for multilayout
-		if (strpos($linkModel->linkurl, '_layoutName_') !== false) {
+		if (false !== strpos($linkModel->linkurl, '_layoutName_')) {
 			$filePath1 = str_replace('_layoutName_', \App\Layout::getActiveLayout(), $linkModel->linkurl);
 			$filePath2 = str_replace('_layoutName_', \App\Layout::getActiveLayout(), $linkModel->linkurl);
 			if (is_file(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . $filePath1)) {
@@ -386,7 +386,7 @@ class Vtiger_Link_Model extends vtlib\Link
 		foreach ($links as $linkType => $linkObjects) {
 			foreach ($linkObjects as $linkObject) {
 				$queryParams = vtlib\Functions::getQueryParams($linkObject->linkurl);
-				if ((empty($type) || in_array($linkType, $type)) && !(isset($queryParams['module']) && !\App\Privilege::isPermitted($queryParams['module']))) {
+				if ((empty($type) || \in_array($linkType, $type)) && !(isset($queryParams['module']) && !\App\Privilege::isPermitted($queryParams['module']))) {
 					$linkModels[$linkType][] = self::getInstanceFromLinkObject($linkObject);
 				}
 			}
@@ -396,6 +396,8 @@ class Vtiger_Link_Model extends vtlib\Link
 
 	/**
 	 * Function to get the relatedModuleName.
+	 *
+	 * @param mixed $defaultModuleName
 	 *
 	 * @return string
 	 */

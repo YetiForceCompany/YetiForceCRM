@@ -19,9 +19,7 @@
 				{include file=\App\Layout::getTemplatePath('NoComments.tpl')}
 			{/if}
 			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
-				<a href="javascript:void(0)"
-						class="js-more-recent-comments btn btn-sm btn-link float-right my-1"
-						data-js="click">
+				<a href="javascript:void(0)" class="js-more-recent-comments btn btn-sm btn-link float-right my-1" data-js="click">
 					{\App\Language::translate('LBL_MORE',$MODULE_NAME)}...
 				</a>
 			{/if}

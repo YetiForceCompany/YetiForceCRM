@@ -10,7 +10,7 @@
     "LBL_CONFREPORT_DESCRIPTION": "Permets de vérifier que les paramètres actuels sont alignés avec ceux recommandés.",
     "LBL_PARAMETER": "Paramètre",
     "LBL_VALUE": "Configuration actuelle",
-    "LBL_RECOMMENDED": "Configuration recommandée",
+    "LBL_RECOMMENDED": "Recommended",
     "LBL_SYSTEM_STABILITY": "Configuration de la stabilité du système",
     "LBL_SYSTEM_SECURITY": "Configuration de la sécurité du système",
     "LBL_HEADERS_SECURITY": "Configuration des en-têtes du système",
@@ -82,7 +82,7 @@
     "LBL_CPU": "Processeur",
     "LBL_RAM": "Mémoire RAM",
     "LBL_DB": "Base de données",
-    "LBL_LABEL_DB_VERSION_TYPE": "The name of the engine",
+    "LBL_LABEL_DB_VERSION_TYPE": "Le nom du moteur",
     "LBL_PER_SECOND": "/s",
     "LBL_LABEL_CRM_VERSION": "Version CRM",
     "LBL_LABEL_CRM_DATE": "Date de sortie de la version",
@@ -106,6 +106,8 @@
     "LBL_LABEL_LAST_CRON_START": "Time Cron was last run",
     "LBL_LABEL_PROTOCOL_VERSION": "HTTP protocol version",
     "LBL_LABEL_HTTP_METHODS": "HTTP methods",
+    "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "Maximum amount of RAM",
+    "LBL_HELP_MAXIMUMMEMORYSIZE": "The maximum amount of RAM calculated on the basis of current configuration parameters. This is the peak amount of RAM that is required for the database engine to work properly. This amount of RAM is only reserved for the database engine. key_buffer_size + query_cache_size + tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + max_connections * (sort_buffer_size + read_buffer_size + read_rnd_buffer_size + join_buffer_size + thread_stack + binlog_cache_size)",
     "LBL_HELP_MBSTRING": "Extension used to manage strings. Used to convert strings to different encodings.",
     "LBL_HELP_FILTER": "Extension utilisée pour filtrer les données de requête entrantes.",
     "LBL_HELP_BCMATH": "Opérations mathématiques plus précises.",
@@ -222,7 +224,11 @@
     "LBL_FUNCTIONAL_VERIFICATION_TITLE": "Functional verification",
     "LBL_IT_WORKS_PROPERLY": "It works properly",
     "LBL_LABEL_FOOTER": "Footer",
-    "LBL_LABEL_PREMIUM_MODULES": "Premium modules"
+    "LBL_LABEL_PREMIUM_MODULES": "Premium modules",
+    "LBL_FILE_OWNER": "Owner",
+    "LBL_FILE_PERMISSIONS": "Permissions",
+    "LBL_LABEL_SCRIPT_USER": "Script calling user",
+    "LBL_ERROR_DURING_VERIFICATION": "Error occurred during verification"
   },
   "js": {
     "JS_SPEED_TEST_START": "Vérification de la vitesse..."

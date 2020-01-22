@@ -523,9 +523,8 @@ class Privilege
 			}
 		}
 		//Checking for the Related Sharing Permission
-		$relatedModuleArray = $sharingPrivileges['relatedModuleShare'][$tabId];
-		if (\is_array($relatedModuleArray)) {
-			foreach ($relatedModuleArray as $parModId) {
+		if (isset($sharingPrivileges['relatedModuleShare'][$tabId]) && \is_array($sharingPrivileges['relatedModuleShare'][$tabId])) {
+			foreach ($sharingPrivileges['relatedModuleShare'][$tabId] as $parModId) {
 				$parRecordOwner = PrivilegeUtil::getParentRecordOwner($tabId, $parModId, $recordId);
 				if (!empty($parRecordOwner)) {
 					$parModName = Module::getModuleName($parModId);
@@ -566,7 +565,6 @@ class Privilege
 			}
 		}
 		\App\Log::trace('Exiting isReadWritePermittedBySharing method ...');
-
 		return false;
 	}
 

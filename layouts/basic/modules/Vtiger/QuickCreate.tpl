@@ -13,6 +13,13 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
+	{if $WIDTHTYPE eq 'narrow'}
+		{assign var=WIDTHTYPE_GROUP value="input-group-sm"}
+	{elseif $WIDTHTYPE eq 'wide'}
+		{assign var=WIDTHTYPE_GROUP value="input-group-lg"}
+	{else}
+		{assign var=WIDTHTYPE_GROUP value=''}
+	{/if}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="tpl-QuickCreate modal quickCreateContainer" tabindex="-3" role="dialog">
 		<div class="modal-dialog modal-lg modal-full" role="document">
@@ -90,7 +97,7 @@
 												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 											</label>
 										</div>
-										<div class="fieldValue col-lg-12 col-xl-9 px-0 px-sm-1">
+										<div class="fieldValue col-lg-12 col-xl-9 px-0 px-sm-1 {$WIDTHTYPE} {$WIDTHTYPE_GROUP}">
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) RECORD=null}
 										</div>
 									</div>

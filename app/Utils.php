@@ -68,6 +68,30 @@ class Utils
 	}
 
 	/**
+	 * Flatten a multi-dimensional array into a single level.
+	 *
+	 * @param array $array
+	 * @param int   $depth
+	 *
+	 * @return array
+	 */
+	public static function flatten($array, $depth = INF)
+	{
+		$result = [];
+		foreach ($array as $item) {
+			if (!\is_array($item)) {
+				$result[] = $item;
+			} else {
+				$values = 1 === $depth ? array_values($item) : static::flatten($item, $depth - 1);
+				foreach ($values as $value) {
+					$result[] = $value;
+				}
+			}
+		}
+		return $result;
+	}
+
+	/**
 	 * Convert string from encoding to encoding.
 	 *
 	 * @param string $value
@@ -96,7 +120,22 @@ class Utils
 	public static function isHtml(string $content): bool
 	{
 		$content = trim($content);
-		return '<' === substr($content, 0, 1) && '>' === substr($content, -1);
+		if ('<' === substr($content, 0, 1) && '>' === substr($content, -1)) {
+			return true;
+		}
+		return $content != strip_tags($content);
+	}
+
+	/**
+	 * Strip tags content.
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 */
+	public static function htmlToText(string $content): string
+	{
+		return trim(preg_replace('/[ \t\n]+/', ' ', strip_tags($content)));
 	}
 
 	/**

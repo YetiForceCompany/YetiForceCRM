@@ -1,22 +1,25 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
-  <div class="q-px-sm" ref="textContainer">
+  <div
+    class="q-px-sm"
+    ref="textContainer"
+  >
     <picker
       v-if="emojiPanel"
-      @select="addEmoji"
-      native
+      :style="{ position: 'absolute', bottom: containerHeight }"
       :title="translate('JS_CHAT_PICK_EMOJI')"
-      emoji="point_up"
       :data="emojiIndex"
       :i18n="emojiTranslations"
-      :style="{ position: 'absolute', bottom: containerHeight }"
+      emoji="point_up"
+      native
+      @select="addEmoji"
     />
     <div class="flex no-wrap justify-between">
       <div class="c-completions flex items-center q-gutter-x-sm js-completions__actions">
         <q-icon
+          class="cursor-pointer js-emoji-trigger"
           :name="emojiPanel ? 'mdi-emoticon-happy' : 'mdi-emoticon-happy-outline'"
           size="18px"
-          class="cursor-pointer js-emoji-trigger"
           @click="emojiPanel = !emojiPanel"
         />
         <span class="c-completions__item js-completions__users fas yfi-hash-user">
@@ -26,21 +29,31 @@
           <q-tooltip>{{ translate('JS_CHAT_TAG_RECORD') }}</q-tooltip>
         </span>
       </div>
-      <ChatButtonEnter dense flat />
+      <ChatButtonEnter
+        dense
+        flat
+      />
     </div>
     <q-separator class="q-mb-xs" />
     <div class="d-flex flex-nowrap">
       <div class="full-width">
         <div
+          ref="input"
           class="u-font-size-13px js-completions full-height u-outline-none"
           contenteditable="true"
           data-completions-buttons="true"
           :placeholder="translate('JS_CHAT_MESSAGE')"
-          ref="input"
           @keydown.enter="onEnter"
         ></div>
       </div>
-      <q-btn :loading="sending" flat round color="primary" icon="mdi-send" @click="send">
+      <q-btn
+        :loading="sending"
+        flat
+        round
+        color="primary"
+        icon="mdi-send"
+        @click="send"
+      >
         <template #loading>
           <q-spinner-facebook />
         </template>
@@ -91,10 +104,22 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['config', 'sendByEnter']),
+    ...mapGetters(['config', 'sendByEnter', 'currentRoomData']),
     containerHeight() {
-      if (this.$refs.textContainer !== undefined) return this.$refs.textContainer.clientHeight + 'px'
+      if (this.$refs.textContainer !== undefined)
+        return this.$refs.textContainer.clientHeight + 'px'
     }
+  },
+  watch: {
+    currentRoomData() {
+      this.focusInput()
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      new App.Fields.Text.Completions(this.$refs.input, { emojiPanel: false })
+      this.registerEmojiPanelClickOutside()
+    })
   },
   methods: {
     ...mapActions(['sendMessage']),
@@ -129,12 +154,17 @@ export default {
         this.send(e)
       }
     },
+    focusInput() {
+      this.$refs.input.focus()
+    },
     registerEmojiPanelClickOutside() {
       document.addEventListener('click', e => {
         try {
           if (
             this.emojiPanel &&
-            !e.target.parentNode.className.split(' ').some(c => /emoji-mart.*/.test(c)) &&
+            !e.target.parentNode.className
+              .split(' ')
+              .some(c => /emoji-mart.*/.test(c)) &&
             !e.target.className.split(' ').some(c => /emoji-mart.*/.test(c)) &&
             !e.target.classList.contains('js-emoji-trigger')
           ) {
@@ -143,12 +173,6 @@ export default {
         } catch (error) {}
       })
     }
-  },
-  mounted() {
-    this.$nextTick(() => {
-      new App.Fields.Text.Completions(this.$refs.input, { emojiPanel: false })
-      this.registerEmojiPanelClickOutside()
-    })
   }
 }
 </script>

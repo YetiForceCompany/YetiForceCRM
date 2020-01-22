@@ -228,10 +228,6 @@ return [
 				return (int) func_get_arg(0);
 			}
 		],
-		'session_regenerate_id' => [
-			'default' => true,
-			'description' => 'Update the current session id with a newly generated one after login'
-		],
 		'davStorageDir' => [
 			'default' => 'storage/Files',
 			'description' => 'Update the current session id with a newly generated one after login',
@@ -239,10 +235,6 @@ return [
 		'systemMode' => [
 			'default' => 'prod',
 			'description' => 'System mode. Available: prod, demo, test'
-		],
-		'forceSSL' => [
-			'default' => false,
-			'description' => 'Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.'
 		],
 		'listMaxEntriesMassEdit' => [
 			'default' => 500,
@@ -260,10 +252,6 @@ return [
 			'description' => 'Enable closing of mondal window by clicking on the background',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
-		],
-		'csrfProtection' => [
-			'default' => true,
-			'description' => 'Enable CSRF protection'
 		],
 		'isActiveSendingMails' => [
 			'default' => true,
@@ -295,10 +283,6 @@ return [
 			'validation' => function () {
 				return isset(\App\Layout::getAllLayouts()[func_get_arg(0)]);
 			}
-		],
-		'forceRedirect' => [
-			'default' => true,
-			'description' => 'Redirect to proper url when wrong url is entered.'
 		],
 		'phoneFieldAdvancedVerification' => [
 			'default' => true,
@@ -717,7 +701,22 @@ return [
 		'recursiveTranslate' => [
 			'default' => false,
 			'description' => 'If there is no translation in the chosen language, then get from the default language.'
-		]
+		],
+		'quickEditLayout' => [
+			'default' => 'blocks',
+			'description' => 'Parameter defining how fields are displayed in quick edit. Available values: standard,blocks,vertical',
+			'validationValues' => ['blocks', 'standard', 'vertical']
+		],
+		'quickCreateLayout' => [
+			'default' => 'standard',
+			'description' => 'Parameter defining how fields are displayed in quick create. Available values: blocks,standard',
+			'validationValues' => ['blocks', 'standard']
+		],
+		'REPORT_RECORD_NUMBERS' => [
+			'default' => 10,
+			'description' => 'Value how much records can be show in report mail',
+			'validation' => '\App\Validator::naturalNumber'
+		],
 	],
 	'relation' => [
 		'COMMENT_MAX_LENGTH' => [
@@ -790,10 +789,7 @@ return [
 		'GLOBAL_SEARCH_DEFAULT_OPERATOR' => [
 			'default' => 'FulltextBegin',
 			'description' => 'Global search - Default search operator. (FulltextBegin,FulltextWord,Contain,Begin,End)',
-			'validation' => function () {
-				$arg = func_get_arg(0);
-				return \in_array($arg, ['FulltextBegin', 'FulltextWord', 'Contain', 'Begin', 'End']);
-			}
+			'validationValues' => ['FulltextBegin', 'FulltextWord', 'Contain', 'Begin', 'End']
 		],
 		'LIST_ENTITY_STATE_COLOR' => [
 			'default' => [
@@ -932,20 +928,6 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
-		'HPKP_KEYS' => [
-			'default' => [],
-			'description' => "HTTP Public-Key-Pins (HPKP) pin-sha256 For HPKP to work properly at least 2 keys are needed.\nhttps://scotthelme.co.uk/hpkp-http-public-key-pinning/, https://sekurak.pl/mechanizm-http-public-key-pinning/.",
-		],
-		'CSP_ACTIVE' => [
-			'default' => true,
-			'description' => 'Content Security Policy',
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool'
-		],
-		'PURIFIER_ALLOWED_DOMAINS' => [
-			'default' => [],
-			'description' => 'List of allowed domains for fields with HTML support',
-		],
 		'MAX_LIFETIME_SESSION' => [
 			'default' => 21600,
 			'description' => 'Lifetime session (in seconds)',
@@ -958,11 +940,86 @@ return [
 				return \in_array($arg, \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE);
 			}
 		],
+		'whitelistIp2fa' => [
+			'default' => [],
+			'description' => "IP address whitelisting.\nAllow access without 2FA."
+		],
 		'CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER' => [
 			'default' => 3600,
 			'description' => 'Cache lifetime for SensioLabs security checker.',
 			'validation' => '\App\Validator::naturalNumber',
-		]
+		],
+		'loginSessionRegenerate' => [
+			'default' => true,
+			'description' => 'Update the current session id with a newly generated one after login and logout'
+		],
+		'forceHttpsRedirection' => [
+			'default' => false,
+			'description' => 'Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.'
+		],
+		'forceUrlRedirection' => [
+			'default' => true,
+			'description' => 'Redirect to proper url when wrong url is entered.'
+		],
+		'hpkpKeysHeader' => [
+			'default' => [],
+			'description' => "HTTP Public-Key-Pins (HPKP) pin-sha256 For HPKP to work properly at least 2 keys are needed.\nhttps://scotthelme.co.uk/hpkp-http-public-key-pinning/, https://sekurak.pl/mechanizm-http-public-key-pinning/.",
+		],
+		'cspHeaderActive' => [
+			'default' => true,
+			'description' => 'HTTP Content Security Policy response header allows web site administrators to control resources the user agent is allowed to load for a given page',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'csrfActive' => [
+			'default' => true,
+			'description' => 'Enable CSRF protection',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'csrfFrameBreaker' => [
+			'default' => true,
+			'description' => 'Enable verified frame protection, used in CSRF',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'csrfFrameBreakerWindow' => [
+			'default' => 'top',
+			'description' => 'Which window should be verified? It is used to check if the system is loaded in the frame, used in CSRF.',
+			'validationValues' => ['top', 'parent']
+		],
+		'allowedFrameDomains' => [
+			'default' => [],
+			'description' => 'Allowed domains for loading frame, used in CSP and validate referer.',
+			'loopValidate' => true,
+			'validation' => '\App\Validator::url',
+		],
+		'allowedImageDomains' => [
+			'default' => [
+				'a.tile.openstreetmap.org',
+				'b.tile.openstreetmap.org',
+				'c.tile.openstreetmap.org'
+			],
+			'description' => 'Allowed domains for loading images, used in CSP.',
+		],
+		'allowedScriptDomains' => [
+			'default' => [],
+			'description' => 'Allowed domains for loading script, used in CSP.',
+			'loopValidate' => true,
+			'validation' => '\App\Validator::url',
+		],
+		'allowedFormDomains' => [
+			'default' => ['https://www.paypal.com'],
+			'description' => 'Allowed domains which can be used as the target of a form submissions from a given context, used in CSP.',
+		],
+		'generallyAllowedDomains' => [
+			'default' => [],
+			'description' => 'Generally allowed domains, used in CSP.',
+		],
+		'purifierAllowedDomains' => [
+			'default' => [],
+			'description' => 'List of allowed domains for fields with HTML support',
+		],
 	],
 	'sounds' => [
 		'IS_ENABLED' => [
@@ -976,7 +1033,7 @@ return [
 			'description' => 'Sets the type of sound of reminders',
 		],
 		'CHAT' => [
-			'default' => 'sound_1.mp3',
+			'default' => 'sound_2.mp3',
 			'description' => 'Sets the type of sound of chat',
 		],
 		'MAILS' => [
@@ -1022,8 +1079,8 @@ return [
 		],
 		'db_hostname' => [
 			'type' => 'function',
-			'default' => 'return self::$db_server . ":" . self::$db_port;',
-			'description' => 'Gets host name'
+			'default' => 'return self::$db_server . \':\' . self::$db_port;',
+			'description' => 'Gets host name.'
 		],
 		'base' => [
 			'type' => 'function',
@@ -1037,7 +1094,7 @@ return [
 	'tablePrefix' => 'yf_',
 	'charset' => 'utf8',
 ];",
-			'description' => 'Basic database configuration'
+			'description' => 'Basic database configuration.'
 		],
 	]
 ];

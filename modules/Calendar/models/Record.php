@@ -53,7 +53,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			if (empty($fieldName)) {
 				$fieldName = self::getNameByReference($refModuleName);
 			}
-			if (empty($fieldName)) {
+			if (empty($fieldName) || !\App\Record::isExists($id)) {
 				continue;
 			}
 			$fieldModel = Vtiger_Module_Model::getInstance($refModuleName ?? \App\Record::getType($id))->getFieldByName('crmactivity');

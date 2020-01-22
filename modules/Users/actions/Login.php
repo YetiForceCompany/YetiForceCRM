@@ -12,6 +12,25 @@
 class Users_Login_Action extends \App\Controller\Action
 {
 	/**
+	 * {@inheritdoc}
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		if ($nonce = \App\Session::get('CSP_TOKEN')) {
+			$this->headers->csp['script-src'] .= " 'nonce-{$nonce}'";
+		}
+		$this->headers->csp['default-src'] = '\'self\'';
+		$this->headers->csp['script-src'] = str_replace([
+			' \'unsafe-inline\'', ' blob:'
+		], '', $this->headers->csp['script-src']);
+		$this->headers->csp['form-action'] = '\'self\'';
+		$this->headers->csp['style-src'] = '\'self\'';
+		$this->headers->csp['base-uri'] = '\'self\'';
+		$this->headers->csp['object-src'] = '\'none\'';
+	}
+
+	/**
 	 * Users record model.
 	 *
 	 * @var Users_Record_Model
@@ -87,8 +106,9 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	private function redirectUser()
 	{
-		if (isset($_SESSION['return_params'])) {
-			header('location: index.php?' . $_SESSION['return_params']);
+		if ($param = ($_SESSION['return_params'] ?? false)) {
+			unset($_SESSION['return_params']);
+			header('location: index.php?' . $param);
 		} elseif (App\Config::performance('SHOW_ADMIN_PANEL') && $this->userModel->isAdmin()) {
 			header('location: index.php?module=Vtiger&parent=Settings&view=Index');
 		} else {
@@ -121,8 +141,8 @@ class Users_Login_Action extends \App\Controller\Action
 			}
 			$this->afterLogin($request);
 			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($userName)); //Track the login History
-			if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId()) && !Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
-				header('location: index.php?module=Users&view=Login');
+			if ($this->isMultiFactorAuthentication() && !Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
+				header('location: index.php');
 			} else {
 				$this->redirectUser();
 			}
@@ -139,10 +159,10 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	public function afterLogin(App\Request $request)
 	{
-		if (App\Config::main('session_regenerate_id')) {
+		if (\Config\Security::$loginSessionRegenerate) {
 			\App\Session::regenerateId(true); // to overcome session id reuse.
 		}
-		if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId())) {
+		if ($this->isMultiFactorAuthentication()) {
 			if (Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
 				\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
 				\App\Session::set('ShowAuthy2faModal', true);
@@ -160,12 +180,23 @@ class Users_Login_Action extends \App\Controller\Action
 		\App\Session::set('user_name', $this->userRecordModel->get('user_name'));
 		\App\Session::set('full_user_name', $this->userModel->getName());
 		\App\Session::set('fingerprint', $request->get('fingerprint'));
+		\App\Session::set('user_agent', \App\Request::_getServer('HTTP_USER_AGENT', ''));
 		if ($request->has('loginLanguage') && App\Config::main('langInLoginView')) {
 			\App\Session::set('language', $request->getByType('loginLanguage'));
 		}
 		if ($request->has('layout')) {
 			\App\Session::set('layout', $request->getByType('layout'));
 		}
+	}
+
+	/**
+	 * Check whether to run multi-factor authentication.
+	 *
+	 * @return bool
+	 */
+	private function isMultiFactorAuthentication(): bool
+	{
+		return Users_Totp_Authmethod::isActive($this->userRecordModel->getId()) && !\in_array(\App\RequestUtil::getRemoteIP(true), \App\Config::security('whitelistIp2fa', []));
 	}
 
 	/**
@@ -205,13 +236,5 @@ class Users_Login_Action extends \App\Controller\Action
 		}
 		Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
 		header('location: index.php?module=Users&view=Login');
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function setCspHeaders()
-	{
-		header("content-security-policy: default-src 'self' 'nonce-" . App\Session::get('CSP_TOKEN') . "'; object-src 'none';base-uri 'self'; frame-ancestors 'self';");
 	}
 }

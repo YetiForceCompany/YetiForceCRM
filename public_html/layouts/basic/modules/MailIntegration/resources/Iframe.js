@@ -138,35 +138,36 @@ const MailIntegration_Iframe = {
 				return { module: record.dataset.module, id: record.dataset.id };
 			})
 		};
-		const fillNameFields = () => {
+		const fillNameFields = first => {
 			const nameData = this.mailItem.from.displayName.split(' ');
 			const firstName = nameData.shift();
 			const lastName = nameData.join(' ');
-			data.firstname = firstName;
-			data.lastname = lastName;
+			return first ? firstName : lastName;
 		};
-		switch (moduleName) {
-			case 'Leads':
-				data.company = this.mailItem.from.displayName;
-				fillNameFields();
-				break;
-			case 'Contacts':
-				fillNameFields();
-				break;
-			case 'Project':
-				data.projectname = this.mailItem.subject;
-				break;
-			case 'HelpDesk':
-				data.ticket_title = this.mailItem.subject;
-				break;
-			case 'Products':
-				data.productname = this.mailItem.subject;
-				break;
-			case 'Services':
-				data.servicename = this.mailItem.subject;
-				break;
-			default:
-				break;
+		let autoCompleteMap = JSON.parse(this.container.find('.js-mailAutoCompleteFields').val());
+		if (autoCompleteMap && autoCompleteMap[moduleName]) {
+			let map = autoCompleteMap[moduleName];
+			for (let name in map) {
+				if (map.hasOwnProperty(name) && map[name]) {
+					switch (map[name]) {
+						case 'fromNameFirstPart':
+							data[name] = fillNameFields(true);
+							break;
+						case 'fromNameSecondPart':
+							data[name] = fillNameFields(false);
+							break;
+						case 'fromName':
+							data[name] = this.mailItem.from.displayName;
+							break;
+						case 'subject':
+							data[name] = this.mailItem.subject;
+							break;
+						case 'email':
+							data[name] = this.mailItem.from.emailAddress;
+							break;
+					}
+				}
+			}
 		}
 		const mailBodyCallback = body => {
 			data.description = body;

@@ -1,16 +1,11 @@
-<!--
-/**
- * Carousel component
- *
- * @description Carousel component for knowledge base view
- * @license YetiForce Public License 3.0
- * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
- */
--->
+
 <template>
   <div>
     <q-carousel
+      ref="carousel"
       v-model="slide"
+      :class="['quasar-reset shadow-1 rounded-borders', !fullscreen ? 'carousel-height' : '']"
+      :fullscreen.sync="fullscreen"
       transition-prev="scale"
       transition-next="scale"
       swipeable
@@ -19,30 +14,32 @@
       navigation
       padding
       arrows
-
-      :class="['quasar-reset shadow-1 rounded-borders', !fullscreen ? 'carousel-height' : '']"
-      :fullscreen.sync="fullscreen"
-      ref="carousel"
       @transition="onTransition"
     >
       <q-carousel-slide
         v-for="(slide, index) in record.content"
-        :name="index"
         :key="index"
         class="column no-wrap flex-center"
+        :name="index"
         :fullscreen.sync="fullscreen"
       >
-        <div class="full-height" v-html="slide"></div>
+        <div
+          class="full-height"
+          v-html="slide"
+        ></div>
       </q-carousel-slide>
       <template #control>
-        <q-carousel-control position="bottom-right" :offset="[18, 18]">
+        <q-carousel-control
+          position="bottom-right"
+          :offset="[18, 18]"
+        >
           <q-btn
+            :icon="fullscreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'"
             push
             round
             dense
             color="white"
             text-color="primary"
-            :icon="fullscreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'"
             @click="fullscreen = !fullscreen"
           />
         </q-carousel-control>

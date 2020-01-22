@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-{function SHOW_HELP_TEXT ITEM=[] KEY=''}
+	{function SHOW_HELP_TEXT ITEM=[] KEY=''}
 		{if empty($ITEM['label'])}{$KEY}{else}{\App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], 'ConfReport')}{/if}
 		{if !$ITEM['status']}
 			{assign var="HELP_TEXT" value='LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY))}
@@ -22,6 +22,15 @@
 					<span class="fas fa-info-circle"></span>
 				</a>
 			{/if}
+		{/if}
+	{/function}
+	{function HIGHLIGHT_ROW ITEM=[]}
+		{if !$ITEM['status'] && (empty($ITEM['mode']) ||  $ITEM['mode'] eq 'showErrors')}
+			class="table-danger font-weight-bold js-wrong-status" data-js="length"
+		{elseif !$ITEM['status'] && isset($ITEM['mode']) &&  $ITEM['mode'] eq 'showWarnings'}
+			class="table-warning font-weight-bold js-wrong-status" data-js="length"
+		{elseif !$ITEM['status'] && isset($ITEM['mode']) &&  $ITEM['mode'] eq 'showInfo'}
+			class=""
 		{/if}
 	{/function}
 	<div class="tpl-install-tpl-StepConfirmConfigurationSettings container px-2 px-sm-3">
@@ -157,7 +166,7 @@
 									</thead>
 									<tbody>
 									{foreach from=$CONF_REPORT_RESULT['database'] key=KEY item=ITEM}
-										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if} data-js="length">
+										<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 											<td>
 												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>

@@ -294,18 +294,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function validate()
 	{
-		$checkUserExist = false;
-		if ($this->isNew()) {
-			$checkUserExist = true;
-		} else {
-			if (false !== $this->getPreviousValue('is_admin')) {
-				\App\Privilege::setAllUpdater();
-			}
-			if (false !== $this->getPreviousValue('roleid')) {
-				$checkUserExist = true;
-			}
-		}
-		if ($checkUserExist) {
+		if ($this->isNew() || false !== $this->getPreviousValue('roleid') || false !== $this->getPreviousValue('user_name')) {
 			$query = (new App\Db\Query())->from('vtiger_users')
 				->leftJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
 				->where(['vtiger_users.user_name' => $this->get('user_name'), 'vtiger_user2role.roleid' => $this->get('roleid')]);
@@ -315,10 +304,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 			if ($query->exists()) {
 				throw new \App\Exceptions\SaveRecord('ERR_USER_EXISTS||' . $this->get('user_name'), 406);
 			}
-			if ($this->getId()) {
-				\App\Db::getInstance()->createCommand()->delete('vtiger_module_dashboard_widgets', ['userid' => $this->getId()])->execute();
-			}
-			\App\Privilege::setAllUpdater();
 		}
 		if (!$this->isNew() && false !== $this->getPreviousValue('user_password') && App\User::getCurrentUserId() === $this->getId()) {
 			$isExists = (new \App\Db\Query())->from('l_#__userpass_history')->where(['user_id' => $this->getId(), 'pass' => \App\Encryption::createHash($this->get('user_password'))])->exists();
@@ -334,6 +319,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public function afterSaveToDb()
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
+		if ($this->isNew() || false !== $this->getPreviousValue('roleid') || false !== $this->getPreviousValue('is_admin')) {
+			\App\Privilege::setAllUpdater();
+			if (!$this->isNew()) {
+				$dbCommand->delete('vtiger_module_dashboard_widgets', ['userid' => $this->getId()])->execute();
+			}
+		}
 		if (false !== $this->getPreviousValue('user_password') && ($this->isNew() || App\User::getCurrentUserId() === $this->getId())) {
 			$dbCommand->insert('l_#__userpass_history', [
 				'pass' => \App\Encryption::createHash($this->get('user_password')),

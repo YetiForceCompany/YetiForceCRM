@@ -103,20 +103,17 @@ abstract class Page extends Base
 		if (\App\Privilege::isPermitted('OSSMail')) {
 			$jsFileNames[] = '~layouts/basic/modules/OSSMail/resources/checkmails.js';
 		}
-		if (\App\Privilege::isPermitted('Chat')) {
-			$jsFileNames[] = '~layouts/basic/modules/Chat/Chat.vue.js';
-		}
-		if (\App\Privilege::isPermitted('KnowledgeBase')) {
-			$jsFileNames[] = '~layouts/resources/views/KnowledgeBase/KnowledgeBase.vue.js';
+		if (!\App\RequestUtil::getBrowserInfo()->ie) {
+			if (\App\User::getCurrentUserRealId() === \App\User::getCurrentUserId() && \App\Privilege::isPermitted('Chat')) {
+				$jsFileNames[] = '~layouts/basic/modules/Chat/Chat.vue.js';
+			}
+			if (\App\Privilege::isPermitted('KnowledgeBase')) {
+				$jsFileNames[] = '~layouts/resources/views/KnowledgeBase/KnowledgeBase.vue.js';
+			}
 		}
 		foreach (\Vtiger_Link_Model::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERSCRIPT']) as $headerScripts) {
 			foreach ($headerScripts as $headerScript) {
-				if ($this->checkFileUriInRelocatedModulesFolder($headerScript->linkurl)) {
-					if (!IS_PUBLIC_DIR) {
-						$headerScript->linkurl = 'public_html/' . $headerScript->linkurl;
-					}
-					$jsFileNames[] = \Vtiger_JsScript_Model::getInstanceFromLinkObject($headerScript);
-				}
+				$jsFileNames[] = $headerScript->linkurl;
 			}
 		}
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
@@ -132,12 +129,7 @@ abstract class Page extends Base
 		$headerCssInstances[] = $cssScriptModel->set('href', \Vtiger_Theme::getThemeStyle());
 		foreach (\Vtiger_Link_Model::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERCSS']) as $cssLinks) {
 			foreach ($cssLinks as $cssLink) {
-				if ($this->checkFileUriInRelocatedModulesFolder($cssLink->linkurl)) {
-					if (!IS_PUBLIC_DIR) {
-						$cssLink->linkurl = 'public_html/' . $cssLink->linkurl;
-					}
-					$headerCssInstances[] = \Vtiger_CssScript_Model::getInstanceFromLinkObject($cssLink);
-				}
+				$headerCssInstances[] = $cssLink->linkurl;
 			}
 		}
 		return $headerCssInstances;
@@ -161,26 +153,6 @@ abstract class Page extends Base
 				\App\Session::delete('ShowUserPasswordChange');
 			}
 		}
-	}
-
-	/**
-	 * Function to determine file existence in relocated module folder (under vtiger6).
-	 *
-	 * @param string $fileUri
-	 *
-	 * @return bool
-	 *
-	 * Utility function to manage the backward compatible file load
-	 * which are registered for 5.x modules (and now provided for 6.x as well)
-	 */
-	protected function checkFileUriInRelocatedModulesFolder(string $fileUri)
-	{
-		if (false !== strpos($fileUri, '?')) {
-			[$filename] = explode('?', $fileUri);
-		} else {
-			$filename = $fileUri;
-		}
-		return file_exists(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . $filename);
 	}
 
 	/**

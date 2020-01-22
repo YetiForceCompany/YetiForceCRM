@@ -25,7 +25,7 @@
 		{assign var="SYMBOL_PLACEMENT" value=$USER_MODEL->currency_symbol_placement}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}
 		{if $FIELD_MODEL->getUIType() eq '71'}
-			<div class="input-group" data-uitype="71">
+			<div class="input-group {$WIDTHTYPE_GROUP}" data-uitype="71">
 				{if $SYMBOL_PLACEMENT neq '1.0$'}
 					{FUN_CURRENCY_SYMBOL CURRENCY_SYMBOL=$USER_MODEL->get('currency_symbol')}
 				{/if}
@@ -39,7 +39,7 @@
 				{/if}
 			</div>
 		{elseif ($FIELD_MODEL->getUIType() eq '72')}
-			<div class="input-group">
+			<div class="input-group {$WIDTHTYPE_GROUP}">
 				{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_VALUE}
 				{if $SYMBOL_PLACEMENT neq '1.0$'}
 				{if !empty($RECORD_ID) && !empty($RECORD->get('currency_id')) }
@@ -66,7 +66,7 @@
 				{/if}
 			</div>
 		{else}
-			<div class="input-group">
+			<div class="input-group {$WIDTHTYPE_GROUP}">
 				<div class="row">
 					<span class="col-md-1 input-group-append">
 						<span class="input-group-text row js-currency" data-js="text">

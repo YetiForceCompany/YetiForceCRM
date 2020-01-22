@@ -729,7 +729,7 @@ class Calendar
 				if (\App\TextParser::getTextLength($value) > 100 || !\App\Validator::email($value)) {
 					throw new \Sabre\DAV\Exception\BadRequest('Invalid email');
 				}
-				if ('CHAIR' === $attendee['ROLE']->getValue()) {
+				if (isset($attendee['ROLE']) && 'CHAIR' === $attendee['ROLE']->getValue()) {
 					$users = $this->findRecordByEmail($value, ['Users']);
 					if (!empty($users)) {
 						continue;

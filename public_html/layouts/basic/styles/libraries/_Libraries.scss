@@ -509,7 +509,7 @@ body:not(.desktop) {
 //-------- pnotify --------//
 @include media-breakpoint-down(md) {
 	.ui-pnotify-container {
-		padding: 0.50rem !important;
+		padding: 0.5rem !important;
 	}
 
 	.ui-pnotify-icon {
@@ -524,4 +524,11 @@ body:not(.desktop) {
 		font-size: calculate-rem(13.5px) !important;
 		margin: 0px !important;
 	}
+}
+
+.mdi:before {
+	font-size: 1.4em;
+	vertical-align: text-bottom;
+	line-height: 0.9;
+	margin: 0 -2px;
 }

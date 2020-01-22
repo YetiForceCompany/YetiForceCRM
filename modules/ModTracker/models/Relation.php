@@ -11,9 +11,11 @@
 
 class ModTracker_Relation_Model extends Vtiger_Record_Model
 {
+	protected $linkedRecordCache = [];
+
 	public function getValue()
 	{
-		return $this->getLinkedRecord()->getName();
+		return \App\Record::getLabel($this->get('targetid'));
 	}
 
 	public function setParent($parent)
@@ -29,23 +31,12 @@ class ModTracker_Relation_Model extends Vtiger_Record_Model
 	/**
 	 * Function return link to record.
 	 *
-	 * @return bool|\Vtiger_Record_Model
+	 * @return string
 	 */
-	public function getLinkedRecord()
+	public function getDetailViewUrl()
 	{
-		$targetId = $this->get('targetid');
-		$targetModule = $this->get('targetmodule');
-		$row = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $targetId])->one();
-		if ($row) {
-			$moduleModel = Vtiger_Module_Model::getInstance($targetModule);
-			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $targetModule);
-			$recordInstance = new $modelClassName();
-			$recordInstance->setData($row)->setModuleFromInstance($moduleModel);
-			$recordInstance->setId($row['crmid']);
-
-			return $recordInstance;
-		}
-		return false;
+		$moduleModel = Vtiger_Module_Model::getInstance($this->get('targetmodule'));
+		return 'index.php?module=' . $this->get('targetmodule') . '&view=' . $moduleModel->getDetailViewName() . '&record=' . $this->get('targetid');
 	}
 
 	/**

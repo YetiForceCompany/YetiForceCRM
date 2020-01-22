@@ -15,32 +15,48 @@
     transition-hide="slide-down"
     content-class="quasar-reset"
   >
-    <drag-resize :coordinates.sync="coordinates" :maximized="maximized">
+    <drag-resize
+      :coordinates.sync="coordinates"
+      :maximized="maximized"
+    >
       <q-card class="KnowledgeBaseModal full-height">
-        <q-bar dark class="bg-yeti text-white dialog-header">
-					<div class="flex items-center no-wrap full-width js-drag">
-						<div class="flex items-center">
-							<div class="flex items-center no-wrap ellipsis q-mr-sm-sm">
-								<span :class="[`userIcon-${moduleName}`, 'q-mr-sm']"></span>
-								{{ translate(`JS_${moduleName.toUpperCase()}`) }}
-							</div>
-						</div>
-						<q-space />
-						<template v-if="$q.platform.is.desktop">
-							<ButtonGrab v-show="!maximized" class="flex text-white" grabClass="js-drag" size="19px" />
-							<q-btn
-								dense
-								flat
-								:icon="maximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
-								@click="maximized = !maximized"
-							>
-								<q-tooltip>{{ maximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
-							</q-btn>
-						</template>
-						<q-btn dense flat icon="mdi-close" v-close-popup>
-							<q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
-						</q-btn>
-					</div>
+        <q-bar
+          dark
+          class="bg-yeti text-white dialog-header"
+        >
+          <div class="flex items-center no-wrap full-width js-drag">
+            <div class="flex items-center">
+              <div class="flex items-center no-wrap ellipsis q-mr-sm-sm">
+                <span :class="[`userIcon-${moduleName}`, 'q-mr-sm']"></span>
+                {{ translate(`JS_${moduleName.toUpperCase()}`) }}
+              </div>
+            </div>
+            <q-space />
+            <template v-if="$q.platform.is.desktop">
+              <ButtonGrab
+                v-show="!maximized"
+                class="flex text-white"
+                grabClass="js-drag"
+                size="19px"
+              />
+              <q-btn
+                dense
+                flat
+                :icon="maximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
+                @click="maximized = !maximized"
+              >
+                <q-tooltip>{{ maximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
+              </q-btn>
+            </template>
+            <q-btn
+              dense
+              flat
+              icon="mdi-close"
+              v-close-popup
+            >
+              <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
+            </q-btn>
+          </div>
         </q-bar>
         <div>
           <knowledge-base :coordinates="coordinates" />
@@ -90,8 +106,8 @@ export default {
   methods: {
     ...mapActions(['fetchCategories', 'initState'])
   },
-  async created() {
-    await this.initState(this.$options.state)
+  created() {
+    this.initState(this.$options.state)
   }
 }
 </script>

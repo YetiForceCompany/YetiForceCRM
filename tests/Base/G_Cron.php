@@ -18,7 +18,7 @@ class G_Cron extends \Tests\Base
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		if (\App\Version::compare(PHP_VERSION, '7.1.x')) {
 			\unlink('app/SystemWarnings/Security/Dependencies.php');

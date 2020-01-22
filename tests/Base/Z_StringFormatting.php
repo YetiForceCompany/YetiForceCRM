@@ -51,7 +51,7 @@ class Z_StringFormatting extends \Tests\Base
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		parent::setUpBeforeClass();
 		$userModel = \App\User::getCurrentUserModel();
@@ -257,7 +257,7 @@ class Z_StringFormatting extends \Tests\Base
 	 * @param bool   $correct           Test should be successfull
 	 * @dataProvider providerNumbers
 	 */
-	public function testNumbers($moduleName, $fieldName, $userFormat, $dbFormat, $decimalSeparator, $groupingSeparator, $groupingPattern, $afterDot, $symbolPlacement, $truncate, $correct = true)
+	public function testNumbers($moduleName, $fieldName, $userFormat, $dbFormat, $decimalSeparator, $groupingSeparator, $groupingPattern, $afterDot, $symbolPlacement, $truncate, $correct = true): void
 	{
 		$userModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
 		$userModel->set('currency_decimal_separator', $decimalSeparator);
@@ -280,7 +280,7 @@ class Z_StringFormatting extends \Tests\Base
 	 *
 	 * @throws \Exception
 	 */
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass(): void
 	{
 		$userModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
 		$userModel->set('currency_decimal_separator', static::$separatorDecimal);

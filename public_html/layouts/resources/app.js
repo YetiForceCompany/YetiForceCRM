@@ -89,7 +89,7 @@ var App = (window.App = {
 			 * @param   {object}  params
 			 */
 			createRecord(moduleName, params = {}) {
-				if ('parentIframe' === CONFIG.modalParams.target) {
+				if ('parentIframe' === CONFIG.modalTarget) {
 					window.parent.App.Components.QuickCreate.createRecord(moduleName, params);
 					return;
 				}
@@ -98,7 +98,8 @@ var App = (window.App = {
 					params.callbackFunction = function() {};
 				}
 				if (
-					(app.getViewName() === 'Detail' || (app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
+					(app.getViewName() === 'Detail' ||
+						(app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
 					app.getParentModuleName() != 'Settings'
 				) {
 					url += '&sourceModule=' + app.getModuleName();
@@ -210,7 +211,9 @@ var App = (window.App = {
 						});
 						if (!recordPreSaveEvent.isDefaultPrevented()) {
 							const moduleInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
-							const saveHandler = !!moduleInstance.quickCreateSave ? moduleInstance.quickCreateSave : this.save;
+							const saveHandler = !!moduleInstance.quickCreateSave
+								? moduleInstance.quickCreateSave
+								: this.save;
 							let progress = $.progressIndicator({
 								message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 								position: 'html',
@@ -338,6 +341,174 @@ var App = (window.App = {
 				);
 				return aDeferred.promise();
 			}
+		},
+		QuickEdit: {
+			/**
+			 * Show modal
+			 *
+			 * @param   {string}  html
+			 * @param   {object}  params
+			 */
+			showModal(params = {}, element) {
+				const self = this;
+				params['view'] = 'QuickEditModal';
+				AppConnector.request(params).done(function(html) {
+					app.showModalWindow(html, container => {
+						let form = container.find('form[name="QuickEdit"]');
+						let moduleName = form.find('[name="module"]').val();
+						let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+						let moduleClassName = moduleName + '_QuickEdit_Js';
+						editViewInstance.registerBasicEvents(form);
+						if (typeof window[moduleClassName] !== 'undefined') {
+							new window[moduleClassName]().registerEvents(container);
+						}
+						form.validationEngine(app.validationEngineOptions);
+						if (typeof params.callbackPostShown !== 'undefined') {
+							params.callbackPostShown(form, params);
+						}
+						self.registerPostLoadEvents(form, params, element);
+					});
+				});
+			},
+			/**
+			 * Register post load events
+			 *
+			 * @param   {object}  form jQuery
+			 * @param   {object}  params
+			 *
+			 * @return  {boolean}
+			 */
+			registerPostLoadEvents(form, params, element) {
+				const submitSuccessCallback = params.callbackFunction || function() {};
+				form.on('submit', e => {
+					const form = $(e.currentTarget);
+					if (form.hasClass('not_validation')) {
+						return true;
+					}
+					const moduleName = form.find('[name="module"]').val();
+					//Form should submit only once for multiple clicks also
+					if (typeof form.data('submit') !== 'undefined') {
+						return false;
+					} else {
+						if (form.data('jqv').InvalidFields.length > 0) {
+							//If validation fails, form should submit again
+							form.removeData('submit');
+							$.progressIndicator({ mode: 'hide' });
+							e.preventDefault();
+							return;
+						} else {
+							//Once the form is submiting add data attribute to that form element
+							form.data('submit', 'true');
+							$.progressIndicator({ mode: 'hide' });
+						}
+
+						const recordPreSaveEvent = $.Event(Vtiger_Edit_Js.recordPreSave);
+						form.trigger(recordPreSaveEvent, {
+							value: 'edit',
+							module: moduleName
+						});
+						if (!recordPreSaveEvent.isDefaultPrevented()) {
+							const moduleInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+							const saveHandler = !!moduleInstance.quickEditSave
+								? moduleInstance.quickEditSave
+								: this.save;
+							let progress = $.progressIndicator({
+								message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+								position: 'html',
+								blockInfo: {
+									enabled: true
+								}
+							});
+							saveHandler(form).done(data => {
+								const modalContainer = form.closest('.modalContainer');
+								const parentModuleName = app.getModuleName();
+								const viewName = app.getViewName();
+								if (modalContainer.length) {
+									app.hideModalWindow(false, modalContainer[0].id);
+								}
+								if (moduleName === parentModuleName && 'List' === viewName) {
+									const listInstance = new Vtiger_List_Js();
+									listInstance.getListViewRecords();
+								}
+								submitSuccessCallback(data);
+								app.event.trigger('QuickEdit.AfterSaveFinal', data, form, element);
+								progress.progressIndicator({ mode: 'hide' });
+								if (data.success) {
+									Vtiger_Helper_Js.showPnotify({
+										text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
+										type: 'success'
+									});
+								}
+								if ('Detail' === viewName && app.getRecordId() === form.find('[name="record"]').val()) {
+									window.location.reload();
+								}
+							});
+						} else {
+							//If validation fails in recordPreSaveEvent, form should submit again
+							form.removeData('submit');
+							$.progressIndicator({ mode: 'hide' });
+						}
+						e.preventDefault();
+					}
+				});
+			},
+			/**
+			 * Save quick create form
+			 *
+			 * @param   {object}  form  jQuery
+			 *
+			 * @return  {Promise}        aDeferred
+			 */
+			save(form) {
+				const aDeferred = $.Deferred();
+				let formData = new FormData(form[0]);
+				AppConnector.request({
+					url: 'index.php',
+					type: 'POST',
+					data: formData,
+					processData: false,
+					contentType: false
+				}).done(
+					data => {
+						aDeferred.resolve(data);
+					},
+					(textStatus, errorThrown) => {
+						aDeferred.reject(textStatus, errorThrown);
+					}
+				);
+				return aDeferred.promise();
+			}
+		},
+		Scrollbar: {
+			defaults: {
+				scrollbars: {
+					autoHide: 'leave'
+				}
+			},
+			page: {
+				instance: {},
+				element: null
+			},
+			initPage() {
+				let scrollbarContainer = $('.mainBody');
+				if (!scrollbarContainer.length) {
+					scrollbarContainer = $('body');
+				}
+				this.page.instance = this.y(scrollbarContainer);
+				this.page.element = $(this.page.instance.getElements().viewport);
+			},
+			xy(element, options = {}) {
+				return element.overlayScrollbars(options).overlayScrollbars();
+			},
+			y(element, options) {
+				const yOptions = {
+					overflowBehavior: {
+						x: 'h'
+					}
+				};
+				const mergedOptions = Object.assign(this.defaults, options, yOptions);
+				return element.overlayScrollbars(mergedOptions).overlayScrollbars();
+			}
 		}
 	}
 });
@@ -455,6 +626,12 @@ var app = (window.app = {
 		} else {
 			return window;
 		}
+	},
+	/**
+	 * Check if current window is window top
+	 */
+	isWindowTop() {
+		return window.top === window.self;
 	},
 	/**
 	 * Function gets current window parent
@@ -722,7 +899,7 @@ var app = (window.app = {
 			offsetTop = offsetTop - popoverHeight - popoverPadding;
 		}
 		if (popoverWidth + offsetLeft + popoverPadding > windowWidth) {
-			offsetLeft = 0;
+			offsetLeft = windowWidth - popoverWidth;
 		}
 		popover.css({
 			transform: `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`
@@ -953,7 +1130,7 @@ var app = (window.app = {
 	 */
 	isCurrentWindowTarget(sourceFunction, args) {
 		let isCurrentWindowTarget = true;
-		if (CONFIG.modalParams.target === 'parentIframe') {
+		if (CONFIG.modalTarget === 'parentIframe') {
 			this.childFrame = true;
 			sourceFunction = sourceFunction.split('.');
 			sourceFunction.unshift('parent');
@@ -1777,6 +1954,32 @@ var app = (window.app = {
 			console.error(errorThrown);
 		}
 	},
+	registerQuickEditModal: function(container) {
+		if (typeof container === 'undefined') {
+			container = $('body');
+		}
+		container.on('click', '.js-quick-edit-modal', function(e) {
+			e.preventDefault();
+			let element = $(this);
+			let data = {
+				module: element.data('module'),
+				record: element.data('record')
+			};
+			if (element.data('values')) {
+				$.extend(data, element.data('values'));
+			}
+			if (element.data('mandatoryFields')) {
+				data.mandatoryFields = element.data('mandatoryFields');
+			}
+			if (element.data('showLayout')) {
+				data.showLayout = element.data('showLayout');
+			}
+			if (element.data('editFields')) {
+				data.editFields = element.data('editFields');
+			}
+			App.Components.QuickEdit.showModal(data, element);
+		});
+	},
 	registerModal: function(container) {
 		if (typeof container === 'undefined') {
 			container = $('body');
@@ -1802,7 +2005,10 @@ var app = (window.app = {
 							if (typeof call !== 'undefined') {
 								if (call.indexOf('.') !== -1) {
 									var callerArray = call.split('.');
-									if (typeof window[callerArray[0]] === 'object' || typeof window[callerArray[0]] === 'function') {
+									if (
+										typeof window[callerArray[0]] === 'object' ||
+										typeof window[callerArray[0]] === 'function'
+									) {
 										window[callerArray[0]][callerArray[1]](container);
 									}
 								} else {
@@ -1829,62 +2035,57 @@ var app = (window.app = {
 			audio.play();
 		}
 	},
-	registerSticky: function() {
-		const elements = $('.stick');
-		elements.each(function() {
-			let currentElement = $(this),
-				position = currentElement.data('position'),
-				offsetTop;
-			if (position === 'top') {
-				offsetTop = currentElement.offset().top - 50;
-				$('.mainBody').on('scroll', function() {
-					if ($(this).scrollTop() > offsetTop)
-						currentElement.css({
-							position: 'fixed',
-							top: '50px',
-							width: currentElement.width()
-						});
-					else if ($(this).scrollTop() <= offsetTop)
-						currentElement.css({
-							position: '',
-							top: '',
-							width: ''
-						});
-				});
-			}
-			if (position === 'bottom') {
-				offsetTop = currentElement.offset().top - $(window).height();
-				$('.mainBody').on('scroll', function() {
-					if ($(this).scrollTop() < offsetTop)
-						currentElement.css({
-							position: 'fixed',
-							bottom: '33px',
-							width: currentElement.width()
-						});
-					else if ($(this).scrollTop() >= offsetTop)
-						currentElement.css({
-							position: '',
-							bottom: '',
-							width: ''
-						});
-				});
-			}
-		});
-	},
-	registerMoreContent() {
-		$(document).on('click', '.js-more', e => {
+	registerIframeAndMoreContent() {
+		let showMoreModal = e => {
+			e.preventDefault();
+			e.stopPropagation();
 			const btn = $(e.currentTarget);
-			const content = btn.closest('.js-more-content');
+			const message = btn.data('iframe')
+				? btn
+						.siblings('iframe')
+						.clone()
+						.show()
+				: btn
+						.closest('.js-more-content')
+						.find('.fullContent')
+						.html();
 			bootbox.dialog({
-				message: content.find('.fullContent').html(),
-				className: 'u-word-break',
-				size: 'xl',
+				message,
+				title: '<span class="mdi mdi-overscan"></span>  ' + app.vtranslate('JS_FULL_TEXT'),
+				className: 'u-word-break modal-fullscreen',
 				buttons: {
 					danger: {
 						label: '<span class="fas fa-times mr-1"></span>' + app.vtranslate('JS_CLOSE'),
 						className: 'btn-danger',
 						callback: function() {}
 					}
+				}
+			});
+		};
+		$('.js-more').on('click', showMoreModal);
+		$(document).on('click', '.js-more', showMoreModal);
+	},
+	registerIframeEvents(content) {
+		content.find('.js-iframe-full-height').each(function() {
+			let iframe = $(this);
+			iframe.on('load', e => {
+				iframe.height(
+					iframe
+						.contents()
+						.find('body')
+						.height() + 50
+				);
+			});
+		});
+		content.find('.js-modal-iframe').each(function() {
+			let iframe = $(this);
+			iframe.on('load', e => {
+				let height = iframe
+					.contents()
+					.find('body')
+					.height();
+				if (height && height < iframe.height()) {
+					iframe.height(height + 50);
 				}
 			});
 		});
@@ -1962,7 +2163,9 @@ var app = (window.app = {
 			} else {
 				pinButton.addClass('u-opacity-muted');
 				baseContainer.removeClass('c-menu--open');
-				self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
+				self.sidebar
+					.on('mouseenter', self.openSidebar.bind(self))
+					.on('mouseleave', self.closeSidebar.bind(self));
 				self.closeSidebar.bind(self);
 			}
 			AppConnector.request({
@@ -2058,8 +2261,8 @@ var app = (window.app = {
 	 * @param string url
 	 */
 	openUrl(url) {
-		if (window.location !== window.top.location) {
-			window.top.location.href = url;
+		if (CONFIG.openUrlTarget === 'parentIframe') {
+			window.parent.location.href = url;
 		} else {
 			window.location.href = url;
 		}
@@ -2094,8 +2297,7 @@ var app = (window.app = {
 	 */
 	convertUrlToObject(url) {
 		let urlObject = {};
-		url
-			.split('index.php?')[1]
+		url.split('index.php?')[1]
 			.split('&')
 			.forEach(el => {
 				if (el.includes('=')) {
@@ -2363,7 +2565,10 @@ var app = (window.app = {
 					if (currentTarget.hasClass('js-popover-tooltip--record')) {
 						app.registerPopoverRecord(currentTarget, {}, container);
 						currentTarget.trigger('mouseenter');
-					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && currentTarget.data('field-type')) {
+					} else if (
+						!currentTarget.hasClass('js-popover-tooltip--record') &&
+						currentTarget.data('field-type')
+					) {
 						app.registerPopoverRecord(currentTarget.children('a'), {}, container); //popoverRecord on children doesn't need triggering
 					} else if (
 						!currentTarget.hasClass('js-popover-tooltip--record') &&
@@ -2381,23 +2586,26 @@ var app = (window.app = {
 			}
 		);
 	},
-	showNotify: function(params, desktop = false) {
+	showNotify: function(params) {
 		if (typeof params.type === 'undefined') {
 			params.type = 'info';
 		}
 		if (typeof params.title === 'undefined') {
 			params.title = app.vtranslate('JS_MESSAGE');
 		}
-		if (desktop) {
-			params = $.extend(params, {
-				modules: {
-					Desktop: {
-						desktop: true
-					}
-				}
-			});
-		}
 		Vtiger_Helper_Js.showPnotify(params);
+	},
+	showDesktopNotification: function(params) {
+		params = $.extend(params, {
+			modules: {
+				Desktop: {
+					desktop: true,
+					fallback: false,
+					icon: params.icon
+				}
+			}
+		});
+		PNotify.notice(params);
 	},
 	/**
 	 * Set Pnotify defaults options
@@ -2448,12 +2656,14 @@ $(document).ready(function() {
 	app.registerPopoverEllipsisIcon();
 	app.registerPopover();
 	app.registerFormatNumber();
-	app.registerSticky();
-	app.registerMoreContent();
+	app.registerIframeAndMoreContent();
 	app.registerModal();
+	app.registerQuickEditModal();
 	app.registerMenu();
 	app.registerTabdrop();
+	app.registerIframeEvents(document);
 	app.registesterScrollbar(document);
+	App.Components.Scrollbar.initPage();
 	String.prototype.toCamelCase = function() {
 		let value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
@@ -2524,7 +2734,8 @@ $(document).ready(function() {
 	// Case-insensitive :icontains expression
 	$.expr[':'].icontains = function(obj, index, meta, stack) {
 		return (
-			(obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !== -1
+			(obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !==
+			-1
 		);
 	};
 	$.fn.removeTextNode = function() {

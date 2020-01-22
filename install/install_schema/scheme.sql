@@ -257,7 +257,7 @@ CREATE TABLE `com_vtiger_workflow_tasktypes` (
   `modules` varchar(500) DEFAULT NULL,
   `sourcemodule` varchar(255) DEFAULT NULL,
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflows` */
 
@@ -638,7 +638,7 @@ CREATE TABLE `l_yf_switch_users` (
   `busername` varchar(50) NOT NULL,
   `dusername` varchar(50) NOT NULL,
   `ip` varchar(100) NOT NULL,
-  `agent` varchar(255) NOT NULL,
+  `agent` varchar(500) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `baseid` (`baseid`),
   KEY `destid` (`destid`)
@@ -672,7 +672,7 @@ CREATE TABLE `o_yf_access_for_admin` (
   `ip` varchar(100) NOT NULL,
   `module` varchar(30) NOT NULL,
   `url` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
+  `agent` varchar(500) NOT NULL,
   `request` text NOT NULL,
   `referer` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -686,7 +686,7 @@ CREATE TABLE `o_yf_access_for_api` (
   `date` datetime NOT NULL,
   `ip` varchar(100) NOT NULL,
   `url` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
+  `agent` varchar(500) NOT NULL,
   `request` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -700,7 +700,7 @@ CREATE TABLE `o_yf_access_for_user` (
   `ip` varchar(100) DEFAULT NULL,
   `module` varchar(30) NOT NULL,
   `url` varchar(300) NOT NULL,
-  `agent` varchar(255) DEFAULT NULL,
+  `agent` varchar(500) DEFAULT NULL,
   `request` text NOT NULL,
   `referer` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -716,7 +716,7 @@ CREATE TABLE `o_yf_access_to_record` (
   `record` int(10) NOT NULL,
   `module` varchar(30) NOT NULL,
   `url` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
+  `agent` varchar(500) NOT NULL,
   `request` text NOT NULL,
   `referer` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -731,7 +731,7 @@ CREATE TABLE `o_yf_csrf` (
   `ip` varchar(100) NOT NULL,
   `referer` varchar(300) NOT NULL,
   `url` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
+  `agent` varchar(500) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1044,7 +1044,7 @@ CREATE TABLE `s_yf_companies` (
   `address` varchar(255) DEFAULT NULL,
   `post_code` varchar(20) DEFAULT NULL,
   `country` varchar(100) DEFAULT NULL,
-  `companysize` mediumint(6) unsigned DEFAULT 0,
+  `companysize` int(10) unsigned DEFAULT 0,
   `website` varchar(255) DEFAULT NULL,
   `logo` longtext DEFAULT NULL,
   `firstname` varchar(255) DEFAULT NULL,
@@ -1416,6 +1416,17 @@ CREATE TABLE `u_yf_chat_messages_private` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_chat_messages_user` */
+
+CREATE TABLE `u_yf_chat_messages_user` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `roomid` int(10) DEFAULT NULL,
+  `userid` smallint(5) unsigned NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `messages` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_chat_private` */
 
 CREATE TABLE `u_yf_chat_private` (
@@ -1426,6 +1437,16 @@ CREATE TABLE `u_yf_chat_private` (
   `archived` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`private_room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_chat_rooms` */
+
+CREATE TABLE `u_yf_chat_rooms` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(50) DEFAULT NULL,
+  `sequence` tinyint(4) DEFAULT NULL,
+  `active` tinyint(1) DEFAULT 1,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_chat_rooms_crm` */
 
@@ -1478,6 +1499,23 @@ CREATE TABLE `u_yf_chat_rooms_private` (
   `userid` int(10) NOT NULL,
   `private_room_id` int(10) unsigned NOT NULL,
   `last_message` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`roomid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_chat_rooms_user` */
+
+CREATE TABLE `u_yf_chat_rooms_user` (
+  `roomid` int(10) unsigned NOT NULL,
+  `userid` int(10) NOT NULL,
+  `last_message` int(10) unsigned DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_chat_user` */
+
+CREATE TABLE `u_yf_chat_user` (
+  `roomid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` int(10) NOT NULL,
+  `reluserid` int(10) NOT NULL,
   PRIMARY KEY (`roomid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4086,7 +4124,7 @@ CREATE TABLE `u_yf_watchdog_schedule` (
 CREATE TABLE `vtiger_account` (
   `accountid` int(10) NOT NULL DEFAULT 0,
   `account_no` varchar(100) NOT NULL,
-  `accountname` varchar(100) NOT NULL,
+  `accountname` varchar(255) NOT NULL,
   `parentid` int(10) DEFAULT 0,
   `account_type` varchar(200) DEFAULT NULL,
   `industry` varchar(200) DEFAULT NULL,
@@ -5499,7 +5537,7 @@ CREATE TABLE `vtiger_end_hour` (
 
 CREATE TABLE `vtiger_entity_stats` (
   `crmid` int(10) NOT NULL,
-  `crmactivity` mediumint(8) DEFAULT NULL,
+  `crmactivity` int(10) DEFAULT NULL,
   PRIMARY KEY (`crmid`),
   CONSTRAINT `fk_1_vtiger_entity_stats` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -5660,7 +5698,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2902 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2904 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -6507,7 +6545,7 @@ CREATE TABLE `vtiger_links` (
   KEY `linklabel` (`linklabel`),
   KEY `linkid` (`linkid`,`tabid`,`linktype`,`linklabel`),
   KEY `linktype` (`linktype`)
-) ENGINE=InnoDB AUTO_INCREMENT=366 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=367 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_locationregister_status` */
 
@@ -6539,9 +6577,12 @@ CREATE TABLE `vtiger_loginhistory` (
   `login_time` timestamp NULL DEFAULT NULL,
   `status` varchar(25) DEFAULT NULL,
   `browser` varchar(25) DEFAULT NULL,
+  `userid` int(10) DEFAULT NULL,
+  `agent` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`login_id`),
   KEY `user_name` (`user_name`),
-  KEY `user_ip` (`user_ip`,`login_time`,`status`)
+  KEY `user_ip` (`user_ip`,`login_time`,`status`),
+  KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_lout_dimensions` */
@@ -7195,9 +7236,9 @@ CREATE TABLE `vtiger_osstimecontrol` (
   `osstimecontrol_no` varchar(255) DEFAULT NULL,
   `osstimecontrol_status` varchar(128) DEFAULT NULL,
   `date_start` date NOT NULL,
-  `time_start` varchar(50) DEFAULT NULL,
+  `time_start` time DEFAULT NULL,
   `due_date` date DEFAULT NULL,
-  `time_end` varchar(50) DEFAULT NULL,
+  `time_end` time DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT 0.00,
   `deleted` int(1) DEFAULT 0,
   `timecontrol_type` varchar(255) DEFAULT NULL,
@@ -7631,7 +7672,7 @@ CREATE TABLE `vtiger_projectmilestone` (
   `projectmilestoneid` int(10) NOT NULL,
   `projectmilestonename` varchar(255) DEFAULT NULL,
   `projectmilestone_no` varchar(100) DEFAULT NULL,
-  `projectmilestonedate` varchar(255) DEFAULT NULL,
+  `projectmilestonedate` date DEFAULT NULL,
   `projectmilestone_status` varchar(255) DEFAULT '',
   `projectid` int(10) DEFAULT NULL,
   `projectmilestonetype` varchar(100) DEFAULT NULL,
@@ -7834,10 +7875,9 @@ CREATE TABLE `vtiger_relatedlists` (
   `creator_detail` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `relation_comment` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `view_type` varchar(100) NOT NULL DEFAULT 'RelatedTab',
+  `field_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`relation_id`),
-  KEY `tabid` (`tabid`),
   KEY `related_tabid` (`related_tabid`),
-  KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
 ) ENGINE=InnoDB AUTO_INCREMENT=623 DEFAULT CHARSET=utf8;
@@ -7870,9 +7910,9 @@ CREATE TABLE `vtiger_reservations` (
   `reservations_no` varchar(255) DEFAULT NULL,
   `reservations_status` varchar(128) DEFAULT NULL,
   `date_start` date NOT NULL,
-  `time_start` varchar(50) DEFAULT NULL,
+  `time_start` time DEFAULT NULL,
   `due_date` date DEFAULT NULL,
-  `time_end` varchar(50) DEFAULT NULL,
+  `time_end` time DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT 0.00,
   `link` int(10) DEFAULT 0,
   `process` int(10) DEFAULT 0,
@@ -8827,9 +8867,9 @@ CREATE TABLE `vtiger_users` (
   `language` varchar(36) DEFAULT NULL,
   `user_password` varchar(200) DEFAULT NULL,
   `internal_mailer` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `reports_to_id` mediumint(10) unsigned DEFAULT NULL,
+  `reports_to_id` int(10) unsigned DEFAULT NULL,
   `modified_user_id` varchar(36) DEFAULT NULL,
-  `currency_id` mediumint(10) NOT NULL DEFAULT 1,
+  `currency_id` int(10) NOT NULL DEFAULT 1,
   `description` text DEFAULT NULL,
   `date_entered` timestamp NULL DEFAULT NULL,
   `date_modified` timestamp NULL DEFAULT NULL,

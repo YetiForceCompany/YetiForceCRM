@@ -298,7 +298,7 @@ class Import_Data_Action extends \App\Controller\Action
 								unset($fieldData[$unsetName]);
 							}
 							$fieldData = $this->transformForImport($fieldData);
-							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName);
+							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName, $row['relation_id'] ?? 0, $row['src_record'] ?? 0);
 							$entityInfo['status'] = self::IMPORT_RECORD_UPDATED;
 							break;
 						case Import_Module_Model::AUTO_MERGE_MERGEFIELDS:
@@ -317,7 +317,7 @@ class Import_Data_Action extends \App\Controller\Action
 								return '' !== $fieldValue;
 							});
 							$fieldData = $this->transformForImport($fieldData);
-							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName);
+							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName, $row['relation_id'] ?? 0, $row['src_record'] ?? 0);
 							$entityInfo['status'] = self::IMPORT_RECORD_MERGED;
 							break;
 						case Import_Module_Model::AUTO_MERGE_EXISTINGISPRIORITY:
@@ -339,7 +339,7 @@ class Import_Data_Action extends \App\Controller\Action
 								return '' !== $fieldValue;
 							});
 							$fieldData = $this->transformForImport($fieldData);
-							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName);
+							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName, $row['relation_id'] ?? 0, $row['src_record'] ?? 0);
 							$entityInfo['status'] = self::IMPORT_RECORD_MERGED;
 							break;
 						default:
@@ -361,7 +361,7 @@ class Import_Data_Action extends \App\Controller\Action
 				if (null === $fieldData) {
 					$entityInfo = null;
 				} else {
-					$entityInfo = $this->createRecordByModel($moduleName, $fieldData);
+					$entityInfo = $this->createRecordByModel($moduleName, $fieldData, $row['relation_id'] ?? 0, $row['src_record'] ?? 0);
 				}
 			}
 			if (null === $entityInfo) {
@@ -589,6 +589,8 @@ class Import_Data_Action extends \App\Controller\Action
 	{
 		$defaultFieldValues = $this->getDefaultFieldValues();
 		$fieldName = $fieldInstance->getFieldName();
+		$fieldValueDetails = [];
+		$referenceModuleName = '';
 		$entityId = false;
 		if ('' === $fieldValue) {
 			return $fieldValue;
@@ -605,14 +607,27 @@ class Import_Data_Action extends \App\Controller\Action
 				$entityId = \App\Record::getCrmIdByLabel($referenceModuleName, App\Purifier::decodeHtml($entityLabel));
 			} else {
 				$referenceModuleName = $defaultFieldValues[$fieldName];
+				if (false !== strpos($referenceModuleName, '::')) {
+					[$referenceModuleName, ] = explode('::', $referenceModuleName);
+				}
 				$referencedModules = $fieldInstance->getReferenceList();
-				if ($referenceModuleName && \in_array($defaultFieldValues[$fieldName], $referencedModules)) {
+				if ($referenceModuleName && \in_array($referenceModuleName, $referencedModules)) {
 					$entityId = \App\Record::getCrmIdByLabel($referenceModuleName, $entityLabel);
 				}
 			}
 		} else {
-			$referencedModules = $fieldInstance->getReferenceList();
 			$entityLabel = $fieldValue;
+			$referencedModules = $fieldInstance->getReferenceList();
+			if (!empty($defaultFieldValues[$fieldName]) && false !== strpos($defaultFieldValues[$fieldName], '::')) {
+				[$refModule, $refFieldName] = explode('::', $defaultFieldValues[$fieldName]);
+				if (\in_array($refModule, $referencedModules)) {
+					$referenceModuleName = $refModule;
+					$queryGenerator = new \App\QueryGenerator($refModule);
+					$queryGenerator->permissions = false;
+					$queryGenerator->setFields(['id'])->addCondition($refFieldName, $fieldValue, 'e');
+					$entityId = $queryGenerator->createQuery()->scalar();
+				}
+			}
 			foreach ($referencedModules as $referenceModule) {
 				$referenceModuleName = $referenceModule;
 				if ('Users' === $referenceModule) {
@@ -989,12 +1004,14 @@ class Import_Data_Action extends \App\Controller\Action
 	/**
 	 * Create rekord.
 	 *
-	 * @param string $moduleName
-	 * @param array  $fieldData
+	 * @param string   $moduleName
+	 * @param array    $fieldData
+	 * @param int|null $relationId
+	 * @param int|null $sourceId
 	 *
 	 * @return array|null
 	 */
-	public function createRecordByModel($moduleName, $fieldData)
+	public function createRecordByModel($moduleName, $fieldData, ?int $relationId = 0, ?int $sourceId = 0)
 	{
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		if (isset($fieldData['inventoryData'])) {
@@ -1010,19 +1027,44 @@ class Import_Data_Action extends \App\Controller\Action
 		$recordModel->save();
 		$ID = $recordModel->getId();
 		if (!empty($ID)) {
+			if ($relationId) {
+				$this->addRelation($relationId, $sourceId, $recordModel);
+			}
 			return ['id' => $ID, 'status' => self::IMPORT_RECORD_CREATED];
 		}
 		return null;
 	}
 
 	/**
+	 * Add relation.
+	 *
+	 * @param int                 $relationId
+	 * @param int|null            $sourceId
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function addRelation(int $relationId, int $sourceId, Vtiger_Record_Model $recordModel)
+	{
+		$relationModel = Vtiger_Relation_Model::getInstanceById($relationId);
+		$sourceRecord = \App\Record::isExists($sourceId) ? Vtiger_Record_Model::getInstanceById($sourceId) : null;
+		if ($relationModel &&
+			$sourceRecord && $sourceRecord->isViewable() &&
+			$relationModel->getRelationModuleName() === $this->module &&
+			$relationModel->getParentModuleModel()->getName() === $sourceRecord->getModuleName()
+		) {
+			$relationModel->addRelation($sourceRecord->getId(), $recordModel->getId());
+		}
+	}
+
+	/**
 	 * Update record.
 	 *
-	 * @param int    $record
-	 * @param array  $fieldData
-	 * @param string $moduleName
+	 * @param int      $record
+	 * @param array    $fieldData
+	 * @param string   $moduleName
+	 * @param int|null $relationId
+	 * @param int|null $sourceId
 	 */
-	public function updateRecordByModel($record, $fieldData, $moduleName = false)
+	public function updateRecordByModel($record, $fieldData, $moduleName = false, ?int $relationId = 0, ?int $sourceId = 0)
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		if (isset($fieldData['inventoryData'])) {
@@ -1036,5 +1078,8 @@ class Import_Data_Action extends \App\Controller\Action
 			$recordModel->set($fieldName, $value);
 		}
 		$recordModel->save();
+		if ($relationId) {
+			$this->addRelation($relationId, $sourceId, $recordModel);
+		}
 	}
 }

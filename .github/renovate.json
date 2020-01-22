@@ -4,12 +4,17 @@
   "assignees": ["mariuszkrzaczkowski", "rskrzypczak", "TomaszQr"],
   "schedule": ["every weekend"],
   "timezone": "Europe/Warsaw",
+  "commitMessagePrefix": "[PROD](renovate)",
   "baseBranches": ["developer"],
   "packageRules": [
     {
       "baseBranchList": ["developer"],
       "assignees": ["mariuszkrzaczkowski"],
       "enabled": true
+    },
+    {
+      "depTypeList": ["devDependencies"],
+      "enabled": false
     }
   ]
 }

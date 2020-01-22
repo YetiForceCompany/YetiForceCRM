@@ -22,7 +22,7 @@ class ConfReport extends \Tests\Base
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		static::$confReportAll = \App\Utils\ConfReport::getAll();
 	}
@@ -67,13 +67,5 @@ class ConfReport extends \Tests\Base
 			static::$confReportAll['stability'] ?? null,
 			'Security configuration (normal mode, show all) report should be not empty'
 		);
-	}
-
-	/**
-	 * Testing system performance.
-	 */
-	public function testSpeed()
-	{
-		$this->assertNotEmpty(\App\Utils\ConfReport::testSpeed());
 	}
 }

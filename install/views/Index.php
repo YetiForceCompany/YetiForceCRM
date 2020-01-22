@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Install_Index_View extends \App\Controller\View\Page
+class Install_Index_View extends \App\Controller\View\Base
 {
 	use \App\Controller\ExposeMethod;
 
@@ -107,6 +107,7 @@ class Install_Index_View extends \App\Controller\View\Page
 		$this->loadJsConfig($request);
 		$this->viewer = new Vtiger_Viewer();
 		$this->viewer->setTemplateDir('install/tpl/');
+		$this->viewer->assign('IS_IE', \App\RequestUtil::getBrowserInfo()->ie);
 		$this->viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$this->viewer->assign('LANG', $request->getByType('lang', 1));
 		$this->viewer->assign('NEXT_STEP', 'step' . ($this->stepNumber + 1));

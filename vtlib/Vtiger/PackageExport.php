@@ -74,6 +74,8 @@ class PackageExport
 
 	/**
 	 * Initialize Export.
+	 *
+	 * @param mixed $module
 	 */
 	public function __initExport($module)
 	{
@@ -119,12 +121,12 @@ class PackageExport
 	/**
 	 * Export Module as a zip file.
 	 *
-	 * @param Module Instance of module
-	 * @param Path Output directory path
-	 * @param string Zipfilename to use
-	 * @param bool True for sending the output as download
+	 * @param \vtlib\Module $moduleInstance Instance of module
+	 * @param string        $todir          Output directory path
+	 * @param string        $zipFileName    Zipfilename to use
+	 * @param bool          $directDownload True for sending the output as download
 	 */
-	public function export(\vtlib\Module $moduleInstance, $todir = '', $zipFileName = '', $directDownload = false)
+	public function export(Module $moduleInstance, $todir = '', $zipFileName = '', $directDownload = false)
 	{
 		$this->zipFileName = $zipFileName;
 		$this->moduleInstance = $moduleInstance;
@@ -234,7 +236,6 @@ class PackageExport
 	public function __copyLanguageFiles(\App\Zip $zip, $module)
 	{
 		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-			// @var $item \SplFileInfo
 			if ($item->isFile() && $item->getFilename() === $module . '.json') {
 				$zip->addFile($item->getPath() . \DIRECTORY_SEPARATOR . $item->getFilename());
 			}
@@ -288,7 +289,7 @@ class PackageExport
 		$this->openNode('module');
 		$this->outputNode(date('Y-m-d H:i:s'), 'exporttime');
 		$this->outputNode($row['name'], 'name');
-		$this->outputNode($row['tablabel'], 'tablabel');
+		$this->outputNode($row['tablabel'], 'label');
 		$this->outputNode($row['premium'], 'premium');
 
 		if (!$this->moduleInstance->isentitytype) {
@@ -402,6 +403,7 @@ class PackageExport
 	 * Export fields related to a module block.
 	 *
 	 * @param ModuleBasic $moduleInstance
+	 * @param int         $blockid
 	 */
 	public function exportFields(ModuleBasic $moduleInstance, $blockid)
 	{

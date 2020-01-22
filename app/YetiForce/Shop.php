@@ -161,6 +161,8 @@ class Shop
 
 	/**
 	 * Get paypal URL.
+	 * https://www.paypal.com/cgi-bin/webscr
+	 * https://www.sandbox.paypal.com/cgi-bin/webscr.
 	 *
 	 * @return string
 	 */

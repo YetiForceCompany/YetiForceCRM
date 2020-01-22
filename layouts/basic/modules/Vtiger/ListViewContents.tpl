@@ -24,8 +24,7 @@
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE_NAME)}
 	<div class="clearfix"></div>
 	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">
-		<input type="hidden" value="{$ORDER_BY}" id="orderBy"/>
-		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder"/>
+		<input type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}" id="orderBy"/>
 		<div class="listViewLoadingImageBlock d-none modal noprint" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
@@ -35,23 +34,34 @@
 			<thead>
 			<tr class="{if isset($CUSTOM_VIEWS) && $CUSTOM_VIEWS|@count gt 0}c-tab--border-active{/if} listViewHeaders">
 				<th class="p-2">
-					<label class="sr-only" for="listViewEntriesMainCheckBox">{\App\Language::translate('LBL_SELECT_ALL')}</label>
-					<input type="checkbox" id="listViewEntriesMainCheckBox" title="{\App\Language::translate('LBL_SELECT_ALL')}"/>
+					<div class="d-flex align-items-center">
+						<label class="sr-only" for="listViewEntriesMainCheckBox">{\App\Language::translate('LBL_SELECT_ALL')}</label>
+						<input type="checkbox" id="listViewEntriesMainCheckBox" title="{\App\Language::translate('LBL_SELECT_ALL')}"/>
+						{if $MODULE_MODEL->isAdvSortEnabled()}
+							<button type="button"
+								class="ml-2 btn btn-info btn-xs js-show-modal"
+								data-url="index.php?view=SortOrderModal&module={$MODULE_NAME}"
+								data-modalid="sortOrderModal-{\App\Layout::getUniqueId()}">
+								<span class="fas fa-sort"></span>
+							</button>
+						{/if}
+						<div class="js-list-reload" data-js="click">
+					</div>
 				</th>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-					{if !empty($LISTVIEW_HEADER->get('source_field_name'))}
-						{assign var=LISTVIEW_HEADER_NAME value="`$LISTVIEW_HEADER->getName()`:`$LISTVIEW_HEADER->getModuleName()`:`$LISTVIEW_HEADER->get('source_field_name')`"}
-					{else}
-						{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
-					{/if}
-					<th class="noWrap p-2 u-table-column__before-block{if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))} u-table-column__vw-{$LISTVIEW_HEADER->get('maxwidthcolumn')}{/if}{if $COLUMN_NAME eq $LISTVIEW_HEADER_NAME} columnSorted{/if}">
-						<a href="javascript:void(0);" class="listViewHeaderValues float-left js-listview_header" data-js="click" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER_NAME}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER_NAME}">
-							{if !empty($LISTVIEW_HEADER->get('source_field_name'))}
-								{\App\Language::translate(Vtiger_Field_Model::getInstance($LISTVIEW_HEADER->get('source_field_name'),$MODULE_MODEL)->getFieldLabel(), $MODULE_NAME)}&nbsp;-&nbsp;
+					{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getFullName()}
+					<th class="noWrap p-2 u-table-column__before-block
+						{if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))} u-table-column__vw-{$LISTVIEW_HEADER->get('maxwidthcolumn')}{/if}
+						{if isset($ORDER_BY[$LISTVIEW_HEADER_NAME])} columnSorted{/if}">
+						<span class="listViewHeaderValues float-left {if $LISTVIEW_HEADER->isListviewSortable()} js-change-order u-cursor-pointer{/if}"
+							data-nextsortorderval="{if isset($ORDER_BY[$LISTVIEW_HEADER_NAME]) && $ORDER_BY[$LISTVIEW_HEADER_NAME] eq \App\Db::ASC}{\App\Db::DESC}{else}{\App\Db::ASC}{/if}"
+							data-columnname="{$LISTVIEW_HEADER_NAME}"
+							data-js="click">
+							{$LISTVIEW_HEADER->getFullLabelTranslation($MODULE_MODEL)}
+							{if isset($ORDER_BY[$LISTVIEW_HEADER_NAME])}
+								&nbsp;&nbsp;<span class="fas {if $ORDER_BY[$LISTVIEW_HEADER_NAME] eq \App\Db::DESC}fa-chevron-down{else}fa-chevron-up{/if}"></span>
 							{/if}
-							{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $LISTVIEW_HEADER->getModuleName())}
-							&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER_NAME}
-							<span class="{$SORT_IMAGE}"></span>{/if}</a>
+						</span>
 						{if $LISTVIEW_HEADER->getFieldDataType() eq 'tree' || $LISTVIEW_HEADER->getFieldDataType() eq 'categoryMultipicklist'}
 							{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
 							<div class="d-flex align-items-center">
@@ -106,7 +116,7 @@
 				{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
 				{assign var="RECORD_COLORS" value=$LISTVIEW_ENTRY->getListViewColor()}
 				<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
-					<td class="{$WIDTHTYPE} noWrap leftRecordActions" {if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
+					<td class="noWrap leftRecordActions listButtons {$WIDTHTYPE}" {if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
 						{include file=\App\Layout::getTemplatePath('ListViewLeftSide.tpl', $MODULE_NAME)}
 					</td>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
@@ -120,7 +130,7 @@
 							{/if}
 						</td>
 					{/foreach}
-					<td class="noWrap rightRecordActions reducePadding">
+					<td class="noWrap rightRecordActions listButtons {$WIDTHTYPE} reducePadding">
 						{include file=\App\Layout::getTemplatePath('ListViewRightSide.tpl', $MODULE_NAME)}
 					</td>
 				</tr>

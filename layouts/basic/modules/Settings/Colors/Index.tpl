@@ -142,31 +142,5 @@
 
 			</div>
 		</div>
-		<div class="modal editColorContainer fade" tabindex="-1">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">{\App\Language::translate('LBL_EDIT_COLOR', $QUALIFIED_MODULE)}</h5>
-						<button type="button" class="close" data-dismiss="modal"
-								title="{\App\Language::translate('LBL_CLOSE')}">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form class="form-horizontal">
-							<div class="form-group form-row">
-								<label class=" col-sm-4 col-form-label u-text-small-bold">{\App\Language::translate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</label>
-								<div class=" col-sm-8 controls">
-									<p class="js-color-picker" data-js="color-picker">
-										<input type="hidden" class="selectedColor" value=""/>
-									</p>
-								</div>
-							</div>
-						</form>
-					</div>
-					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
-				</div>
-			</div>
-		</div>
 	</div>
 {/strip}

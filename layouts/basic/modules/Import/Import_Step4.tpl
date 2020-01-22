@@ -19,7 +19,7 @@
 			<span>{\App\Language::translate('LBL_IMPORT_STEP_4_DESCRIPTION', $MODULE)}</span>
 		</td>
 		<td>
-			<div id="savedMapsContainer" class="textAlignRight float-right">
+			<div id="savedMapsContainer" class="textAlignRight float-right input-group">
 				{include file=\App\Layout::getTemplatePath('Import_Saved_Maps.tpl', 'Import')}
 			</div>
 		</td>
@@ -97,7 +97,7 @@
 									{/foreach}
 								</select>
 							</td>
-							<td class="cellLabel form-row col-12 mx-0  border-top-1 border-bottom-0"
+							<td class="cellLabel border-top-1 border-bottom-0"
 								name="default_value_container">&nbsp;
 							</td>
 						</tr>

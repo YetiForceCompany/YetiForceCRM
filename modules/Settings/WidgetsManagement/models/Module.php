@@ -22,7 +22,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function getWidgetsWithLimit()
 	{
-		return ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'LBL_EXPIRING_SOLD_PRODUCTS', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES', 'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'Multifilter'];
+		return ['History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'LBL_EXPIRING_SOLD_PRODUCTS', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES', 'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'Multifilter', 'LBL_UPDATES'];
 	}
 
 	public static function getWidgetSpecial()
@@ -235,7 +235,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Calendar',
 			'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES', 'LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES', 'DW_SUMMATION_BY_MONTHS', 'LBL_ALL_TIME_CONTROL',
 			'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_ACCOUNTS_BY_INDUSTRY',
-			'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS', 'LBL_UPCOMING_PROJECT_TASKS', 'LBL_COMPLETED_PROJECT_TASKS'
+			'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS', 'LBL_UPCOMING_PROJECT_TASKS', 'LBL_COMPLETED_PROJECT_TASKS', 'LBL_UPDATES'
 		];
 	}
 

@@ -127,26 +127,50 @@ class Layout
 	}
 
 	/**
-	 * Truncating HTML/text  and adding a button showing all the text.
+	 * Truncating plain text and adding a button showing all the text.
 	 *
 	 * @param string $text
 	 * @param int    $length
-	 * @param bool   $isHtml
 	 *
 	 * @return string
 	 */
-	public static function truncate(string $text, int $length, bool $isHtml = true): string
+	public static function truncateText(string $text, int $length): string
 	{
-		if ($isHtml) {
-			$isTruncated = \mb_strlen(strip_tags($text)) > $length;
-		} else {
-			$isTruncated = \mb_strlen($text) > $length;
-		}
-		if (!$isTruncated) {
+		if (\mb_strlen($text) < $length) {
 			return $text;
 		}
-		$teaser = $isHtml ? TextParser::htmlTruncate($text, $length, true) : TextParser::textTruncate($text, $length, true);
+		$teaser = TextParser::textTruncate($text, $length);
 		$btn = \App\Language::translate('LBL_MORE_BTN');
-		return "<div class=\"js-more-content\"><span class=\"teaserContent\">$teaser</span><span class=\"fullContent d-none\">$text</span><span class=\"text-right mb-1\"><button type=\"button\" class=\"btn btn-link btn-sm js-more\">{$btn}</button></span></div>";
+		return "<div class=\"js-more-content\"><span class=\"teaserContent\">$teaser</span><span class=\"fullContent d-none\">$text</span><span class=\"text-right mb-1\"><button type=\"button\" class=\"btn btn-link btn-sm pt-0 js-more\">{$btn}</button></span></div>";
+	}
+
+	/**
+	 * Truncating HTML and adding a button showing all the text.
+	 *
+	 * @param string $html
+	 * @param string $size
+	 * @param int    $length
+	 *
+	 * @return string
+	 */
+	public static function truncateHtml(string $html, ?string $size = 'medium', ?int $length = 200): string
+	{
+		$teaser = $css = $btn = '';
+		$btnTemplate = function (string $popoverText = '', ?string $btnClass = ''): string {
+			$popoverText = \App\Language::translate($popoverText);
+			return "<a href=\"#\" class=\"js-more btnNoFastEdit font-weight-lighter js-popover-tooltip {$btnClass}\" data-iframe=\"true\" data-content=\"{$popoverText}\"><span class=\"mdi mdi-overscan\"></span></a>";
+		};
+		$iframeClass = 'modal-iframe js-modal-iframe';
+		if ('full' === $size) {
+			$iframeClass = 'js-iframe-full-height';
+		} elseif ('mini' === $size) {
+			$btn = $btnTemplate('LBL_SHOW_ORIGINAL_CONTENT');
+			$css = 'display: none;';
+			$teaser = TextParser::textTruncate(trim(strip_tags($html)), $length);
+		} elseif ('medium' === $size) {
+			$btn = $btnTemplate('LBL_FULLSCREEN', 'c-btn-floating-right-bottom btn btn-primary');
+		}
+		$html = Purifier::encodeHtml($html);
+		return "<div class=\"js-iframe-content\" >$teaser <iframe sandbox=\"allow-same-origin\" class=\"w-100 {$iframeClass}\" frameborder=\"0\" style=\"{$css}\" srcdoc=\"$html\"></iframe>{$btn}</div>";
 	}
 }

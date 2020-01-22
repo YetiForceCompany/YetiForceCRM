@@ -32,6 +32,7 @@
 /app_data/shop.php
 /app_data/SystemUpdater.json
 /app_data/LanguagesUpdater.json
+/app_data/ConfReport_AllErrors.php
 
 /cache/addressBook/mails_1.php
 /cache/addressBook/mails_5.php

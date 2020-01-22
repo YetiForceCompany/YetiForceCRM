@@ -23,6 +23,16 @@ class Purifier
 	public const INTEGER = 'Integer';
 
 	/**
+	 * Purify type standard.
+	 */
+	public const STANDARD = 'Standard';
+
+	/**
+	 * Purify type sql.
+	 */
+	public const SQL = 'Sql';
+
+	/**
 	 * Purify type text.
 	 */
 	public const TEXT = 'Text';
@@ -269,8 +279,9 @@ class Purifier
 			$def->addAttribute('a', 'data-id', 'Text');
 			$def->addAttribute('a', 'data-module', 'Text');
 		}
-		$uri = $config->getDefinition('URI');
-		$uri->addFilter(new Extension\HTMLPurifier\Domain(), $config);
+		if ($uriDef = $config->getURIDefinition()) {
+			$uriDef->addFilter(new Extension\HTMLPurifier\Domain(), $config);
+		}
 		return $config;
 	}
 
@@ -284,7 +295,7 @@ class Purifier
 	 */
 	public static function purifySql($input, $skipEmpty = true)
 	{
-		if ((empty($input) && $skipEmpty) || preg_match('/^[_a-zA-Z0-9.,:]+$/', $input)) {
+		if ((empty($input) && $skipEmpty) || Validator::sql($input)) {
 			return $input;
 		}
 		\App\Log::error('purifySql: ' . $input, 'IllegalValue');
@@ -326,6 +337,9 @@ class Purifier
 					break;
 				case 'AlnumExtended':
 					$value = preg_match('/^[\sA-Za-z0-9\,\_\.\=\-]+$/', $input) ? $input : null;
+					break;
+				case 'AlnumType2':
+					$value = preg_match('/^[\sA-Za-z0-9\/\+]+$/', $input) ? $input : null;
 					break;
 				case 'DateInUserFormat': // date in user format
 					if (!$input) {
@@ -420,8 +434,14 @@ class Purifier
 				case 'Path':
 					$value = Fields\File::checkFilePath($input) ? static::encodeHtml(static::purify($input)) : null;
 					break;
+				case 'Url':
+					$value = Validator::url($input) ? $input : null;
+					break;
 				case 'MailId':
-					$value = preg_match('/^[\sA-Za-z0-9\<\>\_\.\=\-\@]+$/', $input) ? $input : null;
+					$value = preg_match('/^[\sA-Za-z0-9\<\>\_\.\=\-\+\@]+$/', $input) ? $input : null;
+					break;
+				case self::SQL:
+					$value = $input && Validator::sql($input) ? $input : null;
 					break;
 				case 'Text':
 				default:

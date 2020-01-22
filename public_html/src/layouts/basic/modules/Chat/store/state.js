@@ -34,8 +34,10 @@ export default {
 			crm: [],
 			global: [],
 			group: [],
-			private: []
-		}
+			private: [],
+			user: []
+		},
+		roomsExpanded: []
 	},
 	data: {
 		amountOfNewMessages: 0,
@@ -43,7 +45,8 @@ export default {
 			private: {},
 			group: {},
 			global: {},
-			crm: {}
+			crm: {},
+			user: {}
 		},
 		currentRoom: {},
 		history: {
@@ -61,6 +64,9 @@ export default {
 		showNumberOfNewMessages: null,
 		showRoleName: null,
 		dynamicAddingRooms: null,
-		detailPreview: { id: null, module: null }
+		draggableButton: null,
+		detailPreview: { id: null, module: null },
+		activeRoomTypes: [],
+		userRoomPin: null
 	}
 }

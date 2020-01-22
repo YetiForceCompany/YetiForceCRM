@@ -42,7 +42,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		static::$backupDir = \App\Utils\Backup::getBackupCatalogPath();
 		static::$testDir = App\Fields\File::getTmpPath() . 'backups' . DIRECTORY_SEPARATOR;
@@ -57,7 +57,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function testSetConfig()
+	public function testSetConfig(): void
 	{
 		$config = new \App\ConfigFile('component', 'Backup');
 		$config->set('BACKUP_PATH', static::$testDir);
@@ -70,7 +70,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function testCreateBackup()
+	public function testCreateBackup(): void
 	{
 		static::$fileName = date('Ymd_His') . '.zip';
 		static::$catalogName = 'backup_catalog_' . date('Ymd_His');
@@ -89,7 +89,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 	/**
 	 * Testing is exist catalog on the list.
 	 */
-	public function testFileAndCatalogExist()
+	public function testFileAndCatalogExist(): void
 	{
 		$this->login();
 		$this->url('index.php?module=Backup&parent=Settings&view=Index');
@@ -113,7 +113,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 	/**
 	 * Test directory.
 	 */
-	public function testDir()
+	public function testDir(): void
 	{
 		$this->assertDirectoryExists(static::$testDir);
 		$this->assertDirectoryIsReadable(static::$testDir);
@@ -123,7 +123,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 	/**
 	 * Configuration restore test.
 	 */
-	public function testRestoreConfig()
+	public function testRestoreConfig(): void
 	{
 		$config = new \App\ConfigFile('component', 'Backup');
 		$config->set('BACKUP_PATH', static::$backupDir);
@@ -135,7 +135,7 @@ class Gui_BackupManager extends \Tests\GuiBase
 	 * @codeCoverageIgnore
 	 * Cleaning after tests.
 	 */
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass(): void
 	{
 		if (\App\Fields\File::isAllowedDirectory(static::$testDir)) {
 			\vtlib\Functions::recurseDelete(static::$testDir, true);

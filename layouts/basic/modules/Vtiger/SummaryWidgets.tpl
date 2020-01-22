@@ -16,6 +16,7 @@
 		<input type="hidden" name="col" value="{$COLUMNS}"/>
 		<input type="hidden" name="relatedModule" value="{$RELATED_MODULE_NAME}"/>
 		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE_NAME}"/>
+		<input type="hidden" id="relationId" value="{$RELATION_ID}"/>
 		{if $RELATED_MODULE_NAME && $RELATED_RECORDS}
 			{include file=\App\Layout::getTemplatePath("SummaryWidgetsContent.tpl", $MODULE) RELATED_RECORDS=$RELATED_RECORDS}
 		{elseif $PAGING_MODEL->get('nrt') == 1}
@@ -23,17 +24,17 @@
 				<p class="textAlignCenter">{\App\Language::translate('LBL_NO_RELATED',$MODULE)} {\App\Language::translate($RELATED_MODULE_NAME, $RELATED_MODULE_NAME)}</p>
 			</div>
 		{/if}
-		{assign var=NUMBER_OF_RECORDS value=count($RELATED_RECORDS)}
-		{if $NUMBER_OF_RECORDS == 0}
+		{if $NO_RESULT_TEXT && $RELATED_ENTIRES_COUNT == 0}
 			<div class="summaryWidgetContainer js-no-comments-msg-container p-md-2 p-1">
 				<p class="textAlignCenter">{\App\Language::translate('LBL_NO_RECORDS_FOUND',$MODULE_NAME)}</p>
 			</div>
 		{/if}
-		{if !$IS_READ_ONLY && $LIMIT neq 0 && $NUMBER_OF_RECORDS >= $LIMIT}
+		{if !$IS_READ_ONLY && $LIMIT neq 0 && $RELATED_ENTIRES_COUNT >= $LIMIT}
 			<div class="d-flex py-1">
 				<div class="ml-auto">
-					<button type="button" class="btn btn-primary btn-sm moreRecentRecords"
-							data-label-key="{$RELATED_MODULE_NAME}">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}</button>
+					<button type="button" class="btn btn-primary btn-sm moreRecentRecords" data-label-key="{$RELATED_MODULE_NAME}" data-relation-id="{$RELATION_ID}">
+						{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
+					</button>
 				</div>
 			</div>
 		{/if}

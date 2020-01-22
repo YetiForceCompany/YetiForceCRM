@@ -322,13 +322,8 @@
 				text-align: left;
 			}
 			&-btn {
+				@include c-btn-floating-right-bottom();
 				position: fixed;
-				bottom: 17px;
-				z-index: 9999999;
-				border-radius: 50%;
-				width: 35px;
-				height: 35px;
-				opacity: 0.8;
 			}
 			&.is-active {
 				bottom: 0;

@@ -429,6 +429,9 @@ class Vtiger_ListView_Model extends \App\Base
 				$fieldName = $fieldInfo['field_name'];
 				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldInfo['module_name']));
 				if (!empty($fieldInfo['source_field_name'])) {
+					if (!$this->getModule()->getFieldByName($fieldInfo['source_field_name'])->isActiveField()) {
+						continue;
+					}
 					$fieldModel->set('source_field_name', $fieldInfo['source_field_name']);
 					$fieldModel->set('isCalculateField', false);
 				} else {
@@ -441,11 +444,12 @@ class Vtiger_ListView_Model extends \App\Base
 				$headerFields[] = $fieldModel;
 			}
 		}
-		foreach ($headerFields as $fieldsModel) {
-			if ($fieldsModel && (!$fieldsModel->isViewable() || !$fieldsModel->getPermissions())) {
+		foreach ($headerFields as $fieldModel) {
+			if ($fieldModel && (!$fieldModel->isViewable() || !$fieldModel->getPermissions())) {
 				continue;
 			}
-			$headerFieldModels[] = $fieldsModel;
+			$name = $fieldModel->get('source_field_name') ? "{$fieldModel->getName()}:{$fieldModel->getModuleName()}:{$fieldModel->get('source_field_name')}" : $fieldModel->getName();
+			$headerFieldModels[$name] = $fieldModel;
 		}
 		return $headerFieldModels;
 	}
@@ -455,18 +459,22 @@ class Vtiger_ListView_Model extends \App\Base
 	 */
 	public function loadListViewOrderBy()
 	{
-		$orderBy = $this->getForSql('orderby');
-		if (!empty($orderBy)) {
-			[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $orderBy), 3, false);
-			if ($sourceFieldName) {
-				return $this->getQueryGenerator()->setRelatedOrder([
-					'sourceField' => $sourceFieldName,
-					'relatedModule' => $moduleName,
-					'relatedField' => $fieldName,
-					'relatedSortOrder' => $this->getForSql('sortorder')
-				]);
+		$orderBy = $this->get('orderby');
+		if (!empty($orderBy) && \is_array($orderBy)) {
+			$fields = $this->getModule()->getFields();
+			foreach ($orderBy as $fieldName => $sortFlag) {
+				[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $fieldName), 3, false);
+				if ($sourceFieldName && isset($fields[$sourceFieldName])) {
+					$this->getQueryGenerator()->setRelatedOrder([
+						'sourceField' => $sourceFieldName,
+						'relatedModule' => $moduleName,
+						'relatedField' => $fieldName,
+						'relatedSortOrder' => $sortFlag
+					]);
+				} elseif (isset($fields[$fieldName])) {
+					$this->getQueryGenerator()->setOrder($fieldName, $sortFlag);
+				}
 			}
-			return $this->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
 		}
 	}
 

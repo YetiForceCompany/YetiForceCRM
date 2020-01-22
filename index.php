@@ -13,12 +13,17 @@
 require __DIR__ . '/include/main/WebUI.php';
 require __DIR__ . '/include/RequirementsValidation.php';
 
-if (!\App\Config::main('application_unique_key', false)) {
-	header('location: install/Install.php');
+if ('OPTIONS' === $_SERVER['REQUEST_METHOD']) {
+	\App\Headers::getInstance()->send();
+	return;
 }
 
-\App\Process::$startTime = microtime(true);
-\App\Process::$requestMode = 'WebUI';
+if (!\App\Config::main('application_unique_key', false)) {
+	header('location: install/Install.php');
+} else {
+	\App\Process::$startTime = microtime(true);
+	\App\Process::$requestMode = 'WebUI';
 
-$webUI = new Vtiger_WebUI();
-$webUI->process(\App\Request::init());
+	$webUI = new Vtiger_WebUI();
+	$webUI->process(\App\Request::init());
+}
