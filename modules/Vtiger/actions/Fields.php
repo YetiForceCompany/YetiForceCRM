@@ -28,12 +28,14 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		if('verifyPhoneNumber' !== $request->getMode()){
+			$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED1', 406);
+			}
+			if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED2', 406);
+			}
 		}
 		if ('findAddress' !== $request->getMode() && 'getReference' !== $request->getMode()) {
 			$this->fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
