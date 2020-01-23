@@ -448,12 +448,13 @@ class Owner
 	/**
 	 * Get users and group for module list.
 	 *
-	 * @param bool $view
-	 * @param bool $conditions
+	 * @param bool       $view
+	 * @param bool|array $conditions
+	 * @param string     $fieldName
 	 *
 	 * @return array
 	 */
-	public function getUsersAndGroupForModuleList($view = false, $conditions = false)
+	public function getUsersAndGroupForModuleList($view = false, $conditions = false, $fieldName = 'assigned_user_id')
 	{
 		$queryGenerator = new \App\QueryGenerator($this->moduleName, $this->currentUser->getId());
 		if ($view) {
@@ -467,9 +468,8 @@ class Owner
 				}
 			}
 		}
-		$queryGenerator->setFields(['assigned_user_id']);
-		$ids = $queryGenerator->createQuery()->distinct()->createCommand()->queryColumn();
 		$users = $groups = [];
+		$ids = $queryGenerator->setFields([$fieldName])->createQuery()->distinct()->column();
 		$adminInList = \App\Config::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		foreach ($ids as $id) {
 			$userModel = \App\User::getUserModel($id);
@@ -491,6 +491,7 @@ class Owner
 				}
 			}
 		}
+
 		return ['users' => $users, 'group' => $groups];
 	}
 
