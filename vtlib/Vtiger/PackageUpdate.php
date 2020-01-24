@@ -245,6 +245,15 @@ class PackageUpdate extends PackageImport
 				$blockInstance->delete();
 			}
 		}
+		// Deleting removed fields
+		if ($this->listFields) {
+			$listFieldBeforeUpdate = Field::getAllForModule($moduleInstance);
+			foreach ($listFieldBeforeUpdate as $fieldInstance) {
+				if (!(\in_array($fieldInstance->name, $this->listFields))) {
+					$fieldInstance->delete();
+				}
+			}
+		}
 	}
 
 	/**
@@ -298,13 +307,6 @@ class PackageUpdate extends PackageImport
 				$this->updateField($blocknode, $blockInstance, $moduleInstance, $fieldnode, $fieldInstance);
 			}
 			$this->__AddModuleFieldToCache($moduleInstance, $fieldInstance->name, $fieldInstance);
-		}
-		// Deleting removed fields
-		$listFieldBeforeUpdate = Field::getAllForModule($moduleInstance);
-		foreach ($listFieldBeforeUpdate as $fieldInstance) {
-			if (!(\in_array($fieldInstance->name, $this->listFields))) {
-				$fieldInstance->delete();
-			}
 		}
 	}
 
