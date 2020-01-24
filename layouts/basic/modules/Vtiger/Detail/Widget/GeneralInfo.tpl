@@ -19,15 +19,15 @@
 			<div class="c-detail-widget__header__title">
 				<h5 class="mb-0" title="{$TRANSLATED_LABEL}">{$TRANSLATED_LABEL}</h5>
 			</div>
-			<div class="c-detail-widget__actions q-fab z-fab row inline justify-center js-fab__container ml-auto quasar-reset">
-				<button type="button" tabindex="0" class="js-fab__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable u-font-size-10px q-ml-auto">
-					<div tabindex="-1" class="q-focus-helper"></div>
-					<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
-						<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
-					</div>
-				</button>
-				<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions">
-					{if !$IS_READ_ONLY}
+			{if !$IS_READ_ONLY}
+				<div class="c-detail-widget__actions q-fab z-fab row inline justify-center js-fab__container ml-auto quasar-reset">
+					<button type="button" tabindex="0" class="js-fab__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable u-font-size-10px q-ml-auto">
+						<div tabindex="-1" class="q-focus-helper"></div>
+						<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
+							<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
+						</div>
+					</button>
+					<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions">
 						{assign var="CURRENT_VIEW" value="full"}
 						{assign var="CURRENT_MODE_LABEL" value="{\App\Language::translate('LBL_COMPLETE_DETAILS',{$MODULE_NAME})}"}
 						<button type="button" class="btn btn-sm btn-light changeDetailViewMode ml-auto">
@@ -35,12 +35,12 @@
 						</button>
 						{assign var="FULL_MODE_URL" value={$RECORD->getDetailViewUrl()|cat:'&mode=showDetailViewByMode&requestMode=full'}}
 						<input type="hidden" name="viewMode" value="{$CURRENT_VIEW}" data-nextviewname="full" data-currentviewlabel="{$CURRENT_MODE_LABEL}" data-full-url="{$FULL_MODE_URL}" />
-					{/if}
+					</div>
 				</div>
-			</div>
+			{/if}
 		</div>
 	</div>
-	<div class="c-detail-widget__content js-detail-widget-collapse js-detail-widget-content collapse multi-collapse pt-0" id="{$TRANSLATED_LABEL}-collapse" data-storage-key="GeneralInfo" aria-labelledby="{$TRANSLATED_LABEL}"
+	<div class="c-detail-widget__content js-detail-widget-collapse js-detail-widget-content collapse multi-collapse pt-0{if $IS_READ_ONLY} show{/if}" id="{$TRANSLATED_LABEL}-collapse" data-storage-key="GeneralInfo" aria-labelledby="{$TRANSLATED_LABEL}"
 		data-js="container|value">
 		<table class="c-detail-widget__table u-table-fixed">
 			<tbody>

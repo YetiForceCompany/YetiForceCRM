@@ -32,7 +32,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 }
 
 //standard calendar toggle button
-.container-fluid:not(.o-calendar-calendarextended-container) {
+.container-fluid:not([class*="-calendarextended-container"]) {
 	.basePanel {
 		.toggleSiteBarRightButton {
 			background: $light;

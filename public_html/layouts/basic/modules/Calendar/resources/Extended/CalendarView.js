@@ -1015,6 +1015,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				app.showNewScrollbar(formContainer, {
 					suppressScrollX: true
 				});
+				thisInstance.registerFilterForm(formContainer);
 			}
 		});
 		AppConnector.request(
@@ -1029,6 +1030,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				app.showNewScrollbar(formContainer, {
 					suppressScrollX: true
 				});
+				thisInstance.registerFilterForm(formContainer);
 			}
 		});
 	}
@@ -1059,14 +1061,10 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 
 	/**
 	 * Register filter for users and groups
+	 * @param {jQuery} container
 	 */
-	registerFilterForm() {
-		const self = this;
-		this.getSidebarView()
-			.find('a[data-toggle="tab"]')
-			.one('shown.bs.tab', function(e) {
-				$('.js-filter__search').on('keyup', self.findElementOnList.bind(self));
-			});
+	registerFilterForm(container) {
+		container.find('.js-filter__search').on('keyup', this.findElementOnList.bind(self));
 	}
 
 	/**
@@ -1101,7 +1099,6 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 		super.registerEvents();
 		this.registerAddForm();
 		this.registerSiteBarEvents();
-		this.registerFilterForm();
 		this.registerPopoverButtonsClickEvent();
 		ElementQueries.listen();
 	}
