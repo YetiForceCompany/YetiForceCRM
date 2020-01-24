@@ -31,10 +31,10 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		if('verifyPhoneNumber' !== $request->getMode()){
 			$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED1', 406);
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 			if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED2', 406);
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		}
 		if ('findAddress' !== $request->getMode() && 'getReference' !== $request->getMode()) {
