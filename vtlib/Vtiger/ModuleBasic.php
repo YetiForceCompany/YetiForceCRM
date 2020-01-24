@@ -48,6 +48,8 @@ class ModuleBasic
 
 	/**
 	 * Initialize this instance.
+	 *
+	 * @param mixed $valuemap
 	 */
 	public function initialize($valuemap)
 	{
@@ -63,7 +65,7 @@ class ModuleBasic
 		$this->type = (int) $valuemap['type'];
 		$this->premium = (int) $valuemap['premium'];
 		$this->isentitytype = (int) $valuemap['isentitytype'];
-		if ($this->isentitytype || $this->name === 'Users') {
+		if ($this->isentitytype || 'Users' === $this->name) {
 			$entitydata = \App\Module::getEntityInfo($this->name);
 			if ($entitydata) {
 				$this->basetable = $entitydata['tablename'];
@@ -224,13 +226,12 @@ class ModuleBasic
 
 	/**
 	 * Initialize table required for the module.
-	 *
-	 * @param string Base table name (default modulename in lowercase)
-	 * @param string Base table column (default modulenameid in lowercase)
-	 *
 	 * Creates basetable, customtable, grouptable <br />
 	 * customtable name is basetable + 'cf'<br />
-	 * grouptable name is basetable + 'grouprel'<br />
+	 * grouptable name is basetable + 'grouprel'<br />.
+	 *
+	 * @param string $basetable   Base table name (default modulename in lowercase)
+	 * @param string $basetableid Base table column (default modulenameid in lowercase)
 	 */
 	public function initTables($basetable = false, $basetableid = false)
 	{
@@ -297,7 +298,7 @@ class ModuleBasic
 				])->execute();
 				\App\Log::trace('Setting entity identifier ... DONE', __METHOD__);
 			} else {
-				$db->createCommand()->update('vtiger_entityname', ['fieldname' => $fieldInstance->name, 'entityidfield' => $this->entityidfield, 'entityidcolumn' => $this->name], ['tabid' => $this->id, 'tablename' => $fieldInstance->table])->execute();
+				$db->createCommand()->update('vtiger_entityname', ['fieldname' => $fieldInstance->name, 'entityidfield' => $this->entityidfield, 'entityidcolumn' => $this->entityidcolumn], ['tabid' => $this->id, 'tablename' => $fieldInstance->table])->execute();
 				\App\Log::trace('Updating entity identifier ... DONE', __METHOD__);
 			}
 		}
@@ -315,7 +316,7 @@ class ModuleBasic
 	/**
 	 * Configure default sharing access for the module.
 	 *
-	 * @param string Permission text should be one of ['Public_ReadWriteDelete', 'Public_ReadOnly', 'Public_ReadWrite', 'Private']
+	 * @param string $permission_text Permission text should be one of ['Public_ReadWriteDelete', 'Public_ReadOnly', 'Public_ReadWrite', 'Private']
 	 */
 	public function setDefaultSharing($permission_text = 'Public_ReadWriteDelete')
 	{
@@ -341,11 +342,11 @@ class ModuleBasic
 	/**
 	 * Enable tools for this module.
 	 *
-	 * @param mixed String or Array with value ['Import', 'Export']
+	 * @param string|array $tools String or Array with value ['Import', 'Export']
 	 */
 	public function enableTools($tools)
 	{
-		if (is_string($tools)) {
+		if (\is_string($tools)) {
 			$tools = [$tools];
 		}
 
@@ -357,11 +358,11 @@ class ModuleBasic
 	/**
 	 * Disable tools for this module.
 	 *
-	 * @param mixed String or Array with value ['Import', 'Export']
+	 * @param string|array $tools - String or Array with value ['Import', 'Export']
 	 */
 	public function disableTools($tools)
 	{
-		if (is_string($tools)) {
+		if (\is_string($tools)) {
 			$tools = [0 => $tools];
 		}
 		foreach ($tools as $tool) {
@@ -410,7 +411,7 @@ class ModuleBasic
 	/**
 	 * Get all the fields of the module or block.
 	 *
-	 * @param vtlib\Block Instance of block to use to get fields, false to get all the block fields
+	 * @param vtlib\Block $blockInstance - Instance of block to use to get fields, false to get all the block fields
 	 */
 	public function getFields($blockInstance = false)
 	{

@@ -291,7 +291,7 @@ class PackageUpdate extends PackageImport
 
 		foreach ($blocknode->fields->field as $fieldnode) {
 			$this->listFields[] = (string) ($fieldnode->fieldname);
-			$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, $moduleInstance->id);
+			$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, $moduleInstance);
 			if (!$fieldInstance) {
 				$fieldInstance = $this->importField($blocknode, $blockInstance, $moduleInstance, $fieldnode);
 			} else {
