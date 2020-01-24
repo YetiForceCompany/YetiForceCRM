@@ -109,7 +109,7 @@ class PackageUpdate extends PackageImport
 				}
 			} else {
 				if (!$moduleInstance || $moduleInstance->name != $module) {
-					\App\Log::trace('Module name mismatch!', __METHOD__);
+					\App\Log::error('Module name mismatch!', __METHOD__);
 
 					return false;
 				}
@@ -228,8 +228,8 @@ class PackageUpdate extends PackageImport
 		}
 
 		foreach ($modulenode->blocks->block as $blocknode) {
-			$this->listBlocks[] = (string) ($blocknode->label);
-			$blockInstance = Block::getInstance((string) $blocknode->label, $moduleInstance->id);
+			$this->listBlocks[] = (string) ($blocknode->blocklabel);
+			$blockInstance = Block::getInstance((string) $blocknode->blocklabel, $moduleInstance->id);
 			if (!$blockInstance) {
 				$blockInstance = $this->importBlock($modulenode, $moduleInstance, $blocknode);
 			} else {
@@ -257,7 +257,7 @@ class PackageUpdate extends PackageImport
 	 */
 	public function updateBlock($modulenode, $moduleInstance, $blocknode, $blockInstance)
 	{
-		$blockInstance->label = (string) ($blocknode->label);
+		$blockInstance->label = (string) ($blocknode->blocklabel);
 		if (isset($blocknode->sequence, $blocknode->display_status)) {
 			$blockInstance->sequence = (string) ($blocknode->sequence);
 			$blockInstance->showtitle = (string) ($blocknode->show_title);
