@@ -110,12 +110,12 @@ class BaseAction
 	public function getLanguage(): string
 	{
 		$language = '';
-		if (!empty($this->controller->headers['accept-language'])) {
-			$language = str_replace('_', '-', \Locale::acceptFromHttp($this->controller->headers['accept-language']));
-		} elseif ($this->session && !$this->session->isEmpty('sessionLanguage')) {
+		if ($this->session && !$this->session->isEmpty('sessionLanguage')) {
 			$language = $this->session->get('sessionLanguage');
 		} elseif ($this->session && !$this->session->isEmpty('language')) {
 			$language = $this->session->get('language');
+		} elseif (!empty($this->controller->headers['accept-language'])) {
+			$language = str_replace('_', '-', \Locale::acceptFromHttp($this->controller->headers['accept-language']));
 		}
 		return $language;
 	}
