@@ -203,27 +203,139 @@ class Benchmarks
 		];
 	}
 
+	/**
+	 * RAM benchmark.
+	 *
+	 * @return array
+	 */
+	private static function db(): array
+	{
+		$benchmarkCountGroup = 20;
+		$insertCountGroup = 5;
+		$updateCountGroup = 5;
+		$selectCountGroup = 10;
+		$deleteCountGroup = 5;
+		$maxTime = 0.2;
+		$deleteOperations = $selectOperations = $updateOperations = $insertOperations = $benchmarkOperations = 0;
+		$string = str_repeat('zxcvb', 20);
+		$return = [];
+		$db = \App\Db::getInstance();
+		$schema = $db->getSchema();
+		$dbCommand = $db->createCommand();
+		$db->createCommand('set profiling=1;')->execute();
+		if (!$db->getTableSchema('benchmark_temp_table')) {
+			$db->createTable('benchmark_temp_table', [
+				'id' => \yii\db\Schema::TYPE_UPK,
+				'date' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TIMESTAMP)->null(),
+				'string' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_STRING, 200),
+				'crmid' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_INTEGER, 10),
+			]);
+			$return['createTable'] = [
+				'profile' => $db->createCommand('SHOW PROFILE')->queryAll(),
+			];
+		}
+		$timeStart = microtime(true);
+		while ((microtime(true) - $timeStart) < $maxTime) {
+			for ($i = 0; $i < $benchmarkCountGroup; ++$i) {
+				$db->createCommand('SELECT BENCHMARK(1000,1+1);')->execute();
+				$benchmarkOperations += 1000;
+			}
+		}
+		$return['benchmark'] = [
+			'operations' => $benchmarkOperations,
+			'time' => (int) ($benchmarkOperations / (microtime(true) - $timeStart)),
+			'query' => "SELECT BENCHMARK({$benchmarkOperations},1+1);",
+			'queryTime' => microtime(true) - $timeStart,
+			'profile' => $db->createCommand('SHOW PROFILE')->queryAll(),
+		];
+		$timeStart = microtime(true);
+		$j = 1;
+		while ((microtime(true) - $timeStart) < $maxTime) {
+			for ($i = 0; $i < $insertCountGroup; ++$i) {
+				$dbCommand->insert('benchmark_temp_table', [
+					'date' => date('Y-m-d H:i:s'),
+					'string' => $string,
+					'crmid' => $j,
+				])->execute();
+				++$insertOperations;
+				++$j;
+			}
+		}
+		$return['insert'] = [
+			'operations' => $insertOperations,
+			'time' => (int) ($insertOperations / (microtime(true) - $timeStart)),
+			'profile' => $db->createCommand('SHOW PROFILE')->queryAll(),
+		];
+		$timeStart = microtime(true);
+		$lastId = $insertOperations;
+		while ((microtime(true) - $timeStart) < $maxTime) {
+			for ($i = 0; $i < $selectCountGroup; ++$i) {
+				(new \App\Db\Query())->select(new \yii\db\Expression('sql_no_cache *'))->from('benchmark_temp_table')->where(['id' => $lastId])->all();
+				++$selectOperations;
+				--$lastId;
+				if (0 === $lastId) {
+					$lastId = $insertOperations;
+				}
+			}
+		}
+		$return['select'] = [
+			'operations' => $selectOperations,
+			'time' => (int) ($selectOperations / (microtime(true) - $timeStart)),
+			'profile' => $db->createCommand('SHOW PROFILE')->queryAll(),
+		];
+		$timeStart = microtime(true);
+		$string = str_repeat('123', 20);
+		$lastId = $insertOperations;
+		while ((microtime(true) - $timeStart) < $maxTime) {
+			for ($i = 0; $i < $updateCountGroup; ++$i) {
+				$dbCommand->update('benchmark_temp_table', [
+					'date' => date('Y-m-d H:i:s'),
+					'string' => $string,
+				], ['id' => $lastId])->execute();
+				++$updateOperations;
+				--$lastId;
+				if (0 === $lastId) {
+					$lastId = $insertOperations;
+				}
+			}
+		}
+		$return['update'] = [
+			'operations' => $updateOperations,
+			'time' => (int) ($updateOperations / (microtime(true) - $timeStart)),
+			'profile' => $db->createCommand('SHOW PROFILE')->queryAll(),
+		];
+		$timeStart = microtime(true);
+		$lastId = $insertOperations;
+		while ((microtime(true) - $timeStart) < $maxTime) {
+			for ($i = 0; $i < $deleteCountGroup; ++$i) {
+				$dbCommand->delete('benchmark_temp_table', ['crmid' => $lastId])->execute();
+				++$deleteOperations;
+				--$lastId;
+				if (0 === $lastId) {
+					$lastId = $insertOperations;
+				}
+			}
+		}
+		$return['delete'] = [
+			'operations' => $deleteOperations,
+			'time' => (int) ($deleteOperations / (microtime(true) - $timeStart)),
+			'profile' => $db->createCommand('SHOW PROFILE')->queryAll(),
+		];
+		$dbCommand->dropTable('benchmark_temp_table')->execute();
+		$return['dropTable'] = [
+			'profile' => $db->createCommand('SHOW PROFILE')->queryAll(),
+		];
+		$db->createCommand('set profiling=0;')->execute();
+		return $return;
+	}
+
 	public static function all()
 	{
 		return [
 			'cpu' => self::cpu(),
 			'ram' => self::ram(),
 			'hardDrive' => self::hardDrive(),
-		];
-	}
-
-	/**
-	 * Test server speed.
-	 *
-	 * @return array
-	 */
-	public static function test()
-	{
-		$dbs = microtime(true);
-		\App\Db::getInstance()->createCommand('SELECT BENCHMARK(1000000,1+1);')->execute();
-		$dbe = microtime(true);
-		return [
-			'DB' => (int) (1000000 / ($dbe - $dbs))
+			'db' => self::db(),
 		];
 	}
 }
