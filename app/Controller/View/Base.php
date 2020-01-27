@@ -73,14 +73,17 @@ abstract class Base extends \App\Controller\Base
 	public function getViewer(\App\Request $request)
 	{
 		if (!isset($this->viewer)) {
+			$user = \App\User::getCurrentUserModel();
 			$this->viewer = \Vtiger_Viewer::getInstance();
 			$this->viewer->assign('APPTITLE', \App\Language::translate('APPTITLE'));
 			$this->viewer->assign('YETIFORCE_VERSION', \App\Version::get());
 			$this->viewer->assign('MODULE_NAME', $request->getModule());
 			$this->viewer->assign('NONCE', \App\Session::get('CSP_TOKEN'));
 			$this->viewer->assign('IS_IE', \App\RequestUtil::getBrowserInfo()->ie);
+			$this->viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
+			$this->viewer->assign('CURRENT_USER', $user);
+			$this->viewer->assign('WIDTHTYPE', $user->getDetail('rowheight'));
 			if ($request->isAjax()) {
-				$this->viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
 				if (!$request->isEmpty('parent', true) && 'Settings' === $request->getByType('parent', 2)) {
 					$this->viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 				}
@@ -149,8 +152,6 @@ abstract class Base extends \App\Controller\Base
 		$view->assign('LANGUAGE', \App\Language::getLanguage());
 		$view->assign('HTMLLANG', \App\Language::getShortLanguageName());
 		$view->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
-		$view->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
-		$view->assign('CURRENT_USER', \App\User::getCurrentUserModel());
 		$view->assign('MODULE', $moduleName);
 		$view->assign('VIEW', $request->getByType('view', 1));
 		$view->assign('PARENT_MODULE', $request->getByType('parent', 2));

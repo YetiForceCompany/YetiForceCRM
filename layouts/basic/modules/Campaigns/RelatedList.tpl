@@ -206,7 +206,6 @@
 			</div>
 			{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $RELATED_MODULE->getName()) MODULE_MODEL=$RELATED_MODULE}
 			<div class="relatedContents">
-				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 				<table class="table tableBorderHeadBody listViewEntriesTable {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if}">
 					<thead>
 					<tr class="listViewHeaders">

@@ -17,7 +17,6 @@
 		{/if}
 		<div class="contents form-row">
 			<div class="col-md-12">
-				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 				<button type="button" class="btn btn-success addInventory my-2"
 						data-url="{$RECORD_MODEL->getCreateUrl()}" data-type="0"><span
 							class="fas fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}

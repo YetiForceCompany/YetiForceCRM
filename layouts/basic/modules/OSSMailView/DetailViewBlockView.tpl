@@ -6,7 +6,6 @@
 		{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 		{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 		{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
-		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{if $BLOCKS_HIDE}
 			<div class="detailViewTable">
 				<div class="c-panel js-toggle-panel" data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if} data-label="{$BLOCK_LABEL_KEY}">

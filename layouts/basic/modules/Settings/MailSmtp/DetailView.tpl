@@ -19,7 +19,6 @@
 		</div>
 	</div>
 	<div class="detailViewInfo">
-		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table table-bordered">
 			<thead class="thead-light">
 				<tr>

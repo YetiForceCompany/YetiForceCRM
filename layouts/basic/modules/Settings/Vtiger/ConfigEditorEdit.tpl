@@ -32,7 +32,6 @@
 					</div>
 				</div>
 				<hr>
-				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 				<table class="table table-bordered table-sm themeTableColor">
 					<thead>
 					<tr class="blockHeader">

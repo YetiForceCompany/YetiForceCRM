@@ -44,7 +44,6 @@
 				 title="{\App\Language::translate('LBL_LOADING')}"/>
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
-		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table tableBorderHeadBody listViewEntriesTable {$WIDTHTYPE} js-fixed-thead" data-js="floatThead">
 			<thead>
 			<tr class="listViewHeaders">

@@ -6,7 +6,6 @@
 		<form class="form-modal js-custom-record-numbering-advanced" method="POST" data-js="container">
 			<div class="modal-Fields">
 				<table class="table table-bordered">
-					{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 					<thead>
 						<tr>
 							<th>

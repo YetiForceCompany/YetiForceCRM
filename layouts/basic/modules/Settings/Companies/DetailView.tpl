@@ -21,7 +21,6 @@
 	<div class="detailViewInfo" id="groupsDetailContainer">
 		<div class="">
 			<form id="detailView" class="form-horizontal" method="POST">
-				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 				<table class="table table-bordered">
 					<thead>
 					<tr class="blockHeader">

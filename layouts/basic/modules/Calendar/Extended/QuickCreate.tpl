@@ -7,7 +7,6 @@
 		{foreach key=index item=cssModel from=$STYLES}
 			<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}"/>
 		{/foreach}
-		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div class="modelContainer modal quickCreateContainer" tabindex="-1" role="dialog">
 			<div class="modal-dialog modal-fullscreen modal-full" role="document">
 				<div class="modal-content">

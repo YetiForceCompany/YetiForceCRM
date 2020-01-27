@@ -11,7 +11,6 @@
 -->*}
 {strip}
 	<!-- tpl-Rss-RssFeedContents -->
-	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<table class="table table-bordered listViewEntriesTable">
 		<thead>
 		<tr class="listViewHeaders">

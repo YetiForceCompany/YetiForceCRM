@@ -7,7 +7,6 @@
 	<input type="hidden" id="previousPageExist" value="false"/>
 	<input type="hidden" id="nextPageExist" value="false"/>
 	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">
-		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 		<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
 			{include file=\App\Layout::getTemplatePath('ListView/TableHeader.tpl', $QUALIFIED_MODULE)}

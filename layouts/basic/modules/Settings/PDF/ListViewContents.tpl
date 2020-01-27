@@ -13,7 +13,6 @@
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop overflowXAuto mt-2">
-		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 		<div class="table-responsive">
 			<table class="table table-bordered table-sm listViewEntriesTable">
