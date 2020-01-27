@@ -1177,7 +1177,7 @@ class TextParser
 		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
 		$variables = [];
 		$entityVariables = Language::translate('LBL_ENTITY_VARIABLES', 'Other.TextParser');
-		foreach ($moduleModel->getFieldsByType(array_merge(\Vtiger_Field_Model::$referenceTypes, ['userCreator', 'owner', 'multiReference', 'sharedOwner'])) as $parentFieldName => $field) {
+		foreach ($moduleModel->getFieldsByType(array_merge(\Vtiger_Field_Model::$referenceTypes, ['userCreator', 'owner', 'sharedOwner'])) as $parentFieldName => $field) {
 			if ('owner' === $field->getFieldDataType() || 'sharedOwner' === $field->getFieldDataType()) {
 				$relatedModules = ['Users'];
 			} else {
