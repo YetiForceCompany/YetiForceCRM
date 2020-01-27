@@ -278,6 +278,9 @@ class Import_Data_Action extends \App\Controller\Action
 					switch ($mergeTypeValue) {
 						case Import_Module_Model::AUTO_MERGE_IGNORE:
 							$entityInfo['status'] = self::IMPORT_RECORD_SKIPPED;
+							if ($row['relation_id'] ?? null) {
+								$this->addRelation($row['relation_id'], $row['src_record'], Vtiger_Record_Model::getInstanceById($baseRecordId));
+							}
 							break;
 						case Import_Module_Model::AUTO_MERGE_OVERWRITE:
 							$recordModel = Vtiger_Record_Model::getInstanceById($baseRecordId);

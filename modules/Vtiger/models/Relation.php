@@ -320,7 +320,7 @@ class Vtiger_Relation_Model extends \App\Base
 			}
 			self::$cachedInstancesById[$relationId] = $relationModel;
 		}
-		return self::$cachedInstancesById[$relationId];
+		return self::$cachedInstancesById[$relationId] ? clone self::$cachedInstancesById[$relationId] : null;
 	}
 
 	/**
@@ -562,6 +562,7 @@ class Vtiger_Relation_Model extends \App\Base
 			'sourceModule' => $sourceModuleName,
 			'sourceRecordId' => $sourceRecordId,
 			'destinationModule' => $this->getRelationModuleModel()->getName(),
+			'relationId' => $this->getId()
 		];
 		$eventHandler = new \App\EventHandler();
 		$eventHandler->setModuleName($sourceModuleName);
