@@ -8909,7 +8909,7 @@ CREATE TABLE `vtiger_users` (
   `currency_decimal_separator` varchar(2) DEFAULT NULL,
   `currency_grouping_separator` varchar(2) DEFAULT NULL,
   `currency_symbol_placement` varchar(20) DEFAULT NULL,
-  `no_of_currency_decimals` tinyint(1) DEFAULT NULL,
+  `no_of_currency_decimals` varchar(200) DEFAULT NULL,
   `truncate_trailing_zeros` tinyint(1) unsigned DEFAULT NULL,
   `dayoftheweek` varchar(100) DEFAULT NULL,
   `othereventduration` text DEFAULT NULL,
