@@ -80,6 +80,11 @@
 								<span class="redColor">*</span>
 							{/if}
 							<b>{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</b>
+							{if isset($FIELD['infoText'])}
+								<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate($FIELD['infoText'], $QUALIFIED_MODULE))}">
+									<span class="fas fa-info-circle"></span>
+								</div>
+							{/if}
 						</label>
 						<div class="col-lg-8">
 							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}
@@ -87,8 +92,15 @@
 					</div>
 				{/if}
 				{if $FIELD_NAME === 'newsletter'}
-					<div class="js-newsletter-content {if empty($RECORD->get($FIELD_NAME))}d-none{/if}"
-						 data-js="class:d-none">
+					<div class="js-newsletter-content {if empty($RECORD->get($FIELD_NAME))}d-none{/if}" data-js="class:d-none">
+					<div class="alert alert-warning" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<span class="u-font-size-13px">
+							{App\Language::translate('LBL_NEWSLETTER_ALERT', $QUALIFIED_MODULE)}
+						</span>
+					</div>
 				{elseif $FIELD_NAME === 'email'}
 					</div>
 				{/if}
