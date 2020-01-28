@@ -25,11 +25,11 @@
 						{if isset($WIDGET['switchHeader'])}
 							<div class="btn-group btn-group-toggle ml-auto" data-toggle="buttons">
 								<label class="btn btn-sm btn-outline-primary active">
-									<input class="js-switch" type="radio" name="options" id="option1" data-js="change" data-on-val="{$WIDGET['switchHeader']['on']}" data-urlparams="whereCondition" autocomplete="off" checked> <span
+									<input class="js-switch" type="radio" name="options" id="condition-option1" data-js="change" data-on-val="{$WIDGET['switchHeader']['on']}" data-urlparams="whereCondition" autocomplete="off" checked> <span
 										class="fas fa-redo" title="{$WIDGET['switchHeaderLables']['on']}"></span>
 								</label>
 								<label class="btn btn-sm btn-outline-primary">
-									<input class="js-switch" type="radio" name="options" id="option2" data-js="change" data-off-val="{$WIDGET['switchHeader']['off']}" data-urlparams="whereCondition" autocomplete="off">
+									<input class="js-switch" type="radio" name="options" id="condition-option2" data-js="change" data-off-val="{$WIDGET['switchHeader']['off']}" data-urlparams="whereCondition" autocomplete="off">
 									<span class="fas fa-history" title="{$WIDGET['switchHeaderLables']['off']}"></span>
 								</label>
 							</div>

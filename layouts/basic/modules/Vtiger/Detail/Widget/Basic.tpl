@@ -31,11 +31,11 @@
 						{if isset($WIDGET['switchHeader'])}
 						<div class="ml-auto btn-group btn-group-toggle" data-toggle="buttons">
 							<label class="btn btn-sm btn-outline-primary active">
-								<input class="js-switch" type="radio" name="options" id="option1" data-js="change" data-on-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}' data-urlparams="search_params"
+								<input class="js-switch" type="radio" name="options" id="search_params-option1" data-js="change" data-on-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}' data-urlparams="search_params"
 									autocomplete="off" checked> {$WIDGET['switchHeaderLables']['on']}
 							</label>
 							<label class="btn btn-sm btn-outline-primary">
-								<input class="js-switch" type="radio" name="options" id="option2" data-js="change" data-off-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}' data-urlparams="search_params"
+								<input class="js-switch" type="radio" name="options" id="search_params-option2" data-js="change" data-off-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}' data-urlparams="search_params"
 									autocomplete="off"> {$WIDGET['switchHeaderLables']['off']}
 							</label>
 						</div>

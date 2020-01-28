@@ -32,14 +32,14 @@
 						{if isset($WIDGET['switchHeader'])}
 							<div class="btn-group btn-group-toggle" data-toggle="buttons">
 								<label class="btn btn-sm btn-outline-primary active">
-									<input class="js-switch" type="radio" name="options" id="option1" data-js="change"
+									<input class="js-switch" type="radio" name="options" id="options-option1" data-js="change"
 										data-on-text="{App\Language::translate('LBL_CURRENT')}"
 										data-on-val="{if isset($WIDGET['switchHeader']['on'])}{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}{/if}"
 										data-basic-text="{App\Language::translate('LBL_CURRENT')}" autocomplete="off">
 									{App\Language::translate('LBL_CURRENT')}
 								</label>
 								<label class="btn btn-sm btn-outline-primary">
-									<input class="js-switch" type="radio" name="options" id="option2" data-js="change"
+									<input class="js-switch" type="radio" name="options" id="options-option2" data-js="change"
 										data-basic-text="{App\Language::translate('LBL_HISTORY')}"
 										data-off-text="data-off-text {App\Language::translate('LBL_HISTORY')}"
 										data-off-val="{if isset($WIDGET['switchHeader']['off'])}{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}{/if}"

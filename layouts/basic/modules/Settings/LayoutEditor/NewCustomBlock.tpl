@@ -30,19 +30,19 @@
 				<div class="btn-group btn-group-sm btn-group-toggle mt-1" data-toggle="buttons">
 					<label class="js-block-visibility btn btn-outline-secondary c-btn-collapsible {if $BLOCK_MODEL->isHidden()} active{/if}" data-visible="0"
 						   data-block-id="{$BLOCK_MODEL->get('id')}" data-js="click | data">
-						<input type="radio" name="options" id="option1" autocomplete="off" {if $BLOCK_MODEL->isHidden()} checked{/if}>
+						<input type="radio" name="options" id="options-option1" autocomplete="off" {if $BLOCK_MODEL->isHidden()} checked{/if}>
 						<span class="fas fa-fw mr-1 fa-eye-slash"></span>
 						<span class="c-btn-collapsible__text">{App\Language::translate('LBL_ALWAYS_HIDE', $QUALIFIED_MODULE)}</span>
 					</label>
 					<label class="js-block-visibility btn btn-outline-secondary c-btn-collapsible {if !$BLOCK_MODEL->isHidden() && !$BLOCK_MODEL->isDynamic()} active{/if}" data-visible="1"
 						   data-block-id="{$BLOCK_MODEL->get('id')}" data-js="click | data">
-						<input type="radio" name="options" id="option2" autocomplete="off" {if !$BLOCK_MODEL->isHidden() && !$BLOCK_MODEL->isDynamic()} checked{/if}>
+						<input type="radio" name="options" id="options-option2" autocomplete="off" {if !$BLOCK_MODEL->isHidden() && !$BLOCK_MODEL->isDynamic()} checked{/if}>
 						<span class="fas fa-fw mr-1 fa-eye"></span>
 						<span class="c-btn-collapsible__text">{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}</span>
 					</label>
 					<label class="js-block-visibility btn btn-outline-secondary c-btn-collapsible {if $BLOCK_MODEL->isDynamic()} active{/if}" data-visible="2"
 						   data-block-id="{$BLOCK_MODEL->get('id')}" data-js="click | data">
-						<input type="radio" name="options" id="option3" autocomplete="off"{if $BLOCK_MODEL->isDynamic()} checked{/if}>
+						<input type="radio" name="options" id="options-option3" autocomplete="off"{if $BLOCK_MODEL->isDynamic()} checked{/if}>
 						<span class="fas fa-fw mr-1 fa-atom"></span>
 						<span class="c-btn-collapsible__text">{App\Language::translate('LBL_DYNAMIC_SHOW', $QUALIFIED_MODULE)}</span>
 					</label>

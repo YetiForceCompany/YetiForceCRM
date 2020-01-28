@@ -27,7 +27,7 @@
 			<div class="float-right">
 				<div class="btn-group btn-group-toggle" data-toggle="buttons">
 					<label class="btn btn-sm btn-outline-primary active">
-						<input class="js-switch--calculations" type="radio" name="options" id="option1"
+						<input class="js-switch--calculations" type="radio" name="options" id="calculationso-ption1"
 							   data-js="change"
 							   data-url-value="owner"
 							   data-urlparams="showtype"
@@ -36,7 +36,7 @@
 						> {\App\Language::translate('LBL_OWNER',$MODULE_NAME)}
 					</label>
 					<label class="btn btn-sm btn-outline-primary">
-						<input class="js-switch--calculations" type="radio" name="options" id="option2"
+						<input class="js-switch--calculations" type="radio" name="options" id="calculationso-option2"
 							   data-js="change"
 							   data-url-value="common"
 							   data-urlparams="showtype"

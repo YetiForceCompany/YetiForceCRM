@@ -33,21 +33,21 @@
 							<div class="btn-group btn-group-toggle" data-toggle="buttons">
 								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===1} active{/if}"
 									   for="option1">
-									<input value="1" type="radio" name="type" id="option1"
+									<input value="1" type="radio" name="type" id="type-option1"
 										   data-validation-engine="validate[required]"
 										   autocomplete="off"{if $RECORD->get('type')==1} checked{/if}>
 									{\App\Language::translate('LBL_TYPE_TARGET_USER',$QUALIFIED_MODULE)}
 								</label>
 								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===2} active{/if}"
 									   for="option2">
-									<input value="2" type="radio" name="type" id="option2"
+									<input value="2" type="radio" name="type" id="type-option2"
 										   data-validation-engine="validate[required]"
 										   autocomplete="off"{if $RECORD->get('type')==2} checked{/if}>
 									{\App\Language::translate('LBL_TYPE_INTEGRATOR',$QUALIFIED_MODULE)}
 								</label>
 								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===3} active{/if}"
 									   for="option3">
-									<input value="3" type="radio" name="type" id="option3"
+									<input value="3" type="radio" name="type" id="type-option3"
 										   data-validation-engine="validate[required]"
 										   autocomplete="off"{if $RECORD->get('type')==3} checked{/if}>
 									{\App\Language::translate('LBL_TYPE_PROVIDER',$QUALIFIED_MODULE)}
