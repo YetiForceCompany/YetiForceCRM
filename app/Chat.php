@@ -378,9 +378,9 @@ final class Chat
 		$dataReader = $query->createCommand()->query();
 		$rows = [];
 		while ($row = $dataReader->read()) {
-				$row['img'] = User::getImageById($row['id']) ? User::getImageById($row['id'])['url'] : '';
-				$row['label'] = $row['last_name'] . ' ' . $row['first_name'];
-				$rows[] = $row;
+			$row['img'] = User::getImageById($row['id']) ? User::getImageById($row['id'])['url'] : '';
+			$row['label'] = $row['last_name'] . ' ' . $row['first_name'];
+			$rows[] = $row;
 		}
 		$dataReader->close();
 		return $rows;
@@ -545,6 +545,7 @@ final class Chat
 			->leftJoin(['PINNED' => $pinnedUsersQuery], 'USERS.id = PINNED.userid OR USERS.id = PINNED.reluserid')
 			->andWhere(['and', ['PINNED.userid' => null], ['PINNED.reluserid' => null]]);
 	}
+
 	/**
 	 * CRM list of chat rooms.
 	 *
@@ -1377,6 +1378,9 @@ final class Chat
 	/**
 	 * Check if user room is created.
 	 *
+	 * @param mixed $userId
+	 * @param mixed $relUserId
+	 *
 	 * @throws \yii\db\Exception
 	 */
 	public static function isUserRoomCreated($userId, $relUserId)
@@ -1388,6 +1392,7 @@ final class Chat
 			->where(['or', ['and', ['userid' => $relUserId], ['reluserid' => $userId]], ['and', ['userid' => $userId], ['reluserid' => $relUserId]]])
 			->one();
 	}
+
 	/**
 	 * Set user room recordId.
 	 *
@@ -1687,12 +1692,11 @@ final class Chat
 		if ($users = $owner->getAccessibleUsers('private', 'owner')) {
 			foreach ($users as $key => $value) {
 				if (\Users_Privileges_Model::getInstanceById($key)->hasModulePermission('Chat')) {
-						$data[] = [
-							'id' => $key,
-							'label' => $value,
-							'img' => User::getImageById($key) ? User::getImageById($key)['url'] : '',
-						];
-
+					$data[] = [
+						'id' => $key,
+						'label' => $value,
+						'img' => User::getImageById($key) ? User::getImageById($key)['url'] : '',
+					];
 				}
 			}
 		}
