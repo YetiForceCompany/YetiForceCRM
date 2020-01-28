@@ -473,10 +473,10 @@ select2-theme-bootstrap4@^0.2.0-beta.3:
   resolved "https://registry.yarnpkg.com/select2-theme-bootstrap4/-/select2-theme-bootstrap4-0.2.0-beta.4.tgz#3f263294e72abf0c36cd998f16f1c532c6a309d7"
   integrity sha512-FG9GJdd1syjVvWxkvTrZnEFTvdvyKlBuObLnmRoY2RxQICqcnKdhkUlweGlifdsWJYiWHF342WeGKP5fGJhDQA==
 
-select2@^4.0.8:
-  version "4.0.12"
-  resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.12.tgz#9c0492d4d06948f2bd079f6e14718a41c7eaa60e"
-  integrity sha512-mbXC05AvjCboZcRlgJqN4mlI2qmqshpRC76sKNAdxS1lPLOh2m/NTyfL6xsvGoY6eIhjaya4dbumN99MudVQ2w==
+select2@^4.0.13:
+  version "4.0.13"
+  resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.13.tgz#0dbe377df3f96167c4c1626033e924372d8ef44d"
+  integrity sha512-1JeB87s6oN/TDxQQYCvS5EFoQyvV6eYMZZ0AeA4tdFDYWN3BAGZ8npr17UBFddU0lgAt3H0yjX3X6/ekOj1yjw==
 
 select@^1.1.2:
   version "1.1.2"

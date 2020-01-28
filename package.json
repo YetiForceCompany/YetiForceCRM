@@ -81,7 +81,7 @@
     "quasar": "^1.6.1",
     "respond.js": "^1.4.2",
     "sass-material-colors": "^0.0.5",
-    "select2": "^4.0.8",
+    "select2": "^4.0.13",
     "select2-theme-bootstrap4": "^0.2.0-beta.3",
     "split.js": "^1.5.10",
     "store": "^2.0.12",
