@@ -51,7 +51,7 @@
     "@rollup/plugin-alias": "^3.0.0",
     "@rollup/plugin-buble": "^0.21.0",
     "@rollup/plugin-json": "^4.0.1",
-    "@types/node": "^13.1.6",
+    "@types/node": "^13.5.0",
     "@vue/cli-plugin-babel": "^4.1.2",
     "@vue/cli-plugin-eslint": "^4.1.2",
     "@vue/cli-service": "^4.1.2",
