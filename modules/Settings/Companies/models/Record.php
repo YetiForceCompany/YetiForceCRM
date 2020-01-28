@@ -143,7 +143,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($key)
+	public function getDisplayValue(string $key)
 	{
 		$value = $this->get($key);
 		switch ($key) {

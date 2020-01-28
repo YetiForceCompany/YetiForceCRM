@@ -109,11 +109,11 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
-				if ($index == '1' && empty($columns)) {
+				if ('1' == $index && empty($columns)) {
 					$wfCondition[] = ['fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
 						'joincondition' => '', 'groupid' => '0', ];
 				}
-				if (!empty($columns) && is_array($columns)) {
+				if (!empty($columns) && \is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
 							'value' => $column['value'] ?? '', 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
@@ -128,7 +128,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 		$params = [
 			'blockid' => $this->get('blockid'),
 			'conditions' => $conditions,
-			'enabled' => ($this->get('enabled') == 'true') ? 1 : 0,
+			'enabled' => ('true' == $this->get('enabled')) ? 1 : 0,
 			'view' => $views,
 		];
 		if ($this->getId()) {
@@ -178,7 +178,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($fieldName)
+	public function getDisplayValue(string  $fieldName)
 	{
 		$fieldValue = $this->get($fieldName);
 
@@ -190,16 +190,16 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 				$fieldValue = \App\Language::translate($fieldValue, $this->get('name'));
 				break;
 			case 'enabled':
-				$fieldValue = \App\Language::translate($this->get('enabled') == 1 ? 'LBL_YES' : 'LBL_NO', $this->get('name'));
+				$fieldValue = \App\Language::translate(1 == $this->get('enabled') ? 'LBL_YES' : 'LBL_NO', $this->get('name'));
 				break;
 			case 'view':
 				$fieldValue = '';
-				if ($this->get('view') != '') {
+				if ('' != $this->get('view')) {
 					$selectedViews = explode(',', $this->get('view'));
 					foreach ($selectedViews as $view) {
 						$views[] = \App\Language::translate('LBL_VIEW_' . strtoupper($view), $this->get('name'));
 					}
-					$fieldValue = implode($views, ',');
+					$fieldValue = implode(',', $views);
 				}
 				break;
 			default:

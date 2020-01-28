@@ -32,12 +32,14 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	/**
 	 * Function to get the Edit View Url.
 	 *
+	 * @param mixed $step
+	 *
 	 * @return string URL
 	 */
 	public function getEditViewUrl($step = false)
 	{
 		$mode = '';
-		if ($step !== false) {
+		if (false !== $step) {
 			$mode = '&mode=step' . $step;
 		}
 		return '?module=AdvancedPermission&parent=Settings&view=Edit&record=' . $this->getId() . $mode;
@@ -66,7 +68,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		$query = (new \App\Db\Query())->from('a_#__adv_permission')->where(['id' => $id]);
 		$row = $query->createCommand($db)->queryOne();
 		$instance = false;
-		if ($row !== false) {
+		if (false !== $row) {
 			$row['conditions'] = \App\Json::decode($row['conditions']);
 			$row['members'] = \App\Json::decode($row['members']);
 			$instance = new self();
@@ -114,7 +116,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($key)
+	public function getDisplayValue(string $key)
 	{
 		$value = $this->get($key);
 		switch ($key) {
@@ -140,7 +142,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 				if (!empty($value)) {
 					$values = [];
 					foreach ($value as $member) {
-						list($type, $id) = explode(':', $member);
+						[$type, $id] = explode(':', $member);
 						switch ($type) {
 							case 'Users':
 								$name = \App\Fields\Owner::getUserLabel($id);

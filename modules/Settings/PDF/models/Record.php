@@ -117,7 +117,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				$db->createCommand()
 					->update('a_#__pdf', $fields, ['pdfid' => $pdfModel->getId()])
 					->execute();
-					\App\Cache::delete(get_class($pdfModel), $pdfModel->getId());
+					\App\Cache::delete(\get_class($pdfModel), $pdfModel->getId());
 				return $pdfModel->getId();
 			case 1:
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
@@ -134,7 +134,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					}
 					$db->createCommand()->update('a_#__pdf', $fields, ['pdfid' => $pdfModel->getId()])
 						->execute();
-					\App\Cache::delete(get_class($pdfModel), $pdfModel->getId());
+					\App\Cache::delete(\get_class($pdfModel), $pdfModel->getId());
 				}
 
 				return $pdfModel->get('pdfid');
@@ -181,7 +181,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function delete(Vtiger_PDF_Model $pdfModel)
 	{
-		\App\Cache::delete(get_class($pdfModel), $pdfModel->getId());
+		\App\Cache::delete(\get_class($pdfModel), $pdfModel->getId());
 		return App\Db::getInstance('admin')->createCommand()
 			->delete('a_#__pdf', ['pdfid' => $pdfModel->getId()])
 			->execute();
@@ -189,6 +189,8 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function transforms Advance filter to workflow conditions.
+	 *
+	 * @param Vtiger_PDF_Model $pdfModel
 	 */
 	public static function transformAdvanceFilterToWorkFlowFilter(Vtiger_PDF_Model &$pdfModel)
 	{
@@ -201,7 +203,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 					$wfCondition[] = ['fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
 						'joincondition' => '', 'groupid' => '0', ];
 				}
-				if (!empty($columns) && is_array($columns)) {
+				if (!empty($columns) && \is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
 							'value' => $column['value'] ?? '', 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
@@ -220,7 +222,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($key)
+	public function getDisplayValue(string $key)
 	{
 		$value = $this->get($key);
 		switch ($key) {

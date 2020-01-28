@@ -162,6 +162,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	/**
 	 * Function returns url of selected tab in edition view.
 	 *
+	 * @param mixed $tab
+	 *
 	 * @return string
 	 */
 	public function getEditViewTabUrl($tab)
@@ -177,7 +179,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	public function changeRoleType($member)
 	{
 		$memberArr = explode(':', $member);
-		if ($memberArr[0] === \App\PrivilegeUtil::MEMBER_TYPE_ROLES) {
+		if (\App\PrivilegeUtil::MEMBER_TYPE_ROLES === $memberArr[0]) {
 			$memberArr[0] = \App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES;
 		} else {
 			$memberArr[0] = \App\PrivilegeUtil::MEMBER_TYPE_ROLES;
@@ -203,7 +205,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	{
 		$values = explode(',', $this->get($name));
 		$key = array_search($value, $values);
-		if ($key !== false) {
+		if (false !== $key) {
 			unset($values[$key]);
 		}
 		$this->set($name, $values);
@@ -283,14 +285,14 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	{
 		switch ($key) {
 			case 'roles':
-				if (!is_array($value)) {
+				if (!\is_array($value)) {
 					$value = array_filter(explode(',', $value));
 				}
 				if ($this->checkDuplicate) {
 					$newVal = [];
 					$oldVal = [];
 					foreach ($value as $val) {
-						if (strpos($val, ':') !== false) {
+						if (false !== strpos($val, ':')) {
 							$valArr = explode(':', $val);
 							$newVal[$valArr[1]] = $val;
 						} else {
@@ -300,7 +302,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 					if (isset($this->rawData[$key])) {
 						$oldValue = array_filter(explode(',', $this->rawData[$key]));
 						foreach ($oldValue as $val) {
-							if (strpos($val, ':') !== false) {
+							if (false !== strpos($val, ':')) {
 								$valArr = explode(':', $val);
 								$oldVal[$valArr[1]] = $val;
 							} else {
@@ -318,7 +320,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				$value = (int) $value;
 				break;
 			case 'smowners':
-				if (!is_array($value)) {
+				if (!\is_array($value)) {
 					$value = array_filter(explode(',', $value));
 				}
 				if ($this->checkDuplicate) {
@@ -342,23 +344,24 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	 * Function transforms Advance filter to workflow conditions.
 	 *
 	 * @param array $condition
+	 * @param mixed $conditions
 	 *
 	 * @return array
 	 */
 	public function transformAdvanceFilter($conditions)
 	{
-		if (is_string($conditions)) {
+		if (\is_string($conditions)) {
 			$conditions = \App\Json::decode($conditions);
 		}
 		$conditionResult = [];
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
-				if (!empty($columns) && is_array($columns)) {
+				if (!empty($columns) && \is_array($columns)) {
 					foreach ($columns as $column) {
 						$conditionResult[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
 							'value' => $column['value'], 'valuetype' => $column['valuetype'] ?? '', 'joincondition' => $column['column_condition'],
-							'groupjoin' => $condition['condition'] ?? '', 'groupid' => $index === 1 ? 0 : 1, ];
+							'groupjoin' => $condition['condition'] ?? '', 'groupid' => 1 === $index ? 0 : 1, ];
 					}
 				}
 			}
@@ -375,7 +378,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		$params = [];
 		$fieldsToEdit = $this->getEditableFields();
 		foreach ($this->getData() as $key => $value) {
-			if (!in_array($key, $fieldsToEdit)) {
+			if (!\in_array($key, $fieldsToEdit)) {
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
 			}
 			$params[$key] = $this->getValueToSave($key, $value);
@@ -435,7 +438,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	 */
 	public static function getInstanceById($id)
 	{
-		$cacheName = get_class();
+		$cacheName = __CLASS__;
 		if (\App\Cache::staticHas($cacheName, $id)) {
 			return \App\Cache::staticGet($cacheName, $id);
 		}
@@ -458,7 +461,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	 */
 	public static function getCleanInstance()
 	{
-		$cacheName = get_class();
+		$cacheName = __CLASS__;
 		$key = 'Clean';
 		if (\App\Cache::staticHas($cacheName, $key)) {
 			return \App\Cache::staticGet($cacheName, $key);
@@ -478,7 +481,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($name)
+	public function getDisplayValue(string  $name)
 	{
 		switch ($name) {
 			case 'field':
@@ -526,7 +529,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		if (empty($users)) {
 			$smowners = $this->get('smowners') ? explode(',', $this->get('smowners')) : [];
 			foreach ($smowners as $user) {
-				if (\App\Fields\Owner::getType($user) !== 'Users') {
+				if ('Users' !== \App\Fields\Owner::getType($user)) {
 					$users = array_merge($users, \App\PrivilegeUtil::getUsersByGroup($user));
 				} else {
 					$users[] = $user;
@@ -572,7 +575,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		foreach ($this->customConditions as $moduleFields => $condition) {
 			switch ($condition[1]) {
 				case 'like':
-					$result = strpos($userModel->getDetail($condition[0]), $this->sourceRecordModel->get($moduleFields)) !== false;
+					$result = false !== strpos($userModel->getDetail($condition[0]), $this->sourceRecordModel->get($moduleFields));
 					break;
 				case '=':
 					$result = $this->sourceRecordModel->get($moduleFields) === $userModel->getDetail($condition[0]);
@@ -612,7 +615,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	public function getDefaultOwner()
 	{
 		$owner = $this->get('assign');
-		if (\App\Fields\Owner::getType($owner) === 'Users') {
+		if ('Users' === \App\Fields\Owner::getType($owner)) {
 			return \App\User::isExists($owner) ? $owner : 0;
 		}
 		return Settings_Groups_Record_Model::getInstance($owner) ? $owner : 0;
@@ -685,7 +688,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	 */
 	public function isRefreshTab($name)
 	{
-		if (in_array($name, ['conditions', 'assign', 'value', 'roleid'])) {
+		if (\in_array($name, ['conditions', 'assign', 'value', 'roleid'])) {
 			return false;
 		}
 		return true;

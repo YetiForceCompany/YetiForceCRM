@@ -93,12 +93,12 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($name)
+	public function getDisplayValue(string  $key)
 	{
-		if ($name === 'default') {
-			return $this->get($name) ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
+		if ($key === 'default') {
+			return $this->get($key) ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
 		}
-		return $this->get($name);
+		return $this->get($key);
 	}
 
 	/**

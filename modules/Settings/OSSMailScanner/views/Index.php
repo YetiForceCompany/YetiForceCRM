@@ -53,7 +53,7 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('WIDGET_CFG', $widgetCfg);
 		$viewer->assign('EMAILSEARCH', $emailSearch);
 		$viewer->assign('EMAILSEARCHLIST', $emailSearchList);
-		$viewer->assign('RECORDNUMBERING', $numbering);
+		$viewer->assign('RECORDNUMBERING', $numbering ?? []);
 		$viewer->assign('ERRORNOMODULE', !$mailModuleActive);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IDENTITYLIST', $identityList);
