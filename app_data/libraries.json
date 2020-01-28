@@ -8,6 +8,15 @@
         "licenseToDisplay": "",
         "showLicenseModal": false
     },
+    "lodash.difference": {
+        "name": "lodash.difference",
+        "version": "4.5.0",
+        "license": "MIT",
+        "homepage": "https:\/\/lodash.com\/",
+        "licenseError": false,
+        "licenseToDisplay": "",
+        "showLicenseModal": false
+    },
     "lodash.get": {
         "name": "lodash.get",
         "version": "4.4.2",
