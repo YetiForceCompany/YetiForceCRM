@@ -9517,10 +9517,10 @@ rollup-plugin-terser@^5.1.2:
     serialize-javascript "^2.1.2"
     terser "^4.1.0"
 
-rollup-plugin-vue@<=5.1.5:
-  version "5.1.5"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-vue/-/rollup-plugin-vue-5.1.5.tgz#78073c0616a6b36281bbb442808916704c1c7b5c"
-  integrity sha512-Y1Qqza5y/fddqykuy/3WO78EPX1vJmTdv7gMOJJtX/xiE2cEhnBd4fFLx7/1LF0EU1f0i1bJUdj3uvQTGUOP1A==
+rollup-plugin-vue@<=5.1.7:
+  version "5.1.6"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-vue/-/rollup-plugin-vue-5.1.6.tgz#c0b31de919ff1aad36f3277957ac90345e897c23"
+  integrity sha512-O8AmNCecKGn8k28UCIBQ6fD4j2UAxeTwjmajR32IxtL2sBBUcJ0vAIwBTGZn75ijmXOoxngYgssJceY3kV/MVA==
   dependencies:
     "@vue/component-compiler" "^4.1.0"
     "@vue/component-compiler-utils" "^3.0.0"
