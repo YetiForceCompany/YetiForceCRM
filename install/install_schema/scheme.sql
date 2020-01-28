@@ -4707,6 +4707,7 @@ CREATE TABLE `vtiger_callhistorytype` (
 /*Table structure for table `vtiger_campaign` */
 
 CREATE TABLE `vtiger_campaign` (
+  `campaignid` int(10) NOT NULL,
   `campaign_no` varchar(100) NOT NULL,
   `campaignname` varchar(255) DEFAULT NULL,
   `campaigntype` varchar(200) DEFAULT NULL,
@@ -4726,13 +4727,12 @@ CREATE TABLE `vtiger_campaign` (
   `actualresponsecount` int(10) DEFAULT NULL,
   `actualsalescount` int(10) DEFAULT NULL,
   `actualroi` decimal(28,8) DEFAULT NULL,
-  `campaignid` int(10) NOT NULL,
   `closingdate` date DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT 0.00,
   PRIMARY KEY (`campaignid`),
   KEY `campaign_campaignstatus_idx` (`campaignstatus`),
   KEY `campaign_campaignname_idx` (`campaignname`),
-  KEY `campaign_campaignid_idx` (`campaignid`)
+  CONSTRAINT `fk_vtiger_campaigncampaignid` FOREIGN KEY (`campaignid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_campaign_records` */
