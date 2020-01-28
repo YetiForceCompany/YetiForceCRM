@@ -18898,7 +18898,7 @@ body > .o-exception-fixed-block {
 .hideToggleSiteBarRightButton {
   right: 0 !important; }
 
-.container-fluid:not(.o-calendar-calendarextended-container) .basePanel .toggleSiteBarRightButton, .container-sm:not(.o-calendar-calendarextended-container) .basePanel .toggleSiteBarRightButton, .container-md:not(.o-calendar-calendarextended-container) .basePanel .toggleSiteBarRightButton, .container-lg:not(.o-calendar-calendarextended-container) .basePanel .toggleSiteBarRightButton, .container-xl:not(.o-calendar-calendarextended-container) .basePanel .toggleSiteBarRightButton {
+.container-fluid:not([class*="-calendarextended-container"]) .basePanel .toggleSiteBarRightButton, .container-sm:not([class*="-calendarextended-container"]) .basePanel .toggleSiteBarRightButton, .container-md:not([class*="-calendarextended-container"]) .basePanel .toggleSiteBarRightButton, .container-lg:not([class*="-calendarextended-container"]) .basePanel .toggleSiteBarRightButton, .container-xl:not([class*="-calendarextended-container"]) .basePanel .toggleSiteBarRightButton {
   background: #f8f9fa;
   font-weight: bold;
   padding: 15px 0 !important;
