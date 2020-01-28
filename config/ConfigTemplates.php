@@ -942,7 +942,8 @@ return [
 		],
 		'whitelistIp2fa' => [
 			'default' => [],
-			'description' => "IP address whitelisting.\nAllow access without 2FA."
+			'description' => "IP address whitelisting.\nAllow access without 2FA.",
+			'validation' => '\App\Validator::ip'
 		],
 		'CACHE_LIFETIME_SENSIOLABS_SECURITY_CHECKER' => [
 			'default' => 3600,
