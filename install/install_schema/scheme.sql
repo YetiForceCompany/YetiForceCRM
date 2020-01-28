@@ -9223,7 +9223,6 @@ CREATE TABLE `w_yf_portal_user` (
   `server_id` int(10) unsigned NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0,
   `user_name` varchar(50) NOT NULL,
-  `password_h` varchar(200) DEFAULT NULL,
   `password_t` varchar(200) DEFAULT NULL,
   `type` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `login_time` datetime DEFAULT NULL,
