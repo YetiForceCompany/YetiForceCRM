@@ -182,9 +182,9 @@ return [
 		]
 	],
 	'YetiForce' => [
-		'statusUrl' => [
+		'watchdogUrl' => [
 			'default' => '',
-			'description' => 'Service URL',
+			'description' => 'YetiForce watchdog monitor URL',
 			'validation' => function () {
 				$arg = func_get_arg(0);
 				return empty($arg) || \App\Validator::url($arg);

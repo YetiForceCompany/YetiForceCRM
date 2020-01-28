@@ -1,13 +1,13 @@
 <?php
 
 /**
- * YetiForce status action class.
+ * YetiForce watchdog action class.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
  */
-class Settings_YetiForce_Status_Action extends Settings_Vtiger_Save_Action
+class Settings_YetiForce_Watchdog_Action extends Settings_Vtiger_Save_Action
 {
 	/**
 	 * Process user request.
@@ -16,7 +16,7 @@ class Settings_YetiForce_Status_Action extends Settings_Vtiger_Save_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		if (!$request->has('flagName')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
@@ -25,7 +25,7 @@ class Settings_YetiForce_Status_Action extends Settings_Vtiger_Save_Action
 		$response = new Vtiger_Response();
 		$result = true;
 		$message = App\Language::translate('LBL_SAVED', $request->getModule(false));
-		if (isset(\App\YetiForce\Status::$variables[$flagName])) {
+		if (isset(\App\YetiForce\Watchdog::$variables[$flagName])) {
 			$config = new \App\ConfigFile('component', 'YetiForce');
 			$config->set($flagName, $request->getRaw('newParam'));
 			$config->create();

@@ -253,7 +253,6 @@ class Request
 
 			return $this->purifiedValuesByArray[$key] = (array) $value;
 		}
-
 		return $value;
 	}
 
@@ -734,7 +733,6 @@ class Request
 		if (!static::$request) {
 			static::$request = new self($request ? $request : $_REQUEST);
 		}
-
 		return static::$request;
 	}
 

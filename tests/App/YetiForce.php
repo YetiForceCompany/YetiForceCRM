@@ -17,12 +17,12 @@ namespace Tests\App;
 class YetiForce extends \Tests\Base
 {
 	/**
-	 * Testing status getAll method.
+	 * Testing watchdog getAll method.
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function testStatusGetAll()
+	public function testWatchdogGetAll()
 	{
-		$this->assertCount(\count(\App\YetiForce\Status::$variables), \App\YetiForce\Status::getAll());
+		$this->assertCount(\count(\App\YetiForce\Watchdog::$variables), \App\YetiForce\Watchdog::getAll());
 	}
 }
