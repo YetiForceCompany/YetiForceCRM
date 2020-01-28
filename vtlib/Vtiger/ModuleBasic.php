@@ -256,14 +256,14 @@ class ModuleBasic
 		]);
 		$db->createCommand()->addPrimaryKey("{$this->basetable}_pk", $this->basetable, $this->basetableid)->execute();
 		$db->createCommand()->addForeignKey(
-			"fk_1_{$this->basetable}{$this->basetableid}", $this->basetable, $this->basetableid, 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'
+			substr("fk_1_{$this->basetable}{$this->basetableid}", 0, 62), $this->basetable, $this->basetableid, 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'
 		)->execute();
 		$db->createTable($this->customtable, [
 			$this->basetableid => $importer->integer(10),
 		]);
 		$db->createCommand()->addPrimaryKey("{$this->customtable}_pk", $this->customtable, $this->basetableid)->execute();
 		$db->createCommand()->addForeignKey(
-			"fk_1_{$this->customtable}{$this->basetableid}", $this->customtable, $this->basetableid, $this->basetable, $this->basetableid, 'CASCADE', 'RESTRICT'
+			substr("fk_1_{$this->customtable}{$this->basetableid}", 0, 62), $this->customtable, $this->basetableid, $this->basetable, $this->basetableid, 'CASCADE', 'RESTRICT'
 		)->execute();
 	}
 
