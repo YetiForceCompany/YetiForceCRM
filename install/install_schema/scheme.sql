@@ -1775,7 +1775,7 @@ CREATE TABLE `u_yf_emailtemplates` (
   `subject` varchar(255) DEFAULT NULL,
   `content` mediumtext DEFAULT NULL,
   `sys_name` varchar(50) DEFAULT NULL,
-  `email_template_priority` tinyint(1) DEFAULT '1',
+  `email_template_priority` tinyint(1) DEFAULT 1,
   `smtp_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`emailtemplatesid`),
   KEY `sys_name` (`sys_name`),
@@ -5705,12 +5705,13 @@ CREATE TABLE `vtiger_field` (
 /*Table structure for table `vtiger_fieldmodulerel` */
 
 CREATE TABLE `vtiger_fieldmodulerel` (
-  `fieldid` smallint(5) unsigned NOT NULL,
+  `fieldid` int(10) NOT NULL,
   `module` varchar(25) NOT NULL,
   `relmodule` varchar(25) NOT NULL,
   `status` varchar(10) DEFAULT NULL,
   `sequence` tinyint(1) unsigned DEFAULT 0,
-  KEY `fieldid` (`fieldid`)
+  KEY `fieldid` (`fieldid`),
+  CONSTRAINT `vtiger_fieldmodulerel_ibfk_1` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_finvoice_formpayment` */
@@ -7896,10 +7897,12 @@ CREATE TABLE `vtiger_relatedlists` (
 
 CREATE TABLE `vtiger_relatedlists_fields` (
   `relation_id` int(10) DEFAULT NULL,
-  `fieldid` int(10) DEFAULT NULL,
+  `fieldid` int(10) NOT NULL,
   `fieldname` varchar(30) DEFAULT NULL,
   `sequence` smallint(3) DEFAULT NULL,
-  KEY `relation_id` (`relation_id`)
+  KEY `relation_id` (`relation_id`),
+  KEY `fk_1_relatedlists_fields_fieldid` (`fieldid`),
+  CONSTRAINT `fk_1_relatedlists_fields_fieldid` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_reminder_interval` */
