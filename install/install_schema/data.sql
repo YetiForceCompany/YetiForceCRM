@@ -2895,10 +2895,6 @@ insert  into `vtiger_duration_minutes`(`minutesid`,`duration_minutes`,`sortorder
 insert  into `vtiger_duration_minutes`(`minutesid`,`duration_minutes`,`sortorderid`,`presence`) values (3,'30',2,1);
 insert  into `vtiger_duration_minutes`(`minutesid`,`duration_minutes`,`sortorderid`,`presence`) values (4,'45',3,1);
 
-/*Data for the table `vtiger_durationhrs` */
-
-/*Data for the table `vtiger_durationmins` */
-
 /*Data for the table `vtiger_email_template_priority` */
 
 insert  into `vtiger_email_template_priority`(`email_template_priorityid`,`email_template_priority`,`presence`,`sortorderid`) values (1,1,1,1);
@@ -5470,8 +5466,6 @@ insert  into `vtiger_leadsource`(`leadsourceid`,`leadsource`,`presence`,`picklis
 insert  into `vtiger_leadsource`(`leadsourceid`,`leadsource`,`presence`,`picklist_valueid`,`sortorderid`) values (12,'Word of mouth',1,109,11);
 insert  into `vtiger_leadsource`(`leadsourceid`,`leadsource`,`presence`,`picklist_valueid`,`sortorderid`) values (13,'Other',1,110,12);
 
-/*Data for the table `vtiger_leadstage` */
-
 /*Data for the table `vtiger_leadstatus` */
 
 insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (13,'PLL_TO_REALIZE',1,446,2,'E6FAD8');
@@ -5810,8 +5804,6 @@ insert  into `vtiger_lout_type_ship`(`lout_type_shipid`,`lout_type_ship`,`sortor
 insert  into `vtiger_lout_type_ship`(`lout_type_shipid`,`lout_type_ship`,`sortorderid`,`presence`) values (13,'PLL_COURIER_UPS',13,1);
 insert  into `vtiger_lout_type_ship`(`lout_type_shipid`,`lout_type_ship`,`sortorderid`,`presence`) values (14,'PLL_COURIER_GLS',14,1);
 
-/*Data for the table `vtiger_mail_accounts` */
-
 /*Data for the table `vtiger_manufacturer` */
 
 insert  into `vtiger_manufacturer`(`manufacturerid`,`manufacturer`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'AltvetPet Inc.',1,124,1);
@@ -6015,8 +6007,6 @@ insert  into `vtiger_notification_status`(`notification_statusid`,`notification_
 
 insert  into `vtiger_notification_type`(`notification_typeid`,`notification_type`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (1,'PLL_USERS',0,703,1,'1baee2');
 insert  into `vtiger_notification_type`(`notification_typeid`,`notification_type`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (2,'PLL_SYSTEM',0,704,2,'FF9800');
-
-/*Data for the table `vtiger_opportunitystage` */
 
 /*Data for the table `vtiger_oproductstatus` */
 

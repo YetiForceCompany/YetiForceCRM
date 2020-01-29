@@ -5463,26 +5463,6 @@ CREATE TABLE `vtiger_duration_minutes` (
   PRIMARY KEY (`minutesid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_durationhrs` */
-
-CREATE TABLE `vtiger_durationhrs` (
-  `hrsid` int(10) NOT NULL AUTO_INCREMENT,
-  `hrs` varchar(50) DEFAULT NULL,
-  `sortorderid` int(10) NOT NULL DEFAULT 0,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  PRIMARY KEY (`hrsid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_durationmins` */
-
-CREATE TABLE `vtiger_durationmins` (
-  `minsid` int(10) NOT NULL AUTO_INCREMENT,
-  `mins` varchar(50) DEFAULT NULL,
-  `sortorderid` int(10) NOT NULL DEFAULT 0,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  PRIMARY KEY (`minsid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_email_template_priority` */
 
 CREATE TABLE `vtiger_email_template_priority` (
@@ -6363,17 +6343,6 @@ CREATE TABLE `vtiger_leadsource` (
   PRIMARY KEY (`leadsourceid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_leadstage` */
-
-CREATE TABLE `vtiger_leadstage` (
-  `leadstageid` int(10) NOT NULL AUTO_INCREMENT,
-  `stage` varchar(200) NOT NULL,
-  `sortorderid` int(10) NOT NULL DEFAULT 0,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  PRIMARY KEY (`leadstageid`),
-  UNIQUE KEY `leadstage_stage_idx` (`stage`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_leadstatus` */
 
 CREATE TABLE `vtiger_leadstatus` (
@@ -6626,29 +6595,6 @@ CREATE TABLE `vtiger_lout_type_ship` (
   PRIMARY KEY (`lout_type_shipid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_mail_accounts` */
-
-CREATE TABLE `vtiger_mail_accounts` (
-  `account_id` int(10) NOT NULL,
-  `user_id` int(10) NOT NULL,
-  `display_name` varchar(50) DEFAULT NULL,
-  `mail_id` varchar(50) DEFAULT NULL,
-  `account_name` varchar(50) DEFAULT NULL,
-  `mail_protocol` varchar(20) DEFAULT NULL,
-  `mail_username` varchar(50) NOT NULL,
-  `mail_password` varchar(250) NOT NULL,
-  `mail_servername` varchar(50) DEFAULT NULL,
-  `box_refresh` int(10) DEFAULT NULL,
-  `mails_per_page` int(10) DEFAULT NULL,
-  `ssltype` varchar(50) DEFAULT NULL,
-  `sslmeth` varchar(50) DEFAULT NULL,
-  `int_mailer` tinyint(1) DEFAULT 0,
-  `status` varchar(10) DEFAULT NULL,
-  `set_default` int(2) DEFAULT NULL,
-  `sent_folder` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`account_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_manufacturer` */
 
 CREATE TABLE `vtiger_manufacturer` (
@@ -6894,18 +6840,6 @@ CREATE TABLE `vtiger_notification_type` (
   `color` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`notification_typeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_opportunitystage` */
-
-CREATE TABLE `vtiger_opportunitystage` (
-  `potstageid` int(10) NOT NULL AUTO_INCREMENT,
-  `stage` varchar(200) NOT NULL,
-  `sortorderid` int(10) NOT NULL DEFAULT 0,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `probability` decimal(3,2) DEFAULT 0.00,
-  PRIMARY KEY (`potstageid`),
-  UNIQUE KEY `opportunitystage_stage_idx` (`stage`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_oproductstatus` */
 
