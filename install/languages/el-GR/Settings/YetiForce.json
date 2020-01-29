@@ -1,14 +1,14 @@
 {
   "php": {
     "YetiForce": "YetiForce",
-    "LBL_YETIFORCE_STATUS_HEADER": "Κατάσταση YetiForce",
-    "LBL_YETIFORCE_STATUS_DESC": "Σελίδα ρύθμισης παραμέτρων της υπηρεσίας κατάστασης YetiForce",
-    "LBL_YETIFORCE_STATUS_FULL_DESC": "Ο μηχανισμός κατάστασης, παρακολουθεί το έργο του συστήματος CRM και μεταδίδει επιλεγμένες πληροφορίες στη YetiForce Sp. z o.o. Όλες οι πληροφορίες που συλλέγονται δεν θα δημοσιεύονται και προορίζονται μόνο για την παρακολούθηση του συστήματος CRM για δυσλειτουργίες και για το περιβάλλον στο οποίο είναι εγκατεστημένο.",
+    "LBL_YETIFORCE_WATCHDOG_HEADER": "YetiForce watchdog monitor",
+    "LBL_YETIFORCE_WATCHDOG_DESC": "Configuration page of YetiForce watchdog monitoring service",
+    "LBL_YETIFORCE_WATCHDOG_FULL_DESC": "The watchdog mechanism monitors the CRM system work and transfers selected information to YetiForce Sp. z o.o. All collected information will not be published and is intended only to monitor the CRM system for incorrect operation and the environment on which it is installed.",
     "LBL_PARAM_NAME": "Παράμετρος",
     "LBL_PARAM_VAL": "Τιμή",
     "LBL_PARAM_NOT_ALLOWED": "Δεν επιτρέπεται η παράμετρος",
     "LBL_SAVED": "Οι αλλαγές αποθηκεύτηκαν",
-    "LBL_STATUSURL": "URL υπηρεσίας",
+    "LBL_WATCHDOGURL": "URL υπηρεσίας",
     "LBL_SYSTEMVERSION": "YetiForce system version",
     "LBL_PHPVERSION": "Έκδοση PHP",
     "LBL_OSVERSION": "Έκδοση του συστήματος",

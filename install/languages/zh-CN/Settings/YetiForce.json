@@ -1,14 +1,14 @@
 {
   "php": {
     "YetiForce": "YetiForce",
-    "LBL_YETIFORCE_STATUS_HEADER": "YetiForce 状态",
-    "LBL_YETIFORCE_STATUS_DESC": "YetiForce 状态服务的配置页",
-    "LBL_YETIFORCE_STATUS_FULL_DESC": "状态机制监视 CRM 系统的工作, 并将选定的信息传输到 YetiForce spp. z o. o. o。所有收集的信息都不会发布, 仅用于监视 CRM 系统是否存在不正确的操作和安装该系统的环境。",
+    "LBL_YETIFORCE_WATCHDOG_HEADER": "YetiForce watchdog monitor",
+    "LBL_YETIFORCE_WATCHDOG_DESC": "Configuration page of YetiForce watchdog monitoring service",
+    "LBL_YETIFORCE_WATCHDOG_FULL_DESC": "The watchdog mechanism monitors the CRM system work and transfers selected information to YetiForce Sp. z o.o. All collected information will not be published and is intended only to monitor the CRM system for incorrect operation and the environment on which it is installed.",
     "LBL_PARAM_NAME": "参数",
     "LBL_PARAM_VAL": "值",
     "LBL_PARAM_NOT_ALLOWED": "不允许的参数",
     "LBL_SAVED": "更改已保存",
-    "LBL_STATUSURL": "服务网址",
+    "LBL_WATCHDOGURL": "服务网址",
     "LBL_SYSTEMVERSION": "YetiForce 系统版本",
     "LBL_PHPVERSION": "PHP 版本",
     "LBL_OSVERSION": "系统版本",

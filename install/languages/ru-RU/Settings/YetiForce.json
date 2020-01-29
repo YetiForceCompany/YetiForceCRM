@@ -1,14 +1,14 @@
 {
   "php": {
     "YetiForce": "YetiForce",
-    "LBL_YETIFORCE_STATUS_HEADER": "Статус YetiForce",
-    "LBL_YETIFORCE_STATUS_DESC": "Страница конфигурации службы статуса YetiForce",
-    "LBL_YETIFORCE_STATUS_FULL_DESC": "Механизм статуса контролирует работу системы CRM и передает выбранные данные в YetiForce Sp. z o.o. Все собранные данные не будут опубликованы и предназначены только для контроля за системой CRM за неправильными операциями и окружающей средой, на которой она установлена.",
+    "LBL_YETIFORCE_WATCHDOG_HEADER": "YetiForce watchdog monitor",
+    "LBL_YETIFORCE_WATCHDOG_DESC": "Configuration page of YetiForce watchdog monitoring service",
+    "LBL_YETIFORCE_WATCHDOG_FULL_DESC": "The watchdog mechanism monitors the CRM system work and transfers selected information to YetiForce Sp. z o.o. All collected information will not be published and is intended only to monitor the CRM system for incorrect operation and the environment on which it is installed.",
     "LBL_PARAM_NAME": "Параметр",
     "LBL_PARAM_VAL": "Значение",
     "LBL_PARAM_NOT_ALLOWED": "Параметр не разрешен",
     "LBL_SAVED": "Изменения сохранены",
-    "LBL_STATUSURL": "URL сервиса",
+    "LBL_WATCHDOGURL": "URL сервиса",
     "LBL_SYSTEMVERSION": "Версия системы YetiForce",
     "LBL_PHPVERSION": "Версия PHP",
     "LBL_OSVERSION": "Версия системы",
