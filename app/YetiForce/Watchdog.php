@@ -63,7 +63,10 @@ class Watchdog
 		$url = $config['watchdogUrl'];
 		unset($config['watchdogUrl']);
 		$status = new self();
-		$info = [];
+		$info = [
+			'insKey' => \App\YetiForce\Register::getInstanceKey(),
+			'crmKey' => \App\YetiForce\Register::getCrmKey(),
+		];
 		foreach ($config as $name => $state) {
 			if ($state) {
 				$info[$name] = \call_user_func([$status, 'get' . ucfirst($name)]);
@@ -147,7 +150,7 @@ class Watchdog
 	public function getOsVersion()
 	{
 		if (empty($this->cache['environment'])) {
-			$this->cache['environment'] = \App\Utils\ConfReport::get('database');
+			$this->cache['environment'] = \App\Utils\ConfReport::get('environment');
 		}
 		return $this->cache['environment']['operatingSystem']['www'] ?? '';
 	}

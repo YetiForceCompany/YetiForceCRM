@@ -377,7 +377,7 @@ class Validator
 		$input = \is_array($input) ? $input : [$input];
 		$result = true;
 		foreach ($input as $ipAddress) {
-			if(filter_var($ipAddress, FILTER_VALIDATE_IP) === false){
+			if (false === filter_var($ipAddress, FILTER_VALIDATE_IP)) {
 				$result = false;
 				break;
 			}
