@@ -7427,17 +7427,6 @@ CREATE TABLE `vtiger_pricebookproductrel` (
   CONSTRAINT `fk_1_vtiger_pricebookproductrel` FOREIGN KEY (`pricebookid`) REFERENCES `vtiger_pricebook` (`pricebookid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_priority` */
-
-CREATE TABLE `vtiger_priority` (
-  `priorityid` int(10) NOT NULL AUTO_INCREMENT,
-  `priority` varchar(200) NOT NULL,
-  `sortorderid` int(10) NOT NULL DEFAULT 0,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  PRIMARY KEY (`priorityid`),
-  UNIQUE KEY `priority_priority_idx` (`priority`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_productcf` */
 
 CREATE TABLE `vtiger_productcf` (

@@ -661,7 +661,7 @@ class Importer
 									foreach ($tableSchema->foreignKeys as $keyName => $value) {
 										if (isset($value[$columnName])) {
 											$this->logs .= "  > foreign key must be removed and added in postUpdate: $tableName:$columnName <> {$value[0]}:{$value[$columnName]} FK:{$keyName}\n";
-											$importer->foreignKey[] = [$keyName, $tableName, $columnName, $value[0], $value[$columnName], 'CASCADE', 'RESTRICT'];
+											$importer->foreignKey[] = [$keyName, $tableName, $columnName, $value[0], $value[$columnName], 'CASCADE', null];
 											$dbCommand->dropForeignKey($keyName, $tableName)->execute();
 										}
 									}
@@ -669,7 +669,7 @@ class Importer
 								foreach ($schema->findForeignKeyToColumn($tableName, $columnName) as $sourceTableName => $fks) {
 									foreach ($fks as $keyName => $fk) {
 										$this->logs .= "  > foreign key must be removed and added in postUpdate: $tableName:$columnName <> $sourceTableName:{$fk['sourceColumn']} FK:{$keyName}\n";
-										$importer->foreignKey[] = [$keyName, $sourceTableName, $fk['sourceColumn'], $tableName, $columnName, 'CASCADE', 'RESTRICT'];
+										$importer->foreignKey[] = [$keyName, $sourceTableName, $fk['sourceColumn'], $tableName, $columnName, 'CASCADE', null];
 										$dbCommand->dropForeignKey($keyName, $sourceTableName)->execute();
 									}
 								}
