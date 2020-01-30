@@ -1,11 +1,13 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-MailIntegration-Iframe-HeaderListItem -->
-	<li class="list-group-item list-group-item-action py-0 px-2 js-list-item-click" data-id="{$RECORD['id']}" data-module="{$RECORD['module']}">
+	{assign var=DETAIL_VIEW_PERMITTED value=\App\Privilege::isPermitted($RECORD['module'], 'DetailView', $RECORD['id'])}
+	<li class="list-group-item list-group-item-action py-0 px-2 {if $DETAIL_VIEW_PERMITTED}js-list-item-click{/if}"
+		data-id="{$RECORD['id']}"
+		data-module="{$RECORD['module']}">
 	{assign var=MODULE_MODEL value=Vtiger_Module_Model::getInstance($RECORD['module'])}
-		{assign var=DETAIL_VIEW_PERMITTED value=\App\Privilege::isPermitted($RECORD['module'], 'DetailView', $RECORD['id'])}
 	  <div class="d-flex w-100 align-items-center">
-			<a class="modCT_{$RECORD['module']} js-record-link js-popover-tooltip--record small u-text-inherit text-truncate" {if $DETAIL_VIEW_PERMITTED}href="{$URL}index.php?module={$RECORD['module']}&view=Detail&record={$RECORD['id']}"{/if} target="_blank">
+			<a class="modCT_{$RECORD['module']} {if $DETAIL_VIEW_PERMITTED}js-record-link js-popover-tooltip--record{/if} small u-text-inherit text-truncate" {if $DETAIL_VIEW_PERMITTED}href="{$URL}index.php?module={$RECORD['module']}&view=Detail&record={$RECORD['id']}"{/if} target="_blank">
 				<span class="relatedModuleIcon yfm-{$RECORD['module']} mr-1" aria-hidden="true"></span>
 				<span class="relatedName">{$RECORD['label']}</span>
 			</a>
