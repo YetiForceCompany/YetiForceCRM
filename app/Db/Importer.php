@@ -657,13 +657,6 @@ class Importer
 									$column->set('type', 'integer')->set('autoIncrement', true)->notNull();
 									$primaryKey = true;
 								}
-								foreach ($schema->findForeignKeyToColumn($tableName, $columnName) as $sourceTableName => $fks) {
-									foreach ($fks as $keyName => $fk) {
-										$this->logs .= "  > foreign key must be removed and added in postUpdate: $tableName:$columnName <> $sourceTableName:{$fk['sourceColumn']} FK:{$keyName}\n";
-										$importer->foreignKey[] = [$keyName, $sourceTableName, $fk['sourceColumn'], $tableName, $columnName, 'CASCADE', 'RESTRICT'];
-										$dbCommand->dropForeignKey($keyName, $sourceTableName)->execute();
-									}
-								}
 								if ($tableSchema->foreignKeys) {
 									foreach ($tableSchema->foreignKeys as $keyName => $value) {
 										if (isset($value[$columnName])) {
@@ -673,6 +666,14 @@ class Importer
 										}
 									}
 								}
+								foreach ($schema->findForeignKeyToColumn($tableName, $columnName) as $sourceTableName => $fks) {
+									foreach ($fks as $keyName => $fk) {
+										$this->logs .= "  > foreign key must be removed and added in postUpdate: $tableName:$columnName <> $sourceTableName:{$fk['sourceColumn']} FK:{$keyName}\n";
+										$importer->foreignKey[] = [$keyName, $sourceTableName, $fk['sourceColumn'], $tableName, $columnName, 'CASCADE', 'RESTRICT'];
+										$dbCommand->dropForeignKey($keyName, $sourceTableName)->execute();
+									}
+								}
+
 								$this->logs .= "  > alter column: $tableName:$columnName ... ";
 								$start = microtime(true);
 								$dbCommand->alterColumn($tableName, $columnName, $column)->execute();
