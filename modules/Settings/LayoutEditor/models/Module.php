@@ -405,7 +405,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			case 'Country':
 				$uitype = 35;
 				$uichekdata = 'V~O';
-				$type = $importerType->text();
+				$type = $importerType->stringType(255);
 				break;
 			case 'Twitter':
 				$fieldLength = Vtiger_Twitter_UIType::MAX_LENGTH;
