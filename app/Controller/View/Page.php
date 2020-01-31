@@ -125,11 +125,14 @@ abstract class Page extends Base
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$cssScriptModel = new \Vtiger_CssScript_Model();
-		$headerCssInstances[] = $cssScriptModel->set('href', \Vtiger_Theme::getThemeStyle());
+		$prefix = '';
+		if (!IS_PUBLIC_DIR) {
+			$prefix = 'public_html/';
+		}
 		foreach (\Vtiger_Link_Model::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERCSS']) as $cssLinks) {
 			foreach ($cssLinks as $cssLink) {
-				$headerCssInstances[] = $cssLink->linkurl;
+				$cssScriptModel = new \Vtiger_CssScript_Model();
+				$headerCssInstances[] = $cssScriptModel->set('href', $prefix . $cssLink->linkurl);
 			}
 		}
 		return $headerCssInstances;
