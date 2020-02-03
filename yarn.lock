@@ -418,10 +418,10 @@ opencollective-postinstall@2.0.2:
   resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.2.tgz#5657f1bede69b6e33a45939b061eb53d3c6c3a89"
   integrity sha512-pVOEP16TrAO2/fjej1IdOyupJY8KDUM1CvsaScRbw6oddvpQoOfGk4ywha0HKKVAD6RkW4x6Q+tNBwhf3Bgpuw==
 
-overlayscrollbars@^1.10.0:
-  version "1.10.2"
-  resolved "https://registry.yarnpkg.com/overlayscrollbars/-/overlayscrollbars-1.10.2.tgz#7eaa04a9b6f17432ada9ae0e604517755544b33b"
-  integrity sha512-xlT6CT9NziK8VegHjJRw9O2QrMDi7HTrmPD1ZGYCG0ukJwdsR5l6JnRBAr5NBfsRjnsJpxvGPraRKR17zeGEBg==
+overlayscrollbars@^1.10.3:
+  version "1.10.3"
+  resolved "https://registry.yarnpkg.com/overlayscrollbars/-/overlayscrollbars-1.10.3.tgz#07fd40d2e475bc866da8f1241ad20f0d5df4a73e"
+  integrity sha512-iSxRC7DZ5XJwAZp5FKCz1vJaq+OleHjVAXAhC2Ea7ZXcYS4WbUKaHT+QYjHbEwBiJqm6bOEEfIbt3KR5MBentQ==
 
 perfect-scrollbar@^1.3.0:
   version "1.5.0"
