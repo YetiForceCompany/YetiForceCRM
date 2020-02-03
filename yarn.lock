@@ -300,10 +300,10 @@ good-listener@^1.2.2:
   dependencies:
     delegate "^3.1.2"
 
-gridstack@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-0.6.0.tgz#3927d878114cd7fada136b1fd9be383b14180ef1"
-  integrity sha512-bcg/xP/4Fh3/dIhRIQFPBybR4C/C/eLBT213ZZfQvs3kpUMav7aZhzUZo1JHtPyLRarDGoxoDYg6B7dE86FkrA==
+gridstack@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-0.6.1.tgz#973fe065349c55011ba96acf85b8915fcb11df99"
+  integrity sha512-DuB5bAz2p9GP/KoTaESufxDDqlRMoFGXeu4tk90aNNSFfxT4EE48B2t+BiC/xGt0Zl31XOKd60ZBMNKu9dCUbQ==
   dependencies:
     jquery "^1.8 || 2 || 3"
 

@@ -54,7 +54,7 @@
     "footable": "^2.0.6",
     "fullcalendar": "3.10.1",
     "gantt-elastic": "^1.0.0",
-    "gridstack": "^0.6.0",
+    "gridstack": "^0.6.1",
     "html2canvas": "^1.0.0-alpha.12",
     "html5shiv": "^3.7.3",
     "inputmask": "^5.0.2",
