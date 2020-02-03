@@ -22,7 +22,7 @@
 				data-js="popover{/if}"
 				{if $LINK->get('linkdata') neq '' && is_array($LINK->get('linkdata'))}
 					{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
-						{' '}data-{$NAME}="{$DATA}"
+						{' '}data-{$NAME}="{\App\Purifier::encodeHtml($DATA)}"
 					{/foreach}
 				{/if}
 				{if $LABEL neq '' && $LINK->get('showLabel') != 1}{' '}
