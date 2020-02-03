@@ -99,6 +99,7 @@ class Vtiger_AdvancedFilter_Helper
 			'reference' => ['has changed', 'is empty', 'is not empty'],
 			'owner' => ['has changed', 'is', 'is not', 'is Watching Record', 'is Not Watching Record'],
 			'sharedOwner' => ['has changed', 'is', 'is not', 'is not empty', 'is empty'],
+			'userCreator' => ['is', 'is not', 'is not empty', 'is empty'],
 			'recurrence' => ['is', 'is not', 'has changed'],
 			'comment' => ['is added'],
 			'image' => ['is', 'is not', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty'],
@@ -114,6 +115,7 @@ class Vtiger_AdvancedFilter_Helper
 			'serverAccess' => ['is', 'is not', 'has changed'],
 			'multiDomain' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
 			'currencyInventory' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'],
+			'country' => ['is', 'is not', 'is empty', 'is not empty']
 		];
 	}
 
