@@ -35,6 +35,7 @@
     "LBL_GROUP_NAME": "Group name",
     "PLL_ACTIVE": "Active",
     "PLL_CANCELLED": "Cancelled",
-    "PLL_ARCHIVED": "Archived"
+    "PLL_ARCHIVED": "Archived",
+    "LBL_PARTICIPANT": "Participant"
   }
 }

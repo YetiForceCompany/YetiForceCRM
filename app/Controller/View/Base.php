@@ -83,6 +83,7 @@ abstract class Base extends \App\Controller\Base
 			$this->viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
 			$this->viewer->assign('CURRENT_USER', $user);
 			$this->viewer->assign('WIDTHTYPE', $user->getDetail('rowheight'));
+			$this->viewer->assign('WIDTHTYPE_GROUP', ['narrow' => 'input-group-sm', 'wide' => 'input-group-lg'][$user->getDetail('rowheight')] ?? '');
 			if ($request->isAjax()) {
 				if (!$request->isEmpty('parent', true) && 'Settings' === $request->getByType('parent', 2)) {
 					$this->viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
