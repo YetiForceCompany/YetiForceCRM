@@ -49,6 +49,7 @@ class Install_InitSchema_Model
 			\App\UserPrivilegesFile::recalculateAll();
 			\App\Cache::clear();
 			\App\Cache::clearOpcache();
+			\App\Module::createModuleMetaFile();
 		}
 	}
 
