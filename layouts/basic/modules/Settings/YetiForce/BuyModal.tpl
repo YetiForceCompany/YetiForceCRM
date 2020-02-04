@@ -7,7 +7,7 @@
 	<form  class="js-buy-form" action="{$PAYPAL_URL}" method="POST" target="_blank">
 		<div class="row no-gutters" >
 			<div class="col-sm-18 col-md-12">
-				<div class="text-center pb-3 pb-md-5">
+				<div class="text-center pb-3">
 					{if $IMAGE}
 						<img class="o-buy-modal__img" src="{$IMAGE}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}"/>
 					{else}
@@ -59,10 +59,6 @@
 								<td class="py-2 w-50">{$PRODUCT->getPriceLabel($VARIABLE['os0'])}</td>
 							</tr>
 						{/if}
-						<tr>
-							<td class="{$LABEL_CLASS}">{\App\Language::translate('LBL_SHOP_SUBSCRIPTIONS_DAY', $QUALIFIED_MODULE)}</td>
-							<td class="py-2 w-50">{$VARIABLE['p3']}</td>
-						</tr>
 						<tr>
 							<td class="{$LABEL_CLASS} border-bottom">{\App\Language::translate('LBL_SHOP_PAYMENT_FREQUENCY', $QUALIFIED_MODULE)}</td>
 							<td class="py-2 w-50 border-bottom">{\App\Language::translate("LBL_SHOP_PAYMENT_FREQUENCY_{$VARIABLE['t3']}", $QUALIFIED_MODULE)}</td>

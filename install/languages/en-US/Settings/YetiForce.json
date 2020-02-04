@@ -61,7 +61,6 @@
     "LBL_SHOP_AMOUNT": "Amount",
     "LBL_SHOP_INVOICE_DETAILS": "Invoice data extracted from company data",
     "LBL_SHOP_INVOICE_DETAILS_DESC": "Modification of entered data triggers data update in the system",
-    "LBL_SHOP_SUBSCRIPTIONS_DAY": "Payment due date",
     "LBL_SHOP_PACKAGE": "Package",
     "LBL_SHOP_PACKAGE_DESC": "Depends on company size",
     "LBL_SHOP_PAYMENT_FREQUENCY": "Payment frequency",
