@@ -77,26 +77,31 @@ class SMSNotifier_RingCentral_Provider extends SMSNotifier_Basic_Provider
                 $field['text'] = [''];
                 $field['label'] = 'CLIENT_ID';
                 $fields[] = $field;
+                continue;
             }
             if ($name === 'RINGUSER') {
                 $field['text'] = [''];
                 $field['label'] = 'RINGUSER';
                 $fields[] = $field;
+                continue;
             }
             if ($name === 'RINGPASS') {
                 $field['text'] = [''];
                 $field['label'] = 'RINGPASS';
                 $fields[] = $field;
+                continue;
             }
             if ($name === 'RINGPHONE') {
                 $field['text'] = [''];
                 $field['label'] = 'RINGPHONE';
                 $fields[] = $field;
+                continue;
             }
             if ($name === 'RINGEXT') {
                 $field['text'] = [''];
                 $field['label'] = 'RINGEXT';
                 $fields[] = $field;
+                continue;
             }
         }
         foreach ($fields as &$field) {
