@@ -6110,8 +6110,8 @@ insert  into `vtiger_occurrences_rating`(`occurrences_ratingid`,`occurrences_rat
 /*Data for the table `vtiger_occurrences_status` */
 
 insert  into `vtiger_occurrences_status`(`occurrences_statusid`,`occurrences_status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_ACTIVE',1,940,1);
-insert  into `vtiger_occurrences_status`(`occurrences_statusid`,`occurrences_status`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_CANCELLED',1,941,2);
-insert  into `vtiger_occurrences_status`(`occurrences_statusid`,`occurrences_status`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_ARCHIVED',1,942,3);
+insert  into `vtiger_occurrences_status`(`occurrences_statusid`,`occurrences_status`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_CANCELLED',0,941,2);
+insert  into `vtiger_occurrences_status`(`occurrences_statusid`,`occurrences_status`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_ARCHIVED',0,942,3);
 
 /*Data for the table `vtiger_occurrences_type` */
 
