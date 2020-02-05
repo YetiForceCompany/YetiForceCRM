@@ -8843,7 +8843,7 @@ a.text-dark:hover, a.text-dark:focus {
     border: 1px solid #000; }
   .table, .c-detail-widget__table {
     border-collapse: collapse !important; }
-    
+
     .table td,
     .c-detail-widget__table td, .table th, .c-detail-widget__table th {
       background-color: #fff !important; }
@@ -20404,7 +20404,7 @@ td.fieldValue .input-group {
     min-width: 5rem; }
 
 .o-buy-modal__img {
-  max-height: 11.25rem; }
+  max-height: 10rem; }
 
 .o-shop__nav__item {
   display: flex;
