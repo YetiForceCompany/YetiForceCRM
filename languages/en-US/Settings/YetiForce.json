@@ -38,6 +38,7 @@
     "LBL_SUPPLIERS": "Suppliers",
     "LBL_INVALID_OFFLINE_KEY": "Entered incorrect key",
     "LBL_ONLINE_REGISTRATION_FAILED": "Error during registration.",
+    "LBL_REGISTRATION_COMPANY_DETAILS_VARY": "Company details vary, re-registration is required.",
     "LBL_REGISTRATION_PENDING": "Registration pending for verification",
     "LBL_ACTIVATE": "Activate",
     "LBL_DOWNLOAD_LANG": "Download language",

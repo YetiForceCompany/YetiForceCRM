@@ -91,6 +91,7 @@ class Register
 			'timezone' => date_default_timezone_get(),
 			'insKey' => static::getInstanceKey(),
 			'crmKey' => static::getCrmKey(),
+			'package' => \App\Company::getSize(),
 			'companies' => \App\Company::getAll(),
 		];
 	}
@@ -142,19 +143,20 @@ class Register
 	 *
 	 * @param bool $force
 	 *
-	 * @return bool
+	 * @return int
 	 */
 	public static function check($force = false)
 	{
 		if (!\App\RequestUtil::isNetConnection() || 'yetiforce.com' === gethostbyname('yetiforce.com')) {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
 			static::updateMetaData(['last_error' => 'ERR_NO_INTERNET_CONNECTION', 'last_error_date' => date('Y-m-d H:i:s')]);
-			return false;
+			return 0;
 		}
 		$conf = static::getConf();
 		if (!$force && (!empty($conf['last_check_time']) && (($conf['status'] < 6 && strtotime('+6 hours', strtotime($conf['last_check_time'])) > time()) || ($conf['status'] > 6 && strtotime('+7 day', strtotime($conf['last_check_time'])) > time())))) {
-			return false;
+			return 0;
 		}
+		$status = 0;
 		try {
 			$data = ['last_check_time' => date('Y-m-d H:i:s')];
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post(static::$registrationUrl . 'check', [
@@ -176,24 +178,25 @@ class Register
 						'last_check_time' => date('Y-m-d H:i:s'),
 						'products' => $body['activeProducts']
 					];
-					$status = true;
+					$status = 1;
 				} else {
-					$data['last_error'] = $body['text'];
-					$data['last_error_date'] = date('Y-m-d H:i:s');
+					throw new \App\Exceptions\AppException($body['text'], 4);
 				}
 			} else {
-				throw new \App\Exceptions\AppException('ERR_BODY_IS_EMPTY');
+				throw new \App\Exceptions\AppException('ERR_BODY_IS_EMPTY', 0);
 			}
 			static::updateMetaData($data);
 		} catch (\Throwable $e) {
 			\App\Log::warning($e->getMessage(), __METHOD__);
+			//Company details vary, re-registration is required.
 			static::updateMetaData([
 				'last_error' => $e->getMessage(),
 				'last_error_date' => date('Y-m-d H:i:s'),
 				'last_check_time' => date('Y-m-d H:i:s')
 			]);
+			$status = $e->getCode();
 		}
-		return $status ?? false;
+		return $status;
 	}
 
 	/**
@@ -358,7 +361,7 @@ class Register
 			}
 		}
 		if (!$status) {
-			throw new \App\Exceptions\AppException('ERR_COMPANY_DATA_IS_NOT_COMPATIBLE');
+			throw new \App\Exceptions\AppException('ERR_COMPANY_DATA_IS_NOT_COMPATIBLE', 3);
 		}
 		return $status;
 	}

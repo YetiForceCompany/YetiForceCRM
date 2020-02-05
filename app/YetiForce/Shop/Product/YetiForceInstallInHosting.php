@@ -37,7 +37,8 @@ class YetiForceInstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 		'subdomain' => [
 			'label' => 'LBL_SHOP_DOMAIN_PREFIX',
 			'type' => 'text',
-			'validator' => 'required,custom[onlyLetterNumber]'
+			'append' => '.yetiforce.cloud',
+			'validator' => 'required,custom[onlyLetterNumber],minSize[3],maxSize[20]'
 		],
 		'email' => [
 			'label' => 'LBL_EMAIL',
