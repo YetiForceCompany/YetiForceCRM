@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Reservations calendar model class.
+ * TimeControl calendar model class.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -102,7 +102,7 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Calendar_Model
 	{
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$result = [];
-		$moduleModel = Vtiger_Module_Model::getInstance($this->getModuleName());
+		$moduleModel = $this->getModule();
 		$isSummaryViewSupported = $moduleModel->isSummaryViewSupported();
 		while ($record = $dataReader->read()) {
 			$item = [];

@@ -9,20 +9,8 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Occurrences_Calendar_Model extends App\Base
+class Occurrences_Calendar_Model extends Vtiger_Calendar_Model
 {
-	public $moduleName = 'Occurrences';
-
-	/**
-	 * Get module name.
-	 *
-	 * @return string
-	 */
-	public function getModuleName()
-	{
-		return $this->moduleName;
-	}
-
 	/**
 	 * Get query.
 	 *
@@ -99,16 +87,6 @@ class Occurrences_Calendar_Model extends App\Base
 	}
 
 	/**
-	 * Get records count for extended calendar left column.
-	 *
-	 * @return int|string
-	 */
-	public function getEntityRecordsCount()
-	{
-		return $this->getQuery()->count();
-	}
-
-	/**
 	 * Function to get records.
 	 *
 	 * @return array
@@ -117,7 +95,8 @@ class Occurrences_Calendar_Model extends App\Base
 	{
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$result = [];
-		$isSummaryViewSupported = Vtiger_Module_Model::getInstance($this->getModuleName())->isSummaryViewSupported();
+		$moduleModel = $this->getModule();
+		$isSummaryViewSupported = $moduleModel->isSummaryViewSupported();
 		while ($record = $dataReader->read()) {
 			$item = [];
 			$item['id'] = $record['id'];
@@ -136,22 +115,12 @@ class Occurrences_Calendar_Model extends App\Base
 				$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $record['id'];
 				$item['className'] .= ' js-show-modal';
 			} else {
-				$item['url'] = 'index.php?module=Occurrences&view=Detail&record=' . $record['id'];
+				$item['url'] = $moduleModel->getDetailViewUrl($record['id']);
 			}
 			$result[] = $item;
 		}
 		$dataReader->close();
 		return $result;
-	}
-
-	/**
-	 * Static Function to get the instance of Vtiger Module Model for the given id or name.
-	 *
-	 * @param mixed id or name of the module
-	 */
-	public static function getInstance()
-	{
-		return new self();
 	}
 
 	/**
@@ -159,89 +128,9 @@ class Occurrences_Calendar_Model extends App\Base
 	 *
 	 * @return string[]
 	 */
-	public static function getCalendarTypes()
+	public function getCalendarTypes()
 	{
-		return \App\Fields\Picklist::getValuesName('occurrences_type');
-	}
-
-	/**
-	 * Get public holidays for rendenring them on the calendar.
-	 *
-	 * @return array
-	 */
-	public function getPublicHolidays()
-	{
-		$result = [];
-		foreach (App\Fields\Date::getHolidays(DateTimeField::convertToDBTimeZone($this->get('start'))->format('Y-m-d'), DateTimeField::convertToDBTimeZone($this->get('end'))->format('Y-m-d')) as $holiday) {
-			$item = [];
-			$item['title'] = $holiday['name'];
-			$item['type'] = $holiday['type'];
-			$item['start'] = $holiday['date'];
-			$item['rendering'] = 'background';
-			if ('national' === $item['type']) {
-				$item['color'] = '#FFAB91';
-				$item['icon'] = 'fas fa-flag';
-			} else {
-				$item['color'] = '#81D4FA';
-				$item['icon'] = 'fas fa-church';
-			}
-			$result[] = $item;
-		}
-		return $result;
-	}
-
-	/**
-	 * Gets entity count.
-	 *
-	 * @return array
-	 */
-	public function getEntityCount()
-	{
-		$currentUser = \App\User::getCurrentUserModel();
-		$startDate = DateTimeField::convertToDBTimeZone($this->get('start'));
-		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));
-		$endDate = DateTimeField::convertToDBTimeZone($this->get('end'));
-		$endDate = strtotime($endDate->format('Y-m-d H:i:s'));
-		$dataReader = $this->getQuery()
-			->createCommand()
-			->query();
-		$return = [];
-		while ($record = $dataReader->read()) {
-			$activitytype = $record['occurrences_status'];
-
-			$dateFormat = \App\Fields\DateTime::formatToDisplay($record['date_start']);
-			$dateTimeComponents = explode(' ', $dateFormat);
-			$startDateFormated = \App\Fields\Date::sanitizeDbFormat($dateTimeComponents[0], $currentUser->getDetail('date_format'));
-
-			$dateFormat = \App\Fields\DateTime::formatToDisplay($record['date_start']);
-			$dateTimeComponents = explode(' ', $dateFormat);
-			$endDateFormated = \App\Fields\Date::sanitizeDbFormat($dateTimeComponents[0], $currentUser->getDetail('date_format'));
-
-			$begin = new DateTime($startDateFormated);
-			$end = new DateTime($endDateFormated);
-			$end->modify('+1 day');
-			$interval = DateInterval::createFromDateString('1 day');
-			foreach (new DatePeriod($begin, $interval, $end) as $dt) {
-				$date = strtotime($dt->format('Y-m-d'));
-				if ($date >= $startDate && $date <= $endDate) {
-					$date = date('Y-m-d', $date);
-
-					$return[$date]['start'] = $date;
-					$return[$date]['date'] = $date;
-					if (isset($return[$date]['event'][$activitytype]['count'])) {
-						++$return[$date]['event'][$activitytype]['count'];
-					} else {
-						$return[$date]['event'][$activitytype]['count'] = 1;
-					}
-					$return[$date]['event'][$activitytype]['className'] = '  fc-draggable picklistCBg_Occurrences_occurrences_status_' . $activitytype;
-					$return[$date]['event'][$activitytype]['label'] = \App\Language::translate($activitytype, $this->getModuleName());
-					$return[$date]['type'] = 'widget';
-				}
-			}
-		}
-		$dataReader->close();
-
-		return array_values($return);
+		return $this->getModule()->getFieldByName('occurrences_type')->getPicklistValues();
 	}
 
 	/**
@@ -286,5 +175,29 @@ class Occurrences_Calendar_Model extends App\Base
 		}
 		$dataReader->close();
 		return array_values($return);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function updateEvent(int $recordId, string $data, array $delta)
+	{
+		$start = DateTimeField::convertToDBTimeZone($data, \App\User::getCurrentUserModel(), false);
+		$dateStart = $start->format('Y-m-d H:i:s');
+		try {
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->getModuleName());
+			if ($success = $recordModel->isEditable()) {
+				$end = $this->changeDateTime($recordModel->get('date_end'), $delta);
+				$dueDate = $end['date'] . ' ' . $end['time'];
+				$recordModel->set('date_start', $dateStart);
+				$recordModel->set('date_end', $dueDate);
+				$recordModel->save();
+				$success = true;
+			}
+		} catch (Exception $e) {
+			\App\Log::error($e->__toString());
+			$success = false;
+		}
+		return $success;
 	}
 }

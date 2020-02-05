@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Occurrences calendar view class.
+ * Calendar view class.
  *
  * @package View
  *

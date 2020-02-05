@@ -143,16 +143,22 @@ abstract class Vtiger_Calendar_Model extends App\Base
 		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));
 		$endDate = DateTimeField::convertToDBTimeZone($this->get('end'));
 		$endDate = strtotime($endDate->format('Y-m-d H:i:s'));
-		$dataReader = $this->getQuery()->createCommand()->query();
+		$dataReader = $this->getQuery()
+			->createCommand()
+			->query();
 		$return = [];
 		while ($record = $dataReader->read()) {
-			$dateFormat = \App\Fields\DateTime::formatToDisplay($record['date_start']);
-			$dateTimeComponents = explode(' ', $dateFormat);
-			$startDateFormated = \App\Fields\Date::sanitizeDbFormat($dateTimeComponents[0], $currentUser->getDetail('date_format'));
+			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
+			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
+			$dateTimeComponents = explode(' ', $userDateTimeString);
+			$dateComponent = $dateTimeComponents[0];
+			$startDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->getDetail('date_format'));
 
-			$dateFormat = \App\Fields\DateTime::formatToDisplay($record['date_start']);
-			$dateTimeComponents = explode(' ', $dateFormat);
-			$endDateFormated = \App\Fields\Date::sanitizeDbFormat($dateTimeComponents[0], $currentUser->getDetail('date_format'));
+			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
+			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
+			$dateTimeComponents = explode(' ', $userDateTimeString);
+			$dateComponent = $dateTimeComponents[0];
+			$endDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->getDetail('date_format'));
 
 			$begin = new DateTime($startDateFormated);
 			$end = new DateTime($endDateFormated);
@@ -172,6 +178,7 @@ abstract class Vtiger_Calendar_Model extends App\Base
 			}
 		}
 		$dataReader->close();
+
 		return array_values($return);
 	}
 
