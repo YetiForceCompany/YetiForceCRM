@@ -24,6 +24,7 @@ class YetiForceDisableBranding extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Small' => 25,
 		'Medium' => 50,
 		'Large' => 100,
+		'Corporation' => 500,
 	];
 
 	/**

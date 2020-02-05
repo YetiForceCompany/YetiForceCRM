@@ -28,6 +28,7 @@ class YetiForceInstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Small' => 100,
 		'Medium' => 200,
 		'Large' => 400,
+		'Corporation' => 2000,
 	];
 
 	/**

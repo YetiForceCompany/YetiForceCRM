@@ -28,6 +28,7 @@ class ModulesPremium extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Small' => 60,
 		'Medium' => 100,
 		'Large' => 250,
+		'Corporation' => 1000,
 	];
 	/**
 	 * {@inheritdoc}

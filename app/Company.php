@@ -21,7 +21,8 @@ class Company extends Base
 		'Micro' => 10,
 		'Small' => 50,
 		'Medium' => 250,
-		'Large' => 0,
+		'Large' => 1000,
+		'Corporation' => 0
 	];
 
 	/**
@@ -104,13 +105,15 @@ class Company extends Base
 	{
 		$count = User::getNumberOfUsers();
 		$return = 'Micro';
+		$last = 0;
 		foreach (self::$sizes as $size => $value) {
-			if (0 !== $value && $count > $value) {
+			if (0 !== $value && 0 !== $value && $count <= $value && $count > $last) {
+				return $size;
+			}
+			if (0 === $value && $count > 1000) {
 				$return = $size;
 			}
-			if (0 === $value && $count > 250) {
-				$return = $size;
-			}
+			$last = $value;
 		}
 		return $return;
 	}
