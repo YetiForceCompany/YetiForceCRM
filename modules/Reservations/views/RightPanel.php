@@ -35,7 +35,7 @@ class Reservations_RightPanel_View extends Calendar_RightPanel_View
 	public function getTypesList(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('ALL_ACTIVETYPES_LIST', Reservations_Calendar_Model::getCalendarTypes());
+		$viewer->assign('ALL_ACTIVETYPES_LIST', Vtiger_Calendar_Model::getInstance($request->getModule())->getCalendarTypes());
 		$viewer->view($this->getTpl('RightPanel.tpl'), $request->getModule());
 	}
 }

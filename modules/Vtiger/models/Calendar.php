@@ -92,16 +92,6 @@ abstract class Vtiger_Calendar_Model extends App\Base
 	}
 
 	/**
-	 * Function to get type of calendars.
-	 *
-	 * @return string[]
-	 */
-	public static function getCalendarTypes()
-	{
-		return \App\Fields\Picklist::getValuesName('occurrences_type');
-	}
-
-	/**
 	 * Get public holidays for rendering them on the calendar.
 	 *
 	 * @return array

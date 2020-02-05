@@ -135,9 +135,9 @@ class Reservations_Calendar_Model extends Vtiger_Calendar_Model
 	 *
 	 * @return string[]
 	 */
-	public static function getCalendarTypes()
+	public function getCalendarTypes()
 	{
-		$templateId = Vtiger_Field_Model::getInstance('type', Vtiger_Module_Model::getInstance('Reservations'))->getFieldParams();
+		$templateId = $this->getModule()->getFieldByName('type')->getFieldParams();
 		return (new App\Db\Query())->select(['tree', 'label'])->from('vtiger_trees_templates_data')
 			->where(['templateid' => $templateId])
 			->createCommand()->queryAllByGroup(0);
