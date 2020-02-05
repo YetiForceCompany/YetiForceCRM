@@ -5,7 +5,7 @@
  * @extends Calendar_Calendar_Js
  */
 window.calendarLoaded = false; //Global calendar flag needed for correct loading data from history browser in year view
-window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
+window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends Calendar_Calendar_Js {
 	constructor(container, readonly) {
 		super(container, readonly);
 		this.sidebarView = {
@@ -22,6 +22,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	addCommonMethodsToYearView() {
 		const self = this;
 		FC.views.year = FC.views.year.extend({
+			baseInstance: self,
 			selectDays: self.selectDays,
 			getCalendarCreateView: self.getCalendarCreateView,
 			getSidebarView: self.getSidebarView,
@@ -46,7 +47,8 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			container: self.container,
 			module: self.module,
 			showChangeDateButtons: self.showChangeDateButtons,
-			showTodayButtonCheckbox: self.showTodayButtonCheckbox
+			showTodayButtonCheckbox: self.showTodayButtonCheckbox,
+			getDefaultParams: self.getDefaultParams
 		});
 	}
 
@@ -160,11 +162,11 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			switchSwitchingDays = switchContainer.find('.js-switch--switchingDays');
 		let historyParams = app.getMainParams('historyParams', true);
 		if (historyParams === '') {
-			(isWorkDays =
+			isWorkDays =
 				app.getMainParams('switchingDays') === 'workDays' &&
-				app.moduleCacheGet('defaultSwitchingDays') !== 'all'),
-				(switchShowTypeVal =
-					app.getMainParams('showType') === 'current' && app.moduleCacheGet('defaultShowType') !== 'history');
+				app.moduleCacheGet('defaultSwitchingDays') !== 'all';
+			switchShowTypeVal =
+				app.getMainParams('showType') === 'current' && app.moduleCacheGet('defaultShowType') !== 'history';
 			if (!switchShowTypeVal) {
 				switchShowType.find('.js-switch--label-off').button('toggle');
 			}

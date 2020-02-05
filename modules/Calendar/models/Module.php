@@ -86,35 +86,12 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			'linkurl' => $this->getListViewUrl(),
 			'linkicon' => 'fas fa-list',
 		]);
-		if (isset($linkParams['ACTION']) && 'Calendar' === $linkParams['ACTION']) {
-			if (App\Config::module('Calendar', 'SHOW_LIST_BUTTON')) {
-				$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'SIDEBARLINK',
-					'linklabel' => 'LBL_CALENDAR_LIST',
-					'linkurl' => 'javascript:Calendar_Calendar_Js.getInstanceByView().goToRecordsList("' . $this->getListViewUrl() . '&viewname=All");',
-					'linkicon' => 'far fa-calendar-minus',
-				]);
-			}
-			$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGETRIGHT',
-				'linklabel' => 'Activity Type',
-				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getActivityType',
-				'linkicon' => '',
-				'linkclass' => 'js-calendar__filter--types',
-			]);
-			$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGETRIGHT',
-				'linklabel' => 'LBL_USERS',
-				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getUsersList',
-				'linkicon' => '',
-				'linkclass' => 'js-calendar__filter--users',
-			]);
-			$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGETRIGHT',
-				'linklabel' => 'LBL_GROUPS',
-				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getGroupsList',
-				'linkicon' => '',
-				'linkclass' => 'js-calendar__filter--groups',
+		if (isset($linkParams['ACTION']) && 'Calendar' === $linkParams['ACTION'] && App\Config::module('Calendar', 'SHOW_LIST_BUTTON')) {
+			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'LBL_CALENDAR_LIST',
+				'linkurl' => 'javascript:Calendar_Calendar_Js.getInstanceByView().goToRecordsList("' . $this->getListViewUrl() . '&viewname=All");',
+				'linkicon' => 'far fa-calendar-minus',
 			]);
 		}
 		return $links;

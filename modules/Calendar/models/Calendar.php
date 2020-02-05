@@ -10,6 +10,7 @@
 class Calendar_Calendar_Model extends App\Base
 {
 	public $moduleName = 'Calendar';
+	public $module;
 	public $relationAcounts = [
 		'Contacts' => ['vtiger_contactdetails', 'contactid', 'parentid'],
 		'Project' => ['vtiger_project', 'projectid', 'linktoaccountscontacts'],
@@ -25,6 +26,19 @@ class Calendar_Calendar_Model extends App\Base
 	public function getModuleName()
 	{
 		return $this->moduleName;
+	}
+
+	/**
+	 * Get module name.
+	 *
+	 * @return string
+	 */
+	public function getModule()
+	{
+		if (!isset($this->module)) {
+			$this->module = Vtiger_Module_Model::getInstance($this->getModuleName());
+		}
+		return $this->module;
 	}
 
 	/**
@@ -344,5 +358,50 @@ class Calendar_Calendar_Model extends App\Base
 			'PLL_BREAK_TIME',
 			'PLL_HOLIDAY',
 		];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getSideBarLinks($linkParams)
+	{
+		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['SIDEBARWIDGET'], $linkParams)['SIDEBARWIDGET'] ?? [];
+		if ('Extended' === App\Config::module('Calendar', 'CALENDAR_VIEW')) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARWIDGET',
+				'linklabel' => 'LBL_USERS',
+				'linkurl' => "module={$this->getModuleName()}&view=RightPanelExtended&mode=getUsersList",
+				'linkclass' => 'js-users-form usersForm '
+			]);
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARWIDGET',
+				'linklabel' => 'LBL_GROUPS',
+				'linkurl' => "module={$this->getModuleName()}&view=RightPanelExtended&mode=getGroupsList",
+				'linkclass' => 'js-group-form groupForm',
+			]);
+		} else {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARWIDGETRIGHT',
+				'linklabel' => 'Activity Type',
+				'linkurl' => "module={$this->getModuleName()}&view=RightPanel&mode=getActivityType",
+				'linkdata' => ['cache' => 'calendar-types', 'name' => 'types'],
+				'linkclass' => 'js-calendar__filter--types',
+			]);
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARWIDGETRIGHT',
+				'linklabel' => 'LBL_USERS',
+				'linkurl' => "module={$this->getModuleName()}&view=RightPanel&mode=getUsersList",
+				'linkicon' => '',
+				'linkclass' => 'js-calendar__filter--users',
+			]);
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARWIDGETRIGHT',
+				'linklabel' => 'LBL_GROUPS',
+				'linkurl' => "module={$this->getModuleName()}&view=RightPanel&mode=getGroupsList",
+				'linkicon' => '',
+				'linkclass' => 'js-calendar__filter--groups',
+			]);
+		}
+		return $links;
 	}
 }

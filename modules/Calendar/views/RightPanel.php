@@ -31,7 +31,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		return "Standard/$tplFile";
 	}
 
-	public function getUsersList(\App\Request $request)
+	public function getUsersList(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -67,7 +67,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		$viewer->view($this->getTpl('RightPanel.tpl'), $moduleName);
 	}
 
-	public function getGroupsList(\App\Request $request)
+	public function getGroupsList(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -98,7 +98,7 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 		$viewer->view($this->getTpl('RightPanel.tpl'), $moduleName);
 	}
 
-	public function getActivityType(\App\Request $request)
+	public function getActivityType(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

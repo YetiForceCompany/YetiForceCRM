@@ -126,9 +126,10 @@ FC.views.year = View.extend({
 			app.setMainParams('showType', this.browserHistoryConfig.time);
 			app.setMainParams('usersId', this.browserHistoryConfig.user);
 		}
+		let className = this.baseInstance.constructor.name;
 		connectorMethod(options).done(function(events) {
 			yearView.find('.fc-year__month').each(function(i) {
-				let calendarInstance = new Calendar_Calendar_Js(self.container, self.readonly);
+				let calendarInstance = new window[className](self.container, self.readonly);
 				let basicOptions = calendarInstance.setCalendarMinimalOptions(),
 					monthOptions = {
 						defaultView: 'month',

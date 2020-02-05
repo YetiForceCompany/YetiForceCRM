@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Calendar-Extended-RightPanel -->
+	<!-- tpl-Base-Calendar-RightPanel -->
 	{if !empty($ALL_ACTIVEUSER_LIST)}
 		<div class="js-filter__container">
 			<h6 class="boxFilterTitle mt-2">{\App\Language::translate('LBL_SELECT_USER_CALENDAR',$MODULE_NAME)}</h6>
@@ -21,7 +21,7 @@
 									<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
 										   class="js-input-user-owner-id alignMiddle mr-2"
 											{if (empty($HISTORY_USERS) && $USER_MODEL->getId() eq $OWNER_ID) || (!empty($HISTORY_USERS) && in_array($OWNER_ID, $HISTORY_USERS))} checked {/if}>
-									{if empty($HIDE_PIN_USER)}
+									{if !empty($PIN_USER)}
 										<div class="js-pin-user d-inline-block align-middle text-center"
 											data-elementid="{$OWNER_ID}"
 											data-js="click|data-elementid">
@@ -41,10 +41,10 @@
 			{else}
 				<select class="js-input-user-owner-id-ajax form-control"
 						data-validation-engine="validate[required]"
-						title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE)}"
+						title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE_NAME)}"
 						name="transferOwnerId" id="transferOwnerId" multiple="multiple"
 						data-ajax-search="1"
-						data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=users"
+						data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=users"
 						data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
 					<option value="{$USER_MODEL->get('id')}"
 							data-picklistvalue="{$USER_MODEL->getName()}">
@@ -56,7 +56,7 @@
 	{/if}
 	{if !empty($ALL_ACTIVEGROUP_LIST)}
 		<div class="js-filter__container">
-			<h6 class="boxFilterTitle mt-2">{\App\Language::translate('LBL_SELECT_GROUP_CALENDAR',$MODULE)}</h6>
+			<h6 class="boxFilterTitle mt-2">{\App\Language::translate('LBL_SELECT_GROUP_CALENDAR',$MODULE_NAME)}</h6>
 			{if !App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
 				<div class="input-group input-group-sm mb-3">
 					<div class="input-group-prepend">
@@ -86,10 +86,10 @@
 			{else}
 				<select class="js-input-role-owner-id-ajax form-control"
 						data-validation-engine="validate[required]"
-						title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE)}"
+						title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE_NAME)}"
 						name="transferRoleOwnerId" id="transferRoleOwnerId" multiple="multiple"
 						data-ajax-search="1"
-						data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=groups"
+						data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=groups"
 						data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
 					<option value="{$USER_MODEL->get('id')}"
 							data-picklistvalue="{$USER_MODEL->getName()}">
@@ -99,5 +99,5 @@
 			{/if}
 		</div>
 	{/if}
-	<!-- /tpl-Calendar-Extended-RightPanel -->
+	<!-- /tpl-Base-Calendar-RightPanel -->
 {/strip}

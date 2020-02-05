@@ -34,7 +34,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 //standard calendar toggle button
 .container-fluid:not([class*="-calendarextended-container"]) {
 	.basePanel {
-		.toggleSiteBarRightButton {
+		.c-standard-toggle-button {
 			background: $light;
 			font-weight: bold;
 			padding: 15px 0 !important;
@@ -125,6 +125,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 
 //Calendar Extended
 .tpl-Calendar-Extended-CalendarViewPreProcess,
+.c-calendar-view,
 .tpl-Calendar-Extended-QuickCreate {
 	$header-btn-font-size: 14px;
 	$count-badge-color: material-color("red", "200");
@@ -752,7 +753,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 				//border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
 				font-size: calculate-rem(13px);
 
-				@at-root .c-menu--open #{&} {
+				@at-root .c-menu--open & {
 					right: calc(25% - 51px);
 				}
 

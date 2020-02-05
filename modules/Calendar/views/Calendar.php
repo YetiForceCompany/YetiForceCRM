@@ -102,6 +102,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 			$viewer->assign('HIDDEN_DAYS', implode(',', $request->getExploded('hiddenDays', ',', 'Integer')));
 			$viewer->assign('TIME', $request->getByType('time', 'Standard'));
 		}
+		$viewer->assign('LINKS', Vtiger_Calendar_Model::getInstance($request->getModule())->getSideBarLinks([]));
 		$viewer->assign('HISTORY_PARAMS', $historyParams ?? '');
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 		$viewer->assign('EVENT_CREATE', \App\Privilege::isPermitted($request->getModule(), 'CreateView'));

@@ -18,7 +18,7 @@ class Reservations_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
+		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK'], $linkParams);
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'SIDEBARLINK',
 			'linklabel' => 'LBL_CALENDAR_VIEW',
@@ -31,22 +31,6 @@ class Reservations_Module_Model extends Vtiger_Module_Model
 			'linkurl' => $this->getListViewUrl(),
 			'linkicon' => 'fas fa-list',
 		]);
-		if (isset($linkParams['ACTION']) && 'Calendar' === $linkParams['ACTION']) {
-			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_USERS',
-				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getUsersList',
-				'linkicon' => '',
-				'linkclass' => 'js-calendar__filter--users',
-			]);
-			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_TYPE',
-				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getTypesList',
-				'linkicon' => '',
-				'linkclass' => 'js-calendar__filter--types',
-			]);
-		}
 		return $links;
 	}
 

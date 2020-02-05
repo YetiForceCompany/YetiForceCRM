@@ -15,11 +15,14 @@ window.Calendar_Js = class {
 		this.readonly = readonly;
 		this.eventCreate = app.getMainParams('eventCreate');
 		this.eventEdit = app.getMainParams('eventEdit');
-		this.browserHistory = !readonly && browserHistory
+		this.browserHistory = !readonly && browserHistory;
 		this.browserHistoryConfig = this.browserHistory ? {} : this.setBrowserHistoryOptions();
 		this.calendarOptions = this.setCalendarOptions();
 		this.eventTypeKeyName = false;
 		this.module = app.getModuleName();
+		this.sidebarView = {
+			length: 0
+		};
 	}
 
 	/**
@@ -373,14 +376,93 @@ window.Calendar_Js = class {
 		);
 		return options;
 	}
+	/**
+	 * Register filters
+	 */
+	registerFilters() {
+		const thisInstance = this;
+		let aDeferred = jQuery.Deferred();
 
+		let sideBar = thisInstance.getSidebarView();
+		if (!sideBar || sideBar.length <= 0) {
+			aDeferred.resolve(true);
+			return aDeferred.promise();
+		}
+		sideBar.find('.js-sidebar-filter-container').each((_, row) => {
+			if (row.dataset.url) {
+				AppConnector.request(row.dataset.url).done(function(data) {
+					if (data) {
+						let formContainer = $(row).find('.js-sidebar-filter-body');
+						formContainer.html(data);
+						thisInstance.registerUsersChange(formContainer);
+						App.Fields.Picklist.showSelect2ElementView(formContainer.find('select'));
+						app.showNewScrollbar(formContainer, {
+							suppressScrollX: true
+						});
+						thisInstance.registerFilterForm(formContainer);
+					}
+				});
+			}
+		});
+		return aDeferred.promise();
+	}
+	/**
+	 * Register filter for users and groups
+	 * @param {jQuery} container
+	 */
+	registerFilterForm(container) {
+		if (container.find('.js-filter__search').length) {
+			container.find('.js-filter__search').on('keyup', this.findElementOnList.bind(self));
+		}
+		container.find('.js-calendar__filter__select, .filterField').each((_, e) => {
+			let element = $(e);
+			let name = element.data('cache');
+			let cachedValue = app.moduleCacheGet(name);
+			if (element.length > 0 && cachedValue !== undefined) {
+				if (element.prop('tagName') == 'SELECT') {
+					element.val(cachedValue);
+				}
+			} else if (element.length > 0 && cachedValue === undefined && !element.find(':selected').length) {
+				let allOptions = [];
+				element.find('option').each((i, option) => {
+					allOptions.push($(option).val());
+				});
+				element.val(allOptions);
+				app.moduleCacheSet(name, cachedValue);
+			}
+
+			element.off('change');
+			App.Fields.Picklist.showSelect2ElementView(element);
+			element.on('change', e => {
+				let item = $(e.currentTarget);
+				let value = item.val();
+				if (value == null) {
+					value = '';
+				}
+				if (item.attr('type') == 'checkbox') {
+					value = element.is(':checked');
+				}
+				app.moduleCacheSet(item.data('cache'), value);
+				this.loadCalendarData();
+			});
+		});
+	}
+
+	registerUsersChange(formContainer) {
+		formContainer.find('.js-input-user-owner-id-ajax, .js-input-user-owner-id').on('change', () => {
+			this.getCalendarView()
+				.fullCalendar('getCalendar')
+				.view.options.loadView();
+		});
+	}
 	/**
 	 * Register events.
 	 * @returns {object}
 	 */
 	registerEvents() {
-		this.renderCalendar();
+		this.registerFilters();
 		this.registerSitebarEvents();
+		this.renderCalendar();
 		this.registerButtonSelectAll();
 		this.registerAddButton();
 	}
@@ -415,7 +497,17 @@ window.Calendar_Js = class {
 			});
 		}
 	}
-
+	getSidebarView() {
+		if (!this.sidebarView.length) {
+			this.sidebarView = this.container.find('.js-calendar-right-panel');
+		}
+		return this.sidebarView;
+	}
+	getCurrentCvId() {
+		return $('.js-calendar__extended-filter-tab .active')
+			.parent('.js-filter-tab')
+			.data('cvid');
+	}
 	/**
 	 * Default params
 	 * @returns {{module: *, action: string, mode: string, start: *, end: *, user: *, emptyFilters: boolean}}
@@ -423,7 +515,9 @@ window.Calendar_Js = class {
 	getDefaultParams() {
 		let formatDate = CONFIG.dateFormat.toUpperCase(),
 			view = this.getCalendarView().fullCalendar('getView'),
-			users = app.moduleCacheGet('calendar-users') || CONFIG.userId;
+			cvid = this.getCurrentCvId(),
+			users = app.moduleCacheGet('calendar-users') || CONFIG.userId,
+			sideBar = this.getSidebarView();
 		let params = {
 			module: CONFIG.module,
 			action: 'Calendar',
@@ -431,14 +525,44 @@ window.Calendar_Js = class {
 			start: view.start.format(formatDate),
 			end: view.end.format(formatDate),
 			user: users,
+			cvid: cvid,
 			emptyFilters: users.length === 0
 		};
-		if (app.moduleCacheGet('calendar-types')) {
-			params.types = app.moduleCacheGet('calendar-types');
-			params.emptyFilters = users.length === 0 || params.types.length === 0;
-		} else {
-			params.types = [];
+		let filters = [];
+		sideBar.find('.calendarFilters .filterField').each(function() {
+			let element = $(this),
+				name,
+				value;
+			if (element.attr('type') == 'checkbox') {
+				name = element.val();
+				value = element.prop('checked') ? 1 : 0;
+			} else {
+				name = element.attr('name');
+				value = element.val();
+			}
+			filters.push({ name: name, value: value });
+		});
+		if (filters.length) {
+			params.filters = filters;
 		}
+		sideBar.find('.js-sidebar-filter-container').each((_, e) => {
+			let element = $(e);
+			let name = element.data('name');
+			let cacheName = element.data('cache');
+			if (name && cacheName && app.moduleCacheGet(cacheName)) {
+				params[name] = app.moduleCacheGet(cacheName);
+				params.emptyFilters = !params.emptyFilters && params[name].length === 0;
+			}
+		});
+		sideBar.find('.js-calendar__filter__select').each((_, e) => {
+			let element = $(e);
+			let name = element.attr('name');
+			let cacheName = element.data('cache');
+			if (name && cacheName && app.moduleCacheGet(cacheName)) {
+				params[name] = app.moduleCacheGet(cacheName);
+				params.emptyFilters = !params.emptyFilters && params[name].length === 0;
+			}
+		});
 		return params;
 	}
 
@@ -593,7 +717,8 @@ window.Calendar_Js = class {
 			className: `js-popover-tooltip--record ownerCBg_${calendarDetails.assigned_user_id.value} picklistCBr_${
 				CONFIG.module
 			}_${
-				$('.js-calendar__filter__select[data-cache="calendar-types"]').length
+				$('.js-calendar__filter__select[data-cache="calendar-types"]').length &&
+				calendarDetails[this.eventTypeKeyName]
 					? this.eventTypeKeyName + '_' + calendarDetails[this.eventTypeKeyName]['value']
 					: ''
 			}`,
@@ -613,23 +738,31 @@ window.Calendar_Js = class {
 		let calendarTypes = $('.js-calendar__filter__select[data-cache="calendar-types"]');
 		if (calendarTypes.length) {
 			if (!this.eventTypeKeyName) {
-				this.setEventTypeKey(eventObject);
+				this.setEventTypeKey(eventObject, calendarTypes.data('name'));
 			}
-			if ($.inArray(eventObject[this.eventTypeKeyName]['value'], calendarTypes.val()) < 0) {
+			if (
+				this.eventTypeKeyName &&
+				calendarTypes.val().length &&
+				$.inArray(eventObject[this.eventTypeKeyName]['value'], calendarTypes.val()) < 0
+			) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	setEventTypeKey(eventObject) {
+	setEventTypeKey(eventObject, keyName) {
 		let self = this;
-		Object.keys(eventObject).forEach(function(key, index) {
-			if (key.endsWith('type')) {
-				// there are different names for event types in modules
-				self.eventTypeKeyName = key;
-			}
-		});
+		if (keyName && eventObject.keyName !== undefined) {
+			self.eventTypeKeyName = keyName;
+		} else {
+			Object.keys(eventObject).forEach(function(key, index) {
+				if (key.endsWith('type')) {
+					// there are different names for event types in modules
+					self.eventTypeKeyName = key;
+				}
+			});
+		}
 	}
 
 	refreshFilterValues(eventObject, filtersValues) {
