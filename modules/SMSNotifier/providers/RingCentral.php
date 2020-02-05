@@ -73,35 +73,12 @@ class SMSNotifier_RingCentral_Provider extends SMSNotifier_Basic_Provider
         $moduleName = 'Settings:SMSNotifier';
         foreach ($this->getRequiredParams() as $name) {
             $field = ['uitype' => 1, 'column' => $name, 'name' => $name, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
-            if ($name === 'CLIENT_ID') {
-                $field['text'] = [''];
-                $field['label'] = 'CLIENT_ID';
-                $fields[] = $field;
-                continue;
-            }
-            if ($name === 'RINGUSER') {
-                $field['text'] = [''];
-                $field['label'] = 'RINGUSER';
-                $fields[] = $field;
-                continue;
-            }
-            if ($name === 'RINGPASS') {
-                $field['text'] = [''];
-                $field['label'] = 'RINGPASS';
-                $fields[] = $field;
-                continue;
-            }
-            if ($name === 'RINGPHONE') {
-                $field['text'] = [''];
-                $field['label'] = 'RINGPHONE';
-                $fields[] = $field;
-                continue;
-            }
-            if ($name === 'RINGEXT') {
-                $field['text'] = [''];
-                $field['label'] = 'RINGEXT';
-                $fields[] = $field;
-                continue;
+            switch ($name){
+                case ("CLIENT_ID" || "RINGUSER" || "RINGPASS" || "RINGPHONE" || "RINGEXT"):
+                    $field['text'] = [''];
+                    $field['label'] = $name;
+                    $fields[] = $field;
+                    break;
             }
         }
         foreach ($fields as &$field) {
