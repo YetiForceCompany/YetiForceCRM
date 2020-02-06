@@ -159,7 +159,9 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			switchShowTypeVal,
 			switchContainer = $('.js-calendar__tab--filters'),
 			switchShowType = switchContainer.find('.js-switch--showType'),
-			switchSwitchingDays = switchContainer.find('.js-switch--switchingDays');
+			showTypeState = switchShowType.find('.js-switch--label-on.active').length ? 'current' : 'history',
+			switchSwitchingDays = switchContainer.find('.js-switch--switchingDays'),
+			switchingDaysState = switchSwitchingDays.find('.js-switch--label-on.active').length ? 'workDays' : 'all';
 		let historyParams = app.getMainParams('historyParams', true);
 		if (historyParams === '') {
 			isWorkDays =
@@ -171,8 +173,9 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				switchShowType.find('.js-switch--label-off').button('toggle');
 			}
 		} else {
-			app.setMainParams('showType', historyParams.time);
-			app.setMainParams('switchingDays', historyParams.hiddenDays === '' ? 'all' : 'workDays');
+			if (historyParams.time !== undefined) {
+				app.setMainParams('showType', historyParams.time);
+			}
 		}
 		switchShowType.on('change', 'input', e => {
 			const currentTarget = $(e.currentTarget);
@@ -185,10 +188,12 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			}
 			calendarView.fullCalendar('getCalendar').view.options.loadView();
 		});
-		$('label.active', switchShowType)
-			.find('input')
-			.filter(':first')
-			.change();
+		if (app.getMainParams('showType') !== showTypeState) {
+			$('label.active', switchShowType)
+				.find('input')
+				.filter(':first')
+				.change();
+		}
 		if (switchSwitchingDays.length) {
 			if (typeof isWorkDays !== 'undefined' && !isWorkDays) {
 				switchSwitchingDays.find('.js-switch--label-off').button('toggle');
@@ -210,10 +215,12 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 					this.registerViewRenderEvents(calendarView.fullCalendar('getView'));
 				}
 			});
-			$('label.active', switchSwitchingDays)
-				.find('input')
-				.filter(':first')
-				.change();
+			if (app.getMainParams('switchingDays') !== switchingDaysState) {
+				$('label.active', switchSwitchingDays)
+					.find('input')
+					.filter(':first')
+					.change();
+			}
 		}
 	}
 
@@ -373,7 +380,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	}
 
 	getSidebarView() {
-		if (!this.sidebarView.length) {
+		if (!this.sidebarView || !this.sidebarView.length) {
 			this.sidebarView = this.container.find('.js-calendar-right-panel');
 		}
 		return this.sidebarView;

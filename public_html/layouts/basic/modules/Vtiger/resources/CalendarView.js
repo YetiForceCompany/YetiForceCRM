@@ -765,7 +765,9 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 			switchShowTypeVal,
 			switchContainer = $('.js-calendar__tab--filters'),
 			switchShowType = switchContainer.find('.js-switch--showType'),
-			switchSwitchingDays = switchContainer.find('.js-switch--switchingDays');
+			showTypeState = switchShowType.find('.js-switch--label-on.active').length ? 'current' : 'history',
+			switchSwitchingDays = switchContainer.find('.js-switch--switchingDays'),
+			switchingDaysState = switchSwitchingDays.find('.js-switch--label-on.active').length ? 'workDays' : 'all';
 		let historyParams = app.getMainParams('historyParams', true);
 		if (historyParams === '') {
 			isWorkDays =
@@ -777,7 +779,9 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 				switchShowType.find('.js-switch--label-off').button('toggle');
 			}
 		} else {
-			app.setMainParams('showType', historyParams.time);
+			if (historyParams.time !== undefined) {
+				app.setMainParams('showType', historyParams.time);
+			}
 			app.setMainParams('switchingDays', historyParams.hiddenDays === '' ? 'all' : 'workDays');
 		}
 		switchShowType.on('change', 'input', e => {
@@ -791,10 +795,12 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 			}
 			calendarView.fullCalendar('getCalendar').view.options.loadView();
 		});
-		$('label.active', switchShowType)
-			.find('input')
-			.filter(':first')
-			.change();
+		if (app.getMainParams('showType') !== showTypeState) {
+			$('label.active', switchShowType)
+				.find('input')
+				.filter(':first')
+				.change();
+		}
 		if (switchSwitchingDays.length) {
 			if (typeof isWorkDays !== 'undefined' && !isWorkDays) {
 				switchSwitchingDays.find('.js-switch--label-off').button('toggle');
@@ -816,10 +822,12 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 					this.registerViewRenderEvents(calendarView.fullCalendar('getView'));
 				}
 			});
-			$('label.active', switchSwitchingDays)
-				.find('input')
-				.filter(':first')
-				.change();
+			if (app.getMainParams('switchingDays') !== switchingDaysState) {
+				$('label.active', switchSwitchingDays)
+					.find('input')
+					.filter(':first')
+					.change();
+			}
 		}
 	}
 

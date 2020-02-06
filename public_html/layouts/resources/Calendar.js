@@ -16,13 +16,13 @@ window.Calendar_Js = class {
 		this.eventCreate = app.getMainParams('eventCreate');
 		this.eventEdit = app.getMainParams('eventEdit');
 		this.browserHistory = !readonly && browserHistory;
+		this.sidebarView = {
+			length: 0
+		};
 		this.browserHistoryConfig = this.browserHistory ? {} : this.setBrowserHistoryOptions();
 		this.calendarOptions = this.setCalendarOptions();
 		this.eventTypeKeyName = false;
 		this.module = app.getModuleName();
-		this.sidebarView = {
-			length: 0
-		};
 	}
 
 	/**

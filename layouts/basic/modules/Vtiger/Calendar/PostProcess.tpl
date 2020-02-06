@@ -41,7 +41,7 @@
 					<div class="o-calendar__tab--filters js-calendar__tab--filters d-flex flex-column">
 						<div>
 							{if \App\Config::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')}
-								{assign var=HIDDEN_DAYS value=$HISTORY_PARAMS eq '' || !empty($HISTORY_PARAMS['hiddenDays'])}
+								{assign var=HIDDEN_DAYS value=$HISTORY_PARAMS eq '' || !isset($HISTORY_PARAMS['hiddenDays']) || !empty($HISTORY_PARAMS['hiddenDays'])}
 								<div class="btn-group btn-group-toggle js-switch js-switch--switchingDays c-calendar-switch" data-toggle="buttons">
 									<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on{if $HIDDEN_DAYS} active{/if}">
 										<input type="radio" name="options" data-on-text="{\App\Language::translate('LBL_WORK_DAYS', $MODULE_NAME)}" autocomplete="off"{if $HIDDEN_DAYS} checked{/if}>

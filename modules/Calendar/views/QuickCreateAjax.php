@@ -21,7 +21,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
 		if (!$request->isEmpty('sourceRecord', true) && !\App\Privilege::isPermitted($request->getByType('sourceModule', 2), 'DetailView', $request->getInteger('sourceRecord'))) {
@@ -32,7 +32,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function postProcessAjax(\App\Request $request)
+	public function postProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$tplName = App\Config::module('Calendar', 'CALENDAR_VIEW') . DIRECTORY_SEPARATOR . 'QuickCreate.tpl';
@@ -50,9 +50,9 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
-		if (App\Config::module('Calendar', 'CALENDAR_VIEW') === 'Extended') {
+		if ('Extended' === App\Config::module('Calendar', 'CALENDAR_VIEW')) {
 			$jsFiles = $this->checkAndConvertJsScripts([
 				'~libraries/moment/min/moment.min.js',
 				'~libraries/fullcalendar/dist/fullcalendar.js',
@@ -60,8 +60,8 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 				'~libraries/css-element-queries/src/ElementQueries.js',
 				'modules.Calendar.resources.Edit',
 				'~layouts/resources/Calendar.js',
+				'~layouts/resources/YearView.js',
 				'modules.Calendar.resources.Standard.CalendarView',
-				'modules.Calendar.resources.Extended.YearView',
 				'modules.Calendar.resources.Extended.CalendarView',
 				'modules.Calendar.resources.QuickCreate'
 			]);
@@ -80,7 +80,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
 		return $this->checkAndConvertCssStyles([
 			'~libraries/fullcalendar/dist/fullcalendar.css',
@@ -90,7 +90,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getPageTitle(\App\Request $request)
+	public function getPageTitle(App\Request $request)
 	{
 		return \App\Language::translate('LBL_QUICK_CREATE', $request->getModule());
 	}
