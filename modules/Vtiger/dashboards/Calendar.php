@@ -8,7 +8,7 @@
  */
 class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
@@ -43,9 +43,6 @@ class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('DEFAULTDATE', $defaultDate);
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('VIEW', $request->getByType('view'));
-
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$viewer->assign('CURRENT_USER', $currentUserModel);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/CalendarContents.tpl', $moduleName);
 		} else {
