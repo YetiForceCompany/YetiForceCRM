@@ -581,7 +581,14 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 						self.getCalendarView().fullCalendar('unselect');
 				  }
 				: false,
-			selectable: false
+			selectable: false,
+			eventClick: function(calEvent, jsEvent) {
+				jsEvent.preventDefault();
+				const link = $(this).attr('href');
+				if (link && $.inArray('js-show-modal', calEvent.className) !== -1) {
+					app.showModalWindow(null, link);
+				}
+			}
 		};
 	}
 	/**
@@ -749,13 +756,6 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 				}
 			};
 		options = Object.assign(basicOptions, options);
-		options.eventClick = function(calEvent, jsEvent) {
-			jsEvent.preventDefault();
-			const link = $(this).attr('href');
-			if (link && $.inArray('js-show-modal', calEvent.className) !== -1) {
-				app.showModalWindow(null, link);
-			}
-		};
 		this.calendar.fullCalendar(options);
 	}
 

@@ -106,14 +106,14 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 	 * Overwrites Calendar_Calendar_Js
 	 */
 	setCalendarModuleOptions() {
-		return {
-			hiddenDays: app.getMainParams('hiddenDays', true),
-			header: {
-				left: 'month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
-				center: 'prevYear,prev,title,next,nextYear',
-				right: 'today'
-			}
+		let options = super.setCalendarModuleOptions();
+		options.hiddenDays = app.getMainParams('hiddenDays', true);
+		options.header = {
+			left: 'month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
+			center: 'prevYear,prev,title,next,nextYear',
+			right: 'today'
 		};
+		return options;
 	}
 
 	/**

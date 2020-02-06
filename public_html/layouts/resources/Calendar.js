@@ -519,7 +519,7 @@ window.Calendar_Js = class {
 			users = app.moduleCacheGet('calendar-users') || CONFIG.userId,
 			sideBar = this.getSidebarView();
 		let params = {
-			module: CONFIG.module,
+			module: this.module ? this.module : CONFIG.module,
 			action: 'Calendar',
 			mode: 'getEvents',
 			start: view.start.format(formatDate),

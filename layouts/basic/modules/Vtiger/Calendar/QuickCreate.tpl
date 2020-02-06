@@ -1,8 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-Calendar-QuickCreate -->
 	<div class="c-calendar-quickcreate quick-calendar-modal">
-		<input value="{App\Config::module($MODULE, 'CALENDAR_VIEW')}" type="hidden" class="js-calendar-type"
-			   data-js="value">
 		<input type="hidden" id="showType" value="current"/>
 		{foreach key=index item=cssModel from=$STYLES}
 			<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}"/>
@@ -55,7 +54,7 @@
 						</div>
 						<div class="js-calendar-right-panel col col-lg-4 pl-3" data-js="container | html">
 							<div class="js-qc-form" >
-								{include file=\App\Layout::getTemplatePath('Extended/EventForm.tpl', $MODULE_NAME)}
+								{include file=\App\Layout::getTemplatePath('Calendar/EventForm.tpl', $MODULE_NAME)}
 							</div>
 						</div>
 					</div>
@@ -63,4 +62,5 @@
 			</div>
 		</div>
 	</div>
+	<!-- /tpl-Base-Calendar-QuickCreate -->
 {/strip}

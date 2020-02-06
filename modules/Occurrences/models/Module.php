@@ -18,7 +18,7 @@ class Occurrences_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getCalendarViewUrl()
 	{
-		return 'index.php?module=' . $this->getName() . '&view=CalendarExtended';
+		return 'index.php?module=' . $this->getName() . '&view=Calendar';
 	}
 
 	/**
