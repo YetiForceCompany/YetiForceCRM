@@ -133,26 +133,17 @@ window.Occurrences_CalendarModal_Js = class Occurrences_CalendarModal_Js extends
 			startDate = startDate + 'T' + startHour + ':00';
 			endDate = endDate + 'T' + endHour + ':00';
 		}
-		let dateFormat = this.container
-				.find('[name="date_start"]')
-				.data('dateFormat')
-				.toUpperCase(),
-			timeFormat = this.container.find('[name="time_start"]').data('format'),
+		let dateFormat = CONFIG.dateFormat.toUpperCase(),
+			timeFormat = CONFIG.hourFormat.toUpperCase(),
 			defaultTimeFormat = '';
 		if (timeFormat == 24) {
-			defaultTimeFormat = 'HH:mm';
+			timeFormat = 'HH:mm';
 		} else {
-			defaultTimeFormat = 'hh:mm A';
+			timeFormat = 'hh:mm A';
 		}
-		this.container.find('[name="date_start"]').val(moment(startDate).format(dateFormat));
-		this.container.find('[name="due_date"]').val(moment(endDate).format(dateFormat));
-		if (this.container.find('.js-autofill').prop('checked') === true) {
-			let calendarEditInstance = new Calendar_Edit_Js();
-			calendarEditInstance.getFreeTime(this.container);
-		} else {
-			this.container.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
-			this.container.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
-		}
+		defaultTimeFormat = dateFormat + ' ' + timeFormat;
+		this.container.find('[name="date_start"]').val(moment(startDate).format(defaultTimeFormat));
+		this.container.find('[name="date_end"]').val(moment(endDate).format(defaultTimeFormat));
 	}
 };
 
