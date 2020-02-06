@@ -596,6 +596,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				actualUserCheckbox = sidebar.find('.js-input-user-owner-id[value=' + app.getMainParams('userId') + ']');
 			calendarSwitch.last().removeClass('active');
 			calendarSwitch.first().addClass('active');
+			$('input[data-val="current"]', calendarSwitch).prop('checked', true);
 			if (actualUserCheckbox.length) {
 				actualUserCheckbox.prop('checked', true);
 			} else {
