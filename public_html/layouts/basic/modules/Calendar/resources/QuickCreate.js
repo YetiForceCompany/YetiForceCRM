@@ -84,20 +84,9 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 				}
 			};
 		options = Object.assign(basicOptions, options);
-		if (!this.readonly && self.eventEdit) {
-			options.eventClick = function(calEvent, jsEvent) {
-				jsEvent.preventDefault();
-				self.getCalendarSidebarData($(this).attr('href'));
-			};
-		} else {
-			options.eventClick = function(calEvent, jsEvent) {
-				jsEvent.preventDefault();
-				const link = new URL($(this)[0].href);
-				window.location.assign(
-					`index.php?module=${this.module}&view=Detail&record=${link.searchParams.get('record')}`
-				);
-			};
-		}
+		options.eventClick = function(calEvent, jsEvent) {
+			jsEvent.preventDefault();
+		};
 		this.calendar.fullCalendar(options);
 	}
 	addCommonMethodsToYearView() {}
@@ -113,6 +102,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 			center: 'prevYear,prev,title,next,nextYear',
 			right: 'today'
 		};
+		options.selectable = true;
 		return options;
 	}
 
