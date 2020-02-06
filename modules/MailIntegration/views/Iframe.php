@@ -39,7 +39,6 @@ class MailIntegration_Iframe_View extends \App\Controller\Modal
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		if (Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
-			$this->getModules($request);
 			$mail = App\Mail\Message::getScannerByEngine($request->getByType('source'));
 			$mail->initFromRequest($request);
 			if ($mailId = $mail->getMailCrmId()) {
@@ -78,8 +77,24 @@ class MailIntegration_Iframe_View extends \App\Controller\Modal
 	public function getModules(): array
 	{
 		$modules = [];
-		foreach (\App\ModuleHierarchy::getModulesByLevel() as $value) {
-			$modules = array_merge($modules, array_keys($value));
+		$quickCreate = App\Config::module('MailIntegration', 'modulesListQuickCreate', []);
+		foreach (App\Relation::getAll(null, ['related_tabid' => App\Module::getModuleId('OSSMailView'), 'presence' => 0, 'related_module_presence' => 0]) as $relations) {
+			foreach ($relations as $relation) {
+				$moduleName = App\Module::getModuleName($relation['tabid']);
+				if (App\Privilege::isPermitted($moduleName)) {
+					$modules[$moduleName] = $quickCreate[$moduleName] ?? Vtiger_Module_Model::getInstance($moduleName)->isQuickCreateSupported();
+				}
+			}
+		}
+		if ($order = App\Config::module('MailIntegration', 'modulesListOrder', [])) {
+			$ordered = [];
+			foreach ($order as $orderVal) {
+				if (isset($modules[$orderVal])) {
+					$ordered[$orderVal] = $modules[$orderVal];
+					unset($modules[$orderVal]);
+				}
+			}
+			$modules = array_merge($ordered, $modules);
 		}
 		return $modules;
 	}
