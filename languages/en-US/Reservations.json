@@ -24,7 +24,12 @@
     "LBL_EQUIPMENT": "Equipment",
     "LBL_CARS": "Cars",
     "PLL_DRAFT": "Draft",
-    "PLL_CANCELLED": "Cancelled"
+    "PLL_CANCELLED": "Cancelled",
+    "LBL_SELECT_USER_CALENDAR": "Select User Calendar",
+    "LBL_SELECT_GROUP_CALENDAR": "Select group calendar",
+    "LBL_USER_NAME": "User name",
+    "LBL_GROUP_NAME": "Group name",
+    "LBL_WORK_DAYS": "Work days"
   },
   "js": {
     "MSG_ERROR_NUMBER": "Allowed characters: [0-9]",
