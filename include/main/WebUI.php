@@ -203,7 +203,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$messageHeader = 'LBL_ERROR';
 			}
 			\vtlib\Functions::throwNewException($e, false, $messageHeader);
-			if (!$request->isAjax()) {
+			if (!($request->isAjax() && $request->isJSON())) {
 				if (App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
 					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow js-exception-backtrace">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->__toString())) . '</pre>';
 					$response = false;
