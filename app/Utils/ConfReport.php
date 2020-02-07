@@ -40,7 +40,7 @@ class ConfReport
 	 *
 	 * @var array
 	 */
-	public static $urlsToCheck = ['root' => 'index.php', 'js' => 'layouts/resources/Tools.js', 'css' => 'layouts/resources/fonts/fonts.css'];
+	public static $urlsToCheck = ['root' => 'shorturl.php', 'js' => 'layouts/resources/Tools.js', 'css' => 'layouts/resources/fonts/fonts.css'];
 
 	/**
 	 * List all variables.
@@ -561,7 +561,7 @@ class ConfReport
 		$request = [];
 		try {
 			foreach (static::$urlsToCheck as $type => $url) {
-				$res = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('OPTIONS', $requestUrl . $url);
+				$res = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $requestUrl . $url, ['timeout' => 1, 'verify' => false]);
 				foreach ($res->getHeaders() as $key => $value) {
 					$request[strtolower($key)][$type] = \is_array($value) ? implode(',', $value) : $value;
 				}
@@ -1248,7 +1248,7 @@ class ConfReport
 		$requestUrl = static::$crmUrl . 'shorturl.php';
 		foreach (\explode(', ', $row['recommended']) as $type) {
 			try {
-				$response = (new \GuzzleHttp\Client())->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
+				$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
 				if (200 === $response->getStatusCode() && 'No uid' === (string) $response->getBody()) {
 					$supported[] = $type;
 				}
@@ -1450,7 +1450,7 @@ class ConfReport
 		if (!\App\RequestUtil::isNetConnection()) {
 			return false;
 		}
-		$response = (new \GuzzleHttp\Client())->get('http://php.net/releases/index.php?json&max=7&version=7', \App\RequestHttp::getOptions());
+		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get('http://php.net/releases/index.php?json&max=7&version=7');
 		$data = array_keys((array) \App\Json::decode($response->getBody()));
 		natsort($data);
 		$ver = [];
@@ -1464,5 +1464,4 @@ class ConfReport
 		}
 		return $ver;
 	}
-
 }
