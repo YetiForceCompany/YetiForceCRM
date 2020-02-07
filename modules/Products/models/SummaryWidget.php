@@ -16,7 +16,7 @@ class Products_SummaryWidget_Model
 		return new self();
 	}
 
-	public function getProductsServices(\App\Request $request, Vtiger_Viewer $viewer)
+	public function getProductsServices(App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$fromModule = $request->getByType('fromModule', 'Text');
 		$record = $request->getInteger('record');
@@ -24,7 +24,7 @@ class Products_SummaryWidget_Model
 		if (!\App\Privilege::isPermitted($fromModule, 'DetailView', $record) || !\App\Privilege::isPermitted($mod)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!in_array($mod, self::MODULES)) {
+		if (!\in_array($mod, self::MODULES)) {
 			throw new \App\Exceptions\AppException('Not supported Module');
 		}
 		$limit = 10;
@@ -35,14 +35,24 @@ class Products_SummaryWidget_Model
 		$pagingModel->set('page', 0);
 		$pagingModel->set('limit', $limit);
 
+		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
+		if (empty($orderBy)) {
+			$moduleInstance = CRMEntity::getInstance($mod);
+			$orderBy = $moduleInstance->default_order_by ? [$moduleInstance->default_order_by => $moduleInstance->default_sort_order] : [];
+		}
+
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($record, $fromModule);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $mod);
+		if (!empty($orderBy)) {
+			$relationListView->set('orderby', $orderBy);
+		}
+
 		$recordsModels = $relationListView->getEntries($pagingModel);
 		$recordsHeader = $relationListView->getHeaders();
 		array_splice($recordsHeader, 3);
 		$viewer->assign('RELATED_RECORDS', $recordsModels);
 		$viewer->assign('RELATED_HEADERS', $recordsHeader);
-		if (in_array($mod, self::CATEGORY_MODULES)) {
+		if (\in_array($mod, self::CATEGORY_MODULES)) {
 			$viewer->assign('RELATED_HEADERS_TREE', $relationListView->getTreeHeaders());
 			$viewer->assign('RELATED_RECORDS_TREE', $relationListView->getTreeEntries());
 		}
@@ -68,7 +78,7 @@ class Products_SummaryWidget_Model
 			if (!$relationListView->getRelationModel()) {
 				continue;
 			}
-			if (in_array($moduleName, self::CATEGORY_MODULES)) {
+			if (\in_array($moduleName, self::CATEGORY_MODULES)) {
 				$count += (int) $relationListView->getRelatedTreeEntriesCount();
 			}
 			$count += (int) $relationListView->getRelatedEntriesCount();
