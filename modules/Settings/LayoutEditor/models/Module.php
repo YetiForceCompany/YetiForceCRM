@@ -640,14 +640,20 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		return $treeList;
 	}
 
-	public static function getRelationsTypes()
+	public static function getRelationsTypes(?string $moduleName = null)
 	{
-		return [
+		$types = [
 			'getRelatedList' => 'PLL_RELATED_LIST',
 			//'getDependentsList' => 'PLL_DEPENDENTS_LIST',
 			'getManyToMany' => 'PLL_SPLITED_RELATED_LIST',
 			'getAttachments' => 'PLL_ATTACHMENTS',
+			'getActivities' => 'PLL_ACTIVITIES',
+			'getEmails' => 'PLL_EMAILS',
 		];
+		if ('OSSMailView' === $moduleName) {
+			$types['getRecordToMails'] = 'PLL_RECORD_TO_MAILS';
+		}
+		return $types;
 	}
 
 	public static function getRelationsActions()

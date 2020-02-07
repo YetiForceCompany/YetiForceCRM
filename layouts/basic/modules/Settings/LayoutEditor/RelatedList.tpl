@@ -204,7 +204,7 @@
 										:</label>
 									<div class="col-md-7">
 										<select name="type" class="form-control">
-											{foreach from=Settings_LayoutEditor_Module_Model::getRelationsTypes() item=ITEM key=KEY}
+											{foreach from=Settings_LayoutEditor_Module_Model::getRelationsTypes($SELECTED_MODULE_NAME) item=ITEM key=KEY}
 												<option value="{$KEY}">{\App\Language::translate($ITEM, $QUALIFIED_MODULE)}</option>
 											{/foreach}
 										</select>
