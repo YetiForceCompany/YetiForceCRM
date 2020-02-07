@@ -7,10 +7,6 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 return [
-	'modulesListOrder' => [
-		'default' => [],
-		'description' => 'Order of modules in the selection list'
-	],
 	'modulesListQuickCreate' => [
 		'default' => [],
 		'description' => 'Quick creation of records in the module list'

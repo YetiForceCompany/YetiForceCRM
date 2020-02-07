@@ -86,16 +86,6 @@ class MailIntegration_Iframe_View extends \App\Controller\Modal
 				}
 			}
 		}
-		if ($order = App\Config::module('MailIntegration', 'modulesListOrder', [])) {
-			$ordered = [];
-			foreach ($order as $orderVal) {
-				if (isset($modules[$orderVal])) {
-					$ordered[$orderVal] = $modules[$orderVal];
-					unset($modules[$orderVal]);
-				}
-			}
-			$modules = array_merge($ordered, $modules);
-		}
 		return $modules;
 	}
 }
