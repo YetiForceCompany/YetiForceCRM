@@ -2,7 +2,6 @@
 {strip}
 <!-- tpl-MailIntegration-Iframe-HeaderMailRelationAdder -->
 <div class="input-group input-group-sm my-1">
-	<input type="hidden" id="autoCompleteFields" class="js-mailAutoCompleteFields" value="{\App\Purifier::encodeHtml(\App\Json::encode(\App\Config::component('Mail','autoCompleteFields', [])))}"/>
 	<select class="select2 form-control js-modules" data-js="change">
 		{foreach key=MODULE_LIST item=PERMITTED from=$MODULES name=MODULES_SELECT}
 			{if $smarty.foreach.MODULES_SELECT.first}

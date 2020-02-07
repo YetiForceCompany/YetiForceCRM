@@ -442,7 +442,7 @@ const MailIntegration_Iframe = {
 		}
 	}
 };
-
+window.App.Components.Scrollbar.active = false;
 (function($) {
 	MailIntegration_Iframe.registerEvents();
 })($);

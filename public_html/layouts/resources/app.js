@@ -480,6 +480,7 @@ var App = (window.App = {
 			}
 		},
 		Scrollbar: {
+			active: true,
 			defaults: {
 				scrollbars: {
 					autoHide: 'leave'
@@ -492,10 +493,15 @@ var App = (window.App = {
 			initPage() {
 				let scrollbarContainer = $('.mainBody');
 				if (!scrollbarContainer.length) {
+					scrollbarContainer = $('#page');
+				}
+				if (!scrollbarContainer.length) {
 					scrollbarContainer = $('body');
 				}
-				this.page.instance = this.y(scrollbarContainer);
-				this.page.element = $(this.page.instance.getElements().viewport);
+				if (this.active) {
+					this.page.instance = this.y(scrollbarContainer);
+					this.page.element = $(this.page.instance.getElements().viewport);
+				}
 			},
 			xy(element, options = {}) {
 				return element.overlayScrollbars(options).overlayScrollbars();
@@ -2658,7 +2664,7 @@ $(document).ready(function() {
 	app.registerFormatNumber();
 	app.registerIframeAndMoreContent();
 	app.registerModal();
-	app.registerQuickEditModal();
+	app.registerQuickEditModal(document);
 	app.registerMenu();
 	app.registerTabdrop();
 	app.registerIframeEvents(document);
