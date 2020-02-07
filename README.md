@@ -39,7 +39,7 @@ We design an innovative CRM system that is dedicated for large and medium sized 
 2. [GitDeveloper](https://gitdeveloper.yetiforce.com)
 3. [YetiPortal2](https://gitdeveloper.yetiforce.com/portal/)
 
-### Read the documentation to learn more.
+## Read the documentation to learn more.
 
 #### Knowledge base: https://yetiforce.com/en/knowledge-base/documentation
 
