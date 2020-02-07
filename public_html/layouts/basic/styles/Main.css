@@ -12787,7 +12787,8 @@ label.btn[class*="btn-outline-"]:not(.active) {
     background: transparent; }
     .fc-button:active .fc-button-inner .fc-button-content {
       color: #fff; }
-  .fc-button.fc-state-active .fc-button-inner .fc-button-content, .fc-button:active .fc-button-inner .fc-button-content {
+  .fc-button.fc-state-active .fc-button-inner .fc-button-content,
+  .fc-button:active .fc-button-inner .fc-button-content {
     color: #000 !important;
     background: transparent;
     background-image: none; }
@@ -12822,6 +12823,8 @@ label.btn[class*="btn-outline-"]:not(.active) {
 
 .fc button {
   height: auto !important; }
+  .fc button .fas {
+    display: block; }
 
 .fc-toolbar {
   margin-bottom: 0 !important; }
@@ -12834,9 +12837,22 @@ label.btn[class*="btn-outline-"]:not(.active) {
   font-size: 1em; }
 
 @media only screen and (max-width: 480px) {
-  .fc-toolbar .fc-left, .fc-toolbar .fc-right {
+  .fc-toolbar .fc-left,
+  .fc-toolbar .fc-right {
     float: none !important;
-    display: inline-block; } }
+    display: inline-block; }
+  .fc-basic-view .fc-body .fc-row {
+    min-height: 2em !important; }
+  .fc-row .fc-content-skeleton {
+    padding-bottom: 0px; }
+  .fc th,
+  .fc td {
+    padding: 0 !important;
+    line-height: 1; }
+  .c-calendar-quickcreate .fc-day-top .fc-day-number {
+    font-size: 20px; }
+  .js-calendar-switch-container {
+    margin: auto !important; } }
 
 .fc-event {
   color: #353c44 !important; }
@@ -14862,7 +14878,18 @@ body,
   .alphabet_28 {
     width: 200px; }
   .alphabet_26 {
-    width: 295px; } }
+    width: 295px; }
+  .quickCreateContainer .modal-header {
+    padding: 0;
+    margin: 0; }
+    .quickCreateContainer .modal-header .text-uppercase {
+      display: block; }
+  .modal-title .text-uppercase {
+    display: block; }
+  .listSearchTd {
+    padding: 4px 0 !important; }
+    .listSearchTd .btn {
+      padding: 0.5rem; } }
 
 .jstree-proton .jstree-search {
   color: #fff !important;
@@ -17533,7 +17560,7 @@ input[type="checkbox"][disabled] {
   border-color: white; }
 
 .c-search-item__btn {
-  font-size: 0.8em !important;
+  font-size: 0.7em !important;
   height: fit-content; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
@@ -18115,7 +18142,7 @@ body > .o-exception-fixed-block {
 
 @media (max-width: 767.98px) {
   .ui-menu.ui-widget {
-    left: -4px !important; } }
+    left: 4px !important; } }
 
 .searchMenu .o-search-menu__container {
   position: fixed;
@@ -18623,7 +18650,7 @@ body > .o-exception-fixed-block {
   .modal {
     padding: 0 !important; }
   .modal-dialog {
-    margin: 0; }
+    margin: 2px; }
   .modal-content {
     border: none;
     border-radius: 0; }
@@ -19541,6 +19568,21 @@ body > .o-exception-fixed-block {
   .c-calendar-view .hideSiteBar .o-calendar__panel__tabs,
   .c-calendar-quickcreate .hideSiteBar .o-calendar__panel__tabs {
     right: 0; } }
+
+@media only screen and (max-width: 480px) {
+  .c-calendar-view .fieldRow .col-12, .c-calendar-view .fieldRow .chatModal, .c-calendar-view .fieldRow .js-css-element-queries .col-ceq-xsm-6, .js-css-element-queries .c-calendar-view .fieldRow .col-ceq-xsm-6,
+  .c-calendar-quickcreate .fieldRow .col-12,
+  .c-calendar-quickcreate .fieldRow .chatModal,
+  .c-calendar-quickcreate .fieldRow .js-css-element-queries .col-ceq-xsm-6,
+  .js-css-element-queries .c-calendar-quickcreate .fieldRow .col-ceq-xsm-6 {
+    padding-right: 8px;
+    padding-left: 0; }
+    .c-calendar-view .fieldRow .col-12 label, .c-calendar-view .fieldRow .chatModal label, .c-calendar-view .fieldRow .js-css-element-queries .col-ceq-xsm-6 label, .js-css-element-queries .c-calendar-view .fieldRow .col-ceq-xsm-6 label,
+    .c-calendar-quickcreate .fieldRow .col-12 label,
+    .c-calendar-quickcreate .fieldRow .chatModal label,
+    .c-calendar-quickcreate .fieldRow .js-css-element-queries .col-ceq-xsm-6 label,
+    .js-css-element-queries .c-calendar-quickcreate .fieldRow .col-ceq-xsm-6 label {
+      margin-bottom: 0; } }
 
 .user-info--active .o-calendar__tab--filters, .user-info--active .o-calendar__form {
   height: calc(100vh - calc(2rem + 1rem) - 3.125rem); }
