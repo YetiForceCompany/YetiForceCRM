@@ -149,12 +149,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				header('location: index.php');
 				return false;
 			}
-			// Better place this here as session get initiated
-			//skipping the csrf checking for the forgot(reset) password
-			if (App\Config::security('csrfActive') && 'reset' !== $request->getMode() && 'Login' !== $action && 'demo' !== App\Config::main('systemMode')) {
-				require_once 'config/csrf_config.php';
-				\CsrfMagic\Csrf::init();
-			}
 			\App\Process::$processName = $componentName;
 			\App\Process::$processType = $componentType;
 			\App\Config::setJsEnv('module', $moduleName);
@@ -171,7 +165,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				\App\Log::error("HandlerClass: $handlerClass", 'Loader');
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
 			}
-			if (\App\Config::security('csrfActive') && 'demo' !== App\Config::main('systemMode')) { // Ensure handler validates the request
+			if ($handler->csrfActive) {
 				$handler->validateRequest($request);
 			}
 			if ($handler->loginRequired() && $this->checkLogin($request)) {
