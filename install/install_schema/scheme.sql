@@ -1929,7 +1929,7 @@ CREATE TABLE `u_yf_fcorectinginvoice_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -2064,7 +2064,7 @@ CREATE TABLE `u_yf_finvoice_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -2163,7 +2163,7 @@ CREATE TABLE `u_yf_finvoicecost_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` smallint(1) unsigned NOT NULL,
@@ -2261,7 +2261,7 @@ CREATE TABLE `u_yf_finvoiceproforma_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -2341,7 +2341,7 @@ CREATE TABLE `u_yf_igdn_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -2404,7 +2404,7 @@ CREATE TABLE `u_yf_igdnc_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -2479,7 +2479,7 @@ CREATE TABLE `u_yf_igin_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -2549,7 +2549,7 @@ CREATE TABLE `u_yf_igrn_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -2613,7 +2613,7 @@ CREATE TABLE `u_yf_igrnc_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -2688,7 +2688,7 @@ CREATE TABLE `u_yf_iidn_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -2790,7 +2790,7 @@ CREATE TABLE `u_yf_ipreorder_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -2864,7 +2864,7 @@ CREATE TABLE `u_yf_istdn_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -3012,7 +3012,7 @@ CREATE TABLE `u_yf_istrn_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -3106,6 +3106,40 @@ CREATE TABLE `u_yf_locationregistercf` (
   `locationregisterid` int(10) NOT NULL,
   PRIMARY KEY (`locationregisterid`),
   CONSTRAINT `fk_1_u_yf_locationregistercflocationregisterid` FOREIGN KEY (`locationregisterid`) REFERENCES `u_yf_locationregister` (`locationregisterid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_locations` */
+
+CREATE TABLE `u_yf_locations` (
+  `locationsid` int(10) NOT NULL DEFAULT 0,
+  `locations_no` varchar(255) DEFAULT '',
+  `subject` varchar(255) DEFAULT NULL,
+  `email` varchar(100) DEFAULT '',
+  `active` tinyint(1) DEFAULT 0,
+  `phone` varchar(30) DEFAULT '',
+  `phone_extra` varchar(100) DEFAULT NULL,
+  `capacity` int(8) DEFAULT 0,
+  PRIMARY KEY (`locationsid`),
+  CONSTRAINT `fk_1_u_yf_locations` FOREIGN KEY (`locationsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_locations_address` */
+
+CREATE TABLE `u_yf_locations_address` (
+  `locationaddressid` int(10) NOT NULL,
+  `addresslevel1a` varchar(255) DEFAULT NULL,
+  `addresslevel2a` varchar(255) DEFAULT NULL,
+  `addresslevel3a` varchar(255) DEFAULT NULL,
+  `addresslevel4a` varchar(255) DEFAULT NULL,
+  `addresslevel5a` varchar(255) DEFAULT NULL,
+  `addresslevel6a` varchar(255) DEFAULT NULL,
+  `addresslevel7a` varchar(255) DEFAULT NULL,
+  `addresslevel8a` varchar(255) DEFAULT NULL,
+  `buildingnumbera` varchar(100) DEFAULT NULL,
+  `localnumbera` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`locationaddressid`),
+  CONSTRAINT `u_yf_locations_address_ibfk_1` FOREIGN KEY (`locationaddressid`) REFERENCES `u_yf_locations` (`locationsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_mail_address_book` */
@@ -3228,6 +3262,26 @@ CREATE TABLE `u_yf_notification` (
   CONSTRAINT `fk_1_notification` FOREIGN KEY (`notificationid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_occurrences` */
+
+CREATE TABLE `u_yf_occurrences` (
+  `occurrencesid` int(10) NOT NULL,
+  `topic` varchar(255) DEFAULT NULL,
+  `number` varchar(32) DEFAULT NULL,
+  `occurrences_status` varchar(50) DEFAULT NULL,
+  `occurrences_type` varchar(50) DEFAULT NULL,
+  `date_start` datetime DEFAULT NULL,
+  `date_end` datetime DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `attention` text DEFAULT NULL,
+  `occurrences_rating` varchar(255) DEFAULT '',
+  `locationid` int(11) unsigned DEFAULT 0,
+  `participants` int(8) DEFAULT 0,
+  PRIMARY KEY (`occurrencesid`),
+  KEY `u_yf_occurrences_locationid_idx` (`locationid`),
+  CONSTRAINT `fk_1_u_yf_occurrencesoccurrencesid` FOREIGN KEY (`occurrencesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_openstreetmap` */
 
 CREATE TABLE `u_yf_openstreetmap` (
@@ -3339,6 +3393,15 @@ CREATE TABLE `u_yf_recurring_info` (
   PRIMARY KEY (`srecurringordersid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_relations_members_entity` */
+
+CREATE TABLE `u_yf_relations_members_entity` (
+  `crmid` int(10) DEFAULT NULL,
+  `relcrmid` int(10) DEFAULT NULL,
+  `status_rel` varchar(225) DEFAULT NULL,
+  `comment_rel` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_reviewed_queue` */
 
 CREATE TABLE `u_yf_reviewed_queue` (
@@ -3402,7 +3465,7 @@ CREATE TABLE `u_yf_scalculations_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -3519,7 +3582,7 @@ CREATE TABLE `u_yf_squoteenquiries_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -3628,7 +3691,7 @@ CREATE TABLE `u_yf_squotes_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -3735,7 +3798,7 @@ CREATE TABLE `u_yf_srecurringorders_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -3804,7 +3867,7 @@ CREATE TABLE `u_yf_srequirementscards_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -3957,7 +4020,7 @@ CREATE TABLE `u_yf_ssingleorders_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` tinyint(1) unsigned NOT NULL,
@@ -4036,7 +4099,7 @@ CREATE TABLE `u_yf_svendorenquiries_invfield` (
   `columnname` varchar(30) NOT NULL,
   `label` varchar(50) NOT NULL,
   `invtype` varchar(30) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `presence` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` varchar(255) DEFAULT NULL,
   `sequence` int(10) unsigned NOT NULL,
   `block` smallint(1) unsigned NOT NULL,
@@ -4634,7 +4697,7 @@ CREATE TABLE `vtiger_blocks` (
   KEY `block_tabid_idx` (`tabid`),
   KEY `block_sequence_idx` (`sequence`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=456 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=463 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -5118,7 +5181,7 @@ CREATE TABLE `vtiger_customview` (
   KEY `setdefault` (`setdefault`,`entitytype`),
   KEY `customview_userid_idx` (`userid`),
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cvcolumnlist` */
 
@@ -5410,7 +5473,7 @@ CREATE TABLE `vtiger_def_org_share` (
   KEY `fk_1_def_org_share_tabid` (`tabid`),
   CONSTRAINT `fk_1_def_org_share_permission` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE,
   CONSTRAINT `fk_1_def_org_share_tabid` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_default_record_view` */
 
@@ -5462,26 +5525,6 @@ CREATE TABLE `vtiger_duration_minutes` (
   `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`minutesid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_durationhrs` */
-
-CREATE TABLE `vtiger_durationhrs` (
-  `hrsid` int(10) NOT NULL AUTO_INCREMENT,
-  `hrs` varchar(50) DEFAULT NULL,
-  `sortorderid` int(10) NOT NULL DEFAULT 0,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  PRIMARY KEY (`hrsid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_durationmins` */
-
-CREATE TABLE `vtiger_durationmins` (
-  `minsid` int(10) NOT NULL AUTO_INCREMENT,
-  `mins` varchar(50) DEFAULT NULL,
-  `sortorderid` int(10) NOT NULL DEFAULT 0,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  PRIMARY KEY (`minsid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_email_template_priority` */
 
@@ -5574,7 +5617,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`eventhandler_id`),
   KEY `event_name_class` (`event_name`,`handler_class`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_expectedresponse` */
 
@@ -5700,7 +5743,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2904 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2950 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -6363,17 +6406,6 @@ CREATE TABLE `vtiger_leadsource` (
   PRIMARY KEY (`leadsourceid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_leadstage` */
-
-CREATE TABLE `vtiger_leadstage` (
-  `leadstageid` int(10) NOT NULL AUTO_INCREMENT,
-  `stage` varchar(200) NOT NULL,
-  `sortorderid` int(10) NOT NULL DEFAULT 0,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  PRIMARY KEY (`leadstageid`),
-  UNIQUE KEY `leadstage_stage_idx` (`stage`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_leadstatus` */
 
 CREATE TABLE `vtiger_leadstatus` (
@@ -6544,7 +6576,7 @@ CREATE TABLE `vtiger_links` (
   KEY `linklabel` (`linklabel`),
   KEY `linkid` (`linkid`,`tabid`,`linktype`,`linklabel`),
   KEY `linktype` (`linktype`)
-) ENGINE=InnoDB AUTO_INCREMENT=367 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=370 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_locationregister_status` */
 
@@ -6626,29 +6658,6 @@ CREATE TABLE `vtiger_lout_type_ship` (
   PRIMARY KEY (`lout_type_shipid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_mail_accounts` */
-
-CREATE TABLE `vtiger_mail_accounts` (
-  `account_id` int(10) NOT NULL,
-  `user_id` int(10) NOT NULL,
-  `display_name` varchar(50) DEFAULT NULL,
-  `mail_id` varchar(50) DEFAULT NULL,
-  `account_name` varchar(50) DEFAULT NULL,
-  `mail_protocol` varchar(20) DEFAULT NULL,
-  `mail_username` varchar(50) NOT NULL,
-  `mail_password` varchar(250) NOT NULL,
-  `mail_servername` varchar(50) DEFAULT NULL,
-  `box_refresh` int(10) DEFAULT NULL,
-  `mails_per_page` int(10) DEFAULT NULL,
-  `ssltype` varchar(50) DEFAULT NULL,
-  `sslmeth` varchar(50) DEFAULT NULL,
-  `int_mailer` tinyint(1) DEFAULT 0,
-  `status` varchar(10) DEFAULT NULL,
-  `set_default` int(2) DEFAULT NULL,
-  `sent_folder` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`account_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_manufacturer` */
 
 CREATE TABLE `vtiger_manufacturer` (
@@ -6707,7 +6716,7 @@ CREATE TABLE `vtiger_modentity_num` (
   KEY `tabid` (`tabid`),
   KEY `tabid_2` (`tabid`,`cur_id`),
   CONSTRAINT `fk_1_modentity_num_tabid` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_basic` */
 
@@ -6895,17 +6904,37 @@ CREATE TABLE `vtiger_notification_type` (
   PRIMARY KEY (`notification_typeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_opportunitystage` */
+/*Table structure for table `vtiger_occurrences_rating` */
 
-CREATE TABLE `vtiger_opportunitystage` (
-  `potstageid` int(10) NOT NULL AUTO_INCREMENT,
-  `stage` varchar(200) NOT NULL,
-  `sortorderid` int(10) NOT NULL DEFAULT 0,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `probability` decimal(3,2) DEFAULT 0.00,
-  PRIMARY KEY (`potstageid`),
-  UNIQUE KEY `opportunitystage_stage_idx` (`stage`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `vtiger_occurrences_rating` (
+  `occurrences_ratingid` int(11) NOT NULL AUTO_INCREMENT,
+  `occurrences_rating` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`occurrences_ratingid`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_occurrences_status` */
+
+CREATE TABLE `vtiger_occurrences_status` (
+  `occurrences_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `occurrences_status` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `picklist_valueid` int(10) DEFAULT 0,
+  `sortorderid` smallint(5) DEFAULT 0,
+  PRIMARY KEY (`occurrences_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_occurrences_type` */
+
+CREATE TABLE `vtiger_occurrences_type` (
+  `occurrences_typeid` int(11) NOT NULL AUTO_INCREMENT,
+  `occurrences_type` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `picklist_valueid` int(10) DEFAULT 0,
+  `sortorderid` smallint(5) DEFAULT 0,
+  PRIMARY KEY (`occurrences_typeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_oproductstatus` */
 
@@ -7426,7 +7455,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
@@ -7491,17 +7520,6 @@ CREATE TABLE `vtiger_pricebookproductrel` (
   KEY `pricebookproductrel_pricebookid_idx` (`pricebookid`),
   KEY `pricebookproductrel_productid_idx` (`productid`),
   CONSTRAINT `fk_1_vtiger_pricebookproductrel` FOREIGN KEY (`pricebookid`) REFERENCES `vtiger_pricebook` (`pricebookid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_priority` */
-
-CREATE TABLE `vtiger_priority` (
-  `priorityid` int(10) NOT NULL AUTO_INCREMENT,
-  `priority` varchar(200) NOT NULL,
-  `sortorderid` int(10) NOT NULL DEFAULT 0,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  PRIMARY KEY (`priorityid`),
-  UNIQUE KEY `priority_priority_idx` (`priority`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_productcf` */
@@ -7891,7 +7909,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `related_tabid` (`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=623 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=628 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
@@ -8424,6 +8442,15 @@ CREATE TABLE `vtiger_status` (
   `sortorderid` int(10) DEFAULT 0,
   PRIMARY KEY (`statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_status_rel` */
+
+CREATE TABLE `vtiger_status_rel` (
+  `status_relid` int(11) DEFAULT NULL,
+  `status_rel` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT NULL,
+  `sortorderid` smallint(6) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_storage_status` */
 

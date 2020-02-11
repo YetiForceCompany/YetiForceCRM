@@ -1,13 +1,13 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Settings-YetiForce-Shop-BuyModal -->
+<!-- tpl-Settings-YetiForce-BuyModal -->
 {assign var=LABEL_CLASS value='py-2 u-font-weight-550 align-middle'}
 {assign var=PRICE_TYPE value=$PRODUCT->getPriceType()}
 <div class="modal-body pb-0">
 	<form  class="js-buy-form" action="{$PAYPAL_URL}" method="POST" target="_blank">
 		<div class="row no-gutters" >
 			<div class="col-sm-18 col-md-12">
-				<div class="text-center pb-3 pb-md-5">
+				<div class="text-center pb-3">
 					{if $IMAGE}
 						<img class="o-buy-modal__img" src="{$IMAGE}" alt="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}" title="{\App\Purifier::encodeHtml($PRODUCT->getLabel())}"/>
 					{else}
@@ -60,10 +60,6 @@
 							</tr>
 						{/if}
 						<tr>
-							<td class="{$LABEL_CLASS}">{\App\Language::translate('LBL_SHOP_SUBSCRIPTIONS_DAY', $QUALIFIED_MODULE)}</td>
-							<td class="py-2 w-50">{$VARIABLE['p3']}</td>
-						</tr>
-						<tr>
 							<td class="{$LABEL_CLASS} border-bottom">{\App\Language::translate('LBL_SHOP_PAYMENT_FREQUENCY', $QUALIFIED_MODULE)}</td>
 							<td class="py-2 w-50 border-bottom">{\App\Language::translate("LBL_SHOP_PAYMENT_FREQUENCY_{$VARIABLE['t3']}", $QUALIFIED_MODULE)}</td>
 						</tr>
@@ -72,9 +68,14 @@
 								<td class="{$LABEL_CLASS} border-bottom">{App\Language::translate($FIELD_DATA['label'], $QUALIFIED_MODULE)}</td>
 								<td class="py-2 w-50 border-bottom">
 									<div {if isset($FIELD_DATA['info'])}class="js-popover-tooltip" data-toggle="popover" data-trigger="focus" data-content="{App\Language::translate($FIELD_DATA['info'], $QUALIFIED_MODULE)}"{/if}>
-										<div class="input-group-sm position-relative">
+										<div class="input-group input-group-sm position-relative">
 											<input type="{$FIELD_DATA['type']}" class="form-control js-custom-field" placeholder="{App\Language::translate($FIELD_DATA['label'], $QUALIFIED_MODULE)}" data-name="{$FIELD_NAME}"
 											data-validation-engine="validate[{if isset($FIELD_DATA['validator'])}{$FIELD_DATA['validator']}{else}required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]{/if}]"/>
+											{if isset($FIELD_DATA['append'])}
+												<div class="input-group-append">
+													<span class="input-group-text">{$FIELD_DATA['append']}</span>
+												</div>
+											{/if}
 										</div>
 									</div>
 								</td>

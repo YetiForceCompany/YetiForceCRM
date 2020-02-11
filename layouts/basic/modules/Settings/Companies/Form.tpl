@@ -112,6 +112,9 @@
 			<div class="card-header">
 				<span class="fas fa-globe mr-1"></span>
 				{App\Language::translate('LBL_BRAND_DATA', $QUALIFIED_MODULE)}
+				<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate('LBL_BRAND_DATA_INFO', $QUALIFIED_MODULE))}">
+					<span class="fas fa-info-circle"></span>
+				</div>
 			</div>
 			<div class="card-body">
 				{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}

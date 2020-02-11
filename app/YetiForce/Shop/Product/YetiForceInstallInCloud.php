@@ -28,6 +28,7 @@ class YetiForceInstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Small' => 100,
 		'Medium' => 200,
 		'Large' => 400,
+		'Corporation' => 2000,
 	];
 
 	/**
@@ -37,7 +38,8 @@ class YetiForceInstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 		'subdomain' => [
 			'label' => 'LBL_SHOP_DOMAIN_PREFIX',
 			'type' => 'text',
-			'validator' => 'required,custom[onlyLetterNumber]'
+			'append' => '.yetiforce.eu',
+			'validator' => 'required,custom[onlyLetterNumber],minSize[3],maxSize[20]'
 		],
 		'email' => [
 			'label' => 'LBL_EMAIL',

@@ -12,7 +12,7 @@
 {strip}
 	<div class="tpl-CalendarViewPostProcess js-calendar-right-panel {if $USER_MODEL->get('leftpanelhide')}c-menu--open {/if}siteBarRight calendarRightPanel col-12 hideSiteBar"
 		 data-showPanel="{if !App\Config::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}" >
-		<div class="btn btn-block toggleSiteBarRightButton hideToggleSiteBarRightButton d-none d-lg-block"
+		<div class="btn btn-block toggleSiteBarRightButton c-standard-toggle-button hideToggleSiteBarRightButton d-none d-lg-block"
 			 title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
 			<span class="fas fa-chevron-left"></span>
 		</div>
@@ -43,7 +43,7 @@
 					</div>
 				</div>
 			{/if}
-			{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGETRIGHT']}
+			{foreach item=SIDEBARWIDGET key=index from=$LINKS}
 				<div class="js-toggle-panel c-panel border-info quickWidget" data-js="click">
 					<div class="card-header d-flex  quickWidgetHeader bg-info">
 						<div class="card-title h6 text-white o-label-container"
@@ -57,10 +57,15 @@
 							</button>
 						</div>
 					</div>
-					<div class="widgetContainer panel-collapse {$SIDEBARWIDGET->get('linkclass')}"
+					<div class="js-sidebar-filter-container panel-collapse {$SIDEBARWIDGET->get('linkclass')}"
 						 id="{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}"
-						 data-url="{$SIDEBARWIDGET->getUrl()}">
-						<div class="card-body"></div>
+						 data-url="{$SIDEBARWIDGET->getUrl()}"
+						 {if isset($SIDEBARWIDGET->get('linkdata'))}
+							{foreach from=$SIDEBARWIDGET->get('linkdata') key=NAME item=DATA}
+								data-{$NAME}="{$DATA}"
+							{/foreach}
+						{/if}>
+						<div class="card-body js-sidebar-filter-body"></div>
 					</div>
 				</div>
 			{/foreach}

@@ -40,7 +40,7 @@ class ConfReport
 	 *
 	 * @var array
 	 */
-	public static $urlsToCheck = ['root' => 'index.php', 'js' => 'layouts/resources/Tools.js', 'css' => 'layouts/resources/fonts/fonts.css'];
+	public static $urlsToCheck = ['root' => 'shorturl.php', 'js' => 'layouts/resources/Tools.js', 'css' => 'layouts/resources/fonts/fonts.css'];
 
 	/**
 	 * List all variables.
@@ -121,7 +121,7 @@ class ConfReport
 		'Header: server' => ['recommended' => '', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: x-powered-by' => ['recommended' => '', 'type' => 'Header', 'contaiuse_only_cookiesner' => 'request', 'testCli' => false],
 		'Header: access-control-allow-methods' => ['recommended' => 'GET, POST', 'type' => 'Header', 'container' => 'request', 'testCli' => false, 'onlyPhp' => true],
-		'Header: access-control-allow-origin' => ['recommended' => '*', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: access-control-allow-origin' => ['recommended' => '*', 'type' => 'Header', 'container' => 'request', 'testCli' => false, 'onlyPhp' => true],
 		'Header: referrer-policy' => ['recommended' => 'no-referrer', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: expect-ct' => ['recommended' => 'enforce; max-age=3600', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
 		'Header: x-frame-options' => ['recommended' => 'sameorigin', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
@@ -267,6 +267,7 @@ class ConfReport
 		'tempDir' => ['container' => 'env', 'testCli' => false, 'label' => 'TMP_DIR'],
 		'crmDir' => ['container' => 'env', 'testCli' => false, 'label' => 'CRM_DIR'],
 		'sapi' => ['container' => 'env', 'testCli' => true, 'label' => 'PHP_SAPI'],
+		'zendVersion' => ['container' => 'env', 'testCli' => true, 'label' => 'ZEND_VERSION'],
 		'locale' => ['container' => 'env', 'testCli' => true, 'label' => 'LOCALE'],
 		'error_log' => ['type' => 'NotEmpty', 'container' => 'php', 'testCli' => true, 'label' => 'LOG_FILE'],
 		'phpIni' => ['container' => 'env', 'testCli' => true, 'label' => 'PHPINI'],
@@ -276,7 +277,8 @@ class ConfReport
 		'spaceTemp' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_TEMP'],
 		'lastCronStart' => ['container' => 'env', 'testCli' => false, 'label' => 'LAST_CRON_START', 'isHtml' => true],
 		'open_basedir' => ['container' => 'php',  'type' => 'NotEmpty', 'testCli' => true, 'mode' => 'showWarnings'],
-		'cacertbundle' => ['recommended' => 'On', 'container' => 'env', 'type' => 'OnOff', 'testCli' => true, 'label' => 'CACERTBUNDLE'],
+		'caCertBundle' => ['recommended' => 'On', 'container' => 'env', 'type' => 'OnOff', 'testCli' => true, 'label' => 'CACERTBUNDLE'],
+		'caCertBundlePath' => ['recommended' => 'On', 'container' => 'env', 'testCli' => true, 'label' => 'CACERTBUNDLE_PATH'],
 		'SSL_CERT_FILE' => ['container' => 'env', 'testCli' => true],
 		'SSL_CERT_DIR' => ['container' => 'env', 'testCli' => true],
 		'openssl.cafile' => ['container' => 'php',  'type' => 'NotEmpty', 'testCli' => true, 'mode' => 'showWarnings'],
@@ -302,7 +304,6 @@ class ConfReport
 	 * @var array
 	 */
 	public static $writableFilesAndFolders = [
-		'app_data/' => ['type' => 'IsWritable', 'testCli' => true],
 		'app_data/cron.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'app_data/registration.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'app_data/moduleHierarchy.php' => ['type' => 'IsWritable', 'testCli' => true],
@@ -311,14 +312,12 @@ class ConfReport
 		'app_data/LanguagesUpdater.json' => ['type' => 'IsWritable', 'testCli' => true],
 		'app_data/SystemUpdater.json' => ['type' => 'IsWritable', 'testCli' => true],
 		'app_data/libraries.json' => ['type' => 'IsWritable', 'testCli' => true],
-		'app_data/shop/' => ['type' => 'IsWritable', 'testCli' => true],
-		'config/' => ['type' => 'IsWritable', 'testCli' => true],
-		'config/Components' => ['type' => 'IsWritable', 'testCli' => true],
-		'config/Modules' => ['type' => 'IsWritable', 'testCli' => true],
-		'user_privileges/' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/tabdata.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/menu_0.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/user_privileges_1.php' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/logs/system.log' => ['type' => 'IsWritable', 'testCli' => true],
+		'app_data/' => ['type' => 'IsWritable', 'testCli' => true],
+		'app_data/shop/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/addressBook/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/images/' => ['type' => 'IsWritable', 'testCli' => true],
@@ -326,13 +325,16 @@ class ConfReport
 		'cache/mail/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/pdf/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/logs/' => ['type' => 'IsWritable', 'testCli' => true],
-		'cache/logs/system.log' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/logs/cron/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/session/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/templates_c/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/upload/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/vtlib/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/vtlib/HTML' => ['type' => 'IsWritable', 'testCli' => true],
+		'config/' => ['type' => 'IsWritable', 'testCli' => true],
+		'config/Components' => ['type' => 'IsWritable', 'testCli' => true],
+		'config/Modules' => ['type' => 'IsWritable', 'testCli' => true],
+		'user_privileges/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cron/modules/' => ['type' => 'IsWritable', 'testCli' => true],
 		'languages/' => ['type' => 'IsWritable', 'testCli' => true],
 		'install/' => ['type' => 'IsWritable', 'testCli' => true],
@@ -506,11 +508,13 @@ class ConfReport
 			'env' => [
 				'phpVersion' => PHP_VERSION,
 				'sapi' => \PHP_SAPI,
+				'zendVersion' => zend_version(),
 				'phpIni' => php_ini_loaded_file() ?: '-',
 				'phpIniAll' => php_ini_scanned_files() ?: '-',
 				'locale' => $locale,
 				'https' => \App\RequestUtil::getBrowserInfo()->https,
-				'cacertbundle' => \is_file(\Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()) ? 'On' : 'Off',
+				'caCertBundle' => \is_file(\Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()) ? 'On' : 'Off',
+				'caCertBundlePath' => ltrim(\Composer\CaBundle\CaBundle::getSystemCaRootBundlePath(), ROOT_DIRECTORY),
 				'public_html' => IS_PUBLIC_DIR ? 'On' : 'Off',
 				'crmVersion' => \App\Version::get(),
 				'crmDate' => \App\Version::get('patchVersion'),
@@ -561,7 +565,7 @@ class ConfReport
 		$request = [];
 		try {
 			foreach (static::$urlsToCheck as $type => $url) {
-				$res = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('OPTIONS', $requestUrl . $url);
+				$res = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $requestUrl . $url, ['timeout' => 1, 'verify' => false]);
 				foreach ($res->getHeaders() as $key => $value) {
 					$request[strtolower($key)][$type] = \is_array($value) ? implode(',', $value) : $value;
 				}
@@ -1248,7 +1252,7 @@ class ConfReport
 		$requestUrl = static::$crmUrl . 'shorturl.php';
 		foreach (\explode(', ', $row['recommended']) as $type) {
 			try {
-				$response = (new \GuzzleHttp\Client())->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
+				$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
 				if (200 === $response->getStatusCode() && 'No uid' === (string) $response->getBody()) {
 					$supported[] = $type;
 				}
@@ -1450,7 +1454,7 @@ class ConfReport
 		if (!\App\RequestUtil::isNetConnection()) {
 			return false;
 		}
-		$response = (new \GuzzleHttp\Client())->get('http://php.net/releases/index.php?json&max=7&version=7', \App\RequestHttp::getOptions());
+		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get('http://php.net/releases/index.php?json&max=7&version=7');
 		$data = array_keys((array) \App\Json::decode($response->getBody()));
 		natsort($data);
 		$ver = [];
@@ -1464,5 +1468,4 @@ class ConfReport
 		}
 		return $ver;
 	}
-
 }

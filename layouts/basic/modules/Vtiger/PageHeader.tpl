@@ -29,7 +29,7 @@
 		{\App\Debuger::getDebugBar()->getJavascriptRenderer(\App\Debuger::getJavascriptPath())->renderHead()}
 	{/if}
 </head>
-<body class="{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}user-info--active{/if}{if \App\YetiForce\Shop::check('YetiForceDisableBranding')} limited-footer--active{/if}" data-language="{$LANGUAGE}" data-skinpath="{$SKIN_PATH}" data-layoutpath="{$LAYOUT_PATH}" {$USER_MODEL->getBodyLocks()}>
+<body class="{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}user-info--active{/if}{if \App\YetiForce\Shop::check('YetiForceDisableBranding')} limited-footer--active{/if}" data-language="{$LANGUAGE}" data-module="{$MODULE_NAME}" data-view="{$VIEW}" data-skinpath="{$SKIN_PATH}" data-layoutpath="{$LAYOUT_PATH}" {$USER_MODEL->getBodyLocks()}>
 <div id="configuration">
 	<input type="hidden" id="currencyGroupingPattern" value="{$USER_MODEL->get('currency_grouping_pattern')}"/>
 	<input type="hidden" id="truncateTrailingZeros" value="{$USER_MODEL->get('truncate_trailing_zeros')}"/>

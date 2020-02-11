@@ -11,4 +11,5 @@
 require_once 'include/RequirementsValidation.php';
 require_once 'include/main/WebUI.php';
 
+\App\Headers::getInstance()->send();
 Vtiger_ShortURL_Helper::handle(\App\Request::_get('id'));

@@ -161,4 +161,7 @@ class Performance
 
 	/** Parameter defining how fields are displayed in quick create. Available values: blocks,standard */
 	public static $quickCreateLayout = 'standard';
+
+	/** Value how much records can be show in report mail */
+	public static $REPORT_RECORD_NUMBERS = 10;
 }

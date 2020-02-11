@@ -110,7 +110,6 @@ class Shop
 		return array_merge([
 			'business' => 'paypal@yetiforce.com',
 			'rm' => 2,
-			'notify_url' => 'https://api.yetiforce.com/shop',
 			'image_url' => 'https://public.yetiforce.com/shop/logo.png',
 		], $crmData);
 	}

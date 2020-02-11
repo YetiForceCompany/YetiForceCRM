@@ -22,7 +22,7 @@ return [
 		'validation' => '\App\Validator::naturalNumber'
 	],
 	'ALLOW_MODULES' => [
-		'default' => ['Accounts', 'Contacts', 'Competition', 'Vendors', 'Partners', 'Leads'],
+		'default' => ['Accounts', 'Contacts', 'Competition', 'Vendors', 'Partners', 'Leads', 'Locations'],
 		'description' => 'Allow modules'
 	],
 	'FIELDS_IN_POPUP' => [
@@ -33,6 +33,7 @@ return [
 			'Competition' => ['subject', 'email'],
 			'Vendors' => ['vendorname', 'email', 'website'],
 			'Contacts' => ['firstname', 'lastname', 'email', 'phone'],
+			'Locations' => ['subject', 'email']
 		],
 		'description' => 'List of fields to appear in POP-UP'
 	],
@@ -41,7 +42,7 @@ return [
 		'description' => 'Name of connector to get coordinates. Value - OpenStreetMap or Base',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return in_array($arg, ['OpenStreetMap', 'Base']);
+			return \in_array($arg, ['OpenStreetMap', 'Base']);
 		}
 	],
 	'ROUTE_CONNECTOR' => [
@@ -49,7 +50,7 @@ return [
 		'description' => 'Name of connector to get coordinates  Value - Yours or Base',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return in_array($arg, ['Yours', 'Base']);
+			return \in_array($arg, ['Yours', 'Base']);
 		}
 	]
 ];

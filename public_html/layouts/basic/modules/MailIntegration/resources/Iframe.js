@@ -371,10 +371,16 @@ const MailIntegration_Iframe = {
 		this.moduleSelect = App.Fields.Picklist.showSelect2ElementView(this.container.find('.js-modules'));
 		this.moduleSelect.on('change', this.registerModulesSelectChange.bind(this));
 		this.container.find('.js-select-record').on('click', e => {
-			const params = {
+			let params = {
 				module: this.moduleSelect[0].value,
 				src_module: 'OSSMailView'
 			};
+			this.container.find('.js-list-item-click').each(function(index) {
+				let data = $(this).data();
+				if (data.field == 'link' || data.field == 'process') {
+					params[data.field] = data.id;
+				}
+			});
 			app.showRecordsList(params, (modal, instance) => {
 				instance.setSelectEvent((responseData, e) => {
 					this.addRelation(responseData.id, params.module);
@@ -397,11 +403,11 @@ const MailIntegration_Iframe = {
 	 */
 	registerAddRecord() {
 		this.addRecordBtn.on('click', e => {
-			const moduleName = this.moduleSelect[0].value;
-			const callbackFunction = ({ result }) => {
+			let moduleName = this.moduleSelect[0].value;
+			let callbackFunction = ({ result }) => {
 				this.addRelation(result._recordId, moduleName);
 			};
-			const quickCreateParams = { callbackFunction };
+			let quickCreateParams = { callbackFunction };
 			this.showQuickCreateForm(moduleName, quickCreateParams);
 		});
 	},
@@ -436,7 +442,7 @@ const MailIntegration_Iframe = {
 		}
 	}
 };
-
+window.App.Components.Scrollbar.active = false;
 (function($) {
 	MailIntegration_Iframe.registerEvents();
 })($);

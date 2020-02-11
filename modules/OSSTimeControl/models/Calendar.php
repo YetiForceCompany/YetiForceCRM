@@ -1,27 +1,43 @@
 <?php
 
 /**
- * OSSTimeControl calendar model class.
+ * TimeControl calendar model class.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class OSSTimeControl_Calendar_Model extends App\Base
+class OSSTimeControl_Calendar_Model extends Vtiger_Calendar_Model
 {
 	/**
-	 * Function to get records.
-	 *
-	 * @return array
+	 * {@inheritdoc}
 	 */
-	public function getEntity()
+	public function getSideBarLinks($linkParams)
 	{
-		$queryGenerator = new App\QueryGenerator('OSSTimeControl');
-		$queryGenerator->setFields(['id', 'date_start', 'time_start', 'time_end', 'due_date', 'timecontrol_type', 'name', 'assigned_user_id']);
-		if (!$this->isEmpty('types')) {
-			$queryGenerator->addNativeCondition(['vtiger_osstimecontrol.timecontrol_type' => $this->get('types')]);
+		$links = parent::getSideBarLinks($linkParams);
+		$link = Vtiger_Link_Model::getInstanceFromValues([
+			'linktype' => 'SIDEBARWIDGET',
+			'linklabel' => 'LBL_TYPE',
+			'linkdata' => ['cache' => 'calendar-types', 'name' => 'types'],
+			'linkurl' => 'module=' . $this->getModuleName() . '&view=RightPanel&mode=getTypesList'
+		]);
+		array_unshift($links, $link);
+		return $links;
+	}
+
+	/**
+	 * Get query.
+	 *
+	 * @return \App\Db\Query
+	 */
+	public function getQuery()
+	{
+		$queryGenerator = new App\QueryGenerator($this->getModuleName());
+		if ($this->has('customFilter')) {
+			$queryGenerator->initForCustomViewById($this->get('customFilter'));
 		}
-		if (!$this->isEmpty('user')) {
-			$queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $this->get('user')]);
+		$queryGenerator->setFields(['id', 'date_start', 'time_start', 'time_end', 'due_date', 'timecontrol_type', 'name', 'assigned_user_id']);
+		if ($types = $this->get('types')) {
+			$queryGenerator->addCondition('timecontrol_type', implode('##', $types), 'e');
 		}
 		if ($this->get('start') && $this->get('end')) {
 			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
@@ -50,13 +66,48 @@ class OSSTimeControl_Calendar_Model extends App\Base
 			]);
 		}
 
-		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		$query = $queryGenerator->createQuery();
+		if ($this->has('filters')) {
+			foreach ($this->get('filters') as $filter) {
+				$filterClassName = Vtiger_Loader::getComponentClassName('CalendarFilter', $filter['name'], $this->getModuleName());
+				$filterInstance = new $filterClassName();
+				if ($filterInstance->checkPermissions() && $conditions = $filterInstance->getCondition($filter['value'])) {
+					$query->andWhere($conditions);
+				}
+			}
+		}
+		$conditions = [];
+		$currentUser = App\User::getCurrentUserModel();
+		if (1 === $currentUser->getRoleInstance()->get('clendarallorecords')) {
+			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => $currentUser->getId()]);
+			$conditions[] = ['vtiger_crmentity.crmid' => $subQuery];
+		}
+		if (!empty($this->get('user'))) {
+			$conditions[] = ['vtiger_crmentity.smownerid' => $this->get('user')];
+		}
+		if ($conditions) {
+			$query->andWhere(array_merge(['or'], $conditions));
+		}
+		$query->orderBy(['vtiger_osstimecontrol.date_start' => SORT_ASC, 'vtiger_osstimecontrol.time_start' => SORT_ASC]);
+
+		return $query;
+	}
+
+	/**
+	 * Function to get records.
+	 *
+	 * @return array
+	 */
+	public function getEntity()
+	{
+		$dataReader = $this->getQuery()->createCommand()->query();
 		$result = [];
+		$moduleModel = $this->getModule();
+		$isSummaryViewSupported = $moduleModel->isSummaryViewSupported();
 		while ($record = $dataReader->read()) {
 			$item = [];
 			$item['id'] = $record['id'];
 			$item['title'] = \App\Purifier::encodeHtml($record['name']);
-			$item['url'] = 'index.php?module=OSSTimeControl&view=Detail&record=' . $record['id'];
 
 			$dateTimeInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$item['start'] = DateTimeField::convertToUserTimeZone($record['date_start'] . ' ' . $record['time_start'])->format('Y-m-d') . ' ' . $dateTimeInstance->getFullcalenderTime();
@@ -66,7 +117,13 @@ class OSSTimeControl_Calendar_Model extends App\Base
 			$item['end'] = DateTimeField::convertToUserTimeZone($record['due_date'] . ' ' . $record['time_end'])->format('Y-m-d') . ' ' . $dateTimeInstance->getFullcalenderTime();
 			$item['end_display'] = $dateTimeInstance->getDisplayDateTimeValue();
 
-			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $record['assigned_user_id'] . ' picklistCBr_OSSTimeControl_timecontrol_type_' . $record['timecontrol_type'];
+			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $record['assigned_user_id'] . " picklistCBr_{$this->getModuleName()}_timecontrol_type_" . $record['timecontrol_type'];
+			if ($isSummaryViewSupported) {
+				$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $record['id'];
+				$item['className'] .= ' js-show-modal';
+			} else {
+				$item['url'] = $moduleModel->getDetailViewUrl($record['id']);
+			}
 			$result[] = $item;
 		}
 		$dataReader->close();
@@ -74,30 +131,12 @@ class OSSTimeControl_Calendar_Model extends App\Base
 	}
 
 	/**
-	 * Static Function to get the instance of Vtiger Module Model for the given id or name.
-	 *
-	 * @param mixed id or name of the module
-	 */
-	public static function getInstance()
-	{
-		$instance = Vtiger_Cache::get('ossTimeControlModels', 'Calendar');
-		if ($instance === false) {
-			$instance = new self();
-			Vtiger_Cache::set('ossTimeControlModels', 'Calendar', clone $instance);
-
-			return $instance;
-		} else {
-			return clone $instance;
-		}
-	}
-
-	/**
-	 * Function to get type of calendars.
+	 * Function to get calendar types.
 	 *
 	 * @return string[]
 	 */
-	public static function getCalendarTypes()
+	public function getCalendarTypes()
 	{
-		return \App\Fields\Picklist::getValuesName('timecontrol_type');
+		return $this->getModule()->getFieldByName('timecontrol_type')->getPicklistValues();
 	}
 }

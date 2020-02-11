@@ -44,26 +44,22 @@ const MailIntegration_Compose = {
 		$.widget('ui.autocomplete', $.ui.autocomplete, {
 			_renderItem: function(ul, item) {
 				const listItemTemplate = user => {
-					return `
-							<li class="c-search-item js-search-item">
-								<div class="d-flex flex-nowrap">
-									<div class="d-flex flex-wrap">
-										<div class="u-font-size-14px">
-											${user.name}
-										</div>
-										<div class="c-search-item__mail small">
-											${user.mail}
-										</div>
+					return `<li class="c-search-item js-search-item">
+					<div class="">
+								<div class="row">
+									<div class="col-9 pr-0">
+										<div class="u-font-size-14px">${user.name}</div>
+										<div class="c-search-item__mail small">${user.mail}</div>
 									</div>
-									<div class="btn-group flex-nowrap align-items-center">
-										<button class="c-search-item__btn btn btn-xs btn-outline-primary" data-copy-target="cc">
-											${app.vtranslate('JS_CC')}
-										</button>
-										<button class="c-search-item__btn btn btn-xs btn-outline-primary" data-copy-target="bcc">
-											${app.vtranslate('JS_BCC')}
-										</button>
+									<div class="col-3 pr-0 text-right">
+										<button class="c-search-item__btn btn btn-xs btn-outline-primary" data-copy-target="cc">${app.vtranslate(
+											'JS_CC'
+										)}</button>
+										<button class="c-search-item__btn btn btn-xs btn-outline-primary" data-copy-target="bcc">${app.vtranslate(
+											'JS_BCC'
+										)}</button>
 									</div>
-								</div>
+								</div></div>
 							</li>`;
 				};
 				return $(listItemTemplate(item)).appendTo(ul);

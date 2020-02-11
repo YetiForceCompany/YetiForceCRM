@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Base-Modals-QuickEdit -->
+<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
 <input type="hidden" name="module" value="{$MODULE_NAME}"/>
 <input type="hidden" name="record" value="{$RECORD_ID}"/>
 <input type="hidden" name="action" value="SaveAjax"/>
@@ -15,13 +16,6 @@
 	{foreach key=FIELD_NAME item=FIELD_MODEL from=$CHANGED_FIELDS}
 		<input type="hidden" name="{$FIELD_NAME}" value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}"/>
 	{/foreach}
-{/if}
-{if $WIDTHTYPE eq 'narrow'}
-	{assign var=WIDTHTYPE_GROUP value="input-group-sm"}
-{elseif $WIDTHTYPE eq 'wide'}
-	{assign var=WIDTHTYPE_GROUP value="input-group-lg"}
-{else}
-	{assign var=WIDTHTYPE_GROUP value=''}
 {/if}
 <div class="quickCreateContent">
 	<div class="modal-body m-0">

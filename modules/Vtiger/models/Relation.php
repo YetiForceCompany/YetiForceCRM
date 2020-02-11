@@ -259,7 +259,7 @@ class Vtiger_Relation_Model extends \App\Base
 	{
 		$relKey = $parentModuleModel->getId() . '_' . $relatedModuleModel->getId() . '_' . $relationId;
 		if (isset(self::$cachedInstances[$relKey])) {
-			return self::$cachedInstances[$relKey];
+			return self::$cachedInstances[$relKey] ? clone self::$cachedInstances[$relKey] : self::$cachedInstances[$relKey];
 		}
 		if (('ModComments' == $relatedModuleModel->getName() && $parentModuleModel->isCommentEnabled()) || 'Documents' == $parentModuleModel->getName()) {
 			$moduleName = 'ModComments' == $relatedModuleModel->getName() ? $relatedModuleModel->getName() : $parentModuleModel->getName();
@@ -270,7 +270,7 @@ class Vtiger_Relation_Model extends \App\Base
 				$relationModel->setExceptionData();
 			}
 			self::$cachedInstances[$relKey] = $relationModel;
-			return $relationModel;
+			return clone $relationModel;
 		}
 		$query = (new \App\Db\Query())->select(['vtiger_relatedlists.*', 'modulename' => 'vtiger_tab.name'])
 			->from('vtiger_relatedlists')
@@ -287,8 +287,9 @@ class Vtiger_Relation_Model extends \App\Base
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
 			self::$cachedInstances[$relKey] = $relationModel;
 			self::$cachedInstancesById[$row['relation_id']] = $relationModel;
-			return $relationModel;
+			return clone $relationModel;
 		}
+		self::$cachedInstances[$relKey] = false;
 		return false;
 	}
 

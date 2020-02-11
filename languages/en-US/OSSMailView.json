@@ -1,7 +1,7 @@
 {
   "php": {
-    "OSSMailView": "Corporate emails",
-    "SINGLE_OSSMailView": "Corporate email",
+    "OSSMailView": "Email history",
+    "SINGLE_OSSMailView": "Email history",
     "LBL_RECORDS_LIST": "List of emails",
     "LBL_INFORMATION": "General Information",
     "LBL_ORIGN_MESSAGE": "Original message",
@@ -66,7 +66,7 @@
     "Configuration": "Configuration",
     "LBL_MAIL_REPLY_INTRO": "On the %s, %s wrote:",
     "LBL_MAIL_FORWARD_INTRO": "-------- Original message --------",
-    "Graf": "Corporate emails by Type",
+    "Graf": "Emails by Type",
     "Today": "Today",
     "Yesterday": "Yesterday",
     "Current week": "Current week",

@@ -28,6 +28,7 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 		'Small' => 380,
 		'Medium' => 700,
 		'Large' => 1200,
+		'Corporation' => 6000,
 	];
 	/**
 	 * {@inheritdoc}
@@ -37,6 +38,7 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 		'Small' => 10,
 		'Medium' => 20,
 		'Large' => 40,
+		'Corporation' => 80,
 	];
 	/**
 	 * {@inheritdoc}

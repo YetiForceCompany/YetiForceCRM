@@ -1,13 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Base-Detail-Widget-GeneralInfo -->
-{if $WIDTHTYPE eq 'narrow'}
-	{assign var=WIDTHTYPE_GROUP value="input-group-sm"}
-{elseif $WIDTHTYPE eq 'wide'}
-	{assign var=WIDTHTYPE_GROUP value="input-group-lg"}
-{else}
-	{assign var=WIDTHTYPE_GROUP value=''}
-{/if}
 {assign var=TRANSLATED_LABEL value=\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}
 <div class="c-detail-widget c-detail-widget--general-info js-widget-general-info" data-js="edit/save">
 	<div class="c-detail-widget__header js-detail-widget-header collapsed border-bottom-0">

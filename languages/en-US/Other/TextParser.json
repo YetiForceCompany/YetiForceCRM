@@ -64,7 +64,7 @@
     "LBL_REPORT_NEW_RECORDS": "New records in given module",
     "LBL_REPORT_SSALESPROCESSES": "Opportunity records",
     "LBL_REPORT_CALENDAR": "Calendar records",
-    "LBL_REPORT_OVERDUE": "Overdue records"
-
+    "LBL_REPORT_OVERDUE": "Overdue records",
+    "LBL_REPORT_USER_RECORDS_LIST": "User records list"
   }
 }

@@ -119,7 +119,7 @@
 											{if $PARAMETER->type == 'checkbox'}
 												<label>
 													<input value="1" autocomplete="off" type="checkbox" name="param_{$PARAMETER->name}" {if $PARAMETER->checked == '1'}checked{/if}>&nbsp;&nbsp;
-													{\App\Language::translate($PARAMETER->lable, $QUALIFIED_MODULE)}
+													{\App\Language::translate($PARAMETER->lable, 'Other.ModuleUpdate')}
 												</label>
 											{/if}
 										</td>

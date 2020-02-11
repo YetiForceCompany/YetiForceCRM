@@ -369,7 +369,7 @@ class Functions
 		if ('API' === \App\Process::$requestMode) {
 			throw new \App\Exceptions\ApiException($message, 401);
 		}
-		if (\App\Request::_isAjax()) {
+		if (\App\Request::_isAjax() && \App\Request::_isJSON()) {
 			$response = new \Vtiger_Response();
 			$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
 			$trace = '';

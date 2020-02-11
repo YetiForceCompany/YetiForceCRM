@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Calendar-Extended-QuickCreate quick-calendar-modal">
+	<div class="c-calendar-quickcreate quick-calendar-modal">
 		<input value="{App\Config::module($MODULE, 'CALENDAR_VIEW')}" type="hidden" class="js-calendar-type"
 			   data-js="value">
 		<input type="hidden" id="showType" value="current"/>
@@ -47,7 +47,7 @@
 							<input value="{$WEEK_VIEW}" type="hidden" id="weekView"/>
 							<input value="{$DAY_VIEW}" type="hidden" id="dayView"/>
 							<input value="{$ALL_DAY_SLOT}" type="hidden" id="allDaySlot"/>
-							<div class="tpl-Calendar-Extended-CalendarViewPreProcess">
+							<div class="c-calendar-view">
 								<div class="o-calendar__container">
 									<div class="js-calendar__container" data-js="fullcalendar | offset"></div>
 								</div>

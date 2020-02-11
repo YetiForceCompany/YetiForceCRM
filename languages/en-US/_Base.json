@@ -815,7 +815,7 @@
     "Sum invoices": "Total invoices",
     "Sum calculations": "Total calculations",
     "Calculations": "Calculations",
-    "OSSMailView": "Company Emails",
+    "OSSMailView": "Email history",
     "OSSEmployees": "Employees",
     "HolidaysEntitlement": "Annual holiday entitlement",
     "Faq": "Faq",
@@ -1396,6 +1396,7 @@
     "LBL_EDIT_COLOR": "Edit color",
     "LBL_SELECT_COLOR": "Select color:",
     "LBL_PREVIOUS_COLOR": "Previous color:",
+    "ERR_OCCURRED_CHECK_LOGS": "Error occurred, check the logs",
     "LBL_SHOW_ORIGINAL_CONTENT": "Show original content"
   },
   "js": {

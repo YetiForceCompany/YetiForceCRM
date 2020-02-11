@@ -657,6 +657,23 @@ class Importer
 									$column->set('type', 'integer')->set('autoIncrement', true)->notNull();
 									$primaryKey = true;
 								}
+								if ($tableSchema->foreignKeys) {
+									foreach ($tableSchema->foreignKeys as $keyName => $value) {
+										if (isset($value[$columnName])) {
+											$this->logs .= "  > foreign key must be removed and added in postUpdate: $tableName:$columnName <> {$value[0]}:{$value[$columnName]} FK:{$keyName}\n";
+											$importer->foreignKey[] = [$keyName, $tableName, $columnName, $value[0], $value[$columnName], 'CASCADE', null];
+											$dbCommand->dropForeignKey($keyName, $tableName)->execute();
+										}
+									}
+								}
+								foreach ($schema->findForeignKeyToColumn($tableName, $columnName) as $sourceTableName => $fks) {
+									foreach ($fks as $keyName => $fk) {
+										$this->logs .= "  > foreign key must be removed and added in postUpdate: $tableName:$columnName <> $sourceTableName:{$fk['sourceColumn']} FK:{$keyName}\n";
+										$importer->foreignKey[] = [$keyName, $sourceTableName, $fk['sourceColumn'], $tableName, $columnName, 'CASCADE', null];
+										$dbCommand->dropForeignKey($keyName, $sourceTableName)->execute();
+									}
+								}
+
 								$this->logs .= "  > alter column: $tableName:$columnName ... ";
 								$start = microtime(true);
 								$dbCommand->alterColumn($tableName, $columnName, $column)->execute();
@@ -809,5 +826,19 @@ class Importer
 		}
 		$time = round((microtime(true) - $startMain) / 60, 2);
 		$this->logs .= "# end update foreign key    ({$time}s)\n";
+	}
+
+	/**
+	 * Builds a SQL command for enabling or disabling integrity check.
+	 *
+	 * @param bool $check whether to turn on or off the integrity check.
+	 *
+	 * @return void
+	 */
+	public function checkIntegrity($check)
+	{
+		foreach ($this->importers as &$importer) {
+			$importer->db->createCommand()->checkIntegrity($check)->execute();
+		}
 	}
 }

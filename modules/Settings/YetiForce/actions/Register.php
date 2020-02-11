@@ -35,7 +35,7 @@ class Settings_YetiForce_Register_Action extends Settings_Vtiger_Save_Action
 	 *
 	 * @throws \Exception
 	 */
-	public function serial(\App\Request $request)
+	public function serial(App\Request $request)
 	{
 		$serial = $request->getByType('key', 'Alnum');
 		$responseType = 'success';
@@ -63,7 +63,7 @@ class Settings_YetiForce_Register_Action extends Settings_Vtiger_Save_Action
 	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \yii\db\Exception
 	 */
-	public function online(\App\Request $request)
+	public function online(App\Request $request)
 	{
 		$responseType = 'success';
 		$response = new Vtiger_Response();
@@ -83,16 +83,27 @@ class Settings_YetiForce_Register_Action extends Settings_Vtiger_Save_Action
 	}
 
 	/**
-	 * Check register status
+	 * Check register status.
 	 *
 	 * @param \App\Request $request
 	 */
-	public function check(\App\Request $request)
+	public function check(App\Request $request)
 	{
+		$status = \App\YetiForce\Register::check(true);
+		$label = 'LBL_REGISTRATION_PENDING';
+		switch ($status) {
+			case 3:
+				$label = 'LBL_REGISTRATION_COMPANY_DETAILS_VARY';
+				break;
+			case 0:
+			case 4:
+				$label = 'ERR_OCCURRED_CHECK_LOGS';
+				break;
+		}
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'success' => \App\YetiForce\Register::check(true),
-			'message' => App\Language::translate('LBL_REGISTRATION_PENDING', $request->getModule(false)),
+			'success' => 1 === $status,
+			'message' => App\Language::translate($label, $request->getModule(false)),
 		]);
 		$response->emit();
 	}

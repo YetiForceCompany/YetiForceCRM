@@ -2784,6 +2784,25 @@ body,
 	.alphabet_26 {
 		width: 295px;
 	}
+	.quickCreateContainer {
+		.modal-header {
+			padding: 0;
+			margin: 0;
+			.text-uppercase {
+				display: block;
+			}
+		}
+	}
+
+	.modal-title .text-uppercase {
+		display: block;
+	}
+	.listSearchTd {
+		padding: 4px 0 !important;
+		.btn {
+			padding: 0.5rem;
+		}
+	}
 }
 
 .jstree-proton .jstree-search {

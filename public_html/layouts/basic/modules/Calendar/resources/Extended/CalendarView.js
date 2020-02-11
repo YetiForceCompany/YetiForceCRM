@@ -5,7 +5,7 @@
  * @extends Calendar_Calendar_Js
  */
 window.calendarLoaded = false; //Global calendar flag needed for correct loading data from history browser in year view
-window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
+window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends Calendar_Calendar_Js {
 	constructor(container, readonly) {
 		super(container, readonly);
 		this.sidebarView = {
@@ -22,6 +22,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	addCommonMethodsToYearView() {
 		const self = this;
 		FC.views.year = FC.views.year.extend({
+			baseInstance: self,
 			selectDays: self.selectDays,
 			getCalendarCreateView: self.getCalendarCreateView,
 			getSidebarView: self.getSidebarView,
@@ -46,7 +47,8 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			container: self.container,
 			module: self.module,
 			showChangeDateButtons: self.showChangeDateButtons,
-			showTodayButtonCheckbox: self.showTodayButtonCheckbox
+			showTodayButtonCheckbox: self.showTodayButtonCheckbox,
+			getDefaultParams: self.getDefaultParams
 		});
 	}
 
@@ -154,43 +156,40 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	registerSwitchEvents() {
 		const calendarView = this.getCalendarView();
 		let isWorkDays,
+			changeDaysState,
+			changeType,
 			switchShowTypeVal,
 			switchContainer = $('.js-calendar__tab--filters'),
 			switchShowType = switchContainer.find('.js-switch--showType'),
-			switchSwitchingDays = switchContainer.find('.js-switch--switchingDays');
+			showTypeState = switchShowType.find('.js-switch--label-on.active').length ? 'current' : 'history',
+			switchSwitchingDays = switchContainer.find('.js-switch--switchingDays'),
+			switchingDaysState = switchSwitchingDays.find('input:checked').data('val');
 		let historyParams = app.getMainParams('historyParams', true);
 		if (historyParams === '') {
-			(isWorkDays =
-				app.getMainParams('switchingDays') === 'workDays' &&
-				app.moduleCacheGet('defaultSwitchingDays') !== 'all'),
-				(switchShowTypeVal =
-					app.getMainParams('showType') === 'current' && app.moduleCacheGet('defaultShowType') !== 'history');
-			if (!switchShowTypeVal) {
-				switchShowType.find('.js-switch--label-off').button('toggle');
-			}
+			let defaultDays = app.moduleCacheGet('defaultSwitchingDays');
+			changeDaysState = app.getMainParams('switchingDays'); // TODO defaultDays && switchingDaysState !== defaultDays ? defaultDays : switchingDaysState;
+			changeType = app.getMainParams('showType');
 		} else {
-			app.setMainParams('showType', historyParams.time);
-			app.setMainParams('switchingDays', historyParams.hiddenDays === '' ? 'all' : 'workDays');
+			changeType = historyParams.time !== undefined ? historyParams.time : app.getMainParams('showType');
+			changeDaysState = historyParams.hiddenDays === '' ? 'all' : 'workDays';
 		}
-		switchShowType.on('change', 'input', e => {
-			const currentTarget = $(e.currentTarget);
-			if (typeof currentTarget.data('on-text') !== 'undefined') {
-				app.setMainParams('showType', 'current');
-				app.moduleCacheSet('defaultShowType', 'current');
-			} else if (typeof currentTarget.data('off-text') !== 'undefined') {
-				app.setMainParams('showType', 'history');
-				app.moduleCacheSet('defaultShowType', 'history');
+		if (switchShowType.length) {
+			switchShowType.on('change', 'input', e => {
+				const currentTarget = $(e.currentTarget);
+				if (typeof currentTarget.data('on-text') !== 'undefined') {
+					app.setMainParams('showType', 'current');
+					app.moduleCacheSet('defaultShowType', 'current');
+				} else if (typeof currentTarget.data('off-text') !== 'undefined') {
+					app.setMainParams('showType', 'history');
+					app.moduleCacheSet('defaultShowType', 'history');
+				}
+				calendarView.fullCalendar('getCalendar').view.options.loadView();
+			});
+			if (app.getMainParams('showType') !== changeType) {
+				$('input[data-val="' + changeType + '"]', switchShowType).trigger('change');
 			}
-			calendarView.fullCalendar('getCalendar').view.options.loadView();
-		});
-		$('label.active', switchShowType)
-			.find('input')
-			.filter(':first')
-			.change();
+		}
 		if (switchSwitchingDays.length) {
-			if (typeof isWorkDays !== 'undefined' && !isWorkDays) {
-				switchSwitchingDays.find('.js-switch--label-off').button('toggle');
-			}
 			switchSwitchingDays.on('change', 'input', e => {
 				const currentTarget = $(e.currentTarget);
 				let hiddenDays = [];
@@ -208,10 +207,11 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 					this.registerViewRenderEvents(calendarView.fullCalendar('getView'));
 				}
 			});
-			$('label.active', switchSwitchingDays)
-				.find('input')
-				.filter(':first')
-				.change();
+			if (app.getMainParams('switchingDays') !== changeDaysState) {
+				$('input[data-val="' + changeDaysState + '"]', switchSwitchingDays).trigger('change');
+			} else if (changeDaysState !== switchingDaysState) {
+				// TODO
+			}
 		}
 	}
 
@@ -371,7 +371,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 	}
 
 	getSidebarView() {
-		if (!this.sidebarView.length) {
+		if (!this.sidebarView || !this.sidebarView.length) {
 			this.sidebarView = this.container.find('.js-calendar-right-panel');
 		}
 		return this.sidebarView;
@@ -528,6 +528,9 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			self.selectDays(view.start, view.end);
 			view.end = view.end.add(1, 'day');
 		}
+		let time = this.getSidebarView()
+			.find('.js-switch--showType input:checked')
+			.data('val');
 		let options = {
 			module: this.module,
 			action: 'Calendar',
@@ -535,7 +538,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 			start: view.start.format(formatDate),
 			end: view.end.format(formatDate),
 			user: user,
-			time: app.getMainParams('showType'),
+			time: time !== undefined ? time : app.getMainParams('showType'),
 			cvid: cvid,
 			historyUrl: `index.php?module=${this.module}&view=CalendarExtended&history=true&viewType=${
 				view.type
@@ -593,6 +596,7 @@ window.Calendar_CalendarExtended_Js = class extends Calendar_Calendar_Js {
 				actualUserCheckbox = sidebar.find('.js-input-user-owner-id[value=' + app.getMainParams('userId') + ']');
 			calendarSwitch.last().removeClass('active');
 			calendarSwitch.first().addClass('active');
+			$('input[data-val="current"]', calendarSwitch).prop('checked', true);
 			if (actualUserCheckbox.length) {
 				actualUserCheckbox.prop('checked', true);
 			} else {

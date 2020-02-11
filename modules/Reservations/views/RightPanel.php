@@ -6,59 +6,36 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class Reservations_RightPanel_View extends Vtiger_IndexAjax_View
+class Reservations_RightPanel_View extends Calendar_RightPanel_View
 {
-	public function __construct()
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function getTpl(string $tplFile)
 	{
-		parent::__construct();
-		$this->exposeMethod('getUsersList');
-		$this->exposeMethod('getTypesList');
+		return "Calendar/{$tplFile}";
 	}
 
 	/**
-	 * Get users list.
-	 *
-	 * @param \App\Request $request
+	 * {@inheritdoc}
 	 */
-	public function getUsersList(\App\Request $request)
+	public function __construct()
 	{
-		$moduleName = $request->getModule();
-		$userModel = \App\User::getCurrentUserModel();
-		$clendar = Settings_Roles_Record_Model::getInstanceById($userModel->getRole())->get('clendarallorecords');
-		$users = $groups = [];
-		switch ($clendar) {
-			case 1:
-				$users[$userModel->getId()] = $userModel->getName();
-				break;
-			case 2:
-				$groups = \App\Fields\Owner::getInstance(false, $userModel)->getAccessibleGroups();
-				$users[$userModel->getId()] = $userModel->getName();
-				break;
-			case 3:
-				if (App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
-					$usersAndGroup = \App\Fields\Owner::getInstance($moduleName, $userModel)->getUsersAndGroupForModuleList();
-					$users = $usersAndGroup['users'];
-					$groups = $usersAndGroup['group'];
-				} else {
-					$users = \App\Fields\Owner::getInstance(false, $userModel)->getAccessibleUsers();
-					$groups = \App\Fields\Owner::getInstance(false, $userModel)->getAccessibleGroups();
-				}
-				break;
-			default:
-				$users[$userModel->getId()] = $userModel->getName();
-				break;
-		}
-		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('ALL_ACTIVEUSER_LIST', $users);
-		$viewer->assign('ALL_ACTIVEGROUP_LIST', $groups);
-		$viewer->view('RightPanel.tpl', $moduleName);
+		parent::__construct();
+		$this->exposeMethod('getTypesList');
+		$this->exposeMethod('getUsersList');
+		$this->exposeMethod('getGroupsList');
 	}
 
-	public function getTypesList(\App\Request $request)
+	/**
+	 * Gets template.
+	 *
+	 * @param App\Request $request
+	 */
+	public function getTypesList(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('ALL_ACTIVETYPES_LIST', Reservations_Calendar_Model::getCalendarTypes());
-		$viewer->view('RightPanel.tpl', $request->getModule());
+		$viewer->assign('ALL_ACTIVETYPES_LIST', Vtiger_Calendar_Model::getInstance($request->getModule())->getCalendarTypes());
+		$viewer->view($this->getTpl('RightPanel.tpl'), $request->getModule());
 	}
 }

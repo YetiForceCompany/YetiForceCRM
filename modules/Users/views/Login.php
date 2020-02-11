@@ -14,6 +14,11 @@ class Users_Login_View extends \App\Controller\View\Base
 	/**
 	 * {@inheritdoc}
 	 */
+	public $csrfActive = false;
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();

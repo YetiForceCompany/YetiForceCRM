@@ -13,13 +13,6 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
-	{if $WIDTHTYPE eq 'narrow'}
-		{assign var=WIDTHTYPE_GROUP value="input-group-sm"}
-	{elseif $WIDTHTYPE eq 'wide'}
-		{assign var=WIDTHTYPE_GROUP value="input-group-lg"}
-	{else}
-		{assign var=WIDTHTYPE_GROUP value=''}
-	{/if}
 	<div class="tpl-QuickCreate modal quickCreateContainer" tabindex="-3" role="dialog">
 		<div class="modal-dialog modal-lg modal-full" role="document">
 			<div class="modal-content">
@@ -53,6 +46,7 @@
 							</button>
 						</div>
 					</div>
+					<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
 					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 						<input type="hidden" name="picklistDependency"
 							   value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>

@@ -6,22 +6,38 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class Reservations_Calendar_Model extends \App\Base
+class Reservations_Calendar_Model extends Vtiger_Calendar_Model
 {
 	/**
-	 * Function to get records.
-	 *
-	 * @return array
+	 * {@inheritdoc}
 	 */
-	public function getEntity()
+	public function getSideBarLinks($linkParams)
 	{
-		$queryGenerator = new App\QueryGenerator('Reservations');
-		$queryGenerator->setFields(['id', 'date_start', 'time_start', 'time_end', 'due_date', 'title', 'assigned_user_id']);
-		if (!$this->isEmpty('types')) {
-			$queryGenerator->addNativeCondition(['vtiger_reservations.type' => $this->get('types')]);
+		$links = parent::getSideBarLinks($linkParams);
+		$link = Vtiger_Link_Model::getInstanceFromValues([
+			'linktype' => 'SIDEBARWIDGET',
+			'linklabel' => 'LBL_TYPE',
+			'linkdata' => ['cache' => 'calendar-types', 'name' => 'types'],
+			'linkurl' => 'module=' . $this->getModuleName() . '&view=RightPanel&mode=getTypesList'
+		]);
+		array_unshift($links, $link);
+		return $links;
+	}
+
+	/**
+	 * Get query.
+	 *
+	 * @return \App\Db\Query
+	 */
+	public function getQuery()
+	{
+		$queryGenerator = new App\QueryGenerator($this->getModuleName());
+		if ($this->has('customFilter')) {
+			$queryGenerator->initForCustomViewById($this->get('customFilter'));
 		}
-		if (!$this->isEmpty('user')) {
-			$queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $this->get('user')]);
+		$queryGenerator->setFields(['id', 'date_start', 'time_start', 'time_end', 'due_date', 'title', 'assigned_user_id', 'reservations_status']);
+		if ($types = $this->get('types')) {
+			$queryGenerator->addCondition('type', implode('##', $types), 'e');
 		}
 		if ($this->get('start') && $this->get('end')) {
 			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
@@ -50,13 +66,48 @@ class Reservations_Calendar_Model extends \App\Base
 			]);
 		}
 
-		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		$query = $queryGenerator->createQuery();
+		if ($this->has('filters')) {
+			foreach ($this->get('filters') as $filter) {
+				$filterClassName = Vtiger_Loader::getComponentClassName('CalendarFilter', $filter['name'], $this->getModuleName());
+				$filterInstance = new $filterClassName();
+				if ($filterInstance->checkPermissions() && $conditions = $filterInstance->getCondition($filter['value'])) {
+					$query->andWhere($conditions);
+				}
+			}
+		}
+		$conditions = [];
+		$currentUser = App\User::getCurrentUserModel();
+		if (1 === $currentUser->getRoleInstance()->get('clendarallorecords')) {
+			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => $currentUser->getId()]);
+			$conditions[] = ['vtiger_crmentity.crmid' => $subQuery];
+		}
+		if (!empty($this->get('user'))) {
+			$conditions[] = ['vtiger_crmentity.smownerid' => $this->get('user')];
+		}
+		if ($conditions) {
+			$query->andWhere(array_merge(['or'], $conditions));
+		}
+		$query->orderBy(['vtiger_reservations.date_start' => SORT_ASC, 'vtiger_reservations.time_start' => SORT_ASC]);
+
+		return $query;
+	}
+
+	/**
+	 * Function to get records.
+	 *
+	 * @return array
+	 */
+	public function getEntity()
+	{
+		$dataReader = $this->getQuery()->createCommand()->query();
 		$result = [];
+		$moduleModel = Vtiger_Module_Model::getInstance($this->getModuleName());
+		$isSummaryViewSupported = $moduleModel->isSummaryViewSupported();
 		while ($record = $dataReader->read()) {
 			$item = [];
 			$item['id'] = $record['id'];
 			$item['title'] = \App\Purifier::encodeHtml($record['title']);
-			$item['url'] = 'index.php?module=Reservations&view=Detail&record=' . $record['id'];
 
 			$dateTimeInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$item['start'] = DateTimeField::convertToUserTimeZone($record['date_start'] . ' ' . $record['time_start'])->format('Y-m-d') . ' ' . $dateTimeInstance->getFullcalenderTime();
@@ -66,7 +117,13 @@ class Reservations_Calendar_Model extends \App\Base
 			$item['end'] = DateTimeField::convertToUserTimeZone($record['due_date'] . ' ' . $record['time_end'])->format('Y-m-d') . ' ' . $dateTimeInstance->getFullcalenderTime();
 			$item['end_display'] = $dateTimeInstance->getDisplayDateTimeValue();
 
-			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $record['assigned_user_id'];
+			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $record['assigned_user_id'] . " picklistCBr_{$this->getModuleName()}_reservations_status_" . $record['reservations_status'];
+			if ($isSummaryViewSupported) {
+				$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $record['id'];
+				$item['className'] .= ' js-show-modal';
+			} else {
+				$item['url'] = $moduleModel->getDetailViewUrl($record['id']);
+			}
 			$result[] = $item;
 		}
 		$dataReader->close();
@@ -74,30 +131,13 @@ class Reservations_Calendar_Model extends \App\Base
 	}
 
 	/**
-	 * Static Function to get the instance of Vtiger Module Model for the given id or name.
-	 */
-	public static function getInstance()
-	{
-		$instance = Vtiger_Cache::get('reservationsModels', 'Calendar');
-		if ($instance === false) {
-			$instance = new self();
-			Vtiger_Cache::set('reservationsModels', 'Calendar', clone $instance);
-
-			return $instance;
-		} else {
-			return clone $instance;
-		}
-	}
-
-	/**
 	 * Function to get calendar types.
 	 *
 	 * @return string[]
 	 */
-	public static function getCalendarTypes()
+	public function getCalendarTypes()
 	{
-		$templateId = Vtiger_Field_Model::getInstance('type', Vtiger_Module_Model::getInstance('Reservations'))->getFieldParams();
-
+		$templateId = $this->getModule()->getFieldByName('type')->getFieldParams();
 		return (new App\Db\Query())->select(['tree', 'label'])->from('vtiger_trees_templates_data')
 			->where(['templateid' => $templateId])
 			->createCommand()->queryAllByGroup(0);

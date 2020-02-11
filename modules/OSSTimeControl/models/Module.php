@@ -25,22 +25,6 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			'linkurl' => $this->getCalendarViewUrl(),
 			'linkicon' => 'fas fa-calendar-alt'
 		]));
-		if (isset($linkParams['ACTION']) && 'Calendar' === $linkParams['ACTION']) {
-			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_USERS',
-				'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getUsersList',
-				'linkicon' => '',
-				'linkclass' => 'js-calendar__filter--users',
-			]);
-			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_TYPE',
-				'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getTypesList',
-				'linkicon' => '',
-				'linkclass' => 'js-calendar__filter--types',
-			]);
-		}
 		return $links;
 	}
 
@@ -136,7 +120,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 				$chartData['datasets'][0]['backgroundColor'][] = $color;
 				$chartData['datasets'][0]['borderColor'][] = $color;
 			}
-			$chartData['show_chart'] = count($chartData['datasets']) && count($chartData['datasets'][0]['data']);
+			$chartData['show_chart'] = \count($chartData['datasets']) && \count($chartData['datasets'][0]['data']);
 			$dataReader->close();
 		}
 		return $chartData;
@@ -148,7 +132,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 	public function getFieldsForSave(Vtiger_Record_Model $recordModel)
 	{
 		$fields = parent::getFieldsForSave($recordModel);
-		if (!in_array('sum_time', $fields)) {
+		if (!\in_array('sum_time', $fields)) {
 			$fields[] = 'sum_time';
 		}
 		return $fields;

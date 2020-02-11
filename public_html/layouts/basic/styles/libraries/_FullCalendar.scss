@@ -164,7 +164,8 @@
 		}
 	}
 
-	&.fc-state-active .fc-button-inner .fc-button-content, &:active .fc-button-inner .fc-button-content {
+	&.fc-state-active .fc-button-inner .fc-button-content,
+	&:active .fc-button-inner .fc-button-content {
 		color: #000 !important;
 		background: transparent;
 		background-image: none;
@@ -212,6 +213,9 @@
 
 .fc button {
 	height: auto !important;
+	.fas {
+		display: block;
+	}
 }
 
 .fc-toolbar {
@@ -229,10 +233,29 @@
 
 @media only screen and (max-width: 480px) {
 	.fc-toolbar {
-		.fc-left, .fc-right {
+		.fc-left,
+		.fc-right {
 			float: none !important;
 			display: inline-block;
 		}
+	}
+	.fc-basic-view .fc-body .fc-row {
+		min-height: 2em !important;
+	}
+
+	.fc-row .fc-content-skeleton {
+		padding-bottom: 0px;
+	}
+	.fc th,
+	.fc td {
+		padding: 0 !important;
+		line-height: 1;
+	}
+	.c-calendar-quickcreate .fc-day-top .fc-day-number {
+		font-size: 20px;
+	}
+	.js-calendar-switch-container {
+		margin: auto !important;
 	}
 }
 

@@ -23,7 +23,8 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		],
 		'name' => [
 			'registerView' => true,
-			'paymentData' => true
+			'paymentData' => true,
+			'infoText' => 'LBL_NAME_INFO',
 		],
 		'vat_id' => [
 			'paymentData' => true,
