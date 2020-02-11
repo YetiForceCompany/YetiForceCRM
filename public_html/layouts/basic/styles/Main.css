@@ -9372,24 +9372,20 @@ a.text-dark:hover, a.text-dark:focus {
  * Select2 widgets in Bootstrap Input Groups
  *
  * @see https://getbootstrap.com/docs/4.0/components/input-group/
- * @see https://github.com/twbs/bootstrap/blob/v4.0.0-beta.2/scss/_input-group.scss
+ * @see https://github.com/twbs/bootstrap/blob/v4.4.1/scss/_input-group.scss
  */
 /**
  * Reset rounded corners
  */
-.input-group > .select2-hidden-accessible:first-child + .select2-container--bootstrap > .selection > .select2-selection,
-.input-group > .select2-hidden-accessible:first-child + .select2-container--bootstrap > .selection > .select2-selection.form-control {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0; }
-
-.input-group > .select2-hidden-accessible:not(:first-child) + .select2-container--bootstrap:not(:last-child) > .selection > .select2-selection,
-.input-group > .select2-hidden-accessible:not(:first-child) + .select2-container--bootstrap:not(:last-child) > .selection > .select2-selection.form-control {
-  border-radius: 0; }
-
-.input-group > .select2-hidden-accessible:not(:first-child):not(:last-child) + .select2-container--bootstrap:last-child > .selection > .select2-selection,
-.input-group > .select2-hidden-accessible:not(:first-child):not(:last-child) + .select2-container--bootstrap:last-child > .selection > .select2-selection.form-control {
+.input-group > .select2-hidden-accessible:not(:first-child) + .select2-container--bootstrap > .selection > .select2-selection,
+.input-group > .select2-hidden-accessible:not(:first-child) + .select2-container--bootstrap > .selection > .select2-selection.form-control {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0; }
+
+.input-group > .select2-hidden-accessible + .select2-container--bootstrap:not(:last-child) > .selection > .select2-selection,
+.input-group > .select2-hidden-accessible + .select2-container--bootstrap:not(:last-child) > .selection > .select2-selection.form-control {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0; }
 
 .input-group > .select2-container--bootstrap {
   flex: 1 1 auto;
@@ -9406,7 +9402,7 @@ a.text-dark:hover, a.text-dark:focus {
    * Multi Select2's height which - depending on how many elements have been selected -
    * may grow taller than its initial size.
    *
-   * @see https://github.com/twbs/bootstrap/blob/v4.0.0-beta.2/scss/_input-group.scss
+   * @see https://github.com/twbs/bootstrap/blob/v4.4.1/scss/_input-group.scss
    */ }
   .input-group > .select2-container--bootstrap > .selection {
     display: flex;
