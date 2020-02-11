@@ -25,6 +25,7 @@ class Vtiger_Record_Model extends \App\Base
 	public $isNew = true;
 	public $ext = [];
 	protected $dataForSave = [];
+	protected $handler;
 
 	/**
 	 * Function to get the id of the record.
@@ -442,15 +443,24 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
+	 * Gets Event Handler.
+	 *
+	 * @return \App\EventHandler
+	 */
+	public function getEventHandler(): App\EventHandler
+	{
+		if (!$this->handler) {
+			$this->handler = (new \App\EventHandler())->setRecordModel($this)->setModuleName($this->getModuleName());
+		}
+		return $this->handler;
+	}
+
+	/**
 	 * Function to save the current Record Model.
 	 */
 	public function save()
 	{
-		$moduleModel = $this->getModule();
-		$moduleName = $moduleModel->get('name');
-		$eventHandler = new App\EventHandler();
-		$eventHandler->setRecordModel($this);
-		$eventHandler->setModuleName($moduleName);
+		$eventHandler = $this->getEventHandler();
 		if ($this->getHandlerExceptions()) {
 			$eventHandler->setExceptions($this->getHandlerExceptions());
 		}
@@ -479,7 +489,7 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$eventHandler->trigger('EntityAfterSave');
 		if ($this->isNew()) {
-			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $moduleName, $this);
+			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
 			$this->isNew = false;
 		}
 		\App\Cache::delete('recordLabel', $this->getId());
