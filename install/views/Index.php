@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -12,7 +13,10 @@
 class Install_Index_View extends \App\Controller\View\Base
 {
 	use \App\Controller\ExposeMethod;
-
+	/**
+	 * {@inheritdoc}
+	 */
+	public $csrfActive = false;
 	/**
 	 * @var bool
 	 */
@@ -166,8 +170,6 @@ class Install_Index_View extends \App\Controller\View\Base
 	/**
 	 * Show choose host step.
 	 *
-	 * @param App\Request $request
-	 *
 	 * @return void
 	 */
 	public function stepChooseHost(App\Request $request)
@@ -179,8 +181,6 @@ class Install_Index_View extends \App\Controller\View\Base
 
 	/**
 	 * Show buy modal in choose host step.
-	 *
-	 * @param App\Request $request
 	 *
 	 * @return void
 	 */
@@ -200,8 +200,6 @@ class Install_Index_View extends \App\Controller\View\Base
 
 	/**
 	 * Show product modal in choose host step.
-	 *
-	 * @param App\Request $request
 	 *
 	 * @return void
 	 */
