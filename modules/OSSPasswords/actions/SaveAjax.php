@@ -39,6 +39,11 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			}
 			$request->set('value', $properPassword);
 		}
+		if ($mode = $request->getMode()) {
+			$this->invokeExposedMethod($mode, $request);
+			return;
+		}
+
 		$recordModel = $this->saveRecord($request);
 
 		// apply encryption if encryption mode is on

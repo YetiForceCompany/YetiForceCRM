@@ -3129,6 +3129,7 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (78,'EntityAfterDelete','Vtiger_RecordFlowUpdater_Handler',1,'Project,ProjectMilestone,ProjectTask','',5,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (79,'EntityChangeState','Vtiger_RecordFlowUpdater_Handler',1,'Project,ProjectMilestone,ProjectTask','',5,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (80,'EntityAfterSave','ApprovalsRegister_Approvals_Handler',1,'ApprovalsRegister','',5,128);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (81,'EditViewPreSave','Contacts_DuplicateEmail_Handler',1,'Contacts','',5,4);
 
 /*Data for the table `vtiger_expectedresponse` */
 

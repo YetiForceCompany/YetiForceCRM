@@ -930,7 +930,61 @@ $.Class(
 		 * Function to check the view permission of a record after save
 		 */
 		registerRecordPreSaveEventEvent: function(form) {
-			form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {});
+			form.on(Vtiger_Edit_Js.recordPreSave, (e, data) => {
+				this.preSaveValidation(form).done(response => {
+					if (response !== true) {
+						e.preventDefault();
+					}
+				});
+			});
+		},
+		preSaveValidation: function(form) {
+			const aDeferred = $.Deferred();
+			if (form.find('#preSaveValidation').val()) {
+				document.progressLoader = $.progressIndicator({
+					message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				});
+				let formData = new FormData(form[0]);
+				formData.append('mode', 'preSaveValidation');
+				AppConnector.request({
+					async: false,
+					url: 'index.php',
+					type: 'POST',
+					data: formData,
+					processData: false,
+					contentType: false
+				})
+					.done(data => {
+						document.progressLoader.progressIndicator({ mode: 'hide' });
+						let response = data.result;
+						for (let i = 0; i < response.length; i++) {
+							if (response[i].result !== true) {
+								Vtiger_Helper_Js.showPnotify(
+									response[i].message ? response[i].message : app.vtranslate('JS_ERROR')
+								);
+							}
+						}
+						if (data.result.length <= 0) {
+							aDeferred.resolve(true);
+						} else {
+							aDeferred.resolve(false);
+						}
+					})
+					.fail((textStatus, errorThrown) => {
+						document.progressLoader.progressIndicator({ mode: 'hide' });
+						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+						app.errorLog(textStatus, errorThrown);
+						aDeferred.resolve(false);
+					});
+			} else {
+				aDeferred.resolve(true);
+			}
+
+			return aDeferred.promise();
 		},
 		/**
 		 * Function to register event for setting up picklistdependency
