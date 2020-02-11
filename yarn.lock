@@ -381,10 +381,10 @@ jstree-bootstrap-theme@^1.0.1:
   dependencies:
     jquery ">=1.9.1"
 
-jstree@^3.3.7:
-  version "3.3.8"
-  resolved "https://registry.yarnpkg.com/jstree/-/jstree-3.3.8.tgz#8d0f506028d65e5207efa7b78e6541cbe35622c1"
-  integrity sha512-0/nhGxVLSGfGQyVg+q59ocqSEKWRDKHoA8wNrcOIvlzCCw19tzvcMNGJ19hf+U0b7fycABowkny7fQPcLgUwwA==
+jstree@^3.3.9:
+  version "3.3.9"
+  resolved "https://registry.yarnpkg.com/jstree/-/jstree-3.3.9.tgz#62b47cad3c4fda390d021e5c4f98ee5b3365198a"
+  integrity sha512-jRIbhg+BHrIs1Wm6oiJt3oKTVBE6sWS0PCp2/RlkIUqsLUPWUYgV3q8LfKoi1/E+YMzGtP6BuK4okk+0mwfmhQ==
   dependencies:
     jquery ">=1.9.1"
 
