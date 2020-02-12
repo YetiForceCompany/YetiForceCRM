@@ -18909,6 +18909,53 @@ body > .o-exception-fixed-block {
   margin-bottom: 0; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* tree view - start */
+.treeviewViewContainer td > a {
+  color: inherit !important; }
+
+.treeviewViewContainer .widget_header {
+  margin-right: -20px;
+  margin-left: -25px; }
+
+@media (min-width: 992px) {
+  .treeviewViewContainer.js-sitebar--active {
+    width: 75% !important;
+    padding-right: 1rem !important; } }
+
+.container-fluid[class$="-treerecords-container"] .c-menu--open .basePanel .toggleSiteBarRightButton,
+.container-fluid[class$="-treerecords-container"] .basePanel .toggleSiteBarRightButton {
+  background: #f8f9fa;
+  font-weight: bold;
+  padding: 15px 0 !important;
+  position: fixed;
+  top: 50%;
+  right: 25%;
+  cursor: pointer;
+  width: 17px;
+  z-index: 100;
+  border: 1px solid #ccc;
+  border-right: 0;
+  display: inline-block;
+  border-radius: 0; }
+
+.container-fluid[class$="-treerecords-container"] .c-menu--open .basePanel .toggleSiteBarRightButton {
+  right: calc(25% - 50px); }
+
+@media (max-width: 992px) {
+  .container-fluid[class$="-treerecords-container"] .c-menu--open .basePanel .toggleSiteBarRightButton,
+  .container-fluid[class$="-treerecords-container"] .basePanel .toggleSiteBarRightButton {
+    display: none; }
+
+  .container-fluid[class$="-treerecords-container"] .siteBarRight {
+    left: 0px; }
+
+  .container-fluid[class$="-treerecords-container"] .c-menu--open .siteBarRight {
+    width: 100% !important; } }
+
+.container-fluid[class$="-treerecords-container"] .hideToggleSiteBarRightButton {
+  right: 7px !important; }
+/* tree view - end */
+
 .calendarViewContainer .widget_header {
   margin-right: -20px;
   margin-left: -25px; }

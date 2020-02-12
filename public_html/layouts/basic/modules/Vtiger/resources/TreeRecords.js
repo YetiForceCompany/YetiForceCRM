@@ -87,8 +87,10 @@ jQuery.Class(
 			AppConnector.request(thisInstance.getRecordsParams(container))
 				.done(function(data) {
 					container.find('#recordsListContents').html(data);
-					container.find('#recordsListContents table').dataTable();
-
+					container.find('#recordsListContents table').dataTable({classes: {sLengthSelect: 'select2'}});
+					App.Fields.Picklist.showSelect2ElementView(container.find('select.select2'), {dropdownCss: {'z-index': 0}});
+					$('.select2-container', '.dataTables_length').addClass('d-inline-block w-50 ml-2 mr-2');
+					container.find('#recordsListContents').addClass('mt-2');
 					progressIndicator.progressIndicator({ mode: 'hide' });
 				})
 				.fail(function(error) {
@@ -106,6 +108,7 @@ jQuery.Class(
 			thisInstance.treeInstance.on('changed.jstree', function(e, data) {
 				thisInstance.getRecordsList();
 			});
+			thisInstance.treeInstance.trigger('changed.jstree');
 		},
 		registerEvents: function() {
 			var container = this.getContainer();

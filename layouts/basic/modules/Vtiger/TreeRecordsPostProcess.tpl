@@ -4,17 +4,17 @@
 	</div>
 	</div>
 	</div>
-	<div class="{if $USER_MODEL->get('leftpanelhide')}c-menu--open {/if}siteBarRight">
+	<div class="siteBarRight">
 		<div class="btn btn-block toggleSiteBarRightButton"
 			 title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
 			<span class="fas fa-chevron-right"></span>
 		</div>
 		<div class="siteBarContent">
 			<div class="row">
-				<div class="col-md-4 paddingTop10">
+				<div class="col-12 paddingTop10">
 					<h5>{\App\Language::translate('LBL_FILTERING',$MODULE)}</h5>
 				</div>
-				<div class="col-md-8 paddingTop10">
+				<div class="col-12 paddingBottom10">
 					<select class="select2 form-control" id="moduleFilter">
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 							<optgroup label="{\App\Language::translate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}">
@@ -32,7 +32,6 @@
 			<input type="hidden" id="treeListValues" value="{\App\Purifier::encodeHtml($TREE_LIST)}">
 			<div id="treeListContents"></div>
 		</div>
-	</div>
 	</div>
 	</div>
 	<!-- /tpl-TreeRecordsPostProcess -->
