@@ -1031,13 +1031,10 @@ jQuery.Class(
 				const block = $(this).closest('.js-toggle-panel');
 				const blockContent = block.find('.blockContent');
 				const isEmpty = blockContent.is(':empty');
-				if (!blockContent.is(':visible')) {
+				let url = block.data('url');
+				if (!blockContent.is(':visible') && url) {
 					blockContent.progressIndicator();
-					AppConnector.request({
-						type: 'GET',
-						dataType: 'html',
-						data: block.data('url')
-					}).done(function(response) {
+					AppConnector.request(url).done(function(response) {
 						blockContent.html(response);
 						const relatedController = Vtiger_RelatedList_Js.getInstance(
 							thisInstance.getRecordId(),
