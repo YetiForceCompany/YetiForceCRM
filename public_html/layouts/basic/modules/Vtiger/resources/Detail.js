@@ -583,17 +583,64 @@ jQuery.Class(
 			data['module'] = app.getModuleName();
 			data['action'] = 'SaveAjax';
 
-			var params = {};
+			const params = {};
 			params.data = data;
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params)
-				.done(function(reponseData) {
-					aDeferred.resolve(reponseData);
-				})
-				.fail((jqXHR, textStatus, errorThrown) => {
-					aDeferred.reject(jqXHR, textStatus, errorThrown);
+			this.preSaveValidation(JSON.parse(JSON.stringify(params)), this.getForm()).then(response => {
+				if (response === true) {
+					AppConnector.request(params)
+						.done(function(responseData) {
+							aDeferred.resolve(responseData);
+						})
+						.fail((jqXHR, textStatus, errorThrown) => {
+							aDeferred.reject(jqXHR, textStatus, errorThrown);
+							app.errorLog(jqXHR, textStatus, errorThrown);
+						});
+				} else {
+					aDeferred.resolve({ success: false });
+				}
+			});
+
+			return aDeferred.promise();
+		},
+		preSaveValidation: function(params, form) {
+			const aDeferred = $.Deferred();
+			if (form.find('#preSaveValidation').val()) {
+				document.progressLoader = $.progressIndicator({
+					message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
 				});
+				params.data.mode = 'preSaveValidation';
+				AppConnector.request(params)
+					.done(data => {
+						document.progressLoader.progressIndicator({ mode: 'hide' });
+						let response = data.result;
+						for (let i = 0; i < response.length; i++) {
+							if (response[i].result !== true) {
+								Vtiger_Helper_Js.showPnotify(
+									response[i].message ? response[i].message : app.vtranslate('JS_ERROR')
+								);
+							}
+						}
+						if (data.result.length <= 0) {
+							aDeferred.resolve(true);
+						} else {
+							aDeferred.resolve(false);
+						}
+					})
+					.fail((textStatus, errorThrown) => {
+						document.progressLoader.progressIndicator({ mode: 'hide' });
+						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+						app.errorLog(textStatus, errorThrown);
+						aDeferred.resolve(false);
+					});
+			} else {
+				aDeferred.resolve(true);
+			}
 
 			return aDeferred.promise();
 		},
