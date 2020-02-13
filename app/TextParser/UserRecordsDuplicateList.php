@@ -24,7 +24,7 @@ class UserRecordsDuplicateList extends Base
 	public $type = 'pdf';
 
 	/** @var string Default template */
-	public $default = '$(custom : UserRecordsDuplicateList|__MODULE__|__FIELDS_TO_SHOW__|__FIELDS_TO_CHECK__)$';
+	public $default = '$(custom : UserRecordsDuplicateList|__MODULE__|__FIELDS_TO_SHOW__|__FIELDS_TO_CHECK__|__LIMIT__)$';
 
 	/**
 	 * Process.
@@ -42,6 +42,7 @@ class UserRecordsDuplicateList extends Base
 			$duplicatesByFieldName = !empty($this->params[2]) ? explode(':', $this->params[2]) : [];
 			$count = 1;
 			$entries = [];
+			$limit = (int) ($this->params[3] ?? \App\Config::performance('REPORT_RECORD_NUMBERS'));
 			foreach ($duplicatesByFieldName as $duplicateByFieldName) {
 				$fields = [];
 				$fieldsName = !empty($this->params[1]) ? explode(':', $this->params[1]) : $moduleModel->getNameFields();
@@ -52,38 +53,44 @@ class UserRecordsDuplicateList extends Base
 					$fields[$fieldName] = $fieldModel;
 				}
 				if (!empty($fields)) {
-					$queryGenerator = (new \App\QueryGenerator($moduleName))->addCondition('assigned_user_id', $userId, 'e', false);
+					$queryGenerator = (new \App\QueryGenerator($moduleName, $userId));
 					$queryGenerator->setFields(array_merge(['id'], array_keys($fields)));
 					$queryGenerator->setSearchFieldsForDuplicates($duplicateByFieldName);
+					$queryGenerator->setOrder($duplicateByFieldName);
 					$query = $queryGenerator->createQuery();
 					$dataReader = $query->createCommand()->query();
 					while ($row = $dataReader->read()) {
+						if (isset($entries[$row['id']])) {
+							continue;
+						}
 						$recordHtml = '';
 						$entriesPart = [];
-						$relatedRecordModel = null;
 						$recordModel = $moduleModel->getRecordFromArray($row);
-						if (($relatedTo = $recordModel->get('related_to')) && \App\Record::isExists($relatedTo)) {
-							$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedTo);
-						}
 						foreach ($fields as $field) {
 							if ($recordModel->isEmpty($field->getName())) {
 								continue;
 							}
-							$value = $recordModel->getDisplayValue($fieldName, false, true);
-							if ('related_to' === $fieldName) {
-								if (!empty($relatedRecordModel) && $recordModel->isViewable()) {
-									$entries[] = ' [<a href="' . \App\Config::main('site_URL') . $relatedRecordModel->getDetailViewUrl() . '">' . $value . '</a>] ';
+							$value = $recordModel->getDisplayValue($field->getName(), false, true);
+							if ($field->isReferenceField()) {
+								$relModule = \App\Record::getType($recordModel->get($field->getName()));
+								if ($relModule && 'Users' !== $relModule && \App\Privilege::isPermitted($relModule, 'DetailView', $recordModel->get($field->getName()), $userId)) {
+									$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($recordModel->get($field->getName()));
+									$entriesPart[] = ' [<a href="' . \App\Config::main('site_URL') . $relatedRecordModel->getDetailViewUrl() . '">' . $value . '</a>] ';
 								} else {
-									$entries[] = " [{$value}] ";
+									$entriesPart[] = " [{$value}] ";
 								}
 							} else {
 								$recordHtml .= " {$value} ";
 							}
 						}
 						if (!empty($recordHtml)) {
-							$entries[$recordModel->getId()] = "{$count}. " . implode(' ', $entriesPart) . ' <a href="' . \App\Config::main('site_URL') . $recordModel->getDetailViewUrl() . '">' . $recordHtml . '</a>';
+							$entries[$recordModel->getId()] = "{$count}. " . ' <a href="' . \App\Config::main('site_URL') . $recordModel->getDetailViewUrl() . '">' . $recordHtml . '</a> ' . implode(' ', $entriesPart);
 						}
 						++$count;
+
+						if ($limit < $count) {
+							break 2;
+						}
 					}
 				}
 			}
