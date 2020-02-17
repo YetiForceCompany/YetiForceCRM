@@ -482,20 +482,7 @@ window.App.Fields = {
 					elements = $('.js-editor:not([disabled])', parentElement);
 				}
 				if (elements.length !== 0 && typeof elements !== 'undefined') {
-					this.isModal = elements.closest('.js-modal-container').length;
-					if (this.isModal) {
-						let self = this;
-						this.progressInstance = $.progressIndicator({
-							blockInfo: {
-								enabled: true,
-								onBlock: () => {
-									self.loadEditor(elements, params);
-								}
-							}
-						});
-					} else {
-						this.loadEditor(elements, params);
-					}
+					this.loadEditor(elements, params);
 				}
 			}
 
