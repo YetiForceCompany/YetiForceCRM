@@ -107,11 +107,11 @@ var App = (window.App = {
 				}
 				const progress = $.progressIndicator({ blockInfo: { enabled: true } });
 				this.getForm(url, moduleName, params).done(data => {
-					this.showModal(data, params);
-					app.registerEventForClockPicker();
 					progress.progressIndicator({
 						mode: 'hide'
 					});
+					this.showModal(data, params);
+					app.registerEventForClockPicker();
 				});
 			},
 			/**
@@ -358,6 +358,7 @@ var App = (window.App = {
 						let moduleName = form.find('[name="module"]').val();
 						let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
 						let moduleClassName = moduleName + '_QuickEdit_Js';
+						editViewInstance.setForm(quickCreateForm);
 						editViewInstance.registerBasicEvents(form);
 						if (typeof window[moduleClassName] !== 'undefined') {
 							new window[moduleClassName]().registerEvents(container);
