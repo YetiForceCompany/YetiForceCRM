@@ -75,6 +75,11 @@ window.MailIntegration_Start = {
 		};
 		this.iframe.on('load', reloadPanelAfterLogin);
 		$(this.iframe[0].contentWindow).on('unload', showLoader);
+		let src = this.iframe[0].getAttribute('src-a');
+		if (src && this.iframe[0].getAttribute('src') == undefined) {
+			this.iframe[0].removeAttribute('src-a');
+			this.iframe[0].setAttribute('src', src);
+		}
 	},
 	/**
 	 * Is user logged in.
