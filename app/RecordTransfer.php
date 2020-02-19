@@ -92,6 +92,8 @@ class RecordTransfer
 			foreach (\Vtiger_Relation_Model::getAllRelations($sourceRecord->getModule(), false, true, false) as $sourceRelation) {
 				foreach ($relations as $destRelation) {
 					if ($sourceRelation->get('related_tabid') === $destRelation->get('related_tabid') && $sourceRelation->get('name') === $destRelation->get('name') && $sourceRelation->get('field_name') === $destRelation->get('field_name')) {
+						$destRelation = clone $destRelation;
+						$sourceRelation = clone $sourceRelation;
 						$queryGenerator = $sourceRelation->set('parentRecord', $sourceRecord)->getQuery()->setFields(['id']);
 						$queryGenerator->permissions = false;
 						$queryGenerator->setStateCondition('All');
