@@ -21,6 +21,7 @@ class ModTracker_Widget_Action extends \App\Controller\Action
 	 */
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('saveUpdatesWidgetConfig');
 	}
 
