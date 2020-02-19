@@ -1,4 +1,5 @@
-{*<!--
+{*
+<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -47,7 +48,7 @@
 							<div class="form-group row align-items-center">
 								<div class="col-md-3 col-form-label text-right">{\App\Language::translate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}</div>
 								<div class="col-md-9 controls">
-									<select class="rolesList form-control" name="rolesSelected[]" multiple
+									<select class="rolesList form-control" name="rolesSelected[]" multiple="multiple"
 											data-placeholder="{\App\Language::translate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
 										<option value="all"
 												selected>{\App\Language::translate('LBL_ALL_ROLES',$QUALIFIED_MODULE)}</option>
