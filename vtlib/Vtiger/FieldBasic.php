@@ -245,12 +245,6 @@ class FieldBasic
 					break;
 				}
 			}
-		} elseif (11 === $this->uitype) {
-			$rowExtra = (new \App\Db\Query())->from('vtiger_field')->where(['fieldname' => $this->name . '_extra'])->one();
-			if (false === $rowExtra) {
-				throw new \App\Exceptions\AppException('Extra field does not exist');
-			}
-			$db->createCommand()->delete('vtiger_field', ['fieldid' => $rowExtra['fieldid']])->execute();
 		}
 		$this->clearCache();
 		\App\Log::trace("Deleteing Field $this->name ... DONE", __METHOD__);
