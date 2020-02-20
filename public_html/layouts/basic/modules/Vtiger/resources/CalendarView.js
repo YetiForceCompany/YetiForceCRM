@@ -319,15 +319,7 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 				.month(month)
 				.format('YYYY-MM')}" data-js="click | class: active">
 					<div class="sub-record-content nav-link ${active}">
-						<div class="sub-date-name">${app
-							.vtranslate(
-								'JS_' +
-									moment()
-										.month(month)
-										.format('MMM')
-										.toUpperCase()
-							)
-							.toUpperCase()}
+						<div class="sub-date-name">${app.vtranslate(App.Fields.Date.months[month])}
 							<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>
 						</div>
 					</div>

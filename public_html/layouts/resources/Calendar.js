@@ -86,7 +86,7 @@ window.Calendar_Js = class {
 				app.vtranslate('JS_FEB'),
 				app.vtranslate('JS_MAR'),
 				app.vtranslate('JS_APR'),
-				app.vtranslate('JS_MAY'),
+				app.vtranslate('JS_MAY_SHORT'),
 				app.vtranslate('JS_JUN'),
 				app.vtranslate('JS_JUL'),
 				app.vtranslate('JS_AUG'),
