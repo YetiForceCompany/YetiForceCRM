@@ -458,7 +458,8 @@ class PackageExport
 			if ('15' == $uiType || '16' == $uiType || '111' == $uiType || '33' == $uiType || '55' == $uiType) {
 				$this->openNode('picklistvalues');
 				foreach (\App\Fields\Picklist::getValuesName($fieldname) as $picklistvalue) {
-					$this->outputNode($picklistvalue, 'picklistvalue');
+					$stringForXml = str_replace('&amp;', '&', $picklistvalue);
+					$this->outputNode($stringForXml, 'picklistvalue');
 				}
 				$this->closeNode('picklistvalues');
 			}

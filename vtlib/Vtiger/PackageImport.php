@@ -43,10 +43,23 @@ class PackageImport extends PackageExport
 	public function __parseManifestFile(\App\Zip $zip)
 	{
 		if ($content = $zip->getFromName('manifest.xml')) {
+			$content = $this->sanitizeContent($content);
 			$this->_modulexml = simplexml_load_string($content);
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Sanitize string.
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 */
+	public function sanitizeContent(string $content): string
+	{
+		return str_replace('&', '&amp;', $content);
 	}
 
 	/**
