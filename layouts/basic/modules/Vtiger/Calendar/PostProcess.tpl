@@ -29,7 +29,7 @@
 				{/if}
 			</ul>
 		</div>
-		<div class="tab-content" id="rightPanelTabContent">
+		<div class="tab-content u-overflow-y-auto" id="rightPanelTabContent">
 			{if in_array('Events', $FILTERS)}
 				<div class="tab-pane fade js-right-panel-event{if $DEFAULT_FILTER eq 'Events'} active show{/if}" id="rightPanelEvent" role="tabpanel"
 					aria-labelledby="rightPanelEvent-tab" data-js="class: active">

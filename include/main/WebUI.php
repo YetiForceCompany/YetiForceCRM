@@ -115,9 +115,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 					if (!empty($defaultModule) && 'Home' !== $defaultModule && \App\Privilege::isPermitted($defaultModule)) {
 						$moduleName = $defaultModule;
 						$qualifiedModuleName = $defaultModule;
-						$view = 'List';
-						if ('Calendar' === $moduleName) {
-							$view = Vtiger_Module_Model::getInstance($moduleName)->getDefaultViewName();
+						if (empty($view = Vtiger_Module_Model::getInstance($moduleName)->getDefaultViewName())) {
+							$view = 'List';
 						}
 					} else {
 						$qualifiedModuleName = $moduleName = 'Home';

@@ -110,6 +110,7 @@ FC.views.year = View.extend({
 				calendar.view.options.hiddenDays
 			}`
 		};
+		options = $.extend(this.getDefaultParams(), options);
 		let connectorMethod = window['AppConnector']['request'];
 		if (this.browserHistory && window.calendarLoaded) {
 			connectorMethod = window['AppConnector']['requestPjax'];

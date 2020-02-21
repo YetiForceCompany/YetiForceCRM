@@ -445,14 +445,18 @@ window.Calendar_Js = class {
 					value = element.is(':checked');
 				}
 				app.moduleCacheSet(item.data('cache'), value);
-				this.loadCalendarData();
+				this.getCalendarView()
+					.fullCalendar('getCalendar')
+					.view.options.loadView();
 			});
 		});
 		container
 			.find('.js-filter__container_checkbox_list .js-filter__item__val')
 			.off('change')
 			.on('change', e => {
-				this.loadCalendarData();
+				this.getCalendarView()
+					.fullCalendar('getCalendar')
+					.view.options.loadView();
 			});
 	}
 
