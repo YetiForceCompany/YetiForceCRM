@@ -344,7 +344,7 @@ class User
 	 */
 	public function isActive()
 	{
-		return 'Active' === $this->privileges['details']['status'];
+		return 'Active' === ($this->privileges['details']['status'] ?? null);
 	}
 
 	/**

@@ -1,6 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-
-const MailIntegration_Start = {
+window.MailIntegration_Start = {
 	iframe: {},
 	/**
 	 * Set iframe element.
@@ -76,6 +75,11 @@ const MailIntegration_Start = {
 		};
 		this.iframe.on('load', reloadPanelAfterLogin);
 		$(this.iframe[0].contentWindow).on('unload', showLoader);
+		let src = this.iframe[0].getAttribute('src-a');
+		if (src && this.iframe[0].getAttribute('src') == undefined) {
+			this.iframe[0].removeAttribute('src-a');
+			this.iframe[0].setAttribute('src', src);
+		}
 	},
 	/**
 	 * Is user logged in.
@@ -116,6 +120,9 @@ const MailIntegration_Start = {
 				this.showDetailView(mailbox.item);
 			}
 		}
+	},
+	reloadView(data) {
+		window.MailIntegration_Start.showDetailView(Office.context.mailbox.item);
 	}
 };
 Office.onReady(info => {
@@ -124,6 +131,7 @@ Office.onReady(info => {
 		device: Office.context.mailbox.diagnostics.hostName
 	};
 	if (info.host === Office.HostType.Outlook) {
-		MailIntegration_Start.registerEvents(Office.context.mailbox);
+		window.MailIntegration_Start.registerEvents(Office.context.mailbox);
+		Office.context.mailbox.addHandlerAsync(Office.EventType.ItemChanged, window.MailIntegration_Start.reloadView);
 	}
 });

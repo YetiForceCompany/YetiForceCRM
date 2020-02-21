@@ -58,6 +58,8 @@ window.Calendar_Js = class {
 			userDefaultActivityView = app.getMainParams('dayView');
 		} else if (userDefaultActivityView === 'This Week') {
 			userDefaultActivityView = app.getMainParams('weekView');
+		} else if (userDefaultActivityView === 'This Year') {
+			userDefaultActivityView = 'year';
 		} else {
 			userDefaultActivityView = 'month';
 		}
@@ -86,7 +88,7 @@ window.Calendar_Js = class {
 				app.vtranslate('JS_FEB'),
 				app.vtranslate('JS_MAR'),
 				app.vtranslate('JS_APR'),
-				app.vtranslate('JS_MAY'),
+				app.vtranslate('JS_MAY_SHORT'),
 				app.vtranslate('JS_JUN'),
 				app.vtranslate('JS_JUL'),
 				app.vtranslate('JS_AUG'),
@@ -422,7 +424,7 @@ window.Calendar_Js = class {
 				if (element.prop('tagName') == 'SELECT') {
 					element.val(cachedValue);
 				}
-			} else if (element.length > 0 && cachedValue === undefined && !element.find(':selected').length) {
+			} else if (name && element.length > 0 && cachedValue === undefined && !element.find(':selected').length) {
 				let allOptions = [];
 				element.find('option').each((i, option) => {
 					allOptions.push($(option).val());
@@ -443,9 +445,19 @@ window.Calendar_Js = class {
 					value = element.is(':checked');
 				}
 				app.moduleCacheSet(item.data('cache'), value);
-				this.loadCalendarData();
+				this.getCalendarView()
+					.fullCalendar('getCalendar')
+					.view.options.loadView();
 			});
 		});
+		container
+			.find('.js-filter__container_checkbox_list .js-filter__item__val')
+			.off('change')
+			.on('change', e => {
+				this.getCalendarView()
+					.fullCalendar('getCalendar')
+					.view.options.loadView();
+			});
 	}
 
 	registerUsersChange(formContainer) {
@@ -554,12 +566,24 @@ window.Calendar_Js = class {
 				params.emptyFilters = !params.emptyFilters && params[name].length === 0;
 			}
 		});
+		sideBar.find('.js-filter__container_checkbox_list').each((_, e) => {
+			let filters = [];
+			let element = $(e);
+			let name = element.data('name');
+			element.find('.js-filter__item__val:checked').each(function() {
+				filters.push($(this).val());
+			});
+			if (name) {
+				params[name] = filters;
+			}
+		});
 		sideBar.find('.js-calendar__filter__select').each((_, e) => {
 			let element = $(e);
 			let name = element.attr('name');
 			let cacheName = element.data('cache');
-			if (name && cacheName && app.moduleCacheGet(cacheName)) {
-				params[name] = app.moduleCacheGet(cacheName);
+			if (name) {
+				params[name] =
+					cacheName && app.moduleCacheGet(cacheName) ? app.moduleCacheGet(cacheName) : element.val();
 				params.emptyFilters = !params.emptyFilters && params[name].length === 0;
 			}
 		});

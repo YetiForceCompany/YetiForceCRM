@@ -295,7 +295,7 @@ class Vtiger_Link_Model extends vtlib\Link
 			}
 		}
 
-		if (!empty($module)) {
+		if (!empty($module) && !isset($this->relatedModuleName)) {
 			$this->relatedModuleName = $parent ? "$parent:$module" : $module;
 		}
 

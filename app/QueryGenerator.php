@@ -1011,6 +1011,8 @@ class QueryGenerator
 	 * Set state condition.
 	 *
 	 * @param string $state
+	 *
+	 * @return $this
 	 */
 	public function setStateCondition($state)
 	{
@@ -1029,6 +1031,7 @@ class QueryGenerator
 				$this->stateCondition = false;
 				break;
 		}
+		return $this;
 	}
 
 	/**

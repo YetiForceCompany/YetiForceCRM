@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-const MailIntegration_Iframe = {
+window.MailIntegration_Iframe = {
 	mailId: 0,
 	container: {},
 	iframe: {},
@@ -444,5 +444,5 @@ const MailIntegration_Iframe = {
 };
 window.App.Components.Scrollbar.active = false;
 (function($) {
-	MailIntegration_Iframe.registerEvents();
+	window.MailIntegration_Iframe.registerEvents();
 })($);

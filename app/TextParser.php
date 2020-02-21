@@ -191,7 +191,7 @@ class TextParser
 	 *
 	 * @var string
 	 */
-	public const VARIABLE_REGEX = '/\$\((\w+) : ([,"\+\%\.\=\-\[\]\&\w\s\|\)\(\:]+)\)\$/u';
+	public const VARIABLE_REGEX = '/\$\((\w+) : ([,"\+\#\%\.\=\-\[\]\&\w\s\|\)\(\:]+)\)\$/u';
 
 	/**
 	 * Get instanace by record id.

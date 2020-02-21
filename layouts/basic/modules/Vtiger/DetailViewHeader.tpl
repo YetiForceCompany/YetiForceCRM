@@ -40,6 +40,7 @@
 					<input type="hidden" name="picklistDependency"
 						   value="{\App\Purifier::encodeHtml($PICKLIST_DEPENDENCY_DATASOURCE)}">
 				{/if}
+				<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
 				<div class="contents">
 					<!-- /tpl-Base-DetailViewHeader -->
 					{/strip}

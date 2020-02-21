@@ -50,8 +50,8 @@ return [
 		'sanitization' => '\App\Purifier::bool'
 	],
 	'draggableButton' => [
-		'default' => true,
-		'description' => 'True - chat button draggable, false - chat button in header.',
+		'default' => false,
+		'description' => 'Chat button: true - draggable, false - in header.',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
