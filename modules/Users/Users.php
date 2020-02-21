@@ -64,6 +64,7 @@ class Users extends CRMEntity
 		'Email' => ['vtiger_users' => 'email1'],
 	];
 	public $search_fields_name = [
+		'First Name' => 'first_name',
 		'Name' => 'last_name',
 		'Email' => 'email1',
 	];
