@@ -2435,6 +2435,18 @@ var app = (window.app = {
 			return base64Image;
 		});
 	},
+	registerHtmlToImageDownloader: function(container) {
+		const self = this;
+		container.on('click', '.js-download-html', function(e) {
+			let element = $(this);
+			let fileName = element.data('fileName');
+			self.htmlToImage($(element.data('html'))).then(img => {
+				$(`<a href="${img}" download="${fileName}.png"></a>`)
+					.get(0)
+					.click();
+			});
+		});
+	},
 	decodeHTML(html) {
 		var txt = document.createElement('textarea');
 		txt.innerHTML = html;
@@ -2670,6 +2682,7 @@ $(document).ready(function() {
 	app.registerTabdrop();
 	app.registerIframeEvents(document);
 	app.registesterScrollbar(document);
+	app.registerHtmlToImageDownloader(document);
 	App.Components.Scrollbar.initPage();
 	String.prototype.toCamelCase = function() {
 		let value = this.valueOf();
