@@ -424,7 +424,7 @@ window.Calendar_Js = class {
 				if (element.prop('tagName') == 'SELECT') {
 					element.val(cachedValue);
 				}
-			} else if (element.length > 0 && cachedValue === undefined && !element.find(':selected').length) {
+			} else if (name && element.length > 0 && cachedValue === undefined && !element.find(':selected').length) {
 				let allOptions = [];
 				element.find('option').each((i, option) => {
 					allOptions.push($(option).val());
@@ -581,8 +581,9 @@ window.Calendar_Js = class {
 			let element = $(e);
 			let name = element.attr('name');
 			let cacheName = element.data('cache');
-			if (name && cacheName && app.moduleCacheGet(cacheName)) {
-				params[name] = app.moduleCacheGet(cacheName);
+			if (name) {
+				params[name] =
+					cacheName && app.moduleCacheGet(cacheName) ? app.moduleCacheGet(cacheName) : element.val();
 				params.emptyFilters = !params.emptyFilters && params[name].length === 0;
 			}
 		});
