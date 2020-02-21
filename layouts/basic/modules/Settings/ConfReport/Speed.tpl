@@ -1,11 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-ConfReport-Speed -->
 	{assign var=OPS value=\App\Language::translate('LBL_PER_SECOND', $QUALIFIED_MODULE)}
-	<div class="tpl-Settings-ConfReport-Speed modal-body">
+	<div class="modal-body js-modal-content" data-js="click">
 		{if isset($BENCHMARKS['cpu'])}
 			<div class="card">
 				<h5 class="card-header"><span class="fas fa-microchip mr-2"></span>{\App\Language::translate('LBL_CPU', $QUALIFIED_MODULE)}</h5>
-				<div class="card-body">
+				<div class="card-body p-2">
 						{\App\Language::translate('LBL_BENCHMARK_CPU_MATH', $QUALIFIED_MODULE)}: {App\Fields\Integer::formatToDisplay($BENCHMARKS['cpu']['math']['time'])}{$OPS} ({App\Fields\Integer::formatToDisplay($BENCHMARKS['cpu']['math']['operations'])})<br>
 						{\App\Language::translate('LBL_BENCHMARK_CPU_HASH', $QUALIFIED_MODULE)}: {App\Fields\Integer::formatToDisplay($BENCHMARKS['cpu']['hash']['time'])}{$OPS} ({App\Fields\Integer::formatToDisplay($BENCHMARKS['cpu']['hash']['operations'])})<br>
 						{\App\Language::translate('LBL_BENCHMARK_CPU_STRING', $QUALIFIED_MODULE)}: {App\Fields\Integer::formatToDisplay($BENCHMARKS['cpu']['string']['time'])}{$OPS} ({App\Fields\Integer::formatToDisplay($BENCHMARKS['cpu']['string']['operations'])})
@@ -15,16 +16,16 @@
 		{if isset($BENCHMARKS['ram'])}
 			<div class="card mt-2">
 				<h5 class="card-header"><span class="fas fa-memory mr-2"></span>{\App\Language::translate('LBL_RAM', $QUALIFIED_MODULE)}</h5>
-				<div class="card-body">
+				<div class="card-body p-2">
 						{\App\Language::translate('LBL_BENCHMARK_RAM_READ', $QUALIFIED_MODULE)}: {App\Fields\Integer::formatToDisplay($BENCHMARKS['ram']['read']['time'])}{$OPS} ({App\Fields\Integer::formatToDisplay($BENCHMARKS['ram']['read']['operations'])})<br>
 						{\App\Language::translate('LBL_BENCHMARK_RAM_WRITE', $QUALIFIED_MODULE)}: {App\Fields\Integer::formatToDisplay($BENCHMARKS['ram']['write']['time'])}{$OPS} ({App\Fields\Integer::formatToDisplay($BENCHMARKS['ram']['write']['operations'])})
 				</div>
 			</div>
 		{/if}
 		{if isset($BENCHMARKS['hardDrive'])}
-		<div class="card mt-2">
-			<h5 class="card-header"><span class="fas fa-hdd mr-2"></span>Hard drive</h5>
-				<div class="card-body">
+			<div class="card mt-2">
+				<h5 class="card-header"><span class="fas fa-hdd mr-2"></span>Hard drive</h5>
+				<div class="card-body p-2">
 					<table class="table">
 					<thead>
 						<tr>
@@ -75,7 +76,7 @@
 		{if isset($BENCHMARKS['db'])}
 			<div class="card mt-2">
 				<h5 class="card-header"><span class="fas fa-database mr-2"></span>{\App\Language::translate('LBL_DB', $QUALIFIED_MODULE)}</h5>
-				<div class="card-body">
+				<div class="card-body p-2">
 					<table class="table">
 					<thead>
 						<tr>
@@ -142,7 +143,7 @@
 							</h2>
 						</div>
 						<div id="createTable" class="collapse" aria-labelledby="createTableH" data-parent="#accordionExample">
-							<div class="card-body">
+							<div class="card-body p-2">
 								<table class="table">
 								<thead>
 									<tr>
@@ -170,7 +171,7 @@
 							</h2>
 						</div>
 						<div id="select" class="collapse" aria-labelledby="selectH" data-parent="#accordionExample">
-							<div class="card-body">
+							<div class="card-body p-2">
 								<table class="table">
 								<thead>
 									<tr>
@@ -198,7 +199,7 @@
 							</h2>
 						</div>
 						<div id="insert" class="collapse" aria-labelledby="insertH" data-parent="#accordionExample">
-							<div class="card-body">
+							<div class="card-body p-2">
 								<table class="table">
 								<thead>
 									<tr>
@@ -226,7 +227,7 @@
 							</h2>
 						</div>
 						<div id="update" class="collapse" aria-labelledby="updateH" data-parent="#accordionExample">
-							<div class="card-body">
+							<div class="card-body p-2">
 								<table class="table">
 								<thead>
 									<tr>
@@ -254,7 +255,7 @@
 							</h2>
 						</div>
 						<div id="delete" class="collapse" aria-labelledby="deleteH" data-parent="#accordionExample">
-							<div class="card-body">
+							<div class="card-body p-2">
 								<table class="table">
 								<thead>
 									<tr>
@@ -282,7 +283,7 @@
 							</h2>
 						</div>
 						<div id="benchmark" class="collapse" aria-labelledby="benchmarkH" data-parent="#accordionExample">
-							<div class="card-body">
+							<div class="card-body p-2">
 								<table class="table">
 								<thead>
 									<tr>
@@ -310,7 +311,7 @@
 							</h2>
 						</div>
 						<div id="dropTable" class="collapse" aria-labelledby="dropTableH" data-parent="#accordionExample">
-							<div class="card-body">
+							<div class="card-body p-2">
 								<table class="table">
 								<thead>
 									<tr>
@@ -329,7 +330,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div></div>
 			</div>
 		{/if}
 		{* <hr>
@@ -344,4 +345,14 @@
 		<h5>{\App\Language::translate('LBL_DB', $QUALIFIED_MODULE)}
 		: {$TESTS['DB']}{\App\Language::translate('LBL_PER_SECOND', $QUALIFIED_MODULE)}</h5> *}
 	</div>
+	<div class="modal-footer">
+		<button class="js-download-img btn btn-success js-download-html" type="button" data-html=".js-modal-content" data-file-name="SpeedTest" data-js="download container">
+			<span class="fas fa-download mr-1"></span>{\App\Language::translate('LBL_DOWNLOAD_CONFIG', $QUALIFIED_MODULE)}
+		</button>
+		<button class="btn btn-primary" type="reset" data-dismiss="modal">
+			<span class="fas fa-times mr-1"></span>
+			{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}
+		</button>
+	</div>
+	<!-- /tpl-Settings-ConfReport-Speed -->
 {/strip}
