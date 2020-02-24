@@ -200,4 +200,35 @@ class Fixer
 		}
 		return ['NotSupported' => $notSupported, 'TypeNotFound' => $typeNotFound, 'RequiresVerification' => $requiresVerification, 'Updated' => $updated];
 	}
+
+	/**
+	 * Add missing entries in vtiger_def_org_share and vtiger_org_share_action2tab.
+	 */
+	public static function share(): int
+	{
+		\App\Log::trace('Entering ' . __METHOD__);
+		$i = 0;
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$query = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['isentitytype' => 1])
+			->andWhere(['not in', 'tabid', (new \App\Db\Query())->select(['tabid'])->from('vtiger_def_org_share')]);
+		foreach ($query->column() as $tabId) {
+			$dbCommand->insert('vtiger_def_org_share', ['tabid' => $tabId, 'permission' => 3, 'editstatus' => 0])->execute();
+			++$i;
+		}
+		$actionIds = (new \App\Db\Query())->select(['share_action_id'])->from('vtiger_org_share_action_mapping')
+			->where(['share_action_name' => ['Public: Read Only', 'Public: Read, Create/Edit', 'Public: Read, Create/Edit, Delete', 'Private']])
+			->column();
+		$query = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['isentitytype' => 1])
+			->andWhere(['not in', 'tabid', (new \App\Db\Query())->select(['tabid'])->from('vtiger_org_share_action2tab')]);
+		foreach ($query->column() as $tabId) {
+			$insertedData = [];
+			foreach ($actionIds as $id) {
+				$insertedData[] = [$id, $tabId];
+			}
+			$dbCommand->batchInsert('vtiger_org_share_action2tab', ['share_action_id', 'tabid'], $insertedData)->execute();
+			++$i;
+		}
+		\App\Log::trace('Exiting ' . __METHOD__);
+		return $i;
+	}
 }
