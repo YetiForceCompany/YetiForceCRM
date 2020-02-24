@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+<!-- @copyright YetiForce Sp. z o.o -->
+<!-- @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com) -->
+<!-- @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com> -->
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" 
 	xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="MailApp">
 	<Id>{__CRM_GUID__}</Id>
 	<Version>1.0.0.0</Version>
 	<ProviderName>YetiForceCompany</ProviderName>
 	<DefaultLocale>en-US</DefaultLocale>
 	<DisplayName DefaultValue="YetiForce"/>
-	<Description DefaultValue="Outlook integration extension for YetiForce"/>
+	<Description DefaultValue="Outlook integration extension for YetiForce. YetiForce Public License 3.0"/>
 	<IconUrl DefaultValue="{__CRM_URL__}layouts/basic/modules/MailIntegration/outlook/img/logo-32.png"/>
 	<HighResolutionIconUrl DefaultValue="{__CRM_URL__}layouts/basic/modules/MailIntegration/outlook/img/logo-80.png"/>
 	<SupportUrl DefaultValue="https://yetiforce.com/"/>
