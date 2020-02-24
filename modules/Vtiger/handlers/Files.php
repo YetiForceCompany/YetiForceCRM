@@ -22,20 +22,18 @@ class Vtiger_Files_Handler
 	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		if ($fields = $recordModel->getModule()->getFieldsByType(['image', 'multiImage'], true)) {
-			foreach ($fields as $fieldName => $fieldModel) {
-				$currentData = [];
-				if ($recordModel->isNew() || false !== $recordModel->getPreviousValue($fieldName)) {
-					$currentData = \App\Json::isEmpty($recordModel->get($fieldName)) ? [] : \App\Fields\File::parse(\App\Json::decode($recordModel->get($fieldName)));
-					\App\Fields\File::cleanTemp(array_keys($currentData));
-				}
-				if ($previousValue = $recordModel->getPreviousValue($fieldName)) {
-					$previousData = \App\Json::decode($previousValue);
-					foreach ($previousData as $item) {
-						if (!isset($currentData[$item['key']])) {
-							\App\Fields\File::cleanTemp($item['key']);
-							\App\Fields\File::loadFromInfo(['path' => $item['path']])->delete();
-						}
+		foreach ($recordModel->getModule()->getFieldsByType(['image', 'multiImage'], true) as $fieldName => $fieldModel) {
+			$currentData = [];
+			if ($recordModel->isNew() || false !== $recordModel->getPreviousValue($fieldName)) {
+				$currentData = \App\Json::isEmpty($recordModel->get($fieldName)) ? [] : \App\Fields\File::parse(\App\Json::decode($recordModel->get($fieldName)));
+				\App\Fields\File::cleanTemp(array_keys($currentData));
+			}
+			if ($previousValue = $recordModel->getPreviousValue($fieldName)) {
+				$previousData = \App\Json::decode($previousValue);
+				foreach ($previousData as $item) {
+					if (!isset($currentData[$item['key']])) {
+						\App\Fields\File::cleanTemp($item['key']);
+						\App\Fields\File::loadFromInfo(['path' => $item['path']])->delete();
 					}
 				}
 			}
