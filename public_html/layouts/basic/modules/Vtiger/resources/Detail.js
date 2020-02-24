@@ -1896,7 +1896,7 @@ jQuery.Class(
 			});
 			this.registerFastEditingFiels();
 		},
-		addRelationBetweenRecords: function(relatedModule, relatedModuleRecordId, selectedTabElement) {
+		addRelationBetweenRecords: function(relatedModule, relatedModuleRecordId, selectedTabElement, params = {}) {
 			var aDeferred = jQuery.Deferred();
 			var thisInstance = this;
 			if (selectedTabElement == undefined) {
@@ -1909,7 +1909,7 @@ jQuery.Class(
 				relatedModule
 			);
 			relatedController
-				.addRelations(relatedModuleRecordId)
+				.addRelations(relatedModuleRecordId, params)
 				.done(function(data) {
 					var summaryViewContainer = thisInstance.getContentHolder();
 					var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
@@ -1939,7 +1939,11 @@ jQuery.Class(
 			var referenceModuleName = widgetHeaderContainer.find('[name="relatedModule"]').val();
 			var idList = [];
 			idList.push(data.result._recordId);
-			this.addRelationBetweenRecords(referenceModuleName, idList).done(function(data) {
+			let params = {};
+			if (summaryWidgetContainer.data('relationId')) {
+				params.relationId = summaryWidgetContainer.data('relationId');
+			}
+			this.addRelationBetweenRecords(referenceModuleName, idList, null, params).done(function(data) {
 				thisInstance.loadWidget(summaryWidgetContainer.find('[class^="widgetContainer_"]'));
 			});
 		},

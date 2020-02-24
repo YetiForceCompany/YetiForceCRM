@@ -287,17 +287,22 @@ jQuery.Class(
 				multi_select: true
 			};
 		},
-		addRelations: function(idList) {
+		addRelations: function(idList, params = {}) {
 			var aDeferred = jQuery.Deferred();
-			AppConnector.request({
-				module: this.parentModuleName,
-				action: 'RelationAjax',
-				mode: 'addRelation',
-				related_module: this.moduleName,
-				src_record: this.parentRecordId,
-				relationId: this.getCompleteParams()['relationId'],
-				related_record_list: $.isArray(idList) ? JSON.stringify(idList) : idList
-			})
+			AppConnector.request(
+				$.extend(
+					{
+						module: this.parentModuleName,
+						action: 'RelationAjax',
+						mode: 'addRelation',
+						related_module: this.moduleName,
+						src_record: this.parentRecordId,
+						relationId: this.getCompleteParams()['relationId'],
+						related_record_list: $.isArray(idList) ? JSON.stringify(idList) : idList
+					},
+					params
+				)
+			)
 				.done(function(responseData) {
 					aDeferred.resolve(responseData);
 				})
