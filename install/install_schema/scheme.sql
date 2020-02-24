@@ -5473,7 +5473,7 @@ CREATE TABLE `vtiger_def_org_share` (
   KEY `fk_1_def_org_share_tabid` (`tabid`),
   CONSTRAINT `fk_1_def_org_share_permission` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE,
   CONSTRAINT `fk_1_def_org_share_tabid` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_default_record_view` */
 
