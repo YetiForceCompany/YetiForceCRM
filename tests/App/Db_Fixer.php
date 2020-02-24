@@ -13,11 +13,8 @@ class Db_Fixer extends \Tests\Base
 {
 	/**
 	 * Testing fixer function.
-	 *
-	 * @param int    $int
-	 * @param string $expected
 	 */
-	public function testIntegerNumberToWords($int, $expected)
+	public function testIntegerNumberToWords()
 	{
 		$this->assertSame(0, \App\Db\Fixer::baseModuleTools());
 		$this->assertSame(0, \App\Db\Fixer::baseModuleActions());
