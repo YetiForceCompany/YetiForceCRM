@@ -33,7 +33,7 @@
     "LBL_CONFIG_SERVER_DESC": "Server configuration was not set properly. There may be problems with the system, or the data entered may be damaged or deleted. More information can be found in the article %s. Detected problems:",
     "LBL_PERFORMANCE": "Performance",
     "LBL_PHPEXT": "PHP extensions",
-    "LBL_DATABASE": "Data base",
+    "LBL_DATABASE": "Database",
     "LBL_STABILITY": "Stability",
     "LBL_CONFIG_SERVER": "Server configuration",
     "LBL_SECURITY": "Security",
