@@ -383,7 +383,6 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 			user = [app.getMainParams('userId')];
 		}
 		if (view.type === 'agendaDay') {
-			this.selectDays(view.start, view.end);
 			view.end = view.end.add(1, 'day');
 		}
 		options.user = user;

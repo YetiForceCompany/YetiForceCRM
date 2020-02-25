@@ -43,7 +43,7 @@ FC.views.year = View.extend({
 		}
 		calendar.fullCalendar('addEventSource', events.result);
 		calendar.find('.js-show-day').on('click', function() {
-			let date = moment($(this).data('date')).format(CONFIG.dateFormat.toUpperCase());
+			let date = moment($(this).data('date')).format();
 			thisInstance.getCalendarView().fullCalendar('changeView', 'agendaDay', date);
 			$('.js-sub-record .active').click();
 		});
@@ -52,7 +52,7 @@ FC.views.year = View.extend({
 				$(this)
 					.closest('[data-date]')
 					.data('date')
-			).format(CONFIG.dateFormat.toUpperCase());
+			).format();
 			thisInstance.getCalendarView().fullCalendar('changeView', 'month', date);
 			$('.js-sub-record .active').click();
 		});
