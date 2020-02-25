@@ -55,7 +55,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 		if (!$this->edit) {
 			$value = $this->getDetailViewDisplayValue($value, $record, $uiType);
 		}
-		return \App\Purifier::encodeHtml($value);
+		return $value;
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 			$this->edit = true;
 			return $this->getDisplayValue($value);
 		}
-		return \App\Purifier::encodeHtml($value);
+		return $value;
 	}
 
 	/**

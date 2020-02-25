@@ -1549,31 +1549,36 @@ jQuery.Class(
 							progress.progressIndicator({ mode: 'hide' });
 						});
 				});
-			container.find('button.selectRelation').on('click', function(e) {
-				let summaryWidgetContainer = jQuery(e.currentTarget).closest('.js-detail-widget');
-				let referenceModuleName = summaryWidgetContainer.data('moduleName');
-				let restrictionsField = $(this).data('rf');
-				let params = {
-					module: referenceModuleName,
-					src_module: app.getModuleName(),
-					src_record: thisInstance.getRecordId(),
-					multi_select: true,
-					relationId: summaryWidgetContainer.data('relationId')
-				};
-				if (restrictionsField && Object.keys(restrictionsField).length > 0) {
-					params['search_key'] = restrictionsField.key;
-					params['search_value'] = restrictionsField.name;
-				}
-				app.showRecordsList(params, (modal, instance) => {
-					instance.setSelectEvent(responseData => {
-						thisInstance
-							.addRelationBetweenRecords(referenceModuleName, Object.keys(responseData))
-							.done(function(data) {
-								thisInstance.loadWidget(summaryWidgetContainer.find('.widgetContentBlock'));
-							});
+			container
+				.find('button.selectRelation')
+				.off('click')
+				.on('click', function(e) {
+					let summaryWidgetContainer = jQuery(e.currentTarget).closest('.js-detail-widget');
+					let referenceModuleName = summaryWidgetContainer.data('moduleName');
+					let restrictionsField = $(this).data('rf');
+					let params = {
+						module: referenceModuleName,
+						src_module: app.getModuleName(),
+						src_record: thisInstance.getRecordId(),
+						multi_select: true,
+						relationId: summaryWidgetContainer.data('relationId')
+					};
+					if (restrictionsField && Object.keys(restrictionsField).length > 0) {
+						params['search_key'] = restrictionsField.key;
+						params['search_value'] = restrictionsField.name;
+					}
+					app.showRecordsList(params, (modal, instance) => {
+						instance.setSelectEvent(responseData => {
+							thisInstance
+								.addRelationBetweenRecords(referenceModuleName, Object.keys(responseData), null, {
+									relationId: params.relationId
+								})
+								.done(function(data) {
+									thisInstance.loadWidget(summaryWidgetContainer.find('.widgetContentBlock'));
+								});
+						});
 					});
 				});
-			});
 		},
 		registerAddingInventoryRecords: function() {
 			jQuery('.createInventoryRecordFromFilter').on('click', function(e) {
