@@ -666,11 +666,11 @@ window.App.Fields = {
 					{
 						feed: this.getMentionUsersData.bind(this),
 						itemTemplate: `<li data-id="{id}" class="row no-gutters">
-											<div class="c-img__completion__container">
+											<div class="col-2 c-img__completion__container">
 												<div class="{icon} m-auto u-w-fit u-font-size-14px"></div>
 												<img src="{image}" class="c-img__completion mr-2" alt="{label}" title="{label}">
 											</div>
-											<div class="col row no-gutters u-overflow-x-hidden">
+											<div class="col row-10 no-gutters u-overflow-x-hidden">
 												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
 												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
 											</div>
@@ -683,10 +683,10 @@ window.App.Fields = {
 						marker: '#',
 						pattern: /#[wа-я]{1,}|#\w{3,}$/,
 						itemTemplate: `<li data-id="{id}" class="row no-gutters">
-											<div class="col c-circle-icon mr-1">
-												<span class="userIcon-{module}"></span>
+											<div class="col-2 c-circle-icon">
+												<span class="yfm-{module}"></span>
 											</div>
-											<div class="col row no-gutters u-overflow-x-hidden">
+											<div class="col-10 row no-gutters pl-1 u-overflow-x-hidden">
 												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
 												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
 											</div>
@@ -820,20 +820,20 @@ window.App.Fields = {
 			mentionTemplate(params) {
 				let icon = '';
 				if (params.module !== undefined) {
-					icon = `userIcon-${params.module}`;
+					icon = `yfm-${params.module}`;
 				}
 				if (params.icon !== undefined && params.icon !== '') {
 					icon = params.icon;
 				}
-				let avatar = `<div class="col c-circle-icon mr-1">
+				let avatar = `<div class="col-2 c-circle-icon">
 								<span class="${icon}"></span>
 							</div>`;
 				if (params.image !== undefined && params.image !== '') {
-					avatar = `<div class="c-img__completion__container"><img src="${params.image}" class="c-img__completion mr-2" alt=${params.label}" title="${params.label}"></div>`;
+					avatar = `<div class="col-2 c-img__completion__container m-0"><img src="${params.image}" class="c-img__completion" alt=${params.label}" title="${params.label}"></div>`;
 				}
 				return `<div data-id="${params.id}" class="row no-gutters">
 							${avatar}
-							<div class="col row no-gutters u-overflow-x-hidden">
+							<div class="col-10 row no-gutters pl-1 u-overflow-x-hidden">
 								<strong class="u-text-ellipsis--no-hover col-12">${params.label}</strong>
 								<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${params.category}</div>
 							</div>

@@ -490,6 +490,15 @@ body:not(.desktop) {
 		color: #212529;
 		background-color: #fff;
 		background-clip: padding-box;
+
+		.c-circle-icon {
+			font-size: 2em;
+			margin-top: 10px;
+		}
+		.c-img__completion__container {
+			width: 2.5rem;
+			text-align: center;
+		}
 	}
 
 	li.highlight,

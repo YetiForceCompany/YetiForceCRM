@@ -12531,6 +12531,12 @@ body:not(.desktop) .ps__rail-y {
     color: #212529;
     background-color: #fff;
     background-clip: padding-box; }
+    .tribute-container ul .c-circle-icon {
+      font-size: 2em;
+      margin-top: 10px; }
+    .tribute-container ul .c-img__completion__container {
+      width: 2.5rem;
+      text-align: center; }
   .tribute-container li.highlight,
   .tribute-container li:hover {
     background: #f8f9fa; }
