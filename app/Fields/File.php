@@ -1244,6 +1244,12 @@ class File
 				$save = true;
 			}
 		}
+		foreach ($previousValue as $item) {
+			if (!isset($value[$item['key']])) {
+				$save = true;
+				break;
+			}
+		}
 		return [array_values($value), $new, $save];
 	}
 
