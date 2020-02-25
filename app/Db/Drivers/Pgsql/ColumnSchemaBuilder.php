@@ -1,13 +1,17 @@
 <?php
+/**
+ * Column schema builder file is the schema builder for PgSQL databases.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Tomasz Kur <t.kur@yetiforce.com>
+ */
 
 namespace App\Db\Drivers\Pgsql;
 
 /**
- * ColumnSchemaBuilder is the schema builder for PgSQL databases.
- *
- * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * Column schema builder class is the schema builder for PgSQL databases.
  */
 class ColumnSchemaBuilder extends \yii\db\ColumnSchemaBuilder
 {
