@@ -24,8 +24,8 @@ class Vtiger_Files_Handler
 		$recordModel = $eventHandler->getRecordModel();
 		foreach ($recordModel->getModule()->getFieldsByType(['image', 'multiImage'], true) as $fieldName => $fieldModel) {
 			$currentData = [];
-			if ($recordModel->isNew() || false !== $recordModel->getPreviousValue($fieldName)) {
-				$currentData = \App\Json::isEmpty($recordModel->get($fieldName)) ? [] : \App\Fields\File::parse(\App\Json::decode($recordModel->get($fieldName)));
+			if ($recordModel->get($fieldName) && ($recordModel->isNew() || false !== $recordModel->getPreviousValue($fieldName))) {
+				$currentData = \App\Fields\File::parse(\App\Json::decode($recordModel->get($fieldName)));
 				\App\Fields\File::cleanTemp(array_keys($currentData));
 			}
 			if ($previousValue = $recordModel->getPreviousValue($fieldName)) {
