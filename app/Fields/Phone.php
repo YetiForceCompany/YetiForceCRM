@@ -35,6 +35,9 @@ class Phone
 					'country' => $phoneUtil->getRegionCodeForNumber($swissNumberProto),
 				];
 			}
+			return [
+				'country' => $phoneUtil->getRegionCodeForNumber($swissNumberProto),
+			];
 		} catch (\libphonenumber\NumberParseException $e) {
 			\App\Log::info($e->getMessage(), __CLASS__);
 		}
