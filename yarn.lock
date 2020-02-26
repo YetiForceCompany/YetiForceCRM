@@ -298,12 +298,10 @@ good-listener@^1.2.2:
   dependencies:
     delegate "^3.1.2"
 
-gridstack@^0.6.0:
-  version "0.6.4"
-  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-0.6.4.tgz#f832903a1323a0e536348dd926d7b5d084ca88eb"
-  integrity sha512-4ToCnneNg5Uw+ms3xHtPVvsNXdvwQhngdlyNgGkARwvooQu+gLL6xkwPqLU59TsZP/LVvofb2QhEuXyh/ocL8w==
-  dependencies:
-    jquery "^1.8 || 2 || 3"
+gridstack@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-1.0.0.tgz#8717b16e707aa425b18a089481254bc4e1e857d4"
+  integrity sha512-mkKUT+z/0A/h0EKWT7gok0KU9dwAXO3GLJpIGWGZxH2ZDn9eNswq+Ic1Rytb269xY88cMffPcejSx/wOqcgC8Q==
 
 html2canvas@^1.0.0-alpha.12:
   version "1.0.0-rc.5"
@@ -369,7 +367,7 @@ jquery.class.js@^1.0.0:
   resolved "https://registry.yarnpkg.com/jquery.class.js/-/jquery.class.js-1.0.0.tgz#43616c36d76eff36caf2139ddacda621aa24ed30"
   integrity sha1-Q2FsNtdu/zbK8hOd2s2mIaok7TA=
 
-"jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.6, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1, "jquery@^1.8 || 2 || 3", jquery@^3.4.1:
+"jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.6, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1, jquery@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
   integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
