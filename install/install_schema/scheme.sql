@@ -122,9 +122,9 @@ CREATE TABLE `a_yf_mapped_fields` (
 CREATE TABLE `a_yf_pdf` (
   `pdfid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id of record',
   `module_name` varchar(25) NOT NULL COMMENT 'name of the module',
-  `header_content` text DEFAULT NULL,
-  `body_content` text DEFAULT NULL,
-  `footer_content` text DEFAULT NULL,
+  `header_content` mediumtext DEFAULT NULL,
+  `body_content` mediumtext DEFAULT NULL,
+  `footer_content` mediumtext DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0,
   `primary_name` varchar(255) NOT NULL,
   `secondary_name` varchar(255) NOT NULL,
