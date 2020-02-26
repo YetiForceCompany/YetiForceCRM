@@ -16,11 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/YetiForceCompany/YetiForceCRM.git"
   },
-  "browserslist": [
-    "last 1 version",
-    "> 1%",
-    "IE 11"
-  ],
+  "browserslist": ["last 1 version", "> 1%", "IE 11"],
   "author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
   "license": "YetiForce Public License v3",
   "dependencies": {
@@ -54,7 +50,7 @@
     "footable": "^2.0.6",
     "fullcalendar": "3.10.1",
     "gantt-elastic": "^1.0.0",
-    "gridstack": "^0.6.0",
+    "gridstack": "^1.0.0",
     "html2canvas": "^1.0.0-alpha.12",
     "html5shiv": "^3.7.3",
     "inputmask": "^5.0.2",

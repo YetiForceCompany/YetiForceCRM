@@ -42,8 +42,10 @@ $.Class(
 			return this.container;
 		},
 		getCurrentDashboard: function() {
-			let dashboardId = $('.selectDashboard li a.active').closest('li').data('id');
-			if(!dashboardId){
+			let dashboardId = $('.selectDashboard li a.active')
+				.closest('li')
+				.data('id');
+			if (!dashboardId) {
 				dashboardId = 1;
 			}
 			return dashboardId;
@@ -58,15 +60,16 @@ $.Class(
 		},
 		registerGrid: function() {
 			const thisInstance = this;
-			Vtiger_DashBoard_Js.grid = this.getContainer()
-				.gridstack({
+			Vtiger_DashBoard_Js.grid = GridStack.init(
+				{
 					verticalMargin: '0.5rem',
 					alwaysShowResizeHandle: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
 						navigator.userAgent
 					)
-				})
-				.data('gridstack');
-			$('.grid-stack').on('change', function(event, ui) {
+				},
+				'.grid-stack'
+			);
+			Vtiger_DashBoard_Js.grid.on('change', function(event, ui) {
 				thisInstance.savePositions($('.grid-stack-item'));
 			});
 			// load widgets after grid initialization to prevent too early lazy loading - visible viewport changes
