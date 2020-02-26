@@ -55,7 +55,6 @@ class User
 			$id = static::getCurrentUserId();
 		}
 		static::$currentUserRealId = $id;
-
 		return $id;
 	}
 
