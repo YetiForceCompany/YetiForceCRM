@@ -20,14 +20,6 @@ class Debuger extends \Tests\Base
 	}
 
 	/**
-	 * Testing getJavascriptPath function.
-	 */
-	public function testGetJavascriptPath()
-	{
-		$this->assertSame('public_html/vendor/yetiforce/debugbar/src/DebugBar/Resources', \App\Debuger::getJavascriptPath(), 'Expected path different from provided');
-	}
-
-	/**
 	 * Testing getDebugBar function.
 	 */
 	public function testGetDebugBar()

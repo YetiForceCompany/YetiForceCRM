@@ -332,6 +332,9 @@ abstract class Base extends \App\Controller\Base
 			$fileName = '~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js';
 		}
 		$jsFileNames[] = $fileName;
+		if (\App\Debuger::isDebugBar()) {
+			$jsFileNames[] = '~layouts/resources/debugbar/logs.js';
+		}
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 

@@ -1,17 +1,21 @@
 <?php
-
-namespace App;
-
-/*
- * Debuger basic class.
+/**
+ * Debugger basic file.
+ *
+ * @package   Debug
  *
  * @copyright YetiForce Sp. z o.o.
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use DebugBar;
+
+namespace App;
+
 use DebugBar\DataCollector;
 
+/**
+ * Debuger basic class.
+ */
 class Debuger
 {
 	/**
@@ -20,44 +24,28 @@ class Debuger
 	protected static $debugBar;
 
 	/**
-	 * Base path of files javascript.
-	 */
-	const BASE_PATH_JAVASCRIPT = 'vendor/yetiforce/debugbar/src/DebugBar/Resources';
-
-	/**
 	 * Initiating debugging console.
 	 *
 	 * @return \App\DebugBar\Debuger
 	 */
 	public static function initConsole()
 	{
-		$debugbar = new DebugBar\DebugBar();
+		$debugbar = new Debug\DebugBar\DebugBar();
 		$debugbar->addCollector(new DataCollector\PhpInfoCollector());
+		$debugbar->addCollector(new DataCollector\ExceptionsCollector());
 		$debugbar->addCollector(new DataCollector\RequestDataCollector());
-		$debugbar->addCollector(new DataCollector\TimeDataCollector());
 		$debugbar->addCollector(new DataCollector\MemoryCollector());
+		$debugbar->addCollector(new DataCollector\TimeDataCollector());
 		if (\App\Config::debug('LOG_TO_CONSOLE')) {
 			$debugbar->addCollector(new Debug\DebugBarLogs());
 		}
-		$debugbar->addCollector(new DataCollector\ExceptionsCollector());
-
 		return static::$debugBar = $debugbar;
-	}
-
-	/**
-	 * Function to get path of files javascript.
-	 *
-	 * @return string
-	 */
-	public static function getJavascriptPath()
-	{
-		return Layout::getPublicUrl(self::BASE_PATH_JAVASCRIPT);
 	}
 
 	/**
 	 * Get Debuger instance.
 	 *
-	 * @return \App\DebugBar\Debuger
+	 * @return \App\Debug\DebugBar\DebugBar
 	 */
 	public static function getDebugBar()
 	{
