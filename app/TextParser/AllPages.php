@@ -12,7 +12,7 @@ namespace App\TextParser;
 class AllPages extends Base
 {
 	/** @var string */
-	public $name = 'LBL_CURRENT_PAGE';
+	public $name = 'LBL_ALL_PAGES';
 
 	/** @var mixed Parser type */
 	public $type = 'pdf';
