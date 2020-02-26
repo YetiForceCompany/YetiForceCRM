@@ -10,7 +10,7 @@
 			<input type="hidden" name="record" value="{$RECORDID}"/>
 			<input type="hidden" name="module_name" value="{$PDF_MODEL->get('module_name')}"/>
 			<input type="hidden" name="watermark_image" value=""/>
-			{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml('{"maximumlength":"65535","type":"text"}')}
+			{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml('{"maximumlength":"16777215","type":"text"}')}
 			<div class="row">
 				<div class="col-12 mb-2">
 					<div class="card">
