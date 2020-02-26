@@ -40,6 +40,18 @@ class Debuger
 			if (\App\Config::debug('DISPLAY_LOGS_IN_CONSOLE')) {
 				$debugbar->addCollector(new Debug\DebugBarLogs());
 			}
+			if (\App\Config::debug('DISPLAY_CONFIG_IN_CONSOLE')) {
+				$debugbar->addCollector(new \DebugBar\DataCollector\ConfigCollector([
+					'debug' => \App\Config::debug(),
+					'developer' => \App\Config::developer(),
+					'performance' => \App\Config::performance(),
+					'api' => \App\Config::api(),
+					'security' => \App\Config::security(),
+					'search' => \App\Config::search(),
+					'sounds' => \App\Config::sounds(),
+					'relation' => \App\Config::relation(),
+				]));
+			}
 			static::$debugBar = $debugbar;
 		}
 	}

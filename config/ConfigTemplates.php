@@ -314,6 +314,10 @@ return [
 			'default' => false,
 			'description' => 'Enable displaying logs in debug console. Values: false/true'
 		],
+		'DISPLAY_CONFIG_IN_CONSOLE' => [
+			'default' => false,
+			'description' => 'Enable displaying logs in debug console. Values: false/true'
+		],
 		'DEBUG_CONSOLE_ALLOWED_IPS' => [
 			'default' => false,
 			'description' => 'List of IP addresses allowed to display debug console. Values: false = All IPS / "192.168.1.10" / ["192.168.1.10","192.168.1.11"]',
