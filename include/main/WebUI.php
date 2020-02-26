@@ -26,7 +26,7 @@ App\Cache::init();
 App\Debuger::init();
 App\Db::$connectCache = App\Config::performance('ENABLE_CACHING_DB_CONNECTION');
 App\Log::$logToProfile = Yii::$logToProfile = App\Config::debug('LOG_TO_PROFILE');
-App\Log::$logToConsole = App\Config::debug('LOG_TO_CONSOLE');
+App\Log::$logToConsole = App\Config::debug('DISPLAY_LOGS_IN_CONSOLE');
 App\Log::$logToFile = App\Config::debug('LOG_TO_FILE');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
@@ -99,6 +99,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			App\Session::init();
 			// common utils api called, depend on this variable right now
 			$this->getLogin();
+			App\Debuger::initConsole();
 			$hasLogin = $this->hasLogin();
 			$moduleName = $request->getModule();
 			$qualifiedModuleName = $request->getModule(false);

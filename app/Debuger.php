@@ -30,16 +30,18 @@ class Debuger
 	 */
 	public static function initConsole()
 	{
-		$debugbar = new Debug\DebugBar\DebugBar();
-		$debugbar->addCollector(new DataCollector\PhpInfoCollector());
-		$debugbar->addCollector(new DataCollector\ExceptionsCollector());
-		$debugbar->addCollector(new DataCollector\RequestDataCollector());
-		$debugbar->addCollector(new DataCollector\MemoryCollector());
-		$debugbar->addCollector(new DataCollector\TimeDataCollector());
-		if (\App\Config::debug('LOG_TO_CONSOLE')) {
-			$debugbar->addCollector(new Debug\DebugBarLogs());
+		if (\App\Config::debug('DISPLAY_DEBUG_CONSOLE') && static::consoleIsActive()) {
+			$debugbar = new Debug\DebugBar\DebugBar();
+			$debugbar->addCollector(new DataCollector\PhpInfoCollector());
+			$debugbar->addCollector(new DataCollector\ExceptionsCollector());
+			$debugbar->addCollector(new DataCollector\RequestDataCollector());
+			$debugbar->addCollector(new DataCollector\MemoryCollector());
+			$debugbar->addCollector(new DataCollector\TimeDataCollector());
+			if (\App\Config::debug('DISPLAY_LOGS_IN_CONSOLE')) {
+				$debugbar->addCollector(new Debug\DebugBarLogs());
+			}
+			static::$debugBar = $debugbar;
 		}
-		return static::$debugBar = $debugbar;
 	}
 
 	/**
@@ -74,9 +76,6 @@ class Debuger
 	 */
 	public static function init()
 	{
-		if (\App\Config::debug('DISPLAY_DEBUG_CONSOLE') && static::checkIP()) {
-			static::initConsole();
-		}
 		$targets = [];
 		if (\App\Config::debug('LOG_TO_FILE')) {
 			$levels = \App\Config::debug('LOG_LEVELS');
@@ -106,14 +105,17 @@ class Debuger
 	}
 
 	/**
-	 * Checking user IP.
+	 * Checking console is active.
 	 *
 	 * @return bool
 	 */
-	public static function checkIP()
+	public static function consoleIsActive()
 	{
-		$ips = \App\Config::debug('DEBUG_CONSOLE_ALLOWED_IPS');
+		$ips = \Config\Debug::$DEBUG_CONSOLE_ALLOWED_IPS;
 		if (false === $ips || (\is_string($ips) && RequestUtil::getRemoteIP(true) === $ips) || (\is_array($ips) && \in_array(RequestUtil::getRemoteIP(true), $ips))) {
+			if (\Config\Debug::$DEBUG_CONSOLE_ALLOWED_USERS && !\in_array(\App\User::getCurrentUserRealId(), \Config\Debug::$DEBUG_CONSOLE_ALLOWED_USERS)) {
+				return false;
+			}
 			return true;
 		}
 		return false;

@@ -294,10 +294,6 @@ return [
 			'default' => false,
 			'description' => 'Enable saving logs to file. Values: false/true'
 		],
-		'LOG_TO_CONSOLE' => [
-			'default' => false,
-			'description' => 'Enable displaying logs in debug console. Values: false/true'
-		],
 		'LOG_TO_PROFILE' => [
 			'default' => false,
 			'description' => 'Enable saving logs profiling.  Values: false/true'
@@ -314,9 +310,17 @@ return [
 			'default' => false,
 			'description' => 'Display main debug console'
 		],
+		'DISPLAY_LOGS_IN_CONSOLE' => [
+			'default' => false,
+			'description' => 'Enable displaying logs in debug console. Values: false/true'
+		],
 		'DEBUG_CONSOLE_ALLOWED_IPS' => [
 			'default' => false,
 			'description' => 'List of IP addresses allowed to display debug console. Values: false = All IPS / "192.168.1.10" / ["192.168.1.10","192.168.1.11"]',
+		],
+		'DEBUG_CONSOLE_ALLOWED_USERS' => [
+			'default' => [],
+			'description' => 'List of user ids allowed to display debug console. ',
 		],
 		'SQL_DIE_ON_ERROR' => [
 			'default' => false,

@@ -16,7 +16,8 @@ class Debuger extends \Tests\Base
 	 */
 	public function testInitConsole()
 	{
-		$this->assertInstanceOf('\DebugBar\DebugBar', \App\Debuger::initConsole(), 'Expected debug bar object');
+		\App\Debuger::initConsole();
+		$this->assertInstanceOf('\DebugBar\DebugBar', \App\Debuger::getDebugBar(), 'Expected debug bar object');
 	}
 
 	/**
@@ -34,7 +35,7 @@ class Debuger extends \Tests\Base
 	{
 		\App\Config::set('debug', 'DISPLAY_DEBUG_CONSOLE', true);
 		\App\Config::set('debug', 'LOG_TO_PROFILE', true);
-		\App\Config::set('debug', 'LOG_TO_CONSOLE', true);
+		\App\Config::set('debug', 'DISPLAY_LOGS_IN_CONSOLE', true);
 		$this->assertNull(\App\Debuger::init(), 'Expected null value');
 	}
 
