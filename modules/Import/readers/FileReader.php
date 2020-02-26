@@ -122,7 +122,7 @@ class Import_FileReader_Reader
 			'temp_status' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_SMALLINT, 1)->defaultValue(0),
 			'recordid' => 'integer',
 		];
-		if ($sourceId = $this->request->getInteger('src_record') && $relationId = $this->request->getInteger('relationId')) {
+		if ($this->request->getInteger('src_record') && $this->request->getInteger('relationId')) {
 			$columns['src_record'] = 'integer';
 			$columns['relation_id'] = $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_SMALLINT, 5)->defaultValue(0);
 		}

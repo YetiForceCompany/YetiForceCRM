@@ -21,10 +21,6 @@ class Benchmarks
 	public static $hashAlgo = ['md4', 'md5', 'crc32', 'sha1', 'adler32', 'ripemd256', 'sha256', 'sha384', 'sha512'];
 	public static $stringFunctions = ['addslashes', 'chunk_split', 'metaphone', 'strip_tags', 'strtoupper', 'strtolower', 'strrev', 'strlen', 'soundex', 'ord', 'ucfirst', 'ucwords', 'rtrim', 'trim', 'ltrim'];
 
-	private static $methods = [
-		'cpu', 'ram', 'hdd', 'db'
-	];
-
 	/**
 	 * CPU benchmark.
 	 *

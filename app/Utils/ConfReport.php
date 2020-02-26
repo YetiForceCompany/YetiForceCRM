@@ -161,6 +161,7 @@ class ConfReport
 		'SimpleXML' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'SimpleXML', 'container' => 'ext', 'testCli' => true],
 		'bcmath' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'bcmath', 'container' => 'ext', 'testCli' => true],
 		'filter' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'filter', 'container' => 'ext', 'testCli' => true],
+		'ctype' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'ctype', 'container' => 'ext', 'testCli' => true],
 		'exif' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'exif', 'container' => 'ext', 'testCli' => true],
 		'ldap' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'ldap', 'container' => 'ext', 'testCli' => true],
 		'OPcache' => ['mandatory' => false, 'type' => 'FnExist', 'fnName' => 'opcache_get_configuration', 'container' => 'ext', 'testCli' => true],
