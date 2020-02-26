@@ -35,6 +35,9 @@ class Debug
 	/** Enable displaying logs in debug console. Values: false/true */
 	public static $DISPLAY_LOGS_IN_CONSOLE = false;
 
+	/** Enable displaying logs in debug console. Values: false/true */
+	public static $DISPLAY_CONFIG_IN_CONSOLE = false;
+
 	/** List of IP addresses allowed to display debug console. Values: false = All IPS / "192.168.1.10" / ["192.168.1.10","192.168.1.11"] */
 	public static $DEBUG_CONSOLE_ALLOWED_IPS = false;
 
