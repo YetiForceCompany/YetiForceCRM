@@ -436,7 +436,7 @@ class ModuleManager extends \Tests\Base
 			//Check if remote file exists
 			$mode = \App\Config::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : \App\Version::get($library['name']);
 			$header = get_headers($library['url'] . "/archive/$mode.zip", 1);
-			$this->assertNotRegExp('/404/', $header['Status'], $library['url'] . "/archive/$mode.zip | " . print_r($header, true));
+			$this->assertNotRegExp('/404/', $header['Status'] ?? '', $library['url'] . "/archive/$mode.zip | " . print_r($header, true));
 			$this->assertTrue(\Settings_ModuleManager_Library_Model::download($key), "The library \"{$key}\" could not be downloaded");
 			$this->assertFileExists($library['dir'] . 'version.php');
 		}
