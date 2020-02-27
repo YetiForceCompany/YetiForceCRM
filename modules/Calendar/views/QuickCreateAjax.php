@@ -49,6 +49,14 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getLayoutType(): string
+	{
+		return 'standard';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getFooterScripts(App\Request $request)
 	{
 		if ('Extended' === App\Config::module('Calendar', 'CALENDAR_VIEW')) {

@@ -44,6 +44,14 @@ class OSSTimeControl_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getLayoutType(): string
+	{
+		return 'standard';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getFooterScripts(App\Request $request)
 	{
 		$jsFiles = parent::getFooterScripts($request);
