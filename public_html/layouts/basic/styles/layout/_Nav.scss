@@ -246,10 +246,9 @@
 			text-align: left;
 		}
 		&:before{
-			vertical-align: sub;
+			vertical-align: unset;
 		}
 		&.mdi:before{
-			vertical-align: unset;
 			margin: 0 -3px;
 		}
 	}
