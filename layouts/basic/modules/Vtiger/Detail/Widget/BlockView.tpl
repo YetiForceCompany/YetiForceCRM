@@ -31,8 +31,8 @@
 								{if !$FIELD_MODEL->isViewableInDetailView()}
 									{continue}
 								{/if}
-								<div class="form-row c-table__row--hover border-bottom pt-1 pb-1 u-font-size-13px">
-									<div class="col-lg-4 medium"
+								<div class="form-row c-table__row--hover border-bottom pt-1 pb-1 u-font-size-13px ">
+									<div class="col-5 medium d-flex align-items-center"
 										 id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 										{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
 										<div class="font-weight-bold text-truncate mb-1 mt-1"
@@ -49,10 +49,10 @@
 											{/if}
 										</div>
 									</div>
-									<div class="col-lg-8 fieldValue medium"
+									<div class="col-7 fieldValue medium"
 										 id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}">
 										<div class="row">
-											<div class="value col-lg-10 mt-1 mb-1">
+											<div class="value col-9 mt-1 mb-1">
 												<span class=""
 													  data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21' or $FIELD_MODEL->getUIType() eq '300'} style="white-space:normal;" {/if}>
 													{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD SOURCE_TPL='BlockViewWidget'}
@@ -63,7 +63,7 @@
 												{/if}
 											</div>
 											{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
-												<div class="c-table__action--hover js-detail-quick-edit col-2 u-cursor-pointer">
+												<div class="c-table__action--hover js-detail-quick-edit col-3 u-cursor-pointer d-flex align-items-center justify-content-end pl-4">
 													<div class="float-right">
 														<span class="fas fa-edit"
 															  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
