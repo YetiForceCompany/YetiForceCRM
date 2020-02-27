@@ -95,7 +95,7 @@ class API_CardDAV_Model
 			$this->markComplete($moduleName, $record['crmid']);
 		}
 		$dataReader->close();
-		\App\Log::trace("AddressBooks end - CRM >> DAV (${moduleName}) | create: ${create} | updates: ${updates}", __METHOD__);
+		\App\Log::trace("AddressBooks end - CRM >> DAV ({$moduleName}) | create: {$create} | updates: {$updates}", __METHOD__);
 	}
 
 	public function cardDav2Crm()
@@ -155,7 +155,7 @@ class API_CardDAV_Model
 			}
 		}
 		$dataReader->close();
-		\App\Log::trace("AddressBooks end - DAV >> CRM | create: ${create} | deletes: {$deletes} | updates: {$skipped} | skipped: {$updates}", __METHOD__);
+		\App\Log::trace("AddressBooks end - DAV >> CRM | create: {$create} | deletes: {$deletes} | updates: {$skipped} | skipped: {$updates}", __METHOD__);
 	}
 
 	public function createCard($moduleName, $record)
@@ -297,7 +297,7 @@ class API_CardDAV_Model
 		}
 
 		if (empty($vcard->N)) {
-			\App\Log::error("Not found N part in vcard: Id: {$card['id']}, Addressbookid: {$card['addressbookid']}, Data:{$card['carddata']}", __CLASS__);
+			\App\Log::error("Not found N part in vcard: Id: {$card['id']}, Addressbookid: {$card['addressbookid']}, Data: \n{$card['carddata']}", __CLASS__);
 			return false;
 		}
 
