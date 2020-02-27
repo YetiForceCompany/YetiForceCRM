@@ -17,15 +17,7 @@ class Debuger extends \Tests\Base
 	public function testInitConsole()
 	{
 		\App\Debuger::initConsole();
-		$this->assertInstanceOf('\DebugBar\DebugBar', \App\Debuger::getDebugBar(), 'Expected debug bar object');
-	}
-
-	/**
-	 * Testing getDebugBar function.
-	 */
-	public function testGetDebugBar()
-	{
-		$this->assertInstanceOf('\DebugBar\DebugBar', \App\Debuger::getDebugBar(), 'Expected debuger object');
+		$this->assertInstanceOf('\App\Debug\DebugBar\DebugBar', \App\Debuger::getDebugBar(), 'Expected debug bar object');
 	}
 
 	/**
