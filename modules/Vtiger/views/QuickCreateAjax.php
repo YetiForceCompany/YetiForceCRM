@@ -62,7 +62,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
-		$layout = $this->getLayoutType();
+		$layout = $moduleModel->getLayoutTypeForQuickCreate();
 		if ('blocks' === $layout) {
 			$blockModels = $moduleModel->getBlocks();
 			$blockRecordStructure = $blockIdFieldMap = [];
@@ -119,15 +119,5 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 	public function validateRequest(App\Request $request)
 	{
 		$request->validateWriteAccess();
-	}
-
-	/**
-	 * Get layout type for quick create.
-	 *
-	 * @return string
-	 */
-	public function getLayoutType(): string
-	{
-		return Config\Performance::$quickCreateLayout ?? 'blocks';
 	}
 }

@@ -399,4 +399,12 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		}
 		return ['events' => $totalCount[$eventModule] - $skipCount[$eventModule], 'skipped_events' => $skipCount[$eventModule], 'task' => $totalCount[$todoModule] - $skipCount[$todoModule], 'skipped_task' => $skipCount[$todoModule]];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getLayoutTypeForQuickCreate(): string
+	{
+		return 'standard';
+	}
 }

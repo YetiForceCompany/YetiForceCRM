@@ -52,14 +52,14 @@
 					<div id="moduleBlocks">
 						<input value="{$LAYOUT}" type="hidden" id="quickCreateLayout"/>
 						{if $LAYOUT neq 'blocks'}
-							<div class="editFieldsTable block marginBottom10px border1px blockSortable" style="border-radius: 4px 4px 0px 0px;background: white;">
+							<div class="editFieldsTable block marginBottom10px border1px blockSortable rounded bg-white">
 								<div class="row layoutBlockHeader no-margin">
-									<div class="blockLabel col-md-5 marginLeftZero" style="padding:5px 10px 5px 10px">
+									<div class="blockLabel col-md-5 marginLeftZero pt-1 pb-1">
 										{\App\Language::translate($SELECTED_MODULE_NAME, $SELECTED_MODULE_NAME)}
 									</div>
 								</div>
-								<div class="blockFieldsList row no-margin" style="padding:5px;min-height: 27px">
-									<ul name="sortable1" class="connectedSortable col-md-6" style="list-style-type: none; min-height: 1px;padding:2px;">
+								<div class="blockFieldsList row no-margin padding5">
+									<ul name="sortable1" class="connectedSortable col-md-6 list-unstyled">
 											{foreach  key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=fieldlist}
 												{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 												{if $smarty.foreach.fieldlist.index % 2 eq 0}
@@ -74,7 +74,7 @@
 																		</a>
 																	{/if}
 																</div>
-																<div class="col-sm-11 col-10 col-md-10 marginLeftZero" style="word-wrap: break-word;">
+																<div class="col-sm-11 col-10 col-md-10 marginLeftZero text-break">
 																		<span class="fieldLabel">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
 																			&nbsp;
 																			{if $IS_MANDATORY}
@@ -87,7 +87,7 @@
 												{/if}
 											{/foreach}
 									</ul>
-									<ul name="sortable2" class="connectedSortable col-md-6" style="list-style-type: none; margin: 0;min-height: 1px;padding:2px;">
+									<ul name="sortable2" class="connectedSortable col-md-6 list-unstyled">
 										{foreach item=FIELD_MODEL from=$RECORD_STRUCTURE name=fieldlist1}
 											{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 											{if $smarty.foreach.fieldlist1.index % 2 neq 0}
@@ -102,7 +102,7 @@
 																		</a>
 																{/if}
 																</span>
-															<div class="col-sm-11 col-10 col-md-10 marginLeftZero" style="word-wrap: break-word;">
+															<div class="col-sm-11 col-10 col-md-10 marginLeftZero text-break">
 																	<span class="fieldLabel">
 																		{if $IS_MANDATORY}
 																			<span class="redColor">*</span>
@@ -159,15 +159,13 @@
 																		</a>
 																	{/if}
 																</div>
-																<div class="col-10 col-sm-10 ml-0 fieldContainer"
-																	style="word-wrap: break-word;">
-										<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
+																<div class="col-10 col-sm-10 ml-0 fieldContainer text-break">
+																	<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
 																		&nbsp;[{$FIELD_MODEL->getName()}]
 																		{if $IS_MANDATORY}
 																			<span class="redColor">*</span>
 																		{/if}
 																	</span>
-
 																</div>
 															</div>
 														</div>
@@ -196,8 +194,7 @@
 																		</a>
 																	{/if}
 																</div>
-																<div class="col-10 col-sm-10 ml-0 fieldContainer"
-																	style="word-wrap: break-word;">
+																<div class="col-10 col-sm-10 ml-0 fieldContaine text-break">
 																	<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
 																		&nbsp;[{$FIELD_MODEL->getName()}]
 																		{if $IS_MANDATORY}
