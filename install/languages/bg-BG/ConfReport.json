@@ -81,7 +81,7 @@
     "LBL_WRITE_TEST": "Пиши",
     "LBL_CPU": "ПРОЦЕСОР",
     "LBL_RAM": "RAM памет",
-    "LBL_DB": "База данни",
+    "LBL_DB": "Database",
     "LBL_BENCHMARK_CPU_MATH": "Mathematical functions",
     "LBL_BENCHMARK_CPU_HASH": "Hashing functions",
     "LBL_BENCHMARK_CPU_STRING": "Functions on strings",
