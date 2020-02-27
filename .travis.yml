@@ -67,14 +67,19 @@ before_script:
 
 script:
     - cd tests
-    - pwd
+    - readlink -f ../
     - sudo ls ../ -all
+    - readlink -f ../vendor/bin/
     - sudo ls ../vendor/bin/ -all
+    - readlink -f ../vendor/
     - sudo ls ../vendor/ -all
     - ../vendor/bin/phpunit --verbose --testsuite Init,Base,Integrations,Settings,Apps
+	- pwd
     - sudo ls -all
     - cd ..
+	- pwd
     - sudo ls -all
+	- readlink -f config/
     - sudo ls config/ -all
 
 after_script:
@@ -160,6 +165,7 @@ jobs:
               - sudo ls -all ../screenshots
           after_success:
               - if [ "$TRAVIS_SECURE_ENV_VARS" = true ]; then sonar-scanner; fi
+			  - pwd
               - sudo ls -all
               - php $HOME/build/YetiForceCompany/cache/ocular.phar code-coverage:upload --format=php-clover tests/coverage.xml
               - bash <(curl -s https://codecov.io/bash)
