@@ -716,7 +716,7 @@ return [
 			'validationValues' => ['blocks', 'standard', 'vertical']
 		],
 		'quickCreateLayout' => [
-			'default' => 'standard',
+			'default' => 'blocks',
 			'description' => 'Parameter defining how fields are displayed in quick create. Available values: blocks,standard',
 			'validationValues' => ['blocks', 'standard']
 		],

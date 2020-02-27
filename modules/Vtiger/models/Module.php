@@ -1577,4 +1577,14 @@ class Vtiger_Module_Model extends \vtlib\Module
 		}
 		return $result;
 	}
+
+	/**
+	 * Get layout type for quick create.
+	 *
+	 * @return string
+	 */
+	public function getLayoutTypeForQuickCreate(): string
+	{
+		return \App\Config::performance('quickCreateLayout', 'blocks');
+	}
 }
