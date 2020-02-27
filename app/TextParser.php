@@ -82,6 +82,7 @@ class TextParser
 		'ChangesListChanges' => 'LBL_LIST_OF_CHANGES_IN_RECORD',
 		'ChangesListValues' => 'LBL_LIST_OF_NEW_VALUES_IN_RECORD',
 		'Comments' => 'LBL_RECORD_COMMENT',
+		'SummaryFields' => 'LBL_SUMMARY_FIELDS',
 	];
 
 	/**
@@ -633,6 +634,19 @@ class TextParser
 					}
 				}
 				return $value;
+			case 'SummaryFields':
+					$value = '';
+					$recordStructure = \Vtiger_RecordStructure_Model::getInstanceFromRecordModel($this->recordModel, \Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_SUMMARY);
+					$fields = $recordStructure->getStructure()['SUMMARY_FIELDS'] ?? [];
+					foreach ($fields as $fieldName => $fieldModel) {
+						$currentValue = $this->getDisplayValueByField($fieldModel);
+						if ($this->withoutTranslations) {
+							$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$: $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
+						} else {
+							$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
+						}
+					}
+					return $value;
 			default:
 				if (false !== strpos($key, ' ')) {
 					[$key, $params] = explode(' ', $key);

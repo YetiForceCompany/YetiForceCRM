@@ -65,6 +65,7 @@
     "LBL_REPORT_CALENDAR": "Calendar records",
     "LBL_REPORT_OVERDUE": "Overdue records",
     "LBL_USER_RECORD_DUPLICATE_LIST": "User duplicated records list",
-    "LBL_USER_RECORD_FILTERED_LIST": "User filtered records list"
+    "LBL_USER_RECORD_FILTERED_LIST": "User filtered records list",
+    "LBL_SUMMARY_FIELDS": "List of fields visible in the summary"
   }
 }
