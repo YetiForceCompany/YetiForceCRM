@@ -50,8 +50,7 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 		$quickCreateFields = Vtiger_RecordStructure_Model::getInstanceFromRecordModel(Vtiger_Record_Model::getCleanInstance($sourceModule), Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE)->getStructure();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_STRUCTURE', $quickCreateFields);
-		$layout = $request->getByType('showLayout') ?: Config\Performance::$quickCreateLayout ?? 'blocks';
-		$layout = 'Calendar' === $sourceModule ? 'standard' : $layout;
+		$layout = Vtiger_Module_Model::getInstance(($sourceModule))->getLayoutTypeForQuickCreate();
 		if ('blocks' === $layout) {
 			$selectedModuleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($sourceModule);
 			$blockModels = $selectedModuleModel->getBlocks();
