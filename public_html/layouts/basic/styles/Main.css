@@ -18452,7 +18452,6 @@ body > .o-exception-fixed-block {
     width: 0.5rem; }
 
 .c-menu__item__icon {
-  padding-right: 1.125rem;
   font-size: 1.6em;
   min-width: 2.625rem; }
   .c-menu__item__icon--sub {
@@ -18463,6 +18462,8 @@ body > .o-exception-fixed-block {
       font-size: 0.625rem;
       margin-top: auto;
       margin-bottom: auto; }
+  .c-menu__item__icon.fa-fw {
+    padding-right: 1.125rem; }
 
 .c-menu__header {
   height: 3.125rem;

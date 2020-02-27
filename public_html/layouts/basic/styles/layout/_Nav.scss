@@ -226,7 +226,6 @@
 	}
 
 	&__item__icon {
-		padding-right: calculate-rem(18px);
 		font-size: 1.6em;
 		min-width: calculate-rem(42px);
 
@@ -240,6 +239,9 @@
 				margin-top: auto;
 				margin-bottom: auto;
 			}
+		}
+		&.fa-fw {
+			padding-right: calculate-rem(18px);
 		}
 	}
 
