@@ -47,10 +47,11 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 			$firstElement = reset($menuModelsList);
 			$sourceModule = $firstElement->get('name');
 		}
-		$quickCreateFields = Vtiger_RecordStructure_Model::getInstanceFromRecordModel(Vtiger_Record_Model::getCleanInstance($sourceModule), Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE)->getStructure();
+		$recordModel = Vtiger_Record_Model::getCleanInstance($sourceModule);
+		$quickCreateFields = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE)->getStructure();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_STRUCTURE', $quickCreateFields);
-		$layout = Vtiger_Module_Model::getInstance(($sourceModule))->getLayoutTypeForQuickCreate();
+		$layout = $recordModel->getModule()->getLayoutTypeForQuickCreate();
 		if ('blocks' === $layout) {
 			$selectedModuleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($sourceModule);
 			$blockModels = $selectedModuleModel->getBlocks();
