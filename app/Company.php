@@ -18,7 +18,7 @@ class Company extends Base
 	 * @var int[]
 	 */
 	public static $sizes = [
-		'Micro' => 10,
+		'Micro' => 20,
 		'Small' => 50,
 		'Medium' => 250,
 		'Large' => 1000,
