@@ -94,6 +94,12 @@ class Card
 	 * @var \Vtiger_Record_Model[]
 	 */
 	private $records = [];
+	/**
+	 * Record data.
+	 *
+	 * @var \Vtiger_Record_Model
+	 */
+	private $record = [];
 
 	/**
 	 * Load from content.
@@ -189,6 +195,7 @@ class Card
 	 */
 	public function setValuesForRecord(\Vtiger_Record_Model $record)
 	{
+		$this->record = $record;
 		$head = $this->vcard->N->getParts();
 		$moduleName = $record->getModuleName();
 		if ('Contacts' === $moduleName) {
@@ -201,7 +208,7 @@ class Card
 			if (isset($this->vcard->TITLE) && ($fieldModel = $record->getField('jobtitle'))) {
 				$record->set('jobtitle', $fieldModel->getDBValue(\App\Purifier::purify((string) $this->vcard->TITLE)));
 			}
-			if (isset($this->vcard->BDAY) && ($fieldModel = $record->getField('birthday'))) {
+			if (isset($this->vcard->BDAY) && 8 === \strlen($this->vcard->BDAY) && ($fieldModel = $record->getField('birthday'))) {
 				$record->set('birthday', $fieldModel->getDBValue(date('Y-m-d', strtotime($this->vcard->BDAY))));
 			}
 			if (isset($this->vcard->GENDER) && ($fieldModel = $record->getField('salutationtype'))) {
@@ -221,11 +228,7 @@ class Card
 		if (isset($this->vcard->NOTE) && ($fieldModel = $record->getField('description'))) {
 			$record->set('description', $fieldModel->getDBValue(\App\Purifier::purify((string) $this->vcard->NOTE)));
 		}
-		foreach (self::$telFields[$moduleName] as $key => $val) {
-			if (isset($this->vcard->TEL) && ($fieldModel = $record->getField($key))) {
-				$record->set($key, $fieldModel->getDBValue($this->getCardTel($val)));
-			}
-		}
+		$this->parseTel();
 		foreach (self::$mailFields[$moduleName] as $key => $val) {
 			if (isset($this->vcard->EMAIL) && ($fieldModel = $record->getField($key))) {
 				$record->set($key, $fieldModel->getDBValue($this->getCardMail($val)));
@@ -263,31 +266,30 @@ class Card
 	}
 
 	/**
-	 * Get card phone.
-	 *
-	 * @param string $type
-	 *
-	 * @return string
+	 * Parse card phone.
 	 */
-	private function getCardTel(string $type): string
+	private function parseTel()
 	{
-		\App\Log::trace(__METHOD__ . ' | Start | Type:' . $type);
-		$type = strtoupper($type);
-		foreach ($this->vcard->TEL as $t) {
-			foreach ($t->parameters() as $p) {
-				$vcardType = explode(',', $p->getValue());
-				if (strtoupper($vcardType[0]) === $type) {
-					$phone = \App\Purifier::purify($t->getValue());
-					if (\App\Config::main('phoneFieldAdvancedVerification', false) && !($phone = \App\Fields\Phone::getProperNumber($phone, ($this->user ? $this->user->getId() : null)))) {
-						$phone = '';
+		$moduleName = $this->record->getModuleName();
+		foreach (self::$telFields[$moduleName] as $key => $type) {
+			if (isset($this->vcard->TEL) && ($fieldModel = $this->record->getField($key))) {
+				$type = strtoupper($type);
+				foreach ($this->vcard->TEL as $t) {
+					foreach ($t->parameters() as $p) {
+						$vcardType = explode(',', $p->getValue());
+						if (strtoupper($vcardType[0]) === $type) {
+							$orgPhone = \App\Purifier::purify($t->getValue());
+							if (\App\Config::main('phoneFieldAdvancedVerification', false) && !($phone = \App\Fields\Phone::getProperNumber($orgPhone, ($this->user ? $this->user->getId() : null)))) {
+								$this->record->set($key . '_extra', $fieldModel->getDBValue($orgPhone));
+								continue 2;
+							}
+							$this->record->set($key, $fieldModel->getDBValue($phone));
+							continue 2;
+						}
 					}
-					\App\Log::trace(__METHOD__ . ' | End | return: ' . $phone);
-					return $phone;
 				}
 			}
 		}
-		\App\Log::trace(__METHOD__ . ' | End | return: ""');
-		return '';
 	}
 
 	/**
@@ -303,6 +305,7 @@ class Card
 		foreach ($this->vcard->EMAIL as $e) {
 			foreach ($e->parameters() as $p) {
 				$vcardType = explode(',', $p->getValue());
+				$vcardType = array_reverse($vcardType);
 				if (strtoupper($vcardType[0]) === $type) {
 					\App\Log::trace(__METHOD__ . ' | End | return: ' . $e->getValue());
 					return \App\Purifier::purify($e->getValue());
@@ -387,13 +390,13 @@ class Card
 	 *
 	 * @return string|null
 	 */
-	private function getTypeOfAddress($property): ?string
+	private function getTypeOfAddress(\Sabre\VObject\Property $property): ?string
 	{
 		$typeOfAddress = null;
 		foreach ($property->parameters as $parameter) {
-			$value = strtoupper($parameter->getValue());
-			if ('WORK' === $value || 'HOME' == $value) {
-				$typeOfAddress = $value;
+			$type = $parameter->jsonSerialize()[0];
+			if ('WORK' === $type || 'HOME' == $type) {
+				$typeOfAddress = $type;
 				break;
 			}
 		}
