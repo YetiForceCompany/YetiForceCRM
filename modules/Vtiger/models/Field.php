@@ -74,6 +74,36 @@ class Vtiger_Field_Model extends vtlib\Field
 	];
 
 	/**
+	 * Initialize.
+	 *
+	 * @param string     $module
+	 * @param array      $data
+	 * @param mixed|null $name
+	 *
+	 * @return \Vtiger_Field_Model
+	 */
+	public static function init($module = 'Vtiger', $data = [], $name = '')
+	{
+		$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Module', $module);
+		$moduleInstance = new $modelClassName();
+		$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
+		$instance = new $modelClassName();
+		$instance->setModule($moduleInstance);
+		$instance->setData(array_merge([
+			'uitype' => 1,
+			'column' => $name,
+			'name' => $name,
+			'label' => $name,
+			'displaytype' => 1,
+			'typeofdata' => 'V~O',
+			'presence' => 0,
+			'isReadOnly' => false,
+			'isEditableReadOnly' => false,
+		], $data));
+		return $instance;
+	}
+
+	/**
 	 * Function to get the value of a given property.
 	 *
 	 * @param string $propertyName
