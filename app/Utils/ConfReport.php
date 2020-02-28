@@ -1198,6 +1198,7 @@ class ConfReport
 	private static function parserAllExt(string $name, array $row)
 	{
 		unset($name, $row);
+		sort(static::$ext, SORT_NATURAL | SORT_FLAG_CASE);
 		return \implode(', ', static::$ext);
 	}
 

@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Modals-Footer modal-footer{if isset($FOOTER_CLASS)} {$FOOTER_CLASS}{/if}">
+<!-- tpl-Base-Modals-Footer -->
+	<div class=" modal-footer{if isset($FOOTER_CLASS)} {$FOOTER_CLASS}{/if}">
 		{if !empty($BTN_SUCCESS)}
 			<button class="js-modal__save btn btn-success" type="submit" name="saveButton" data-js="click">
 				<span class="{if isset($BTN_SUCCESS_ICON)}{$BTN_SUCCESS_ICON}{else}fas fa-check{/if} mr-1"></span>
@@ -22,4 +23,5 @@
 			</button>
 		{/if}
 	</div>
+<!-- /tpl-Base-Modals-Footer -->
 {/strip}
