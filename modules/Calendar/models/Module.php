@@ -59,16 +59,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get list of field for summary view.
-	 *
-	 * @return array empty array
-	 */
-	public function getSummaryViewFieldsList()
-	{
-		return [];
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function getSideBarLinks($linkParams)
