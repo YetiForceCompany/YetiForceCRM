@@ -25,7 +25,7 @@
 						</div>
 						<h5 class="mb-sm-1 mb-0">{\App\Language::translate($BLOCK_LABEL_KEY,$MODULE_NAME)}</h5>
 					</div>
-					<div class="c-detail-widget__content js-detail-widget-collapse blockContent table-responsive-sm {if $IS_HIDDEN}d-none{/if} js-detail-widget-content py-sm-2 py-0" data-js="container|value">
+					<div class="c-detail-widget__content js-detail-widget-collapse blockContent table-responsive-sm {if $IS_HIDDEN}d-none{/if} js-detail-widget-content py-sm-2 py-0 overflow-hidden" data-js="container|value">
 						<div class="c-detail-widget__table">
 							{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELD_MODEL_LIST}
 								{if !$FIELD_MODEL->isViewableInDetailView()}
