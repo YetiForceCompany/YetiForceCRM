@@ -494,10 +494,10 @@ object-assign@^4.1.0:
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
 
-overlayscrollbars@^1.10.0:
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/overlayscrollbars/-/overlayscrollbars-1.10.3.tgz#07fd40d2e475bc866da8f1241ad20f0d5df4a73e"
-  integrity sha512-iSxRC7DZ5XJwAZp5FKCz1vJaq+OleHjVAXAhC2Ea7ZXcYS4WbUKaHT+QYjHbEwBiJqm6bOEEfIbt3KR5MBentQ==
+overlayscrollbars@^1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/overlayscrollbars/-/overlayscrollbars-1.11.0.tgz#374a14f37b78214e0166db50c1a489b6af53eddb"
+  integrity sha512-Wdzzfdta5/5Tc77FoibH14Cr34r7op0jh3eI9z1zvz9K4YiRIzNxvNIh3Rbezr8cs4Bn7NTNKzT8OHsJB58CxQ==
 
 perfect-scrollbar@^1.3.0:
   version "1.5.0"
