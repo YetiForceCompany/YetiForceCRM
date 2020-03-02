@@ -93,7 +93,7 @@
     "LBL_LABEL_CRM_DATE": "Data publikacji wersji",
     "LBL_LABEL_LOCALE": "Ustawienia regionalne",
     "LBL_LABEL_ZEND_VERSION": "Wersja Zend",
-    "LBL_LABEL_CACERTBUNDLE_PATH": "Ścieżka certyfikacji CA",
+    "LBL_LABEL_CACERTBUNDLE_PATH": "Ścieżka certyfikatu CA",
     "LBL_LABEL_SSL_CERT_FILE": "Env SSL_CERT_FILE",
     "LBL_LABEL_SSL_CERT_DIR": "Env SSL_CERT_DIR",
     "LBL_DOWNLOAD_CONFIG": "Pobierz konfigurację",
