@@ -92,13 +92,25 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Set data for save.
+	 * Set custom data for save.
 	 *
-	 * @param array $array
+	 * @param array $data
 	 */
-	public function setDataForSave(array $array)
+	public function setDataForSave(array $data)
 	{
-		$this->dataForSave = array_merge($this->dataForSave, $array);
+		foreach ($data as $tableName => $tableData) {
+			$this->dataForSave[$tableName] = isset($this->dataForSave[$tableName]) ? array_merge($this->dataForSave[$tableName], $tableData) : $tableData;
+		}
+	}
+
+	/**
+	 * Gets custom data for save.
+	 *
+	 * @param array
+	 */
+	public function getDataForSave()
+	{
+		return $this->dataForSave;
 	}
 
 	/**
@@ -805,13 +817,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function isMandatorySave()
 	{
-		if ($this->getModule()->isInventory() && $this->getPreviousInventoryItems()) {
-			return true;
-		}
-		if (!empty($this->dataForSave)) {
-			return true;
-		}
-		return false;
+		return !empty($this->dataForSave) || ($this->getModule()->isInventory() && $this->getPreviousInventoryItems());
 	}
 
 	/**
