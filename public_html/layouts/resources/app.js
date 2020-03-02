@@ -358,7 +358,7 @@ var App = (window.App = {
 						let moduleName = form.find('[name="module"]').val();
 						let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
 						let moduleClassName = moduleName + '_QuickEdit_Js';
-						editViewInstance.setForm(quickCreateForm);
+						editViewInstance.setForm(form);
 						editViewInstance.registerBasicEvents(form);
 						if (typeof window[moduleClassName] !== 'undefined') {
 							new window[moduleClassName]().registerEvents(container);
@@ -463,6 +463,10 @@ var App = (window.App = {
 			save(form) {
 				const aDeferred = $.Deferred();
 				let formData = new FormData(form[0]);
+				const saveData = form.serializeFormData();
+				for (let key in saveData) {
+					formData.append(key, saveData[key]);
+				}
 				AppConnector.request({
 					url: 'index.php',
 					type: 'POST',
