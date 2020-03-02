@@ -3399,7 +3399,11 @@ CREATE TABLE `u_yf_relations_members_entity` (
   `crmid` int(10) DEFAULT NULL,
   `relcrmid` int(10) DEFAULT NULL,
   `status_rel` varchar(225) DEFAULT NULL,
-  `comment_rel` text DEFAULT NULL
+  `comment_rel` text DEFAULT NULL,
+  KEY `u_yf_relations_members_entity_crmid_idx` (`crmid`),
+  KEY `u_yf_relations_members_entity_relcrmid_idx` (`relcrmid`),
+  CONSTRAINT `u_yf_relations_members_entity_crmid_fk` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `u_yf_relations_members_entity_relcrmid_fk` FOREIGN KEY (`relcrmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_reviewed_queue` */
@@ -5038,7 +5042,9 @@ CREATE TABLE `vtiger_crmentityrel` (
   `rel_created_time` datetime DEFAULT NULL,
   `rel_comment` varchar(255) DEFAULT NULL,
   KEY `crmid` (`crmid`),
-  KEY `relcrmid` (`relcrmid`)
+  KEY `relcrmid` (`relcrmid`),
+  CONSTRAINT `vtiger_crmentityrel_crmid_fk` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `vtiger_crmentityrel_relcrmid_fk` FOREIGN KEY (`relcrmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cron_task` */
