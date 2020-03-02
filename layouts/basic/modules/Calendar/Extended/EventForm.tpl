@@ -83,10 +83,10 @@
 					</div>
 				</div>
 				{if !empty($SOURCE_RELATED_FIELD)}
-					{foreach key=RELATED_FIELD_NAME item=RELATED_FIELD_MODEL from=$SOURCE_RELATED_FIELD}
-						<input type="hidden" name="{$RELATED_FIELD_NAME}"
-								value="{\App\Purifier::encodeHtml($RELATED_FIELD_MODEL->get('fieldvalue'))}"
-								data-fieldtype="{$RELATED_FIELD_MODEL->getFieldDataType()}"/>
+					{foreach key=FIELD_NAME item=FIELD_MODEL from=$SOURCE_RELATED_FIELD}
+						<div class="d-none">
+							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
+						</div>
 					{/foreach}
 				{/if}
 				<div class="o-calendar__form__actions">
