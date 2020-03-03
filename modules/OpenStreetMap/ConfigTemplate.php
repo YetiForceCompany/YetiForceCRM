@@ -52,5 +52,10 @@ return [
 			$arg = func_get_arg(0);
 			return \in_array($arg, ['Yours', 'Base']);
 		}
+	],
+	'tileLayerUrlTemplate' => [
+		'default' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+		'description' => "Tile layer url template, url used to load and display tile layers on the map.\nFree public servers:.\n\n@see https://wiki.openstreetmap.org/wiki/Tile_servers\n- YetiForce Map: https://yetiforce.com\n- OpenStreetMap: https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png\n- OpenStreetMap German: https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png\n- OpenStreetMap H.O.T.: https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png\n- OpenStreetMap France: https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png\n- OpenTopoMap: https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png\n\nIn order for the map to be properly loaded the address has to be whitelisted.\n" . '@see \\Config\\Security::$allowedImageDomains in config\\Security.php',
+		'validation' => '\App\Validator::url',
 	]
 ];

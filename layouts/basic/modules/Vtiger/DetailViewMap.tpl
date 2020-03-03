@@ -2,6 +2,7 @@
 {strip}
 	<!-- tpl-Base-DetailViewMap -->
 	<input type="hidden" id="coordinates" value="{\App\Purifier::encodeHtml(\App\Json::encode($COORRDINATES))}">
+	<input type="hidden" id="tileLayerUrlTemplate" value="{\App\Map\Layer::getTileServer()}">
 	<div id="mapid" class="u-min-h-85vh"></div>
 	<!-- /tpl-Base-DetailViewMap -->
 {/strip}
