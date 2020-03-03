@@ -13,11 +13,7 @@
 class OpenStreetMap_TileLayer_File extends Vtiger_Basic_File
 {
 	/**
-	 * Checking permission in get method.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return bool
+	 * {@inheritdoc}
 	 */
 	public function getCheckPermission(App\Request $request)
 	{
@@ -37,8 +33,6 @@ class OpenStreetMap_TileLayer_File extends Vtiger_Basic_File
 	public function get(App\Request $request)
 	{
 		$product = \App\YetiForce\Register::getProducts('YetiForceMap');
-		$this->error();
-		return false;
 		if (!\App\RequestUtil::isNetConnection() || empty($product['params']['login']) || empty($product['params']['pass'])) {
 			$this->error();
 			return false;

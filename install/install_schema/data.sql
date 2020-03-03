@@ -17985,6 +17985,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (120,18,'LBL_GITHUB','fab fa-github',NULL,'index.php?module=Help&parent=Settings&view=Index',1,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (121,14,'LBL_SYSTEM_WARNINGS','yfi yfi-system-warnings-2',NULL,'index.php?module=Logs&parent=Settings&view=SystemWarnings',5,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (122,7,'LBL_VULNERABILITIES','yfi yfi-security-errors-2','LBL_VULNERABILITIES_DESCRIPTION','index.php?module=YetiForce&parent=Settings&view=Vulnerabilities',7,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (123,5,'LBL_MAP','far fa-map','LBL_MAP_DESCRIPTION','index.php?module=Map&parent=Settings&view=Config',6,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 

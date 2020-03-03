@@ -1,0 +1,11 @@
+{
+  "php": {
+    "Map": "Map",
+    "LBL_MAP": "Map",
+    "LBL_MAP_DESCRIPTION": "",
+    "LBL_TILE_LAYER": "Tile layer",
+    "LBL_PROVIDER_NAME": "Provider name",
+    "LBL_TILE_LAYER_URL_TEMPLATE": "Tile layer url template",
+    "LBL_PROVIDER_ACTIVE": "Active"
+  }
+}

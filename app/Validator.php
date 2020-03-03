@@ -384,4 +384,16 @@ class Validator
 		}
 		return $result;
 	}
+
+	/**
+	 * Function verifies if given value is text.
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public static function text(string $input): bool
+	{
+		return Purifier::decodeHtml(Purifier::purify($input)) === $input;
+	}
 }
