@@ -217,7 +217,7 @@ class Shop
 		foreach (self::getProducts() as $key => $product) {
 			$content[$key] = $product->verify(false);
 		}
-		\App\Utils::saveToFile(ROOT_DIRECTORY . '/app_data/shop.php', $content, 'Modifying this file will breach the licence terms', 0, true);
+		\App\Utils::saveToFile(ROOT_DIRECTORY . '/app_data/shop.php', $content, 'Modifying this file will breach the licence terms!!!', 0, true);
 	}
 
 	/**

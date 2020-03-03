@@ -158,7 +158,7 @@ class Utils
 			$content = "return $content;";
 		}
 		if ($comment) {
-			$content = "<?php \n //$comment \n $content" . PHP_EOL;
+			$content = "<?php /**\n{$comment}\n*/\n{$content}\n";
 		} else {
 			$content = "<?php $content" . PHP_EOL;
 		}

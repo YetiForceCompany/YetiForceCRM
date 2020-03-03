@@ -1327,6 +1327,7 @@ class ConfReport
 		$view->assign('SHOW_FOOTER_BAR', true);
 		$html = $view->view('PageFooter.tpl', '', true);
 		$row['status'] = true;
+		// Modification of the following condition will violate the license!
 		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
 			$row['status'] = false !== \strpos($html, '&copy; YetiForce.com All rights reserved') || !empty(\App\Config::component('Branding', 'footerName'));
 		}

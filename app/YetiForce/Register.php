@@ -240,7 +240,7 @@ class Register
 			'last_error_date' => $data['last_error_date'] ?? '',
 			'products' => $data['products'] ?? [],
 		];
-		\App\Utils::saveToFile(static::REGISTRATION_FILE, static::$config, 'Modifying this file will breach the licence terms', 0, true);
+		\App\Utils::saveToFile(static::REGISTRATION_FILE, static::$config, 'Modifying this file will breach the licence terms!!!', 0, true);
 	}
 
 	/**

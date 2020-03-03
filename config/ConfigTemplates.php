@@ -1005,9 +1005,7 @@ return [
 		],
 		'allowedImageDomains' => [
 			'default' => [
-				'a.tile.openstreetmap.org',
-				'b.tile.openstreetmap.org',
-				'c.tile.openstreetmap.org'
+				'*.tile.openstreetmap.org'
 			],
 			'description' => 'Allowed domains for loading images, used in CSP.',
 		],

@@ -605,7 +605,9 @@ abstract class Base extends \App\Controller\Base
 				'noOfCurrencyDecimals' => (int) $userModel->getDetail('no_of_currency_decimals'),
 				'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
 				'rowHeight' => $userModel->getDetail('rowheight'),
-				'userId' => $userModel->getId()
+				'userId' => $userModel->getId(),
+				// Modifying this file will breach the licence terms!!!
+				'disableBranding' => \App\YetiForce\Shop::check('YetiForceDisableBranding')
 			];
 		}
 		foreach ($jsEnv as $key => $value) {

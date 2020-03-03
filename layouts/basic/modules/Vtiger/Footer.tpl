@@ -7,7 +7,11 @@
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
 * Contributor(s): YetiForce Sp. z o.o
-********************************************************************************/
+**********************************************************************************/
+
+/*********************************************************************************
+****   Modifying this file will breach the licence terms!!!				  	  ****
+**********************************************************************************/
 -->*}
 {strip}
 	<!-- tpl-Base-Footer -->
@@ -38,8 +42,7 @@
 		</div>
 	{/if}
 	{if $SHOW_FOOTER_BAR}
-		<footer class="c-footer fixed-bottom js-footer{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active{/if} {if $DISABLE_BRANDING} c-footer--limited {/if}"
-				data-js="height">
+		<footer class="c-footer fixed-bottom js-footer{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active{/if} {if $DISABLE_BRANDING} c-footer--limited {/if}" data-js="height">
 			{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
 				<div class="js-footer__user-info c-footer__user-info">
 					<p>
@@ -55,8 +58,7 @@
 				<ul class="float-left pagination border-0">
 					{if !empty($URL_LINKEDIN)}
 						<li class="page-item">
-							<a class="page-link" href="{$URL_LINKEDIN}" target="_blank"
-								rel="noreferrer noopener">
+							<a class="page-link" href="{$URL_LINKEDIN}" target="_blank"	rel="noreferrer noopener">
 								<span class="fab fa-linkedin fa-2x" title="Linkedin"></span>
 							</a>
 						</li>
@@ -70,8 +72,7 @@
 					{/if}
 					{if !empty($URL_FACEBOOK)}
 						<li class="page-item">
-							<a class="page-link" href="{$URL_FACEBOOK}" target="_blank"
-								rel="noreferrer noopener">
+							<a class="page-link" href="{$URL_FACEBOOK}" target="_blank"	rel="noreferrer noopener">
 								<span class="fab fa-facebook-square fa-2x" title="Facebook"></span>
 							</a>
 						</li>
