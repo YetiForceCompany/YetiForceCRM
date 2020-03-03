@@ -896,13 +896,13 @@ $.Class(
 			var contents = $('#layoutEditorContainer').find('.contents');
 			var relatedBlock = contents.find('.block_' + result['blockid']);
 			var fieldCopy = contents.find('.newCustomFieldCopy').clone(true, true);
-			var fieldContainer = fieldCopy.find('div.marginLeftZero.border1px');
+			var fieldContainer = fieldCopy.find('.js-custom-field');
 			fieldContainer
 				.addClass('opacity editFields')
 				.attr('data-field-id', result['id'])
 				.attr('data-block-id', result['blockid']);
 			fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
-			fieldContainer.find('.fieldLabel').html(result['label'] + ' [' + result['name'] + ']');
+			fieldContainer.find('.fieldLabel').html(result['label'] + '<span class="ml-3 font-weight-normal">['+result['name']+']</span>');
 			fieldContainer
 				.find('#relatedFieldValue')
 				.val(result['name'])
