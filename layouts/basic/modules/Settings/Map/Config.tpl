@@ -10,14 +10,18 @@
         <ul id="tabs" class="nav nav-tabs my-2 mr-0" data-tabs="tabs">
 			<li class="nav-item">
 				<a class="nav-link {if $ACTIVE_TAB eq 'TileLayer'}active{/if}" href="#TileLayer" data-toggle="tab">
-				<span class="fas fa-layer-group"></span>
-				{\App\Language::translate('LBL_TILE_LAYER', $QUALIFIED_MODULE)}
+					<span class="fas fa-layer-group"></span>{\App\Language::translate('LBL_TILE_LAYER', $QUALIFIED_MODULE)}
 				</a>
 			</li>
 		</ul>
     </div>
 	<div id="my-tab-content" class="tab-content">
 		<div class="tab-pane {if $ACTIVE_TAB eq 'TileLayer'}active{/if}" id="TileLayer">
+		<div class="alert alert-info">
+			<span class="mdi mdi-information-outline"></span>
+			{\App\Language::translateArgs('LBL_TILE_LAYER_INFO', $QUALIFIED_MODULE,'config/Modules/OpenStreetMap.php')}
+			<a rel="noreferrer noopener" target="_blank" href="https://wiki.openstreetmap.org/wiki/Tile_servers">https://wiki.openstreetmap.org/wiki/Tile_servers</a>
+		</div>
 			<form class="js-validation-form">
 				<div class="js-config-table table-responsive" data-js="container">
 					<table class="table table-bordered">

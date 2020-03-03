@@ -4,6 +4,7 @@
     "LBL_MAP": "Map",
     "LBL_MAP_DESCRIPTION": "",
     "LBL_TILE_LAYER": "Tile layer",
+    "LBL_TILE_LAYER_INFO": "To add additional servers, edit the $tileLayerServers variable in the %s file. Publicly available tile layer servers are available at:",
     "LBL_PROVIDER_NAME": "Provider name",
     "LBL_TILE_LAYER_URL_TEMPLATE": "Tile layer url template",
     "LBL_PROVIDER_ACTIVE": "Active"
