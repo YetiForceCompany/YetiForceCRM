@@ -2161,7 +2161,7 @@ jQuery.Class(
 		 * @param {jQuery} listViewContainer
 		 */
 		registerDesktopEvents(listViewContainer) {
-			if (Quasar.plugins.Platform.is.desktop) {
+			if (Quasar.plugins.Platform.is.desktop && listViewContainer.length) {
 				this.registerListScroll(listViewContainer);
 				this.registerFixedThead(listViewContainer);
 			}

@@ -77,7 +77,7 @@ $.Class(
 			}
 		},
 		updateChatConfig() {
-			if (window.parent.vuexStore) {
+			if (window.parent.vuexStore && window.ChatModalVueComponent) {
 				window.parent.vuexStore.commit('Chat/setDetailPreview', {
 					id: window.app.getRecordId(),
 					module: window.app.getModuleName()

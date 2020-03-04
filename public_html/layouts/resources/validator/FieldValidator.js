@@ -131,6 +131,10 @@ Vtiger_Base_Validator_Js(
 						}
 					}
 					field.attr('readonly', false);
+				}).fail(function (error, err) {
+					thisInstance.setError(app.vtranslate('JS_ERROR'));
+					result = false;
+					app.errorLog(error, err);
 				});
 			}
 			return result;
