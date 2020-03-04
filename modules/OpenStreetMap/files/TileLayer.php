@@ -18,7 +18,7 @@ class OpenStreetMap_TileLayer_File extends Vtiger_Basic_File
 	public function getCheckPermission(App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted('OpenStreetMap')) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		return true;
 	}

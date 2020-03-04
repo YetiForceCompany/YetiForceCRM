@@ -10,7 +10,7 @@
         <ul id="tabs" class="nav nav-tabs my-2 mr-0" data-tabs="tabs">
 			<li class="nav-item">
 				<a class="nav-link {if $ACTIVE_TAB eq 'TileLayer'}active{/if}" href="#TileLayer" data-toggle="tab">
-					<span class="fas fa-layer-group"></span>{\App\Language::translate('LBL_TILE_LAYER', $QUALIFIED_MODULE)}
+					<span class="fas fa-layer-group mr-2"></span>{\App\Language::translate('LBL_TILE_LAYER', $QUALIFIED_MODULE)}
 				</a>
 			</li>
 		</ul>
