@@ -1480,6 +1480,35 @@ $.Class(
 			}
 		},
 		/**
+		 * Register record collector modal
+		 * @param {jQuery} container
+		 */
+		registerRecordCollectorModal: function(container) {
+			container.on('click', '.js-record-collector-modal', function(e) {
+				e.preventDefault();
+				let element = $(this);
+				let formData = container.serializeFormData();
+				formData['view'] = 'RecordCollector';
+				formData['collectorType'] = element.data('type');
+				delete formData['action'];
+				AppConnector.request(formData).done(function(html) {
+					app.showModalWindow(html, container => {
+						let form = container.find('form.js-record-collector__form');
+						let summary = container.find('.js-record-collector__summary');
+						form.on('submit', function(e) {
+							summary.html('');
+							summary.progressIndicator({});
+							e.preventDefault();
+							AppConnector.request(form.serializeFormData()).done(function(data) {
+								summary.progressIndicator({ mode: 'hide' });
+								summary.html(data);
+							});
+						});
+					});
+				});
+			});
+		},
+		/**
 		 * Function which will register basic events which will be used in quick create as well
 		 *
 		 */
@@ -1501,6 +1530,7 @@ $.Class(
 			this.registerCopyValue(container);
 			this.registerMultiImageFields(container);
 			this.registerReferenceCreate(container);
+			this.registerRecordCollectorModal(container);
 			App.Fields.MultiEmail.register(container);
 			App.Fields.MultiDependField.register(container);
 			App.Fields.Tree.register(container);

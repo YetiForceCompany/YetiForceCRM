@@ -440,6 +440,9 @@ class Purifier
 				case 'MailId':
 					$value = preg_match('/^[\sA-Za-z0-9\<\>\_\.\=\-\+\@]+$/', $input) ? $input : null;
 					break;
+				case 'ClassName':
+					$value = preg_match('/^[a-z\\\_]+$/i', $input) ? $input : null;
+					break;
 				case self::SQL:
 					$value = $input && Validator::sql($input) ? $input : null;
 					break;
