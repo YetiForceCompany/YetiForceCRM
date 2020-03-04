@@ -66,7 +66,7 @@ class Settings_Map_Config_Action extends Settings_Vtiger_Basic_Action
 		if ($result) {
 			$result = ['success' => true, 'message' => \App\Language::translate('LBL_CHANGES_SAVED')];
 		} else {
-			$result = ['success' => false, 'message' => \App\Language::translate('JS_ERROR')];
+			$result = ['success' => false, 'message' => \App\Language::translate('LBL_ERROR')];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
