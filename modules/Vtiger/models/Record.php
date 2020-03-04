@@ -1021,7 +1021,7 @@ class Vtiger_Record_Model extends \App\Base
 		if ($mfInstance) {
 			$defaultInvRow = [];
 			$params = $mfInstance->get('params');
-			if ($params['autofill']) {
+			if (!empty($params['autofill'])) {
 				$fieldsList = array_keys($this->getModule()->getFields());
 				$parentFieldsList = array_keys($parentRecordModel->getModule()->getFields());
 				$commonFields = array_intersect($fieldsList, $parentFieldsList);

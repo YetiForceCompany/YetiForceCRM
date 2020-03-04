@@ -69,6 +69,8 @@ class VTCreateEntityTask extends VTTask
 					} else {
 						$fieldValue = '0';
 					}
+				} elseif (!\in_array($fieldName, $ownerFields)) {
+					$fieldValue = $newRecordModel->getField($fieldName)->getUITypeModel()->getDBValue($fieldValue);
 				}
 				if (\in_array($fieldName, $ownerFields)) {
 					if ('triggerUser' === $fieldValue) {
@@ -152,6 +154,8 @@ class VTCreateEntityTask extends VTTask
 				} else {
 					$fieldValue = 0;
 				}
+			} elseif (!\in_array($fieldName, $ownerFields)) {
+				$fieldValue = $recordModel->getField($fieldName)->getUITypeModel()->getDBValue($fieldValue);
 			}
 			if (\in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {
 				$userId = App\User::getUserIdByName($fieldValue);
