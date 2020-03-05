@@ -35,5 +35,16 @@ return [
 		'description' => 'Activation of favorite owners',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
-	]
+	],
+	'checkPwnedPassword' => [
+		'default' => true,
+		'description' => 'Check password is in the stolen passwords database',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+	],
+	'pwnedPasswordProvider' => [
+		'default' => 'YetiForce',
+		'description' => 'Provider to the check password is in the stolen passwords database',
+		'validation' => '\App\Validator::text',
+	],
 ];
