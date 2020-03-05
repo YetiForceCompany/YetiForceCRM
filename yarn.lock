@@ -152,9 +152,9 @@ ckeditor-image-to-base@^0.0.3:
   integrity sha512-ybLbACTNaDOuidqsdsHgJ/cnQDqrbmMUlbfqLG5kqNeKCeAE7MLEVqpOCids3cWMXqUgdKw7JuOy+8SqgtjnXQ==
 
 clipboard@>=2.0.0:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.4.tgz#836dafd66cf0fea5d71ce5d5b0bf6e958009112d"
-  integrity sha512-Vw26VSLRpJfBofiVaFb/I8PVfdI1OxKcYShe6fm0sP/DtmiWQNCjhM/okTvdCo0G+lMMm1rMYbk4IK4x1X+kgQ==
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.6.tgz#52921296eec0fdf77ead1749421b21c968647376"
+  integrity sha512-g5zbiixBRk/wyKakSwCKd7vQXDjFnAMGHoEyBogG/bw9kTD9GvdAvaoRR1ALcEzt3pVKxZR0pViekPMIS0QyGg==
   dependencies:
     good-listener "^1.2.2"
     select "^1.1.2"
@@ -337,9 +337,9 @@ good-listener@^1.2.2:
     delegate "^3.1.2"
 
 gridstack@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-1.0.0.tgz#8717b16e707aa425b18a089481254bc4e1e857d4"
-  integrity sha512-mkKUT+z/0A/h0EKWT7gok0KU9dwAXO3GLJpIGWGZxH2ZDn9eNswq+Ic1Rytb269xY88cMffPcejSx/wOqcgC8Q==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-1.1.0.tgz#f8ca0cef6c5ecc99182d5578826b3a0f7a47df31"
+  integrity sha512-gv4kzKDlOpv4qP83WGyzNcHsTiZOIVLJhUAuaByO1e6f8OfDd08aCg0Z4xWqHVxJHyPbQRfX7hDaS80ym3UcNw==
 
 html2canvas@^1.0.0-alpha.12:
   version "1.0.0-rc.5"
@@ -495,9 +495,9 @@ object-assign@^4.1.0:
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
 
 overlayscrollbars@^1.10.0:
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/overlayscrollbars/-/overlayscrollbars-1.10.3.tgz#07fd40d2e475bc866da8f1241ad20f0d5df4a73e"
-  integrity sha512-iSxRC7DZ5XJwAZp5FKCz1vJaq+OleHjVAXAhC2Ea7ZXcYS4WbUKaHT+QYjHbEwBiJqm6bOEEfIbt3KR5MBentQ==
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/overlayscrollbars/-/overlayscrollbars-1.11.0.tgz#374a14f37b78214e0166db50c1a489b6af53eddb"
+  integrity sha512-Wdzzfdta5/5Tc77FoibH14Cr34r7op0jh3eI9z1zvz9K4YiRIzNxvNIh3Rbezr8cs4Bn7NTNKzT8OHsJB58CxQ==
 
 perfect-scrollbar@^1.3.0:
   version "1.5.0"
@@ -522,9 +522,9 @@ promise@^7.1.1:
     asap "~2.0.3"
 
 quasar@^1.6.1:
-  version "1.9.4"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.9.4.tgz#23dcb87bf8a5ea62fa60366016a496fffbe9702b"
-  integrity sha512-u7PWj+0pQCiK/nDcjFFGQP+GGCzBC+FljP40FtRcrmKENBt/jnD9UBcDn0tc1k87Gli56D9MJXuRDfbxl8jhCw==
+  version "1.9.8"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.9.8.tgz#20ddd17b41b5c975a399906b0e90e2e9833d086b"
+  integrity sha512-1iTxLouzDW24cI/R/QgBv5sFSvaw3ozUTU1bO2HUS1btvyR4erMRwPEo/v5hXq6redddqPGjF8UN6u71M8zJBA==
 
 regenerator-runtime@^0.12.0:
   version "0.12.1"
