@@ -151,10 +151,10 @@ ckeditor-image-to-base@^0.0.3:
   resolved "https://registry.yarnpkg.com/ckeditor-image-to-base/-/ckeditor-image-to-base-0.0.3.tgz#c99b5c835251833452e7881f18813f16aed85972"
   integrity sha512-ybLbACTNaDOuidqsdsHgJ/cnQDqrbmMUlbfqLG5kqNeKCeAE7MLEVqpOCids3cWMXqUgdKw7JuOy+8SqgtjnXQ==
 
-clipboard@>=2.0.0:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.4.tgz#836dafd66cf0fea5d71ce5d5b0bf6e958009112d"
-  integrity sha512-Vw26VSLRpJfBofiVaFb/I8PVfdI1OxKcYShe6fm0sP/DtmiWQNCjhM/okTvdCo0G+lMMm1rMYbk4IK4x1X+kgQ==
+clipboard@>=2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.5.tgz#4a016d56c1daa1474a0ec4f42d524744b9dc2744"
+  integrity sha512-3IlokN96rXErcpaVpAXgsE2o+/85DEHr/Gs0pLQOonwtrjZpZLEfy9S4ZyZj+JhVMvZT8szWfKPYQSZCAKDfQg==
   dependencies:
     good-listener "^1.2.2"
     select "^1.1.2"

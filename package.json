@@ -39,7 +39,7 @@
     "chartjs-plugin-datalabels": "^0.7.0",
     "chartjs-plugin-funnel": "^1.1.5",
     "ckeditor-image-to-base": "^0.0.3",
-    "clipboard": ">=2.0.0",
+    "clipboard": ">=2.0.5",
     "clockpicker": "https://github.com/djibe/clockpicker#gh-pages",
     "css-element-queries": "^1.2.3",
     "datatables.net": "^1.10.19",
