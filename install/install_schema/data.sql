@@ -6543,6 +6543,7 @@ insert  into `vtiger_password`(`type`,`val`) values ('numbers','true');
 insert  into `vtiger_password`(`type`,`val`) values ('special','false');
 insert  into `vtiger_password`(`type`,`val`) values ('change_time','0');
 insert  into `vtiger_password`(`type`,`val`) values ('lock_time','5');
+insert  into `vtiger_password`(`type`,`val`) values ('pwned','false');
 
 /*Data for the table `vtiger_passwords_config` */
 

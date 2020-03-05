@@ -54,6 +54,7 @@
 						{if $PASS_CONFIG['small_letters'] =='true'}<li>{\App\Language::translate('Lowercase letters a to z', 'Settings::Password')}</li>{/if}
 						{if $PASS_CONFIG['numbers'] =='true'}<li>{\App\Language::translate('Password should contain numbers', 'Settings::Password')}</li>{/if}
 						{if $PASS_CONFIG['special'] =='true'}<li>{\App\Language::translate('Password should contain special characters', 'Settings::Password')}</li>{/if}
+						{if $PASS_CONFIG['pwned'] =='true'}<li>{\App\Language::translate('LBL_CHECK_PWNED_PASSWORD', 'Settings::Password')}</li>{/if}
 					</ul>
 				</div>
 			{/if}
