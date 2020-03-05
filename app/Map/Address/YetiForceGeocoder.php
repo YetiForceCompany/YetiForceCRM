@@ -73,7 +73,7 @@ class YetiForceGeocoder extends Base
 					'auth' => [$product['params']['login'], $product['params']['pass']], 'headers' => ['InsKey' => \App\YetiForce\Register::getInstanceKey()]
 				]);
 			if (200 !== $response->getStatusCode()) {
-				throw new \App\Exceptions\AppException('Error with connection |' . $response->getStatusCode());
+				throw new \App\Exceptions\AppException('Error with connection |' . $response->getReasonPhrase());
 			}
 			$body = $response->getBody();
 			$body = \App\Json::isEmpty($body) ? [] : \App\Json::decode($body);
@@ -95,7 +95,7 @@ class YetiForceGeocoder extends Base
 				}
 			}
 		} catch (\Throwable $ex) {
-			\App\Log::warning('Error - ' . __CLASS__ . ' - ' . $ex->getMessage());
+			\App\Log::error('Error - ' . $ex->getMessage(), __CLASS__);
 		}
 		return $rows;
 	}

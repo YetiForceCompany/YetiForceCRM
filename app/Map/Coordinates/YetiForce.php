@@ -41,10 +41,10 @@ class YetiForce extends Base
 			if (200 === $response->getStatusCode()) {
 				$coordinates = \App\Json::decode($response->getBody());
 			} else {
-				\App\Log::error('Error with connection - ' . __CLASS__);
+				\App\Log::error('Error with connection - ' . $response->getReasonPhrase(), __CLASS__);
 			}
 		} catch (\Exception $ex) {
-			\App\Log::error('Error - ' . __CLASS__ . ' - ' . $ex->getMessage());
+			\App\Log::error('Error - ' . $ex->getMessage(), __CLASS__);
 		}
 		return $coordinates;
 	}

@@ -85,7 +85,7 @@ class OpenCageGeocoder extends Base
 				}
 			}
 		} catch (\Throwable $e) {
-			\App\Log::warning($e->getMessage());
+			\App\Log::error('Error - ' . $e->getMessage(), __CLASS__);
 			return false;
 		}
 		return $rows;
