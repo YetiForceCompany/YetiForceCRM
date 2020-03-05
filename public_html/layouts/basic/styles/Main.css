@@ -12973,7 +12973,6 @@ hr {
   width: 70%; }
 
 .modal .imageHolder {
-  margin-left: 14% !important;
   min-width: 250px;
   width: 30%;
   z-index: 1; }
@@ -18969,6 +18968,10 @@ body > .o-exception-fixed-block {
     bottom: 1rem; }
   .user-info--active.limited-footer--active .siteBarRight {
     bottom: 2rem; } }
+
+@media (max-width: 991.98px) {
+  .siteBarRight {
+    width: auto !important; } }
 
 .hideSiteBar {
   right: -25%; }
