@@ -55,7 +55,7 @@ class Yours extends Base
 		try {
 			foreach ($tracks as $track) {
 				$url = $urlToRoute . '?format=geojson&flat=' . $track['startLat'] . '&flon=' . $track['startLon'] . '&tlat=' . $track['endLat'] . '&tlon=' . $track['endLon'] . '&lang=' . \App\Language::getLanguage() . '&instructions=1';
-				$response = (new \GuzzleHttp\Client())->request('GET', $url, \App\RequestHttp::getOptions() + ['timeout' => 1]);
+				$response = (new \GuzzleHttp\Client())->request('GET', $url, \App\RequestHttp::getOptions() + ['timeout' => 5]);
 				if (200 === $response->getStatusCode()) {
 					$json = \App\Json::decode($response->getBody());
 				} else {

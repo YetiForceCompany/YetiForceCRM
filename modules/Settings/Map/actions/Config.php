@@ -22,6 +22,7 @@ class Settings_Map_Config_Action extends Settings_Vtiger_Basic_Action
 	{
 		parent::__construct();
 		$this->exposeMethod('setTileLayer');
+		$this->exposeMethod('setCoordinate');
 	}
 
 	/**
@@ -29,7 +30,7 @@ class Settings_Map_Config_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param App\Request $request
 	 */
-	public function setTileLayer(App\Request $request)
+	public function setTileLayer(App\Request $request): void
 	{
 		$value = $request->getByType('vale', 'Text');
 		$oldValue = \App\Config::module('OpenStreetMap', 'tileLayerUrlTemplate');
@@ -48,7 +49,7 @@ class Settings_Map_Config_Action extends Settings_Vtiger_Basic_Action
 					unset($allowedImageDomains[$key]);
 				}
 			}
-			if ('YetiForceMap' !== $value) {
+			if ('YetiForce' !== $value) {
 				$value = str_replace('{s}', '*', parse_url($all[$value], PHP_URL_HOST));
 				if (!\in_array($value, $allowedImageDomains)) {
 					$allowedImageDomains[] = $value;
@@ -58,6 +59,33 @@ class Settings_Map_Config_Action extends Settings_Vtiger_Basic_Action
 			$security->set('allowedImageDomains', array_values($allowedImageDomains));
 			$security->create();
 
+			$result = true;
+		} catch (\Throwable $th) {
+			\App\Log::error('Error: ' . $th->getMessage(), __CLASS__);
+			throw $th;
+		}
+		if ($result) {
+			$result = ['success' => true, 'message' => \App\Language::translate('LBL_CHANGES_SAVED')];
+		} else {
+			$result = ['success' => false, 'message' => \App\Language::translate('LBL_ERROR')];
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
+	/**
+	 * Set tile layer url.
+	 *
+	 * @param App\Request $request
+	 */
+	public function setCoordinate(App\Request $request): void
+	{
+		$result = false;
+		try {
+			$osm = new \App\ConfigFile('module', 'OpenStreetMap');
+			$osm->set('coordinatesServer', $request->getByType('vale', 'Text'));
+			$osm->create();
 			$result = true;
 		} catch (\Throwable $th) {
 			\App\Log::error('Error: ' . $th->getMessage(), __CLASS__);

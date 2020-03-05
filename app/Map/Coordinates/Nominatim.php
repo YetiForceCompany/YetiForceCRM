@@ -1,12 +1,12 @@
 <?php
 /**
- * Class to get coordinates for OpenStreetMap.
+ * Nominatim driver file to get coordinates.
  *
  * @package   App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  *
  * @see      https://wiki.openstreetmap.org/wiki/Nominatim
  */
@@ -14,9 +14,9 @@
 namespace App\Map\Coordinates;
 
 /**
- * OpenStreetMap Connector to get coordinates.
+ * Nominatim driver class to get coordinates.
  */
-class OpenStreetMap extends Base
+class Nominatim extends Base
 {
 	/**
 	 * {@inheritdoc}
@@ -27,21 +27,20 @@ class OpenStreetMap extends Base
 		if (empty($addressInfo) || !\App\RequestUtil::isNetConnection()) {
 			return $coordinates;
 		}
-		$url = \App\Config::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
-		$url .= \http_build_query(array_merge([
+		$url = $this->url . '/?' . \http_build_query(array_merge([
 			'format' => 'json',
 			'addressdetails' => 1,
 			'limit' => 1,
 		], $addressInfo));
 		try {
-			$response = (new \GuzzleHttp\Client())->request('GET', $url, \App\RequestHttp::getOptions() + ['timeout' => 1]);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url);
 			if (200 === $response->getStatusCode()) {
 				$coordinates = \App\Json::decode($response->getBody());
 			} else {
-				\App\Log::warning('Error with connection - ' . __CLASS__);
+				\App\Log::error('Error with connection - ' . __CLASS__);
 			}
 		} catch (\Exception $ex) {
-			\App\Log::warning('Error - ' . __CLASS__ . ' - ' . $ex->getMessage());
+			\App\Log::error('Error - ' . __CLASS__ . ' - ' . $ex->getMessage());
 		}
 		return $coordinates;
 	}

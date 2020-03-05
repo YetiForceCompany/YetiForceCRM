@@ -7,6 +7,11 @@
     "LBL_TILE_LAYER_INFO": "To add additional servers, edit the $tileLayerServers variable in the %s file. Publicly available tile layer servers are available at:",
     "LBL_PROVIDER_NAME": "Provider name",
     "LBL_TILE_LAYER_URL_TEMPLATE": "Tile layer url template",
+    "LBL_API_URL": "Provider API URL",
+    "LBL_DRIVER": "Driver",
+    "LBL_COORDINATES": "Coordinates",
+    "LBL_COORDINATES_INFO": "To add additional servers, edit the $coordinatesServers variable in the %s file. Publicly available tile layer servers are available at:",
+    "LBL_COORDINATES_DRIVERS": "Drivers available in the system",
     "LBL_PROVIDER_ACTIVE": "Active"
   }
 }

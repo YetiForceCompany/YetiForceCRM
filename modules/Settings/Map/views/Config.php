@@ -28,11 +28,16 @@ class Settings_Map_Config_View extends Settings_Vtiger_Index_View
 	 */
 	public function process(App\Request $request)
 	{
+		$activeTab = 'TileLayer';
+		if ($request->has('tab')) {
+			$activeTab = $request->getByType('tab');
+		}
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('DEFAULT_PROVIDER', \App\Config::module('OpenStreetMap', 'tileLayerUrlTemplate'));
+		$viewer->assign('ACTIVE_TILE_LAYER', \App\Config::module('OpenStreetMap', 'tileLayerUrlTemplate'));
+		$viewer->assign('ACTIVE_COORDINATE', \App\Config::module('OpenStreetMap', 'coordinatesServer'));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('ACTIVE_TAB', 'TileLayer');
+		$viewer->assign('ACTIVE_TAB', $activeTab);
 		$viewer->view('Config.tpl', $qualifiedModuleName);
 	}
 }

@@ -68,9 +68,9 @@ class YetiForceGeocoder extends Base
 		}
 		$rows = [];
 		try {
-			$response = (new \GuzzleHttp\Client(\array_merge(\App\RequestHttp::getOptions(), ['InsKey' => \App\YetiForce\Register::getInstanceKey()])))
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
 				->request('GET', 'https://osm-search.yetiforce.eu/?' . \http_build_query($params), [
-					'auth' => [$product['params']['login'], $product['params']['pass']]
+					'auth' => [$product['params']['login'], $product['params']['pass']], 'headers' => ['InsKey' => \App\YetiForce\Register::getInstanceKey()]
 				]);
 			if (200 !== $response->getStatusCode()) {
 				throw new \App\Exceptions\AppException('Error with connection |' . $response->getStatusCode());

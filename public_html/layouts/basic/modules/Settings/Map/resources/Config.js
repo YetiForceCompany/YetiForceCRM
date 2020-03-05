@@ -29,8 +29,33 @@ jQuery.Class(
 					});
 			});
 		},
+		registerCoordinates: function() {
+			let tab = $('#Coordinates');
+			tab.find('input').on('change', function() {
+				AppConnector.request({
+					module: 'Map',
+					parent: 'Settings',
+					action: 'Config',
+					mode: 'setCoordinate',
+					vale: this.value
+				})
+					.done(function(data) {
+						Vtiger_Helper_Js.showPnotify({
+							text: data['result']['message'],
+							type: 'success'
+						});
+					})
+					.fail(function() {
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
+					});
+			});
+		},
 		registerEvents: function() {
 			this.registerTileLayer();
+			this.registerCoordinates();
 		}
 	}
 );
