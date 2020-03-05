@@ -84,7 +84,7 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 			ob_start();
 			$className = $cronTask->getHandlerClass();
 			if (class_exists($className)) {
-				$cronHandler = new $className();
+				$cronHandler = new $className($cronTask);
 				if ($cronHandler instanceof \App\CronHandler) {
 					$cronHandler->process();
 				} else {
