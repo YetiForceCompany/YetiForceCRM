@@ -774,11 +774,8 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isAjaxEditable()
 	{
-		$ajaxRestrictedFields = [72, 10, 51, 59];
-		if (!$this->isEditable() || \in_array($this->get('uitype'), $ajaxRestrictedFields) || !$this->getUITypeModel()->isAjaxEditable() || 10 === (int) $this->get('displaytype')) {
-			return false;
-		}
-		return true;
+		$ajaxRestrictedFields = [72];
+		return !(10 === (int) $this->get('displaytype') || $this->isReferenceField() || !$this->getUITypeModel()->isAjaxEditable() || !$this->isEditable() || \in_array($this->get('uitype'), $ajaxRestrictedFields));
 	}
 
 	public function isEditableReadOnly()
@@ -1260,26 +1257,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function getEditViewValue($value, $recordModel = false)
 	{
 		return $this->getUITypeModel()->getEditViewValue($value, $recordModel);
-	}
-
-	/**
-	 * Function returns list of Currencies available in the system.
-	 *
-	 * @return array
-	 */
-	public function getCurrencyList()
-	{
-		if (\App\Cache::has('Currency', 'List')) {
-			return \App\Cache::get('Currency', 'List');
-		}
-		$currencies = (new \App\Db\Query())->select(['id', 'currency_name'])
-			->from('vtiger_currency_info')
-			->where(['currency_status' => 'Active', 'deleted' => 0])
-			->createCommand()->queryAllByGroup();
-		asort($currencies);
-		\App\Cache::save('Currency', 'List', $currencies, \App\Cache::LONG);
-
-		return $currencies;
 	}
 
 	/**

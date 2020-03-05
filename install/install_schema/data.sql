@@ -19065,7 +19065,6 @@ insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (2
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (24,73,'reference');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (25,75,'reference');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (26,76,'reference');
-insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (28,80,'reference');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (29,81,'reference');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (30,101,'reference');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (31,52,'userCreator');
@@ -19074,7 +19073,6 @@ insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (3
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (34,66,'referenceProcess');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (35,67,'referenceLink');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (36,68,'referenceSubProcess');
-insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (37,117,'reference');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (38,26,'reference');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (39,10,'reference');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (40,300,'text');
@@ -19181,7 +19179,6 @@ insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (32,'Leads')
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (32,'Users');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (32,'Vendors');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (33,'Products');
-insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (37,'Currency');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (38,'DocumentFolders');
 
 /*Data for the table `vtiger_ws_userauthtoken` */
