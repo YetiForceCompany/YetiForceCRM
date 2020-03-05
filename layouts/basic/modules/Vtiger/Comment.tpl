@@ -35,7 +35,7 @@
 						<span class="q-message-name">
 							{$COMMENTOR->getName()}
 						</span>
-						<div class="q-message-text q-py-xs">
+						<div class="q-message-text bg-light q-py-xs">
 							{if $HIERARCHY}
 								{assign var=RELATED_TO value=$COMMENT->get('related_to')}
 								<input hidden="" class="related_to" name="related_to" value="{$RELATED_TO}"/>
