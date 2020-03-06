@@ -48,7 +48,7 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 	{
 		$moduleName = $request->getModule(false);
 		$type = $request->getByType('type', 'Alnum');
-		if (\in_array($type, ['min_length', 'max_length', 'change_time', 'lock_time'])) {
+		if (\in_array($type, ['min_length', 'max_length', 'change_time', 'lock_time', 'pwned_time'])) {
 			$vale = $request->getInteger('vale');
 		} else {
 			$vale = $request->getBoolean('vale') ? 'true' : 'false';

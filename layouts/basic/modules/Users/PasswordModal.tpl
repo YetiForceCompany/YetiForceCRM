@@ -21,7 +21,7 @@
 			{elseif $MODE === 'change'}
 				{if $WARNING}
 					<div class="alert alert-danger" role="alert">
-						<span class="fas fa-exclamation-circle u-font-size-2x float-left mr-2"></span>
+						<span class="fas fa-exclamation-circle u-font-size-3x float-left mr-2"></span>
 						{$WARNING}
 					</div>
 				{/if}
@@ -63,10 +63,9 @@
 						</span>
 					</div>
 				</div>
-				<div class="alert alert-info alert-dismissible" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="alert alert-info alert-dismissible mb-0" role="alert">
 					<strong>{\App\Language::translate('LBL_NEW_PASSWORD_CRITERIA', $MODULE_NAME)}</strong><br />
-					<ul>
+					<ul class="mb-0">
 						<li>{\App\Language::translate('Minimum password length', 'Settings::Password')}: {$PASS_CONFIG['min_length']}</li>
 						<li>{\App\Language::translate('Maximum password length', 'Settings::Password')}: {$PASS_CONFIG['max_length']}</li>
 						{if $PASS_CONFIG['big_letters'] =='true'}<li>{\App\Language::translate('Uppercase letters from A to Z', 'Settings::Password')}</li>{/if}

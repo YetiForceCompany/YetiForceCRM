@@ -61,4 +61,32 @@ class PwnedPassword
 		}
 		return new $className();
 	}
+
+	/**
+	 * Check the password after login.
+	 *
+	 * @param string $password
+	 *
+	 * @return void
+	 */
+	public static function afterLogin(string $password): void
+	{
+		$file = ROOT_DIRECTORY . '/app_data/PwnedPassword.php';
+		$userName = \App\Session::get('user_name');
+		$time = (int) \Settings_Password_Record_Model::getUserPassConfig()['pwned_time'] ?? 0;
+		if (!$time) {
+			return;
+		}
+		$pwnedDates = [];
+		if (file_exists($file)) {
+			$pwnedDates = require $file;
+		}
+		if (empty($pwnedDates[$userName]) || strtotime($pwnedDates[$userName]) < strtotime("-$time day")) {
+			if (($passStatus = self::check($password)) && !$passStatus['status']) {
+				\App\Session::set('ShowUserPwnedPasswordChange', 1);
+			}
+			$pwnedDates[$userName] = date('Y-m-d H:i:s');
+			\App\Utils::saveToFile($file, $pwnedDates, '', 0, true);
+		}
+	}
 }

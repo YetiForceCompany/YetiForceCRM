@@ -156,6 +156,10 @@ abstract class Page extends Base
 				\App\Session::delete('ShowUserPasswordChange');
 			}
 		}
+		if (\App\Session::has('ShowUserPwnedPasswordChange')) {
+			\App\Config::setJsEnv('ShowUserPwnedPasswordChange', \App\Session::get('ShowUserPwnedPasswordChange'));
+			\App\Session::delete('ShowUserPwnedPasswordChange');
+		}
 	}
 
 	/**

@@ -57,7 +57,7 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 			$returnVal = is_numeric($vale) && (int) $vale <= (int) static::getUserPassConfig('max_length');
 		} elseif ('max_length' == $type) {
 			$returnVal = is_numeric($vale) && (int) $vale >= (int) static::getUserPassConfig('min_length');
-		} elseif ('change_time' == $type || 'lock_time' == $type) {
+		} elseif ('change_time' == $type || 'lock_time' == $type || 'pwned_time' == $type) {
 			$returnVal = is_numeric($vale);
 		} elseif ('big_letters' == $type || 'small_letters' == $type || 'numbers' == $type || 'special' == $type || 'pwned' == $type) {
 			$returnVal = 'false' === $vale || 'true' === $vale;
