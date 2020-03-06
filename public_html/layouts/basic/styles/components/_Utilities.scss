@@ -6,34 +6,6 @@
 	@extend .font-weight-bold;
 }
 
-.u-font-size-10px {
-	font-size: calculate-rem(10px);
-}
-
-.u-font-size-13px {
-	font-size: calculate-rem(13px);
-}
-
-.u-font-size-14px {
-	font-size: calculate-rem(15px);
-}
-
-.u-font-size-19px {
-	font-size: calculate-rem(19px);
-}
-
-.u-font-size-38px {
-	font-size: calculate-rem(38px);
-}
-
-.u-font-size-50px {
-	font-size: calculate-rem(50px);
-}
-
-.u-font-size-120px {
-	font-size: calculate-rem(120px);
-}
-
 .u-fs-xs {
 	font-size: 0.75rem;
 }
@@ -162,6 +134,34 @@
 	word-break: keep-all !important;
 }
 
+.u-font-size-10px {
+	font-size: calculate-rem(10px);
+}
+
+.u-font-size-13px {
+	font-size: calculate-rem(13px);
+}
+
+.u-font-size-14px {
+	font-size: calculate-rem(15px);
+}
+
+.u-font-size-19px {
+	font-size: calculate-rem(19px);
+}
+
+.u-font-size-38px {
+	font-size: calculate-rem(38px);
+}
+
+.u-font-size-50px {
+	font-size: calculate-rem(50px);
+}
+
+.u-font-size-120px {
+	font-size: calculate-rem(120px);
+}
+
 .u-font-size-95per {
 	font-size: 95% !important;
 }
@@ -176,6 +176,14 @@
 
 .u-font-size-44px {
 	font-size: calculate-rem(44px);
+}
+
+.u-font-size-2x {
+	font-size: 2em;
+}
+
+.u-font-size-3x {
+	font-size: 3em;
 }
 
 //--- MARGIN ---//

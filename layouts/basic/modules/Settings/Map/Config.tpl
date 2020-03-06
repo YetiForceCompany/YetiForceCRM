@@ -24,9 +24,10 @@
 	<div id="my-tab-content" class="tab-content">
 		<div class="tab-pane {if $ACTIVE_TAB eq 'TileLayer'}active{/if}" id="TileLayer">
 			<div class="alert alert-info">
-				<span class="mdi mdi-information-outline"></span>
-				{\App\Language::translateArgs('LBL_TILE_LAYER_INFO', $QUALIFIED_MODULE,'config/Modules/OpenStreetMap.php')}
-				<a rel="noreferrer noopener" target="_blank" href="https://wiki.openstreetmap.org/wiki/Tile_servers">https://wiki.openstreetmap.org/wiki/Tile_servers</a>
+				<span class="mdi mdi-information-outline u-font-size-2x mr-2 float-left"></span>
+				{\App\Language::translate('LBL_TILE_LAYER_INFO_1', $QUALIFIED_MODULE)}<br>
+				{\App\Language::translateArgs('LBL_TILE_LAYER_INFO_2', $QUALIFIED_MODULE,'config/Modules/OpenStreetMap.php')}
+				<a rel="noreferrer noopener" target="_blank" href="https://wiki.openstreetmap.org/wiki/Tile_servers"> https://wiki.openstreetmap.org/wiki/Tile_servers</a>
 			</div>
 			<form class="js-validation-form">
 				<div class="js-config-table table-responsive" data-js="container">
@@ -55,9 +56,10 @@
 		</div>
 		<div class="tab-pane {if $ACTIVE_TAB eq 'Coordinates'}active{/if}" id="Coordinates">
 			<div class="alert alert-info">
-				<span class="mdi mdi-information-outline"></span>
-				{\App\Language::translateArgs('LBL_COORDINATES_INFO', $QUALIFIED_MODULE,'config/Modules/OpenStreetMap.php')}
-				<a rel="noreferrer noopener" target="_blank" href="https://wiki.openstreetmap.org/wiki/Search_engines">https://wiki.openstreetmap.org/wiki/Search_engines</a>
+				<span class="mdi mdi-information-outline u-font-size-2x mr-2 float-left"></span>
+				{\App\Language::translate('LBL_COORDINATES_INFO_1', $QUALIFIED_MODULE)}<br>
+				{\App\Language::translateArgs('LBL_COORDINATES_INFO_2', $QUALIFIED_MODULE,'config/Modules/OpenStreetMap.php')}
+				<a rel="noreferrer noopener" target="_blank" href="https://wiki.openstreetmap.org/wiki/Search_engines"> https://wiki.openstreetmap.org/wiki/Search_engines</a>
 				<br>{\App\Language::translate('LBL_COORDINATES_DRIVERS', $QUALIFIED_MODULE)}: {implode(',',App\Map\Coordinates::getDrivers())}
 			</div>
 			<form class="js-validation-form">
