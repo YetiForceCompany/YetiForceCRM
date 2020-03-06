@@ -15,7 +15,7 @@
 			<div class="modal-header{if isset($MODAL_VIEW->headerClass)} {$MODAL_VIEW->headerClass}{/if}">
 				<h5 class="modal-title">
 					{if $MODAL_VIEW->modalIcon}
-						<span class="modal-header-icon {$MODAL_VIEW->modalIcon}"></span>
+						<span class="modal-header-icon {$MODAL_VIEW->modalIcon} mr-2"></span>
 					{/if}
 					{$MODAL_TITLE}
 				</h5>

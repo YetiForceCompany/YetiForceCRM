@@ -56,15 +56,15 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 		switch ($request->getMode()) {
 			case 'change':
 				$modeTitle = 'LBL_CHANGE_PASSWORD';
-				$this->modalIcon = 'fas fa-key mr-1';
+				$this->modalIcon = 'fas fa-key';
 				break;
 			case 'reset':
 				$modeTitle = 'LBL_RESET_PASSWORD_HEAD';
-				$this->modalIcon = 'fas fa-redo-alt mr-1';
+				$this->modalIcon = 'fas fa-redo-alt';
 				break;
 			case 'massReset':
 				$modeTitle = 'LBL_MASS_RESET_PASSWORD_HEAD';
-				$this->modalIcon = 'fas fa-redo-alt mr-1';
+				$this->modalIcon = 'fas fa-redo-alt';
 				break;
 			default:
 				break;
