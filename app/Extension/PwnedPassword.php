@@ -22,9 +22,9 @@ class PwnedPassword
 	 *
 	 * @param string $password
 	 *
-	 * @return bool
+	 * @return array ['message' => (string) , 'status' => (bool)]
 	 */
-	public static function check(string $password): bool
+	public static function check(string $password): array
 	{
 		return self::getDefaultProvider()->check($password);
 	}

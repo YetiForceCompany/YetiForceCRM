@@ -87,8 +87,8 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 		if ('true' == $conf['special'] && !preg_match('~[!"#$%&\'()*+,-./:;<=>?@[\]^_{|}]~', $pass)) {
 			return \App\Language::translate('Password should contain special characters', $moduleName);
 		}
-		if ('true' == $conf['pwned'] && !App\Extension\PwnedPassword::check($pass)) {
-			return \App\Language::translate('LBL_ALERT_PWNED_PASSWORD', $moduleName);
+		if ('true' == $conf['pwned'] && ($passStatus = App\Extension\PwnedPassword::check($pass)) && !$passStatus['status']) {
+			return $passStatus['message'];
 		}
 		return false;
 	}

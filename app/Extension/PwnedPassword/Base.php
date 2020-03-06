@@ -33,8 +33,10 @@ abstract class Base
 	 * Function to check the password.
 	 *
 	 * @param string $password
+	 *
+	 * @return array ['message' => (string) , 'status' => (bool)]
 	 */
-	abstract public function check(string $password): bool;
+	abstract public function check(string $password): array;
 
 	/**
 	 * Function checks if provider is active.

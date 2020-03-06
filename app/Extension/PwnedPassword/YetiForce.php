@@ -29,9 +29,9 @@ class YetiForce extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public function check(string $password): bool
+	public function check(string $password): array
 	{
-		$status = true;
+		$status = ['status' => true];
 		$product = \App\YetiForce\Register::getProducts('YetiForcePassword');
 		if (empty($password) || !\App\RequestUtil::isNetConnection() || empty($product['params']['login']) || empty($product['params']['pass'])) {
 			return $status;
@@ -42,7 +42,10 @@ class YetiForce extends Base
 			if (200 === $response->getStatusCode()) {
 				$response = \App\Json::decode($response->getBody());
 				if (isset($response['count'])) {
-					$status = 0 == $response['count'];
+					$status = [
+						'message' => \App\Language::translateArgs('LBL_ALERT_PWNED_PASSWORD', 'Settings:Password', $response['count']),
+						'status' => 0 == $response['count']
+					];
 				} elseif ($response['error']) {
 					throw new \App\Exceptions\AppException('Error with response |' . $response['error']);
 				}
