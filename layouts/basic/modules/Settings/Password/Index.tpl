@@ -11,18 +11,22 @@
 			<ul id="tabs" class="nav nav-tabs my-2 mr-0" data-tabs="tabs">
 				<li class="nav-item">
 					<a class="nav-link {if $ACTIVE_TAB eq 'pass'}active{/if}" href="#pass" data-toggle="tab">
-						<span class="mdi mdi-database-search mr-2"></span>{\App\Language::translate('LBL_Password_Header', $QUALIFIED_MODULE)}
+						<span class="mdi mdi-lock-question mr-2"></span>{\App\Language::translate('LBL_PASSWORD_COMPLEXITY', $QUALIFIED_MODULE)}
 					</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link {if $ACTIVE_TAB eq 'pwned'}active{/if}" href="#pwnedtab" data-toggle="tab">
-						<span class="fas fa-globe mr-2"></span>{\App\Language::translate('LBL_PWNED_PASSWORD_PROVIDER', $QUALIFIED_MODULE)}
+						<span class="mdi mdi-database-search mr-2"></span>{\App\Language::translate('LBL_PWNED_PASSWORD_PROVIDER', $QUALIFIED_MODULE)}
 					</a>
 				</li>
 			</ul>
 		</div>
 		<div id="my-tab-content" class="tab-content">
 			<div class="tab-pane {if $ACTIVE_TAB eq 'pass'}active{/if}" id="pass">
+				<div class="alert alert-info">
+					<span class="mdi mdi-information-outline mr-2 float-left"></span>
+					{\App\Language::translate('LBL_PASSWORD_COMPLEXITY_INFO', $QUALIFIED_MODULE)}
+				</div>
 				<table class="table table-bordered table-sm themeTableColor">
 					<thead>
 						<tr class="blockHeader"><th colspan="2" class="mediumWidthType">{\App\Language::translate('LBL_Password_Header', $QUALIFIED_MODULE)}</th></tr>
@@ -77,6 +81,17 @@
 							</td>
 						</tr>
 						<tr>
+							{assign var=DEFAULT_PROVIDER_ACTIVE value=App\Extension\PwnedPassword::getDefaultProvider()->isActive()}
+							<td class="u-w-30per px-2 {if !$DEFAULT_PROVIDER_ACTIVE}text-black-50{/if}">
+								<label class="muted float-right mb-0 col-form-label u-text-small-bold">{\App\Language::translate('LBL_CHECK_PWNED_PASSWORD', $QUALIFIED_MODULE)}</label>
+							</td>
+							<td class="border-left-0 align-middle">
+								<div class="col-5 form-row align-items-center">
+									<input type="checkbox" name="pwned" title="{\App\Language::translate('LBL_CHECK_PWNED_PASSWORD', $QUALIFIED_MODULE)}" id="pwned" {if $DETAIL['pwned'] == 'true'}checked{/if} {if !$DEFAULT_PROVIDER_ACTIVE}disabled{/if}/>
+								</div>
+							</td>
+						</tr>
+						<tr>
 							<td class="u-w-30per px-2">
 								<label class="muted float-right col-form-label u-text-small-bold">{\App\Language::translate('LBL_PASSWORD_CHANGE_TIME', $QUALIFIED_MODULE)}</label>
 							</td>
@@ -106,22 +121,15 @@
 								</div>
 							</td>
 						</tr>
-						<tr>
-							{assign var=DEFAULT_PROVIDER_ACTIVE value=App\Extension\PwnedPassword::getDefaultProvider()->isActive()}
-							<td class="u-w-30per px-2 {if !$DEFAULT_PROVIDER_ACTIVE}text-black-50{/if}">
-								<label class="muted float-right mb-0 col-form-label u-text-small-bold">{\App\Language::translate('LBL_CHECK_PWNED_PASSWORD', $QUALIFIED_MODULE)}</label>
-							</td>
-							<td class="border-left-0 align-middle">
-								<div class="col-5 form-row align-items-center">
-									<input type="checkbox" name="pwned" title="{\App\Language::translate('LBL_CHECK_PWNED_PASSWORD', $QUALIFIED_MODULE)}" id="pwned" {if $DETAIL['pwned'] == 'true'}checked{/if} {if !$DEFAULT_PROVIDER_ACTIVE}disabled{/if}/>
-								</div>
-							</td>
-						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div class="tab-pane {if $ACTIVE_TAB eq 'pwned'}active{/if}" id="pwnedtab">
 				{assign var=ACTIVE_PWNED_PROVIDER value=App\Config::module('Users', 'pwnedPasswordProvider')}
+				<div class="alert alert-info">
+					<span class="mdi mdi-information-outline mr-2 float-left"></span>
+					{\App\Language::translate('LBL_PASSWORD_PWNED_INFO', $QUALIFIED_MODULE)}
+				</div>
 				<div class="js-config-table table-responsive" data-js="container">
 					<table class="table table-bordered">
 						<thead>
@@ -137,7 +145,10 @@
 								<tr {if $ACTIVE}disabled{/if}>
 									<th scope="row">
 										{\App\Language::translate($KEY, $QUALIFIED_MODULE)}
-										{if $KEY === 'YetiForce'}<span class="yfi-premium color-red-600 float-right"></span>{/if}
+										{if $KEY === 'YetiForce'}<span class="yfi-premium color-red-600 ml-2"></span>{/if}
+										{if isset($ITEM->infoUrl)}
+											<a href="{$ITEM->infoUrl}" class="float-right u-cursor-pointer"><span class="fas fa-info-circle"></span></a>
+										{/if}
 									</th>
 									<td>{$ITEM->url}</td>
 									<td class="text-center">

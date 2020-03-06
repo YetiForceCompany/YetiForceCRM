@@ -22,6 +22,12 @@ abstract class Base
 	 * @var string
 	 */
 	public $url;
+	/**
+	 * Website url with additional information.
+	 *
+	 * @var string
+	 */
+	public $infoUrl;
 
 	/**
 	 * Function to check the password.

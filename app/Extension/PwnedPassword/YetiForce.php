@@ -21,6 +21,10 @@ class YetiForce extends Base
 	 * {@inheritdoc}
 	 */
 	public $url = 'YetiForce';
+	/**
+	 * {@inheritdoc}
+	 */
+	public $infoUrl = 'index.php?module=YetiForce&parent=Settings&view=Shop';
 
 	/**
 	 * {@inheritdoc}
