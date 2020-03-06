@@ -1139,40 +1139,24 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$nowInUserFormat = App\Fields\DateTime::formatToDisplay(date('Y-m-d H:i:s'));
 		$nowInDBFormat = App\Fields\DateTime::formatToDb($nowInUserFormat);
 		[$currentDate] = explode(' ', $nowInDBFormat);
-		foreach(['ReferenceExtend', 'ReferenceLink', 'ReferenceProcess', 'ReferenceSubProcess'] as $value){
-			$referenceClass = Vtiger_Loader::getComponentClassName('UIType', $value, $moduleName);
-			$referenceInstance = new $referenceClass();
-			if('ReferenceExtend' === $value && \in_array($this->getName(), $referenceInstance->getReferenceList())){
-				$relationField = 'linkextend';
-			}elseif('ReferenceLink' === $value && \in_array($this->getName(), $referenceInstance->getReferenceList())){
-				$relationField = 'link';
-			}elseif('ReferenceProcess' === $value && \in_array($this->getName(), $referenceInstance->getReferenceList())){
-				$relationField = 'process';
-			}elseif('ReferenceSubProcess' === $value && \in_array($this->getName(), $referenceInstance->getReferenceList())){
-				$relationField = 'subprocess';
+		$calendarModuleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		$queryGenerator = new \App\QueryGenerator($moduleName);
+		foreach($calendarModuleModel->getReferenceFieldsForModule($this->getName()) as $fieldReferenceModel){
+			if($recordId){
+				$queryGenerator->addNativeCondition([$fieldReferenceModel->getTableName() . '.' .  $fieldReferenceModel->getColumnName() => $recordId]);
 			}
 		}
-		if(!$relationField){
-			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
-		}
-		$queryGenerator = new \App\QueryGenerator($moduleName);
-		$queryGenerator->setCustomColumn(['vtiger_crmentity.crmid', 'parent_id' => 'crmentity2.crmid', 'description' => 'vtiger_crmentity.description', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.smcreatorid', 'vtiger_crmentity.setype', 'vtiger_activity.*']);
-		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_crmentity crmentity2', "vtiger_activity.$relationField = crmentity2.crmid AND crmentity2.deleted = :deleted AND crmentity2.setype = :module", [':deleted' => 0, ':module' => $this->getName()]]);
-		$queryGenerator->addJoin(['LEFT JOIN', 'vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid']);
-		if($recordId){
-			$queryGenerator->addNativeCondition(["vtiger_activity.$relationField" => $recordId]);
-		}
 		if ('current' === $mode) {
-			$queryGenerator->addNativeCondition(['in', 'vtiger_activity.status', $currentActivityLabels]);
+				$queryGenerator->addCondition('activitystatus', $currentActivityLabels, 'e');
 		}elseif('history' === $mode){
-			$queryGenerator->addNativeCondition(['not in', 'vtiger_activity.status', $currentActivityLabels]);
+			$queryGenerator->addCondition('activitystatus', $currentActivityLabels, 'n');
 		} elseif ('upcoming' === $mode) {
 			$queryGenerator->addNativeCondition(['and', ['or', ['vtiger_activity.status' => null], ['not in', 'vtiger_activity.status', ['Completed', 'Deferred']]], ['>=', 'due_date', $currentDate]]);
 		} elseif ('overdue' === $mode) {
 			$queryGenerator->addNativeCondition(['and', ['or', ['vtiger_activity.status' => null], ['not in', 'vtiger_activity.status', ['Completed', 'Deferred']]], ['<', 'due_date', $currentDate]]);
 		}
 		if ('all' !== $user && !empty($user) && $user === $currentUserId) {
-			$queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $user]);
+			$queryGenerator->addCondition('assigned_user_id', $user, 'e');
 		}
 		$query = $queryGenerator->createQuery();
 		if ($pagingModel->isEmpty('totalCount') && ('current' === $mode || 'history' === $mode)) {
