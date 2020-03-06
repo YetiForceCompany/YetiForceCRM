@@ -46,7 +46,7 @@
     "htmleditor_0": "never",
     "htmleditor_1": "always",
     "htmleditor_2": "in reply to HTML message",
-    "htmleditor_3": "in transfering or replying to HTML message",
+    "htmleditor_3": "in transferring or replying to HTML message",
     "mdn_requests_0": "ask users",
     "mdn_requests_1": "send automatically",
     "mdn_requests_2": "ignore",
