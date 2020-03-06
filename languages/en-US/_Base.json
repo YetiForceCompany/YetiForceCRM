@@ -1399,6 +1399,7 @@
     "ERR_OCCURRED_CHECK_LOGS": "Error occurred, check the logs",
     "LBL_SHOW_ORIGINAL_CONTENT": "Show original content",
     "LBL_COMPANY_NAME": "Company name",
+    "LBL_SHOW_PASSWORD": "Show hidden password",
     "LBL_NO_DATA_FOUND": "No data found"
   },
   "js": {
