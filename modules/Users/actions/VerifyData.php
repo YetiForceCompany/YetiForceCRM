@@ -80,11 +80,10 @@ class Users_VerifyData_Action extends \App\Controller\Action
 	public function validatePassword(App\Request $request)
 	{
 		$message = Settings_Password_Record_Model::checkPassword($request->getRaw('password'));
-
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'type' => $message ? 'error' : 'success',
-			'message' => $message,
+			'message' => $message ?: \App\Language::translate('LBL_USER_PASSWORD_IS_OK', $request->getModule()),
 		]);
 		$response->emit();
 	}
