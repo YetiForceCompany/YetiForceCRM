@@ -128,6 +128,9 @@
     "LBL_SHOP_MODULESENTERPRISE_DESC": "",
     "LBL_SHOP_YETIFORCEGEOCODER": "YetiForce address finder",
     "LBL_SHOP_YETIFORCEGEOCODER_INTRO": "Quick and easy search for any address in the world",
-    "LBL_SHOP_YETIFORCEGEOCODER_DESC": "Integration with the YetiForce address database. It is based on Open Street Maps with a complete world map. No connection limits and no need to have your own server."
+    "LBL_SHOP_YETIFORCEGEOCODER_DESC": "Integration with the YetiForce address database. It is based on Open Street Maps with a complete world map. No connection limits and no need to have your own server.",
+    "LBL_SHOP_YETIFORCEMAP": "YetiForce Map",
+    "LBL_SHOP_YETIFORCEMAP_INTRO": "View maps and get driving directions in YetiForce Map",
+    "LBL_SHOP_YETIFORCEMAP_DESC": "View maps and get driving directions in YetiForce Map"
   }
 }
