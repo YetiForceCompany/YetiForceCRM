@@ -14,7 +14,7 @@ return [
 	],
 	'USER_NAME_IS_EDITABLE' => [
 		'default' => true,
-		'description' => 'Is it possible to edit a usernames',
+		'description' => 'Is it possible to edit usernames?',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
@@ -38,7 +38,7 @@ return [
 	],
 	'checkPwnedPassword' => [
 		'default' => true,
-		'description' => 'Check password is in the stolen passwords database',
+		'description' => 'Check if the password is in the stolen passwords database',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
