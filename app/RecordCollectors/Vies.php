@@ -21,7 +21,7 @@ class Vies extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	protected $allowedModules = ['Accounts'];
+	protected $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 	/**
 	 * {@inheritdoc}
 	 */
@@ -84,6 +84,15 @@ class Vies extends Base
 	 */
 	protected $modulesFieldsMap = [
 		'Accounts' => [
+			'vatNumber' => 'vat_id',
+		],
+		'Leads' => [
+			'vatNumber' => 'vat_id',
+		],
+		'Vendors' => [
+			'vatNumber' => 'vat_id',
+		],
+		'Competition' => [
 			'vatNumber' => 'vat_id',
 		]
 	];
