@@ -1141,11 +1141,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 		[$currentDate] = explode(' ', $nowInDBFormat);
 		$calendarModuleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$queryGenerator = new \App\QueryGenerator($moduleName);
+		$queryGenerator->setCustomColumn(['vtiger_crmentity.crmid', 'parent_id' => 'crmentity2.crmid']);
+		$queryGenerator->setFields(array_keys($calendarModuleModel->getFields()));
 		foreach($calendarModuleModel->getReferenceFieldsForModule($this->getName()) as $fieldReferenceModel){
 			if($recordId){
-				$queryGenerator->addNativeCondition([$fieldReferenceModel->getTableName() . '.' .  $fieldReferenceModel->getColumnName() => $recordId]);
+				$tableAndField = $fieldReferenceModel->getTableName() . '.' .  $fieldReferenceModel->getColumnName();
+				$queryGenerator->addNativeCondition([$tableAndField => $recordId]);
 			}
 		}
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_crmentity crmentity2', "$tableAndField = crmentity2.crmid AND crmentity2.deleted = :deleted AND crmentity2.setype = :module", [':deleted' => 0, ':module' => $this->getName()]]);
 		if ('current' === $mode) {
 				$queryGenerator->addCondition('activitystatus', $currentActivityLabels, 'e');
 		}elseif('history' === $mode){
