@@ -249,7 +249,7 @@
 			vertical-align: unset;
 		}
 		&.mdi:before{
-			margin: 0 -3px;
+			margin: 0 calculate-rem(-3px);;
 		}
 	}
 
