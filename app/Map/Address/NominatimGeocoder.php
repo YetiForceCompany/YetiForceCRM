@@ -72,7 +72,7 @@ class NominatimGeocoder extends Base
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
 				->request('GET', $this->config['map_url'] . '/?' . \http_build_query($params), $options);
 			if (200 !== $response->getStatusCode()) {
-				throw new \App\Exceptions\AppException('Error with connection |' . $response->getReasonPhrase());
+				throw new \App\Exceptions\AppException('Error with connection |' . $response->getReasonPhrase() . '|' . $response->getBody());
 			}
 			$body = $response->getBody();
 			$body = \App\Json::isEmpty($body) ? [] : \App\Json::decode($body);

@@ -24,7 +24,7 @@ class Layer
 	public static function getTileServer(): string
 	{
 		$url = \App\Config::module('OpenStreetMap', 'tileLayerServer');
-		if ('yetiforce.com' === $url) {
+		if ('YetiForce' === $url) {
 			$url = \Config\Main::$site_URL . 'file.php?module=OpenStreetMap&action=TileLayer&z={z}&x={x}&y={y}';
 		}
 		return $url;

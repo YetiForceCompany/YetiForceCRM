@@ -1,21 +1,33 @@
 <?php
 /**
- * Base Connector to find route between two points.
+ * Base Connector to find routing between two points.
  *
  * @package App
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace App\Map\Route;
+namespace App\Map\Routing;
 
 /**
- * Base Connector to get route.
+ * Base Connector to get routing.
  */
 abstract class Base
 {
+	/**
+	 * API url.
+	 *
+	 * @var string
+	 */
+	protected $url;
+	/**
+	 * Custom routing parameters.
+	 *
+	 * @var array
+	 */
+	protected $params;
 	/**
 	 * @var float[]
 	 */
@@ -46,7 +58,18 @@ abstract class Base
 	protected $geoJson;
 
 	/**
-	 * Set start of route.
+	 * Construct.
+	 *
+	 * @param array $provider
+	 */
+	public function __construct(array $provider)
+	{
+		$this->url = $provider['apiUrl'];
+		$this->params = $provider['params'] ?? [];
+	}
+
+	/**
+	 * Set start of routing.
 	 *
 	 * @param float $lat
 	 * @param float $lon
@@ -57,7 +80,7 @@ abstract class Base
 	}
 
 	/**
-	 * Set end of route.
+	 * Set end of routing.
 	 *
 	 * @param float $lat .
 	 * @param float $lon
@@ -109,7 +132,7 @@ abstract class Base
 	}
 
 	/**
-	 * Get distance of route.
+	 * Get distance of routing.
 	 *
 	 * @return float
 	 */
@@ -119,7 +142,14 @@ abstract class Base
 	}
 
 	/**
-	 * Function to calculate route.
+	 * Function to calculate routing.
 	 */
 	abstract public function calculate();
+
+	/**
+	 * Function to parse points.
+	 *
+	 * @return array
+	 */
+	abstract public function parsePoints(): array;
 }

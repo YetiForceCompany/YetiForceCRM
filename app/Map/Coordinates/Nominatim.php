@@ -37,7 +37,7 @@ class Nominatim extends Base
 			if (200 === $response->getStatusCode()) {
 				$coordinates = \App\Json::decode($response->getBody());
 			} else {
-				\App\Log::error('Error with connection - ' . $response->getReasonPhrase(), __CLASS__);
+				throw new \App\Exceptions\AppException('Error with connection |' . $response->getReasonPhrase() . '|' . $response->getBody());
 			}
 		} catch (\Exception $ex) {
 			\App\Log::error('Error - ' . $ex->getMessage(), __CLASS__);

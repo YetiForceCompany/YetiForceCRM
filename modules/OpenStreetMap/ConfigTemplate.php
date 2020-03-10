@@ -45,9 +45,14 @@ return [
 	],
 	'routingServers' => [
 		'default' => [
-			'YetiForce' => ['driverName' => 'YetiForce', 'apiUrl' => 'yetiforce.com'],
+			'YetiForce' => ['driverName' => 'YetiForce', 'apiUrl' => 'yetiforce.com', 'params' => ['preference' => 'fastest', 'profile' => 'driving-car', 'units' => 'km']],
 		],
-		'description' => "List of available routing servers, free list of servers is available on page https://wiki.openstreetmap.org/wiki/Routing/online_routers\n Value: 'server name' => ['driverName' => 'xxx', 'apiUrl' => 'https://xxx.org', 'docUrl' => 'https://xxx']",
+		'description' => "List of available routing servers, free list of servers is available on page https://wiki.openstreetmap.org/wiki/Routing/online_routers\n Value: 'server name' => ['driverName' => 'xxx', 'apiUrl' => 'https://xxx.org', 'docUrl' => 'https://xxx', 'params' => []]",
+	],
+	'routingServer' => [
+		'default' => 'YetiForce',
+		'description' => 'Name of connector to get routing.',
+		'validation' => '\App\Validator::text',
 	],
 	'tileLayerServer' => [
 		'default' => 'YetiForce',
@@ -56,7 +61,7 @@ return [
 	],
 	'tileLayerServers' => [
 		'default' => [
-			'YetiForce' => 'yetiforce.com'
+			'YetiForce' => 'YetiForce'
 		],
 		'description' => "List of available Tile layer servers, free list of servers is available on page https://wiki.openstreetmap.org/wiki/Tile_servers\n Value: 'server name' => 'Tile layer url template'",
 	],
