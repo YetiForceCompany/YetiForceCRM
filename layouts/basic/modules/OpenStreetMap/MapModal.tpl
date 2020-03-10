@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-OpenStreet-MapModal -->
-	<input type="hidden" id="tileLayerUrlTemplate" value="{\App\Map\Layer::getTileServer()}">
+	<input type="hidden" id="tileLayerServer" value="{\App\Map\Layer::getTileServer()}">
 	<div class="modal-header openStreetMapModalHeader">
 		<div class="row w-100">
 			<div class="col col-md-5">

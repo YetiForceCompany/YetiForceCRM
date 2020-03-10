@@ -26,11 +26,11 @@ abstract class Base
 	/**
 	 * Construct.
 	 *
-	 * @param string $url
+	 * @param array $provider
 	 */
-	public function __construct(string $url)
+	public function __construct(array $provider)
 	{
-		$this->url = $url;
+		$this->url = $provider['apiUrl'];
 	}
 
 	/**

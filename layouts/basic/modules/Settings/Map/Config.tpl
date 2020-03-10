@@ -19,6 +19,11 @@
 					<span class="fas fa-globe mr-2"></span>{\App\Language::translate('LBL_COORDINATES', $QUALIFIED_MODULE)}
 				</a>
 			</li>
+			<li class="nav-item">
+				<a class="nav-link {if $ACTIVE_TAB eq 'Routing'}active{/if}" href="#Routing" data-toggle="tab">
+					<span class="fas fa-globe mr-2"></span>{\App\Language::translate('LBL_ROUTING', $QUALIFIED_MODULE)}
+				</a>
+			</li>
 		</ul>
     </div>
 	<div id="my-tab-content" class="tab-content">
@@ -60,7 +65,7 @@
 				{\App\Language::translate('LBL_COORDINATES_INFO_1', $QUALIFIED_MODULE)}<br>
 				{\App\Language::translateArgs('LBL_COORDINATES_INFO_2', $QUALIFIED_MODULE,'config/Modules/OpenStreetMap.php')}
 				<a rel="noreferrer noopener" target="_blank" href="https://wiki.openstreetmap.org/wiki/Search_engines"> https://wiki.openstreetmap.org/wiki/Search_engines</a>
-				<br>{\App\Language::translate('LBL_COORDINATES_DRIVERS', $QUALIFIED_MODULE)}: {implode(',',App\Map\Coordinates::getDrivers())}
+				<br>{\App\Language::translate('LBL_AVAILABLE_DRIVERS', $QUALIFIED_MODULE)}: {implode(',',App\Map\Coordinates::getDrivers())}
 			</div>
 			<form class="js-validation-form">
 				<div class="js-config-table table-responsive" data-js="container">
@@ -86,6 +91,46 @@
 									<td>{$ITEM['driverName']}</td>
 									<td class="text-center">
 										<input name="coordinatesServer" value="{$KEY}" type="radio" {if $ACTIVE_COORDINATE eq $KEY}checked{/if}>
+									</td>
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+			</form>
+		</div>
+		<div class="tab-pane {if $ACTIVE_TAB eq 'Routing'}active{/if}" id="Routing">
+			<div class="alert alert-info">
+				<span class="mdi mdi-information-outline u-font-size-2x mr-2 float-left"></span>
+				{\App\Language::translate('LBL_ROUTING_INFO_1', $QUALIFIED_MODULE)}<br>
+				{\App\Language::translateArgs('LBL_ROUTING_INFO_2', $QUALIFIED_MODULE,'config/Modules/OpenStreetMap.php')}
+				<a rel="noreferrer noopener" target="_blank" href="https://wiki.openstreetmap.org/wiki/Routing/online_routers"> https://wiki.openstreetmap.org/wiki/Routing/online_routers</a>
+				<br>{\App\Language::translate('LBL_AVAILABLE_DRIVERS', $QUALIFIED_MODULE)}: {implode(',',App\Map\Routing::getDrivers())}
+			</div>
+			<form class="js-validation-form">
+				<div class="js-config-table table-responsive" data-js="container">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th class="text-center" scope="col">{\App\Language::translate('LBL_PROVIDER_NAME', $QUALIFIED_MODULE)}</th>
+								<th class="text-center" scope="col">{\App\Language::translate('LBL_API_URL', $QUALIFIED_MODULE)}</th>
+								<th class="text-center" scope="col">{\App\Language::translate('LBL_DRIVER', $QUALIFIED_MODULE)}</th>
+								<th class="text-center" scope="col">{\App\Language::translate('LBL_PROVIDER_ACTIVE', $QUALIFIED_MODULE)}</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=\App\Config::module('OpenStreetMap', 'routingServers') item=ITEM key=KEY}
+								<tr>
+									<th scope="row">
+										{\App\Language::translate($KEY, $QUALIFIED_MODULE)}
+										{if isset($ITEM['docUrl'])}
+											<a href="{$ITEM['docUrl']}" class="float-right u-cursor-pointer js-popover-tooltip" data-placement="top" data-content="{$ITEM['docUrl']}" data-js="popover" ><span class="fas fa-info-circle"></span></a>
+										{/if}
+									</th>
+									<td>{$ITEM['apiUrl']}</td>
+									<td>{$ITEM['driverName']}</td>
+									<td class="text-center">
+										<input name="coordinatesServer" value="{$KEY}" type="radio" {if $ACTIVE_ROUTING eq $KEY}checked{/if}>
 									</td>
 								</tr>
 							{/foreach}

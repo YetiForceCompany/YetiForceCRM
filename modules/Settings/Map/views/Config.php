@@ -34,8 +34,9 @@ class Settings_Map_Config_View extends Settings_Vtiger_Index_View
 		}
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('ACTIVE_TILE_LAYER', \App\Config::module('OpenStreetMap', 'tileLayerUrlTemplate'));
+		$viewer->assign('ACTIVE_TILE_LAYER', \App\Config::module('OpenStreetMap', 'tileLayerServer'));
 		$viewer->assign('ACTIVE_COORDINATE', \App\Config::module('OpenStreetMap', 'coordinatesServer'));
+		$viewer->assign('ACTIVE_ROUTING', \App\Config::module('OpenStreetMap', 'routingServer'));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('ACTIVE_TAB', $activeTab);
 		$viewer->view('Config.tpl', $qualifiedModuleName);

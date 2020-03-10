@@ -53,9 +53,34 @@ jQuery.Class(
 					});
 			});
 		},
+		registerRouting: function() {
+			let tab = $('#Routing');
+			tab.find('input').on('change', function() {
+				AppConnector.request({
+					module: 'Map',
+					parent: 'Settings',
+					action: 'Config',
+					mode: 'setRouting',
+					vale: this.value
+				})
+					.done(function(data) {
+						Vtiger_Helper_Js.showPnotify({
+							text: data['result']['message'],
+							type: 'success'
+						});
+					})
+					.fail(function() {
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
+					});
+			});
+		},
 		registerEvents: function() {
 			this.registerTileLayer();
 			this.registerCoordinates();
+			this.registerRouting();
 		}
 	}
 );

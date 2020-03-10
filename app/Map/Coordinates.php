@@ -44,7 +44,7 @@ class Coordinates
 		if (!class_exists($className)) {
 			throw new \App\Exceptions\AppException('ERR_CLASS_NOT_FOUND');
 		}
-		static::$instance = new $className($coordinateProvider['apiUrl']);
+		static::$instance = new $className($coordinateProvider);
 		return static::$instance;
 	}
 

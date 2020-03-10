@@ -27,7 +27,7 @@ jQuery.Class(
 				attribution = '';
 			}
 			this.mapInstance = L.map('mapid').setView(startCoordinate, startZoom);
-			L.tileLayer($('#tileLayerUrlTemplate').val(), {
+			L.tileLayer($('#tileLayerServer').val(), {
 				maxZoom: 19,
 				attribution: attribution
 			}).addTo(this.mapInstance);

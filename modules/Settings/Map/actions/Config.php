@@ -23,22 +23,23 @@ class Settings_Map_Config_Action extends Settings_Vtiger_Basic_Action
 		parent::__construct();
 		$this->exposeMethod('setTileLayer');
 		$this->exposeMethod('setCoordinate');
+		$this->exposeMethod('setRouting');
 	}
 
 	/**
-	 * Set tile layer url.
+	 * Set tile layer provider url.
 	 *
 	 * @param App\Request $request
 	 */
 	public function setTileLayer(App\Request $request): void
 	{
 		$value = $request->getByType('vale', 'Text');
-		$oldValue = \App\Config::module('OpenStreetMap', 'tileLayerUrlTemplate');
+		$oldValue = \App\Config::module('OpenStreetMap', 'tileLayerServer');
 		$all = \App\Config::module('OpenStreetMap', 'tileLayerServers');
 		$result = false;
 		try {
 			$osm = new \App\ConfigFile('module', 'OpenStreetMap');
-			$osm->set('tileLayerUrlTemplate', $all[$value]);
+			$osm->set('tileLayerServer', $all[$value]);
 			$osm->create();
 
 			$allowedImageDomains = \App\Config::security('allowedImageDomains', []);
@@ -75,7 +76,7 @@ class Settings_Map_Config_Action extends Settings_Vtiger_Basic_Action
 	}
 
 	/**
-	 * Set tile layer url.
+	 * Set coordinate provider.
 	 *
 	 * @param App\Request $request
 	 */
@@ -85,6 +86,33 @@ class Settings_Map_Config_Action extends Settings_Vtiger_Basic_Action
 		try {
 			$osm = new \App\ConfigFile('module', 'OpenStreetMap');
 			$osm->set('coordinatesServer', $request->getByType('vale', 'Text'));
+			$osm->create();
+			$result = true;
+		} catch (\Throwable $th) {
+			\App\Log::error('Error: ' . $th->getMessage(), __CLASS__);
+			throw $th;
+		}
+		if ($result) {
+			$result = ['success' => true, 'message' => \App\Language::translate('LBL_CHANGES_SAVED')];
+		} else {
+			$result = ['success' => false, 'message' => \App\Language::translate('LBL_ERROR')];
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
+	/**
+	 * Set routing provider.
+	 *
+	 * @param App\Request $request
+	 */
+	public function setRouting(App\Request $request): void
+	{
+		$result = false;
+		try {
+			$osm = new \App\ConfigFile('module', 'OpenStreetMap');
+			$osm->set('routingServer', $request->getByType('vale', 'Text'));
 			$osm->create();
 			$result = true;
 		} catch (\Throwable $th) {

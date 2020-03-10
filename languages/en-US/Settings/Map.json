@@ -12,8 +12,11 @@
     "LBL_DRIVER": "Driver",
     "LBL_COORDINATES": "Coordinates",
     "LBL_COORDINATES_INFO_1": "Select the server to be used for downloading geographical coordinates, the Cron will update the coordinates for address fields. Pay attention to the provider limits, the system will frequently send requests to the servers. Be aware of the fact that free servers have large limits and you share your data with them, always choose trusted servers.",
-    "LBL_COORDINATES_INFO_2": "To add additional servers, edit the $coordinatesServers variable in the %s file. Publicly available tile layer servers are available at:",
-    "LBL_COORDINATES_DRIVERS": "Drivers available in the system",
-    "LBL_PROVIDER_ACTIVE": "Active"
+    "LBL_COORDINATES_INFO_2": "To add additional servers, edit the $coordinatesServers variable in the %s file. Publicly available coordinates servers are available at:",
+    "LBL_AVAILABLE_DRIVERS": "Drivers available in the system",
+    "LBL_PROVIDER_ACTIVE": "Active",
+    "LBL_ROUTING": "Routing",
+    "LBL_ROUTING_INFO_1": "Select the server to be used to map routes for vehicles, the system will provide coordinates of points for which you want to map the route.",
+    "LBL_ROUTING_INFO_2": "To add additional servers, edit the $routingServers variable in the %s file. Publicly available routing servers are available at:"
   }
 }
