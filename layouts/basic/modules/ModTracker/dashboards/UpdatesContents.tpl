@@ -74,7 +74,7 @@
 											<span class="mr-1" style="color: {ModTracker::$colorsActions[$UPDATE_ROW->get('status')]};">
 												<span class="{ModTracker::$iconActions[$UPDATE_ROW->get('status')]} fa-fw"></span>
 											</span>
-											{\App\Language::translate($UPDATE_ROW->getStatusLabel(), $MODULE_NAME)|ucfirst}
+											{\App\Language::translate($UPDATE_ROW->getStatusLabel(), $MODULE_NAME)|\App\Utils::mb_ucfirst}
 											{assign var=COUNTER value=0}
 											{foreach from=$FIELDS item=FIELD}
 													{if $FIELD && $FIELD->getFieldInstance() && $FIELD->getFieldInstance()->isViewableInDetailView()}
@@ -124,7 +124,7 @@
 											<span class="mr-1" style="color: {ModTracker::$colorsActions[$UPDATE_ROW->get('status')]};">
 												<span class="{ModTracker::$iconActions[$UPDATE_ROW->get('status')]} fa-fw"></span>
 											</span>
-											{\App\Language::translate($UPDATE_ROW->getStatusLabel(), $MODULE_NAME)|ucfirst}&nbsp;
+											{\App\Language::translate($UPDATE_ROW->getStatusLabel(), $MODULE_NAME)|\App\Utils::mb_ucfirst}&nbsp;
 											<div class="u-white-space-nowrap u-text-ellipsis--no-hover">
 												{DISPLAY_RECORD_NAME RECORD_MODEL=$RELATION->getLinkedRecord()}
 											</div>
@@ -144,7 +144,7 @@
 											<span class="mr-1" style="color: {ModTracker::$colorsActions[$UPDATE_ROW->get('status')]};">
 												<span class="{ModTracker::$iconActions[$UPDATE_ROW->get('status')]} fa-fw"></span>
 											</span>
-											{\App\Language::translate($UPDATE_ROW->getStatusLabel(), $MODULE_NAME)|ucfirst}
+											{\App\Language::translate($UPDATE_ROW->getStatusLabel(), $MODULE_NAME)|\App\Utils::mb_ucfirst}
 										</div>
 									</div>
 								{/if}

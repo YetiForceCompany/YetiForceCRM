@@ -105,7 +105,7 @@
 									<div class="form-check">
 										<input class="form-check-input js-tracker-action" type="checkbox" value="{$VALUE}" data-js="container">
 										<label class="form-check-label">
-											{\App\Language::translate($TRACKER_ACTION, $MODULE_NAME)|ucfirst}
+											{\App\Language::translate($TRACKER_ACTION, $MODULE_NAME)|\App\Utils::mb_ucfirst}
 										</label>
 									</div>
 								</div>
