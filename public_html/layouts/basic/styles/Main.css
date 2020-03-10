@@ -15539,27 +15539,6 @@ table .listButtons.narrow .c-badge__icon {
   font-size: 0.625rem; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.u-font-size-10px {
-  font-size: 0.625rem; }
-
-.u-font-size-13px {
-  font-size: 0.8125rem; }
-
-.u-font-size-14px {
-  font-size: 0.9375rem; }
-
-.u-font-size-19px {
-  font-size: 1.1875rem; }
-
-.u-font-size-38px {
-  font-size: 2.375rem; }
-
-.u-font-size-50px {
-  font-size: 3.125rem; }
-
-.u-font-size-120px {
-  font-size: 7.5rem; }
-
 .u-fs-xs {
   font-size: 0.75rem; }
 
@@ -15746,6 +15725,27 @@ table .listButtons.narrow .c-badge__icon {
 .u-word-break-keep-all {
   word-break: keep-all !important; }
 
+.u-font-size-10px {
+  font-size: 0.625rem; }
+
+.u-font-size-13px {
+  font-size: 0.8125rem; }
+
+.u-font-size-14px {
+  font-size: 0.9375rem; }
+
+.u-font-size-19px {
+  font-size: 1.1875rem; }
+
+.u-font-size-38px {
+  font-size: 2.375rem; }
+
+.u-font-size-50px {
+  font-size: 3.125rem; }
+
+.u-font-size-120px {
+  font-size: 7.5rem; }
+
 .u-font-size-95per {
   font-size: 95% !important; }
 
@@ -15757,6 +15757,12 @@ table .listButtons.narrow .c-badge__icon {
 
 .u-font-size-44px {
   font-size: 2.75rem; }
+
+.u-font-size-2x {
+  font-size: 2em; }
+
+.u-font-size-3x {
+  font-size: 3em; }
 
 .u-m-5px {
   margin: 5px; }
