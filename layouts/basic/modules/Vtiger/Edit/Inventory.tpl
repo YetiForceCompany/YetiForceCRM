@@ -124,7 +124,7 @@
 				{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
 					{assign var=ROW_NO value=$ROW_NO+1}
 					{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
-					{foreachelse}
+				{foreachelse}
 					{if $IS_REQUIRED_INVENTORY}
 						{assign var="ROW_NO" value=1}
 						{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
