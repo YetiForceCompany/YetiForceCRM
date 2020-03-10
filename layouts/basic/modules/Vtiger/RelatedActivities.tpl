@@ -81,7 +81,7 @@
 								<div>
 									<strong>
 										<span class="fas fa-tags fa-fw mr-1"></span>
-										<span class="value">{$RECORD->getDisplayValue('status')}</span>
+										<span class="value">{$RECORD->getDisplayValue('activitystatus')}</span>
 									</strong>&nbsp;&nbsp;
 									{if $DATA_TYPE != 'history'}
 										{if $SHOW_LINK_TO_CALENDAR}
@@ -141,13 +141,13 @@
 							<span class="float-right js-popover-tooltip delay0" data-js="popover" data-placement="left"
 								  data-class="activities"
 								  data-original-title="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('activitytype',false, true,true))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subject',false,false,40))}"
-								  data-content="{\App\Language::translate('Status',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('status',false, true,40))}<br />{\App\Language::translate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{\App\Language::translate('End Time','Calendar')}: {$END_DATE} {$END_TIME}
+								  data-content="{\App\Language::translate('Status',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('activitystatus',false, true,40))}<br />{\App\Language::translate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{\App\Language::translate('End Time','Calendar')}: {$END_DATE} {$END_TIME}
 								  {if $RECORD->get('linkextend')}<hr />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('linkextend')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('linkextend',false,false,40))}{/if}
 								  {if $RECORD->get('link')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('link')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('link',false,false,40))}{/if}
 								  {if $RECORD->get('process')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('process')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('process',false,false,40))}{/if}
 								  {if $RECORD->get('subprocess')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('subprocess')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subprocess',false,false,40))}{/if}
-								  <hr />{\App\Language::translate('Created By',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('smcreatorid',false,false,40))}
-								  <br />{\App\Language::translate('Assigned To',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('smownerid',false,false,40))}
+								  <hr />{\App\Language::translate('Created By',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('created_user_id',false,false,40))}
+								  <br />{\App\Language::translate('Assigned To',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('assigned_user_id',false,false,40))}
 								  {if $SHAREDOWNER}<div>
 									  {\App\Language::translate('Share with users',$MODULE_NAME)}:&nbsp;
 									  {foreach $SHAREDOWNER item=SOWNERID name=sowner}
