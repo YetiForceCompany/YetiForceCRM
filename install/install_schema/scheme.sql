@@ -3285,18 +3285,19 @@ CREATE TABLE `u_yf_occurrences` (
 /*Table structure for table `u_yf_openstreetmap` */
 
 CREATE TABLE `u_yf_openstreetmap` (
-  `crmid` int(10) unsigned NOT NULL,
+  `crmid` int(10) NOT NULL,
   `type` char(1) NOT NULL,
-  `lat` decimal(10,7) DEFAULT NULL,
-  `lon` decimal(10,7) DEFAULT NULL,
+  `lat` decimal(10,7) NOT NULL,
+  `lon` decimal(10,7) NOT NULL,
   KEY `u_yf_openstreetmap_lat_lon` (`lat`,`lon`),
-  KEY `crmid_type` (`crmid`,`type`)
+  KEY `crmid_type` (`crmid`,`type`),
+  CONSTRAINT `u_yf_openstreetmap_ibfk_1` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_openstreetmap_address_updater` */
 
 CREATE TABLE `u_yf_openstreetmap_address_updater` (
-  `crmid` int(10) DEFAULT NULL
+  `crmid` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_openstreetmap_cache` */
@@ -3314,7 +3315,8 @@ CREATE TABLE `u_yf_openstreetmap_record_updater` (
   `crmid` int(10) NOT NULL,
   `type` char(1) NOT NULL,
   `address` text NOT NULL,
-  KEY `crmid` (`crmid`,`type`)
+  KEY `crmid` (`crmid`,`type`),
+  CONSTRAINT `u_yf_openstreetmap_record_updater_ibfk_1` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_partners` */
