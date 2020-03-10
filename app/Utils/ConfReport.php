@@ -504,6 +504,10 @@ class ConfReport
 			$lastCronStart = date('Y-m-d H:i:s', $cron);
 			$lastCronStartText = \App\Fields\DateTime::formatToViewDate($lastCronStart);
 		}
+		$caCertBundlePath = realpath(\Composer\CaBundle\CaBundle::getSystemCaRootBundlePath());
+		if (0 === strpos($caCertBundlePath, ROOT_DIRECTORY)) {
+			$caCertBundlePath = str_replace(ROOT_DIRECTORY, '__CRM_PATH__', $caCertBundlePath);
+		}
 		return [
 			'php' => $php,
 			'env' => [
@@ -515,7 +519,7 @@ class ConfReport
 				'locale' => $locale,
 				'https' => \App\RequestUtil::getBrowserInfo()->https,
 				'caCertBundle' => \is_file(\Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()) ? 'On' : 'Off',
-				'caCertBundlePath' => ltrim(realpath(\Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()), ROOT_DIRECTORY),
+				'caCertBundlePath' => $caCertBundlePath,
 				'public_html' => IS_PUBLIC_DIR ? 'On' : 'Off',
 				'crmVersion' => \App\Version::get(),
 				'crmDate' => \App\Version::get('patchVersion'),

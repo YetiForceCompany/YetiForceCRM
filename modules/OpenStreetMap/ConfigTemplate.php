@@ -34,7 +34,7 @@ return [
 	],
 	'coordinatesServers' => [
 		'default' => [
-			'YetiForce' => ['driverName' => 'YetiForce', 'apiUrl' => 'yetiforce.com'],
+			'YetiForce' => ['driverName' => 'YetiForce', 'apiUrl' => 'YetiForce'],
 		],
 		'description' => "List of available coordinate servers, free list of servers is available on page https://wiki.openstreetmap.org/wiki/Search_engines\n Value: 'server name' => ['driverName' => 'Nominatim', 'apiUrl' => 'https://nominatim.openstreetmap.org', 'docUrl' => 'https://wiki.openstreetmap.org/wiki/Nominatim']",
 	],
@@ -45,14 +45,9 @@ return [
 	],
 	'routingServers' => [
 		'default' => [
-			'YetiForce' => ['driverName' => 'YetiForce', 'apiUrl' => 'yetiforce.com', 'params' => ['preference' => 'fastest', 'profile' => 'driving-car', 'units' => 'km']],
+			'YetiForce' => ['driverName' => 'YetiForce', 'apiUrl' => 'YetiForce', 'params' => ['preference' => 'fastest', 'profile' => 'driving-car', 'units' => 'km']],
 		],
 		'description' => "List of available routing servers, free list of servers is available on page https://wiki.openstreetmap.org/wiki/Routing/online_routers\n Value: 'server name' => ['driverName' => 'xxx', 'apiUrl' => 'https://xxx.org', 'docUrl' => 'https://xxx', 'params' => []]",
-	],
-	'routingServer' => [
-		'default' => 'YetiForce',
-		'description' => 'Name of connector to get routing.',
-		'validation' => '\App\Validator::text',
 	],
 	'tileLayerServer' => [
 		'default' => 'YetiForce',
