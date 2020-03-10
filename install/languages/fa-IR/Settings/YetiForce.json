@@ -131,6 +131,9 @@
     "LBL_SHOP_YETIFORCEGEOCODER_DESC": "ادغام با پایگاه داده آدرس YetiForce. که بر اساس نقشه های Open Street با نقشه جهانی کامل است. هیچ محدودیتی در ارتباط و نیازی به داشتن سرور خود ندارید.",
     "LBL_SHOP_YETIFORCEMAP": "نقشه YetiForce",
     "LBL_SHOP_YETIFORCEMAP_INTRO": "نقشه ها و مسیرهای رانندگی را در نقشه YetiForce مشاهده کنید",
-    "LBL_SHOP_YETIFORCEMAP_DESC": "نقشه ها و مسیرهای رانندگی را در نقشه YetiForce مشاهده کنید"
+    "LBL_SHOP_YETIFORCEMAP_DESC": "نقشه ها و مسیرهای رانندگی را در نقشه YetiForce مشاهده کنید",
+    "LBL_SHOP_YETIFORCEPASSWORD": "YetiForce Password",
+    "LBL_SHOP_YETIFORCEPASSWORD_INTRO": "Verify if passwords exist in the stolen passwords database",
+    "LBL_SHOP_YETIFORCEPASSWORD_DESC": "Verify every newly created password in the stolen passwords database, the system blocks the passwords that appear there. The database has 555 million passwords that come from data leakages."
   }
 }

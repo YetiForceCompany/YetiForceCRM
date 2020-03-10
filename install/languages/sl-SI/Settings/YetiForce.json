@@ -131,6 +131,9 @@
     "LBL_SHOP_YETIFORCEGEOCODER_DESC": "Integracija z podatkovno bazo YetiForce. Temelji na Open Street Maps s celotnim zemljevidom sveta. Brez omejitev povezave in brez potrebe po lastnem strežniku.",
     "LBL_SHOP_YETIFORCEMAP": "YetiForce Map",
     "LBL_SHOP_YETIFORCEMAP_INTRO": "View maps and get driving directions in YetiForce Map",
-    "LBL_SHOP_YETIFORCEMAP_DESC": "View maps and get driving directions in YetiForce Map"
+    "LBL_SHOP_YETIFORCEMAP_DESC": "View maps and get driving directions in YetiForce Map",
+    "LBL_SHOP_YETIFORCEPASSWORD": "YetiForce Password",
+    "LBL_SHOP_YETIFORCEPASSWORD_INTRO": "Verify if passwords exist in the stolen passwords database",
+    "LBL_SHOP_YETIFORCEPASSWORD_DESC": "Verify every newly created password in the stolen passwords database, the system blocks the passwords that appear there. The database has 555 million passwords that come from data leakages."
   }
 }

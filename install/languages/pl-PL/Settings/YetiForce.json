@@ -131,6 +131,9 @@
     "LBL_SHOP_YETIFORCEGEOCODER_DESC": "Integracja z bazą adresów YetiForce, która bazuje na Open Street Maps z pełną mapą świata. Bez limitów połączeń, bez konieczności posiadania własnego serwera.",
     "LBL_SHOP_YETIFORCEMAP": "YetiForce Map",
     "LBL_SHOP_YETIFORCEMAP_INTRO": "Przeglądaj mapy i uzyskaj wskazówki dojazdu w YetiForce Map",
-    "LBL_SHOP_YETIFORCEMAP_DESC": "Przeglądaj mapy i uzyskaj wskazówki dojazdu w YetiForce Map"
+    "LBL_SHOP_YETIFORCEMAP_DESC": "Przeglądaj mapy i uzyskaj wskazówki dojazdu w YetiForce Map",
+    "LBL_SHOP_YETIFORCEPASSWORD": "Hasło YetiForce",
+    "LBL_SHOP_YETIFORCEPASSWORD_INTRO": "Sprawdzaj czy hasła istnieją w bazie wykradzionych haseł",
+    "LBL_SHOP_YETIFORCEPASSWORD_DESC": "Sprawdzaj każde nowo tworzone hasło w bazie wykradzionych haseł, system blokuje hasła, które tam występują. Baza liczy 555 milionów haseł, które pochodzą z wycieków danych."
   }
 }

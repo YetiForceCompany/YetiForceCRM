@@ -131,6 +131,9 @@
     "LBL_SHOP_YETIFORCEGEOCODER_DESC": "Integration with the YetiForce address database. It is based on Open Street Maps with a complete world map. No connection limits and no need to have your own server.",
     "LBL_SHOP_YETIFORCEMAP": "YetiForce Térkép",
     "LBL_SHOP_YETIFORCEMAP_INTRO": "Térkép nézetek, útvonaltervezés a YetiForce Térképen",
-    "LBL_SHOP_YETIFORCEMAP_DESC": "Térkép nézetek, útvonaltervezés a YetiForce Térképen"
+    "LBL_SHOP_YETIFORCEMAP_DESC": "Térkép nézetek, útvonaltervezés a YetiForce Térképen",
+    "LBL_SHOP_YETIFORCEPASSWORD": "YetiForce Jelszó",
+    "LBL_SHOP_YETIFORCEPASSWORD_INTRO": "Ellenőrizze, hogy a jelszava létezik-e, az ellopott jelszavak adatbázisban",
+    "LBL_SHOP_YETIFORCEPASSWORD_DESC": "Ellenőrizze, hogy minden újonnan létrehozott jelszót tartalmazza-e az ellopott jelszavak adatbázis, a rendszer blokkolja a jelszót, hogy ott jelenjen meg. Az adatbázis 555 millió jelszót tartalmaz az adatszivárgásokból."
   }
 }

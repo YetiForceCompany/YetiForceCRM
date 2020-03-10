@@ -131,6 +131,9 @@
     "LBL_SHOP_YETIFORCEGEOCODER_DESC": "Integrazione con il database indirizzi Yetiforce. È basato su Open Street Maps con una mappa del mondo completa. Nessun limite di connessione e nessun bisogno di avere il tuo server.",
     "LBL_SHOP_YETIFORCEMAP": "YetiForce Map",
     "LBL_SHOP_YETIFORCEMAP_INTRO": "Visualizza le mappe e ottieni indicazioni di guida in YetiForce Map",
-    "LBL_SHOP_YETIFORCEMAP_DESC": "Visualizza le mappe e ottieni indicazioni di guida in YetiForce Map"
+    "LBL_SHOP_YETIFORCEMAP_DESC": "Visualizza le mappe e ottieni indicazioni di guida in YetiForce Map",
+    "LBL_SHOP_YETIFORCEPASSWORD": "YetiForce Password",
+    "LBL_SHOP_YETIFORCEPASSWORD_INTRO": "Verifica se le password esistono nel database delle password rubate",
+    "LBL_SHOP_YETIFORCEPASSWORD_DESC": "Verifica ogni nuova password creata nel database delle password rubate, il sistema blocca le password che appaiono lì. Il database ha 555 milioni di password che provengono da perdite di dati."
   }
 }

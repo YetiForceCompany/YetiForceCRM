@@ -213,7 +213,7 @@
     "LBL_HELP_BULK_INSERT_BUFFER_SIZE": "Size in bytes of cache tree for each thread used to speed up the insertion of batch data into MyISAM and Aria tables. Value 0 disables the cache tree.",
     "LBL_HELP_KEY_BUFFER_SIZE": "Buffer size for index blocks used by MyISAM arrays and shared for all threads.",
     "LBL_HELP_THREAD_CACHE_SIZE": "Size of server cache threads to be reused.",
-    "LBL_HELP_QUERY_CACHE_SIZE": "Size in bytes available for the query buffer. About 40 KB are required for query cache structures, so setting a smaller size will result in a warning.",
+    "LBL_HELP_QUERY_CACHE_SIZE": "اندازه بایت های موجود برای بافر پرس و جو. برای کوئری‌های حافظه نهان حدود 40 KB مورد نیاز است ، بنابراین تنظیم اندازه کوچکتر باعث اخطار خواهد شد.",
     "LBL_HELP_TMP_TABLE_SIZE": "Maximum size for temporary tables in memory.",
     "LBL_HELP_MAX_HEAP_TABLE_SIZE": "Maximum size in bytes for MEMORY tables created by user. Setting the variable when the server is active does not affect existing tables, unless they are recreated or changed.",
     "LBL_HELP_INNODB_BUFFER_POOL_INSTANCES": "If value in innodb_buffer_pool_size is greater than 1GB, it divides InnoDB buffer pool into multiple instances.",
