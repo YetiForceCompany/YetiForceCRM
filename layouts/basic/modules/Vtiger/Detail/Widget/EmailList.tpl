@@ -29,7 +29,7 @@
 						</div>
 					</button>
 					<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions w-100">
-						<div class="ml-auto">
+						<div class="ml-auto my-auto">
 							<button type="button" class="btn btn-sm btn-light showMailsModal mr-2"
 								data-url="index.php?module=OSSMailView&view=MailsPreview&smodule={$MODULE_NAME}&srecord={$RECORD->getId()}&mode=showEmailsList">
 								<span class="body-icon fas fa-search"

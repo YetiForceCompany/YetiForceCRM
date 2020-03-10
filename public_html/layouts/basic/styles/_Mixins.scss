@@ -41,27 +41,26 @@
 		@include media-breakpoint-down($breakpoint-down) {
 			position: absolute;
 			right: calculate-rem(15px);
-			bottom: 0;
+			bottom: calculate-rem(5px);
 			$w-fab-button: calculate-rem(35px);
 			$fab-padding: calculate-rem(4px);
-			&.q-fab--opened {
-				width: 100%;
-			}
 			.q-fab__actions {
 				right: $w-fab-button;
-				padding: 0 0 $fab-padding $fab-padding;
-				top: -3px;
 				border-radius: 3px;
-				height: fit-content;
-				max-width: calc(100% - #{$w-fab-button});
 				box-shadow: 0 0 3px 0px;
 				background: $white;
-
+				width: calculate-rem(320px) !important;
 				& > * {
 					margin-top: $fab-padding;
 					margin-right: $fab-padding;
 				}
 			}
+		}
+		@include media-breakpoint-up($breakpoint-up) {
+				.q-fab__actions--left{
+					height: auto;
+					margin: 0;
+				}
 		}
 		@include media-breakpoint-up($breakpoint-up) {
 			.q-btn {
@@ -88,6 +87,5 @@
 	z-index: 9999999;
 	border-radius: 50%;
 	width: calculate-rem(35px);
-	height: calculate-rem(35px);
 	opacity: 0.8;
 }

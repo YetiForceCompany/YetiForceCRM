@@ -203,10 +203,6 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 			margin-bottom: 0;
 		}
 	}
-	.q-fab__actions--left{
-		height: auto !important;
-	}
-
 }
 .o-detail-widgets {
 	& > .col-md-4 {
@@ -438,10 +434,6 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 	.q-fab__actions--left {
 		right: calculate-rem(39px);
-	}
-
-	.q-fab__actions--right {
-		left: calculate-rem(-200px);
 	}
 
 	.q-fab__actions--left {

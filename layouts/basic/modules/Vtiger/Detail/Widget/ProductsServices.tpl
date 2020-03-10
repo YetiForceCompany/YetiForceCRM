@@ -106,7 +106,7 @@
 </div>
 {if $RECORD_PAGING_MODEL->isNextPageExists()}
 	<div class="d-flex py-1">
-		<div class="ml-auto">
+		<div class="ml-auto my-auto">
 			<button type="button"
 				class="btn btn-primary btn-sm moreProductsService">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
 		</div>

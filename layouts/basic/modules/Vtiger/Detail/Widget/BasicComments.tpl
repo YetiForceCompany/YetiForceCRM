@@ -32,7 +32,7 @@
 						</div>
 					</button>
 					<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions">
-						<div class="input-group input-group-sm">
+						<div class="input-group input-group-sm m-auto">
 							<input type="text" class="js-comment-search form-control"
 								placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
 								aria-describedby="commentSearchAddon" data-container="widget" data-js="keypress|data">

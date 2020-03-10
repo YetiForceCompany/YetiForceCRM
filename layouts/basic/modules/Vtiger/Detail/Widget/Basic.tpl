@@ -29,7 +29,7 @@
 					</button>
 					<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions">
 						{if isset($WIDGET['switchHeader'])}
-						<div class="ml-auto btn-group btn-group-toggle" data-toggle="buttons">
+						<div class="ml-2 btn-group btn-group-toggle my-auto" data-toggle="buttons">
 							<label class="btn btn-sm btn-outline-primary active">
 								<input class="js-switch" type="radio" name="options" id="search_params-option1" data-js="change" data-on-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}' data-urlparams="search_params"
 									autocomplete="off" checked> {$WIDGET['switchHeaderLables']['on']}
@@ -40,7 +40,7 @@
 							</label>
 						</div>
 						{/if}
-						<div class="ml-auto">
+						<div class="ml-auto my-auto">
 							<div class="btn-group">
 								{if !empty($WIDGET['data']['viewtype']) && $WIDGET['data']['viewtype'] eq 'Summary'}
 									<div class="btn-group control-widget">

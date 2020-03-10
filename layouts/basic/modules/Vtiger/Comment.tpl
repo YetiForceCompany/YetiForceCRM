@@ -58,7 +58,7 @@
 								<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
 							</div>
 						</button>
-						<div class="q-fab__actions flex no-wrap inline items-center q-fab__actions--{if $IS_CURRENT_USER}right{else}left{/if} js-comment-actions">
+						<div class="q-fab__actions flex no-wrap inline items-center q-fab__actions--{if $IS_CURRENT_USER}left{else}right{/if} js-comment-actions">
 							{assign var=COMMENTS_MODULE_MODEL value=Vtiger_Module_Model::getInstance('ModComments')}
 							{if !empty($CHILDS_ROOT_PARENT_MODEL)}
 								{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}

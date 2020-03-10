@@ -30,7 +30,7 @@
 					</button>
 					<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions">
 						{if isset($WIDGET['switchHeader'])}
-							<div class="btn-group btn-group-toggle" data-toggle="buttons">
+							<div class="btn-group btn-group-toggle ml-2 my-auto" data-toggle="buttons">
 								<label class="btn btn-sm btn-outline-primary active">
 									<input class="js-switch" type="radio" name="options" id="options-option1" data-js="change"
 										data-on-text="{App\Language::translate('LBL_CURRENT')}"
@@ -47,7 +47,7 @@
 								</label>
 							</div>
 						{/if}
-						<button class="btn btn-sm btn-light addButton createActivity"
+						<button class="btn btn-sm btn-light addButton createActivity ml-auto my-auto"
 							data-url="sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true"
 							type="button" title="{App\Language::translate('LBL_ADD',$MODULE_NAME)}">
 							<span class="fas fa-plus"></span>

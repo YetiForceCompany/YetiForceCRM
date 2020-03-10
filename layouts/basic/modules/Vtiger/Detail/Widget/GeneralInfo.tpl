@@ -22,7 +22,7 @@
 					<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions">
 						{assign var="CURRENT_VIEW" value="full"}
 						{assign var="CURRENT_MODE_LABEL" value="{\App\Language::translate('LBL_COMPLETE_DETAILS',{$MODULE_NAME})}"}
-						<button type="button" class="btn btn-sm btn-light changeDetailViewMode ml-auto">
+						<button type="button" class="btn btn-sm btn-light changeDetailViewMode ml-auto my-auto">
 							<span title="{\App\Language::translate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}" class="fas fa-th-list"></span>
 						</button>
 						{assign var="FULL_MODE_URL" value={$RECORD->getDetailViewUrl()|cat:'&mode=showDetailViewByMode&requestMode=full'}}
