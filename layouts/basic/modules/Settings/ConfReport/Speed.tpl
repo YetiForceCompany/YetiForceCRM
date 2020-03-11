@@ -38,34 +38,28 @@
 						<tr>
 							<td scope="row">1 KB</td>
 							<td>
-								{App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['read'][1]['time'])}{$OPS}
-								({App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['read'][1]['operations'])})
+								{App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['read'][1]['time'])}{$OPS} ({App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['read'][1]['operations'])})
 							</td>
 							<td>
-								{App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['write'][1]['time'])}{$OPS}
-								({App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['write'][1]['operations'])})
+								{App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['write'][1]['time'])}{$OPS} ({App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['write'][1]['operations'])})
 							</td>
 						</tr>
 						<tr>
 							<td scope="row">10 KB</td>
 							<td>
-								{App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['read'][10]['time'])}{$OPS}
-								({App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['read'][10]['operations'])})
+								{App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['read'][10]['time'])}{$OPS} ({App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['read'][10]['operations'])})
 							</td>
 							<td>
-								{App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['write'][10]['time'])}{$OPS}
-								({App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['write'][10]['operations'])})
+								{App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['write'][10]['time'])}{$OPS} ({App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['write'][10]['operations'])})
 							</td>
 						</tr>
 						<tr>
 							<td scope="row">100 KB</td>
 							<td>
-								{App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['read'][100]['time'])}{$OPS}
-								({App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['read'][100]['operations'])})
+								{App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['read'][100]['time'])}{$OPS} ({App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['read'][100]['operations'])})
 							</td>
 							<td>
-								{App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['write'][100]['time'])}{$OPS}
-								({App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['write'][100]['operations'])})
+								{App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['write'][100]['time'])}{$OPS} ({App\Fields\Integer::formatToDisplay($BENCHMARKS['hardDrive']['write'][100]['operations'])})
 							</td>
 						</tr>
 					</tbody>

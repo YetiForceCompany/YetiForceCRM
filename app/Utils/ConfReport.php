@@ -844,7 +844,7 @@ class ConfReport
 	private static function validateCronEqual(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if ('www' === $sapi && strtolower($row['www'] ?? '') !== strtolower($row['cron'] ?? '')) {
+		if ('www' === $sapi && isset($row['cron']) && strtolower($row['www'] ?? '') !== strtolower($row['cron'] ?? '')) {
 			$row['status'] = false;
 		}
 		return $row;
