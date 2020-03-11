@@ -23,7 +23,7 @@
 					</button>
 					<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions">
 						{if isset($WIDGET['switchHeader'])}
-							<div class="btn-group btn-group-toggle ml-2 my-auto" data-toggle="buttons">
+							<div class="btn-group btn-group-toggle {if $WIDGET['newChanege']}ml-2{else}ml-auto{/if} my-auto" data-toggle="buttons">
 								<label class="btn btn-sm btn-outline-primary active">
 									<input class="js-switch" type="radio" name="options" id="condition-option1" data-js="change" data-on-val="{$WIDGET['switchHeader']['on']}" data-urlparams="whereCondition" autocomplete="off" checked> <span
 										class="fas fa-redo" title="{$WIDGET['switchHeaderLables']['on']}"></span>
