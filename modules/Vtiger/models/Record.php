@@ -1359,16 +1359,18 @@ class Vtiger_Record_Model extends \App\Base
 				'linkclass' => 'btn-sm btn-default',
 				'linkhref' => true,
 			];
-			$recordLinks[] = [
-				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-				'linklabel' => 'LBL_QUICK_EDIT',
-				'linkicon' => 'mdi mdi-square-edit-outline',
-				'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
-				'linkdata' => [
-					'module' => $this->getModuleName(),
-					'record' => $this->getId(),
-				]
-			];
+			if ($this->getModule()->isQuickCreateSupported()) {
+				$recordLinks[] = [
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_QUICK_EDIT',
+					'linkicon' => 'mdi mdi-square-edit-outline',
+					'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
+					'linkdata' => [
+						'module' => $this->getModuleName(),
+						'record' => $this->getId(),
+					]
+				];
+			}
 		}
 		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
 			$watching = (int) ($this->isWatchingRecord());
