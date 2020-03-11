@@ -40,7 +40,7 @@
 							</label>
 						</div>
 						{/if}
-						<div class="ml-auto my-auto">
+						<div class="ml-lg-2 ml-auto my-auto">
 							<div class="btn-group">
 								{if !empty($WIDGET['data']['viewtype']) && $WIDGET['data']['viewtype'] eq 'Summary'}
 									<div class="btn-group control-widget">

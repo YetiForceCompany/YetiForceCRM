@@ -23,7 +23,7 @@
 					</button>
 					<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions">
 						{if isset($WIDGET['switchHeader'])}
-							<div class="btn-group btn-group-toggle ml-auto my-auto" data-toggle="buttons">
+							<div class="btn-group btn-group-toggle ml-2 my-auto" data-toggle="buttons">
 								<label class="btn btn-sm btn-outline-primary active">
 									<input class="js-switch" type="radio" name="options" id="condition-option1" data-js="change" data-on-val="{$WIDGET['switchHeader']['on']}" data-urlparams="whereCondition" autocomplete="off" checked> <span
 										class="fas fa-redo" title="{$WIDGET['switchHeaderLables']['on']}"></span>
@@ -35,7 +35,7 @@
 							</div>
 						{/if}
 						{if $WIDGET['newChanege'] && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $USER_MODEL->getId() eq $USER_MODEL->getRealId()}
-							<div class="text-right ml-auto">
+							<div class="text-right ml-lg-2 ml-auto my-auto">
 								<div class="btn-group">
 									<div class="btn-group">
 										<button id="btnChangesReviewedOn" type="button" class="btn btn-success btn-sm btnChangesReviewedOn" title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">

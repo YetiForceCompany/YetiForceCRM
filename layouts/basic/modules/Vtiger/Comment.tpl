@@ -52,13 +52,13 @@
 						</div>
 					</div>
 					<div class="q-fab z-fab row inline justify-center js-fab__container mb-1">
-						<button type="button" tabindex="0" class="js-fab__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable {if $IS_CURRENT_USER}mr-1 mr-sm-2{else}ml-1 ml-sm-2{/if} u-font-size-13px">
+						<button type="button" tabindex="0" class="js-fab__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable ml-1 ml-sm-2 u-font-size-13px">
 							<div tabindex="-1" class="q-focus-helper"></div>
 							<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
 								<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
 							</div>
 						</button>
-						<div class="q-fab__actions flex no-wrap inline items-center q-fab__actions--{if $IS_CURRENT_USER}left{else}right{/if} js-comment-actions">
+						<div class="q-fab__actions flex no-wrap inline items-center q-fab__actions--left js-comment-actions">
 							{assign var=COMMENTS_MODULE_MODEL value=Vtiger_Module_Model::getInstance('ModComments')}
 							{if !empty($CHILDS_ROOT_PARENT_MODEL)}
 								{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
