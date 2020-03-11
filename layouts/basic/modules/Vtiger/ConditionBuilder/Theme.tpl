@@ -9,7 +9,7 @@
 			{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 				<option class="u-bg-{$PICKLIST_NAME} text-light u-hover-bold"
 						value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}"
-						{if in_array($PICKLIST_NAME, $FIELD_VALUES)} selected {/if}>{\App\Purifier::encodeHtml(\App\Utils::mb_ucfirst($PICKLIST_NAME))}</option>
+						{if in_array($PICKLIST_NAME, $FIELD_VALUES)} selected {/if}>{\App\Purifier::encodeHtml(\App\Utils::mbUcfirst($PICKLIST_NAME))}</option>
 			{/foreach}
 		</select>
 	</div>

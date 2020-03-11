@@ -48,7 +48,7 @@ class Vtiger_Theme_UIType extends Vtiger_Base_UIType
 	{
 		$allSkins = Vtiger_Theme::getAllSkins();
 		$skinColor = $allSkins[$value];
-		$value = \App\Utils::mb_ucfirst($value);
+		$value = \App\Utils::mbUcfirst($value);
 		return "<div style='width: 24px; height: 24px; background-color:$skinColor;' title='$value'>&nbsp;</div>";
 	}
 

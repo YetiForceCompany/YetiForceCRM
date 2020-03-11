@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+<!-- tpl-Settings-Dav-Keys -->
 	<div class="" id="DavKeysContainer">
 		<div class="o-breadcrumb widget_header row mb-2">
 			<div class="col-md-8">
@@ -41,7 +42,6 @@
 				</ul>
 				<h6>iOS</h6>
 				<ul>
-					<li>http: {str_replace('https://','http://',App\Config::main('site_URL'))}dav.php/principals/(__dav_login__)/</li>
 					<li>https: {str_replace('https://','http://',rtrim(App\Config::main('site_URL'),'/'))}:443/dav.php/principals/(__dav_login__)/</li>
 				</ul>
 			</div>
@@ -154,4 +154,5 @@
 			</div>
 		</div>
 	</div>
+<!-- /tpl-Settings-Dav-Keys -->
 {/strip}

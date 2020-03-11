@@ -170,6 +170,8 @@ class Install_Index_View extends \App\Controller\View\Base
 	/**
 	 * Show choose host step.
 	 *
+	 * @param App\Request $request
+	 *
 	 * @return void
 	 */
 	public function stepChooseHost(App\Request $request)
@@ -181,6 +183,8 @@ class Install_Index_View extends \App\Controller\View\Base
 
 	/**
 	 * Show buy modal in choose host step.
+	 *
+	 * @param App\Request $request
 	 *
 	 * @return void
 	 */
@@ -200,6 +204,8 @@ class Install_Index_View extends \App\Controller\View\Base
 
 	/**
 	 * Show product modal in choose host step.
+	 *
+	 * @param App\Request $request
 	 *
 	 * @return void
 	 */

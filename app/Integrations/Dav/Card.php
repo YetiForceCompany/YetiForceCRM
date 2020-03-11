@@ -55,7 +55,6 @@ class Card
 			],
 		],
 	];
-
 	/**
 	 * Mail fields.
 	 *
@@ -65,7 +64,6 @@ class Card
 		'Contacts' => ['email' => 'WORK', 'secondary_email' => 'HOME'],
 		'OSSEmployees' => ['business_mail' => 'WORK', 'private_mail' => 'HOME'],
 	];
-
 	/**
 	 * $Phone fields.
 	 *
@@ -75,7 +73,6 @@ class Card
 		'Contacts' => ['phone' => 'WORK', 'mobile' => 'CELL'],
 		'OSSEmployees' => ['business_phone' => 'WORK', 'private_phone' => 'CELL', 'secondary_phone' => 'OTHER'],
 	];
-
 	/**
 	 * VCard - object.
 	 *
@@ -88,12 +85,6 @@ class Card
 	 * @var \Users_Record_Model
 	 */
 	public $user;
-	/**
-	 * Record model instance.
-	 *
-	 * @var \Vtiger_Record_Model[]
-	 */
-	private $records = [];
 	/**
 	 * Record data.
 	 *

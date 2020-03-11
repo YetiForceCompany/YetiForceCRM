@@ -20,7 +20,7 @@
 				{if !empty($SPECIAL_VALIDATOR)}data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}"{/if} >
 			{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 				<option class="u-bg-{$PICKLIST_NAME} text-light u-hover-bold" value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if $FIELD_MODEL->get('fieldvalue') eq $PICKLIST_NAME} selected {/if}>
-						{\App\Purifier::encodeHtml(\App\Utils::mb_ucfirst($PICKLIST_NAME))}
+						{\App\Purifier::encodeHtml(\App\Utils::mbUcfirst($PICKLIST_NAME))}
 						</option>
 			{/foreach}
 		</select>
