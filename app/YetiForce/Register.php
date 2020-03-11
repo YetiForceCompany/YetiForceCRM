@@ -208,17 +208,23 @@ class Register
 	 */
 	public static function verify($timer = false): bool
 	{
+		if (\App\Cache::staticHas('RegisterVerify', $timer)) {
+			return \App\Cache::staticGet('RegisterVerify', $timer);
+		}
 		$conf = static::getConf();
 		if (!$conf) {
+			\App\Cache::staticSave('RegisterVerify', $timer, false);
 			return false;
 		}
 		$status = $conf['status'] > 5;
 		if (!empty($conf['serialKey']) && $status && static::verifySerial($conf['serialKey'])) {
+			\App\Cache::staticSave('RegisterVerify', $timer, true);
 			return true;
 		}
 		if ($timer && !empty($conf['register_time']) && strtotime('+14 days', strtotime($conf['register_time'])) > time()) {
 			$status = true;
 		}
+		\App\Cache::staticSave('RegisterVerify', $timer, $status);
 		return $status;
 	}
 
@@ -240,7 +246,8 @@ class Register
 			'last_error_date' => $data['last_error_date'] ?? '',
 			'products' => $data['products'] ?? [],
 		];
-		\App\Utils::saveToFile(static::REGISTRATION_FILE, static::$config, 'Modifying this file will breach the licence terms!!!', 0, true);
+		\App\Utils::saveToFile(static::REGISTRATION_FILE, static::$config, 'Modifying this file or functions that affect the footer appearance will violate the license terms!!!', 0, true);
+		\App\YetiForce\Shop::generateCache();
 	}
 
 	/**

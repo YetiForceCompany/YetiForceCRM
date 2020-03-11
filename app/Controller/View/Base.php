@@ -606,7 +606,7 @@ abstract class Base extends \App\Controller\Base
 				'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
 				'rowHeight' => $userModel->getDetail('rowheight'),
 				'userId' => $userModel->getId(),
-				// Modifying this file will breach the licence terms!!!
+				// Modifying this file or functions that affect the footer appearance will violate the license terms!!!
 				'disableBranding' => \App\YetiForce\Shop::check('YetiForceDisableBranding')
 			];
 		}

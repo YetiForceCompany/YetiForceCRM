@@ -199,10 +199,19 @@ class Shop
 	 */
 	public static function verify(): bool
 	{
-		foreach (self::getProducts() as $product) {
-			if (!$product->verify()) {
-				self::$verifyProduct = $product->getLabel();
-				return false;
+		if ($cacheData = self::getFromCache()) {
+			foreach ($cacheData as $product => $status) {
+				if (!$status) {
+					self::$verifyProduct = \App\Language::translate('LBL_SHOP_' . \strtoupper($product), 'Settings:YetiForce');
+					return false;
+				}
+			}
+		} else {
+			foreach (self::getProducts() as $product) {
+				if (!$product->verify()) {
+					self::$verifyProduct = $product->getLabel();
+					return false;
+				}
 			}
 		}
 		return true;
