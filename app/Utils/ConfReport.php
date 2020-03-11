@@ -1020,7 +1020,7 @@ class ConfReport
 	private static function parserOnOff(string $name, array $row)
 	{
 		$container = $row['container'];
-		$current = static::${$container}[\strtolower($name)] ?? '';
+		$current = static::${$container}[\strtolower($name)] ?? static::${$container}[$name] ?? '';
 		static $map = ['on' => 'On', 'true' => 'On', 'off' => 'Off', 'false' => 'Off'];
 		return isset($map[strtolower($current)]) ? $map[strtolower($current)] : ($current ? 'On' : 'Off');
 	}
