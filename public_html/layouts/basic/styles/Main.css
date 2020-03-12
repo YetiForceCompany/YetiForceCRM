@@ -17087,6 +17087,27 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
   filter: invert(100%);
   -webkit-filter: invert(100%); }
 
+.u-hidden-block {
+  position: absolute;
+  opacity: 0;
+  right: 2.5rem;
+  padding: 0.25rem;
+  top: -1px; }
+
+.u-hidden-block__opened .u-hidden-block {
+  opacity: 1;
+  box-shadow: 0 0 3px 0px;
+  background: #fff;
+  max-width: calc(100% - 2rem);
+  border-radius: 3px; }
+
+@media (min-width: 992px) {
+  .u-hidden-block-btn {
+    display: none; }
+  .u-hidden-block {
+    position: static;
+    opacity: 1; } }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel,
 .bodyContents,

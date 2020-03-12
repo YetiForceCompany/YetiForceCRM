@@ -2666,6 +2666,16 @@ var app = (window.app = {
 		const temporalDiv = document.createElement('div');
 		temporalDiv.innerHTML = html;
 		return temporalDiv.textContent || temporalDiv.innerText || '';
+	},
+	registerShowHideBlock(container) {
+		container.on('click', '.js-hb__btn', e => {
+			$(e.currentTarget)
+				.closest('.js-hb__container')
+				.toggleClass('u-hidden-block__opened');
+		});
+		container.find('.js-fab__container').on('clickoutside', e => {
+			$(e.currentTarget).removeClass('u-hidden-block__opened');
+		});
 	}
 });
 CKEDITOR.disableAutoInline = true;
@@ -2687,6 +2697,7 @@ $(document).ready(function() {
 	app.registerIframeEvents(document);
 	app.registesterScrollbar(document);
 	app.registerHtmlToImageDownloader(document);
+	app.registerShowHideBlock(document);
 	App.Components.Scrollbar.initPage();
 	String.prototype.toCamelCase = function() {
 		let value = this.valueOf();

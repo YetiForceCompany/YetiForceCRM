@@ -12,14 +12,13 @@
 				<h5 class="mb-0" title="{$TRANSLATED_LABEL}">{$TRANSLATED_LABEL}</h5>
 			</div>
 			{if !$IS_READ_ONLY}
-				<div class="c-detail-widget__actions q-fab z-fab row inline justify-center js-fab__container ml-auto quasar-reset">
-					<button type="button" tabindex="0" class="js-fab__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable u-font-size-10px q-ml-auto">
-						<div tabindex="-1" class="q-focus-helper"></div>
-						<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
-							<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
+				<div class="row inline justify-center js-hb__container ml-auto">
+					<button type="button" tabindex="0" class="btn js-hb__btn u-hidden-block-btn text-grey-6 py-0 px-1">
+						<div class="text-center col items-center justify-center row">
+							<i aria-hidden="true" class="mdi mdi-wrench"></i>
 						</div>
 					</button>
-					<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions">
+					<div class="u-hidden-block items-center js-comment-actions">
 						{assign var="CURRENT_VIEW" value="full"}
 						{assign var="CURRENT_MODE_LABEL" value="{\App\Language::translate('LBL_COMPLETE_DETAILS',{$MODULE_NAME})}"}
 						<button type="button" class="btn btn-sm btn-light changeDetailViewMode ml-auto">

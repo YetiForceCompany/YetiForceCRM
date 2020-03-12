@@ -739,3 +739,27 @@ body:not(.desktop) {
 	filter: invert(100%);
 	-webkit-filter: invert(100%);
 }
+
+.u-hidden-block {
+	position: absolute;
+	opacity: 0;
+	right: 2.5rem;
+	padding: 0.25rem;
+	top: -1px;
+}
+.u-hidden-block__opened .u-hidden-block {
+	opacity: 1;
+	box-shadow: 0 0 3px 0px;
+	background: #fff;
+	max-width: calc(100% - 2rem);
+	border-radius: 3px;
+}
+@include media-breakpoint-up(lg) {
+	.u-hidden-block-btn {
+		display: none;
+	}
+	.u-hidden-block {
+		position: static;
+		opacity: 1;
+	}
+}
