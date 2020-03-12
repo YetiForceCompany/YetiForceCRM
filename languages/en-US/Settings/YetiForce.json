@@ -59,7 +59,7 @@
     "LBL_PRODUCT_PREVIEW": "Product Preview",
     "LBL_SUPPORT_US": "Support us",
     "LBL_SHOP_PRODUCT_NAME": "Product name",
-    "LBL_SHOP_AMOUNT": "Amount",
+    "LBL_SHOP_AMOUNT": "Total price",
     "LBL_SHOP_INVOICE_DETAILS": "Invoice data extracted from company data",
     "LBL_SHOP_INVOICE_DETAILS_DESC": "Modification of entered data triggers data update in the system",
     "LBL_SHOP_SUBSCRIPTIONS_DAY": "Payment due date",
