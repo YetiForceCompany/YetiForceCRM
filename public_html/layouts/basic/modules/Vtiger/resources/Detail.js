@@ -1411,21 +1411,8 @@ jQuery.Class(
 					eventsGoToFullFormButton.data('url', eventsFullFormUrl);
 				};
 				var callbackFunction = function() {
-					var widgetContainer = element.closest('.js-detail-widget');
-					var widgetContentBlock = widgetContainer.find('.widgetContentBlock');
-					var urlParams = widgetContentBlock.data('url');
-					var params = {
-						type: 'GET',
-						dataType: 'html',
-						data: urlParams
-					};
-					AppConnector.request(params).done(function(data) {
-						var activitiesWidget = widgetContainer.find('.js-detail-widget-content');
-						activitiesWidget.html(data);
-						App.Fields.Picklist.changeSelectElementView(activitiesWidget);
-						thisInstance.loadWidget($('.widgetContentBlock[data-type="Updates"]'));
-						thisInstance.loadWidget($('.widgetContentBlock[data-name="Calendar"]'));
-					});
+					thisInstance.getFiltersDataAndLoad(e);
+					thisInstance.loadWidget($('.widgetContentBlock[data-type="Updates"]'));
 				};
 				let QuickCreateParams = {};
 				QuickCreateParams['callbackPostShown'] = preQuickCreateSave;
@@ -1681,28 +1668,6 @@ jQuery.Class(
 				thisInstance.getFiltersDataAndLoad(e);
 			});
 		},
-		registerChangeSwitchForWidget: function(summaryViewContainer) {
-			var thisInstance = this;
-			summaryViewContainer.find('.activityWidgetContainer').on('change', '.js-switch', function(e) {
-				var currentElement = jQuery(e.currentTarget);
-				var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
-				var widget = summaryWidgetContainer.find('.widgetContentBlock');
-				var url = widget.data('url');
-				url = url.replace('&type=current', '').replace('&type=history', '');
-				url += '&type=';
-				if (typeof currentElement.data('on-val') !== 'undefined') {
-					summaryWidgetContainer.find('.ativitiesPagination').removeClass('d-none');
-					url += 'current';
-					url = url.replace('&sortorder=DESC', '&sortorder=ASC');
-				} else if (typeof currentElement.data('off-val') !== 'undefined') {
-					summaryWidgetContainer.find('.ativitiesPagination').addClass('d-none');
-					url += 'history';
-					url = url.replace('&sortorder=ASC', '&sortorder=DESC');
-				}
-				widget.data('url', url);
-				thisInstance.loadWidget($(widget));
-			});
-		},
 		/**
 		 * Function to register all the events related to summary view widgets
 		 */
@@ -1710,7 +1675,6 @@ jQuery.Class(
 			var thisInstance = this;
 			this.registerEventForActivityWidget();
 			this.registerChangeFilterForWidget();
-			this.registerChangeSwitchForWidget(summaryViewContainer);
 			this.registerAddingInventoryRecords();
 			this.registerEmailEvent();
 			/**
@@ -2991,23 +2955,21 @@ jQuery.Class(
 				currentTarget.prop('disabled', true);
 				var container = currentTarget.closest('.activityWidgetContainer');
 				var page = container.find('.currentPage').val();
-				page++;
-				var url = container.find('.widgetContentBlock').data('url');
-				url = url.replace('&page=1', '&page=' + page);
-				url += '&totalCount=' + container.find('.totaltActivities').val();
-				AppConnector.request(url).done(function(data) {
+				let records = container.find('.countActivities').val();
+				let data = thisInstance.getFiltersData(e, { page: ++page });
+				AppConnector.request({
+					type: 'POST',
+					async: false,
+					dataType: 'html',
+					data: data['params']
+				}).done(function(data) {
 					currentTarget.prop('disabled', false);
 					currentTarget.addClass('d-none');
-					var currentPage = container.find('.currentPage').val();
 					container.find('.currentPage').remove();
 					container.find('.countActivities').remove();
 					container.find('.js-detail-widget-content').append(data);
-					container
-						.find('.countActivities')
-						.val(
-							parseInt(container.find('.countActivities').val()) +
-								currentPage * parseInt(container.find('.pageLimit').val())
-						);
+					let newRecords = container.find('.countActivities').val();
+					container.find('.countActivities').val(parseInt(newRecords) + parseInt(records));
 					thisInstance.reloadWidgetActivitesStats(container);
 				});
 			});
@@ -3060,15 +3022,22 @@ jQuery.Class(
 		reloadWidgetActivitesStats: function(container) {
 			var countElement = container.find('.countActivities');
 			var totalElement = container.find('.totaltActivities');
-			if (!countElement.length || !totalElement.length) {
+			if (!countElement.length || !totalElement.length || totalElement.val() === '') {
 				return false;
 			}
 			var stats = ' (' + countElement.val() + '/' + totalElement.val() + ')';
 			var switchBtn = container.find('.active .js-switch');
+			if (!switchBtn.length) {
+				switchBtn = container.find('.js-switch.previousMark');
+			} else {
+				container.find('.js-switch').removeClass('previousMark');
+				switchBtn.addClass('previousMark');
+			}
 			var switchBtnParent = switchBtn.parent();
 			var text = switchBtn.data('basic-text') + stats;
 			switchBtnParent.removeTextNode();
 			switchBtnParent.append(text);
+			container.find('.js-switch').toggleClass('previousMark');
 		},
 		refreshCommentContainer: function(commentId) {
 			var thisInstance = this;
