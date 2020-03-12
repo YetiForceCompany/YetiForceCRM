@@ -648,11 +648,19 @@ jQuery.Class(
 			return jQuery('input[name="currentPageNum"]', this.getContentHolder()).val();
 		},
 		/**
-		 * function to remove comment block if its exists.
+		 * function to hide comment block.
 		 */
-		removeCommentBlockIfExists: function() {
-			$('.js-add-comment-block', $('.js-comments-body', this.getContentHolder())).remove();
+		hideCommentBlock: function() {
+			$('.js-add-comment-block', $('.js-comments-body', this.getContentHolder())).hide();
 		},
+
+		/**
+		 * function to show comment block.
+		 */
+		showCommentBlock: function() {
+			$('.js-add-comment-block', $('.js-comments-body', this.getContentHolder())).show();
+		},
+
 		/**
 		 * function to get the Comment thread for the given parent.
 		 * params: Url to get the Comment thread
@@ -776,6 +784,7 @@ jQuery.Class(
 		 * return jQuery Obj.
 		 */
 		getCommentBlock: function() {
+
 			let clonedCommentBlock = jQuery('.basicAddCommentBlock', this.getContentHolder())
 				.clone(true, true)
 				.removeClass('basicAddCommentBlock d-none')
@@ -2375,10 +2384,10 @@ jQuery.Class(
 				let commentInfoBlock = $(e.currentTarget.closest('.js-comment-single'));
 				commentInfoBlock.find('.js-comment-container').show();
 				commentInfoBlock.find('.js-comment-info').show();
-				self.removeCommentBlockIfExists();
+				self.hideCommentBlock();
 			});
 			detailContentsHolder.on('click', '.js-reply-comment', function(e) {
-				self.removeCommentBlockIfExists();
+				self.hideCommentBlock();
 				let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single');
 				commentInfoBlock.find('.js-comment-container').hide();
 				self.getCommentBlock()
@@ -2386,7 +2395,7 @@ jQuery.Class(
 					.show();
 			});
 			detailContentsHolder.on('click', '.js-edit-comment', function(e) {
-				self.removeCommentBlockIfExists();
+				self.hideCommentBlock();
 				let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single'),
 					commentInfoContent = commentInfoBlock.find('.js-comment-info'),
 					editCommentBlock = self.getEditCommentBlock();
@@ -2427,6 +2436,7 @@ jQuery.Class(
 							element.removeAttr('disabled');
 							app.errorLog(error, err);
 						});
+				 self.showCommentBlock();
 				}
 			});
 			detailContentsHolder.on('click', '.js-more-recent-comments ', function() {
