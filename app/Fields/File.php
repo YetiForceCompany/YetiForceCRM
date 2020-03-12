@@ -727,7 +727,7 @@ class File
 		if (!$badFileExtensions) {
 			$badFileExtensions = \App\Config::main('upload_badext');
 		}
-		$fileName = preg_replace('/\s+/', '_', \App\Utils::removeSpecialChars($fileName));
+		$fileName = preg_replace('/\s+/', '_', \App\Utils::sanitizeSpecialChars($fileName));
 		$fileName = rtrim($fileName, '\\/<>?*:"<>|');
 
 		$fileNameParts = explode('.', $fileName);

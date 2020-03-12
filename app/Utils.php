@@ -182,14 +182,14 @@ class Utils
 	}
 
 	/**
-	 * Remove special chars from given string
+	 * Sanitize special chars from given string
 	 *
 	 * @param string $string
 	 * @param string $delimiter
 	 *
 	 * @return string
 	 */
-	public static function removeSpecialChars(string $string, string $delimiter = '_'): string
+	public static function sanitizeSpecialChars(string $string, string $delimiter = '_'): string
 	{
 		$string = mb_convert_encoding((string) $string, 'UTF-8', mb_list_encodings());
 		$replace = [
