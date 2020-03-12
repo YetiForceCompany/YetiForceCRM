@@ -1063,7 +1063,7 @@ insert  into `u_yf_istrn_invmap`(`module`,`field`,`tofield`) values ('Products',
 
 /*Data for the table `u_yf_multicompany` */
 
-insert  into `u_yf_multicompany`(`multicompanyid`,`company_name`,`parent_id`,`number`,`mulcomp_status`,`email1`,`email2`,`phone`,`phone_extra`,`mobile`,`mobile_extra`,`fax`,`fax_extra`,`vat`,`companyid1`,`companyid2`,`buildingnumbera`,`localnumbera`,`addresslevel8a`,`addresslevel7a`,`addresslevel6a`,`addresslevel5a`,`addresslevel4a`,`addresslevel3a`,`addresslevel2a`,`addresslevel1a`,`poboxa`,`website`,`logo`) values (1,'YetiForce Sp. z o.o. ',0,'MC1','PLL_ACTIVE','','','','','','','','','','','','','','','','','','','','','','','',NULL);
+insert  into `u_yf_multicompany`(`multicompanyid`,`company_name`,`parent_id`,`number`,`mulcomp_status`,`email1`,`email2`,`phone`,`phone_extra`,`mobile`,`mobile_extra`,`fax`,`fax_extra`,`vat`,`companyid1`,`companyid2`,`buildingnumbera`,`localnumbera`,`addresslevel8a`,`addresslevel7a`,`addresslevel6a`,`addresslevel5a`,`addresslevel4a`,`addresslevel3a`,`addresslevel2a`,`addresslevel1a`,`poboxa`,`website`,`logo`) values (1,'YetiForce Sp. z o.o. ',0,'MC1','PLL_ACTIVE','','','','','','','','','','','','','','','','','','','','','','','','[{\"name\":\"logo_yetiforce.png\",\"size\":\"3 KB\",\"path\":\"public_html\\\\layouts\\\\resources\\\\Logo\\\\logo_login_page.png\",\"key\":\"11111111111111111111111111111111111111111111111111\"}]');
 
 /*Data for the table `u_yf_multicompanycf` */
 
