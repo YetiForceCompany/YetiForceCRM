@@ -21,6 +21,7 @@
 			<input type="hidden" class="countActivities" value="{count($ACTIVITIES)}"/>
 			<input type="hidden" class="currentPage" value="{$PAGE_NUMBER}"/>
 			{assign var=SHOW_LINK_TO_CALENDAR value=App\Config::module($MODULE_NAME, 'CALENDAR_VIEW') === 'Extended' && App\Config::module($MODULE_NAME, 'SHOW_EDIT_FORM')}
+			{assign var=CURRENT_STATUSES value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
 			{foreach item=RECORD key=KEY from=$ACTIVITIES name=activities}
 				{if $PAGE_NUMBER neq 1 && $smarty.foreach.activities.first}
 					<hr>
@@ -29,7 +30,7 @@
 				{assign var=START_TIME value=$RECORD->get('time_start')}
 				{assign var=END_DATE value=$RECORD->get('due_date')}
 				{assign var=END_TIME value=$RECORD->get('time_end')}
-				{assign var=SHAREDOWNER value=\App\Fields\SharedOwner::getById($RECORD->get('crmid'))}
+				{assign var=SHAREDOWNER value=\App\Fields\SharedOwner::getById($RECORD->getId())}
 				<div class="activityEntries p-1">
 					<input type="hidden" class="activityModule" value="{$MODULE_NAME}"/>
 					<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}"/>
@@ -83,7 +84,7 @@
 										<span class="fas fa-tags fa-fw mr-1"></span>
 										<span class="value">{$RECORD->getDisplayValue('activitystatus')}</span>
 									</strong>&nbsp;&nbsp;
-									{if $DATA_TYPE != 'history'}
+									{if in_array($RECORD->get('activitystatus'), $CURRENT_STATUSES)}
 										{if $SHOW_LINK_TO_CALENDAR}
 											{assign var=ACTIVITY_URL value="index.php?module=Calendar&view=QuickEditAjax&record={$RECORD->getId()}"}
 											<span class="editDefaultStatus u-cursor-pointer float-right js-popover-tooltip showEdit" data-url="{$ACTIVITY_URL}"
@@ -161,7 +162,7 @@
 								  {if count($RECORD->get('selectedusers')) > 0}
 									  <br />{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}:
 									  {foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
-									 	 {if $USER}{\App\Purifier::encodeHtml(\App\Fields\Owner::getLabel($USER))}{/if}
+									 	 {if $USER} {\App\Purifier::encodeHtml(\App\Fields\Owner::getLabel($USER))}{/if}
 									  {/foreach}
 								  {/if}
 							">
