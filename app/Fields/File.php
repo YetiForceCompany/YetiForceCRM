@@ -967,7 +967,7 @@ class File
 		if (!is_dir($filepath)) { //create new folder
 			mkdir($filepath, 0755, true);
 		}
-		return $filepath . \DIRECTORY_SEPARATOR;
+		return str_replace('\\', '/', $filepath . \DIRECTORY_SEPARATOR);
 	}
 
 	/**
