@@ -20,7 +20,7 @@ class OSSSoldServices_Record_Model extends Vtiger_Record_Model
 
 	public function getRenewalValue()
 	{
-		if ($this->isEmpty('serviceid')) {
+		if ($this->isEmpty('serviceid') || !\App\Record::isExists($this->get('serviceid'), 'Services')) {
 			return 'PLL_NOT_APPLICABLE_VERIFICATION';
 		}
 		$productsRecordModel = Vtiger_Record_Model::getInstanceById($this->get('serviceid'), 'Services');
