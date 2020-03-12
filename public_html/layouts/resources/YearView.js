@@ -63,18 +63,20 @@ FC.views.year = View.extend({
 				.find('.fc-day-top')
 				.first()
 				.data('date');
-			let actualWeek = moment(date).format('WW');
-			$(this).prepend(
-				`<div class="js-show-week js-popover-tooltip fc-year__show-week-btn" data-toggle="popover" data-date="${date}" data-content="${app.vtranslate(
-					'JS_WEEK'
-				)} ${actualWeek}" role="tooltip" data-js="click | popover">${actualWeek}</div>`
-			);
+			if (date !== undefined) {
+				let actualWeek = moment(date).format('WW');
+				$(this).prepend(
+					`<div class="js-show-week js-popover-tooltip fc-year__show-week-btn" data-toggle="popover" data-date="${date}" data-content="${app.vtranslate(
+						'JS_WEEK'
+					)} ${actualWeek}" role="tooltip" data-js="click | popover">${actualWeek}</div>`
+				);
+			}
 		});
 		this.getCalendarView()
 			.find('.js-show-week')
 			.on('click', e => {
 				$(e.currentTarget).popover('hide');
-				let date = moment($(e.currentTarget).data('date')).format(CONFIG.dateFormat.toUpperCase());
+				let date = moment($(e.currentTarget).data('date')).format();
 				this.getCalendarView().fullCalendar('changeView', 'agendaWeek', date);
 				$('.js-sub-record .active').click();
 			});

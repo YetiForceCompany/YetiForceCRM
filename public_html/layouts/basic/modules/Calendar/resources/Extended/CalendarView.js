@@ -525,7 +525,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		}
 		self.clearFilterButton(user, cvid);
 		if (view.type === 'agendaDay') {
-			self.selectDays(view.start, view.end);
 			view.end = view.end.add(1, 'day');
 		}
 		let time = this.getSidebarView()
