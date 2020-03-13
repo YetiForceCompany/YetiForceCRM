@@ -1,10 +1,11 @@
 @font-face {
 	font-family: 'adminIcon';
-	src: url('adminIcon.eot?svldh9');
-	src: url('adminIcon.eot?svldh9#iefix') format('embedded-opentype'), url('adminIcon.ttf?svldh9') format('truetype'),
-		url('adminIcon.woff?svldh9') format('woff'), url('adminIcon.svg?svldh9#adminIcon') format('svg');
+	src: url('adminIcon.eot?di0kib');
+	src: url('adminIcon.eot?di0kib#iefix') format('embedded-opentype'), url('adminIcon.ttf?di0kib') format('truetype'),
+		url('adminIcon.woff?di0kib') format('woff'), url('adminIcon.svg?di0kib#adminIcon') format('svg');
 	font-weight: normal;
 	font-style: normal;
+	font-display: block;
 }
 
 [class^='adminIcon-'],
@@ -23,6 +24,21 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.adminIcon-Occurrences:before {
+	content: '\e914';
+}
+.adminIcon-Approvals:before {
+	content: '\e91d';
+}
+.adminIcon-ApprovalsRegister:before {
+	content: '\e91e';
+}
+.adminIcon-Locations:before {
+	content: '\e91f';
+}
+.adminIcon-MailIntegration:before {
+	content: '\e936';
+}
 .adminIcon-system-monitoring:before {
 	content: '\e91c';
 }
