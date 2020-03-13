@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -1363,7 +1364,7 @@ class Vtiger_Record_Model extends \App\Base
 				$recordLinks[] = [
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_QUICK_EDIT',
-					'linkicon' => 'mdi mdi-square-edit-outline',
+					'linkicon' => 'yfi yfi-quick-creation',
 					'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
 					'linkdata' => [
 						'module' => $this->getModuleName(),
@@ -1475,7 +1476,7 @@ class Vtiger_Record_Model extends \App\Base
 			]);
 			$links['LBL_QUICK_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_QUICK_EDIT',
-				'linkicon' => 'mdi mdi-square-edit-outline',
+				'linkicon' => 'yfi yfi-quick-creation',
 				'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
 				'linkdata' => [
 					'module' => $this->getModuleName(),

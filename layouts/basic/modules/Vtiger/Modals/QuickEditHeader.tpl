@@ -17,8 +17,9 @@
 					<div class="col-xl-9 col-12">
 						<h5 class="modal-title form-row text-center text-xl-left mb-2 mb-xl-0">
 							<span class="col-12">
-								<span class="yfm-{$MODULE_NAME} mx-1"></span>
+								<span class="yfi yfi-quick-creation mx-1"></span>
 								<strong class="mr-1">{\App\Language::translate('LBL_QUICK_EDIT', $MODULE_NAME)}:</strong>
+								<span class="yfm-{$MODULE_NAME} mx-1"></span>
 								<strong class="text-uppercase">
 									{\App\Language::translate("SINGLE_{$MODULE_NAME}", $MODULE_NAME)}
 								</strong>
