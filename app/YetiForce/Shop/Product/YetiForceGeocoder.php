@@ -20,11 +20,11 @@ class YetiForceGeocoder extends \App\YetiForce\Shop\AbstractBaseProduct
 	 * {@inheritdoc}
 	 */
 	public $prices = [
-		'Micro' => 10,
-		'Small' => 25,
-		'Medium' => 50,
-		'Large' => 100,
-		'Corporation' => 500,
+		'Micro' => 5,
+		'Small' => 12,
+		'Medium' => 25,
+		'Large' => 50,
+		'Corporation' => 100,
 	];
 
 	/**
