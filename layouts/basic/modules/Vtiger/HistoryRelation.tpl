@@ -30,7 +30,7 @@
 								<div class="timeline-body small">
 									<div class="d-flex align-items-center">
 										<strong>{$HISTORY['userModel']->getName()}</strong>
-										<div class="btn-group ml-auto mr-1 d-sm-block d-none" role="group">
+										<div class="btn-group ml-auto mr-1 d-md-block d-none" role="group">
 											{if !$IS_READ_ONLY && $HISTORY['type'] eq 'OSSMailView'}
 												<button data-url="{$HISTORY['url']|cat:'&noloadlibs=1'}" type="button" class="showModal btn btn-sm btn-light" data-cb="Vtiger_Index_Js.registerMailButtons">
 													<span class="body-icon fas fa-search"
@@ -66,17 +66,17 @@
 												<span class="fas fa-th-list mx-1" title="{\App\Language::translate('LBL_DETAILS', $MODULE_NAME)}"></span>
 											</a>
 										</div>
-										<div class="time text-muted ml-sm-0 ml-auto">
+										<div class="time text-muted ml-md-0 ml-auto">
 											<span>{\App\Fields\DateTime::formatToViewDate($HISTORY['time'])}</span>
 										</div>
 									</div>
-									<div class="q-fab z-fab row inline justify-center js-fab__container ml-auto quasar-reset mr-1 d-sm-none d-block float-right">
-											<button type="button" tabindex="0" class="js-fab__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat text-grey-6 q-focusable q-hoverable u-font-size-10px p-0">
-												<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
+									<div class="js-hb__container ml-auto float-right d-md-none d-sm-block">
+											<button type="button" tabindex="0" class="btn js-hb__btn u-hidden-block-btn text-grey-6 py-0 px-1">
+												<div class="text-center col items-center justify-center row">
 													<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
 												</div>
 											</button>
-											<div class="q-fab__actions flex flex-row no-wrap inline items-center q-fab__actions--left js-comment-actions">
+											<div class="u-hidden-block items-center js-comment-actions">
 												{if !$IS_READ_ONLY && $HISTORY['type'] eq 'OSSMailView'}
 													<button data-url="{$HISTORY['url']|cat:'&noloadlibs=1'}" type="button"
 														class="showModal btn btn-sm btn-light"
