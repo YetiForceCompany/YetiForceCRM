@@ -39,7 +39,7 @@ class Settings_Vtiger_Icons_Model
 		static::init();
 		$icons = [];
 		foreach (self::$icons['user'] as $icon) {
-			$icons[$icon] = 'userIcon-' . $icon;
+			$icons[$icon] = 'yfm-' . $icon;
 		}
 		return $icons;
 	}

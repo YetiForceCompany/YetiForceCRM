@@ -5,7 +5,7 @@
 			   title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"/>
 	</div>
 	{assign var=IMAGE_CLASS value=Documents_Record_Model::getFileIconByFileType($LISTVIEW_ENTRY->get('filetype'))}
-	<span class="{$IMAGE_CLASS} fa-lg middle {if $IMAGE_CLASS eq 'userIcon-Documents'}back4RightMargin{/if} ml-1"></span>
+	<span class="{$IMAGE_CLASS} fa-lg middle {if $IMAGE_CLASS eq 'yfm-Documents'}back4RightMargin{/if} ml-1"></span>
 	{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordListViewLinksLeftSide()}
 	{if count($LINKS) > 0}
 		{assign var=ONLY_ONE value=count($LINKS) eq 1}

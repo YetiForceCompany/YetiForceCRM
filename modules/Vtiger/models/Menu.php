@@ -205,7 +205,7 @@ class Vtiger_Menu_Model
 			if (false !== strpos($menu['icon'], 'fa-')) {
 				return '<span class="fa-lg fa-fw ' . $menu['icon'] . ' c-menu__item__icon"></span>';
 			}
-			if (false !== strpos($menu['icon'], 'adminIcon-') || false !== strpos($menu['icon'], 'userIcon-') || false !== strpos($menu['icon'], 'AdditionalIcon-') || false !== strpos($menu['icon'], 'yfi-') || false !== strpos($menu['icon'], 'yfm-') || false !== strpos($menu['icon'], 'mdi-')) {
+			if (false !== strpos($menu['icon'], 'adminIcon-') || false !== strpos($menu['icon'], 'AdditionalIcon-') || false !== strpos($menu['icon'], 'yfi-') || false !== strpos($menu['icon'], 'yfm-') || false !== strpos($menu['icon'], 'mdi-')) {
 				return '<span class="c-menu__item__icon ' . $menu['icon'] . '" aria-hidden="true"></span>';
 			}
 			$icon = \Vtiger_Theme::getImagePath($menu['icon']);
@@ -214,7 +214,7 @@ class Vtiger_Menu_Model
 			}
 		}
 		if (isset($menu['type']) && 'Module' === $menu['type']) {
-			return '<span class="c-menu__item__icon userIcon-' . $menu['mod'] . '" aria-hidden="true"></span>';
+			return '<span class="c-menu__item__icon yfm-' . $menu['mod'] . '" aria-hidden="true"></span>';
 		}
 		return '';
 	}

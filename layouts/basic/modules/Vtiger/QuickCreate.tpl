@@ -26,7 +26,7 @@
 									<strong class="mr-1">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}
 										:</strong>
 									<strong class="text-uppercase"><span
-												class="userIcon-{$MODULE} mx-1"></span>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong>
+												class="yfm-{$MODULE} mx-1"></span>{\App\Language::translate($SINGLE_MODULE, $MODULE)}</strong>
 								</span>
 							</h5>
 						</div>

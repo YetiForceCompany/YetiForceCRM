@@ -24,7 +24,7 @@
 						 height="80" align="left">
 					<br/>
 				{else}
-					<span class="o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
+					<span class="o-detail__icon js-detail__icon yfm-{$MODULE}"></span>
 				{/if}
 			</div>
 			<div class="p-0 d-flex flex-column">

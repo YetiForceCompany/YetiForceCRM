@@ -17,7 +17,7 @@
 											<span class="fas fa-plus mr-1"></span>
 											<strong class="mr-1">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE_NAME)}:</strong>
 											<strong class="text-uppercase">
-												<span class="userIcon-{$MODULE_NAME} mx-1"></span>{\App\Language::translate($SINGLE_MODULE, $MODULE_NAME)}
+												<span class="yfm-{$MODULE_NAME} mx-1"></span>{\App\Language::translate($SINGLE_MODULE, $MODULE_NAME)}
 											</strong>
 										</div>
 										<div class="js-modal-title--status d-none">

@@ -15,7 +15,7 @@
 						{assign var=IS_PERMITTED_RECORD value=true}
 					{/if}
 					{if $SHOW_MODULE}
-						<span class="userIcon-{$RECORD_MODEL->getModuleName()} fa-lg fa-fw mr-1"
+						<span class="yfm-{$RECORD_MODEL->getModuleName()} fa-lg fa-fw mr-1"
 							title="{\App\Language::translateSingularModuleName($RECORD_MODEL->getModuleName())}"></span>
 					{/if}
 					<span {if $IS_PERMITTED_RECORD}

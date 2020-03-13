@@ -1379,7 +1379,7 @@ $.Class(
 			newRow
 				.find('.js-module-icon')
 				.removeClass()
-				.addClass(`userIcon-${module}`);
+				.addClass(`yfm-${module}`);
 			newRow.find('.rowName span.input-group-text').attr('data-content', moduleLbls[module]);
 			newRow.find('.colPicklistField select').each(function(index, select) {
 				select = $(select);

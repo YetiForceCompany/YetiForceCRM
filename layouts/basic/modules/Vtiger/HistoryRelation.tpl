@@ -12,7 +12,7 @@
 					<li>
 						<div class="d-flex">
 							<span class="c-circle-icon mt-2 {$HISTORY['class']}" aria-hidden="true">
-									<span class="mb-1 text-light {$HISTORY['class']} userIcon-{$HISTORY['type']}"></span>
+									<span class="mb-1 text-light {$HISTORY['class']} yfm-{$HISTORY['type']}"></span>
 							</span>
 							<div class="flex-grow-1 ml-1 p-1 timeline-item">
 								<div class="float-left imageContainer d-sm-block d-none">

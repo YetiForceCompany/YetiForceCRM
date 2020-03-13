@@ -70,7 +70,7 @@
               spaced
             />
             <YfIcon
-              icon="userIcon-Accounts"
+              icon="yfm-Accounts"
               size="15px"
             ></YfIcon>
             <a
@@ -209,7 +209,7 @@
                 class="text-black flex"
               >
                 <YfIcon
-                  :icon="'userIcon-' + slotProps.relatedBlock"
+                  :icon="'yfm-' + slotProps.relatedBlock"
                   :size="iconSize"
                   class="mr-2"
                 ></YfIcon>

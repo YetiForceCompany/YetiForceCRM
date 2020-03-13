@@ -25,7 +25,7 @@
     <template #itemAvatar="{ room }">
       <YfIcon
         class="inline-block"
-        :icon="'userIcon-' + room.moduleName"
+        :icon="'yfm-' + room.moduleName"
         style="vertical-align: text-bottom;"
         size="inherit"
       />
@@ -58,7 +58,7 @@
               v-on="scope.itemEvents"
             >
               <q-item-section avatar>
-                <YfIcon :icon="`userIcon-${scope.opt.id}`" />
+                <YfIcon :icon="`yfm-${scope.opt.id}`" />
               </q-item-section>
               <q-item-section>
                 {{ scope.opt.label }}

@@ -3,7 +3,7 @@
 	<div class="d-flex flex-wrap flex-md-nowrap px-md-3 px-1 w-100">
 		<div class="u-min-w-md-70 w-100">
 			<div class="moduleIcon">
-				<span class="o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
+				<span class="o-detail__icon js-detail__icon yfm-{$MODULE}"></span>
 			</div>
 			<div class="pl-1">
 				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis-icon" data-content="{\App\Purifier::encodeHtml($RECORD->getName())}" data-toggle="popover" data-js="popover | mouseenter">

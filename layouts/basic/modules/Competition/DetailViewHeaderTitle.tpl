@@ -3,7 +3,7 @@
 	<div class="tpl-Competition-DetailViewHeaderTitle col-md-12 pr-0 row">
 		<div class="col-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
-				<span class="o-detail__icon js-detail__icon userIcon-{$MODULE}"></span>
+				<span class="o-detail__icon js-detail__icon yfm-{$MODULE}"></span>
 				{if App\Config::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
 					<span class="hierarchy js-detail-hierarchy {if $RECORD->get('competition_status') === 'PLL_ACTIVE'} bgGreen {else} bgOrange {/if}"></span>
 				{/if}

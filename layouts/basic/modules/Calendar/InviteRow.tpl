@@ -11,7 +11,7 @@
 		{assign var=LABEL value=$INVITIE['label']}
 		{assign var=NAME value=$INVITIE['label']}
 		{assign var=TITLE value=\App\Language::translateSingularModuleName($INVITIE['setype'])|cat:': '|cat:$LABEL|cat:' - '|cat:$INVITIE['email']}
-		{assign var=ICON value='userIcon-'|cat:$INVITIE['setype']}
+		{assign var=ICON value='yfm-'|cat:$INVITIE['setype']}
 	{elseif empty($INVITIE['name'])}
 		{assign var=LABEL value=$INVITIE['email']}
 		{assign var=NAME value=''}
