@@ -210,7 +210,6 @@ abstract class Base extends \App\Controller\Base
 	public function getHeaderCss(\App\Request $request)
 	{
 		return $this->checkAndConvertCssStyles([
-			'~layouts/resources/icons/userIcon.css',
 			'~layouts/resources/icons/adminIcon.css',
 			'~layouts/resources/icons/additionalIcons.css',
 			'~layouts/resources/icons/yfm.css',
