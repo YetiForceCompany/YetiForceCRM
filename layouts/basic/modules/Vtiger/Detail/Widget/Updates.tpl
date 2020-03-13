@@ -34,15 +34,9 @@
 							</div>
 						{/if}
 						{if $WIDGET['newChanege'] && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $USER_MODEL->getId() eq $USER_MODEL->getRealId()}
-							<div class="text-right ml-auto">
-								<div class="btn-group">
-									<div class="btn-group">
-										<button id="btnChangesReviewedOn" type="button" class="btn btn-success btn-sm btnChangesReviewedOn" title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
-											<span class="far fa-check-circle"></span>
-										</button>
-									</div>
-								</div>
-							</div>
+							<button id="btnChangesReviewedOn" type="button" class="btn btn-success btn-sm btnChangesReviewedOn" title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
+								<span class="far fa-check-circle"></span>
+							</button>
 						{/if}
 					</div>
 				</div>
