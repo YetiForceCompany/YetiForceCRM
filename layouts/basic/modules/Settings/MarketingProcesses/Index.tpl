@@ -77,7 +77,7 @@
 												</select>
 											</div>
 											<div class="actionImages">
-												<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle deleteMapping"></span></a>
+												<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt deleteMapping"></span></a>
 											</div>
 										</div>
 									</td>
@@ -105,7 +105,7 @@
 											</select>
 										</div>
 										<div class="actionImages">
-											<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle deleteMapping"></span></a>
+											<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt deleteMapping"></span></a>
 										</div>
 									</div>
 								</td>
