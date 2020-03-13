@@ -40,7 +40,7 @@
 					{assign var=PROCEED value= TRUE}
 					{if ($UPDATE_ROW->isRelationLink()) or ($UPDATE_ROW->isRelationUnLink())}
 						{assign var=RELATION value=$UPDATE_ROW->getRelationInstance()}
-						{if !($RELATION->getLinkedRecord())}
+						{if !($RELATION->getValue())}
 							{assign var=PROCEED value= FALSE}
 						{/if}
 					{/if}
@@ -126,7 +126,30 @@
 											</span>
 											{\App\Utils::mbUcfirst(\App\Language::translate($UPDATE_ROW->getStatusLabel(), $MODULE_NAME))}&nbsp;
 											<div class="u-white-space-nowrap u-text-ellipsis--no-hover">
-												{DISPLAY_RECORD_NAME RECORD_MODEL=$RELATION->getLinkedRecord()}
+											{assign var=DISPLAY_TEXT value=$RELATION->getValue()}
+												{if $DISPLAY_TEXT}
+													{if $RELATION->get('targetmodule') eq 'ModComments'}
+														{assign var=IS_PERMITTED_RECORD value=false}
+														{assign var=DISPLAY_TEXT value=\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML(\App\Purifier::decodeHtml($RELATION->getValue())))}
+													{else}
+														{assign var=IS_PERMITTED_RECORD value=\App\Privilege::isPermitted($RELATION->get('targetmodule'), 'DetailView', $RELATION->get('targetid'))}
+													{/if}
+														<span class="yfm-{$RELATION->get('targetmodule')} fa-lg fa-fw mr-1"
+															title="{\App\Language::translateSingularModuleName($RELATION->get('targetmodule'))}"></span>
+													<span {if $IS_PERMITTED_RECORD}
+														class="js-popover-tooltip--ellipsis u-text-ellipsis--no-hover" data-toggle="popover"
+														data-content="{\App\Purifier::encodeHtml($DISPLAY_TEXT)}"
+														data-js="popover"{else}class="text-truncate"{/if}>
+														{if $IS_PERMITTED_RECORD}
+															<a class="modCT_{$RELATION->get('targetmodule')} js-popover-tooltip--record"
+																href="{$RELATION->getDetailViewUrl()}">
+																{$DISPLAY_TEXT}
+															</a>
+														{else}
+															<strong>{$DISPLAY_TEXT}</strong>
+														{/if}
+													</span>
+												{/if}
 											</div>
 										</div>
 									</div>
