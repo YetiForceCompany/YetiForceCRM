@@ -69,6 +69,7 @@ yarn-error.log
 /public_html/src/node_modules/*
 
 # IDEs and editors
+.idea
 /.buildpath
 .c9/
 .classpath
