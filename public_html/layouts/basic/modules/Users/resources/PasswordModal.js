@@ -11,13 +11,13 @@
 
 $.Class("Users_PasswordModal_JS", {},
 	{
-		registerValidatePassword: function(form) {
-			form.on('click', '.js-validate-password', function(e) {
+		registerValidatePassword: function(modal) {
+			modal.on('click', '.js-validate-password', function(e) {
 				AppConnector.request({
 					module: 'Users',
 					action: 'VerifyData',
 					mode: 'validatePassword',
-					password: form.find('[name="' + $(e.currentTarget).data('field') + '"]').val()
+					password: modal.find('[name="' + $(e.currentTarget).data('field') + '"]').val()
 				}).done(function(data) {
 					if (data.success && data.result) {
 						Vtiger_Helper_Js.showMessage({
