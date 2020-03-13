@@ -34,7 +34,7 @@
 					<h6 class="boxEventTitle text-muted text-center mt-1">
 						{if !empty($RECORD_ID)}
 							<div class="js-sidebar-title" data-title="edit">
-								<span class="fas fa-edit mr-1"></span>
+								<span class="yfi yfi-full-editing-view mr-1"></span>
 								{\App\Language::translate('LBL_EDIT_EVENT',$MODULE_NAME)}
 							</div>
 						{else}

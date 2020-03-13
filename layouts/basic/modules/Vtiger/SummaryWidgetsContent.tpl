@@ -75,7 +75,7 @@
 								<span class="actionImages">
 									<a class="showModal"
 									   data-url="index.php?module={$PARENT_RECORD->getModuleName()}&view=RelatedCommentModal&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&relmodule={$RELATED_MODULE->get('name')}">
-										<span class="fas fa-edit alignMiddle"
+										<span class="yfi yfi-full-editing-view alignMiddle"
 											  title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
 									</a>
 								</span>
@@ -181,7 +181,7 @@
 										<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover"
 												type="button">
 											<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}"
-												  class="fas fa-edit"></span>
+												  class="yfi yfi-full-editing-view"></span>
 										</button>
 									</a>
 								{/if}
@@ -249,7 +249,7 @@
 								<span class="actionImages">
 									<a class="showModal"
 									   data-url="index.php?module={$PARENT_RECORD->getModuleName()}&view=RelatedCommentModal&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&relmodule={$RELATED_MODULE->get('name')}">
-										<span class="fas fa-edit alignMiddle"
+										<span class="yfi yfi-full-editing-view alignMiddle"
 											  title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
 									</a>
 								</span>

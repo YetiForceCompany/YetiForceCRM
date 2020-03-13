@@ -24,7 +24,7 @@
 						<input type="hidden" value="" id="relatedFieldValue" />
 						{if $IS_SORTABLE}
 							<button class="btn btn-success btn-xs editFieldDetails ml-1">
-								<span class="fas fa-edit" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+								<span class="yfi yfi-full-editing-view" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 							</button>
 						{/if}
 						<button class="btn btn-primary btn-xs copyFieldLabel ml-1" data-target="relatedFieldValue">

@@ -33,7 +33,7 @@
 						<a href="#" data-url="{$RECORD->getEditViewUrl()}" data-id="{$ID}"
 						   class="editRecord btn mt-1 btn-default mr-1"
 						   title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}">
-							<span class="fas fa-edit summaryViewEdit"></span>
+							<span class="yfi yfi-full-editing-view summaryViewEdit"></span>
 							<span class="ml-1">{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}</span>
 						</a>
 					{/if}

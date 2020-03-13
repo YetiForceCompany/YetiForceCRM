@@ -7,7 +7,7 @@
 		<div class="col-md-4 mt-3">
 			<div class="float-right btn-toolbar">
 				<a class="btn btn-info" role="button" href="{$RECORD_MODEL->getEditViewUrl()}">
-					<span class="fas fa-edit" title="{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}"></span>
+					<span class="yfi yfi-full-editing-view" title="{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}"></span>
 					<span class="sr-only">{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</span>
 					<strong>{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</strong>
 				</a>

@@ -56,7 +56,7 @@
 		<div class="modal-footer">
 			<button class="btn btn-success" type="submit" name="saveButton"
 					{if App\Config::main('systemMode') === 'demo'}disabled{/if}>
-				<span class="fas fa-edit mr-1"></span><strong>{\App\Language::translate('BTN_SAVE', $MODULE_NAME)}</strong>
+				<span class="yfi yfi-full-editing-view mr-1"></span><strong>{\App\Language::translate('BTN_SAVE', $MODULE_NAME)}</strong>
 			</button>
 			{if !$LOCK_EXIT}
 				<button class="btn btn-danger" type="reset" data-dismiss="modal">

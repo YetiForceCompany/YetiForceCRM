@@ -64,7 +64,7 @@
 						{/if}&nbsp;
 						{if !$IS_READ_ONLY && $RECORD->isEditable()}
 							<a href="{$RECORD->getEditViewUrl()}" class="fieldValue">
-								<span class="fas fa-edit fa-fw js-detail-quick-edit"
+								<span class="yfi yfi-full-editing-view fa-fw js-detail-quick-edit"
 									  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 							</a>
 						{/if}
@@ -126,7 +126,7 @@
 									</button>
 								</span>
 								<span class="editDescription u-cursor-pointer">
-									<span class="fas fa-edit fa-fw"
+									<span class="yfi yfi-full-editing-view fa-fw"
 										  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 								</span>
 							{/if}

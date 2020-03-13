@@ -25,7 +25,7 @@
 											<strong class="mr-1">{\App\Language::translate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}</strong>
 										</div>
 										<div class="js-modal-title--edit{if !$RECORD} d-none{/if}">
-											<span class="fas fa-edit mr-1"></span>
+											<span class="yfi yfi-full-editing-view mr-1"></span>
 											<strong class="mr-1">{\App\Language::translate('LBL_EDIT_EVENT',$MODULE_NAME)}</strong>
 										</div>
 									</div>

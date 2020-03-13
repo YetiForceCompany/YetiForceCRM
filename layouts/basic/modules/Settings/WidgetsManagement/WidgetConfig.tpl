@@ -13,7 +13,7 @@
 				</div>
 				<span class="btn-group mr-3 actions">
 					<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-						<span class="fas fa-edit alignMiddle"
+						<span class="yfi yfi-full-editing-view alignMiddle"
 							  title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 					</a>
 					<div class="basicFieldOperations d-none u-overflow-x-hidden pl-2 pr-2" style="width: 375px;">

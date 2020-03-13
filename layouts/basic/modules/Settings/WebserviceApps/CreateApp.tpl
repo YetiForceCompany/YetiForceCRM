@@ -4,7 +4,7 @@
 		<form>
 			<div class="modal-header">
 				{if $RECORD_MODEL}
-					<h5 class="modal-title"><span class="fas fa-edit fa-sm mr-1"></span>{\App\Language::translate('LBL_TITLE_EDIT', $QUALIFIED_MODULE)}</h5>
+					<h5 class="modal-title"><span class="yfi yfi-full-editing-view fa-sm mr-1"></span>{\App\Language::translate('LBL_TITLE_EDIT', $QUALIFIED_MODULE)}</h5>
 				{else}
 					<h5 class="modal-title"><span class="fas fa-plus fa-sm mr-1"></span>{\App\Language::translate('LBL_TITLE_ADDED', $QUALIFIED_MODULE)}</h5>
 				{/if}

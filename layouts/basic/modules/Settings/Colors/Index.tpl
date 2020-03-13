@@ -47,7 +47,7 @@
 									</button>&ensp;
 									<button data-record="{$item.id}"
 											class="btn btn-sm btn-primary mr-1 float-right updateUserColor"><span
-												class="fas fa-edit"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}
+												class="yfi yfi-full-editing-view"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}
 									</button>&ensp;
 									<button data-record="{$item.id}"
 											class="btn btn-sm btn-warning mr-1 float-right generateUserColor"><span
@@ -82,7 +82,7 @@
 									</button>&ensp;
 									<button data-record="{$item.id}"
 											class="btn btn-sm btn-primary mr-1 float-right updateGroupColor"><span
-												class="fas fa-edit"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}
+												class="yfi yfi-full-editing-view"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}
 									</button>&ensp;
 									<button data-record="{$item.id}"
 											class="btn btn-sm btn-warning mr-1 float-right generateGroupColor"><span
@@ -122,7 +122,7 @@
 									</button>&ensp;
 									<button data-record="{$item.id}"
 											class="btn btn-sm btn-primary mr-1 float-right updateModuleColor"><span
-												class="fas fa-edit"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}
+												class="yfi yfi-full-editing-view"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}
 									</button>&ensp;
 									<button data-record="{$item.id}"
 											class="btn btn-sm btn-warning mr-1 float-right generateModuleColor"><span
