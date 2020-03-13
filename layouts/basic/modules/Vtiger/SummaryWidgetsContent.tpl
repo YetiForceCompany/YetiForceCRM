@@ -75,7 +75,7 @@
 								<span class="actionImages">
 									<a class="showModal"
 									   data-url="index.php?module={$PARENT_RECORD->getModuleName()}&view=RelatedCommentModal&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&relmodule={$RELATED_MODULE->get('name')}">
-										<span class="yfi yfi-full-editing-view alignMiddle"
+										<span class="yfi yfi-full-editing-view"
 											  title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
 									</a>
 								</span>
@@ -249,7 +249,7 @@
 								<span class="actionImages">
 									<a class="showModal"
 									   data-url="index.php?module={$PARENT_RECORD->getModuleName()}&view=RelatedCommentModal&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&relmodule={$RELATED_MODULE->get('name')}">
-										<span class="yfi yfi-full-editing-view alignMiddle"
+										<span class="yfi yfi-full-editing-view"
 											  title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
 									</a>
 								</span>

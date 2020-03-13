@@ -425,7 +425,7 @@
 								<span class="btn-group mr-3 actions">
 								<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails"
 								   data-toggle="dropdown">
-									<span class="yfi yfi-full-editing-view alignMiddle"
+									<span class="yfi yfi-full-editing-view"
 										  title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
 								<div class="basicFieldOperations d-none" style="width: 375px;">
@@ -540,9 +540,9 @@
 										</div>
 									</form>
 								</div>&nbsp;
-								<a href="javascript:void(0)" class="deleteCustomField" data-field-id=""><span
-											class="fas fa-trash-alt alignMiddle"
-											title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span></a>
+								<a href="javascript:void(0)" class="deleteCustomField" data-field-id="">
+									<span class="fas fa-trash-alt" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
+								</a>
 							</span>
 							</div>
 						</div>

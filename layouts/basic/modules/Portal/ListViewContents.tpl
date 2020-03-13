@@ -78,8 +78,8 @@
 							<td nowrap class="{$WIDTHTYPE}">
 								<div class="actions float-right">
 									<span class="actionImages">
-										<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="yfi yfi-full-editing-view alignMiddle editRecord"></span>&nbsp;
-										<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle deleteRecord"></span>
+										<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="yfi yfi-full-editing-view editRecord"></span>&nbsp;
+										<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt deleteRecord"></span>
 									</span>
 								</div>
 							</td>

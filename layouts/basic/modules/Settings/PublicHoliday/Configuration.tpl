@@ -62,12 +62,12 @@
 												<button data-holiday-id="{$HOLIDAY['id']}"
 														class="editHoliday mr-1 text-white btn btn-sm btn-info">
 													<span title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"
-														  class="yfi yfi-full-editing-view alignMiddle"></span>
+														  class="yfi yfi-full-editing-view"></span>
 												</button>
 												<button data-holiday-id="{$HOLIDAY['id']}"
 														class="deleteHoliday text-white btn btn-sm btn-danger">
 													<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"
-														  class="fas fa-trash-alt alignMiddle"></span>
+														  class="fas fa-trash-alt"></span>
 												</button>
 											</div>
 										</td>
