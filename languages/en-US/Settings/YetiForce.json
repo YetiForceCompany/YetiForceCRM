@@ -134,6 +134,9 @@
     "LBL_SHOP_YETIFORCEMAP_DESC": "View maps and get driving directions in YetiForce Map",
     "LBL_SHOP_YETIFORCEPASSWORD": "YetiForce Password Security",
     "LBL_SHOP_YETIFORCEPASSWORD_INTRO": "Verify if passwords exist in the stolen passwords database",
-    "LBL_SHOP_YETIFORCEPASSWORD_DESC": "Verify every newly created password in the stolen passwords database, the system blocks the passwords that appear there. The database has 555 million passwords that come from data leakages."
+    "LBL_SHOP_YETIFORCEPASSWORD_DESC": "Verify every newly created password in the stolen passwords database, the system blocks the passwords that appear there. The database has 555 million passwords that come from data leakages.",
+    "LBL_SHOP_YETIFORCEOUTLOOK": "Outlook integration panel",
+    "LBL_SHOP_YETIFORCEOUTLOOK_INTRO": "An Outlook add-in showing a panel with YetiForceCRM",
+    "LBL_SHOP_YETIFORCEOUTLOOK_DESC": "An Outlook add-in showing a panel with YetiForceCRM"
   }
 }
