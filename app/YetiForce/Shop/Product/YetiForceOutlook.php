@@ -19,7 +19,7 @@ class YetiForceOutlook extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
-	public $label = 'YetiForce Outlook integration panel';
+	public $label = 'YetiForce Outlook Integration Panel (Beta)';
 	/**
 	 * {@inheritdoc}
 	 */
