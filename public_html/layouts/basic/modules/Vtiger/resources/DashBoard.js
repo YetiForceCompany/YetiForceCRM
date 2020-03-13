@@ -240,6 +240,7 @@ $.Class(
 									}
 									thisInstance.updateLazyWidget();
 								}
+								thisInstance.showAndHideAlert(false);
 							}
 						});
 					})
@@ -862,7 +863,24 @@ $.Class(
 			var height = element.data('height');
 			Vtiger_DashBoard_Js.grid.addWidget(widgetContainer, 0, 0, width, height);
 			Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer.find('.grid-stack-item-content'));
+			this.showAndHideAlert('addWidget');
 		},
+
+		/**
+		 * Show or hide the alert for a dashboard.
+		 * @param {string} widgetAction
+		 */
+		showAndHideAlert(widgetAction){
+			let container =this.getContainer();
+			let alertContainer = container.find('.js-dashboards-alert');
+			if(widgetAction === 'addWidget'){
+				alertContainer.addClass('d-none');
+			}else if(container.find('.js-css-element-queries').length == 0){
+				alertContainer.removeClass('d-none');
+			}
+		},
+
+
 		registerEvents: function() {
 			this.registerGrid();
 			this.registerRefreshWidget();
