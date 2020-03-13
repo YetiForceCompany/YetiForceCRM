@@ -126,6 +126,9 @@
     "LBL_HOSTING_SHARED": "YetiForce 主机",
     "LBL_HOSTING_CLOUD": "YetiForce 云",
     "LBL_BUY": "购买",
+    "LBL_NAME_INFO": "In case of private individuals please enter 'Private use'.",
+    "LBL_VAT_ID_INFO": "In case of private individuals please enter 'Private use'. Enter 'none' if your company does not have a VAT number.",
+    "LBL_WEBSITE_INFO": "Enter your company website NOT your CRM's URL.",
     "LBL_SHOW_MORE": "有关产品的更多信息"
   },
   "js": {
@@ -138,7 +141,7 @@
     "LBL_PASS_LACK_OF_CAPITAL_LETTERS": "密码必须包含大写字母",
     "LBL_PASS_LACK_OF_LOWERCASE_LETTERS": "密码必须包含小写字母",
     "LBL_PASS_INSUFFICIENTLY_STRONG_PASSWORD": "密码不够强",
-    "LBL_PHP_WARNING": "某些 PHP 设置不符合推荐值。这可能会影响 YetiForce CRM 的某些功能。你确定要继续吗？",
+    "LBL_SETTINGS_WARNING": "Some settings do not meet the recommended values. This may cause incorrect system installation or subsequent errors in the YetiForce system operation. Are you sure you want to continue?",
     "LBL_MANDATORY_FIELDS_ERROR": "警告！必填字段为空。",
     "LBL_PASS_REENTER_ERROR": "请重新输入密码。 密码和重新键入的密码不一致。",
     "LBL_INVALID_EMAIL_ERROR": "警告！电子邮件地址无效。",

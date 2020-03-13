@@ -126,6 +126,9 @@
     "LBL_HOSTING_SHARED": "Hébergement YetiForce",
     "LBL_HOSTING_CLOUD": "YetiForce cloud",
     "LBL_BUY": "Acheter",
+    "LBL_NAME_INFO": "In case of private individuals please enter 'Private use'.",
+    "LBL_VAT_ID_INFO": "In case of private individuals please enter 'Private use'. Enter 'none' if your company does not have a VAT number.",
+    "LBL_WEBSITE_INFO": "Enter your company website NOT your CRM's URL.",
     "LBL_SHOW_MORE": "Plus d'informations sur le produit"
   },
   "js": {
@@ -138,7 +141,7 @@
     "LBL_PASS_LACK_OF_CAPITAL_LETTERS": "Le mot de passe doit contenir des majuscules",
     "LBL_PASS_LACK_OF_LOWERCASE_LETTERS": "Le mot de passe doit contenir des minuscules ",
     "LBL_PASS_INSUFFICIENTLY_STRONG_PASSWORD": "Mot de passe trop faible",
-    "LBL_PHP_WARNING": "Des paramètres PHP ne sont pas alignés avec les recommendations. Cela pourrait affecter certaines fonctionnalités de YetiForce CRM. Voulez-vous vraiment continuer?",
+    "LBL_SETTINGS_WARNING": "Some settings do not meet the recommended values. This may cause incorrect system installation or subsequent errors in the YetiForce system operation. Are you sure you want to continue?",
     "LBL_MANDATORY_FIELDS_ERROR": "Attention! Des champs obligatoires sont vides.",
     "LBL_PASS_REENTER_ERROR": "Merci de resaisir le mot de passe.  Le mot de passe et sa vérification ne sont pas identiques.",
     "LBL_INVALID_EMAIL_ERROR": "Attention! Email adresse invalide.",

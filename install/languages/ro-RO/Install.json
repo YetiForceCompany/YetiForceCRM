@@ -126,6 +126,9 @@
     "LBL_HOSTING_SHARED": "YetiForce hosting",
     "LBL_HOSTING_CLOUD": "YetiForce cloud",
     "LBL_BUY": "Buy",
+    "LBL_NAME_INFO": "In case of private individuals please enter 'Private use'.",
+    "LBL_VAT_ID_INFO": "In case of private individuals please enter 'Private use'. Enter 'none' if your company does not have a VAT number.",
+    "LBL_WEBSITE_INFO": "Enter your company website NOT your CRM's URL.",
     "LBL_SHOW_MORE": "More information about product"
   },
   "js": {
@@ -138,7 +141,7 @@
     "LBL_PASS_LACK_OF_CAPITAL_LETTERS": "Parola trebuie sa contina litere mari",
     "LBL_PASS_LACK_OF_LOWERCASE_LETTERS": "Parola trebuie sa contina litere mici",
     "LBL_PASS_INSUFFICIENTLY_STRONG_PASSWORD": "Parola insuficient de complexa",
-    "LBL_PHP_WARNING": "Unele din setarile PHP nu respecta valorile recomandate. Acest lucru ar putea afecta unele din caracteristicile YetiForce CRM. Sunteti sigur ca doriti sa continuati?",
+    "LBL_SETTINGS_WARNING": "Some settings do not meet the recommended values. This may cause incorrect system installation or subsequent errors in the YetiForce system operation. Are you sure you want to continue?",
     "LBL_MANDATORY_FIELDS_ERROR": "Avertizare! Campuri obligatorii sunt goale.",
     "LBL_PASS_REENTER_ERROR": "Reintroduceti parolele. Valorile parolei si Reintroducerea parolei nu se potrivesc",
     "LBL_INVALID_EMAIL_ERROR": "Avertizare! Adresa email invalida.",

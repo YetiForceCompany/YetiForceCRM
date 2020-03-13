@@ -126,6 +126,9 @@
     "LBL_HOSTING_SHARED": "به میزبانی YetiForce",
     "LBL_HOSTING_CLOUD": "YetiForce cloud",
     "LBL_BUY": "خرید",
+    "LBL_NAME_INFO": "In case of private individuals please enter 'Private use'.",
+    "LBL_VAT_ID_INFO": "In case of private individuals please enter 'Private use'. Enter 'none' if your company does not have a VAT number.",
+    "LBL_WEBSITE_INFO": "Enter your company website NOT your CRM's URL.",
     "LBL_SHOW_MORE": "اطلاعات بیشتر در مورد محصول"
   },
   "js": {
@@ -138,7 +141,7 @@
     "LBL_PASS_LACK_OF_CAPITAL_LETTERS": "گذرواژه باید دارای حروف بزرگ باشد",
     "LBL_PASS_LACK_OF_LOWERCASE_LETTERS": "رمز عبور باید شامل حروف کوچک",
     "LBL_PASS_INSUFFICIENTLY_STRONG_PASSWORD": "گذرواژه به اندازه کافی قوی نیست",
-    "LBL_PHP_WARNING": "برخی از تنظیمات PHP مقادیر توصیه شده را برآورده نمی کنند. این ممکن است برخی از ویژگی های YetiForce CRM را تحت تأثیر قرار دهد. آیا مطمئن هستید که می خواهید ادامه دهید؟",
+    "LBL_SETTINGS_WARNING": "Some settings do not meet the recommended values. This may cause incorrect system installation or subsequent errors in the YetiForce system operation. Are you sure you want to continue?",
     "LBL_MANDATORY_FIELDS_ERROR": "هشدار! فیلدهای اجباری خالی است.",
     "LBL_PASS_REENTER_ERROR": "لطفاً گذرواژه‌ها را دوباره وارد کنید. ارزش گذرواژه و رمز ورود مجدد مطابقت ندارد.",
     "LBL_INVALID_EMAIL_ERROR": "هشدار! نشانی ایمیل نامعتبر است.",

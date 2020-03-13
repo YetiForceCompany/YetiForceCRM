@@ -126,6 +126,9 @@
     "LBL_HOSTING_SHARED": "YetiForce hosting",
     "LBL_HOSTING_CLOUD": "YetiForce cloud",
     "LBL_BUY": "Buy",
+    "LBL_NAME_INFO": "In case of private individuals please enter 'Private use'.",
+    "LBL_VAT_ID_INFO": "In case of private individuals please enter 'Private use'. Enter 'none' if your company does not have a VAT number.",
+    "LBL_WEBSITE_INFO": "Enter your company website NOT your CRM's URL.",
     "LBL_SHOW_MORE": "More information about product"
   },
   "js": {
@@ -138,7 +141,7 @@
     "LBL_PASS_LACK_OF_CAPITAL_LETTERS": "Parola büyük harf içermelidir",
     "LBL_PASS_LACK_OF_LOWERCASE_LETTERS": "Parola küçük harf içermelidir",
     "LBL_PASS_INSUFFICIENTLY_STRONG_PASSWORD": "Yetersiz parola",
-    "LBL_PHP_WARNING": "Bazı PHP ayarları önerilen değerleri karşılamıyor. Bu, YetiForce CRM'nin bazı özelliklerini etkileyebilir. Emin misin, devam etmek ister misin? ",
+    "LBL_SETTINGS_WARNING": "Some settings do not meet the recommended values. This may cause incorrect system installation or subsequent errors in the YetiForce system operation. Are you sure you want to continue?",
     "LBL_MANDATORY_FIELDS_ERROR": "Uyarı! Zorunlu alanlar boş. ",
     "LBL_PASS_REENTER_ERROR": "Lütfen şifreleri tekrar girin. Parola ve Yeniden yaz - şifre değerleri eşleşmiyor. ",
     "LBL_INVALID_EMAIL_ERROR": "Uyarı! Geçersiz e-posta adresi.",

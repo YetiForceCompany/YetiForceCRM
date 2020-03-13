@@ -126,6 +126,9 @@
     "LBL_HOSTING_SHARED": "Hosting YetiForce",
     "LBL_HOSTING_CLOUD": "YetiForce cloud",
     "LBL_BUY": "Kup",
+    "LBL_NAME_INFO": "W przypadku osób prywatnych wpisz „Private use”.",
+    "LBL_VAT_ID_INFO": "W przypadku osób prywatnych wpisz 'Private use'. Wpisz 'nie ma', jeśli Twoja firma nie ma numeru NIP.",
+    "LBL_WEBSITE_INFO": "Wprowadź stronę internetową Twojej firmy, NIE podawaj URL Twojego CRMu.",
     "LBL_SHOW_MORE": "Więcej informacji o produkcie"
   },
   "js": {
@@ -138,7 +141,7 @@
     "LBL_PASS_LACK_OF_CAPITAL_LETTERS": "Hasło musi zawierać duże litery",
     "LBL_PASS_LACK_OF_LOWERCASE_LETTERS": "Hasło musi zawierać małe litery",
     "LBL_PASS_INSUFFICIENTLY_STRONG_PASSWORD": "Niewystarczająco silne hasło",
-    "LBL_PHP_WARNING": "Niektóre z ustawień PHP nie spełniają zalecanych warunków. To może wpływać na niektóre funkcjonalności YetiForce CRM. Na pewno chcesz kontynuować?",
+    "LBL_SETTINGS_WARNING": "Niektóre ustawienia nie spełniają zalecanych wartości. Może to powodować nieprawidłową instalację systemu lub późniejsze błędy w działaniu systemu YetiForce. Czy na pewno chcesz kontynuować?",
     "LBL_MANDATORY_FIELDS_ERROR": "Uwaga! Pola wymagane są puste.",
     "LBL_PASS_REENTER_ERROR": "Należy ponownie wpisać hasło. Pole Hasło i Powtórz hasło nie zgadzają się.",
     "LBL_INVALID_EMAIL_ERROR": "Uwaga! Niepoprawny adres email.",
