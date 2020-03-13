@@ -1,8 +1,8 @@
 @font-face {
 	font-family: 'yfm';
-	src: url('fonts/yfm.eot?kqqb31');
-	src: url('fonts/yfm.eot?kqqb31#iefix') format('embedded-opentype'), url('fonts/yfm.ttf?kqqb31') format('truetype'),
-		url('fonts/yfm.woff?kqqb31') format('woff'), url('fonts/yfm.svg?kqqb31#yfm') format('svg');
+	src: url('fonts/yfm.eot?2bykyj');
+	src: url('fonts/yfm.eot?2bykyj#iefix') format('embedded-opentype'), url('fonts/yfm.ttf?2bykyj') format('truetype'),
+		url('fonts/yfm.woff?2bykyj') format('woff'), url('fonts/yfm.svg?2bykyj#yfm') format('svg');
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
@@ -34,7 +34,7 @@
 .yfm-MailIntegration:before {
 	content: '\e97b';
 }
-.yfm-Documentation:before {
+.yfm-Faq:before {
 	content: '\e970';
 }
 .yfm-Locations:before {
@@ -279,9 +279,6 @@
 }
 .yfm-OSSEmployees_old:before {
 	content: '\e90d';
-}
-.yfm-Faq:before {
-	content: '\e90e';
 }
 .yfm-Home:before {
 	content: '\e90f';
