@@ -32,6 +32,15 @@
 			-
 		{/if}
 	{/function}
+	{function HIGHLIGHT_ROW ITEM=[]}
+		{if !$ITEM['status'] && (empty($ITEM['mode']) ||  $ITEM['mode'] eq 'showErrors')}
+			class="table-danger font-weight-bold js-wrong-status" data-js="length"
+		{elseif !$ITEM['status'] && isset($ITEM['mode']) &&  $ITEM['mode'] eq 'showWarnings'}
+			class="table-warning font-weight-bold js-wrong-status" data-js="length"
+		{elseif !$ITEM['status'] && isset($ITEM['mode']) &&  $ITEM['mode'] eq 'showInfo'}
+			class=""
+		{/if}
+	{/function}
 	<div class="container px-2 px-sm-3">
 		<main class="main-container">
 			<div class="inner-container">
@@ -78,8 +87,7 @@
 									</thead>
 									<tbody>
 									{foreach from=$ALL['libraries'] key=KEY item=ITEM}
-										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
-											data-js="length">
+										<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 											<td>
 												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>
@@ -114,8 +122,7 @@
 									</thead>
 									<tbody>
 									{foreach from=$ALL['security'] key=KEY item=ITEM}
-										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
-											data-js="length">
+										<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 											<td class="bg-light text-left u-word-break-keep-all">
 												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>
@@ -142,8 +149,7 @@
 									</thead>
 									<tbody>
 									{foreach from=$ALL['stability'] key=KEY item=ITEM}
-										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
-											data-js="length">
+										<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 											<td>
 												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>
@@ -151,7 +157,7 @@
 												{SHOW_RECOMMENDED ITEM=$ITEM}
 											</td>
 											<td colspan="2">
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
+												{if isset($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
 											</td>
 										</tr>
 									{/foreach}
@@ -171,8 +177,7 @@
 									</thead>
 									<tbody>
 									{foreach from=$ALL['performance'] key=KEY item=ITEM}
-										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
-											data-js="length">
+										<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 											<td>
 												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>
@@ -180,7 +185,7 @@
 												{SHOW_RECOMMENDED ITEM=$ITEM}
 											</td>
 											<td>
-												{if !empty($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
+												{if isset($ITEM['www'])}{App\Language::translate($ITEM['www'], 'ConfReport')}{/if}
 											</td>
 										</tr>
 									{/foreach}
@@ -203,8 +208,7 @@
 									</thead>
 									<tbody>
 									{foreach from=$ALL['publicDirectoryAccess'] key=KEY item=ITEM}
-										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
-											data-js="length">
+										<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 											<td>
 												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>
@@ -236,8 +240,7 @@
 									</thead>
 									<tbody>
 									{foreach from=$ALL['environment'] key=KEY item=ITEM}
-										<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
-											data-js="length">
+										<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 											<td>
 												{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 											</td>
@@ -266,8 +269,7 @@
 										</thead>
 										<tbody>
 										{foreach from=$ALL['writableFilesAndFolders'] key=KEY item=ITEM}
-											<tr {if !$ITEM['status']}class="table-danger font-weight-bold js-wrong-status"{/if}
-												data-js="length">
+											<tr data-key="{$KEY}" data-status="{var_export($ITEM['status'])}" {HIGHLIGHT_ROW ITEM=$ITEM}>
 												<td>
 													{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}
 												</td>

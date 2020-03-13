@@ -8,11 +8,15 @@
 export function getGroupIcon(roomType) {
 	switch (roomType) {
 		case 'crm':
-			return 'yfi-favorite-room'
+			return 'mdi-vector-link'
 		case 'group':
-			return 'yfi-group-room'
+			return 'yfi-groups'
 		case 'global':
 			return 'yfi-global-room'
+		case 'private':
+			return 'yfi-group-room'
+		case 'user':
+			return 'yfi-user'
 	}
 }
 

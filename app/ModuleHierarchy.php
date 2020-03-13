@@ -76,8 +76,11 @@ class ModuleHierarchy
 		return false;
 	}
 
-	public static function getModulesByLevel($level = 0)
+	public static function getModulesByLevel($level = null)
 	{
+		if (null === $level) {
+			return static::$modulesByLevels;
+		}
 		if (isset(static::$modulesByLevels[$level])) {
 			return static::$modulesByLevels[$level];
 		}

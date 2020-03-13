@@ -20,12 +20,18 @@
 		{assign var="COUNT_FIELDS1" value=count($FIELDS[1])}
 		{assign var="COUNT_FIELDS2" value=0}
 		{assign var="REFERENCE_MODULE_DEFAULT" value=''}
-		{assign var="IS_VISIBLE_DESCRIPTION" value=false}
+		{assign var="IS_VISIBLE_COMMENTS" value=false}
+		{assign var="IS_OPENED_COMMENTS" value=false}
 		{if isset($FIELDS[2])}
 			{assign var="COUNT_FIELDS2" value=count($FIELDS[2])}
 			{foreach item=FIELD from=$FIELDS[2]}
-				{if $FIELD->isVisible()}
-					{assign var="IS_VISIBLE_DESCRIPTION" value=true}
+				{if $FIELD->getColumnName() eq 'comment1'}
+					{if $FIELD->isVisible()}
+						{assign var="IS_VISIBLE_COMMENTS" value=true}
+					{/if}
+					{if $FIELD->isOpened()}
+						{assign var="IS_OPENED_COMMENTS" value=true}
+					{/if}
 					{break}
 				{/if}
 			{/foreach}
@@ -69,7 +75,7 @@
 												title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
 												class="btn btn-light js-inv-add-item border mb-1 mb-lg-0"
 												data-js="click">
-											<span class="moduleIcon userIcon-{$MAIN_MODULE} mr-1"></span><strong>{\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
+											<span class="moduleIcon yfm-{$MAIN_MODULE} mr-1"></span><strong>{\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
 										</button>
 									</div>
 								{/if}
@@ -118,7 +124,7 @@
 				{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
 					{assign var=ROW_NO value=$ROW_NO+1}
 					{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
-					{foreachelse}
+				{foreachelse}
 					{if $IS_REQUIRED_INVENTORY}
 						{assign var="ROW_NO" value=1}
 						{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}

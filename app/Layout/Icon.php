@@ -57,7 +57,7 @@ class Icon
 			$fileIcon = self::$extensionIcon[$exntension];
 		}
 		if (empty($fileIcon)) {
-			$fileIcon = 'userIcon-Documents';
+			$fileIcon = 'yfm-Documents';
 		}
 		return $fileIcon;
 	}

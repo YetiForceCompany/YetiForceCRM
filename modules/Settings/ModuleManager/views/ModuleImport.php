@@ -28,6 +28,16 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getViewer(App\Request $request)
+	{
+		$viewer = parent::getViewer($request);
+		$viewer->assign('MODULE_NAME', $request->getModule(false));
+		return $viewer;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(App\Request $request)
 	{
 		$systemMode = \App\Config::main('systemMode');
@@ -41,6 +51,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		}
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
+
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('importUserModuleStep1.tpl', $qualifiedModuleName);
 	}
@@ -72,26 +83,27 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$viewer = $this->getViewer($request);
 		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
 		$qualifiedModuleName = $request->getModule(false);
-
-		$uploadFile = 'usermodule_' . time() . '.zip';
+		if ($request->has('upgradePackage')) {
+			$uploadFile = $request->getByType('upgradePackage', 'Alnum') . '.zip';
+		} else {
+			$uploadFile = 'usermodule_' . time() . '.zip';
+		}
 		$uploadFileName = "$uploadDir/$uploadFile";
 		$error = '';
 		\vtlib\Deprecated::checkFileAccess($uploadDir);
-		if (!move_uploaded_file($_FILES['moduleZip']['tmp_name'], $uploadFileName)) {
+		if (!$request->has('upgradePackage') && !move_uploaded_file($_FILES['moduleZip']['tmp_name'], $uploadFileName)) {
 			$error = 'LBL_ERROR_MOVE_UPLOADED_FILE';
 		} else {
 			$package = new vtlib\Package();
 			$importModuleName = $package->getModuleNameFromZip($uploadFileName);
 			$importModuleDepVtVersion = $package->getDependentVtigerVersion();
-
-			if (null === $importModuleName) {
+			if (null === $importModuleName || $package->_errorText) {
 				$error = $package->_errorText;
 				\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
 				unlink($uploadFileName);
 			} else {
 				// We need these information to push for Update if module is detected to be present.
 				$moduleLicence = App\Purifier::purify($package->getLicense());
-
 				$viewer->assign('MODULEIMPORT_FILE', $uploadFile);
 				$viewer->assign('MODULEIMPORT_TYPE', $package->type());
 				$viewer->assign('MODULEIMPORT_NAME', $importModuleName);
@@ -153,6 +165,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 
 		$viewer->assign('IMPORT_MODULE_TYPE', $importModuleType);
 		$viewer->assign('IMPORT_MODULE_NAME', $importModuleName);
+		$viewer->assign('MODULEIMPORT_LABEL', (string) ($package->_modulexml->label ?? $package->_modulexml->name));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('ImportUserModuleStep3.tpl', $qualifiedModuleName);
 	}

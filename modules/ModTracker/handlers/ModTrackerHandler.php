@@ -73,8 +73,9 @@ class ModTracker_ModTrackerHandler_Handler
 			unset($delta['inventory']);
 		}
 		$insertedData = [];
-		foreach ($delta as $fieldName => &$preValue) {
+		foreach ($delta as $fieldName => $preValue) {
 			$newValue = $recordModel->get($fieldName);
+			$fieldModel = $recordModel->getField($fieldName);
 			if (empty($preValue) && empty($newValue)) {
 				continue;
 			}
@@ -83,6 +84,12 @@ class ModTracker_ModTrackerHandler_Handler
 			}
 			if (\is_array($newValue)) {
 				$newValue = implode(',', $newValue);
+			}
+			if (!$fieldModel) {
+				\App\Log::warning($fieldName . ' field does not exist in the module ' . $eventHandler->getModuleName(), __METHOD__);
+			} elseif ('text' === $fieldModel->getFieldDataType()) {
+				$preValue = empty($preValue) ? $preValue : \App\TextParser::textTruncate($preValue, 65532);
+				$newValue = empty($newValue) ? $newValue : \App\TextParser::textTruncate($newValue, 65532);
 			}
 			$insertedData[] = [$id, $fieldName, $preValue, $newValue];
 		}

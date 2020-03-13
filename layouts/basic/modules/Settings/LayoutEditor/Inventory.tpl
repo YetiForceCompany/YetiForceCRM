@@ -34,7 +34,7 @@
 										<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
 										<div class="float-right actions">
 											<a href="#" class="editInventoryField mr-1">
-											<span class="fas fa-edit"
+											<span class="yfi yfi-full-editing-view"
 												  title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 											</a>
 											<a class="deleteInventoryField mr-1" href="#"><span
@@ -81,7 +81,7 @@
 										<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
 										<span class="btn-group float-right actions">
 								<a href="#" class="editInventoryField mr-1">
-									<span class="fas fa-edit"
+									<span class="yfi yfi-full-editing-view"
 										  title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
 								<a class="deleteInventoryField mr-1" href="#"><span
@@ -128,7 +128,7 @@
 										<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
 										<span class="btn-group float-right actions">
 								<a href="#" class="editInventoryField mr-1">
-									<span class="fas fa-edit"
+									<span class="yfi yfi-full-editing-view"
 										  title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
 								<a class="deleteInventoryField mr-1" href="#"><span
@@ -152,7 +152,7 @@
 				<span class="fieldLabel"></span>
 				<span class="btn-group float-right actions">
 			<a href="#" class="editInventoryField mr-1">
-				<span class="fas fa-edit" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+				<span class="yfi yfi-full-editing-view" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 			</a>
 			<a class="deleteInventoryField mr-1" href="#"><span
 						title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"

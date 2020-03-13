@@ -1,6 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-    {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
     {include file=\App\Layout::getTemplatePath('DetailViewBlockLink.tpl', $MODULE_NAME) TYPE_VIEW='DetailTop'}
     {include file=\App\Layout::getTemplatePath('Detail/BlockView.tpl', $MODULE_NAME) RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
     {if $MODULE_TYPE === 1}
@@ -13,7 +12,7 @@
                             <span class="u-cursor-pointer js-block-toggle fas fa-angle-down" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
                         </div>
                         <h5>
-                            <span class="menuIcon userIcon-FInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_BEFORE_CORRECTION','FCorectingInvoice')}
+                            <span class="menuIcon yfm-FInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_BEFORE_CORRECTION','FCorectingInvoice')}
                         </h5>
                     </div>
                     <div class="d-inline-flex js-stop-propagation">
@@ -36,7 +35,7 @@
                             <span class="u-cursor-pointer js-block-toggle fas fa-angle-down" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
                         </div>
                         <h5>
-                            <span class="menuIcon userIcon-FCorectingInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_AFTER_CORRECTION','FCorectingInvoice')}
+                            <span class="menuIcon yfm-FCorectingInvoice" aria-hidden="true"></span> {\App\Language::translate('LBL_AFTER_CORRECTION','FCorectingInvoice')}
                         </h5>
                     </div>
                     <div class="d-inline-flex js-stop-propagation">

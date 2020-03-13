@@ -31,6 +31,9 @@
 					<div class="card-header d-flex color-red-a200 bg-color-red-50 justify-content-center flex-wrap">
 						<h3 class="align-items-center card-title d-flex justify-content-center">{\App\Language::translate('LBL_ERROR_INSTALL', 'Install')}</h3>
 					</div>
+					<div class="card-body text-success">
+						<pre>{\App\Log::getlastLogs(['error'])}</pre>
+					</div>
 				</div>
 			</div>
 			<div class="form-button-nav fixed-bottom button-container p-1 bg-light">

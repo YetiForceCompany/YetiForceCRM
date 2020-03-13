@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 
 <div id="supportProcessesContainer" class=" supportProcessesContainer">
-	<div class="widget_header row">
+	<div class="o-breadcrumb widget_header row">
 		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
@@ -77,7 +77,7 @@
 												</select>
 											</div>
 											<div class="actionImages">
-												<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle deleteMapping"></span></a>
+												<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt deleteMapping"></span></a>
 											</div>
 										</div>
 									</td>
@@ -105,7 +105,7 @@
 											</select>
 										</div>
 										<div class="actionImages">
-											<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle deleteMapping"></span></a>
+											<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt deleteMapping"></span></a>
 										</div>
 									</div>
 								</td>
@@ -160,12 +160,6 @@
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['convert_status'])} selected {/if}  >{\App\Language::translate($ITEM,'Leads')}</option>
 								{/foreach}
 							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label>{\App\Language::translate('LBL_CURRENTUSER_STATUS', $QUALIFIED_MODULE)}</label></td>
-						<td>
-							<input class="configField" type="checkbox" data-type="lead" name="currentuser_status"  {if $LEAD['currentuser_status'] == 'true'}checked{/if} />
 						</td>
 					</tr>
 				</tbody>

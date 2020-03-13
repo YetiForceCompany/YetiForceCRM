@@ -26,12 +26,13 @@
 		};
 
 		this.blockOverlayCSS = {
-			opacity: '0.2'
+			opacity: '0.2',
+			'background-color': ''
 		};
 
 		this.blockCss = {
 			border: '',
-			backgroundColor: '',
+			'background-color': '',
 			'background-clip': 'border-box',
 			'border-radius': '2px'
 		};
@@ -46,12 +47,12 @@
 
 		this.showOnTop = false;
 
-		this.init = function(element, options) {
-			if (typeof options === 'undefined') {
-				options = {};
-			}
-
+		this.init = function(element, options = {}) {
 			thisInstance.options = $.extend(true, this.defaults, options);
+			thisInstance.blockOverlayCSS = Object.assign(
+				thisInstance.blockOverlayCSS,
+				options.blockOverlayCSS ? options.blockOverlayCSS : {}
+			);
 			thisInstance.container = element;
 			thisInstance.position = options.position;
 			if (typeof options.imageContainerCss !== 'undefined') {
@@ -105,13 +106,15 @@
 			var jQImageHtml = jQuery(imageHtml).css(this.imageContainerCss);
 
 			var jQMessage = thisInstance.options.message;
-			if (jQMessage.length == 0) {
-				jQMessage = app.vtranslate('JS_LOADING_PLEASE_WAIT');
+			if (jQMessage !== false) {
+				if (jQMessage.length == 0) {
+					jQMessage = app.vtranslate('JS_LOADING_PLEASE_WAIT');
+				}
+				if (!(jQMessage instanceof jQuery)) {
+					jQMessage = jQuery('<span></span>').html(jQMessage);
+				}
+				var messageContainer = jQuery('<div class="message"></div>').append(jQMessage);
 			}
-			if (!(jQMessage instanceof jQuery)) {
-				jQMessage = jQuery('<span></span>').html(jQMessage);
-			}
-			var messageContainer = jQuery('<div class="message"></div>').append(jQMessage);
 			jQImageHtml.append(messageContainer);
 			if (this.isBlockMode()) {
 				jQImageHtml.addClass('blockMessageContainer');

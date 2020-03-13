@@ -24,14 +24,14 @@
 					{assign var=PROCEED value= TRUE}
 					{if ($HISTORY->isRelationLink()) or ($HISTORY->isRelationUnLink())}
 						{assign var=RELATION value=$HISTORY->getRelationInstance()}
-						{if !($RELATION->getLinkedRecord())}
+						{if !($RELATION->getValue())}
 							{assign var=PROCEED value= FALSE}
 						{/if}
 					{/if}
 					{if $PROCEED}
 						<div class="d-flex">
 							<div>
-								<span class="userIcon-{$MOD_NAME} fa-lg fa-fw" title="{$TRANSLATED_MODULE_NAME}"></span>
+								<span class="yfm-{$MOD_NAME} fa-lg fa-fw" title="{$TRANSLATED_MODULE_NAME}"></span>
 							</div>
 							<div class="w-100 ml-1">
 								<p class="ml-1 float-right text-muted">
@@ -62,34 +62,34 @@
 														{/if}
 														{if $FIELD->get('postvalue') neq '' && !($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELD->get('postvalue') eq '0')}
 															&nbsp;{\App\Language::translate('LBL_TO')}&nbsp;<strong>{Vtiger_Util_Helper::toVtiger6SafeHTML(App\Purifier::decodeHtml($FIELD->getNewValue()))}</strong>
-														{/if}    
+														{/if}
 													</div>
 												{/if}
 											{else}
-												<a class="btn btn-info btn-sm moreBtn" href="{$PARENT->getUpdatesUrl()}">{\App\Language::translate('LBL_MORE')}</a>
+												<a class="btn btn-link btn-sm" role="button" href="{$PARENT->getUpdatesUrl()}">{\App\Language::translate('LBL_MORE')}</a>
 												{break}
 											{/if}
 										{/foreach}
 									</div>
 								{else if ($HISTORY->isRelationLink() || $HISTORY->isRelationUnLink())}
 									{assign var=RELATION value=$HISTORY->getRelationInstance()}
-									{assign var=LINKED_RECORD_DETAIL_URL value=$RELATION->getLinkedRecord()->getDetailViewUrl()}
+									{assign var=LINKED_RECORD_DETAIL_URL value=$RELATION->getDetailViewUrl()}
 									{assign var=PARENT_DETAIL_URL value=$RELATION->getParent()->getParent()->getDetailViewUrl()}
 									<div>
 										<strong>{$USER->getName()}&nbsp;</strong>
 										{\App\Language::translate($HISTORY->getStatusLabel(), 'ModTracker')}&nbsp;
-										{if $RELATION->getLinkedRecord()->getModuleName() eq 'Calendar'}
-											{if \App\Privilege::isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId())}
+										{if $RELATION->get('targetmodule') eq 'Calendar'}
+											{if \App\Privilege::isPermitted('Calendar', 'DetailView', $RELATION->get('targetid'))}
 												<a class="u-cursor-pointer" {if stripos($LINKED_RECORD_DETAIL_URL, 'javascript:')===0} onclick='{$LINKED_RECORD_DETAIL_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$LINKED_RECORD_DETAIL_URL}"' {/if}>
-													{$RELATION->getLinkedRecord()->getName()}
+													{$RELATION->getValue()}
 												</a>
 											{else}
-												{\App\Language::translate($RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())}
+												{\App\Language::translate($RELATION->get('targetmodule'), $RELATION->get('targetmodule'))}
 											{/if}
 										{else}
 											<a class="u-cursor-pointer" {if stripos($LINKED_RECORD_DETAIL_URL, 'javascript:')===0} onclick='{$LINKED_RECORD_DETAIL_URL|substr:strlen("javascript:")}'
 											{else} onclick='window.location.href = "{$LINKED_RECORD_DETAIL_URL}"' {/if}>
-											{\App\Language::translate($RELATION->getLinkedRecord()->getName(), $RELATION->getLinkedRecord()->getModuleName() )}
+											{\App\Language::translate($RELATION->getValue(), $RELATION->get('targetmodule') )}
 										</a>
 									{/if}{\App\Language::translate('LBL_FOR')}
 									<a class="u-cursor-pointer" {if stripos($PARENT_DETAIL_URL, 'javascript:')===0}

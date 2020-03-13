@@ -73,14 +73,16 @@ class Vtiger_Response
 	 * @param mixed|null $message
 	 * @param mixed      $trace
 	 */
-	public function setError($code, $message = null, $trace = false)
+	public function setError($code = 500, $message = null, $trace = false)
 	{
 		if (null === $message) {
 			$message = $code;
 		}
 		$error = ['code' => $code, 'message' => $message, 'trace' => $trace];
 		$this->error = $error;
-		http_response_code($code);
+		if (is_numeric($code)) {
+			http_response_code($code);
+		}
 	}
 
 	/**

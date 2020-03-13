@@ -44,42 +44,37 @@ class Module extends ModuleBasic
 	 * @param mixed $label
 	 * @param mixed $actions
 	 * @param mixed $functionName
+	 * @param mixed $fieldName
 	 *
 	 * @internal Creates table vtiger_crmentityrel if it does not exists
 	 */
-	public function setRelatedList($moduleInstance, $label = '', $actions = false, $functionName = 'getRelatedList')
+	public function setRelatedList($moduleInstance, $label = '', $actions = false, $functionName = 'getRelatedList', $fieldName = null)
 	{
 		$db = \App\Db::getInstance();
-
 		if (empty($moduleInstance)) {
 			return;
 		}
 		if (empty($label)) {
 			$label = $moduleInstance->name;
 		}
-
 		// Allow ADD action of other module records (default)
 		if (false === $actions) {
 			$actions = ['ADD'];
 		}
-
 		$useactionsText = $actions;
 		if (\is_array($actions)) {
 			$useactionsText = implode(',', $actions);
 		}
 		$useactionsText = strtoupper($useactionsText);
-
 		$isExists = (new \App\Db\Query())
 			->select(['relation_id'])
 			->from('vtiger_relatedlists')
-			->where(['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $functionName, 'label' => $label])
+			->where(['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $functionName, 'label' => $label, 'field_name' => $fieldName])
 			->exists();
 		if ($isExists) {
 			\App\Log::trace("Setting relation with $moduleInstance->name [$useactionsText] ... Error, the related module already exists", __METHOD__);
-
 			return;
 		}
-
 		$sequence = $this->__getNextRelatedListSequence();
 		$presence = 0; // 0 - Enabled, 1 - Disabled
 
@@ -91,6 +86,7 @@ class Module extends ModuleBasic
 			'label' => $label,
 			'presence' => $presence,
 			'actions' => $useactionsText,
+			'field_name' => $fieldName,
 		])->execute();
 
 		if ('getManyToMany' === $functionName) {

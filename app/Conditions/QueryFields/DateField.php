@@ -51,9 +51,11 @@ class DateField extends BaseField
 	/**
 	 * Get condition.
 	 *
+	 * @param ?string $operator
+	 *
 	 * @return array|bool
 	 */
-	public function getCondition()
+	public function getCondition(?string $operator = null)
 	{
 		$fn = 'operator' . ucfirst($this->operator);
 		if (isset(\App\Condition::DATE_OPERATORS[$this->operator]) && !method_exists($this, $fn)) {

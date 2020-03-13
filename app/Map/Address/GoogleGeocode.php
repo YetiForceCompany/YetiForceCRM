@@ -27,7 +27,7 @@ class GoogleGeocode extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public $link = 'https://code.google.com/apis/console/?noredirect';
+	public $docUrl = 'https://code.google.com/apis/console/?noredirect';
 
 	/**
 	 * {@inheritdoc}
@@ -35,7 +35,7 @@ class GoogleGeocode extends Base
 	public $customFields = [
 		'key' => [
 			'type' => 'text',
-			'validator' => 'required'
+			'validator' => 'required,custom[onlyLetterNumber]'
 		],
 	];
 
@@ -47,7 +47,7 @@ class GoogleGeocode extends Base
 		if (empty($value) || !\App\RequestUtil::isNetConnection()) {
 			return [];
 		}
-		$key = \App\Map\Address::getConfig()['google_map_api']['key'];
+		$key = $this->config['key'];
 		$lang = \App\Language::getShortLanguageName();
 		$response = \Requests::get(static::$url . "key={$key}&address=$value");
 		if (!$response->success) {

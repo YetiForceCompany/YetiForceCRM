@@ -1,4 +1,18 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.logo {
+	text-align: center;
+	padding: 0.5rem 0;
+}
+.logo__img {
+	max-height: 200px;
+	max-width: 200px;
+}
+@media (min-width: 768px) {
+	.logo__img {
+		max-height: 700px;
+		max-width: 400px;
+	}
+}
 
 @media only screen and (max-width: 480px) {
 	#loginDiv {

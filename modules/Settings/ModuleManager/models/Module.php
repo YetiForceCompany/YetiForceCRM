@@ -17,7 +17,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public static $baseModuleTools = ['Import', 'Export', 'Merge', 'CreateCustomFilter',
 		'DuplicateRecord', 'MassEdit', 'MassArchived', 'MassActive', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
 		'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter', 'QuickExportToExcel', 'ExportPdf', 'RecordMapping',
-		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates', 'OpenRecord'];
+		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates', 'OpenRecord', 'CloseRecord', 'ReceivingMailNotifications', 'CreateDashboardChartFilter', 'TimeLineList', 'ArchiveRecord', 'ActiveRecord', 'MassTrash', 'MoveToTrash', 'RecordConventer', 'AutoAssignRecord', 'AssignToYourself'];
 
 	/**
 	 * @var array Base module tools exceptions.
@@ -28,6 +28,26 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		'OSSMailView' => ['notAllowed' => 'all'],
 		'CallHistory' => ['allowed' => ['QuickExportToExcel']],
 	];
+
+	/**
+	 * @var int Max length module name based on database structure
+	 */
+	public static $maxLengthModuleName = 25;
+
+	/**
+	 * @var int Max length module label based on database structure
+	 */
+	public static $maxLengthModuleLabel = 25;
+
+	/**
+	 * @var int Max length main field name
+	 */
+	public static $maxLengthFieldName = 30;
+
+	/**
+	 * @var int Max length main field label
+	 */
+	public static $maxLengthFieldLabel = 50;
 
 	/**
 	 * Get module base tools exceptions parse to ids.
@@ -114,7 +134,8 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 			preg_match('/Vtiger/i', $name) ||
 			preg_match('/CustomView/i', $name) ||
 			preg_match('/PickList/i', $name) ||
-			preg_match('/[^A-Za-z]/i', $name);
+			preg_match('/[^A-Za-z]/i', $name) ||
+			\strlen($name) > static::$maxLengthModuleName;
 	}
 
 	/**
@@ -228,6 +249,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field2->typeofdata = 'V~O';
 		$field2->columntype = 'string(32)';
 		$field2->maximumlength = '32';
+		$field2->displaytype = 2;
 		$blockcf->addField($field2);
 
 		$field3 = new vtlib\Field();
@@ -265,7 +287,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field6->label = 'Created By';
 		$field6->table = 'vtiger_crmentity';
 		$field6->column = 'smcreatorid';
-		$field6->uitype = 53;
+		$field6->uitype = 52;
 		$field6->typeofdata = 'V~O';
 		$field6->displaytype = 2;
 		$field6->quickcreate = 3;
@@ -309,6 +331,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		if (1 === $module->type) {
 			\Vtiger_Inventory_Model::getInstance($module->name)->createInventoryTables();
 		}
+		(new \App\BatchMethod(['method' => '\App\UserPrivilegesFile::recalculateAll', 'params' => []]))->save();
 		return $module;
 	}
 
@@ -319,6 +342,6 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 	public static function getUploadDirectory()
 	{
-		return 'cache/vtlib';
+		return 'cache';
 	}
 }

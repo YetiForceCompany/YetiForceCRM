@@ -19,7 +19,7 @@
 						<a class="nav-link pt-1 pb-1 {if $MODULE_NAME eq $MODULE_WIDGET} active {/if}"
 						   href="#"
 						   data-toggle="tab">
-							<span class="userIcon-{$MODULE_WIDGET} mx-1"></span>
+							<span class="yfm-{$MODULE_WIDGET} mx-1"></span>
 							{\App\Language::translate($MODULE_WIDGET, $MODULE_WIDGET)}
 						</a>
 					</li>

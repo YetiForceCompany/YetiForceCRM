@@ -33,7 +33,7 @@
 }
 
 .quickCreateTitle {
-	font-size: 15px !important;
+	font-size: calculate-rem(15px) !important;
 }
 
 .generatePass {
@@ -45,12 +45,6 @@
 	.textTransform {
 		margin-top: 2px;
 		float: none !important;
-	}
-}
-
-@media only screen and (min-width: 320px) and (max-width: 640px) {
-	.pullRight {
-		width: 100%;
 	}
 }
 
@@ -104,7 +98,6 @@ hr {
 }
 
 .modal .imageHolder {
-	margin-left: 14% !important;
 	min-width: 250px;
 	width: 30%;
 	z-index: 1;
@@ -112,26 +105,21 @@ hr {
 
 .blockProgressContainer.imageHolder {
 	padding: 40px 0;
-	background: radial-gradient(#fff 55%, transparent 70%);
 }
 
 .message {
 	font-weight: bold;
-	color: $primary;
+	color: $bg-navbar;
 }
 
 .modal .imageHolder .message {
-	font-size: 16px;
+	font-size: calculate-rem(16px);
 }
 
 .sk-cube-grid {
-	width: 45px;
-	height: 45px;
+	width: 70px;
+	height: 70px;
 	margin: 10px auto;
-}
-
-.pull-right .btn-group .createRecordFromFilter {
-	margin-left: 6px;
 }
 
 .item .addButton {
@@ -164,7 +152,7 @@ hr {
 	.sk-cube {
 		width: 33%;
 		height: 33%;
-		background-color: $primary;
+		background-color: $bg-navbar;
 		float: left;
 		-webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
 		animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
@@ -329,12 +317,6 @@ hr {
 			}
 		}
 	}
-}
-
-.dropdown-menu.pull-right {
-	right: 0;
-	left: auto;
-	cursor: pointer;
 }
 
 .themeMenuContainer {
@@ -551,7 +533,7 @@ hr {
 	box-sizing: border-box;
 	word-wrap: break-word;
 	text-align: center;
-	font-size: 16px;
+	font-size: calculate-rem(16px);
 	padding: 5% 0;
 
 	td {
@@ -560,7 +542,7 @@ hr {
 		box-sizing: border-box;
 		word-wrap: break-word;
 		text-align: center;
-		font-size: 16px;
+		font-size: calculate-rem(16px);
 		padding: 5% 0;
 	}
 }
@@ -1103,8 +1085,6 @@ hr {
 }
 
 #modulePickListValuesContainer .layoutContent {
-	padding-left: 2%;
-
 	.selectedCell,
 	.selectedListItem {
 		background: #a5afb9;
@@ -1336,7 +1316,7 @@ hr {
 			display: inline-block;
 			float: left;
 			margin-top: -13px;
-			font-size: 14px;
+			font-size: calculate-rem(14px);
 			font-weight: bold;
 			color: #666;
 			text-decoration: none;
@@ -1359,7 +1339,7 @@ hr {
 	display: inline-block;
 	white-space: nowrap;
 	overflow: hidden;
-	font-size: 13px;
+	font-size: calculate-rem(13px);
 	vertical-align: bottom;
 }
 
@@ -1374,7 +1354,7 @@ hr {
 	display: inline-block;
 	padding: 0 5px;
 	overflow: hidden;
-	font-size: 20px;
+	font-size: calculate-rem(20px);
 	vertical-align: top;
 	margin-top: 5px;
 }
@@ -1399,7 +1379,7 @@ textarea.col-md-11 {
 
 	.popover-title {
 		color: #444;
-		font-size: 15px;
+		font-size: calculate-rem(15px);
 	}
 
 	.close {
@@ -1499,7 +1479,7 @@ textarea.col-md-11 {
 }
 
 .font-x-x-large {
-	font-size: 18px;
+	font-size: calculate-rem(18px);
 	line-height: 28px;
 }
 
@@ -1629,31 +1609,6 @@ textarea {
 	text-align: center;
 }
 
-.table td.wide,
-.listViewEntries td.wide,
-td.listViewEntryValue.wide {
-	padding: 8px !important;
-	line-height: 31px;
-}
-
-.table td.medium,
-.listViewEntries td.medium,
-td.listViewEntryValue.medium {
-	padding: 3px 6px !important;
-	line-height: 29px;
-}
-
-.table td.narrow,
-.listViewEntries td.narrow,
-td.listViewEntryValue.narrow {
-	padding: 2px 4px !important;
-	line-height: 27px;
-}
-
-.table thead th.narrow {
-	vertical-align: middle;
-}
-
 td.listViewEntryValue .row input {
 	padding: 0;
 	margin-bottom: 0;
@@ -1661,10 +1616,6 @@ td.listViewEntryValue .row input {
 
 .listViewContentDiv {
 	position: relative;
-}
-
-.fieldLabel .pull-right {
-	text-align: right;
 }
 
 .cut-string {
@@ -1682,13 +1633,13 @@ table tr td .input-sm {
 
 .panel-title,
 .message-medium {
-	font-size: 14px;
+	font-size: calculate-rem(14px);
 }
 
 tr.summaryViewEntries,
 #detailView table,
 table.listViewEntriesTable {
-	font-size: 13px;
+	font-size: calculate-rem(13px);
 }
 
 .no-margin {
@@ -1708,12 +1659,12 @@ table.listViewEntriesTable {
 
 	.dropdown-menu > li > a {
 		padding: 3px 15px;
-		font-size: 12px;
+		font-size: calculate-rem(12px);
 	}
 }
 
 .headerCalendar .month h3 {
-	font-size: 18px;
+	font-size: calculate-rem(18px);
 	font-weight: bold;
 	margin: 5px 0 0 0;
 }
@@ -1830,7 +1781,7 @@ table.dataTable .form-control {
 }
 
 .icon-in-history-widget {
-	font-size: 17px;
+	font-size: calculate-rem(17px);
 	padding: 4px;
 }
 
@@ -1846,54 +1797,6 @@ table.dataTable .form-control {
 span[name="existingImages"] img {
 	height: 200px;
 	width: 300px;
-}
-
-.narrow {
-	&.fieldValue .chosen-container-single {
-		.chosen-single {
-			height: 27px;
-			line-height: 25px;
-		}
-
-		height: 27px;
-		line-height: 25px;
-	}
-
-	&.fieldLabel .chosen-container-single .chosen-single {
-		height: 27px;
-		line-height: 25px;
-	}
-
-	&.fieldValue {
-		input:not([type="checkbox"]) {
-			height: 27px;
-		}
-
-		.input-group-addon {
-			&.referenceModulesListGroup {
-				padding: 0;
-			}
-
-			padding: 4px 10px;
-		}
-
-		.chosen-container-single .chosen-single div b {
-			background-position-y: 4px;
-		}
-	}
-
-	.chosen-container {
-		height: 27px;
-		line-height: 27px;
-	}
-
-	.referenceGroup .referenceModulesListGroup .chosen-container {
-		height: 25px;
-
-		.chosen-single {
-			height: 25px;
-		}
-	}
 }
 
 .image-in-button {
@@ -2047,7 +1950,7 @@ span[name="existingImages"] img {
 
 	.widgetContent {
 		padding: 5px;
-		font-size: 13px;
+		font-size: calculate-rem(13px);
 	}
 }
 
@@ -2102,11 +2005,11 @@ span[name="existingImages"] img {
 
 	.mainSubject {
 		font-weight: 800;
-		font-size: 13px;
+		font-size: calculate-rem(13px);
 	}
 
 	.mainFrom {
-		font-size: 16px;
+		font-size: calculate-rem(16px);
 	}
 
 	.mailActions {
@@ -2144,7 +2047,7 @@ span[name="existingImages"] img {
 	padding: 6px 8px;
 	height: 32px;
 	width: 32px;
-	font-size: 16px;
+	font-size: calculate-rem(16px);
 	text-align: center;
 	margin: 0 7px 3px 0;
 	-webkit-box-shadow: 0 0 8px -1px rgba(156, 156, 156, 1);
@@ -2153,7 +2056,7 @@ span[name="existingImages"] img {
 }
 
 .modal-blg iframe {
-	height: 420px;
+	height: 62vh;
 }
 
 #emailPreview {
@@ -2206,7 +2109,7 @@ span[name="existingImages"] img {
 
 .ui-draggable-menuShortcut .c-menu__item__icon {
 	padding-right: 18px;
-	font-size: 24px;
+	font-size: calculate-rem(24px);
 	height: 100%;
 }
 
@@ -2267,15 +2170,15 @@ body,
 
 	.name {
 		line-height: 18px;
-		font-size: 14.5px;
+		font-size: calculate-rem(14.5px);
 	}
 
 	.companyName {
-		font-size: 11px;
+		font-size: calculate-rem(11px);
 	}
 
 	.name:nth-child(2) {
-		font-size: 13px;
+		font-size: calculate-rem(13px);
 		line-height: 17px;
 	}
 
@@ -2402,10 +2305,6 @@ body,
 	}
 }
 
-.editViewContainer .btn-warning.pull-right {
-	margin-left: 5px;
-}
-
 .footable-row-detail-row {
 	line-height: 2.5em;
 }
@@ -2433,7 +2332,7 @@ body,
 
 .activityWidgetContainer .popover-content,
 .quickCreateContent .addedNearCalendarEvent .popover-content {
-	font-size: 12px;
+	font-size: calculate-rem(12px);
 }
 
 .modalEditStatus .form-horizontal .form-group,
@@ -2503,7 +2402,7 @@ body,
 }
 
 .commonActionsContainer .badge {
-	font-size: 11px;
+	font-size: calculate-rem(11px);
 	top: -3px;
 }
 
@@ -2654,30 +2553,7 @@ body,
 	}
 
 	.quickCreateContent .fieldsLabelValue {
-		&.narrow {
-			padding-top: 5px;
-			padding-bottom: 2px;
-		}
-
-		&.medium {
-			padding-top: 10px;
-			padding-bottom: 10px;
-		}
-
-		&.wide {
-			padding-top: 15px;
-			padding-bottom: 15px;
-		}
-
 		border-bottom: 1px solid $light;
-	}
-
-	.pull-right-sm {
-		float: right;
-	}
-
-	.pull-left-sm {
-		float: left;
 	}
 
 	.form-horizontal .form-group .description-field {
@@ -2724,20 +2600,6 @@ body,
 		}
 
 		.fieldsLabelValue {
-			&.narrow {
-				padding-top: 5px;
-				padding-bottom: 2px;
-			}
-
-			&.medium {
-				padding: 10px 0;
-			}
-
-			&.wide {
-				padding-top: 15px;
-				padding-bottom: 15px;
-			}
-
 			vertical-align: top;
 			border-right: 1px solid #ddd;
 			display: table-cell;
@@ -2825,7 +2687,7 @@ body,
 	}
 
 	.breadcrumbsLinks {
-		font-size: 15px;
+		font-size: calculate-rem(15px);
 	}
 }
 
@@ -2836,22 +2698,6 @@ body,
 
 	.mainBody {
 		bottom: 17px;
-	}
-
-	.quickCreateContent .fieldsLabelValue {
-		&.wide {
-			padding-top: 5px;
-			padding-bottom: 15px;
-		}
-
-		&.narrow {
-			padding-bottom: 5px;
-		}
-
-		&.medium {
-			padding-top: 0;
-			padding-bottom: 10px;
-		}
 	}
 
 	.tl-media-content-container {
@@ -2866,23 +2712,9 @@ body,
 		width: 390px;
 	}
 
-	.pull-right-xs {
-		float: right;
-	}
-
-	.pull-left-xs,
-	.layoutBlockHeader .pull-right {
-		float: left !important;
-	}
-
-	.relatedContainer .paginationDiv.pull-right {
-		float: left !important;
-		margin-top: 5px;
-	}
-
 	.iconsInFooter {
 		span {
-			font-size: 10px !important;
+			font-size: calculate-rem(10px) !important;
 		}
 
 		margin-top: 1px !important;
@@ -2928,7 +2760,7 @@ body,
 	}
 
 	.breadcrumbsLinks {
-		font-size: 14px;
+		font-size: calculate-rem(14px);
 	}
 }
 
@@ -2950,6 +2782,25 @@ body,
 
 	.alphabet_26 {
 		width: 295px;
+	}
+	.quickCreateContainer {
+		.modal-header {
+			padding: 0;
+			margin: 0;
+			.text-uppercase {
+				display: block;
+			}
+		}
+	}
+
+	.modal-title .text-uppercase {
+		display: block;
+	}
+	.listSearchTd {
+		padding: 4px 0 !important;
+		.btn {
+			padding: 0.5rem;
+		}
 	}
 }
 
@@ -3019,12 +2870,12 @@ body,
 }
 
 .tl-headline-date {
-	font-size: 30px !important;
+	font-size: calculate-rem(30px) !important;
 	margin-bottom: 20px !important;
 }
 
 .tl-text-content-container .tl-headline {
-	font-size: 20px !important;
+	font-size: calculate-rem(20px) !important;
 }
 
 .tl-timeline {
@@ -3068,7 +2919,7 @@ body,
 	.jstree-category,
 	.jstree-edit {
 		margin-left: 5px;
-		font-size: 16px;
+		font-size: calculate-rem(16px);
 		top: 0;
 		vertical-align: middle;
 	}
@@ -3275,7 +3126,7 @@ select.form-control {
 	}
 
 	.noticeIcon {
-		font-size: 20px;
+		font-size: calculate-rem(20px);
 	}
 
 	li {
@@ -3295,11 +3146,6 @@ select.form-control {
 	hyphens: auto;
 }
 
-.narrow.fieldValue .referenceGroup button.btn {
-	height: 27px;
-	padding: 4px 12px;
-}
-
 .columnSorted {
 	background: #eaeaea !important;
 }
@@ -3308,7 +3154,7 @@ select.form-control {
 	position: absolute;
 	padding: 5px 12px;
 	display: inline-flex;
-	font-size: 14px;
+	font-size: calculate-rem(14px);
 }
 
 .betweenDragDrop {
@@ -3320,7 +3166,7 @@ select.form-control {
 	position: absolute;
 	padding: 5px 12px;
 	display: inline-flex;
-	font-size: 17px;
+	font-size: calculate-rem(17px);
 }
 
 .modulesList .menuSeparator {
@@ -3504,12 +3350,6 @@ select.form-control {
 	margin-left: 0.3em;
 }
 
-.addRelatedRecordBtn {
-	top: 4px;
-	right: 17px;
-	position: absolute;
-}
-
 .actionImages .btn {
 	float: none !important;
 }
@@ -3531,13 +3371,13 @@ select.form-control {
 }
 
 .yetiforceDetailsLink {
-	font-size: 40px;
+	font-size: calculate-rem(40px);
 	margin-right: 15px;
 }
 
 .remindersContent {
 	.notificationIcon {
-		font-size: 30px;
+		font-size: calculate-rem(30px);
 		text-align: center;
 		padding: 7% 0 0 0;
 		color: white;

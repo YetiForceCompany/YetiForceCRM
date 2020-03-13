@@ -17,6 +17,10 @@ namespace Api\Portal\Products;
 class Record extends \Api\Portal\BaseModule\Record
 {
 	/**
+	 * {@inheritdoc}
+	 */
+	public $allowedHeaders = ['x-parent-id', 'x-unit-price', 'x-unit-gross', 'x-product-bundles'];
+	/**
 	 * Is user permissions.
 	 *
 	 * @var bool
@@ -44,13 +48,13 @@ class Record extends \Api\Portal\BaseModule\Record
 	public function get(): array
 	{
 		$response = parent::get();
-		if ('1' === $this->controller->request->getHeader('x-unit-price')) {
+		if (1 === $this->controller->request->getHeader('x-unit-price')) {
 			$response['ext']['unit_price'] = $this->getUnitPrice($response);
 		}
-		if ('1' === $this->controller->request->getHeader('x-unit-gross')) {
+		if (1 === $this->controller->request->getHeader('x-unit-gross')) {
 			$response['ext']['unit_gross'] = $this->getUnitGross($response);
 		}
-		if ('1' === $this->controller->request->getHeader('x-product-bundles')) {
+		if (1 === $this->controller->request->getHeader('x-product-bundles')) {
 			$response['productBundles'] = $this->getProductBundles();
 		}
 

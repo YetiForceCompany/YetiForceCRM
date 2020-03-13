@@ -23,10 +23,12 @@ class OpenCageGeocoder extends Base
 	public $customFields = [
 		'country_codes' => [
 			'type' => 'text',
+			'info' => 'LBL_COUNTRY_CODES_INFO',
+			'link' => 'https://wikipedia.org/wiki/List_of_ISO_3166_country_codes',
 		],
 		'key' => [
 			'type' => 'text',
-			'validator' => 'required'
+			'validator' => 'required,custom[onlyLetterNumber]'
 		],
 	];
 	/**
@@ -39,7 +41,7 @@ class OpenCageGeocoder extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public $link = 'https://opencagedata.com/api/';
+	public $docUrl = 'https://opencagedata.com/api/';
 
 	/**
 	 * {@inheritdoc}
@@ -54,8 +56,8 @@ class OpenCageGeocoder extends Base
 		$urlAddress .= '&language=' . \App\Language::getLanguage();
 		$urlAddress .= '&limit=' . $config['global']['result_num'];
 		$urlAddress .= '&key=' . $config['OpenCageGeocoder']['key'];
-		if ($countryCode = \App\Map\Address::getConfig()[$this->getName()]['country_codes']) {
-			$urlAddress .= '&countrycode=' . implode(',', $countryCode);
+		if (!empty($this->config['country_codes'])) {
+			$urlAddress .= '&countrycode=' . $this->config;
 		}
 		try {
 			$response = \Requests::get($urlAddress);
@@ -83,7 +85,7 @@ class OpenCageGeocoder extends Base
 				}
 			}
 		} catch (\Throwable $e) {
-			\App\Log::warning($e->getMessage());
+			\App\Log::error('Error - ' . $e->getMessage(), __CLASS__);
 			return false;
 		}
 		return $rows;

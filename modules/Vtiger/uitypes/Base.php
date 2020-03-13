@@ -232,7 +232,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel)
 	{
-		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel);
+		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, false, App\Config::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 	}
 
 	/**
@@ -266,32 +266,18 @@ class Vtiger_Base_UIType extends \App\Base
 	 *
 	 * @param Vtiger_Field_Model $fieldModel
 	 *
-	 * @return Vtiger_Base_UIType or UIType specific object instance
+	 * @return self Vtiger_Base_UIType or UIType specific object instance
 	 */
 	public static function getInstanceFromField($fieldModel)
 	{
-		$fieldDataType = $fieldModel->getFieldDataType();
-		$uiTypeClassSuffix = ucfirst($fieldDataType);
+		$uiType = ucfirst($fieldModel->getFieldDataType());
 		$moduleName = $fieldModel->getModuleName();
-		$moduleSpecificUiTypeClassName = $moduleName . '_' . $uiTypeClassSuffix . '_UIType';
-		$uiTypeClassName = 'Vtiger_' . $uiTypeClassSuffix . '_UIType';
-		$fallBackClassName = 'Vtiger_Base_UIType';
-
-		$moduleSpecificFileName = 'modules.' . $moduleName . '.uitypes.' . $uiTypeClassSuffix;
-		$uiTypeClassFileName = 'modules.Vtiger.uitypes.' . $uiTypeClassSuffix;
-
-		$moduleSpecificFilePath = Vtiger_Loader::resolveNameToPath($moduleSpecificFileName);
-		$completeFilePath = Vtiger_Loader::resolveNameToPath($uiTypeClassFileName);
-
-		if (file_exists($moduleSpecificFilePath)) {
-			$instance = new $moduleSpecificUiTypeClassName();
-		} elseif (file_exists($completeFilePath)) {
-			$instance = new $uiTypeClassName();
-		} else {
-			$instance = new $fallBackClassName();
+		$className = \Vtiger_Loader::getComponentClassName('UIType', $uiType, $moduleName, false);
+		if (!$className) {
+			$className = \Vtiger_Loader::getComponentClassName('UIType', 'Base', $moduleName);
 		}
+		$instance = new $className();
 		$instance->set('field', $fieldModel);
-
 		return $instance;
 	}
 

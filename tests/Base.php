@@ -23,7 +23,7 @@ abstract class Base extends \PHPUnit\Framework\TestCase
 	 *
 	 * @param \Throwable $t
 	 */
-	protected function onNotSuccessfulTest(\Throwable $t)
+	protected function onNotSuccessfulTest(\Throwable $t): void
 	{
 		if (isset($this->logs)) {
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";

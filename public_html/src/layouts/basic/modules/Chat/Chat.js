@@ -1,12 +1,15 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-
 import ChatDialog from './views/Dialog.vue'
 import ChatRecordRoom from './views/RecordRoom.vue'
-import Icon from 'components/Icon.vue'
+import YfIcon from 'components/YfIcon.vue'
 import store from 'store'
 import moduleStore from './store'
+
+Vue.config.productionTip = false
+
 let isModuleInitialized = false
-Vue.component('icon', Icon)
+
+Vue.component('YfIcon', YfIcon)
 Vue.mixin({
 	methods: {
 		translate(key) {
@@ -60,7 +63,10 @@ window.ChatModalVueComponent = {
 				initChat().then(e => {
 					this.$store.commit('Chat/initStorage')
 					store.subscribe((mutation, state) => {
-						if (mutation.type !== 'Chat/updateChatData' && mutation.type !== 'Chat/setAmountOfNewMessages') {
+						if (
+							mutation.type !== 'Chat/updateChatData' &&
+							mutation.type !== 'Chat/setAmountOfNewMessages'
+						) {
 							Quasar.plugins.LocalStorage.set('yf-chat', JSON.stringify(state.Chat.local))
 							Quasar.plugins.SessionStorage.set('yf-chat', JSON.stringify(state.Chat.session))
 						}

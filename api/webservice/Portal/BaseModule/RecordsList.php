@@ -13,6 +13,10 @@ class RecordsList extends \Api\Core\BaseAction
 {
 	/** @var string[] Allowed request methods */
 	public $allowedMethod = ['GET'];
+	/**
+	 * {@inheritdoc}
+	 */
+	public $allowedHeaders = ['x-condition', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-row-order-field', 'x-row-order', 'x-parent-id'];
 
 	/**
 	 * Get method.
@@ -58,6 +62,9 @@ class RecordsList extends \Api\Core\BaseAction
 		$limit = 1000;
 		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
 			$limit = (int) $requestLimit;
+		}
+		if ($orderField = $this->controller->request->getHeader('x-row-order-field')) {
+			$queryGenerator->setOrder($orderField, $this->controller->request->getHeader('x-row-order'));
 		}
 		$offset = 0;
 		if ($requestOffset = $this->controller->request->getHeader('x-row-offset')) {

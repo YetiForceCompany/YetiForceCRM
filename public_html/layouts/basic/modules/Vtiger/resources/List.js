@@ -287,7 +287,7 @@ jQuery.Class(
 			var count;
 			var listInstance = Vtiger_List_Js.getInstance();
 			var cvId = listInstance.getCurrentCvId();
-			var selectedIdObj = jQuery('#selectedIds').data(cvId + 'Selectedids');
+			var selectedIdObj = jQuery('#selectedIds').data(cvId + 'selectedIds');
 			if (selectedIdObj != undefined) {
 				if (selectedIdObj != 'all') {
 					count = selectedIdObj.length;
@@ -516,13 +516,15 @@ jQuery.Class(
 		getDefaultParams: function() {
 			let params = {
 				module: app.getModuleName(),
-				page: jQuery('#pageNumber').val(),
+				page: $('#pageNumber').val(),
 				view: app.getViewName(),
 				viewname: this.getCurrentCvId(),
-				orderby: jQuery('#orderBy').val(),
-				sortorder: jQuery('#sortOrder').val(),
-				entityState: jQuery('#entityState').val()
+				orderby: $('#orderBy').val(),
+				entityState: $('#entityState').val()
 			};
+			if($('#sortOrder').length){
+				params.sortorder = $('#sortOrder').val();
+			}
 			if (app.getParentModuleName()) {
 				params.parent = app.getParentModuleName();
 			}
@@ -769,7 +771,7 @@ jQuery.Class(
 		readSelectedIds: function(decode) {
 			var cvId = this.getCurrentCvId();
 			var selectedIdsElement = jQuery('#selectedIds');
-			var selectedIdsDataAttr = cvId + 'Selectedids';
+			var selectedIdsDataAttr = cvId + 'selectedIds';
 			var selectedIdsElementDataAttributes = selectedIdsElement.data();
 			if (!(selectedIdsDataAttr in selectedIdsElementDataAttributes)) {
 				var selectedIds = [];
@@ -807,7 +809,7 @@ jQuery.Class(
 			if (!Array.isArray(selectedIds)) {
 				selectedIds = [selectedIds];
 			}
-			jQuery('#selectedIds').data(cvId + 'Selectedids', selectedIds);
+			jQuery('#selectedIds').data(cvId + 'selectedIds', selectedIds);
 		},
 		writeExcludedIds: function(excludedIds) {
 			var cvId = this.getCurrentCvId();
@@ -1357,19 +1359,8 @@ jQuery.Class(
 		 * Function to register the click event for listView headers
 		 */
 		registerHeadersClickEvent: function() {
-			var listViewPageDiv = this.getListViewContainer();
-			var thisInstance = this;
-			listViewPageDiv.on('click', '.js-listview_header', function(e) {
-				var fieldName = jQuery(e.currentTarget).data('columnname');
-				var sortOrderVal = jQuery(e.currentTarget).data('nextsortorderval');
-				if (typeof sortOrderVal === 'undefined') return;
-				var cvId = thisInstance.getCurrentCvId();
-				var urlParams = {
-					orderby: fieldName,
-					sortorder: sortOrderVal,
-					viewname: cvId
-				};
-				thisInstance.getListViewRecords(urlParams);
+			YetiForce_ListSearch_Js.registerSearch(this.getListViewContainer(), (data) => {
+				this.getListViewRecords(data);
 			});
 		},
 		/*
@@ -1550,7 +1541,7 @@ jQuery.Class(
 		registerCustomFilterOptionsHoverEvent: function() {
 			var filterBlock = this.getFilterBlock();
 			if (filterBlock != false) {
-				filterBlock.on('mouseenter mouseleave', 'li.select2-results__option[role="treeitem"]', event => {
+				filterBlock.on('mouseenter mouseleave', 'li.select2-results__option[role="option"]', event => {
 					let liElement = $(event.currentTarget);
 					let liFilterImages = liElement.find('.js-filter-actions');
 					if (liElement.hasClass('group-result')) {
@@ -2021,7 +2012,7 @@ jQuery.Class(
 					if (value.type) {
 						listViewContentDiv
 							.find('tr[data-id="' + id + '"] .timeLineIconList')
-							.addClass(value.color + ' userIcon-' + value.type)
+							.addClass(value.color + ' yfm-' + value.type)
 							.removeClass('d-none')
 							.on('click', function(e) {
 								var element = jQuery(e.currentTarget);
@@ -2110,7 +2101,7 @@ jQuery.Class(
 			app.registerMiddleClickScroll(container);
 		},
 		registerFixedThead(container) {
-			if ($(window).width() < app.breakpoints.sm) {
+			if (!Quasar.plugins.Platform.is.desktop) {
 				this.listFloatThead = container.find('.js-fixed-thead');
 				this.listFloatThead.floatThead('destroy');
 				this.listFloatThead.floatThead({
@@ -2128,7 +2119,7 @@ jQuery.Class(
 			return this.listFloatThead;
 		},
 		reflowThead() {
-			if ($(window).width() > app.breakpoints.sm) {
+			if (Quasar.plugins.Platform.is.desktop) {
 				this.getFloatTheadContainer().floatThead('reflow');
 			}
 		},
@@ -2170,13 +2161,13 @@ jQuery.Class(
 		 * @param {jQuery} listViewContainer
 		 */
 		registerDesktopEvents(listViewContainer) {
-			if ($(window).width() > app.breakpoints.sm) {
+			if (Quasar.plugins.Platform.is.desktop && listViewContainer.length) {
 				this.registerListScroll(listViewContainer);
 				this.registerFixedThead(listViewContainer);
 			}
 		},
 		registerPostLoadDesktopEvents(listViewContainer) {
-			if ($(window).width() > app.breakpoints.sm) {
+			if (Quasar.plugins.Platform.is.desktop) {
 				new PerfectScrollbar(listViewContainer[0]).destroy();
 				listViewContainer.find('.js-fixed-thead').floatThead('destroy');
 				listViewContainer.siblings('.floatThead-container').remove();

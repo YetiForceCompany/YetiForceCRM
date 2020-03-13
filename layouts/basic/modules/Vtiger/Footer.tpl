@@ -7,24 +7,14 @@
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
 * Contributor(s): YetiForce Sp. z o.o
-********************************************************************************/
+**********************************************************************************/
+
+/*****************************************************************************************************************
+****   Modifying this file or functions that affect the footer appearance will violate the license terms!!!	  ****
+******************************************************************************************************************/
 -->*}
 {strip}
 	<!-- tpl-Base-Footer -->
-	{assign var="DISABLE_BRANDING" value=\App\Config::component('Branding', 'isCustomerBrandingActive')}
-	{if $DISABLE_BRANDING}
-		{assign var="URL_LINKEDIN" value=\App\Config::component('Branding', 'urlLinkedIn')}
-		{assign var="URL_TWITTER" value=\App\Config::component('Branding', 'urlTwitter')}
-		{assign var="URL_FACEBOOK" value=\App\Config::component('Branding', 'urlFacebook')}
-		{assign var="URL_GITHUB" value=null}
-		{assign var="FOOTER_NAME" value=\App\Config::component('Branding', 'footerName')}
-	{else}
-		{assign var="URL_LINKEDIN" value='https://www.linkedin.com/groups/8177576'}
-		{assign var="URL_TWITTER" value='https://twitter.com/YetiForceEN'}
-		{assign var="URL_FACEBOOK" value='https://www.facebook.com/YetiForce-CRM-158646854306054/'}
-		{assign var="URL_GITHUB" value='https://github.com/YetiForceCompany/YetiForceCRM'}
-	{/if}
-	</div>
 	</div>
 	</div>
 	</div>
@@ -33,14 +23,26 @@
 	</div>
 	</div>
 	<input class="tpl-Footer d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}"/>
-	{if \App\Privilege::isPermitted('Chat')}
+	{if \App\Privilege::isPermitted('Chat') && \App\Config::module('Chat', 'draggableButton')}
 		<div class="quasar-reset">
 			<div id="ChatModalVue"></div>
 		</div>
 	{/if}
-	{if $SHOW_FOOTER}
-		<footer class="c-footer fixed-bottom js-footer{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active{/if} {if $DISABLE_BRANDING} c-footer--limited {/if}"
-				data-js="height">
+	{if $SHOW_FOOTER_BAR}
+		{assign var="DISABLE_BRANDING" value=\App\YetiForce\Shop::check('YetiForceDisableBranding')}
+		{if $DISABLE_BRANDING}
+			{assign var="URL_LINKEDIN" value=\App\Config::component('Branding', 'urlLinkedIn')}
+			{assign var="URL_TWITTER" value=\App\Config::component('Branding', 'urlTwitter')}
+			{assign var="URL_FACEBOOK" value=\App\Config::component('Branding', 'urlFacebook')}
+			{assign var="URL_GITHUB" value=null}
+			{assign var="FOOTER_NAME" value=\App\Config::component('Branding', 'footerName')}
+		{else}
+			{assign var="URL_LINKEDIN" value='https://www.linkedin.com/groups/8177576'}
+			{assign var="URL_TWITTER" value='https://twitter.com/YetiForceEN'}
+			{assign var="URL_FACEBOOK" value='https://www.facebook.com/YetiForce-CRM-158646854306054/'}
+			{assign var="URL_GITHUB" value='https://github.com/YetiForceCompany/YetiForceCRM'}
+		{/if}
+		<footer class="c-footer fixed-bottom js-footer{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active{/if} {if $DISABLE_BRANDING} c-footer--limited {/if}" data-js="height">
 			{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
 				<div class="js-footer__user-info c-footer__user-info">
 					<p>
@@ -56,8 +58,7 @@
 				<ul class="float-left pagination border-0">
 					{if !empty($URL_LINKEDIN)}
 						<li class="page-item">
-							<a class="page-link" href="{$URL_LINKEDIN}" target="_blank"
-								rel="noreferrer noopener">
+							<a class="page-link" href="{$URL_LINKEDIN}" target="_blank"	rel="noreferrer noopener">
 								<span class="fab fa-linkedin fa-2x" title="Linkedin"></span>
 							</a>
 						</li>
@@ -71,8 +72,7 @@
 					{/if}
 					{if !empty($URL_FACEBOOK)}
 						<li class="page-item">
-							<a class="page-link" href="{$URL_FACEBOOK}" target="_blank"
-								rel="noreferrer noopener">
+							<a class="page-link" href="{$URL_FACEBOOK}" target="_blank"	rel="noreferrer noopener">
 								<span class="fab fa-facebook-square fa-2x" title="Facebook"></span>
 							</a>
 						</li>
@@ -88,6 +88,34 @@
 				</ul>
 				<div class="float-right p-0">
 					<ul class="pagination">
+						{if !\App\YetiForce\Register::verify(true)}
+							{if $USER_MODEL->isAdminUser()}
+								{assign var="INFO_REGISTRATION_ERROR" value="<a href='index.php?module=Companies&parent=Settings&view=List&displayModal=online'>{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}</a>"}
+							{else}
+								{assign var="INFO_REGISTRATION_ERROR" value=\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}
+							{/if}
+							<a class="d-flex align-items-center text-center text-warning p-0 mr-2 text-danger js-popover-tooltip c-header__btn" role="button"
+									data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
+									title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
+									{if $USER_MODEL->isAdminUser()}
+										href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
+									{else}
+										href="#"
+									{/if} >
+								<span class="yfi yfi-yeti-register-alert fa-2x">
+								</span>
+							</a>
+						{/if}
+						{if !\App\YetiForce\Shop::verify()}
+							<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip flash infinite slower" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}<hr>{\App\YetiForce\Shop::$verifyProduct}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
+									{if $USER_MODEL->isAdminUser()}
+										href="index.php?module=YetiForce&parent=Settings&view=Shop"
+									{else}
+										href="#"
+									{/if} >
+								<span class="yfi yfi-shop-alert fa-2x"></span>
+							</a>
+						{/if}
 						{if !$DISABLE_BRANDING }
 							<li class="page-item">
 								<a class="page-link mr-md-1" href="https://yetiforce.shop" rel="noreferrer noopener">
@@ -221,12 +249,5 @@
 			</div>
 		</div>
 	{/if}
-	{* javascript files *}
-	{include file=\App\Layout::getTemplatePath('JSResources.tpl')}
-	{if \App\Debuger::isDebugBar()}
-		{\App\Debuger::getDebugBar()->getJavascriptRenderer()->render()}
-	{/if}
-	</body>
-	</html>
 	<!-- /tpl-Base-Footer -->
 {/strip}

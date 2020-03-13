@@ -5,7 +5,7 @@
 			<span class="fas fa-key mr-1"></span>
 			<strong class="d-none d-md-inline-block">{\App\Language::translate($GENERATEPASS, $MODULE)}</strong>
 		</button>
-		<button class="btn btn-success mr-1 s-form-submit-btn" type="submit" disabled="disabled" data-js="disabled">
+		<button class="btn btn-success mr-1 js-form-submit-btn" type="submit" disabled="disabled" data-js="disabled">
 			<span class="fas fa-check mr-1"></span>
 			<strong class="d-none d-md-inline-block">{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
 		</button>

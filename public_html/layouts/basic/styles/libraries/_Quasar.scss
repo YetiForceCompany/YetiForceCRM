@@ -1,5 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.quasar-reset {
+.quasar-reset,
+body > .q-dialog:not(.quasar-reset) {
 	.row {
 		margin: unset;
 		margin-right: unset;
@@ -12,6 +13,9 @@
 		padding: unset;
 		padding-right: unset;
 		padding-left: unset;
+	}
+	.q-field .col {
+		position: relative;
 	}
 }
 
@@ -36,4 +40,7 @@
 	.q-layout-container {
 		height: calc(100vh - 113px);
 	}
+}
+.q-message-text {
+	background: none;
 }

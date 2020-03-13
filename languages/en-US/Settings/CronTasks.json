@@ -65,6 +65,7 @@
     "LBL_CLEAR_FILE_UPLOAD_TEMP": "Clear temporary files directory",
     "LBL_SESSION_CLEANER": "Clear inactive sessions",
     "LBL_ARCHIVE_OLD_RECORDS": "Archive old records",
+    "LBL_CRON_HAS_NOT_BEEN_ENABLED": "The CRON mechanism has not been enabled, it is required for the correct operation of the system.",
     "LBL_GET_SOCIAL_MEDIA_MESSAGES": "Download messages from social media"
   },
   "js": {

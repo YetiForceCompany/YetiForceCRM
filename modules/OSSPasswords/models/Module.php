@@ -9,11 +9,9 @@
 class OSSPasswords_Module_Model extends Vtiger_Module_Model
 {
 	/**
-	 * Function returns Settings Links.
-	 *
-	 * @return array
+	 * {@inheritdoc}
 	 */
-	public function getSettingLinks()
+	public function getSettingLinks(): array
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$settingLinks = parent::getSettingLinks();

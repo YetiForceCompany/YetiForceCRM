@@ -50,7 +50,6 @@
     "LBL_TABLE_CURRENCY_SUMMARY": "Currency summary for advanced block",
     "LBL_TABLE_DISCOUNT_S_TWO_LANG": "Discount summary for advanced block - bilingual version",
     "LBL_TABLE_TAX_S_TWO_LANG": "Tax summary table - bilingual version",
-    "LBL_GROSS_AMOUNT_IN_WORDS": "Gross amount in words",
     "LBL_TABLE_DISCOUNT_SUMMARY": "Discount summary for advanced block",
     "LBL_OVERDUE_DEADLINES": "Overdue events",
     "LBL_TABLE_TAX_SUMMARY": "Tax summary for advanced block",
@@ -58,6 +57,15 @@
     "LBL_CURRENT_PAGE": "Current page",
     "LBL_INVENTORY_TABLE": "Inventory table with custom predefined columns",
     "LBL_DYNAMIC_INVENTORY_TABLE": "Inventory table with dynamic columns",
-    "LBL_INVENTORY_VARIABLES": "Additional inventory variables"
+    "LBL_INVENTORY_VARIABLES": "Additional inventory variables",
+    "LBL_TEXT_PARSER_RECORDS_LIST": "List of records",
+    "LBL_TEXT_PARSER_USER_VARIABLE": "User variable",
+    "LBL_REPORT_NEW_RECORDS": "New records in given module",
+    "LBL_REPORT_SSALESPROCESSES": "Opportunity records",
+    "LBL_REPORT_CALENDAR": "Calendar records",
+    "LBL_REPORT_OVERDUE": "Overdue records",
+    "LBL_USER_RECORD_DUPLICATE_LIST": "User duplicated records list",
+    "LBL_USER_RECORD_FILTERED_LIST": "User filtered records list",
+    "LBL_SUMMARY_FIELDS": "List of fields visible in the summary"
   }
 }

@@ -3,7 +3,7 @@
 	<input type="hidden" id="js-lock-count" data-js="value" value="{count($LOCKS)}" />
 	{assign var="USERS" value=Users_Record_Model::getAll()}
 	{assign var="ROLES" value=Settings_Roles_Record_Model::getAll()}
-	<div class="widget_header row">
+	<div class="o-breadcrumb widget_header row">
 		<div class="col-md-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
@@ -32,4 +32,3 @@
 		{include file=\App\Layout::getTemplatePath('LocksItem.tpl', $QUALIFIED_MODULE) SELECT=false}
 	</table>
 {/strip}
-

@@ -12,12 +12,13 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 {
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('save');
 		$this->exposeMethod('updateSequenceNumber');
 		$this->exposeMethod('delete');
 	}
 
-	public function save(\App\Request $request)
+	public function save(App\Request $request)
 	{
 		$blockId = $request->get('blockid');
 		$sourceModule = $request->getByType('sourceModule', 2);
@@ -60,12 +61,15 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 				$response->setError($e->getCode(), $e->getMessage());
 			}
 		} else {
-			$response->setError('502', \App\Language::translate('LBL_DUPLICATES_EXIST', $request->getModule(false)));
+			$response->setResult([
+				'success' => false,
+				'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))
+			]);
 		}
 		$response->emit();
 	}
 
-	public function updateSequenceNumber(\App\Request $request)
+	public function updateSequenceNumber(App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		try {
@@ -78,22 +82,25 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function delete(\App\Request $request)
+	/**
+	 * Delete block.
+	 *
+	 * @param App\Request $request
+	 */
+	public function delete(App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$blockId = $request->get('blockid');
 		$checkIfFieldsExists = Vtiger_Block_Model::checkFieldsExists($blockId);
 		if ($checkIfFieldsExists) {
-			$response->setError('502', \App\Language::translate('LBL_FIELDS_EXISTS_IN_BLOCK', $request->getModule(false)));
+			$response->setResult(['success' => false, 'message' => \App\Language::translate('LBL_FIELDS_EXISTS_IN_BLOCK', $request->getModule(false))]);
 			$response->emit();
-
 			return;
 		}
 		$blockInstance = Vtiger_Block_Model::getInstance($blockId);
 		if (!$blockInstance->isCustomized()) {
-			$response->setError('502', \App\Language::translate('LBL_DELETE_CUSTOM_BLOCKS', $request->getModule(false)));
+			$response->setResult(['success' => false, 'message' => \App\Language::translate('LBL_DELETE_CUSTOM_BLOCKS', $request->getModule(false))]);
 			$response->emit();
-
 			return;
 		}
 		try {

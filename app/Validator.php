@@ -83,6 +83,19 @@ class Validator
 	}
 
 	/**
+	 * Function verifies if given value is compatible with date time in ISO format.
+	 *
+	 * @param string   $input
+	 * @param int|null $userId
+	 *
+	 * @return bool
+	 */
+	public static function dateTimeInIsoFormat(string $input): bool
+	{
+		return preg_match('/^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$/', $input);
+	}
+
+	/**
 	 * Function verifies if given value is compatible with default time format.
 	 *
 	 * @param string $input
@@ -191,11 +204,16 @@ class Validator
 	 * @param float $value1
 	 * @param float $value2
 	 * @param int   $precision
+	 * @param mixed $rounding
 	 *
 	 * @return bool
 	 */
-	public static function floatIsEqual(float $value1, float $value2, int $precision = 2): bool
+	public static function floatIsEqual(float $value1, float $value2, int $precision = 2, $rounding = true): bool
 	{
+		if ($rounding) {
+			$value1 = round($value1, $precision);
+			$value2 = round($value2, $precision);
+		}
 		return 0 === bccomp($value1, $value2, $precision);
 	}
 
@@ -345,5 +363,37 @@ class Validator
 	public static function timePeriod($input): bool
 	{
 		return preg_match('/^[0-9]{1,18}\:(d|H|i){1}$/', $input);
+	}
+
+	/**
+	 * Check if input is an ip value.
+	 *
+	 * @param string|string[] $input
+	 *
+	 * @return bool
+	 */
+	public static function ip($input): bool
+	{
+		$input = \is_array($input) ? $input : [$input];
+		$result = true;
+		foreach ($input as $ipAddress) {
+			if (false === filter_var($ipAddress, FILTER_VALIDATE_IP)) {
+				$result = false;
+				break;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Function verifies if given value is text.
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public static function text(string $input): bool
+	{
+		return Purifier::decodeHtml(Purifier::purify($input)) === $input;
 	}
 }

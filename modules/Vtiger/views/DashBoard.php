@@ -35,7 +35,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		} else {
 			$widgets = [];
 		}
-		$viewer->assign('MODULES_WITH_WIDGET', 'Home' === $moduleName ? Vtiger_DashBoard_Model::getModulesWithWidgets($sourceModule, $currentDashboard) : []);
+		$viewer->assign('MODULES_WITH_WIDGET', 'Home' === $sourceModule ? Vtiger_DashBoard_Model::getModulesWithWidgets($sourceModule, $currentDashboard) : []);
 		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
 		$viewer->assign('DASHBOARD_TYPES', Settings_WidgetsManagement_Module_Model::getDashboardTypes());
 		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);

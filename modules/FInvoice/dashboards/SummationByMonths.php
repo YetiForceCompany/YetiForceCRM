@@ -71,7 +71,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		$query = $queryGenerator->createQuery();
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$rawData[$row['y']][] = [$row['m'], (int) $row['s']];
+			$rawData[$row['y']][$row['m']] = [(int) $row['s']];
 		}
 		$dataReader->close();
 		$chartData = [
@@ -80,7 +80,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 			'show_chart' => false,
 		];
 		$this->conditions = ['condition' => ['>', 'saledate', $date]];
-		$yearsData = [];
+		$yearsData = $tempData = [];
 		$chartData['show_chart'] = (bool) \count($rawData);
 		$shortMonth = ['LBL_Jan', 'LBL_Feb', 'LBL_Mar', 'LBL_Apr', 'LBL_May', 'LBL_Jun',
 			'LBL_Jul', 'LBL_Aug', 'LBL_Sep', 'LBL_Oct', 'LBL_Nov', 'LBL_Dec'];
@@ -96,14 +96,17 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 					'backgroundColor' => [],
 				];
 				for ($m = 0; $m < 12; ++$m) {
-					$yearsData[$y]['data'][$m] = ['x' => $m, 'y' => 0];
+					$tempData[$y][$m] = 0;
 				}
 			}
 			foreach ($raw as $m => &$value) {
-				$yearsData[$y]['data'][$m] = ['y' => $value[1], 'x' => (int) $m + 1];
+				$tempData[$y][$m-1] = $value[0];
 				$yearsData[$y]['backgroundColor'][] = \App\Colors::getRandomColor($y * 10);
 				$yearsData[$y]['stack'] = (string) $y;
 			}
+		}
+		foreach($tempData as $year => $yearData){
+			$yearsData[$year]['data'] = $yearData;
 		}
 		$years = array_values(array_unique($years));
 		$chartData['years'] = $years;

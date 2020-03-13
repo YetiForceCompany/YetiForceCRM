@@ -11,9 +11,9 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 	public function getUrl()
 	{
 		$moduleName = is_numeric($this->Data['relatedmodule']) ? App\Module::getModuleName($this->Data['relatedmodule']) : $this->Data['relatedmodule'];
-		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRelatedRecords&relatedModule=' . $moduleName . '&page=1&limit=' . $this->Data['limit'] . '&viewType=' . $this->Data['viewtype'];
+		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRelatedRecords&relatedModule=' . $moduleName . '&page=1&limit=' . $this->Data['limit'] . '&viewType=' . $this->Data['viewtype'] . '&relationId=' . $this->Data['relation_id'];
 		if (isset($this->Data['no_result_text'])) {
-			$url .= '&r=' . $this->Data['no_result_text'];
+			$url .= '&no_result_text=' . $this->Data['no_result_text'];
 		}
 		$fields = [];
 		if (!empty($this->Data['relatedfields'])) {
@@ -42,10 +42,11 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 				$createPermission = $model->isPermitted('CreateView');
 				$this->Config['action'] = (true === $createPermission) ? 1 : 0;
 				if ($isQuickCreateSupport) {
-					$this->Config['actionURL'] = "{$model->getCreateRecordUrl()}&sourceRecord={$this->Record}&sourceModule={$this->Module}&relationOperation=true";
+					$url = $model->getCreateRecordUrl();
 				} else {
-					$this->Config['actionURL'] = "{$model->getQuickCreateUrl()}&sourceRecord={$this->Record}&sourceModule={$this->Module}";
+					$url = $model->getQuickCreateUrl();
 				}
+				$this->Config['actionURL'] = $url . "&sourceRecord={$this->Record}&sourceModule={$this->Module}&relationOperation=true&relationId=" . $this->Data['relation_id'];
 			}
 			if (isset($this->Data['switchHeader']) && '-' != $this->Data['switchHeader']) {
 				$switchHeaderData = Settings_Widgets_Module_Model::getHeaderSwitch([$this->Data['relatedmodule'], $this->Data['switchHeader']]);

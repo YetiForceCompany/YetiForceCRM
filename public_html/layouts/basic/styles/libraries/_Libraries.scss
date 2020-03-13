@@ -21,6 +21,15 @@
 		}
 	}
 }
+@include media-breakpoint-up(sm) {
+	.daterangepicker.show-ranges {
+		max-height: 300px;
+		overflow-y: scroll;
+	}
+	.daterangepicker.show-ranges.ltr .drp-calendar {
+		border-bottom: 1px solid #ddd;
+	}
+}
 
 //-------- select2 --------//
 .select2-selection {
@@ -126,6 +135,7 @@ select.select2 select.select2noactive {
 
 .select2-container .select2-search--inline {
 	float: unset; //remove unneeded space in multiple select
+	width: fit-content;
 }
 
 .input-group-sm {
@@ -307,14 +317,14 @@ header {
 .ui-autocomplete {
 	padding: 0 !important;
 
-	a.ui-menu-item-wrapper,
-	a.ui-menu-item-wrapper:hover {
+	.ui-menu-item-wrapper,
+	.ui-menu-item-wrapper:hover {
 		font-weight: inherit !important;
 	}
 }
 
-ul.ui-autocomplete {
-	div.ui-menu-item-wrapper {
+.ui-autocomplete:not(.mobile) {
+	.ui-menu-item-wrapper {
 		@extend .u-text-ellipsis;
 	}
 }
@@ -362,9 +372,14 @@ ul.ui-autocomplete {
 }
 
 //-------- perfectscrollbar --------//
-
-.leftPanel .ps-scrollbar-y-rail {
-	display: none !important;
+body:not(.desktop) {
+	.leftPanel .ps-scrollbar-y-rail {
+		display: none !important;
+	}
+	.ps__rail-x,
+	.ps__rail-y {
+		display: none !important;
+	}
 }
 
 .c-scrollbar-x--small {
@@ -475,6 +490,15 @@ ul.ui-autocomplete {
 		color: #212529;
 		background-color: #fff;
 		background-clip: padding-box;
+
+		.c-circle-icon {
+			font-size: 2em;
+			margin-top: 10px;
+		}
+		.c-img__completion__container {
+			width: 2.5rem;
+			text-align: center;
+		}
 	}
 
 	li.highlight,
@@ -489,4 +513,31 @@ ul.ui-autocomplete {
 	.fa-xs {
 		vertical-align: calculate-rem(1px);
 	}
+}
+
+//-------- pnotify --------//
+@include media-breakpoint-down(md) {
+	.ui-pnotify-container {
+		padding: 0.5rem !important;
+	}
+
+	.ui-pnotify-icon {
+		display: none !important;
+	}
+
+	.ui-pnotify-title {
+		margin: 0px !important;
+	}
+
+	.ui-pnotify-text {
+		font-size: calculate-rem(13.5px) !important;
+		margin: 0px !important;
+	}
+}
+
+.mdi:before {
+	font-size: 1.4em;
+	vertical-align: text-bottom;
+	line-height: 1.2;
+	margin: 0 -2px;
 }

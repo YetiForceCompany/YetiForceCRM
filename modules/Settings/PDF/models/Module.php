@@ -173,7 +173,7 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 				$type = Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC;
 				break;
 			}
-			if ('custom' === $match[1] && in_array($match[2], ['UserGroup|OSSTimeControl', 'List|OSSTimeControl', 'DetailedList|OSSTimeControl'])) {
+			if ('custom' === $match[1] && (\in_array($match[2], ['UserGroup|OSSTimeControl', 'List|OSSTimeControl', 'DetailedList|OSSTimeControl']) || false !== strpos($match[2], 'RecordsList'))) {
 				$type = Vtiger_PDF_Model::TEMPLATE_TYPE_SUMMARY;
 				break;
 			}

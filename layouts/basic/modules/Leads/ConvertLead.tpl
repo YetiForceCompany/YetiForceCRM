@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div id="convertLeadContainer" class='modelContainer modal fade' tabindex="-1">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-md">
 			<div class="modal-content">
 				{if !$CONVERT_LEAD_FIELDS['Accounts']}
 					<input type="hidden" id="convertLeadErrorTitle"
@@ -44,7 +44,7 @@
 										 data-toggle="collapse" data-target="#{$MODULE_NAME}_FieldInfo"
 										 aria-expanded="false" aria-controls="{$MODULE_NAME}_FieldInfo">
 										<div class="form-control-plaintext checkbox">
-											<label>
+											<label class="mb-0">
 												<input id="{$MODULE_NAME}Module"
 													   class="convertLeadModuleSelection {if $MODULE_NAME === 'Accounts'}d-none{/if}"
 													   data-module="{App\Language::translate($MODULE_NAME,$MODULE_NAME)}"
@@ -65,8 +65,8 @@
 										<table class="table table-bordered moduleBlock">
 											{foreach item=FIELD_MODEL from=$MODULE_FIELD_MODEL}
 												<tr>
-													<td class="fieldLabel col-5">
-														<label class="muted float-right">
+													<td class="fieldLabel col-5 align-middle">
+														<label class="muted float-right mb-0">
 															{if $FIELD_MODEL->isMandatory() eq true}
 																<span class="redColor">*</span>
 															{/if}
@@ -86,8 +86,8 @@
 								<table class="table table-bordered">
 									{assign var=FIELD_MODEL value=$ASSIGN_TO}
 									<tr>
-										<td class="fieldLabel col-5">
-											<label class="muted float-right">
+										<td class="fieldLabel col-5 align-middle">
+											<label class="muted float-right mb-0">
 												<span class="redColor">*</span> {App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 												{if $FIELD_MODEL->isMandatory() eq true} {/if}
 											</label>

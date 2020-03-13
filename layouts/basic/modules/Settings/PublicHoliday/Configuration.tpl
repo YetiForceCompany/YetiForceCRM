@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-PublicHoliday-Configuration" id="widgetsManagementEditorContainer">
-		<div class="widget_header row">
+		<div class="o-breadcrumb widget_header row">
 			<div class="col-md-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
@@ -62,12 +62,12 @@
 												<button data-holiday-id="{$HOLIDAY['id']}"
 														class="editHoliday mr-1 text-white btn btn-sm btn-info">
 													<span title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"
-														  class="fas fa-edit alignMiddle"></span>
+														  class="yfi yfi-full-editing-view"></span>
 												</button>
 												<button data-holiday-id="{$HOLIDAY['id']}"
 														class="deleteHoliday text-white btn btn-sm btn-danger">
 													<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"
-														  class="fas fa-trash-alt alignMiddle"></span>
+														  class="fas fa-trash-alt"></span>
 												</button>
 											</div>
 										</td>

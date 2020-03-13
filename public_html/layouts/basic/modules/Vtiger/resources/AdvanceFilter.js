@@ -78,7 +78,9 @@ jQuery.Class(
 			this.fieldTypeConditionMapping = jQuery('input[name="advanceFilterOpsByFieldType"]', filterContainer).data(
 				'value'
 			);
-			this.conditonOperatorLabelMapping = jQuery('input[name="advanceFilterOptions"]', filterContainer).data('value');
+			this.conditonOperatorLabelMapping = jQuery('input[name="advanceFilterOptions"]', filterContainer).data(
+				'value'
+			);
 			this.dateConditionInfo = jQuery('[name="date_filters"]').data('value');
 			return this;
 		},
@@ -241,7 +243,12 @@ jQuery.Class(
 				}
 				if (
 					jQuery.inArray(conditionList[key], ['s', 'ew']) != -1 &&
-					jQuery.inArray(fieldInfo.type, ['taxes', 'multipicklist', 'categoryMultipicklist', 'sharedOwner']) != -1
+					jQuery.inArray(fieldInfo.type, [
+						'taxes',
+						'multipicklist',
+						'categoryMultipicklist',
+						'sharedOwner'
+					]) != -1
 				) {
 					continue;
 				}
@@ -280,13 +287,19 @@ jQuery.Class(
 			let fieldModel = this.fieldModelInstance,
 				html;
 			if (fieldModel.get('comparatorElementVal') === 'd') {
-				html = '<div class="checkbox"><label><input type="checkbox" name="' + fieldModel.getName() + '" value="0" ';
+				html =
+					'<div class="checkbox"><label><input type="checkbox" name="' +
+					fieldModel.getName() +
+					'" value="0" ';
 				if (fieldModel.getValue() === 1 || fieldModel.getValue() === '1') {
 					html += 'checked';
 				}
 				html += ' >' + app.vtranslate('JS_IGNORE_EMPTY_VALUES') + '</label></div>';
 				return $(html);
-			} else if (fieldModel.getType().toLowerCase() === 'boolean') {
+			} else if (
+				fieldModel.getType().toLowerCase() === 'boolean' ||
+				fieldSelectElement.find('option:selected').data('fieldtype') === 'C'
+			) {
 				let selectedValue = fieldSelectElement
 					.closest('.js-conditions-row')
 					.find('[data-value="value"]')
@@ -628,7 +641,9 @@ jQuery.Class(
 					columnIndex++;
 				});
 				if (groupElement.find('div.groupCondition').length > 0) {
-					values[index + 1]['condition'] = conditionGroups.find('div.groupCondition [name="condition"]').val();
+					values[index + 1]['condition'] = conditionGroups
+						.find('div.groupCondition [name="condition"]')
+						.val();
 				}
 			});
 			return values;
@@ -824,7 +839,12 @@ Vtiger_Owner_Field_Js(
 						tagsArray.push($.trim(e));
 					});
 				});
-				html = '<input data-tags="' + tagsArray + '" type="hidden" class="row select2" name="' + this.getName() + '">';
+				html =
+					'<input data-tags="' +
+					tagsArray +
+					'" type="hidden" class="row select2" name="' +
+					this.getName() +
+					'">';
 				selectContainer = $(html).val(this.getValue());
 				selectContainer.data('tags', tagsArray);
 				this.addValidationToElement(selectContainer);
@@ -893,7 +913,8 @@ Vtiger_Date_Field_Js(
 					comparatorSelectedOptionVal === 'tomorrow' ||
 					comparatorSelectedOptionVal === 'yesterday'
 				) {
-					html = '<input name="' + this.getName() + '" type="text" ReadOnly="true" value="' + startValue + '">';
+					html =
+						'<input name="' + this.getName() + '" type="text" ReadOnly="true" value="' + startValue + '">';
 				} else {
 					html =
 						'<input name="' +

@@ -16,12 +16,7 @@
 			{if !empty(RECORD_ID)}
 				<input type="hidden" name="id" value="{$RECORD_ID}"/>
 			{/if}
-			<div class="card mb-2">
-				<div class="card-header">
-					<span class="adminIcon-company-detlis"
-						  aria-hidden="true"></span> {App\Language::translate('LBL_COMPANIES_DESCRIPTION', $QUALIFIED_MODULE)}
-				</div>
-				<div class="alert alert-info" role="alert">
+			<div class="alert alert-info" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -29,18 +24,14 @@
 						{\App\Language::translate('LBL_CHANGING_COMPANY_NAME', $QUALIFIED_MODULE)}
 					</span>
 				</div>
-				<div class="card-body">
-					{include file=\App\Layout::getTemplatePath('Form.tpl',$QUALIFIED_MODULE) MODULE_NAME=$QUALIFIED_MODULE COMPANY_ID=$RECORD_ID}
-				</div>
-				<div class="card-footer text-center">
-					<button class="btn btn-success mr-1" type="submit">
-						<span class="fa fa-check"></span> {App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
-					</button>
-					<button class="cancelLink btn btn-warning ml-1" type="reset"
-							onclick="javascript:window.history.back();">
-						<span class="fa fa-times"></span> {App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
-					</button>
-				</div>
+			{include file=\App\Layout::getTemplatePath('Form.tpl',$QUALIFIED_MODULE) MODULE_NAME=$QUALIFIED_MODULE COMPANY_ID=$RECORD_ID}
+			<div class="card-footer text-center">
+				<button class="btn btn-success mr-1" type="submit">
+					<span class="fa fa-check"></span> {App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
+				</button>
+				<button class="cancelLink btn btn-warning ml-1" type="reset" onclick="javascript:window.history.back();">
+					<span class="fa fa-times"></span> {App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
+				</button>
 			</div>
 		</form>
 	</div>

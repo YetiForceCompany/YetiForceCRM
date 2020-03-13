@@ -82,7 +82,7 @@ class ProductsTableShortVersion extends Base
 									$fieldValue .= '<br />' . $comment;
 								}
 							}
-						} elseif (\in_array($typeName, ['Quantity', 'GrossPrice', 'UnitPrice', 'TotalPrice']) && !empty($currencySymbol)) {
+						} elseif (\in_array($typeName, ['GrossPrice', 'UnitPrice', 'TotalPrice']) && !empty($currencySymbol)) {
 							$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
 							$fieldStyle = $bodyStyle . 'text-align:right;';
 						} else {

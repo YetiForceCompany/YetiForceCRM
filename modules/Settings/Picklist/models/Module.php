@@ -25,15 +25,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function gives fields based on the type.
-	 *
-	 * @param string|string[] $type - field type
-	 *
-	 * @return Settings_Picklist_Field_Model[] - list of field models
+	 * {@inheritdoc}
 	 */
-	public function getFieldsByType($type)
+	public function getFieldsByType($type, bool $active = false): array
 	{
-		$fieldModels = parent::getFieldsByType($type);
+		$fieldModels = parent::getFieldsByType($type, $active);
 		$fields = [];
 		foreach ($fieldModels as $fieldName => $fieldModel) {
 			$field = Settings_Picklist_Field_Model::getInstanceFromFieldObject($fieldModel);
@@ -84,7 +80,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$row['description'] = $description;
 		}
 		if (\in_array('color', $db->getTableSchema($tableName)->getColumnNames())) {
-			$row['color'] = '#E6FAD8';
+			$row['color'] = 'E6FAD8';
 		}
 		$db->createCommand()->insert($tableName, $row)->execute();
 		$picklistId = $db->getLastInsertID($tableName . '_' . $primaryKey . '_seq');

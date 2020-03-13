@@ -55,10 +55,24 @@ var Vtiger_Index_Js = {
 				AppConnector.request(params).done(function(data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					app.hideModalWindow();
+					var relatedModuleName = 'Documents';
 					if (app.getViewName() === 'Detail') {
 						var detailView = Vtiger_Detail_Js.getInstance();
-						if (detailView.getSelectedTab().data('reference') === 'Documents') {
+						var selectedTabElement = detailView.getSelectedTab();
+						if (selectedTabElement.data('reference') === relatedModuleName) {
 							detailView.reloadTabContent();
+						} else if (
+							detailView
+								.getContentHolder()
+								.find('.detailViewBlockLink')
+								.data('reference') === relatedModuleName
+						) {
+							Vtiger_RelatedList_Js.getInstance(
+								detailView.getRecordId(),
+								app.getModuleName(),
+								selectedTabElement,
+								relatedModuleName
+							).loadRelatedList();
 						} else {
 							var updatesWidget = detailView
 								.getContentHolder()
@@ -129,6 +143,9 @@ var Vtiger_Index_Js = {
 				var toMail = sendButton.data('to');
 				if (toMail) {
 					url += '&to=' + toMail;
+				}
+				if (app.getRecordId() && sendButton.data('record') !== app.getRecordId()) {
+					url += '&crmModule=' + app.getModuleName() + '&crmRecord=' + app.getRecordId();
 				}
 				thisInstance.sendMailWindow(url, popup);
 			});
@@ -355,7 +372,6 @@ var Vtiger_Index_Js = {
 		AppConnector.request(url)
 			.done(function(data) {
 				content.html(data);
-				app.registerMoreContent(content.find('button.moreBtn'));
 				thisInstance.refreshReminderCount(content, element, 'js-count-notifications-reminder');
 				content.find('.js-set-marked').on('click', function(e) {
 					var currentElement = $(e.currentTarget);
@@ -537,6 +553,12 @@ var Vtiger_Index_Js = {
 		});
 	},
 	registerAterloginEvents: function() {
+		if (typeof CONFIG.ShowUserPwnedPasswordChange !== 'undefined') {
+			app.showModalWindow(
+				null,
+				'index.php?module=Users&view=PasswordModal&mode=change&type=pwned&record=' + CONFIG.userId
+			);
+		}
 		if (typeof CONFIG.ShowUserPasswordChange !== 'undefined') {
 			app.showModalWindow(null, 'index.php?module=Users&view=PasswordModal&mode=change&record=' + CONFIG.userId);
 		}

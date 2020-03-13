@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Base-Edit-Field-Twitter input-group">
+	<div class="tpl-Base-Edit-Field-Twitter input-group {$WIDTHTYPE_GROUP}">
 		<div class=" input-group-append">
 			<span class="input-group-text" title="Twitter">@</span>
 		</div>

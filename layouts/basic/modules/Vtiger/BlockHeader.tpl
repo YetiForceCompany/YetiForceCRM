@@ -58,7 +58,7 @@
 					</select>
 				</div>
 				{assign var=ADDRESS_FINDER_CONFIG value=\App\Map\Address::getConfig()}
-				<input title="{\App\Language::translate('LBL_ADDRESS_INFORMATION')}" type="text"
+				<input title="{\App\Language::translate('LBL_ADDRESS_INFORMATION')}" type="search"
 					   placeholder="{\App\Language::translate('LBL_ENTER_SEARCHED_ADDRESS')}"
 					   data-min="{$ADDRESS_FINDER_CONFIG['global']['min_length']}"
 					   class="js-autoload-address form-control" data-js="autocomplete"

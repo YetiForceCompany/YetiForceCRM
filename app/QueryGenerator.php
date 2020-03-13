@@ -141,7 +141,7 @@ class QueryGenerator
 	/**
 	 * Get module model.
 	 *
-	 * @return string
+	 * @return \Vtiger_Module_Model
 	 */
 	public function getModuleModel()
 	{
@@ -151,7 +151,7 @@ class QueryGenerator
 	/**
 	 * Get query fields.
 	 *
-	 * @return array
+	 * @return \Vtiger_Field_Model[]
 	 */
 	public function getFields()
 	{
@@ -399,8 +399,9 @@ class QueryGenerator
 	 */
 	public function addRelatedField($field)
 	{
-		$this->relatedFields[] = $field;
-
+		if (!\in_array($field, $this->relatedFields)) {
+			$this->relatedFields[] = $field;
+		}
 		return $this;
 	}
 
@@ -435,6 +436,7 @@ class QueryGenerator
 	public function addTableToQuery($tableName)
 	{
 		$this->tablesList[$tableName] = $tableName;
+		return $this;
 	}
 
 	/**
@@ -591,13 +593,7 @@ class QueryGenerator
 	 */
 	public function getRelatedModuleField(string $fieldName, string $moduleName)
 	{
-		if (empty($this->relatedFieldsModel[$moduleName])) {
-			$this->getRelatedModuleFields($moduleName);
-		}
-		if (isset($this->relatedFieldsModel[$moduleName][$fieldName])) {
-			return $this->relatedFieldsModel[$moduleName][$fieldName];
-		}
-		return false;
+		return $this->getRelatedModuleFields($moduleName)[$fieldName] ?? null;
 	}
 
 	/**
@@ -725,7 +721,7 @@ class QueryGenerator
 			if (isset($rule['condition'])) {
 				$where[] = $this->parseConditions($rule);
 			} else {
-				[$moduleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
+				[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
 				if (!empty($sourceFieldName)) {
 					$condition = $this->getRelatedCondition([
 						'relatedModule' => $moduleName,
@@ -896,9 +892,6 @@ class QueryGenerator
 						$this->addJoin(['LEFT JOIN', 'vtiger_groups vtiger_groups' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_groups{$fieldName}.groupid"]);
 					}
 				}
-			} elseif ('owner' === $field->getFieldDataType() && 'created_user_id' === $fieldName) {
-				$this->addJoin(['LEFT JOIN', 'vtiger_users vtiger_users' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_users{$fieldName}.id"]);
-				$this->addJoin(['LEFT JOIN', 'vtiger_groups vtiger_groups' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_groups{$fieldName}.groupid"]);
 			}
 			if (!isset($this->tablesList[$field->getTableName()])) {
 				$this->tablesList[$field->getTableName()] = $field->getTableName();
@@ -932,7 +925,7 @@ class QueryGenerator
 			} elseif ('vtiger_groups' == $tableName) {
 				$field = $this->getModuleField($ownerField);
 				$this->addJoin([$joinType, $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.groupid"]);
-			} else {
+			} elseif (isset($moduleTableIndexList[$tableName])) {
 				$this->addJoin([$joinType, $tableName, "$baseTable.$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]"]);
 			}
 		}
@@ -1018,6 +1011,8 @@ class QueryGenerator
 	 * Set state condition.
 	 *
 	 * @param string $state
+	 *
+	 * @return $this
 	 */
 	public function setStateCondition($state)
 	{
@@ -1036,6 +1031,7 @@ class QueryGenerator
 				$this->stateCondition = false;
 				break;
 		}
+		return $this;
 	}
 
 	/**
@@ -1044,7 +1040,7 @@ class QueryGenerator
 	 * @param string $fieldName
 	 * @param mixed  $value
 	 * @param string $operator
-	 * @param bool $userFormat
+	 * @param bool   $userFormat
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
@@ -1053,7 +1049,7 @@ class QueryGenerator
 	private function getCondition(string $fieldName, $value, string $operator, bool $userFormat = false)
 	{
 		$queryField = $this->getQueryField($fieldName);
-		if($userFormat && $queryField->getField()){
+		if ($userFormat && $queryField->getField()) {
 			$value = $queryField->getField()->getUITypeModel()->getDbConditionBuilderValue($value, $operator);
 		}
 		$queryField->setValue($value);
@@ -1081,7 +1077,7 @@ class QueryGenerator
 			Log::error('Not found source field', __METHOD__);
 			return false;
 		}
-		$queryField = $this->getQueryRelatedField($field, $condition);
+		$queryField = $this->getQueryRelatedField($condition, $field);
 		$queryField->setValue($condition['value']);
 		$queryField->setOperator($condition['operator']);
 		return $queryField->getCondition();
@@ -1094,7 +1090,7 @@ class QueryGenerator
 	 * @param mixed  $value
 	 * @param string $operator
 	 * @param mixed  $groupAnd
-	 * @param bool  $userFormat
+	 * @param bool   $userFormat
 	 *
 	 * @see Condition::ADVANCED_FILTER_OPTIONS
 	 * @see Condition::DATE_OPERATORS
@@ -1138,12 +1134,12 @@ class QueryGenerator
 		$field = $this->getModuleField($fieldName);
 		if (empty($field)) {
 			Log::error('Not found field model | Field name: ' . $fieldName);
-			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_FIELD_MODEL|'.$fieldName);
+			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_FIELD_MODEL|' . $fieldName);
 		}
 		$className = '\App\Conditions\QueryFields\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
 			Log::error('Not found query field condition | FieldDataType: ' . ucfirst($field->getFieldDataType()));
-			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_QUERY_FIELD_CONDITION|'.$fieldName);
+			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_QUERY_FIELD_CONDITION|' . $fieldName);
 		}
 		$queryField = new $className($this, $field);
 		return $this->queryFields[$fieldName] = $queryField;
@@ -1177,17 +1173,16 @@ class QueryGenerator
 	 */
 	protected function addRelatedJoin($fieldDetail)
 	{
-		$relatedModuleModel = \Vtiger_Module_Model::getInstance($fieldDetail['relatedModule']);
-		$relatedFieldModel = $relatedModuleModel->getField($fieldDetail['relatedField']);
+		$relatedFieldModel = $this->getRelatedModuleField($fieldDetail['relatedField'], $fieldDetail['relatedModule']);
 		if (!$relatedFieldModel || !$relatedFieldModel->isActiveField()) {
-			Log::warning("Field in related module is inactive or does not exist. Related module: {$fieldDetail['referenceModule']} | Related field: {$fieldDetail['relatedField']}");
+			Log::warning("Field in related module is inactive or does not exist. Related module: {$fieldDetail['relatedModule']} | Related field: {$fieldDetail['relatedField']}");
 
 			return false;
 		}
 		$tableName = $relatedFieldModel->getTableName();
 		$sourceFieldModel = $this->getModuleField($fieldDetail['sourceField']);
 		$relatedTableName = $tableName . $fieldDetail['sourceField'];
-		$relatedTableIndex = $relatedModuleModel->getEntityInstance()->tab_name_index[$tableName];
+		$relatedTableIndex = $relatedFieldModel->getModule()->getEntityInstance()->tab_name_index[$tableName];
 		$this->addJoin(['LEFT JOIN', "$tableName $relatedTableName", "{$sourceFieldModel->getTableName()}.{$sourceFieldModel->getColumnName()} = $relatedTableName.$relatedTableIndex"]);
 
 		return $relatedFieldModel;
@@ -1196,25 +1191,25 @@ class QueryGenerator
 	/**
 	 * Get query related field instance.
 	 *
-	 * @param \Vtiger_Field_Model $field
 	 * @param array               $relatedInfo
+	 * @param \Vtiger_Field_Model $field
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return \App\Conditions\QueryFields\BaseField
 	 */
-	private function getQueryRelatedField(\Vtiger_Field_Model $field, $relatedInfo)
+	public function getQueryRelatedField(array $relatedInfo, ?\Vtiger_Field_Model $field = null)
 	{
 		$relatedModule = $relatedInfo['relatedModule'];
-		if (isset($this->relatedQueryFields[$relatedModule][$field->getName()])) {
-			$queryField = clone $this->relatedQueryFields[$relatedModule][$field->getName()];
+		$fieldName = $relatedInfo['relatedField'];
+
+		if (isset($this->relatedQueryFields[$relatedModule][$fieldName])) {
+			$queryField = clone $this->relatedQueryFields[$relatedModule][$fieldName];
 			$queryField->setRelated($relatedInfo);
 			return $queryField;
 		}
-		if ('id' === $field->getName()) {
-			$queryField = new Conditions\QueryFields\IdField($this, '');
-			$queryField->setRelated($relatedInfo);
-			return $this->relatedQueryFields[$relatedModule][$field->getName()] = $queryField;
+		if (null === $field) {
+			$field = $this->getRelatedModuleField($fieldName, $relatedModule);
 		}
 		$className = '\App\Conditions\QueryFields\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
@@ -1237,7 +1232,7 @@ class QueryGenerator
 		if (!$field) {
 			Log::error('Not found source field');
 		}
-		$queryField = $this->getQueryRelatedField($field, $orderDetail);
+		$queryField = $this->getQueryRelatedField($orderDetail, $field);
 		$this->order = array_merge($this->order, $queryField->getOrderBy($orderDetail['relatedSortOrder']));
 	}
 
@@ -1277,48 +1272,75 @@ class QueryGenerator
 		$glueOrder = ['and', 'or'];
 		$groupIterator = 0;
 		foreach ($searchParams as $groupInfo) {
-			if (empty($groupInfo)) {
-				continue;
-			}
-			$groupColumnsInfo = [];
-			foreach ($groupInfo as $fieldSearchInfo) {
-				if ($fieldSearchInfo) {
-					[$fieldNameInfo, $operator, $fieldValue, $specialOption] = array_pad($fieldSearchInfo, 4, false);
-					$fieldValue = Purifier::decodeHtml($fieldValue);
-					[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $fieldNameInfo), 3, false);
-					if (!empty($sourceFieldName)) {
-						$field = $this->getRelatedModuleField($fieldName, $moduleName);
-					} else {
-						$field = $this->getModuleField($fieldName);
-					}
-					if (('tree' === $field->getFieldDataType() || 'categoryMultipicklist' === $field->getFieldDataType()) && $specialOption) {
-						$fieldValue = \Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $this->moduleModel);
-					}
-					if ('date_start' === $fieldName || 'due_date' === $fieldName || 'datetime' === $field->getFieldDataType()) {
-						$dateValues = explode(',', $fieldValue);
-						//Indicate whether it is fist date in the between condition
-						$isFirstDate = true;
-						foreach ($dateValues as $key => $dateValue) {
-							$dateTimeCompoenents = explode(' ', $dateValue);
-							if (empty($dateTimeCompoenents[1])) {
-								if ($isFirstDate) {
-									$dateTimeCompoenents[1] = '00:00:00';
-								} else {
-									$dateTimeCompoenents[1] = '23:59:59';
-								}
-							}
-							$dateValue = implode(' ', $dateTimeCompoenents);
-							$dateValues[$key] = $dateValue;
-							$isFirstDate = false;
+			if (!empty($groupInfo)) {
+				$groupColumnsInfo = [];
+				foreach ($groupInfo as $fieldSearchInfo) {
+					if ($fieldSearchInfo) {
+						[$fieldNameInfo, $operator, $fieldValue, $specialOption] = array_pad($fieldSearchInfo, 4, false);
+						$fieldValue = Purifier::decodeHtml($fieldValue);
+						[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $fieldNameInfo), 3, false);
+						if (!empty($sourceFieldName)) {
+							$field = $this->getRelatedModuleField($fieldName, $moduleName);
+						} else {
+							$field = $this->getModuleField($fieldName);
 						}
-						$fieldValue = implode(',', $dateValues);
+						if (('tree' === $field->getFieldDataType() || 'categoryMultipicklist' === $field->getFieldDataType()) && $specialOption) {
+							$fieldValue = \Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $this->moduleModel);
+						}
+						if ('date_start' === $fieldName || 'due_date' === $fieldName || 'datetime' === $field->getFieldDataType()) {
+							$dateValues = explode(',', $fieldValue);
+							//Indicate whether it is fist date in the between condition
+							$isFirstDate = true;
+							foreach ($dateValues as $key => $dateValue) {
+								$dateTimeCompoenents = explode(' ', $dateValue);
+								if (empty($dateTimeCompoenents[1])) {
+									if ($isFirstDate) {
+										$dateTimeCompoenents[1] = '00:00:00';
+									} else {
+										$dateTimeCompoenents[1] = '23:59:59';
+									}
+								}
+								$dateValue = implode(' ', $dateTimeCompoenents);
+								$dateValues[$key] = $dateValue;
+								$isFirstDate = false;
+							}
+							$fieldValue = implode(',', $dateValues);
+						}
+						$groupColumnsInfo[] = ['field_name' => $fieldName, 'module_name' => $moduleName, 'source_field_name' => $sourceFieldName, 'comparator' => $operator, 'value' => $fieldValue];
 					}
-					$groupColumnsInfo[] = ['field_name' => $fieldName, 'module_name' => $moduleName, 'source_field_name' => $sourceFieldName, 'comparator' => $operator, 'value' => $fieldValue];
 				}
+				$advFilterConditionFormat[$glueOrder[$groupIterator]] = $groupColumnsInfo;
 			}
-			$advFilterConditionFormat[$glueOrder[$groupIterator]] = $groupColumnsInfo;
 			++$groupIterator;
 		}
 		return $advFilterConditionFormat;
+	}
+
+	/**
+	 * Parse search condition to standard condition.
+	 *
+	 * @param array $searchParams
+	 *
+	 * @return array
+	 */
+	public function parseSearchParams(array $searchParams): array
+	{
+		$glueOrder = ['AND', 'OR'];
+		$searchParamsConditions = [];
+		foreach ($searchParams as $key => $conditions) {
+			if (empty($conditions)) {
+				continue;
+			}
+			$searchParamsConditions['condition'] = $glueOrder[$key];
+			$searchParamsConditions['rules'] = [];
+			foreach ($conditions as $condition) {
+				[$fieldName, , $sourceFieldName] = array_pad(explode(':', $condition[0]), 3, false);
+				if (!$sourceFieldName) {
+					$condition[0] = "{$fieldName}:{$this->getModule()}";
+				}
+				$searchParamsConditions['rules'][] = ['fieldname' => $condition[0], 'operator' => $condition[1], 'value' => $condition[2]];
+			}
+		}
+		return $searchParamsConditions;
 	}
 }

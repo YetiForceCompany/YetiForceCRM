@@ -55,7 +55,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 		if (!$this->edit) {
 			$value = $this->getDetailViewDisplayValue($value, $record, $uiType);
 		}
-		return \App\Purifier::encodeHtml($value);
+		return $value;
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 			$this->edit = true;
 			return $this->getDisplayValue($value);
 		}
-		return \App\Purifier::encodeHtml($value);
+		return $value;
 	}
 
 	/**
@@ -128,25 +128,5 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	public function getOperatorTemplateName(string $operator = '')
 	{
 		return 'ConditionBuilder/Currency.tpl';
-	}
-
-	/**
-	 * Generate valid sample value.
-	 *
-	 * @throws \Exception
-	 *
-	 * @return float|null
-	 */
-	public function getSampleValue()
-	{
-		$min = 0;
-		$max = $this->getFieldModel()->get('maximumlength');
-		if (strpos($max, ',')) {
-			$max = explode(',', $max)[1];
-		}
-		if ($max > 9999) {
-			$max = 9999;
-		}
-		return \App\Fields\Currency::formatToDb(random_int($min, (int) $max - 1) . \App\User::getCurrentUserModel()->getDetail('currency_decimal_separator') . random_int(0, 9) . random_int(0, 9));
 	}
 }

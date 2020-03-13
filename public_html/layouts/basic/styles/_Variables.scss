@@ -48,6 +48,8 @@ $h-dashboard-tabs: calculate-rem(58px);
 $w-header-search: 500px;
 $h-main-viewport: calc(100vh - (#{$h-footer} + #{$h-header}));
 $h-main-viewport-limited-footer: calc(100vh - (#{$h-footer-limited} + #{$h-header}));
+$h-register-panel: calculate-rem(32px);
+$h-edit-offset: calculate-rem(128px);
 
 $h-date-list: calculate-rem(95px);
 $h-filter-tabs: calculate-rem(43px);

@@ -89,6 +89,7 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 			$row['parent'] = App\Fields\Tree::getParentIdx($row);
 			unset($row['templateid'], $row['depth'], $row['state'], $row['name']);
 			$row['parentTree'] = explode('::', $row['parentTree']);
+			$row['label'] = \App\Language::translate($row['label'], $request->getModule());
 			$categories[$row['tree']] = $row;
 		}
 		$response = new Vtiger_Response();
@@ -142,7 +143,7 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 			$content = $recordModel->get('content');
 		}
 		$relatedModules = $relatedRecords = [];
-		foreach ($recordModel->getModule()->getRelations() as $key => $value) {
+		foreach ($recordModel->getModule()->getRelations() as $value) {
 			$relatedModuleName = $value->get('relatedModuleName');
 			$relatedModules[$relatedModuleName] = App\Language::translate($relatedModuleName, $relatedModuleName);
 			if ('ModComments' !== $relatedModuleName && $request->getModule() !== $relatedModuleName) {
@@ -152,7 +153,7 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'content' => $content,
-			'introduction' => $recordModel->getDisplayValue('introduction'),
+			'introduction' => $recordModel->getForHtml('introduction'),
 			'subject' => $recordModel->get('subject'),
 			'view' => $recordModel->get('knowledgebase_view'),
 			'assigned_user_id' => $recordModel->getDisplayValue('assigned_user_id', false, true),

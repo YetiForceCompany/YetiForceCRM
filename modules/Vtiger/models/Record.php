@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -25,6 +26,7 @@ class Vtiger_Record_Model extends \App\Base
 	public $isNew = true;
 	public $ext = [];
 	protected $dataForSave = [];
+	protected $handler;
 
 	/**
 	 * Function to get the id of the record.
@@ -91,13 +93,25 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Set data for save.
+	 * Set custom data for save.
 	 *
-	 * @param array $array
+	 * @param array $data
 	 */
-	public function setDataForSave(array $array)
+	public function setDataForSave(array $data)
 	{
-		$this->dataForSave = array_merge($this->dataForSave, $array);
+		foreach ($data as $tableName => $tableData) {
+			$this->dataForSave[$tableName] = isset($this->dataForSave[$tableName]) ? array_merge($this->dataForSave[$tableName], $tableData) : $tableData;
+		}
+	}
+
+	/**
+	 * Gets custom data for save.
+	 *
+	 * @param array
+	 */
+	public function getDataForSave()
+	{
+		return $this->dataForSave;
 	}
 
 	/**
@@ -265,12 +279,14 @@ class Vtiger_Record_Model extends \App\Base
 		return $this;
 	}
 
-	public function getRecordNumber()
+	/**
+	 * Get record number.
+	 *
+	 * @return string
+	 */
+	public function getRecordNumber(): string
 	{
-		$fieldModel = $this->getModule()->getFieldsByUiType(4);
-		$fieldModel = reset($fieldModel);
-
-		return $this->get($fieldModel->getName());
+		return $this->get($this->getModule()->getSequenceNumberFieldName());
 	}
 
 	/**
@@ -361,22 +377,19 @@ class Vtiger_Record_Model extends \App\Base
 	 * @param bool     $rawText
 	 * @param bool|int $length    Length of the text
 	 *
-	 * @return bool
+	 * @return bool|string
 	 */
 	public function getDisplayValue($fieldName, $record = false, $rawText = false, $length = false)
 	{
 		if (empty($record)) {
 			$record = $this->getId();
 		}
+		$result = false;
 		$fieldModel = $this->getModule()->getFieldByName($fieldName);
 		if ($fieldModel) {
-			return $fieldModel->getDisplayValue($this->get($fieldName), $record, $this, $rawText, $length);
+			$result = $fieldModel->getDisplayValue($this->get($fieldName), $record, $this, $rawText, $length);
 		}
-		$fieldModelByColumn = $this->getModule()->getFieldByColumn($fieldName);
-		if ($fieldModelByColumn) {
-			return $fieldModelByColumn->getDisplayValue($this->get($fieldName), $record, $this, $rawText, $length);
-		}
-		return false;
+		return $result;
 	}
 
 	/**
@@ -443,15 +456,24 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
+	 * Gets Event Handler.
+	 *
+	 * @return \App\EventHandler
+	 */
+	public function getEventHandler(): App\EventHandler
+	{
+		if (!$this->handler) {
+			$this->handler = (new \App\EventHandler())->setRecordModel($this)->setModuleName($this->getModuleName());
+		}
+		return $this->handler;
+	}
+
+	/**
 	 * Function to save the current Record Model.
 	 */
 	public function save()
 	{
-		$moduleModel = $this->getModule();
-		$moduleName = $moduleModel->get('name');
-		$eventHandler = new App\EventHandler();
-		$eventHandler->setRecordModel($this);
-		$eventHandler->setModuleName($moduleName);
+		$eventHandler = $this->getEventHandler();
 		if ($this->getHandlerExceptions()) {
 			$eventHandler->setExceptions($this->getHandlerExceptions());
 		}
@@ -480,7 +502,7 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$eventHandler->trigger('EntityAfterSave');
 		if ($this->isNew()) {
-			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $moduleName, $this);
+			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
 			$this->isNew = false;
 		}
 		\App\Cache::delete('recordLabel', $this->getId());
@@ -524,7 +546,7 @@ class Vtiger_Record_Model extends \App\Base
 		$forSave = $this->getEntityDataForSave();
 
 		if (!$this->isNew()) {
-			$saveFields = array_intersect($saveFields, array_merge(array_keys($this->changes), array_keys($moduleModel->getFieldsByUiType(4))));
+			$saveFields = array_intersect($saveFields, array_merge(array_keys($this->changes), [$moduleModel->getSequenceNumberFieldName()]));
 		} else {
 			$entityModel = $this->getEntity();
 			$forSave[$entityModel->table_name] = [];
@@ -796,13 +818,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function isMandatorySave()
 	{
-		if ($this->getModule()->isInventory() && $this->getPreviousInventoryItems()) {
-			return true;
-		}
-		if (!empty($this->dataForSave)) {
-			return true;
-		}
-		return false;
+		return !empty($this->dataForSave) || ($this->getModule()->isInventory() && $this->getPreviousInventoryItems());
 	}
 
 	/**
@@ -1006,7 +1022,7 @@ class Vtiger_Record_Model extends \App\Base
 		if ($mfInstance) {
 			$defaultInvRow = [];
 			$params = $mfInstance->get('params');
-			if ($params['autofill']) {
+			if (!empty($params['autofill'])) {
 				$fieldsList = array_keys($this->getModule()->getFields());
 				$parentFieldsList = array_keys($parentRecordModel->getModule()->getFields());
 				$commonFields = array_intersect($fieldsList, $parentFieldsList);
@@ -1340,10 +1356,22 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn-sm btn-default',
 				'linkhref' => true,
 			];
+			if ($this->getModule()->isQuickCreateSupported()) {
+				$recordLinks[] = [
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_QUICK_EDIT',
+					'linkicon' => 'yfi yfi-quick-creation',
+					'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
+					'linkdata' => [
+						'module' => $this->getModuleName(),
+						'record' => $this->getId(),
+					]
+				];
+			}
 		}
 		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
 			$watching = (int) ($this->isWatchingRecord());
@@ -1443,8 +1471,17 @@ class Vtiger_Record_Model extends \App\Base
 				'linklabel' => 'LBL_EDIT',
 				'linkhref' => true,
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn-sm btn-default',
+			]);
+			$links['LBL_QUICK_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_QUICK_EDIT',
+				'linkicon' => 'yfi yfi-quick-creation',
+				'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
+				'linkdata' => [
+					'module' => $this->getModuleName(),
+					'record' => $this->getId(),
+				]
 			]);
 		}
 		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
@@ -1502,6 +1539,15 @@ class Vtiger_Record_Model extends \App\Base
 					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete&record=' . $this->getId(),
 					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
 					'linkclass' => 'btn-sm btn-dark relationDelete entityStateBtn'
+				]);
+			}
+			if (!empty($relationModel->getTypeRelationModel()->customFields) && ($relationModel->getTypeRelationModel()->getFields()) && ($parentRecord = $relationModel->get('parentRecord')) && $parentRecord->isEditable() && $this->isEditable()) {
+				$links['BUTTONS'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_CHANGE_RELATION_DATA',
+					'dataUrl' => "index.php?module={$relationModel->getParentModuleModel()->getName()}&view=ChangeRelationData&record={$this->getId()}&fromRecord={$parentRecord->getId()}&relationId={$relationModel->getId()}",
+					'linkicon' => 'mdi mdi-briefcase-edit-outline',
+					'linkclass' => 'btn-sm btn-warning js-show-modal'
 				]);
 			}
 		}

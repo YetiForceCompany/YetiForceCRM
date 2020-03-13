@@ -2,7 +2,7 @@
 {strip}
 	<div class="row padding0">
 		<div class="col-md-9 rowContent">
-			<div class="widget_header row paddingTop10">
+			<div class="o-breadcrumb widget_header row paddingTop10">
 				<div class="float-left paddingLeftMd">
 					<div class="btn-toolbar">
 						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK']}

@@ -14,7 +14,7 @@
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="dateFormat" value=$USER_MODEL->get('date_format')}
 	{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
-	<div class="tpl-Edit-Field-Date input-group date">
+	<div class="tpl-Edit-Field-Date input-group {$WIDTHTYPE_GROUP} date">
 		{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 		<input name="{$FIELD_MODEL->getFieldName()}" class="{if !$FIELD_MODEL->isEditableReadOnly()}dateField datepicker{/if} form-control"
 		title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text"

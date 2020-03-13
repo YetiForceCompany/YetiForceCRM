@@ -225,7 +225,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => $item->getName(),
 				'state' => $state,
-				'icon' => "js-detail__icon userIcon-{$this->getModuleName()}",
+				'icon' => "js-detail__icon yfm-{$this->getModuleName()}",
 				'category' => ['checked' => $selected]
 			];
 		}

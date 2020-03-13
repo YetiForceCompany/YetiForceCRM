@@ -35,5 +35,37 @@ php -i | grep memory_limit
 echo " free: "
 free -m
 
+echo " -----  /usr/lib/cgi-bin/  -----"
+
+sudo ls -all /usr/lib/cgi-bin/
+
+echo " -----  /var/lib/apache2/  -----"
+
+sudo ls -all /var/lib/apache2/
+
+echo " -----  /var/lib/apache2/module  -----"
+
+sudo ls -all /var/lib/apache2/module
+
+echo " -----  /etc/apache2/  -----"
+
+sudo ls -all /etc/apache2/
+
+echo " -----  /etc/apache2/apache2.conf  -----"
+
+cat /etc/apache2/apache2.conf
+
+echo " -----  -----"
+
 echo " all service: "
 service --status-all
+
+echo " Apache enabled modules: "
+
+apache2ctl -M
+
+echo " -----  /etc/apache2/sites-available/000-default.conf  -----"
+
+cat /etc/apache2/sites-available/000-default.conf
+
+echo " -----  -----"

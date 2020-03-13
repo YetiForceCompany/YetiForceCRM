@@ -47,6 +47,14 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		return $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Country.tpl';

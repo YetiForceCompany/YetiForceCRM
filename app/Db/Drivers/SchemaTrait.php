@@ -19,11 +19,6 @@ trait SchemaTrait
 	private $_tableNames = [];
 
 	/**
-	 * @var array list of loaded table metadata (table name => metadata type => metadata).
-	 */
-	private $_tableMetadata = [];
-
-	/**
 	 * Refreshes the schema.
 	 * This method cleans up all cached table schemas so that they can be re-created later
 	 * to reflect the database schema change.
@@ -31,7 +26,6 @@ trait SchemaTrait
 	public function refresh()
 	{
 		$this->_tableNames = [];
-		$this->_tableMetadata = [];
 		\App\Cache::clear();
 	}
 
@@ -46,7 +40,8 @@ trait SchemaTrait
 	 */
 	public function refreshTableSchema($name)
 	{
-		\App\Cache::delete('tableSchema', $name);
+		$rawName = $this->getRawTableName($name);
+		\App\Cache::delete('tableSchema', $rawName);
 		$this->_tableNames = [];
 	}
 
@@ -146,16 +141,19 @@ trait SchemaTrait
 	 */
 	protected function getTableMetadata($name, $type, $refresh)
 	{
-		$cacheKey = "$type|$name";
-		if (\App\Cache::has('tableSchema', $cacheKey) && !$refresh) {
-			return \App\Cache::get('tableSchema', $cacheKey);
-		}
 		$rawName = $this->getRawTableName($name);
-		if (!isset($this->_tableMetadata[$rawName][$type]) || $refresh) {
-			$this->_tableMetadata[$rawName][$type] = $this->{'loadTable' . ucfirst($type)}($rawName);
-			\App\Cache::save('tableSchema', $cacheKey, $this->_tableMetadata[$rawName][$type], \App\Cache::LONG);
+		$tableSchema = [];
+		if (!$refresh && \App\Cache::has('tableSchema', $rawName)) {
+			$tableSchema = \App\Cache::get('tableSchema', $rawName);
+			if (isset($tableSchema[$type])) {
+				return $tableSchema[$type];
+			}
 		}
-		return $this->_tableMetadata[$rawName][$type];
+		if ($refresh || !isset($tableSchema[$type])) {
+			$tableSchema[$type] = $this->{'loadTable' . ucfirst($type)}($rawName);
+			\App\Cache::save('tableSchema', $rawName, $tableSchema, \App\Cache::LONG);
+		}
+		return $tableSchema[$type];
 	}
 
 	/**
@@ -169,7 +167,13 @@ trait SchemaTrait
 	 */
 	protected function setTableMetadata($name, $type, $data)
 	{
-		$this->_tableMetadata[$this->getRawTableName($name)][$type] = $data;
+		$rawName = $this->getRawTableName($name);
+		$tableSchema = [];
+		if (\App\Cache::has('tableSchema', $rawName)) {
+			$tableSchema = \App\Cache::get('tableSchema', $rawName);
+		}
+		$tableSchema[$type] = $data;
+		\App\Cache::save('tableSchema', $rawName, $tableSchema, \App\Cache::LONG);
 	}
 
 	/**
@@ -183,5 +187,29 @@ trait SchemaTrait
 	public function getTableIndexes($name, $refresh = false)
 	{
 		return $this->getTableMetadata($name, 'indexes', $refresh);
+	}
+
+	/**
+	 * Find foreign keys to column.
+	 *
+	 * @param string $findTableName
+	 * @param string $findColumnName
+	 *
+	 * @return array
+	 */
+	public function findForeignKeyToColumn(string $findTableName, string $findColumnName)
+	{
+		$foreignKeys = [];
+		foreach ($this->getTableNames() as $tableName) {
+			$tableSchema = $this->getTableSchema($tableName);
+			if ($tableSchema->foreignKeys) {
+				foreach ($tableSchema->foreignKeys as $name => $value) {
+					if ($findTableName === $value[0] && ($key = array_search($findColumnName, $value))) {
+						$foreignKeys[$tableName][$name] = ['sourceColumn' => $key];
+					}
+				}
+			}
+		}
+		return $foreignKeys;
 	}
 }

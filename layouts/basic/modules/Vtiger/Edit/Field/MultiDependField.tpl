@@ -12,7 +12,7 @@
 		<div class="form-inline w-100">
 			{foreach item=VALUE from=$FIELD_VALUE}
 				<div class="form-group mr-1 mb-2 js-multi-field-row w-100" data-js="container|clone">
-					<div class="input-group w-100">
+					<div class="input-group {$WIDTHTYPE_GROUP} w-100">
 						<div class="input-group-prepend">
 							<button type="button" class="btn btn-outline-danger border js-remove-item" data-js="click">
 								<span class="fas fa-times" title="{\App\Language::translate('LBL_REMOVE', $MODULE_NAME)}"></span>

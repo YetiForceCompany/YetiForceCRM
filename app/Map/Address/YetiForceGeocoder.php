@@ -18,7 +18,7 @@ class YetiForceGeocoder extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public $link = 'index.php?module=YetiForce&parent=Settings&view=Shop&product=YetiForceGeocoder&mode=showProductModal';
+	public $docUrl = 'index.php?module=YetiForce&parent=Settings&view=Shop&product=YetiForceGeocoder&mode=showProductModal';
 
 	/**
 	 * {@inheritdoc}
@@ -26,13 +26,23 @@ class YetiForceGeocoder extends Base
 	public $customFields = [
 		'country_codes' => [
 			'type' => 'text',
+			'info' => 'LBL_COUNTRY_CODES_INFO',
+			'link' => 'https://wikipedia.org/wiki/List_of_ISO_3166_country_codes',
 		]
 	];
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSet()
+	public function isActive()
+	{
+		return (bool) ($this->config['active'] ?? 0) && \App\YetiForce\Shop::check('YetiForceGeocoder');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isConfigured()
 	{
 		return \App\YetiForce\Shop::check('YetiForceGeocoder');
 	}
@@ -53,17 +63,17 @@ class YetiForceGeocoder extends Base
 			'accept-language' => \App\Language::getLanguage() . ',' . \App\Config::main('default_language') . ',en-US',
 			'q' => $value
 		];
-		if ($countryCode = \App\Map\Address::getConfig()[$this->getName()]['country_codes']) {
-			$params['countrycodes'] = implode(',', $countryCode);
+		if (!empty($this->config['country_codes'])) {
+			$params['countrycodes'] = $this->config['country_codes'];
 		}
 		$rows = [];
 		try {
-			$response = (new \GuzzleHttp\Client(\array_merge(\App\RequestHttp::getOptions(), ['InsKey' => \App\YetiForce\Register::getInstanceKey()])))
-				->request('GET', 'https://openstreetmap.yetiforce.eu/?' . \http_build_query($params), [
-					'auth' => [$product['params']['login'], $product['params']['pass']]
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
+				->request('GET', 'https://osm-search.yetiforce.eu/?' . \http_build_query($params), [
+					'auth' => [$product['params']['login'], $product['params']['pass']], 'headers' => ['InsKey' => \App\YetiForce\Register::getInstanceKey()]
 				]);
 			if (200 !== $response->getStatusCode()) {
-				throw new \App\Exceptions\AppException('Error with connection |' . $response->getStatusCode());
+				throw new \App\Exceptions\AppException('Error with connection |' . $response->getReasonPhrase() . '|' . $response->getBody());
 			}
 			$body = $response->getBody();
 			$body = \App\Json::isEmpty($body) ? [] : \App\Json::decode($body);
@@ -85,7 +95,7 @@ class YetiForceGeocoder extends Base
 				}
 			}
 		} catch (\Throwable $ex) {
-			\App\Log::warning('Error - ' . __CLASS__ . ' - ' . $ex->getMessage());
+			\App\Log::error('Error - ' . $ex->getMessage(), __CLASS__);
 		}
 		return $rows;
 	}

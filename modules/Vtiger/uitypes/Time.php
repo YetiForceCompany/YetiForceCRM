@@ -171,15 +171,4 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		return 'ConditionBuilder/Time.tpl';
 	}
 
-	/**
-	 * Generate valid sample value.
-	 *
-	 * @throws \Exception
-	 *
-	 * @return string
-	 */
-	public function getSampleValue()
-	{
-		return random_int(0, 23) . ':' . random_int(0, 59) . ':' . random_int(0, 59);
-	}
 }

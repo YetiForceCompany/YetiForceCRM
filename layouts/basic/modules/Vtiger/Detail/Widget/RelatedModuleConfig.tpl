@@ -16,6 +16,16 @@
 						</button>
 					</div>
 					<div class="modal-body">
+						{if empty($WIDGETINFO['data']['relatedmodule'])}
+							{assign var=RELATED_MODULE_ID value=0}
+						{else}
+							{assign var=RELATED_MODULE_ID value=$WIDGETINFO['data']['relatedmodule']}
+						{/if}
+						{if empty($WIDGETINFO['data']['relation_id'])}
+							{assign var=RELATED_ID value=0}
+						{else}
+							{assign var=RELATED_ID value=$WIDGETINFO['data']['relation_id']}
+						{/if}
 						<div class="form-container-sm">
 							<div class="form-group form-group-sm row">
 								<label class="col-md-4 col-form-label">{\App\Language::translate('Type widget', $QUALIFIED_MODULE)}
@@ -25,28 +35,29 @@
 								</div>
 							</div>
 							<div class="form-group form-group-sm row">
-								<label class="col-md-4 col-form-label">{\App\Language::translate('Label', $QUALIFIED_MODULE)}
-									:</label>
+								<label class="col-md-4 col-form-label">
+									{\App\Language::translate('Label', $QUALIFIED_MODULE)}:
+								</label>
 								<div class="col-md-7 py-1">
-									<input name="label" class="form-control form-control-sm"
-										   data-validation-engine="validate[required]"
-										   type="text" value="{$WIDGETINFO['label']}"/>
+									<input name="label" class="form-control form-control-sm" data-validation-engine="validate[required]" type="text" value="{$WIDGETINFO['label']}"/>
 								</div>
 							</div>
 							<div class="form-group form-group-sm row">
 								<label class="col-md-4 col-form-label">{\App\Language::translate('Related module', $QUALIFIED_MODULE)}
-									<a href="#" class="js-help-info" title="" data-placement="top"
-									   data-content="{\App\Language::translate('Related module info', $QUALIFIED_MODULE)}"
-									   data-original-title="{\App\Language::translate('Related module', $QUALIFIED_MODULE)}"><i
-												class="fas fa-info-circle"></i></a>:</label>
+									<a href="#" class="js-help-info" title="" data-placement="top" data-content="{\App\Language::translate('Related module info', $QUALIFIED_MODULE)}"
+									   data-original-title="{\App\Language::translate('Related module', $QUALIFIED_MODULE)}">
+									   <i class="fas fa-info-circle"></i>
+									</a>:
+								</label>
 								<div class="col-md-7 py-1">
-									<select name="relatedmodule" class="select2 form-control form-control-sm"
-											data-validation-engine="validate[required]">
+									<select name="relation_id" class="select2 form-control form-control-sm" data-validation-engine="validate[required]">
 										{foreach from=$RELATEDMODULES item=item key=key}
-											<option value="{$item['related_tabid']}"
-													{if $WIDGETINFO['data']['relatedmodule'] == $item['related_tabid']}selected{/if} >{\App\Language::translate($item['label'], $item['name'])}</option>
+											<option value="{$item['relation_id']}" {if $RELATED_ID == $item['relation_id']}selected{/if} data-relatedmodule="{$item['related_tabid']}">
+												{\App\Language::translate($item['label'], $item['name'])}
+											</option>
 										{/foreach}
 									</select>
+									<input name="relatedmodule" type="hidden" value="{$RELATED_MODULE_ID}"/>
 								</div>
 							</div>
 							<div class="form-group form-group-sm row">
@@ -56,26 +67,25 @@
 									   data-original-title="{\App\Language::translate('LBL_SELECTING_FIELDS', $QUALIFIED_MODULE)}"><i
 												class="fas fa-info-circle"></i></a>:</label>
 								<div class="col-md-7 py-1">
-									<select name="relatedfields" multiple class="select2 form-control form-control-sm"
-											data-validation-engine="validate[required]" data-select-cb="registerSelectSortable">
+									<select name="relatedfields" multiple class="select2 form-control form-control-sm" data-validation-engine="validate[required]" data-select-cb="registerSelectSortable">
+										{assign var=MODULES value=[]}
 										{foreach from=$RELATEDMODULES item=RELATED_MODULE key=key}
-											{foreach from=Vtiger_Module_Model::getInstance($RELATED_MODULE['name'])->getFieldsByBlocks() key=BLOCK_NAME item=FIELDS}
-												<optgroup
-														label="{\App\Language::translate($BLOCK_NAME, $RELATED_MODULE['name'])}"
-														data-module="{$RELATED_MODULE['related_tabid']}">
-													{foreach from=$FIELDS item=FIELD_MODEL key=FIELD_NAME}
-														{assign var=VALUE_NAME value="{$RELATED_MODULE['related_tabid']}::{$FIELD_NAME}"}
-														<option value="{$VALUE_NAME}"
-																{if !empty($WIDGETINFO['data']['relatedfields']) && in_array($VALUE_NAME, $WIDGETINFO['data']['relatedfields'])}
-																	selected="selected"
-																	data-sort-index="{array_search($VALUE_NAME, $WIDGETINFO['data']['relatedfields'])}"
-																{/if}
-																data-module="{$RELATED_MODULE['related_tabid']}">
-															{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE['name'])}
-														</option>
-													{/foreach}
-												</optgroup>
-											{/foreach}
+											{if !isset($MODULES[$RELATED_MODULE['related_tabid']])}
+												{foreach from=Vtiger_Module_Model::getInstance($RELATED_MODULE['name'])->getFieldsByBlocks() key=BLOCK_NAME item=FIELDS}
+													<optgroup label="{\App\Language::translate($BLOCK_NAME, $RELATED_MODULE['name'])}" data-module="{$RELATED_MODULE['related_tabid']}">
+														{foreach from=$FIELDS item=FIELD_MODEL key=FIELD_NAME}
+															{assign var=VALUE_NAME value="{$RELATED_MODULE['related_tabid']}::{$FIELD_NAME}"}
+															<option value="{$VALUE_NAME}"{' '}
+																	{if !empty($WIDGETINFO['data']['relatedfields']) && in_array($VALUE_NAME, $WIDGETINFO['data']['relatedfields'])}
+																		selected="selected" data-sort-index="{array_search($VALUE_NAME, $WIDGETINFO['data']['relatedfields'])}"
+																	{/if} data-module="{$RELATED_MODULE['related_tabid']}">
+																{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE['name'])}
+															</option>
+														{/foreach}
+													</optgroup>
+												{/foreach}
+												{append var='MODULES' value=$RELATED_MODULE['relation_id'] index=$RELATED_MODULE['related_tabid']}
+											{/if}
 										{/foreach}
 									</select>
 								</div>

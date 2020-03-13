@@ -1,5 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import unionby from 'lodash.unionby'
+
 import { mergeDeepReactive } from '../utils/utils.js'
 
 export default {
@@ -12,8 +13,14 @@ export default {
 	setLeftPanel(state, isOpen) {
 		state.session.leftPanel = isOpen
 	},
+	setLeftPanelMobile(state, isOpen) {
+		state.session.leftPanelMobile = isOpen
+	},
 	setRightPanel(state, isOpen) {
 		state.session.rightPanel = isOpen
+	},
+	setRightPanelMobile(state, isOpen) {
+		state.session.rightPanelMobile = isOpen
 	},
 	setHistoryTab(state, tab) {
 		state.session.historyTab = tab
@@ -41,10 +48,22 @@ export default {
 	addRoomSoundNotificationsOff(state, { roomType, id }) {
 		state.local.roomSoundNotificationsOff[roomType].push(id)
 	},
+	removeRoomExpanded(state, roomType) {
+		state.local.roomsExpanded = state.local.roomsExpanded.filter(room => room !== roomType)
+	},
+	addRoomExpanded(state, roomType) {
+		state.local.roomsExpanded.push(roomType)
+	},
 	setDesktopNotification(state, val) {
 		state.local.isDesktopNotification = val
 	},
 	setData(state, data) {
+		state.data = data
+	},
+	setPinnedRooms(state, { rooms, roomType }) {
+		Vue.set(state.data.roomList, roomType, rooms)
+	},
+	mergeData(state, data) {
 		state.data = mergeDeepReactive(state.data, data)
 	},
 
@@ -56,8 +75,8 @@ export default {
 		state.data.roomList[roomType][recordId].showMoreButton = result.showMoreButton
 		state.data.roomList[roomType][recordId].participants = result.participants
 	},
-	updateChatData(state, { roomsToUpdate, newData }) {
-		state.data.amountOfNewMessages = newData.amountOfNewMessages
+	updateActiveRooms(state, { roomsToUpdate, newData }) {
+		state.data.amountOfNewMessages = newData.amountOfNewMessages.amount
 		roomsToUpdate.forEach(room => {
 			state.data.roomList[room.roomType][room.recordid].showMoreButton =
 				newData.roomList[room.roomType][room.recordid].showMoreButton
@@ -70,8 +89,26 @@ export default {
 			)
 		})
 	},
+	setNewRooms(state, { newRooms, newData }) {
+		newRooms.forEach(room => {
+			Vue.set(state.data.roomList[room.roomType], room.recordId, newData[room.roomType][room.recordId])
+		})
+	},
+	unsetUnpinnedRooms(state, roomsToUnpin) {
+		Object.keys(roomsToUnpin).forEach(roomType => {
+			if (roomsToUnpin[roomType].length) {
+				roomsToUnpin[roomType].forEach(recordId => {
+					Vue.delete(state.data.roomList[roomType], recordId)
+				})
+			}
+		})
+	},
 	updateRooms(state, data) {
 		state.data.roomList = mergeDeepReactive(state.data.roomList, data)
+	},
+	updateParticipants(state, { roomType, recordId, data }) {
+		if (state.data.currentRoom.roomType === roomType)
+			Vue.set(state.data.roomList[roomType][recordId], 'participants', data)
 	},
 	pushOlderEntries(state, { result, roomType, recordId }) {
 		state.data.roomList[roomType][recordId].chatEntries.unshift(...result.chatEntries)
@@ -100,29 +137,32 @@ export default {
 	setActiveRoom(state, { recordId, roomType }) {
 		state.data.roomList[roomType][recordId].active = true
 	},
-	setPinned(state, { roomType, room }) {
-		const roomList = state.data.roomList
-		switch (roomType) {
-			case 'crm':
-				for (let roomId in roomList.crm) {
-					if (parseInt(roomId) === room.recordid) {
-						roomList.crm[roomId].isPinned = false
-						break
-					}
-				}
+	unsetParticipant(state, { roomId, participantId }) {
+		let participants = state.data.roomList.private[roomId].participants
+		for (let i = 0; i < participants.length; i++) {
+			if (participants[i].user_id === participantId) {
+				participants.splice(i, 1)
 				break
-			case 'group':
-				for (let roomId in roomList.group) {
-					if (parseInt(roomId) === room.recordid) {
-						roomList.group[roomId].isPinned = !roomList.group[roomId].isPinned
-						break
-					}
-				}
-				break
+			}
 		}
 	},
+	unsetRoom(state, { roomType, recordId }) {
+		Vue.delete(state.data.roomList[roomType], recordId)
+	},
+	setRoom(state, { roomType, recordId, room }) {
+		Vue.set(state.data.roomList[roomType], recordId, room)
+	},
+	unsetCurrentRoom(state) {
+		Vue.set(state.data, 'currentRoom', {})
+	},
+	setCurrentRoom(state, data) {
+		Vue.set(state.data, 'currentRoom', data)
+	},
 	setConfig(state, config) {
-		state.config = config
+		state.config = mergeDeepReactive(state.config, config)
+	},
+	setDetailPreview(state, { id, module }) {
+		state.config.detailPreview = { id, module }
 	},
 	initStorage(state) {
 		const chatLocalStorage = Quasar.plugins.LocalStorage.getItem('yf-chat')
@@ -131,13 +171,13 @@ export default {
 			chatLocalStorage &&
 			JSON.stringify(Object.keys(state.local)) === JSON.stringify(Object.keys(JSON.parse(chatLocalStorage)))
 		) {
-			state.local = Object.assign(state.local, JSON.parse(chatLocalStorage))
+			state.local = mergeDeepReactive(state.local, JSON.parse(chatLocalStorage))
 		}
 		if (
 			chatSessionStorage &&
 			JSON.stringify(Object.keys(state.session)) === JSON.stringify(Object.keys(JSON.parse(chatSessionStorage)))
 		) {
-			state.session = Object.assign(state.session, JSON.parse(chatSessionStorage))
+			state.session = mergeDeepReactive(state.session, JSON.parse(chatSessionStorage))
 		}
 	}
 }

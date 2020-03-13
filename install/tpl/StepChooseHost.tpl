@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-install-tpl-StepChooseHost -->
-{assign var=COL_CLASS value='col-12 col-lg-4 text-white p-2 p-lg-3 p-xl-5 pt-xl-2 d-flex flex-column'}
+{assign var=COL_CLASS value='col-12 col-lg-4 text-white p-1 p-lg-2 p-xl-3 pt-xl-2 d-flex flex-column'}
 {assign var=BTN_CLASS value='btn btn-lg c-btn-block-xs-down btn-outline-light mt-auto'}
 {function SHOW_HOSTING_TITLE TYPE=''}
 	<h4 class="w-100 text-center u-font-weight-350">

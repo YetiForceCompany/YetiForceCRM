@@ -13,7 +13,7 @@
 {assign var="MODULE_NAME" value=$MODULE_MODEL->get('name')}
 <input id="recordId" type="hidden" value="{$RECORD->getId()}"/>
 <div class="tpl-Users-UserViewHeader detailViewContainer">
-	<div class="detailViewTitle" id="userPageHeader">
+	<div class="detailViewTitle pt-md-0 pt-1" id="userPageHeader">
 		<div class="o-breadcrumb widget_header row"
 			 data-js="container">
 			<div class="col-12 d-flex flex-wrap justify-content-between">

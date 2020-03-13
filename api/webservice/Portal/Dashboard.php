@@ -14,9 +14,25 @@ namespace Api\Portal;
 use App\Db\Query;
 use App\Language;
 use App\Module;
+use OpenApi\Annotations as OA;
 
 /**
  * Model dashboard.
+ *
+ * @OA\Info(
+ * 		title="YetiForce API for Webservice App. Type: Portal",
+ * 		version="0.1",
+ *   	@OA\Contact(
+ *     		email="devs@yetiforce.com",
+ *     		name="Devs API Team",
+ *     		url="https://yetiforce.com/"
+ *   	),
+ *   	@OA\License(
+ *    		name="YetiForce Public License v3",
+ *     		url="https://yetiforce.com/en/yetiforce/license"
+ *   	),
+ *   	termsOfService="https://yetiforce.com/"
+ * )
  */
 class Dashboard
 {

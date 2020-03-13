@@ -14,13 +14,12 @@
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-	<div class="listViewEntriesDiv u-overflow-scroll-xsm-down u-overflow-auto">
+	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop u-overflow-auto">
 		<span class="listViewLoadingImageBlock d-none modal" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
 		{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
-		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 		<table class="table table-bordered table-sm listViewEntriesTable">
 			{include file=\App\Layout::getTemplatePath('ListView/TableHeader.tpl', $QUALIFIED_MODULE)}
@@ -41,7 +40,7 @@
 												<a class="{if $LISTVIEW_ENTRY->get('access') eq '0' && $RECORD_LINK->get('linklabel') eq 'LBL_DELETE'} d-none {/if} {$RECORD_LINK->getClassName()}"{if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};if (event.stopPropagation){ldelim}
 															event.stopPropagation();{rdelim} else{ldelim}
 																		event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-													<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+													<span class="{$RECORD_LINK->getIcon()}" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 												</a>
 												{if !$RECORD_LINK@last}
 													&nbsp;&nbsp;

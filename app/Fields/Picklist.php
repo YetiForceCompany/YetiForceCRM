@@ -65,7 +65,6 @@ class Picklist
 			$values[$row[$primaryKey]] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));
 		}
 		\App\Cache::save('Picklist::getValuesName', $fieldName, $values);
-
 		return $values;
 	}
 
@@ -80,6 +79,18 @@ class Picklist
 	public static function isExists(string $fieldName, string $value): bool
 	{
 		return \in_array($value, static::getValuesName($fieldName));
+	}
+
+	/**
+	 * Check if picklist exist.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return bool
+	 */
+	public static function isPicklistExist(string $fieldName): bool
+	{
+		return \App\Db::getInstance()->isTableExists("vtiger_{$fieldName}");
 	}
 
 	/**
@@ -177,8 +188,8 @@ class Picklist
 	 */
 	public static function getModulesByName(string $moduleName = '')
 	{
-		if (\App\Cache::has('getPicklistModulesByName', $moduleName)) {
-			return \App\Cache::get('getPicklistModulesByName', $moduleName);
+		if (\App\Cache::has('Picklist::getPicklistModulesByName', $moduleName)) {
+			return \App\Cache::get('Picklist::getPicklistModulesByName', $moduleName);
 		}
 		$query = (new \App\Db\Query())->select(['vtiger_tab.name', 'vtiger_field.fieldname'])
 			->from('vtiger_field')
@@ -190,46 +201,8 @@ class Picklist
 		} else {
 			$result = $query->orderBy(['vtiger_tab.tabid' => SORT_ASC])->createCommand()->queryAllByGroup(2);
 		}
-		\App\Cache::save('getPicklistModulesByName', $moduleName, $result);
+		\App\Cache::save('Picklist::getPicklistModulesByName', $moduleName, $result);
 		return $result;
-	}
-
-	/**
-	 * this function returns all the assigned picklist values for the given tablename for the given roleid.
-	 *
-	 * @param string $tableName - the picklist tablename
-	 * @param int    $roleId    - the roleid of the role for which you want data
-	 *
-	 * @return array $val - the assigned picklist values in array format
-	 */
-	public static function getAssignedPicklistValues($tableName, $roleId)
-	{
-		if (\App\Cache::has('getAssignedPicklistValues', $tableName . $roleId)) {
-			return \App\Cache::get('getAssignedPicklistValues', $tableName . $roleId);
-		}
-		$values = [];
-		$exists = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $tableName])->exists();
-		if ($exists) {
-			$roleIds = [$roleId];
-			foreach (\App\PrivilegeUtil::getRoleSubordinates($roleId) as $role) {
-				$roleIds[] = $role;
-			}
-			$dataReader = (new \App\Db\Query())->select([$tableName, 'sortid'])->from("vtiger_$tableName")
-				->innerJoin('vtiger_role2picklist', "$tableName.picklist_valueid = vtiger_role2picklist.picklistvalueid")
-				->where(['roleid' => $roleIds])->orderBy('sortid')->distinct($tableName)->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				/** Earlier we used to save picklist values by encoding it. Now, we are directly saving those(getRaw()).
-				 *  If value in DB is like "test1 &amp; test2" then $abd->fetch_[] is giving it as
-				 *  "test1 &amp;$amp; test2" which we should decode two time to get result.
-				 */
-				$pickVal = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$tableName]));
-				$values[$pickVal] = $pickVal;
-			}
-			// END
-			\App\Cache::save('getAssignedPicklistValues', $tableName . $roleId, $values);
-
-			return $values;
-		}
 	}
 
 	/**
@@ -355,6 +328,18 @@ class Picklist
 			throw new \App\Exceptions\AppException('Incorrect picklist name');
 		}
 		return 'vtiger_' . $fieldName;
+	}
+
+	/**
+	 * Check if the prefix exists in given picklist name.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return bool
+	 */
+	public static function prefixExist(string $fieldName): bool
+	{
+		return !empty(array_filter(array_column(static::getValues($fieldName), 'prefix')));
 	}
 
 	/**

@@ -20,7 +20,9 @@
 		<option id="{$_MAP_ID}" value="{$_MAP->getStringifiedContent()}">{$_MAP->getValue('name')}</option>
 	{/foreach}
 </select>
-<span id="delete_map_container" style="display:none;">
-	<i class="fas fa-trash-alt u-cursor-pointer" onclick="ImportJs.deleteMap('{$FOR_MODULE}');"
-	   alt="{\App\Language::translate('LBL_DELETE', $FOR_MODULE)}"></i>
-</span>
+<div id="delete_map_container" style="display:none;" class="input-group-append">
+	<button type="button" class="btn btn-outline-secondary">
+		<span class="fas fa-trash-alt u-cursor-pointer" onclick="ImportJs.deleteMap('{$FOR_MODULE}');"
+	   alt="{\App\Language::translate('LBL_DELETE', $FOR_MODULE)}"></span>
+	</button>
+</div>

@@ -13,7 +13,7 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -37,7 +37,7 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
@@ -45,7 +45,7 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 		]));
 	}
 
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([

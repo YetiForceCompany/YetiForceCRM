@@ -19,29 +19,35 @@
 		{if \App\Config::main('phoneFieldAdvancedVerification',false)}
 			{if $NUMBER}
 				{assign var="PHONE_DETAIL" value=App\Fields\Phone::getDetails($NUMBER)}
+				{assign var="COUNTRY" value=$PHONE_DETAIL['country']}
 			{else}
-				{assign var="PHONE_DETAIL" value=false}
+				{assign var="PHONE_DETAIL" value=[]}
+				{assign var="COUNTRY" value=\App\Language::getLanguageRegion()}
 			{/if}
 			{assign var="FIELD_NAME_EXTRA" value=$FIELD_MODEL->getFieldName()|cat:'_extra'}
 			{assign var="FIELD_MODEL_EXTRA" value=$FIELD_MODEL->getModule()->getFieldByName($FIELD_NAME_EXTRA)}
 			{assign var="ACTIVE_EXTRA_FIELD" value=($VIEW == 'Edit' || $VIEW == 'QuickCreateAjax') && $FIELD_MODEL_EXTRA && $FIELD_MODEL_EXTRA->isWritable()}
+			{assign var=PICKLIST_VALUES value=App\Fields\Country::getAll('phone')}
+			{assign var=IS_LAZY value=count($PICKLIST_VALUES) > \App\Config::performance('picklistLimit')}
 			<div class="form-row">
 				<div class="{if $ACTIVE_EXTRA_FIELD}col-md-8{else}col-md-12{/if}">
-					<div class="input-group phoneGroup mb-1">
+					<div class="input-group {$WIDTHTYPE_GROUP} phoneGroup mb-1">
 						<div class="input-group-prepend m-0 p-0">
-							<select name="{$FIELD_MODEL->getFieldName()}_country" tabindex="{$TABINDEX}" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="select2 phoneCountryList" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate" required="required" data-dropdown-auto-width="true">
-								{foreach key=KEY item=ROW from=App\Fields\Country::getAll('phone')}
+							<select name="{$FIELD_MODEL->getFieldName()}_country" tabindex="{$TABINDEX}"
+							{if $IS_LAZY} data-select-lazy="true"{/if}
+							 id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="select2 phoneCountryList" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate" required="required" data-dropdown-auto-width="true">
+								{foreach key=KEY item=ROW from=$PICKLIST_VALUES}
 									{assign var="TRANSLATE" value=\App\Language::translateSingleMod($ROW['name'],'Other.Country')}
-									<option value="{$KEY}" {if $PHONE_DETAIL && $PHONE_DETAIL['country'] == $KEY} selected {/if} title="{$TRANSLATE}" data-template="<span><span class='flag-icon flag-icon-{$KEY|lower} mr-2'></span>{$TRANSLATE}</span>">{$TRANSLATE}</option>
+									<option value="{$KEY}" {if $COUNTRY === $KEY} selected {/if} title="{$TRANSLATE}" data-template="<span><span class='flag-icon flag-icon-{$KEY|lower} mr-2'></span>{$TRANSLATE}</span>">{$TRANSLATE}</option>
 								{/foreach}
 							</select>
 						</div>
-						{if $PHONE_DETAIL && ($PHONE_DETAIL['geocoding'] || $PHONE_DETAIL['carrier'])}
+						{if $PHONE_DETAIL && (isset($PHONE_DETAIL['geocoding']) || isset($PHONE_DETAIL['carrier']))}
 							{assign var="TITLE" value=$PHONE_DETAIL['geocoding']|cat:' '|cat:$PHONE_DETAIL['carrier']}
 						{else}
 							{assign var="TITLE" value=\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 						{/if}
-						{if $PHONE_DETAIL}
+						{if $PHONE_DETAIL && isset($PHONE_DETAIL['number'])}
 							{assign var="NUMBER" value=$PHONE_DETAIL['number']}
 						{/if}
 						<input name="{$FIELD_MODEL->getFieldName()}" class="form-control" value="{$NUMBER}" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}"

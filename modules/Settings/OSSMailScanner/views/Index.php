@@ -35,7 +35,7 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 
 		$actionsList = OSSMailScanner_Record_Model::getActionsList();
 		$ConfigFolderList = OSSMailScanner_Record_Model::getConfigFolderList();
-		$emailSearch = OSSMailScanner_Record_Model::getEmailSearch();
+		$emailSearch = OSSMailScanner_Record_Model::getEmailSearch(false, false);
 		$emailSearchList = OSSMailScanner_Record_Model::getEmailSearchList();
 		$widgetCfg = OSSMailScanner_Record_Model::getConfig(false);
 		$supportedModules = Settings_Vtiger_CustomRecordNumberingModule_Model::getSupportedModules();
@@ -53,7 +53,7 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('WIDGET_CFG', $widgetCfg);
 		$viewer->assign('EMAILSEARCH', $emailSearch);
 		$viewer->assign('EMAILSEARCHLIST', $emailSearchList);
-		$viewer->assign('RECORDNUMBERING', $numbering);
+		$viewer->assign('RECORDNUMBERING', $numbering ?? []);
 		$viewer->assign('ERRORNOMODULE', !$mailModuleActive);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IDENTITYLIST', $identityList);

@@ -9,79 +9,86 @@
  *************************************************************************************/
 'use strict';
 
-Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
-	/**
-	 * Function to register email enabled actions
-	 */
-	registerEmailEnabledActions: function () {
-		var moduleName = app.getModuleName();
-		var className = moduleName + "_List_Js";
-		var listInstance = new window[className]();
-		listInstance.registerEvents();
-		listInstance.markSelectedRecords();
-	},
-	registerEventForRelatedTabClick: function () {
-		var thisInstance = this;
-		var detailContentsHolder = thisInstance.getContentHolder();
-		var detailContainer = detailContentsHolder.closest('div.detailViewInfo');
-		jQuery('.related', detailContainer).on('click', 'li:not(.spaceRelatedList)', function (e, urlAttributes) {
-			var tabElement = jQuery(e.currentTarget);
-			if (!tabElement.hasClass('dropdown')) {
-				var element = jQuery('<div></div>');
-				element.progressIndicator({
-					'position': 'html',
-					'blockInfo': {
-						'enabled': true,
-						'elementToBlock': detailContainer
+Vtiger_Detail_Js(
+	'Campaigns_Detail_Js',
+	{},
+	{
+		/**
+		 * Function to register email enabled actions
+		 */
+		registerEmailEnabledActions: function() {
+			var moduleName = app.getModuleName();
+			var className = moduleName + '_List_Js';
+			var listInstance = new window[className]();
+			listInstance.registerEvents();
+			listInstance.markSelectedRecords();
+		},
+		registerEventForRelatedTabClick: function() {
+			var thisInstance = this;
+			var detailContentsHolder = thisInstance.getContentHolder();
+			var detailContainer = detailContentsHolder.closest('div.detailViewInfo');
+			jQuery('.related', detailContainer).on('click', 'li:not(.spaceRelatedList)', function(e, urlAttributes) {
+				var tabElement = jQuery(e.currentTarget);
+				if (!tabElement.hasClass('dropdown')) {
+					var element = jQuery('<div></div>');
+					element.progressIndicator({
+						position: 'html',
+						blockInfo: {
+							enabled: true,
+							elementToBlock: detailContainer
+						}
+					});
+					var url = tabElement.data('url');
+					if (typeof urlAttributes !== 'undefined') {
+						var callBack = urlAttributes.callback;
+						delete urlAttributes.callback;
 					}
-				});
-				var url = tabElement.data('url');
-				if (typeof urlAttributes !== "undefined") {
-					var callBack = urlAttributes.callback;
-					delete urlAttributes.callback;
+					thisInstance
+						.loadContents(url, urlAttributes)
+						.done(function(data) {
+							thisInstance.deSelectAllrelatedTabs();
+							thisInstance.markTabAsSelected(tabElement);
+							Vtiger_Helper_Js.showHorizontalTopScrollBar();
+							thisInstance.registerHelpInfo();
+							app.registerModal(detailContentsHolder);
+							element.progressIndicator({ mode: 'hide' });
+							var emailEnabledModule = jQuery(data)
+								.find('[name="emailEnabledModules"]')
+								.val();
+							if (emailEnabledModule) {
+								var listInstance = new Campaigns_List_Js();
+								listInstance.registerEvents();
+							}
+							if (typeof callBack == 'function') {
+								callBack(data);
+							}
+							//Summary tab is clicked
+							if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
+								thisInstance.loadWidgets();
+							}
+							thisInstance.registerBasicEvents();
+						})
+						.fail(function(error) {
+							element.progressIndicator({ mode: 'hide' });
+						});
 				}
-				thisInstance.loadContents(url, urlAttributes).done(	function (data) {
-						thisInstance.deSelectAllrelatedTabs();
-						thisInstance.markTabAsSelected(tabElement);
-						Vtiger_Helper_Js.showHorizontalTopScrollBar();
-						thisInstance.registerHelpInfo();
-						app.registerModal(detailContentsHolder);
-						app.registerMoreContent(detailContentsHolder.find('button.moreBtn'));
-						element.progressIndicator({'mode': 'hide'});
-						var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
-						if (emailEnabledModule) {
-							var listInstance = new Campaigns_List_Js();
-							listInstance.registerEvents();
-						}
-						if (typeof callBack == 'function') {
-							callBack(data);
-						}
-						//Summary tab is clicked
-						if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
-							thisInstance.loadWidgets();
-						}
-						thisInstance.registerBasicEvents();
-					}
-				).fail(function (error) {
-					element.progressIndicator({'mode': 'hide'});
-				});
-			}
-		});
-	},
-	registerEvents: function () {
-		this._super();
-		//Calling registerevents of campaigns list to handle checkboxs click of related records
-		var listInstance = Vtiger_List_Js.getInstance();
-		listInstance.registerEvents();
-		var thisInstance = this;
-		app.event.on('RelatedList.AfterLoad', function (event, instance) {
-			var response = instance.content;
-			response.find('[name="selectedIds"]').data('selectedIds', "");
-			response.find('[name="excludedIds"]').data('excludedIds', "");
-			var emailEnabledModule = response.find('[name="emailEnabledModules"]').val();
-			if (emailEnabledModule) {
-				thisInstance.registerEmailEnabledActions();
-			}
-		});
+			});
+		},
+		registerEvents: function() {
+			this._super();
+			//Calling registerevents of campaigns list to handle checkboxs click of related records
+			var listInstance = Vtiger_List_Js.getInstance();
+			listInstance.registerEvents();
+			var thisInstance = this;
+			app.event.on('RelatedList.AfterLoad', function(event, instance) {
+				var response = instance.content;
+				response.find('[name="selectedIds"]').data('selectedIds', '');
+				response.find('[name="excludedIds"]').data('excludedIds', '');
+				var emailEnabledModule = response.find('[name="emailEnabledModules"]').val();
+				if (emailEnabledModule) {
+					thisInstance.registerEmailEnabledActions();
+				}
+			});
+		}
 	}
-});
+);

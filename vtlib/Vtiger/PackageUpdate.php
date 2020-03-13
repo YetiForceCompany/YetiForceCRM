@@ -21,6 +21,10 @@ class PackageUpdate extends PackageImport
 
 	/**
 	 * Initialize Update.
+	 *
+	 * @param mixed $moduleInstance
+	 * @param mixed $zipfile
+	 * @param mixed $overwrite
 	 */
 	public function initUpdate($moduleInstance, $zipfile, $overwrite)
 	{
@@ -30,7 +34,7 @@ class PackageUpdate extends PackageImport
 
 			return false;
 		}
-		if ($module !== null) {
+		if (null !== $module) {
 			$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
 			if ($zip->statName("$module.png")) {
 				$zip->unzipFile("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
@@ -69,11 +73,14 @@ class PackageUpdate extends PackageImport
 	 * @param Module Instance of the module to update
 	 * @param string Zip file name
 	 * @param bool True for overwriting existing module
+	 * @param mixed $moduleInstance
+	 * @param mixed $zipfile
+	 * @param mixed $overwrite
 	 */
 	public function update($moduleInstance, $zipfile, $overwrite = true)
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
-		if ($module !== null) {
+		if (null !== $module) {
 			$zip = \App\Zip::openFile($zipfile, ['checkFiles' => false]);
 			// If data is not yet available
 			if (empty($this->_modulexml)) {
@@ -81,7 +88,7 @@ class PackageUpdate extends PackageImport
 			}
 			$installSequenceArray = $buildModuleArray = [];
 			$moduleBundle = (bool) $this->_modulexml->modulebundle;
-			if ($moduleBundle === true) {
+			if (true === $moduleBundle) {
 				$moduleList = (array) $this->_modulexml->modulelist;
 				foreach ($moduleList as $moduleInfos) {
 					foreach ($moduleInfos as $moduleInfo) {
@@ -102,7 +109,7 @@ class PackageUpdate extends PackageImport
 				}
 			} else {
 				if (!$moduleInstance || $moduleInstance->name != $module) {
-					\App\Log::trace('Module name mismatch!', __METHOD__);
+					\App\Log::error('Module name mismatch!', __METHOD__);
 
 					return false;
 				}
@@ -115,6 +122,8 @@ class PackageUpdate extends PackageImport
 
 	/**
 	 * Update Module.
+	 *
+	 * @param mixed $moduleInstance
 	 */
 	public function updateModule($moduleInstance)
 	{
@@ -141,6 +150,8 @@ class PackageUpdate extends PackageImport
 
 	/**
 	 * Parse migration information from manifest.
+	 *
+	 * @param mixed $modulenode
 	 */
 	public function parseMigration($modulenode)
 	{
@@ -155,7 +166,7 @@ class PackageUpdate extends PackageImport
 				}
 			}
 			// Sort the migration details based on version
-			if (count($this->_migrations) > 1) {
+			if (\count($this->_migrations) > 1) {
 				uksort($this->_migrations, 'version_compare');
 			}
 		}
@@ -163,6 +174,9 @@ class PackageUpdate extends PackageImport
 
 	/**
 	 * Handle migration of the module.
+	 *
+	 * @param mixed $modulenode
+	 * @param mixed $moduleInstance
 	 */
 	public function handleMigration($modulenode, $moduleInstance)
 	{
@@ -193,6 +207,8 @@ class PackageUpdate extends PackageImport
 
 	/**
 	 * Update Tables of the module.
+	 *
+	 * @param mixed $modulenode
 	 */
 	public function updateTables($modulenode)
 	{
@@ -201,6 +217,9 @@ class PackageUpdate extends PackageImport
 
 	/**
 	 * Update Blocks of the module.
+	 *
+	 * @param mixed $modulenode
+	 * @param mixed $moduleInstance
 	 */
 	public function updateBlocks($modulenode, $moduleInstance)
 	{
@@ -209,8 +228,8 @@ class PackageUpdate extends PackageImport
 		}
 
 		foreach ($modulenode->blocks->block as $blocknode) {
-			$this->listBlocks[] = (string) ($blocknode->label);
-			$blockInstance = Block::getInstance((string) $blocknode->label, $moduleInstance->id);
+			$this->listBlocks[] = (string) ($blocknode->blocklabel);
+			$blockInstance = Block::getInstance((string) $blocknode->blocklabel, $moduleInstance->id);
 			if (!$blockInstance) {
 				$blockInstance = $this->importBlock($modulenode, $moduleInstance, $blocknode);
 			} else {
@@ -222,18 +241,32 @@ class PackageUpdate extends PackageImport
 		// Deleting removed blocks
 		$listBlockBeforeUpdate = Block::getAllForModule($moduleInstance);
 		foreach ($listBlockBeforeUpdate as $blockInstance) {
-			if (!(in_array($blockInstance->label, $this->listBlocks))) {
+			if (!(\in_array($blockInstance->label, $this->listBlocks))) {
 				$blockInstance->delete();
+			}
+		}
+		// Deleting removed fields
+		if ($this->listFields) {
+			$listFieldBeforeUpdate = Field::getAllForModule($moduleInstance);
+			foreach ($listFieldBeforeUpdate as $fieldInstance) {
+				if (!(\in_array($fieldInstance->name, $this->listFields))) {
+					$fieldInstance->delete();
+				}
 			}
 		}
 	}
 
 	/**
 	 * Update Block of the module.
+	 *
+	 * @param mixed $modulenode
+	 * @param mixed $moduleInstance
+	 * @param mixed $blocknode
+	 * @param mixed $blockInstance
 	 */
 	public function updateBlock($modulenode, $moduleInstance, $blocknode, $blockInstance)
 	{
-		$blockInstance->label = (string) ($blocknode->label);
+		$blockInstance->label = (string) ($blocknode->blocklabel);
 		if (isset($blocknode->sequence, $blocknode->display_status)) {
 			$blockInstance->sequence = (string) ($blocknode->sequence);
 			$blockInstance->showtitle = (string) ($blocknode->show_title);
@@ -254,6 +287,10 @@ class PackageUpdate extends PackageImport
 
 	/**
 	 * Update Fields of the module.
+	 *
+	 * @param mixed $blocknode
+	 * @param mixed $blockInstance
+	 * @param mixed $moduleInstance
 	 */
 	public function updateFields($blocknode, $blockInstance, $moduleInstance)
 	{
@@ -263,7 +300,7 @@ class PackageUpdate extends PackageImport
 
 		foreach ($blocknode->fields->field as $fieldnode) {
 			$this->listFields[] = (string) ($fieldnode->fieldname);
-			$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, $moduleInstance->id);
+			$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, $moduleInstance);
 			if (!$fieldInstance) {
 				$fieldInstance = $this->importField($blocknode, $blockInstance, $moduleInstance, $fieldnode);
 			} else {
@@ -271,17 +308,16 @@ class PackageUpdate extends PackageImport
 			}
 			$this->__AddModuleFieldToCache($moduleInstance, $fieldInstance->name, $fieldInstance);
 		}
-		// Deleting removed fields
-		$listFieldBeforeUpdate = Field::getAllForModule($moduleInstance);
-		foreach ($listFieldBeforeUpdate as $fieldInstance) {
-			if (!(in_array($fieldInstance->name, $this->listFields))) {
-				$fieldInstance->delete();
-			}
-		}
 	}
 
 	/**
 	 * Update Field of the module.
+	 *
+	 * @param mixed $blocknode
+	 * @param mixed $blockInstance
+	 * @param mixed $moduleInstance
+	 * @param mixed $fieldnode
+	 * @param mixed $fieldInstance
 	 */
 	public function updateField($blocknode, $blockInstance, $moduleInstance, $fieldnode, $fieldInstance)
 	{
@@ -363,6 +399,9 @@ class PackageUpdate extends PackageImport
 
 	/**
 	 * Import Custom views of the module.
+	 *
+	 * @param mixed $modulenode
+	 * @param mixed $moduleInstance
 	 */
 	public function updateCustomViews($modulenode, $moduleInstance)
 	{
@@ -381,6 +420,11 @@ class PackageUpdate extends PackageImport
 
 	/**
 	 * Update Custom View of the module.
+	 *
+	 * @param mixed $modulenode
+	 * @param mixed $moduleInstance
+	 * @param mixed $customviewnode
+	 * @param mixed $filterInstance
 	 */
 	public function updateCustomView($modulenode, $moduleInstance, $customviewnode, $filterInstance)
 	{
@@ -390,6 +434,9 @@ class PackageUpdate extends PackageImport
 
 	/**
 	 * Update Sharing Access of the module.
+	 *
+	 * @param mixed $modulenode
+	 * @param mixed $moduleInstance
 	 */
 	public function updateSharingAccess($modulenode, $moduleInstance)
 	{
@@ -400,6 +447,9 @@ class PackageUpdate extends PackageImport
 
 	/**
 	 * Update Events of the module.
+	 *
+	 * @param mixed $modulenode
+	 * @param mixed $moduleInstance
 	 */
 	public function updateEvents($modulenode, $moduleInstance)
 	{
@@ -415,6 +465,9 @@ class PackageUpdate extends PackageImport
 
 	/**
 	 * Update actions of the module.
+	 *
+	 * @param mixed $modulenode
+	 * @param mixed $moduleInstance
 	 */
 	public function updateActions($modulenode, $moduleInstance)
 	{
@@ -428,6 +481,10 @@ class PackageUpdate extends PackageImport
 
 	/**
 	 * Update action of the module.
+	 *
+	 * @param mixed $modulenode
+	 * @param mixed $moduleInstance
+	 * @param mixed $actionnode
 	 */
 	public function updateAction($modulenode, $moduleInstance, $actionnode)
 	{
@@ -435,6 +492,9 @@ class PackageUpdate extends PackageImport
 
 	/**
 	 * Update related lists of the module.
+	 *
+	 * @param mixed $modulenode
+	 * @param mixed $moduleInstance
 	 */
 	public function updateRelatedLists($modulenode, $moduleInstance)
 	{
@@ -453,6 +513,10 @@ class PackageUpdate extends PackageImport
 
 	/**
 	 * Import related list of the module.
+	 *
+	 * @param mixed $modulenode
+	 * @param mixed $moduleInstance
+	 * @param mixed $relatedlistnode
 	 */
 	public function updateRelatedlist($modulenode, $moduleInstance, $relatedlistnode)
 	{
@@ -507,7 +571,7 @@ class PackageUpdate extends PackageImport
 		$cronTasks = Cron::listAllInstancesByModule($modulenode->name);
 		foreach ($modulenode->crons->cron as $importCronTask) {
 			foreach ($cronTasks as $cronTask) {
-				if ($cronTask->getName() == $importCronTask->name && $importCronTask->handler == $cronTask->getHandlerFile()) {
+				if ($cronTask->getName() == $importCronTask->name && $importCronTask->handler == $cronTask->getHandlerClass()) {
 					Cron::deregister($importCronTask->name);
 				}
 			}

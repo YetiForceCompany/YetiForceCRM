@@ -8,7 +8,7 @@ window.App.Fields = {
 			'JS_FEB',
 			'JS_MAR',
 			'JS_APR',
-			'JS_MAY',
+			'JS_MAY_SHORT',
 			'JS_JUN',
 			'JS_JUL',
 			'JS_AUG',
@@ -22,7 +22,7 @@ window.App.Fields = {
 			'JS_FEB',
 			'JS_MAR',
 			'JS_APR',
-			'JS_MAY',
+			'JS_MAY_SHORT',
 			'JS_JUN',
 			'JS_JUL',
 			'JS_AUG',
@@ -177,15 +177,33 @@ window.App.Fields = {
 			}
 			let ranges = {};
 			ranges[app.vtranslate('JS_TODAY')] = [moment(), moment()];
+			ranges[app.vtranslate('JS_TOMORROW')] = [moment().add(1, 'days'), moment().add(1, 'days')];
 			ranges[app.vtranslate('JS_YESTERDAY')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
 			ranges[app.vtranslate('JS_LAST_7_DAYS')] = [moment().subtract(6, 'days'), moment()];
+			ranges[app.vtranslate('JS_NEXT_7_DAYS')] = [moment(), moment().add(6, 'days')];
 			ranges[app.vtranslate('JS_CURRENT_MONTH')] = [moment().startOf('month'), moment().endOf('month')];
+			ranges[app.vtranslate('JS_NEXT_MONTH')] = [
+				moment()
+					.add(1, 'month')
+					.startOf('month'),
+				moment()
+					.add(1, 'month')
+					.endOf('month')
+			];
 			ranges[app.vtranslate('JS_LAST_MONTH')] = [
 				moment()
 					.subtract(1, 'month')
 					.startOf('month'),
 				moment()
 					.subtract(1, 'month')
+					.endOf('month')
+			];
+			ranges[app.vtranslate('JS_NEXT_MONTH')] = [
+				moment()
+					.add(1, 'month')
+					.startOf('month'),
+				moment()
+					.add(1, 'month')
 					.endOf('month')
 			];
 			ranges[app.vtranslate('JS_LAST_3_MONTHS')] = [
@@ -196,12 +214,24 @@ window.App.Fields = {
 					.subtract(1, 'month')
 					.endOf('month')
 			];
+			ranges[app.vtranslate('JS_NEXT_3_MONTHS')] = [
+				moment().startOf('month'),
+				moment()
+					.add(3, 'month')
+					.endOf('month')
+			];
 			ranges[app.vtranslate('JS_LAST_6_MONTHS')] = [
 				moment()
 					.subtract(6, 'month')
 					.startOf('month'),
 				moment()
 					.subtract(1, 'month')
+					.endOf('month')
+			];
+			ranges[app.vtranslate('JS_NEXT_6_MONTHS')] = [
+				moment().startOf('month'),
+				moment()
+					.add(6, 'month')
 					.endOf('month')
 			];
 			let params = {
@@ -248,10 +278,10 @@ window.App.Fields = {
 						$(this).trigger('change');
 					})
 					.on('show.daterangepicker', (ev, picker) => {
-						this.positionPicker(ev, picker);
+						App.Fields.Utils.positionPicker(ev, picker);
 					})
 					.on('showCalendar.daterangepicker', (ev, picker) => {
-						this.positionPicker(ev, picker);
+						App.Fields.Utils.positionPicker(ev, picker);
 						picker.container.addClass('js-visible');
 					})
 					.on('hide.daterangepicker', (ev, picker) => {
@@ -259,22 +289,6 @@ window.App.Fields = {
 					});
 				App.Fields.Utils.registerMobileDateRangePicker(el);
 			});
-		},
-		positionPicker(ev, picker) {
-			let offset = picker.element.offset();
-			let $window = $(window);
-			if (offset.left - $window.scrollLeft() + picker.container.outerWidth() > $window.width()) {
-				picker.opens = 'left';
-			} else {
-				picker.opens = 'right';
-			}
-			picker.move();
-			if (offset.top - $window.scrollTop() + picker.container.outerHeight() > $window.height()) {
-				picker.drops = 'up';
-			} else {
-				picker.drops = 'down';
-			}
-			picker.move();
 		}
 	},
 	DateTime: {
@@ -348,13 +362,19 @@ window.App.Fields = {
 			if (typeof customParams !== 'undefined') {
 				params = $.extend(params, customParams);
 			}
-			elements.daterangepicker(params).on('apply.daterangepicker', function applyDateRangePickerHandler(ev, picker) {
-				if (isDateRangePicker) {
-					$(this).val(picker.startDate.format(format));
-				} else {
-					$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
-				}
-			});
+			elements
+				.daterangepicker(params)
+				.on('apply.daterangepicker', function applyDateRangePickerHandler(ev, picker) {
+					if (isDateRangePicker) {
+						$(this).val(picker.startDate.format(format));
+					} else {
+						$(this).val(picker.startDate.format(format) + ',' + picker.endDate.format(format));
+					}
+				})
+				.on('showCalendar.daterangepicker', (ev, picker) => {
+					App.Fields.Utils.positionPicker(ev, picker);
+					picker.container.addClass('js-visible');
+				});
 			elements.each((index, element) => {
 				App.Fields.Utils.registerMobileDateRangePicker($(element));
 			});
@@ -385,6 +405,25 @@ window.App.Fields = {
 				colors.push(this.getRandomColor());
 			}
 			return colors;
+		},
+		showPicker({ color, fieldToUpdate, bgToUpdate, cb }) {
+			let registerPickerEvents = modalContainer => {
+				let picker = window.ColorPicker.mount({
+					el: modalContainer.find('.js-color-picker')[0],
+					currentColor: color
+				});
+				modalContainer.find('.js-modal__save').on('click', _ => {
+					let newColor = picker.getColor().hex;
+					cb && cb(newColor);
+					bgToUpdate && bgToUpdate.css('background', newColor);
+					fieldToUpdate && fieldToUpdate.val(newColor);
+					app.hideModalWindow(false, modalContainer.closest('.js-modal-container')[0].id);
+				});
+			};
+			let url = `index.php?module=AppComponents&view=ColorPickerModal${
+				color ? '&color=' + color.substring(1) : ''
+			}`;
+			app.showModalWindow({ url, cb: registerPickerEvents.bind(this) });
 		}
 	},
 	Text: {
@@ -501,6 +540,7 @@ window.App.Fields = {
 				let config = {
 					language: CONFIG.langKey,
 					allowedContent: true,
+					extraAllowedContent: 'div{page-break-after*}',
 					format_tags: 'p;h1;h2;h3;h4;h5;h6;pre;address;div',
 					removeButtons: '',
 					scayt_autoStartup: false,
@@ -626,11 +666,11 @@ window.App.Fields = {
 					{
 						feed: this.getMentionUsersData.bind(this),
 						itemTemplate: `<li data-id="{id}" class="row no-gutters">
-											<div class="c-img__completion__container">
+											<div class="col-2 c-img__completion__container">
 												<div class="{icon} m-auto u-w-fit u-font-size-14px"></div>
 												<img src="{image}" class="c-img__completion mr-2" alt="{label}" title="{label}">
 											</div>
-											<div class="col row no-gutters u-overflow-x-hidden">
+											<div class="col row-10 no-gutters u-overflow-x-hidden">
 												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
 												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
 											</div>
@@ -643,10 +683,10 @@ window.App.Fields = {
 						marker: '#',
 						pattern: /#[wа-я]{1,}|#\w{3,}$/,
 						itemTemplate: `<li data-id="{id}" class="row no-gutters">
-											<div class="col c-circle-icon mr-1">
-												<span class="userIcon-{module}"></span>
+											<div class="col-2 c-circle-icon">
+												<span class="yfm-{module}"></span>
 											</div>
-											<div class="col row no-gutters u-overflow-x-hidden">
+											<div class="col-10 row no-gutters pl-1 u-overflow-x-hidden">
 												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
 												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
 											</div>
@@ -780,20 +820,20 @@ window.App.Fields = {
 			mentionTemplate(params) {
 				let icon = '';
 				if (params.module !== undefined) {
-					icon = `userIcon-${params.module}`;
+					icon = `yfm-${params.module}`;
 				}
 				if (params.icon !== undefined && params.icon !== '') {
 					icon = params.icon;
 				}
-				let avatar = `<div class="col c-circle-icon mr-1">
+				let avatar = `<div class="col-2 c-circle-icon">
 								<span class="${icon}"></span>
 							</div>`;
 				if (params.image !== undefined && params.image !== '') {
-					avatar = `<div class="c-img__completion__container"><img src="${params.image}" class="c-img__completion mr-2" alt=${params.label}" title="${params.label}"></div>`;
+					avatar = `<div class="col-2 c-img__completion__container m-0"><img src="${params.image}" class="c-img__completion" alt=${params.label}" title="${params.label}"></div>`;
 				}
 				return `<div data-id="${params.id}" class="row no-gutters">
 							${avatar}
-							<div class="col row no-gutters u-overflow-x-hidden">
+							<div class="col-10 row no-gutters pl-1 u-overflow-x-hidden">
 								<strong class="u-text-ellipsis--no-hover col-12">${params.label}</strong>
 								<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${params.category}</div>
 							</div>
@@ -1022,53 +1062,6 @@ window.App.Fields = {
 			}
 		},
 		/**
-		 * Show lazy select based on data passed in js.
-		 *
-		 * @param   {object}  selectElement  jQuery
-		 * @param   {object}  params         contains selectParams object, lazyElements number, data array
-		 */
-		showLazySelect(selectElement, params) {
-			$.fn.select2.amd.require(['select2/data/array', 'select2/utils'], (ArrayData, Utils) => {
-				function CustomData($element, params) {
-					CustomData.__super__.constructor.call(this, $element, params);
-				}
-				Utils.Extend(CustomData, ArrayData);
-				CustomData.prototype.query = (options, callback) => {
-					let results = [];
-					if (options.term && options.term !== '') {
-						results = params.data.filter(e => {
-							return e.text.toUpperCase().indexOf(options.term.toUpperCase()) >= 0;
-						});
-					} else {
-						results = params.data;
-					}
-					if (!('page' in options)) {
-						options.page = 1;
-					}
-					let data = {};
-					data.results = results.slice((options.page - 1) * params.lazyElements, options.page * params.lazyElements);
-					data.pagination = {};
-					data.pagination.more = options.page * params.lazyElements < results.length;
-					callback(data);
-				};
-				params.selectParams = Object.assign(params.selectParams, {
-					ajax: {},
-					dataAdapter: CustomData
-				});
-				selectElement.removeClass('js-lazy-select');
-				this.showSelect2ElementView(selectElement, params.selectParams);
-				let selectedOption = selectElement.data('selected-value');
-				if (selectedOption) {
-					let text = selectedOption;
-					if (selectElement.data('fieldinfo').picklistvalues.hasOwnProperty(selectedOption)) {
-						text = selectElement.data('fieldinfo').picklistvalues[selectedOption];
-					}
-					const newOption = new Option(text, selectedOption, true, true);
-					selectElement.append(newOption).trigger('change');
-				}
-			});
-		},
-		/**
 		 * Function which will show the select2 element for select boxes . This will use select2 library
 		 */
 		showSelect2ElementView(selectElement, params) {
@@ -1082,17 +1075,14 @@ window.App.Fields = {
 					this.showSelect2ElementView($(element).eq(0), params);
 				});
 			}
-			if (selectElement.hasClass('js-lazy-select')) {
-				let items = $.map(selectElement.data('fieldinfo').picklistvalues, function(val, key) {
-					return { id: key, text: val };
-				});
+			params = this.registerParams(selectElement, params);
+			if (params.selectLazy && !selectElement.hasClass('js-lazy-select-active')) {
 				return App.Fields.Picklist.showLazySelect(selectElement, {
-					lazyElements: 50,
-					data: items,
+					lazyElements: app.getMainParams('picklistLimit'),
+					data: this.registerLazySelectOptions(selectElement),
 					selectParams: params
 				});
 			}
-			params = this.registerParams(selectElement, params);
 			const computeDropdownHeight = (e, dropdownContainer) => {
 				setTimeout(() => {
 					if (!dropdownContainer.find('.select2-dropdown--above').length) {
@@ -1101,7 +1091,10 @@ window.App.Fields = {
 						const selectOffsetTop = $(e.currentTarget).offset().top;
 						dropdownList.css({
 							'max-height':
-								$(window).height() - selectOffsetTop - marginBottom - (dropdownList.offset().top - selectOffsetTop)
+								$(window).height() -
+								selectOffsetTop -
+								marginBottom -
+								(dropdownList.offset().top - selectOffsetTop)
 						});
 					}
 				}, 100);
@@ -1195,10 +1188,19 @@ window.App.Fields = {
 
 			//formatSelectionTooBig param is not defined even it has the maximumSelectionLength,
 			//then we should send our custom function for formatSelectionTooBig
-			if (typeof params.maximumSelectionLength !== 'undefined' && typeof params.formatSelectionTooBig === 'undefined') {
+			if (
+				typeof params.maximumSelectionLength !== 'undefined' &&
+				typeof params.formatSelectionTooBig === 'undefined'
+			) {
 				//custom function which will return the maximum selection size exceeds message.
 				var formatSelectionExceeds = function(limit) {
-					return app.vtranslate('JS_YOU_CAN_SELECT_ONLY') + ' ' + limit.maximum + ' ' + app.vtranslate('JS_ITEMS');
+					return (
+						app.vtranslate('JS_YOU_CAN_SELECT_ONLY') +
+						' ' +
+						limit.maximum +
+						' ' +
+						app.vtranslate('JS_ITEMS')
+					);
 				};
 				params.language.maximumSelected = formatSelectionExceeds;
 			}
@@ -1213,7 +1215,10 @@ window.App.Fields = {
 						$(container).addClass(data.element.className);
 					}
 					let actualElement = $(data.element);
-					if (typeof selectElement.data('showAdditionalIcons') !== 'undefined' && actualElement.is('option')) {
+					if (
+						typeof selectElement.data('showAdditionalIcons') !== 'undefined' &&
+						actualElement.is('option')
+					) {
 						return (
 							'<div class="js-element__title d-flex justify-content-between" data-js="appendTo"><div class="u-text-ellipsis--no-hover">' +
 							actualElement.text() +
@@ -1331,7 +1336,7 @@ window.App.Fields = {
 			return params;
 		},
 		/**
-		 * Prepend template with a flag, function is calling by select2
+		 * Prepend template with a flag, function is called select2
 		 * @param optionData
 		 * @returns {Mixed|jQuery|HTMLElement}
 		 */
@@ -1430,10 +1435,14 @@ window.App.Fields = {
 						if (response && response.result) {
 							if (optionElement.attr('data-state') === 'active') {
 								optionElement.attr('data-state', 'inactive');
-								currentTarget.toggleClass(currentElementData.iconActive + ' ' + currentElementData.iconInactive);
+								currentTarget.toggleClass(
+									currentElementData.iconActive + ' ' + currentElementData.iconInactive
+								);
 							} else {
 								optionElement.attr('data-state', 'active');
-								currentTarget.toggleClass(currentElementData.iconInactive + ' ' + currentElementData.iconActive);
+								currentTarget.toggleClass(
+									currentElementData.iconInactive + ' ' + currentElementData.iconActive
+								);
 							}
 							if (response.message) {
 								Vtiger_Helper_Js.showPnotify({ text: response.message, type: 'success' });
@@ -1446,6 +1455,168 @@ window.App.Fields = {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					});
 			});
+		},
+		/**
+		 * Show lazy select based on data passed in js.
+		 *
+		 * @param   {object}  selectElement  jQuery
+		 * @param   {object}  params         contains selectParams object, lazyElements number, data array
+		 */
+		showLazySelect(selectElement, params) {
+			$.fn.select2.amd.require(['select2/data/array', 'select2/utils'], (ArrayData, Utils) => {
+				function CustomData($element, params) {
+					CustomData.__super__.constructor.call(this, $element, params);
+				}
+				Utils.Extend(CustomData, ArrayData);
+				CustomData.prototype.query = (options, callback) => {
+					let results = [];
+					if (options.term && options.term !== '') {
+						results = params.data.filter(e => {
+							return e.text.toUpperCase().indexOf(options.term.toUpperCase()) >= 0;
+						});
+					} else {
+						results = params.data;
+					}
+					if (!('page' in options)) {
+						options.page = 1;
+					}
+					let data = {};
+					data.results = results.slice(
+						(options.page - 1) * params.lazyElements,
+						options.page * params.lazyElements
+					);
+					data.pagination = {};
+					data.pagination.more = options.page * params.lazyElements < results.length;
+					callback(data);
+				};
+				params.selectParams = Object.assign(params.selectParams, {
+					ajax: {},
+					dataAdapter: CustomData
+				});
+				selectElement.addClass('js-lazy-select-active');
+				this.showSelect2ElementView(selectElement, params.selectParams);
+				let selectedOption = selectElement.data('selected-value');
+				if (selectedOption) {
+					let text = selectedOption;
+					if (selectElement.data('fieldinfo').picklistvalues.hasOwnProperty(selectedOption)) {
+						text = selectElement.data('fieldinfo').picklistvalues[selectedOption];
+					}
+					this.createSelectedOption(selectElement, text, selectedOption);
+				}
+			});
+		},
+		/**
+		 * Register lazy select options
+		 *
+		 * @param   {object}  selectElement  [selectElement description]
+		 *
+		 * @return  {object}                 [return description]
+		 */
+		registerLazySelectOptions(selectElement) {
+			let options = [];
+			if (selectElement.data('fieldinfo') && selectElement.data('fieldinfo').picklistvalues) {
+				options = $.map(selectElement.data('fieldinfo').picklistvalues, function(val, key) {
+					return { id: key, text: val };
+				});
+			} else {
+				options = $.map(selectElement.find('option'), item => {
+					return {
+						id: item.value,
+						element: item,
+						text: item.text,
+						selected: item.selected,
+						disabled: item.disabled
+					};
+				});
+			}
+			return options;
+		},
+		/**
+		 * Set value.
+		 *
+		 * @param   {object}  selectElement  [selectElement description]
+		 * @param   {string}  searchValue
+		 * @param   {string}  type           value|text|all
+		 *
+		 * @return  {boolean|string}         false or set value
+		 */
+		setValue(selectElement, searchValue, type = 'value') {
+			const option = this.findOption(selectElement, searchValue, type);
+			if (!option) {
+				return false;
+			}
+			if (selectElement.hasClass('js-lazy-select-active')) {
+				this.createSelectedOption(selectElement, option.text, option.value);
+			} else {
+				selectElement.val(option.value).trigger('change');
+			}
+			return option.value;
+		},
+		/**
+		 * Find option.
+		 *
+		 * @param   {object}  selectElement  [selectElement description]
+		 * @param   {string}  searchValue
+		 * @param   {string}  type           value|text|all
+		 *
+		 * @return  {boolean|object}         false or option object
+		 */
+		findOption(selectElement, searchValue, type = 'value') {
+			let foundOption = false;
+			const selectValues = this.getSelectOptions(selectElement);
+			const getFieldValueFromText = () =>
+				Object.keys(selectValues).find(key => selectValues[key] === searchValue);
+			const valueExists = () => selectValues.hasOwnProperty(searchValue);
+			const createOption = () => {
+				return { text: selectValues[foundOption], value: foundOption };
+			};
+			switch (type) {
+				case 'value':
+					if (valueExists()) {
+						foundOption = searchValue;
+					}
+					break;
+				case 'text':
+					foundOption = getFieldValueFromText();
+					break;
+				case 'all':
+					if (valueExists()) {
+						foundOption = searchValue;
+					} else {
+						foundOption = getFieldValueFromText();
+					}
+					break;
+			}
+			return foundOption ? createOption() : false;
+		},
+		/**
+		 * Get select options
+		 *
+		 * @param   {object}  selectElement  jQuery
+		 *
+		 * @return  {object}                 [return description]
+		 */
+		getSelectOptions(selectElement) {
+			if (selectElement.data('fieldinfo') && selectElement.data('fieldinfo').picklistvalues) {
+				return selectElement.data('fieldinfo').picklistvalues;
+			} else {
+				let optionsObject = {};
+				selectElement.find('option').each((i, element) => {
+					optionsObject[element.value] = element.text;
+				});
+				return optionsObject;
+			}
+		},
+		/**
+		 * Create selected option
+		 *
+		 * @param   {object}  selectElement  jQuery
+		 * @param   {string}  text
+		 * @param   {string}  value
+		 */
+		createSelectedOption(selectElement, text, value) {
+			const newOption = new Option(text, value, true, true);
+			selectElement.append(newOption).trigger('change');
 		}
 	},
 	MultiImage: {
@@ -1816,10 +1987,14 @@ window.App.Fields = {
 			}
 			value = parseFloat(value);
 			if (fixed) {
-				value = value.toFixed(numberOfDecimal);
+				let base = 10 ** numberOfDecimal;
+				value = (Math.round(value * base) / base).toFixed(numberOfDecimal);
 			}
 			let splittedFloat = value.toString().split('.');
-			let integer = App.Fields.Integer.formatToDisplay(splittedFloat[0]);
+			let integer = splittedFloat[0];
+			if (integer !== '-0' && integer !== '0') {
+				integer = App.Fields.Integer.formatToDisplay(integer);
+			}
 			let decimal = splittedFloat[1];
 			if (numberOfDecimal) {
 				if (!CONFIG.truncateTrailingZeros && decimal) {
@@ -1854,7 +2029,9 @@ window.App.Fields = {
 				let element = $(e.target),
 					parentElem = element.closest('.js-tree-container'),
 					sourceFieldElement = parentElem.find('input[class="sourceField"]'),
-					fieldDisplayElement = parentElem.find('input[name="' + sourceFieldElement.attr('name') + '_display"]');
+					fieldDisplayElement = parentElem.find(
+						'input[name="' + sourceFieldElement.attr('name') + '_display"]'
+					);
 				AppConnector.request({
 					module: sourceFieldElement.data('modulename'),
 					view: 'TreeModal',
@@ -2028,7 +2205,9 @@ window.App.Fields = {
 			$('.js-multicurrency-event', this.container)
 				.off('click')
 				.on('click', () => {
-					let modal = $('<form>').append(this.container.find('.js-currencies-container .js-currencies-modal').clone());
+					let modal = $('<form>').append(
+						this.container.find('.js-currencies-container .js-currencies-modal').clone()
+					);
 					this.registerEnableCurrencyEvent(modal);
 					this.registerResetCurrencyEvent(modal);
 					this.loadData(modal);
@@ -2162,7 +2341,10 @@ window.App.Fields = {
 				let element = $(domElement);
 				if (!element.is(baseCurrencyConversionRate)) {
 					element.val(
-						App.Fields.Double.formatToDisplay(element.getNumberFromValue() / baseCurrencyRatePrevValue, false)
+						App.Fields.Double.formatToDisplay(
+							element.getNumberFromValue() / baseCurrencyRatePrevValue,
+							false
+						)
 					);
 				}
 			});
@@ -2178,7 +2360,9 @@ window.App.Fields = {
 				let parentRow = element.closest('tr');
 				if (element.is(':checked')) {
 					element.attr('checked', 'checked');
-					let price = this.getField().getNumberFromValue() * parentRow.find('.js-conversion-rate').getNumberFromValue();
+					let price =
+						this.getField().getNumberFromValue() *
+						parentRow.find('.js-conversion-rate').getNumberFromValue();
 					$('input', parentRow).removeAttr('disabled');
 					parentRow.find('.js-currency-reset').removeAttr('disabled');
 					parentRow.find('.js-converted-price').val(App.Fields.Double.formatToDisplay(price));
@@ -2209,7 +2393,8 @@ window.App.Fields = {
 		registerResetCurrencyEvent(container) {
 			container.on('click', '.js-currency-reset', e => {
 				let parentElem = $(e.currentTarget).closest('tr');
-				let price = this.getField().getNumberFromValue() * parentElem.find('.js-conversion-rate').getNumberFromValue();
+				let price =
+					this.getField().getNumberFromValue() * parentElem.find('.js-conversion-rate').getNumberFromValue();
 				$('.js-converted-price', parentElem).val(App.Fields.Double.formatToDisplay(price));
 			});
 		}
@@ -2217,7 +2402,7 @@ window.App.Fields = {
 	Utils: {
 		registerMobileDateRangePicker(element) {
 			this.hideMobileKeyboard(element);
-			if ($(window).width() < app.breakpoints.sm) {
+			if (!Quasar.plugins.Platform.is.desktop) {
 				element
 					.on('showCalendar.daterangepicker', (ev, picker) => {
 						picker.container.addClass('js-visible');
@@ -2228,8 +2413,37 @@ window.App.Fields = {
 			}
 		},
 		hideMobileKeyboard(element) {
-			if ($(window).width() < app.breakpoints.sm) {
+			if (!Quasar.plugins.Platform.is.desktop) {
 				element.attr('readonly', 'true').addClass('bg-white');
+			}
+		},
+		positionPicker(ev, picker) {
+			let offset = picker.element.offset();
+			let $window = $(window);
+			if (offset.left - $window.scrollLeft() + picker.container.outerWidth() > $window.width()) {
+				picker.opens = 'left';
+			} else {
+				picker.opens = 'right';
+			}
+			picker.move();
+			if (offset.top - $window.scrollTop() + picker.container.outerHeight() > $window.height()) {
+				picker.drops = 'up';
+			} else {
+				picker.drops = 'down';
+			}
+			picker.move();
+		},
+		/**
+		 * Set value
+		 *
+		 * @param   {object}  fieldElement  jQuery
+		 * @param   {string|boolean}  value
+		 */
+		setValue(fieldElement, value) {
+			if (fieldElement.is('select')) {
+				App.Fields.Picklist.setValue(fieldElement, value);
+			} else {
+				fieldElement.val(value);
 			}
 		}
 	}

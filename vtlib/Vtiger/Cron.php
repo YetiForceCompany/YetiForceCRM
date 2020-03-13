@@ -28,6 +28,8 @@ class Cron
 
 	/**
 	 * Constructor.
+	 *
+	 * @param mixed $values
 	 */
 	protected function __construct($values)
 	{
@@ -38,7 +40,8 @@ class Cron
 	/**
 	 * set the value to the data.
 	 *
-	 * @param type $value ,$key
+	 * @param type  $value ,$key
+	 * @param mixed $key
 	 */
 	public function set($key, $value)
 	{
@@ -107,13 +110,12 @@ class Cron
 	 */
 	public function getLastEndDateTime()
 	{
-		if ($this->data['lastend'] !== null) {
+		if (null !== $this->data['lastend']) {
 			$lastEndDateTime = new \DateTimeField(date('Y-m-d H:i:s', $this->data['lastend']));
 
 			return $lastEndDateTime->getDisplayDateTimeValue();
-		} else {
-			return '';
 		}
+		return '';
 	}
 
 	/**
@@ -121,13 +123,12 @@ class Cron
 	 */
 	public function getLastStartDateTime()
 	{
-		if ($this->data['laststart'] !== null) {
+		if (null !== $this->data['laststart']) {
 			$lastStartDateTime = new \DateTimeField(date('Y-m-d H:i:s', $this->data['laststart']));
 
 			return $lastStartDateTime->getDisplayDateTimeValue();
-		} else {
-			return '';
 		}
+		return '';
 	}
 
 	/**
@@ -141,9 +142,9 @@ class Cron
 	/**
 	 * Get the configured handler file.
 	 */
-	public function getHandlerFile()
+	public function getHandlerClass()
 	{
-		return $this->data['handler_file'];
+		return $this->data['handler_class'];
 	}
 
 	/**
@@ -190,6 +191,8 @@ class Cron
 
 	/**
 	 * Helper function to check the status value.
+	 *
+	 * @param mixed $value
 	 */
 	public function statusEqual($value)
 	{
@@ -290,11 +293,11 @@ class Cron
 			return false;
 		}
 		$maxExecutionTime = (int) (ini_get('max_execution_time'));
-		if ($maxExecutionTime == 0) {
+		if (0 == $maxExecutionTime) {
 			$maxExecutionTime = \App\Config::main('maxExecutionCronTime');
 		}
 		$time = $this->getLastEnd();
-		if ($time == 0) {
+		if (0 == $time) {
 			$time = $this->getLastStart();
 		}
 		if (time() > ($time + $maxExecutionTime)) {
@@ -307,14 +310,14 @@ class Cron
 	 * Register cron task.
 	 *
 	 * @param string $name
-	 * @param string $handler_file
+	 * @param string $handlerClass
 	 * @param int    $frequency
 	 * @param string $module
 	 * @param int    $status
 	 * @param int    $sequence
 	 * @param string $description
 	 */
-	public static function register($name, $handler_file, $frequency, $module = 'Home', $status = 1, $sequence = 0, $description = '')
+	public static function register($name, $handlerClass, $frequency, $module = 'Home', $status = 1, $sequence = 0, $description = '')
 	{
 		$db = \App\Db::getInstance();
 		if (empty($sequence)) {
@@ -322,7 +325,7 @@ class Cron
 		}
 		$db->createCommand()->insert(self::$baseTable, [
 			'name' => $name,
-			'handler_file' => $handler_file,
+			'handler_class' => $handlerClass,
 			'frequency' => $frequency,
 			'status' => $status,
 			'sequence' => $sequence,
@@ -352,7 +355,7 @@ class Cron
 	public static function listAllActiveInstances()
 	{
 		$instances = [];
-		$query = (new \App\Db\Query())->select(['id','name'])->from(self::$baseTable)->where(['<>', 'status', self::$STATUS_DISABLED])->orderBy(['sequence' => SORT_ASC]);
+		$query = (new \App\Db\Query())->select(['id', 'name'])->from(self::$baseTable)->where(['<>', 'status', self::$STATUS_DISABLED])->orderBy(['sequence' => SORT_ASC]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$instances[] = new self($row);
@@ -374,7 +377,7 @@ class Cron
 			$instance = self::$instanceCache["$name"];
 		}
 
-		if ($instance === false) {
+		if (false === $instance) {
 			$data = (new \App\Db\Query())->from(self::$baseTable)->where(['name' => $name])->one();
 			if ($data) {
 				$instance = new self($data);
@@ -396,7 +399,7 @@ class Cron
 		if (isset(self::$instanceCache[$id])) {
 			$instance = self::$instanceCache[$id];
 		}
-		if ($instance === false) {
+		if (false === $instance) {
 			$data = (new \App\Db\Query())->from(self::$baseTable)->where(['id' => $id])->one();
 			if ($data) {
 				$instance = new self($data);

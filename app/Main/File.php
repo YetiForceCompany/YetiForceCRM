@@ -13,10 +13,10 @@ class File
 {
 	public function process(\App\Request $request)
 	{
-		if (\App\Config::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
+		if (\Config\Security::$forceHttpsRedirection && !\App\RequestUtil::getBrowserInfo()->https) {
 			header("location: https://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}", true, 301);
 		}
-		if (\App\Config::main('forceRedirect')) {
+		if (\Config\Security::$forceUrlRedirection) {
 			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 			if (0 !== stripos($requestUrl, \App\Config::main('site_URL'))) {
 				header('location: ' . \App\Config::main('site_URL'), true, 301);

@@ -11,28 +11,26 @@
 -->*}
 {strip}
 	<li class="newCustomFieldCopy d-none">
-		<div class="marginLeftZero border1px" data-field-id="" data-sequence="">
-			<div class="row padding1per">
-				<span class="col-md-2">&nbsp;
+		<div class="opacity js-custom-field ml-0 border1px" data-block-id="" data-field-id="" data-sequence="">
+			<div class="px-2 py-1">
+				<div class="col-12 pr-0 fieldContainer" style="word-wrap: break-word;">
 					{if $IS_SORTABLE}
-						<a>
-							<img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+						<a class="mr-3">
+							<img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG', $QUALIFIED_MODULE)}"/>
 						</a>
 					{/if}
-				</span>
-				<div class="col-md-10 marginLeftZero fieldContainer">
 					<span class="fieldLabel"></span>
-					<input type="hidden" value="" id="relatedFieldValue" />
 					<span class="float-right actions">
-						<button class="btn btn-primary btn-sm copyFieldLabel float-right marginLeft5" data-target="relatedFieldValue">
-							<span class="fas fa-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
-						</button>
+						<input type="hidden" value="" id="relatedFieldValue" />
 						{if $IS_SORTABLE}
-							<button class="btn btn-success btn-sm editFieldDetails marginLeft5">
-								<span class="fas fa-edit" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+							<button class="btn btn-success btn-xs editFieldDetails ml-1">
+								<span class="yfi yfi-full-editing-view" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 							</button>
 						{/if}
-						<button type="button" class="btn btn-danger btn-sm deleteCustomField marginLeft5" data-field-id="">
+						<button class="btn btn-primary btn-xs copyFieldLabel ml-1" data-target="relatedFieldValue">
+							<span class="fas fa-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
+						</button>
+						<button class="btn btn-danger btn-xs deleteCustomField ml-1" data-field-id="">
 							<span class="fas fa-trash-alt" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 						</button>
 					</span>

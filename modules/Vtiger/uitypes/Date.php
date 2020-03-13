@@ -178,14 +178,23 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Generate valid sample value.
-	 *
-	 * @throws \Exception
-	 *
-	 * @return false|string
+	 * {@inheritdoc}
 	 */
-	public function getSampleValue()
+	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
 	{
-		return date('Y-m-d', random_int(strtotime('-1 month'), strtotime('+1 month')));
+		if (!$params) {
+			return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
+		}
+		$p = [];
+		foreach (explode('|', $params) as $row) {
+			[$key,$val] = explode('=', $row);
+			$p[$key] = $val;
+		}
+		if (isset($p['format'])) {
+			$return = (new \DateTime($value))->format($p['format']);
+		} else {
+			$return = $this->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
+		}
+		return $return;
 	}
 }

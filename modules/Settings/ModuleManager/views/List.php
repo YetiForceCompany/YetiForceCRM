@@ -29,4 +29,16 @@ class Settings_ModuleManager_List_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MODULE', $moduleName);
 		echo $viewer->view('ListContents.tpl', $qualifiedModuleName, true);
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getFooterScripts(App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			'modules.Vtiger.resources.ListSearch',
+			"modules.{$moduleName}.resources.ListSearch"
+		]));
+	}
 }

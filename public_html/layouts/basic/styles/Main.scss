@@ -3,6 +3,7 @@
 //-------- global variables --------//
 @import "_Functions";
 @import "_Variables";
+@import "_Mixins";
 //-------- external --------//
 @import "../../../libraries/bootstrap/scss/bootstrap";
 @import "../../../libraries/select2-theme-bootstrap4/src/select2-bootstrap.scss";
@@ -15,6 +16,8 @@
 @import "libraries/_Quasar";
 //-------- base --------//
 @import "_Style";
+//-------- user preferences styles --------//
+@import "userPreferences/_RowHeight";
 //-------- components --------//
 @import "components/_Utilities";
 @import "components/_Global";
@@ -34,6 +37,8 @@
 @import "pages/_Detail";
 @import "pages/_List";
 @import "pages/_ListPreview";
+
 //-------- settings --------//
 @import "pages/Settings/_Dashboard";
 @import "pages/Settings/_Shop";
+@import "pages/Settings/_ModuleManager";

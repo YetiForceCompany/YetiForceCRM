@@ -44,6 +44,11 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 			} else {
 				App\Log::error("Email not found. username: {$account['username']}, folder: $folder, uid: $uid ", __METHOD__);
 			}
+		} elseif ($record && !\App\Privilege::isPermitted('OSSMailView', 'DetailView', $record)) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($record, $mailViewModel->getModule());
+			$sharedOwner = $recordModel->isEmpty('shownerid') ? [] : explode(',', $recordModel->get('shownerid'));
+			$sharedOwner[] = \App\User::getCurrentUserId();
+			$recordModel->set('shownerid', implode(',', $sharedOwner))->save();
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $record);
@@ -51,7 +56,7 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 			$relatedRecords = $mailViewModel->getRelatedRecords($record);
 			$viewer->assign('RELATED_RECORDS', $relatedRecords);
 		}
-		\App\ModuleHierarchy::getModulesByLevel();
+		\App\ModuleHierarchy::getModulesByLevel(0);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('URL', App\Config::main('site_URL'));
 		$viewer->view('MailActionBar.tpl', $moduleName);

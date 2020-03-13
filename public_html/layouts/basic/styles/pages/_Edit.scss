@@ -34,11 +34,23 @@
 .verticalScroll {
 	position: absolute;
 	left: 0;
-	height: calc(100vh - 128px);
+	height: calc(100vh - #{$h-edit-offset});
 	width: 100%;
 	overflow-x: hidden;
 	padding-right: 10px;
 	padding-left: 10px;
+}
+
+.o-register-warning + .mainContainer,
+.o-register-error + .mainContainer {
+	.verticalScroll {
+		height: calc(100vh - #{$h-edit-offset} - #{$h-register-panel});
+	}
+}
+.o-register-error + .o-register-warning + .mainContainer {
+	.verticalScroll {
+		height: calc(100vh -#{$h-edit-offset} - #{$h-register-panel} - #{$h-register-panel});
+	}
 }
 
 @include media-breakpoint-down(sm) {
@@ -93,4 +105,3 @@
 		margin-bottom: 0;
 	}
 }
-

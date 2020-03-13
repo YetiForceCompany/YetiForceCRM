@@ -153,7 +153,7 @@ class VTJsonCondition
 		if ('datetime' === $dataType || 'date' === $dataType) {
 			$fieldName = $cond['fieldname'];
 			$dateTimePair = ['date_start' => 'time_start', 'due_date' => 'time_end'];
-			if (!$recordModel->isEmpty($dateTimePair[$fieldName])) {
+			if (isset($dateTimePair[$fieldName]) && !$recordModel->isEmpty($dateTimePair[$fieldName])) {
 				$fieldValue = $recordModel->get($fieldName) . ' ' . $recordModel->get($dateTimePair[$fieldName]);
 			} else {
 				$fieldValue = $recordModel->get($fieldName);
@@ -470,7 +470,7 @@ class VTJsonCondition
 			case 'is record open':
 				if (
 					($fieldName = App\RecordStatus::getFieldName($recordModel->getModule()->getName())) &&
-				\in_array($recordModel->get($fieldName), App\RecordStatus::getStates($recordModel->getModule()->getName()), \App\RecordStatus::RECORD_STATE_OPEN)
+				\in_array($recordModel->get($fieldName), App\RecordStatus::getStates($recordModel->getModule()->getName(), \App\RecordStatus::RECORD_STATE_OPEN))
 				) {
 					return true;
 				}

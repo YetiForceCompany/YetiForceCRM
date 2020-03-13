@@ -28,14 +28,14 @@ class MultiDomain
 	 */
 	public static function findIdByDomain(string $moduleName, string $fieldName, string $domain)
 	{
-		$crmids = [];
+		$ids = [];
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->permissions = false;
 		if ($queryGenerator->getModuleField($fieldName)) {
 			$queryGenerator->setFields(['id']);
-			$queryGenerator->addNativeCondition(['like', $fieldName, ",$domain,"]);
-			$crmids = $queryGenerator->createQuery()->column();
+			$queryGenerator->addCondition($fieldName, $domain, 'a');
+			$ids = $queryGenerator->createQuery()->column();
 		}
-		return $crmids;
+		return $ids;
 	}
 }

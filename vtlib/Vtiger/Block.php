@@ -18,7 +18,8 @@ class Block
 {
 	/** ID of this block instance */
 	public $id;
-
+	/** Tab id  */
+	public $tabid;
 	/** Label for this block instance */
 	public $label;
 	public $sequence;
@@ -30,6 +31,7 @@ class Block
 	public $display_status = 1;
 	public $iscustom = 0;
 	public $module;
+	public $icon;
 
 	/**
 	 * Basic table name.
@@ -45,43 +47,47 @@ class Block
 	 */
 	public function __getNextSequence()
 	{
-		return (new \App\Db\Query())->from(self::$baseTable)->where(['tabid' => $this->module->id])->max('sequence') + 1;
+		return (new \App\Db\Query())->from(self::$baseTable)->where(['tabid' => $this->tabid])->max('sequence') + 1;
 	}
 
 	/**
 	 * Initialize this block instance.
 	 *
 	 * @param array Map of column name and value
-	 * @param mixed $module Mixed id or name of the module
+	 * @param mixed $module   Mixed id or name of the module
+	 * @param mixed $valuemap
 	 */
-	public function initialize($valuemap, $module = false)
+	public function initialize($valuemap)
 	{
-		$this->id = $valuemap['blockid'] ?? null;
-		$this->label = $valuemap['blocklabel'] ?? null;
-		$this->display_status = $valuemap['display_status'] ?? null;
-		$this->sequence = $valuemap['sequence'] ?? null;
-		$this->iscustom = $valuemap['iscustom'] ?? null;
-		$this->module = Module::getInstance($module ? $module : $valuemap['tabid']);
+		$this->id = $valuemap['blockid'] ?? $this->id ?? null;
+		$this->label = $valuemap['blocklabel'] ?? $this->label ?? null;
+		$this->display_status = $valuemap['display_status'] ?? $this->display_status ?? null;
+		$this->sequence = $valuemap['sequence'] ?? $this->sequence ?? null;
+		$this->iscustom = $valuemap['iscustom'] ?? $this->iscustom ?? null;
+		$this->tabid = $valuemap['tabid'] ?? $this->tabid;
+		$this->showtitle = $valuemap['show_title'] ?? $this->showtitle ?? null;
+		$this->visible = $valuemap['visible'] ?? $this->visible ?? 0;
+		$this->increateview = $valuemap['create_view'] ?? $this->increateview ?? 0;
+		$this->ineditview = $valuemap['edit_view'] ?? $this->ineditview ?? 0;
+		$this->indetailview = $valuemap['detail_view'] ?? $this->indetailview ?? 0;
+		$this->icon = $valuemap['icon'] ?? $this->icon ?? null;
+		$this->module = Module::getInstance($this->tabid);
 	}
 
 	/**
 	 * Create vtiger CRM block.
-	 *
-	 * @param \Module $moduleInstance
 	 */
-	public function __create($moduleInstance)
+	public function __create()
 	{
 		$db = \App\Db::getInstance();
-		$this->module = $moduleInstance;
-
 		if (!$this->sequence) {
 			$this->sequence = $this->__getNextSequence();
 		}
-		if ($this->display_status != 0) {
+		if (0 != $this->display_status) {
 			$this->display_status = 1;
 		}
 		$db->createCommand()->insert(self::$baseTable, [
-			'tabid' => $this->module->id,
+			'tabid' => $this->tabid,
 			'blocklabel' => $this->label,
 			'sequence' => $this->sequence,
 			'show_title' => $this->showtitle,
@@ -91,6 +97,7 @@ class Block
 			'detail_view' => $this->indetailview,
 			'display_status' => $this->display_status,
 			'iscustom' => $this->iscustom,
+			'icon' => $this->icon,
 		])->execute();
 		$this->id = $db->getLastInsertID(self::$baseTable . '_blockid_seq');
 		\App\Log::trace("Creating Block $this->label ... DONE", __METHOD__);
@@ -99,7 +106,21 @@ class Block
 
 	public function __update()
 	{
-		\App\Log::trace("Updating Block $this->label ... DONE", __METHOD__);
+		\App\Db::getInstance()
+			->createCommand()
+			->update(self::$baseTable, [
+				'blocklabel' => $this->label,
+				'sequence' => $this->sequence,
+				'show_title' => $this->showtitle,
+				'visible' => $this->visible,
+				'create_view' => $this->increateview,
+				'edit_view' => $this->ineditview,
+				'detail_view' => $this->indetailview,
+				'display_status' => $this->display_status,
+				'iscustom' => $this->iscustom,
+				'icon' => $this->icon,
+			], ['blockid' => $this->id])->execute();
+		\App\Log::trace("Updating Block {$this->label} [tabId:{$this->tabid}] ... DONE", __METHOD__);
 	}
 
 	/**
@@ -116,13 +137,18 @@ class Block
 	 * Save this block instance.
 	 *
 	 * @param Module Instance of the module to which this block is associated
+	 * @param mixed $moduleInstance
 	 */
-	public function save($moduleInstance = false)
+	public function save(?ModuleBasic $moduleInstance = null)
 	{
 		if ($this->id) {
 			$this->__update();
 		} else {
-			$this->__create($moduleInstance);
+			if ($moduleInstance) {
+				$this->tabid = $moduleInstance->getId();
+				$this->module = $moduleInstance;
+			}
+			$this->__create();
 		}
 		return $this->id;
 	}
@@ -131,6 +157,7 @@ class Block
 	 * Delete block instance.
 	 *
 	 * @param bool True to delete associated fields, False to avoid it
+	 * @param mixed $recursive
 	 */
 	public function delete($recursive = true)
 	{
@@ -153,7 +180,6 @@ class Block
 	public function addField(FieldBasic $fieldInstance)
 	{
 		$fieldInstance->save($this);
-
 		return $this;
 	}
 
@@ -162,6 +188,7 @@ class Block
 	 *
 	 * @param int|string block id or block label
 	 * @param mixed $module Mixed id or name of the module
+	 * @param mixed $value
 	 *
 	 * @return \self
 	 */
@@ -184,7 +211,7 @@ class Block
 		$instance = false;
 		if ($data) {
 			$instance = new self();
-			$instance->initialize($data, $tabId);
+			$instance->initialize($data);
 		}
 		return $instance;
 	}
@@ -210,7 +237,7 @@ class Block
 		$instances = false;
 		foreach ($blocks as $row) {
 			$instance = new self();
-			$instance->initialize($row, $moduleInstance->id);
+			$instance->initialize($row);
 			$instances[] = $instance;
 		}
 		return $instances;
@@ -221,6 +248,7 @@ class Block
 	 *
 	 * @param ModuleBasic $moduleInstance
 	 * @param bool true to delete associated fields, false otherwise
+	 * @param mixed $recursive
 	 */
 	public static function deleteForModule(ModuleBasic $moduleInstance, $recursive = true)
 	{

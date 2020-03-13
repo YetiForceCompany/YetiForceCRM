@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App;
@@ -90,6 +91,13 @@ class Request
 	 * @var array
 	 */
 	protected $purifiedValuesByHtml = [];
+	/**
+	 * List of headings and sanitization methods.
+	 *
+	 * @var array
+	 */
+	public $headersPurifierMap = [
+	];
 
 	/**
 	 * Constructor.
@@ -205,13 +213,14 @@ class Request
 	/**
 	 * Function to get the array values for a given key.
 	 *
-	 * @param string $key
-	 * @param mixed  $type
-	 * @param array  $value
+	 * @param string      $key
+	 * @param mixed       $type
+	 * @param array       $value
+	 * @param string|null $keyType
 	 *
 	 * @return array
 	 */
-	public function getArray($key, $type = false, $value = [])
+	public function getArray($key, $type = false, $value = [], ?string $keyType = null)
 	{
 		if (isset($this->purifiedValuesByArray[$key])) {
 			return $this->purifiedValuesByArray[$key];
@@ -230,12 +239,20 @@ class Request
 				}
 			}
 			if ($value) {
-				$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
+				if (\is_array($value)) {
+					$input = [];
+					foreach ($value as $k => $v) {
+						$k = $keyType ? Purifier::purifyByType($k, $keyType) : Purifier::purify($k);
+						$input[$k] = $type ? Purifier::purifyByType($v, $type) : Purifier::purify($v);
+					}
+					$value = $input;
+				} else {
+					$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
+				}
 			}
 
 			return $this->purifiedValuesByArray[$key] = (array) $value;
 		}
-
 		return $value;
 	}
 
@@ -402,7 +419,7 @@ class Request
 	 */
 	public function getMode()
 	{
-		return '' !== $this->getRaw('mode') ? $this->getByType('mode', 2) : '';
+		return '' !== $this->getRaw('mode') ? $this->getByType('mode', 'Alnum') : '';
 	}
 
 	/**
@@ -461,16 +478,15 @@ class Request
 			foreach ($_SERVER as $key => $value) {
 				if ('HTTP_' === substr($key, 0, 5)) {
 					$key = str_replace(' ', '-', \strtolower(str_replace('_', ' ', substr($key, 5))));
-					$data[$key] = Purifier::purify($value);
+					$data[$key] = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
 				}
 			}
 		} else {
 			$data = array_change_key_case(apache_request_headers(), \CASE_LOWER);
-			foreach ($data as &$value) {
-				$value = Purifier::purify($value);
+			foreach ($data as $key => &$value) {
+				$value = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
 			}
 		}
-
 		return $this->headers = $data;
 	}
 
@@ -486,7 +502,6 @@ class Request
 		if (!isset($this->headers)) {
 			$this->getHeaders();
 		}
-
 		return isset($this->headers[$key]) ? $this->headers[$key] : null;
 	}
 
@@ -539,8 +554,8 @@ class Request
 	 */
 	public function getModule($raw = true)
 	{
-		$moduleName = $this->getByType('module', 2);
-		if (!$raw && !$this->isEmpty('parent', true) && 'Settings' === ($parentModule = $this->getByType('parent', 2))) {
+		$moduleName = $this->getByType('module', 'Alnum');
+		if (!$raw && !$this->isEmpty('parent', true) && 'Settings' === ($parentModule = $this->getByType('parent', 'Alnum'))) {
 			$moduleName = "$parentModule:$moduleName";
 		}
 
@@ -673,8 +688,18 @@ class Request
 	public function validateReadAccess()
 	{
 		// Referer check if present - to over come && Check for user post authentication.
-		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId() && (0 !== stripos($_SERVER['HTTP_REFERER'], \App\Config::main('site_URL'))) && ('Install' !== $this->get('module'))) {
-			throw new \App\Exceptions\Csrf('Illegal request');
+		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId() && 'Install' !== $this->get('module')) {
+			$allowed = array_merge(\Config\Security::$allowedFrameDomains, \Config\Security::$allowedFormDomains);
+			$allowed[] = \App\Config::main('site_URL');
+			$throw = true;
+			foreach ($allowed as $value) {
+				if (0 === stripos($_SERVER['HTTP_REFERER'], $value)) {
+					$throw = false;
+				}
+			}
+			if ($throw) {
+				throw new \App\Exceptions\Csrf('Illegal request');
+			}
 		}
 	}
 
@@ -708,7 +733,6 @@ class Request
 		if (!static::$request) {
 			static::$request = new self($request ? $request : $_REQUEST);
 		}
-
 		return static::$request;
 	}
 
@@ -720,7 +744,7 @@ class Request
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return mied
+	 * @return mixed
 	 */
 	public static function __callStatic($name, $arguments = null)
 	{

@@ -74,7 +74,7 @@
 
 	&.gutter-horizontal {
 		cursor: ew-resize;
-		background-image: url('../images/vertical.png');
+		background-image: url("../images/vertical.png");
 		float: left;
 	}
 
@@ -107,6 +107,12 @@
 
 	&--left {
 		left: -8px;
+
+		&.d-block + .floatThead-wrapper {
+			.floatThead-container {
+				display: none;
+			}
+		}
 	}
 
 	&--right {

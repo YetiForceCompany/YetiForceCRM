@@ -223,7 +223,7 @@ Vtiger_AdvanceFilter_Js(
 					values[index + 1]['columns'] = iterationValues;
 				}
 				if (groupElement.find('div.groupCondition').length > 0) {
-					values[index + 1]['condition'] = conditionGroups.find('div.groupCondition [name="condition"]').val();
+					values[index + 1]['condition'] = groupElement.find('div.groupCondition [name="condition"]').val();
 				}
 			});
 			return values;
@@ -585,3 +585,5 @@ Vtiger_Owner_Field_Js(
 Workflows_Owner_Field_Js('Workflows_Sharedowner_Field_Js', {}, {});
 Vtiger_Picklist_Field_Js('Workflows_Picklist_Field_Js', {}, {});
 AdvanceFilter_Categorymultipicklist_Field_Js('Workflows_Categorymultipicklist_Field_Js', {}, {});
+Workflows_Owner_Field_Js('Workflows_Usercreator_Field_Js', {}, {});
+Vtiger_Picklist_Field_Js('Workflows_Country_Field_Js', {}, {});

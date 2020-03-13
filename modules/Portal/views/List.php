@@ -86,9 +86,12 @@ class Portal_List_View extends Vtiger_Index_View
 
 	public function getFooterScripts(\App\Request $request)
 	{
+		$moduleName = $request->getModule();
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Vtiger.resources.List',
-			'modules.' . $request->getModule() . '.resources.List',
+			'modules.' . $moduleName . '.resources.List',
+			'modules.Vtiger.resources.ListSearch',
+			"modules.{$moduleName}.resources.ListSearch"
 		]));
 	}
 }

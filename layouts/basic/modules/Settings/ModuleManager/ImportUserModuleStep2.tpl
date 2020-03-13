@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div id="importModules">
-		<div class="widget_header row mb-2">
+		<div class="o-breadcrumb widget_header row mb-2">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
@@ -119,7 +119,7 @@
 											{if $PARAMETER->type == 'checkbox'}
 												<label>
 													<input value="1" autocomplete="off" type="checkbox" name="param_{$PARAMETER->name}" {if $PARAMETER->checked == '1'}checked{/if}>&nbsp;&nbsp;
-													{\App\Language::translate($PARAMETER->lable, $QUALIFIED_MODULE)}
+													{\App\Language::translate($PARAMETER->lable, 'Other.ModuleUpdate')}
 												</label>
 											{/if}
 										</td>

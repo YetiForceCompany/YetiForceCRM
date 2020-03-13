@@ -1,7 +1,6 @@
 export_languages:
   - en-US
 files:
-  - &ref_languages_mapping
-    source: /languages/en-US/**/*.json
+  - source: /languages/en-US/**/*.json
     translation: /languages/%locale%/**/%original_file_name%
     languages_mapping: 

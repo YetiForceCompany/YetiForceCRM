@@ -26,7 +26,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function saveWidget(\App\Request $request)
+	public function saveWidget(App\Request $request)
 	{
 		$params = $request->getMultiDimensionArray('params', [
 			'tabid' => 'Integer',
@@ -35,6 +35,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				'type' => 'Alnum',
 				'label' => 'Text',
 				'relatedmodule' => 'Integer',
+				'relation_id' => 'Integer',
 				'relatedfields' => ['Text'],
 				'viewtype' => 'Alnum',
 				'limit' => 'Integer',
@@ -42,6 +43,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				'actionSelect' => 'Integer',
 				'no_result_text' => 'Integer',
 				'switchHeader' => 'Text',
+				'switchTypeInHeader' => 'Text',
 				'filter' => 'Text',
 				'checkbox' => 'Text',
 				'field_name' => 'Alnum',
@@ -60,7 +62,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function removeWidget(\App\Request $request)
+	public function removeWidget(App\Request $request)
 	{
 		$params = $request->getMultiDimensionArray('params', [
 			'wid' => 'Integer',
@@ -74,7 +76,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function updateSequence(\App\Request $request)
+	public function updateSequence(App\Request $request)
 	{
 		$params = $request->getMultiDimensionArray('params', [
 			'tabid' => 'Integer',

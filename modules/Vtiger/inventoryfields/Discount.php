@@ -90,7 +90,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 			if (!\App\Json::isEmpty($item['discountparam'] ?? '') && ($discountsConfig = \Vtiger_Inventory_Model::getDiscountsConfig())) {
 				$discountParam = \App\Json::decode($item['discountparam']);
 				$totalPrice = static::getInstance($this->getModuleName(), 'TotalPrice')->getValueForSave($item, $userFormat);
-				$value = $this->getDiscountValue($discountParam, $totalPrice, (int) $discountsConfig['aggregation']);
+				$value = $this->getDiscountValue($discountParam ?? [], $totalPrice, (int) $discountsConfig['aggregation']);
 			}
 		} else {
 			$value = $userFormat ? $this->getDBValue($item[$column]) : $item[$column];
@@ -110,7 +110,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	private function getDiscountValue(array $discountParam, float $totalPrice, int $mode): float
 	{
 		$value = $discountValue = 0.0;
-		$types = $discountParam['aggregationType'];
+		$types = $discountParam['aggregationType'] ?? [];
 		if (!\is_array($types)) {
 			$types = [$types];
 		}

@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Vtiger_BasicAjax_View extends Vtiger_Basic_View
+class Vtiger_BasicAjax_View extends \App\Controller\View\Page
 {
 	use \App\Controller\ExposeMethod;
 	use	\App\Controller\ClearProcess;

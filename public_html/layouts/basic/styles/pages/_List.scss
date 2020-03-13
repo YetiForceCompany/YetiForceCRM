@@ -113,7 +113,8 @@
 }
 
 td.fieldValue {
-	input, .input-group {
+	input,
+	.input-group {
 		margin-bottom: 0;
 	}
 }
@@ -191,13 +192,18 @@ td.fieldValue {
 }
 
 .listViewEntries td {
-	vertical-align: middle;
-	cursor: pointer;
-	overflow: visible;
-	padding: 5px;
+	&:not(.listButtons) {
+		vertical-align: middle;
+		cursor: pointer;
+		overflow: visible;
+		padding: 5px;
+	}
 }
 
-.listViewEntriesTable td.listViewEntryValue:hover .actionImages, .listViewEntries td:hover .actionImages, .listViewEntriesTable td.listViewEntryValue:hover .actions, .listViewEntries td:hover .actions {
+.listViewEntriesTable td.listViewEntryValue:hover .actionImages,
+.listViewEntries td:hover .actionImages,
+.listViewEntriesTable td.listViewEntryValue:hover .actions,
+.listViewEntries td:hover .actions {
 	opacity: 1;
 
 	/*for IE*/
@@ -205,7 +211,8 @@ td.fieldValue {
 	filter: alpha(opacity=100);
 }
 
-#selectAllMsgDiv, #deSelectAllMsgDiv {
+#selectAllMsgDiv,
+#deSelectAllMsgDiv {
 	display: none;
 	background-color: #fafad2;
 	text-align: center;

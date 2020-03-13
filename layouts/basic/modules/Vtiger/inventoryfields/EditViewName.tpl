@@ -5,10 +5,10 @@
 		<div class="rowName">
 			{assign var="FIELD_NAME" value="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]"}
 			{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml($FIELD->get('params'))}
-			<div class="input-group input-group-sm u-min-w-300px">
+			<div class="invUitype_{$MODULE}_{$FIELD_NAME} input-group input-group-sm u-min-w-300px">
 				<div class="input-group-prepend">
 <span class="input-group-text js-popover-tooltip"
-	  data-js="popover" data-content=" {\App\Language::translate('SINGLE_'|cat:$REFERENCE_MODULE, $REFERENCE_MODULE)}"><span class="js-module-icon userIcon-{$REFERENCE_MODULE}" data-js="class: userIcon-"></span></span>
+	  data-js="popover" data-content=" {\App\Language::translate('SINGLE_'|cat:$REFERENCE_MODULE, $REFERENCE_MODULE)}"><span class="js-module-icon yfm-{$REFERENCE_MODULE}" data-js="class: yfm-"></span></span>
 				</div>
 				<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCE_MODULE}"/>
 				<input id="{$FIELD_NAME}_display" name="{$FIELD_NAME}_display" type="text"

@@ -88,7 +88,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'Text', 'Decimal', 'Integer', 'AdvPercentage', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'Country',
 			'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree',
 			'MultiReferenceValue', 'CategoryMultipicklist', 'DateTime', 'Image', 'MultiImage', 'Twitter', 'MultiEmail',
-			'Smtp', 'ServerAccess', 'MultiDomain', 'RangeTime'
+			'Smtp', 'ServerAccess', 'MultiDomain', 'RangeTime', 'Token'
 		];
 	}
 
@@ -207,6 +207,8 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			\App\Db::getInstance()->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
 		} elseif ('ServerAccess' === $fieldType) {
 			$fieldParams = (int) $params['server'];
+		} elseif ('Token' === $fieldType) {
+			(new \App\BatchMethod(['method' => '\App\Fields\Token::setTokens', 'params' => [$name, $moduleName]]))->save();
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
 		$uitype = $details['uitype'];
@@ -243,7 +245,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldModel->setRelatedModules($moduleList);
 			foreach ($moduleList as $module) {
 				$targetModule = vtlib\Module::getInstance($module);
-				$targetModule->setRelatedList($this, $moduleName, ['Add'], 'getDependentsList');
+				$targetModule->setRelatedList($this, $moduleName, ['Add'], 'getDependentsList', $name);
 			}
 		}
 		App\Cache::clear();
@@ -355,11 +357,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			case 'Integer':
 				$fieldLength = $params['fieldLength'];
 				$uitype = 7;
-				if ($fieldLength > 10) {
-					$type = $importerType->bigInteger($fieldLength)->defaultValue(0);
-				} else {
-					$type = $importerType->integer($fieldLength)->defaultValue(0);
-				}
+				$type = $importerType->integer($fieldLength)->defaultValue(0);
 				$uichekdata = 'I~O';
 				break;
 			case 'Related1M':
@@ -381,7 +379,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			case 'MultiReferenceValue':
 				$uitype = 305;
 				$type = $importerType->text();
-				$uichekdata = 'C~O';
+				$uichekdata = 'V~O';
 				$displayType = 5;
 				break;
 			case 'MultiImage':
@@ -407,7 +405,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			case 'Country':
 				$uitype = 35;
 				$uichekdata = 'V~O';
-				$type = $importerType->text();
+				$type = $importerType->stringType(255);
 				break;
 			case 'Twitter':
 				$fieldLength = Vtiger_Twitter_UIType::MAX_LENGTH;
@@ -439,6 +437,12 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uitype = 308;
 				$uichekdata = 'I~O';
 				$type = $importerType->integer()->null();
+				break;
+			case 'Token':
+				$uitype = 324;
+				$uichekdata = 'V~O';
+				$displayType = 3;
+				$type = $importerType->stringType(Vtiger_Token_UIType::MAX_LENGTH)->defaultValue('');
 				break;
 			default:
 				break;
@@ -507,7 +511,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'id', 'seq', 'header_type', 'header_class',
 			'module', 'parent', 'action', 'mode', 'view', 'selected_ids',
 			'excluded_ids', 'search_params', 'search_key', 'page', 'operator',
-			'source_module', 'viewname', 'sortorder', 'orderby', 'inventory'
+			'source_module', 'viewname', 'sortorder', 'orderby', 'inventory', 'private', 'src_record', 'relationId', 'relation_id'
 		]);
 	}
 
@@ -597,7 +601,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getRelations()
 	{
 		if (null === $this->relations) {
-			$this->relations = Vtiger_Relation_Model::getAllRelations($this, false);
+			$this->relations = Vtiger_Relation_Model::getAllRelations($this, false, true, true, 'related_tabid');
 		}
 		// Contacts relation-tab is turned into custom block on DetailView.
 		if ('Calendar' === $this->getName()) {
@@ -636,14 +640,20 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		return $treeList;
 	}
 
-	public static function getRelationsTypes()
+	public static function getRelationsTypes(?string $moduleName = null)
 	{
-		return [
+		$types = [
 			'getRelatedList' => 'PLL_RELATED_LIST',
 			//'getDependentsList' => 'PLL_DEPENDENTS_LIST',
 			'getManyToMany' => 'PLL_SPLITED_RELATED_LIST',
 			'getAttachments' => 'PLL_ATTACHMENTS',
+			// 'getActivities' => 'PLL_ACTIVITIES',
+			'getEmails' => 'PLL_EMAILS',
 		];
+		if ('OSSMailView' === $moduleName) {
+			$types['getRecordToMails'] = 'PLL_RECORD_TO_MAILS';
+		}
+		return $types;
 	}
 
 	public static function getRelationsActions()

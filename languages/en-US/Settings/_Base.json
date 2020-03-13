@@ -372,6 +372,7 @@
     "LBL_MISSING_LICENSE_FILE": "Missing license file",
     "LBL_SUGAR_DESCRIPTION": "Vtiger was based on Sugar CRM. Currently, only several Sugar files remain in YetiForce.",
     "LBL_VTIGER_DESCRIPTION": "Approximately 30% of Vtiger's orginal code is left. The remaining code has been rewritten and expanded.",
+    "LBL_CHAT_SOUND_DESCRIPTION": "Chat sound",
     "LBL_YETIFORCE_SHOP": "Store",
     "LBL_YETIFORCE_ISSUES": "Free support",
     "LBL_YETIFORCE_ASSISTANCE": "Paid support",
@@ -380,7 +381,10 @@
     "LBL_BUSINESS_HOURS": "Business hours",
     "LBL_SEARCH_PLACEHOLDER": "Search...",
     "LBL_VULNERABILITIES": "Vulnerabilities",
-    "LBL_VULNERABILITIES_DESCRIPTION": "List of libraries vulnerabilities"
+    "LBL_VULNERABILITIES_DESCRIPTION": "List of libraries vulnerabilities",
+    "LBL_SHOW_ADVANCED_SEQUENCE_SETTINGS": "Picklist sequence settings",
+    "LBL_ADVANCED_RECORD_NUMBERING": "Picklist sequence settings",
+    "LBL_PREFIX": "Prefix"
   },
   "js": {
     "JS_AUTHORIZATION_COMPLETE": "Authorization successful",
@@ -408,7 +412,7 @@
     "JS_COLUMN_EXIST": "Error while adding field",
     "JS_NOTIFY_COPY_TEXT": "Copied variable to clipboard",
     "JS_RS_ADD_YEAR_VARIABLE": "Copy year variable to prefix or postfix",
-    "JS_RS_ADD_MONTH_VARIABLE": "Copy monyh variable to prefix or postfix",
+    "JS_RS_ADD_MONTH_VARIABLE": "Copy month variable to prefix or postfix",
     "JS_RS_ADD_DAY_VARIABLE": "Copy day variable to prefix or postfix",
     "JS_PICKLIST_TOO_MANY": "Numbering can only contain one picklist variable"
   }

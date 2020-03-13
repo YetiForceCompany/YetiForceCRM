@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<!-- tpl-Base-JSResources -->
-	<div>
+	<div id="javascript">
 		{foreach key=index item=jsModel from=$FOOTER_SCRIPTS}
       <script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 		{/foreach}

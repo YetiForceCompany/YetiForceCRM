@@ -12,7 +12,7 @@
 {strip}
 	<div class="tpl-Settings-Vtiger-CustomRecordNumbering">
 		<form id="EditView" method="POST">
-			<div class="widget_header row mb-3">
+			<div class="o-breadcrumb widget_header row mb-3">
 				<div class="col-6 col-xl-9 col-12">
 					<div class="o-breadcrumb widget_header mb-2 d-flex justify-content-between px-2 w-100">
 						<div class="o-breadcrumb__container">
@@ -20,7 +20,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-6 col-xl-3 col-12 d-flex align-items-center mb-xl-0 mb-3">
+				<div class="col-6 col-xl-3 col-12 d-flex align-items-center mb-xl-0 mb-3 pt-md-0 pt-1">
 					<button type="button" class="btn btn-info float-right" name="updateRecordWithSequenceNumber">
 						<span class="fas fa-exchange-alt u-mr-5px"></span>{\App\Language::translate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}
 					</button>
@@ -31,7 +31,6 @@
 					<table class="table table-bordered">
 						{assign var=DEFAULT_MODULE_NAME value=$DEFAULT_MODULE_MODEL->getName()}
 						{assign var=DEFAULT_MODULE_DATA value=\App\Fields\RecordNumber::getInstance($DEFAULT_MODULE_NAME)}
-						{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 						<thead>
 						<tr>
 							<th width="30%" class="{$WIDTHTYPE}">
@@ -188,10 +187,18 @@
 								</label>
 							</td>
 							<td class="fieldValue {$WIDTHTYPE} border-left-0 position-relative">
-								<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA->get('cur_id')}"
-									   data-old-sequence-number="{$DEFAULT_MODULE_DATA->get('cur_id')}"
-									   name="sequenceNumber"
-									   data-validation-engine="validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]"/>
+								<div class="input-group w-100">
+									<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA->get('cur_id')}"
+											data-old-sequence-number="{$DEFAULT_MODULE_DATA->get('cur_id')}"
+											name="sequenceNumber"
+											data-validation-engine="validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]"/>
+									<div class="input-group-append">
+										<button class="btn btn-success float-right js-adavanced-sequence d-none" type="button"
+										title="{\App\Language::translate('LBL_SHOW_ADVANCED_SEQUENCE_SETTINGS', $QUALIFIED_MODULE)}" data-js="click">
+											<span class="yfi yfi-system-configuration"></span>
+										</button>
+									</div>
+								</div>
 							</td>
 						</tr>
 						<tr>

@@ -72,7 +72,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn btn-sm btn-info',
 			],
 			[
@@ -96,7 +96,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($key)
+	public function getDisplayValue(string  $key)
 	{
 		$value = $this->get($key);
 		switch ($key) {
@@ -115,6 +115,13 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				if (isset(\App\Mailer::$statuses[$value])) {
 					$value = \App\Mailer::$statuses[$value];
 				}
+				break;
+			case 'unsubscribe':
+				$unsubscribe = '';
+				foreach (App\Json::decode($value) as $row) {
+					$unsubscribe .= "<$row>,";
+				}
+				$value = App\Purifier::encodeHtml(rtrim($unsubscribe, ','));
 				break;
 			default:
 				break;

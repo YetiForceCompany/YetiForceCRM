@@ -145,6 +145,16 @@ class Module
 	}
 
 	/**
+	 * Get all module names.
+	 *
+	 * @return string[]
+	 */
+	public static function getAllModuleNames()
+	{
+		return static::$tabdataCache['tabName'];
+	}
+
+	/**
 	 * Function to get the list of module for which the user defined sharing rules can be defined.
 	 *
 	 * @param array $eliminateModules
@@ -258,6 +268,7 @@ class Module
 	public static function createModuleMetaFile()
 	{
 		Cache::delete('moduleTabs', 'all');
+		Cache::delete('getTrackingModules', 'all');
 		$filename = ROOT_DIRECTORY . '/user_privileges/tabdata.php';
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {

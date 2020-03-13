@@ -19,11 +19,16 @@ class YetiForceDisableBranding extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
+	public $label = 'YetiForce Branding';
+	/**
+	 * {@inheritdoc}
+	 */
 	public $prices = [
 		'Micro' => 10,
 		'Small' => 25,
 		'Medium' => 50,
 		'Large' => 100,
+		'Corporation' => 500,
 	];
 
 	/**
@@ -36,8 +41,8 @@ class YetiForceDisableBranding extends \App\YetiForce\Shop\AbstractBaseProduct
 	 */
 	public function verify($cache = true): bool
 	{
-		if (\Config\Components\Branding::$isCustomerBrandingActive) {
-			return \App\YetiForce\Shop::check('DisableBranding');
+		if (\App\YetiForce\Register::getProducts('YetiForceDisableBranding')) {
+			return \App\YetiForce\Shop::check('YetiForceDisableBranding');
 		}
 		return true;
 	}

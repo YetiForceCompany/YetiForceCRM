@@ -23,11 +23,13 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		],
 		'name' => [
 			'registerView' => true,
-			'paymentData' => true
+			'paymentData' => true,
+			'infoText' => 'LBL_NAME_INFO',
 		],
 		'vat_id' => [
 			'paymentData' => true,
-			'registerView' => true
+			'registerView' => true,
+			'infoText' => 'LBL_VAT_ID_INFO',
 		],
 		'country' => [
 			'registerView' => true,
@@ -51,7 +53,8 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 			'registerView' => true
 		],
 		'website' => [
-			'registerView' => true
+			'registerView' => true,
+			'infoText' => 'LBL_WEBSITE_INFO',
 		],
 		'spacer' => [
 			'registerView' => true

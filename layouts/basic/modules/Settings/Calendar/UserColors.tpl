@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-Calendar-UsersColors UserColors">
-		<div class="widget_header row mb-2">
+		<div class="o-breadcrumb widget_header row mb-2">
 			<div class="col-md-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				{\App\Language::translate('LBL_CALENDAR_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}

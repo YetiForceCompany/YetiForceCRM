@@ -1,25 +1,37 @@
 <!-- /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
   <q-footer class="bg-blue-grey-10 text-white">
-    <q-bar>
-      <q-breadcrumbs>
+    <q-bar class="q-bar--fit justify-between">
+      <q-breadcrumbs gutter="none">
         <q-breadcrumbs-el class="text-white">
-          <icon
+          <YfIcon
             class="q-breadcrumbs__el-icon q-breadcrumbs__el-icon--with-label q-icon"
             :icon="currentTab.icon"
             :size="currentTab.icon.startsWith('yfi') ? '16px' : ''"
           />
           {{ currentTab.label }}
         </q-breadcrumbs-el>
-        <q-breadcrumbs-el v-if="tab !== 'unread'" class="text-white">
-          <icon
+        <q-breadcrumbs-el
+          v-if="tab !== 'unread'"
+          class="text-white"
+        >
+          <YfIcon
             class="q-breadcrumbs__el-icon q-breadcrumbs__el-icon--with-label q-icon"
             :icon="roomType.icon"
             size="16px"
           />
           {{ roomType.label }}
         </q-breadcrumbs-el>
-        <q-breadcrumbs-el v-if="tab === 'chat'" class="text-white text-cyan-9 text-bold" :label="roomName" />
+        <q-breadcrumbs-el
+          v-if="isChatTabRoomName"
+          class="text-white text-cyan-9 text-bold u-ellipsis-2-lines"
+          :label="tabChatRoomName"
+        />
+        <template #separator>
+          <div class="q-breadcrumbs__separator q-mx-sm">
+            /
+          </div>
+        </template>
       </q-breadcrumbs>
     </q-bar>
   </q-footer>
@@ -27,11 +39,11 @@
 <script>
 import { getGroupIcon } from '../utils/utils.js'
 import { createNamespacedHelpers } from 'vuex'
-const { mapActions, mapGetters } = createNamespacedHelpers('Chat')
+const { mapGetters } = createNamespacedHelpers('Chat')
 export default {
   name: 'ChatFooter',
   computed: {
-    ...mapGetters(['data', 'tab', 'historyTab']),
+    ...mapGetters(['currentRoomData', 'tab', 'historyTab']),
     currentTab() {
       switch (this.tab) {
         case 'chat':
@@ -54,10 +66,10 @@ export default {
     roomType() {
       if (
         this.tab !== 'unread' &&
-        this.data.currentRoom !== undefined &&
-        this.data.currentRoom.roomType !== undefined
+        this.currentRoomData.roomType !== undefined
       ) {
-        const roomType = this.tab === 'chat' ? this.data.currentRoom.roomType : this.historyTab
+        const roomType =
+          this.tab === 'chat' ? this.currentRoomData.roomType : this.historyTab
         return {
           label: this.translate(`JS_CHAT_ROOM_${roomType.toUpperCase()}`),
           icon: this.getGroupIcon(roomType)
@@ -66,13 +78,11 @@ export default {
         return { label: '', icon: '' }
       }
     },
-    roomName() {
-      let roomName = ''
-      const currentRoom = this.data.currentRoom
-      if (this.tab === 'chat' && currentRoom !== undefined && currentRoom.roomType !== undefined) {
-        roomName = this.data.roomList[currentRoom.roomType][currentRoom.recordId].name
-      }
-      return roomName
+    tabChatRoomName() {
+      return this.currentRoomData.name
+    },
+    isChatTabRoomName() {
+      return this.tab === 'chat' && this.currentRoomData.name
     }
   },
   methods: {
@@ -80,4 +90,9 @@ export default {
   }
 }
 </script>
-<style module lang="stylus"></style>
+<style scoped>
+.q-bar--fit {
+  height: auto;
+  min-height: 32px;
+}
+</style>

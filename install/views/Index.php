@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -9,10 +10,13 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Install_Index_View extends \App\Controller\View
+class Install_Index_View extends \App\Controller\View\Base
 {
 	use \App\Controller\ExposeMethod;
-
+	/**
+	 * {@inheritdoc}
+	 */
+	public $csrfActive = false;
 	/**
 	 * @var bool
 	 */
@@ -107,6 +111,7 @@ class Install_Index_View extends \App\Controller\View
 		$this->loadJsConfig($request);
 		$this->viewer = new Vtiger_Viewer();
 		$this->viewer->setTemplateDir('install/tpl/');
+		$this->viewer->assign('IS_IE', \App\RequestUtil::getBrowserInfo()->ie);
 		$this->viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$this->viewer->assign('LANG', $request->getByType('lang', 1));
 		$this->viewer->assign('NEXT_STEP', 'step' . ($this->stepNumber + 1));

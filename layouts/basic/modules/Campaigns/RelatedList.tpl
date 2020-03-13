@@ -17,8 +17,7 @@
 			<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}"/>
 			<input type="hidden" name="relatedModuleName" class="relatedModuleName"
 				   value="{$RELATED_MODULE->get('name')}"/>
-			<input type="hidden" value="{$ORDER_BY}" id="orderBy"/>
-			<input type="hidden" value="{$SORT_ORDER}" id="sortOrder"/>
+			<input type="hidden" id="orderBy" value="{\App\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}">
 			<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries"/>
 			<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'/>
 			<input type="hidden" id="recordsCount" value=""/>
@@ -83,7 +82,7 @@
 						<div class="btn-group col-md-3 mb-2">
 							<span class="customFilterMainSpan">
 								{if isset($CUSTOM_VIEWS)}
-									<select id="recordsFilter" class="col-md-12"
+									<select id="customFilter" class="col-md-12"
 											data-placeholder="{\App\Language::translate('LBL_SELECT_TO_LOAD_LIST', $RELATED_MODULE->getName())}">
 										{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 											<optgroup label="{\App\Language::translate($GROUP_LABEL)}">
@@ -207,7 +206,6 @@
 			</div>
 			{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $RELATED_MODULE->getName()) MODULE_MODEL=$RELATED_MODULE}
 			<div class="relatedContents">
-				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 				<table class="table tableBorderHeadBody listViewEntriesTable {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if}">
 					<thead>
 					<tr class="listViewHeaders">
@@ -216,18 +214,22 @@
 								   id="relatedListViewEntriesMainCheckBox"/>
 						</th>
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-							<th nowrap>
+							{assign var=HEADER_FIELD_NAME value=$HEADER_FIELD->getFullName()}
+							<th nowrap class="{if isset($ORDER_BY[$HEADER_FIELD_NAME])} columnSorted{/if}">
 								{if $HEADER_FIELD->getColumnName() eq 'access_count' or $HEADER_FIELD->getColumnName() eq 'idlists' }
 									<a href="javascript:void(0);"
 									   class="noSorting">{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}</a>
 								{elseif $HEADER_FIELD->getColumnName() eq 'time_start'}
 								{else}
-									<a href="javascript:void(0);" class="relatedListHeaderValues"
-									   data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->getColumnName()}{$NEXT_SORT_ORDER}{else}ASC{/if}"
-									   data-fieldname="{$HEADER_FIELD->getColumnName()}">{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
-										&nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->getColumnName()}<span
-										class="{$SORT_IMAGE}"></span>{/if}
-									</a>
+									<span class="listViewHeaderValues float-left  {if $HEADER_FIELD->isListviewSortable()} js-change-order u-cursor-pointer{/if}"
+										data-nextsortorderval="{if isset($ORDER_BY[$HEADER_FIELD_NAME]) && $ORDER_BY[$HEADER_FIELD_NAME] eq \App\Db::ASC}{\App\Db::DESC}{else}{\App\Db::ASC}{/if}"
+										data-columnname="{$HEADER_FIELD_NAME}"
+										data-js="click">
+										{$HEADER_FIELD->getFullLabelTranslation($RELATED_MODULE)}
+										{if isset($ORDER_BY[$HEADER_FIELD_NAME])}
+											&nbsp;&nbsp;<span class="fas {if $ORDER_BY[$HEADER_FIELD_NAME] eq \App\Db::DESC}fa-chevron-down{else}fa-chevron-up{/if}"></span>
+										{/if}
+									</span>
 								{/if}
 							</th>
 						{/foreach}
@@ -267,7 +269,7 @@
 						{assign var="RECORD_COLORS" value=$RELATED_RECORD->getListViewColor()}
 						<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}'
 							data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'>
-							<td class="medium noWrap leftRecordActions {$WIDTHTYPE}"
+							<td class="noWrap leftRecordActions listButtons {$WIDTHTYPE}"
 								{if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
 								<div>
 									<input type="checkbox" value="{$RELATED_RECORD->getId()}"
@@ -306,7 +308,7 @@
 												<div class="c-btn-link btn-group mr-1">
 													<a role="button" class="btn btn-sm btn-default"
 													   href='{$RELATED_RECORD->getEditViewUrl()}'>
-															<span class="fas fa-edit align-middle"
+															<span class="yfi yfi-full-editing-view align-middle"
 																  title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
 													</a>
 												</div>

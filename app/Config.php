@@ -35,6 +35,18 @@ class Config
 	}
 
 	/**
+	 * Get js configuration by key.
+	 *
+	 * @param string $key
+	 *
+	 * @return mixed
+	 */
+	public static function getJsEnvByKey(string $key)
+	{
+		return self::$jsEnv[$key] ?? null;
+	}
+
+	/**
 	 * Set js environment variables.
 	 *
 	 * @param string $key

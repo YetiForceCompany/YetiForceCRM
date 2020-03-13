@@ -22,9 +22,9 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 		$blocksEliminatedArray = ['calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION', 'LBL_RELATED_TO', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION'],
 			'helpdesk' => ['LBL_TICKET_RESOLUTION', 'LBL_COMMENTS'],
 			'faq' => ['LBL_COMMENT_INFORMATION']];
-		if (in_array(strtolower($this->module->name), $actionNotSupportedModules)) {
+		if (\in_array(strtolower($this->module->name), $actionNotSupportedModules)) {
 			if (!empty($blocksEliminatedArray[strtolower($this->module->name)])) {
-				if (in_array($this->get('label'), $blocksEliminatedArray[strtolower($this->module->name)])) {
+				if (\in_array($this->get('label'), $blocksEliminatedArray[strtolower($this->module->name)])) {
 					return false;
 				}
 			} else {

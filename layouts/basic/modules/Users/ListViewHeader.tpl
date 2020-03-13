@@ -12,7 +12,7 @@
 {strip}
 <!-- tpl-Users-ListViewHeader -->
 <div class="listViewPageDiv">
-	<div class="widget_header row">
+	<div class="o-breadcrumb widget_header row">
 		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>

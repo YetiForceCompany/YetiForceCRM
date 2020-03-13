@@ -18,6 +18,10 @@ class RecordRelatedList extends \Api\Core\BaseAction
 {
 	/** @var string[] Allowed request methods */
 	public $allowedMethod = ['GET'];
+	/**
+	 * {@inheritdoc}
+	 */
+	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-parent-id'];
 
 	/**
 	 * Get method.

@@ -1,5 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-<div class="widget_header row">
+<div class="o-breadcrumb widget_header row">
 	<div class="col-12">
 		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 	</div>
@@ -218,7 +218,7 @@
 							{if !isset($last_value) || $last_value neq $item['name']}
 								<optgroup label="{\App\Language::translate($item['name'], $item['name'])}">
 							{/if}
-							<option value="{$item['key']}" {if in_array($item['key'], $EMAILSEARCHLIST) } selected="selected"{/if}>{\App\Language::translate($item['name'], $item['name'])}
+							<option value="{$item['key']}" {if in_array($item['key'], $EMAILSEARCHLIST) || in_array($item['value'], $EMAILSEARCHLIST)} selected="selected"{/if}>{\App\Language::translate($item['name'], $item['name'])}
 							- {\App\Language::translate($item['fieldlabel'], $item['name'])}</option>
 							{assign var=last_value value=$item['name']}
 							{if $last_value neq $item['name']}
@@ -254,7 +254,7 @@
 								<strong>
 									{assign var="TICKET_STATUS" value=\App\Config::component('Mail', 'HELPDESK_OPENTICKET_STATUS')}
 									{\App\Language::translate('LBL_OPEN_TICKET', $MODULE_NAME)}:&nbsp;
-									"{\App\Language::translate($TICKET_STATUS, $MODULE_NAME)}"
+									"{\App\Language::translate($TICKET_STATUS, 'HelpDesk')}"
 								</strong>
 								{if empty($TICKET_STATUS) }
 									<strong class="color-red-a200">{\App\Language::translate('LBL_EMPTY_PARAMETER', $MODULE_NAME)}</strong>

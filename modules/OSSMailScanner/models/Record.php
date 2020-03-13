@@ -5,6 +5,7 @@
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 {
@@ -49,9 +50,18 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return array
 	 */
-	public static function getIdentities($id)
+	public static function getIdentities($id = 0)
 	{
-		return (new \App\Db\Query())->select(['name', 'email', 'identity_id'])->from('roundcube_identities')->where(['user_id' => $id])->all();
+		if (App\Cache::staticHas('OSSMailScanner_Record_Model::getIdentities', $id)) {
+			return App\Cache::staticGet('OSSMailScanner_Record_Model::getIdentities', $id);
+		}
+		$query = (new \App\Db\Query())->select(['name', 'email', 'identity_id'])->from('roundcube_identities');
+		if ($id) {
+			$query = $query->where(['user_id' => $id]);
+		}
+		$rows = $query->all();
+		App\Cache::staticSave('OSSMailScanner_Record_Model::getIdentities', $id, $rows);
+		return $rows;
 	}
 
 	/**
@@ -391,15 +401,16 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 * Return email search results.
 	 *
 	 * @param string $module
+	 * @param mixed  $onlyMailUitype
 	 *
 	 * @return array
 	 */
-	public static function getEmailSearch($module = false)
+	public static function getEmailSearch($module = false, $onlyMailUitype = true)
 	{
 		$return = [];
 		$query = (new App\Db\Query())->from('vtiger_field')
 			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-			->where(['and', ['or', ['uitype' => 13], ['uitype' => 319]], ['<>', 'vtiger_field.presence', 1], ['<>', 'vtiger_tab.name', 'Users']]);
+			->where(['and', ['uitype' => ($onlyMailUitype ? 13 : [13, 319])], ['<>', 'vtiger_field.presence', 1], ['<>', 'vtiger_tab.name', 'Users']]);
 		if ($module) {
 			$query->andWhere(['vtiger_tab.name' => $module]);
 		}
@@ -407,7 +418,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$return[] = [
-				'key' => $row['fieldname'] . '=' . $row['name'],
+				'key' => "{$row['fieldname']}={$row['name']}={$row['uitype']}",
+				'value' => "{$row['fieldname']}={$row['name']}", // item to delete in next version
 				'fieldlabel' => $row['fieldlabel'],
 				'tablename' => $row['tablename'],
 				'columnname' => $row['columnname'],
@@ -417,7 +429,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			];
 		}
 		$dataReader->close();
-
 		return $return;
 	}
 
@@ -441,7 +452,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$return = explode(',', $value);
 		}
 		\App\Cache::staticSave($cacheKey, $cacheValue, $return);
-
 		return $return;
 	}
 
@@ -833,13 +843,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$mail->setMailCrmId($row['ossmailviewid']);
 		$mail->setFolder($row['mbox']);
 		$mail->set('message_id', $row['uid']);
-		$mail->set('toaddress', $row['to_email']);
-		$mail->set('fromaddress', $row['from_email']);
+		$mail->set('to_email', $row['to_email']);
+		$mail->set('from_email', $row['from_email']);
 		$mail->set('reply_to_email', $row['reply_to_email']);
-		$mail->set('ccaddress', $row['cc_email']);
-		$mail->set('bccaddress', $row['bcc_email']);
+		$mail->set('cc_email', $row['cc_email']);
+		$mail->set('bcc_email', $row['bcc_email']);
 		$mail->set('subject', $row['subject']);
-		$mail->set('udate_formated', $row['date']);
+		$mail->set('date', $row['date']);
 		$mail->set('body', $row['content']);
 
 		foreach ($actions as $action) {

@@ -1,4 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+body {
+	overflow: hidden;
+}
 
 .mainBody {
 	position: absolute;
@@ -15,7 +18,7 @@
 .c-btn-fixed {
 	bottom: $h-footer;
 }
-.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+.container-fluid[class$="-knowledgebase-container"] .contentsDiv {
 	min-height: calc(100vh - #{$h-header} - #{$h-footer});
 }
 .user-info--active {
@@ -23,7 +26,7 @@
 	.c-btn-fixed {
 		bottom: $h-footer-user-info;
 	}
-	.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+	.container-fluid[class$="-knowledgebase-container"] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer-user-info});
 	}
 }
@@ -32,7 +35,7 @@
 	.c-btn-fixed {
 		bottom: $h-footer-limited;
 	}
-	.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+	.container-fluid[class$="-knowledgebase-container"] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer-limited});
 	}
 }
@@ -42,7 +45,7 @@
 	.c-btn-fixed {
 		bottom: $h-footer;
 	}
-	.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+	.container-fluid[class$="-knowledgebase-container"] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer});
 	}
 }
@@ -52,14 +55,14 @@
 	.c-btn-fixed {
 		bottom: $h-footer-limited;
 	}
-	.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+	.container-fluid[class$="-knowledgebase-container"] .contentsDiv {
 		min-height: calc(100vh - #{$h-header} - #{$h-footer-limited});
 	}
 	.user-info--active {
 		.mainBody {
 			bottom: $h-footer;
 		}
-		.container-fluid[class$='-knowledgebase-container'] .contentsDiv {
+		.container-fluid[class$="-knowledgebase-container"] .contentsDiv {
 			min-height: calc(100vh - #{$h-header} - #{$h-footer});
 		}
 	}
@@ -67,7 +70,12 @@
 
 .contentsDiv,
 .centerPanel {
-	@extend .mx-2;
+	margin-left: calculate-rem(4px);
+	margin-right: calculate-rem(4px);
+	@include media-breakpoint-up(sm) {
+		margin-left: calculate-rem(8px);
+		margin-right: calculate-rem(8px);
+	}
 }
 
 .massEditTable {
@@ -146,15 +154,15 @@
 }
 
 .o-exception-fixed-block {
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	position: fixed;
-	height: 100%;
+	width: 100%;
 	z-index: 11111111111111;
 }
 
 body > .o-exception-fixed-block {
 	position: static;
 	transform: none;
+}
+
+.o-view-messagecompose {
+	overflow-x: hidden;
 }

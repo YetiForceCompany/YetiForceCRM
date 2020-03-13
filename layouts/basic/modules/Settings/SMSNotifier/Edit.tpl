@@ -31,7 +31,6 @@
 				{if $RECORD_MODEL->getId()}
 					{assign var="PROVIDER" value=$RECORD_MODEL->getProviderInstance()}
 					{foreach from=$PROVIDER->getSettingsEditFieldsModel() item=FIELD_MODEL name=fields}
-						{assign var="FIELD_MODEL" value=$FIELD_MODEL->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
 						<div class="form-group form-row" data-provider="{$PROVIDER->getName()}">
 							<label class="col-form-label col-md-4 u-text-small-bold text-right">
 								{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}

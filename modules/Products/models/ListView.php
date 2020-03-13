@@ -16,9 +16,8 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 	public function loadListViewOrderBy()
 	{
 		//List view will be displayed on recently created/modified records
-		if (empty($this->getForSql('orderby')) && empty($this->getForSql('sortorder')) && 'Users' != $this->getModule()->get('name')) {
-			$this->set('orderby', 'modifiedtime');
-			$this->set('sortorder', 'DESC');
+		if (empty($this->isEmpty('orderby')) && 'Users' != $this->getModule()->get('name')) {
+			$this->set('orderby', ['modifiedtime' => \App\Db::DESC]);
 		}
 		parent::loadListViewOrderBy();
 	}

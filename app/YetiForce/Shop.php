@@ -32,6 +32,12 @@ class Shop
 	 * @var \App\YetiForce\Shop\AbstractBaseProduct[]
 	 */
 	public static $productCache = [];
+	/**
+	 * Invalid Product Name.
+	 *
+	 * @var string
+	 */
+	public static $verifyProduct = '';
 
 	/**
 	 * Get products.
@@ -104,7 +110,6 @@ class Shop
 		return array_merge([
 			'business' => 'paypal@yetiforce.com',
 			'rm' => 2,
-			'notify_url' => 'https://api.yetiforce.com/shop',
 			'image_url' => 'https://public.yetiforce.com/shop/logo.png',
 		], $crmData);
 	}
@@ -155,6 +160,8 @@ class Shop
 
 	/**
 	 * Get paypal URL.
+	 * https://www.paypal.com/cgi-bin/webscr
+	 * https://www.sandbox.paypal.com/cgi-bin/webscr.
 	 *
 	 * @return string
 	 */
@@ -192,9 +199,19 @@ class Shop
 	 */
 	public static function verify(): bool
 	{
-		foreach (self::getProducts() as $row) {
-			if (!$row->verify()) {
-				return false;
+		if ($cacheData = self::getFromCache()) {
+			foreach ($cacheData as $product => $status) {
+				if (!$status) {
+					self::$verifyProduct = \App\Language::translate('LBL_SHOP_' . \strtoupper($product), 'Settings:YetiForce');
+					return false;
+				}
+			}
+		} else {
+			foreach (self::getProducts() as $product) {
+				if (!$product->verify()) {
+					self::$verifyProduct = $product->getLabel();
+					return false;
+				}
 			}
 		}
 		return true;
@@ -206,10 +223,10 @@ class Shop
 	public static function generateCache()
 	{
 		$content = [];
-		foreach (self::getProducts() as $key => $row) {
-			$content[$key] = $row->verify(false);
+		foreach (self::getProducts() as $key => $product) {
+			$content[$key] = $product->verify(false);
 		}
-		\App\Utils::saveToFile(ROOT_DIRECTORY . '/app_data/shop.php', $content, 'Modifying this file will breach the licence terms', 0, true);
+		\App\Utils::saveToFile(ROOT_DIRECTORY . '/app_data/shop.php', $content, 'Modifying this file will breach the licence terms!!!', 0, true);
 	}
 
 	/**

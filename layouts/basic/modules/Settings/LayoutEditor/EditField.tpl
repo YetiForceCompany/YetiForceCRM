@@ -7,7 +7,7 @@
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
-		<div class="modal-body row">
+		<div class="modal-body row pt-0">
 			<div class="col-md-12">
 				<form class="form-horizontal fieldDetailsForm sendByAjax validateForm" method="POST">
 					<input type="hidden" name="module" value="LayoutEditor"/>
@@ -18,10 +18,10 @@
 					<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE_NAME}"/>
 					{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
-					<strong>{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}
-						: </strong>{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}<br/>
-					<strong>{App\Language::translate('LBL_FIELD_NAME', $QUALIFIED_MODULE)}
-						: </strong>{$FIELD_MODEL->getFieldName()}
+					<strong>{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}: </strong>{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}<br/>
+					<strong>{App\Language::translate('LBL_FIELD_NAME', $QUALIFIED_MODULE)}: </strong>{$FIELD_MODEL->getFieldName()}<br/>
+					<strong>{App\Language::translate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}: </strong>{$FIELD_MODEL->getFieldDataType()} (UiType: {$FIELD_MODEL->getUIType()})<br/>
+					<strong>{App\Language::translate('LBL_LENGTH', $QUALIFIED_MODULE)}: </strong>{$FIELD_MODEL->get('maximumlength')}
 					<hr class="marginTop10">
 					<div class="checkbox">
 						<input type="hidden" name="mandatory" value="O"/>

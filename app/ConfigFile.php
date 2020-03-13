@@ -95,6 +95,7 @@ This file is auto-generated.
 		if (!\file_exists($this->templatePath)) {
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $this->templatePath, 406);
 		}
+		Cache::resetFileCache($this->templatePath);
 		$data = require "{$this->templatePath}";
 		if ('component' === $this->type) {
 			if (!isset($data[$this->component])) {
@@ -155,6 +156,19 @@ This file is auto-generated.
 	{
 		if (!isset($this->template[$key])) {
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
+		}
+		if (isset($this->template[$key]['validationValues']) && \is_array($this->template[$key]['validationValues'])) {
+			return \in_array($value, $this->template[$key]['validationValues']);
+		}
+		if (!empty($this->template[$key]['loopValidate'])) {
+			$status = true;
+			foreach ($value as $row) {
+				if (true !== \call_user_func_array($this->template[$key]['validation'], [$row])) {
+					$status = false;
+					break;
+				}
+			}
+			return $status;
 		}
 		if (!isset($this->template[$key]['validation']) || !\is_callable($this->template[$key]['validation'])) {
 			throw new Exceptions\AppException("ERR_CONTENTS_VARIABLE_CANT_CALLED_FUNCTION ||{$this->template[$key]['validation']}", 406);

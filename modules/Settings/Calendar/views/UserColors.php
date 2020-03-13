@@ -8,7 +8,7 @@
  */
 class Settings_Calendar_UserColors_View extends Settings_Vtiger_Index_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -25,24 +25,13 @@ class Settings_Calendar_UserColors_View extends Settings_Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = [
 			"modules.Settings.$moduleName.resources.UserColors",
-			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
 		];
 
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getHeaderCss(\App\Request $request)
-	{
-		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
-				'~libraries/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css',
-		]));
 	}
 }

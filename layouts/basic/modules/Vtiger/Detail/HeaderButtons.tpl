@@ -2,7 +2,7 @@
 {strip}
 	<div class="tpl-Base-Detail-HeaderButtons d-flex flex-nowrap align-items-end justify-content-end my-1 o-header-toggle__detail js-btn-toolbar"
 		 data-js="container">
-		<a class="btn btn-outline-dark d-md-none my-auto o-header-toggle__actions-btn js-header-toggle__actions-btn"
+		<a class="btn btn-primary d-md-none my-auto o-header-toggle__actions-btn js-header-toggle__actions-btn"
 		   href="#" data-js="click" role="button"
 		   aria-expanded="false" aria-controls="o-view-actions__container">
 							<span class="fas fa-ellipsis-h fa-fw"

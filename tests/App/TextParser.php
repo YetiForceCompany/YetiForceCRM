@@ -220,7 +220,7 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent(), 'Clean instance: Test param not exist, placeholder should return empty value');
 		$this->assertSame('test', static::$parserClean->getParam('test_var'), 'Clean instance: getParam should return value test');
-		$this->assertFalse(static::$parserClean->getParam('test_var_not_exist'), 'Clean instance: key not exist, getParam should return false');
+		$this->assertNull(static::$parserClean->getParam('test_var_not_exist'), 'Clean instance: key not exist, getParam should return false');
 	}
 
 	/**

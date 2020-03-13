@@ -1,10 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign 'CUSTOM_VIEW' CustomView_Record_Model::getInstanceById($CVID)}
-	{assign 'SORT_ORDER_BY' ","|explode:$CUSTOM_VIEW->get('sort')}
+	{assign 'SORT_ORDER_BY' $CUSTOM_VIEW->getSortOrderBy()}
 
-	{if !empty($SORT_ORDER_BY[1])}
-		{assign 'SORT_ORDER' $SORT_ORDER_BY[1]}
+	{if !empty($SORT_ORDER_BY)}
+		{assign 'SORT_ORDER' current($SORT_ORDER_BY)}
 	{else}
 		{assign 'SORT_ORDER' 'ASC'}
 	{/if}
@@ -44,7 +44,7 @@
 										label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE_MODEL->getName())}'>
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 										{if $FIELD_MODEL->isListviewSortable()}
-											<option value="{$FIELD_MODEL->get('column')}"{if $FIELD_MODEL->get('column') eq $SORT_ORDER_BY[0]} selected{/if}>
+											<option value="{$FIELD_MODEL->get('column')}"{if isset($SORT_ORDER_BY[$FIELD_MODEL->get('column')]) } selected="selected"{/if}>
 												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE_MODEL->getName())}
 											</option>
 										{/if}

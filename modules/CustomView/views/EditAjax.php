@@ -18,7 +18,7 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if (\App\User::getCurrentUserModel()->isAdmin()) {
 			return;
@@ -31,7 +31,7 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$sourceModuleName = $request->getByType('source_module', 2);
@@ -43,6 +43,9 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModuleName);
 		$recordStructureModulesField = [];
 		foreach ($sourceModuleModel->getFieldsByReference() as $referenceField) {
+			if (!$referenceField->isActiveField()) {
+				continue;
+			}
 			foreach ($referenceField->getReferenceList() as $relatedModuleName) {
 				$recordStructureModulesField[$relatedModuleName][$referenceField->getFieldName()] = Vtiger_RecordStructure_Model::getInstanceForModule(Vtiger_Module_Model::getInstance($relatedModuleName))->getStructure();
 			}
@@ -67,7 +70,7 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('QUALIFIED_MODULE', $sourceModuleName);
 		$viewer->assign('SOURCE_MODULE', $sourceModuleName);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		if ($customViewModel->get('viewname') === 'All') {
+		if ('All' === $customViewModel->get('viewname')) {
 			$viewer->assign('CV_PRIVATE_VALUE', App\CustomView::CV_STATUS_DEFAULT);
 		} else {
 			$viewer->assign('CV_PRIVATE_VALUE', App\CustomView::CV_STATUS_PRIVATE);

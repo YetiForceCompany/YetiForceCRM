@@ -115,7 +115,7 @@
 				</div>
 	</div>
 	{* show time for all other than Hourly option*}
-	<div class="form-row pt-1 pb-2 px-0 {if empty($SCHTYPE_ID) || $SCHTYPE_ID neq 2} d-none {/if}"
+	<div class="form-row pt-1 pb-2 px-0 {if empty($SCHTYPE_ID) || !in_array($SCHTYPE_ID, [2,11,12,13])} d-none {/if}"
 			id="scheduledTime">
 		<div class="col-md-2 d-flex align-items-center">
 			{\App\Language::translate('LBL_AT_TIME', $QUALIFIED_MODULE)}

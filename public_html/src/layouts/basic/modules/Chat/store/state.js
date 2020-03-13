@@ -1,10 +1,18 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 export default {
+	layout: {
+		drawer: {
+			fs: '.88rem',
+			breakpoint: 1023
+		}
+	},
 	session: {
 		dialog: false,
 		miniMode: true,
 		leftPanel: false,
+		leftPanelMobile: false,
 		rightPanel: false,
+		rightPanelMobile: false,
 		historyTab: 'crm',
 		tab: 'chat',
 		coordinates: {
@@ -25,15 +33,20 @@ export default {
 		roomSoundNotificationsOff: {
 			crm: [],
 			global: [],
-			group: []
-		}
+			group: [],
+			private: [],
+			user: []
+		},
+		roomsExpanded: []
 	},
 	data: {
 		amountOfNewMessages: 0,
 		roomList: {
-			crm: {},
+			private: {},
 			group: {},
-			global: {}
+			global: {},
+			crm: {},
+			user: {}
 		},
 		currentRoom: {},
 		history: {
@@ -49,6 +62,11 @@ export default {
 		maxLengthMessage: null,
 		refreshTimeGlobal: null,
 		showNumberOfNewMessages: null,
-		dynamicAddingRooms: null
+		showRoleName: null,
+		dynamicAddingRooms: null,
+		draggableButton: null,
+		detailPreview: { id: null, module: null },
+		activeRoomTypes: [],
+		userRoomPin: null
 	}
 }

@@ -10,17 +10,16 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="d-flex flex-wrap flex-md-nowrap px-3 w-100">
+	<div class="d-flex flex-wrap flex-md-nowrap px-md-3 px-1 w-100">
 		<div class="u-min-w-md-70 w-100">
 			<div>
 				<div class="float-left spanModuleIcon moduleIcon{$MODULE_NAME}">
-					<span class="moduleIcon">
-						{assign var=IMAGE value=$RECORD->getImage()}
+					{assign var=IMAGE value=$RECORD->getImage()}
+					<span class="moduleIcon{if $IMAGE} o-detail__record-img mr-1{/if}">
 						{if $IMAGE}
-							<img class="pushDown js-detail-hierarchy" data-js="click" title="{$RECORD->getName()}" height="80" align="left" src="{$IMAGE.url}">
-							<br/>
+							<img class="js-detail-hierarchy" data-js="click" title="{$RECORD->getName()}" src="{$IMAGE.url}">
 						{else}
-							<span class="pl-0 o-detail__icon js-detail__icon js-detail-hierarchy userIcon-{$MODULE}" data-js="click"></span>
+							<span class="pl-0 o-detail__icon js-detail__icon js-detail-hierarchy yfm-{$MODULE}" data-js="click"></span>
 						{/if}
 						{if App\Config::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
 							<span class="hierarchy">
