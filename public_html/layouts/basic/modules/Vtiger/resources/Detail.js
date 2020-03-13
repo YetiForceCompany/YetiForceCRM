@@ -2761,14 +2761,6 @@ jQuery.Class(
 					currentTargetParent.hide();
 				});
 			});
-			detailContentsHolder.on('click', '.js-fab__btn', e => {
-				$(e.currentTarget)
-					.closest('.js-fab__container')
-					.toggleClass('q-fab--opened');
-			});
-			detailContentsHolder.find('.js-fab__container').on('clickoutside', e => {
-				$(e.currentTarget).removeClass('q-fab--opened');
-			});
 			detailContentsHolder.on('click', '.hideThread', function(e) {
 				var currentTarget = jQuery(e.currentTarget);
 				var currentTargetParent = currentTarget.parent();

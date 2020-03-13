@@ -742,13 +742,27 @@ body:not(.desktop) {
 
 .u-hidden-block {
 	position: absolute;
-	opacity: 0;
+	display: none;
 	right: 2.5rem;
 	padding: 0.25rem;
 	top: -1px;
+	z-index: 1;
 }
+.singleComment .u-hidden-block{
+	position: absolute;
+	display: none;
+	top: unset;
+}
+.recentActivitiesContainer  .u-hidden-block{
+	top: 12px;
+
+}
+.singleComment .u-hidden-block-btn {
+	display: block;
+}
+
 .u-hidden-block__opened .u-hidden-block {
-	opacity: 1;
+	display: block;
 	box-shadow: 0 0 3px 0px;
 	background: #fff;
 	max-width: calc(100% - 2rem);
@@ -760,6 +774,6 @@ body:not(.desktop) {
 	}
 	.u-hidden-block {
 		position: static;
-		opacity: 1;
+		display: block;
 	}
 }
