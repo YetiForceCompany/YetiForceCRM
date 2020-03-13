@@ -25,7 +25,7 @@ class Vies extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public $icon = 'fa fa-university';
+	public $icon = 'yfi yfi-vies';
 	/**
 	 * {@inheritdoc}
 	 */
