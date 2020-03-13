@@ -28,7 +28,7 @@ class YetiForceOutlook extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Small' => 50,
 		'Medium' => 100,
 		'Large' => 250,
-		'Corporation' => 1250,
+		'Corporation' => 500,
 	];
 
 	/**
