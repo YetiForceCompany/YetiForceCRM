@@ -1,8 +1,8 @@
 @font-face {
 	font-family: 'yfi';
-	src: url('yfi.eot?oj80uk');
-	src: url('yfi.eot?oj80uk#iefix') format('embedded-opentype'), url('yfi.ttf?oj80uk') format('truetype'),
-		url('yfi.woff?oj80uk') format('woff'), url('yfi.svg?oj80uk#yfi') format('svg');
+	src: url('fonts/yfi.eot?b1qgqk');
+	src: url('fonts/yfi.eot?b1qgqk#iefix') format('embedded-opentype'), url('fonts/yfi.ttf?b1qgqk') format('truetype'),
+		url('fonts/yfi.woff?b1qgqk') format('woff'), url('fonts/yfi.svg?b1qgqk#yfi') format('svg');
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
@@ -24,26 +24,26 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.yfi-Quick-creation:before {
+.yfi-location:before {
 	content: '\e9ab';
 }
+.yfi-vies:before {
+	content: '\e9b1';
+}
 .yfi-merging-records:before {
-	content: '\e9ac';
+	content: '\e9bb';
+}
+.yfi-social-media:before {
+	content: '\e9bc';
 }
 .yfi-change-of-owner:before {
 	content: '\e9ad';
-}
-.yfi-social-media:before {
-	content: '\e9ae';
 }
 .yfi-adminIcon-menu-summary:before {
 	content: '\e9af';
 }
 .yfi-adminIcon-advanced-permission:before {
 	content: '\e9b0';
-}
-.yfi-vies:before {
-	content: '\e9b1';
 }
 .yfi-adminIcon-backup:before {
 	content: '\e9b2';

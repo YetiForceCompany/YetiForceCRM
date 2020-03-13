@@ -1,8 +1,8 @@
 @font-face {
 	font-family: 'yfm';
-	src: url('yfm.eot?fm4hnl');
-	src: url('yfm.eot?fm4hnl#iefix') format('embedded-opentype'), url('yfm.ttf?fm4hnl') format('truetype'),
-		url('yfm.woff?fm4hnl') format('woff'), url('yfm.svg?fm4hnl#yfm') format('svg');
+	src: url('fonts/yfm.eot?kqqb31');
+	src: url('fonts/yfm.eot?kqqb31#iefix') format('embedded-opentype'), url('fonts/yfm.ttf?kqqb31') format('truetype'),
+		url('fonts/yfm.woff?kqqb31') format('woff'), url('fonts/yfm.svg?kqqb31#yfm') format('svg');
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
@@ -28,17 +28,20 @@
 [class*=' yfm-']:before {
 	content: '\e972';
 }
-.yfm-ApprovalsRegister:before {
-	content: '\e976';
+.yfm-PermissionInspector:before {
+	content: '\e974';
 }
 .yfm-MailIntegration:before {
-	content: '\e979';
+	content: '\e97b';
+}
+.yfm-Documentation:before {
+	content: '\e970';
 }
 .yfm-Locations:before {
 	content: '\e973';
 }
-.yfm-Approvals:before {
-	content: '\e974';
+.yfm-ApprovalsRegister:before {
+	content: '\e976';
 }
 .yfm-Occurrences:before {
 	content: '\e97a';
@@ -60,9 +63,6 @@
 }
 .yfm-Import:before {
 	content: '\e97c';
-}
-.yfm-PermissionInspector:before {
-	content: '\e970';
 }
 .yfm-Password:before {
 	content: '\e96f';
