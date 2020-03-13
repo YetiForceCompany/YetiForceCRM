@@ -137,7 +137,7 @@
 												<a href="javascript:void(0)"
 												   class="js-delete-custom-block-btn btn btn-sm btn-danger"
 												   data-js="click">
-													<span class="fas fa-trash-alt alignMiddle"
+													<span class="fas fa-trash-alt"
 														  title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 												</a>
 											</div>
@@ -293,7 +293,7 @@
 									<div class="btn-group actions">
 										<a href="javascript:void(0)"
 										   class="js-delete-custom-block-btn btn btn-sm btn-danger" data-js="click">
-											<span class="fas fa-trash-alt alignMiddle"
+											<span class="fas fa-trash-alt"
 												  title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 										</a>
 									</div>

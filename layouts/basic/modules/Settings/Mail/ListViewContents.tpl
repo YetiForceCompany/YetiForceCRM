@@ -106,7 +106,7 @@
 																																		if (event.stopPropagation){ldelim}
 																																		event.stopPropagation();{rdelim} else{ldelim}
 																																		event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-																																	<span class="{$RECORD_LINK->getIcon()} alignMiddle"
+																																	<span class="{$RECORD_LINK->getIcon()}"
 																																		  title="{App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 																																	<span class="sr-only">{App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}</span>
 																																</a>

@@ -37,7 +37,7 @@
 														<span class="{$RECORD_LINK->getIcon()}" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 														</button>
 													{elseif $RECORD_LINK->getLabel() eq 'LBL_EXPORT_RECORD'}
-														<a href="{$RECORD_LINK_URL}" class="btn btn-primary btn-sm"><span class="{$RECORD_LINK->getIcon()} alignMiddle"></span></a>
+														<a href="{$RECORD_LINK_URL}" class="btn btn-primary btn-sm"><span class="{$RECORD_LINK->getIcon()}"></span></a>
 														{else}
 														<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="
 																											 {$RECORD_LINK_URL|substr:strlen("javascript:")};
@@ -45,7 +45,7 @@
 																			event.stopPropagation();{rdelim} else{ldelim}
 																						event.cancelBubble = true;{rdelim}
 																											 " {else} href='{$RECORD_LINK_URL}' {/if} class="{$RECORD_LINK->get('class')} btn btn-info btn-sm">
-															<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+															<span class="{$RECORD_LINK->getIcon()}" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 														</a>
 													{/if}
 													{if !$RECORD_LINK@last}
