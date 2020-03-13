@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e73d376cd692e5f646cb197c934440f5",
+    "content-hash": "2a47abaacdf0dc880f3c9273ac4e8168",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -693,27 +693,27 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v6.18.1",
+            "version": "v7.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
-                "reference": "e08ea83602d96cdfd7106a15f07878935c1a7675"
+                "reference": "10eb9fd5014e80296d254ae38ff1afe52d515a66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/contracts/zipball/e08ea83602d96cdfd7106a15f07878935c1a7675",
-                "reference": "e08ea83602d96cdfd7106a15f07878935c1a7675",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/10eb9fd5014e80296d254ae38ff1afe52d515a66",
+                "reference": "10eb9fd5014e80296d254ae38ff1afe52d515a66",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2",
+                "php": "^7.2.5",
                 "psr/container": "^1.0",
                 "psr/simple-cache": "^1.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.x-dev"
+                    "dev-master": "7.x-dev"
                 }
             },
             "autoload": {
@@ -733,45 +733,46 @@
             ],
             "description": "The Illuminate Contracts package.",
             "homepage": "https://laravel.com",
-            "time": "2020-02-27T19:49:00+00:00"
+            "time": "2020-03-09T13:23:43+00:00"
         },
         {
             "name": "illuminate/support",
-            "version": "v6.18.1",
+            "version": "v7.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "844b15a40489cf74d660548d60d28e51d5966f22"
+                "reference": "ca1af56ffbac9361da042e6ee0ad4ebcbbbae515"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/844b15a40489cf74d660548d60d28e51d5966f22",
-                "reference": "844b15a40489cf74d660548d60d28e51d5966f22",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/ca1af56ffbac9361da042e6ee0ad4ebcbbbae515",
+                "reference": "ca1af56ffbac9361da042e6ee0ad4ebcbbbae515",
                 "shasum": ""
             },
             "require": {
                 "doctrine/inflector": "^1.1",
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "illuminate/contracts": "^6.0",
-                "nesbot/carbon": "^2.0",
-                "php": "^7.2"
+                "illuminate/contracts": "^7.0",
+                "nesbot/carbon": "^2.17",
+                "php": "^7.2.5",
+                "voku/portable-ascii": "^1.4.8"
             },
             "conflict": {
                 "tightenco/collect": "<5.5.33"
             },
             "suggest": {
-                "illuminate/filesystem": "Required to use the composer class (^6.0).",
+                "illuminate/filesystem": "Required to use the composer class (^7.0).",
                 "moontoast/math": "Required to use ordered UUIDs (^1.1).",
                 "ramsey/uuid": "Required to use Str::uuid() (^3.7).",
-                "symfony/process": "Required to use the composer class (^4.3.4).",
-                "symfony/var-dumper": "Required to use the dd function (^4.3.4).",
-                "vlucas/phpdotenv": "Required to use the Env class and env helper (^3.3)."
+                "symfony/process": "Required to use the composer class (^5.0).",
+                "symfony/var-dumper": "Required to use the dd function (^5.0).",
+                "vlucas/phpdotenv": "Required to use the Env class and env helper (^4.0)."
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.x-dev"
+                    "dev-master": "7.x-dev"
                 }
             },
             "autoload": {
@@ -794,7 +795,7 @@
             ],
             "description": "The Illuminate Support package.",
             "homepage": "https://laravel.com",
-            "time": "2020-02-28T14:15:59+00:00"
+            "time": "2020-03-12T12:48:26+00:00"
         },
         {
             "name": "markbaker/complex",
@@ -1023,20 +1024,20 @@
         },
         {
             "name": "milon/barcode",
-            "version": "6.0.2",
+            "version": "7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/milon/barcode.git",
-                "reference": "71454ba6d4ec3c70103379afb0376f51d0bf17ce"
+                "reference": "7692ac1f9c833b44c071ef8db461fb08d7b78003"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/milon/barcode/zipball/71454ba6d4ec3c70103379afb0376f51d0bf17ce",
-                "reference": "71454ba6d4ec3c70103379afb0376f51d0bf17ce",
+                "url": "https://api.github.com/repos/milon/barcode/zipball/7692ac1f9c833b44c071ef8db461fb08d7b78003",
+                "reference": "7692ac1f9c833b44c071ef8db461fb08d7b78003",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "5.*|~6",
+                "illuminate/support": "^7.0",
                 "php": ">=5.6.0"
             },
             "type": "library",
@@ -1079,7 +1080,7 @@
                 "qr code",
                 "qrcode"
             ],
-            "time": "2019-09-17T07:40:26+00:00"
+            "time": "2020-03-05T11:55:03+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -2710,6 +2711,55 @@
             "time": "2020-02-26T22:30:10+00:00"
         },
         {
+            "name": "voku/portable-ascii",
+            "version": "1.4.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/voku/portable-ascii.git",
+                "reference": "240e93829a5f985fab0984a6e55ae5e26b78a334"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/voku/portable-ascii/zipball/240e93829a5f985fab0984a6e55ae5e26b78a334",
+                "reference": "240e93829a5f985fab0984a6e55ae5e26b78a334",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0 || ~7.0"
+            },
+            "suggest": {
+                "ext-intl": "Use Intl for transliterator_transliterate() support"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "voku\\": "src/voku/",
+                    "voku\\tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lars Moelleken",
+                    "homepage": "http://www.moelleken.org/"
+                }
+            ],
+            "description": "Portable ASCII library - performance optimized (ascii) string functions for php.",
+            "homepage": "https://github.com/voku/portable-ascii",
+            "keywords": [
+                "ascii",
+                "clean",
+                "php"
+            ],
+            "time": "2020-03-13T01:23:26+00:00"
+        },
+        {
             "name": "yetiforce/csrf-magic",
             "version": "v1.1.1",
             "source": {
@@ -2759,16 +2809,16 @@
         },
         {
             "name": "yetiforce/yetiforcepdf",
-            "version": "0.1.28",
+            "version": "0.1.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "9b8385dca99108fcf53b7373bb0cdcd09366a57b"
+                "reference": "1959395c449a25d6fe66ce831a33963bffe61afb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/9b8385dca99108fcf53b7373bb0cdcd09366a57b",
-                "reference": "9b8385dca99108fcf53b7373bb0cdcd09366a57b",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/1959395c449a25d6fe66ce831a33963bffe61afb",
+                "reference": "1959395c449a25d6fe66ce831a33963bffe61afb",
                 "shasum": ""
             },
             "require": {
@@ -2781,7 +2831,7 @@
                 "ext-mbstring": "*",
                 "ext-zlib": "*",
                 "guzzlehttp/guzzle": "^6.3",
-                "milon/barcode": "^6.0.0",
+                "milon/barcode": "^7.0.0",
                 "phenx/php-font-lib": "^0.5.1",
                 "php": ">=7.1",
                 "sabberworm/php-css-parser": "^8.3"
@@ -2807,7 +2857,7 @@
                 "html to pdf",
                 "pdf"
             ],
-            "time": "2020-01-03T15:03:42+00:00"
+            "time": "2020-03-13T11:36:00+00:00"
         },
         {
             "name": "yetiforce/yii2",
