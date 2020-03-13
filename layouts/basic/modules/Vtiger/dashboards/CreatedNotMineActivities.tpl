@@ -16,17 +16,11 @@
 				{/if}
 				<button class="btn btn-light btn-sm ml-1 changeRecordSort"
 						title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}"
-						data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}"
+						data-sort="{if isset($DATA['sortorder']) && $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}"
 						data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}"
 						data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
 					<span class="fas fa-sort-amount-down"></span>
 				</button>
-				{if !empty($LISTVIEWLINKS)}
-					<button class="btn btn-light btn-sm ml-1 goToListView"
-							title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}">
-						<span class="fas fa-th-list"></span>
-					</button>
-				{/if}
 				{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 			</div>
 		</div>

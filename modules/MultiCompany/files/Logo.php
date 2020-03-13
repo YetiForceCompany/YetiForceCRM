@@ -20,7 +20,7 @@ class MultiCompany_Logo_File extends Vtiger_Basic_File
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getCheckPermission(\App\Request $request)
+	public function getCheckPermission(App\Request $request)
 	{
 		if (!App\Session::has('authenticated_user_id') || $request->isEmpty('record', true) || $request->isEmpty('key', true)) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
@@ -36,11 +36,11 @@ class MultiCompany_Logo_File extends Vtiger_Basic_File
 	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function get(\App\Request $request)
+	public function get(App\Request $request)
 	{
 		$userModel = \App\User::getUserModel($request->getInteger('record'));
 		$logo = $userModel->get('multiCompanyLogo');
-		if ($logo['key'] !== $request->getByType('key', 2)) {
+		if (!$logo || ($logo['key'] !== $request->getByType('key', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$file = \App\Fields\File::loadFromInfo([

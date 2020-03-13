@@ -52,7 +52,7 @@
 												</button>
 											</div>
 											<div>
-												{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
+												{if App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 													{if $USER_MODEL->get('internal_mailer') == 1}
 														{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
 														<button type="button"

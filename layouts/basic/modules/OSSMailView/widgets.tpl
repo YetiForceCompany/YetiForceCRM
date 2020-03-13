@@ -3,9 +3,9 @@
 	<div class="tpl-OSSMailView-widgets container-fluid pl-1 pr-1">
 		{assign var=COUNT value=count($RECOLDLIST)}
 		{foreach from=$RECOLDLIST item=ROW key=KEY}
-			<div class="row{if $KEY%2 != 0} even{/if}">
+			<div class="row{if $KEY%2 != 0} even{/if} mb-1 px-0">
 				{if \App\Privilege::isPermitted($MODULE_NAME, 'DetailView', $ROW['id'])}
-					<div class="col-12 mailActions d-flex justify-content-between mb-1">
+					<div class="col-12 mailActions d-flex justify-content-between mb-1 px-sm-3 px-2">
 						<div>
 							<a class="js-toggle-icon__container showMailBody btn btn-sm btn-outline-secondary mr-1" role="button" data-js="click">
 									<span class="js-toggle-icon body-icon fas fa-caret-down" data-active="fa-caret-up" data-inactive="fa-caret-down" data-js="click"
@@ -46,7 +46,7 @@
 							</div>
 						</div>
 						<div>
-							{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
+							{if App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 								{if $PRIVILEGESMODEL->internal_mailer == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
 									<button type="button" class="btn btn-sm btn-light sendMailBtn ml-1"
@@ -89,11 +89,11 @@
 							{/if}
 						</div>
 					</div>
-					<div class="col-12">
-						<hr class="mb-1">
+					<div class="col-12 px-sm-3 px-2">
+						<hr class="mb-sm-1 mb-0">
 					</div>
 				{/if}
-				<div class="col-12 d-flex justify-content-between">
+				<div class="col-12 d-flex justify-content-between px-sm-3 px-2">
 					{if $ROW['type'] eq 0}
 						{assign var=FIRST_LETTER_CLASS value='bgGreen'}
 					{elseif $ROW['type'] eq 1}
@@ -102,7 +102,7 @@
 						{assign var=FIRST_LETTER_CLASS value='bgBlue'}
 					{/if}
 					<div class="d-inline-flex w-100 col-10 pr-0 pl-0">
-						<div class="firstLetter {$FIRST_LETTER_CLASS}">
+						<div class="firstLetter {$FIRST_LETTER_CLASS} d-sm-block d-none">
 							{$ROW['firstLetter']}
 						</div>
 						<div class="w-100">
@@ -130,10 +130,10 @@
 						</small>
 					</div>
 				</div>
-				<div class="col-12">
-					<hr/>
+				<div class="col-12 px-sm-3 px-2">
+					<hr class="mb-sm-1 mb-0"/>
 				</div>
-				<div class="col-12">
+				<div class="col-12 px-sm-3 px-2">
 					<div class="mailTeaser">
 						{$ROW['teaser']}
 					</div>

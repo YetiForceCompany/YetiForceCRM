@@ -39,18 +39,23 @@
 					{assign var=COLCOUNT value=0}
 				{/if}
 				<div class="grid-stack-item js-css-element-queries"
-					 data-gs-y="{$WIDGET->getPosition($ROW, 'row')}" data-gs-width="{$WIDGET->getWidth()}"
-					 data-gs-x="{$WIDGET->getPosition($COLCOUNT, 'col')}"
-					 data-gs-height="{$WIDGET->getHeight()}" data-js="css-element-queries">
+					data-gs-y="{$WIDGET->getPosition($ROW, 'row')}" data-gs-width="{$WIDGET->getWidth()}"
+					data-gs-x="{$WIDGET->getPosition($COLCOUNT, 'col')}"
+					data-gs-height="{$WIDGET->getHeight()}" data-js="css-element-queries">
 					<div id="{$WIDGETDOMID}" {if $smarty.foreach.count.index % $COLUMNS == 0 and $smarty.foreach.count.index != 0} {/if}
-
-						 class="grid-stack-item-content dashboardWidget dashboardWidget_{$smarty.foreach.count.index}"
-						 data-url="{$WIDGET->getUrl()}"
-						 data-mode="open" data-name="{$WIDGET->getName()}" data-cache="{$WIDGET->get('cache')}"
-						 data-loader="widgetLoader">
+						class="grid-stack-item-content dashboardWidget dashboardWidget_{$smarty.foreach.count.index}"
+						data-url="{$WIDGET->getUrl()}"
+						data-mode="open" data-name="{$WIDGET->getName()}" data-cache="{$WIDGET->get('cache')}"
+						data-loader="widgetLoader">
 					</div>
 				</div>
 			{/foreach}
+			<div class="alert alert-info {if count($WIDGETS) > 0} d-none {/if} js-dashboards-alert" role="alert" data-js=”container”>
+				<p>
+					<span class="fas fa-exclamation-circle fa-3x vertical-middle"></span>&nbsp;&nbsp;
+					{\App\Language::translate('LBL_EMPTY_DASHBOARD')}
+				</p>
+			</div>
 			<input type="hidden" id="row" value="{$ROW}"/>
 			<input type="hidden" id="col" value="{$COLCOUNT}"/>
 		</div>
@@ -66,4 +71,3 @@
 	</div>
 	</div> {*dashboardViewContainer closing tag*}
 {/strip}
-

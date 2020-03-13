@@ -15,7 +15,7 @@ class OSSMail_SetUser_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$users = OSSMail_Autologin_Model::getAutologinUsers();
@@ -29,10 +29,11 @@ class OSSMail_SetUser_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$user = $request->getInteger('user');
 		\App\Session::set('AutoLoginUser', $user);
+		OSSMail_Autologin_Model::updateActive($user);
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();

@@ -58,10 +58,7 @@ class SMSNotifier extends Vtiger_CRMEntity
 		// tablename should not have prefix 'vtiger_'
 		'Message' => ['smsnotifier', 'message'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'Message' => 'message',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['message'];
 	// For Alphabetical search

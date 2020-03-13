@@ -61,7 +61,7 @@
 										{/foreach}
 									</select>
 								</td>
-								<td class="selectedFieldDataType textAlignCenter alignMiddle">{\App\Language::translate($MAPPING_ARRAY['Leads']['fieldDataType'], $QUALIFIED_MODULE)}</td>
+								<td class="selectedFieldDataType textAlignCenter">{\App\Language::translate($MAPPING_ARRAY['Leads']['fieldDataType'], $QUALIFIED_MODULE)}</td>
 								<td>
 									<select class="accountsFields select2" name="mapping[{$smarty.foreach.mappingLoop.iteration}][account]">
 										<option data-type="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>

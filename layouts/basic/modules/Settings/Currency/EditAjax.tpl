@@ -18,7 +18,7 @@
     <div class="tpl-Settings-Currency-EditAjax currencyModalContainer modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground">
+				<div class="modal-header">
 					{if $CURRENCY_MODEL_EXISTS}
 						<span class="fa fa-edit mt-2 u-mr-5px"></span><h5 class="modal-title">{\App\Language::translate('LBL_EDIT_CURRENCY', $QUALIFIED_MODULE)}</h5>
 					{else}
@@ -42,24 +42,24 @@
 											{if !$CURRENCY_MODEL_EXISTS && $smarty.foreach.currencyIterator.first}
 												{assign var=RECORD_MODEL value=$CURRENCY_MODEL}
 											{/if}
-											<option value="{$CURRENCY_MODEL->get('currency_name')}" data-code="{$CURRENCY_MODEL->get('currency_code')}" 
+											<option value="{$CURRENCY_MODEL->get('currency_name')}" data-code="{$CURRENCY_MODEL->get('currency_code')}"
 													data-symbol="{$CURRENCY_MODEL->get('currency_symbol')}" {if $RECORD_MODEL->get('currency_name') == $CURRENCY_MODEL->get('currency_name')} selected {/if}>
 												{\App\Language::translate($CURRENCY_MODEL->get('currency_code'), 'Other.Currency')}&nbsp;({$CURRENCY_MODEL->get('currency_symbol')})</option>
 											{/foreach}
 									</select>
-								</div>	
+								</div>
 							</div>
 							<div class="form-group">
 								<label class="muted col-md-4 col-form-label"><span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_CURRENCY_CODE', $QUALIFIED_MODULE)}</label>
 								<div class="col-md-6 controls">
 									<input type="text" name="currency_code" class="form-control" readonly value="{$RECORD_MODEL->get('currency_code')}" data-validation-engine='validate[required]]' />
-								</div>	
+								</div>
 							</div>
 							<div class="form-group">
 								<label class="muted col-md-4 col-form-label"><span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_CURRENCY_SYMBOL', $QUALIFIED_MODULE)}</label>
 								<div class="col-md-6 controls">
 									<input type="text" name="currency_symbol" class="form-control" readonly  value="{$RECORD_MODEL->get('currency_symbol')}" data-validation-engine='validate[required]' />
-								</div>	
+								</div>
 							</div>
 							<div class="form-group">
 								<label class="muted col-md-4 col-form-label"><span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_CONVERSION_RATE', $QUALIFIED_MODULE)}</label>
@@ -82,7 +82,7 @@
 										{if !$CURRENCY_MODEL_EXISTS} checked {else}{$RECORD_MODEL->get('currency_status')}{if $RECORD_MODEL->get('currency_status') == 'Active'} checked {/if}{/if} />
 									<span>&nbsp;{\App\Language::translate('LBL_CURRENCY_STATUS_DESC', $QUALIFIED_MODULE)}</span>
 								</label>
-							</div>	
+							</div>
 						</div>
 						<div class="form-group transferCurrency d-none">
 							<label class="muted col-md-4 col-form-label"><span class="redColor">*</span>&nbsp;
@@ -93,7 +93,7 @@
 										<option value="{$CURRENCY_ID}">{\App\Language::translate($CURRENCY_MODEL->get('currency_name'), $QUALIFIED_MODULE)}</option>
 									{/foreach}
 								</select>
-							</div>	
+							</div>
 						</div>
 					</div>
 				</div>

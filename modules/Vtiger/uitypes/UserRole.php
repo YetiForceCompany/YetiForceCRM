@@ -79,7 +79,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function  getQueryOperators()
 	{
 		return ['e', 'c'];
 	}

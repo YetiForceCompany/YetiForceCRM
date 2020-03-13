@@ -15,6 +15,7 @@ class Settings_Yetiforce_DownloadLanguageModal_View extends \App\Controller\Moda
 	 * {@inheritdoc}
 	 */
 	public $successBtn = '';
+
 	/**
 	 * Qualified module name.
 	 *
@@ -25,9 +26,10 @@ class Settings_Yetiforce_DownloadLanguageModal_View extends \App\Controller\Moda
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcessAjax(\App\Request $request)
+	public function preProcessAjax(App\Request $request)
 	{
-		$this->pageTitle = '<span class="fas fas fa-download mr-2"></span>' . \App\Language::translate('LBL_DOWNLOAD_LANG', $this->qualifiedModuleName);
+		$this->modalIcon = 'fas fa-download';
+		$this->pageTitle = \App\Language::translate('LBL_DOWNLOAD_LANG', $this->qualifiedModuleName);
 		parent::preProcessAjax($request);
 	}
 
@@ -36,7 +38,7 @@ class Settings_Yetiforce_DownloadLanguageModal_View extends \App\Controller\Moda
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $this->qualifiedModuleName);

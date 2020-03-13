@@ -12,6 +12,25 @@
 class Users_Login_Action extends \App\Controller\Action
 {
 	/**
+	 * {@inheritdoc}
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		if ($nonce = \App\Session::get('CSP_TOKEN')) {
+			$this->headers->csp['script-src'] .= " 'nonce-{$nonce}'";
+		}
+		$this->headers->csp['default-src'] = '\'self\'';
+		$this->headers->csp['script-src'] = str_replace([
+			' \'unsafe-inline\'', ' blob:'
+		], '', $this->headers->csp['script-src']);
+		$this->headers->csp['form-action'] = '\'self\'';
+		$this->headers->csp['style-src'] = '\'self\'';
+		$this->headers->csp['base-uri'] = '\'self\'';
+		$this->headers->csp['object-src'] = '\'none\'';
+	}
+
+	/**
 	 * Users record model.
 	 *
 	 * @var Users_Record_Model
@@ -36,7 +55,7 @@ class Users_Login_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		return true;
 	}
@@ -44,7 +63,7 @@ class Users_Login_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
@@ -53,7 +72,7 @@ class Users_Login_Action extends \App\Controller\Action
 			header('location: index.php?module=Users&view=Login');
 			return false;
 		}
-		if (\App\Session::get('LoginAuthyMethod') === '2fa') {
+		if ('2fa' === \App\Session::get('LoginAuthyMethod')) {
 			$this->check2fa($request);
 		} else {
 			$this->login($request);
@@ -67,7 +86,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function check2fa(\App\Request $request)
+	public function check2fa(App\Request $request)
 	{
 		$userId = \App\Session::get('2faUserId');
 		if (Users_Totp_Authmethod::verifyCode(\App\User::getUserModel($userId)->getDetail('authy_secret_totp'), $request->getByType('user_code', 'Digital'))) {
@@ -87,9 +106,10 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	private function redirectUser()
 	{
-		if (isset($_SESSION['return_params'])) {
-			header('location: index.php?' . $_SESSION['return_params']);
-		} elseif (AppConfig::performance('SHOW_ADMIN_PANEL') && $this->userModel->isAdmin()) {
+		if ($param = ($_SESSION['return_params'] ?? false)) {
+			unset($_SESSION['return_params']);
+			header('location: index.php?' . $param);
+		} elseif (App\Config::performance('SHOW_ADMIN_PANEL') && $this->userModel->isAdmin()) {
 			header('location: index.php?module=Vtiger&parent=Settings&view=Index');
 		} else {
 			header('location: index.php');
@@ -103,17 +123,17 @@ class Users_Login_Action extends \App\Controller\Action
 	 *
 	 * @return bool
 	 */
-	public function login(\App\Request $request)
+	public function login(App\Request $request)
 	{
 		$userName = $request->getByType('username', 'Text');
 		$password = $request->getRaw('password');
-		if ($request->getMode() === 'install') {
+		if ('install' === $request->getMode()) {
 			$this->cleanInstallationFiles();
 		}
 		$this->userRecordModel = Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
 		if (!empty($password) && $this->userRecordModel->doLogin($password)) {
 			$this->userModel = App\User::getUserModel($this->userRecordModel->getId());
-			if (\App\Session::get('UserAuthMethod') === 'PASSWORD' && $this->userRecordModel->verifyPasswordChange($this->userModel)) {
+			if ('PASSWORD' === \App\Session::get('UserAuthMethod') && $this->userRecordModel->verifyPasswordChange($this->userModel)) {
 				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_YOUR_PASSWORD_HAS_EXPIRED', 'Users'));
 				\App\Session::set('UserLoginMessageType', 'error');
 				header('location: index.php');
@@ -121,8 +141,8 @@ class Users_Login_Action extends \App\Controller\Action
 			}
 			$this->afterLogin($request);
 			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($userName)); //Track the login History
-			if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId()) && !Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
-				header('location: index.php?module=Users&view=Login');
+			if ($this->isMultiFactorAuthentication() && !Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
+				header('location: index.php');
 			} else {
 				$this->redirectUser();
 			}
@@ -137,12 +157,12 @@ class Users_Login_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function afterLogin(\App\Request $request)
+	public function afterLogin(App\Request $request)
 	{
-		if (AppConfig::main('session_regenerate_id')) {
+		if (\Config\Security::$loginSessionRegenerate) {
 			\App\Session::regenerateId(true); // to overcome session id reuse.
 		}
-		if (Users_Totp_Authmethod::isActive($this->userRecordModel->getId())) {
+		if ($this->isMultiFactorAuthentication()) {
 			if (Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
 				\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
 				\App\Session::set('ShowAuthy2faModal', true);
@@ -156,16 +176,28 @@ class Users_Login_Action extends \App\Controller\Action
 		} else {
 			\App\Session::set('authenticated_user_id', $this->userRecordModel->getId());
 		}
-		\App\Session::set('app_unique_key', AppConfig::main('application_unique_key'));
+		\App\Session::set('app_unique_key', App\Config::main('application_unique_key'));
 		\App\Session::set('user_name', $this->userRecordModel->get('user_name'));
 		\App\Session::set('full_user_name', $this->userModel->getName());
 		\App\Session::set('fingerprint', $request->get('fingerprint'));
-		if ($request->has('loginLanguage') && AppConfig::main('langInLoginView')) {
+		\App\Session::set('user_agent', \App\Request::_getServer('HTTP_USER_AGENT', ''));
+		\App\Extension\PwnedPassword::afterLogin($request->getRaw('password'));
+		if ($request->has('loginLanguage') && App\Config::main('langInLoginView')) {
 			\App\Session::set('language', $request->getByType('loginLanguage'));
 		}
 		if ($request->has('layout')) {
 			\App\Session::set('layout', $request->getByType('layout'));
 		}
+	}
+
+	/**
+	 * Check whether to run multi-factor authentication.
+	 *
+	 * @return bool
+	 */
+	private function isMultiFactorAuthentication(): bool
+	{
+		return Users_Totp_Authmethod::isActive($this->userRecordModel->getId()) && !\in_array(\App\RequestUtil::getRemoteIP(true), \App\Config::security('whitelistIp2fa', []));
 	}
 
 	/**
@@ -192,7 +224,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function failedLogin(\App\Request $request)
+	public function failedLogin(App\Request $request)
 	{
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive()) {

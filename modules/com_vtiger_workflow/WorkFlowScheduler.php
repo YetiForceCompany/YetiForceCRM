@@ -39,7 +39,7 @@ class WorkFlowScheduler
 	 *
 	 * @return \App\Db\Query
 	 */
-	public function getWorkflowQuery(\Workflow $workflow)
+	public function getWorkflowQuery(Workflow $workflow)
 	{
 		$conditions = \App\Json::decode(App\Purifier::decodeHtml($workflow->test));
 
@@ -69,7 +69,7 @@ class WorkFlowScheduler
 	 */
 	public function queueScheduledWorkflowTasks()
 	{
-		$default_timezone = AppConfig::main('default_timezone');
+		$default_timezone = App\Config::main('default_timezone');
 		$vtWorflowManager = new VTWorkflowManager();
 		$taskQueue = new VTTaskQueue();
 
@@ -93,12 +93,12 @@ class WorkFlowScheduler
 					foreach ($tasks as $task) {
 						if ($task->active) {
 							$trigger = $task->trigger;
-							if ($trigger !== null) {
+							if (null !== $trigger) {
 								$delay = strtotime($data[$trigger['field']]) + $trigger['days'] * 86400;
 							} else {
 								$delay = 0;
 							}
-							if ((bool) $task->executeImmediately === true) {
+							if (true === (bool) $task->executeImmediately) {
 								$task->doTask($recordModel);
 							} else {
 								$taskQueue->queueTask($task->id, $recordModel->getId(), $delay);
@@ -118,7 +118,7 @@ class WorkFlowScheduler
 	 * @param \App\QueryGenerator $queryGenerator
 	 * @param array               $conditions
 	 */
-	public function addWorkflowConditionsToQueryGenerator(\App\QueryGenerator $queryGenerator, $conditions)
+	public function addWorkflowConditionsToQueryGenerator(App\QueryGenerator $queryGenerator, $conditions)
 	{
 		$conditionMapping = [
 			'equal to' => 'e',
@@ -138,6 +138,8 @@ class WorkFlowScheduler
 			'before' => 'l',
 			'after' => 'g',
 			'between' => 'bw',
+			'smallerthannow' => 'smallerthannow',
+			'greaterthannow' => 'greaterthannow',
 			'less than days ago' => 'bw',
 			'more than days ago' => 'l',
 			'in less than' => 'bw',
@@ -162,19 +164,19 @@ class WorkFlowScheduler
 				$sourceField = '';
 				$operation = $condition['operation'];
 				//Cannot handle this condition for scheduled workflows
-				if ($operation === 'has changed') {
+				if ('has changed' === $operation) {
 					continue;
 				}
 				$value = $condition['value'];
-				if (in_array($operation, $this->specialDateTimeOperator())) {
+				if (\in_array($operation, $this->specialDateTimeOperator())) {
 					$value = $this->parseValueForDate($condition);
 				}
-				$groupJoin = $condition['groupjoin'];
+				$groupId = $condition['groupid'] ?? 0;
 				$operator = $conditionMapping[$operation];
 				$fieldName = $condition['fieldname'];
 				$value = html_entity_decode($value);
 				preg_match('/(\w+) : \((\w+)\) (\w+)/', $condition['fieldname'], $matches);
-				if (count($matches) != 0) {
+				if (0 != \count($matches)) {
 					$sourceField = $matches[1];
 					$relatedModule = $matches[2];
 					$relatedFieldName = $matches[3];
@@ -186,10 +188,10 @@ class WorkFlowScheduler
 						'relatedField' => $relatedFieldName,
 						'value' => $value,
 						'operator' => $operator,
-						'conditionGroup' => $groupJoin === 'and',
+						'conditionGroup' => empty($groupId),
 					]);
 				} else {
-					$queryGenerator->addCondition($fieldName, $value, $operator, $groupJoin === 'and');
+					$queryGenerator->addCondition($fieldName, $value, $operator, empty($groupId));
 				}
 			}
 		}
@@ -219,7 +221,7 @@ class WorkFlowScheduler
 		$operation = $condition['operation'];
 
 		// based on the admin users time zone, since query generator expects datetime at user timezone
-		$default_timezone = \AppConfig::main('default_timezone');
+		$default_timezone = \App\Config::main('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		date_default_timezone_set($adminTimeZone);
@@ -270,11 +272,6 @@ class WorkFlowScheduler
 				break;
 			default:
 				break;
-		}
-		if (in_array($operation, ['less than hours before', 'less than hours later', 'more than hours later', 'more than hours before'])) {
-			$value = App\Fields\DateTime::formatToDisplay($value);
-		} else {
-			$value = App\Fields\Date::formatToDisplay($value);
 		}
 		date_default_timezone_set($default_timezone);
 		return $value;

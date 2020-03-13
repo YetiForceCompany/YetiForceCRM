@@ -25,6 +25,9 @@ class EventHandler
 	private $exceptions;
 	private static $mandatoryEventClass = ['ModTracker_ModTrackerHandler_Handler', 'Vtiger_RecordLabelUpdater_Handler'];
 
+	/** Edit view, validation before saving */
+	public const EDIT_VIEW_PRE_SAVE = 'EditViewPreSave';
+
 	/**
 	 * Get all event handlers.
 	 *
@@ -42,7 +45,7 @@ class EventHandler
 		}
 		if ($active) {
 			foreach ($handlers as $key => &$handler) {
-				if ((int) $handler['is_active'] !== 1) {
+				if (1 !== (int) $handler['is_active']) {
 					unset($handlers[$key]);
 				}
 			}
@@ -54,6 +57,7 @@ class EventHandler
 	 * Get active event handlers by type (event_name).
 	 *
 	 * @param string $name
+	 * @param mixed  $moduleName
 	 *
 	 * @return array
 	 */
@@ -69,7 +73,7 @@ class EventHandler
 		$handlers = self::$handlerByType[$name] ?? [];
 		if ($moduleName) {
 			foreach ($handlers as $key => &$handler) {
-				if ((!empty($handler['include_modules']) && !in_array($moduleName, explode(',', $handler['include_modules']))) || (!empty($handler['exclude_modules']) && in_array($moduleName, explode(',', $handler['exclude_modules'])))) {
+				if ((!empty($handler['include_modules']) && !\in_array($moduleName, explode(',', $handler['include_modules']))) || (!empty($handler['exclude_modules']) && \in_array($moduleName, explode(',', $handler['exclude_modules'])))) {
 					unset($handlers[$key]);
 				}
 			}
@@ -86,6 +90,7 @@ class EventHandler
 	 * @param string $excludeModules
 	 * @param int    $priority
 	 * @param bool   $isActive
+	 * @param mixed  $ownerId
 	 */
 	public static function registerHandler($eventName, $className, $includeModules = '', $excludeModules = '', $priority = 5, $isActive = true, $ownerId = 0)
 	{
@@ -131,6 +136,20 @@ class EventHandler
 	}
 
 	/**
+	 * Update an event handler.
+	 *
+	 * @param array $params
+	 * @param int   $id
+	 *
+	 * @return void
+	 */
+	public static function update(array $params, int $id)
+	{
+		Db::getInstance()->createCommand()->update(self::$baseTable, $params, ['eventhandler_id' => $id])->execute();
+		static::clearCache();
+	}
+
+	/**
 	 * Set an event handler as inactive.
 	 *
 	 * @param string      $className
@@ -168,20 +187,26 @@ class EventHandler
 	 * Set record model.
 	 *
 	 * @param \App\Vtiger_Record_Model $recordModel
+	 *
+	 * @return $this
 	 */
 	public function setRecordModel(\Vtiger_Record_Model $recordModel)
 	{
 		$this->recordModel = $recordModel;
+		return $this;
 	}
 
 	/**
 	 * Set module name.
 	 *
 	 * @param string $moduleName
+	 *
+	 * @return $this
 	 */
 	public function setModuleName($moduleName)
 	{
 		$this->moduleName = $moduleName;
+		return $this;
 	}
 
 	/**
@@ -198,6 +223,8 @@ class EventHandler
 	 * Add param.
 	 *
 	 * @param array $params
+	 * @param mixed $key
+	 * @param mixed $value
 	 */
 	public function addParams($key, $value)
 	{
@@ -249,7 +276,7 @@ class EventHandler
 	 *
 	 * @return array Handlers list
 	 */
-	protected function getHandlers($name)
+	public function getHandlers($name)
 	{
 		$handlers = static::getByType($name, $this->moduleName);
 		if ($this->exceptions) {
@@ -293,11 +320,32 @@ class EventHandler
 			}
 			$function = lcfirst($name);
 			if (method_exists($handlerInstance, $function)) {
-				$handlerInstance->$function($this);
+				$handlerInstance->{$function}($this);
 			} else {
 				Log::error("Handler not found, class: {$handler['handler_class']} | $function");
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 			}
 		}
+	}
+
+	/**
+	 * Trigger an event.
+	 *
+	 * @param array $handler
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function triggerHandler(array $handler)
+	{
+		$handlerInstance = new $handler['handler_class']();
+		$function = lcfirst($handler['event_name']);
+		$result = false;
+		if (method_exists($handlerInstance, $function)) {
+			$result = $handlerInstance->{$function}($this);
+		} else {
+			Log::error("Handler not found, class: {$handler['handler_class']} | $function");
+			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
+		}
+		return $result;
 	}
 }

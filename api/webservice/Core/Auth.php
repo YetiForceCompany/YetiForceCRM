@@ -15,7 +15,7 @@ class Auth
 
 	public static function init($self)
 	{
-		$method = \AppConfig::api('AUTH_METHOD');
+		$method = \App\Config::api('AUTH_METHOD');
 		$class = "Api\Core\Auth\\$method";
 		$intance = new $class();
 		$intance->setApi($self);

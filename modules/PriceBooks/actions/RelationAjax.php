@@ -10,12 +10,46 @@
 
 class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 {
-	public function process(\App\Request $request)
+	use \App\Controller\ExposeMethod;
+
+	/**
+	 * Construct.
+	 */
+	public function __construct()
 	{
-		$mode = $request->getMode();
-		if (!empty($mode) && method_exists($this, "$mode")) {
-			$this->$mode($request);
+		parent::__construct();
+		$this->exposeMethod('specifyMargin');
+		$this->exposeMethod('addListPrice');
+		$this->exposeMethod('addRelation');
+		$this->exposeMethod('deleteRelation');
+	}
+
+	/**
+	 * Setting margins.
+	 *
+	 * @param App\Request $request
+	 */
+	public function specifyMargin(App\Request $request)
+	{
+		$margin = $request->getByType('margin', 'NumberInUserFormat');
+		$recordId = $request->getInteger('record');
+		$queryGenerator = static::getQuery($request);
+		$queryGenerator->setFields(['id', 'purchase']);
+		$currencyId = Vtiger_Record_Model::getInstanceById($recordId, 'PriceBooks')->get('currency_id');
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$purchasePrice = (new Vtiger_MultiCurrency_UIType())->getValueForCurrency($row['purchase'], $currencyId);
+			$dbCommand->update(
+				'vtiger_pricebookproductrel',
+				['listprice' => ((100.00 + $margin) / 100.00) * $purchasePrice],
+				['pricebookid' => $recordId, 'productid' => $row['id']]
+			)->execute();
 		}
+		$dataReader->close();
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
 	}
 
 	/**
@@ -23,7 +57,7 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function addListPrice(\App\Request $request)
+	public function addListPrice(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
@@ -39,12 +73,12 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$response->emit();
 	}
 
-	/*
-	 * Function to add relation for specified source record id and related record id list
-	 * @param <array> $request
+	/**
+	 * Function to add relation for specified source record id and related record id list.
+	 *
+	 * @param \App\Request $request
 	 */
-
-	public function addRelation(\App\Request $request)
+	public function addRelation(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
@@ -71,9 +105,9 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	/**
 	 * Function to delete the relation for specified source record id and related record id list.
 	 *
-	 * @param <array> $request
+	 * @param \App\Request $request
 	 */
-	public function deleteRelation(\App\Request $request)
+	public function deleteRelation(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');

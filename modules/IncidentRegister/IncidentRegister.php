@@ -103,15 +103,7 @@ class IncidentRegister extends Vtiger_CRMEntity
 	 *
 	 * @var array
 	 */
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'FL_NAME' => 'name',
-		'Assigned To' => 'assigned_user_id',
-		'FL_STATUS' => 'incidentregister_status',
-		'FL_PEOPLE_NUMBER' => 'peoplne_number',
-		'FL_TYPE' => 'incidentregister_type',
-		'FL_INCIDENT_REPORT_DATE' => 'incident_report_date'
-	];
+	public $search_fields_name = [];
 	/**
 	 * For Popup window record selection.
 	 *

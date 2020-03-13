@@ -64,11 +64,10 @@ class DavAuthBackendPdo extends DAV\Auth\Backend\PDO
 	 */
 	public function check(RequestInterface $request, ResponseInterface $response)
 	{
-		if (strpos($request->getHeader('Authorization'), 'Basic') === 0) {
+		if (0 === strpos($request->getHeader('Authorization'), 'Basic')) {
 			return $this->checkBasic($request, $response);
-		} else {
-			return parent::check($request, $response);
 		}
+		return parent::check($request, $response);
 	}
 
 	/**

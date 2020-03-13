@@ -14,7 +14,7 @@ return [
 	],
 	'USER_NAME_IS_EDITABLE' => [
 		'default' => true,
-		'description' => 'Is it possible to edit a usernames',
+		'description' => 'Is it possible to edit usernames?',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
@@ -35,5 +35,16 @@ return [
 		'description' => 'Activation of favorite owners',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
-	]
+	],
+	'checkPwnedPassword' => [
+		'default' => true,
+		'description' => 'Check if the password is in the stolen passwords database',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+	],
+	'pwnedPasswordProvider' => [
+		'default' => 'YetiForce',
+		'description' => 'Provider to the check password is in the stolen passwords database',
+		'validation' => '\App\Validator::text',
+	],
 ];

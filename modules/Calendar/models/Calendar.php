@@ -10,6 +10,7 @@
 class Calendar_Calendar_Model extends App\Base
 {
 	public $moduleName = 'Calendar';
+	public $module;
 	public $relationAcounts = [
 		'Contacts' => ['vtiger_contactdetails', 'contactid', 'parentid'],
 		'Project' => ['vtiger_project', 'projectid', 'linktoaccountscontacts'],
@@ -25,6 +26,19 @@ class Calendar_Calendar_Model extends App\Base
 	public function getModuleName()
 	{
 		return $this->moduleName;
+	}
+
+	/**
+	 * Get module name.
+	 *
+	 * @return string
+	 */
+	public function getModule()
+	{
+		if (!isset($this->module)) {
+			$this->module = Vtiger_Module_Model::getInstance($this->getModuleName());
+		}
+		return $this->module;
 	}
 
 	/**
@@ -93,13 +107,10 @@ class Calendar_Calendar_Model extends App\Base
 			}
 		}
 		$conditions = [];
-		$currentUser = App\User::getCurrentUserModel();
-		if ($currentUser->getRoleInstance()->get('clendarallorecords') === 1) {
-			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => $currentUser->getId()]);
-			$conditions[] = ['vtiger_crmentity.crmid' => $subQuery];
-		}
 		if (!empty($this->get('user'))) {
 			$conditions[] = ['vtiger_crmentity.smownerid' => $this->get('user')];
+			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => $this->get('user')]);
+			$conditions[] = ['vtiger_crmentity.crmid' => $subQuery];
 		}
 		if ($conditions) {
 			$query->andWhere(array_merge(['or'], $conditions));
@@ -126,19 +137,14 @@ class Calendar_Calendar_Model extends App\Base
 	 */
 	public function getPublicHolidays()
 	{
-		$startDate = new DateTimeField($this->get('start'));
-		$startDate = $startDate->getDisplayDate();
-		$endDate = new DateTimeField($this->get('end'));
-		$endDate = $endDate->getDisplayDate();
-		$holidays = Settings_PublicHoliday_Module_Model::getHolidays([$startDate, $endDate]);
 		$result = [];
-		foreach ($holidays as $holiday) {
+		foreach (App\Fields\Date::getHolidays(DateTimeField::convertToDBTimeZone($this->get('start'))->format('Y-m-d'), DateTimeField::convertToDBTimeZone($this->get('end'))->format('Y-m-d')) as $holiday) {
 			$item = [];
 			$item['title'] = $holiday['name'];
 			$item['type'] = $holiday['type'];
 			$item['start'] = $holiday['date'];
 			$item['rendering'] = 'background';
-			if ($item['type'] === 'national') {
+			if ('national' === $item['type']) {
 				$item['color'] = '#FFAB91';
 				$item['icon'] = 'fas fa-flag';
 			} else {
@@ -162,8 +168,8 @@ class Calendar_Calendar_Model extends App\Base
 		$return = [];
 		$currentUser = \App\User::getCurrentUserModel();
 		$moduleModel = Vtiger_Module_Model::getInstance($this->getModuleName());
-		$extended = AppConfig::module('Calendar', 'CALENDAR_VIEW') === 'Extended';
-		$editForm = \AppConfig::module('Calendar', 'SHOW_EDIT_FORM');
+		$extended = 'Extended' === App\Config::module('Calendar', 'CALENDAR_VIEW');
+		$editForm = \App\Config::module('Calendar', 'SHOW_EDIT_FORM');
 		$dataReader = $this->getQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$item = [];
@@ -179,7 +185,7 @@ class Calendar_Calendar_Model extends App\Base
 			$item['module'] = $this->getModuleName();
 			$item['title'] = \App\Purifier::encodeHtml($row['subject']);
 			$item['id'] = $row['id'];
-			$item['set'] = $row['activitytype'] == 'Task' ? 'Task' : 'Event';
+			$item['set'] = 'Task' == $row['activitytype'] ? 'Task' : 'Event';
 			$dateTimeFieldInstance = new DateTimeField($row['date_start'] . ' ' . $row['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getFullcalenderDateTimevalue();
 			$startDateTimeDisplay = $dateTimeFieldInstance->getDisplayDateTimeValue();
@@ -199,7 +205,7 @@ class Calendar_Calendar_Model extends App\Base
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$endDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->getDetail('date_format'));
 
-			$item['allDay'] = $row['allday'] == 1;
+			$item['allDay'] = 1 == $row['allday'];
 			$item['start_date'] = $row['date_start'];
 			if ($item['allDay']) {
 				$item['start'] = $startDateFormated;
@@ -212,9 +218,9 @@ class Calendar_Calendar_Model extends App\Base
 			$item['start_display'] = $startDateTimeDisplay;
 			$item['end_display'] = $endDateTimeDisplay;
 			$item['hour_start'] = $startTimeDisplay;
-			$hours = \App\Fields\Date::getDiff($item['start'], $item['end'], 'hours');
-			$item['hours'] = \App\Fields\Time::formatToHourText($hours, 'short');
-			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $row['assigned_user_id'] . ' picklistCBr_Calendar_activitytype_' . $row['activitytype'];
+			$hours = \App\Fields\DateTime::getDiff($item['start'], $item['end'], 'hours');
+			$item['hours'] = \App\Fields\RangeTime::formatHourToDisplay($hours, 'short');
+			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $row['assigned_user_id'] . ' picklistCBr_Calendar_activitytype_' . \App\Colors::sanitizeValue($row['activitytype']);
 			$return[] = $item;
 		}
 		$dataReader->close();
@@ -259,7 +265,7 @@ class Calendar_Calendar_Model extends App\Base
 					$return[$date]['start'] = $date;
 					$return[$date]['date'] = $date;
 					if (isset($return[$date]['event'][$activitytype]['count'])) {
-						$return[$date]['event'][$activitytype]['count'] += 1;
+						++$return[$date]['event'][$activitytype]['count'];
 					} else {
 						$return[$date]['event'][$activitytype]['count'] = 1;
 					}
@@ -313,7 +319,7 @@ class Calendar_Calendar_Model extends App\Base
 					$date = date('Y-m-d', $date);
 					$return[$date]['date'] = $date;
 					if (isset($return[$date]['count'])) {
-						$return[$date]['count'] += 1;
+						++$return[$date]['count'];
 					} else {
 						$return[$date]['count'] = 1;
 					}
@@ -333,14 +339,13 @@ class Calendar_Calendar_Model extends App\Base
 	public static function getCleanInstance()
 	{
 		$instance = Vtiger_Cache::get('calendarModels', 'Calendar');
-		if ($instance === false) {
+		if (false === $instance) {
 			$instance = new self();
 			Vtiger_Cache::set('calendarModels', 'Calendar', clone $instance);
 
 			return $instance;
-		} else {
-			return clone $instance;
 		}
+		return clone $instance;
 	}
 
 	public static function getCalendarTypes()
@@ -350,5 +355,50 @@ class Calendar_Calendar_Model extends App\Base
 			'PLL_BREAK_TIME',
 			'PLL_HOLIDAY',
 		];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getSideBarLinks($linkParams)
+	{
+		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['SIDEBARWIDGET'], $linkParams)['SIDEBARWIDGET'] ?? [];
+		if ('Extended' === App\Config::module('Calendar', 'CALENDAR_VIEW')) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARWIDGET',
+				'linklabel' => 'LBL_USERS',
+				'linkurl' => "module={$this->getModuleName()}&view=RightPanelExtended&mode=getUsersList",
+				'linkclass' => 'js-users-form usersForm '
+			]);
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARWIDGET',
+				'linklabel' => 'LBL_GROUPS',
+				'linkurl' => "module={$this->getModuleName()}&view=RightPanelExtended&mode=getGroupsList",
+				'linkclass' => 'js-group-form groupForm',
+			]);
+		} else {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARWIDGETRIGHT',
+				'linklabel' => 'Activity Type',
+				'linkurl' => "module={$this->getModuleName()}&view=RightPanel&mode=getActivityType",
+				'linkdata' => ['cache' => 'calendar-types', 'name' => 'types'],
+				'linkclass' => 'js-calendar__filter--types',
+			]);
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARWIDGETRIGHT',
+				'linklabel' => 'LBL_USERS',
+				'linkurl' => "module={$this->getModuleName()}&view=RightPanel&mode=getUsersList",
+				'linkicon' => '',
+				'linkclass' => 'js-calendar__filter--users',
+			]);
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARWIDGETRIGHT',
+				'linklabel' => 'LBL_GROUPS',
+				'linkurl' => "module={$this->getModuleName()}&view=RightPanel&mode=getGroupsList",
+				'linkicon' => '',
+				'linkclass' => 'js-calendar__filter--groups',
+			]);
+		}
+		return $links;
 	}
 }

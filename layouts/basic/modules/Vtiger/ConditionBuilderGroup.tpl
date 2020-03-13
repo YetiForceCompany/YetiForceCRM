@@ -13,7 +13,7 @@
 		</div>
 		<div class="btn-group btn-group-toggle">
 			<button type="button" class="btn btn-sm btn-success js-condition-add" data-js="click">
-				<span class="adminIcon-user mr-1"></span>{\App\Language::translate('LBL_ADD_CONDITION',$MODULE_NAME)}
+				<span class="yfi yfi-users-2 mr-1"></span>{\App\Language::translate('LBL_ADD_CONDITION',$MODULE_NAME)}
 			</button>
 			<button type="button" class="btn btn-sm c-btn-light-green js-group-add" data-js="click">
 				<span class="adminIcon-groups mr-1"></span>{\App\Language::translate('LBL_ADD_CONDITION_GROUP',$MODULE_NAME)}

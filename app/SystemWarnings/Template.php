@@ -84,7 +84,9 @@ abstract class Template
 	/**
 	 * Returns the warning status.
 	 *
-	 * @return string|int
+	 * @param mixed $returnText
+	 *
+	 * @return int|string
 	 */
 	public function getStatus($returnText = false)
 	{
@@ -127,7 +129,7 @@ abstract class Template
 
 	public function getTpl()
 	{
-		if (!$this->tpl || is_string($this->tpl)) {
+		if (!$this->tpl || \is_string($this->tpl)) {
 			return $this->tpl;
 		}
 		$refClass = new \ReflectionClass($this);
@@ -141,11 +143,13 @@ abstract class Template
 	/**
 	 * Returns the warning folder.
 	 *
+	 * @param mixed $toArray
+	 *
 	 * @return string
 	 */
 	public function getFolder($toArray = true)
 	{
-		if ($toArray && strpos($this->folder, '\\') !== false) {
+		if ($toArray && false !== strpos($this->folder, '\\')) {
 			$this->folder = explode('\\', $this->folder);
 		}
 		return $this->folder;
@@ -153,6 +157,8 @@ abstract class Template
 
 	/**
 	 * Updates the warning folder.
+	 *
+	 * @param mixed $folder
 	 *
 	 * @return string
 	 */
@@ -170,11 +176,11 @@ abstract class Template
 	 */
 	public function update($params)
 	{
-		$statusValue = $params === '2' ? 0 : 2;
+		$statusValue = '2' === $params ? 0 : 2;
 		$refClass = new \ReflectionClass($this);
 		$filePath = $refClass->getFileName();
 		$fileContent = file_get_contents($filePath);
-		if (strpos($fileContent, 'protected $statusValue ') !== false) {
+		if (false !== strpos($fileContent, 'protected $statusValue ')) {
 			$pattern = '/\$statusValue = ([^;]+)/';
 			$replacement = '$statusValue = ' . $statusValue;
 			$fileContent = preg_replace($pattern, $replacement, $fileContent);

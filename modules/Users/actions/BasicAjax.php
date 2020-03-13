@@ -14,7 +14,7 @@ class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
@@ -25,15 +25,12 @@ class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$searchValue = $request->getByType('search_value', 'Text');
-		$searchModule = $request->getByType('search_module');
-		$parentRecordId = $request->getInteger('parent_id');
-		$parentModuleName = $request->getByType('parent_module');
-
+		$searchModule = $request->getByType('search_module', 'Alnum');
 		$searchModuleModel = Users_Module_Model::getInstance($searchModule);
-		$records = $searchModuleModel->searchRecord($searchValue, $parentRecordId, $parentModuleName);
+		$records = $searchModuleModel->searchRecord($searchValue);
 		$result = [];
 		if (is_array($records)) {
 			foreach ($records as $recordModels) {
@@ -46,7 +43,7 @@ class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 				}
 			}
 		}
-		$response = new Vtiger_Response();
+		$response = new \Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}

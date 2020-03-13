@@ -16,7 +16,7 @@
 		</button>
 	</div>
 </div>
-<hr>	
+<hr>
 <div class="contents p-3">
 	{if $RULE_MODEL_LIST}
 		<table class="table table-bordered table-sm js-custom-rule-table" data-js="container">
@@ -49,8 +49,8 @@
 								{\App\Language::translate('Read Write', $QUALIFIED_MODULE)}
 							{/if}
 							<div class="float-right">
-								<button type="button" class="js-edit btn btn-sm btn-primary mr-2" data-js="click" data-url="{$RULE_MODEL->getEditViewUrl()}"><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-edit alignMiddle"></span></button>
-								<button type="button" class="js-delete btn btn-sm btn-danger" data-js="click" data-url="{$RULE_MODEL->getDeleteActionUrl()}"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle"></span></button>
+								<button type="button" class="js-edit btn btn-sm btn-primary mr-2" data-js="click" data-url="{$RULE_MODEL->getEditViewUrl()}"><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="yfi yfi-full-editing-view"></span></button>
+								<button type="button" class="js-delete btn btn-sm btn-danger" data-js="click" data-url="{$RULE_MODEL->getDeleteActionUrl()}"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt"></span></button>
 							</div>
 						</td>
 					</tr>

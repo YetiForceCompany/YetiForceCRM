@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class="tpl-Settings-ModuleManager-ImportUserModuleStep1" id="importModules">
-		<div class="widget_header row mb-2">
+		<div class="o-breadcrumb widget_header row mb-2">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
@@ -48,7 +48,6 @@
 									<div class="fieldValue position-relative">
 										<input type="file" class="js-validation-zip" data-js="container"
 											   name="moduleZip" id="moduleZip"
-											   size="80px"
 											   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 											   accept=".ZIP"
 										/>

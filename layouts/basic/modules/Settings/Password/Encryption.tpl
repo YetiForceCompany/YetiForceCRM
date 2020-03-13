@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-Password-Encryption verticalScroll">
-		<div class="widget_header row">
+		<div class="o-breadcrumb widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
@@ -83,11 +83,18 @@
 								</button>
 							</span>
 						</div>
+						{if !$ENCRYPT->isEmpty('method') && isset($MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')])}
+							<div class="js-password-alert alert alert-info show mt-2" role="alert" data-js="container|class:d-none">
+								{\App\Language::translateArgs('LBL_PASSWORD_LENGTH_IS',$QUALIFIED_MODULE,"<span class='js-password-length' data-js='text'>
+									{$MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')]}
+								</span>")}
+							</div>
+						{/if}
 					</div>
 				</div>
 				<div class="c-form__action-panel">
-					<button type="submit" class="btn btn-xs btn-success">
-						<span class="fas fa-check"></span><strong>{App\Language::translate('LBL_SAVE')}</strong>
+					<button type="submit" class="btn btn-sm btn-success">
+						<span class="fas fa-check mr-2"></span><strong>{App\Language::translate('LBL_SAVE')}</strong>
 					</button>
 				</div>
 			</form>

@@ -11,10 +11,10 @@
 -->*}
 {strip}
 	<!-- tpl-Base-DetailViewHeaderTitle -->
-	<div class="d-flex flex-wrap flex-md-nowrap px-3 w-100">
+	<div class="d-flex flex-wrap flex-md-nowrap px-md-3 px-1 w-100">
 		<div class="u-min-w-md-70 w-100">
 			<div class="moduleIcon mt-3">
-				<span class="o-detail__icon js-detail__icon u-cursor-pointer userIcon-{$MODULE_NAME}"></span>
+				<span class="o-detail__icon js-detail__icon u-cursor-pointer yfm-{$MODULE_NAME}"></span>
 			</div>
 			<div class="pl-1">
 				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis-icon"
@@ -27,7 +27,7 @@
 					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
 					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
 					{if $RECORD_STATE !== 'Active'}
-						{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
+						{assign var=COLOR value=App\Config::search('LIST_ENTITY_STATE_COLOR')}
 						<span class="badge badge-secondary"
 							  {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
 							{if \App\Record::getState($RECORD->getId()) === 'Trash'}

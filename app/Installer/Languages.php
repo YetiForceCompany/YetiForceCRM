@@ -22,6 +22,22 @@ class Languages
 	private static $lastErrorMessage;
 
 	/**
+	 * Get updates to install.
+	 *
+	 * @return bool
+	 */
+	public static function getToInstall(): bool
+	{
+		$langs = self::getAll();
+		foreach (\App\Language::getAll(true, true) as $key => $row) {
+			if (isset($langs[$key]) && strtotime($langs[$key]['time']) > strtotime($row['lastupdated'])) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Get all languages for the current version.
 	 *
 	 * @return string[]
@@ -32,18 +48,20 @@ class Languages
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
 			return [];
 		}
+		$file = \ROOT_DIRECTORY . '/app_data/LanguagesUpdater.json';
+		if (\file_exists($file) && filemtime($file) > strtotime('-5 minute')) {
+			return \App\Json::read($file);
+		}
 		$endpoint = \App\Config::developer('LANGUAGES_UPDATE_DEV_MODE') ? 'Developer' : \App\Version::get();
 		$languages = [];
 		try {
 			$response = (new \GuzzleHttp\Client())->request('GET', "https://github.com/YetiForceCompany/YetiForceCRMLanguages/raw/master/{$endpoint}/lang.json", \App\RequestHttp::getOptions());
-			if ($response->getStatusCode() === 200) {
+			if (200 === $response->getStatusCode()) {
 				$body = \App\Json::decode($response->getBody());
 				if ($body) {
+					\file_put_contents($file, $response->getBody());
 					foreach ($body as $prefix => $row) {
-						$languages[$prefix] = \array_merge($row, [
-							'name' => \App\Language::getDisplayName($prefix),
-							'exist' => \file_exists(\ROOT_DIRECTORY . "/languages/{$prefix}/_Base.json")
-						]);
+						$languages[$prefix] = $row;
 					}
 				}
 			}
@@ -92,10 +110,22 @@ class Languages
 	/**
 	 * Get last error message.
 	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	public static function getLastErrorMessage(): ?string
 	{
 		return static::$lastErrorMessage;
+	}
+
+	/**
+	 * Check if language exists.
+	 *
+	 * @param string $prefix
+	 *
+	 * @return bool
+	 */
+	public static function exists(string $prefix): bool
+	{
+		return \file_exists(\ROOT_DIRECTORY . '/languages/' . $prefix . '/_Base.json');
 	}
 }

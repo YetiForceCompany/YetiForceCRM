@@ -26,7 +26,7 @@ class ModComments extends ModCommentsCore
 	public function moduleHandler($moduleName, $eventType)
 	{
 		parent::moduleHandler($moduleName, $eventType);
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			self::addWidgetTo(['Leads', 'Contacts', 'Accounts', 'Project', 'ProjectTask']);
 			// Mark the module as Standard module
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
@@ -36,8 +36,8 @@ class ModComments extends ModCommentsCore
 	/**
 	 * Transfer the comment records from one parent record to another.
 	 *
-	 * @param int Source parent record id
-	 * @param int Target parent record id
+	 * @param int $currentParentId Source parent record id
+	 * @param int $targetParentId  Target parent record id
 	 */
 	public static function transferRecords($currentParentId, $targetParentId)
 	{
@@ -53,7 +53,7 @@ class ModComments extends ModCommentsCore
 	 */
 	public static function getWidget($name)
 	{
-		if ($name === 'DetailViewBlockCommentWidget' &&
+		if ('DetailViewBlockCommentWidget' === $name &&
 			\App\Privilege::isPermitted('ModComments', 'DetailView')) {
 			require_once __DIR__ . '/Detail/Widget/DetailViewBlockComment.php';
 
@@ -65,9 +65,9 @@ class ModComments extends ModCommentsCore
 	/**
 	 * Add widget to other module.
 	 *
-	 * @param unknown_type $moduleNames
-	 *
-	 * @return unknown_type
+	 * @param string $moduleNames
+	 * @param string $widgetType
+	 * @param string $widgetName
 	 */
 	public static function addWidgetTo($moduleNames, $widgetType = 'DETAILVIEWWIDGET', $widgetName = 'DetailViewBlockCommentWidget')
 	{
@@ -75,7 +75,7 @@ class ModComments extends ModCommentsCore
 			return;
 		}
 
-		if (is_string($moduleNames)) {
+		if (\is_string($moduleNames)) {
 			$moduleNames = [$moduleNames];
 		}
 
@@ -87,9 +87,8 @@ class ModComments extends ModCommentsCore
 				$commentWidgetModules[] = $moduleName;
 			}
 		}
-		if (count($commentWidgetModules) > 0) {
+		if (\count($commentWidgetModules) > 0) {
 			$modCommentsModule = vtlib\Module::getInstance('ModComments');
-			$modCommentsModule->addLink('HEADERSCRIPT', 'ModCommentsCommonHeaderScript', 'modules/ModComments/ModCommentsCommon.js');
 			$modCommentsRelatedToField = vtlib\Field::getInstance('related_to', $modCommentsModule);
 			$modCommentsRelatedToField->setRelatedModules($commentWidgetModules);
 		}
@@ -110,7 +109,7 @@ class ModComments extends ModCommentsCore
 			return;
 		}
 
-		if (is_string($moduleNames)) {
+		if (\is_string($moduleNames)) {
 			$moduleNames = [$moduleNames];
 		}
 
@@ -122,7 +121,7 @@ class ModComments extends ModCommentsCore
 				$commentWidgetModules[] = $moduleName;
 			}
 		}
-		if (count($commentWidgetModules) > 0) {
+		if (\count($commentWidgetModules) > 0) {
 			$modCommentsModule = vtlib\Module::getInstance('ModComments');
 			$modCommentsRelatedToField = vtlib\Field::getInstance('related_to', $modCommentsModule);
 			$modCommentsRelatedToField->unsetRelatedModules($commentWidgetModules);

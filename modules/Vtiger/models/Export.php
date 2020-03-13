@@ -50,17 +50,20 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public static function getSupportedFileFormats(string $moduleName): array
 	{
-		return AppConfig::module($moduleName, 'EXPORT_SUPPORTED_FILE_FORMATS') ?? ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml'];
+		return App\Config::module($moduleName, 'EXPORT_SUPPORTED_FILE_FORMATS') ?? ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml'];
 	}
 
 	/**
 	 * Get instance.
 	 *
+	 * @param string $moduleName
+	 * @param string $exportType
+	 *
 	 * @return \self
 	 */
 	public static function getInstance(string $moduleName, string $exportType = 'csv')
 	{
-		if ($exportType === 'csv' || empty($exportType)) {
+		if ('csv' === $exportType || empty($exportType)) {
 			$componentName = 'Export';
 		} else {
 			$componentName = 'ExportTo' . ucfirst($exportType);
@@ -72,9 +75,11 @@ class Vtiger_Export_Model extends \App\Base
 	/**
 	 * Get instance from request.
 	 *
+	 * @param App\Request $request
+	 *
 	 * @return \self
 	 */
-	public static function getInstanceFromRequest(\App\Request $request)
+	public static function getInstanceFromRequest(App\Request $request)
 	{
 		$module = $request->getByType('source_module', 'Alnum');
 		if (empty($module)) {
@@ -92,7 +97,7 @@ class Vtiger_Export_Model extends \App\Base
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function initializeFromRequest(\App\Request $request)
+	public function initializeFromRequest(App\Request $request)
 	{
 		$module = $request->getByType('source_module', 2);
 		if (!empty($module)) {
@@ -211,7 +216,7 @@ class Vtiger_Export_Model extends \App\Base
 		$this->accessibleFields = $queryGenerator->getFields();
 		switch ($this->queryOptions['mode']) {
 			case 'ExportAllData':
-				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+				$query->limit(App\Config::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
 			case 'ExportCurrentPage':
 				$pagingModel = new Vtiger_Paging_Model();
@@ -237,7 +242,7 @@ class Vtiger_Export_Model extends \App\Base
 				} else {
 					$query->andWhere(['not in', "$baseTable.$baseTableColumnId", $this->queryOptions['excluded_ids']]);
 				}
-				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+				$query->limit(App\Config::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
 			default:
 				break;
@@ -305,17 +310,11 @@ class Vtiger_Export_Model extends \App\Base
 		if (empty($this->fieldArray)) {
 			$this->fieldArray = $this->moduleFieldInstances;
 			foreach ($this->fieldArray as $fieldName => $fieldObj) {
-				//In database we have same column name in two tables. - inventory modules only
-				if ($fieldObj->get('table') == 'vtiger_inventoryproductrel' && ($fieldName == 'discount_amount' || $fieldName == 'discount_percent')) {
-					$fieldName = 'item_' . $fieldName;
-					$this->fieldArray[$fieldName] = $fieldObj;
-				} else {
-					$columnName = $fieldObj->get('column');
-					$this->fieldArray[$columnName] = $fieldObj;
-				}
+				$columnName = $fieldObj->get('column');
+				$this->fieldArray[$columnName] = $fieldObj;
 			}
 		}
-		$recordId = $arr[$this->focus->table_index] ?? '';
+		$recordId = (int) ($arr['id'] ?? 0);
 		$module = $this->moduleInstance->getName();
 		foreach ($arr as $fieldName => &$value) {
 			if (isset($this->fieldArray[$fieldName])) {
@@ -324,36 +323,30 @@ class Vtiger_Export_Model extends \App\Base
 				unset($arr[$fieldName]);
 				continue;
 			}
-			$value = trim(App\Purifier::decodeHtml($value), '"');
+			$value = $fieldInfo->getUITypeModel()->getValueToExport($value, $recordId);
 			$uitype = $fieldInfo->get('uitype');
 			$fieldname = $fieldInfo->get('name');
 			if (empty($this->fieldDataTypeCache[$fieldName])) {
 				$this->fieldDataTypeCache[$fieldName] = $fieldInfo->getFieldDataType();
 			}
 			$type = $this->fieldDataTypeCache[$fieldName];
-			if ($uitype === 15 || $uitype === 16 || $uitype === 33) {
+			if (15 === $uitype || 16 === $uitype || 33 === $uitype) {
 				if (empty($this->picklistValues[$fieldname])) {
 					$this->picklistValues[$fieldname] = $this->fieldArray[$fieldname]->getPicklistValues();
 				}
 				// If the value being exported is accessible to current user
 				// or the picklist is multiselect type.
-				if ($uitype === 33 || $uitype === 16 || array_key_exists($value, $this->picklistValues[$fieldname])) {
+				if (33 === $uitype || 16 === $uitype || \array_key_exists($value, $this->picklistValues[$fieldname])) {
 					// NOTE: multipicklist (uitype=33) values will be concatenated with |# delim
 					$value = trim($value);
 				} else {
 					$value = '';
 				}
-			} elseif ($uitype === 99) {
+			} elseif (99 === $uitype) {
 				$value = '';
-			} elseif ($uitype === 52 || $type === 'owner') {
+			} elseif (52 === $uitype || 'owner' === $type) {
 				$value = \App\Fields\Owner::getLabel($value);
-			} elseif ($uitype === 120) {
-				$values = [];
-				foreach (\App\Fields\SharedOwner::getById($recordId) as $owner) {
-					$values[] = \App\Fields\Owner::getLabel($owner);
-				}
-				$value = implode(',', $values);
-			} elseif ($type === 'reference') {
+			} elseif ($fieldInfo->isReferenceField()) {
 				$value = trim($value);
 				if (!empty($value)) {
 					$recordModule = \App\Record::getType($value);
@@ -371,7 +364,7 @@ class Vtiger_Export_Model extends \App\Base
 				} else {
 					$value = '';
 				}
-			} elseif (in_array($uitype, [302, 309])) {
+			} elseif (\in_array($uitype, [302, 309])) {
 				$parts = explode(',', trim($value, ', '));
 				$values = \App\Fields\Tree::getValuesById((int) $fieldInfo->getFieldParams());
 				foreach ($parts as &$part) {
@@ -383,7 +376,7 @@ class Vtiger_Export_Model extends \App\Base
 				}
 				$value = implode(' |##| ', $parts);
 			}
-			if ($module === 'Documents' && $fieldname === 'description') {
+			if ('Documents' === $module && 'description' === $fieldname) {
 				$value = strip_tags($value);
 				$value = str_replace('&nbsp;', '', $value);
 				array_push($new_arr, $value);
@@ -397,7 +390,7 @@ class Vtiger_Export_Model extends \App\Base
 		$inventoryEntries = [];
 		foreach ($inventoryFields as $columnName => $field) {
 			$value = $inventoryRow[$columnName];
-			if (in_array($field->getType(), ['Name', 'Reference'])) {
+			if (\in_array($field->getType(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
 					$recordModule = \App\Record::getType($value);
@@ -410,7 +403,7 @@ class Vtiger_Export_Model extends \App\Base
 				} else {
 					$value = '';
 				}
-			} elseif ($field->getType() === 'Currency') {
+			} elseif ('Currency' === $field->getType()) {
 				$value = $field->getDisplayValue($value);
 			} else {
 				$value;
@@ -418,10 +411,10 @@ class Vtiger_Export_Model extends \App\Base
 			$inventoryEntries['inv_' . $columnName] = $value;
 			foreach ($field->getCustomColumn() as $customColumnName => $dbType) {
 				$valueParam = $inventoryRow[$customColumnName];
-				if ($customColumnName === 'currencyparam') {
+				if ('currencyparam' === $customColumnName) {
 					$field = $inventoryFields['currency'];
 					$valueData = $field->getCurrencyParam([], $valueParam);
-					if (is_array($valueData)) {
+					if (\is_array($valueData)) {
 						$valueNewData = [];
 						foreach ($valueData as $currencyId => $data) {
 							$currencyName = \App\Fields\Currency::getById($currencyId)['currency_name'];

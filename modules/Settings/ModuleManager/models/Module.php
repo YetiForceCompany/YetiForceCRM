@@ -17,7 +17,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public static $baseModuleTools = ['Import', 'Export', 'Merge', 'CreateCustomFilter',
 		'DuplicateRecord', 'MassEdit', 'MassArchived', 'MassActive', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
 		'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter', 'QuickExportToExcel', 'ExportPdf', 'RecordMapping',
-		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates', 'OpenRecord'];
+		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates', 'OpenRecord', 'CloseRecord', 'ReceivingMailNotifications', 'CreateDashboardChartFilter', 'TimeLineList', 'ArchiveRecord', 'ActiveRecord', 'MassTrash', 'MoveToTrash', 'RecordConventer', 'AutoAssignRecord', 'AssignToYourself'];
 
 	/**
 	 * @var array Base module tools exceptions.
@@ -30,6 +30,26 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	];
 
 	/**
+	 * @var int Max length module name based on database structure
+	 */
+	public static $maxLengthModuleName = 25;
+
+	/**
+	 * @var int Max length module label based on database structure
+	 */
+	public static $maxLengthModuleLabel = 25;
+
+	/**
+	 * @var int Max length main field name
+	 */
+	public static $maxLengthFieldName = 30;
+
+	/**
+	 * @var int Max length main field label
+	 */
+	public static $maxLengthFieldLabel = 50;
+
+	/**
 	 * Get module base tools exceptions parse to ids.
 	 *
 	 * @return array
@@ -40,7 +60,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$actionIds = (new \App\Db\Query())->select(['actionname', 'actionid'])->from('vtiger_actionmapping')->createCommand()->queryAllByGroup();
 		foreach (static::$baseModuleToolsExceptions as $moduleName => $moduleException) {
 			foreach ($moduleException as $type => $exception) {
-				if (is_array($exception)) {
+				if (\is_array($exception)) {
 					$moduleExceptions = [];
 					foreach ($exception as $actionName) {
 						$moduleExceptions[$actionIds[$actionName]] = $actionName;
@@ -114,11 +134,16 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 			preg_match('/Vtiger/i', $name) ||
 			preg_match('/CustomView/i', $name) ||
 			preg_match('/PickList/i', $name) ||
-			preg_match('/[^A-Za-z]/i', $name);
+			preg_match('/[^A-Za-z]/i', $name) ||
+			\strlen($name) > static::$maxLengthModuleName;
 	}
 
 	/**
 	 * Static Function to get the instance of Vtiger Module Model for all the modules.
+	 *
+	 * @param mixed $presence
+	 * @param mixed $restrictedModulesList
+	 * @param mixed $isEntityType
 	 *
 	 * @return <Array> - List of Vtiger Module Model or sub class instances
 	 */
@@ -175,7 +200,14 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		return ['Home'];
 	}
 
-	public static function createModule($moduleInformation)
+	/**
+	 * Create module.
+	 *
+	 * @param array $moduleInformation
+	 *
+	 * @return vtlib\Module
+	 */
+	public static function createModule(array $moduleInformation)
 	{
 		$moduleInformation['entityfieldname'] = strtolower(self::toAlphaNumeric($moduleInformation['entityfieldname']));
 
@@ -183,6 +215,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$module->name = ucfirst($moduleInformation['module_name']);
 		$module->label = $moduleInformation['module_label'];
 		$module->type = (int) $moduleInformation['entitytype'];
+		$module->premium = (int) ($moduleInformation['premium'] ?? 0);
 		$module->save();
 		$module->initTables();
 
@@ -216,7 +249,8 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field2->typeofdata = 'V~O';
 		$field2->columntype = 'string(32)';
 		$field2->maximumlength = '32';
-		$block->addField($field2);
+		$field2->displaytype = 2;
+		$blockcf->addField($field2);
 
 		$field3 = new vtlib\Field();
 		$field3->name = 'assigned_user_id';
@@ -226,7 +260,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field3->uitype = 53;
 		$field3->typeofdata = 'V~M';
 		$field3->maximumlength = '65535';
-		$block->addField($field3);
+		$blockcf->addField($field3);
 
 		$field4 = new vtlib\Field();
 		$field4->name = 'createdtime';
@@ -236,7 +270,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field4->uitype = 70;
 		$field4->typeofdata = 'DT~O';
 		$field4->displaytype = 2;
-		$block->addField($field4);
+		$blockcf->addField($field4);
 
 		$field5 = new vtlib\Field();
 		$field5->name = 'modifiedtime';
@@ -246,20 +280,31 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$field5->uitype = 70;
 		$field5->typeofdata = 'DT~O';
 		$field5->displaytype = 2;
-		$block->addField($field5);
+		$blockcf->addField($field5);
 
 		$field6 = new vtlib\Field();
 		$field6->name = 'created_user_id';
 		$field6->label = 'Created By';
 		$field6->table = 'vtiger_crmentity';
 		$field6->column = 'smcreatorid';
-		$field6->uitype = 53;
+		$field6->uitype = 52;
 		$field6->typeofdata = 'V~O';
 		$field6->displaytype = 2;
 		$field6->quickcreate = 3;
 		$field6->masseditable = 0;
 		$field6->maximumlength = '65535';
-		$block->addField($field6);
+		$blockcf->addField($field6);
+
+		$field7 = new vtlib\Field();
+		$field7->name = 'shownerid';
+		$field7->label = 'Share with users';
+		$field7->table = 'vtiger_crmentity';
+		$field7->column = 'shownerid';
+		$field7->uitype = 120;
+		$field7->columntype = 'int(11)';
+		$field7->typeofdata = 'V~O';
+		$field7->maximumlength = '65535';
+		$blockcf->addField($field7);
 
 		// Create default custom filter (mandatory)
 		$filter1 = new vtlib\Filter();
@@ -283,9 +328,11 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$module->createFiles($field1);
 		\App\Fields\RecordNumber::getInstance($module->id)->set('prefix', 'N')->set('cur_id', 1)->save();
 
-		if ($module->type === 1) {
+		if (1 === $module->type) {
 			\Vtiger_Inventory_Model::getInstance($module->name)->createInventoryTables();
 		}
+		(new \App\BatchMethod(['method' => '\App\UserPrivilegesFile::recalculateAll', 'params' => []]))->save();
+		return $module;
 	}
 
 	public static function toAlphaNumeric($value)
@@ -295,6 +342,6 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 	public static function getUploadDirectory()
 	{
-		return 'cache/vtlib';
+		return 'cache';
 	}
 }

@@ -70,7 +70,7 @@ class CalDavBackendPdo extends CalDAV\Backend\PDO
 	 */
 	public function deleteCalendarObject($calendarId, $objectUri)
 	{
-		list($calendarId) = $calendarId;
+		[$calendarId] = $calendarId;
 
 		$stmt = $this->pdo->prepare(sprintf('UPDATE vtiger_crmentity SET deleted = ? WHERE crmid IN (SELECT crmid FROM %s WHERE calendarid = ? && uri = ?);', $this->calendarObjectTableName));
 		$stmt->execute([1, $calendarId, $objectUri]);

@@ -16,9 +16,9 @@ class Layout extends \Tests\Base
 	 */
 	public function testGetActiveLayout()
 	{
-		$this->assertSame(\AppConfig::main('defaultLayout'), \App\Layout::getActiveLayout(), 'Expected default layout');
-		\App\Session::set('layout', \AppConfig::main('defaultLayout'));
-		$this->assertSame(\AppConfig::main('defaultLayout'), \App\Layout::getActiveLayout(), 'Expected default layout(session)');
+		$this->assertSame(\App\Config::main('defaultLayout'), \App\Layout::getActiveLayout(), 'Expected default layout');
+		\App\Session::set('layout', \App\Config::main('defaultLayout'));
+		$this->assertSame(\App\Config::main('defaultLayout'), \App\Layout::getActiveLayout(), 'Expected default layout(session)');
 	}
 
 	/**
@@ -39,7 +39,7 @@ class Layout extends \Tests\Base
 		$result0 = \App\Layout::getAllLayouts();
 		$this->assertCount(1, $result0, 'Expected only default layout');
 		$this->assertSame(\App\Language::translate('LBL_DEFAULT'), $result0['basic'], 'Expected only default layout with standard label');
-		\App\Db::getInstance()->createCommand()->insert('vtiger_layout', ['name'=>'unitTest0', 'label'=>'UnitTest0'])->execute();
+		\App\Db::getInstance()->createCommand()->insert('vtiger_layout', ['name' => 'unitTest0', 'label' => 'UnitTest0'])->execute();
 		$result1 = \App\Layout::getAllLayouts();
 		$this->assertCount(2, $result1, 'Expected only two layouts, default and unitTest0');
 		$this->assertSame('UnitTest0', $result1['unitTest0'], 'Expected test layout with reference label');
@@ -51,7 +51,7 @@ class Layout extends \Tests\Base
 	 */
 	public function testGetPublicUrl()
 	{
-		$this->assertSame(\AppConfig::main('site_URL') . 'public_html/unitTest', \App\Layout::getPublicUrl('unitTest', true), 'Url differs from reference');
+		$this->assertSame(\App\Config::main('site_URL') . 'public_html/unitTest', \App\Layout::getPublicUrl('unitTest', true), 'Url differs from reference');
 	}
 
 	/**

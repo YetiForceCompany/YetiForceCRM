@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *
+ * Contributor(s): YetiForce Sp. z o.o
  * ****************************************************************************** */
 
 class PriceBooks extends CRMEntity
@@ -34,14 +34,12 @@ class PriceBooks extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['bookname', 'active', 'currency_id'];
+	public $relationFields = [];
 	public $list_link_field = 'bookname';
 	public $search_fields = [
 		'Price Book Name' => ['pricebook' => 'bookname'],
 	];
-	public $search_fields_name = [
-		'Price Book Name' => 'bookname',
-	];
+	public $search_fields_name = [];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
@@ -49,47 +47,21 @@ class PriceBooks extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'bookname';
 
-	/*
-	 * Function to get the relation tables for related modules
+	/**
+	 * Function to get the relation tables for related modules.
+	 *
 	 * @param - $secmodule secondary module name
-	 * returns the array with table names and fieldnames storing relations between module and this module
+	 *                     returns the array with table names and fieldnames storing relations between module and this module
 	 */
-
 	public function setRelationTables($secmodule = false)
 	{
 		$relTables = [
 			'Products' => ['vtiger_pricebookproductrel' => ['pricebookid', 'productid'], 'vtiger_pricebook' => 'pricebookid'],
 			'Services' => ['vtiger_pricebookproductrel' => ['pricebookid', 'productid'], 'vtiger_pricebook' => 'pricebookid'],
 		];
-		if ($secmodule === false) {
+		if (false === $secmodule) {
 			return $relTables;
 		}
 		return $relTables[$secmodule];
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function saveRelatedModule($module, $crmid, $withModule, $withCrmIds, $relatedName = false)
-	{
-		if (!is_array($withCrmIds)) {
-			$withCrmIds = [$withCrmIds];
-		}
-		$recordModel = Vtiger_Record_Model::getInstanceById($crmid, $module);
-		foreach ($withCrmIds as $withCrmId) {
-			if ($withModule === 'Products' || $withModule === 'Services') {
-				if ((new App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $crmid, 'productid' => $withCrmId])->exists()) {
-					continue;
-				}
-				App\Db::getInstance()->createCommand()->insert('vtiger_pricebookproductrel', [
-						'pricebookid' => $crmid,
-						'productid' => $withCrmId,
-						'listprice' => 0,
-						'usedcurrency' => $recordModel->get('currency_id')
-					])->execute();
-			} else {
-				parent::saveRelatedModule($module, $crmid, $withModule, $withCrmId, $relatedName);
-			}
-		}
 	}
 }

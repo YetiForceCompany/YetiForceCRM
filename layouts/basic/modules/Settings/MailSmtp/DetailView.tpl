@@ -1,13 +1,13 @@
-{strip} 
+{strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	<div class="widget_header row">
+	<div class="o-breadcrumb widget_header row">
 		<div class="col-md-8">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 		<div class="col-md-4 mt-3">
 			<div class="float-right btn-toolbar">
 				<a class="btn btn-info" role="button" href="{$RECORD_MODEL->getEditViewUrl()}">
-					<span class="fas fa-edit" title="{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}"></span>
+					<span class="yfi yfi-full-editing-view" title="{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}"></span>
 					<span class="sr-only">{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</span>
 					<strong>{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</strong>
 				</a>
@@ -19,7 +19,6 @@
 		</div>
 	</div>
 	<div class="detailViewInfo">
-		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table table-bordered">
 			<thead class="thead-light">
 				<tr>
@@ -118,6 +117,30 @@
 					</td>
 				</tr>
 				<tr>
+					<td class="{$WIDTHTYPE} w-25" ><label class="float-right">{App\Language::translate('LBL_MAIL_PRIORITY', $QUALIFIED_MODULE)}</label></td>
+					<td class="{$WIDTHTYPE} w-75">
+						{$RECORD_MODEL->getDisplayValue('priority')}
+					</td>
+				</tr>
+				<tr>
+					<td class="{$WIDTHTYPE} w-25" ><label class="float-right">{App\Language::translate('LBL_CONFIRM_READING_TO', $QUALIFIED_MODULE)}</label></td>
+					<td class="{$WIDTHTYPE} w-75">
+						{$RECORD_MODEL->getDisplayValue('confirm_reading_to')}
+					</td>
+				</tr>
+				<tr>
+					<td class="{$WIDTHTYPE} w-25" ><label class="float-right">{App\Language::translate('LBL_ORGANIZATION', $QUALIFIED_MODULE)}</label></td>
+					<td class="{$WIDTHTYPE} w-75">
+						{$RECORD_MODEL->getDisplayValue('organization')}
+					</td>
+				</tr>
+				<tr>
+					<td class="{$WIDTHTYPE} w-25" ><label class="float-right">{App\Language::translate('LBL_UNSUBSCIBE', $QUALIFIED_MODULE)}</label></td>
+					<td class="{$WIDTHTYPE} w-75">
+						{$RECORD_MODEL->getDisplayValue('unsubscribe')}
+					</td>
+				</tr>
+				<tr>
 					<td class="{$WIDTHTYPE} w-25" ><label class="float-right">{App\Language::translate('LBL_SAVE_SEND_MAIL', $QUALIFIED_MODULE)}</label></td>
 					<td class="{$WIDTHTYPE} w-75">
 						{$RECORD_MODEL->getDisplayValue('save_send_mail')}
@@ -125,7 +148,7 @@
 				</tr>
 			</tbody>
 		</table>
-		{if $RECORD_MODEL->get('save_send_mail') eq 1}	
+		{if $RECORD_MODEL->get('save_send_mail') eq 1}
 			<table class="table table-bordered">
 				<thead>
 					<tr class="blockHeader">
@@ -171,6 +194,6 @@
 					</tr>
 				</tbody>
 			</table>
-		{/if}	
+		{/if}
 	</div>
 	{strip}

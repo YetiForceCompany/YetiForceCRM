@@ -23,7 +23,7 @@ class Record
 	 */
 	public static function getLabel($mixedId)
 	{
-		$multiMode = is_array($mixedId);
+		$multiMode = \is_array($mixedId);
 		$ids = $multiMode ? $mixedId : [$mixedId];
 		$missing = [];
 		foreach ($ids as $id) {
@@ -93,7 +93,7 @@ class Record
 	 * Function gets labels for record data.
 	 *
 	 * @param string    $moduleName
-	 * @param int|array $ids
+	 * @param array|int $ids
 	 * @param bool      $search
 	 *
 	 * @return string[]
@@ -103,7 +103,7 @@ class Record
 		if (empty($moduleName) || empty($ids)) {
 			return [];
 		}
-		if (!is_array($ids)) {
+		if (!\is_array($ids)) {
 			$ids = [$ids];
 		}
 		$entityDisplay = [];
@@ -125,11 +125,11 @@ class Record
 			$query = new \App\Db\Query();
 			$focus = \CRMEntity::getInstance($moduleName);
 			foreach (array_filter($columns) as $column) {
-				if (array_key_exists($column, $moduleInfoExtend)) {
+				if (\array_key_exists($column, $moduleInfoExtend)) {
 					$otherTable = $moduleInfoExtend[$column]['tablename'];
 
 					$paramsCol[] = $otherTable . '.' . $column;
-					if ($otherTable !== $table && !in_array($otherTable, $leftJoinTables)) {
+					if ($otherTable !== $table && !\in_array($otherTable, $leftJoinTables)) {
 						$leftJoinTables[] = $otherTable;
 						$focusTables = $focus->tab_name_index;
 						$query->leftJoin($otherTable, "$table.$focusTables[$table] = $otherTable.$focusTables[$otherTable]");
@@ -156,9 +156,9 @@ class Record
 		while ($row = $dataReader->read()) {
 			$labelName = [];
 			foreach ($columnsName as $columnName) {
-				if (in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 59, 75, 81, 66, 67, 68])) {
+				if (\in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 59, 75, 81, 66, 67, 68])) {
 					$labelName[] = static::getLabel($row[$columnName]);
-				} elseif (in_array($moduleInfoExtend[$columnName]['uitype'], [53])) {
+				} elseif (\in_array($moduleInfoExtend[$columnName]['uitype'], [53])) {
 					$labelName[] = \App\Fields\Owner::getLabel($row[$columnName]);
 				} else {
 					$labelName[] = $row[$columnName];
@@ -167,9 +167,9 @@ class Record
 			if ($search) {
 				$labelSearch = [];
 				foreach ($columnsSearch as $columnName) {
-					if (in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 59, 75, 81, 66, 67, 68])) {
+					if (\in_array($moduleInfoExtend[$columnName]['uitype'], [10, 51, 59, 75, 81, 66, 67, 68])) {
 						$labelSearch[] = static::getLabel($row[$columnName]);
-					} elseif (in_array($moduleInfoExtend[$columnName]['uitype'], [53])) {
+					} elseif (\in_array($moduleInfoExtend[$columnName]['uitype'], [53])) {
 						$labelSearch[] = \App\Fields\Owner::getLabel($row[$columnName]);
 					} else {
 						$labelSearch[] = $row[$columnName];
@@ -209,10 +209,10 @@ class Record
 					$searchRowCount = (new Db\Query())->from('u_#__crmentity_search_label')->where(['crmid' => $id])->count();
 				}
 			}
-			if (($insertMode || !$labelRowCount) && $updater !== 'searchlabel') {
+			if (($insertMode || !$labelRowCount) && 'searchlabel' !== $updater) {
 				$dbCommand->insert('u_#__crmentity_label', ['crmid' => $id, 'label' => $label])->execute();
 			}
-			if (($insertMode || !$searchRowCount) && $updater !== 'label') {
+			if (($insertMode || !$searchRowCount) && 'label' !== $updater) {
 				$dbCommand->insert('u_#__crmentity_search_label', ['crmid' => $id, 'searchlabel' => $search, 'setype' => $moduleName])->execute();
 			}
 			Cache::save('recordLabel', $id, $labelInfo[$id]['name']);
@@ -271,7 +271,7 @@ class Record
 	public static function isExists($recordId, $moduleName = false)
 	{
 		$recordMetaData = Functions::getCRMRecordMetadata($recordId);
-		return (isset($recordMetaData) && $recordMetaData['deleted'] === 0 && ($moduleName ? $recordMetaData['setype'] === $moduleName : true)) ? true : false;
+		return (isset($recordMetaData) && 1 !== $recordMetaData['deleted'] && ($moduleName ? $recordMetaData['setype'] === $moduleName : true)) ? true : false;
 	}
 
 	/**
@@ -285,6 +285,20 @@ class Record
 	{
 		$metadata = Functions::getCRMRecordMetadata($recordId);
 		return $metadata ? $metadata['setype'] : null;
+	}
+
+	/**
+	 * Get the currency ID for the inventory record.
+	 *
+	 * @param int    $recordId
+	 * @param string $moduleName
+	 *
+	 * @return int|null
+	 */
+	public static function getCurrencyIdFromInventory(int $recordId, string $moduleName): ?int
+	{
+		$invData = \Vtiger_Inventory_Model::getInventoryDataById($recordId, $moduleName);
+		return current($invData)['currency'] ?? Fields\Currency::getDefault()['id'] ?? null;
 	}
 
 	/**
@@ -312,14 +326,14 @@ class Record
 	 * Get parent record.
 	 *
 	 * @param int         $recordId
-	 * @param string|bool $moduleName
+	 * @param bool|string $moduleName
 	 *
-	 * @return int|bool
+	 * @return bool|int
 	 */
 	public static function getParentRecord($recordId, $moduleName = false)
 	{
-		if (Cache::has('getParentRecord', $recordId)) {
-			return Cache::get('getParentRecord', $recordId);
+		if (Cache::has(__METHOD__, $recordId)) {
+			return Cache::get(__METHOD__, $recordId);
 		}
 		if (!$moduleName) {
 			$moduleName = static::getType($recordId);
@@ -327,18 +341,43 @@ class Record
 		$parentId = false;
 		if ($parentModules = ModuleHierarchy::getModulesMap1M($moduleName)) {
 			foreach ($parentModules as $parentModule) {
-				if ($fields = Field::getRelatedFieldForModule($moduleName, $parentModule)) {
+				if ($field = Field::getRelatedFieldForModule($moduleName, $parentModule)) {
 					$entity = \CRMEntity::getInstance($moduleName);
-					$index = $entity->tab_name_index[$fields['tablename']];
-					$parentId = (new \App\Db\Query())->select(["{$fields['tablename']}.{$fields['columnname']}"])
-						->from($fields['tablename'])
-						->innerJoin('vtiger_crmentity', "{$fields['tablename']}.{$index} = vtiger_crmentity.crmid")
-						->where(["{$fields['tablename']}.{$index}" => $recordId, 'vtiger_crmentity.deleted' => 0])
+					$index = $entity->tab_name_index[$field['tablename']];
+					$parentId = (new \App\Db\Query())->select(["{$field['tablename']}.{$field['columnname']}"])
+						->from($field['tablename'])
+						->innerJoin('vtiger_crmentity', "{$field['tablename']}.{$index} = vtiger_crmentity.crmid")
+						->where(["{$field['tablename']}.{$index}" => $recordId, 'vtiger_crmentity.deleted' => 0])
 						->scalar();
 				}
 			}
 		}
-		Cache::save('getParentRecord', $recordId, $parentId);
+		Cache::save(__METHOD__, $recordId, $parentId);
 		return $parentId;
+	}
+
+	/**
+	 * Get record id by record number .
+	 *
+	 * @param string $recordNumber
+	 * @param string $moduleName
+	 *
+	 * @return int|bool
+	 */
+	public static function getIdByRecordNumber(string $recordNumber, string $moduleName)
+	{
+		if (Cache::staticHas(__METHOD__, $recordNumber)) {
+			return Cache::staticGet(__METHOD__, $recordNumber);
+		}
+		$field = Fields\RecordNumber::getSequenceNumberField(Module::getModuleId($moduleName));
+		$entity = \CRMEntity::getInstance($moduleName);
+		$index = $entity->tab_name_index[$field['tablename']];
+		$id = (new \App\Db\Query())->select(['vtiger_crmentity.crmid'])
+			->from($field['tablename'])
+			->innerJoin('vtiger_crmentity', "{$field['tablename']}.{$index} = vtiger_crmentity.crmid")
+			->where(["{$field['tablename']}.{$field['columnname']}" => $recordNumber, 'vtiger_crmentity.deleted' => 0])
+			->scalar();
+		Cache::staticSave(__METHOD__, $recordNumber, $id);
+		return $id;
 	}
 }

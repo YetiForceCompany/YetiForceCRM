@@ -18,16 +18,14 @@ class OSSPasswords_CheckPass_Action extends \App\Controller\Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process(App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$password = $request->getByType('password', 'Text');
-
-		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-
-		$passOK = $recordModel->checkPassword($password);
-
-		if ($passOK['error'] === true) {
+		$recordModel = Vtiger_Record_Model::getCleanInstance($request->getModule());
+		$passOK = $recordModel->checkPassword($request->getRaw('password'));
+		if (true === $passOK['error']) {
 			$result = ['success' => false, 'message' => $passOK['message']];
 		} else {
 			$result = ['success' => true, 'message' => ''];

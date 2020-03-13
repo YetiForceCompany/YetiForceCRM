@@ -15,9 +15,11 @@
 					</p>
 					<div class="input-group">
 						<span class="input-group-prepend">
+						<div class="input-group-text">
 							<input type="checkbox" name="groupCheckbox" value="on" class="groupCheckbox">
+							</div>
 						</span>
-						<input type="text" class="form-control groupValue" name="groupDiscount" value="{CurrencyField::convertToUserFormat($GROUP_DISCOUNT, null, true)}" readonly="true">
+						<input type="text" class="form-control groupValue" name="groupDiscount" value="{App\Fields\Double::formatToDisplay($GROUP_DISCOUNT)}" readonly="readonly">
 						<div class="input-group-append">
 							<span class="input-group-text">%</span>
 						</div>

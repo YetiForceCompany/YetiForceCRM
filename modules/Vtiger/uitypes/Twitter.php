@@ -54,7 +54,7 @@ class Vtiger_Twitter_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function  getQueryOperators()
 	{
 		return ['e', 'n', 'c', 'k', 'y', 'ny'];
 	}

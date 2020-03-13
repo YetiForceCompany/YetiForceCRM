@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Accounts_AccountHierarchy_View extends \App\Controller\View
+class Accounts_AccountHierarchy_View extends \App\Controller\View\Page
 {
 	use App\Controller\ClearProcess;
 
@@ -43,7 +43,7 @@ class Accounts_AccountHierarchy_View extends \App\Controller\View
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		$hierarchy = $recordModel->getAccountHierarchy();
-		$listColumns = AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('Accounts', 'COLUMNS_IN_HIERARCHY');
 		$lastModifiedField = [];
 		if (!empty($listColumns) && in_array('active', $listColumns)) {
 			foreach ($hierarchy['entries'] as $crmId => $entry) {

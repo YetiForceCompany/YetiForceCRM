@@ -76,7 +76,7 @@
 			</div>
 		</div>
 		<div class="col-ceq-xsm-6">
-			{if $SOURCE_MODULE && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
+			{if $SOURCE_MODULE && App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
 				{assign var=USERS_GROUP_LIST value=\App\Fields\Owner::getInstance($SOURCE_MODULE)->getUsersAndGroupForModuleList(false,$USER_CONDITIONS)}
 				{assign var=ACCESSIBLE_USERS value=$USERS_GROUP_LIST['users']}
 			{else}
@@ -90,10 +90,10 @@
 				<select class="widgetFilter form-control select2" aria-label="Small"
 						aria-describedby="inputGroup-sizing-sm" title="{\App\Language::translate('LBL_SELECT_USER')}"
 						name="user" style="margin-bottom:0;"
-						{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=users" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+						{if App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
+					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=users" data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 						{/if}>
-					{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+					{if !App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
 						<optgroup label="{\App\Language::translate('LBL_USERS')}">
 							{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_USERS}
 								<option title="{$OWNER_NAME}" {if $OWNER_ID eq $USERID } selected {/if}

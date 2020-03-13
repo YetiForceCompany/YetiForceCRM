@@ -5,9 +5,9 @@
 			<div class="modal fade authModalContent">
 				<div class="modal-dialog modal-lg ">
 					<div class="modal-content">
-						<div class="modal-header row no-margin">
-							<div class="col-12 paddingLRZero">
-								<div class="col-8 paddingLRZero">
+						<div class="modal-header row no-gutters">
+							<div class="col-12">
+								<div class="col-8">
 									<h4>{\App\Language::translate('LBL_TITLE_ADD_ISSUE', $QUALIFIED_MODULE)}</h4>
 								</div>
 								<div class="float-right">

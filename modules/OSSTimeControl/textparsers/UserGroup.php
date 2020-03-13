@@ -22,24 +22,19 @@ class OSSTimeControl_UserGroup_Textparser extends \App\TextParser\Base
 	 */
 	public function process()
 	{
-		$html = '<br /><style>' .
-			'.table {width: 100%; border-collapse: collapse;}' .
-			'.table thead th {border-bottom: 1px solid grey;}' .
-			'.table tbody tr {border-bottom: 1px solid grey}' .
-			'.table tbody tr:nth-child(even) {background-color: #F7F7F7;}' .
-			'.center {text-align: center;}' .
-			'.summary {border-top: 1px solid grey;}' .
-			'</style>';
-		$html .= '<table class="table"><thead><tr>';
-		$html .= '<th>' . \App\Language::translate('User Name', 'Users') . '</th>';
-		$html .= '<th class="center">' . \App\Language::translate('Role', 'Users') . '</th>';
-		$html .= '<th class="center">' . \App\Language::translate('OSSTimeControl', 'OSSTimeControl') . '</th>';
+		$html = '';
+		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
+		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px4px;';
+		$html .= '<table class="table" style="border-collapse:collapse;width:100%;"><thead><tr>';
+		$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate('User Name', 'Users') . '</th>';
+		$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate('Role', 'Users') . '</th>';
+		$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate('OSSTimeControl', 'OSSTimeControl') . '</th>';
 		$html .= '</tr></thead><tbody>';
 		foreach ($this->getUserList() as $user => $data) {
 			$html .= '<tr>';
-			$html .= '<td>' . $user . '</td>';
-			$html .= '<td class="center">' . $data['role'] . '</td>';
-			$html .= '<td class="center">' . \App\Fields\Time::formatToHourText($data['time'], 'short') . '</td>';
+			$html .= "<td style=\"{$bodyStyle}\">" . $user . '</td>';
+			$html .= "<td style=\"{$bodyStyle} text-align:center;\">" . $data['role'] . '</td>';
+			$html .= "<td style=\"{$bodyStyle} text-align:center;\">" . \App\Fields\RangeTime::formatHourToDisplay($data['time'], 'short') . '</td>';
 			$html .= '</tr>';
 		}
 		return $html . '</tbody></table>';
@@ -48,12 +43,15 @@ class OSSTimeControl_UserGroup_Textparser extends \App\TextParser\Base
 	protected function getUserList()
 	{
 		$users = [];
-		$ids = $this->textParser->getParam('pdf')->getRecordIds();
-		if (!is_array($ids)) {
+		$ids = $this->textParser->getParam('pdf')->getVariable('recordsId');
+		if (!\is_array($ids)) {
 			$ids = [$ids];
 		}
 		foreach ($ids as $recordId) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
+			if (!$recordModel->isViewable()) {
+				continue;
+			}
 			$user = $recordModel->getDisplayValue('assigned_user_id', $recordId, true);
 			$time = ($users[$user]['time'] ?? 0) + $recordModel->get('sum_time');
 			$users[$user] = [

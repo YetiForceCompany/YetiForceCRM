@@ -7,7 +7,6 @@ powered-test
 # Git and GitHub meta files
 .github
 .babelrc
-.bin
 *.d.ts
 test.js
 .DS_Store
@@ -115,10 +114,25 @@ updated-jqplot
 css-line-break
 delegate
 good-listener
-select
 tiny-emitter
 jquery-ui
 jquery-ui-dist/external
+asap
+core-js
+encoding
+fbemitter
+fbjs
+iconv-lite
+is-stream
+isomorphic-fetch
+js-tokens
+loose-envify
+node-fetch
+object-assign
+promise
+safer-buffer
+setimmediate
+ua-parser-js
 
 # examples
 example

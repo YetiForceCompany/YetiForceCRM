@@ -29,7 +29,7 @@
 						{/if}
 						{if $RECORD->isEditable()}
 							<a href="{$RECORD->getEditViewUrl()}" class="btn btn-sm btn-light mr-1" role="button">
-							<span class="fas fa-edit js-detail-quick-edit" data-js="click"
+							<span class="yfi yfi-full-editing-view js-detail-quick-edit" data-js="click"
 								  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 							</a>
 						{/if}
@@ -55,7 +55,7 @@
 							{assign var=ACTIVITY_STATE value=$RECORD->get('activitystatus')}
 							{assign var=EMPTY value=!in_array($ACTIVITY_STATE, [$ACTIVITY_STATE_LABEL.cancelled,$ACTIVITY_STATE_LABEL.completed])}
 							<div class="float-left js-activity-buttons" data-js="container">
-								{assign var=SHOW_QUICK_CREATE value=AppConfig::module('Calendar','SHOW_QUICK_CREATE_BY_STATUS')}
+								{assign var=SHOW_QUICK_CREATE value=App\Config::module('Calendar','SHOW_QUICK_CREATE_BY_STATUS')}
 								{if $EMPTY && \App\Privilege::isPermitted($MODULE_NAME, 'ActivityCancel', $ID)}
 									<button type="button"
 											class="mr-1 btn btn-warning {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}"

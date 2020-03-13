@@ -17,7 +17,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
@@ -57,22 +57,21 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$rawData = $data = $years = [];
 		$date = date('Y-m-01', strtotime('-23 month', strtotime(date('Y-m-d'))));
-		$displayDate = \App\Fields\Date::formatToDisplay($date);
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$y = new \yii\db\Expression('extract(year FROM saledate)');
 		$m = new \yii\db\Expression('extract(month FROM saledate)');
 		$s = new \yii\db\Expression('sum(sum_gross)');
 		$fieldList = ['y' => $y, 'm' => $m, 's' => $s];
 		$queryGenerator->setCustomColumn($fieldList);
-		$queryGenerator->addCondition('saledate', $displayDate, 'a');
-		if ($owner !== 'all') {
+		$queryGenerator->addCondition('saledate', $date, 'a');
+		if ('all' !== $owner) {
 			$queryGenerator->addCondition('assigned_user_id', $owner, 'e');
 		}
 		$queryGenerator->setCustomGroup([new \yii\db\Expression('y'), new \yii\db\Expression('m')]);
 		$query = $queryGenerator->createQuery();
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$rawData[$row['y']][] = [$row['m'], (int) $row['s']];
+			$rawData[$row['y']][$row['m']] = [(int) $row['s']];
 		}
 		$dataReader->close();
 		$chartData = [
@@ -81,11 +80,11 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 			'show_chart' => false,
 		];
 		$this->conditions = ['condition' => ['>', 'saledate', $date]];
-		$yearsData = [];
-		$chartData['show_chart'] = (bool) count($rawData);
+		$yearsData = $tempData = [];
+		$chartData['show_chart'] = (bool) \count($rawData);
 		$shortMonth = ['LBL_Jan', 'LBL_Feb', 'LBL_Mar', 'LBL_Apr', 'LBL_May', 'LBL_Jun',
 			'LBL_Jul', 'LBL_Aug', 'LBL_Sep', 'LBL_Oct', 'LBL_Nov', 'LBL_Dec'];
-		for ($i = 0; $i < 12; $i++) {
+		for ($i = 0; $i < 12; ++$i) {
 			$chartData['labels'][] = App\Language::translate($shortMonth[$i]);
 		}
 		foreach ($rawData as $y => $raw) {
@@ -96,15 +95,18 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 					'label' => \App\Language::translate('LBL_YEAR', $moduleName) . ' ' . $y,
 					'backgroundColor' => [],
 				];
-				for ($m = 0; $m < 12; $m++) {
-					$yearsData[$y]['data'][$m] = ['x' => $m, 'y' => 0];
+				for ($m = 0; $m < 12; ++$m) {
+					$tempData[$y][$m] = 0;
 				}
 			}
 			foreach ($raw as $m => &$value) {
-				$yearsData[$y]['data'][$m] = ['y' => $value[1], 'x' => (int) $m + 1];
+				$tempData[$y][$m-1] = $value[0];
 				$yearsData[$y]['backgroundColor'][] = \App\Colors::getRandomColor($y * 10);
 				$yearsData[$y]['stack'] = (string) $y;
 			}
+		}
+		foreach($tempData as $year => $yearData){
+			$yearsData[$year]['data'] = $yearData;
 		}
 		$years = array_values(array_unique($years));
 		$chartData['years'] = $years;

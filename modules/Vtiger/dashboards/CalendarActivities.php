@@ -20,7 +20,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
+		$moduleName = 'Home';
 		$data = $request->getAll();
 
 		$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel();
@@ -56,13 +56,13 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACTIVITIES', $calendarActivities);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$viewer->assign('HREFNAMELENGTH', \AppConfig::main('href_max_length'));
-		$viewer->assign('NAMELENGTH', \AppConfig::main('title_max_length'));
+		$viewer->assign('HREFNAMELENGTH', \App\Config::main('href_max_length'));
+		$viewer->assign('NAMELENGTH', \App\Config::main('title_max_length'));
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('ACTIVITYTYPE', $params['activitytype'] ?? '');
 		$viewer->assign('NODATAMSGLABLE', $msgLabel);
-		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('DATA', $data);
+		$viewer->assign('DATE_TYPE', 'START');
 		$viewer->assign('USER_CONDITIONS', ['condition' => ['vtiger_activity.status' => $params['status']]]);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);

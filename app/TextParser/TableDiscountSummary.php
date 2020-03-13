@@ -34,7 +34,7 @@ class TableDiscountSummary extends Base
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
 		$firstRow = current($inventoryRows);
 		if ($inventory->isField('currency')) {
-			if (!empty($firstRow) && $firstRow['currency'] !== null) {
+			if (!empty($firstRow) && null !== $firstRow['currency']) {
 				$currency = $firstRow['currency'];
 			} else {
 				$currency = $baseCurrency['id'];
@@ -47,18 +47,18 @@ class TableDiscountSummary extends Base
 				$discount += $inventoryRow['discount'];
 			}
 			if ($inventory->isField('discount') && $inventory->isField('discountmode')) {
-				$html .= '<table style="width:100%;vertical-align:top;border-collapse:collapse;">
+				$html .= '<table class="table-discount-summary" style="width:100%;vertical-align:top;border-collapse:collapse;">
 				<thead>
-								<tr>
-									<th style="padding:0px 4px;font-weight:bold;">' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . '</th>
-								</tr>
-								</thead>
-								<tbody>
-								<tr>
-									<td style="padding:0px 4px;text-align:right;font-weight:bold;border:1px solid #ddd;">' . \CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
-								</tr>
-								</tbody>
-						</table>';
+					<tr>
+						<th style="padding:0px 4px;font-weight:bold;">' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . '</th>
+					</tr>
+				</thead>
+					<tbody>
+						<tr>
+							<td style="padding:0px 4px;text-align:right;font-weight:bold;border:1px solid #ddd;">' . \CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+						</tr>
+					</tbody>
+				</table>';
 			}
 		}
 		return $html;

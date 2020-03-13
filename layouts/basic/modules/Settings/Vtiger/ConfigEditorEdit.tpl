@@ -12,8 +12,7 @@
 {strip}
 	<div class="tpl-Settings-Vtiger-ConfigEditorEdit">
 		<div class="contents">
-			<form id="ConfigEditorForm" class="form-horizontal" data-detail-url="{$MODEL->getDetailViewUrl()}"
-				  method="POST">
+			<form id="ConfigEditorForm" class="form-horizontal" data-detail-url="{$MODEL->getDetailViewUrl()}" method="POST">
 				<div class="row widget_header">
 					<div class="col-md-8">
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
@@ -32,7 +31,6 @@
 					</div>
 				</div>
 				<hr>
-				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 				<table class="table table-bordered table-sm themeTableColor">
 					<thead>
 					<tr class="blockHeader">

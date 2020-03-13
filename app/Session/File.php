@@ -18,10 +18,10 @@ class File extends Base
 	public static function clean()
 	{
 		$time = microtime(true);
-		$lifeTime = \AppConfig::security('MAX_LIFETIME_SESSION');
+		$lifeTime = \App\Config::security('MAX_LIFETIME_SESSION');
 		$exclusion = ['.htaccess', 'index.html', 'sess_' . session_id()];
-		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'session', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-			if ($item->isFile() && !in_array($item->getBasename(), $exclusion)) {
+		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'session', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+			if ($item->isFile() && !\in_array($item->getBasename(), $exclusion)) {
 				$sessionData = static::unserialize(file_get_contents($item->getPathname()));
 				if (!empty($sessionData['last_activity']) && $time - $sessionData['last_activity'] < $lifeTime) {
 					continue;
@@ -78,7 +78,7 @@ class File extends Base
 	{
 		$return = [];
 		$offset = 0;
-		while ($offset < strlen($session)) {
+		while ($offset < \strlen($session)) {
 			if (!strstr(substr($session, $offset), '|')) {
 				throw new \App\Exceptions\IllegalValue('invalid data, remaining: ' . substr($session, $offset));
 			}

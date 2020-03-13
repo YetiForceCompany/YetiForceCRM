@@ -106,7 +106,7 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function  getQueryOperators()
 	{
 		return ['y', 'ny'];
 	}

@@ -13,7 +13,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
 		$createPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'CreateView');
-		if ($createPermission && AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')) {
+		if ($createPermission && App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')) {
 			$basicLinks[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_CREATEMAIL',
@@ -42,7 +42,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_ChangeType',
 				'linkurl' => 'javascript:OSSMailView_List_Js.triggerChangeType("index.php?module=' . $moduleModel->get('name') . '&view=ChangeType")',
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 			];
 		}
 		if ($moduleModel->isPermitted('MassActive')) {

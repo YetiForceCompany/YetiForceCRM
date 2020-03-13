@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-SocialMedia-Index js-social-media-container" data-js="container">
-		<div class="widget_header row">
+		<div class="o-breadcrumb widget_header row">
 			<div class="col-md-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
@@ -23,7 +23,7 @@
 				</div>
 			{/if}
 			<div class="contents tabbable">
-				<ul class="nav nav-tabs layoutTabs massEditTabs my-2 m-sm-2">
+				<ul class="nav nav-tabs layoutTabs massEditTabs mt-2">
 					<li class="nav-item">
 						<a class="nav-link active" data-toggle="tab" href="#logs">
 							<span class="adminIcon-logs mr-1"></span>

@@ -20,7 +20,7 @@
 		</div>
 	{/if}
 
-	<ul id="tabs" class="nav nav-tabs mt-2" data-tabs="tabs">
+	<ul id="tabs" class="nav nav-tabs mt-2 mr-0" data-tabs="tabs">
 		<li class="nav-item"><a class="nav-link active" href="#encoding" data-toggle="tab">{\App\Language::translate('Encoding', $MODULENAME)}</a></li>
 		<li class="nav-item"><a class="nav-link" href="#confpass" data-toggle="tab">{\App\Language::translate('LBL_ConfigurePass', $MODULENAME)}</a></li>
 	</ul>
@@ -38,7 +38,7 @@
 				</ul>
 				<div id="my-tab-content2" class="tab-content">
 					<div class="editViewContainer tab-pane active" id="edit">
-						<form class="form-horizontal recordEditView" id="EditView" name="edit_pass_key" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings&parent=Settings">                
+						<form class="form-horizontal recordEditView" id="EditView" name="edit_pass_key" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings&parent=Settings">
 							<input type="hidden" name="encrypt" value="edit" />
 							<div class="contentHeader row">
 								<span class="col-md-8 font-x-x-large u-text-ellipsis">{\App\Language::translate('Change Password Key', $MODULENAME)}</span>
@@ -48,7 +48,7 @@
 								<div class="blockHeader card-header">
 									<h5>&nbsp;{\App\Language::translate('Edit Encryption Key', $MODULENAME)}</h5>
 								</div>
-								<div class="row p-2 card-body blockContent">									
+								<div class="row p-2 card-body blockContent">
 									<div class="fieldRow col-md-8 col-12 row align-items-center">
 										<div class="fieldLabel col-5 col-sm-2">
 											<label class="muted float-right mr-2"> <span class="redColor">*</span> {\App\Language::translate('Old Key', $MODULENAME)}:</label>
@@ -81,7 +81,7 @@
 					</div>
 					{* stop encrypting passwords *}
 					<div class="editViewContainer tab-pane" id="stop">
-						<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings">                
+						<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings">
 							<input type="hidden" name="encrypt" value="stop" />
 							<div class="contentHeader row">
 								<span class="col-md-8 font-x-x-large u-text-ellipsis">{\App\Language::translate('Cancel Encrypting Passwords', $MODULENAME)}</span>
@@ -90,7 +90,7 @@
 								<div class="blockHeader card-header">
 									<h5>&nbsp;{\App\Language::translate('Enter Your Old Password', $MODULENAME)}</h5>
 								</div>
-								<div class="row p-2 card-body blockContent">									
+								<div class="row p-2 card-body blockContent">
 									<div class="fieldRow col-md-8 col-12 row align-items-center">
 										<div class="fieldLabel col-5 col-sm-2">
 											<label class="muted float-right mr-2"> <span class="redColor">*</span> {\App\Language::translate('Encryption Password', $MODULENAME)}:</label>
@@ -202,7 +202,7 @@
 							<div class="fieldLabel"> </div>
 							<div align="center" class="fieldValue col-7 col-sm-10">
 								<div class="float-left">
-									<input id="register_changes" type="checkbox" class="nameField" name="register_changes" {$REGISTER} value="1" /> 
+									<input id="register_changes" type="checkbox" class="nameField" name="register_changes" {$REGISTER} value="1" />
 									{\App\Language::translate('LBL_START_REGISTER', $MODULENAME)}
 								</div>
 							</div>

@@ -33,7 +33,7 @@
 									<option data-ui="textarea" value="expression">
 										{\App\Language::translate('LBL_EXPRESSION',$QUALIFIED_MODULE)}
 									</option>
-								</optgroup>	
+								</optgroup>
 							</select>
 						</span>
 						<span class="col-md-4 d-none useFieldContainer">
@@ -100,12 +100,12 @@
 				<div class="modal-footer">
 					<button class="btn btn-success mr-1" type="button" name="saveButton">
 						<strong>
-							<span class="fa fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE', $MODULE)}
+							<span class="fa fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
 						</strong>
 					</button>
 					<button class="btn btn-danger cancelLink" type="button" data-close-modal="modal">
 						<strong>
-							<span class="fa fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}
+							<span class="fa fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}
 						</strong>
 					</button>
 				</div>

@@ -20,7 +20,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 		if ($value) {
 			$value = trim($value, ',');
 			$value = ",$value,";
-		} elseif (is_null($value)) {
+		} elseif (null === $value) {
 			$value = '';
 		}
 		return \App\Purifier::decodeHtml($value);
@@ -32,7 +32,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$value = $value ? explode('##', $value) : [];
 		}
 		foreach ($value as $val) {
@@ -47,11 +47,11 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (isset($this->validate[$value]) || $value === '' || $value === null) {
+		if (isset($this->validate[$value]) || '' === $value || null === $value) {
 			return;
 		}
 		foreach (explode(',', $value) as $row) {
-			if ($row && (substr($row, 0, 1) !== 'T' || !is_numeric(substr($row, 1)))) {
+			if ($row && ('T' !== substr($row, 0, 1) || !is_numeric(substr($row, 1)))) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 			}
 		}
@@ -76,7 +76,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 			}
 		}
 		$value = implode(', ', $names);
-		if (is_int($length)) {
+		if (\is_int($length)) {
 			$value = \App\TextParser::textTruncate($value, $length);
 		}
 		return \App\Purifier::encodeHtml($value);
@@ -93,7 +93,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'c', 'k', 'y', 'ny'];
 	}

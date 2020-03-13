@@ -14,6 +14,6 @@ class Calendar_RightPanelExtended_View extends Calendar_RightPanel_View
 	 */
 	protected function getTpl(string $tplFile)
 	{
-		return "Extended/$tplFile";
+		return "Calendar/$tplFile";
 	}
 }

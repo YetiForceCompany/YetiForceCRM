@@ -3,14 +3,14 @@
 {assign var="MODULESENTITY" value=Settings_Search_Module_Model::getModulesEntity(false, true)}
 {assign var="FIELDS_MODULES" value=Settings_Search_Module_Model::getFieldFromModule()}
 <div class="tpl-Settings-Search-Index SearchFieldsEdit">
-	<div class="widget_header row">
+	<div class="o-breadcrumb widget_header row">
 		<div class="col-md-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
 	<div class="btn-toolbar">
-			<span class="float-right group-desc ">
-				<button class="btn btn-success saveModuleSequence d-none" type="button">
+			<span class="float-right group-desc">
+				<button class="btn btn-success saveModuleSequence d-none mt-2" type="button">
 					<strong>{\App\Language::translate('LBL_SAVE_MODULE_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 				</button>
 			</span>

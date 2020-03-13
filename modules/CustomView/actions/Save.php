@@ -32,16 +32,17 @@ class CustomView_Save_Action extends \App\Controller\Action
 		$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', 2));
 		$customViewModel = $this->getCVModelFromRequest($request);
 		$response = new Vtiger_Response();
-
 		if (!$customViewModel->checkDuplicate()) {
 			$customViewModel->save();
 			$cvId = $customViewModel->getId();
 			\App\Cache::delete('CustomView_Record_ModelgetInstanceById', $cvId);
-			$response->setResult(['id' => $cvId, 'listviewurl' => $moduleModel->getListViewUrl() . '&viewname=' . $cvId]);
+			$response->setResult(['success' => true, 'id' => $cvId, 'listviewurl' => $moduleModel->getListViewUrl() . '&viewname=' . $cvId]);
 		} else {
-			$response->setError(\App\Language::translate('LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST', $request->getModule()));
+			$response->setResult([
+				'success' => false,
+				'message' => \App\Language::translate('LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST', $request->getModule(false))
+			]);
 		}
-
 		$response->emit();
 	}
 

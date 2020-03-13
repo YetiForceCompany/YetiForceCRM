@@ -14,7 +14,7 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if (is_array($value)) {
+		if (\is_array($value)) {
 			$value = implode(',', $value);
 		}
 		return \App\Purifier::decodeHtml($value);
@@ -25,7 +25,7 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		$hashValue = is_array($value) ? implode('|', $value) : $value;
+		$hashValue = \is_array($value) ? implode('|', $value) : $value;
 		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
@@ -39,7 +39,7 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 			}
 		}
-		if (is_array($value)) {
+		if (\is_array($value)) {
 			foreach ($value as $value) {
 				if (!is_numeric($value)) {
 					throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
@@ -115,7 +115,7 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny'];
 	}

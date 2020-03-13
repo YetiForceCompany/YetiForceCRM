@@ -13,7 +13,7 @@
 	<div class="tpl-Users-DeleteUser modelContainer modal" id="massEditContainer" role="dialog" tabindex="-1">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground">
+				<div class="modal-header">
 					<h5 id="massEditHeader" class="modal-title">
 						<span class="fas fa-exchange-alt fa-fw"></span>
 						{\App\Language::translate('LBL_TRANSFER_RECORDS_TO_USER', $MODULE)} {$MODULE}

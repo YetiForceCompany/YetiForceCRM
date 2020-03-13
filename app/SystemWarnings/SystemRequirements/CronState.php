@@ -36,13 +36,13 @@ class CronState extends \App\SystemWarnings\Template
 			->from('vtiger_cron_task')
 			->where(['status' => 1, 'lastend' => null])
 			->limit(1)->exists();
-		$timeOut = round((\AppConfig::main('maxExecutionCronTime') + 300) / 60);
-		if ($lastStart === 0 || $checkTasks || strtotime("-{$timeOut} minutes") > $lastStart) {
+		$timeOut = round((\App\Config::main('maxExecutionCronTime') + 300) / 60);
+		if (0 === $lastStart || $checkTasks || strtotime("-{$timeOut} minutes") > $lastStart) {
 			$this->status = 0;
 		} else {
 			$this->status = 1;
 		}
-		if ($this->status === 0) {
+		if (0 === $this->status) {
 			$this->link = $checkTasks ? 'https://yetiforce.com/en/knowledge-base/documentation/administrator-documentation/item/enable-cron' : 'index.php?module=CronTasks&parent=Settings&view=List';
 			$this->linkTitle = \App\Language::translate($checkTasks ? 'LBL_HOW_TO_ENABLE_CRON' : 'LBL_CRON_TASKS_LIST', 'Settings:SystemWarnings');
 			$this->description = \App\Language::translate($checkTasks ? 'LBL_CRON_DISABLED_DESC' : 'LBL_CRON_TASK_FAILED_DESC', 'Settings:SystemWarnings') . '<br />';

@@ -166,7 +166,7 @@ class SharingAccess extends \Tests\Base
 		$this->assertNotFalse($row, 'No record id: 6');
 
 		$oldPermission = $row['permission'];
-		$newPermission = $oldPermission === 2 ? 1 : 2;
+		$newPermission = 2 === $oldPermission ? 1 : 2;
 
 		$modulePermissions = [6 => $newPermission, 4 => $newPermission];
 		$this->changePermissions($modulePermissions);

@@ -26,9 +26,9 @@ class Base
 	/**
 	 * Returns a cache item representing the specified key.
 	 *
-	 * @param string|array $key Cache ID
+	 * @param array|string $key Cache ID
 	 *
-	 * @return string|array
+	 * @return array|string
 	 */
 	public function get($key)
 	{
@@ -38,7 +38,7 @@ class Base
 	/**
 	 * Confirms if the cache contains specified cache item.
 	 *
-	 * @param string|array $key Cache ID
+	 * @param array|string $key Cache ID
 	 *
 	 * @return bool
 	 */
@@ -51,8 +51,8 @@ class Base
 	 * Cache save.
 	 *
 	 * @param string            $key      Cache ID
-	 * @param string|array|null $value    Data to store
-	 * @param int|false         $duration Cache TTL (in seconds)
+	 * @param array|string|null $value    Data to store
+	 * @param false|int         $duration Cache TTL (in seconds)
 	 *
 	 * @return bool
 	 */
@@ -66,7 +66,7 @@ class Base
 	/**
 	 * Removes the item from the cache.
 	 *
-	 * @param string|array $key Cache ID
+	 * @param array|string $key Cache ID
 	 *
 	 * @return bool
 	 */

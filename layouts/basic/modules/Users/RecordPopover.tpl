@@ -20,7 +20,7 @@
 			{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELDS}
 				<div class="u-white-space-nowrap u-text-ellipsis--no-hover">
 					{if $FIELD_MODEL->isReferenceField() || isset($FIELDS_ICON[$FIELD_NAME])}
-						<span class="{if $FIELD_MODEL->isReferenceField()}userIcon-{\App\Record::getType($RECORD->get($FIELD_NAME))}{else}{$FIELDS_ICON[$FIELD_NAME]}{/if}"></span>
+						<span class="{if $FIELD_MODEL->isReferenceField()}yfm-{\App\Record::getType($RECORD->get($FIELD_NAME))}{else}{$FIELDS_ICON[$FIELD_NAME]}{/if}"></span>
 						&nbsp;
 					{/if}
 					<label class="c-popover--link__label">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}</label>

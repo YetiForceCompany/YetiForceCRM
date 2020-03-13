@@ -15,7 +15,7 @@ class OSSMail_ExecuteActions_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -30,18 +30,18 @@ class OSSMail_ExecuteActions_Action extends \App\Controller\Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
 		$params = $request->getArray('params');
-		$instance = Vtiger_Record_Model::getCleanInstance('OSSMailView');
+		$instance = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 
-		if ($mode === 'addRelated') {
+		if ('addRelated' === $mode) {
 			if (!\App\Privilege::isPermitted($params['newModule'], 'DetailView', $params['newCrmId'])) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 			$data = $instance->addRelated($params);
-		} elseif ($mode === 'removeRelated') {
+		} elseif ('removeRelated' === $mode) {
 			$data = $instance->removeRelated($params);
 		}
 

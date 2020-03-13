@@ -13,15 +13,17 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 {
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('add');
 		$this->exposeMethod('save');
 		$this->exposeMethod('delete');
 		$this->exposeMethod('move');
 		$this->exposeMethod('unHide');
 		$this->exposeMethod('getPicklist');
+		$this->exposeMethod('checkPicklistExist');
 	}
 
-	public function add(\App\Request $request)
+	public function add(App\Request $request)
 	{
 		$type = $request->getByType('fieldType', 'Alnum');
 		$moduleName = $request->getByType('sourceModule', 'Alnum');
@@ -51,12 +53,12 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function save(\App\Request $request)
+	public function save(App\Request $request)
 	{
 		$fieldId = $request->getInteger('fieldid');
 		$fieldInstance = Vtiger_Field_Model::getInstance($fieldId);
 		$uitypeModel = $fieldInstance->getUITypeModel();
-		$fields = ['presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'mandatory'];
+		$fields = ['presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory'];
 		foreach ($fields as $field) {
 			if ($request->has($field)) {
 				switch ($field) {
@@ -65,7 +67,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 						break;
 					case 'header_field':
 						if ($request->getBoolean($field)) {
-							if (!in_array($request->getByType('header_type', 'Standard'), $uitypeModel->getHeaderTypes())) {
+							if (!\in_array($request->getByType('header_type', 'Standard'), $uitypeModel->getHeaderTypes())) {
 								throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . 'header_type', 406);
 							}
 							$value = \App\Json::encode(['type' => $request->getByType('header_type', 'Standard'),
@@ -74,6 +76,13 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 							$value = '';
 						}
 						$fieldInstance->set($field, $value);
+						break;
+					case 'quickcreate':
+						$quickCreateValue = $request->getInteger($field);
+						if ($fieldInstance->get('quickcreate') !== $quickCreateValue && $quickCreateValue > 0) {
+							$fieldInstance->set('quicksequence', $fieldInstance->__getNextQuickCreateSequence());
+						}
+						$fieldInstance->set($field, $quickCreateValue);
 						break;
 					default:
 						$fieldInstance->set($field, $request->getInteger($field));
@@ -105,29 +114,24 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function delete(\App\Request $request)
+	public function delete(App\Request $request)
 	{
-		$fieldId = $request->getInteger('fieldid');
-		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
+		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($request->getInteger('fieldid'));
 		$response = new Vtiger_Response();
-
 		if (!$fieldInstance->isCustomField()) {
-			$response->setError('122', 'Cannot delete Non custom field');
-			$response->emit();
-
-			return;
-		}
-
-		try {
-			$fieldInstance->delete();
-			$response->setResult(['success' => true]);
-		} catch (Exception $e) {
-			$response->setError($e->getCode(), $e->getMessage());
+			$response->setResult(['success' => false, 'message' => \App\Language::translate('LBL_NON_CUSTOM_FIELD_CANNOT_DELETE', 'Settings::LayoutEditor')]);
+		} else {
+			try {
+				$fieldInstance->delete();
+				$response->setResult(['success' => true]);
+			} catch (Exception $e) {
+				$response->setError($e->getCode(), $e->getMessage());
+			}
 		}
 		$response->emit();
 	}
 
-	public function move(\App\Request $request)
+	public function move(App\Request $request)
 	{
 		$updatedFieldsList = $request->getMultiDimensionArray('updatedFields',
 			[
@@ -142,7 +146,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function unHide(\App\Request $request)
+	public function unHide(App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		try {
@@ -163,17 +167,29 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function getPicklist(\App\Request $request)
+	/**
+	 * Check if picklist exist.
+	 *
+	 * @param App\Request $request
+	 */
+	public function checkPicklistExist(App\Request $request)
+	{
+		$response = new Vtiger_Response();
+		$response->setResult(\App\Fields\Picklist::isPicklistExist($request->getByType('fieldName', 'Alnum')));
+		$response->emit();
+	}
+
+	public function getPicklist(App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$fieldName = $request->getByType('rfield', 'Alnum');
 		$moduleName = $request->getByType('rmodule', 'Alnum');
 		$picklistValues = [];
-		if (!empty($fieldName) && !empty($moduleName) && $fieldName != '-') {
+		if (!empty($fieldName) && !empty($moduleName) && '-' != $fieldName) {
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$fieldInstance = Vtiger_Field_Model::getInstance($fieldName, $moduleModel);
 			$picklistValues = $fieldInstance->getPicklistValues();
-			if ($picklistValues === null) {
+			if (null === $picklistValues) {
 				$picklistValues = [];
 			}
 		}

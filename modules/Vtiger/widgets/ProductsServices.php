@@ -12,7 +12,8 @@ class Vtiger_ProductsServices_Widget extends Vtiger_Basic_Widget
 
 	public function getUrl()
 	{
-		return 'module=Products&view=Widget&fromModule=' . $this->Module . '&record=' . $this->Record . '&mode=showProductsServices&page=1&mod=Products&limit=' . $this->Data['limit'];
+		$defaultModule = $this->Data['filter'] ?? 'Products';
+		return 'module=Products&view=Widget&fromModule=' . $this->Module . '&record=' . $this->Record . "&mode=showProductsServices&page=1&mod={$defaultModule}&limit=" . $this->Data['limit'];
 	}
 
 	public function getWidget()

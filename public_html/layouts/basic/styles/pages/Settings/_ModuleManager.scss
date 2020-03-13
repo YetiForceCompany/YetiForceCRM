@@ -1,0 +1,10 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.c-module-table-row {
+	@include media-breakpoint-down(md) {
+		width: calc(100vw - #{calculate-rem(66px)});
+	}
+	@include media-breakpoint-down(sm) {
+		width: calc(100vw - #{calculate-rem(8px)});
+	}
+}

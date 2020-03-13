@@ -36,18 +36,18 @@ class Profiling extends Target
 		$timings = [];
 		$stack = [];
 		foreach ($this->messages as $i => $log) {
-			list($token, $level, , $timestamp) = $log;
+			[$token, $level, , $timestamp] = $log;
 			$log[5] = $i;
-			if ($level == Logger::LEVEL_PROFILE_BEGIN) {
+			if (Logger::LEVEL_PROFILE_BEGIN == $level) {
 				$stack[] = $log;
-			} elseif ($level == Logger::LEVEL_PROFILE_END) {
-				if (($last = array_pop($stack)) !== null && $last[0] === $token) {
+			} elseif (Logger::LEVEL_PROFILE_END == $level) {
+				if (null !== ($last = array_pop($stack)) && $last[0] === $token) {
 					$timings[$last[5]] = [
 						'info' => $last[0],
 						'category' => $last[2],
 						'timestamp' => $last[3],
 						'trace' => $last[4],
-						'level' => count($stack),
+						'level' => \count($stack),
 						'duration' => $timestamp - $last[3],
 					];
 				}
@@ -58,7 +58,7 @@ class Profiling extends Target
 		++$logID;
 		foreach ($timings as &$message) {
 			$text = $message['info'];
-			if (!is_string($text)) {
+			if (!\is_string($text)) {
 				// exceptions may not be serializable if in the call stack somewhere is a Closure
 				if ($text instanceof \Throwable || $text instanceof \Exception) {
 					$text = (string) $text;

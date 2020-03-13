@@ -43,7 +43,7 @@ class Calendar_Invitees_Action extends \App\Controller\Action
 	public function find(App\Request $request)
 	{
 		$value = $request->getByType('value', 'Text');
-		$modules = array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(0), \App\ModuleHierarchy::getModulesByLevel(3)));
+		$modules = array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(4), \App\ModuleHierarchy::getModulesByLevel(0)));
 		if (empty($modules)) {
 			return [];
 		}

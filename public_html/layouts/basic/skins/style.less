@@ -277,14 +277,8 @@ hr {
 	font-size: @baseFontSize + 3;
   }
 }
-.contentsBackground {
-  .gradientBar(@gradient6StrtColor, @gradient6EndColor);
-}
 .modelContainer {
   .modal-header {
-	.contentsBackground() !important;
-	border-radius: 2px 2px 0 0;
-  }
   form {
 	border-radius: 0 0 2px 2px;
   }
@@ -1764,7 +1758,6 @@ form#EditView table td.chznDropDown {
 .SendEmailFormStep2 {
   padding: 0% 2%;
   line-height: 18px;
-  .contentsBackground();
 }
 .emailTemplatesContainer {
   .gradientBar(@gradient6StrtColor, @gradient6EndColor);
@@ -2892,7 +2885,6 @@ input[type="text"], input, textarea {
   padding: 2%;
   .extension_contents {
 	margin-top: 2%;
-	.contentsBackground;
 	border: 1px solid @lightColorBorder;
 	padding: 15px 20px;
 	.slimScrollDiv {

@@ -21,7 +21,7 @@ class ModTracker_LastRelation_Action extends \App\Controller\Action
 		$sourceModule = $request->getByType('sourceModule', 2);
 		$records = $request->getArray('recordsId', 'Integer');
 		if ($sourceModule) {
-			if (!in_array($sourceModule, AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) || !\App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+			if (!in_array($sourceModule, App\Config::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) || !\App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 			foreach ($records as $recordId) {

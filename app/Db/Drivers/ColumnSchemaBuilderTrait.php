@@ -1,14 +1,17 @@
 <?php
-
-namespace App\Db\Drivers;
-
 /**
- * ColumnSchemaBuilder is the schema builder for MySQL databases.
+ * Column schema builder file is the schema builder for MySQL databases.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace App\Db\Drivers;
+
+/**
+ * Column schema builder trait is the schema builder for MySQL databases.
  */
 trait ColumnSchemaBuilderTrait
 {
@@ -35,13 +38,13 @@ trait ColumnSchemaBuilderTrait
 	{
 		switch ($this->getTypeCategory()) {
 			case self::CATEGORY_PK:
-				$format = '{type}{length}{check}{comment}{append}{pos}';
+				$format = '{type}{length}{comment}{check}{append}{pos}';
 				break;
 			case self::CATEGORY_NUMERIC:
-				$format = '{type}{length}{unsigned}{notnull}{unique}{default}{check}{autoIncrement}{comment}{append}{pos}';
+				$format = '{type}{length}{unsigned}{notnull}{unique}{default}{comment}{autoIncrement}{check}{append}{pos}';
 				break;
 			default:
-				$format = '{type}{length}{notnull}{unique}{default}{check}{comment}{append}{pos}';
+				$format = '{type}{length}{notnull}{unique}{default}{comment}{check}{append}{pos}';
 		}
 		return $this->buildCompleteString($format);
 	}
@@ -82,7 +85,7 @@ trait ColumnSchemaBuilderTrait
 	 */
 	public function get($type)
 	{
-		return $this->$type ?? null;
+		return $this->{$type} ?? null;
 	}
 
 	/**
@@ -95,7 +98,7 @@ trait ColumnSchemaBuilderTrait
 	 */
 	public function set($type, $value)
 	{
-		$this->$type = $value;
+		$this->{$type} = $value;
 		return $this;
 	}
 

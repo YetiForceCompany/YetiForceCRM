@@ -36,8 +36,7 @@
 								<optgroup
 										label='{\App\Language::translate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}'>
 									{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
-										<option data-orderby="{$CUSTOM_VIEW->getSortOrderBy('orderBy')}"
-												data-sortorder="{$CUSTOM_VIEW->getSortOrderBy('sortOrder')}"
+										<option
 												data-editurl="{$CUSTOM_VIEW->getEditUrl()}"
 												data-deleteurl="{$CUSTOM_VIEW->getDeleteUrl()}"
 												data-approveurl="{$CUSTOM_VIEW->getApproveUrl()}"
@@ -89,7 +88,7 @@
 						<input type="hidden" value="0" id="customFilter"/>
 					{/if}
 				</div>
-				<div class="c-list__right-container d-flex flex-nowrap u-overflow-scroll-xsm-down">
+				<div class="c-list__right-container d-flex flex-nowrap u-overflow-scroll-non-desktop">
 					{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 				</div>
 			</div>

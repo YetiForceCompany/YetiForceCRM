@@ -27,7 +27,14 @@ abstract class Settings_Vtiger_Record_Model extends App\Base
 		return $links;
 	}
 
-	public function getDisplayValue($key)
+	/**
+	 * Get display value.
+	 *
+	 * @param string $key
+	 *
+	 * @return mixed
+	 */
+	public function getDisplayValue(string $key)
 	{
 		return $this->get($key);
 	}

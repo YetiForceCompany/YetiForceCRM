@@ -51,10 +51,13 @@ class SMSNotifier_Record_Model extends Vtiger_Record_Model
 		$recordModel->save();
 		if ($recordModel->getId()) {
 			$recordModel->isNew = false;
-			$recordModel->getEntity()->saveRelatedModule($moduleName, $recordModel->getId(), $ralModuleName, $recordIds);
+			$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), Vtiger_Module_Model::getInstance($ralModuleName));
+			if ($relationModel) {
+				$relationModel->addRelation($recordModel->getId(), $recordIds);
+			}
 		}
 		$provider = SMSNotifier_Module_Model::getActiveProviderInstance();
-		$numbers = is_array($toNumbers) ? implode(',', $toNumbers) : $toNumbers;
+		$numbers = \is_array($toNumbers) ? implode(',', $toNumbers) : $toNumbers;
 		$provider->set($provider->toName, $numbers);
 		$provider->set($provider->messageName, $message);
 		$result = $provider->send();

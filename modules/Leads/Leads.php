@@ -48,14 +48,12 @@ class Leads extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['company', 'phone', 'website', 'email', 'assigned_user_id'];
+	public $relationFields = [];
 	public $list_link_field = 'company';
 	public $search_fields = [
 		'Company' => ['leaddetails' => 'company'],
 	];
-	public $search_fields_name = [
-		'Company' => 'company',
-	];
+	public $search_fields_name = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assigned_user_id', 'createdtime', 'modifiedtime'];
@@ -66,41 +64,6 @@ class Leads extends CRMEntity
 	public $default_sort_order = 'DESC';
 	// For Alphabetical search
 	public $def_basicsearch_col = 'company';
-
-	/**
-	 * Move the related records of the specified list of id's to the given record.
-	 *
-	 * @param string This module name
-	 * @param array List of Entity Id's from which related records need to be transfered
-	 * @param int Id of the the Record to which the related records are to be moved
-	 */
-	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
-	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		\App\Log::trace("Entering function transferRelatedRecords (${module}, ${transferEntityIds}, ${entityId})");
-		$relTableArr = ['Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel',
-			'Products' => 'vtiger_seproductsrel', 'Campaigns' => 'vtiger_campaign_records', ];
-		$tblFieldArr = ['vtiger_senotesrel' => 'notesid', 'vtiger_seattachmentsrel' => 'attachmentsid',
-			'vtiger_seproductsrel' => 'productid', 'vtiger_campaign_records' => 'campaignid', ];
-		$entityTblFieldArr = ['vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid',
-			'vtiger_seproductsrel' => 'crmid', 'vtiger_campaign_records' => 'crmid', ];
-		foreach ($transferEntityIds as $transferId) {
-			foreach ($relTableArr as $relTable) {
-				$idField = $tblFieldArr[$relTable];
-				$entityIdField = $entityTblFieldArr[$relTable];
-				// IN clause to avoid duplicate entries
-				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
-				$query = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
-				$dataReader = $query->createCommand()->query();
-				while ($idFieldValue = $dataReader->readColumn(0)) {
-					$dbCommand->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
-				}
-				$dataReader->close();
-			}
-		}
-		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace('Exiting transferRelatedRecords...');
-	}
 
 	/**
 	 * Function to get the relation tables for related modules.
@@ -123,47 +86,5 @@ class Leads extends CRMEntity
 		}
 
 		return $relTables[$secModule];
-	}
-
-	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
-	{
-		if (empty($return_module) || empty($return_id)) {
-			return;
-		}
-
-		if ('Campaigns' === $return_module) {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
-		} elseif ('Products' === $return_module) {
-			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $id, 'productid' => $return_id])->execute();
-		} else {
-			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
-		}
-	}
-
-	public function saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName = false)
-	{
-		if (!is_array($withCrmids)) {
-			$withCrmids = [$withCrmids];
-		}
-		foreach ($withCrmids as $withCrmid) {
-			if ('Products' === $withModule) {
-				App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
-					'crmid' => $crmid,
-					'productid' => $withCrmid,
-					'setype' => $module,
-					'rel_created_user' => App\User::getCurrentUserId(),
-					'rel_created_time' => date('Y-m-d H:i:s'),
-				])->execute();
-			} elseif ('Campaigns' === $withModule) {
-				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
-					'campaignid' => $withCrmid,
-					'crmid' => $crmid,
-					'campaignrelstatusid' => 0,
-				])->execute();
-			} else {
-				parent::saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName);
-			}
-		}
 	}
 }

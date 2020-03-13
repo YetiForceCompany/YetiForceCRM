@@ -21,7 +21,7 @@ class Assets_Record_Model extends Vtiger_Record_Model
 
 	public function getRenewalValue()
 	{
-		if ($this->isEmpty('product')) {
+		if ($this->isEmpty('product') || !\App\Record::isExists($this->get('product'), 'Products')) {
 			return 'PLL_NOT_APPLICABLE_VERIFICATION';
 		}
 		$productsRecordModel = Vtiger_Record_Model::getInstanceById($this->get('product'), 'Products');
@@ -33,9 +33,9 @@ class Assets_Record_Model extends Vtiger_Record_Model
 			return 'PLL_RENEWED_VERIFICATION';
 		}
 		$dateInService = strtotime($this->get('dateinservice'));
-		$renewalTime = AppConfig::module('Assets', 'RENEWAL_TIME');
+		$renewalTime = App\Config::module('Assets', 'RENEWAL_TIME');
 		$dateRenewable = strtotime('-' . $renewalTime, $dateInService);
-		$classFunction = AppConfig::module('Assets', 'RENEWAL_CUSTOMER_FUNCTION');
+		$classFunction = App\Config::module('Assets', 'RENEWAL_CUSTOMER_FUNCTION');
 		$methodExist = false;
 		if ($classFunction && class_exists($classFunction['class']) && method_exists($classFunction['class'], $classFunction['method'])) {
 			$methodExist = true;

@@ -33,7 +33,7 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
 		if (!$requestFieldName) {
@@ -58,14 +58,14 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		$hashValue = is_array($value) ? implode('|', $value) : $value;
+		$hashValue = \is_array($value) ? implode('|', $value) : $value;
 		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
 		if (!$isUserFormat) {
 			$value = explode('|##|', $value);
 		}
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		foreach ($value as $shownerid) {
@@ -84,11 +84,11 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return '';
 		}
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$value = explode('|##|', $value);
 		}
 		foreach ($value as $row) {
-			if (self::getOwnerType($row) === 'User') {
+			if ('User' === self::getOwnerType($row)) {
 				$userModel = Users_Record_Model::getCleanInstance('Users');
 				$userModel->setId($row);
 				$detailViewUrl = $userModel->getDetailViewUrl();
@@ -137,7 +137,7 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny'];
 	}

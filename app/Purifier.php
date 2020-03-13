@@ -23,6 +23,16 @@ class Purifier
 	public const INTEGER = 'Integer';
 
 	/**
+	 * Purify type standard.
+	 */
+	public const STANDARD = 'Standard';
+
+	/**
+	 * Purify type sql.
+	 */
+	public const SQL = 'Sql';
+
+	/**
 	 * Purify type text.
 	 */
 	public const TEXT = 'Text';
@@ -46,7 +56,10 @@ class Purifier
 	 * Purify type Alnum.
 	 */
 	public const ALNUM = 'Alnum';
-
+	/**
+	 * Purify type Alnum.
+	 */
+	public const ALNUM_EXTENDED = 'AlnumExtended';
 	/**
 	 * Default charset.
 	 *
@@ -57,14 +70,14 @@ class Purifier
 	/**
 	 * Cache for purify instance.
 	 *
-	 * @var \HTMLPurifier|bool
+	 * @var bool|\HTMLPurifier
 	 */
 	private static $purifyInstanceCache = false;
 
 	/**
 	 * Cache for Html purify instance.
 	 *
-	 * @var \HTMLPurifier|bool
+	 * @var bool|\HTMLPurifier
 	 */
 	private static $purifyHtmlInstanceCache = false;
 
@@ -94,7 +107,7 @@ class Purifier
 			return $input;
 		}
 		$value = $input;
-		if (!is_array($input)) {
+		if (!\is_array($input)) {
 			$cacheKey = md5($input);
 			if (Cache::has('purify', $cacheKey)) {
 				return Cache::get('purify', $cacheKey);
@@ -105,18 +118,18 @@ class Purifier
 			$config = \HTMLPurifier_Config::createDefault();
 			$config->set('Core.Encoding', static::$defaultCharset);
 			$config->set('Cache.SerializerPermissions', 0775);
-			$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
+			$config->set('Cache.SerializerPath', ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'vtlib');
 			$config->set('HTML.Allowed', '');
 			static::$purifyInstanceCache = new \HTMLPurifier($config);
 		}
 		if (static::$purifyInstanceCache) {
 			// Composite type
-			if (is_array($input)) {
+			if (\is_array($input)) {
 				$value = [];
 				foreach ($input as $k => $v) {
 					$value[$k] = static::purify($v);
 				}
-			} elseif (is_string($input)) {
+			} elseif (\is_string($input)) {
 				static::purifyHtmlEventAttributes($input);
 				$value = static::$purifyInstanceCache->purify(static::decodeHtml($input));
 				if ($loop) {
@@ -165,7 +178,7 @@ class Purifier
 					$value = static::purifyHtml($value, false);
 				}
 			}
-			$value = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $value);
+			$value = preg_replace("/(^[\r\n]*|[\r\n]+)[\\s\t]*[\r\n]+/", "\n", $value);
 			Cache::save('purifyHtml', $cacheKey, $value, Cache::SHORT);
 		}
 		return $value;
@@ -178,7 +191,7 @@ class Purifier
 	 */
 	public static function purifyHtmlEventAttributes($value)
 	{
-		if (preg_match("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([>]*)#i", $value) || preg_match("/\b(" . static::$htmlEventAttributes . ")\s*=/i", $value) || preg_match('/javascript:[\w\.]+\(/i', $value)) {
+		if (preg_match('#<([^><]+?)([^a-z_\\-]on\\w*|xmlns)(\\s*=\\s*[^><]*)([>]*)#i', $value) || preg_match('/\\b(' . static::$htmlEventAttributes . ')\\s*=/i', $value) || preg_match('/javascript:[\w\.]+\(/i', $value)) {
 			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'IllegalValue');
 			throw new Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $value, 406);
 		}
@@ -194,7 +207,7 @@ class Purifier
 		$config = \HTMLPurifier_Config::createDefault();
 		$config->set('Core.Encoding', static::$defaultCharset);
 		$config->set('Cache.SerializerPermissions', 0775);
-		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
+		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'vtlib');
 		$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
 		$config->set('CSS.AllowTricky', true);
 		$config->set('CSS.Proprietary', true);
@@ -266,8 +279,9 @@ class Purifier
 			$def->addAttribute('a', 'data-id', 'Text');
 			$def->addAttribute('a', 'data-module', 'Text');
 		}
-		$uri = $config->getDefinition('URI');
-		$uri->addFilter(new Extension\HTMLPurifier\Domain(), $config);
+		if ($uriDef = $config->getURIDefinition()) {
+			$uriDef->addFilter(new Extension\HTMLPurifier\Domain(), $config);
+		}
 		return $config;
 	}
 
@@ -277,11 +291,11 @@ class Purifier
 	 * @param string $input
 	 * @param bool   $skipEmpty Skip the check if string is empty
 	 *
-	 * @return string|bool
+	 * @return bool|string
 	 */
 	public static function purifySql($input, $skipEmpty = true)
 	{
-		if ((empty($input) && $skipEmpty) || preg_match('/^[_a-zA-Z0-9.,:]+$/', $input)) {
+		if ((empty($input) && $skipEmpty) || Validator::sql($input)) {
 			return $input;
 		}
 		\App\Log::error('purifySql: ' . $input, 'IllegalValue');
@@ -298,13 +312,14 @@ class Purifier
 	 * 2 - word and int
 	 *
 	 * @param mixed  $input
-	 * @param string $type  Data type that is only acceptable
+	 * @param string $type    Data type that is only acceptable
+	 * @param mixed  $convert
 	 *
 	 * @return mixed
 	 */
-	public static function purifyByType($input, $type)
+	public static function purifyByType($input, $type, $convert = false)
 	{
-		if (is_array($input)) {
+		if (\is_array($input)) {
 			$value = [];
 			foreach ($input as $k => $v) {
 				$value[$k] = static::purifyByType($v, $type);
@@ -320,23 +335,32 @@ class Purifier
 				case 2:
 					$value = Validator::alnum($input) ? $input : null;
 					break;
+				case 'AlnumExtended':
+					$value = preg_match('/^[\sA-Za-z0-9\,\_\.\=\-]+$/', $input) ? $input : null;
+					break;
+				case 'AlnumType2':
+					$value = preg_match('/^[\sA-Za-z0-9\/\+]+$/', $input) ? $input : null;
+					break;
 				case 'DateInUserFormat': // date in user format
 					if (!$input) {
 						return '';
 					}
-					$value = Validator::dateInUserFormat($input) ? $input : null;
+					$value = Validator::dateInUserFormat($input) ? ($convert ? Fields\Date::formatToDB($input) : $input) : null;
 					break;
 				case 'Time':
 					$value = Validator::time($input) ? $input : null;
 					break;
+				case 'TimePeriod':
+					$value = Validator::timePeriod($input) ? $input : null;
+					break;
 				case 'TimeInUserFormat':
-					$value = Validator::timeInUserFormat($input) ? Fields\Time::formatToDB($input) : null;
+					$value = Validator::timeInUserFormat($input) ? ($convert ? Fields\Time::formatToDB($input) : $input) : null;
 					break;
 				case 'DateRangeUserFormat': // date range user format
 					$dateFormat = User::getCurrentUserModel()->getDetail('date_format');
 					$v = [];
 					foreach (explode(',', $input) as $i) {
-						list($y, $m, $d) = Fields\Date::explode($i, $dateFormat);
+						[$y, $m, $d] = Fields\Date::explode($i, $dateFormat);
 						if (checkdate((int) $m, (int) $d, (int) $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
 							$v[] = \DateTimeField::convertToDBFormat($i);
 						}
@@ -354,6 +378,9 @@ class Purifier
 				case 'DateTimeInUserFormat':
 					$value = Validator::dateTimeInUserFormat($input) ? $input : null;
 					break;
+				case 'DateTimeInIsoFormat': // date in base format yyyy-mm-dd
+					$value = Validator::dateTimeInIsoFormat($input) ? date('Y-m-d H:i:s', strtotime($input)) : null;
+					break;
 				case 'Bool':
 					$value = self::bool($input);
 					break;
@@ -370,23 +397,26 @@ class Purifier
 					}
 					break;
 				case 'Double':
-					if (($input = filter_var($input, FILTER_VALIDATE_FLOAT)) !== false) {
+					if (false !== ($input = filter_var($input, FILTER_VALIDATE_FLOAT))) {
 						$value = $input;
 					}
 					break;
 				case 'Phone':
 					$value = preg_match('/^[\s0-9+\-()]+$/', $input) ? $input : null;
 					break;
+				case 'Email':
+					$value = Validator::email($input) ? $input : null;
+					break;
 				case 'Html':
 					$value = self::purifyHtml($input);
 					break;
 				case 'Integer': // Integer
-					if (($input = filter_var($input, FILTER_VALIDATE_INT)) !== false) {
+					if (false !== ($input = filter_var($input, FILTER_VALIDATE_INT))) {
 						$value = $input;
 					}
 					break;
 				case 'Digital': // Digital - eg. 000523
-					if (($input = filter_var($input, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[0-9]+$/']])) !== false) {
+					if (false !== ($input = filter_var($input, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[0-9]+$/']]))) {
 						$value = $input;
 					}
 					break;
@@ -394,7 +424,7 @@ class Purifier
 					$value = preg_match('/^(#[0-9a-fA-F]{6})$/', $input) ? $input : null;
 					break;
 				case 'Year': // 2018 etc
-					if (is_numeric($input) && (int) $input >= 0 && (int) $input <= 3000 && strlen((string) $input) === 4) {
+					if (is_numeric($input) && (int) $input >= 0 && (int) $input <= 3000 && 4 === \strlen((string) $input)) {
 						$value = (string) $input;
 					}
 					break;
@@ -404,12 +434,24 @@ class Purifier
 				case 'Path':
 					$value = Fields\File::checkFilePath($input) ? static::encodeHtml(static::purify($input)) : null;
 					break;
+				case 'Url':
+					$value = Validator::url($input) ? $input : null;
+					break;
+				case 'MailId':
+					$value = preg_match('/^[\sA-Za-z0-9\<\>\_\.\=\-\+\@\$\!\#\%\&\'\*\+\/\?\^\_\`\{\|\}\~\-]+$/', $input) ? $input : null;
+					break;
+				case 'ClassName':
+					$value = preg_match('/^[a-z\\\_]+$/i', $input) ? $input : null;
+					break;
+				case self::SQL:
+					$value = $input && Validator::sql($input) ? $input : null;
+					break;
 				case 'Text':
 				default:
 					$value = self::purify($input);
 					break;
 			}
-			if ($value === null) {
+			if (null === $value) {
 				\App\Log::error('purifyByType: ' . $input, 'IllegalValue');
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $input, 406);
 			}
@@ -420,7 +462,7 @@ class Purifier
 	/**
 	 * Function to convert the given value to bool.
 	 *
-	 * @param string|int $value
+	 * @param int|string $value
 	 *
 	 * @return bool|null
 	 */

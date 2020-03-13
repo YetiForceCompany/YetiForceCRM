@@ -47,7 +47,7 @@ class Encryption extends Base
 			$instance->set('method', $row['method']);
 			$instance->set('vector', $row['pass']);
 		}
-		$instance->set('pass', \AppConfig::securityKeys('encryptionPass'));
+		$instance->set('pass', \App\Config::securityKeys('encryptionPass'));
 		Cache::save('Encryption', 'Instance', $instance, Cache::LONG);
 		return $instance;
 	}
@@ -187,7 +187,7 @@ class Encryption extends Base
 	public static function getMethods()
 	{
 		return array_filter(openssl_get_cipher_methods(), function ($methodName) {
-			return stripos($methodName, 'gcm') === false && stripos($methodName, 'ccm') === false;
+			return false === stripos($methodName, 'gcm') && false === stripos($methodName, 'ccm');
 		});
 	}
 
@@ -198,7 +198,7 @@ class Encryption extends Base
 	 */
 	public function isActive()
 	{
-		if (!\function_exists('openssl_encrypt') || $this->isEmpty('method') || $this->get('method') !== \AppConfig::securityKeys('encryptionMethod') || !\in_array($this->get('method'), static::getMethods())) {
+		if (!\function_exists('openssl_encrypt') || $this->isEmpty('method') || $this->get('method') !== \App\Config::securityKeys('encryptionMethod') || !\in_array($this->get('method'), static::getMethods())) {
 			return false;
 		}
 		return true;
@@ -207,23 +207,24 @@ class Encryption extends Base
 	/**
 	 * Generate random password.
 	 *
-	 * @param int $length
+	 * @param int   $length
+	 * @param mixed $type
 	 *
 	 * @return string
 	 */
 	public static function generatePassword($length = 10, $type = 'lbd')
 	{
 		$chars = [];
-		if (strpos($type, 'l') !== false) {
+		if (false !== strpos($type, 'l')) {
 			$chars[] = 'abcdefghjkmnpqrstuvwxyz';
 		}
-		if (strpos($type, 'b') !== false) {
+		if (false !== strpos($type, 'b')) {
 			$chars[] = 'ABCDEFGHJKMNPQRSTUVWXYZ';
 		}
-		if (strpos($type, 'd') !== false) {
+		if (false !== strpos($type, 'd')) {
 			$chars[] = '0123456789';
 		}
-		if (strpos($type, 's') !== false) {
+		if (false !== strpos($type, 's')) {
 			$chars[] = '!"#$%&\'()*+,-./:;<=>?@[\]^_{|}';
 		}
 		$password = $allChars = '';
@@ -232,7 +233,7 @@ class Encryption extends Base
 			$password .= $char[array_rand(str_split($char))];
 		}
 		$allChars = str_split($allChars);
-		$missing = $length - count($chars);
+		$missing = $length - \count($chars);
 		for ($i = 0; $i < $missing; ++$i) {
 			$password .= $allChars[array_rand($allChars)];
 		}
@@ -256,13 +257,13 @@ class Encryption extends Base
 			$length = $passDetail['min_length'];
 		}
 		$type = 'l';
-		if ($passDetail['numbers'] === 'true') {
+		if ('true' === $passDetail['numbers']) {
 			$type .= 'd';
 		}
-		if ($passDetail['big_letters'] === 'true') {
+		if ('true' === $passDetail['big_letters']) {
 			$type .= 'b';
 		}
-		if ($passDetail['special'] === 'true') {
+		if ('true' === $passDetail['special']) {
 			$type .= 's';
 		}
 		return static::generatePassword($length, $type);
@@ -277,6 +278,6 @@ class Encryption extends Base
 	 */
 	public static function createHash($text)
 	{
-		return crypt($text, '$1$' . \AppConfig::main('application_unique_key'));
+		return crypt($text, '$1$' . \App\Config::main('application_unique_key'));
 	}
 }

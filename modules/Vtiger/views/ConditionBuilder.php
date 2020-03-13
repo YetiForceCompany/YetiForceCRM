@@ -12,7 +12,7 @@ class Vtiger_ConditionBuilder_View extends Vtiger_IndexAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getByType('sourceModuleName', 2))) {
 			throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED', 406);
@@ -22,7 +22,7 @@ class Vtiger_ConditionBuilder_View extends Vtiger_IndexAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$sourceModuleName = $request->getByType('sourceModuleName', 2);
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModuleName);
@@ -37,14 +37,14 @@ class Vtiger_ConditionBuilder_View extends Vtiger_IndexAjax_View
 			$fieldModel = current($sourceModuleModel->getFields());
 		} else {
 			$fieldInfo = $request->getForSql('fieldname', false);
-			[$fieldModuleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $fieldInfo), 3, false);
+			[$fieldName, $fieldModuleName, $sourceFieldName] = array_pad(explode(':', $fieldInfo), 3, false);
 			if (!empty($sourceFieldName)) {
 				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldModuleName));
 			} else {
 				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $sourceModuleModel);
 			}
 		}
-		$operators = $fieldModel->getOperators();
+		$operators = $request->isEmpty('parent', 1) ? $fieldModel->getQueryOperators() : $fieldModel->getRecordOperators();
 		if ($request->isEmpty('operator', true)) {
 			$selectedOperator = key($operators);
 		} else {

@@ -12,6 +12,27 @@ namespace Api\Core;
 class Request extends \App\Request
 {
 	/**
+	 * List of headings and sanitization methods.
+	 *
+	 * @var array
+	 */
+	public $headersPurifierMap = [
+		'x-token' => \App\Purifier::ALNUM,
+		'x-api-key' => \App\Purifier::ALNUM,
+		'x-raw-data' => \App\Purifier::INTEGER,
+		'authorization' => \App\Purifier::ALNUM_EXTENDED,
+		'x-parent-id' => \App\Purifier::INTEGER,
+		'encrypted' => \App\Purifier::INTEGER,
+		'x-row-limit' => \App\Purifier::INTEGER,
+		'x-row-offset' => \App\Purifier::INTEGER,
+		'x-unit-price' => \App\Purifier::INTEGER,
+		'x-unit-gross' => \App\Purifier::INTEGER,
+		'x-product-bundles' => \App\Purifier::INTEGER,
+		'x-row-order-field' => \App\Purifier::ALNUM_EXTENDED,
+		'x-row-order' => \App\Purifier::ALNUM,
+	];
+
+	/**
 	 * Static instance initialization.
 	 *
 	 * @param bool|array $request
@@ -28,20 +49,18 @@ class Request extends \App\Request
 
 	public function getData()
 	{
-		if ($this->getRequestMethod() === 'GET') {
+		if ('GET' === $this->getRequestMethod()) {
 			return $this;
-		} else {
-			$encrypted = $this->getHeader('encrypted');
-			$content = file_get_contents('php://input');
-			if (\AppConfig::api('ENCRYPT_DATA_TRANSFER') && $encrypted && (int) $encrypted === 1) {
-				$content = $this->decryptData($content);
-			}
+		}
+		$encrypted = $this->getHeader('encrypted');
+		$content = file_get_contents('php://input');
+		if (\App\Config::api('ENCRYPT_DATA_TRANSFER') && $encrypted && 1 === (int) $encrypted) {
+			$content = $this->decryptData($content);
 		}
 		if (empty($content)) {
 			return false;
 		}
 		$this->rawValues = array_merge($this->contentParse($content), $this->rawValues);
-
 		return $this;
 	}
 
@@ -55,20 +74,23 @@ class Request extends \App\Request
 			$type = explode('/', $type);
 			$type = array_pop($type);
 		}
+		$return = [];
 		switch ($type) {
 			case 'form-data':
-				parse_str($content, $data);
-
-				return $data;
+			case 'x-www-form-urlencoded':
+				mb_parse_str($content, $data);
+				$return = $data;
+				break;
 			case 'json':
-			default:
-				return json_decode($content, 1);
+				$return = json_decode($content, 1);
+				break;
 		}
+		return $return;
 	}
 
 	public function decryptData($data)
 	{
-		$privateKey = 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \AppConfig::api('PRIVATE_KEY');
+		$privateKey = 'file://' . ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \App\Config::api('PRIVATE_KEY');
 		if (!$privateKey = openssl_pkey_get_private($privateKey)) {
 			throw new \App\Exceptions\AppException('Private Key failed');
 		}

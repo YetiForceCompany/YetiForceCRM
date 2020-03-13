@@ -59,16 +59,16 @@ class Api extends \Tests\Base
 	private static $authUserParams;
 	private static $recordId;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
-		static::$url = \AppConfig::main('site_URL') . 'webservice/';
+		static::$url = \App\Config::main('site_URL') . 'webservice/';
 	}
 
 	/**
 	 * Testing add configuration.
 	 */
-	public function testAddConfiguration()
+	public function testAddConfiguration(): void
 	{
 		$webserviceApps = \Settings_WebserviceApps_Record_Model::getCleanInstance();
 		$webserviceApps->set('type', 'Portal');
@@ -88,7 +88,7 @@ class Api extends \Tests\Base
 		static::$requestHeaders['x-api-key'] = $row['api_key'];
 
 		$webserviceUsers = \Settings_WebserviceUsers_Record_Model::getCleanInstance('Portal');
-		$webserviceUsers->save([
+		$webserviceUsers->setData([
 			'server_id' => static::$serverId,
 			'status' => '1',
 			'user_name' => 'demo@yetiforce.com',
@@ -100,6 +100,7 @@ class Api extends \Tests\Base
 			'crmid_display' => '',
 			'user_id' => \App\User::getActiveAdminId(),
 		]);
+		$webserviceUsers->save();
 		static::$apiUserId = $webserviceUsers->getId();
 		$row = (new \App\Db\Query())->from('w_#__portal_user')->where(['id' => static::$apiUserId])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$apiUserId);
@@ -107,12 +108,24 @@ class Api extends \Tests\Base
 		$this->assertSame($row['user_name'], 'demo@yetiforce.com');
 		$this->assertSame($row['password_t'], 'demo');
 		$this->assertSame($row['language'], 'pl-PL');
+
+		$blockInstance = \vtlib\Block::getInstance('LBL_ACCOUNT_INFORMATION', 'Accounts');
+		$fieldInstance = new \Vtiger_Field_Model();
+		$fieldInstance->table = 'vtiger_account';
+		$fieldInstance->label = 'FL_IN_PORTAL';
+		$fieldInstance->name = 'in_portal';
+		$fieldInstance->column = 'in_portal';
+		$fieldInstance->columntype = 'tinyint(1)';
+		$fieldInstance->uitype = 318;
+		$fieldInstance->typeofdata = 'C~O';
+		$fieldInstance->fieldparams = static::$serverId;
+		$blockInstance->addField($fieldInstance);
 	}
 
 	/**
 	 * Testing login.
 	 */
-	public function testLogIn()
+	public function testLogIn(): void
 	{
 		$request = \Requests::post(static::$url . 'Users/Login', static::$requestHeaders, \App\Json::encode([
 			'userName' => 'demo@yetiforce.com',
@@ -128,7 +141,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing add record.
 	 */
-	public function testAddRecord()
+	public function testAddRecord(): void
 	{
 		$recordData = [
 			'accountname' => 'Api YetiForce Sp. z o.o.',
@@ -136,6 +149,7 @@ class Api extends \Tests\Base
 			'addresslevel8a' => 'Marszałkowska',
 			'buildingnumbera' => 111,
 			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
+			'in_portal' => 1
 		];
 		$request = \Requests::post(static::$url . 'Accounts/Record/', static::$requestHeaders, \App\Json::encode($recordData), static::$requestOptions);
 		$this->logs = $request->raw;
@@ -147,7 +161,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing edit record.
 	 */
-	public function testEditRecord()
+	public function testEditRecord(): void
 	{
 		$recordData = [
 			'accountname' => 'Api YetiForce Sp. z o.o. New name',
@@ -162,7 +176,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing record list.
 	 */
-	public function testRecordList()
+	public function testRecordList(): void
 	{
 		$request = \Requests::get(static::$url . 'Accounts/RecordsList', static::$requestHeaders, static::$requestOptions);
 		$this->logs = $request->raw;
@@ -173,7 +187,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing get fields.
 	 */
-	public function testGetFields()
+	public function testGetFields(): void
 	{
 		$request = \Requests::get(static::$url . 'Accounts/Fields', static::$requestHeaders, static::$requestOptions);
 		$this->logs = $request->raw;
@@ -186,19 +200,19 @@ class Api extends \Tests\Base
 	/**
 	 * Testing get privileges.
 	 */
-	public function testGetPrivileges()
+	public function testGetPrivileges(): void
 	{
 		$request = \Requests::get(static::$url . 'Accounts/Privileges', static::$requestHeaders, static::$requestOptions);
 		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
 		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
-		$this->assertTrue(!empty($response['result']['standardActions']));
+		$this->assertTrue(!empty($response['result']));
 	}
 
 	/**
 	 * Testing get modules.
 	 */
-	public function testGetModules()
+	public function testGetModules(): void
 	{
 		$request = \Requests::get(static::$url . 'Modules', static::$requestHeaders, static::$requestOptions);
 		$this->logs = $request->raw;
@@ -210,7 +224,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing get api methods.
 	 */
-	public function testGetMethods()
+	public function testGetMethods(): void
 	{
 		$request = \Requests::get(static::$url . 'Methods', static::$requestHeaders, static::$requestOptions);
 		$this->logs = $request->raw;
@@ -224,7 +238,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing delete configuration.
 	 */
-	public function testDeleteConfiguration()
+	public function testDeleteConfiguration(): void
 	{
 		\Settings_WebserviceUsers_Record_Model::getInstanceById(static::$apiUserId, 'Portal')->delete();
 		\Settings_WebserviceApps_Record_Model::getInstanceById(static::$serverId)->delete();

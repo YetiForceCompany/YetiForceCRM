@@ -1,4 +1,5 @@
-{*<!--
+{*
+<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -29,6 +30,7 @@
 					<input type="hidden" name="picklistName" value="{$SELECTED_PICKLIST_FIELDMODEL->get('name')}"/>
 					<input type="hidden" name="pickListValues"
 						   value='{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_PICKLISTFIELD_ALL_VALUES))}'/>
+					{assign var=FIELD_INFO value=$SELECTED_PICKLIST_FIELDMODEL->getFieldInfo()}
 					<div class="modal-body tabbable">
 						<div class="form-group row align-items-center">
 							<div class="col-md-3 col-form-label text-right">
@@ -38,7 +40,7 @@
 							<div class="col-md-9 controls">
 								<input class="form-control" type="text"
 									   data-prompt-position="topLeft:70"
-									   data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+									   data-validation-engine="validate[required, maxSize[{$FIELD_INFO['maximumlength']}], funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 									   data-validator={\App\Json::encode([['name'=>'FieldLabel']])} name="newValue">
 							</div>
 						</div>
@@ -46,7 +48,7 @@
 							<div class="form-group row align-items-center">
 								<div class="col-md-3 col-form-label text-right">{\App\Language::translate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}</div>
 								<div class="col-md-9 controls">
-									<select class="rolesList form-control" name="rolesSelected[]" multiple
+									<select class="rolesList form-control" name="rolesSelected[]" multiple="multiple"
 											data-placeholder="{\App\Language::translate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
 										<option value="all"
 												selected>{\App\Language::translate('LBL_ALL_ROLES',$QUALIFIED_MODULE)}</option>
@@ -60,6 +62,7 @@
 						<div class="form-group row align-items-center">
 							<div class="col-md-3 col-form-label text-right">
 								{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
+								<span class="js-popover-tooltip fas fa-info-circle ml-2" data-js="popover"  data-trigger="hover focus" data-content="{\App\Language::translate('LBL_DESCRIPTION_VALUE_LIST', $QUALIFIED_MODULE)}" data-original-title="" title=""></span>
 							</div>
 							<div class="col-md-9 controls">
 								<textarea class="form-control js-editor" name="description"
@@ -69,6 +72,7 @@
 						<div class="form-group row align-items-center">
 							<div class="col-md-3 col-form-label text-right">
 								{\App\Language::translate('LBL_PREFIX',$QUALIFIED_MODULE)}
+								<span class="js-popover-tooltip fas fa-info-circle ml-2" data-js="popover"  data-trigger="hover focus" data-content="{\App\Language::translate('LBL_DESCRIPTION_PREFIXES', $QUALIFIED_MODULE)}" data-original-title="" title=""></span>
 							</div>
 							<div class="col-md-9 controls">
 								<input name="prefix" type="text"
@@ -76,38 +80,6 @@
 									   value="">
 							</div>
 						</div>
-						{if $SELECTED_PICKLIST_FIELDMODEL->get('uitype') === 15}
-							<div class="form-group row align-items-center">
-								<div class="col-md-3 col-form-label text-right">
-									{\App\Language::translate('LBL_CLOSES_RECORD',$QUALIFIED_MODULE)}
-									<div class="js-popover-tooltip ml-2 d-inline my-auto u-h-fit u-cursor-pointer" data-js="popover"
-										data-content="{\App\Language::translate('LBL_BLOCKED_RECORD_INFO',$QUALIFIED_MODULE)}">
-										<span class="fas fa-info-circle"></span>
-									</div>
-								</div>
-								<div class="col-md-9 controls">
-									<input class="form-control" type="checkbox" value="1" name="close_state">
-								</div>
-							</div>
-						{/if}
-						{if $SELECTED_PICKLIST_FIELDMODEL->getFieldDataType() eq 'picklist' }
-							<div class="form-group row align-items-center">
-								<div class="col-md-3 col-form-label text-right">
-									{\App\Language::translate('LBL_AUTOMATION',$QUALIFIED_MODULE)}
-									<div class="js-popover-tooltip ml-2 d-inline my-auto u-h-fit u-cursor-pointer" data-js="popover"
-										data-content="{\App\Language::translate('LBL_AUTOMATION_INFO',$QUALIFIED_MODULE)}">
-										<span class="fas fa-info-circle"></span>
-									</div>
-								</div>
-								<div class="col-md-9 controls">
-									<select name="automation" class="automation-list form-control">
-										{foreach item=$VALUE key=$KEY from=Settings_Picklist_Module_Model::getAutomationStatus()}
-											<option value="{$KEY}"{if $KEY === Settings_Picklist_Module_Model::AUTOMATION_NO_CONCERN} selected {/if} >{\App\Language::translate($VALUE,$QUALIFIED_MODULE)}</option>
-										{/foreach}
-									</select>
-								</div>
-							</div>
-						{/if}
 					</div>
 					{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 				</form>

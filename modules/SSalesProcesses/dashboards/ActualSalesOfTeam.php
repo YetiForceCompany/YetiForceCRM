@@ -17,6 +17,8 @@ class SSalesProcesses_ActualSalesOfTeam_Dashboard extends SSalesProcesses_TeamsE
 	 *
 	 * @param int    $owner  number id of user
 	 * @param string $status
+	 * @param mixed  $row
+	 * @param mixed  $time
 	 *
 	 * @return string
 	 */
@@ -42,7 +44,7 @@ class SSalesProcesses_ActualSalesOfTeam_Dashboard extends SSalesProcesses_TeamsE
 		$queryGenerator = new \App\QueryGenerator('SSalesProcesses');
 		$queryGenerator->setFields(['assigned_user_id']);
 		$queryGenerator->setGroup('assigned_user_id');
-		$queryGenerator->addCondition('actual_date', $time, 'bw');
+		$queryGenerator->addCondition('actual_date', $time, 'bw', true, true);
 		$sum = new \yii\db\Expression('SUM(actual_sale)');
 		$queryGenerator->setCustomColumn(['actual_sale' => $sum]);
 		$query = $queryGenerator->createQuery();

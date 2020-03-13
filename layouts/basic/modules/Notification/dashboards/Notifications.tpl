@@ -24,13 +24,14 @@
 			<div class="col-ceq-xsm-6">
 				<div class="btn-toolbar float-right">
 					{if \App\Privilege::isPermitted('Notification', 'CreateView')}
-						<button type="button" class="btn btn-light" onclick="Vtiger_Index_Js.sendNotification()" title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}">
+						<button type="button" class="btn btn-sm btn-light" onclick="Vtiger_Index_Js.sendNotification()" title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}">
 							<span class="fas fa-plus"></span>
 						</button>
 					{/if}
-					<button type="button"  class="btn btn-light" href="index.php?module=Notification&view=List" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST')}" alt="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST')}">
+					<a class="btn btn-sm btn-light" href="index.php?module=Notification&view=List" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST')}"
+						alt="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST')}">
 						<span class="fas fa-th-list"></span>
-					</button>
+					</a>
 				</div>
 			</div>
 		</div>

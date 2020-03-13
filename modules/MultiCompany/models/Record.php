@@ -24,7 +24,7 @@ class MultiCompany_Record_Model extends Vtiger_Record_Model
 			preg_match('/<a href="+/', $storageInfo[0], $matches);
 			if (!empty($matches)) {
 				preg_match('/[.\s]+/', $storageInfo[0], $dashes);
-				preg_match("/<a(.*)>(.*)<\/a>/i", $storageInfo[0], $name);
+				preg_match('/<a(.*)>(.*)<\\/a>/i', $storageInfo[0], $name);
 
 				$recordModel = Vtiger_Record_Model::getCleanInstance('MultiCompany');
 				$recordModel->setId($id);
@@ -40,7 +40,7 @@ class MultiCompany_Record_Model extends Vtiger_Record_Model
 	public function save()
 	{
 		parent::save();
-		if ($this->getPreviousValue('logo')) {
+		if (false !== $this->getPreviousValue('logo')) {
 			\App\UserPrivilegesFile::reloadByMultiCompany($this->getId());
 		}
 	}

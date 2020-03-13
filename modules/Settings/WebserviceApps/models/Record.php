@@ -77,17 +77,34 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
+	 * Checks if duplicates.
+	 *
+	 * @return bool
+	 */
+	private function checkDuplicate(): bool
+	{
+		$where = ['and'];
+		$where[] = ['name' => $this->get('name')];
+		if (!$this->isEmpty('id')) {
+			$where[] = ['<>', 'id', $this->getId()];
+		}
+		return (new App\Db\Query())->from('w_#__servers')->where($where)->exists();
+	}
+
+	/**
 	 * Save record.
 	 */
 	public function save()
 	{
 		$db = \App\Db::getInstance('webservice');
+		if ($this->checkDuplicate()) {
+			throw new \App\Exceptions\IllegalValue('ERR_DUPLICATE_LOGIN', 406);
+		}
 		$data = [
 			'status' => $this->get('status') ? 1 : 0,
 			'name' => $this->get('name'),
 			'acceptable_url' => $this->get('acceptable_url'),
 			'pass' => App\Encryption::getInstance()->encrypt($this->get('pass')),
-			'accounts_id' => $this->get('accounts_id'),
 		];
 		if ($this->isEmpty('id')) {
 			$data['type'] = $this->get('type');

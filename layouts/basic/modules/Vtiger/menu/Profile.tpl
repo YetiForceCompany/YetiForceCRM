@@ -1,9 +1,8 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-	{if AppConfig::security('CHANGE_LOGIN_PASSWORD')}
+	{if App\Config::security('CHANGE_LOGIN_PASSWORD')}
 		{assign var=ICON value=Vtiger_Menu_Model::getMenuIcon($MENU, Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE))}
-		<li class="tpl-menu-Profile c-menu__item js-menu__item nav-item menuLabel {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}"
-			data-js="mouseenter mouseleave">
+		<li class="tpl-menu-Profile c-menu__item js-menu__item nav-item menuLabel {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}" data-js="mouseenter mouseleave">
 			<a class="nav-link collapsed{if $ICON} hasIcon{/if} js-submenu-toggler is-submenu-toggler"
 			   data-toggle="collapse" data-target="#submenu-{$MENU['id']}" role="button" href="#" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-{$MENU['id']}">
 				{$ICON}

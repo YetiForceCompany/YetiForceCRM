@@ -8,7 +8,7 @@
  */
 class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
@@ -36,16 +36,13 @@ class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$viewer->assign('NAMELENGTH', AppConfig::main('title_max_length'));
-		$viewer->assign('HREFNAMELENGTH', AppConfig::main('href_max_length'));
+		$viewer->assign('NAMELENGTH', App\Config::main('title_max_length'));
+		$viewer->assign('HREFNAMELENGTH', App\Config::main('href_max_length'));
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_SCHEDULED_ACTIVITIES');
 		$viewer->assign('DATA', $data);
 		$viewer->assign('DEFAULTDATE', $defaultDate);
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('VIEW', $request->getByType('view'));
-
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$viewer->assign('CURRENT_USER', $currentUserModel);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/CalendarContents.tpl', $moduleName);
 		} else {

@@ -17,7 +17,7 @@ class Vtiger_Theme_UIType extends Vtiger_Base_UIType
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$value = $value ? explode('##', $value) : [];
 		}
 		foreach ($value as $val) {
@@ -48,8 +48,7 @@ class Vtiger_Theme_UIType extends Vtiger_Base_UIType
 	{
 		$allSkins = Vtiger_Theme::getAllSkins();
 		$skinColor = $allSkins[$value];
-		$value = ucfirst($value);
-
+		$value = \App\Utils::mbUcfirst($value);
 		return "<div style='width: 24px; height: 24px; background-color:$skinColor;' title='$value'>&nbsp;</div>";
 	}
 
@@ -64,7 +63,7 @@ class Vtiger_Theme_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny'];
 	}

@@ -18,7 +18,7 @@ class Phone
 	 * Get phone details.
 	 *
 	 * @param string      $phoneNumber
-	 * @param null|string $phoneCountry
+	 * @param string|null $phoneCountry
 	 *
 	 * @return array|bool
 	 */
@@ -35,6 +35,9 @@ class Phone
 					'country' => $phoneUtil->getRegionCodeForNumber($swissNumberProto),
 				];
 			}
+			return [
+				'country' => $phoneUtil->getRegionCodeForNumber($swissNumberProto),
+			];
 		} catch (\libphonenumber\NumberParseException $e) {
 			\App\Log::info($e->getMessage(), __CLASS__);
 		}
@@ -45,7 +48,7 @@ class Phone
 	 * Verify phone number.
 	 *
 	 * @param string      $phoneNumber
-	 * @param null|string $phoneCountry
+	 * @param string|null $phoneCountry
 	 *
 	 * @throws \App\Exceptions\FieldException
 	 *
@@ -54,7 +57,7 @@ class Phone
 	public static function verifyNumber($phoneNumber, $phoneCountry)
 	{
 		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-		if ($phoneCountry && !in_array($phoneCountry, $phoneUtil->getSupportedRegions())) {
+		if ($phoneCountry && !\in_array($phoneCountry, $phoneUtil->getSupportedRegions())) {
 			throw new \App\Exceptions\FieldException('LBL_INVALID_COUNTRY_CODE');
 		}
 		try {
@@ -80,7 +83,7 @@ class Phone
 	 * Get proper number.
 	 *
 	 * @param string   $numberToCheck
-	 * @param null|int $userId
+	 * @param int|null $userId
 	 *
 	 * @return false|string Return false if wrong number
 	 */
@@ -94,7 +97,7 @@ class Phone
 			$returnVal = $numberToCheck;
 		} else {
 			$country = \App\User::getUserModel($userId)->getDetail('sync_carddav_default_country');
-			if (!empty($country) && ($phoneDetails = static::getDetails($numberToCheck, Country::getCountryCode($country)))) {
+			if (!empty($country) && ($phoneDetails = static::getDetails($numberToCheck, Country::getCountryCode($country))) && isset($phoneDetails['number'])) {
 				$returnVal = $phoneDetails['number'];
 			}
 		}

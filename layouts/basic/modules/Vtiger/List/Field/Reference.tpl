@@ -6,7 +6,7 @@
 	{if isset($SEARCH_INFO['searchValue'])}
 		{assign var=SEARCH_VALUES value=explode('##', $SEARCH_INFO['searchValue'])}
 	{else}
-		{assign var=SEARCH_VALUE value=[]}
+		{assign var=SEARCH_VALUES value=[]}
 	{/if}
 	<div class="tpl-List-Field-Reference picklistSearchField">
 		<select class="select2noactive listSearchContributor {$FIELD_MODEL->getName()}" name="{$FIELD_MODEL->getName()}"
@@ -15,7 +15,7 @@
 					data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
 					data-module-name="{$FIELD_MODEL->getModuleName()}"
 				{/if} data-ajax-search="1"
-				data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getReference&fieldName={$FIELD_MODEL->getName()}"
+				data-ajax-url="index.php?module={if !empty($FIELD_MODEL->get('source_field_name'))}{$FIELD_MODEL->getModuleName()}{else}{$MODULE}{/if}&action=Fields&mode=getReference&fieldName={$FIELD_MODEL->getName()}"
 				data-minimum-input="3">
 			{foreach from=$SEARCH_VALUES item=ID}
 				<option value="{$ID}"

@@ -16,11 +16,10 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if ($value === 'on' || (int) $value === 1) {
+		if ('on' === $value || 1 === (int) $value) {
 			return 1;
-		} else {
-			return 0;
 		}
+		return 0;
 	}
 
 	/**
@@ -31,7 +30,7 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		if (!in_array($value, [0, 1, '1', '0', 'on'])) {
+		if (!\in_array($value, [0, 1, '1', '0', 'on'])) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
@@ -42,9 +41,10 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if ($value === 1 || $value === '1' || strtolower($value) === 'on' || strtolower($value) === 'yes' || true === $value) {
+		if (1 === $value || '1' === $value || 'on' === strtolower($value) || 'yes' === strtolower($value) || true === $value) {
 			return App\Language::translate('LBL_YES', $this->getFieldModel()->getModuleName());
-		} elseif ($value === 0 || $value === '0' || strtolower($value) === 'off' || strtolower($value) === 'no' || false === $value) {
+		}
+		if (0 === $value || '0' === $value || 'off' === strtolower($value) || 'no' === strtolower($value) || false === $value) {
 			return App\Language::translate('LBL_NO', $this->getFieldModel()->getModuleName());
 		}
 		return \App\Purifier::encodeHtml($value);
@@ -77,17 +77,13 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny'];
 	}
 
 	/**
-	 * Returns template for operator.
-	 *
-	 * @param string $operator
-	 *
-	 * @return string
+	 * {@inheritdoc}
 	 */
 	public function getOperatorTemplateName(string $operator = '')
 	{

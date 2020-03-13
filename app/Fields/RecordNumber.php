@@ -13,14 +13,30 @@ namespace App\Fields;
 class RecordNumber extends \App\Base
 {
 	/**
+	 * Instance cache by module id.
+	 *
+	 * @var \App\Fields\RecordNumber[]
+	 */
+	private static $instanceCache = [];
+	/**
+	 * Sequence number field cache by module id.
+	 *
+	 * @var array
+	 */
+	private static $sequenceNumberFieldCache = [];
+
+	/**
 	 * Function to get instance.
 	 *
-	 * @param string|int $tabId
+	 * @param int|string $tabId
 	 *
 	 * @return \App\Fields\RecordNumber
 	 */
 	public static function getInstance($tabId): self
 	{
+		if (isset(self::$instanceCache[$tabId])) {
+			return self::$instanceCache[$tabId];
+		}
 		$instance = new static();
 		if (!\is_numeric($tabId)) {
 			$tabId = \App\Module::getModuleId($tabId);
@@ -28,7 +44,7 @@ class RecordNumber extends \App\Base
 		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
 		$row['tabid'] = $tabId;
 		$instance->setData($row);
-		return $instance;
+		return self::$instanceCache[$tabId] = $instance;
 	}
 
 	/**
@@ -66,7 +82,7 @@ class RecordNumber extends \App\Base
 		}
 
 		$fullPrefix = $this->parseNumber($currentSequenceNumber);
-		$strip = strlen($currentSequenceNumber) - strlen($currentSequenceNumber + 1);
+		$strip = \strlen($currentSequenceNumber) - \strlen($currentSequenceNumber + 1);
 		if ($strip < 0) {
 			$strip = 0;
 		}
@@ -87,7 +103,7 @@ class RecordNumber extends \App\Base
 		if (!($piclistName = $this->getPicklistName()) || !$this->getPicklistValue($piclistName)) {
 			return $this->get('cur_id');
 		}
-		return (new \App\Db\Query())->select(['cur_id'])->from('u_#__modentity_sequences')->where(['value' => $this->getPicklistValue($piclistName)])->scalar() ?: 1;
+		return (new \App\Db\Query())->select(['cur_id'])->from('u_#__modentity_sequences')->where(['tabid' => $this->get('tabid'), 'value' => $this->getPicklistValue($piclistName)])->scalar() ?: 1;
 	}
 
 	/**
@@ -123,7 +139,7 @@ class RecordNumber extends \App\Base
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	private function setNumberSequence(int $reqNo, string $actualSequence)
+	public function setNumberSequence(int $reqNo, string $actualSequence)
 	{
 		$data = ['cur_sequence' => $actualSequence];
 		$this->set('cur_sequence', $actualSequence);
@@ -131,13 +147,27 @@ class RecordNumber extends \App\Base
 			$data['cur_id'] = $reqNo;
 			$this->set('cur_id', $reqNo);
 		} else {
-			if ((new \App\Db\Query())->from('u_#__modentity_sequences')->where(['value' => $this->getPicklistValue($piclistName), 'tabid' => $this->get('tabid')])->exists()) {
-				\App\Db::getInstance()->createCommand()->update('u_#__modentity_sequences', ['cur_id' => $reqNo], ['value' => $this->getPicklistValue($piclistName), 'tabid' => $this->get('tabid')])->execute();
-			} else {
-				\App\Db::getInstance()->createCommand()->insert('u_#__modentity_sequences', ['cur_id' => $reqNo, 'tabid' => $this->get('tabid'), 'value' => $this->getPicklistValue($piclistName)])->execute();
-			}
+			$this->updateNumberSequence($reqNo, $this->getPicklistValue($piclistName));
 		}
 		\App\Db::getInstance()->createCommand()->update('vtiger_modentity_num', $data, ['tabid' => $this->get('tabid')])->execute();
+	}
+
+	/**
+	 * Update number sequence.
+	 *
+	 * @param int    $reqNo
+	 * @param string $prefix
+	 *
+	 * @return bool|int
+	 */
+	public function updateNumberSequence(int $reqNo, string $prefix)
+	{
+		if ((new \App\Db\Query())->from('u_#__modentity_sequences')->where(['value' => $prefix, 'tabid' => $this->get('tabid')])->exists()) {
+			$value = \App\Db::getInstance()->createCommand()->update('u_#__modentity_sequences', ['cur_id' => $reqNo], ['value' => $prefix, 'tabid' => $this->get('tabid')])->execute();
+		} else {
+			$value = \App\Db::getInstance()->createCommand()->insert('u_#__modentity_sequences', ['cur_id' => $reqNo, 'tabid' => $this->get('tabid'), 'value' => $prefix])->execute();
+		}
+		return $value;
 	}
 
 	/**
@@ -148,7 +178,7 @@ class RecordNumber extends \App\Base
 	public function isNewSequence(): bool
 	{
 		return $this->getRecord()->isNew() ||
-			($this->getRecord()->getPreviousValue($this->getPicklistName()) !== false && !$this->getRecord()->isEmpty($this->getPicklistName()) && $this->getPicklistValue($this->getPicklistName()) !== $this->getPicklistValue($this->getPicklistName(), $this->getRecord()->getPreviousValue($this->getPicklistName())));
+			(false !== $this->getRecord()->getPreviousValue($this->getPicklistName()) && !$this->getRecord()->isEmpty($this->getPicklistName()) && $this->getPicklistValue($this->getPicklistName()) !== $this->getPicklistValue($this->getPicklistName(), $this->getRecord()->getPreviousValue($this->getPicklistName())));
 	}
 
 	/**
@@ -208,11 +238,10 @@ class RecordNumber extends \App\Base
 					$dbCommand = \App\Db::getInstance()->createCommand();
 					while ($recordinfo = $dataReader->read()) {
 						$this->setRecord($moduleModel->getRecordFromArray($recordinfo));
-						$picklistValue = $this->getPicklistValue($picklistName, $recordinfo[$picklistName]);
 						$seq = 0;
-						if ($picklistValue && isset($sequences[$picklistValue])) {
+						if ($picklistName && ($picklistValue = $this->getPicklistValue($picklistName, $recordinfo[$picklistName])) && isset($sequences[$picklistValue])) {
 							$seq = $sequences[$picklistValue]++;
-						} elseif ($picklistValue) {
+						} elseif ($picklistName && $picklistValue) {
 							$sequences[$picklistValue] = 1;
 							$seq = $sequences[$picklistValue]++;
 						} else {
@@ -220,7 +249,7 @@ class RecordNumber extends \App\Base
 						}
 						$dbCommand->update($fieldTable, [$fieldColumn => $this->parseNumber($seq)], [$moduleModel->getEntityInstance()->table_index => $recordinfo['id']])
 							->execute();
-						$returninfo['updatedrecords']++;
+						++$returninfo['updatedrecords'];
 					}
 					$dataReader->close();
 					if ($oldNumber != $sequenceNumber) {
@@ -242,13 +271,13 @@ class RecordNumber extends \App\Base
 	 * Date function that can be overrided in tests.
 	 *
 	 * @param string   $format
-	 * @param null|int $time
+	 * @param int|null $time
 	 *
 	 * @return false|string
 	 */
 	public static function date($format, $time = null)
 	{
-		if ($time === null) {
+		if (null === $time) {
 			$time = time();
 		}
 		return date($format, $time);
@@ -294,16 +323,63 @@ class RecordNumber extends \App\Base
 				'reset_sequence' => $this->get('reset_sequence'),
 				'cur_sequence' => $this->get('cur_sequence')
 			])->execute();
-		} else {
-			return $dbCommand->update('vtiger_modentity_num', [
-				'cur_id' => $this->get('cur_id'),
-				'prefix' => $this->get('prefix'),
-				'leading_zeros' => $this->get('leading_zeros'),
-				'postfix' => $this->get('postfix'),
-				'reset_sequence' => $this->get('reset_sequence'),
-				'cur_sequence' => $this->get('cur_sequence')],
-				['tabid' => $this->get('tabid')])
-				->execute();
 		}
+		return $dbCommand->update('vtiger_modentity_num', [
+			'cur_id' => $this->get('cur_id'),
+			'prefix' => $this->get('prefix'),
+			'leading_zeros' => $this->get('leading_zeros'),
+			'postfix' => $this->get('postfix'),
+			'reset_sequence' => $this->get('reset_sequence'),
+			'cur_sequence' => $this->get('cur_sequence')],
+				['tabid' => $this->get('tabid')])
+			->execute();
+	}
+
+	/**
+	 * Get sequence number field name.
+	 *
+	 * @param int $tabId
+	 *
+	 * @return string|bool
+	 */
+	public static function getSequenceNumberFieldName(int $tabId)
+	{
+		if (isset(self::$sequenceNumberFieldCache[$tabId]['fieldname'])) {
+			return self::$sequenceNumberFieldCache[$tabId]['fieldname'];
+		}
+		self::$sequenceNumberFieldCache[$tabId] = (new \App\Db\Query())->select(['fieldname', 'columnname', 'tablename'])->from('vtiger_field')
+			->where(['tabid' => $tabId, 'uitype' => 4, 'presence' => [0, 2]])->one();
+		return self::$sequenceNumberFieldCache[$tabId]['fieldname'];
+	}
+
+	/**
+	 * Get sequence number field.
+	 *
+	 * @param int $tabId
+	 *
+	 * @return string[]|bool
+	 */
+	public static function getSequenceNumberField(int $tabId)
+	{
+		if (isset(self::$sequenceNumberFieldCache[$tabId])) {
+			return self::$sequenceNumberFieldCache[$tabId];
+		}
+		return self::$sequenceNumberFieldCache[$tabId] = (new \App\Db\Query())->select(['fieldname', 'columnname', 'tablename'])->from('vtiger_field')
+			->where(['tabid' => $tabId, 'uitype' => 4, 'presence' => [0, 2]])->one();
+	}
+
+	/**
+	 * Clean sequence number field cache.
+	 *
+	 * @param int|null $tabId
+	 *
+	 * @return void
+	 */
+	public static function cleanSequenceNumberFieldCache(?int $tabId)
+	{
+		if ($tabId) {
+			unset(self::$sequenceNumberFieldCache[$tabId]);
+		}
+		self::$sequenceNumberFieldCache = null;
 	}
 }

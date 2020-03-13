@@ -6,19 +6,9 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 class Services_Relation_Model extends Products_Relation_Model
 {
-	/**
-	 * Get services pricebooks.
-	 */
-	public function getServicePricebooks()
-	{
-		$queryGenerator = $this->getQueryGenerator();
-		$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.productid as prodid');
-		$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.listprice');
-		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebookproductrel', 'vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid']);
-		$queryGenerator->addNativeCondition(['vtiger_pricebookproductrel.productid' => $this->get('parentRecord')->getId()]);
-	}
 }

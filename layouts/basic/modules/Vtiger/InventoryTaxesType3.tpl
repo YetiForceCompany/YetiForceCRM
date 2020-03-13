@@ -5,7 +5,7 @@
 			<div class="card-header">
 				<strong>{\App\Language::translate('LBL_REGIONAL_TAX', $MODULE)}</strong>
 				<div class="float-right">
-					<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="account" class="activeCheckbox">
+					<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="regional" class="activeCheckbox">
 				</div>
 			</div>
 			<div class="card-body js-panel__body d-none" data-js="class: d-none">

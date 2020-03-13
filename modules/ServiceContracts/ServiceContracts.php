@@ -63,7 +63,7 @@ class ServiceContracts extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['subject', 'assigned_user_id', 'contract_no', 'used_units', 'total_units'];
+	public $relationFields = [];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
@@ -81,19 +81,7 @@ class ServiceContracts extends CRMEntity
 		'Assigned To' => ['crmentity', 'smownerid'],
 		'Contract No' => ['servicecontracts', 'contract_no'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'Subject' => 'subject',
-		'Status' => 'contract_status',
-		'Due Date' => 'due_date',
-		'Start Date' => 'start_date',
-		'Type' => 'contract_type',
-		'Related To' => 'sc_related_to',
-		'Used Units' => 'used_units',
-		'Total Units' => 'total_units',
-		'Assigned To' => 'assigned_user_id',
-		'Contract No' => 'contract_no',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['subject'];
 	// For Alphabetical search
@@ -111,8 +99,8 @@ class ServiceContracts extends CRMEntity
 	/**
 	 * Invoked when special actions are performed on the module.
 	 *
-	 * @param string Module name
-	 * @param string Event Type
+	 * @param string $moduleName
+	 * @param string $eventType
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
@@ -138,27 +126,6 @@ class ServiceContracts extends CRMEntity
 			App\EventHandler::setInActive('ServiceContracts_ServiceContractsHandler_Handler');
 		} elseif ('module.enabled' === $eventType) {
 			App\EventHandler::setActive('ServiceContracts_ServiceContractsHandler_Handler');
-		}
-	}
-
-	/**
-	 * Handle saving related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	public function saveRelatedModule($module, $crmid, $with_module, $with_crmids, $relatedName = false)
-	{
-		if (!is_array($with_crmids)) {
-			$with_crmids = [$with_crmids];
-		}
-		foreach ($with_crmids as $with_crmid) {
-			if ('HelpDesk' == $with_module) {
-				parent::saveRelatedModule($module, $crmid, $with_module, $with_crmid);
-				$this->updateHelpDeskRelatedTo($crmid, $with_crmid);
-				$this->updateServiceContractState($crmid);
-			} else {
-				parent::saveRelatedModule($module, $crmid, $with_module, $with_crmid, $relatedName);
-			}
 		}
 	}
 
@@ -280,14 +247,14 @@ class ServiceContracts extends CRMEntity
 
 		// Calculate the Planned Duration based on Due date and Start date. (in days)
 		if (!empty($dueDate) && !empty($startDate)) {
-			$params['planned_duration'] = \App\Fields\Date::getDiff($startDate, $dueDate, 'days');
+			$params['planned_duration'] = \App\Fields\DateTime::getDiff($startDate, $dueDate, 'days');
 		} else {
 			$params['planned_duration'] = '';
 		}
 
 		// Calculate the Actual Duration based on End date and Start date. (in days)
 		if (!empty($endDate) && !empty($startDate)) {
-			$params['actual_duration'] = \App\Fields\Date::getDiff($startDate, $endDate, 'days');
+			$params['actual_duration'] = \App\Fields\DateTime::getDiff($startDate, $endDate, 'days');
 		} else {
 			$params['actual_duration'] = '';
 		}
@@ -298,64 +265,5 @@ class ServiceContracts extends CRMEntity
 			$params['progress'] = null;
 		}
 		$db->createCommand()->update($this->table_name, $params, ['servicecontractsid' => $this->id])->execute();
-	}
-
-	/**
-	 * Function to unlink an entity with given Id from another entity.
-	 *
-	 * @param int    $id
-	 * @param string $returnModule
-	 * @param int    $returnId
-	 * @param bool   $relatedName
-	 */
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if ('getManyToMany' === $relatedName) {
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		} else {
-			parent::deleteRelatedFromDB($id, $returnModule, $returnId);
-			$dataReader = (new \App\Db\Query())->select(['tabid', 'tablename', 'columnname'])
-				->from('vtiger_field')
-				->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $this->moduleName, 'relmodule' => $returnModule])])
-				->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				App\Db::getInstance()->createCommand()
-					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
-					->execute();
-			}
-			$dataReader->close();
-		}
-	}
-
-	/**
-	 * Move the related records of the specified list of id's to the given record.
-	 *
-	 * @param string This module name
-	 * @param array List of Entity Id's from which related records need to be transfered
-	 * @param int Id of the the Record to which the related records are to be moved
-	 */
-	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
-	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
-		$relTableArr = ['Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel'];
-		$tblFieldArr = ['vtiger_senotesrel' => 'notesid', 'vtiger_seattachmentsrel' => 'attachmentsid'];
-		$entityTblFieldArr = ['vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid'];
-		foreach ($transferEntityIds as $transferId) {
-			foreach ($relTableArr as $relTable) {
-				$idField = $tblFieldArr[$relTable];
-				$entityIdField = $entityTblFieldArr[$relTable];
-				// IN clause to avoid duplicate entries
-				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
-				$query = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
-				$dataReader = $query->createCommand()->query();
-				while ($idFieldValue = $dataReader->readColumn(0)) {
-					$dbCommand->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
-				}
-				$dataReader->close();
-			}
-		}
-		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
 }

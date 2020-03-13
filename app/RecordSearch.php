@@ -23,6 +23,10 @@ class RecordSearch
 
 	/**
 	 * Construct.
+	 *
+	 * @param mixed $searchValue
+	 * @param mixed $moduleName
+	 * @param mixed $limit
 	 */
 	public function __construct($searchValue, $moduleName = false, $limit = false)
 	{
@@ -46,7 +50,7 @@ class RecordSearch
 		if ($this->limit) {
 			$query->limit($this->limit);
 		}
-		return $this->limit === 1 ? $query->one() : $query->all();
+		return 1 === $this->limit ? $query->one() : $query->all();
 	}
 
 	/**
@@ -78,7 +82,7 @@ class RecordSearch
 		$where = ['and', ['vtiger_tab.presence' => 0]];
 		if ($this->moduleName) {
 			$where[] = ['csl.setype' => $this->moduleName];
-			if (is_string($this->moduleName) && isset($this->moduleConditions[$this->moduleName])) {
+			if (\is_string($this->moduleName) && isset($this->moduleConditions[$this->moduleName])) {
 				$where[] = $this->moduleConditions[$this->moduleName]['where'];
 				if (isset($this->moduleConditions[$this->moduleName]['innerJoin'])) {
 					foreach ($this->moduleConditions[$this->moduleName]['innerJoin'] as $table => $on) {
@@ -89,7 +93,7 @@ class RecordSearch
 		} elseif ($this->entityName) {
 			$where[] = ['vtiger_entityname.turn_off' => 1];
 			$query->innerJoin('vtiger_entityname', 'csl.setype = vtiger_entityname.modulename');
-			if (\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 2) {
+			if (2 === \App\Config::search('GLOBAL_SEARCH_SORTING_RESULTS')) {
 				$query->orderBy('vtiger_entityname.sequence');
 			}
 		}
@@ -105,7 +109,7 @@ class RecordSearch
 				break;
 			default:
 			case 'Contain':
-				if (strpos($this->searchValue, '*') !== false || strpos($this->searchValue, '_') !== false) {
+				if (false !== strpos($this->searchValue, '*') || false !== strpos($this->searchValue, '_')) {
 					$where[] = ['like', 'csl.searchlabel', str_replace('*', '%', "%{$this->searchValue}%"), false];
 				} else {
 					$where[] = ['like', 'csl.searchlabel', $this->searchValue];
@@ -114,12 +118,12 @@ class RecordSearch
 			case 'FulltextBegin':
 				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(csl.searchlabel) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue . '*'])]);
 				$query->andWhere('MATCH(csl.searchlabel) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue . '*']);
-				$query->addOrderBy('matcher');
+				$query->addOrderBy(['matcher' => \SORT_DESC]);
 				break;
 			case 'FulltextWord':
 				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(csl.searchlabel) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue])]);
 				$query->andWhere('MATCH(csl.searchlabel) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue]);
-				$query->addOrderBy('matcher');
+				$query->addOrderBy(['matcher' => \SORT_DESC]);
 				break;
 		}
 		return $query->andWhere($where);
@@ -151,12 +155,12 @@ class RecordSearch
 			case 'FulltextBegin':
 				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(cl.label) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue . '*'])]);
 				$query->andWhere('MATCH(cl.label) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue . '*']);
-				$query->addOrderBy('matcher');
+				$query->addOrderBy(['matcher' => \SORT_DESC]);
 				break;
 			case 'FulltextWord':
 				$query->addSelect(['matcher' => new \yii\db\Expression('MATCH(cl.label) AGAINST(:searchValue IN BOOLEAN MODE)', [':searchValue' => $this->searchValue])]);
 				$query->andWhere('MATCH(cl.label) AGAINST(:findvalue IN BOOLEAN MODE)', [':findvalue' => $this->searchValue]);
-				$query->addOrderBy('matcher');
+				$query->addOrderBy(['matcher' => \SORT_DESC]);
 				break;
 		}
 		if ($this->checkPermissions) {

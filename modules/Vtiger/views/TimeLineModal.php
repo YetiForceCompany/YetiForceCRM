@@ -67,7 +67,7 @@ class Vtiger_TimeLineModal_View extends Vtiger_BasicModal_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$request->set('limit', AppConfig::module('ModTracker', 'TIMELINE_IN_LISTVIEW_LIMIT'));
+		$request->set('limit', App\Config::module('ModTracker', 'TIMELINE_IN_LISTVIEW_LIMIT'));
 		$request->set('type', Vtiger_HistoryRelation_Widget::getActions());
 		$request->set('noMore', true);
 

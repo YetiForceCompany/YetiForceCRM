@@ -43,7 +43,7 @@
 							onclick="location.href = 'index.php?module={$FOR_MODULE}&view=Import&mode=cancelImport&import_id={$IMPORT_ID}'">
 						<span class="font-weight-bold">{\App\Language::translate('LBL_CANCEL_IMPORT', $MODULE)}</span>
 					</button>
-					{include file=\App\Layout::getTemplatePath('Import_Done_Buttons.tpl', 'Import')}
+					{include file=\App\Layout::getTemplatePath('Import_Done_Buttons.tpl', 'Import') MODULE_NAME=$MODULE}
 				</td>
 			</tr>
 		</table>

@@ -71,12 +71,12 @@ class Calendar_CalendarHandler_Handler
 	public function entityBeforeSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		if ($recordModel->get('allday') && ($recordModel->isNew() || $recordModel->getPreviousValue('allday') !== false)) {
+		if ($recordModel->get('allday') && ($recordModel->isNew() || false !== $recordModel->getPreviousValue('allday'))) {
 			$userModel = \App\User::getUserModel($recordModel->get('assigned_user_id'));
 			$recordModel->set('time_start', $userModel->getDetail('start_hour') . ':00');
 			$recordModel->set('time_end', $userModel->getDetail('end_hour') . ':00');
 		}
-		$minutes = \App\Fields\Date::getDiff($recordModel->get('date_start') . ' ' . $recordModel->get('time_start'), $recordModel->get('due_date') . ' ' . $recordModel->get('time_end'), 'minutes');
+		$minutes = \App\Fields\DateTime::getDiff($recordModel->get('date_start') . ' ' . $recordModel->get('time_start'), $recordModel->get('due_date') . ' ' . $recordModel->get('time_end'), 'minutes');
 		$hours = floor($minutes / 60);
 		$recordModel->set('duration_hours', $hours);
 		$recordModel->set('duration_minutes', $minutes - ($hours * 60));

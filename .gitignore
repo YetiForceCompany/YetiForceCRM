@@ -2,7 +2,10 @@
 /cache/*/*/*
 !/cache/*/index.html
 !/cache/*/*/index.html
-/cache/registration.php
+/public_html/layouts/resources/colors/calendar.min.css
+/public_html/layouts/resources/colors/modules.min.css
+/public_html/layouts/resources/colors/owners.min.css
+/public_html/layouts/resources/colors/picklists.min.css
 
 /config/config_override.php
 /config/csrf_secret.php
@@ -23,18 +26,26 @@
 /modules/TestData
 /modules/Settings/TestData
 
-/user_privileges/cron.php
-/user_privileges/owners_colors.php
-/user_privileges/registration.php
+/app_data/cron.php
+/app_data/owners_colors.php
+/app_data/registration.php
+/app_data/shop.php
+/app_data/SystemUpdater.json
+/app_data/LanguagesUpdater.json
+/app_data/ConfReport_AllErrors.php
+/app_data/PwnedPassword.php
+
 
 /cache/addressBook/mails_1.php
 /cache/addressBook/mails_5.php
 /user_privileges/sharing_privileges_5.php
 /user_privileges/sharing_privileges_6.php
 /user_privileges/sharing_privileges_7.php
+/user_privileges/sharing_privileges_8.php
 /user_privileges/user_privileges_5.php
 /user_privileges/user_privileges_6.php
 /user_privileges/user_privileges_7.php
+/user_privileges/user_privileges_8.php
 
 /config/*
 !/config/username_blacklist.php
@@ -55,8 +66,10 @@
 yarn-error.log
 /node_modules/
 /public_html/libraries/*
+/public_html/src/node_modules/*
 
 # IDEs and editors
+.idea
 /.buildpath
 .c9/
 .classpath
@@ -66,3 +79,5 @@ yarn-error.log
 *.sublime-workspace
 .babelrc
 .sonarlint/
+.history/
+*.bak

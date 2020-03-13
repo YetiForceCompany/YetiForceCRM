@@ -92,7 +92,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			}
 		}
 		foreach ($chartData['datasets'] as &$dataset) {
-			$dataset['label'] .= ': ' . \App\Fields\Time::formatToHourText($workingTimeByType[$dataset['label']]);
+			$dataset['label'] .= ': ' . \App\Fields\RangeTime::formatHourToDisplay($workingTimeByType[$dataset['label']]);
 		}
 		if ($dataReader->count() > 0) {
 			$chartData['show_chart'] = true;

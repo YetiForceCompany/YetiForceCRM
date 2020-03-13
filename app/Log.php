@@ -16,7 +16,7 @@ class Log extends Logger
 	public static $logToConsole;
 	public static $logToFile;
 	public static $logToProfile;
-
+	public $logToLevels = 0;
 	/**
 	 * Column mapping by table.
 	 *
@@ -29,13 +29,57 @@ class Log extends Logger
 		'access_to_record' => ['date', 'username', 'ip', 'module', 'record', 'url', 'agent', 'request', 'referer'],
 		'csrf' => ['date', 'username', 'ip', 'referer', 'url', 'agent'],
 	];
+	public static $levelMap = [
+		'error' => Logger::LEVEL_ERROR,
+		'warning' => Logger::LEVEL_WARNING,
+		'info' => Logger::LEVEL_INFO,
+		'trace' => Logger::LEVEL_TRACE,
+		'profile' => Logger::LEVEL_PROFILE,
+	];
+
+	/**
+	 * Initializes the logger by registering [[flush()]] as a shutdown function.
+	 */
+	public function init()
+	{
+		parent::init();
+		if (\Config\Debug::$LOG_LEVELS) {
+			$this->setLevels(\Config\Debug::$LOG_LEVELS);
+		}
+	}
+
+	/**
+	 * Sets the message levels that this target is interested in.
+	 *
+	 * @param array|int $levels message levels that this target is interested in.
+	 */
+	public function setLevels($levels)
+	{
+		if (\is_array($levels)) {
+			foreach ($levels as $level) {
+				if (isset(self::$levelMap[$level])) {
+					$this->logToLevels |= self::$levelMap[$level];
+				} else {
+					throw new Exceptions\AppException("Unrecognized level: $level");
+				}
+			}
+		} else {
+			$bitmapValues = array_reduce(self::$levelMap, function ($carry, $item) {
+				return $carry | $item;
+			});
+			if (!($bitmapValues & $levels) && 0 !== $levels) {
+				throw new Exceptions\AppException("Incorrect $levels value");
+			}
+			$this->logToLevels = $levels;
+		}
+	}
 
 	/**
 	 * Logs a message with the given type and category.
 	 * If [[traceLevel]] is greater than 0, additional call stack information about
 	 * the application code will be logged as well.
 	 *
-	 * @param string|array $message  the message to be logged. This can be a simple string or a more
+	 * @param array|string $message  the message to be logged. This can be a simple string or a more
 	 *                               complex data structure that will be handled by a [[Target|log target]]
 	 * @param int          $level    the level of the message. This must be one of the following:
 	 *                               `Logger::LEVEL_ERROR`, `Logger::LEVEL_WARNING`, `Logger::LEVEL_INFO`, `Logger::LEVEL_TRACE`,
@@ -44,6 +88,9 @@ class Log extends Logger
 	 */
 	public function log($message, $level, $category = '')
 	{
+		if (0 !== $this->logToLevels && !($this->logToLevels & $level)) {
+			return;
+		}
 		$traces = '';
 		if ($this->traceLevel) {
 			$traces = Debuger::getBacktrace(2, $this->traceLevel, ' - ');
@@ -52,7 +99,7 @@ class Log extends Logger
 			Debuger::addLogs($message, self::getLevelName($level), $traces);
 		}
 		$this->messages[] = [$message, $level, $category, microtime(true), $traces];
-		if ($this->flushInterval > 0 && count($this->messages) >= $this->flushInterval) {
+		if ($this->flushInterval > 0 && \count($this->messages) >= $this->flushInterval) {
 			$this->flush();
 		}
 	}
@@ -170,30 +217,34 @@ class Log extends Logger
 	{
 		$db = \App\Db::getInstance('log');
 		$query = (new \App\Db\Query())->from('o_#__' . $type);
-		if ($mode === 'oneDay') {
+		if ('oneDay' === $mode) {
 			$query->where(['>=', 'date', date('Y-m-d H:i:s', strtotime('-1 day'))]);
 		} else {
 			$query->limit(100);
 		}
 		if ($countMode) {
 			return $query->count('*', $db);
-		} else {
-			$query->orderBy(['id' => SORT_DESC]);
-			return $query->all($db);
 		}
+		$query->orderBy(['id' => SORT_DESC]);
+		return $query->all($db);
 	}
 
 	/**
 	 * Get last logs.
 	 *
+	 * @param bool|string[] $types
+	 *
 	 * @return string
 	 */
-	public static function getlastLogs()
+	public static function getlastLogs($types = false)
 	{
 		$content = '';
 		$i = 0;
 		foreach (\Yii::getLogger()->messages as $message) {
 			$level = \yii\log\Logger::getLevelName($message[1]);
+			if (false !== $types && !\in_array($level, $types)) {
+				continue;
+			}
 			$category = $message[2];
 			$content .= "#$i [$level] {$message[0]}";
 			if ($category) {

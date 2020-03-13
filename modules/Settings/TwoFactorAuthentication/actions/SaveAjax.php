@@ -15,8 +15,10 @@ class Settings_TwoFactorAuthentication_SaveAjax_Action extends Settings_Vtiger_B
 	public function process(\App\Request $request)
 	{
 		$methods = $request->getByType('methods', 'Alnum');
+		$ipAddresses = array_filter($request->getArray('ip', 'Text'));
 		$config = new \App\ConfigFile('security');
 		$config->set('USER_AUTHY_MODE', $methods);
+		$config->set('whitelistIp2fa', $ipAddresses);
 		$config->create();
 		$response = new Vtiger_Response();
 		$response->setResult([

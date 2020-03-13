@@ -29,7 +29,7 @@ class Base extends \SessionHandler
 	 */
 	public function __construct($name = 'YTSID', $cookie = [])
 	{
-		if (session_status() === PHP_SESSION_ACTIVE) {
+		if (PHP_SESSION_ACTIVE === session_status()) {
 			return;
 		}
 		$cookie += [
@@ -95,7 +95,7 @@ class Base extends \SessionHandler
 	/**
 	 * Update the current session id with a newly generated one.
 	 *
-	 * @link http://php.net/manual/en/function.session-regenerate-id.php
+	 * @see http://php.net/manual/en/function.session-regenerate-id.php
 	 *
 	 * @param bool $deleteOldSession
 	 */

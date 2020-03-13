@@ -9,16 +9,12 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Services_QuickCreateAjax_View extends Products_QuickCreateAjax_View
+class Services_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 {
 	/**
-	 * Function to get the list of Script models to be included.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return Vtiger_JsScript_Model[]
+	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertJsScripts(['modules.Products.resources.Edit']), parent::getFooterScripts($request));
 	}

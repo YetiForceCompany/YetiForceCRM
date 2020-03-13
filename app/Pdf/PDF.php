@@ -10,6 +10,7 @@
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Rafal Pospiech <r.pospiech@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Pdf;
@@ -22,19 +23,15 @@ abstract class PDF
 	protected $pdf;
 	protected $charset;
 	protected $library;
-	protected $templateId;
-	protected $recordId;
-	protected $moduleName;
 	protected $html;
 	protected $header;
 	protected $footer;
-	protected $language;
 	protected $fileName;
 
 	/**
 	 * Returns pdf library object.
 	 */
-	abstract public function pdf();
+	abstract public function getPdf();
 
 	/**
 	 * Set input charset.
@@ -51,69 +48,6 @@ abstract class PDF
 	 * @return string
 	 */
 	abstract public function getInputCharset();
-
-	/**
-	 * Returns library name.
-	 *
-	 * @return string
-	 */
-	abstract public function getLibraryName();
-
-	/**
-	 * Sets library name.
-	 *
-	 * @param string $name
-	 *
-	 * @return $this
-	 */
-	abstract public function setLibraryName(string $name);
-
-	/**
-	 * Returns template id.
-	 *
-	 * @return int|string
-	 */
-	abstract public function getTemplateId();
-
-	/**
-	 * Sets the template id.
-	 *
-	 * @param int|string $id
-	 *
-	 * @return $this
-	 */
-	abstract public function setTemplateId($id);
-
-	/**
-	 * Returns record id.
-	 *
-	 * @return int|string
-	 */
-	abstract public function getRecordId();
-
-	/**
-	 * Sets the record id.
-	 *
-	 * @param int|string $id
-	 *
-	 * @return $this
-	 */
-	abstract public function setRecordId($id);
-
-	/**
-	 * Returns module name.
-	 *
-	 * @return string
-	 */
-	abstract public function getModuleName();
-
-	/**
-	 * Sets module name.
-	 *
-	 * @param string $name
-	 *                     return $this
-	 */
-	abstract public function setModuleName(string $name);
 
 	/**
 	 * Set document margins.
@@ -187,6 +121,16 @@ abstract class PDF
 	 * @return $this
 	 */
 	abstract public function setPageSize(string $format, string $orientation = null);
+
+	/**
+	 * Set font.
+	 *
+	 * @param string $family
+	 * @param int    $size
+	 *
+	 * @return $this
+	 */
+	abstract public function setFont(string $family, int $size);
 
 	/**
 	 * Parse and set options.
@@ -265,11 +209,11 @@ abstract class PDF
 	/**
 	 * Set watermark.
 	 *
-	 * @param \Vtiger_PDF_Model $templateModel
+	 * @param string $watermark
 	 *
 	 * @return $this
 	 */
-	abstract public function setWatermark(\Vtiger_PDF_Model $templateModel);
+	abstract public function setWatermark(string $watermark);
 
 	/**
 	 * Load HTML content for exporting to PDF.
@@ -284,29 +228,6 @@ abstract class PDF
 	 * Output content to PDF.
 	 */
 	abstract public function output();
-
-	/**
-	 * Get template language.
-	 *
-	 * @return string
-	 */
-	public function getLanguage()
-	{
-		return $this->language;
-	}
-
-	/**
-	 * Set template language.
-	 *
-	 * @param string $language
-	 *
-	 * @return $this
-	 */
-	public function setLanguage(string $language)
-	{
-		$this->language = $language;
-		return $this;
-	}
 
 	/**
 	 * Get pdf filename.
@@ -334,11 +255,10 @@ abstract class PDF
 	/**
 	 * Export record to PDF file.
 	 *
-	 * @param int    $recordId   - id of a record
-	 * @param string $moduleName - name of records module
+	 * @param int    $recordId   - record
 	 * @param int    $templateId - id of pdf template
 	 * @param string $filePath   - path name for saving pdf file
 	 * @param string $saveFlag   - save option flag
 	 */
-	abstract public function export($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '');
+	abstract public function export($recordId, $templateId, $filePath = '', $saveFlag = '');
 }

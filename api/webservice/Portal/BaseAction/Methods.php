@@ -3,7 +3,7 @@
 namespace Api\Portal\BaseAction;
 
 /**
- * Get modules list action class.
+ * Get methods list action class.
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -15,7 +15,7 @@ class Methods extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/**
-	 * Get modules list.
+	 * Get methods list.
 	 *
 	 * @return string[]
 	 */
@@ -25,10 +25,16 @@ class Methods extends \Api\Core\BaseAction
 		$src = 'api/webservice/Portal/';
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if (!$item->isDir()) {
-				$itemPathName = explode(DIRECTORY_SEPARATOR, $iterator->getSubPathName());
+				$itemPathName = explode(\DIRECTORY_SEPARATOR, $iterator->getSubPathName());
 				$dir = array_shift($itemPathName);
+				if (empty($itemPathName)) {
+					continue;
+				}
 				$name = rtrim(array_shift($itemPathName), '.php');
-				$className = "Api\Portal\\$dir\\$name";
+				if ('BaseModel' === $dir) {
+					continue;
+				}
+				$className = "Api\\Portal\\$dir\\$name";
 				$instance = new $className();
 				switch ($dir) {
 					case 'BaseAction':

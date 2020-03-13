@@ -11,12 +11,11 @@
 							 title="{$CURRENT_USER->get('roleName')}"
 							 alt="{$CURRENT_USER->get('roleName')}"/>
 					{else}
-						<img class="img-fluid logo" src="{App\Layout::getPublicUrl('layouts/resources/Logo/logo')}" title="Logo"
-							 alt="Logo"/>
+						<img class="img-fluid logo" src="{App\Layout::getPublicUrl('layouts/resources/Logo/logo')}" title="Logo" alt="Logo"/>
 					{/if}
 				</a>
 			</div>
-			<div class="col-10 userDetails">
+			<div class="col-10 userDetails" data-user="{$CURRENT_USER->getId()}">
 				<div class="row">
 					<div class="col-10 p-0 userName">
 						{assign var=USER_NAME_ARRAY value=explode(' ',$USER_MODEL->getDisplayName())}
@@ -30,8 +29,7 @@
 							{\App\Language::translate($CURRENT_USER->get('roleName'))}
 						</p>
 					</div>
-					<div class="col-2 p-0 text-center js-menu--pin {if !$USER_MODEL->get('leftpanelhide')} u-opacity-muted{/if}"
-						 data-show="{$USER_MODEL->get('leftpanelhide')}" data-js="click">
+					<div class="col-2 p-0 text-center js-menu--pin {if !$USER_MODEL->get('leftpanelhide')} u-opacity-muted{/if}" data-show="{$USER_MODEL->get('leftpanelhide')}" data-js="click">
 						<span class="fas fa-thumbtack u-cursor-pointer"></span>
 					</div>
 				</div>
@@ -43,4 +41,3 @@
 	</div>
 	<!-- /tpl-Base-BodyLeft -->
 {/strip}
-

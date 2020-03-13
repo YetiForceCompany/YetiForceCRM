@@ -35,9 +35,9 @@ class Backup
 		}
 		$urlDirectory = '';
 		if (!empty($catalogToRead)) {
-			$catalogToReadArray = explode(DIRECTORY_SEPARATOR, $catalogToRead);
-			$catalogPath .= DIRECTORY_SEPARATOR . $catalogToRead;
-			$urlDirectory = $catalogToRead . DIRECTORY_SEPARATOR;
+			$catalogToReadArray = explode(\DIRECTORY_SEPARATOR, $catalogToRead);
+			$catalogPath .= \DIRECTORY_SEPARATOR . $catalogToRead;
+			$urlDirectory = $catalogToRead . \DIRECTORY_SEPARATOR;
 		}
 		if (!\App\Fields\File::isAllowedDirectory($catalogPath)) {
 			throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED');
@@ -48,7 +48,7 @@ class Backup
 			if ($element->isDot()) {
 				if (!empty($catalogToReadArray) && empty($returnStructure['manage'])) {
 					array_pop($catalogToReadArray);
-					$parentUrl = implode(DIRECTORY_SEPARATOR, $catalogToReadArray);
+					$parentUrl = implode(\DIRECTORY_SEPARATOR, $catalogToReadArray);
 					$returnStructure['manage'] = "{$requestUrl}&catalog={$parentUrl}";
 				}
 			} else {

@@ -87,8 +87,10 @@
 			font-size: calculate-rem(15px);
 			line-height: 1.2;
 			background: $bg-menu;
+			align-items: center;
 
-			&:hover, &:focus {
+			&:hover,
+			&:focus {
 				background: lighten($bg-menu, 5%);
 			}
 
@@ -114,7 +116,8 @@
 				height: calculate-rem(20px);
 			}
 
-			.fa, &.hasIcon img {
+			.fa,
+			&.hasIcon img {
 				margin-right: calculate-rem(12px);
 				font-size: calculate-rem(20px);
 				padding-right: calculate-rem(7px);
@@ -148,7 +151,7 @@
 			}
 
 			&:not(.is-submenu-toggler) {
-				padding-right: .8rem !important;
+				padding-right: 0.8rem !important;
 			}
 		}
 
@@ -163,7 +166,8 @@
 				background: $bg-sub-menu;
 				padding: 0.375rem 1.875rem 0.375rem 0.8rem;
 
-				&:hover, &:focus {
+				&:hover,
+				&:focus {
 					background: lighten($bg-sub-menu, 5%);
 				}
 
@@ -184,7 +188,8 @@
 				overflow: hidden;
 				text-overflow: ellipsis;
 
-				&:hover, &:focus {
+				&:hover,
+				&:focus {
 					color: $bg-sub-menu;
 					background: $color-navbar;
 				}
@@ -222,12 +227,13 @@
 	}
 
 	&__item__icon {
-		padding-right: calculate-rem(18px);
 		font-size: 1.6em;
 		min-width: calculate-rem(42px);
+		height: calculate-rem(28px);
 
 		&--sub {
 			display: none;
+
 			@at-root .tpl-menu-SubMenu & {
 				display: inline-block;
 				margin-right: 0.4rem;
@@ -235,6 +241,15 @@
 				margin-top: auto;
 				margin-bottom: auto;
 			}
+		}
+		&.fa-fw {
+			text-align: left;
+		}
+		&:before{
+			vertical-align: unset;
+		}
+		&.mdi:before{
+			margin: 0 calculate-rem(-3px);;
 		}
 	}
 
@@ -381,7 +396,7 @@
 			}
 
 			&.active:after {
-				content: '';
+				content: "";
 				width: 100%;
 				right: 0;
 				top: calculate-rem(35px);
@@ -415,7 +430,7 @@
 	.nav-inverted-tabs {
 		.nav-item {
 			.nav-link {
-				border: 1px solid #ffffff;
+				border: 1px solid #fff;
 				border-top: 0;
 				border-radius: 0 0 0.25rem 0.25rem;
 				font-size: 0.85em;

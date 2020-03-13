@@ -1,30 +1,63 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<div id="selectAllMsgDiv" class="alert-block msgDiv">
+		<strong>
+			<a href="#" id="selectAllMsg">
+				{\App\Language::translate('LBL_SELECT_ALL',$MODULE)} {\App\Language::translate($RELATED_MODULE->get('name'))} (<span id="totalRecordsCount"></span>)
+			</a>
+		</strong>
+	</div>
+	<div id="deSelectAllMsgDiv" class="alert-block msgDiv">
+		<strong>
+			<a id="deSelectAllMsg">
+				{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}
+			</a>
+		</strong>
+	</div>
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
-	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{assign var=IS_INVENTORY value=($RELATED_VIEW === 'List' && !empty($INVENTORY_MODULE) && !empty($INVENTORY_FIELDS))}
-	<div class="listViewEntriesDiv u-overflow-scroll-xsm-down">
+	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">
 		<table class="table tableBorderHeadBody listViewEntriesTable {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if}">
 			<thead>
 			<tr class="listViewHeaders">
 				{assign var=COUNT value=0}
-				<th class="noWrap"></th>
+				<th class="noWrap">
+					<div class="d-flex align-items-center">
+						{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
+						<label class="sr-only" for="relatedListViewEntriesMainCheckBox">{\App\Language::translate('LBL_SELECT_ALL')}</label>
+							<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="relatedListViewEntriesMainCheckBox"/>
+						{/if}
+						{if $RELATED_MODULE->isAdvSortEnabled()}
+							<button type="button"
+								class="ml-2 btn btn-info btn-xs js-show-modal"
+								data-url="index.php?view=SortOrderModal&fromView={$VIEW}&module={$RELATED_MODULE_NAME}"
+								data-modalid="sortOrderModal-{\App\Layout::getUniqueId()}">
+								<span class="fas fa-sort"></span>
+							</button>
+						{/if}
+						<div class="js-list-reload" data-js="click">
+					</div>
+				</th>
 				{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 					{if !empty($COLUMNS) && $COUNT == $COLUMNS }
 						{break}
 					{/if}
+					{assign var=HEADER_FIELD_NAME value=$HEADER_FIELD->getFullName()}
 					{assign var=COUNT value=$COUNT+1}
-					<th {if $HEADER_FIELD@last} colspan="2"{/if} nowrap>
+					<th {if $HEADER_FIELD@last} colspan="2"{/if} nowrap class="{if isset($ORDER_BY[$HEADER_FIELD_NAME])} columnSorted{/if}">
 						{if $HEADER_FIELD->getColumnName() eq 'access_count' or $HEADER_FIELD->getColumnName() eq 'idlists' }
 							<a href="javascript:void(0);"
 							   class="noSorting">{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}</a>
 						{else}
-							<a href="javascript:void(0);" class="relatedListHeaderValues"
-							   {if $HEADER_FIELD->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->getColumnName()}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if}
-							   data-fieldname="{$HEADER_FIELD->getColumnName()}">{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
-								&nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->getColumnName()}<span
-								class="{$SORT_IMAGE}"></span>{/if}
-							</a>
+							<span class="listViewHeaderValues float-left  {if $HEADER_FIELD->isListviewSortable()} js-change-order u-cursor-pointer{/if}"
+								data-nextsortorderval="{if isset($ORDER_BY[$HEADER_FIELD_NAME]) && $ORDER_BY[$HEADER_FIELD_NAME] eq \App\Db::ASC}{\App\Db::DESC}{else}{\App\Db::ASC}{/if}"
+								data-columnname="{$HEADER_FIELD_NAME}"
+								data-js="click">
+								{$HEADER_FIELD->getFullLabelTranslation($RELATED_MODULE)}
+								{if isset($ORDER_BY[$HEADER_FIELD_NAME])}
+									&nbsp;&nbsp;<span class="fas {if $ORDER_BY[$HEADER_FIELD_NAME] eq \App\Db::DESC}fa-chevron-down{else}fa-chevron-up{/if}"></span>
+								{/if}
+							</span>
 						{/if}
 					</th>
 				{/foreach}
@@ -79,13 +112,20 @@
 			{assign var="RELATED_HEADER_COUNT" value=count($RELATED_HEADERS)}
 			{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 				{assign var="RECORD_COLORS" value=$RELATED_RECORD->getListViewColor()}
-				<tr class="listViewEntries js-list__row" data-js="each" data-id='{$RELATED_RECORD->getId()}'
-						{if $RELATED_RECORD->isViewable()}
-					data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
-						{/if}>
+				<tr class="listViewEntries js-list__row" data-js="each" data-id="{$RELATED_RECORD->getId()}"
+					{if $RELATED_RECORD->isViewable()}
+						data-recordUrl="{$RELATED_RECORD->getDetailViewUrl()}"
+					{/if}>
 					{assign var=COUNT value=0}
-					<td class="{$WIDTHTYPE} noWrap leftRecordActions"
+					<td class="noWrap leftRecordActions listButtons {$WIDTHTYPE}"
 						{if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
+						{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
+							<div>
+								<input type="checkbox" value="{$RELATED_RECORD->getId()}"
+								title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"
+								class="relatedListViewEntriesCheckBox"/>
+							</div>
+						{/if}
 						{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
 					</td>
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS name=listHeaderForeach}
@@ -97,7 +137,7 @@
 					<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap
 						{if $smarty.foreach.listHeaderForeach.iteration eq $RELATED_HEADER_COUNT}colspan="2"{/if}>
 						{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
-							<a class="modCT_{$RELATED_MODULE_NAME} js-list__field" data-js="width" title=""
+							<a class="modCT_{$RELATED_MODULE_NAME} js-list__field js-popover-tooltip--record" data-js="width" title=""
 							   href="{$RELATED_RECORD->getDetailViewUrl()}">
 								{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
 							</a>
@@ -133,7 +173,7 @@
 					{/if}
 					{if $IS_INVENTORY}
 						{$COUNT = $COUNT+1}
-						<td class="medium" nowrap>
+						<td class="rightRecordActions listButtons {$WIDTHTYPE}" nowrap>
 							<button type="button"
 									class="btn btn-sm btn-info float-right js-popover-tooltip showInventoryRow"
 									data-js="popover" data-placement="left"

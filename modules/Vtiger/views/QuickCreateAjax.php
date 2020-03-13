@@ -18,7 +18,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'CreateView')) {
@@ -29,7 +29,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
@@ -44,7 +44,6 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
 		$recordStructure = $recordStructureInstance->getStructure();
 		$mappingRelatedField = \App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
-
 		$fieldValues = [];
 		$sourceRelatedField = $moduleModel->getValuesFromSource($request);
 		foreach ($sourceRelatedField as $fieldName => &$fieldValue) {
@@ -61,8 +60,25 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 				}
 			}
 		}
-
 		$viewer = $this->getViewer($request);
+		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
+		$layout = $moduleModel->getLayoutTypeForQuickCreate();
+		if ('blocks' === $layout) {
+			$blockModels = $moduleModel->getBlocks();
+			$blockRecordStructure = $blockIdFieldMap = [];
+			foreach ($recordStructure as $fieldModel) {
+				$blockIdFieldMap[$fieldModel->getBlockId()][$fieldModel->getName()] = $fieldModel;
+				$blockRecordStructure[$fieldModel->block->label][$fieldModel->name] = $fieldModel;
+			}
+			foreach ($blockModels as $blockModel) {
+				if (isset($blockIdFieldMap[$blockModel->get('id')])) {
+					$blockModel->setFields($blockIdFieldMap[$blockModel->get('id')]);
+				}
+			}
+			$viewer->assign('RECORD_STRUCTURE', $blockRecordStructure);
+			$viewer->assign('BLOCK_LIST', $blockModels);
+		}
+		$viewer->assign('LAYOUT', $layout);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
 		$viewer->assign('QUICKCREATE_LINKS', Vtiger_QuickCreateView_Model::getInstance($moduleName)->getLinks([]));
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode($mappingRelatedField));
@@ -72,26 +88,26 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('SINGLE_MODULE', 'SINGLE_' . $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
-		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('MODE', 'edit');
+		$viewer->assign('RECORD', null);
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
-		$viewer->assign('MAX_UPLOAD_LIMIT', \AppConfig::main('upload_maxsize'));
+		$viewer->assign('MAX_UPLOAD_LIMIT', \App\Config::main('upload_maxsize'));
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function postProcessAjax(\App\Request $request)
+	public function postProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		echo $viewer->view('QuickCreate.tpl', $request->getModule(), true);
 		parent::postProcessAjax($request);
 	}
 
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = [
@@ -101,7 +117,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
-	public function validateRequest(\App\Request $request)
+	public function validateRequest(App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

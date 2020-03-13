@@ -22,7 +22,6 @@ class ProjectTask_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getRecordsByStatus(array $params, Vtiger_Paging_Model $pagingModel, $user): array
 	{
-		$query = new \App\Db\Query();
 		if (!$user) {
 			$user = \App\User::getCurrentUserId();
 		}

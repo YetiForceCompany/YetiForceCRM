@@ -11,7 +11,7 @@ return [
 		'description' => 'default view in History (Timeline/List)',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return in_array($arg, ['Timeline', 'List']);
+			return \in_array($arg, ['Timeline', 'List']);
 		}
 	],
 	'NUMBER_RECORDS_ON_PAGE' => [
@@ -32,7 +32,7 @@ return [
 		'sanitization' => '\App\Purifier::bool'
 	],
 	'TEASER_TEXT_LENGTH' => [
-		'default' => 400,
+		'default' => 100,
 		'description' => 'Maximum length of text, only applies to text fields',
 		'validation' => '\App\Validator::naturalNumber',
 	],

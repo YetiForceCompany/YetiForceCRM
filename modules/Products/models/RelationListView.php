@@ -11,32 +11,8 @@
 
 class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 {
-	protected $addRelatedFieldToEntries = [
-		'IStorages' => ['qtyinstock' => 'qtyinstock'],
-		'Calendar' => ['visibility' => 'visibility'],
-		'PriceBooks' => ['unit_price' => 'unit_price', 'listprice' => 'listprice', 'currency_id' => 'currency_id'],
-		'Documents' => ['filelocationtype' => 'filelocationtype', 'filestatus' => 'filestatus'],
-	];
-
 	/**
-	 * Function extending recordModel object with additional information.
-	 *
-	 * @param Vtiger_Record_Model $recordModel
-	 */
-	public function getEntryExtend(Vtiger_Record_Model $recordModel)
-	{
-		if ($this->getRelationModel()->getRelationModuleModel()->getName() === 'PriceBooks') {
-			$parentId = $this->getParentRecordModel()->getId();
-			$parentModuleModel = $this->getParentRecordModel()->getModule();
-			$unitPricesList = $parentModuleModel->getPricesForProducts($recordModel->get('currency_id'), [$parentId => $parentId]);
-			$recordModel->set('unit_price', $unitPricesList[$parentId] ?? 0);
-		}
-	}
-
-	/**
-	 * Function to get the links for related list.
-	 *
-	 * @return <Array> List of action models <Vtiger_Link_Model>
+	 * {@inheritdoc}
 	 */
 	public function getLinks()
 	{
@@ -49,6 +25,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 		if (!$isSubProduct) {
 			return parent::getLinks();
 		}
+		return [];
 	}
 
 	/**
@@ -57,25 +34,27 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 	public function getHeaders()
 	{
 		$headerFields = parent::getHeaders();
-		if ($this->getRelationModel()->get('modulename') === 'IStorages' && $this->getRelationModel()->get('name') === 'getManyToMany') {
+		if ('IStorages' === $this->getRelationModel()->get('modulename') && 'getManyToMany' === $this->getRelationModel()->get('name')) {
 			$qtyInStockField = new Vtiger_Field_Model();
 			$qtyInStockField->setModule(Vtiger_Module_Model::getInstance('IStorages'));
 			$qtyInStockField->set('name', 'qtyinstock');
 			$qtyInStockField->set('column', 'qtyinstock');
 			$qtyInStockField->set('label', 'FL_QTY_IN_STOCK');
 			$qtyInStockField->set('fromOutsideList', true);
+			if (App\Privilege::isPermitted('IStorages', 'SetQtyProducts')) {
+				$qtyInStockField->set('isEditable', true);
+			}
 			$headerFields['qtyinstock'] = $qtyInStockField;
 		}
-		if ($this->getRelationModel()->getRelationModuleModel()->getName() === 'PriceBooks') {
+		if ('PriceBooks' === $this->getRelationModel()->getRelationModuleModel()->getName() &&
+		($unitPriceField = $this->getParentRecordModel()->getModule()->getFieldByName('unit_price')) &&
+		$unitPriceField->isActiveField()) {
 			//Added to support Unit Price
-			$moduleModel = Vtiger_Module_Model::getInstance('PriceBooks');
-			$unitPriceField = new Vtiger_Field_Model();
+			$moduleModel = $this->getRelationModel()->getRelationModuleModel();
 			$unitPriceField->setModule($moduleModel);
-			$unitPriceField->set('name', 'unit_price');
-			$unitPriceField->set('column', 'unit_price');
 			$unitPriceField->set('label', 'Unit Price');
 			$unitPriceField->set('fromOutsideList', true);
-			$headerFields['unit_price'] = $unitPriceField;
+			$headerFields[$unitPriceField->getName()] = $unitPriceField;
 			//Added to support List Price
 			$field = new Vtiger_Field_Model();
 			$field->setModule($moduleModel);

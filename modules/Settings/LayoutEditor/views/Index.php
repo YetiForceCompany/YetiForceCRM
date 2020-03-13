@@ -15,11 +15,12 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('showFieldLayout');
 		$this->exposeMethod('showRelatedListLayout');
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
 		if ($this->isMethodExposed($mode)) {
@@ -30,11 +31,10 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		}
 	}
 
-	public function showFieldLayout(\App\Request $request)
+	public function showFieldLayout(App\Request $request)
 	{
 		$sourceModule = $request->getByType('sourceModule', 2);
 		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
-
 		if (empty($sourceModule)) {
 			//To get the first element
 			$sourceModule = reset($supportedModulesList);
@@ -51,16 +51,18 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 				$inactiveFields[$fieldModel->getBlockId()][$fieldModel->getId()] = \App\Language::translate($fieldModel->get('label'), $sourceModule);
 			}
 		}
-
 		foreach ($blockModels as $blockModel) {
 			if (isset($blockIdFieldMap[$blockModel->get('id')])) {
 				$fieldModelList = $blockIdFieldMap[$blockModel->get('id')];
 				$blockModel->setFields($fieldModelList);
 			}
 		}
-
 		$qualifiedModule = $request->getModule(false);
-
+		$type = $moduleModel->isInventory() ? Vtiger_Module_Model::STANDARD_TYPE : Vtiger_Module_Model::ADVANCED_TYPE;
+		$batchMethod = (new \App\BatchMethod([
+			'method' => '\App\Module::changeType',
+			'params' => ['module' => $sourceModule, 'type' => $type]
+		]));
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', $supportedModulesList);
@@ -72,35 +74,34 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('IN_ACTIVE_FIELDS', $inactiveFields);
 		$viewer->assign('IS_INVENTORY', $moduleModel->isInventory());
+		$viewer->assign('CHANGE_MODULE_TYPE_DISABLED', $batchMethod->isExists());
 		$viewer->assign('INVENTORY_MODEL', Vtiger_Inventory_Model::getInstance($sourceModule));
 		$viewer->view('Index.tpl', $qualifiedModule);
 	}
 
-	public function showRelatedListLayout(\App\Request $request)
+	public function showRelatedListLayout(App\Request $request)
 	{
-		$sourceModule = $request->getByType('sourceModule', 2);
 		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
-
-		if (empty($sourceModule)) {
+		if ($request->isEmpty('sourceModule', true)) {
 			//To get the first element
 			$moduleName = reset($supportedModulesList);
 			$sourceModule = Vtiger_Module_Model::getInstance($moduleName)->getName();
+		} else {
+			$sourceModule = $request->getByType('sourceModule', 2);
 		}
 		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($sourceModule);
-		$relatedModuleModels = $moduleModel->getRelations();
-
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', $supportedModulesList);
-		$viewer->assign('RELATED_MODULES', $relatedModuleModels);
+		$viewer->assign('RELATED_MODULES', $moduleModel->getRelations());
 		$viewer->assign('MODULE', $qualifiedModule);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->view('RelatedList.tpl', $qualifiedModule);
 	}
 
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts(['libraries.clipboard.dist.clipboard']));
 	}

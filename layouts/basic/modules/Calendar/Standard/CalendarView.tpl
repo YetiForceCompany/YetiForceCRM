@@ -1,16 +1,17 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<input type="hidden" id="currentView" value="{$VIEW}"/>
-	<input type="hidden" id="activity_view" value="{\App\Purifier::encodeHtml($CURRENT_USER->get('activity_view'))}"/>
-	<input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}"/>
+	<input type="hidden" id="activity_view" value="{\App\Purifier::encodeHtml($CURRENT_USER->getDetail('activity_view'))}"/>
+	<input type="hidden" id="date_format" value="{$CURRENT_USER->getDetail('date_format')}"/>
 	<input type="hidden" id="showType" value="current"/>
 	<input type="hidden" id="switchingDays" value="workDays"/>
 	<input value="{$EVENT_CREATE}" type="hidden" id="eventCreate"/>
+	<input value="{$EVENT_EDIT}" type="hidden" id="eventEdit"/>
 	<input type="hidden" id="weekView" value="{$WEEK_VIEW}"/>
 	<input type="hidden" id="dayView" value="{$DAY_VIEW}"/>
 	<input value="{$ALL_DAY_SLOT}" type="hidden" id="allDaySlot"/>
 	<input type="hidden" id="hiddenDays"
-		   value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"/>
+		   value="{\App\Purifier::encodeHtml(\App\Json::encode(App\Config::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}"/>
 	<input type="hidden" id="activityStateLabels" value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}"/>
 	<div class="calendarViewContainer rowContent">
 		<div class="d-flex flex-md-nowrap mt-2">

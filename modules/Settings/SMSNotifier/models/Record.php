@@ -87,7 +87,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl() . '&record=' . $this->getId(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn btn-sm btn-primary',
 				'modalView' => true,
 			],
@@ -112,9 +112,9 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return mixed
 	 */
-	public function getDisplayValue($name)
+	public function getDisplayValue(string $name)
 	{
-		if ($name === 'isactive') {
+		if ('isactive' === $name) {
 			return empty($this->get($name)) ? 'PLL_INACTIVE' : 'PLL_ACTIVE';
 		}
 		return $this->get($name);
@@ -158,7 +158,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	public function clearCache($id)
 	{
 		if ($id) {
-			\App\Cache::staticDelete(get_class(), $id);
+			\App\Cache::staticDelete(__CLASS__, $id);
 		}
 		\App\Cache::delete('SMSNotifierConfig', 'activeProviderInstance');
 	}
@@ -189,7 +189,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstanceById($id, $moduleName)
 	{
-		$cacheName = get_class();
+		$cacheName = __CLASS__;
 		if (\App\Cache::staticHas($cacheName, $id)) {
 			return \App\Cache::staticGet($cacheName, $id);
 		}
@@ -289,6 +289,6 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getProviderInstance()
 	{
-		return SMSNotifier_Module_Model::getProviderInstance($this->get('providertype'));
+		return SMSNotifier_Module_Model::getProviderInstance($this->get('providertype'), $this->get('parameters'));
 	}
 }

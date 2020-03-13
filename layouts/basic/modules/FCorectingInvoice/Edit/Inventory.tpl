@@ -11,8 +11,8 @@
 						<span class="u-cursor-pointer js-block-toggle fas fa-angle-down" data-js="click"
 							  alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
 					</div>
-					<h5 class="my-2">
-					<span class="menuIcon userIcon-FInvoice"
+					<h5>
+					<span class="menuIcon yfm-FInvoice"
 						  aria-hidden="true"></span> {\App\Language::translate('LBL_BEFORE_CORRECTION',$MODULE_NAME)}
 					</h5>
 				</div>
@@ -41,8 +41,8 @@
 						<span class="u-cursor-pointer js-block-toggle fas fa-angle-down" data-js="click"
 							  alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
 					</div>
-					<h5 class="my-2">
-					<span class="menuIcon userIcon-FCorectingInvoice"
+					<h5>
+					<span class="menuIcon yfm-FCorectingInvoice"
 						  aria-hidden="true"></span> {\App\Language::translate('LBL_AFTER_CORRECTION',$MODULE_NAME)}
 					</h5>
 				</div>

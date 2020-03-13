@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="settingsIndexPage tpl-Settings-Vtiger-Credits">
-		<div class="widget_header row">
+		<div class="o-breadcrumb widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
@@ -71,7 +71,10 @@
 							</tr>
 						{/foreach}
 					{else}
-						<div class="p-3 mb-2 bg-danger text-white">{\App\Language::translate('LBL_MISSING_FILE')}</div>
+						<div class="p-3 mb-2 bg-danger text-white">
+						<span class="fas fa-exclamation-triangles mr-2"></span>
+						{\App\Language::translate('LBL_MISSING_FILE',$QUALIFIED_MODULE)}: {$TYPE}
+						</div>
 					{/if}
 				{/foreach}
 				</tbody>

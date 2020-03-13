@@ -202,7 +202,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
 			}
 		}
-		if (AppConfig::module('Users', 'CHECK_LAST_USERNAME') && isset($valuesForSave['vtiger_users']['user_name'])) {
+		if (App\Config::module('Users', 'CHECK_LAST_USERNAME') && isset($valuesForSave['vtiger_users']['user_name'])) {
 			$db = \App\Db::getInstance('log');
 			$db->createCommand()->insert('l_#__username_history', ['user_name' => $valuesForSave['vtiger_users']['user_name'], 'user_id' => $this->getId()])->execute();
 		}
@@ -227,10 +227,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if (!$this->isNew()) {
 			$saveFields = array_intersect($saveFields, array_keys($this->changes));
 		}
-		if ($this->isNew()) {
-			$this->setId(\App\Db::getInstance()->getUniqueID('vtiger_users'));
-			$forSave['vtiger_users']['date_entered'] = date('Y-m-d H:i:s');
-		}
 		if ($this->has('changeUserPassword') || $this->isNew()) {
 			$saveFields[] = 'user_password';
 		}
@@ -253,6 +249,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 				}
 				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $uitypeModel->convertToSave($value, $this);
 			}
+		}
+		if ($this->isNew()) {
+			$this->setId(\App\Db::getInstance()->getUniqueID('vtiger_users'));
+			$now = date('Y-m-d H:i:s');
+			$forSave['vtiger_users']['date_entered'] = $now;
+			$forSave['vtiger_users']['date_password_change'] = $now;
 		}
 		return $forSave;
 	}
@@ -292,18 +294,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function validate()
 	{
-		$checkUserExist = false;
-		if ($this->isNew()) {
-			$checkUserExist = true;
-		} else {
-			if (false !== $this->getPreviousValue('is_admin')) {
-				\App\Privilege::setAllUpdater();
-			}
-			if (false !== $this->getPreviousValue('roleid')) {
-				$checkUserExist = true;
-			}
-		}
-		if ($checkUserExist) {
+		if ($this->isNew() || false !== $this->getPreviousValue('roleid') || false !== $this->getPreviousValue('user_name')) {
 			$query = (new App\Db\Query())->from('vtiger_users')
 				->leftJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
 				->where(['vtiger_users.user_name' => $this->get('user_name'), 'vtiger_user2role.roleid' => $this->get('roleid')]);
@@ -313,10 +304,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 			if ($query->exists()) {
 				throw new \App\Exceptions\SaveRecord('ERR_USER_EXISTS||' . $this->get('user_name'), 406);
 			}
-			if ($this->getId()) {
-				\App\Db::getInstance()->createCommand()->delete('vtiger_module_dashboard_widgets', ['userid' => $this->getId()])->execute();
-			}
-			\App\Privilege::setAllUpdater();
 		}
 		if (!$this->isNew() && false !== $this->getPreviousValue('user_password') && App\User::getCurrentUserId() === $this->getId()) {
 			$isExists = (new \App\Db\Query())->from('l_#__userpass_history')->where(['user_id' => $this->getId(), 'pass' => \App\Encryption::createHash($this->get('user_password'))])->exists();
@@ -332,6 +319,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public function afterSaveToDb()
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
+		if ($this->isNew() || false !== $this->getPreviousValue('roleid') || false !== $this->getPreviousValue('is_admin')) {
+			\App\Privilege::setAllUpdater();
+			if (!$this->isNew()) {
+				$dbCommand->delete('vtiger_module_dashboard_widgets', ['userid' => $this->getId()])->execute();
+			}
+		}
 		if (false !== $this->getPreviousValue('user_password') && ($this->isNew() || App\User::getCurrentUserId() === $this->getId())) {
 			$dbCommand->insert('l_#__userpass_history', [
 				'pass' => \App\Encryption::createHash($this->get('user_password')),
@@ -344,7 +337,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		\App\UserPrivilegesFile::createUserPrivilegesfile($this->getId());
 		\App\UserPrivilegesFile::createUserSharingPrivilegesfile($this->getId());
-		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (App\Config::performance('ENABLE_CACHING_USERS')) {
 			\App\PrivilegeFile::createUsersFile();
 		}
 		if ($this->getPreviousValue('sync_caldav') || $this->isNew()) {
@@ -784,7 +777,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			return $this->get('locks');
 		}
 		require 'user_privileges/locks.php';
-		if ($this->getId() && array_key_exists($this->getId(), $locks)) {
+		if ($this->getId() && \array_key_exists($this->getId(), $locks)) {
 			$this->set('locks', $locks[$this->getId()]);
 
 			return $locks[$this->getId()];
@@ -824,30 +817,33 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	public function getHeadLocks()
 	{
-		$return = 'function lockFunction() {return false;}';
+		$return = '';
 		foreach ($this->getLocks() as $lock) {
 			switch ($lock) {
 				case 'copy':
-					$return .= ' document.oncopy = lockFunction;';
+					$return = ' document.oncopy = lockFunction;';
 					break;
 				case 'cut':
-					$return .= ' document.oncut = lockFunction;';
+					$return = ' document.oncut = lockFunction;';
 					break;
 				case 'paste':
-					$return .= ' document.onpaste = lockFunction;';
+					$return = ' document.onpaste = lockFunction;';
 					break;
 				case 'contextmenu':
-					$return .= ' document.oncontextmenu = function(event) {if(event.button==2){return false;}}; document.oncontextmenu = lockFunction;';
+					$return = ' document.oncontextmenu = function(event) {if(event.button==2){return false;}}; document.oncontextmenu = lockFunction;';
 					break;
 				case 'selectstart':
-					$return .= ' document.onselectstart = lockFunction; document.onselect = lockFunction;';
+					$return = ' document.onselectstart = lockFunction; document.onselect = lockFunction;';
 					break;
 				case 'drag':
-					$return .= ' document.ondragstart = lockFunction; document.ondrag = lockFunction;';
+					$return = ' document.ondragstart = lockFunction; document.ondrag = lockFunction;';
 					break;
 				default:
 					break;
 			}
+		}
+		if ($return) {
+			$return = 'function lockFunction() {return false;}' . $return;
 		}
 		return $return;
 	}
@@ -861,7 +857,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function encryptPassword($password)
 	{
-		return password_hash($password, PASSWORD_BCRYPT, ['cost' => AppConfig::security('USER_ENCRYPT_PASSWORD_COST')]);
+		return password_hash($password, PASSWORD_BCRYPT, ['cost' => App\Config::security('USER_ENCRYPT_PASSWORD_COST')]);
 	}
 
 	/**
@@ -931,7 +927,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @param string $password
 	 *
-	 * @return null|bool
+	 * @return bool|null
 	 */
 	protected function doLoginByAuthMethod($password)
 	{

@@ -7,38 +7,37 @@
 		<input type="hidden" class="js-related-parent-module" data-js="value" value="{$RELATED_PARENT_MODULE}"/>
 		<input type="hidden" class="js-related-parent-id" data-js="value" value="{$RELATED_PARENT_ID}"/>
 		<input type="hidden" class="js-multi-select" data-js="value" value="{$MULTI_SELECT}"/>
-		<input type="hidden" class="js-order-by" data-js="value" value="{$ORDER_BY}"/>
-		<input type="hidden" class="js-sort-order" data-js="value" value="{$SORT_ORDER}"/>
+		<input type="hidden" id="orderBy" value="{\App\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}">
 		<input type='hidden' class='js-page-number' data-js="value" value="{$PAGE_NUMBER}">
 		<input type="hidden" class="js-total-count" data-js="value" value="{$LISTVIEW_COUNT}"/>
 		<input type='hidden' class="js-page-limit" data-js="value" value="{$PAGING_MODEL->getPageLimit()}"/>
 		<input type="hidden" class="js-no-entries" data-js="value" value="{$LISTVIEW_ENTRIES_COUNT}">
 		<input type="hidden" class="js-additional-informations" data-js="value" value="{$ADDITIONAL_INFORMATIONS}">
 		<input type="hidden" id="autoRefreshListOnChange" data-js="value"
-			   value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+			   value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 		<input type="hidden" class="js-filter-fields" data-js="value" value="{App\Purifier::encodeHtml(\App\Json::encode($FILTER_FIELDS))}">
 		<div class="table-responsive">
-			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<table class="table table-bordered listViewEntriesTable">
 				<thead>
 				<tr class="listViewHeaders">
 					<th class="{$WIDTHTYPE} text-center">
 						{if $MULTI_SELECT}
-							<input type="checkbox" title="{App\Language::translate('LBL_SELECT_ALL_CURRENTPAGE')}"
+							<input type="checkbox" title="{App\Language::translate('LBL_SELECT_ALL_CURRENTPAGE')}"{if $RECORD_SELECTED} checked="checked"{/if}
 								   class="js-select-checkbox u-cursor-pointer" data-type="all" data-js="click"/>
 						{/if}
 					</th>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-						<th class="{$WIDTHTYPE}">
-							<a href="#" class="{if $LISTVIEW_HEADER->isListviewSortable()}js-change-order{/if}"
-							   data-js="click" data-name="{$LISTVIEW_HEADER->getFieldName()}"
-							   data-next-order="{if $ORDER_BY eq $LISTVIEW_HEADER->getFieldName()}{$NEXT_SORT_ORDER}{else}ASC{/if}">
-								{App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE_NAME)}
-								{if $ORDER_BY eq $LISTVIEW_HEADER->getFieldName()}
-									<span class="{$SORT_IMAGE} ml-2"
-										  alt="{if $SORT_ORDER eq 'ASC'}{App\Language::translate('LBL_SORT_ASCENDING')}{else}{App\Language::translate('LBL_SORT_DESCENDING')}{/if}"></span>
+						{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getFullName()}
+						<th class="{$WIDTHTYPE}{if isset($ORDER_BY[$LISTVIEW_HEADER_NAME])} columnSorted{/if}">
+							<span class="listViewHeaderValues float-left {if $LISTVIEW_HEADER->isListviewSortable()} js-change-order u-cursor-pointer{/if}"
+								data-nextsortorderval="{if isset($ORDER_BY[$LISTVIEW_HEADER_NAME]) && $ORDER_BY[$LISTVIEW_HEADER_NAME] eq \App\Db::ASC}{\App\Db::DESC}{else}{\App\Db::ASC}{/if}"
+								data-columnname="{$LISTVIEW_HEADER_NAME}"
+								data-js="click">
+								{$LISTVIEW_HEADER->getFullLabelTranslation($MODULE_MODEL)}
+								{if isset($ORDER_BY[$LISTVIEW_HEADER_NAME])}
+									&nbsp;&nbsp;<span class="fas {if $ORDER_BY[$LISTVIEW_HEADER_NAME] eq \App\Db::DESC}fa-chevron-down{else}fa-chevron-up{/if}"></span>
 								{/if}
-							</a>
+							</span>
 						</th>
 					{/foreach}
 				</tr>
@@ -69,7 +68,7 @@
 						data-info='{App\Json::encode($LISTVIEW_ENTRY->getRawData())}'>
 						<td class="{$WIDTHTYPE} u-cursor-auto text-center">
 							{if $MULTI_SELECT}
-								<input class="js-select-checkbox" title="{App\Language::translate('LBL_SELECT_RECORD')}"
+								<input class="js-select-checkbox" title="{App\Language::translate('LBL_SELECT_RECORD')}"{if $RECORD_SELECTED} checked="checked"{/if}
 									   type="checkbox" data-type="row" data-js="click"/>
 							{/if}
 						</td>

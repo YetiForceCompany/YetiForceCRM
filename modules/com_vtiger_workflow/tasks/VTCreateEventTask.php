@@ -34,18 +34,18 @@ class VTCreateEventTask extends VTTask
 			return;
 		}
 		$userId = $recordModel->get('assigned_user_id');
-		if ($userId === null) {
+		if (null === $userId) {
 			$userId = Users::getActiveAdminUser();
 		}
 		$moduleName = $recordModel->getModuleName();
 		$startDate = $this->calculateDate($recordModel, $this->startDays, $this->startDirection, $this->startDatefield);
 		$endDate = $this->calculateDate($recordModel, $this->endDays, $this->endDirection, $this->endDatefield);
 
-		if ($this->assigned_user_id === 'currentUser') {
+		if ('currentUser' === $this->assigned_user_id) {
 			$userId = \App\User::getCurrentUserId();
-		} elseif ($this->assigned_user_id === 'triggerUser') {
+		} elseif ('triggerUser' === $this->assigned_user_id) {
 			$userId = $recordModel->executeUser;
-		} elseif ($this->assigned_user_id === 'copyParentOwner') {
+		} elseif ('copyParentOwner' === $this->assigned_user_id) {
 			$userId = $recordModel->get('assigned_user_id');
 		} elseif (!empty($this->assigned_user_id)) { // Added to check if the user/group is active
 			$userExists = (new App\Db\Query())->from('vtiger_users')
@@ -99,35 +99,38 @@ class VTCreateEventTask extends VTTask
 		$newRecordModel->setData($fields);
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
-		vtlib\Deprecated::relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
+		$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $newRecordModel->getModule());
+		if ($relationModel) {
+			$relationModel->addRelation($recordModel->getId(), $newRecordModel->getId());
+		}
 	}
 
 	private function calculateDate($recordModel, $days, $direction, $datefield)
 	{
 		$baseDate = $recordModel->get($datefield);
-		if ($baseDate == '') {
+		if ('' == $baseDate) {
 			$baseDate = date('Y-m-d');
 		}
-		if ($days == '') {
+		if ('' == $days) {
 			$days = 0;
 		}
 		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
 		$baseDate = strtotime($match[0]);
 		return strftime('%Y-%m-%d', $baseDate + $days * 24 * 60 * 60 *
-			(strtolower($direction) == 'before' ? -1 : 1));
+			('before' == strtolower($direction) ? -1 : 1));
 	}
 
 	/**
 	 * To convert time_start & time_end values to db format.
 	 *
-	 * @param type $timeStr
+	 * @param string $timeStr
 	 *
 	 * @return time
 	 */
 	public static function convertToDBFormat($timeStr)
 	{
 		$date = new DateTime();
-		$time = Vtiger_Time_UIType::getTimeValueWithSeconds($timeStr);
+		$time = \App\Fields\Time::sanitizeDbFormat($timeStr);
 		$dbInsertDateTime = DateTimeField::convertToDBTimeZone($date->format('Y-m-d') . ' ' . $time);
 
 		return $dbInsertDateTime->format('H:i:s');
@@ -137,7 +140,7 @@ class VTCreateEventTask extends VTTask
 	{
 		$arr = [];
 		preg_match('/(\d{1,2}):(\d{1,2})(am|pm)/', $timeStr, $arr);
-		if ($arr[3] == 'am') {
+		if ('am' == $arr[3]) {
 			$hours = ((int) $arr[1]) % 12;
 		} else {
 			$hours = ((int) $arr[1]) % 12 + 12;

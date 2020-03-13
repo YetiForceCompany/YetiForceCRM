@@ -72,15 +72,15 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
-				'linkclass' => 'btn btn-xs btn-info',
+				'linkicon' => 'yfi yfi-full-editing-view',
+				'linkclass' => 'btn btn-sm btn-info',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => "javascript:Settings_Vtiger_List_Js.deleteById('{$this->getId()}')",
 				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn btn-xs btn-danger text-white',
+				'linkclass' => 'btn btn-sm btn-danger text-white',
 			],
 		];
 		foreach ($recordLinks as &$recordLink) {
@@ -96,7 +96,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($key)
+	public function getDisplayValue(string  $key)
 	{
 		$value = $this->get($key);
 		switch ($key) {
@@ -109,12 +109,19 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'password':
 			case 'smtp_password':
-				$value = str_repeat('*', strlen($value));
+				$value = str_repeat('*', \strlen($value));
 				break;
 			case 'status':
 				if (isset(\App\Mailer::$statuses[$value])) {
 					$value = \App\Mailer::$statuses[$value];
 				}
+				break;
+			case 'unsubscribe':
+				$unsubscribe = '';
+				foreach (App\Json::decode($value) as $row) {
+					$unsubscribe .= "<$row>,";
+				}
+				$value = App\Purifier::encodeHtml(rtrim($unsubscribe, ','));
 				break;
 			default:
 				break;

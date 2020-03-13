@@ -17,7 +17,10 @@ class Currency
 	/**
 	 * Function returns the currency in user specified format.
 	 *
-	 * @param string $value Date time
+	 * @param string     $value          Date time
+	 * @param mixed|null $user
+	 * @param mixed      $skipConversion
+	 * @param mixed      $skipFormatting
 	 *
 	 * @return string
 	 */
@@ -52,21 +55,14 @@ class Currency
 	/**
 	 * Get currency by module name.
 	 *
-	 * @param bool|string $type
+	 * @param int    $record
+	 * @param string $moduleName
 	 *
-	 * @return array
+	 * @return int
 	 */
-	public static function getCurrencyByModule($record, $moduleName)
+	public static function getCurrencyByModule(int $record, string $moduleName)
 	{
-		$cacheKey = "$record|$moduleName";
-		if (\App\Cache::has('Currency|getCurrencyByModule', $cacheKey)) {
-			return \App\Cache::get('Currency|getCurrencyByModule', $cacheKey);
-		}
-		$instance = \CRMEntity::getInstance($moduleName);
-		$currencyId = (new \App\Db\Query())->select(['currency_id'])->from($instance->table_name)->where([$instance->table_index => $record])->scalar();
-		\App\Cache::save('Currency|getCurrencyByModule', $cacheKey, $currencyId);
-
-		return $currencyId;
+		return \Vtiger_Record_Model::getInstanceById($record, $moduleName)->get('currency_id');
 	}
 
 	/**
@@ -87,6 +83,19 @@ class Currency
 	}
 
 	/**
+	 * Get currency by code.
+	 *
+	 * @param string $code
+	 * @param bool   $active
+	 *
+	 * @return int|null
+	 */
+	public static function getIdByCode(string $code, bool $active = true): ?int
+	{
+		return array_column(static::getAll($active), 'id', 'currency_code')[\strtoupper($code)] ?? null;
+	}
+
+	/**
 	 * Get all currencies.
 	 *
 	 * @param bool $onlyActive
@@ -103,7 +112,7 @@ class Currency
 		}
 		if ($onlyActive) {
 			foreach ($currencies as $id => $currency) {
-				if ($currency['currency_status'] !== 'Active') {
+				if ('Active' !== $currency['currency_status']) {
 					unset($currencies[$id]);
 				}
 			}
@@ -127,12 +136,12 @@ class Currency
 	/**
 	 * Get current default currency data.
 	 *
-	 * @return bool|array
+	 * @return array|bool
 	 */
 	public static function getDefault()
 	{
-		foreach (\App\Fields\Currency::getAll(true) as $currency) {
-			if ((int) $currency['defaultid'] === -11) {
+		foreach (self::getAll(true) as $currency) {
+			if (-11 === (int) $currency['defaultid']) {
 				return $currency;
 			}
 		}

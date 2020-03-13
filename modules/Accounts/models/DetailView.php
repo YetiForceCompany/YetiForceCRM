@@ -30,7 +30,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
 				'linkclass' => 'btn-outline-dark btn-sm',
-				'linkicon' => 'fas fa-user',
+				'linkicon' => 'yfi yfi-change-of-owner',
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
@@ -67,14 +67,9 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			'linkicon' => '',
 			'related' => 'Details',
 		];
-		if (AppConfig::module($moduleName, 'SHOW_SUMMARY_PRODUCTS_SERVICES')) {
-			$relations = \Vtiger_Relation_Model::getAllRelations($parentModuleModel, false);
-			if (isset($relations[\App\Module::getModuleId('OutsourcedProducts')]) ||
-				isset($relations[\App\Module::getModuleId('Products')]) ||
-				isset($relations[\App\Module::getModuleId('Services')]) ||
-				isset($relations[\App\Module::getModuleId('OSSOutsourcedServices')]) ||
-				isset($relations[\App\Module::getModuleId('Assets')]) ||
-				isset($relations[\App\Module::getModuleId('OSSSoldServices')])) {
+		if (App\Config::module($moduleName, 'SHOW_SUMMARY_PRODUCTS_SERVICES')) {
+			$relations = \Vtiger_Relation_Model::getAllRelations($parentModuleModel, false, true, true, 'modulename');
+			if (isset($relations['Products']) || isset($relations['Services']) || isset($relations['OSSOutsourcedServices']) || isset($relations['Assets']) || isset($relations['OSSSoldServices']) || isset($relations['OutsourcedProducts'])) {
 				$relatedLinks[] = [
 					'linktype' => 'DETAILVIEWTAB',
 					'linklabel' => 'LBL_RECORD_SUMMARY_PRODUCTS_SERVICES',
@@ -82,7 +77,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 					'linkicon' => '',
 					'linkKey' => 'LBL_RECORD_SUMMARY',
 					'related' => 'ProductsAndServices',
-					'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT'),
+					'countRelated' => App\Config::relation('SHOW_RECORDS_COUNT'),
 				];
 			}
 		}
@@ -94,7 +89,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments',
 				'linkicon' => '',
 				'related' => $modCommentsModel->getName(),
-				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT'),
+				'countRelated' => App\Config::relation('SHOW_RECORDS_COUNT'),
 			];
 		}
 		if ($parentModuleModel->isTrackingEnabled() && $parentModuleModel->isPermitted('ModTracker')) {
@@ -104,7 +99,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
 				'related' => 'ModTracker',
-				'countRelated' => AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
+				'countRelated' => App\Config::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
 				'badgeClass' => 'bgDanger',
 			];
 		}
@@ -122,10 +117,10 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_SOCIAL_MEDIA',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showSocialMedia',
-				'linkicon' => 'fa-twitter',
+				'linkicon' => 'yfi yfi-social-media',
 			];
 		}
-		if (\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() && \App\Module::isModuleActive('Chat')) {
+		if (\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() && \App\Module::isModuleActive('Chat') && !\App\RequestUtil::getBrowserInfo()->ie) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_CHAT',
@@ -141,6 +136,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 					'linkurl' => $relation->getListUrl($recordModel),
 					'linkicon' => '',
 					'relatedModuleName' => $relation->get('relatedModuleName'),
+					'relationId' => $relation->getId(),
 				];
 			}
 		}

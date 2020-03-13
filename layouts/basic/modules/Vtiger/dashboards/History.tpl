@@ -24,10 +24,10 @@
 					</span>
 				</div>
 				<select class="widgetFilter form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="historyType" title="{\App\Language::translate('LBL_HISTORY_TYPE')}" name="type">
-					<option title="{\App\Language::translate('LBL_ALL')}" value="all" {if $DATA['type'] eq 'all'}selected{/if}>{\App\Language::translate('LBL_ALL')}</option>
+					<option title="{\App\Language::translate('LBL_ALL')}" value="all" {if isset($DATA['type']) && $DATA['type'] eq 'all'}selected{/if}>{\App\Language::translate('LBL_ALL')}</option>
 					{if $COMMENTS_MODULE_MODEL->isPermitted('DetailView')}
-						<option title="{\App\Language::translate('LBL_COMMENTS')}" value="comments" {if $DATA['type'] eq 'comments'}selected{/if}>{\App\Language::translate('LBL_COMMENTS')}</option>{/if}
-						<option value="updates" title="{\App\Language::translate('LBL_UPDATES')}" {if $DATA['type'] eq 'updates'}selected{/if}>{\App\Language::translate('LBL_UPDATES')}</option>
+						<option title="{\App\Language::translate('LBL_COMMENTS')}" value="comments" {if isset($DATA['type']) && $DATA['type'] eq 'comments'}selected{/if}>{\App\Language::translate('LBL_COMMENTS')}</option>{/if}
+						<option value="updates" title="{\App\Language::translate('LBL_UPDATES')}" {if isset($DATA['type']) && $DATA['type'] eq 'updates'}selected{/if}>{\App\Language::translate('LBL_UPDATES')}</option>
 					</select>
 				</div>
 			</div>

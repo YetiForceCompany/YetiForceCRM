@@ -51,7 +51,7 @@ class Z_StringFormatting extends \Tests\Base
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		parent::setUpBeforeClass();
 		$userModel = \App\User::getCurrentUserModel();
@@ -79,7 +79,7 @@ class Z_StringFormatting extends \Tests\Base
 			] as $type) {
 			$method = 'append' . \ucfirst($type);
 			if (\method_exists($this, $method)) {
-				$this->$method($combinations);
+				$this->{$method}($combinations);
 			} else {
 				$this->fail('Unsupported field type: ' . \ucfirst($type));
 			}
@@ -257,7 +257,7 @@ class Z_StringFormatting extends \Tests\Base
 	 * @param bool   $correct           Test should be successfull
 	 * @dataProvider providerNumbers
 	 */
-	public function testNumbers($moduleName, $fieldName, $userFormat, $dbFormat, $decimalSeparator, $groupingSeparator, $groupingPattern, $afterDot, $symbolPlacement, $truncate, $correct = true)
+	public function testNumbers($moduleName, $fieldName, $userFormat, $dbFormat, $decimalSeparator, $groupingSeparator, $groupingPattern, $afterDot, $symbolPlacement, $truncate, $correct = true): void
 	{
 		$userModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
 		$userModel->set('currency_decimal_separator', $decimalSeparator);
@@ -269,8 +269,8 @@ class Z_StringFormatting extends \Tests\Base
 		$userModel->save();
 		$recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
 		$recordModel->set($fieldName, $dbFormat);
-		$this->assertSame($userFormat, $recordModel->getDisplayValue($fieldName), 'Display value different than expected' . $dbFormat . ' ' . $recordModel->get($fieldName));
-		$this->assertSame($dbFormat, $recordModel->get($fieldName), 'Database value different than expected');
+		$this->assertSame($userFormat, $recordModel->getDisplayValue($fieldName), 'Display value different than expected ' . $recordModel->get($fieldName) . " !== $dbFormat | userFormat: $userFormat | fieldName: $fieldName | getDisplayValue: " . $recordModel->getDisplayValue($fieldName));
+		$this->assertSame($dbFormat, $recordModel->get($fieldName), 'Database value different than expected | ' . $dbFormat . ' !== ' . $recordModel->get($fieldName));
 	}
 
 	/**
@@ -280,7 +280,7 @@ class Z_StringFormatting extends \Tests\Base
 	 *
 	 * @throws \Exception
 	 */
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass(): void
 	{
 		$userModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
 		$userModel->set('currency_decimal_separator', static::$separatorDecimal);

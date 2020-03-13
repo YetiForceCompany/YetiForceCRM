@@ -68,15 +68,14 @@ class ICalLastImport
 		if (0 === count($this->fieldData)) {
 			return;
 		}
-
-		if (!vtlib\Utils::checkTable($this->tableName)) {
-			vtlib\Utils::createTable(
-				$this->tableName,
-				'(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-					userid INT NOT NULL,
-					entitytype VARCHAR(200) NOT NULL,
-					crmid INT NOT NULL)',
-				true
+		$db = \App\Db::getInstance();
+		if (!$db->isTableExists($this->tableName)) {
+			$importer = new \App\Db\Importers\Base();
+			$db->createTable($this->tableName, [
+				'id' => 'pk',
+				'userid' => $importer->integer(10)->notNull(),
+				'entitytype' => $importer->stringType('200')->notNull(),
+				'crmid' => $importer->integer(10)->notNull()]
 			);
 		}
 		\App\Db::getInstance()->createCommand()->insert($this->tableName, $this->fieldData)->execute();

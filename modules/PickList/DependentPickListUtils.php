@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * ******************************************************************************* */
 
-require_once 'include/database/PearDatabase.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/fields/DateTimeField.php';
 require_once 'include/fields/DateTimeRange.php';
@@ -100,7 +99,6 @@ class Vtiger_DependencyPicklist
 				], ['id' => $dependencyId])->execute();
 			} else {
 				$db->createCommand()->insert('vtiger_picklist_dependency', [
-					'id' => $db->getUniqueID('vtiger_picklist_dependency'),
 					'tabid' => $tabId,
 					'sourcefield' => $sourceField,
 					'targetfield' => $targetField,

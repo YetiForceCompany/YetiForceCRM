@@ -25,22 +25,6 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			'linkurl' => $this->getCalendarViewUrl(),
 			'linkicon' => 'fas fa-calendar-alt'
 		]));
-		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] === 'Calendar') {
-			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_USERS',
-				'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getUsersList',
-				'linkicon' => '',
-				'linkclass' => 'js-calendar__filter--users',
-			]);
-			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_TYPE',
-				'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getTypesList',
-				'linkicon' => '',
-				'linkclass' => 'js-calendar__filter--types',
-			]);
-		}
 		return $links;
 	}
 
@@ -74,7 +58,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 
 		$userTime = [
 			'labels' => [],
-			'title' => \App\Language::translate('LBL_SUM', $this->getName()) . ': ' . \App\Fields\Time::formatToHourText($totalTime, 'full'),
+			'title' => \App\Language::translate('LBL_SUM', $this->getName()) . ': ' . \App\Fields\RangeTime::formatHourToDisplay($totalTime, 'full'),
 			'datasets' => [
 				[
 					'data' => [],
@@ -86,7 +70,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		];
 
 		while ($row = $dataReader->read()) {
-			$ownerName = App\Fields\Owner::getLabel($row['smownerid']);
+			$ownerName = App\Fields\Owner::getLabel($row['smownerid']) ?? '';
 			$color = App\Fields\Owner::getColor($row['smownerid']);
 			$userTime['labels'][] = \App\Utils::getInitials($ownerName);
 			$userTime['datasets'][0]['tooltips'][] = $ownerName;
@@ -136,7 +120,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 				$chartData['datasets'][0]['backgroundColor'][] = $color;
 				$chartData['datasets'][0]['borderColor'][] = $color;
 			}
-			$chartData['show_chart'] = count($chartData['datasets']) && count($chartData['datasets'][0]['data']);
+			$chartData['show_chart'] = \count($chartData['datasets']) && \count($chartData['datasets'][0]['data']);
 			$dataReader->close();
 		}
 		return $chartData;
@@ -145,12 +129,20 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFieldsForSave(\Vtiger_Record_Model $recordModel)
+	public function getFieldsForSave(Vtiger_Record_Model $recordModel)
 	{
 		$fields = parent::getFieldsForSave($recordModel);
-		if (!in_array('sum_time', $fields)) {
+		if (!\in_array('sum_time', $fields)) {
 			$fields[] = 'sum_time';
 		}
 		return $fields;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getLayoutTypeForQuickCreate(): string
+	{
+		return 'standard';
 	}
 }

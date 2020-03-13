@@ -18,12 +18,11 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 	 *
 	 * @see Vtiger_RelatedList_View
 	 */
-	public function showRelatedList(\App\Request $request)
+	public function showRelatedList(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$parentId = $request->getInteger('record');
-		$label = $request->getByType('tab_label', 'Text');
 		if ($request->isEmpty('relatedView', true)) {
 			$relatedView = empty($_SESSION['relatedView'][$moduleName][$relatedModuleName]) ? 'List' : $_SESSION['relatedView'][$moduleName][$relatedModuleName];
 		} else {
@@ -38,24 +37,14 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 			$pagingModel->set('limit', $request->getInteger('limit'));
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
-		$orderBy = $request->getForSql('orderby');
-		$sortOrder = $request->getForSql('sortorder');
-		if ($sortOrder === 'ASC') {
-			$nextSortOrder = 'DESC';
-			$sortImage = 'fas fa-chevron-down';
-		} else {
-			$nextSortOrder = 'ASC';
-			$sortImage = 'fas fa-chevron-up';
-		}
-		if (empty($orderBy) && empty($sortOrder)) {
-			$relatedInstance = CRMEntity::getInstance($relatedModuleName);
-			$orderBy = $relatedInstance->default_order_by;
-			$sortOrder = $relatedInstance->default_sort_order;
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'));
+		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
+		if (empty($orderBy)) {
+			$moduleInstance = $relationListView->getRelatedModuleModel()->getEntityInstance();
+			$orderBy = $moduleInstance->default_order_by ? [$moduleInstance->default_order_by => $moduleInstance->default_sort_order] : [];
 		}
 		if (!empty($orderBy)) {
 			$relationListView->set('orderby', $orderBy);
-			$relationListView->set('sortorder', $sortOrder);
 		}
 		if ($request->has('entityState')) {
 			$relationListView->set('entityState', $request->getByType('entityState'));
@@ -75,14 +64,14 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
 		$searchParmams = App\Condition::validSearchParams($relationListView->getQueryGenerator()->getModule(), $request->getArray('search_params'));
-		if (empty($searchParmams) || !is_array($searchParmams)) {
+		if (empty($searchParmams) || !\is_array($searchParmams)) {
 			$searchParmams = [];
 		}
 		$queryGenerator = $relationListView->getQueryGenerator();
 		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParmams);
 		$relationListView->set('search_params', $transformedSearchParams);
 		//To make smarty to get the details easily accesible
-		foreach ($searchParmams as $fieldListGroup) {
+		foreach ($request->getArray('search_params') as $fieldListGroup) {
 			foreach ($fieldListGroup as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
@@ -90,7 +79,7 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
-		if ($relatedView === 'ListPreview') {
+		if ('ListPreview' === $relatedView) {
 			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
 		}
 		$models = $relationListView->getEntries($pagingModel);
@@ -98,21 +87,6 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$header = $relationListView->getHeaders();
 		$relationModel = $relationListView->getRelationModel();
 
-		// [start] modified code compared to base function
-		$parentRecordCurrencyId = $parentRecordModel->get('currency_id');
-		if ($parentRecordCurrencyId) {
-			$productIdsList = [];
-			foreach ($models as $recordId => $recordModel) {
-				$productIdsList[$recordId] = $recordId;
-			}
-			$unitPricesList = $relationListView->getRelatedModuleModel()->getPricesForProducts($parentRecordCurrencyId, $productIdsList);
-			foreach ($models as $recordId => $recordModel) {
-				if (isset($unitPricesList[$recordId])) {
-					$recordModel->set('unit_price', $unitPricesList[$recordId]);
-				}
-			}
-		}
-		// [end] modified code compared to base function
 		$viewer->assign('VIEW_MODEL', $relationListView);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
@@ -120,9 +94,9 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('RELATED_LIST_LINKS', $links);
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
-		$viewer->assign('RELATED_ENTIRES_COUNT', count($models));
+		$viewer->assign('RELATED_ENTIRES_COUNT', \count($models));
 		$viewer->assign('RELATION_FIELD', $relationModel->getRelationField());
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
 		if (empty($totalCount)) {
@@ -137,10 +111,6 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('ORDER_BY', $orderBy);
-		$viewer->assign('SORT_ORDER', $sortOrder);
-		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
-		$viewer->assign('SORT_IMAGE', $sortImage);
-		$viewer->assign('COLUMN_NAME', $orderBy);
 		$viewer->assign('INVENTORY_FIELDS', $relationModel->getRelationInventoryFields());
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());

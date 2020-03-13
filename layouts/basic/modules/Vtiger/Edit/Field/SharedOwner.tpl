@@ -10,7 +10,7 @@
 		{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 		{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
-		{assign var=SHOW_FAVORITE_OWNERS value=AppConfig::module('Users','FAVORITE_OWNERS') && $CURRENT_USER_ID === \App\User::getCurrentUserRealId()}
+		{assign var=SHOW_FAVORITE_OWNERS value=App\Config::module('Users','FAVORITE_OWNERS') && $CURRENT_USER_ID === \App\User::getCurrentUserRealId()}
 		{if $FIELD_VALUE neq '' }
 			{assign var=FIELD_VALUE value=vtlib\Functions::getArrayFromValue($FIELD_VALUE)}
 			{assign var=NOT_DISPLAY_LIST value=array_diff_key(array_flip($FIELD_VALUE), $ALL_ACTIVEUSER_LIST, $ALL_ACTIVEGROUP_LIST)}
@@ -39,16 +39,16 @@
 		<div>
 			<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=""/>
 			<select class="select2 form-control {if !empty($NOT_DISPLAY_LIST)}hideSelected{/if} {$FIELD_NAME}"
-					title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
+					title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" tabindex="{$FIELD_MODEL->getTabIndex()}"
 					data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 					data-name="{$FIELD_NAME}" name="{$FIELD_NAME}[]" data-fieldinfo='{$FIELD_INFO}'
 					multiple="multiple" {if !empty($SPECIAL_VALIDATOR)} data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}"{/if}
-					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-				data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$FIELD_NAME}" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
-					{elseif AppConfig::module('Users','FAVORITE_OWNERS')}
+					{if App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
+				data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$FIELD_NAME}" data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+					{elseif App\Config::module('Users','FAVORITE_OWNERS')}
 				data-select-cb="registerIconsEvents" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate"
 					{/if}>
-				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+				{if App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
 					{foreach item=USER from=$FIELD_VALUE}
 						{assign var=OWNER_NAME value=\App\Fields\Owner::getLabel($USER)}
 						<option value="{$USER}" data-picklistvalue="{$OWNER_NAME}" selected="selected">
@@ -56,7 +56,7 @@
 						</option>
 					{/foreach}
 				{else}
-					{if AppConfig::module('Users','FAVORITE_OWNERS')}
+					{if App\Config::module('Users','FAVORITE_OWNERS')}
 						{assign var=FAVORITE_OWNERS value=$OWNER_FIELD->getFavorites($FIELD_MODEL->getFieldDataType())}
 						{if $FAVORITE_OWNERS}
 							{assign var=FAVORITE_OWNERS value=array_intersect_key($ALL_ACTIVEUSER_LIST, $FAVORITE_OWNERS) + array_intersect_key($ALL_ACTIVEGROUP_LIST, $FAVORITE_OWNERS)}

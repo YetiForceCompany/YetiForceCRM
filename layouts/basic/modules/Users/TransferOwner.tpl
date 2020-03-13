@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div id="massEditContainer" class='modelContainer'>
-		<div class="modal-header contentsBackground">
+		<div class="modal-header">
 			<h5 class="modal-title" id="massEditHeader">{\App\Language::translate('Transfer Ownership to User', $MODULE)}</h5>
 			<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 				<span aria-hidden="true">&times;</span>

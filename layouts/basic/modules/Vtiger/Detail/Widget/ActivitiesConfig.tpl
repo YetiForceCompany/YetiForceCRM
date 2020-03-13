@@ -42,6 +42,24 @@
 										   data-validation-engine="validate[required,custom[integer],min[1]]"
 										   value="{$WIDGETINFO['data']['limit']}"/>
 								</div>
+								<div class="col-md-3 marginLeftZero">
+									<label>{\App\Language::translate('LBL_SHITCH_HEADER', $QUALIFIED_MODULE)}:
+										<a href="#" class="js-help-info" title="" data-placement="top"
+										data-content="{\App\Language::translate('LBL_SHITCH_HEADER_INFO', $QUALIFIED_MODULE)}"
+										data-original-title="{\App\Language::translate('LBL_SHITCH_HEADER', $QUALIFIED_MODULE)}"><i
+													class="fas fa-info-circle"></i></a></label>
+								</div>
+								<div class="col-md-7">
+									{if isset($WIDGETINFO['data']['switchTypeInHeader'])}
+										{assign var=VALUE value=$WIDGETINFO['data']['switchTypeInHeader']}
+									{else}
+										{assign var=VALUE value='0'}
+									{/if}
+									<select name="switchTypeInHeader" class="select2 form-control form-control-sm">
+										<option value="-" {if $VALUE neq '0'} selected{/if}>{\App\Language::translate('None', $QUALIFIED_MODULE)}</option>
+										<option value="0" {if $VALUE eq '0'} selected{/if}>{\App\Language::translate('LBL_CURRENT_HISTORY_SWITCH', $QUALIFIED_MODULE)}</option>
+									</select>
+								</div>
 							</div>
 						</div>
 					</div>

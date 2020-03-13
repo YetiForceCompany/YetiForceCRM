@@ -42,7 +42,7 @@ class Vtiger_MultiImage_File extends Vtiger_Basic_File
 	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function get(\App\Request $request)
+	public function get(App\Request $request)
 	{
 		if ($request->isEmpty('key', 2)) {
 			throw new \App\Exceptions\NoPermitted('Not Acceptable', 406);
@@ -56,16 +56,20 @@ class Vtiger_MultiImage_File extends Vtiger_Basic_File
 					'path' => ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $item['path'],
 					'name' => $item['name'],
 				]);
-				header('pragma: public');
-				header('cache-control: max-age=86400, public');
-				header('expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 86400));
-				header('content-type: ' . $file->getMimeType());
-				header('content-transfer-encoding: binary');
-				header('content-length: ' . $file->getSize());
-				if ($request->getBoolean('download')) {
-					header('content-disposition: attachment; filename="' . $item['name'] . '"');
+				if (file_exists($file->getPath())) {
+					header('pragma: public');
+					header('cache-control: max-age=86400, public');
+					header('expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 86400));
+					header('content-type: ' . $file->getMimeType());
+					header('content-transfer-encoding: binary');
+					header('content-length: ' . $file->getSize());
+					if ($request->getBoolean('download')) {
+						header('content-disposition: attachment; filename="' . $item['name'] . '"');
+					}
+					readfile($file->getPath());
+					break;
 				}
-				readfile($file->getPath());
+				throw new \App\Exceptions\AppException('ERR_FILE_NOT_FOUND', 404);
 			}
 		}
 	}
@@ -73,7 +77,7 @@ class Vtiger_MultiImage_File extends Vtiger_Basic_File
 	/**
 	 * {@inheritdoc}
 	 */
-	public function post(\App\Request $request)
+	public function post(App\Request $request)
 	{
 		$attach = \App\Fields\File::uploadAndSave($request, $_FILES, $this->fileType, $this->storageName . DIRECTORY_SEPARATOR . $request->getModule() . DIRECTORY_SEPARATOR . $request->getByType('field', 'Alnum'));
 		if ($request->isAjax()) {

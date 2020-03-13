@@ -65,7 +65,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 		if (static::$cache === false) {
 			static::$cache = require static::$cacheFile;
 		}
-		if (AppConfig::module('ModTracker', 'WATCHDOG') === false) {
+		if (App\Config::module('ModTracker', 'WATCHDOG') === false) {
 			$instance->isActive = false;
 		}
 		\App\Cache::staticSave('WatchdogModel', $cacheName, $instance);
@@ -466,8 +466,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 				}
 			}
 		}
-		$content = '<?php return ' . \App\Utils::varExport($cache) . ';' . PHP_EOL;
-		file_put_contents(static::$cacheFile, $content, LOCK_EX);
+		App\Utils::saveToFile(static::$cacheFile, \App\Utils::varExport($cache), '', LOCK_EX, true);
 	}
 
 	/**

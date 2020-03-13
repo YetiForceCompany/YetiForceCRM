@@ -1,5 +1,20 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+	<!-- tpl-Settings-Base-Security -->
+	{function SHOW_HELP_TEXT ITEM=[] KEY=''}
+		{if empty($ITEM['label'])}{$KEY}{else}{\App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE_NAME)}{/if}
+		{if !$ITEM['status']}
+			{assign var="HELP_TEXT" value='LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY))}
+			{assign var="HELP_TEXT_TRANS" value=\App\Language::translateEncodeHtml($HELP_TEXT, 'Settings::ConfReport')}
+			{if !empty($HELP_TEXT_TRANS) && $HELP_TEXT_TRANS!==$HELP_TEXT }
+				<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+				   data-trigger="focus hover" data-placement="right"
+				   data-content="{$HELP_TEXT_TRANS}">
+					<span class="fas fa-info-circle"></span>
+				</a>
+			{/if}
+		{/if}
+	{/function}
 	<div class="securityIndexPage table-responsive">
 		<table class="table tableRWD table-bordered table-sm themeTableColor confTable">
 			<thead>
@@ -21,16 +36,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				{foreach from=Settings_ConfReport_Module_Model::getSecurityConf() key=key item=item}
-					<tr {if !empty($item.status)}class="table-danger"{/if}>
-						<td>
-							<label>{$key}</label>
-							{if !empty($item.help) && !empty($item.status)}<a href="#" class="js-popover-tooltip float-right text-dark" data-js="popover" data-trigger="focus" data-placement="right" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><span class="fas fa-info-circle"></span></a>{/if}
-						</td>
-						<td><label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label></td>
-						<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>
-					</tr>
-				{/foreach}
+			{foreach from=\App\Utils\ConfReport::get('security') key=KEY item=ITEM}
+				<tr {if empty($ITEM.status)}class="table-danger"{/if}>
+					<td>
+						<label>{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}</label>
+					</td>
+					<td><label>{App\Language::translate($ITEM.recommended, 'Settings::ConfReport')}</label></td>
+					<td><label>{App\Language::translate($ITEM.www, 'Settings::ConfReport')}</label></td>
+				</tr>
+			{/foreach}
 			</tbody>
 		</table>
 		{if $SENSIOLABS}
@@ -212,4 +226,5 @@
 			</table>
 		{/if}
 	</div>
+	<!-- /tpl-Settings-Base-Security -->
 {/strip}

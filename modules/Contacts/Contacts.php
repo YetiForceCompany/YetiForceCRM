@@ -59,67 +59,22 @@ class Contacts extends CRMEntity
 		'Member Of' => ['contactdetails' => 'parent_id'],
 		'Assigned To' => ['crmentity' => 'smownerid'],
 	];
-	public $search_fields_name = [
-		'First Name' => 'firstname',
-		'Last Name' => 'lastname',
-		'Member Of' => 'parent_id',
-		'Assigned To' => 'assigned_user_id',
-	];
+	public $search_fields_name = [];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['firstname', 'lastname', 'jobtitle', 'email', 'phone', 'assigned_user_id'];
+	public $relationFields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assigned_user_id', 'lastname', 'createdtime', 'modifiedtime'];
 	//Default Fields for Email Templates -- Pavani
-	public $emailTemplate_defaultFields = ['firstname', 'lastname', 'salutation', 'title', 'email', 'department', 'phone', 'mobile', 'support_start_date', 'support_end_date'];
+	public $emailTemplate_defaultFields = ['firstname', 'lastname', 'title', 'email', 'department', 'phone', 'mobile', 'support_start_date', 'support_end_date'];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 	// For Alphabetical search
 	public $def_basicsearch_col = 'lastname';
-
-	/**
-	 * Move the related records of the specified list of id's to the given record.
-	 *
-	 * @param string This module name
-	 * @param array List of Entity Id's from which related records need to be transfered
-	 * @param int Id of the the Record to which the related records are to be moved
-	 */
-	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
-	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
-		$relTableArr = ['Products' => 'vtiger_seproductsrel', 'Documents' => 'vtiger_senotesrel',
-			'Attachments' => 'vtiger_seattachmentsrel', 'Campaigns' => 'vtiger_campaign_records',
-			'ServiceContracts' => 'vtiger_servicecontracts', 'Project' => 'vtiger_project', ];
-		$tblFieldArr = ['vtiger_seproductsrel' => 'productid', 'vtiger_senotesrel' => 'notesid',
-			'vtiger_seattachmentsrel' => 'attachmentsid', 'vtiger_campaign_records' => 'campaignid',
-			'vtiger_servicecontracts' => 'servicecontractsid', 'vtiger_project' => 'projectid',
-			'vtiger_payments' => 'paymentsid', ];
-		$entityTblFieldArr = ['vtiger_seproductsrel' => 'crmid', 'vtiger_senotesrel' => 'crmid',
-			'vtiger_seattachmentsrel' => 'crmid', 'vtiger_campaign_records' => 'crmid',
-			'vtiger_servicecontracts' => 'sc_related_to', 'vtiger_project' => 'linktoaccountscontacts',
-			'vtiger_payments' => 'relatedcontact', ];
-		foreach ($transferEntityIds as $transferId) {
-			foreach ($relTableArr as $relTable) {
-				$idField = $tblFieldArr[$relTable];
-				$entityIdField = $entityTblFieldArr[$relTable];
-				// IN clause to avoid duplicate entries
-				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
-				$query = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
-				$dataReader = $query->createCommand()->query();
-				while ($idFieldValue = $dataReader->readColumn(0)) {
-					$dbCommand->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
-				}
-				$dataReader->close();
-			}
-		}
-		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace('Exiting transferRelatedRecords...');
-	}
 
 	/**
 	 * Function to get the relation tables for related modules.
@@ -143,50 +98,6 @@ class Contacts extends CRMEntity
 		return $relTables[$secModule];
 	}
 
-	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
-	{
-		if (empty($return_module) || empty($return_id)) {
-			return;
-		}
-		if ('Accounts' === $return_module) {
-			App\Db::getInstance()->createCommand()->update('vtiger_contactdetails', ['parentid' => 0], ['contactid' => $id])->execute();
-		} elseif ('Campaigns' === $return_module) {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
-		} elseif ('Vendors' === $return_module) {
-			$db = App\Db::getInstance();
-			$db->createCommand()->update('vtiger_contactdetails', ['parentid' => 0], ['contactid' => $id])->execute();
-			$db->createCommand()->delete('vtiger_vendorcontactrel', ['vendorid' => $return_id, 'contactid' => $id])->execute();
-		} else {
-			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
-		}
-	}
-
-	public function saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName = false)
-	{
-		if (!is_array($withCrmid)) {
-			$withCrmid = [$withCrmid];
-		}
-		if (!in_array($withModule, ['Products', 'Campaigns', 'Vendors'])) {
-			parent::saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName);
-		} else {
-			foreach ($withCrmid as $id) {
-				if ('Campaigns' === $withModule) {
-					App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
-						'campaignid' => $id,
-						'crmid' => $crmid,
-						'campaignrelstatusid' => 0,
-					])->execute();
-				} elseif ('Vendors' === $withModule) {
-					App\Db::getInstance()->createCommand()->insert('vtiger_vendorcontactrel', [
-						'vendorid' => $id,
-						'contactid' => $crmid,
-					])->execute();
-				}
-			}
-		}
-	}
-
 	/**
 	 * Function to get contacts hierarchy.
 	 *
@@ -200,7 +111,7 @@ class Contacts extends CRMEntity
 	{
 		$listviewHeader = [];
 		$listviewEntries = [];
-		$listColumns = AppConfig::module('Contacts', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('Contacts', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -238,7 +149,7 @@ class Contacts extends CRMEntity
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $recordId . ') method ...');
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$hasRecordViewAccess = $currentUser->isAdminUser() || \App\Privilege::isPermitted('Contacts', 'DetailView', $recordId);
-		$listColumns = AppConfig::module('Contacts', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('Contacts', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -269,7 +180,7 @@ class Contacts extends CRMEntity
 
 		$listviewEntries[$recordId] = $infoData;
 		foreach ($baseInfo as $accId => $rowInfo) {
-			if (is_array($rowInfo) && (int) $accId) {
+			if (\is_array($rowInfo) && (int) $accId) {
 				$listviewEntries = $this->getHierarchyData($id, $rowInfo, $accId, $listviewEntries, $getRawData, $getLinks);
 			}
 		}
@@ -291,7 +202,7 @@ class Contacts extends CRMEntity
 	public function getParent(int $id, array &$parent, array &$encountered, int $depthBase = 0)
 	{
 		\App\Log::trace('Entering getParent(' . $id . ') method ...');
-		if ($depthBase == AppConfig::module('Contacts', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase == App\Config::module('Contacts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getParent method ... - exceeded maximum depth of hierarchy');
 
 			return $parent;
@@ -308,7 +219,7 @@ class Contacts extends CRMEntity
 			->one();
 		if ($row) {
 			$parentid = $row['reportsto'];
-			if ('' !== $parentid && 0 != $parentid && !in_array($parentid, $encountered)) {
+			if ('' !== $parentid && 0 != $parentid && !\in_array($parentid, $encountered)) {
 				$encountered[] = $parentid;
 				$this->getParent($parentid, $parent, $encountered, $depthBase + 1);
 			}
@@ -318,7 +229,7 @@ class Contacts extends CRMEntity
 				$depth = $parent[$parentid]['depth'] + 1;
 			}
 			$parentInfo['depth'] = $depth;
-			$listColumns = AppConfig::module('Contacts', 'COLUMNS_IN_HIERARCHY');
+			$listColumns = App\Config::module('Contacts', 'COLUMNS_IN_HIERARCHY');
 			if (empty($listColumns)) {
 				$listColumns = $this->list_fields_name;
 			}
@@ -351,7 +262,7 @@ class Contacts extends CRMEntity
 	public function getChild(int $id, array &$childRow, int $depthBase)
 	{
 		\App\Log::trace('Entering getChild(' . $id . ',' . $depthBase . ') method ...');
-		if (empty($id) || $depthBase == AppConfig::module('Contacts', 'MAX_HIERARCHY_DEPTH')) {
+		if (empty($id) || $depthBase == App\Config::module('Contacts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getChild method ... - exceeded maximum depth of hierarchy');
 
 			return $childRow;
@@ -366,7 +277,7 @@ class Contacts extends CRMEntity
 			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
 			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_contactdetails.reportsto' => $id])
 			->createCommand()->query();
-		$listColumns = AppConfig::module('Contacts', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('Contacts', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}

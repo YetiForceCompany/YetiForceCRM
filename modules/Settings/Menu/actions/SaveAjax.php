@@ -18,20 +18,21 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('copyMenu');
 	}
 
-	public function createMenu(\App\Request $request)
+	public function createMenu(App\Request $request)
 	{
 		$data = $request->getMultiDimensionArray('mdata', [
-				'type' => 'Alnum',
-				'module' => 'Alnum',
-				'label' => 'Text',
-				'newwindow' => 'Integer',
-				'hotkey' => 'Text',
-				'filters' => 'Integer',
-				'icon' => 'Text',
-				'role' => 'Alnum',
-				'dataurl' => 'Text',
-			]
+			'type' => 'Alnum',
+			'module' => 'Alnum',
+			'label' => 'Text',
+			'newwindow' => 'Integer',
+			'hotkey' => 'Text',
+			'filters' => 'Integer',
+			'icon' => 'Text',
+			'role' => 'Alnum',
+			'dataurl' => 'Text',
+		]
 		);
+		$data['source'] = $request->getInteger('source');
 		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
 		$recordModel->initialize($data);
 		$recordModel->save();
@@ -43,21 +44,22 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function updateMenu(\App\Request $request)
+	public function updateMenu(App\Request $request)
 	{
 		$data = $request->getMultiDimensionArray('mdata', [
-				'id' => 'Integer',
-				'type' => 'Alnum',
-				'module' => 'Alnum',
-				'label' => 'Text',
-				'newwindow' => 'Integer',
-				'hotkey' => 'Text',
-				'filters' => 'Integer',
-				'icon' => 'Text',
-				'role' => 'Alnum',
-				'dataurl' => 'Text',
-			]
+			'id' => 'Integer',
+			'type' => 'Alnum',
+			'module' => 'Alnum',
+			'label' => 'Text',
+			'newwindow' => 'Integer',
+			'hotkey' => 'Text',
+			'filters' => 'Integer',
+			'icon' => 'Text',
+			'role' => 'Alnum',
+			'dataurl' => 'Text',
+		]
 		);
+		$data['source'] = $request->getInteger('source');
 		$recordModel = Settings_Menu_Record_Model::getInstanceById($data['id']);
 		$recordModel->initialize($data);
 		$recordModel->set('edit', true);
@@ -70,7 +72,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function removeMenu(\App\Request $request)
+	public function removeMenu(App\Request $request)
 	{
 		$settingsModel = Settings_Menu_Record_Model::getCleanInstance();
 		$settingsModel->removeMenu($request->getArray('mdata', 'Integer'));
@@ -82,10 +84,10 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function updateSequence(\App\Request $request)
+	public function updateSequence(App\Request $request)
 	{
 		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
-		$recordModel->saveSequence($request->getArray('mdata', 'Text'), true);
+		$recordModel->saveSequence($request->getArray('mdata', 'Text'), Settings_Menu_Record_Model::SRC_ROLE === $request->getInteger('source'));
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
@@ -99,12 +101,13 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function copyMenu(\App\Request $request)
+	public function copyMenu(App\Request $request)
 	{
+		$roleTo = $request->getByType('toRole', 'Alnum');
 		$fromRole = filter_var($request->getByType('fromRole', 'Alnum'), FILTER_SANITIZE_NUMBER_INT);
-		$toRole = filter_var($request->getByType('toRole', 'Alnum'), FILTER_SANITIZE_NUMBER_INT);
+		$toRole = filter_var($roleTo, FILTER_SANITIZE_NUMBER_INT);
 		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
-		$recordModel->copyMenu($fromRole, $toRole);
+		$recordModel->copyMenu($fromRole, $toRole, $roleTo);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,

@@ -26,7 +26,7 @@ class Twitter extends Base
 	/**
 	 * Tweet mode.
 	 *
-	 * @link https://developer.twitter.com/en/docs/tweets/tweet-updates.html
+	 * @see https://developer.twitter.com/en/docs/tweets/tweet-updates.html
 	 */
 	public const TWEET_MODE = 'extended';
 	/**
@@ -97,7 +97,7 @@ class Twitter extends Base
 	/**
 	 * Get Twitter connection object.
 	 *
-	 * @return  \Abraham\TwitterOAuth\TwitterOAuth
+	 * @return \Abraham\TwitterOAuth\TwitterOAuth
 	 */
 	private static function getTwitterConnection()
 	{
@@ -115,16 +115,16 @@ class Twitter extends Base
 	/**
 	 * Check if the user exists.
 	 *
-	 * @param   string  $userName
+	 * @param string $userName
 	 *
-	 * @return  bool
+	 * @return bool
 	 */
-	public static function isUserExists(string $userName) : bool
+	public static function isUserExists(string $userName): bool
 	{
-		$response = static::getTwitterConnection()->get('users/lookup', ['screen_name'=>$userName]);
-		if (isset($response['errors'])){
+		$response = static::getTwitterConnection()->get('users/lookup', ['screen_name' => $userName]);
+		if (isset($response['errors'])) {
 			$returnVal = false;
-		}else{
+		} else {
 			$returnVal = strtolower($response[0]['screen_name']) === strtolower($userName);
 		}
 		return $returnVal;
@@ -146,9 +146,9 @@ class Twitter extends Base
 	/**
 	 * Check if the current user exists.
 	 *
-	 * @return  bool
+	 * @return bool
 	 */
-	public function isExists() : bool
+	public function isExists(): bool
 	{
 		return static::isUserExists($this->userName);
 	}
@@ -169,11 +169,11 @@ class Twitter extends Base
 			->max((new \yii\db\Expression('CAST(id_twitter AS INT)')));
 		$param['screen_name'] = $this->userName;
 		$indexOfText = 'text';
-		if (static::TWEET_MODE === 'extended') {
+		if ('extended' === static::TWEET_MODE) {
 			$param['tweet_mode'] = 'extended';
 			$indexOfText = 'full_text';
 		}
-		if (!\is_null($maxId)) {
+		if (null !== $maxId) {
 			//Retrieve only new data from Api
 			//"There are limits to the number of Tweets that can be accessed through the API. If the limit of Tweets has occured since the since_id, the since_id will be forced to the oldest ID available."
 			$param['since_id'] = $maxId;
@@ -205,7 +205,7 @@ class Twitter extends Base
 					'message' => $rowTwitter[$indexOfText],
 					'created' => \DateTimeField::convertToUserTimeZone($rowTwitter['created_at'])->format('Y-m-d H:i:s'),
 				])->execute();
-				$cnt++;
+				++$cnt;
 			}
 		}
 		if ($cnt > 0) {

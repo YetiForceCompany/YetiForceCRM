@@ -47,8 +47,39 @@ class Fields extends \Api\Core\BaseAction
 			if ($field->isReferenceField()) {
 				$fieldInfo['referenceList'] = $field->getReferenceList();
 			}
+			if ($field->isTreeField()) {
+				$fieldInfo['treeValues'] = \App\Fields\Tree::getTreeValues((int) $field->getFieldParams(), $moduleName);
+			}
+			if ($field->getFieldDataType() === 'country') {
+				$countries = $field->getPicklistValues();
+				array_walk($countries, function (&$item, $key) {
+					$item = \App\Language::translateSingleMod($key, 'Other.Country');
+				});
+				$fieldInfo['picklistvalues'] = $countries;
+				$fieldInfo['isEmptyPicklistOptionAllowed'] = $field->isEmptyPicklistOptionAllowed();
+			}
 			$fields[$field->getId()] = $fieldInfo;
 		}
-		return ['fields' => $fields, 'blocks' => $blocks];
+		$inventoryFields = [];
+		if ($module->isInventory()) {
+			$inventoryInstance = \Vtiger_Inventory_Model::getInstance($moduleName);
+			$fieldsInInventory = $inventoryInstance->getFieldsByBlocks();
+			if (isset($fieldsInInventory[1])) {
+				foreach ($fieldsInInventory[1] as $fieldName => $fieldModel) {
+					$inventoryFields[1][$fieldName] = [
+						'label' => \App\Language::translate($fieldModel->get('label'), $moduleName),
+						'isVisibleInDetail' => $fieldModel->isVisibleInDetail(),
+						'type' => $fieldModel->getType(),
+						'columnname' => $fieldModel->getColumnName(),
+						'isSummary' => $fieldModel->isSummary()
+					];
+				}
+			}
+		}
+		return [
+			'fields' => $fields,
+			'blocks' => $blocks,
+			'inventory' => $inventoryFields
+		];
 	}
 }

@@ -23,9 +23,9 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		$listSearchParams = [];
 		$conditions = [['ticketpriorities', 'e', $priority]];
 		if (!empty($time)) {
-			$conditions[] = ['closedtime', 'bw', implode(',', $time)];
+			$conditions[] = ['closing_datatime', 'bw', implode(',', $time)];
 		}
-		if (!empty($owner) && $owner != 'all') {
+		if (!empty($owner) && 'all' != $owner) {
 			$conditions[] = ['assigned_user_id', 'e', $owner];
 		}
 		$listSearchParams[] = $conditions;
@@ -46,25 +46,25 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$query = (new App\Db\Query())->select([
-				'count' => new \yii\db\Expression('COUNT(*)'),
-				'vtiger_troubletickets.priority',
-				'vtiger_ticketpriorities.ticketpriorities_id',
-			])->from('vtiger_troubletickets')
-				->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
-				->innerJoin('vtiger_ticketstatus', 'vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus')
-				->innerJoin('vtiger_ticketpriorities', 'vtiger_ticketpriorities.ticketpriorities = vtiger_troubletickets.priority')
-				->where(['vtiger_crmentity.deleted' => 0]);
+			'count' => new \yii\db\Expression('COUNT(*)'),
+			'vtiger_troubletickets.priority',
+			'vtiger_ticketpriorities.ticketpriorities_id',
+		])->from('vtiger_troubletickets')
+			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_ticketstatus', 'vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus')
+			->innerJoin('vtiger_ticketpriorities', 'vtiger_ticketpriorities.ticketpriorities = vtiger_troubletickets.priority')
+			->where(['vtiger_crmentity.deleted' => 0]);
 		if (!empty($ticketStatus)) {
 			$query->andWhere(['vtiger_troubletickets.status' => $ticketStatus]);
 		}
 		if (!empty($time)) {
 			$query->andWhere([
 				'and',
-				['>=', 'vtiger_crmentity.closedtime', $time[0] . ' 00:00:00'],
-				['<=', 'vtiger_crmentity.closedtime', $time[1] . ' 23:59:59'],
+				['>=', 'vtiger_troubletickets.closing_datatime', $time[0] . ' 00:00:00'],
+				['<=', 'vtiger_troubletickets.closing_datatime', $time[1] . ' 23:59:59'],
 			]);
 		}
-		if (!empty($owner) && $owner != 'all') {
+		if (!empty($owner) && 'all' != $owner) {
 			$query->andWhere(['vtiger_crmentity.smownerid' => $owner]);
 		}
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
@@ -94,7 +94,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		return $chartData;
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

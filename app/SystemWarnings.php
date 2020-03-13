@@ -27,13 +27,13 @@ class SystemWarnings
 			if ($item->isDir()) {
 				$subPath = $iterator->getSubPathName();
 				$fileName = $item->getFilename();
-				$subPath = str_replace(DIRECTORY_SEPARATOR, '/', $subPath);
+				$subPath = str_replace(\DIRECTORY_SEPARATOR, '/', $subPath);
 				$parent = rtrim(rtrim($subPath, $fileName), '/');
 				$folder = ['id' => $i, 'text' => Language::translate($fileName, 'Settings:SystemWarnings'), 'subPath' => $subPath, 'parent' => '#'];
 				if (isset($folders[$parent])) {
 					$folder['parent'] = $folders[$parent]['id'];
 				}
-				if (in_array($subPath, self::SELECTED_FOLDERS)) {
+				if (\in_array($subPath, self::SELECTED_FOLDERS)) {
 					$folder['state']['selected'] = true;
 				}
 				$folders[$subPath] = $folder;
@@ -47,6 +47,7 @@ class SystemWarnings
 	 * Returns a list of warnings instance.
 	 *
 	 * @param array $folders
+	 * @param mixed $active
 	 *
 	 * @return array
 	 */
@@ -55,7 +56,7 @@ class SystemWarnings
 		if (empty($folders)) {
 			return [];
 		}
-		if (!is_array($folders) && $folders === 'all') {
+		if (!\is_array($folders) && 'all' === $folders) {
 			$folders = array_keys(static::getFolders());
 		}
 		$actions = [];
@@ -69,15 +70,15 @@ class SystemWarnings
 				if (!$item->isDot() && !$item->isDir()) {
 					$fileName = $item->getBasename('.php');
 					$folder = str_replace('/', '\\', $folder);
-					$className = "\App\SystemWarnings\\$folder\\$fileName";
+					$className = "\\App\\SystemWarnings\\$folder\\$fileName";
 					$instace = new $className();
 					if ($instace->preProcess()) {
-						$isIgnored = $instace->getStatusValue() === 2;
+						$isIgnored = 2 === $instace->getStatusValue();
 						$show = true;
 						if (!$isIgnored) {
 							$instace->process();
 						}
-						if ($active && ($isIgnored || $instace->getStatus() === 1)) {
+						if ($active && ($isIgnored || 1 === $instace->getStatus())) {
 							$show = false;
 						}
 						if ($show) {
@@ -102,17 +103,17 @@ class SystemWarnings
 	{
 		$i = 0;
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(self::FOLDERS, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-			if ($item->isFile() && $item->getBasename('.php') != 'Template') {
+			if ($item->isFile() && 'Template' != $item->getBasename('.php')) {
 				$subPath = $iterator->getSubPath();
 				$fileName = $item->getBasename('.php');
 				$folder = str_replace('/', '\\', $subPath);
-				$className = "\App\SystemWarnings\\$folder\\$fileName";
+				$className = "\\App\\SystemWarnings\\$folder\\$fileName";
 				$instace = new $className();
 				if ($instace->preProcess()) {
-					if ($instace->getStatus() != 2) {
+					if (2 != $instace->getStatus()) {
 						$instace->process();
 					}
-					if ($instace->getStatus() == 0) {
+					if (0 == $instace->getStatus()) {
 						++$i;
 					}
 				}

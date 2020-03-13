@@ -19,7 +19,7 @@
 				{foreach item=LINK_MODEL from=$MODULE_MODEL->getDetailViewLinks()}
 					<button type="button" class="btn btn-info" onclick={$LINK_MODEL->getUrl()}>
 						<strong>
-							<span class="fas fa-edit u-mr-5px"></span>{\App\Language::translate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}
+							<span class="yfi yfi-full-editing-view u-mr-5px"></span>{\App\Language::translate($LINK_MODEL->getLabel(), $QUALIFIED_MODULE)}
 						</strong>
 					</button>
 				{/foreach}
@@ -28,7 +28,7 @@
 	</div>
 	<div class='clearfix'></div>
 	<div class=" contents" id="detailView">
-		<table class="table customTableRWD table-bordered" id="convertLeadMapping">
+		<table class="table customTableRWD table-bordered my-2" id="convertLeadMapping">
 			<thead>
 			<tr class="blockHeader">
 				<th class="blockHeader">{\App\Language::translate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>

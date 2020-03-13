@@ -12,12 +12,19 @@
 				{/foreach}
 				<script type="text/javascript">app.registerModalController();</script>
 				<div class="modal-body col-md-12 js-scrollbar" data-js="perfectscrollbar">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<div class="float-right text-xl-right">
+						{foreach item=LINK from=$LINKS}
+							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW=''}
+						{/foreach}
+						<button class="cancelLink btn btn-sm btn-danger" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}">
+							<span class="fas fa-times"></span>
+						</button>
+					</div>
 					<div class="quickDetailContent">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="moduleIcon">
-									<span class="o-detail__icon js-detail__icon userIcon-{$MODULE_NAME}"></span>
+									<span class="o-detail__icon js-detail__icon yfm-{$MODULE_NAME}"></span>
 								</div>
 								<div class="paddingLeft5px">
 									<h4 class="recordLabel u-text-ellipsis pushDown marginbottomZero" title='{$RECORD->getName()}'>

@@ -27,6 +27,6 @@ class TotalTimeWorked
 			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_osstimecontrol.link' => $recordModel->getId()])
 			->sum('vtiger_osstimecontrol.sum_time');
 
-		return \App\Fields\Time::formatToHourText($timecontrol, 'short');
+		return \App\Fields\RangeTime::formatHourToDisplay($timecontrol, 'short');
 	}
 }

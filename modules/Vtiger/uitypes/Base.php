@@ -28,10 +28,10 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if ($value === '' && in_array($this->getFieldModel()->getFieldType(), ['I', 'N', 'NN'])) {
+		if ('' === $value && \in_array($this->getFieldModel()->getFieldType(), ['I', 'N', 'NN'])) {
 			return 0;
 		}
-		if (is_null($value)) {
+		if (null === $value) {
 			return '';
 		}
 		return \App\Purifier::decodeHtml($value);
@@ -56,9 +56,9 @@ class Vtiger_Base_UIType extends \App\Base
 	 *
 	 * @param \App\Request        $request
 	 * @param Vtiger_Record_Model $recordModel
-	 * @param string|bool         $requestFieldName
+	 * @param bool|string         $requestFieldName
 	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
 		if (!$requestFieldName) {
@@ -76,7 +76,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 *
 	 * @throws \App\Exceptions\Security
 	 */
-	public function setDefaultValueFromRequest(\App\Request $request)
+	public function setDefaultValueFromRequest(App\Request $request)
 	{
 		$fieldModel = $this->getFieldModel();
 		$recordModel = Vtiger_Record_Model::getCleanInstance($fieldModel->getModuleName());
@@ -112,7 +112,7 @@ class Vtiger_Base_UIType extends \App\Base
 		if ($isUserFormat) {
 			$value = \App\Purifier::decodeHtml($value);
 		}
-		if (!is_numeric($value) && (is_string($value) && $value !== \App\Purifier::decodeHtml(\App\Purifier::purify($value)))) {
+		if (!is_numeric($value) && (\is_string($value) && $value !== \App\Purifier::decodeHtml(\App\Purifier::purify($value)))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$maximumLength = $this->getFieldModel()->get('maximumlength');
@@ -139,16 +139,16 @@ class Vtiger_Base_UIType extends \App\Base
 	 * Function to get the display value, for the current field type with given DB Insert Value.
 	 *
 	 * @param mixed                    $value       Field value
-	 * @param int|bool                 $record      Record Id
-	 * @param Vtiger_Record_Model|bool $recordModel
+	 * @param bool|int                 $record      Record Id
+	 * @param bool|Vtiger_Record_Model $recordModel
 	 * @param bool                     $rawText     Return text or html
-	 * @param int|bool                 $length      Length of the text
+	 * @param bool|int                 $length      Length of the text
 	 *
 	 * @return mixed
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if (is_int($length)) {
+		if (\is_int($length)) {
 			$value = \App\TextParser::textTruncate($value, $length);
 		}
 		return \App\Purifier::encodeHtml($value);
@@ -185,7 +185,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 *
 	 * @param mixed                    $value       Field value
 	 * @param int                      $record      |bool Record Id
-	 * @param Vtiger_Record_Model|bool $recordModel
+	 * @param bool|Vtiger_Record_Model $recordModel
 	 * @param bool                     $rawText     Return text or html
 	 *
 	 * @return mixed
@@ -200,7 +200,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 *
 	 * @param mixed                    $value       Field value
 	 * @param int                      $record      |bool Record Id
-	 * @param Vtiger_Record_Model|bool $recordModel
+	 * @param bool|Vtiger_Record_Model $recordModel
 	 * @param bool                     $rawText     Return text or html
 	 *
 	 * @return mixed
@@ -232,7 +232,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel)
 	{
-		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel);
+		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, false, App\Config::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 	}
 
 	/**
@@ -266,32 +266,18 @@ class Vtiger_Base_UIType extends \App\Base
 	 *
 	 * @param Vtiger_Field_Model $fieldModel
 	 *
-	 * @return Vtiger_Base_UIType or UIType specific object instance
+	 * @return self Vtiger_Base_UIType or UIType specific object instance
 	 */
 	public static function getInstanceFromField($fieldModel)
 	{
-		$fieldDataType = $fieldModel->getFieldDataType();
-		$uiTypeClassSuffix = ucfirst($fieldDataType);
+		$uiType = ucfirst($fieldModel->getFieldDataType());
 		$moduleName = $fieldModel->getModuleName();
-		$moduleSpecificUiTypeClassName = $moduleName . '_' . $uiTypeClassSuffix . '_UIType';
-		$uiTypeClassName = 'Vtiger_' . $uiTypeClassSuffix . '_UIType';
-		$fallBackClassName = 'Vtiger_Base_UIType';
-
-		$moduleSpecificFileName = 'modules.' . $moduleName . '.uitypes.' . $uiTypeClassSuffix;
-		$uiTypeClassFileName = 'modules.Vtiger.uitypes.' . $uiTypeClassSuffix;
-
-		$moduleSpecificFilePath = Vtiger_Loader::resolveNameToPath($moduleSpecificFileName);
-		$completeFilePath = Vtiger_Loader::resolveNameToPath($uiTypeClassFileName);
-
-		if (file_exists($moduleSpecificFilePath)) {
-			$instance = new $moduleSpecificUiTypeClassName();
-		} elseif (file_exists($completeFilePath)) {
-			$instance = new $uiTypeClassName();
-		} else {
-			$instance = new $fallBackClassName();
+		$className = \Vtiger_Loader::getComponentClassName('UIType', $uiType, $moduleName, false);
+		if (!$className) {
+			$className = \Vtiger_Loader::getComponentClassName('UIType', 'Base', $moduleName);
 		}
+		$instance = new $className();
 		$instance->set('field', $fieldModel);
-
 		return $instance;
 	}
 
@@ -366,7 +352,7 @@ class Vtiger_Base_UIType extends \App\Base
 	/**
 	 * Returns allowed types of columns in database.
 	 *
-	 * @return string[]
+	 * @return string[]|null
 	 */
 	public function getAllowedColumnTypes()
 	{
@@ -384,13 +370,23 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
-	 * Return allowed operators for field.
+	 * Return allowed query operators for field.
 	 *
 	 * @return string[]
 	 */
-	public function getOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
+	}
+
+	/**
+	 * Return allowed record operators for field.
+	 *
+	 * @return string[]
+	 */
+	public function getRecordOperators(): array
+	{
+		return array_merge($this->getQueryOperators(), ['hs']);
 	}
 
 	/**
@@ -403,5 +399,30 @@ class Vtiger_Base_UIType extends \App\Base
 	public function getOperatorTemplateName(string $operator = '')
 	{
 		return 'ConditionBuilder/Base.tpl';
+	}
+
+	/**
+	 * Gets value to export.
+	 *
+	 * @param mixed $value
+	 * @param int   $recordId
+	 *
+	 * @return mixed
+	 */
+	public function getValueToExport($value, int $recordId)
+	{
+		return trim(App\Purifier::decodeHtml($value), '"');
+	}
+
+	/**
+	 * Gets value from import.
+	 *
+	 * @param mixed $value
+	 *
+	 * @return mixed
+	 */
+	public function getValueFromImport($value)
+	{
+		return $value;
 	}
 }

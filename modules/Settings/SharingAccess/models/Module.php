@@ -162,7 +162,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function recalculateSharingRules()
 	{
-		$phpMaxExecutionTime = AppConfig::main('php_max_execution_time');
+		$phpMaxExecutionTime = App\Config::main('php_max_execution_time');
 		set_time_limit($phpMaxExecutionTime);
 		$userIds = (new App\Db\Query())->select(['id'])
 			->from('vtiger_users')

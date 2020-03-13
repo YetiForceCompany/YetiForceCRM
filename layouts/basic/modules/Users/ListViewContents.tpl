@@ -22,9 +22,9 @@
 	<input type="hidden" id="Operator" value="{$OPERATOR}"/>
 	<input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}"/>
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}"/>
-	<input type="hidden" id="listMaxEntriesMassEdit" value="{\AppConfig::main('listMaxEntriesMassEdit')}"/>
+	<input type="hidden" id="listMaxEntriesMassEdit" value="{\App\Config::main('listMaxEntriesMassEdit')}"/>
 	<input type="hidden" id="autoRefreshListOnChange"
-		   value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+		   value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
@@ -36,7 +36,7 @@
 	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
 		<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 	</div>
-	<div class="listViewEntriesDiv u-overflow-scroll-xsm-down">
+	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy"/>
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder"/>
 		<span class="listViewLoadingImageBlock d-none modal" id="loadingListViewModal">
@@ -44,7 +44,6 @@
 				 title="{\App\Language::translate('LBL_LOADING')}"/>
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
-		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table tableBorderHeadBody listViewEntriesTable {$WIDTHTYPE} js-fixed-thead" data-js="floatThead">
 			<thead>
 			<tr class="listViewHeaders">
@@ -145,7 +144,7 @@
 									{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
 										<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT"
 										   href='{$LISTVIEW_ENTRY->getEditViewUrl()}'>
-											<span class="fas fa-edit align-middle"
+											<span class="yfi yfi-full-editing-view align-middle"
 												  title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
 											<span class="sr-only">{\App\Language::translate('LBL_EDIT', $MODULE)}</span>
 										</a>

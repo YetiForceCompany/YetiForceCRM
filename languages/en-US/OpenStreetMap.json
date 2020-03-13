@@ -12,7 +12,6 @@
     "LBL_TRAVEL_TIME": "Time [min]",
     "LBL_INSTRUCTION": "Manual",
     "LBL_SEARCH_IN_RADIUS": "Search in radius",
-    "LBL_COPY_TO_CLIPBOARD": "Copy to clipboard",
     "LBL_CLIPBOARD": "Clipboard",
     "LBL_INDIRECT_POINT": "Indirect point",
     "ERR_ADDRESS_NOT_FOUND": "Address not found"

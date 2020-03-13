@@ -10,7 +10,7 @@
  * *********************************************************************************** */
 Vtiger_Loader::includeOnce('~include/Webservices/ConvertLead.php');
 
-class Leads_SaveConvertLead_View extends \App\Controller\View
+class Leads_SaveConvertLead_View extends \App\Controller\View\Page
 {
 	/**
 	 * Record model instance.
@@ -27,7 +27,7 @@ class Leads_SaveConvertLead_View extends \App\Controller\View
 	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
@@ -45,11 +45,11 @@ class Leads_SaveConvertLead_View extends \App\Controller\View
 		}
 	}
 
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$modules = $request->getArray('modules', 'Alnum');
@@ -65,7 +65,7 @@ class Leads_SaveConvertLead_View extends \App\Controller\View
 		$convertLeadFields = $this->record->getConvertLeadFields();
 		$availableModules = ['Accounts'];
 		foreach ($availableModules as $module) {
-			if (\App\Module::isModuleActive($module) && in_array($module, $modules)) {
+			if (\App\Module::isModuleActive($module) && \in_array($module, $modules)) {
 				$entityValues['entities'][$module]['create'] = true;
 				$entityValues['entities'][$module]['name'] = $module;
 				foreach ($convertLeadFields[$module] as $fieldModel) {
@@ -79,7 +79,7 @@ class Leads_SaveConvertLead_View extends \App\Controller\View
 		}
 		try {
 			$results = true;
-			if ($createAlways === true || $createAlways === 'true') {
+			if (true === $createAlways || 'true' === $createAlways) {
 				$leadModel = Vtiger_Module_Model::getCleanInstance($request->getModule());
 				$results = $leadModel->searchAccountsToConvert($this->record);
 				$entityValues['entities']['Accounts']['convert_to_id'] = $results;
@@ -123,24 +123,22 @@ class Leads_SaveConvertLead_View extends \App\Controller\View
 	 * @param bool         $exception
 	 * @param string       $message
 	 */
-	public function showError(\App\Request $request, $exception = false, $message = '')
+	public function showError(App\Request $request, $exception = false, $message = '')
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 
-		if ($exception !== false) {
+		if (false !== $exception) {
 			$viewer->assign('EXCEPTION', \App\Language::translate($exception->getMessage(), $moduleName));
 		} elseif ($message) {
 			$viewer->assign('EXCEPTION', $message);
 		}
 
-		$viewer->assign('CURRENT_USER', $currentUser);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('ConvertLeadError.tpl', $moduleName);
 	}
 
-	public function validateRequest(\App\Request $request)
+	public function validateRequest(App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

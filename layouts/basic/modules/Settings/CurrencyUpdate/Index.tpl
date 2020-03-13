@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div id="currencyUpdateContainer">
-		<div class="widget_header row mb-2">
+		<div class="o-breadcrumb widget_header row mb-2">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
@@ -89,7 +89,7 @@
 								<span class="input-group-text u-cursor-pointer js-date__btn" data-js="click">
 									<span class="fas fa-calendar-alt"></span>
 								</span>
-							</div>	
+							</div>
 							<input id="datepicker" type="text" class="form-control dateField" name="duedate" data-date-format="{$USER_MODEL->get('date_format')}" value="{$DATE}" />
 							<span class="input-group-append">
 								<button class="btn btn-success" name="download" value="download" type="submit">{\App\Language::translate('LBL_SHOW', $QUALIFIED_MODULE)}</button>
@@ -119,7 +119,7 @@
 						<td>{\App\Language::translate($key.currency_name, 'Settings:Currency')} ({$key.currency_code})</td>
 						<td>
 							{if $USER_MODEL->get('currency_symbol_placement') eq '$1.0'}
-								{$key.currency_symbol} 
+								{$key.currency_symbol}
 							{/if}
 							1
 							{if $USER_MODEL->get('currency_symbol_placement') eq '1.0$'}
@@ -128,7 +128,7 @@
 						</td>
 						<td>
 							{if $USER_MODEL->get('currency_symbol_placement') eq '$1.0'}
-								{$MAINCURR['currency_symbol']} 
+								{$MAINCURR['currency_symbol']}
 							{/if}
 							{number_format($key.exchange, 4, $USER_MODEL->get('currency_decimal_separator'), $USER_MODEL->get('currency_grouping_separator'))}
 							{if $USER_MODEL->get('currency_symbol_placement') eq '1.0$'}

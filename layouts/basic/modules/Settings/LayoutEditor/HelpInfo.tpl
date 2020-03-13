@@ -14,7 +14,7 @@
 			</div>
 			<hr>
 			{assign var=CONTEXT_HELP value=$FIELD_MODEL->getModuleName()|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
-			{assign var=TRANSLATE value=\App\Language::translate($CONTEXT_HELP, 'HelpInfo', $LANG_DEFAULT)}
+			{assign var=TRANSLATE value=\App\Language::translate($CONTEXT_HELP, 'Other:HelpInfo', $LANG_DEFAULT)}
 			{if $TRANSLATE eq $CONTEXT_HELP}
 				{assign var=TRANSLATE value=""}
 			{/if}
@@ -28,7 +28,7 @@
 				</select>
 			</div>
 			{foreach from=$LANGUAGES item=LABEL key=PREFIX}
-				{assign var=TRANSLATE value=\App\Language::translate($CONTEXT_HELP, 'HelpInfo', $PREFIX)}
+				{assign var=TRANSLATE value=\App\Language::translate($CONTEXT_HELP, 'Other:HelpInfo', $PREFIX)}
 				<div class="form-group js-context-block {if $PREFIX neq $LANG_DEFAULT} d-none {/if}">
 					<textarea id="{$PREFIX}" name="context" {if $PREFIX neq $LANG_DEFAULT} disabled {/if} data-js="CkEditor" class="form-control js-editor js-context-area">{if $TRANSLATE neq $CONTEXT_HELP}{$TRANSLATE}{/if}</textarea>
 				</div>

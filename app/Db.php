@@ -12,6 +12,16 @@ namespace App;
 class Db extends \yii\db\Connection
 {
 	/**
+	 * Sorting order flag.
+	 */
+	public const ASC = 'ASC';
+
+	/**
+	 * Sorting order flag.
+	 */
+	public const DESC = 'DESC';
+
+	/**
 	 * @var bool whether to turn on prepare emulation. Defaults to false, meaning PDO
 	 *           will use the native prepare support if available. For some databases (such as MySQL),
 	 *           this may need to be set true so that PDO can emulate the prepare support to bypass
@@ -130,6 +140,47 @@ class Db extends \yii\db\Connection
 	}
 
 	/**
+	 * Get info database.
+	 *
+	 * @return array
+	 */
+	public function getInfo()
+	{
+		$pdo = $this->getSlavePdo();
+		$statement = $pdo->prepare('SHOW VARIABLES');
+		$statement->execute();
+		$conf = $statement->fetchAll(\PDO::FETCH_KEY_PAIR);
+
+		$statement = $pdo->prepare('SHOW STATUS');
+		$statement->execute();
+		$conf = array_merge($conf, $statement->fetchAll(\PDO::FETCH_KEY_PAIR));
+
+		$statement = $pdo->prepare('SELECT VERSION()');
+		$statement->execute();
+		$fullVersion = $statement->fetch(\PDO::FETCH_COLUMN);
+		[$version] = explode('-', $conf['version']);
+		$conf['version_comment'] = $conf['version_comment'] . '|' . $fullVersion;
+		if (false !== stripos($conf['version_comment'], 'MariaDb')) {
+			$typeDb = 'MariaDb';
+		}
+		if (false !== stripos($conf['version_comment'], 'MySQL')) {
+			$typeDb = 'MySQL';
+		}
+		$memory = $conf['key_buffer_size'] + $conf['query_cache_size'] + $conf['tmp_table_size'] + $conf['innodb_buffer_pool_size'] +
+		($conf['innodb_additional_mem_pool_size'] ?? 0) + $conf['innodb_log_buffer_size'] + ($conf['max_connections'] * ($conf['sort_buffer_size']
+				+ $conf['read_buffer_size'] + $conf['read_rnd_buffer_size'] + $conf['join_buffer_size'] + $conf['thread_stack'] + $conf['binlog_cache_size']));
+		return \array_merge($conf, [
+			'driver' => $this->getDriverName(),
+			'typeDb' => $typeDb,
+			'serverVersion' => $version,
+			'maximumMemorySize' => $memory,
+			'clientVersion' => $pdo->getAttribute(\PDO::ATTR_CLIENT_VERSION),
+			'connectionStatus' => $pdo->getAttribute(\PDO::ATTR_CONNECTION_STATUS),
+			'serverInfo' => $pdo->getAttribute(\PDO::ATTR_SERVER_INFO),
+		]);
+	}
+
+	/**
 	 * Processes a SQL statement by quoting table and column names that are enclosed within double brackets.
 	 * Tokens enclosed within double curly brackets are treated as table names, while
 	 * tokens enclosed within double square brackets are column names. They will be quoted accordingly.
@@ -169,10 +220,17 @@ class Db extends \yii\db\Connection
 	 */
 	protected function createPdoInstance()
 	{
-		if (\App\Debuger::isDebugBar() && !\App\Debuger::getDebugBar()->hasCollector('pdo')) {
-			$pdo = new \DebugBar\DataCollector\PDO\TraceablePDO(parent::createPdoInstance());
-			\App\Debuger::getDebugBar()->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo, null));
-
+		if (Debuger::isDebugBar()) {
+			$bebugBar = Debuger::getDebugBar();
+			$pdo = new Debug\DebugBar\TraceablePDO(parent::createPdoInstance());
+			if ($bebugBar->hasCollector('pdo')) {
+				$pdoCollector = $bebugBar->getCollector('pdo');
+				$pdoCollector->addConnection($pdo, $this->dbType);
+			} else {
+				$pdoCollector = new \DebugBar\DataCollector\PDO\PDOCollector();
+				$pdoCollector->addConnection($pdo, $this->dbType);
+				$bebugBar->addCollector($pdoCollector);
+			}
 			return $pdo;
 		}
 		return parent::createPdoInstance();
@@ -214,20 +272,21 @@ class Db extends \yii\db\Connection
 	 */
 	public function isTableExists($tableName)
 	{
-		return in_array(str_replace('#__', $this->tablePrefix, $tableName), $this->getSchema()->getTableNames());
+		return \in_array(str_replace('#__', $this->tablePrefix, $tableName), $this->getSchema()->getTableNames());
 	}
 
 	/**
 	 * Creating a new DB table.
 	 *
 	 * @param string $tableName
+	 * @param mixed  $columns
 	 *
 	 * @return bool
 	 */
 	public function createTable($tableName, $columns)
 	{
 		$tableOptions = null;
-		if ($this->getDriverName() === 'mysql') {
+		if ('mysql' === $this->getDriverName()) {
 			$tableOptions = 'CHARACTER SET utf8 ENGINE=InnoDB';
 		}
 		$this->createCommand()->createTable($tableName, $columns, $tableOptions)->execute();
@@ -250,7 +309,7 @@ class Db extends \yii\db\Connection
 		}
 		$tableName = $this->quoteTableName(str_replace('#__', $this->tablePrefix, $tableName));
 		$keys = [];
-		if ($this->getDriverName() === 'mysql') {
+		if ('mysql' === $this->getDriverName()) {
 			$dataReader = $this->createCommand()->setSql('SHOW KEYS FROM ' . $tableName)->query();
 			while ($row = $dataReader->read()) {
 				$keys[$row['Key_name']][$row['Column_name']] = ['columnName' => $row['Column_name'], 'unique' => empty($row['Non_unique'])];
@@ -273,7 +332,7 @@ class Db extends \yii\db\Connection
 			return Cache::get('getPrimaryKey', $tableName);
 		}
 		$key = [];
-		if ($this->getDriverName() === 'mysql') {
+		if ('mysql' === $this->getDriverName()) {
 			$tableKeys = $this->getTableKeys($tableName);
 			$key = isset($tableKeys['PRIMARY']) ? ['PRIMARY' => array_keys($tableKeys['PRIMARY'])] : [];
 		}

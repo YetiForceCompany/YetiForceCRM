@@ -18,6 +18,7 @@
 *.yarnclean text eol=lf
 *.lock text eol=lf
 *.yarn-integrity text eol=lf
+*.sh text eol=lf 
 
 .github/ export-ignore
 tests/ export-ignore

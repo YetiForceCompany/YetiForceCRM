@@ -421,29 +421,30 @@ jQuery.Class('Settings_PickListDependency_Js', {
 	/**
 	 * This function will save the picklist dependency details
 	 */
-	savePickListDependency: function (form) {
-		var thisInstance = this;
-		var progressIndicatorElement = jQuery.progressIndicator({
-			'position': 'html',
-			'blockInfo': {
-				'enabled': true
-			}
-		});
-		var data = form.serializeFormData();
-		data['module'] = app.getModuleName();
-		data['parent'] = app.getParentModuleName();
-		data['action'] = 'SaveAjax';
-		data['mapping'] = JSON.stringify(thisInstance.valueMapping);
-		AppConnector.request(data).done(function (data) {
+	savePickListDependency: function(form) {
+		const self = this;
+		let progressIndicatorElement = $.progressIndicator({
+				position: 'html',
+				blockInfo: {
+					enabled: true
+				}
+			}),
+			params = form.serializeFormData();
+		params['module'] = app.getModuleName();
+		params['parent'] = app.getParentModuleName();
+		params['action'] = 'SaveAjax';
+		params['mapping'] = JSON.stringify(self.valueMapping);
+		AppConnector.request(params).done(function(data) {
 			if (data['success']) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				var params = {};
-				params.text = app.vtranslate('JS_PICKLIST_DEPENDENCY_SAVED');
-				Settings_Vtiger_Index_Js.showMessage(params);
-				thisInstance.loadListViewContents(thisInstance.listViewForModule);
+				progressIndicatorElement.progressIndicator({ mode: 'hide' });
+				Vtiger_Helper_Js.showMessage({
+					text: app.vtranslate('JS_PICKLIST_DEPENDENCY_SAVED'),
+					type: 'success'
+				});
+				self.loadListViewContents(params['sourceModule']);
 			}
-		}).fail(function (error) {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+		}).fail(function(error) {
+			progressIndicatorElement.progressIndicator({ mode: 'hide' });
 		});
 	},
 	/**
@@ -467,7 +468,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			//replace the new list view contents
 			jQuery('.contentsDiv').html(data);
-			App.Fields.Picklist.changeSelectElementView(jQuery('.contentsDiv').find('.pickListSupportedModules'));
+			App.Fields.Picklist.changeSelectElementView(jQuery('.contentsDiv'));
 			thisInstance.registerListViewEvents();
 		}).fail(function (error, err) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});

@@ -44,10 +44,10 @@ class CalDavSchedule extends DAV\ServerPlugin
 
 			return;
 		}
-		if (parse_url($iTipMessage->sender, PHP_URL_SCHEME) !== 'mailto') {
+		if ('mailto' !== parse_url($iTipMessage->sender, PHP_URL_SCHEME)) {
 			return;
 		}
-		if (parse_url($iTipMessage->recipient, PHP_URL_SCHEME) !== 'mailto') {
+		if ('mailto' !== parse_url($iTipMessage->recipient, PHP_URL_SCHEME)) {
 			return;
 		}
 		$iTipMessage->scheduleStatus = '1.1; Scheduling message is sent via ' . $this->getPluginName();
@@ -66,7 +66,7 @@ class CalDavSchedule extends DAV\ServerPlugin
 		return 'Yeti CalDAV Schedule';
 	}
 
-	// @codeCoverageIgnoreEnd
+	/** @codeCoverageIgnoreEnd */
 
 	/**
 	 * Returns a bunch of meta-data about the plugin.

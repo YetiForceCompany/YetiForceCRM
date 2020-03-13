@@ -1,0 +1,584 @@
+@font-face {
+	font-family: 'yfi';
+	src: url('fonts/yfi.eot?b1qgqk');
+	src: url('fonts/yfi.eot?b1qgqk#iefix') format('embedded-opentype'), url('fonts/yfi.ttf?b1qgqk') format('truetype'),
+		url('fonts/yfi.woff?b1qgqk') format('woff'), url('fonts/yfi.svg?b1qgqk#yfi') format('svg');
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+
+[class^='yfi-'],
+[class*=' yfi-'] {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'yfi' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	display: inline-block;
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.yfi-location:before {
+	content: '\e9ab';
+}
+.yfi-vies:before {
+	content: '\e9b1';
+}
+.yfi-merging-records:before {
+	content: '\e9bb';
+}
+.yfi-social-media:before {
+	content: '\e9bc';
+}
+.yfi-change-of-owner:before {
+	content: '\e9ad';
+}
+.yfi-adminIcon-menu-summary:before {
+	content: '\e9af';
+}
+.yfi-adminIcon-advanced-permission:before {
+	content: '\e9b0';
+}
+.yfi-adminIcon-backup:before {
+	content: '\e9b2';
+}
+.yfi-adminIcon-countries:before {
+	content: '\e9b3';
+}
+.yfi-gus:before {
+	content: '\e9b4';
+}
+.yfi-adminIcon-sla-policy:before {
+	content: '\e9b5';
+}
+.yfi-adminIcon-time-control-processes:before {
+	content: '\e9b6';
+}
+.yfi-adminIcon-vendor-sms:before {
+	content: '\e9b7';
+}
+.yfi-quick-creation:before {
+	content: '\e9b8';
+}
+.yfi-full-editing-view:before {
+	content: '\e9b9';
+}
+.yfi-own-hosting:before {
+	content: '\e9a8';
+}
+.yfi-yetiforce-hosting:before {
+	content: '\e9a9';
+}
+.yfi-yetiforce-cloud:before {
+	content: '\e9aa';
+}
+.yfi-yeti-register-alert:before {
+	content: '\e9a5';
+}
+.yfi-newsletter-alert:before {
+	content: '\e9a6';
+}
+.yfi-shop-alert:before {
+	content: '\e9a7';
+}
+.yfi-partners:before {
+	content: '\e918';
+}
+.yfi-premium:before {
+	content: '\e919';
+}
+.yfi-enterprise:before {
+	content: '\e91a';
+}
+.yfi-about-yetiforce:before {
+	content: '\e91b';
+}
+.yfi-about-yetiforce-ltd:before {
+	content: '\e91c';
+}
+.yfi-address:before {
+	content: '\e91d';
+}
+.yfi-advanced-permission:before {
+	content: '\e91e';
+}
+.yfi-advenced-modules:before {
+	content: '\e91f';
+}
+.yfi-automatic-assignment:before {
+	content: '\e920';
+}
+.yfi-automation:before {
+	content: '\e921';
+}
+.yfi-backup:before {
+	content: '\e922';
+}
+.yfi-backup-manager:before {
+	content: '\e923';
+}
+.yfi-branding-off:before {
+	content: '\e924';
+}
+.yfi-brute-force:before {
+	content: '\e925';
+}
+.yfi-business-hours:before {
+	content: '\e926';
+}
+.yfi-buy:before {
+	content: '\e927';
+}
+.yfi-calendar-configuration:before {
+	content: '\e928';
+}
+.yfi-calendar-holidys:before {
+	content: '\e929';
+}
+.yfi-calendar-labels-colors:before {
+	content: '\e92a';
+}
+.yfi-calendar-types:before {
+	content: '\e92b';
+}
+.yfi-colors:before {
+	content: '\e92c';
+}
+.yfi-company-detlis:before {
+	content: '\e92d';
+}
+.yfi-company-information:before {
+	content: '\e92e';
+}
+.yfi-contributors:before {
+	content: '\e92f';
+}
+.yfi-countries:before {
+	content: '\e930';
+}
+.yfi-credit-limit-base_2:before {
+	content: '\e931';
+}
+.yfi-cron:before {
+	content: '\e932';
+}
+.yfi-currencies:before {
+	content: '\e933';
+}
+.yfi-customer-portal:before {
+	content: '\e934';
+}
+.yfi-dav-applications:before {
+	content: '\e935';
+}
+.yfi-discount-base:before {
+	content: '\e936';
+}
+.yfi-discount-configuration:before {
+	content: '\e937';
+}
+.yfi-document_flow:before {
+	content: '\e938';
+}
+.yfi-document-templates:before {
+	content: '\e939';
+}
+.yfi-donate:before {
+	content: '\e93a';
+}
+.yfi-enterprise-modules:before {
+	content: '\e93b';
+}
+.yfi-field-folders:before {
+	content: '\e93c';
+}
+.yfi-fields-picklists:before {
+	content: '\e93d';
+}
+.yfi-fields-picklists-relations:before {
+	content: '\e93e';
+}
+.yfi-fields-quick-create:before {
+	content: '\e93f';
+}
+.yfi-filed-hide-bloks:before {
+	content: '\e940';
+}
+.yfi-filed-mapping:before {
+	content: '\e941';
+}
+.yfi-filed-picklist-2:before {
+	content: '\e942';
+}
+.yfi-filters-configuration:before {
+	content: '\e943';
+}
+.yfi-finances:before {
+	content: '\e944';
+}
+.yfi-footer-off:before {
+	content: '\e945';
+}
+.yfi-for-admin:before {
+	content: '\e946';
+}
+.yfi-for-partners:before {
+	content: '\e947';
+}
+.yfi-github:before {
+	content: '\e948';
+}
+.yfi-groups:before {
+	content: '\e949';
+}
+.yfi-help:before {
+	content: '\e94a';
+}
+.yfi-hosting:before {
+	content: '\e94b';
+}
+.yfi-integration:before {
+	content: '\e94c';
+}
+.yfi-languages-and-translations:before {
+	content: '\e94d';
+}
+.yfi-license:before {
+	content: '\e94e';
+}
+.yfi-locks:before {
+	content: '\e94f';
+}
+.yfi-logistics:before {
+	content: '\e950';
+}
+.yfi-logs:before {
+	content: '\e951';
+}
+.yfi-magento:before {
+	content: '\e952';
+}
+.yfi-mail-auto-login:before {
+	content: '\e953';
+}
+.yfi-mail-configuration:before {
+	content: '\e954';
+}
+.yfi-mail-download-history:before {
+	content: '\e955';
+}
+.yfi-mail-queue:before {
+	content: '\e956';
+}
+.yfi-mail-roundcube:before {
+	content: '\e957';
+}
+.yfi-mail-scanner:before {
+	content: '\e958';
+}
+.yfi-mail-smtp-server:before {
+	content: '\e959';
+}
+.yfi-mail-tools:before {
+	content: '\e95a';
+}
+.yfi-mapped-fields:before {
+	content: '\e95b';
+}
+.yfi-marketing:before {
+	content: '\e95c';
+}
+.yfi-marketplace:before {
+	content: '\e95d';
+}
+.yfi-menu-configuration:before {
+	content: '\e95e';
+}
+.yfi-menu-configuration-2:before {
+	content: '\e95f';
+}
+.yfi-menu-summary:before {
+	content: '\e960';
+}
+.yfi-mobile-applications:before {
+	content: '\e961';
+}
+.yfi-module-access:before {
+	content: '\e962';
+}
+.yfi-modules-2:before {
+	content: '\e963';
+}
+.yfi-modules-fields:before {
+	content: '\e964';
+}
+.yfi-modules-installation:before {
+	content: '\e965';
+}
+.yfi-modules-installations-2:before {
+	content: '\e966';
+}
+.yfi-modules-pdf-templates:before {
+	content: '\e967';
+}
+.yfi-modules-prefixes:before {
+	content: '\e968';
+}
+.yfi-modules-relations:before {
+	content: '\e969';
+}
+.yfi-modules-relations-2:before {
+	content: '\e96a';
+}
+.yfi-modules-track-chanegs:before {
+	content: '\e96b';
+}
+.yfi-modules-widgets:before {
+	content: '\e96c';
+}
+.yfi-modules-widgets-2:before {
+	content: '\e96d';
+}
+.yfi-my-shortcuts:before {
+	content: '\e96e';
+}
+.yfi-NotificationConfiguration:before {
+	content: '\e96f';
+}
+.yfi-online-forms:before {
+	content: '\e970';
+}
+.yfi-oss_mailview:before {
+	content: '\e971';
+}
+.yfi-owner:before {
+	content: '\e972';
+}
+.yfi-password-encryption:before {
+	content: '\e973';
+}
+.yfi-passwords-configuration:before {
+	content: '\e974';
+}
+.yfi-passwords-encryption:before {
+	content: '\e975';
+}
+.yfi-pbx-manager:before {
+	content: '\e976';
+}
+.yfi-permissions:before {
+	content: '\e977';
+}
+.yfi-premium-modules:before {
+	content: '\e978';
+}
+.yfi-premium-support:before {
+	content: '\e979';
+}
+.yfi-processes:before {
+	content: '\e97a';
+}
+.yfi-prodprouct-preview:before {
+	content: '\e97b';
+}
+.yfi-profiles:before {
+	content: '\e97c';
+}
+.yfi-realization:before {
+	content: '\e97d';
+}
+.yfi-recording-control:before {
+	content: '\e97e';
+}
+.yfi-roles:before {
+	content: '\e97f';
+}
+.yfi-sales:before {
+	content: '\e980';
+}
+.yfi-search-and-filtres:before {
+	content: '\e981';
+}
+.yfi-search-configuration:before {
+	content: '\e982';
+}
+.yfi-security:before {
+	content: '\e983';
+}
+.yfi-security-errors-2:before {
+	content: '\e984';
+}
+.yfi-server-configuration:before {
+	content: '\e985';
+}
+.yfi-server-updates:before {
+	content: '\e986';
+}
+.yfi-shared-owner:before {
+	content: '\e987';
+}
+.yfi-shop:before {
+	content: '\e988';
+}
+.yfi-sla-policy:before {
+	content: '\e989';
+}
+.yfi-social-media1:before {
+	content: '\e98a';
+}
+.yfi-special-access:before {
+	content: '\e98b';
+}
+.yfi-standard-modules:before {
+	content: '\e98c';
+}
+.yfi-support:before {
+	content: '\e98d';
+}
+.yfi-system-configuration:before {
+	content: '\e98e';
+}
+.yfi-system-incidents:before {
+	content: '\e98f';
+}
+.yfi-system-messages:before {
+	content: '\e990';
+}
+.yfi-system-monitoring:before {
+	content: '\e991';
+}
+.yfi-system-tools:before {
+	content: '\e992';
+}
+.yfi-system-warnings:before {
+	content: '\e993';
+}
+.yfi-system-warnings-2:before {
+	content: '\e994';
+}
+.yfi-taxes-caonfiguration:before {
+	content: '\e995';
+}
+.yfi-taxes-rates:before {
+	content: '\e996';
+}
+.yfi-terms-and-conditions:before {
+	content: '\e997';
+}
+.yfi-triggers:before {
+	content: '\e998';
+}
+.yfi-user:before {
+	content: '\e999';
+}
+.yfi-users:before {
+	content: '\e99a';
+}
+.yfi-users-2:before {
+	content: '\e99b';
+}
+.yfi-users-login:before {
+	content: '\e99c';
+}
+.yfi-vendor-sms:before {
+	content: '\e99d';
+}
+.yfi-webservice-apps:before {
+	content: '\e99e';
+}
+.yfi-webservice-users:before {
+	content: '\e99f';
+}
+.yfi-widgets-configuration:before {
+	content: '\e9a0';
+}
+.yfi-workflow:before {
+	content: '\e9a1';
+}
+.yfi-workflows-2:before {
+	content: '\e9a2';
+}
+.yfi-yeti-force:before {
+	content: '\e9a3';
+}
+.yfi-yetiforce-status:before {
+	content: '\e9a4';
+}
+.yfi-menu-entrant:before {
+	content: '\e90d';
+}
+.yfi-menu-group-room:before {
+	content: '\e90e';
+}
+.yfi-chat-notification-off:before {
+	content: '\e906';
+}
+.yfi-register-offline:before {
+	content: '\e901';
+}
+.yfi-enter-on:before {
+	content: '\e904';
+}
+.yfi-virtual-desk:before {
+	content: '\e917';
+}
+.yfi-support-premium:before {
+	content: '\e912';
+}
+.yfi-user-part:before {
+	content: '\e915';
+}
+.yfi-admin-part:before {
+	content: '\e916';
+}
+.yfi-favorite-room:before {
+	content: '\e908';
+}
+.yfi-group-room:before {
+	content: '\e909';
+}
+.yfi-entrant-chat:before {
+	content: '\e90b';
+}
+.yfi-global-room:before {
+	content: '\e90a';
+}
+.yfi-hash-user:before {
+	content: '\e90f';
+}
+.yfi-branding-chat:before {
+	content: '\e90c';
+}
+.yfi-chat-notification-on:before {
+	content: '\e907';
+}
+.yfi-calendar-notifications:before {
+	content: '\e914';
+}
+.yfi-support-free:before {
+	content: '\e913';
+}
+.yfi-special-search:before {
+	content: '\e910';
+}
+.yfi-advanced-search:before {
+	content: '\e911';
+}
+.yfi-knowledge-base:before {
+	content: '\e900';
+}
+.yfi-register-online:before {
+	content: '\e902';
+}
+.yfi-unread-messages:before {
+	content: '\e903';
+}
+.yfi-enter-off:before {
+	content: '\e905';
+}

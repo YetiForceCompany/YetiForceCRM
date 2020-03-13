@@ -29,7 +29,7 @@ class Country
 			return \App\Cache::get('Country|getAll', $type);
 		}
 		$select = ['code', 'id', 'name'];
-		if ($type && $type === 'uitype') {
+		if ($type && 'uitype' === $type) {
 			$select = ['name', 'code', 'id'];
 		}
 		$query = new \App\Db\Query();

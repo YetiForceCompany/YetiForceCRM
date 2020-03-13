@@ -20,10 +20,9 @@ class Chat_Room_Action extends \App\Controller\Action
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('getAll');
 		$this->exposeMethod('removeFromFavorites');
+		$this->exposeMethod('removeUserFromRoom');
 		$this->exposeMethod('addToFavorites');
-		$this->exposeMethod('tracking');
 	}
 
 	/**
@@ -33,27 +32,12 @@ class Chat_Room_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+		$userPrivileges = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userPrivileges->hasModulePermission($request->getModule()) || $userPrivileges->getId() !== $userPrivileges->getRealId()) {
 			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
 		}
-	}
-
-	/**
-	 * Add entries function.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function getAll(\App\Request $request)
-	{
-		$response = new Vtiger_Response();
-		$response->setResult([
-			'currentRoom' => \App\Chat::getCurrentRoom(),
-			'roomList' => \App\Chat::getRoomsByUser()
-		]);
-		$response->emit();
 	}
 
 	/**
@@ -64,10 +48,27 @@ class Chat_Room_Action extends \App\Controller\Action
 	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \yii\db\Exception
 	 */
-	public function removeFromFavorites(\App\Request $request)
+	public function removeFromFavorites(App\Request $request)
 	{
 		$this->checkPermissionByRoom($request);
-		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->removeFromFavorites();
+		$result = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->removeFromFavorites();
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
+	/**
+	 * Remove user from room.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\IllegalValue
+	 * @throws \yii\db\Exception
+	 */
+	public function removeUserFromRoom(App\Request $request)
+	{
+		$this->checkPermissionByRoom($request);
+		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->removeFromFavorites($request->getInteger('userId'));
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
@@ -81,35 +82,20 @@ class Chat_Room_Action extends \App\Controller\Action
 	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \yii\db\Exception
 	 */
-	public function addToFavorites(\App\Request $request)
+	public function addToFavorites(App\Request $request)
 	{
 		$this->checkPermissionByRoom($request);
-		\App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'))->addToFavorites();
+		$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
+		$chat->addToFavorites();
 		$response = new Vtiger_Response();
-		$response->setResult(true);
-		$response->emit();
-	}
-
-	/**
-	 * Track the number of new messages.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function tracking(\App\Request $request)
-	{
-		$response = new Vtiger_Response();
-		if (AppConfig::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')) {
-			$response->setResult(\App\Chat::getNumberOfNewMessages());
-		} else {
-			$response->setResult(\App\Chat::isNewMessages() ? 1 : 0);
-		}
+		$response->setResult($chat->getQueryRoom()->one());
 		$response->emit();
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSessionExtend()
+	public function isSessionExtend(App\Request $request)
 	{
 		return false;
 	}
@@ -122,7 +108,7 @@ class Chat_Room_Action extends \App\Controller\Action
 	 * @throws \App\Exceptions\IllegalValue
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	private function checkPermissionByRoom(\App\Request $request): void
+	private function checkPermissionByRoom(App\Request $request): void
 	{
 		switch ($request->getByType('roomType')) {
 			case 'crm':
@@ -132,9 +118,19 @@ class Chat_Room_Action extends \App\Controller\Action
 				}
 				break;
 			case 'group':
-				if (!in_array($request->getInteger('recordId'), \App\User::getCurrentUserModel()->getGroups())) {
+				if (!\in_array($request->getInteger('recordId'), \App\User::getCurrentUserModel()->getGroups())) {
 					throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 				}
+				break;
+			case 'private':
+				$chat = \App\Chat::getInstance($request->getByType('roomType'), $request->getInteger('recordId'));
+				if (!$chat->isRoomModerator($request->getInteger('recordId')) && !$chat->isRecordOwner()) {
+					throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				}
+				break;
+			case 'global':
+				break;
+			case 'user':
 				break;
 			default:
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);

@@ -4,7 +4,7 @@
 	<div class="modelContainer modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground align-items-center">
+				<div class="modal-header align-items-center">
 					<span class="mr-2 small">
 						<span class="fas fa-long-arrow-alt-up"></span>
 						<span class="fas fa-percent"></span>

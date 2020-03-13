@@ -353,8 +353,7 @@ class Project_Gantt_Model
 	{
 		foreach ($this->tasks as &$task) {
 			if (empty($task['duration']) && isset($task['start_date'], $task['end_date'])) {
-				$task['duration'] = $this->calculateDuration($task['start_date'], $task['end_date']);
-				$task['planned_duration'] = $task['estimated_work_time'];
+				$task['duration'] = $this->calculateDuration($task['start_date'], $task['end_date']) * 1000;
 			}
 		}
 	}
@@ -399,7 +398,7 @@ class Project_Gantt_Model
 			}
 			$colors['ProjectTask']['projecttaskstatus'][$value['projecttaskstatus']] = \App\Colors::get($value['color'] ?? '', $value['projecttaskstatus']);
 		}
-		$configColors = \AppConfig::module('Project', 'defaultGanttColors');
+		$configColors = \App\Config::module('Project', 'defaultGanttColors');
 		if (!empty($configColors)) {
 			$this->statusColors = $configColors;
 		} else {
@@ -500,6 +499,7 @@ class Project_Gantt_Model
 				$project['end_date'] = date('Y-m-d', $endDate);
 				$project['end'] = strtotime($project['end_date']) * 1000;
 			}
+			$project['planned_duration'] = $project['estimated_work_time'];
 			$project['style'] = [
 				'base' => [
 					'fill' => $project['color'],
@@ -647,7 +647,7 @@ class Project_Gantt_Model
 				$milestone['dependentOn'] = [$milestone['parentId']];
 			}
 			if ($row['projectmilestonedate']) {
-				$milestone['duration'] = 24 * 60 * 60;
+				$milestone['duration'] = 24 * 60 * 60 * 1000;
 				$milestone['start'] = date('Y-m-d H:i:s', strtotime($row['projectmilestonedate']));
 				$milestone['start_date'] = date('Y-m-d', strtotime($row['projectmilestonedate']));
 				$endDate = strtotime(date('Y-m-d', strtotime($row['projectmilestonedate'])) . ' +1 days');
@@ -655,6 +655,7 @@ class Project_Gantt_Model
 				$milestone['end_date'] = date('Y-m-d', $endDate);
 				$milestone['v'] = $queryGenerator->getModuleField('estimated_work_time')->getDisplayValue($row['estimated_work_time'], $row['id'], false, true);
 			}
+			$milestone['planned_duration'] = $milestone['estimated_work_time'];
 			$milestone['style'] = [
 				'base' => [
 					'fill' => $milestone['color'],
@@ -735,8 +736,7 @@ class Project_Gantt_Model
 			];
 			unset($task['color']);
 			$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');
-			$task['duration'] = $this->calculateDuration($task['start_date'], $task['end_date']);
-			//$task['planned_duration'] = $row['estimated_work_time'];
+			$task['duration'] = $this->calculateDuration($task['start_date'], $task['end_date']) * 1000;
 			$task['planned_duration'] = $queryGenerator->getModuleField('estimated_work_time')->getDisplayValue($row['estimated_work_time'], $row['id'], false, true);
 			$taskTime += $row['estimated_work_time'];
 			$ganttTasks[] = $task;

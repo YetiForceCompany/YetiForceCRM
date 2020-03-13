@@ -18,7 +18,7 @@ class Vtiger_Export_View extends Vtiger_Index_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Export')) {
@@ -29,7 +29,7 @@ class Vtiger_Export_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$viewId = $request->getByType('viewname', 2);
@@ -49,7 +49,7 @@ class Vtiger_Export_View extends Vtiger_Index_View
 		$viewer->assign('OPERATOR', $request->getByType('operator'));
 		$viewer->assign('ALPHABET_VALUE', \App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $sourceModule, $request->getByType('search_key', 'Alnum'), $request->getByType('operator')));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 'Alnum'));
-		$viewer->assign('SEARCH_PARAMS', \App\Condition::validSearchParams($sourceModule, $request->getArray('search_params')));
+		$viewer->assign('SEARCH_PARAMS', \App\Condition::validSearchParams($sourceModule, $request->getArray('search_params'), false));
 		$viewer->view('Export.tpl', $sourceModule);
 	}
 }

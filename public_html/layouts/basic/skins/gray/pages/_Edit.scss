@@ -1,0 +1,44 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+.inventoryHeader {
+	th {
+		background: #fff !important;
+	}
+	.inventoryLineItemHeader,
+	button {
+		text-transform: uppercase;
+		border-radius: 0;
+	}
+	.select2 {
+		border-radius: 0;
+	}
+}
+.inventoryItems {
+	.inventoryRow {
+		border: 1px solid material-color('grey', '300');
+		td {
+			border-bottom: 0;
+			border-right: 0;
+			border-left: 0;
+		}
+	}
+	background: #fff !important;
+	thead {
+		th {
+			background: #fff !important;
+			text-transform: uppercase;
+
+			border-left: 0px;
+			border-right: 0px;
+			font-weight: 400;
+		}
+	}
+	.input-group {
+		border-radius: 0;
+		.input-group-text,
+		button,
+		input {
+			border-radius: 0;
+		}
+	}
+}

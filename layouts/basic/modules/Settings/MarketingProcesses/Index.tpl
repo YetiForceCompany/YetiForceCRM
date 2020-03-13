@@ -1,12 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 
 <div id="supportProcessesContainer" class=" supportProcessesContainer">
-	<div class="widget_header row">
+	<div class="o-breadcrumb widget_header row">
 		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
-	<ul id="tabs" class="nav nav-tabs mt-2" data-tabs="tabs">
+	<ul id="tabs" class="nav nav-tabs my-2 mr-0" data-tabs="tabs">
 		<li class="nav-item"><a class="nav-link active" href="#conversiontoaccount" data-toggle="tab">{\App\Language::translate('LBL_CONVERSION', $QUALIFIED_MODULE)} </a></li>
 		<li class="nav-item"><a class="nav-link" href="#lead_configuration" data-toggle="tab">{\App\Language::translate('LBL_LEADS', $QUALIFIED_MODULE)} </a></li>
 	</ul>
@@ -77,9 +77,9 @@
 												</select>
 											</div>
 											<div class="actionImages">
-												<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle deleteMapping"></span></a>
+												<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt deleteMapping"></span></a>
 											</div>
-										</div>	
+										</div>
 									</td>
 								</tr>
 							{/foreach}
@@ -105,15 +105,15 @@
 											</select>
 										</div>
 										<div class="actionImages">
-											<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle deleteMapping"></span></a>
+											<a class='btn'><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt deleteMapping"></span></a>
 										</div>
-									</div>	
+									</div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</div>					
-			</div>					
+				</div>
+			</div>
 		</div>
 		<div class='tab-pane' id="lead_configuration">
 			{assign var=LEAD value=$MODULE_MODEL->getConfig('lead')}
@@ -160,12 +160,6 @@
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['convert_status'])} selected {/if}  >{\App\Language::translate($ITEM,'Leads')}</option>
 								{/foreach}
 							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label>{\App\Language::translate('LBL_CURRENTUSER_STATUS', $QUALIFIED_MODULE)}</label></td>
-						<td>
-							<input class="configField" type="checkbox" data-type="lead" name="currentuser_status"  {if $LEAD['currentuser_status'] == 'true'}checked{/if} />
 						</td>
 					</tr>
 				</tbody>

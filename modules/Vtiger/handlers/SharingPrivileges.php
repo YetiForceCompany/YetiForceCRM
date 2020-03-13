@@ -17,7 +17,7 @@ class Vtiger_SharingPrivileges_Handler
 	 */
 	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
-		if (!\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
+		if (!\App\Config::security('PERMITTED_BY_SHARED_OWNERS')) {
 			return false;
 		}
 		$recordModel = $eventHandler->getRecordModel();

@@ -51,15 +51,37 @@ class Vtiger_TotalPrice_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritdoc}
 	 */
-	public function validate($value, string $columnName, bool $isUserFormat)
+	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if ($isUserFormat) {
 			$value = $this->getDBValue($value, $columnName);
+			if (null !== $originalValue) {
+				$originalValue = $this->getDBValue($originalValue, $columnName);
+			}
 		}
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
-		} elseif ($this->maximumLength < $value || -$this->maximumLength > $value) {
+		}
+		if ($this->maximumLength < $value || -$this->maximumLength > $value) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
+		if (null !== $originalValue && !\App\Validator::floatIsEqualUserCurrencyDecimals($value, $originalValue)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . "||$value($originalValue)", 406);
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
+	{
+		if ($column === $this->getColumnName() || null === $column) {
+			$quantity = static::getInstance($this->getModuleName(), 'Quantity')->getValueForSave($item, $userFormat);
+			$price = static::getInstance($this->getModuleName(), 'UnitPrice')->getValueForSave($item, $userFormat);
+			$value = (float) ($quantity * $price);
+		} else {
+			$value = $userFormat ? $this->getDBValue($item[$column]) : $item[$column];
+		}
+		return $value;
 	}
 }

@@ -19,7 +19,7 @@ class UpdateUtils
 	 */
 	public static function updateConfigurationFiles($params)
 	{
-		$rootDirectory = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+		$rootDirectory = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR;
 		foreach ($params as $config) {
 			if (!$config) {
 				continue;
@@ -32,7 +32,7 @@ class UpdateUtils
 				$addContent = [];
 				$indexes = [];
 				foreach ($configContent as $key => $line) {
-					if ($emptyLine && strlen($line) == 1) {
+					if ($emptyLine && 1 == \strlen($line)) {
 						unset($configContent[$key]);
 						$emptyLine = false;
 						continue;
@@ -42,21 +42,21 @@ class UpdateUtils
 						if (empty($condition)) {
 							continue;
 						}
-						if ($condition['type'] === 'add' && !in_array($index, $indexes)) {
+						if ('add' === $condition['type'] && !\in_array($index, $indexes)) {
 							$addContent[$index] = $condition['value'];
 							$indexes[] = $index;
 						}
-						if (strpos($line, $condition['search']) !== false) {
+						if (false !== strpos($line, $condition['search'])) {
 							switch ($condition['type']) {
 								case 'add':
-									if ($condition['checkInContents'] && strpos($baseContent, $condition['checkInContents']) === false) {
-										$configContent[$key] = $condition['addingType'] === 'before' ? $condition['value'] . $configContent[$key] : $configContent[$key] . $condition['value'];
+									if ($condition['checkInContents'] && false === strpos($baseContent, $condition['checkInContents'])) {
+										$configContent[$key] = 'before' === $condition['addingType'] ? $condition['value'] . $configContent[$key] : $configContent[$key] . $condition['value'];
 									}
 									unset($addContent[$index]);
 									break;
 								case 'remove':
 									if (!empty($condition['before'])) {
-										if (strpos($configContentClone[$key - 1], $condition['before']) !== false) {
+										if (false !== strpos($configContentClone[$key - 1], $condition['before'])) {
 											unset($configContent[$key]);
 											$emptyLine = true;
 										}
@@ -68,17 +68,17 @@ class UpdateUtils
 								case 'removeTo':
 									unset($configContent[$key]);
 									$while = 0;
-									while ($while !== false) {
+									while (false !== $while) {
 										++$while;
 										unset($configContent[$key + $while]);
-										if (strpos($configContent[$key + $while], $condition['end']) === false) {
+										if (false === strpos($configContent[$key + $while], $condition['end'])) {
 											$while = false;
 										}
 									}
 									$emptyLine = true;
 									break;
 								case 'update':
-									if ($condition['checkInLine'] && (strpos($condition['checkInLine'], $configContent[$key]) !== false)) {
+									if ($condition['checkInLine'] && (false !== strpos($condition['checkInLine'], $configContent[$key]))) {
 										break;
 									}
 									if ($condition['replace']) {

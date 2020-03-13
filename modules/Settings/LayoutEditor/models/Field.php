@@ -17,50 +17,96 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	public function delete()
 	{
 		$db = \App\Db::getInstance();
-		parent::delete();
-
-		$fldModule = $this->getModuleName();
-		$id = $this->getId();
-		$fieldname = $this->getName();
-		$tablename = $this->get('table');
-		$columnName = $this->get('column');
-		$tabId = $this->getModuleId();
-		if ($tablename !== 'vtiger_crmentity') {
-			$db->createCommand()->dropColumn($tablename, $columnName)->execute();
-		}
-		App\Db::getInstance('admin')->createCommand()->delete('a_#__mapped_fields', ['or', ['source' => $id], ['target' => $id]])->execute();
-		//we have to remove the entries in customview and report related tables which have this field ($colName)
-		$db->createCommand()->delete('vtiger_cvcolumnlist', ['field_name' => $fieldname, 'module_name' => $fldModule])->execute();
-		$db->createCommand()->delete('u_#__cv_condition', ['field_name' => $fieldname, 'module_name' => $fldModule])->execute();
-		//Deleting from convert lead mapping vtiger_table- Jaguar
-		if ($fldModule === 'Leads') {
-			$db->createCommand()->delete('vtiger_convertleadmapping', ['leadfid' => $id])->execute();
-		} elseif ($fldModule == 'Accounts') {
-			$mapDelId = ['Accounts' => 'accountfid'];
-			$db->createCommand()->update('vtiger_convertleadmapping', [$mapDelId[$fldModule] => 0], [$mapDelId[$fldModule] => $id])->execute();
-		}
-
-		//HANDLE HERE - we have to remove the table for other picklist type values which are text area and multiselect combo box
-		if ($this->getFieldDataType() === 'picklist' || $this->getFieldDataType() === 'multipicklist') {
-			$query = (new \App\Db\Query())->from('vtiger_field')
-				->where(['fieldname' => $fieldname])
-				->andWhere(['in', 'uitype', [15, 16, 33]]);
-			$dataReader = $query->createCommand()->query();
-			if (!$dataReader->count()) {
-				$db->createCommand()->dropTable('vtiger_' . $fieldname)->execute();
-				//To Delete Sequence Table
-				if ($db->isTableExists('vtiger_' . $fieldname . '_seq')) {
-					$db->createCommand()->dropTable('vtiger_' . $fieldname . '_seq')->execute();
-				}
-				$db->createCommand()->delete('vtiger_picklist', ['name' => $fieldname])->execute();
+		try {
+			$uiType = $this->getUIType();
+			if (10 === $uiType) {
+				$reference = $this->getReferenceList();
 			}
-			$db->createCommand()->delete('vtiger_picklist_dependency', ['and', ['tabid' => $tabId], ['or', ['sourcefield' => $fieldname], ['targetfield' => $fieldname]]])->execute();
-		}
+			parent::delete();
 
-		//MultiReferenceValue
-		if ($this->getUIType() === 305) {
-			$fieldParams = \App\Json::decode($this->get('fieldparams'));
-			$db->createCommand()->delete('s_#__multireference', ['source_module' => $fldModule, 'dest_module' => $fieldParams['module']])->execute();
+			$fldModule = $this->getModuleName();
+			$id = $this->getId();
+			$fieldname = $this->getName();
+			$tablename = $this->get('table');
+			$columnName = $this->get('column');
+			$tabId = $this->getModuleId();
+			if ('vtiger_crmentity' !== $tablename) {
+				$db->createCommand()->dropColumn($tablename, $columnName)->execute();
+			}
+			App\Db::getInstance('admin')->createCommand()->delete('a_#__mapped_fields', ['or', ['source' => $id], ['target' => $id]])->execute();
+			//we have to remove the entries in customview and report related tables which have this field ($colName)
+			$db->createCommand()->delete('vtiger_cvcolumnlist', ['field_name' => $fieldname, 'module_name' => $fldModule])->execute();
+			$db->createCommand()->delete('vtiger_cvcolumnlist', [
+				'source_field_name' => $fieldname,
+				'cvid' => (new \App\Db\Query())->select(['cvid'])->from('vtiger_customview')->where(['entitytype' => $fldModule])
+			])->execute();
+			$db->createCommand()->delete('u_#__cv_condition', ['field_name' => $fieldname, 'module_name' => $fldModule])->execute();
+			//Deleting from convert lead mapping vtiger_table- Jaguar
+			if ('Leads' === $fldModule) {
+				$db->createCommand()->delete('vtiger_convertleadmapping', ['leadfid' => $id])->execute();
+			} elseif ('Accounts' == $fldModule) {
+				$mapDelId = ['Accounts' => 'accountfid'];
+				$db->createCommand()->update('vtiger_convertleadmapping', [$mapDelId[$fldModule] => 0], [$mapDelId[$fldModule] => $id])->execute();
+			}
+
+			//HANDLE HERE - we have to remove the table for other picklist type values which are text area and multiselect combo box
+			if ('picklist' === $this->getFieldDataType() || 'multipicklist' === $this->getFieldDataType()) {
+				$query = (new \App\Db\Query())->from('vtiger_field')
+					->where(['fieldname' => $fieldname])
+					->andWhere(['in', 'uitype', [15, 16, 33]]);
+				$dataReader = $query->createCommand()->query();
+				if (!$dataReader->count()) {
+					$db->createCommand()->dropTable('vtiger_' . $fieldname)->execute();
+					//To Delete Sequence Table
+					if ($db->isTableExists('vtiger_' . $fieldname . '_seq')) {
+						$db->createCommand()->dropTable('vtiger_' . $fieldname . '_seq')->execute();
+					}
+					$db->createCommand()->delete('vtiger_picklist', ['name' => $fieldname])->execute();
+				}
+				$db->createCommand()->delete('vtiger_picklist_dependency', ['and', ['tabid' => $tabId], ['or', ['sourcefield' => $fieldname], ['targetfield' => $fieldname]]])->execute();
+			}
+
+			if (305 === $uiType) {
+				$fieldParams = \App\Json::decode($this->get('fieldparams'));
+				$destModule = $fieldParams['module'];
+				$db->createCommand()->delete('s_#__multireference', ['source_module' => $fldModule, 'dest_module' => $destModule])->execute();
+				\App\Cache::delete('mrvfbm', "{$fldModule},{$destModule}");
+				\App\Cache::delete('getMultiReferenceModules', $destModule);
+			}
+			$tabIds = (new \App\Db\Query())
+				->select(['fieldid', 'tabid'])
+				->from('vtiger_field')
+				->where(['and',	['<>', 'presence', 1], ['uitype' => 305],	['and', ['like', 'fieldparams', '"field":"' . $id . '"']]
+				])->createCommand()->queryAllByGroup();
+			foreach ($tabIds as $fieldId => $tabId) {
+				$sourceModule = \App\Module::getModuleName($tabId);
+				$db->createCommand()->update('vtiger_field', ['presence' => 1], ['fieldid' => $fieldId])->execute();
+				\App\Cache::delete('mrvfbm', "{$sourceModule},{$fldModule}");
+				\App\Cache::delete('getMultiReferenceModules', $fldModule);
+			}
+
+			if (10 === $uiType && $reference) {
+				$db->createCommand()->delete('vtiger_relatedlists', ['field_name' => $fieldname, 'related_tabid' => $tabId, 'tabid' => array_map('App\Module::getModuleId', $reference)])->execute();
+			}
+
+			$entityInfo = \App\Module::getEntityInfo($tabId);
+			foreach (['fieldnameArr' => 'fieldname', 'searchcolumnArr' => 'searchcolumn'] as $key => $name) {
+				if (false !== ($fieldNameKey = array_search($fieldname, $entityInfo[$key]))) {
+					unset($entityInfo[$key][$fieldNameKey]);
+					$params = [
+						'name' => $name,
+						'tabid' => $tabId,
+						'value' => $entityInfo[$key]
+					];
+					Settings_Search_Module_Model::save($params);
+				}
+			}
+			if (11 === $uiType && ($extraFieldId = (new \App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['fieldname' => "{$fieldname}_extra", 'tabid' => $tabId])->scalar())) {
+				self::getInstance($extraFieldId)->delete();
+			}
+		} catch (\Throwable $ex) {
+			\App\Log::error($ex->__toString());
+			throw $ex;
 		}
 	}
 
@@ -114,6 +160,8 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 				'presence' => 2,
 				'sequence' => new \yii\db\Expression($caseExpression),
 			], ['fieldid' => $fieldIdsList])->execute();
+		\App\Cache::clear();
+		\App\Colors::generate('picklist');
 	}
 
 	/**
@@ -127,10 +175,10 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$complusoryMandatoryFieldList = $moduleModel->getCumplosoryMandatoryFieldList();
 		//uitypes for which mandatory switch is disabled
 		$mandatoryRestrictedUitypes = ['4', '70'];
-		if (in_array($this->getName(), $complusoryMandatoryFieldList)) {
+		if (\in_array($this->getName(), $complusoryMandatoryFieldList)) {
 			return true;
 		}
-		if (in_array($this->get('uitype'), $mandatoryRestrictedUitypes)) {
+		if (\in_array($this->get('uitype'), $mandatoryRestrictedUitypes)) {
 			return true;
 		}
 		return false;
@@ -143,7 +191,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isActiveOptionDisabled()
 	{
-		if ($this->get('presence') == 0 || $this->get('uitype') == 306 || $this->isMandatoryOptionDisabled()) {
+		if (0 == $this->get('presence') || 306 == $this->get('uitype') || $this->isMandatoryOptionDisabled()) {
 			return true;
 		}
 		return false;
@@ -157,7 +205,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	public function isQuickCreateOptionDisabled()
 	{
 		$moduleModel = $this->getModule();
-		if ($this->get('quickcreate') == 0 || $this->get('quickcreate') == 3 || !$moduleModel->isQuickCreateSupported()) {
+		if (0 == $this->get('quickcreate') || 3 == $this->get('quickcreate') || !$moduleModel->isQuickCreateSupported()) {
 			return true;
 		}
 		return false;
@@ -170,7 +218,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isMassEditOptionDisabled()
 	{
-		if ($this->get('masseditable') == 0 || $this->get('displaytype') != 1 || $this->get('masseditable') == 3) {
+		if (0 == $this->get('masseditable') || 1 != $this->get('displaytype') || 3 == $this->get('masseditable')) {
 			return true;
 		}
 		return false;
@@ -183,7 +231,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isDefaultValueOptionDisabled()
 	{
-		if ($this->isMandatoryOptionDisabled() || $this->isReferenceField() || $this->getFieldDataType() === 'image' || $this->getFieldDataType() === 'multiImage') {
+		if ($this->isMandatoryOptionDisabled() || $this->isReferenceField() || 'image' === $this->getFieldDataType() || 'multiImage' === $this->getFieldDataType()) {
 			return true;
 		}
 		return false;
@@ -196,7 +244,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isSummaryFieldOptionDisabled()
 	{
-		return $this->get('uitype') === 70;
+		return 70 === $this->get('uitype');
 	}
 
 	/**
@@ -215,7 +263,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 * @param string $value  - fieldname or fieldid
 	 * @param <type> $module - optional - module instance
 	 *
-	 * @return <Settings_LayoutEditor_Field_Model>
+	 * @return self
 	 */
 	public static function getInstance($value, $module = false)
 	{
@@ -223,7 +271,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$objectProperties = get_object_vars($fieldObject);
 		$fieldModel = new self();
 		foreach ($objectProperties as $properName => $propertyValue) {
-			$fieldModel->$properName = $propertyValue;
+			$fieldModel->{$properName} = $propertyValue;
 		}
 		return $fieldModel;
 	}
@@ -233,12 +281,13 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 *
 	 * @param array List of block ids
 	 * @param Vtiger_Module_Model $moduleInstance
+	 * @param mixed               $blockId
 	 *
 	 * @return array List of Field models Settings_LayoutEditor_Field_Model
 	 */
 	public static function getInstanceFromBlockIdList($blockId, $moduleInstance = false)
 	{
-		if (!is_array($blockId)) {
+		if (!\is_array($blockId)) {
 			$blockId = [$blockId];
 		}
 		$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockId])->orderBy('sequence');
@@ -250,7 +299,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			if ($moduleInstance) {
 				$fieldModel->setModule($moduleInstance);
 			}
-			$fieldModelsList[] = $fieldModel;
+			$fieldModelsList[$row['fieldname']] = $fieldModel;
 		}
 		$dataReader->close();
 

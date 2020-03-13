@@ -32,7 +32,7 @@ class Z_Authy2FA extends \Tests\Base
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		static::$userAuthyMode = \App\Config::security('USER_AUTHY_MODE');
 		static::$transaction = \App\Db::getInstance()->beginTransaction();
@@ -76,7 +76,7 @@ class Z_Authy2FA extends \Tests\Base
 	/**
 	 * Test config for 2FA.
 	 */
-	public function testConfig()
+	public function testConfig(): void
 	{
 		\App\Config::set('security', 'USER_AUTHY_MODE', 'TOTP_OFF');
 		$this->assertSame(\App\Config::security('USER_AUTHY_MODE'), 'TOTP_OFF', 'Problem with saving the configuration');
@@ -91,7 +91,7 @@ class Z_Authy2FA extends \Tests\Base
 	 * @codeCoverageIgnore
 	 * Cleaning after tests.
 	 */
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass(): void
 	{
 		static::$transaction->rollBack();
 		\App\Config::set('security', 'USER_AUTHY_MODE', static::$userAuthyMode);

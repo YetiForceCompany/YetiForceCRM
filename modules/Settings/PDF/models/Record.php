@@ -61,7 +61,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
@@ -105,35 +105,36 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 			case 3:
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
 				$fields = [];
+				$fields['type'] = Settings_PDF_Module_Model::getTemplateType($pdfModel);
 				foreach ($stepFields as $field) {
-					if ($field === 'conditions') {
+					if ('conditions' === $field) {
 						$params = json_encode($pdfModel->get($field));
 					} else {
 						$params = $pdfModel->get($field);
 					}
 					$fields[$field] = $params;
 				}
-
 				$db->createCommand()
 					->update('a_#__pdf', $fields, ['pdfid' => $pdfModel->getId()])
 					->execute();
-				return $pdfModel->get('pdfid');
+					\App\Cache::delete(\get_class($pdfModel), $pdfModel->getId());
+				return $pdfModel->getId();
 			case 1:
 				$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
+				$fields = [];
 				if (!$pdfModel->getId()) {
-					$params = [];
 					foreach ($stepFields as $field) {
-						$params[$field] = $pdfModel->get($field);
+						$fields[$field] = $pdfModel->get($field);
 					}
-					$db->createCommand()->insert('a_#__pdf', $params)->execute();
+					$db->createCommand()->insert('a_#__pdf', $fields)->execute();
 					$pdfModel->set('pdfid', $db->getLastInsertID('a_#__pdf_pdfid_seq'));
 				} else {
-					$fields = [];
 					foreach ($stepFields as $field) {
 						$fields[$field] = $pdfModel->get($field);
 					}
 					$db->createCommand()->update('a_#__pdf', $fields, ['pdfid' => $pdfModel->getId()])
 						->execute();
+					\App\Cache::delete(\get_class($pdfModel), $pdfModel->getId());
 				}
 
 				return $pdfModel->get('pdfid');
@@ -141,7 +142,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				$allFields = Settings_PDF_Module_Model::$allFields;
 				$params = [];
 				foreach ($allFields as $field) {
-					if ($field === 'conditions') {
+					if ('conditions' === $field) {
 						$params[$field] = json_encode($pdfModel->get($field));
 					} else {
 						$params[$field] = $pdfModel->get($field);
@@ -180,6 +181,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function delete(Vtiger_PDF_Model $pdfModel)
 	{
+		\App\Cache::delete(\get_class($pdfModel), $pdfModel->getId());
 		return App\Db::getInstance('admin')->createCommand()
 			->delete('a_#__pdf', ['pdfid' => $pdfModel->getId()])
 			->execute();
@@ -187,6 +189,8 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function transforms Advance filter to workflow conditions.
+	 *
+	 * @param Vtiger_PDF_Model $pdfModel
 	 */
 	public static function transformAdvanceFilterToWorkFlowFilter(Vtiger_PDF_Model &$pdfModel)
 	{
@@ -195,11 +199,11 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
-				if ($index == '1' && empty($columns)) {
+				if ('1' == $index && empty($columns)) {
 					$wfCondition[] = ['fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
 						'joincondition' => '', 'groupid' => '0', ];
 				}
-				if (!empty($columns) && is_array($columns)) {
+				if (!empty($columns) && \is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
 							'value' => $column['value'] ?? '', 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
@@ -218,7 +222,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($key)
+	public function getDisplayValue(string $key)
 	{
 		$value = $this->get($key);
 		switch ($key) {

@@ -21,10 +21,12 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 	 */
 	public $listViewModel;
 
-	public function preProcess(\App\Request $request, $display = true)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
 		if (!$request->isEmpty('sourceModule')) {
@@ -34,7 +36,10 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		$viewer->view('ListViewHeader.tpl', $request->getModule(false));
 	}
 
-	public function process(\App\Request $request)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
@@ -47,7 +52,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 	 * @param \App\Request  $request
 	 * @param Vtiger_Viewer $viewer
 	 */
-	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$pageNumber = $request->getInteger('page');
@@ -57,7 +62,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		$searchKey = $request->isEmpty('search_key') ? false : $request->getByType('search_key', 'Alnum');
 		$searchValue = $request->getByType('search_value', 'Text');
 
-		if ($sortOrder === 'ASC') {
+		if ('ASC' === $sortOrder) {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'fas fa-chevron-down';
 		} else {
@@ -103,7 +108,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		if (!$this->listViewEntries) {
 			$this->listViewEntries = $model->getListViewEntries($pagingModel);
 		}
-		$noOfEntries = count($this->listViewEntries);
+		$noOfEntries = \count($this->listViewEntries);
 		if (!isset($this->listViewLinks)) {
 			$this->listViewLinks = $model->getListViewLinks();
 		}
@@ -142,7 +147,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([

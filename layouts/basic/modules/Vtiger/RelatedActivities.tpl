@@ -20,7 +20,8 @@
 			{/if}
 			<input type="hidden" class="countActivities" value="{count($ACTIVITIES)}"/>
 			<input type="hidden" class="currentPage" value="{$PAGE_NUMBER}"/>
-			{assign var=SHOW_LINK_TO_CALENDAR value=AppConfig::module($MODULE_NAME, 'CALENDAR_VIEW') === 'Extended' && AppConfig::module($MODULE_NAME, 'SHOW_EDIT_FORM')}
+			{assign var=SHOW_LINK_TO_CALENDAR value=App\Config::module($MODULE_NAME, 'CALENDAR_VIEW') === 'Extended' && App\Config::module($MODULE_NAME, 'SHOW_EDIT_FORM')}
+			{assign var=CURRENT_STATUSES value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
 			{foreach item=RECORD key=KEY from=$ACTIVITIES name=activities}
 				{if $PAGE_NUMBER neq 1 && $smarty.foreach.activities.first}
 					<hr>
@@ -29,7 +30,7 @@
 				{assign var=START_TIME value=$RECORD->get('time_start')}
 				{assign var=END_DATE value=$RECORD->get('due_date')}
 				{assign var=END_TIME value=$RECORD->get('time_end')}
-				{assign var=SHAREDOWNER value=\App\Fields\SharedOwner::getById($RECORD->get('crmid'))}
+				{assign var=SHAREDOWNER value=\App\Fields\SharedOwner::getById($RECORD->getId())}
 				<div class="activityEntries p-1">
 					<input type="hidden" class="activityModule" value="{$MODULE_NAME}"/>
 					<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}"/>
@@ -63,7 +64,7 @@
 						{/if}&nbsp;
 						{if !$IS_READ_ONLY && $RECORD->isEditable()}
 							<a href="{$RECORD->getEditViewUrl()}" class="fieldValue">
-								<span class="fas fa-edit fa-fw js-detail-quick-edit"
+								<span class="yfi yfi-full-editing-view fa-fw js-detail-quick-edit"
 									  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 							</a>
 						{/if}
@@ -81,9 +82,9 @@
 								<div>
 									<strong>
 										<span class="fas fa-tags fa-fw mr-1"></span>
-										<span class="value">{$RECORD->getDisplayValue('status')}</span>
+										<span class="value">{$RECORD->getDisplayValue('activitystatus')}</span>
 									</strong>&nbsp;&nbsp;
-									{if $DATA_TYPE != 'history'}
+									{if in_array($RECORD->get('activitystatus'), $CURRENT_STATUSES)}
 										{if $SHOW_LINK_TO_CALENDAR}
 											{assign var=ACTIVITY_URL value="index.php?module=Calendar&view=QuickEditAjax&record={$RECORD->getId()}"}
 											<span class="editDefaultStatus u-cursor-pointer float-right js-popover-tooltip showEdit" data-url="{$ACTIVITY_URL}"
@@ -125,7 +126,7 @@
 									</button>
 								</span>
 								<span class="editDescription u-cursor-pointer">
-									<span class="fas fa-edit fa-fw"
+									<span class="yfi yfi-full-editing-view fa-fw"
 										  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 								</span>
 							{/if}
@@ -141,13 +142,13 @@
 							<span class="float-right js-popover-tooltip delay0" data-js="popover" data-placement="left"
 								  data-class="activities"
 								  data-original-title="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('activitytype',false, true,true))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subject',false,false,40))}"
-								  data-content="{\App\Language::translate('Status',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('status',false, true,40))}<br />{\App\Language::translate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{\App\Language::translate('End Time','Calendar')}: {$END_DATE} {$END_TIME}
+								  data-content="{\App\Language::translate('Status',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('activitystatus',false, true,40))}<br />{\App\Language::translate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{\App\Language::translate('End Time','Calendar')}: {$END_DATE} {$END_TIME}
 								  {if $RECORD->get('linkextend')}<hr />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('linkextend')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('linkextend',false,false,40))}{/if}
 								  {if $RECORD->get('link')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('link')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('link',false,false,40))}{/if}
 								  {if $RECORD->get('process')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('process')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('process',false,false,40))}{/if}
 								  {if $RECORD->get('subprocess')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('subprocess')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subprocess',false,false,40))}{/if}
-								  <hr />{\App\Language::translate('Created By',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('smcreatorid',false,false,40))}
-								  <br />{\App\Language::translate('Assigned To',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('smownerid',false,false,40))}
+								  <hr />{\App\Language::translate('Created By',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('created_user_id',false,false,40))}
+								  <br />{\App\Language::translate('Assigned To',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('assigned_user_id',false,false,40))}
 								  {if $SHAREDOWNER}<div>
 									  {\App\Language::translate('Share with users',$MODULE_NAME)}:&nbsp;
 									  {foreach $SHAREDOWNER item=SOWNERID name=sowner}
@@ -161,7 +162,7 @@
 								  {if count($RECORD->get('selectedusers')) > 0}
 									  <br />{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}:
 									  {foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
-									 	 {if $USER}{\App\Purifier::encodeHtml(\App\Fields\Owner::getLabel($USER))}{/if}
+									 	 {if $USER} {\App\Purifier::encodeHtml(\App\Fields\Owner::getLabel($USER))}{/if}
 									  {/foreach}
 								  {/if}
 							">

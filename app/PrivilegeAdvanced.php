@@ -43,6 +43,7 @@ class PrivilegeAdvanced
 		}
 		$content = '<?php return ' . Utils::varExport($cache) . ';' . PHP_EOL;
 		file_put_contents(static::$cacheFile, $content, LOCK_EX);
+		\App\Cache::resetFileCache(static::$cacheFile);
 	}
 
 	/**
@@ -54,7 +55,7 @@ class PrivilegeAdvanced
 	 */
 	public static function get($moduleName)
 	{
-		if (static::$cache === false) {
+		if (false === static::$cache) {
 			static::$cache = require static::$cacheFile;
 		}
 		$tabid = Module::getModuleId($moduleName);
@@ -67,13 +68,14 @@ class PrivilegeAdvanced
 	 *
 	 * @param int    $record
 	 * @param string $moduleName
+	 * @param mixed  $userId
 	 *
 	 * @return bool|int
 	 */
 	public static function checkPermissions($record, $moduleName, $userId)
 	{
 		$privileges = static::get($moduleName);
-		if ($privileges === false) {
+		if (false === $privileges) {
 			return false;
 		}
 		Log::trace("Check advanced permissions: $record,$moduleName,$userId");
@@ -88,10 +90,9 @@ class PrivilegeAdvanced
 			if ($test) {
 				Log::trace("Check advanced permissions test OK,action: {$privilege['action']},id: $id");
 
-				return $privilege['action'] === 0 ? 1 : 0;
-			} else {
-				Log::trace("Check advanced permissions test FALSE , id: $id");
+				return 0 === $privilege['action'] ? 1 : 0;
 			}
+			Log::trace("Check advanced permissions test FALSE , id: $id");
 		}
 		return false;
 	}

@@ -92,7 +92,7 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getOperators()
+	public function  getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny', 'om'];
 	}

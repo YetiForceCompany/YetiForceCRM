@@ -55,7 +55,7 @@
 									</a>
 									{if $SHOW_COMPANIES}
 										<div class="cut-string">
-											<span class="calIcon userIcon-{$EVENT['linkm']}"></span>
+											<span class="calIcon yfm-{$EVENT['linkm']}"></span>
 											{$EVENT['linkl']}
 										</div>
 									{/if}

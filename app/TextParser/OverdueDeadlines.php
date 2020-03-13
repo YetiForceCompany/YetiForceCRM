@@ -17,9 +17,6 @@ class OverdueDeadlines extends Base
 	/** @var mixed Parser type */
 	public $type = 'pdf';
 
-	/** @var string[] Column names */
-	protected $columnNames = ['subject', 'activitytype', 'date_start', 'link'];
-
 	/**
 	 * Process.
 	 *
@@ -27,15 +24,10 @@ class OverdueDeadlines extends Base
 	 */
 	public function process()
 	{
-		if (!$this->textParser->recordModel || !$this->textParser->recordModel->getModule()->isInventory()) {
-			return '';
-		}
 		$moduleName = 'Calendar';
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
-		$fields = $moduleModel->getFields();
 		$currentUserModel = \App\User::getCurrentUserModel();
 		$adminUser = !$currentUserModel->isAdmin() ? \App\User::getActiveAdminId() : $currentUserModel->getId();
-
 		$queryGenerator = new \App\QueryGenerator($moduleName, $adminUser);
 		$queryGenerator->setFields(['id']);
 		$queryGenerator->addNativeCondition(['vtiger_activity.status' => 'PLL_OVERDUE']);
@@ -43,35 +35,31 @@ class OverdueDeadlines extends Base
 		$query = $queryGenerator->createQuery();
 		$query->limit(500);
 		$dataReader = $query->createCommand()->query();
-		$html = '<table style="border-collapse:collapse;"><thead><tr>';
-		foreach ($this->columnNames as $column) {
-			$fieldModel = $fields[$column];
-			$html .= '<th><span>' . \App\Language::translate($fieldModel->get('label'), $moduleName) . '</span></th>';
+		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
+		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;';
+		$html = '<table border="1" class="products-table" style="border-collapse:collapse;width:100%;"><thead><tr>';
+		$columns = [];
+		foreach (['subject', 'activitytype', 'date_start', 'link'] as $column) {
+			if (!($fieldModel = $moduleModel->getFieldByColumn($column)) || !$fieldModel->isActiveField()) {
+				continue;
+			}
+			$columns[$column] = $fieldModel;
+			$html .= "<th style=\"{$headerStyle}\"><span>" . \App\Language::translate($fieldModel->get('label'), $moduleName) . '</span></th>';
 		}
 		$html .= '</tr></thead><tbody>';
+		$counter = 0;
 		while ($row = $dataReader->read()) {
-			$html .= '<tr>';
-			foreach ($this->columnNames as $column) {
+			++$counter;
+			$html .= '<tr class="row-' . $counter . '">';
+			foreach ($columns as $column) {
+				$columnName = $column->getName();
 				$recordId = $row['id'];
 				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId);
-				$style = '';
-				if (in_array($column, ['activitytype', 'date_start', 'link'])) {
-					$style = 'style="padding:0px 4px;text-align:center;border:1px solid #ddd;"';
+				$style = $bodyStyle;
+				if (\in_array($columnName, ['activitytype', 'date_start'])) {
+					$style = $bodyStyle . 'text-align:center;';
 				}
-				$fieldModel = $fields[$column];
-				if ($column == 'link') {
-					$linkId = $recordModel->get('link');
-					if (!empty($linkId) && \App\Record::isExists($linkId)) {
-						$processRecordModel = \Vtiger_Record_Model::getInstanceById($linkId);
-						$value = $processRecordModel->getName();
-					} else {
-						$value = '';
-					}
-				} else {
-					$value = $recordModel->getDisplayValue($fieldModel->getName(), $recordId, true);
-				}
-
-				$html .= '<td ' . $style . '>' . $value . '</td>';
+				$html .= "<td style=\"{$style}\">" . $recordModel->getDisplayValue($columnName, false, true) . '</td>';
 			}
 			$html .= '</tr>';
 		}

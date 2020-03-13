@@ -49,7 +49,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['subject', 'assigned_user_id'];
+	public $relationFields = [];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
@@ -59,11 +59,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 		'LBL_SUBJECT' => ['ssalesprocesses', 'subject'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'LBL_SUBJECT' => 'subject',
-		'Assigned To' => 'assigned_user_id',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['subject'];
 	// For Alphabetical search
@@ -109,7 +105,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 		\App\Log::trace('Entering getHierarchy(' . $id . ') method ...');
 		$listviewHeader = [];
 		$listviewEntries = [];
-		$listColumns = AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -144,7 +140,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 
 		$currentUser = Users_Privileges_Model::getCurrentUserModel();
 		$hasRecordViewAccess = $currentUser->isAdminUser() || \App\Privilege::isPermitted('SSalesProcesses', 'DetailView', $salesProcessesId);
-		$listColumns = AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
@@ -198,7 +194,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	{
 		\App\Log::trace('Entering getParentSales(' . $id . ') method ...');
 
-		if ($depthBase == AppConfig::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
+		if ($depthBase == App\Config::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getParentSales method ... - exceeded maximum depth of hierarchy');
 
 			return $parentSSalesProcesses;
@@ -230,7 +226,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 			}
 
 			$parentSSalesProcessesInfo['depth'] = $depth;
-			$listColumns = AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
+			$listColumns = App\Config::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 
 			if (empty($listColumns)) {
 				$listColumns = $this->list_fields_name;
@@ -262,7 +258,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	public function getChildSales($id, &$childSalesProcesses, $depthBase)
 	{
 		\App\Log::trace('Entering getChildSales(' . $id . ',' . $depthBase . ') method ...');
-		if (empty($id) || $depthBase == AppConfig::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
+		if (empty($id) || $depthBase == App\Config::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getChildSales method ... - exceeded maximum depth of hierarchy');
 
 			return $childSalesProcesses;
@@ -277,7 +273,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 			->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
 			->where(['vtiger_crmentity.deleted' => 0, 'u_#__ssalesprocesses.parentid' => $id])
 			->createCommand()->query();
-		$listColumns = AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = App\Config::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}

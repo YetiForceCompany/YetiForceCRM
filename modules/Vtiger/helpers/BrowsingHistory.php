@@ -19,7 +19,7 @@ class Vtiger_BrowsingHistory_Helper
 		$results = (new \App\Db\Query())->from('u_#__browsinghistory')
 			->where(['userid' => App\User::getCurrentUserId()])
 			->orderBy(['id' => SORT_DESC])
-			->limit(AppConfig::performance('BROWSING_HISTORY_VIEW_LIMIT'))
+			->limit(App\Config::performance('BROWSING_HISTORY_VIEW_LIMIT'))
 			->all();
 
 		$today = false;

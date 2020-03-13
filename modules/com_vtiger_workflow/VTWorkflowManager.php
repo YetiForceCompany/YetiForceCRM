@@ -93,7 +93,7 @@ class VTWorkflowManager
 	{
 		if (isset($workflow->id)) {
 			$wf = $workflow;
-			if ($wf->filtersavedinnew === null) {
+			if (null === $wf->filtersavedinnew) {
 				$wf->filtersavedinnew = 5;
 			}
 			App\Db::getInstance()->createCommand()->update('com_vtiger_workflows', [
@@ -109,11 +109,12 @@ class VTWorkflowManager
 				'schdayofweek' => $wf->schdayofweek,
 				'schannualdates' => $wf->schannualdates,
 				'nexttrigger_time' => empty($wf->nexttrigger_time) ? null : $wf->nexttrigger_time,
+				'params' => empty($wf->params) ? null : $wf->params,
 			], ['workflow_id' => $wf->id])->execute();
 		} else {
 			$db = App\Db::getInstance();
 			$wf = $workflow;
-			if ($wf->filtersavedinnew === null) {
+			if (null === $wf->filtersavedinnew) {
 				$wf->filtersavedinnew = 5;
 			}
 
@@ -131,6 +132,7 @@ class VTWorkflowManager
 				'schdayofweek' => $wf->schdayofweek,
 				'schannualdates' => $wf->schannualdates,
 				'nexttrigger_time' => empty($wf->nexttrigger_time) ? null : $wf->nexttrigger_time,
+				'params' => empty($wf->params) ? null : $wf->params
 			])->execute();
 			$wf->id = $db->getLastInsertID('com_vtiger_workflows_workflow_id_seq');
 		}
@@ -163,28 +165,7 @@ class VTWorkflowManager
 		if ($referenceTime) {
 			$query->andWhere(['or', ['nexttrigger_time' => null], ['<=', 'nexttrigger_time', $referenceTime]]);
 		}
-
 		return $this->getWorkflowsForResult($query->all());
-	}
-
-	/**
-	 * Function to get the number of scheduled workflows.
-	 *
-	 * @return int
-	 */
-	public function getScheduledWorkflowsCount()
-	{
-		return (new \App\Db\Query())->from('com_vtiger_workflows')->where(['execution_condition' => self::$ON_SCHEDULE])->count();
-	}
-
-	/**
-	 * Function returns the maximum allowed scheduled workflows.
-	 *
-	 * @return int
-	 */
-	public function getMaxAllowedScheduledWorkflows()
-	{
-		return 10;
 	}
 
 	/**
@@ -201,7 +182,7 @@ class VTWorkflowManager
 			$rows = \App\Cache::get('WorkflowsForModule', $moduleName);
 		} else {
 			$rows = (new \App\Db\Query())
-				->select(['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew'])
+				->select(['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew', 'params'])
 				->from('com_vtiger_workflows')
 				->where(['module_name' => $moduleName])->all();
 			\App\Cache::save('WorkflowsForModule', $moduleName, $rows);
@@ -257,6 +238,7 @@ class VTWorkflowManager
 	 * Returns null if the workflow doesn't exist.
 	 *
 	 * @param The id of the workflow
+	 * @param mixed $id
 	 *
 	 * @return A workflow object
 	 */
@@ -268,9 +250,8 @@ class VTWorkflowManager
 			$workflow->setup($data);
 
 			return $workflow;
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**
@@ -310,7 +291,6 @@ class VTWorkflowManager
 	 */
 	public function updateNexTriggerTime(Workflow $workflow)
 	{
-		$nextTriggerTime = $workflow->getNextTriggerTime();
-		$workflow->setNextTriggerTime($nextTriggerTime);
+		$workflow->setNextTriggerTime($workflow->getNextTriggerTime());
 	}
 }

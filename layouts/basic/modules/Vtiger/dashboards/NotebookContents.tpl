@@ -15,7 +15,7 @@
 					<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE_NAME)}</i> {\App\Fields\DateTime::formatToDay($WIDGET->getLastSavedDate())}
 				</div>
 				<button class="btn btn-sm btn-light dashboard_notebookWidget_edit">
-					<span class="fas fa-edit mr-1"></span>{\App\Language::translate('LBL_EDIT', $MODULE_NAME)}
+					<span class="yfi yfi-full-editing-view mr-1"></span>{\App\Language::translate('LBL_EDIT', $MODULE_NAME)}
 				</button>
 			</div>
 			<div class="w-100 dashboard_notebookWidget_viewarea boxSizingBorderBox border rounded p-1">

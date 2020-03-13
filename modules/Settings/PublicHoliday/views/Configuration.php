@@ -13,23 +13,19 @@ class Settings_PublicHoliday_Configuration_View extends Settings_Vtiger_Index_Vi
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$date = $request->getArray('date', 'DateInUserFormat');
-		if (!$date) {
-			$startDate = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-			$startDate = new DateTimeField($startDate);
-			$endDate = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
-			$endDate = new DateTimeField($endDate);
-			$date = [
-				$startDate->getDisplayDate(),
-				$endDate->getDisplayDate(),
-			];
+		if ($date) {
+			$start = App\Fields\Date::formatToDB($date[0]);
+			$end = App\Fields\Date::formatToDB($date[1]);
+		} else {
+			$start = date('Y') . '-01-01';
+			$end = date('Y') . '-12-31';
 		}
-		$holidays = Settings_PublicHoliday_Module_Model::getHolidays($date);
 		$viewer->assign('DATE', implode(',', $date));
-		$viewer->assign('HOLIDAYS', $holidays);
+		$viewer->assign('HOLIDAYS', App\Fields\Date::getHolidays($start, $end));
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->view('Configuration.tpl', $request->getModule(false));
 	}

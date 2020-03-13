@@ -7,7 +7,7 @@
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
-		<div class="modal-body row">
+		<div class="modal-body row pt-0">
 			<div class="col-md-12">
 				<form class="form-horizontal fieldDetailsForm sendByAjax validateForm" method="POST">
 					<input type="hidden" name="module" value="LayoutEditor"/>
@@ -18,10 +18,10 @@
 					<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE_NAME}"/>
 					{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
-					<strong>{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}
-						: </strong>{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}<br/>
-					<strong>{App\Language::translate('LBL_FIELD_NAME', $QUALIFIED_MODULE)}
-						: </strong>{$FIELD_MODEL->getFieldName()}
+					<strong>{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}: </strong>{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}<br/>
+					<strong>{App\Language::translate('LBL_FIELD_NAME', $QUALIFIED_MODULE)}: </strong>{$FIELD_MODEL->getFieldName()}<br/>
+					<strong>{App\Language::translate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}: </strong>{$FIELD_MODEL->getFieldDataType()} (UiType: {$FIELD_MODEL->getUIType()})<br/>
+					<strong>{App\Language::translate('LBL_LENGTH', $QUALIFIED_MODULE)}: </strong>{$FIELD_MODEL->get('maximumlength')}
 					<hr class="marginTop10">
 					<div class="checkbox">
 						<input type="hidden" name="mandatory" value="O"/>
@@ -149,7 +149,18 @@
 								</div>
 							</div>
 						</div>
-						{if AppConfig::developer('CHANGE_GENERATEDTYPE')}
+						<div class="form-group">
+							<label for="tabindex"><strong>{App\Language::translate('LBL_TABINDEX', $QUALIFIED_MODULE)}</strong></label>
+							<div class="input-group">
+								<input type="text" class="form-control" id="tabindex" name="tabindex" value="{$FIELD_MODEL->get('tabindex')}"/>
+								<div class="input-group-append">
+									<div class="input-group-text js-popover-tooltip u-cursor-pointer" data-js="popover" data-placement="top" data-content="{App\Language::translate('LBL_TABINDEX_INFO', $QUALIFIED_MODULE)}">
+										<span class="fas fa-info-circle"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						{if App\Config::developer('CHANGE_GENERATEDTYPE')}
 							<div class="checkbox">
 							<input type="hidden" name="generatedtype" value="0"/>
 							<input type="checkbox" name="generatedtype" id="generatedtype"
@@ -159,7 +170,7 @@
 								</label>
 							</div>
 						{/if}
-						{if AppConfig::developer('CHANGE_VISIBILITY')}
+						{if App\Config::developer('CHANGE_VISIBILITY')}
 							<div class="form-group">
 								<label for="displaytype">
 									<strong>{App\Language::translate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}</strong>

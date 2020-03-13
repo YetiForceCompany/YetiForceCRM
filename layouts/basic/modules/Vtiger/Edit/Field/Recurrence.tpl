@@ -15,7 +15,7 @@
 			<div class="modal fade" tabindex="-1" role="dialog">
 				<div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
-						<div class="modal-header row m-0 d-flex align-items-center">
+						<div class="modal-header m-0 d-flex align-items-center">
 							<h5 class="modal-title m-0"><span
 										class="fas fa-save mr-2"></span>{App\Language::translate('LBL_TITLE_TYPE_SAVING', $MODULE)}
 							</h5>
@@ -98,7 +98,7 @@
 						{/for}
 					</select>
 				</div>
-				<div class="{if $RECURRING_INFORMATION['FREQ'] neq 'WEEKLY'}d-none{/if} col-12 form-row repeatWeekUI">
+				<div class="{if $RECURRING_INFORMATION['FREQ'] neq 'WEEKLY'}d-none{/if} row col-12 form-row repeatWeekUI">
 				<span class="col-md-4 mb-2">
 					<span class="medium">{\App\Language::translate('LBL_REAPEAT_IN', $MODULE)}</span>
 				</span>
@@ -157,12 +157,12 @@
 				</span>
 				</div>
 
-				<div class="{if $RECURRING_INFORMATION['FREQ'] neq 'MONTHLY'}d-none{/if} col-12 form-row repeatMonthUI">
+				<div class="{if $RECURRING_INFORMATION['FREQ'] neq 'MONTHLY'}d-none{/if} row col-12 form-row repeatMonthUI">
 				<span class="col-md-4">
 					<span class="medium">{\App\Language::translate('LBL_REAPEAT_BY', $MODULE)}</span>
 				</span>
 					<span class="col-md-8 pl-2 pr-0">
-					<div class="input-group mb-2">
+					<div class="input-group mb-2 {$WIDTHTYPE_GROUP}">
 						<div class="input-group-prepend">
 							<span class="input-group-text">
 								<input type="radio" name="calendarMontlyType" class="calendarMontlyType" value="DATE"
@@ -173,7 +173,7 @@
 							   aria-label="{\App\Language::translate('LBL_DAY_IN_MONTH', $MODULE)}"
 							   value="{\App\Language::translate('LBL_DAY_IN_MONTH', $MODULE)}" readonly="readonly">
 					</div>
-					<div class="input-group mb-2">
+					<div class="input-group mb-2 {$WIDTHTYPE_GROUP}">
 						<div class="input-group-prepend">
 							<span class="input-group-text">
 								<input type="radio" name="calendarMontlyType" class="calendarMontlyType" value="DAY"
@@ -190,7 +190,7 @@
 					<span class="col-form-label float-left">{\App\Language::translate('LBL_REPEAT_END', $MODULE)}</span>
 				</div>
 				<div class="col-8 mb-2">
-					<div class="input-group mb-2">
+					<div class="input-group mb-2 {$WIDTHTYPE_GROUP}">
 						<div class="input-group-prepend">
 						<span class="input-group-text">
 							<input type="radio" name="calendarEndType" value="never"
@@ -200,7 +200,7 @@
 						<input type="text" class="form-control" aria-label=""
 							   value="{\App\Language::translate('LBL_NEVER', $MODULE)}" readonly="readonly">
 					</div>
-					<div class="input-group mb-2">
+					<div class="input-group mb-2 {$WIDTHTYPE_GROUP}">
 						<div class="input-group-prepend">
 						<span class="input-group-text">
 							<input type="radio" name="calendarEndType" value="count"
@@ -210,9 +210,11 @@
 						</div>
 						<input type="text" class="form-control countEvents"
 							   {if isset($RECURRING_INFORMATION['COUNT'])}value="{$RECURRING_INFORMATION['COUNT']}"
-							   {else}disabled="disabled" {/if}>
+							   {else}disabled="disabled" {/if}
+								 title="{\App\Language::translate('LBL_COUNT', $MODULE)}"
+								 data-validation-engine='validate[required,funcCall[Vtiger_Integer_Validator_Js.invokeValidation]]'/>
 					</div>
-					<div class="input-group mb-2 date">
+					<div class="input-group mb-2 date {$WIDTHTYPE_GROUP}">
 						<div class="input-group-prepend">
 						<span class="input-group-text">
 							<input type="radio" name="calendarEndType" value="until"
@@ -221,7 +223,7 @@
 						</span>
 						</div>
 						<input type="text"
-							   class="dateField form-control calendarUntil" {if isset($RECURRING_INFORMATION['UNTIL'])}
+							   class="dateField form-control calendarUntil datepicker" {if isset($RECURRING_INFORMATION['UNTIL'])}
 							   value="{$RECURRING_INFORMATION['UNTIL']}" {else} disabled="disabled"
 							   {/if}name="calendarUntil" data-date-format="{$USER_MODEL->get('date_format')}"
 							   title="{\App\Language::translate('LBL_UNTIL', $MODULE)}"

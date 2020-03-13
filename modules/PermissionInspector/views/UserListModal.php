@@ -39,7 +39,7 @@ class PermissionInspector_UserListModal_View extends Vtiger_BasicModal_View
 		$userPermission = $moduleModel->getUsersPermission();
 		if ($srcRecordId) {
 			$watchdog = \App\Privilege::isPermitted($srcModule, 'WatchingRecords');
-			if (AppConfig::module('ModTracker', 'UNREVIEWED_COUNT')) {
+			if (App\Config::module('ModTracker', 'UNREVIEWED_COUNT')) {
 				foreach ($userPermission as $userId => $permission) {
 					$unreviewedChanges[$userId] = current(ModTracker_Record_Model::getUnreviewed($srcRecordId, $userId));
 				}

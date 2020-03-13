@@ -29,7 +29,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function showMassEditForm(\App\Request $request)
+	public function showMassEditForm(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -62,7 +62,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('OPERATOR', $request->getByType('operator'));
 		$viewer->assign('ALPHABET_VALUE', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $request->getByType('search_key', 'Alnum'), $request->getByType('operator')));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 'Alnum'));
-		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($moduleName, $request->getArray('search_params')));
+		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($moduleName, $request->getArray('search_params'), false));
 		$viewer->view('MassEditForm.tpl', $moduleName);
 	}
 
@@ -73,7 +73,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function showAddCommentForm(\App\Request $request)
+	public function showAddCommentForm(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$moduleName = 'ModComments';
@@ -93,7 +93,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('ALPHABET_VALUE', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $request->getByType('search_key', 'Alnum'), $request->getByType('operator')));
 		$viewer->assign('ENTITY_STATE', $request->getByType('entityState'));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 'Alnum'));
-		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($sourceModule, $request->getArray('search_params')));
+		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($sourceModule, $request->getArray('search_params'), false));
 		$viewer->view('AddCommentForm.tpl', $moduleName);
 	}
 
@@ -104,7 +104,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function showSendSMSForm(\App\Request $request)
+	public function showSendSMSForm(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$moduleName = 'SMSNotifier';
@@ -118,7 +118,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$phoneFields = $moduleModel->getFieldsByType('phone');
 		$viewer = $this->getViewer($request);
 
-		if (is_array($selectedIds) && count($selectedIds) === 1 && $selectedIds[0] !== 'all') {
+		if (\is_array($selectedIds) && 1 === \count($selectedIds) && 'all' !== $selectedIds[0]) {
 			$recordId = current($selectedIds);
 			$selectedRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $sourceModule);
 			$viewer->assign('SINGLE_RECORD', $selectedRecordModel);
@@ -133,7 +133,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('OPERATOR', $request->getByType('operator'));
 		$viewer->assign('ALPHABET_VALUE', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $request->getByType('search_key', 'Alnum'), $request->getByType('operator')));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 'Alnum'));
-		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($sourceModule, $request->getArray('search_params')));
+		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($sourceModule, $request->getArray('search_params'), false));
 		$viewer->view('SendSMSForm.tpl', $moduleName);
 	}
 
@@ -144,7 +144,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function transferOwnership(\App\Request $request)
+	public function transferOwnership(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();

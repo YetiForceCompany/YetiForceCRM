@@ -15,7 +15,7 @@ class Users_PreferenceEdit_View extends Vtiger_Edit_View
 	{
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
+		if (!App\Config::security('SHOW_MY_PREFERENCES')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!$request->isEmpty('record', true)) {
@@ -26,7 +26,7 @@ class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		} elseif ($request->isEmpty('record')) {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
 		}
-		if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $request->getInteger('record') && AppConfig::security('SHOW_MY_PREFERENCES')))) {
+		if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $request->getInteger('record') && App\Config::security('SHOW_MY_PREFERENCES')))) {
 			return true;
 		} else {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');

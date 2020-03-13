@@ -10,8 +10,8 @@
 ********************************************************************************/
 -->*}
 {strip}
-{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE_NAME)}
+{include file=\App\Layout::getTemplatePath('PageHeader.tpl', $MODULE_NAME)}
 <div class="bodyContents">
 	<div class="mainContainer">
-		<div class="contentsDiv u-ml-0px col-md-12 px-2" id="centerPanel" style="min-height:550px;">
+		<div class="contentsDiv u-ml-0px col-md-12 px-2" id="centerPanel">
 			{/strip}

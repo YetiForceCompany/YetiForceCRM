@@ -13,10 +13,11 @@
 				</tr>
 				</thead>
 				{foreach key=PREFIX item=DETAILS from=$LANGUAGES}
-					{if !$DETAILS['exist']}
+					{if !\App\Installer\Languages::exists($PREFIX)}
+						{assign var="NAME" value=\App\Language::getDisplayName($PREFIX)}
 						<tr>
-							<td class="align-middle{if $INDEX == 0} border-top-0{/if} u-white-space-normal u-white-space-lg-nowrap">
-								<strong>{\App\Purifier::encodeHtml($DETAILS['name'])}</strong>
+							<td class="align-middle{if $INDEX == 0} border-top-0{/if} u-white-space-normal u-white-space-lg-nowrap text-truncate" title="{\App\Purifier::encodeHtml($NAME)}">
+								<strong>{\App\Purifier::encodeHtml(\App\TextParser::textTruncate($NAME, 20))}</strong>
 							</td>
 							<td class="align-middle{if $INDEX == 0} border-top-0{/if} u-white-space-normal u-white-space-lg-nowrap">
 								<strong>{\App\Purifier::encodeHtml($PREFIX)}</strong>

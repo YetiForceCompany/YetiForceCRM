@@ -12,7 +12,7 @@ class Project_Gantt_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$moduleName = $request->getModule();
@@ -29,7 +29,7 @@ class Project_Gantt_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcessTplName(\App\Request $request)
+	public function preProcessTplName(App\Request $request)
 	{
 		return 'gantt/GanttViewPreProcess.tpl';
 	}
@@ -37,7 +37,7 @@ class Project_Gantt_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function postProcess(\App\Request $request, $display = true)
+	public function postProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view('EmptyPostProcess.tpl', $request->getModule());
@@ -47,13 +47,13 @@ class Project_Gantt_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PROJECTID', 0);
-		if ($request->has('view') && $request->getByType('view', 2) === 'Gantt') {
+		if ($request->has('view') && 'Gantt' === $request->getByType('view', 2)) {
 			$viewer->assign('GANTT_TITLE', \App\Language::translate('LBL_GANTT_TITLE_ALL_PROJECTS', 'Project'));
 			$viewer->view('gantt/GanttAll.tpl', $moduleName);
 		} else {
@@ -65,28 +65,15 @@ class Project_Gantt_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getHeaderCss(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
-		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
-			'~libraries/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css',
-		]));
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getFooterScripts(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
-			'modules.CustomView.resources.CustomView',
-			"modules.$moduleName.resources.CustomView",
+		$jsFileNames = [
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js',
 			'modules.Project.resources.Gantt',
 			'~libraries/gantt-elastic/dist/bundle.js',
 			'modules.Project.resources.GanttController',
-		]));
+		];
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 }

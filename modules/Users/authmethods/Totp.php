@@ -41,7 +41,7 @@ class Users_Totp_Authmethod
 	/**
 	 * Generate otaauth url for QR codes.
 	 *
-	 * @link https://github.com/google/google-authenticator/wiki/Key-Uri-Format
+	 * @see https://github.com/google/google-authenticator/wiki/Key-Uri-Format
 	 *
 	 * @param string      $secret - REQUIRED: The secret parameter is an arbitrary key value encoded in Base32 according to RFC 3548. The padding specified in RFC 3548 section 2.2 is not required and should be omitted.
 	 * @param string      $name   - The name is used to identify which account a key is associated with.
@@ -51,8 +51,8 @@ class Users_Totp_Authmethod
 	 */
 	public function getOtpAuthUrl($secret, $name, $issuer = null)
 	{
-		if (is_null($issuer)) {
-			$arr = parse_url(AppConfig::main('site_URL'));
+		if (null === $issuer) {
+			$arr = parse_url(App\Config::main('site_URL'));
 			$issuer = $arr['host'] ?? '';
 		}
 		$url = "otpauth://totp/{$issuer}:{$name}?secret={$secret}";
@@ -85,16 +85,14 @@ class Users_Totp_Authmethod
 	private function createQrCode($otpAuthUrl, $type = 'HTML')
 	{
 		$qrCodeGenerator = new \Milon\Barcode\DNS2D();
-		$qrCodeGenerator->setStorPath(__DIR__ . AppConfig::main('tmp_dir'));
+		$qrCodeGenerator->setStorPath(__DIR__ . App\Config::main('tmp_dir'));
 		switch ($type) {
 			case 'HTML':
 				return $qrCodeGenerator->getBarcodeHTML($otpAuthUrl, 'QRCODE');
 			case 'SVG':
 				return $qrCodeGenerator->getBarcodeSVG($otpAuthUrl, 'QRCODE');
 			case 'PNG':
-				return '<img src="data:image/png;base64,' .
-					$qrCodeGenerator->getBarcodePNG($otpAuthUrl, 'QRCODE') .
-					'" alt="QR code" />';
+				return '<img src="data:image/png;base64,' . $qrCodeGenerator->getBarcodePNG($otpAuthUrl, 'QRCODE', 14, 14) . '" alt="QR code" class="col-auto p-0" />';
 			default:
 				break;
 		}
@@ -110,7 +108,7 @@ class Users_Totp_Authmethod
 	 *
 	 * @return \Milon\Barcode\path|string
 	 */
-	public function createQrCodeForUser($type = 'HTML')
+	public function createQrCodeForUser($type = 'PNG')
 	{
 		return $this->createQrCode($this->getOtpAuthUrl($this->secret, \App\User::getUserModel($this->userId)->getDetail('user_name')), $type);
 	}
@@ -137,27 +135,24 @@ class Users_Totp_Authmethod
 	 */
 	public static function isActive($userId = null)
 	{
-		if (\AppConfig::main('systemMode') === 'demo') {
-			return false;
-		}
+		$isActive = false;
 		if (empty($userId)) {
 			$userId = \App\User::getCurrentUserRealId();
 		}
 		$userModel = \App\User::getUserModel($userId);
-		if ($userModel->getDetail('login_method') !== 'PLL_PASSWORD_2FA') {
-			return false;
+		if ('PLL_PASSWORD_2FA' === $userModel->getDetail('login_method')) {
+			switch (App\Config::security('USER_AUTHY_MODE')) {
+				case 'TOTP_OPTIONAL':
+					$isActive = 'PLL_AUTHY_TOTP' === $userModel->getDetail('authy_methods');
+					break;
+				case 'TOTP_OBLIGATORY':
+					$isActive = true;
+					break;
+				default:
+					break;
+			}
 		}
-		switch (AppConfig::security('USER_AUTHY_MODE')) {
-			case 'TOTP_OFF':
-				return false;
-			case 'TOTP_OPTIONAL':
-				return $userModel->getDetail('authy_methods') === 'PLL_AUTHY_TOTP';
-			case 'TOTP_OBLIGATORY':
-				return true;
-			default:
-				break;
-		}
-		return false;
+		return $isActive;
 	}
 
 	/**

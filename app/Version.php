@@ -32,7 +32,7 @@ class Version
 	 */
 	private static function init()
 	{
-		if (static::$versions === false) {
+		if (false === static::$versions) {
 			static::$versions = require 'config/version.php';
 		}
 	}
@@ -63,12 +63,12 @@ class Version
 	 */
 	public static function compare($v1, $v2, $operator = '==')
 	{
-		if (substr($v2, -1) === 'x') {
+		if ('x' === substr($v2, -1)) {
 			$ev2 = \explode('.', $v2);
 			\array_pop($ev2);
 			$lv2 = \count($ev2);
 			$v2 = \implode('.', $ev2);
-			$v1 = \implode('.', array_slice(\explode('.', $v1), 0, $lv2));
+			$v1 = \implode('.', \array_slice(\explode('.', $v1), 0, $lv2));
 		}
 		return version_compare($v1, $v2, $operator);
 	}

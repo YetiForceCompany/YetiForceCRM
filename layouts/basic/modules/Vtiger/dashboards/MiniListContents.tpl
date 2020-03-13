@@ -46,11 +46,12 @@
 					{/if}
 					<div class="pr-2">
 						{if $FIELD_VALUE}
-							<div class="js-popover-tooltip--ellipsis" data-toggle="popover"
+						{assign var=HAS_LINK value=empty($FIELD->get('source_field_name')) && $FIELD->isNameField() && $RECORD->getModule()->isListViewNameFieldNavigationEnabled() && $RECORD->isViewable()}
+							<div {if !$HAS_LINK}class="js-popover-tooltip--ellipsis" data-toggle="popover"
 								 data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}"
-								 data-js="popover">
-								{if empty($FIELD->get('source_field_name')) && $FIELD->isNameField() && $RECORD->getModule()->isListViewNameFieldNavigationEnabled() && $RECORD->isViewable()}
-									<a class="modCT_{$RECORD->getModuleName()}" href="{$RECORD->getDetailViewUrl()}">
+								 data-js="popover"{else}class="text-truncate"{/if}>
+								{if $HAS_LINK}
+									<a class="modCT_{$RECORD->getModuleName()} js-popover-tooltip--record" href="{$RECORD->getDetailViewUrl()}">
 										{$RECORD->getDisplayValue($FIELD->get('name'))}
 									</a>
 								{else}

@@ -35,11 +35,11 @@ class Notification_Notifications_TextParser extends \App\TextParser\Base
 				foreach ($entries[$typeId] as $notification) {
 					$title = preg_replace_callback(
 						$pattern, function ($matches) {
-							return \AppConfig::main('site_URL') . $matches[0];
+							return \App\Config::main('site_URL') . $matches[0];
 						}, $notification->getTitle());
 					$massage = preg_replace_callback(
 						$pattern, function ($matches) {
-							return \AppConfig::main('site_URL') . $matches[0];
+							return \App\Config::main('site_URL') . $matches[0];
 						}, $notification->getMessage());
 					$html .= "<li>$title<br />$massage</li>";
 				}

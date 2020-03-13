@@ -12,7 +12,7 @@
 {strip}
 	<div class="tpl-CustomView-EditView modal fade js-filter-modal__container" data-js="container">
 		<div class="modal-dialog modal-fullscreen">
-			<div class="modal-content pl-3 pr-3">
+			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">
 						<span class="fas fa-filter fa-sm mr-1"></span>
@@ -34,7 +34,7 @@
 					<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}"/>
 					<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}"/>
 					{assign var=SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
-					<div class="childrenMarginTopX">
+					<div class="modal-body">
 						<div class="js-toggle-panel c-panel" data-js="click">
 							<div class="blockHeader  c-panel__header">
 					<span class="iconToggle fas fa-chevron-down fa-xs m-1 mt-2" data-hide="fas fa-chevron-right"
@@ -126,11 +126,14 @@
 										<label class="float-left col-form-label ">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE_NAME)}
 											:</label>
 										<div class="col-md-7">
+											{assign var=COLOR value=$CUSTOMVIEW_MODEL->get('color')}
 											<div class="input-group js-color-picker" data-js="color-picker">
-												<input type="text" class="form-control" name="color"
-													   value="{$CUSTOMVIEW_MODEL->get('color')}"/>
+												<input type="text" class="form-control js-color-picker__field" name="color"
+													   value="{$COLOR}"/>
 												<div class="input-group-append">
-													<div class="input-group-text colorpicker-input-addon"><i></i></div>
+													<div class="input-group-text" >
+														<span class="c-circle c-circle--small js-color-picker__color" style="background-color: {$COLOR}"></span>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -192,8 +195,8 @@
 							</div>
 						</div>
 					</div>
-					<div class="modal-footer d-flex flex-md-row flex-column justify-content-start px-0">
-						<div class="w-75 btn-group js-filter-preferences btn-group-toggle flex-wrap align-items-stretch mt-1  c-btn-block-sm-down pl-1 flex-xl-row flex-column"
+					<div class="modal-footer d-flex flex-md-row flex-column justify-content-start">
+						<div class="w-75 btn-group js-filter-preferences btn-group-toggle flex-wrap align-items-stretch m-0 mt-1 c-btn-block-sm-down pl-1 flex-xl-row flex-column"
 							 data-toggle="buttons" data-js="change">
 							<label class="c-btn-block-sm-down btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isDefault()} active{/if}"
 								   title="{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE_NAME)}">
@@ -244,8 +247,7 @@
 								{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE_NAME)}
 							</label>
 						</div>
-						<div class="w-25 d-flex flex-wrap flex-md-nowrap justify-content-end  pr-0 mt-1  c-btn-block-sm-down ml-0 pr-1 pr-md-0">
-
+						<div class="w-25 d-flex flex-wrap flex-md-nowrap justify-content-end m-0 pr-0 mt-1  c-btn-block-sm-down ml-0 pr-1 pr-md-0">
 							<button class="btn btn-success mr-md-1" type="submit">
 								<span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
 							</button>

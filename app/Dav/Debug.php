@@ -45,7 +45,7 @@ class Debug extends DAV\ServerPlugin
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response)
 	{
 		file_put_contents(self::DEBUG_FILE, '============ ' . date('Y-m-d H:i:s') . ' ====== Request ======' . PHP_EOL, FILE_APPEND);
-		if (in_array($request->getMethod(), ['PROPFIND', 'REPORT', 'PUT'])) {
+		if (\in_array($request->getMethod(), ['PROPFIND', 'REPORT', 'PUT'])) {
 			$content = $request->getMethod() . ' ' . $request->getUrl() . ' HTTP/' . $request->getHTTPVersion() . "\r\n";
 			foreach ($request->getHeaders() as $key => $value) {
 				foreach ($value as $v) {
@@ -73,7 +73,7 @@ class Debug extends DAV\ServerPlugin
 	{
 		$contentType = explode(';', $response->getHeader('Content-Type'));
 		$content = reset($contentType);
-		if (in_array($content, ['text/html', 'application/xml'])) {
+		if (\in_array($content, ['text/html', 'application/xml'])) {
 			$content = $response->__toString();
 		}
 		$this->response = $content;
@@ -92,7 +92,7 @@ class Debug extends DAV\ServerPlugin
 	 */
 	public function exception($e)
 	{
-		$error = 'exception: ' . get_class($e) . PHP_EOL;
+		$error = 'exception: ' . \get_class($e) . PHP_EOL;
 		$error .= 'message: ' . $e->getMessage() . PHP_EOL;
 		$error .= 'file: ' . $e->getFile() . PHP_EOL;
 		$error .= 'line: ' . $e->getLine() . PHP_EOL;
@@ -118,7 +118,7 @@ class Debug extends DAV\ServerPlugin
 		return 'Yeti debug';
 	}
 
-	// @codeCoverageIgnoreEnd
+	/** @codeCoverageIgnoreEnd */
 
 	/**
 	 * Returns a bunch of meta-data about the plugin.

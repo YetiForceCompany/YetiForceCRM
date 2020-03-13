@@ -15,7 +15,7 @@ class OSSMail_ImportMail_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$usersPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$usersPrivilegesModel->hasModulePermission($request->getModule()) || !$usersPrivilegesModel->hasModuleActionPermission('OSSMailView', 'CreateView')) {
@@ -33,7 +33,7 @@ class OSSMail_ImportMail_Action extends \App\Controller\Action
 	 *
 	 * @return bool|void
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$uid = $request->getInteger('uid');
 		$account = OSSMail_Record_Model::getAccountByHash($request->getForSql('rcId'));
@@ -45,7 +45,7 @@ class OSSMail_ImportMail_Action extends \App\Controller\Action
 		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$mailScanMail = $scannerModel->manualScanMail($uid, $folder, $account);
 		$return = false;
-		if ($mailScanMail['CreatedEmail']) {
+		if (isset($mailScanMail['CreatedEmail'])) {
 			$return = $mailScanMail['CreatedEmail']['mailViewId'];
 		}
 		$response = new Vtiger_Response();

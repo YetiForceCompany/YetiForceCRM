@@ -13,6 +13,19 @@ namespace App;
 class Company extends Base
 {
 	/**
+	 * Classification of enterprises due to their size.
+	 *
+	 * @var int[]
+	 */
+	public static $sizes = [
+		'Micro' => 20,
+		'Small' => 50,
+		'Medium' => 250,
+		'Large' => 1000,
+		'Corporation' => 0
+	];
+
+	/**
 	 * Function to get the instance of the Company model.
 	 *
 	 * @return array
@@ -22,7 +35,7 @@ class Company extends Base
 		if (Cache::has('CompanyGetAll', '')) {
 			return Cache::get('CompanyGetAll', '');
 		}
-		$rows = (new \App\Db\Query())->from('s_#__companies')->all();
+		$rows = (new Db\Query())->from('s_#__companies')->all();
 		Cache::save('CompanyGetAll', '', $rows, Cache::LONG);
 		return $rows;
 	}
@@ -38,16 +51,15 @@ class Company extends Base
 	public static function statusUpdate(int $status, ?string $name = null)
 	{
 		if ($name) {
-			\App\Db::getInstance('admin')->createCommand()
+			Db::getInstance('admin')->createCommand()
 				->update('s_#__companies', [
 					'status' => $status
 				], ['name' => $name])->execute();
-		} else {
-			\App\Db::getInstance('admin')->createCommand()
-				->update('s_#__companies', [
-					'status' => $status
-				])->execute();
 		}
+		Db::getInstance('admin')->createCommand()
+			->update('s_#__companies', [
+				'status' => $status
+			])->execute();
 	}
 
 	/**
@@ -55,7 +67,7 @@ class Company extends Base
 	 *
 	 * @param array $companiesNew
 	 *
-	 * @throws \App\Exceptions\Security
+	 * @throws Exceptions\Security
 	 *
 	 * @return bool
 	 */
@@ -78,8 +90,31 @@ class Company extends Base
 					$recordModel->set($fieldName, $uiTypeModel->getDBValue($company[$fieldName]));
 				}
 			}
+			$recordModel->saveCompanyLogos();
 			$recordModel->save();
 		}
-		return (new \App\YetiForce\Register())->register();
+		return (new YetiForce\Register())->register();
+	}
+
+	/**
+	 * Get company size.
+	 *
+	 * @return string
+	 */
+	public static function getSize(): string
+	{
+		$count = User::getNumberOfUsers();
+		$return = 'Micro';
+		$last = 0;
+		foreach (self::$sizes as $size => $value) {
+			if (0 !== $value && 0 !== $value && $count <= $value && $count > $last) {
+				return $size;
+			}
+			if (0 === $value && $count > 1000) {
+				$return = $size;
+			}
+			$last = $value;
+		}
+		return $return;
 	}
 }

@@ -27,16 +27,13 @@
 				</tbody>
 			</table>
 		</div>
-		<br />
 		<div class="row">
 			<button class="btn btn-info addItem"><span class="fa fa-plus u-mr-5px"></span><strong>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 			<button class="btn btn-success saveItems"><strong><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 		</div>
-		<br />
 		<table class="table table-bordered cloneItem d-none">
 			{assign var="SUSERS" value=[]}
 			{include file=\App\Layout::getTemplatePath('SwitchUsersItem.tpl', $QUALIFIED_MODULE) SELECT=false}
 		</table>
 	</div>
 {/strip}
-

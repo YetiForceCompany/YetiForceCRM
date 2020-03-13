@@ -16,7 +16,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('showTaxes');
 	}
 
-	public function showDiscounts(\App\Request $request)
+	public function showDiscounts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$discountType = $request->getInteger('discountType');
@@ -38,7 +38,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$viewer->assign('CONFIG', $config);
 		$viewer->assign('DISCOUNT_TYPE', $discountType);
 		$viewer->assign('AGGREGATION_TYPE', $config['aggregation']);
-		$viewer->assign('AGGREGATION_INPUT_TYPE', $config['aggregation'] == 0 ? 'radio' : 'checkbox');
+		$viewer->assign('AGGREGATION_INPUT_TYPE', 0 == $config['aggregation'] ? 'radio' : 'checkbox');
 		$viewer->assign('GROUP_DISCOUNT', $groupDiscount['discount']);
 		$viewer->assign('ACCOUNT_NAME', $groupDiscount['name']);
 		$viewer->view('InventoryDiscounts.tpl', $moduleName);
@@ -49,7 +49,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function showTaxes(\App\Request $request)
+	public function showTaxes(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
@@ -62,7 +62,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);
-		$accountTaxs = $inventoryModel->getAccountTax($moduleName, $sourceRecord);
+		$accountTaxs = $inventoryModel->getAccountTax($sourceRecord);
 		$taxField = '';
 		if ($recordModule && ($recordModuleModel = \Vtiger_Module_Model::getInstance($recordModule))) {
 			$taxField = ($field = current($recordModuleModel->getFieldsByUiType(303))) ? $field->getName() : '';
@@ -80,7 +80,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$viewer->assign('TAX_TYPE', $taxType);
 		$viewer->assign('TAX_FIELD', $taxField);
 		$viewer->assign('AGGREGATION_TYPE', $config['aggregation']);
-		$viewer->assign('AGGREGATION_INPUT_TYPE', $config['aggregation'] == 0 ? 'radio' : 'checkbox');
+		$viewer->assign('AGGREGATION_INPUT_TYPE', 0 == $config['aggregation'] ? 'radio' : 'checkbox');
 		$viewer->assign('GROUP_TAXS', $accountTaxs['taxs']);
 		$viewer->assign('ACCOUNT_NAME', $accountTaxs['name']);
 		$viewer->view('InventoryTaxes.tpl', $moduleName);

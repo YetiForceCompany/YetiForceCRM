@@ -71,7 +71,7 @@ class Language extends \Tests\Base
 		$this->assertSame('Leads_2', \App\Language::translatePluralized('Leads', 'Leads', 5));
 		$this->assertSame('Leady', \App\Language::translateEncodeHtml('Leads', 'Leads'));
 		\App\Language::setTemporaryLanguage('pt-BR');
-		$this->assertSame('Leads_2', \App\Language::translatePluralized('Leads', 'Leads', 5));
+		$this->assertSame('Leads_1', \App\Language::translatePluralized('Leads', 'Leads', 5));
 		\App\Language::setTemporaryLanguage('en-US');
 		$this->assertSame('Leads_2', \App\Language::translatePluralized('Leads', 'Leads', 5));
 		\App\Language::setTemporaryLanguage('ru-RU');

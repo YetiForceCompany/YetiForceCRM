@@ -1,22 +1,27 @@
 <?php
 
-namespace App\Db;
-
 /**
- * Class that repaire structure and data in database.
+ * File that repaire structure and data in database.
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace App\Db;
+
+/**
+ * Class that repaire structure and data in database.
  */
 class Fixer
 {
 	/**
 	 * Add missing entries in vtiger_profile2field.
 	 */
-	public static function profileField()
+	public static function profileField(): int
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
+		$i = 0;
 		$profileIds = \vtlib\Profile::getAllIds();
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		foreach ($profileIds as $profileId) {
@@ -28,21 +33,25 @@ class Fixer
 					$isExists = (new \App\Db\Query())->from('vtiger_profile2field')->where(['profileid' => $profileId, 'fieldid' => $fieldId])->exists();
 					if (!$isExists) {
 						$dbCommand->insert('vtiger_profile2field', ['profileid' => $profileId, 'tabid' => $tabId, 'fieldid' => $fieldId, 'visible' => 0, 'readonly' => 0])->execute();
+						++$i;
 					}
 				}
 			}
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
+		return $i;
 	}
 
 	/**
 	 * Add missing entries in vtiger_profile2utility.
 	 */
-	public static function baseModuleTools()
+	public static function baseModuleTools(): int
 	{
-		$missing = $curentProfile2utility = [];
+		$i = 0;
+		$allUtility = $missing = $curentProfile2utility = [];
 		foreach ((new \App\Db\Query())->from('vtiger_profile2utility')->all() as $row) {
-			$curentProfile2utility[$row['profileid']][$row['tabid']][$row['activityid']] = $row['permission'];
+			$curentProfile2utility[$row['profileid']][$row['tabid']][$row['activityid']] = true;
+			$allUtility[$row['tabid']][$row['activityid']] = true;
 		}
 		$profileIds = \vtlib\Profile::getAllIds();
 		$moduleIds = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['isentitytype' => 1])->column();
@@ -52,7 +61,14 @@ class Fixer
 			foreach ($moduleIds as $moduleId) {
 				foreach ($baseActionIds as $actionId) {
 					if (!isset($curentProfile2utility[$profileId][$moduleId][$actionId])) {
-						$missing[] = ['profileid' => $profileId, 'tabid' => $moduleId, 'activityid' => $actionId];
+						$missing["$profileId:$moduleId:$actionId"] = ['profileid' => $profileId, 'tabid' => $moduleId, 'activityid' => $actionId];
+					}
+				}
+				if (isset($allUtility[$moduleId])) {
+					foreach ($allUtility[$moduleId] as $actionId => $value) {
+						if (!isset($curentProfile2utility[$profileId][$moduleId][$actionId])) {
+							$missing["$profileId:$moduleId:$actionId"] = ['profileid' => $profileId, 'tabid' => $moduleId, 'activityid' => $actionId];
+						}
 					}
 				}
 			}
@@ -63,19 +79,22 @@ class Fixer
 				if (!isset($exceptions[$row['tabid']]['allowed'][$row['activityid']])) {
 					continue;
 				}
-			} elseif (isset($exceptions[$row['tabid']]['notAllowed']) && ($exceptions[$row['tabid']]['notAllowed'] === false || isset($exceptions[$row['tabid']]['notAllowed'][$row['activityid']]))) {
+			} elseif (isset($exceptions[$row['tabid']]['notAllowed']) && (false === $exceptions[$row['tabid']]['notAllowed'] || isset($exceptions[$row['tabid']]['notAllowed'][$row['activityid']]))) {
 				continue;
 			}
 			$dbCommand->insert('vtiger_profile2utility', ['profileid' => $row['profileid'], 'tabid' => $row['tabid'], 'activityid' => $row['activityid'], 'permission' => 1])->execute();
+			++$i;
 		}
 		\Settings_SharingAccess_Module_Model::recalculateSharingRules();
+		return $i;
 	}
 
 	/**
 	 * Add missing entries in vtiger_profile2standardpermissions.
 	 */
-	public static function baseModuleActions()
+	public static function baseModuleActions(): int
 	{
+		$i = 0;
 		$curentProfile = [];
 		foreach ((new \App\Db\Query())->from('vtiger_profile2standardpermissions')->all() as $row) {
 			$curentProfile[$row['profileid']][$row['tabid']][$row['operation']] = $row['permissions'];
@@ -87,10 +106,133 @@ class Fixer
 				foreach (\Vtiger_Action_Model::$standardActions as $actionId => $actionName) {
 					if (!isset($curentProfile[$profileId][$moduleId][$actionId])) {
 						$dbCommand->insert('vtiger_profile2standardpermissions', ['profileid' => $profileId, 'tabid' => $moduleId, 'operation' => $actionId, 'permissions' => 1])->execute();
+						++$i;
 					}
 				}
 			}
 		}
 		\Settings_SharingAccess_Module_Model::recalculateSharingRules();
+		return $i;
+	}
+
+	/**
+	 * Fixes the maximum value allowed for fields.
+	 *
+	 * @return int[]
+	 */
+	public static function maximumFieldsLength(): array
+	{
+		$typesNotSupported = ['datetime', 'date', 'year', 'timestamp', 'time'];
+		$uiTypeNotSupported = [30];
+		$updated = $requiresVerification = $typeNotFound = $notSupported = 0;
+		$db = \App\Db::getInstance();
+		$dbCommand = $db->createCommand();
+		$schema = $db->getSchema();
+		$query = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldid', 'maximumlength', 'uitype'])->from('vtiger_field');
+		$dataReader = $query->createCommand()->query();
+		while ($field = $dataReader->read()) {
+			$column = $schema->getTableSchema($field['tablename'])->columns[$field['columnname']];
+			preg_match('/^([\w\-]+)/i', $column->dbType, $matches);
+			$type = $matches[1] ?? $column->type;
+			if (\in_array($type, $typesNotSupported) || \in_array($field['uitype'], $uiTypeNotSupported)) {
+				++$notSupported;
+				continue;
+			}
+			if (isset(\Vtiger_Field_Model::$uiTypeMaxLength[$field['uitype']])) {
+				$range = \Vtiger_Field_Model::$uiTypeMaxLength[$field['uitype']];
+			} elseif (isset(\Vtiger_Field_Model::$typesMaxLength[$type])) {
+				$range = \Vtiger_Field_Model::$typesMaxLength[$type];
+			} else {
+				switch ($type) {
+					case 'binary':
+					case 'string':
+					case 'varchar':
+					case 'varbinary':
+						$range = (int) $column->size;
+						break;
+					case 'bigint':
+					case 'mediumint':
+						\App\Log::error("Type not allowed: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
+						break;
+					case 'integer':
+					case 'int':
+						if ($column->unsigned) {
+							$range = '4294967295';
+						} else {
+							$range = '-2147483648,2147483647';
+						}
+						break;
+					case 'smallint':
+						if ($column->unsigned) {
+							$range = '65535';
+						} else {
+							$range = '-32768,32767';
+						}
+						break;
+					case 'tinyint':
+						if ($column->unsigned) {
+							$range = '255';
+						} else {
+							$range = '-128,127';
+						}
+						break;
+					case 'decimal':
+						$range = pow(10, ((int) $column->size) - ((int) $column->scale)) - 1;
+						break;
+					default:
+						$range = false;
+						break;
+				}
+			}
+			$update = false;
+			if (false === $range) {
+				\App\Log::warning("Type not found: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
+				++$typeNotFound;
+			} elseif ($field['maximumlength'] != $range) {
+				if (\in_array($field['uitype'], [1, 2, 7, 10, 16, 52, 53, 56, 71, 72, 120, 156, 300, 308, 317])) {
+					$update = true;
+				} else {
+					\App\Log::warning("Requires verification: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} <> {$range} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
+					++$requiresVerification;
+				}
+			}
+			if ($update && false !== $range) {
+				$dbCommand->update('vtiger_field', ['maximumlength' => $range], ['fieldid' => $field['fieldid']])->execute();
+				++$updated;
+				\App\Log::trace("Updated: {$field['tablename']}.{$field['columnname']} |maximumlength:  before:{$field['maximumlength']} after: $range |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
+			}
+		}
+		return ['NotSupported' => $notSupported, 'TypeNotFound' => $typeNotFound, 'RequiresVerification' => $requiresVerification, 'Updated' => $updated];
+	}
+
+	/**
+	 * Add missing entries in vtiger_def_org_share and vtiger_org_share_action2tab.
+	 */
+	public static function share(): int
+	{
+		\App\Log::trace('Entering ' . __METHOD__);
+		$i = 0;
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$query = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['isentitytype' => 1])
+			->andWhere(['not in', 'tabid', (new \App\Db\Query())->select(['tabid'])->from('vtiger_def_org_share')]);
+		foreach ($query->column() as $tabId) {
+			$dbCommand->insert('vtiger_def_org_share', ['tabid' => $tabId, 'permission' => 3, 'editstatus' => 0])->execute();
+			++$i;
+		}
+		$actionIds = (new \App\Db\Query())->select(['share_action_id'])->from('vtiger_org_share_action_mapping')
+			->where(['share_action_name' => ['Public: Read Only', 'Public: Read, Create/Edit', 'Public: Read, Create/Edit, Delete', 'Private']])
+			->column();
+		$query = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['isentitytype' => 1])
+			->andWhere(['not in', 'tabid', (new \App\Db\Query())->select(['tabid'])->from('vtiger_org_share_action2tab')]);
+		foreach ($query->column() as $tabId) {
+			$insertedData = [];
+			foreach ($actionIds as $id) {
+				$insertedData[] = [$id, $tabId];
+			}
+			$dbCommand->batchInsert('vtiger_org_share_action2tab', ['share_action_id', 'tabid'], $insertedData)->execute();
+			++$i;
+		}
+		\App\Log::trace('Exiting ' . __METHOD__);
+		return $i;
 	}
 }

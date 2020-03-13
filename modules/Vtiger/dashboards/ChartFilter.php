@@ -9,7 +9,7 @@
  */
 class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request, $widget = null)
+	public function process(App\Request $request, $widget = null)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -23,7 +23,7 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 		$chartFilterWidgetModel = Vtiger_ChartFilter_Model::getInstance();
 		$chartFilterWidgetModel->setWidgetModel($widget);
 		$additionalFilterFields = $chartFilterWidgetModel->getAdditionalFiltersFields();
-		$searchParams = App\Condition::validSearchParams($chartFilterWidgetModel->getTargetModule(), $request->getArray('search_params'));
+		$searchParams = App\Condition::validSearchParams($chartFilterWidgetModel->getTargetModule(), $request->getArray('search_params'), false);
 		if (!empty($searchParams)) {
 			foreach ($searchParams[0] as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];

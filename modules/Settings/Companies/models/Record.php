@@ -38,6 +38,8 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to get the Edit View Url.
 	 *
+	 * @param mixed $step
+	 *
 	 * @return string URL
 	 */
 	public function getEditViewUrl($step = false)
@@ -89,7 +91,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function get($key)
 	{
-		if ($key === 'newsletter' && !empty(parent::get('email'))) {
+		if ('newsletter' === $key && !empty(parent::get('email'))) {
 			return 1;
 		}
 		return parent::get($key);
@@ -123,6 +125,14 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			$db->createCommand()->insert('s_#__companies', $params)->execute();
 			$this->set('id', $db->getLastInsertID('s_#__companies_id_seq'));
 		}
+		if ('LBL_TYPE_TARGET_USER' === self::TYPES[$params['type']] || 1 === (new \App\Db\Query())->from('s_#__companies')->count()) {
+			$configFile = new \App\ConfigFile('component', 'Branding');
+			$configFile->set('footerName', $params['name']);
+			$configFile->set('urlFacebook', $params['facebook']);
+			$configFile->set('urlTwitter', $params['twitter']);
+			$configFile->set('urlLinkedIn', $params['linkedin']);
+			$configFile->create();
+		}
 		\App\Cache::clear();
 	}
 
@@ -133,7 +143,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($key)
+	public function getDisplayValue(string $key)
 	{
 		$value = $this->get($key);
 		switch ($key) {
@@ -187,10 +197,10 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			'linktype' => 'LISTVIEWRECORD',
 			'linklabel' => 'LBL_EDIT_RECORD',
 			'linkurl' => $this->getEditViewUrl(),
-			'linkicon' => 'fas fa-edit',
+			'linkicon' => 'yfi yfi-full-editing-view',
 			'linkclass' => 'btn btn-xs btn-info',
 		];
-		if (is_null(Settings_Companies_ListView_Model::$recordsCount)) {
+		if (null === Settings_Companies_ListView_Model::$recordsCount) {
 			Settings_Companies_ListView_Model::$recordsCount = (new \App\Db\Query())->from('s_#__companies')->count();
 		}
 		if (Settings_Companies_ListView_Model::$recordsCount > 1) {
@@ -217,7 +227,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		if (!empty($_FILES['logo']['name'])) {
 			$fileInstance = \App\Fields\File::loadFromRequest($_FILES['logo']);
-			if ($fileInstance->validate('image')) {
+			if ($fileInstance->validateAndSecure('image')) {
 				$this->set('logo', \App\Fields\File::getImageBaseData($fileInstance->getPath()));
 			}
 		}
@@ -230,7 +240,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return bool
 	 */
-	public function isCompanyDuplicated(\App\Request $request)
+	public function isCompanyDuplicated(App\Request $request)
 	{
 		$db = App\Db::getInstance('admin');
 		$query = new \App\Db\Query();
@@ -257,7 +267,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 		$label = $label ? $label : ($labels[$name]['label'] ?? '');
 		$sourceModule = $this->get('source');
 		$companyId = $this->getId();
-		$fieldName = $sourceModule === 'YetiForce' ? "companies[$companyId][$name]" : $name;
+		$fieldName = 'YetiForce' === $sourceModule ? "companies[$companyId][$name]" : $name;
 		$params = ['uitype' => 1, 'column' => $name, 'name' => $fieldName, 'value' => '', 'label' => $label, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => '', 'isEditableReadOnly' => false, 'maximumlength' => '255'];
 		switch ($name) {
 			case 'name':
@@ -302,6 +312,13 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			case 'newsletter':
 				$params['typeofdata'] = 'V~O';
 				$params['uitype'] = 56;
+				unset($params['validator']);
+				break;
+			case 'facebook':
+			case 'linkedin':
+			case 'twitter':
+				$params['uitype'] = 17;
+				$params['typeofdata'] = 'V~O';
 				unset($params['validator']);
 				break;
 			default:

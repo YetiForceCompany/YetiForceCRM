@@ -108,23 +108,19 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		$subprocess = $this->get('subprocess');
 		$process = $this->get('process');
 		$link = $this->get('link');
-		if (!empty($subprocess)) {
+		if (!empty($subprocess) && \App\Record::isExists($subprocess)) {
 			$relatedId = $subprocess;
 		} else {
-			if (!empty($process)) {
+			if (!empty($process) && \App\Record::isExists($process)) {
 				$relatedId = $process;
 			} else {
-				if (empty($link)) {
+				if (empty($link) || !\App\Record::isExists($link)) {
 					return false;
-				} else {
-					$relatedId = $link;
 				}
+				$relatedId = $link;
 			}
 		}
-		$relatedModule = \vtlib\Functions::getCRMRecordMetadata($relatedId);
-		$relatedModule = $relatedModule['setype'];
-
-		return ['id' => $relatedId, 'module' => $relatedModule];
+		return ['id' => $relatedId, 'module' => \vtlib\Functions::getCRMRecordMetadata($relatedId)['setype']];
 	}
 
 	/**
@@ -150,7 +146,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	{
 		$relatedRecord = $this->getRelatedRecord();
 		$relatedId = $relatedModule = false;
-		if ($relatedRecord !== false) {
+		if (false !== $relatedRecord) {
 			$relatedId = $relatedRecord['id'];
 			$relatedModule = $relatedRecord['module'];
 		}
@@ -160,24 +156,24 @@ class Notification_Record_Model extends Vtiger_Record_Model
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
 			return false;
 		}
-		if ($relatedModule && $notificationType !== 'PLL_USERS' && !\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedId)) {
+		if ($relatedModule && 'PLL_USERS' !== $notificationType && !\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedId)) {
 			\App\Log::error('User ' . \App\Fields\Owner::getLabel($this->get('assigned_user_id')) .
 				' does not have permission for this record ' . $relatedId);
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
 			return false;
 		}
-		if ($relatedModule && $notificationType !== 'PLL_USERS' && \App\Record::isExists($relatedId)) {
+		if ($relatedModule && 'PLL_USERS' !== $notificationType && \App\Record::isExists($relatedId)) {
 			$textParser = \App\TextParser::getInstanceById($relatedId, $relatedModule);
 			$this->setFromUserValue('description', $textParser->withoutTranslations()->setContent($this->get('description'))->parse()->getContent());
-			$this->setFromUserValue('title', \App\TextParser::textTruncate($textParser->setContent($this->get('title'))->parse()->getContent(), 252));
+			$this->setFromUserValue('title', \App\TextParser::textTruncate(\App\Purifier::purifyByType($textParser->setContent($this->get('title'))->parse()->getContent(), 'Text'), $this->getField('title')->get('maximumlength'), false));
 		}
 		$users = $this->get('shownerid');
 		$usersCollection = $this->isEmpty('assigned_user_id') ? [] : [$this->get('assigned_user_id')];
 		if (!empty($users)) {
-			$users = is_array($users) ? $users : explode(',', $users);
+			$users = \is_array($users) ? $users : explode(',', $users);
 			foreach ($users as $userId) {
 				$userType = \App\Fields\Owner::getType($userId);
-				if ($userType === 'Groups') {
+				if ('Groups' === $userType) {
 					$usersCollection = array_merge($usersCollection, \App\PrivilegeUtil::getUsersByGroup($userId));
 				} else {
 					$usersCollection[] = $userId;
@@ -188,7 +184,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		$usersCollection = array_unique($usersCollection);
 		$isNew = $this->isNew;
 		foreach ($usersCollection as $userId) {
-			if ($relatedId && $notificationType === 'PLL_SYSTEM' && !\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedId, $userId)) {
+			if ($isNew && $relatedId && 'PLL_SYSTEM' === $notificationType && !\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedId, $userId)) {
 				continue;
 			}
 			$this->set('assigned_user_id', $userId);
@@ -208,7 +204,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	public function getIcon()
 	{
 		$icon = false;
-		if ($this->get('notification_type') === 'PLL_USERS') {
+		if ('PLL_USERS' === $this->get('notification_type')) {
 			$userModel = Users_Privileges_Model::getInstanceById($this->get('smcreatorid'));
 			$icon = [
 				'type' => 'image',
@@ -221,7 +217,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 			$icon = [
 				'type' => 'icon',
 				'title' => \App\Language::translate($relatedRecord['module'], $relatedRecord['module']),
-				'class' => 'userIcon-' . $relatedRecord['module'],
+				'class' => 'yfm-' . $relatedRecord['module'],
 			];
 		}
 		return $icon;

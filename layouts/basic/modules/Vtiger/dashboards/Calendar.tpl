@@ -20,7 +20,7 @@
 			<hr class="widgetHr"/>
 			<div class="row no-gutters">
 				<div class="col-ceq-xsm-6">
-					{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'list'}
+					{if App\Config::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'list'}
 						<div class="input-group input-group-sm">
 						<span class="input-group-prepend">
 							<span class="input-group-text">
@@ -42,19 +42,19 @@
 							</select>
 						</div>
 					{/if}
-					{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'switch'}
+					{if App\Config::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'switch'}
 						{assign var=CURRENT_STATUS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
 						{assign var=HISTORY_STATUS value=Calendar_Module_Model::getComponentActivityStateLabel('history')}
 						<div class="btn-group btn-group-toggle" data-toggle="buttons">
 							<label class="btn btn-sm btn-outline-primary active">
-								<input class="js-switch--calendar" type="radio" name="options" id="option1"
+								<input class="js-switch--calendar" type="radio" name="options" id="options-option1"
 									   data-js="change"
 									   data-on-text="{\App\Language::translate('LBL_TO_REALIZE')}" autocomplete="
 							   off" checked
 								> {\App\Language::translate('LBL_TO_REALIZE')}
 							</label>
 							<label class="btn btn-sm btn-outline-primary">
-								<input class="js-switch--calendar" type="radio" name="options" id="option2"
+								<input class="js-switch--calendar" type="radio" name="options" id="options-option2"
 									   data-js="change"
 									   data-off-text="{\App\Language::translate('History')}" autocomplete="
 							   off"

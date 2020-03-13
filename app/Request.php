@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App;
@@ -90,6 +91,13 @@ class Request
 	 * @var array
 	 */
 	protected $purifiedValuesByHtml = [];
+	/**
+	 * List of headings and sanitization methods.
+	 *
+	 * @var array
+	 */
+	public $headersPurifierMap = [
+	];
 
 	/**
 	 * Constructor.
@@ -123,7 +131,7 @@ class Request
 		} else {
 			return $value;
 		}
-		if (is_string($value) && (0 === strpos($value, '[') || 0 === strpos($value, '{'))) {
+		if (\is_string($value) && (0 === strpos($value, '[') || 0 === strpos($value, '{'))) {
 			$decodeValue = Json::decode($value);
 			if (isset($decodeValue)) {
 				$value = $decodeValue;
@@ -145,20 +153,20 @@ class Request
 	 * Alnum - word and int
 	 * 2 - word and int
 	 *
-	 * @param string     $key  Key name
-	 * @param int|string $type Data type that is only acceptable, default only words 'Standard'
+	 * @param string     $key     Key name
+	 * @param int|string $type    Data type that is only acceptable, default only words 'Standard'
+	 * @param mixed      $convert
 	 *
 	 * @return bool|mixed
 	 */
-	public function getByType($key, $type = 'Standard')
+	public function getByType($key, $type = 'Standard', $convert = false)
 	{
 		if (isset($this->purifiedValuesByType[$key][$type])) {
 			return $this->purifiedValuesByType[$key][$type];
 		}
 		if (isset($this->rawValues[$key])) {
-			return $this->purifiedValuesByType[$key][$type] = Purifier::purifyByType($this->rawValues[$key], $type);
+			return $this->purifiedValuesByType[$key][$type] = Purifier::purifyByType($this->rawValues[$key], $type, $convert);
 		}
-
 		return false;
 	}
 
@@ -173,10 +181,9 @@ class Request
 	public function getBoolean($key, $defaultValue = '')
 	{
 		$value = $this->get($key, $defaultValue);
-		if (is_bool($value)) {
+		if (\is_bool($value)) {
 			return $value;
 		}
-
 		return 0 === strcasecmp('true', (string) $value) || '1' === (string) $value;
 	}
 
@@ -206,13 +213,14 @@ class Request
 	/**
 	 * Function to get the array values for a given key.
 	 *
-	 * @param string $key
-	 * @param mixed  $type
-	 * @param array  $value
+	 * @param string      $key
+	 * @param mixed       $type
+	 * @param array       $value
+	 * @param string|null $keyType
 	 *
 	 * @return array
 	 */
-	public function getArray($key, $type = false, $value = [])
+	public function getArray($key, $type = false, $value = [], ?string $keyType = null)
 	{
 		if (isset($this->purifiedValuesByArray[$key])) {
 			return $this->purifiedValuesByArray[$key];
@@ -222,7 +230,7 @@ class Request
 			if (!$value) {
 				return [];
 			}
-			if (is_string($value) && (0 === strpos($value, '[') || 0 === strpos($value, '{'))) {
+			if (\is_string($value) && (0 === strpos($value, '[') || 0 === strpos($value, '{'))) {
 				$decodeValue = Json::decode($value);
 				if (isset($decodeValue)) {
 					$value = $decodeValue;
@@ -231,12 +239,20 @@ class Request
 				}
 			}
 			if ($value) {
-				$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
+				if (\is_array($value)) {
+					$input = [];
+					foreach ($value as $k => $v) {
+						$k = $keyType ? Purifier::purifyByType($k, $keyType) : Purifier::purify($k);
+						$input[$k] = $type ? Purifier::purifyByType($v, $type) : Purifier::purify($v);
+					}
+					$value = $input;
+				} else {
+					$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
+				}
 			}
 
 			return $this->purifiedValuesByArray[$key] = (array) $value;
 		}
-
 		return $value;
 	}
 
@@ -282,10 +298,10 @@ class Request
 	 */
 	private function purifyMultiDimensionArray($values, $template)
 	{
-		if (is_array($template)) {
+		if (\is_array($template)) {
 			foreach ($values as $firstKey => $value) {
-				if (is_array($value)) {
-					if (1 === count($template)) {
+				if (\is_array($value)) {
+					if (1 === \count($template)) {
 						$template = current($template);
 					}
 					foreach ($value as $secondKey => $val) {
@@ -293,7 +309,7 @@ class Request
 						if (isset($template[$firstKey])) {
 							$tempTemplate = $template[$firstKey];
 						}
-						if (1 === count($tempTemplate)) {
+						if (1 === \count($tempTemplate)) {
 							$tempTemplate = current($tempTemplate);
 						} elseif (!isset($tempTemplate[$secondKey])) {
 							throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$secondKey}", 406);
@@ -303,7 +319,7 @@ class Request
 						$values[$firstKey][$secondKey] = $this->purifyMultiDimensionArray($val, $tempTemplate);
 					}
 				} else {
-					if (\is_array($template) && 1 === count($template)) {
+					if (\is_array($template) && 1 === \count($template)) {
 						$values[$firstKey] = $this->purifyMultiDimensionArray($value, current($template));
 					} elseif (isset($template[$firstKey])) {
 						$values[$firstKey] = $this->purifyMultiDimensionArray($value, $template[$firstKey]);
@@ -403,7 +419,7 @@ class Request
 	 */
 	public function getMode()
 	{
-		return '' !== $this->getRaw('mode') ? $this->getByType('mode', 2) : '';
+		return '' !== $this->getRaw('mode') ? $this->getByType('mode', 'Alnum') : '';
 	}
 
 	/**
@@ -458,20 +474,19 @@ class Request
 			return $this->headers;
 		}
 		$data = [];
-		if (!function_exists('apache_request_headers')) {
+		if (!\function_exists('apache_request_headers')) {
 			foreach ($_SERVER as $key => $value) {
 				if ('HTTP_' === substr($key, 0, 5)) {
 					$key = str_replace(' ', '-', \strtolower(str_replace('_', ' ', substr($key, 5))));
-					$data[$key] = Purifier::purify($value);
+					$data[$key] = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
 				}
 			}
 		} else {
 			$data = array_change_key_case(apache_request_headers(), \CASE_LOWER);
-			foreach ($data as &$value) {
-				$value = Purifier::purify($value);
+			foreach ($data as $key => &$value) {
+				$value = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
 			}
 		}
-
 		return $this->headers = $data;
 	}
 
@@ -487,7 +502,6 @@ class Request
 		if (!isset($this->headers)) {
 			$this->getHeaders();
 		}
-
 		return isset($this->headers[$key]) ? $this->headers[$key] : null;
 	}
 
@@ -540,8 +554,8 @@ class Request
 	 */
 	public function getModule($raw = true)
 	{
-		$moduleName = $this->getByType('module', 2);
-		if (!$raw && !$this->isEmpty('parent', true) && 'Settings' === ($parentModule = $this->getByType('parent', 2))) {
+		$moduleName = $this->getByType('module', 'Alnum');
+		if (!$raw && !$this->isEmpty('parent', true) && 'Settings' === ($parentModule = $this->getByType('parent', 'Alnum'))) {
 			$moduleName = "$parentModule:$moduleName";
 		}
 
@@ -657,6 +671,16 @@ class Request
 	}
 
 	/**
+	 * Is json.
+	 *
+	 * @return bool
+	 */
+	public function isJSON()
+	{
+		return false !== strpos($this->getHeader('accept'), 'application/json');
+	}
+
+	/**
 	 * Validating read access request.
 	 *
 	 * @throws \App\Exceptions\Csrf
@@ -664,8 +688,18 @@ class Request
 	public function validateReadAccess()
 	{
 		// Referer check if present - to over come && Check for user post authentication.
-		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId() && (0 !== stripos($_SERVER['HTTP_REFERER'], \AppConfig::main('site_URL'))) && ('Install' !== $this->get('module'))) {
-			throw new \App\Exceptions\Csrf('Illegal request');
+		if (isset($_SERVER['HTTP_REFERER']) && \App\User::getCurrentUserId() && 'Install' !== $this->get('module')) {
+			$allowed = array_merge(\Config\Security::$allowedFrameDomains, \Config\Security::$allowedFormDomains);
+			$allowed[] = \App\Config::main('site_URL');
+			$throw = true;
+			foreach ($allowed as $value) {
+				if (0 === stripos($_SERVER['HTTP_REFERER'], $value)) {
+					$throw = false;
+				}
+			}
+			if ($throw) {
+				throw new \App\Exceptions\Csrf('Illegal request');
+			}
 		}
 	}
 
@@ -699,7 +733,6 @@ class Request
 		if (!static::$request) {
 			static::$request = new self($request ? $request : $_REQUEST);
 		}
-
 		return static::$request;
 	}
 
@@ -707,11 +740,11 @@ class Request
 	 * Support static methods, all functions must start with "_".
 	 *
 	 * @param string     $name
-	 * @param null|array $arguments
+	 * @param array|null $arguments
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return mied
+	 * @return mixed
 	 */
 	public static function __callStatic($name, $arguments = null)
 	{

@@ -1,4 +1,11 @@
 <?php
+/**
+ * Base file for database import.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
 namespace App\Db\Importers;
 
@@ -6,10 +13,6 @@ use yii\db\Schema;
 
 /**
  * Base class for database import.
- *
- * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base
 {
@@ -62,6 +65,16 @@ class Base
 	{
 		$this->db = \App\Db::getInstance($this->dbType);
 		$this->schema = $this->db->getSchema();
+	}
+
+	/**
+	 * Returns the schema information for the database opened by this connection.
+	 *
+	 * @return Schema the schema information for the database opened by this connection.
+	 */
+	public function getSchema()
+	{
+		return $this->schema;
 	}
 
 	/**
@@ -145,7 +158,7 @@ class Base
 	/**
 	 * Creates a text column.
 	 *
-	 * @param null|string $length
+	 * @param string|null $length
 	 *
 	 * @return \yii\db\ColumnSchemaBuilder the column instance which can be further customized
 	 */
@@ -166,7 +179,19 @@ class Base
 	}
 
 	/**
-	 * Creates a tinyint column. Available only in MySql.
+	 * Creates a medium text column.
+	 *
+	 * @param string|null $length
+	 *
+	 * @return \yii\db\ColumnSchemaBuilder the column instance which can be further customized
+	 */
+	public function mediumText($length = null)
+	{
+		return $this->schema->createColumnSchemaBuilder('MEDIUMTEXT', $length);
+	}
+
+	/**
+	 * Creates a tiny int column. Available only in MySql.
 	 *
 	 * @param int $length column size or precision definition
 	 *
@@ -257,10 +282,10 @@ class Base
 	public function decimal($precision = null, $scale = null)
 	{
 		$length = [];
-		if ($precision !== null) {
+		if (null !== $precision) {
 			$length[] = $precision;
 		}
-		if ($scale !== null) {
+		if (null !== $scale) {
 			$length[] = $scale;
 		}
 		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_DECIMAL, $length);
@@ -365,10 +390,10 @@ class Base
 	public function money($precision = null, $scale = null)
 	{
 		$length = [];
-		if ($precision !== null) {
+		if (null !== $precision) {
 			$length[] = $precision;
 		}
-		if ($scale !== null) {
+		if (null !== $scale) {
 			$length[] = $scale;
 		}
 		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_MONEY, $length);

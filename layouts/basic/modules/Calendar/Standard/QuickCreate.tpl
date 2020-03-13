@@ -3,8 +3,8 @@
 	<div class="tpl-Calendar-Standard-QuickCreate quick-calendar-modal">
 		<input name="defaultOtherEventDuration"
 			   value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
-		<input value="{AppConfig::module($MODULE, 'CALENDAR_VIEW')}" type="hidden" class="js-calendar-type" data-js="value">
+		<input value="{App\Config::module($MODULE, 'CALENDAR_VIEW')}" type="hidden" class="js-calendar-type" data-js="value">
 		{include file=\App\Layout::getTemplatePath('QuickCreate.tpl', 'Vtiger')}
-		<input value="{AppConfig::module($MODULE, 'SHOW_DAYS_QUICKCREATE')}" type="hidden" class="showEventsTable" id="showEventsTable">
+		<input value="{App\Config::module($MODULE, 'SHOW_DAYS_QUICKCREATE')}" type="hidden" class="showEventsTable" id="showEventsTable">
 	</div>
 {/strip}

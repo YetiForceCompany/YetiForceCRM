@@ -12,7 +12,7 @@
 {strip}
 	<div class="tpl-Settings-Profiles-EditView">
 		<form id="EditView" name="EditProfile" action="index.php" method="post" class="form-horizontal">
-			<div class="widget_header row">
+			<div class="o-breadcrumb widget_header row">
 				<div class="col-md-8">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				</div>

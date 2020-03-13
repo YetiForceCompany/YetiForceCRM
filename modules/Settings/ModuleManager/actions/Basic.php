@@ -29,6 +29,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 	 * The action enable / disable the module.
 	 *
 	 * @param App\Request $request
+	 *
 	 * @return void
 	 */
 	public function updateModuleStatus(App\Request $request)
@@ -43,7 +44,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_Basic_Action
 				$moduleManagerModel->disableModule($moduleName);
 			}
 		} catch (\App\Exceptions\NotAllowedMethod $e) {
-			$response->setError($e->getMessage());
+			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
 	}

@@ -1,0 +1,22 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+@charset 'UTF-8';
+
+//-------- global variables --------//
+@import '_Variables';
+@import '../../../../libraries/bootstrap/scss/mixins/_breakpoints.scss';
+@import '../../../../libraries/bootstrap/scss/utilities/_spacing';
+@import '../../../../libraries/sass-material-colors/sass/_sass-material-colors-classes.scss';
+
+//-------- components --------//
+@import 'components/_Global';
+
+//-------- layout --------//
+@import 'layout/_Base';
+@import 'layout/_Header';
+@import 'layout/_Nav';
+
+//-------- pages --------//
+@import 'pages/_Dashboard';
+@import 'pages/_Edit';
+@import 'pages/_Settings';
+@import 'pages/_Detail';

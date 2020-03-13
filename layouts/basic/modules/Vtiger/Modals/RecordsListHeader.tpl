@@ -11,7 +11,7 @@
 			<script type="{$MODEL->getType()}" src="{$MODEL->getSrc()}"></script>
 		{/foreach}
 		<div class="modal-header d-flex justify-content-between flex-wrap flex-lg-nowrap">
-			<h5 class="modal-title mr-2 my-auto">
+			<h5 class="modal-title mr-2 my-auto text-nowrap">
 				{if $MODAL_VIEW->modalIcon}
 					<span class="{$MODAL_VIEW->modalIcon} mr-2"></span>
 				{/if}
