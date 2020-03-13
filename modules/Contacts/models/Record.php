@@ -46,16 +46,6 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * The function decide about mandatory save record.
-	 *
-	 * @return bool
-	 */
-	public function isMandatorySave()
-	{
-		return $_FILES ? true : false;
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function delete()

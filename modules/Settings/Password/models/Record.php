@@ -3,8 +3,11 @@
 /**
  * Settings Password save model class.
  *
+ * @package Settings
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Password_Record_Model extends Vtiger_Record_Model
 {
@@ -50,14 +53,14 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 	public static function validation(string $type, string $vale): bool
 	{
 		$returnVal = false;
-		if ($type == 'min_length') {
+		if ('min_length' == $type) {
 			$returnVal = is_numeric($vale) && (int) $vale <= (int) static::getUserPassConfig('max_length');
-		} elseif ($type == 'max_length') {
+		} elseif ('max_length' == $type) {
 			$returnVal = is_numeric($vale) && (int) $vale >= (int) static::getUserPassConfig('min_length');
-		} elseif ($type == 'change_time' || $type == 'lock_time') {
+		} elseif ('change_time' == $type || 'lock_time' == $type || 'pwned_time' == $type) {
 			$returnVal = is_numeric($vale);
-		} elseif ($type == 'big_letters' || $type == 'small_letters' || $type == 'numbers' || $type == 'special') {
-			$returnVal = $vale === 'false' || $vale === 'true';
+		} elseif ('big_letters' == $type || 'small_letters' == $type || 'numbers' == $type || 'special' == $type || 'pwned' == $type) {
+			$returnVal = 'false' === $vale || 'true' === $vale;
 		}
 		return $returnVal;
 	}
@@ -66,23 +69,26 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 	{
 		$conf = self::getUserPassConfig();
 		$moduleName = 'Settings:Password';
-		if (strlen($pass) > $conf['max_length']) {
+		if (\strlen($pass) > $conf['max_length']) {
 			return \App\Language::translate('Maximum password length', $moduleName) . ' ' . $conf['max_length'] . ' ' . \App\Language::translate('characters', $moduleName);
 		}
-		if (strlen($pass) < $conf['min_length']) {
+		if (\strlen($pass) < $conf['min_length']) {
 			return \App\Language::translate('Minimum password length', $moduleName) . ' ' . $conf['min_length'] . ' ' . \App\Language::translate('characters', $moduleName);
 		}
-		if ($conf['numbers'] == 'true' && !preg_match('#[0-9]+#', $pass)) {
+		if ('true' == $conf['numbers'] && !preg_match('#[0-9]+#', $pass)) {
 			return \App\Language::translate('Password should contain numbers', $moduleName);
 		}
-		if ($conf['big_letters'] == 'true' && !preg_match('#[A-Z]+#', $pass)) {
+		if ('true' == $conf['big_letters'] && !preg_match('#[A-Z]+#', $pass)) {
 			return \App\Language::translate('Uppercase letters from A to Z', $moduleName);
 		}
-		if ($conf['small_letters'] == 'true' && !preg_match('#[a-z]+#', $pass)) {
+		if ('true' == $conf['small_letters'] && !preg_match('#[a-z]+#', $pass)) {
 			return \App\Language::translate('Lowercase letters a to z', $moduleName);
 		}
-		if ($conf['special'] == 'true' && !preg_match('~[!"#$%&\'()*+,-./:;<=>?@[\]^_{|}]~', $pass)) {
+		if ('true' == $conf['special'] && !preg_match('~[!"#$%&\'()*+,-./:;<=>?@[\]^_{|}]~', $pass)) {
 			return \App\Language::translate('Password should contain special characters', $moduleName);
+		}
+		if ('true' == $conf['pwned'] && ($passStatus = App\Extension\PwnedPassword::check($pass)) && !$passStatus['status']) {
+			return $passStatus['message'];
 		}
 		return false;
 	}

@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<!-- tpl-install-tpl-Footer -->
-	<input id="activityReminder" class="d-none noprint" type="hidden" value="{$ACTIVITY_REMINDER}">
+	<input id="activityReminder" class="d-none noprint" type="hidden" value="0">
 	{if !$MAIN_PRODUCT_WHITELABEL}
 		<footer class="noprint fixed-bottom">
 			<div class="vtFooter pb-5 pb-sm-0">

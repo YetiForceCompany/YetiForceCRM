@@ -1,7 +1,7 @@
 <?php
 
 /**
- * User Accounts.
+ * User record filtered list class.
  *
  * @package 	App
  *
@@ -13,22 +13,20 @@
 namespace App\TextParser;
 
 /**
- * UserNewRecords class.
+ *  User Records Filtered List class.
  */
 class UserRecordsList extends Base
 {
 	/** @var string Class name */
-	public $name = 'LBL_REPORT_USER_RECORDS_LIST';
+	public $name = 'LBL_USER_RECORD_FILTERED_LIST';
 
 	/** @var mixed Parser type */
 	public $type = 'pdf';
 
-	/**
-	 * @var string Default template
-	 *
-	 * @see \App\Condition::DATE_OPERATORS
+	/** @var string Default template
+	 * Example: $(custom : UserRecordsList|SSalesProcesses|subject:related_to|[[["description","y",""]]]|[["createdtime","ASC"]]|50)$
 	 */
-	public $default = '$(custom : UserRecordsList|__MODULE_NAME__|__DATE_OPERATOR__|__FIELDS_LIST__)$';
+	public $default = '$(custom : UserRecordsList|__MODULE_NAME__|__FIELDS_TO_SHOW__|__CONDITIONS__|__ORDER_BY__|__LIMIT__|__VIEW_ID__|__ADVANCE_CONDITIONS__)$';
 
 	/**
 	 * Process.
@@ -42,67 +40,172 @@ class UserRecordsList extends Base
 		if (!empty($textParserParams = $this->textParser->getParam('textParserParams')) && isset($textParserParams['userId']) &&
 			!empty($userId = $textParserParams['userId']) && \App\User::isExists($userId) && \App\Module::isModuleActive($moduleName)
 		) {
-			$queryGenerator = (new \App\QueryGenerator($moduleName));
-			$moduleModel = $queryGenerator->getModuleModel();
-
+			$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 			$fields = [];
-			$fieldsName = !empty($this->params[2]) ? explode(':', $this->params[2]) : $moduleModel->getNameFields();
+			$fieldsName = !empty($this->params[1]) ? explode(':', $this->params[1]) : $moduleModel->getNameFields();
 			foreach ($fieldsName as $fieldName) {
-				$fieldModel = \is_object($fieldName) ? $fieldName : $moduleModel->getFieldByName($fieldName);
-				if (!$fieldModel || !$fieldModel->isActiveField()) {
+				if (!($fieldModel = $moduleModel->getFieldByName($fieldName)) || !$fieldModel->isActiveField()) {
 					continue;
 				}
-				$fields[$fieldModel->getName()] = $fieldModel;
+				$fields[$fieldName] = $fieldModel;
 			}
-			if ($fields) {
-				$queryGenerator
-					->setFields(array_keys($fields))
-					->setField('id')
-					->addCondition('assigned_user_id', $userId, 'e', false);
-				if (isset(\App\Condition::DATE_OPERATORS[$this->params[1]])) {
-					$queryGenerator->addCondition('createdtime', false, $this->params[1]);
+			$advConditions = $this->params[6] ?? null;
+			$viewId = $this->params[5] ?? null;
+			$limit = $this->params[4] ?? \App\Config::performance('REPORT_RECORD_NUMBERS');
+			$orderBy = $this->params[3] ?? null;
+			$searchParams = $this->params[2] ?? null;
+			$queryGenerator = (new \App\QueryGenerator($moduleName, $userId))->setFields(array_merge(['id'], array_keys($fields)));
+
+			if (!empty($viewId)) {
+				$queryGenerator->initForCustomViewById($viewId);
+			}
+			if (!\App\Json::isEmpty($searchParams)) {
+				$searchParams = \App\Json::decode($searchParams);
+				$this->parseConditions($queryGenerator, $searchParams, $userId);
+			}
+			if (!\App\Json::isEmpty($advConditions)) {
+				$advConditions = \App\Json::decode($advConditions);
+				foreach ($advConditions as $advCondition) {
+					[$relationId, $operator, $condition] = array_pad($advCondition, 3, null);
+					$this->addAdvConditions($queryGenerator, $relationId, $operator, $condition, $userId);
 				}
-				$query = $queryGenerator->createQuery();
-				$query->orderBy(['vtiger_crmentity.createdtime' => \SORT_ASC]);
-				$query->limit(\App\Config::performance('REPORT_RECORD_NUMBERS'));
-				$dataReader = $query->createCommand()->query();
+			}
+			if ($orderBy && !\App\Json::isEmpty($orderBy)) {
+				$orderBy = \App\Json::decode($orderBy);
+				foreach ($orderBy as $order) {
+					$queryGenerator->setOrder($order[0], $order[1]);
+				}
+			}
+
+			$dataReader = $queryGenerator->setLimit($limit)->createQuery()->createCommand()->query();
+			$entries = [];
+			if (!empty($fields)) {
 				$count = 1;
-				$entries = [];
 				while ($row = $dataReader->read()) {
+					if (isset($entries[$row['id']])) {
+						continue;
+					}
 					$recordHtml = '';
 					$entriesPart = [];
-					$recordModel = $moduleModel->getRecordFromArray($row);
+					$recordModel = 1 === \count($row) ? \Vtiger_Record_Model::getInstanceById($row['id']) : $moduleModel->getRecordFromArray($row);
 					foreach ($fields as $field) {
-						if ($recordModel->isEmpty($field->getName())) {
+						if ($recordModel->isEmpty($field->getName()) || !($value = $recordModel->getDisplayValue($field->getName(), false, true))) {
 							continue;
 						}
-						$value = $recordModel->get($field->getName());
-						if (
-							$field->isReferenceField() &&
-							!\in_array('Users', $field->getReferenceList())
-							) {
-							if (\App\Privilege::isPermitted(\App\Record::getType($value), 'DetailView', $value, $userId)) {
-								$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($value);
-								$entriesPart[] = '<a href="' . \App\Config::main('site_URL') . $relatedRecordModel->getDetailViewUrl() . '">' . $relatedRecordModel->getName() . '</a>';
+						if ($field->isReferenceField()) {
+							$relModule = \App\Record::getType($recordModel->get($field->getName()));
+							if ($relModule && 'Users' !== $relModule && \App\Privilege::isPermitted($relModule, 'DetailView', $recordModel->get($field->getName()), $userId)) {
+								$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($recordModel->get($field->getName()));
+								$entriesPart[] = ' [<a href="' . \App\Config::main('site_URL') . $relatedRecordModel->getDetailViewUrl() . '">' . $value . '</a>] ';
 							} else {
-								$entriesPart[] = \App\Record::getLabel($value);
+								$entriesPart[] = " [{$value}] ";
 							}
-						} elseif (!empty($value = $recordModel->getDisplayValue($field->getName(), false, true))) {
-							$recordHtml .= rtrim($value, '<br>') . ' ';
+						} else {
+							$recordHtml .= " {$value} ";
 						}
 					}
 					if (!empty($recordHtml)) {
 						if ('ModComments' === $moduleName) {
-							$entries[] = "{$count}. " . ($entriesPart ? implode(', ', $entriesPart) . '<br>  ' : '') . " {$recordHtml} ";
+							$entries[$recordModel->getId()] = "{$count}. " . ($entriesPart ? implode(', ', $entriesPart) . '<br>  ' : '') . " {$recordHtml} ";
 						} else {
-							$entries[] = "{$count}. " . implode(' ', $entriesPart) . ' <a href="' . \App\Config::main('site_URL') . $recordModel->getDetailViewUrl() . '">' . $recordHtml . '</a>';
+							$entries[$recordModel->getId()] = "{$count}. " . ' <a href="' . \App\Config::main('site_URL') . $recordModel->getDetailViewUrl() . '">' . $recordHtml . '</a> ' . implode(' ', $entriesPart);
 						}
 					}
 					++$count;
 				}
-				$html = implode('<br>', $entries);
 			}
+			$html = implode('<br>', $entries);
 		}
 		return !empty($html) ? $html : \App\Language::translate('LBL_NO_RECORDS', 'Other.Reports');
+	}
+
+	/**
+	 * Add advance conditions.
+	 *
+	 * @param \App\QueryGenerator $queryGenerator
+	 * @param int                 $relationId
+	 * @param string              $operator
+	 * @param array|null          $condition
+	 * @param int|null            $userId
+	 */
+	private function addAdvConditions(\App\QueryGenerator $queryGenerator, int $relationId, string $operator, ?array $condition, ?int $userId)
+	{
+		$relationModel = \Vtiger_Relation_Model::getInstanceById($relationId);
+		if (\Vtiger_Relation_Model::RELATION_M2M !== $relationModel->getRelationType()) {
+			$parentModuleName = $relationModel->getParentModuleModel()->getName();
+			$subQueryBase = (new \App\QueryGenerator($parentModuleName, $userId))->setFields(['id'])->createQuery();
+			$subQuery = (new \App\QueryGenerator($relationModel->getRelationModuleName(), $userId));
+			if ($condition) {
+				$this->parseConditions($subQuery, $condition, $userId);
+			}
+			foreach ($relationModel->getRelationModuleModel()->getReferenceFieldsForModule($parentModuleName) as $fieldModel) {
+				$subQuery->permissions = false;
+				$subQuery = $subQuery->setFields([$fieldModel->getName()])
+					->addNativeCondition([$subQuery->getQueryField($fieldModel->getName())->getColumnName() => $subQueryBase])
+					->setDistinct($fieldModel->getName())
+					->createQuery();
+			}
+			switch ($operator) {
+				case 'y':
+					$queryGenerator->addNativeCondition(['not', ['in', $queryGenerator->getQueryField('id')->getColumnName(), $subQuery]])
+						->setFields(['id'])->setDistinct('id');
+					break;
+				case 'ny':
+					$queryGenerator->addNativeCondition([$queryGenerator->getQueryField('id')->getColumnName() => $subQuery])
+						->setFields(['id'])->setDistinct('id');
+					break;
+				default:
+			}
+		} else {
+			$relation = $relationModel->getTypeRelationModel();
+			$tableName = \get_class($relation)::TABLE_NAME;
+			$subQuery = (new \App\QueryGenerator($relationModel->getRelationModuleName(), $userId))->setFields(['id']);
+			if ($condition) {
+				$this->parseConditions($subQuery, $condition, $userId);
+			}
+			$subQuery = $subQuery->createQuery();
+			switch ($operator) {
+				case 'y':
+					$subQueryBase = (new \App\QueryGenerator($relationModel->getParentModuleModel()->getName(), $userId))->setFields(['id'])
+						->addJoin(['INNER JOIN', $tableName, "({$tableName}.relcrmid = vtiger_crmentity.crmid OR {$tableName}.crmid = vtiger_crmentity.crmid)"])
+						->addNativeCondition(['or', ["{$tableName}.crmid" => $subQuery], ["{$tableName}.relcrmid" => $subQuery]])->createQuery();
+					$queryGenerator->addNativeCondition(['not', [$queryGenerator->getQueryField('id')->getColumnName() => $subQueryBase]])
+						->setFields(['id'])->setDistinct('id');
+					break;
+				case 'ny':
+					$queryGenerator->addJoin(['INNER JOIN', $tableName, "({$tableName}.relcrmid = vtiger_crmentity.crmid OR {$tableName}.crmid = vtiger_crmentity.crmid)"]);
+					$queryGenerator->addNativeCondition(['or', ["{$tableName}.crmid" => $subQuery], ["{$tableName}.relcrmid" => $subQuery]])
+						->setFields(['id'])->setDistinct('id');
+					break;
+				default:
+			}
+		}
+	}
+
+	/**
+	 * Parse conditions.
+	 *
+	 * @param \App\QueryGenerator $queryGenerator
+	 * @param array               $searchParams
+	 * @param int|null            $userId
+	 */
+	private function parseConditions(\App\QueryGenerator $queryGenerator, array $searchParams, ?int $userId)
+	{
+		foreach ($searchParams as &$conditions) {
+			if (empty($conditions)) {
+				continue;
+			}
+			foreach ($conditions as &$condition) {
+				if ('om' === $condition[1]) {
+					$condition[1] = 'e';
+					$condition[2] = $userId;
+				} elseif ('nom' === $condition[1]) {
+					$condition[1] = 'n';
+					$condition[2] = $userId;
+				}
+			}
+		}
+		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParams);
+		$queryGenerator->parseAdvFilter($transformedSearchParams);
 	}
 }

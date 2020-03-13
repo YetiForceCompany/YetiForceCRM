@@ -1,17 +1,21 @@
 <?php
-
-namespace App;
-
-/*
- * Debuger basic class.
+/**
+ * Debugger basic file.
+ *
+ * @package   Debug
  *
  * @copyright YetiForce Sp. z o.o.
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use DebugBar;
+
+namespace App;
+
 use DebugBar\DataCollector;
 
+/**
+ * Debuger basic class.
+ */
 class Debuger
 {
 	/**
@@ -20,44 +24,42 @@ class Debuger
 	protected static $debugBar;
 
 	/**
-	 * Base path of files javascript.
-	 */
-	const BASE_PATH_JAVASCRIPT = 'vendor/yetiforce/debugbar/src/DebugBar/Resources';
-
-	/**
 	 * Initiating debugging console.
 	 *
 	 * @return \App\DebugBar\Debuger
 	 */
 	public static function initConsole()
 	{
-		$debugbar = new DebugBar\DebugBar();
-		$debugbar->addCollector(new DataCollector\PhpInfoCollector());
-		$debugbar->addCollector(new DataCollector\RequestDataCollector());
-		$debugbar->addCollector(new DataCollector\TimeDataCollector());
-		$debugbar->addCollector(new DataCollector\MemoryCollector());
-		if (\App\Config::debug('LOG_TO_CONSOLE')) {
-			$debugbar->addCollector(new Debug\DebugBarLogs());
+		if (\App\Config::debug('DISPLAY_DEBUG_CONSOLE') && static::consoleIsActive()) {
+			$debugbar = new Debug\DebugBar\DebugBar();
+			$debugbar->addCollector(new DataCollector\PhpInfoCollector());
+			$debugbar->addCollector(new DataCollector\ExceptionsCollector());
+			$debugbar->addCollector(new DataCollector\RequestDataCollector());
+			$debugbar->addCollector(new DataCollector\MemoryCollector());
+			$debugbar->addCollector(new DataCollector\TimeDataCollector());
+			if (\App\Config::debug('DISPLAY_LOGS_IN_CONSOLE')) {
+				$debugbar->addCollector(new Debug\DebugBarLogs());
+			}
+			if (\App\Config::debug('DISPLAY_CONFIG_IN_CONSOLE')) {
+				$debugbar->addCollector(new \DebugBar\DataCollector\ConfigCollector([
+					'debug' => \App\Config::debug(),
+					'developer' => \App\Config::developer(),
+					'performance' => \App\Config::performance(),
+					'api' => \App\Config::api(),
+					'security' => \App\Config::security(),
+					'search' => \App\Config::search(),
+					'sounds' => \App\Config::sounds(),
+					'relation' => \App\Config::relation(),
+				]));
+			}
+			static::$debugBar = $debugbar;
 		}
-		$debugbar->addCollector(new DataCollector\ExceptionsCollector());
-
-		return static::$debugBar = $debugbar;
-	}
-
-	/**
-	 * Function to get path of files javascript.
-	 *
-	 * @return string
-	 */
-	public static function getJavascriptPath()
-	{
-		return Layout::getPublicUrl(self::BASE_PATH_JAVASCRIPT);
 	}
 
 	/**
 	 * Get Debuger instance.
 	 *
-	 * @return \App\DebugBar\Debuger
+	 * @return \App\Debug\DebugBar\DebugBar
 	 */
 	public static function getDebugBar()
 	{
@@ -86,9 +88,6 @@ class Debuger
 	 */
 	public static function init()
 	{
-		if (\App\Config::debug('DISPLAY_DEBUG_CONSOLE') && static::checkIP()) {
-			static::initConsole();
-		}
 		$targets = [];
 		if (\App\Config::debug('LOG_TO_FILE')) {
 			$levels = \App\Config::debug('LOG_LEVELS');
@@ -118,14 +117,17 @@ class Debuger
 	}
 
 	/**
-	 * Checking user IP.
+	 * Checking console is active.
 	 *
 	 * @return bool
 	 */
-	public static function checkIP()
+	public static function consoleIsActive()
 	{
-		$ips = \App\Config::debug('DEBUG_CONSOLE_ALLOWED_IPS');
+		$ips = \Config\Debug::$DEBUG_CONSOLE_ALLOWED_IPS;
 		if (false === $ips || (\is_string($ips) && RequestUtil::getRemoteIP(true) === $ips) || (\is_array($ips) && \in_array(RequestUtil::getRemoteIP(true), $ips))) {
+			if (\Config\Debug::$DEBUG_CONSOLE_ALLOWED_USERS && !\in_array(\App\User::getCurrentUserRealId(), \Config\Debug::$DEBUG_CONSOLE_ALLOWED_USERS)) {
+				return false;
+			}
 			return true;
 		}
 		return false;

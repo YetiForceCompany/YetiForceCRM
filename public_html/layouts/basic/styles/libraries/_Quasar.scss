@@ -41,3 +41,6 @@ body > .q-dialog:not(.quasar-reset) {
 		height: calc(100vh - 113px);
 	}
 }
+.q-message-text {
+	background: none;
+}

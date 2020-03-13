@@ -89,6 +89,11 @@ $h-calendar-form-actions: calculate-rem(49px);
 		bottom: $h-footer;
 	}
 }
+@include media-breakpoint-down(md) {
+	.siteBarRight {
+		width: auto !important;
+	}
+}
 
 .hideSiteBar {
 	right: -25%;

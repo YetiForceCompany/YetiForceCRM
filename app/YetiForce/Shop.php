@@ -199,10 +199,19 @@ class Shop
 	 */
 	public static function verify(): bool
 	{
-		foreach (self::getProducts() as $product) {
-			if (!$product->verify()) {
-				self::$verifyProduct = $product->getLabel();
-				return false;
+		if ($cacheData = self::getFromCache()) {
+			foreach ($cacheData as $product => $status) {
+				if (!$status) {
+					self::$verifyProduct = \App\Language::translate('LBL_SHOP_' . \strtoupper($product), 'Settings:YetiForce');
+					return false;
+				}
+			}
+		} else {
+			foreach (self::getProducts() as $product) {
+				if (!$product->verify()) {
+					self::$verifyProduct = $product->getLabel();
+					return false;
+				}
 			}
 		}
 		return true;
@@ -217,7 +226,7 @@ class Shop
 		foreach (self::getProducts() as $key => $product) {
 			$content[$key] = $product->verify(false);
 		}
-		\App\Utils::saveToFile(ROOT_DIRECTORY . '/app_data/shop.php', $content, 'Modifying this file will breach the licence terms', 0, true);
+		\App\Utils::saveToFile(ROOT_DIRECTORY . '/app_data/shop.php', $content, 'Modifying this file will breach the licence terms!!!', 0, true);
 	}
 
 	/**

@@ -553,6 +553,12 @@ var Vtiger_Index_Js = {
 		});
 	},
 	registerAterloginEvents: function() {
+		if (typeof CONFIG.ShowUserPwnedPasswordChange !== 'undefined') {
+			app.showModalWindow(
+				null,
+				'index.php?module=Users&view=PasswordModal&mode=change&type=pwned&record=' + CONFIG.userId
+			);
+		}
 		if (typeof CONFIG.ShowUserPasswordChange !== 'undefined') {
 			app.showModalWindow(null, 'index.php?module=Users&view=PasswordModal&mode=change&record=' + CONFIG.userId);
 		}

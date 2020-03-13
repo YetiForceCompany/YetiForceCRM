@@ -161,11 +161,12 @@ class ConfReport
 		'SimpleXML' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'SimpleXML', 'container' => 'ext', 'testCli' => true],
 		'bcmath' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'bcmath', 'container' => 'ext', 'testCli' => true],
 		'filter' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'filter', 'container' => 'ext', 'testCli' => true],
+		'ctype' => ['mandatory' => true, 'type' => 'ExtExist', 'extName' => 'ctype', 'container' => 'ext', 'testCli' => true],
 		'exif' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'exif', 'container' => 'ext', 'testCli' => true],
 		'ldap' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'ldap', 'container' => 'ext', 'testCli' => true],
 		'OPcache' => ['mandatory' => false, 'type' => 'FnExist', 'fnName' => 'opcache_get_configuration', 'container' => 'ext', 'testCli' => true],
-		'apcu' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'apcu', 'container' => 'ext', 'testCli' => true],
-		'imagick' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'imagick', 'container' => 'ext', 'testCli' => true],
+		'apcu' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'apcu', 'container' => 'ext', 'testCli' => true, 'mode' => 'showWarnings'],
+		'imagick' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'imagick', 'container' => 'ext', 'testCli' => true, 'mode' => 'showWarnings'],
 		'allExt' => ['container' => 'ext', 'type' => 'AllExt', 'testCli' => true, 'label' => 'EXTENSIONS'],
 	];
 
@@ -279,8 +280,8 @@ class ConfReport
 		'open_basedir' => ['container' => 'php',  'type' => 'NotEmpty', 'testCli' => true, 'mode' => 'showWarnings'],
 		'caCertBundle' => ['recommended' => 'On', 'container' => 'env', 'type' => 'OnOff', 'testCli' => true, 'label' => 'CACERTBUNDLE'],
 		'caCertBundlePath' => ['recommended' => 'On', 'container' => 'env', 'testCli' => true, 'label' => 'CACERTBUNDLE_PATH'],
-		'SSL_CERT_FILE' => ['container' => 'env', 'testCli' => true],
-		'SSL_CERT_DIR' => ['container' => 'env', 'testCli' => true],
+		'SSL_CERT_FILE' => ['container' => 'env', 'testCli' => true, 'label' => 'SSL_CERT_FILE'],
+		'SSL_CERT_DIR' => ['container' => 'env', 'testCli' => true, 'label' => 'SSL_CERT_DIR'],
 		'openssl.cafile' => ['container' => 'php',  'type' => 'NotEmpty', 'testCli' => true, 'mode' => 'showWarnings'],
 		'openssl.capath' => ['container' => 'php',  'type' => 'NotEmpty', 'testCli' => true, 'mode' => 'showWarnings'],
 	];
@@ -503,6 +504,10 @@ class ConfReport
 			$lastCronStart = date('Y-m-d H:i:s', $cron);
 			$lastCronStartText = \App\Fields\DateTime::formatToViewDate($lastCronStart);
 		}
+		$caCertBundlePath = realpath(\Composer\CaBundle\CaBundle::getSystemCaRootBundlePath());
+		if (0 === strpos($caCertBundlePath, ROOT_DIRECTORY)) {
+			$caCertBundlePath = str_replace(ROOT_DIRECTORY, '__CRM_PATH__', $caCertBundlePath);
+		}
 		return [
 			'php' => $php,
 			'env' => [
@@ -514,14 +519,14 @@ class ConfReport
 				'locale' => $locale,
 				'https' => \App\RequestUtil::getBrowserInfo()->https,
 				'caCertBundle' => \is_file(\Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()) ? 'On' : 'Off',
-				'caCertBundlePath' => ltrim(\Composer\CaBundle\CaBundle::getSystemCaRootBundlePath(), ROOT_DIRECTORY),
+				'caCertBundlePath' => $caCertBundlePath,
 				'public_html' => IS_PUBLIC_DIR ? 'On' : 'Off',
 				'crmVersion' => \App\Version::get(),
 				'crmDate' => \App\Version::get('patchVersion'),
 				'crmDir' => ROOT_DIRECTORY,
 				'operatingSystem' => 'demo' === \App\Config::main('systemMode') ? php_uname('s') : php_uname(),
 				'serverSoftware' => $_SERVER['SERVER_SOFTWARE'] ?? '-',
-				'currentUser' => get_current_user() . ' [' . (getmyuid() ?: '-') . ']',
+				'currentUser' => get_current_user() . (getmyuid() ? ' (uid:' . getmyuid() . ')' : ''),
 				'tempDir' => \App\Fields\File::getTmpPath(),
 				'spaceRoot' => '',
 				'spaceStorage' => '',
@@ -839,7 +844,7 @@ class ConfReport
 	private static function validateCronEqual(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		if ('www' === $sapi && strtolower($row['www'] ?? '') !== strtolower($row['cron'] ?? '')) {
+		if ('www' === $sapi && isset($row['cron']) && strtolower($row['www'] ?? '') !== strtolower($row['cron'] ?? '')) {
 			$row['status'] = false;
 		}
 		return $row;
@@ -1015,7 +1020,7 @@ class ConfReport
 	private static function parserOnOff(string $name, array $row)
 	{
 		$container = $row['container'];
-		$current = static::${$container}[\strtolower($name)] ?? '';
+		$current = static::${$container}[\strtolower($name)] ?? static::${$container}[$name] ?? '';
 		static $map = ['on' => 'On', 'true' => 'On', 'off' => 'Off', 'false' => 'Off'];
 		return isset($map[strtolower($current)]) ? $map[strtolower($current)] : ($current ? 'On' : 'Off');
 	}
@@ -1197,6 +1202,7 @@ class ConfReport
 	private static function parserAllExt(string $name, array $row)
 	{
 		unset($name, $row);
+		sort(static::$ext, SORT_NATURAL | SORT_FLAG_CASE);
 		return \implode(', ', static::$ext);
 	}
 
@@ -1325,6 +1331,7 @@ class ConfReport
 		$view->assign('SHOW_FOOTER_BAR', true);
 		$html = $view->view('PageFooter.tpl', '', true);
 		$row['status'] = true;
+		// Modification of the following condition will violate the license!
 		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
 			$row['status'] = false !== \strpos($html, '&copy; YetiForce.com All rights reserved') || !empty(\App\Config::component('Branding', 'footerName'));
 		}

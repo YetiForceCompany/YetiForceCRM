@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
@@ -24,10 +25,11 @@ class OpenStreetMap_UpdaterCoordinates_Cron extends \App\CronHandler
 		if (false !== $lastUpdatedCrmId) {
 			$dataReader = (new App\Db\Query())->select(['crmid', 'setype', 'deleted'])
 				->from('vtiger_crmentity')
-				->where(['>', 'crmid', $lastUpdatedCrmId])
+				->where(['setype' => \App\Config::module('OpenStreetMap', 'ALLOW_MODULES', [])])
+				->andWhere(['>', 'crmid', $lastUpdatedCrmId])
 				->limit(App\Config::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
 				->createCommand()->query();
-			$moduleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
+			$moduleModel = OpenStreetMap_Module_Model::getInstance('OpenStreetMap');
 			$coordinatesConnector = \App\Map\Coordinates::getInstance();
 			while ($row = $dataReader->read()) {
 				if ($moduleModel->isAllowModules($row['setype']) && 0 == $row['deleted']) {
@@ -66,10 +68,10 @@ class OpenStreetMap_UpdaterCoordinates_Cron extends \App\CronHandler
 			}
 			$dataReader->close();
 			$lastRecordId = $db->getUniqueID('vtiger_crmentity', 'crmid', false);
-			if ($lastRecordId === $lastUpdatedCrmId) {
+			if ($dataReader->count() || $lastRecordId === $lastUpdatedCrmId) {
 				$db->createCommand()->update('u_#__openstreetmap_address_updater', ['crmid' => $lastUpdatedCrmId])->execute();
-				$cronTask->updateStatus(\vtlib\Cron::$STATUS_DISABLED);
-				$cronTask->set('lockStatus', true);
+				$this->cronTask->updateStatus(\vtlib\Cron::$STATUS_DISABLED);
+				$this->cronTask->set('lockStatus', true);
 			} else {
 				$db->createCommand()->update('u_#__openstreetmap_address_updater', ['crmid' => $lastUpdatedCrmId])->execute();
 			}

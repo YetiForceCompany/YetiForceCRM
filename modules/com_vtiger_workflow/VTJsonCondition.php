@@ -153,7 +153,7 @@ class VTJsonCondition
 		if ('datetime' === $dataType || 'date' === $dataType) {
 			$fieldName = $cond['fieldname'];
 			$dateTimePair = ['date_start' => 'time_start', 'due_date' => 'time_end'];
-			if (!$recordModel->isEmpty($dateTimePair[$fieldName])) {
+			if (isset($dateTimePair[$fieldName]) && !$recordModel->isEmpty($dateTimePair[$fieldName])) {
 				$fieldValue = $recordModel->get($fieldName) . ' ' . $recordModel->get($dateTimePair[$fieldName]);
 			} else {
 				$fieldValue = $recordModel->get($fieldName);

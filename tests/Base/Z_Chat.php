@@ -449,50 +449,6 @@ class Z_Chat extends \Tests\Base
 	}
 
 	/**
-	 * The test checks what happens when the user is removed.
-	 *
-	 * @throws \App\Exceptions\AppException
-	 * @throws \App\Exceptions\IllegalValue
-	 * @throws \yii\db\Exception
-	 */
-	public function testRemoveUser(): void
-	{
-		\App\User::setCurrentUserId(static::$users[0]);
-		// $chat = \App\Chat::getInstance('global', static::$globalRoom['global_room_id']);
-		// $id = $chat->addMessage('testRemoveUser');
-		// $entries = $chat->getEntries();
-		// \Users_Record_Model::deleteUserPermanently(static::$users[0], \App\User::getActiveAdminId());
-		// \App\Cache::clear(static::$users[0]);
-		// \App\User::clearCache();
-		// $this->assertFalse(\App\User::isExists(static::$users[0]), 'The user should not exist');
-		// //Switch user
-		// \App\User::setCurrentUserId(\App\User::getActiveAdminId());
-		// $chat = \App\Chat::getInstance('global', static::$globalRoom['global_room_id']);
-		// $rowMsg = (new \App\Db\Query())
-		// 	->from(\App\Chat::TABLE_NAME['message'][$chat->getRoomType()])
-		// 	->where(['id' => $id])->one();
-		// $this->assertNotFalse($rowMsg, "The message {$id} does not exist");
-		// $this->assertSame('testRemoveUser', $rowMsg['messages']);
-		// $this->assertSame(static::$users[0], $rowMsg['userid']);
-		// $entriesAfter = $chat->getEntries();
-		// $this->assertCount(\count($entries), $entriesAfter, 'The number of messages should be the same');
-		// $key = static::getKeyMessage($entriesAfter, $id);
-		// $this->assertNotFalse($key, 'Problem with the method "getEntries"');
-		// $this->assertSame($rowMsg['messages'], $entriesAfter[$key]['messages']);
-		// $this->assertNull($entriesAfter[$key]['user_name'], 'User name should be null');
-		// $this->assertNull($entriesAfter[$key]['role_name'], 'User role should be null');
-		// $this->assertNull($entriesAfter[$key]['image'], 'User image should be null');
-		// $participants = $chat->getParticipants();
-		// $keyUser = static::getUserFromParticipants($participants, static::$users[0]);
-		// if ($keyUser && static::isRoomPinned($chat->getRoomType(), $chat->getRecordId(), \App\User::getActiveAdminId())) {
-		// 	$this->assertNotFalse($keyUser, 'Problem with the method "getParticipants"');
-		// 	$this->assertSame($participants[$keyUser]['message'], $entriesAfter[$key]['messages']);
-		// } else {
-		// 	$this->assertFalse($keyUser, 'Problem with the method "getParticipants"');
-		// }
-	}
-
-	/**
 	 * @codeCoverageIgnore
 	 * Cleaning after tests.
 	 */

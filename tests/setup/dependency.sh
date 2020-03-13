@@ -13,6 +13,10 @@ yarn list
 cd ../../
 
 echo " -----  Install composer -----"
+rm -rf composer.json
+rm -rf composer.lock
+mv composer_dev.json composer.json
+mv composer_dev.lock composer.lock
 composer install --no-interaction
 
 

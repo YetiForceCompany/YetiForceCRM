@@ -3,7 +3,7 @@
 <!-- tpl-Base-Detail-Widget-Activities -->
 {assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
 <div class="c-detail-widget js-detail-widget activityWidgetContainer" data-js="container">
-	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
+	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}">
 		<div class="c-detail-widget__header js-detail-widget-header collapsed" data-js="container|value">
 			<div class="c-detail-widget__header__container d-flex w-100 align-items-center py-1">
 				<div class="c-detail-widget__toggle collapsed" id="{$WIDGET_UID}" data-toggle="collapse"
@@ -29,21 +29,21 @@
 						</div>
 					</button>
 					<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions">
-						{if isset($WIDGET['switchHeader'])}
+						{if isset($WIDGET['switchTypeInHeader'])}
 							<div class="btn-group btn-group-toggle" data-toggle="buttons">
 								<label class="btn btn-sm btn-outline-primary active">
 									<input class="js-switch" type="radio" name="options" id="options-option1" data-js="change"
 										data-on-text="{App\Language::translate('LBL_CURRENT')}"
-										data-on-val="{if isset($WIDGET['switchHeader']['on'])}{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}{/if}"
-										data-basic-text="{App\Language::translate('LBL_CURRENT')}" autocomplete="off">
+										data-on-val="{if isset($WIDGET['switchTypeInHeader']['on'])}{\App\Purifier::encodeHtml($WIDGET['switchTypeInHeader']['on'])}{/if}"
+										data-basic-text="{App\Language::translate('LBL_CURRENT')}" autocomplete="off" checked="checked" data-urlparams="search_params">
 									{App\Language::translate('LBL_CURRENT')}
 								</label>
 								<label class="btn btn-sm btn-outline-primary">
 									<input class="js-switch" type="radio" name="options" id="options-option2" data-js="change"
 										data-basic-text="{App\Language::translate('LBL_HISTORY')}"
 										data-off-text="data-off-text {App\Language::translate('LBL_HISTORY')}"
-										data-off-val="{if isset($WIDGET['switchHeader']['off'])}{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}{/if}"
-										autocomplete="off"> {App\Language::translate('LBL_HISTORY')}
+										data-off-val="{if isset($WIDGET['switchTypeInHeader']['off'])}{\App\Purifier::encodeHtml($WIDGET['switchTypeInHeader']['off'])}{/if}"
+										autocomplete="off" data-urlparams="search_params"> {App\Language::translate('LBL_HISTORY')}
 								</label>
 							</div>
 						{/if}

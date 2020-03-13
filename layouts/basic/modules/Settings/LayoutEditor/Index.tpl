@@ -155,7 +155,7 @@
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
 																	{/if}
-																	<span class="ml-3 font-weight-normal" title="UiType: {$FIELD_MODEL->getUIType()}">[ {$FIELD_MODEL->getName()}&nbsp;&nbsp;-&nbsp;&nbsp;{$FIELD_MODEL->getFieldDataType()} ]</span>
+																	<span class="ml-3 font-weight-normal">[{$FIELD_MODEL->getName()}]</span>
 																</span>
 																<span class="float-right actions">
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}"/>
@@ -212,7 +212,7 @@
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
 																	{/if}
-																	<span class="ml-3 font-weight-normal" title="UiType: {$FIELD_MODEL->getUIType()}">[ {$FIELD_MODEL->getName()}&nbsp;&nbsp;-&nbsp;&nbsp;{$FIELD_MODEL->getFieldDataType()} ]</span>
+																	<span class="ml-3 font-weight-normal">[{$FIELD_MODEL->getName()}]</span>
 																</span>
 																<span class="float-right actions">
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}"/>

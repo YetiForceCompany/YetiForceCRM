@@ -16,7 +16,7 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
@@ -33,26 +33,26 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 	 *
 	 * @return bool|void
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$ilon = $request->getByType('ilon', 'Version');
 		$ilat = $request->getByType('ilat', 'Version');
-		$routeConnector = \App\Map\Route::getInstance();
-		$routeConnector->setStart($request->getByType('flat', 'Version'), $request->getByType('flon', 'Version'));
+		$routingConnector = \App\Map\Routing::getInstance();
+		$routingConnector->setStart($request->getByType('flat', 'Version'), $request->getByType('flon', 'Version'));
 		if (!empty($ilon) && !empty($ilat)) {
 			foreach ($ilon as $key => $lon) {
-				$routeConnector->addIndirectPoint($ilat[$key], $lon);
+				$routingConnector->addIndirectPoint($ilat[$key], $lon);
 			}
 		}
-		$routeConnector->setEnd($request->getByType('tlat', 'Version'), $request->getByType('tlon', 'Version'));
-		$routeConnector->calculate();
+		$routingConnector->setEnd($request->getByType('tlat', 'Version'), $request->getByType('tlon', 'Version'));
+		$routingConnector->calculate();
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'geoJson' => $routeConnector->getGeoJson(),
+			'geoJson' => $routingConnector->getGeoJson(),
 			'properties' => [
-				'description' => App\Purifier::purifyHtml($routeConnector->getDescription()),
-				'traveltime' => $routeConnector->getTravelTime(),
-				'distance' => $routeConnector->getDistance(),
+				'description' => App\Purifier::purifyHtml($routingConnector->getDescription()),
+				'traveltime' => $routingConnector->getTravelTime(),
+				'distance' => $routingConnector->getDistance(),
 			],
 		]);
 		$response->emit();

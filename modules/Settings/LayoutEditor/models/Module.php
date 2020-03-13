@@ -647,7 +647,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			//'getDependentsList' => 'PLL_DEPENDENTS_LIST',
 			'getManyToMany' => 'PLL_SPLITED_RELATED_LIST',
 			'getAttachments' => 'PLL_ATTACHMENTS',
-			'getActivities' => 'PLL_ACTIVITIES',
+			// 'getActivities' => 'PLL_ACTIVITIES',
 			'getEmails' => 'PLL_EMAILS',
 		];
 		if ('OSSMailView' === $moduleName) {

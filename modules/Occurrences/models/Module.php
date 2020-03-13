@@ -35,4 +35,12 @@ class Occurrences_Module_Model extends Vtiger_Module_Model
 		]));
 		return $links;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getLayoutTypeForQuickCreate(): string
+	{
+		return 'standard';
+	}
 }

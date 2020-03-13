@@ -44,15 +44,21 @@ class Vtiger_CurrencyList_UIType extends Vtiger_Picklist_UIType
 	}
 
 	/**
-	 * Function to get all the available picklist values for the current field.
-	 *
-	 * @return array List of picklist values if the field
+	 * {@inheritdoc}
 	 */
 	public function getPicklistValues()
 	{
-		$fieldModel = $this->getFieldModel();
+		if (\App\Cache::has('Currency', 'List')) {
+			return \App\Cache::get('Currency', 'List');
+		}
+		$currencies = (new \App\Db\Query())->select(['id', 'currency_name'])
+			->from('vtiger_currency_info')
+			->where(['currency_status' => 'Active', 'deleted' => 0])
+			->createCommand()->queryAllByGroup();
+		asort($currencies);
+		\App\Cache::save('Currency', 'List', $currencies, \App\Cache::LONG);
 
-		return $fieldModel->getCurrencyList();
+		return $currencies;
 	}
 
 	public function getCurrenyListReferenceFieldName()

@@ -131,6 +131,10 @@ Vtiger_Base_Validator_Js(
 						}
 					}
 					field.attr('readonly', false);
+				}).fail(function (error, err) {
+					thisInstance.setError(app.vtranslate('JS_ERROR'));
+					result = false;
+					app.errorLog(error, err);
 				});
 			}
 			return result;
@@ -1674,7 +1678,9 @@ Vtiger_Base_Validator_Js(
 			const fieldValue = field.val();
 			if (
 				field.data('fieldinfo').maximumlength &&
-				new TextEncoder().encode(fieldValue).byteLength > field.data('fieldinfo').maximumlength
+				(typeof TextEncoder === 'function'
+					? new TextEncoder().encode(fieldValue).byteLength > field.data('fieldinfo').maximumlength
+					: fieldValue.length > field.data('fieldinfo').maximumlength)
 			) {
 				this.setError(
 					app.vtranslate('JS_MAXIMUM_TEXT_SIZE_IN_BYTES') + ' ' + field.data('fieldinfo').maximumlength

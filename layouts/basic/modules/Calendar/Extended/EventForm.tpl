@@ -52,8 +52,8 @@
 							{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 							{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
 							{assign var="refrenceListCount" value=count($refrenceList)}
-							<div class="row fieldsLabelValue pl-0 pr-0 mb-2">
-								<div class="col-12">
+							<div class="fieldsLabelValue pl-0 pr-0 mb-2 {$WIDTHTYPE} {$WIDTHTYPE_GROUP}">
+								<div class="col-12 px-2">
 									{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
 									<label class="muted mt-0">
 										{if $HELPINFO_LABEL}
@@ -71,7 +71,7 @@
 										{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 									</label>
 								</div>
-								<div class="fieldValue col-12">
+								<div class="fieldValue col-12 px-2">
 								{if $FIELD_MODEL->name === 'activitytype' && App\Config::module('Calendar','SHOW_ACTIVITYTYPES_AS_BUTTONS')}
 									{include file=\App\Layout::getTemplatePath('Edit/Field/ActivityType.tpl', $MODULE_NAME)}
 								{else}
@@ -83,10 +83,10 @@
 					</div>
 				</div>
 				{if !empty($SOURCE_RELATED_FIELD)}
-					{foreach key=RELATED_FIELD_NAME item=RELATED_FIELD_MODEL from=$SOURCE_RELATED_FIELD}
-						<input type="hidden" name="{$RELATED_FIELD_NAME}"
-								value="{\App\Purifier::encodeHtml($RELATED_FIELD_MODEL->get('fieldvalue'))}"
-								data-fieldtype="{$RELATED_FIELD_MODEL->getFieldDataType()}"/>
+					{foreach key=FIELD_NAME item=FIELD_MODEL from=$SOURCE_RELATED_FIELD}
+						<div class="d-none">
+							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
+						</div>
 					{/foreach}
 				{/if}
 				<div class="o-calendar__form__actions">

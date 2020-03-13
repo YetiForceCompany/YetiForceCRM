@@ -122,9 +122,9 @@ CREATE TABLE `a_yf_mapped_fields` (
 CREATE TABLE `a_yf_pdf` (
   `pdfid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id of record',
   `module_name` varchar(25) NOT NULL COMMENT 'name of the module',
-  `header_content` text DEFAULT NULL,
-  `body_content` text DEFAULT NULL,
-  `footer_content` text DEFAULT NULL,
+  `header_content` mediumtext DEFAULT NULL,
+  `body_content` mediumtext DEFAULT NULL,
+  `footer_content` mediumtext DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0,
   `primary_name` varchar(255) NOT NULL,
   `secondary_name` varchar(255) NOT NULL,
@@ -3268,8 +3268,8 @@ CREATE TABLE `u_yf_occurrences` (
   `occurrencesid` int(10) NOT NULL,
   `topic` varchar(255) DEFAULT NULL,
   `number` varchar(32) DEFAULT NULL,
-  `occurrences_status` varchar(50) DEFAULT NULL,
-  `occurrences_type` varchar(50) DEFAULT NULL,
+  `occurrences_status` varchar(255) DEFAULT NULL,
+  `occurrences_type` varchar(255) DEFAULT NULL,
   `date_start` datetime DEFAULT NULL,
   `date_end` datetime DEFAULT NULL,
   `description` text DEFAULT NULL,
@@ -3285,18 +3285,19 @@ CREATE TABLE `u_yf_occurrences` (
 /*Table structure for table `u_yf_openstreetmap` */
 
 CREATE TABLE `u_yf_openstreetmap` (
-  `crmid` int(10) unsigned NOT NULL,
+  `crmid` int(10) NOT NULL,
   `type` char(1) NOT NULL,
-  `lat` decimal(10,7) DEFAULT NULL,
-  `lon` decimal(10,7) DEFAULT NULL,
+  `lat` decimal(10,7) NOT NULL,
+  `lon` decimal(10,7) NOT NULL,
   KEY `u_yf_openstreetmap_lat_lon` (`lat`,`lon`),
-  KEY `crmid_type` (`crmid`,`type`)
+  KEY `crmid_type` (`crmid`,`type`),
+  CONSTRAINT `u_yf_openstreetmap_ibfk_1` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_openstreetmap_address_updater` */
 
 CREATE TABLE `u_yf_openstreetmap_address_updater` (
-  `crmid` int(10) DEFAULT NULL
+  `crmid` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_openstreetmap_cache` */
@@ -3314,7 +3315,8 @@ CREATE TABLE `u_yf_openstreetmap_record_updater` (
   `crmid` int(10) NOT NULL,
   `type` char(1) NOT NULL,
   `address` text NOT NULL,
-  KEY `crmid` (`crmid`,`type`)
+  KEY `crmid` (`crmid`,`type`),
+  CONSTRAINT `u_yf_openstreetmap_record_updater_ibfk_1` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_partners` */
@@ -3399,7 +3401,11 @@ CREATE TABLE `u_yf_relations_members_entity` (
   `crmid` int(10) DEFAULT NULL,
   `relcrmid` int(10) DEFAULT NULL,
   `status_rel` varchar(225) DEFAULT NULL,
-  `comment_rel` text DEFAULT NULL
+  `comment_rel` text DEFAULT NULL,
+  KEY `u_yf_relations_members_entity_crmid_idx` (`crmid`),
+  KEY `u_yf_relations_members_entity_relcrmid_idx` (`relcrmid`),
+  CONSTRAINT `u_yf_relations_members_entity_crmid_fk` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `u_yf_relations_members_entity_relcrmid_fk` FOREIGN KEY (`relcrmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_reviewed_queue` */
@@ -5038,7 +5044,9 @@ CREATE TABLE `vtiger_crmentityrel` (
   `rel_created_time` datetime DEFAULT NULL,
   `rel_comment` varchar(255) DEFAULT NULL,
   KEY `crmid` (`crmid`),
-  KEY `relcrmid` (`relcrmid`)
+  KEY `relcrmid` (`relcrmid`),
+  CONSTRAINT `vtiger_crmentityrel_crmid_fk` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `vtiger_crmentityrel_relcrmid_fk` FOREIGN KEY (`relcrmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cron_task` */
@@ -5473,7 +5481,7 @@ CREATE TABLE `vtiger_def_org_share` (
   KEY `fk_1_def_org_share_tabid` (`tabid`),
   CONSTRAINT `fk_1_def_org_share_permission` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE,
   CONSTRAINT `fk_1_def_org_share_tabid` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_default_record_view` */
 
@@ -5617,7 +5625,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`eventhandler_id`),
   KEY `event_name_class` (`event_name`,`handler_class`)
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_expectedresponse` */
 
@@ -6576,7 +6584,7 @@ CREATE TABLE `vtiger_links` (
   KEY `linklabel` (`linklabel`),
   KEY `linkid` (`linkid`,`tabid`,`linktype`,`linklabel`),
   KEY `linktype` (`linktype`)
-) ENGINE=InnoDB AUTO_INCREMENT=370 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=371 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_locationregister_status` */
 
@@ -8232,7 +8240,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 

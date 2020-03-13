@@ -56,15 +56,15 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 		switch ($request->getMode()) {
 			case 'change':
 				$modeTitle = 'LBL_CHANGE_PASSWORD';
-				$this->modalIcon = 'fas fa-key mr-1';
+				$this->modalIcon = 'fas fa-key';
 				break;
 			case 'reset':
 				$modeTitle = 'LBL_RESET_PASSWORD_HEAD';
-				$this->modalIcon = 'fas fa-redo-alt mr-1';
+				$this->modalIcon = 'fas fa-redo-alt';
 				break;
 			case 'massReset':
 				$modeTitle = 'LBL_MASS_RESET_PASSWORD_HEAD';
-				$this->modalIcon = 'fas fa-redo-alt mr-1';
+				$this->modalIcon = 'fas fa-redo-alt';
 				break;
 			default:
 				break;
@@ -116,6 +116,8 @@ class Users_PasswordModal_View extends \App\Controller\Modal
 				$this->modalClass = 'static';
 				$viewer->assign('LOCK_EXIT', true);
 				$viewer->assign('WARNING', \App\Language::translate('LBL_FORCE_PASSWORD_CHANGE_ALERT', 'Users'));
+			} elseif ('pwned' === $request->getByType('type')) {
+				$viewer->assign('WARNING', \App\Language::translate('LBL_PWNED_PASSWORD_CHANGE_ALERT', 'Users'));
 			} else {
 				$time = (int) $passConfig['change_time'];
 				if (0 !== $time) {

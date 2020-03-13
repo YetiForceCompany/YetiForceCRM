@@ -32,7 +32,14 @@
 					{foreach key="FIELD_NAME" item="FIELD" from=$RECORD_MODEL->getModule()->getFormFields()}
 						{if in_array($FIELD_NAME, ["name","vat_id",'post_code','address', "city"])}
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label" for="company-{$FIELD_NAME}">{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Install')}<span class="no">*</span></label>
+								<label class="col-sm-3 col-form-label" for="company-{$FIELD_NAME}">
+									{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Install')}<span class="no">*</span>
+									{if isset($FIELD['infoText'])}
+										<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate($FIELD['infoText'], 'Install'))}">
+											<span class="fas fa-info-circle"></span>
+										</div>
+									{/if}
+								</label>
 								<div class="col-sm-9">
 									<input id="company-{$FIELD_NAME}" type="text" name="company_{$FIELD_NAME}" class="form-control" data-validation-engine="validate[required]">
 								</div>
@@ -73,7 +80,14 @@
 							</div>
 						{elseif $FIELD_NAME === "website"}
 							<div class="form-group row">
-								<label class="col-sm-3 col-form-label" for="company-website">{App\Language::translate('LBL_WEBSITE', 'Install')}<span class="no">*</span></label>
+								<label class="col-sm-3 col-form-label" for="company-website">
+									{App\Language::translate('LBL_WEBSITE', 'Install')}<span class="no">*</span>
+									{if isset($FIELD['infoText'])}
+										<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate($FIELD['infoText'], 'Install'))}">
+											<span class="fas fa-info-circle"></span>
+										</div>
+									{/if}
+								</label>
 								<div class="col-sm-9">
 									<input id="company-website" type="text" name="company_website" class="form-control" data-validation-engine="validate[required,custom[url]]">
 								</div>

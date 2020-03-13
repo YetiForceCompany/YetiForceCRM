@@ -20,9 +20,6 @@ class Debug
 	/** Enable saving logs to file. Values: false/true */
 	public static $LOG_TO_FILE = false;
 
-	/** Enable displaying logs in debug console. Values: false/true */
-	public static $LOG_TO_CONSOLE = false;
-
 	/** Enable saving logs profiling.  Values: false/true */
 	public static $LOG_TO_PROFILE = false;
 
@@ -35,8 +32,17 @@ class Debug
 	/** Display main debug console */
 	public static $DISPLAY_DEBUG_CONSOLE = false;
 
+	/** Enable displaying logs in debug console. Values: false/true */
+	public static $DISPLAY_LOGS_IN_CONSOLE = false;
+
+	/** Enable displaying logs in debug console. Values: false/true */
+	public static $DISPLAY_CONFIG_IN_CONSOLE = false;
+
 	/** List of IP addresses allowed to display debug console. Values: false = All IPS / "192.168.1.10" / ["192.168.1.10","192.168.1.11"] */
 	public static $DEBUG_CONSOLE_ALLOWED_IPS = false;
+
+	/** List of user ids allowed to display debug console. */
+	public static $DEBUG_CONSOLE_ALLOWED_USERS = [];
 
 	/** Stop the running process of the system if there is and error in sql query */
 	public static $SQL_DIE_ON_ERROR = false;
@@ -76,7 +82,7 @@ class Debug
 	 * https://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting
 	 * All errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED / Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR
 	 */
-	public static $EXCEPTION_ERROR_LEVEL = E_ALL & ~E_NOTICE;
+	public static $EXCEPTION_ERROR_LEVEL = 32759;
 
 	/** API - Sabre dav - This is a flag that allow or not showing file, line and code of the exception in the returned XML */
 	public static $DAV_DEBUG_EXCEPTIONS = false;

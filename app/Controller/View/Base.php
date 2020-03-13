@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Controller\View;
@@ -332,6 +333,9 @@ abstract class Base extends \App\Controller\Base
 			$fileName = '~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js';
 		}
 		$jsFileNames[] = $fileName;
+		if (\App\Debuger::isDebugBar()) {
+			$jsFileNames[] = '~layouts/resources/debugbar/logs.js';
+		}
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
@@ -587,7 +591,7 @@ abstract class Base extends \App\Controller\Base
 				'startHour' => $userModel->getDetail('start_hour'),
 				'endHour' => $userModel->getDetail('end_hour'),
 				'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
-				'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')] ?? false,
+				'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeekForJS[$userModel->getDetail('dayoftheweek')] ?? false,
 				'eventLimit' => \App\Config::module('Calendar', 'EVENT_LIMIT'),
 				'timeZone' => $userModel->getDetail('time_zone'),
 				'currencyId' => $userModel->getDetail('currency_id'),
@@ -602,7 +606,9 @@ abstract class Base extends \App\Controller\Base
 				'noOfCurrencyDecimals' => (int) $userModel->getDetail('no_of_currency_decimals'),
 				'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
 				'rowHeight' => $userModel->getDetail('rowheight'),
-				'userId' => $userModel->getId()
+				'userId' => $userModel->getId(),
+				// Modifying this file or functions that affect the footer appearance will violate the license terms!!!
+				'disableBranding' => \App\YetiForce\Shop::check('YetiForceDisableBranding')
 			];
 		}
 		foreach ($jsEnv as $key => $value) {

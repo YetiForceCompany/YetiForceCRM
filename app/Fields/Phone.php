@@ -35,6 +35,9 @@ class Phone
 					'country' => $phoneUtil->getRegionCodeForNumber($swissNumberProto),
 				];
 			}
+			return [
+				'country' => $phoneUtil->getRegionCodeForNumber($swissNumberProto),
+			];
 		} catch (\libphonenumber\NumberParseException $e) {
 			\App\Log::info($e->getMessage(), __CLASS__);
 		}
@@ -94,7 +97,7 @@ class Phone
 			$returnVal = $numberToCheck;
 		} else {
 			$country = \App\User::getUserModel($userId)->getDetail('sync_carddav_default_country');
-			if (!empty($country) && ($phoneDetails = static::getDetails($numberToCheck, Country::getCountryCode($country)))) {
+			if (!empty($country) && ($phoneDetails = static::getDetails($numberToCheck, Country::getCountryCode($country))) && isset($phoneDetails['number'])) {
 				$returnVal = $phoneDetails['number'];
 			}
 		}

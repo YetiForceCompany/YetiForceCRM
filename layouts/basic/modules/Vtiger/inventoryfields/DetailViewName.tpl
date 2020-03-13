@@ -10,7 +10,7 @@
 		{/if}
 	{/foreach}
 	<div class="js-subproducts-container" data-js="append">
-		<ul class="float-left">
+		<ul class="float-left mb-0">
 		</ul>
 	</div>
 	<!-- /tpl-Base-inventoryfields-DetailViewName -->

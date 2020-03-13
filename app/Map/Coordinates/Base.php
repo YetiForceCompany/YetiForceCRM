@@ -17,6 +17,23 @@ namespace App\Map\Coordinates;
 abstract class Base
 {
 	/**
+	 * API url.
+	 *
+	 * @var string
+	 */
+	protected $url;
+
+	/**
+	 * Construct.
+	 *
+	 * @param array $provider
+	 */
+	public function __construct(array $provider)
+	{
+		$this->url = $provider['apiUrl'];
+	}
+
+	/**
 	 * Function to get coordinates from base information about address.
 	 *
 	 * @param array $addressInfo

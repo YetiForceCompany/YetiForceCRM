@@ -55,7 +55,7 @@
 			</div>
 		</div>
 		<div class="detailViewInfo row">
-			<div class="col-md-10 details">
+			<div class="col-md-10 pt-1 details">
 				<form id="detailView" method="POST">
 					<div class="contents">
 						{$CONTENTS}

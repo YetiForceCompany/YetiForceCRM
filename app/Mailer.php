@@ -316,6 +316,7 @@ class Mailer
 	 */
 	public function content($message)
 	{
+		// Modification of the following condition will violate the license!
 		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
 			$message .= "<table style=\"font-family:'DejaVu Sans';font-size:9px;width:100%; margin: 0;\"><tbody><tr><td style=\"width:50%;text-align: center;\">Powered by YetiForce</td></tr></tbody></table>";
 		}

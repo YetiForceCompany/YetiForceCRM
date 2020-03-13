@@ -22,11 +22,11 @@ require_once 'modules/Users/Users.php';
 require_once 'include/Webservices/Utils.php';
 require_once 'include/Loader.php';
 Vtiger_Loader::includeOnce('include.runtime.EntryPoint');
-App\Debuger::init();
 App\Cache::init();
+App\Debuger::init();
 App\Db::$connectCache = App\Config::performance('ENABLE_CACHING_DB_CONNECTION');
 App\Log::$logToProfile = Yii::$logToProfile = App\Config::debug('LOG_TO_PROFILE');
-App\Log::$logToConsole = App\Config::debug('LOG_TO_CONSOLE');
+App\Log::$logToConsole = App\Config::debug('DISPLAY_LOGS_IN_CONSOLE');
 App\Log::$logToFile = App\Config::debug('LOG_TO_FILE');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
@@ -99,6 +99,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			App\Session::init();
 			// common utils api called, depend on this variable right now
 			$this->getLogin();
+			App\Debuger::initConsole();
 			$hasLogin = $this->hasLogin();
 			$moduleName = $request->getModule();
 			$qualifiedModuleName = $request->getModule(false);
@@ -115,9 +116,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 					if (!empty($defaultModule) && 'Home' !== $defaultModule && \App\Privilege::isPermitted($defaultModule)) {
 						$moduleName = $defaultModule;
 						$qualifiedModuleName = $defaultModule;
-						$view = 'List';
-						if ('Calendar' === $moduleName) {
-							$view = Vtiger_Module_Model::getInstance($moduleName)->getDefaultViewName();
+						if (empty($view = Vtiger_Module_Model::getInstance($moduleName)->getDefaultViewName())) {
+							$view = 'List';
 						}
 					} else {
 						$qualifiedModuleName = $moduleName = 'Home';

@@ -158,7 +158,7 @@ class Utils
 			$content = "return $content;";
 		}
 		if ($comment) {
-			$content = "<?php \n //$comment \n $content" . PHP_EOL;
+			$content = "<?php /**\n{$comment}\n*/\n{$content}\n";
 		} else {
 			$content = "<?php $content" . PHP_EOL;
 		}
@@ -166,5 +166,18 @@ class Utils
 			Cache::resetFileCache($pathDirectory);
 		}
 		return (bool) $value;
+	}
+
+	/**
+	 * Replacement for the ucfirst function for proper Multibyte String operation.
+	 * Delete function will exist as mb_ucfirst.
+	 *
+	 * @param string $string
+	 *
+	 * @return string
+	 */
+	public static function mbUcfirst($string)
+	{
+		return mb_strtoupper(mb_substr($string, 0, 1)) . mb_substr($string, 1);
 	}
 }

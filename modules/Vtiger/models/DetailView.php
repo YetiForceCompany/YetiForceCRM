@@ -284,7 +284,6 @@ class Vtiger_DetailView_Model extends \App\Base
 			}
 		}
 		$this->set('Links', $linkModelList);
-
 		return $linkModelList;
 	}
 

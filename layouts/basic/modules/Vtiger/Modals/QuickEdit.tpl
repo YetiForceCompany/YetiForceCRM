@@ -23,7 +23,6 @@
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 				{if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 				{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
-				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
 				<div class="js-toggle-panel c-panel c-panel--edit mb-3"
 					data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
@@ -36,7 +35,7 @@
 						{/if}
 						<h5 class="ml-2">{\App\Language::translate($BLOCK_LABEL, $MODULE_NAME)}</h5>
 					</div>
-					<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
+					<div class="c-panel__body c-panel__body--edit blockContent js-block-content"
 						data-js="display">
 						<div class="row">
 							{assign var=COUNTER value=0}

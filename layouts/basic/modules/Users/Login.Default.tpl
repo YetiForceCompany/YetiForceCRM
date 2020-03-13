@@ -15,9 +15,8 @@
 	<div class="container">
 		<div id="login-area" class="login-area">
 			<div class="login-space"></div>
-			<div class="logo">
-				<img class="logo__img" title="Logo" class="logo" alt="Logo"
-					 src="{\App\Layout::getPublicUrl('layouts/resources/Logo/logo')}">
+			<div class="logo mb-2">
+				<img class="logo__img" title="Logo" class="logo" alt="Logo" src="{\App\Layout::getPublicUrl('layouts/resources/Logo/logo')}">
 			</div>
 			<div class="" id="loginDiv">
 				{if !$IS_BLOCKED_IP}

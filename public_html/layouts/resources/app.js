@@ -107,11 +107,11 @@ var App = (window.App = {
 				}
 				const progress = $.progressIndicator({ blockInfo: { enabled: true } });
 				this.getForm(url, moduleName, params).done(data => {
-					this.showModal(data, params);
-					app.registerEventForClockPicker();
 					progress.progressIndicator({
 						mode: 'hide'
 					});
+					this.showModal(data, params);
+					app.registerEventForClockPicker();
 				});
 			},
 			/**
@@ -358,6 +358,7 @@ var App = (window.App = {
 						let moduleName = form.find('[name="module"]').val();
 						let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
 						let moduleClassName = moduleName + '_QuickEdit_Js';
+						editViewInstance.setForm(form);
 						editViewInstance.registerBasicEvents(form);
 						if (typeof window[moduleClassName] !== 'undefined') {
 							new window[moduleClassName]().registerEvents(container);
@@ -462,6 +463,10 @@ var App = (window.App = {
 			save(form) {
 				const aDeferred = $.Deferred();
 				let formData = new FormData(form[0]);
+				const saveData = form.serializeFormData();
+				for (let key in saveData) {
+					formData.append(key, saveData[key]);
+				}
 				AppConnector.request({
 					url: 'index.php',
 					type: 'POST',
@@ -2434,6 +2439,18 @@ var app = (window.app = {
 			return base64Image;
 		});
 	},
+	registerHtmlToImageDownloader: function(container) {
+		const self = this;
+		container.on('click', '.js-download-html', function(e) {
+			let element = $(this);
+			let fileName = element.data('fileName');
+			self.htmlToImage($(element.data('html'))).then(img => {
+				$(`<a href="${img}" download="${fileName}.png"></a>`)
+					.get(0)
+					.click();
+			});
+		});
+	},
 	decodeHTML(html) {
 		var txt = document.createElement('textarea');
 		txt.innerHTML = html;
@@ -2649,6 +2666,16 @@ var app = (window.app = {
 		const temporalDiv = document.createElement('div');
 		temporalDiv.innerHTML = html;
 		return temporalDiv.textContent || temporalDiv.innerText || '';
+	},
+	registerShowHideBlock(container) {
+		container.on('click', '.js-hb__btn', e => {
+			$(e.currentTarget)
+				.closest('.js-hb__container')
+				.toggleClass('u-hidden-block__opened');
+		});
+		container.find('.js-fab__container').on('clickoutside', e => {
+			$(e.currentTarget).removeClass('u-hidden-block__opened');
+		});
 	}
 });
 CKEDITOR.disableAutoInline = true;
@@ -2669,6 +2696,8 @@ $(document).ready(function() {
 	app.registerTabdrop();
 	app.registerIframeEvents(document);
 	app.registesterScrollbar(document);
+	app.registerHtmlToImageDownloader(document);
+	app.registerShowHideBlock(document);
 	App.Components.Scrollbar.initPage();
 	String.prototype.toCamelCase = function() {
 		let value = this.valueOf();

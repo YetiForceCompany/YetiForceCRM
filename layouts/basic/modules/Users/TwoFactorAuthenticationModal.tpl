@@ -21,10 +21,10 @@
 				</div>
 			{/if}
 			<div class="js-qr-code" data-js="container|css:display">
-				<div class="col-sm-12 pb-3 border-bottom">
+				<div class="col-sm-12 p-0 pb-3 border-bottom">
 					{\App\Language::translate('LBL_2FA_SECRET', $MODULE_NAME)}: <strong>{$SECRET}</strong>
 				</div>
-				<div class="col-sm-12 my-4 d-flex justify-content-center">
+				<div class="col-sm-12 p-0 my-4 d-flex justify-content-center">
 					{$QR_CODE_HTML}
 				</div>
 			</div>

@@ -58,6 +58,8 @@ window.Calendar_Js = class {
 			userDefaultActivityView = app.getMainParams('dayView');
 		} else if (userDefaultActivityView === 'This Week') {
 			userDefaultActivityView = app.getMainParams('weekView');
+		} else if (userDefaultActivityView === 'This Year') {
+			userDefaultActivityView = 'year';
 		} else {
 			userDefaultActivityView = 'month';
 		}
@@ -69,6 +71,7 @@ window.Calendar_Js = class {
 		} else {
 			userDefaultTimeFormat = 'h:mmt';
 		}
+
 		let options = {
 			timeFormat: userDefaultTimeFormat,
 			slotLabelFormat: userDefaultTimeFormat,
@@ -81,29 +84,8 @@ window.Calendar_Js = class {
 			eventLimitText: app.vtranslate('JS_MORE'),
 			selectHelper: true,
 			scrollTime: app.getMainParams('startHour') + ':00',
-			monthNamesShort: [
-				app.vtranslate('JS_JAN'),
-				app.vtranslate('JS_FEB'),
-				app.vtranslate('JS_MAR'),
-				app.vtranslate('JS_APR'),
-				app.vtranslate('JS_MAY'),
-				app.vtranslate('JS_JUN'),
-				app.vtranslate('JS_JUL'),
-				app.vtranslate('JS_AUG'),
-				app.vtranslate('JS_SEP'),
-				app.vtranslate('JS_OCT'),
-				app.vtranslate('JS_NOV'),
-				app.vtranslate('JS_DEC')
-			],
-			dayNames: [
-				app.vtranslate('JS_SUNDAY'),
-				app.vtranslate('JS_MONDAY'),
-				app.vtranslate('JS_TUESDAY'),
-				app.vtranslate('JS_WEDNESDAY'),
-				app.vtranslate('JS_THURSDAY'),
-				app.vtranslate('JS_FRIDAY'),
-				app.vtranslate('JS_SATURDAY')
-			],
+			monthNamesShort: App.Fields.Date.monthsTranslated,
+			dayNames: App.Fields.Date.fullDaysTranslated,
 			buttonText: {
 				today: app.vtranslate('JS_CURRENT'),
 				year: app.vtranslate('JS_YEAR'),
@@ -175,29 +157,8 @@ window.Calendar_Js = class {
 			firstDay: CONFIG.firstDayOfWeekNo,
 			selectable: true,
 			hiddenDays: hiddenDays,
-			monthNames: [
-				app.vtranslate('JS_JANUARY'),
-				app.vtranslate('JS_FEBRUARY'),
-				app.vtranslate('JS_MARCH'),
-				app.vtranslate('JS_APRIL'),
-				app.vtranslate('JS_MAY'),
-				app.vtranslate('JS_JUNE'),
-				app.vtranslate('JS_JULY'),
-				app.vtranslate('JS_AUGUST'),
-				app.vtranslate('JS_SEPTEMBER'),
-				app.vtranslate('JS_OCTOBER'),
-				app.vtranslate('JS_NOVEMBER'),
-				app.vtranslate('JS_DECEMBER')
-			],
-			dayNamesShort: [
-				app.vtranslate('JS_SUN'),
-				app.vtranslate('JS_MON'),
-				app.vtranslate('JS_TUE'),
-				app.vtranslate('JS_WED'),
-				app.vtranslate('JS_THU'),
-				app.vtranslate('JS_FRI'),
-				app.vtranslate('JS_SAT')
-			]
+			monthNames: App.Fields.Date.fullMonthsTranslated,
+			dayNamesShort: App.Fields.Date.daysTranslated
 		};
 	}
 
@@ -422,7 +383,7 @@ window.Calendar_Js = class {
 				if (element.prop('tagName') == 'SELECT') {
 					element.val(cachedValue);
 				}
-			} else if (element.length > 0 && cachedValue === undefined && !element.find(':selected').length) {
+			} else if (name && element.length > 0 && cachedValue === undefined && !element.find(':selected').length) {
 				let allOptions = [];
 				element.find('option').each((i, option) => {
 					allOptions.push($(option).val());
@@ -443,9 +404,19 @@ window.Calendar_Js = class {
 					value = element.is(':checked');
 				}
 				app.moduleCacheSet(item.data('cache'), value);
-				this.loadCalendarData();
+				this.getCalendarView()
+					.fullCalendar('getCalendar')
+					.view.options.loadView();
 			});
 		});
+		container
+			.find('.js-filter__container_checkbox_list .js-filter__item__val')
+			.off('change')
+			.on('change', e => {
+				this.getCalendarView()
+					.fullCalendar('getCalendar')
+					.view.options.loadView();
+			});
 	}
 
 	registerUsersChange(formContainer) {
@@ -554,12 +525,24 @@ window.Calendar_Js = class {
 				params.emptyFilters = !params.emptyFilters && params[name].length === 0;
 			}
 		});
+		sideBar.find('.js-filter__container_checkbox_list').each((_, e) => {
+			let filters = [];
+			let element = $(e);
+			let name = element.data('name');
+			element.find('.js-filter__item__val:checked').each(function() {
+				filters.push($(this).val());
+			});
+			if (name) {
+				params[name] = filters;
+			}
+		});
 		sideBar.find('.js-calendar__filter__select').each((_, e) => {
 			let element = $(e);
 			let name = element.attr('name');
 			let cacheName = element.data('cache');
-			if (name && cacheName && app.moduleCacheGet(cacheName)) {
-				params[name] = app.moduleCacheGet(cacheName);
+			if (name) {
+				params[name] =
+					cacheName && app.moduleCacheGet(cacheName) ? app.moduleCacheGet(cacheName) : element.val();
 				params.emptyFilters = !params.emptyFilters && params[name].length === 0;
 			}
 		});

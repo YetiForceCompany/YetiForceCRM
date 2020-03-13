@@ -137,4 +137,12 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		}
 		return $fields;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getLayoutTypeForQuickCreate(): string
+	{
+		return 'standard';
+	}
 }

@@ -12,7 +12,7 @@ class Settings_ConfReport_Speed_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public $successBtn = false;
+	public $showFooter = false;
 	/**
 	 * {@inheritdoc}
 	 */

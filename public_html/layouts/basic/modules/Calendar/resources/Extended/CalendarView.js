@@ -525,7 +525,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		}
 		self.clearFilterButton(user, cvid);
 		if (view.type === 'agendaDay') {
-			self.selectDays(view.start, view.end);
 			view.end = view.end.add(1, 'day');
 		}
 		let time = this.getSidebarView()
@@ -656,15 +655,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				.month(month)
 				.format('YYYY-MM')}" data-js="click | class: active">
 					<div class="sub-record-content nav-link ${active}">
-						<div class="sub-date-name">${app
-							.vtranslate(
-								'JS_' +
-									moment()
-										.month(month)
-										.format('MMM')
-										.toUpperCase()
-							)
-							.toUpperCase()}
+						<div class="sub-date-name">${App.Fields.Date.monthsTranslated[month]}
 							<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>
 						</div>
 					</div>
