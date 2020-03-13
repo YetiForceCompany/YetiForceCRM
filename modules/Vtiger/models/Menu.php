@@ -203,7 +203,7 @@ class Vtiger_Menu_Model
 		}
 		if (!empty($menu['icon'])) {
 			if (false !== strpos($menu['icon'], 'fa-')) {
-				return '<span class="fa-lg fa-fw ' . $menu['icon'] . ' c-menu__item__icon"></span>';
+				return '<span class="' . $menu['icon'] . ' c-menu__item__icon"></span>';
 			}
 			if (false !== strpos($menu['icon'], 'adminIcon-') || false !== strpos($menu['icon'], 'AdditionalIcon-') || false !== strpos($menu['icon'], 'yfi-') || false !== strpos($menu['icon'], 'yfm-') || false !== strpos($menu['icon'], 'mdi-')) {
 				return '<span class="c-menu__item__icon ' . $menu['icon'] . '" aria-hidden="true"></span>';
