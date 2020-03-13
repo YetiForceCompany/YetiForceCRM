@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-YetiForce-ProductModal -->
 	<div class="modal-body js-data" data-product="{$PRODUCT->getName()}" data-js="data">
 		<div class="row no-gutters" >
 			<div class="col-sm-18 col-md-12">
@@ -28,21 +29,11 @@
 							</div>
 							<h5 class="h4 my-4">{$PRODUCT->getLabel()}</h5>
 							<p>{$PRODUCT->getDescription()}</p>
-							{if 'selection'=== $PRODUCT->getPriceType()}
-								<p>
-										{foreach key=KEY item=PRICE from=$PRODUCT->prices}
-											{if isset($PRODUCT->customPricesLabel[$KEY])}
-												{$PRODUCT->getPriceLabel($KEY)}: {$PRICE} {$CURRENCY}<br>
-											{else}
-												{$PRODUCT->getPriceLabel($KEY)}: {$PRICE} {$CURRENCY}<br>
-											{/if}
-										{/foreach}
-								</p>
-							{/if}
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<!-- /tpl-Settings-YetiForce-ProductModal -->
 {/strip}
