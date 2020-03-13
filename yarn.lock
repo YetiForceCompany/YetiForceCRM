@@ -22,10 +22,10 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.12.1.tgz#2a98fea9fbb8a606ddc79a4680034e9d5591c550"
   integrity sha512-ZtjIIFplxncqxvogq148C3hBLQE+W3iJ8E4UvJ09zIJUgzwLcROsWwFDErVSXY2Plzao5J9KUYNHKHMEUYDMKw==
 
-"@mdi/font@^4.4.95":
-  version "4.9.95"
-  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-4.9.95.tgz#00ed2ffe289c9230f146e74559c07542d3f4475a"
-  integrity sha512-m2sbAs+SMwRnWpkMriBxEulwuhmqRyh6X+hdOZlqSxYZUM2C2TaDnQ4gcilzdoAgru2XYnWViZ/xPuSDGgRXVw==
+"@mdi/font@^5.0.0":
+  version "5.0.45"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-5.0.45.tgz#8eda40c41dc7ee9e7a51dbe9191c5c38b8482422"
+  integrity sha512-3sOO/UMyQqrmizW5zjvhKJP4FZFO7LblRw4G0alDxK1ekUwNxNXI7hYv8ACAv8H44riBuqlVJ7u39XDqv/Xwuw==
 
 add@^2.0.6:
   version "2.0.6"
@@ -504,10 +504,10 @@ perfect-scrollbar@^1.3.0:
   resolved "https://registry.yarnpkg.com/perfect-scrollbar/-/perfect-scrollbar-1.5.0.tgz#821d224ed8ff61990c23f26db63048cdc75b6b83"
   integrity sha512-NrNHJn5mUGupSiheBTy6x+6SXCFbLlm8fVZh9moIzw/LgqElN5q4ncR4pbCBCYuCJ8Kcl9mYM0NgDxvW+b4LxA==
 
-pnotify@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.0.tgz#22b29ae91f0f4727cb3caf137411d0e3777a8017"
-  integrity sha512-Fs3xlxmnlgXjUdM3xFfImfkLh5RmTgfRyPS5yT43w0OIrVULbGu1g3mpiH9H2nlAZ5dFEJRqh43sQXl/mVW6yA==
+pnotify@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.1.tgz#4381253d218d910c07b9075731c4905a890c6f69"
+  integrity sha512-61hbTKWbAx/ghrW8K3LFtUNGVxR04hBN13exUQlweaV4sKHMyZFG102YE2HzVaM0eRFLJFXZlTQB9QPvjMO21g==
 
 popper.js@^1.15.0, popper.js@^1.16.0:
   version "1.16.1"
@@ -596,10 +596,10 @@ tiny-emitter@^2.0.0:
   resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
   integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
 
-tributejs@^4.0.0:
-  version "4.1.3"
-  resolved "https://registry.yarnpkg.com/tributejs/-/tributejs-4.1.3.tgz#2e1be7d9a1e403ed4c394f91d859812267e4691c"
-  integrity sha512-+VUqyi8p7tCdaqCINCWHf95E2hJFMIML180BhplTpXNooz3E2r96AONXI9qO2Ru6Ugp7MsMPJjB+rnBq+hAmzA==
+tributejs@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/tributejs/-/tributejs-5.1.2.tgz#d8492d974d3098d6016248d689fb063cda6e77f7"
+  integrity sha512-R9ff/q6w4T5f3Y9+RL+qinog3X1eAj1UnR/yfZaGJ8D3wuJs4/vicrGYul9+fgS9EJ/iYgwARekTb92xwark0g==
 
 ua-parser-js@^0.7.18:
   version "0.7.21"
