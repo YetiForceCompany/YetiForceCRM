@@ -19,6 +19,10 @@ class YetiForceOutlook extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
+	public $label = 'YetiForce Outlook integration panel';
+	/**
+	 * {@inheritdoc}
+	 */
 	public $prices = [
 		'Micro' => 20,
 		'Small' => 50,

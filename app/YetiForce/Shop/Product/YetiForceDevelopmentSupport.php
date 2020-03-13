@@ -19,6 +19,10 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 	/**
 	 * {@inheritdoc}
 	 */
+	public $label = 'YetiForce Development';
+	/**
+	 * {@inheritdoc}
+	 */
 	public $pricesType = 'selection';
 	/**
 	 * {@inheritdoc}

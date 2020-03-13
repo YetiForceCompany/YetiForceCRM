@@ -19,6 +19,10 @@ class YetiForceInstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
+	public $label = 'YetiForce Cloud';
+	/**
+	 * {@inheritdoc}
+	 */
 	public $pricesType = 'selection';
 	/**
 	 * {@inheritdoc}

@@ -19,6 +19,10 @@ class YetiForceHelp extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
+	public $label = 'YetiForce Help';
+	/**
+	 * {@inheritdoc}
+	 */
 	public $prices = [
 		'Micro' => 25,
 		'Small' => 50,
