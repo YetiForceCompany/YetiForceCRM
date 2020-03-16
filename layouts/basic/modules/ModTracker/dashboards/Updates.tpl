@@ -3,6 +3,7 @@
 <!-- tpl-ModTracker-Dashboards-Updates -->
 	<div class="dashboardWidgetHeader">
 		{function SHOW_SELECT_OWNER SELECT_FIELD_NAME='owner' SELECT_FIELD_LABEL='Assigned To'}
+			<label class="mb-0"><strong>{\App\Language::translate($SELECT_FIELD_LABEL, $MODULE_NAME)}</strong></label>
 			<div class="input-group input-group-sm">
 			<span class="input-group-prepend" title="{\App\Language::translate($SELECT_FIELD_LABEL, $MODULE_NAME)}">
 				<span class="input-group-text">
