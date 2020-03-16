@@ -17,8 +17,7 @@ jQuery.Class(
 					newParam: field.val()
 				})
 					.done(function(data) {
-						let response = data['result'],
-							params;
+						let response = data['result'];
 						if (response['success']) {
 							Vtiger_Helper_Js.showPnotify({
 								text: response['message'],

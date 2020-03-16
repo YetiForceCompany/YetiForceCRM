@@ -188,7 +188,7 @@ $.Class(
 									let multipleAttr = mapFieldElement.attr('multiple');
 									let splitValues = response[value[0]].split(' |##| ');
 									if (
-										typeof multipleAttr !== undefined &&
+										typeof multipleAttr !== 'undefined' &&
 										multipleAttr !== false &&
 										splitValues.length > 0
 									) {
