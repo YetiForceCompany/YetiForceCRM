@@ -494,6 +494,7 @@ window.App.Fields = {
 							}
 						});
 					} else {
+						App.Fields.Text.destroyEditor(elements);
 						this.loadEditor(elements, params);
 					}
 				}
