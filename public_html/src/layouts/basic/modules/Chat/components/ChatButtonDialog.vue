@@ -5,6 +5,7 @@
  * @description Chat button for toggling chat window.
  * @license YetiForce Public License 3.0
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 -->
 <template>
@@ -25,7 +26,6 @@
         :class="buttonClass"
         style="z-index: 99999999999;"
         @mouseup="showDialog"
-        @touchend="showDialog"
         :round="config.draggableButton"
         :size="buttonSize"
       >
@@ -35,7 +35,6 @@
           color="white"
           :floating="config.draggableButton"
           @mouseup="addRecordRoomToChat()"
-          @touchend="addRecordRoomToChat()"
         >
           <q-icon
             name="mdi-plus"

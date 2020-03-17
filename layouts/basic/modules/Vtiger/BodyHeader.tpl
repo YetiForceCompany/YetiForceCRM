@@ -257,7 +257,7 @@
 					</a>
 				</div>
 			{/if}
-			{if \App\Privilege::isPermitted('Chat') && !\App\Config::module('Chat', 'draggableButton')}
+			{if \App\Privilege::isPermitted('Chat')}
 				<div class="ml-2 quasar-reset">
 					<div id="ChatModalVue"></div>
 				</div>

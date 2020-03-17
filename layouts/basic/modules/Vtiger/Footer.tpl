@@ -23,11 +23,6 @@
 	</div>
 	</div>
 	<input class="tpl-Footer d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}"/>
-	{if \App\Privilege::isPermitted('Chat') && \App\Config::module('Chat', 'draggableButton')}
-		<div class="quasar-reset">
-			<div id="ChatModalVue"></div>
-		</div>
-	{/if}
 	{if $SHOW_FOOTER_BAR}
 		{assign var="DISABLE_BRANDING" value=\App\YetiForce\Shop::check('YetiForceDisableBranding')}
 		{if $DISABLE_BRANDING}
