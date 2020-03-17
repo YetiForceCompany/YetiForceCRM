@@ -153,25 +153,6 @@ Vtiger_Detail_Js(
 			}
 			return aDeferred.promise();
 		},
-		registerValidatePassword: function() {
-			$('body').on('click', '.js-validate-password', function(e) {
-				AppConnector.request({
-					module: app.getModuleName(),
-					action: 'VerifyData',
-					mode: 'validatePassword',
-					password: $('body')
-						.find('[name="' + $(e.currentTarget).data('field') + '"]')
-						.val()
-				}).done(function(data) {
-					if (data.success && data.result) {
-						Vtiger_Helper_Js.showMessage({
-							text: data.result.message,
-							type: data.result.type
-						});
-					}
-				});
-			});
-		},
 		registerEvents: function() {
 			this._super();
 			var form = this.getForm();
@@ -179,7 +160,6 @@ Vtiger_Detail_Js(
 			this.updateStartHourElement(form);
 			this.hourFormatUpdateEvent();
 			this.startHourUpdateEvent(form);
-			this.registerValidatePassword();
 			Users_Edit_Js.registerChangeEventForCurrencySeparator();
 		}
 	}
