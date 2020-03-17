@@ -261,7 +261,8 @@ emoji-mart-vue-fast@^7.0.0:
 
 "emojipanel@https://github.com/danbovey/EmojiPanel#master":
   version "1.0.0"
-  resolved "https://github.com/danbovey/EmojiPanel#5cd9a75f1394cbc3ffdc70bb74fbfdeada4e4ef8"
+  uid "38992209730b79138e07b71af3391d68772363fa"
+  resolved "https://github.com/danbovey/EmojiPanel#38992209730b79138e07b71af3391d68772363fa"
   dependencies:
     fbemitter "^2.1.1"
     tether "^1.4.7"
