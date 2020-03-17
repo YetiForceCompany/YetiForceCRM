@@ -784,7 +784,6 @@ jQuery.Class(
 		 * return jQuery Obj.
 		 */
 		getCommentBlock: function() {
-
 			let clonedCommentBlock = jQuery('.basicAddCommentBlock', this.getContentHolder())
 				.clone(true, true)
 				.removeClass('basicAddCommentBlock d-none')
@@ -1750,7 +1749,7 @@ jQuery.Class(
 			 * Register the event to edit Description for related activities
 			 */
 			summaryViewContainer.on('click', '.editDescription', function(e) {
-				new App.Fields.Text.Editor(thisInstance.getContentHolder(), {toolbar: 'Min' });
+				new App.Fields.Text.Editor(thisInstance.getContentHolder(), { toolbar: 'Min' });
 				let currentTarget = jQuery(e.currentTarget),
 					currentDiv = currentTarget.closest('.activityDescription'),
 					editElement = currentDiv.find('.edit'),
@@ -2401,7 +2400,7 @@ jQuery.Class(
 							element.removeAttr('disabled');
 							app.errorLog(error, err);
 						});
-				 self.showCommentBlock();
+					self.showCommentBlock();
 				}
 			});
 			detailContentsHolder.on('click', '.js-more-recent-comments ', function() {
@@ -3023,24 +3022,24 @@ jQuery.Class(
 			app.registerIframeEvents(detailContentsHolder);
 		},
 		reloadWidgetActivitesStats: function(container) {
-			var countElement = container.find('.countActivities');
-			var totalElement = container.find('.totaltActivities');
-			if (!countElement.length || !totalElement.length || totalElement.val() === '') {
-				return false;
-			}
-			var stats = ' (' + countElement.val() + '/' + totalElement.val() + ')';
-			var switchBtn = container.find('.active .js-switch');
+			let countElement = container.find('.countActivities');
+			let totalElement = container.find('.totaltActivities');
+			let switchBtn = container.find('.active .js-switch');
 			if (!switchBtn.length) {
 				switchBtn = container.find('.js-switch.previousMark');
 			} else {
 				container.find('.js-switch').removeClass('previousMark');
 				switchBtn.addClass('previousMark');
 			}
-			var switchBtnParent = switchBtn.parent();
-			var text = switchBtn.data('basic-text') + stats;
+			container.find('.js-switch').toggleClass('previousMark');
+			if (!countElement.length || !totalElement.length || totalElement.val() === '') {
+				return false;
+			}
+			let stats = ' (' + countElement.val() + '/' + totalElement.val() + ')';
+			let switchBtnParent = switchBtn.parent();
+			let text = switchBtn.data('basic-text') + stats;
 			switchBtnParent.removeTextNode();
 			switchBtnParent.append(text);
-			container.find('.js-switch').toggleClass('previousMark');
 		},
 		refreshCommentContainer: function(commentId) {
 			var thisInstance = this;

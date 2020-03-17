@@ -33,7 +33,7 @@
 				{assign var=SHAREDOWNER value=\App\Fields\SharedOwner::getById($RECORD->getId())}
 				<div class="activityEntries p-1">
 					<input type="hidden" class="activityModule" value="{$MODULE_NAME}"/>
-					<input type="hidden" class="activityId" value="{$RECORD->get('id')}"/>
+					<input type="hidden" class="activityId" value="{$RECORD->getId()}"/>
 					<div class="row">
 						<span class="col-md-6">
 							<strong title='{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME")}'><span
