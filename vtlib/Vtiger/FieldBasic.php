@@ -173,35 +173,37 @@ class FieldBasic
 		if (!$this->maximumlength && method_exists($this, 'getRangeValues')) {
 			$this->maximumlength = $this->getRangeValues();
 		}
-		$db->createCommand()->insert('vtiger_field', [
-			'tabid' => $this->getModuleId(),
-			'columnname' => $this->column,
-			'tablename' => $this->table,
-			'generatedtype' => (int) ($this->generatedtype),
-			'uitype' => $this->uitype,
-			'fieldname' => $this->name,
-			'fieldlabel' => $this->label,
-			'readonly' => $this->readonly,
-			'presence' => $this->presence,
-			'defaultvalue' => $this->defaultvalue,
-			'maximumlength' => $this->maximumlength,
-			'sequence' => $this->sequence,
-			'block' => $this->getBlockId(),
-			'displaytype' => $this->displaytype,
-			'typeofdata' => $this->typeofdata,
-			'quickcreate' => (int) ($this->quickcreate),
-			'quickcreatesequence' => (int) ($this->quicksequence),
-			'info_type' => $this->info_type,
-			'helpinfo' => $this->helpinfo,
-			'summaryfield' => (int) ($this->summaryfield),
-			'fieldparams' => $this->fieldparams,
-			'masseditable' => $this->masseditable,
-			'visible' => $this->visible,
-		])->execute();
-		$this->id = (int) $db->getLastInsertID('vtiger_field_fieldid_seq');
-		Profile::initForField($this);
-		$this->clearCache();
-		\App\Log::trace("Creating field $this->name ... DONE", __METHOD__);
+		if(!(new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $this->getModuleId(), 'tablename' => $this->table, 'uitype' => $this->uitype, 'fieldname' => $this->name])->exists()){
+			$db->createCommand()->insert('vtiger_field', [
+				'tabid' => $this->getModuleId(),
+				'columnname' => $this->column,
+				'tablename' => $this->table,
+				'generatedtype' => (int) ($this->generatedtype),
+				'uitype' => $this->uitype,
+				'fieldname' => $this->name,
+				'fieldlabel' => $this->label,
+				'readonly' => $this->readonly,
+				'presence' => $this->presence,
+				'defaultvalue' => $this->defaultvalue,
+				'maximumlength' => $this->maximumlength,
+				'sequence' => $this->sequence,
+				'block' => $this->getBlockId(),
+				'displaytype' => $this->displaytype,
+				'typeofdata' => $this->typeofdata,
+				'quickcreate' => (int) ($this->quickcreate),
+				'quickcreatesequence' => (int) ($this->quicksequence),
+				'info_type' => $this->info_type,
+				'helpinfo' => $this->helpinfo,
+				'summaryfield' => (int) ($this->summaryfield),
+				'fieldparams' => $this->fieldparams,
+				'masseditable' => $this->masseditable,
+				'visible' => $this->visible,
+			])->execute();
+			$this->id = (int) $db->getLastInsertID('vtiger_field_fieldid_seq');
+			Profile::initForField($this);
+			$this->clearCache();
+			\App\Log::trace("Creating field $this->name ... DONE", __METHOD__);
+		}
 	}
 
 	/**
