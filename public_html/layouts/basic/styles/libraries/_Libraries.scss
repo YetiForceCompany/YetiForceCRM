@@ -536,8 +536,10 @@ body:not(.desktop) {
 }
 
 .mdi:before {
-	font-size: 1.4em;
-	vertical-align: text-bottom;
-	line-height: 1.2;
-	margin: 0 -2px;
+	line-height: 1;
+}
+
+//-------- quasar --------//
+.q-tab__icon{
+	height: unset;
 }
