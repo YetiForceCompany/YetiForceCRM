@@ -6,22 +6,11 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 class Products_ListView_Model extends Vtiger_ListView_Model
 {
-	/**
-	 * Set list view order by.
-	 */
-	public function loadListViewOrderBy()
-	{
-		//List view will be displayed on recently created/modified records
-		if (empty($this->isEmpty('orderby')) && 'Users' != $this->getModule()->get('name')) {
-			$this->set('orderby', ['modifiedtime' => \App\Db::DESC]);
-		}
-		parent::loadListViewOrderBy();
-	}
-
 	/**
 	 * Function to get the list view entries.
 	 *
