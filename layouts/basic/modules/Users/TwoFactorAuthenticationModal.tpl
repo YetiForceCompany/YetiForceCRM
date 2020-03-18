@@ -24,7 +24,7 @@
 				<div class="col-sm-12 p-0 pb-3 border-bottom">
 					{\App\Language::translate('LBL_2FA_SECRET', $MODULE_NAME)}: <strong>{$SECRET}</strong>
 				</div>
-				<div class="col-sm-12 p-0 my-4 d-flex justify-content-center">
+				<div class="col-sm-12 p-0 my-2 d-flex justify-content-center">
 					{$QR_CODE_HTML}
 				</div>
 			</div>

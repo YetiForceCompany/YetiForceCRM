@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -965,26 +966,25 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @param App\User $userModel
 	 *
-	 * @return bool
+	 * @return void
 	 */
-	public function verifyPasswordChange(App\User $userModel)
+	public function verifyPasswordChange(App\User $userModel): void
 	{
 		$passConfig = \Settings_Password_Record_Model::getUserPassConfig();
 		$time = (int) $passConfig['change_time'];
 		if (1 === (int) $userModel->getDetail('force_password_change')) {
 			\App\Session::set('ShowUserPasswordChange', 2);
+			return;
 		}
-		if (0 === $time) {
-			return false;
-		}
-		if (strtotime("-$time day") > strtotime($userModel->getDetail('date_password_change'))) {
+		$lastChange = strtotime($userModel->getDetail('date_password_change'));
+		if (0 !== $time && (!$lastChange || strtotime("-$time day") > $lastChange)) {
 			$time += (int) $passConfig['lock_time'];
-			if (strtotime("-$time day") > strtotime($userModel->getDetail('date_password_change'))) {
-				return true;
+			if (!$lastChange || strtotime("-$time day") > $lastChange) {
+				\App\Session::set('ShowUserPasswordChange', 2);
+			} else {
+				\App\Session::set('ShowUserPasswordChange', 1);
 			}
-			\App\Session::set('ShowUserPasswordChange', 1);
 		}
-		return false;
 	}
 
 	/**

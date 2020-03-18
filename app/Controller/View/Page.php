@@ -152,13 +152,9 @@ abstract class Page extends Base
 		}
 		if (\App\Session::has('ShowUserPasswordChange')) {
 			\App\Config::setJsEnv('ShowUserPasswordChange', \App\Session::get('ShowUserPasswordChange'));
-			if (1 === (int) \App\Session::get('ShowUserPasswordChange')) {
-				\App\Session::delete('ShowUserPasswordChange');
-			}
 		}
 		if (\App\Session::has('ShowUserPwnedPasswordChange')) {
 			\App\Config::setJsEnv('ShowUserPwnedPasswordChange', \App\Session::get('ShowUserPwnedPasswordChange'));
-			\App\Session::delete('ShowUserPwnedPasswordChange');
 		}
 	}
 

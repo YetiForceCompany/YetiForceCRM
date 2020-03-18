@@ -12,7 +12,7 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public $modalSize = 'modal-dialog-centered';
+	public $modalSize = 'modal-lg';
 
 	/**
 	 * {@inheritdoc}
@@ -22,9 +22,9 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
-		if (\App\Config::security('USER_AUTHY_MODE') === 'TOTP_OFF') {
+		if ('TOTP_OFF' === \App\Config::security('USER_AUTHY_MODE')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		return true;
@@ -33,7 +33,7 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$userModel = \App\User::getUserModel(\App\User::getCurrentUserRealId());
 		$moduleName = $request->getModule();
@@ -52,25 +52,25 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcessAjax(\App\Request $request)
+	public function preProcessAjax(App\Request $request)
 	{
 		$this->modalIcon = 'fa fa-key';
 		$this->pageTitle = \App\Language::translate('LBL_TWO_FACTOR_AUTHENTICATION', $request->getModule());
-		$this->lockExit = \App\Config::security('USER_AUTHY_MODE') === 'TOTP_OBLIGATORY';
+		$this->lockExit = 'TOTP_OBLIGATORY' === \App\Config::security('USER_AUTHY_MODE');
 		parent::preProcessAjax($request);
 	}
 
 	/**
 	 * {@inheritdoc} - Override parent method for custom footer
 	 */
-	public function postProcessAjax(\App\Request $request)
+	public function postProcessAjax(App\Request $request)
 	{
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getModalScripts(\App\Request $request)
+	public function getModalScripts(App\Request $request)
 	{
 		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Users.resources.TwoFactorAuthenticationModal'
@@ -84,7 +84,7 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 	 */
 	private function showOff()
 	{
-		if (\App\Config::security('USER_AUTHY_MODE') === 'TOTP_OPTIONAL') {
+		if ('TOTP_OPTIONAL' === \App\Config::security('USER_AUTHY_MODE')) {
 			return !empty(\App\User::getUserModel(\App\User::getCurrentUserRealId())->getDetail('authy_secret_totp'));
 		}
 		return false;
