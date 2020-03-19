@@ -40,7 +40,7 @@ class IStorages_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	public function setQtyProducts(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
-		if (!\App\Privilege::isPermitted($sourceModule, 'SetQtyProducts')) {
+		if (!App\Config::module('IStorages', 'allowSetQtyProducts', false) || !\App\Privilege::isPermitted($sourceModule, 'SetQtyProducts')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_TO_ACTION', 406);
 		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('src_record'), $sourceModule);

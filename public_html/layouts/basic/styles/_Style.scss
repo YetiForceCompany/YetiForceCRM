@@ -3562,3 +3562,11 @@ ul.tweets li {
 	min-height: 72px;
 	border-top: #e6ecf0 solid 1px;
 }
+.marketplace-product {
+	max-width: calculate-rem(430px);
+}
+.c-menu--open {
+	.marketplace-product {
+		max-width: calculate-rem(398px);
+	}
+}

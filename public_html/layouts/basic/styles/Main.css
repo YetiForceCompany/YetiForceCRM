@@ -15461,6 +15461,12 @@ ul.tweets li {
   min-height: 72px;
   border-top: #e6ecf0 solid 1px; }
 
+.marketplace-product {
+  max-width: 26.875rem; }
+
+.c-menu--open .marketplace-product {
+  max-width: 24.875rem; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .table td.wide:not(.listButtons), .c-detail-widget__table td.wide:not(.listButtons),
 .listViewEntries td.wide:not(.listButtons),

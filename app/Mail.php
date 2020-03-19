@@ -107,6 +107,11 @@ class Mail
 		if (!is_numeric($id)) {
 			$id = self::getTemplateIdFromSysName($id);
 		}
+		if (!$id || (new \App\Db\Query())->from('u_#__emailtemplates')
+			->where(['emailtemplatesid' => $id])
+			->exists()) {
+			return false;
+		}
 		$template = \Vtiger_Record_Model::getInstanceById($id, 'EmailTemplates');
 		return array_merge(
 			$template->getData(), static::getAttachmentsFromTemplate($template->getId())
@@ -156,7 +161,6 @@ class Mail
 			$attachments['attachments'] = ['ids' => $ids];
 		}
 		Cache::save('MailAttachmentsFromTemplete', $id, $attachments, Cache::LONG);
-
 		return $attachments;
 	}
 
