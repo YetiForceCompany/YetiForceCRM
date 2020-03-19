@@ -899,14 +899,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if (!$row || 0 !== (int) $row['deleted']) {
 			$this->fakeEncryptPassword($password);
 			\App\Log::info('User not found: ' . $userName, 'UserAuthentication');
-
 			return false;
 		}
 		$this->set('id', $row['id']);
 		$userRecordModel = static::getInstanceFromFile($row['id']);
 		if ('Active' !== $userRecordModel->get('status')) {
 			\App\Log::info('Inactive user :' . $userName, 'UserAuthentication');
-
 			return false;
 		}
 		$result = $userRecordModel->doLoginByAuthMethod($password);
@@ -915,11 +913,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		if (null === $result && $userRecordModel->verifyPassword($password)) {
 			\App\Session::set('UserAuthMethod', 'PASSWORD');
-
 			return true;
 		}
 		\App\Log::info('Invalid password. User: ' . $userName, 'UserAuthentication');
-
 		return false;
 	}
 

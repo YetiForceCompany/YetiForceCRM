@@ -175,9 +175,11 @@ class Users_Login_Action extends \App\Controller\Action
 		\App\Session::set('full_user_name', $this->userModel->getName());
 		\App\Session::set('fingerprint', $request->get('fingerprint'));
 		\App\Session::set('user_agent', \App\Request::_getServer('HTTP_USER_AGENT', ''));
-		\App\Extension\PwnedPassword::afterLogin($request->getRaw('password'));
-		if (!\App\Session::has('ShowUserPwnedPasswordChange')) {
-			$this->userRecordModel->verifyPasswordChange($this->userModel);
+		if ('PASSWORD' === \App\Session::get('UserAuthMethod')) {
+			\App\Extension\PwnedPassword::afterLogin($request->getRaw('password'));
+			if (!\App\Session::has('ShowUserPwnedPasswordChange')) {
+				$this->userRecordModel->verifyPasswordChange($this->userModel);
+			}
 		}
 		if ($request->has('loginLanguage') && App\Config::main('langInLoginView')) {
 			\App\Session::set('language', $request->getByType('loginLanguage'));
