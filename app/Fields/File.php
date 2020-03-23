@@ -1413,11 +1413,10 @@ class File
 		$file = static::loadFromContent(\base64_decode($raw['baseContent']), $raw['name']);
 		$savePath = static::initStorageFileDirectory($moduleName);
 		$key = $file->generateHash(true, $savePath);
-		$size = $file->getSize();
 		if ($file->moveFile($savePath . $key)) {
 			return [
 				'name' => $file->getName(),
-				'size' => \vtlib\Functions::showBytes($size),
+				'size' => \vtlib\Functions::showBytes($file->getSize()),
 				'key' => $key,
 				'hash' => \md5_file($savePath . $key),
 				'path' => $savePath . $key
@@ -1428,23 +1427,23 @@ class File
 	/**
 	 * Save file from given url.
 	 *
-	 * @param $url
-	 * @param $moduleName
+	 * @param string      $url
+	 * @param string      $moduleName
+	 * @param string|bool $type
 	 *
 	 * @return array
 	 */
-	public static function saveImageFromUrl($url, $moduleName): array
+	public static function saveImageFromUrl(string $url, string $moduleName, $type = false): array
 	{
 		$value = [];
 		$file = static::loadFromUrl($url);
-		if ($file && $file->validateAndSecure('image')) {
+		if ($file && $file->validateAndSecure($type)) {
 			$savePath = static::initStorageFileDirectory($moduleName);
 			$key = $file->generateHash(true, $savePath);
-			$size = $file->getSize();
 			if ($file->moveFile($savePath . $key)) {
 				$value = [
 					'name' => $file->getName(),
-					'size' => \vtlib\Functions::showBytes($size),
+					'size' => \vtlib\Functions::showBytes($file->getSize()),
 					'key' => $key,
 					'hash' => \md5_file($savePath . $key),
 					'path' => $savePath . $key

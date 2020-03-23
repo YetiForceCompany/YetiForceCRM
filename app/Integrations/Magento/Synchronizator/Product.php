@@ -354,8 +354,7 @@ class Product extends Integrators\Product
 				if (isset($image['file'])) {
 					$url = $imagePath . $image['file'];
 					try {
-						$fileInstance = \App\Fields\File::saveImageFromUrl($url, 'Products');
-						if (!empty($fileInstance)) {
+						if ($fileInstance = \App\Fields\File::saveImageFromUrl($url, 'Products', 'image')) {
 							$imagesData[] = [
 								'name' => $fileInstance['name'],
 								'size' => $fileInstance['size'],
