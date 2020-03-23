@@ -119,8 +119,14 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fas fa-paper-plane'
 			];
 		}
+
 		$openStreetMapModuleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
-		if ($userPrivilegesModel->hasModulePermission($openStreetMapModuleModel->getId()) && $openStreetMapModuleModel->isAllowModules($moduleModel->getName())) {
+		$openStreetMapModuleId = $openStreetMapModuleModel->getId();
+
+		$hasShowMapActionPermission = $userPrivilegesModel->hasModuleActionPermission('OpenStreetMap', 'ShowMap');
+		$hasOpenStreetMapModulePermission = $userPrivilegesModel->hasModulePermission($openStreetMapModuleId);
+
+		if ($hasOpenStreetMapModulePermission && $hasShowMapActionPermission) {
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_SHOW_MAP',
@@ -128,6 +134,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fas fa-globe'
 			];
 		}
+
 		if ($userPrivilegesModel->hasModulePermission('PermissionInspector')) {
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
