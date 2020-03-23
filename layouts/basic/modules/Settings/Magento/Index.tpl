@@ -15,7 +15,7 @@
 			<table class="table table-bordered table-sm mb-5">
 				<thead>
 					<tr class="blockHeader"><th colspan="2" class="mediumWidthType">
-
+						<span class="fab fa-magento mr-2"></span>
 						{\App\Language::translate('LBL_MAGENTO_SETTINGS', $QUALIFIED_MODULE)}
 					</th></tr>
 				</thead>
@@ -26,15 +26,10 @@
 						<td class="u-w-37per text-right">
 							<label class="u-text-small-bold col-form-label">
 								{\App\Language::translate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE)}
-								{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
+								{if $FIELD_MODEL->isMandatory()}<span class="redColor ml-1">*</span>{/if}
 								{if !empty($FIELD_DATA['tooltip'])}
-									&nbsp;
-									<span class="js-popover-tooltip" data-js="popover" data-placement="top"
-											data-content="{\App\Purifier::encodeHtml(\App\Language::translate($FIELD_MODEL->get('label')|cat:"_TOOLTIP", $QUALIFIED_MODULE))}">
-										<span class="fas fa-info-circle"></span>
-									</span>
+									<span class="fas fa-info-circle u-cursor-pointer text-primary ml-1 js-popover-tooltip" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate($FIELD_MODEL->get('label')|cat:"_TOOLTIP", $QUALIFIED_MODULE))}" data-placement="top"></span>
 								{/if}
-								:
 							</label>
 						</td>
 						<td>

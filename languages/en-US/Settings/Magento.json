@@ -1,5 +1,7 @@
 {
   "php": {
+    "LBL_MAGENTO": "Magento",
+    "LBL_MAGENTO_DESCRIPTION": "",
     "LBL_MAGENTO_SETTINGS": "Magento settings",
     "LBL_ADDRESSAPI": "Addres API",
     "LBL_USERNAME": "Username",
@@ -12,9 +14,9 @@
     "LBL_ORDERLIMIT": "Download order limit",
     "LBL_INVOICELIMIT": "Download invoice limit",
     "LBL_PRODUCTIMAGESPATH": "Magento product images path",
-    "LBL_STORAGEID": "Storage ID",
-    "LBL_SHIPPINGSERVICEID": "Shipping service ID",
-    "LBL_CURRENCYID": "Currency ID",
+    "LBL_STORAGEID": "Storage",
+    "LBL_SHIPPINGSERVICEID": "Shipping service",
+    "LBL_CURRENCYID": "Currency",
     "LBL_PRODUCTMAPCLASSNAME": "Product map class name",
     "LBL_INVOICEMAPCLASSNAME": "Invoice map class name",
     "LBL_ORDERMAPCLASSNAME": "Order map class name",
