@@ -110,6 +110,13 @@ class Settings_Magento_Record_Model extends Settings_Vtiger_Record_Model
 				$params['uitype'] = 16;
 				$params['picklistValues'] = ['yetiforce' => 'YetiForce', 'magento' => 'Magento'];
 				break;
+			case 'storageQuantityLocation':
+				$params['uitype'] = 16;
+				$params['picklistValues'] = [
+					'Products' => \App\Language::translate('SINGLE_Products', 'Products'),
+					'IStorages' => \App\Language::translate('SINGLE_IStorages', 'IStorages'),
+				];
+				break;
 			case 'addressApi':
 				$params['uitype'] = 17;
 				break;

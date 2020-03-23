@@ -26,6 +26,7 @@
     "LBL_SYNCHRONIZEORDERS_TOOLTIP": "SSingleOrders",
     "LBL_SYNCHRONIZEINVOICES": "Invoices synchronization",
     "LBL_SYNCHRONIZEINVOICES_TOOLTIP": "FInvoice",
+    "LBL_STORAGEQUANTITYLOCATION": "Storage quantity location",
     "LBL_PRODUCTMAPCLASSNAME": "Product map class name",
     "LBL_INVOICEMAPCLASSNAME": "Invoice map class name",
     "LBL_ORDERMAPCLASSNAME": "Order map class name",

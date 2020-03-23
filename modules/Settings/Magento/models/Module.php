@@ -35,6 +35,7 @@ class Settings_Magento_Module_Model extends Settings_Vtiger_Module_Model
 		'productLimit' => ['required' => 1, 'default' => 20, 'min' => 1],
 		'orderLimit' => ['required' => 1, 'default' => 20, 'min' => 1],
 		'invoiceLimit' => ['required' => 1, 'default' => 20, 'min' => 1],
+		'storageQuantityLocation' => ['required' => 1, 'values' => [], 'default' => 'Products'],
 		'synchronizeCategories' => ['required' => 1, 'default' => true, 'tooltip' => true],
 		'synchronizeProducts' => ['required' => 1, 'default' => true],
 		'synchronizeCustomers' => ['required' => 1, 'default' => true, 'tooltip' => true],

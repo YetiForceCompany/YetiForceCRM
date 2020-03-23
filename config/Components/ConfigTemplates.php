@@ -340,10 +340,7 @@ return [
 		'masterSource' => [
 			'default' => 'magento',
 			'description' => 'Set master source: yetiforce or magento.',
-			'validation' => function () {
-				$arg = func_get_arg(0);
-				return \in_array($arg, ['yetiforce', 'magento']);
-			}
+			'validationValues' => ['yetiforce', 'magento']
 		],
 		'storeCode' => [
 			'default' => 'all',
@@ -427,6 +424,11 @@ return [
 			'sanitization' => function () {
 				return (int) func_get_arg(0);
 			}
+		],
+		'storageQuantityLocation' => [
+			'default' => 'Products',
+			'description' => 'Storage quantity location',
+			'validationValues' => ['Products', 'IStorages']
 		],
 		'synchronizeCategories' => [
 			'default' => true,
