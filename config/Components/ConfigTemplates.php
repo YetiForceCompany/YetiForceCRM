@@ -398,15 +398,8 @@ return [
 				return (int) func_get_arg(0);
 			}
 		],
-		'productImagesPath' => [
-			'default' => 'media/catalog/product/',
-			'description' => 'Product images Magento path.',
-			'validation' => function () {
-				return \App\Validator::url('http://127.0.0.1/' . func_get_arg(0));
-			}
-		],
 		'storageId' => [
-			'default' => '',
+			'default' => 0,
 			'description' => 'Product storage id',
 			'validation' => function () {
 				$arg = func_get_arg(0);
@@ -417,7 +410,7 @@ return [
 			}
 		],
 		'shippingServiceId' => [
-			'default' => '',
+			'default' => 0,
 			'description' => 'Shipping service id',
 			'validation' => function () {
 				$arg = func_get_arg(0);
@@ -433,6 +426,43 @@ return [
 			'validation' => '\App\Validator::naturalNumber',
 			'sanitization' => function () {
 				return (int) func_get_arg(0);
+			}
+		],
+		'synchronizeCategories' => [
+			'default' => true,
+			'description' => 'Do you want to sync categories (Product category field)?',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'synchronizeProducts' => [
+			'default' => true,
+			'description' => 'Do you want to sync products?',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'synchronizeCustomers' => [
+			'default' => true,
+			'description' => 'Do you want to sync customers (Contacts + Accounts)?',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'synchronizeOrders' => [
+			'default' => true,
+			'description' => 'Do you want to sync orders (SSingleOrders)?',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'synchronizeInvoices' => [
+			'default' => true,
+			'description' => 'Do you want to sync invoices (FInvoice)?',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'productImagesPath' => [
+			'default' => 'media/catalog/product/',
+			'description' => 'Product images Magento path.',
+			'validation' => function () {
+				return \App\Validator::url('http://127.0.0.1/' . func_get_arg(0));
 			}
 		],
 		'productMapClassName' => [

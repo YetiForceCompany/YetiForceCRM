@@ -33,7 +33,7 @@
 							</label>
 						</td>
 						<td>
-							<div class="fieldValue">
+							<div class="fieldValue custom-control p-0">
 								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE RECORD=false}
 							</div>
 						</td>

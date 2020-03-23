@@ -76,7 +76,7 @@ class Settings_Magento_Record_Model extends Settings_Vtiger_Record_Model
 		$config = \App\Config::component('Magento');
 		$moduleName = $this->getModule()->getName(true);
 		$fields = $this->getModule()->getFormFields();
-		$params = ['uitype' => 1, 'column' => $name, 'name' => $name, 'label' => 'LBL_' . \strtoupper($name), 'displaytype' => 1, 'typeofdata' => 'V', 'presence' => 0, 'isEditableReadOnly' => false, 'isReadOnly' => false, 'fieldvalue' => $config[$name] ?? $fields[$name]['default'] ?? ''];
+		$params = ['label' => 'LBL_' . \strtoupper($name), 'fieldvalue' => $config[$name] ?? $fields[$name]['default'] ?? '', 'typeofdata' => 'V'];
 		switch ($name) {
 			case 'storeId':
 			case 'websiteId':
@@ -113,8 +113,15 @@ class Settings_Magento_Record_Model extends Settings_Vtiger_Record_Model
 			case 'addressApi':
 				$params['uitype'] = 17;
 				break;
+			case 'synchronizeCategories':
+			case 'synchronizeProducts':
+			case 'synchronizeCustomers':
+			case 'synchronizeOrders':
+			case 'synchronizeInvoices':
+				$params['uitype'] = 56;
+				break;
 		}
 		$params['typeofdata'] .= $fields[$name]['required'] ? '~M' : '~O';
-		return \Settings_Vtiger_Field_Model::init($moduleName, $params);
+		return \Vtiger_Field_Model::init($moduleName, $params);
 	}
 }
