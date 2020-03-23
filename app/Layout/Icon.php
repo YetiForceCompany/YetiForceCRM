@@ -88,7 +88,6 @@ class Icon
 	 */
 	public static function getUserIcons(): array
 	{
-		static::init();
 		$icons = [];
 		foreach (self::$icons['user'] as $icon) {
 			$icons[] = ['type' => 'icon', 'name' => 'yfm-' . $icon];
@@ -103,7 +102,6 @@ class Icon
 	 */
 	public static function getAdminIcons(): array
 	{
-		static::init();
 		$icons = [];
 		foreach (self::$icons['admin'] as $icon) {
 			$icons[] = ['type' => 'icon', 'name' => 'adminIcon-' . $icon];
@@ -118,7 +116,6 @@ class Icon
 	 */
 	public static function getAdditionalIcons(): array
 	{
-		static::init();
 		$icons = [];
 		foreach (self::$icons['additional'] as $icon) {
 			$icons[] = ['type' => 'icon', 'name' => 'AdditionalIcon-' . $icon];
@@ -133,7 +130,6 @@ class Icon
 	 */
 	public static function getFontAwesomeIcons(): array
 	{
-		static::init();
 		$icons = [];
 		foreach (self::$icons['fa'] as $icon) {
 			$icons[] = ['type' => 'icon', 'name' => $icon];
@@ -148,7 +144,6 @@ class Icon
 	 */
 	public static function getMaterialDesignIcons(): array
 	{
-		static::init();
 		$icons = [];
 		foreach (self::$icons['mdi'] as $icon) {
 			$icons[] = ['type' => 'icon', 'name' => 'mdi mdi-' . $icon];
@@ -163,7 +158,6 @@ class Icon
 	 */
 	public static function getYetiForceIcons(): array
 	{
-		static::init();
 		$icons = [];
 		foreach (self::$icons['yfi'] as $icon) {
 			$icons[] = ['type' => 'icon', 'name' => 'yfi-' . $icon];
@@ -181,9 +175,8 @@ class Icon
 	 */
 	public static function getImageIcons(): array
 	{
-		static::init();
 		$images = [];
-		$path = 'public_html' . DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR . \App\Layout::getActiveLayout() . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR;
+		$path = 'public_html' . \DIRECTORY_SEPARATOR . 'layouts' . \DIRECTORY_SEPARATOR . \App\Layout::getActiveLayout() . \DIRECTORY_SEPARATOR . 'images' . \DIRECTORY_SEPARATOR;
 		$dir = new \DirectoryIterator($path);
 		foreach ($dir as $fileinfo) {
 			$file = $fileinfo->getFilename();
@@ -201,13 +194,7 @@ class Icon
 	 */
 	public static function getAll(): array
 	{
-		$icons = [];
-		$icons = array_merge($icons, self::getImageIcons());
-		$icons = array_merge($icons, self::getUserIcons());
-		$icons = array_merge($icons, self::getAdminIcons());
-		$icons = array_merge($icons, self::getAdditionalIcons());
-		$icons = array_merge($icons, self::getYetiForceIcons());
-		$icons = array_merge($icons, self::getMaterialDesignIcons());
-		return array_merge($icons, self::getFontAwesomeIcons());
+		static::init();
+		return array_merge(self::getImageIcons(), self::getUserIcons(), self::getAdminIcons(), self::getAdditionalIcons(), self::getYetiForceIcons(), self::getFontAwesomeIcons());
 	}
 }
