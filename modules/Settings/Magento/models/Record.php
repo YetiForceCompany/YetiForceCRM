@@ -92,8 +92,8 @@ class Settings_Magento_Record_Model extends Settings_Vtiger_Record_Model
 			case 'currencyId':
 				$params['uitype'] = 117;
 				$params['maximumlength'] = '50';
-				foreach ((new \Vtiger_Field_Model())->getCurrencyList() as $id => $currency) {
-					$params['picklistValues'][$id] = \App\Language::translate($currency, $moduleName);
+				foreach (\App\Fields\Currency::getAll(true) as $id => $currency) {
+					$params['picklistValues'][$id] = \App\Language::translate($currency['currency_name'], $moduleName);
 				}
 				break;
 			case 'storageId':
