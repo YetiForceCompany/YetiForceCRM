@@ -107,9 +107,7 @@ class Mail
 		if (!is_numeric($id)) {
 			$id = self::getTemplateIdFromSysName($id);
 		}
-		if (!$id || (new \App\Db\Query())->from('u_#__emailtemplates')
-			->where(['emailtemplatesid' => $id])
-			->exists()) {
+		if (!$id || !\App\Record::isExists($id, 'EmailTemplates')) {
 			return false;
 		}
 		$template = \Vtiger_Record_Model::getInstanceById($id, 'EmailTemplates');
