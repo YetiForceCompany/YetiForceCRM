@@ -107,7 +107,7 @@ class Currency
 		if (\App\Cache::has('CurrencyGetAll', 'All')) {
 			$currencies = \App\Cache::get('CurrencyGetAll', 'All');
 		} else {
-			$currencies = (new \App\Db\Query())->from('vtiger_currency_info')->indexBy('id')->all();
+			$currencies = (new \App\Db\Query())->from('vtiger_currency_info')->where(['deleted' => 0])->indexBy('id')->all();
 			\App\Cache::save('CurrencyGetAll', 'All', $currencies);
 		}
 		if ($onlyActive) {
