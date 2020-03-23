@@ -13,7 +13,6 @@ namespace App\Integrations\Magento;
 
 use App\Exceptions\AppException;
 use App\Integrations\Magento\Connector\ConnectorInterface;
-use App\Integrations\Magento\Synchronizator\Category;
 
 /**
  * Magento class.
@@ -58,10 +57,58 @@ class Controller
 	 *
 	 * @return void
 	 */
-	public function synchronizeCategories()
+	public function synchronizeCategories(): void
 	{
-		$categorySynchronizator = new Category();
+		$categorySynchronizator = new Synchronizator\Category();
 		$categorySynchronizator->setConnector($this->getConnector());
 		$categorySynchronizator->process();
+	}
+
+	/**
+	 * Synchronize products.
+	 *
+	 * @return void
+	 */
+	public function synchronizeProducts(): void
+	{
+		$productSynchronizator = new Synchronizator\Product();
+		$productSynchronizator->setConnector($this->getConnector());
+		$productSynchronizator->process();
+	}
+
+	/**
+	 * Synchronize products.
+	 *
+	 * @throws AppException
+	 */
+	public function synchronizeInvoices(): void
+	{
+		$invoiceSynchronizator = new Synchronizator\Invoice();
+		$invoiceSynchronizator->setConnector($this->getConnector());
+		$invoiceSynchronizator->process();
+	}
+
+	/**
+	 * Synchronize orders.
+	 *
+	 * @throws AppException
+	 */
+	public function synchronizeOrders(): void
+	{
+		$orderSynchronizator = new Synchronizator\Order();
+		$orderSynchronizator->setConnector($this->getConnector());
+		$orderSynchronizator->process();
+	}
+
+	/**
+	 * Synchronize orders.
+	 *
+	 * @throws AppException
+	 */
+	public function synchronizeCustomers(): void
+	{
+		$customerSynchronizator = new Synchronizator\Customer();
+		$customerSynchronizator->setConnector($this->getConnector());
+		$customerSynchronizator->process();
 	}
 }

@@ -55,6 +55,18 @@ class Country
 	}
 
 	/**
+	 * Get country name by code.
+	 *
+	 * @param string $countryCode
+	 *
+	 * @return string|null Return null if not found.
+	 */
+	public static function getCountryName(string $countryCode): ?string
+	{
+		return static::getAll()[$countryCode]['name'] ?? null;
+	}
+
+	/**
 	 * Return correct key value of given country in user language.
 	 *
 	 * @param string $value
