@@ -22,12 +22,35 @@ class PicklistField extends BaseField
 	}
 
 	/**
+	 * Record open operator.
+	 *
+	 * @return array
+	 */
+	public function operatorRo()
+	{
+		return [$this->getColumnName() => \App\RecordStatus::getStates($this->getModuleName(), \App\RecordStatus::RECORD_STATE_OPEN)];
+	}
+
+	/**
+	 * Record closed operator.
+	 *
+	 * @return array
+	 */
+	public function operatorRc()
+	{
+		return [$this->getColumnName() => \App\RecordStatus::getStates($this->getModuleName(), \App\RecordStatus::RECORD_STATE_CLOSED)];
+	}
+
+	/**
 	 * Get value.
 	 *
 	 * @return mixed
 	 */
 	public function getValue()
 	{
+		if (\is_array($this->value)) {
+			return $this->value;
+		}
 		return explode('##', $this->value);
 	}
 }

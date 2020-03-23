@@ -25,6 +25,9 @@ class EventHandler
 	private $exceptions;
 	private static $mandatoryEventClass = ['ModTracker_ModTrackerHandler_Handler', 'Vtiger_RecordLabelUpdater_Handler'];
 
+	/** Edit view, validation before saving */
+	public const EDIT_VIEW_PRE_SAVE = 'EditViewPreSave';
+
 	/**
 	 * Get all event handlers.
 	 *
@@ -184,20 +187,26 @@ class EventHandler
 	 * Set record model.
 	 *
 	 * @param \App\Vtiger_Record_Model $recordModel
+	 *
+	 * @return $this
 	 */
 	public function setRecordModel(\Vtiger_Record_Model $recordModel)
 	{
 		$this->recordModel = $recordModel;
+		return $this;
 	}
 
 	/**
 	 * Set module name.
 	 *
 	 * @param string $moduleName
+	 *
+	 * @return $this
 	 */
 	public function setModuleName($moduleName)
 	{
 		$this->moduleName = $moduleName;
+		return $this;
 	}
 
 	/**
@@ -267,7 +276,7 @@ class EventHandler
 	 *
 	 * @return array Handlers list
 	 */
-	protected function getHandlers($name)
+	public function getHandlers($name)
 	{
 		$handlers = static::getByType($name, $this->moduleName);
 		if ($this->exceptions) {
@@ -317,5 +326,26 @@ class EventHandler
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 			}
 		}
+	}
+
+	/**
+	 * Trigger an event.
+	 *
+	 * @param array $handler
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function triggerHandler(array $handler)
+	{
+		$handlerInstance = new $handler['handler_class']();
+		$function = lcfirst($handler['event_name']);
+		$result = false;
+		if (method_exists($handlerInstance, $function)) {
+			$result = $handlerInstance->{$function}($this);
+		} else {
+			Log::error("Handler not found, class: {$handler['handler_class']} | $function");
+			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
+		}
+		return $result;
 	}
 }

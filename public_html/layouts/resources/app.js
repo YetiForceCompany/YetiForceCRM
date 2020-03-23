@@ -72,6 +72,454 @@ var App = (window.App = {
 					return this.treeData;
 				}
 			}
+		},
+		/**
+		 * Quick create object used by Header.js and yf plugins
+		 *
+		 */
+		QuickCreate: {
+			/**
+			 * module quick create data cache
+			 */
+			moduleCache: {},
+			/**
+			 * createRecord
+			 *
+			 * @param   {string}  moduleName
+			 * @param   {object}  params
+			 */
+			createRecord(moduleName, params = {}) {
+				if ('parentIframe' === CONFIG.modalTarget) {
+					window.parent.App.Components.QuickCreate.createRecord(moduleName, params);
+					return;
+				}
+				let url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
+				if (undefined === params.callbackFunction) {
+					params.callbackFunction = function() {};
+				}
+				if (
+					(app.getViewName() === 'Detail' ||
+						(app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
+					app.getParentModuleName() != 'Settings'
+				) {
+					url += '&sourceModule=' + app.getModuleName();
+					url += '&sourceRecord=' + app.getRecordId();
+				}
+				const progress = $.progressIndicator({ blockInfo: { enabled: true } });
+				this.getForm(url, moduleName, params).done(data => {
+					progress.progressIndicator({
+						mode: 'hide'
+					});
+					this.showModal(data, params);
+					app.registerEventForClockPicker();
+				});
+			},
+			/**
+			 * Get quick create form
+			 *
+			 * @param   {string}  url
+			 * @param   {string}  moduleName
+			 * @param   {object}  params
+			 *
+			 * @return  {Promise} aDeferred
+			 */
+			getForm(url, moduleName, params = {}) {
+				const aDeferred = $.Deferred();
+				let requestParams;
+				let isCacheActive = !params.noCache || undefined === params.noCache;
+				if (isCacheActive) {
+					if (App.Components.QuickCreate.moduleCache[moduleName]) {
+						aDeferred.resolve(App.Components.QuickCreate.moduleCache[moduleName]);
+						return aDeferred.promise();
+					}
+				}
+				requestParams = url;
+				if (typeof params.data !== 'undefined') {
+					requestParams = {};
+					requestParams['data'] = params.data;
+					requestParams['url'] = url;
+				}
+				AppConnector.request(requestParams).done(function(data) {
+					if (isCacheActive) {
+						App.Components.QuickCreate.moduleCache[moduleName] = data;
+					}
+					aDeferred.resolve(data);
+				});
+				return aDeferred.promise();
+			},
+			/**
+			 * Show modal
+			 *
+			 * @param   {string}  html
+			 * @param   {object}  params
+			 */
+			showModal(html, params = {}) {
+				app.showModalWindow(html, container => {
+					const quickCreateForm = container.find('form[name="QuickCreate"]');
+					const moduleName = quickCreateForm.find('[name="module"]').val();
+					const editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+					const moduleClassName = moduleName + '_QuickCreate_Js';
+					editViewInstance.registerBasicEvents(quickCreateForm);
+					if (typeof window[moduleClassName] !== 'undefined') {
+						new window[moduleClassName]().registerEvents(container);
+					}
+					quickCreateForm.validationEngine(app.validationEngineOptions);
+					if (typeof params.callbackPostShown !== 'undefined') {
+						params.callbackPostShown(quickCreateForm);
+					}
+					this.registerPostLoadEvents(quickCreateForm, params);
+					this.registerHelpInfo(quickCreateForm);
+				});
+			},
+			/**
+			 * Register post load events
+			 *
+			 * @param   {object}  form jQuery
+			 * @param   {object}  params
+			 *
+			 * @return  {boolean}
+			 */
+			registerPostLoadEvents(form, params) {
+				const submitSuccessCallback = params.callbackFunction || function() {};
+				const goToFullFormCallBack = params.goToFullFormcallback || function() {};
+				form.on('submit', e => {
+					const form = $(e.currentTarget);
+					if (form.hasClass('not_validation')) {
+						return true;
+					}
+					const moduleName = form.find('[name="module"]').val();
+					//Form should submit only once for multiple clicks also
+					if (typeof form.data('submit') !== 'undefined') {
+						return false;
+					} else {
+						if (form.data('jqv').InvalidFields.length > 0) {
+							//If validation fails, form should submit again
+							form.removeData('submit');
+							$.progressIndicator({ mode: 'hide' });
+							e.preventDefault();
+							return;
+						} else {
+							//Once the form is submiting add data attribute to that form element
+							form.data('submit', 'true');
+							$.progressIndicator({ mode: 'hide' });
+						}
+
+						const recordPreSaveEvent = $.Event(Vtiger_Edit_Js.recordPreSave);
+						form.trigger(recordPreSaveEvent, {
+							value: 'edit',
+							module: moduleName
+						});
+						if (!recordPreSaveEvent.isDefaultPrevented()) {
+							const moduleInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+							const saveHandler = !!moduleInstance.quickCreateSave
+								? moduleInstance.quickCreateSave
+								: this.save;
+							let progress = $.progressIndicator({
+								message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+								position: 'html',
+								blockInfo: {
+									enabled: true
+								}
+							});
+							saveHandler(form).done(data => {
+								const modalContainer = form.closest('.modalContainer');
+								const parentModuleName = app.getModuleName();
+								const viewName = app.getViewName();
+								if (modalContainer.length) {
+									app.hideModalWindow(false, modalContainer[0].id);
+								}
+								if (moduleName === parentModuleName && 'List' === viewName) {
+									const listInstance = new Vtiger_List_Js();
+									listInstance.getListViewRecords();
+								}
+								submitSuccessCallback(data);
+								app.event.trigger('QuickCreate.AfterSaveFinal', data, form);
+								progress.progressIndicator({ mode: 'hide' });
+								if (data.success) {
+									Vtiger_Helper_Js.showPnotify({
+										text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
+										type: 'success'
+									});
+								}
+							});
+						} else {
+							//If validation fails in recordPreSaveEvent, form should submit again
+							form.removeData('submit');
+							$.progressIndicator({ mode: 'hide' });
+						}
+						e.preventDefault();
+					}
+				});
+
+				form.find('.js-full-editlink').on('click', e => {
+					const form = $(e.currentTarget).closest('form');
+					const editViewUrl = $(e.currentTarget).data('url');
+					goToFullFormCallBack(form);
+					this.goToFullForm(form, editViewUrl);
+				});
+
+				this.registerTabEvents(form);
+			},
+			/**
+			 * Register help info
+			 *
+			 * @param   {object}  container jQuery
+			 */
+			registerHelpInfo(container = $('form[name="QuickCreate"]')) {
+				app.showPopoverElementView(container.find('.js-help-info'));
+			},
+			/**
+			 * Function to navigate from quick create to edit iew full form
+			 *
+			 * @param   {object}  form  jQuery
+			 */
+			goToFullForm(form) {
+				//As formData contains information about both view and action removed action and directed to view
+				form.find('input[name="action"]').remove();
+				form.append('<input type="hidden" name="view" value="Edit" />');
+				$.each(form.find('[data-validation-engine]'), function(key, data) {
+					$(data).removeAttr('data-validation-engine');
+				});
+				form.addClass('not_validation');
+				form.submit();
+			},
+			/**
+			 * Register tab events
+			 *
+			 * @param   {object}  form  jQuery
+			 */
+			registerTabEvents(form) {
+				const tabElements = form.find('.nav.nav-pills , .nav.nav-tabs').find('a');
+				//This will remove the name attributes and assign it to data-element-name . We are doing this to avoid
+				//Multiple element to send as in calendar
+				const quickCreateTabOnHide = function(target) {
+					$(target)
+						.find('[name]')
+						.each(function(index, element) {
+							element = $(element);
+							element.attr('data-element-name', element.attr('name')).removeAttr('name');
+						});
+				};
+				//This will add the name attributes and get value from data-element-name . We are doing this to avoid
+				//Multiple element to send as in calendar
+				const quickCreateTabOnShow = function(target) {
+					$(target)
+						.find('[data-element-name]')
+						.each(function(index, element) {
+							element = $(element);
+							element.attr('name', element.attr('data-element-name')).removeAttr('data-element-name');
+						});
+				};
+				tabElements.on('click', function(e) {
+					quickCreateTabOnHide(tabElements.not('[aria-expanded="false"]').attr('data-target'));
+					quickCreateTabOnShow($(this).attr('data-target'));
+					//while switching tabs we have to clear the invalid fields list
+					form.data('jqv').InvalidFields = [];
+				});
+				//To show aleady non active element , this we are doing so that on load we can remove name attributes for other fields
+				tabElements.filter('a:not(.active)').each(function(e) {
+					quickCreateTabOnHide($(this).attr('data-target'));
+				});
+			},
+			/**
+			 * Save quick create form
+			 *
+			 * @param   {object}  form  jQuery
+			 *
+			 * @return  {Promise}        aDeferred
+			 */
+			save(form) {
+				const aDeferred = $.Deferred();
+				const quickCreateSaveUrl = form.serializeFormData();
+				AppConnector.request(quickCreateSaveUrl).done(
+					data => {
+						aDeferred.resolve(data);
+					},
+					(textStatus, errorThrown) => {
+						aDeferred.reject(textStatus, errorThrown);
+					}
+				);
+				return aDeferred.promise();
+			}
+		},
+		QuickEdit: {
+			/**
+			 * Show modal
+			 *
+			 * @param   {string}  html
+			 * @param   {object}  params
+			 */
+			showModal(params = {}, element) {
+				const self = this;
+				params['view'] = 'QuickEditModal';
+				AppConnector.request(params).done(function(html) {
+					app.showModalWindow(html, container => {
+						let form = container.find('form[name="QuickEdit"]');
+						let moduleName = form.find('[name="module"]').val();
+						let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+						let moduleClassName = moduleName + '_QuickEdit_Js';
+						editViewInstance.setForm(form);
+						editViewInstance.registerBasicEvents(form);
+						if (typeof window[moduleClassName] !== 'undefined') {
+							new window[moduleClassName]().registerEvents(container);
+						}
+						form.validationEngine(app.validationEngineOptions);
+						if (typeof params.callbackPostShown !== 'undefined') {
+							params.callbackPostShown(form, params);
+						}
+						self.registerPostLoadEvents(form, params, element);
+					});
+				});
+			},
+			/**
+			 * Register post load events
+			 *
+			 * @param   {object}  form jQuery
+			 * @param   {object}  params
+			 *
+			 * @return  {boolean}
+			 */
+			registerPostLoadEvents(form, params, element) {
+				const submitSuccessCallback = params.callbackFunction || function() {};
+				form.on('submit', e => {
+					const form = $(e.currentTarget);
+					if (form.hasClass('not_validation')) {
+						return true;
+					}
+					const moduleName = form.find('[name="module"]').val();
+					//Form should submit only once for multiple clicks also
+					if (typeof form.data('submit') !== 'undefined') {
+						return false;
+					} else {
+						if (form.data('jqv').InvalidFields.length > 0) {
+							//If validation fails, form should submit again
+							form.removeData('submit');
+							$.progressIndicator({ mode: 'hide' });
+							e.preventDefault();
+							return;
+						} else {
+							//Once the form is submiting add data attribute to that form element
+							form.data('submit', 'true');
+							$.progressIndicator({ mode: 'hide' });
+						}
+
+						const recordPreSaveEvent = $.Event(Vtiger_Edit_Js.recordPreSave);
+						form.trigger(recordPreSaveEvent, {
+							value: 'edit',
+							module: moduleName
+						});
+						if (!recordPreSaveEvent.isDefaultPrevented()) {
+							const moduleInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
+							const saveHandler = !!moduleInstance.quickEditSave
+								? moduleInstance.quickEditSave
+								: this.save;
+							let progress = $.progressIndicator({
+								message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+								position: 'html',
+								blockInfo: {
+									enabled: true
+								}
+							});
+							saveHandler(form).done(data => {
+								const modalContainer = form.closest('.modalContainer');
+								const parentModuleName = app.getModuleName();
+								const viewName = app.getViewName();
+								if (modalContainer.length) {
+									app.hideModalWindow(false, modalContainer[0].id);
+								}
+								if (moduleName === parentModuleName && 'List' === viewName) {
+									const listInstance = new Vtiger_List_Js();
+									listInstance.getListViewRecords();
+								}
+								submitSuccessCallback(data);
+								app.event.trigger('QuickEdit.AfterSaveFinal', data, form, element);
+								progress.progressIndicator({ mode: 'hide' });
+								if (data.success) {
+									Vtiger_Helper_Js.showPnotify({
+										text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
+										type: 'success'
+									});
+								}
+								if ('Detail' === viewName && app.getRecordId() === form.find('[name="record"]').val()) {
+									window.location.reload();
+								}
+							});
+						} else {
+							//If validation fails in recordPreSaveEvent, form should submit again
+							form.removeData('submit');
+							$.progressIndicator({ mode: 'hide' });
+						}
+						e.preventDefault();
+					}
+				});
+			},
+			/**
+			 * Save quick create form
+			 *
+			 * @param   {object}  form  jQuery
+			 *
+			 * @return  {Promise}        aDeferred
+			 */
+			save(form) {
+				const aDeferred = $.Deferred();
+				let formData = new FormData(form[0]);
+				const saveData = form.serializeFormData();
+				for (let key in saveData) {
+					formData.append(key, saveData[key]);
+				}
+				AppConnector.request({
+					url: 'index.php',
+					type: 'POST',
+					data: formData,
+					processData: false,
+					contentType: false
+				}).done(
+					data => {
+						aDeferred.resolve(data);
+					},
+					(textStatus, errorThrown) => {
+						aDeferred.reject(textStatus, errorThrown);
+					}
+				);
+				return aDeferred.promise();
+			}
+		},
+		Scrollbar: {
+			active: true,
+			defaults: {
+				scrollbars: {
+					autoHide: 'leave'
+				}
+			},
+			page: {
+				instance: {},
+				element: null
+			},
+			initPage() {
+				let scrollbarContainer = $('.mainBody');
+				if (!scrollbarContainer.length) {
+					scrollbarContainer = $('#page');
+				}
+				if (!scrollbarContainer.length) {
+					scrollbarContainer = $('body');
+				}
+				if (this.active) {
+					this.page.instance = this.y(scrollbarContainer);
+					this.page.element = $(this.page.instance.getElements().viewport);
+				}
+			},
+			xy(element, options = {}) {
+				return element.overlayScrollbars(options).overlayScrollbars();
+			},
+			y(element, options) {
+				const yOptions = {
+					overflowBehavior: {
+						x: 'h'
+					}
+				};
+				const mergedOptions = Object.assign(this.defaults, options, yOptions);
+				return element.overlayScrollbars(mergedOptions).overlayScrollbars();
+			}
 		}
 	}
 });
@@ -191,6 +639,12 @@ var app = (window.app = {
 		}
 	},
 	/**
+	 * Check if current window is window top
+	 */
+	isWindowTop() {
+		return window.top === window.self;
+	},
+	/**
 	 * Function gets current window parent
 	 * @returns {boolean}
 	 */
@@ -245,7 +699,7 @@ var app = (window.app = {
 		element.popover('hide');
 	},
 	hidePopoversAfterClick(popoverParent) {
-		popoverParent.on('click', e => {
+		popoverParent.on('mousedown', e => {
 			setTimeout(() => {
 				popoverParent.popover('hide');
 			}, 100);
@@ -343,25 +797,27 @@ var app = (window.app = {
 		});
 		return selectElement;
 	},
-	registerPopoverEllipsis(selectElement = $('.js-popover-tooltip--ellipsis'), params = { trigger: 'hover focus' }) {
+	registerPopoverEllipsis({
+		element = $('.js-popover-tooltip--ellipsis'),
+		params = { trigger: 'hover focus' },
+		container = $(window)
+	} = {}) {
 		const self = this;
 		params = {
 			callbackShown: () => {
-				self.setPopoverPosition(selectElement);
+				self.setPopoverPosition(element, container);
 			},
 			trigger: 'manual',
 			placement: 'right',
 			template:
 				'<div class="popover js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>'
 		};
-		let popoverText = selectElement.find('.js-popover-text').length
-			? selectElement.find('.js-popover-text')
-			: selectElement;
+		let popoverText = element.find('.js-popover-text').length ? element.find('.js-popover-text') : element;
 		if (!app.isEllipsisActive(popoverText)) {
-			selectElement.addClass('popover-triggered');
+			element.addClass('popover-triggered');
 			return;
 		}
-		app.showPopoverElementView(selectElement, params);
+		app.showPopoverElementView(element, params);
 	},
 	registerPopoverEllipsisIcon(
 		selectElement = $('.js-popover-tooltip--ellipsis-icon'),
@@ -386,7 +842,11 @@ var app = (window.app = {
 	 * @param {jQuery} selectElement
 	 * @param {object} customParams
 	 */
-	registerPopoverRecord: function(selectElement = $('a.js-popover-tooltip--record'), customParams = {}) {
+	registerPopoverRecord: function(
+		selectElement = $('a.js-popover-tooltip--record'),
+		customParams = {},
+		container = $(document)
+	) {
 		const self = this;
 		let params = {
 			template:
@@ -398,7 +858,7 @@ var app = (window.app = {
 				if (!selectElement.attr('href')) {
 					return false;
 				}
-				let link = new URL(selectElement.get(0).href);
+				let link = new URL(selectElement.eq(0).attr('href'), window.location.origin);
 				if (!link.searchParams.get('record') || !link.searchParams.get('view')) {
 					return false;
 				}
@@ -412,7 +872,7 @@ var app = (window.app = {
 					if (typeof customParams.callback === 'function') {
 						customParams.callback(popoverBody);
 					}
-					self.setPopoverPosition(selectElement);
+					self.setPopoverPosition(selectElement, container);
 				};
 				let cacheData = window.popoverCache[url];
 				if (typeof cacheData !== 'undefined') {
@@ -432,24 +892,25 @@ var app = (window.app = {
 	 * @param {jQuery} popover
 	 * @param {number} offsetLeft
 	 */
-	setPopoverPosition(popoverElement) {
+	setPopoverPosition(popoverElement, container = $(window)) {
 		let popover = this.getBindedPopover(popoverElement);
 		if (!popover.length) {
 			return;
 		}
+		const iframeOffset = this.computePopoverIframeOffset(popoverElement);
 		let windowHeight = $(window).height(),
 			windowWidth = $(window).width(),
 			popoverPadding = 10,
 			popoverBody = popover.find('.popover-body'),
 			popoverHeight = popoverBody.height(),
 			popoverWidth = popoverBody.width(),
-			offsetTop = app.mousePosition.y,
-			offsetLeft = app.mousePosition.x;
+			offsetTop = app.mousePosition.y + iframeOffset.top,
+			offsetLeft = app.mousePosition.x + iframeOffset.left;
 		if (popoverHeight + offsetTop + popoverPadding > windowHeight) {
 			offsetTop = offsetTop - popoverHeight - popoverPadding;
 		}
 		if (popoverWidth + offsetLeft + popoverPadding > windowWidth) {
-			offsetLeft = offsetLeft - popoverWidth - popoverPadding;
+			offsetLeft = windowWidth - popoverWidth;
 		}
 		popover.css({
 			transform: `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`
@@ -458,6 +919,30 @@ var app = (window.app = {
 		popoverElement.one('hide.bs.popover', () => {
 			popover.addClass('js-popover--before-positioned');
 		});
+	},
+	/**
+	 * Compute popover iframe offset
+	 *
+	 * @param   {Object}  popoverElement  jquery
+	 *
+	 * @return  {Object}                  offset top and left
+	 */
+	computePopoverIframeOffset(popoverElement) {
+		let iframeOffsetTop = 0;
+		let iframeOffsetLeft = 0;
+		if (!$(document).find(popoverElement).length) {
+			let iframe = $(document).find('iframe');
+			const iframeOffset = iframe.offset();
+			iframeOffsetTop += iframeOffset.top;
+			iframeOffsetLeft += iframeOffset.left;
+			if (!iframe.contents().find(popoverElement).length) {
+				let iframe2 = iframe.contents().find('iframe');
+				const iframeOffset2 = iframe2.offset();
+				iframeOffsetTop += iframeOffset2.top;
+				iframeOffsetLeft += iframeOffset2.left;
+			}
+		}
+		return { top: iframeOffsetTop, left: iframeOffsetLeft };
 	},
 	/**
 	 * Get binded popover
@@ -535,8 +1020,9 @@ var app = (window.app = {
 		let params = {
 			show: true
 		};
-		if ($('#backgroundClosingModal').val() !== 1) {
-			params.backdrop = true;
+		if (!app.getMainParams('backgroundClosingModal')) {
+			params.backdrop = 'static';
+			params.keyboard = false;
 		}
 		if (typeof paramsObject === 'object') {
 			container.css(paramsObject);
@@ -575,11 +1061,9 @@ var app = (window.app = {
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 	},
-	showModalWindow: function(data, url, cb, paramsObject) {
-		if (window.parent !== window) {
-			this.childFrame = true;
-			window.parent.app.showModalWindow(data, url, cb, paramsObject);
-			return;
+	showModalWindow: function(data, url, cb, paramsObject = {}) {
+		if (!app.isCurrentWindowTarget('app.showModalWindow', arguments)) {
+			return false;
 		}
 		const thisInstance = this;
 		let sendByAjaxCb;
@@ -648,14 +1132,32 @@ var app = (window.app = {
 		return container;
 	},
 	/**
+	 * Check if current window is target for a modal and trigger in correct window if not
+	 *
+	 * @param   {String}  sourceFunction  source function name in dot prop notation object
+	 * @param   {Array}  args            source function arguments
+	 *
+	 * @return  {Boolean}                  isCurrentWindowTarget
+	 */
+	isCurrentWindowTarget(sourceFunction, args) {
+		let isCurrentWindowTarget = true;
+		if (CONFIG.modalTarget === 'parentIframe') {
+			this.childFrame = true;
+			sourceFunction = sourceFunction.split('.');
+			sourceFunction.unshift('parent');
+			sourceFunction = sourceFunction.reduce((o, i) => o[i], window);
+			sourceFunction.apply(window.parent.app, args);
+			isCurrentWindowTarget = false;
+		}
+		return isCurrentWindowTarget;
+	},
+	/**
 	 * Function which you can use to hide the modal
 	 * This api assumes that we are using block ui plugin and uses unblock api to unblock it
 	 */
 	hideModalWindow: function(callback, id) {
-		if (window.parent !== window) {
-			this.childFrame = true;
-			window.parent.app.hideModalWindow(callback, id);
-			return;
+		if (!app.isCurrentWindowTarget('app.hideModalWindow', arguments)) {
+			return false;
 		}
 		let container;
 		if (callback && typeof callback === 'object') {
@@ -920,6 +1422,7 @@ var app = (window.app = {
 				date = $.datepicker.formatDate(moment(ev.date).format(dateFormat), ev.date);
 			currentElement.val(date);
 		});
+		App.Fields.Utils.hideMobileKeyboard(element);
 	},
 	registerEventForClockPicker: function(timeInputs = $('.clockPicker')) {
 		if (!timeInputs.hasClass('clockPicker')) {
@@ -973,6 +1476,7 @@ var app = (window.app = {
 			formatTimeString(timeInput);
 			timeInput.clockpicker(params);
 		});
+		App.Fields.Utils.hideMobileKeyboard(timeInputs);
 	},
 	registerDataTables: function(table, options = {}) {
 		if ($.fn.dataTable == undefined) {
@@ -1461,6 +1965,32 @@ var app = (window.app = {
 			console.error(errorThrown);
 		}
 	},
+	registerQuickEditModal: function(container) {
+		if (typeof container === 'undefined') {
+			container = $('body');
+		}
+		container.on('click', '.js-quick-edit-modal', function(e) {
+			e.preventDefault();
+			let element = $(this);
+			let data = {
+				module: element.data('module'),
+				record: element.data('record')
+			};
+			if (element.data('values')) {
+				$.extend(data, element.data('values'));
+			}
+			if (element.data('mandatoryFields')) {
+				data.mandatoryFields = element.data('mandatoryFields');
+			}
+			if (element.data('showLayout')) {
+				data.showLayout = element.data('showLayout');
+			}
+			if (element.data('editFields')) {
+				data.editFields = element.data('editFields');
+			}
+			App.Components.QuickEdit.showModal(data, element);
+		});
+	},
 	registerModal: function(container) {
 		if (typeof container === 'undefined') {
 			container = $('body');
@@ -1486,7 +2016,10 @@ var app = (window.app = {
 							if (typeof call !== 'undefined') {
 								if (call.indexOf('.') !== -1) {
 									var callerArray = call.split('.');
-									if (typeof window[callerArray[0]] === 'object' || typeof window[callerArray[0]] === 'function') {
+									if (
+										typeof window[callerArray[0]] === 'object' ||
+										typeof window[callerArray[0]] === 'function'
+									) {
 										window[callerArray[0]][callerArray[1]](container);
 									}
 								} else {
@@ -1513,59 +2046,59 @@ var app = (window.app = {
 			audio.play();
 		}
 	},
-	registerSticky: function() {
-		const elements = $('.stick');
-		elements.each(function() {
-			let currentElement = $(this),
-				position = currentElement.data('position'),
-				offsetTop;
-			if (position === 'top') {
-				offsetTop = currentElement.offset().top - 50;
-				$('.mainBody').on('scroll', function() {
-					if ($(this).scrollTop() > offsetTop)
-						currentElement.css({
-							position: 'fixed',
-							top: '50px',
-							width: currentElement.width()
-						});
-					else if ($(this).scrollTop() <= offsetTop)
-						currentElement.css({
-							position: '',
-							top: '',
-							width: ''
-						});
-				});
-			}
-			if (position === 'bottom') {
-				offsetTop = currentElement.offset().top - $(window).height();
-				$('.mainBody').on('scroll', function() {
-					if ($(this).scrollTop() < offsetTop)
-						currentElement.css({
-							position: 'fixed',
-							bottom: '33px',
-							width: currentElement.width()
-						});
-					else if ($(this).scrollTop() >= offsetTop)
-						currentElement.css({
-							position: '',
-							bottom: '',
-							width: ''
-						});
-				});
-			}
-		});
+	registerIframeAndMoreContent() {
+		let showMoreModal = e => {
+			e.preventDefault();
+			e.stopPropagation();
+			const btn = $(e.currentTarget);
+			const message = btn.data('iframe')
+				? btn
+						.siblings('iframe')
+						.clone()
+						.show()
+				: btn
+						.closest('.js-more-content')
+						.find('.fullContent')
+						.html();
+			bootbox.dialog({
+				message,
+				title: '<span class="mdi mdi-overscan"></span>  ' + app.vtranslate('JS_FULL_TEXT'),
+				className: 'u-word-break modal-fullscreen',
+				buttons: {
+					danger: {
+						label: '<span class="fas fa-times mr-1"></span>' + app.vtranslate('JS_CLOSE'),
+						className: 'btn-danger',
+						callback: function() {}
+					}
+				}
+			});
+		};
+		$('.js-more').on('click', showMoreModal);
+		$(document).on('click', '.js-more', showMoreModal);
 	},
-	registerMoreContent: function(container) {
-		container.on('click', function(e) {
-			var btn = $(e.currentTarget);
-			var content = btn.closest('.moreContent');
-			content.find('.teaserContent').toggleClass('d-none');
-			content.find('.fullContent').toggleClass('d-none');
-			if (btn.text() == btn.data('on')) {
-				btn.text(btn.data('off'));
-			} else {
-				btn.text(btn.data('on'));
-			}
+	registerIframeEvents(content) {
+		content.find('.js-iframe-full-height').each(function() {
+			let iframe = $(this);
+			iframe.on('load', e => {
+				iframe.height(
+					iframe
+						.contents()
+						.find('body')
+						.height() + 50
+				);
+			});
+		});
+		content.find('.js-modal-iframe').each(function() {
+			let iframe = $(this);
+			iframe.on('load', e => {
+				let height = iframe
+					.contents()
+					.find('body')
+					.height();
+				if (height && height < iframe.height()) {
+					iframe.height(height + 50);
+				}
+			});
 		});
 	},
 	registerMenu: function() {
@@ -1641,7 +2174,9 @@ var app = (window.app = {
 			} else {
 				pinButton.addClass('u-opacity-muted');
 				baseContainer.removeClass('c-menu--open');
-				self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
+				self.sidebar
+					.on('mouseenter', self.openSidebar.bind(self))
+					.on('mouseleave', self.closeSidebar.bind(self));
 				self.closeSidebar.bind(self);
 			}
 			AppConnector.request({
@@ -1714,6 +2249,7 @@ var app = (window.app = {
 				$(window).trigger('resize');
 			}, 500);
 		});
+		$(window).trigger('resize');
 	},
 	getScreenHeight: function(percantage) {
 		if (typeof percantage === 'undefined') {
@@ -1736,8 +2272,8 @@ var app = (window.app = {
 	 * @param string url
 	 */
 	openUrl(url) {
-		if (window.location !== window.top.location) {
-			window.top.location.href = url;
+		if (CONFIG.openUrlTarget === 'parentIframe') {
+			window.parent.location.href = url;
 		} else {
 			window.location.href = url;
 		}
@@ -1762,6 +2298,44 @@ var app = (window.app = {
 		$('body').append(form);
 		form.submit();
 		form.remove();
+	},
+	/**
+	 * Convert url string to object
+	 *
+	 * @param   {string}  url  example: index.php?module=LayoutEditor&parent=Settings
+	 *
+	 * @return  {object}       urlObject
+	 */
+	convertUrlToObject(url) {
+		let urlObject = {};
+		url.split('index.php?')[1]
+			.split('&')
+			.forEach(el => {
+				if (el.includes('=')) {
+					let values = el.split('=');
+					urlObject[values[0]] = values[1];
+				}
+			});
+		return urlObject;
+	},
+	/**
+	 * Convert object to url string
+	 *
+	 * @param   {object}  urlData
+	 * @param   {string}  entryFile
+	 *
+	 * @return  {string}          url
+	 */
+	convertObjectToUrl(urlData = {}, entryFile = 'index.php?') {
+		let url = entryFile;
+		Object.keys(urlData).forEach(key => {
+			let value = urlData[key];
+			if (typeof value === 'object' || (typeof value === 'string' && value.startsWith('<'))) {
+				return;
+			}
+			url += key + '=' + value + '&';
+		});
+		return url;
 	},
 	showConfirmation: function(data, element) {
 		var params = {};
@@ -1815,7 +2389,7 @@ var app = (window.app = {
 		}
 		return result.trim();
 	},
-	showRecordsList: function(params, cb, afterShowModal) {
+	showRecordsList: function(params = {}, cb, afterShowModal) {
 		if (!params.view) {
 			params.view = 'RecordsList';
 		}
@@ -1863,6 +2437,18 @@ var app = (window.app = {
 				callback(base64Image);
 			}
 			return base64Image;
+		});
+	},
+	registerHtmlToImageDownloader: function(container) {
+		const self = this;
+		container.on('click', '.js-download-html', function(e) {
+			let element = $(this);
+			let fileName = element.data('fileName');
+			self.htmlToImage($(element.data('html'))).then(img => {
+				$(`<a href="${img}" download="${fileName}.png"></a>`)
+					.get(0)
+					.click();
+			});
 		});
 	},
 	decodeHTML(html) {
@@ -1985,9 +2571,12 @@ var app = (window.app = {
 			}
 		});
 	},
-	registerPopover() {
+	registerPopover(container = $(document)) {
 		window.popoverCache = {};
-		$(document).on(
+		container.on('mousemove', e => {
+			app.mousePosition = { x: e.pageX, y: e.pageY };
+		});
+		container.on(
 			'mouseenter',
 			'.js-popover-tooltip, .js-popover-tooltip--record, .js-popover-tooltip--ellipsis, [data-field-type="reference"], [data-field-type="multireference"]',
 			e => {
@@ -1997,17 +2586,20 @@ var app = (window.app = {
 				}
 				if (!currentTarget.hasClass('popover-triggered')) {
 					if (currentTarget.hasClass('js-popover-tooltip--record')) {
-						app.registerPopoverRecord(currentTarget);
+						app.registerPopoverRecord(currentTarget, {}, container);
 						currentTarget.trigger('mouseenter');
-					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && currentTarget.data('field-type')) {
-						app.registerPopoverRecord(currentTarget.children('a')); //popoverRecord on children doesn't need triggering
+					} else if (
+						!currentTarget.hasClass('js-popover-tooltip--record') &&
+						currentTarget.data('field-type')
+					) {
+						app.registerPopoverRecord(currentTarget.children('a'), {}, container); //popoverRecord on children doesn't need triggering
 					} else if (
 						!currentTarget.hasClass('js-popover-tooltip--record') &&
 						!currentTarget.find('.js-popover-tooltip--record').length &&
 						!currentTarget.data('field-type')
 					) {
 						if (currentTarget.hasClass('js-popover-tooltip--ellipsis')) {
-							app.registerPopoverEllipsis(currentTarget);
+							app.registerPopoverEllipsis({ element: currentTarget, container });
 						} else {
 							app.showPopoverElementView(currentTarget);
 						}
@@ -2017,23 +2609,26 @@ var app = (window.app = {
 			}
 		);
 	},
-	showNotify: function(params, desktop = false) {
+	showNotify: function(params) {
 		if (typeof params.type === 'undefined') {
 			params.type = 'info';
 		}
 		if (typeof params.title === 'undefined') {
 			params.title = app.vtranslate('JS_MESSAGE');
 		}
-		if (desktop) {
-			params = $.extend(params, {
-				modules: {
-					Desktop: {
-						desktop: true
-					}
-				}
-			});
-		}
 		Vtiger_Helper_Js.showPnotify(params);
+	},
+	showDesktopNotification: function(params) {
+		params = $.extend(params, {
+			modules: {
+				Desktop: {
+					desktop: true,
+					fallback: false,
+					icon: params.icon
+				}
+			}
+		});
+		PNotify.notice(params);
 	},
 	/**
 	 * Set Pnotify defaults options
@@ -2066,6 +2661,21 @@ var app = (window.app = {
 			icon.toggleClass(`${iconData.active} ${iconData.inactive}`);
 			e.stopPropagation();
 		});
+	},
+	stripHtml(html) {
+		const temporalDiv = document.createElement('div');
+		temporalDiv.innerHTML = html;
+		return temporalDiv.textContent || temporalDiv.innerText || '';
+	},
+	registerShowHideBlock(container) {
+		container.on('click', '.js-hb__btn', e => {
+			$(e.currentTarget)
+				.closest('.js-hb__container')
+				.toggleClass('u-hidden-block__opened');
+		});
+		container.find('.js-fab__container').on('clickoutside', e => {
+			$(e.currentTarget).removeClass('u-hidden-block__opened');
+		});
 	}
 });
 CKEDITOR.disableAutoInline = true;
@@ -2079,12 +2689,16 @@ $(document).ready(function() {
 	app.registerPopoverEllipsisIcon();
 	app.registerPopover();
 	app.registerFormatNumber();
-	app.registerSticky();
-	app.registerMoreContent($('body').find('button.moreBtn'));
+	app.registerIframeAndMoreContent();
 	app.registerModal();
+	app.registerQuickEditModal(document);
 	app.registerMenu();
 	app.registerTabdrop();
+	app.registerIframeEvents(document);
 	app.registesterScrollbar(document);
+	app.registerHtmlToImageDownloader(document);
+	app.registerShowHideBlock(document);
+	App.Components.Scrollbar.initPage();
 	String.prototype.toCamelCase = function() {
 		let value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
@@ -2098,9 +2712,6 @@ $(document).ready(function() {
 	if (pageController) {
 		pageController.registerEvents();
 	}
-	document.on('mousemove', e => {
-		app.mousePosition = { x: e.pageX, y: e.pageY };
-	});
 });
 (function($) {
 	$.fn.getNumberFromValue = function() {
@@ -2108,6 +2719,9 @@ $(document).ready(function() {
 	};
 	$.fn.getNumberFromText = function() {
 		return App.Fields.Double.formatToDb($(this).text());
+	};
+	$.fn.setValue = function(value, type = 'value') {
+		return App.Fields.Utils.setValue($(this), value, type);
 	};
 	$.fn.formatNumber = function() {
 		let element = $(this);
@@ -2155,7 +2769,8 @@ $(document).ready(function() {
 	// Case-insensitive :icontains expression
 	$.expr[':'].icontains = function(obj, index, meta, stack) {
 		return (
-			(obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !== -1
+			(obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !==
+			-1
 		);
 	};
 	$.fn.removeTextNode = function() {

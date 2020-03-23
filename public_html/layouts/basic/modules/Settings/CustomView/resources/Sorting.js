@@ -25,9 +25,9 @@ jQuery.Class("Settings_CustomView_Sorting_Js", {}, {
 			});
 		});
 		form.on('submit', function (e) {
+			e.preventDefault();
 			var form = jQuery(e.currentTarget);
 			thisInstance.saveSorting(form);
-			e.preventDefault();
 		});
 	},
 	/**
@@ -45,7 +45,7 @@ jQuery.Class("Settings_CustomView_Sorting_Js", {}, {
 		var params = {
 			cvid: data.cvid,
 			name: 'sort',
-			value: data.defaultOrderBy ? data.defaultOrderBy + ',' + data.sortOrder : ''
+			value: data.defaultOrderBy ? JSON.stringify({[data.defaultOrderBy]:data.sortOrder}) : ''
 		};
 		app.saveAjax('updateField', {}, params).done(function (data) {
 			app.hideModalWindow();

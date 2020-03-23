@@ -336,8 +336,8 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$queryGenerator->setCustomColumn('u_#__openstreetmap.lon');
 		$queryGenerator->setCustomColumn('vtiger_crmentity.crmid');
 		$queryGenerator->addJoin(['LEFT JOIN', 'u_#__openstreetmap', 'u_#__openstreetmap.crmid = vtiger_crmentity.crmid']);
-		if (!empty($searchValue)) {
-			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
+		if (!empty($searchValue) && $operator) {
+			$queryGenerator->addCondition($searchKey, $searchValue, $operator);
 		}
 		$searchParams = $this->getArray('search_params');
 		if (empty($searchParams)) {

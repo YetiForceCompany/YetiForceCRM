@@ -20,8 +20,8 @@ jQuery.Class(
 		reduceNumberResults: false,
 		// Should the result be in html
 		returnHtml: true,
-		// Main conatiner with modules, value and buttons
-		mainConatiner: false,
+		// Main container with modules, value and buttons
+		mainContainer: false,
 		/**
 		 * Function to get the search module
 		 */
@@ -48,15 +48,15 @@ jQuery.Class(
 		 * Function to set main conatainer
 		 */
 		setMainContainer: function(container) {
-			this.mainConatiner = container;
+			this.mainContainer = container;
 			return this;
 		},
 		/**
 		 * Function to get the user selected search module
 		 */
 		getCurrentSearchModule: function() {
-			if (this.currentSearchModule === false && this.mainConatiner) {
-				this.currentSearchModule = this.mainConatiner.find('.basicSearchModulesList').val();
+			if (this.currentSearchModule === false && this.mainContainer) {
+				this.currentSearchModule = this.mainContainer.find('.basicSearchModulesList').val();
 			}
 			return this.currentSearchModule;
 		},
@@ -82,11 +82,9 @@ jQuery.Class(
 			}
 			params.operator = CONFIG.globalSearchDefaultOperator;
 			if (this.mainContainer) {
-				if (
-					this.mainConatiner.find('input[data-operator]').length &&
-					this.mainConatiner.find('input[data-operator]').data('operator') != ''
-				) {
-					params.operator = this.mainConatiner.find('input[data-operator]').data('operator');
+				let operatorElement = this.mainContainer.find('.js-global-search-operator .active[data-operator]');
+				if (operatorElement.length && operatorElement.data('operator') != '') {
+					params.operator = operatorElement.data('operator');
 				}
 			}
 			AppConnector.request(params)

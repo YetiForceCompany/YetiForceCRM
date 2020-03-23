@@ -11,13 +11,13 @@
 -->*}
 {strip}
 	<!-- tpl-Settings-Groups-DetailView -->
-	<div class="widget_header row">
+	<div class="o-breadcrumb widget_header row">
 		<div class="col-md-8">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 		<div class="col-md-4 ">
 			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-primary float-right mt-3">
-				<span class="fas fa-edit mr-1"></span><strong>{\App\Language::translate('LBL_EDIT_RECORD', $MODULE)}</strong>
+				<span class="yfi yfi-full-editing-view mr-1"></span><strong>{\App\Language::translate('LBL_EDIT_RECORD', $MODULE)}</strong>
 			</a>
 		</div>
 	</div>

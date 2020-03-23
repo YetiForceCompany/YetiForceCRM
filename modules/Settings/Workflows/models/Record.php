@@ -145,7 +145,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public function isDefault()
 	{
 		$wf = $this->getWorkflowObject();
-		if (!empty($wf->defaultworkflow) && $wf->defaultworkflow == 1) {
+		if (!empty($wf->defaultworkflow) && 1 == $wf->defaultworkflow) {
 			return true;
 		}
 		return false;
@@ -170,6 +170,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$wf->schmonth = $this->get('schmonth');
 		$wf->schannualdates = $this->get('schannualdates');
 		$wf->nexttrigger_time = $this->get('nexttrigger_time');
+		$wf->params = $this->get('params');
 
 		$wm->save($wf);
 
@@ -229,7 +230,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
@@ -271,7 +272,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$wm = new VTWorkflowManager();
 		$wf = $wm->newWorkflow($moduleName);
 		$wf->filtersavedinnew = 6;
-
+		$wf->params = null;
 		return self::getInstanceFromWorkflowObject($wf);
 	}
 
@@ -306,7 +307,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function executionConditionAsLabel($executionCondition = null)
 	{
-		if ($executionCondition === null) {
+		if (null === $executionCondition) {
 			$executionCondition = $this->get('execution_condition');
 		}
 		$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT', 'ON_RELATED'];
@@ -327,14 +328,14 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$examinedIdList = [];
 		foreach ($taskList as $taskDetails) {
 			$workFlowId = $taskDetails->workflowId;
-			if (in_array($workFlowId, $examinedIdList)) {
+			if (\in_array($workFlowId, $examinedIdList)) {
 				continue;
 			}
 			if ($taskDetails->active) {
 				array_push($examinedIdList, $workFlowId);
 			}
 		}
-		return count($examinedIdList);
+		return \count($examinedIdList);
 	}
 
 	/**
@@ -347,19 +348,19 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public static function getActiveCountFromRecord($taskList = [])
 	{
 		$examinedIdList = [];
-		if (!is_array($taskList)) {
+		if (!\is_array($taskList)) {
 			$taskList = [];
 		}
 		foreach ($taskList as $taskDetails) {
 			$workFlowId = $taskDetails->getId();
-			if (in_array($workFlowId, $examinedIdList)) {
+			if (\in_array($workFlowId, $examinedIdList)) {
 				continue;
 			}
 			if ($taskDetails->isActive()) {
 				array_push($examinedIdList, $workFlowId);
 			}
 		}
-		return count($examinedIdList);
+		return \count($examinedIdList);
 	}
 
 	/**
@@ -370,7 +371,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public function isFilterSavedInNew()
 	{
 		$wf = $this->getWorkflowObject();
-		if ($wf->filtersavedinnew == '6') {
+		if ('6' == $wf->filtersavedinnew) {
 			return true;
 		}
 		return false;
@@ -378,6 +379,8 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Functions transforms workflow filter to advanced filter.
+	 *
+	 * @param mixed $conditions
 	 *
 	 * @return array
 	 */
@@ -408,12 +411,14 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function returns valuetype of the field filter.
 	 *
+	 * @param mixed $fieldname
+	 *
 	 * @return string|bool
 	 */
 	public function getFieldFilterValueType($fieldname)
 	{
 		$conditions = $this->get('conditions');
-		if (!empty($conditions) && is_array($conditions)) {
+		if (!empty($conditions) && \is_array($conditions)) {
 			foreach ($conditions as $filter) {
 				if ($fieldname == $filter['fieldname']) {
 					return $filter['valuetype'];
@@ -431,14 +436,14 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$conditions = $this->get('conditions');
 		$wfCondition = [];
 
-		if (is_array($conditions)) {
+		if (\is_array($conditions)) {
 			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
-				if ($index == '1' && empty($columns)) {
+				if ('1' == $index && empty($columns)) {
 					$wfCondition[] = ['fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
 						'joincondition' => '', 'groupid' => '0', ];
 				}
-				if (!empty($columns) && is_array($columns)) {
+				if (!empty($columns) && \is_array($columns)) {
 					foreach ($columns as $column) {
 						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
 							'value' => $column['value'] ?? '', 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
@@ -457,44 +462,14 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDependentModules()
 	{
-		$moduleName = $this->getModule()->getName();
-		$query = (new App\Db\Query())->select(['fieldname', 'tabid', 'typeofdata', 'reference_module' => 'vtiger_ws_referencetype.type'])
-			->from('vtiger_field')
-			->innerJoin('vtiger_ws_fieldtype', 'vtiger_field.uitype = vtiger_ws_fieldtype.uitype')
-			->innerJoin('vtiger_ws_referencetype', 'vtiger_ws_fieldtype.fieldtypeid = vtiger_ws_referencetype.fieldtypeid');
-		$querySecond = (new App\Db\Query())->select(['fieldname', 'tabid', 'typeofdata', 'reference_module' => 'relmodule'])
-			->from('vtiger_field')
-			->innerJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid');
-		$dataReader = $query->union($querySecond)->createCommand()->query();
 		$dependentFields = [];
-		// List of modules which will not be supported by 'Create Entity' workflow task
-		$filterModules = ['Calendar', 'Accounts'];
-		$skipFieldsList = [];
-		while ($row = $dataReader->read()) {
-			$fieldName = $row['fieldname'];
-			$tabModuleName = \App\Module::getModuleName($row['tabid']);
-			if (in_array($tabModuleName, $filterModules)) {
+		$filterModules = [ 'Calendar', 'Accounts', 'Notification'];
+		foreach (\App\Field::getRelatedFieldForModule(false, $this->getModule()->getName()) as $module => $value) {
+			if(in_array($module, $filterModules)){
 				continue;
 			}
-			if ($row['reference_module'] == $moduleName && $tabModuleName != $moduleName) {
-				if (!\App\Module::isModuleActive($tabModuleName)) {
-					continue;
-				}
-				$dependentFields[$tabModuleName] = ['fieldname' => $fieldName, 'modulelabel' => \App\Language::translate($tabModuleName, $tabModuleName)];
-			} else {
-				$dataTypeInfo = explode('~', $row['typeofdata']);
-				if ($dataTypeInfo[1] === 'M') { // If the current reference field is mandatory
-					$skipFieldsList[$tabModuleName] = ['fieldname' => $fieldName];
-				}
-			}
+			$dependentFields[$module] = ['fieldname' => $value['fieldname'], 'modulelabel' => \App\Language::translate($module, $module)];
 		}
-		foreach ($skipFieldsList as $tabModuleName => $fieldInfo) {
-			if (isset($dependentFields[$tabModuleName]) && $dependentFields[$tabModuleName]['fieldname'] !== $fieldInfo['fieldname']) {
-				unset($dependentFields[$tabModuleName]);
-			}
-		}
-		$dataReader->close();
-
 		return $dependentFields;
 	}
 
@@ -512,7 +487,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 			$referenceFieldsList = $relatedModuleModel->getFieldsByType('reference');
 
 			foreach ($referenceFieldsList as $fieldName => $fieldModel) {
-				if (in_array($this->getModule()->getName(), $fieldModel->getReferenceList())) {
+				if (\in_array($this->getModule()->getName(), $fieldModel->getReferenceList())) {
 					return $fieldName;
 				}
 			}

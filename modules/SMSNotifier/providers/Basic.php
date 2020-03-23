@@ -70,9 +70,21 @@ abstract class SMSNotifier_Basic_Provider
 	 */
 	public function set($key, $value)
 	{
-		$this->$key = $value;
+		$this->{$key} = $value;
 
 		return $this;
+	}
+
+	/**
+	 * Function to check if the key exists.
+	 *
+	 * @param string $key
+	 *
+	 * @return bool
+	 */
+	public function has($key)
+	{
+		return isset($this->{$key});
 	}
 
 	/**
@@ -84,7 +96,7 @@ abstract class SMSNotifier_Basic_Provider
 	 */
 	public function get($key)
 	{
-		return $this->$key;
+		return $this->{$key};
 	}
 
 	/**
@@ -157,6 +169,8 @@ abstract class SMSNotifier_Basic_Provider
 
 	/**
 	 * Response.
+	 *
+	 * @param Requests_Response $request
 	 */
 	abstract public function getResponse(Requests_Response $request);
 

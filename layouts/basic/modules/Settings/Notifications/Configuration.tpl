@@ -13,7 +13,7 @@
 		</div>
 	</div>
 	{if App\Config::module('ModTracker', 'WATCHDOG')}
-		<div class="row">
+		<div class="row mt-2">
 			<div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3">
 				<div class="table-responsive padding10">
 					<table class="table table-bordered table-sm dataTable" data-mode="base">

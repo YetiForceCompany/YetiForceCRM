@@ -1,6 +1,15 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-WebserviceApps-Index -->
 	<div class="table-responsive">
+		{if !App\YetiForce\Shop::getProduct('ModulesPremium')->verify(false)}
+			<div class="alert alert-warning">
+				<h5>
+					<span class="yfi yfi-shop-alert fa-2x mr-1"></span>
+					{\App\Language::translate('LBL_PAID_FUNCTIONALITY_IS_ACTIVE')}
+				</h5>
+			</div>
+		{/if}
 		<table class="table table-bordered table-sm">
 			<thead>
 				<tr>
@@ -24,7 +33,7 @@
 							{/if}
 						</td>
 						<td>
-							{$SERVER['type']}
+							{\App\Language::translate($SERVER['type'], $QUALIFIED_MODULE)}
 						</td>
 						<td>
 							<div class="action">
@@ -34,7 +43,7 @@
 										<span class="fas fa-copy u-cursor-pointer"></span>
 									</button>
 									<button class="btn btn-primary btn-sm edit ml-2">
-										<span class="fas fa-edit u-cursor-pointer"></span>
+										<span class="yfi yfi-full-editing-view u-cursor-pointer"></span>
 									</button>
 									<button class="btn btn-danger btn-sm ml-2 remove">
 										<span class="fas fa-trash-alt u-cursor-pointer"></span>
@@ -47,4 +56,5 @@
 			</tbody>
 		</table>
 	</div>
+	<!-- /tpl-Settings-WebserviceApps-Index -->
 {/strip}

@@ -38,7 +38,7 @@ jQuery.Class(
 								let records = response.ok;
 								thisInstance.summary(container, response);
 								document.progressLoader.progressIndicator({ mode: 'hide' });
-								if (1 === method.val()) {
+								if ('1' === method.val()) {
 									for (let i in records) {
 										window.open(actionUrl + records[i], '_blank');
 									}

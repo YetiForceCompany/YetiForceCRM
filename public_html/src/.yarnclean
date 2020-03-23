@@ -1,0 +1,97 @@
+# test directories
+__tests__
+test
+tests
+powered-test
+
+# Git and GitHub meta files
+.github
+*.d.ts
+.DS_Store
+CODE_OF_CONDUCT.md
+
+# asset directories
+docs
+doc
+website
+images
+assets
+
+#backup
+*.bak
+
+# examples
+example
+examples
+demo
+demos
+sample
+samples
+example.html
+example.png
+example.js
+example_async.js
+example_sync.js
+.tonic_example.js
+demo.html
+test.html
+
+# code coverage directories
+coverage
+.nyc_output
+
+# build scripts
+Makefile
+Gulpfile.js
+Gruntfile.js
+
+# configs
+appveyor.yml
+circle.yml
+codeship-services.yml
+codeship-steps.yml
+wercker.yml
+.tern-project
+.gitattributes
+.editorconfig
+.*ignore
+.eslintrc
+.jshintrc
+.flowconfig
+.documentup.json
+.yarn-metadata.json
+.travis.yml
+.idea
+*.yml
+
+# readme
+readme
+readme.md
+readme.md~
+readme.*.md
+readme.txt
+readme.markdown
+readme.hbs
+
+#changelog
+changelog.md
+changelog.txt
+changelog
+changes.txt
+
+# other
+*.sh
+*.bat
+*.log
+*.gz
+cc-test-reporter
+.csslintrc
+screenshot.jpg
+screenshot.pdn
+index.html
+favicon.ico
+build.txt
+MAINTAINING.md
+
+# misc
+*.md

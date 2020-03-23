@@ -145,6 +145,16 @@ class Module
 	}
 
 	/**
+	 * Get all module names.
+	 *
+	 * @return string[]
+	 */
+	public static function getAllModuleNames()
+	{
+		return static::$tabdataCache['tabName'];
+	}
+
+	/**
 	 * Function to get the list of module for which the user defined sharing rules can be defined.
 	 *
 	 * @param array $eliminateModules
@@ -258,26 +268,26 @@ class Module
 	public static function createModuleMetaFile()
 	{
 		Cache::delete('moduleTabs', 'all');
-		$filename = 'user_privileges/tabdata.php';
+		Cache::delete('getTrackingModules', 'all');
+		$filename = ROOT_DIRECTORY . '/user_privileges/tabdata.php';
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {
-				if (!$handle = fopen($filename, 'w+')) {
-					throw new Exceptions\NoPermitted("Cannot open file ($filename)");
-				}
 				$moduleMeta = static::getModuleMeta();
-				$newbuf = "<?php\n";
-				$newbuf .= '$tab_seq_array=' . Utils::varExport($moduleMeta['tabPresence']) . ";\n";
-				$newbuf .= 'return ' . Utils::varExport($moduleMeta) . ";\n";
-				fwrite($handle, $newbuf);
-				fclose($handle);
-				Cache::resetFileCache($filename);
+				$content = '$tab_seq_array=' . Utils::varExport($moduleMeta['tabPresence']) . ";\n";
+				$content .= 'return ' . Utils::varExport($moduleMeta) . ";\n";
+				if (!Utils::saveToFile($filename, $content)) {
+					throw new Exceptions\NoPermitted("Cannot write file ($filename)");
+				}
 			} else {
 				Log::error("The file $filename is not writable");
 			}
 		} else {
 			Log::error("The file $filename does not exist");
 		}
-		static::init();
+		static::initFromDb();
+		register_shutdown_function(function () {
+			YetiForce\Shop::generateCache();
+		});
 	}
 
 	/**

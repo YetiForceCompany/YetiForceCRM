@@ -17,6 +17,13 @@ namespace vtlib;
 class Module extends ModuleBasic
 {
 	/**
+	 * Allow export.
+	 *
+	 * @var bool
+	 */
+	public $allowExport = false;
+
+	/**
 	 * Get related list sequence to use.
 	 *
 	 * @return int
@@ -33,42 +40,41 @@ class Module extends ModuleBasic
 	 * @param string Label to display in related list (default is target module name)
 	 * @param array List of action button to show ('ADD', 'SELECT')
 	 * @param string Callback function name of this module to use as handler
+	 * @param mixed $moduleInstance
+	 * @param mixed $label
+	 * @param mixed $actions
+	 * @param mixed $functionName
+	 * @param mixed $fieldName
 	 *
 	 * @internal Creates table vtiger_crmentityrel if it does not exists
 	 */
-	public function setRelatedList($moduleInstance, $label = '', $actions = false, $functionName = 'getRelatedList')
+	public function setRelatedList($moduleInstance, $label = '', $actions = false, $functionName = 'getRelatedList', $fieldName = null)
 	{
 		$db = \App\Db::getInstance();
-
 		if (empty($moduleInstance)) {
 			return;
 		}
 		if (empty($label)) {
 			$label = $moduleInstance->name;
 		}
-
 		// Allow ADD action of other module records (default)
-		if ($actions === false) {
+		if (false === $actions) {
 			$actions = ['ADD'];
 		}
-
 		$useactionsText = $actions;
-		if (is_array($actions)) {
+		if (\is_array($actions)) {
 			$useactionsText = implode(',', $actions);
 		}
 		$useactionsText = strtoupper($useactionsText);
-
 		$isExists = (new \App\Db\Query())
 			->select(['relation_id'])
 			->from('vtiger_relatedlists')
-			->where(['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $functionName, 'label' => $label])
+			->where(['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $functionName, 'label' => $label, 'field_name' => $fieldName])
 			->exists();
 		if ($isExists) {
 			\App\Log::trace("Setting relation with $moduleInstance->name [$useactionsText] ... Error, the related module already exists", __METHOD__);
-
 			return;
 		}
-
 		$sequence = $this->__getNextRelatedListSequence();
 		$presence = 0; // 0 - Enabled, 1 - Disabled
 
@@ -80,9 +86,10 @@ class Module extends ModuleBasic
 			'label' => $label,
 			'presence' => $presence,
 			'actions' => $useactionsText,
+			'field_name' => $fieldName,
 		])->execute();
 
-		if ($functionName === 'getManyToMany') {
+		if ('getManyToMany' === $functionName) {
 			$refTableName = \Vtiger_Relation_Model::getReferenceTableInfo($moduleInstance->name, $this->name);
 			$schema = $db->getSchema();
 			if (!$schema->getTableSchema($refTableName['table'])) {
@@ -110,6 +117,9 @@ class Module extends ModuleBasic
 	 * @param \Module Instance of target module with which relation should be setup
 	 * @param string Label to display in related list (default is target module name)
 	 * @param string Callback function name of this module to use as handler
+	 * @param mixed $moduleInstance
+	 * @param mixed $label
+	 * @param mixed $function_name
 	 */
 	public function unsetRelatedList($moduleInstance, $label = '', $function_name = 'getRelatedList')
 	{
@@ -136,6 +146,11 @@ class Module extends ModuleBasic
 	 *
 	 * NOTE: $url can have variables like $MODULE (module for which link is associated),
 	 * $RECORD (record on which link is dispalyed)
+	 * @param mixed      $type
+	 * @param mixed      $label
+	 * @param mixed      $iconpath
+	 * @param mixed      $sequence
+	 * @param mixed|null $handlerInfo
 	 */
 	public function addLink($type, $label, $url, $iconpath = '', $sequence = 0, $handlerInfo = null)
 	{
@@ -148,6 +163,9 @@ class Module extends ModuleBasic
 	 * @param string Type can be like 'DETAIL_VIEW_BASIC', 'LISTVIEW' etc..
 	 * @param string Display label to lookup
 	 * @param string URL value to lookup
+	 * @param mixed $type
+	 * @param mixed $label
+	 * @param mixed $url
 	 */
 	public function deleteLink($type, $label, $url = false)
 	{
@@ -206,7 +224,7 @@ class Module extends ModuleBasic
 			$languages = \App\Language::getAll(false);
 			$langFile = 'languages/' . \App\Language::DEFAULT_LANG . '/' . $this->name . '.json';
 			foreach ($languages as $prefix => $language) {
-				if ($prefix !== \App\Language::DEFAULT_LANG) {
+				if (\App\Language::DEFAULT_LANG !== $prefix) {
 					copy($langFile, 'languages/' . $prefix . '/' . $this->name . '.json');
 				}
 			}
@@ -217,6 +235,7 @@ class Module extends ModuleBasic
 	 * Get instance by id or name.
 	 *
 	 * @param mixed id or name of the module
+	 * @param mixed $value
 	 *
 	 * @return self
 	 */
@@ -235,6 +254,7 @@ class Module extends ModuleBasic
 	 * Get instance of the module class.
 	 *
 	 * @param string Module name
+	 * @param mixed $modulename
 	 */
 	public static function getClassInstance($modulename)
 	{
@@ -252,6 +272,9 @@ class Module extends ModuleBasic
 
 	/**
 	 * Fire the event for the module (if moduleHandler is defined).
+	 *
+	 * @param mixed $modulename
+	 * @param mixed $eventType
 	 */
 	public static function fireEvent($modulename, $eventType)
 	{
@@ -260,7 +283,7 @@ class Module extends ModuleBasic
 		if ($instance && method_exists($instance, 'moduleHandler')) {
 			\App\Log::trace("Invoking moduleHandler for $eventType ...START", __METHOD__);
 			$fire = $instance->moduleHandler((string) $modulename, (string) $eventType);
-			if ($fire !== null && $fire !== true) {
+			if (null !== $fire && true !== $fire) {
 				$return = false;
 			}
 			\App\Log::trace("Invoking moduleHandler for $eventType ...DONE", __METHOD__);
@@ -270,14 +293,17 @@ class Module extends ModuleBasic
 
 	/**
 	 * Toggle the module (enable/disable).
+	 *
+	 * @param mixed $moduleName
+	 * @param mixed $enableDisable
 	 */
 	public static function toggleModuleAccess($moduleName, $enableDisable)
 	{
 		$eventType = false;
-		if ($enableDisable === true) {
+		if (true === $enableDisable) {
 			$enableDisable = 0;
 			$eventType = self::EVENT_MODULE_ENABLED;
-		} elseif ($enableDisable === false) {
+		} elseif (false === $enableDisable) {
 			$enableDisable = 1;
 			$eventType = self::EVENT_MODULE_DISABLED;
 		}
@@ -296,9 +322,9 @@ class Module extends ModuleBasic
 	 *
 	 * @return bool
 	 */
-	public function isCustomizable()
+	public function isCustomizable(): bool
 	{
-		return $this->customized === 1 ? true : false;
+		return 1 === $this->customized;
 	}
 
 	/**
@@ -306,9 +332,9 @@ class Module extends ModuleBasic
 	 *
 	 * @return bool
 	 */
-	public function isModuleUpgradable()
+	public function isModuleUpgradable(): bool
 	{
-		return $this->isCustomizable() ? true : false;
+		return $this->isCustomizable() && 0 === $this->premium;
 	}
 
 	/**
@@ -316,8 +342,8 @@ class Module extends ModuleBasic
 	 *
 	 * @return bool
 	 */
-	public function isExportable()
+	public function isExportable(): bool
 	{
-		return $this->isCustomizable() ? true : false;
+		return $this->allowExport || ($this->isCustomizable() && 0 === $this->premium);
 	}
 }

@@ -4,6 +4,7 @@
 	<div class="editViewContainer">
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php"
 			  enctype="multipart/form-data">
+			<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
 			{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 				<input type="hidden" name="picklistDependency"
 					   value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
@@ -40,7 +41,7 @@
 				<input type="hidden" name="{$FIELD_NAME}"
 					   value="{\App\Purifier::encodeHtml($RECORD->get($FIELD_NAME))}"/>
 			{/foreach}
-			<div class="widget_header row">
+			<div class="o-breadcrumb widget_header row">
 				<div class="col-12">
 					{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 					<span class="float-left">
@@ -54,7 +55,6 @@
 				{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
-				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 				{if $BLOCKS_HIDE}
 					<div class="c-panel form-row js-toggle-panel row mx-1 mb-3"
 						 data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
@@ -103,7 +103,7 @@
 											</label>
 										</div>
 									{/if}
-									<div class="fieldValue {$WIDTHTYPE} {if $FIELD_MODEL->getUIType() eq '300'} col-md-12 {assign var=COUNTER value=$COUNTER+1} {else} col-lg-12 col-xl-9  {/if}">
+									<div class="fieldValue {$WIDTHTYPE} {$WIDTHTYPE_GROUP}{if $FIELD_MODEL->getUIType() eq '300'} col-md-12 {assign var=COUNTER value=$COUNTER+1} {else} col-lg-12 col-xl-9{/if}">
 										<div class="form-row">
 											<div class="col-md-12">
 												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}

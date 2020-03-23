@@ -41,7 +41,7 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	public function getSummaryValuesFromData($data)
 	{
 		$sum = $purchase = $totalOrNet = 0;
-		if (is_array($data)) {
+		if (\is_array($data)) {
 			foreach ($data as $row) {
 				$purchase += $row['qty'] * ($row['purchase'] ?? 0);
 				if (isset($row['net'])) {
@@ -50,7 +50,7 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 					$totalOrNet += $row['total'];
 				}
 			}
-			if (!empty($purchase)) {
+			if (!empty($purchase) && !empty($totalOrNet)) {
 				$subtraction = ($totalOrNet - $purchase);
 				$sum = ($subtraction / $totalOrNet) * 100;
 			}

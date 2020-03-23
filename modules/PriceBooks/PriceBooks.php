@@ -34,15 +34,12 @@ class PriceBooks extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['bookname', 'active', 'currency_id'];
+	public $relationFields = [];
 	public $list_link_field = 'bookname';
 	public $search_fields = [
 		'Price Book Name' => ['pricebook' => 'bookname'],
 	];
-	public $search_fields_name = [
-		'Price Book Name' => 'bookname',
-		'Currency' => 'currency_id',
-	];
+	public $search_fields_name = [];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
@@ -66,31 +63,5 @@ class PriceBooks extends CRMEntity
 			return $relTables;
 		}
 		return $relTables[$secmodule];
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function saveRelatedModule($module, $crmid, $withModule, $withCrmIds, $relatedName = false)
-	{
-		if (!\is_array($withCrmIds)) {
-			$withCrmIds = [$withCrmIds];
-		}
-		$recordModel = Vtiger_Record_Model::getInstanceById($crmid, $module);
-		foreach ($withCrmIds as $withCrmId) {
-			if ('Products' === $withModule || 'Services' === $withModule) {
-				if ((new App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $crmid, 'productid' => $withCrmId])->exists()) {
-					continue;
-				}
-				App\Db::getInstance()->createCommand()->insert('vtiger_pricebookproductrel', [
-					'pricebookid' => $crmid,
-					'productid' => $withCrmId,
-					'listprice' => 0,
-					'usedcurrency' => $recordModel->get('currency_id')
-				])->execute();
-			} else {
-				parent::saveRelatedModule($module, $crmid, $withModule, $withCrmId, $relatedName);
-			}
-		}
 	}
 }

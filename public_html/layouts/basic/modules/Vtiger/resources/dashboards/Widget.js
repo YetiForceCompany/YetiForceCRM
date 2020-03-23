@@ -116,7 +116,8 @@ jQuery.Class(
 					}
 					if (
 						typeof context.chart.data.datasets[context.datasetIndex].dataFormatted !== 'undefined' &&
-						typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !== 'undefined'
+						typeof context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex] !==
+							'undefined'
 					) {
 						// data presented in different format usually exists in alternative dataFormatted array
 						return context.chart.data.datasets[context.datasetIndex].dataFormatted[context.dataIndex];
@@ -154,7 +155,9 @@ jQuery.Class(
 								0
 							);
 						}
-						return App.Fields.Double.formatToDisplay(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+						return App.Fields.Double.formatToDisplay(
+							data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
+						);
 					}
 					// return raw data at idex
 					return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
@@ -169,7 +172,10 @@ jQuery.Class(
 						return data.datasets[tooltipItem.datasetIndex].titlesFormatted[tooltipItem.index];
 					}
 					// if there is no formatted title so try to format it
-					if (String(data.labels[tooltipItem.index]).length > 0 && !isNaN(Number(data.labels[tooltipItem.index]))) {
+					if (
+						String(data.labels[tooltipItem.index]).length > 0 &&
+						!isNaN(Number(data.labels[tooltipItem.index]))
+					) {
 						if (
 							typeof this.widgetData !== 'undefined' &&
 							typeof this.widgetData.valueType !== 'undefined' &&
@@ -230,7 +236,11 @@ jQuery.Class(
 					let getDatasetsMeta = function(chart) {
 						const datasets = [];
 						const data = chart.data;
-						if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
+						if (
+							typeof data !== 'undefined' &&
+							typeof data.datasets !== 'undefined' &&
+							Array.isArray(data.datasets)
+						) {
 							for (let i = 0, len = data.datasets.length; i < len; i++) {
 								const meta = chart.getDatasetMeta(i);
 								if (typeof meta.data !== 'undefined' && Array.isArray(meta.data)) {
@@ -260,11 +270,17 @@ jQuery.Class(
 						}
 						for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
 							const dataItem = metaData[iItem];
-							if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
+							if (
+								typeof dataItem.$datalabels !== 'undefined' &&
+								typeof dataItem.$datalabels._model !== 'undefined'
+							) {
 								let model = dataItem.$datalabels._model;
 								if (model !== null && typeof model !== 'undefined') {
 									dataset._models[iItem] = model;
-								} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
+								} else if (
+									dataset._models[iItem] !== null &&
+									typeof dataset._models[iItem] !== 'undefined'
+								) {
 									model = dataset._models[iItem];
 								} else {
 									return false;
@@ -276,7 +292,10 @@ jQuery.Class(
 								if (typeof chart.config.options.verticalBarLabelsThreshold !== 'undefined') {
 									threshold = chart.config.options.verticalBarLabelsThreshold;
 								}
-								if (dataItem._view.width + threshold < labelWidth || barHeight + threshold < labelHeight) {
+								if (
+									dataItem._view.width + threshold < labelWidth ||
+									barHeight + threshold < labelHeight
+								) {
 									dataItem.$datalabels._model.positioner = () => {
 										return false;
 									};
@@ -296,7 +315,11 @@ jQuery.Class(
 					let getDatasetsMeta = function(chart) {
 						const datasets = [];
 						const data = chart.data;
-						if (typeof data !== 'undefined' && typeof data.datasets !== 'undefined' && Array.isArray(data.datasets)) {
+						if (
+							typeof data !== 'undefined' &&
+							typeof data.datasets !== 'undefined' &&
+							Array.isArray(data.datasets)
+						) {
 							for (let i = 0, len = data.datasets.length; i < len; i++) {
 								const meta = chart.getDatasetMeta(i);
 								if (typeof meta.data !== 'undefined' && Array.isArray(meta.data)) {
@@ -326,11 +349,17 @@ jQuery.Class(
 						}
 						for (let iItem = 0, lenItem = metaData.length; iItem < lenItem; iItem++) {
 							const dataItem = metaData[iItem];
-							if (typeof dataItem.$datalabels !== 'undefined' && typeof dataItem.$datalabels._model !== 'undefined') {
+							if (
+								typeof dataItem.$datalabels !== 'undefined' &&
+								typeof dataItem.$datalabels._model !== 'undefined'
+							) {
 								let model = dataItem.$datalabels._model;
 								if (model !== null && typeof model !== 'undefined') {
 									dataset._models[iItem] = model;
-								} else if (dataset._models[iItem] !== null && typeof dataset._models[iItem] !== 'undefined') {
+								} else if (
+									dataset._models[iItem] !== null &&
+									typeof dataset._models[iItem] !== 'undefined'
+								) {
 									model = dataset._models[iItem];
 								} else {
 									return false;
@@ -342,7 +371,10 @@ jQuery.Class(
 								if (typeof chart.config.options.horizontalBarLabelsThreshold !== 'undefined') {
 									threshold = chart.config.options.horizontalBarLabelsThreshold;
 								}
-								if (dataItem._view.height + threshold < labelHeight || barWidth + threshold < labelWidth) {
+								if (
+									dataItem._view.height + threshold < labelHeight ||
+									barWidth + threshold < labelWidth
+								) {
 									dataItem.$datalabels._model.positioner = () => {
 										return false;
 									};
@@ -426,7 +458,10 @@ jQuery.Class(
 											// recalculate positions for smooth animation (for all datasets)
 											chart.data.datasets.forEach((dataset, index) => {
 												dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
-													metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+													metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(
+														index,
+														dataIndex
+													);
 													metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
 													metaDataItem._view.width =
 														(metaDataItem._xScale.width / dataset._meta[prop].data.length) *
@@ -488,10 +523,14 @@ jQuery.Class(
 											chart.data.datasets.forEach((dataset, index) => {
 												dataset._meta[prop].data.forEach((metaDataItem, dataIndex) => {
 													if (typeof metaDataItem._xScale !== 'undefined') {
-														metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(index, dataIndex);
+														metaDataItem._view.x = metaDataItem._xScale.getPixelForValue(
+															index,
+															dataIndex
+														);
 														metaDataItem._view.base = metaDataItem._xScale.getBasePixel();
 														metaDataItem._view.width =
-															(metaDataItem._xScale.width / dataset._meta[prop].data.length) *
+															(metaDataItem._xScale.width /
+																dataset._meta[prop].data.length) *
 															metaDataItem._xScale.options.categoryPercentage *
 															metaDataItem._xScale.options.barPercentage;
 													}
@@ -523,7 +562,9 @@ jQuery.Class(
 			if (splitted.length !== 2) {
 				app.errorLog(
 					new Error(
-						"Function replacement string should look like 'function:path.to.fn' not like '" + replacementStr + "'"
+						"Function replacement string should look like 'function:path.to.fn' not like '" +
+							replacementStr +
+							"'"
 					)
 				);
 			}
@@ -1329,7 +1370,10 @@ jQuery.Class(
 			return this;
 		},
 		isEmptyData: function isEmptyData() {
-			return this.getContainer().find('.widgetData').length === 0 || this.getContainer().find('.noDataMsg').length > 0;
+			return (
+				this.getContainer().find('.widgetData').length === 0 ||
+				this.getContainer().find('.noDataMsg').length > 0
+			);
 		},
 		getUserDateFormat: function getUserDateFormat() {
 			return CONFIG.dateFormat;
@@ -1774,7 +1818,9 @@ jQuery.Class(
 					searchInfo.push(searchValue);
 					if (fieldInfo.type === 'tree' || fieldInfo.type === 'categoryMultipicklist') {
 						searchInfo.push(
-							$('.listViewHeaders .searchInSubcategories[data-columnname="' + fieldName + '"]').prop('checked')
+							$('.listViewHeaders .searchInSubcategories[data-columnname="' + fieldName + '"]').prop(
+								'checked'
+							)
 						);
 					}
 					searchParams.push(searchInfo);
@@ -1850,11 +1896,12 @@ jQuery.Class(
 				jQuery(parent)
 					.find('.slimScrollDiv')
 					.css('overflow', 'visible');
-				var user = parent.find('.owner').val();
-				var type = parent.find("[name='type']").val();
-				var url = element.data('url') + '&content=true&owner=' + user;
-				if (parent.find("[name='type']").length > 0) {
-					url += '&type=' + type;
+				var url = element.data('url') + '&content=true';
+				let additionalFilter = parent.find('.widgetFilter');
+				if (additionalFilter.length > 0) {
+					additionalFilter.each(function() {
+						url += '&' + $(this).attr('name') + '=' + $(this).val();
+					});
 				}
 				if (parent.find('.changeRecordSort').length > 0) {
 					url += '&sortorder=' + parent.find('.changeRecordSort').data('sort');
@@ -1868,6 +1915,7 @@ jQuery.Class(
 						.find('.dashboardWidgetContent')
 						.append(data);
 					element.parent().remove();
+					thisInstance.postRefreshWidget();
 				});
 			});
 		},
@@ -1999,7 +2047,10 @@ jQuery.Class(
 		 * @return {Object}
 		 */
 		loadPlugins: function loadPlugins(chartData) {
-			return this.mergeOptionsArray(this.getPlugins(chartData), this.getDefaultPlugins(this.getSubType(), chartData));
+			return this.mergeOptionsArray(
+				this.getPlugins(chartData),
+				this.getDefaultPlugins(this.getSubType(), chartData)
+			);
 		},
 		/**
 		 * Format tooltip titles to user number format and push this modification to titlesFormatted
@@ -2123,7 +2174,8 @@ jQuery.Class(
 					} else if (
 						typeof from[key] === 'object' &&
 						from[key] !== null &&
-						(!to.hasOwnProperty(key) || (typeof to[key] === 'object' && to[key] !== null && !Array.isArray(to[key])))
+						(!to.hasOwnProperty(key) ||
+							(typeof to[key] === 'object' && to[key] !== null && !Array.isArray(to[key])))
 					) {
 						// if property is an object - merge recursively
 						to[key] = this.mergeOptionsObject(to[key], from[key]);
@@ -2400,7 +2452,8 @@ YetiForce_Widget_Js(
 			defaultFirstHour = explodedTime['0'];
 			var defaultDate = app.getMainParams('defaultDate');
 			if (this.paramCache && defaultDate != moment().format('YYYY-MM-DD')) {
-				defaultDate = moment(defaultDate).format('D') == 1 ? moment(defaultDate) : moment(defaultDate).add(1, 'M');
+				defaultDate =
+					moment(defaultDate).format('D') == 1 ? moment(defaultDate) : moment(defaultDate).add(1, 'M');
 			}
 			container.find('.js-widget-quick-create').on('click', function(e) {
 				Vtiger_Header_Js.getInstance().quickCreateModule($(this).data('module-name'));
@@ -2423,52 +2476,10 @@ YetiForce_Widget_Js(
 				defaultEventMinutes: 0,
 				eventLimit: true,
 				allDaySlot: false,
-				monthNames: [
-					app.vtranslate('JS_JANUARY'),
-					app.vtranslate('JS_FEBRUARY'),
-					app.vtranslate('JS_MARCH'),
-					app.vtranslate('JS_APRIL'),
-					app.vtranslate('JS_MAY'),
-					app.vtranslate('JS_JUNE'),
-					app.vtranslate('JS_JULY'),
-					app.vtranslate('JS_AUGUST'),
-					app.vtranslate('JS_SEPTEMBER'),
-					app.vtranslate('JS_OCTOBER'),
-					app.vtranslate('JS_NOVEMBER'),
-					app.vtranslate('JS_DECEMBER')
-				],
-				monthNamesShort: [
-					app.vtranslate('JS_JAN'),
-					app.vtranslate('JS_FEB'),
-					app.vtranslate('JS_MAR'),
-					app.vtranslate('JS_APR'),
-					app.vtranslate('JS_MAY'),
-					app.vtranslate('JS_JUN'),
-					app.vtranslate('JS_JUL'),
-					app.vtranslate('JS_AUG'),
-					app.vtranslate('JS_SEP'),
-					app.vtranslate('JS_OCT'),
-					app.vtranslate('JS_NOV'),
-					app.vtranslate('JS_DEC')
-				],
-				dayNames: [
-					app.vtranslate('JS_SUNDAY'),
-					app.vtranslate('JS_MONDAY'),
-					app.vtranslate('JS_TUESDAY'),
-					app.vtranslate('JS_WEDNESDAY'),
-					app.vtranslate('JS_THURSDAY'),
-					app.vtranslate('JS_FRIDAY'),
-					app.vtranslate('JS_SATURDAY')
-				],
-				dayNamesShort: [
-					app.vtranslate('JS_SUN'),
-					app.vtranslate('JS_MON'),
-					app.vtranslate('JS_TUE'),
-					app.vtranslate('JS_WED'),
-					app.vtranslate('JS_THU'),
-					app.vtranslate('JS_FRI'),
-					app.vtranslate('JS_SAT')
-				],
+				monthNames: App.Fields.Date.fullMonthsTranslated,
+				monthNamesShort: App.Fields.Date.monthsTranslated,
+				dayNames: App.Fields.Date.fullDaysTranslated,
+				dayNamesShort: App.Fields.Date.daysTranslated,
 				buttonText: {
 					today: app.vtranslate('JS_TODAY'),
 					month: app.vtranslate('JS_MONTH'),
@@ -2539,7 +2550,8 @@ YetiForce_Widget_Js(
 			var switchBtn = container.find('.js-switch--calendar');
 			switchBtn.on('change', e => {
 				const currentTarget = $(e.currentTarget);
-				if (typeof currentTarget.data('on-text') !== 'undefined') container.find('.widgetFilterSwitch').val('current');
+				if (typeof currentTarget.data('on-text') !== 'undefined')
+					container.find('.widgetFilterSwitch').val('current');
 				else if (typeof currentTarget.data('off-text') !== 'undefined')
 					container.find('.widgetFilterSwitch').val('history');
 				this.refreshWidget();
@@ -2843,7 +2855,9 @@ YetiForce_Bar_Widget_Js(
 					callbacks: {
 						label: function(tooltipItem, data) {
 							return (
-								data.datasets[tooltipItem.datasetIndex].original_label + ': ' + app.formatToHourText(tooltipItem.yLabel)
+								data.datasets[tooltipItem.datasetIndex].original_label +
+								': ' +
+								app.formatToHourText(tooltipItem.yLabel)
 							);
 						},
 						title: function(tooltipItems, data) {
@@ -3309,10 +3323,77 @@ YetiForce_Widget_Js(
 					url += '["assigned_user_id","e","' + owner.val() + '"],';
 				}
 				url +=
-					'["projecttaskstatus","e","' + encodeURIComponent(container.find('[name="status"]').data('value')) + '"]]]';
+					'["projecttaskstatus","e","' +
+					encodeURIComponent(container.find('[name="status"]').data('value')) +
+					'"]]]';
 				app.openUrl(url);
 			});
 		}
 	}
 );
 YetiForce_UpcomingProjectTasks_Widget_Js('YetiForce_CompletedProjectTasks_Widget_Js', {}, {});
+YetiForce_Widget_Js(
+	'YetiForce_Updates_Widget_Js',
+	{},
+	{
+		postLoadWidget: function() {
+			this._super();
+			this.registerEvents();
+			this.registerLoadMore();
+		},
+		postRefreshWidget: function() {
+			this._super();
+			app.registerPopoverEllipsisIcon(this.getContainer().find('.js-popover-tooltip--ellipsis-icon'));
+		},
+		registerEvents: function() {
+			const container = this.getContainer();
+			const self = this;
+			let modalContainer = container.find('.js-update-widget-modal');
+			app.registerPopoverEllipsisIcon(container.find('.js-popover-tooltip--ellipsis-icon'));
+			container.find('.js-update-widget-button').on('click', function() {
+				let modal = modalContainer.clone(true);
+				let widgetData = JSON.parse(container.find('.js-widget-data').val());
+				if (widgetData) {
+					for (let i in widgetData.actions) {
+						modal.find('.js-tracker-action[value="' + widgetData.actions[i] + '"]').prop('checked', true);
+					}
+					modal.find('[name="owner"]').val(widgetData.owner);
+					modal.find('[name="historyOwner"]').val(widgetData.historyOwner);
+				}
+				App.Fields.Picklist.showSelect2ElementView(modal.find('select'));
+				app.showModalWindow(modal, function(data) {
+					self.registerSubmit(data);
+				});
+			});
+		},
+		registerSubmit(data) {
+			data.find('.js-modal__save').on('click', e => {
+				let progressIndicatorElement = $.progressIndicator({
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				});
+				let actions = [];
+				$.each(data.find('.js-tracker-action:checked'), function() {
+					actions.push($(this).val());
+				});
+				AppConnector.request({
+					action: 'Widget',
+					mode: 'saveUpdatesWidgetConfig',
+					module: 'ModTracker',
+					widgetId: this.getContainer()
+						.find('.js-widget-id')
+						.val(),
+					trackerActions: actions,
+					owner: data.find('[name="owner"]').val(),
+					historyOwner: data.find('[name="historyOwner"]').val()
+				}).done(data => {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					this.refreshWidget();
+					app.hideModalWindow();
+				});
+			});
+		}
+	}
+);

@@ -5,14 +5,10 @@
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
 	<div class="tpl-List-Field-CompanySelect">
 		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=""/>
-		<select name="{$FIELD_MODEL->getName()}" class="select2 form-control"
-				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
-				id="{$MODULE}_{$VIEW}_fieldName_{$FIELD_MODEL->getName()}"
-				data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isMandatory() eq true} {/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}
-				data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}"
-				data-select="allowClear">
+		<select name="{$FIELD_MODEL->getName()}" class="select2 form-control" tabindex="{$FIELD_MODEL->getTabIndex()}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
+				id="{$MODULE}_{$VIEW}_fieldName_{$FIELD_MODEL->getName()}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isMandatory() eq true} {/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}" data-select="allowClear">
 			<optgroup class="p-0">
-				<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
+				<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 			</optgroup>
 			{foreach item=PICKLIST_VALUE from=$PICKLIST_VALUES}
 				<option value="{\App\Purifier::encodeHtml($PICKLIST_VALUE['multicompanyid'])}" {if $PICKLIST_VALUE['multicompanyid'] eq $FIELD_VALUE} selected {/if}>
@@ -26,5 +22,3 @@
 		</select>
 	</div>
 {/strip}
-
-

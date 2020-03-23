@@ -5,7 +5,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">
-						<span class="modCT_Competition userIcon-Competition mr-2"></span>
+						<span class="modCT_Competition yfm-Competition mr-2"></span>
 						{\App\Language::translate('LBL_SHOW_HIERARCHY', $MODULE)}
 					</h5>
 					<button type="button" class="close" data-dismiss="modal"

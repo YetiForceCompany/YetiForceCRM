@@ -54,7 +54,7 @@ class HelpDesk extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['ticket_no', 'ticket_title', 'parent_id', 'ticketstatus', 'ticketpriorities', 'assigned_user_id', 'sum_time'];
+	public $relationFields = [];
 	public $list_link_field = 'ticket_title';
 	public $search_fields = [
 		//'Ticket ID' => Array('vtiger_crmentity'=>'crmid'),
@@ -68,16 +68,7 @@ class HelpDesk extends CRMEntity
 		'Assigned To' => ['crmentity', 'smownerid'],
 		'FL_TOTAL_TIME_H' => ['troubletickets', 'sum_time'],
 	];
-	public $search_fields_name = [
-		'Ticket No' => 'ticket_no',
-		'Subject' => 'ticket_title',
-		'Related To' => 'parent_id',
-		'Contact Name' => 'contact_id',
-		'Status' => 'ticketstatus',
-		'Priority' => 'ticketpriorities',
-		'Assigned To' => 'assigned_user_id',
-		'FL_TOTAL_TIME_H' => 'sum_time',
-	];
+	public $search_fields_name = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assigned_user_id', 'createdtime', 'modifiedtime', 'ticket_title', 'update_log'];
@@ -86,18 +77,6 @@ class HelpDesk extends CRMEntity
 	public $default_sort_order = 'ASC';
 	// For Alphabetical search
 	public $def_basicsearch_col = 'ticket_title';
-
-	public function saveRelatedModule($module, $crmid, $with_module, $with_crmid, $relatedName = false)
-	{
-		if ('ServiceContracts' == $with_module) {
-			parent::saveRelatedModule($module, $crmid, $with_module, $with_crmid);
-			$serviceContract = CRMEntity::getInstance('ServiceContracts');
-			$serviceContract->updateHelpDeskRelatedTo($with_crmid, $crmid);
-			$serviceContract->updateServiceContractState($with_crmid);
-		} else {
-			parent::saveRelatedModule($module, $crmid, $with_module, $with_crmid, $relatedName);
-		}
-	}
 
 	/**
 	 * Function to get the relation tables for related modules.
@@ -118,24 +97,5 @@ class HelpDesk extends CRMEntity
 		}
 
 		return $relTables[$secModule];
-	}
-
-	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if (empty($returnModule) || empty($returnId)) {
-			return;
-		}
-		if ('Accounts' === $returnModule || 'Vendors' === $returnModule) {
-			$dbCommand = App\Db::getInstance()->createCommand();
-			$dbCommand->update('vtiger_troubletickets', ['parent_id' => null], ['ticketid' => $id])->execute();
-			$dbCommand->delete('vtiger_seticketsrel', ['ticketid' => $id])->execute();
-		} elseif ('Products' === $returnModule) {
-			App\Db::getInstance()->createCommand()->update('vtiger_troubletickets', ['product_id' => null], ['ticketid' => $id])->execute();
-		} elseif ('ServiceContracts' === $returnModule && 'getManyToMany' !== $relatedName) {
-			parent::unlinkRelationship($id, $returnModule, $returnId);
-		} else {
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		}
 	}
 }

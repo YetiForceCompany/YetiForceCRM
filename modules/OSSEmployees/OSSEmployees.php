@@ -61,7 +61,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['ossemployees_no', 'last_name', 'name', 'business_phone', 'assigned_user_id'];
+	public $relationFields = [];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'assigned_user_id';
 	// For Popup listview and UI type support
@@ -73,14 +73,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		'Assigned To' => ['crmentity', 'smownerid'],
 		'FL_POSITION' => ['crmentity', 'position'],
 	];
-	public $search_fields_name = [
-		'LBL_LASTNAME' => 'last_name',
-		'LBL_NAME' => 'name',
-		'LBL_BUSINESSPHONE' => 'business_phone',
-		'LBL_BUSINESSMAIL' => 'business_mail',
-		'Assigned To' => 'assigned_user_id',
-		'FL_POSITION' => 'position',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['last_name'];
 	// For Alphabetical search

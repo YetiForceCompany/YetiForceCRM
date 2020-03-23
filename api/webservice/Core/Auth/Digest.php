@@ -29,12 +29,11 @@ class DigestAuth
 
 	public function getCredentials()
 	{
-		$auth = $this->api->request->getHeader('Authorization');
-
+		$auth = $this->api->request->getHeader('authorization');
 		if (!$auth) {
 			return null;
 		}
-		if (strtolower(substr($auth, 0, 6)) !== 'basic ') {
+		if ('basic ' !== strtolower(substr($auth, 0, 6))) {
 			return null;
 		}
 		return explode(':', base64_decode(substr($auth, 6)), 2);

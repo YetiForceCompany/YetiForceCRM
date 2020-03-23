@@ -29,15 +29,14 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 		$folderDecode = \App\Utils::convertCharacterEncoding($request->getRaw('folder'), 'UTF7-IMAP', 'UTF-8');
 		$folderDecode = \App\Purifier::purifyByType($folderDecode, 'Text');
 		$folderDecode = \App\Purifier::decodeHtml($folderDecode);
-		$record = $mailViewModel->checkMailExist($uid, $folderDecode, $rcId);
 		$modelMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+		$folder = \App\Utils::convertCharacterEncoding($folderDecode, 'UTF-8', 'UTF7-IMAP');
+		$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $folder);
+		$record = $mailViewModel->checkMailExist($uid, $folderDecode, $rcId, $mbox);
 		if (!($record) && !empty($account['actions']) && false !== strpos($account['actions'], 'CreatedEmail') &&
 			isset(array_column($modelMailScanner->getFolders($rcId), 'folder', 'folder')[$folderDecode])
 		) {
-			$folder = \App\Utils::convertCharacterEncoding($folderDecode, 'UTF-8', 'UTF7-IMAP');
-			$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
-			$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $folder);
-			if ($mail = $mailModel->getMail($mbox, $uid)) {
+			if ($mail = OSSMail_Record_Model::getMail($mbox, $uid)) {
 				$return = OSSMailScanner_Record_Model::executeActions($account, $mail, $folderDecode, $params);
 				if (!empty($return['CreatedEmail'])) {
 					$record = $return['CreatedEmail']['mailViewId'];
@@ -45,6 +44,11 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 			} else {
 				App\Log::error("Email not found. username: {$account['username']}, folder: $folder, uid: $uid ", __METHOD__);
 			}
+		} elseif ($record && !\App\Privilege::isPermitted('OSSMailView', 'DetailView', $record)) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($record, $mailViewModel->getModule());
+			$sharedOwner = $recordModel->isEmpty('shownerid') ? [] : explode(',', $recordModel->get('shownerid'));
+			$sharedOwner[] = \App\User::getCurrentUserId();
+			$recordModel->set('shownerid', implode(',', $sharedOwner))->save();
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $record);
@@ -52,7 +56,7 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 			$relatedRecords = $mailViewModel->getRelatedRecords($record);
 			$viewer->assign('RELATED_RECORDS', $relatedRecords);
 		}
-		\App\ModuleHierarchy::getModulesByLevel();
+		\App\ModuleHierarchy::getModulesByLevel(0);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('URL', App\Config::main('site_URL'));
 		$viewer->view('MailActionBar.tpl', $moduleName);

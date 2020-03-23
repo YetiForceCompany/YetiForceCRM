@@ -50,7 +50,7 @@ class IGIN extends Vtiger_CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['subject', 'assigned_user_id'];
+	public $relationFields = [];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
@@ -60,11 +60,7 @@ class IGIN extends Vtiger_CRMEntity
 		'subject' => ['igin', 'subject'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'subject' => 'subject',
-		'Assigned To' => 'assigned_user_id',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['subject'];
 	// For Alphabetical search

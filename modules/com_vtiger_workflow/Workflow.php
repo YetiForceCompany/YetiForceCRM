@@ -84,6 +84,27 @@ class Workflow
 	public static $SCHEDULED_5_MINUTES = 10;
 
 	/**
+	 * Scheduled closest working day.
+	 *
+	 * @var int
+	 */
+	public static $SCHEDULED_WORKINGDAY_DAY = 11;
+
+	/**
+	 * Scheduled first working day in week.
+	 *
+	 * @var int
+	 */
+	public static $SCHEDULED_WORKINGDAY_WEEK = 12;
+
+	/**
+	 * Scheduled first working day in month.
+	 *
+	 * @var int
+	 */
+	public static $SCHEDULED_WORKINGDAY_MONTH = 13;
+
+	/**
 	 * Scheduled list.
 	 *
 	 * @var int[]
@@ -99,6 +120,9 @@ class Workflow
 		5 => 'LBL_MONTHLY_BY_DATE',
 		6 => 'LBL_MONTHLY_BY_WEEKDAY',
 		7 => 'LBL_YEARLY',
+		11 => 'LBL_WORKINGDAY_DAY',
+		12 => 'LBL_WORKINGDAY_WEEK',
+		13 => 'LBL_WORKINGDAY_MONTH',
 	];
 
 	/**
@@ -131,6 +155,7 @@ class Workflow
 		}
 		$this->filtersavedinnew = $row['filtersavedinnew'] ?? '';
 		$this->nexttrigger_time = $row['nexttrigger_time'] ?? '';
+		$this->params = $row['params'] ?? '';
 	}
 
 	/**
@@ -145,8 +170,7 @@ class Workflow
 		if ('' == $this->test) {
 			return true;
 		}
-		$cs = $this->conditionStrategy;
-		return $cs->evaluate($this->test, $recordModel);
+		return $this->conditionStrategy->evaluate($this->test, $recordModel);
 	}
 
 	/**
@@ -187,17 +211,17 @@ class Workflow
 	 * Perform tasks.
 	 *
 	 * @param Vtiger_Record_Model $recordModel
+	 * @param array|null          $tasks
 	 */
-	public function performTasks(Vtiger_Record_Model $recordModel)
+	public function performTasks(Vtiger_Record_Model $recordModel, ?array $tasks = null)
 	{
 		require_once 'modules/com_vtiger_workflow/VTTaskManager.php';
 		require_once 'modules/com_vtiger_workflow/VTTaskQueue.php';
 
 		$tm = new VTTaskManager();
 		$taskQueue = new VTTaskQueue();
-		$tasks = $tm->getTasksForWorkflow($this->id);
-		foreach ($tasks as &$task) {
-			if ($task->active) {
+		foreach ($tm->getTasksForWorkflow($this->id) as $task) {
+			if ($task->active && (null === $tasks || \in_array($task->id, $tasks))) {
 				$trigger = $task->trigger;
 				if (null !== $trigger) {
 					$delay = strtotime($recordModel->get($trigger['field'])) + $trigger['days'] * 86400;
@@ -363,6 +387,19 @@ class Workflow
 			case self::$SCHEDULED_ANNUALLY:
 					$nextTime = $this->getNextTriggerTimeForAnnualDates($this->getWFScheduleAnnualDates(), $this->getWFScheduleTime());
 				break;
+			case self::$SCHEDULED_WORKINGDAY_DAY:
+					$nextTime = $this->getNextTriggerTimeForDaily($this->getWFScheduleTime());
+					$firstWorkingDay = new DateTime($nextTime);
+					$nextTime = \App\Fields\Date::getWorkingDayFromDate($firstWorkingDay, '+0 day') . ' ' . $this->getWFScheduleTime();
+				break;
+			case self::$SCHEDULED_WORKINGDAY_WEEK:
+					$firstDayNextWeek = new DateTime('monday next week');
+					$nextTime = \App\Fields\Date::getWorkingDayFromDate($firstDayNextWeek, '+0 day') . ' ' . $this->getWFScheduleTime();
+				break;
+			case self::$SCHEDULED_WORKINGDAY_MONTH:
+					$firstDayNextMonth = new DateTime('first day of next month');
+					$nextTime = \App\Fields\Date::getWorkingDayFromDate($firstDayNextMonth, '+0 day') . ' ' . $this->getWFScheduleTime();
+				break;
 		}
 		date_default_timezone_set($default_timezone);
 		return $nextTime;
@@ -435,7 +472,7 @@ class Workflow
 					}
 				}
 
-				if (null === $nextTime) {
+				if (!isset($nextTime)) {
 					if (!empty($nextTriggerWeekDay)) {
 						$nextTime = date('Y-m-d H:i:s', strtotime($weekDays[$nextTriggerWeekDay] . ' ' . $scheduledTime));
 					} else {

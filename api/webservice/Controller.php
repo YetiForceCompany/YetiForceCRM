@@ -11,12 +11,6 @@ namespace Api;
  */
 class Controller
 {
-	/**
-	 * Property: method
-	 * The HTTP method this request was made in, either GET, POST, PUT or DELETE.
-	 */
-	protected static $acceptableMethods = ['GET', 'POST', 'PUT', 'DELETE'];
-
 	/** @var \self */
 	private static $instance;
 
@@ -61,13 +55,15 @@ class Controller
 	public function preProcess()
 	{
 		set_error_handler([$this, 'exceptionErrorHandler']);
-		if ('OPTIONS' === $this->method) {
-			$this->response->addHeader('Allow', strtoupper(implode(', ', static::$acceptableMethods)));
-
-			return false;
-		}
 		$this->app = Core\Auth::init($this);
 		$this->headers = $this->request->getHeaders();
+		if ('OPTIONS' === $this->method) {
+			$handlerClass = $this->getModuleClassName();
+			$handler = new $handlerClass();
+			$this->response->setAcceptableHeaders($handler->allowedHeaders);
+			$this->response->setAcceptableMethods($handler->allowedMethod);
+			return false;
+		}
 		if ($this->headers['x-api-key'] !== \App\Encryption::getInstance()->decrypt($this->app['api_key'])) {
 			throw new Core\Exception('Invalid api key', 401);
 		}
@@ -85,8 +81,10 @@ class Controller
 		self::$action = $handler = new $handlerClass();
 		$handler->controller = $this;
 		if ($handler->checkAction()) {
+			$this->response->setAcceptableHeaders($handler->allowedHeaders);
+			$this->response->setAcceptableMethods($handler->allowedMethod);
 			$handler->preProcess();
-			$return = call_user_func([$handler, strtolower($this->method)]);
+			$return = \call_user_func([$handler, strtolower($this->method)]);
 		}
 		if (null !== $return) {
 			$return = [
@@ -129,12 +127,21 @@ class Controller
 		if (\App\Config::debug('WEBSERVICE_DEBUG')) {
 			$log = '============ Request ======  ' . date('Y-m-d H:i:s') . "  ======\n";
 			$log .= 'REQUEST_METHOD: ' . $this->request->getRequestMethod() . PHP_EOL;
-			$log .= "Headers: \n";
+			$log .= 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
+			$log .= 'QUERY_STRING: ' . $_SERVER['QUERY_STRING'] . PHP_EOL;
+			$log .= 'PATH_INFO: ' . $_SERVER['PATH_INFO'] . PHP_EOL;
+			$log .= '----------- Headers -----------' . PHP_EOL;
 			foreach ($this->request->getHeaders() as $key => $header) {
 				$log .= "$key : $header\n";
 			}
-			$log .= "----------- Request data -----------\n";
+			$log .= '----------- Request data -----------' . PHP_EOL;
 			$log .= print_r($this->request->getAllRaw(), true) . PHP_EOL;
+			$log .= "----------- _GET -----------\n";
+			$log .= print_r($_GET, true) . PHP_EOL;
+			$log .= "----------- _POST -----------\n";
+			$log .= print_r($_POST, true) . PHP_EOL;
+			$log .= "----------- Request payload -----------\n";
+			$log .= print_r(file_get_contents('php://input'), true) . PHP_EOL;
 			file_put_contents('cache/logs/webserviceDebug.log', $log, FILE_APPEND);
 		}
 	}

@@ -19,7 +19,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form class="form-horizontal contentsBackground" id="moveDocuments" method="post" action="index.php">
+				<form class="form-horizontal bg-white border" id="moveDocuments" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
 					<input type="hidden" name="action" value="MoveDocuments" />
 					<input type="hidden" name="selected_ids" value={\App\Json::encode($SELECTED_IDS)} />

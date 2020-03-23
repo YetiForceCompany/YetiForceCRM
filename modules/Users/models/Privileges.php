@@ -61,8 +61,8 @@ class Users_Privileges_Model extends Users_Record_Model
 	public function hasGlobalReadPermission()
 	{
 		return $this->isAdminUser() ||
-			$this->getGlobalReadPermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE ||
-			$this->getGlobalWritePermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE;
+			Settings_Profiles_Module_Model::IS_PERMITTED_VALUE === $this->getGlobalReadPermission() ||
+			Settings_Profiles_Module_Model::IS_PERMITTED_VALUE === $this->getGlobalWritePermission();
 	}
 
 	/**
@@ -72,15 +72,15 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public function hasGlobalWritePermission()
 	{
-		return $this->isAdminUser() || $this->getGlobalWritePermission() === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE;
+		return $this->isAdminUser() || Settings_Profiles_Module_Model::IS_PERMITTED_VALUE === $this->getGlobalWritePermission();
 	}
 
 	public function hasGlobalPermission($actionId)
 	{
-		if ($actionId == Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW) {
+		if (Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW == $actionId) {
 			return $this->hasGlobalReadPermission();
 		}
-		if ($actionId == Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT) {
+		if (Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT == $actionId) {
 			return $this->hasGlobalWritePermission();
 		}
 		return false;
@@ -97,7 +97,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	{
 		$profileTabsPermissions = $this->get('profile_tabs_permission');
 		$moduleModel = Vtiger_Module_Model::getInstance($mixed);
-		return !empty($moduleModel) && $moduleModel->isActive() && ($this->isAdminUser() || (isset($profileTabsPermissions[$moduleModel->getId()]) && $profileTabsPermissions[$moduleModel->getId()] === 0));
+		return !empty($moduleModel) && $moduleModel->isActive() && ($this->isAdminUser() || (isset($profileTabsPermissions[$moduleModel->getId()]) && 0 === $profileTabsPermissions[$moduleModel->getId()]));
 	}
 
 	/**
@@ -105,6 +105,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 *
 	 * @param <Number>        $tabId
 	 * @param <String/Number> $action
+	 * @param mixed           $mixed
 	 *
 	 * @return bool true/false
 	 */
@@ -119,7 +120,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			$mixed = 1;
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($mixed);
-		return $moduleModel->isActive() && (($this->isAdminUser() || (isset($profileTabsPermissions[$moduleModel->getId()][$actionId]) && $profileTabsPermissions[$moduleModel->getId()][$actionId] === Settings_Profiles_Module_Model::IS_PERMITTED_VALUE)));
+		return $moduleModel->isActive() && (($this->isAdminUser() || (isset($profileTabsPermissions[$moduleModel->getId()][$actionId]) && Settings_Profiles_Module_Model::IS_PERMITTED_VALUE === $profileTabsPermissions[$moduleModel->getId()][$actionId])));
 	}
 
 	/**
@@ -133,7 +134,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	{
 		$instance = new self();
 		foreach ($valueMap as $key => $value) {
-			$instance->$key = $value;
+			$instance->{$key} = $value;
 		}
 		$instance->setData($valueMap);
 
@@ -145,7 +146,8 @@ class Users_Privileges_Model extends Users_Record_Model
 	/**
 	 * Static Function to get the instance of the User Privileges model, given the User id.
 	 *
-	 * @param <Number> $userId
+	 * @param <Number>   $userId
+	 * @param mixed|null $module
 	 *
 	 * @return \Users_Privileges_Model object
 	 */
@@ -159,7 +161,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			return self::$userPrivilegesModelCache[$userId];
 		}
 		$valueMap = App\User::getPrivilegesFile($userId);
-		if (is_array($valueMap['user_info'])) {
+		if (\is_array($valueMap['user_info'])) {
 			$valueMap = array_merge($valueMap, $valueMap['user_info']);
 		}
 		$instance = self::getInstance($valueMap);
@@ -195,7 +197,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 		$workflows = (new VTWorkflowManager())->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
-		if (count($workflows)) {
+		if (\count($workflows)) {
 			foreach ($workflows as &$workflow) {
 				if ($workflow->evaluate($recordModel)) {
 					$return = true;
@@ -247,7 +249,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		$saveFull = true;
 
 		$db = \App\Db::getInstance();
-		if (\App\Request::_get('action') == 'SaveAjax' && \App\Request::_has('field') && \App\Request::_get('field') != 'shownerid') {
+		if ('SaveAjax' == \App\Request::_get('action') && \App\Request::_has('field') && 'shownerid' != \App\Request::_get('field')) {
 			$saveFull = false;
 		}
 		if ($saveFull) {
@@ -255,7 +257,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			if (empty($userIds)) {
 				return false;
 			}
-			if (!is_array($userIds) && $userIds) {
+			if (!\is_array($userIds) && $userIds) {
 				$userIds = explode(',', $userIds);
 			}
 			foreach ($userIds as $userId) {
@@ -275,6 +277,9 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function to get set Shared Owner Recursively.
+	 *
+	 * @param mixed $recordId
+	 * @param mixed $moduleName
 	 */
 	public static function getSharedRecordsRecursively($recordId, $moduleName)
 	{
@@ -349,7 +354,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			$parentModelFields = $parentModuleModel->getFields();
 
 			foreach ($parentModelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->isReferenceField() && count(array_intersect($parentModule, $fieldModel->getReferenceList())) > 0) {
+				if ($fieldModel->isReferenceField() && \count(array_intersect($parentModule, $fieldModel->getReferenceList())) > 0) {
 					$recordModel = Vtiger_Record_Model::getInstanceById($record);
 					$value = $recordModel->get($fieldName);
 					if (!empty($value) && \App\Record::isExists($value)) {
@@ -357,14 +362,14 @@ class Users_Privileges_Model extends Users_Record_Model
 					}
 				}
 			}
-			if ($parentRecord && $type == 2) {
+			if ($parentRecord && 2 == $type) {
 				$rparentRecord = self::getParentRecord($parentRecord, false, $type, $actionid);
 				if ($rparentRecord) {
 					$parentRecord = $rparentRecord;
 				}
 			}
 			$parentRecord = $record != $parentRecord ? $parentRecord : false;
-		} elseif (in_array($moduleName, \App\ModuleHierarchy::getModulesMapMMBase())) {
+		} elseif (\in_array($moduleName, \App\ModuleHierarchy::getModulesMapMMBase())) {
 			$role = $userModel->getRoleInstance();
 			$dataReader = (new \App\Db\Query())->select(['relcrmid', 'crmid'])
 				->from('vtiger_crmentityrel')
@@ -374,16 +379,16 @@ class Users_Privileges_Model extends Users_Record_Model
 				$id = $row['crmid'] == $record ? $row['relcrmid'] : $row['crmid'];
 				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($id);
 				$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
-				$permissionsRelatedField = $permissionsRoleForRelatedField == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
+				$permissionsRelatedField = '' == $permissionsRoleForRelatedField ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
 				foreach ($permissionsRelatedField as $row) {
 					if (!$relatedPermission) {
 						switch ($row) {
 							case 0:
-								$relatedPermission = $recordMetaData['smownerid'] == $currentUserId || in_array($recordMetaData['smownerid'], $currentUserGroups);
+								$relatedPermission = $recordMetaData['smownerid'] == $currentUserId || \in_array($recordMetaData['smownerid'], $currentUserGroups);
 								break;
 							case 1:
-								$relatedPermission = in_array($currentUserId, \App\Fields\SharedOwner::getById($id));
+								$relatedPermission = \in_array($currentUserId, \App\Fields\SharedOwner::getById($id));
 								break;
 							case 2:
 								$relatedPermission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
@@ -399,7 +404,8 @@ class Users_Privileges_Model extends Users_Record_Model
 				if ($relatedPermission) {
 					$parentRecord = $id;
 					break;
-				} elseif ($type == 2) {
+				}
+				if (2 == $type) {
 					$rparentRecord = self::getParentRecord($id, $recordMetaData['setype'], $type, $actionid);
 					if ($rparentRecord) {
 						$parentRecord = $rparentRecord;
@@ -414,16 +420,16 @@ class Users_Privileges_Model extends Users_Record_Model
 				->createCommand()->query();
 			while ($id = $dataReader->readColumn(0)) {
 				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($id);
-				$permissionsRelatedField = $role->get('permissionsrelatedfield') == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
+				$permissionsRelatedField = '' == $role->get('permissionsrelatedfield') ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
 				foreach ($permissionsRelatedField as $row) {
 					if (!$relatedPermission) {
 						switch ($row) {
 							case 0:
-								$relatedPermission = $recordMetaData['smownerid'] == $currentUserId || in_array($recordMetaData['smownerid'], $currentUserGroups);
+								$relatedPermission = $recordMetaData['smownerid'] == $currentUserId || \in_array($recordMetaData['smownerid'], $currentUserGroups);
 								break;
 							case 1:
-								$relatedPermission = in_array($currentUserId, \App\Fields\SharedOwner::getById($id));
+								$relatedPermission = \in_array($currentUserId, \App\Fields\SharedOwner::getById($id));
 								break;
 							case 2:
 								$relatedPermission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
@@ -439,7 +445,8 @@ class Users_Privileges_Model extends Users_Record_Model
 				if ($relatedPermission) {
 					$parentRecord = $id;
 					break;
-				} elseif ($type == 2) {
+				}
+				if (2 == $type) {
 					$rparentRecord = self::getParentRecord($id, $recordMetaData['setype'], $type, $actionid);
 					if ($rparentRecord) {
 						$parentRecord = $rparentRecord;

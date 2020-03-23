@@ -23,14 +23,16 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 	 */
 	registerOnChangeEventOfSourceModule() {
 		const editViewForm = this.getForm();
+		const sequenceBtn = editViewForm.find('.js-adavanced-sequence');
 		editViewForm.find('[name="sourceModule"]').on('change', function (e) {
 			$('.saveButton').removeAttr('disabled');
+			sequenceBtn.addClass('d-none');
 			AppConnector.request({
-				'module': app.getModuleName(),
-				'parent': app.getParentModuleName(),
-				'action': "CustomRecordNumberingAjax",
-				'mode': "getModuleCustomNumberingData",
-				'sourceModule': $(e.currentTarget).val()
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				action: 'CustomRecordNumberingAjax',
+				mode: 'getModuleCustomNumberingData',
+				sourceModule: $(e.currentTarget).val()
 			}).done(function (data) {
 				if (data) {
 					editViewForm.find('[name="prefix"]').val(data.result.prefix);
@@ -74,8 +76,8 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 		AppConnector.request({
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
-			action: "CustomRecordNumberingAjax",
-			mode: "saveModuleCustomNumberingData",
+			action: 'CustomRecordNumberingAjax',
+			mode: 'saveModuleCustomNumberingData',
 			sourceModule: sourceModule,
 			prefix: currentPrefix,
 			leading_zeros: leadingZeros,
@@ -216,7 +218,85 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 				sequenceExists = true;
 			}
 		}
+		this.checkAdavancedSequenceBtn();
 		return sequenceExists;
+	},
+
+	/**
+	 * Function to enable button if prefix or postfix has picklist value
+	 */
+	checkAdavancedSequenceBtn: function(){
+		const editViewForm = this.getForm();
+		const sequenceBtn = editViewForm.find('.js-adavanced-sequence');
+		const prefix = editViewForm.find('[name="prefix"]').val();
+		const postfix = editViewForm.find('[name="postfix"]').val();
+		let regex = new RegExp("{{picklist:([a-z0-9_]+)}}", 'g');
+		let regexResult = (postfix + prefix).match(regex);
+		if ((regexResult && regexResult.length > 1) || !regexResult) {
+			sequenceBtn.addClass('d-none');
+		} else {
+			sequenceBtn.removeClass('d-none');
+		}
+	},
+
+	/**
+	 * Function to register event on button
+	 */
+	registerAdavancedSequenceEvent: function(){
+		const editViewForm = this.getForm();
+		const sequenceBtn = editViewForm.find('.js-adavanced-sequence');
+		sequenceBtn.on('click', function(){
+			let sourceModule = editViewForm.find('[name="sourceModule"]').val();
+			let picklistName = '';
+			let prefix = editViewForm.find('[name="prefix"]').val();
+			let postfix = editViewForm.find('[name="postfix"]').val();
+			let regex = new RegExp("{{picklist:([a-z0-9_]+)}}", 'g');
+			if ((prefix).match(regex)){
+				picklistName = prefix;
+			} else if((postfix).match(regex)){
+				picklistName = postfix;
+			}
+			AppConnector.request({
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				view: 'CustomRecordNumberingAdvanced',
+				sourceModule: sourceModule,
+				picklist: picklistName,
+			}).done(function (data) {
+				if(data){
+					app.showModalWindow(data, function (container) {
+						let modalForm = container.find('form');
+						modalForm.validationEngine(app.validationEngineOptionsForRecord);
+						container.on('click', '.js-modal__save', function(e) {
+							if (modalForm.validationEngine('validate')){
+								let progressIndicatorElement = $.progressIndicator({
+									position: 'html',
+									blockInfo: {
+										enabled: true
+									}
+								});
+								AppConnector.request({
+									module: app.getModuleName(),
+									parent: app.getParentModuleName(),
+									action: 'CustomRecordNumberingAjax',
+									mode: 'saveModuleCustomNumberingAdvanceData',
+									sourceModule: sourceModule,
+									sequenceNumber: modalForm.find('.js-picklist-sequence').serializeFormData()
+								}).done(function (data) {
+									progressIndicatorElement.progressIndicator({mode: 'hide'});
+									if (data.success === true) {
+										Settings_Vtiger_Index_Js.showMessage({
+											text: app.vtranslate('JS_RECORD_NUMBERING_SAVED_SUCCESSFULLY_FOR') + ' ' + editViewForm.find('option[value="' + sourceModule + '"]').text()
+										});
+										app.hideModalWindow();
+									}
+								});
+							}
+						});
+					});
+				}
+			});
+		});
 	},
 
 	/**
@@ -228,6 +308,8 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 		this.registerOnChangeEventOfSourceModule();
 		this.registerEventToUpdateRecordsWithSequenceNumber();
 		this.registerChangeEvent();
+		this.checkAdavancedSequenceBtn();
+		this.registerAdavancedSequenceEvent();
 		let params = app.validationEngineOptions;
 		params.onValidationComplete = function (editViewForm, valid) {
 			if (valid) {
@@ -240,7 +322,7 @@ $.Class('Settings_CustomRecordNumbering_Js', {}, {
 		this.registerCopyClipboard(editViewForm);
 	}
 });
-jQuery(document).ready(function () {
-	var customRecordNumberingInstance = new Settings_CustomRecordNumbering_Js();
+$(document).ready(function () {
+	let customRecordNumberingInstance = new Settings_CustomRecordNumbering_Js();
 	customRecordNumberingInstance.registerEvents();
 });

@@ -25,10 +25,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	public function get($key)
 	{
 		$value = parent::get($key);
-		if ('content' === $key && 'Detail' === \App\Request::_get('view')) {
-			return vtlib\Functions::getHtmlOrPlainText($value);
-		}
-		if ('uid' === $key || 'content' === $key) {
+		if ('uid' === $key) {
 			return App\Purifier::decodeHtml($value);
 		}
 		return $value;
@@ -106,13 +103,12 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				'to' => $to,
 				'url' => "index.php?module=OSSMailView&view=Preview&record={$row['ossmailviewid']}&srecord=$srecord&smodule=$smodule",
 				'type' => $row['type'],
-				'teaser' => App\TextParser::textTruncate(trim(preg_replace('/[ \t]+/', ' ', strip_tags($content))), 100),
+				'teaser' => App\TextParser::textTruncate(\App\Utils::htmlToText($content), 120),
 				'body' => $content,
 				'bodyRaw' => $row['content'],
 			];
 		}
 		$dataReader->close();
-
 		return $return;
 	}
 
@@ -155,35 +151,45 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		return trim($return, ',');
 	}
 
-	public function findEmail($record, $module)
+	/**
+	 * Find email for record.
+	 *
+	 * @param int    $record
+	 * @param string $module
+	 *
+	 * @return string
+	 */
+	public function findEmail(int $record, string $module): string
 	{
 		if (!\App\Record::isExists($record)) {
 			return false;
 		}
 		$returnEmail = '';
-		if (in_array($module, ['HelpDesk', 'Project', 'SSalesProcesses'])) {
-			$accountId = '';
+		if (\in_array($module, ['HelpDesk', 'Project', 'SSalesProcesses'])) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $module);
-			switch ($module) {
-				case 'HelpDesk':
-					$accountId = $recordModel->get('parent_id');
-					break;
-				case 'Project':
-					$accountId = $recordModel->get('linktoaccountscontacts');
-					break;
-				case 'SSalesProcesses':
-					$accountId = $recordModel->get('related_to');
-					break;
-				default:
-					break;
-			}
-			if (\App\Record::isExists($accountId)) {
-				$setype = \App\Record::getType($accountId);
-				$returnEmail = $this->findEmail($accountId, $setype);
+			$returnEmail = $this->findEmailInRelated($recordModel);
+			if (!$returnEmail) {
+				$accountId = '';
+				switch ($module) {
+					case 'HelpDesk':
+						$accountId = $recordModel->get('parent_id');
+						break;
+					case 'Project':
+						$accountId = $recordModel->get('linktoaccountscontacts');
+						break;
+					case 'SSalesProcesses':
+						$accountId = $recordModel->get('related_to');
+						break;
+					default:
+						break;
+				}
+				if (\App\Record::isExists($accountId)) {
+					$returnEmail = $this->findEmail($accountId, \App\Record::getType($accountId));
+				}
 			}
 		} else {
 			$emailFields = OSSMailScanner_Record_Model::getEmailSearch($module);
-			if (count($emailFields) > 0) {
+			if (\count($emailFields) > 0) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($record, $module);
 				foreach ($emailFields as $emailField) {
 					$email = $recordModel->get($emailField['columnname']);
@@ -195,6 +201,41 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		return $returnEmail;
+	}
+
+	/**
+	 * Find email in related records.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 *
+	 * @return string
+	 */
+	public function findEmailInRelated(Vtiger_Record_Model $recordModel): string
+	{
+		$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'Contacts');
+		$query = $relationListView->getRelationQuery();
+		$tabIndex = $relationListView->getRelatedModuleModel()->getEntityInstance()->tab_name_index;
+		$query->select(['vtiger_crmentity.crmid']);
+		$emailFields = OSSMailScanner_Record_Model::getEmailSearch('Contacts');
+		$where = ['or'];
+		foreach ($emailFields as $fieldParams) {
+			$query->addSelect([$fieldParams['fieldname'] => $fieldParams['tablename'] . '.' . $fieldParams['columnname']]);
+			$where[] = ['<>', $fieldParams['tablename'] . '.' . $fieldParams['columnname'], ''];
+			if (!\in_array($fieldParams['tablename'], $query->from) && !\in_array($fieldParams['tablename'], array_column($query->join, 1))) {
+				$query->leftJoin($fieldParams['tablename'], "vtiger_crmentity.crmid = {$fieldParams['tablename']}.{$tabIndex[$fieldParams['tablename']]}");
+			}
+		}
+		$query->andWhere($where);
+		$dataReader = $query->createCommand()->query();
+		$emails = [];
+		while ($row = $dataReader->read()) {
+			foreach ($emailFields as $fieldParams) {
+				if (!empty($row[$fieldParams['fieldname']])) {
+					$emails[] = $row[$fieldParams['fieldname']];
+				}
+			}
+		}
+		return implode(',', $emails);
 	}
 
 	public function deleteRel($recordId)
@@ -211,7 +252,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 
 	public function bindSelectedRecords($selectedIds)
 	{
-		$this->addLog('Action_Bind', count($selectedIds));
+		$this->addLog('Action_Bind', \count($selectedIds));
 		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', ['verify' => 1], ['ossmailviewid' => $selectedIds])->execute();
 	}
 
@@ -230,7 +271,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	public function changeTypeSelectedRecords($selectedIds, $mail_type)
 	{
 		$mailType = self::getMailType();
-		$this->addLog('Action_ChangeType', count($selectedIds));
+		$this->addLog('Action_ChangeType', \count($selectedIds));
 		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', ['ossmailview_sendtype' => $mailType[$mail_type], 'type' => $mail_type], ['ossmailviewid' => $selectedIds])->execute();
 	}
 
@@ -239,7 +280,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 		App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => $action, 'info' => $info, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
 	}
-
 
 	/**
 	 * Function to delete the current Record Model.
@@ -254,14 +294,21 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	 * Check if mail exist.
 	 *
 	 * @param int    $uid
-	 * @param string $folder
-	 * @param int    $rcId
+	 * @param object $mbox
+	 * @param mixed  $folder
+	 * @param mixed  $rcId
 	 *
 	 * @return bool|int
 	 */
-	public function checkMailExist($uid, $folder, $rcId)
+	public function checkMailExist($uid, $folder, $rcId, $mbox)
 	{
-		return (new App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['id' => $uid, 'mbox' => $folder, 'rc_user' => $rcId])->scalar();
+		$mail = OSSMail_Record_Model::getMail($mbox, $uid, false);
+		$where = ['cid' => $mail->getUniqueId()];
+		if (!\Config\Modules\OSSMailScanner::$ONE_MAIL_FOR_MULTIPLE_RECIPIENTS) {
+			$where['mbox'] = $folder;
+			$where['rc_user'] = $rcId;
+		}
+		return (new App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where($where)->scalar();
 	}
 
 	/**

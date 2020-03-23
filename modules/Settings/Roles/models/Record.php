@@ -415,13 +415,13 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$roleModel->set('parentrole', $newChildParentRoleString);
 			$roleModel->save();
 		}
+		\App\Privilege::setAllUpdater();
 		if (is_array($usersInRole)) {
 			foreach ($usersInRole as $userid) {
 				\App\UserPrivilegesFile::createUserPrivilegesfile($userid);
 				\App\UserPrivilegesFile::createUserSharingPrivilegesfile($userid);
 			}
 		}
-		\App\Privilege::setAllUpdater();
 	}
 
 	/**
@@ -438,7 +438,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 					'linktype' => 'LISTVIEWRECORD',
 					'linklabel' => 'LBL_EDIT_RECORD',
 					'linkurl' => $this->getListViewEditUrl(),
-					'linkicon' => 'fas fa-edit',
+					'linkicon' => 'yfi yfi-full-editing-view',
 				],
 				[
 					'linktype' => 'LISTVIEWRECORD',
@@ -489,15 +489,15 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstanceById($roleId)
 	{
-		if (!\App\Cache::has(__CLASS__, $roleId)) {
+		if (!\App\Cache::staticHas(__CLASS__, $roleId)) {
 			$instance = null;
 			$row = \App\PrivilegeUtil::getRoleDetail($roleId);
 			if ($row) {
 				$instance = (new self())->setData($row);
 			}
-			\App\Cache::save(__CLASS__, $roleId, $instance);
+			\App\Cache::staticSave(__CLASS__, $roleId, $instance);
 		}
-		return \App\Cache::get(__CLASS__, $roleId);
+		return \App\Cache::staticGet(__CLASS__, $roleId);
 	}
 
 	/**

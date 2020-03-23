@@ -46,7 +46,7 @@ class E_TestModule extends \Tests\Base
 	 *
 	 * @codeCoverageIgnore
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		if (\file_exists(static::$testDataPath)) {
 			$this->fileUrl = static::$testDataPath;
@@ -58,7 +58,7 @@ class E_TestModule extends \Tests\Base
 				} catch (\Exception $e) {
 					$response = false;
 				}
-				if ($response && $response->getStatusCode() === 200) {
+				if ($response && 200 === $response->getStatusCode()) {
 					$this->fileUrl = static::$testDataUrl . $_SERVER['YETI_KEY'];
 				} else {
 					static::$skipTest = 'TestData package not available - bad response from remote server, no sample data to install.';
@@ -74,7 +74,7 @@ class E_TestModule extends \Tests\Base
 	/**
 	 * Testing the installation of the sample data module.
 	 */
-	public function testInstallSampleData()
+	public function testInstallSampleData(): void
 	{
 		if (static::$skipTest) {
 			$this->markTestSkipped(static::$skipTest);

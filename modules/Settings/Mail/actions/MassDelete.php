@@ -16,7 +16,7 @@ class Settings_Mail_MassDelete_Action extends Vtiger_Mass_Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin()) {
@@ -29,11 +29,11 @@ class Settings_Mail_MassDelete_Action extends Vtiger_Mass_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordIds = $this->getRecordsListFromRequest($request);
 		$configMaxMassDelete = App\Config::performance('maxMassDeleteRecords');
-		if (count($recordIds) > $configMaxMassDelete) {
+		if (\count($recordIds) > $configMaxMassDelete) {
 			$response = new Vtiger_Response();
 			$response->setResult(['notify' => ['text' => \App\Language::translateArgs('LBL_SELECT_UP_TO_RECORDS', '_Base', $configMaxMassDelete), 'type' => 'warning']]);
 			$response->emit();

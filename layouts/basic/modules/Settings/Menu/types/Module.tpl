@@ -3,7 +3,7 @@
 <div class="form-group row">
 	<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
-		<select name="module" class="select2 type form-control">
+		<select name="module" class="select2 type form-control" asfsadf>
 			{foreach from=$MODULE_MODEL->getModulesList() item=ITEM}
 				<option value="{$ITEM['tabid']}" {if $RECORD && $ITEM['tabid'] == $RECORD->get('module')} selected="" {/if}>{\App\Language::translate($ITEM['name'], $ITEM['name'])}</option>
 			{/foreach}

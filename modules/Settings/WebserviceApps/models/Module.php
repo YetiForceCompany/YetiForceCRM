@@ -14,7 +14,7 @@ class Settings_WebserviceApps_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getTypes(): array
 	{
-		return ['Portal', 'Payments'];
+		return ['Portal', 'Payments', 'ManageConsents'];
 	}
 
 	/**

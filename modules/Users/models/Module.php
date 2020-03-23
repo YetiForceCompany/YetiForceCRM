@@ -139,11 +139,17 @@ class Users_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function checkMailExist($email, $userId = false)
 	{
+		$cacheKey = "$email|$userId";
+		if (App\Cache::staticHas('Users_Module_Model::checkMailExist', $cacheKey)) {
+			return App\Cache::staticGet('Users_Module_Model::checkMailExist', $cacheKey);
+		}
 		$query = (new \App\Db\Query())->from('vtiger_users')->where(['email1' => $email]);
 		if ($userId) {
 			$query->andWhere(['<>', 'id', $userId]);
 		}
-		return $query->exists();
+		$exists = $query->exists();
+		App\Cache::staticSave('Users_Module_Model::checkMailExist', $cacheKey, $exists);
+		return $exists;
 	}
 
 	/**
@@ -167,7 +173,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 			return \App\Language::translate('LBL_USER_NAME_HAS_ALREADY_BEEN_USED', 'Users');
 		}
 		$blacklist = require 'config/username_blacklist.php';
-		if (in_array(strtolower($userName), $blacklist)) {
+		if (\in_array(strtolower($userName), $blacklist)) {
 			return \App\Language::translate('LBL_FORBIDDEN_USERNAMES', 'Users');
 		}
 		return false;
@@ -214,6 +220,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function gives list fields for save.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
 	 *
 	 * @return string[]
 	 */

@@ -59,11 +59,7 @@ class SQuotes extends Vtiger_CRMEntity
 		'LBL_SUBJECT' => ['squotes', 'subject'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'LBL_SUBJECT' => 'subject',
-		'Assigned To' => 'assigned_user_id',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['subject'];
 	// For Alphabetical search

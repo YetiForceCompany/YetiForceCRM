@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Condition main class.
  *
@@ -30,6 +31,8 @@ class Condition
 		'prevfq' => ['label' => 'LBL_PREVIOUS_FQ'],
 		'thisfq' => ['label' => 'LBL_CURRENT_FQ'],
 		'nextfq' => ['label' => 'LBL_NEXT_FQ'],
+		'previousworkingday' => ['label' => 'LBL_PREVIOUS_WORKING_DAY'],
+		'nextworkingday' => ['label' => 'LBL_NEXT_WORKING_DAY'],
 		'yesterday' => ['label' => 'LBL_YESTERDAY'],
 		'today' => ['label' => 'LBL_TODAY'],
 		'untiltoday' => ['label' => 'LBL_UNTIL_TODAY'],
@@ -72,6 +75,7 @@ class Condition
 		'y' => 'LBL_IS_EMPTY',
 		'ny' => 'LBL_IS_NOT_EMPTY',
 		'om' => 'LBL_CURRENTLY_LOGGED_USER',
+		'nom' => 'LBL_USER_CURRENTLY_NOT_LOGGED',
 		'ogr' => 'LBL_CURRENTLY_LOGGED_USER_GROUP',
 		'wr' => 'LBL_IS_WATCHING_RECORD',
 		'nwr' => 'LBL_IS_NOT_WATCHING_RECORD',
@@ -83,7 +87,39 @@ class Condition
 	/**
 	 * Operators without values.
 	 */
-	const OPERATORS_WITHOUT_VALUES = ['y', 'ny', 'om', 'ogr', 'wr', 'nwr', 'hs', 'ro', 'rc'];
+	const OPERATORS_WITHOUT_VALUES = [
+		'y', 'ny', 'om', 'nom', 'ogr', 'wr', 'nwr', 'hs', 'ro', 'rc',
+		'smallerthannow',
+		'greaterthannow',
+		'prevfy',
+		'thisfy',
+		'nextfy',
+		'prevfq',
+		'thisfq',
+		'yesterday',
+		'today',
+		'untiltoday',
+		'tomorrow',
+		'lastweek',
+		'thisweek',
+		'nextweek',
+		'lastmonth',
+		'thismonth',
+		'nextmonth',
+		'last7days',
+		'last15days',
+		'last30days',
+		'last60days',
+		'last90days',
+		'last120days',
+		'next15days',
+		'next30days',
+		'next60days',
+		'next90days',
+		'next120days',
+		'previousworkingday',
+		'nextworkingday',
+	];
 
 	/**
 	 * Vtiger_Record_Model instance cache.
@@ -97,12 +133,13 @@ class Condition
 	 *
 	 * @param string $moduleName
 	 * @param array  $searchParams
+	 * @param bool   $convert
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 *
 	 * @return array
 	 */
-	public static function validSearchParams(string $moduleName, array $searchParams): array
+	public static function validSearchParams(string $moduleName, array $searchParams, $convert = true): array
 	{
 		$searchParamsCount = \count($searchParams);
 		if ($searchParamsCount > 2) {
@@ -133,7 +170,10 @@ class Condition
 					}
 					$fieldModel = $fields[$param[0]];
 				}
-				$fieldModel->getUITypeModel()->getDbConditionBuilderValue($param[2], $param[1]);
+				$value = $fieldModel->getUITypeModel()->getDbConditionBuilderValue($param[2], $param[1]);
+				if ($convert) {
+					$param[2] = $value;
+				}
 				$tempParam[] = $param;
 			}
 			$result[] = $tempParam;
@@ -176,7 +216,7 @@ class Condition
 					$operator = $condition['operator'];
 					$value = $condition['value'] ?? '';
 					if (!\in_array($operator, self::OPERATORS_WITHOUT_VALUES + array_keys(self::DATE_OPERATORS))) {
-						[$fieldModuleName, $fieldName,] = array_pad(explode(':', $condition['fieldname']), 3, false);
+						[$fieldName, $fieldModuleName,] = array_pad(explode(':', $condition['fieldname']), 3, false);
 						$value = \Vtiger_Field_Model::getInstance($fieldName, \Vtiger_Module_Model::getInstance($fieldModuleName))
 							->getUITypeModel()
 							->getDbConditionBuilderValue($value, $operator);
@@ -245,7 +285,7 @@ class Condition
 	 */
 	public static function checkCondition(array $rule, \Vtiger_Record_Model $recordModel): bool
 	{
-		[$moduleName, $fieldName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
+		[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
 		if (!empty($sourceFieldName)) {
 			if ($recordModel->isEmpty($sourceFieldName)) {
 				return false;

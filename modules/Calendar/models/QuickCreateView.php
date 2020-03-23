@@ -22,6 +22,8 @@ class Calendar_QuickCreateView_Model extends Vtiger_QuickCreateView_Model
 		$links['QUICKCREATE_VIEW_HEADER'][] = Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'QUICKCREATE_VIEW_HEADER',
 			'linkhint' => 'LBL_MARK_AS_HELD',
+			'linkicon' => 'far fa-square fa-lg mr-1 c-btn-checkbox--unchecked',
+			'linksecondicon' => 'far fa-check-square fa-lg mr-1 c-btn-checkbox--checked',
 			'showLabel' => 1,
 			'linkdata' => ['js' => 'click', 'toggle' => 'buttons'],
 			'linkclass' => 'c-btn-checkbox c-btn-outline-done js-btn--mark-as-completed btn-group-toggle'

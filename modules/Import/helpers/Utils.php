@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 class Import_Utils_Helper
@@ -21,15 +22,14 @@ class Import_Utils_Helper
 	{
 		if (!$moduleName) {
 			return self::$supportedFileExtensions;
-		} else {
-			switch ($moduleName) {
+		}
+		switch ($moduleName) {
 				case 'Contacts':
 				case 'Calendar':
 					return self::$supportedFileExtensionsByModule[$moduleName];
 				default:
 					return self::$supportedFileExtensionsByModule['Default'];
 			}
-		}
 	}
 
 	/**
@@ -61,7 +61,7 @@ class Import_Utils_Helper
 	 *
 	 * @return string
 	 */
-	public static function getImportFilePath(\App\User $user)
+	public static function getImportFilePath(App\User $user)
 	{
 		return App\Fields\File::getTmpPath() . 'IMPORT_' . $user->getId();
 	}
@@ -104,12 +104,11 @@ class Import_Utils_Helper
 		$cache = Vtiger_Cache::getInstance();
 		if ($cache->getUserList($module, \App\User::getCurrentUserId())) {
 			return $cache->getUserList($module, \App\User::getCurrentUserId());
-		} else {
-			$userList = \App\Fields\Owner::getInstance()->getUsers(false, 'Active', \App\User::getCurrentUserId());
-			$cache->setUserList($module, $userList, \App\User::getCurrentUserId());
-
-			return $userList;
 		}
+		$userList = \App\Fields\Owner::getInstance($module)->getAccessibleUsers('', 'owner');
+		$cache->setUserList($module, $userList, \App\User::getCurrentUserId());
+
+		return $userList;
 	}
 
 	public static function getAssignedToGroupList($module)
@@ -117,22 +116,21 @@ class Import_Utils_Helper
 		$cache = Vtiger_Cache::getInstance();
 		if ($cache->getGroupList($module, \App\User::getCurrentUserId())) {
 			return $cache->getGroupList($module, \App\User::getCurrentUserId());
-		} else {
-			$groupList = \App\Fields\Owner::getInstance()->getGroups(false);
-			$cache->setGroupList($module, $groupList, \App\User::getCurrentUserId());
-
-			return $groupList;
 		}
+		$groupList = \App\Fields\Owner::getInstance()->getGroups(false);
+		$cache->setGroupList($module, $groupList, \App\User::getCurrentUserId());
+
+		return $groupList;
 	}
 
 	public static function hasAssignPrivilege($moduleName, $assignToUserId)
 	{
 		$assignableUsersList = self::getAssignedToUserList($moduleName);
-		if (array_key_exists($assignToUserId, $assignableUsersList)) {
+		if (\array_key_exists($assignToUserId, $assignableUsersList)) {
 			return true;
 		}
 		$assignableGroupsList = self::getAssignedToGroupList($moduleName);
-		if (array_key_exists($assignToUserId, $assignableGroupsList)) {
+		if (\array_key_exists($assignToUserId, $assignableGroupsList)) {
 			return true;
 		}
 		return false;
@@ -145,53 +143,47 @@ class Import_Utils_Helper
 	 *
 	 * @return bool
 	 */
-	public static function validateFileUpload(\App\Request $request)
+	public static function validateFileUpload(App\Request $request)
 	{
 		$currentUser = \App\User::getCurrentUserModel();
 
 		$uploadMaxSize = self::getMaxUploadSize();
 		$importDirectory = App\Fields\File::getTmpPath();
 		$temporaryFileName = self::getImportFilePath($currentUser);
-
 		if ($_FILES['import_file']['error']) {
 			$request->set('error_message', self::fileUploadErrorMessage($_FILES['import_file']['error']));
-
 			return false;
 		}
 		if (!is_uploaded_file($_FILES['import_file']['tmp_name'])) {
 			$request->set('error_message', \App\Language::translate('LBL_FILE_UPLOAD_FAILED', 'Import'));
-
 			return false;
 		}
 		if ($_FILES['import_file']['size'] > $uploadMaxSize) {
 			$request->set('error_message', \App\Language::translate('LBL_IMPORT_ERROR_LARGE_FILE', 'Import') .
 				$uploadMaxSize . ' ' . \App\Language::translate('LBL_IMPORT_CHANGE_UPLOAD_SIZE', 'Import'));
-
 			return false;
 		}
 		if (!is_writable($importDirectory)) {
 			$request->set('error_message', \App\Language::translate('LBL_IMPORT_DIRECTORY_NOT_WRITABLE', 'Import'));
-
 			return false;
 		}
-
-		$fileCopied = move_uploaded_file($_FILES['import_file']['tmp_name'], $temporaryFileName);
-		if (!$fileCopied) {
+		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['import_file']);
+		if ($fileInstance->getEncoding() !== strtoupper($request->getByType('file_encoding', 'Text'))) {
+			$request->set('error_message', \App\Language::translateArgs('LBL_IMPORT_FILE_DIFFERENT_ENCODING', $fileInstance->getEncoding(), 'Import'));
+			return false;
+		}
+		if (!$fileInstance->moveFile($temporaryFileName)) {
 			$request->set('error_message', \App\Language::translate('LBL_IMPORT_FILE_COPY_FAILED', 'Import'));
-
 			return false;
 		}
 		$fileReader = Import_Module_Model::getFileReader($request, $currentUser);
-
-		if ($fileReader === null) {
+		if (null === $fileReader) {
 			$request->set('error_message', \App\Language::translate('LBL_INVALID_FILE', 'Import'));
-
 			return false;
 		}
 		$firstRow = $fileReader->getFirstRowData($fileReader->hasHeader());
-		if ($firstRow === false) {
+		if (false === $firstRow) {
 			$request->set('error_message', \App\Language::translate('LBL_NO_ROWS_FOUND', 'Import'));
-
 			return false;
 		}
 		return true;

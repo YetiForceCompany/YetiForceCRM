@@ -22,7 +22,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
 		if (!$requestFieldName) {
@@ -41,11 +41,11 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		if (!is_string($value)) {
+		if (!\is_string($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$maximumLength = $this->getFieldModel()->get('maximumlength');
-		if ($maximumLength && strlen($value) > $maximumLength) {
+		if ($maximumLength && \strlen($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
@@ -67,16 +67,41 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return '';
 		}
-		if (is_int($length)) {
-			$value = \App\TextParser::htmlTruncate($value, $length);
+		$size = 'mini';
+		if (empty($length)) {
+			$length = 400;
+		} elseif (\is_string($length)) {
+			$size = $length;
+			$length = 200;
 		}
-		if ($rawText) {
+		if (300 === $this->getFieldModel()->getUIType()) {
 			$value = \App\Purifier::purifyHtml($value);
+			if (!$rawText) {
+				$value = \App\Utils\Completions::decode($value);
+			}
+			$value = \App\Layout::truncateHtml($value, $size, $length);
 		} else {
-			$value = \App\Utils\Completions::decode(\App\Purifier::purifyHtml($value));
+			if ($rawText) {
+				$value = nl2br(\App\TextParser::textTruncate(\App\Purifier::purify($value), $length, false));
+			} else {
+				$value = nl2br(\App\Layout::truncateText(\App\Purifier::purify($value), $length));
+			}
 		}
-		if (300 !== $this->getFieldModel()->getUIType()) {
-			$value = nl2br($value);
+		return $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
+	{
+		if (empty($value)) {
+			return '';
+		}
+		if (300 === $this->getFieldModel()->getUIType()) {
+			$value = \App\Utils\Completions::decodeEmoji(\App\Purifier::purifyHtml($value));
+		} else {
+			$value = nl2br(\App\Purifier::purify($value));
 		}
 		return $value;
 	}
@@ -86,7 +111,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		return parent::getListViewDisplayValue(trim(strip_tags($value)), $record, $recordModel, $rawText);
+		return $this->getDisplayValue($value, $record, $recordModel, $rawText, $this->getFieldModel()->get('maxlengthtext') ?: 50);
 	}
 
 	/**
@@ -108,8 +133,16 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function  getQueryOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDetailViewTemplateName()
+	{
+		return 'Detail/Field/Text.tpl';
 	}
 }

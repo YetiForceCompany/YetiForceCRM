@@ -118,7 +118,9 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				if (typeof this[preSaveActionFunctionName] !== "undefined") {
 					this[preSaveActionFunctionName].apply(this, [taskType]);
 				}
-				AppConnector.request(form.serializeFormData()).done((data) => {
+				let formData = form.serializeFormData();
+				formData.entity_type = form.find('.createEntityModule:visible option:selected').val();
+				AppConnector.request(formData).done((data) => {
 					if (data.result) {
 						this.getTaskList();
 						app.hideModalWindow();

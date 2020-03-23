@@ -26,24 +26,6 @@ class PriceBooks_Relation_Model extends Vtiger_Relation_Model
 	}
 
 	/**
-	 * Function that deletes PriceBooks related records information.
-	 *
-	 * @param <Integer> $sourceRecordId  - PriceBook Id
-	 * @param <Integer> $relatedRecordId - Related Record Id
-	 */
-	public function deleteRelation($sourceRecordId, $relatedRecordId)
-	{
-		$sourceModuleName = $this->getParentModuleModel()->get('name');
-		$destinationModuleName = $this->getRelationModuleModel()->get('name');
-		if ($sourceModuleName == 'PriceBooks' && ($destinationModuleName == 'Products' || $destinationModuleName == 'Services')) {
-			$priceBookModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModuleName);
-			$priceBookModel->deleteListPrice($relatedRecordId);
-		} else {
-			parent::deleteRelation($sourceRecordId, $relatedRecordId);
-		}
-	}
-
-	/**
 	 * Get Pricebooks for products.
 	 */
 	public function getPricebookProducts()

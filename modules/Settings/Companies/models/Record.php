@@ -125,6 +125,14 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			$db->createCommand()->insert('s_#__companies', $params)->execute();
 			$this->set('id', $db->getLastInsertID('s_#__companies_id_seq'));
 		}
+		if ('LBL_TYPE_TARGET_USER' === self::TYPES[$params['type']] || 1 === (new \App\Db\Query())->from('s_#__companies')->count()) {
+			$configFile = new \App\ConfigFile('component', 'Branding');
+			$configFile->set('footerName', $params['name']);
+			$configFile->set('urlFacebook', $params['facebook']);
+			$configFile->set('urlTwitter', $params['twitter']);
+			$configFile->set('urlLinkedIn', $params['linkedin']);
+			$configFile->create();
+		}
 		\App\Cache::clear();
 	}
 
@@ -135,7 +143,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($key)
+	public function getDisplayValue(string $key)
 	{
 		$value = $this->get($key);
 		switch ($key) {
@@ -189,7 +197,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			'linktype' => 'LISTVIEWRECORD',
 			'linklabel' => 'LBL_EDIT_RECORD',
 			'linkurl' => $this->getEditViewUrl(),
-			'linkicon' => 'fas fa-edit',
+			'linkicon' => 'yfi yfi-full-editing-view',
 			'linkclass' => 'btn btn-xs btn-info',
 		];
 		if (null === Settings_Companies_ListView_Model::$recordsCount) {
@@ -304,6 +312,13 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			case 'newsletter':
 				$params['typeofdata'] = 'V~O';
 				$params['uitype'] = 56;
+				unset($params['validator']);
+				break;
+			case 'facebook':
+			case 'linkedin':
+			case 'twitter':
+				$params['uitype'] = 17;
+				$params['typeofdata'] = 'V~O';
 				unset($params['validator']);
 				break;
 			default:

@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Base-inventoryfields-EditViewComment -->
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
-	<textarea name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" title="{\App\Language::translate("LBL_ROW_COMMENT",$MODULE)}" id="editView_comment{$FIELD->getColumnName()}{$ROW_NO}" data-fieldinfo="{\App\Json::encode(['mandatory' => false])|escape}" data-height="{$FIELD->height}" data-emoji-enabled="true" data-mentions-enabled="true"
+	<textarea name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" title="{\App\Language::translate("LBL_ROW_COMMENT",$MODULE)}" id="editView_comment{$FIELD->getColumnName()}{$ROW_NO}" data-fieldinfo="{\App\Json::encode(['mandatory' => false])|escape}" data-height="{$FIELD->getHeight()}" data-emoji-enabled="true" data-mentions-enabled="true"
 			  class="comment commentTextarea form-control js-editor js-editor--basic" {if $FIELD->isReadOnly()}readonly="readonly"{/if} data-js="ckeditor">
 		{$VALUE}
 	</textarea>

@@ -179,6 +179,9 @@ jQuery.Class('Settings_Module_Import_Js', {}, {
 
 	registerEvents: function () {
 		this.registerEventForStep1();
+		$('.js-form-import-module').on('submit', function() {
+			$('.js-save-button').attr('disabled', true);
+		});
 	}
 });
 
@@ -187,6 +190,3 @@ jQuery(document).ready(function () {
 	var settingModuleImportInstance = new Settings_Module_Import_Js();
 	settingModuleImportInstance.registerEvents();
 })
-
-
-

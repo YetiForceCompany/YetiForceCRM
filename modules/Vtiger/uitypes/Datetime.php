@@ -23,10 +23,10 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 			return;
 		}
 		$arrayDateTime = explode(' ', $value, 2);
-		$cnt = count($arrayDateTime);
-		if ($cnt === 1) { //Date
+		$cnt = \count($arrayDateTime);
+		if (1 === $cnt) { //Date
 			parent::validate($arrayDateTime[0], $isUserFormat);
-		} elseif ($cnt === 2) { //Date
+		} elseif (2 === $cnt) { //Date
 			parent::validate($arrayDateTime[0], $isUserFormat);
 			(new Vtiger_Time_UIType())->validate($arrayDateTime[1], $isUserFormat); //Time
 		}
@@ -38,14 +38,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if (empty($value)) {
-			return '';
-		}
-		if ($this->getFieldModel()->getUIType() === 79) {
-			return App\Fields\DateTime::formatToDb($value);
-		} else {
-			return parent::getDBValue($value);
-		}
+		return empty($value) ? '' : App\Fields\DateTime::formatToDb($value);
 	}
 
 	/**
@@ -56,11 +49,10 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		if (empty($value)) {
 			return '';
 		}
-		if ($this->getFieldModel()->getUIType() === 80) {
+		if (80 === $this->getFieldModel()->getUIType()) {
 			return $rawText ? Vtiger_Util_Helper::formatDateDiffInStrings($value) : '<span title="' . App\Fields\DateTime::formatToDisplay($value) . '">' . Vtiger_Util_Helper::formatDateDiffInStrings($value) . '</span>';
-		} else {
-			return App\Fields\DateTime::formatToDisplay($value);
 		}
+		return App\Fields\DateTime::formatToDisplay($value);
 	}
 
 	/**
@@ -71,7 +63,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		if (empty($value)) {
 			return '';
 		}
-		if ($this->getFieldModel()->getUIType() === 80) {
+		if (80 === $this->getFieldModel()->getUIType()) {
 			return $rawText ? \App\Fields\DateTime::formatToViewDate($value) : '<span title="' . App\Fields\DateTime::formatToDisplay($value) . '">' . \App\Fields\DateTime::formatToViewDate($value) . '</span>';
 		}
 		return \App\TextParser::textTruncate($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->getFieldModel()->get('maxlengthtext'));
@@ -80,24 +72,63 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getTemplateName()
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		if ($this->getFieldModel()->getUIType() === 79) {
-			return 'Edit/Field/DateTimeField.tpl';
-		} else {
-			return 'Edit/Field/DateTime.tpl';
+		if ($value) {
+			$value = \App\Fields\DateTime::formatToDisplay($value);
 		}
+		return \App\Purifier::encodeHtml($value);
 	}
 
 	/**
-	 * Generate valid sample value.
-	 *
-	 * @throws \Exception
-	 *
-	 * @return false|string
+	 * {@inheritdoc}
 	 */
-	public function getSampleValue()
+	public function getTemplateName()
 	{
-		return date('Y-m-d H:i:s', random_int(strtotime('-1 month'), strtotime('+1 month')));
+		return 'Edit/Field/DateTime.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getListSearchTemplateName()
+	{
+		return 'List/Field/DateTime.tpl';
+	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		if ('bw' === $operator) {
+			return 'ConditionBuilder/DateTimeRange.tpl';
+		}
+		return 'ConditionBuilder/Date.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
+	{
+		if (!$params) {
+			return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
+		}
+		$p = [];
+		foreach (explode('|', $params) as $row) {
+			[$key,$val] = explode('=', $row);
+			$p[$key] = $val;
+		}
+		if (isset($p['format'])) {
+			$return = \DateTimeField::convertToUserTimeZone($value)->format($p['format']);
+		} else {
+			$return = $this->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
+		}
+		return $return;
 	}
 }

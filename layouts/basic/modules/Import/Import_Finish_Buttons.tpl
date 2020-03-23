@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<!-- tpl-Import-ImportResult -->
+	<!-- tpl-Import-Import_Finish_Buttons -->
 	<button class="create btn btn-success btn-sm mr-2 mb-sm-3 mb-md-0" name="next"
 			onclick="location.href = 'index.php?module={$FOR_MODULE}&view=Import&return_module={$FOR_MODULE}&return_action=index'">
 		<strong>{\App\Language::translate('LBL_IMPORT_MORE', $MODULE_NAME)}</strong>
@@ -26,8 +26,8 @@
 		</button>
 	{/if}
 	<button class="edit btn btn-success btn-sm mb-sm-3 mb-md-0" name="cancel"
-			onclick="location.href = 'index.php?module={$FOR_MODULE}&view=List{if $FOR_MODULE eq 'Users'}&parent=Settings{/if}'">
+			onclick="location.href = '{$MODULE_MODEL->getUrl()}'"
 		<strong>{\App\Language::translate('LBL_FINISH_BUTTON_LABEL', $MODULE_NAME)}</strong>
 	</button>
-	<!-- /tpl-Import-ImportResult -->
+	<!-- /tpl-Import-Import_Finish_Buttons -->
 {/strip}

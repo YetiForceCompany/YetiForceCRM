@@ -55,7 +55,7 @@ class PaymentsOut extends Vtiger_CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['paymentsno', 'paymentsname', 'paymentsvalue', 'paymentscurrency', 'paymentsout_status'];
+	public $relationFields = [];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'paymentsname';
 	// For Popup listview and UI type support
@@ -64,11 +64,7 @@ class PaymentsOut extends Vtiger_CRMEntity
 		'LBL_PAYMENTSNO' => ['paymentsout', 'paymentsno'],
 		'LBL_PAYMENTSNAME' => ['paymentsout', 'paymentsname'],
 	];
-	public $search_fields_name = [
-		'LBL_PAYMENTSVALUE' => 'paymentsvalue',
-		'LBL_PAYMENTSNO' => 'paymentsno',
-		'LBL_PAYMENTSNAME' => 'paymentsname',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['paymentsname'];
 	// For Alphabetical search

@@ -12,14 +12,14 @@
 				</li>
 			{/foreach}
 		</ul>
-		{if count($MODULES_WITH_WIDGET) > 1}
+		{if $MODULES_WITH_WIDGET}
 			<ul class="nav nav-inverted-tabs massEditTabs selectDashboradView ml-sm-2">
 				{foreach from=$MODULES_WITH_WIDGET item=MODULE_WIDGET}
 					<li class="nav-item" data-module="{$MODULE_WIDGET}">
 						<a class="nav-link pt-1 pb-1 {if $MODULE_NAME eq $MODULE_WIDGET} active {/if}"
 						   href="#"
 						   data-toggle="tab">
-							<span class="userIcon-{$MODULE_WIDGET} mx-1"></span>
+							<span class="yfm-{$MODULE_WIDGET} mx-1"></span>
 							{\App\Language::translate($MODULE_WIDGET, $MODULE_WIDGET)}
 						</a>
 					</li>

@@ -33,40 +33,21 @@
 							<div class="font-weight-normal">
 								{$RECORD->getTitle()}
 							</div>
-							<div class="moreContent font-weight-light font-italic">
-								{assign var=FULL_TEXT value=$RECORD->getMessage()}
-								<span class="teaserContent">
-									{if strip_tags($FULL_TEXT)|strlen <= 200}
-										{$FULL_TEXT}
-										{assign var=SHOW_BUTTON value=false}
-									{else}
-										{\App\TextParser::htmlTruncate($FULL_TEXT,200)}
-										{assign var=SHOW_BUTTON value=true}
-									{/if}
-								</span>
-								{if $SHOW_BUTTON}
-									<span class="fullContent d-none">
-										{$FULL_TEXT}
-									</span>
-									<div class="text-right mb-1">
-										<button type="button" class="btn btn-info btn-sm moreBtn"
-												data-on="{\App\Language::translate('LBL_MORE_BTN')}"
-												data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
-									</div>
-								{/if}
+							<div class="font-weight-light font-italic">
+								{$RECORD->getMessage()}
 							</div>
 						</div>
 						<div class="d-flex flex-column">
-							{if $RECORD->get('link')}
+							{if $RECORD->get('link') && \App\Record::isExists($RECORD->get('link'))}
 								{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('link')))}:&nbsp;{$RECORD->getDisplayValue('link')}
 							{/if}
-							{if $RECORD->get('linkextend')}
+							{if $RECORD->get('linkextend')  && \App\Record::isExists($RECORD->get('linkextend'))}
 								{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('linkextend')))}:&nbsp;{$RECORD->getDisplayValue('linkextend')}
 							{/if}
-							{if $RECORD->get('process')}
+							{if $RECORD->get('process')  && \App\Record::isExists($RECORD->get('process'))}
 								{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('process')))}:&nbsp;{$RECORD->getDisplayValue('process')}
 							{/if}
-							{if $RECORD->get('subprocess')}
+							{if $RECORD->get('subprocess')  && \App\Record::isExists($RECORD->get('subprocess'))}
 								{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('subprocess')))}:&nbsp;{$RECORD->getDisplayValue('subprocess')}
 							{/if}
 						</div>

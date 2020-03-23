@@ -60,7 +60,7 @@ class OSSSoldServices extends Vtiger_CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['productname', 'pscategory', 'assigned_user_id', 'datesold', 'ssservicesstatus'];
+	public $relationFields = [];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'productname';
 	// For Popup listview and UI type support
@@ -72,14 +72,7 @@ class OSSSoldServices extends Vtiger_CRMEntity
 		'Date Sold' => ['ossoutsourcedservices' => 'datesold'],
 		'LBL_ssservicesstatus' => ['ossoutsourcedservices' => 'ssservicesstatus'],
 	];
-	public $search_fields_name = [
-		'Product Name' => 'productname',
-		'Category' => 'pscategory',
-		'Sub Category' => 'pssubcategory',
-		'Assigned To' => 'assigned_user_id',
-		'Date Sold' => 'datesold',
-		'LBL_ssservicesstatus' => 'ssservicesstatus',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['productname'];
 	// For Alphabetical search

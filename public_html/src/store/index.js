@@ -11,8 +11,9 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
-
-window.vuexStore = new Vuex.Store({
-	strict: debug
-})
+if (window.vuexStore === undefined) {
+	window.vuexStore = new Vuex.Store({
+		strict: debug
+	})
+}
 export default window.vuexStore

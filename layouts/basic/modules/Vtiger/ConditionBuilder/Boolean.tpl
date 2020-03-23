@@ -2,7 +2,7 @@
 {strip}
 	<div class="tpl-Base-ConditionBuilder-Boolean">
 		<select class="js-boolean-field select2 form-control js-condition-builder-value"
-				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
+				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}"
 				data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}"
 		<optgroup class="p-0">
 			<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>

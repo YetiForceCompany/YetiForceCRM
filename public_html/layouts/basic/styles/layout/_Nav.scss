@@ -87,6 +87,7 @@
 			font-size: calculate-rem(15px);
 			line-height: 1.2;
 			background: $bg-menu;
+			align-items: center;
 
 			&:hover,
 			&:focus {
@@ -226,9 +227,9 @@
 	}
 
 	&__item__icon {
-		padding-right: calculate-rem(18px);
 		font-size: 1.6em;
 		min-width: calculate-rem(42px);
+		height: calculate-rem(28px);
 
 		&--sub {
 			display: none;
@@ -240,6 +241,15 @@
 				margin-top: auto;
 				margin-bottom: auto;
 			}
+		}
+		&.fa-fw {
+			text-align: left;
+		}
+		&:before{
+			vertical-align: unset;
+		}
+		&.mdi:before{
+			margin: 0 calculate-rem(-3px);;
 		}
 	}
 
@@ -415,32 +425,31 @@
 		display: none;
 	}
 }
-.nav-tabs {
-	border-bottom: 1px solid #ceced9;
-	background-color: $color-navbar;
-	@extend .rounded-0;
-	margin-right: 0.5rem;
-	.nav-link.active {
-		@extend .text-uppercase;
-		color: $color-navbar;
-		background-color: $color-active-nav !important;
-	}
-}
+
 .dashboardViewContainer {
 	.nav-inverted-tabs {
-		background-color: #fff;
-		box-shadow: 0px 5px 12px -7px $color-box-shadow;
-		margin-right: 0.5rem;
 		.nav-item {
 			.nav-link {
+				border: 1px solid #fff;
 				border-top: 0;
+				border-radius: 0 0 0.25rem 0.25rem;
 				font-size: 0.85em;
-				color: $color-nav-link;
-				&.active {
-					color: $color-active-nav;
-					border-bottom: 2px solid $color-active-nav;
-					font-weight: 400;
+
+				&:hover {
+					border: 1px solid #dee2e6;
 					border-top: 0;
+				}
+
+				&.active {
+					color: #495057;
+					background: #f8f9fa;
+					border: 1px solid #dee2e6;
+					border-top: 0;
+					border-radius: 0 0 0.25rem 0.25rem;
+
+					&:hover {
+						background: #dee2e6;
+					}
 				}
 			}
 		}

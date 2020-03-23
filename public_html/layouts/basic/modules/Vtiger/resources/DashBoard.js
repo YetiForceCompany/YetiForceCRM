@@ -42,9 +42,13 @@ $.Class(
 			return this.container;
 		},
 		getCurrentDashboard: function() {
-			return $('.selectDashboard li a.active')
+			let dashboardId = $('.selectDashboard li a.active')
 				.closest('li')
 				.data('id');
+			if (!dashboardId) {
+				dashboardId = 1;
+			}
+			return dashboardId;
 		},
 		getWidgetInstance: function(widgetContainer) {
 			var id = widgetContainer.attr('id');
@@ -56,15 +60,16 @@ $.Class(
 		},
 		registerGrid: function() {
 			const thisInstance = this;
-			Vtiger_DashBoard_Js.grid = this.getContainer()
-				.gridstack({
+			Vtiger_DashBoard_Js.grid = GridStack.init(
+				{
 					verticalMargin: '0.5rem',
 					alwaysShowResizeHandle: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
 						navigator.userAgent
 					)
-				})
-				.data('gridstack');
-			$('.grid-stack').on('change', function(event, ui) {
+				},
+				'.grid-stack'
+			);
+			Vtiger_DashBoard_Js.grid.on('change', function(event, ui) {
 				thisInstance.savePositions($('.grid-stack-item'));
 			});
 			// load widgets after grid initialization to prevent too early lazy loading - visible viewport changes
@@ -111,8 +116,8 @@ $.Class(
 		},
 		loadWidgets: function() {
 			const thisInstance = this;
-			this.scrollContainer = $('.mainBody');
-			if ($(window).width() < app.breakpoints.sm) {
+			this.scrollContainer = App.Components.Scrollbar.page.element;
+			if (!Quasar.plugins.Platform.is.desktop) {
 				this.scrollContainer = $('.bodyContent');
 				app.showNewScrollbar(this.scrollContainer);
 			}
@@ -121,7 +126,7 @@ $.Class(
 				.find('.dashboardWidget')
 				.Lazy({
 					threshold: 0,
-					appendScroll: thisInstance.scrollContainer,
+					appendScroll: this.scrollContainer,
 					widgetLoader(element) {
 						thisInstance.loadWidget(element);
 					}
@@ -132,8 +137,10 @@ $.Class(
 			const self = this;
 			let urlParams = widgetContainer.data('url');
 			let mode = widgetContainer.data('mode');
-			let module = app.getModuleName();
-  		let sourceModule = $('a.active', 'ul.selectDashboradView').parent().data('module');
+			let moduleName = app.getModuleName();
+			let sourceModule = $('a.active', 'ul.selectDashboradView')
+				.parent()
+				.data('module');
 			widgetContainer.progressIndicator();
 			if (mode === 'open') {
 				let name = widgetContainer.data('name');
@@ -152,7 +159,7 @@ $.Class(
 					self.getWidgetInstance(widgetContainer);
 					widgetContainer.trigger(Vtiger_Widget_Js.widgetPostLoadEvent);
 					self.adjustHeightWidget(widgetContainer);
-					if(module != sourceModule) {
+					if (sourceModule && moduleName != sourceModule) {
 						$('a.js-widget-remove', widgetContainer).remove();
 					}
 				});
@@ -221,9 +228,7 @@ $.Class(
 										data-height="${height}" data-js="remove | click">${response.result.title}`;
 									if (response.result.deleteFromList) {
 										data += `<span class="text-danger pl-5 ml-auto">
-											<span class="fas fa-trash-alt removeWidgetFromList u-hover-opacity" data-widget-id="${
-												response.result.id
-											}" data-js="click"></span>
+											<span class="fas fa-trash-alt removeWidgetFromList u-hover-opacity" data-widget-id="${response.result.id}" data-js="click"></span>
 										</span>`;
 									}
 									data += `</a>`;
@@ -235,6 +240,7 @@ $.Class(
 									}
 									thisInstance.updateLazyWidget();
 								}
+								thisInstance.showAndHideAlert(false);
 							}
 						});
 					})
@@ -326,7 +332,9 @@ $.Class(
 				.off('click', '.addChartFilter')
 				.on('click', '.addChartFilter', function(e) {
 					var element = $(e.currentTarget);
-					app.showModalWindow(null, 'index.php?module=Home&view=ChartFilter&step=step1', function(wizardContainer) {
+					app.showModalWindow(null, 'index.php?module=Home&view=ChartFilter&step=step1', function(
+						wizardContainer
+					) {
 						var form = $('form', wizardContainer);
 						form.on('keypress', function(event) {
 							return event.keyCode != 13;
@@ -445,7 +453,13 @@ $.Class(
 								};
 								form.find('.saveParam').each(function(index, element) {
 									element = $(element);
-									if (!(element.is('input') && element.prop('type') === 'checkbox' && !element.prop('checked'))) {
+									if (
+										!(
+											element.is('input') &&
+											element.prop('type') === 'checkbox' &&
+											!element.prop('checked')
+										)
+									) {
 										data[element.attr('name')] = element.val();
 									}
 								});
@@ -527,7 +541,9 @@ $.Class(
 				.off('click', '.addFilter')
 				.on('click', '.addFilter', function(e) {
 					const element = $(e.currentTarget);
-					app.showModalWindow(null, 'index.php?module=Home&view=MiniListWizard&step=step1', function(wizardContainer) {
+					app.showModalWindow(null, 'index.php?module=Home&view=MiniListWizard&step=step1', function(
+						wizardContainer
+					) {
 						const form = $('form', wizardContainer);
 						form.on('keypress', function(event) {
 							return event.keyCode != 13;
@@ -780,7 +796,7 @@ $.Class(
 		 * Updates tablet scroll top position
 		 */
 		registerTabletScrollEvent() {
-			if (!app.touchDevice || $(window).width() < app.breakpoints.sm) {
+			if (!app.touchDevice || !Quasar.plugins.Platform.is.desktop) {
 				return;
 			}
 
@@ -847,7 +863,24 @@ $.Class(
 			var height = element.data('height');
 			Vtiger_DashBoard_Js.grid.addWidget(widgetContainer, 0, 0, width, height);
 			Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer.find('.grid-stack-item-content'));
+			this.showAndHideAlert('addWidget');
 		},
+
+		/**
+		 * Show or hide the alert for a dashboard.
+		 * @param {string} widgetAction
+		 */
+		showAndHideAlert(widgetAction){
+			let container =this.getContainer();
+			let alertContainer = container.find('.js-dashboards-alert');
+			if(widgetAction === 'addWidget'){
+				alertContainer.addClass('d-none');
+			}else if(container.find('.js-css-element-queries').length == 0){
+				alertContainer.removeClass('d-none');
+			}
+		},
+
+
 		registerEvents: function() {
 			this.registerGrid();
 			this.registerRefreshWidget();

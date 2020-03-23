@@ -57,7 +57,12 @@ jQuery.Class(
 						enabled: true
 					}
 				});
-				AppConnector.request(form.serializeFormData()).done(function(data) {
+				AppConnector.request({
+					method: 'POST',
+					data:  new FormData(form[0]),
+					processData: false,
+					contentType: false,
+				}).done(function(data) {
 					Vtiger_Helper_Js.showPnotify({
 						text: data['result']['message'],
 						type: data['result']['type']

@@ -63,4 +63,16 @@ return [
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
+	'CHECK_IF_RELATED_TICKETS_ARE_CLOSED' => [
+		'default' => true,
+		'description' => 'When closing the ticket, check if related tickets are closed',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+	],
+	'CHECK_IF_RECORDS_HAS_TIME_CONTROL' => [
+		'default' => true,
+		'description' => 'When closing the ticket, check if has time control',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+	],
 ];

@@ -55,7 +55,7 @@ class Purifier extends \Tests\Base
 	 * @codeCoverageIgnore
 	 * Setting of tests.
 	 */
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
 		$userModel = \App\User::getCurrentUserModel();
@@ -183,9 +183,9 @@ class Purifier extends \Tests\Base
 	{
 		return [
 			['<div>Test-text-string-for-purifier</div>', '<div>Test-text-string-for-purifier</div>', true],
-			['<img src="1"onload=alert(1)>', '', true],
+			['<img src="1"onload=alert(1)>', '<img src="1" alt="1">', true],
 			['&lt;svg/onload=alert(1)onabort=alert(2)//', '&lt;svg/onload=alert(1)onabort=alert(2)//', false],
-			['<img src="1" onerror=alert(1)>', '', true],
+			['<img src="1" onerror=alert(1)>', '<img src="1" alt="1">', true],
 			['ę€ółśążźćń23{}":?>><>?:"{}+_)', 'ę€ółśążźćń23{}":?&gt;&gt;&lt;&gt;?:"{}+_)', true],
 			['ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!)', 'ę€ółśążźćń23{}":?&gt;&gt;&lt;&gt;?:"{}+_)(*&amp;^%$#@!)', true],
 			['ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//', 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//', false],
@@ -219,7 +219,7 @@ class Purifier extends \Tests\Base
 	 *
 	 * @throws \Exception
 	 */
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass(): void
 	{
 		$userModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
 		$userModel->set('currency_decimal_separator', static::$separatorDecimal);

@@ -15,8 +15,7 @@
 		{assign var=INVENTORY_MODULE value=$RELATED_MODULE->isInventory()}
 		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}">
 		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}">
-		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder"/>
+		<input type="hidden" id="orderBy" value="{\App\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}">
 		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
 		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
@@ -25,10 +24,12 @@
 		<input type="hidden" id="selectedIds" name="selectedIds" data-selected-ids="">
 		<input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids="">
 		<input type="hidden" id="recordsCount" value=""/>
+		<input type="hidden" id="tab_label" value="{\App\Purifier::encodeHtml($VIEW_MODEL->getRelationModel()->get('label'))}"/>
+		<input type="hidden" id="relationId" value="{$VIEW_MODEL->getRelationModel()->getId()}"/>
 		<div class="relatedHeader my-1">
 			<div class="d-inline-flex flex-wrap w-100 justify-content-between">
 				<div class="u-w-sm-down-100 d-flex flex-wrap flex-sm-nowrap mb-1 mb-md-0">
-					{if $RELATED_LIST_LINKS['RELATEDLIST_VIEWS']|@count gt 0}
+					{if isset($RELATED_LIST_LINKS['RELATEDLIST_VIEWS']) && $RELATED_LIST_LINKS['RELATEDLIST_VIEWS']|@count gt 0}
 						<div class="btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0">
 							{assign var=TEXT_HOLDER value=''}
 							{foreach item=RELATEDLIST_VIEW from=$RELATED_LIST_LINKS['RELATEDLIST_VIEWS']}
@@ -64,29 +65,31 @@
 					{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
 						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS='btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0'}
 					{/if}
-					{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
-						{if {\App\Privilege::isPermitted($RELATED_MODULE_NAME, 'CreateView')} }
-							<div class="btn-group mr-md-1 c-btn-block-sm-down">
-								{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
-								<button type="button" class="btn btn-light addButton
-										{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modCT_{$RELATED_MODULE_NAME} {if !empty($RELATED_LINK->linkqcs)}quickCreateSupported{/if}"
-										{if $IS_SELECT_BUTTON eq true} data-moduleName={$RELATED_LINK->get('_module')->get('name')} {/if}
-										{if ($RELATED_LINK->isPageLoadLink())}
-										{if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
-									data-url="{$RELATED_LINK->getUrl()}"
-										{else}
-									onclick='{$RELATED_LINK->getUrl()|substr:strlen("javascript:")};'
+					{if isset($RELATED_LIST_LINKS['LISTVIEWBASIC'])}
+						{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
+							{if {\App\Privilege::isPermitted($RELATED_MODULE_NAME, 'CreateView')} }
+								<div class="btn-group mr-md-1 c-btn-block-sm-down">
+									{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
+									<button type="button" class="btn btn-light addButton
+											{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modCT_{$RELATED_MODULE_NAME} {if !empty($RELATED_LINK->linkqcs)}quickCreateSupported{/if}"
+											{if $IS_SELECT_BUTTON eq true} data-moduleName={$RELATED_LINK->get('_module')->get('name')} {/if}
+											{if ($RELATED_LINK->isPageLoadLink())}
+											{if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
+										data-url="{$RELATED_LINK->getUrl()}"
+											{else}
+										onclick='{$RELATED_LINK->getUrl()|substr:strlen("javascript:")};'
+											{/if}
+											{if $IS_SELECT_BUTTON neq true && stripos($RELATED_LINK->getUrl(), 'javascript:') !== 0}name="addButton"{/if}>
+										{if $IS_SELECT_BUTTON eq false}
+											<span class="{$RELATED_LINK->getIcon()} mr-1"></span>
 										{/if}
-										{if $IS_SELECT_BUTTON neq true && stripos($RELATED_LINK->getUrl(), 'javascript:') !== 0}name="addButton"{/if}>
-									{if $IS_SELECT_BUTTON eq false}
-										<span class="{$RELATED_LINK->getIcon()} mr-1"></span>
-									{/if}
-									{if $IS_SELECT_BUTTON eq true}<span class="fas fa-search mr-1"></span>{/if}
-									{$RELATED_LINK->getLabel()}
-								</button>
-							</div>
-						{/if}
-					{/foreach}
+										{if $IS_SELECT_BUTTON eq true}<span class="fas fa-search mr-1"></span>{/if}
+										{$RELATED_LINK->getLabel()}
+									</button>
+								</div>
+							{/if}
+						{/foreach}
+					{/if}
 				</div>
 				<div class="d-flex flex-wrap u-w-sm-down-100 justify-content-between justify-content-md-end">
 					<div class="paginationDiv">

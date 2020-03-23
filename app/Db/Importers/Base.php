@@ -1,4 +1,11 @@
 <?php
+/**
+ * Base file for database import.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
 namespace App\Db\Importers;
 
@@ -6,10 +13,6 @@ use yii\db\Schema;
 
 /**
  * Base class for database import.
- *
- * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base
 {
@@ -62,6 +65,16 @@ class Base
 	{
 		$this->db = \App\Db::getInstance($this->dbType);
 		$this->schema = $this->db->getSchema();
+	}
+
+	/**
+	 * Returns the schema information for the database opened by this connection.
+	 *
+	 * @return Schema the schema information for the database opened by this connection.
+	 */
+	public function getSchema()
+	{
+		return $this->schema;
 	}
 
 	/**
@@ -174,11 +187,11 @@ class Base
 	 */
 	public function mediumText($length = null)
 	{
-		return $this->schema->createColumnSchemaBuilder('meduimtext', $length);
+		return $this->schema->createColumnSchemaBuilder('MEDIUMTEXT', $length);
 	}
 
 	/**
-	 * Creates a tinyint column. Available only in MySql.
+	 * Creates a tiny int column. Available only in MySql.
 	 *
 	 * @param int $length column size or precision definition
 	 *

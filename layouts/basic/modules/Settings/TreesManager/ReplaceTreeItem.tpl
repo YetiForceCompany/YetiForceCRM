@@ -4,7 +4,7 @@
 	<div class="modal-body">
 		<div id="treePopupContainer" class="paddingLeftRight10px">
 			<div class="paddingLeftRight10px">
-				<div class="contentsBackground">
+				<div class="bg-white border">
 					<div id="treePopupContents"></div>
 				</div>
 			</div>

@@ -1,8 +1,8 @@
 {
-  "generalSettings": {
-    "shouldScanRepo": true
-  },
   "checkRunSettings": {
     "vulnerableCheckRunConclusionLevel": "failure"
+  },
+  "issueSettings": {
+    "minSeverityLevel": "LOW"
   }
 }

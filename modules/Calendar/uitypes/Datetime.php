@@ -1,13 +1,16 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
+/**
+ * UIType Date and time.
+ *
+ * @package   UIType
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
 
+/**
+ * UIType Datetime Field Class.
+ */
 class Calendar_Datetime_UIType extends Vtiger_Datetime_UIType
 {
 	/**
@@ -15,20 +18,34 @@ class Calendar_Datetime_UIType extends Vtiger_Datetime_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		//Since date_start and due_date fields of calendar can have time appended or removed
-		if ($this->hasTimeComponent($value)) {
-			return App\Fields\DateTime::formatToDisplay($value);
-		} else {
-			return App\Fields\Date::formatToDisplay($value);
-		}
+		return strpos($value, ' ') ? App\Fields\DateTime::formatToDisplay($value) : App\Fields\Date::formatToDisplay($value);
 	}
 
-	public function hasTimeComponent($value)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		$component = explode(' ', $value);
-		if (!empty($component[1])) {
-			return true;
+		$fieldName = $this->getFieldModel()->getName();
+		if ('date_start' === $fieldName || 'due_date' === $fieldName) {
+			$value = $value ? \App\Purifier::encodeHtml(DateTimeField::convertToUserFormat($value)) : '';
+		} else {
+			$value = parent::getEditViewDisplayValue($value, $recordModel);
 		}
-		return false;
+		return $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		$fieldName = $this->getFieldModel()->getName();
+		if ('date_start' === $fieldName || 'due_date' === $fieldName) {
+			$dbValue = $value ? App\Fields\Date::formatToDb($value) : '';
+		} else {
+			$dbValue = parent::getDBValue($value, $recordModel);
+		}
+		return $dbValue;
 	}
 }

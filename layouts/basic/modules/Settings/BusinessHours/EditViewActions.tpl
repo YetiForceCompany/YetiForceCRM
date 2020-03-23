@@ -11,9 +11,6 @@
 			<span class="fas fa-times u-mr-5px"></span>
 			{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
 		</button>
-		{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
-			{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $QUALIFIED_MODULE) BUTTON_VIEW='editViewHeader'}
-		{/foreach}
 	</div>
 </form>
 </div>

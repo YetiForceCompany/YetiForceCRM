@@ -53,7 +53,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 					if (\array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
 						if ('assigned_user_id' == $mappingInfo['value']) {
 							$fieldMapping[$key]['valuetype'] = 'fieldname';
-						} else {
+						} elseif ('triggerUser' !== $mappingInfo['value']) {
 							$userRecordModel = Users_Record_Model::getInstanceByName($mappingInfo['value']);
 							if ($userRecordModel) {
 								$ownerName = $userRecordModel->getId();
@@ -103,7 +103,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 			$viewer->assign('DOCUMENTS_RELATED_MODULLES', $relationsWithDocuments);
 			$viewer->assign('DOCUMENTS_MODULLES', $documents);
 			$relationsEmails = [];
-			foreach ($moduleModel->getRelations() as $key => $relation) {
+			foreach ($moduleModel->getRelations() as $relation) {
 				if (!\in_array($relation->get('relatedModuleName'), [$sourceModule, 'Documents', 'OSSMailView'])) {
 					foreach ($relation->getRelationModuleModel()->getFieldsByType('email') as $key => $field) {
 						$relationsEmails[$relation->get('relatedModuleName') . '::' . $key] = \App\Language::translate($relation->get('relatedModuleName'), $relation->get('relatedModuleName')) . ' - ' . \App\Language::translate($field->getFieldLabel(), $relation->get('relatedModuleName'));

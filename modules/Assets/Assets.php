@@ -65,18 +65,12 @@ class Assets extends CRMEntity
 		'Customer Name' => ['account' => 'account'],
 		'Product Name' => ['products' => 'product'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'Asset No' => 'asset_no',
-		'Asset Name' => 'assetname',
-		'Customer Name' => 'account',
-		'Product Name' => 'product',
-	];
+	public $search_fields_name = [];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['asset_no', 'assetname', 'product', 'assigned_user_id'];
+	public $relationFields = [];
 	// For Popup window record selection
 	public $popup_fields = ['assetname', 'account', 'product'];
 	// For Alphabetical search
@@ -88,28 +82,9 @@ class Assets extends CRMEntity
 	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
-	public $unit_price;
 
 	/**
-	 * Transform the value while exporting.
-	 *
-	 * @param mixed $key
-	 * @param mixed $value
-	 */
-	public function transformExportValue($key, $value)
-	{
-		if ('owner' == $key) {
-			return \App\Fields\Owner::getLabel($value);
-		}
-
-		return parent::transformExportValue($key, $value);
-	}
-
-	/**
-	 * Invoked when special actions are performed on the module.
-	 *
-	 * @param string $moduleName
-	 * @param string $eventType
+	 * {@inheritdoc}
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{

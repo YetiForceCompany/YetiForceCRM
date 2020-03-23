@@ -51,21 +51,11 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to check whether the module is summary view supported.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isSummaryViewSupported()
 	{
 		return false;
-	}
-
-	/**
-	 * Function to get list of field for summary view.
-	 *
-	 * @return <Array> empty array
-	 */
-	public function getSummaryViewFieldsList()
-	{
-		return [];
 	}
 
 	/**
@@ -86,35 +76,12 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			'linkurl' => $this->getListViewUrl(),
 			'linkicon' => 'fas fa-list',
 		]);
-		if (isset($linkParams['ACTION']) && 'Calendar' === $linkParams['ACTION']) {
-			if (App\Config::module('Calendar', 'SHOW_LIST_BUTTON')) {
-				$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'SIDEBARLINK',
-					'linklabel' => 'LBL_CALENDAR_LIST',
-					'linkurl' => 'javascript:Calendar_Calendar_Js.getInstanceByView().goToRecordsList("' . $this->getListViewUrl() . '&viewname=All");',
-					'linkicon' => 'far fa-calendar-minus',
-				]);
-			}
-			$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGETRIGHT',
-				'linklabel' => 'Activity Type',
-				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getActivityType',
-				'linkicon' => '',
-				'linkclass' => 'js-calendar__filter--types',
-			]);
-			$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGETRIGHT',
-				'linklabel' => 'LBL_USERS',
-				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getUsersList',
-				'linkicon' => '',
-				'linkclass' => 'js-calendar__filter--users',
-			]);
-			$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGETRIGHT',
-				'linklabel' => 'LBL_GROUPS',
-				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getGroupsList',
-				'linkicon' => '',
-				'linkclass' => 'js-calendar__filter--groups',
+		if (isset($linkParams['ACTION']) && 'Calendar' === $linkParams['ACTION'] && App\Config::module('Calendar', 'SHOW_LIST_BUTTON')) {
+			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'LBL_CALENDAR_LIST',
+				'linkurl' => 'javascript:Calendar_Calendar_Js.getInstanceByView().goToRecordsList("' . $this->getListViewUrl() . '&viewname=All");',
+				'linkicon' => 'far fa-calendar-minus',
 			]);
 		}
 		return $links;
@@ -156,7 +123,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$keysValuesToReplace = ['taskpriority' => 'priority'];
 		foreach ($this->getFields() as $fieldName => $fieldModel) {
 			if ($fieldModel->getPermissions()) {
-				if (!in_array($fieldName, $keysToReplace)) {
+				if (!\in_array($fieldName, $keysToReplace)) {
 					$eventFields[$fieldName] = 'yes';
 				} else {
 					$eventFields[$keysValuesToReplace[$fieldName]] = 'yes';
@@ -175,7 +142,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$keysValuesToReplace = ['taskpriority' => 'priority', 'activitystatus' => 'status'];
 		foreach ($this->getFields() as $fieldName => $fieldModel) {
 			if ($fieldModel->getPermissions()) {
-				if (!in_array($fieldName, $keysToReplace)) {
+				if (!\in_array($fieldName, $keysToReplace)) {
 					$todoFields[$fieldName] = 'yes';
 				} else {
 					$todoFields[$keysValuesToReplace[$fieldName]] = 'yes';
@@ -236,25 +203,21 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function gives fields based on the type.
-	 *
-	 * @param string $type - field type
-	 *
-	 * @return <Array of Vtiger_Field_Model> - list of field models
+	 * {@inheritdoc}
 	 */
-	public function getFieldsByType($type)
+	public function getFieldsByType($type, bool $active = false): array
 	{
 		$restrictedField = ['picklist' => ['activitystatus', 'visibility', 'duration_minutes']];
-		if (!is_array($type)) {
+		if (!\is_array($type)) {
 			$type = [$type];
 		}
 		$fields = $this->getFields();
 		$fieldList = [];
 		foreach ($fields as $field) {
 			$fieldType = $field->getFieldDataType();
-			if (in_array($fieldType, $type)) {
+			if (\in_array($fieldType, $type)) {
 				$fieldName = $field->getName();
-				if ('picklist' == $fieldType && in_array($fieldName, $restrictedField[$fieldType])) {
+				if ('picklist' == $fieldType && \in_array($fieldName, $restrictedField[$fieldType])) {
 				} else {
 					$fieldList[$fieldName] = $field;
 				}
@@ -264,11 +227,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function returns Settings Links.
-	 *
-	 * @return array
+	 * {@inheritdoc}
 	 */
-	public function getSettingLinks()
+	public function getSettingLinks(): array
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$settingLinks = [];
@@ -277,7 +238,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_FIELDS',
 				'linkurl' => 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' . $this->getName(),
-				'linkicon' => 'adminIcon-triggers',
+				'linkicon' => 'adminIcon-modules-fields',
 			];
 			$settingLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
@@ -311,7 +272,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	{
 		if ($data) {
 			$activityStatus = $data['activitystatus'];
-			if (in_array($activityStatus, self::getComponentActivityStateLabel('history'))) {
+			if (\in_array($activityStatus, self::getComponentActivityStateLabel('history'))) {
 				return false;
 			}
 			$dueDateTime = $data['due_date'] . ' ' . $data['time_end'];
@@ -352,7 +313,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public static function getComponentActivityStateLabel($key = '')
 	{
 		$pickListValues = App\Fields\Picklist::getValuesName('activitystatus');
-		if (!is_array($pickListValues)) {
+		if (!\is_array($pickListValues)) {
 			return [];
 		}
 		$componentsActivityState = [];
@@ -411,6 +372,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		foreach ($calendar->getRecordInstance() as $recordModel) {
 			$recordModel->set('assigned_user_id', $userId);
 			$recordModel->save();
+			$calendar->recordSaveAttendee($recordModel);
 			if ('VEVENT' === (string) $calendar->getComponent()->name) {
 				$module = $eventModule;
 			} else {
@@ -426,5 +388,13 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		return ['events' => $totalCount[$eventModule] - $skipCount[$eventModule], 'skipped_events' => $skipCount[$eventModule], 'task' => $totalCount[$todoModule] - $skipCount[$todoModule], 'skipped_task' => $skipCount[$todoModule]];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getLayoutTypeForQuickCreate(): string
+	{
+		return 'standard';
 	}
 }

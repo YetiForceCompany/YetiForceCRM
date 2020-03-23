@@ -13,7 +13,7 @@
     <div class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground">
+				<div class="modal-header">
 					<h5 class="modal-title">
 						<span class="fas fa-plus mr-1"></span>
 						{if $RECORD}

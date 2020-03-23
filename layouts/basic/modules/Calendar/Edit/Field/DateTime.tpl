@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<!-- tpl-Calendar-Edit-Field-DateTime -->
 	{if $FIELD_MODEL->getName() == 'date_start'}
 		{assign var=DATE_FIELD value=$FIELD_MODEL}
 		{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
@@ -36,11 +37,12 @@
 	{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_CONVERTED_VALUE)}
 	{assign var=DATE_FIELD value=$DATE_FIELD->set('fieldvalue',$DATE_TIME_COMPONENTS[0])}
 	<div class="tpl-Edit-Field-DateTime form-row">
-		<div class="col-12 col-sm-6 col-md-5 mb-3 mb-sm-0">
+		<div class="col-12 col-sm-6 col-md-5 mb-3 mb-sm-0 px-1">
 			{include file=\App\Layout::getTemplatePath('Edit/Field/Date.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$DATE_FIELD}
 		</div>
-		<div class="col-12 col-sm-6 col-md-7">
+		<div class="col-12 col-sm-6 col-md-7 px-1">
 			{include file=\App\Layout::getTemplatePath('Edit/Field/Time.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$TIME_FIELD}
 		</div>
 	</div>
+	<!-- /tpl-Calendar-Edit-Field-DateTime -->
 {/strip}

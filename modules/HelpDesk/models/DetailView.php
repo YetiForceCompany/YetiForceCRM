@@ -6,38 +6,11 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model
 {
-	/**
-	 * Function to get the detail view links (links and widgets).
-	 *
-	 * @param <array> $linkParams - parameters which will be used to calicaulate the params
-	 *
-	 * @return <array> - array of link models in the format as below
-	 *                 array('linktype'=>list of link models);
-	 */
-	public function getDetailViewLinks($linkParams)
-	{
-		$linkModelList = parent::getDetailViewLinks($linkParams);
-		$recordModel = $this->getRecord();
-
-		$quotesModuleModel = Vtiger_Module_Model::getInstance('Faq');
-		if ($quotesModuleModel->isPermitted('DetailView')) {
-			$basicActionLink = [
-				'linktype' => 'DETAIL_VIEW_BASIC',
-				'linklabel' => 'LBL_CONVERT_FAQ',
-				'linkurl' => $recordModel->getConvertFAQUrl(),
-				'linkicon' => 'userIcon-Faq',
-				'linkclass' => 'btn-outline-dark btn-sm',
-				'showLabel' => 1,
-			];
-			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-		return $linkModelList;
-	}
-
 	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();
@@ -56,11 +29,8 @@ class HelpDesk_DetailView_Model extends Vtiger_DetailView_Model
 			];
 		}
 		if (App\Config::module($moduleName, 'SHOW_SUMMARY_PRODUCTS_SERVICES')) {
-			$relations = \Vtiger_Relation_Model::getAllRelations($this->getModule(), false);
-			if (isset($relations[\App\Module::getModuleId('Products')]) ||
-				isset($relations[\App\Module::getModuleId('Services')]) ||
-				isset($relations[\App\Module::getModuleId('Assets')]) ||
-				isset($relations[\App\Module::getModuleId('OSSSoldServices')])) {
+			$relations = \Vtiger_Relation_Model::getAllRelations($this->getModule(), false, true, true, 'modulename');
+			if (isset($relations['Products']) || isset($relations['Services']) || isset($relations['Assets']) || isset($relations['OSSSoldServices'])) {
 				$relatedLinks[] = [
 					'linktype' => 'DETAILVIEWTAB',
 					'linklabel' => 'LBL_RECORD_SUMMARY_PRODUCTS_SERVICES',

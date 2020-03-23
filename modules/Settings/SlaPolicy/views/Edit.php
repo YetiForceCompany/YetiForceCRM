@@ -25,7 +25,7 @@ class Settings_SlaPolicy_Edit_View extends Settings_Vtiger_Index_View
 			$viewer->assign('RECORD_ID', $request->getInteger('record'));
 			$recordModel = Settings_SlaPolicy_Record_Model::getInstanceById($request->getInteger('record'));
 		}
-		$viewer->assign('MODULES', $recordModel->getModule()::getModules());
+		$viewer->assign('MODULES', App\Utils\ServiceContracts::getModules());
 		$viewer->assign('SOURCE_MODULE', $request->getByType('sourceModule', 'Alnum'));
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE', $request->getModule());

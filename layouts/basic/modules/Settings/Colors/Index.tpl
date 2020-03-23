@@ -1,12 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-Colors-Index UserColors">
-		<div class="widget_header row">
+		<div class="o-breadcrumb widget_header row">
 			<div class="col-md-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<div class="contents tabbable">
+		<div class="contents tabbable mt-2">
 			<ul class="nav nav-tabs layoutTabs massEditTabs">
 				<li class="nav-item"><a class="nav-link" data-toggle="tab"
 										href="#userColors"><strong>{\App\Language::translate('LBL_USERS_COLORS', $QUALIFIED_MODULE)}</strong></a>
@@ -47,7 +47,7 @@
 									</button>&ensp;
 									<button data-record="{$item.id}"
 											class="btn btn-sm btn-primary mr-1 float-right updateUserColor"><span
-												class="fas fa-edit"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}
+												class="yfi yfi-full-editing-view"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}
 									</button>&ensp;
 									<button data-record="{$item.id}"
 											class="btn btn-sm btn-warning mr-1 float-right generateUserColor"><span
@@ -82,7 +82,7 @@
 									</button>&ensp;
 									<button data-record="{$item.id}"
 											class="btn btn-sm btn-primary mr-1 float-right updateGroupColor"><span
-												class="fas fa-edit"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}
+												class="yfi yfi-full-editing-view"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}
 									</button>&ensp;
 									<button data-record="{$item.id}"
 											class="btn btn-sm btn-warning mr-1 float-right generateGroupColor"><span
@@ -122,7 +122,7 @@
 									</button>&ensp;
 									<button data-record="{$item.id}"
 											class="btn btn-sm btn-primary mr-1 float-right updateModuleColor"><span
-												class="fas fa-edit"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}
+												class="yfi yfi-full-editing-view"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}
 									</button>&ensp;
 									<button data-record="{$item.id}"
 											class="btn btn-sm btn-warning mr-1 float-right generateModuleColor"><span
@@ -140,32 +140,6 @@
 					</div>
 				</div>
 
-			</div>
-		</div>
-		<div class="modal editColorContainer fade" tabindex="-1">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header contentsBackground">
-						<h5 class="modal-title">{\App\Language::translate('LBL_EDIT_COLOR', $QUALIFIED_MODULE)}</h5>
-						<button type="button" class="close" data-dismiss="modal"
-								title="{\App\Language::translate('LBL_CLOSE')}">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form class="form-horizontal">
-							<div class="form-group form-row">
-								<label class=" col-sm-4 col-form-label u-text-small-bold">{\App\Language::translate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</label>
-								<div class=" col-sm-8 controls">
-									<p class="js-color-picker" data-js="color-picker">
-										<input type="hidden" class="selectedColor" value=""/>
-									</p>
-								</div>
-							</div>
-						</form>
-					</div>
-					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
-				</div>
 			</div>
 		</div>
 	</div>

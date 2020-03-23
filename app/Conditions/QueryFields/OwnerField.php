@@ -153,4 +153,14 @@ class OwnerField extends BaseField
 			['=', $this->getColumnName(), 0],
 		];
 	}
+
+	/**
+	 * Not Currently logged user.
+	 *
+	 * @return array
+	 */
+	public function operatorNom()
+	{
+		return ['<>', $this->getColumnName(), \App\User::getCurrentUserId()];
+	}
 }

@@ -48,13 +48,25 @@ class Settings_Vtiger_Module_Model extends \App\Base
 		return $this;
 	}
 
-	public function getListFields()
+	/**
+	 * Function returns list of fields available in list view.
+	 *
+	 * @return \App\Base[]
+	 */
+	public function getListFields(): array
 	{
 		if (!isset($this->listFieldModels)) {
-			$fields = $this->listFields;
 			$fieldObjects = [];
-			foreach ($fields as $fieldName => $fieldLabel) {
-				$fieldObjects[$fieldName] = new \App\Base(['name' => $fieldName, 'label' => $fieldLabel]);
+			foreach ($this->listFields as $fieldName => $fieldLabel) {
+				$fieldObjects[$fieldName] = new \App\Base([
+					'name' => $fieldName
+				]);
+				if (\is_array($fieldLabel)) {
+					$fieldObjects[$fieldName]->set('label', $fieldLabel[0]);
+					$fieldObjects[$fieldName]->set('moduleName', $fieldLabel[1]);
+				} else {
+					$fieldObjects[$fieldName]->set('label', $fieldLabel);
+				}
 			}
 			$this->listFieldModels = $fieldObjects;
 		}
@@ -64,7 +76,7 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	/**
 	 * Function to get name fields of this module.
 	 *
-	 * @return <Array> list field names
+	 * @return string[] list field names
 	 */
 	public function getNameFields()
 	{
@@ -91,7 +103,7 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	/**
 	 * Function to get all the Settings menus.
 	 *
-	 * @return <Array> - List of Settings_Vtiger_Menu_Model instances
+	 * @return array - List of Settings_Vtiger_Menu_Model instances
 	 */
 	public function getMenus()
 	{
@@ -103,7 +115,7 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	 *
 	 * @param mixed $menu
 	 *
-	 * @return <Array> - List of Settings_Vtiger_MenuItem_Model instances
+	 * @return array - List of Settings_Vtiger_MenuItem_Model instances
 	 */
 	public function getMenuItems($menu = false)
 	{
@@ -138,7 +150,7 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	 *
 	 * @return string URL
 	 */
-	public function getIndexViewUrl()
+	public function getIndexViewUrl(): string
 	{
 		return 'index.php?module=' . $this->getName() . '&parent=' . $this->getParentName() . '&view=Index';
 	}
@@ -147,7 +159,7 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	{
 		if (!empty($selectedMenuId)) {
 			$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($selectedMenuId);
-		} elseif (!empty($moduleName) && $moduleName != 'Vtiger') {
+		} elseif (!empty($moduleName) && 'Vtiger' != $moduleName) {
 			$fieldItem = Settings_Vtiger_Index_View::getSelectedFieldFromModule($menuModels, $moduleName);
 			if ($fieldItem) {
 				$selectedMenu = Settings_Vtiger_Menu_Model::getInstanceById($fieldItem->get('blockid'));
@@ -155,7 +167,7 @@ class Settings_Vtiger_Module_Model extends \App\Base
 			} else {
 				foreach ($menuModels as $menuModel) {
 					$menuModuleName = Vtiger_Menu_Model::getModuleNameFromUrl($menuModel->get('linkto'));
-					if (substr($menuModuleName, 0, 9) === 'Settings:') {
+					if ('Settings:' === substr($menuModuleName, 0, 9)) {
 						$menuModuleName = substr($menuModuleName, 9);
 					}
 					if ($menuModuleName === $moduleName) {
@@ -172,7 +184,7 @@ class Settings_Vtiger_Module_Model extends \App\Base
 
 		$menu = [];
 		foreach ($menuModels as $blockId => $menuModel) {
-			if ($menuModel->getType() != 1) {
+			if (1 != $menuModel->getType()) {
 				$childs = [];
 				foreach ($menuModel->getMenuItems() as $menuItem) {
 					if ($menuItem->getId() == $fieldId) {

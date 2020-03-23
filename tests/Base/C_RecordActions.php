@@ -37,6 +37,12 @@ class C_RecordActions extends \Tests\Base
 	 */
 	protected static $recordProducts;
 	/**
+	 * Temporary SQuotes record object.
+	 *
+	 * @var \Vtiger_Record_Model
+	 */
+	protected static $recordSQuotes;
+	/**
 	 * Temporary Leads record object.
 	 *
 	 * @var \Vtiger_Record_Model
@@ -86,6 +92,8 @@ class C_RecordActions extends \Tests\Base
 	 *
 	 * @var bool
 	 *
+	 * @param mixed $cache
+	 *
 	 * @return \Vtiger_Record_Model
 	 */
 	public static function createLeadRecord($cache = true)
@@ -104,6 +112,8 @@ class C_RecordActions extends \Tests\Base
 	/**
 	 * Creating contacts module record for tests.
 	 *
+	 * @param mixed $cache
+	 *
 	 * @return \Vtiger_Record_Model
 	 */
 	public static function createContactRecord($cache = true)
@@ -112,7 +122,7 @@ class C_RecordActions extends \Tests\Base
 			return static::$recordContacts;
 		}
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
-		$recordModel->set('salutation', 'Mr.');
+		$recordModel->set('salutationtype', 'Mr.');
 		$recordModel->set('firstname', 'Test');
 		$recordModel->set('lastname', 'Testowy');
 		$recordModel->set('contactstatus', 'Active');
@@ -127,6 +137,8 @@ class C_RecordActions extends \Tests\Base
 	 * Creating account module record for tests.
 	 *
 	 * @var bool
+	 *
+	 * @param mixed $cache
 	 */
 	public static function createAccountRecord($cache = true)
 	{
@@ -145,6 +157,42 @@ class C_RecordActions extends \Tests\Base
 	 * Creating Product module record for tests.
 	 *
 	 * @var bool
+	 *
+	 * @param mixed $cache
+	 */
+	public static function createSQuotesRecord($cache = true)
+	{
+		if (static::$recordSQuotes && $cache) {
+			return static::$recordSQuotes;
+		}
+		$record = \Vtiger_Record_Model::getCleanInstance('SQuotes');
+		$record->set('subject', 'System CRM YetiForce');
+		$record->setInventoryItemPart(1, 'name', self::createProductRecord()->getId());
+		$record->setInventoryItemPart(1, 'discountmode', 1);
+		$record->setInventoryItemPart(1, 'taxmode', 1);
+		$record->setInventoryItemPart(1, 'currency', 1);
+		$record->setInventoryItemPart(1, 'qty', 2);
+		$record->setInventoryItemPart(1, 'price', 5);
+		$record->setInventoryItemPart(1, 'total', 10);
+		$record->setInventoryItemPart(1, 'discount', 0);
+		$record->setInventoryItemPart(1, 'net', 10);
+		$record->setInventoryItemPart(1, 'purchase', 0);
+		$record->setInventoryItemPart(1, 'marginp', 0);
+		$record->setInventoryItemPart(1, 'margin', 0);
+		$record->setInventoryItemPart(1, 'tax', 0);
+		$record->setInventoryItemPart(1, 'gross', 10);
+		$record->setInventoryItemPart(1, 'comment1', '');
+		$record->save();
+		static::$recordSQuotes = $record;
+		return $record;
+	}
+
+	/**
+	 * Creating Product module record for tests.
+	 *
+	 * @var bool
+	 *
+	 * @param mixed $cache
 	 */
 	public static function createProductRecord($cache = true)
 	{
@@ -203,7 +251,7 @@ class C_RecordActions extends \Tests\Base
 	 */
 	public function testGetDisplayName()
 	{
-		$this->assertTrue(static::$recordAccounts->getDisplayName() === 'YetiForce Sp. z o.o.');
+		$this->assertTrue('YetiForce Sp. z o.o.' === static::$recordAccounts->getDisplayName());
 	}
 
 	/**

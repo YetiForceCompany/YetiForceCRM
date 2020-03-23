@@ -11,6 +11,7 @@
 
 class Vtiger_Save_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
 	/**
 	 * Record model instance.
 	 *
@@ -19,13 +20,22 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	protected $record = false;
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('preSaveValidation');
+	}
+
+	/**
 	 * Function to check permission.
 	 *
 	 * @param \App\Request $request
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!$request->isEmpty('record', true)) {
@@ -56,23 +66,26 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
-		$recordModel = $this->saveRecord($request);
-		if ($request->getBoolean('relationOperation')) {
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 2));
-			$loadUrl = $parentRecordModel->getDetailViewUrl();
-		} elseif ($request->getBoolean('returnToList')) {
-			$loadUrl = $recordModel->getModule()->getListViewUrl();
+		if ($mode = $request->getMode()) {
+			$this->invokeExposedMethod($mode, $request);
 		} else {
-			$recordModel->clearPrivilegesCache();
-			if ($recordModel->isViewable()) {
-				$loadUrl = $recordModel->getDetailViewUrl();
+			$recordModel = $this->saveRecord($request);
+			if ($request->getBoolean('relationOperation')) {
+				$loadUrl = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 2))->getDetailViewUrl();
+			} elseif ($request->getBoolean('returnToList')) {
+				$loadUrl = $recordModel->getModule()->getListViewUrl();
 			} else {
-				$loadUrl = $recordModel->getModule()->getDefaultUrl();
+				$recordModel->clearPrivilegesCache();
+				if ($recordModel->isViewable()) {
+					$loadUrl = $recordModel->getDetailViewUrl();
+				} else {
+					$loadUrl = $recordModel->getModule()->getDefaultUrl();
+				}
 			}
+			header("location: $loadUrl");
 		}
-		header("location: $loadUrl");
 	}
 
 	/**
@@ -82,17 +95,14 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	 *
 	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
-	public function saveRecord(\App\Request $request)
+	public function saveRecord(App\Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
 		if ($request->getBoolean('relationOperation')) {
-			$parentModuleModel = Vtiger_Module_Model::getInstance($request->getByType('sourceModule', 2));
-			$relatedModule = $recordModel->getModule();
-			$relatedRecordId = $recordModel->getId();
-			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
-			if ($relationModel) {
-				$relationModel->addRelation($request->getInteger('sourceRecord'), $relatedRecordId);
+			$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
+			if ($relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($request->getByType('sourceModule', 2)), $recordModel->getModule(), $relationId)) {
+				$relationModel->addRelation($request->getInteger('sourceRecord'), $recordModel->getId());
 			}
 		}
 		return $recordModel;
@@ -105,7 +115,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	 *
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	protected function getRecordModelFromRequest(\App\Request $request)
+	protected function getRecordModelFromRequest(App\Request $request)
 	{
 		if (empty($this->record)) {
 			$this->record = $request->isEmpty('record', true) ? Vtiger_Record_Model::getCleanInstance($request->getModule()) : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
@@ -123,5 +133,26 @@ class Vtiger_Save_Action extends \App\Controller\Action
 			$this->record->initInventoryDataFromRequest($request);
 		}
 		return $this->record;
+	}
+
+	/**
+	 * Validation before saving.
+	 *
+	 * @param App\Request $request
+	 */
+	public function preSaveValidation(App\Request $request)
+	{
+		$recordModel = $this->getRecordModelFromRequest($request);
+		$eventHandler = $recordModel->getEventHandler();
+		$result = [];
+		foreach ($eventHandler->getHandlers(\App\EventHandler::EDIT_VIEW_PRE_SAVE) as $handler) {
+			if (!(($response = $eventHandler->triggerHandler($handler))['result'] ?? null)) {
+				$result[] = $response;
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response->setResult($result);
+		$response->emit();
 	}
 }

@@ -1,6 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
-input[type=checkbox] {
+input[type="checkbox"] {
 	border: 1px solid rgba(0, 0, 0, 0.54);
 	width: 17px;
 	transition: 0.25s;
@@ -13,9 +13,9 @@ input[type=checkbox] {
 	border-color: #d7d7d7;
 }
 
-input[type=checkbox]:checked::after,
-.checkbox input[type=checkbox]:checked::after,
-.checkbox-inline input[type=checkbox]:checked::after {
+input[type="checkbox"]:checked::after,
+.checkbox input[type="checkbox"]:checked::after,
+.checkbox-inline input[type="checkbox"]:checked::after {
 	box-sizing: border-box;
 	-webkit-transform: rotate(45deg);
 	transform: rotate(45deg);
@@ -30,24 +30,24 @@ input[type=checkbox]:checked::after,
 	border-style: solid;
 	border-top: 0;
 	border-left: 0;
-	content: '';
+	content: "";
 }
 
-input[type=checkbox]:checked {
+input[type="checkbox"]:checked {
 	background-color: #4a5364;
 	border-color: #384150;
 }
 
-.bootstrap-switch input[type='radio'], .bootstrap-switch input[type='checkbox'] {
+.bootstrap-switch input[type="radio"],
+.bootstrap-switch input[type="checkbox"] {
 	opacity: 0 !important;
 }
 
-input[type=checkbox]:checked:disabled {
+input[type="checkbox"]:checked:disabled {
 	opacity: 0.35;
 }
 
-input[type=checkbox]:focus {
-	outline: none;
+input[type="checkbox"]:focus {
 	box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.075), 0 0 2px #384150;
 }
 
@@ -75,7 +75,7 @@ input[type="radio"]:checked:disabled {
 
 input[type="radio"]:before {
 	margin: 6px 0 0 6px;
-	content: '';
+	content: "";
 	display: block;
 	height: 0;
 	width: 0;

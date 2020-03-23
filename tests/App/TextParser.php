@@ -91,12 +91,12 @@ class TextParser extends \Tests\Base
 	{
 		$this->assertSame(1, \App\TextParser::isVaribleToParse('$(TestGroup : TestVar)$'), 'Clean instance: string should be parseable');
 		$this->assertSame(0, \App\TextParser::isVaribleToParse('$X(TestGroup : TestVar)$'), 'Clean instance: string should be not parseable');
-		$this->assertSame((\App\Config::main('listview_max_textlength') + 3), strlen(\App\TextParser::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), false, true)), 'Clean instance: string should be truncated in expexted format (default length)');
-		$this->assertSame(13, strlen(\App\TextParser::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), 10, true)), 'Clean instance: string should be truncated in expexted format (text length: 10)');
+		$this->assertSame((\App\Config::main('listview_max_textlength') + 3), \strlen(\App\TextParser::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), false, true)), 'Clean instance: string should be truncated in expexted format (default length)');
+		$this->assertSame(13, \strlen(\App\TextParser::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), 10, true)), 'Clean instance: string should be truncated in expexted format (text length: 10)');
 
-		$this->assertSame((\App\Config::main('listview_max_textlength') + 993), strlen(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), false, true)), 'Clean instance: html should be truncated in expected format (default length)');
+		$this->assertSame((\App\Config::main('listview_max_textlength') + 993), \strlen(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), false, true)), 'Clean instance: html should be truncated in expected format (default length)');
 
-		$this->assertSame(1008, strlen(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), 10, true)), 'Clean instance: html should be truncated in expected format (text length: 10)');
+		$this->assertSame(1008, \strlen(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), 10, true)), 'Clean instance: html should be truncated in expected format (text length: 10)');
 	}
 
 	/**
@@ -119,7 +119,7 @@ class TextParser extends \Tests\Base
 			->setContent('+ $(general : CurrentDate)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : CurrentDate)$ should return current date');
-		$this->assertSame('+ ' . \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('h:i:s')) . ' +', static::$parserClean
+		$this->assertSame('+ ' . \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('H:i:s')) . ' +', static::$parserClean
 			->setContent('+ $(general : CurrentTime)$ +')
 			->parse()
 			->getContent(), 'Clean instance: $(general : CurrentTime)$ should return current time');
@@ -220,7 +220,7 @@ class TextParser extends \Tests\Base
 			->parse()
 			->getContent(), 'Clean instance: Test param not exist, placeholder should return empty value');
 		$this->assertSame('test', static::$parserClean->getParam('test_var'), 'Clean instance: getParam should return value test');
-		$this->assertFalse(static::$parserClean->getParam('test_var_not_exist'), 'Clean instance: key not exist, getParam should return false');
+		$this->assertNull(static::$parserClean->getParam('test_var_not_exist'), 'Clean instance: key not exist, getParam should return false');
 	}
 
 	/**

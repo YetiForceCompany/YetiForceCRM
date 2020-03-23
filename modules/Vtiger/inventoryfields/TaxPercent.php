@@ -43,7 +43,7 @@ class Vtiger_TaxPercent_InventoryField extends Vtiger_Tax_InventoryField
 	{
 		if ($column === $this->getColumnName() || null === $column) {
 			$value = 0.0;
-			if (!\App\Json::isEmpty($item['taxparam'] ?? '') && ($taxesConfig = \Vtiger_Inventory_Model::getTaxesConfig()) && 1 === (int) $taxesConfig['active']) {
+			if (!\App\Json::isEmpty($item['taxparam'] ?? '')) {
 				$taxParam = \App\Json::decode($item['taxparam']);
 				$types = (array) $taxParam['aggregationType'];
 				foreach ($types as $type) {

@@ -73,7 +73,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 			}
 			if (null !== $originalValue && !\App\Validator::floatIsEqualUserCurrencyDecimals($value, $originalValue)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . ($columnName ?? $this->getColumnName()) . '||' . $this->getModuleName() . '||' . $value, 406);
 			}
 		} elseif (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
@@ -87,10 +87,10 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		if ($column === $this->getColumnName() || null === $column) {
 			$value = 0.0;
-			if (!\App\Json::isEmpty($item['discountparam'] ?? '') && ($discountsConfig = \Vtiger_Inventory_Model::getDiscountsConfig()) && 1 === (int) $discountsConfig['active']) {
+			if (!\App\Json::isEmpty($item['discountparam'] ?? '') && ($discountsConfig = \Vtiger_Inventory_Model::getDiscountsConfig())) {
 				$discountParam = \App\Json::decode($item['discountparam']);
 				$totalPrice = static::getInstance($this->getModuleName(), 'TotalPrice')->getValueForSave($item, $userFormat);
-				$value = $this->getDiscountValue($discountParam, $totalPrice, (int) $discountsConfig['aggregation']);
+				$value = $this->getDiscountValue($discountParam ?? [], $totalPrice, (int) $discountsConfig['aggregation']);
 			}
 		} else {
 			$value = $userFormat ? $this->getDBValue($item[$column]) : $item[$column];
@@ -109,19 +109,18 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	private function getDiscountValue(array $discountParam, float $totalPrice, int $mode): float
 	{
-		$value = 0.0;
-		$types = $discountParam['aggregationType'];
-		if (!is_array($types)) {
+		$value = $discountValue = 0.0;
+		$types = $discountParam['aggregationType'] ?? [];
+		if (!\is_array($types)) {
 			$types = [$types];
 		}
 		foreach ($types as $type) {
-			$discountValue = $totalPrice * $this->getDiscountValueByType($type, $discountParam);
+			$discountValue = $this->getDiscountValueByType($type, $discountParam, $totalPrice);
 			$value += $discountValue;
 			if (2 === $mode) {
 				$totalPrice -= $discountValue;
 			}
 		}
-
 		return $value;
 	}
 
@@ -130,20 +129,21 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	 *
 	 * @param string $aggregationType
 	 * @param array  $discountParam
+	 * @param float  $totalPrice
 	 *
 	 * @return float
 	 */
-	private function getDiscountValueByType(string $aggregationType, array $discountParam): float
+	private function getDiscountValueByType(string $aggregationType, array $discountParam, float $totalPrice): float
 	{
 		$discountType = $discountParam["{$aggregationType}DiscountType"] ?? 'percentage';
 		$discount = $discountParam["{$aggregationType}Discount"];
 		$value = 0.0;
 		switch ($discountType) {
 			case 'amount':
-			$value = $discount;
+				$value = $discount;
 				break;
 			case 'percentage':
-			$value = $discount / 100.00;
+				$value = $totalPrice * $discount / 100.00;
 				break;
 			default:
 				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||discountType||{$discountType}", 406);

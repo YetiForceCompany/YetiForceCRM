@@ -16,12 +16,14 @@ class Settings_SlaPolicy_Module_Model extends Settings_Vtiger_Module_Model
 	 * @var string
 	 */
 	public $baseTable = 's_#__sla_policy';
+
 	/**
 	 * Base index.
 	 *
 	 * @var string
 	 */
 	public $baseIndex = 'id';
+
 	/**
 	 * List fields.
 	 *
@@ -30,12 +32,13 @@ class Settings_SlaPolicy_Module_Model extends Settings_Vtiger_Module_Model
 	public $listFields = [
 		'name' => 'LBL_NAME',
 		'tabid' => 'LBL_SOURCE_MODULE',
-		'operational_hours' => 'LBL_OPERATIONAL_HOURS',
-		'reaction_time' => 'LBL_REACTION_TIME',
-		'idle_time' => 'LBL_IDLE_TIME',
-		'resolve_time' => 'LBL_RESOLVE_TIME',
-		'business_hours' => 'LBL_BUSINESS_HOURS'
+		'operational_hours' => ['LBL_OPERATIONAL_HOURS', 'ServiceContracts'],
+		'reaction_time' => ['LBL_REACTION_TIME', 'ServiceContracts'],
+		'idle_time' => ['LBL_IDLE_TIME', 'ServiceContracts'],
+		'resolve_time' => ['LBL_RESOLVE_TIME', 'ServiceContracts'],
+		'business_hours' => ['LBL_BUSINESS_HOURS', 'ServiceContracts']
 	];
+
 	/**
 	 * Module name.
 	 *

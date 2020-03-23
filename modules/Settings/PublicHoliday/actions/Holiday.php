@@ -10,6 +10,7 @@ class Settings_PublicHoliday_Holiday_Action extends Settings_Vtiger_Index_Action
 {
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('delete');
 		$this->exposeMethod('save');
 	}
@@ -19,7 +20,7 @@ class Settings_PublicHoliday_Holiday_Action extends Settings_Vtiger_Index_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function delete(\App\Request $request)
+	public function delete(App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$moduleName = $request->getModule(false);
@@ -41,7 +42,7 @@ class Settings_PublicHoliday_Holiday_Action extends Settings_Vtiger_Index_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function save(\App\Request $request)
+	public function save(App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$moduleName = $request->getModule(false);

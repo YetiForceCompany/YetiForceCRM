@@ -12,7 +12,7 @@
 {strip}
 	<!-- tpl-Settings-Profiles-DetailView -->
 	<div class="">
-		<div class="widget_header row">
+		<div class="o-breadcrumb widget_header row">
 			<div class="col-md-10">{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}</div>
 			<div class="col-md-2">
 				<button class="btn btn-info float-right mt-1" type="button" onclick='window.location.href = "{$RECORD_MODEL->getEditViewUrl()}"'>{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
@@ -88,7 +88,7 @@
 						{foreach from=$RECORD_MODEL->getModulePermissions() key=TABID item=PROFILE_MODULE}
 							<tr>
 								<td>
-									<span class="mr-2 mt-1 {if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}{$ENABLE_CLASS_ICON}{else}{$DISABLE_CLASS_ICON}{/if}" class="alignMiddle"></span>
+									<span class="mr-2 mt-1 {if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}{$ENABLE_CLASS_ICON}{else}{$DISABLE_CLASS_ICON}{/if}"></span>
 									{\App\Language::translate($PROFILE_MODULE->get('label'), $PROFILE_MODULE->getName())}
 								</td>
 								{assign var="BASIC_ACTION_ORDER" value=array(2,3,0,1)}

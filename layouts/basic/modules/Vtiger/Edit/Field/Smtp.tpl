@@ -7,12 +7,8 @@
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}
 	{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() && !($FIELD_MODEL->isMandatory() eq true && $FIELD_VALUE neq ''))}
 	<div>
-		<select name="{$FIELD_MODEL->getFieldName()}" class="select2 form-control"
-				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
-				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-				{if $PLACE_HOLDER}data-select="allowClear"
-				data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}"{/if}
-				data-fieldinfo='{$FIELD_INFO|escape}'
+		<select name="{$FIELD_MODEL->getFieldName()}" class="select2 form-control" tabindex="{$FIELD_MODEL->getTabIndex()}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+				{if $PLACE_HOLDER}data-select="allowClear" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}"{/if} data-fieldinfo='{$FIELD_INFO|escape}'
 				{if !empty($SPECIAL_VALIDATOR)}data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}"{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
 			{if $PLACE_HOLDER}
 				<optgroup class="p-0">

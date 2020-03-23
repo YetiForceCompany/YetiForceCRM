@@ -14,7 +14,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -25,7 +25,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Vtiger.resources.List',
@@ -36,7 +36,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
@@ -45,8 +45,11 @@ class Users_List_View extends Settings_Vtiger_List_View
 
 	/**
 	 * Function to initialize the required data in smarty to display the List View Contents.
+	 *
+	 * @param \App\Request  $request
+	 * @param Vtiger_Viewer $viewer
 	 */
-	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->getByType('viewname', 2);
@@ -59,7 +62,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
-		if ($sortOrder == 'ASC') {
+		if ('ASC' == $sortOrder) {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'fas fa-chevron-down';
 		} else {
@@ -100,14 +103,14 @@ class Users_List_View extends Settings_Vtiger_List_View
 			}
 		}
 		$searchParmams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
-		if (empty($searchParmams) || !is_array($searchParmams)) {
+		if (empty($searchParmams) || !\is_array($searchParmams)) {
 			$searchParmams = [];
 		}
 		$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 		$this->listViewModel->set('search_params', $transformedSearchParams);
 
 		//To make smarty to get the details easily accesible
-		foreach ($searchParmams as $fieldListGroup) {
+		foreach ($request->getArray('search_params') as $fieldListGroup) {
 			foreach ($fieldListGroup as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2] ?? '';
 				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0] ?? '';
@@ -115,7 +118,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
-		if (!empty($searchResult) && is_array($searchResult)) {
+		if (!empty($searchResult) && \is_array($searchResult)) {
 			$this->listViewModel->get('query_generator')->addNativeCondition(['vtiger_crmentity.crmid' => $searchResult]);
 		}
 		if (!$this->listViewHeaders) {
@@ -124,7 +127,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		if (!$this->listViewEntries) {
 			$this->listViewEntries = $this->listViewModel->getListViewEntries($pagingModel);
 		}
-		$noOfEntries = count($this->listViewEntries);
+		$noOfEntries = \count($this->listViewEntries);
 
 		$viewer->assign('MODULE', $moduleName);
 
@@ -172,7 +175,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getRecordsCount(\App\Request $request)
+	public function getRecordsCount(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->getByType('viewname', 2);
@@ -194,7 +197,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getListViewCount(\App\Request $request)
+	public function getListViewCount(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$cvId = App\CustomView::getInstance($moduleName)->getViewId();
@@ -207,7 +210,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$operator = $request->getByType('operator');
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 
-		if (empty($searchParmams) || !is_array($searchParmams)) {
+		if (empty($searchParmams) || !\is_array($searchParmams)) {
 			$searchParmams = [];
 		}
 		$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
@@ -225,16 +228,18 @@ class Users_List_View extends Settings_Vtiger_List_View
 	/**
 	 * Function to get the page count for list.
 	 *
+	 * @param \App\Request $request
+	 *
 	 * @return total number of pages
 	 */
-	public function getPageCount(\App\Request $request)
+	public function getPageCount(App\Request $request)
 	{
 		$listViewCount = $this->getListViewCount($request);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pageLimit = $pagingModel->getPageLimit();
 		$pageCount = ceil((int) $listViewCount / (int) $pageLimit);
 
-		if ($pageCount == 0) {
+		if (0 == $pageCount) {
 			$pageCount = 1;
 		}
 		$result = [];

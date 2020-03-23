@@ -13,9 +13,9 @@ class Install_Utils_Model
 	/**
 	 * Function that provides default configuration based on installer setup.
 	 *
-	 * @return <Array>
+	 * @return array
 	 */
-	public static function getDefaultPreInstallParameters()
+	public static function getDefaultPreInstallParameters(): array
 	{
 		return [
 			'db_server' => 'localhost',
@@ -101,7 +101,7 @@ class Install_Utils_Model
 					$mysql_server_version = $res['Value'];
 				}
 				$stmt = $conn->query("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '$db_name'");
-				if ($stmt->rowCount() == 1) {
+				if (1 == $stmt->rowCount()) {
 					$db_exist_status = true;
 				}
 			}
@@ -164,7 +164,7 @@ class Install_Utils_Model
 		$className = '\Config\Main';
 		if (\class_exists($className)) {
 			foreach ((new \ReflectionClass($className))->getStaticProperties() as $name => $value) {
-				$className::$$name = null;
+				$className::${$name} = null;
 			}
 		}
 	}

@@ -42,5 +42,17 @@ return [
 		'description' => 'Show the number of new messages.',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
+	],
+	'dynamicAddingRooms' => [
+		'default' => true,
+		'description' => 'Show add button in left panel favorites rooms.',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+	],
+	'userRoomPin' => [
+		'default' => true,
+		'description' => 'True - user rooms can be pinned/unpinned, false - all user rooms are pinned.',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
 	]
 ];

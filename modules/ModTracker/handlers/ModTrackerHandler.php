@@ -73,16 +73,23 @@ class ModTracker_ModTrackerHandler_Handler
 			unset($delta['inventory']);
 		}
 		$insertedData = [];
-		foreach ($delta as $fieldName => &$preValue) {
+		foreach ($delta as $fieldName => $preValue) {
 			$newValue = $recordModel->get($fieldName);
+			$fieldModel = $recordModel->getField($fieldName);
 			if (empty($preValue) && empty($newValue)) {
 				continue;
 			}
-			if (is_object($newValue)) {
-				throw new App\Exceptions\AppException("Incorrect data type in $fieldName: Value can not be the object of " . get_class($newValue));
+			if (\is_object($newValue)) {
+				throw new App\Exceptions\AppException("Incorrect data type in $fieldName: Value can not be the object of " . \get_class($newValue));
 			}
-			if (is_array($newValue)) {
+			if (\is_array($newValue)) {
 				$newValue = implode(',', $newValue);
+			}
+			if (!$fieldModel) {
+				\App\Log::warning($fieldName . ' field does not exist in the module ' . $eventHandler->getModuleName(), __METHOD__);
+			} elseif ('text' === $fieldModel->getFieldDataType()) {
+				$preValue = empty($preValue) ? $preValue : \App\TextParser::textTruncate($preValue, 65532);
+				$newValue = empty($newValue) ? $newValue : \App\TextParser::textTruncate($newValue, 65532);
 			}
 			$insertedData[] = [$id, $fieldName, $preValue, $newValue];
 		}
@@ -127,7 +134,7 @@ class ModTracker_ModTrackerHandler_Handler
 			return false;
 		}
 		ModTracker::unLinkRelation($params['sourceModule'], $params['sourceRecordId'], $params['destinationModule'], $params['destinationRecordId']);
-		if ($params['relatedName'] && in_array($params['relatedName'], ['getManyToMany', 'getRelatedList', 'getEmails'])) {
+		if ($params['relatedName'] && \in_array($params['relatedName'], ['getManyToMany', 'getRelatedList', 'getEmails'])) {
 			ModTracker::unLinkRelation($params['destinationModule'], $params['destinationRecordId'], $params['sourceModule'], $params['sourceRecordId']);
 		}
 		if (App\Config::module('ModTracker', 'WATCHDOG')) {

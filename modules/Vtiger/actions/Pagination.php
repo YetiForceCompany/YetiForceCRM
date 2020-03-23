@@ -19,7 +19,7 @@ class Vtiger_Pagination_Action extends Vtiger_BasicAjax_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -29,16 +29,17 @@ class Vtiger_Pagination_Action extends Vtiger_BasicAjax_Action
 
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('getTotalCount');
 	}
 
-	public function getTotalCount(\App\Request $request)
+	public function getTotalCount(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->getByType('viewname', 2);
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $viewName);
 		$searchParmams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
-		if (empty($searchParmams) || !is_array($searchParmams)) {
+		if (empty($searchParmams) || !\is_array($searchParmams)) {
 			$searchParmams = [];
 		}
 		$listViewModel->set('search_params', $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams));

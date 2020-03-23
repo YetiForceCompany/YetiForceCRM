@@ -126,7 +126,7 @@
 		<div class="modal sourcePicklistValuesModal modalCloneCopy fade" tabindex="-1">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
-					<div class="modal-header contentsBackground">
+					<div class="modal-header">
 						<h5 class="modal-title">
 							<span class="fas fa-hand-point-up mr-1"></span>
 							{\App\Language::translate('LBL_SELECT_SOURCE_PICKLIST_VALUES', $QUALIFIED_MODULE)}

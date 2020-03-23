@@ -8,17 +8,22 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-define('ROOT_DIRECTORY', __DIR__ !== DIRECTORY_SEPARATOR ? __DIR__ : '');
+\define('ROOT_DIRECTORY', __DIR__ !== DIRECTORY_SEPARATOR ? __DIR__ : '');
 
-require __DIR__ . '/include/RequirementsValidation.php';
 require __DIR__ . '/include/main/WebUI.php';
+require __DIR__ . '/include/RequirementsValidation.php';
+
+if ('OPTIONS' === $_SERVER['REQUEST_METHOD']) {
+	\App\Headers::getInstance()->send();
+	return;
+}
 
 if (!\App\Config::main('application_unique_key', false)) {
 	header('location: install/Install.php');
+} else {
+	\App\Process::$startTime = microtime(true);
+	\App\Process::$requestMode = 'WebUI';
+
+	$webUI = new Vtiger_WebUI();
+	$webUI->process(\App\Request::init());
 }
-
-\App\Process::$startTime = microtime(true);
-\App\Process::$requestMode = 'WebUI';
-
-$webUI = new Vtiger_WebUI();
-$webUI->process(\App\Request::init());

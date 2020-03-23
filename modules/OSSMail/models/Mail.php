@@ -39,6 +39,12 @@ class OSSMail_Mail_Model extends \App\Base
 	 * @var array
 	 */
 	protected $actionResult = [];
+	/**
+	 * Mail type.
+	 *
+	 * @var int
+	 */
+	protected $mailType;
 
 	/**
 	 * Set account.
@@ -115,29 +121,43 @@ class OSSMail_Mail_Model extends \App\Base
 	 */
 	public function getTypeEmail($returnText = false)
 	{
+		if (isset($this->mailType)) {
+			if ($returnText) {
+				$cacheKey = 'Received';
+				switch ($this->mailType) {
+					case 0:
+						$cacheKey = 'Sent';
+						break;
+					case 2:
+						$cacheKey = 'Internal';
+						break;
+				}
+				return $cacheKey;
+			}
+			return $this->mailType;
+		}
 		$account = $this->getAccount();
-		$fromEmailUser = $this->findEmailUser($this->get('fromaddress'));
-		$toEmailUser = $this->findEmailUser($this->get('toaddress'));
-		$ccEmailUser = $this->findEmailUser($this->get('ccaddress'));
-		$bccEmailUser = $this->findEmailUser($this->get('bccaddress'));
-		$notFound = $toEmailUser['notFound'] + $ccEmailUser['notFound'] + $bccEmailUser['notFound'];
-		$identities = OSSMailScanner_Record_Model::getIdentities($account['user_id']);
-		$type = false;
-		foreach ($identities as $identitie) {
-			if ($identitie['email'] == $this->get('fromaddress')) {
-				$type = true;
+		$fromEmailUser = $this->findEmailUser($this->get('from_email'));
+		$toEmailUser = $this->findEmailUser($this->get('to_email'));
+		$ccEmailUser = $this->findEmailUser($this->get('cc_email'));
+		$bccEmailUser = $this->findEmailUser($this->get('bcc_email'));
+		$existIdentitie = false;
+		foreach (OSSMailScanner_Record_Model::getIdentities($account['user_id']) as $identitie) {
+			if ($identitie['email'] == $this->get('from_email')) {
+				$existIdentitie = true;
 			}
 		}
-		if (0 == $fromEmailUser['notFound'] && 0 == $notFound) {
+		if ($fromEmailUser && ($toEmailUser || $ccEmailUser || $bccEmailUser)) {
 			$key = 2;
 			$cacheKey = 'Internal';
-		} elseif ($type) {
+		} elseif ($existIdentitie || $fromEmailUser) {
 			$key = 0;
 			$cacheKey = 'Sent';
 		} else {
 			$key = 1;
 			$cacheKey = 'Received';
 		}
+		$this->mailType = $key;
 		if ($returnText) {
 			return $cacheKey;
 		}
@@ -149,23 +169,19 @@ class OSSMail_Mail_Model extends \App\Base
 	 *
 	 * @param string $emails
 	 *
-	 * @return array
+	 * @return bool
 	 */
 	public static function findEmailUser($emails)
 	{
-		$return = [];
 		$notFound = 0;
 		if (!empty($emails)) {
 			foreach (explode(',', $emails) as $email) {
-				$result = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['email1' => $email])->scalar();
-				if ($result) {
-					$return[] = $result;
-				} else {
+				if (!\Users_Module_Model::checkMailExist($email)) {
 					++$notFound;
 				}
 			}
 		}
-		return ['users' => $return, 'notFound' => $notFound];
+		return 0 === $notFound;
 	}
 
 	/**
@@ -192,9 +208,8 @@ class OSSMail_Mail_Model extends \App\Base
 		if ($this->has('cid')) {
 			return $this->get('cid');
 		}
-		$uid = sha1($this->get('fromaddress') . '|' . $this->get('date') . '|' . $this->get('subject') . '|' . $this->get('body'));
+		$uid = hash('sha256', $this->get('from_email') . '|' . $this->get('date') . '|' . $this->get('subject') . '|' . $this->get('message_id'));
 		$this->set('cid', $uid);
-
 		return $uid;
 	}
 
@@ -208,7 +223,7 @@ class OSSMail_Mail_Model extends \App\Base
 		if ($this->mailCrmId) {
 			return $this->mailCrmId;
 		}
-		if (empty($this->get('message_id')) || App\Config::module('OSSMailScanner', 'ONE_MAIL_FOR_MULTIPLE_RECIPIENTS')) {
+		if (empty($this->get('message_id')) || \Config\Modules\OSSMailScanner::$ONE_MAIL_FOR_MULTIPLE_RECIPIENTS) {
 			$query = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['cid' => $this->getUniqueId()])->limit(1);
 		} else {
 			$query = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['uid' => $this->get('message_id'), 'rc_user' => $this->getAccountOwner()])->limit(1);
@@ -241,7 +256,7 @@ class OSSMail_Mail_Model extends \App\Base
 			$text = $header->{$cacheKey};
 		}
 		$return = '';
-		if (is_array($text)) {
+		if (\is_array($text)) {
 			foreach ($text as $row) {
 				if ('' != $return) {
 					$return .= ',';
@@ -271,7 +286,7 @@ class OSSMail_Mail_Model extends \App\Base
 			}
 			if (App\Cache::staticHas($cacheKey, $email)) {
 				$cache = App\Cache::staticGet($cacheKey, $email);
-				if ($cache != 0) {
+				if (0 != $cache) {
 					$return = array_merge($return, $cache);
 				}
 			} else {
@@ -309,7 +324,7 @@ class OSSMail_Mail_Model extends \App\Base
 			$domain = mb_strtolower(explode('@', $email)[1]);
 			if (App\Cache::staticHas($cacheKey, $domain)) {
 				$cache = App\Cache::staticGet($cacheKey, $domain);
-				if ($cache != 0) {
+				if (0 != $cache) {
 					$crmids = array_merge($crmids, $cache);
 				}
 			} else {
@@ -353,10 +368,10 @@ class OSSMail_Mail_Model extends \App\Base
 					$enableFind = false;
 				}
 				if ($enableFind) {
-					if ($fieldModel->getUIType() === 319) {
-						$return = array_merge($return,$this->searchByDomains($moduleName, $fieldName, $emails));
+					if (319 === $fieldModel->getUIType()) {
+						$return = array_merge($return, $this->searchByDomains($moduleName, $fieldName, $emails));
 					} else {
-						$return = array_merge($return,$this->searchByEmails($moduleName, $fieldName, $emails));
+						$return = array_merge($return, $this->searchByEmails($moduleName, $fieldName, $emails));
 					}
 				}
 			}
@@ -373,7 +388,7 @@ class OSSMail_Mail_Model extends \App\Base
 	public function saveAttachments()
 	{
 		$userId = $this->getAccountOwner();
-		$useTime = $this->get('udate_formated');
+		$useTime = $this->get('date');
 		$files = $this->get('files');
 		$params = [
 			'created_user_id' => $userId,
@@ -383,12 +398,17 @@ class OSSMail_Mail_Model extends \App\Base
 			'modifiedtime' => $useTime,
 		];
 		if ($attachments = $this->get('attachments')) {
+			$maxSize = \App\Config::main('upload_maxsize');
 			foreach ($attachments as $attachment) {
+				if ($maxSize < ($size = \strlen($attachment['attachment']))) {
+					\App\Log::error("Error - downloaded the file is too big '{$attachment['filename']}', size: {$size}, in mail: {$this->get('date')} | {$this->get('from_email')} | {$this->get('subject')} | folder: {$this->getFolder()} | message_id:{$this->get('message_id')}", __CLASS__);
+					continue;
+				}
 				$fileInstance = \App\Fields\File::loadFromContent($attachment['attachment'], $attachment['filename'], ['validateAllCodeInjection' => true]);
 				if ($fileInstance && $fileInstance->validateAndSecure() && ($id = App\Fields\File::saveFromContent($fileInstance, $params))) {
 					$files[] = $id;
 				} else {
-					\App\Log::error("Error downloading the file '{$attachment['filename']}' in mail: {$this->get('date')} | {$this->get('fromaddress')} | {$this->get('subject')}", __CLASS__);
+					\App\Log::error("Error downloading the file '{$attachment['filename']}' in mail: {$this->get('date')} | {$this->get('from_email')} | {$this->get('subject')}", __CLASS__);
 				}
 			}
 		}

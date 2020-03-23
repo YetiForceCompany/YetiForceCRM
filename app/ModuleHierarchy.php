@@ -19,7 +19,7 @@ class ModuleHierarchy
 		if (isset(static::$hierarchy)) {
 			return true;
 		}
-		static::$hierarchy = require 'user_privileges/moduleHierarchy.php';
+		static::$hierarchy = require 'app_data/moduleHierarchy.php';
 		foreach (static::$hierarchy['modulesHierarchy'] as $module => $details) {
 			if (Module::isModuleActive($module) && Privilege::isPermitted($module)) {
 				static::$modulesByLevels[$details['level']][$module] = $details;
@@ -76,8 +76,11 @@ class ModuleHierarchy
 		return false;
 	}
 
-	public static function getModulesByLevel($level = 0)
+	public static function getModulesByLevel($level = null)
 	{
+		if (null === $level) {
+			return static::$modulesByLevels;
+		}
 		if (isset(static::$modulesByLevels[$level])) {
 			return static::$modulesByLevels[$level];
 		}
@@ -132,7 +135,7 @@ class ModuleHierarchy
 	{
 		$modules = [];
 		foreach (static::$hierarchy['modulesHierarchy'] as $module => &$details) {
-			if (Privilege::isPermitted($module, $actionName)) {
+			if (Privilege::isPermitted($module, $actionName) && isset($details['parentModule'])) {
 				$modules[$details['parentModule']][$module] = $details;
 			}
 		}
@@ -142,20 +145,20 @@ class ModuleHierarchy
 	public static function getMappingRelatedField($moduleName)
 	{
 		$return = false;
-		switch (static::getModuleLevel($moduleName)) {
-			case 0:
+		switch ((string) static::getModuleLevel($moduleName)) {
+			case '0':
 				$return = 'link';
 				break;
-			case 1:
+			case '1':
 				$return = 'process';
 				break;
-			case 2:
+			case '2':
 				$return = 'subprocess';
 				break;
-			case 3:
+			case '3':
 				$return = 'subprocess_sl';
 				break;
-			case 4:
+			case '4':
 				$return = 'linkextend';
 				break;
 			default:

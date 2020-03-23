@@ -55,7 +55,7 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 			->where(['vtiger_crmentity.deleted' => [0, 2]])
 			->andWhere(['vtiger_projecttask.projectmilestoneid' => $id])
 			->one();
-		if ($row !== false && !is_null($row['estimated_work_time'])) {
+		if (false !== $row && null !== $row['estimated_work_time']) {
 			$estimatedWorkTime += (float) $row['estimated_work_time'];
 			$progressInHours += (float) $row['progress_in_hours'];
 		}
@@ -94,7 +94,7 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	 * @param int      $id
 	 * @param float    $estimatedWorkTime
 	 * @param float    $progressInHours
-	 * @param int|null $callerId
+	 * @param null|int $callerId
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
@@ -132,9 +132,9 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	 * @param Vtiger_ListView_Model $listviewModel
 	 * @param \App\QueryGenerator   $queryGenerator
 	 */
-	public function getQueryByRelatedField(Vtiger_ListView_Model $listviewModel, \App\QueryGenerator $queryGenerator)
+	public function getQueryByRelatedField(Vtiger_ListView_Model $listviewModel, App\QueryGenerator $queryGenerator)
 	{
-		if ($listviewModel->get('src_module') === 'Project' && !$listviewModel->isEmpty('filterFields')) {
+		if ('Project' === $listviewModel->get('src_module') && !$listviewModel->isEmpty('filterFields')) {
 			$filterFields = $listviewModel->get('filterFields');
 			if (!empty($filterFields['projectid'])) {
 				$queryGenerator->addNativeCondition(['projectid' => $filterFields['projectid']]);

@@ -55,7 +55,7 @@ class Faq extends CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['subject', 'category', 'introduction', 'faqstatus', 'assigned_user_id'];
+	public $relationFields = [];
 	public $list_link_field = 'subject';
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)
@@ -66,14 +66,7 @@ class Faq extends CRMEntity
 		'FL_INTRODUCTION' => ['faq', 'introduction'],
 		'FL_STATUS' => ['faq', 'status'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'FL_SUBJECT' => 'subject',
-		'FL_CATEGORY' => 'category',
-		'Assigned To' => 'assigned_user_id',
-		'FL_INTRODUCTION' => 'introduction',
-		'FL_STATUS' => 'faqstatus',
-	];
+	public $search_fields_name = [];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';

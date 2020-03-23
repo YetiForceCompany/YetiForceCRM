@@ -26,27 +26,29 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * @codeCoverageIgnore
+	 *
+	 * @param \Throwable $t
 	 */
-	protected function onNotSuccessfulTest(\Throwable $t)
+	protected function onNotSuccessfulTest(\Throwable $t): void
 	{
 		if (isset($this->logs)) {
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-			//var_export(array_shift($t->getTrace()));
-			\print_r($this->logs, true);
-			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
-			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+			\print_r($this->logs);
+			print_r(array_shift($t->getTrace()));
 		}
+		echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+		print_r($this->driver->getPageSource());
+		echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 		throw $t;
 	}
 
 	/**
 	 * Setup test.
 	 */
-	public function setUp()
+	protected function setUp(): void
 	{
 		parent::setUp();
-		if (\is_null($this->driver)) {
+		if (null === $this->driver) {
 			$this->driver = RemoteWebDriver::create('http://localhost:4444/wd/hub', DesiredCapabilities::chrome(), 5000);
 		}
 		if (!static::$isLogin) {
@@ -61,7 +63,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	 *
 	 * @throws \ReflectionException
 	 */
-	public function url(string $url)
+	public function url(string $url): void
 	{
 		$this->driver->get(\App\Config::main('site_URL') . $url);
 	}
@@ -69,7 +71,7 @@ abstract class GuiBase extends \PHPUnit\Framework\TestCase
 	/**
 	 * Testing login page display.
 	 */
-	public function login()
+	public function login(): void
 	{
 		$this->driver->get(\App\Config::main('site_URL') . 'index.php?module=Users&view=Login');
 		$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');

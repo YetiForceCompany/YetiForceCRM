@@ -18,27 +18,6 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	public $picklistValues = [];
 
 	/**
-	 * Initialize.
-	 *
-	 * @param string $module
-	 * @param array  $data
-	 *
-	 * @return \Settings_Vtiger_Field_Model
-	 */
-	public static function init($module = 'Vtiger', $data = [])
-	{
-		$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Module', $module);
-		$moduleInstance = new $modelClassName();
-		$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
-		$instance = new $modelClassName();
-		$instance->setModule($moduleInstance);
-		foreach ($data as $key => $value) {
-			$instance->set($key, $value);
-		}
-		return $instance;
-	}
-
-	/**
 	 * Function to get all the available picklist values for the current field.
 	 *
 	 * @param bool $skipCheckingRole
@@ -63,7 +42,7 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	/**
 	 * Function to check if the field is named field of the module.
 	 *
-	 * @return bool - True/False
+	 * @return bool
 	 */
 	public function isNameField()
 	{
@@ -73,7 +52,7 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	/**
 	 * Function to check whether the current field is read-only.
 	 *
-	 * @return bool - true/false
+	 * @return bool
 	 */
 	public function isReadOnly()
 	{

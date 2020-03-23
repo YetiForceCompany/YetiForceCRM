@@ -2,7 +2,7 @@
 {strip}
 	<div class="btn btn-sm">
 		{assign var=IMAGE_CLASS value=Documents_Record_Model::getFileIconByFileType($RELATED_RECORD->get('filetype'))}
-		<span class="{$IMAGE_CLASS} fa-lg">{if $IMAGE_CLASS neq 'userIcon-Documents'}&nbsp;{/if}</span>
+		<span class="{$IMAGE_CLASS} fa-lg">{if $IMAGE_CLASS neq 'yfm-Documents'}&nbsp;{/if}</span>
 	</div>
 	{if !empty($IS_FAVORITES)}
 		{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}

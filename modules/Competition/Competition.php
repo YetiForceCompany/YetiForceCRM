@@ -80,7 +80,7 @@ class Competition extends Vtiger_CRMEntity
 	 *
 	 * @var string[]
 	 */
-	public $relationFields = ['subject', 'assigned_user_id'];
+	public $relationFields = [];
 
 	/**
 	 * Make the field link to detail view.
@@ -106,11 +106,7 @@ class Competition extends Vtiger_CRMEntity
 	 *
 	 * @var array
 	 */
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'LBL_SUBJECT' => 'subject',
-		'Assigned To' => 'assigned_user_id',
-	];
+	public $search_fields_name = [];
 
 	/**
 	 * For Popup window record selection.
@@ -198,53 +194,6 @@ class Competition extends Vtiger_CRMEntity
 	}
 
 	/**
-	 * Function to unlink an entity with given Id from another entity.
-	 *
-	 * @param it     $id
-	 * @param string $returnModule
-	 * @param int    $returnId
-	 * @param string $relatedName
-	 */
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if (empty($returnModule) || empty($returnId)) {
-			return;
-		}
-		if ('Campaigns' === $returnModule) {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
-		} else {
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		}
-	}
-
-	/**
-	 * Save related module.
-	 *
-	 * @param string    $module
-	 * @param int       $crmid
-	 * @param string    $withModule
-	 * @param array|int $withCrmids
-	 * @param string    $relatedName
-	 */
-	public function saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName = false)
-	{
-		if (!is_array($withCrmids)) {
-			$withCrmids = [$withCrmids];
-		}
-		foreach ($withCrmids as $withCrmid) {
-			if ('Campaigns' === $withModule) {
-				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
-					'campaignid' => $withCrmid,
-					'crmid' => $crmid,
-					'campaignrelstatusid' => 0,
-				])->execute();
-			} else {
-				parent::saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName);
-			}
-		}
-	}
-
-	/**
 	 * Function to get competition hierarchy.
 	 *
 	 * @param int  $id
@@ -322,7 +271,7 @@ class Competition extends Vtiger_CRMEntity
 		}
 		$listviewEntries[$recordId] = $infoData;
 		foreach ($baseInfo as $accId => $rowInfo) {
-			if (is_array($rowInfo) && (int) $accId) {
+			if (\is_array($rowInfo) && (int) $accId) {
 				$listviewEntries = $this->getHierarchyData($id, $rowInfo, $accId, $listviewEntries, $getRawData, $getLinks);
 			}
 		}
@@ -361,7 +310,7 @@ class Competition extends Vtiger_CRMEntity
 			->one();
 		if ($row) {
 			$parentid = $row['parent_id'];
-			if ('' !== $parentid && 0 != $parentid && !in_array($parentid, $encountered)) {
+			if ('' !== $parentid && 0 != $parentid && !\in_array($parentid, $encountered)) {
 				$encountered[] = $parentid;
 				$this->getParent($parentid, $parent, $encountered, $depthBase + 1);
 			}

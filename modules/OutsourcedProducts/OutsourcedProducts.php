@@ -61,7 +61,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['productname', 'pscategory', 'assigned_user_id', 'datesold', 'oproductstatus'];
+	public $relationFields = [];
 	// Make the field link to detail view
 	public $list_link_field = 'productname';
 	// For Popup listview and UI type support
@@ -73,14 +73,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 		'Date Sold' => ['outsourcedproducts' => 'datesold'],
 		'Status' => ['outsourcedproducts' => 'oproductstatus'],
 	];
-	public $search_fields_name = [
-		'Product Name' => 'productname',
-		'Category' => 'pscategory',
-		'Sub Category' => 'pssubcategory',
-		'Assigned To' => 'assigned_user_id',
-		'Date Sold' => 'datesold',
-		'Status' => 'oproductstatus',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['productname'];
 	// For Alphabetical search
@@ -92,7 +85,6 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
-	public $unit_price;
 
 	/**
 	 * Invoked when special actions are performed on the module.

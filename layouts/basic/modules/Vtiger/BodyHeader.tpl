@@ -14,7 +14,7 @@
 				</div>
 			</div>
 			{if \App\Config::performance('GLOBAL_SEARCH')}
-				<div class="js-global-search__input o-global-search__input o-global-search__input--desktop input-group input-group-sm d-none d-xl-flex"
+				<div class="js-global-search__input o-global-search__input o-global-search__input--desktop input-group input-group-sm d-none d-xl-flex mr-2"
 					 data-js="container">
 					<div class="input-group-prepend select2HeaderWidth">
 						{assign var="USER_DEFAULT_MODULE" value=$USER_MODEL->get('default_search_module')}
@@ -144,6 +144,34 @@
 					</div>
 				</div>
 			{/if}
+			{if !\App\YetiForce\Shop::verify()}
+				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip flash infinite slower" role="button" data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP_PRODUCT_CANCELED', $MODULE_NAME)}<hr>{\App\YetiForce\Shop::$verifyProduct}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
+						{if $USER_MODEL->isAdminUser()}
+							href="index.php?module=YetiForce&parent=Settings&view=Shop"
+						{else}
+							href="#"
+						{/if} >
+					<span class="yfi yfi-shop-alert fa-2x"></span>
+				</a>
+			{/if}
+			{if !\App\YetiForce\Register::verify(true)}
+				{if $USER_MODEL->isAdminUser()}
+					{assign var="INFO_REGISTRATION_ERROR" value="<a href='index.php?module=Companies&parent=Settings&view=List&displayModal=online'>{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}</a>"}
+				{else}
+					{assign var="INFO_REGISTRATION_ERROR" value=\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}
+				{/if}
+				<a class="d-flex align-items-center text-center text-warning p-0 text-danger js-popover-tooltip c-header__btn" role="button"
+						data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
+						title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
+						{if $USER_MODEL->isAdminUser()}
+							href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
+						{else}
+							href="#"
+						{/if} >
+					<span class="yfi yfi-yeti-register-alert fa-2x">
+					</span>
+				</a>
+			{/if}
 		</div>
 		<div class="o-navbar__right ml-auto d-inline-flex flex-sm-nowrap">
 			{if !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
@@ -204,8 +232,8 @@
 					{/if}
 				{/if}
 			{/if}
-			{if $PARENT_MODULE === 'Settings' && !\App\Config::performance('LIMITED_INFO_SUPPORT', false)}
-				<div class="mr-xxl-4">
+			{if $PARENT_MODULE === 'Settings'}
+				<div class="mr-xxl-4 d-flex flex-sm-nowrap">
 					<a class="btn btn-light c-header__btn ml-2 js-popover-tooltip" role="button"
 					   href="https://yetiforce.shop"
 					   data-content="{\App\Language::translate('LBL_YETIFORCE_SHOP',$QUALIFIED_MODULE)}"
@@ -229,12 +257,17 @@
 					</a>
 				</div>
 			{/if}
+			{if \App\Privilege::isPermitted('Chat')}
+				<div class="ml-2 quasar-reset">
+					<div id="ChatModalVue"></div>
+				</div>
+			{/if}
 			<nav class="actionMenu" aria-label="{\App\Language::translate("QUICK_ACCESS_MENU")}">
 				<a class="btn btn-light c-header__btn ml-2 c-header__btn--mobile js-quick-action-btn" href="#"
 				   data-js="click" role="button" aria-expanded="false" aria-controls="o-action-menu__container">
 					<span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 				</a>
-				<div class="o-action-menu__container" id="o-action-menu__container">
+				<div class="o-action-menu__container d-flex flex-md-nowrap flex-column flex-md-row" id="o-action-menu__container">
 					{assign var=QUICKCREATE_MODULES_PARENT value=Vtiger_Module_Model::getQuickCreateModules(true, true)}
 					{if !empty($QUICKCREATE_MODULES_PARENT)}
 						<div class="o-action-menu__item commonActionsContainer">
@@ -248,13 +281,13 @@
 							</a>
 						</div>
 					{/if}
-					{if \App\Privilege::isPermitted('KnowledgeBase')}
+					{if !$IS_IE && \App\Privilege::isPermitted('KnowledgeBase')}
 						<div class="o-action-menu__item">
 							<a class="c-header__btn ml-2 btn-light btn js-popover-tooltip js-knowledge-base-modal"
 							   role="button"
 							   data-js="popover|modal" data-content="{\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}"
 							   href="#">
-								<span class="userIcon-KnowledgeBase"
+								<span class="yfm-KnowledgeBase"
 									  title="{\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}"></span>
 								<span class="c-header__label--sm-down"> {\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}</span>
 							</a>
@@ -263,7 +296,7 @@
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 						<div class="o-action-menu__item">
-							<a class="c-header__btn ml-2 btn btn-light btn isBadge notificationsNotice js-popover-tooltip {if App\Config::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
+							<a class="c-header__btn ml-2 btn btn-light btn isBadge text-nowrap notificationsNotice js-popover-tooltip {if App\Config::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
 							   role="button" data-js="popover"
 							   data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="#">
 								<span class="fas fa-bell fa-fw"
@@ -273,30 +306,9 @@
 							</a>
 						</div>
 					{/if}
-					{if \App\Privilege::isPermitted('Chat')}
-						<div class="o-action-menu__item">
-							{assign var=IS_USER_SWITCHED value=\App\User::getCurrentUserRealId() !== \App\User::getCurrentUserId()}
-							<a class="c-header__btn ml-2 btn-light btn{if !$IS_USER_SWITCHED} showModal{/if} js-popover-tooltip js-header-chat-button"
-							   role="button"
-							   data-user-switched="{if $IS_USER_SWITCHED}true{else}false{/if}"
-							   data-url="index.php?module=Chat&view=Modal"
-							   data-refresh-time-global="{App\Config::module('Chat', 'REFRESH_TIME_GLOBAL')}"
-							   data-show-number-of-new-messages="{if App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES')}true{else}false{/if}"
-							   data-lbl-chat-user-switched="{\App\Language::translate('LBL_CHAT_USER_SWITCHED', 'Chat')}"
-							   data-lbl-chat-new-message="{\App\Language::translate('LBL_CHAT_NEW_MESSAGE', 'Chat')}"
-							   data-lbl-chat="{\App\Language::translate('LBL_CHAT')}"
-							   data-js="popover|modal|color" data-content="{\App\Language::translate('LBL_CHAT')}"
-							   href="#">
-								<span class="fas fa-comments fa-fw"
-									  title="{\App\Language::translate('LBL_CHAT')}"></span>
-								<span class="badge badge-danger mr-1 hide js-badge" data-js="change">0</span>
-								<span class="c-header__label--sm-down"> {\App\Language::translate('LBL_CHAT')}</span>
-							</a>
-						</div>
-					{/if}
 					{if $REMINDER_ACTIVE}
 						<div class="o-action-menu__item">
-							<a class="c-header__btn ml-2 btn btn-light btn isBadge remindersNotice js-popover-tooltip {if App\Config::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
+							<a class="c-header__btn ml-2 btn btn-light btn isBadge text-nowrap remindersNotice js-popover-tooltip {if App\Config::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}"
 							   data-js="popover" role="button" data-content="{\App\Language::translate('LBL_REMINDER')}"
 							   href="#">
 							<span class="fas fa-calendar fa-fw"

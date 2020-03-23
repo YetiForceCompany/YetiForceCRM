@@ -18,6 +18,9 @@ class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
+		if (\App\RequestUtil::getBrowserInfo()->ie) {
+			return parent::getDetailViewLinks($linkParams);
+		}
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$relatedLinkEntries = [

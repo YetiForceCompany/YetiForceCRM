@@ -2,7 +2,7 @@
 {strip}
 <!-- tpl-Settings-Companies-ListViewHeader -->
 <div class="">
-	<div class="widget_header row">
+	<div class="o-breadcrumb widget_header row">
 		<div class="col-9 d-flex">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 		</div>

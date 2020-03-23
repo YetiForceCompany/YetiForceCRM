@@ -24,12 +24,13 @@
 		<input type="hidden" name="schtypeid" value="{$WORKFLOW_MODEL->get('schtypeid')}"/>
 		<input type="hidden" name="schtime" value="{$WORKFLOW_MODEL->get('schtime')}"/>
 		<input type="hidden" name="schdate" value="{$WORKFLOW_MODEL->get('schdate')}"/>
+		<input type="hidden" name="params" value="{\App\Purifier::encodeHtml($WORKFLOW_MODEL->get('params'))}"/>
 		<input type="hidden" name="schdayofweek"
 			   value="{\App\Purifier::encodeHtml(\App\Json::encode($WORKFLOW_MODEL->get('schdayofweek')))}"/>
 		<input type="hidden" name="schdayofmonth"
 			   value="{\App\Purifier::encodeHtml(\App\Json::encode($WORKFLOW_MODEL->get('schdayofmonth')))}"/>
 		<input type="hidden" name="schannualdates"
-			   value="{\App\Purifier::encodeHtml(\App\Json::encode($WORKFLOW_MODEL->get('schannualdates')))}"/>
+			   value="{\App\Purifier::encodeHtml($WORKFLOW_MODEL->get('schannualdates'))}"/>
 		<div class="" style="border:1px solid #ccc;">
 			{if $IS_FILTER_SAVED_NEW == false}
 				<div class="alert alert-info">

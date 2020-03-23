@@ -11,9 +11,10 @@ namespace Api\Core;
  */
 class BaseAction
 {
-	/** @var array Permitted modules */
+	/** @var array Allowed method */
 	public $allowedMethod;
-
+	/** @var array Allowed headers */
+	public $allowedHeaders = [];
 	/** @var \Api\Controller */
 	public $controller;
 
@@ -109,12 +110,12 @@ class BaseAction
 	public function getLanguage(): string
 	{
 		$language = '';
-		if (!empty($this->controller->headers['accept-language'])) {
-			$language = $this->controller->headers['accept-language'];
-		} elseif ($this->session && !$this->session->isEmpty('sessionLanguage')) {
+		if ($this->session && !$this->session->isEmpty('sessionLanguage')) {
 			$language = $this->session->get('sessionLanguage');
 		} elseif ($this->session && !$this->session->isEmpty('language')) {
 			$language = $this->session->get('language');
+		} elseif (!empty($this->controller->headers['accept-language'])) {
+			$language = str_replace('_', '-', \Locale::acceptFromHttp($this->controller->headers['accept-language']));
 		}
 		return $language;
 	}
@@ -167,7 +168,7 @@ class BaseAction
 	 */
 	public function getParentCrmId()
 	{
-		if ($this->controller && $parentId = (int) $this->controller->request->getHeader('x-parent-id')) {
+		if ($this->controller && ($parentId = $this->controller->request->getHeader('x-parent-id'))) {
 			$hierarchy = new \Api\Portal\BaseModule\Hierarchy();
 			$hierarchy->session = $this->session;
 			$hierarchy->findId = $parentId;

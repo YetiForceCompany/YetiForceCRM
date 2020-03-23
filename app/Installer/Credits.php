@@ -34,9 +34,9 @@ class Credits
 		'jquery-slimscroll' => 'MIT',
 		'html5shiv' => 'MIT',
 		'jquery-lazy' => 'MIT',
-		'dompurify' => 'Apache-2.0',
 		'nette/php-generator' => 'BSD-3-Clause',
 		'nette/utils' => 'BSD-3-Clause',
+		'@mdi/font' => 'MIT',
 	];
 	/**
 	 * Information about forks CRM.
@@ -44,9 +44,41 @@ class Credits
 	 * @var array
 	 */
 	public static $libraries = [
-		'YetiForce' => ['name' => 'Yetiforce', 'version' => '4.4', 'license' => 'YetiForce Public License v3', 'homepage' => 'https://yetiforce.com/en/yetiforce/license', 'notPackageFile' => true, 'showLicenseModal' => true],
-		'Vtiger' => ['name' => 'Vtiger', 'version' => '6.4.0 rev. 14548', 'license' => 'VPL 1.1', 'homepage' => 'https://www.vtiger.com/', 'notPackageFile' => true, 'showLicenseModal' => true, 'description' => 'LBL_VTIGER_DESCRIPTION'],
-		'Sugar' => ['name' => 'Sugar CRM', 'version' => '', 'license' => 'SPL-1.1.2', 'homepage' => 'https://www.sugarcrm.com/', 'notPackageFile' => true, 'showLicenseModal' => true, 'description' => 'LBL_SUGAR_DESCRIPTION']];
+		'YetiForce' => [
+			'name' => 'Yetiforce',
+			'version' => '4.4',
+			'license' => 'YetiForce Public License v3',
+			'homepage' => 'https://yetiforce.com/en/yetiforce/license',
+			'notPackageFile' => true,
+			'showLicenseModal' => true
+		],
+		'Vtiger' => [
+			'name' => 'Vtiger',
+			'version' => '6.4.0 rev. 14548',
+			'license' => 'VPL 1.1', 'homepage' => 'https://www.vtiger.com/',
+			'notPackageFile' => true,
+			'showLicenseModal' => true,
+			'description' => 'LBL_VTIGER_DESCRIPTION'
+		],
+		'Sugar' => [
+			'name' => 'Sugar CRM',
+			'version' => '',
+			'license' => 'SPL-1.1.2',
+			'homepage' => 'https://www.sugarcrm.com/',
+			'notPackageFile' => true,
+			'showLicenseModal' => true,
+			'description' => 'LBL_SUGAR_DESCRIPTION'
+		],
+		'ChatSound' => [
+			'name' => 'Notification Sounds - Time Is Now',
+			'version' => '',
+			'license' => 'CC-BY-4.0',
+			'homepage' => 'https://notificationsounds.com/notification-sounds/time-is-now-585',
+			'notPackageFile' => true,
+			'showLicenseModal' => false,
+			'description' => 'LBL_CHAT_SOUND_DESCRIPTION'
+		],
+	];
 
 	/**
 	 * Function gets libraries from vendor.
@@ -101,21 +133,35 @@ class Credits
 	 */
 	public static function getPublicLibraries()
 	{
+		return self::getYarnLibraries(
+			ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . 'libraries' . \DIRECTORY_SEPARATOR . '.yarn-integrity',
+			ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . 'libraries' . \DIRECTORY_SEPARATOR
+		);
+	}
+
+	/**
+	 * Get libraries based on .yarn-integrity file.
+	 *
+	 * @param string $integrityFile
+	 * @param string $srcDir
+	 *
+	 * @return array
+	 */
+	public static function getYarnLibraries(string $integrityFile, string $srcDir): array
+	{
 		$libraries = [];
-		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . 'libraries' . \DIRECTORY_SEPARATOR;
-		if (file_exists($dir . '.yarn-integrity')) {
-			$yarnFile = \App\Json::decode(file_get_contents($dir . '.yarn-integrity'), true);
+		if (file_exists($integrityFile)) {
+			$yarnFile = \App\Json::decode(file_get_contents($integrityFile), true);
 			if ($yarnFile && $yarnFile['lockfileEntries']) {
-				$libraryDir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . 'libraries' . \DIRECTORY_SEPARATOR;
 				foreach ($yarnFile['lockfileEntries'] as $nameWithVersion => $page) {
 					$isPrefix = 0 === strpos($nameWithVersion, '@');
 					$name = $isPrefix ? '@' : '';
 					$tempName = explode('@', $isPrefix ? ltrim($nameWithVersion, '@') : $nameWithVersion);
 					$name .= array_shift($tempName);
-					if (\is_dir($libraryDir . $name)) {
-						$libraries[$name] = self::getLibraryValues($name, $libraryDir);
+					if (\is_dir($srcDir . $name)) {
+						$libraries[$name] = self::getLibraryValues($name, $srcDir);
 						if (empty($libraries[$name]['homepage'])) {
-							$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/${name}";
+							$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/{$name}";
 						}
 					}
 				}
@@ -131,24 +177,13 @@ class Credits
 	 *
 	 * @return array
 	 */
-	public static function getVueLibs()
+	public static function getVueLibs(): array
 	{
 		$libraries = [];
-		$dir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR;
-		if (file_exists($dir . 'libraries.json')) {
-			foreach (\App\Json::read($dir . 'libraries.json') as $nameWithVersion) {
-				foreach ($nameWithVersion as $nameLibraries => $verisonWithLicence) {
-					$isPrefix = 0 === strpos($nameLibraries, '@');
-					$name = $isPrefix ? '@' : '';
-					$tempName = explode('@', $isPrefix ? ltrim($nameLibraries, '@') : $nameLibraries);
-					$name .= current($tempName);
-					if ($name) {
-						$libraries[$name] = ['name' => $nameLibraries, 'version' => $verisonWithLicence['version'], 'license' => $verisonWithLicence['license']];
-						if (empty($libraries[$name]['homepage'])) {
-							$libraries[$name]['homepage'] = "https://yarnpkg.com/en/package/${name}";
-						}
-					}
-				}
+		$file = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app_data' . \DIRECTORY_SEPARATOR . 'libraries.json';
+		if (file_exists($file)) {
+			foreach (\App\Json::read($file) as $name => $libDetails) {
+				$libraries[$name] = $libDetails;
 			}
 		}
 		return $libraries;
@@ -164,7 +199,7 @@ class Credits
 	 *
 	 * @return array
 	 */
-	public static function getLibraryValues($name, $dir)
+	public static function getLibraryValues($name, $dir): array
 	{
 		$library = ['name' => $name, 'version' => '', 'license' => '', 'homepage' => ''];
 		$existJsonFiles = true;
@@ -195,42 +230,6 @@ class Credits
 	}
 
 	/**
-	 * Parse library vue values.
-	 *
-	 * @param string $name
-	 * @param string $dir
-	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return array
-	 */
-	public static function parseLibraryVueValues($name, $dir)
-	{
-		$library = ['name' => $name, 'version' => '', 'license' => '', 'homepage' => ''];
-		foreach (self::$jsonFiles as $file) {
-			$packageFile = $dir . $name . \DIRECTORY_SEPARATOR . $file;
-			if (file_exists($packageFile)) {
-				$packageFileContent = \App\Json::read($packageFile);
-				if (!empty($packageFileContent['version']) && empty($library['version'])) {
-					$library['version'] = $packageFileContent['version'];
-				}
-				if (\is_array($packageFileContent['license'])) {
-					if (!empty($packageFileContent['license']['type'])) {
-						$library['license'] = $packageFileContent['license']['type'];
-					}
-				}
-				if (!empty($packageFileContent['license']) && empty($library['license'])) {
-					$library['license'] = $packageFileContent['license'];
-				}
-				if (!empty($packageFileContent['homepage']) && empty($library['homepage'])) {
-					$library['homepage'] = $packageFileContent['homepage'];
-				}
-			}
-		}
-		return $library;
-	}
-
-	/**
 	 * Function return license information for library.
 	 *
 	 * @param string $dir
@@ -251,7 +250,9 @@ class Credits
 				$license = $packageFileContent['license'] ?? $packageFileContent['licenses'] ?? '';
 				if ($license) {
 					if (\is_array($license)) {
-						if (\is_array($license[0]) && isset($license[0]['type'])) {
+						if (isset($license['type'])) {
+							$returnLicense = $license['type'];
+						} elseif (isset($license[0]['type'])) {
 							$returnLicense = implode(', ', array_column($license, 'type'));
 						} else {
 							$returnLicense = implode(', ', $license);
@@ -264,26 +265,26 @@ class Credits
 						$returnLicense = $license;
 					}
 					if (isset(static::$licenses[$libraryName]) && $returnLicense) {
-						$returnLicense = static::$licenses[$libraryName] . " [${returnLicense}]";
+						$returnLicense = static::$licenses[$libraryName] . " [{$returnLicense}]";
 						$licenseToDisplay = static::$licenses[$libraryName];
 						$licenseError = false;
-						$showLicenseModal = self::checkIfLicenseFileExists($licenseToDisplay);
+						$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $licenseToDisplay . '.txt');
 						break;
 					}
 					if ($returnLicense) {
-						$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
+						$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $returnLicense . '.txt');
 						break;
 					}
 				} else {
 					if (isset(static::$licenses[$libraryName])) {
 						$returnLicense = static::$licenses[$libraryName];
-						$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
+						$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $returnLicense . '.txt');
 					}
 				}
 			} else {
 				if (isset(static::$licenses[$libraryName])) {
 					$returnLicense = static::$licenses[$libraryName];
-					$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
+					$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $returnLicense . '.txt');
 				}
 			}
 		}

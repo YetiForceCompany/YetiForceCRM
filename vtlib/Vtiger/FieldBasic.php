@@ -1,4 +1,5 @@
 <?php
+
  /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -29,6 +30,7 @@ class FieldBasic
 	public $header_field = false;
 	public $maxlengthtext = 0;
 	public $maxwidthcolumn = 0;
+	public $tabindex = 0;
 	public $masseditable = 1; // Default: Enable massedit for field
 	public $uitype = 1;
 	public $typeofdata = 'V~O';
@@ -69,6 +71,7 @@ class FieldBasic
 		$this->maximumlength = $valuemap['maximumlength'];
 		$this->maxlengthtext = (int) $valuemap['maxlengthtext'];
 		$this->maxwidthcolumn = (int) $valuemap['maxwidthcolumn'];
+		$this->tabindex = (int) $valuemap['tabindex'];
 		$this->displaytype = (int) $valuemap['displaytype'];
 		$this->generatedtype = (int) $valuemap['generatedtype'];
 		$this->readonly = (int) $valuemap['readonly'];
@@ -214,6 +217,7 @@ class FieldBasic
 			$fieldInstance->column = $this->column . '_extra';
 			$fieldInstance->uitype = 1;
 			$fieldInstance->displaytype = 3;
+			$fieldInstance->maxlengthtext = 100;
 			$fieldInstance->typeofdata = 'V~O';
 			$fieldInstance->save($this->block);
 		}
@@ -243,12 +247,6 @@ class FieldBasic
 					break;
 				}
 			}
-		} elseif (11 === $this->uitype) {
-			$rowExtra = (new \App\Db\Query())->from('vtiger_field')->where(['fieldname' => $this->name . '_extra'])->one();
-			if (false === $rowExtra) {
-				throw new \App\Exceptions\AppException('Extra field does not exist');
-			}
-			$db->createCommand()->delete('vtiger_field', ['fieldid' => $rowExtra['fieldid']])->execute();
 		}
 		$this->clearCache();
 		\App\Log::trace("Deleteing Field $this->name ... DONE", __METHOD__);
@@ -271,7 +269,7 @@ class FieldBasic
 			return $this->tabid;
 		}
 		if (!empty($this->block)) {
-			return $this->block->module->id;
+			return $this->block->tabid;
 		}
 		return false;
 	}
@@ -283,10 +281,15 @@ class FieldBasic
 	 */
 	public function getModuleName()
 	{
+		$moduleName = '';
 		if ($this->tabid) {
-			return \App\Module::getModuleName($this->tabid);
+			$moduleName = \App\Module::getModuleName($this->tabid);
+		} elseif (!empty($this->block) && \is_object($this->block)) {
+			$moduleName = $this->block->module->name;
+		} elseif (!empty($this->module)) {
+			$moduleName = $this->module->getName();
 		}
-		return (!empty($this->block) && \is_object($this->block)) ? $this->block->module->name : '';
+		return $moduleName;
 	}
 
 	/**
@@ -384,7 +387,7 @@ class FieldBasic
 	 */
 	protected function clearCache()
 	{
-		\App\Cache::delete('ModuleFields', $this->getModuleId());
+		\App\Cache::staticDelete('ModuleFields', $this->getModuleId());
 		\App\Cache::staticDelete('module', $this->getModuleName());
 	}
 }

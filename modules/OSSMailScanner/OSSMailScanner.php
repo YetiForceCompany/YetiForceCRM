@@ -68,11 +68,11 @@ class OSSMailScanner
 			'description' => 'LBL_MAIL_SCANNER_DESCRIPTION',
 			'linkto' => 'index.php?module=OSSMailScanner&parent=Settings&view=Index',
 		]);
-		Settings_Vtiger_Module_Model::addSettingsField('LBL_SECURITY_MANAGEMENT', [
+		Settings_Vtiger_Module_Model::addSettingsField('LBL_LOGS', [
 			'name' => 'Mail Logs',
 			'iconpath' => 'adminIcon-mail-download-history',
 			'description' => 'LBL_MAIL_LOGS_DESCRIPTION',
-			'linkto' => 'index.php?module=OSSMailScanner&parent=Settings&view=logs',
+			'linkto' => 'index.php?module=OSSMailScanner&parent=Settings&view=Logs',
 		]);
 	}
 

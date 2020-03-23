@@ -468,7 +468,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			//replace the new list view contents
 			jQuery('.contentsDiv').html(data);
-			App.Fields.Picklist.changeSelectElementView(jQuery('.contentsDiv').find('.pickListSupportedModules'));
+			App.Fields.Picklist.changeSelectElementView(jQuery('.contentsDiv'));
 			thisInstance.registerListViewEvents();
 		}).fail(function (error, err) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});

@@ -64,7 +64,7 @@
 							</select>
 							<div class="input-group-append">
 								<button type="button" class="btn btn-primary clipboard" data-copy-target="#fromEmailOption"
-										title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')}">
+										title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}">
 									<span class="fas fa-copy"></span>
 								</button>
 							</div>
@@ -97,7 +97,7 @@
 							</select>
 							<div class="input-group-append">
 								<button type="button" class="btn btn-primary clipboard" data-copy-target="#toEmailOption"
-										title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD','Other.TextParser')}">
+										title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}">
 									<span class="fas fa-copy"></span>
 								</button>
 							</div>

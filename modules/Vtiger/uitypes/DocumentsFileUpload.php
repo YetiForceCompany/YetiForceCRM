@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
@@ -32,20 +33,16 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$value = \App\Purifier::encodeHtml($value);
-		if ($recordModel) {
-			$fileLocationType = $recordModel->get('filelocationtype');
-			$fileStatus = $recordModel->get('filestatus');
-			if (!empty($value) && $fileStatus) {
-				if ($fileLocationType === 'I') {
-					$fileId = (new App\Db\Query())->select(['attachmentsid'])
-						->from('vtiger_seattachmentsrel')->where(['crmid' => $record])->scalar();
-					if ($fileId) {
-						return '<a href="file.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
+		if ($recordModel && !empty($value) && $recordModel->getValueByField('filestatus')) {
+			if ('I' === $recordModel->getValueByField('filelocationtype')) {
+				$fileId = (new App\Db\Query())->select(['attachmentsid'])
+					->from('vtiger_seattachmentsrel')->where(['crmid' => $record])->scalar();
+				if ($fileId) {
+					$value = '<a href="file.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
 							' title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
-					}
-				} else {
-					return '<a href="' . $value . '" target="_blank" title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" rel="noreferrer noopener">' . $value . '</a>';
 				}
+			} else {
+				$value = '<a href="' . $value . '" target="_blank" title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" rel="noreferrer noopener">' . $value . '</a>';
 			}
 		}
 		return $value;
@@ -56,7 +53,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if ($value === null) {
+		if (null === $value) {
 			$fileName = (new App\Db\Query())->select(['filename'])->from('vtiger_notes')->where(['notesid' => $this->id])->one();
 			if ($fileName) {
 				return App\Purifier::decodeHtml($fileName);

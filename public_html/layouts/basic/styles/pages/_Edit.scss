@@ -34,11 +34,23 @@
 .verticalScroll {
 	position: absolute;
 	left: 0;
-	height: calc(100vh - 128px);
+	height: calc(100vh - #{$h-edit-offset});
 	width: 100%;
 	overflow-x: hidden;
 	padding-right: 10px;
 	padding-left: 10px;
+}
+
+.o-register-warning + .mainContainer,
+.o-register-error + .mainContainer {
+	.verticalScroll {
+		height: calc(100vh - #{$h-edit-offset} - #{$h-register-panel});
+	}
+}
+.o-register-error + .o-register-warning + .mainContainer {
+	.verticalScroll {
+		height: calc(100vh -#{$h-edit-offset} - #{$h-register-panel} - #{$h-register-panel});
+	}
 }
 
 @include media-breakpoint-down(sm) {
@@ -61,46 +73,8 @@
 		}
 	}
 }
-.inventoryHeader {
-	th {
-		background: #fff !important;
-	}
-	.inventoryLineItemHeader,
-	button {
-		@extend .text-uppercase;
-		@extend .rounded-0;
-	}
-	.select2 {
-		@extend .rounded-0;
-	}
-}
+
 .inventoryItems {
-	.inventoryRow {
-		@extend .border;
-		td {
-			@extend .border-bottom-0;
-			@extend .border-right-0;
-			@extend .border-left-0;
-		}
-	}
-	@extend .bg-white;
-	thead {
-		th {
-			background: #fff !important;
-			@extend .text-uppercase;
-			border-left: 0px;
-			border-right: 0px;
-			font-weight: 400;
-		}
-	}
-	.input-group {
-		@extend .rounded-0;
-		.input-group-text,
-		button,
-		input {
-			@extend .rounded-0;
-		}
-	}
 	.fieldValue {
 		position: relative;
 	}
@@ -115,13 +89,10 @@
 
 	tfoot td.hideTd {
 		border-width: 0 0 1px 0;
-		background: #fff;
-		@extend .border-top;
-		@extend .border-bottom-0;
-		@extend .border-right-0;
+		background: #fafafb;
+
 		& + td:not(.hideTd) {
-			@extend .border-bottom-0;
-			@extend .border-right-0;
+			border-left: 1px solid #dee2e6 !important;
 		}
 
 		&:first-child {
@@ -133,8 +104,4 @@
 	.subProductsContainer ul {
 		margin-bottom: 0;
 	}
-}
-
-.table-responsive {
-	@extend .bg-white;
 }

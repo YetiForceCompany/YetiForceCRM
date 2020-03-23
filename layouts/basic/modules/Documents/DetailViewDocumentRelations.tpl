@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{foreach from=$DATA item=REL_MODULE}
-		<div class="c-detail-widget js-detail-widget u-mb-13px noSumarryWidgetEffect" data-js="container">
+		<div class="c-detail-widget js-detail-widget noSumarryWidgetEffect" data-js="container">
 			<div class="card">
 				<div class="card-header paddingTBZero">
 					<h5 class="mb-1">{\App\Language::translate($REL_MODULE, $REL_MODULE)}</h5>

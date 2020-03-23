@@ -79,7 +79,7 @@ class LanguageImport extends LanguageExport
 			$custom => $custom,
 			$languages => $languages,
 		]);
-		self::register($prefix, $label, false, true, (int)$this->_modulexml->progress);
+		self::register($prefix, $label, null, true, (int)$this->_modulexml->progress);
 		\App\Cache::clear();
 		\App\Log::trace("Importing $label [$prefix] ... DONE", __METHOD__);
 	}

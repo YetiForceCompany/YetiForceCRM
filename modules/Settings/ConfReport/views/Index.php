@@ -12,12 +12,13 @@ class Settings_ConfReport_Index_View extends Settings_Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		\App\Cache::clear();
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('ALL', \App\Utils\ConfReport::getAll());
+		$viewer->assign('ERRORS', \App\Utils\ConfReport::$errors);
 		$viewer->assign('MODULE_NAME', $qualifiedModuleName);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}

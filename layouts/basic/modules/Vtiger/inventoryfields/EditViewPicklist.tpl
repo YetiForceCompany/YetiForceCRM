@@ -7,7 +7,7 @@
 		{assign var="INPUT_TYPE" value='hidden'}
 		<span class="{$FIELD->getColumnName()}">{$ITEM_VALUE}</span>
 	{/if}
-	<select class="form-control selectInv {$FIELD->getColumnName()}" name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}>
+	<select class="form-control form-control-sm selectInv {$FIELD->getColumnName()}" name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}>
 		{foreach from=$FIELD->getPicklistValues() item=ITEM}
 			<option value="{$ITEM}" {if $ITEM == $VALUE} selected {/if}>{$ITEM}</option>
 		{/foreach}

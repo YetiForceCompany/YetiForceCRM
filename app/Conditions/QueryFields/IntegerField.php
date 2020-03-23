@@ -20,7 +20,7 @@ class IntegerField extends BaseField
 	 */
 	public function operatorA()
 	{
-		$value = html_entity_decode($this->value);
+		$value = \App\Purifier::decodeHtml($this->value);
 		$condition = ['and'];
 		$conditionFound = false;
 		foreach (static::$extendedOperators as $exo) {
@@ -35,6 +35,14 @@ class IntegerField extends BaseField
 			return parent::operatorE();
 		}
 		return $condition;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperator()
+	{
+		return 'a' === $this->operator ? 'e' : $this->operator;
 	}
 
 	/**

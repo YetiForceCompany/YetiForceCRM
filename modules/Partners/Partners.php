@@ -51,7 +51,7 @@ class Partners extends Vtiger_CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['subject', 'assigned_user_id'];
+	public $relationFields = [];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
@@ -61,11 +61,7 @@ class Partners extends Vtiger_CRMEntity
 		'LBL_SUBJECT' => ['partners', 'subject'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'LBL_SUBJECT' => 'subject',
-		'Assigned To' => 'assigned_user_id',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['subject'];
 	// For Alphabetical search
@@ -117,36 +113,5 @@ class Partners extends Vtiger_CRMEntity
 			return $relTables;
 		}
 		return $relTables[$secModule];
-	}
-
-	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
-	{
-		if (empty($returnModule) || empty($returnId)) {
-			return;
-		}
-		if ('Campaigns' === $returnModule) {
-			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
-		} else {
-			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
-		}
-	}
-
-	public function saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName = false)
-	{
-		if (!is_array($withCrmids)) {
-			$withCrmids = [$withCrmids];
-		}
-		if ('Campaigns' !== $withModule) {
-			parent::saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName);
-		} else {
-			foreach ($withCrmids as $withCrmid) {
-				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
-					'campaignid' => $withCrmid,
-					'crmid' => $crmid,
-					'campaignrelstatusid' => 0,
-				])->execute();
-			}
-		}
 	}
 }

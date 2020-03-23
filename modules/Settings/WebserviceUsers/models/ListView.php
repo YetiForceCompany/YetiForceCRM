@@ -47,4 +47,56 @@ class Settings_WebserviceUsers_ListView_Model extends Settings_Vtiger_ListView_M
 		}
 		return $basicLinks;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getListViewEntries($pagingModel)
+	{
+		$moduleModel = $this->getModule();
+		$moduleName = $moduleModel->getName();
+		$parentModuleName = $moduleModel->getParentName();
+		$qualifiedModuleName = $moduleName;
+		if (!empty($parentModuleName)) {
+			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
+		}
+		$listQuery = $this->getBasicListQuery();
+
+		$startIndex = $pagingModel->getStartIndex();
+		$pageLimit = $pagingModel->getPageLimit();
+
+		$orderBy = $this->getForSql('orderby');
+		if (!empty($orderBy) && 'smownerid' === $orderBy) {
+			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
+			if ('owner' == $fieldModel->getFieldDataType()) {
+				$orderBy = 'COALESCE(' . App\Module::getSqlForNameInDisplayFormat('Users') . ',vtiger_groups.groupname)';
+			}
+		}
+		if (!empty($orderBy)) {
+			if ('DESC' === $this->getForSql('sortorder')) {
+				$listQuery->orderBy([$orderBy => SORT_DESC]);
+			} else {
+				$listQuery->orderBy([$orderBy => SORT_ASC]);
+			}
+		}
+		if ($moduleModel->isPagingSupported()) {
+			$listQuery->limit($pageLimit)->offset($startIndex);
+		}
+		$dataReader = $listQuery->createCommand()->query();
+		$listViewRecordModels = [];
+		while ($row = $dataReader->read()) {
+			$record = $moduleModel->getService();
+			$record->setData($row);
+			if (method_exists($record, 'getModule') && method_exists($record, 'setModule')) {
+				$record->setModule($moduleModel);
+			}
+			$listViewRecordModels[$record->getId()] = $record;
+		}
+		if ($moduleModel->isPagingSupported()) {
+			$pagingModel->calculatePageRange($dataReader->count());
+		}
+		$dataReader->close();
+
+		return $listViewRecordModels;
+	}
 }

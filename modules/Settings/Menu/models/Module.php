@@ -53,7 +53,7 @@ class Settings_Menu_Module_Model
 
 	public function getMenuTypes($key = false)
 	{
-		if ($key === false) {
+		if (false === $key) {
 			return $this->types;
 		}
 		return $this->types[$key];
@@ -75,7 +75,7 @@ class Settings_Menu_Module_Model
 				$name = 'LBL_SEPARATOR';
 				break;
 			case 5:
-				if ($row['label'] != '') {
+				if ('' != $row['label']) {
 					$name = $row['label'];
 				} elseif ($settings) {
 					$name = \App\Language::translate('LBL_QUICK_CREATE_MODULE', 'Menu') . ': ' . Vtiger_Menu_Model::vtranslateMenu('SINGLE_' . $row['name'], $row['name']);
@@ -136,6 +136,7 @@ class Settings_Menu_Module_Model
 		return (new \App\Db\Query())->select(['tabid', 'name'])->from('vtiger_tab')
 			->where(['not in', 'name', ['Users', 'ModComments']])
 			->andWhere(['or', ['isentitytype' => 1], ['name' => ['Home', 'OSSMail', 'Portal', 'Rss']]])
+			->andWhere(['presence' => 0])
 			->orderBy('name')
 			->all();
 	}

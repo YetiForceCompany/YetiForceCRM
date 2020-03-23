@@ -50,23 +50,23 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$internalMailer = (int) \App\User::getCurrentUserModel()->getDetail('internal_mailer');
 		if ($value && !$rawText) {
 			$moduleName = $this->getFieldModel()->get('block')->module->name;
 			$fieldName = $this->getFieldModel()->get('name');
 			$rawValue = \App\Purifier::encodeHtml($value);
-			$value = \App\Purifier::encodeHtml(App\TextParser::textTruncate($value));
+			$value = \App\Purifier::encodeHtml(App\TextParser::textTruncate($value, $length));
+			$internalMailer = (int) \App\User::getCurrentUserModel()->getDetail('internal_mailer');
 			if (1 === $internalMailer && \App\Privilege::isPermitted('OSSMail')) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $record, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
 				return "<a class = \"u-cursor-pointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$record\" data-to=\"$rawValue\" data-popup=\"" . $mailConfig['popup'] . '" title="' . \App\Language::translate('LBL_SEND_EMAIL') . "\">$value</a>";
 			}
 			if ('Users' === $moduleName && 'user_name' === $fieldName) {
-				return "<a class='u-cursor-pointer' href='mailto:" . $rawValue . "'>" . $value . '</a>';
+				return "<a class=\"u-cursor-pointer\" href=\"mailto:{$rawValue}\">{$value}</a>";
 			}
-			return "<a class='emailField u-cursor-pointer'  href='mailto:" . $rawValue . "'>" . $value . '</a>';
+			return "<a class=\"emailField u-cursor-pointer\" href=\"mailto:{$rawValue}\">{$value}</a>";
 		}
-		return \App\Purifier::encodeHtml($value);
+		return \App\Purifier::encodeHtml(App\TextParser::textTruncate($value, $length));
 	}
 
 	/**
@@ -74,21 +74,21 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		$internalMailer = (int) \App\User::getCurrentUserModel()->getDetail('internal_mailer');
 		if ($value && !$rawText) {
 			$moduleName = $this->getFieldModel()->get('block')->module->name;
 			$fieldName = $this->getFieldModel()->get('name');
 			$rawValue = \App\Purifier::encodeHtml($value);
 			$value = \App\Purifier::encodeHtml(App\TextParser::textTruncate($value, $this->getFieldModel()->get('maxlengthtext')));
+			$internalMailer = (int) \App\User::getCurrentUserModel()->getDetail('internal_mailer');
 			if (1 === $internalMailer && \App\Privilege::isPermitted('OSSMail')) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $record, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
 				return "<a class = \"u-cursor-pointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$record\" data-to=\"$rawValue\" data-popup=\"" . $mailConfig['popup'] . '" title="' . \App\Language::translate('LBL_SEND_EMAIL') . "\">{$value}</a>";
 			}
 			if ('Users' === $moduleName && 'user_name' === $fieldName) {
-				return "<a class='u-cursor-pointer' href='mailto:" . $rawValue . "'>" . $value . '</a>';
+				return "<a class=\"u-cursor-pointer\" href=\"mailto:{$rawValue}\">{$value}</a>";
 			}
-			return "<a class='emailField u-cursor-pointer'  href='mailto:" . $rawValue . "'>" . $value . '</a>';
+			return "<a class=\"emailField u-cursor-pointer\"  href=\"mailto:{$rawValue}\">{$value}</a>";
 		}
 		return \App\Purifier::encodeHtml($value);
 	}

@@ -1,13 +1,12 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="">
-		<div class="widget_header row">
+		<div class="o-breadcrumb widget_header row">
 			<div class="col-12">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<div class="contents">
-			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+		<div class="contents mt-2">
 			<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
 				<thead>
 					<tr class="listViewHeaders">
@@ -70,6 +69,6 @@
 					{/foreach}
 				</tbody>
 			</table>
-		</div>	
-	</div>		
+		</div>
+	</div>
 {/strip}

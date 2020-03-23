@@ -35,7 +35,7 @@ return [
 		'description' => 'Shows the switch button or filter list in the calendar widget: switch - Switch "To realize" and "History", list - filter list',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return $arg === 'list' || $arg === 'switch';
+			return 'list' === $arg || 'switch' === $arg;
 		}
 	],
 	'SHOW_QUICK_CREATE_BY_STATUS' => [
@@ -43,7 +43,7 @@ return [
 		'description' => 'Show the Calendar quick create window after changing the status: array - PLL_COMPLETED, PLL_CANCELLED',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return is_array($arg) && empty(array_diff($arg, ['PLL_COMPLETED', 'PLL_CANCELLED']));
+			return \is_array($arg) && empty(array_diff($arg, ['PLL_COMPLETED', 'PLL_CANCELLED']));
 		}
 	],
 	'SHOW_RIGHT_PANEL' => [
@@ -69,7 +69,7 @@ return [
 		'description' => 'Exclude certain days-of-the-week from being displayed. The value is an array of day-of-week indices to hide. Each index is zero-base (Sunday=0) and ranges from 0-6. By default, no days are hidden',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return $arg === 'Extended' || $arg === 'Standard';
+			return 'Extended' === $arg || 'Standard' === $arg;
 		}
 	],
 	'SEND_REMINDER_INVITATION' => [
@@ -117,7 +117,7 @@ return [
 		'description' => 'Calendar view - allowed values: Extended, Standard, refresh menu files after you change this value',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return $arg === 'Extended' || $arg === 'Standard';
+			return 'Extended' === $arg || 'Standard' === $arg;
 		}
 	],
 	'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM' => [
@@ -144,5 +144,9 @@ return [
 		'default' => 20,
 		'description' => 'Max number of notifications to display, 0 - no limits',
 		'validation' => '\App\Validator::naturalNumber',
-	]
+	],
+	'SHOW_ACTIVITYTYPES_AS_BUTTONS' => [
+		'default' => true,
+		'description' => 'Shows activity types as buttons'
+	],
 ];

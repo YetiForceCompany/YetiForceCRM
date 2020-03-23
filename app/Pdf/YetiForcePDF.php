@@ -51,10 +51,17 @@ class YetiForcePDF extends PDF
 	 * @var string
 	 */
 	protected $header = '';
+
 	/**
 	 * @var string
 	 */
 	protected $footer = '';
+
+	/**
+	 * @var string
+	 */
+	protected $footerYetiForce = '';
+
 	/**
 	 * @var string
 	 */
@@ -123,6 +130,10 @@ class YetiForcePDF extends PDF
 	{
 		$this->setInputCharset(\App\Config::main('default_charset') ?? 'UTF-8');
 		$this->pdf = (new Document())->init();
+		// Modification of the following condition will violate the license!
+		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
+			$this->footer = $this->footerYetiForce = "<table style=\"font-family:'DejaVu Sans';font-size:6px;width:100%; margin: 0;\"><tbody><tr><td style=\"width:50%\">Powered by YetiForce</td></tr></tbody></table>";
+		}
 	}
 
 	/**
@@ -164,6 +175,8 @@ class YetiForcePDF extends PDF
 
 	/**
 	 * Set left margin.
+	 *
+	 * @param float $margin
 	 */
 	public function setLeftMargin(float $margin)
 	{
@@ -384,7 +397,7 @@ class YetiForcePDF extends PDF
 	 */
 	public function setFooter(string $footerHtml)
 	{
-		$this->footer = trim($footerHtml);
+		$this->footer = trim($footerHtml) . $this->footerYetiForce;
 		return $this;
 	}
 

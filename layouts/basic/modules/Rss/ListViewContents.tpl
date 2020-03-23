@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />
-	<div class="listViewEntriesDiv u-overflow-scroll-xsm-down">
+	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">
 		<span class="listViewLoadingImageBlock d-none modal" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
@@ -24,13 +24,13 @@
 						<h3> {\App\Language::translate('LBL_FEEDS_LIST_FROM',$MODULE)}: {$RECORD->getName()} </h3>
 					</div>
 					<div class="btn-toolbar btn-group flex-column flex-sm-row u-w-sm-down-100">
-							<button id="changeFeedSource" class="changeFeedSource btn btn-primary c-btn-block-sm-down" title="{\App\Language::translate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}"><span class="fas fa-exchange-alt mr-1"></span><span class="userIcon-Rss"></span></button>
-							<button id="rssAddButton" class="rssAddButton btn btn-success c-btn-block-sm-down" title="{\App\Language::translate('LBL_ADD_FEED_SOURCE', $MODULE)}"><span class="fas fa-plus mr-1"></span><span class="userIcon-Rss"></span></button>
+							<button id="changeFeedSource" class="changeFeedSource btn btn-primary c-btn-block-sm-down" title="{\App\Language::translate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}"><span class="fas fa-exchange-alt mr-1"></span><span class="yfm-Rss"></span></button>
+							<button id="rssAddButton" class="rssAddButton btn btn-success c-btn-block-sm-down" title="{\App\Language::translate('LBL_ADD_FEED_SOURCE', $MODULE)}"><span class="fas fa-plus mr-1"></span><span class="yfm-Rss"></span></button>
 							<button id="makeDefaultButton" class="btn btn-info c-btn-block-sm-down" title="{\App\Language::translate('LBL_SET_AS_DEFAULT', $MODULE)}">{\App\Language::translate('LBL_SET_AS_DEFAULT', $MODULE)}</button>
 							<button id="deleteButton" class="btn btn-danger c-btn-block-sm-down" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"><span class="fas fa-trash-alt"></span></button>
 					</div>
 				</div>
-				<div class="feedListContainer pushDown"> 
+				<div class="feedListContainer pushDown">
 					{include file=\App\Layout::getTemplatePath('RssFeedContents.tpl', $MODULE)}
 				</div>
 			{else}

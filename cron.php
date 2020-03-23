@@ -12,13 +12,14 @@
  * Start the cron services configured.
  */
 chdir(__DIR__);
+require_once __DIR__ . '/include/main/WebUI.php';
 try {
+	$checkLibrary = true;
 	require_once __DIR__ . '/include/RequirementsValidation.php';
 } catch (\Throwable $e) {
-	file_put_contents(__DIR__ . '/cache/logs/cron_error.log', date('Y-m-d H:i:s') . $e->getMessage() . PHP_EOL);
+	file_put_contents(__DIR__ . '/cache/logs/cron_error.log', date('Y-m-d H:i:s') . ' - ' . $e->getMessage() . PHP_EOL);
 	throw $e;
 }
-require_once __DIR__ . '/include/main/WebUI.php';
 \App\Process::$requestMode = 'Cron';
 \App\Utils\ConfReport::$sapi = 'cron';
 $cronObj = new \App\Cron();
@@ -81,8 +82,17 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 			$response .= sprintf('%s | %s - Start task' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 
 			ob_start();
-			vtlib\Deprecated::checkFileAccess($cronTask->getHandlerFile());
-			require_once $cronTask->getHandlerFile();
+			$className = $cronTask->getHandlerClass();
+			if (class_exists($className)) {
+				$cronHandler = new $className($cronTask);
+				if ($cronHandler instanceof \App\CronHandler) {
+					$cronHandler->process();
+				} else {
+					throw new \App\Exceptions\AppException('ERR_CLASS_MUST_BE||' . \App\CronHandler::class);
+				}
+			} else {
+				throw new \App\Exceptions\AppException('ERR_CLASS_NOT_FOUND||' . $className);
+			}
 			$taskResponse = ob_get_contents();
 			ob_end_clean();
 

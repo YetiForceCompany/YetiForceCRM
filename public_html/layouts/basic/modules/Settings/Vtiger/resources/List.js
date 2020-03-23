@@ -25,11 +25,16 @@ Vtiger_List_Js(
 		 */
 		makeDeleteRequest(params, aDeferred, instance) {
 			AppConnector.request(params).done(data => {
-				if (data.success) {
+				let response = data.result;
+				if (response && response.success) {
 					$('#recordsCount').val('');
 					$('#totalPageCount').text('');
 					instance.getListViewRecords().done(() => {
 						instance.updatePagination();
+					});
+				} else {
+					Vtiger_Helper_Js.showPnotify({
+						text: response.message
 					});
 				}
 				aDeferred.resolve(data);
@@ -43,7 +48,7 @@ Vtiger_List_Js(
 		 *
 		 * @return  {jQuery.Deferred}
 		 */
-		deleteById(id, showConfirmation = false) {
+		deleteById(id, showConfirmation = true) {
 			const aDeferred = jQuery.Deferred();
 			const instance = Vtiger_List_Js.getInstance();
 			const params = $.extend(instance.getDeleteParams(), {
@@ -51,11 +56,7 @@ Vtiger_List_Js(
 			});
 			if (showConfirmation) {
 				Vtiger_Helper_Js.showConfirmationBox({
-					message: $(
-						`<h6 class="text-danger"><span class="fas fa-trash-alt mr-2"></span>${app.vtranslate(
-							'JS_DELETE_RECORD_CONFIRMATION'
-						)}</h6>`
-					)
+					message: app.vtranslate('JS_DELETE_RECORD_CONFIRMATION')
 				}).done(e => {
 					this.makeDeleteRequest(params, aDeferred, instance);
 				});

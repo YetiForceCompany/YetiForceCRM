@@ -20,6 +20,9 @@ class IStorages_RelationListView_Model extends Vtiger_RelationListView_Model
 			$qtyInStock->set('label', 'FL_QTY_IN_STOCK');
 			$qtyInStock->set('fieldDataType', 'double');
 			$qtyInStock->set('fromOutsideList', true);
+			if (App\Config::module('IStorages', 'allowSetQtyProducts', false) && App\Privilege::isPermitted('IStorages', 'SetQtyProducts')) {
+				$qtyInStock->set('isEditable', true);
+			}
 			$headerFields[$qtyInStock->getName()] = $qtyInStock;
 		}
 		return $headerFields;

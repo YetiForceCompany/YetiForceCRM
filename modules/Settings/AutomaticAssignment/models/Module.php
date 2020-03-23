@@ -87,6 +87,8 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	/**
 	 * List of supported module fields.
 	 *
+	 * @param mixed $moduleName
+	 *
 	 * @return array
 	 */
 	public static function getFieldsByModule($moduleName)
@@ -94,7 +96,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 		$accessibleFields = [];
 		$moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
 		foreach ($moduleInstance->getFields() as $fieldName => $fieldObject) {
-			if (in_array($fieldObject->getFieldDataType(), static::$fieldType) && $fieldObject->isActiveField() && $fieldObject->getUIType() !== 4) {
+			if (\in_array($fieldObject->getFieldDataType(), static::$fieldType) && $fieldObject->isActiveField() && 4 !== $fieldObject->getUIType()) {
 				$accessibleFields[$fieldObject->getBlockName()][$fieldName] = $fieldObject;
 			}
 		}
@@ -110,18 +112,16 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	 */
 	public function isSortByName($fieldName)
 	{
-		if (in_array($fieldName, ['value', 'active'])) {
+		if (\in_array($fieldName, ['value', 'active'])) {
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * Function returns list of fields available in list view.
-	 *
-	 * @return \App\Base[]
+	 * {@inheritdoc}
 	 */
-	public function getListFields()
+	public function getListFields(): array
 	{
 		if (!isset($this->listFieldModels)) {
 			$fields = $this->listFields;
@@ -146,7 +146,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	 *
 	 * @return bool|Settings_AutomaticAssignment_Record_Model
 	 */
-	public function searchRecord(\Vtiger_Record_Model $recordModel, $role = '')
+	public function searchRecord(Vtiger_Record_Model $recordModel, $role = '')
 	{
 		$key = $recordModel->getModuleName() . $role;
 		if (\App\Cache::has(__METHOD__, $key)) {
@@ -189,7 +189,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 		if (!empty($param) && isset($param['tabid'], $param['roleid'])) {
 			$tabId = \App\Module::getModuleName($param['tabid']);
 			$cacheKey = $tabId . $param['roleid'];
-			\App\Cache::delete(get_class() . '::searchRecord', $cacheKey);
+			\App\Cache::delete(__CLASS__ . '::searchRecord', $cacheKey);
 		}
 	}
 
@@ -198,7 +198,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
 	 */
-	public static function autoAssignExecute(\Vtiger_Record_Model $recordModel)
+	public static function autoAssignExecute(Vtiger_Record_Model $recordModel)
 	{
 		$moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:AutomaticAssignment');
 		$autoAssignRecord = $moduleInstance->searchRecord($recordModel);

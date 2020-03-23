@@ -9,7 +9,6 @@ jQuery.Class("Settings_HideBlocks_Conditions_Js", {}, {
 			var form = $('.targetFieldsTableContainer form')
 			var advfilterlist = thisInstance.advanceFilterInstance.getValues();
 			$('.advanced_filter').val(JSON.stringify(advfilterlist));
-			form.submit();
 		});
 	},
 	registerEvents: function (container) {

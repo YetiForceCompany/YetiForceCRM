@@ -14,9 +14,25 @@ namespace Api\Portal;
 use App\Db\Query;
 use App\Language;
 use App\Module;
+use OpenApi\Annotations as OA;
 
 /**
  * Model dashboard.
+ *
+ * @OA\Info(
+ * 		title="YetiForce API for Webservice App. Type: Portal",
+ * 		version="0.1",
+ *   	@OA\Contact(
+ *     		email="devs@yetiforce.com",
+ *     		name="Devs API Team",
+ *     		url="https://yetiforce.com/"
+ *   	),
+ *   	@OA\License(
+ *    		name="YetiForce Public License v3",
+ *     		url="https://yetiforce.com/en/yetiforce/license"
+ *   	),
+ *   	termsOfService="https://yetiforce.com/"
+ * )
  */
 class Dashboard
 {
@@ -93,8 +109,8 @@ class Dashboard
 				$widgets[] = [
 					'type' => $row['linklabel'],
 					'data' => [
-						'title' => $minilistWidgetModel->getTitle(),
-						'modulename' => $minilistWidgetModel->getTargetModuleModel()->getName(),
+						'title' => \App\Language::translate($minilistWidgetModel->getTitle(), $minilistWidgetModel->getTargetModule()),
+						'modulename' => $minilistWidgetModel->getTargetModule(),
 						'headers' => $headers,
 						'records' => $records
 					]
@@ -106,7 +122,7 @@ class Dashboard
 					'type' => $row['linklabel'],
 					'data' => [
 						'title' => $chartFilterWidgetModel->getTitle(),
-						'modulename' => $chartFilterWidgetModel->getTargetModuleModel()->getName(),
+						'modulename' => $chartFilterWidgetModel->getTargetModule(),
 						'stacked' => $chartFilterWidgetModel->isStacked() ? 1 : 0,
 						'colorsFromDividingField' => $chartFilterWidgetModel->areColorsFromDividingField() ? 1 : 0,
 						'filterIds' => $chartFilterWidgetModel->getFilterIds(),

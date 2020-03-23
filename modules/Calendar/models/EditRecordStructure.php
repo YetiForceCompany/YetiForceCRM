@@ -38,18 +38,18 @@ class Calendar_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Mode
 					if ($fieldModel->isEditable()) {
 						if ($recordExists) {
 							$fieldValue = $recordModel->get($fieldName);
-							if ($fieldName === 'date_start') {
+							if ('date_start' === $fieldName) {
 								$fieldValue = $fieldValue . ' ' . $recordModel->get('time_start');
-							} elseif ($fieldName == 'due_date' && $moduleModel->get('name') != 'Calendar') {
+							} elseif ('due_date' == $fieldName && 'Calendar' != $moduleModel->get('name')) {
 								//Do not concat duedate and endtime for Tasks as it contains only duedate
-								if ($moduleModel->getName() != 'Calendar') {
+								if ('Calendar' != $moduleModel->getName()) {
 									$fieldValue = $fieldValue . ' ' . $recordModel->get('time_end');
 								}
-							} elseif ($fieldName === 'activitystatus' && empty($fieldValue)) {
+							} elseif ('activitystatus' === $fieldName && empty($fieldValue)) {
 								$currentUserModel = Users_Record_Model::getCurrentUserModel();
 								$defaulteventstatus = $currentUserModel->get('defaulteventstatus');
 								$fieldValue = $defaulteventstatus;
-							} elseif ($fieldName === 'activitytype' && empty($fieldValue)) {
+							} elseif ('activitytype' === $fieldName && empty($fieldValue)) {
 								$currentUserModel = Users_Record_Model::getCurrentUserModel();
 								$defaultactivitytype = $currentUserModel->get('defaultactivitytype');
 								$fieldValue = $defaultactivitytype;
@@ -57,12 +57,15 @@ class Calendar_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Mode
 							$fieldModel->set('fieldvalue', $fieldValue);
 						}
 						$values[$blockLabel][$fieldName] = $fieldModel;
+						if ($fieldModel->get('tabindex') > Vtiger_Field_Model::$tabIndexLastSeq) {
+							Vtiger_Field_Model::$tabIndexLastSeq = $fieldModel->get('tabindex');
+						}
 					}
 				}
 			}
 		}
 		$this->structuredValues = $values;
-
+		++Vtiger_Field_Model::$tabIndexLastSeq;
 		return $values;
 	}
 }

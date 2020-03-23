@@ -107,6 +107,9 @@ class Mail
 		if (!is_numeric($id)) {
 			$id = self::getTemplateIdFromSysName($id);
 		}
+		if (!$id || !\App\Record::isExists($id, 'EmailTemplates')) {
+			return false;
+		}
 		$template = \Vtiger_Record_Model::getInstanceById($id, 'EmailTemplates');
 		return array_merge(
 			$template->getData(), static::getAttachmentsFromTemplate($template->getId())
@@ -156,7 +159,6 @@ class Mail
 			$attachments['attachments'] = ['ids' => $ids];
 		}
 		Cache::save('MailAttachmentsFromTemplete', $id, $attachments, Cache::LONG);
-
 		return $attachments;
 	}
 
@@ -164,12 +166,13 @@ class Mail
 	 * Get attachments from document.
 	 *
 	 * @param int|int[] $ids
+	 * @param mixed     $returnOnlyName
 	 *
 	 * @return array
 	 */
-	public static function getAttachmentsFromDocument($ids)
+	public static function getAttachmentsFromDocument($ids, $returnOnlyName = true)
 	{
-		$cacheId = \is_array($ids) ? implode(',', $ids) : $ids;
+		$cacheId = "$returnOnlyName|" . \is_array($ids) ? implode(',', $ids) : $ids;
 		if (Cache::has('MailAttachmentsFromDocument', $cacheId)) {
 			return Cache::get('MailAttachmentsFromDocument', $cacheId);
 		}
@@ -180,14 +183,12 @@ class Mail
 		$attachments = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$name = Purifier::decodeHtml($row['name']);
 			$filePath = realpath(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $row['path'] . $row['attachmentsid']);
 			if (is_file($filePath)) {
-				$attachments[$filePath] = $name;
+				$attachments[$filePath] = $returnOnlyName ? Purifier::decodeHtml($row['name']) : $row;
 			}
 		}
 		Cache::save('MailAttachmentsFromDocument', $cacheId, $attachments, Cache::LONG);
-
 		return $attachments;
 	}
 }

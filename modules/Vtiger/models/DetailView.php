@@ -143,10 +143,20 @@ class Vtiger_DetailView_Model extends \App\Base
 		}
 		if ($userPrivilegesModel->hasModulePermission('PermissionInspector')) {
 			$detailViewLinks[] = [
-				'linktype' => 'LIST_VIEW_HEADER',
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linkhint' => 'BTN_PERMISSION_INSPECTOR',
 				'linkdata' => ['url' => "index.php?module=PermissionInspector&view=UserListModal&srcModule=$moduleName&srcRecord=$recordId"],
 				'linkicon' => 'fas fa-user-secret',
+				'linkclass' => 'btn-outline-dark btn-sm',
+				'modalView' => true,
+			];
+		}
+		if ($moduleModel->isPermitted('RecordConventer') && \App\RecordConverter::isActive($moduleModel->getName(), 'Detail')) {
+			$detailViewLinks[] = [
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+				'linklabel' => 'LBL_RECORD_CONVERTER',
+				'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=RecordConverter&inView=Detail&selected_ids=[{$recordModel->getId()}]"],
+				'linkicon' => 'fas fa-exchange-alt',
 				'linkclass' => 'btn-outline-dark btn-sm',
 				'modalView' => true,
 			];
@@ -159,7 +169,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'BTN_RECORD_EDIT',
 				'linkurl' => $recordModel->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn btn-outline-dark btn-sm',
 				'linkhint' => 'BTN_RECORD_EDIT',
 			]);
@@ -274,7 +284,6 @@ class Vtiger_DetailView_Model extends \App\Base
 			}
 		}
 		$this->set('Links', $linkModelList);
-
 		return $linkModelList;
 	}
 
@@ -332,7 +341,7 @@ class Vtiger_DetailView_Model extends \App\Base
 		}
 		if (
 			\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() &&
-			\App\Module::isModuleActive('Chat') &&
+			\App\Module::isModuleActive('Chat') && !\App\RequestUtil::getBrowserInfo()->ie &&
 			false !== \App\ModuleHierarchy::getModuleLevel($parentModuleModel->getName())
 		) {
 			$relatedLinks[] = [
@@ -350,6 +359,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linkurl' => $relation->getListUrl($recordModel),
 					'linkicon' => '',
 					'relatedModuleName' => $relation->get('relatedModuleName'),
+					'relationId' => $relation->getId(),
 				];
 			}
 		}
@@ -372,6 +382,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linkurl' => $relation->getListUrl($recordModel),
 					'linkicon' => '',
 					'relatedModuleName' => $relation->get('relatedModuleName'),
+					'relationId' => $relation->getId(),
 				]);
 			}
 		}

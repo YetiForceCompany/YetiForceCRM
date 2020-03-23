@@ -171,17 +171,38 @@ $.Class(
 					record: id
 				};
 				app.getRecordDetails(params).done(function(data) {
-					var response = (params.data = data['result']['data']);
+					let response = (params.data = data['result']['data']);
 					app.event.trigger('EditView.SelectReference', params, formElement);
 					$.each(mappingRelatedField, function(key, value) {
 						if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
 							let mapFieldElement = formElement.find('[name="' + key + '"]');
 							let fieldinfo = mapFieldElement.data('fieldinfo');
-							if (data['result']['type'][value[0]] === 'date' || data['result']['type'][value[0]] === 'datetime') {
+							if (
+								data['result']['type'][value[0]] === 'date' ||
+								data['result']['type'][value[0]] === 'datetime'
+							) {
 								mapFieldElement.val(data['result']['displayData'][value[0]]);
+							} else if (data['result']['type'][value[0]] === 'multipicklist') {
+								let mapFieldElementMultiselect = formElement.find('[name="' + key + '[]"]');
+								if (mapFieldElementMultiselect.length > 0) {
+									let multipleAttr = mapFieldElement.attr('multiple');
+									let splitValues = response[value[0]].split(' |##| ');
+									if (
+										typeof multipleAttr !== 'undefined' &&
+										multipleAttr !== false &&
+										splitValues.length > 0
+									) {
+										mapFieldElementMultiselect.val(splitValues).trigger('change');
+									}
+								}
 							} else if (mapFieldElement.is('select')) {
 								if (mapFieldElement.find('option[value="' + response[value[0]] + '"]').length) {
 									mapFieldElement.val(response[value[0]]).trigger('change');
+								} else if (
+									mapFieldElement.data('fieldinfo').picklistvalues.hasOwnProperty(response[value[0]])
+								) {
+									let newOption = new Option(response[value[0]], response[value[0]], true, true);
+									mapFieldElement.append(newOption).trigger('change');
 								}
 							} else if (mapFieldElement.length == 0) {
 								$("<input type='hidden'/>")
@@ -193,9 +214,13 @@ $.Class(
 							}
 							let mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
 							if (mapFieldDisplayElement.length > 0) {
-								mapFieldDisplayElement.val(data['result']['displayData'][value[0]]).attr('readonly', true);
+								mapFieldDisplayElement
+									.val(data['result']['displayData'][value[0]])
+									.attr('readonly', true);
 								if (fieldinfo.type === 'reference') {
-									let referenceModulesList = mapFieldElement.closest('.fieldValue').find('.referenceModulesList');
+									let referenceModulesList = mapFieldElement
+										.closest('.fieldValue')
+										.find('.referenceModulesList');
 									if (referenceModulesList.length > 0 && value[1]) {
 										referenceModulesList.val(value[1]).trigger('change');
 									}
@@ -505,7 +530,7 @@ $.Class(
 				var formElement = this.getForm();
 				var formData = formElement.serializeFormData();
 				for (var i in formData) {
-					if (!formData[i] || $.inArray(i, ['__vtrftk', 'action']) != -1) {
+					if (!formData[i] || $.inArray(i, ['_csrf', 'action']) != -1) {
 						delete formData[i];
 					}
 				}
@@ -803,8 +828,7 @@ $.Class(
 		},
 		copyAddressDetailsRef: function(data, container) {
 			var thisInstance = this;
-			app
-				.getRecordDetails(data)
+			app.getRecordDetails(data)
 				.done(function(data) {
 					var response = data['result'];
 					thisInstance.mapAddressDetails(response, container);
@@ -906,7 +930,61 @@ $.Class(
 		 * Function to check the view permission of a record after save
 		 */
 		registerRecordPreSaveEventEvent: function(form) {
-			form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {});
+			form.on(Vtiger_Edit_Js.recordPreSave, (e, data) => {
+				this.preSaveValidation(form).done(response => {
+					if (response !== true) {
+						e.preventDefault();
+					}
+				});
+			});
+		},
+		preSaveValidation: function(form) {
+			const aDeferred = $.Deferred();
+			if (form.find('#preSaveValidation').val()) {
+				document.progressLoader = $.progressIndicator({
+					message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				});
+				let formData = new FormData(form[0]);
+				formData.append('mode', 'preSaveValidation');
+				AppConnector.request({
+					async: false,
+					url: 'index.php',
+					type: 'POST',
+					data: formData,
+					processData: false,
+					contentType: false
+				})
+					.done(data => {
+						document.progressLoader.progressIndicator({ mode: 'hide' });
+						let response = data.result;
+						for (let i = 0; i < response.length; i++) {
+							if (response[i].result !== true) {
+								Vtiger_Helper_Js.showPnotify(
+									response[i].message ? response[i].message : app.vtranslate('JS_ERROR')
+								);
+							}
+						}
+						if (data.result.length <= 0) {
+							aDeferred.resolve(true);
+						} else {
+							aDeferred.resolve(false);
+						}
+					})
+					.fail((textStatus, errorThrown) => {
+						document.progressLoader.progressIndicator({ mode: 'hide' });
+						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+						app.errorLog(textStatus, errorThrown);
+						aDeferred.resolve(false);
+					});
+			} else {
+				aDeferred.resolve(true);
+			}
+
+			return aDeferred.promise();
 		},
 		/**
 		 * Function to register event for setting up picklistdependency
@@ -980,12 +1058,27 @@ $.Class(
 			sourcePickListElements.trigger('change');
 		},
 		registerLeavePageWithoutSubmit: function(form) {
-			let InitialFormData = form.serialize();
-			window.onbeforeunload = function(e) {
-				if (InitialFormData != form.serialize() && form.data('submit') != 'true') {
-					return app.vtranslate('JS_CHANGES_WILL_BE_LOST');
-				}
-			};
+			if (
+				typeof CKEDITOR !== 'undefined' &&
+				typeof CKEDITOR.instances !== 'undefined' &&
+				Object.keys(CKEDITOR.instances).length
+			) {
+				CKEDITOR.on('instanceReady', function(e) {
+					let initialFormData = form.serialize();
+					window.onbeforeunload = function(e) {
+						if (initialFormData != form.serialize() && form.data('submit') != 'true') {
+							return app.vtranslate('JS_CHANGES_WILL_BE_LOST');
+						}
+					};
+				});
+			} else {
+				let initialFormData = form.serialize();
+				window.onbeforeunload = function(e) {
+					if (initialFormData != form.serialize() && form.data('submit') != 'true') {
+						return app.vtranslate('JS_CHANGES_WILL_BE_LOST');
+					}
+				};
+			}
 		},
 		stretchCKEditor: function() {
 			var row = $('.js-editor').parents('.fieldRow');
@@ -1008,15 +1101,13 @@ $.Class(
 		},
 		loadEditorElement: function(noteContentElement) {
 			var customConfig = {};
-			if (noteContentElement.is(':visible')) {
-				if (noteContentElement.hasClass('js-editor--basic')) {
-					customConfig.toolbar = 'Min';
-				}
-				if (noteContentElement.data('height')) {
-					customConfig.height = noteContentElement.data('height');
-				}
-				new App.Fields.Text.Editor(noteContentElement, customConfig);
+			if (noteContentElement.hasClass('js-editor--basic')) {
+				customConfig.toolbar = 'Min';
 			}
+			if (noteContentElement.data('height')) {
+				customConfig.height = noteContentElement.data('height');
+			}
+			new App.Fields.Text.Editor(noteContentElement, customConfig);
 		},
 		registerHelpInfo: function() {
 			var form = this.getForm();
@@ -1050,7 +1141,6 @@ $.Class(
 				};
 				var showHandler = function() {
 					bodyContents.removeClass('d-none');
-					thisInstance.registerEventForEditor(bodyContents);
 					app.cacheSet(module + '.' + blockId, 1);
 				};
 				if (data.mode == 'show') {
@@ -1097,16 +1187,13 @@ $.Class(
 					let search = $(item);
 					let container = search.closest('.js-block-content');
 					let input = search.find('.js-autoload-address');
-					search.find('.js-select-operator').on('click', function(e) {
-						input.data('type', $(this).data('type'));
-					});
 					input.autocomplete({
 						source: function(request, response) {
 							AppConnector.request({
 								module: app.getModuleName(),
 								action: 'Fields',
 								mode: 'findAddress',
-								type: input.data('type'),
+								type: search.find('.js-select-operator').val(),
 								value: request.term
 							})
 								.done(function(requestData) {
@@ -1290,8 +1377,14 @@ $.Class(
 			var thisInstance = this;
 			var processfieldElement = container.find('input[data-fieldtype="referenceProcess"]').closest('.fieldValue');
 			var referenceProcess = processfieldElement.find('input[name="popupReferenceModule"]').val();
-			var subProcessfieldElement = container.find('input[data-fieldtype="referenceSubProcess"]').closest('.fieldValue');
-			Vtiger_Helper_Js.hideOptions(subProcessfieldElement.find('.referenceModulesList'), 'parent', referenceProcess);
+			var subProcessfieldElement = container
+				.find('input[data-fieldtype="referenceSubProcess"]')
+				.closest('.fieldValue');
+			Vtiger_Helper_Js.hideOptions(
+				subProcessfieldElement.find('.referenceModulesList'),
+				'parent',
+				referenceProcess
+			);
 			var subProcessValue = subProcessfieldElement.find('.referenceModulesList').val();
 			subProcessfieldElement.find('[name="popupReferenceModule"]').val(subProcessValue);
 			thisInstance.checkSubProcessModulesList(subProcessfieldElement.find('.referenceModulesList'));
@@ -1324,22 +1417,45 @@ $.Class(
 					thisInstance.checkSubProcessModulesList($(e.currentTarget));
 				});
 		},
-		registerFocusFirstField: function(container) {
+		registerFocusFirstField: function(container, afterTimeout) {
+			let elementToFocus, elementToFocusTabindex;
+			if (afterTimeout === undefined && container.closest('.js-modal-container').length) {
+				setTimeout(_ => {
+					this.registerFocusFirstField(container, true);
+				}, 500);
+				return;
+			}
 			container
-				.find('.fieldValue input.form-control:not([type=hidden],[type=checkbox],.dateField,.clockPicker)')
-				.each(function(n, e) {
+				.find(
+					'.fieldValue input.form-control:not([type=hidden],.dateField,.clockPicker), .fieldValue input[type=checkbox], .select2-selection.form-control'
+				)
+				.each(function(i, e) {
 					let element = $(e);
 					if (!element.prop('readonly') && !element.prop('disabled')) {
 						element = element.get(0);
-						if (element.type !== 'number') {
+						if (element.type !== 'number' && element.type !== 'checkbox' && element.value !== undefined) {
 							let elemLen = element.value.length;
 							element.selectionStart = elemLen;
 							element.selectionEnd = elemLen;
 						}
-						element.focus();
-						return false;
+						if (i === 0 || !elementToFocus) {
+							elementToFocus = element;
+						}
+						let tabindex = $(element).attr('tabindex');
+						if (tabindex > 0 && elementToFocusTabindex === undefined) {
+							elementToFocusTabindex = tabindex;
+							return;
+						}
+
+						if (tabindex > 0 && tabindex < elementToFocusTabindex) {
+							elementToFocusTabindex = tabindex;
+							elementToFocus = element;
+						}
 					}
 				});
+			if (elementToFocus) {
+				elementToFocus.focus();
+			}
 		},
 		registerCopyValue: function(container) {
 			container.find('.fieldValue [data-copy-to-field]').on('change', function(e) {
@@ -1364,6 +1480,35 @@ $.Class(
 			}
 		},
 		/**
+		 * Register record collector modal
+		 * @param {jQuery} container
+		 */
+		registerRecordCollectorModal: function(container) {
+			container.on('click', '.js-record-collector-modal', function(e) {
+				e.preventDefault();
+				let element = $(this);
+				let formData = container.serializeFormData();
+				formData['view'] = 'RecordCollector';
+				formData['collectorType'] = element.data('type');
+				delete formData['action'];
+				AppConnector.request(formData).done(function(html) {
+					app.showModalWindow(html, container => {
+						let form = container.find('form.js-record-collector__form');
+						let summary = container.find('.js-record-collector__summary');
+						form.on('submit', function(e) {
+							summary.html('');
+							summary.progressIndicator({});
+							e.preventDefault();
+							AppConnector.request(form.serializeFormData()).done(function(data) {
+								summary.progressIndicator({ mode: 'hide' });
+								summary.html(data);
+							});
+						});
+					});
+				});
+			});
+		},
+		/**
 		 * Function which will register basic events which will be used in quick create as well
 		 *
 		 */
@@ -1384,6 +1529,8 @@ $.Class(
 			this.registerFocusFirstField(container);
 			this.registerCopyValue(container);
 			this.registerMultiImageFields(container);
+			this.registerReferenceCreate(container);
+			this.registerRecordCollectorModal(container);
 			App.Fields.MultiEmail.register(container);
 			App.Fields.MultiDependField.register(container);
 			App.Fields.Tree.register(container);
@@ -1391,8 +1538,7 @@ $.Class(
 		},
 		registerEvents: function() {
 			var editViewForm = this.getForm();
-			var statusToProceed = this.proceedRegisterEvents();
-			if (!statusToProceed) {
+			if (!this.proceedRegisterEvents()) {
 				return;
 			}
 			this.registerInventoryController(editViewForm);
@@ -1405,8 +1551,8 @@ $.Class(
 			this.registerSubmitEvent();
 			this.registerLeavePageWithoutSubmit(editViewForm);
 			this.registerValidationsFields(editViewForm);
-			this.registerReferenceCreate(editViewForm);
 			this.registerAutoloadAddress();
+			editViewForm.find('.js-form-submit-btn').prop('disabled', false);
 			//this.triggerDisplayTypeEvent();
 		}
 	}

@@ -4,7 +4,7 @@
 	{assign var=FIELD_VALUES value=explode('##', $VALUE)}
 	<div class="tpl-Base-ConditionBuilder-Country">
 		<select class="js-country-field select2 form-control js-condition-builder-value"
-				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
+				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModuleName())}"
 				multiple="multiple" data-js="val" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}">
 			{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 				<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}"

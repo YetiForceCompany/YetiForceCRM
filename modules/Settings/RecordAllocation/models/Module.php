@@ -9,8 +9,8 @@ class Settings_RecordAllocation_Module_Model extends Settings_Vtiger_Module_Mode
 {
 	private static $data = [];
 	private static $types = [
-		'owner' => 'user_privileges/module_record_allocation.php',
-		'sharedOwner' => 'user_privileges/sharedOwner.php',
+		'owner' => 'app_data/module_record_allocation.php',
+		'sharedOwner' => 'app_data/sharedOwner.php',
 	];
 
 	public function save($data)

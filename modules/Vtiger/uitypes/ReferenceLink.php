@@ -14,7 +14,7 @@ class Vtiger_ReferenceLink_UIType extends Vtiger_Reference_UIType
 	 */
 	public function getReferenceList()
 	{
-		$modules = \App\ModuleHierarchy::getModulesByLevel();
+		$modules = \App\ModuleHierarchy::getModulesByLevel(0);
 
 		return array_keys($modules);
 	}
@@ -41,7 +41,7 @@ class Vtiger_ReferenceLink_UIType extends Vtiger_Reference_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function  getQueryOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'];
 	}

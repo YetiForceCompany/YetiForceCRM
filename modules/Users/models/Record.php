@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -294,18 +295,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function validate()
 	{
-		$checkUserExist = false;
-		if ($this->isNew()) {
-			$checkUserExist = true;
-		} else {
-			if (false !== $this->getPreviousValue('is_admin')) {
-				\App\Privilege::setAllUpdater();
-			}
-			if (false !== $this->getPreviousValue('roleid')) {
-				$checkUserExist = true;
-			}
-		}
-		if ($checkUserExist) {
+		if ($this->isNew() || false !== $this->getPreviousValue('roleid') || false !== $this->getPreviousValue('user_name')) {
 			$query = (new App\Db\Query())->from('vtiger_users')
 				->leftJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
 				->where(['vtiger_users.user_name' => $this->get('user_name'), 'vtiger_user2role.roleid' => $this->get('roleid')]);
@@ -315,10 +305,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 			if ($query->exists()) {
 				throw new \App\Exceptions\SaveRecord('ERR_USER_EXISTS||' . $this->get('user_name'), 406);
 			}
-			if ($this->getId()) {
-				\App\Db::getInstance()->createCommand()->delete('vtiger_module_dashboard_widgets', ['userid' => $this->getId()])->execute();
-			}
-			\App\Privilege::setAllUpdater();
 		}
 		if (!$this->isNew() && false !== $this->getPreviousValue('user_password') && App\User::getCurrentUserId() === $this->getId()) {
 			$isExists = (new \App\Db\Query())->from('l_#__userpass_history')->where(['user_id' => $this->getId(), 'pass' => \App\Encryption::createHash($this->get('user_password'))])->exists();
@@ -334,6 +320,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public function afterSaveToDb()
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
+		if ($this->isNew() || false !== $this->getPreviousValue('roleid') || false !== $this->getPreviousValue('is_admin')) {
+			\App\Privilege::setAllUpdater();
+			if (!$this->isNew()) {
+				$dbCommand->delete('vtiger_module_dashboard_widgets', ['userid' => $this->getId()])->execute();
+			}
+		}
 		if (false !== $this->getPreviousValue('user_password') && ($this->isNew() || App\User::getCurrentUserId() === $this->getId())) {
 			$dbCommand->insert('l_#__userpass_history', [
 				'pass' => \App\Encryption::createHash($this->get('user_password')),
@@ -786,7 +778,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			return $this->get('locks');
 		}
 		require 'user_privileges/locks.php';
-		if ($this->getId() && array_key_exists($this->getId(), $locks)) {
+		if ($this->getId() && \array_key_exists($this->getId(), $locks)) {
 			$this->set('locks', $locks[$this->getId()]);
 
 			return $locks[$this->getId()];
@@ -826,30 +818,33 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	public function getHeadLocks()
 	{
-		$return = 'function lockFunction() {return false;}';
+		$return = '';
 		foreach ($this->getLocks() as $lock) {
 			switch ($lock) {
 				case 'copy':
-					$return .= ' document.oncopy = lockFunction;';
+					$return = ' document.oncopy = lockFunction;';
 					break;
 				case 'cut':
-					$return .= ' document.oncut = lockFunction;';
+					$return = ' document.oncut = lockFunction;';
 					break;
 				case 'paste':
-					$return .= ' document.onpaste = lockFunction;';
+					$return = ' document.onpaste = lockFunction;';
 					break;
 				case 'contextmenu':
-					$return .= ' document.oncontextmenu = function(event) {if(event.button==2){return false;}}; document.oncontextmenu = lockFunction;';
+					$return = ' document.oncontextmenu = function(event) {if(event.button==2){return false;}}; document.oncontextmenu = lockFunction;';
 					break;
 				case 'selectstart':
-					$return .= ' document.onselectstart = lockFunction; document.onselect = lockFunction;';
+					$return = ' document.onselectstart = lockFunction; document.onselect = lockFunction;';
 					break;
 				case 'drag':
-					$return .= ' document.ondragstart = lockFunction; document.ondrag = lockFunction;';
+					$return = ' document.ondragstart = lockFunction; document.ondrag = lockFunction;';
 					break;
 				default:
 					break;
 			}
+		}
+		if ($return) {
+			$return = 'function lockFunction() {return false;}' . $return;
 		}
 		return $return;
 	}
@@ -904,14 +899,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if (!$row || 0 !== (int) $row['deleted']) {
 			$this->fakeEncryptPassword($password);
 			\App\Log::info('User not found: ' . $userName, 'UserAuthentication');
-
 			return false;
 		}
 		$this->set('id', $row['id']);
 		$userRecordModel = static::getInstanceFromFile($row['id']);
 		if ('Active' !== $userRecordModel->get('status')) {
 			\App\Log::info('Inactive user :' . $userName, 'UserAuthentication');
-
 			return false;
 		}
 		$result = $userRecordModel->doLoginByAuthMethod($password);
@@ -920,11 +913,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		if (null === $result && $userRecordModel->verifyPassword($password)) {
 			\App\Session::set('UserAuthMethod', 'PASSWORD');
-
 			return true;
 		}
 		\App\Log::info('Invalid password. User: ' . $userName, 'UserAuthentication');
-
 		return false;
 	}
 
@@ -933,7 +924,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @param string $password
 	 *
-	 * @return null|bool
+	 * @return bool|null
 	 */
 	protected function doLoginByAuthMethod($password)
 	{
@@ -971,26 +962,25 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @param App\User $userModel
 	 *
-	 * @return bool
+	 * @return void
 	 */
-	public function verifyPasswordChange(App\User $userModel)
+	public function verifyPasswordChange(App\User $userModel): void
 	{
 		$passConfig = \Settings_Password_Record_Model::getUserPassConfig();
 		$time = (int) $passConfig['change_time'];
 		if (1 === (int) $userModel->getDetail('force_password_change')) {
 			\App\Session::set('ShowUserPasswordChange', 2);
+			return;
 		}
-		if (0 === $time) {
-			return false;
-		}
-		if (strtotime("-$time day") > strtotime($userModel->getDetail('date_password_change'))) {
+		$lastChange = strtotime($userModel->getDetail('date_password_change'));
+		if (0 !== $time && (!$lastChange || strtotime("-$time day") > $lastChange)) {
 			$time += (int) $passConfig['lock_time'];
-			if (strtotime("-$time day") > strtotime($userModel->getDetail('date_password_change'))) {
-				return true;
+			if (!$lastChange || strtotime("-$time day") > $lastChange) {
+				\App\Session::set('ShowUserPasswordChange', 2);
+			} else {
+				\App\Session::set('ShowUserPasswordChange', 1);
 			}
-			\App\Session::set('ShowUserPasswordChange', 1);
 		}
-		return false;
 	}
 
 	/**

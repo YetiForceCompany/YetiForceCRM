@@ -54,18 +54,22 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 		if ($this->isUserPermissions) {
 			$queryGenerator = parent::getQuery();
 		} else {
-			$this->parentRecordModel = \Vtiger_Record_Model::getInstanceById($this->getParentCrmId(), 'Accounts');
-			$pricebookId = $this->parentRecordModel->get('pricebook_id');
-			if (empty($pricebookId)) {
-				$queryGenerator = parent::getQuery();
+			if ($parent = $this->getParentCrmId()) {
+				$this->parentRecordModel = \Vtiger_Record_Model::getInstanceById($parent, 'Accounts');
+				$pricebookId = $this->parentRecordModel->get('pricebook_id');
+				if (empty($pricebookId)) {
+					$queryGenerator = parent::getQuery();
+				} else {
+					$queryGenerator = parent::getQuery();
+					$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.listprice');
+					$queryGenerator->addJoin([
+						'LEFT JOIN',
+						'vtiger_pricebookproductrel',
+						"vtiger_pricebookproductrel.pricebookid={$pricebookId} AND vtiger_pricebookproductrel.productid = vtiger_products.productid"]
+					);
+				}
 			} else {
 				$queryGenerator = parent::getQuery();
-				$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.listprice');
-				$queryGenerator->addJoin([
-					'LEFT JOIN',
-					'vtiger_pricebookproductrel',
-					"vtiger_pricebookproductrel.pricebookid={$pricebookId} AND vtiger_pricebookproductrel.productid = vtiger_products.productid"]
-				);
 			}
 		}
 		$storage = $this->getUserStorageId();
@@ -95,13 +99,14 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	{
 		$record = parent::getRecordFromRow($row, $fieldsModel);
 		$unitPrice = (new \Vtiger_MultiCurrency_UIType())->getValueForCurrency($row['unit_price'], \App\Fields\Currency::getDefault()['id']);
-		$availableTaxes = [];
+		$regionalTaxes = $availableTaxes = '';
 		if ($this->isUserPermissions) {
 			$availableTaxes = 'LBL_GROUP';
-			$regionalTaxes = '';
 		} else {
-			$availableTaxes = $this->parentRecordModel->get('accounts_available_taxes');
-			$regionalTaxes = $this->parentRecordModel->get('taxes');
+			if (isset($this->parentRecordModel)) {
+				$availableTaxes = $this->parentRecordModel->get('accounts_available_taxes');
+				$regionalTaxes = $this->parentRecordModel->get('taxes');
+			}
 			if (!empty($row['listprice'])) {
 				$unitPrice = $row['listprice'];
 			}
@@ -110,7 +115,6 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 		$taxParam = \Api\Portal\Record::getTaxParam($availableTaxes, $row['taxes'], $regionalTaxes);
 		$taxConfig = \Vtiger_Inventory_Model::getTaxesConfig();
 		$record['unit_gross'] = \CurrencyField::convertToUserFormatSymbol($unitPrice + (new \Vtiger_Tax_InventoryField())->getTaxValue($taxParam, $unitPrice, (int) $taxConfig['aggregation']));
-
 		return $record;
 	}
 
@@ -121,13 +125,14 @@ class RecordsTree extends \Api\Portal\BaseModule\RecordsList
 	{
 		$row = parent::getRawDataFromRow($row);
 		$unitPrice = $row['unit_price'] = (new \Vtiger_MultiCurrency_UIType())->getValueForCurrency($row['unit_price'], \App\Fields\Currency::getDefault()['id']);
-		$availableTaxes = [];
+		$regionalTaxes = $availableTaxes = '';
 		if ($this->isUserPermissions) {
 			$availableTaxes = 'LBL_GROUP';
-			$regionalTaxes = '';
 		} else {
-			$availableTaxes = $this->parentRecordModel->get('accounts_available_taxes');
-			$regionalTaxes = $this->parentRecordModel->get('taxes');
+			if (isset($this->parentRecordModel)) {
+				$availableTaxes = $this->parentRecordModel->get('accounts_available_taxes');
+				$regionalTaxes = $this->parentRecordModel->get('taxes');
+			}
 			if (!empty($row['listprice'])) {
 				$unitPrice = $row['unit_price'] = $row['listprice'];
 			}

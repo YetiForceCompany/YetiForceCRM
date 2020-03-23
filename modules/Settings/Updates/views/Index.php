@@ -8,15 +8,17 @@
  */
 class Settings_Updates_Index_View extends Settings_Vtiger_Index_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
-		$updates = Settings_Updates_Module_Model::getUpdates();
-
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
-
-		$viewer->assign('UPDATES', $updates);
-		$viewer->assign('MODULE', $qualifiedModuleName);
+		$toInstall = \App\YetiForce\Updater::getToInstall();
+		if (!$request->isEmpty('download')) {
+			$key = array_search($request->getByType('download', 'Alnum'), array_column($toInstall, 'hash'));
+			\App\YetiForce\Updater::download($toInstall[$key]);
+		}
+		$viewer->assign('TO_INSTALL', $toInstall);
+		$viewer->assign('INSTALLED', Settings_Updates_Module_Model::getUpdates());
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 }

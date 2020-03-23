@@ -41,7 +41,7 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 	/**
 	 * Function to get the list view header.
 	 *
-	 * @return <Array> - List of Vtiger_Field_Model instances
+	 * @return array - List of Vtiger_Field_Model instances
 	 */
 	public function getListViewHeaders()
 	{
@@ -80,14 +80,14 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 		$pageLimit = $pagingModel->getPageLimit();
 
 		$orderBy = $this->getForSql('orderby');
-		if (!empty($orderBy) && $orderBy === 'smownerid') {
+		if (!empty($orderBy) && 'smownerid' === $orderBy) {
 			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
-			if ($fieldModel->getFieldDataType() == 'owner') {
+			if ('owner' == $fieldModel->getFieldDataType()) {
 				$orderBy = 'COALESCE(' . App\Module::getSqlForNameInDisplayFormat('Users') . ',vtiger_groups.groupname)';
 			}
 		}
 		if (!empty($orderBy)) {
-			if ($this->getForSql('sortorder') === 'DESC') {
+			if ('DESC' === $this->getForSql('sortorder')) {
 				$listQuery->orderBy([$orderBy => SORT_DESC]);
 			} else {
 				$listQuery->orderBy([$orderBy => SORT_ASC]);
@@ -147,11 +147,11 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 		return $basicLinks;
 	}
 
-	/*	 * *
-	 * Function which will get the list view count
+	/**	 * *
+	 * Function which will get the list view count.
+	 *
 	 * @return - number of records
 	 */
-
 	public function getListViewCount()
 	{
 		$listQuery = $this->getBasicListQuery();
@@ -161,6 +161,8 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 
 	/**
 	 * Function to get the instance of Settings module model.
+	 *
+	 * @param mixed $name
 	 *
 	 * @return Settings_Vtiger_Module_Model instance
 	 */

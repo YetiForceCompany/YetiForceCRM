@@ -11,7 +11,7 @@
 /**
  * Class Project_Hierarchy_View.
  */
-class Project_Hierarchy_View extends \App\Controller\View
+class Project_Hierarchy_View extends \App\Controller\View\Page
 {
 	use App\Controller\ClearProcess;
 

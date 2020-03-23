@@ -15,32 +15,48 @@
     transition-hide="slide-down"
     content-class="quasar-reset"
   >
-    <drag-resize :coordinates="coordinates" v-on:onChangeCoordinates="onChangeCoordinates" :maximized="maximized">
+    <drag-resize
+      :coordinates.sync="coordinates"
+      :maximized="maximized"
+    >
       <q-card class="KnowledgeBaseModal full-height">
-        <q-bar dark class="bg-yeti text-white dialog-header">
-          <div class="flex items-center">
-            <div class="flex items-center no-wrap ellipsis q-mr-sm-sm">
-              <span :class="[`userIcon-${moduleName}`, 'q-mr-sm']"></span>
-              {{ translate(`JS_${moduleName.toUpperCase()}`) }}
+        <q-bar
+          dark
+          class="bg-yeti text-white dialog-header"
+        >
+          <div class="flex items-center no-wrap full-width js-drag">
+            <div class="flex items-center">
+              <div class="flex items-center no-wrap ellipsis q-mr-sm-sm">
+                <span :class="[`yfm-${moduleName}`, 'q-mr-sm']"></span>
+                {{ translate(`JS_${moduleName.toUpperCase()}`) }}
+              </div>
             </div>
-          </div>
-          <q-space />
-          <template v-if="$q.platform.is.desktop">
-            <a v-show="!maximized" class="flex grabbable text-decoration-none text-white" href="#">
-              <q-icon class="js-drag" name="mdi-drag" size="19px" />
-            </a>
+            <q-space />
+            <template v-if="$q.platform.is.desktop">
+              <ButtonGrab
+                v-show="!maximized"
+                class="flex text-white"
+                grabClass="js-drag"
+                size="19px"
+              />
+              <q-btn
+                dense
+                flat
+                :icon="maximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
+                @click="maximized = !maximized"
+              >
+                <q-tooltip>{{ maximized ? translate('JS_MINIMIZE') : translate('JS_MAXIMIZE') }}</q-tooltip>
+              </q-btn>
+            </template>
             <q-btn
               dense
               flat
-              :icon="maximized ? 'mdi-window-restore' : 'mdi-window-maximize'"
-              @click="maximized = !maximized"
+              icon="mdi-close"
+              v-close-popup
             >
-              <q-tooltip>{{ maximized ? translate('JS_KB_MINIMIZE') : translate('JS_KB_MAXIMIZE') }}</q-tooltip>
+              <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
             </q-btn>
-          </template>
-          <q-btn dense flat icon="mdi-close" v-close-popup>
-            <q-tooltip>{{ translate('JS_CLOSE') }}</q-tooltip>
-          </q-btn>
+          </div>
         </q-bar>
         <div>
           <knowledge-base :coordinates="coordinates" />
@@ -50,13 +66,14 @@
   </q-dialog>
 </template>
 <script>
-import DragResize from './components/DragResize.vue'
+import DragResize from 'components/DragResize.vue'
+import ButtonGrab from 'components/ButtonGrab.vue'
 import KnowledgeBase from './KnowledgeBase.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters, mapActions } = createNamespacedHelpers('KnowledgeBase')
 export default {
   name: 'KnowledgeBaseModal',
-  components: { KnowledgeBase, DragResize },
+  components: { KnowledgeBase, DragResize, ButtonGrab },
   data() {
     return {
       coordinates: {
@@ -87,13 +104,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchCategories', 'initState']),
-    onChangeCoordinates: function(coordinates) {
-      this.coordinates = coordinates
-    }
+    ...mapActions(['fetchCategories', 'initState'])
   },
-  async created() {
-    await this.initState(this.$options.state)
+  created() {
+    this.initState(this.$options.state)
   }
 }
 </script>
@@ -105,17 +119,6 @@ export default {
 }
 .modal-full-height {
   max-height: calc(100vh - 31.14px) !important;
-}
-.grabbable:hover {
-  cursor: move;
-  cursor: grab;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
-}
-.grabbable:active {
-  cursor: grabbing;
-  cursor: -moz-grabbing;
-  cursor: -webkit-grabbing;
 }
 .contrast-50 {
   filter: contrast(50%);

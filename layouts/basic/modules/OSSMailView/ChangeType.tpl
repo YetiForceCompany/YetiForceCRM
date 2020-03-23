@@ -3,7 +3,7 @@
     <div id="transferOwnershipContainer" class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground">
+				<div class="modal-header">
 					<h5 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_ChangeType', $MODULE)}</h5>
 					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 						<span aria-hidden="true">&times;</span>

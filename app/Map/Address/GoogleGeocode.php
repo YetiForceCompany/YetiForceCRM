@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Map\Address;
-
 /**
- * Address finder Google class.
+ * Address finder Google file.
  *
  * @see       maps.googleapis.com Documentation  of Google Geocoding API
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace App\Map\Address;
+
+/**
+ * Address finder Google class.
  */
 class GoogleGeocode extends Base
 {
@@ -21,21 +25,29 @@ class GoogleGeocode extends Base
 	protected static $url = 'https://maps.googleapis.com/maps/api/geocode/json?';
 
 	/**
-	 * Function checks if teryt is active.
-	 *
-	 * @return bool
+	 * {@inheritdoc}
 	 */
-	public static function isActive()
-	{
-		return (bool) \App\Map\Address::getConfig()['google_map_api']['nominatim'];
-	}
+	public $docUrl = 'https://code.google.com/apis/console/?noredirect';
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public $customFields = [
+		'key' => [
+			'type' => 'text',
+			'validator' => 'required,custom[onlyLetterNumber]'
+		],
+	];
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function find($value)
 	{
-		$key = \App\Map\Address::getConfig()['google_map_api']['key'];
+		if (empty($value) || !\App\RequestUtil::isNetConnection()) {
+			return [];
+		}
+		$key = $this->config['key'];
 		$lang = \App\Language::getShortLanguageName();
 		$response = \Requests::get(static::$url . "key={$key}&address=$value");
 		if (!$response->success) {

@@ -13,6 +13,7 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 {
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('delete');
 		$this->exposeMethod('upload');
 	}
@@ -24,7 +25,7 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public function delete(\App\Request $request)
+	public function delete(App\Request $request)
 	{
 		$recordId = $request->getInteger('id');
 		$pdfModel = Vtiger_PDF_Model::getInstanceById($recordId);

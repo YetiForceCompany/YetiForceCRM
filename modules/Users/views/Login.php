@@ -9,8 +9,32 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Users_Login_View extends \App\Controller\View
+class Users_Login_View extends \App\Controller\View\Base
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public $csrfActive = false;
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		if ($nonce = \App\Session::get('CSP_TOKEN')) {
+			$this->headers->csp['script-src'] .= " 'nonce-{$nonce}'";
+		}
+		$this->headers->csp['default-src'] = '\'self\'';
+		$this->headers->csp['script-src'] = str_replace([
+			' \'unsafe-inline\'', ' blob:'
+		], '', $this->headers->csp['script-src']);
+		$this->headers->csp['form-action'] = '\'self\'';
+		$this->headers->csp['style-src'] = '\'self\'';
+		$this->headers->csp['base-uri'] = '\'self\'';
+		$this->headers->csp['object-src'] = '\'none\'';
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -22,7 +46,7 @@ class Users_Login_View extends \App\Controller\View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		return true;
 	}
@@ -30,17 +54,11 @@ class Users_Login_View extends \App\Controller\View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
-
-		$selectedModule = $request->getModule();
-		$viewer->assign('MODULE', $selectedModule);
-		$viewer->assign('MODULE_NAME', $selectedModule);
-		$viewer->assign('QUALIFIED_MODULE', $selectedModule);
-		$viewer->assign('VIEW', $request->getByType('view'));
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('QUALIFIED_MODULE', $request->getModule());
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -49,17 +67,16 @@ class Users_Login_View extends \App\Controller\View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function postProcess(\App\Request $request, $display = true)
+	public function postProcess(App\Request $request, $display = true)
 	{
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('IS_BLOCKED_IP', Settings_BruteForce_Module_Model::getCleanInstance()->isBlockedIp());
 		if (\App\Session::has('UserLoginMessage')) {
 			$viewer->assign('MESSAGE', \App\Session::get('UserLoginMessage'));
@@ -67,7 +84,7 @@ class Users_Login_View extends \App\Controller\View
 			\App\Session::delete('UserLoginMessage');
 			\App\Session::delete('UserLoginMessageType');
 		}
-		if (\App\Session::get('LoginAuthyMethod') === '2fa') {
+		if ('2fa' === \App\Session::get('LoginAuthyMethod')) {
 			$viewer->view('Login2faTotp.tpl', 'Users');
 		} else {
 			$viewer->assign('LANGUAGE_SELECTION', App\Config::main('langInLoginView'));
@@ -79,7 +96,7 @@ class Users_Login_View extends \App\Controller\View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
 			'modules.Users.Login'
@@ -89,10 +106,11 @@ class Users_Login_View extends \App\Controller\View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getHeaderScripts(\App\Request $request)
+	public function getHeaderScripts(App\Request $request)
 	{
 		return array_merge(parent::getHeaderScripts($request), $this->checkAndConvertJsScripts([
-			'~libraries/device-uuid/lib/device-uuid.js'
+			'~libraries/device-uuid/lib/device-uuid.js',
+			'modules.Users.resources.Login'
 		]));
 	}
 }

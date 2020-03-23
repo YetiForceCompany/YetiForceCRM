@@ -31,12 +31,12 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	public function getFilterPermissionsView($cvId, $action)
 	{
 		$query = new App\Db\Query();
-		if ($action == 'default') {
+		if ('default' == $action) {
 			$query->select(['userid'])
 				->from('vtiger_user_module_preferences')
 				->where(['default_cvid' => $cvId])
 				->orderBy(['userid' => SORT_ASC]);
-		} elseif ($action == 'featured') {
+		} elseif ('featured' == $action) {
 			$query->select(['user'])
 				->from('u_#__featured_filter')
 				->where(['cvid' => $cvId])
@@ -55,7 +55,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function setDefaultUsersFilterView($tabid, $cvId, $user, $action)
 	{
-		if ($action == 'add') {
+		if ('add' == $action) {
 			$dataReader = (new App\Db\Query())->select(['vtiger_customview.viewname'])
 				->from('vtiger_user_module_preferences')
 				->leftJoin('vtiger_customview', 'vtiger_user_module_preferences.default_cvid = vtiger_customview.cvid')
@@ -69,7 +69,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 				'tabid' => $tabid,
 				'default_cvid' => $cvId,
 			])->execute();
-		} elseif ($action == 'remove') {
+		} elseif ('remove' == $action) {
 			\App\Db::getInstance()->createCommand()->delete('vtiger_user_module_preferences', ['userid' => $user, 'tabid' => $tabid, 'default_cvid' => $cvId])->execute();
 		}
 		return false;
@@ -105,15 +105,14 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		$cvid = $params['cvid'];
 		$name = $params['name'];
 		$mod = $params['mod'];
-		if (is_numeric($cvid) && in_array($name, $authorizedFields)) {
-			if ($name == 'setdefault' && $params['value'] == 1) {
+		if (is_numeric($cvid) && \in_array($name, $authorizedFields)) {
+			if ('setdefault' == $name && 1 == $params['value']) {
 				$dbCommand->update('vtiger_customview', ['setdefault' => 0], ['entitytype' => $mod])->execute();
 			}
 			$dbCommand->update('vtiger_customview', [$name => $params['value']], ['cvid' => $cvid])->execute();
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	public static function upadteSequences($params)
@@ -160,6 +159,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 			->select(['vtiger_tab.tabid', 'vtiger_customview.entitytype'])
 			->from('vtiger_customview')
 			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')
+			->where(['vtiger_tab.presence' => 0])
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$modulesList[$row['tabid']] = $row['entitytype'];
@@ -173,11 +173,9 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$customViewModel = CustomView_Record_Model::getInstanceById($params['cvid']);
 		$moduleName = $customViewModel->get('entitytype');
-		$curretView = App\CustomView::getCurrentView($moduleName);
-		if ($curretView == $params['cvid']) {
-			$sortOrder = array_pad(explode(',', $params['value']), 2, '');
-			App\CustomView::setSorder($moduleName, $sortOrder[1]);
-			App\CustomView::setSortby($moduleName, $sortOrder[0]);
+		$currentView = App\CustomView::getCurrentView($moduleName);
+		if ($currentView === $params['cvid']) {
+			App\CustomView::setSortBy($moduleName, $params['value'] ? \App\Json::decode($params['value']) : null);
 		}
 	}
 }

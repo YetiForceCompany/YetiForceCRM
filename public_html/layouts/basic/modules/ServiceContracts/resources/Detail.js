@@ -49,12 +49,12 @@ Vtiger_Detail_Js(
 		 */
 		getTemplateTableHtml(rows) {
 			let somethingChecked = false;
-			for (let row of rows) {
+			rows.each((i, row) => {
 				if (row.checked) {
 					somethingChecked = true;
-					break;
+					return false;
 				}
-			}
+			});
 			if (!somethingChecked && typeof rows[0] !== 'undefined') {
 				rows[0].checked = true;
 			}
@@ -105,7 +105,9 @@ Vtiger_Detail_Js(
 			}).done(data => {
 				progress.progressIndicator({ mode: 'hide' });
 				if (data.success) {
-					this.container.find('.js-sla-policy-template--container').html(this.getTemplateTableHtml(data.result));
+					this.container
+						.find('.js-sla-policy-template--container')
+						.html(this.getTemplateTableHtml(data.result));
 				}
 			});
 		},
@@ -134,6 +136,7 @@ Vtiger_Detail_Js(
 		onSubmit(ev) {
 			ev.preventDefault();
 			ev.stopPropagation();
+			this.container.validationEngine(app.validationEngineOptions);
 			const policyType = Number(this.container.find('[name="policy_type"]:checked').val());
 			const policyId = Number(this.container.find('[name="policy_id"]:checked').val());
 			if (policyType === 2 && !this.container.validationEngine('validate')) {
@@ -334,7 +337,6 @@ Vtiger_Detail_Js(
 		 */
 		initSlaPolicy() {
 			this.container = this.getForm();
-			console.log(this.container);
 			this.policyType = Number(this.container.find('[name="policy_type"]:checked').val());
 			this.targetModule = this.container.find('[name="target"]').val();
 			this.businessHours = JSON.parse(this.container.find('.js-all-business-hours').val());

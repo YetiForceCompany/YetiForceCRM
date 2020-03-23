@@ -9,7 +9,7 @@
 *
 ********************************************************************************/
 -->*}
-{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE_NAME)}
+{include file=\App\Layout::getTemplatePath('PageHeader.tpl', $MODULE_NAME)}
 <div class="bodyContents">
 	<div class="mainContainer">
 		<div class="contentsDiv">

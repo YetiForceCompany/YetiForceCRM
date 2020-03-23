@@ -15,7 +15,7 @@ Vtiger_Edit_Js("ProjectTask_Edit_Js", {}, {
 			if (parentIdElement.length > 0 && parentIdElement.val().length > 0 && parentIdElement.val() != 0) {
 				closestContainer = parentIdElement.closest('.fieldValue');
 				params['related_parent_id'] = parentIdElement.val();
-				params['related_parent_module'] = closestContainer.find('[name="popupReferenceModule"]').val();
+				params['related_parent_module'] = form.find('[name="sourceModule"]').val();
 			}
 		}
 		if (sourceFieldElement.attr('name') == 'parentid') {
@@ -30,5 +30,3 @@ Vtiger_Edit_Js("ProjectTask_Edit_Js", {}, {
 		return params;
 	}
 });
-
-

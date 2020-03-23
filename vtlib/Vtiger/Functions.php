@@ -35,13 +35,14 @@ class Functions
 				$row['isentitytype'] = (int) $row['isentitytype'];
 				$row['coloractive'] = (int) $row['coloractive'];
 				$row['type'] = (int) $row['type'];
+				$row['premium'] = (int) $row['premium'];
 				$moduleList[$row['tabid']] = $row;
 			}
 			\App\Cache::save('moduleTabs', 'all', $moduleList);
 		}
 		$restrictedModules = ['SMSNotifier', 'Dashboard', 'ModComments'];
 		foreach ($moduleList as $id => $module) {
-			if (!$showRestricted && in_array($module['name'], $restrictedModules)) {
+			if (!$showRestricted && \in_array($module['name'], $restrictedModules)) {
 				unset($moduleList[$id]);
 			}
 			if ($isEntityType && 0 === (int) $module['isentitytype']) {
@@ -117,7 +118,7 @@ class Functions
 	 */
 	public static function getCRMRecordMetadata($mixedid)
 	{
-		$multimode = is_array($mixedid);
+		$multimode = \is_array($mixedid);
 
 		$ids = $multimode ? $mixedid : [$mixedid];
 		$missing = [];
@@ -134,6 +135,10 @@ class Functions
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$row['deleted'] = (int) $row['deleted'];
+				$row['smownerid'] = (int) $row['smownerid'];
+				$row['smcreatorid'] = (int) $row['smcreatorid'];
+				$row['crmid'] = (int) $row['crmid'];
+				$row['private'] = (int) $row['private'];
 				self::$crmRecordIdMetadataCache[$row['crmid']] = $row;
 			}
 		}
@@ -224,7 +229,7 @@ class Functions
 			'"' => '&quot;',
 			"'" => '&#039;',
 		];
-		if ($encode && is_string($string)) {
+		if ($encode && \is_string($string)) {
 			$string = addslashes(str_replace(array_values($popup_toHtml), array_keys($popup_toHtml), $string));
 		}
 		return $string;
@@ -320,8 +325,6 @@ class Functions
 			'vtiger_senotesrel:notesid' => 'V',
 			'vtiger_seproductsrel:crmid' => 'V',
 			'vtiger_seproductsrel:productid' => 'V',
-			'vtiger_seticketsrel:crmid' => 'V',
-			'vtiger_seticketsrel:ticketid' => 'V',
 			'vtiger_pricebook:currency_id' => 'V',
 		];
 
@@ -332,13 +335,9 @@ class Functions
 		return $type_of_data;
 	}
 
-
-
-
-
 	public static function getArrayFromValue($values)
 	{
-		if (is_array($values)) {
+		if (\is_array($values)) {
 			return $values;
 		}
 		if ('' === $values) {
@@ -354,37 +353,49 @@ class Functions
 
 	public static function throwNewException($e, $die = true, $messageHeader = 'LBL_ERROR')
 	{
-		$message = is_object($e) ? $e->getMessage() : $e;
-		if (!is_array($message)) {
+		if (!headers_sent() && \App\Config::security('cspHeaderActive')) {
+			header("content-security-policy: default-src 'self' 'nonce-" . \App\Session::get('CSP_TOKEN') . "'; object-src 'none';base-uri 'self'; frame-ancestor 'self';");
+		}
+		$message = \is_object($e) ? $e->getMessage() : $e;
+		$code = 500;
+		if (!\is_array($message)) {
 			if (false === strpos($message, '||')) {
 				$message = \App\Language::translateSingleMod($message, 'Other.Exceptions');
 			} else {
 				$params = explode('||', $message);
-				$message = call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
+				$message = \call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
 			}
 		}
 		if ('API' === \App\Process::$requestMode) {
 			throw new \App\Exceptions\ApiException($message, 401);
 		}
-		if (\App\Request::_isAjax()) {
+		if (\App\Request::_isAjax() && \App\Request::_isJSON()) {
 			$response = new \Vtiger_Response();
 			$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
 			$trace = '';
-			if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && is_object($e)) {
-				$trace = str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
+			if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && \is_object($e)) {
+				$trace = str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', "{$e->getFile()}({$e->getLine()})\n{$e->getTraceAsString()}");
 			}
-			if (is_object($e)) {
-				$response->setHeader(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $e->getCode() . ' ' . str_ireplace(["\r\n", "\r", "\n"], [' ', ' ', ' '], $e->getMessage()));
+			if (\is_object($e)) {
+				$response->setHeader(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $e->getCode() . ' ' . str_ireplace(["\r\n", "\r", "\n"], ' ', $e->getMessage()));
 				$response->setError($e->getCode(), $e->getMessage(), $trace);
 			} else {
-				$response->setError('error', $message, $trace);
+				$response->setError($code, $message, $trace);
 			}
 			$response->emit();
 		} else {
 			if (\PHP_SAPI !== 'cli') {
+				if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE') && \is_object($e)) {
+					$message = [
+						'message' => $message,
+						'trace' => str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', "{$e->getFile()}({$e->getLine()})\n{$e->getTraceAsString()}")
+					];
+					$code = $e->getCode();
+				}
+				http_response_code($code);
 				$viewer = new \Vtiger_Viewer();
 				$viewer->assign('MESSAGE', $message);
-				$viewer->assign('MESSAGE_EXPANDED', is_array($message));
+				$viewer->assign('MESSAGE_EXPANDED', \is_array($message));
 				$viewer->assign('HEADER_MESSAGE', \App\Language::translate($messageHeader));
 				$viewer->view('ExceptionError.tpl', 'Vtiger');
 			} else {
@@ -393,10 +404,10 @@ class Functions
 		}
 		if ($die) {
 			trigger_error(print_r($message, true), E_USER_ERROR);
-			if (is_object($message)) {
+			if (\is_object($message)) {
 				throw new $message();
 			}
-			if (is_array($message)) {
+			if (\is_array($message)) {
 				throw new \App\Exceptions\AppException($message['message']);
 			}
 			throw new \App\Exceptions\AppException($message);
@@ -452,25 +463,28 @@ class Functions
 	 * @param string $src
 	 * @param string $dest
 	 *
-	 * @return string
+	 * @return int
 	 */
 	public static function recurseCopy($src, $dest)
 	{
 		$rootDir = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src)) {
-			return;
+			return 0;
 		}
 		if ($dest && '/' !== substr($dest, -1) && '\\' !== substr($dest, -1)) {
 			$dest = $dest . \DIRECTORY_SEPARATOR;
 		}
+		$i = 0;
 		$dest = $rootDir . $dest;
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isDir() && !file_exists($dest . $iterator->getSubPathName())) {
 				mkdir($dest . $iterator->getSubPathName(), 0755);
 			} elseif (!$item->isDir()) {
 				copy($item->getRealPath(), $dest . $iterator->getSubPathName());
+				++$i;
 			}
 		}
+		return $i;
 	}
 
 	public static function parseBytes($str)
@@ -572,86 +586,6 @@ class Functions
 		return $lastWorkingDay;
 	}
 
-	public static function slug($str, $delimiter = '_')
-	{
-		// Make sure string is in UTF-8 and strip invalid UTF-8 characters
-		$str = mb_convert_encoding((string) $str, 'UTF-8', mb_list_encodings());
-		$char_map = [
-			// Latin
-			'Ă€' => 'A', 'Ă' => 'A', 'Ă‚' => 'A', 'Ă' => 'A', 'Ă„' => 'A', 'Ă…' => 'A', 'Ă†' => 'AE', 'Ă‡' => 'C',
-			'Ă' => 'E', 'Ă‰' => 'E', 'ĂŠ' => 'E', 'Ă‹' => 'E', 'ĂŚ' => 'I', 'ĂŤ' => 'I', 'ĂŽ' => 'I', 'ĂŹ' => 'I',
-			'Ă' => 'D', 'Ă‘' => 'N', 'Ă’' => 'O', 'Ă“' => 'O', 'Ă”' => 'O', 'Ă•' => 'O', 'Ă–' => 'O', 'Ĺ' => 'O',
-			'Ă' => 'O', 'Ă™' => 'U', 'Ăš' => 'U', 'Ă›' => 'U', 'Ăś' => 'U', 'Ĺ°' => 'U', 'Ăť' => 'Y', 'Ăž' => 'TH',
-			'Ăź' => 'ss',
-			'Ă ' => 'a', 'Ăˇ' => 'a', 'Ă˘' => 'a', 'ĂŁ' => 'a', 'Ă¤' => 'a', 'ĂĄ' => 'a', 'Ă¦' => 'ae', 'Ă§' => 'c',
-			'Ă¨' => 'e', 'Ă©' => 'e', 'ĂŞ' => 'e', 'Ă«' => 'e', 'á»‡' => 'e', 'Ă¬' => 'i', 'Ă­' => 'i', 'Ă®' => 'i',
-			'ĂŻ' => 'i', 'Ä©' => 'i', 'Ă°' => 'd', 'Ă±' => 'n', 'Ă˛' => 'o', 'Ăł' => 'o', 'Ă´' => 'o', 'á»™' => 'o',
-			'Ăµ' => 'o', 'Ă¶' => 'o', 'Ĺ‘' => 'o', 'Ă¸' => 'o', 'Ăą' => 'u', 'Ăş' => 'u', 'Ă»' => 'u', 'ĂĽ' => 'u',
-			'Ĺ±' => 'u', 'á»§' => 'u', 'Ă˝' => 'y', 'Ăľ' => 'th', 'Ăż' => 'y',
-			// Latin symbols
-			'Â©' => '(c)',
-			// Greek
-			'Î‘' => 'A', 'Î’' => 'B', 'Î“' => 'G', 'Î”' => 'D', 'Î•' => 'E', 'Î–' => 'Z', 'Î—' => 'H', 'Î' => '8',
-			'Î™' => 'I', 'Îš' => 'K', 'Î›' => 'L', 'Îś' => 'M', 'Îť' => 'N', 'Îž' => '3', 'Îź' => 'O', 'Î ' => 'P',
-			'Îˇ' => 'R', 'ÎŁ' => 'S', 'Î¤' => 'T', 'ÎĄ' => 'Y', 'Î¦' => 'F', 'Î§' => 'X', 'Î¨' => 'PS', 'Î©' => 'W',
-			'Î†' => 'A', 'Î' => 'E', 'ÎŠ' => 'I', 'ÎŚ' => 'O', 'ÎŽ' => 'Y', 'Î‰' => 'H', 'ÎŹ' => 'W', 'ÎŞ' => 'I',
-			'Î«' => 'Y',
-			'Î±' => 'a', 'Î˛' => 'b', 'Îł' => 'g', 'Î´' => 'd', 'Îµ' => 'e', 'Î¶' => 'z', 'Î·' => 'h', 'Î¸' => '8',
-			'Îą' => 'i', 'Îş' => 'k', 'Î»' => 'l', 'ÎĽ' => 'm', 'Î˝' => 'n', 'Îľ' => '3', 'Îż' => 'o', 'Ď€' => 'p',
-			'Ď' => 'r', 'Ď' => 's', 'Ď„' => 't', 'Ď…' => 'y', 'Ď†' => 'f', 'Ď‡' => 'x', 'Ď' => 'ps', 'Ď‰' => 'w',
-			'Î¬' => 'a', 'Î­' => 'e', 'ÎŻ' => 'i', 'ĎŚ' => 'o', 'ĎŤ' => 'y', 'Î®' => 'h', 'ĎŽ' => 'w', 'Ď‚' => 's',
-			'ĎŠ' => 'i', 'Î°' => 'y', 'Ď‹' => 'y', 'Î' => 'i',
-			// Turkish
-			'Ĺž' => 'S', 'Ä°' => 'I', 'Ă‡' => 'C', 'Ăś' => 'U', 'Ă–' => 'O', 'Äž' => 'G',
-			'Ĺź' => 's', 'Ä±' => 'i', 'Ă§' => 'c', 'ĂĽ' => 'u', 'Ă¶' => 'o', 'Äź' => 'g',
-			// Russian
-			'Đ' => 'A', 'Đ‘' => 'B', 'Đ’' => 'V', 'Đ“' => 'G', 'Đ”' => 'D', 'Đ•' => 'E', 'Đ' => 'Yo', 'Đ–' => 'Zh',
-			'Đ—' => 'Z', 'Đ' => 'I', 'Đ™' => 'J', 'Đš' => 'K', 'Đ›' => 'L', 'Đś' => 'M', 'Đť' => 'N', 'Đž' => 'O',
-			'Đź' => 'P', 'Đ ' => 'R', 'Đˇ' => 'S', 'Đ˘' => 'T', 'ĐŁ' => 'U', 'Đ¤' => 'F', 'ĐĄ' => 'H', 'Đ¦' => 'C',
-			'Đ§' => 'Ch', 'Đ¨' => 'Sh', 'Đ©' => 'Sh', 'ĐŞ' => '', 'Đ«' => 'Y', 'Đ¬' => '', 'Đ­' => 'E', 'Đ®' => 'Yu',
-			'ĐŻ' => 'Ya',
-			'Đ°' => 'a', 'Đ±' => 'b', 'Đ˛' => 'v', 'Đł' => 'g', 'Đ´' => 'd', 'Đµ' => 'e', 'Ń‘' => 'yo', 'Đ¶' => 'zh',
-			'Đ·' => 'z', 'Đ¸' => 'i', 'Đą' => 'j', 'Đş' => 'k', 'Đ»' => 'l', 'ĐĽ' => 'm', 'Đ˝' => 'n', 'Đľ' => 'o',
-			'Đż' => 'p', 'Ń€' => 'r', 'Ń' => 's', 'Ń‚' => 't', 'Ń' => 'u', 'Ń„' => 'f', 'Ń…' => 'h', 'Ń†' => 'c',
-			'Ń‡' => 'ch', 'Ń' => 'sh', 'Ń‰' => 'sh', 'ŃŠ' => '', 'Ń‹' => 'y', 'ŃŚ' => '', 'ŃŤ' => 'e', 'ŃŽ' => 'yu',
-			'ŃŹ' => 'ya',
-			// Russian by vovpff
-			'Ж' => 'Zh', 'Ч' => 'Ch', 'Ш' => 'Sh', 'Щ' => 'Sh', 'Ю' => 'Yu', 'Я' => 'Ya', 'А' => 'A', 'Б' => 'B',
-			'В' => 'V', 'Г' => 'G', 'Д' => 'D', 'Е' => 'E', 'Ё' => 'E', 'З' => 'Z', 'И' => 'I', 'Й' => 'Y', 'К' => 'K',
-			'Л' => 'L', 'М' => 'M', 'Н' => 'N', 'О' => 'O', 'П' => 'P', 'Р' => 'R', 'С' => 'S', 'Т' => 'T', 'У' => 'U',
-			'Ф' => 'F', 'Х' => 'H', 'Ц' => 'C', 'Ъ' => '', 'Ы' => 'I', 'Ь' => '', 'Э' => 'E', 'ж' => 'zh', 'ч' => 'ch',
-			'ш' => 'sh', 'щ' => 'sh', 'ю' => 'yu', 'я' => 'ya', 'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g',
-			'д' => 'd', 'е' => 'e', 'ё' => 'e', 'з' => 'z', 'и' => 'i', 'й' => 'y', 'к' => 'k', 'л' => 'l', 'м' => 'm',
-			'н' => 'n', 'о' => 'o', 'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't', 'у' => 'u', 'ф' => 'f', 'х' => 'h',
-			'ц' => 'c', 'ъ' => '', 'ы' => 'i', 'ь' => '', 'э' => 'e',
-			// Ukrainian
-			'Đ„' => 'Ye', 'Đ†' => 'I', 'Đ‡' => 'Yi', 'Ň' => 'G',
-			'Ń”' => 'ye', 'Ń–' => 'i', 'Ń—' => 'yi', 'Ň‘' => 'g',
-			// Czech
-			'ÄŚ' => 'C', 'ÄŽ' => 'D', 'Äš' => 'E', 'Ĺ‡' => 'N', 'Ĺ' => 'R', 'Ĺ ' => 'S', 'Ĺ¤' => 'T', 'Ĺ®' => 'U',
-			'Ĺ˝' => 'Z',
-			'ÄŤ' => 'c', 'ÄŹ' => 'd', 'Ä›' => 'e', 'Ĺ' => 'n', 'Ĺ™' => 'r', 'Ĺˇ' => 's', 'ĹĄ' => 't', 'ĹŻ' => 'u',
-			'Ĺľ' => 'z',
-			// Polish
-			'Ä„' => 'A', 'Ä†' => 'C', 'Ä' => 'e', 'Ĺ' => 'L', 'Ĺ' => 'N', 'Ă“' => 'o', 'Ĺš' => 'S', 'Ĺą' => 'Z',
-			'Ĺ»' => 'Z',
-			'Ä…' => 'a', 'Ä‡' => 'c', 'Ä™' => 'e', 'Ĺ‚' => 'l', 'Ĺ„' => 'n', 'Ăł' => 'o', 'Ĺ›' => 's', 'Ĺş' => 'z',
-			'ĹĽ' => 'z',
-			// Latvian
-			'Ä€' => 'A', 'ÄŚ' => 'C', 'Ä’' => 'E', 'Ä˘' => 'G', 'ÄŞ' => 'i', 'Ä¶' => 'k', 'Ä»' => 'L', 'Ĺ…' => 'N',
-			'Ĺ ' => 'S', 'ĹŞ' => 'u', 'Ĺ˝' => 'Z',
-			'Ä' => 'a', 'ÄŤ' => 'c', 'Ä“' => 'e', 'ÄŁ' => 'g', 'Ä«' => 'i', 'Ä·' => 'k', 'ÄĽ' => 'l', 'Ĺ†' => 'n',
-			'Ĺˇ' => 's', 'Ĺ«' => 'u', 'Ĺľ' => 'z',
-		];
-
-		// Transliterate characters to ASCII
-		$str = str_replace(array_keys($char_map), $char_map, $str);
-		// Replace non-alphanumeric characters with our delimiter
-		$str = preg_replace('/[^\p{L}\p{Nd}\.]+/u', $delimiter, $str);
-		// Remove delimiter from ends
-		return trim($str, $delimiter);
-	}
-
 	/**
 	 * Function that returns conversion info from default system currency to chosen one.
 	 *
@@ -698,8 +632,8 @@ class Functions
 	{
 		$difference = [];
 		foreach ($array1 as $key => $value) {
-			if (is_array($value)) {
-				if (!isset($array2[$key]) || !is_array($array2[$key])) {
+			if (\is_array($value)) {
+				if (!isset($array2[$key]) || !\is_array($array2[$key])) {
 					$difference[$key] = $value;
 				} else {
 					$newDiff = self::arrayDiffAssocRecursive($value, $array2[$key]);
@@ -707,7 +641,7 @@ class Functions
 						$difference[$key] = $newDiff;
 					}
 				}
-			} elseif (!array_key_exists($key, $array2) || $array2[$key] !== $value) {
+			} elseif (!\array_key_exists($key, $array2) || $array2[$key] !== $value) {
 				$difference[$key] = $value;
 			}
 		}

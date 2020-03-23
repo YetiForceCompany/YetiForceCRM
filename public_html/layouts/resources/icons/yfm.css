@@ -1,0 +1,408 @@
+@font-face {
+	font-family: 'yfm';
+	src: url('fonts/yfm.eot?2bykyj');
+	src: url('fonts/yfm.eot?2bykyj#iefix') format('embedded-opentype'), url('fonts/yfm.ttf?2bykyj') format('truetype'),
+		url('fonts/yfm.woff?2bykyj') format('woff'), url('fonts/yfm.svg?2bykyj#yfm') format('svg');
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+
+[class^='yfm-'],
+[class*=' yfm-'] {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'yfm' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	content: '\e972';
+	display: inline-block;
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+[class^='yfm-']:before,
+[class*=' yfm-']:before {
+	content: '\e972';
+}
+.yfm-PermissionInspector:before {
+	content: '\e974';
+}
+.yfm-MailIntegration:before {
+	content: '\e97b';
+}
+.yfm-Faq:before {
+	content: '\e970';
+}
+.yfm-Locations:before {
+	content: '\e973';
+}
+.yfm-ApprovalsRegister:before {
+	content: '\e976';
+}
+.yfm-Occurrences:before {
+	content: '\e97a';
+}
+.yfm-Announcements:before {
+	content: '\e904';
+}
+.yfm-ModTracker:before {
+	content: '\e980';
+}
+.yfm-Users:before {
+	content: '\e97f';
+}
+.yfm-AuditRegister:before {
+	content: '\e97d';
+}
+.yfm-ActivityRegister:before {
+	content: '\e97e';
+}
+.yfm-Import:before {
+	content: '\e97c';
+}
+.yfm-Password:before {
+	content: '\e96f';
+}
+.yfm-Dashboard:before {
+	content: '\e958';
+}
+.yfm-MultiCompany:before {
+	content: '\e96a';
+}
+.yfm-ApiAddress:before {
+	content: '\e918';
+}
+.yfm-LocationRegister:before {
+	content: '\e969';
+}
+.yfm-DataSetRegister:before {
+	content: '\e959';
+}
+.yfm-IncidentRegister:before {
+	content: '\e95b';
+}
+.yfm-OpenStreetMap:before {
+	content: '\e96b';
+}
+.yfm-Chat:before {
+	content: '\e957';
+}
+.yfm-OSSMailScanner:before {
+	content: '\e96c';
+}
+.yfm-SCalculations:before {
+	content: '\e95a';
+}
+.yfm-ProjectMilestones:before {
+	content: '\e95c';
+}
+.yfm-NewOrders:before {
+	content: '\e975';
+}
+.yfm-TeamWork:before {
+	content: '\e977';
+}
+.yfm-Bookkeeping:before {
+	content: '\e978';
+}
+.yfm-OSSEmployees:before {
+	content: '\e96e';
+}
+.yfm-Faktury:before {
+	content: '\e96d';
+}
+.yfm-CInternalTickets:before {
+	content: '\e964';
+}
+.yfm-CMileageLogbook:before {
+	content: '\e965';
+}
+.yfm-FCorectingInvoice:before {
+	content: '\e966';
+}
+.yfm-FInvoiceCost:before {
+	content: '\e967';
+}
+.yfm-CFixedAssets:before {
+	content: '\e968';
+}
+.yfm-Announcement:before {
+	content: '\e971';
+}
+.yfm-SVendorEnquiries:before {
+	content: '\e95d';
+}
+.yfm-ISTDN:before {
+	content: '\e95e';
+}
+.yfm-IGRNC:before {
+	content: '\e95f';
+}
+.yfm-IGDNC:before {
+	content: '\e960';
+}
+.yfm-ISTRN:before {
+	content: '\e961';
+}
+.yfm-ISTN:before {
+	content: '\e962';
+}
+.yfm-Notification:before {
+	content: '\e954';
+}
+.yfm-MeetingCards_old:before {
+	content: '\e955';
+}
+.yfm-IPreOrder:before {
+	content: '\e94d';
+}
+.yfm-IStorages:before {
+	content: '\e94e';
+}
+.yfm-IGDN:before {
+	content: '\e94f';
+}
+.yfm-IGIN:before {
+	content: '\e950';
+}
+.yfm-IGRN:before {
+	content: '\e951';
+}
+.yfm-IIDN:before {
+	content: '\e952';
+}
+.yfm-KnowledgeBase:before {
+	content: '\e953';
+}
+.yfm-ShoppingCart:before {
+	content: '\e94a';
+}
+.yfm-Target:before {
+	content: '\e94b';
+}
+.yfm-Plane:before {
+	content: '\e94c';
+}
+.yfm-WithoutOwnersAccounts:before {
+	content: '\e949';
+}
+.yfm-VendorsAccounts:before {
+	content: '\e942';
+}
+.yfm-CompanyAccounts:before {
+	content: '\e943';
+}
+.yfm-ShutdownAccounts:before {
+	content: '\e944';
+}
+.yfm-MyAccounts:before {
+	content: '\e945';
+}
+.yfm-UnassignedAccounts:before {
+	content: '\e946';
+}
+.yfm-AllAccounts:before {
+	content: '\e947';
+}
+.yfm-RecycleBin:before {
+	content: '\e948';
+}
+.yfm-FInvoice:before {
+	content: '\e93f';
+}
+.yfm-Faktury_old:before {
+	content: '\e956';
+}
+.yfm-FInvoiceProforma:before {
+	content: '\e940';
+}
+.yfm-ModComments:before {
+	content: '\e941';
+}
+.yfm-FBookkeeping:before {
+	content: '\e93c';
+}
+.yfm-Events:before {
+	content: '\e93d';
+}
+.yfm-Activity:before {
+	content: '\e93e';
+}
+.yfm-Marketing:before {
+	content: '\e93b';
+}
+.yfm-SRecurringOrders:before {
+	content: '\e939';
+}
+.yfm-Competition:before {
+	content: '\e93a';
+}
+.yfm-Accounts:before {
+	content: '\e900';
+}
+.yfm-CompaniesAndContact:before {
+	content: '\e901';
+}
+.yfm-HolidaysEntitlement:before {
+	content: '\e902';
+}
+.yfm-Assets:before {
+	content: '\e903';
+}
+.yfm-SCalculations_old:before {
+	content: '\e905';
+}
+.yfm-Calendar:before {
+	content: '\e906';
+}
+.yfm-CallHistory:before {
+	content: '\e907';
+}
+.yfm-Campaigns:before {
+	content: '\e908';
+}
+.yfm-Contacts:before {
+	content: '\e909';
+}
+.yfm-OSSMailView:before {
+	content: '\e90a';
+}
+.yfm-Database:before {
+	content: '\e90b';
+}
+.yfm-Documents:before {
+	content: '\e90c';
+}
+.yfm-OSSEmployees_old:before {
+	content: '\e90d';
+}
+.yfm-Home:before {
+	content: '\e90f';
+}
+.yfm-HumanResources:before {
+	content: '\e910';
+}
+.yfm-Ideas:before {
+	content: '\e911';
+}
+.yfm-Leads:before {
+	content: '\e912';
+}
+.yfm-LettersIn:before {
+	content: '\e913';
+}
+.yfm-LettersOut:before {
+	content: '\e914';
+}
+.yfm-PBXManager:before {
+	content: '\e915';
+}
+.yfm-OSSMailTemplates:before {
+	content: '\e916';
+}
+.yfm-EmailTemplates:before {
+	content: '\e963';
+}
+.yfm-OSSMail:before {
+	content: '\e917';
+}
+.yfm-SSalesProcesses:before {
+	content: '\e919';
+}
+.yfm-Portal:before {
+	content: '\e91a';
+}
+.yfm-OutsourcedProducts:before {
+	content: '\e91b';
+}
+.yfm-OSSOutsourcedServices:before {
+	content: '\e91c';
+}
+.yfm-Partners:before {
+	content: '\e91d';
+}
+.yfm-OSSPasswords:before {
+	content: '\e91e';
+}
+.yfm-PaymentsIn:before {
+	content: '\e91f';
+}
+.yfm-PaymentsOut:before {
+	content: '\e920';
+}
+.yfm-PriceBooks:before {
+	content: '\e921';
+}
+.yfm-Products:before {
+	content: '\e922';
+}
+.yfm-ProjectMilestone:before {
+	content: '\e923';
+}
+.yfm-Project:before {
+	content: '\e924';
+}
+.yfm-ProjectTask:before {
+	content: '\e925';
+}
+.yfm-SQuotes:before {
+	content: '\e926';
+}
+.yfm-Realization:before {
+	content: '\e927';
+}
+.yfm-Reports:before {
+	content: '\e928';
+}
+.yfm-Reservations:before {
+	content: '\e929';
+}
+.yfm-Rss:before {
+	content: '\e92a';
+}
+.yfm-Sales:before {
+	content: '\e92b';
+}
+.yfm-SQuoteEnquiries:before {
+	content: '\e92c';
+}
+.yfm-SSingleOrders:before {
+	content: '\e92d';
+}
+.yfm-SRequirementsCards:before {
+	content: '\e92e';
+}
+.yfm-Secretary:before {
+	content: '\e92f';
+}
+.yfm-ServiceContracts:before {
+	content: '\e930';
+}
+.yfm-Services:before {
+	content: '\e931';
+}
+.yfm-OSSSoldServices:before {
+	content: '\e932';
+}
+.yfm-Support:before {
+	content: '\e933';
+}
+.yfm-SMSNotifier:before {
+	content: '\e934';
+}
+.yfm-HelpDesk:before {
+	content: '\e935';
+}
+.yfm-OSSTimeControl:before {
+	content: '\e936';
+}
+.yfm-Vendors:before {
+	content: '\e937';
+}
+.yfm-VirtualDesk:before {
+	content: '\e938';
+}

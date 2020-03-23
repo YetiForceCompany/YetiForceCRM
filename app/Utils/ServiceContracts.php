@@ -258,7 +258,7 @@ class ServiceContracts
 		if ($businessHours) {
 			$result = [];
 			foreach (self::optimizeBusinessHours(\array_unique($businessHours)) as $value) {
-				$result[] = array_merge($times, $value);
+				$result[] = array_merge($value, $times);
 			}
 			return $result;
 		}
@@ -342,8 +342,9 @@ class ServiceContracts
 		if (!$end) {
 			$end = date('Y-m-d H:i:s');
 		}
-		if ($field = \App\Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts')) {
-			return self::getDiffFromServiceContracts($start, $end, $recordModel->get($field['fieldname']), $recordModel);
+		$fieldModel = current($recordModel->getModule()->getReferenceFieldsForModule('ServiceContracts'));
+		if ($fieldModel && ($value = $recordModel->get($fieldModel->getName()))) {
+			return self::getDiffFromServiceContracts($start, $end, $value, $recordModel);
 		}
 		if (!($diff = self::getDiffFromDefaultBusinessHours($start, $end))) {
 			$diff = \App\Fields\DateTime::getDiff($start, $end, 'minutes');
@@ -412,10 +413,10 @@ class ServiceContracts
 	 */
 	public static function updateExpectedTimes(\Vtiger_Record_Model $recordModel, array $type)
 	{
-		if (($field = \App\Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts')) && $recordModel->get($field['fieldname'])) {
-			foreach (self::getExpectedTimes($recordModel->get($field['fieldname']), $recordModel, $type) as $key => $time) {
-				$recordModel->set($key . '_expected', $time);
-			}
+		$field = \App\Field::getRelatedFieldForModule($recordModel->getModuleName(), 'ServiceContracts');
+		$serviceContract = ($field && !empty($recordModel->get($field['fieldname']))) ? $recordModel->get($field['fieldname']) : 0;
+		foreach (self::getExpectedTimes($serviceContract, $recordModel, $type) as $key => $time) {
+			$recordModel->set($key . '_expected', $time);
 		}
 	}
 
@@ -432,7 +433,7 @@ class ServiceContracts
 	{
 		$return = [];
 		$date = new \DateTime();
-		if ($rules = self::getRulesForServiceContracts($id, $recordModel)) {
+		if ($id && ($rules = self::getRulesForServiceContracts($id, $recordModel))) {
 			if (isset($rules['id'])) {
 				foreach (self::$fieldsMap as $key => $fieldKey) {
 					if (\in_array($fieldKey, $type)) {

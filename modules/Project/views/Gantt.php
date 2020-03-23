@@ -53,7 +53,7 @@ class Project_Gantt_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PROJECTID', 0);
-		if ($request->has('view') && $request->getByType('view', 2) === 'Gantt') {
+		if ($request->has('view') && 'Gantt' === $request->getByType('view', 2)) {
 			$viewer->assign('GANTT_TITLE', \App\Language::translate('LBL_GANTT_TITLE_ALL_PROJECTS', 'Project'));
 			$viewer->view('gantt/GanttAll.tpl', $moduleName);
 		} else {
@@ -65,23 +65,9 @@ class Project_Gantt_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getHeaderCss(App\Request $request)
-	{
-		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
-			'~libraries/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css',
-		]));
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getFooterScripts(App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$jsFileNames = [
-			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
-			'modules.CustomView.resources.CustomView',
-			"modules.${moduleName}.resources.CustomView",
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js',
 			'modules.Project.resources.Gantt',

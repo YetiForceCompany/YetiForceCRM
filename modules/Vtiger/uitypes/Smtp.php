@@ -6,6 +6,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author    Adrian Kon <a.kon@yetiforce.com>
  */
 class Vtiger_Smtp_UIType extends Vtiger_Base_UIType
 {
@@ -40,6 +41,21 @@ class Vtiger_Smtp_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$values = [];
+		if (!\is_array($value)) {
+			$value = $value ? explode('##', $value) : [];
+		}
+		foreach ($value as $val) {
+			$values[] = parent::getDbConditionBuilderValue($val, $operator);
+		}
+		return implode('##', $values);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getPicklistValues()
 	{
 		return \App\Mail::getAll();
@@ -60,4 +76,21 @@ class Vtiger_Smtp_UIType extends Vtiger_Base_UIType
 	{
 		return ['integer', 'smallint'];
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Smtp.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getQueryOperators()
+	{
+		return ['e', 'n', 'y', 'ny'];
+	}
+
 }

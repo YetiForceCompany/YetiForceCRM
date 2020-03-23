@@ -118,7 +118,10 @@ jQuery.Class(
 				thisInstance = this;
 			this.verifyFileExist(self.readSelectedIds(true)).done(function(data) {
 				if (true === data) {
-					thisInstance.triggerMassAction(massActionUrl.substring(0, massActionUrl.indexOf('&mode=multiple')), type);
+					thisInstance.triggerMassAction(
+						massActionUrl.substring(0, massActionUrl.indexOf('&mode=multiple')),
+						type
+					);
 				}
 			});
 		}
@@ -167,21 +170,12 @@ jQuery.Class(
 		getOrderBy: function() {
 			return $('#orderBy', this.content).val();
 		},
-		getSortOrder: function() {
-			return $('#sortOrder', this.content).val();
-		},
-		getCompleteParams: function() {
-			var container = this.getRelatedContainer();
-			var params = {
-				view: 'Detail',
-				module: this.parentModuleName,
-				record: this.getParentId(),
-				relatedModule: this.moduleName,
-				sortorder: this.getSortOrder(),
+		getDefaultParams: function() {
+			let container = this.getRelatedContainer();
+			let params = {
+				relationId: container.find('#relationId').val(),
 				orderby: this.getOrderBy(),
-				page: this.getCurrentPageNum(),
-				relatedView: this.relatedView,
-				mode: 'showRelatedList'
+				page: this.getCurrentPageNum()
 			};
 			if (container.find('.pagination').length) {
 				params['totalCount'] = container.find('.pagination').data('totalCount');
@@ -205,6 +199,19 @@ jQuery.Class(
 				}
 			}
 			return params;
+		},
+		getCompleteParams: function() {
+			let container = this.getRelatedContainer();
+			let params = {
+				view: 'Detail',
+				module: this.parentModuleName,
+				record: this.getParentId(),
+				relatedModule: this.moduleName,
+				relatedView: this.relatedView,
+				mode: 'showRelatedList',
+				tab_label: container.find('#tab_label').val()
+			};
+			return $.extend(this.getDefaultParams(), params);
 		},
 		loadRelatedList: function(params) {
 			var aDeferred = jQuery.Deferred();
@@ -280,16 +287,22 @@ jQuery.Class(
 				multi_select: true
 			};
 		},
-		addRelations: function(idList) {
+		addRelations: function(idList, params = {}) {
 			var aDeferred = jQuery.Deferred();
-			AppConnector.request({
-				module: this.parentModuleName,
-				action: 'RelationAjax',
-				mode: 'addRelation',
-				related_module: this.moduleName,
-				src_record: this.parentRecordId,
-				related_record_list: $.isArray(idList) ? JSON.stringify(idList) : idList
-			})
+			AppConnector.request(
+				$.extend(
+					{
+						module: this.parentModuleName,
+						action: 'RelationAjax',
+						mode: 'addRelation',
+						related_module: this.moduleName,
+						src_record: this.parentRecordId,
+						relationId: this.getCompleteParams()['relationId'],
+						related_record_list: $.isArray(idList) ? JSON.stringify(idList) : idList
+					},
+					params
+				)
+			)
 				.done(function(responseData) {
 					aDeferred.resolve(responseData);
 				})
@@ -303,13 +316,14 @@ jQuery.Class(
 			if (target.data('url')) {
 				params = target.data('url');
 			} else {
-				let id = target.data('id') ? target.data('id') : element.closest('tr').data('id');
+				let id = target.data('id') ? target.data('id') : target.closest('tr').data('id');
 				params = {
 					module: this.parentModuleName,
 					action: 'RelationAjax',
 					mode: 'deleteRelation',
 					related_module: this.moduleName,
 					src_record: this.parentRecordId,
+					relationId: this.getCompleteParams()['relationId'],
 					related_record_list: JSON.stringify([id])
 				};
 			}
@@ -338,27 +352,6 @@ jQuery.Class(
 					progressInstance.progressIndicator({ mode: 'hide' });
 					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
 				});
-		},
-		/**
-		 * Function to handle Sort
-		 */
-		sortHandler: function(headerElement) {
-			var aDeferred = jQuery.Deferred();
-			var sortOrderVal = headerElement.data('nextsortorderval');
-			if (typeof sortOrderVal === 'undefined') {
-				return;
-			}
-			this.loadRelatedList({
-				orderby: headerElement.data('fieldname'),
-				sortorder: sortOrderVal
-			})
-				.done(function(data) {
-					aDeferred.resolve(data);
-				})
-				.fail(function(textStatus, errorThrown) {
-					aDeferred.reject(textStatus, errorThrown);
-				});
-			return aDeferred.promise();
 		},
 		/**
 		 * Function to handle next page navigation
@@ -487,9 +480,10 @@ jQuery.Class(
 			var relatedParams = {};
 			var relatedField = element.data('name');
 			var fullFormUrl = element.data('url');
-			relatedParams[relatedField] = parentId;
+			if (relatedField) {
+				relatedParams[relatedField] = parentId;
+			}
 			var eliminatedKeys = new Array('view', 'module', 'mode', 'action');
-
 			var preQuickCreateSave = function(data) {
 				var index, queryParam, queryParamComponents;
 				let queryParameters = [];
@@ -517,7 +511,9 @@ jQuery.Class(
 					//If their is no element with the relatedField name,we are adding hidden element with
 					//name as relatedField name,for saving of record with relation to parent record
 					if (field.length == 0) {
-						jQuery('<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />').appendTo(data);
+						jQuery('<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />').appendTo(
+							data
+						);
 					}
 				}
 				for (index = 0; index < queryParameters.length; index++) {
@@ -528,7 +524,11 @@ jQuery.Class(
 						data.find('[name="' + queryParamComponents[0] + '"]').length == 0
 					) {
 						jQuery(
-							'<input type="hidden" name="' + queryParamComponents[0] + '" value="' + queryParamComponents[1] + '" />'
+							'<input type="hidden" name="' +
+								queryParamComponents[0] +
+								'" value="' +
+								queryParamComponents[1] +
+								'" />'
 						).appendTo(data);
 					}
 				}
@@ -575,6 +575,7 @@ jQuery.Class(
 					action: 'RelationAjax',
 					mode: 'getRelatedListPageCount',
 					record: this.getParentId(),
+					relationId: this.getCompleteParams()['relationId'],
 					relatedModule: this.moduleName
 				})
 					.done(function(data) {
@@ -603,6 +604,7 @@ jQuery.Class(
 					record: this.getParentId(),
 					relcrmid: relcrmId,
 					relatedModule: this.moduleName,
+					relationId: this.getCompleteParams()['relationId'],
 					actionMode: state ? 'delete' : 'add'
 				})
 					.done(function(data) {
@@ -628,7 +630,9 @@ jQuery.Class(
 			var defaultView = '';
 			if (app.getMainParams('defaultDetailViewName')) {
 				defaultView =
-					defaultView + '&mode=showDetailViewByMode&requestMode=' + app.getMainParams('defaultDetailViewName'); // full, summary
+					defaultView +
+					'&mode=showDetailViewByMode&requestMode=' +
+					app.getMainParams('defaultDetailViewName'); // full, summary
 			}
 			frame.attr('src', url.replace('view=Detail', 'view=DetailPreview') + defaultView);
 		},
@@ -854,9 +858,6 @@ jQuery.Class(
 		registerListEvents: function() {
 			var relatedContent = this.content;
 			var thisInstance = this;
-			this.content.on('click', '.relatedListHeaderValues', function(e) {
-				thisInstance.sortHandler($(this));
-			});
 			this.content.find('a.favorites').on('click', function(e) {
 				var progressInstance = jQuery.progressIndicator({
 					position: 'html',
@@ -894,13 +895,16 @@ jQuery.Class(
 				}
 				thisInstance.addRelatedRecord(element);
 			});
-			this.content.find('button.selectRelation').on('click', function(e) {
+			this.content.find('.relatedHeader button.selectRelation').on('click', function(e) {
 				let restrictionsField = $(this).data('rf');
-				let params = {};
+				let params = {
+					relationId: thisInstance.getCompleteParams()['relationId']
+				};
 				if (restrictionsField && Object.keys(restrictionsField).length > 0) {
 					params = {
 						search_key: restrictionsField.key,
-						search_value: restrictionsField.name
+						search_value: restrictionsField.name,
+						relationId: thisInstance.getCompleteParams()['relationId']
 					};
 				}
 				thisInstance.showSelectRelation(params);
@@ -939,9 +943,9 @@ jQuery.Class(
 				this.registerPreviewEvent();
 				if (!this.content.find('.gutter').length) {
 					if (!this.content.find('.js-list-preview').length) return;
-					this.getDomParams(this.content);
+					this.setDomParams(this.content);
 					this.toggleSplit(this.content);
-					this.registerListPreviewEvents(this.content);
+					this.registerListPreviewEvents();
 				}
 			}
 			this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
@@ -963,7 +967,7 @@ jQuery.Class(
 			});
 			return maxWidth;
 		},
-		getDomParams: function(container) {
+		setDomParams: function(container) {
 			this.listColumnFirstWidth = container
 				.find('.listViewEntriesDiv .listViewHeaders th')
 				.first()
@@ -994,58 +998,59 @@ jQuery.Class(
 				return this.getDefaultSplitSizes();
 			}
 		},
-		registerListPreviewEvents: function(container) {
-			var listPreview = container.find('.js-detail-preview');
-			var mainBody = container.closest('.mainBody');
-			app.showNewScrollbarTopBottom(container.find('.js-list-preview--scroll'));
+		registerListPreviewEvents() {
+			app.showNewScrollbarTopBottom(this.content.find('.js-list-preview--scroll'));
 			app.showNewScrollbarLeft(this.list);
-			mainBody.scrollTop(0); // reset scroll to set correct start position
-			let listOffsetTop = this.list.offset().top - this.headerH;
-			let initialH = this.sideBlocks.height();
-			let mainViewPortHeightCss = { height: mainBody.height() };
-			let mainViewPortWidthCss = { width: mainBody.height() };
-			this.gutter.addClass('js-fixed-scroll');
-			let fixedElements = container.find('.js-fixed-scroll');
-			if (!mainBody.length) {
-				mainBody = $(top.document).find('.mainBody');
-				this.headerH = $(top.document)
-					.find('.js-header')
-					.outerHeight();
-				let iframe = $(top.document).find('.js-detail-preview');
-				listOffsetTop = this.list.offset().top + iframe.offset().top - this.headerH + 1;
-				mainViewPortHeightCss = { height: mainBody.height() };
-				mainViewPortWidthCss = { width: mainBody.height() };
-			}
 			this.list.on('click', '.listViewEntries', () => {
 				if (this.split.getSizes()[1] < 10) {
 					const defaultGutterPosition = this.getDefaultSplitSizes();
 					this.split.setSizes(defaultGutterPosition);
-					listPreview.show();
+					this.preview.show();
 					this.sideBlockRight.removeClass('d-block');
 					app.moduleCacheSet('userRelatedSplitSet', defaultGutterPosition);
 				}
 			});
-			if (this.list.parents('.blockContent').length) {
-				return;
+			if (!this.list.parents('.blockContent').length) {
+				this.registerScrollEvent();
 			}
-			mainBody.on('scroll', () => {
-				if (mainBody.scrollTop() >= listOffsetTop) {
-					fixedElements.css({ top: mainBody.scrollTop() - listOffsetTop });
-					this.sideBlocks.css({ top: mainBody.scrollTop() - listOffsetTop + 56 });
+		},
+		registerScrollEvent() {
+			this.gutter.addClass('js-fixed-scroll');
+			let scrollContainer = App.Components.Scrollbar.page.element;
+			let listOffsetTop = this.list.offset().top - this.headerH;
+			let initialH = this.sideBlocks.height();
+			let mainViewPortHeightCss = { height: this.mainBody.height() };
+			let mainViewPortWidthCss = { width: this.mainBody.height() };
+			let fixedElements = this.mainBody.find('.js-fixed-scroll');
+			if (!this.mainBody.length) {
+				this.mainBody = $(top.document).find('.mainBody');
+				this.headerH = $(top.document)
+					.find('.js-header')
+					.outerHeight();
+				scrollContainer = top.window.App.Components.Scrollbar.page.element;
+				let iframe = $(top.document).find('.js-detail-preview');
+				listOffsetTop = this.list.offset().top + iframe.offset().top - this.headerH + 1;
+				mainViewPortHeightCss = { height: this.mainBody.height() };
+				mainViewPortWidthCss = { width: this.mainBody.height() };
+			}
+			const onScroll = () => {
+				if (scrollContainer.scrollTop() >= listOffsetTop) {
+					fixedElements.css({ top: scrollContainer.scrollTop() - listOffsetTop });
+					this.sideBlocks.css({ top: scrollContainer.scrollTop() - listOffsetTop + 56 });
 					fixedElements.css(mainViewPortHeightCss);
 					this.rotatedText.css(mainViewPortHeightCss);
 					this.rotatedText.css(mainViewPortWidthCss);
 				} else {
 					fixedElements.css({ top: 'initial' });
-					fixedElements.css({ height: initialH + mainBody.scrollTop() });
+					fixedElements.css({ height: initialH + scrollContainer.scrollTop() });
 					this.rotatedText.css({
-						width: initialH + mainBody.scrollTop(),
-						height: initialH + mainBody.scrollTop()
+						width: initialH + scrollContainer.scrollTop(),
+						height: initialH + scrollContainer.scrollTop()
 					});
 				}
-			});
+			};
+			scrollContainer.on('scroll', onScroll);
 		},
-
 		/**
 		 * Registers split's events.
 		 * @param {jQuery} container - current container for reference.
@@ -1225,19 +1230,15 @@ jQuery.Class(
 		},
 		registerListScroll: function() {
 			let container = $('.listViewEntriesDiv');
-			if (this.relatedView !== 'ListPreview') {
+			if (this.relatedView !== 'ListPreview' && Quasar.plugins.Platform.is.desktop) {
 				container.each((index, element) => {
 					if (container.closest('.js-detail-widget-content').length) {
 						element = container.closest('.js-detail-widget-content');
-						element.each((index, el) => {
-							if (!$(el).hasClass('ps')) {
-								app.showNewScrollbarTopBottomRight($(el));
-							}
+						element.each((i, el) => {
+							App.Components.Scrollbar.xy($(el));
 						});
 					} else {
-						if (!$(element).hasClass('ps')) {
-							app.showNewScrollbarTopBottomRight($(element));
-						}
+						App.Components.Scrollbar.xy($(element));
 					}
 				});
 			}
@@ -1275,7 +1276,7 @@ jQuery.Class(
 			return false;
 		},
 		readSelectedIds: function(decode) {
-			let selectedIdsDataAttr = this.getCurrentCvId() + 'Selectedids',
+			let selectedIdsDataAttr = this.getCurrentCvId() + 'selectedIds',
 				selectedIdsElementDataAttributes = $('#selectedIds').data(),
 				selectedIds = [];
 			if (!(selectedIdsDataAttr in selectedIdsElementDataAttributes)) {
@@ -1292,7 +1293,7 @@ jQuery.Class(
 			if (!Array.isArray(selectedIds)) {
 				selectedIds = [selectedIds];
 			}
-			$('#selectedIds').data(this.getCurrentCvId() + 'Selectedids', selectedIds);
+			$('#selectedIds').data(this.getCurrentCvId() + 'selectedIds', selectedIds);
 		},
 		readExcludedIds: function(decode) {
 			let excludedIdsDataAttr = this.getCurrentCvId() + 'Excludedids',
@@ -1423,6 +1424,20 @@ jQuery.Class(
 				self.writeExcludedIds([]);
 			});
 		},
+		/**
+		 * Register quick edit save event description.
+		 */
+		registerQuickEditSaveEvent() {
+			app.event.on('QuickEdit.AfterSaveFinal', (e, data, instance, element) => {
+				if (this.moduleName === instance.data('moduleName')) {
+					if (element.closest('.js-detail-widget').length) {
+						Vtiger_Detail_Js.getInstance().postSummaryWidgetAddRecord(data, element);
+					} else {
+						this.loadRelatedList(data.result);
+					}
+				}
+			});
+		},
 		registerRelatedEvents: function() {
 			this.registerUnreviewedCountEvent();
 			this.registerChangeEntityStateEvent();
@@ -1434,6 +1449,10 @@ jQuery.Class(
 			this.registerMainCheckBoxClickEvent();
 			this.registerSelectAllClickEvent();
 			this.registerDeselectAllClickEvent();
+			this.registerQuickEditSaveEvent();
+			YetiForce_ListSearch_Js.registerSearch(this.content, data => {
+				this.loadRelatedList(data);
+			});
 		}
 	}
 );

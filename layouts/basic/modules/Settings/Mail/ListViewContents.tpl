@@ -1,5 +1,6 @@
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+	<!-- tpl-Settings-Mail-ListViewContents -->
 	<input type="hidden" id="autoRefreshListOnChange"
 		   value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}"/>
@@ -13,30 +14,16 @@
 	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
-	<div class="tpl-Settings-Mail-ListViewContents listViewEntriesDiv u-overflow-scroll-xsm-down mt-3">
+	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop mt-2">
 		<span class="listViewLoadingImageBlock d-none modal" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image"
 				 title="{\App\Language::translate('LBL_LOADING')}"/>
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
 		{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
-		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+		{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 		<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
-			<thead>
-			<tr class="listViewHeaders">
-				<th>
-
-				</th>
-				{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
-				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-					<th width="{$WIDTH}%" nowrap {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
-						<a {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues u-cursor-pointer js-listview_header" data-js="click" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{App\Language::translate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
-							{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}&nbsp;&nbsp;<span
-									class="{$SORT_IMAGE}"></span>{/if}</a>
-					</th>
-				{/foreach}
-			</tr>
-			</thead>
+			{include file=\App\Layout::getTemplatePath('ListView/TableHeader.tpl', $QUALIFIED_MODULE) EMPTY_COLUMN=1}
 			<tbody>
 			<tr>
 				<td>
@@ -119,7 +106,7 @@
 																																		if (event.stopPropagation){ldelim}
 																																		event.stopPropagation();{rdelim} else{ldelim}
 																																		event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-																																	<span class="{$RECORD_LINK->getIcon()} alignMiddle"
+																																	<span class="{$RECORD_LINK->getIcon()}"
 																																		  title="{App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 																																	<span class="sr-only">{App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}</span>
 																																</a>
@@ -151,4 +138,5 @@
 			</table>
 		{/if}
 	</div>
+	<!-- /tpl-Settings-Mail-ListViewContents -->
 {/strip}

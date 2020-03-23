@@ -34,7 +34,7 @@
 	<div class="modelContainer modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground">
+				<div class="modal-header">
 					<h5 class="modal-title">
 						<span class="fas fa-euro-sign mr-1"></span>
 						{\App\Language::translate('LBL_CHANGE_CURRENCY', $MODULE_NAME)}

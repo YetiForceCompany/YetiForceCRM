@@ -44,7 +44,7 @@ class Configurator extends \Tests\Base
 	 */
 	public function testSave()
 	{
-		$flagName = \array_search('bool', \App\YetiForce\Status::$variables);
+		$flagName = \array_search('bool', \App\YetiForce\Watchdog::$variables);
 		$previousValue = \App\Config::component('YetiForce', $flagName, false);
 		static::$instance->set($flagName, !$previousValue);
 		static::$instance->create();

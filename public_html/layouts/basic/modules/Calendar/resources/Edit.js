@@ -546,7 +546,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 						participantRow.data('crmid', selected.id);
 						participantRow.data('email', email);
 						participantRow.find('.js-participant-name').data('content', selected.fullLabel + email).text(selected.label);
-						participantRow.find('.js-participant-icon .c-badge__icon').removeClass('fas fa-envelope').addClass('userIcon-' + selected.module);
+						participantRow.find('.js-participant-icon .c-badge__icon').removeClass('fas fa-envelope').addClass('yfm-' + selected.module);
 						participantsContent.append(participantRow);
 					});
 				}else{

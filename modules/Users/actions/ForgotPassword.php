@@ -12,6 +12,25 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
+	public function __construct()
+	{
+		parent::__construct();
+		if ($nonce = \App\Session::get('CSP_TOKEN')) {
+			$this->headers->csp['script-src'] .= " 'nonce-{$nonce}'";
+		}
+		$this->headers->csp['default-src'] = '\'self\'';
+		$this->headers->csp['script-src'] = str_replace([
+			' \'unsafe-inline\'', ' blob:'
+		], '', $this->headers->csp['script-src']);
+		$this->headers->csp['form-action'] = '\'self\'';
+		$this->headers->csp['style-src'] = '\'self\'';
+		$this->headers->csp['base-uri'] = '\'self\'';
+		$this->headers->csp['object-src'] = '\'none\'';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function loginRequired()
 	{
 		return false;
@@ -20,7 +39,7 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		return true;
 	}
@@ -28,7 +47,7 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userName = $request->getByType('user_name', 'Text');

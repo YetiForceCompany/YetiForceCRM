@@ -10,7 +10,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 		margin-left: -25px;
 	}
 
-	@media(min-width: 992px) {
+	@media (min-width: 992px) {
 		&.js-sitebar--active {
 			width: 75% !important;
 			padding-right: 1rem !important;
@@ -22,38 +22,9 @@ $h-calendar-form-actions: calculate-rem(49px);
 	@extend .pt-2;
 }
 
-@media(min-width: map_get($grid-breakpoints, lg)) {
-	.basePanel[class*="_Calendar"] {
-		.mainBody {
-			overflow: hidden;
-		}
-	}
-}
-
 .o-label-container {
-	@extend .col-12;
-	@extend .col-sm-6;
-	@extend .col-lg-12;
-	@extend .mb-lg-2;
-	@extend .mb-2;
-	@extend .px-0;
-	@extend .d-flex;
-	@extend .justify-content-lg-center;
-	@extend .justify-content-center;
-	@extend .justify-content-xl-start;
-	@extend .justify-content-sm-start;
-}
-
-.o-btn-container {
-	@extend .col-12;
-	@extend .col-sm-6;
-	@extend .col-lg-12;
-	@extend .px-0;
-	@extend .d-flex;
-	@extend .justify-content-center;
-	@extend .justify-content-sm-end;
-	@extend .justify-content-lg-center;
-	@extend .justify-content-xl-end;
+	@extend .mr-auto;
+	@extend .my-auto;
 }
 
 .hideToggleSiteBarRightButton {
@@ -61,21 +32,23 @@ $h-calendar-form-actions: calculate-rem(49px);
 }
 
 //standard calendar toggle button
-.basePanel:not(.Calendar_CalendarExtended) {
-	.toggleSiteBarRightButton {
-		background: $light;
-		font-weight: bold;
-		padding: 15px 0 !important;
-		position: fixed;
-		top: 50%;
-		right: 25%;
-		cursor: pointer;
-		width: 17px;
-		z-index: 100;
-		border: $sitebar-border;
-		border-right: 0;
-		display: inline-block;
-		border-radius: 0;
+.container-fluid:not([class*="-calendarextended-container"]) {
+	.basePanel {
+		.c-standard-toggle-button {
+			background: $light;
+			font-weight: bold;
+			padding: 15px 0 !important;
+			position: fixed;
+			top: 50%;
+			right: 25%;
+			cursor: pointer;
+			width: 17px;
+			z-index: 100;
+			border: $sitebar-border;
+			border-right: 0;
+			display: inline-block;
+			border-radius: 0;
+		}
 	}
 }
 
@@ -116,6 +89,11 @@ $h-calendar-form-actions: calculate-rem(49px);
 		bottom: $h-footer;
 	}
 }
+@include media-breakpoint-down(md) {
+	.siteBarRight {
+		width: auto !important;
+	}
+}
 
 .hideSiteBar {
 	right: -25%;
@@ -126,14 +104,14 @@ $h-calendar-form-actions: calculate-rem(49px);
 }
 
 //fullcalendar toolbar breakpoint
-@media(min-width: 1080px) {
+@media (min-width: 1080px) {
 	.js-calendar-switch-container {
 		margin-right: 0.75em;
 		float: right;
 	}
 }
 
-@media(max-width: 1080px) {
+@media (max-width: 1080px) {
 	.js-calendar-switch-container {
 		display: flex;
 		flex-wrap: wrap;
@@ -151,10 +129,10 @@ $h-calendar-form-actions: calculate-rem(49px);
 }
 
 //Calendar Extended
-.tpl-Calendar-Extended-CalendarViewPreProcess,
-.tpl-Calendar-Extended-QuickCreate {
+.c-calendar-view,
+.c-calendar-quickcreate {
 	$header-btn-font-size: 14px;
-	$count-badge-color: material-color('red', '200');
+	$count-badge-color: material-color("red", "200");
 
 	%calendar-header-button {
 		font-size: $header-btn-font-size !important;
@@ -187,7 +165,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 
 		&__clear-btn {
 			@extend %calendar-header-button;
-			$clear-btn-color: material-color('amber', '200');
+			$clear-btn-color: material-color("amber", "200");
 
 			background: $clear-btn-color;
 			border-color: $clear-btn-color;
@@ -382,7 +360,8 @@ $h-calendar-form-actions: calculate-rem(49px);
 			}
 		}
 
-		&.fc-state-active .fc-button-inner .fc-button-content, &:active .fc-button-inner .fc-button-content {
+		&.fc-state-active .fc-button-inner .fc-button-content,
+		&:active .fc-button-inner .fc-button-content {
 			color: #000 !important;
 			background: transparent;
 			background-image: none;
@@ -471,14 +450,14 @@ $h-calendar-form-actions: calculate-rem(49px);
 					opacity: 1;
 
 					.svg-inline--fa {
-						color: material-color('grey', '500');
+						color: material-color("grey", "500");
 					}
 				}
 			}
 		}
 
 		//fullcalendar toolbar breakpoint
-		@media(min-width: 1080px) {
+		@media (min-width: 1080px) {
 			.js-calendar-switch-container {
 				margin-right: 0;
 			}
@@ -609,14 +588,14 @@ $h-calendar-form-actions: calculate-rem(49px);
 
 		&__show-day-btn,
 		&__show-week-btn {
-			color: material-color('blue', '200');
+			color: material-color("blue", "200");
 		}
 
 		&__show-day-btn {
 			position: relative;
 			bottom: calculate-rem(1px);
 			height: 0;
-			color: material-color('blue', '100');
+			color: material-color("blue", "100");
 
 			&__container {
 				text-align: center;
@@ -691,7 +670,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 
 			&.active {
 				color: $white !important;
-				background: material-color('teal', '300');
+				background: material-color("teal", "300");
 			}
 		}
 	}
@@ -707,7 +686,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 			z-index: 5;
 			padding: calculate-rem(6px) 0 calculate-rem(5px);
 
-			@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
+			@at-root .c-calendar-quickcreate #{&} {
 				padding: calculate-rem(10px) 0 0;
 			}
 
@@ -745,8 +724,10 @@ $h-calendar-form-actions: calculate-rem(49px);
 			&__form__wrapper {
 				position: relative;
 
-				@at-root .tpl-Calendar-Extended-QuickCreate #{&} {
-					height: calc(100vh - #{$h-footer} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings});
+				@at-root .c-calendar-quickcreate #{&} {
+					height: calc(
+						100vh - #{$h-footer} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings}
+					);
 					overflow-y: auto;
 					overflow-x: hidden;
 					margin-top: 1rem;
@@ -776,7 +757,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 				//border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
 				font-size: calculate-rem(13px);
 
-				@at-root .c-menu--open #{&} {
+				@at-root .c-menu--open & {
 					right: calc(25% - 51px);
 				}
 
@@ -791,11 +772,11 @@ $h-calendar-form-actions: calculate-rem(49px);
 					border: 0;
 					display: inline-block;
 					border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
-					background: material-color('blue-grey', '600');
-					color: material-color('blue-grey', '50');
+					background: material-color("blue-grey", "600");
+					color: material-color("blue-grey", "50");
 
 					&:hover {
-						background: material-color('blue-grey', '300');
+						background: material-color("blue-grey", "300");
 					}
 				}
 
@@ -811,7 +792,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 					text-align: center;
 					height: 100%;
 					padding: calculate-rem(1px) calculate-rem(20px);
-					background: material-color('blue-grey', '50');
+					background: material-color("blue-grey", "50");
 					border: $sitebar-border;
 					border-top: 0;
 					border-radius: 0;
@@ -823,6 +804,17 @@ $h-calendar-form-actions: calculate-rem(49px);
 					}
 				}
 			}
+		}
+		.user-info--active .c-calendar-quickcreate .o-calendar__form__wrapper {
+			height: calc(
+				100vh - #{$h-footer-user-info} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings}
+			);
+		}
+
+		.limited-footer--active .c-calendar-quickcreate .o-calendar__form__wrapper {
+			height: calc(
+				100vh - #{$h-footer-limited} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings}
+			);
 		}
 
 		.o-calendar__form__actions[min-height~="70px"] {
@@ -837,6 +829,16 @@ $h-calendar-form-actions: calculate-rem(49px);
 			right: 0;
 		}
 	}
+
+	@media only screen and (max-width: 480px) {
+		.fieldRow .col-12 {
+			padding-right: 8px;
+			padding-left: 0;
+			label {
+				margin-bottom: 0;
+			}
+		}
+	}
 }
 
 .user-info--active .o-calendar {
@@ -846,19 +848,11 @@ $h-calendar-form-actions: calculate-rem(49px);
 	}
 }
 
-.user-info--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
-	height: calc(100vh - #{$h-footer-user-info} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings});
-}
-
 .limited-footer--active .o-calendar {
 	&__tab--filters,
 	&__form {
 		height: calc(100vh - #{$h-footer-limited} - #{$h-header});
 	}
-}
-
-.limited-footer--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
-	height: calc(100vh - #{$h-footer-limited} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings});
 }
 
 .limited-footer--active .o-calendar {
@@ -868,16 +862,28 @@ $h-calendar-form-actions: calculate-rem(49px);
 	}
 }
 
-.limited-footer--active .tpl-Calendar-Extended-QuickCreate .o-calendar__form__wrapper {
-	height: calc(100vh - #{$h-footer} - #{$h-header} - #{$h-calendar-form-actions} - #{$h-modal-header} - #{$modal-body-paddings});
-}
-
-.tpl-Calendar-Extended-QuickCreate {
+.c-calendar-quickcreate {
 	.o-calendar__form {
 		height: auto !important;
 	}
 }
 
+.fc-day-grid-event.fc-event {
+	z-index: 2;
+}
+.fc-content-skeleton .fc-day-number {
+	z-index: 1;
+	position: relative;
+	right: 0;
+}
+
+.fc-day-top.fc-mon {
+	position: relative;
+}
+
 .fc-row .fc-content-skeleton {
+	z-index: unset !important;
+}
+.fc-row .fc-bgevent-skeleton {
 	z-index: 1 !important;
 }

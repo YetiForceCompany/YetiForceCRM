@@ -20,7 +20,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
+		$moduleName = 'Home';
 		$data = $request->getAll();
 
 		$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel();

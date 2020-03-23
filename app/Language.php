@@ -138,6 +138,21 @@ class Language
 	}
 
 	/**
+	 * Function that returns region for language prefix.
+	 *
+	 * @param string|null $lang
+	 *
+	 * @return string
+	 */
+	public static function getLanguageRegion(?string $lang = null): string
+	{
+		if (!$lang) {
+			$lang = static::getLanguage();
+		}
+		return \Locale::parseLocale($lang)['region'] ?? substr($lang, -2);
+	}
+
+	/**
 	 * Functions that gets translated string.
 	 *
 	 * @param string      $key        - string which need to be translated
@@ -210,9 +225,9 @@ class Language
 		if (\in_array($view, explode(',', $fieldModel->get('helpinfo')))) {
 			$label = $fieldModel->getFieldLabel();
 			$key = "{$fieldModel->getModuleName()}|$label";
-			if (($translated = self::translate($key, 'Other:HelpInfo')) !== $key) {
+			if (($translated = self::translateSingleMod($key, 'Other:HelpInfo')) !== $key) {
 				$translate = $translated;
-			} elseif (($translated = self::translate($label, 'Other:HelpInfo')) !== $label) {
+			} elseif (($translated = self::translateSingleMod($label, 'Other:HelpInfo')) !== $label) {
 				$translate = $translated;
 			}
 		}
@@ -417,8 +432,8 @@ class Language
 	private static function getPluralized($count)
 	{
 		//Extract language code from locale with special cases
-		if (0 === strcasecmp(static::getLanguage(), 'pt_br')) {
-			$lang = 'pt_br';
+		if (0 === strcasecmp(static::getLanguage(), 'pt-BR')) {
+			$lang = 'pt-BR';
 		} else {
 			$lang = static::getShortLanguageName();
 		}
@@ -427,7 +442,7 @@ class Language
 			return '_0';
 		}
 		//Two plural forms
-		if (\in_array($lang, ['ach', 'ak', 'am', 'arn', 'br', 'fa', 'fil', 'fr', 'gun', 'ln', 'mfe', 'mg', 'mi', 'oc', 'pt_br', 'tg', 'ti', 'tr', 'uz', 'wa'])) {
+		if (\in_array($lang, ['ach', 'ak', 'am', 'arn', 'br', 'fa', 'fil', 'fr', 'gun', 'ln', 'mfe', 'mg', 'mi', 'oc', 'pt-BR', 'tg', 'ti', 'tr', 'uz', 'wa'])) {
 			return ($count > 1) ? '_1' : '_0';
 		}
 		if (\in_array($lang, [
@@ -770,7 +785,7 @@ class Language
 	 */
 	public static function getDisplayName(string $prefix)
 	{
-		return \ucfirst(locale_get_region($prefix) === strtoupper(locale_get_primary_language($prefix)) ? locale_get_display_language($prefix, $prefix) : locale_get_display_name($prefix, $prefix));
+		return Utils::mbUcfirst(locale_get_region($prefix) === strtoupper(locale_get_primary_language($prefix)) ? locale_get_display_language($prefix, $prefix) : locale_get_display_name($prefix, $prefix));
 	}
 
 	/**

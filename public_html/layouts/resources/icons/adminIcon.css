@@ -1,0 +1,455 @@
+@font-face {
+	font-family: 'adminIcon';
+	src: url('adminIcon.eot?di0kib');
+	src: url('adminIcon.eot?di0kib#iefix') format('embedded-opentype'), url('adminIcon.ttf?di0kib') format('truetype'),
+		url('adminIcon.woff?di0kib') format('woff'), url('adminIcon.svg?di0kib#adminIcon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+
+[class^='adminIcon-'],
+[class*=' adminIcon-'] {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'adminIcon' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.adminIcon-Occurrences:before {
+	content: '\e914';
+}
+.adminIcon-Approvals:before {
+	content: '\e91d';
+}
+.adminIcon-ApprovalsRegister:before {
+	content: '\e91e';
+}
+.adminIcon-Locations:before {
+	content: '\e91f';
+}
+.adminIcon-MailIntegration:before {
+	content: '\e936';
+}
+.adminIcon-system-monitoring:before {
+	content: '\e91c';
+}
+.adminIcon-marketplace:before {
+	content: '\e937';
+}
+.adminIcon-my-shortcuts:before {
+	content: '\e935';
+}
+.adminIcon-branding-off:before {
+	content: '\e934';
+}
+.adminIcon-premium-support:before {
+	content: '\e923';
+}
+.adminIcon-filed-picklist-2:before {
+	content: '\e924';
+}
+.adminIcon-modules-relations-2:before {
+	content: '\e925';
+}
+.adminIcon-modules-installations-2:before {
+	content: '\e926';
+}
+.adminIcon-menu-configuration-2:before {
+	content: '\e927';
+}
+.adminIcon-workflows-2:before {
+	content: '\e928';
+}
+.adminIcon-modules-2:before {
+	content: '\e929';
+}
+.adminIcon-security-errors-2:before {
+	content: '\e92a';
+}
+.adminIcon-users-2:before {
+	content: '\e92b';
+}
+.adminIcon-system-warnings-2:before {
+	content: '\e92c';
+}
+.adminIcon-modules-widgets-2:before {
+	content: '\e92d';
+}
+.adminIcon-premium-modules:before {
+	content: '\e92e';
+}
+.adminIcon-donate:before {
+	content: '\e92f';
+}
+.adminIcon-hosting:before {
+	content: '\e930';
+}
+.adminIcon-footer-off:before {
+	content: '\e932';
+}
+.adminIcon-enterprise-modules:before {
+	content: '\e933';
+}
+.adminIcon-for-admin:before {
+	content: '\e921';
+}
+.adminIcon-for-partners:before {
+	content: '\e922';
+}
+.adminIcon-prodprouct-preview:before {
+	content: '\e920';
+}
+.adminIcon-buy:before {
+	content: '\e931';
+}
+.adminIcon-NotificationConfiguration:before {
+	content: '\e91b';
+}
+.adminIcon-mail-queue:before {
+	content: '\e91a';
+}
+.adminIcon-webservice-users:before {
+	content: '\e919';
+}
+.adminIcon-webservice-apps:before {
+	content: '\e918';
+}
+.adminIcon-automatic-assignment:before {
+	content: '\e917';
+}
+.adminIcon-shared-owner:before {
+	content: '\e916';
+}
+.adminIcon-owner:before {
+	content: '\e915';
+}
+.adminIcon-locks:before {
+	content: '\e90d';
+}
+.adminIcon-system-warnings:before {
+	content: '\e903';
+}
+.adminIcon-advanced-permission:before {
+	content: '\e904';
+}
+.adminIcon-help:before {
+	content: '\e905';
+}
+.adminIcon-menu-summary:before {
+	content: '\e906';
+}
+.adminIcon-magento:before {
+	content: '\e907';
+}
+.adminIcon-system-incidents:before {
+	content: '\e908';
+}
+.adminIcon-github:before {
+	content: '\e909';
+}
+.adminIcon-sla-policy:before {
+	content: '\e90a';
+}
+.adminIcon-business-hours:before {
+	content: '\e90b';
+}
+.adminIcon-backup-manager:before {
+	content: '\e90c';
+}
+.adminIcon-yetiforce-status:before {
+	content: '\e90e';
+}
+.adminIcon-social-media:before {
+	content: '\e90f';
+}
+.adminIcon-shop:before {
+	content: '\e910';
+}
+.adminIcon-password-encryption:before {
+	content: '\e911';
+}
+.adminIcon-countries:before {
+	content: '\e912';
+}
+.adminIcon-vendor-sms:before {
+	content: '\e913';
+}
+.adminIcon-permissions:before {
+	content: '\e800';
+}
+.adminIcon-user:before {
+	content: '\e801';
+}
+.adminIcon-roles:before {
+	content: '\e802';
+}
+.adminIcon-profiles:before {
+	content: '\e803';
+}
+.adminIcon-groups:before {
+	content: '\e804';
+}
+.adminIcon-module-access:before {
+	content: '\e603';
+}
+.adminIcon-special-access:before {
+	content: '\e805';
+}
+.adminIcon-standard-modules:before {
+	content: '\e806';
+}
+.adminIcon-modules-installation:before {
+	content: '\e807';
+}
+.adminIcon-modules-widgets:before {
+	content: '\e808';
+}
+.adminIcon-modules-fields:before {
+	content: '\e855';
+}
+.adminIcon-modules-relations:before {
+	content: '\e809';
+}
+.adminIcon-modules-track-chanegs:before {
+	content: '\e80b';
+}
+.adminIcon-modules-prefixes:before {
+	content: '\e80c';
+}
+.adminIcon-modules-pdf-templates:before {
+	content: '\e80d';
+}
+.adminIcon-fields-quick-create:before {
+	content: '\e80e';
+}
+.adminIcon-fields-picklists:before {
+	content: '\e80f';
+}
+.adminIcon-fields-picklists-relations:before {
+	content: '\e810';
+}
+.adminIcon-field-folders:before {
+	content: '\e812';
+}
+.adminIcon-filed-hide-bloks:before {
+	content: '\e813';
+}
+.adminIcon-filed-mapping:before {
+	content: '\e80a';
+}
+.adminIcon-menu-configuration:before {
+	content: '\e811';
+}
+.adminIcon-widgets-configuration:before {
+	content: '\e814';
+}
+.adminIcon-mapped-fields:before {
+	content: '\e900';
+}
+.adminIcon-advenced-modules:before {
+	content: '\e815';
+}
+.adminIcon-taxes-rates:before {
+	content: '\e816';
+}
+.adminIcon-discount-configuration:before {
+	content: '\e817';
+}
+.adminIcon-discount-base:before {
+	content: '\e818';
+}
+.adminIcon-taxes-caonfiguration:before {
+	content: '\e819';
+}
+.adminIcon-credit-limit-base_2:before {
+	content: '\e81a';
+}
+.adminIcon-calendar-labels-colors:before {
+	content: '\e81b';
+}
+.adminIcon-calendar-types:before {
+	content: '\e81c';
+}
+.adminIcon-calendar-configuration:before {
+	content: '\e81d';
+}
+.adminIcon-calendar-holidys:before {
+	content: '\e81e';
+}
+.adminIcon-colors:before {
+	content: '\e81f';
+}
+.adminIcon-search-and-filtres:before {
+	content: '\e820';
+}
+.adminIcon-search-configuration:before {
+	content: '\e821';
+}
+.adminIcon-filters-configuration:before {
+	content: '\e822';
+}
+.adminIcon-security:before {
+	content: '\e826';
+}
+.adminIcon-brute-force:before {
+	content: '\e827';
+}
+.adminIcon-passwords-configuration:before {
+	content: '\e823';
+}
+.adminIcon-passwords-encryption:before {
+	content: '\e824';
+}
+.adminIcon-backup:before {
+	content: '\e825';
+}
+.adminIcon-logs:before {
+	content: '\e829';
+}
+.adminIcon-server-configuration:before {
+	content: '\e82a';
+}
+.adminIcon-server-updates:before {
+	content: '\e82c';
+}
+.adminIcon-users-login:before {
+	content: '\e82b';
+}
+.adminIcon-mail-download-history:before {
+	content: '\e82d';
+}
+.adminIcon-integration:before {
+	content: '\e82e';
+}
+.adminIcon-pbx-manager:before {
+	content: '\e834';
+}
+.adminIcon-currencies:before {
+	content: '\e82f';
+}
+.adminIcon-customer-portal:before {
+	content: '\e830';
+}
+.adminIcon-online-forms:before {
+	content: '\e831';
+}
+.adminIcon-address:before {
+	content: '\e828';
+}
+.adminIcon-mobile-applications:before {
+	content: '\e832';
+}
+.adminIcon-dav-applications:before {
+	content: '\e833';
+}
+.adminIcon-automation:before {
+	content: '\e835';
+}
+.adminIcon-triggers:before {
+	content: '\e836';
+}
+.adminIcon-recording-control:before {
+	content: '\e837';
+}
+.adminIcon-cron:before {
+	content: '\e838';
+}
+.adminIcon-document_flow:before {
+	content: '\e839';
+}
+.adminIcon-document-templates:before {
+	content: '\e83a';
+}
+.adminIcon-mail-tools:before {
+	content: '\e83c';
+}
+.adminIcon-mail-configuration:before {
+	content: '\e840';
+}
+.adminIcon-mail-roundcube:before {
+	content: '\e841';
+}
+.adminIcon-mail-scanner:before {
+	content: '\e83d';
+}
+.adminIcon-mail-auto-login:before {
+	content: '\e83e';
+}
+.adminIcon-mail-smtp-server:before {
+	content: '\e83f';
+}
+.adminIcon-oss_mailview:before {
+	content: '\e902';
+}
+.adminIcon-system-tools:before {
+	content: '\e842';
+}
+.adminIcon-languages-and-translations:before {
+	content: '\e843';
+}
+.adminIcon-system-messages:before {
+	content: '\e844';
+}
+.adminIcon-terms-and-conditions:before {
+	content: '\e845';
+}
+.adminIcon-system-configuration:before {
+	content: '\e846';
+}
+.adminIcon-users:before {
+	content: '\e901';
+}
+.adminIcon-company-information:before {
+	content: '\e848';
+}
+.adminIcon-company-detlis:before {
+	content: '\e849';
+}
+.adminIcon-processes:before {
+	content: '\e83b';
+}
+.adminIcon-marketing:before {
+	content: '\e847';
+}
+.adminIcon-sales:before {
+	content: '\e84a';
+}
+.adminIcon-realization:before {
+	content: '\e84d';
+}
+.adminIcon-logistics:before {
+	content: '\e84e';
+}
+.adminIcon-finances:before {
+	content: '\e84c';
+}
+.adminIcon-support:before {
+	content: '\e84f';
+}
+.adminIcon-workflow:before {
+	content: '\e84b';
+}
+.adminIcon-yeti-force:before {
+	content: '\e850';
+}
+.adminIcon-about-yetiforce:before {
+	content: '\e851';
+}
+.adminIcon-about-yetiforce-ltd:before {
+	content: '\e852';
+}
+.adminIcon-contributors:before {
+	content: '\e853';
+}
+.adminIcon-license:before {
+	content: '\e854';
+}

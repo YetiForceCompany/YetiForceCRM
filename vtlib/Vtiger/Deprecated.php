@@ -47,7 +47,7 @@ class Deprecated
 				$accessibleFieldNames[] = $fieldValues[$field];
 			}
 		}
-		if (count($accessibleFieldNames) > 0) {
+		if (\count($accessibleFieldNames) > 0) {
 			return implode(' ', $accessibleFieldNames);
 		}
 
@@ -71,7 +71,7 @@ class Deprecated
 		$relativeFilePath = str_replace($rootdirpath, '', $realfilepath);
 		$filePathParts = explode('/', $relativeFilePath);
 
-		if (0 !== stripos($realfilepath, $rootdirpath) || in_array($filePathParts[0], $unsafeDirectories)) {
+		if (0 !== stripos($realfilepath, $rootdirpath) || \in_array($filePathParts[0], $unsafeDirectories)) {
 			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
@@ -94,7 +94,7 @@ class Deprecated
 		$relativeFilePath = str_replace($rootdirpath, '', $realfilepath);
 		$filePathParts = explode('/', $relativeFilePath);
 
-		if (0 !== stripos($realfilepath, $rootdirpath) || !in_array($filePathParts[0], $safeDirectories)) {
+		if (0 !== stripos($realfilepath, $rootdirpath) || !\in_array($filePathParts[0], $safeDirectories)) {
 			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
@@ -161,7 +161,7 @@ class Deprecated
 	{
 		$entityFieldInfo = \App\Module::getEntityInfo($module);
 		$fieldsName = $entityFieldInfo['fieldnameArr'];
-		if (is_array($fieldsName)) {
+		if (\is_array($fieldsName)) {
 			foreach ($fieldsName as &$value) {
 				$formattedNameList[] = $input[$value];
 			}
@@ -173,71 +173,21 @@ class Deprecated
 	}
 
 	/**
-	 * Function to related two records of different entity types.
+	 * Gets fields for module.
 	 *
-	 * @param mixed $sourceModule
-	 * @param mixed $sourceRecordId
-	 * @param mixed $destinationModule
-	 * @param mixed $destinationRecordIds
-	 * @param mixed $relatedName
+	 * @param string $module
+	 *
+	 * @return array
 	 */
-	public static function relateEntities(\CRMEntity $focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds, $relatedName = false)
-	{
-		\App\Log::trace("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
-		if (!is_array($destinationRecordIds)) {
-			$destinationRecordIds = [$destinationRecordIds];
-		}
-
-		$data = [
-			'CRMEntity' => $focus,
-			'sourceModule' => $sourceModule,
-			'sourceRecordId' => $sourceRecordId,
-			'destinationModule' => $destinationModule,
-		];
-		$eventHandler = new \App\EventHandler();
-		$eventHandler->setModuleName($sourceModule);
-		foreach ($destinationRecordIds as &$destinationRecordId) {
-			$data['destinationRecordId'] = $destinationRecordId;
-			$eventHandler->setParams($data);
-			$eventHandler->trigger('EntityBeforeLink');
-			$focus->saveRelatedModule($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId, $relatedName);
-			\CRMEntity::trackLinkedInfo($sourceRecordId);
-			$eventHandler->trigger('EntityAfterLink');
-		}
-		\App\Log::trace('Exiting relateEntities method ...');
-	}
-
 	public static function getColumnFields($module)
 	{
 		\App\Log::trace('Entering getColumnFields(' . $module . ') method ...');
-
-		// Lookup in cache for information
-		$cachedModuleFields = \VTCacheUtils::lookupFieldInfoModule($module);
-
-		if (false === $cachedModuleFields) {
-			$fieldsInfo = Functions::getModuleFieldInfos($module);
-			if (!empty($fieldsInfo)) {
-				foreach ($fieldsInfo as $resultrow) {
-					// Update information to cache for re-use
-					\VTCacheUtils::updateFieldInfo(
-						$resultrow['tabid'], $resultrow['fieldname'], $resultrow['fieldid'], $resultrow['fieldlabel'], $resultrow['columnname'], $resultrow['tablename'], $resultrow['uitype'], $resultrow['typeofdata'], $resultrow['presence']
-					);
-				}
-			}
-			// For consistency get information from cache
-			$cachedModuleFields = \VTCacheUtils::lookupFieldInfoModule($module);
+		$columnFields = [];
+		foreach (\VTCacheUtils::lookupFieldInfoModule($module) as $fieldInfo) {
+			$columnFields[$fieldInfo['fieldname']] = '';
 		}
-
-		$column_fld = [];
-		if ($cachedModuleFields) {
-			foreach ($cachedModuleFields as $fieldinfo) {
-				$column_fld[$fieldinfo['fieldname']] = '';
-			}
-		}
-
 		\App\Log::trace('Exiting getColumnFields method ...');
-
-		return $column_fld;
+		return $columnFields;
 	}
 
 	/**
@@ -268,7 +218,7 @@ class Deprecated
 			}
 		}
 		$homeTabid = \App\Module::getModuleId('Home');
-		if (!in_array($homeTabid, $permittedModules)) {
+		if (!\in_array($homeTabid, $permittedModules)) {
 			$permittedModules[] = $homeTabid;
 		}
 		return $permittedModules;

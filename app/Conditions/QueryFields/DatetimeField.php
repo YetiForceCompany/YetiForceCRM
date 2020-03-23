@@ -8,6 +8,7 @@ namespace App\Conditions\QueryFields;
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class DatetimeField extends DateField
 {
@@ -18,8 +19,8 @@ class DatetimeField extends DateField
 	 */
 	public function getValue()
 	{
-		$val = explode(' ', \DateTimeField::convertToDBFormat($this->value));
-		return array_shift($val);
+		$val = \explode(' ', $this->value);
+		return \current($val);
 	}
 
 	/**
@@ -29,11 +30,7 @@ class DatetimeField extends DateField
 	 */
 	public function getArrayValue()
 	{
-		return array_map(function ($row) {
-			$parts = explode(' ', $row);
-
-			return \DateTimeField::convertToDBFormat(reset($parts));
-		}, explode(',', $this->value));
+		return explode(',', $this->value);
 	}
 
 	/**
@@ -69,7 +66,7 @@ class DatetimeField extends DateField
 	{
 		$value = $this->getArrayValue();
 
-		return ['between', $this->getColumnName(), $value[0] . ' 00:00:00', $value[1] . ' 23:59:59'];
+		return ['between', $this->getColumnName(), $value[0], $value[1]];
 	}
 
 	/**
@@ -121,9 +118,9 @@ class DatetimeField extends DateField
 	{
 		if ('custom' === $this->operator) {
 			$date = $this->getArrayValue();
-		} else {
-			$date = \DateTimeRange::getDateRangeByType($this->operator);
+			return [$date[0], $date[1]];
 		}
+		$date = \DateTimeRange::getDateRangeByType($this->operator);
 		return [$date[0] . ' 00:00:00', $date[1] . ' 23:59:59'];
 	}
 }

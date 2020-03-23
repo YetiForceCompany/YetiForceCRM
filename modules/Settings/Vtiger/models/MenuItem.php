@@ -120,7 +120,7 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 		if (isset(self::$transformedUrlMapping[$url])) {
 			$url = self::$transformedUrlMapping[$url];
 		}
-		if (!empty($this->menu) && $this->get('name') !== 'LBL_SHOP_YETIFORCE') {
+		if (!empty($this->menu)) {
 			$url .= '&block=' . $this->getMenu()->getId() . '&fieldid=' . $this->getId();
 		}
 		return $url;
@@ -153,7 +153,7 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	{
 		$pinStatus = $this->get('pinned');
 
-		return $pinStatus == '1' ? true : false;
+		return '1' == $pinStatus ? true : false;
 	}
 
 	/**
@@ -265,7 +265,7 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	public static function getAll($menuModel = false, $onlyActive = true)
 	{
 		$conditionsSqls = [];
-		if ($menuModel !== false) {
+		if (false !== $menuModel) {
 			$conditionsSqls['blockid'] = $menuModel->getId();
 		}
 		if ($onlyActive) {
@@ -280,7 +280,7 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 			'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST', 'LBL_TOOLTIP_MANAGEMENT', ];
 		$query = (new App\Db\Query())->from(self::$itemsTable);
 
-		if (count($conditionsSqls) > 0) {
+		if (\count($conditionsSqls) > 0) {
 			$query->where($conditionsSqls);
 		}
 		$dataReader = $query->andWhere(['and', ['NOT IN', 'name', $skipMenuItemList], ['or', ['like', 'admin_access', ',' . App\User::getCurrentUserId() . ','], ['admin_access' => null]]])
@@ -307,6 +307,7 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	 * Function to get the pinned items.
 	 *
 	 * @param array of fieldids
+	 * @param mixed $fieldList
 	 *
 	 * @return array - List of <Settings_Vtiger_MenuItem_Model> instances
 	 */

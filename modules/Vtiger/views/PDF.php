@@ -7,6 +7,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Maciej Stencel <m.stencel@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_PDF_View extends Vtiger_BasicModal_View
 {
@@ -38,53 +39,73 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 	public function process(App\Request $request)
 	{
 		$this->preProcess($request);
+		$viewer = $this->getViewer($request);
+
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
-		$view = $request->getByType('fromview', 1);
-		$allRecords = \Vtiger_Mass_Action::getRecordsListFromRequest($request);
+		$view = $request->getByType('fromview', 'Standard');
 		$handlerClass = \Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdfModel = new $handlerClass();
-		$viewer = $this->getViewer($request);
-		$templates = $dynamicTemplates = [];
-		if ('Detail' === $view) {
-			$templates = $pdfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName);
-		} elseif ('List' === $view) {
-			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, $view);
-		}
+
+		$dynamicTemplates = $records = [];
+		$active = false;
 		$activeDynamic = false;
-		if (\Vtiger_Module_Model::getInstance($moduleName)->isInventory()) {
-			foreach ($templates as $key => $template) {
-				if (\Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC === $template->get('type')) {
-					$dynamicTemplates[] = $template;
-					if ($template->get('default') && !$activeDynamic) {
-						$activeDynamic = true;
+
+		if ($recordId) {
+			$templates = $pdfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName);
+			$records = [$recordId];
+		} else {
+			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, $view);
+			$records = \Vtiger_Mass_Action::getRecordsListFromRequest($request);
+		}
+
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		$isInventory = $moduleModel->isInventory();
+		foreach ($templates as $key => $template) {
+			$isTemplateActive = $template->get('default');
+			if ($isTemplateActive && !$active) {
+				foreach ($records as $record) {
+					if ($template->checkFiltersForRecord((int) $record)) {
+						$active = true;
+						break;
 					}
-					unset($templates[$key]);
 				}
 			}
+			if ($isInventory && \Vtiger_PDF_Model::TEMPLATE_TYPE_DYNAMIC === $template->get('type')) {
+				$dynamicTemplates[] = $template;
+				if ($isTemplateActive && !$activeDynamic) {
+					$activeDynamic = true;
+				}
+				unset($templates[$key]);
+			}
+		}
+		if ($isInventory) {
 			$allInventoryColumns = [];
 			foreach (\Vtiger_Inventory_Model::getInstance($moduleName)->getFields() as $name => $field) {
 				$allInventoryColumns[$name] = $field->get('label');
 			}
-			if ($recordId) {
-				$selectedInventoryColumns = \App\Pdf\InventoryColumns::getInventoryColumnsForRecord($recordId, $moduleName);
-			} else {
-				$selectedInventoryColumns = array_keys($allInventoryColumns);
-			}
 			$viewer->assign('ALL_INVENTORY_COLUMNS', $allInventoryColumns);
-			$viewer->assign('SELECTED_INVENTORY_COLUMNS', $selectedInventoryColumns);
+			$viewer->assign('SELECTED_INVENTORY_COLUMNS', $recordId ? \App\Pdf\InventoryColumns::getInventoryColumnsForRecord($recordId, $moduleName) : array_keys($allInventoryColumns));
+			$viewer->assign('CAN_CHANGE_SCHEME', $moduleModel->isPermitted('RecordPdfInventory'));
 		}
-
-		$viewer->assign('CAN_CHANGE_SCHEME', \App\Privilege::isPermitted($moduleName, 'RecordPdfInventory'));
 		$viewer->assign('STANDARD_TEMPLATES', $templates);
 		$viewer->assign('DYNAMIC_TEMPLATES', $dynamicTemplates);
 		$viewer->assign('ACTIVE_DYNAMIC', $activeDynamic);
-		$viewer->assign('ALL_RECORDS', $allRecords);
-		$viewer->assign('EXPORT_VARS', [
-			'record' => $recordId,
-			'fromview' => $view,
-		]);
-		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('RECORD_ID', $recordId);
+		$viewer->assign('FROM_VIEW', $view);
+		$viewer->assign('ACTIVE', $active);
+		$viewer->assign('OPERATOR', $request->getByType('operator'));
+		$viewer->assign('ALPHABET_VALUE', App\Condition::validSearchValue(
+			$request->getByType('search_value', \App\Purifier::TEXT),
+			$moduleName,
+			$request->getByType('search_key', \App\Purifier::ALNUM), $request->getByType('operator')
+		));
+		$viewer->assign('VIEW_NAME', $request->getByType('viewname', \App\Purifier::ALNUM));
+		$viewer->assign('SELECTED_IDS', $request->getArray('selected_ids', \App\Purifier::INTEGER));
+		$viewer->assign('EXCLUDED_IDS', $request->getArray('excluded_ids', \App\Purifier::INTEGER));
+		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', \App\Purifier::ALNUM));
+		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($moduleName, $request->getArray('search_params'), false));
+		$viewer->assign('ORDER_BY', $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL));
 		$viewer->view('ExportPDF.tpl', $moduleName);
 		$this->postProcess($request);
 	}

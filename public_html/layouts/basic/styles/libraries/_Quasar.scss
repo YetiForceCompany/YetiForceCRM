@@ -1,17 +1,24 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.quasar-reset {
+.quasar-reset,
+body > .q-dialog:not(.quasar-reset) {
 	.row {
 		margin: unset;
 		margin-right: unset;
 		margin-left: unset;
 	}
+
 	.col,
-	[class*='col-'] {
+	[class*="col-"] {
+		position: unset;
 		padding: unset;
 		padding-right: unset;
 		padding-left: unset;
 	}
+	.q-field .col {
+		position: relative;
+	}
 }
+
 .quasar-container {
 	height: calc(100% - #{calculate-rem(48px)});
 	margin-left: -0.5rem;
@@ -34,8 +41,6 @@
 		height: calc(100vh - 113px);
 	}
 }
-
-select.form-control,
-select.select2 {
-	overflow: hidden;
+.singleComment .q-message-text {
+	background: #e0e0e0;
 }

@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Accounts_AccountHierarchy_View extends \App\Controller\View
+class Accounts_AccountHierarchy_View extends \App\Controller\View\Page
 {
 	use App\Controller\ClearProcess;
 

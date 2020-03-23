@@ -10,17 +10,16 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="d-flex flex-wrap flex-md-nowrap px-3 w-100">
+	<div class="d-flex flex-wrap flex-md-nowrap px-md-3 px-1 w-100">
 		<div class="u-min-w-md-70 w-100">
 			<div>
 				<div class="float-left spanModuleIcon moduleIcon{$MODULE_NAME}">
-					<span class="moduleIcon">
-						{assign var=IMAGE value=$RECORD->getImage()}
+					{assign var=IMAGE value=$RECORD->getImage()}
+					<span class="moduleIcon{if $IMAGE} o-detail__record-img mr-1{/if}">
 						{if $IMAGE}
-							<img class="pushDown js-detail-hierarchy" data-js="click" title="{$RECORD->getName()}" height="80" align="left" src="{$IMAGE.url}">
-							<br/>
+							<img class="js-detail-hierarchy" data-js="click" title="{$RECORD->getName()}" src="{$IMAGE.url}">
 						{else}
-							<span class="pl-0 o-detail__icon js-detail__icon js-detail-hierarchy userIcon-{$MODULE}" data-js="click"></span>
+							<span class="pl-0 o-detail__icon js-detail__icon js-detail-hierarchy yfm-{$MODULE}" data-js="click"></span>
 						{/if}
 						{if App\Config::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
 							<span class="hierarchy">
@@ -29,10 +28,15 @@
 						{/if}
 					</span>
 				</div>
-				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis-icon" data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('salutationtype',$RECORD->getId(), true))} {\App\Purifier::encodeHtml($RECORD->getName())}" data-toggle="popover" data-js="popover | mouseenter">
+				{assign var=SALUTATION value=''}
+				{if $RECORD->getField('salutationtype')->isViewable()}
+					{assign var=SALUTATION value=$RECORD->getDisplayValue('salutationtype')}
+				{/if}
+				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis-icon" data-content="{if $SALUTATION}{\App\Purifier::encodeHtml($SALUTATION)} {/if}{\App\Purifier::encodeHtml($RECORD->getName())}"
+					data-toggle="popover" data-js="popover | mouseenter">
 					<h4 class="recordLabel h6 mb-0 js-popover-text" data-js="clone">
-						{if $RECORD->getDisplayValue('salutationtype')}
-							<span class="salutation mr-1">{$RECORD->getDisplayValue('salutationtype')}</span>
+						{if $SALUTATION}
+							<span class="salutation mr-1">{$SALUTATION}</span>
 						{/if}
 						<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 					</h4>

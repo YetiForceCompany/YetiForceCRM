@@ -80,7 +80,7 @@ class Vtiger_RecordStructure_Model extends \App\Base
 	/**
 	 * Function to get the values in stuctured format.
 	 *
-	 * @return <array> - values in structure array('block'=>array(fieldinfo));
+	 * @return Vtiger_Field_Model[][] - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()
 	{
@@ -116,6 +116,7 @@ class Vtiger_RecordStructure_Model extends \App\Base
 	 * Function to retieve the instance from record model.
 	 *
 	 * @param Vtiger_Record_Model $recordModel - record instance
+	 * @param mixed               $mode
 	 *
 	 * @return Vtiger_RecordStructure_Model
 	 */
@@ -133,6 +134,7 @@ class Vtiger_RecordStructure_Model extends \App\Base
 	 * Function to retieve the instance from module model.
 	 *
 	 * @param Vtiger_Module_Model $moduleModel - module instance
+	 * @param mixed               $mode
 	 *
 	 * @return Vtiger_RecordStructure_Model
 	 */
