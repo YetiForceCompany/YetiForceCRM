@@ -21,11 +21,4 @@ class Settings_Magento_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('RECORD_MODEL', Settings_Magento_Record_Model::getCleanInstance());
 		$viewer->view('Index.tpl', $request->getModule(false));
 	}
-
-	public function getFooterScripts(App\Request $request)
-	{
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-			"modules.Settings.{$request->getModule()}.resources.Edit",
-		]));
-	}
 }

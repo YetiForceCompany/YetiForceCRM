@@ -129,6 +129,6 @@ class Settings_Magento_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 		}
 		$params['typeofdata'] .= $fields[$name]['required'] ? '~M' : '~O';
-		return \Vtiger_Field_Model::init($moduleName, $params);
+		return \Vtiger_Field_Model::init($moduleName, $params, $name);
 	}
 }
