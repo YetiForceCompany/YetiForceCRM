@@ -102,17 +102,8 @@ body:not(.desktop) {
 
 .c-panel--collapsible .c-panel__header,
 .c-detail-widget .c-detail-widget__header {
-	.mdi-chevron-up {
-		display: inline-block;
-		transform: rotate(180deg);
-		@include u-transition(transform 0.5s ease);
-	}
-	&.collapsed {
-		.mdi-chevron-up {
-			transform: rotate(360deg);
-		}
-		border-bottom: none;
-	}
+	$transformClass: u-transform_rotate, c-detail-widget__header, collapsed;
+	@include u-transform($transformClass);
 }
 
 .c-badge__icon {
