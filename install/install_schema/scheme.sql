@@ -7924,7 +7924,6 @@ CREATE TABLE `vtiger_relatedlists` (
 CREATE TABLE `vtiger_relatedlists_fields` (
   `relation_id` int(10) DEFAULT NULL,
   `fieldid` int(10) NOT NULL,
-  `fieldname` varchar(30) DEFAULT NULL,
   `sequence` smallint(3) DEFAULT NULL,
   KEY `relation_id` (`relation_id`),
   KEY `fk_1_relatedlists_fields_fieldid` (`fieldid`),

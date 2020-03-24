@@ -917,21 +917,27 @@ class Vtiger_Relation_Model extends \App\Base
 	public static function updateModuleRelatedFields(int $relationId, $fields)
 	{
 		$db = \App\Db::getInstance();
-		$db->createCommand()->delete('vtiger_relatedlists_fields', ['relation_id' => $relationId])->execute();
-		if ($fields) {
-			$addedFields = [];
-			foreach ($fields as $key => $field) {
-				if (\in_array($field['id'], $addedFields)) {
-					continue;
+		$transaction = $db->beginTransaction();
+		try {
+			$db->createCommand()->delete('vtiger_relatedlists_fields', ['relation_id' => $relationId])->execute();
+			if ($fields) {
+				$addedFields = [];
+				foreach ($fields as $key => $field) {
+					if (\in_array($field['id'], $addedFields)) {
+						continue;
+					}
+					$db->createCommand()->insert('vtiger_relatedlists_fields', [
+						'relation_id' => $relationId,
+						'fieldid' => $field['id'],
+						'sequence' => $key,
+					])->execute();
+					$addedFields[] = $field['id'];
 				}
-				$db->createCommand()->insert('vtiger_relatedlists_fields', [
-					'relation_id' => $relationId,
-					'fieldid' => $field['id'],
-					'fieldname' => $field['name'],
-					'sequence' => $key,
-				])->execute();
-				$addedFields[] = $field['id'];
 			}
+			$transaction->commit();
+		} catch (\Throwable $e) {
+			$transaction->rollBack();
+			throw $e;
 		}
 		\App\Cache::clear();
 	}
