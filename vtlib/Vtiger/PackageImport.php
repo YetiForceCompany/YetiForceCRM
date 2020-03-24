@@ -1030,7 +1030,7 @@ class PackageImport extends PackageExport
 			}
 		}
 		if ($inRelModuleInstance) {
-			$inRelModuleInstance->setRelatedList($moduleInstance, "$label", $actions, "$inRelatedListNode->function");
+			$inRelModuleInstance->setRelatedList($moduleInstance, "$label", $actions, "$inRelatedListNode->function", $inRelatedListNode->field_name);
 		}
 		return $inRelModuleInstance;
 	}
