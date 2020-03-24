@@ -9,6 +9,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Integrations\Magento\Synchronizator;
@@ -92,7 +93,7 @@ class Category extends Base
 		$this->getCategoriesYF();
 		$this->getCategoriesMagento();
 		$this->getCategoryMapping();
-		if ('magento' === \App\Config::component('Magento', 'masterSource')) {
+		if ('magento' === $this->config->get('masterSource')) {
 			$this->updateCategoriesMagento(true);
 			$this->updateCategoriesYF(false, $this->categoriesMagento['children_data']);
 		} else {
@@ -243,7 +244,7 @@ class Category extends Base
 	public function getCategoriesMagento()
 	{
 		try {
-			$categoriesList = $this->connector->request('GET', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/categories');
+			$categoriesList = $this->connector->request('GET', $this->config->get('storeCode') . '/V1/categories');
 			$this->categoriesMagento['children_data'] = [\App\Json::decode($categoriesList)];
 			$this->parseMagentoCategory($this->categoriesMagento);
 		} catch (\Throwable $ex) {
@@ -341,7 +342,7 @@ class Category extends Base
 	{
 		$result = false;
 		try {
-			$categoryRequest = \App\Json::decode($this->connector->request('POST', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/categories', [
+			$categoryRequest = \App\Json::decode($this->connector->request('POST', $this->config->get('storeCode') . '/V1/categories', [
 				'category' => [
 					'name' => $category['name'],
 					'parent_id' => $this->mapCategoryMagento[$category['parent_id']] ?? 0,
@@ -404,7 +405,7 @@ class Category extends Base
 			$this->updateCategoryParentMagento($categoryYF, $categoryMagento);
 		}
 		try {
-			$this->connector->request('PUT', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/categories/' . $categoryMagento['id'], [
+			$this->connector->request('PUT', $this->config->get('storeCode') . '/V1/categories/' . $categoryMagento['id'], [
 				'category' => [
 					'name' => $categoryYF['name'],
 					'isActive' => $categoryYF['is_active'],
@@ -487,7 +488,7 @@ class Category extends Base
 		$result = false;
 		if (!\in_array($categoryMagento['id'], static::$nonEditable)) {
 			try {
-				$this->connector->request('DELETE', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/categories/' . $categoryMagento['id'], []);
+				$this->connector->request('DELETE', $this->config->get('storeCode') . '/V1/categories/' . $categoryMagento['id'], []);
 				$result = true;
 			} catch (\Throwable $ex) {
 				\App\Log::error('Error during deleting magento category: ' . $ex->getMessage(), 'Integrations/Magento');
@@ -535,7 +536,7 @@ class Category extends Base
 	public function updateCategoryParentMagento($categoryYF, $categoryMagento): bool
 	{
 		try {
-			$this->connector->request('PUT', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/categories/' . $categoryMagento['id'] . '/move', ['parentId' => $this->mapCategoryMagento[$categoryYF['parent_id']] ?? 0]);
+			$this->connector->request('PUT', $this->config->get('storeCode') . '/V1/categories/' . $categoryMagento['id'] . '/move', ['parentId' => $this->mapCategoryMagento[$categoryYF['parent_id']] ?? 0]);
 			$result = true;
 		} catch (\Throwable $ex) {
 			\App\Log::error('Error during moving magento category: ' . $ex->getMessage(), 'Integrations/Magento');

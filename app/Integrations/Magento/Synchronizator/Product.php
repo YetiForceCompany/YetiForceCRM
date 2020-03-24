@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Integrations\Magento\Synchronizator;
@@ -22,16 +23,15 @@ class Product extends Integrators\Product
 	 */
 	public function process(): void
 	{
-		$this->config = \App\Integrations\Magento\Config::getInstance();
-		$this->lastScan = $this->config::getLastScan('product');
+		$this->lastScan = $this->config->getLastScan('product');
 		if (!$this->lastScan['start_date'] || (0 === (int) $this->lastScan['id'] && 0 === (int) $this->lastScan['idcrm'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])) {
-			$this->config::setScan('product');
-			$this->lastScan = $this->config::getLastScan('product');
+			$this->config->setScan('product');
+			$this->lastScan = $this->config->getLastScan('product');
 		}
 		$this->getProductSkuMap();
 		$this->getMapping('product');
 		if ($this->checkProductsCrm() && $this->checkProducts()) {
-			$this->config::setEndScan('product', $this->lastScan['start_date']);
+			$this->config->setEndScan('product', $this->lastScan['start_date']);
 		}
 	}
 
@@ -69,7 +69,7 @@ class Product extends Integrators\Product
 				} else {
 					$this->saveProduct($productCrm);
 				}
-				$this->config::setScan('product', 'idcrm', $id);
+				$this->config->setScan('product', 'idcrm', $id);
 			}
 		} else {
 			$result = true;
@@ -120,7 +120,7 @@ class Product extends Integrators\Product
 					} else {
 						$this->saveProductCrm($productData);
 					}
-					$this->config::setScan('product', 'id', $id);
+					$this->config->setScan('product', 'id', $id);
 				}
 			} else {
 				$allChecked = true;
@@ -186,7 +186,7 @@ class Product extends Integrators\Product
 			if (!empty($this->lastScan['end_date'])) {
 				$query->andWhere(['>=', 'modifiedtime', $this->lastScan['end_date']]);
 			}
-			$query->limit(\App\Config::component('Magento', 'productLimit'));
+			$query->limit($this->config->get('productLimit'));
 		}
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -221,7 +221,7 @@ class Product extends Integrators\Product
 	 */
 	public function saveProductCrm(array $data): int
 	{
-		$className = \App\Config::component('Magento', 'productMapClassName');
+		$className = $this->config->get('productMapClassName');
 		$productFields = new $className();
 		$productFields->setData($data);
 		$dataCrm = $productFields->getDataCrm();
@@ -322,7 +322,7 @@ class Product extends Integrators\Product
 	public function updateProductCrm(int $id, array $data): void
 	{
 		try {
-			$className = \App\Config::component('Magento', 'productMapClassName');
+			$className = $this->config->get('productMapClassName');
 			$productFields = new $className();
 			$productFields->setData($data);
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Products');
@@ -347,7 +347,7 @@ class Product extends Integrators\Product
 	 */
 	public function saveImagesCrm(&$recordModel, $images): void
 	{
-		$imagePath = \App\Config::component('Magento', 'addressApi') . \App\Config::component('Magento', 'productImagesPath');
+		$imagePath = $this->config->get('addressApi') . $this->config->get('productImagesPath');
 		$imagesData = [];
 		if (!empty($images)) {
 			foreach ($images as $image) {
@@ -422,7 +422,7 @@ class Product extends Integrators\Product
 	 */
 	public function saveStorage(int $productId, float $value): void
 	{
-		$storageId = \App\Config::component('Magento', 'storageId');
+		$storageId = $this->config->get('storageId');
 		if (!empty($storageId)) {
 			$db = \App\Db::getInstance();
 			$referenceInfo = \Vtiger_Relation_Model::getReferenceTableInfo('Products', 'IStorages');

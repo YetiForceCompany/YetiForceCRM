@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Integrations\Magento\Synchronizator\Maps;
@@ -31,6 +32,11 @@ class Customer extends Base
 		'email' => 'email'
 	];
 
+	/**
+	 * Additional fields.
+	 *
+	 * @var array
+	 */
 	public static $additionalFields = [
 		'website_id' => ''
 	];
@@ -45,7 +51,7 @@ class Customer extends Base
 
 	public function getWebsite_id()
 	{
-		return \App\Config::component('Magento', 'websiteId');
+		return $this->config->get('websiteId');
 	}
 
 	/**

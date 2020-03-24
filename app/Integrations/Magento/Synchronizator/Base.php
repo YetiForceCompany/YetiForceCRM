@@ -8,6 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Integrations\Magento\Synchronizator;
@@ -73,6 +74,12 @@ abstract class Base
 	 * @var \App\Integrations\Magento\Config
 	 */
 	public $config;
+	/**
+	 * Controller.
+	 *
+	 * @var \App\Integrations\Magento\Controller
+	 */
+	public $controller;
 
 	/**
 	 * Mapped records table name.
@@ -94,15 +101,15 @@ abstract class Base
 	public const YETIFORCE = 2;
 
 	/**
-	 * Sets connector to communicate with system.
+	 * Construct.
 	 *
-	 * @param object $connector
-	 *
-	 * @return void
+	 * @param \App\Integrations\Magento\Controller $controller
 	 */
-	public function setConnector($connector): void
+	public function __construct(\App\Integrations\Magento\Controller $controller)
 	{
-		$this->connector = $connector;
+		$this->connector = $controller->getConnector();
+		$this->controller = $controller;
+		$this->config = $controller->config;
 	}
 
 	/**
@@ -279,7 +286,7 @@ abstract class Base
 					$item['discountparam'] = '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":' . $fieldMap->getInvFieldValue('discount') . '}';
 				}
 			} elseif ('currency' === $columnName) {
-				$item['currency'] = \App\Config::component('Magento', 'currencyId');
+				$item['currency'] = $this->config->get('currencyId');
 			} elseif ('name' === $columnName) {
 				$item[$columnName] = $this->mapCrm['product'][$record['product_id']];
 			} else {
@@ -304,8 +311,8 @@ abstract class Base
 		return [
 			'discountmode' => 1,
 			'taxmode' => 1,
-			'currency' => \App\Config::component('Magento', 'currencyId'),
-			'name' => \App\Config::component('Magento', 'shippingServiceId'),
+			'currency' => $this->config->get('currencyId'),
+			'name' => $this->config->get('shippingServiceId'),
 			'unit' => '',
 			'subunit' => '',
 			'qty' => 1,
@@ -329,7 +336,7 @@ abstract class Base
 	public function parseAdditionalData(array $data = []): array
 	{
 		$additionalData = [];
-		$className = \App\Config::component('Magento', 'orderMapClassName');
+		$className = $this->config->get('orderMapClassName');
 		$map = new $className();
 		if (method_exists($map, 'parseAdditionalData')) {
 			$additionalData = $map->parseAdditionalData($data);

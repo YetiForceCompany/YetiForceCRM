@@ -7,18 +7,24 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Integrations\Magento;
 
 use App\Exceptions\AppException;
-use App\Integrations\Magento\Connector\ConnectorInterface;
 
 /**
  * Magento class.
  */
 class Controller
 {
+	/**
+	 * Config.
+	 *
+	 * @var \App\Integrations\Magento\Config
+	 */
+	public $config;
 	/**
 	 * Connector with magento.
 	 */
@@ -32,13 +38,13 @@ class Controller
 	public function getConnector()
 	{
 		if (empty($this->connector)) {
-			$className = '\\App\\Integrations\\Magento\\Connector\\' . \App\Config::component('Magento', 'connector', 'Token');
+			$className = '\\App\\Integrations\\Magento\\Connector\\' . $this->config->get('connector') ?? 'Token';
 			if (!class_exists($className)) {
 				throw new \App\Exceptions\AppException('ERR_CLASS_NOT_FOUND');
 			}
-			$this->connector = new $className();
-			if (!$this->connector instanceof ConnectorInterface) {
-				throw new AppException('ERR_CLASS_MUST_HAVE_INTERFACE||ConnectorInterface');
+			$this->connector = new $className($this->config);
+			if (!$this->connector instanceof \App\Integrations\Magento\Connector\Base) {
+				throw new AppException('ERR_CLASS_MUST_BE||\App\Integrations\Magento\Connector\Base');
 			}
 		}
 		return $this->connector;
@@ -49,6 +55,7 @@ class Controller
 	 */
 	public function __construct()
 	{
+		$this->config = \App\Integrations\Magento\Config::getInstance();
 		$this->getConnector()->authorize();
 	}
 
@@ -59,8 +66,7 @@ class Controller
 	 */
 	public function synchronizeCategories(): void
 	{
-		$categorySynchronizator = new Synchronizator\Category();
-		$categorySynchronizator->setConnector($this->getConnector());
+		$categorySynchronizator = new Synchronizator\Category($this);
 		$categorySynchronizator->process();
 	}
 
@@ -71,8 +77,7 @@ class Controller
 	 */
 	public function synchronizeProducts(): void
 	{
-		$productSynchronizator = new Synchronizator\Product();
-		$productSynchronizator->setConnector($this->getConnector());
+		$productSynchronizator = new Synchronizator\Product($this);
 		$productSynchronizator->process();
 	}
 
@@ -83,8 +88,7 @@ class Controller
 	 */
 	public function synchronizeInvoices(): void
 	{
-		$invoiceSynchronizator = new Synchronizator\Invoice();
-		$invoiceSynchronizator->setConnector($this->getConnector());
+		$invoiceSynchronizator = new Synchronizator\Invoice($this);
 		$invoiceSynchronizator->process();
 	}
 
@@ -95,8 +99,7 @@ class Controller
 	 */
 	public function synchronizeOrders(): void
 	{
-		$orderSynchronizator = new Synchronizator\Order();
-		$orderSynchronizator->setConnector($this->getConnector());
+		$orderSynchronizator = new Synchronizator\Order($this);
 		$orderSynchronizator->process();
 	}
 
@@ -107,8 +110,7 @@ class Controller
 	 */
 	public function synchronizeCustomers(): void
 	{
-		$customerSynchronizator = new Synchronizator\Customer();
-		$customerSynchronizator->setConnector($this->getConnector());
+		$customerSynchronizator = new Synchronizator\Customer($this);
 		$customerSynchronizator->process();
 	}
 }

@@ -8,6 +8,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Integrations\Magento;
@@ -37,7 +38,7 @@ class Config extends \App\Base
 		if (null === static::$instance) {
 			static::$instance = new static();
 			$data = (new Query())->select(['name', 'value'])->from(self::TABLE_NAME)->createCommand()->queryAllByGroup();
-			static::$instance->setData($data);
+			static::$instance->setData(array_merge(\App\Config::component('Magento'), $data));
 		}
 		return static::$instance;
 	}
@@ -51,7 +52,7 @@ class Config extends \App\Base
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public static function setScan(string $type, $name = false, $id = false): void
+	public function setScan(string $type, $name = false, $id = false): void
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		if (false !== $name) {
@@ -71,7 +72,7 @@ class Config extends \App\Base
 			$dbCommand->insert(self::TABLE_NAME, $data)->execute();
 		}
 		$dbCommand->update(self::TABLE_NAME, $data, ['name' => $data['name']])->execute();
-		static::$instance->set($data['name'], $data['value']);
+		$this->set($data['name'], $data['value']);
 	}
 
 	/**
@@ -82,7 +83,7 @@ class Config extends \App\Base
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public static function setEndScan(string $type, string $date): void
+	public function setEndScan(string $type, string $date): void
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		if (!$date) {
@@ -108,7 +109,7 @@ class Config extends \App\Base
 			} else {
 				$dbCommand->update(self::TABLE_NAME, $data, ['name' => $data['name']])->execute();
 			}
-			static::$instance->set($data['name'], $data['value']);
+			$this->set($data['name'], $data['value']);
 		}
 	}
 
@@ -119,14 +120,13 @@ class Config extends \App\Base
 	 *
 	 * @return array
 	 */
-	public static function getLastScan(string $type): array
+	public function getLastScan(string $type): array
 	{
-		$instance = self::getInstance();
 		return [
-			'id' => $instance->get($type . '_last_scan_id') ?? 0,
-			'idcrm' => $instance->get($type . '_last_scan_idcrm') ?? 0,
-			'start_date' => $instance->get($type . '_start_scan_date') ?? false,
-			'end_date' => $instance->get($type . '_end_scan_date') ?? false,
+			'id' => $this->get($type . '_last_scan_id') ?? 0,
+			'idcrm' => $this->get($type . '_last_scan_idcrm') ?? 0,
+			'start_date' => $this->get($type . '_start_scan_date') ?? false,
+			'end_date' => $this->get($type . '_end_scan_date') ?? false,
 		];
 	}
 }

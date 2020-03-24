@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Integrations\Magento\Synchronizator\Integrators;
@@ -43,10 +44,10 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 		$result = false;
 		if (!empty($this->mapIdToSku[$productId])) {
 			try {
-				$className = \App\Config::component('Magento', 'productMapClassName');
+				$className = $this->config->get('productMapClassName');
 				$productFields = new $className();
 				$productFields->setDataCrm($product);
-				$this->connector->request('PUT', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products/' . urlencode($this->mapIdToSku[$productId]), $productFields->getData(true));
+				$this->connector->request('PUT', $this->config->get('storeCode') . '/V1/products/' . urlencode($this->mapIdToSku[$productId]), $productFields->getData(true));
 				$result = true;
 			} catch (\Throwable $ex) {
 				\App\Log::error('Error during updating magento product: ' . $ex->getMessage(), 'Integrations/Magento');
@@ -66,11 +67,11 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	 */
 	public function saveProduct(array $product): bool
 	{
-		$className = \App\Config::component('Magento', 'productMapClassName');
+		$className = $this->config->get('productMapClassName');
 		$productFields = new $className();
 		$productFields->setDataCrm($product);
 		try {
-			$productRequest = \App\Json::decode($this->connector->request('POST', '/rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products/', $productFields->getData()));
+			$productRequest = \App\Json::decode($this->connector->request('POST', $this->config->get('storeCode') . '/V1/products/', $productFields->getData()));
 			if (!empty($productRequest)) {
 				$this->saveImages($productRequest['sku'], \App\Json::decode($product['imagename']));
 				$this->saveMapping($productRequest['id'], $product['productid'], 'product');
@@ -97,7 +98,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 		try {
 			if (!empty($this->mapIdToSku)) {
 				if (isset($this->mapIdToSku[$productId])) {
-					$this->connector->request('DELETE', '/rest/all/V1/products/' . urlencode($this->mapIdToSku[$productId]), []);
+					$this->connector->request('DELETE', 'all/V1/products/' . urlencode($this->mapIdToSku[$productId]), []);
 				}
 				$this->deleteMapping($productId, $this->mapCrm['product'][$productId], 'product');
 			}
@@ -120,7 +121,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 		if (empty($this->mapIdToSku)) {
 			$page = 1;
 			do {
-				$data = \App\Json::decode($this->connector->request('GET', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products?fields=items[id,sku]&searchCriteria[pageSize]=1000&searchCriteria[currentPage]=' . $page));
+				$data = \App\Json::decode($this->connector->request('GET', $this->config->get('storeCode') . '/V1/products?fields=items[id,sku]&searchCriteria[pageSize]=1000&searchCriteria[currentPage]=' . $page));
 				if (!empty($data['items'])) {
 					foreach ($data['items'] as $item) {
 						$this->mapIdToSku[$item['id']] = $item['sku'];
@@ -147,7 +148,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	public function getProducts($ids = ''): array
 	{
 		$items = [];
-		$data = \App\Json::decode($this->connector->request('GET', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products?' . $this->getSearchCriteria($ids, \App\Config::component('Magento', 'productLimit'))));
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('storeCode') . '/V1/products?' . $this->getSearchCriteria($ids, $this->config->get('productLimit'))));
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
 				$items[$item['id']] = $item;
@@ -167,7 +168,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 	{
 		$data = [];
 		try {
-			$data = \App\Json::decode($this->connector->request('GET', 'rest/' . \App\Config::component('Magento', 'storeCode') . '/V1/products/' . urlencode($sku)));
+			$data = \App\Json::decode($this->connector->request('GET', $this->config->get('storeCode') . '/V1/products/' . urlencode($sku)));
 		} catch (\Throwable $ex) {
 			\App\Log::error('Error during getting magento product data: ' . $ex->getMessage(), 'Integrations/Magento');
 		}
@@ -234,7 +235,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 					]
 				];
 				try {
-					\App\Json::decode($this->connector->request('POST', 'rest/V1/products/' . urlencode($sku) . '/media',
+					\App\Json::decode($this->connector->request('POST', 'V1/products/' . urlencode($sku) . '/media',
 						$data
 					));
 				} catch (\Throwable $ex) {
@@ -255,7 +256,7 @@ abstract class Product extends \App\Integrations\Magento\Synchronizator\Record
 		if (!empty($images)) {
 			foreach ($images as $image) {
 				try {
-					\App\Json::decode($this->connector->request('DELETE', 'rest/V1/products/' . urlencode($sku) . "/media/{$image['id']}"));
+					\App\Json::decode($this->connector->request('DELETE', 'V1/products/' . urlencode($sku) . "/media/{$image['id']}"));
 				} catch (\Throwable $ex) {
 					\App\Log::error('Error during removing magento product image: ' . $ex->getMessage(), 'Integrations/Magento');
 				}
