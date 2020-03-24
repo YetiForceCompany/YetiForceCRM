@@ -233,6 +233,18 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		}
 		$blockModel = Vtiger_Block_Model::getInstance($blockId, $moduleName);
 		$blockModel->addField($fieldModel);
+		if ('Phone' === $fieldType) {
+			$fieldInstance = new vtlib\Field();
+			$fieldInstance->name = $name . '_extra';
+			$fieldInstance->table = $tableName;
+			$fieldInstance->label = 'FL_PHONE_CUSTOM_INFORMATION';
+			$fieldInstance->column = $name . '_extra';
+			$fieldInstance->uitype = 1;
+			$fieldInstance->displaytype = 3;
+			$fieldInstance->maxlengthtext = 100;
+			$fieldInstance->typeofdata = 'V~O';
+			$fieldInstance->save($blockModel);
+		}
 		if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType) {
 			$fieldModel->setPicklistValues($pickListValues);
 		}
