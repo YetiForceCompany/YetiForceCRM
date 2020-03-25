@@ -1400,7 +1400,9 @@
     "LBL_SHOW_ORIGINAL_CONTENT": "Show original content",
     "LBL_COMPANY_NAME": "Company name",
     "LBL_SHOW_PASSWORD": "Show hidden password",
-    "LBL_NO_DATA_FOUND": "No data found"
+    "LBL_NO_DATA_FOUND": "No data found",
+    "LBL_DUPLICATE_EMAIL_ADDRESS": "This email address already exists in this module.",
+    "LBL_DUPLICATE_VAT_ID": "This VAT ID already exists in this module."
   },
   "js": {
     "JS_APPROVE": "Approve",

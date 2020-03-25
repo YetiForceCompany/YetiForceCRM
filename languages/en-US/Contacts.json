@@ -46,8 +46,7 @@
     "LBL_SWITCH_OFF_DECISION_MAKER": "All",
     "LBL_SHOW_HIERARCHY": "Contact hierarchy",
     "FL_APPROVALS": "Approvals",
-    "LBL_PARTICIPANTS": "Participants",
-    "LBL_DUPLICATE_EMAIL_ADDRESS": "Duplicate email address"
+    "LBL_PARTICIPANTS": "Participants"
   },
   "js": {}
 }
