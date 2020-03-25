@@ -102,8 +102,7 @@ body:not(.desktop) {
 
 .c-panel--collapsible .c-panel__header,
 .c-detail-widget .c-detail-widget__header {
-	$transformClass: u-transform_rotate, c-detail-widget__header, collapsed;
-	@include u-transform($transformClass);
+	@include u-transform(180deg, true);
 }
 
 .c-badge__icon {

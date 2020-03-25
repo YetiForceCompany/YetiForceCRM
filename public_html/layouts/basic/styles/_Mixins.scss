@@ -62,17 +62,17 @@
 	opacity: 0.8;
 }
 
- @mixin u-transform($transformClass) {
-	@each $rotateClass, $parentClass, $clickClass in $transformClass {
-		.#{$rotateClass} {
-			display: inline-block;
-			@include u-transition(transform 0.5s ease);
-		}
-		.#{$parentClass} .#{$clickClass} {
-			.#{$rotateClass}{
-				transform: rotate(180deg);
-		}
-		border-bottom: none;
-		}
+
+@mixin u-transform($rotateDeg, $rotate: false) {
+  @if $rotate {
+	.u-transform_rotate-#{$rotateDeg}{
+		display: inline-block;
+		@include u-transition(transform 0.5s ease);
 	}
+	.collapsed {
+		.u-transform_rotate-#{$rotateDeg}{
+			transform: rotate($rotateDeg);
+		  }
+	  }
+  }
 }
