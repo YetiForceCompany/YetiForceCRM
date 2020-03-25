@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Integrations\Magento\Synchronizator\Maps;
@@ -17,70 +18,61 @@ abstract class Base
 	/**
 	 * Fields which are not exist in Magento but needed in YetiForce.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	public static $additionalFieldsCrm = [];
 	/**
-	 * Fields which are not exist in YetiForce but needed in Magento.
-	 *
-	 * @var array
-	 */
-	public static $additionalFields = [];
-	/**
-	 * Fields which are not exist in YetiForce but needed in save Magento.
-	 *
-	 * @var array
-	 */
-	public static $additionalSaveFields = [];
-	/**
 	 * Mapped fields.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	public static $mappedFields = [];
 	/**
 	 * Mapped fields type.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	public static $fieldsType = [];
 	/**
 	 * Fields default value.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	public static $fieldsDefaultValue = [];
 
 	/**
 	 * Fields which can not be updated.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	public static $nonEditableFields = [];
 	/**
 	 * Data from Magento.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	public $data = [];
 	/**
 	 * Data from YetiForce.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	public $dataCrm = [];
+	/**
+	 * Synchronizer.
+	 *
+	 * @var \App\Integrations\Magento\Synchronizator\Base
+	 */
+	protected $synchronizer;
 
 	/**
-	 * Return Magento field name.
+	 * Constructor.
 	 *
-	 * @param string $name
-	 *
-	 * @return mixed|string
+	 * @param \App\Integrations\Magento\Synchronizator\Base $synchronizer
 	 */
-	public function getFieldName(string $name)
+	public function __construct(\App\Integrations\Magento\Synchronizator\Base $synchronizer)
 	{
-		$fieldName = explode('|', static::$mappedFields[$name] ?? $name);
-		return end($fieldName);
+		$this->synchronizer = $synchronizer;
 	}
 
 	/**
@@ -110,26 +102,6 @@ abstract class Base
 			$fields = static::$mappedFields;
 		}
 		return $fields;
-	}
-
-	/**
-	 * Return additional Magento fields list.
-	 *
-	 * @return array
-	 */
-	public function getAdditionalFields(): array
-	{
-		return static::$additionalFields;
-	}
-
-	/**
-	 * Return additional Magento only in save fields list.
-	 *
-	 * @return array
-	 */
-	public function getAdditionalSaveFields(): array
-	{
-		return static::$additionalSaveFields;
 	}
 
 	/**
@@ -163,30 +135,6 @@ abstract class Base
 	}
 
 	/**
-	 * Return parsed data in Magento format.
-	 *
-	 * @param bool $onEdit
-	 *
-	 * @return array
-	 */
-	public function getData(bool $onEdit = false): array
-	{
-		$data = [];
-		foreach ($this->getFields($onEdit) as $fieldCrm => $field) {
-			$data = \array_merge_recursive($data, $this->getFieldValueCrm($fieldCrm, true));
-		}
-		if (!$onEdit) {
-			foreach ($this->getAdditionalSaveFields() as $name => $value) {
-				$data = \array_merge_recursive($data, $this->getFieldStructure($name, !empty($value) ? $value : $this->getFieldValueCrm($name, false)));
-			}
-		}
-		foreach ($this->getAdditionalFields() as $name => $value) {
-			$data = \array_merge_recursive($data, $this->getFieldStructure($name, !empty($value) ? $value : $this->getFieldValueCrm($name, false)));
-		}
-		return ['product' => $data];
-	}
-
-	/**
 	 * Return parsed data in YetiForce format.
 	 *
 	 * @param bool $onEdit
@@ -205,34 +153,6 @@ abstract class Base
 			}
 		}
 		return $parsedData;
-	}
-
-	/**
-	 * Get field value from YetiForce.
-	 *
-	 * @param string $fieldName
-	 * @param bool   $parsedStructure
-	 *
-	 * @return array|mixed
-	 */
-	public function getFieldValueCrm(string $fieldName, bool $parsedStructure = false)
-	{
-		$methodName = 'get' . \ucfirst($this->getFieldName($fieldName));
-		if (!\method_exists($this, $methodName)) {
-			$fieldParsed = $this->dataCrm;
-			foreach (explode('|', $fieldName) as $fieldLevel) {
-				$fieldParsed = $fieldParsed[$fieldLevel] ?? null;
-			}
-			if (isset(static::$fieldsType[$fieldName]) && 'map' === static::$fieldsType[$fieldName]) {
-				$fieldParsed = array_flip(static::${$fieldName})[$fieldParsed] ?? null;
-			}
-		} else {
-			$fieldParsed = $this->{$methodName}();
-		}
-		if ($parsedStructure) {
-			$fieldParsed = $this->getFieldStructure($fieldName, $fieldParsed);
-		}
-		return $fieldParsed;
 	}
 
 	/**
@@ -311,35 +231,5 @@ abstract class Base
 			}
 		}
 		return $value;
-	}
-
-	/**
-	 * Get field value in structure.
-	 *
-	 * @param string $name
-	 * @param $value
-	 *
-	 * @return mixed|array
-	 */
-	public function getFieldStructure(string $name, $value)
-	{
-		if (empty($value)) {
-			$value = static::$fieldsDefaultValue[$name] ?? 0;
-		}
-		$fieldStructure = [];
-		$fieldMap = static::$mappedFields[$name] ?? $name;
-		if (!empty($fieldMap)) {
-			$fieldLevels = array_reverse(explode('|', $fieldMap));
-			if (\in_array('custom_attributes', $fieldLevels)) {
-				$fieldStructure[end($fieldLevels)][] = ['attribute_code' => array_shift($fieldLevels), 'value' => $value];
-			} else {
-				$fieldStructure[array_shift($fieldLevels)] = $value;
-				foreach ($fieldLevels as $level) {
-					$fieldStructure[$level] = $fieldStructure;
-					unset($fieldStructure[key($fieldStructure)]);
-				}
-			}
-		}
-		return $fieldStructure;
 	}
 }

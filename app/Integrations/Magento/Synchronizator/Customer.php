@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Integrations\Magento\Synchronizator;
@@ -15,88 +16,45 @@ namespace App\Integrations\Magento\Synchronizator;
 /**
  * Order class.
  */
-class Customer extends Integrators\Customer
+class Customer extends Record
 {
+	/**
+	 * Account fields map .
+	 *
+	 * @var string[]
+	 */
+	public $accountFieldsMap = [
+		'addresslevel1a',
+		'addresslevel2a',
+		'addresslevel3a',
+		'addresslevel4a',
+		'addresslevel5a',
+		'addresslevel6a',
+		'addresslevel7a',
+		'addresslevel8a',
+		'addresslevel1b',
+		'addresslevel2b',
+		'addresslevel3b',
+		'addresslevel4b',
+		'addresslevel5b',
+		'addresslevel6b',
+		'addresslevel7b',
+		'addresslevel8b',
+	];
+
 	/**
 	 * {@inheritdoc}
 	 */
 	public function process()
 	{
-		$this->config = \App\Integrations\Magento\Config::getInstance();
-		$this->lastScan = $this->config::getLastScan('customer');
+		$this->lastScan = $this->config->getLastScan('customer');
 		if (!$this->lastScan['start_date'] || (0 === (int) $this->lastScan['id'] && 0 === (int) $this->lastScan['idcrm'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])) {
-			$this->config::setScan('customer');
-			$this->lastScan = $this->config::getLastScan('customer');
+			$this->config->setScan('customer');
+			$this->lastScan = $this->config->getLastScan('customer');
 		}
-		$this->getMapping('customer');
-		if ($this->checkCustomersCrm() && $this->checkCustomers()) {
-			$this->config::setEndScan('customer', $this->lastScan['start_date']);
+		if ($this->import()) {
+			$this->config->setEndScan('customer', $this->lastScan['start_date']);
 		}
-	}
-
-	/**
-	 * Method to save, update or delete customers from YetiForce.
-	 */
-	public function checkCustomersCrm(): bool
-	{
-		$result = false;
-		$customersCrm = $this->getCustomersCrm();
-		if (!empty($customersCrm)) {
-			$customers = $this->getCustomers($this->getFormattedRecordsIds(array_keys($customersCrm), self::MAGENTO, 'customer'));
-			foreach ($customersCrm as $id => $customerCrm) {
-				if (isset($this->map['customer'][$id], $customers[$this->map['customer'][$id]])) {
-					$customerData = $customers[$this->map['customer'][$id]];
-					if (!empty($customerData) && $this->hasChanges($customerCrm, $customerData)) {
-						if (self::MAGENTO === $this->whichToUpdate($customerCrm, $customerData)) {
-							$this->updateCustomer($this->map['customer'][$id], $customerCrm);
-						} else {
-							$this->updateCustomerCrm($id, $customerData);
-						}
-					}
-				} elseif (isset($this->map['customer'][$id]) && !isset($customers[$this->map['customer'][$id]])) {
-					$this->deleteCustomerCrm($id);
-				} else {
-					$this->saveCustomer($customerCrm);
-				}
-				$this->config::setScan('customer', 'idcrm', $id);
-			}
-		} else {
-			$result = true;
-		}
-		return $result;
-	}
-
-	/**
-	 * Method to get customers form YetiForce.
-	 *
-	 * @param array $ids
-	 *
-	 * @throws \App\Exceptions\NotAllowedMethod
-	 * @throws \ReflectionException
-	 *
-	 * @return array
-	 */
-	public function getCustomersCrm(array $ids = []): array
-	{
-		$queryGenerator = (new \App\QueryGenerator('Contacts'));
-		$queryGenerator->addCondition('leadsource', 'PLL_MAGENTO', 'e');
-		$query = $queryGenerator->createQuery();
-		$customersCrm = [];
-		if (!empty($ids)) {
-			$query->andWhere(['IN', 'contactid', $ids]);
-		} else {
-			$query->andWhere(['>', 'contactid', $this->lastScan['idcrm']]);
-			$query->andWhere(['<=', 'modifiedtime', $this->lastScan['start_date']]);
-			if (!empty($this->lastScan['end_date'])) {
-				$query->andWhere(['>=', 'modifiedtime', $this->lastScan['end_date']]);
-			}
-			$query->limit(\App\Config::component('Magento', 'customerLimit'));
-		}
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$customersCrm[$row['contactid']] = $row;
-		}
-		return $customersCrm;
 	}
 
 	/**
@@ -104,140 +62,110 @@ class Customer extends Integrators\Customer
 	 *
 	 * @return bool
 	 */
-	public function checkCustomers(): bool
+	public function import(): bool
 	{
 		$allChecked = false;
 		try {
-			$customers = $this->getCustomers();
-			if (!empty($customers)) {
-				$customersCrm = $this->getCustomersCrm($this->getFormattedRecordsIds(array_keys($customers), self::YETIFORCE, 'customer'));
-				foreach ($customers as $id => $customerData) {
-					if (empty($customerData)) {
+			if ($customers = $this->getCustomers()) {
+				foreach ($customers as $customer) {
+					if (empty($customer)) {
 						continue;
 					}
-
-					if (isset($this->mapCrm['customer'][$id], $customersCrm[$this->mapCrm['customer'][$id]])) {
-						if ($this->hasChanges($customersCrm[$this->mapCrm['customer'][$id]], $customerData)) {
-							if (self::MAGENTO === $this->whichToUpdate($customersCrm[$this->mapCrm['customer'][$id]], $customerData)) {
-								$this->updateCustomer($id, $customersCrm[$this->mapCrm['customer'][$id]]);
-							} else {
-								$this->updateCustomerCrm($this->mapCrm['customer'][$id], $customerData);
-							}
+					$className = $this->config->get('customerMapClassName') ?: '\App\Integrations\Magento\Synchronizator\Maps\Customer';
+					$customerFields = new $className($this);
+					$customerFields->setData($customer);
+					$dataCrm = $customerFields->getDataCrm();
+					if ($dataCrm) {
+						try {
+							$dataCrm['parent_id'] = $this->createAccount($dataCrm);
+							$id = $this->createContact($dataCrm);
+							$this->saveMapping($customer['id'], $id, 'customer');
+						} catch (\Throwable $ex) {
+							\App\Log::error('Error during saving customer: ' . $ex->getMessage(), 'Integrations/Magento');
 						}
-					} elseif (isset($this->mapCrm['customer'][$id]) && !isset($customersCrm[$this->mapCrm['customer'][$id]])) {
-						$this->deleteCustomer($id);
-					} else {
-						$this->saveCustomerCrm($customerData);
 					}
-					$this->config::setScan('customer', 'id', $id);
+					$this->config->setScan('customer', 'id', $customer['id']);
 				}
 			} else {
 				$allChecked = true;
 			}
 		} catch (\Throwable $ex) {
-			\App\Log::error('Error during saving magento customer to yetiforce: ' . $ex->getMessage(), 'Integrations/Magento');
+			\App\Log::error('Error during import customer: ' . $ex->getMessage(), 'Integrations/Magento');
 			$allChecked = false;
 		}
 		return $allChecked;
 	}
 
 	/**
-	 * Method to save product to YetiForce.
+	 * Method to get customers form Magento.
+	 *
+	 * @param array $ids
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \ReflectionException
+	 *
+	 * @return array
+	 */
+	public function getCustomers(array $ids = []): array
+	{
+		$items = [];
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('storeCode') . '/V1/customers/search?' . $this->getSearchCriteria($ids, $this->config->get('customerLimit'))));
+		if (!empty($data['items'])) {
+			$items = $data['items'];
+		}
+		return $items;
+	}
+
+	/**
+	 * Method to create account.
 	 *
 	 * @param array $data
 	 *
 	 * @return int
 	 */
-	public function saveCustomerCrm(array $data): int
+	public function createAccount(array $data): int
 	{
-		$className = \App\Config::component('Magento', 'customerMapClassName');
-		$customerFields = new $className();
-		$customerFields->setData($data);
-		$customerFields->setSynchronizator($this);
-		$dataCrm = $customerFields->getDataCrm();
-		$value = 0;
-		if (!empty($dataCrm)) {
-			try {
-				$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
-				$recordModel->setData($dataCrm);
-				$recordModel->save();
-				$this->saveMapping($data['id'], $recordModel->getId(), 'customer');
-				$value = $recordModel->getId();
-			} catch (\Throwable $ex) {
-				\App\Log::error('Error during saving yetiforce customer: ' . $ex->getMessage(), 'Integrations/Magento');
-			}
+		$vatId = $data['vat_id_a'] ?: $data['vat_id_b'] ?: false;
+		$companyName = $data['company_name_a'] ?: $data['company_name_b'] ?: false;
+		$id = 0;
+		if ($vatId) {
+			$id = (new \App\Db\Query())->select(['accountid'])->from('vtiger_account')
+				->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
+				->where(['vtiger_crmentity.deleted' => 0, 'vtiger_account.vat_id' => $vatId])->scalar() ?: 0;
 		}
-		return $value;
-	}
-
-	/**
-	 * Method to update product in YetiForce.
-	 *
-	 * @param int   $id
-	 * @param array $data
-	 *
-	 * @throws \Exception
-	 */
-	public function updateCustomerCrm(int $id, array $data): void
-	{
-		try {
-			$className = \App\Config::component('Magento', 'customerMapClassName');
-			$customerFields = new $className();
-			$customerFields->setData($data);
-			$customerFields->setSynchronizator($this);
-			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Contacts');
-			foreach ($customerFields->getDataCrm(true) as $key => $value) {
-				$recordModel->set($key, $value);
+		if (!$id && $vatId && $companyName) {
+			$recordModel = \Vtiger_Record_Model::getCleanInstance('Accounts');
+			$recordModel->set('accountname', $companyName);
+			$recordModel->set('vat_id', $vatId);
+			foreach ($this->accountFieldsMap as $fieldName) {
+				if (isset($data[$fieldName])) {
+					$recordModel->set($fieldName, $data[$fieldName]);
+				}
 			}
 			$recordModel->save();
-		} catch (\Throwable $ex) {
-			\App\Log::error('Error during updating yetiforce customer: ' . $ex->getMessage(), 'Integrations/Magento');
+			$id = $recordModel->getId();
 		}
+		return $id;
 	}
 
 	/**
-	 * Method to delete product in YetiForce.
+	 * Method to create contact.
 	 *
-	 * @param int $id
-	 *
-	 * @return bool
-	 */
-	public function deleteCustomerCrm(int $id): bool
-	{
-		try {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Contacts');
-			$recordModel->delete();
-			$this->deleteMapping($this->map['customer'][$id], $id, 'customer');
-			$result = true;
-		} catch (\Throwable $ex) {
-			\App\Log::error('Error during deleting yetiforce customer: ' . $ex->getMessage(), 'Integrations/Magento');
-			$result = false;
-		}
-		return $result;
-	}
-
-	/**
-	 * Method to compare changes of given two records.
-	 *
-	 * @param array $dataCrm
 	 * @param array $data
 	 *
-	 * @return bool
+	 * @return int
 	 */
-	public function hasChanges(array $dataCrm, array $data): bool
+	public function createContact(array $data): int
 	{
-		$hasChanges = false;
-		$className = \App\Config::component('Magento', 'customerMapClassName');
-		$customerFields = new $className();
-		$customerFields->setSynchronizator($this);
-		$customerFields->setData($data);
-		foreach ($customerFields->getFields(true) as $fieldCrm => $field) {
-			$fieldValue = $customerFields->getFieldValue($field);
-			if ($dataCrm[$fieldCrm] != $fieldValue) {
-				$hasChanges = true;
-				break;
-			}
+		$id = (new \App\Db\Query())->select(['contactid'])->from('vtiger_contactdetails')
+			->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_contactdetails.email' => $data['email']])->scalar();
+		if (!$id) {
+			$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
+			$recordModel->setData($data);
+			$recordModel->save();
+			$id = $recordModel->getId();
 		}
-		return $hasChanges;
+		return $id;
 	}
 }

@@ -517,8 +517,8 @@ CREATE TABLE `dav_users` (
 /*Table structure for table `i_yf_magento_config` */
 
 CREATE TABLE `i_yf_magento_config` (
-  `name` varchar(15) DEFAULT NULL,
-  `value` varchar(50) DEFAULT NULL
+  `name` varchar(50) NOT NULL,
+  `value` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `i_yf_magento_record` */
@@ -6412,7 +6412,7 @@ CREATE TABLE `vtiger_leadsource` (
   `picklist_valueid` int(10) NOT NULL DEFAULT 0,
   `sortorderid` int(10) DEFAULT NULL,
   PRIMARY KEY (`leadsourceid`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_leadstatus` */
 

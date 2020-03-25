@@ -24,7 +24,7 @@ abstract class Base
 	public $config;
 
 	/**
-	 * Construct.
+	 * Constructor.
 	 *
 	 * @param \App\Integrations\Magento\Config $config
 	 */

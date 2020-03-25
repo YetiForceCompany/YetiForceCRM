@@ -101,7 +101,7 @@ abstract class Base
 	public const YETIFORCE = 2;
 
 	/**
-	 * Construct.
+	 * Constructor.
 	 *
 	 * @param \App\Integrations\Magento\Controller $controller
 	 */
