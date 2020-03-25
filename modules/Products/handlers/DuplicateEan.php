@@ -33,6 +33,7 @@ class Products_DuplicateEan_Handler
 			if ($queryGenerator->createQuery()->exists()) {
 				$response = [
 					'result' => false,
+					'hoverField' => 'ean',
 					'message' => App\Language::translate('LBL_DUPLICATE_EAN', $recordModel->getModuleName())
 				];
 			}

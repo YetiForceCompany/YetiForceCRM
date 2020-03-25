@@ -33,6 +33,7 @@ class Accounts_DuplicateVatId_Handler
 			if ($queryGenerator->createQuery()->exists()) {
 				$response = [
 					'result' => false,
+					'hoverField' => 'vat_id',
 					'message' => App\Language::translate('LBL_DUPLICATE_VAT_ID', $recordModel->getModuleName())
 				];
 			}

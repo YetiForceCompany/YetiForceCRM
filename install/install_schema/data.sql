@@ -3133,6 +3133,8 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (80,'EntityAfterSave','ApprovalsRegister_Approvals_Handler',1,'ApprovalsRegister','',5,128);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (81,'EditViewPreSave','Contacts_DuplicateEmail_Handler',1,'Contacts','',5,4);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (82,'EntityAfterSave','Vtiger_Files_Handler',1,'','',5,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (83,'EditViewPreSave','Accounts_DuplicateVatId_Handler',1,'Accounts','',5,6);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (84,'EditViewPreSave','Products_DuplicateEan_Handler',1,'Products','',5,14);
 
 /*Data for the table `vtiger_expectedresponse` */
 

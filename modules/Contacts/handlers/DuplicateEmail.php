@@ -41,7 +41,10 @@ class Contacts_DuplicateEmail_Handler
 				$queryGenerator->addCondition('id', $recordModel->getId(), 'n', true);
 			}
 			if ($queryGenerator->createQuery()->exists()) {
-				$response = ['result' => false, 'message' => App\Language::translate('LBL_DUPLICATE_EMAIL_ADDRESS', $recordModel->getModuleName())];
+				$response = [
+					'result' => false,
+					'message' => App\Language::translate('LBL_DUPLICATE_EMAIL_ADDRESS', $recordModel->getModuleName())
+				];
 			}
 		}
 
