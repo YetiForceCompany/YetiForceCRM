@@ -389,7 +389,7 @@ class Vtiger_Relation_Model extends \App\Base
 		$relatedListFields = [];
 		$relatedModuleModel = $this->getRelationModuleModel();
 		// Get fields from panel
-		foreach (App\Field::getFieldsFromRelation($this->getId()) as &$fieldName) {
+		foreach (App\Field::getFieldsFromRelation($this->getId()) as $fieldName) {
 			$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
 		}
 		if ($relatedListFields) {
@@ -400,13 +400,13 @@ class Vtiger_Relation_Model extends \App\Base
 		$entity = $queryGenerator->getEntityModel();
 		if (!empty($entity->relationFields)) {
 			// Get fields from entity model
-			foreach ($entity->relationFields as &$fieldName) {
+			foreach ($entity->relationFields as $fieldName) {
 				$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
 			}
 		} else {
 			// Get fields from default CustomView
 			$queryGenerator->initForDefaultCustomView(true, true);
-			foreach ($queryGenerator->getFields() as &$fieldName) {
+			foreach ($queryGenerator->getFields() as $fieldName) {
 				if ('id' !== $fieldName) {
 					$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
 				}
