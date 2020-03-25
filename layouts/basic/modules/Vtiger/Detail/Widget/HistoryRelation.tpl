@@ -3,13 +3,13 @@
 <!-- tpl-Base-Detail-Widget-HistoryRelation -->
 {assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['label'],$MODULE_NAME))}"}
 <div class="c-detail-widget js-detail-widget" data-js="container">
-	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}"
-		data-type="{$WIDGET['type']}">
+	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}"
+		data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}">
 		<div class="c-detail-widget__header js-detail-widget-header collapsed" data-js="container|value">
 			<div class="c-detail-widget__header__container d-flex w-100 align-items-center py-1">
 				<div class="c-detail-widget__toggle collapsed" id="{$WIDGET_UID}" data-toggle="collapse"
 					data-target="#{$WIDGET_UID}-collapse" aria-expanded="false" aria-controls="{$WIDGET_UID}-collapse">
-					<span class="u-transform_rotate-180deg mdi mdi-chevron-dwon" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<span class="u-transform_rotate-180deg mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 				</div>
 				<div class="c-detail-widget__header__title">
 					<h5 class="mb-0 modCT_{$WIDGET['label']}">
