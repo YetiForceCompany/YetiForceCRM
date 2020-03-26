@@ -3135,6 +3135,7 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (82,'EntityAfterSave','Vtiger_Files_Handler',1,'','',5,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (83,'EditViewPreSave','Accounts_DuplicateVatId_Handler',1,'Accounts','',5,6);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (84,'EditViewPreSave','Products_DuplicateEan_Handler',1,'Products','',5,14);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (85,'EntityBeforeSave','SSalesProcesses_Finances_Handler',1,'SSalesProcesses','',5,86);
 
 /*Data for the table `vtiger_expectedresponse` */
 
@@ -5010,6 +5011,9 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (131,2947,'createdtime','vtiger_crmentity',1,70,'createdtime','Created Time',0,2,'','',3,462,2,'DT~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (131,2948,'modifiedtime','vtiger_crmentity',1,70,'modifiedtime','Modified Time',0,2,'','',2,462,2,'DT~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (131,2949,'smcreatorid','vtiger_crmentity',1,52,'created_user_id','Created By',0,2,'','65535',4,462,2,'V~O',3,13,'BAS',0,'',0,'',NULL,0,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (86,2950,'estimated_margin','u_yf_ssalesprocesses',1,71,'estimated_margin','FL_ESTIMATED_MARGIN',0,2,'','1.0E+20',3,320,1,'N~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (86,2951,'expected_margin','u_yf_ssalesprocesses',1,71,'expected_margin','FL_EXPECTED_MARGIN',0,2,'','1.0E+20',4,320,2,'N~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (86,2952,'expected_sale','u_yf_ssalesprocesses',1,71,'expected_sale','FL_EXPECTED_SALE',0,2,'','1.0E+20',5,320,2,'N~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0);
 
 /*Data for the table `vtiger_fieldmodulerel` */
 
@@ -8570,6 +8574,9 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,131,2947,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,131,2948,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,131,2949,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,86,2950,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,86,2951,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,86,2952,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
