@@ -496,6 +496,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		if ($userFormat && $baseValue) {
 			$baseValue = $this->getDBValue($baseValue, $column);
 		}
+
 		$this->validate($value, $column, false, $baseValue);
 		$recordModel->setInventoryItemPart($item['id'], $column, $value);
 		if ($customColumn = $this->getCustomColumn()) {
