@@ -33,6 +33,7 @@ class Contacts_DuplicateEmail_Handler
 		}
 		if ($fields && $values) {
 			$queryGenerator = new \App\QueryGenerator($recordModel->getModuleName());
+			$queryGenerator->setStateCondition('All');
 			$queryGenerator->setFields(['id'])->permissions = false;
 			foreach ($fields as $fieldModel) {
 				$queryGenerator->addCondition($fieldModel->getName(), $values, 'e', false);

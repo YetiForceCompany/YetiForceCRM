@@ -25,6 +25,7 @@ class Accounts_DuplicateVatId_Handler
 		$fieldModel = $recordModel->getModule()->getFieldByName('vat_id');
 		if ($fieldModel->isViewable() && ($vat = $recordModel->get('vat_id'))) {
 			$queryGenerator = new \App\QueryGenerator($recordModel->getModuleName());
+			$queryGenerator->setStateCondition('All');
 			$queryGenerator->setFields(['id'])->permissions = false;
 			$queryGenerator->addCondition($fieldModel->getName(), $vat, 'e');
 			if ($recordModel->getId()) {

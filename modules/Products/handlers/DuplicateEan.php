@@ -25,6 +25,7 @@ class Products_DuplicateEan_Handler
 		$fieldModel = $recordModel->getModule()->getFieldByName('ean');
 		if ($fieldModel->isViewable() && ($ean = $recordModel->get('ean'))) {
 			$queryGenerator = new \App\QueryGenerator($recordModel->getModuleName());
+			$queryGenerator->setStateCondition('All');
 			$queryGenerator->setFields(['id'])->permissions = false;
 			$queryGenerator->addCondition($fieldModel->getName(), $ean, 'e');
 			if ($recordModel->getId()) {
