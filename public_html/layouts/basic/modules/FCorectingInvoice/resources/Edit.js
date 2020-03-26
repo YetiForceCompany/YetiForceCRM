@@ -39,7 +39,7 @@ Vtiger_Edit_Js(
 		 */
 		registerReferenceFieldsEvents() {
 			app.event.on('EditView.SelectReference', (e, params) => {
-				if (params.source_module === 'FInvoice') {
+				if (params.module === 'FInvoice') {
 					this.loadInvoiceData(params.record);
 				}
 			});
@@ -48,9 +48,11 @@ Vtiger_Edit_Js(
 				if (params.fieldName === 'finvoiceid') {
 					const invoiceidInput = form.find('[name="finvoiceid"]');
 					if (invoiceidInput.length) {
-						form
-							.find('.js-before-inventory')
-							.html('<div class="text-center">' + app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE') + '</div>');
+						form.find('.js-before-inventory').html(
+							'<div class="text-center">' +
+								app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE') +
+								'</div>'
+						);
 					}
 				}
 			});
