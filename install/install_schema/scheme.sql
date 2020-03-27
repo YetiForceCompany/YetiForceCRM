@@ -529,6 +529,37 @@ CREATE TABLE `i_yf_magento_record` (
   `type` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `i_yf_magento_servers` */
+
+CREATE TABLE `i_yf_magento_servers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `name` varchar(50) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `connector` varchar(20) NOT NULL,
+  `user_name` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `store_code` varchar(255) NOT NULL,
+  `store_id` int(10) unsigned NOT NULL,
+  `storage_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `shipping_service_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `payment_paypal_service_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `payment_cash_service_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `storage_quantity_location` varchar(20) NOT NULL,
+  `sync_currency` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `sync_categories` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `sync_products` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `sync_customers` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `sync_orders` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `sync_invoices` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `product_images_path` varchar(255) DEFAULT NULL,
+  `product_map_class` varchar(255) DEFAULT NULL,
+  `customer_map_class` varchar(255) DEFAULT NULL,
+  `order_map_class` varchar(255) DEFAULT NULL,
+  `invoice_map_class` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `l_yf_batchmethod` */
 
 CREATE TABLE `l_yf_batchmethod` (

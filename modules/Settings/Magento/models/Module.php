@@ -3,20 +3,52 @@
 /**
  * Magento Module Model Class.
  *
- * @package   Model
+ * @package   Settings.Model
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Magento_Module_Model extends Settings_Vtiger_Module_Model
 {
 	/**
-	 * Module Name.
-	 *
-	 * @var string
+	 * {@inheritdoc}
 	 */
 	public $name = 'Magento';
+	/**
+	 * {@inheritdoc}
+	 */
+	public $baseTable = 'i_#__magento_servers';
+	/**
+	 * {@inheritdoc}
+	 */
+	public $baseIndex = 'id';
+	/**
+	 * {@inheritdoc}
+	 */
+	public $listFields = [
+		'name' => 'LBL_NAME',
+		'status' => 'LBL_STATUS',
+		'url' => 'LBL_URL',
+		'user_name' => 'LBL_USER_NAME',
+	];
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDefaultUrl()
+	{
+		return 'index.php?parent=Settings&module=Magento&view=List';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getCreateRecordUrl()
+	{
+		return 'index.php?parent=Settings&module=Magento&view=Edit';
+	}
 
 	/**
 	 * Field form array.
@@ -24,31 +56,30 @@ class Settings_Magento_Module_Model extends Settings_Vtiger_Module_Model
 	 * @var array[]
 	 */
 	public static $formFields = [
-		'addressApi' => ['required' => 1],
-		'username' => ['required' => 1, 'default' => ''],
-		'password' => ['required' => 1, 'default' => ''],
-		'masterSource' => ['required' => 1, 'values' => [], 'default' => 'magento', 'tooltip' => true],
-		'storeCode' => ['required' => 1, 'default' => 'all'],
-		'storeId' => ['required' => 1, 'default' => 1, 'min' => 1],
-		'websiteId' => ['required' => 1, 'default' => 1, 'min' => 1],
-		'customerLimit' => ['required' => 1, 'default' => 20, 'min' => 1],
-		'productLimit' => ['required' => 1, 'default' => 20, 'min' => 1],
-		'orderLimit' => ['required' => 1, 'default' => 20, 'min' => 1],
-		'invoiceLimit' => ['required' => 1, 'default' => 20, 'min' => 1],
-		'storageQuantityLocation' => ['required' => 1, 'values' => [], 'default' => 'Products'],
-		'synchronizeCategories' => ['required' => 1, 'default' => true, 'tooltip' => true],
-		'synchronizeProducts' => ['required' => 1, 'default' => true],
-		'synchronizeCustomers' => ['required' => 1, 'default' => true, 'tooltip' => true],
-		'synchronizeOrders' => ['required' => 1, 'default' => true, 'tooltip' => true],
-		'synchronizeInvoices' => ['required' => 1, 'default' => true, 'tooltip' => true],
-		'storageId' => ['required' => 0, 'values' => [], 'default' => 0],
-		'shippingServiceId' => ['required' => 0, 'default' => 0, 'min' => 0],
-		'currencyId' => ['required' => 0, 'values' => [], 'default' => 0],
-		'productImagesPath' => ['required' => 1, 'default' => 'media/catalog/product/', 'tooltip' => true],
-		'productMapClassName' => ['required' => 1, 'default' => '\App\Integrations\Magento\Synchronizator\Maps\Product', 'tooltip' => true],
-		'invoiceMapClassName' => ['required' => 1, 'default' => '\App\Integrations\Magento\Synchronizator\Maps\Invoice', 'tooltip' => true],
-		'orderMapClassName' => ['required' => 1, 'default' => '\App\Integrations\Magento\Synchronizator\Maps\Order', 'tooltip' => true],
-		'customerMapClassName' => ['required' => 1, 'default' => '\App\Integrations\Magento\Synchronizator\Maps\Customer', 'tooltip' => true],
+		'status' => ['required' => 0, 'purifyType' => 'Integer'],
+		'name' => ['required' => 1, 'purifyType' => 'Text'],
+		'url' => ['required' => 1, 'purifyType' => 'Url'],
+		'user_name' => ['required' => 1, 'default' => '', 'purifyType' => 'Text'],
+		'password' => ['required' => 1, 'default' => '', 'purifyType' => 'Text'],
+		'connector' => ['required' => 1, 'default' => 'Token', 'purifyType' => 'Standard'],
+		'store_code' => ['required' => 1, 'default' => 'all', 'purifyType' => 'Alnum'],
+		'store_id' => ['required' => 1, 'default' => 1, 'min' => 1, 'purifyType' => 'Integer'],
+		'storage_id' => ['required' => 0, 'default' => 0, 'tooltip' => true, 'purifyType' => 'Integer'],
+		'storage_quantity_location' => ['required' => 1,  'tooltip' => true, 'default' => 'Products',  'purifyType' => 'Text'],
+		'shipping_service_id' => ['required' => 0, 'default' => 0, 'tooltip' => true, 'min' => 0, 'purifyType' => 'Integer'],
+		'payment_paypal_service_id' => ['required' => 0, 'default' => 0, 'tooltip' => true, 'min' => 0, 'purifyType' => 'Integer'],
+		'payment_cash_service_id' => ['required' => 0, 'default' => 0, 'tooltip' => true, 'min' => 0, 'purifyType' => 'Integer'],
+		'sync_currency' => ['required' => 1, 'default' => true, 'tooltip' => true, 'purifyType' => 'Integer'],
+		'sync_categories' => ['required' => 1, 'default' => true, 'tooltip' => true, 'purifyType' => 'Integer'],
+		'sync_products' => ['required' => 1, 'default' => true, 'purifyType' => 'Integer'],
+		'sync_customers' => ['required' => 1, 'default' => true, 'tooltip' => true, 'purifyType' => 'Integer'],
+		'sync_orders' => ['required' => 1, 'default' => true, 'tooltip' => true, 'purifyType' => 'Integer'],
+		'sync_invoices' => ['required' => 1, 'default' => true, 'tooltip' => true, 'purifyType' => 'Integer'],
+		'product_images_path' => ['required' => 1, 'default' => 'media/catalog/product/', 'tooltip' => true, 'purifyType' => 'Path'],
+		'product_map_class' => ['required' => 0, 'default' => '', 'tooltip' => true, 'purifyType' => 'ClassName'],
+		'customer_map_class' => ['required' => 0, 'default' => '', 'tooltip' => true, 'purifyType' => 'ClassName'],
+		'order_map_class' => ['required' => 0, 'default' => '', 'tooltip' => true, 'purifyType' => 'ClassName'],
+		'invoice_map_class' => ['required' => 0, 'default' => '', 'tooltip' => true, 'purifyType' => 'ClassName'],
 	];
 
 	/**
@@ -56,7 +87,7 @@ class Settings_Magento_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return array[]
 	 */
-	public static function getFormFields(): array
+	public function getFormFields(): array
 	{
 		return static::$formFields;
 	}
