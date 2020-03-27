@@ -247,7 +247,6 @@ class Users_Privileges_Model extends Users_Record_Model
 	public static function setSharedOwner($userIds, $record)
 	{
 		$saveFull = true;
-
 		$db = \App\Db::getInstance();
 		if ('SaveAjax' == \App\Request::_get('action') && \App\Request::_has('field') && 'shownerid' != \App\Request::_get('field')) {
 			$saveFull = false;
@@ -260,7 +259,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			if (!\is_array($userIds) && $userIds) {
 				$userIds = explode(',', $userIds);
 			}
-			foreach ($userIds as $userId) {
+			foreach (array_unique($userIds) as $userId) {
 				$db->createCommand()->insert('u_#__crmentity_showners', [
 					'crmid' => $record,
 					'userid' => $userId,
