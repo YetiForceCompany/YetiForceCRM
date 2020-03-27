@@ -169,7 +169,6 @@ class FieldBasic
 				}
 			}
 		}
-		$this->createAdditionalField();
 		if (!$this->maximumlength && method_exists($this, 'getRangeValues')) {
 			$this->maximumlength = $this->getRangeValues();
 		}
@@ -202,25 +201,6 @@ class FieldBasic
 		Profile::initForField($this);
 		$this->clearCache();
 		\App\Log::trace("Creating field $this->name ... DONE", __METHOD__);
-	}
-
-	/**
-	 * Create additional fields.
-	 */
-	public function createAdditionalField()
-	{
-		if (11 === $this->uitype) {
-			$fieldInstance = new Field();
-			$fieldInstance->name = $this->name . '_extra';
-			$fieldInstance->table = $this->table;
-			$fieldInstance->label = 'FL_PHONE_CUSTOM_INFORMATION';
-			$fieldInstance->column = $this->column . '_extra';
-			$fieldInstance->uitype = 1;
-			$fieldInstance->displaytype = 3;
-			$fieldInstance->maxlengthtext = 100;
-			$fieldInstance->typeofdata = 'V~O';
-			$fieldInstance->save($this->block);
-		}
 	}
 
 	public function __update()

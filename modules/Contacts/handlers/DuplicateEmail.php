@@ -33,6 +33,7 @@ class Contacts_DuplicateEmail_Handler
 		}
 		if ($fields && $values) {
 			$queryGenerator = new \App\QueryGenerator($recordModel->getModuleName());
+			$queryGenerator->setStateCondition('All');
 			$queryGenerator->setFields(['id'])->permissions = false;
 			foreach ($fields as $fieldModel) {
 				$queryGenerator->addCondition($fieldModel->getName(), $values, 'e', false);
@@ -41,7 +42,10 @@ class Contacts_DuplicateEmail_Handler
 				$queryGenerator->addCondition('id', $recordModel->getId(), 'n', true);
 			}
 			if ($queryGenerator->createQuery()->exists()) {
-				$response = ['result' => false, 'message' => App\Language::translate('LBL_DUPLICATE_EMAIL_ADDRESS', $recordModel->getModuleName())];
+				$response = [
+					'result' => false,
+					'message' => App\Language::translate('LBL_DUPLICATE_EMAIL_ADDRESS', $recordModel->getModuleName())
+				];
 			}
 		}
 

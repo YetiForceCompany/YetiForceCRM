@@ -163,16 +163,16 @@ if (typeof ImportJs === 'undefined') {
 			return arr;
 		},
 		copySelectedOptions: function(source, destination) {
-			var srcObj = jQuery(source);
-			var destObj = jQuery(destination);
+			let srcObj = jQuery(source);
+			let destObj = jQuery(destination);
 
 			if (typeof srcObj === 'undefined' || typeof destObj === 'undefined') return;
 
-			for (var i = 0; i < srcObj[0].length; i++) {
+			for (let i = 0; i < srcObj[0].length; i++) {
 				if (srcObj[0].options[i].selected == true) {
-					var rowFound = false;
-					var existingObj = null;
-					for (var j = 0; j < destObj[0].length; j++) {
+					let rowFound = false;
+					let existingObj = null;
+					for (let j = 0; j < destObj[0].length; j++) {
 						if (destObj[0].options[j].value == srcObj[0].options[i].value) {
 							rowFound = true;
 							existingObj = destObj[0].options[j];
@@ -181,16 +181,20 @@ if (typeof ImportJs === 'undefined') {
 					}
 
 					if (rowFound != true) {
-						var opt = $('<option selected>');
+						let opt = $('<option selected>');
 						opt.attr('value', srcObj[0].options[i].value);
 						opt.text(srcObj[0].options[i].text);
 						jQuery(destObj[0]).append(opt);
 						srcObj[0].options[i].selected = false;
 					} else {
-						if (existingObj != null) existingObj.selected = true;
+						if (existingObj != null) {
+							existingObj.selected = true;
+						}
 					}
 				}
 			}
+			srcObj.trigger('change');
+			destObj.trigger('change');
 		},
 		removeSelectedOptions: function(objName) {
 			var obj = jQuery(objName);

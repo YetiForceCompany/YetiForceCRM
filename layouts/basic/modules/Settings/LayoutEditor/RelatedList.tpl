@@ -51,7 +51,7 @@
 								{else}
 									{assign var=STATUS value='0'}
 								{/if}
-								{assign var=SELECTED_FIELDS value=Settings_LayoutEditor_Module_Model::getRelationFields($MODULE_MODEL->getId())}
+								{assign var=SELECTED_FIELDS value=App\Field::getFieldsFromRelation($MODULE_MODEL->getId())}
 								<div class="relatedModule mainBlockTable card mb-2" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
 									<div class="mainBlockTableHeader card-header d-flex justify-content-between align-items-center px-2 py-1">
 										<h5 class="card-title my-0">

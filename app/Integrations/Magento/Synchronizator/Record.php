@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Integrations\Magento\Synchronizator;
@@ -51,7 +52,7 @@ abstract class Record extends Base
 	public function hasChanges(array $dataCrm, array $data): bool
 	{
 		$hasChanges = false;
-		$className = \App\Config::component('Magento', 'productMapClassName');
+		$className = $this->config->get('productMapClassName');
 		$productFields = new $className();
 		$productFields->setData($data);
 		foreach ($productFields->getFields(true) as $fieldCrm => $field) {
@@ -84,7 +85,7 @@ abstract class Record extends Base
 		$modifiedTimeEnd = $updatedTime > strtotime($this->getFormattedTime($this->lastScan['end_date']));
 		$modifiedTimeStart = $updatedTime < strtotime($this->getFormattedTime($this->lastScan['start_date']));
 		if ($modifiedTimeCrmEnd && $modifiedTimeCrmStart && $modifiedTimeEnd && $modifiedTimeStart) {
-			$toUpdate = 'magento' === \App\Config::component('Magento', 'masterSource') ? self::YETIFORCE : self::MAGENTO;
+			$toUpdate = 'magento' === $this->config->get('masterSource') ? self::YETIFORCE : self::MAGENTO;
 		} elseif ($modifiedTimeCrmEnd && $modifiedTimeCrmStart) {
 			$toUpdate = self::MAGENTO;
 		} elseif ($modifiedTimeEnd && $modifiedTimeStart) {

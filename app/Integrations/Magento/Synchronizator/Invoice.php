@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Integrations\Magento\Synchronizator;
@@ -15,7 +16,7 @@ namespace App\Integrations\Magento\Synchronizator;
 /**
  * Category class.
  */
-class Invoice extends Integrators\Invoice
+class Invoice extends Record
 {
 	/**
 	 * {@inheritdoc}
@@ -24,14 +25,13 @@ class Invoice extends Integrators\Invoice
 	{
 		$this->getMapping('invoice');
 		$this->getMapping('product');
-		$this->config = \App\Integrations\Magento\Config::getInstance();
-		$this->lastScan = $this->config::getLastScan('invoice');
+		$this->lastScan = $this->config->getLastScan('invoice');
 		if (!$this->lastScan['start_date'] || (0 === (int) $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])) {
-			$this->config::setScan('invoice');
-			$this->lastScan = $this->config::getLastScan('invoice');
+			$this->config->setScan('invoice');
+			$this->lastScan = $this->config->getLastScan('invoice');
 		}
 		if ($this->checkInvoices()) {
-			$this->config::setEndScan('invoice', $this->lastScan['start_date']);
+			$this->config->setEndScan('invoice', $this->lastScan['start_date']);
 		}
 	}
 
@@ -55,7 +55,7 @@ class Invoice extends Integrators\Invoice
 				} else {
 					$this->updateInvoiceCrm($this->mapCrm['order'][$id], $invoice);
 				}
-				$this->config::setScan('invoice', 'id', $id);
+				$this->config->setScan('invoice', 'id', $id);
 			}
 			$allChecked = false;
 		}
@@ -73,12 +73,12 @@ class Invoice extends Integrators\Invoice
 	 */
 	public function saveInvoiceCrm(array $data)
 	{
-		$order = \App\Json::decode($this->connector->request('GET', '/rest/all/V1/orders/' . $data['order_id']));
+		$order = \App\Json::decode($this->connector->request('GET', 'all/V1/orders/' . $data['order_id']));
 		$data['billing_address'] = $order['billing_address'];
 		$data['extension_attributes'] = $order['extension_attributes'];
 		$data['payment'] = $order['payment'];
 		$data['customer_id'] = $order['customer_id'] ?? '';
-		$className = \App\Config::component('Magento', 'invoiceMapClassName');
+		$className = $this->config->get('invoiceMapClassName');
 		$invoiceFields = new $className();
 		$invoiceFields->setData($data);
 		$dataCrm = $invoiceFields->getDataCrm();
@@ -104,7 +104,7 @@ class Invoice extends Integrators\Invoice
 	/**
 	 * Method to update invoice in YetiForce.
 	 *
-	 * @param int $id
+	 * @param int   $id
 	 * @param array $data
 	 *
 	 * @throws \Exception
@@ -112,12 +112,12 @@ class Invoice extends Integrators\Invoice
 	public function updateInvoiceCrm(int $id, array $data): void
 	{
 		try {
-			$order = \App\Json::decode($this->connector->request('GET', '/rest/all/V1/orders/' . $data['order_id']));
+			$order = \App\Json::decode($this->connector->request('GET', 'all/V1/orders/' . $data['order_id']));
 			$data['billing_address'] = $order['billing_address'];
 			$data['extension_attributes'] = $order['extension_attributes'];
 			$data['payment'] = $order['payment'];
 			$data['customer_id'] = $order['customer_id'] ?? '';
-			$className = \App\Config::component('Magento', 'invoiceMapClassName');
+			$className = $this->config->get('invoiceMapClassName');
 			$invoiceFields = new $className();
 			$invoiceFields->setData($data);
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'FInvoice');
@@ -136,9 +136,31 @@ class Invoice extends Integrators\Invoice
 	public function getSearchCriteria($ids, int $pageSize = 10): string
 	{
 		$searchCriteria[] = parent::getSearchCriteria($ids, $pageSize);
-		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][value]=' . \App\Config::component('Magento', 'storeId');
+		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][value]=' . $this->config->get('storeId');
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][field]=store_id';
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][conditionType]=in';
 		return implode('&', $searchCriteria);
+	}
+
+	/**
+	 * Method to get invoices form Magento.
+	 *
+	 * @param array $ids
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \ReflectionException
+	 *
+	 * @return array
+	 */
+	public function getInvoices(array $ids = []): array
+	{
+		$items = [];
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('storeCode') . '/V1/invoices?' . $this->getSearchCriteria($ids, $this->config->get('invoiceLimit'))));
+		if (!empty($data['items'])) {
+			foreach ($data['items'] as $item) {
+				$items[$item['entity_id']] = $item;
+			}
+		}
+		return $items;
 	}
 }

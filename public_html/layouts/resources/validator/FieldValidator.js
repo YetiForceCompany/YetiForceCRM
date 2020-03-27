@@ -119,23 +119,25 @@ Vtiger_Base_Validator_Js(
 						phoneNumber: fieldValue,
 						phoneCountry: phoneCountryList.val()
 					}
-				}).done(function(data) {
-					if (data.result.isValidNumber == false) {
-						thisInstance.setError(data.result.message);
-						result = false;
-					} else {
-						field.val(data.result.number);
-						field.attr('title', data.result.geocoding + ' ' + data.result.carrier);
-						if (phoneCountryList.val() != data.result.country) {
-							phoneCountryList.val(data.result.country).trigger('change');
+				})
+					.done(function(data) {
+						if (data.result.isValidNumber == false) {
+							thisInstance.setError(data.result.message);
+							result = false;
+						} else {
+							field.val(data.result.number);
+							field.attr('title', data.result.geocoding + ' ' + data.result.carrier);
+							if (phoneCountryList.val() != data.result.country) {
+								phoneCountryList.val(data.result.country).trigger('change');
+							}
 						}
-					}
-					field.attr('readonly', false);
-				}).fail(function (error, err) {
-					thisInstance.setError(app.vtranslate('JS_ERROR'));
-					result = false;
-					app.errorLog(error, err);
-				});
+						field.attr('readonly', false);
+					})
+					.fail(function(error, err) {
+						thisInstance.setError(app.vtranslate('JS_ERROR'));
+						result = false;
+						app.errorLog(error, err);
+					});
 			}
 			return result;
 		}
@@ -802,10 +804,19 @@ Vtiger_Base_Validator_Js(
 				var dependentField = dependentFieldList[i];
 				var dependentFieldInContext = jQuery('input[name=' + dependentField + ']', contextFormElem);
 				if (dependentFieldInContext.length > 0) {
+					let value, dependentValue;
+					if (
+						$.inArray(dependentFieldInContext.data('fieldinfo').type, ['currency', 'number', 'decimal']) !==
+						-1
+					) {
+						value = App.Fields.Double.formatToDb(field.val());
+						dependentValue = App.Fields.Double.formatToDb(dependentFieldInContext.val());
+					} else {
+						value = this.getDateTimeInstance(field);
+						dependentValue = this.getDateTimeInstance(dependentFieldInContext);
+					}
 					var dependentFieldLabel = dependentFieldInContext.data('fieldinfo').label;
-					var fieldDateInstance = this.getDateTimeInstance(field);
-					var dependentFieldDateInstance = this.getDateTimeInstance(dependentFieldInContext);
-					var comparedDateVal = fieldDateInstance - dependentFieldDateInstance;
+					var comparedDateVal = value - dependentValue;
 					if (comparedDateVal < 0) {
 						var errorInfo =
 							fieldLabel +
@@ -941,9 +952,10 @@ Vtiger_Base_Validator_Js(
 		 * @return false if validation error occurs
 		 */
 		validate: function(dependentFieldList) {
-			var field = this.getElement();
-			var fieldLabel = field.data('fieldinfo').label;
-			var contextFormElem = field.closest('form');
+			let field = this.getElement();
+			let fieldInfo = field.data('fieldinfo');
+			let fieldLabel = fieldInfo.label;
+			let contextFormElem = field.closest('form');
 			//No need to validate if value is empty
 			if (field.val().length == 0) {
 				return;
@@ -952,14 +964,20 @@ Vtiger_Base_Validator_Js(
 				var dependentField = dependentFieldList[i];
 				var dependentFieldInContext = jQuery('input[name=' + dependentField + ']', contextFormElem);
 				if (dependentFieldInContext.length > 0) {
+					let value, dependentValue;
+					if ($.inArray(fieldInfo.type, ['currency', 'number', 'decimal']) !== -1) {
+						value = App.Fields.Double.formatToDb(field.val());
+						dependentValue = App.Fields.Double.formatToDb(dependentFieldInContext.val());
+					} else {
+						value = this.getDateTimeInstance(field);
+						dependentValue = this.getDateTimeInstance(dependentFieldInContext);
+					}
 					var dependentFieldLabel = dependentFieldInContext.data('fieldinfo').label;
-					var fieldDateInstance = this.getDateTimeInstance(field);
 					//No need to validate if value is empty
 					if (dependentFieldInContext.val().length == 0) {
 						continue;
 					}
-					var dependentFieldDateInstance = this.getDateTimeInstance(dependentFieldInContext);
-					var comparedDateVal = fieldDateInstance - dependentFieldDateInstance;
+					var comparedDateVal = value - dependentValue;
 					if (comparedDateVal > 0) {
 						var errorInfo =
 							fieldLabel +

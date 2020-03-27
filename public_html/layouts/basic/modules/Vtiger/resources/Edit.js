@@ -966,6 +966,9 @@ $.Class(
 								Vtiger_Helper_Js.showPnotify(
 									response[i].message ? response[i].message : app.vtranslate('JS_ERROR')
 								);
+								if (response[i].hoverField != undefined) {
+									form.find('[name="' + response[i].hoverField + '"]').focus();
+								}
 							}
 						}
 						if (data.result.length <= 0) {

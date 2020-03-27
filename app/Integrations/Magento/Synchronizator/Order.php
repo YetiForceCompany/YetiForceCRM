@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Integrations\Magento\Synchronizator;
@@ -15,7 +16,7 @@ namespace App\Integrations\Magento\Synchronizator;
 /**
  * Category class.
  */
-class Order extends Integrators\Order
+class Order extends Record
 {
 	/**
 	 * {@inheritdoc}
@@ -25,14 +26,13 @@ class Order extends Integrators\Order
 		$this->getMapping('order');
 		$this->getMapping('product');
 		$this->getProductSkuMapCrm();
-		$this->config = \App\Integrations\Magento\Config::getInstance();
-		$this->lastScan = $this->config::getLastScan('order');
+		$this->lastScan = $this->config->getLastScan('order');
 		if (!$this->lastScan['start_date'] || (0 === (int) $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])) {
-			$this->config::setScan('order');
-			$this->lastScan = $this->config::getLastScan('order');
+			$this->config->setScan('order');
+			$this->lastScan = $this->config->getLastScan('order');
 		}
 		if ($this->checkOrders()) {
-			$this->config::setEndScan('order', $this->lastScan['start_date']);
+			$this->config->setEndScan('order', $this->lastScan['start_date']);
 		}
 	}
 
@@ -56,7 +56,7 @@ class Order extends Integrators\Order
 				} else {
 					$this->updateOrderCrm($this->mapCrm['order'][$id], $order);
 				}
-				$this->config::setScan('order', 'id', $id);
+				$this->config->setScan('order', 'id', $id);
 			}
 			$allChecked = false;
 		}
@@ -72,7 +72,7 @@ class Order extends Integrators\Order
 	 */
 	public function saveOrderCrm(array $data)
 	{
-		$className = \App\Config::component('Magento', 'orderMapClassName');
+		$className = $this->config->get('orderMapClassName');
 		$orderFields = new $className();
 		$orderFields->setData($data);
 		$dataCrm = $orderFields->getDataCrm();
@@ -106,7 +106,7 @@ class Order extends Integrators\Order
 	public function updateOrderCrm(int $id, array $data): void
 	{
 		try {
-			$className = \App\Config::component('Magento', 'orderMapClassName');
+			$className = $this->config->get('orderMapClassName');
 			$orderFields = new $className();
 			$orderFields->setData($data);
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'SSingleOrders');
@@ -125,9 +125,31 @@ class Order extends Integrators\Order
 	public function getSearchCriteria($ids, int $pageSize = 10): string
 	{
 		$searchCriteria[] = parent::getSearchCriteria($ids, $pageSize);
-		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][value]=' . \App\Config::component('Magento', 'storeId');
+		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][value]=' . $this->config->get('storeId');
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][field]=store_id';
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][conditionType]=eq';
 		return implode('&', $searchCriteria);
+	}
+
+	/**
+	 * Method to get orders form Magento.
+	 *
+	 * @param array $ids
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \ReflectionException
+	 *
+	 * @return array
+	 */
+	public function getOrders(array $ids = []): array
+	{
+		$items = [];
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('storeCode') . '/V1/orders?' . $this->getSearchCriteria($ids, $this->config->get('orderLimit'))));
+		if (!empty($data['items'])) {
+			foreach ($data['items'] as $item) {
+				$items[$item['entity_id']] = $item;
+			}
+		}
+		return $items;
 	}
 }

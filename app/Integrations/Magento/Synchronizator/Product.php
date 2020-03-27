@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Integrations\Magento\Synchronizator;
@@ -15,23 +16,22 @@ namespace App\Integrations\Magento\Synchronizator;
 /**
  * Product class.
  */
-class Product extends Integrators\Product
+class Product extends Record
 {
 	/**
 	 * {@inheritdoc}
 	 */
 	public function process(): void
 	{
-		$this->config = \App\Integrations\Magento\Config::getInstance();
-		$this->lastScan = $this->config::getLastScan('product');
+		$this->lastScan = $this->config->getLastScan('product');
 		if (!$this->lastScan['start_date'] || (0 === (int) $this->lastScan['id'] && 0 === (int) $this->lastScan['idcrm'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])) {
-			$this->config::setScan('product');
-			$this->lastScan = $this->config::getLastScan('product');
+			$this->config->setScan('product');
+			$this->lastScan = $this->config->getLastScan('product');
 		}
 		$this->getProductSkuMap();
 		$this->getMapping('product');
 		if ($this->checkProductsCrm() && $this->checkProducts()) {
-			$this->config::setEndScan('product', $this->lastScan['start_date']);
+			$this->config->setEndScan('product', $this->lastScan['start_date']);
 		}
 	}
 
@@ -69,7 +69,7 @@ class Product extends Integrators\Product
 				} else {
 					$this->saveProduct($productCrm);
 				}
-				$this->config::setScan('product', 'idcrm', $id);
+				$this->config->setScan('product', 'idcrm', $id);
 			}
 		} else {
 			$result = true;
@@ -120,7 +120,7 @@ class Product extends Integrators\Product
 					} else {
 						$this->saveProductCrm($productData);
 					}
-					$this->config::setScan('product', 'id', $id);
+					$this->config->setScan('product', 'id', $id);
 				}
 			} else {
 				$allChecked = true;
@@ -186,7 +186,7 @@ class Product extends Integrators\Product
 			if (!empty($this->lastScan['end_date'])) {
 				$query->andWhere(['>=', 'modifiedtime', $this->lastScan['end_date']]);
 			}
-			$query->limit(\App\Config::component('Magento', 'productLimit'));
+			$query->limit($this->config->get('productLimit'));
 		}
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -221,7 +221,7 @@ class Product extends Integrators\Product
 	 */
 	public function saveProductCrm(array $data): int
 	{
-		$className = \App\Config::component('Magento', 'productMapClassName');
+		$className = $this->config->get('productMapClassName');
 		$productFields = new $className();
 		$productFields->setData($data);
 		$dataCrm = $productFields->getDataCrm();
@@ -322,7 +322,7 @@ class Product extends Integrators\Product
 	public function updateProductCrm(int $id, array $data): void
 	{
 		try {
-			$className = \App\Config::component('Magento', 'productMapClassName');
+			$className = $this->config->get('productMapClassName');
 			$productFields = new $className();
 			$productFields->setData($data);
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Products');
@@ -347,7 +347,7 @@ class Product extends Integrators\Product
 	 */
 	public function saveImagesCrm(&$recordModel, $images): void
 	{
-		$imagePath = \App\Config::component('Magento', 'addressApi') . \App\Config::component('Magento', 'productImagesPath');
+		$imagePath = $this->config->get('addressApi') . $this->config->get('productImagesPath');
 		$imagesData = [];
 		if (!empty($images)) {
 			foreach ($images as $image) {
@@ -422,7 +422,7 @@ class Product extends Integrators\Product
 	 */
 	public function saveStorage(int $productId, float $value): void
 	{
-		$storageId = \App\Config::component('Magento', 'storageId');
+		$storageId = $this->config->get('storageId');
 		if (!empty($storageId)) {
 			$db = \App\Db::getInstance();
 			$referenceInfo = \Vtiger_Relation_Model::getReferenceTableInfo('Products', 'IStorages');
@@ -439,6 +439,252 @@ class Product extends Integrators\Product
 					$referenceInfo['rel'] => $productId,
 					'qtyinstock' => $value,
 				])->execute();
+			}
+		}
+	}
+
+	/**
+	 * Mapped magento id to sku.
+	 *
+	 * @var array
+	 */
+	public $mapIdToSku = [];
+	/**
+	 * Mapped magento sku to id.
+	 *
+	 * @var array
+	 */
+	public $mapSkuToId = [];
+
+	/**
+	 * Method to update product in Magento.
+	 *
+	 * @param int   $productId
+	 * @param array $product
+	 *
+	 * @return bool
+	 */
+	public function updateProduct(int $productId, array $product): bool
+	{
+		$result = false;
+		if (!empty($this->mapIdToSku[$productId])) {
+			try {
+				$className = $this->config->get('productMapClassName');
+				$productFields = new $className();
+				$productFields->setDataCrm($product);
+				$this->connector->request('PUT', $this->config->get('storeCode') . '/V1/products/' . urlencode($this->mapIdToSku[$productId]), $productFields->getData(true));
+				$result = true;
+			} catch (\Throwable $ex) {
+				\App\Log::error('Error during updating magento product: ' . $ex->getMessage(), 'Integrations/Magento');
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Method to save product to Magento.
+	 *
+	 * @param array $product
+	 *
+	 * @throws \ReflectionException
+	 *
+	 * @return bool
+	 */
+	public function saveProduct(array $product): bool
+	{
+		$className = $this->config->get('productMapClassName');
+		$productFields = new $className();
+		$productFields->setDataCrm($product);
+		try {
+			$productRequest = \App\Json::decode($this->connector->request('POST', $this->config->get('storeCode') . '/V1/products/', $productFields->getData()));
+			if (!empty($productRequest)) {
+				$this->saveImages($productRequest['sku'], \App\Json::decode($product['imagename']));
+				$this->saveMapping($productRequest['id'], $product['productid'], 'product');
+			} else {
+				\App\Log::error('Error during saving magento product: empty product request', 'Integrations/Magento');
+			}
+			$result = true;
+		} catch (\Throwable $ex) {
+			\App\Log::error('Error during saving magento product: ' . $ex->getMessage(), 'Integrations/Magento');
+			$result = false;
+		}
+		return $result;
+	}
+
+	/**
+	 * Method to delete product in Magento.
+	 *
+	 * @param int $productId
+	 *
+	 * @return bool
+	 */
+	public function deleteProduct(int $productId): bool
+	{
+		try {
+			if (!empty($this->mapIdToSku)) {
+				if (isset($this->mapIdToSku[$productId])) {
+					$this->connector->request('DELETE', 'all/V1/products/' . urlencode($this->mapIdToSku[$productId]), []);
+				}
+				$this->deleteMapping($productId, $this->mapCrm['product'][$productId], 'product');
+			}
+			$result = true;
+		} catch (\Throwable $ex) {
+			\App\Log::error('Error during deleting magento product: ' . $ex->getMessage(), 'Integrations/Magento');
+			$result = false;
+		}
+		return $result;
+	}
+
+	/**
+	 * Method to get sku mapped by product id.
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \ReflectionException
+	 */
+	public function getProductSkuMap(): void
+	{
+		if (empty($this->mapIdToSku)) {
+			$page = 1;
+			do {
+				$data = \App\Json::decode($this->connector->request('GET', $this->config->get('storeCode') . '/V1/products?fields=items[id,sku]&searchCriteria[pageSize]=1000&searchCriteria[currentPage]=' . $page));
+				if (!empty($data['items'])) {
+					foreach ($data['items'] as $item) {
+						$this->mapIdToSku[$item['id']] = $item['sku'];
+					}
+				}
+				++$page;
+			} while (!(\count($data['items']) < 1000));
+			if (!empty($this->mapIdToSku)) {
+				$this->mapSkuToId = \array_flip($this->mapIdToSku);
+			}
+		}
+	}
+
+	/**
+	 * Method to get products form Magento.
+	 *
+	 * @param string|array $ids
+	 *
+	 * @throws \App\Exceptions\AppException
+	 * @throws \ReflectionException
+	 *
+	 * @return array
+	 */
+	public function getProducts($ids = ''): array
+	{
+		$items = [];
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('storeCode') . '/V1/products?' . $this->getSearchCriteria($ids, $this->config->get('productLimit'))));
+		if (!empty($data['items'])) {
+			foreach ($data['items'] as $item) {
+				$items[$item['id']] = $item;
+			}
+		}
+		return $items;
+	}
+
+	/**
+	 * Get full product data.
+	 *
+	 * @param string $sku
+	 *
+	 * @return array|mixed
+	 */
+	public function getProductFullData(string $sku)
+	{
+		$data = [];
+		try {
+			$data = \App\Json::decode($this->connector->request('GET', $this->config->get('storeCode') . '/V1/products/' . urlencode($sku)));
+		} catch (\Throwable $ex) {
+			\App\Log::error('Error during getting magento product data: ' . $ex->getMessage(), 'Integrations/Magento');
+		}
+		return $data;
+	}
+
+	/**
+	 * Method to get search criteria Magento products.
+	 *
+	 * @param array $ids
+	 * @param int   $pageSize
+	 *
+	 * @return string
+	 */
+	public function getSearchCriteria($ids, int $pageSize = 10): string
+	{
+		return parent::getSearchCriteria($ids, $pageSize) . '&fields=items[id,sku]';
+	}
+
+	/**
+	 * Update product images.
+	 *
+	 * @param $sku
+	 * @param $imagesData
+	 */
+	public function updateImages($sku, $imagesData)
+	{
+		if (!empty($imagesData['add'])) {
+			$this->saveImages($sku, $imagesData['add']);
+		}
+		if (!empty($imagesData['remove'])) {
+			$this->removeImages($sku, $imagesData['remove']);
+		}
+	}
+
+	/**
+	 * Save product images.
+	 *
+	 * @param $sku
+	 * @param $images
+	 */
+	public function saveImages($sku, $images)
+	{
+		if (!empty($images)) {
+			foreach ($images as $image) {
+				$imageBaseData = \App\Fields\File::getImageBaseData($image['path']);
+				$imageBaseData = explode(',', $imageBaseData);
+				$imageType = str_replace([';base64', 'data:'], '', $imageBaseData[0]);
+				$data = [
+					'entry' => [
+						'media_type' => 'image',
+						'label' => 'Image',
+						'disabled' => false,
+						'types' => [
+							'image',
+							'small_image',
+							'thumbnail'
+						],
+						'content' => [
+							'base64_encoded_data' => $imageBaseData[1],
+							'type' => $imageType,
+							'name' => $image['name']
+						],
+					]
+				];
+				try {
+					\App\Json::decode($this->connector->request('POST', 'V1/products/' . urlencode($sku) . '/media',
+						$data
+					));
+				} catch (\Throwable $ex) {
+					\App\Log::error('Error during saving magento product images: ' . $ex->getMessage(), 'Integrations/Magento');
+				}
+			}
+		}
+	}
+
+	/**
+	 * Remove product images.
+	 *
+	 * @param $sku
+	 * @param $images
+	 */
+	public function removeImages($sku, $images)
+	{
+		if (!empty($images)) {
+			foreach ($images as $image) {
+				try {
+					\App\Json::decode($this->connector->request('DELETE', 'V1/products/' . urlencode($sku) . "/media/{$image['id']}"));
+				} catch (\Throwable $ex) {
+					\App\Log::error('Error during removing magento product image: ' . $ex->getMessage(), 'Integrations/Magento');
+				}
 			}
 		}
 	}

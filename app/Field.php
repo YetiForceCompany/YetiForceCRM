@@ -252,8 +252,9 @@ class Field
 		if (Cache::has('getFieldsFromRelation', $relationId)) {
 			$fields = Cache::get('getFieldsFromRelation', $relationId);
 		} else {
-			$fields = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_relatedlists_fields')
-				->where(['relation_id' => $relationId])->column();
+			$fields = (new \App\Db\Query())->select(['vtiger_relatedlists_fields.fieldid', 'vtiger_field.fieldname'])->from('vtiger_relatedlists_fields')
+				->innerJoin('vtiger_field', 'vtiger_field.fieldid = vtiger_relatedlists_fields.fieldid')
+				->where(['relation_id' => $relationId, 'vtiger_field.presence' => [0, 2]])->createCommand()->queryAllByGroup();
 			Cache::save('getFieldsFromRelation', $relationId, $fields, Cache::LONG);
 		}
 		return $fields;

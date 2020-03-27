@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Integrations\Magento\Synchronizator\Maps;
@@ -23,19 +24,6 @@ class Product extends Base
 		'productname' => 'name',
 		'category_multipicklist' => 'custom_attributes|category_ids',
 		'qtyinstock' => 'extension_attributes|stock_item|qty',
-	];
-	/**
-	 * {@inheritdoc}
-	 */
-	public static $additionalSaveFields = [
-		'type_id' => 'simple',
-		'attribute_set_id' => '4',
-	];
-	/**
-	 * {@inheritdoc}
-	 */
-	public static $additionalFields = [
-		'extension_attributes|stock_item|is_in_stock' => ''
 	];
 	/**
 	 * {@inheritdoc}

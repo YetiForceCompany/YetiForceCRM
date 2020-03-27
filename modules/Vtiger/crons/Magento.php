@@ -20,10 +20,20 @@ class Vtiger_Magento_Cron extends \App\CronHandler
 	public function process()
 	{
 		$connector = (new App\Integrations\Magento\Controller());
-		$connector->synchronizeCategories();
-		$connector->synchronizeProducts();
-		$connector->synchronizeCustomers();
-		$connector->synchronizeOrders();
-		$connector->synchronizeInvoices();
+		if (\App\Config::component('Magento', 'synchronizeCategories')) {
+			$connector->synchronizeCategories();
+		}
+		if (\App\Config::component('Magento', 'synchronizeProducts')) {
+			$connector->synchronizeProducts();
+		}
+		if (\App\Config::component('Magento', 'synchronizeCustomers')) {
+			$connector->synchronizeCustomers();
+		}
+		if (\App\Config::component('Magento', 'synchronizeOrders')) {
+			$connector->synchronizeOrders();
+		}
+		if (\App\Config::component('Magento', 'synchronizeInvoices')) {
+			$connector->synchronizeInvoices();
+		}
 	}
 }

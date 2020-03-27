@@ -517,8 +517,8 @@ CREATE TABLE `dav_users` (
 /*Table structure for table `i_yf_magento_config` */
 
 CREATE TABLE `i_yf_magento_config` (
-  `name` varchar(15) DEFAULT NULL,
-  `value` varchar(50) DEFAULT NULL
+  `name` varchar(50) NOT NULL,
+  `value` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `i_yf_magento_record` */
@@ -3920,6 +3920,9 @@ CREATE TABLE `u_yf_ssalesprocesses` (
   `campaignid` int(10) DEFAULT NULL,
   `parentid` int(10) DEFAULT 0,
   `startdate` date DEFAULT NULL,
+  `estimated_margin` decimal(28,8) DEFAULT NULL,
+  `expected_margin` decimal(28,8) DEFAULT NULL,
+  `expected_sale` decimal(28,8) DEFAULT NULL,
   PRIMARY KEY (`ssalesprocessesid`),
   KEY `related_to` (`related_to`),
   KEY `campaignid` (`campaignid`),
@@ -5625,7 +5628,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`eventhandler_id`),
   KEY `event_name_class` (`event_name`,`handler_class`)
-) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_expectedresponse` */
 
@@ -5751,7 +5754,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2950 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2953 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -6412,7 +6415,7 @@ CREATE TABLE `vtiger_leadsource` (
   `picklist_valueid` int(10) NOT NULL DEFAULT 0,
   `sortorderid` int(10) DEFAULT NULL,
   PRIMARY KEY (`leadsourceid`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_leadstatus` */
 
@@ -7924,7 +7927,6 @@ CREATE TABLE `vtiger_relatedlists` (
 CREATE TABLE `vtiger_relatedlists_fields` (
   `relation_id` int(10) DEFAULT NULL,
   `fieldid` int(10) NOT NULL,
-  `fieldname` varchar(30) DEFAULT NULL,
   `sequence` smallint(3) DEFAULT NULL,
   KEY `relation_id` (`relation_id`),
   KEY `fk_1_relatedlists_fields_fieldid` (`fieldid`),

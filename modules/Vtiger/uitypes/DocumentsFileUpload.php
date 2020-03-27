@@ -22,27 +22,22 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
-	{
-		return $this->getDisplayValue(\App\TextParser::textTruncate($value, $this->getFieldModel()->get('maxlengthtext')), $record, $recordModel, $rawText);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$value = \App\Purifier::encodeHtml($value);
+		$truncateValue = \App\TextParser::textTruncate($value, $this->getFieldModel()->get('maxlengthtext'));
+
+		$truncateValue = \App\Purifier::encodeHtml($truncateValue);
 		if ($recordModel && !empty($value) && $recordModel->getValueByField('filestatus')) {
 			if ('I' === $recordModel->getValueByField('filelocationtype')) {
 				$fileId = (new App\Db\Query())->select(['attachmentsid'])
 					->from('vtiger_seattachmentsrel')->where(['crmid' => $record])->scalar();
 				if ($fileId) {
 					$value = '<a href="file.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
-							' title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
+							' title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $truncateValue . '</a>';
 				}
 			} else {
-				$value = '<a href="' . $value . '" target="_blank" title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" rel="noreferrer noopener">' . $value . '</a>';
+				$value = \App\Purifier::encodeHtml($value);
+				$value = '<a href="' . $value . '" target="_blank" title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" rel="noreferrer noopener">' . $truncateValue . '</a>';
 			}
 		}
 		return $value;
