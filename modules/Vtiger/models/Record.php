@@ -1609,14 +1609,6 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Clear changes.
-	 */
-	public function clearChanges()
-	{
-		$this->changes = null;
-	}
-
-	/**
 	 * Change record state.
 	 *
 	 * @param type $state
