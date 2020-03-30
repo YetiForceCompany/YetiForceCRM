@@ -112,11 +112,10 @@ class Settings_Magento_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return \self instance, if exists
 	 */
-	public static function getInstanceById($id)
+	public static function getInstanceById(int $id)
 	{
-		$row = (new \App\Db\Query())->from('i_#__magento_servers')->where(['id' => $id])->one(\App\Db::getInstance('admin'));
 		$instance = false;
-		if ($row) {
+		if ($row = \App\Integrations\Magento\Config::getServer($id)) {
 			$instance = new self();
 			$instance->setData($row);
 		}

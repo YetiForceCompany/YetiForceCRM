@@ -12,6 +12,15 @@
 			<span class="yfi-premium mr-2 u-font-size-2x color-red-600 float-left"></span>
 			{\App\Language::translate('LBL_PAID_FUNCTIONALITY', $QUALIFIED_MODULE)} <a href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceMagento&mode=showProductModal">{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
 		</div>
+	{elseif !$MODULE_MODEL->isActive()}
+		<div class="alert alert-danger">
+			<span class="mdi mdi-alert-outline mr-2 float-left"></span>
+			{\App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', $QUALIFIED_MODULE,'Magento')}
+			<a class="btn btn-primary btn-sm ml-3" href="index.php?parent=Settings&module=Magento&action=Active">
+				<span class="mdi mdi-check mr-2 float-left"></span>
+				{\App\Language::translate('LBL_ACTIVATE_FUNCTIONALITY', $QUALIFIED_MODULE)}
+			</a>
+		</div>
 	{else}
 		<div class="listViewActionsDiv row mt-2 mb-2">
 			<div class="{if !empty($SUPPORTED_MODULE_MODELS)}col-md-5{else}col-md-8{/if} btn-toolbar">

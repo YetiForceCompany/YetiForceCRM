@@ -444,6 +444,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 324:
 						$fieldDataType = 'token';
 						break;
+					case 325:
+						$fieldDataType = 'magentoServer';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {

@@ -91,4 +91,14 @@ class Settings_Magento_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		return static::$formFields;
 	}
+
+	/**
+	 * Function to check if the functionality is enabled.
+	 *
+	 * @return bool
+	 */
+	public function isActive(): bool
+	{
+		return (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId('SSingleOrders'), 'fieldname' => 'magento_id'])->exists() && (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId('FInvoice'), 'fieldname' => 'magento_id'])->exists();
+	}
 }

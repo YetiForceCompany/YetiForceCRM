@@ -26,7 +26,42 @@ class Config extends \App\Base
 	 * @var self
 	 */
 	private static $instance;
+	/**
+	 * Table name.
+	 */
 	private const TABLE_NAME = 'i_#__magento_config';
+
+	/**
+	 * Get all servers.
+	 *
+	 * @return array
+	 */
+	public static function getAllServers(): array
+	{
+		if (\App\Cache::has('Magento|getAllServers', '')) {
+			return \App\Cache::get('Magento|getAllServers', '');
+		}
+		$servers = (new Query())->from('i_#__magento_servers')->indexBy('id')->all(\App\Db::getInstance('admin'));
+		\App\Cache::save('Magento|getAllServers', '', $servers);
+		return $servers;
+	}
+
+	/**
+	 * Get server by id.
+	 *
+	 * @param int $id
+	 *
+	 * @return string[]
+	 */
+	public static function getServer(int $id): array
+	{
+		if (\App\Cache::has('Magento|getServer', $id)) {
+			return \App\Cache::get('Magento|getServer', $id);
+		}
+		$server = (new \App\Db\Query())->from('i_#__magento_servers')->where(['id' => $id])->one(\App\Db::getInstance('admin')) ?: [];
+		\App\Cache::save('Magento|getServer', $id, $server);
+		return $server;
+	}
 
 	/**
 	 * Function to get object to read configuration.
