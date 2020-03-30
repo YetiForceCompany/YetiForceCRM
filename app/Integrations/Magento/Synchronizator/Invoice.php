@@ -136,7 +136,7 @@ class Invoice extends Record
 	public function getSearchCriteria($ids, int $pageSize = 10): string
 	{
 		$searchCriteria[] = parent::getSearchCriteria($ids, $pageSize);
-		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][value]=' . $this->config->get('storeId');
+		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][value]=' . $this->config->get('store_id');
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][field]=store_id';
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][conditionType]=in';
 		return implode('&', $searchCriteria);
@@ -155,7 +155,7 @@ class Invoice extends Record
 	public function getInvoices(array $ids = []): array
 	{
 		$items = [];
-		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('storeCode') . '/V1/invoices?' . $this->getSearchCriteria($ids, $this->config->get('invoiceLimit'))));
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/invoices?' . $this->getSearchCriteria($ids, $this->config->get('invoiceLimit'))));
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
 				$items[$item['entity_id']] = $item;

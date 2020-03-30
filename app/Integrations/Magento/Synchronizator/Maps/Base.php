@@ -49,7 +49,7 @@ abstract class Base
 	/**
 	 * Data from Magento.
 	 *
-	 * @var string[]
+	 * @var array
 	 */
 	public $data = [];
 	/**
@@ -175,7 +175,7 @@ abstract class Base
 				} else {
 					$elements = \count($fieldLevels);
 					foreach ($fieldLevels as $level => $fieldLevel) {
-						if (\array_key_exists($fieldLevel, $fieldParsed)) {
+						if (isset($fieldParsed[$fieldLevel])) {
 							$fieldParsed = $fieldParsed[$fieldLevel];
 						} else {
 							if ($elements !== $level + 1) {
@@ -188,10 +188,14 @@ abstract class Base
 			} else {
 				$fieldParsed = $fieldParsed[$fieldName] ?? '';
 			}
+			$fieldParsedValue = $fieldParsed;
 			if (null !== $fieldParsed && isset(static::$fieldsType[$parsedFieldName])) {
 				switch (static::$fieldsType[$parsedFieldName]) {
 					case 'map':
 						$fieldParsed = static::${$parsedFieldName}[$fieldParsed] ?? null;
+						if (null === $fieldParsed) {
+							\App\Log::warning("No value in mapping (map)|name: $parsedFieldName|value: $fieldParsedValue", 'Updates');
+						}
 						break;
 					case 'implode':
 						$fieldParsed = implode(', ', $fieldParsed);
@@ -202,9 +206,16 @@ abstract class Base
 					case 'date':
 						$fieldParsed = \App\Fields\Date::formatToDb($fieldParsed, true);
 						break;
+					case 'datetime':
+						$fieldParsed = \App\Fields\DateTime::formatToDb($fieldParsed, true);
+						break;
 				}
 			} else {
 				$fieldParsed = !\is_array($fieldParsed) ? $fieldParsed : null;
+				if (null === $fieldParsed) {
+					$name = $fieldLevel ?? $fieldName;
+					\App\Log::info("No value in mapping|CRM: $parsedFieldName|Magento: $name|" . PHP_EOL . print_r($fieldParsedValue, true), 'Updates');
+				}
 			}
 		} else {
 			$fieldParsed = $this->{$methodName}();
@@ -231,5 +242,34 @@ abstract class Base
 			}
 		}
 		return $value;
+	}
+
+	/**
+	 * Parse phone number.
+	 *
+	 * @param string $fieldName
+	 * @param array  $parsedData
+	 *
+	 * @return array
+	 */
+	public function parsePhone(string $fieldName, array $parsedData): array
+	{
+		if (\App\Config::main('phoneFieldAdvancedVerification', false)) {
+			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+			try {
+				$swissNumberProto = $phoneUtil->parse($parsedData[$fieldName]);
+				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
+				var_dump($international);
+			} catch (\libphonenumber\NumberParseException $e) {
+				$international = false;
+			}
+			if ($international) {
+				$parsedData[$fieldName] = $international;
+			} else {
+				$parsedData[$fieldName . '_extra'] = $parsedData[$fieldName];
+				unset($parsedData[$fieldName]);
+			}
+		}
+		return $parsedData;
 	}
 }

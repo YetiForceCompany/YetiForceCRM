@@ -32,9 +32,9 @@ class Token extends Base
 	public function authorize()
 	{
 		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
-			->post($this->config->get('addressApi') . 'rest/V1/integration/admin/token', [
+			->post($this->config->get('url') . 'rest/V1/integration/admin/token', [
 				'timeout' => 0,
-				'json' => ['username' => $this->config->get('username'), 'password' => $this->config->get('password')]]);
+				'json' => ['username' => $this->config->get('user_name'), 'password' => $this->config->get('password')]]);
 		if (200 !== $response->getStatusCode()) {
 			throw new AppException();
 		}
@@ -46,7 +46,7 @@ class Token extends Base
 	 */
 	public function request(string $method, string $action, array $params = []): string
 	{
-		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($method, $this->config->get('addressApi') . "rest/$action", [
+		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($method, $this->config->get('url') . "rest/$action", [
 			'headers' => [
 				'authorization' => 'Bearer ' . $this->token
 			],

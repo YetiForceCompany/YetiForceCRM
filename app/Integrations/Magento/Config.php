@@ -66,16 +66,20 @@ class Config extends \App\Base
 	/**
 	 * Function to get object to read configuration.
 	 *
-	 * @return object
+	 * @param int $serverId
+	 *
+	 * @return self
 	 */
-	public static function getInstance()
+	public static function getInstance(int $serverId)
 	{
-		if (null === static::$instance) {
-			static::$instance = new static();
-			$data = (new Query())->select(['name', 'value'])->from(self::TABLE_NAME)->createCommand()->queryAllByGroup();
-			static::$instance->setData(array_merge(\App\Config::component('Magento'), $data));
-		}
-		return static::$instance;
+		$servers = self::getAllServers();
+		$instance = new self();
+		$instance->setData(array_merge(
+			$servers[$serverId],
+			\App\Config::component('Magento'),
+			(new Query())->select(['name', 'value'])->from(self::TABLE_NAME)->createCommand()->queryAllByGroup()
+			));
+		return $instance;
 	}
 
 	/**

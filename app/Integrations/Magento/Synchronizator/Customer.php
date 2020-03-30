@@ -58,7 +58,7 @@ class Customer extends Record
 	}
 
 	/**
-	 * Method to save, update or delete customers from Magento.
+	 * Import customers from Magento.
 	 *
 	 * @return bool
 	 */
@@ -71,15 +71,14 @@ class Customer extends Record
 					if (empty($customer)) {
 						continue;
 					}
-					$className = $this->config->get('customerMapClassName') ?: '\App\Integrations\Magento\Synchronizator\Maps\Customer';
+					$className = $this->config->get('customer_map_class') ?: '\App\Integrations\Magento\Synchronizator\Maps\Customer';
 					$customerFields = new $className($this);
 					$customerFields->setData($customer);
 					$dataCrm = $customerFields->getDataCrm();
 					if ($dataCrm) {
 						try {
 							$dataCrm['parent_id'] = $this->createAccount($dataCrm);
-							$id = $this->createContact($dataCrm);
-							$this->saveMapping($customer['id'], $id, 'customer');
+							$this->createContact($dataCrm);
 						} catch (\Throwable $ex) {
 							\App\Log::error('Error during saving customer: ' . $ex->getMessage(), 'Integrations/Magento');
 						}
@@ -109,7 +108,7 @@ class Customer extends Record
 	public function getCustomers(array $ids = []): array
 	{
 		$items = [];
-		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('storeCode') . '/V1/customers/search?' . $this->getSearchCriteria($ids, $this->config->get('customerLimit'))));
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/customers/search?' . $this->getSearchCriteria($ids, $this->config->get('customerLimit'))));
 		if (!empty($data['items'])) {
 			$items = $data['items'];
 		}
@@ -131,7 +130,7 @@ class Customer extends Record
 		if ($vatId) {
 			$id = (new \App\Db\Query())->select(['accountid'])->from('vtiger_account')
 				->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
-				->where(['vtiger_crmentity.deleted' => 0, 'vtiger_account.vat_id' => $vatId])->scalar() ?: 0;
+				->where(['vtiger_account.vat_id' => $vatId])->scalar() ?: 0;
 		}
 		if (!$id && $vatId && $companyName) {
 			$recordModel = \Vtiger_Record_Model::getCleanInstance('Accounts');
@@ -159,7 +158,7 @@ class Customer extends Record
 	{
 		$id = (new \App\Db\Query())->select(['contactid'])->from('vtiger_contactdetails')
 			->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')
-			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_contactdetails.email' => $data['email']])->scalar();
+			->where(['vtiger_contactdetails.email' => $data['email']])->scalar();
 		if (!$id) {
 			$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
 			$recordModel->setData($data);

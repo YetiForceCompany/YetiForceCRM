@@ -23,6 +23,8 @@ class Customer extends Base
 		'lastname' => 'lastname',
 		'birthday' => 'dob',
 		'email' => 'email',
+		'phone' => 'addresses|0|telephone',
+		'mobile' => 'addresses|0|fax',
 		'salutationtype' => 'gender',
 	];
 	/**
@@ -32,8 +34,6 @@ class Customer extends Base
 		'salutationtype' => 'map',
 		'addresslevel1a' => 'country',
 		'addresslevel1b' => 'country',
-		'addresslevel8a' => 'implode',
-		'addresslevel8b' => 'implode',
 	];
 	/**
 	 * {@inheritdoc}
@@ -60,10 +60,11 @@ class Customer extends Base
 		'addresslevel2a' => 'region|region',
 		'addresslevel5a' => 'city',
 		'addresslevel7a' => 'postcode',
-		'addresslevel8a' => 'street',
-		//'first_name_a' => 'firstname',
-		//'last_name_a' => 'lastname',
-		'addresslevel12a' => 'telephone',
+		'addresslevel8a' => 'street|0',
+		'buildingnumbera' => 'street|1',
+		'first_name_a' => 'firstname',
+		'last_name_a' => 'lastname',
+		'phone_a' => 'telephone',
 		'vat_id_a' => 'vat_id',
 		'company_name_a' => 'company',
 	];
@@ -77,10 +78,11 @@ class Customer extends Base
 		'addresslevel2b' => 'region|region',
 		'addresslevel5b' => 'city',
 		'addresslevel7b' => 'postcode',
-		'addresslevel8b' => 'street',
-		//'first_name_b' => 'firstname',
-		//'last_name_b' => 'lastname',
-		'addresslevel12b' => 'telephone',
+		'addresslevel8b' => 'street|0',
+		'buildingnumberb' => 'street|1',
+		'first_name_b' => 'firstname',
+		'last_name_b' => 'lastname',
+		'phone_b' => 'telephone',
 		'vat_id_b' => 'vat_id',
 		'company_name_b' => 'company',
 	];
@@ -96,6 +98,12 @@ class Customer extends Base
 		}
 		if (!empty($billingAddress = $this->getAddressDataCrm('billing'))) {
 			$parsedData = \array_merge_recursive($parsedData, $billingAddress);
+		}
+		if (!empty($parsedData['phone'])) {
+			$parsedData = $this->parsePhone('phone', $parsedData);
+		}
+		if (!empty($parsedData['mobile'])) {
+			$parsedData = $this->parsePhone('mobile', $parsedData);
 		}
 		return $parsedData;
 	}

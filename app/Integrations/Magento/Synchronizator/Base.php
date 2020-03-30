@@ -218,34 +218,33 @@ abstract class Base
 	/**
 	 * Save inventory elements.
 	 *
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @param object               $fieldMap
-	 * @param array                $data
-	 *
-	 * @throws \App\Exceptions\AppException
-	 * @throws \ReflectionException
+	 * @param \Vtiger_Record_Model                                    $recordModel
+	 * @param \App\Integrations\Magento\Synchronizator\Maps\Inventory $mapModel
 	 *
 	 * @return bool
 	 */
-	public function saveInventoryCrm($recordModel, array $data, $fieldMap): bool
+	public function saveInventoryCrm(\Vtiger_Record_Model $recordModel, Maps\Inventory $mapModel): bool
 	{
 		$inventoryData = [];
 		$savedAllProducts = true;
-		foreach ($data['items'] as $record) {
-			if (isset($this->mapCrm['product'][$record['product_id']])) {
-				$inventoryData[] = $this->parseInventoryData($recordModel, $record, $fieldMap);
-			} elseif (isset($this->mapSkuToIdCrm[$record['sku']])) {
-				$record['product_id'] = $this->map['product'][$this->mapSkuToIdCrm[$record['sku']]];
-				$inventoryData[] = $this->parseInventoryData($recordModel, $record, $fieldMap);
+		foreach ($mapModel->data['items'] as $record) {
+			$productId = $this->findProduct($record['sku']);
+			if (0 === $productId) {
+				$productId = $mapModel->createProduct($record);
+			}
+			if ($productId) {
+				$record['crmProductId'] = $productId;
+				$inventoryData[] = $this->parseInventoryData($recordModel, $record, $mapModel);
 			} else {
 				$savedAllProducts = false;
-				\App\Log::error('Error during saving record. Inventory product (magento id: [' . $record['product_id'] . '] | SKU:[' . $record['sku'] . ']) does not exist in YetiForce.', 'Integrations/Magento');
+				\App\Log::error('Skipped saving record, product not found in CRM (magento id: [' . $record['product_id'] . '] | SKU:[' . $record['sku'] . '])', 'Integrations/Magento');
 			}
 		}
-		if (!empty($inventoryData)) {
-			$inventoryData[] = $this->parseShippingData($data['extension_attributes']['shipping_assignments']);
-			$additionalData = $this->parseAdditionalData($data);
-			if (!empty($additionalData)) {
+		if ($savedAllProducts && !empty($inventoryData)) {
+			if (!empty($mapModel->data['extension_attributes']['shipping_assignments']) && ($shipping = $this->parseShippingData($mapModel->data['extension_attributes']['shipping_assignments']))) {
+				$inventoryData[] = $shipping;
+			}
+			if ($additionalData = $this->findAdditionalData($mapModel->data)) {
 				$inventoryData[] = $additionalData;
 			}
 			$recordModel->initInventoryData($inventoryData, false);
@@ -256,18 +255,15 @@ abstract class Base
 	/**
 	 * Parse inventory data to YetiForce format.
 	 *
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @param array                $record
-	 * @param $fieldMap
-	 *
-	 * @throws \App\Exceptions\AppException
-	 * @throws \ReflectionException
+	 * @param \Vtiger_Record_Model                                    $recordModel
+	 * @param array                                                   $record
+	 * @param \App\Integrations\Magento\Synchronizator\Maps\Inventory $mapModel
 	 *
 	 * @return array
 	 */
-	public function parseInventoryData($recordModel, array $record, $fieldMap): array
+	public function parseInventoryData(\Vtiger_Record_Model $recordModel, array $record, Maps\Inventory $mapModel): array
 	{
-		$fieldMap->setData($record);
+		$mapModel->setData($record);
 		$item = [];
 		foreach (\Vtiger_Inventory_Model::getInstance($recordModel->getModuleName())->getFields() as $columnName => $fieldModel) {
 			if (\in_array($fieldModel->getColumnName(), ['total', 'margin', 'marginp', 'net', 'gross'])) {
@@ -283,14 +279,14 @@ abstract class Base
 				if (empty($record['discount_amount']) && !empty($record['discount_percent'])) {
 					$item['discountparam'] = '{"aggregationType":"individual","individualDiscountType":"percentage","individualDiscount":' . $record['discount_percent'] . '}';
 				} else {
-					$item['discountparam'] = '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":' . $fieldMap->getInvFieldValue('discount') . '}';
+					$item['discountparam'] = '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":' . $mapModel->getInvFieldValue('discount') . '}';
 				}
 			} elseif ('currency' === $columnName) {
 				$item['currency'] = $this->config->get('currencyId');
 			} elseif ('name' === $columnName) {
-				$item[$columnName] = $this->mapCrm['product'][$record['product_id']];
+				$item[$columnName] = $record['crmProductId'];
 			} else {
-				$item[$columnName] = $fieldMap->getInvFieldValue($columnName) ?? $fieldModel->getDefaultValue();
+				$item[$columnName] = $mapModel->getInvFieldValue($columnName) ?? $fieldModel->getDefaultValue();
 			}
 		}
 		return $item;
@@ -301,27 +297,28 @@ abstract class Base
 	 *
 	 * @param array $shippingData
 	 *
-	 * @throws \ReflectionException
-	 *
 	 * @return array
 	 */
 	public function parseShippingData(array $shippingData): array
 	{
 		$data = current($shippingData);
-		return [
-			'discountmode' => 1,
-			'taxmode' => 1,
-			'currency' => $this->config->get('currencyId'),
-			'name' => $this->config->get('shippingServiceId'),
-			'unit' => '',
-			'subunit' => '',
-			'qty' => 1,
-			'price' => $data['shipping']['total']['shipping_amount'],
-			'discountparam' => '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":' . $data['shipping']['total']['shipping_discount_amount'] . '}',
-			'purchase' => 0,
-			'taxparam' => '{"aggregationType":"individual","individualTax":' . $data['shipping']['total']['shipping_tax_amount'] . '}',
-			'comment1' => ''
-		];
+		if ($this->config->get('shipping_service_id') && !empty($data['shipping']['total'])) {
+			return [
+				'discountmode' => 1,
+				'taxmode' => 1,
+				'currency' => $this->config->get('currencyId'),
+				'name' => $this->config->get('shipping_service_id'),
+				'unit' => '',
+				'subunit' => '',
+				'qty' => 1,
+				'price' => $data['shipping']['total']['shipping_amount'],
+				'discountparam' => '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":' . $data['shipping']['total']['shipping_discount_amount'] . '}',
+				'purchase' => 0,
+				'taxparam' => '{"aggregationType":"individual","individualTax":' . $data['shipping']['total']['shipping_tax_amount'] . '}',
+				'comment1' => ''
+			];
+		}
+		return [];
 	}
 
 	/**
@@ -329,30 +326,33 @@ abstract class Base
 	 *
 	 * @param array $data
 	 *
-	 * @throws \ReflectionException
-	 *
 	 * @return array
 	 */
-	public function parseAdditionalData(array $data = []): array
+	public function findAdditionalData(array $data = []): array
 	{
 		$additionalData = [];
-		$className = $this->config->get('orderMapClassName');
-		$map = new $className();
-		if (method_exists($map, 'parseAdditionalData')) {
-			$additionalData = $map->parseAdditionalData($data);
+		if (method_exists($this, 'addAdditionalInvData')) {
+			$additionalData = $this->addAdditionalInvData($data);
 		}
 		return $additionalData;
 	}
 
 	/**
-	 * Get product sku map from YetiForce.
+	 * Find product id by ean.
+	 *
+	 * @param string $ean
+	 *
+	 * @return int
 	 */
-	public function getProductSkuMapCrm(): void
+	public function findProduct(string $ean): int
 	{
-		$queryGenerator = (new \App\QueryGenerator('Products'));
-		$queryGenerator->setFields(['id', 'ean']);
-		$query = $queryGenerator->createQuery()->createCommand()->queryAllByGroup(0);
-		$this->mapIdToSkuCrm = $query;
-		$this->mapSkuToIdCrm = \array_flip($this->mapIdToSkuCrm);
+		if (\App\Cache::staticHas('ProductsByEan', $ean)) {
+			return \App\Cache::staticGet('ProductsByEan', $ean);
+		}
+		$id = (new \App\Db\Query())->select(['productid'])->from('vtiger_products')
+			->innerJoin('vtiger_crmentity', 'vtiger_products.productid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_products.ean' => $ean])->scalar() ?: 0;
+		\App\Cache::staticSave('ProductsByEan', $ean, $id);
+		return $id;
 	}
 }
