@@ -1163,7 +1163,9 @@ jQuery.Class(
 					fieldElement.inputmask();
 				}
 				detailViewValue.addClass('d-none');
-				actionElement.addClass('d-none');
+				actionElement
+                    .addClass('d-none')
+                    .removeClass('d-flex');
 				editElement
 					.removeClass('d-none')
 					.children()
@@ -1230,7 +1232,9 @@ jQuery.Class(
 					if (toStr(previousValue) === toStr(ajaxEditNewValue)) {
 						editElement.addClass('d-none');
 						detailViewValue.removeClass('d-none');
-						actionElement.removeClass('d-none');
+						actionElement
+                            .removeClass('d-none')
+                            .addClass('d-flex');        ;
 						readRecord.prop('disabled', false);
 						editElement.off('clickoutside');
 					} else {
