@@ -3077,9 +3077,9 @@ insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`e
 
 /*Data for the table `vtiger_eventhandlers` */
 
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (1,'EntityAfterDelete','Vtiger_Workflow_Handler',1,'','',6,0);
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (3,'EntityAfterSave','Vtiger_Workflow_Handler',1,'','',6,0);
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (4,'EntityChangeState','Vtiger_Workflow_Handler',1,'','',6,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (1,'EntityAfterDelete','Vtiger_Workflow_Handler',1,'','',5,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (3,'EntityAfterSave','Vtiger_Workflow_Handler',1,'','',5,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (4,'EntityChangeState','Vtiger_Workflow_Handler',1,'','',5,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (8,'EntityChangeState','ModTracker_ModTrackerHandler_Handler',1,'','',6,32);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (16,'EntityAfterSave','ServiceContracts_ServiceContractsHandler_Handler',1,'HelpDesk,ServiceContracts','',5,34);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (18,'EntityAfterSave','Vtiger_RecordLabelUpdater_Handler',1,'','',6,0);
