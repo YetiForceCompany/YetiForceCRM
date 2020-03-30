@@ -172,7 +172,7 @@ class Vtiger_Menu_Model
 	 */
 	public static function getModuleNameFromUrl($url)
 	{
-		if ('https://yetiforce.shop/' === $url) {
+		if ('https://yetiforce.shop/' === $url || empty($url)) {
 			return 'Settings:Vtiger';
 		}
 		$params = vtlib\Functions::getQueryParams($url);
