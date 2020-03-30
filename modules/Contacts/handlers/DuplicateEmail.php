@@ -48,7 +48,6 @@ class Contacts_DuplicateEmail_Handler
 				];
 			}
 		}
-
 		return $response;
 	}
 }

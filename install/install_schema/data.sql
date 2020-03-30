@@ -18015,6 +18015,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (122,7,'LBL_VULNERABILITIES','yfi yfi-security-errors-2','LBL_VULNERABILITIES_DESCRIPTION','index.php?parent=Settings&module=YetiForce&view=Vulnerabilities',7,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (123,5,'LBL_MAP','far fa-map','LBL_MAP_DESCRIPTION','index.php?parent=Settings&module=Map&view=Config',6,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (124,5,'LBL_MAGENTO','fab fa-magento','LBL_MAGENTO_DESCRIPTION','index.php?parent=Settings&module=Magento&view=List',13,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (125,4,'LBL_EVENT_HANDLER','mdi mdi-car-turbocharger','LBL_EVENT_HANDLER_DESC','index.php?parent=Settings&module=EventHandler&view=Index',13,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 

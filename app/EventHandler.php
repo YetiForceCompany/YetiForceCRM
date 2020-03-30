@@ -31,11 +31,12 @@ class EventHandler
 	/**
 	 * Get all event handlers.
 	 *
-	 * @param bool $active true/false
+	 * @param bool    $active  true/false
+	 * @param ?string $groupBy
 	 *
 	 * @return array
 	 */
-	public static function getAll($active = true)
+	public static function getAll(?string $groupBy = null)
 	{
 		if (Cache::has('EventHandler', 'All')) {
 			$handlers = Cache::get('EventHandler', 'All');
@@ -43,12 +44,12 @@ class EventHandler
 			$handlers = (new \App\Db\Query())->from(self::$baseTable)->orderBy(['priority' => SORT_DESC])->all();
 			Cache::save('EventHandler', 'All', $handlers);
 		}
-		if ($active) {
-			foreach ($handlers as $key => &$handler) {
-				if (1 !== (int) $handler['is_active']) {
-					unset($handlers[$key]);
-				}
+		if ($groupBy) {
+			$groupHandlers = [];
+			foreach ($handlers as $handler) {
+				$groupHandlers[$handler[$groupBy]][$handler['eventhandler_id']] = $handler;
 			}
+			$handlers = $groupHandlers;
 		}
 		return $handlers;
 	}
@@ -58,14 +59,15 @@ class EventHandler
 	 *
 	 * @param string $name
 	 * @param mixed  $moduleName
+	 * @param bool   $active
 	 *
 	 * @return array
 	 */
-	public static function getByType($name, $moduleName = false)
+	public static function getByType($name, $moduleName = false): array
 	{
 		if (!isset(self::$handlerByType)) {
 			$handlers = [];
-			foreach (static::getAll(true) as &$handler) {
+			foreach (static::getAll() as &$handler) {
 				$handlers[$handler['event_name']][$handler['handler_class']] = $handler;
 			}
 			self::$handlerByType = $handlers;
