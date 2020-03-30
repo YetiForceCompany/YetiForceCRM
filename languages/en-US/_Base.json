@@ -255,7 +255,7 @@
     "LBL_GLOBAL_SEARCH_MAX_MESSAGE": "Only the first 100 results of all modules are shown below. For module specific results, please select respective module and search",
     "LBL_GLOBAL_SEARCH_MAX_MESSAGE_FOR_MODULE": "Only the first 100 results are shown below. Please do Advanced Search if you are not satisfied with the result",
     "LBL_GO_BACK": "Go back",
-    "LBL_MAIN_PAGE": "Home page",
+    "LBL_MAIN_PAGE": "Dashboard",
     "Illegal request": "CSRF protection: Hacking attempt detected",
     "LBL_ERROR": "Error!!!",
     "LBL_GO_TO_FULL_FORM": "Go to full form",
