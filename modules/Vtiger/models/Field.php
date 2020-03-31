@@ -323,6 +323,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 9:
 						$fieldDataType = 'percentage';
 						break;
+					case 12:
+						$fieldDataType = 'accountName';
+						break;
 					case 27:
 						$fieldDataType = 'fileLocationType';
 						break;
@@ -777,7 +780,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isAjaxEditable()
 	{
-		$ajaxRestrictedFields = [72];
+		$ajaxRestrictedFields = [72, 12];
 		return !(10 === (int) $this->get('displaytype') || $this->isReferenceField() || !$this->getUITypeModel()->isAjaxEditable() || !$this->isEditable() || \in_array($this->get('uitype'), $ajaxRestrictedFields));
 	}
 

@@ -1512,6 +1512,38 @@ $.Class(
 			});
 		},
 		/**
+		 * Register account name function
+		 * @param {jQuery} container
+		 */
+		registerAccountName: function(container) {
+			let first = container.find('.js-first-name');
+			let firstInput = first.find('input');
+			let last = container.find('.js-last-name');
+			let lastInput = last.find('input');
+			let full = container.find('.js-account-name');
+			let fullInput = full.find('input');
+			let legalForm = container.find('select[name="legal_form"]');
+			firstInput.keyup(function() {
+				fullInput.val(this.value + '|##|' + lastInput.val());
+			});
+			lastInput.keyup(function() {
+				fullInput.val(firstInput.val() + '|##|' + this.value);
+			});
+			legalForm.change(function() {
+				if (this.value == 'PLL_NATURAL_PERSON') {
+					full.addClass('d-none');
+					fullInput.val(firstInput.val() + '|##|' + lastInput.val());
+					first.removeClass('d-none');
+					last.removeClass('d-none');
+				} else {
+					full.removeClass('d-none');
+					first.addClass('d-none');
+					last.addClass('d-none');
+					fullInput.val('');
+				}
+			});
+		},
+		/**
 		 * Function which will register basic events which will be used in quick create as well
 		 *
 		 */
@@ -1534,6 +1566,7 @@ $.Class(
 			this.registerMultiImageFields(container);
 			this.registerReferenceCreate(container);
 			this.registerRecordCollectorModal(container);
+			this.registerAccountName(container);
 			App.Fields.MultiEmail.register(container);
 			App.Fields.MultiDependField.register(container);
 			App.Fields.Tree.register(container);
