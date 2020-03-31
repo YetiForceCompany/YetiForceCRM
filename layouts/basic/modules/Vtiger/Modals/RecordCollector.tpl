@@ -6,6 +6,7 @@
 			<input type="hidden" name="module" value="{$MODULE_NAME}"/>
 			<input type="hidden" name="view" value="RecordCollector"/>
 			<input type="hidden" name="mode" value="search"/>
+			<input type="hidden" name="record" value="{$RECORD_ID}"/>
 			<input type="hidden" name="collectorType" value="{$COLLECTOR_NAME}"/>
 			{foreach item=FIELD_MODEL from=$RECORD_COLLECTOR->getFields()}
 				<div class="form-group form-row">

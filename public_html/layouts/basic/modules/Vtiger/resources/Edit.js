@@ -1487,6 +1487,7 @@ $.Class(
 		 * @param {jQuery} container
 		 */
 		registerRecordCollectorModal: function(container) {
+			let thisInstance = this;
 			container.on('click', '.js-record-collector-modal', function(e) {
 				e.preventDefault();
 				let element = $(this);
@@ -1498,6 +1499,7 @@ $.Class(
 					app.showModalWindow(html, container => {
 						let form = container.find('form.js-record-collector__form');
 						let summary = container.find('.js-record-collector__summary');
+						thisInstance.registerGusRecordCollectorFillFields(container);
 						form.on('submit', function(e) {
 							summary.html('');
 							summary.progressIndicator({});
@@ -1509,6 +1511,31 @@ $.Class(
 						});
 					});
 				});
+			});
+		},
+		/**
+		 * Fill record fort with data from Gus
+		 * @param {jQuery} modalContainer
+		 */
+		registerGusRecordCollectorFillFields: function(modalContainer) {
+			let form = this.getForm();
+			modalContainer.on('click', '.js-record-collector__fill_fields', function(e) {
+				let mappedField = modalContainer.find('.formFieldsToRecordMap').val();
+				mappedField = JSON.parse(mappedField);
+				Object.keys(mappedField).forEach(function(key) {
+					let input = modalContainer.find('[name="' + key + '"]');
+					input.each(function() {
+						if ($(this).is(':checked')) {
+							var cellWithValue = $(this)
+								.closest('.value' + key)
+								.find('.fieldValue')
+								.html();
+							console.log(mappedField[key], key, cellWithValue);
+							form.find('[name="' + mappedField[key] + '"]').setValue(cellWithValue);
+						}
+					});
+				});
+				app.hideModalWindow();
 			});
 		},
 		/**

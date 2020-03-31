@@ -1,3 +1,9 @@
+/*
+SQLyog Ultimate v13.0.0 (64 bit)
+MySQL - 10.2.13-MariaDB : Database - yetiforce
+*********************************************************************
+*/
+
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
@@ -1351,7 +1357,7 @@ CREATE TABLE `u_yf_browsinghistory` (
   `url` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `browsinghistory_user_idx` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_cfixedassets` */
 
@@ -6618,7 +6624,7 @@ CREATE TABLE `vtiger_links` (
   KEY `linklabel` (`linklabel`),
   KEY `linkid` (`linkid`,`tabid`,`linktype`,`linklabel`),
   KEY `linktype` (`linktype`)
-) ENGINE=InnoDB AUTO_INCREMENT=372 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=373 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_locationregister_status` */
 

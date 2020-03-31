@@ -13,14 +13,16 @@
 		{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
 			{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='editViewHeader' TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq BTN_CLASS="ml-1"}
 		{/foreach}
-		{foreach item=COLLECTOR_LINK from=$EDITVIEW_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
-			{assign var=COLLECTOR value=\App\RecordCollector::getInstance($COLLECTOR_LINK->get('linkurl'), $MODULE_NAME)}
-			{if isset($COLLECTOR) && $COLLECTOR->isActive()}
-				<button type="button" class="btn btn-outline-dark js-popover-tooltip js-record-collector-modal mr-1" {if isset(Vtiger_Field_Model::$tabIndexLastSeq)}tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}"{/if} data-type={$COLLECTOR_LINK->get('linkurl')} data-content="{App\Language::translate({$COLLECTOR->label}, $MODULE_NAME)}" data-js="click|popover">
-					<span class="{$COLLECTOR->icon}"></span>
-				</button>
-			{/if}
-		{/foreach}
+		{if \App\Privilege::isPermitted($MODULE, 'RecordCollector')}
+			{foreach item=COLLECTOR_LINK from=$EDITVIEW_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
+				{assign var=COLLECTOR value=\App\RecordCollector::getInstance($COLLECTOR_LINK->get('linkurl'), $MODULE_NAME)}
+				{if isset($COLLECTOR) && $COLLECTOR->isActive()}
+					<button type="button" class="btn btn-outline-dark js-popover-tooltip js-record-collector-modal mr-1" {if isset(Vtiger_Field_Model::$tabIndexLastSeq)}tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}"{/if} data-type={$COLLECTOR_LINK->get('linkurl')} data-content="{App\Language::translate({$COLLECTOR->label}, $MODULE_NAME)}" data-js="click|popover">
+						<span class="{$COLLECTOR->icon}"></span>
+					</button>
+				{/if}
+			{/foreach}
+		{/if}
 	</div>
 </form>
 </div>
