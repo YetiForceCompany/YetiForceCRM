@@ -163,7 +163,7 @@ var App = (window.App = {
 					if (typeof window[moduleClassName] !== 'undefined') {
 						new window[moduleClassName]().registerEvents(container);
 					}
-					quickCreateForm.validationEngine(app.validationEngineOptions);
+					quickCreateForm.validationEngine(app.validationEngineOptionsForRecord);
 					if (typeof params.callbackPostShown !== 'undefined') {
 						params.callbackPostShown(quickCreateForm);
 					}
@@ -363,7 +363,7 @@ var App = (window.App = {
 						if (typeof window[moduleClassName] !== 'undefined') {
 							new window[moduleClassName]().registerEvents(container);
 						}
-						form.validationEngine(app.validationEngineOptions);
+						form.validationEngine(app.validationEngineOptionsForRecord);
 						if (typeof params.callbackPostShown !== 'undefined') {
 							params.callbackPostShown(form, params);
 						}
@@ -1284,7 +1284,6 @@ var app = (window.app = {
 		//to support validation for select2 select box
 		prettySelect: true,
 		usePrefix: 's2id_',
-		validateNonVisibleFields: true,
 		onBeforePromptType: function(field) {
 			var block = field.closest('.js-toggle-panel');
 			if (block.find('.blockContent').is(':hidden')) {
