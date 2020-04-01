@@ -16,7 +16,7 @@
     "LBL_INVALID_DATA": "Invalid data",
     "WidgetsManagement": "Widget management",
     "LBL_WIDGETS_MANAGEMENT": "Dashboard - Widgets",
-    "LBL_WIDGETS_MANAGEMENT_DESCRIPTION": " ",
+    "LBL_WIDGETS_MANAGEMENT_DESCRIPTION": "Description",
     "LBL_MANDATORY_WIDGET": "Mandatory widget",
     "LBL_WIDGET": "Widgets",
     "LBL_NUMBER_OF_RECORDS_DISPLAYED": "Displayed records number",
