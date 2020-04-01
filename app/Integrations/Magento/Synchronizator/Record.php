@@ -164,7 +164,6 @@ abstract class Record extends Base
 			}
 			$searchCriteria = implode('&', $searchCriteria);
 		}
-
 		return $searchCriteria ?? 'searchCriteria';
 	}
 }

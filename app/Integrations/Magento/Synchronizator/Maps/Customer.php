@@ -23,8 +23,6 @@ class Customer extends Base
 		'lastname' => 'lastname',
 		'birthday' => 'dob',
 		'email' => 'email',
-		'phone' => 'addresses|0|telephone',
-		'mobile' => 'addresses|0|fax',
 		'salutationtype' => 'gender',
 	];
 	/**
@@ -67,6 +65,8 @@ class Customer extends Base
 		'phone_a' => 'telephone',
 		'vat_id_a' => 'vat_id',
 		'company_name_a' => 'company',
+		'phone' => 'telephone',
+		'mobile' => 'fax',
 	];
 	/**
 	 * Mapped shipping fields.
@@ -85,6 +85,8 @@ class Customer extends Base
 		'phone_b' => 'telephone',
 		'vat_id_b' => 'vat_id',
 		'company_name_b' => 'company',
+		'phone' => 'telephone',
+		'mobile' => 'fax',
 	];
 
 	/**
@@ -94,10 +96,10 @@ class Customer extends Base
 	{
 		$parsedData = parent::getDataCrm($onEdit);
 		if (!empty($shippingAddress = $this->getAddressDataCrm('shipping'))) {
-			$parsedData = \array_merge_recursive($parsedData, $shippingAddress);
+			$parsedData = \array_replace_recursive($parsedData, $shippingAddress);
 		}
 		if (!empty($billingAddress = $this->getAddressDataCrm('billing'))) {
-			$parsedData = \array_merge_recursive($parsedData, $billingAddress);
+			$parsedData = \array_replace_recursive($parsedData, $billingAddress);
 		}
 		if (!empty($parsedData['phone'])) {
 			$parsedData = $this->parsePhone('phone', $parsedData);
