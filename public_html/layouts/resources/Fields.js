@@ -2026,10 +2026,11 @@ window.App.Fields = {
 	},
 	Tree: {
 		register(container) {
+			container.off('click', '.js-tree-modal');
 			container.on('click', '.js-tree-modal', function(e) {
 				let element = $(e.target),
 					parentElem = element.closest('.js-tree-container'),
-					sourceFieldElement = parentElem.find('input[class="sourceField"]'),
+					sourceFieldElement = parentElem.find('input.sourceField'),
 					fieldDisplayElement = parentElem.find(
 						'input[name="' + sourceFieldElement.attr('name') + '_display"]'
 					);

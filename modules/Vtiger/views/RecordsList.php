@@ -81,6 +81,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	public function getModalScripts(App\Request $request)
 	{
 		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
+			'~layouts/resources/Fields.js',
 			'modules.Vtiger.resources.ListSearch',
 			"modules.{$request->getModule()}.resources.ListSearch",
 		]));
@@ -213,6 +214,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			foreach ($fieldListGroup as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
+				$fieldSearchInfo['specialOption'] = $fieldSearchInfo[3] ?? '';
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}

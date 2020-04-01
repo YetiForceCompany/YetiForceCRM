@@ -135,6 +135,12 @@ jQuery.Class(
 		registerDateTimeListSearch: function(container) {
 			App.Fields.DateTime.register(this.getContainer());
 		},
+		registerTreeSearch: function(container) {
+			App.Fields.Tree.register(this.container);
+			let vtigerEditInstance = new Vtiger_Edit_Js();
+			vtigerEditInstance.registerTreeAutoCompleteFields(this.container);
+			vtigerEditInstance.registerClearTreeSelectionEvent(this.container);
+		},
 		registerTimeListSearch: function() {
 			app.registerEventForClockPicker();
 		},
@@ -213,6 +219,8 @@ jQuery.Class(
 					} else {
 						searchValue = searchValue.join('##');
 					}
+				} else if($.inArray(fieldInfo.type, ['tree']) >= 0){
+					searchValue = searchValue.replace(/,/g, "##");
 				}
 				searchValue = searchValue.trim();
 				if (searchValue.length <= 0) {
@@ -354,6 +362,7 @@ jQuery.Class(
 			this.registerListViewSelect();
 			this.registerDateListSearch();
 			this.registerDateTimeListSearch();
+			this.registerTreeSearch();
 			this.registerTimeListSearch();
 			this.registerAlphabetClick();
 			this.registerListSearch();

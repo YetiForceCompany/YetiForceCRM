@@ -51,15 +51,27 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		$fieldModel = $this->getFieldModel();
-		if ($rawText) {
-			$text = \App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName())[$value];
-			if (is_int($length)) {
-				$text = \App\TextParser::textTruncate($text, $length);
+		if (false === strpos($value, ',')) {
+			if ($rawText) {
+				$text = \App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName())[$value];
+				if (\is_int($length)) {
+					$text = \App\TextParser::textTruncate($text, $length);
+				}
+				return \App\Purifier::encodeHtml($text);
 			}
-			return \App\Purifier::encodeHtml($text);
+			$value = \App\Fields\Tree::getPicklistValueImage($fieldModel->getFieldParams(), $fieldModel->getModuleName(), $value);
+			$text = $value['name'];
+		} else {
+			$names = [];
+			$trees = array_filter(explode(',', $value));
+			$treeData = \App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName());
+			foreach ($trees as $treeId) {
+				if (isset($treeData[$treeId])) {
+					$names[] = $treeData[$treeId];
+				}
+			}
+			$text = implode(', ', $names);
 		}
-		$value = \App\Fields\Tree::getPicklistValueImage($fieldModel->getFieldParams(), $fieldModel->getModuleName(), $value);
-		$text = $value['name'];
 		if (is_int($length)) {
 			$text = \App\TextParser::textTruncate($text, $length);
 		}
