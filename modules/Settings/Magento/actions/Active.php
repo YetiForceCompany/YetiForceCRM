@@ -19,40 +19,87 @@ class Settings_Magento_Active_Action extends Settings_Vtiger_Save_Action
 	 */
 	public function process(App\Request $request)
 	{
-		if (!(new \App\Db\Query())->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId('SSingleOrders'), 'fieldname' => 'magento_id'])->exists()) {
+		$sSingleOrderTabId = \App\Module::getModuleId('SSingleOrders');
+		$fInvoiceTabId = \App\Module::getModuleId('FInvoice');
+		$importerType = new \App\Db\Importers\Base();
+		if (!(new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $sSingleOrderTabId, 'fieldname' => 'magento_server_id'])->exists()) {
 			$blockModel = Vtiger_Block_Model::getInstance('LBL_CUSTOM_INFORMATION', 'SSingleOrders');
 			$blockModel = vtlib\Block::getInstance('LBL_CUSTOM_INFORMATION', 'SSingleOrders');
 			if (!$blockModel) {
 				$blocks = vtlib\Block::getAllForModule(vtlib\Module::getInstance('SSingleOrders'));
 				$blockModel = current($blocks);
 			}
-			$fieldInstance = new vtlib\Field();
-			$fieldInstance->name = 'magento_id';
-			$fieldInstance->table = 'u_yf_ssingleorders';
-			$fieldInstance->label = 'FL_MAGENTO_SERVER';
-			$fieldInstance->column = 'magento_id';
-			$fieldInstance->uitype = 325;
-			$fieldInstance->displaytype = 9;
-			$fieldInstance->maxlengthtext = '2147483647';
-			$fieldInstance->typeofdata = 'I~O';
+			$fieldInstance = new Vtiger_Field_Model();
+			$fieldInstance->set('name', 'magento_server_id');
+			$fieldInstance->set('column', 'magento_server_id');
+			$fieldInstance->set('columntype', $importerType->integer(10)->defaultValue(0)->notNull()->unsigned());
+			$fieldInstance->set('table', 'u_yf_ssingleorders');
+			$fieldInstance->set('label', 'FL_MAGENTO_SERVER');
+			$fieldInstance->set('uitype', 325);
+			$fieldInstance->set('displaytype', 9);
+			$fieldInstance->set('maximumlength', '4294967295');
+			$fieldInstance->set('typeofdata', 'I~O');
 			$fieldInstance->save($blockModel);
 		}
-		if (!(new \App\Db\Query())->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId('FInvoice'), 'fieldname' => 'magento_id'])->exists()) {
+		if (!(new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $sSingleOrderTabId, 'fieldname' => 'magento_id'])->exists()) {
+			if (empty($blockModel)) {
+				$blockModel = Vtiger_Block_Model::getInstance('LBL_CUSTOM_INFORMATION', 'SSingleOrders');
+				$blockModel = vtlib\Block::getInstance('LBL_CUSTOM_INFORMATION', 'SSingleOrders');
+				if (!$blockModel) {
+					$blocks = vtlib\Block::getAllForModule(vtlib\Module::getInstance('SSingleOrders'));
+					$blockModel = current($blocks);
+				}
+			}
+			$fieldInstance = new Vtiger_Field_Model();
+			$fieldInstance->set('name', 'magento_id');
+			$fieldInstance->set('column', 'magento_id');
+			$fieldInstance->set('columntype', $importerType->integer(10)->defaultValue(0)->notNull()->unsigned());
+			$fieldInstance->set('table', 'u_yf_ssingleorders');
+			$fieldInstance->set('label', 'FL_MAGENTO_ID');
+			$fieldInstance->set('uitype', 7);
+			$fieldInstance->set('displaytype', 2);
+			$fieldInstance->set('maximumlength', '4294967295');
+			$fieldInstance->set('typeofdata', 'I~O');
+			$fieldInstance->save($blockModel);
+		}
+		if (!(new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $fInvoiceTabId, 'fieldname' => 'magento_server_id'])->exists()) {
 			$blockModel = Vtiger_Block_Model::getInstance('LBL_CUSTOM_INFORMATION', 'FInvoice');
 			$blockModel = vtlib\Block::getInstance('LBL_CUSTOM_INFORMATION', 'FInvoice');
 			if (!$blockModel) {
 				$blocks = vtlib\Block::getAllForModule(vtlib\Module::getInstance('FInvoice'));
 				$blockModel = current($blocks);
 			}
-			$fieldInstance = new vtlib\Field();
-			$fieldInstance->name = 'magento_id';
-			$fieldInstance->table = 'u_yf_finvoice';
-			$fieldInstance->label = 'FL_MAGENTO_SERVER';
-			$fieldInstance->column = 'magento_id';
-			$fieldInstance->uitype = 325;
-			$fieldInstance->displaytype = 9;
-			$fieldInstance->maxlengthtext = '2147483647';
-			$fieldInstance->typeofdata = 'I~O';
+			$fieldInstance = new Vtiger_Field_Model();
+			$fieldInstance->set('name', 'magento_server_id');
+			$fieldInstance->set('column', 'magento_server_id');
+			$fieldInstance->set('columntype', $importerType->integer(10)->defaultValue(0)->notNull()->unsigned());
+			$fieldInstance->set('table', 'u_yf_finvoice');
+			$fieldInstance->set('label', 'FL_MAGENTO_SERVER');
+			$fieldInstance->set('uitype', 325);
+			$fieldInstance->set('displaytype', 9);
+			$fieldInstance->set('maximumlength', '4294967295');
+			$fieldInstance->set('typeofdata', 'I~O');
+			$fieldInstance->save($blockModel);
+		}
+		if (!(new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $fInvoiceTabId, 'fieldname' => 'magento_id'])->exists()) {
+			if (empty($blockModel)) {
+				$blockModel = Vtiger_Block_Model::getInstance('LBL_CUSTOM_INFORMATION', 'FInvoice');
+				$blockModel = vtlib\Block::getInstance('LBL_CUSTOM_INFORMATION', 'FInvoice');
+				if (!$blockModel) {
+					$blocks = vtlib\Block::getAllForModule(vtlib\Module::getInstance('FInvoice'));
+					$blockModel = current($blocks);
+				}
+			}
+			$fieldInstance = new Vtiger_Field_Model();
+			$fieldInstance->set('name', 'magento_id');
+			$fieldInstance->set('column', 'magento_id');
+			$fieldInstance->set('columntype', $importerType->integer(10)->defaultValue(0)->notNull()->unsigned());
+			$fieldInstance->set('table', 'u_yf_finvoice');
+			$fieldInstance->set('label', 'FL_MAGENTO_ID');
+			$fieldInstance->set('uitype', 7);
+			$fieldInstance->set('displaytype', 2);
+			$fieldInstance->set('maxlengthtext', '4294967295');
+			$fieldInstance->set('typeofdata', 'I~O');
 			$fieldInstance->save($blockModel);
 		}
 		header('Location: index.php?parent=Settings&module=Magento&view=List');

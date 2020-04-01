@@ -18115,7 +18115,8 @@ insert  into `vtiger_ssingleorders_method_payments`(`ssingleorders_method_paymen
 insert  into `vtiger_ssingleorders_source`(`ssingleorders_sourceid`,`ssingleorders_source`,`sortorderid`,`presence`) values (1,'PLL_MANUAL',1,0);
 insert  into `vtiger_ssingleorders_source`(`ssingleorders_sourceid`,`ssingleorders_source`,`sortorderid`,`presence`) values (2,'PLL_POS',2,0);
 insert  into `vtiger_ssingleorders_source`(`ssingleorders_sourceid`,`ssingleorders_source`,`sortorderid`,`presence`) values (3,'PLL_SHOP',3,0);
-insert  into `vtiger_ssingleorders_source`(`ssingleorders_sourceid`,`ssingleorders_source`,`sortorderid`,`presence`) values (4,'PLL_PORTAL',1,1);
+insert  into `vtiger_ssingleorders_source`(`ssingleorders_sourceid`,`ssingleorders_source`,`sortorderid`,`presence`) values (4,'PLL_PORTAL',4,1);
+insert  into `vtiger_ssingleorders_source`(`ssingleorders_sourceid`,`ssingleorders_source`,`sortorderid`,`presence`) values (5,'PLL_MAGENTO',5,1);
 
 /*Data for the table `vtiger_ssingleorders_status` */
 

@@ -73,7 +73,7 @@ class Customer extends Record
 	{
 		$allChecked = false;
 		try {
-			if ($customers = $this->getCustomers()) {
+			if ($customers = $this->getCustomersFromApi()) {
 				foreach ($customers as $customer) {
 					if (empty($customer)) {
 						\App\Log::error('Empty customer details', 'Integrations/Magento');
@@ -115,7 +115,7 @@ class Customer extends Record
 	 *
 	 * @return array
 	 */
-	public function getCustomers(array $ids = []): array
+	public function getCustomersFromApi(array $ids = []): array
 	{
 		$items = [];
 		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/customers/search?' . $this->getSearchCriteria($ids, $this->config->get('customerLimit'))));

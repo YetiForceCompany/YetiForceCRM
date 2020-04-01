@@ -8428,7 +8428,7 @@ CREATE TABLE `vtiger_ssingleorders_source` (
   `sortorderid` int(10) DEFAULT NULL,
   `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`ssingleorders_sourceid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ssingleorders_status` */
 
