@@ -126,9 +126,9 @@
     "LBL_HOSTING_SHARED": "YetiForce Hosting",
     "LBL_HOSTING_CLOUD": "YetiForce Cloud",
     "LBL_BUY": "Kaufen",
-    "LBL_NAME_INFO": "In case of private individuals please enter 'Private use'.",
-    "LBL_VAT_ID_INFO": "In case of private individuals please enter 'Private use'. Enter 'none' if your company does not have a VAT number.",
-    "LBL_WEBSITE_INFO": "Enter your company website NOT your CRM's URL.",
+    "LBL_NAME_INFO": "Bei Privatpersonen geben Sie bitte 'Privatnutzung' ein.",
+    "LBL_VAT_ID_INFO": "Bei Privatpersonen geben Sie bitte 'Privatnutzung' ein. Geben Sie 'keine' ein, wenn Ihre Firma keine USt-IdNr. hat.",
+    "LBL_WEBSITE_INFO": "Geben Sie Ihre Firmen-Website ein, nicht die URL Ihres CRM.",
     "LBL_SHOW_MORE": "Mehr Informationen über das Produkt"
   },
   "js": {
@@ -141,7 +141,7 @@
     "LBL_PASS_LACK_OF_CAPITAL_LETTERS": "Das Passwort muss Großbuchstaben enthalten",
     "LBL_PASS_LACK_OF_LOWERCASE_LETTERS": "Das Passwort muss Kleinbuchstaben enthalten",
     "LBL_PASS_INSUFFICIENTLY_STRONG_PASSWORD": "Unzureichend starkes Passwort",
-    "LBL_SETTINGS_WARNING": "Some settings do not meet the recommended values. This may cause incorrect system installation or subsequent errors in the YetiForce system operation. Are you sure you want to continue?",
+    "LBL_SETTINGS_WARNING": "Einige Einstellungen entsprechen nicht den empfohlenen Werten. Dies kann zu einer fehlerhaften Systeminstallation oder nachfolgender Fehler im Systembetrieb von YetiForce führen. Sind Sie sicher, dass Sie fortfahren möchten?",
     "LBL_MANDATORY_FIELDS_ERROR": "Achtung! Erforderlichen Feldern fehlen Werte.",
     "LBL_PASS_REENTER_ERROR": "Bitte geben Sie erneut die Passwörter ein. Die beiden Passwörter stimmen nicht überein.",
     "LBL_INVALID_EMAIL_ERROR": "Achtung! Ungültige E-Mail-Adresse.",
