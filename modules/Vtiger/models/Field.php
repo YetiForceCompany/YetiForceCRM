@@ -1357,9 +1357,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isActiveField()
 	{
-		$presence = $this->get('presence');
-
-		return \in_array($presence, [0, 2]);
+		return \in_array($this->get('presence'), [0, 2]);
 	}
 
 	public function isMassEditable()
