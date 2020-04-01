@@ -135,7 +135,7 @@ jQuery.Class(
 		registerDateTimeListSearch: function(container) {
 			App.Fields.DateTime.register(this.getContainer());
 		},
-		registerTreeSearch: function(container) {
+		registerTreeSearch: function() {
 			App.Fields.Tree.register(this.container);
 			let vtigerEditInstance = new Vtiger_Edit_Js();
 			vtigerEditInstance.registerTreeAutoCompleteFields(this.container);
