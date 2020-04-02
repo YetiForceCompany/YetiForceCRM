@@ -13,18 +13,16 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 
 	public static function getOperator($moduleName, $action)
 	{
-		if (in_array($moduleName, self::$modulesToCalculate['add'])) {
+		if (\in_array($moduleName, self::$modulesToCalculate['add'])) {
 			if ('add' == $action) {
 				return '+';
 			}
-
 			return '-';
 		}
-		if (in_array($moduleName, self::$modulesToCalculate['remove'])) {
+		if (\in_array($moduleName, self::$modulesToCalculate['remove'])) {
 			if ('add' == $action) {
 				return '-';
 			}
-
 			return '+';
 		}
 	}
@@ -41,12 +39,12 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 		}
 		$operator = self::getOperator($moduleName, $action);
 		// Update qtyinstock in Products
-		$expresion = 'CASE ';
+		$expression = 'CASE ';
 		foreach ($qtyInStock as $id => $value) {
-			$expresion .= " WHEN {$db->quoteColumnName('productid')} = {$db->quoteValue($id)} THEN (qtyinstock {$operator} {$db->quoteValue($value)})";
+			$expression .= " WHEN {$db->quoteColumnName('productid')} = {$db->quoteValue($id)} THEN (qtyinstock {$operator} {$db->quoteValue($value)})";
 		}
-		$expresion .= ' END';
-		$db->createCommand()->update('vtiger_products', ['qtyinstock' => new yii\db\Expression($expresion)], ['productid' => array_keys($qtyInStock)])->execute();
+		$expression .= ' END';
+		$db->createCommand()->update('vtiger_products', ['qtyinstock' => new yii\db\Expression($expression)], ['productid' => array_keys($qtyInStock)])->execute();
 		// Saving the amount of product in stock.
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo('Products', 'IStorages');
 		$relData = (new App\Db\Query())->select([$referenceInfo['rel'], 'qtyinstock'])
@@ -54,7 +52,7 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 			->where([$referenceInfo['base'] => $storageId, $referenceInfo['rel'] => array_keys($qtyInStock)])
 			->createCommand()->queryAllByGroup(0);
 		foreach ($qtyInStock as $id => $value) {
-			if (array_key_exists($id, $relData)) {
+			if (\array_key_exists($id, $relData)) {
 				$db->createCommand()->update($referenceInfo['table'], [
 					'qtyinstock' => new yii\db\Expression('qtyinstock ' . $operator . ' ' . $value),
 				], [$referenceInfo['base'] => $storageId, $referenceInfo['rel'] => $id])->execute();

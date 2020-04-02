@@ -17,7 +17,7 @@
 											<span class="fas fa-plus mr-1"></span>
 											<strong class="mr-1">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE_NAME)}:</strong>
 											<strong class="text-uppercase">
-												<span class="userIcon-{$MODULE_NAME} mx-1"></span>{\App\Language::translate($SINGLE_MODULE, $MODULE_NAME)}
+												<span class="yfm-{$MODULE_NAME} mx-1"></span>{\App\Language::translate($SINGLE_MODULE, $MODULE_NAME)}
 											</strong>
 										</div>
 										<div class="js-modal-title--status d-none">
@@ -25,7 +25,7 @@
 											<strong class="mr-1">{\App\Language::translate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}</strong>
 										</div>
 										<div class="js-modal-title--edit{if !$RECORD} d-none{/if}">
-											<span class="fas fa-edit mr-1"></span>
+											<span class="yfi yfi-full-editing-view mr-1"></span>
 											<strong class="mr-1">{\App\Language::translate('LBL_EDIT_EVENT',$MODULE_NAME)}</strong>
 										</div>
 									</div>

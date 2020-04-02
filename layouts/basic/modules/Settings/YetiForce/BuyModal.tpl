@@ -126,7 +126,7 @@
 			{\App\Language::translate('LBL_SHOP_NO_COMPANIES_ALERT', $QUALIFIED_MODULE)}
 			<div class="d-flex justify-content-center w-100 pt-1">
 				<a class="btn btn-primary" href="index.php?parent=Settings&module=Companies&view=List&block=3&fieldid=14" target="_blank">
-					<span class="fas fa-edit mr-1"></span>
+					<span class="yfi yfi-full-editing-view mr-1"></span>
 					{\App\Language::translate('LBL_SHOP_NO_COMPANIES_BUTTON', $QUALIFIED_MODULE)}
 				</a>
 			</div>

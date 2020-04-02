@@ -3,6 +3,7 @@
 <!-- tpl-ModTracker-Dashboards-Updates -->
 	<div class="dashboardWidgetHeader">
 		{function SHOW_SELECT_OWNER SELECT_FIELD_NAME='owner' SELECT_FIELD_LABEL='Assigned To'}
+			<label class="mb-0"><strong>{\App\Language::translate($SELECT_FIELD_LABEL, $MODULE_NAME)}</strong></label>
 			<div class="input-group input-group-sm">
 			<span class="input-group-prepend" title="{\App\Language::translate($SELECT_FIELD_LABEL, $MODULE_NAME)}">
 				<span class="input-group-text">
@@ -65,7 +66,7 @@
 							title="{\App\Language::translate('LBL_CUSTOM_FILTER')}" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate">
 						{foreach key=MODULE_ID item=NAME from=$TRACKING_MODULES}
 							<option value="{$MODULE_ID}"
-								data-template="<span><span class='modCT_{$NAME} userIcon-{$NAME} mr-2'></span>{\App\Language::translate($NAME,$NAME)}</span>"
+								data-template="<span><span class='modCT_{$NAME} yfm-{$NAME} mr-2'></span>{\App\Language::translate($NAME,$NAME)}</span>"
 								{if $MODULE_ID eq $SELECTED_MODULE}selected="selected"{/if}>
 								{\App\Language::translate($NAME, $NAME)}
 							</option>

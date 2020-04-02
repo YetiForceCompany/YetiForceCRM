@@ -2012,7 +2012,7 @@ jQuery.Class(
 					if (value.type) {
 						listViewContentDiv
 							.find('tr[data-id="' + id + '"] .timeLineIconList')
-							.addClass(value.color + ' userIcon-' + value.type)
+							.addClass(value.color + ' yfm-' + value.type)
 							.removeClass('d-none')
 							.on('click', function(e) {
 								var element = jQuery(e.currentTarget);

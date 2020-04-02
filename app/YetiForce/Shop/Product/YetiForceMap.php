@@ -19,6 +19,10 @@ class YetiForceMap extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
+	public $label = 'YetiForce Map';
+	/**
+	 * {@inheritdoc}
+	 */
 	public $prices = [
 		'Micro' => 40,
 		'Small' => 100,

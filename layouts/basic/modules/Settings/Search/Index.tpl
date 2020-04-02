@@ -91,7 +91,7 @@
 						</div>
 					</td>
 					<td class="alignMiddle widthMin">
-						<button class="btn editLabels btn-info" data-tabid="{$KEY}">
+						<button class="btn editLabels btn-info noWrap" data-tabid="{$KEY}">
 							<span class="fa fa-edit u-mr-5px"></span>{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}
 						</button>
 					</td>

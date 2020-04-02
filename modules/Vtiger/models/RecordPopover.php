@@ -85,7 +85,7 @@ class Vtiger_RecordPopover_Model extends \App\Base
 				'linklabel' => 'LBL_EDIT',
 				'linkhref' => true,
 				'linkurl' => $editUrl,
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn-sm btn-outline-secondary js-calendar-popover__button',
 			];
 		}

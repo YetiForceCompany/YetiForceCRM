@@ -136,6 +136,9 @@ window.AppConnector = {
 					app.errorLog(jqXHR, textStatus, errorThrown);
 				}
 			}
+			if (textStatus == 'error' && jqXHR.responseJSON) {
+				textStatus = jqXHR.responseJSON.error.message;
+			}
 			aDeferred.reject(textStatus, errorThrown, jqXHR);
 		};
 		if (params.data === '') {

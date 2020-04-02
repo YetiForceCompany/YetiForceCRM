@@ -517,8 +517,8 @@ CREATE TABLE `dav_users` (
 /*Table structure for table `i_yf_magento_config` */
 
 CREATE TABLE `i_yf_magento_config` (
-  `name` varchar(15) DEFAULT NULL,
-  `value` varchar(50) DEFAULT NULL
+  `name` varchar(50) NOT NULL,
+  `value` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `i_yf_magento_record` */
@@ -527,6 +527,37 @@ CREATE TABLE `i_yf_magento_record` (
   `id` int(10) unsigned NOT NULL,
   `crmid` int(10) unsigned NOT NULL,
   `type` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `i_yf_magento_servers` */
+
+CREATE TABLE `i_yf_magento_servers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `name` varchar(50) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `connector` varchar(20) NOT NULL,
+  `user_name` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `store_code` varchar(255) NOT NULL,
+  `store_id` int(10) unsigned NOT NULL,
+  `storage_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `shipping_service_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `payment_paypal_service_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `payment_cash_service_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `storage_quantity_location` varchar(20) NOT NULL,
+  `sync_currency` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `sync_categories` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `sync_products` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `sync_customers` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `sync_orders` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `sync_invoices` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `product_images_path` varchar(255) DEFAULT NULL,
+  `product_map_class` varchar(255) DEFAULT NULL,
+  `customer_map_class` varchar(255) DEFAULT NULL,
+  `order_map_class` varchar(255) DEFAULT NULL,
+  `invoice_map_class` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `l_yf_batchmethod` */
@@ -3436,10 +3467,12 @@ CREATE TABLE `u_yf_scalculations` (
   `sum_total` decimal(28,8) DEFAULT NULL,
   `sum_marginp` decimal(10,2) DEFAULT NULL,
   `sum_margin` decimal(28,8) DEFAULT NULL,
+  `parent_id` int(10) unsigned DEFAULT 0,
   PRIMARY KEY (`scalculationsid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `accountid` (`accountid`),
   KEY `srequirementscardsid` (`srequirementscardsid`),
+  KEY `u_yf_scalculations_parent_id_idx` (`parent_id`),
   CONSTRAINT `fk_1_u_yf_scalculations` FOREIGN KEY (`scalculationsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3634,10 +3667,12 @@ CREATE TABLE `u_yf_squotes` (
   `sum_gross` decimal(28,8) DEFAULT NULL,
   `sum_discount` decimal(28,8) DEFAULT NULL,
   `valid_until` date DEFAULT NULL,
+  `parent_id` int(10) unsigned DEFAULT 0,
   PRIMARY KEY (`squotesid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `scalculationsid` (`scalculationsid`),
   KEY `accountid` (`accountid`),
+  KEY `u_yf_squotes_parent_id_idx` (`parent_id`),
   CONSTRAINT `fk_1_u_yf_squotes` FOREIGN KEY (`squotesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3920,6 +3955,9 @@ CREATE TABLE `u_yf_ssalesprocesses` (
   `campaignid` int(10) DEFAULT NULL,
   `parentid` int(10) DEFAULT 0,
   `startdate` date DEFAULT NULL,
+  `estimated_margin` decimal(28,8) DEFAULT NULL,
+  `expected_margin` decimal(28,8) DEFAULT NULL,
+  `expected_sale` decimal(28,8) DEFAULT NULL,
   PRIMARY KEY (`ssalesprocessesid`),
   KEY `related_to` (`related_to`),
   KEY `campaignid` (`campaignid`),
@@ -3950,7 +3988,6 @@ CREATE TABLE `u_yf_ssingleorders` (
   `date_start` date DEFAULT NULL,
   `date_end` date DEFAULT NULL,
   `duedate` date DEFAULT NULL,
-  `company` varchar(255) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT 0.00,
   `sum_total` decimal(28,8) DEFAULT NULL,
   `sum_marginp` decimal(10,2) DEFAULT NULL,
@@ -3961,11 +3998,15 @@ CREATE TABLE `u_yf_ssingleorders` (
   `istorageaddressid` int(10) DEFAULT NULL,
   `ssingleorders_method_payments` varchar(255) DEFAULT NULL,
   `payment_status` varchar(255) DEFAULT NULL,
+  `contactid` int(10) unsigned DEFAULT 0,
+  `parent_id` int(10) unsigned DEFAULT 0,
   PRIMARY KEY (`ssingleordersid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `squotesid` (`squotesid`),
   KEY `accountid` (`accountid`),
   KEY `u_yf_ssingleorders_istorageaddressid_idx` (`istorageaddressid`),
+  KEY `u_yf_ssingleorders_contactid_idx` (`contactid`),
+  KEY `u_yf_ssingleorders_parent_id_idx` (`parent_id`),
   CONSTRAINT `fk_1_u_yf_ssingleorders` FOREIGN KEY (`ssingleordersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3984,6 +4025,29 @@ CREATE TABLE `u_yf_ssingleorders_address` (
   `buildingnumbera` varchar(100) DEFAULT NULL,
   `localnumbera` varchar(100) DEFAULT NULL,
   `poboxa` varchar(50) DEFAULT NULL,
+  `first_name_a` varchar(255) DEFAULT NULL,
+  `last_name_a` varchar(255) DEFAULT NULL,
+  `company_name_a` varchar(255) DEFAULT NULL,
+  `vat_id_a` varchar(255) DEFAULT NULL,
+  `email_a` varchar(100) DEFAULT NULL,
+  `phone_a` varchar(255) DEFAULT NULL,
+  `addresslevel8b` varchar(255) DEFAULT NULL,
+  `addresslevel7b` varchar(255) DEFAULT NULL,
+  `addresslevel6b` varchar(255) DEFAULT NULL,
+  `addresslevel5b` varchar(255) DEFAULT NULL,
+  `addresslevel4b` varchar(255) DEFAULT NULL,
+  `addresslevel3b` varchar(255) DEFAULT NULL,
+  `addresslevel2b` varchar(255) DEFAULT NULL,
+  `addresslevel1b` varchar(255) DEFAULT NULL,
+  `buildingnumberb` varchar(255) DEFAULT NULL,
+  `localnumberb` varchar(255) DEFAULT NULL,
+  `poboxb` varchar(255) DEFAULT NULL,
+  `first_name_b` varchar(255) DEFAULT NULL,
+  `last_name_b` varchar(255) DEFAULT NULL,
+  `company_name_b` varchar(255) DEFAULT NULL,
+  `vat_id_b` varchar(255) DEFAULT NULL,
+  `email_b` varchar(100) DEFAULT NULL,
+  `phone_b` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ssingleordersaddressid`),
   CONSTRAINT `u_yf_ssingleorders_address_ibfk_1` FOREIGN KEY (`ssingleordersaddressid`) REFERENCES `u_yf_ssingleorders` (`ssingleordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4703,7 +4767,7 @@ CREATE TABLE `vtiger_blocks` (
   KEY `block_tabid_idx` (`tabid`),
   KEY `block_sequence_idx` (`sequence`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=463 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=464 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -5067,7 +5131,7 @@ CREATE TABLE `vtiger_cron_task` (
   UNIQUE KEY `handler_class` (`handler_class`),
   KEY `vtiger_cron_task_status_idx` (`status`),
   KEY `vtiger_cron_task_sequence_idx` (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */
 
@@ -5625,7 +5689,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`eventhandler_id`),
   KEY `event_name_class` (`event_name`,`handler_class`)
-) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_expectedresponse` */
 
@@ -5751,7 +5815,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2950 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2981 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -6412,7 +6476,7 @@ CREATE TABLE `vtiger_leadsource` (
   `picklist_valueid` int(10) NOT NULL DEFAULT 0,
   `sortorderid` int(10) DEFAULT NULL,
   PRIMARY KEY (`leadsourceid`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_leadstatus` */
 
@@ -6584,7 +6648,7 @@ CREATE TABLE `vtiger_links` (
   KEY `linklabel` (`linklabel`),
   KEY `linkid` (`linkid`,`tabid`,`linktype`,`linklabel`),
   KEY `linktype` (`linktype`)
-) ENGINE=InnoDB AUTO_INCREMENT=371 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=372 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_locationregister_status` */
 
@@ -7917,14 +7981,13 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `related_tabid` (`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=628 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=632 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
 CREATE TABLE `vtiger_relatedlists_fields` (
   `relation_id` int(10) DEFAULT NULL,
   `fieldid` int(10) NOT NULL,
-  `fieldname` varchar(30) DEFAULT NULL,
   `sequence` smallint(3) DEFAULT NULL,
   KEY `relation_id` (`relation_id`),
   KEY `fk_1_relatedlists_fields_fieldid` (`fieldid`),
@@ -8240,7 +8303,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 
@@ -8395,7 +8458,7 @@ CREATE TABLE `vtiger_ssingleorders_source` (
   `sortorderid` int(10) DEFAULT NULL,
   `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`ssingleorders_sourceid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ssingleorders_status` */
 
@@ -8816,10 +8879,7 @@ CREATE TABLE `vtiger_troubletickets` (
   `servicecontractsid` int(10) DEFAULT NULL,
   `attention` text DEFAULT NULL,
   `pssold_id` int(10) DEFAULT NULL,
-  `ordertime` decimal(10,2) DEFAULT NULL,
   `from_portal` smallint(1) DEFAULT NULL,
-  `contract_type` varchar(255) DEFAULT NULL,
-  `contracts_end_date` date DEFAULT NULL,
   `parentid` int(10) DEFAULT NULL,
   `response_range_time` int(11) DEFAULT NULL,
   `solution_range_time` int(11) DEFAULT NULL,

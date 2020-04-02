@@ -308,7 +308,7 @@
 												<div class="c-btn-link btn-group mr-1">
 													<a role="button" class="btn btn-sm btn-default"
 													   href='{$RELATED_RECORD->getEditViewUrl()}'>
-															<span class="fas fa-edit align-middle"
+															<span class="yfi yfi-full-editing-view align-middle"
 																  title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
 													</a>
 												</div>

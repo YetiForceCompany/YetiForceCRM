@@ -98,7 +98,7 @@ class ConfReport
 		'HTTPS' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'env', 'testCli' => false],
 		'public_html' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'env', 'testCli' => false],
 		'display_errors' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'demoMode' => true, 'testCli' => true],
-		'.htaccess' => ['recommended' => 'On', 'type' => 'Htaccess', 'container' => 'php', 'testCli' => false],
+		'.htaccess' => ['recommended' => 'On', 'type' => 'Htaccess', 'container' => 'php', 'testCli' => false, 'mode' => 'showWarnings'],
 		'session.use_strict_mode' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.use_trans_sid' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true],
 		'session.cookie_httponly' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => false],
@@ -1204,6 +1204,29 @@ class ConfReport
 		unset($name, $row);
 		sort(static::$ext, SORT_NATURAL | SORT_FLAG_CASE);
 		return \implode(', ', static::$ext);
+	}
+
+	/**
+	 * Validate exists url.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateAllExt(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$forbidden = ['uopz'];
+		if (isset($row[$sapi])) {
+			foreach (array_intersect($forbidden, \explode(', ', $row[$sapi])) as $type) {
+				$row[$sapi] = \str_replace($type, "<b class=\"text-danger\">$type</b>", $row[$sapi]);
+				$row['isHtml'] = true;
+				$row['status'] = false;
+			}
+		}
+		return $row;
 	}
 
 	/**

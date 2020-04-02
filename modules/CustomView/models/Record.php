@@ -358,7 +358,7 @@ class CustomView_Record_Model extends \App\Base
 		}
 		if ($lockRecords) {
 			$lockFields = Vtiger_CRMEntity::getInstance($moduleName)->getLockFields();
-			$lockFields = array_merge_recursive($lockFields, \App\RecordStatus::getLockStatus($moduleName));
+			$lockFields = array_replace_recursive($lockFields, \App\RecordStatus::getLockStatus($moduleName));
 			foreach ($lockFields as $fieldName => $fieldValues) {
 				$queryGenerator->addNativeCondition(['not in', "$baseTableName.$fieldName", $fieldValues]);
 			}

@@ -19,6 +19,10 @@ class YetiForcePassword extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
+	public $label = 'YetiForce Password Security';
+	/**
+	 * {@inheritdoc}
+	 */
 	public $prices = [
 		'Micro' => 5,
 		'Small' => 12,

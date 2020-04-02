@@ -233,6 +233,18 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		}
 		$blockModel = Vtiger_Block_Model::getInstance($blockId, $moduleName);
 		$blockModel->addField($fieldModel);
+		if ('Phone' === $fieldType) {
+			$fieldInstance = new vtlib\Field();
+			$fieldInstance->name = $name . '_extra';
+			$fieldInstance->table = $tableName;
+			$fieldInstance->label = 'FL_PHONE_CUSTOM_INFORMATION';
+			$fieldInstance->column = $name . '_extra';
+			$fieldInstance->uitype = 1;
+			$fieldInstance->displaytype = 3;
+			$fieldInstance->maxlengthtext = 100;
+			$fieldInstance->typeofdata = 'V~O';
+			$fieldInstance->save($blockModel);
+		}
 		if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType) {
 			$fieldModel->setPicklistValues($pickListValues);
 		}
@@ -362,7 +374,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				break;
 			case 'Related1M':
 				$uitype = 10;
-				$type = $importerType->integer()->defaultValue(0)->unsigned();
+				$type = $importerType->integer(10)->defaultValue(0)->unsigned();
 				$uichekdata = 'V~O';
 				break;
 			case 'Editor':
@@ -662,29 +674,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'ADD' => 'PLL_ADD',
 			'SELECT' => 'PLL_SELECT',
 		];
-	}
-
-	/**
-	 * Get relation fields by module ID.
-	 *
-	 * @param int $moduleId
-	 *
-	 * @return string[]
-	 */
-	public static function getRelationFields(int $moduleId)
-	{
-		$dataReader = (new \App\Db\Query())
-			->select(['vtiger_field.fieldid', 'vtiger_field.fieldname'])
-			->from('vtiger_relatedlists_fields')
-			->innerJoin('vtiger_field', 'vtiger_relatedlists_fields.fieldid = vtiger_field.fieldid')
-			->where(['vtiger_relatedlists_fields.relation_id' => $moduleId, 'vtiger_field.presence' => [0, 2]])
-			->createCommand()->query();
-		$fields = [];
-		while ($row = $dataReader->read()) {
-			$fields[$row['fieldid']] = $row['fieldname'];
-		}
-		$dataReader->close();
-		return $fields;
 	}
 
 	/**

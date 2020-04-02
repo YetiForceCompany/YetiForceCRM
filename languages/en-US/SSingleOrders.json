@@ -13,7 +13,6 @@
     "LBL_REALIZATION_START_DATE": "Start date",
     "LBL_REALIZATION_COMPLETION_DATE": "Completion date",
     "LBL_ACTUAL_COMPLETION_DATE": "Actual completion date",
-    "LBL_COMPANY_NAME": "Company name",
     "SINGLE_SSalesProcesses": "Opportunity",
     "FL_TOTAL_PRICE": "Net total",
     "FL_MARGINP": "Total margin percentage",
@@ -38,12 +37,16 @@
     "LBL_SYNCHRONIZE_POS": "Synchronize POS",
     "FL_SOURCE": "Source",
     "PLL_MANUAL": "Manual",
+    "PLL_PORTAL": "Portal",
+    "PLL_POS": "Point of sale",
+    "PLL_MAGENTO": "Magento",
     "PLL_SHOP": "Shop",
     "FL_STORAGE": "Storage",
     "FL_PAYMENT_STATUS": "Payment status",
     "PLL_NOT_PAID": "Not paid",
     "PLL_PAID": "Paid",
     "PLL_OVERPAID": "Over paid",
-    "PLL_UNDERPAID": "Underpaid"
+    "PLL_UNDERPAID": "Underpaid",
+    "FL_PARENT_SSINGLEORDERS": "Parent sales order"
   }
 }

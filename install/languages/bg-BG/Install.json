@@ -126,6 +126,9 @@
     "LBL_HOSTING_SHARED": "YetiForce хостинг",
     "LBL_HOSTING_CLOUD": "YetiForce cloud",
     "LBL_BUY": "Купи",
+    "LBL_NAME_INFO": "In case of private individuals please enter 'Private use'.",
+    "LBL_VAT_ID_INFO": "In case of private individuals please enter 'Private use'. Enter 'none' if your company does not have a VAT number.",
+    "LBL_WEBSITE_INFO": "Enter your company website NOT your CRM's URL.",
     "LBL_SHOW_MORE": "Повече информация за продукта"
   },
   "js": {
@@ -138,7 +141,7 @@
     "LBL_PASS_LACK_OF_CAPITAL_LETTERS": "Паролата трябва да съдържа главни букви",
     "LBL_PASS_LACK_OF_LOWERCASE_LETTERS": "Паролата трябва да съдържа букви",
     "LBL_PASS_INSUFFICIENTLY_STRONG_PASSWORD": "Не достатъчно силна парола",
-    "LBL_PHP_WARNING": "Някой от PHP настройките не отговарят на препоръчителните стойности. Това може да повлияе на някой от характеристиките на YetiForce. Сигурни ли ще че искате да продължите?",
+    "LBL_SETTINGS_WARNING": "Some settings do not meet the recommended values. This may cause incorrect system installation or subsequent errors in the YetiForce system operation. Are you sure you want to continue?",
     "LBL_MANDATORY_FIELDS_ERROR": "Внимание! Задължителните полета са празни.",
     "LBL_PASS_REENTER_ERROR": "Моля въведете паролата отново. Стойностите Password и Re-type password не съвпадат.",
     "LBL_INVALID_EMAIL_ERROR": "Вниамние! Невалиден имейл адрес.",

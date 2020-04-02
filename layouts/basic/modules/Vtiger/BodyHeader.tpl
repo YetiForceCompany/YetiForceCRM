@@ -257,7 +257,7 @@
 					</a>
 				</div>
 			{/if}
-			{if \App\Privilege::isPermitted('Chat') && !\App\Config::module('Chat', 'draggableButton')}
+			{if \App\Privilege::isPermitted('Chat')}
 				<div class="ml-2 quasar-reset">
 					<div id="ChatModalVue"></div>
 				</div>
@@ -287,7 +287,7 @@
 							   role="button"
 							   data-js="popover|modal" data-content="{\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}"
 							   href="#">
-								<span class="userIcon-KnowledgeBase"
+								<span class="yfm-KnowledgeBase"
 									  title="{\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}"></span>
 								<span class="c-header__label--sm-down"> {\App\Language::translate('BTN_KNOWLEDGE_BASE', 'KnowledgeBase')}</span>
 							</a>

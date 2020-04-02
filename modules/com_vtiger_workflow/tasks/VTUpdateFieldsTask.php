@@ -26,19 +26,16 @@ class VTUpdateFieldsTask extends VTTask
 	 */
 	public function doTask($rawRecordModel)
 	{
-		$recordModel = clone $rawRecordModel;
-		$recordModel->clearChanges();
-		$moduleModel = $recordModel->getModule();
-		$moduleFields = $moduleModel->getFields();
+		$recordModel = \Vtiger_Record_Model::getCleanInstance($rawRecordModel->getModuleName());
+		$recordModel->setData($rawRecordModel->getData());
+		$recordModel->ext = $rawRecordModel->ext;
+		$recordModel->isNew = false;
+		$moduleFields = $recordModel->getModule()->getFields();
 		$fieldValueMapping = [];
 		if (!empty($this->field_value_mapping)) {
 			$fieldValueMapping = \App\Json::decode($this->field_value_mapping);
 		}
 		if (!empty($fieldValueMapping) && \count($fieldValueMapping) > 0) {
-			$isNew = $recordModel->isNew();
-			if ($isNew) {
-				$recordModel->isNew = false;
-			}
 			foreach ($fieldValueMapping as $fieldInfo) {
 				$fieldName = $fieldInfo['fieldname'];
 				if (!isset($moduleFields[$fieldName]) || !$moduleFields[$fieldName]->isActiveField()) {
@@ -68,9 +65,6 @@ class VTUpdateFieldsTask extends VTTask
 			}
 			$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
 			$recordModel->save();
-			if ($isNew) {
-				$recordModel->isNew = true;
-			}
 		}
 	}
 }

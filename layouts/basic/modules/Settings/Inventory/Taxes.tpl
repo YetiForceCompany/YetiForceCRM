@@ -44,7 +44,7 @@
 										<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer mr-1"
 												data-url="{$RECORD->getEditUrl()}"><span
 													title="{\App\Language::translate('LBL_EDIT', $MODULE)}"
-													class="fas fa-edit alignBottom"></span></button>
+													class="yfi yfi-full-editing-view alignBottom"></span></button>
 										<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white"
 												data-url="{$RECORD->getEditUrl()}"><span
 													title="{\App\Language::translate('LBL_DELETE', $MODULE)}"

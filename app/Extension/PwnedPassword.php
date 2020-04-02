@@ -73,20 +73,44 @@ class PwnedPassword
 	{
 		$file = ROOT_DIRECTORY . '/app_data/PwnedPassword.php';
 		$userName = \App\Session::get('user_name');
-		$time = (int) \Settings_Password_Record_Model::getUserPassConfig()['pwned_time'] ?? 0;
-		if (!$time) {
+		$config = \Settings_Password_Record_Model::getUserPassConfig();
+		$time = (int) $config['pwned_time'] ?? 0;
+		if ('false' === $config['pwned'] || !$time) {
 			return;
 		}
-		$pwnedDates = [];
+		$pwnedPassword = [];
 		if (file_exists($file)) {
-			$pwnedDates = require $file;
+			$pwnedPassword = require $file;
 		}
-		if (empty($pwnedDates[$userName]) || strtotime($pwnedDates[$userName]) < strtotime("-$time day")) {
+		if (empty($pwnedPassword['dates'][$userName]) || strtotime($pwnedPassword['dates'][$userName]) < strtotime("-$time day")) {
 			if (($passStatus = self::check($password)) && !$passStatus['status']) {
 				\App\Session::set('ShowUserPwnedPasswordChange', 1);
+				$pwnedPassword['status'][$userName] = true;
 			}
-			$pwnedDates[$userName] = date('Y-m-d H:i:s');
-			\App\Utils::saveToFile($file, $pwnedDates, '', 0, true);
+			$pwnedPassword['dates'][$userName] = date('Y-m-d H:i:s');
+			\App\Utils::saveToFile($file, $pwnedPassword, '', 0, true);
+		} elseif (isset($pwnedPassword['status'][$userName]) && true === $pwnedPassword['status'][$userName]) {
+			\App\Session::set('ShowUserPwnedPasswordChange', 1);
+		}
+	}
+
+	/**
+	 * Function after change password.
+	 *
+	 * @param string $userName
+	 *
+	 * @return void
+	 */
+	public static function afterChangePassword(string $userName): void
+	{
+		if (\App\Session::has('ShowUserPwnedPasswordChange')) {
+			\App\Session::delete('ShowUserPwnedPasswordChange');
+		}
+		$file = ROOT_DIRECTORY . '/app_data/PwnedPassword.php';
+		if (file_exists($file)) {
+			$pwnedPassword = require $file;
+			unset($pwnedPassword['status'][$userName]);
+			\App\Utils::saveToFile($file, $pwnedPassword, '', 0, true);
 		}
 	}
 }

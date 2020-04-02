@@ -126,6 +126,9 @@
     "LBL_HOSTING_SHARED": "YetiForce hosting",
     "LBL_HOSTING_CLOUD": "YetiForce cloud",
     "LBL_BUY": "Buy",
+    "LBL_NAME_INFO": "In case of private individuals please enter 'Private use'.",
+    "LBL_VAT_ID_INFO": "In case of private individuals please enter 'Private use'. Enter 'none' if your company does not have a VAT number.",
+    "LBL_WEBSITE_INFO": "Enter your company website NOT your CRM's URL.",
     "LBL_SHOW_MORE": "More information about product"
   },
   "js": {
@@ -138,7 +141,7 @@
     "LBL_PASS_LACK_OF_CAPITAL_LETTERS": "The password must contain capital letters",
     "LBL_PASS_LACK_OF_LOWERCASE_LETTERS": "The password must contain lowercase letters",
     "LBL_PASS_INSUFFICIENTLY_STRONG_PASSWORD": "Insufficiently strong password",
-    "LBL_PHP_WARNING": "Some of the PHP settings do not meet the recommended values. This might affect some of the features of YetiForce CRM. Are you sure, you want to proceed?",
+    "LBL_SETTINGS_WARNING": "Some settings do not meet the recommended values. This may cause incorrect system installation or subsequent errors in the YetiForce system operation. Are you sure you want to continue?",
     "LBL_MANDATORY_FIELDS_ERROR": "Warning! Mandatory fields are empty.",
     "LBL_PASS_REENTER_ERROR": "Please re-enter passwords.  The Password and Re-type password values do not match.",
     "LBL_INVALID_EMAIL_ERROR": "Warning! Invalid email address.",

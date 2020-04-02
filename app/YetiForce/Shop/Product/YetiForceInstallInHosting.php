@@ -19,6 +19,10 @@ class YetiForceInstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
+	public $label = 'YetiForce Hosting';
+	/**
+	 * {@inheritdoc}
+	 */
 	public $pricesType = 'selection';
 	/**
 	 * {@inheritdoc}

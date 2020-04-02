@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -1355,7 +1356,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn-sm btn-default',
 				'linkhref' => true,
 			];
@@ -1363,7 +1364,7 @@ class Vtiger_Record_Model extends \App\Base
 				$recordLinks[] = [
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_QUICK_EDIT',
-					'linkicon' => 'mdi mdi-square-edit-outline',
+					'linkicon' => 'yfi yfi-quick-creation',
 					'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
 					'linkdata' => [
 						'module' => $this->getModuleName(),
@@ -1470,12 +1471,12 @@ class Vtiger_Record_Model extends \App\Base
 				'linklabel' => 'LBL_EDIT',
 				'linkhref' => true,
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn-sm btn-default',
 			]);
 			$links['LBL_QUICK_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_QUICK_EDIT',
-				'linkicon' => 'mdi mdi-square-edit-outline',
+				'linkicon' => 'yfi yfi-quick-creation',
 				'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
 				'linkdata' => [
 					'module' => $this->getModuleName(),
@@ -1605,14 +1606,6 @@ class Vtiger_Record_Model extends \App\Base
 			parent::set($fieldName, $value);
 		}
 		return $this->get($fieldName);
-	}
-
-	/**
-	 * Clear changes.
-	 */
-	public function clearChanges()
-	{
-		$this->changes = null;
 	}
 
 	/**

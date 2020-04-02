@@ -148,21 +148,21 @@ jQuery.Class(
 				});
 			}
 
-			var footer = this.container.find('.modal-footer');
+			var legendContainer = this.container.find('.js-legend-container');
 			if (typeof response.result.legend !== 'undefined') {
 				var html = '';
 				var legend = response.result.legend;
 				legend.forEach(function(e) {
 					html +=
-						'<div class="pull-left"><span class="leegendIcon" style="background:' +
+						'<div class="float-left mt-2"><span class="leegendIcon mt-1" style="background:' +
 						e.color +
 						'"></span> ' +
 						e.value +
 						'</div>';
 				});
-				footer.html(html);
+				legendContainer.html(html);
 			} else {
-				footer.html('');
+				legendContainer.html('');
 			}
 			if (markerArray.length) map.fitBounds(markerArray);
 			this.container.find('.groupNeighbours').prop('checked', true);

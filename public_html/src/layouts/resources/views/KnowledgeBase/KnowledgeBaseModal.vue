@@ -27,7 +27,7 @@
           <div class="flex items-center no-wrap full-width js-drag">
             <div class="flex items-center">
               <div class="flex items-center no-wrap ellipsis q-mr-sm-sm">
-                <span :class="[`userIcon-${moduleName}`, 'q-mr-sm']"></span>
+                <span :class="[`yfm-${moduleName}`, 'q-mr-sm']"></span>
                 {{ translate(`JS_${moduleName.toUpperCase()}`) }}
               </div>
             </div>

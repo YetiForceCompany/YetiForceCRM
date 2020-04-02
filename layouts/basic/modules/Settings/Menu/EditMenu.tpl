@@ -3,7 +3,7 @@
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title"><span class="fas fa-edit u-mr-5px"></span>{\App\Language::translate('LBL_EDITION_MENU', $QUALIFIED_MODULE)}</h5>
+				<h5 class="modal-title"><span class="yfi yfi-full-editing-view u-mr-5px"></span>{\App\Language::translate('LBL_EDITION_MENU', $QUALIFIED_MODULE)}</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="{\App\Language::translate('LBL_CLOSE')}">
 					<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
 				</button>

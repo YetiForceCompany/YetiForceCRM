@@ -19,6 +19,10 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 	/**
 	 * {@inheritdoc}
 	 */
+	public $label = 'YetiForce Development';
+	/**
+	 * {@inheritdoc}
+	 */
 	public $pricesType = 'selection';
 	/**
 	 * {@inheritdoc}
@@ -38,7 +42,7 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 		'Small' => 10,
 		'Medium' => 20,
 		'Large' => 40,
-		'Corporation' => 80,
+		'Corporation' => 200,
 	];
 	/**
 	 * {@inheritdoc}

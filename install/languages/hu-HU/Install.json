@@ -126,6 +126,9 @@
     "LBL_HOSTING_SHARED": "YetiForce hosting",
     "LBL_HOSTING_CLOUD": "YetiForce felhő",
     "LBL_BUY": "Buy",
+    "LBL_NAME_INFO": "Abban az esetben, ha magánszemély kérjük, adja meg \"Magáncélú felhasználás\".",
+    "LBL_VAT_ID_INFO": "Abban az esetben, ha magánszemély, kérjük, adja meg \"Magáncélú felhasználás\". Írja be, hogy \"nincs\", ha a cég nem rendelkezik közösségi adószámmal.",
+    "LBL_WEBSITE_INFO": "Adja meg a cég honlapját, NEM a CRM URL-címét.",
     "LBL_SHOW_MORE": "More information about product"
   },
   "js": {
@@ -138,7 +141,7 @@
     "LBL_PASS_LACK_OF_CAPITAL_LETTERS": "The password must contain capital letters",
     "LBL_PASS_LACK_OF_LOWERCASE_LETTERS": "The password must contain lowercase letters",
     "LBL_PASS_INSUFFICIENTLY_STRONG_PASSWORD": "Insufficiently strong password",
-    "LBL_PHP_WARNING": "Some of the PHP settings do not meet the recommended values. This might affect some of the features of YetiForce CRM. Are you sure, you want to proceed?",
+    "LBL_SETTINGS_WARNING": "Egyes beállítások nem felelnek meg az ajánlott értékeknek. Ez okozhat hibás rendszertelepítést, vagy későbbi hibákat a YetiForce rendszer működésében. Biztos, hogy azt akarod, hogy folytassam?",
     "LBL_MANDATORY_FIELDS_ERROR": "Warning! Mandatory fields are empty.",
     "LBL_PASS_REENTER_ERROR": "Please re-enter passwords.  The Password and Re-type password values do not match.",
     "LBL_INVALID_EMAIL_ERROR": "Warning! Invalid email address.",

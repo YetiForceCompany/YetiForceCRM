@@ -157,7 +157,7 @@ Vtiger_Edit_Js(
 				data: {
 					module: 'Users',
 					action: 'VerifyData',
-					mode: 'VerifyData',
+					mode: 'recordPreSave',
 					email: jQuery('[name="email1"]').val(),
 					userName: jQuery('input[name="user_name"]').val(),
 					record: jQuery('input[name="record"]').val(),

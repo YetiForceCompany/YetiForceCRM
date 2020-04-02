@@ -75,7 +75,7 @@
 												title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}"
 												class="btn btn-light js-inv-add-item border mb-1 mb-lg-0"
 												data-js="click">
-											<span class="moduleIcon userIcon-{$MAIN_MODULE} mr-1"></span><strong>{\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
+											<span class="moduleIcon yfm-{$MAIN_MODULE} mr-1"></span><strong>{\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
 										</button>
 									</div>
 								{/if}

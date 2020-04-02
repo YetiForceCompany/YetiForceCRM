@@ -45,10 +45,8 @@ $.Class(
 			AppConnector.request(params).done(({ result }) => {
 				let id = 0;
 				const data = Object.keys(result).map(key => {
-					if (key.startsWith('img-')) {
-						return { id: id++, text: key.slice(4), key: key, url: result[key], type: 'image' };
-					}
-					return { id: id++, text: result[key], key: key, type: 'icon' };
+					let resultData = result[id]
+					return { id: id++, text: resultData.name, type: resultData.type, url: resultData.path };
 				});
 				const selectParams = {
 					templateSelection: function(data) {

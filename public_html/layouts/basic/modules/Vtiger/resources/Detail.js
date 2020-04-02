@@ -648,11 +648,19 @@ jQuery.Class(
 			return jQuery('input[name="currentPageNum"]', this.getContentHolder()).val();
 		},
 		/**
-		 * function to remove comment block if its exists.
+		 * function to hide comment block.
 		 */
-		removeCommentBlockIfExists: function() {
-			$('.js-add-comment-block', $('.js-comments-body', this.getContentHolder())).remove();
+		hideCommentBlock: function() {
+			$('.js-add-comment-block', $('.js-comments-body', this.getContentHolder())).hide();
 		},
+
+		/**
+		 * function to show comment block.
+		 */
+		showCommentBlock: function() {
+			$('.js-add-comment-block', $('.js-comments-body', this.getContentHolder())).show();
+		},
+
 		/**
 		 * function to get the Comment thread for the given parent.
 		 * params: Url to get the Comment thread
@@ -1741,6 +1749,7 @@ jQuery.Class(
 			 * Register the event to edit Description for related activities
 			 */
 			summaryViewContainer.on('click', '.editDescription', function(e) {
+				new App.Fields.Text.Editor(thisInstance.getContentHolder(), { toolbar: 'Min' });
 				let currentTarget = jQuery(e.currentTarget),
 					currentDiv = currentTarget.closest('.activityDescription'),
 					editElement = currentDiv.find('.edit'),
@@ -2339,10 +2348,10 @@ jQuery.Class(
 				let commentInfoBlock = $(e.currentTarget.closest('.js-comment-single'));
 				commentInfoBlock.find('.js-comment-container').show();
 				commentInfoBlock.find('.js-comment-info').show();
-				self.removeCommentBlockIfExists();
+				self.hideCommentBlock();
 			});
 			detailContentsHolder.on('click', '.js-reply-comment', function(e) {
-				self.removeCommentBlockIfExists();
+				self.hideCommentBlock();
 				let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single');
 				commentInfoBlock.find('.js-comment-container').hide();
 				self.getCommentBlock()
@@ -2350,7 +2359,7 @@ jQuery.Class(
 					.show();
 			});
 			detailContentsHolder.on('click', '.js-edit-comment', function(e) {
-				self.removeCommentBlockIfExists();
+				self.hideCommentBlock();
 				let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single'),
 					commentInfoContent = commentInfoBlock.find('.js-comment-info'),
 					editCommentBlock = self.getEditCommentBlock();
@@ -2391,6 +2400,7 @@ jQuery.Class(
 							element.removeAttr('disabled');
 							app.errorLog(error, err);
 						});
+					self.showCommentBlock();
 				}
 			});
 			detailContentsHolder.on('click', '.js-more-recent-comments ', function() {
@@ -2761,14 +2771,6 @@ jQuery.Class(
 					currentTargetParent.hide();
 				});
 			});
-			detailContentsHolder.on('click', '.js-fab__btn', e => {
-				$(e.currentTarget)
-					.closest('.js-fab__container')
-					.toggleClass('q-fab--opened');
-			});
-			detailContentsHolder.find('.js-fab__container').on('clickoutside', e => {
-				$(e.currentTarget).removeClass('q-fab--opened');
-			});
 			detailContentsHolder.on('click', '.hideThread', function(e) {
 				var currentTarget = jQuery(e.currentTarget);
 				var currentTargetParent = currentTarget.parent();
@@ -3020,24 +3022,24 @@ jQuery.Class(
 			app.registerIframeEvents(detailContentsHolder);
 		},
 		reloadWidgetActivitesStats: function(container) {
-			var countElement = container.find('.countActivities');
-			var totalElement = container.find('.totaltActivities');
-			if (!countElement.length || !totalElement.length || totalElement.val() === '') {
-				return false;
-			}
-			var stats = ' (' + countElement.val() + '/' + totalElement.val() + ')';
-			var switchBtn = container.find('.active .js-switch');
+			let countElement = container.find('.countActivities');
+			let totalElement = container.find('.totaltActivities');
+			let switchBtn = container.find('.active .js-switch');
 			if (!switchBtn.length) {
 				switchBtn = container.find('.js-switch.previousMark');
 			} else {
 				container.find('.js-switch').removeClass('previousMark');
 				switchBtn.addClass('previousMark');
 			}
-			var switchBtnParent = switchBtn.parent();
-			var text = switchBtn.data('basic-text') + stats;
+			container.find('.js-switch').toggleClass('previousMark');
+			if (!countElement.length || !totalElement.length || totalElement.val() === '') {
+				return false;
+			}
+			let stats = ' (' + countElement.val() + '/' + totalElement.val() + ')';
+			let switchBtnParent = switchBtn.parent();
+			let text = switchBtn.data('basic-text') + stats;
 			switchBtnParent.removeTextNode();
 			switchBtnParent.append(text);
-			container.find('.js-switch').toggleClass('previousMark');
 		},
 		refreshCommentContainer: function(commentId) {
 			var thisInstance = this;

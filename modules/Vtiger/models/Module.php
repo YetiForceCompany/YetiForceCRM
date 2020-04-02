@@ -928,7 +928,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 			if (!empty($quickCreateModules)) {
-				$quickCreateModulesTree[] = ['name' => 'LBL_OTHER', 'icon' => 'userIcon-Other', 'modules' => $quickCreateModules];
+				$quickCreateModulesTree[] = ['name' => 'LBL_OTHER', 'icon' => 'yfm-Other', 'modules' => $quickCreateModules];
 			}
 			App\Cache::save('getQuickCreateModules', 'tree' . $restrictListString . $userPrivModel->get('roleid'), $quickCreateModulesTree);
 			return $quickCreateModulesTree;

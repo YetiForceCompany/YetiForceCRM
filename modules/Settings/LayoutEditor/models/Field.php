@@ -17,7 +17,6 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	public function delete()
 	{
 		$db = \App\Db::getInstance();
-		$transaction = $db->beginTransaction();
 		try {
 			$uiType = $this->getUIType();
 			if (10 === $uiType) {
@@ -102,12 +101,11 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 					Settings_Search_Module_Model::save($params);
 				}
 			}
-			$transaction->commit();
 			if (11 === $uiType && ($extraFieldId = (new \App\Db\Query())->select(['fieldid'])->from('vtiger_field')->where(['fieldname' => "{$fieldname}_extra", 'tabid' => $tabId])->scalar())) {
 				self::getInstance($extraFieldId)->delete();
 			}
 		} catch (\Throwable $ex) {
-			$transaction->rollBack();
+			\App\Log::error($ex->__toString());
 			throw $ex;
 		}
 	}

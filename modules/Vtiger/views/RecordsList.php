@@ -48,7 +48,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	public function preProcessAjax(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$this->modalIcon = "modCT_{$moduleName} userIcon-{$moduleName}";
+		$this->modalIcon = "modCT_{$moduleName} yfm-{$moduleName}";
 		$this->initializeContent($request);
 		parent::preProcessAjax($request);
 	}

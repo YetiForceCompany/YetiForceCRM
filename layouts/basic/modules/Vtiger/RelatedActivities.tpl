@@ -33,7 +33,7 @@
 				{assign var=SHAREDOWNER value=\App\Fields\SharedOwner::getById($RECORD->getId())}
 				<div class="activityEntries p-1">
 					<input type="hidden" class="activityModule" value="{$MODULE_NAME}"/>
-					<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}"/>
+					<input type="hidden" class="activityId" value="{$RECORD->getId()}"/>
 					<div class="row">
 						<span class="col-md-6">
 							<strong title='{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME")}'><span
@@ -64,7 +64,7 @@
 						{/if}&nbsp;
 						{if !$IS_READ_ONLY && $RECORD->isEditable()}
 							<a href="{$RECORD->getEditViewUrl()}" class="fieldValue">
-								<span class="fas fa-edit fa-fw js-detail-quick-edit"
+								<span class="yfi yfi-full-editing-view fa-fw js-detail-quick-edit"
 									  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 							</a>
 						{/if}
@@ -126,7 +126,7 @@
 									</button>
 								</span>
 								<span class="editDescription u-cursor-pointer">
-									<span class="fas fa-edit fa-fw"
+									<span class="yfi yfi-full-editing-view fa-fw"
 										  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 								</span>
 							{/if}

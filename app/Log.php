@@ -245,12 +245,12 @@ class Log extends Logger
 			if (false !== $types && !\in_array($level, $types)) {
 				continue;
 			}
-			$category = $message[2];
-			$content .= "#$i [$level] {$message[0]}";
+			$content .= "#$i [$level]";
+			$category = $message[2] ?: '';
 			if ($category) {
-				$content .= ' || ' . $category;
+				$content .= "[$category]";
 			}
-			$content .= PHP_EOL;
+			$content .= " {$message[0]}" . PHP_EOL;
 			++$i;
 		}
 		return $content;

@@ -161,7 +161,7 @@
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}"/>
 																	{if $FIELD_MODEL->isEditable()}
 																		<button class="btn btn-success btn-xs editFieldDetails ml-1">
-																			<span class="fas fa-edit"
+																			<span class="yfi yfi-full-editing-view"
 																				  title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
@@ -218,7 +218,7 @@
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}"/>
 																	{if $FIELD_MODEL->isEditable()}
 																		<button class="btn btn-success btn-xs editFieldDetails ml-1">
-																			<span class="fas fa-edit"
+																			<span class="yfi yfi-full-editing-view"
 																				  title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}

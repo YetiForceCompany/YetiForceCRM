@@ -184,11 +184,11 @@ class User
 	/**
 	 * Get user id.
 	 *
-	 * @return int
+	 * @return int|null
 	 */
 	public function getId()
 	{
-		return $this->privileges['details']['record_id'];
+		return $this->privileges['details']['record_id'] ?? null;
 	}
 
 	/**

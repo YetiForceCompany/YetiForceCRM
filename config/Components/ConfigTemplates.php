@@ -312,29 +312,37 @@ return [
 		]
 	],
 	'Magento' => [
-		'connector' => [
-			'default' => 'Token',
-			'description' => 'Type of connector for integration with Magento.',
-		],
-		'addressApi' => [
-			'default' => '',
-			'description' => 'Magento URL address',
-			'validation' => function () {
-				$arg = func_get_arg(0);
-				return empty($arg) || \App\Validator::url($arg);
+		'customerLimit' => [
+			'default' => 20,
+			'description' => 'Set how many customers can be downloaded at once.',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
 			}
 		],
-		'username' => [
-			'default' => '',
-			'description' => 'Username to account in Magento.',
+		'productLimit' => [
+			'default' => 20,
+			'description' => 'Set how many records can be updated at once.',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
-		'password' => [
-			'default' => '',
-			'description' => 'Password to account in Magento.',
+		'orderLimit' => [
+			'default' => 20,
+			'description' => 'Set how many orders can be downloaded at once.',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
-		'masterSource' => [
-			'default' => 'magento',
-			'description' => 'Set master source: yetiforce or magento',
+		'invoiceLimit' => [
+			'default' => 20,
+			'description' => 'Set how many invoices can be downloaded at once.',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 	],
 	'Branding' => [

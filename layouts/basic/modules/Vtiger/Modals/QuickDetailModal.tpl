@@ -24,7 +24,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="moduleIcon">
-									<span class="o-detail__icon js-detail__icon userIcon-{$MODULE_NAME}"></span>
+									<span class="o-detail__icon js-detail__icon yfm-{$MODULE_NAME}"></span>
 								</div>
 								<div class="paddingLeft5px">
 									<h4 class="recordLabel u-text-ellipsis pushDown marginbottomZero" title='{$RECORD->getName()}'>

@@ -238,7 +238,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$mail->set('header', $header);
 		$mail->set('id', $id);
 		$mail->set('Msgno', $header->Msgno);
-		$mail->set('message_id', \App\Purifier::purifyByType($messageId, 'MailId'));
+		$mail->set('message_id', $messageId ? \App\Purifier::purifyByType($messageId, 'MailId') : '');
 		$mail->set('to_email', \App\Purifier::purify($mail->getEmail('to')));
 		$mail->set('from_email', \App\Purifier::purify($mail->getEmail('from')));
 		$mail->set('reply_toaddress', \App\Purifier::purify($mail->getEmail('reply_to')));

@@ -28,7 +28,7 @@
 					<div class="mb-2">
 						<div class="card">
 							<div class="card-header">
-								<span class="fas fa-edit"></span> {\App\Language::translate('LBL_HEADER_DETAILS',$QUALIFIED_MODULE)}
+								<span class="yfi yfi-full-editing-view"></span> {\App\Language::translate('LBL_HEADER_DETAILS',$QUALIFIED_MODULE)}
 							</div>
 							<div class="card-body p-0">
 								<div class="controls">
@@ -42,7 +42,7 @@
 					<div class="mb-2">
 						<div class="card">
 							<div class="card-header">
-								<span class="fas fa-edit"></span> {\App\Language::translate('LBL_BODY_DETAILS',$QUALIFIED_MODULE)}
+								<span class="yfi yfi-full-editing-view"></span> {\App\Language::translate('LBL_BODY_DETAILS',$QUALIFIED_MODULE)}
 							</div>
 							<div class="card-body p-0">
 								<div class="controls">
@@ -57,7 +57,7 @@
 					<div class="mb-2">
 						<div class="card">
 							<div class="card-header">
-								<span class="fas fa-edit"></span> {\App\Language::translate('LBL_FOOTER_DETAILS',$QUALIFIED_MODULE)}
+								<span class="yfi yfi-full-editing-view"></span> {\App\Language::translate('LBL_FOOTER_DETAILS',$QUALIFIED_MODULE)}
 							</div>
 							<div class="card-body p-0">
 								<div class="controls">

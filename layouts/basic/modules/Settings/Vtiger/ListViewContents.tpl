@@ -40,7 +40,8 @@
 							<td class="listViewEntryValue {$WIDTHTYPE}"  width="{$WIDTH}%" nowrap>
 								&nbsp;{\App\Language::translate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
 								{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
-								</td><td nowrap class="{$WIDTHTYPE} rightRecordActions listButtons {$WIDTHTYPE}">
+							</td>
+							<td nowrap class="{$WIDTHTYPE} rightRecordActions listButtons {$WIDTHTYPE}">
 									{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordLinks()}
 									{if count($LINKS) > 0}
 										<div class="actions">
@@ -59,8 +60,6 @@
 				{/foreach}
 			</tbody>
 		</table>
-
-		<!--added this div for Temporarily -->
 		{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 			<table class="emptyRecordsDiv">
 				<tbody>

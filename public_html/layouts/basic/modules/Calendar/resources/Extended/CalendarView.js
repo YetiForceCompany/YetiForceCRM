@@ -155,10 +155,8 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 
 	registerSwitchEvents() {
 		const calendarView = this.getCalendarView();
-		let isWorkDays,
-			changeDaysState,
+		let changeDaysState,
 			changeType,
-			switchShowTypeVal,
 			switchContainer = $('.js-calendar__tab--filters'),
 			switchShowType = switchContainer.find('.js-switch--showType'),
 			showTypeState = switchShowType.find('.js-switch--label-on.active').length ? 'current' : 'history',
@@ -166,7 +164,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			switchingDaysState = switchSwitchingDays.find('input:checked').data('val');
 		let historyParams = app.getMainParams('historyParams', true);
 		if (historyParams === '') {
-			let defaultDays = app.moduleCacheGet('defaultSwitchingDays');
 			changeDaysState = app.getMainParams('switchingDays'); // TODO defaultDays && switchingDaysState !== defaultDays ? defaultDays : switchingDaysState;
 			changeType = app.getMainParams('showType');
 		} else {

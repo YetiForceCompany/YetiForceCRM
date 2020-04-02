@@ -41,6 +41,14 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
+	public function isSessionExtend(App\Request $request)
+	{
+		return false;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function checkPermission(App\Request $request)
 	{
 		$userPrivileges = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -72,7 +80,7 @@ class Chat_ChatAjax_Action extends \App\Controller\Action
 				'refreshRoomTime' => \App\Config::module('Chat', 'REFRESH_ROOM_TIME'),
 				'defaultRoom' => \App\Chat::getDefaultRoom(),
 				'dynamicAddingRooms' => \App\Config::module('Chat', 'dynamicAddingRooms'),
-				'draggableButton' => \App\Config::module('Chat', 'draggableButton'),
+				'draggableButton' => false,
 				'maxLengthMessage' => \App\Config::module('Chat', 'MAX_LENGTH_MESSAGE'),
 				'refreshTimeGlobal' => \App\Config::module('Chat', 'REFRESH_TIME_GLOBAL'),
 				'showNumberOfNewMessages' => \App\Config::module('Chat', 'SHOW_NUMBER_OF_NEW_MESSAGES'),

@@ -126,6 +126,9 @@
     "LBL_HOSTING_SHARED": "YetiForce gostovanje",
     "LBL_HOSTING_CLOUD": "YetiForce oblak",
     "LBL_BUY": "Nakup",
+    "LBL_NAME_INFO": "In case of private individuals please enter 'Private use'.",
+    "LBL_VAT_ID_INFO": "In case of private individuals please enter 'Private use'. Enter 'none' if your company does not have a VAT number.",
+    "LBL_WEBSITE_INFO": "Enter your company website NOT your CRM's URL.",
     "LBL_SHOW_MORE": "Več informacij o izdelku"
   },
   "js": {
@@ -138,7 +141,7 @@
     "LBL_PASS_LACK_OF_CAPITAL_LETTERS": "Geslo mora vsebovati velike črke",
     "LBL_PASS_LACK_OF_LOWERCASE_LETTERS": "Geslo mora vsebovati male črke",
     "LBL_PASS_INSUFFICIENTLY_STRONG_PASSWORD": "Geslo ni dovolj močno",
-    "LBL_PHP_WARNING": "Nekatere nastavitve PHP izpolnjuje priporočene vrednosti. To lahko vpliva na nekatere funkcije YetiForce CRM. Ali ste prepričani, da želite nadaljevati?",
+    "LBL_SETTINGS_WARNING": "Some settings do not meet the recommended values. This may cause incorrect system installation or subsequent errors in the YetiForce system operation. Are you sure you want to continue?",
     "LBL_MANDATORY_FIELDS_ERROR": "Opozorilo! Obvezna polja so prazna.",
     "LBL_PASS_REENTER_ERROR": "Znova vnesite geslo.  V \\\"Geslo\\\" in \\\"Potrdi geslo\\\" se vrednosti ne ujemajo.",
     "LBL_INVALID_EMAIL_ERROR": "Opozorilo! Neveljaven e-poštni naslov.",

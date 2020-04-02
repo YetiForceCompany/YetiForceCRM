@@ -12,7 +12,7 @@
 							  alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
 					</div>
 					<h5>
-					<span class="menuIcon userIcon-FInvoice"
+					<span class="menuIcon yfm-FInvoice"
 						  aria-hidden="true"></span> {\App\Language::translate('LBL_BEFORE_CORRECTION',$MODULE_NAME)}
 					</h5>
 				</div>
@@ -42,7 +42,7 @@
 							  alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
 					</div>
 					<h5>
-					<span class="menuIcon userIcon-FCorectingInvoice"
+					<span class="menuIcon yfm-FCorectingInvoice"
 						  aria-hidden="true"></span> {\App\Language::translate('LBL_AFTER_CORRECTION',$MODULE_NAME)}
 					</h5>
 				</div>

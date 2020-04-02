@@ -20,7 +20,7 @@ class Debug
 	/** Enable saving logs to file. Values: false/true */
 	public static $LOG_TO_FILE = false;
 
-	/** Enable saving logs profiling.  Values: false/true */
+	/** Enable saving logs profiling. Values: false/true */
 	public static $LOG_TO_PROFILE = false;
 
 	/** Level of saved/displayed logs. Values: false = All / 3 = error and warning / ["error", "warning", "info", "trace", "profile"] */
@@ -41,10 +41,10 @@ class Debug
 	/** List of IP addresses allowed to display debug console. Values: false = All IPS / "192.168.1.10" / ["192.168.1.10","192.168.1.11"] */
 	public static $DEBUG_CONSOLE_ALLOWED_IPS = false;
 
-	/** List of user ids allowed to display debug console. */
+	/** List of user IDs allowed to display debug console. */
 	public static $DEBUG_CONSOLE_ALLOWED_USERS = [];
 
-	/** Stop the running process of the system if there is and error in sql query */
+	/** Stop the running process of the system if there is an error in sql query */
 	public static $SQL_DIE_ON_ERROR = false;
 
 	/** Debug cron => cache/logs/cron/ */
@@ -59,7 +59,7 @@ class Debug
 	/** Do not show Smarty Notice in phpError.log */
 	public static $SMARTY_ERROR_REPORTING = E_ALL & ~E_NOTICE;
 
-	/** Turn on/off debug errors javascript */
+	/** Turn on/off error debugging in javascript */
 	public static $JS_DEBUG = true;
 
 	/** Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true */
@@ -84,13 +84,13 @@ class Debug
 	 */
 	public static $EXCEPTION_ERROR_LEVEL = 32759;
 
-	/** API - Sabre dav - This is a flag that allow or not showing file, line and code of the exception in the returned XML */
+	/** API - Sabre dav - This is a flag that allows (or not) showing file, line, and code of the exception in the returned XML */
 	public static $DAV_DEBUG_EXCEPTIONS = false;
 
 	/** Activate the plugin recording log in DAV */
 	public static $DAV_DEBUG_PLUGIN = false;
 
-	/** Show errors messages in web service */
+	/** Show error messages in web service */
 	public static $WEBSERVICE_SHOW_ERROR = false;
 
 	/** Web service logs */
@@ -107,7 +107,7 @@ class Debug
 
 	/**
 	 * Activate this option if logs should be written to per-user directories.
-	 * Data will only be logged if a directry cache/logs/<username>/ exists and is writable.
+	 * Data will only be logged if a directory cache/logs/<username>/ exists and is writable.
 	 */
 	public static $ROUNDCUBE_PER_USER_LOGGING = false;
 

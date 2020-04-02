@@ -727,7 +727,7 @@ class File
 		if (!$badFileExtensions) {
 			$badFileExtensions = \App\Config::main('upload_badext');
 		}
-		$fileName = preg_replace('/\s+/', '_', \vtlib\Functions::slug($fileName)); //replace space with _ in filename
+		$fileName = preg_replace('/\s+/', '_', \App\Utils::sanitizeSpecialChars($fileName));
 		$fileName = rtrim($fileName, '\\/<>?*:"<>|');
 
 		$fileNameParts = explode('.', $fileName);
@@ -1413,15 +1413,43 @@ class File
 		$file = static::loadFromContent(\base64_decode($raw['baseContent']), $raw['name']);
 		$savePath = static::initStorageFileDirectory($moduleName);
 		$key = $file->generateHash(true, $savePath);
-		$size = $file->getSize();
 		if ($file->moveFile($savePath . $key)) {
 			return [
 				'name' => $file->getName(),
-				'size' => \vtlib\Functions::showBytes($size),
+				'size' => \vtlib\Functions::showBytes($file->getSize()),
 				'key' => $key,
 				'hash' => \md5_file($savePath . $key),
 				'path' => $savePath . $key
 			];
 		}
+	}
+
+	/**
+	 * Save file from given url.
+	 *
+	 * @param string      $url
+	 * @param string      $moduleName
+	 * @param string|bool $type
+	 *
+	 * @return array
+	 */
+	public static function saveImageFromUrl(string $url, string $moduleName, $type = false): array
+	{
+		$value = [];
+		$file = static::loadFromUrl($url);
+		if ($file && $file->validateAndSecure($type)) {
+			$savePath = static::initStorageFileDirectory($moduleName);
+			$key = $file->generateHash(true, $savePath);
+			if ($file->moveFile($savePath . $key)) {
+				$value = [
+					'name' => $file->getName(),
+					'size' => \vtlib\Functions::showBytes($file->getSize()),
+					'key' => $key,
+					'hash' => \md5_file($savePath . $key),
+					'path' => $savePath . $key
+				];
+			}
+		}
+		return $value;
 	}
 }

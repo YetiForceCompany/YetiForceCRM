@@ -76,7 +76,7 @@
 											</div>
 											<div class="c-table__action--hover js-detail-quick-edit  u-cursor-pointer px-0 ml-1 u-w-fit" data-js="click">
 												<div class="float-right">
-													<span class="fas fa-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+													<span class="yfi yfi-full-editing-view" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 												</div>
 											</div>
 										{/if}

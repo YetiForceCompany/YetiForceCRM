@@ -146,7 +146,10 @@ class Colors
 	 */
 	public static function sanitizeValue($value)
 	{
-		return str_replace([' ', '-', '=', '+', '@', '*', '!', '#', '$', '%', '^', '&', '(', ')', '[', ']', '{', '}', ';', ':', "\\'", '"', ',', '<', '.', '>', '/', '?', '\\', '|'], '_', $value);
+		if (empty($value)) {
+			return $value;
+		}
+		return str_replace([' ', '-', '=', '+', '@', '*', '!', '#', '$', '%', '^', '&', '(', ')', '[', ']', '{', '}', ';', ':', "\\'", '"', ',', '<', '.', '>', '/', '?', '\\', '|'], '_', \App\Utils::sanitizeSpecialChars($value));
 	}
 
 	/**
