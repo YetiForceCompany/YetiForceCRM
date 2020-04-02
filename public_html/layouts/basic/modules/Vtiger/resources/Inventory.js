@@ -702,9 +702,7 @@ $.Class(
 		},
 		calculateGrossPrice: function(row) {
 			var netPrice = this.getNetPrice(row);
-			if (this.isIndividualTaxMode(row) || this.isGroupTaxMode(row)) {
-				netPrice += this.getTax(row);
-			}
+			netPrice += this.getTax(row);
 			this.setGrossPrice(row, netPrice);
 		},
 		calculateTotalPrice: function(row) {

@@ -127,7 +127,7 @@ class Currency
 	 *
 	 * @return array
 	 */
-	public static function getById(int $currencyId)
+	public static function getById(?int $currencyId = null)
 	{
 		$currencyInfo = static::getAll();
 		return $currencyInfo[$currencyId] ?? [];
