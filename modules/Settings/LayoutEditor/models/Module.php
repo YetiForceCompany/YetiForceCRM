@@ -374,7 +374,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				break;
 			case 'Related1M':
 				$uitype = 10;
-				$type = $importerType->integer()->defaultValue(0)->unsigned();
+				$type = $importerType->integer(10)->defaultValue(0)->unsigned();
 				$uichekdata = 'V~O';
 				break;
 			case 'Editor':
