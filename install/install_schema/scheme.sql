@@ -3984,7 +3984,6 @@ CREATE TABLE `u_yf_ssingleorders` (
   `date_start` date DEFAULT NULL,
   `date_end` date DEFAULT NULL,
   `duedate` date DEFAULT NULL,
-  `company` varchar(255) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT 0.00,
   `sum_total` decimal(28,8) DEFAULT NULL,
   `sum_marginp` decimal(10,2) DEFAULT NULL,
@@ -3995,11 +3994,13 @@ CREATE TABLE `u_yf_ssingleorders` (
   `istorageaddressid` int(10) DEFAULT NULL,
   `ssingleorders_method_payments` varchar(255) DEFAULT NULL,
   `payment_status` varchar(255) DEFAULT NULL,
+  `contactid` int(11) unsigned DEFAULT 0,
   PRIMARY KEY (`ssingleordersid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `squotesid` (`squotesid`),
   KEY `accountid` (`accountid`),
   KEY `u_yf_ssingleorders_istorageaddressid_idx` (`istorageaddressid`),
+  KEY `u_yf_ssingleorders_contactid_idx` (`contactid`),
   CONSTRAINT `fk_1_u_yf_ssingleorders` FOREIGN KEY (`ssingleordersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4018,6 +4019,29 @@ CREATE TABLE `u_yf_ssingleorders_address` (
   `buildingnumbera` varchar(100) DEFAULT NULL,
   `localnumbera` varchar(100) DEFAULT NULL,
   `poboxa` varchar(50) DEFAULT NULL,
+  `first_name_a` varchar(255) DEFAULT NULL,
+  `last_name_a` varchar(255) DEFAULT NULL,
+  `company_name_a` varchar(255) DEFAULT NULL,
+  `vat_id_a` varchar(255) DEFAULT NULL,
+  `email_a` varchar(100) DEFAULT NULL,
+  `phone_a` varchar(255) DEFAULT NULL,
+  `addresslevel8b` varchar(255) DEFAULT NULL,
+  `addresslevel7b` varchar(255) DEFAULT NULL,
+  `addresslevel6b` varchar(255) DEFAULT NULL,
+  `addresslevel5b` varchar(255) DEFAULT NULL,
+  `addresslevel4b` varchar(255) DEFAULT NULL,
+  `addresslevel3b` varchar(255) DEFAULT NULL,
+  `addresslevel2b` varchar(255) DEFAULT NULL,
+  `addresslevel1b` varchar(255) DEFAULT NULL,
+  `buildingnumberb` varchar(255) DEFAULT NULL,
+  `localnumberb` varchar(255) DEFAULT NULL,
+  `poboxb` varchar(255) DEFAULT NULL,
+  `first_name_b` varchar(255) DEFAULT NULL,
+  `last_name_b` varchar(255) DEFAULT NULL,
+  `company_name_b` varchar(255) DEFAULT NULL,
+  `vat_id_b` varchar(255) DEFAULT NULL,
+  `email_b` varchar(100) DEFAULT NULL,
+  `phone_b` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ssingleordersaddressid`),
   CONSTRAINT `u_yf_ssingleorders_address_ibfk_1` FOREIGN KEY (`ssingleordersaddressid`) REFERENCES `u_yf_ssingleorders` (`ssingleordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4737,7 +4761,7 @@ CREATE TABLE `vtiger_blocks` (
   KEY `block_tabid_idx` (`tabid`),
   KEY `block_sequence_idx` (`sequence`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=463 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=464 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -5785,7 +5809,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2953 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2978 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -7951,7 +7975,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `related_tabid` (`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=628 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=629 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
