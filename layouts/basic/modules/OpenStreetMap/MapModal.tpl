@@ -144,8 +144,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="modal-footer">
+		<div class="js-legend-container" data-js="html"></div>
 	</div>
 	<!-- /tpl-OpenStreet-MapModal -->
 {/strip}
