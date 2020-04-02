@@ -3467,10 +3467,12 @@ CREATE TABLE `u_yf_scalculations` (
   `sum_total` decimal(28,8) DEFAULT NULL,
   `sum_marginp` decimal(10,2) DEFAULT NULL,
   `sum_margin` decimal(28,8) DEFAULT NULL,
+  `parent_id` int(10) unsigned DEFAULT 0,
   PRIMARY KEY (`scalculationsid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `accountid` (`accountid`),
   KEY `srequirementscardsid` (`srequirementscardsid`),
+  KEY `u_yf_scalculations_parent_id_idx` (`parent_id`),
   CONSTRAINT `fk_1_u_yf_scalculations` FOREIGN KEY (`scalculationsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3665,10 +3667,12 @@ CREATE TABLE `u_yf_squotes` (
   `sum_gross` decimal(28,8) DEFAULT NULL,
   `sum_discount` decimal(28,8) DEFAULT NULL,
   `valid_until` date DEFAULT NULL,
+  `parent_id` int(10) unsigned DEFAULT 0,
   PRIMARY KEY (`squotesid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `scalculationsid` (`scalculationsid`),
   KEY `accountid` (`accountid`),
+  KEY `u_yf_squotes_parent_id_idx` (`parent_id`),
   CONSTRAINT `fk_1_u_yf_squotes` FOREIGN KEY (`squotesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3994,13 +3998,15 @@ CREATE TABLE `u_yf_ssingleorders` (
   `istorageaddressid` int(10) DEFAULT NULL,
   `ssingleorders_method_payments` varchar(255) DEFAULT NULL,
   `payment_status` varchar(255) DEFAULT NULL,
-  `contactid` int(11) unsigned DEFAULT 0,
+  `contactid` int(10) unsigned DEFAULT 0,
+  `parent_id` int(10) unsigned DEFAULT 0,
   PRIMARY KEY (`ssingleordersid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `squotesid` (`squotesid`),
   KEY `accountid` (`accountid`),
   KEY `u_yf_ssingleorders_istorageaddressid_idx` (`istorageaddressid`),
   KEY `u_yf_ssingleorders_contactid_idx` (`contactid`),
+  KEY `u_yf_ssingleorders_parent_id_idx` (`parent_id`),
   CONSTRAINT `fk_1_u_yf_ssingleorders` FOREIGN KEY (`ssingleordersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5809,7 +5815,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2978 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2981 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -7975,7 +7981,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `related_tabid` (`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=629 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=632 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
