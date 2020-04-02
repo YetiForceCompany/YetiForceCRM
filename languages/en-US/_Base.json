@@ -1409,7 +1409,8 @@
     "LBL_DUPLICATE_VAT_ID": "This vat id already exists in this module.",
     "LBL_DUPLICATE_EAN": "This ean already exists in this module.",
     "FL_MAGENTO_SERVER": "Magento server",
-    "FL_MAGENTO_ID": "Magento Id"
+    "FL_MAGENTO_ID": "Magento Id",
+    "FL_CONTACT": "Contact"
   },
   "js": {
     "JS_APPROVE": "Approve",

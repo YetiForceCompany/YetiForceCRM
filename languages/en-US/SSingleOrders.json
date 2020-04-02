@@ -46,6 +46,7 @@
     "PLL_NOT_PAID": "Not paid",
     "PLL_PAID": "Paid",
     "PLL_OVERPAID": "Over paid",
-    "PLL_UNDERPAID": "Underpaid"
+    "PLL_UNDERPAID": "Underpaid",
+    "FL_PARENT_SSINGLEORDERS": "Parent sales order"
   }
 }
