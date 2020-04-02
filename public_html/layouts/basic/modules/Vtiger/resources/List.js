@@ -843,8 +843,7 @@ jQuery.Class(
 			var form = field.closest('form');
 			var invalidFields = form.data('jqv').InvalidFields;
 			var fields = [field.get(0)];
-			var validationVal = field.attr('data-validation-engine');
-			field.attr('data-invalid-validation-engine', validationVal ? validationVal : 'validate[]');
+			field.attr('data-invalid-validation-engine', field.attr('data-validation-engine'));
 			field.removeAttr('data-validation-engine');
 
 			if (field.is('select') && field.hasClass('select2')) {
@@ -860,9 +859,9 @@ jQuery.Class(
 			}
 		},
 		activeFieldValidation: function(field) {
-			var validationVal = field.attr('data-invalid-validation-engine');
+			let validationVal = field.attr('data-invalid-validation-engine');
 			if (typeof validationVal === 'undefined') return;
-			field.attr('data-validation-engine', validationVal ? validationVal : 'validate[]');
+			field.attr('data-validation-engine', field.attr('data-invalid-validation-engine'));
 			field.removeAttr('data-invalid-validation-engine');
 		},
 		postMassEdit: function(massEditContainer) {
