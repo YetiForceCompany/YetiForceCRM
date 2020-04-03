@@ -12,7 +12,6 @@
 namespace App\RecordCollectors;
 
 use App\RecordCollectors\Helper\GusClient;
-use Vtiger_Record_Model;
 
 /**
  * Gus record collector class.
@@ -161,7 +160,7 @@ class Gus extends Base
 			$moduleName = $this->request->getModule();
 			$response['formFieldsToRecordMap'] = $this->formFieldsToRecordMap[$moduleName];
 			if ($recordId = $this->request->getInteger('record')) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 				$response['recordModel'] = $recordModel;
 			}
 			if ($infoFromGus) {
