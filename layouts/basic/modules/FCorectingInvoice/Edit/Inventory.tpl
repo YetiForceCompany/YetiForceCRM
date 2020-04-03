@@ -4,19 +4,19 @@
 	<div class="detailViewTable">
 		<div class="js-toggle-panel c-panel">
 			<div class="blockHeader c-panel__header d-flex justify-content-between">
-				<div class="d-inline-flex">
-					<div class="m-2">
-					<span class="u-cursor-pointer js-block-toggle fas fa-angle-right d-none" data-js="click"
-						  alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
-						<span class="u-cursor-pointer js-block-toggle fas fa-angle-down" data-js="click"
-							  alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
-					</div>
+				<div class="d-inline-flex align-items-center">
 					<h5>
 					<span class="menuIcon yfm-FInvoice"
 						  aria-hidden="true"></span> {\App\Language::translate('LBL_BEFORE_CORRECTION',$MODULE_NAME)}
 					</h5>
+					<div class="m-2">
+						<span class="u-cursor-pointer js-block-toggle fas fa-angle-right d-none" data-js="click"
+						 	 alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
+						<span class="u-cursor-pointer js-block-toggle fas fa-angle-down" data-js="click"
+							  alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
+					</div>
 				</div>
-				<div class="d-inline-flex mr-2 mt-2 js-stop-propagation">
+				<div class="d-inline-flex ml-2 mt-2 js-stop-propagation">
 					<div class="js-popover-tooltip" data-js="popover" data-trigger="hover focus"
 						 data-content="{\App\Language::translate("LBL_INVOICE_INFO",$MODULE_NAME)}">
 						<span class="fas fa-info-circle"></span></div>
@@ -34,20 +34,20 @@
 	<div class="detailViewTable">
 		<div class="js-toggle-panel c-panel">
 			<div class="blockHeader c-panel__header d-flex justify-content-between">
-				<div class="d-inline-flex">
+				<div class="d-inline-flex align-items-center">
+					<h5>
+						<span class="menuIcon yfm-FCorectingInvoice"
+						  	aria-hidden="true"></span> {\App\Language::translate('LBL_AFTER_CORRECTION',$MODULE_NAME)}
+					</h5>
 					<div class="m-2">
-					<span class="u-cursor-pointer js-block-toggle fas fa-angle-right d-none" data-js="click"
-						  alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
+						<span class="u-cursor-pointer js-block-toggle fas fa-angle-right d-none" data-js="click"
+							  alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
 						<span class="u-cursor-pointer js-block-toggle fas fa-angle-down" data-js="click"
 							  alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
 					</div>
-					<h5>
-					<span class="menuIcon yfm-FCorectingInvoice"
-						  aria-hidden="true"></span> {\App\Language::translate('LBL_AFTER_CORRECTION',$MODULE_NAME)}
-					</h5>
 				</div>
 				<div class="d-inline-flex js-stop-propagation">
-					<div class="js-popover-tooltip mt-2 mr-2" data-js="popover" data-trigger="hover focus"
+					<div class="js-popover-tooltip mt-2 mx-2" data-js="popover" data-trigger="hover focus"
 						 data-content="{\App\Language::translate("LBL_AFTER_INVOICE_INFO_EDIT",$MODULE_NAME)}">
 						<span class="fas fa-info-circle"></span></div>
 					<a href class="btn btn-primary mr-1 js-copy-from-invoice" data-js="click"><span
