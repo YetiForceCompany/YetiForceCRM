@@ -1550,6 +1550,7 @@ $.Class(
 			let full = container.find('.js-account-name');
 			let fullInput = full.find('input');
 			let legalForm = container.find('select[name="legal_form"]');
+			let legalFormVal = legalForm.val();
 			firstInput.keyup(function() {
 				fullInput.val(this.value + '|##|' + lastInput.val());
 			});
@@ -1562,12 +1563,13 @@ $.Class(
 					fullInput.val(firstInput.val() + '|##|' + lastInput.val());
 					first.removeClass('d-none');
 					last.removeClass('d-none');
-				} else {
+				} else if (legalFormVal == 'PLL_NATURAL_PERSON') {
 					full.removeClass('d-none');
 					first.addClass('d-none');
 					last.addClass('d-none');
 					fullInput.val('');
 				}
+				legalFormVal = this.value;
 			});
 		},
 		/**

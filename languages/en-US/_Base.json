@@ -97,6 +97,8 @@
     "LBL_ADDRESS_INFORMATION": "Primary address",
     "LBL_ADDRESS_MAILING_INFORMATION": "Forwarding address",
     "LBL_ADDRESS_DELIVERY_INFORMATION": "Delivery address",
+    "LBL_ADDRESS_SHIPPING": "Shipping address",
+    "LBL_ADDRESS_BILLING": "Billing address",
     "LBL_ADD_BCC": "Add Bcc",
     "LBL_ADD_CC": "Add Cc",
     "LBL_ADD_COMMENT": "Add comment",
@@ -548,6 +550,7 @@
     "Partner": "Partner",
     "Pending": "Pending",
     "Mine": "Mine",
+    "FL_PHONE": "Phone",
     "Phone": "Primary phone",
     "Phone: ": "Phone: ",
     "Pipelined Amount": "Sales pipeline",
@@ -1399,7 +1402,7 @@
     "LBL_PREVIOUS_COLOR": "Previous color:",
     "ERR_OCCURRED_CHECK_LOGS": "Error occurred, check the logs",
     "LBL_SHOW_ORIGINAL_CONTENT": "Show original content",
-    "LBL_COMPANY_NAME": "Company name",
+    "FL_COMPANY_NAME": "Company name",
     "LBL_SHOW_PASSWORD": "Show hidden password",
     "LBL_NO_DATA_FOUND": "No data found",
     "LBL_DUPLICATE_EMAIL_ADDRESS": "This email address already exists in this module.",
@@ -1409,6 +1412,7 @@
     "LBL_COMPLETE_FIELDS": "Complete fields",
     "LBL_DATA_FROM_RECORD": "Data from record",
     "LBL_DATA_FROM_SOURCE": "Data from source"
+    "FL_MAGENTO_ID": "Magento Id",
   },
   "js": {
     "JS_APPROVE": "Approve",

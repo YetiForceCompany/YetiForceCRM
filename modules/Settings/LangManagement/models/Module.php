@@ -22,7 +22,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$mod = explode(self::URL_SEPARATOR, $params['mod']);
 		$folders = ['custom', 'languages', $params['lang']];
-		if (count($mod) > 1) {
+		if (\count($mod) > 1) {
 			$folders[] = 'Settings';
 		}
 		$loc = '';
@@ -47,7 +47,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$keysPhp = $keysJs = $langTab = $respPhp = $respJs = [];
 		$moduleName = str_replace(self::URL_SEPARATOR, DIRECTORY_SEPARATOR, $moduleName);
-		if (!is_array($langs)) {
+		if (!\is_array($langs)) {
 			$langs = [$langs];
 		}
 		foreach ($langs as $lang) {
@@ -88,7 +88,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			if (file_exists($custom)) {
 				$response = \App\Json::decode(file_get_contents($custom), true);
 				if ($response) {
-					$result = array_merge_recursive($result, $response);
+					$result = array_replace_recursive($result, $response);
 				}
 			}
 		}
@@ -254,7 +254,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$filesName = $this->getModFromLang($langBase);
 		$langs = (array) $langs;
-		if (!in_array($langBase, $langs)) {
+		if (!\in_array($langBase, $langs)) {
 			$langs[] = $langBase;
 		}
 		$data = [];
@@ -273,7 +273,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$differences = [];
 		$i = 0;
 		foreach ($data as $id => $dataLang) {
-			if (!in_array($id, ['php', 'js'])) {
+			if (!\in_array($id, ['php', 'js'])) {
 				continue;
 			}
 			foreach ($dataLang as $key => $langs) {

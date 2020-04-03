@@ -1207,6 +1207,29 @@ class ConfReport
 	}
 
 	/**
+	 * Validate exists url.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateAllExt(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$forbidden = ['uopz'];
+		if (isset($row[$sapi])) {
+			foreach (array_intersect($forbidden, \explode(', ', $row[$sapi])) as $type) {
+				$row[$sapi] = \str_replace($type, "<b class=\"text-danger\">$type</b>", $row[$sapi]);
+				$row['isHtml'] = true;
+				$row['status'] = false;
+			}
+		}
+		return $row;
+	}
+
+	/**
 	 * Validate disc space value.
 	 *
 	 * @param string $name

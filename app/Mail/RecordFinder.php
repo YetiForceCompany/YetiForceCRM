@@ -55,9 +55,9 @@ class RecordFinder
 		foreach ($modulesFields as $module => $fieldsByType) {
 			foreach ($fieldsByType as $uiType => $fields) {
 				if (319 === $uiType) {
-					$ids = array_merge_recursive($ids, static::findByDomainField($module, $fields, $emails));
+					$ids = array_replace_recursive($ids, static::findByDomainField($module, $fields, $emails));
 				} else {
-					$ids = array_merge_recursive($ids, static::findByEmailField($module, $fields, $emails));
+					$ids = array_replace_recursive($ids, static::findByEmailField($module, $fields, $emails));
 				}
 			}
 		}

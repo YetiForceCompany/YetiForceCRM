@@ -64,6 +64,14 @@ class Vtiger_MagentoServer_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getListSearchTemplateName()
+	{
+		return 'List/Field/SimplePicklist.tpl';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getAllowedColumnTypes()
 	{
 		return ['integer'];

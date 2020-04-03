@@ -35,7 +35,7 @@ class Vtiger_SummaryRecordStructure_Model extends Vtiger_DetailRecordStructure_M
 		$summaryFieldModelsList = [];
 		ksort($blockSeqSortSummaryFields);
 		foreach ($blockSeqSortSummaryFields as $blockSequence => $summaryFields) {
-			$summaryFieldModelsList = array_merge_recursive($summaryFieldModelsList, $summaryFields);
+			$summaryFieldModelsList = array_replace_recursive($summaryFieldModelsList, $summaryFields);
 		}
 		return $summaryFieldModelsList;
 	}

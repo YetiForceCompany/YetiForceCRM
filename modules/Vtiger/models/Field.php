@@ -1357,9 +1357,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isActiveField()
 	{
-		$presence = $this->get('presence');
-
-		return \in_array($presence, [0, 2]);
+		return \in_array($this->get('presence'), [0, 2]);
 	}
 
 	public function isMassEditable()
@@ -1548,7 +1546,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		}
 		$data = $this->getDBColumnType(false);
 		if (!\in_array($data['type'], $allowedTypes)) {
-			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_TYPE');
+			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_TYPE||' . $data['type'] . '||' . print_r($allowedTypes, true));
 		}
 		preg_match('/^([\w\-]+)/i', $data['dbType'], $matches);
 		$type = $matches[1] ?? $data['type'];
@@ -1567,7 +1565,7 @@ class Vtiger_Field_Model extends vtlib\Field
 					break;
 				case 'bigint':
 				case 'mediumint':
-					throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_TYPE');
+					throw new \App\Exceptions\AppException("ERR_NOT_ALLOWED_TYPE||$type||integer,smallint,tinyint");
 				case 'integer':
 				case 'int':
 					if ($data['unsigned']) {
