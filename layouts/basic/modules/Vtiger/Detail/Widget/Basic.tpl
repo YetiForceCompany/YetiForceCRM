@@ -86,6 +86,7 @@
 				{else}
 					{assign var=span value='col-12'}
 				{/if}
+				{assign var=RELATED_MODULE_MODEL value=Vtiger_Module_Model::getInstance($RELATED_MODULE_NAME)}
 				{if isset($WIDGET['data']['filter']) && $WIDGET['data']['filter'] neq '-'}
 					<div class="form-group-sm w-100 mr-2">
 						{assign var=FILTER value=$WIDGET['data']['filter']}
@@ -111,11 +112,11 @@
 					{assign var=FIELD_NAME value=explode('.', $checkbox)}
 					<div class="js-popover-tooltip ml-auto btn-group btn-group-toggle" data-toggle="buttons" {if !empty($RELATED_MODULE_MODEL->getFieldByName($FIELD_NAME[1]))} data-js="popover" data-content="{\App\Language::translate($RELATED_MODULE_MODEL->getFieldByName($FIELD_NAME[1])->getFieldLabel(),$RELATED_MODULE_NAME)}" {/if}>
 						<label class="btn btn-sm btn-outline-primary active">
-							<input class="js-switch" type="radio" name="options" id="option1" data-js="change" data-on-val='{\App\Purifier::encodeHtml($WIDGET[' checkbox']['on'])}' data-urlparams="search_params" autocomplete="off"
+							<input class="js-switch" type="radio" name="options" id="option1" data-js="change" data-on-val='{\App\Purifier::encodeHtml($WIDGET['checkbox']['on'])}' data-urlparams="search_params" autocomplete="off"
 								checked> <span class="far fa-check-circle fa-lg" title="{$WIDGET['checkboxLables']['on']}">
 						</label>
 						<label class="btn btn-sm btn-outline-primary">
-							<input class="js-switch" type="radio" name="options" id="option2" data-js="change" data-off-val='{\App\Purifier::encodeHtml($WIDGET[' checkbox']['off'])}' data-urlparams="search_params" autocomplete="off"> <span class="far fa-times-circle fa-lg" title="{$WIDGET['checkboxLables']['off']}"></span>
+							<input class="js-switch" type="radio" name="options" id="option2" data-js="change" data-off-val='{\App\Purifier::encodeHtml($WIDGET['checkbox']['off'])}' data-urlparams="search_params" autocomplete="off"> <span class="far fa-times-circle fa-lg" title="{$WIDGET['checkboxLables']['off']}"></span>
 						</label>
 					</div>
 				{/if}
