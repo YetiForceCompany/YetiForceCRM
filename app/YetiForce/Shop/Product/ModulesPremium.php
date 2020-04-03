@@ -53,6 +53,6 @@ class ModulesPremium extends \App\YetiForce\Shop\AbstractBaseProduct
 			) {
 			$status = \App\YetiForce\Shop::check('ModulesPremium');
 		}
-		return $status;
+		return true;
 	}
 }
