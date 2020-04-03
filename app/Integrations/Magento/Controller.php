@@ -101,8 +101,8 @@ class Controller
 	 */
 	public function synchronizeInvoices(): void
 	{
-		$invoiceSynchronizator = new Synchronizator\Invoice($this);
-		$invoiceSynchronizator->process();
+		// $invoiceSynchronizator = new Synchronizator\Invoice($this);
+		// $invoiceSynchronizator->process();
 	}
 
 	/**
