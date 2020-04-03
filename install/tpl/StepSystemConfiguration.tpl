@@ -73,7 +73,7 @@
 											<span
 													class="no">*</span></label></td>
 									<td class="position-relative">
-										<input id="db-username" type="text" class="form-control validate[required, funcCall[Install_Index_Js.checkUsername]]" value="{$DB_USERNAME}"
+										<input id="db-username" type="text" class="form-control validate[required, funcCall[Install_Index_Js.checkDbUsername]]" value="{$DB_USERNAME}"
 											   name="db_username">
 									</td>
 								</tr>
