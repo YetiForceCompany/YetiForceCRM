@@ -73,6 +73,17 @@ class Controller
 	}
 
 	/**
+	 * Synchronize currencies for products.
+	 *
+	 * @return void
+	 */
+	public function synchronizeCurrencies(): void
+	{
+		$currencySynchronizator = new Synchronizator\Currency($this);
+		$currencySynchronizator->process();
+	}
+
+	/**
 	 * Synchronize products.
 	 *
 	 * @return void

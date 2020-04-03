@@ -449,7 +449,7 @@ abstract class Base
 		if (!$dob || '0000-00-00' === $dob) {
 			return null;
 		}
-		return $dob;
+		return date('Y-m-d', strtotime($dob));
 	}
 
 	/**

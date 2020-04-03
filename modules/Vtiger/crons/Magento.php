@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento cron.
+ * Magento cron file.
  *
  * @package   Cron
  *
@@ -10,7 +10,7 @@
  */
 
 /**
- * Vtiger_Magento_Cron class.
+ * Magento cron class.
  */
 class Vtiger_Magento_Cron extends \App\CronHandler
 {
@@ -19,21 +19,26 @@ class Vtiger_Magento_Cron extends \App\CronHandler
 	 */
 	public function process()
 	{
-		$connector = (new App\Integrations\Magento\Controller());
-		if (\App\Config::component('Magento', 'synchronizeCategories')) {
-			$connector->synchronizeCategories();
-		}
-		if (\App\Config::component('Magento', 'synchronizeProducts')) {
-			$connector->synchronizeProducts();
-		}
-		if (\App\Config::component('Magento', 'synchronizeCustomers')) {
-			$connector->synchronizeCustomers();
-		}
-		if (\App\Config::component('Magento', 'synchronizeOrders')) {
-			$connector->synchronizeOrders();
-		}
-		if (\App\Config::component('Magento', 'synchronizeInvoices')) {
-			$connector->synchronizeInvoices();
+		foreach (App\Integrations\Magento\Config::getAllServers() as $serverId => $value) {
+			$connector = (new App\Integrations\Magento\Controller($serverId));
+			if ($connector->config->get('sync_currency')) {
+				$connector->synchronizeCurrencies();
+			}
+			if ($connector->config->get('sync_categories')) {
+				$connector->synchronizeCategories();
+			}
+			if ($connector->config->get('sync_customers')) {
+				$connector->synchronizeCustomers();
+			}
+			if ($connector->config->get('sync_products')) {
+				$connector->synchronizeProducts();
+			}
+			if ($connector->config->get('sync_orders')) {
+				$connector->synchronizeOrders();
+			}
+			if ($connector->config->get('sync_invoices')) {
+				$connector->synchronizeInvoices();
+			}
 		}
 	}
 }
