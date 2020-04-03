@@ -47,9 +47,11 @@ class SumFieldFromDependent extends VTTask
 			$query->andWhere([$relationFieldModel->getTableName() . '.' . $relationFieldModel->getColumnName() => $id, 'vtiger_crmentity.deleted' => 0]);
 			$sourceFieldModel = $recordModel->getModule()->getFieldByName($this->sourceField);
 			$columnSumValue = $query->sum($sourceFieldModel->getTableName() . '.' . $sourceFieldModel->getColumnName());
-			$relatedModel = \Vtiger_Record_Model::getInstanceById($id, $moduleName);
-			$relatedModel->set($fieldName, $columnSumValue ?? 0);
-			$relatedModel->save();
+			if (\App\Record::isExists($id, $moduleName)) {
+				$relatedModel = \Vtiger_Record_Model::getInstanceById($id, $moduleName);
+				$relatedModel->set($fieldName, $columnSumValue ?? 0);
+				$relatedModel->save();
+			}
 		}
 	}
 }
