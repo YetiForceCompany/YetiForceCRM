@@ -227,24 +227,29 @@ abstract class Base
 	{
 		$inventoryData = [];
 		$savedAllProducts = true;
-		foreach ($mapModel->data['items'] as $record) {
-			$productId = $this->findProduct($record['sku']);
-			if (0 === $productId) {
-				$productId = $mapModel->createProduct($record);
+		if ($mapModel->dataCrm['currency_id']) {
+			foreach ($mapModel->data['items'] as $item) {
+				$productId = $this->findProduct($item['sku']);
+				if (0 === $productId) {
+					$productId = $mapModel->createProduct($item);
+				}
+				if ($productId) {
+					$item['crmProductId'] = $productId;
+					$inventoryData[] = $this->parseInventoryData($recordModel, $item, $mapModel);
+				} else {
+					$savedAllProducts = false;
+					\App\Log::error('Skipped saving record, product not found in CRM (magento id: [' . $item['product_id'] . '] | SKU:[' . $item['sku'] . '])', 'Integrations/Magento');
+					break;
+				}
 			}
-			if ($productId) {
-				$record['crmProductId'] = $productId;
-				$inventoryData[] = $this->parseInventoryData($recordModel, $record, $mapModel);
-			} else {
-				$savedAllProducts = false;
-				\App\Log::error('Skipped saving record, product not found in CRM (magento id: [' . $record['product_id'] . '] | SKU:[' . $record['sku'] . '])', 'Integrations/Magento');
-			}
+		} else {
+			$savedAllProducts = false;
 		}
 		if ($savedAllProducts && !empty($inventoryData)) {
-			if (!empty($mapModel->data['extension_attributes']['shipping_assignments']) && ($shipping = $this->parseShippingData($mapModel->data['extension_attributes']['shipping_assignments']))) {
+			if (!empty($mapModel->data['extension_attributes']['shipping_assignments']) && ($shipping = $this->parseShippingData($mapModel))) {
 				$inventoryData[] = $shipping;
 			}
-			if ($additionalData = $this->findAdditionalData($mapModel->data)) {
+			if ($additionalData = $this->findAdditionalData($mapModel)) {
 				$inventoryData[] = $additionalData;
 			}
 			$recordModel->initInventoryData($inventoryData, false);
@@ -256,57 +261,57 @@ abstract class Base
 	 * Parse inventory data to YetiForce format.
 	 *
 	 * @param \Vtiger_Record_Model                                    $recordModel
-	 * @param array                                                   $record
+	 * @param array                                                   $item
 	 * @param \App\Integrations\Magento\Synchronizator\Maps\Inventory $mapModel
 	 *
 	 * @return array
 	 */
-	public function parseInventoryData(\Vtiger_Record_Model $recordModel, array $record, Maps\Inventory $mapModel): array
+	public function parseInventoryData(\Vtiger_Record_Model $recordModel, array $item, Maps\Inventory $mapModel): array
 	{
-		$mapModel->setData($record);
-		$item = [];
+		$mapModel->setDataInv($item);
+		$inventoryRow = [];
 		foreach (\Vtiger_Inventory_Model::getInstance($recordModel->getModuleName())->getFields() as $columnName => $fieldModel) {
 			if (\in_array($fieldModel->getColumnName(), ['total', 'margin', 'marginp', 'net', 'gross'])) {
 				continue;
 			}
 			if ('tax_percent' === $columnName || 'tax' === $columnName) {
-				$item['taxparam'] = '{"aggregationType":"individual","individualTax":' . $record['tax_percent'] . '}';
+				$inventoryRow['taxparam'] = '{"aggregationType":"individual","individualTax":' . $item['tax_percent'] . '}';
 			} elseif ('taxmode' === $columnName) {
-				$item['taxmode'] = 1;
+				$inventoryRow['taxmode'] = 1;
 			} elseif ('discountmode' === $columnName) {
-				$item['discountmode'] = 1;
+				$inventoryRow['discountmode'] = 1;
 			} elseif ('discount' === $columnName) {
-				if (empty($record['discount_amount']) && !empty($record['discount_percent'])) {
-					$item['discountparam'] = '{"aggregationType":"individual","individualDiscountType":"percentage","individualDiscount":' . $record['discount_percent'] . '}';
+				if (empty($item['discount_amount']) && !empty($item['discount_percent'])) {
+					$inventoryRow['discountparam'] = '{"aggregationType":"individual","individualDiscountType":"percentage","individualDiscount":' . $item['discount_percent'] . '}';
 				} else {
-					$item['discountparam'] = '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":' . $mapModel->getInvFieldValue('discount') . '}';
+					$inventoryRow['discountparam'] = '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":' . $mapModel->getInvFieldValue('discount') . '}';
 				}
 			} elseif ('currency' === $columnName) {
-				$item['currency'] = $this->config->get('currencyId');
+				$inventoryRow['currency'] = $mapModel->dataCrm['currency_id'];
 			} elseif ('name' === $columnName) {
-				$item[$columnName] = $record['crmProductId'];
+				$inventoryRow[$columnName] = $item['crmProductId'];
 			} else {
-				$item[$columnName] = $mapModel->getInvFieldValue($columnName) ?? $fieldModel->getDefaultValue();
+				$inventoryRow[$columnName] = $mapModel->getInvFieldValue($columnName) ?? $fieldModel->getDefaultValue();
 			}
 		}
-		return $item;
+		return $inventoryRow;
 	}
 
 	/**
 	 * Parse shipping data.
 	 *
-	 * @param array $shippingData
+	 * @param \App\Integrations\Magento\Synchronizator\Maps\Inventory $mapModel
 	 *
 	 * @return array
 	 */
-	public function parseShippingData(array $shippingData): array
+	public function parseShippingData(Maps\Inventory $mapModel): array
 	{
-		$data = current($shippingData);
+		$data = current($mapModel->data['extension_attributes']['shipping_assignments']);
 		if ($this->config->get('shipping_service_id') && !empty($data['shipping']['total'])) {
 			return [
 				'discountmode' => 1,
 				'taxmode' => 1,
-				'currency' => $this->config->get('currencyId'),
+				'currency' => $mapModel->dataCrm['currency_id'],
 				'name' => $this->config->get('shipping_service_id'),
 				'unit' => '',
 				'subunit' => '',
@@ -324,15 +329,15 @@ abstract class Base
 	/**
 	 * Parse additional data.
 	 *
-	 * @param array $data
+	 * @param \App\Integrations\Magento\Synchronizator\Maps\Inventory $mapModel
 	 *
 	 * @return array
 	 */
-	public function findAdditionalData(array $data = []): array
+	public function findAdditionalData(Maps\Inventory $mapModel): array
 	{
 		$additionalData = [];
-		if (method_exists($this, 'addAdditionalInvData')) {
-			$additionalData = $this->addAdditionalInvData($data);
+		if (method_exists($mapModel, 'addAdditionalInvData')) {
+			$additionalData = $mapModel->addAdditionalInvData();
 		}
 		return $additionalData;
 	}

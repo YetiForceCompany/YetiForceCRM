@@ -18,6 +18,10 @@ class Customer extends Base
 	/**
 	 * {@inheritdoc}
 	 */
+	protected $moduleName = 'Accounts';
+	/**
+	 * {@inheritdoc}
+	 */
 	public static $mappedFields = [
 		'firstname' => 'firstname',
 		'lastname' => 'lastname',
@@ -51,6 +55,6 @@ class Customer extends Base
 		if (!empty($parsedData['mobile'])) {
 			$parsedData = $this->parsePhone('mobile', $parsedData);
 		}
-		return $parsedData;
+		return $this->dataCrm = $parsedData;
 	}
 }

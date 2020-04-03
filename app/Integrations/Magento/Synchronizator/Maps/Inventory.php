@@ -15,6 +15,12 @@ namespace App\Integrations\Magento\Synchronizator\Maps;
 abstract class Inventory extends Base
 {
 	/**
+	 * Inventory item data from Magento.
+	 *
+	 * @var array
+	 */
+	public $dataInv = [];
+	/**
 	 * Customer model.
 	 *
 	 * @var object
@@ -26,6 +32,18 @@ abstract class Inventory extends Base
 	 * @var array
 	 */
 	public static $mappedFieldsInv = [];
+
+	/**
+	 * Set inventory item data from Magento.
+	 *
+	 * @param array $data
+	 *
+	 * @return void
+	 */
+	public function setDataInv(array $data): void
+	{
+		$this->dataInv = $data;
+	}
 
 	/**
 	 * Return YetiForce inventory field name.
@@ -65,7 +83,7 @@ abstract class Inventory extends Base
 		if (!empty($fieldName)) {
 			$methodName = 'getCrmInv' . \ucfirst($fieldName);
 			if (!\method_exists($this, $methodName)) {
-				$fieldParsed = $this->data[$fieldName] ?? null;
+				$fieldParsed = $this->dataInv[$fieldName] ?? null;
 			} else {
 				$fieldParsed = $this->{$methodName}();
 			}
@@ -74,20 +92,35 @@ abstract class Inventory extends Base
 	}
 
 	/**
-	 * Method to get parsed customer id.
+	 * Get currency id.
 	 *
-	 * @return string
+	 * @return int
 	 */
-	public function getCrmContactid()
+	public function getCurrency()
 	{
-		if (false === $this->customer) {
-			$this->customer = new \App\Integrations\Magento\Synchronizator\Customer();
-			$this->customer->getMapping('customer');
-		}
-		$value = '';
-		if (!empty($this->data['customer_id']) && isset($this->customer->mapCrm['customer'][$this->data['customer_id']])) {
-			$value = $this->customer->mapCrm['customer'][$this->data['customer_id']];
-		}
-		return $value;
+		return (int) \App\Fields\Currency::getIdByCode($this->data['order_currency_code']);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDataCrm(bool $onEdit = false): array
+	{
+		parent::getDataCrm($onEdit);
+		$this->dataCrm['currency_id'] = $this->getCurrency();
+		return $this->dataCrm;
+	}
+
+	/**
+	 * Create product.
+	 *
+	 * @param array $record
+	 *
+	 * @return int
+	 */
+	public function createProduct(array $record): int
+	{
+		//??  $record['sku']
+		return 0;
 	}
 }

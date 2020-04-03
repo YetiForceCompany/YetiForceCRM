@@ -16,6 +16,12 @@ namespace App\Integrations\Magento\Synchronizator\Maps;
 abstract class Base
 {
 	/**
+	 * Map module name.
+	 *
+	 * @var string
+	 */
+	protected $moduleName;
+	/**
 	 * Synchronizer.
 	 *
 	 * @var \App\Integrations\Magento\Synchronizator\Base
@@ -199,16 +205,15 @@ abstract class Base
 	 */
 	public function getDataCrm(bool $onEdit = false): array
 	{
-		$parsedData = [];
 		foreach ($this->getFields($onEdit) as $fieldCrm => $field) {
-			$parsedData[$fieldCrm] = $this->getFieldValue($field) ?? null;
+			$this->dataCrm[$fieldCrm] = $this->getFieldValue($field) ?? null;
 		}
 		if (!$onEdit) {
 			foreach ($this->getAdditionalFieldsCrm() as $name => $value) {
-				$parsedData[$name] = !empty($value) ? $value : $this->getFieldValue($name);
+				$this->dataCrm[$name] = !empty($value) ? $value : $this->getFieldValue($name);
 			}
 		}
-		return $parsedData;
+		return $this->dataCrm;
 	}
 
 	/**
@@ -264,6 +269,9 @@ abstract class Base
 						break;
 					case 'datetime':
 						$fieldParsed = \App\Fields\DateTime::formatToDb($fieldParsed, true);
+						break;
+					case 'parentRecord':
+						$fieldParsed = $this->getCrmId((int) $fieldParsed);
 						break;
 				}
 			} else {
@@ -442,5 +450,31 @@ abstract class Base
 			return null;
 		}
 		return $dob;
+	}
+
+	/**
+	 * Get crm id by magento id.
+	 *
+	 * @param int         $magentoId
+	 * @param string|null $moduleName
+	 *
+	 * @return int
+	 */
+	public function getCrmId(int $magentoId, ?string $moduleName = null): int
+	{
+		if (empty($moduleName)) {
+			$moduleName = $this->moduleName;
+		}
+		if (\App\Cache::staticHas('CrmIdByMagentoId' . $moduleName, $magentoId)) {
+			return \App\Cache::staticGet('CrmIdByMagentoId' . $moduleName, $magentoId);
+		}
+		$queryGenerator = new \App\QueryGenerator($moduleName);
+		$queryGenerator->setStateCondition('All');
+		$queryGenerator->setFields(['id'])->permissions = false;
+		$queryGenerator->addCondition('magento_id', $magentoId, 'e');
+		$queryGenerator->addCondition('magento_server_id', $this->synchronizer->config->get('id'), 'e');
+		$crmId = $queryGenerator->createQuery()->scalar() ?: 0;
+		\App\Cache::staticSave('CrmIdByMagentoId', $magentoId, $crmId);
+		return $crmId;
 	}
 }
