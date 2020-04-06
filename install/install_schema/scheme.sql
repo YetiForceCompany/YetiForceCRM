@@ -3412,6 +3412,26 @@ CREATE TABLE `u_yf_picklist_close_state` (
   CONSTRAINT `fk_1_u_yf_picklist_close_state` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_productcategory` */
+
+CREATE TABLE `u_yf_productcategory` (
+  `productcategoryid` int(10) NOT NULL,
+  `category` varchar(255) DEFAULT NULL,
+  `number` varchar(32) DEFAULT NULL,
+  `parent_id` int(10) unsigned DEFAULT 0,
+  PRIMARY KEY (`productcategoryid`),
+  KEY `u_yf_productcategory_parent_id_idx` (`parent_id`),
+  CONSTRAINT `fk_1_u_yf_productcategoryproductcategoryid` FOREIGN KEY (`productcategoryid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_productcategorycf` */
+
+CREATE TABLE `u_yf_productcategorycf` (
+  `productcategoryid` int(10) NOT NULL,
+  PRIMARY KEY (`productcategoryid`),
+  CONSTRAINT `fk_1_u_yf_productcategorycfproductcategoryid` FOREIGN KEY (`productcategoryid`) REFERENCES `u_yf_productcategory` (`productcategoryid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_recurring_info` */
 
 CREATE TABLE `u_yf_recurring_info` (
@@ -4767,7 +4787,7 @@ CREATE TABLE `vtiger_blocks` (
   KEY `block_tabid_idx` (`tabid`),
   KEY `block_sequence_idx` (`sequence`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=464 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=466 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -5253,7 +5273,7 @@ CREATE TABLE `vtiger_customview` (
   KEY `setdefault` (`setdefault`,`entitytype`),
   KEY `customview_userid_idx` (`userid`),
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cvcolumnlist` */
 
@@ -5545,7 +5565,7 @@ CREATE TABLE `vtiger_def_org_share` (
   KEY `fk_1_def_org_share_tabid` (`tabid`),
   CONSTRAINT `fk_1_def_org_share_permission` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE,
   CONSTRAINT `fk_1_def_org_share_tabid` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_default_record_view` */
 
@@ -5815,7 +5835,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2981 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2989 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -6788,7 +6808,7 @@ CREATE TABLE `vtiger_modentity_num` (
   KEY `tabid` (`tabid`),
   KEY `tabid_2` (`tabid`,`cur_id`),
   CONSTRAINT `fk_1_modentity_num_tabid` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_basic` */
 
@@ -7981,7 +8001,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `related_tabid` (`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=632 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=633 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
@@ -9426,7 +9446,7 @@ CREATE TABLE `yetiforce_menu` (
   KEY `role` (`role`),
   KEY `module` (`module`),
   CONSTRAINT `yetiforce_menu_ibfk_1` FOREIGN KEY (`module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=162 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_proc_marketing` */
 
