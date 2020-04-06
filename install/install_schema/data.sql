@@ -12678,6 +12678,8 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`) values (630,89,89,'getDependentsList',7,'SQuotes',0,'',0,0,0,'RelatedTab','parent_id');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`) values (631,88,88,'getDependentsList',7,'SCalculations',0,'',0,0,0,'RelatedTab','parent_id');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`) values (632,132,132,'getDependentsList',1,'ProductCategory',0,'ADD',0,0,0,'RelatedTab','parent_id');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`) values (633,14,132,'getRelatedList',19,'ProductCategory',0,'SELECT',0,0,0,'RelatedTab',NULL);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`) values (634,132,14,'getRelatedList',2,'Products',0,'SELECT',0,0,0,'RelatedTab',NULL);
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
