@@ -137,6 +137,7 @@ class Category extends Record
 		$recordModel->setData([
 			'category' => $category['name'],
 			'parent_id' => $parentId,
+			'active' => $category['is_active'],
 			'magento_server_id' => $this->config->get('id'),
 			'magento_id' => $id,
 		]);
