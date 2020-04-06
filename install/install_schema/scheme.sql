@@ -7656,7 +7656,7 @@ CREATE TABLE `vtiger_products` (
   `vendor_id` int(10) DEFAULT NULL,
   `imagename` text DEFAULT NULL,
   `taxes` varchar(50) DEFAULT NULL,
-  `ean` varchar(30) DEFAULT NULL,
+  `ean` varchar(64) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT '',
   `renewable` tinyint(1) DEFAULT 0,
   `category_multipicklist` text DEFAULT NULL,
