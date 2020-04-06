@@ -46,7 +46,13 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$blockIdFieldMap = [];
 		$inactiveFields = [];
 		foreach ($fieldModels as $fieldModel) {
-			$blockIdFieldMap[$fieldModel->getBlockId()][$fieldModel->getName()] = $fieldModel;
+			$fiedlName = $fieldModel->getName();
+			if(strpos($fiedlName, '_extra') && $fieldModel->getFieldLabel() === 'FL_PHONE_CUSTOM_INFORMATION'){
+				unset($fiedlName);
+			}
+			if(isset($fiedlName)){
+				$blockIdFieldMap[$fieldModel->getBlockId()][$fiedlName] = $fieldModel;
+			}
 			if (!$fieldModel->isActiveField()) {
 				$inactiveFields[$fieldModel->getBlockId()][$fieldModel->getId()] = \App\Language::translate($fieldModel->get('label'), $sourceModule);
 			}
