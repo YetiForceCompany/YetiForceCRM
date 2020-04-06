@@ -986,10 +986,8 @@ class Vtiger_Record_Model extends \App\Base
 		if (!is_dir($path)) {
 			return [];
 		}
-		$summaryBlocks = [];
+		$tempSummaryBlocks = [];
 		$dir = new DirectoryIterator($path);
-		$blockCount = 0;
-
 		foreach ($dir as $fileinfo) {
 			if (!$fileinfo->isDot()) {
 				$tmp = explode('.', $fileinfo->getFilename());
@@ -1000,13 +998,16 @@ class Vtiger_Record_Model extends \App\Base
 					if (isset($blockObiect->reference) && !\App\Module::isModuleActive($blockObiect->reference)) {
 						continue;
 					}
-					$summaryBlocks[(int) ($blockCount / $this->summaryRowCount)][$blockObiect->sequence] = ['name' => $blockObiect->name, 'data' => $blockObiect->process($this), 'reference' => $blockObiect->reference];
-					++$blockCount;
+					$tempSummaryBlocks[$blockObiect->sequence] = ['name' => $blockObiect->name, 'data' => $blockObiect->process($this), 'reference' => $blockObiect->reference];
 				}
 			}
 		}
-		foreach ($summaryBlocks as $key => $block) {
-			ksort($summaryBlocks[$key]);
+		ksort($tempSummaryBlocks);
+		$blockCount = 0;
+		$summaryBlocks = [];
+		foreach ($tempSummaryBlocks as $key => $block) {
+			$summaryBlocks[(int) ($blockCount / $this->summaryRowCount)][$key] = $tempSummaryBlocks[$key] ;
+					++$blockCount;
 		}
 		return $summaryBlocks;
 	}
