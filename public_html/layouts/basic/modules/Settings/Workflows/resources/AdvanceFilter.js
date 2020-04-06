@@ -154,7 +154,7 @@ Vtiger_AdvanceFilter_Js(
 						key,
 						field;
 					if (
-						$.inArray(fieldType, ['picklist', 'multipicklist', 'multiReferenceValue', 'categoryMultipicklist']) > -1
+						$.inArray(fieldType, ['picklist', 'multipicklist', 'multiReferenceValue']) > -1
 					) {
 						for (key in fieldList) {
 							field = fieldList[key];

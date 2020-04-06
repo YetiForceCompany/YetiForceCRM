@@ -2051,6 +2051,11 @@ window.App.Fields = {
 					app.showModalWindow(requestData, { modalId: 'treeModal' });
 				});
 			});
+			if(typeof Vtiger_Edit_Js !== 'undefined'){
+				let vtigerEditInstance = new Vtiger_Edit_Js();
+				vtigerEditInstance.registerTreeAutoCompleteFields(container);
+				vtigerEditInstance.registerClearTreeSelectionEvent(container);
+			}
 		}
 	},
 	/**

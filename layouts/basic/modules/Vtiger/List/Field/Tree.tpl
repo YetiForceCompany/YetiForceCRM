@@ -1,16 +1,16 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-List-Field-Tree -->
-	{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
+	{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 
 	{if isset($SEARCH_INFO['searchValue'])}
-		{assign var=SEARCH_VALUES value=str_replace('##',',',$SEARCH_INFO['searchValue'])}
+		{assign var="SEARCH_VALUES" value=str_replace('##',',',$SEARCH_INFO['searchValue'])}
 	{else}
-		{assign var=SEARCH_VALUES value=''}
+		{assign var="SEARCH_VALUES" value=''}
 	{/if}
-	{assign var=DISPLAY_VALUE value=$FIELD_MODEL->getDisplayValue($SEARCH_VALUES)}
+	{assign var="DISPLAY_VALUE" value=$FIELD_MODEL->getDisplayValue($SEARCH_VALUES)}
 	<div class="js-tree-container fieldValue" data-js="container">
 		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$SEARCH_VALUES}" class="sourceField listSearchContributor"
 			   data-displayvalue='{$DISPLAY_VALUE}' data-fieldinfo='{$FIELD_INFO}'
