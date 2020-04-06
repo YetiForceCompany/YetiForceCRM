@@ -312,8 +312,16 @@ return [
 		]
 	],
 	'Magento' => [
+		'categoryLimit' => [
+			'default' => 100,
+			'description' => 'Set how many category can be downloaded at once.',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
+		],
 		'customerLimit' => [
-			'default' => 20,
+			'default' => 100,
 			'description' => 'Set how many customers can be downloaded at once.',
 			'validation' => '\App\Validator::naturalNumber',
 			'sanitization' => function () {
@@ -321,7 +329,7 @@ return [
 			}
 		],
 		'productLimit' => [
-			'default' => 20,
+			'default' => 100,
 			'description' => 'Set how many records can be updated at once.',
 			'validation' => '\App\Validator::naturalNumber',
 			'sanitization' => function () {
@@ -329,7 +337,7 @@ return [
 			}
 		],
 		'orderLimit' => [
-			'default' => 20,
+			'default' => 100,
 			'description' => 'Set how many orders can be downloaded at once.',
 			'validation' => '\App\Validator::naturalNumber',
 			'sanitization' => function () {
@@ -337,7 +345,7 @@ return [
 			}
 		],
 		'invoiceLimit' => [
-			'default' => 20,
+			'default' => 100,
 			'description' => 'Set how many invoices can be downloaded at once.',
 			'validation' => '\App\Validator::naturalNumber',
 			'sanitization' => function () {

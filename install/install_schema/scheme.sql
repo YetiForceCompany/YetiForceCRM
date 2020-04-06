@@ -3419,6 +3419,7 @@ CREATE TABLE `u_yf_productcategory` (
   `category` varchar(255) DEFAULT NULL,
   `number` varchar(32) DEFAULT NULL,
   `parent_id` int(10) unsigned DEFAULT 0,
+  `active` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`productcategoryid`),
   KEY `u_yf_productcategory_parent_id_idx` (`parent_id`),
   CONSTRAINT `fk_1_u_yf_productcategoryproductcategoryid` FOREIGN KEY (`productcategoryid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -5835,7 +5836,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2989 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2990 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 

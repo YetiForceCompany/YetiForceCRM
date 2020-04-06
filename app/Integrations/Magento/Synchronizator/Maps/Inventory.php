@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Inventory map.
+ * Abstract inventory map file.
  *
  * @package Integration
  *
@@ -12,6 +12,9 @@
 
 namespace App\Integrations\Magento\Synchronizator\Maps;
 
+/**
+ * Abstract inventory map class.
+ */
 abstract class Inventory extends Base
 {
 	/**

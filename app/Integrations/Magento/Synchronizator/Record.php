@@ -309,7 +309,6 @@ abstract class Record extends Base
 					$recordModel->set($fieldName, $value);
 				}
 			}
-			print_r($recordModel->getData());
 			$recordModel->save();
 			$id = $recordModel->getId();
 			\App\Cache::staticSave('MagentoFindByEmailContacts', $data['email'] ?? $data['email_a'], $id);

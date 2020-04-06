@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Field base map.
+ * Abstract base map file.
  *
  * @package Integration
  *
@@ -13,6 +13,9 @@
 
 namespace App\Integrations\Magento\Synchronizator\Maps;
 
+/**
+ * Abstract base map class.
+ */
 abstract class Base
 {
 	/**
@@ -474,7 +477,7 @@ abstract class Base
 		$queryGenerator->addCondition('magento_id', $magentoId, 'e');
 		$queryGenerator->addCondition('magento_server_id', $this->synchronizer->config->get('id'), 'e');
 		$crmId = $queryGenerator->createQuery()->scalar() ?: 0;
-		\App\Cache::staticSave('CrmIdByMagentoId', $magentoId, $crmId);
+		\App\Cache::staticSave('CrmIdByMagentoId' . $moduleName, $magentoId, $crmId);
 		return $crmId;
 	}
 }

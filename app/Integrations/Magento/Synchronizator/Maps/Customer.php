@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Customer field map.
+ * Customer map file.
  *
  * @package Integration
  *
@@ -13,6 +13,9 @@
 
 namespace App\Integrations\Magento\Synchronizator\Maps;
 
+/**
+ * Customer map  class.
+ */
 class Customer extends Base
 {
 	/**

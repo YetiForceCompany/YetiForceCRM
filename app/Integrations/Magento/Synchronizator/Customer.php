@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Synchronize orders.
+ * Synchronization customer file.
  *
  * @package Integration
  *
@@ -14,7 +14,7 @@
 namespace App\Integrations\Magento\Synchronizator;
 
 /**
- * Order class.
+ * Synchronization customer class.
  */
 class Customer extends Record
 {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Synchronize orders.
+ * Synchronization orders file.
  *
  * @package Integration
  *
@@ -14,10 +14,17 @@
 namespace App\Integrations\Magento\Synchronizator;
 
 /**
- * Category class.
+ * Synchronization orders class.
  */
 class Order extends Record
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	protected static $updateFields = [
+		'ssingleorders_status', 'status_magento'
+	];
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -143,18 +150,14 @@ class Order extends Record
 	 */
 	public function updateOrderInCrm(int $id, Maps\Inventory $mapModel): void
 	{
-		try {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'SSingleOrders');
-			$fields = $recordModel->getModule()->getFields();
-			foreach ($mapModel->getDataCrm(true) as $key => $value) {
-				if (isset($fields[$key])) {
-					$recordModel->set($key, $value);
-				}
+		$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'SSingleOrders');
+		$fields = $recordModel->getModule()->getFields();
+		foreach (self::$updateFields as $fieldname) {
+			if (isset($mapModel->dataCrm[$fieldname], $fields[$fieldname])) {
+				$recordModel->set($fieldname, $mapModel->dataCrm[$fieldname]);
 			}
-			//$recordModel->save();
-		} catch (\Throwable $ex) {
-			\App\Log::error('Error during updating yetiforce order: (magento id: [' . $mapModel->data['entity_id'] . '])' . $ex->getMessage(), 'Integrations/Magento');
 		}
+		$recordModel->save();
 	}
 
 	/**
