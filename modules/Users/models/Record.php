@@ -320,6 +320,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public function afterSaveToDb()
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
+		$this->cleanAttachments();
 		if ($this->isNew() || false !== $this->getPreviousValue('roleid') || false !== $this->getPreviousValue('is_admin')) {
 			\App\Privilege::setAllUpdater();
 			if (!$this->isNew()) {
@@ -347,6 +348,27 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if ($this->getPreviousValue('sync_carddav') || $this->isNew()) {
 			$dbCommand->update('vtiger_contactdetails', ['dav_status' => 1])->execute();
 			$dbCommand->update('vtiger_ossemployees', ['dav_status' => 1])->execute();
+		}
+	}
+	/**
+	 * Clear temporary attachments
+	 */
+	public function cleanAttachments(){
+		foreach ($this->getModule()->getFieldsByType(['image', 'multiImage'], true) as $fieldName => $fieldModel) {
+			$currentData = [];
+			if ($this->get($fieldName) && ($this->isNew() || false !== $this->getPreviousValue($fieldName))) {
+				$currentData = \App\Fields\File::parse(\App\Json::decode($this->get($fieldName)));
+				\App\Fields\File::cleanTemp(array_keys($currentData));
+			}
+			if ($previousValue = $this->getPreviousValue($fieldName)) {
+				$previousData = \App\Json::decode($previousValue);
+				foreach ($previousData as $item) {
+					if (!isset($currentData[$item['key']])) {
+						\App\Fields\File::cleanTemp($item['key']);
+						\App\Fields\File::loadFromInfo(['path' => $item['path']])->delete();
+					}
+				}
+			}
 		}
 	}
 
