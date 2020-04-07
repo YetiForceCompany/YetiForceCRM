@@ -30,7 +30,7 @@ class Category extends Record
 	public function process()
 	{
 		$this->lastScan = $this->config->getLastScan('category');
-		if (!$this->lastScan['start_date'] || (0 === (int) $this->lastScan['id'] && 0 === (int) $this->lastScan['idcrm'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])) {
+		if (!$this->lastScan['start_date'] || (0 === (int) $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])) {
 			$this->config->setScan('category');
 			$this->lastScan = $this->config->getLastScan('category');
 		}
@@ -83,7 +83,7 @@ class Category extends Record
 	public function getCategoriesFromApi(): array
 	{
 		$items = [];
-		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/categories/list?' . $this->getSearchCriteria([], $this->config->get('categoryLimit'))));
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/categories/list?' . $this->getSearchCriteria($this->config->get('categoryLimit'))));
 		if (!empty($data['items'])) {
 			$items = $data['items'];
 			foreach ($items as $item) {
@@ -161,28 +161,22 @@ class Category extends Record
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getSearchCriteria($ids, int $pageSize = 10): string
+	public function getSearchCriteria(int $pageSize = 10): string
 	{
-		if ('all' !== $ids) {
-			$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=entity_id';
-			if (!empty($ids) && \is_array($ids)) {
-				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . implode(',', $ids);
-				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=in';
-			} else {
-				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $this->lastScan['id'];
-				$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=gt';
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][field]=created_at';
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $this->getFormattedTime($this->lastScan['start_date']);
-				$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][condition_type]=lteq';
-				if (!empty($this->lastScan['end_date'])) {
-					$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][field]=created_at';
-					$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][value]=' . $this->getFormattedTime($this->lastScan['end_date']);
-					$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][condition_type]=gteq';
-				}
-				$searchCriteria[] = 'searchCriteria[pageSize]=' . $pageSize;
-			}
-			$searchCriteria = implode('&', $searchCriteria);
+		$searchCriteria = [];
+		$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][field]=entity_id';
+		$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][value]=' . $this->lastScan['id'];
+		$searchCriteria[] = 'searchCriteria[filter_groups][0][filters][0][condition_type]=gt';
+		$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][field]=created_at';
+		$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][value]=' . $this->getFormattedTime($this->lastScan['start_date']);
+		$searchCriteria[] = 'searchCriteria[filter_groups][1][filters][0][condition_type]=lteq';
+		if (!empty($this->lastScan['end_date'])) {
+			$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][field]=created_at';
+			$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][value]=' . $this->getFormattedTime($this->lastScan['end_date']);
+			$searchCriteria[] = 'searchCriteria[filter_groups][2][filters][0][condition_type]=gteq';
 		}
+		$searchCriteria[] = 'searchCriteria[pageSize]=' . $pageSize;
+		$searchCriteria = implode('&', $searchCriteria);
 		return $searchCriteria ?? 'searchCriteria';
 	}
 }

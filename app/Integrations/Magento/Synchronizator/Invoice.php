@@ -23,8 +23,6 @@ class Invoice extends Record
 	 */
 	public function process()
 	{
-		$this->getMapping('invoice');
-		$this->getMapping('product');
 		$this->lastScan = $this->config->getLastScan('invoice');
 		if (!$this->lastScan['start_date'] || (0 === (int) $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])) {
 			$this->config->setScan('invoice');
@@ -89,7 +87,6 @@ class Invoice extends Record
 				$recordModel->setData($dataCrm);
 				if ($this->saveInventoryCrm($recordModel, $order['items'], $data['extension_attributes']['shipping_assignments'], $invoiceFields)) {
 					$recordModel->save();
-					$this->saveMapping($data['entity_id'], $recordModel->getId(), 'invoice');
 				} else {
 					\App\Log::error('Error during saving YetiForce invoice id: [' . $data['entity_id'] . ']', 'Integrations/Magento');
 				}
@@ -133,9 +130,9 @@ class Invoice extends Record
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getSearchCriteria($ids, int $pageSize = 10): string
+	public function getSearchCriteria(int $pageSize = 10): string
 	{
-		$searchCriteria[] = parent::getSearchCriteria($ids, $pageSize);
+		$searchCriteria[] = parent::getSearchCriteria($pageSize);
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][value]=' . $this->config->get('store_id');
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][field]=store_id';
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][conditionType]=in';
@@ -155,7 +152,7 @@ class Invoice extends Record
 	public function getInvoices(array $ids = []): array
 	{
 		$items = [];
-		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/invoices?' . $this->getSearchCriteria($ids, $this->config->get('invoiceLimit'))));
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/invoices?' . $this->getSearchCriteria($this->config->get('invoiceLimit'))));
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
 				$items[$item['entity_id']] = $item;

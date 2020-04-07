@@ -104,7 +104,7 @@ class Order extends Record
 	public function getOrdersFromApi(array $ids = []): array
 	{
 		$items = [];
-		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/orders?' . $this->getSearchCriteria($ids, $this->config->get('orderLimit'))));
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/orders?' . $this->getSearchCriteria($this->config->get('orderLimit'))));
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
 				$items[$item['entity_id']] = $item;
@@ -163,9 +163,9 @@ class Order extends Record
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getSearchCriteria($ids, int $pageSize = 10): string
+	public function getSearchCriteria(int $pageSize = 10): string
 	{
-		$searchCriteria[] = parent::getSearchCriteria($ids, $pageSize);
+		$searchCriteria[] = parent::getSearchCriteria($pageSize);
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][value]=' . $this->config->get('store_id');
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][field]=store_id';
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][conditionType]=eq';

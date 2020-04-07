@@ -58,13 +58,6 @@ abstract class Base
 	 * @var string[]
 	 */
 	public static $fieldsDefaultValue = [];
-
-	/**
-	 * Fields which can not be updated.
-	 *
-	 * @var string[]
-	 */
-	public static $nonEditableFields = [];
 	/**
 	 * Data from Magento.
 	 *
@@ -161,12 +154,7 @@ abstract class Base
 	 */
 	public function getFields(bool $onEdit = false): array
 	{
-		if ($onEdit) {
-			$fields = array_diff(static::$mappedFields, static::$nonEditableFields);
-		} else {
-			$fields = static::$mappedFields;
-		}
-		return $fields;
+		return static::$mappedFields;
 	}
 
 	/**
