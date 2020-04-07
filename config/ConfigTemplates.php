@@ -1063,7 +1063,7 @@ return [
 		'db_username' => [
 			'default' => '_DBC_USER_',
 			'description' => 'Gets the database user name',
-			'validation' => '\App\Validator::sql',
+			'validation' => '\App\Validator::dbUserName',
 			'sanitization' => '\App\Purifier::purify'
 		],
 		'db_password' => [
