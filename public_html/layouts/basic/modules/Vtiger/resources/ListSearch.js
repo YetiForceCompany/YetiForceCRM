@@ -135,12 +135,6 @@ jQuery.Class(
 		registerDateTimeListSearch: function(container) {
 			App.Fields.DateTime.register(this.getContainer());
 		},
-		registerTreeSearch: function() {
-			App.Fields.Tree.register(this.container);
-			let vtigerEditInstance = new Vtiger_Edit_Js();
-			vtigerEditInstance.registerTreeAutoCompleteFields(this.container);
-			vtigerEditInstance.registerClearTreeSelectionEvent(this.container);
-		},
 		registerTimeListSearch: function() {
 			app.registerEventForClockPicker();
 		},
@@ -257,14 +251,16 @@ jQuery.Class(
 				} else {
 					searchInfo.push(fieldName);
 				}
-				searchInfo.push(searchOperator);
-				searchInfo.push(searchValue);
-				if (fieldInfo.type == 'tree' || fieldInfo.type == 'categoryMultipicklist') {
-					let searchInSubcategories = jQuery(
+				if ($.inArray(fieldInfo.type, ['tree', 'categoryMultipicklist']) != -1) {
+					let searchInSubcategories = $(
 						'.listViewHeaders .searchInSubcategories[data-columnname="' + fieldName + '"]'
 					).prop('checked');
-					searchInfo.push(searchInSubcategories);
+					if (searchInSubcategories){
+						searchOperator = 'ch';
+					}
 				}
+				searchInfo.push(searchOperator);
+				searchInfo.push(searchValue);
 				searchParams.push(searchInfo);
 			});
 			if (urlSearchParams) {
@@ -362,7 +358,6 @@ jQuery.Class(
 			this.registerListViewSelect();
 			this.registerDateListSearch();
 			this.registerDateTimeListSearch();
-			this.registerTreeSearch();
 			this.registerTimeListSearch();
 			this.registerAlphabetClick();
 			this.registerListSearch();
@@ -373,6 +368,7 @@ jQuery.Class(
 						App.Fields.Picklist.showSelect2ElementView($(obj));
 					}
 				});
+			App.Fields.Tree.register(this.container);
 		},
 		/**
 		 * Function which will regiter all events for this page

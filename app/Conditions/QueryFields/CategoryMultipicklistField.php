@@ -14,7 +14,7 @@ namespace App\Conditions\QueryFields;
 class CategoryMultipicklistField extends TaxesField
 {
 	/**
-	 * Separator.
+	 * Condition separator.
 	 *
 	 * @var string
 	 */
