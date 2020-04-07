@@ -98,7 +98,6 @@ abstract class Record extends Base
 					$recordModel->set($target, $data[$source]);
 				}
 			}
-			print_r($recordModel->getData());
 			$recordModel->save();
 			$id = $recordModel->getId();
 			if ($recordModel->get('vat_id')) {
