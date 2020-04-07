@@ -18,9 +18,9 @@
     regenerator-runtime "^0.12.0"
 
 "@fortawesome/fontawesome-free@^5.8.2":
-  version "5.12.1"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.12.1.tgz#2a98fea9fbb8a606ddc79a4680034e9d5591c550"
-  integrity sha512-ZtjIIFplxncqxvogq148C3hBLQE+W3iJ8E4UvJ09zIJUgzwLcROsWwFDErVSXY2Plzao5J9KUYNHKHMEUYDMKw==
+  version "5.13.0"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.13.0.tgz#fcb113d1aca4b471b709e8c9c168674fbd6e06d9"
+  integrity sha512-xKOeQEl5O47GPZYIMToj6uuA2syyFlq9EMSl2ui0uytjY9xbe8XS0pexNWmxrdcCyNGyDmLyYw5FtKsalBUeOg==
 
 "@mdi/font@^5.0.0":
   version "5.0.45"
@@ -55,28 +55,28 @@ block-ui@^2.70.1:
     jquery ">=1.7.x"
 
 blueimp-canvas-to-blob@3:
-  version "3.17.0"
-  resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.17.0.tgz#d796e72aa1fd37f9471e0396e64d323956564a23"
-  integrity sha512-LcuVZZtKtE4yUrLb0IQA7ndMm19gooDTrzvjjkvmQ1MhkFlSzTw+8Ftp+/ckfGeP2UDQvDsPyy8mIT69itAqbg==
+  version "3.18.0"
+  resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.18.0.tgz#15f67cd1469f0be4d90c4619a0499a76bb835f79"
+  integrity sha512-AkYW5KQ0kTMrmcXvSVi+2TsWDXVZwrJM3g4o7r2z6OA3IlMhlAnoBNWI1ow45jfRr/co7tNch4OdNyb3WU3Pxw==
 
 blueimp-file-upload@^10.6.0:
-  version "10.8.0"
-  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-10.8.0.tgz#cfca55fc05575835e37e751120c027cd5735e12b"
-  integrity sha512-cN1oB5hro7lQXEHN94DDSLDfgisilNof3YWxg4yTDJoqbU1I5Dsh8i+zxs9zyjzv7RNkY8LJjNEOHiKZZKVs1w==
+  version "10.10.0"
+  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-10.10.0.tgz#a3c2f6eb02978ba13647b39ac6c7a984b5a251f6"
+  integrity sha512-x37i0zT+9jFZSwIqXBDvkzhhmRwvyiz3E4WOhXbExpJ6zZ1n+AXAAfSu6B5AG2QfxIaec2pWU4r4cyduZjE3UQ==
   optionalDependencies:
     blueimp-canvas-to-blob "3"
     blueimp-load-image "2"
     blueimp-tmpl "3"
 
 blueimp-load-image@2:
-  version "2.26.0"
-  resolved "https://registry.yarnpkg.com/blueimp-load-image/-/blueimp-load-image-2.26.0.tgz#4cd3115f115d5ef9386b2ee15a504668987dfd05"
-  integrity sha512-pL7SYdK9ZxBFmFiEoh91PIYccU9IzytQ8goIUgc+5RW6vYVyvpGRUltefceeoNyLARbF8QXiYimHp6kgjZ/IBg==
+  version "2.28.0"
+  resolved "https://registry.yarnpkg.com/blueimp-load-image/-/blueimp-load-image-2.28.0.tgz#38a135723f39da465e62644bcf2f3baed2bc7a82"
+  integrity sha512-kks0mH7cF+V1qcxk7w+JYwX8k8rzM6ebZ3j8bssoX38vX9iRJHvjqpfpZLYWrnCoSYjbpB/TM3EQUaFuSS0BMg==
 
 blueimp-tmpl@3:
-  version "3.13.0"
-  resolved "https://registry.yarnpkg.com/blueimp-tmpl/-/blueimp-tmpl-3.13.0.tgz#910c337d5742a8a17e3237139389853ebc9ced56"
-  integrity sha512-TC5eLXhPGGgBJG1gGxKRORB5DMxSVSTS/GsqsQuJ+shv0Ez5wc9bjoXVhPqtdbzVZAzFvveasAMrjqEYY/18Og==
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/blueimp-tmpl/-/blueimp-tmpl-3.14.0.tgz#4951cf03a127521fa88922db616949d75cbbd5c3"
+  integrity sha512-mA8iwfEVkvpjtBXpRp25DxGqW2YOZqC9FVLLOa03Qwdsd6J4kVyL1noC04arAm0CNsu3Y0FmxkAOt+x2MoxpYA==
 
 bootbox@^5.4.0:
   version "5.4.0"
@@ -162,7 +162,7 @@ clipboard@>=2.0.0:
 
 "clockpicker@https://github.com/djibe/clockpicker#gh-pages":
   version "0.0.7"
-  resolved "https://github.com/djibe/clockpicker#bad016beb2daee90a9b7689e062e8ebdd6f03add"
+  resolved "https://github.com/djibe/clockpicker#a9adcd84895807df5b429781d56d5b5a7c1c7637"
 
 color-convert@^1.9.3:
   version "1.9.3"
@@ -236,9 +236,9 @@ datatables.net@1.10.20, datatables.net@^1.10.15, datatables.net@^1.10.19:
     jquery ">=1.7"
 
 dayjs@^1.8.16:
-  version "1.8.22"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.22.tgz#5e835d776b373e216678be8d12c336da71a25a9c"
-  integrity sha512-N8IXfxBD62Y9cKTuuuSoOlCXRnnzaTj1vu91r855iq6FbY5cZqOZnW/95nUn6kJiR+W9PHHrLykEoQOe6fUKxQ==
+  version "1.8.23"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.23.tgz#07b5a8e759c4d75ae07bdd0ad6977f851c01e510"
+  integrity sha512-NmYHMFONftoZbeOhVz6jfiXI4zSiPN6NoVWJgC0aZQfYVwzy/ZpESPHuCcI0B8BUMpSJQ08zenHDbofOLKq8hQ==
 
 delegate@^3.1.2:
   version "3.2.0"
@@ -251,9 +251,9 @@ device-uuid@^1.0.4:
   integrity sha1-9pc+WPGbkqI3rsp7FqOVrnGVqIM=
 
 emoji-mart-vue-fast@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/emoji-mart-vue-fast/-/emoji-mart-vue-fast-7.0.0.tgz#8067e449375c314e61d93293b9ebe7b6424e9141"
-  integrity sha512-2jFLPt2MMBy9Kk6QOndk41myTC//3LgXZSQDVr0ByD5qMcEaUn1js+cboyH5zHcP0b5y0WVg4ouNlc9eZlIkZg==
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/emoji-mart-vue-fast/-/emoji-mart-vue-fast-7.0.1.tgz#d22e515c5ef4776f3f33266941c4d76fd7f337a4"
+  integrity sha512-PfEgwFb3EB9y0VRMMuwH2ko6dAszrpOCzfsmzYcumgwzrfP3dBJxNjsemUN5Wcj6NxBEutIG3ikh2dNo4jj3tw==
   dependencies:
     "@babel/polyfill" "7.2.5"
     "@babel/runtime" "7.3.4"
@@ -261,7 +261,7 @@ emoji-mart-vue-fast@^7.0.0:
 
 "emojipanel@https://github.com/danbovey/EmojiPanel#master":
   version "1.0.0"
-  resolved "https://github.com/danbovey/EmojiPanel#5cd9a75f1394cbc3ffdc70bb74fbfdeada4e4ef8"
+  resolved "https://github.com/danbovey/EmojiPanel#38992209730b79138e07b71af3391d68772363fa"
   dependencies:
     fbemitter "^2.1.1"
     tether "^1.4.7"
@@ -337,9 +337,9 @@ good-listener@^1.2.2:
     delegate "^3.1.2"
 
 gridstack@^1.0.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-1.1.0.tgz#f8ca0cef6c5ecc99182d5578826b3a0f7a47df31"
-  integrity sha512-gv4kzKDlOpv4qP83WGyzNcHsTiZOIVLJhUAuaByO1e6f8OfDd08aCg0Z4xWqHVxJHyPbQRfX7hDaS80ym3UcNw==
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-1.1.1.tgz#5ebbcd9cb4d47314b34f0534202eb3e3125fc6ee"
+  integrity sha512-7XqikhTTKK/UbXtvOm+pF+xmxOi1YLWPU9cfcOrdbFbbN2aLLVEhx+oLyayIi7P5UXgaNk/DUHipMIl7L4gA2w==
 
 html2canvas@^1.0.0-alpha.12:
   version "1.0.0-rc.5"
@@ -380,7 +380,7 @@ isomorphic-fetch@^2.1.1:
 
 "jQuery-Validation-Engine@https://github.com/YetiForceCompany/jQuery-Validation-Engine#master":
   version "3.1.1"
-  resolved "https://github.com/YetiForceCompany/jQuery-Validation-Engine#fc67eb37482e5b6c1c8ad92927e659b211701ff5"
+  resolved "https://github.com/YetiForceCompany/jQuery-Validation-Engine#cbac005de19ea379a709d82a6fd9c6e94e9377f5"
   dependencies:
     jquery ">=1.6"
 
@@ -495,9 +495,9 @@ object-assign@^4.1.0:
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
 
 overlayscrollbars@^1.10.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/overlayscrollbars/-/overlayscrollbars-1.11.0.tgz#374a14f37b78214e0166db50c1a489b6af53eddb"
-  integrity sha512-Wdzzfdta5/5Tc77FoibH14Cr34r7op0jh3eI9z1zvz9K4YiRIzNxvNIh3Rbezr8cs4Bn7NTNKzT8OHsJB58CxQ==
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/overlayscrollbars/-/overlayscrollbars-1.12.0.tgz#e3e257bbb8a179760c2c712ad08ac2c78583c9f6"
+  integrity sha512-zJGYLeBfaPx2VmiDfBMNTPzm9N8w8wZ6M7dm1ee8TGuet8tsK4nxOzGvEEu0SmueqMHQxhLsstf7iTWCGiYa9Q==
 
 perfect-scrollbar@^1.3.0:
   version "1.5.0"
@@ -522,9 +522,9 @@ promise@^7.1.1:
     asap "~2.0.3"
 
 quasar@^1.6.1:
-  version "1.9.9"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.9.9.tgz#51670cf9cfe31998eb155172ebd0d9c46affdfc0"
-  integrity sha512-hikptjN2+uAQFZZzi4E4/D7ztphINF163w47FPHLVcM5LUU8Ffh3XsS+ygjPoIz8VXDcglwurfYrTu2uqHvcew==
+  version "1.9.13"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.9.13.tgz#0dc8c06cc8810bfba9259acef65828a41fbd6de5"
+  integrity sha512-9a0x1iwSXbvbC0UAjFWuTjA8MbDIVJFSQTwKEy23GbTp0UAuipRe+1yHWOFd8yrKq5L4I50ZuXjU9o/+0tYokQ==
 
 regenerator-runtime@^0.12.0:
   version "0.12.1"
@@ -597,9 +597,9 @@ tiny-emitter@^2.0.0:
   integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
 
 tributejs@^5.0.0:
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/tributejs/-/tributejs-5.1.2.tgz#d8492d974d3098d6016248d689fb063cda6e77f7"
-  integrity sha512-R9ff/q6w4T5f3Y9+RL+qinog3X1eAj1UnR/yfZaGJ8D3wuJs4/vicrGYul9+fgS9EJ/iYgwARekTb92xwark0g==
+  version "5.1.3"
+  resolved "https://registry.yarnpkg.com/tributejs/-/tributejs-5.1.3.tgz#980600fc72865be5868893078b4bfde721129eae"
+  integrity sha512-B5CXihaVzXw+1UHhNFyAwUTMDk1EfoLP5Tj1VhD9yybZ1I8DZJEv8tZ1l0RJo0t0tk9ZhR8eG5tEsaCvRigmdQ==
 
 ua-parser-js@^0.7.18:
   version "0.7.21"
@@ -611,7 +611,7 @@ url-polyfill@^1.1.7:
   resolved "https://registry.yarnpkg.com/url-polyfill/-/url-polyfill-1.1.8.tgz#21eb58ad61192f52b77dcac8ab5293ae7bc67060"
   integrity sha512-Ey61F4FEqhcu1vHSOMmjl0Vd/RPRLEjMj402qszD/dhMBrVfoUsnIj8KSZo2yj+eIlxJGKFdnm6ES+7UzMgZ3Q==
 
-vue-observe-visibility@^0.4.3:
+vue-observe-visibility@^0.4.4:
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/vue-observe-visibility/-/vue-observe-visibility-0.4.6.tgz#878cb8ebcf3078e40807af29774e97105ebd519e"
   integrity sha512-xo0CEVdkjSjhJoDdLSvoZoQrw/H2BlzB5jrCBKGZNXN2zdZgMuZ9BKrxXDjNP2AxlcCoKc8OahI3F3r3JGLv2Q==
@@ -622,12 +622,12 @@ vue-resize@^0.4.5:
   integrity sha512-bhP7MlgJQ8TIkZJXAfDf78uJO+mEI3CaLABLjv0WNzr4CcGRGPIAItyWYnP6LsPA4Oq0WE+suidNs6dgpO4RHg==
 
 vue-virtual-scroller@^1.0.0-rc.2:
-  version "1.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/vue-virtual-scroller/-/vue-virtual-scroller-1.0.0-rc.2.tgz#b03828496c87889641bdacc75510e5b1bf5bda7f"
-  integrity sha512-4YFx1a+QDP4f6HW/HBI/qHcmSTlh7BMH6IjEH8WC3ylt499cErl0LpvLLAx9yo3c6NtuK/XvjYXi0vvdxFB5dw==
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/vue-virtual-scroller/-/vue-virtual-scroller-1.0.4.tgz#53eeb624204c7e915f6bc63cd38f7136bc36644a"
+  integrity sha512-vzrA8niY58h1evQ2qLsLbSiMCCrYt7yTIoKaana6SG/73h69WcXp0k5YwoDuyjNW1UgiBw1PzX4rXA0esU+Fjw==
   dependencies:
     scrollparent "^2.0.1"
-    vue-observe-visibility "^0.4.3"
+    vue-observe-visibility "^0.4.4"
     vue-resize "^0.4.5"
 
 vue@^2.6.10, vue@^2.6.11:
