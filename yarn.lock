@@ -162,7 +162,8 @@ clipboard@>=2.0.0:
 
 "clockpicker@https://github.com/djibe/clockpicker#gh-pages":
   version "0.0.7"
-  resolved "https://github.com/djibe/clockpicker#bad016beb2daee90a9b7689e062e8ebdd6f03add"
+  uid a9adcd84895807df5b429781d56d5b5a7c1c7637
+  resolved "https://github.com/djibe/clockpicker#a9adcd84895807df5b429781d56d5b5a7c1c7637"
 
 color-convert@^1.9.3:
   version "1.9.3"
