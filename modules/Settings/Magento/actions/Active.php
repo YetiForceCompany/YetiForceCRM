@@ -135,6 +135,7 @@ class Settings_Magento_Active_Action extends Settings_Vtiger_Save_Action
 			$fieldInstance->set('typeofdata', 'I~O');
 			$fieldInstance->save($blockModel);
 		}
+		\App\EventHandler::setActive('IStorages_RecalculateStockHandler_Handler', 'IStoragesAfterUpdateStock');
 		header('Location: index.php?parent=Settings&module=Magento&view=List');
 	}
 }

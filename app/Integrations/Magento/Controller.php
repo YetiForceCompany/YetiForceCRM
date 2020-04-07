@@ -126,4 +126,23 @@ class Controller
 		$customerSynchronizator = new Synchronizator\Customer($this);
 		$customerSynchronizator->process();
 	}
+
+	/**
+	 * Update inventory stock in all magento.
+	 *
+	 * @param int    $storageId
+	 * @param int[]  $products
+	 * @param string $operator
+	 *
+	 * @return void
+	 */
+	public static function updateStock(int $storageId, array $products): void
+	{
+		foreach (Config::getAllServers() as $serverId => $value) {
+			$customerSynchronizator = new Synchronizator\InventoryStock(new self($serverId));
+			$customerSynchronizator->storageId = $storageId;
+			$customerSynchronizator->products = $products;
+			$customerSynchronizator->process();
+		}
+	}
 }

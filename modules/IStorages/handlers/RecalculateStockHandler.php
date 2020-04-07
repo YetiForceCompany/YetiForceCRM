@@ -57,4 +57,18 @@ class IStorages_RecalculateStockHandler_Handler
 			IStorages_Module_Model::setQtyInStock($recordModel->getModuleName(), $inventoryData, $recordModel->get('storageid'), $action);
 		}
 	}
+
+	/**
+	 * IStoragesAfterUpdateStock handler function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function iStoragesAfterUpdateStock(App\EventHandler $eventHandler)
+	{
+		$eventHandler->getParams();
+		(new \App\BatchMethod(['method' => 'App\Integrations\Magento\Controller::updateStock', 'params' => [
+			'storageId' => $eventHandler->getParams()['storageId'],
+			'products' => array_keys($eventHandler->getParams()['products']),
+		]]))->save();
+	}
 }
