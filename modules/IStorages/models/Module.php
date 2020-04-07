@@ -27,7 +27,7 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
-	public static function setQtyInStock($moduleName, $data, $storageId, $action)
+	public static function setQtyInStock(string $moduleName, array $data, $storageId, string $action)
 	{
 		$db = App\Db::getInstance();
 		$qtyInStock = [];
@@ -64,5 +64,9 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 				])->execute();
 			}
 		}
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setModuleName('IStorages');
+		$eventHandler->setParams($qtyInStock);
+		$eventHandler->trigger('IStoragesAfterUpdateStock');
 	}
 }

@@ -28,26 +28,33 @@ class IStorages_RecalculateStockHandler_Handler
 		}
 		if ('PLL_ACCEPTED' === $recordModel->get($status)) {
 			if (isset($correctionModules[$moduleName])) {
-				$this->getInventoryDataAndSend($relatedModuleRecordModel, 'remove');
+				$this->updateStock($relatedModuleRecordModel, 'remove');
 			}
-			$this->getInventoryDataAndSend($recordModel, 'add');
+			$this->updateStock($recordModel, 'add');
 		} else {
 			$delta = $recordModel->getPreviousValue($status);
 			if ($delta && 'PLL_ACCEPTED' === $delta) {
 				if (isset($correctionModules[$moduleName])) {
-					$this->getInventoryDataAndSend($relatedModuleRecordModel, 'add');
+					$this->updateStock($relatedModuleRecordModel, 'add');
 				}
-				$this->getInventoryDataAndSend($recordModel, 'remove');
+				$this->updateStock($recordModel, 'remove');
 			}
 		}
 	}
 
-	public function getInventoryDataAndSend(Vtiger_Record_Model $recordModel, $action)
+	/**
+	 * Update stock.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 * @param string              $action
+	 *
+	 * @return void
+	 */
+	public function updateStock(Vtiger_Record_Model $recordModel, string $action): void
 	{
-		$moduleName = $recordModel->getModuleName();
 		$inventoryData = $recordModel->getInventoryData();
 		if (!empty($inventoryData) && $recordModel->get('storageid')) {
-			IStorages_Module_Model::setQtyInStock($moduleName, $inventoryData, $recordModel->get('storageid'), $action);
+			IStorages_Module_Model::setQtyInStock($recordModel->getModuleName(), $inventoryData, $recordModel->get('storageid'), $action);
 		}
 	}
 }

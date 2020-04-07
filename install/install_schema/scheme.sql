@@ -518,15 +518,8 @@ CREATE TABLE `dav_users` (
 
 CREATE TABLE `i_yf_magento_config` (
   `name` varchar(50) NOT NULL,
-  `value` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `i_yf_magento_record` */
-
-CREATE TABLE `i_yf_magento_record` (
-  `id` int(10) unsigned NOT NULL,
-  `crmid` int(10) unsigned NOT NULL,
-  `type` varchar(25) NOT NULL
+  `value` varchar(50) NOT NULL,
+  KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `i_yf_magento_servers` */
@@ -5710,7 +5703,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`eventhandler_id`),
   KEY `event_name_class` (`event_name`,`handler_class`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_expectedresponse` */
 
