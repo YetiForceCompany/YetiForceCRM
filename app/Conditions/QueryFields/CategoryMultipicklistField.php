@@ -71,7 +71,7 @@ class CategoryMultipicklistField extends TaxesField
 	 */
 	public function operatorCh()
 	{
-		$fieldValue = \Settings_TreesManager_Record_Model::getChildren(implode($this->conditionSeparator, $this->getValue()), $this->getColumnName(), \Vtiger_Module_Model::getInstance($this->getModuleName()));
+		$fieldValue = \Settings_TreesManager_Record_Model::getChildren(implode($this->conditionSeparator, $this->getValue()), $this->fieldModel->getColumnName(), \Vtiger_Module_Model::getInstance($this->getModuleName()));
 		$condition = ['or'];
 		foreach (explode($this->conditionSeparator, $fieldValue) as $value) {
 			array_push($condition, [$this->getColumnName() => $value], ['or like', $this->getColumnName(),
@@ -92,7 +92,7 @@ class CategoryMultipicklistField extends TaxesField
 	 */
 	public function operatorKh()
 	{
-		$fieldValue = \Settings_TreesManager_Record_Model::getChildren(implode($this->conditionSeparator, $this->getValue()), $this->getColumnName(), \Vtiger_Module_Model::getInstance($this->getModuleName()));
+		$fieldValue = \Settings_TreesManager_Record_Model::getChildren(implode($this->conditionSeparator, $this->getValue()), $this->fieldModel->getColumnName(), \Vtiger_Module_Model::getInstance($this->getModuleName()));
 		$condition = ['and'];
 		foreach (explode($this->conditionSeparator, $fieldValue) as $value) {
 			array_push($condition, ['<>', $this->getColumnName(), $value], ['not', ['or like', $this->getColumnName(),

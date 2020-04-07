@@ -36,6 +36,11 @@
 										{$FIELD_INFO['value'] = App\Purifier::decodeHtml($CONDITION_INFO['value'])}
 										selected="selected"
 									{/if}
+									{if in_array($FIELD_MODEL->get('uitype'), [302,309])}
+										{assign var="FIELD_VALUE" value=$CONDITION_INFO['value']}
+										{$FIELD_INFO['treetemplate'] = App\Purifier::decodeHtml($FIELD_MODEL->getFieldParams())}
+										{$FIELD_INFO['displayvalue'] = $FIELD_MODEL->getDisplayValue($FIELD_VALUE)}
+									{/if}
 									data-fieldinfo='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}'
 									{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}>
 								{if $SELECTED_MODULE_NAME neq $MODULE_MODEL->get('name')}
