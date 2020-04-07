@@ -517,9 +517,12 @@ CREATE TABLE `dav_users` (
 /*Table structure for table `i_yf_magento_config` */
 
 CREATE TABLE `i_yf_magento_config` (
+  `server_id` int(10) unsigned NOT NULL,
   `name` varchar(50) NOT NULL,
   `value` varchar(50) NOT NULL,
-  KEY `name` (`name`)
+  KEY `server_id` (`server_id`),
+  KEY `name` (`name`),
+  CONSTRAINT `i_yf_magento_config_ibfk_1` FOREIGN KEY (`server_id`) REFERENCES `i_yf_magento_servers` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `i_yf_magento_servers` */
@@ -545,7 +548,6 @@ CREATE TABLE `i_yf_magento_servers` (
   `sync_customers` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `sync_orders` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `sync_invoices` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `product_images_path` varchar(255) DEFAULT NULL,
   `product_map_class` varchar(255) DEFAULT NULL,
   `customer_map_class` varchar(255) DEFAULT NULL,
   `order_map_class` varchar(255) DEFAULT NULL,

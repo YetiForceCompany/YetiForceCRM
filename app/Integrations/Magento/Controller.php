@@ -139,7 +139,7 @@ class Controller
 	public static function updateStock(int $storageId, array $products): void
 	{
 		foreach (Config::getAllServers() as $serverId => $config) {
-			if (0 === (int) $config['status']) {
+			if (0 === (int) $config['status'] || 'None' === $config['storage_quantity_location']) {
 				continue;
 			}
 			$customerSynchronizator = new Synchronizator\InventoryStock(new self($serverId));

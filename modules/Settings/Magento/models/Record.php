@@ -76,10 +76,17 @@ class Settings_Magento_Record_Model extends Settings_Vtiger_Record_Model
 		$recordLinks = [
 			[
 				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_EDIT_RECORD',
+				'linklabel' => 'BTN_RECORD_EDIT',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn btn-sm btn-info',
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_RELOAD_MAGENTO',
+				'linkurl' => "javascript:Settings_Magento_List_Js.reload('{$this->getId()}')",
+				'linkicon' => 'mdi mdi-reload',
+				'linkclass' => 'btn btn-sm btn-warning text-white',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
@@ -208,6 +215,7 @@ class Settings_Magento_Record_Model extends Settings_Vtiger_Record_Model
 			case 'storage_quantity_location':
 				$params['uitype'] = 16;
 				$params['picklistValues'] = [
+					'None' => \App\Language::translate('None'),
 					'Products' => \App\Language::translate('SINGLE_Products', 'Products'),
 					'IStorages' => \App\Language::translate('SINGLE_IStorages', 'IStorages'),
 				];

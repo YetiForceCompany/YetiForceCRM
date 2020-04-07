@@ -75,7 +75,6 @@ class Settings_Magento_Module_Model extends Settings_Vtiger_Module_Model
 		'sync_customers' => ['required' => 1, 'default' => true, 'tooltip' => true, 'purifyType' => 'Integer'],
 		'sync_orders' => ['required' => 1, 'default' => true, 'tooltip' => true, 'purifyType' => 'Integer'],
 		'sync_invoices' => ['required' => 1, 'default' => true, 'tooltip' => true, 'purifyType' => 'Integer'],
-		'product_images_path' => ['required' => 1, 'default' => 'media/catalog/product/', 'tooltip' => true, 'purifyType' => 'Path'],
 		'product_map_class' => ['required' => 0, 'default' => '', 'tooltip' => true, 'purifyType' => 'ClassName'],
 		'customer_map_class' => ['required' => 0, 'default' => '', 'tooltip' => true, 'purifyType' => 'ClassName'],
 		'order_map_class' => ['required' => 0, 'default' => '', 'tooltip' => true, 'purifyType' => 'ClassName'],

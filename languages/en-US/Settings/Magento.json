@@ -40,6 +40,8 @@
     "LBL_CUSTOMER_MAP_CLASS": "Customer map class name",
     "LBL_CUSTOMER_MAP_CLASS_TOOLTIP": "If you want to use custom field map you need to create new class in Maps/Custom. After that you need to change this value e.g. 'App\\Integrations\\Magento\\Synchronizator\\Maps\\Custom\\Customer'",
     "LBL_PARAM_NOT_ALLOWED": "Parameter not allowed",
-    "LBL_VALUE_NOT_ALLOWED": "Value not allowed"
+    "LBL_VALUE_NOT_ALLOWED": "Value not allowed",
+    "LBL_RELOAD_MESSAGE": "The data will be downloaded once again the next time cron is triggered",
+    "LBL_RELOAD_MAGENTO": "Restart synchronization"
   }
 }
