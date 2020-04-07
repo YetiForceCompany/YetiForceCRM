@@ -19,7 +19,10 @@ class Vtiger_Magento_Cron extends \App\CronHandler
 	 */
 	public function process()
 	{
-		foreach (App\Integrations\Magento\Config::getAllServers() as $serverId => $value) {
+		foreach (App\Integrations\Magento\Config::getAllServers() as $serverId => $config) {
+			if (0 === (int) $config['status']) {
+				continue;
+			}
 			$connector = (new App\Integrations\Magento\Controller($serverId));
 			if ($connector->config->get('sync_currency')) {
 				$connector->synchronizeCurrencies();

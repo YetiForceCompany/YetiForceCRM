@@ -138,7 +138,10 @@ class Controller
 	 */
 	public static function updateStock(int $storageId, array $products): void
 	{
-		foreach (Config::getAllServers() as $serverId => $value) {
+		foreach (Config::getAllServers() as $serverId => $config) {
+			if (0 === (int) $config['status']) {
+				continue;
+			}
 			$customerSynchronizator = new Synchronizator\InventoryStock(new self($serverId));
 			$customerSynchronizator->storageId = $storageId;
 			$customerSynchronizator->products = $products;
