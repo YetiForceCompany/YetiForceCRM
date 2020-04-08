@@ -124,8 +124,6 @@ abstract class Inventory extends Base
 	public function createProduct(array $record): int
 	{
 		$productSynchronizer = new \App\Integrations\Magento\Synchronizer\Product($this->synchronizer->controller);
-		$productSynchronizer->process();
-		//??  $record['sku']
-		return 0;
+		return $productSynchronizer->importByEan($record['sku']);
 	}
 }

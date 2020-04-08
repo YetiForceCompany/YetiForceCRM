@@ -48,20 +48,7 @@ class Product extends Record
 						\App\Log::error('Empty product details', 'Integrations/Magento');
 						continue;
 					}
-					$className = $this->config->get('product_map_class') ?: '\App\Integrations\Magento\Synchronizer\Maps\Product';
-					$mapModel = new $className($this);
-					$mapModel->setData($product);
-					if ($dataCrm = $mapModel->getDataCrm()) {
-						try {
-							if (!$this->findProduct($product['sku'])) {
-								$this->createProductInCrm($dataCrm);
-							}
-						} catch (\Throwable $ex) {
-							\App\Log::error('Error during saving product: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
-						}
-					} else {
-						\App\Log::error('Empty map product details', 'Integrations/Magento');
-					}
+					$this->syncProduct($product);
 					$this->config->setScan('product', 'id', $id);
 				}
 			} else {
@@ -147,5 +134,55 @@ class Product extends Record
 		foreach ($categories as $categoryId) {
 			$relationModel->addRelation($recordModel->getId(), $categoryId);
 		}
+	}
+
+	/**
+	 * Sync product.
+	 *
+	 * @param array $product
+	 *
+	 * @return int
+	 */
+	public function syncProduct(array $product): int
+	{
+		$className = $this->config->get('product_map_class') ?: '\App\Integrations\Magento\Synchronizer\Maps\Product';
+		$mapModel = new $className($this);
+		$mapModel->setData($product);
+		$id = 0;
+		if ($dataCrm = $mapModel->getDataCrm()) {
+			try {
+				if (!($id = $this->findProduct($product['sku']))) {
+					$id = $this->createProductInCrm($dataCrm);
+				}
+			} catch (\Throwable $ex) {
+				\App\Log::error('Error during saving product: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
+			}
+		} else {
+			\App\Log::error('Empty map product details', 'Integrations/Magento');
+		}
+		return $id;
+	}
+
+	/**
+	 * Import by ean.
+	 *
+	 * @param string $ean
+	 *
+	 * @return int
+	 */
+	public function importByEan(string $ean): int
+	{
+		$id = 0;
+		try {
+			$product = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/products/' . $ean));
+			if (empty($product)) {
+				\App\Log::error('Empty product details', 'Integrations/Magento');
+				return 0;
+			}
+			$id = $this->syncProduct($product);
+		} catch (\Throwable $ex) {
+			\App\Log::error('Error during import by ean product: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
+		}
+		return $id;
 	}
 }
