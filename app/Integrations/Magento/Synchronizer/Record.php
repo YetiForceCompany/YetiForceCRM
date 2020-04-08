@@ -75,7 +75,7 @@ abstract class Record extends Base
 	}
 
 	/**
-	 * Method to create account.
+	 * Method to create/update account.
 	 *
 	 * @param array $data
 	 *
@@ -83,26 +83,26 @@ abstract class Record extends Base
 	 */
 	public function syncAccount(array $data): int
 	{
-		$id = $this->findAccount($data);
-		if (!$id) {
-			$recordModel = \Accounts_Record_Model::getCleanInstance('Accounts');
-			$fields = $recordModel->getModule()->getFields();
-			if (!($companyName = $data['company_name_a'] ?: $data['company_name_b'] ?: false)) {
-				$companyName = $data['firstname'] . '|##|' . $data['lastname'];
-				$recordModel->set('legal_form', 'PLL_NATURAL_PERSON');
+		$recordModel = \Vtiger_Record_Model::getCleanInstance('Accounts');
+		if ($id = $this->findAccount($data, $recordModel)) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Accounts');
+		}
+		$fields = $recordModel->getModule()->getFields();
+		if (!($companyName = $data['company_name_a'] ?: $data['company_name_b'] ?: false)) {
+			$companyName = $data['firstname'] . '|##|' . $data['lastname'];
+			$recordModel->set('legal_form', 'PLL_NATURAL_PERSON');
+		}
+		$recordModel->set('accountname', $companyName);
+		$recordModel->set('vat_id', $data['vat_id_a'] ?: $data['vat_id_b'] ?: '');
+		foreach ($this->accountFieldsMap as  $target => $source) {
+			if (isset($data[$source], $fields[$target])) {
+				$recordModel->set($target, $data[$source]);
 			}
-			$recordModel->set('accountname', $companyName);
-			$recordModel->set('vat_id', $data['vat_id_a'] ?: $data['vat_id_b'] ?: '');
-			foreach ($this->accountFieldsMap as  $target => $source) {
-				if (isset($data[$source], $fields[$target])) {
-					$recordModel->set($target, $data[$source]);
-				}
-			}
-			$recordModel->save();
-			$id = $recordModel->getId();
-			if ($recordModel->get('vat_id')) {
-				\App\Cache::staticSave('MagentoFindAccount', $recordModel->get('vat_id'), $id);
-			}
+		}
+		$recordModel->save();
+		$id = $recordModel->getId();
+		if ($recordModel->get('vat_id')) {
+			\App\Cache::staticSave('MagentoFindAccount', $recordModel->get('vat_id'), $id);
 		}
 		return $id;
 	}
@@ -110,13 +110,13 @@ abstract class Record extends Base
 	/**
 	 * Find account record id by vat id or email fields.
 	 *
-	 * @param array $data
+	 * @param array                $data
+	 * @param \Vtiger_Record_Model $recordModel
 	 *
 	 * @return int
 	 */
-	public function findAccount(array $data): int
+	public function findAccount(array $data, \Vtiger_Record_Model $recordModel): int
 	{
-		$recordModel = \Vtiger_Record_Model::getCleanInstance('Accounts');
 		$vatIdField = $recordModel->getModule()->getFieldByName('vat_id', true);
 		if ($vatIdField && $vatIdField->isActiveField() && ($vatId = $data['vat_id_a'] ?: $data['vat_id_b'] ?: false)) {
 			if (\App\Cache::staticHas('MagentoFindAccount', $vatId)) {
@@ -154,9 +154,6 @@ abstract class Record extends Base
 			foreach ($recordModel->getModule()->getFieldsByType('email', true) as $fieldModel) {
 				$queryGenerator->addCondition($fieldModel->getName(), $email, 'e', false);
 			}
-			if ($recordModel->getId()) {
-				$queryGenerator->addCondition('id', $recordModel->getId(), 'n', true);
-			}
 			$id = $queryGenerator->createQuery()->scalar() ?: 0;
 			if ($id) {
 				\App\Cache::staticSave($cacheKey, $email, $id);
@@ -175,19 +172,19 @@ abstract class Record extends Base
 	public function syncContact(array $data): int
 	{
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
-		$id = $this->findByEmail($data, $recordModel);
-		if (!$id) {
-			$fields = $recordModel->getModule()->getFields();
-			unset($data['attention']);
-			foreach ($data as  $fieldName => $value) {
-				if (isset($fields[$fieldName])) {
-					$recordModel->set($fieldName, $value);
-				}
-			}
-			$recordModel->save();
-			$id = $recordModel->getId();
-			\App\Cache::staticSave('MagentoFindByEmailContacts', $data['email'] ?? $data['email_a'], $id);
+		if ($id = $this->findByEmail($data, $recordModel)) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Contacts');
 		}
+		$fields = $recordModel->getModule()->getFields();
+		unset($data['attention']);
+		foreach ($data as  $fieldName => $value) {
+			if (isset($fields[$fieldName])) {
+				$recordModel->set($fieldName, $value);
+			}
+		}
+		$recordModel->save();
+		$id = $recordModel->getId();
+		\App\Cache::staticSave('MagentoFindByEmailContacts', $data['email'] ?? $data['email_a'], $id);
 		return $id;
 	}
 
