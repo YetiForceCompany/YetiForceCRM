@@ -81,7 +81,6 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	public function getModalScripts(App\Request $request)
 	{
 		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
-			'~layouts/resources/Fields.js',
 			'modules.Vtiger.resources.ListSearch',
 			"modules.{$request->getModule()}.resources.ListSearch",
 		]));

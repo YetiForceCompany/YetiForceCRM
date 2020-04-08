@@ -485,8 +485,7 @@ jQuery.Class(
 			} else {
 				fieldSpecificElement
 					.removeClass('validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]')
-					.removeAttr('data-validation-engine')
-					.removeAttr('data-fieldinfo');
+					.removeAttr('data-validation-engine');
 			}
 			return this;
 		},
@@ -801,9 +800,11 @@ Vtiger_Categorymultipicklist_Field_Js(
 			return this.get('displayvalue');
 		},
 		getReadOnly: function(){
-			if(this.getDisplayValue !== ''){
-				return ' readonly="true" ';
+			let result = "";
+			if(this.getDisplayValue() !== ''){
+				result = ' readonly="true" ';
 			}
+			return result;
 		},
 		/**
 		 * Function to get the user date format
@@ -824,24 +825,7 @@ Vtiger_Categorymultipicklist_Field_Js(
 			if(this.getType() === 'tree'){
 				multiple = 0;
 			}
-			let html = '<div class="js-tree-container fieldValue" data-js="container">';
-			html += '<input name="' + this.getName() + '" type="hidden" value="'+this.getValue()+'" class="sourceField"';
-			html += 'data-displayvalue="' + displayValue + '" data-fieldinfo=\'{"mandatory":false,"presence":true,"quickcreate":true,"masseditable":true,"header_field":[],"maxlengthtext":0,"maximumlength":"200","maxwidthcolumn":0,"tabindex":0,"defaultvalue":"","type":"tree","name":"' + this.getName() + '","label":"","picklistvalues":'+JSON.stringify(pickListValues)+'}\'';
-			html += 'data-multiple="' + multiple + '" data-value="value"';
-			html += 'data-treetemplate="' + this.getTreeTemplate() + '" data-modulename="'+this.getModuleName()+'">';
-			html += '<div class="input-group">';
-			html += '<span class="input-group-prepend clearTreeSelection u-cursor-pointer">';
-				html += '<span class="input-group-text">';
-					html += '<span id="'+this.getModuleName()+'_editView_fieldName_' + this.getName() + '_clear" class="fas fa-times-circle"  title=""></span>';
-				html += '</span>';
-			html += '</span>';
-			html += '<input id="' + this.getName() + '_display" name="' + this.getName() + '_display" type="text" class="ml-0 treeAutoComplete form-control" value="'+displayValue+'"'+this.getReadOnly();
-			html += 'data-fieldinfo=\'{"mandatory":false,"presence":true,"quickcreate":true,"masseditable":true,"header_field":[],"maxlengthtext":0,"maximumlength":"200","maxwidthcolumn":0,"tabindex":0,"defaultvalue":"","type":"tree","name":"' + this.getName() + '","label":"","picklistvalues":'+JSON.stringify(pickListValues)+'}\'>';
-			html += '<span class="input-group-append js-tree-modal u-cursor-pointer">';
-			html += '<span class="input-group-text">';
-			html += '<span id="'+this.getModuleName()+'_editView_fieldName_' + this.getName() + '_select" class="fas fa-search" title=""></span>';
-			html += '</span></span>';
-			html += '</div>';
+			let html = '<div class="js-tree-container fieldValue" data-js="container"><input name="' + this.getName() + '" type="hidden" value="' + this.getValue() + '" class="sourceField" data-displayvalue="' + displayValue + '" data-fieldinfo=\'{"mandatory":false,"presence":true,"quickcreate":true,"masseditable":true,"header_field":[],"maxlengthtext":0,"maximumlength":"200","maxwidthcolumn":0,"tabindex":0,"defaultvalue":"","type":"tree","name":"' + this.getName() + '","label":"","picklistvalues":' + JSON.stringify(pickListValues) + '}\' data-multiple="' + multiple + '" data-value="value" data-treetemplate="' + this.getTreeTemplate() + '" data-modulename="' + this.getModuleName() + '"><div class="input-group"><span class="input-group-prepend clearTreeSelection u-cursor-pointer"><span class="input-group-text"><span id="' + this.getModuleName() + '_editView_fieldName_' + this.getName() + '_clear" class="fas fa-times-circle"  title=""></span></span></span><input id="' + this.getName() + '_display" name="' + this.getName() + '_display" type="text" class="ml-0 treeAutoComplete form-control" value="' + displayValue + '"'+ this.getReadOnly() +'data-fieldinfo=\'{"mandatory":false,"presence":true,"quickcreate":true,"masseditable":true,"header_field":[],"maxlengthtext":0,"maximumlength":"200","maxwidthcolumn":0,"tabindex":0,"defaultvalue":"","type":"tree","name":"' + this.getName() + '","label":"","picklistvalues":' + JSON.stringify(pickListValues) + '}\'><span class="input-group-append js-tree-modal u-cursor-pointer"><span class="input-group-text"><span id="' + this.getModuleName() + '_editView_fieldName_' + this.getName() + '_select" class="fas fa-search" title=""></span></span></span></div>';
 			let selectContainer = $(html);
 			App.Fields.Tree.register(selectContainer);
 			this.addValidationToElement(selectContainer);

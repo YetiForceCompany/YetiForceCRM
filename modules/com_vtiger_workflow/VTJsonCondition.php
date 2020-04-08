@@ -214,8 +214,8 @@ class VTJsonCondition
 								$result = true;
 								$value = \Settings_TreesManager_Record_Model::getChildren(implode('##', $value), $fieldInstance->getColumnName(), \Vtiger_Module_Model::getInstance($recordModel->getModule()->getName()));
 								if (!empty($value)) {
-									sort($value);
 									$value = explode('##', $value);
+									sort($value);
 								}
 								foreach ($fieldValue as $val) {
 									if (!\in_array($val, $value)) {
