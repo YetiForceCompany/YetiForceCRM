@@ -149,7 +149,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function addField($fieldType, $blockId, $params)
 	{
 		$label = $params['fieldLabel'];
-		$type = (int) $params['fieldTypeList'];
 		$name = strtolower($params['fieldName']);
 		$fieldParams = '';
 		if ($this->checkFieldLabelExists($label)) {
@@ -186,16 +185,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		$moduleName = $this->getName();
-		$focus = CRMEntity::getInstance($moduleName);
-		if (0 === $type) {
-			$tableName = $focus->table_name;
-		} elseif (1 === $type) {
-			if (isset($focus->customFieldTable)) {
-				$tableName = $focus->customFieldTable[0];
-			} else {
-				$tableName = $focus->table_name . 'cf';
-			}
-		}
+		$tableName = $this->getTableName($params['fieldTypeList']);
 		if ('Tree' === $fieldType || 'CategoryMultipicklist' === $fieldType) {
 			$fieldParams = (int) $params['tree'];
 		} elseif ('MultiReferenceValue' === $fieldType) {
@@ -465,6 +455,25 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'dbType' => $type,
 			'displayType' => $displayType,
 		];
+	}
+
+	public function getTableName($type)
+	{
+		if (\is_int($type)) {
+			$focus = CRMEntity::getInstance($this->getName());
+			if (0 == $type) {
+				$tableName = $focus->table_name;
+			} elseif (1 == $type) {
+				if (isset($focus->customFieldTable)) {
+					$tableName = $focus->customFieldTable[0];
+				} else {
+					$tableName = $focus->table_name . 'cf';
+				}
+			}
+		} else {
+			$tableName = $type;
+		}
+		return $tableName;
 	}
 
 	/**
