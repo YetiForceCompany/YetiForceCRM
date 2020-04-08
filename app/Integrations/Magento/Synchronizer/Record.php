@@ -190,4 +190,17 @@ abstract class Record extends Base
 		}
 		return $id;
 	}
+
+	/**
+	 * Get data by id from api.
+	 *
+	 * @param string $type
+	 * @param string $id
+	 *
+	 * @return array
+	 */
+	public function getFromApi(string $type, string $id): array
+	{
+		return \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . "/V1/{$type}/$id"));
+	}
 }

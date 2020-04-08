@@ -75,15 +75,9 @@ class Customer extends Record
 
 	/**
 	 * Method to get customers form Magento.
-	 *
-	 * @param array $ids
-	 *
-	 * @throws \App\Exceptions\AppException
-	 * @throws \ReflectionException
-	 *
 	 * @return array
 	 */
-	public function getCustomersFromApi(array $ids = []): array
+	public function getCustomersFromApi(): array
 	{
 		$items = [];
 		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/customers/search?' . $this->getSearchCriteria($this->config->get('customerLimit'))));

@@ -174,7 +174,7 @@ class Product extends Record
 	{
 		$id = 0;
 		try {
-			$product = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/products/' . $ean));
+			$product = $this->getFromApi('products',$ean);
 			if (empty($product)) {
 				\App\Log::error('Empty product details', 'Integrations/Magento');
 				return 0;

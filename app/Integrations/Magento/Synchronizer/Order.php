@@ -65,8 +65,18 @@ class Order extends Record
 								$this->updateOrderInCrm($crmId, $mapModel);
 							} else {
 								$parentOrder = $dataCrm['parent_id'];
-								$dataCrm['parent_id'] = $this->syncAccount($dataCrm);
-								$dataCrm['contactid'] = $this->syncContact($dataCrm);
+								if (1 === (int) $order['customer_is_guest']) {
+									$dataCrm['parent_id'] = $this->syncAccount($dataCrm);
+									$dataCrm['contactid'] = $this->syncContact($dataCrm);
+								} else {
+									$customer = $this->getFromApi('customers', $order['customer_id']);
+									$customerClassName = $this->config->get('customer_map_class') ?: '\App\Integrations\Magento\Synchronizer\Maps\Customer';
+									$customerMapModel = new $customerClassName($this);
+									$customerMapModel->setData($customer);
+									$customerDataCrm = $customerMapModel->getDataCrm();
+									$dataCrm['parent_id'] = $this->syncAccount($customerDataCrm);
+									$dataCrm['contactid'] = $this->syncContact($customerDataCrm);
+								}
 								$dataCrm['accountid'] = $dataCrm['parent_id'];
 								$dataCrm['parent_id'] = $parentOrder;
 								unset($dataCrm['birthday'],$dataCrm['leadsource'],$dataCrm['mobile'],$dataCrm['mobile_extra'],$dataCrm['phone'],$dataCrm['phone_extra'],$dataCrm['salutationtype']);
@@ -94,14 +104,9 @@ class Order extends Record
 	/**
 	 * Method to get orders form Magento.
 	 *
-	 * @param array $ids
-	 *
-	 * @throws \App\Exceptions\AppException
-	 * @throws \ReflectionException
-	 *
 	 * @return array
 	 */
-	public function getOrdersFromApi(array $ids = []): array
+	public function getOrdersFromApi(): array
 	{
 		$items = [];
 		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/orders?' . $this->getSearchCriteria($this->config->get('orderLimit'))));
@@ -143,7 +148,7 @@ class Order extends Record
 	/**
 	 * Method to update order in YetiForce.
 	 *
-	 * @param int                                                     $id
+	 * @param int                                                   $id
 	 * @param \App\Integrations\Magento\Synchronizer\Maps\Inventory $mapModel
 	 *
 	 * @throws \Exception
