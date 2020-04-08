@@ -1627,7 +1627,7 @@ jQuery.Class(
 			});
 			var urlNewParams = [];
 			summaryWidgetContainer
-				.find('.js-switch, .js-detail-widget-header, .js-filter_field')
+				.find('.js-switch, .js-filter_field')
 				.each(function(n, item) {
 					var value = '';
 					var element = jQuery(item);

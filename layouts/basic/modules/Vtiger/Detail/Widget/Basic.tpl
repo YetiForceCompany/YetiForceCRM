@@ -90,7 +90,6 @@
 				{if isset($WIDGET['data']['filter']) && $WIDGET['data']['filter'] neq '-'}
 					<div class="form-group-sm w-100 mr-2">
 						{assign var=FILTER value=$WIDGET['data']['filter']}
-						{assign var=RELATED_MODULE_MODEL value=Vtiger_Module_Model::getInstance($RELATED_MODULE_NAME)}
 						{assign var=FIELD_MODEL value=$RELATED_MODULE_MODEL->getField($FILTER)}
 						{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 						{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
