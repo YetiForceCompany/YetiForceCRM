@@ -4324,7 +4324,6 @@ CREATE TABLE `vtiger_account` (
   `account_type` varchar(200) DEFAULT NULL,
   `industry` varchar(200) DEFAULT NULL,
   `annualrevenue` decimal(28,8) DEFAULT NULL,
-  `ownership` varchar(50) DEFAULT NULL,
   `siccode` varchar(255) DEFAULT NULL,
   `phone` varchar(30) DEFAULT NULL,
   `otherphone` varchar(30) DEFAULT NULL,
