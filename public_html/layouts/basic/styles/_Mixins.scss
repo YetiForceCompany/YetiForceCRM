@@ -63,8 +63,7 @@
 }
 
 
-@mixin u-transform($rotateDeg, $rotate: false) {
-  @if $rotate {
+@mixin u-transform($rotateDeg) {
 	.u-transform_rotate-#{$rotateDeg}{
 		display: inline-block;
 		@include u-transition(transform 0.5s ease);
@@ -74,5 +73,4 @@
 			transform: rotate($rotateDeg);
 		  }
 	  }
-  }
 }
