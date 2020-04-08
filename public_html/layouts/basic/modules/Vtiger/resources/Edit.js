@@ -570,7 +570,9 @@ $.Class(
 		],
 		addressFieldsMappingBlockID: {
 			LBL_ADDRESS_INFORMATION: 'a',
+			LBL_ADDRESS_BILLING: 'a',
 			LBL_ADDRESS_MAILING_INFORMATION: 'b',
+			LBL_ADDRESS_SHIPPING: 'b',
 			LBL_ADDRESS_DELIVERY_INFORMATION: 'c'
 		},
 		addressFieldsData: false,

@@ -28,7 +28,7 @@
 					data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
 					data-label="{$BLOCK_LABEL}">
 					<div class="blockHeader c-panel__header align-items-center">
-						{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
+						{if in_array($BLOCK_LABEL, $ADDRESS_BLOCK_LABELS)}
 							{assign var=SEARCH_ADDRESS value=TRUE}
 						{else}
 							{assign var=SEARCH_ADDRESS value=FALSE}
