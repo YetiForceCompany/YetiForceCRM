@@ -18,6 +18,7 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		parent::__construct();
 		$this->exposeMethod('delete');
 		$this->exposeMethod('updateField');
+		$this->exposeMethod('updateSort');
 		$this->exposeMethod('upadteSequences');
 		$this->exposeMethod('setFilterPermissions');
 	}
@@ -52,9 +53,27 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			'value' => $request->getByType('value', 'Text')
 		];
 		Settings_CustomView_Module_Model::updateField($params);
-		if ('sort' === $params['name']) {
-			Settings_CustomView_Module_Model::updateOrderAndSort($params);
-		}
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'message' => \App\Language::translate('Saving CustomView', $request->getModule(false)),
+		]);
+		$response->emit();
+	}
+
+	/**
+	 * Action to update sort data in the filter.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function updateSort(App\Request $request)
+	{
+		$params = [
+			'cvid' => $request->getInteger('cvid'),
+			'name' => $request->getByType('name', 2),
+			'value' => \App\Json::encode($request->getArray('value', \App\Purifier::STANDARD, [], \App\Purifier::SQL))
+		];
+		Settings_CustomView_Module_Model::updateField($params);
+		Settings_CustomView_Module_Model::updateOrderAndSort($params);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'message' => \App\Language::translate('Saving CustomView', $request->getModule(false)),

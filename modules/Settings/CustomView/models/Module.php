@@ -104,10 +104,9 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$cvid = $params['cvid'];
 		$name = $params['name'];
-		$mod = $params['mod'];
 		if (is_numeric($cvid) && \in_array($name, $authorizedFields)) {
 			if ('setdefault' == $name && 1 == $params['value']) {
-				$dbCommand->update('vtiger_customview', ['setdefault' => 0], ['entitytype' => $mod])->execute();
+				$dbCommand->update('vtiger_customview', ['setdefault' => 0], ['entitytype' => $params['mod']])->execute();
 			}
 			$dbCommand->update('vtiger_customview', [$name => $params['value']], ['cvid' => $cvid])->execute();
 			return true;
@@ -149,7 +148,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getSortingFilterUrl($module, $cvid)
 	{
-		return 'index.php?module=CustomView&parent=Settings&view=Sorting&type=featured&sourceModule=' . $module . '&cvid=' . $cvid;
+		return 'index.php?module=CustomView&parent=Settings&view=SortOrderModal&type=featured&sourceModule=' . $module . '&cvid=' . $cvid;
 	}
 
 	public static function getSupportedModules()

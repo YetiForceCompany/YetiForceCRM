@@ -5262,7 +5262,7 @@ CREATE TABLE `vtiger_customview` (
   `sequence` int(10) DEFAULT NULL,
   `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `description` text DEFAULT NULL,
-  `sort` varchar(30) DEFAULT '',
+  `sort` text DEFAULT NULL,
   `color` varchar(10) DEFAULT '',
   PRIMARY KEY (`cvid`),
   KEY `customview_entitytype_idx` (`entitytype`),

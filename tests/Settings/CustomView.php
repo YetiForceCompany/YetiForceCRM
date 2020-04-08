@@ -53,7 +53,6 @@ class CustomView extends \Tests\Base
 		$this->assertSame('index.php?module=CustomView&view=EditAjax&source_module=Leads', $moduleModel->getCreateFilterUrl('Leads'), 'Generated create filter url mismatch');
 		$this->assertSame('index.php?module=CustomView&parent=Settings&view=FilterPermissions&type=default&sourceModule=Leads&cvid=115&isDefault=1', $moduleModel->getUrlDefaultUsers('Leads', 115, 1), 'Generated default users url mismatch');
 		$this->assertSame('index.php?module=CustomView&parent=Settings&view=FilterPermissions&type=featured&sourceModule=Leads&cvid=115', $moduleModel->getFeaturedFilterUrl('Leads', 115), 'Generated featured filter url mismatch');
-		$this->assertSame('index.php?module=CustomView&parent=Settings&view=Sorting&type=featured&sourceModule=Leads&cvid=115', $moduleModel->getSortingFilterUrl('Leads', 115), 'Generated sorting filter url mismatch');
 		$leadsDefCvid = (new \App\Db\Query())->select(['cvid'])->from('vtiger_customview')->where(['entitytype' => 'Leads', 'setdefault' => 1])->scalar();
 		$this->assertTrue(\Settings_CustomView_Module_Model::updateField(['cvid' => $recordModel['cvid'], 'name' => 'setdefault', 'mod' => 'Leads', 'value' => 1]), 'Update CustomView record field failed');
 		$this->assertSame($recordModel['cvid'], (new \App\Db\Query())->select(['cvid'])->from('vtiger_customview')->where(['entitytype' => 'Leads', 'setdefault' => 1])->scalar(), 'Default cvid for module Leads mismatch');
