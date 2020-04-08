@@ -11,7 +11,7 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace App\Integrations\Magento\Synchronizator;
+namespace App\Integrations\Magento\Synchronizer;
 
 /**
  * Product class.
@@ -48,7 +48,7 @@ class Product extends Record
 						\App\Log::error('Empty product details', 'Integrations/Magento');
 						continue;
 					}
-					$className = $this->config->get('product_map_class') ?: '\App\Integrations\Magento\Synchronizator\Maps\Product';
+					$className = $this->config->get('product_map_class') ?: '\App\Integrations\Magento\Synchronizer\Maps\Product';
 					$mapModel = new $className($this);
 					$mapModel->setData($product);
 					if ($dataCrm = $mapModel->getDataCrm()) {

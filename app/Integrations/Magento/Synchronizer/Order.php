@@ -11,7 +11,7 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace App\Integrations\Magento\Synchronizator;
+namespace App\Integrations\Magento\Synchronizer;
 
 /**
  * Synchronization orders class.
@@ -55,7 +55,7 @@ class Order extends Record
 						\App\Log::error('Empty order details', 'Integrations/Magento');
 						continue;
 					}
-					$className = $this->config->get('order_map_class') ?: '\App\Integrations\Magento\Synchronizator\Maps\Order';
+					$className = $this->config->get('order_map_class') ?: '\App\Integrations\Magento\Synchronizer\Maps\Order';
 					$mapModel = new $className($this);
 					$mapModel->setData($order);
 					$dataCrm = $mapModel->getDataCrm();
@@ -116,7 +116,7 @@ class Order extends Record
 	/**
 	 * Create order in crm.
 	 *
-	 * @param \App\Integrations\Magento\Synchronizator\Maps\Inventory $mapModel
+	 * @param \App\Integrations\Magento\Synchronizer\Maps\Inventory $mapModel
 	 *
 	 * @return mixed|int
 	 */
@@ -144,7 +144,7 @@ class Order extends Record
 	 * Method to update order in YetiForce.
 	 *
 	 * @param int                                                     $id
-	 * @param \App\Integrations\Magento\Synchronizator\Maps\Inventory $mapModel
+	 * @param \App\Integrations\Magento\Synchronizer\Maps\Inventory $mapModel
 	 *
 	 * @throws \Exception
 	 */

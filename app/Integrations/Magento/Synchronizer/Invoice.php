@@ -11,7 +11,7 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace App\Integrations\Magento\Synchronizator;
+namespace App\Integrations\Magento\Synchronizer;
 
 /**
  * Category class.

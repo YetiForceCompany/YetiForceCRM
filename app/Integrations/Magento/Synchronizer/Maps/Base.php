@@ -11,7 +11,7 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace App\Integrations\Magento\Synchronizator\Maps;
+namespace App\Integrations\Magento\Synchronizer\Maps;
 
 /**
  * Abstract base map class.
@@ -27,7 +27,7 @@ abstract class Base
 	/**
 	 * Synchronizer.
 	 *
-	 * @var \App\Integrations\Magento\Synchronizator\Base
+	 * @var \App\Integrations\Magento\Synchronizer\Base
 	 */
 	protected $synchronizer;
 	/**
@@ -126,9 +126,9 @@ abstract class Base
 	/**
 	 * Constructor.
 	 *
-	 * @param \App\Integrations\Magento\Synchronizator\Base $synchronizer
+	 * @param \App\Integrations\Magento\Synchronizer\Base $synchronizer
 	 */
-	public function __construct(\App\Integrations\Magento\Synchronizator\Base $synchronizer)
+	public function __construct(\App\Integrations\Magento\Synchronizer\Base $synchronizer)
 	{
 		$this->synchronizer = $synchronizer;
 	}

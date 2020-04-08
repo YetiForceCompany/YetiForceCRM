@@ -11,7 +11,7 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace App\Integrations\Magento\Synchronizator;
+namespace App\Integrations\Magento\Synchronizer;
 
 /**
  * Base class to synchronization.
@@ -78,7 +78,7 @@ abstract class Base
 	 * Save inventory elements.
 	 *
 	 * @param \Vtiger_Record_Model                                    $recordModel
-	 * @param \App\Integrations\Magento\Synchronizator\Maps\Inventory $mapModel
+	 * @param \App\Integrations\Magento\Synchronizer\Maps\Inventory $mapModel
 	 *
 	 * @return bool
 	 */
@@ -121,7 +121,7 @@ abstract class Base
 	 *
 	 * @param \Vtiger_Record_Model                                    $recordModel
 	 * @param array                                                   $item
-	 * @param \App\Integrations\Magento\Synchronizator\Maps\Inventory $mapModel
+	 * @param \App\Integrations\Magento\Synchronizer\Maps\Inventory $mapModel
 	 *
 	 * @return array
 	 */
@@ -159,7 +159,7 @@ abstract class Base
 	/**
 	 * Parse shipping data.
 	 *
-	 * @param \App\Integrations\Magento\Synchronizator\Maps\Inventory $mapModel
+	 * @param \App\Integrations\Magento\Synchronizer\Maps\Inventory $mapModel
 	 *
 	 * @return array
 	 */
@@ -188,7 +188,7 @@ abstract class Base
 	/**
 	 * Parse additional data.
 	 *
-	 * @param \App\Integrations\Magento\Synchronizator\Maps\Inventory $mapModel
+	 * @param \App\Integrations\Magento\Synchronizer\Maps\Inventory $mapModel
 	 *
 	 * @return array
 	 */

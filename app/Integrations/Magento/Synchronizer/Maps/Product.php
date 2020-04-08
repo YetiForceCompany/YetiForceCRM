@@ -11,7 +11,7 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace App\Integrations\Magento\Synchronizator\Maps;
+namespace App\Integrations\Magento\Synchronizer\Maps;
 
 /**
  * Product map class.
@@ -74,7 +74,7 @@ class Product extends Base
 	public function getCrmCategories(): array
 	{
 		if (false === $this->category) {
-			$this->category = new \App\Integrations\Magento\Synchronizator\Category($this->synchronizer->controller);
+			$this->category = new \App\Integrations\Magento\Synchronizer\Category($this->synchronizer->controller);
 		}
 		$categories = $this->getCustomAttributeValue('category_ids') ?: [];
 		$parsedCategories = [];

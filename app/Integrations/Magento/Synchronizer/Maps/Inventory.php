@@ -10,7 +10,7 @@
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
 
-namespace App\Integrations\Magento\Synchronizator\Maps;
+namespace App\Integrations\Magento\Synchronizer\Maps;
 
 /**
  * Abstract inventory map class.
@@ -123,6 +123,8 @@ abstract class Inventory extends Base
 	 */
 	public function createProduct(array $record): int
 	{
+		$productSynchronizer = new \App\Integrations\Magento\Synchronizer\Product($this->synchronizer->controller);
+		$productSynchronizer->process();
 		//??  $record['sku']
 		return 0;
 	}

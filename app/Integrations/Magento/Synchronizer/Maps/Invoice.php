@@ -10,7 +10,7 @@
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
 
-namespace App\Integrations\Magento\Synchronizator\Maps;
+namespace App\Integrations\Magento\Synchronizer\Maps;
 
 class Invoice extends Inventory
 {

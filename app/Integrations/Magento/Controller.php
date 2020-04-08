@@ -68,8 +68,8 @@ class Controller
 	 */
 	public function synchronizeCategories(): void
 	{
-		$categorySynchronizator = new Synchronizator\Category($this);
-		$categorySynchronizator->process();
+		$categorySynchronizer = new Synchronizer\Category($this);
+		$categorySynchronizer->process();
 	}
 
 	/**
@@ -79,8 +79,8 @@ class Controller
 	 */
 	public function synchronizeCurrencies(): void
 	{
-		$currencySynchronizator = new Synchronizator\Currency($this);
-		$currencySynchronizator->process();
+		$currencySynchronizer = new Synchronizer\Currency($this);
+		$currencySynchronizer->process();
 	}
 
 	/**
@@ -90,8 +90,8 @@ class Controller
 	 */
 	public function synchronizeProducts(): void
 	{
-		$productSynchronizator = new Synchronizator\Product($this);
-		$productSynchronizator->process();
+		$productSynchronizer = new Synchronizer\Product($this);
+		$productSynchronizer->process();
 	}
 
 	/**
@@ -101,8 +101,8 @@ class Controller
 	 */
 	public function synchronizeInvoices(): void
 	{
-		// $invoiceSynchronizator = new Synchronizator\Invoice($this);
-		// $invoiceSynchronizator->process();
+		// $invoiceSynchronizer = new Synchronizer\Invoice($this);
+		// $invoiceSynchronizer->process();
 	}
 
 	/**
@@ -112,8 +112,8 @@ class Controller
 	 */
 	public function synchronizeOrders(): void
 	{
-		$orderSynchronizator = new Synchronizator\Order($this);
-		$orderSynchronizator->process();
+		$orderSynchronizer = new Synchronizer\Order($this);
+		$orderSynchronizer->process();
 	}
 
 	/**
@@ -123,8 +123,8 @@ class Controller
 	 */
 	public function synchronizeCustomers(): void
 	{
-		$customerSynchronizator = new Synchronizator\Customer($this);
-		$customerSynchronizator->process();
+		$customerSynchronizer = new Synchronizer\Customer($this);
+		$customerSynchronizer->process();
 	}
 
 	/**
@@ -142,10 +142,10 @@ class Controller
 			if (0 === (int) $config['status'] || 'None' === $config['storage_quantity_location']) {
 				continue;
 			}
-			$customerSynchronizator = new Synchronizator\InventoryStock(new self($serverId));
-			$customerSynchronizator->storageId = $storageId;
-			$customerSynchronizator->products = $products;
-			$customerSynchronizator->process();
+			$customerSynchronizer = new Synchronizer\InventoryStock(new self($serverId));
+			$customerSynchronizer->storageId = $storageId;
+			$customerSynchronizer->products = $products;
+			$customerSynchronizer->process();
 		}
 	}
 }

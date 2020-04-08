@@ -11,7 +11,7 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace App\Integrations\Magento\Synchronizator;
+namespace App\Integrations\Magento\Synchronizer;
 
 /**
  * Synchronization customer class.
@@ -48,7 +48,7 @@ class Customer extends Record
 						\App\Log::error('Empty customer details', 'Integrations/Magento');
 						continue;
 					}
-					$className = $this->config->get('customer_map_class') ?: '\App\Integrations\Magento\Synchronizator\Maps\Customer';
+					$className = $this->config->get('customer_map_class') ?: '\App\Integrations\Magento\Synchronizer\Maps\Customer';
 					$mapModel = new $className($this);
 					$mapModel->setData($customer);
 					$dataCrm = $mapModel->getDataCrm();
