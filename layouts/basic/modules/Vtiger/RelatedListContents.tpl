@@ -59,6 +59,14 @@
 								{/if}
 							</span>
 						{/if}
+						{if $HEADER_FIELD->getFieldDataType() eq 'tree' || $HEADER_FIELD->getFieldDataType() eq 'categoryMultipicklist'}
+							<div class="d-flex align-items-center">
+								<input name="searchInSubcategories" value="1" type="checkbox" class="searchInSubcategories mr-1" id="searchInSubcategories{$HEADER_FIELD_NAME}" title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" data-columnname="{$HEADER_FIELD->getColumnName()}" {if !empty($SEARCH_DETAILS[$HEADER_FIELD_NAME]['specialOption'])} checked {/if}>
+								<span class="js-popover-tooltip delay0" data-js="popover" data-placement="top" data-original-title="{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $MODULE)}" data-content="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
+									<span class="fas fa-info-circle"></span>
+								</span>
+							</div>
+						{/if}
 					</th>
 				{/foreach}
 				{assign var=ADDITIONAL_TD value=0}

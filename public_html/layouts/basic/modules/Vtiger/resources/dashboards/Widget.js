@@ -1783,6 +1783,8 @@ jQuery.Class(
 						} else {
 							searchValue = searchValue.join('##');
 						}
+					} else if($.inArray(fieldInfo.type, ['tree']) >= 0){
+						searchValue = searchValue.replace(/,/g, "##");
 					}
 					searchValue = searchValue.trim();
 					if (searchValue.length <= 0) {
@@ -1816,12 +1818,13 @@ jQuery.Class(
 					searchInfo.push(fieldName);
 					searchInfo.push(searchOperator);
 					searchInfo.push(searchValue);
-					if (fieldInfo.type === 'tree' || fieldInfo.type === 'categoryMultipicklist') {
-						searchInfo.push(
-							$('.listViewHeaders .searchInSubcategories[data-columnname="' + fieldName + '"]').prop(
-								'checked'
-							)
-						);
+					if ($.inArray(fieldInfo.type, ['tree', 'categoryMultipicklist']) != -1) {
+						let searchInSubcategories = $(
+							'.listViewHeaders .searchInSubcategories[data-columnname="' + fieldName + '"]'
+						).prop('checked');
+						if (searchInSubcategories){
+							searchOperator = 'ch';
+						}
 					}
 					searchParams.push(searchInfo);
 				});
