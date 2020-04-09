@@ -2046,6 +2046,7 @@ window.App.Fields = {
 						instance.setSelectEvent(responseData => {
 							sourceFieldElement.val(responseData.id);
 							fieldDisplayElement.val(responseData.name).attr('readonly', true);
+							sourceFieldElement.trigger('change');
 						});
 					};
 					app.showModalWindow(requestData, { modalId: 'treeModal' });
