@@ -265,6 +265,9 @@ class VTJsonCondition
 						$condition = ('is' == $condition) ? 'contains' : 'does not contain';
 					}
 					break;
+				case 'reference':
+					$fieldValue = $recordModel->getDisplayValue($fieldInstance->getName(), false, true);
+					break;
 				default:
 					break;
 			}

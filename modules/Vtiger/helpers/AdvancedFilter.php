@@ -96,7 +96,7 @@ class Vtiger_AdvancedFilter_Helper
 			'date' => ['is', 'is not', 'has changed', 'between', 'before', 'after', 'is today', 'less than days ago', 'more than days ago', 'in less than', 'in more than',
 				'days ago', 'days later', 'is not empty', ],
 			'boolean' => ['is', 'is not', 'has changed'],
-			'reference' => ['has changed', 'is empty', 'is not empty'],
+			'reference' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
 			'owner' => ['has changed', 'is', 'is not', 'is Watching Record', 'is Not Watching Record'],
 			'sharedOwner' => ['has changed', 'is', 'is not', 'is not empty', 'is empty'],
 			'userCreator' => ['is', 'is not', 'is not empty', 'is empty'],
