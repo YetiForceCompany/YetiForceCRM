@@ -18146,8 +18146,9 @@ insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (13,'LBL_SEARCH_AND_FILTERS',6,'adminIcon-search-and-filtres',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (14,'LBL_LOGS',8,'adminIcon-logs',0,NULL,NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (15,'LBL_AUTOMATION',10,'adminIcon-automation',0,NULL,NULL);
-insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (16,'LBL_MENU_SUMMARRY',0,'yfi yfi-adminIcon-menu-summary',1,'index.php?module=Vtiger&parent=Settings&view=Index',NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (16,'LBL_MENU_DASHBOARD',1,'yfi yfi-adminIcon-menu-summary',1,'index.php?module=Vtiger&parent=Settings&view=Index',NULL);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (18,'LBL_HELP',15,'fas fa-life-ring',0,NULL,NULL);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`,`icon`,`type`,`linkto`,`admin_access`) values (19,'LBL_MARKETPLACE_YETIFORCE',0,'yfi yfi-shop',1,'index.php?module=YetiForce&parent=Settings&view=Shop',NULL);
 
 /*Data for the table `vtiger_settings_field` */
 
@@ -18233,7 +18234,6 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (107,5,'LBL_SMSNOTIFIER','yfi yfi-adminIcon-vendor-sms','LBL_SMSNOTIFIER_DESCRIPTION','index.php?module=SMSNotifier&parent=Settings&view=List',12,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (108,4,'LBL_COUNTRY_SETTINGS','yfi yfi-adminIcon-countries','LBL_COUNTRY_DESCRIPTION','index.php?module=Countries&parent=Settings&view=Index',12,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (109,7,'LBL_ENCRYPTION','fas fa-key',NULL,'index.php?module=Password&parent=Settings&view=Encryption',4,0,0,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (110,9,'LBL_SHOP_YETIFORCE','fas fa-shopping-cart text-danger','LBL_SHOP_YETIFORCE_DESCRIPTION','index.php?module=YetiForce&parent=Settings&view=Shop',4,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (111,7,'LBL_2FA_CONF','adminIcon-passwords-configuration','LBL_2FA_DESCRIPTION','index.php?module=TwoFactorAuthentication&parent=Settings&view=Index',5,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (112,5,'LBL_SOCIAL_MEDIA','fab fa-twitter-square','LBL_SOCIAL_MEDIA_DESC','index.php?module=SocialMedia&parent=Settings&view=Index',14,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (113,9,'LBL_YETIFORCE_WATCHDOG_HEADER','fas fa-thermometer-half','LBL_YETIFORCE_WATCHDOG_DESC','index.php?module=YetiForce&parent=Settings&view=Watchdog',6,0,0,NULL);
