@@ -5803,17 +5803,6 @@ CREATE TABLE `vtiger_faqstatus` (
   PRIMARY KEY (`faqstatus_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_fcorectinginvoice_formpayment` */
-
-CREATE TABLE `vtiger_fcorectinginvoice_formpayment` (
-  `fcorectinginvoice_formpaymentid` int(10) NOT NULL AUTO_INCREMENT,
-  `fcorectinginvoice_formpayment` varchar(200) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `picklist_valueid` int(10) NOT NULL DEFAULT 0,
-  `sortorderid` int(10) DEFAULT 0,
-  PRIMARY KEY (`fcorectinginvoice_formpaymentid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_fcorectinginvoice_status` */
 
 CREATE TABLE `vtiger_fcorectinginvoice_status` (
@@ -5890,17 +5879,6 @@ CREATE TABLE `vtiger_fieldmodulerel` (
   CONSTRAINT `vtiger_fieldmodulerel_ibfk_1` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_finvoice_formpayment` */
-
-CREATE TABLE `vtiger_finvoice_formpayment` (
-  `finvoice_formpaymentid` int(10) NOT NULL AUTO_INCREMENT,
-  `finvoice_formpayment` varchar(200) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `picklist_valueid` smallint(5) DEFAULT 0,
-  `sortorderid` smallint(5) DEFAULT 0,
-  PRIMARY KEY (`finvoice_formpaymentid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_finvoice_status` */
 
 CREATE TABLE `vtiger_finvoice_status` (
@@ -5921,17 +5899,6 @@ CREATE TABLE `vtiger_finvoice_type` (
   `picklist_valueid` smallint(5) DEFAULT 0,
   `sortorderid` smallint(5) DEFAULT 0,
   PRIMARY KEY (`finvoice_typeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_finvoicecost_formpayment` */
-
-CREATE TABLE `vtiger_finvoicecost_formpayment` (
-  `finvoicecost_formpaymentid` int(10) NOT NULL AUTO_INCREMENT,
-  `finvoicecost_formpayment` varchar(255) DEFAULT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `picklist_valueid` smallint(5) DEFAULT 0,
-  `sortorderid` smallint(5) DEFAULT 0,
-  PRIMARY KEY (`finvoicecost_formpaymentid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_finvoicecost_paymentstatus` */
@@ -5955,17 +5922,6 @@ CREATE TABLE `vtiger_finvoicecost_status` (
   `sortorderid` smallint(5) DEFAULT 0,
   PRIMARY KEY (`finvoicecost_statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_finvoiceproforma_formpayment` */
-
-CREATE TABLE `vtiger_finvoiceproforma_formpayment` (
-  `finvoiceproforma_formpaymentid` int(10) NOT NULL AUTO_INCREMENT,
-  `finvoiceproforma_formpayment` varchar(200) NOT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `picklist_valueid` int(10) NOT NULL DEFAULT 0,
-  `sortorderid` int(10) DEFAULT 0,
-  PRIMARY KEY (`finvoiceproforma_formpaymentid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_finvoiceproforma_status` */
 
@@ -7483,6 +7439,16 @@ CREATE TABLE `vtiger_passwords_config` (
   `register_changes` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_payment_methods` */
+
+CREATE TABLE `vtiger_payment_methods` (
+  `payment_methodsid` int(11) NOT NULL AUTO_INCREMENT,
+  `payment_methods` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`payment_methodsid`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_payment_status` */
 
 CREATE TABLE `vtiger_payment_status` (
@@ -8499,16 +8465,6 @@ CREATE TABLE `vtiger_ssalesprocesses_type` (
   `sortorderid` int(10) DEFAULT NULL,
   `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`ssalesprocesses_typeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ssingleorders_method_payments` */
-
-CREATE TABLE `vtiger_ssingleorders_method_payments` (
-  `ssingleorders_method_paymentsid` int(11) NOT NULL AUTO_INCREMENT,
-  `ssingleorders_method_payments` varchar(255) DEFAULT NULL,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `sortorderid` smallint(6) DEFAULT 0,
-  PRIMARY KEY (`ssingleorders_method_paymentsid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ssingleorders_source` */
