@@ -109,7 +109,7 @@ class PackageUpdate extends PackageImport
 				}
 			} else {
 				if (!$moduleInstance || $moduleInstance->name != $module) {
-					\App\Log::trace('Module name mismatch!', __METHOD__);
+					\App\Log::error('Module name mismatch!', __METHOD__);
 
 					return false;
 				}
@@ -228,8 +228,8 @@ class PackageUpdate extends PackageImport
 		}
 
 		foreach ($modulenode->blocks->block as $blocknode) {
-			$this->listBlocks[] = (string) ($blocknode->label);
-			$blockInstance = Block::getInstance((string) $blocknode->label, $moduleInstance->id);
+			$this->listBlocks[] = (string) ($blocknode->blocklabel);
+			$blockInstance = Block::getInstance((string) $blocknode->blocklabel, $moduleInstance->id);
 			if (!$blockInstance) {
 				$blockInstance = $this->importBlock($modulenode, $moduleInstance, $blocknode);
 			} else {
@@ -245,6 +245,15 @@ class PackageUpdate extends PackageImport
 				$blockInstance->delete();
 			}
 		}
+		// Deleting removed fields
+		if ($this->listFields) {
+			$listFieldBeforeUpdate = Field::getAllForModule($moduleInstance);
+			foreach ($listFieldBeforeUpdate as $fieldInstance) {
+				if (!(\in_array($fieldInstance->name, $this->listFields))) {
+					$fieldInstance->delete();
+				}
+			}
+		}
 	}
 
 	/**
@@ -257,7 +266,7 @@ class PackageUpdate extends PackageImport
 	 */
 	public function updateBlock($modulenode, $moduleInstance, $blocknode, $blockInstance)
 	{
-		$blockInstance->label = (string) ($blocknode->label);
+		$blockInstance->label = (string) ($blocknode->blocklabel);
 		if (isset($blocknode->sequence, $blocknode->display_status)) {
 			$blockInstance->sequence = (string) ($blocknode->sequence);
 			$blockInstance->showtitle = (string) ($blocknode->show_title);
@@ -291,20 +300,13 @@ class PackageUpdate extends PackageImport
 
 		foreach ($blocknode->fields->field as $fieldnode) {
 			$this->listFields[] = (string) ($fieldnode->fieldname);
-			$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, $moduleInstance->id);
+			$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, $moduleInstance);
 			if (!$fieldInstance) {
 				$fieldInstance = $this->importField($blocknode, $blockInstance, $moduleInstance, $fieldnode);
 			} else {
 				$this->updateField($blocknode, $blockInstance, $moduleInstance, $fieldnode, $fieldInstance);
 			}
 			$this->__AddModuleFieldToCache($moduleInstance, $fieldInstance->name, $fieldInstance);
-		}
-		// Deleting removed fields
-		$listFieldBeforeUpdate = Field::getAllForModule($moduleInstance);
-		foreach ($listFieldBeforeUpdate as $fieldInstance) {
-			if (!(\in_array($fieldInstance->name, $this->listFields))) {
-				$fieldInstance->delete();
-			}
 		}
 	}
 
@@ -546,8 +548,8 @@ class PackageUpdate extends PackageImport
 			}
 		}
 		if ($inRelModuleInstance) {
-			$inRelModuleInstance->unsetRelatedList($moduleInstance, "$label", "$inRelatedListNode->function");
-			$inRelModuleInstance->setRelatedList($moduleInstance, "$label", $actions, "$inRelatedListNode->function");
+			$inRelModuleInstance->unsetRelatedList($moduleInstance, "$label", "$inRelatedListNode->function", $inRelatedListNode->field_name);
+			$inRelModuleInstance->setRelatedList($moduleInstance, "$label", $actions, "$inRelatedListNode->function", $inRelatedListNode->field_name);
 		}
 		return $inRelModuleInstance;
 	}

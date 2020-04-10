@@ -120,7 +120,16 @@ class Imap extends Base
 			}
 			$return[$field[1]][$field[2]][] = $field[0];
 		}
-		$this->emailsFieldsCache[$cacheKey] = $fields;
+		$this->emailsFieldsCache[$cacheKey] = $return;
 		return $return;
+	}
+
+	/**
+	 * Initialize with request data.
+	 *
+	 * @return void
+	 */
+	public function initFromRequest(\App\Request $request)
+	{
 	}
 }

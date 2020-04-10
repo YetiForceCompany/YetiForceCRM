@@ -22,7 +22,7 @@
 					<a class="nav-link{if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']} active{/if}"
 					   data-toggle="tab">
 						<strong>{\App\Language::translate($DASHBOARD['name'])}</strong>
-						<button class="btn btn-primary btn-sm ml-2 editDashboard"><span class="fas fa-edit"></span>
+						<button class="btn btn-primary btn-sm ml-2 editDashboard"><span class="yfi yfi-full-editing-view"></span>
 						</button>
 						{if $DASHBOARD['system'] neq 1}
 							<button class="btn btn-danger btn-sm ml-2 deleteDashboard"><span
@@ -137,7 +137,7 @@
 												<a href="javascript:void(0)"
 												   class="js-delete-custom-block-btn btn btn-sm btn-danger"
 												   data-js="click">
-													<span class="fas fa-trash-alt alignMiddle"
+													<span class="fas fa-trash-alt"
 														  title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 												</a>
 											</div>
@@ -293,7 +293,7 @@
 									<div class="btn-group actions">
 										<a href="javascript:void(0)"
 										   class="js-delete-custom-block-btn btn btn-sm btn-danger" data-js="click">
-											<span class="fas fa-trash-alt alignMiddle"
+											<span class="fas fa-trash-alt"
 												  title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 										</a>
 									</div>
@@ -425,7 +425,7 @@
 								<span class="btn-group mr-3 actions">
 								<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails"
 								   data-toggle="dropdown">
-									<span class="fas fa-edit alignMiddle"
+									<span class="yfi yfi-full-editing-view"
 										  title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
 								<div class="basicFieldOperations d-none" style="width: 375px;">
@@ -540,9 +540,9 @@
 										</div>
 									</form>
 								</div>&nbsp;
-								<a href="javascript:void(0)" class="deleteCustomField" data-field-id=""><span
-											class="fas fa-trash-alt alignMiddle"
-											title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span></a>
+								<a href="javascript:void(0)" class="deleteCustomField" data-field-id="">
+									<span class="fas fa-trash-alt" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
+								</a>
 							</span>
 							</div>
 						</div>

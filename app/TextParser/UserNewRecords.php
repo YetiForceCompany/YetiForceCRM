@@ -25,8 +25,9 @@ class UserNewRecords extends Base
 
 	/**
 	 * @var string Default template
+	 *
 	 * @see \App\Condition::DATE_OPERATORS
-	*/
+	 */
 	public $default = '$(custom : UserNewRecords|__MODULE_NAME__|__DATE_OPERATOR__|__FIELDS_LIST__)$';
 
 	/**
@@ -61,7 +62,7 @@ class UserNewRecords extends Base
 					$fields[$fieldName] = $fieldModel;
 				}
 				$count = 1;
-				$html = '';
+				$entries = [];
 				while ($row = $dataReader->read()) {
 					$recordHtml = '';
 					$recordModel = \Vtiger_Record_Model::getInstanceById($row['id']);
@@ -71,10 +72,11 @@ class UserNewRecords extends Base
 						}
 					}
 					if (!empty($recordHtml)) {
-						$html .= $count . '. <a href="' . \App\Config::main('site_URL') . $recordModel->getDetailViewUrl() . '">' . $recordHtml . '</a><br>';
+						$entries[] = $count . '. <a href="' . \App\Config::main('site_URL') . $recordModel->getDetailViewUrl() . '">' . $recordHtml . '</a>';
 					}
 					++$count;
 				}
+				$html = implode('<br>', $entries);
 			}
 		}
 		return !empty($html) ? $html : \App\Language::translate('LBL_NO_RECORDS', 'Other.Reports');

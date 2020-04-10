@@ -7,7 +7,6 @@
 			</div>
 		</div>
 		<div class="contents mt-2">
-			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
 				<thead>
 					<tr class="listViewHeaders">

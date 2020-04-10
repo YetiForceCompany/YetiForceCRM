@@ -25,14 +25,18 @@ class EventHandler
 	private $exceptions;
 	private static $mandatoryEventClass = ['ModTracker_ModTrackerHandler_Handler', 'Vtiger_RecordLabelUpdater_Handler'];
 
+	/** Edit view, validation before saving */
+	public const EDIT_VIEW_PRE_SAVE = 'EditViewPreSave';
+
 	/**
 	 * Get all event handlers.
 	 *
-	 * @param bool $active true/false
+	 * @param bool    $active  true/false
+	 * @param ?string $groupBy
 	 *
 	 * @return array
 	 */
-	public static function getAll($active = true)
+	public static function getAll(?string $groupBy = null)
 	{
 		if (Cache::has('EventHandler', 'All')) {
 			$handlers = Cache::get('EventHandler', 'All');
@@ -40,12 +44,12 @@ class EventHandler
 			$handlers = (new \App\Db\Query())->from(self::$baseTable)->orderBy(['priority' => SORT_DESC])->all();
 			Cache::save('EventHandler', 'All', $handlers);
 		}
-		if ($active) {
-			foreach ($handlers as $key => &$handler) {
-				if (1 !== (int) $handler['is_active']) {
-					unset($handlers[$key]);
-				}
+		if ($groupBy) {
+			$groupHandlers = [];
+			foreach ($handlers as $handler) {
+				$groupHandlers[$handler[$groupBy]][$handler['eventhandler_id']] = $handler;
 			}
+			$handlers = $groupHandlers;
 		}
 		return $handlers;
 	}
@@ -55,14 +59,15 @@ class EventHandler
 	 *
 	 * @param string $name
 	 * @param mixed  $moduleName
+	 * @param bool   $active
 	 *
 	 * @return array
 	 */
-	public static function getByType($name, $moduleName = false)
+	public static function getByType($name, $moduleName = false): array
 	{
 		if (!isset(self::$handlerByType)) {
 			$handlers = [];
-			foreach (static::getAll(true) as &$handler) {
+			foreach (static::getAll() as &$handler) {
 				$handlers[$handler['event_name']][$handler['handler_class']] = $handler;
 			}
 			self::$handlerByType = $handlers;
@@ -175,8 +180,7 @@ class EventHandler
 		if ($eventName) {
 			$params['event_name'] = $eventName;
 		}
-		\App\Db::getInstance()->createCommand()
-			->update(self::$baseTable, ['is_active' => true], $params)->execute();
+		\App\Db::getInstance()->createCommand()->update(self::$baseTable, ['is_active' => true], $params)->execute();
 		static::clearCache();
 	}
 
@@ -184,20 +188,26 @@ class EventHandler
 	 * Set record model.
 	 *
 	 * @param \App\Vtiger_Record_Model $recordModel
+	 *
+	 * @return $this
 	 */
 	public function setRecordModel(\Vtiger_Record_Model $recordModel)
 	{
 		$this->recordModel = $recordModel;
+		return $this;
 	}
 
 	/**
 	 * Set module name.
 	 *
 	 * @param string $moduleName
+	 *
+	 * @return $this
 	 */
 	public function setModuleName($moduleName)
 	{
 		$this->moduleName = $moduleName;
+		return $this;
 	}
 
 	/**
@@ -267,7 +277,7 @@ class EventHandler
 	 *
 	 * @return array Handlers list
 	 */
-	protected function getHandlers($name)
+	public function getHandlers($name)
 	{
 		$handlers = static::getByType($name, $this->moduleName);
 		if ($this->exceptions) {
@@ -317,5 +327,26 @@ class EventHandler
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 			}
 		}
+	}
+
+	/**
+	 * Trigger an event.
+	 *
+	 * @param array $handler
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	public function triggerHandler(array $handler)
+	{
+		$handlerInstance = new $handler['handler_class']();
+		$function = lcfirst($handler['event_name']);
+		$result = false;
+		if (method_exists($handlerInstance, $function)) {
+			$result = $handlerInstance->{$function}($this);
+		} else {
+			Log::error("Handler not found, class: {$handler['handler_class']} | $function");
+			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
+		}
+		return $result;
 	}
 }

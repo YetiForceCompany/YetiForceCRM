@@ -278,7 +278,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 					'lat' => $row['lat'],
 					'lon' => $row['lon'],
 					'label' => self::getLabelToPopupByArray($row, $moduleName),
-					'color' => self::getMarkerColor(empty($groupByField) ? '' : $row[$groupByField])
+					'color' => self::getMarkerColor($row[$groupByField] ?? '')
 				];
 			}
 		}
@@ -295,9 +295,10 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 	public function getCoordinatesCustomView()
 	{
 		$selectedIds = $this->get('selectedIds');
-		if ($selectedIds == 'all') {
+		if ('all' == $selectedIds) {
 			return $this->readAllCoordinatesFromCustomeView();
-		} elseif (!empty($selectedIds)) {
+		}
+		if (!empty($selectedIds)) {
 			$records = Vtiger_Mass_Action::getRecordsListFromRequest($this->get('request'));
 
 			return $this->readCoordinatesByRecords($records);
@@ -351,7 +352,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParams);
 		$queryGenerator->parseAdvFilter($transformedSearchParams);
 		$queryGenerator->addNativeCondition(['u_#__openstreetmap.type' => 'a']);
-		if ($excludedIds && !empty($excludedIds) && is_array($excludedIds) && count($excludedIds) > 0) {
+		if ($excludedIds && !empty($excludedIds) && \is_array($excludedIds) && \count($excludedIds) > 0) {
 			$queryGenerator->addNativeCondition(['not in', 'vtiger_crmentity.crmid', $excludedIds]);
 		}
 		if (!empty($coordinatesCenter) && !empty($radius)) {

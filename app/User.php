@@ -55,7 +55,6 @@ class User
 			$id = static::getCurrentUserId();
 		}
 		static::$currentUserRealId = $id;
-
 		return $id;
 	}
 
@@ -185,11 +184,11 @@ class User
 	/**
 	 * Get user id.
 	 *
-	 * @return int
+	 * @return int|null
 	 */
 	public function getId()
 	{
-		return $this->privileges['details']['record_id'];
+		return $this->privileges['details']['record_id'] ?? null;
 	}
 
 	/**
@@ -344,7 +343,7 @@ class User
 	 */
 	public function isActive()
 	{
-		return 'Active' === $this->privileges['details']['status'];
+		return 'Active' === ($this->privileges['details']['status'] ?? null);
 	}
 
 	/**

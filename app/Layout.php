@@ -155,6 +155,9 @@ class Layout
 	 */
 	public static function truncateHtml(string $html, ?string $size = 'medium', ?int $length = 200): string
 	{
+		if ('' === $html) {
+			return '';
+		}
 		$teaser = $css = $btn = '';
 		$btnTemplate = function (string $popoverText = '', ?string $btnClass = ''): string {
 			$popoverText = \App\Language::translate($popoverText);

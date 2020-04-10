@@ -42,8 +42,10 @@ $.Class(
 			return this.container;
 		},
 		getCurrentDashboard: function() {
-			let dashboardId = $('.selectDashboard li a.active').closest('li').data('id');
-			if(!dashboardId){
+			let dashboardId = $('.selectDashboard li a.active')
+				.closest('li')
+				.data('id');
+			if (!dashboardId) {
 				dashboardId = 1;
 			}
 			return dashboardId;
@@ -58,15 +60,16 @@ $.Class(
 		},
 		registerGrid: function() {
 			const thisInstance = this;
-			Vtiger_DashBoard_Js.grid = this.getContainer()
-				.gridstack({
+			Vtiger_DashBoard_Js.grid = GridStack.init(
+				{
 					verticalMargin: '0.5rem',
 					alwaysShowResizeHandle: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
 						navigator.userAgent
 					)
-				})
-				.data('gridstack');
-			$('.grid-stack').on('change', function(event, ui) {
+				},
+				'.grid-stack'
+			);
+			Vtiger_DashBoard_Js.grid.on('change', function(event, ui) {
 				thisInstance.savePositions($('.grid-stack-item'));
 			});
 			// load widgets after grid initialization to prevent too early lazy loading - visible viewport changes
@@ -237,6 +240,7 @@ $.Class(
 									}
 									thisInstance.updateLazyWidget();
 								}
+								thisInstance.showAndHideAlert(false);
 							}
 						});
 					})
@@ -859,7 +863,24 @@ $.Class(
 			var height = element.data('height');
 			Vtiger_DashBoard_Js.grid.addWidget(widgetContainer, 0, 0, width, height);
 			Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer.find('.grid-stack-item-content'));
+			this.showAndHideAlert('addWidget');
 		},
+
+		/**
+		 * Show or hide the alert for a dashboard.
+		 * @param {string} widgetAction
+		 */
+		showAndHideAlert(widgetAction){
+			let container =this.getContainer();
+			let alertContainer = container.find('.js-dashboards-alert');
+			if(widgetAction === 'addWidget'){
+				alertContainer.addClass('d-none');
+			}else if(container.find('.js-css-element-queries').length == 0){
+				alertContainer.removeClass('d-none');
+			}
+		},
+
+
 		registerEvents: function() {
 			this.registerGrid();
 			this.registerRefreshWidget();

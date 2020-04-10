@@ -18,6 +18,10 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 	 */
 	public function process(App\Request $request)
 	{
+		if ($mode = $request->getMode()) {
+			$this->invokeExposedMethod($mode, $request);
+			return;
+		}
 		$recordModel = $this->saveRecord($request);
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = [];

@@ -54,10 +54,12 @@ class UserCalendar extends Base
 				$query->orderBy(['vtiger_crmentity.createdtime' => \SORT_DESC]);
 				$query->limit(\App\Config::performance('REPORT_RECORD_NUMBERS'));
 				$dataReader = $query->createCommand()->query();
+				$entries = [];
 				while ($row = $dataReader->read()) {
 					$recordModel = \Vtiger_Record_Model::getInstanceById($row['id']);
-					$html .= $recordModel->getDisplayValue('date_start', false, true) . ' - <a href="' . \App\Config::main('site_URL') . $recordModel->getDetailViewUrl() . '">' . $recordModel->getName() . '</a><br>';
+					$entries[] = $recordModel->getDisplayValue('date_start', false, true) . ' - <a href="' . \App\Config::main('site_URL') . $recordModel->getDetailViewUrl() . '">' . $recordModel->getName() . '</a>';
 				}
+				$html = implode('<br>', $entries);
 			}
 		}
 		return !empty($html) ? $html : \App\Language::translate('LBL_NO_RECORDS', 'Other.Reports');

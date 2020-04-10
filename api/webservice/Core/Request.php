@@ -57,7 +57,6 @@ class Request extends \App\Request
 		if (\App\Config::api('ENCRYPT_DATA_TRANSFER') && $encrypted && 1 === (int) $encrypted) {
 			$content = $this->decryptData($content);
 		}
-
 		if (empty($content)) {
 			return false;
 		}
@@ -75,6 +74,7 @@ class Request extends \App\Request
 			$type = explode('/', $type);
 			$type = array_pop($type);
 		}
+		$return = [];
 		switch ($type) {
 			case 'form-data':
 			case 'x-www-form-urlencoded':
@@ -84,8 +84,6 @@ class Request extends \App\Request
 			case 'json':
 				$return = json_decode($content, 1);
 				break;
-			default:
-					$return = [];
 		}
 		return $return;
 	}

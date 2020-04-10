@@ -116,7 +116,7 @@ paths:
           basicAuth: ''
           ApiKeyAuth: ''
           token: ''
-  '/webservice/{moduleName}/Record':
+  '/webservice/{moduleName}/Record/{recordId}':
     get:
       tags:
         - BaseModule
@@ -131,6 +131,15 @@ paths:
           schema:
             type: string
           example: Contacts
+        -
+          name: recordId
+          in: path
+          description: 'Record id'
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 116
         -
           name: X-ENCRYPTED
           in: header
@@ -180,46 +189,29 @@ paths:
           basicAuth: ''
           ApiKeyAuth: ''
           token: ''
-  /webservice/BaseModule/Record:
     put:
       tags:
         - BaseModule
-      summary: 'List of edited records'
+      summary: 'Edit record'
       operationId: 'Api\Portal\BaseModule\Record::put'
       parameters:
         -
-          name: X-ENCRYPTED
-          in: header
+          name: moduleName
+          in: path
+          description: 'Module name'
           required: true
           schema:
-            $ref: '#/components/schemas/X-ENCRYPTED'
-      requestBody:
-        description: 'The content of the request is empty.'
-        required: false
-      responses:
-        '200':
-          description: 'List of edited records'
-          content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/BaseModule_Put_Record_Response'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BaseModule_Put_Record_Response'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/BaseModule_Put_Record_Response'
-      security:
+            type: string
+          example: Contacts
         -
-          basicAuth: ''
-          ApiKeyAuth: ''
-          token: ''
-    post:
-      tags:
-        - BaseModule
-      summary: 'List of records created'
-      operationId: 'Api\Portal\BaseModule\Record::post'
-      parameters:
+          name: recordId
+          in: path
+          description: 'Record id'
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 116
         -
           name: X-ENCRYPTED
           in: header
@@ -231,17 +223,17 @@ paths:
         required: false
       responses:
         '200':
-          description: 'List of records created'
+          description: 'Gets data for the record'
           content:
             text/html:
               schema:
-                $ref: '#/components/schemas/BaseModule_Post_Record_Response'
+                $ref: '#/components/schemas/BaseModule_Put_Record_Response'
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseModule_Post_Record_Response'
+                $ref: '#/components/schemas/BaseModule_Put_Record_Response'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BaseModule_Post_Record_Response'
+                $ref: '#/components/schemas/BaseModule_Put_Record_Response'
       security:
         -
           basicAuth: ''
@@ -250,9 +242,26 @@ paths:
     delete:
       tags:
         - BaseModule
-      summary: 'List of records moved to the trash'
+      summary: 'Delete record (move to the trash)'
       operationId: 'Api\Portal\BaseModule\Record::delete'
       parameters:
+        -
+          name: moduleName
+          in: path
+          description: 'Module name'
+          required: true
+          schema:
+            type: string
+          example: Contacts
+        -
+          name: recordId
+          in: path
+          description: 'Record id'
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 116
         -
           name: X-ENCRYPTED
           in: header
@@ -275,6 +284,48 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/BaseModule_Delete_Record_Response'
+      security:
+        -
+          basicAuth: ''
+          ApiKeyAuth: ''
+          token: ''
+  '/webservice/{moduleName}/Record':
+    post:
+      tags:
+        - BaseModule
+      summary: 'Create record'
+      operationId: 'Api\Portal\BaseModule\Record::post'
+      parameters:
+        -
+          name: moduleName
+          in: path
+          description: 'Module name'
+          required: true
+          schema:
+            type: string
+          example: Contacts
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/X-ENCRYPTED'
+      requestBody:
+        description: 'The content of the request is empty.'
+        required: false
+      responses:
+        '200':
+          description: 'List of records created'
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Post_Record_Response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Post_Record_Response'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BaseModule_Post_Record_Response'
       security:
         -
           basicAuth: ''
@@ -568,7 +619,7 @@ components:
             - '0'
             - '1'
         result:
-          title: 'Parameters record'
+          title: 'Gets data for the record'
           description: 'Parameters the saved record.'
           type: array
           items:

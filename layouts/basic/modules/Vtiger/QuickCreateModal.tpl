@@ -50,7 +50,7 @@
 														href="{$MODULEMODEL->getCreateRecordUrl()}"
 													{/if}
 											>
-													<span class="modCT_{$NAME} userIcon-{$NAME} mr-1"
+													<span class="modCT_{$NAME} yfm-{$NAME} mr-1"
 														  title="{\App\Language::translate($singularLabel,$NAME)}"></span>
 												<span>{\App\Language::translate($singularLabel,$NAME)}</span>
 											</a>

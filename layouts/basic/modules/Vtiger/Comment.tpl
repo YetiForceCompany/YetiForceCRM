@@ -51,14 +51,13 @@
 							</span>
 						</div>
 					</div>
-					<div class="q-fab z-fab row inline justify-center js-fab__container mb-1">
-						<button type="button" tabindex="0" class="js-fab__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable {if $IS_CURRENT_USER}mr-1 mr-sm-2{else}ml-1 ml-sm-2{/if} u-font-size-13px">
-							<div tabindex="-1" class="q-focus-helper"></div>
-							<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
+				<div class="row inline justify-center js-hb__container ml-auto">
+						<button type="button" tabindex="0" class="btn js-hb__btn u-hidden-block-btn text-grey-6 py-0 px-1">
+							<div class="text-center col items-center justify-center row">
 								<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
 							</div>
 						</button>
-						<div class="q-fab__actions flex no-wrap inline items-center q-fab__actions--{if $IS_CURRENT_USER}right{else}left{/if} js-comment-actions">
+						<div class="u-hidden-block items-center js-comment-actions">
 							{assign var=COMMENTS_MODULE_MODEL value=Vtiger_Module_Model::getInstance('ModComments')}
 							{if !empty($CHILDS_ROOT_PARENT_MODEL)}
 								{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
@@ -72,7 +71,7 @@
 							{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
 								<button type="button" class="btn btn-primary js-edit-comment feedback mr-1"
 										data-js="click" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}">
-									<span class="fas fa-edit"></span>
+									<span class="yfi yfi-full-editing-view"></span>
 								</button>
 							{/if}
 							{assign var=LINKS value=$COMMENT->getCommentLinks()}

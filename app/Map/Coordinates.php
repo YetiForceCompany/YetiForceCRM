@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Map;
@@ -38,12 +39,12 @@ class Coordinates
 		if (static::$instance) {
 			return static::$instance;
 		}
-		$type = \App\Config::module('OpenStreetMap', 'COORDINATE_CONNECTOR');
-		$className = "\\App\\Map\\Coordinates\\$type";
+		$coordinateProvider = \App\Config::module('OpenStreetMap', 'coordinatesServers')[\App\Config::module('OpenStreetMap', 'coordinatesServer')];
+		$className = "\\App\\Map\\Coordinates\\{$coordinateProvider['driverName']}";
 		if (!class_exists($className)) {
 			throw new \App\Exceptions\AppException('ERR_CLASS_NOT_FOUND');
 		}
-		static::$instance = new $className();
+		static::$instance = new $className($coordinateProvider);
 		return static::$instance;
 	}
 
@@ -64,5 +65,21 @@ class Coordinates
 			'street' => $recordModel->get('addresslevel8' . $type) . ' ' . $recordModel->get('buildingnumber' . $type),
 			'country' => $recordModel->get('addresslevel1' . $type),
 		];
+	}
+
+	/**
+	 * Get coordinates drivers.
+	 *
+	 * @return string[]
+	 */
+	public static function getDrivers(): array
+	{
+		$drivers = [];
+		foreach (new \DirectoryIterator(ROOT_DIRECTORY . '/app/Map/Coordinates/') as $item) {
+			if ($item->isFile() && 'Base' !== $item->getBasename('.php')) {
+				$drivers[] = $item->getBasename('.php');
+			}
+		}
+		return $drivers;
 	}
 }

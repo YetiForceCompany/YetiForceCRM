@@ -82,6 +82,7 @@ class TextParser
 		'ChangesListChanges' => 'LBL_LIST_OF_CHANGES_IN_RECORD',
 		'ChangesListValues' => 'LBL_LIST_OF_NEW_VALUES_IN_RECORD',
 		'Comments' => 'LBL_RECORD_COMMENT',
+		'SummaryFields' => 'LBL_SUMMARY_FIELDS',
 	];
 
 	/**
@@ -191,7 +192,7 @@ class TextParser
 	 *
 	 * @var string
 	 */
-	public const VARIABLE_REGEX = '/\$\((\w+) : ([,"\+\%\.\=\-\[\]\&\w\s\|\)\(\:]+)\)\$/u';
+	public const VARIABLE_REGEX = '/\$\((\w+) : ([,"\+\#\%\.\=\-\[\]\&\w\s\|\)\(\:]+)\)\$/u';
 
 	/**
 	 * Get instanace by record id.
@@ -433,8 +434,12 @@ class TextParser
 	 */
 	public function date($param)
 	{
-		$timestamp = strtotime($param);
-		return $timestamp ? date('Y-m-d', $timestamp) : '';
+		if (isset(\App\Condition::DATE_OPERATORS[$param])) {
+			$date = implode(' - ', array_unique(\DateTimeRange::getDateRangeByType($param)));
+		} else {
+			$date = date('Y-m-d', strtotime($param));
+		}
+		return $date;
 	}
 
 	/**
@@ -629,6 +634,19 @@ class TextParser
 					}
 				}
 				return $value;
+			case 'SummaryFields':
+					$value = '';
+					$recordStructure = \Vtiger_RecordStructure_Model::getInstanceFromRecordModel($this->recordModel, \Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_SUMMARY);
+					$fields = $recordStructure->getStructure()['SUMMARY_FIELDS'] ?? [];
+					foreach ($fields as $fieldName => $fieldModel) {
+						$currentValue = $this->getDisplayValueByField($fieldModel);
+						if ($this->withoutTranslations) {
+							$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$: $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
+						} else {
+							$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
+						}
+					}
+					return $value;
 			default:
 				if (false !== strpos($key, ' ')) {
 					[$key, $params] = explode(' ', $key);
@@ -1173,7 +1191,7 @@ class TextParser
 		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
 		$variables = [];
 		$entityVariables = Language::translate('LBL_ENTITY_VARIABLES', 'Other.TextParser');
-		foreach ($moduleModel->getFieldsByType(array_merge(\Vtiger_Field_Model::$referenceTypes, ['userCreator', 'owner', 'multiReference', 'sharedOwner'])) as $parentFieldName => $field) {
+		foreach ($moduleModel->getFieldsByType(array_merge(\Vtiger_Field_Model::$referenceTypes, ['userCreator', 'owner', 'sharedOwner'])) as $parentFieldName => $field) {
 			if ('owner' === $field->getFieldDataType() || 'sharedOwner' === $field->getFieldDataType()) {
 				$relatedModules = ['Users'];
 			} else {

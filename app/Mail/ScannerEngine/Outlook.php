@@ -168,12 +168,14 @@ class Outlook extends Base
 		}
 		$user = \App\User::getCurrentUserModel();
 		$fields = [];
-		foreach (explode(',', trim($user->getDetail('mail_scanner_fields'), ',')) as $field) {
-			$field = explode('|', $field);
-			if (($searchModuleName && $searchModuleName !== $field[1]) || !\in_array($field[3], [13, 319])) {
-				continue;
+		if ($mailScannerFields = $user->getDetail('mail_scanner_fields')) {
+			foreach (explode(',', trim($mailScannerFields, ',')) as $field) {
+				$field = explode('|', $field);
+				if (($searchModuleName && $searchModuleName !== $field[1]) || !\in_array($field[3], [13, 319])) {
+					continue;
+				}
+				$fields[$field[1]][$field[3]][] = $field[2];
 			}
-			$fields[$field[1]][$field[3]][] = $field[2];
 		}
 		$this->emailsFieldsCache[$cacheKey] = $fields;
 		return $fields;
@@ -190,12 +192,14 @@ class Outlook extends Base
 		}
 		$user = \App\User::getCurrentUserModel();
 		$fields = [];
-		foreach (explode(',', trim($user->getDetail('mail_scanner_fields'), ',')) as $field) {
-			$field = explode('|', $field);
-			if (($searchModuleName && $searchModuleName !== $field[1]) || 4 !== (int) $field[3]) {
-				continue;
+		if ($mailScannerFields = $user->getDetail('mail_scanner_fields')) {
+			foreach (explode(',', trim($mailScannerFields, ',')) as $field) {
+				$field = explode('|', $field);
+				if (($searchModuleName && $searchModuleName !== $field[1]) || 4 !== (int) $field[3]) {
+					continue;
+				}
+				$fields[$field[1]][$field[3]][] = $field[2];
 			}
-			$fields[$field[1]][$field[3]][] = $field[2];
 		}
 		$this->numberFieldsCache[$cacheKey] = $fields;
 		return $fields;

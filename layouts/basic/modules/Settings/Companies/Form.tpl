@@ -33,21 +33,21 @@
 							<div class="btn-group btn-group-toggle" data-toggle="buttons">
 								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===1} active{/if}"
 									   for="option1">
-									<input value="1" type="radio" name="type" id="option1"
+									<input value="1" type="radio" name="type" id="type-option1"
 										   data-validation-engine="validate[required]"
 										   autocomplete="off"{if $RECORD->get('type')==1} checked{/if}>
 									{\App\Language::translate('LBL_TYPE_TARGET_USER',$QUALIFIED_MODULE)}
 								</label>
 								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===2} active{/if}"
 									   for="option2">
-									<input value="2" type="radio" name="type" id="option2"
+									<input value="2" type="radio" name="type" id="type-option2"
 										   data-validation-engine="validate[required]"
 										   autocomplete="off"{if $RECORD->get('type')==2} checked{/if}>
 									{\App\Language::translate('LBL_TYPE_INTEGRATOR',$QUALIFIED_MODULE)}
 								</label>
 								<label class="btn btn-sm btn-outline-primary{if $RECORD->get('type')===3} active{/if}"
 									   for="option3">
-									<input value="3" type="radio" name="type" id="option3"
+									<input value="3" type="radio" name="type" id="type-option3"
 										   data-validation-engine="validate[required]"
 										   autocomplete="off"{if $RECORD->get('type')==3} checked{/if}>
 									{\App\Language::translate('LBL_TYPE_PROVIDER',$QUALIFIED_MODULE)}
@@ -80,6 +80,11 @@
 								<span class="redColor">*</span>
 							{/if}
 							<b>{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}</b>
+							{if isset($FIELD['infoText'])}
+								<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate($FIELD['infoText'], $QUALIFIED_MODULE))}">
+									<span class="fas fa-info-circle"></span>
+								</div>
+							{/if}
 						</label>
 						<div class="col-lg-8">
 							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName()) MODULE=$QUALIFIED_MODULE}
@@ -87,8 +92,15 @@
 					</div>
 				{/if}
 				{if $FIELD_NAME === 'newsletter'}
-					<div class="js-newsletter-content {if empty($RECORD->get($FIELD_NAME))}d-none{/if}"
-						 data-js="class:d-none">
+					<div class="js-newsletter-content {if empty($RECORD->get($FIELD_NAME))}d-none{/if}" data-js="class:d-none">
+					<div class="alert alert-warning" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<span class="u-font-size-13px">
+							{App\Language::translate('LBL_NEWSLETTER_ALERT', $QUALIFIED_MODULE)}
+						</span>
+					</div>
 				{elseif $FIELD_NAME === 'email'}
 					</div>
 				{/if}
@@ -100,6 +112,9 @@
 			<div class="card-header">
 				<span class="fas fa-globe mr-1"></span>
 				{App\Language::translate('LBL_BRAND_DATA', $QUALIFIED_MODULE)}
+				<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate('LBL_BRAND_DATA_INFO', $QUALIFIED_MODULE))}">
+					<span class="fas fa-info-circle"></span>
+				</div>
 			</div>
 			<div class="card-body">
 				{foreach key="FIELD_NAME" item="FIELD" from=$FORM_FIELDS}

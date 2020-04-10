@@ -401,7 +401,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 					'linklabel' => 'LBL_EDIT',
 					'linkurl' => $this->getEditViewUrl(),
 					'linkhref' => true,
-					'linkicon' => 'fas fa-edit',
+					'linkicon' => 'yfi yfi-full-editing-view',
 					'linkclass' => 'btn-xs btn-default',
 				]);
 			}

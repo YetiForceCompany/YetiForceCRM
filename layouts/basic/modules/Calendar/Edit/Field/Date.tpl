@@ -13,7 +13,7 @@
 	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="dateFormat" value=$USER_MODEL->get('date_format')}
-	<div class="tpl-Edit-Field-Date input-group date">
+	<div class="tpl-Edit-Field-Date input-group date {$WIDTHTYPE_GROUP}">
 		{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 		<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" tabindex="{$FIELD_MODEL->getTabIndex()}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" class="dateField form-control datepicker" name="{$FIELD_MODEL->getFieldName()}" data-date-format="{$dateFormat}" type="text" value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}

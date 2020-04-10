@@ -263,7 +263,7 @@ class Record
 	/**
 	 * Function checks if record exists.
 	 *
-	 * @param int    $recordId   - Rekord ID
+	 * @param int    $recordId   - Record ID
 	 * @param string $moduleName
 	 *
 	 * @return bool

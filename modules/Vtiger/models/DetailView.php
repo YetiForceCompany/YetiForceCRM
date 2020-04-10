@@ -169,7 +169,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'BTN_RECORD_EDIT',
 				'linkurl' => $recordModel->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn btn-outline-dark btn-sm',
 				'linkhint' => 'BTN_RECORD_EDIT',
 			]);
@@ -284,7 +284,6 @@ class Vtiger_DetailView_Model extends \App\Base
 			}
 		}
 		$this->set('Links', $linkModelList);
-
 		return $linkModelList;
 	}
 

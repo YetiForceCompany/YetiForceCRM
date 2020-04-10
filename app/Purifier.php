@@ -279,8 +279,9 @@ class Purifier
 			$def->addAttribute('a', 'data-id', 'Text');
 			$def->addAttribute('a', 'data-module', 'Text');
 		}
-		$uri = $config->getDefinition('URI');
-		$uri->addFilter(new Extension\HTMLPurifier\Domain(), $config);
+		if ($uriDef = $config->getURIDefinition()) {
+			$uriDef->addFilter(new Extension\HTMLPurifier\Domain(), $config);
+		}
 		return $config;
 	}
 
@@ -378,7 +379,7 @@ class Purifier
 					$value = Validator::dateTimeInUserFormat($input) ? $input : null;
 					break;
 				case 'DateTimeInIsoFormat': // date in base format yyyy-mm-dd
-					$value = Validator::dateTimeInIsoFormat($input) ? \App\Fields\DateTime::formatToDb(date('Y-m-d H:i:s', strtotime($input))) : null;
+					$value = Validator::dateTimeInIsoFormat($input) ? date('Y-m-d H:i:s', strtotime($input)) : null;
 					break;
 				case 'Bool':
 					$value = self::bool($input);
@@ -437,7 +438,10 @@ class Purifier
 					$value = Validator::url($input) ? $input : null;
 					break;
 				case 'MailId':
-					$value = preg_match('/^[\sA-Za-z0-9\<\>\_\.\=\-\+\@]+$/', $input) ? $input : null;
+					$value = preg_match('/^[\sA-Za-z0-9\<\>\_\[\.\]\=\-\+\@\$\!\#\%\&\'\*\+\/\?\^\_\`\{\|\}\~\-]+$/', $input) ? $input : null;
+					break;
+				case 'ClassName':
+					$value = preg_match('/^[a-z\\\_]+$/i', $input) ? $input : null;
 					break;
 				case self::SQL:
 					$value = $input && Validator::sql($input) ? $input : null;

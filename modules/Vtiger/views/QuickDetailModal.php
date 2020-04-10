@@ -110,7 +110,7 @@ class Vtiger_QuickDetailModal_View extends \App\Controller\Modal
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'BTN_RECORD_EDIT',
 				'linkurl' => $recordModel->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn btn-outline-dark btn-sm',
 				'linkhint' => 'BTN_RECORD_EDIT',
 				'linkhref' => true,

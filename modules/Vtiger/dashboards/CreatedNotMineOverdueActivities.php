@@ -12,7 +12,7 @@ class Vtiger_CreatedNotMineOverdueActivities_Dashboard extends Vtiger_IndexAjax_
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
-		$moduleName = $request->getModule();
+		$moduleName = 'Home';
 		$page = $request->getInteger('page');
 		$linkId = $request->getInteger('linkid');
 		$sortOrder = $request->getForSql('sortorder');

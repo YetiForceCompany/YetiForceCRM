@@ -33,7 +33,6 @@
 	<div class="detailViewInfo">
 		{if $RECORD_MODEL}
 			<input type="hidden" value="{$RECORD_MODEL->getId()}" id="recordId">
-			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<table class="table table-bordered">
 				<thead>
 					<tr class="blockHeader">

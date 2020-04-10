@@ -57,7 +57,7 @@ class Cron
 		YetiForce\Shop::generateCache();
 		if ('test' !== \Config\Main::$systemMode) {
 			YetiForce\Register::check();
-			YetiForce\Status::send();
+			YetiForce\Watchdog::send();
 		}
 		if (!(static::$logActive = \App\Config::debug('DEBUG_CRON'))) {
 			return;

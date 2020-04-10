@@ -37,7 +37,6 @@
 				<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
 				<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 			</span>
-			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<table class="table table-bordered listViewEntriesTable js-fixed-thead" data-js="floatThead">
 				<thead>
 					<tr class="listViewHeaders">
@@ -79,8 +78,8 @@
 							<td nowrap class="{$WIDTHTYPE}">
 								<div class="actions float-right">
 									<span class="actionImages">
-										<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-edit alignMiddle editRecord"></span>&nbsp;
-										<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle deleteRecord"></span>
+										<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="yfi yfi-full-editing-view editRecord"></span>&nbsp;
+										<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt deleteRecord"></span>
 									</span>
 								</div>
 							</td>

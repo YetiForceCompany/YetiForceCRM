@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Base-Modals-QuickEdit -->
-{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
 <input type="hidden" name="module" value="{$MODULE_NAME}"/>
 <input type="hidden" name="record" value="{$RECORD_ID}"/>
 <input type="hidden" name="action" value="SaveAjax"/>
@@ -17,33 +17,25 @@
 		<input type="hidden" name="{$FIELD_NAME}" value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}"/>
 	{/foreach}
 {/if}
-{if $WIDTHTYPE eq 'narrow'}
-	{assign var=WIDTHTYPE_GROUP value="input-group-sm"}
-{elseif $WIDTHTYPE eq 'wide'}
-	{assign var=WIDTHTYPE_GROUP value="input-group-lg"}
-{else}
-	{assign var=WIDTHTYPE_GROUP value=''}
-{/if}
 <div class="quickCreateContent">
 	<div class="modal-body m-0">
 		{if $LAYOUT === 'blocks'}
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 				{if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 				{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
-				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
 				<div class="js-toggle-panel c-panel c-panel--edit mb-3"
 					data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
 					data-label="{$BLOCK_LABEL}">
 					<div class="blockHeader c-panel__header align-items-center">
-						{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
+						{if in_array($BLOCK_LABEL, $ADDRESS_BLOCK_LABELS)}
 							{assign var=SEARCH_ADDRESS value=TRUE}
 						{else}
 							{assign var=SEARCH_ADDRESS value=FALSE}
 						{/if}
 						<h5 class="ml-2">{\App\Language::translate($BLOCK_LABEL, $MODULE_NAME)}</h5>
 					</div>
-					<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
+					<div class="c-panel__body c-panel__body--edit blockContent js-block-content"
 						data-js="display">
 						<div class="row">
 							{assign var=COUNTER value=0}

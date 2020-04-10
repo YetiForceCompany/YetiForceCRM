@@ -2012,7 +2012,7 @@ jQuery.Class(
 					if (value.type) {
 						listViewContentDiv
 							.find('tr[data-id="' + id + '"] .timeLineIconList')
-							.addClass(value.color + ' userIcon-' + value.type)
+							.addClass(value.color + ' yfm-' + value.type)
 							.removeClass('d-none')
 							.on('click', function(e) {
 								var element = jQuery(e.currentTarget);
@@ -2161,7 +2161,7 @@ jQuery.Class(
 		 * @param {jQuery} listViewContainer
 		 */
 		registerDesktopEvents(listViewContainer) {
-			if (Quasar.plugins.Platform.is.desktop) {
+			if (Quasar.plugins.Platform.is.desktop && listViewContainer.length) {
 				this.registerListScroll(listViewContainer);
 				this.registerFixedThead(listViewContainer);
 			}

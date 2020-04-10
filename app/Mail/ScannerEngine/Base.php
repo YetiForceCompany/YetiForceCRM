@@ -120,6 +120,15 @@ abstract class Base extends \App\Base
 	abstract public function getExceptions(): array;
 
 	/**
+	 * Initialize with request data.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return void
+	 */
+	abstract public function initFromRequest(\App\Request $request);
+
+	/**
 	 * Get mail type.
 	 * 0 = Sent
 	 * 1 = Received

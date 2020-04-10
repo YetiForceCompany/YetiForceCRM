@@ -48,7 +48,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	public function preProcessAjax(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$this->modalIcon = "modCT_{$moduleName} userIcon-{$moduleName}";
+		$this->modalIcon = "modCT_{$moduleName} yfm-{$moduleName}";
 		$this->initializeContent($request);
 		parent::preProcessAjax($request);
 	}
@@ -172,8 +172,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			if (!$parentRecordModel->isViewable()) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
-			$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
-			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName, $relationId);
+			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);
 		} else {
 			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
 		}

@@ -234,7 +234,7 @@
 
 @include media-breakpoint-down(sm) {
 	.ui-menu.ui-widget {
-		left: -4px !important;
+		left: 4px !important;
 	}
 }
 
@@ -367,7 +367,7 @@
 				margin: 0 0 5px !important;
 
 				.fas,
-				[class*="userIcon-"] {
+				[class*="yfm-"] {
 					margin: 0 5px 0 0;
 				}
 

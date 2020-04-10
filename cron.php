@@ -54,6 +54,11 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 			$cronObj->log('Task start: ' . $cronTask->getName(), 'info', false);
 			$startTaskTime = microtime(true);
 			\App\Log::trace($cronTask->getName() . ' - Start', 'Cron');
+			if ($cronTask->isDisabled()) {
+				$response .= sprintf('%s | %s - Cron task had been disabled' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
+				$cronObj->log('Cron task had been disabled');
+				continue;
+			}
 			// Timeout could happen if intermediate cron-tasks fails
 			// and affect the next task. Which need to be handled in this cycle.
 			if ($cronTask->hadTimeout()) {
@@ -84,7 +89,7 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 			ob_start();
 			$className = $cronTask->getHandlerClass();
 			if (class_exists($className)) {
-				$cronHandler = new $className();
+				$cronHandler = new $className($cronTask);
 				if ($cronHandler instanceof \App\CronHandler) {
 					$cronHandler->process();
 				} else {

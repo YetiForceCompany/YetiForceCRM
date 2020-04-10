@@ -7,7 +7,6 @@
 	<input type="hidden" id="previousPageExist" value="false"/>
 	<input type="hidden" id="nextPageExist" value="false"/>
 	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">
-		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 		<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
 			{include file=\App\Layout::getTemplatePath('ListView/TableHeader.tpl', $QUALIFIED_MODULE)}
@@ -40,7 +39,7 @@
 														if (event.stopPropagation){ldelim}
 																	event.stopPropagation();{rdelim} else{ldelim}
 																				event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-													<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+													<span class="{$RECORD_LINK->getIcon()}" title="{App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 												</a>
 												{if !$RECORD_LINK@last} {/if}
 											{/foreach}

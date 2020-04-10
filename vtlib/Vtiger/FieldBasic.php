@@ -1,4 +1,5 @@
 <?php
+
  /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -168,7 +169,6 @@ class FieldBasic
 				}
 			}
 		}
-		$this->createAdditionalField();
 		if (!$this->maximumlength && method_exists($this, 'getRangeValues')) {
 			$this->maximumlength = $this->getRangeValues();
 		}
@@ -203,24 +203,6 @@ class FieldBasic
 		\App\Log::trace("Creating field $this->name ... DONE", __METHOD__);
 	}
 
-	/**
-	 * Create additional fields.
-	 */
-	public function createAdditionalField()
-	{
-		if (11 === $this->uitype) {
-			$fieldInstance = new Field();
-			$fieldInstance->name = $this->name . '_extra';
-			$fieldInstance->table = $this->table;
-			$fieldInstance->label = 'FL_PHONE_CUSTOM_INFORMATION';
-			$fieldInstance->column = $this->column . '_extra';
-			$fieldInstance->uitype = 1;
-			$fieldInstance->displaytype = 3;
-			$fieldInstance->typeofdata = 'V~O';
-			$fieldInstance->save($this->block);
-		}
-	}
-
 	public function __update()
 	{
 		$this->clearCache();
@@ -245,12 +227,6 @@ class FieldBasic
 					break;
 				}
 			}
-		} elseif (11 === $this->uitype) {
-			$rowExtra = (new \App\Db\Query())->from('vtiger_field')->where(['fieldname' => $this->name . '_extra'])->one();
-			if (false === $rowExtra) {
-				throw new \App\Exceptions\AppException('Extra field does not exist');
-			}
-			$db->createCommand()->delete('vtiger_field', ['fieldid' => $rowExtra['fieldid']])->execute();
 		}
 		$this->clearCache();
 		\App\Log::trace("Deleteing Field $this->name ... DONE", __METHOD__);

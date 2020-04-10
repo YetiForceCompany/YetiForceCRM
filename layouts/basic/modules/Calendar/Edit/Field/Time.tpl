@@ -5,7 +5,7 @@
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	{assign var="TIME_FORMAT" value=$USER_MODEL->get('hour_format')}
 	{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
-	<div class="tpl-Edit-Field-Time input-group time">
+	<div class="tpl-Edit-Field-Time input-group time {$WIDTHTYPE_GROUP}">
 		{if $FIELD_NAME neq 'time_end'}
 			<div class="input-group-prepend">
 				<span class="input-group-text js-autofill__icon u-cursor-pointer" data-js="click|addClass|removeClass">

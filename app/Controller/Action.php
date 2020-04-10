@@ -14,6 +14,11 @@ namespace App\Controller;
 abstract class Action extends Base
 {
 	/**
+	 * {@inheritdoc}
+	 */
+	public $csrfActive = false;
+
+	/**
 	 * Process action.
 	 *
 	 * @param \App\Request $request

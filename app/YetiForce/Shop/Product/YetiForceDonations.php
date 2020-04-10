@@ -19,6 +19,10 @@ class YetiForceDonations extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
+	public $label = 'Donate / Support our project';
+	/**
+	 * {@inheritdoc}
+	 */
 	public $pricesType = 'manual';
 	/**
 	 * {@inheritdoc}

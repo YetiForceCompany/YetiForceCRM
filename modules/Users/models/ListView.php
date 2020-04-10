@@ -60,7 +60,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_EDIT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=Users&view=MassActionAjax&mode=showMassEditForm");',
-				'linkicon' => 'fas fa-edit'
+				'linkicon' => 'yfi yfi-full-editing-view'
 			];
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',

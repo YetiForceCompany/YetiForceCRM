@@ -233,7 +233,7 @@ class Login extends \Api\Core\BaseAction
 		}
 		return [
 			'token' => $row['token'],
-			'name' => \App\Record::getLabel($row['crmid']),
+			'name' => $row['crmid'] ? \App\Record::getLabel($row['crmid']) : $userModel->getName(),
 			'parentName' => empty($parentId) ? '' : \App\Record::getLabel($parentId),
 			'lastLoginTime' => $row['login_time'],
 			'lastLogoutTime' => $row['logout_time'],

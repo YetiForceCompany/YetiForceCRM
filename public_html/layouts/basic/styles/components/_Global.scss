@@ -398,7 +398,7 @@ body:not(.desktop) {
 	align-items: center;
 	border-radius: 50%;
 
-	[class^="userIcon-"],
+	[class^="yfm-"],
 	.adminIcon-user,
 	.adminIcon-user {
 		font-size: calculate-rem(20px);
@@ -670,7 +670,7 @@ input[type="checkbox"][disabled] {
 		}
 	}
 	&__btn {
-		font-size: 0.8em !important;
+		font-size: 0.7em !important;
 		height: fit-content;
 	}
 }

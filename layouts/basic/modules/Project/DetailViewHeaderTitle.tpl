@@ -14,7 +14,7 @@
 		<div class="u-min-w-md-70 w-100">
 			<div class="float-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 					<span class="moduleIcon">
-							<span class="pl-0 o-detail__icon js-detail__icon js-detail-hierarchy userIcon-{$MODULE_NAME}"
+							<span class="pl-0 o-detail__icon js-detail__icon js-detail-hierarchy yfm-{$MODULE_NAME}"
 								  data-js="click"></span>
 						{if \App\Config::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
 							<span class="hierarchy">

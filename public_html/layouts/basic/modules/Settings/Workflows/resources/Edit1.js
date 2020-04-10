@@ -118,8 +118,7 @@ Settings_Workflows_Edit_Js(
 				thisInstance.hideScheduledMonthByDateList();
 				thisInstance.hideScheduledSpecificDate();
 				thisInstance.hideScheduledAnually();
-
-				if (value == '2') {
+				if ($.inArray(value, ['2', '11', '12', '13']) != -1) {
 					//hourly
 					thisInstance.showScheduledTime();
 				} else if (value == '3') {

@@ -46,16 +46,6 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * The function decide about mandatory save record.
-	 *
-	 * @return bool
-	 */
-	public function isMandatorySave()
-	{
-		return $_FILES ? true : false;
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function delete()
@@ -81,7 +71,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 					'linkhref' => true,
 					'linkurl' => OSSMail_Module_Model::getComposeUrl($this->getModuleName(), $this->getId(), 'Detail', 'new'),
 					'linkicon' => 'fas fa-envelope',
-					'linkclass' => 'btn-xs btn-default',
+					'linkclass' => 'btn-sm btn-default',
 					'linktarget' => '_blank',
 				]);
 			} else {
@@ -92,7 +82,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 						'linkhref' => true,
 						'linkurl' => $urldata,
 						'linkicon' => 'fas fa-envelope',
-						'linkclass' => 'btn-xs btn-default',
+						'linkclass' => 'btn-sm btn-default',
 						'relatedModuleName' => 'OSSMailView',
 					]);
 				}

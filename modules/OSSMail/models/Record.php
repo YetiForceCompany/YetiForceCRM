@@ -145,7 +145,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		\App\Log::trace('imap_open(({' . static::$imapConnectMailbox . ", $user , $password. $options, $maxRetries, " . var_export($params, true) . ') method ...');
 		$mbox = imap_open(static::$imapConnectMailbox, $user, $password, $options, $maxRetries, $params);
 		if (!$mbox) {
-			\App\Log::error('Error OSSMail_Record_Model::imapConnect(): ' . imap_last_error());
+			\App\Log::error('Error OSSMail_Record_Model::imapConnect(' . static::$imapConnectMailbox . '): ' . imap_last_error());
 			if ($dieOnError) {
 				throw new \App\Exceptions\AppException('IMAP_ERROR' . ': ' . imap_last_error());
 			}
@@ -238,7 +238,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$mail->set('header', $header);
 		$mail->set('id', $id);
 		$mail->set('Msgno', $header->Msgno);
-		$mail->set('message_id', \App\Purifier::purifyByType($messageId, 'MailId'));
+		$mail->set('message_id', $messageId ? \App\Purifier::purifyByType($messageId, 'MailId') : '');
 		$mail->set('to_email', \App\Purifier::purify($mail->getEmail('to')));
 		$mail->set('from_email', \App\Purifier::purify($mail->getEmail('from')));
 		$mail->set('reply_toaddress', \App\Purifier::purify($mail->getEmail('reply_to')));

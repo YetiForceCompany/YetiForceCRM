@@ -15,9 +15,8 @@
 	<div class="container">
 		<div id="login-area" class="login-area">
 			<div class="login-space"></div>
-			<div class="logo">
-				<img class="logo__img" title="Logo" class="logo" alt="Logo"
-					 src="{\App\Layout::getPublicUrl('layouts/resources/Logo/logo')}">
+			<div class="logo mb-2">
+				<img class="logo__img" title="Logo" class="logo" alt="Logo" src="{\App\Layout::getPublicUrl('layouts/resources/Logo/logo')}">
 			</div>
 			<div class="" id="loginDiv">
 				{if !$IS_BLOCKED_IP}
@@ -118,32 +117,23 @@
 					<form class="forgot-form row" action="index.php?module=Users&action=ForgotPassword" method="POST">
 						<div class="fieldContainer mx-0 form-row col-md-12">
 							<div class="login-form mx-0 form-row col-sm-10">
-								<label for="usernameFp"
-									   class="sr-only">{\App\Language::translate('LBL_USER',$MODULE)}</label>
+								<label for="usernameFp" class="sr-only">{\App\Language::translate('LBL_USER',$MODULE)}</label>
 								<div class="input-group form-group first-group">
-									<input type="text" class="form-control form-control-lg"
-										   title="{\App\Language::translate('LBL_USER',$MODULE)}" id="usernameFp"
-										   name="user_name"
-										   placeholder="{\App\Language::translate('LBL_USER',$MODULE)}">
+									<input type="text" class="form-control form-control-lg" title="{\App\Language::translate('LBL_USER',$MODULE)}" id="usernameFp" name="user_name" placeholder="{\App\Language::translate('LBL_USER',$MODULE)}">
 									<div class="input-group-append">
 										<div class="input-group-text"><i class="fas fa-user"></i></div>
 									</div>
 								</div>
-								<label for="emailId"
-									   class="sr-only">{\App\Language::translate('LBL_EMAIL',$MODULE)}</label>
+								<label for="emailId" class="sr-only">{\App\Language::translate('LBL_EMAIL',$MODULE)}</label>
 								<div class="input-group form-group">
-									<input type="text" class="form-control form-control-lg" autocomplete="off"
-										   title="{\App\Language::translate('LBL_EMAIL',$MODULE)}" id="emailId"
-										   name="emailId" placeholder="Email">
+									<input type="text" class="form-control form-control-lg" autocomplete="off" title="{\App\Language::translate('LBL_EMAIL',$MODULE)}" id="emailId" name="emailId" placeholder="Email">
 									<div class="input-group-append">
 										<div class="input-group-text"><i class="fas fa-envelope"></i></div>
 									</div>
 								</div>
 							</div>
 							<div class="col-sm-2">
-								<button type="submit" id="retrievePassword"
-										class="btn btn-lg btn-primary btn-block"
-										title="Retrieve Password">
+								<button type="submit" id="retrievePassword" class="btn btn-lg btn-primary btn-block heightDiv_2" title="Retrieve Password">
 									<strong><span class="fas fa-chevron-right"></span></strong>
 								</button>
 							</div>

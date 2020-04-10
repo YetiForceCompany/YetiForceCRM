@@ -173,7 +173,7 @@ class Vtiger_ListView_Model extends \App\Base
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_MERGING',
-				'linkicon' => 'fa fa-code',
+				'linkicon' => 'yfi yfi-merging-records',
 				'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=MergeRecords"],
 				'linkclass' => 'js-mass-action--merge',
 			];
@@ -235,7 +235,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_EDIT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showMassEditForm");',
-				'linkicon' => 'fas fa-edit'
+				'linkicon' => 'yfi yfi-full-editing-view'
 			];
 		}
 		if ($moduleModel->isPermitted('MassActive')) {
@@ -296,7 +296,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
-				'linkicon' => 'fas fa-user'
+				'linkicon' => 'yfi yfi-change-of-owner'
 			];
 		}
 		if ($moduleModel->isTrackingEnabled() && App\Config::module('ModTracker', 'UNREVIEWED_COUNT') && $moduleModel->isPermitted('ReviewingUpdates') && $currentUser->getId() === $currentUser->getRealId()) {

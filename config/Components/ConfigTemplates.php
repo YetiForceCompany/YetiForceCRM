@@ -10,7 +10,7 @@ return [
 		'REMAPPING_OPENCAGE' => [
 			'type' => 'function',
 			'default' => 'return null;',
-			'description' => 'Main function to remapping fields for OpenCage. It should be function.'
+			'description' => 'The main function to remapping fields for OpenCage. It should be a function.'
 		],
 		'REMAPPING_OPENCAGE_FOR_COUNTRY' => [
 			'type' => 'function',
@@ -59,12 +59,12 @@ return [
 				];
 			},
 		];",
-			'description' => 'Function to remapping fields in countries for Nominatim. It should be function.'
+			'description' => 'Function to remapping fields in countries for Nominatim. It should be a function.'
 		],
 		'yetiForceRemapping' => [
 			'type' => 'function',
 			'default' => 'return null;',
-			'description' => 'Main function to remapping fields for YetiForceGeocoder. It should be function.'
+			'description' => 'Main function to remapping fields for YetiForceGeocoder. It should be a function.'
 		],
 		'yetiForceRemappingForCountry' => [
 			'type' => 'function',
@@ -84,7 +84,7 @@ return [
 				];
 			},
 		];",
-			'description' => 'Function to remapping fields in countries for YetiForceGeocoder. It should be function.'
+			'description' => 'Function to remapping fields in countries for YetiForceGeocoder. It should be a function.'
 		],
 	],
 	'Backup' => [
@@ -128,7 +128,7 @@ return [
 		],
 		'RC_COMPOSE_ADDRESS_MODULES' => [
 			'default' => ['Accounts', 'Contacts', 'OSSEmployees', 'Leads', 'Vendors', 'Partners', 'Competition'],
-			'description' => 'List of of modules from which you can choose e-mail address in the mail.'
+			'description' => 'List of modules from which you can choose e-mail address in the mail.'
 		],
 		'helpdeskCreatedStatus' => [
 			'default' => 'Open',
@@ -149,12 +149,42 @@ return [
 		'defaultRelationModule' => [
 			'default' => '',
 			'description' => "Default selected relation module in mail bar.\n@var string Module name"
+		],
+		'autoCompleteFields' => [
+			'default' => [
+				'Accounts' => ['accountname' => 'subject'],
+				'Leads' => ['lastname' => 'fromNameSecondPart', 'company' => 'fromName'],
+				'Vendors' => ['vendorname' => 'subject'],
+				'Partners' => ['subject' => 'subject'],
+				'Competition' => ['subject' => 'subject'],
+				'OSSEmployees' => ['name' => 'fromNameFirstPart', 'last_name' => 'fromNameSecondPart'],
+				'Contacts' => ['firstname' => 'fromNameFirstPart', 'lastname' => 'fromNameSecondPart'],
+				'SSalesProcesses' => ['subject' => 'subject'],
+				'Project' => ['projectname' => 'subject'],
+				'ServiceContracts' => ['subject' => 'subject'],
+				'Campaigns' => ['campaignname' => 'subject'],
+				'FBookkeeping' => ['subject' => 'subject'],
+				'HelpDesk' => ['ticket_title' => 'subject'],
+				'ProjectMilestone' => ['projectmilestonename' => 'subject'],
+				'SQuoteEnquiries' => ['subject' => 'subject'],
+				'SRequirementsCards' => ['subject' => 'subject'],
+				'SCalculations' => ['subject' => 'subject'],
+				'SQuotes' => ['subject' => 'subject'],
+				'SSingleOrders' => ['subject' => 'subject'],
+				'SRecurringOrders' => ['subject' => 'subject'],
+				'FInvoice' => ['subject' => 'subject'],
+				'SVendorEnquiries' => ['subject' => 'subject'],
+				'ProjectTask' => ['projecttaskname' => 'subject'],
+				'Services' => ['servicename' => 'subject'],
+				'Products' => ['productname' => 'subject']
+			],
+			'description' => "Default auto-complete data from mail bar.\n@var array Map. Example ['Accounts' => ['accountname' => 'subject']]"
 		]
 	],
 	'YetiForce' => [
-		'statusUrl' => [
+		'watchdogUrl' => [
 			'default' => '',
-			'description' => 'Service URL',
+			'description' => 'YetiForce watchdog monitor URL',
 			'validation' => function () {
 				$arg = func_get_arg(0);
 				return empty($arg) || \App\Validator::url($arg);
@@ -282,29 +312,45 @@ return [
 		]
 	],
 	'Magento' => [
-		'connector' => [
-			'default' => 'Token',
-			'description' => 'Type of connector for integration with magento.',
-		],
-		'addressApi' => [
-			'default' => '',
-			'description' => 'Address url magento',
-			'validation' => function () {
-				$arg = func_get_arg(0);
-				return empty($arg) || \App\Validator::url($arg);
+		'categoryLimit' => [
+			'default' => 100,
+			'description' => 'Set how many category can be downloaded at once.',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
 			}
 		],
-		'username' => [
-			'default' => '',
-			'description' => 'Username to account in magento.',
+		'customerLimit' => [
+			'default' => 100,
+			'description' => 'Set how many customers can be downloaded at once.',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
-		'password' => [
-			'default' => '',
-			'description' => 'Password to account in magento.',
+		'productLimit' => [
+			'default' => 100,
+			'description' => 'Set how many records can be updated at once.',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
-		'masterSource' => [
-			'default' => 'magento',
-			'description' => 'Set master source: yetiforce or magento',
+		'orderLimit' => [
+			'default' => 100,
+			'description' => 'Set how many orders can be downloaded at once.',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
+		],
+		'invoiceLimit' => [
+			'default' => 100,
+			'description' => 'Set how many invoices can be downloaded at once.',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => function () {
+				return (int) func_get_arg(0);
+			}
 		],
 	],
 	'Branding' => [

@@ -18,7 +18,7 @@ class Composer
 	 */
 	public static $publicPackage = [
 		'yetiforce/csrf-magic' => 'move',
-		'yetiforce/debugbar' => 'move',
+		'maximebf/debugbar' => 'move',
 		'yetiforce/yetiforcepdf/lib/Fonts' => 'copy',
 		'ckeditor/ckeditor' => 'move',
 	];

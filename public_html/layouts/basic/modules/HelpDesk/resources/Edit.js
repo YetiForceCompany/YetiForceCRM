@@ -10,6 +10,7 @@ Vtiger_Edit_Js(
 		 * @param {jQuery} form
 		 */
 		registerRecordPreSaveEventEvent: function(form) {
+			this._super(form);
 			const self = this;
 			let lockSave = true;
 			form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {
@@ -19,7 +20,8 @@ Vtiger_Edit_Js(
 				let isClosedStatusSet = status in closedStatus;
 				const recordId = app.getRecordId();
 				if (
-					(app.getMainParams('checkIfRecordHasTimeControl') || app.getMainParams('checkIfRelatedTicketsAreClosed')) &&
+					(app.getMainParams('checkIfRecordHasTimeControl') ||
+						app.getMainParams('checkIfRelatedTicketsAreClosed')) &&
 					isClosedStatusSet &&
 					recordId &&
 					!data.module
@@ -105,7 +107,9 @@ Vtiger_Edit_Js(
 				if (typeof relatedField !== 'undefined') {
 					let field = data.find('[name="' + relatedField + '"]');
 					if (field.length == 0) {
-						jQuery('<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />').appendTo(data);
+						jQuery('<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />').appendTo(
+							data
+						);
 					}
 				}
 				for (index = 0; index < queryParameters.length; index++) {
@@ -116,7 +120,11 @@ Vtiger_Edit_Js(
 						data.find('[name="' + queryParamComponents[0] + '"]').length == 0
 					) {
 						jQuery(
-							'<input type="hidden" name="' + queryParamComponents[0] + '" value="' + queryParamComponents[1] + '" />'
+							'<input type="hidden" name="' +
+								queryParamComponents[0] +
+								'" value="' +
+								queryParamComponents[1] +
+								'" />'
 						).appendTo(data);
 					}
 				}

@@ -208,7 +208,6 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			->where(['role' => $roleId, 'parentid' => $parent, 'source' => $source])
 			->orderBy(' yetiforce_menu.sequence', 'yetiforce_menu.parentid');
 		$dataReader = $query->createCommand()->query();
-
 		while ($row = $dataReader->read()) {
 			$menu[] = [
 				'id' => $row['id'],
@@ -229,7 +228,6 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			];
 		}
 		$dataReader->close();
-
 		return $menu;
 	}
 
@@ -325,7 +323,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function getIcons()
 	{
-		return ['userIcon-VirtualDesk', 'fas fa-home', 'userIcon-CompaniesAndContact', 'userIcon-Campaigns', 'userIcon-Support', 'userIcon-Project', 'userIcon-Bookkeeping', 'userIcon-HumanResources', 'userIcon-Secretary', 'userIcon-Database', 'userIcon-Sales', 'userIcon-VendorsAccounts'];
+		return ['yfm-VirtualDesk', 'fas fa-home', 'yfm-CompaniesAndContact', 'yfm-Campaigns', 'yfm-Support', 'yfm-Project', 'yfm-Bookkeeping', 'yfm-HumanResources', 'yfm-Secretary', 'yfm-Database', 'yfm-Sales', 'yfm-VendorsAccounts'];
 	}
 
 	public function getRolesContainMenu()
@@ -347,8 +345,9 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function adds records to task queue that updates reviewing changes in records.
 	 *
-	 * @param int $fromRole - Copy from role
-	 * @param int $toRole   - Copy to role
+	 * @param int   $fromRole - Copy from role
+	 * @param int   $toRole   - Copy to role
+	 * @param mixed $roleId
 	 */
 	public function copyMenu($fromRole, $toRole, $roleId)
 	{

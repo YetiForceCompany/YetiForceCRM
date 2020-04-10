@@ -11,12 +11,22 @@
 
 class Vtiger_Save_Action extends \App\Controller\Action
 {
+	use \App\Controller\ExposeMethod;
 	/**
 	 * Record model instance.
 	 *
 	 * @var Vtiger_Record_Model
 	 */
 	protected $record = false;
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('preSaveValidation');
+	}
 
 	/**
 	 * Function to check permission.
@@ -58,20 +68,24 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	 */
 	public function process(App\Request $request)
 	{
-		$recordModel = $this->saveRecord($request);
-		if ($request->getBoolean('relationOperation')) {
-			$loadUrl = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 2))->getDetailViewUrl();
-		} elseif ($request->getBoolean('returnToList')) {
-			$loadUrl = $recordModel->getModule()->getListViewUrl();
+		if ($mode = $request->getMode()) {
+			$this->invokeExposedMethod($mode, $request);
 		} else {
-			$recordModel->clearPrivilegesCache();
-			if ($recordModel->isViewable()) {
-				$loadUrl = $recordModel->getDetailViewUrl();
+			$recordModel = $this->saveRecord($request);
+			if ($request->getBoolean('relationOperation')) {
+				$loadUrl = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 2))->getDetailViewUrl();
+			} elseif ($request->getBoolean('returnToList')) {
+				$loadUrl = $recordModel->getModule()->getListViewUrl();
 			} else {
-				$loadUrl = $recordModel->getModule()->getDefaultUrl();
+				$recordModel->clearPrivilegesCache();
+				if ($recordModel->isViewable()) {
+					$loadUrl = $recordModel->getDetailViewUrl();
+				} else {
+					$loadUrl = $recordModel->getModule()->getDefaultUrl();
+				}
 			}
+			header("location: $loadUrl");
 		}
-		header("location: $loadUrl");
 	}
 
 	/**
@@ -119,5 +133,26 @@ class Vtiger_Save_Action extends \App\Controller\Action
 			$this->record->initInventoryDataFromRequest($request);
 		}
 		return $this->record;
+	}
+
+	/**
+	 * Validation before saving.
+	 *
+	 * @param App\Request $request
+	 */
+	public function preSaveValidation(App\Request $request)
+	{
+		$recordModel = $this->getRecordModelFromRequest($request);
+		$eventHandler = $recordModel->getEventHandler();
+		$result = [];
+		foreach ($eventHandler->getHandlers(\App\EventHandler::EDIT_VIEW_PRE_SAVE) as $handler) {
+			if (!(($response = $eventHandler->triggerHandler($handler))['result'] ?? null)) {
+				$result[] = $response;
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response->setResult($result);
+		$response->emit();
 	}
 }

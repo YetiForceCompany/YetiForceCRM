@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Base-inventoryfields-EditViewDate -->
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
-	<div class="tpl-Edit-Field-Date input-group date">
+	<div class="input-group input-group-sm date">
 		<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" type="text" value="{$FIELD->getEditValue($VALUE)}"
 			   class="form-control {$FIELD->getColumnName()} dateVal {if $FIELD->get('displaytype') != 10}dateFieldInv{/if}"
 			   {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if} autocomplete="off"/>

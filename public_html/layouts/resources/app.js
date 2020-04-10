@@ -107,11 +107,11 @@ var App = (window.App = {
 				}
 				const progress = $.progressIndicator({ blockInfo: { enabled: true } });
 				this.getForm(url, moduleName, params).done(data => {
-					this.showModal(data, params);
-					app.registerEventForClockPicker();
 					progress.progressIndicator({
 						mode: 'hide'
 					});
+					this.showModal(data, params);
+					app.registerEventForClockPicker();
 				});
 			},
 			/**
@@ -163,7 +163,7 @@ var App = (window.App = {
 					if (typeof window[moduleClassName] !== 'undefined') {
 						new window[moduleClassName]().registerEvents(container);
 					}
-					quickCreateForm.validationEngine(app.validationEngineOptions);
+					quickCreateForm.validationEngine(app.validationEngineOptionsForRecord);
 					if (typeof params.callbackPostShown !== 'undefined') {
 						params.callbackPostShown(quickCreateForm);
 					}
@@ -358,11 +358,12 @@ var App = (window.App = {
 						let moduleName = form.find('[name="module"]').val();
 						let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
 						let moduleClassName = moduleName + '_QuickEdit_Js';
+						editViewInstance.setForm(form);
 						editViewInstance.registerBasicEvents(form);
 						if (typeof window[moduleClassName] !== 'undefined') {
 							new window[moduleClassName]().registerEvents(container);
 						}
-						form.validationEngine(app.validationEngineOptions);
+						form.validationEngine(app.validationEngineOptionsForRecord);
 						if (typeof params.callbackPostShown !== 'undefined') {
 							params.callbackPostShown(form, params);
 						}
@@ -462,6 +463,10 @@ var App = (window.App = {
 			save(form) {
 				const aDeferred = $.Deferred();
 				let formData = new FormData(form[0]);
+				const saveData = form.serializeFormData();
+				for (let key in saveData) {
+					formData.append(key, saveData[key]);
+				}
 				AppConnector.request({
 					url: 'index.php',
 					type: 'POST',
@@ -480,6 +485,7 @@ var App = (window.App = {
 			}
 		},
 		Scrollbar: {
+			active: true,
 			defaults: {
 				scrollbars: {
 					autoHide: 'leave'
@@ -492,10 +498,15 @@ var App = (window.App = {
 			initPage() {
 				let scrollbarContainer = $('.mainBody');
 				if (!scrollbarContainer.length) {
+					scrollbarContainer = $('#page');
+				}
+				if (!scrollbarContainer.length) {
 					scrollbarContainer = $('body');
 				}
-				this.page.instance = this.y(scrollbarContainer);
-				this.page.element = $(this.page.instance.getElements().viewport);
+				if (this.active) {
+					this.page.instance = this.y(scrollbarContainer);
+					this.page.element = $(this.page.instance.getElements().viewport);
+				}
 			},
 			xy(element, options = {}) {
 				return element.overlayScrollbars(options).overlayScrollbars();
@@ -1170,7 +1181,7 @@ var app = (window.app = {
 		}
 		modalContainer.one('hidden.bs.modal', callback);
 	},
-	registerModalController: function(modalId, modalContainer, cb) {
+	registerModalController: function (modalId, modalContainer, cb) {
 		let windowParent = this.childFrame ? window.parent : window;
 		if (modalId === undefined) {
 			modalId = Window.lastModalId;
@@ -1178,18 +1189,11 @@ var app = (window.app = {
 		if (modalContainer === undefined) {
 			modalContainer = $('#' + modalId + ' .js-modal-data');
 		}
-		let modalClass = modalContainer.data('module') + '_' + modalContainer.data('view') + '_JS';
-		if (typeof windowParent[modalClass] !== 'undefined') {
-			let instance = new windowParent[modalClass]();
-			if (typeof cb === 'function') {
-				cb(modalContainer, instance);
-			}
-			instance.registerEvents(modalContainer);
-			if (modalId && app.modalEvents[modalId]) {
-				app.modalEvents[modalId](modalContainer, instance);
-			}
+		let moduleName = modalContainer.data('module');
+		let modalClass = moduleName.replace(':', '_') + '_' + modalContainer.data('view') + '_JS';
+		if (typeof windowParent[modalClass] === 'undefined') {
+			modalClass = 'Base_' + modalContainer.data('view') + '_JS';
 		}
-		modalClass = 'Base_' + modalContainer.data('view') + '_JS';
 		if (typeof windowParent[modalClass] !== 'undefined') {
 			let instance = new windowParent[modalClass]();
 			if (typeof cb === 'function') {
@@ -1273,7 +1277,6 @@ var app = (window.app = {
 		//to support validation for select2 select box
 		prettySelect: true,
 		usePrefix: 's2id_',
-		validateNonVisibleFields: true,
 		onBeforePromptType: function(field) {
 			var block = field.closest('.js-toggle-panel');
 			if (block.find('.blockContent').is(':hidden')) {
@@ -2428,6 +2431,18 @@ var app = (window.app = {
 			return base64Image;
 		});
 	},
+	registerHtmlToImageDownloader: function(container) {
+		const self = this;
+		container.on('click', '.js-download-html', function(e) {
+			let element = $(this);
+			let fileName = element.data('fileName');
+			self.htmlToImage($(element.data('html'))).then(img => {
+				$(`<a href="${img}" download="${fileName}.png"></a>`)
+					.get(0)
+					.click();
+			});
+		});
+	},
 	decodeHTML(html) {
 		var txt = document.createElement('textarea');
 		txt.innerHTML = html;
@@ -2643,6 +2658,16 @@ var app = (window.app = {
 		const temporalDiv = document.createElement('div');
 		temporalDiv.innerHTML = html;
 		return temporalDiv.textContent || temporalDiv.innerText || '';
+	},
+	registerShowHideBlock(container) {
+		container.on('click', '.js-hb__btn', e => {
+			$(e.currentTarget)
+				.closest('.js-hb__container')
+				.toggleClass('u-hidden-block__opened');
+		});
+		container.find('.js-fab__container').on('clickoutside', e => {
+			$(e.currentTarget).removeClass('u-hidden-block__opened');
+		});
 	}
 });
 CKEDITOR.disableAutoInline = true;
@@ -2658,11 +2683,13 @@ $(document).ready(function() {
 	app.registerFormatNumber();
 	app.registerIframeAndMoreContent();
 	app.registerModal();
-	app.registerQuickEditModal();
+	app.registerQuickEditModal(document);
 	app.registerMenu();
 	app.registerTabdrop();
 	app.registerIframeEvents(document);
 	app.registesterScrollbar(document);
+	app.registerHtmlToImageDownloader(document);
+	app.registerShowHideBlock(document);
 	App.Components.Scrollbar.initPage();
 	String.prototype.toCamelCase = function() {
 		let value = this.valueOf();

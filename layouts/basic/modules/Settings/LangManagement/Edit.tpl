@@ -78,7 +78,7 @@
 								<td>
 									{if isset($CUSTOM_DATA['php'][$LANG_KEY])}
 										<button type="button" class="btn btn-light js-delete" data-js="click" title="{\App\Language::translate('LBL_DELETE')}">
-											<span class="fas fa-trash-alt alignMiddle"></span>
+											<span class="fas fa-trash-alt"></span>
 										</button>
 									{/if}
 								</td>
@@ -114,7 +114,7 @@
 								<td>
 									{if isset($CUSTOM_DATA['js'][$LANG_KEY])}
 										<button type="button" class="btn btn-light js-delete" data-js="click" title="{\App\Language::translate('LBL_DELETE')}">
-											<span class="fas fa-trash-alt alignMiddle"></span>
+											<span class="fas fa-trash-alt"></span>
 										</button>
 									{/if}
 								</td>

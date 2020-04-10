@@ -86,7 +86,7 @@ class Record extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\Get(
-	 *		path="/webservice/{moduleName}/Record",
+	 *		path="/webservice/{moduleName}/Record/{recordId}",
 	 *		summary="Gets data for the record",
 	 *		tags={"BaseModule"},
 	 *		security={
@@ -104,6 +104,17 @@ class Record extends \Api\Core\BaseAction
 	 *			),
 	 *			in="path",
 	 *			example="Contacts",
+	 *			required=true
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="recordId",
+	 *			description="Record id",
+	 *			@OA\Schema(
+	 *				type="integer",
+	 *				format="int64",
+	 *			),
+	 *			in="path",
+	 *			example=116,
 	 *			required=true
 	 *		),
 	 *		@OA\Parameter(
@@ -277,8 +288,8 @@ class Record extends \Api\Core\BaseAction
 	 * @return bool
 	 *
 	 * @OA\Delete(
-	 *		path="/webservice/BaseModule/Record",
-	 *		summary="List of records moved to the trash",
+	 *		path="/webservice/{moduleName}/Record/{recordId}",
+	 *		summary="Delete record (move to the trash)",
 	 *		tags={"BaseModule"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
@@ -286,6 +297,27 @@ class Record extends \Api\Core\BaseAction
 	 *		@OA\RequestBody(
 	 *				required=false,
 	 *				description="The content of the request is empty.",
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="moduleName",
+	 *			description="Module name",
+	 *			@OA\Schema(
+	 *				type="string"
+	 *			),
+	 *			in="path",
+	 *			example="Contacts",
+	 *			required=true
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="recordId",
+	 *			description="Record id",
+	 *			@OA\Schema(
+	 *				type="integer",
+	 *				format="int64",
+	 *			),
+	 *			in="path",
+	 *			example=116,
+	 *			required=true
 	 *		),
 	 *		@OA\Parameter(
 	 *				name="X-ENCRYPTED",
@@ -335,8 +367,8 @@ class Record extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\Put(
-	 *		path="/webservice/BaseModule/Record",
-	 *		summary="List of edited records",
+	 *		path="/webservice/{moduleName}/Record/{recordId}",
+	 *		summary="Edit record",
 	 *		tags={"BaseModule"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
@@ -346,6 +378,27 @@ class Record extends \Api\Core\BaseAction
 	 *				description="The content of the request is empty.",
 	 *		),
 	 *		@OA\Parameter(
+	 *			name="moduleName",
+	 *			description="Module name",
+	 *			@OA\Schema(
+	 *				type="string"
+	 *			),
+	 *			in="path",
+	 *			example="Contacts",
+	 *			required=true
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="recordId",
+	 *			description="Record id",
+	 *			@OA\Schema(
+	 *				type="integer",
+	 *				format="int64",
+	 *			),
+	 *			in="path",
+	 *			example=116,
+	 *			required=true
+	 *		),
+	 *		@OA\Parameter(
 	 *				name="X-ENCRYPTED",
 	 * 				in="header",
 	 *				required=true,
@@ -353,7 +406,7 @@ class Record extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Response(
 	 *				response=200,
-	 *				description="List of edited records",
+	 *				description="Gets data for the record",
 	 *				@OA\JsonContent(ref="#/components/schemas/BaseModule_Put_Record_Response"),
 	 *				@OA\XmlContent(ref="#/components/schemas/BaseModule_Put_Record_Response"),
 	 *				@OA\MediaType(
@@ -393,8 +446,8 @@ class Record extends \Api\Core\BaseAction
 	 * @return array
 	 *
 	 * @OA\Post(
-	 *		path="/webservice/BaseModule/Record",
-	 *		summary="List of records created",
+	 *		path="/webservice/{moduleName}/Record",
+	 *		summary="Create record",
 	 *		tags={"BaseModule"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
@@ -402,6 +455,16 @@ class Record extends \Api\Core\BaseAction
 	 *		@OA\RequestBody(
 	 *				required=false,
 	 *				description="The content of the request is empty.",
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="moduleName",
+	 *			description="Module name",
+	 *			@OA\Schema(
+	 *				type="string"
+	 *			),
+	 *			in="path",
+	 *			example="Contacts",
+	 *			required=true
 	 *		),
 	 *		@OA\Parameter(
 	 *				name="X-ENCRYPTED",
@@ -433,7 +496,7 @@ class Record extends \Api\Core\BaseAction
 	 *		),
 	 *		@OA\Property(
 	 *				property="result",
-	 *				title="Parameters record",
+	 *				title="Gets data for the record",
 	 *				description="Parameters the saved record.",
 	 *				type="array",
 	 *				@OA\Items(items="id", description="Id of the newly created record", type="integer"),

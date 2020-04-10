@@ -553,14 +553,19 @@ var Vtiger_Index_Js = {
 		});
 	},
 	registerAterloginEvents: function() {
-		if (typeof CONFIG.ShowUserPasswordChange !== 'undefined') {
+		if (typeof CONFIG.ShowUserPwnedPasswordChange !== 'undefined') {
+			app.showModalWindow(
+				null,
+				'index.php?module=Users&view=PasswordModal&mode=change&type=pwned&record=' + CONFIG.userId
+			);
+		} else if (typeof CONFIG.ShowUserPasswordChange !== 'undefined') {
 			app.showModalWindow(null, 'index.php?module=Users&view=PasswordModal&mode=change&record=' + CONFIG.userId);
 		}
 		if (typeof CONFIG.ShowAuthy2faModal !== 'undefined') {
-			app.showModalWindow({
-				backdrop: 'static',
-				url: 'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' + CONFIG.userId
-			});
+			app.showModalWindow(
+				null,
+				'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' + CONFIG.userId
+			);
 		}
 	},
 	registerEvents: function() {

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Settings-YetiForce-Shop-BuyModal -->
+<!-- tpl-Settings-ApiAddress-ApiConfigModal -->
 <div class="modal-body pb-0">
 	<form class="js-form-validation">
 		<div class="row no-gutters" >

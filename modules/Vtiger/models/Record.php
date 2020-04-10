@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -25,6 +26,7 @@ class Vtiger_Record_Model extends \App\Base
 	public $isNew = true;
 	public $ext = [];
 	protected $dataForSave = [];
+	protected $handler;
 
 	/**
 	 * Function to get the id of the record.
@@ -91,13 +93,25 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Set data for save.
+	 * Set custom data for save.
 	 *
-	 * @param array $array
+	 * @param array $data
 	 */
-	public function setDataForSave(array $array)
+	public function setDataForSave(array $data)
 	{
-		$this->dataForSave = array_merge($this->dataForSave, $array);
+		foreach ($data as $tableName => $tableData) {
+			$this->dataForSave[$tableName] = isset($this->dataForSave[$tableName]) ? array_merge($this->dataForSave[$tableName], $tableData) : $tableData;
+		}
+	}
+
+	/**
+	 * Gets custom data for save.
+	 *
+	 * @param array
+	 */
+	public function getDataForSave()
+	{
+		return $this->dataForSave;
 	}
 
 	/**
@@ -442,15 +456,24 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
+	 * Gets Event Handler.
+	 *
+	 * @return \App\EventHandler
+	 */
+	public function getEventHandler(): App\EventHandler
+	{
+		if (!$this->handler) {
+			$this->handler = (new \App\EventHandler())->setRecordModel($this)->setModuleName($this->getModuleName());
+		}
+		return $this->handler;
+	}
+
+	/**
 	 * Function to save the current Record Model.
 	 */
 	public function save()
 	{
-		$moduleModel = $this->getModule();
-		$moduleName = $moduleModel->get('name');
-		$eventHandler = new App\EventHandler();
-		$eventHandler->setRecordModel($this);
-		$eventHandler->setModuleName($moduleName);
+		$eventHandler = $this->getEventHandler();
 		if ($this->getHandlerExceptions()) {
 			$eventHandler->setExceptions($this->getHandlerExceptions());
 		}
@@ -479,7 +502,7 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$eventHandler->trigger('EntityAfterSave');
 		if ($this->isNew()) {
-			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $moduleName, $this);
+			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
 			$this->isNew = false;
 		}
 		\App\Cache::delete('recordLabel', $this->getId());
@@ -795,13 +818,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function isMandatorySave()
 	{
-		if ($this->getModule()->isInventory() && $this->getPreviousInventoryItems()) {
-			return true;
-		}
-		if (!empty($this->dataForSave)) {
-			return true;
-		}
-		return false;
+		return !empty($this->dataForSave) || ($this->getModule()->isInventory() && $this->getPreviousInventoryItems());
 	}
 
 	/**
@@ -969,10 +986,8 @@ class Vtiger_Record_Model extends \App\Base
 		if (!is_dir($path)) {
 			return [];
 		}
-		$summaryBlocks = [];
+		$tempSummaryBlocks = [];
 		$dir = new DirectoryIterator($path);
-		$blockCount = 0;
-
 		foreach ($dir as $fileinfo) {
 			if (!$fileinfo->isDot()) {
 				$tmp = explode('.', $fileinfo->getFilename());
@@ -983,13 +998,16 @@ class Vtiger_Record_Model extends \App\Base
 					if (isset($blockObiect->reference) && !\App\Module::isModuleActive($blockObiect->reference)) {
 						continue;
 					}
-					$summaryBlocks[(int) ($blockCount / $this->summaryRowCount)][$blockObiect->sequence] = ['name' => $blockObiect->name, 'data' => $blockObiect->process($this), 'reference' => $blockObiect->reference];
-					++$blockCount;
+					$tempSummaryBlocks[$blockObiect->sequence] = ['name' => $blockObiect->name, 'data' => $blockObiect->process($this), 'reference' => $blockObiect->reference];
 				}
 			}
 		}
-		foreach ($summaryBlocks as $key => $block) {
-			ksort($summaryBlocks[$key]);
+		ksort($tempSummaryBlocks);
+		$blockCount = 0;
+		$summaryBlocks = [];
+		foreach ($tempSummaryBlocks as $key => $block) {
+			$summaryBlocks[(int) ($blockCount / $this->summaryRowCount)][$key] = $tempSummaryBlocks[$key] ;
+					++$blockCount;
 		}
 		return $summaryBlocks;
 	}
@@ -1005,7 +1023,7 @@ class Vtiger_Record_Model extends \App\Base
 		if ($mfInstance) {
 			$defaultInvRow = [];
 			$params = $mfInstance->get('params');
-			if ($params['autofill']) {
+			if (!empty($params['autofill'])) {
 				$fieldsList = array_keys($this->getModule()->getFields());
 				$parentFieldsList = array_keys($parentRecordModel->getModule()->getFields());
 				$commonFields = array_intersect($fieldsList, $parentFieldsList);
@@ -1339,20 +1357,22 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn-sm btn-default',
 				'linkhref' => true,
 			];
-			$recordLinks[] = [
-				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-				'linklabel' => 'LBL_QUICK_EDIT',
-				'linkicon' => 'mdi mdi-square-edit-outline',
-				'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
-				'linkdata' => [
-					'module' => $this->getModuleName(),
-					'record' => $this->getId(),
-				]
-			];
+			if ($this->getModule()->isQuickCreateSupported()) {
+				$recordLinks[] = [
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_QUICK_EDIT',
+					'linkicon' => 'yfi yfi-quick-creation',
+					'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
+					'linkdata' => [
+						'module' => $this->getModuleName(),
+						'record' => $this->getId(),
+					]
+				];
+			}
 		}
 		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
 			$watching = (int) ($this->isWatchingRecord());
@@ -1452,12 +1472,12 @@ class Vtiger_Record_Model extends \App\Base
 				'linklabel' => 'LBL_EDIT',
 				'linkhref' => true,
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn-sm btn-default',
 			]);
 			$links['LBL_QUICK_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_QUICK_EDIT',
-				'linkicon' => 'mdi mdi-square-edit-outline',
+				'linkicon' => 'yfi yfi-quick-creation',
 				'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
 				'linkdata' => [
 					'module' => $this->getModuleName(),
@@ -1587,14 +1607,6 @@ class Vtiger_Record_Model extends \App\Base
 			parent::set($fieldName, $value);
 		}
 		return $this->get($fieldName);
-	}
-
-	/**
-	 * Clear changes.
-	 */
-	public function clearChanges()
-	{
-		$this->changes = null;
 	}
 
 	/**

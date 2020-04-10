@@ -29,7 +29,6 @@
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
 		{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
-		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 		<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
 			{include file=\App\Layout::getTemplatePath('ListView/TableHeader.tpl', $QUALIFIED_MODULE) EMPTY_COLUMN=1}

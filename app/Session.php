@@ -24,7 +24,6 @@ class Session
 		if (PHP_SESSION_ACTIVE === \session_status()) {
 			return;
 		}
-
 		$driver = \App\Config::performance('SESSION_DRIVER');
 		if ($driver) {
 			$className = '\App\Session\\' . $driver;

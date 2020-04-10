@@ -15,7 +15,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">
-						<span class="fas fa-edit mr-2 mt-2"></span>
+						<span class="yfi yfi-full-editing-view mr-2 mt-2"></span>
 						{\App\Language::translate($RECORD_MODEL->get('name'), $QUALIFIED_MODULE)}
 					</h5>
 					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
@@ -70,7 +70,7 @@
 										</optgroup>
 									</select>
 								</div>
-							</div>	
+							</div>
 						</div>
 						{if $RECORD_MODEL->get('description') neq ''}
 							<div class="alert alert-info">{\App\Language::translate($RECORD_MODEL->get('description'),$QUALIFIED_MODULE)}</div>
@@ -78,7 +78,7 @@
 					</div>
 					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 				</form>
-			</div>		
-		</div>		
-	</div>		
-{/strip}	
+			</div>
+		</div>
+	</div>
+{/strip}

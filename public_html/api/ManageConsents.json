@@ -118,6 +118,15 @@
                             "format": "int64"
                         },
                         "example": "1"
+                    },
+                    {
+                        "name": "x-condition",
+                        "in": "header",
+                        "description": "Add conditions [Json format]",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/ApprovalsConditionsRequest"
+                        }
                     }
                 ],
                 "requestBody": {
@@ -362,6 +371,16 @@
                     }
                 },
                 "type": "object"
+            },
+            "ApprovalsConditionsRequest": {
+                "title": "Conditions",
+                "description": "The list is based on fields in the Consent register module. fieldName - Field name, value - Value, operator - Specific operator, group - true/false. ",
+                "type": "string",
+                "example": {
+                    "fieldName": "approvals_status",
+                    "value": "PLL_ACTIVE",
+                    "operator": "e"
+                }
             },
             "ConsentsResponseBody": {
                 "title": "List of consents",

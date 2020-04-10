@@ -68,12 +68,4 @@ class ConfReport extends \Tests\Base
 			'Security configuration (normal mode, show all) report should be not empty'
 		);
 	}
-
-	/**
-	 * Testing system performance.
-	 */
-	public function testSpeed()
-	{
-		$this->assertNotEmpty(\App\Utils\ConfReport::testSpeed());
-	}
 }

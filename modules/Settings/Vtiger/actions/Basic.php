@@ -12,6 +12,9 @@ class Settings_Vtiger_Basic_Action extends \App\Controller\Action
 {
 	use \App\Controller\ExposeMethod;
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -25,14 +28,14 @@ class Settings_Vtiger_Basic_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if (!\App\User::getCurrentUserModel()->isAdmin()) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function updateFieldPinnedStatus(\App\Request $request)
+	public function updateFieldPinnedStatus(App\Request $request)
 	{
 		$fieldId = $request->getInteger('fieldid');
 		$menuItemModel = Settings_Vtiger_MenuItem_Model::getInstanceById($fieldId);

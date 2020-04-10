@@ -28,6 +28,7 @@ class Vtiger_MailScannerFields_UIType extends Vtiger_MultiListFields_UIType
 				['<>', 'vtiger_field.presence', 1],
 				['uitype' => [4, 13, 319]],
 				['<>', 'vtiger_tab.name', 'Users'],
+				['vtiger_tab.presence' => 0],
 			])
 			->orderBy(['vtiger_tab.tabid' => \SORT_ASC, 'vtiger_field.sequence' => \SORT_ASC]);
 		$dataReader = $query->createCommand()->query();

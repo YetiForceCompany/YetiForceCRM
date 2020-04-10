@@ -12,7 +12,7 @@ class Vtiger_Activities_Widget extends Vtiger_Basic_Widget
 
 	public function getUrl()
 	{
-		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=getActivities&page=1&sortorder=ASC&type=current&limit=' . $this->Data['limit'];
+		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=getActivities&page=1&limit=' . $this->Data['limit'] . '&search_params=' . App\Json::encode([$this->getSearchParams('current')]);
 	}
 
 	public function getConfigTplName()
@@ -25,10 +25,35 @@ class Vtiger_Activities_Widget extends Vtiger_Basic_Widget
 		$widget = [];
 		$model = Vtiger_Module_Model::getInstance('Calendar');
 		if ($model->isPermitted('DetailView')) {
+			if (!isset($this->Data['switchTypeInHeader']) || '-' != $this->Data['switchTypeInHeader']) {
+				$this->Config['switchTypeInHeader'] = [];
+				$this->Config['switchTypeInHeader']['on'] = \App\Json::encode($this->getSearchParams('current'));
+				$this->Config['switchTypeInHeader']['off'] = \App\Json::encode($this->getSearchParams('history'));
+				$this->Config['switchHeaderLables']['on'] = \App\Language::translate('LBL_CURRENT', $model->getName());
+				$this->Config['switchHeaderLables']['off'] = \App\Language::translate('LBL_HISTORY', $model->getName());
+			}
+
 			$this->Config['url'] = $this->getUrl();
 			$this->Config['tpl'] = 'Activities.tpl';
 			$widget = $this->Config;
 		}
 		return $widget;
+	}
+
+	/**
+	 *  Function to get params to searching.
+	 *
+	 * @param string $type
+	 *
+	 * @return array
+	 */
+	public function getSearchParams(string $type): array
+	{
+		if ('history' === $type) {
+			$values = Calendar_Module_Model::getComponentActivityStateLabel('history');
+		} else {
+			$values = Calendar_Module_Model::getComponentActivityStateLabel('current');
+		}
+		return [['activitystatus', 'e', implode('##', $values)]];
 	}
 }

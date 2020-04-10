@@ -1,7 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Calendar-Detail-BlockView -->
-	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{include file=\App\Layout::getTemplatePath('Detail/BlockView.tpl', 'Vtiger') RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
 	{assign var="IS_HIDDEN" value=false}
 	<div class="detailViewTable">

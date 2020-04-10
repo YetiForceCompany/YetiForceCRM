@@ -125,11 +125,14 @@ abstract class Page extends Base
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$cssScriptModel = new \Vtiger_CssScript_Model();
-		$headerCssInstances[] = $cssScriptModel->set('href', \Vtiger_Theme::getThemeStyle());
+		$prefix = '';
+		if (!IS_PUBLIC_DIR) {
+			$prefix = 'public_html/';
+		}
 		foreach (\Vtiger_Link_Model::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERCSS']) as $cssLinks) {
 			foreach ($cssLinks as $cssLink) {
-				$headerCssInstances[] = $cssLink->linkurl;
+				$cssScriptModel = new \Vtiger_CssScript_Model();
+				$headerCssInstances[] = $cssScriptModel->set('href', $prefix . $cssLink->linkurl);
 			}
 		}
 		return $headerCssInstances;
@@ -149,9 +152,9 @@ abstract class Page extends Base
 		}
 		if (\App\Session::has('ShowUserPasswordChange')) {
 			\App\Config::setJsEnv('ShowUserPasswordChange', \App\Session::get('ShowUserPasswordChange'));
-			if (1 === (int) \App\Session::get('ShowUserPasswordChange')) {
-				\App\Session::delete('ShowUserPasswordChange');
-			}
+		}
+		if (\App\Session::has('ShowUserPwnedPasswordChange')) {
+			\App\Config::setJsEnv('ShowUserPwnedPasswordChange', \App\Session::get('ShowUserPwnedPasswordChange'));
 		}
 	}
 

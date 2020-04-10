@@ -149,7 +149,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function addField($fieldType, $blockId, $params)
 	{
 		$label = $params['fieldLabel'];
-		$type = (int) $params['fieldTypeList'];
 		$name = strtolower($params['fieldName']);
 		$fieldParams = '';
 		if ($this->checkFieldLabelExists($label)) {
@@ -186,16 +185,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		$moduleName = $this->getName();
-		$focus = CRMEntity::getInstance($moduleName);
-		if (0 === $type) {
-			$tableName = $focus->table_name;
-		} elseif (1 === $type) {
-			if (isset($focus->customFieldTable)) {
-				$tableName = $focus->customFieldTable[0];
-			} else {
-				$tableName = $focus->table_name . 'cf';
-			}
-		}
+		$tableName = $this->getTableName($params['fieldTypeList']);
 		if ('Tree' === $fieldType || 'CategoryMultipicklist' === $fieldType) {
 			$fieldParams = (int) $params['tree'];
 		} elseif ('MultiReferenceValue' === $fieldType) {
@@ -233,6 +223,18 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		}
 		$blockModel = Vtiger_Block_Model::getInstance($blockId, $moduleName);
 		$blockModel->addField($fieldModel);
+		if ('Phone' === $fieldType) {
+			$fieldInstance = new vtlib\Field();
+			$fieldInstance->name = $name . '_extra';
+			$fieldInstance->table = $tableName;
+			$fieldInstance->label = 'FL_PHONE_CUSTOM_INFORMATION';
+			$fieldInstance->column = $name . '_extra';
+			$fieldInstance->uitype = 1;
+			$fieldInstance->displaytype = 3;
+			$fieldInstance->maxlengthtext = 100;
+			$fieldInstance->typeofdata = 'V~O';
+			$fieldInstance->save($blockModel);
+		}
 		if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType) {
 			$fieldModel->setPicklistValues($pickListValues);
 		}
@@ -362,7 +364,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				break;
 			case 'Related1M':
 				$uitype = 10;
-				$type = $importerType->integer()->defaultValue(0)->unsigned();
+				$type = $importerType->integer(10)->defaultValue(0)->unsigned();
 				$uichekdata = 'V~O';
 				break;
 			case 'Editor':
@@ -405,7 +407,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			case 'Country':
 				$uitype = 35;
 				$uichekdata = 'V~O';
-				$type = $importerType->text();
+				$type = $importerType->stringType(255);
 				break;
 			case 'Twitter':
 				$fieldLength = Vtiger_Twitter_UIType::MAX_LENGTH;
@@ -453,6 +455,25 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'dbType' => $type,
 			'displayType' => $displayType,
 		];
+	}
+
+	public function getTableName($type)
+	{
+		if (\is_int($type)) {
+			$focus = CRMEntity::getInstance($this->getName());
+			if (0 == $type) {
+				$tableName = $focus->table_name;
+			} elseif (1 == $type) {
+				if (isset($focus->customFieldTable)) {
+					$tableName = $focus->customFieldTable[0];
+				} else {
+					$tableName = $focus->table_name . 'cf';
+				}
+			}
+		} else {
+			$tableName = $type;
+		}
+		return $tableName;
 	}
 
 	/**
@@ -640,14 +661,20 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		return $treeList;
 	}
 
-	public static function getRelationsTypes()
+	public static function getRelationsTypes(?string $moduleName = null)
 	{
-		return [
+		$types = [
 			'getRelatedList' => 'PLL_RELATED_LIST',
 			//'getDependentsList' => 'PLL_DEPENDENTS_LIST',
 			'getManyToMany' => 'PLL_SPLITED_RELATED_LIST',
 			'getAttachments' => 'PLL_ATTACHMENTS',
+			// 'getActivities' => 'PLL_ACTIVITIES',
+			'getEmails' => 'PLL_EMAILS',
 		];
+		if ('OSSMailView' === $moduleName) {
+			$types['getRecordToMails'] = 'PLL_RECORD_TO_MAILS';
+		}
+		return $types;
 	}
 
 	public static function getRelationsActions()
@@ -656,29 +683,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'ADD' => 'PLL_ADD',
 			'SELECT' => 'PLL_SELECT',
 		];
-	}
-
-	/**
-	 * Get relation fields by module ID.
-	 *
-	 * @param int $moduleId
-	 *
-	 * @return string[]
-	 */
-	public static function getRelationFields(int $moduleId)
-	{
-		$dataReader = (new \App\Db\Query())
-			->select(['vtiger_field.fieldid', 'vtiger_field.fieldname'])
-			->from('vtiger_relatedlists_fields')
-			->innerJoin('vtiger_field', 'vtiger_relatedlists_fields.fieldid = vtiger_field.fieldid')
-			->where(['vtiger_relatedlists_fields.relation_id' => $moduleId, 'vtiger_field.presence' => [0, 2]])
-			->createCommand()->query();
-		$fields = [];
-		while ($row = $dataReader->read()) {
-			$fields[$row['fieldid']] = $row['fieldname'];
-		}
-		$dataReader->close();
-		return $fields;
 	}
 
 	/**

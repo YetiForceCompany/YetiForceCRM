@@ -30,8 +30,8 @@ class Users_SwitchUsers_Action extends \App\Controller\Action
 				'busername' => $currentUserModel->getName(),
 				'dusername' => '',
 				'date' => date('Y-m-d H:i:s'),
-				'ip' => \App\RequestUtil::getRemoteIP(),
-				'agent' => $request->getServer('HTTP_USER_AGENT'),
+				'ip' => \App\TextParser::textTruncate(\App\RequestUtil::getRemoteIP(), 100, false),
+				'agent' => \App\TextParser::textTruncate(\App\Request::_getServer('HTTP_USER_AGENT', '-'), 500, false),
 				'status' => 'Failed login - No permission',
 			])->execute();
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -73,8 +73,8 @@ class Users_SwitchUsers_Action extends \App\Controller\Action
 			'busername' => $currentUser->getName(),
 			'dusername' => $name,
 			'date' => date('Y-m-d H:i:s'),
-			'ip' => \App\RequestUtil::getRemoteIP(),
-			'agent' => $request->getServer('HTTP_USER_AGENT'),
+			'ip' => \App\TextParser::textTruncate(\App\RequestUtil::getRemoteIP(), 100, false),
+			'agent' => \App\TextParser::textTruncate(\App\Request::_getServer('HTTP_USER_AGENT', '-'), 500, false),
 			'status' => $status,
 		])->execute();
 		\App\CustomView::resetCurrentView();
