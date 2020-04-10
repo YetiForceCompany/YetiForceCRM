@@ -540,12 +540,10 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			foreach ($scannerModel->getFolders($account['user_id']) as $folderRow) {
 				$folder = \App\Utils::convertCharacterEncoding($folderRow['folder'], 'UTF-8', 'UTF7-IMAP');
 				\App\Log::trace('Start checking folder: ' . $folder);
-
 				$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $folder, false);
 				if (\is_resource($mbox)) {
 					$scanSummary = $scannerModel->mailScan($mbox, $account, $folderRow['folder'], $scanId, $countEmails);
 					$countEmails = $scanSummary['count'];
-					imap_close($mbox);
 					if ($scanSummary['break']) {
 						\App\Log::info('Reached the maximum number of scanned mails');
 						break 2;
@@ -574,7 +572,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		try {
 			$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], '');
 			if (\is_resource($mbox)) {
-				imap_close($mbox);
 				$result = true;
 			}
 		} catch (\Throwable $e) {

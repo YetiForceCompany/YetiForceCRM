@@ -607,7 +607,6 @@ class Mailer
 			return false;
 		}
 		imap_append($mbox, \OSSMail_Record_Model::$imapConnectMailbox, $this->mailer->getSentMIMEMessage(), '\\Seen');
-		imap_close($mbox);
 		return true;
 	}
 
