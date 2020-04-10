@@ -46,6 +46,18 @@
     "PLL_PAID": "Paid",
     "PLL_OVERPAID": "Over paid",
     "PLL_UNDERPAID": "Underpaid",
-    "FL_PARENT_SSINGLEORDERS": "Parent sales order"
+    "FL_PARENT_SSINGLEORDERS": "Parent sales order",
+    "FL_MAGENTO_STATUS": "Magento status",
+    "PLL_PENDING": "Pending",
+    "PLL_PENDING_PAYMENT": "Pending payment",
+    "PLL_PENDING_PAYPAL": "Pending PayPal",
+    "PLL_PROCESSING": "Processing",
+    "PLL_HOLDED": "On hold",
+    "PLL_FRAUD": "Suspected fraud",
+    "PLL_PAYMENT_REVIEW": "Payment review",
+    "PLL_PAYPAL_CANCELED_REVERSAL": "PayPal canceled reversal",
+    "PLL_PAYPAL_REVERSED": "PayPal reversed",
+    "PLL_CLOSED": "Closed",
+    "PLL_COMPLETE": "Complete"
   }
 }
