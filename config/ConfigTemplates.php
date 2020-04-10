@@ -690,9 +690,9 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
-		'MODULES_SPLITED_EDIT_VIEW_LAYOUT' => [
+		'MODULES_SPLITTED_EDIT_VIEW_LAYOUT' => [
 			'default' => [],
-			'description' => 'List of modules with splited edit view layout',
+			'description' => 'List of modules with splitted edit view layout',
 			'validation' => function () {
 				$arg = func_get_arg(0);
 				return \is_array($arg) && array_diff($arg, App\Module::getAllModuleNames());
