@@ -8312,7 +8312,7 @@ CREATE TABLE `vtiger_settings_blocks` (
   `linkto` text DEFAULT NULL,
   `admin_access` text DEFAULT NULL,
   PRIMARY KEY (`blockid`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_settings_field` */
 
