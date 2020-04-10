@@ -14,7 +14,7 @@
 		</div>
 	{elseif !$MODULE_MODEL->isActive()}
 		<div class="alert alert-danger">
-			<span class="mdi mdi-alert-outline mr-2 float-left"></span>
+			<span class="mdi mdi-alert-outline mr-2 u-fs-lg float-left"></span>
 			{\App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', $QUALIFIED_MODULE,'Magento')}
 			<a class="btn btn-primary btn-sm ml-3" href="index.php?parent=Settings&module=Magento&action=Active">
 				<span class="mdi mdi-check mr-2 float-left"></span>

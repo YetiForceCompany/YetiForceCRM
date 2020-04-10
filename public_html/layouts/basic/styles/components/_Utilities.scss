@@ -6,26 +6,78 @@
 	@extend .font-weight-bold;
 }
 
+@for $i from 1 through 10 {
+	.u-fs-#{$i}x {
+		font-size: #{$i}rem !important;
+	}
+}
+
 .u-fs-xs {
-	font-size: 0.75rem;
+	font-size: 0.75rem !important;
 }
 
 .u-fs-sm {
-	font-size: 0.876rem;
+	font-size: 0.876rem !important;
 }
 
 .u-fs-lg {
-	font-size: 1.33rem;
+	font-size: 1.33rem !important;
 }
 
 .u-fs-xlg {
-	font-size: 1.5rem;
+	font-size: 1.5rem !important;
 }
 
-@for $i from 1 through 10 {
-	.u-fs-#{$i}x {
-		font-size: #{$i}rem;
-	}
+.u-font-size-2x {
+	font-size: 2em !important;
+}
+
+.u-font-size-3x {
+	font-size: 3em !important;
+}
+
+.u-font-size-10px {
+	font-size: calculate-rem(10px) !important;
+}
+
+.u-font-size-13px {
+	font-size: calculate-rem(13px) !important;
+}
+
+.u-font-size-14px {
+	font-size: calculate-rem(15px) !important;
+}
+
+.u-font-size-19px {
+	font-size: calculate-rem(19px) !important;
+}
+
+.u-font-size-38px {
+	font-size: calculate-rem(38px) !important;
+}
+
+.u-font-size-50px {
+	font-size: calculate-rem(50px) !important;
+}
+
+.u-font-size-120px {
+	font-size: calculate-rem(120px) !important;
+}
+
+.u-font-size-95per {
+	font-size: 95% !important;
+}
+
+.u-font-size-100per {
+	font-size: 100% !important;
+}
+
+.u-font-size-26 {
+	font-size: calculate-rem(26px) !important;
+}
+
+.u-font-size-44px {
+	font-size: calculate-rem(44px) !important;
 }
 
 @for $i from 1 through 18 {
@@ -136,58 +188,6 @@
 
 .u-word-break-keep-all {
 	word-break: keep-all !important;
-}
-
-.u-font-size-10px {
-	font-size: calculate-rem(10px);
-}
-
-.u-font-size-13px {
-	font-size: calculate-rem(13px);
-}
-
-.u-font-size-14px {
-	font-size: calculate-rem(15px);
-}
-
-.u-font-size-19px {
-	font-size: calculate-rem(19px);
-}
-
-.u-font-size-38px {
-	font-size: calculate-rem(38px);
-}
-
-.u-font-size-50px {
-	font-size: calculate-rem(50px);
-}
-
-.u-font-size-120px {
-	font-size: calculate-rem(120px);
-}
-
-.u-font-size-95per {
-	font-size: 95% !important;
-}
-
-.u-font-size-100per {
-	font-size: 100% !important;
-}
-
-.u-font-size-26 {
-	font-size: calculate-rem(26px);
-}
-
-.u-font-size-44px {
-	font-size: calculate-rem(44px);
-}
-
-.u-font-size-2x {
-	font-size: 2em;
-}
-
-.u-font-size-3x {
-	font-size: 3em;
 }
 
 //--- MARGIN ---//

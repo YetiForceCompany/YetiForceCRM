@@ -534,8 +534,20 @@ body:not(.desktop) {
 		margin: 0px !important;
 	}
 }
+//-------- Material Design Icons --------//
 .mdi {
 	line-height: 1;
+}
+.btn .mdi::before {
+	position: relative;
+	top: 4px;
+}
+.alert .mdi::before {
+	position: relative;
+	top: 2px;
+}
+.alert .mdi {
+	font-size: 1rem;
 }
 //-------- quasar --------//
 .q-tab__icon {

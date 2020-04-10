@@ -9,7 +9,7 @@
 	</div>
 	<div class="encryptionContainer mt-3">
 		<div class="alert alert-info alert-dismissible fade show" role="alert">
-			<span class="mdi mdi-information-outline mr-2 u-fs-3x float-left"></span>
+			<span class="mdi mdi-information-outline mr-2 u-font-size-44px float-left"></span>
 			{App\Language::translate('LBL_ENCRYPT_DESCRIPTION', $QUALIFIED_MODULE)}
 			<button type="button" class="close" data-dismiss="alert">
 				<span aria-hidden="true">&times;</span>
@@ -17,19 +17,19 @@
 		</div>
 		{if !$ENCRYPT->isActive()}
 			<div class="alert alert-danger alert-dismissible fade show" role="alert">
-				<span class="mdi mdi-alert mr-2 u-fs-xlg float-left"></span>
+				<span class="mdi mdi-alert mr-2 u-fs-lg float-left"></span>
 				{App\Language::translate('LBL_ENCRYPT_IS_NOT_ACTIVE', $QUALIFIED_MODULE)}
 			</div>
 		{/if}
 		{if $CRON_TASK->isDisabled()}
 			<div class="alert alert-danger alert-dismissible fade show" role="alert">
-				<span class="mdi mdi-alert mr-2 u-fs-xlg float-left"></span>
+				<span class="mdi mdi-alert mr-2 u-fs-lg float-left"></span>
 				{App\Language::translate('LBL_ENCRYPTION_CRON_BATCH_METHODS', $QUALIFIED_MODULE)}
 			</div>
 		{/if}
 		{if $IS_RUN_ENCRYPT == 1}
 			<div class="alert alert-info alert-dismissible fade show" role="alert">
-				<span class="mdi mdi-progress-clock mr-2 u-fs-xlg float-left"></span>
+				<span class="mdi mdi-progress-clock mr-2 u-fs-lg float-left"></span>
 				{App\Language::translate('LBL_ENCRYPTION_WAITING', $QUALIFIED_MODULE)}
 				<span class="float-right">
 					{if $CRON_TASK->getLastStartDateTime()}
@@ -39,7 +39,7 @@
 			</div>
 		{elseif $IS_RUN_ENCRYPT == 2}
 			<div class="alert alert-info alert-dismissible fade show" role="alert">
-				<span class="mdi mdi-progress-wrench mr-2 u-fs-xlg float-left"></span>
+				<span class="mdi mdi-progress-wrench mr-2 u-fs-lg float-left"></span>
 				{App\Language::translate('LBL_ENCRYPTION_RUN', $QUALIFIED_MODULE)}
 			</div>
 		{/if}
