@@ -131,7 +131,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 				}
 			}
 		}
-		if ($editViewLayout = (1 === $moduleModel->getModuleType() && \App\Config::performance('INVENTORY_EDIT_VIEW_LAYOUT'))) {
+		if ($editViewLayout = ((1 === $moduleModel->getModuleType() || (in_array($moduleName, \App\Config::performance('MODULES_SPLITED_EDIT_VIEW_LAYOUT')))) && \App\Config::performance('INVENTORY_EDIT_VIEW_LAYOUT'))) {
 			$recordStructureRight = [];
 			foreach ($moduleModel->getFieldsByType('text') as $field) {
 				if (isset($recordStructure[$field->getBlockName()][$field->getName()])) {

@@ -62,7 +62,9 @@
 				{foreach item=COLUMN_SIZE from=$COLUMNS_SIZES}
 				<div class="{$COLUMN_SIZE} px-2">
 					{if $EDIT_VIEW_LAYOUT && 'col-xl-8' === $COLUMN_SIZE}
-						{include file=\App\Layout::getTemplatePath('Edit/Inventory.tpl', $MODULE)}
+						{if 1 === $MODULE_TYPE}
+							{include file=\App\Layout::getTemplatePath('Edit/Inventory.tpl', $MODULE)}
+						{/if}
 						{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_RIGHT}
 					{else}
 						{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE}
