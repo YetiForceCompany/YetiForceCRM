@@ -534,12 +534,10 @@ body:not(.desktop) {
 		margin: 0px !important;
 	}
 }
-
-.mdi:before {
+.mdi {
 	line-height: 1;
 }
-
 //-------- quasar --------//
-.q-tab__icon{
+.q-tab__icon {
 	height: unset;
 }

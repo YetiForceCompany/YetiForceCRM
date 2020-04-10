@@ -18,6 +18,10 @@
 	font-size: 1.33rem;
 }
 
+.u-fs-xlg {
+	font-size: 1.5rem;
+}
+
 @for $i from 1 through 10 {
 	.u-fs-#{$i}x {
 		font-size: #{$i}rem;
@@ -748,14 +752,13 @@ body:not(.desktop) {
 	top: -1px;
 	z-index: 1;
 }
-.singleComment .u-hidden-block{
+.singleComment .u-hidden-block {
 	position: absolute;
 	display: none;
 	top: unset;
 }
-.recentActivitiesContainer  .u-hidden-block{
+.recentActivitiesContainer .u-hidden-block {
 	top: 12px;
-
 }
 .singleComment .u-hidden-block-btn {
 	display: block;

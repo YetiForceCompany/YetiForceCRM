@@ -12555,7 +12555,7 @@ body:not(.desktop) .ps__rail-y {
     font-size: 0.84375rem !important;
     margin: 0px !important; } }
 
-.mdi:before {
+.mdi {
   line-height: 1; }
 
 .q-tab__icon {
@@ -15556,6 +15556,9 @@ table .listButtons.narrow .c-badge__icon {
 
 .u-fs-lg {
   font-size: 1.33rem; }
+
+.u-fs-xlg {
+  font-size: 1.5rem; }
 
 .u-fs-1x {
   font-size: 1rem; }
