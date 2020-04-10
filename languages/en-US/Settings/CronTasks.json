@@ -52,6 +52,7 @@
     "LBL_RECORD_LABEL_UPDATER": "Update labels",
     "Activity state": "Activity State",
     "LBL_MAILER": "Emails sender",
+    "LBL_MAGENTO": "Integration with Magento",
     "LBL_CARD_DAV": "CardDav integration",
     "LBL_CAL_DAV": "CalDav integration",
     "LBL_CLEAR_ATTACHMENTS_TABLE": "Clear attachments table",
