@@ -607,7 +607,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'Faq' => ['LBL_COMMENT_INFORMATION'],
 			'Calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION']
 		];
-		if (\in_array($moduleName, ['Calendar', 'HelpDesk', 'Faq'])) {
+		if (\in_array($moduleName, ['HelpDesk', 'Faq'])) {
 			if (!empty($blocksEliminatedArray[$moduleName])) {
 				if (\in_array($blockName, $blocksEliminatedArray[$moduleName])) {
 					return false;
