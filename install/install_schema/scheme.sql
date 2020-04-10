@@ -73,7 +73,7 @@ CREATE TABLE `a_yf_discounts_global` (
 
 CREATE TABLE `a_yf_encryption` (
   `method` varchar(40) NOT NULL,
-  `pass` varchar(16) NOT NULL
+  `pass` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_inventory_limits` */
@@ -197,7 +197,7 @@ CREATE TABLE `a_yf_smsnotifier_servers` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `providertype` varchar(50) NOT NULL,
   `isactive` tinyint(1) DEFAULT 0,
-  `api_key` varchar(255) NOT NULL,
+  `api_key` varchar(500) NOT NULL,
   `parameters` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -508,7 +508,7 @@ CREATE TABLE `dav_users` (
   `username` varbinary(50) DEFAULT NULL,
   `digesta1` varbinary(32) DEFAULT NULL,
   `userid` int(10) unsigned DEFAULT NULL,
-  `key` varchar(50) DEFAULT NULL,
+  `key` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `userid` (`userid`)
@@ -944,7 +944,7 @@ CREATE TABLE `roundcube_users` (
   `language` varchar(5) DEFAULT NULL,
   `preferences` longtext DEFAULT NULL,
   `actions` text DEFAULT NULL,
-  `password` varchar(200) DEFAULT NULL,
+  `password` varchar(500) DEFAULT NULL,
   `crm_user_id` int(10) DEFAULT 0,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`,`mail_host`),
@@ -1123,7 +1123,7 @@ CREATE TABLE `s_yf_mail_smtp` (
   `host` varchar(255) NOT NULL,
   `port` smallint(5) unsigned DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
+  `password` varchar(500) DEFAULT NULL,
   `authentication` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `secure` varchar(10) DEFAULT NULL,
   `options` text DEFAULT NULL,
@@ -1140,7 +1140,7 @@ CREATE TABLE `s_yf_mail_smtp` (
   `smtp_host` varchar(255) DEFAULT NULL,
   `smtp_port` smallint(5) DEFAULT NULL,
   `smtp_username` varchar(255) DEFAULT NULL,
-  `smtp_password` varchar(255) DEFAULT NULL,
+  `smtp_password` varchar(500) DEFAULT NULL,
   `smtp_folder` varchar(50) DEFAULT NULL,
   `smtp_validate_cert` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`)
@@ -2364,7 +2364,7 @@ CREATE TABLE `u_yf_finvoiceproformacf` (
 
 CREATE TABLE `u_yf_github` (
   `github_id` int(10) NOT NULL AUTO_INCREMENT,
-  `token` varchar(100) DEFAULT NULL,
+  `token` varchar(500) DEFAULT NULL,
   `username` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`github_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -5907,7 +5907,6 @@ CREATE TABLE `vtiger_finvoicecost_paymentstatus` (
   `finvoicecost_paymentstatusid` int(10) NOT NULL AUTO_INCREMENT,
   `finvoicecost_paymentstatus` varchar(255) DEFAULT NULL,
   `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `picklist_valueid` smallint(5) DEFAULT 0,
   `sortorderid` smallint(5) DEFAULT 0,
   PRIMARY KEY (`finvoicecost_paymentstatusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
@@ -9335,7 +9334,7 @@ CREATE TABLE `w_yf_portal_user` (
   `server_id` int(10) unsigned NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0,
   `user_name` varchar(50) NOT NULL,
-  `password_t` varchar(200) DEFAULT NULL,
+  `password_t` varchar(500) DEFAULT NULL,
   `type` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `login_time` datetime DEFAULT NULL,
   `logout_time` datetime DEFAULT NULL,
@@ -9355,10 +9354,10 @@ CREATE TABLE `w_yf_portal_user` (
 CREATE TABLE `w_yf_servers` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
-  `pass` varchar(100) DEFAULT NULL,
+  `pass` varchar(500) DEFAULT NULL,
   `acceptable_url` varchar(255) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0,
-  `api_key` varchar(100) NOT NULL,
+  `api_key` varchar(500) NOT NULL,
   `type` varchar(40) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`,`status`)

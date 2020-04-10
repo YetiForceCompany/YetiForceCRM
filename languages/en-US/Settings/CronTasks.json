@@ -23,6 +23,7 @@
     "LBL_HAD_TIMEOUT": "Not completed",
     "LBL_TOTAL_LAST_DURATION": "Total time",
     "LBL_LAST_START": "Last start",
+    "LBL_CRON_TASK_LAST_START": "Last time when cron task was triggered",
     "Sequence": "Sequence",
     "Status": "Status",
     "LBL_ADD_CRON": "Add task",

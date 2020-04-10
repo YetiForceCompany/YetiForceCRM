@@ -568,7 +568,7 @@ return [
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING' => [
-			'default' => 100,
+			'default' => 1000,
 			'description' => 'The numbers of emails downloaded during one scanning',
 			'validation' => '\App\Validator::naturalNumber'
 		],
@@ -812,11 +812,7 @@ return [
 		'encryptionPass' => [
 			'default' => 'yeti',
 			'description' => 'Key to encrypt passwords, changing the key results in the loss of all encrypted data.',
-			'validation' => function () {
-				$arg = func_get_arg(0);
-				return \is_array($arg) && !empty($arg['pass']) && !empty($arg['method']) &&
-					\in_array($arg['method'], \App\Encryption::getMethods()) && \strlen($arg['pass']) === App\Encryption::getLengthVector($arg['method']);
-			}
+			'validation' => '\App\Validator::text'
 		],
 		'encryptionMethod' => [
 			'default' => 'AES-256-CBC',
