@@ -1006,6 +1006,7 @@ $.Class(
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					if (response && response.success) {
 						Vtiger_Helper_Js.showPnotify({
+							type: 'success',
 							text: app.vtranslate('JS_CUSTOM_BLOCK_ADDED')
 						});
 						aDeferred.resolve(data);
