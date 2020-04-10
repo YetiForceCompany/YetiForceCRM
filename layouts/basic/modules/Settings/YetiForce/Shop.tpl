@@ -25,14 +25,14 @@
 						<span class="yfi yfi-for-partners"></span>
 						{\App\Language::translate('LBL_PARTNER_ZONE', $QUALIFIED_MODULE)}
 					</a>
-					<div class="c-mds-input input-group ml-sm-auto h-100 u-max-w-250px">
+					<div class="js-popover-tooltip ml-sm-auto mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Language::translate('LBL_MARKETPLACE_YETIFORCE_DESCRIPTION', $QUALIFIED_MODULE)}">
+						<span class="fas fa-info-circle"></span>
+					</div>
+					<div class="c-mds-input input-group h-100 u-max-w-250px">
 						<input type="text" class="js-shop-search form-control form-control-sm u-max-w-250px ml-2 u-outline-none" aria-label="{\App\Language::translate('LBL_SEARCH_PLACEHOLDER', $QUALIFIED_MODULE)}" placeholder="{\App\Language::translate('LBL_SEARCH_PLACEHOLDER', $QUALIFIED_MODULE)}" aria-describedby="{\App\Language::translate('LBL_SEARCH_PLACEHOLDER', $QUALIFIED_MODULE)}">
 						<div class="input-group-append pl-1 d-none d-xsm-flex align-items-center">
 							<span class="fas fa-search fa-sm  " id="{\App\Language::translate('LBL_SEARCH_PLACEHOLDER', $QUALIFIED_MODULE)}"></span>
   						</div>
-					</div>
-					<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Language::translate('LBL_MARKETPLACE_YETIFORCE_DESCRIPTION', $QUALIFIED_MODULE)}">
-						<span class="fas fa-info-circle"></span>
 					</div>
 				</div>
 			</nav>
