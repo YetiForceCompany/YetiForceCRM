@@ -193,7 +193,7 @@ abstract class Page extends Base
 				$headerLinks[] = [
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_SYSTEM_SETTINGS',
-					'linkurl' => 'index.php?module=Vtiger&parent=Settings&view=Index',
+					'linkurl' => 'index.php?module=YetiForce&parent=Settings&view=Shop',
 					'icon' => 'fas fa-cog fa-fw',
 				];
 			} else {
