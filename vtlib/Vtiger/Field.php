@@ -113,23 +113,20 @@ class Field extends FieldBasic
 			]);
 			\App\Log::trace("Creating table $picklistTable ... DONE", __METHOD__);
 		}
-		// Add value to picklist now
+		$dbCommand = $db->createCommand();
 		$picklistValues = $this->getPicklistValues();
-
-		$sortid = 1;
-		foreach ($values as &$value) {
+		$sortId = \count($picklistValues) + 1;
+		foreach ($values as $value) {
 			if (\in_array($value, $picklistValues)) {
 				continue;
 			}
-			$presence = 1; // 0 - readonly, Refer function in include/ComboUtil.php
-
 			$data = [
 				$this->name => $value,
-				'sortorderid' => $sortid,
-				'presence' => $presence,
+				'sortorderid' => $sortId,
+				'presence' => 1,
 			];
-			$db->createCommand()->insert($picklistTable, $data)->execute();
-			$sortid = $sortid + 1;
+			$dbCommand->insert($picklistTable, $data)->execute();
+			++$sortId;
 		}
 		\App\Fields\Picklist::clearCache($this->name, $this->getModuleName());
 	}

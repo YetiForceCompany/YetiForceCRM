@@ -29,7 +29,7 @@ class Encryption extends Base
 	/**
 	 * @var array Recommended encryption methods
 	 */
-	public static $recomendedMethods = [
+	public static $recommendedMethods = [
 		'aes-256-cbc', 'aes-256-ctr', 'aes-192-cbc', 'aes-192-ctr'
 	];
 
@@ -57,14 +57,15 @@ class Encryption extends Base
 	 *
 	 * @param string $method
 	 * @param string $password
+	 * @param string $vector
 	 *
 	 * @throws \Exception
 	 * @throws Exceptions\AppException
 	 */
-	public static function recalculatePasswords($method, $password)
+	public static function recalculatePasswords(string $method, string $password, string $vector)
 	{
 		$decryptInstance = static::getInstance();
-		if ($decryptInstance->get('method') === $method && $decryptInstance->get('vector') === $password) {
+		if ($decryptInstance->get('method') === $method && $decryptInstance->get('vector') === $vector && $decryptInstance->get('pass') === $password) {
 			return;
 		}
 		$oldMethod = $decryptInstance->get('method');
@@ -96,17 +97,17 @@ class Encryption extends Base
 				}
 				$passwords[$tableName] = $values;
 			}
-			if (!$decryptInstance->isActive()) {
-				$dbAdmin->createCommand()->insert('a_#__encryption', ['method' => $method, 'pass' => $password])->execute();
-			} elseif (empty($method) && empty($password)) {
-				$dbAdmin->createCommand()->delete('a_#__encryption')->execute();
-			} else {
-				$dbAdmin->createCommand()->update('a_#__encryption', ['method' => $method, 'pass' => $password])->execute();
+			$dbAdmin->createCommand()->delete('a_#__encryption')->execute();
+			if (!$decryptInstance->isActive() || !empty($method)) {
+				$dbAdmin->createCommand()->insert('a_#__encryption', ['method' => $method, 'pass' => $vector])->execute();
 			}
 			$configFile = new ConfigFile('securityKeys');
 			$configFile->set('encryptionMethod', $method);
+			$configFile->set('encryptionPass', $password);
 			$configFile->create();
 			Cache::clear();
+			\App\Config::set('securityKeys', 'encryptionMethod', $method);
+			\App\Config::set('securityKeys', 'encryptionPass', $password);
 			$encryptInstance = static::getInstance();
 			foreach ($passwords as $tableName => $pass) {
 				$dbCommand = Db::getInstance(self::$mapPasswords[$tableName]['db'])->createCommand();
