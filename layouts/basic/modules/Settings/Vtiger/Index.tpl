@@ -9,7 +9,7 @@
 		<div class="c-panel c-panel--collapsible c-panel--white">
 			<div class="c-panel__header collapsed" id="system-monitoring" data-toggle="collapse"
 				data-target="#system-monitoring-collapse" aria-expanded="false" aria-controls="system-monitoring-collapse">
-				<span class="mdi mdi-chevron-up mx-2 u-font-size-26"
+				<span class="mdi mdi-chevron-up mx-2 u-fs-26px"
 					alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 				<div class="c-panel__title">
 					<span class="yfi yfi-system-monitoring"></span>
@@ -31,7 +31,7 @@
 		<div class="c-panel c-panel--collapsible c-panel--white">
 			<div class="c-panel__header collapsed" id="my-shortcuts" data-toggle="collapse"
 				data-target="#my-shortcuts-collapse" aria-expanded="false" aria-controls="my-shortcuts-collapse">
-				<span class="mdi mdi-chevron-up mx-2 u-font-size-26"
+				<span class="mdi mdi-chevron-up mx-2 u-fs-26px"
 					alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 				<div class="c-panel__title">
 					<span class="yfi yfi-my-shortcuts"></span>

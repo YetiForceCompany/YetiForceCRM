@@ -9,7 +9,7 @@
 	</div>
 	<div class="encryptionContainer mt-3">
 		<div class="alert alert-info alert-dismissible fade show" role="alert">
-			<span class="mdi mdi-information-outline mr-2 u-font-size-44px float-left"></span>
+			<span class="mdi mdi-information-outline mr-2 u-fs-44px float-left"></span>
 			{App\Language::translate('LBL_ENCRYPT_DESCRIPTION', $QUALIFIED_MODULE)}
 			<button type="button" class="close" data-dismiss="alert">
 				<span aria-hidden="true">&times;</span>

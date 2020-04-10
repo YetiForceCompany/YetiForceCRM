@@ -5,31 +5,31 @@
 		<div class="form-row d-flex justify-content-lg-start justify-content-xl-center">
 			<span class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-2 settingsSummary">
 				<a href="javascript:Settings_Vtiger_Index_Js.showWarnings()">
-					<h3 class="summaryCount u-font-size-44px">{$WARNINGS_COUNT}</h3>
+					<h3 class="summaryCount u-fs-44px">{$WARNINGS_COUNT}</h3>
                     <p class="summaryText my-3">{\App\Language::translatePluralized('PLU_SYSTEM_WARNINGS', $QUALIFIED_MODULE, $WARNINGS_COUNT)}</p>
 				</a>
 			</span>
 			<span class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-2 settingsSummary">
 				<a href="javascript:Settings_Vtiger_Index_Js.showSecurity()">
-					<h3 class="summaryCount u-font-size-44px">{$SECURITY_COUNT}</h3>
+					<h3 class="summaryCount u-fs-44px">{$SECURITY_COUNT}</h3>
                     <p class="summaryText my-3">{\App\Language::translatePluralized('PLU_SECURITY', $QUALIFIED_MODULE, $SECURITY_COUNT)}</p>
 				</a>
 			</span>
 			<span class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-2 settingsSummary">
 				<a href="index.php?module=Users&parent=Settings&view=List">
-					<h3 class="summaryCount u-font-size-44px">{$USERS_COUNT}</h3>
+					<h3 class="summaryCount u-fs-44px">{$USERS_COUNT}</h3>
 					<p class="summaryText my-3">{\App\Language::translatePluralized('PLU_USERS', $QUALIFIED_MODULE, $USERS_COUNT)}</p>
 				</a>
 			</span>
 			<span class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-2 settingsSummary">
 				<a href="index.php?module=Workflows&parent=Settings&view=List">
-					<h3 class="summaryCount u-font-size-44px">{$ALL_WORKFLOWS}</h3>
+					<h3 class="summaryCount u-fs-44px">{$ALL_WORKFLOWS}</h3>
                     <p class="summaryText my-3">{\App\Language::translatePluralized('PLU_WORKFLOWS_ACTIVE',$QUALIFIED_MODULE,$ALL_WORKFLOWS)}</p>
 				</a>
 			</span>
 			<span class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-2 settingsSummary">
 				<a href="index.php?module=ModuleManager&parent=Settings&view=List">
-					<h3 class="summaryCount u-font-size-44px">{$ACTIVE_MODULES}</h3>
+					<h3 class="summaryCount u-fs-44px">{$ACTIVE_MODULES}</h3>
 					<p class="summaryText my-3">{\App\Language::translatePluralized('PLU_MODULES',$QUALIFIED_MODULE,$ACTIVE_MODULES)}</p>
 				</a>
 			</span>

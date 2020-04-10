@@ -118,10 +118,10 @@
 							</span>
 							{if !$IS_READ_ONLY}
 								<span class="js-activity-buttons__container d-none" data-js="class: d-none">
-									<button class="btn btn-sm btn-success js-save-description u-font-size-95per my-1 mr-1 py-0 px-1" type="button" data-js="click">
+									<button class="btn btn-sm btn-success js-save-description u-fs-95per my-1 mr-1 py-0 px-1" type="button" data-js="click">
 										<span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE',$MODULE_NAME)}
 									</button>
-									<button class="btn btn-sm btn-danger js-close-description u-font-size-95per my-1 py-0 px-1" type="button" data-js="click">
+									<button class="btn btn-sm btn-danger js-close-description u-fs-95per my-1 py-0 px-1" type="button" data-js="click">
 										<span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CLOSE',$MODULE_NAME)}
 									</button>
 								</span>
