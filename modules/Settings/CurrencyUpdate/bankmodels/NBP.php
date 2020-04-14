@@ -45,7 +45,7 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 					$tableBody = $tryTable->getBody();
 				}
 			} catch (\Throwable $ex) {
-				\App\Log::error('Error during downloading table: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'CurrencyUpdate');
+				\App\Log::info('Error during downloading table: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'CurrencyUpdate');
 			}
 			if (!$stateA) {
 				$newDate = strtotime("-$numberOfDays day", strtotime($dateCur));
