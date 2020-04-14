@@ -71,18 +71,24 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return null;
 		}
+		$valueRaw = '';
 		$values = explode(' |##| ', $value);
-		$trValue = [];
+		$trValueRaw = $trValue = [];
 		$moduleName = $this->getFieldModel()->getModuleName();
-		$countValue = \count($values);
-		for ($i = 0; $i < $countValue; ++$i) {
-			$trValue[] = App\Language::translate($values[$i], $moduleName);
+		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
+		foreach($values as $value){
+			$displayValue = App\Language::translate($value, $moduleName);
+			$trValueRaw[] = $displayValue;
+			$trValue[] = "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">$displayValue</span>";
 		}
-		$value = str_ireplace(' |##| ', ', ', implode(' |##| ', $trValue));
+		$valueRaw = str_ireplace(' |##| ', ', ', implode(' |##| ', $trValueRaw));
 		if (\is_int($length)) {
-			$value = \App\TextParser::textTruncate($value, $length);
+			$valueRaw = \App\TextParser::textTruncate($valueRaw, $length);
 		}
-		return $value;
+		if($rawText){
+			return $valueRaw;
+		}
+		return str_ireplace(' |##| ', ' ', implode(' |##| ', $trValue));
 	}
 
 	/**
