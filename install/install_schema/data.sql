@@ -19393,6 +19393,8 @@ insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`,`source`) values (159,0,153,0,0,127,'',0,NULL,0,'',NULL,'',NULL,0);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`,`source`) values (160,0,153,0,1,128,'',0,NULL,0,'',NULL,'',NULL,0);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`,`source`) values (161,0,84,0,2,132,'',0,NULL,0,'',NULL,'',NULL,0);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`,`source`) values (162,0,52,0,2,131,'',0,NULL,0,'',NULL,'',NULL,0);
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`,`source`) values (163,0,76,0,11,130,'',0,NULL,0,'',NULL,'',NULL,0);
 
 /*Data for the table `yetiforce_proc_marketing` */
 
