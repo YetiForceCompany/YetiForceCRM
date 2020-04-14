@@ -98,10 +98,11 @@ class Settings_Magento_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function isActive(): bool
 	{
-		return 4 === (new \App\Db\Query())->from('vtiger_field')->where([
+		return 5 === (new \App\Db\Query())->from('vtiger_field')->where([
 			'or',
 			['tabid' => \App\Module::getModuleId('SSingleOrders'), 'fieldname' => 'magento_server_id'],
 			['tabid' => \App\Module::getModuleId('SSingleOrders'), 'fieldname' => 'magento_id'],
+			['tabid' => \App\Module::getModuleId('SSingleOrders'), 'fieldname' => 'status_magento'],
 			['tabid' => \App\Module::getModuleId('FInvoice'), 'fieldname' => 'magento_server_id'],
 			['tabid' => \App\Module::getModuleId('FInvoice'), 'fieldname' => 'magento_id'],
 		])->count();

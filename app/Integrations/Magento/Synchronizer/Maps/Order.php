@@ -44,7 +44,7 @@ class Order extends Inventory
 		'ssingleorders_status' => 'status',
 		'date_start' => 'created_at',
 		'attention' => 'customer_note',
-		'ssingleorders_method_payments' => 'payment|method',
+		'payment_methods' => 'payment|method',
 		'status_magento' => 'status',
 		'sale_date' => 'created_at',
 		'birthday' => 'customer_dob',
@@ -74,9 +74,10 @@ class Order extends Inventory
 		'addresslevel1a' => 'country',
 		'addresslevel1b' => 'country',
 		'date_start' => 'date',
-		'ssingleorders_method_payments' => 'map',
+		'payment_methods' => 'mapAndAddNew',
 		'sale_date' => 'date',
-		'status_magento' => 'map',
+		'status_magento' => 'mapAndAddNew',
+		'ssingleorders_status' => 'mapAndAddNew',
 		'parent_id' => 'parentRecord',
 	];
 
@@ -87,13 +88,13 @@ class Order extends Inventory
 	 */
 	public static $ssingleorders_status = [
 		'processing' => 'PLL_IN_REALIZATION',
-		'fraud' => 'PLL_FRAUD',
-		'pending_payment' => 'PLL_PENDING_PAYMENT',
-		'payment_review' => 'PLL_PAYMENT_REVIEW',
-		'pending' => 'PLL_PENDING',
-		'holded' => 'PLL_HOLDED',
+		'fraud' => 'PLL_FOR_VERIFICATION',
+		'pending_payment' => 'PLL_FOR_VERIFICATION',
+		'payment_review' => 'PLL_FOR_VERIFICATION',
+		'pending' => 'PLL_FOR_VERIFICATION',
+		'holded' => 'PLL_CANCELLED',
 		'complete' => 'PLL_ACCEPTED',
-		'closed' => 'PLL_CLOSED',
+		'closed' => 'PLL_CANCELLED',
 		'canceled' => 'PLL_CANCELLED',
 	];
 
@@ -102,9 +103,11 @@ class Order extends Inventory
 	 *
 	 * @var array
 	 */
-	public static $ssingleorders_method_payments = [
+	public static $payment_methods = [
+		'redsys' => 'PLL_REDSYS',
 		'banktransfer' => 'PLL_TRANSFER',
 		'cashondelivery' => 'PLL_CASH_ON_DELIVERY',
+		'paypal_express' => 'PLL_PAYPAL_EXPRESS',
 	];
 
 	/**
@@ -113,7 +116,7 @@ class Order extends Inventory
 	 * @var array
 	 */
 	public static $status_magento = [
-		'canceled' => 'PLL_CANCELED',
+		'canceled' => 'PLL_CANCELLED',
 		'closed' => 'PLL_CLOSED',
 		'complete' => 'PLL_COMPLETE',
 		'fraud' => 'PLL_FRAUD',
@@ -124,9 +127,7 @@ class Order extends Inventory
 		'pending' => 'PLL_PENDING',
 		'pending_payment' => 'PLL_PENDING_PAYMENT',
 		'pending_paypal' => 'PLL_PENDING_PAYPAL',
-		'pending_payupl' => 'PLL_PENDING_PAYUPL',
 		'processing' => 'PLL_PROCESSING',
-		'processing2' => 'PLL_PROCESSING2',
 	];
 
 	/**

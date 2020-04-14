@@ -197,7 +197,7 @@ abstract class Base
 	public function getDataCrm(bool $onEdit = false): array
 	{
 		foreach ($this->getFields($onEdit) as $fieldCrm => $field) {
-			$this->dataCrm[$fieldCrm] = $this->getFieldValue($field) ?? null;
+			$this->dataCrm[$fieldCrm] = $this->getFieldValue($field, $fieldCrm) ?? null;
 		}
 		if (!$onEdit) {
 			foreach ($this->getAdditionalFieldsCrm() as $name => $value) {
@@ -210,15 +210,16 @@ abstract class Base
 	/**
 	 * Get field value from Magento.
 	 *
-	 * @param string $fieldName
+	 * @param string      $magentoFieldName
+	 * @param string|null $crmFieldName
 	 *
 	 * @return array|mixed
 	 */
-	public function getFieldValue(string $fieldName)
+	public function getFieldValue(string $magentoFieldName, ?string $crmFieldName = null)
 	{
-		$parsedFieldName = $this->getFieldNameCrm($fieldName);
+		$parsedFieldName = $crmFieldName ?? $this->getFieldNameCrm($magentoFieldName);
 		$methodName = 'getCrm' . \ucfirst($parsedFieldName);
-		$fieldLevels = explode('|', $fieldName);
+		$fieldLevels = explode('|', $magentoFieldName);
 		if (!\method_exists($this, $methodName)) {
 			$fieldParsed = $this->data;
 			if (\count($fieldLevels) > 1) {
@@ -238,7 +239,7 @@ abstract class Base
 					}
 				}
 			} else {
-				$fieldParsed = $fieldParsed[$fieldName] ?? '';
+				$fieldParsed = $fieldParsed[$magentoFieldName] ?? '';
 			}
 			$fieldParsedValue = $fieldParsed;
 			if (null !== $fieldParsed && isset(static::$fieldsType[$parsedFieldName])) {
@@ -247,6 +248,14 @@ abstract class Base
 						$fieldParsed = static::${$parsedFieldName}[$fieldParsed] ?? null;
 						if (null === $fieldParsed) {
 							\App\Log::warning("No value in mapping (map)|name: $parsedFieldName|value: $fieldParsedValue", 'Updates');
+						}
+						break;
+					case 'mapAndAddNew':
+						if (isset(static::${$parsedFieldName}[$fieldParsed])) {
+							$fieldParsed = static::${$parsedFieldName}[$fieldParsed] ?? $fieldParsed;
+						} else {
+							$fieldInstance = \Vtiger_Field_Model::getInstance($parsedFieldName, \Vtiger_Module_Model::getInstance($this->moduleName));
+							$fieldInstance->setNoRolePicklistValues([$fieldParsedValue]);
 						}
 						break;
 					case 'implode':
