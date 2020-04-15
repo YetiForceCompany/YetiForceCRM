@@ -1866,7 +1866,6 @@ insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_tit
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`,`icon`) values (467,99,'LBL_ADDRESS_SHIPPING',4,0,0,0,0,0,2,0,NULL);
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`,`icon`) values (468,29,'LBL_USER_CONTACT_INFORMATION',2,0,0,0,0,0,1,0,NULL);
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`,`icon`) values (469,29,'LBL_USER_CONFIGURATION_WORKING_TIME',5,0,0,0,0,0,1,0,NULL);
-insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`,`icon`) values (471,29,'LBL_USER_FOR_VERIFICATION',12,0,0,0,0,0,1,0,NULL);
 
 /*Data for the table `vtiger_blocks_hide` */
 
