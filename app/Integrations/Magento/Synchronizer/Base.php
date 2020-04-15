@@ -88,7 +88,7 @@ abstract class Base
 		$savedAllProducts = true;
 		if ($mapModel->dataCrm['currency_id']) {
 			foreach ($mapModel->data['items'] as $item) {
-				$productId = $this->findProduct($item['sku']);
+				$productId = $this->findProduct(trim($item['sku']));
 				if (0 === $productId) {
 					$productId = $mapModel->createProduct($item);
 				}

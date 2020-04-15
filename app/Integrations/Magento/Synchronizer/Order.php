@@ -65,7 +65,7 @@ class Order extends Record
 								$this->updateOrderInCrm($crmId, $mapModel);
 							} else {
 								$parentOrder = $dataCrm['parent_id'];
-								if (1 === (int) $order['customer_is_guest']) {
+								if (empty($order['customer_id'])) {
 									$dataCrm['parent_id'] = $this->syncAccount($dataCrm);
 									$dataCrm['contactid'] = $this->syncContact($dataCrm);
 								} else {
@@ -110,9 +110,7 @@ class Order extends Record
 	public function getOrdersFromApi(): array
 	{
 		$items = [];
-		\App\Log::beginProfile('GET|orders', 'Integrations/MagentoApi');
 		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/orders?' . $this->getSearchCriteria($this->config->get('orderLimit'))));
-		\App\Log::endProfile('GET|orders', 'Integrations/MagentoApi');
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
 				$items[$item['entity_id']] = $item;

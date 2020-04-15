@@ -24,7 +24,7 @@ class Customer extends Record
 	public function process()
 	{
 		$this->lastScan = $this->config->getLastScan('customer');
-		if (!$this->lastScan['start_date'] || (0 === (int) $this->lastScan['id'] && 0 === (int) $this->lastScan['idcrm'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])) {
+		if (!$this->lastScan['start_date'] || (0 === (int) $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])) {
 			$this->config->setScan('customer');
 			$this->lastScan = $this->config->getLastScan('customer');
 		}
@@ -82,9 +82,7 @@ class Customer extends Record
 	public function getCustomersFromApi(): array
 	{
 		$items = [];
-		\App\Log::beginProfile('GET|customers/search', 'Integrations/MagentoApi');
 		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/customers/search?' . $this->getSearchCriteria($this->config->get('customerLimit'))));
-		\App\Log::endProfile('GET|customers/search', 'Integrations/MagentoApi');
 		if (!empty($data['items'])) {
 			$items = $data['items'];
 		}

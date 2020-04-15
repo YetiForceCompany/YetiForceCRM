@@ -132,10 +132,10 @@ class Category extends Record
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('ProductCategory');
 		$parentId = 0;
 		if ($category['parent_id'] > 1) {
-			$parentId = $this->getCrmId($category['parent_id']) ?: $this->createCategory($category['id']);
+			$parentId = $this->getCrmId($category['parent_id']) ?: $this->createCategory($category['parent_id']);
 		}
 		$recordModel->setData([
-			'category' => $category['name'],
+			'category' => trim($category['name']),
 			'parent_id' => $parentId,
 			'active' => $category['is_active'],
 			'magento_server_id' => $this->config->get('id'),

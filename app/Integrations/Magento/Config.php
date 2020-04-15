@@ -134,9 +134,6 @@ class Config extends \App\Base
 			], [
 				'name' => $type . '_last_scan_id',
 				'value' => 0
-			], [
-				'name' => $type . '_last_scan_idcrm',
-				'value' => 0
 			]
 		];
 		foreach ($saveData as $data) {
@@ -161,7 +158,6 @@ class Config extends \App\Base
 	{
 		return [
 			'id' => $this->get($type . '_last_scan_id') ?? 0,
-			'idcrm' => $this->get($type . '_last_scan_idcrm') ?? 0,
 			'start_date' => $this->get($type . '_start_scan_date') ?? false,
 			'end_date' => $this->get($type . '_end_scan_date') ?? false,
 		];

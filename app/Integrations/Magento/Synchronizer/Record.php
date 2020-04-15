@@ -204,9 +204,7 @@ abstract class Record extends Base
 		if (\App\Cache::staticHas('MagentoGetFromApi|' . $type, $id)) {
 			return \App\Cache::staticGet('MagentoGetFromApi|' . $type, $id);
 		}
-		\App\Log::beginProfile("GET|{$type}/$id", 'Integrations/MagentoApi');
 		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . "/V1/{$type}/$id"));
-		\App\Log::endProfile("GET|{$type}/$id", 'Integrations/MagentoApi');
 		\App\Cache::staticSave('MagentoGetFromApi|' . $type, $id, $data);
 		return $data;
 	}

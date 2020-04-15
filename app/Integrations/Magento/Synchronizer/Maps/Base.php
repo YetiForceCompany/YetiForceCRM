@@ -255,7 +255,7 @@ abstract class Base
 							$fieldParsed = static::${$parsedFieldName}[$fieldParsed] ?? $fieldParsed;
 						} else {
 							$fieldInstance = \Vtiger_Field_Model::getInstance($parsedFieldName, \Vtiger_Module_Model::getInstance($this->moduleName));
-							$fieldInstance->setNoRolePicklistValues([$fieldParsedValue]);
+							$fieldInstance->setNoRolePicklistValues([trim($fieldParsedValue)]);
 						}
 						break;
 					case 'implode':
@@ -284,7 +284,7 @@ abstract class Base
 		} else {
 			$fieldParsed = $this->{$methodName}();
 		}
-		return $fieldParsed;
+		return \is_array($fieldParsed) ? $fieldParsed : trim($fieldParsed);
 	}
 
 	/**
@@ -321,16 +321,15 @@ abstract class Base
 		if (\App\Config::main('phoneFieldAdvancedVerification', false)) {
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 			try {
-				$swissNumberProto = $phoneUtil->parse($parsedData[$fieldName]);
+				$swissNumberProto = $phoneUtil->parse(trim($parsedData[$fieldName]));
 				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
-				var_dump($international);
 			} catch (\libphonenumber\NumberParseException $e) {
 				$international = false;
 			}
 			if ($international) {
 				$parsedData[$fieldName] = $international;
 			} else {
-				$parsedData[$fieldName . '_extra'] = $parsedData[$fieldName];
+				$parsedData[$fieldName . '_extra'] = trim($parsedData[$fieldName]);
 				unset($parsedData[$fieldName]);
 			}
 		}
@@ -416,7 +415,7 @@ abstract class Base
 		} else {
 			$fieldParsed = '';
 		}
-		return $fieldParsed;
+		return trim($fieldParsed);
 	}
 
 	/**
