@@ -298,6 +298,10 @@ return [
 			'default' => false,
 			'description' => 'Enable saving logs profiling. Values: false/true'
 		],
+		'LOG_PROFILE_CATEGORIES' => [
+			'default' => [],
+			'description' => 'Categories to be registered in profiling, an empty value means all categories. ex. "yii\db\Command::query", "Integrations/MagentoApi"'
+		],
 		'LOG_LEVELS' => [
 			'default' => false,
 			'description' => 'Level of saved/displayed logs. Values: false = All / 3 = error and warning / ["error", "warning", "info", "trace", "profile"]',

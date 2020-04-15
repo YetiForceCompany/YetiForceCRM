@@ -23,6 +23,9 @@ class Debug
 	/** Enable saving logs profiling. Values: false/true */
 	public static $LOG_TO_PROFILE = false;
 
+	/** Categories to be registered in profiling, an empty value means all categories. ex. "yii\db\Command::query", "Integrations/MagentoApi" */
+	public static $LOG_PROFILE_CATEGORIES = [];
+
 	/** Level of saved/displayed logs. Values: false = All / 3 = error and warning / ["error", "warning", "info", "trace", "profile"] */
 	public static $LOG_LEVELS = false;
 
