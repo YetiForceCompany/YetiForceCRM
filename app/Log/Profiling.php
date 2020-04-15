@@ -33,15 +33,11 @@ class Profiling extends Target
 	 */
 	public function export()
 	{
-		$categories = \Config\Debug::$LOG_PROFILE_CATEGORIES ?? [];
 		$timings = [];
 		$stack = [];
 		foreach ($this->messages as $i => $log) {
 			[$token, $level, , $timestamp] = $log;
 			$log[5] = $i;
-			if ($categories && !\in_array($log[2], $categories)) {
-				continue;
-			}
 			if (Logger::LEVEL_PROFILE_BEGIN == $level) {
 				$stack[] = $log;
 			} elseif (Logger::LEVEL_PROFILE_END == $level) {

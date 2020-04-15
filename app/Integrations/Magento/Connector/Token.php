@@ -33,7 +33,7 @@ class Token extends Base
 	{
 		\App\Log::beginProfile('POST|V1/integration/admin/token', 'Integrations/MagentoApi');
 		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
-			->post($this->config->get('url') . 'rest/V1/integration/admin/token', [
+			->post(rtrim($this->config->get('url'), '/') . '/rest/V1/integration/admin/token', [
 				'timeout' => 0,
 				'json' => ['username' => $this->config->get('user_name'), 'password' => $this->config->get('password')]]);
 		\App\Log::endProfile('POST|V1/integration/admin/token', 'Integrations/MagentoApi');
@@ -49,7 +49,7 @@ class Token extends Base
 	public function request(string $method, string $action, array $params = []): string
 	{
 		\App\Log::beginProfile($method . '|' . $action, 'Integrations/MagentoApi');
-		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($method, $this->config->get('url') . "rest/$action", [
+		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($method, rtrim($this->config->get('url'), '/') . "/rest/$action", [
 			'headers' => [
 				'authorization' => 'Bearer ' . $this->token
 			],

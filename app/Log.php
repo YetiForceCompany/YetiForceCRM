@@ -184,6 +184,10 @@ class Log extends Logger
 	public static function beginProfile($token, $category = '')
 	{
 		if (static::$logToProfile) {
+			$categories = \Config\Debug::$LOG_PROFILE_CATEGORIES ?? [];
+			if ($categories && !\in_array($category, $categories)) {
+				return;
+			}
 			\Yii::getLogger()->log($token, Logger::LEVEL_PROFILE_BEGIN, $category);
 		}
 	}
@@ -200,6 +204,10 @@ class Log extends Logger
 	public static function endProfile($token, $category = '')
 	{
 		if (static::$logToProfile) {
+			$categories = \Config\Debug::$LOG_PROFILE_CATEGORIES ?? [];
+			if ($categories && !\in_array($category, $categories)) {
+				return;
+			}
 			\Yii::getLogger()->log($token, Logger::LEVEL_PROFILE_END, $category);
 		}
 	}
