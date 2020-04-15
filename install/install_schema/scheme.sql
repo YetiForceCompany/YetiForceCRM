@@ -5865,7 +5865,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3036 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3037 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -9052,6 +9052,7 @@ CREATE TABLE `vtiger_users` (
   `primary_phone_extra` varchar(100) DEFAULT NULL,
   `mail_scanner_actions` text DEFAULT NULL,
   `mail_scanner_fields` text DEFAULT NULL,
+  `secondary_email` varchar(100) DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),
