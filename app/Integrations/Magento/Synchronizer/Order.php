@@ -139,10 +139,11 @@ class Order extends Record
 				$recordModel->set($key, $value);
 			}
 		}
-		if (!$this->saveInventoryCrm($recordModel, $mapModel)) {
+		if ($this->saveInventoryCrm($recordModel, $mapModel)) {
+			$recordModel->save();
+		} else {
 			\App\Log::error('Error during parse inventory order id: [' . $mapModel->data['entity_id'] . ']', 'Integrations/Magento');
 		}
-		$recordModel->save();
 		return $recordModel->getId();
 	}
 
