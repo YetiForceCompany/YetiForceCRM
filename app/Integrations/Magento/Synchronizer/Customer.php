@@ -82,7 +82,7 @@ class Customer extends Record
 	public function getCustomersFromApi(): array
 	{
 		$items = [];
-		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/customers/search?' . $this->getSearchCriteria($this->config->get('customerLimit'))));
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/customers/search?' . $this->getSearchCriteria($this->config->get('customers_limit'))));
 		if (!empty($data['items'])) {
 			$items = $data['items'];
 		}

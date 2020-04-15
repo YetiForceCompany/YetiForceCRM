@@ -152,7 +152,7 @@ class Invoice extends Record
 	public function getInvoices(array $ids = []): array
 	{
 		$items = [];
-		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/invoices?' . $this->getSearchCriteria($this->config->get('invoiceLimit'))));
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/invoices?' . $this->getSearchCriteria($this->config->get('invoices_limit'))));
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
 				$items[$item['entity_id']] = $item;

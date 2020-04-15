@@ -68,7 +68,7 @@ class Product extends Record
 	public function getProductsFromApi(): array
 	{
 		$items = [];
-		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/products?' . $this->getSearchCriteria($this->config->get('productLimit'))));
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/products?' . $this->getSearchCriteria($this->config->get('products_limit'))));
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
 				$items[$item['id']] = $item;

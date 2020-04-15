@@ -110,7 +110,7 @@ class Order extends Record
 	public function getOrdersFromApi(): array
 	{
 		$items = [];
-		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/orders?' . $this->getSearchCriteria($this->config->get('orderLimit'))));
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/orders?' . $this->getSearchCriteria($this->config->get('orders_limit'))));
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
 				$items[$item['entity_id']] = $item;

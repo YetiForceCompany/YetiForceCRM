@@ -552,6 +552,11 @@ CREATE TABLE `i_yf_magento_servers` (
   `customer_map_class` varchar(255) DEFAULT NULL,
   `order_map_class` varchar(255) DEFAULT NULL,
   `invoice_map_class` varchar(255) DEFAULT NULL,
+  `categories_limit` smallint(5) unsigned NOT NULL DEFAULT 200,
+  `products_limit` smallint(5) unsigned NOT NULL DEFAULT 1000,
+  `customers_limit` smallint(5) unsigned NOT NULL DEFAULT 1000,
+  `orders_limit` smallint(5) unsigned NOT NULL DEFAULT 200,
+  `invoices_limit` smallint(5) unsigned NOT NULL DEFAULT 200,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

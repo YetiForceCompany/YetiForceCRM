@@ -76,7 +76,6 @@ class Config extends \App\Base
 		$instance = new self();
 		$instance->setData(array_merge(
 			$servers[$serverId],
-			\App\Config::component('Magento'),
 			(new Query())->select(['name', 'value'])->from(self::TABLE_NAME)->where(['server_id' => $serverId])->createCommand()->queryAllByGroup()
 			));
 		return $instance;
