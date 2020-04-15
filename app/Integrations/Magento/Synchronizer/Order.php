@@ -82,7 +82,8 @@ class Order extends Record
 								unset($dataCrm['birthday'],$dataCrm['leadsource'],$dataCrm['mobile'],$dataCrm['mobile_extra'],$dataCrm['phone'],$dataCrm['phone_extra'],$dataCrm['salutationtype']);
 								$dataCrm['magento_id'] = $order['entity_id'];
 								$mapModel->setDataCrm($dataCrm);
-								$this->createOrderInCrm($mapModel);
+								$crmId = $this->createOrderInCrm($mapModel);
+								\App\Cache::staticSave('CrmIdByMagentoIdSSingleOrders', $order['entity_id'], $crmId);
 							}
 						} catch (\Throwable $ex) {
 							\App\Log::error('Error during saving customer: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
@@ -109,7 +110,9 @@ class Order extends Record
 	public function getOrdersFromApi(): array
 	{
 		$items = [];
+		\App\Log::beginProfile('GET|orders', 'Integrations/MagentoApi');
 		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/orders?' . $this->getSearchCriteria($this->config->get('orderLimit'))));
+		\App\Log::endProfile('GET|orders', 'Integrations/MagentoApi');
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
 				$items[$item['entity_id']] = $item;

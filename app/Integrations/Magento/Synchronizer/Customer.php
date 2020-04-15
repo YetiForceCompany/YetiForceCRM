@@ -48,6 +48,7 @@ class Customer extends Record
 						\App\Log::error('Empty customer details', 'Integrations/Magento');
 						continue;
 					}
+					\App\Cache::staticSave('MagentoGetFromApi|customers', $customer['id'], $customer);
 					$className = $this->config->get('customer_map_class') ?: '\App\Integrations\Magento\Synchronizer\Maps\Customer';
 					$mapModel = new $className($this);
 					$mapModel->setData($customer);
@@ -75,12 +76,15 @@ class Customer extends Record
 
 	/**
 	 * Method to get customers form Magento.
+	 *
 	 * @return array
 	 */
 	public function getCustomersFromApi(): array
 	{
 		$items = [];
+		\App\Log::beginProfile('GET|customers/search', 'Integrations/MagentoApi');
 		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/customers/search?' . $this->getSearchCriteria($this->config->get('customerLimit'))));
+		\App\Log::endProfile('GET|customers/search', 'Integrations/MagentoApi');
 		if (!empty($data['items'])) {
 			$items = $data['items'];
 		}

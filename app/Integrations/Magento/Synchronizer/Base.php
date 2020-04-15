@@ -77,7 +77,7 @@ abstract class Base
 	/**
 	 * Save inventory elements.
 	 *
-	 * @param \Vtiger_Record_Model                                    $recordModel
+	 * @param \Vtiger_Record_Model                                  $recordModel
 	 * @param \App\Integrations\Magento\Synchronizer\Maps\Inventory $mapModel
 	 *
 	 * @return bool
@@ -119,8 +119,8 @@ abstract class Base
 	/**
 	 * Parse inventory data to YetiForce format.
 	 *
-	 * @param \Vtiger_Record_Model                                    $recordModel
-	 * @param array                                                   $item
+	 * @param \Vtiger_Record_Model                                  $recordModel
+	 * @param array                                                 $item
 	 * @param \App\Integrations\Magento\Synchronizer\Maps\Inventory $mapModel
 	 *
 	 * @return array
@@ -210,13 +210,13 @@ abstract class Base
 	 */
 	public function findProduct(string $ean): int
 	{
-		if (\App\Cache::staticHas('ProductsByEan', $ean)) {
-			return \App\Cache::staticGet('ProductsByEan', $ean);
+		if (\App\Cache::staticHas('ProductIdByEan', $ean)) {
+			return \App\Cache::staticGet('ProductIdByEan', $ean);
 		}
 		$id = (new \App\Db\Query())->select(['productid'])->from('vtiger_products')
 			->innerJoin('vtiger_crmentity', 'vtiger_products.productid = vtiger_crmentity.crmid')
 			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_products.ean' => $ean])->scalar() ?: 0;
-		\App\Cache::staticSave('ProductsByEan', $ean, $id);
+		\App\Cache::staticSave('ProductIdByEan', $ean, $id);
 		return $id;
 	}
 }

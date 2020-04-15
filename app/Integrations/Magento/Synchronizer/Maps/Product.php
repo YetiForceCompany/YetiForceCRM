@@ -62,7 +62,7 @@ class Product extends Base
 	/**
 	 * Category model.
 	 *
-	 * @var object
+	 * @var \App\Integrations\Magento\Synchronizer\Category
 	 */
 	public $category = false;
 

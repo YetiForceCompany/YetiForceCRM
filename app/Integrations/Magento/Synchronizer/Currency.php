@@ -55,6 +55,9 @@ class Currency extends Base
 	 */
 	public function getCurrenciesFromApi(): array
 	{
-		return \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/directory/currency')) ?? [];
+		\App\Log::beginProfile('GET|directory/currency', 'Integrations/MagentoApi');
+		$currency = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/directory/currency')) ?? [];
+		\App\Log::endProfile('GET|directory/currency', 'Integrations/MagentoApi');
+		return $currency;
 	}
 }

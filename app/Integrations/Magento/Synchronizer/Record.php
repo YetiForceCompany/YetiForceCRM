@@ -104,6 +104,9 @@ abstract class Record extends Base
 		if ($recordModel->get('vat_id')) {
 			\App\Cache::staticSave('MagentoFindAccount', $recordModel->get('vat_id'), $id);
 		}
+		if ($data['email'] ?? $data['email_a']) {
+			\App\Cache::staticSave('MagentoFindByEmailAccounts', $data['email'] ?? $data['email_a'], $id);
+		}
 		return $id;
 	}
 
@@ -198,6 +201,13 @@ abstract class Record extends Base
 	 */
 	public function getFromApi(string $type, string $id): array
 	{
-		return \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . "/V1/{$type}/$id"));
+		if (\App\Cache::staticHas('MagentoGetFromApi|' . $type, $id)) {
+			return \App\Cache::staticGet('MagentoGetFromApi|' . $type, $id);
+		}
+		\App\Log::beginProfile("GET|{$type}/$id", 'Integrations/MagentoApi');
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . "/V1/{$type}/$id"));
+		\App\Log::endProfile("GET|{$type}/$id", 'Integrations/MagentoApi');
+		\App\Cache::staticSave('MagentoGetFromApi|' . $type, $id, $data);
+		return $data;
 	}
 }

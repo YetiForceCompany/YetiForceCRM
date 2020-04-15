@@ -68,7 +68,9 @@ class Product extends Record
 	public function getProductsFromApi(): array
 	{
 		$items = [];
+		\App\Log::beginProfile('GET|products', 'Integrations/MagentoApi');
 		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/products?' . $this->getSearchCriteria($this->config->get('productLimit'))));
+		\App\Log::endProfile('GET|products', 'Integrations/MagentoApi');
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
 				$items[$item['id']] = $item;
@@ -153,6 +155,7 @@ class Product extends Record
 			try {
 				if (!($id = $this->findProduct($product['sku']))) {
 					$id = $this->createProductInCrm($dataCrm);
+					\App\Cache::staticSave('ProductIdByEan', $product['sku'], $id);
 				}
 			} catch (\Throwable $ex) {
 				\App\Log::error('Error during saving product: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
@@ -174,7 +177,7 @@ class Product extends Record
 	{
 		$id = 0;
 		try {
-			$product = $this->getFromApi('products',$ean);
+			$product = $this->getFromApi('products', $ean);
 			if (empty($product)) {
 				\App\Log::error('Empty product details', 'Integrations/Magento');
 				return 0;
