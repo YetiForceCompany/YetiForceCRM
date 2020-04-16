@@ -98,6 +98,7 @@ abstract class Base
 				} else {
 					$savedAllProducts = false;
 					\App\Log::error('Skipped saving record, product not found in CRM (magento id: [' . $item['product_id'] . '] | SKU:[' . $item['sku'] . '])', 'Integrations/Magento');
+					$this->log('Skipped saving record, product not found in CRM (magento id: [' . $item['product_id'] . '] | SKU:[' . $item['sku'] . '])');
 					break;
 				}
 			}
@@ -233,8 +234,8 @@ abstract class Base
 		\App\DB::getInstance('admin')->createCommand()
 			->insert('l_#__magento', [
 				'time' => date('Y-m-d H:i:s'),
-				'category' => $category,
-				'message' => $ex ? $ex->getMessage() : '',
+				'category' => null === $ex ? '' : $category,
+				'message' => $ex ? $ex->getMessage() : $category,
 				'code' => $ex ? $ex->getCode() : 500,
 				'trace' => $ex ? $ex->__toString() : '',
 			])->execute();

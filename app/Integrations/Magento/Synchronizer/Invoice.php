@@ -88,7 +88,8 @@ class Invoice extends Record
 				if ($this->saveInventoryCrm($recordModel, $order['items'], $data['extension_attributes']['shipping_assignments'], $invoiceFields)) {
 					$recordModel->save();
 				} else {
-					\App\Log::error('Error during saving YetiForce invoice id: [' . $data['entity_id'] . ']', 'Integrations/Magento');
+					$this->log('Skipped saving record, problem with inventory products | invoice id: [' . $data['entity_id'] . ']');
+					\App\Log::error('Skipped saving record, problem with inventory products | invoice id: [' . $data['entity_id'] . ']', 'Integrations/Magento');
 				}
 				$value = $recordModel->getId();
 			} catch (\Throwable $ex) {

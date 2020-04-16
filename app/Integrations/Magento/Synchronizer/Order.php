@@ -144,7 +144,8 @@ class Order extends Record
 		if ($this->saveInventoryCrm($recordModel, $mapModel)) {
 			$recordModel->save();
 		} else {
-			\App\Log::error('Error during parse inventory order id: [' . $mapModel->data['entity_id'] . ']', 'Integrations/Magento');
+			$this->log('Skipped saving record, problem with inventory products | order id: [' . $mapModel->data['entity_id'] . ']');
+			\App\Log::error('Skipped saving record, problem with inventory products | order id: [' . $mapModel->data['entity_id'] . ']', 'Integrations/Magento');
 		}
 		return $recordModel->getId();
 	}
