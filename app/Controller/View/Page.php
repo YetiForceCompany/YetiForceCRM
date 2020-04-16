@@ -183,7 +183,7 @@ abstract class Page extends Base
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_USER_PANEL',
 					'linkurl' => 'index.php',
-					'icon' => 'fas fa-user fa-fw',
+					'icon' => 'fas fa-house-user fa-fw',
 				];
 			}
 		}
