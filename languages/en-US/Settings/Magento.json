@@ -39,7 +39,7 @@
     "LBL_ORDER_MAP_CLASS_TOOLTIP": "If you want to use custom field map you need to create new class in Maps/Custom. After that you need to change this value e.g. 'App\\Integrations\\Magento\\Synchronizer\\Maps\\Custom\\Order'",
     "LBL_CUSTOMER_MAP_CLASS": "Customer map class name",
     "LBL_CUSTOMER_MAP_CLASS_TOOLTIP": "If you want to use custom field map you need to create new class in Maps/Custom. After that you need to change this value e.g. 'App\\Integrations\\Magento\\Synchronizer\\Maps\\Custom\\Customer'",
-    "LBL_CATEGORIES_LIMIT": "How many category can be downloaded at once",
+    "LBL_CATEGORIES_LIMIT": "How many categories can be downloaded at once",
     "LBL_PRODUCTS_LIMIT": "How many products can be updated at once",
     "LBL_CUSTOMERS_LIMIT": "How many customers can be downloaded at once",
     "LBL_ORDERS_LIMIT": "How many orders can be downloaded at once",
