@@ -47,6 +47,7 @@ class InventoryStock extends Base
 				$data['qty'] = $product['qtyinstock'];
 				$this->connector->request('PUT', "{$this->config->get('store_code')}/V1/products/{$product['ean']}/stockItems/{$data['item_id']}", ['stockItem' => $data]);
 			} catch (\Throwable $ex) {
+				$this->log('Update stock', $ex);
 				\App\Log::error('Error during update stock: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 			}
 		}

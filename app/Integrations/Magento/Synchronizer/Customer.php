@@ -58,6 +58,7 @@ class Customer extends Record
 							$dataCrm['parent_id'] = $this->syncAccount($dataCrm);
 							$this->syncContact($dataCrm);
 						} catch (\Throwable $ex) {
+							$this->log('Saving customer', $ex);
 							\App\Log::error('Error during saving customer: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 						}
 					} else {
@@ -69,6 +70,7 @@ class Customer extends Record
 				$allChecked = true;
 			}
 		} catch (\Throwable $ex) {
+			$this->log('Import customers', $ex);
 			\App\Log::error('Error during import customer: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 		}
 		return $allChecked;

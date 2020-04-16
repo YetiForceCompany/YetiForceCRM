@@ -186,6 +186,8 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 
 /*Data for the table `l_yf_batchmethod` */
 
+/*Data for the table `l_yf_magento` */
+
 /*Data for the table `l_yf_mail` */
 
 /*Data for the table `l_yf_profile` */

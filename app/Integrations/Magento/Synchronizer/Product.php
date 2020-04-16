@@ -55,6 +55,7 @@ class Product extends Record
 				$allChecked = true;
 			}
 		} catch (\Throwable $ex) {
+			$this->log('Import products', $ex);
 			\App\Log::error('Error during import products: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 		}
 		return $allChecked;
@@ -156,6 +157,7 @@ class Product extends Record
 					\App\Cache::staticSave('ProductIdByEan', trim($product['sku']), $id);
 				}
 			} catch (\Throwable $ex) {
+				$this->log('Saving product', $ex);
 				\App\Log::error('Error during saving product: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 			}
 		} else {
@@ -182,6 +184,7 @@ class Product extends Record
 			}
 			$id = $this->syncProduct($product);
 		} catch (\Throwable $ex) {
+			$this->log('Import product by ean', $ex);
 			\App\Log::error('Error during import by ean product: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 		}
 		return $id;

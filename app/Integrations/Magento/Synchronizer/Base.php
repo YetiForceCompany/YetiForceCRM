@@ -219,4 +219,24 @@ abstract class Base
 		\App\Cache::staticSave('ProductIdByEan', $ean, $id);
 		return $id;
 	}
+
+	/**
+	 * Add log to db.
+	 *
+	 * @param string      $category
+	 * @param ?\Throwable $ex
+	 *
+	 * @return void
+	 */
+	public function log(string $category, ?\Throwable $ex = null): void
+	{
+		\App\DB::getInstance('admin')->createCommand()
+			->insert('l_#__magento', [
+				'time' => date('Y-m-d H:i:s'),
+				'category' => $category,
+				'message' => $ex ? $ex->getMessage() : '',
+				'code' => $ex ? $ex->getCode() : 500,
+				'trace' => $ex ? $ex->__toString() : '',
+			])->execute();
+	}
 }

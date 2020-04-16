@@ -62,6 +62,7 @@ class Category extends Record
 							$this->createCategory($category['id'], $category);
 						}
 					} catch (\Throwable $ex) {
+						$this->log('Saving category', $ex);
 						\App\Log::error('Error during saving category: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 					}
 					$this->config->setScan('category', 'id', $category['id']);
@@ -70,6 +71,7 @@ class Category extends Record
 				$allChecked = true;
 			}
 		} catch (\Throwable $ex) {
+			$this->log('Import categories', $ex);
 			\App\Log::error('Error during import category: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 		}
 		return $allChecked;

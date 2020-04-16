@@ -247,7 +247,7 @@ abstract class Base
 					case 'map':
 						$fieldParsed = static::${$parsedFieldName}[$fieldParsed] ?? null;
 						if (null === $fieldParsed) {
-							\App\Log::warning("No value in mapping (map)|name: $parsedFieldName|value: $fieldParsedValue", 'Updates');
+							\App\Log::info("No value in mapping (map)|name: $parsedFieldName|value: $fieldParsedValue", 'Updates');
 						}
 						break;
 					case 'mapAndAddNew':

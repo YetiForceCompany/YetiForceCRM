@@ -86,10 +86,11 @@ class Order extends Record
 								\App\Cache::staticSave('CrmIdByMagentoIdSSingleOrders', $order['entity_id'], $crmId);
 							}
 						} catch (\Throwable $ex) {
-							\App\Log::error('Error during saving customer: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
+							$this->log('Saving order', $ex);
+							\App\Log::error('Error during saving order: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 						}
 					} else {
-						\App\Log::error('Empty map customer details', 'Integrations/Magento');
+						\App\Log::error('Empty map order details', 'Integrations/Magento');
 					}
 					$this->config->setScan('order', 'id', $id);
 				}
@@ -97,7 +98,8 @@ class Order extends Record
 				$allChecked = true;
 			}
 		} catch (\Throwable $ex) {
-			\App\Log::error('Error during import customer: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
+			$this->log('Import orders', $ex);
+			\App\Log::error('Error during import order: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 		}
 		return $allChecked;
 	}

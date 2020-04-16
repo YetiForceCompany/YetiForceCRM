@@ -38,12 +38,14 @@ class Currency extends Base
 								'currency_status' => 'Active',
 							])->execute();
 						} else {
+							$this->log('Currency is not supported by the system: ' . $code);
 							\App\Log::error('Currency is not supported by the system: ' . $code, 'Integrations/Magento');
 						}
 					}
 				}
 			}
 		} catch (\Throwable $ex) {
+			$this->log('Import currencies', $ex);
 			\App\Log::error('Error during import currencies: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 		}
 	}

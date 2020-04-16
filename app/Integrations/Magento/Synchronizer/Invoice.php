@@ -92,6 +92,7 @@ class Invoice extends Record
 				}
 				$value = $recordModel->getId();
 			} catch (\Throwable $ex) {
+				$this->log('Saving invoice', $ex);
 				\App\Log::error('Error during saving YetiForce invoice id: [' . $data['entity_id'] . ']' . $ex->getMessage(), 'Integrations/Magento');
 			}
 		}
@@ -123,6 +124,7 @@ class Invoice extends Record
 			}
 			$recordModel->save();
 		} catch (\Throwable $ex) {
+			$this->log('Updating invoice', $ex);
 			\App\Log::error('Error during updating yetiforce invoice: ' . $ex->getMessage(), 'Integrations/Magento');
 		}
 	}

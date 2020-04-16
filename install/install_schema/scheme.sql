@@ -573,6 +573,18 @@ CREATE TABLE `l_yf_batchmethod` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `l_yf_magento` */
+
+CREATE TABLE `l_yf_magento` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `time` datetime NOT NULL,
+  `category` varchar(100) DEFAULT NULL,
+  `message` varchar(500) DEFAULT NULL,
+  `code` smallint(5) DEFAULT NULL,
+  `trace` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `l_yf_mail` */
 
 CREATE TABLE `l_yf_mail` (
