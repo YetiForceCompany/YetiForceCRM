@@ -376,7 +376,8 @@
     "LBL_USER_AUTOMATION": "Automation",
     "LBL_USER_PASSWORD_IS_OK": "Your password complies with the system requirements.",
     "FL_MAIL_SCANNER_ACTIONS": "Mail scanner actions",
-    "FL_MAIL_SCANNER_FIELDS": "Mail scanner fields"
+    "FL_MAIL_SCANNER_FIELDS": "Mail scanner fields",
+    "LBL_ACCOUNT_SETTINGS": "Account settings"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Decimal separator and grouping separator can't be the same.",
