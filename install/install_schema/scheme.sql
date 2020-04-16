@@ -5064,6 +5064,7 @@ CREATE TABLE `vtiger_contactdetails` (
   `phone_extra` varchar(100) DEFAULT NULL,
   `mobile_extra` varchar(100) DEFAULT NULL,
   `approvals` text DEFAULT NULL,
+  `gender` varchar(255) DEFAULT '',
   PRIMARY KEY (`contactid`),
   KEY `contactdetails_accountid_idx` (`parentid`),
   KEY `email_idx` (`email`),
@@ -5884,7 +5885,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3038 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3039 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -5983,6 +5984,16 @@ CREATE TABLE `vtiger_fixed_assets_type` (
   `sortorderid` smallint(5) DEFAULT 0,
   PRIMARY KEY (`fixed_assets_typeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_gender` */
+
+CREATE TABLE `vtiger_gender` (
+  `genderid` int(11) NOT NULL AUTO_INCREMENT,
+  `gender` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`genderid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_glacct` */
 

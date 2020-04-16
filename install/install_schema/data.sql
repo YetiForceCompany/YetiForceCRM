@@ -5108,6 +5108,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (99,3035,'phone_b','u_yf_finvoiceproforma_address',1,1,'phone_b','FL_PHONE',0,2,'','100',17,467,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,3036,'meeting_utl','vtiger_activity',1,17,'meeting_utl','FL_MEETING_UTL',0,2,'','255',28,19,1,'V~O',1,0,'BAS',1,'',1,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (131,3037,'meeting_utl','u_yf_occurrences',1,17,'meeting_utl','FL_MEETING_UTL',0,2,'','255',11,460,1,'V~O',1,0,'BAS',1,'',1,'',NULL,0,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (4,3038,'gender','vtiger_contactdetails',1,16,'gender','FL_GENDER',0,2,'','255',31,4,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0);
 
 /*Data for the table `vtiger_fieldmodulerel` */
 
@@ -5379,6 +5380,11 @@ insert  into `vtiger_fixed_assets_type`(`fixed_assets_typeid`,`fixed_assets_type
 insert  into `vtiger_fixed_assets_type`(`fixed_assets_typeid`,`fixed_assets_type`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_VEHICLE',1,725,3);
 insert  into `vtiger_fixed_assets_type`(`fixed_assets_typeid`,`fixed_assets_type`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_PROPERTY',1,726,4);
 insert  into `vtiger_fixed_assets_type`(`fixed_assets_typeid`,`fixed_assets_type`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_INVENTORY',1,727,5);
+
+/*Data for the table `vtiger_gender` */
+
+insert  into `vtiger_gender`(`genderid`,`gender`,`presence`,`sortorderid`) values (1,'PPL_WOMAN',1,1);
+insert  into `vtiger_gender`(`genderid`,`gender`,`presence`,`sortorderid`) values (2,'PPL_MAN',1,2);
 
 /*Data for the table `vtiger_glacct` */
 
@@ -8749,6 +8755,7 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,99,3035,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,9,3036,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,131,3037,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,4,3038,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
