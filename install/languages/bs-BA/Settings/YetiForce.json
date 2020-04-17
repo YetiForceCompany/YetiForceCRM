@@ -8,7 +8,7 @@
     "LBL_PARAM_VAL": "Vrijednost",
     "LBL_PARAM_NOT_ALLOWED": "Parametar nije dozvoljen",
     "LBL_SAVED": "Promjene su spremljene",
-    "LBL_WATCHDOGURL": "Service URL",
+    "LBL_WATCHDOGURL": "URL usluge",
     "LBL_SYSTEMVERSION": "Verzija sistema YetiForce",
     "LBL_PHPVERSION": "PHP verzija",
     "LBL_OSVERSION": "Sistemska verzija",
