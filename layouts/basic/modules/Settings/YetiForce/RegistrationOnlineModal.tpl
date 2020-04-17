@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-YetiForce-RegistrationOnlineModal modal-body">
-		<form>
+
 			<input type="hidden" name="module" value="YetiForce"/>
 			<input type="hidden" name="parent" value="Settings"/>
 			<input type="hidden" name="action" value="Register"/>
@@ -16,10 +16,12 @@
 				</span>
 			</div>
 			{foreach from=$REGISTER_COMPANIES key=TYPE_LABEL item=COMPANIES}
-				{foreach from=$COMPANIES item=COMPANY_ROW}
-					{include file=\App\Layout::getTemplatePath('Form.tpl',$QUALIFIED_MODULE) COMPANY_ID=$COMPANY_ROW['id']}
-				{/foreach}
+				<form>
+					{foreach from=$COMPANIES item=COMPANY_ROW}
+						<input type="hidden" name="id" value="{$COMPANY_ROW['id']}"/>
+						{include file=\App\Layout::getTemplatePath('Form.tpl',$QUALIFIED_MODULE) COMPANY_ID=$COMPANY_ROW['id']}
+					{/foreach}
+				</form>
 			{/foreach}
-		</form>
 	</div>
 {/strip}
