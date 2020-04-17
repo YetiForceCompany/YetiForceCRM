@@ -251,7 +251,6 @@ class CurrencyField
 		$curSeparator = $this->currencySeparator;
 		$decSeparator = $this->decimalSeparator;
 		$currencyDecimalPlaces = $this->numberOfDecimal;
-		$value = str_replace($curSeparator, '', $value);
 		$value = number_format($value, $currencyDecimalPlaces, '.', '');
 		if (empty($curSeparator)) {
 			$curSeparator = ' ';
