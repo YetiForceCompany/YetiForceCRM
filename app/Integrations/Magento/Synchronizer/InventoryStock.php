@@ -43,16 +43,11 @@ class InventoryStock extends Base
 		}
 		foreach ($products as $product) {
 			try {
-				\App\Log::beginProfile('GET|stockItems|' . $product['ean'], 'Integrations/MagentoApi');
 				$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/stockItems/' . $product['ean']));
-				\App\Log::endProfile('GET|stockItems|' . $product['ean'], 'Integrations/MagentoApi');
-
 				$data['qty'] = $product['qtyinstock'];
-
-				\App\Log::beginProfile('PUT|stockItems|' . $product['ean'], 'Integrations/MagentoApi');
 				$this->connector->request('PUT', "{$this->config->get('store_code')}/V1/products/{$product['ean']}/stockItems/{$data['item_id']}", ['stockItem' => $data]);
-				\App\Log::endProfile('PUT|stockItems|' . $product['ean'], 'Integrations/MagentoApi');
 			} catch (\Throwable $ex) {
+				$this->log('Update stock', $ex);
 				\App\Log::error('Error during update stock: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 			}
 		}

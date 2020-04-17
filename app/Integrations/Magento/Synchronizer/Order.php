@@ -65,7 +65,7 @@ class Order extends Record
 								$this->updateOrderInCrm($crmId, $mapModel);
 							} else {
 								$parentOrder = $dataCrm['parent_id'];
-								if (1 === (int) $order['customer_is_guest']) {
+								if (empty($order['customer_id'])) {
 									$dataCrm['parent_id'] = $this->syncAccount($dataCrm);
 									$dataCrm['contactid'] = $this->syncContact($dataCrm);
 								} else {
@@ -86,10 +86,11 @@ class Order extends Record
 								\App\Cache::staticSave('CrmIdByMagentoIdSSingleOrders', $order['entity_id'], $crmId);
 							}
 						} catch (\Throwable $ex) {
-							\App\Log::error('Error during saving customer: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
+							$this->log('Saving order', $ex);
+							\App\Log::error('Error during saving order: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 						}
 					} else {
-						\App\Log::error('Empty map customer details', 'Integrations/Magento');
+						\App\Log::error('Empty map order details', 'Integrations/Magento');
 					}
 					$this->config->setScan('order', 'id', $id);
 				}
@@ -97,7 +98,8 @@ class Order extends Record
 				$allChecked = true;
 			}
 		} catch (\Throwable $ex) {
-			\App\Log::error('Error during import customer: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
+			$this->log('Import orders', $ex);
+			\App\Log::error('Error during import order: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 		}
 		return $allChecked;
 	}
@@ -110,9 +112,7 @@ class Order extends Record
 	public function getOrdersFromApi(): array
 	{
 		$items = [];
-		\App\Log::beginProfile('GET|orders', 'Integrations/MagentoApi');
-		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/orders?' . $this->getSearchCriteria($this->config->get('orderLimit'))));
-		\App\Log::endProfile('GET|orders', 'Integrations/MagentoApi');
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/orders?' . $this->getSearchCriteria($this->config->get('orders_limit'))));
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
 				$items[$item['entity_id']] = $item;
@@ -141,10 +141,12 @@ class Order extends Record
 				$recordModel->set($key, $value);
 			}
 		}
-		if (!$this->saveInventoryCrm($recordModel, $mapModel)) {
-			\App\Log::error('Error during parse inventory order id: [' . $mapModel->data['entity_id'] . ']', 'Integrations/Magento');
+		if ($this->saveInventoryCrm($recordModel, $mapModel)) {
+			$recordModel->save();
+		} else {
+			$this->log('Skipped saving record, problem with inventory products | order id: [' . $mapModel->data['entity_id'] . ']');
+			\App\Log::error('Skipped saving record, problem with inventory products | order id: [' . $mapModel->data['entity_id'] . ']', 'Integrations/Magento');
 		}
-		$recordModel->save();
 		return $recordModel->getId();
 	}
 

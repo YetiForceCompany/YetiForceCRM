@@ -97,7 +97,7 @@
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<span class="u-font-size-13px">
+						<span class="u-fs-13px">
 							{App\Language::translate('LBL_NEWSLETTER_ALERT', $QUALIFIED_MODULE)}
 						</span>
 					</div>

@@ -382,7 +382,8 @@
     "LBL_USER_AUTOMATION": "Autmatic allocation of records",
     "LBL_USER_PASSWORD_IS_OK": "Your password complies with the system requirements.",
     "FL_MAIL_SCANNER_ACTIONS": "Available email scanner actions (Outlook)",
-    "FL_MAIL_SCANNER_FIELDS": "Email fields used by the scanner (Outlook)"
+    "FL_MAIL_SCANNER_FIELDS": "Record binding fields (Outlook)",
+    "LBL_ACCOUNT_SETTINGS": "Account settings"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Decimal separator and grouping separator can't be the same.",

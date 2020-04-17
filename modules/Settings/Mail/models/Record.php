@@ -105,6 +105,9 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 					}
 				}
 				break;
+			case 'error':
+				 $value = \App\Layout::truncateHtml($value, 'mini', 30);
+				break;
 			default:
 				break;
 		}

@@ -69,7 +69,7 @@
     "pack": "pack",
     "LBL_TAXES": "Taxes",
     "LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO": "List of records is limited to the products and services associated with the sales opportunity",
-    "FL_EAN_SKU": "EAN/SKU",
+    "FL_EAN_SKU": "SKU",
     "FL_QTY_IN_STOCK": "Quantity of product in stock",
     "FL_PURCHASE": "Purchase",
     "FL_WEIGHT": "Weight"

@@ -88,7 +88,7 @@ abstract class Base
 		$savedAllProducts = true;
 		if ($mapModel->dataCrm['currency_id']) {
 			foreach ($mapModel->data['items'] as $item) {
-				$productId = $this->findProduct($item['sku']);
+				$productId = $this->findProduct(trim($item['sku']));
 				if (0 === $productId) {
 					$productId = $mapModel->createProduct($item);
 				}
@@ -98,6 +98,7 @@ abstract class Base
 				} else {
 					$savedAllProducts = false;
 					\App\Log::error('Skipped saving record, product not found in CRM (magento id: [' . $item['product_id'] . '] | SKU:[' . $item['sku'] . '])', 'Integrations/Magento');
+					$this->log('Skipped saving record, product not found in CRM (magento id: [' . $item['product_id'] . '] | SKU:[' . $item['sku'] . '])');
 					break;
 				}
 			}
@@ -218,5 +219,25 @@ abstract class Base
 			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_products.ean' => $ean])->scalar() ?: 0;
 		\App\Cache::staticSave('ProductIdByEan', $ean, $id);
 		return $id;
+	}
+
+	/**
+	 * Add log to db.
+	 *
+	 * @param string      $category
+	 * @param ?\Throwable $ex
+	 *
+	 * @return void
+	 */
+	public function log(string $category, ?\Throwable $ex = null): void
+	{
+		\App\DB::getInstance('admin')->createCommand()
+			->insert('l_#__magento', [
+				'time' => date('Y-m-d H:i:s'),
+				'category' => null === $ex ? '' : $category,
+				'message' => $ex ? $ex->getMessage() : $category,
+				'code' => $ex ? $ex->getCode() : 500,
+				'trace' => $ex ? $ex->__toString() : '',
+			])->execute();
 	}
 }

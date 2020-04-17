@@ -88,10 +88,12 @@ class Invoice extends Record
 				if ($this->saveInventoryCrm($recordModel, $order['items'], $data['extension_attributes']['shipping_assignments'], $invoiceFields)) {
 					$recordModel->save();
 				} else {
-					\App\Log::error('Error during saving YetiForce invoice id: [' . $data['entity_id'] . ']', 'Integrations/Magento');
+					$this->log('Skipped saving record, problem with inventory products | invoice id: [' . $data['entity_id'] . ']');
+					\App\Log::error('Skipped saving record, problem with inventory products | invoice id: [' . $data['entity_id'] . ']', 'Integrations/Magento');
 				}
 				$value = $recordModel->getId();
 			} catch (\Throwable $ex) {
+				$this->log('Saving invoice', $ex);
 				\App\Log::error('Error during saving YetiForce invoice id: [' . $data['entity_id'] . ']' . $ex->getMessage(), 'Integrations/Magento');
 			}
 		}
@@ -123,6 +125,7 @@ class Invoice extends Record
 			}
 			$recordModel->save();
 		} catch (\Throwable $ex) {
+			$this->log('Updating invoice', $ex);
 			\App\Log::error('Error during updating yetiforce invoice: ' . $ex->getMessage(), 'Integrations/Magento');
 		}
 	}
@@ -152,7 +155,7 @@ class Invoice extends Record
 	public function getInvoices(array $ids = []): array
 	{
 		$items = [];
-		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/invoices?' . $this->getSearchCriteria($this->config->get('invoiceLimit'))));
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/invoices?' . $this->getSearchCriteria($this->config->get('invoices_limit'))));
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
 				$items[$item['entity_id']] = $item;

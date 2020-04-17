@@ -72,7 +72,7 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 			'registerView' => true
 		],
 		'logo' => [
-			'registerView' => true
+			'registerView' => false
 		],
 		'facebook' => [
 			'brandBlock' => true

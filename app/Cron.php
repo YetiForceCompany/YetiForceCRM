@@ -88,7 +88,7 @@ class Cron
 		if (!static::$logActive) {
 			return;
 		}
-		if ('warning' === $level || 'error' === $level) {
+		if ('error' === $level) {
 			static::$keepLogFile = true;
 		}
 		if ($indent) {

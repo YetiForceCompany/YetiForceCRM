@@ -38,12 +38,14 @@ class Currency extends Base
 								'currency_status' => 'Active',
 							])->execute();
 						} else {
+							$this->log('Currency is not supported by the system: ' . $code);
 							\App\Log::error('Currency is not supported by the system: ' . $code, 'Integrations/Magento');
 						}
 					}
 				}
 			}
 		} catch (\Throwable $ex) {
+			$this->log('Import currencies', $ex);
 			\App\Log::error('Error during import currencies: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 		}
 	}
@@ -55,9 +57,6 @@ class Currency extends Base
 	 */
 	public function getCurrenciesFromApi(): array
 	{
-		\App\Log::beginProfile('GET|directory/currency', 'Integrations/MagentoApi');
-		$currency = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/directory/currency')) ?? [];
-		\App\Log::endProfile('GET|directory/currency', 'Integrations/MagentoApi');
-		return $currency;
+		return \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/directory/currency')) ?? [];
 	}
 }

@@ -77,11 +77,11 @@ class Company extends Base
 			return false;
 		}
 		$companies = \array_column(static::getAll(), 'id', 'id');
-		foreach ($companiesNew as $key => $company) {
-			if (!isset($companies[$key])) {
-				throw new Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $key);
+		foreach ($companiesNew as $company) {
+			if (!isset($companies[$company['id']])) {
+				throw new Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $company['id']);
 			}
-			$recordModel = \Settings_Companies_Record_Model::getInstance((int) $key);
+			$recordModel = \Settings_Companies_Record_Model::getInstance((int) $company['id']);
 			$field = $recordModel->getModule()->getFormFields();
 			foreach (array_keys($field) as $fieldName) {
 				if (isset($company[$fieldName])) {

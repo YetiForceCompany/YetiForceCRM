@@ -62,6 +62,7 @@ class Category extends Record
 							$this->createCategory($category['id'], $category);
 						}
 					} catch (\Throwable $ex) {
+						$this->log('Saving category', $ex);
 						\App\Log::error('Error during saving category: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 					}
 					$this->config->setScan('category', 'id', $category['id']);
@@ -70,6 +71,7 @@ class Category extends Record
 				$allChecked = true;
 			}
 		} catch (\Throwable $ex) {
+			$this->log('Import categories', $ex);
 			\App\Log::error('Error during import category: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 		}
 		return $allChecked;
@@ -83,7 +85,7 @@ class Category extends Record
 	public function getCategoriesFromApi(): array
 	{
 		$items = [];
-		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/categories/list?' . $this->getSearchCriteria($this->config->get('categoryLimit'))));
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/categories/list?' . $this->getSearchCriteria($this->config->get('categories_limit'))));
 		if (!empty($data['items'])) {
 			$items = $data['items'];
 			foreach ($items as $item) {
@@ -132,10 +134,10 @@ class Category extends Record
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('ProductCategory');
 		$parentId = 0;
 		if ($category['parent_id'] > 1) {
-			$parentId = $this->getCrmId($category['parent_id']) ?: $this->createCategory($category['id']);
+			$parentId = $this->getCrmId($category['parent_id']) ?: $this->createCategory($category['parent_id']);
 		}
 		$recordModel->setData([
-			'category' => $category['name'],
+			'category' => trim($category['name']),
 			'parent_id' => $parentId,
 			'active' => $category['is_active'],
 			'magento_server_id' => $this->config->get('id'),

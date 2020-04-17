@@ -945,6 +945,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		$this->fieldInfo['tabindex'] = $this->get('tabindex');
 		$this->fieldInfo['defaultvalue'] = $this->getDefaultFieldValue();
 		$this->fieldInfo['type'] = $fieldDataType;
+		$this->fieldInfo['fieldtype'] = explode('~', $this->get('typeofdata'))[0] ?? '';
 		$this->fieldInfo['name'] = $this->get('name');
 		$this->fieldInfo['label'] = App\Language::translate($this->get('label'), $this->getModuleName());
 

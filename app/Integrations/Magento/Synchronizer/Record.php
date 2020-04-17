@@ -89,7 +89,16 @@ abstract class Record extends Base
 		}
 		$fields = $recordModel->getModule()->getFields();
 		if (!($companyName = $data['company_name_a'] ?: $data['company_name_b'] ?: false)) {
+			if (empty($data['firstname'])) {
+				$data['firstname'] = $data['first_name_a'] ?? $data['first_name_b'];
+			}
+			if (empty($data['lastname'])) {
+				$data['lastname'] = $data['last_name_a'] ?? $data['last_name_b'];
+			}
 			$companyName = $data['firstname'] . '|##|' . $data['lastname'];
+			if ('|##|' === $companyName) {
+				$companyName = $data['email'] ?? $data['email_a'];
+			}
 			$recordModel->set('legal_form', 'PLL_NATURAL_PERSON');
 		}
 		$recordModel->set('accountname', $companyName);
@@ -180,6 +189,12 @@ abstract class Record extends Base
 		}
 		$fields = $recordModel->getModule()->getFields();
 		unset($data['attention']);
+		if (empty($data['firstname'])) {
+			$data['firstname'] = $data['first_name_a'] ?? $data['first_name_b'];
+		}
+		if (empty($data['lastname'])) {
+			$data['lastname'] = $data['last_name_a'] ?? $data['last_name_b'];
+		}
 		foreach ($data as  $fieldName => $value) {
 			if (isset($fields[$fieldName])) {
 				$recordModel->set($fieldName, $value);
@@ -204,9 +219,7 @@ abstract class Record extends Base
 		if (\App\Cache::staticHas('MagentoGetFromApi|' . $type, $id)) {
 			return \App\Cache::staticGet('MagentoGetFromApi|' . $type, $id);
 		}
-		\App\Log::beginProfile("GET|{$type}/$id", 'Integrations/MagentoApi');
 		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . "/V1/{$type}/$id"));
-		\App\Log::endProfile("GET|{$type}/$id", 'Integrations/MagentoApi');
 		\App\Cache::staticSave('MagentoGetFromApi|' . $type, $id, $data);
 		return $data;
 	}

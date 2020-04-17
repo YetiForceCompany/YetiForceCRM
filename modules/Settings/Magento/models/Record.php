@@ -192,9 +192,17 @@ class Settings_Magento_Record_Model extends Settings_Vtiger_Record_Model
 		switch ($name) {
 			case 'store_id':
 				$params['uitype'] = 7;
-				$params['defaultvalue'] = 7;
 				$params['typeofdata'] = 'I';
 				$params['maximumlength'] = '16777215';
+				break;
+			case 'categories_limit':
+			case 'products_limit':
+			case 'customers_limit':
+			case 'orders_limit':
+			case 'invoices_limit':
+				$params['uitype'] = 7;
+				$params['typeofdata'] = 'I';
+				$params['maximumlength'] = '65535';
 				break;
 			case 'storage_id':
 				$params['uitype'] = 10;

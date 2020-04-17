@@ -55,6 +55,7 @@ class Product extends Record
 				$allChecked = true;
 			}
 		} catch (\Throwable $ex) {
+			$this->log('Import products', $ex);
 			\App\Log::error('Error during import products: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 		}
 		return $allChecked;
@@ -68,9 +69,7 @@ class Product extends Record
 	public function getProductsFromApi(): array
 	{
 		$items = [];
-		\App\Log::beginProfile('GET|products', 'Integrations/MagentoApi');
-		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/products?' . $this->getSearchCriteria($this->config->get('productLimit'))));
-		\App\Log::endProfile('GET|products', 'Integrations/MagentoApi');
+		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/products?' . $this->getSearchCriteria($this->config->get('products_limit'))));
 		if (!empty($data['items'])) {
 			foreach ($data['items'] as $item) {
 				$items[$item['id']] = $item;
@@ -153,11 +152,12 @@ class Product extends Record
 		$id = 0;
 		if ($dataCrm = $mapModel->getDataCrm()) {
 			try {
-				if (!($id = $this->findProduct($product['sku']))) {
+				if (!($id = $this->findProduct(trim($product['sku'])))) {
 					$id = $this->createProductInCrm($dataCrm);
-					\App\Cache::staticSave('ProductIdByEan', $product['sku'], $id);
+					\App\Cache::staticSave('ProductIdByEan', trim($product['sku']), $id);
 				}
 			} catch (\Throwable $ex) {
+				$this->log('Saving product', $ex);
 				\App\Log::error('Error during saving product: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 			}
 		} else {
@@ -184,6 +184,7 @@ class Product extends Record
 			}
 			$id = $this->syncProduct($product);
 		} catch (\Throwable $ex) {
+			$this->log('Import product by ean', $ex);
 			\App\Log::error('Error during import by ean product: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 		}
 		return $id;

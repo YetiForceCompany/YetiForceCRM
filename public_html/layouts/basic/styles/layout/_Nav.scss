@@ -370,6 +370,7 @@
 @media only screen and (max-width: 768px) {
 	.dropdown-menu {
 		max-height: 500px;
+		max-width: calc(100vh);
 		overflow-y: auto;
 		overflow-x: hidden;
 	}
