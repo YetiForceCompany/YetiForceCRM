@@ -153,9 +153,9 @@ class Layout
 	 *
 	 * @return string
 	 */
-	public static function truncateHtml(string $html, ?string $size = 'medium', ?int $length = 200): string
+	public static function truncateHtml(?string $html, ?string $size = 'medium', ?int $length = 200): string
 	{
-		if ('' === $html) {
+		if (empty($html)) {
 			return '';
 		}
 		$teaser = $css = $btn = '';
