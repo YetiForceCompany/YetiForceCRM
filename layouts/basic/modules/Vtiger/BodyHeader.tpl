@@ -395,6 +395,17 @@
 							</div>
 						{/if}
 					{/foreach}
+					<div class="o-action-menu__item">
+						<div class="dropdown">
+							<a class="c-header__btn ml-2 btn btn-light btn js-popover-tooltip dropdownMenu"
+								id="showUserQuickMenuBtn" data-js="popover" data-toggle="dropdown" data-boundary="window"
+								data-content="{\App\Language::translate('LBL_MY_PREFERENCES')}" href="#" role="button">
+							<span class="fas fa-user fa-fw" title="{\App\Language::translate('LBL_MY_PREFERENCES')}"></span>
+								<span class="c-header__label--sm-down">{\App\Language::translate('LBL_MY_PREFERENCES')}</span>
+							</a>
+							{include file=\App\Layout::getTemplatePath('UserQuickMenu.tpl', $MODULE)}
+						</div>
+					</div>
 				</div>
 			</nav>
 		</div>
