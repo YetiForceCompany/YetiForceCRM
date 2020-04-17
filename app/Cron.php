@@ -44,9 +44,21 @@ class Cron
 	 * @var bool Flag to keep log file after run finish
 	 */
 	public static $keepLogFile = false;
+	/**
+	 * @var int status disabled
+	 */
 	const STATUS_DISABLED = 0;
+	/**
+	 * @var int status enabled
+	 */
 	const STATUS_ENABLED = 1;
+	/**
+	 * @var int status running
+	 */
 	const STATUS_RUNNING = 2;
+	/**
+	 * @var int status completed
+	 */
 	const STATUS_COMPLETED = 3;
 
 	/**

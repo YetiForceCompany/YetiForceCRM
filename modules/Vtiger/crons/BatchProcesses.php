@@ -35,8 +35,7 @@ class Vtiger_BatchProcesses_Cron extends \App\CronHandler
 			}
 		}
 		if ($disable) {
-			\App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => 0], ['name' => 'LBL_BATCH_PROCESSES'])
-				->execute();
+			\App\Cron::updateStatus(0, 'LBL_BATCH_PROCESSES');
 		}
 	}
 }
