@@ -71,7 +71,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return null;
 		}
-		$valueRaw = '';
+		$valueRaw = $valueHtml = '';
 		$values = explode(' |##| ', $value);
 		$trValueRaw = $trValue = [];
 		$moduleName = $this->getFieldModel()->getModuleName();
@@ -82,14 +82,18 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 			$trValueRaw[] = $displayValue;
 			$trValue[] = "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">$displayValue</span>";
 		}
-		$valueRaw = str_ireplace(' |##| ', ', ', implode(' |##| ', $trValueRaw));
-		if (\is_int($length)) {
-			$valueRaw = \App\TextParser::textTruncate($valueRaw, $length);
-		}
 		if($rawText){
-			return $valueRaw;
+			$valueRaw = str_ireplace(' |##| ', ', ', implode(' |##| ', $trValueRaw));
+			if (\is_int($length)) {
+				$valueRaw = \App\TextParser::textTruncate($valueRaw, $length);
+			}
+		} else {
+			$valueHtml = str_ireplace(' |##| ', ' ', implode(' |##| ', $trValue));
+			if (\is_int($length)) {
+				$valueHtml = \App\TextParser::htmlTruncate($valueHtml, $length);
+			}
 		}
-		return str_ireplace(' |##| ', ' ', implode(' |##| ', $trValue));
+		return $rawText ? $valueRaw : $valueHtml;
 	}
 
 	/**
