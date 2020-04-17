@@ -78,6 +78,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
 		foreach($values as $value){
 			$displayValue = App\Language::translate($value, $moduleName);
+			$value = App\Colors::sanitizeValue($value);
 			$trValueRaw[] = $displayValue;
 			$trValue[] = "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">$displayValue</span>";
 		}
