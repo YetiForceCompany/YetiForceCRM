@@ -116,7 +116,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			let startDateTime = startDate + ' ' + startTime,
 				dateFormat = container.find('[name="due_date"]').data('dateFormat').toUpperCase(),
 				timeFormat = endTimeElement.data('format'),
-				activityType = container.find('[name="activitytype"]').val(),
+				activityType = container.find('[name="activitytype"]:checked').val(),
 				activityDurations = JSON.parse(container.find('[name="defaultOtherEventDuration"]').val()),
 				minutes = 0;
 			for (let i in activityDurations) {

@@ -758,7 +758,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				startDate = startDate + 'T' + start_hour + ':00';
 				endDate = endDate + 'T' + end_hour + ':00';
 				if (startDate == endDate) {
-					let activityType = data.find('[name="activitytype"]:checked').val();
+					let activityType = data.find('[name="activitytype"]').val();
 					let activityDurations = JSON.parse(data.find('[name="defaultOtherEventDuration"]').val());
 					let minutes = 0;
 					for (let i in activityDurations) {
