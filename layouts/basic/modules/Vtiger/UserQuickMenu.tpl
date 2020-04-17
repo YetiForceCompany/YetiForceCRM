@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Base-UserQuickMenu dropdown-menu historyList js-scrollbar pl-2 pr-2 u-max-w-sm-100 u-min-w-300px" aria-labelledby="showHistoryBtn" role="list" data-js="perfectscrollbar">
+	<!-- tpl-Base-UserQuickMenu -->
+	<div class="dropdown-menu historyList js-scrollbar pl-2 pr-2 u-max-w-sm-100 u-min-w-300px" aria-labelledby="showHistoryBtn" role="list" data-js="perfectscrollbar">
 		<div class="user-info-body container-fluid m-0 p-0">
 			<div class="user-info row w-100 m-0 p-0">
 				<div class="col-12 p-1">
@@ -60,4 +61,5 @@
 			{/foreach}
 		</div>
 	</div>
+	<!-- /tpl-Base-UserQuickMenu -->
 {/strip}

@@ -214,7 +214,7 @@ abstract class Page extends Base
 	}
 
 	/**
-	 * Function to get the list of User Header Links.
+	 * Function to get the list of User Quick Menu Links.
 	 *
 	 * @param \App\Request $request
 	 *
