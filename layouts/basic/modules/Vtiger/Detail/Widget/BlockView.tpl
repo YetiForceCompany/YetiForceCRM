@@ -31,7 +31,7 @@
 								{if !$FIELD_MODEL->isViewableInDetailView()}
 									{continue}
 								{/if}
-								<div class="form-row c-table__row--hover border-bottom py-0 py-sm-1 u-font-size-13px c-detail-widget__mobile-line ">
+								<div class="form-row c-table__row--hover border-bottom py-0 py-sm-1 u-fs-13px c-detail-widget__mobile-line ">
 									<div class="col-5 medium d-flex align-items-center"
 										 id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 										{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}

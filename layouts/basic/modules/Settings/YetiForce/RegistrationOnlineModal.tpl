@@ -11,7 +11,7 @@
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<span class="u-font-size-13px">
+				<span class="u-fs-13px">
 					{\App\Language::translateArgs('LBL_CONDITIONS_OF_REGISTRATION', $QUALIFIED_MODULE ,"<a href=\"index.php?module=Vtiger&view=Credits&parent=Settings\">Link</a>", \App\Language::translate('LBL_CHANGING_COMPANY_NAME', $QUALIFIED_MODULE))}
 				</span>
 			</div>

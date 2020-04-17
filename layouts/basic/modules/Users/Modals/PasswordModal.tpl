@@ -21,7 +21,7 @@
 			{elseif $MODE === 'change'}
 				{if $WARNING}
 					<div class="alert alert-danger" role="alert">
-						<span class="fas fa-exclamation-circle u-font-size-2x float-left mr-2"></span>
+						<span class="fas fa-exclamation-circle u-fs-2em float-left mr-2"></span>
 						{$WARNING}
 					</div>
 				{/if}
