@@ -40,7 +40,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	public function getDisplayValue($fieldName, $record = false, $rawText = false, $length = false)
 	{
 		if ('commentcontent' !== $fieldName) {
-			parent::getDisplayValue($fieldName, $record, $rawText, $length);
+			return parent::getDisplayValue($fieldName, $record, $rawText, $length);
 		}
 		if (empty($record)) {
 			$record = $this->getId();

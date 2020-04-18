@@ -466,32 +466,35 @@ $.Class(
 			});
 		},
 		clearFieldValue: function(element) {
-			var thisInstance = this;
-			var fieldValueContener = element.closest('.fieldValue');
-			var fieldNameElement = fieldValueContener.find('.sourceField');
-			var fieldName = fieldNameElement.attr('name');
-			var referenceModule = fieldValueContener.find('input[name="popupReferenceModule"]').val();
-			var formElement = fieldValueContener.closest('form');
-
-			fieldNameElement.val('');
+			const self = this;
+			let fieldValueContener = element.closest('.fieldValue');
+			let fieldNameElement = fieldValueContener.find('.sourceField');
+			let fieldName = fieldNameElement.attr('name');
+			let referenceModule = fieldValueContener.find('input[name="popupReferenceModule"]').val();
+			let formElement = fieldValueContener.closest('form');
+			if (fieldNameElement.data('fieldtype') == 'reference') {
+				fieldNameElement.val(0);
+			} else {
+				fieldNameElement.val('');
+			}
 			fieldValueContener
 				.find('#' + fieldName + '_display')
 				.removeAttr('readonly')
 				.val('');
 			app.event.trigger('EditView.ClearField', { fieldName: fieldName, referenceModule: referenceModule });
-			var mappingRelatedField = this.getMappingRelatedField(fieldName, referenceModule, formElement);
+			let mappingRelatedField = this.getMappingRelatedField(fieldName, referenceModule, formElement);
 			$.each(mappingRelatedField, function(key, value) {
-				var mapFieldElement = formElement.find('[name="' + key + '"]');
+				let mapFieldElement = formElement.find('[name="' + key + '"]');
 				if (mapFieldElement.is('select')) {
 					mapFieldElement.val(mapFieldElement.find('option:first').val()).trigger('change');
 				} else {
 					mapFieldElement.val('');
 				}
-				var mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
+				let mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
 				if (mapFieldDisplayElement.length > 0) {
 					mapFieldDisplayElement.val('').attr('readonly', false);
 					var referenceModulesList = formElement.find(
-						'#' + thisInstance.moduleName + '_editView_fieldName_' + key + '_dropDown'
+						'#' + self.moduleName + '_editView_fieldName_' + key + '_dropDown'
 					);
 					if (referenceModulesList.length > 0 && value[1]) {
 						referenceModulesList.val(referenceModulesList.find('option:first').val()).trigger('change');
@@ -567,7 +570,9 @@ $.Class(
 		],
 		addressFieldsMappingBlockID: {
 			LBL_ADDRESS_INFORMATION: 'a',
+			LBL_ADDRESS_BILLING: 'a',
 			LBL_ADDRESS_MAILING_INFORMATION: 'b',
+			LBL_ADDRESS_SHIPPING: 'b',
 			LBL_ADDRESS_DELIVERY_INFORMATION: 'c'
 		},
 		addressFieldsData: false,

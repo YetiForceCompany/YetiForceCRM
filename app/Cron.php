@@ -44,6 +44,10 @@ class Cron
 	 * @var bool Flag to keep log file after run finish
 	 */
 	public static $keepLogFile = false;
+	const STATUS_DISABLED = 0;
+	const STATUS_ENABLED = 1;
+	const STATUS_RUNNING = 2;
+	const STATUS_COMPLETED = 3;
 
 	/**
 	 * Init and configure object.
@@ -84,7 +88,7 @@ class Cron
 		if (!static::$logActive) {
 			return;
 		}
-		if ('warning' === $level || 'error' === $level) {
+		if ('error' === $level) {
 			static::$keepLogFile = true;
 		}
 		if ($indent) {
@@ -130,5 +134,26 @@ class Cron
 	public function getCronExecutionTime()
 	{
 		return static::$cronTimeStart ? round(microtime(true) - static::$cronTimeStart, 2) : null;
+	}
+
+	/**
+	 * Update cron task status by name.
+	 *
+	 * @param int    $status
+	 * @param string $name
+	 *
+	 * @return void
+	 */
+	public static function updateStatus(int $status, string $name): void
+	{
+		switch ((int) $status) {
+			case self::STATUS_DISABLED:
+			case self::STATUS_ENABLED:
+			case self::STATUS_RUNNING:
+				break;
+			default:
+				throw new \App\Exceptions\AppException('Invalid status');
+		}
+		\App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => $status], ['name' => $name])->execute();
 	}
 }

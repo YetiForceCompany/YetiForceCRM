@@ -86,7 +86,7 @@ abstract class Modal extends View\Base
 	 */
 	public function preProcessAjax(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
+		$moduleName = $request->getModule(false);
 		$view = $request->getByType('view', 2);
 		$this->modalData['view'] = $view;
 		$this->modalData['module'] = $moduleName;

@@ -9,12 +9,12 @@
 	</div>
 	{if !\App\YetiForce\Shop::check('YetiForceMagento')}
 		<div class="alert alert-warning">
-			<span class="yfi-premium mr-2 u-font-size-2x color-red-600 float-left"></span>
+			<span class="yfi-premium mr-2 u-fs-2em color-red-600 float-left"></span>
 			{\App\Language::translate('LBL_PAID_FUNCTIONALITY', $QUALIFIED_MODULE)} <a href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceMagento&mode=showProductModal">{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
 		</div>
 	{elseif !$MODULE_MODEL->isActive()}
 		<div class="alert alert-danger">
-			<span class="mdi mdi-alert-outline mr-2 float-left"></span>
+			<span class="mdi mdi-alert-outline mr-2 u-fs-lg float-left"></span>
 			{\App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', $QUALIFIED_MODULE,'Magento')}
 			<a class="btn btn-primary btn-sm ml-3" href="index.php?parent=Settings&module=Magento&action=Active">
 				<span class="mdi mdi-check mr-2 float-left"></span>

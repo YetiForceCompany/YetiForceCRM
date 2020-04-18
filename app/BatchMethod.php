@@ -144,6 +144,16 @@ class BatchMethod extends Base
 	}
 
 	/**
+	 * Delete by method.
+	 *
+	 * @param string $method
+	 */
+	public static function deleteByMethod(string $method): void
+	{
+		Db::getInstance()->createCommand()->delete('s_#__batchmethod', ['method' => $method])->execute();
+	}
+
+	/**
 	 * Log.
 	 *
 	 * @param string $message

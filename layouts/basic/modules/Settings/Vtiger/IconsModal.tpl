@@ -28,7 +28,7 @@
 						:</strong>
 				</div>
 				<div class="col-sm-7 d-flex">
-					<div class="iconExample m-sm-auto u-font-size-38px"></div>
+					<div class="iconExample m-sm-auto u-fs-38px"></div>
 				</div>
 			</div>
 		</div>

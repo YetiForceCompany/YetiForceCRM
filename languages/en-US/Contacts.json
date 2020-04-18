@@ -31,7 +31,7 @@
     "Inactive": "Inactive",
     "Other Po Box": "Additional address: PO box",
     "Mailing Po Box": "Primary address: PO box",
-    "LBL_ADDRESS_INFORMATION": "Address of permanent residence",
+    "LBL_ADDRESS_INFORMATION": "Primary address",
     "LBL_CONTACT_INFO": "Contact information",
     "Approval for phone calls": "Permission to call",
     "Approval for email": "Permission to send emails",

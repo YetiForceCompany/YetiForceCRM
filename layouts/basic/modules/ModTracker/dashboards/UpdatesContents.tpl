@@ -47,7 +47,7 @@
 					{if $PROCEED}
 						<div class="d-flex">
 							<div class="w-100">
-								<div class="mr-1 float-sm-left imageContainer q-avatar u-font-size-38px">
+								<div class="mr-1 float-sm-left imageContainer q-avatar u-fs-38px">
 									{assign var=IMAGE value=$USER->getImage()}
 									{if $IMAGE}
 										<img class="userImage" src="{$IMAGE['url']}">

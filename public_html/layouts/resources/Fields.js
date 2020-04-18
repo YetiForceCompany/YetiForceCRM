@@ -668,7 +668,7 @@ window.App.Fields = {
 						feed: this.getMentionUsersData.bind(this),
 						itemTemplate: `<li data-id="{id}" class="row no-gutters">
 											<div class="col-2 c-img__completion__container">
-												<div class="{icon} m-auto u-w-fit u-font-size-14px"></div>
+												<div class="{icon} m-auto u-w-fit u-fs-14px"></div>
 												<img src="{image}" class="c-img__completion mr-2" alt="{label}" title="{label}">
 											</div>
 											<div class="col row-10 no-gutters u-overflow-x-hidden">

@@ -48,7 +48,7 @@ window.MailIntegration_Compose = {
 					<div class="">
 								<div class="row">
 									<div class="col-9 pr-0">
-										<div class="u-font-size-14px">${user.name}</div>
+										<div class="u-fs-14px">${user.name}</div>
 										<div class="c-search-item__mail small">${user.mail}</div>
 									</div>
 									<div class="col-3 pr-0 text-right">

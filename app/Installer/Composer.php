@@ -94,6 +94,7 @@ class Composer
 		'phpdoc.ini',
 		'crowdin.yml',
 		'sonar-project.properties',
+		'whitesource.config.json',
 	];
 	/**
 	 * Clear vendor files.

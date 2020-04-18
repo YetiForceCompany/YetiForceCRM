@@ -298,6 +298,10 @@ return [
 			'default' => false,
 			'description' => 'Enable saving logs profiling. Values: false/true'
 		],
+		'LOG_PROFILE_CATEGORIES' => [
+			'default' => [],
+			'description' => 'Categories to be registered in profiling, an empty value means all categories. ex. "yii\db\Command::query", "Integrations/MagentoApi"'
+		],
 		'LOG_LEVELS' => [
 			'default' => false,
 			'description' => 'Level of saved/displayed logs. Values: false = All / 3 = error and warning / ["error", "warning", "info", "trace", "profile"]',
@@ -568,7 +572,7 @@ return [
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING' => [
-			'default' => 100,
+			'default' => 1000,
 			'description' => 'The numbers of emails downloaded during one scanning',
 			'validation' => '\App\Validator::naturalNumber'
 		],
@@ -812,11 +816,7 @@ return [
 		'encryptionPass' => [
 			'default' => 'yeti',
 			'description' => 'Key to encrypt passwords, changing the key results in the loss of all encrypted data.',
-			'validation' => function () {
-				$arg = func_get_arg(0);
-				return \is_array($arg) && !empty($arg['pass']) && !empty($arg['method']) &&
-					\in_array($arg['method'], \App\Encryption::getMethods()) && \strlen($arg['pass']) === App\Encryption::getLengthVector($arg['method']);
-			}
+			'validation' => '\App\Validator::text'
 		],
 		'encryptionMethod' => [
 			'default' => 'AES-256-CBC',
@@ -1063,7 +1063,7 @@ return [
 		'db_username' => [
 			'default' => '_DBC_USER_',
 			'description' => 'Gets the database user name',
-			'validation' => '\App\Validator::sql',
+			'validation' => '\App\Validator::dbUserName',
 			'sanitization' => '\App\Purifier::purify'
 		],
 		'db_password' => [

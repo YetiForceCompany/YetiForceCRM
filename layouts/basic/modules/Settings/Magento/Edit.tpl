@@ -15,6 +15,7 @@
 		<input type="hidden" name="parent" value="Settings">
 		<input type="hidden" name="module" value="{$MODULE_NAME}">
 		<input type="hidden" name="action" value="SaveAjax">
+		<input type="hidden" name="mode" value="save">
 		<input type="hidden" name="record" value="{$RECORD_ID}"/>
 		<table class="table table-bordered table-sm mb-5">
 			<thead>

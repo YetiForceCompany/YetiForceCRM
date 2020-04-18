@@ -81,7 +81,7 @@ class ProductsTableNew extends Base
 								}
 							}
 						} elseif (\in_array($typeName, ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice'])) {
-							$fieldValue = \CurrencyField::appendCurrencySymbol(\CurrencyField::convertToUserFormat($fieldModel->getDisplayValue($itemValue, $inventoryRow), null, true), $currencySymbol);
+							$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
 							$fieldStyle = $bodyStyle . 'text-align:right;';
 						} else {
 							$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
