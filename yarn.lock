@@ -55,14 +55,14 @@ block-ui@^2.70.1:
     jquery ">=1.7.x"
 
 blueimp-canvas-to-blob@3:
-  version "3.19.0"
-  resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.19.0.tgz#842a30605c59ec12b1219bb3d8969160e27b6f8e"
-  integrity sha512-WlLp3GOEdpyQr5hqyPaRoFHGdzMcf6T5Wr8ZjjGl1MM4tit6+rCsJcw7psXFvgoIk69uCGEhyvZOWXU2b4bDcQ==
+  version "3.20.0"
+  resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.20.0.tgz#9ea4d9bea2b2ce6f7b7cc66113ad1e3f2cb6bf02"
+  integrity sha512-2djdcgqRL+D7j51uP1Xi74x6LQmk7Gym0RL6Da+puzY1OZZMU960dN6nJJU+CHuX1PYQ20Ecpzogk0F5noh6WA==
 
 blueimp-file-upload@^10.6.0:
-  version "10.13.0"
-  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-10.13.0.tgz#3994d1606caa44197e4aa29d7f7e1cdd6f521568"
-  integrity sha512-N0yIt/5oR0ZioBaj6u8YuCRSp+1doaJOnNJHIYHBHZdrcWfjfc9Xq03nzodkSdbQIRfWwNin5rexUwY203V35g==
+  version "10.13.1"
+  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-10.13.1.tgz#bf0071d1b484fd99a413d4a74c158e783d5ebed6"
+  integrity sha512-jddkJPO6f5LHDlOJOIIEyTmGM1o8ewCfNskaKL0QWvah6B+jb91LEJQ5CzsNhcTS7UIiEeRJB4n1+gvHtYQFaA==
   optionalDependencies:
     blueimp-canvas-to-blob "3"
     blueimp-load-image "3"
