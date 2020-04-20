@@ -1,3 +1,4 @@
+
 /*!40101 SET NAMES utf8 */;
 
 /*!40101 SET SQL_MODE=''*/;
@@ -1659,7 +1660,7 @@ CREATE TABLE `u_yf_countries` (
   KEY `code` (`code`),
   KEY `phone` (`status`,`phone`),
   KEY `uitype` (`status`,`uitype`)
-) ENGINE=InnoDB AUTO_INCREMENT=242 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=243 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_crmentity_label` */
 
@@ -5222,7 +5223,7 @@ CREATE TABLE `vtiger_currencies` (
   `currency_code` varchar(50) DEFAULT NULL,
   `currency_symbol` varchar(11) DEFAULT NULL,
   PRIMARY KEY (`currencyid`)
-) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currency` */
 

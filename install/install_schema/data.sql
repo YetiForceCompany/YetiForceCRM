@@ -607,6 +607,7 @@ insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,
 insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (239,'Yemen','YE',0,239,0,0);
 insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (240,'Zambia','ZM',0,240,0,0);
 insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (241,'Zimbabwe','ZW',0,241,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (242,'South Sudan','SS',0,204,0,0);
 
 /*Data for the table `u_yf_crmentity_label` */
 
@@ -2195,6 +2196,7 @@ insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`c
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (136,'Haiti, Gourde','HTG','G');
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (137,'Libya, Dinar','LYD','LYD');
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (138,'CFP Franc','XPF','F');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (139,'South Sudanese pound','SSP','SS£');
 
 /*Data for the table `vtiger_currency` */
 
