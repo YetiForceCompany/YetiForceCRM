@@ -48,11 +48,12 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		$conf = App\Config::module($this->getModuleName(), 'inventoryCommentCompletions', null);
+		$conf = App\Config::module($this->getModuleName(), 'inventoryCommentIframeContent', null);
+		$value = \App\Utils\Completions::decode(\App\Purifier::purifyHtml($value));
 		if (null === $conf || true === $conf) {
-			return \App\Layout::truncateHtml(\App\Utils\Completions::decode(\App\Purifier::purifyHtml($value)), 'mini', 300);
+			return \App\Layout::truncateHtml($value, 'mini', 300);
 		}
-		return \App\Purifier::purifyHtml($value);
+		return \App\TextParser::htmlTruncate($value);
 	}
 
 	/**
