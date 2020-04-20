@@ -735,7 +735,8 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	}
 
 	selectDays(startDate, endDate) {
-		this.container.find('.js-right-panel-event-link').tab('show');
+		let container = this.container;
+		container.find('.js-right-panel-event-link').tab('show');
 		let start_hour = app.getMainParams('startHour'),
 			end_hour = app.getMainParams('endHour'),
 			view = this.getCalendarView().fullCalendar('getView');
@@ -758,11 +759,15 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				startDate = startDate + 'T' + start_hour + ':00';
 				endDate = endDate + 'T' + end_hour + ':00';
 				if (startDate == endDate) {
-					let activityType = data.find('[name="activitytype"]').val();
+					let activityType = container.find('[name="activitytype"]');
+					let activityTypeValue = activityType.val();
+					if(activityType.is('input[type="radio"]')){
+						activityTypeValue = activityType.filter(':checked').val();
+					}
 					let activityDurations = JSON.parse(data.find('[name="defaultOtherEventDuration"]').val());
 					let minutes = 0;
 					for (let i in activityDurations) {
-						if (activityDurations[i].activitytype === activityType) {
+						if (activityDurations[i].activitytype === activityTypeValue) {
 							minutes = parseInt(activityDurations[i].duration);
 							break;
 						}

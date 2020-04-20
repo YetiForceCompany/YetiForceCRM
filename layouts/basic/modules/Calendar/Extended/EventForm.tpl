@@ -72,9 +72,7 @@
 									</label>
 								</div>
 								<div class="fieldValue col-12 px-2">
-								{assign var=ACTIVITYTYPES_AS_BUTTONS value=App\Config::module('Calendar','SHOW_ACTIVITYTYPES_AS_BUTTONS')}
-								<input name="activityTypeButtons" value="{$ACTIVITYTYPES_AS_BUTTONS}" type="hidden"/>
-								{if $FIELD_MODEL->name === 'activitytype' && $ACTIVITYTYPES_AS_BUTTONS}
+								{if $FIELD_MODEL->name === 'activitytype' && App\Config::module('Calendar','SHOW_ACTIVITYTYPES_AS_BUTTONS')}
 									{include file=\App\Layout::getTemplatePath('Edit/Field/ActivityType.tpl', $MODULE_NAME)}
 								{else}
 									{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}

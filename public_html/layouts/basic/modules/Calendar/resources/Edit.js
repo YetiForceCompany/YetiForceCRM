@@ -113,9 +113,10 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			if (true !== result) {
 				return;
 			}
-			let activityType = container.find('[name="activitytype"]').val();
-			if(container.find('[name="activityTypeButtons"]').val()){
-				activityType = container.find('[name="activitytype"]:checked').val();
+			let activityType = container.find('[name="activitytype"]');
+			let activityTypeValue = activityType.val();
+			if(activityType.is('input[type="radio"]')){
+				activityTypeValue = activityType.filter(':checked').val();
 			}
 			let startDateTime = startDate + ' ' + startTime,
 				dateFormat = container.find('[name="due_date"]').data('dateFormat').toUpperCase(),
@@ -123,7 +124,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 				activityDurations = JSON.parse(container.find('[name="defaultOtherEventDuration"]').val()),
 				minutes = 0;
 			for (let i in activityDurations) {
-				if (activityDurations[i].activitytype === activityType) {
+				if (activityDurations[i].activitytype === activityTypeValue) {
 					minutes = parseInt(activityDurations[i].duration);
 					break;
 				}
