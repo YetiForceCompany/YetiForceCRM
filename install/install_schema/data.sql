@@ -5385,8 +5385,8 @@ insert  into `vtiger_fixed_assets_type`(`fixed_assets_typeid`,`fixed_assets_type
 
 /*Data for the table `vtiger_gender` */
 
-insert  into `vtiger_gender`(`genderid`,`gender`,`presence`,`sortorderid`) values (1,'PPL_WOMAN',1,1);
-insert  into `vtiger_gender`(`genderid`,`gender`,`presence`,`sortorderid`) values (2,'PPL_MAN',1,2);
+insert  into `vtiger_gender`(`genderid`,`gender`,`presence`,`sortorderid`) values (1,'PLL_WOMAN',1,1);
+insert  into `vtiger_gender`(`genderid`,`gender`,`presence`,`sortorderid`) values (2,'PLL_MAN',1,2);
 
 /*Data for the table `vtiger_glacct` */
 
