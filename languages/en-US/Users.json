@@ -382,7 +382,7 @@
     "LBL_USER_AUTOMATION": "Automatic allocation of records",
     "LBL_USER_PASSWORD_IS_OK": "Your password complies with the system requirements.",
     "FL_MAIL_SCANNER_ACTIONS": "Available email scanner actions (Outlook)",
-    "FL_MAIL_SCANNER_FIELDS": "Record binding fields (Outlook)",
+    "FL_MAIL_SCANNER_FIELDS": "Records’ relation fields (Outlook)",
     "LBL_ACCOUNT_SETTINGS": "Account settings"
   },
   "js": {
