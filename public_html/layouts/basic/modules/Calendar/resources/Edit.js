@@ -115,7 +115,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			}
 			let activityType = container.find('[name="activitytype"]');
 			let activityTypeValue = activityType.val();
-			if(activityType.is('input[type="radio"]')){
+			if(activityType.is('[type="radio"]')){
 				activityTypeValue = activityType.filter(':checked').val();
 			}
 			let startDateTime = startDate + ' ' + startTime,

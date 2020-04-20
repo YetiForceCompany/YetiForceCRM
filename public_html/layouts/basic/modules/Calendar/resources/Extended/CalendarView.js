@@ -761,7 +761,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				if (startDate == endDate) {
 					let activityType = container.find('[name="activitytype"]');
 					let activityTypeValue = activityType.val();
-					if(activityType.is('input[type="radio"]')){
+					if(activityType.is('[type="radio"]')){
 						activityTypeValue = activityType.filter(':checked').val();
 					}
 					let activityDurations = JSON.parse(data.find('[name="defaultOtherEventDuration"]').val());
