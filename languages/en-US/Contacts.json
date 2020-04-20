@@ -48,8 +48,8 @@
     "FL_APPROVALS": "Approvals",
     "LBL_PARTICIPANTS": "Participants",
     "FL_GENDER": "Gender",
-    "PPL_WOMAN": "Woman",
-    "PPL_MAN": "Man"
+    "PLL_WOMAN": "Woman",
+    "PLL_MAN": "Man"
   },
   "js": {}
 }
