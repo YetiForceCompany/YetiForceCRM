@@ -35,7 +35,7 @@ class Vtiger_BatchProcesses_Cron extends \App\CronHandler
 			}
 		}
 		if ($disable) {
-			\App\Cron::updateStatus(0, 'LBL_BATCH_PROCESSES');
+			\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'LBL_BATCH_PROCESSES');
 		}
 	}
 }
