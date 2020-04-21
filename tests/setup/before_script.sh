@@ -4,7 +4,8 @@ rm -rf public_html/.user.ini
 sudo cp tests/setup/db/mysql.cnf /etc/mysql/conf.d/my.cnf
 sudo service mysql restart
 
-journalctl -xe
+sudo journalctl -xe
+sudo systemctl status mysql.service
 
 npm install -g yarn
 npm install -g npm@latest
