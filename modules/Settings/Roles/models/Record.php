@@ -57,6 +57,8 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to set the immediate parent role.
 	 *
+	 * @param mixed $parentRole
+	 *
 	 * @return <Settings_Roles_Record_Model> instance
 	 */
 	public function setParent($parentRole)
@@ -76,7 +78,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		if (!isset($this->parent)) {
 			$parentRoleString = $this->getParentRoleString();
 			$parentComponents = explode('::', $parentRoleString);
-			$noOfRoles = count($parentComponents);
+			$noOfRoles = \count($parentComponents);
 			if ($noOfRoles > 1) {
 				$this->parent = self::getInstanceById($parentComponents[$noOfRoles - 2]);
 			} else {
@@ -190,7 +192,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			->innerJoin('vtiger_profile', 'vtiger_profile.profileid = vtiger_role2profile.profileid')
 			->where(['vtiger_role2profile.roleid' => $this->getId()])
 			->one();
-		if ($row && (int) $row['directly_related_to_role'] === 1) {
+		if ($row && 1 === (int) $row['directly_related_to_role']) {
 			return $row['profileid'];
 		}
 		return false;
@@ -305,16 +307,18 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$roleId = 'H' . $roleIdNumber;
 		}
 		$parentRole = $this->getParent();
-		if ($parentRole !== null) {
+		if (null !== $parentRole) {
 			$this->set('depth', $parentRole->getDepth() + 1);
 			$this->set('parentrole', $parentRole->getParentRoleString() . '::' . $roleId);
 		}
 		$searchunpriv = $this->get('searchunpriv');
-		if (is_array($searchunpriv)) {
+		if (\is_array($searchunpriv)) {
 			$searchunpriv = implode(',', $searchunpriv);
 		}
 		$permissionsRelatedField = $this->get('permissionsrelatedfield');
-		$permissionsRelatedField = implode(',', empty($permissionsRelatedField) ? [] : $permissionsRelatedField);
+		if (\is_array($permissionsRelatedField)) {
+			$permissionsRelatedField = implode(',', $permissionsRelatedField);
+		}
 		$values = [
 			'rolename' => $this->getName(),
 			'parentrole' => $this->getParentRoleString(),
@@ -332,7 +336,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			'auto_assign' => (int) $this->get('auto_assign'),
 			'company' => (int) $this->get('company'),
 		];
-		if ($mode === 'edit') {
+		if ('edit' === $mode) {
 			$rolePreviousData = App\PrivilegeUtil::getRoleDetail($roleId);
 			$db->createCommand()->update('vtiger_role', $values, ['roleid' => $roleId])
 				->execute();
@@ -362,12 +366,12 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		if (empty($profileIds)) {
 			$profiles = $this->getProfiles();
-			if (!empty($profiles) && count($profiles) > 0) {
+			if (!empty($profiles) && \count($profiles) > 0) {
 				$profileIds = array_keys($profiles);
 			}
 		}
 		if (!empty($profileIds)) {
-			$noOfProfiles = count($profileIds);
+			$noOfProfiles = \count($profileIds);
 			if ($noOfProfiles > 0) {
 				$db->createCommand()->delete('vtiger_role2profile', ['roleid' => $roleId])->execute();
 				for ($i = 0; $i < $noOfProfiles; ++$i) {
@@ -381,7 +385,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		\App\Cache::delete('RoleDetail', $roleId);
 		\App\Cache::delete('getUsersByCompany', '');
 		\App\Cache::delete('getUsersByCompany', $this->get('company'));
-		if(isset($rolePreviousData['company'])){
+		if (isset($rolePreviousData['company'])) {
 			\App\Cache::delete('getUsersByCompany', $rolePreviousData['company']);
 		}
 	}
@@ -410,13 +414,13 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($allChildren as $roleId => $roleModel) {
 			$oldChildParentRoleString = $roleModel->getParentRoleString();
 			$newChildParentRoleString = str_replace($currentParentRoleSequence, $transferParentRoleSequence, $oldChildParentRoleString);
-			$newChildDepth = count(explode('::', $newChildParentRoleString)) - 1;
+			$newChildDepth = \count(explode('::', $newChildParentRoleString)) - 1;
 			$roleModel->set('depth', $newChildDepth);
 			$roleModel->set('parentrole', $newChildParentRoleString);
 			$roleModel->save();
 		}
 		\App\Privilege::setAllUpdater();
-		if (is_array($usersInRole)) {
+		if (\is_array($usersInRole)) {
 			foreach ($usersInRole as $userid) {
 				\App\UserPrivilegesFile::createUserPrivilegesfile($userid);
 				\App\UserPrivilegesFile::createUserSharingPrivilegesfile($userid);
@@ -517,11 +521,12 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		return null;
 	}
 
-	/* Function to get the instance of the role by Name
-	 * @param type $name -- name of the role
+	/** Function to get the instance of the role by Name.
+	 * @param type  $name             -- name of the role
+	 * @param mixed $excludedRecordId
+	 *
 	 * @return null/role instance
 	 */
-
 	public static function getInstanceByName($name, $excludedRecordId = [])
 	{
 		$query = (new App\Db\Query())->from('vtiger_role')->where(['rolename' => $name]);

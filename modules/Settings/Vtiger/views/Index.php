@@ -80,11 +80,9 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
 		$warnings = \App\SystemWarnings::getWarnings('all');
 		$viewer->assign('WARNINGS', !App\Session::has('SystemWarnings') ? $warnings : []);
-		$systemMonitoring = [
+		$viewer->assign('SYSTEM_MONITORING', [
 			'WARNINGS_COUNT' => [
 				'LABEL' => 'PLU_SYSTEM_WARNINGS',
 				'VALUE' => \count($warnings),
@@ -115,13 +113,9 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 				'HREF' => 'index.php?module=Workflows&parent=Settings&view=List',
 				'ICON' => 'yfi yfi-workflows-2'
 			],
-		];
-		$viewer->assign('SYSTEM_MONITORING', $systemMonitoring);
-		$viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
-		$viewer->assign('PRODUCTS_PREMIUM', \App\YetiForce\Shop::getProducts('featured'));
-		$viewer->assign('PRODUCTS_PARTNER', \App\YetiForce\Shop::getProducts('featured', 'Partner'));
-		$viewer->assign('PAYPAL_URL', \App\YetiForce\Shop::getPaypalUrl());
-		$viewer->view('Index.tpl', $qualifiedModuleName);
+		]);
+		$viewer->assign('SETTINGS_SHORTCUTS', Settings_Vtiger_MenuItem_Model::getPinnedItems());
+		$viewer->view('Index.tpl', $request->getModule(false));
 	}
 
 	/**

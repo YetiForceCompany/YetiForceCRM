@@ -40,14 +40,13 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 			$url = $tableUrl . $dateCur . '/?format=json';
 			try {
 				$tryTable = (new \GuzzleHttp\Client())->get($url, ['timeout' => 20, 'connect_timeout' => 10]);
-				if ($tryTable->getStatusCode() == 200) {
+				if (200 == $tryTable->getStatusCode()) {
 					$stateA = true;
 					$tableBody = $tryTable->getBody();
 				}
-			} catch (\Throwable $exc) {
-				throw new \App\Exceptions\IntegrationException('ERR_CURRENCY_TABLE_DOWNLOAD||' . $url . '||' . $exc->getMessage());
+			} catch (\Throwable $ex) {
+				\App\Log::info('Error during downloading table: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'CurrencyUpdate');
 			}
-
 			if (!$stateA) {
 				$newDate = strtotime("-$numberOfDays day", strtotime($dateCur));
 				$dateCur = date('Y-m-d', $newDate);
@@ -64,7 +63,7 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 					if (empty($rawCurrency['currency'])) {
 						continue;
 					}
-					if ($rawCurrency['code'] === 'XDR') {
+					if ('XDR' === $rawCurrency['code']) {
 						continue;
 					}
 					$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($rawCurrency['code'])] = $rawCurrency['code'];
@@ -85,13 +84,15 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 		return 'PLN';
 	}
 
-	/*
-	 * Fetch exchange rates
-	 * @param <Array> $currencies - list of systems active currencies
-	 * @param <Date> $date - date for which exchange is fetched
-	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated
+	/**
+	 * Fetch exchange rates.
+	 *
+	 * @param <Array> $currencies        - list of systems active currencies
+	 * @param <Date>  $date              - date for which exchange is fetched
+	 * @param bool    $cron              - if true then it is fired by server and crms currency conversion rates are updated
+	 * @param mixed   $otherCurrencyCode
+	 * @param mixed   $dateParam
 	 */
-
 	public function getRates($otherCurrencyCode, $dateParam, $cron = false)
 	{
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
@@ -112,13 +113,13 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 			$url = $tableUrl . $dateCur . '/?format=json';
 			try {
 				$tryTable = (new \GuzzleHttp\Client())->get($url, ['timeout' => 20, 'connect_timeout' => 10]);
-				if ($tryTable->getStatusCode() == 200) {
+				if (200 == $tryTable->getStatusCode()) {
 					$stateA = true;
 					$tableBody = $tryTable->getBody();
 				}
 			} catch (\Throwable $exc) {
 			}
-			if ($stateA === false) {
+			if (false === $stateA) {
 				$dateCur = strtotime("-$numberOfDays day", strtotime($dateCur));
 				$dateCur = date('Y-m-d', $dateCur);
 				++$numberOfDays;
@@ -147,7 +148,7 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 					$exchange = $item['mid'];
 					$exchangeVtiger = $exchangeRate / $exchange;
 					$exchange = $exchangeRate ? ($exchange / $exchangeRate) : 0;
-					if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+					if (true === $cron || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 						$moduleModel->setCRMConversionRate($currency, $exchangeVtiger);
 					}
 					$existingId = $moduleModel->getCurrencyRateId($currId, $datePublicationOfFile, $selectedBank);
@@ -171,7 +172,7 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 			}
 
 			if ($mainCurrencyId) {
-				if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+				if (true === $cron || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 					$moduleModel->setCRMConversionRate($this->getMainCurrencyCode(), $exchangeRate);
 				}
 

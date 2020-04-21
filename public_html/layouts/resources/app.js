@@ -1181,7 +1181,7 @@ var app = (window.app = {
 		}
 		modalContainer.one('hidden.bs.modal', callback);
 	},
-	registerModalController: function(modalId, modalContainer, cb) {
+	registerModalController: function (modalId, modalContainer, cb) {
 		let windowParent = this.childFrame ? window.parent : window;
 		if (modalId === undefined) {
 			modalId = Window.lastModalId;
@@ -1189,18 +1189,11 @@ var app = (window.app = {
 		if (modalContainer === undefined) {
 			modalContainer = $('#' + modalId + ' .js-modal-data');
 		}
-		let modalClass = modalContainer.data('module') + '_' + modalContainer.data('view') + '_JS';
-		if (typeof windowParent[modalClass] !== 'undefined') {
-			let instance = new windowParent[modalClass]();
-			if (typeof cb === 'function') {
-				cb(modalContainer, instance);
-			}
-			instance.registerEvents(modalContainer);
-			if (modalId && app.modalEvents[modalId]) {
-				app.modalEvents[modalId](modalContainer, instance);
-			}
+		let moduleName = modalContainer.data('module');
+		let modalClass = moduleName.replace(':', '_') + '_' + modalContainer.data('view') + '_JS';
+		if (typeof windowParent[modalClass] === 'undefined') {
+			modalClass = 'Base_' + modalContainer.data('view') + '_JS';
 		}
-		modalClass = 'Base_' + modalContainer.data('view') + '_JS';
 		if (typeof windowParent[modalClass] !== 'undefined') {
 			let instance = new windowParent[modalClass]();
 			if (typeof cb === 'function') {

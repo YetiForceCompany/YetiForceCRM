@@ -2505,7 +2505,7 @@ YetiForce_Widget_Js(
 							event.event[key].className +
 							(event.width <= 20 ? ' small-badge' : '') +
 							(event.width >= 24 ? ' big-badge' : '') +
-							' badge badge-secondary u-font-size-95per">' +
+							' badge badge-secondary u-fs-95per">' +
 							event.event[key].count +
 							'</span>' +
 							'</a>\n';

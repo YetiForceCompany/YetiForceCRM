@@ -311,40 +311,6 @@ return [
 			'description' => 'List of modules for which Twitter has been enabled.',
 		]
 	],
-	'Magento' => [
-		'customerLimit' => [
-			'default' => 20,
-			'description' => 'Set how many customers can be downloaded at once.',
-			'validation' => '\App\Validator::naturalNumber',
-			'sanitization' => function () {
-				return (int) func_get_arg(0);
-			}
-		],
-		'productLimit' => [
-			'default' => 20,
-			'description' => 'Set how many records can be updated at once.',
-			'validation' => '\App\Validator::naturalNumber',
-			'sanitization' => function () {
-				return (int) func_get_arg(0);
-			}
-		],
-		'orderLimit' => [
-			'default' => 20,
-			'description' => 'Set how many orders can be downloaded at once.',
-			'validation' => '\App\Validator::naturalNumber',
-			'sanitization' => function () {
-				return (int) func_get_arg(0);
-			}
-		],
-		'invoiceLimit' => [
-			'default' => 20,
-			'description' => 'Set how many invoices can be downloaded at once.',
-			'validation' => '\App\Validator::naturalNumber',
-			'sanitization' => function () {
-				return (int) func_get_arg(0);
-			}
-		],
-	],
 	'Branding' => [
 		'footerName' => [
 			'default' => '',

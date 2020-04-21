@@ -34,7 +34,7 @@ class Vtiger_Workflow_Cron extends \App\CronHandler
 			[$taskId, $entityId, $taskContents] = $taskDetails;
 			$task = $tm->retrieveTask($taskId);
 			//If task is not there then continue
-			if (empty($task)) {
+			if (empty($task) || !\App\Record::isExists($entityId)) {
 				continue;
 			}
 			$task->setContents($taskContents);

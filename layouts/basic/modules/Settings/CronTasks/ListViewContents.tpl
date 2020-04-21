@@ -60,7 +60,7 @@
 						{/if}
 						{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 							</td>
-							<td nowrap class="{$WIDTHTYPE}">
+							<td nowrap class="{$WIDTHTYPE} listButtons">
 								<div class="float-right actions">
 										<span class="actionImages">
 											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}

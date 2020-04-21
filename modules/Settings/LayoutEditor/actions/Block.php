@@ -51,7 +51,7 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 		if (!$isDuplicate) {
 			try {
 				$id = $blockInstance->save($modueInstance);
-				$responseInfo = ['id' => $id, 'label' => $blockInstance->get('label'), 'isCustom' => $blockInstance->isCustomized(), 'beforeBlockId' => $beforeBlockId, 'isAddCustomFieldEnabled' => $blockInstance->isAddCustomFieldEnabled()];
+				$responseInfo = ['id' => $id, 'label' => $blockInstance->get('label'), 'isCustom' => $blockInstance->isCustomized(), 'beforeBlockId' => $beforeBlockId, 'isAddCustomFieldEnabled' => $blockInstance->isAddCustomFieldEnabled(), 'success' => true];
 				if (empty($blockId)) {
 					//if mode is create add all blocks sequence so that client will place the new block correctly
 					$responseInfo['sequenceList'] = Vtiger_Block_Model::getAllBlockSequenceList($modueInstance->getId());

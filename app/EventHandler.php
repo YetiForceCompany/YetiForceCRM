@@ -180,8 +180,7 @@ class EventHandler
 		if ($eventName) {
 			$params['event_name'] = $eventName;
 		}
-		\App\Db::getInstance()->createCommand()
-			->update(self::$baseTable, ['is_active' => true], $params)->execute();
+		\App\Db::getInstance()->createCommand()->update(self::$baseTable, ['is_active' => true], $params)->execute();
 		static::clearCache();
 	}
 

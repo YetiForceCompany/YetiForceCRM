@@ -39,7 +39,8 @@ class Mailer
 		if (\App\Config::debug('MAILER_DEBUG')) {
 			$this->mailer->SMTPDebug = 2;
 			$this->mailer->Debugoutput = function ($str, $level) {
-				if (false !== strpos(strtolower($str), 'error') || false !== strpos(strtolower($str), 'failed')) {
+				if (false !== stripos($str, 'error') || false !== stripos($str, 'failed')) {
+					static::$error[] = $str;
 					Log::error(trim($str), 'Mailer');
 				} else {
 					Log::trace(trim($str), 'Mailer');
@@ -535,7 +536,7 @@ class Mailer
 				$status = $separateMailer->send();
 				unset($separateMailer);
 				if (!$status) {
-					return false;
+					break;
 				}
 			}
 		} else {
@@ -606,7 +607,6 @@ class Mailer
 			return false;
 		}
 		imap_append($mbox, \OSSMail_Record_Model::$imapConnectMailbox, $this->mailer->getSentMIMEMessage(), '\\Seen');
-		imap_close($mbox);
 		return true;
 	}
 

@@ -1053,20 +1053,17 @@ Vtiger_Base_Validator_Js(
 			if (groupSeparator === '.') {
 				groupSeparator = '\\.';
 			}
+
 			let regex = new RegExp(groupSeparator, 'g');
 			strippedValue = strippedValue.replace(regex, '');
-			//Note: Need to review if we should allow only positive values in currencies
-			/*if(strippedValue < 0){
-		 var errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');//"currency value should be greater than or equal to zero";
-		 this.setError(errorInfo);
-		 return false;
-		 }*/
+
 			if (isNaN(strippedValue)) {
 				errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
 				this.setError(errorInfo);
 				return false;
 			}
-			if (strippedValue < 0) {
+			let negativeNumber = fieldData.fieldinfo && fieldData.fieldinfo.fieldtype === 'NN';
+			if (!negativeNumber && strippedValue < 0) {
 				errorInfo = app.vtranslate('JS_ACCEPT_POSITIVE_NUMBER');
 				this.setError(errorInfo);
 				return false;

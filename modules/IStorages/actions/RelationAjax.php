@@ -47,8 +47,18 @@ class IStorages_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		if (!$recordModel->isViewable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
+
 		$response = new Vtiger_Response();
 		$response->setResult($recordModel->updateQtyProducts($request->getInteger('record'), $request->getByType('qty', 'NumberInUserFormat')));
 		$response->emit();
+
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setModuleName('IStorages');
+		$eventHandler->setParams([
+			'storageId' => $request->getInteger('src_record'),
+			'products' => [$request->getInteger('record') => $request->getByType('qty', 'NumberInUserFormat')],
+			'operator' => 'value'
+		]);
+		$eventHandler->trigger('IStoragesAfterUpdateStock');
 	}
 }

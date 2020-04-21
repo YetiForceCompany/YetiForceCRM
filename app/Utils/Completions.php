@@ -46,7 +46,7 @@ class Completions
 	 *
 	 * @var string
 	 */
-	const ROW_REGEX = '/(\##|\@@)(\d+)_([^(\##|\@@)]+)(\##|\@@)/u';
+	const ROW_REGEX = '/(\##|\@@)(\d+)_([^\##|\@@]+)(\##|\@@)/u';
 	/**
 	 * Owner separator.
 	 *

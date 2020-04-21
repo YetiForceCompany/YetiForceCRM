@@ -1,8 +1,11 @@
 rm -rf .user.ini
 rm -rf public_html/.user.ini
 
-sudo cp tests/setup/my.cnf /etc/mysql/conf.d/my.cnf
+sudo cp tests/setup/db/mysql.cnf /etc/mysql/conf.d/my.cnf
 sudo service mysql restart
+
+sudo journalctl -xe
+sudo systemctl status mysql.service
 
 npm install -g yarn
 npm install -g npm@latest

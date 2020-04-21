@@ -153,8 +153,11 @@ class Layout
 	 *
 	 * @return string
 	 */
-	public static function truncateHtml(string $html, ?string $size = 'medium', ?int $length = 200): string
+	public static function truncateHtml(?string $html, ?string $size = 'medium', ?int $length = 200): string
 	{
+		if (empty($html)) {
+			return '';
+		}
 		$teaser = $css = $btn = '';
 		$btnTemplate = function (string $popoverText = '', ?string $btnClass = ''): string {
 			$popoverText = \App\Language::translate($popoverText);
@@ -171,6 +174,6 @@ class Layout
 			$btn = $btnTemplate('LBL_FULLSCREEN', 'c-btn-floating-right-bottom btn btn-primary');
 		}
 		$html = Purifier::encodeHtml($html);
-		return "<div class=\"js-iframe-content\" >$teaser <iframe sandbox=\"allow-same-origin\" class=\"w-100 {$iframeClass}\" frameborder=\"0\" style=\"{$css}\" srcdoc=\"$html\"></iframe>{$btn}</div>";
+		return "<div class=\"js-iframe-content\" >$teaser <iframe sandbox=\"allow-same-origin\" class=\"w-100 {$iframeClass}\" frameborder=\"0\" style=\"{$css}\" srcdoc=\"{$html}\"></iframe>{$btn}</div>";
 	}
 }

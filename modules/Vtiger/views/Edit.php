@@ -142,6 +142,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 			$viewer->assign('RECORD_STRUCTURE_RIGHT', $recordStructureRight);
 		}
 		$viewer->assign('EDIT_VIEW_LAYOUT', $editViewLayout);
+		$viewer->assign('ADDRESS_BLOCK_LABELS', ['LBL_ADDRESS_INFORMATION', 'LBL_ADDRESS_MAILING_INFORMATION', 'LBL_ADDRESS_DELIVERY_INFORMATION', 'LBL_ADDRESS_BILLING', 'LBL_ADDRESS_SHIPPING']);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
