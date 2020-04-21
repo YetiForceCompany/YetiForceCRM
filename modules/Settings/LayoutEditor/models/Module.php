@@ -171,6 +171,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
 		}
 		if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType) {
+			if(!$this->checkIsAvailablePicklistFieldName($name)){
+				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
+			}
 			$pickListValues = $params['pickListValues'];
 			if (\is_string($pickListValues)) {
 				$pickListValues = [$pickListValues];
@@ -705,5 +708,21 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public static function getRelatedViewTypes()
 	{
 		return static::$relatedViewType;
+	}
+
+	/**
+	 * Check if picklist field can have that name.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return bool
+	 */
+	public function checkIsAvailablePicklistFieldName(string $fieldName): bool
+	{
+		$result = true;
+		if(\App\Fields\Picklist::isPicklistExist($fieldName)){
+			$result = (new \App\Db\Query())->from('vtiger_field')->where(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]])->exists();
+		}
+		return $result;
 	}
 }
