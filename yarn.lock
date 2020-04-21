@@ -27,6 +27,105 @@
   resolved "https://registry.yarnpkg.com/@mdi/font/-/font-5.1.45.tgz#58edff65985cc5a350eb95ff2974273a285ea9ad"
   integrity sha512-7H1UMwUpEp8mthdPlpAi7bhEyvTbvtK1TlA89scc0cXMpQy0UFygdkaf+6fveIxpBcRNgw0gnGSEonlsfYocXg==
 
+"@pnotify/animate@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@pnotify/animate/-/animate-5.0.1.tgz#4c9bf9be5dd9b2c9e19c9f4f2d8cbf842ba26695"
+  integrity sha512-Icc+AAwP0UyOBdSFAckvOk5rxpkE4eHTiLnMWzkvb0RioFOeIUKq309r/n+MJMl5si6ma7Mhv8LHn9tnWp/9SA==
+  dependencies:
+    "@pnotify/core" "^5.0.1"
+
+"@pnotify/bootstrap3@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@pnotify/bootstrap3/-/bootstrap3-5.0.1.tgz#25d92d618ab367c2a09af8dba43a361092abd6a0"
+  integrity sha512-l9RsuIo27Y6+SsiQo0Coyo8JysPM3nIe9xtlCjrag7s4d6K8Qyspuz6PjYeCYKqURGndZqyJ2Mzp1A8QIJkFlA==
+  dependencies:
+    "@pnotify/core" "^5.0.1"
+
+"@pnotify/bootstrap4@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@pnotify/bootstrap4/-/bootstrap4-5.0.1.tgz#23222c7dd4a57d7088341fc88a6704e765b1e123"
+  integrity sha512-7w+oATh8JMHsEPxKHvvzMhO84lvac0vW1dUsiwMqf/qkyz1rE8FFTla5lNhg21Lun6ACFQf16Cajaj+j5qNE9g==
+  dependencies:
+    "@pnotify/core" "^5.0.1"
+
+"@pnotify/confirm@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@pnotify/confirm/-/confirm-5.0.1.tgz#0353ecaeac3f8aeecea79c5838668fbbedea4af1"
+  integrity sha512-Njy9tPDlgh2Kigt9AF7B9R/OFT4SW/5JpzTA3EHay4W6NUWGPlKTPVCMxfW09JUcgN3PWb1p3/vpicGJmWbsOg==
+  dependencies:
+    "@pnotify/core" "^5.0.1"
+
+"@pnotify/core@5.0.1", "@pnotify/core@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@pnotify/core/-/core-5.0.1.tgz#1510150429a1a87362fa3c5f3dcec1aaf7c81b66"
+  integrity sha512-z78KIob8Hf4jOq8W1/dPYtCUz4i0wN1//Pu8dgOz/se1fdhwZfvcTpqcya6YHOT800OCQ3Ni+SbasTX4cOgXPg==
+  dependencies:
+    "@smui/common" "^1.0.0-beta.20"
+    svelte "^3.19.1"
+
+"@pnotify/countdown@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@pnotify/countdown/-/countdown-5.0.1.tgz#80ad4b620d91d5373bbef52ecfe7f2a7d4d4c34f"
+  integrity sha512-ADYtqw8ZD4MpDClwKiFsAmOif3xfGdX4xjO9AakrBrzibg5H9xs4uBW4erWUp4lXShsKrJ+Mzp4fpRZUAd4R8g==
+  dependencies:
+    "@pnotify/core" "^5.0.1"
+
+"@pnotify/desktop@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@pnotify/desktop/-/desktop-5.0.1.tgz#0669eb740262168fcd013be6c498b2f91d9cbbd8"
+  integrity sha512-PtE0EqEM58v7xdAmSXaKdKsU4YVNOUSiT1Fnb7OQJ+jf8CPkDZ56qCGDOLzQJkz6tWQmfXeYEm0iyfiE7xQ71A==
+  dependencies:
+    "@pnotify/core" "^5.0.1"
+
+"@pnotify/font-awesome4@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@pnotify/font-awesome4/-/font-awesome4-5.0.1.tgz#57d42db770983d679935c3130aca660d4a25b98b"
+  integrity sha512-c66Spf7XjH22wZMJCbNRnu+OYoMskRtVWxqf9idKTrnU4CJzhd3pshuxwf5eZYU8eA8kg1EuH1VVk3pOQ/s/xA==
+  dependencies:
+    "@pnotify/core" "^5.0.1"
+
+"@pnotify/font-awesome5-fix@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@pnotify/font-awesome5-fix/-/font-awesome5-fix-5.0.1.tgz#d64acaf99edbae1f5e48f9bdcbe797664956fd05"
+  integrity sha512-yDliLuLhu401I8/AveTRbd9l9I8woM9JJA7QSnEjvRstE26pB2nVCne6urfgGD31+kRx0ig0xdXacBfwq5aybg==
+  dependencies:
+    "@pnotify/core" "^5.0.1"
+
+"@pnotify/font-awesome5@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@pnotify/font-awesome5/-/font-awesome5-5.0.1.tgz#e4585b6af304341441610a759e3490d43a1fd091"
+  integrity sha512-PEhLkFmbP9GAOJ48yYpkvgd5364h7gXLqkaFhOG4h1yaEGxvxrX5o9KyfF879xtKH1iMzhPJq6iwS9r3TGy1yQ==
+  dependencies:
+    "@pnotify/core" "^5.0.1"
+
+"@pnotify/glyphicon@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@pnotify/glyphicon/-/glyphicon-5.0.1.tgz#aa0e77efe95e78a81b21a7ec6ed68f54b566d5cc"
+  integrity sha512-3PL1TaxWolX5LbZhKjt2qENNcry/6tcT4dpE2gQCbFgxv9qE76Xtb6lfR9LBFVme+h9AFMTOxfumUWDtHIkFpw==
+  dependencies:
+    "@pnotify/core" "^5.0.1"
+
+"@pnotify/mobile@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@pnotify/mobile/-/mobile-5.0.1.tgz#9d7b184729ffca65dc55f932dc92cbdf70589dec"
+  integrity sha512-///9nhLxq0RMMzSDxxNrPEYWFJvm9JzV0XxjgKydjXYyHAJVH3ch6S0b0LE3rXBeG0+F4B585N9Z9gacQnA1FA==
+  dependencies:
+    "@pnotify/core" "^5.0.1"
+
+"@pnotify/reference@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@pnotify/reference/-/reference-5.0.1.tgz#579fb9d4aa980814b9118221d86e22cb91575066"
+  integrity sha512-AW7d/y6Nm9WNMHnudTiI4IfUVbERE/4EUd/dWOf/o7WbW5xOxtc1Y3zViYbrK6eLp308Wg2kxCrOhsBMdR3wOw==
+  dependencies:
+    "@pnotify/core" "^5.0.1"
+
+"@smui/common@^1.0.0-beta.20":
+  version "1.0.0-beta.21"
+  resolved "https://registry.yarnpkg.com/@smui/common/-/common-1.0.0-beta.21.tgz#f81f659542a189dbf2e04edc78fcfed408db0a58"
+  integrity sha512-t063AKMVeKLl91C7HyMqWerrEMal1rIAHis6kH/HRWuqudLfQ2vrGCKq3SMLEL6t4OqgiXg122g0FDBk5t4M1A==
+  dependencies:
+    svelte "^3.0"
+
 add@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
@@ -509,10 +608,24 @@ perfect-scrollbar@^1.3.0:
   resolved "https://registry.yarnpkg.com/perfect-scrollbar/-/perfect-scrollbar-1.5.0.tgz#821d224ed8ff61990c23f26db63048cdc75b6b83"
   integrity sha512-NrNHJn5mUGupSiheBTy6x+6SXCFbLlm8fVZh9moIzw/LgqElN5q4ncR4pbCBCYuCJ8Kcl9mYM0NgDxvW+b4LxA==
 
-pnotify@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.1.tgz#4381253d218d910c07b9075731c4905a890c6f69"
-  integrity sha512-61hbTKWbAx/ghrW8K3LFtUNGVxR04hBN13exUQlweaV4sKHMyZFG102YE2HzVaM0eRFLJFXZlTQB9QPvjMO21g==
+pnotify@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-5.0.1.tgz#5fb7376232e6538c4b1048ae5c8f185cc877f8d8"
+  integrity sha512-QbzJ9o2E5WpTKrXImz/Znl6bJndisXIgbUDOHV1joWrXxe6ImodFodlpgD1cKr3+R7fXp711v8WQryR3ZrN/Gw==
+  dependencies:
+    "@pnotify/animate" "5.0.1"
+    "@pnotify/bootstrap3" "5.0.1"
+    "@pnotify/bootstrap4" "5.0.1"
+    "@pnotify/confirm" "5.0.1"
+    "@pnotify/core" "5.0.1"
+    "@pnotify/countdown" "5.0.1"
+    "@pnotify/desktop" "5.0.1"
+    "@pnotify/font-awesome4" "5.0.1"
+    "@pnotify/font-awesome5" "5.0.1"
+    "@pnotify/font-awesome5-fix" "5.0.1"
+    "@pnotify/glyphicon" "5.0.1"
+    "@pnotify/mobile" "5.0.1"
+    "@pnotify/reference" "5.0.1"
 
 popper.js@^1.15.0, popper.js@^1.16.0:
   version "1.16.1"
@@ -590,6 +703,11 @@ store@^2.0.12:
   version "2.0.12"
   resolved "https://registry.yarnpkg.com/store/-/store-2.0.12.tgz#8c534e2a0b831f72b75fc5f1119857c44ef5d593"
   integrity sha1-jFNOKguDH3K3X8XxEZhXxE711ZM=
+
+svelte@^3.0, svelte@^3.19.1:
+  version "3.20.1"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.20.1.tgz#8417fcd883a2f534b642a0737368272e651cf3ac"
+  integrity sha512-m/dw52BZf+p6KYnyKLErIcGalu4pwJrQbUM7VZriRw6ZlJj1qMAZsLcIWzEB3I0hhdJwkKb7LrrvUIeqmbO92Q==
 
 tether@^1.4.7:
   version "1.4.7"
