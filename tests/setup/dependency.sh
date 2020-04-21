@@ -2,7 +2,7 @@
 # Installation dependency
 #########################################
 cd "$(dirname "$0")/../../"
-echo " -----  Install yarn for public_html directory -----"
+echo " -----  Install yarn for public_html directory (mode $INSTALL_MODE) -----"
 if [ ${INSTALL_MODE} = "DEV" ]; then
     yarn install --force --modules-folder "./public_html/libraries"
 	yarn list
@@ -11,7 +11,7 @@ else
 fi
 
 
-echo " -----  Install yarn for public_html directory -----"
+echo " -----  Install yarn for public_html directory (mode $INSTALL_MODE) -----"
 cd public_html/src
 if [ ${INSTALL_MODE} = "DEV" ]; then
     yarn install --force
