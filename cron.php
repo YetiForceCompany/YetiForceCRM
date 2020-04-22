@@ -8,9 +8,7 @@
  * All Rights Reserved.
  * ****************************************************************************** */
 
-/**
- * Start the cron services configured.
- */
+// Start the cron services configured.
 chdir(__DIR__);
 require_once __DIR__ . '/include/main/WebUI.php';
 try {
@@ -113,16 +111,16 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 			\App\Log::trace($cronTask->getName() . ' - End', 'Cron');
 			$cronObj->log('End task, time: ' . $taskTime);
 		} catch (\Throwable $e) {
+			\App\Log::error("Cron task '{$cronTask->getName()}' throwed exception: " . PHP_EOL . $e->__toString() . PHP_EOL, 'Cron');
 			$cronObj->log('Cron task execution throwed exception: ' . PHP_EOL . $response . PHP_EOL . $e->__toString(), 'error');
 			echo $response;
-			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
+			echo sprintf('%s | ERROR: %s - Cron task throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
 			echo $e->__toString() . PHP_EOL;
 			if ('test' === App\Config::main('systemMode')) {
 				throw $e;
 			}
 		}
 	}
-
 	$cronObj->log('End CRON (' . $cronObj->getCronExecutionTime() . ')', 'info', false);
 	$response .= sprintf('===============  %s (' . $cronObj->getCronExecutionTime() . ') | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
 	echo $response;
