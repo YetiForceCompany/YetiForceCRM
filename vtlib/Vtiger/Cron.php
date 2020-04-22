@@ -275,12 +275,11 @@ class Cron
 	{
 		$lock = $this->getLockStatus();
 		$time = time();
-		$contitions = ['lastend' => $time];
+		$contitions = ['lastend' => $time, 'lase_error' => ''];
 		if (!$lock) {
 			$contitions['status'] = self::$STATUS_ENABLED;
 		}
 		\App\Db::getInstance()->createCommand()->update(self::$baseTable, $contitions, ['id' => $this->getId()])->execute();
-
 		return $this->set('lastend', $time);
 	}
 
@@ -440,6 +439,18 @@ class Cron
 	public function unlockTask()
 	{
 		$this->updateStatus(self::$STATUS_ENABLED);
+	}
+
+	/**
+	 * Set error message.
+	 *
+	 * @param string $errorMessage
+	 *
+	 * @return void
+	 */
+	public function setError(string $errorMessage): void
+	{
+		\App\Db::getInstance()->createCommand()->update(self::$baseTable, ['lase_error' => $errorMessage], ['id' => $this->getId()])->execute();
 	}
 
 	/**

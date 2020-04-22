@@ -113,6 +113,7 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 		} catch (\Throwable $e) {
 			\App\Log::error("Cron task '{$cronTask->getName()}' throwed exception: " . PHP_EOL . $e->__toString() . PHP_EOL, 'Cron');
 			$cronObj->log('Cron task execution throwed exception: ' . PHP_EOL . $response . PHP_EOL . $e->__toString(), 'error');
+			$cronTask->setError($response . PHP_EOL . $e->getMessage());
 			echo $response;
 			echo sprintf('%s | ERROR: %s - Cron task throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
 			echo $e->__toString() . PHP_EOL;
