@@ -53,6 +53,7 @@ RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 RUN chmod +x /usr/local/bin/composer
 RUN	chmod +x /var/www/html/tests/setup/dependency.sh
+RUN	chmod +x /docker_entrypoint.sh
 RUN	/var/www/html/tests/setup/dependency.sh
 RUN chown -R www-data:www-data /var/www/
 RUN /usr/bin/perl -pi -e "s/password =/password = $DB_ROOT_PASS/g" /etc/mysql/debian.cnf
