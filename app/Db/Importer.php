@@ -588,9 +588,11 @@ class Importer
 	 * @param Base $importer
 	 */
 	public function drop(Base $importer){
-		if (!isset($importer->data)) {
-			$this->dropColumns($importer);
-			$this->dropTable($importer);
+		if (isset($importer->dropTables)) {
+			$this->dropTable($importer->dropTables);
+		}
+		if (isset($importer->dropColumns)) {
+			$this->dropColumns($importer->dropColumns);
 		}
 	}
 
