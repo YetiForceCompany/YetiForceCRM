@@ -32,6 +32,10 @@ insert  into `a_yf_discounts_config`(`param`,`value`) values ('discounts','0,1,2
 
 insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (1,104,106,1,'[]','','{\"autofill\":\"on\"}');
 insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (2,6,18,1,'[]','','{\"autofill\":\"on\"}');
+insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (3,90,95,1,'[]',NULL,'{\"autofill\":\"on\"}');
+insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (4,90,100,1,'[]',NULL,'[]');
+insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (5,100,98,1,'[]',NULL,'[]');
+insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (6,90,98,1,'[]',NULL,'[]');
 
 /*Data for the table `a_yf_mapped_fields` */
 
@@ -46,6 +50,58 @@ insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`defa
 insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (9,1,'SELF','id','2262','');
 insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (10,2,'V','1','288','');
 insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (11,2,'E','9','291','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (73,3,'V','1834','2040','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (74,3,'V','1839','2043',NULL);
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (75,3,'INVENTORY','comment1','comment1','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (76,3,'INVENTORY','gross','gross','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (77,3,'INVENTORY','tax','tax','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (78,3,'INVENTORY','total','total','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (79,3,'INVENTORY','price','price','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (80,3,'INVENTORY','qty','qty','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (81,3,'INVENTORY','name','name','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (82,3,'INVENTORY','taxmode','taxmode','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (83,3,'INVENTORY','net','net','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (84,3,'INVENTORY','discountmode','discountmode','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (85,3,'INVENTORY','discount','discount','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (86,3,'V','2826','2825','PLL_NOT_PAID');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (87,3,'V','2818','2044','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (88,3,'V','1835','2573','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (89,4,'V','1839','2195',NULL);
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (90,4,'SELF','id','2345',NULL);
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (91,4,'V','2792','2157',NULL);
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (92,4,'INVENTORY','total','total','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (93,4,'INVENTORY','qty','qty','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (94,4,'INVENTORY','price','price','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (95,4,'INVENTORY','name','name','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (96,4,'INVENTORY','comment1','comment1','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (97,4,'V','1843','2158','0');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (98,4,'V','1845','2193','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (99,4,'V','1846','2194','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (100,4,'V','1834','2156','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (101,5,'V','2156','2116','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (102,5,'V','2157','2170',NULL);
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (103,5,'D','2196','2192','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (104,5,'V','2158','2117','0');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (105,5,'V','2193','2189','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (106,5,'V','2194','2190','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (107,5,'INVENTORY','name','name','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (108,5,'INVENTORY','ean','ean','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (109,5,'INVENTORY','unit','unit','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (110,5,'INVENTORY','subunit','subunit','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (111,5,'INVENTORY','qty','qty','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (112,5,'INVENTORY','price','price','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (113,5,'INVENTORY','total','total','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (114,5,'INVENTORY','comment1','comment1','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (115,6,'V','1834','2116','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (116,6,'V','2792','2170',NULL);
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (117,6,'V','1843','2117','0');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (118,6,'INVENTORY','name','name','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (119,6,'INVENTORY','qty','qty','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (120,6,'INVENTORY','price','price','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (121,6,'INVENTORY','comment1','comment1','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (122,6,'INVENTORY','total','total','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (123,6,'INVENTORY','subunit','subunit','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (124,6,'INVENTORY','unit','unit','');
 
 /*Data for the table `a_yf_pdf` */
 
@@ -119,6 +175,9 @@ insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`,`params`) values (70,'Users','LBL_NEW_USER_CREATED','[]',1,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`,`params`) values (71,'SSingleOrders','It sums up all open sales orders','[]',3,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`,`params`) values (72,'SSingleOrders','It sums up all open sales orders','[]',5,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`,`params`) values (73,'SSingleOrders','IGDN','[{\"fieldname\":\"ssingleorders_status\",\"operation\":\"has changed to\",\"value\":\"PLL_ACCEPTED\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":0}]',4,NULL,NULL,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`,`params`) values (75,'SSingleOrders','IGRN','[]',5,NULL,NULL,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`,`params`) values (77,'SSingleOrders','IGRN','[{\"fieldname\":\"ssingleorders_status\",\"operation\":\"has changed to\",\"value\":\"PLL_CANCELLED\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":0}]',4,NULL,NULL,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Data for the table `com_vtiger_workflowtask_queue` */
 
@@ -142,6 +201,9 @@ insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (139,70,'New user created','O:18:\"VTEntityMethodTask\":8:{s:18:\"executeImmediately\";b:1;s:8:\"contents\";N;s:10:\"workflowId\";i:70;s:7:\"summary\";s:16:\"New user created\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:10:\"methodName\";s:7:\"newUser\";s:2:\"id\";i:139;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (140,71,'It sums up all open sales orders','O:21:\"SumFieldFromDependent\":10:{s:18:\"executeImmediately\";b:1;s:8:\"contents\";N;s:10:\"workflowId\";i:71;s:7:\"summary\";s:32:\"It sums up all open sales orders\";s:6:\"active\";b:1;s:7:\"trigger\";N;s:11:\"targetField\";s:36:\"accountid::Accounts::sum_open_orders\";s:11:\"sourceField\";s:9:\"sum_gross\";s:10:\"conditions\";a:2:{s:9:\"condition\";s:2:\"OR\";s:5:\"rules\";a:2:{i:0;a:3:{s:9:\"fieldname\";s:34:\"ssingleorders_status:SSingleOrders\";s:8:\"operator\";s:1:\"e\";s:5:\"value\";s:76:\"PLL_DRAFT##PLL_IN_REALIZATION##PLL_FOR_VERIFICATION##PLL_AWAITING_SIGNATURES\";}i:1;a:3:{s:9:\"fieldname\";s:34:\"ssingleorders_status:SSingleOrders\";s:8:\"operator\";s:1:\"y\";s:5:\"value\";s:0:\"\";}}}s:2:\"id\";i:140;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (141,72,'It sums up all open sales orders','O:21:\"SumFieldFromDependent\":9:{s:18:\"executeImmediately\";b:1;s:8:\"contents\";N;s:10:\"workflowId\";i:72;s:7:\"summary\";s:32:\"It sums up all open sales orders\";s:6:\"active\";b:1;s:7:\"trigger\";N;s:11:\"targetField\";s:36:\"accountid::Accounts::sum_open_orders\";s:11:\"sourceField\";s:9:\"sum_gross\";s:10:\"conditions\";a:2:{s:9:\"condition\";s:2:\"OR\";s:5:\"rules\";a:2:{i:0;a:3:{s:9:\"fieldname\";s:34:\"ssingleorders_status:SSingleOrders\";s:8:\"operator\";s:1:\"e\";s:5:\"value\";s:76:\"PLL_DRAFT##PLL_IN_REALIZATION##PLL_FOR_VERIFICATION##PLL_AWAITING_SIGNATURES\";}i:1;a:3:{s:9:\"fieldname\";s:34:\"ssingleorders_status:SSingleOrders\";s:8:\"operator\";s:1:\"y\";s:5:\"value\";s:0:\"\";}}}}');
+insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (142,73,'Tworzenie WZ','O:18:\"VTCreateEntityTask\":11:{s:18:\"executeImmediately\";b:1;s:8:\"contents\";N;s:10:\"workflowId\";i:73;s:7:\"summary\";s:12:\"Tworzenie WZ\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:11:\"entity_type\";s:4:\"IGDN\";s:15:\"reference_field\";s:15:\"ssingleordersid\";s:19:\"field_value_mapping\";s:94:\"[{\"fieldname\":\"igdn_status\",\"value\":\"PLL_ACCEPTED\",\"valuetype\":\"rawtext\",\"modulename\":\"IGDN\"}]\";s:12:\"mappingPanel\";s:1:\"1\";s:2:\"id\";i:142;}');
+insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (144,75,'Generowanie PZ','O:18:\"VTCreateEntityTask\":11:{s:18:\"executeImmediately\";b:1;s:8:\"contents\";N;s:10:\"workflowId\";i:75;s:7:\"summary\";s:14:\"Generowanie PZ\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:11:\"entity_type\";s:4:\"IGRN\";s:15:\"reference_field\";s:0:\"\";s:19:\"field_value_mapping\";s:94:\"[{\"fieldname\":\"igrn_status\",\"value\":\"PLL_ACCEPTED\",\"valuetype\":\"rawtext\",\"modulename\":\"IGRN\"}]\";s:12:\"mappingPanel\";s:1:\"1\";s:2:\"id\";i:144;}');
+insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (146,77,'Generowanie PZ','O:18:\"VTCreateEntityTask\":11:{s:18:\"executeImmediately\";b:1;s:8:\"contents\";N;s:10:\"workflowId\";i:77;s:7:\"summary\";s:14:\"Generowanie PZ\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:11:\"entity_type\";s:4:\"IGRN\";s:15:\"reference_field\";s:0:\"\";s:19:\"field_value_mapping\";s:94:\"[{\"fieldname\":\"igrn_status\",\"value\":\"PLL_ACCEPTED\",\"valuetype\":\"rawtext\",\"modulename\":\"IGRN\"}]\";s:12:\"mappingPanel\";s:1:\"1\";s:2:\"id\";i:146;}');
 
 /*Data for the table `com_vtiger_workflowtasks_entitymethod` */
 
