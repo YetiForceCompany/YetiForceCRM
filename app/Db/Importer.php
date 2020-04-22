@@ -589,10 +589,9 @@ class Importer
 	 */
 	public function drop(Base $importer){
 		if (!isset($importer->data)) {
-			return;
+			$this->dropColumns($importer);
+			$this->dropTable($importer);
 		}
-		$this->dropColumns($importer->data);
-		$this->dropTable($importer->data);
 	}
 
 	/**
