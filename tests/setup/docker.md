@@ -9,7 +9,7 @@
 
 ```
 git clone --depth 1 https://github.com/YetiForceCompany/YetiForceCRM.git
-cd YetiForceCRM && docker-compose up
+cd YetiForceCRM && docker-compose up -d
 ```
 
 # Running with Docker Run
