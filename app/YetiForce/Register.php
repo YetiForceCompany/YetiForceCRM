@@ -92,6 +92,7 @@ class Register
 			'insKey' => static::getInstanceKey(),
 			'crmKey' => static::getCrmKey(),
 			'package' => \App\Company::getSize(),
+			'provider' => static::getProvider(),
 			'companies' => \App\Company::getAll(),
 		];
 	}
@@ -106,7 +107,6 @@ class Register
 		if (!\App\RequestUtil::isNetConnection() || 'yetiforce.com' === gethostbyname('yetiforce.com')) {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
 			$this->error = 'ERR_NO_INTERNET_CONNECTION';
-
 			return false;
 		}
 		$result = false;
@@ -164,6 +164,7 @@ class Register
 					'version' => \App\Version::get(),
 					'crmKey' => static::getCrmKey(),
 					'insKey' => static::getInstanceKey(),
+					'provider' => static::getProvider(),
 					'package' => \App\Company::getSize(),
 				])
 			]);
@@ -371,5 +372,16 @@ class Register
 			throw new \App\Exceptions\AppException('ERR_COMPANY_DATA_IS_NOT_COMPATIBLE', 3);
 		}
 		return $status;
+	}
+
+	/**
+	 * Get provider.
+	 *
+	 * @return string
+	 */
+	private static function getProvider(): string
+	{
+		$env = getenv();
+		return $env['PROVIDER'] ?? '';
 	}
 }
