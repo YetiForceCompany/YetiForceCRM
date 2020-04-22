@@ -33,6 +33,8 @@ COPY ./ /var/www/html
 COPY ./tests/setup/crons.conf /etc/cron.d/yetiforcecrm
 COPY ./tests/setup/php/prod.ini /etc/php/7.3/mods-available/yetiforce.ini
 COPY ./tests/setup/docker_entrypoint.sh /
+RUN rm /var/www/html/.user.ini
+RUN rm /var/www/html/public_html/.user.ini
 
 RUN	service mysql start; \
 	mysql -uroot mysql; \
