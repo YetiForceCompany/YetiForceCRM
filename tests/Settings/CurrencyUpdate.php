@@ -18,20 +18,20 @@ class CurrencyUpdate extends \Tests\Base
 	{
 		$moduleModel = \Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 		$this->assertNotEmpty(\Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName('PLN'), 'Expected currency name');
-		$this->assertInternalType('integer', $moduleModel->getCurrencyNum(), 'Expected currency number as integer');
+		$this->assertIsInt($moduleModel->getCurrencyNum(), 'Expected currency number as integer');
 		try {
-			$this->assertInternalType('boolean', $moduleModel->fetchCurrencyRates(date('Y-m-d')), 'Expected boolean result.');
+			$this->assertIsBool($moduleModel->fetchCurrencyRates(date('Y-m-d')), 'Expected boolean result.');
 			$this->assertNull($moduleModel->refreshBanks(), 'Method should return nothing');
-			$this->assertInternalType('array', $moduleModel->getSupportedCurrencies(), 'getSupportedCurrencies should always return array');
-			$this->assertInternalType('array', $moduleModel->getUnSupportedCurrencies(), 'getUnSupportedCurrencies should always return array');
-			$this->assertInternalType('numeric', $moduleModel->getCRMConversionRate('PLN', 'USD'), 'getCRMConversionRate should always return number');
-			$this->assertInternalType('numeric', $moduleModel->convertFromTo(12, 'PLN', 'USD'), 'convertFromTo should always return number');
+			$this->assertIsArray($moduleModel->getSupportedCurrencies(), 'getSupportedCurrencies should always return array');
+			$this->assertIsArray($moduleModel->getUnSupportedCurrencies(), 'getUnSupportedCurrencies should always return array');
+			$this->assertIsNumeric($moduleModel->getCRMConversionRate('PLN', 'USD'), 'getCRMConversionRate should always return number');
+			$this->assertIsNumeric($moduleModel->convertFromTo(12, 'PLN', 'USD'), 'convertFromTo should always return number');
 			// @codeCoverageIgnoreStart
 		} catch (\Exception $e) {
 			$this->markTestSkipped('Possibly connection error from integration:' . $e->getMessage());
 		}
 		// @codeCoverageIgnoreEnd
-		$this->assertInternalType('integer', $moduleModel->getActiveBankId(), 'Expected active bank id as integer');
+		$this->assertIsInt($moduleModel->getActiveBankId(), 'Expected active bank id as integer');
 		$this->assertTrue($moduleModel->setActiveBankById($moduleModel->getActiveBankId()), 'setActiveBankById should return true');
 		$this->assertNotEmpty($moduleModel->getActiveBankName(), 'Active bank name should be not empty');
 	}
@@ -59,7 +59,7 @@ class CurrencyUpdate extends \Tests\Base
 				$bank = new $bankClass();
 				$this->assertNotEmpty($bank->getName(), 'Bank name should be not empty');
 				$this->assertNotEmpty($bank->getSource(), 'Bank source should be not empty');
-				$this->assertInternalType('array', $bank->getSupportedCurrencies(), 'Expected array of currencies');
+				$this->assertIsArray($bank->getSupportedCurrencies(), 'Expected array of currencies');
 				$this->assertNotEmpty($bank->getMainCurrencyCode(), 'Main bank currency should be not empty');
 				$this->assertNull($bank->getRates($currencyList, date('Y-m-d'), true), 'Expected nothing/null');
 			}
