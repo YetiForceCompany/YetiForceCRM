@@ -1,0 +1,10 @@
+version: '3'
+services:
+    yetiforce-crm:
+        container_name: YetiForceCRM
+        build:
+            context: .
+        ports:
+            - '8000:80'
+            - '8022:22'
+            #- '8036:3306'
