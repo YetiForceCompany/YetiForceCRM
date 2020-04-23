@@ -68,11 +68,12 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 				$taskObject->field_value_mapping = \App\Json::encode($fieldMapping);
 			}
 		}
-		if ('VTUpdateFieldsTask' === $taskType) {
+		if ('VTUpdateFieldsTask' === $taskType || 'VTUpdateRelatedFieldTask' === $taskType) {
+			$restrictFields = [];
 			if ('Documents' === $sourceModule) {
 				$restrictFields = ['folderid', 'filename', 'filelocationtype'];
-				$viewer->assign('RESTRICTFIELDS', $restrictFields);
 			}
+			$viewer->assign('RESTRICTFIELDS', $restrictFields);
 		}
 		if ('SumFieldFromDependent' === $taskType) {
 			$recordStructureModulesField = [];
