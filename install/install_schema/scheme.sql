@@ -1196,6 +1196,21 @@ CREATE TABLE `s_yf_privileges_updater` (
   KEY `crmid` (`crmid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_record_quick_changer` */
+
+CREATE TABLE `s_yf_record_quick_changer` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `tabid` smallint(5) NOT NULL,
+  `conditions` text NOT NULL,
+  `values` text NOT NULL,
+  `btn_name` varchar(255) DEFAULT NULL,
+  `class` varchar(50) DEFAULT NULL,
+  `icon` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tabid` (`tabid`),
+  CONSTRAINT `s_yf_record_quick_changer_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_sla_policy` */
 
 CREATE TABLE `s_yf_sla_policy` (
