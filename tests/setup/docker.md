@@ -1,4 +1,4 @@
-# Version in progress !!!!
+# in progres !!!
 
 # Running with [Docker Hub](https://hub.docker.com/r/yetiforce/yetiforcecrm) 
 ## Last Stable Version
