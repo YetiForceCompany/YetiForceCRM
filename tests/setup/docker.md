@@ -4,11 +4,11 @@
 ## Last Stable Version
 
 ```
-docker run --name YetiForceCRM-stable -d -p 8000:80 -p 8001:22 -p 8002:3306 yetiforce/yetiforcecrm:stable 
+docker run --name YetiForceCRM-stable -d -p 8000:80 yetiforce/yetiforcecrm:stable 
 ```
 ## Developer version
 ```
-docker run --name YetiForceCRM-developer -d -p 8000:80 -p 8001:22 -p 8002:3306 yetiforce/yetiforcecrm:developer
+docker run --name YetiForceCRM-developer -d -p 8000:80 yetiforce/yetiforcecrm:developer
 ```
 
 # Running with Docker Compose
