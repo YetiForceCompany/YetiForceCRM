@@ -191,7 +191,6 @@ class Users_Privileges_Model extends Users_Record_Model
 		$return = false;
 		if (empty($recordId)) {
 			self::$lockEditCache[$moduleName . $recordId] = $return;
-
 			return $return;
 		}
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
@@ -205,7 +204,6 @@ class Users_Privileges_Model extends Users_Record_Model
 			}
 		}
 		self::$lockEditCache[$moduleName . $recordId] = $return;
-
 		return $return;
 	}
 
