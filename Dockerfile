@@ -57,8 +57,8 @@ RUN chmod +x /usr/local/bin/composer
 RUN	chmod +x /var/www/html/tests/setup/dependency.sh
 RUN	chmod +x /docker_entrypoint.sh
 RUN	/var/www/html/tests/setup/dependency.sh
+RUN php -f /var/www/html/tests/setup/docker_post_install.php
 RUN chown -R www-data:www-data /var/www/
-RUN /usr/bin/perl -pi -e "s/password =/password = $DB_ROOT_PASS/g" /etc/mysql/debian.cnf
 
 WORKDIR /var/www/html
 
