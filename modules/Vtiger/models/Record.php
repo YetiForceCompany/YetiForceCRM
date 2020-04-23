@@ -286,7 +286,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getRecordNumber(): string
 	{
-		return $this->get($this->getModule()->getSequenceNumberFieldName());
+		return $this->get($this->getModule()->getSequenceNumberFieldName()) ?? '';
 	}
 
 	/**
