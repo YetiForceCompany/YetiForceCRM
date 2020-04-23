@@ -346,6 +346,19 @@ insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`vat_id`,`c
 
 /*Data for the table `s_yf_privileges_updater` */
 
+/*Data for the table `s_yf_record_quick_changer` */
+
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (1,90,'{\"ssingleorders_status\":\"PLL_ACCEPTED\"} ','{\"ssingleorders_status\":\"PLL_CANCELLED\"} ','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (2,100,'{\"igdn_status\":\"PLL_ACCEPTED\"}','{\"igdn_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (3,101,'{\"iidn_status\":\"PLL_ACCEPTED\"}','{\"iidn_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (4,102,'{\"igin_status\":\"PLL_ACCEPTED\"}','{\"igin_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (5,103,'{\"ipreorder_status\":\"PLL_ACCEPTED\"}','{\"ipreorder_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (6,104,'{\"istdn_status\":\"PLL_ACCEPTED\"}','{\"istdn_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (7,106,'{\"istrn_status\":\"PLL_ACCEPTED\"}','{\"istrn_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (8,108,'{\"igrnc_status\":\"PLL_ACCEPTED\"}','{\"igrnc_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (9,109,'{\"igdnc_status\":\"PLL_ACCEPTED\"}','{\"igdnc_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (10,98,'{\"igrn_status\":\"PLL_ACCEPTED\"}','{\"igrn_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+
 /*Data for the table `s_yf_sla_policy` */
 
 /*Data for the table `s_yf_smsnotifier_queue` */
