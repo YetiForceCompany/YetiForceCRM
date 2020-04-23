@@ -1,5 +1,16 @@
 # Version in progress !!!!
 
+# Running with Docker Hub
+## Last Stable Version
+
+```
+docker run -d -p 8000:80 yetiforce/yetiforcecrm:stable
+```
+## Developer version
+```
+docker run -d -p 8000:80 yetiforce/yetiforcecrm:developer
+```
+
 # Running with Docker Compose
 
 1. Install [Docker and Docker Compose](https://docs.docker.com/compose/install/)
