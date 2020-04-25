@@ -1578,6 +1578,7 @@ $.Class(
 			App.Fields.MultiDependField.register(container);
 			App.Fields.Tree.register(container);
 			App.Fields.MultiCurrency.register(container);
+			App.Fields.MeetingUrl.register(container);
 		},
 		registerEvents: function() {
 			var editViewForm = this.getForm();

@@ -1415,7 +1415,11 @@
     "PLL_PAYPAL": "Paypal",
     "PLL_PAYPAL_EXPRESS": "Paypal express",
     "PLL_CHECK": "Check",
-    "BTN_CANCEL": "Cancel"
+    "BTN_CANCEL": "Cancel",
+    "LBL_MEETING_COPY_URL": "Access to the room",
+    "LBL_MEETING_COPY_GUEST_URL": "Access to the guest room",
+    "LBL_MEETING_SEND_INVITATION": "Send an invitation",
+    "LBL_MEETING_JOIN": "Join"
   },
   "js": {
     "JS_APPROVE": "Approve",

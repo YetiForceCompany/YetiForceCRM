@@ -2400,6 +2400,58 @@ window.App.Fields = {
 			});
 		}
 	},
+	/**
+	 * Meeting URL
+	 */
+	MeetingUrl: class MeetingUrl {
+		constructor(container) {
+			this.container = container;
+			this.init();
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		static register(container) {
+			if (container.hasClass('js-meeting-container')) {
+				return new MeetingUrl(container);
+			}
+			const instances = [];
+			container.find('.js-meeting-container').each((n, e) => {
+				instances.push(new MeetingUrl($(e)));
+			});
+			return instances;
+		}
+		/**
+		 * Initiation
+		 */
+		init() {
+			$('.js-meeting-add', this.container)
+				.off('click')
+				.on('click', (e) => {
+					let progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
+					AppConnector.request(e.currentTarget.dataset.url)
+						.done((data) => {
+							let result = data.result;
+							if(result && result.success && result.url){
+								this.container.find('.js-meeting-val').attr('readonly', true).val(result.url);
+							}else{
+								Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+							}
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						})
+						.fail((_) => {
+							Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						});
+				});
+			$('.js-meeting-clear', this.container)
+				.off('click')
+				.on('click', () => {
+					this.container.find('.js-meeting-val').attr('readonly', false).val('');
+				});
+		}
+	},
 	Utils: {
 		registerMobileDateRangePicker(element) {
 			this.hideMobileKeyboard(element);
