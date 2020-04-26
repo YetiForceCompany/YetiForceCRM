@@ -6,7 +6,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <tomek.kur14@gmail.com>
  */
-if (PHP_SAPI === 'cli') {
+if (PHP_SAPI !== 'cli') {
 	return;
 }
 $dir = __DIR__ . '/../../../../';
@@ -34,7 +34,7 @@ $callback = function ($msg) use ($worker) {
 		}
 	} catch (\Throwable $ex) {
 		App\Log::error($ex->getMessage());
-		return;
+		exit;
 	}
 };
 $channel->basic_consume($exchangeEngine->getQueueName(), '', false, true, false, false, $callback);
