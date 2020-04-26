@@ -36,6 +36,10 @@ class Settings_Mail_Config_Model
 		\App\Db::getInstance('admin')->createCommand()->update('s_#__mail_queue', ['status' => 1], [
 			'id' => $id,
 		])->execute();
+		if (\Config\Performance::$engineQueues !== \App\Queues::CRON_ENGINE) {
+			$priority = (new App\Db\Query())->select(['priority'])->from('s_#__mail_queue')->where(['id' => $id])->scalar(\App\Db::getInstance('admin'));
+			\App\Queues::addToQueues(\App\Queues::MAILER, ['id' => $id, 'priority' => $priority]);
+		}
 	}
 
 	/**

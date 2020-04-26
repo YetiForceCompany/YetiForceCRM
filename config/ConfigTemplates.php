@@ -729,6 +729,11 @@ return [
 			'description' => 'Number of records that can be shown in report mail',
 			'validation' => '\App\Validator::naturalNumber'
 		],
+		'engineQueues' => [
+			'default' => 'Cron',
+			'description' => 'Engine to build queue',
+			'validation' => ['Cron', 'RabbitMQ']
+		],
 	],
 	'relation' => [
 		'COMMENT_MAX_LENGTH' => [

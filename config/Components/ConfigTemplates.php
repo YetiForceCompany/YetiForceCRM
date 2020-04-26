@@ -353,4 +353,30 @@ return [
 			}
 		],
 	],
+	'RabbitMQ' => [
+		'host' => [
+			'default' => '',
+			'description' => 'Address',
+			'validation' => '\App\Validator::domain',
+			'sanitization' => '\App\Purifier::purify'
+		],
+		'port' => [
+			'default' => '',
+			'description' => 'Gets port',
+			'validation' => '\App\Validator::port'
+		],
+		'username' => [
+			'default' => '',
+			'description' => 'Gets the user name',
+			'validation' => '\App\Validator::dbUserName',
+			'sanitization' => '\App\Purifier::purify'
+		],
+		'password' => [
+			'default' => '',
+			'description' => 'Password to server',
+			'validation' => function () {
+				return true;
+			}
+		],
+	],
 ];
