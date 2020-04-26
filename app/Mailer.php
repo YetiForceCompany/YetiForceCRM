@@ -189,7 +189,11 @@ class Mailer
 				$params[$key] = Json::encode($params[$key]);
 			}
 		}
-		\App\Db::getInstance($type)->createCommand()->insert('admin' === $type ? 's_#__mail_queue' : 'l_#__mail', $params)->execute();
+		if ($type === 'admin') {
+			\App\Queues::addToQueues(\App\Queues::MAILER, $params);
+		} else {
+			\App\Db::getInstance($type)->createCommand()->insert('l_#__mail', $params)->execute();
+		}
 	}
 
 	/**
