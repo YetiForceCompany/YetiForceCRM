@@ -159,7 +159,6 @@ class MeetingService extends Base
 		$query = parse_url($url, PHP_URL_QUERY);
 		parse_str($query, $output);
 		$jwt = new \Ahc\Jwt\JWT(\App\Encryption::getInstance()->decrypt($this->get('secret')));
-		$jwt->decode($output['jwt']);
 		return $jwt->decode($output['jwt']);
 	}
 

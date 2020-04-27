@@ -33,9 +33,9 @@ class Vtiger_Meetings_Handler
 				) {
 					$expDate = $recordModel->get($expFieldName);
 					if ($expDate) {
-						$expDate = date('Y-m-d', strtotime($expDate)) . '23:59:59';
+						$expDate = date('Y-m-d', strtotime($expDate)) . ' 23:59:59';
 					} else {
-						$expDate = date('Y-m-d') . '23:59:59';
+						$expDate = date('Y-m-d') . ' 23:59:59';
 					}
 					$room = $meeting->getRoomFromUrl($url);
 					$url = $meeting->getUrl(['room' => $room, 'exp' => strtotime($expDate)]);

@@ -50,7 +50,7 @@ class Vtiger_Meeting_Action extends \App\Controller\Action
 		$url = '';
 		try {
 			$room = $meeting->generateRoomName((string) \App\User::getCurrentUserRealId() . '_' . $this->record->getId());
-			$url = $meeting->getUrl(['room' => $room, 'exp' => strtotime(date('Y-m-d') . '23:59:59')]);
+			$url = $meeting->getUrl(['room' => $room, 'exp' => strtotime(date('Y-m-d') . ' 23:59:59')]);
 		} catch (\Throwable $e) {
 			\App\Log::error($e->__toString());
 		}
