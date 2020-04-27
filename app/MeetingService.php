@@ -65,7 +65,7 @@ class MeetingService extends Base
 				$query->where(['status' => self::STATUS_ACTIVE]);
 			}
 			$result = $query->one();
-			Cache::save($cacheName, $active, $result ? $result : [], Cache::LONG);
+			Cache::save($cacheName, $active, $result ?: [], Cache::LONG);
 		}
 
 		return Cache::get($cacheName, $active);
@@ -87,7 +87,7 @@ class MeetingService extends Base
 			$userModel = \App\User::getUserModel($userId);
 			$data['context']['user'] = [
 				'avatar' => '',
-				'name' => \App\Fields\Owner::getLabel($userId),
+				'name' => $userModel->getName(),
 				'email' => $userModel->getDetail('email1'),
 				'id' => $userId
 			];

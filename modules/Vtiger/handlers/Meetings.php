@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Meetings handler class.
+ * Meetings handler file.
  *
  * @package Handler
  *

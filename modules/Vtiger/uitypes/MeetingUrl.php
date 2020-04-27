@@ -1,6 +1,6 @@
 <?php
 /**
- * UIType meeting url.
+ * UIType meeting url field file.
  *
  * @package   UIType
  *
