@@ -1656,8 +1656,6 @@ $.Class(
 		},
 		registerChangeTax: function() {
 			const thisInstance = this;
-			let $accountReference = $('input[name=popupReferenceModule][value=Accounts]');
-			let $accountSourceField = $accountReference.length ? $('.sourceField', $accountReference.parent()) : null;
 			thisInstance.form.on('click', '.changeTax', function(e) {
 				let parentRow;
 				let element = $(e.currentTarget);
