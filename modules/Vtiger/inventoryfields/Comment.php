@@ -50,10 +50,10 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		$conf = App\Config::module($this->getModuleName(), 'inventoryCommentIframeContent', null);
 		$value = \App\Utils\Completions::decode(\App\Purifier::purifyHtml($value));
-		if (null === $conf || true === $conf) {
+		if (!$rawText && false !== $conf) {
 			return \App\Layout::truncateHtml($value, 'mini', 300);
 		}
-		return \App\TextParser::htmlTruncate($value);
+		return $rawText ? $value : \App\TextParser::htmlTruncate($value);
 	}
 
 	/**
