@@ -32,13 +32,22 @@
 			<div class="form-group form-row">
 				{if $VIEW eq 'DiscountConfiguration'}
 					{assign var=FIELD value='discounts'}
+					{assign var=IS_REQUIRED value=true}
 				{else}
 					{assign var=FIELD value='taxs'}
+					{assign var=IS_REQUIRED value=true}
 				{/if}
-				{assign var=FIELD_VALUE value=explode(',',$CONFIG[$FIELD])}
-				<label class="col-md-3 col-form-label u-text-small-bold text-md-right form-control-plaintext">{\App\Language::translate('LBL_AVAILABLE_'|cat:strtoupper($FIELD), $QUALIFIED_MODULE)}</label>
+				{if $CONFIG[$FIELD]}
+					{assign var=FIELD_VALUE value=explode(',',$CONFIG[$FIELD])}
+				{else}
+					{assign var=FIELD_VALUE value=[]}
+				{/if}
+				<label class="col-md-3 col-form-label u-text-small-bold text-md-right form-control-plaintext">
+					{if $IS_REQUIRED}<span class="redColor">*</span>{/if}
+					{\App\Language::translate('LBL_AVAILABLE_'|cat:strtoupper($FIELD), $QUALIFIED_MODULE)}
+				</label>
 				<div class="col-md-6">
-					<select class="select2" multiple name="{$FIELD}">
+					<select class="select2" multiple name="{$FIELD}" {if $IS_REQUIRED}required="required"{/if} data-prevvalue='{implode(',', $FIELD_VALUE)}'>
 						{foreach  item=LABEL key=KEY from=Settings_Inventory_Module_Model::getPicklistValues($FIELD)}
 							<option value="{$KEY}" {if in_array($KEY, $FIELD_VALUE)} selected {/if}>{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}</option>
 						{/foreach}

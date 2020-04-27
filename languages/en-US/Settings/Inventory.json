@@ -46,6 +46,7 @@
   },
   "js": {
     "JS_SAVE_CHANGES": "Changes saved successfully.",
+    "JS_IS_MANDATORY": "Field is required.",
     "JS_DELETE_INVENTORY_CONFIRMATION": "Are you sure you want to delete this value?",
     "JS_EDIT": "Edit",
     "JS_DELETE": "Delete",
