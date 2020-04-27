@@ -3,7 +3,7 @@
 	{if $GROUP_DISCOUNT != 0}
 		<div class="card js-panel" data-js="class: js-active">
 			<div class="card-header">
-				<strong>{\App\Language::translate('LBL_GROUP_DISCOUNTS', $MODULE)}</strong>
+				<strong>{\App\Language::translate('LBL_ACCOUNT_DISCOUNT', $MODULE)}</strong>
 				<div class="float-right">
 					<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="group" class="activeCheckbox">
 				</div>

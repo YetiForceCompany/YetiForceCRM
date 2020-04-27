@@ -2,7 +2,7 @@
 {strip}
 	<div class="card js-panel" data-js="class: js-active">
 		<div class="card-header">
-			<strong>{\App\Language::translate('LBL_INDIVIDUAL_DISCOUNTS', $MODULE)}</strong>
+			<strong>{\App\Language::translate('LBL_CUSTOM_DISCOUNT', $MODULE)}</strong>
 			<div class="float-right">
 				<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="individual" class="activeCheckbox">
 			</div>
