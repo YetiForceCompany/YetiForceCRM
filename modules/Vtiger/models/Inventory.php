@@ -680,27 +680,23 @@ class Vtiger_Inventory_Model
 	/**
 	 * Get tax from the account.
 	 *
-	 * @param int $record Record ID
+	 * @param int $relatedRecord Record ID
 	 *
 	 * @return array
 	 */
-	public function getAccountTax($record)
+	public function getAccountTax($relatedRecord)
 	{
-		$recordName = '';
-		$accountTaxs = [];
 		$sourceModule = 'Accounts';
-		$fieldRel = App\Field::getRelatedFieldForModule($this->getModuleName(), $sourceModule);
-		if ($record && $fieldRel && ($taxFields = Vtiger_Module_Model::getInstance($sourceModule)->getFieldsByUiType(303))) {
+		$recordName = '';
+		$accountTaxes = [];
+		if (!empty($relatedRecord)) {
+			$taxFields = Vtiger_Module_Model::getInstance($sourceModule)->getFieldsByUiType(303);
 			$taxField = current($taxFields);
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $this->getModuleName());
-			$relationFieldValue = $recordModel->get($fieldRel['fieldname']);
-			if ($relationFieldValue && \App\Record::getType($relationFieldValue) === $sourceModule) {
-				$accountRecordModel = Vtiger_Record_Model::getInstanceById($relationFieldValue, $sourceModule);
-				$accountTaxs = Vtiger_Taxes_UIType::getValues($accountRecordModel->get($taxField->getName()));
-				$recordName = $accountRecordModel->getName();
-			}
+			$accountRecordModel = Vtiger_Record_Model::getInstanceById($relatedRecord, $sourceModule);
+			$accountTaxes = Vtiger_Taxes_UIType::getValues($accountRecordModel->get($taxField->getName()));
+			$recordName = $accountRecordModel->getName();
 		}
-		return ['taxs' => $accountTaxs, 'name' => $recordName];
+		return ['taxes' => $accountTaxes, 'name' => $recordName];
 	}
 
 	/**

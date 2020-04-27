@@ -1656,19 +1656,21 @@ $.Class(
 		},
 		registerChangeTax: function() {
 			const thisInstance = this;
+			let $accountReference = $('input[name=popupReferenceModule][value=Accounts]');
+			let $accountSourceField = $accountReference.length ? $('.sourceField', $accountReference.parent()) : null;
 			thisInstance.form.on('click', '.changeTax', function(e) {
-				var parentRow;
-				var element = $(e.currentTarget);
-				var params = {
+				let parentRow;
+				let element = $(e.currentTarget);
+				let params = {
 					module: app.getModuleName(),
 					view: 'Inventory',
 					mode: 'showTaxes',
 					currency: thisInstance.getCurrency(),
-					sourceRecord: app.getRecordId()
+					relatedRecord: thisInstance.getAccountId()
 				};
 				if (element.hasClass('groupTax')) {
 					parentRow = thisInstance.getInventoryItemsContainer();
-					var totalPrice = 0;
+					let totalPrice = 0;
 					if (parentRow.find('tfoot .colNetPrice').length > 0) {
 						totalPrice = parentRow.find('tfoot .colNetPrice').text();
 					} else if (parentRow.find('tfoot .colTotalPrice ').length > 0) {
@@ -1686,7 +1688,7 @@ $.Class(
 					}
 					params.recordModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
 				}
-				var progressInstace = $.progressIndicator();
+				let progressInstace = $.progressIndicator();
 				AppConnector.request(params)
 					.done(function(data) {
 						app.showModalWindow(data, function(data) {
