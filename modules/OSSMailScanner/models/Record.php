@@ -767,10 +767,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function runRestartCron(int $scanId)
 	{
-		$db = App\Db::getInstance();
 		if (self::isActiveScan($scanId)) {
 			if (self::getCronTask()->hadTimeout()) {
-				$db->createCommand()->update('vtiger_cron_task', ['status' => 1], ['name' => 'LBL_MAIL_SCANNER_ACTION'])->execute();
+				\App\Cron::updateStatus(\App\Cron::STATUS_ENABLED, 'LBL_MAIL_SCANNER_ACTION');
 			}
 			self::setActiveScan(\App\User::getCurrentUserModel()->getDetail('user_name'), $scanId);
 		}

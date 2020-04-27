@@ -12,37 +12,35 @@ class VTFieldExpressionEvaluater
 {
 	public static function __vt_add($arr)
 	{
-		if (count($arr) == 1) {
+		if (1 == \count($arr)) {
 			return $arr[0];
-		} else {
-			if (strlen(substr(strrchr($arr[0], '.'), 1)) > strlen(substr(strrchr($arr[1], '.'), 1))) {
-				$maxDigit = strlen(substr(strrchr($arr[0], '.'), 1));
-			} else {
-				$maxDigit = strlen(substr(strrchr($arr[1], '.'), 1));
-			}
-
-			return bcadd($arr[0], $arr[1], $maxDigit);
 		}
+		if (\strlen(substr(strrchr($arr[0], '.'), 1)) > \strlen(substr(strrchr($arr[1], '.'), 1))) {
+			$maxDigit = \strlen(substr(strrchr($arr[0], '.'), 1));
+		} else {
+			$maxDigit = \strlen(substr(strrchr($arr[1], '.'), 1));
+		}
+
+		return bcadd($arr[0], $arr[1], $maxDigit);
 	}
 
 	public static function __vt_sub($arr)
 	{
-		if (count($arr) == 1) {
+		if (1 == \count($arr)) {
 			return -$arr[0];
-		} else {
-			if (strlen(substr(strrchr($arr[0], '.'), 1)) > strlen(substr(strrchr($arr[1], '.'), 1))) {
-				$maxDigit = strlen(substr(strrchr($arr[0], '.'), 1));
-			} else {
-				$maxDigit = strlen(substr(strrchr($arr[1], '.'), 1));
-			}
-
-			return bcsub($arr[0], $arr[1], $maxDigit);
 		}
+		if (\strlen(substr(strrchr($arr[0], '.'), 1)) > \strlen(substr(strrchr($arr[1], '.'), 1))) {
+			$maxDigit = \strlen(substr(strrchr($arr[0], '.'), 1));
+		} else {
+			$maxDigit = \strlen(substr(strrchr($arr[1], '.'), 1));
+		}
+
+		return bcsub($arr[0], $arr[1], $maxDigit);
 	}
 
 	public static function __vt_mul($arr)
 	{
-		return $arr[0] * $arr[1];
+		return (float) $arr[0] * (float) $arr[1];
 	}
 
 	public static function __vt_div($arr)
@@ -81,20 +79,21 @@ class VTFieldExpressionEvaluater
 
 	public static function __vt_concat($arr)
 	{
-		return implode($arr);
+		return implode('', $arr);
 	}
 
-	/* Date difference between (input times) or (current time and input time)
+	/** Date difference between (input times) or (current time and input time)
 	 *
-	 * @param Array $a $a[0] - Input time1, $a[1] - Input time2
-	 * (if $a[1] is not available $a[0] = Current Time, $a[1] = Input time1)
+	 * @param array $a   $a[0] - Input time1, $a[1] - Input time2
+	 *                   (if $a[1] is not available $a[0] = Current Time, $a[1] = Input time1)
+	 * @param mixed $arr
+	 *
 	 * @return int difference timestamp
 	 */
-
 	public static function __vt_time_diff($arr)
 	{
 		$time_operand1 = $time_operand2 = 0;
-		if (count($arr) > 1) {
+		if (\count($arr) > 1) {
 			$time_operand1 = $time1 = $arr[0];
 			$time_operand2 = $time2 = $arr[1];
 		} else {
@@ -128,8 +127,9 @@ class VTFieldExpressionEvaluater
 	 * Calculate the time difference (input times) or (current time and input time) and
 	 * convert it into number of days.
 	 *
-	 * @param array $a $a[0] - Input time1, $a[1] - Input time2
-	 *                 (if $a[1] is not available $a[0] = Current Time, $a[1] = Input time1)
+	 * @param array $a   $a[0] - Input time1, $a[1] - Input time2
+	 *                   (if $a[1] is not available $a[0] = Current Time, $a[1] = Input time1)
+	 * @param mixed $arr
 	 *
 	 * @return int number of days
 	 */
@@ -141,13 +141,13 @@ class VTFieldExpressionEvaluater
 
 	public static function __vt_add_days($arr)
 	{
-		if (count($arr) > 1) {
+		if (\count($arr) > 1) {
 			$baseDate = $arr[0];
 			$noOfDays = $arr[1];
 		} else {
 			$noOfDays = $arr[0];
 		}
-		if ($baseDate === null || empty($baseDate)) {
+		if (null === $baseDate || empty($baseDate)) {
 			$baseDate = date('Y-m-d'); // Current date
 		}
 		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
@@ -157,13 +157,13 @@ class VTFieldExpressionEvaluater
 
 	public static function __vt_sub_days($arr)
 	{
-		if (count($arr) > 1) {
+		if (\count($arr) > 1) {
 			$baseDate = $arr[0];
 			$noOfDays = $arr[1];
 		} else {
 			$noOfDays = $arr[0];
 		}
-		if ($baseDate === null || empty($baseDate)) {
+		if (null === $baseDate || empty($baseDate)) {
 			$baseDate = date('Y-m-d'); // Current date
 		}
 		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
@@ -188,7 +188,7 @@ class VTFieldExpressionEvaluater
 
 	public static function __vt_add_time($arr)
 	{
-		if (count($arr) > 1) {
+		if (\count($arr) > 1) {
 			$baseTime = $arr[0];
 			$minutes = $arr[1];
 		} else {
@@ -202,7 +202,7 @@ class VTFieldExpressionEvaluater
 
 	public static function __vt_sub_time($arr)
 	{
-		if (count($arr) > 1) {
+		if (\count($arr) > 1) {
 			$baseTime = $arr[0];
 			$minutes = $arr[1];
 		} else {
@@ -253,25 +253,23 @@ class VTFieldExpressionEvaluater
 	{
 		if ($expr instanceof VTExpressionSymbol) {
 			return $this->env($expr);
-		} elseif ($expr instanceof VTExpressionTreeNode) {
+		}
+		if ($expr instanceof VTExpressionTreeNode) {
 			$op = $expr->getName();
-			if ($op->value == 'if') {
+			if ('if' == $op->value) {
 				$params = $expr->getParams();
 				$cond = $this->exec($params[0]);
 				if ($cond) {
 					return $this->exec($params[1]);
-				} else {
-					return $this->exec($params[2]);
 				}
-			} else {
-				$params = array_map([$this, 'exec'], $expr->getParams());
-				$func = $this->operations[$op->value];
-
-				return static::$func($params);
+				return $this->exec($params[2]);
 			}
-		} else {
-			return $expr;
+			$params = array_map([$this, 'exec'], $expr->getParams());
+			$func = $this->operations[$op->value];
+
+			return static::$func($params);
 		}
+		return $expr;
 	}
 
 	/**
@@ -285,8 +283,7 @@ class VTFieldExpressionEvaluater
 	{
 		if ($this->env) {
 			return $this->env->get($sym->value);
-		} else {
-			return $sym->value;
 		}
+		return $sym->value;
 	}
 }

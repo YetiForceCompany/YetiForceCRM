@@ -41,7 +41,7 @@ class Domain extends \HTMLPurifier_URIFilter
 		} elseif ('data' === $uri->scheme || 'mailto' === $uri->scheme || 'tel' === $uri->scheme) {
 			return true;
 		}
-		if (false !== strpos($host, '.') && !\in_array($host, $this->allowedDomains)) {
+		if (false !== strpos($host, '.') && $this->allowedDomains !== false && !\in_array($host, $this->allowedDomains)) {
 			return false;
 		}
 		return true;

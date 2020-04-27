@@ -19,12 +19,12 @@ class CustomView extends \Tests\Base
 		$moduleId = \App\Module::getModuleId('Leads');
 		$moduleModel = \Settings_CustomView_Module_Model::getInstance('Settings:CustomView');
 		$recordModels = $moduleModel->getCustomViews($moduleId);
-		$this->assertInternalType('array', $recordModels, 'Custom views list should be array type');
+		$this->assertIsArray($recordModels, 'Custom views list should be array type');
 		$this->assertNotEmpty($recordModels, 'Leads module should contain views');
 		$recordModel = \array_pop($recordModels);
 		$this->assertNotEmpty($recordModel, 'Leads custom view record should contain data');
 		if ($recordModel) {
-			$this->assertInternalType('array', $moduleModel->getFilterPermissionsView($recordModel['cvid'], 'default'), 'Custom view permissions list(default) should be array type');
+			$this->assertIsArray($moduleModel->getFilterPermissionsView($recordModel['cvid'], 'default'), 'Custom view permissions list(default) should be array type');
 			$this->assertEmpty($moduleModel->getFilterPermissionsView($recordModel['cvid'], 'default'), 'Custom view permissions list(default) should be empty');
 			$moduleModel->setDefaultUsersFilterView($moduleId, $recordModel['cvid'], \App\User::getActiveAdminId(), 'add');
 			$filterPermsView = $moduleModel->getFilterPermissionsView($recordModel['cvid'], 'default');
@@ -39,7 +39,7 @@ class CustomView extends \Tests\Base
 			$moduleModel->setDefaultUsersFilterView($moduleId, $recordModel['cvid'], \App\User::getActiveAdminId(), 'add');
 			$moduleModel->setDefaultUsersFilterView($moduleId, $recordModel['cvid'], \App\User::getActiveAdminId(), 'remove');
 			$this->assertEmpty($moduleModel->getFilterPermissionsView($recordModel['cvid'], 'default'), 'Custom view permissions list(default) should be emptied');
-			$this->assertInternalType('array', $moduleModel->getFilterPermissionsView($recordModel['cvid'], 'featured'), 'Custom view permissions list(featured) should be array type');
+			$this->assertIsArray($moduleModel->getFilterPermissionsView($recordModel['cvid'], 'featured'), 'Custom view permissions list(featured) should be array type');
 			$this->assertEmpty($moduleModel->getFilterPermissionsView($recordModel['cvid'], 'featured'), 'Custom view permissions list(featured) should be empty');
 			\CustomView_Record_Model::setFeaturedFilterView($recordModel['cvid'], \App\User::getActiveAdminId(), 'add');
 			$this->assertNotEmpty($moduleModel->getFilterPermissionsView($recordModel['cvid'], 'featured'), 'Custom view permissions list(featured) should be not empty');

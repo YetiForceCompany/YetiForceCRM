@@ -286,7 +286,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getRecordNumber(): string
 	{
-		return $this->get($this->getModule()->getSequenceNumberFieldName());
+		return $this->get($this->getModule()->getSequenceNumberFieldName()) ?? '';
 	}
 
 	/**
@@ -912,7 +912,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToDelete()
 	{
 		if (!isset($this->privileges['Deleted'])) {
-			$this->privileges['Deleted'] = \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId());
+			$this->privileges['Deleted'] = \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && false === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) && !$this->isLockByFields();
 		}
 		return $this->privileges['Deleted'];
 	}
@@ -1006,8 +1006,8 @@ class Vtiger_Record_Model extends \App\Base
 		$blockCount = 0;
 		$summaryBlocks = [];
 		foreach ($tempSummaryBlocks as $key => $block) {
-			$summaryBlocks[(int) ($blockCount / $this->summaryRowCount)][$key] = $tempSummaryBlocks[$key] ;
-					++$blockCount;
+			$summaryBlocks[(int) ($blockCount / $this->summaryRowCount)][$key] = $tempSummaryBlocks[$key];
+			++$blockCount;
 		}
 		return $summaryBlocks;
 	}

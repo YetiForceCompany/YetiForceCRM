@@ -32,13 +32,13 @@ class Base extends \SessionHandler
 		if (PHP_SESSION_ACTIVE === session_status()) {
 			return;
 		}
-		$cookie += [
+		$cookie = array_merge([
 			'lifetime' => 0,
 			'path' => ini_get('session.cookie_path'),
 			'domain' => ini_get('session.cookie_domain'),
 			'secure' => \App\RequestUtil::getBrowserInfo()->https,
 			'httponly' => true,
-		];
+		], $cookie);
 		session_name($name);
 		session_set_cookie_params(
 			$cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']

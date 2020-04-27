@@ -42,7 +42,9 @@ class SumFieldFromDependent extends VTTask
 			if (\App\Record::isExists($id, $moduleName)) {
 				$queryGenerator = new \App\QueryGenerator($recordModel->getModuleName());
 				$queryGenerator->setField($this->sourceField);
-				$queryGenerator->setConditions($this->conditions);
+				if (!empty($this->conditions)) {
+					$queryGenerator->setConditions($this->conditions);
+				}
 				$queryGenerator->permissions = false;
 				$query = $queryGenerator->createQuery();
 				$query->andWhere([$relationFieldModel->getTableName() . '.' . $relationFieldModel->getColumnName() => $id, 'vtiger_crmentity.deleted' => 0]);

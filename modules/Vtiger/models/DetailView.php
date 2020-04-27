@@ -164,6 +164,20 @@ class Vtiger_DetailView_Model extends \App\Base
 		foreach ($detailViewLinks as $detailViewLink) {
 			$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 		}
+		if ($fields = App\Field::getQuickChangerFields($moduleModel->getId())) {
+			foreach ($fields as $field) {
+				if (App\Field::checkQuickChangerConditions($field, $recordModel)) {
+					$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
+						'linktype' => 'DETAIL_VIEW_BASIC',
+						'linklabel' => $field['btn_name'],
+						'linkurl' => "javascript:Vtiger_Detail_Js.runRecordChanger({$field['id']})",
+						'linkicon' => $field['icon'] ?? 'mdi mdi-nfc-tap',
+						'linkhint' => $field['btn_name'],
+						'linkclass' => 'btn-sm ' . $field['class'],
+					]);
+				}
+			}
+		}
 		if ($recordModel->isEditable()) {
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_BASIC',
@@ -245,7 +259,7 @@ class Vtiger_DetailView_Model extends \App\Base
 		}
 		if ($moduleModel->isPermitted('DuplicateRecord')) {
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_DUPLICATE',
 				'linkurl' => $recordModel->getDuplicateRecordUrl(),
 				'linkicon' => 'fas fa-clone',
@@ -261,7 +275,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				$additionalClass = ' d-none';
 			}
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
 				'dataUrl' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId,
 				'linkicon' => 'fas fa-file-pdf',

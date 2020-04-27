@@ -450,6 +450,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 325:
 						$fieldDataType = 'magentoServer';
 						break;
+					case 326:
+						$fieldDataType = 'meetingUrl';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {

@@ -391,6 +391,7 @@ class Install_Index_View extends \App\Controller\View\Base
 			try {
 				$initSchema->initialize();
 				$initSchema->setCompanyDetails($request);
+				chmod(ROOT_DIRECTORY . '/cron/cron.sh', 0744);
 			} catch (\Throwable $e) {
 				$_SESSION['installation_success'] = false;
 				\App\Log::error($e->__toString());
