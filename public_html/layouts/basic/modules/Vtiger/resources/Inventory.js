@@ -170,7 +170,7 @@ $.Class(
 
 				parentRow.find(thisInstance.rowClass).each(function() {
 					let thisItem = $(this);
-					taxParam['globalTax'] = thisItem.find('.js-tax').attr('data-default-tax');
+					taxParam['globalTax'] = parseFloat(thisItem.find('.js-tax').attr('data-default-tax'));
 					thisInstance.setTaxParam(thisItem, taxParam);
 				});
 			} else {
