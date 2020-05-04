@@ -729,6 +729,11 @@ return [
 			'description' => 'Number of records that can be shown in report mail',
 			'validation' => '\App\Validator::naturalNumber'
 		],
+		'LOGIN_HISTORY_VIEW_LIMIT' => [
+			'default' => 10,
+			'description' => 'Number of records that can be shown in history login modal',
+			'validation' => '\App\Validator::naturalNumber'
+		],
 	],
 	'relation' => [
 		'COMMENT_MAX_LENGTH' => [

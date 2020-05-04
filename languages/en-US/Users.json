@@ -377,7 +377,12 @@
     "LBL_USER_PASSWORD_IS_OK": "Your password complies with the system requirements.",
     "FL_MAIL_SCANNER_ACTIONS": "Mail scanner actions",
     "FL_MAIL_SCANNER_FIELDS": "Mail scanner fields",
-    "LBL_ACCOUNT_SETTINGS": "Account settings"
+    "LBL_ACCOUNT_SETTINGS": "Account settings",
+    "LBL_USER_NAME": "User name",
+    "LBL_LOGIN_TIME": "Sign-in time",
+    "LBL_LOGGED_OUT_TIME": "Sign-out time",
+    "LBL_USER_IP_ADDRESS": "User IP address",
+    "LBL_STATUS": "Status"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Decimal separator and grouping separator can't be the same.",

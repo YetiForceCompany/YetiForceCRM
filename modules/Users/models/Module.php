@@ -110,10 +110,12 @@ class Users_Module_Model extends Vtiger_Module_Model
 	 */
 	public function saveLogoutHistory()
 	{
-		$userRecordModel = Users_Record_Model::getCurrentUserModel();
+		if (!empty(App\User::getCurrentUserRealId())) {
+			$userRecordModel = Users_Record_Model::getInstanceById(App\User::getCurrentUserRealId(), 'Users');
+		} else {
+			$userRecordModel = Users_Record_Model::getCurrentUserModel();
+		}
 		$userIPAddress = \App\RequestUtil::getRemoteIP();
-		$outtime = date('Y-m-d H:i:s');
-
 		$loginId = (new \App\Db\Query())
 			->select(['login_id'])
 			->from('vtiger_loginhistory')
@@ -122,11 +124,27 @@ class Users_Module_Model extends Vtiger_Module_Model
 		if (false !== $loginId) {
 			\App\Db::getInstance()->createCommand()
 				->update('vtiger_loginhistory', [
-					'logout_time' => $outtime,
+					'logout_time' => date('Y-m-d H:i:s'),
 					'status' => 'Signed off',
 				], ['login_id' => $loginId])
 				->execute();
 		}
+	}
+
+	/**
+	 * Get user login history.
+	 *
+	 * @param int|bool $limit
+	 *
+	 * @return array
+	 */
+	public static function getLoginHistory($limit = false)
+	{
+		return (new \App\Db\Query())->from('vtiger_loginhistory')
+			->where(['user_name' => \App\Session::get('user_name')])
+			->orderBy(['login_id' => SORT_DESC])
+			->limit($limit ?? App\Config::performance('LOGIN_HISTORY_VIEW_LIMIT'))
+			->all();
 	}
 
 	/**
