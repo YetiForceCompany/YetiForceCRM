@@ -66,4 +66,18 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	{
 		return $this->validator ?? parent::getValidator();
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getModuleName()
+	{
+		$moduleName = '';
+		if (!empty($this->module) && method_exists($this->module, 'getParentName')) {
+			$moduleName = $this->module->getParentName() . ':' . $this->module->getName();
+		} else {
+			$moduleName = parent::getModuleName();
+		}
+		return $moduleName;
+	}
 }
