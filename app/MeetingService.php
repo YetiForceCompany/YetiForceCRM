@@ -20,7 +20,7 @@ class MeetingService extends Base
 	/**
 	 * Table name.
 	 */
-	private const TABLE_NAME = 's_#__meeting_services';
+	public const TABLE_NAME = 's_#__meeting_services';
 
 	/**
 	 * @var int Status active
@@ -28,19 +28,26 @@ class MeetingService extends Base
 	private const STATUS_ACTIVE = 1;
 
 	/**
+	 * @var int Default service ID
+	 */
+	public const DEFAULT_SERVICE = 0;
+
+	/**
 	 * Return object instance.
+	 *
+	 * @param int $serviceId
 	 *
 	 * @return self
 	 */
-	public static function getInstance(): self
+	public static function getInstance(int $serviceId = self::DEFAULT_SERVICE): self
 	{
 		$instance = new self();
-		$instance->setData($instance->getService(true));
+		$instance->setData(self::getService($serviceId));
 		return $instance;
 	}
 
 	/**
-	 * Undocumented function.
+	 * Checks if service is active.
 	 *
 	 * @return bool
 	 */
@@ -50,34 +57,52 @@ class MeetingService extends Base
 	}
 
 	/**
-	 * Gets service data.
-	 *
-	 * @param bool $active
+	 * Gets services data.
 	 *
 	 * @return array
 	 */
-	public function getService(bool $active = true): array
+	public static function getServices(): array
 	{
-		$cacheName = 'MeetingService::getService';
-		if (!Cache::has($cacheName, $active)) {
-			$query = (new \App\Db\Query())->from(self::TABLE_NAME);
-			if ($active) {
-				$query->where(['status' => self::STATUS_ACTIVE]);
-			}
-			$result = $query->one();
-			Cache::save($cacheName, $active, $result ?: [], Cache::LONG);
+		$cacheName = 'MeetingService::getServices';
+		if (!Cache::has($cacheName, '')) {
+			$result = (new \App\Db\Query())->from(self::TABLE_NAME)->orderBy(['status' => SORT_DESC])->indexBy('id')->all();
+			Cache::save($cacheName, '', $result, Cache::LONG);
 		}
 
-		return Cache::get($cacheName, $active);
+		return Cache::get($cacheName, '');
+	}
+
+	/**
+	 * Gets service data.
+	 *
+	 * @param int $serviceId
+	 *
+	 * @return array
+	 */
+	public static function getService(int $serviceId): array
+	{
+		if (self::DEFAULT_SERVICE === $serviceId) {
+			return self::getDefaultService();
+		}
+		return self::getServices()[$serviceId] ?? [];
+	}
+
+	/**
+	 * Gets default service data.
+	 *
+	 * @return array
+	 */
+	public static function getDefaultService(): array
+	{
+		return current(self::getServices()) ?: [];
 	}
 
 	/**
 	 * Gets URL address.
 	 *
-	 * @param string    $roomName
+	 * @param array     $data
 	 * @param int|null  $userId
 	 * @param bool|null $moderator
-	 * @param array     $data
 	 *
 	 * @return string
 	 */
