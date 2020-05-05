@@ -53,7 +53,7 @@ class Vtiger_MeetingUrl_UIType extends Vtiger_Url_UIType
 	 *
 	 * @return string
 	 */
-	public function getUrl(?int $recordId = 0): string
+	public function getUrl($recordId = 0): string
 	{
 		$fieldModel = $this->getFieldModel();
 		$params = $fieldModel->getFieldParams();

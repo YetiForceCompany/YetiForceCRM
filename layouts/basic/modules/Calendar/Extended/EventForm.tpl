@@ -52,25 +52,28 @@
 							{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 							{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
 							{assign var="refrenceListCount" value=count($refrenceList)}
+							{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
 							<div class="fieldsLabelValue pl-0 pr-0 mb-2 {$WIDTHTYPE} {$WIDTHTYPE_GROUP}">
-								<div class="col-12 px-2">
-									{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
-									<label class="muted mt-0">
-										{if $HELPINFO_LABEL}
-												<a href="#" class="js-help-info float-right u-cursor-pointer"
-													title=""
-													data-placement="top"
-													data-content="{$HELPINFO_LABEL}"
-													data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}">
-													<span class="fas fa-info-circle"></span>
-												</a>
-											{/if}
-										{if $FIELD_MODEL->isMandatory() eq true}
-											<span class="redColor">*</span>
-										{/if}
-										{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
-									</label>
-								</div>
+								{if !(isset($PARAMS['hideLabel']) && in_array($VIEW, $PARAMS['hideLabel']))}
+									<div class="col-12 px-2 u-fs-sm">
+										{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
+										<label class="muted mt-0 mb-0">
+											{if $HELPINFO_LABEL}
+													<a href="#" class="js-help-info float-right u-cursor-pointer"
+														title=""
+														data-placement="top"
+														data-content="{$HELPINFO_LABEL}"
+														data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}">
+														<span class="fas fa-info-circle"></span>
+													</a>
+												{/if}
+												{if $FIELD_MODEL->isMandatory() eq true}
+													<span class="redColor">*</span>
+												{/if}
+												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
+										</label>
+									</div>
+								{/if}
 								<div class="fieldValue col-12 px-2">
 								{if $FIELD_MODEL->name === 'activitytype' && App\Config::module('Calendar','SHOW_ACTIVITYTYPES_AS_BUTTONS')}
 									{include file=\App\Layout::getTemplatePath('Edit/Field/ActivityType.tpl', $MODULE_NAME)}
