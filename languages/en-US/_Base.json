@@ -1419,7 +1419,11 @@
     "LBL_MEETING_COPY_URL": "Access to the room",
     "LBL_MEETING_COPY_GUEST_URL": "Access to the guest room",
     "LBL_MEETING_SEND_INVITATION": "Send an invitation",
-    "LBL_MEETING_JOIN": "Join"
+    "LBL_MEETING_JOIN": "Join",
+    "LBL_MEETING_GUEST_DESCRIPTION": "Invite other participants to your virtual room and chat with them live.",
+    "LBL_MEETING_URL_DESCRIPTION": "Join a room without providing any information about yourself.",
+    "LBL_MEETING_SEND_INVITATION_DESCRIPTION": "Send an invitation to your participants.",
+    "LBL_COPY": "Copy"
   },
   "js": {
     "JS_APPROVE": "Approve",
