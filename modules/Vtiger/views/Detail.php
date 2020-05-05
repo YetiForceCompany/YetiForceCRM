@@ -312,6 +312,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function showModuleBasicView(App\Request $request)
 	{
+		$hierarchyValue = $this->getHierarchyValue($request);
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$recordModel = $this->record->getRecord();
@@ -337,6 +338,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
+		$viewer->assign('HIERARCHY_VALUE', $hierarchyValue);
+		$viewer->assign('HIERARCHY', \App\ModuleHierarchy::getModuleLevel($moduleName));
 		if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
 			return $viewer->view('DetailViewSummaryView.tpl', $moduleName, true);
 		}
@@ -438,7 +441,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		}
-		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $moduleName, $this->getHierarchy($request, ['current']), $pagingModel);
+		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $moduleName, $this->getHierarchy($request), $pagingModel);
 		$pagingModel->calculatePageRange(\count($parentCommentModels));
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
