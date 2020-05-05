@@ -34,8 +34,30 @@ class Vtiger_MeetingUrl_UIType extends Vtiger_Url_UIType
 			$meetingModalUrl = "index.php?module={$moduleName}&view=MeetingModal&record={$record}&field={$this->getFieldModel()->getName()}";
 			$class = 'js-show-modal';
 		}
-		$rawValue = \App\TextParser::textTruncate($rawValue, \is_int($length) ? $length : false);
+		$rawValue = \App\TextParser::textTruncate($rawValue, \is_int($length) ? $length : 0);
 		return '<a class="noLinkBtn btnNoFastEdit ' . $class . ' u-cursor-pointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer noopener" data-url="' . $meetingModalUrl . '">' . \App\Purifier::encodeHtml($rawValue) . '</a>';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, false, \App\Config::main('listview_max_textlength'));
+	}
+
+	/**
+	 * Gets URL.
+	 *
+	 * @param int|null $recordId
+	 *
+	 * @return string
+	 */
+	public function getUrl(?int $recordId = 0): string
+	{
+		$fieldModel = $this->getFieldModel();
+		$params = $fieldModel->getFieldParams();
+		return "index.php?module={$fieldModel->getModuleName()}&action=Meeting&fieldName={$fieldModel->getName()}&record=" . ($recordId ?: '') . '&expField=' . ($params['exp'] ?? '');
 	}
 
 	/**

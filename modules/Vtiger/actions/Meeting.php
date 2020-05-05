@@ -48,9 +48,16 @@ class Vtiger_Meeting_Action extends \App\Controller\Action
 	{
 		$meeting = \App\MeetingService::getInstance();
 		$url = '';
+		$date = date('Y-m-d');
 		try {
+			$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
 			$room = $meeting->generateRoomName((string) \App\User::getCurrentUserRealId() . '_' . $this->record->getId());
-			$url = $meeting->getUrl(['room' => $room, 'exp' => strtotime(date('Y-m-d') . ' 23:59:59')]);
+			if ($request->has('exp') && ($expFieldName = $request->getByType('expField', \App\Purifier::ALNUM)) &&
+				($expField = $moduleModel->getFieldByName($expFieldName)) && $expField->isActiveField()
+			) {
+				$date = $request->getByType('exp', 'DateInUserFormat', true);
+			}
+			$url = $meeting->getUrl(['room' => $room, 'exp' => strtotime($date . ' 23:59:59')]);
 		} catch (\Throwable $e) {
 			\App\Log::error($e->__toString());
 		}

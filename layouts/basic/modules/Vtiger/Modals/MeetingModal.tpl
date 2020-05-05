@@ -12,20 +12,20 @@
 						<div class="card-body text-center p-0">
 							<div class="mb-3 mt-2 row">
 								<div class="col-xs-6 mx-auto">
-									<a class="m-1 u-fs-4x yfi-enter-moderator text-danger" href="{$MEETING_URL}" rel="noreferrer noopener" target="_blank"
-										title="{\App\Language::translate('LBL_MEETING_JOIN', $MODULE_NAME)}">
-									</a>
-									<div class="text-danger">
-										{\App\Language::translate('LBL_MEETING_JOIN', $MODULE_NAME)}
-									</div>
-								</div>
-								<div class="col-xs-6 mx-auto">
 									<span class="m-1 u-fs-4x yfi-moderator-link text-danger js-clipboard u-cursor-pointer" data-js="click"
 										data-copy-attribute="clipboard-text" data-clipboard-text="{$MEETING_URL}"
 										title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD', $MODULE_NAME)}">
 									</span>
 									<div class="text-center text-danger">
 										{\App\Language::translate('LBL_COPY', $MODULE_NAME)}
+									</div>
+								</div>
+								<div class="col-xs-6 mx-auto">
+									<a class="m-1 u-fs-4x yfi-enter-moderator text-danger" href="{$MEETING_URL}" rel="noreferrer noopener" target="_blank"
+										title="{\App\Language::translate('LBL_MEETING_JOIN', $MODULE_NAME)}">
+									</a>
+									<div class="text-danger">
+										{\App\Language::translate('LBL_MEETING_JOIN', $MODULE_NAME)}
 									</div>
 								</div>
 							</div>
@@ -43,6 +43,15 @@
 					</h6>
 					<div class="card-body text-center p-0">
 						<div class="row mb-3 mt-2">
+							<div class="col-xs-6 mx-auto">
+								<span class="m-1 u-fs-4x yfi-guest-link text-success js-clipboard u-cursor-pointer" data-js="click"
+									data-copy-attribute="clipboard-text" data-clipboard-text="{$MEETING_GUEST_URL}"
+									title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD', $MODULE_NAME)}">
+								</span>
+								<div class="text-center text-success">
+									{\App\Language::translate('LBL_COPY', $MODULE_NAME)}
+								</div>
+							</div>
 							{if $SIMPLE_URL && !$MEETING_URL}
 								<div class="col-xs-6 mx-auto">
 									<a class="m-1 u-fs-4x yfi-enter-guest text-success" href="{$MEETING_GUEST_URL}" rel="noreferrer noopener" target="_blank"
@@ -53,15 +62,6 @@
 									</div>
 								</div>
 							{/if}
-							<div class="col-xs-6 mx-auto">
-								<span class="m-1 u-fs-4x yfi-guest-link text-success js-clipboard u-cursor-pointer" data-js="click"
-									data-copy-attribute="clipboard-text" data-clipboard-text="{$MEETING_GUEST_URL}"
-									title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD', $MODULE_NAME)}">
-								</span>
-								<div class="text-center text-success">
-									{\App\Language::translate('LBL_COPY', $MODULE_NAME)}
-								</div>
-							</div>
 						</div>
 						<div class="u-fs-10px">
 							{\App\Language::translate('LBL_MEETING_GUEST_DESCRIPTION', $MODULE_NAME)}

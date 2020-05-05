@@ -2373,6 +2373,13 @@ window.App.Fields = {
 				.off('click')
 				.on('click', (e) => {
 					let progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
+					let url = e.currentTarget.dataset.url;
+					let formData = $(e.currentTarget).closest('form').serializeFormData();
+					let expField = e.currentTarget.dataset.exp;
+					if (expField && formData && formData[expField]) {
+						let date = formData[expField].split(' ');
+						url += '&exp=' + date[0];
+					}
 					AppConnector.request(e.currentTarget.dataset.url)
 						.done((data) => {
 							let result = data.result;

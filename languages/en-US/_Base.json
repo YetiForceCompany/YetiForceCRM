@@ -1423,7 +1423,9 @@
     "LBL_MEETING_GUEST_DESCRIPTION": "Invite other participants to your virtual room and chat with them live.",
     "LBL_MEETING_URL_DESCRIPTION": "Join a room without providing any information about yourself.",
     "LBL_MEETING_SEND_INVITATION_DESCRIPTION": "Send an invitation to your participants.",
-    "LBL_COPY": "Copy"
+    "LBL_COPY": "Copy",
+    "LBL_MEETING_AUTOGENERATE": "Auto-generate meeting URL.",
+    "LBL_MEETING_AUTOGENERATE_INFO": "URL may change when \"%s\" field is modified."
   },
   "js": {
     "JS_APPROVE": "Approve",
