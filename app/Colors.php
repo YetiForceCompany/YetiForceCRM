@@ -342,7 +342,10 @@ class Colors
 	public static function getContrast($hexColor)
 	{
 		$hexColor = ltrim(ltrim($hexColor), '#');
-		$contrastRatio = 1.9; // higher number = more black color
-		return (ctype_xdigit($hexColor) && (hexdec($hexColor) > 0xffffff / $contrastRatio)) ? 'black' : 'white';
+		$r = hexdec(substr($hexColor, 0, 2));
+		$g = hexdec(substr($hexColor, 2, 2));
+		$b = hexdec(substr($hexColor, 4, 2));
+		$yiq = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
+		return ($yiq >= 128) ? 'black' : 'white';
 	}
 }
