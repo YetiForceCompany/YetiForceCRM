@@ -277,10 +277,10 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 	},
 	/**
 	 * This function will register the submit event on form
+	 * @param {jQuery} form
 	 */
-	registerFormSubmitEvent: function () {
+	registerFormSubmitEvent: function (form) {
 		var thisInstance = this;
-		var form = this.getForm();
 		var lockSave = true;
 		if (app.getRecordId()) {
 			form.on(Vtiger_Edit_Js.recordPreSave, function (e) {
@@ -402,6 +402,9 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		this.registerEndDateTimeChangeLogger(container);
 		this.registerAutoFillHours(container);
 		this.registerMarkAsCompletedBtn(container);
+		this.registerInviteEvent(container);
+		this.registerAddInvitation(container);
+		this.registerFormSubmitEvent(container);
 	},
 	toggleTimesInputs: function (container) {
 		container.find(':checkbox').on('change', function () {
@@ -453,14 +456,14 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		});
 		return recordExist;
 	},
-	registerAddInvitation(){
-		this.getForm().find('.js-btn-add-invitation').on('click', (e)=>{
+	registerAddInvitation(container){
+		container.find('.js-btn-add-invitation').on('click', (e)=>{
 			let progressIndicatorElement = $.progressIndicator();
 			app.showModalWindow(null, 'index.php?module=Calendar&view=InviteEmail', (data) => {
 				data.find('.js-modal__save').on('click', (e)=>{
 					let email = data.find('.js-invite-email-input').val();
 					let nameAttendee = data.find('.js-invite-name-input').val();
-					let participantsContent = this.getForm().find('.js-participants-content');
+					let participantsContent = container.find('.js-participants-content');
 					let formEmail = data.find('.js-form');
 					formEmail.validationEngine(app.validationEngineOptions);
 					if( formEmail.validationEngine('validate') ){
@@ -628,10 +631,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		}
 		this.registerReminderFieldCheckBox();
 		this.registerRecurrenceFieldCheckBox();
-		this.registerFormSubmitEvent();
 		this.registerRecurringTypeChangeEvent();
-		this.registerInviteEvent(this.getForm());
-		this.registerAddInvitation();
 		this._super();
 	}
 });
