@@ -40,16 +40,6 @@ class Settings_MeetingServices_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the Detail Url.
-	 *
-	 * @return string URL
-	 */
-	public function getDetailViewUrl()
-	{
-		return '?parent=Settings&module=MeetingServices&view=Edit&record=' . $this->getId();
-	}
-
-	/**
 	 * Function to get the Edit View Url.
 	 *
 	 * @return string URL
@@ -57,16 +47,6 @@ class Settings_MeetingServices_Record_Model extends Settings_Vtiger_Record_Model
 	public function getEditViewUrl()
 	{
 		return 'index.php?parent=Settings&module=MeetingServices&view=Edit&record=' . $this->getId();
-	}
-
-	/**
-	 * Function to get the Save Ajax.
-	 *
-	 * @return string URL
-	 */
-	public function getSaveAjaxActionUrl()
-	{
-		return '?parent=Settings&module=MeetingServices&action=SaveAjax&mode=save';
 	}
 
 	/**

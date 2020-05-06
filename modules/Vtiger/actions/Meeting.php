@@ -51,7 +51,7 @@ class Vtiger_Meeting_Action extends \App\Controller\Action
 		$date = date('Y-m-d');
 		try {
 			$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
-			$room = $meeting->generateRoomName((string) \App\User::getCurrentUserRealId() . '_' . $this->record->getId());
+			$room = $meeting->generateRoomName((string) $request->getByType('roomName', \App\Purifier::TEXT, ''));
 			if ($request->has('exp') && ($expFieldName = $request->getByType('expField', \App\Purifier::ALNUM)) &&
 				($expField = $moduleModel->getFieldByName($expFieldName)) && $expField->isActiveField()
 			) {

@@ -72,13 +72,13 @@
 					</div>
 				</div>
 			{/if}
-			{if $RECORD->get('meeting_utl') neq '' }
+			{if $RECORD->get('meeting_url') neq '' }
 				<div class="form-group row">
 					<label class="col-4 mt-2 u-font-weight-500">
-						{\App\Language::translate($RECORD->getField('meeting_utl')->getFieldLabel(),$MODULE_NAME)}:
+						{\App\Language::translate($RECORD->getField('meeting_url')->getFieldLabel(),$MODULE_NAME)}:
 					</label>
 					<div class="col-8 mt-2 u-text-ellipsis">
-						{$RECORD->getDisplayValue('meeting_utl',false,false,true)}
+						{$RECORD->getDisplayValue('meeting_url',false,false,true)}
 					</div>
 				</div>
 			{/if}

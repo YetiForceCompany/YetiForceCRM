@@ -40,6 +40,6 @@ class Calendar_RecordPopover_Model extends Vtiger_RecordPopover_Model
 			'taskpriority' => 'fas fa-exclamation-circle', 'activitystatus' => 'fas fa-question-circle',
 			'linkextend' => '', 'link' => '', 'process' => '', 'subprocess' => '', 'state' => 'far fa-star',
 			'visibility' => 'fas fa-eye', 'assigned_user_id' => 'fas fa-user',
-			'meeting_utl' => 'AdditionalIcon-VideoConference'];
+			'meeting_url' => 'AdditionalIcon-VideoConference'];
 	}
 }
