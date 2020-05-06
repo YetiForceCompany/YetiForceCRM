@@ -422,7 +422,7 @@ class Mailer
 	 */
 	public function send()
 	{
-		$toAddresses = \print_r($this->mailer->From . ' >> ' . $this->mailer->getToAddresses(), true);
+		$toAddresses = $this->mailer->From . ' >> ' . \print_r($this->mailer->getToAddresses(), true);
 		\App\Log::beginProfile($toAddresses, 'Mailer');
 		if ($this->mailer->send()) {
 			\App\Log::endProfile($toAddresses, 'Mailer');
