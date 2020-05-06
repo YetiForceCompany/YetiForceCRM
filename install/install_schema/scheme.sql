@@ -3394,7 +3394,7 @@ CREATE TABLE `u_yf_occurrences` (
   `occurrences_rating` varchar(255) DEFAULT '',
   `locationid` int(11) unsigned DEFAULT 0,
   `participants` int(8) DEFAULT 0,
-  `meeting_utl` varchar(2048) DEFAULT NULL,
+  `meeting_url` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`occurrencesid`),
   KEY `u_yf_occurrences_locationid_idx` (`locationid`),
   CONSTRAINT `fk_1_u_yf_occurrencesoccurrencesid` FOREIGN KEY (`occurrencesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -4537,7 +4537,7 @@ CREATE TABLE `vtiger_activity` (
   `recurrence` text DEFAULT NULL,
   `linkextend` int(10) DEFAULT NULL,
   `subprocess_sl` int(10) unsigned DEFAULT NULL,
-  `meeting_utl` varchar(2048) DEFAULT NULL,
+  `meeting_url` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`activityid`),
   KEY `activity_activityid_subject_idx` (`activityid`,`subject`),
   KEY `activity_activitytype_date_start_idx` (`activitytype`,`date_start`),

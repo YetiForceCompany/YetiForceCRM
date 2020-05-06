@@ -132,7 +132,19 @@ class MeetingService extends Base
 	 */
 	public function generateRoomName(string $prefix = ''): string
 	{
-		return hash('sha1', $prefix . microtime(true));
+		$prefix = preg_replace_callback_array([
+			'/[^a-z0-9 ]/' => function () {
+				return '';
+			},
+			'/\b[a-z]/' => function ($matches) {
+				return mb_strtoupper($matches[0]);
+			},
+			'/[\s]/' => function () {
+				return '';
+			}
+		], strtolower(\App\Utils::sanitizeSpecialChars($prefix, ' ')));
+		[$msec, $sec] = explode(' ', microtime());
+		return $prefix . 'ID' . str_replace('.', '', $sec . $msec) . random_int(0, 1000);
 	}
 
 	/**

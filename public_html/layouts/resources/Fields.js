@@ -2369,37 +2369,73 @@ window.App.Fields = {
 		 * Initiation
 		 */
 		init() {
-			$('.js-meeting-add', this.container)
-				.off('click')
-				.on('click', (e) => {
-					let progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
-					let url = e.currentTarget.dataset.url;
-					let formData = $(e.currentTarget).closest('form').serializeFormData();
-					let expField = e.currentTarget.dataset.exp;
-					if (expField && formData && formData[expField]) {
-						let date = formData[expField].split(' ');
-						url += '&exp=' + date[0];
-					}
-					AppConnector.request(e.currentTarget.dataset.url)
-						.done((data) => {
-							let result = data.result;
-							if (result && result.success && result.url) {
-								this.container.find('.js-meeting-val').attr('readonly', true).val(result.url);
-							} else {
-								Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
-							}
-							progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						})
-						.fail((_) => {
+			let addButton = $('.js-meeting-add', this.container);
+			if (!addButton.length) {
+				return false;
+			}
+
+			let valElement = $('.js-meeting-val', this.container);
+			addButton.off('click').on('click', (e) => {
+				let progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
+				AppConnector.request(this.getUrl(e))
+					.done((data) => {
+						let result = data.result;
+						if (result && result.success && result.url) {
+							valElement.attr('readonly', true).val(result.url);
+						} else {
 							Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
-							progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						});
-				});
+						}
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					})
+					.fail((_) => {
+						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					});
+			});
 			$('.js-meeting-clear', this.container)
 				.off('click')
 				.on('click', () => {
-					this.container.find('.js-meeting-val').attr('readonly', false).val('');
+					valElement.attr('readonly', false).val('');
 				});
+			this.addEventsForDependentFields();
+		}
+		/**
+		 * Gets URL
+		 */
+		getUrl(e) {
+			let url = e.currentTarget.dataset.url;
+			let formData = $(e.currentTarget).closest('form').serializeFormData();
+			let expField = e.currentTarget.dataset.expField;
+			if (expField && formData && formData[expField]) {
+				let date = formData[expField].split(' ');
+				url += '&exp=' + encodeURIComponent(date[0]);
+			}
+			let roomName = e.currentTarget.dataset.roomName;
+			if (roomName && formData && formData[roomName]) {
+				url += '&roomName=' + encodeURIComponent(formData[roomName]);
+			}
+			return url;
+		}
+		/**
+		 * Add events for dependent fields
+		 */
+		addEventsForDependentFields() {
+			let addButton = $('.js-meeting-add', this.container);
+			let valElement = $('.js-meeting-val', this.container);
+			let data = addButton.data();
+			let formElement = this.container.closest('form');
+			for (let name of ['expField', 'roomName']) {
+				let fieldName = data[name];
+				if (!fieldName) {
+					continue;
+				}
+				formElement.on('change', `[name=${fieldName}]`, (_) => {
+					if (data['domain'] && valElement.val().indexOf(data['domain']) === 0) {
+						addButton.trigger('click');
+						Vtiger_Helper_Js.showPnotify({ type: 'info', text: app.vtranslate('JS_MEETING_URL_CHANGED') });
+					}
+				});
+			}
 		}
 	},
 	Utils: {
