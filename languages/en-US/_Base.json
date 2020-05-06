@@ -393,6 +393,7 @@
     "LBL_PAGE": "Page",
     "LBL_PARENT_OWNER": "Parent record owner",
     "LBL_PERMISSION_DENIED": "Permission denied",
+    "LBL_PERMISSION_DENIED_CERTAIN_FIELDS": "You're trying to edit fields/values that you don't have permissions for",
     "LBL_PLEASE_SELECT_MODULE": "Please select any module to search",
     "LBL_POST": "Post",
     "LBL_PICKLIST": "Picklist",
