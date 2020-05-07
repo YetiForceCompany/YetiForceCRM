@@ -72,6 +72,9 @@
 											<a class="m-1 yfi-send-invitation text-info u-fs-4x" href="{$URLDATA}"
 												title="{\App\Language::translate('LBL_MEETING_SEND_INVITATION', $MODULE_NAME)}">
 											</a>
+											<div class="text-center text-info">
+												{\App\Language::translate('LBL_SEND_MAIL', $MODULE_NAME)}
+											</div>
 										{/if}
 									{/if}
 								</div>
