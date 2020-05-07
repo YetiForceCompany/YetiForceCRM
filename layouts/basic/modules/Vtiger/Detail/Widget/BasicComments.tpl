@@ -28,7 +28,33 @@
 							<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
 						</div>
 					</button>
-					<div class="u-hidden-block items-center js-comment-actions">
+					<div class="u-hidden-block items-center js-comment-actions d-lg-flex">
+						{if $HIERARCHY !== false && $HIERARCHY < 2}
+							<div data-toggle="buttons" class="mr-1">
+								<div class="btn-group btn-group-toggle" data-toggle="buttons">
+									<label class="js-hierarchy-comments-btn u-text-ellipsis btn-sm mt-1 mt-sm-0 btn btn-outline-primary {if in_array('current', $HIERARCHY_VALUE)}active{/if}"
+										title="{\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}" data-js="click">
+										<input name="options" type="checkbox"
+											class="js-hierarchy-comments"
+											data-js="val"
+											value="current"
+												{if in_array('current', $HIERARCHY_VALUE)} checked="checked"{/if}
+											autocomplete="off"/>
+										{\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
+									</label>
+									<label class="js-hierarchy-comments-btn u-text-ellipsis btn-sm mt-1 mt-sm-0 btn btn-outline-primary {if in_array('related', $HIERARCHY_VALUE)}active{/if}"
+										title="{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}" data-js="click">
+										<input name="options" type="checkbox"
+											class="js-hierarchy-comments"
+											data-js="val"
+											value="related"
+												{if in_array('related', $HIERARCHY_VALUE)} checked="checked"{/if}
+											autocomplete="off"/>
+										{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}
+									</label>
+								</div>
+							</div>
+						{/if}
 						<div class="input-group input-group-sm">
 							<input type="text" class="js-comment-search form-control"
 								placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"
