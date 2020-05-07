@@ -308,11 +308,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	/**
 	 * Function shows basic detail for the record.
 	 *
-	 * @param <type> $request
+	 * @param \App\Request $request
 	 */
 	public function showModuleBasicView(App\Request $request)
 	{
-		$hierarchyValue = $this->getHierarchyValue($request);
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$recordModel = $this->record->getRecord();
@@ -338,7 +337,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
-		$viewer->assign('HIERARCHY_VALUE', $hierarchyValue);
+		$viewer->assign('HIERARCHY_VALUE', $this->getHierarchyValue($request));
 		$viewer->assign('HIERARCHY', \App\ModuleHierarchy::getModuleLevel($moduleName));
 		if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
 			return $viewer->view('DetailViewSummaryView.tpl', $moduleName, true);
