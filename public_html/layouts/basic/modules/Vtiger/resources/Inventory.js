@@ -193,7 +193,7 @@ $.Class(
 				.data('tax-default-value');
 			let isGroupTax = thisInstance.isGroupTaxMode();
 			if (isGroupTax) {
-				if (taxDefaultValue) {
+				if (!app.getRecordId() && taxDefaultValue) {
 					let taxParam = { aggregationType: 'global' };
 					taxParam['globalTax'] = taxDefaultValue;
 					taxParam['individualTax'] = '';
@@ -206,7 +206,7 @@ $.Class(
 				}
 			} else {
 				thisInstance.setTaxParam($('#blackIthemTable'), []);
-				parentRow.closest('.inventoryItems').data('taxParam', []);
+				parentRow.closest('.inventoryItems').data('taxParam', '[]');
 			}
 		},
 		getDiscountModeSelectElement: function(row) {
