@@ -1969,6 +1969,9 @@ var app = (window.app = {
 			if (element.data('editFields')) {
 				data.editFields = element.data('editFields');
 			}
+			if (element.data('picklistValues')) {
+				data.picklistValues = element.data('picklistValues');
+			}
 			App.Components.QuickEdit.showModal(data, element);
 		});
 	},

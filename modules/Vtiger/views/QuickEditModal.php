@@ -144,12 +144,16 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 		$values = [];
 		$moduleModel = $recordModel->getModule();
 		$mandatoryFields = $request->getArray('mandatoryFields', 'Alnum') ?? [];
+		$picklistValues = $request->getArray('picklistValues', 'Text') ?? [];
 		if (!$request->isEmpty('editFields', true)) {
 			$fieldModelList = [];
 			if ('none' !== $request->getRaw('editFields')) {
 				foreach ($request->getArray('editFields', 'Alnum') as $fieldName) {
 					$fieldModel = $moduleModel->getFieldByName($fieldName);
 					if ($fieldModel && $fieldModel->isEditable()) {
+						if ('picklist' === $fieldModel->getFieldDataType() && isset($picklistValues[$fieldName])) {
+							$fieldModel->picklistValues = $picklistValues[$fieldName];
+						}
 						$fieldModelList[$fieldName] = $fieldModel;
 					}
 				}
