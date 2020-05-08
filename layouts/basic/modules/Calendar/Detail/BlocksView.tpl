@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Calendar-Detail-BlockView -->
-	{include file=\App\Layout::getTemplatePath('Detail/BlockView.tpl', 'Vtiger') RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
+	<!-- tpl-Calendar-Detail-BlocksView -->
+	{include file=\App\Layout::getTemplatePath('Detail/BlocksView.tpl', 'Vtiger') RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
 	{assign var="IS_HIDDEN" value=false}
 	<div class="detailViewTable">
 		<div class="js-toggle-panel c-panel" data-js="click" data-label="LBL_INVITE_RECORDS">
@@ -26,5 +26,5 @@
 			</div>
 		</div>
 	</div>
-	<!-- /tpl-Calendar-Detail-BlockView -->
+	<!-- /tpl-Calendar-Detail-BlocksView -->
 {/strip}
