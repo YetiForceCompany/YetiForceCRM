@@ -62,6 +62,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showInventoryDetails');
 		$this->exposeMethod('showChat');
 		$this->exposeMethod('processWizard');
+		$this->exposeMethod('showModTrackerByField');
 	}
 
 	/**
@@ -1126,5 +1127,58 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('VIEW', $request->getByType('view', 1));
 		return $viewer->view('Detail/ProcessWizard.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Show history by field.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function showModTrackerByField(App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		if (!\App\Privilege::isPermitted($moduleName, 'ModTracker')) {
+			return false;
+		}
+		$recordModel = $this->record->getRecord();
+		$fieldName = $request->getByType('field', 'Alnum');
+		$value = $recordModel->get($fieldName);
+		$fieldModel = $recordModel->getModule()->getFieldByName($fieldName);
+		$history = [];
+		foreach (ModTracker_Record_Model::getFieldHistory($request->getInteger('record'), $fieldName) as $row) {
+			if ($pre = $history[$row['prevalue']] ?? []) {
+				$history[$row['prevalue']] = array_merge($pre, [
+					'date' => $row['changedon'],
+					'time' => $pre['time'] + \App\Fields\DateTime::getDiff($pre['date'], $row['changedon'], 'minutes'),
+				]);
+				$history[$row['postvalue']] = [
+					'date' => $row['changedon'],
+					'time' => $history[$row['postvalue']]['time'] ?? 0,
+					'value' => $history[$row['postvalue']]['value'] ?? $fieldModel->getDisplayValue($row['postvalue'], $recordModel->getId(), $recordModel),
+				];
+			} else {
+				$history[$row['postvalue']] = [
+					'date' => $row['changedon'],
+					'time' => 0,
+					'value' => $fieldModel->getDisplayValue($row['postvalue'], $recordModel->getId(), $recordModel),
+				];
+			}
+		}
+		foreach ($history as $key => $row) {
+			if (empty($row['time'])) {
+				if ($value === $key) {
+					$history[$key]['time'] = \App\Fields\DateTime::getDiff($row['date'], date('Y-m-d H:i:s'), 'minutes');
+				} else {
+					unset($history[$key]);
+				}
+			}
+		}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('VIEW', 'Detail');
+		$viewer->assign('FIELD_HISTORY', $history);
+		$viewer->assign('FIELD_LABEL', $recordModel->getField($fieldName)->getFieldLabel());
+		return $viewer->view('Detail/Widget/UpdatesListContent.tpl', $moduleName, true);
 	}
 }

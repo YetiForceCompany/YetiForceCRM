@@ -1426,7 +1426,8 @@
     "LBL_MEETING_SEND_INVITATION_DESCRIPTION": "Send an invitation to your participants.",
     "LBL_COPY": "Copy",
     "LBL_MEETING_AUTOGENERATE": "Auto-generate meeting URL.",
-    "LBL_MEETING_AUTOGENERATE_INFO": "URL may change when \"%s\" field is modified."
+    "LBL_MEETING_AUTOGENERATE_INFO": "URL may change when \"%s\" field is modified.",
+    "LBL_DURATION_SUMMARY": "Duration summary"
   },
   "js": {
     "JS_APPROVE": "Approve",

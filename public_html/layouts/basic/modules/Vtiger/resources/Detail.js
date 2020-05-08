@@ -1658,17 +1658,25 @@ jQuery.Class(
 					var selectedFilter = element.find('option:selected').val();
 					var fieldlable = element.data('fieldlable');
 					var filter = element.data('filter');
-					if (selectedFilter != fieldlable) {
-						value = [[filter, 'e', selectedFilter]];
+					if (element.data('return') === 'value') {
+						value = selectedFilter;
 					} else {
-						return;
+						if (selectedFilter != fieldlable) {
+							value = [[filter, 'e', selectedFilter]];
+						} else {
+							return;
+						}
 					}
 				}
 				if (name && value) {
-					if (name in urlNewParams) {
-						urlNewParams[name].push(value);
+					if (element.data('return') === 'value') {
+						urlNewParams[name] = value;
 					} else {
-						urlNewParams[name] = [value];
+						if (name in urlNewParams) {
+							urlNewParams[name].push(value);
+						} else {
+							urlNewParams[name] = [value];
+						}
 					}
 				}
 			});

@@ -187,7 +187,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getFields($tabid, $uitype = false)
 	{
-		$fieldlabel = $fieldsList = [];
+		$fieldlabel = $fieldsList = $fieldsNames = [];
 		$query = (new \App\Db\Query())->select(['fieldid', 'columnname', 'tablename', 'fieldname', 'fieldlabel'])
 			->from('vtiger_field')
 			->where(['and', ['tabid' => $tabid], ['<>', 'displaytype', 2], ['presence' => [0, 2]]]);
@@ -197,12 +197,12 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$dataReader = $query->createCommand()->query();
 		$moduleName = App\Module::getModuleName($tabid);
 		while ($row = $dataReader->read()) {
+			$fieldsNames[$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $moduleName);
 			$fieldlabel[$row['fieldid']] = \App\Language::translate($row['fieldlabel'], $moduleName);
 			$fieldsList[$tabid][$row['tablename'] . '::' . $row['columnname'] . '::' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $moduleName);
 		}
 		$dataReader->close();
-
-		return ['labels' => $fieldlabel, 'table' => $fieldsList];
+		return ['labels' => $fieldlabel, 'table' => $fieldsList, 'fields' => $fieldsNames];
 	}
 
 	/**
