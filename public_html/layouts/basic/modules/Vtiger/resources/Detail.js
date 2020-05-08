@@ -1029,7 +1029,8 @@ jQuery.Class(
 					AppConnector.request({
 						type: 'GET',
 						dataType: 'html',
-						data: block.data('url'),
+						data: {},
+						url: block.data('url'),
 					}).done(function (response) {
 						blockContent.html(response);
 						var relatedController = Vtiger_RelatedList_Js.getInstance(
