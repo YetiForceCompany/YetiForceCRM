@@ -312,15 +312,25 @@ class Vtiger_DetailView_Model extends \App\Base
 		$parentModuleModel = $this->getModule();
 		$this->getWidgets();
 		$relatedLinks = [];
+		if (file_exists(ROOT_DIRECTORY . "/modules/{$parentModuleModel->getName()}/models/ProcessWizard.php")) {
+			$relatedLinks[] = [
+				'linktype' => 'DETAILVIEWTAB',
+				'linklabel' => 'LBL_RECORD_PROCESS_WIZARD',
+				'linkKey' => 'LBL_RECORD_PROCESS_WIZARD',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=processWizard',
+				'linkicon' => '',
+				'related' => 'Summary',
+			];
+		}
 		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
-			$relatedLinks = [[
+			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_RECORD_SUMMARY',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=summary',
 				'linkicon' => '',
 				'related' => 'Summary',
-			]];
+			];
 		}
 		//link which shows the summary information(generally detail of record)
 		$relatedLinks[] = [
@@ -331,8 +341,7 @@ class Vtiger_DetailView_Model extends \App\Base
 			'linkicon' => '',
 			'related' => 'Details',
 		];
-		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-		if ($parentModuleModel->isCommentEnabled() && $modCommentsModel->isPermitted('DetailView')) {
+		if ($parentModuleModel->isCommentEnabled() && ($modCommentsModel = Vtiger_Module_Model::getInstance('ModComments')) && $modCommentsModel->isPermitted('DetailView')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'ModComments',

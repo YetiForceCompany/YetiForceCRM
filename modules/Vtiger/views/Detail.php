@@ -61,6 +61,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showSocialMedia');
 		$this->exposeMethod('showInventoryDetails');
 		$this->exposeMethod('showChat');
+		$this->exposeMethod('processWizard');
 	}
 
 	/**
@@ -272,7 +273,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
 		if ($request->getBoolean('toWidget')) {
@@ -293,7 +293,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('VIEW', $request->getByType('view', 1));
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
@@ -325,7 +324,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
-		$viewer->assign('MODULE_NAME', $moduleName);
+
 		$viewer->assign('VIEW', $request->getByType('view', 1));
 		if (!$this->recordStructure) {
 			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
@@ -396,7 +395,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('NEW_CHANGE', $newChange ?? null);
 		$viewer->assign('PARENT_RACORD_ID', $parentRecordId);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('MODULE_MODEL', Vtiger_Module_Model::getInstance($moduleName));
 		$viewer->assign('MODULE_BASE_NAME', 'ModTracker');
 		$viewer->assign('PAGING_MODEL', $pagingModel);
@@ -448,7 +446,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PARENT_RECORD', $parentId);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
@@ -607,7 +604,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		return $viewer->view('ShowAllComments.tpl', $moduleName, true);
 	}
@@ -778,7 +774,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('ACTIVITIES', $relatedActivities);
@@ -963,7 +958,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'VIEW' => $request->getByType('view', 2)
 		]));
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('LIMIT', 0);
 		if (!$this->recordStructure) {
 			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
@@ -1003,7 +997,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$histories = Vtiger_HistoryRelation_Widget::getHistory($request, $pagingModel);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('VIEW_MODEL', $this->record);
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD_ID', $request->getInteger('record'));
 		$viewer->assign('HISTORIES', $histories);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
@@ -1058,7 +1051,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('SOCIAL_MODEL', Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		return $viewer->view('Detail\SocialMedia.tpl', $moduleName, true);
@@ -1105,8 +1097,34 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		$viewer = \Vtiger_Viewer::getInstance();
 		$viewer->assign('RECORD', $recordModel);
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('VIEW', 'Detail');
 		return $viewer->view('Detail/InventoryView.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Show process wizard for record.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return string
+	 */
+	public function processWizard(App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$recordModel = $this->record->getRecord();
+		$processWizardModel = Vtiger_ProcessWizard_Model::getInstance($recordModel);
+		if ($request->has('step')) {
+			$processWizardModel->setStep($request->getInteger('step'));
+		}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('PROCESS_WIZARD', $processWizardModel);
+		$viewer->assign('STEP', $processWizardModel->getStep());
+		$viewer->assign('STEP_URL', "index.php?module={$moduleName}&view=Detail&record={$recordModel->getId()}&mode=processWizard&tab_label=LBL_RECORD_PROCESS_WIZARD&step=");
+		$viewer->assign('RECORD', $recordModel);
+		$viewer->assign('BLOCK_LIST', $recordModel->getModule()->getBlocks());
+		$viewer->assign('MODULE_MODEL', $recordModel->getModule());
+		$viewer->assign('VIEW_MODEL', $this->record);
+		$viewer->assign('VIEW', $request->getByType('view', 1));
+		return $viewer->view('Detail/ProcessWizard.tpl', $moduleName, true);
 	}
 }
