@@ -12,7 +12,7 @@
     "LBL_COUNTRY_DESCRIPTION": "Configure the availability of countries in the system",
     "LBL_DEFAULT_PHONE_FROM_PANEL": "Panel",
     "LBL_DEFAULT_PHONE_FROM_USER": "User",
-    "LBL_SET_DEFAULT_PHONE_COUNTRY": "Select how to download the default country:"
+    "LBL_SET_DEFAULT_PHONE_COUNTRY": "Select how to retrieve the default country:"
   },
   "js": {
     "JS_COUNTRY_SETTING": "Country settings"
