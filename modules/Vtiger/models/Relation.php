@@ -285,6 +285,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
+			$relationModel->set('relatedModuleName', $row['modulename']);
 			self::$cachedInstances[$relKey] = $relationModel;
 			self::$cachedInstancesById[$row['relation_id']] = $relationModel;
 			return clone $relationModel;
@@ -315,6 +316,7 @@ class Vtiger_Relation_Model extends \App\Base
 				$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
 				$relationModel = new $relationModelClassName();
 				$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel(Vtiger_Module_Model::getInstance($relatedModuleName));
+				$relationModel->set('relatedModuleName', $row['modulename']);
 				if (method_exists($relationModel, 'setExceptionData')) {
 					$relationModel->setExceptionData();
 				}
