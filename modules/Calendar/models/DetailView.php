@@ -17,16 +17,14 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();
-		$relatedLinks = [];
-		$relatedLinks[] = [
+		$relatedLinks = [[
 			'linktype' => 'DETAILVIEWTAB',
 			'linklabel' => 'LBL_RECORD_DETAILS',
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=full',
 			'linkicon' => '',
 			'linkKey' => 'LBL_RECORD_DETAILS',
 			'related' => 'Details',
-		];
-
+		]];
 		$parentModuleModel = $this->getModule();
 		if ($parentModuleModel->isTrackingEnabled() && $parentModuleModel->isPermitted('ModTracker')) {
 			$relatedLinks[] = [
@@ -59,7 +57,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 		$status = $recordModel->get('activitystatus');
 		$statusActivity = Calendar_Module_Model::getComponentActivityStateLabel('current');
 
-		if ($recordModel->isEditable() && $this->getModule()->isPermitted('DetailView') && \App\Privilege::isPermitted($moduleName, 'ActivityComplete', $recordId) && \App\Privilege::isPermitted($moduleName, 'ActivityCancel', $recordId) && \App\Privilege::isPermitted($moduleName, 'ActivityPostponed', $recordId) && in_array($status, $statusActivity)) {
+		if ($recordModel->isEditable() && $this->getModule()->isPermitted('DetailView') && \App\Privilege::isPermitted($moduleName, 'ActivityComplete', $recordId) && \App\Privilege::isPermitted($moduleName, 'ActivityCancel', $recordId) && \App\Privilege::isPermitted($moduleName, 'ActivityPostponed', $recordId) && \in_array($status, $statusActivity)) {
 			$basicActionLink = [
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_SET_RECORD_STATUS',

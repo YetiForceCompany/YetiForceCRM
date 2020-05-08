@@ -4,14 +4,15 @@ class Partners_DetailView_Model extends Vtiger_DetailView_Model
 {
 	public function getDetailViewRelatedLinks()
 	{
-		$recordModel = $this->getRecord();
+		/**
+		 * {@inheritdoc}
+		 */
 		$relatedLinks = parent::getDetailViewRelatedLinks();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if ($userPrivilegesModel->hasModulePermission('OpenStreetMap')) {
+		if (Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission('OpenStreetMap')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_MAP',
-				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showOpenStreetMap',
+				'linkurl' => $this->getRecord()->getDetailViewUrl() . '&mode=showOpenStreetMap',
 				'linkicon' => '',
 			];
 		}
