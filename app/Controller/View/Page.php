@@ -170,11 +170,11 @@ abstract class Page extends Base
 	{
 		$userModel = \Users_Record_Model::getCurrentUserModel();
 		$headerLinks = [];
-		if (\App\MeetingService::getInstance()->isActive() && \App\Privilege::isPermitted('Users', 'MeetingUrl')) {
+		if (\App\MeetingService::getInstance()->isActive() && \App\Privilege::isPermitted('Users', 'MeetingUrl', false, $userModel->getRealId())) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_VIDEO_CONFERENCE',
-				'linkdata' => ['url' => 'index.php?module=Users&view=MeetingModal'],
+				'linkdata' => ['url' => 'index.php?module=Users&view=MeetingModal&record=' . $userModel->getRealId()],
 				'icon' => 'AdditionalIcon-VideoConference',
 				'linkclass' => 'js-show-modal'
 			];

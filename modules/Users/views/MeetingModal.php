@@ -24,7 +24,8 @@ class Users_MeetingModal_View extends Vtiger_MeetingModal_View
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		if (!\App\MeetingService::getInstance()->isActive() || !\App\Privilege::isPermitted($request->getModule(), 'MeetingUrl')) {
+		$userId = \App\User::getCurrentUserRealId();
+		if ($userId !== $request->getInteger('record') || !\App\MeetingService::getInstance()->isActive() || !\App\Privilege::isPermitted($request->getModule(), 'MeetingUrl', false, $userId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED', 406);
 		}
 	}
