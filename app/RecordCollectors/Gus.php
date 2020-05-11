@@ -153,6 +153,9 @@ class Gus extends Base
 	 */
 	public function search(): array
 	{
+		if (!$this->isActive()) {
+			return [];
+		}
 		$vatId = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatId', 'Text'));
 		$taxNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('taxNumber', 'Text'));
 		$ncr = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('ncr', 'Text'));
