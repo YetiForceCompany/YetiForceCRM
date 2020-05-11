@@ -170,6 +170,15 @@ abstract class Page extends Base
 	{
 		$userModel = \Users_Record_Model::getCurrentUserModel();
 		$headerLinks = [];
+		if (\App\MeetingService::getInstance()->isActive() && \App\Privilege::isPermitted('Users', 'MeetingUrl')) {
+			$headerLinks[] = [
+				'linktype' => 'HEADERLINK',
+				'linklabel' => 'LBL_VIDEO_CONFERENCE',
+				'linkdata' => ['url' => 'index.php?module=Users&view=MeetingModal'],
+				'icon' => 'AdditionalIcon-VideoConference',
+				'linkclass' => 'js-show-modal'
+			];
+		}
 		if ($userModel->isAdminUser()) {
 			if ('Settings' !== $request->getByType('parent', 2)) {
 				$headerLinks[] = [
@@ -239,7 +248,7 @@ abstract class Page extends Base
 		$headerLinks[] = [
 			'linktype' => 'HEADERLINK',
 			'linklabel' => 'LBL_CHANGE_PASSWORD',
-			'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record='.$userModel->get('id')],
+			'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->get('id')],
 			'linkclass' => 'showModal d-block',
 			'icon' => 'fas fa-key fa-fw',
 		];
