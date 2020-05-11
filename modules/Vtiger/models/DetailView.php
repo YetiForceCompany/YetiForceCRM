@@ -312,7 +312,7 @@ class Vtiger_DetailView_Model extends \App\Base
 		$parentModuleModel = $this->getModule();
 		$this->getWidgets();
 		$relatedLinks = [];
-		if (file_exists(ROOT_DIRECTORY . "/modules/{$parentModuleModel->getName()}/models/ProcessWizard.php")) {
+		if (class_exists($parentModuleModel->getName() . '_ProcessWizard_Model')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_RECORD_PROCESS_WIZARD',
