@@ -188,7 +188,7 @@ class GusClient extends \SoapClient
 	 *
 	 * @return array
 	 */
-	public function search(?string $vatId, ?string $ncr, ?string $taxNumber): array
+	public function search(?string $vatId, ?string $ncr = null, ?string $taxNumber = null): array
 	{
 		if (!$vatId && !$taxNumber && !$ncr) {
 			return [];

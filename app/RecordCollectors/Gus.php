@@ -1,6 +1,7 @@
 <?php
 /**
  * Gus class for downloading REGON registry open public data. For BIR 1.1 version.
+ * Modifying this file or functions that affect the footer appearance will violate the license terms!!!
  *
  * @package   App
  *
@@ -10,8 +11,6 @@
  */
 
 namespace App\RecordCollectors;
-
-use App\RecordCollectors\Helper\GusClient;
 
 /**
  * Gus record collector class.
@@ -33,7 +32,7 @@ class Gus extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	public $displayType = 'LoadToForm';
+	public $displayType = 'FillFields';
 	/**
 	 * {@inheritdoc}
 	 */
@@ -80,7 +79,7 @@ class Gus extends Base
 	/**
 	 * {@inheritdoc}
 	 */
-	protected $formFieldsToRecordMap = [
+	public $formFieldsToRecordMap = [
 		'Accounts' => [
 			'Regon' => 'registration_number_2',
 			'Krs' => 'registration_number_1',
@@ -144,13 +143,21 @@ class Gus extends Base
 	/**
 	 * {@inheritdoc}
 	 */
+	public function isActive(): bool
+	{
+		return \App\YetiForce\Shop::check('YetiForcePlGus') && \in_array($this->moduleName, $this->allowedModules);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function search(): array
 	{
 		$vatId = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatId', 'Text'));
 		$taxNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('taxNumber', 'Text'));
 		$ncr = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('ncr', 'Text'));
 		$response = [];
-		$client = GusClient::getInstance();
+		$client = \App\RecordCollectors\Helper\GusClient::getInstance();
 		try {
 			$infoFromGus = $client->search($vatId, $ncr, $taxNumber);
 			foreach ($infoFromGus as &$info) {
