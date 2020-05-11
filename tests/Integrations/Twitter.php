@@ -78,8 +78,8 @@ class Twitter extends \Tests\Base
 	 */
 	public function testConfigModule(): void
 	{
-		$this->assertInternalType(
-			'array', \App\Config::component('Social', 'TWITTER_ENABLE_FOR_MODULES'),
+		$this->assertIsArray(
+			\App\Config::component('Social', 'TWITTER_ENABLE_FOR_MODULES'),
 			'Module Contacts not configured for social media'
 		);
 		$this->assertTrue(

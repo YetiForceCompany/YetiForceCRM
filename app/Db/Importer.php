@@ -150,6 +150,7 @@ class Importer
 	{
 		foreach ($this->importers as &$importer) {
 			$this->updateTables($importer);
+			$this->drop($importer);
 		}
 	}
 
@@ -579,6 +580,20 @@ class Importer
 		}
 		$time = round((microtime(true) - $startMain) / 60, 2);
 		$this->logs .= "# end rename columns ($time min)\n";
+	}
+
+	/**
+	 * Drop tables and columns
+	 *
+	 * @param Base $importer
+	 */
+	public function drop(Base $importer){
+		if (isset($importer->dropTables)) {
+			$this->dropTable($importer->dropTables);
+		}
+		if (isset($importer->dropColumns)) {
+			$this->dropColumns($importer->dropColumns);
+		}
 	}
 
 	/**

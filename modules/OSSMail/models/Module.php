@@ -79,6 +79,13 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 					$return['recordNumber'] = $recordNumber;
 					$subject = "[$recordNumber] $subject";
 				}
+				if (($templateId = $request->getInteger('template', 0)) && \App\Record::isExists($templateId, 'EmailTemplates')) {
+					$templateModel = \Vtiger_Record_Model::getInstanceById($templateId, 'EmailTemplates');
+					$textParser = \App\TextParser::getInstanceByModel($recordModel);
+					$subject = $textParser->setContent($templateModel->get('subject'))->parse()->getContent();
+					$return['html'] = true;
+					$return['body'] = $textParser->setContent($templateModel->get('content'))->parse()->getContent();
+				}
 				$return['subject'] = $subject;
 			}
 		}

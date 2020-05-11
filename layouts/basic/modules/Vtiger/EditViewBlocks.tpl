@@ -48,12 +48,15 @@
 			{foreach from=$RECORD->getModule()->getFieldsByDisplayType(9) item=FIELD key=FIELD_NAME}
 				<input type="hidden" name="{$FIELD_NAME}" value="{$FIELD->getEditViewValue($RECORD->get($FIELD_NAME),$RECORD)}"/>
 			{/foreach}
-			<div class='o-breadcrumb widget_header row mb-3'>
-				<div class="col-md-8">
-					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
+			{assign var="BREADCRUMBS_ACTIVE" value=App\Config::main('breadcrumbs')}
+			{if $BREADCRUMBS_ACTIVE}
+				<div class='o-breadcrumb widget_header row mb-3'>
+					<div class="col-md-8">
+						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
+					</div>
 				</div>
-			</div>
-			<div class="row mb-3 mx-0">
+			{/if}
+			<div class="row mb-3 mx-0 {if !$BREADCRUMBS_ACTIVE}mt-3{/if}">
 				{if $EDIT_VIEW_LAYOUT}
 					{assign var=COLUMNS_SIZES value=['col-xl-4', 'col-xl-8']}
 				{else}

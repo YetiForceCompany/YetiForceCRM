@@ -53,6 +53,11 @@ class Purifier
 	public const BOOL = 'Bool';
 
 	/**
+	 * Purify type url.
+	 */
+	public const URL = 'Url';
+
+	/**
 	 * Purify type Alnum.
 	 */
 	public const ALNUM = 'Alnum';

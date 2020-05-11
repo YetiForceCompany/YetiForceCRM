@@ -64,7 +64,7 @@ class TextParser extends \Tests\Base
 	public function testGetBaseListVariable()
 	{
 		$arr = static::$parserClean->getBaseListVariable();
-		$this->assertInternalType('array', $arr, 'Expected array type');
+		$this->assertIsArray($arr, 'Expected array type');
 		$this->assertNotEmpty($arr, 'Expected any related list data');
 		foreach ($arr as $option) {
 			$this->assertSame(1, \App\TextParser::isVaribleToParse($option['key']), 'Option: ' . $option['label'] . ', value: ' . $option['key'] . ' should be parseable');
@@ -77,7 +77,7 @@ class TextParser extends \Tests\Base
 	public function testGetRelatedListVariable()
 	{
 		$arr = static::$parserCleanModule->getRelatedListVariable();
-		$this->assertInternalType('array', $arr, 'Expected array type');
+		$this->assertIsArray($arr, 'Expected array type');
 		$this->assertNotEmpty($arr, 'Expected any related list data');
 		foreach ($arr as $option) {
 			$this->assertSame(1, \App\TextParser::isVaribleToParse($option['key']), 'Option: ' . $option['label'] . ', value: ' . $option['key'] . ' should be parseable');
@@ -531,10 +531,10 @@ class TextParser extends \Tests\Base
 	public function testGetRecordVariable()
 	{
 		$arr = static::$parserCleanModule->getRecordVariable();
-		$this->assertInternalType('array', $arr, 'Expected array type');
+		$this->assertIsArray($arr, 'Expected array type');
 		$this->assertNotEmpty($arr, 'Expected any related variables data');
 		foreach ($arr as $group => $data) {
-			$this->assertInternalType('array', $data, 'Expected array type');
+			$this->assertIsArray($data, 'Expected array type');
 			$this->assertNotEmpty($data, 'Expected any related variables data');
 			foreach ($data as $key => $element) {
 				$this->assertSame(1, \App\TextParser::isVaribleToParse($element['var_value']), 'Option: ' . $element['label'] . ', value: ' . $element['var_value'] . ' should be parseable in group: ' . $group);
@@ -542,7 +542,7 @@ class TextParser extends \Tests\Base
 			}
 		}
 		$arr = static::$parserCleanModule->getRecordVariable();
-		$this->assertInternalType('array', $arr, 'Expected (cached) array type');
+		$this->assertIsArray($arr, 'Expected (cached) array type');
 		$this->assertNotEmpty($arr, 'Expected any (cached) related variables data');
 	}
 
@@ -553,13 +553,13 @@ class TextParser extends \Tests\Base
 	{
 		$this->assertFalse(\App\TextParser::getInstance('Leads')->setSourceRecord(\Tests\Base\C_RecordActions::createLeadRecord()->getId())->getSourceVariable(), 'TextParser::getSourceVariable() should return false for Leads module');
 		$arr = \App\TextParser::getInstance('Campaigns')->setSourceRecord(\Tests\Base\C_RecordActions::createLeadRecord()->getId())->getSourceVariable();
-		$this->assertInternalType('array', $arr, 'Expected array type');
+		$this->assertIsArray($arr, 'Expected array type');
 		$this->assertNotEmpty($arr, 'Expected any related variables data');
 		foreach ($arr as $key => $content) {
-			$this->assertInternalType('array', $content, 'Expected array type');
+			$this->assertIsArray($content, 'Expected array type');
 			$this->assertNotEmpty($content, 'Expected any related variables data');
 			foreach ($content as $group => $data) {
-				$this->assertInternalType('array', $data, 'Expected array type');
+				$this->assertIsArray($data, 'Expected array type');
 				$this->assertNotEmpty($data, 'Expected any related variables data');
 				if (isset($data['var_value'])) {
 					$this->assertSame(1, \App\TextParser::isVaribleToParse($data['var_value']), 'Option: ' . $data['label'] . ', value: ' . $data['var_value'] . ' should be parseable in group: ' . $group);
@@ -580,13 +580,13 @@ class TextParser extends \Tests\Base
 	public function testGetRelatedVariable()
 	{
 		$arr = static::$parserCleanModule->getRelatedVariable();
-		$this->assertInternalType('array', $arr, 'Expected array type');
+		$this->assertIsArray($arr, 'Expected array type');
 		$this->assertNotEmpty($arr, 'Expected any related variables data');
 		foreach ($arr as $key => $content) {
-			$this->assertInternalType('array', $content, 'Expected array type');
+			$this->assertIsArray($content, 'Expected array type');
 			$this->assertNotEmpty($content, 'Expected any related variables data');
 			foreach ($content as $group => $data) {
-				$this->assertInternalType('array', $data, 'Expected array type');
+				$this->assertIsArray($data, 'Expected array type');
 				$this->assertNotEmpty($data, 'Expected any related variables data');
 				foreach ($data as $element) {
 					$this->assertSame(1, \App\TextParser::isVaribleToParse($element['var_value']), 'Option: ' . $element['label'] . ', value: ' . $element['var_value'] . ' should be parseable in group: ' . $group);
@@ -595,7 +595,7 @@ class TextParser extends \Tests\Base
 			}
 		}
 		$arr = static::$parserCleanModule->getRelatedVariable();
-		$this->assertInternalType('array', $arr, 'Expected (cached) array type');
+		$this->assertIsArray($arr, 'Expected (cached) array type');
 		$this->assertNotEmpty($arr, 'Expected any (cached) related variables data');
 	}
 
@@ -605,10 +605,10 @@ class TextParser extends \Tests\Base
 	public function testGetGeneralVariable()
 	{
 		$arr = \App\TextParser::getInstance('IStorages')->getGeneralVariable();
-		$this->assertInternalType('array', $arr, 'Expected array type');
+		$this->assertIsArray($arr, 'Expected array type');
 		$this->assertNotEmpty($arr, 'Expected any general variables data');
 		foreach ($arr as $groupName => $group) {
-			$this->assertInternalType('array', $group, 'Expected array type from group: ' . $groupName);
+			$this->assertIsArray($group, 'Expected array type from group: ' . $groupName);
 			$this->assertNotEmpty($group, 'Expected any data in group: ' . $groupName);
 			if (!empty($group)) {
 				foreach ($group as $placeholder => $translation) {
@@ -616,7 +616,7 @@ class TextParser extends \Tests\Base
 						$this->assertSame(1, \App\TextParser::isVaribleToParse($placeholder), 'Option: ' . $translation . ', value: ' . $placeholder . ' should be parseable in group: ' . $groupName);
 					} else {
 						$placeholders = \explode(', ', $placeholder);
-						$this->assertInternalType('array', $placeholders, 'Expected array type  in group: ' . $groupName);
+						$this->assertIsArray($placeholders, 'Expected array type  in group: ' . $groupName);
 						$this->assertNotEmpty($placeholders, 'Expected any group data in group: ' . $groupName);
 						foreach ($placeholders as $item) {
 							$this->assertSame(1, \App\TextParser::isVaribleToParse($item), 'Option: ' . $translation . ', value: ' . $item . ' should be parseable in group: ' . $groupName);

@@ -746,7 +746,11 @@ return [
 		'SHOW_RECORDS_COUNT' => [
 			'default' => false,
 			'description' => 'Show record count in tabs of related modules'
-		]
+		],
+		'addSearchParamsToCreateView' => [
+			'default' => true,
+			'description' => 'Fill in the record creation form with the data used in filtering (search_params)'
+		],
 	],
 	'search' => [
 		'GLOBAL_SEARCH_SELECT_MODULE' => [

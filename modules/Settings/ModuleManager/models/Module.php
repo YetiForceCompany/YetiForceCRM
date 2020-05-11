@@ -141,7 +141,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 			preg_match('/PickList/i', $name) ||
 			preg_match('/[^A-Za-z]/i', $name) ||
 			class_exists($name) ||
-			\is_array($name, static::$notAllowedNames) ||
+			\in_array($name, static::$notAllowedNames) ||
 			\App\Db::getInstance()->isTableExists("u_#__{$name}") ||
 			\strlen($name) > static::$maxLengthModuleName;
 	}

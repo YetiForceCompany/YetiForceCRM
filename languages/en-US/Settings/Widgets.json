@@ -57,6 +57,7 @@
     "LBL_SHITCH_HEADER": "Switch in header",
     "LBL_SHITCH_HEADER_INFO": "Switch can be found in the widget's header.",
     "HistoryRelation": "Timeline",
+    "UpdatesList": "Field history and duration summary",
     "CountRecords": "Number of records",
     "LBL_LIST_WITH_SUMMARY": "List with summary",
     "LBL_CURRENT_HISTORY_SWITCH": "Current/History"

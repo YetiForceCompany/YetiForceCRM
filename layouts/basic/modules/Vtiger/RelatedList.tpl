@@ -10,23 +10,25 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="RelatedList relatedContainer">
-		{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
-		{assign var=INVENTORY_MODULE value=$RELATED_MODULE->isInventory()}
-		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}">
-		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}">
-		<input type="hidden" id="orderBy" value="{\App\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}">
-		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
-		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
-		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
-		<input type="hidden" id="autoRefreshListOnChange" value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}">
-		<input type="hidden" class="relatedView" value="{$RELATED_VIEW}">
-		<input type="hidden" id="selectedIds" name="selectedIds" data-selected-ids="">
-		<input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids="">
-		<input type="hidden" id="recordsCount" value=""/>
-		<input type="hidden" id="tab_label" value="{\App\Purifier::encodeHtml($VIEW_MODEL->getRelationModel()->get('label'))}"/>
-		<input type="hidden" id="relationId" value="{$VIEW_MODEL->getRelationModel()->getId()}"/>
-		<div class="relatedHeader my-1">
+<!-- tpl-Base-RelatedList -->
+<div class="RelatedList relatedContainer">
+	{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
+	{assign var=INVENTORY_MODULE value=$RELATED_MODULE->isInventory()}
+	<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}">
+	<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}">
+	<input type="hidden" id="orderBy" value="{\App\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}">
+	<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
+	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
+	<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
+	<input type="hidden" id="autoRefreshListOnChange" value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}">
+	<input type="hidden" class="relatedView" value="{$RELATED_VIEW}">
+	<input type="hidden" id="selectedIds" name="selectedIds" data-selected-ids="">
+	<input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids="">
+	<input type="hidden" id="recordsCount" value=""/>
+	<input type="hidden" id="tab_label" value="{\App\Purifier::encodeHtml($VIEW_MODEL->getRelationModel()->get('label'))}"/>
+	<input type="hidden" id="relationId" value="{$VIEW_MODEL->getRelationModel()->getId()}"/>
+	{if $SHOW_HEADER}
+		<div class="relatedHeader mt-1">
 			<div class="d-inline-flex flex-wrap w-100 justify-content-between">
 				<div class="u-w-sm-down-100 d-flex flex-wrap flex-sm-nowrap mb-1 mb-md-0">
 					{if isset($RELATED_LIST_LINKS['RELATEDLIST_VIEWS']) && $RELATED_LIST_LINKS['RELATEDLIST_VIEWS']|@count gt 0}
@@ -93,7 +95,7 @@
 				</div>
 				<div class="d-flex flex-wrap u-w-sm-down-100 justify-content-between justify-content-md-end">
 					<div class="paginationDiv">
-						{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE) VIEWNAME='related'}
+						{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE_NAME) VIEWNAME='related'}
 					</div>
 					{if $VIEW_MODEL}
 						<div class="ml-1">
@@ -135,36 +137,38 @@
 				</div>
 			</div>
 		</div>
-		{if $RELATED_VIEW === 'ListPreview'}
-			<div class="relatedContents">
-				<div class="d-flex">
-					<input type="hidden" id="defaultDetailViewName" value="{App\Config::module($MODULE, 'defaultDetailViewName')}"/>
-					<div class="c-side-block c-side-block--left js-side-block js-fixed-scroll" data-js="css: height;/scroll">
-						<div class="u-rotate-90">
-							<div class="font-weight-bold text-center">{\App\Language::translate('LBL_VIEW_LIST')}</div>
-						</div>
+	{/if}
+	{if $RELATED_VIEW === 'ListPreview'}
+		<div class="relatedContents mt-1">
+			<div class="d-flex">
+				<input type="hidden" id="defaultDetailViewName" value="{App\Config::module($MODULE_NAME, 'defaultDetailViewName')}"/>
+				<div class="c-side-block c-side-block--left js-side-block js-fixed-scroll" data-js="css: height;/scroll">
+					<div class="u-rotate-90">
+						<div class="font-weight-bold text-center">{\App\Language::translate('LBL_VIEW_LIST')}</div>
 					</div>
-					<div class="c-list-preview js-list-preview js-fixed-scroll" data-js="scroll">
-						<div class="c-list-preview__content js-list-preview--scroll" data-js="perfectScrollbar">
-							<div id="recordsList">
-								{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
-							</div>
-						</div>
-					</div>
-					<div class="c-detail-preview js-detail-preview">
-						<iframe class="listPreviewframe" frameborder="0"></iframe>
-					</div>
-					<div class="c-side-block c-side-block--right js-side-block js-fixed-scroll" data-js="css: height;/scroll">
-						<div class="u-rotate-90">
-							<div class="font-weight-bold text-center">{\App\Language::translate('LBL_VIEW_DETAIL')}</div>
+				</div>
+				<div class="c-list-preview js-list-preview js-fixed-scroll" data-js="scroll">
+					<div class="c-list-preview__content js-list-preview--scroll" data-js="perfectScrollbar">
+						<div id="recordsList">
+							{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
 						</div>
 					</div>
 				</div>
+				<div class="c-detail-preview js-detail-preview">
+					<iframe class="listPreviewframe" frameborder="0"></iframe>
+				</div>
+				<div class="c-side-block c-side-block--right js-side-block js-fixed-scroll" data-js="css: height;/scroll">
+					<div class="u-rotate-90">
+						<div class="font-weight-bold text-center">{\App\Language::translate('LBL_VIEW_DETAIL')}</div>
+					</div>
+				</div>
 			</div>
-		{else}
-			<div class="relatedContents">
-				{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
-			</div>
-		{/if}
-	</div>
+		</div>
+	{else}
+		<div class="relatedContents mt-1">
+			{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
+		</div>
+	{/if}
+</div>
+<!-- /tpl-Base-RelatedList -->
 {/strip}

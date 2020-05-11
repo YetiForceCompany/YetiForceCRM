@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -387,15 +388,18 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$relationModelInstance = $this->getRelationModel();
 		$relatedModel = $relationModelInstance->getRelationModuleModel();
 		$parentRecordModule = $this->getParentRecordModel();
-		$parentModule = $parentRecordModule->getModule();
-
-		$createViewUrl = $relatedModel->getCreateRecordUrl() . '&sourceModule=' . $parentModule->get('name') .
-			'&sourceRecord=' . $parentRecordModule->getId() . '&relationOperation=true&relationId=' . $relationModelInstance->getId();
-
+		$createViewUrl = $relatedModel->getCreateRecordUrl() . '&sourceModule=' . $parentRecordModule->getModule()->getName() . '&sourceRecord=' . $parentRecordModule->getId() . '&relationOperation=true&relationId=' . $relationModelInstance->getId();
 		//To keep the reference fieldname and record value in the url if it is direct relation
 		if ($relationModelInstance->isDirectRelation()) {
 			$relationField = $relationModelInstance->getRelationField();
 			$createViewUrl .= '&' . $relationField->getName() . '=' . $parentRecordModule->getId();
+		}
+		if (!empty(Config\Relation::$addSearchParamsToCreateView) && ($searchParams = $this->getArray('search_params')) && isset($searchParams['and']) && \is_array($searchParams['and'])) {
+			foreach ($searchParams['and'] as $row) {
+				if ('e' === $row['comparator']) {
+					$createViewUrl .= "&{$row['field_name']}={$row['value']}";
+				}
+			}
 		}
 		return $createViewUrl;
 	}

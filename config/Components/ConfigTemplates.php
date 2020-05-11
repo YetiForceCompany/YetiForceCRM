@@ -353,4 +353,10 @@ return [
 			}
 		],
 	],
+	'MeetingService' => [
+		'defaultEmailTemplate' => [
+			'default' => [],
+			'description' => "List of default email templates.\n@example ['Calendar'=>1]",
+		]
+	],
 ];

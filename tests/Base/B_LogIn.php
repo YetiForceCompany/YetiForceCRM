@@ -24,7 +24,7 @@ class B_LogIn extends \Tests\Base
 			\App\Session::set('app_unique_key', \App\Config::main('application_unique_key'));
 			\App\Session::set('user_name', $userName);
 			\App\Session::set('full_user_name', \App\Fields\Owner::getUserLabel(\Tests\Base\A_User::createUsersRecord()->getId()));
-			$this->assertInternalType('int', \Tests\Base\A_User::createUsersRecord()->getId());
+			$this->assertIsInt(\Tests\Base\A_User::createUsersRecord()->getId());
 		}
 	}
 
