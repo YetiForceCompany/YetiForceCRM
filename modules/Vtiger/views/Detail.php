@@ -355,9 +355,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function showRecentActivities(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!\App\Privilege::isPermitted($moduleName, 'ModTracker')) {
-			return false;
-		}
 		include_once 'modules/ModTracker/ModTracker.php';
 		$type = 'changes';
 		$parentRecordId = $request->getInteger('record');
@@ -1139,9 +1136,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function showModTrackerByField(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!\App\Privilege::isPermitted($moduleName, 'ModTracker')) {
-			return false;
-		}
 		$recordModel = $this->record->getRecord();
 		$fieldName = $request->getByType('field', 'Alnum');
 		$value = $recordModel->get($fieldName);

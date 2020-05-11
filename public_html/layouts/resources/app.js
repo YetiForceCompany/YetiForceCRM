@@ -445,7 +445,6 @@ var App = (window.App = {
 										let searchParams = new URLSearchParams(window.location.search);
 										searchParams.delete('step');
 										window.location.href = 'index.php?' + searchParams.toString();
-										console.log(window.location.search);
 									} else {
 										window.location.reload();
 									}

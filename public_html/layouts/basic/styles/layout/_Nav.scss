@@ -511,27 +511,27 @@ ul.c-process-line {
 	li:first-child a {
 		padding-left: 15px;
 	}
-	li.done > a {
+	li.c-process-line__done > a {
 		border-color: #5cb85c !important;
 		color: #fff !important;
 		background: #5cb85c !important;
 	}
-	li.done > a:after {
+	li.c-process-line__done > a:after {
 		border-left: 27px solid #5cb85c;
 	}
-	li.next > a {
+	li.c-process-line__next > a {
 		color: #fff !important;
 		background: #d6b200 !important;
 	}
-	li.next > a:after {
+	li.c-process-line__next > a:after {
 		border-left: 27px solid #d6b200;
 	}
-	li.active > a {
+	li.c-process-line__active > a {
 		border-color: #5bc0de !important;
 		color: #fff !important;
 		background: #5bc0de !important;
 	}
-	li.active > a:after {
+	li.c-process-line__active > a:after {
 		border-left: 27px solid #5bc0de !important;
 	}
 }

@@ -3,11 +3,11 @@
 <!-- tpl-Base-Detail-ProcessWizard -->
 <div class="process-line">
 	<ul class="nav nav-tabs mt-1 c-process-line">
-		{assign var=CLASS value='done'}
+		{assign var=CLASS value='c-process-line__done'}
 		{foreach item=STEP_MAP key=STEP_ID from=$PROCESS_WIZARD->getSteps()}
 			{if $STEP_MAP['conditionsStatus']}
-				{assign var=CLASS value='next'}
-			{elseif $CLASS === 'next'}
+				{assign var=CLASS value='c-process-line__next'}
+			{elseif $CLASS === 'c-process-line__next'}
 				{assign var=CLASS value=''}
 			{/if}
 			<li class="{$CLASS}{if $STEP['label'] eq $STEP_MAP['label']} active{/if}">
