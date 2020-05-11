@@ -33,6 +33,9 @@
 							{\App\Language::translate($BLOCK_MODEL->getLabel(),$RELATED_MODULE_NAME)}
 						</h5>
 					</div>
+					{if isset($BLOCK_ROW['desc'])}
+						<div class="m-2">{$BLOCK_ROW['desc']}</div>
+					{/if}
 					<div class="blockContent c-panel__body"></div>
 				</div>
 			{/if}

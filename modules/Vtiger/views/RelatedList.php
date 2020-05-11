@@ -104,6 +104,9 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		if ('ListPreview' === $relatedView) {
 			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
 		}
+		if ($request->has('quickSearchEnabled')) {
+			$relationListView->set('quickSearchEnabled', $request->getBoolean('quickSearchEnabled'));
+		}
 		$models = $relationListView->getEntries($pagingModel);
 		$header = $relationListView->getHeaders();
 		$relationModel = $relationListView->getRelationModel();
