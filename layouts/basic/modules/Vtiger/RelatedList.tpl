@@ -28,7 +28,7 @@
 	<input type="hidden" id="tab_label" value="{\App\Purifier::encodeHtml($VIEW_MODEL->getRelationModel()->get('label'))}"/>
 	<input type="hidden" id="relationId" value="{$VIEW_MODEL->getRelationModel()->getId()}"/>
 	{if $SHOW_HEADER}
-		<div class="relatedHeader my-1">
+		<div class="relatedHeader mt-1">
 			<div class="d-inline-flex flex-wrap w-100 justify-content-between">
 				<div class="u-w-sm-down-100 d-flex flex-wrap flex-sm-nowrap mb-1 mb-md-0">
 					{if isset($RELATED_LIST_LINKS['RELATEDLIST_VIEWS']) && $RELATED_LIST_LINKS['RELATEDLIST_VIEWS']|@count gt 0}
@@ -139,7 +139,7 @@
 		</div>
 	{/if}
 	{if $RELATED_VIEW === 'ListPreview'}
-		<div class="relatedContents">
+		<div class="relatedContents mt-1">
 			<div class="d-flex">
 				<input type="hidden" id="defaultDetailViewName" value="{App\Config::module($MODULE_NAME, 'defaultDetailViewName')}"/>
 				<div class="c-side-block c-side-block--left js-side-block js-fixed-scroll" data-js="css: height;/scroll">
@@ -165,7 +165,7 @@
 			</div>
 		</div>
 	{else}
-		<div class="relatedContents">
+		<div class="relatedContents mt-1">
 			{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
 		</div>
 	{/if}
