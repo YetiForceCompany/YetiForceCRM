@@ -13,12 +13,22 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	},
 	widgetWithFilterDate: [],
 	setWidgetWithFilterDate: function () {
-		var thisInstance = this;
-		var element = jQuery('[name="filter_date"]').val();
-		if (element)
+		let thisInstance = this;
+		let element = $('[name="filter_date"]').val();
+		if (element){
 			thisInstance.widgetWithFilterDate = JSON.parse(element);
-		else
+		} else {
 			thisInstance.widgetWithFilterDate = [];
+		}
+	},
+	setWidgetWithFilterTitle: function () {
+		let thisInstance = this;
+		let element = $('[name="filter_title"]').val();
+		if (element){
+			thisInstance.widgetWithFilterTitle = JSON.parse(element);
+		} else {
+			thisInstance.widgetWithFilterTitle = [];
+		}
 	},
 	restrictFilter: [],
 	setRestrictFilter: function () {
@@ -46,6 +56,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 			fields.push(jQuery(this).data('linkid').toString());
 		});
 		return fields;
+	},
+	multipleWidgets: function (){
+		return ['Multifilter'];
 	},
 	getCurrentDashboardId() {
 		return $('.selectDashboard li a.active').parent().data('id');
@@ -203,20 +216,20 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	},
 	registerAddCustomFieldEvent: function () {
 		var thisInstance = this;
-		var contents = jQuery('#layoutDashBoards');
+		var contents = $('#layoutDashBoards');
 		contents.find('.addCustomField').on('click', function (e) {
-			var continer = jQuery(e.currentTarget).closest('.editFieldsTable');
+			var continer = $(e.currentTarget).closest('.editFieldsTable');
 			var blockId = continer.data('block-id');
 			var addFieldContainer = contents.find('.createFieldModal').clone(true, true);
 			var allFieldsInBlock = thisInstance.getAllFieldsInBlock(continer);
 			var selectWidgets = addFieldContainer.find('select.widgets');
 			selectWidgets.find('option').each(function () {
-				if (jQuery.inArray(jQuery(this).val(), allFieldsInBlock) != -1) {
-					jQuery(this).remove();
+				if ($.inArray($(this).val(), allFieldsInBlock) != -1 && $.inArray($(this).data('name'), thisInstance.multipleWidgets()) == -1) {
+					$(this).remove();
 				}
 			});
 			var name = selectWidgets.find(':first-child').data('name');
-			if (jQuery.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
+			if ($.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
 				addFieldContainer.find('.widgetFilter').removeClass('d-none').find('select').removeAttr('disabled').show();
 				var restrictFilter = thisInstance.restrictFilter[name];
 				if (restrictFilter) {
@@ -225,25 +238,27 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					}
 				}
 			}
-			if (jQuery.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
+			if ($.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
 				addFieldContainer.find('.widgetFilterDate').removeClass('d-none').find('select').removeAttr('disabled').show();
 			}
-
+			if ($.inArray(name, thisInstance.widgetWithFilterTitle) != -1) {
+				addFieldContainer.find('.widgetFilterTitle').removeClass('d-none').removeAttr('disabled').show();
+			}
 			var callBackFunction = function (data) {
-				//register all select2 Elements
 				App.Fields.Picklist.showSelect2ElementView(data.find('select'));
 				data.find('select.widgets').on('change', function () {
 					data.find('.widgetFilter').remove();
 					data.find('.widgetFilterDate').remove();
-					var elementsToFilter = contents.find('.createFieldModal .widgetFilter').clone(true, true);
-					var elementsToFilterDate = contents.find('.createFieldModal .widgetFilterDate').clone(true, true);
-
+					let elementsToFilterTitle = contents.find('.createFieldModal .widgetFilterTitle').clone(true, true);
+					let elementsToFilter = contents.find('.createFieldModal .widgetFilter').clone(true, true);
+					let elementsToFilterDate = contents.find('.createFieldModal .widgetFilterDate').clone(true, true);
+					data.find('.modal-body').append(elementsToFilterTitle);
 					data.find('.modal-body').append(elementsToFilter);
 					data.find('.modal-body').append(elementsToFilterDate);
-					var name = jQuery(this).find(':selected').data('name');
-					if (jQuery.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
+					let name = $(this).find(':selected').data('name');
+					if ($.inArray(name, thisInstance.widgetWithFilterUsers) != -1) {
 						elementsToFilter.removeClass('d-none').find('select').prop('disabled', false);
-						var restrictFilter = thisInstance.restrictFilter[name];
+						let restrictFilter = thisInstance.restrictFilter[name];
 						if (restrictFilter) {
 							for (var i in restrictFilter) {
 								addFieldContainer.find('.widgetFilter select option[value="' + restrictFilter[i] + '"]').remove();
@@ -253,17 +268,22 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					} else {
 						elementsToFilter.addClass('d-none').find('select').prop('disabled', true);
 					}
-					if (jQuery.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
+					if ($.inArray(name, thisInstance.widgetWithFilterDate) != -1) {
 						elementsToFilterDate.removeClass('d-none').find('select').prop('disabled', false);
 						App.Fields.Picklist.showSelect2ElementView(elementsToFilterDate.find('select'));
 					} else {
 						elementsToFilterDate.addClass('d-none').find('select').prop('disabled', true);
 					}
+					if ($.inArray(name, thisInstance.widgetWithFilterTitle) != -1) {
+						elementsToFilterTitle.removeClass('d-none').find('input').prop('disabled', false);
+					} else {
+						elementsToFilterTitle.addClass('d-none').find('input').prop('disabled', true);
+					}
 				});
 
-				var form = data.find('.createCustomFieldForm');
+				let form = data.find('.createCustomFieldForm');
 				form.attr('id', 'createFieldForm');
-				var widgets = form.find('[name="widgets"]');
+				let widgets = form.find('[name="widgets"]');
 				form.validationEngine($.extend(true, {
 					onValidationComplete: function (form, valid) {
 						if (valid) {
@@ -271,7 +291,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 								let saveButton = form.find(':submit'),
 									field = form.find('[name="widgets"]');
 								saveButton.attr('disabled', 'disabled');
-
 								let paramsForm = form.serializeFormData();
 								paramsForm['action'] = 'addWidget';
 								paramsForm['blockid'] = blockId;
@@ -280,6 +299,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 								paramsForm['name'] = field.find(':selected').data('name');
 								paramsForm['height'] = form.find('[name="height"]').val();
 								paramsForm['width'] = form.find('[name="width"]').val();
+								if (form.find('[name="showFullName"]').prop("checked"))
+									paramsForm['showFullName'] = 1;
 								if (form.find('[name="isdefault"]').prop("checked"))
 									paramsForm['isdefault'] = 1;
 								if (form.find('[name="cache"]').prop("checked"))
@@ -373,6 +394,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 	 */
 	setFieldDetails: function (result, form) {
 		form.find('.modal-header').html($('<h5 class="modal-title">' + result['label'] + '</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'));
+		if (result['showFullName']) {
+			form.find('[name="showFullName"]').filter(':checkbox').attr('checked', true);
+		}
 		if (result['isdefault']) {
 			form.find('[name="isdefault"]').filter(':checkbox').attr('checked', true);
 		}
@@ -428,6 +452,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 							return true;
 						}
 						let paramsForm = form.serializeFormData();
+						if (form.find('[name="showFullName"]').prop("checked"))
+							paramsForm['showFullName'] = 1;
 						if (form.find('[name="isdefault"]').prop("checked"))
 							paramsForm['isdefault'] = 1;
 						if (form.find('[name="cache"]').prop("checked"))
@@ -811,42 +837,42 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		// 1. Show popup window for selection (module, filter, fields)
 		// 2. Compute the dynamic mini-list widget url
 		// 3. Add widget with URL to the page.
-		var thisInstance = this;
-		element = jQuery(element);
-
+		const thisInstance = this;
+		element = $(element);
 		app.showModalWindow(null, "index.php?module=Home&view=MiniListWizard&step=step1", function (wizardContainer) {
-			var form = jQuery('form', wizardContainer);
-
-			var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
-			var filteridSelectDOM = jQuery('select[name="filterid"]', wizardContainer);
-			var fieldsSelectDOM = jQuery('select[name="fields"]', wizardContainer);
-			var filterFieldsSelectDOM = jQuery('select[name="filter_fields"]', wizardContainer);
-
-			var moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(moduleNameSelectDOM, {
+			let form = $('form', wizardContainer),
+			moduleNameSelectDOM = $('select[name="module"]', wizardContainer),
+			filteridSelectDOM = $('select[name="filterid"]', wizardContainer),
+			fieldHrefDOM = $('select[name="field_href"]', wizardContainer),
+			fieldsSelectDOM = $('select[name="fields"]', wizardContainer),
+			filterFieldsSelectDOM = $('select[name="filter_fields"]', wizardContainer),
+			moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(moduleNameSelectDOM, {
 				placeholder: app.vtranslate('JS_SELECT_MODULE')
-			});
-			var filteridSelect2 = App.Fields.Picklist.showSelect2ElementView(filteridSelectDOM, {
+			}),
+			filteridSelect2 = App.Fields.Picklist.showSelect2ElementView(filteridSelectDOM, {
 				placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')
-			});
-			var fieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(fieldsSelectDOM, {
+			}),
+			fieldHrefSelect2 = App.Fields.Picklist.showSelect2ElementView(fieldHrefDOM, {
+				allowClear: true
+			}),
+			fieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(fieldsSelectDOM, {
 				placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
 				closeOnSelect: true,
 				maximumSelectionLength: 6
-			});
-			var filterFieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(filterFieldsSelectDOM, {
+			}),
+			filterFieldsSelect2 = App.Fields.Picklist.showSelect2ElementView(filterFieldsSelectDOM, {
 				placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')
-			});
-			var footer = jQuery('.modal-footer', wizardContainer);
-
+			}),
+			footer = $('.modal-footer', wizardContainer);
 			filteridSelectDOM.closest('tr').hide();
+			fieldHrefDOM.closest('tr').hide();
 			fieldsSelectDOM.closest('tr').hide();
 			filterFieldsSelectDOM.closest('tr').hide();
 			footer.hide();
-
 			moduleNameSelect2.on('change', function () {
-				if (!moduleNameSelect2.val())
+				if (!moduleNameSelect2.val()){
 					return;
-
+				}
 				AppConnector.request({
 					module: 'Home',
 					view: 'MiniListWizard',
@@ -860,8 +886,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				});
 			});
 			filteridSelect2.on('change', function () {
-				if (!filteridSelect2.val())
+				if (!filteridSelect2.val()){
 					return;
+				}
 				footer.hide();
 				fieldsSelectDOM.closest('tr').hide();
 				filterFieldsSelectDOM.closest('tr').hide();
@@ -876,12 +903,20 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 					fieldsSelectDOM.empty().html(res.find('select[name="fields"]').html()).trigger('change');
 					filterFieldsSelectDOM.empty().html(res.find('select[name="filter_fields"]').html()).trigger('change');
 					fieldsSelect2.closest('tr').show();
+					fieldHrefSelect2.closest('tr').show();
 					filterFieldsSelect2.closest('tr').show();
 					fieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
 					filterFieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
 				});
 			});
 			fieldsSelect2.on('change', function () {
+				fieldHrefDOM.find('option:not([value=""]').remove();
+				$(this).find('option:checked').each(function(index, element) {
+					let option = $(element);
+					let newOption = new Option(option.text(), option.val(), true, true);
+					fieldHrefSelect2.append(newOption);
+				});
+				fieldHrefSelect2.val('').trigger('change');
 				if (!fieldsSelect2.val()) {
 					footer.hide();
 				} else {
@@ -899,6 +934,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 				};
 				data['fields'] = selectedFields;
 				data['filterFields'] = filterFieldsSelect2.val();
+				data['fieldHref'] = fieldHrefSelect2.val();
 				let paramsForm = {
 					data: JSON.stringify(data),
 					action: 'addWidget',
@@ -1083,6 +1119,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {}, {
 		thisInstance.setWidgetWithFilterUsers();
 		thisInstance.setRestrictFilter();
 		thisInstance.setWidgetWithFilterDate();
+		thisInstance.setWidgetWithFilterTitle();
 		thisInstance.registerAddedDashboard();
 		thisInstance.registerSelectDashboard();
 		thisInstance.registerDashboardAction();

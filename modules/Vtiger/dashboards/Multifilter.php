@@ -19,6 +19,10 @@ class Vtiger_Multifilter_Dashboard extends Vtiger_IndexAjax_View
 			$widgetId = $request->getInteger('widgetid');
 		}
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, \App\User::getCurrentUserId());
+		if ($widget->get('data')) {
+			$showFullName = \App\Json::decode(App\Purifier::decodeHtml($widget->get('data')))['showFullName'] ?? 0;
+		}
+		$viewer->assign('WIDGET_SHOW_FULL_NAME', $showFullName ?? 0);
 		if ($request->has('content')) {
 			if ($request->has('modulename')) {
 				$modulesName = $request->getByType('modulename', 2);
