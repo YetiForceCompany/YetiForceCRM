@@ -41,7 +41,7 @@ class UserLoginHistory extends \App\TextParser\Base
 				]);
 			if (isset(\App\Condition::DATE_OPERATORS[$this->params[0]])) {
 				$dateRange = \DateTimeRange::getDateRangeByType($this->params[0]);
-				$dataReader->andWhere(['between', 'login_time', $dateRange[0].' 00:00:00', $dateRange[1].' 23:59:59']);
+				$dataReader->andWhere(['between', 'login_time', $dateRange[0] . ' 00:00:00', $dateRange[1] . ' 23:59:59']);
 			}
 			$dataReader = $dataReader->createCommand()->query();
 			while ($row = $dataReader->read()) {

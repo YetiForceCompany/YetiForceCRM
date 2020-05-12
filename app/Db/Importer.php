@@ -583,11 +583,12 @@ class Importer
 	}
 
 	/**
-	 * Drop tables and columns
+	 * Drop tables and columns.
 	 *
 	 * @param Base $importer
 	 */
-	public function drop(Base $importer){
+	public function drop(Base $importer)
+	{
 		if (isset($importer->dropTables)) {
 			$this->dropTable($importer->dropTables);
 		}

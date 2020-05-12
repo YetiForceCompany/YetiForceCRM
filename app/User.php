@@ -421,7 +421,7 @@ class User
 		}
 		$userId = (new Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => $name])->limit(1)->scalar();
 		Cache::save('UserIdByName', $name, $userId, Cache::LONG);
-		return $userId !== false ? $userId : null;
+		return false !== $userId ? $userId : null;
 	}
 
 	/**
