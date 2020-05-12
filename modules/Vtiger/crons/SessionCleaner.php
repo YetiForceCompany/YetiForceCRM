@@ -22,7 +22,7 @@ class Vtiger_SessionCleaner_Cron extends \App\CronHandler
 	{
 		if (!headers_sent()) {
 			$dbCommand = \App\Db::getInstance()->createCommand();
-			foreach (App\Session::clean() as $userId => $userName) {
+			foreach (App\Session\File::clean() as $userId => $userName) {
 				$dbCommand->insert('vtiger_loginhistory', [
 					'user_name' => $userName,
 					'userid' => $userId,
