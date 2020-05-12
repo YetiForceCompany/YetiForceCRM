@@ -83,6 +83,7 @@ class Vtiger_MeetingModal_View extends \App\Controller\Modal
 		$viewer->assign('SIMPLE_URL', $simpleUrl);
 		$viewer->assign('EMAIL_TEMPLATE', $templateData ? $templateId : '');
 		$viewer->assign('EMAIL_TEMPLATE_DATA', $templateData);
+		$viewer->assign('TEMPLATE_PARAMS', \App\Json::encode(['meetingUrl' => $url]));
 		$viewer->view('Modals/MeetingModal.tpl', $request->getModule());
 	}
 
