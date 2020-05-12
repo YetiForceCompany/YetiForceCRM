@@ -1,10 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<table class="table table-striped">
+	<table class="table tableBorderHeadBody listViewEntriesTable medium  js-fixed-thead">
 		<thead>
 			<tr>
 				{foreach item=HEADER from=$HEADERS}
-					<th>
+					<th class="noWrap">
 						{\App\Language::translate($HEADER->get('label'), $MODULE)}
 					</th>
 				{/foreach}

@@ -106,6 +106,49 @@ class Vtiger_TreeView_Model extends \App\Base
 	}
 
 	/**
+	 * Function to get Basic links for tree view
+	 *
+	 * @return array of Basic links
+	 */
+	public function getBasicLinks(): array
+	{
+		$moduleName = $this->getModuleName();
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$basicLinks = [];
+		if ($moduleModel->isPermitted('CreateView')) {
+			$basicLinks[] = [
+				'linktype' => 'LISTVIEWBASIC',
+				'linklabel' => 'LBL_ADD_RECORD',
+				'linkurl' => $moduleModel->getCreateRecordUrl(),
+				'linkclass' => 'btn-light addButton modCT_' . $moduleModel->getName(),
+				'linkicon' => 'fas fa-plus',
+				'showLabel' => 1,
+				'linkhref' => true
+			];
+		}
+
+		return $basicLinks;
+	}
+
+	/**
+	 * Function to get the list of tree view links.
+	 *
+	 * @param <Array> $linkParams
+	 *
+	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
+	 */
+	public function getListViewLinks()
+	{
+		$basicLinks = $this->getBasicLinks();
+		$links = [];
+		foreach ($basicLinks as $basicLink) {
+			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
+		}
+
+		return $links;
+	}
+
+	/**
 	 * Load tree.
 	 *
 	 * @return string

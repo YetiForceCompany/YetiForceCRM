@@ -37,9 +37,10 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
 		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleName);
-
+		$listViewLinks = $treeViewModel->getListViewLinks();
 		$treeList = $treeViewModel->getTreeList();
 		$viewer = $this->getViewer($request);
+		$viewer->assign('LISTVIEW_LINKS', $listViewLinks);
 		$viewer->assign('TREE_LIST', \App\Json::encode($treeList));
 		$viewer->view('TreeRecordsPreProcess.tpl', $moduleName);
 	}
@@ -69,11 +70,6 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$filter = $request->has('filter') ? $request->getByType('filter', 'Alnum') : \App\CustomView::getInstance($moduleName)->getViewId();
-		$viewer->assign('VIEWID', $filter);
-
-		if ($request->isEmpty('branches', true)) {
-			return;
-		}
 		$branches = $request->getArray('branches', 'Text');
 		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleName);
 		$field = $treeViewModel->getTreeField();
@@ -82,11 +78,8 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $filter);
 		$listViewModel->getQueryGenerator()->addCondition($field['fieldname'], implode('##', $branches), 'e');
 		$listEntries = $listViewModel->getListViewEntries($pagingModel);
-		if (count($listEntries) === 0) {
-			return;
-		}
 		$listHeaders = $listViewModel->getListViewHeaders();
-
+		$viewer->assign('VIEWID', $filter);
 		$viewer->assign('ENTRIES', $listEntries);
 		$viewer->assign('HEADERS', $listHeaders);
 		$viewer->assign('MODULE', $moduleName);
