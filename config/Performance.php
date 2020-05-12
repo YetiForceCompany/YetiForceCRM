@@ -164,4 +164,7 @@ class Performance
 
 	/** Number of records that can be shown in report mail */
 	public static $REPORT_RECORD_NUMBERS = 10;
+	
+	/** Number of records that can be shown in history login modal */
+	public static $LOGIN_HISTORY_VIEW_LIMIT = 10;
 }

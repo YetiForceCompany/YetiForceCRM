@@ -263,6 +263,13 @@ abstract class Page extends Base
 			];
 		}
 		$headerLinks[] = [
+			'linktype' => 'HEADERLINK',
+			'linklabel' => 'LBL_LOGIN_HISTORY',
+			'linkdata' => ['url' => 'index.php?module=Users&view=LoginHistory&mode=change&record='.$userModel->get('id')],
+			'linkclass' => 'showModal d-block',
+			'icon' => 'fas fa-key fa-fw',
+		];
+		$headerLinks[] = [
 			'linktype' => 'SEPARATOR',
 			'linkclass' => 'd-none d-sm-none d-md-block',
 		];

@@ -1,8 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-UserQuickMenu -->
-	<div class="dropdown-menu historyList js-scrollbar pl-2 pr-2 u-max-w-sm-100 u-min-w-300px" aria-labelledby="showHistoryBtn" role="list" data-js="perfectscrollbar">
-		<div class="user-info-body container-fluid m-0 p-0">
+	<div class="dropdown-menu historyList p-0 u-max-w-sm-100 u-min-w-300px" aria-labelledby="showHistoryBtn" role="list" data-js="perfectscrollbar">
+		<div class="user-info-body container-fluid m-0 pl-2 pr-2 pt-2">
 			<div class="user-info row w-100 m-0 p-0">
 				<div class="col-12 p-1">
 					<div class="user-photo mr-2 float-left">
@@ -20,7 +20,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="user-links container d-block mt-2 p-0 u-max-w-xsm-100">
+		<div class="user-links container-fluid d-block mt-2 p-0 u-max-w-xsm-100">
 			{foreach item="MENU_ELEMENT" from=$USER_QUICK_MENU_LINKS}
 				{assign var="HREF" value='#'}
 				{assign var="LINK" value=$MENU_ELEMENT->convertToNativeLink()}
@@ -33,7 +33,7 @@
 				{if $LINK_TYPE === 'SEPARATOR'}
 					<div class="dropdown-divider {$MENU_ELEMENT->getClassName()}"></div>
 				{else if $LINK_TYPE === 'GROUPNAME'}
-					<div class="user-menu-element row">
+					<div class="user-menu-element row p-0 m-0">
 						<div class="col-12 pt-1 pb-1 bg-light border border-light">
 							<span class="text-uppercase font-weight-bold text-dark u-fs-sm">{\App\Language::translate($TITLE, 'Users')}</span>
 						</div>
