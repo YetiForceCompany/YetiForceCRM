@@ -350,10 +350,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$dbCommand->update('vtiger_ossemployees', ['dav_status' => 1])->execute();
 		}
 	}
+
 	/**
-	 * Clear temporary attachments
+	 * Clear temporary attachments.
 	 */
-	public function cleanAttachments(){
+	public function cleanAttachments()
+	{
 		foreach ($this->getModule()->getFieldsByType(['image', 'multiImage'], true) as $fieldName => $fieldModel) {
 			$currentData = [];
 			if ($this->get($fieldName) && ($this->isNew() || false !== $this->getPreviousValue($fieldName))) {
@@ -756,18 +758,19 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * assign all record which are assigned to that user
 	 * and not transfered to other user to other user.
 	 *
-	 * @param mixed $userId
-	 * @param mixed $newOwnerId
+	 * @param int $userId
+	 * @param int $newOwnerId
 	 */
 	public static function deleteUserPermanently($userId, $newOwnerId)
 	{
-		$db = App\Db::getInstance();
-		$db->createCommand()->update('vtiger_crmentity', ['smcreatorid' => $newOwnerId, 'smownerid' => $newOwnerId], ['smcreatorid' => $userId, 'setype' => 'ModComments'])->execute();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$dbCommand->update('vtiger_crmentity', ['smcreatorid' => $newOwnerId, 'smownerid' => $newOwnerId], ['smcreatorid' => $userId, 'setype' => 'ModComments'])->execute();
 		//update history details in vtiger_modtracker_basic
-		$db->createCommand()->update('vtiger_modtracker_basic', ['whodid' => $newOwnerId], ['whodid' => $userId])->execute();
+		$dbCommand->update('vtiger_modtracker_basic', ['whodid' => $newOwnerId], ['whodid' => $userId])->execute();
 		//update comments details in vtiger_modcomments
-		$db->createCommand()->update('vtiger_modcomments', ['userid' => $newOwnerId], ['userid' => $userId])->execute();
-		$db->createCommand()->delete('vtiger_users', ['id' => $userId])->execute();
+		$dbCommand->update('vtiger_modcomments', ['userid' => $newOwnerId], ['userid' => $userId])->execute();
+		$dbCommand->delete('vtiger_users', ['id' => $userId])->execute();
+		$dbCommand->delete('vtiger_module_dashboard_widgets', ['userid' => $userId])->execute();
 		\App\PrivilegeUtil::deleteRelatedSharingRules($userId, 'Users');
 		$fileName = "user_privileges/sharing_privileges_{$userId}.php";
 		if (file_exists($fileName)) {
@@ -777,6 +780,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if (file_exists($fileName)) {
 			unlink($fileName);
 		}
+		\App\Cache::delete('UserIsExists', $userId);
 	}
 
 	/**
