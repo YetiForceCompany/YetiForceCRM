@@ -17,6 +17,11 @@
 		<input type="hidden" name="{$FIELD_NAME}" value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}"/>
 	{/foreach}
 {/if}
+{if $SHOW_ALERT_NO_POWERS}
+	<div class="alert alert-danger mx-4 mt-4" role="alert">
+		{\App\Language::translate('LBL_PERMISSION_DENIED_CERTAIN_FIELDS', $MODULE_NAME)}
+	</div>
+{/if}
 <div class="quickCreateContent">
 	<div class="modal-body m-0">
 		{if $LAYOUT === 'blocks'}
@@ -93,12 +98,12 @@
 				<div class="col-12 form-row d-flex justify-content-center px-0 m-0 {$WIDTHTYPE}">
 					{if !empty($CHANGED_FIELDS)}
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$CHANGED_FIELDS}
-							<div class="fieldLabel col-lg-12 col-xl-3 text-lg-left text-xl-right u-text-ellipsis">
+							<div class="fieldLabel col-lg-12 col-xl-3 text-lg-left text-xl-right u-text-ellipsis mt-1">
 								<span class="text-right muted small font-weight-bold">
 									{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 								</span>
 							</div>
-							<div class="fieldValue col-lg-12 col-xl-9 px-0 px-sm-1">
+							<div class="fieldValue col-lg-12 col-xl-9 px-0 px-sm-1 mt-1">
 								{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD_ID,$RECORD)}
 							</div>
 						{/foreach}

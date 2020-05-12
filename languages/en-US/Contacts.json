@@ -46,7 +46,10 @@
     "LBL_SWITCH_OFF_DECISION_MAKER": "All",
     "LBL_SHOW_HIERARCHY": "Contact hierarchy",
     "FL_APPROVALS": "Approvals",
-    "LBL_PARTICIPANTS": "Participants"
+    "LBL_PARTICIPANTS": "Participants",
+    "FL_GENDER": "Gender",
+    "PLL_WOMAN": "Woman",
+    "PLL_MAN": "Man"
   },
   "js": {}
 }

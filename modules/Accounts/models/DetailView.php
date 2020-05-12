@@ -47,16 +47,25 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		$parentModuleModel = $this->getModule();
 		$this->getWidgets();
 		$relatedLinks = [];
-
+		if (class_exists($parentModuleModel->getName() . '_ProcessWizard_Model')) {
+			$relatedLinks[] = [
+				'linktype' => 'DETAILVIEWTAB',
+				'linklabel' => 'LBL_RECORD_PROCESS_WIZARD',
+				'linkKey' => 'LBL_RECORD_PROCESS_WIZARD',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=processWizard',
+				'linkicon' => '',
+				'related' => 'Summary',
+			];
+		}
 		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
-			$relatedLinks = [[
+			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_RECORD_SUMMARY',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=summary',
 				'linkicon' => '',
 				'related' => 'Summary',
-			]];
+			];
 		}
 		//link which shows the summary information(generally detail of record)
 		$relatedLinks[] = [
@@ -120,7 +129,11 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => 'yfi yfi-social-media',
 			];
 		}
-		if (\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() && \App\Module::isModuleActive('Chat') && !\App\RequestUtil::getBrowserInfo()->ie) {
+		if (
+			\App\User::getCurrentUserId() === \App\User::getCurrentUserRealId() &&
+			\App\Module::isModuleActive('Chat') && !\App\RequestUtil::getBrowserInfo()->ie &&
+			false !== \App\ModuleHierarchy::getModuleLevel($parentModuleModel->getName())
+		) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_CHAT',

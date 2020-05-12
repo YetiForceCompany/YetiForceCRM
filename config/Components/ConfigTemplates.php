@@ -353,4 +353,18 @@ return [
 			}
 		],
 	],
+	'MeetingService' => [
+		'defaultEmailTemplate' => [
+			'default' => [],
+			'description' => "List of default email templates.\n@example ['Calendar'=>1]",
+		]
+	],
+	'Phone' => [
+		'defaultPhoneCountry' => [
+			'default' => true,
+			'description' => 'Determines the way the default country in the phone field is downloaded. True retrieves the value from the countries panel, false retrieves the country from the users default language.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+	],
 ];

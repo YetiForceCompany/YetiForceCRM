@@ -30,6 +30,11 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	];
 
 	/**
+	 * @var array Not allowed names
+	 */
+	public static $notAllowedNames = ['__halt_compiler', 'abstract', 'and', 'array', 'as', 'break', 'callable', 'case', 'catch', 'class', 'clone', 'const', 'continue', 'declare', 'default', 'die', 'do', 'echo', 'else', 'elseif', 'empty', 'enddeclare', 'endfor', 'endforeach', 'endif', 'endswitch', 'endwhile', 'eval', 'exit', 'extends', 'final', 'for', 'foreach', 'function', 'global', 'goto', 'if', 'implements', 'include', 'include_once', 'instanceof', 'insteadof', 'interface', 'isset', 'list', 'namespace', 'new', 'or', 'print', 'private', 'protected', 'public', 'require', 'require_once', 'return', 'static', 'switch', 'throw', 'trait', 'try', 'unset', 'use', 'var', 'while', 'xor'];
+
+	/**
 	 * @var int Max length module name based on database structure
 	 */
 	public static $maxLengthModuleName = 25;
@@ -135,6 +140,9 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 			preg_match('/CustomView/i', $name) ||
 			preg_match('/PickList/i', $name) ||
 			preg_match('/[^A-Za-z]/i', $name) ||
+			class_exists($name) ||
+			\in_array($name, static::$notAllowedNames) ||
+			\App\Db::getInstance()->isTableExists("u_#__{$name}") ||
 			\strlen($name) > static::$maxLengthModuleName;
 	}
 

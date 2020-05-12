@@ -40,11 +40,15 @@ class OSSMailScanner
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_InstallModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $userId])->execute();
 		} elseif ('module.disabled' === $eventType) {
 			$this->turnOff();
-			$dbCommand->update('vtiger_cron_task', ['status' => 0], ['module' => 'OSSMailScanner'])->execute();
+			\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'LBL_MAIL_SCANNER_ACTION');
+			\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'LBL_MAIL_SCANNER_VERIFICATION');
+			\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'LBL_MAIL_SCANNER_BIND');
 			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_DisabledModule', 'info' => $moduleName, 'user' => $userId, 'start_time' => date('Y-m-d H:i:s')])->execute();
 		} elseif ('module.enabled' === $eventType) {
-			$dbCommand->update('vtiger_cron_task', ['status' => 1], ['module' => 'OSSMailScanner'])->execute();
+			\App\Cron::updateStatus(\App\Cron::STATUS_ENABLED, 'LBL_MAIL_SCANNER_ACTION');
+			\App\Cron::updateStatus(\App\Cron::STATUS_ENABLED, 'LBL_MAIL_SCANNER_VERIFICATION');
+			\App\Cron::updateStatus(\App\Cron::STATUS_ENABLED, 'LBL_MAIL_SCANNER_BIND');
 			$this->turnOn();
 			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $userId, 'start_time' => date('Y-m-d H:i:s')])->execute();

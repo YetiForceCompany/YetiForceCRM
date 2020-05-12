@@ -38,13 +38,16 @@
 						<div class="col-12 btn-group flex-wrap flex-md-nowrap" role="group">
 							{if $SELECTED_PICKLIST_FIELDMODEL->isEditable()}
 								{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
-									<button class="btn btn-primary"
-											id="assignValue">{\App\Language::translate('LBL_ASSIGN_VALUE',$QUALIFIED_MODULE)}</button>
+									<button class="btn btn-primary" id="assignValue">
+										{\App\Language::translate('LBL_ASSIGN_VALUE',$QUALIFIED_MODULE)}
+									</button>
 								{/if}
 								<button class="btn btn-info" id="addItem">{\App\Language::translate('LBL_ADD_VALUE',$QUALIFIED_MODULE)}</button>
 								<button class="btn btn-warning" id="renameItem">{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
-								{if $SELECTED_PICKLIST_FIELDMODEL->isProcessStatusField()}
-								<button class="btn btn-secondary" id="processStatusItem">{\App\Language::translate('LBL_EDIT_PROCESS_STATUS',$QUALIFIED_MODULE)}</button>
+								{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
+									<button class="btn btn-secondary" id="processStatusItem">
+										{\App\Language::translate('LBL_EDIT_PROCESS_LOCK_STATUS',$QUALIFIED_MODULE)}
+									</button>
 								{/if}
 								<button class="btn btn-danger" id="deleteItem">{\App\Language::translate('LBL_DELETE_VALUE',$QUALIFIED_MODULE)}</button>
 							{/if}

@@ -248,7 +248,8 @@
     "LBL_SELECT_USERS_INFO": "Select users, groups, roles to whom the report should be sent",
     "LBL_WORKINGDAY_DAY": "Every working day",
     "LBL_WORKINGDAY_WEEK": "First working day of the week",
-    "LBL_WORKINGDAY_MONTH": "First working day of the month"
+    "LBL_WORKINGDAY_MONTH": "First working day of the month",
+    "LBL_WORKFLOW_CUSTOM_RELATIONS": "Custom relations"
   },
   "js": {
     "JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE": "Same fields selected more than once",

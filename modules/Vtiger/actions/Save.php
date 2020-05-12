@@ -26,6 +26,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	{
 		parent::__construct();
 		$this->exposeMethod('preSaveValidation');
+		$this->exposeMethod('recordChanger');
 	}
 
 	/**
@@ -44,7 +45,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 			$this->record = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			if (!$this->record->isEditable()) {
+			if ('recordChanger' !== $request->getMode() && !$this->record->isEditable()) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		} else {
@@ -153,6 +154,32 @@ class Vtiger_Save_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
+		$response->emit();
+	}
+
+	/**
+	 * Quick change of record value.
+	 *
+	 * @param App\Request $request
+	 */
+	public function recordChanger(App\Request $request)
+	{
+		$recordModel = $this->getRecordModelFromRequest($request);
+		$id = $request->getInteger('id');
+		$field = App\Field::getQuickChangerFields($recordModel->getModule()->getId())[$id] ?? false;
+		if (!$field || !App\Field::checkQuickChangerConditions($field, $recordModel)) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$fields = $recordModel->getModule()->getFields();
+		foreach ($field['values'] as $fieldName => $value) {
+			if (isset($fields[$fieldName]) && $fields[$fieldName]->isEditable()) {
+				$recordModel->set($fieldName, $value);
+			}
+		}
+		$recordModel->save();
+		$response = new Vtiger_Response();
+		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response->setResult(true);
 		$response->emit();
 	}
 }

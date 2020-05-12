@@ -18661,6 +18661,73 @@ body > .o-exception-fixed-block {
     .dashboardViewContainer .nav-inverted-tabs .nav-item .nav-link.active:hover {
       background: #dee2e6; }
 
+ul.c-process-line {
+  display: block;
+  border: 0 solid #ccc !important;
+  padding: 0;
+  border-radius: 5px;
+  list-style: none;
+  overflow: hidden;
+  margin-top: 10px; }
+  ul.c-process-line li {
+    float: left; }
+    ul.c-process-line li > a {
+      color: #999;
+      text-decoration: none;
+      padding: 10px 0 10px 40px;
+      position: relative;
+      display: block;
+      float: left;
+      border-radius: 0;
+      outline-style: none;
+      background: #ddd; }
+    ul.c-process-line li > a:before {
+      content: " ";
+      display: block;
+      width: 0;
+      height: 0;
+      border-top: 50px solid transparent;
+      border-bottom: 50px solid transparent;
+      border-left: 30px solid white;
+      position: absolute;
+      top: 50%;
+      margin-top: -50px;
+      margin-left: 1px;
+      left: 100%;
+      z-index: 1; }
+    ul.c-process-line li > a:after {
+      content: " ";
+      display: block;
+      width: 0;
+      height: 0;
+      border-top: 50px solid transparent;
+      border-bottom: 50px solid transparent;
+      border-left: 27px solid #ddd;
+      position: absolute;
+      top: 50%;
+      margin-top: -50px;
+      left: 100%;
+      z-index: 2; }
+  ul.c-process-line li:first-child a {
+    padding-left: 15px; }
+  ul.c-process-line li.c-process-line__done > a {
+    border-color: #5cb85c !important;
+    color: #fff !important;
+    background: #5cb85c !important; }
+  ul.c-process-line li.c-process-line__done > a:after {
+    border-left: 27px solid #5cb85c; }
+  ul.c-process-line li.c-process-line__next > a {
+    color: #fff !important;
+    background: #d6b200 !important; }
+  ul.c-process-line li.c-process-line__next > a:after {
+    border-left: 27px solid #d6b200; }
+  ul.c-process-line li.c-process-line__active > a {
+    border-color: #5bc0de !important;
+    color: #fff !important;
+    background: #5bc0de !important; }
+  ul.c-process-line li.c-process-line__active > a:after {
+    border-left: 27px solid #5bc0de !important; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-footer {
   background: #343a40;

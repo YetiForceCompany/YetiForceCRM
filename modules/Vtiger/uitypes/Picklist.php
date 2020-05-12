@@ -14,6 +14,19 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function validateValue($value)
+	{
+		if ($this->getFieldModel()->isRoleBased()) {
+			$picklistValues = \App\Fields\Picklist::getRoleBasedValues($this->getFieldModel()->getFieldName(), \App\User::getCurrentUserModel()->getRole());
+		} else {
+			$picklistValues = App\Fields\Picklist::getValuesName($this->getFieldModel()->getFieldName());
+		}
+		return \in_array($value, $picklistValues);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];

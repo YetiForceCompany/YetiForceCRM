@@ -191,9 +191,6 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 	 */
 	public function updateCloseState(int $valueId, string $value, $closeState = null): bool
 	{
-		if (!$this->isProcessStatusField()) {
-			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_IS_NOT_A_PROCESS_STATUS_FIELD', 'Settings:Picklist'), 406);
-		}
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$tabId = $this->get('tabid');
 		$moduleName = \App\Module::getModuleName($tabId);

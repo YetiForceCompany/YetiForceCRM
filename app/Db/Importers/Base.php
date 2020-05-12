@@ -31,6 +31,20 @@ class Base
 	public $tables;
 
 	/**
+	 * Drop tables.
+	 *
+	 * @var array
+	 */
+	public $dropTables;
+
+	/**
+	 * Drop columns.
+	 *
+	 * @var array
+	 */
+	public $dropColumns;
+
+	/**
 	 * Foreign keys.
 	 *
 	 * @var array

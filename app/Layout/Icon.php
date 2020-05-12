@@ -195,6 +195,14 @@ class Icon
 	public static function getAll(): array
 	{
 		static::init();
-		return array_merge(self::getImageIcons(), self::getUserIcons(), self::getAdminIcons(), self::getAdditionalIcons(), self::getYetiForceIcons(), self::getFontAwesomeIcons());
+		return array_merge(
+			self::getImageIcons(),
+			self::getUserIcons(),
+			self::getAdminIcons(),
+			self::getAdditionalIcons(),
+			self::getYetiForceIcons(),
+			self::getFontAwesomeIcons(),
+			self::getMaterialDesignIcons()
+		);
 	}
 }

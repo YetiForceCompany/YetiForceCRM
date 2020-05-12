@@ -106,7 +106,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$currencyId = $request->isEmpty('currency_id', true) ? '' : $request->getInteger('currency_id');
 		$relatedParentModule = $request->isEmpty('related_parent_module', true) ? '' : $request->getByType('related_parent_module', 2);
 		$relatedParentId = $request->isEmpty('related_parent_id') ? '' : $request->getInteger('related_parent_id');
-		$filterFields = $request->getArray('filterFields', 'Alnum');
+		$filterFields = $request->getArray('filterFields', 'Text');
 		$showSwitch = $request->getInteger('showSwitch');
 		//Check whether the request is in multi select mode
 		if ($request->isEmpty('multi_select', true)) {

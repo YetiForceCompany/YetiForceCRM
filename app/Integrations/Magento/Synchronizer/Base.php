@@ -168,6 +168,7 @@ abstract class Base
 	{
 		$data = current($mapModel->data['extension_attributes']['shipping_assignments']);
 		if ($this->config->get('shipping_service_id') && !empty($data['shipping']['total'])) {
+			$tax = $data['shipping']['total']['shipping_amount'] > 0 ? ($data['shipping']['total']['shipping_tax_amount'] / $data['shipping']['total']['shipping_amount'] * 100) : 0;
 			return [
 				'discountmode' => 1,
 				'taxmode' => 1,
@@ -179,7 +180,7 @@ abstract class Base
 				'price' => $data['shipping']['total']['shipping_amount'],
 				'discountparam' => '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":' . $data['shipping']['total']['shipping_discount_amount'] . '}',
 				'purchase' => 0,
-				'taxparam' => '{"aggregationType":"individual","individualTax":' . $data['shipping']['total']['shipping_tax_amount'] . '}',
+				'taxparam' => '{"aggregationType":"individual","individualTax":' . round($tax) . '}',
 				'comment1' => ''
 			];
 		}

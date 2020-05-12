@@ -32,6 +32,10 @@ insert  into `a_yf_discounts_config`(`param`,`value`) values ('discounts','0,1,2
 
 insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (1,104,106,1,'[]','','{\"autofill\":\"on\"}');
 insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (2,6,18,1,'[]','','{\"autofill\":\"on\"}');
+insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (3,90,95,1,'[]',NULL,'{\"autofill\":\"on\"}');
+insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (4,90,100,1,'[]',NULL,'[]');
+insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (5,100,98,1,'[]',NULL,'[]');
+insert  into `a_yf_mapped_config`(`id`,`tabid`,`reltabid`,`status`,`conditions`,`permissions`,`params`) values (6,90,98,1,'[]',NULL,'[]');
 
 /*Data for the table `a_yf_mapped_fields` */
 
@@ -46,6 +50,58 @@ insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`defa
 insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (9,1,'SELF','id','2262','');
 insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (10,2,'V','1','288','');
 insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (11,2,'E','9','291','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (73,3,'V','1834','2040','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (74,3,'V','1839','2043',NULL);
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (75,3,'INVENTORY','comment1','comment1','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (76,3,'INVENTORY','gross','gross','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (77,3,'INVENTORY','tax','tax','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (78,3,'INVENTORY','total','total','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (79,3,'INVENTORY','price','price','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (80,3,'INVENTORY','qty','qty','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (81,3,'INVENTORY','name','name','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (82,3,'INVENTORY','taxmode','taxmode','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (83,3,'INVENTORY','net','net','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (84,3,'INVENTORY','discountmode','discountmode','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (85,3,'INVENTORY','discount','discount','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (86,3,'V','2826','2825','PLL_NOT_PAID');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (87,3,'V','2818','2044','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (88,3,'V','1835','2573','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (89,4,'V','1839','2195',NULL);
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (90,4,'SELF','id','2345',NULL);
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (91,4,'V','2792','2157',NULL);
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (92,4,'INVENTORY','total','total','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (93,4,'INVENTORY','qty','qty','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (94,4,'INVENTORY','price','price','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (95,4,'INVENTORY','name','name','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (96,4,'INVENTORY','comment1','comment1','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (97,4,'V','1843','2158','0');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (98,4,'V','1845','2193','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (99,4,'V','1846','2194','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (100,4,'V','1834','2156','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (101,5,'V','2156','2116','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (102,5,'V','2157','2170',NULL);
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (103,5,'D','2196','2192','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (104,5,'V','2158','2117','0');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (105,5,'V','2193','2189','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (106,5,'V','2194','2190','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (107,5,'INVENTORY','name','name','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (108,5,'INVENTORY','ean','ean','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (109,5,'INVENTORY','unit','unit','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (110,5,'INVENTORY','subunit','subunit','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (111,5,'INVENTORY','qty','qty','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (112,5,'INVENTORY','price','price','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (113,5,'INVENTORY','total','total','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (114,5,'INVENTORY','comment1','comment1','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (115,6,'V','1834','2116','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (116,6,'V','2792','2170',NULL);
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (117,6,'V','1843','2117','0');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (118,6,'INVENTORY','name','name','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (119,6,'INVENTORY','qty','qty','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (120,6,'INVENTORY','price','price','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (121,6,'INVENTORY','comment1','comment1','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (122,6,'INVENTORY','total','total','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (123,6,'INVENTORY','subunit','subunit','');
+insert  into `a_yf_mapped_fields`(`id`,`mappedid`,`type`,`source`,`target`,`default`) values (124,6,'INVENTORY','unit','unit','');
 
 /*Data for the table `a_yf_pdf` */
 
@@ -119,6 +175,8 @@ insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`,`params`) values (70,'Users','LBL_NEW_USER_CREATED','[]',1,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`,`params`) values (71,'SSingleOrders','It sums up all open sales orders','[]',3,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`,`params`) values (72,'SSingleOrders','It sums up all open sales orders','[]',5,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`,`params`) values (73,'SSingleOrders','Create IGDN','[{\"fieldname\":\"ssingleorders_status\",\"operation\":\"has changed to\",\"value\":\"PLL_ACCEPTED\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":0}]',3,NULL,NULL,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`,`params`) values (77,'SSingleOrders','Cancel IGDN','[{\"fieldname\":\"ssingleorders_status\",\"operation\":\"has changed to\",\"value\":\"PLL_CANCELLED\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":0}]',4,NULL,NULL,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Data for the table `com_vtiger_workflowtask_queue` */
 
@@ -142,6 +200,8 @@ insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (139,70,'New user created','O:18:\"VTEntityMethodTask\":8:{s:18:\"executeImmediately\";b:1;s:8:\"contents\";N;s:10:\"workflowId\";i:70;s:7:\"summary\";s:16:\"New user created\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:10:\"methodName\";s:7:\"newUser\";s:2:\"id\";i:139;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (140,71,'It sums up all open sales orders','O:21:\"SumFieldFromDependent\":10:{s:18:\"executeImmediately\";b:1;s:8:\"contents\";N;s:10:\"workflowId\";i:71;s:7:\"summary\";s:32:\"It sums up all open sales orders\";s:6:\"active\";b:1;s:7:\"trigger\";N;s:11:\"targetField\";s:36:\"accountid::Accounts::sum_open_orders\";s:11:\"sourceField\";s:9:\"sum_gross\";s:10:\"conditions\";a:2:{s:9:\"condition\";s:2:\"OR\";s:5:\"rules\";a:2:{i:0;a:3:{s:9:\"fieldname\";s:34:\"ssingleorders_status:SSingleOrders\";s:8:\"operator\";s:1:\"e\";s:5:\"value\";s:76:\"PLL_DRAFT##PLL_IN_REALIZATION##PLL_FOR_VERIFICATION##PLL_AWAITING_SIGNATURES\";}i:1;a:3:{s:9:\"fieldname\";s:34:\"ssingleorders_status:SSingleOrders\";s:8:\"operator\";s:1:\"y\";s:5:\"value\";s:0:\"\";}}}s:2:\"id\";i:140;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (141,72,'It sums up all open sales orders','O:21:\"SumFieldFromDependent\":9:{s:18:\"executeImmediately\";b:1;s:8:\"contents\";N;s:10:\"workflowId\";i:72;s:7:\"summary\";s:32:\"It sums up all open sales orders\";s:6:\"active\";b:1;s:7:\"trigger\";N;s:11:\"targetField\";s:36:\"accountid::Accounts::sum_open_orders\";s:11:\"sourceField\";s:9:\"sum_gross\";s:10:\"conditions\";a:2:{s:9:\"condition\";s:2:\"OR\";s:5:\"rules\";a:2:{i:0;a:3:{s:9:\"fieldname\";s:34:\"ssingleorders_status:SSingleOrders\";s:8:\"operator\";s:1:\"e\";s:5:\"value\";s:76:\"PLL_DRAFT##PLL_IN_REALIZATION##PLL_FOR_VERIFICATION##PLL_AWAITING_SIGNATURES\";}i:1;a:3:{s:9:\"fieldname\";s:34:\"ssingleorders_status:SSingleOrders\";s:8:\"operator\";s:1:\"y\";s:5:\"value\";s:0:\"\";}}}}');
+insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (142,73,'Tworzenie WZ','O:18:\"VTCreateEntityTask\":11:{s:18:\"executeImmediately\";b:1;s:8:\"contents\";N;s:10:\"workflowId\";i:73;s:7:\"summary\";s:12:\"Tworzenie WZ\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:11:\"entity_type\";s:4:\"IGDN\";s:15:\"reference_field\";s:15:\"ssingleordersid\";s:19:\"field_value_mapping\";s:94:\"[{\"fieldname\":\"igdn_status\",\"value\":\"PLL_ACCEPTED\",\"valuetype\":\"rawtext\",\"modulename\":\"IGDN\"}]\";s:12:\"mappingPanel\";s:1:\"1\";s:2:\"id\";i:142;}');
+insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (148,77,'Cancel IGDN','O:24:\"VTUpdateRelatedFieldTask\":8:{s:18:\"executeImmediately\";b:0;s:8:\"contents\";N;s:10:\"workflowId\";i:77;s:7:\"summary\";s:11:\"Cancel IGDN\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:19:\"field_value_mapping\";s:81:\"[{\"fieldname\":\"IGDN::igdn_status\",\"value\":\"PLL_CANCELLED\",\"valuetype\":\"rawtext\"}]\";s:2:\"id\";i:148;}');
 
 /*Data for the table `com_vtiger_workflowtasks_entitymethod` */
 
@@ -278,11 +338,26 @@ insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`vat_id`,`c
 
 /*Data for the table `s_yf_mail_smtp` */
 
+/*Data for the table `s_yf_meeting_services` */
+
 /*Data for the table `s_yf_multireference` */
 
 /*Data for the table `s_yf_pbx` */
 
 /*Data for the table `s_yf_privileges_updater` */
+
+/*Data for the table `s_yf_record_quick_changer` */
+
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (1,90,'{\"ssingleorders_status\":\"PLL_ACCEPTED\"} ','{\"ssingleorders_status\":\"PLL_CANCELLED\"} ','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (2,100,'{\"igdn_status\":\"PLL_ACCEPTED\"}','{\"igdn_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (3,101,'{\"iidn_status\":\"PLL_ACCEPTED\"}','{\"iidn_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (4,102,'{\"igin_status\":\"PLL_ACCEPTED\"}','{\"igin_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (5,103,'{\"ipreorder_status\":\"PLL_ACCEPTED\"}','{\"ipreorder_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (6,104,'{\"istdn_status\":\"PLL_ACCEPTED\"}','{\"istdn_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (7,106,'{\"istrn_status\":\"PLL_ACCEPTED\"}','{\"istrn_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (8,108,'{\"igrnc_status\":\"PLL_ACCEPTED\"}','{\"igrnc_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (9,109,'{\"igdnc_status\":\"PLL_ACCEPTED\"}','{\"igdnc_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
+insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn_name`,`class`,`icon`) values (10,98,'{\"igrn_status\":\"PLL_ACCEPTED\"}','{\"igrn_status\":\"PLL_CANCELLED\"}','BTN_CANCEL','btn-outline-danger','mdi mdi-cancel');
 
 /*Data for the table `s_yf_sla_policy` */
 
@@ -392,221 +467,231 @@ insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,
 insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (24,'Bermuda','BM',0,24,0,0);
 insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (25,'Bhutan','BT',0,25,0,0);
 insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (26,'Bolivia','BO',0,26,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (27,'Bosnia And Herzegovina','BA',0,27,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (28,'Botswana','BW',0,28,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (29,'Bouvet Island','BV',0,29,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (30,'Brazil','BR',0,30,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (31,'British Indian Ocean Territory','IO',0,31,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (32,'Brunei Darussalam','BN',0,32,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (33,'Bulgaria','BG',0,33,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (34,'Burkina Faso','BF',0,34,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (35,'Burundi','BI',0,35,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (36,'Cambodia','KH',0,36,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (37,'Cameroon','CM',0,37,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (38,'Canada','CA',0,38,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (39,'Cape Verde','CV',0,39,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (40,'Cayman Islands','KY',0,40,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (41,'Central African Republic','CF',0,41,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (42,'Chad','TD',0,42,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (43,'Chile','CL',0,43,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (44,'China','CN',0,44,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (45,'Christmas Island','CX',0,45,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (46,'Cocos (keeling) Islands','CC',0,46,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (47,'Colombia','CO',0,47,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (48,'Comoros','KM',0,48,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (49,'Congo','CG',0,49,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (50,'Congo, The Democratic Republic Of The','CD',0,50,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (51,'Cook Islands','CK',0,51,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (52,'Costa Rica','CR',0,52,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (53,'Cote D\'ivoire','CI',0,53,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (54,'Croatia','HR',0,54,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (55,'Cuba','CU',0,55,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (56,'Cyprus','CY',0,56,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (57,'Czech Republic','CZ',0,57,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (58,'Denmark','DK',0,58,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (59,'Djibouti','DJ',0,59,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (60,'Dominica','DM',0,60,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (61,'Dominican Republic','DO',0,61,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (62,'East Timor','TP',0,62,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (63,'Ecuador','EC',0,63,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (64,'Egypt','EG',0,64,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (65,'El Salvador','SV',0,65,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (66,'Equatorial Guinea','GQ',0,66,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (67,'Eritrea','ER',0,67,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (68,'Estonia','EE',0,68,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (69,'Ethiopia','ET',0,69,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (70,'Falkland Islands (malvinas)','FK',0,70,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (71,'Faroe Islands','FO',0,71,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (72,'Fiji','FJ',0,72,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (73,'Finland','FI',0,73,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (74,'France','FR',0,74,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (75,'French Guiana','GF',0,75,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (76,'French Polynesia','PF',0,76,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (77,'French Southern Territories','TF',0,77,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (78,'Gabon','GA',0,78,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (79,'Gambia','GM',0,79,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (80,'Georgia','GE',0,80,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (81,'Germany','DE',0,81,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (82,'Ghana','GH',0,82,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (83,'Gibraltar','GI',0,83,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (84,'Greece','GR',0,84,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (85,'Greenland','GL',0,85,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (86,'Grenada','GD',0,86,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (87,'Guadeloupe','GP',0,87,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (88,'Guam','GU',0,88,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (89,'Guatemala','GT',0,89,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (90,'Guinea','GN',0,90,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (91,'Guinea-bissau','GW',0,91,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (92,'Guyana','GY',0,92,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (93,'Haiti','HT',0,93,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (94,'Heard Island And Mcdonald Islands','HM',0,94,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (95,'Holy See (vatican City State)','VA',0,95,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (96,'Honduras','HN',0,96,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (97,'Hong Kong','HK',0,97,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (98,'Hungary','HU',0,98,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (99,'Iceland','IS',0,99,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (100,'India','IN',0,100,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (101,'Indonesia','ID',0,101,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (102,'Iran, Islamic Republic Of','IR',0,102,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (103,'Iraq','IQ',0,103,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (104,'Ireland','IE',0,104,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (105,'Israel','IL',0,105,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (106,'Italy','IT',0,106,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (107,'Jamaica','JM',0,107,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (108,'Japan','JP',0,108,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (109,'Jordan','JO',0,109,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (110,'Kazakstan','KZ',0,110,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (111,'Kenya','KE',0,111,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (112,'Kiribati','KI',0,112,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (113,'Korea, Democratic People\'s Republic Of','KP',0,113,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (114,'Korea, Republic Of','KR',0,114,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (115,'Kosovo','KV',0,115,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (116,'Kuwait','KW',0,116,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (117,'Kyrgyzstan','KG',0,117,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (118,'Lao People\'s Democratic Republic','LA',0,118,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (119,'Latvia','LV',0,119,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (120,'Lebanon','LB',0,120,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (121,'Lesotho','LS',0,121,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (122,'Liberia','LR',0,122,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (123,'Libyan Arab Jamahiriya','LY',0,123,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (124,'Liechtenstein','LI',0,124,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (125,'Lithuania','LT',0,125,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (126,'Luxembourg','LU',0,126,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (127,'Macau','MO',0,127,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (128,'Macedonia, The Former Yugoslav Republic Of','MK',0,128,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (129,'Madagascar','MG',0,129,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (130,'Malawi','MW',0,130,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (131,'Malaysia','MY',0,131,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (132,'Maldives','MV',0,132,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (133,'Mali','ML',0,133,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (134,'Malta','MT',0,134,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (135,'Marshall Islands','MH',0,135,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (136,'Martinique','MQ',0,136,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (137,'Mauritania','MR',0,137,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (138,'Mauritius','MU',0,138,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (139,'Mayotte','YT',0,139,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (140,'Mexico','MX',0,140,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (141,'Micronesia, Federated States Of','FM',0,141,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (142,'Moldova, Republic Of','MD',0,142,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (143,'Monaco','MC',0,143,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (144,'Mongolia','MN',0,144,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (145,'Montserrat','MS',0,145,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (146,'Montenegro','ME',0,146,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (147,'Morocco','MA',0,147,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (148,'Mozambique','MZ',0,148,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (149,'Myanmar','MM',0,149,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (150,'Namibia','NA',0,150,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (151,'Nauru','NR',0,151,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (152,'Nepal','NP',0,152,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (153,'Netherlands','NL',0,153,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (154,'Netherlands Antilles','AN',0,154,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (155,'New Caledonia','NC',0,155,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (156,'New Zealand','NZ',0,156,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (157,'Nicaragua','NI',0,157,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (158,'Niger','NE',0,158,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (159,'Nigeria','NG',0,159,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (160,'Niue','NU',0,160,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (161,'Norfolk Island','NF',0,161,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (162,'Northern Mariana Islands','MP',0,162,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (163,'Norway','NO',0,163,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (164,'Oman','OM',0,164,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (165,'Pakistan','PK',0,165,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (166,'Palau','PW',0,166,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (167,'Palestinian Territory, Occupied','PS',0,167,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (168,'Panama','PA',0,168,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (169,'Papua New Guinea','PG',0,169,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (170,'Paraguay','PY',0,170,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (171,'Peru','PE',0,171,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (172,'Philippines','PH',0,172,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (173,'Pitcairn','PN',0,173,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (174,'Poland','PL',0,174,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (175,'Portugal','PT',0,175,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (176,'Puerto Rico','PR',0,176,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (177,'Qatar','QA',0,177,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (178,'Reunion','RE',0,178,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (179,'Romania','RO',0,179,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (180,'Russian Federation','RU',0,180,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (181,'Rwanda','RW',0,181,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (182,'Saint Helena','SH',0,182,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (183,'Saint Kitts And Nevis','KN',0,183,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (184,'Saint Lucia','LC',0,184,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (185,'Saint Pierre And Miquelon','PM',0,185,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (186,'Saint Vincent And The Grenadines','VC',0,186,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (187,'Samoa','WS',0,187,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (188,'San Marino','SM',0,188,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (189,'Sao Tome And Principe','ST',0,189,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (190,'Saudi Arabia','SA',0,190,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (191,'Senegal','SN',0,191,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (192,'Serbia','RS',0,192,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (193,'Seychelles','SC',0,193,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (194,'Sierra Leone','SL',0,194,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (195,'Singapore','SG',0,195,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (196,'Slovakia','SK',0,196,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (197,'Slovenia','SI',0,197,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (198,'Solomon Islands','SB',0,198,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (199,'Somalia','SO',0,199,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (200,'South Africa','ZA',0,200,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (201,'South Georgia And The South Sandwich Islands','GS',0,201,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (202,'Spain','ES',0,202,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (203,'Sri Lanka','LK',0,203,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (204,'Sudan','SD',0,204,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (205,'Suriname','SR',0,205,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (206,'Svalbard And Jan Mayen','SJ',0,206,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (207,'Swaziland','SZ',0,207,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (208,'Sweden','SE',0,208,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (209,'Switzerland','CH',0,209,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (210,'Syrian Arab Republic','SY',0,210,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (211,'Taiwan, Province Of China','TW',0,211,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (212,'Tajikistan','TJ',0,212,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (213,'Tanzania, United Republic Of','TZ',0,213,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (214,'Thailand','TH',0,214,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (215,'Togo','TG',0,215,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (216,'Tokelau','TK',0,216,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (217,'Tonga','TO',0,217,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (218,'Trinidad And Tobago','TT',0,218,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (219,'Tunisia','TN',0,219,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (220,'Turkey','TR',0,220,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (221,'Turkmenistan','TM',0,221,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (222,'Turks And Caicos Islands','TC',0,222,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (223,'Tuvalu','TV',0,223,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (224,'Uganda','UG',0,224,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (225,'Ukraine','UA',0,225,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (226,'United Arab Emirates','AE',0,226,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (227,'United Kingdom','GB',0,227,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (228,'United States','US',0,228,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (229,'United States Minor Outlying Islands','UM',0,229,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (230,'Uruguay','UY',0,230,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (231,'Uzbekistan','UZ',0,231,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (232,'Vanuatu','VU',0,232,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (233,'Venezuela','VE',0,233,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (234,'Viet Nam','VN',0,234,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (235,'Virgin Islands, British','VG',0,235,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (236,'Virgin Islands, U.s.','VI',0,236,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (237,'Wallis And Futuna','WF',0,237,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (238,'Western Sahara','EH',0,238,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (239,'Yemen','YE',0,239,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (240,'Zambia','ZM',0,240,0,0);
-insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (241,'Zimbabwe','ZW',0,241,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (27,'Bosnia And Herzegovina','BA',0,28,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (28,'Botswana','BW',0,29,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (29,'Bouvet Island','BV',0,30,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (30,'Brazil','BR',0,31,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (31,'British Indian Ocean Territory','IO',0,32,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (32,'Brunei Darussalam','BN',0,33,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (33,'Bulgaria','BG',0,34,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (34,'Burkina Faso','BF',0,35,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (35,'Burundi','BI',0,36,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (36,'Cambodia','KH',0,37,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (37,'Cameroon','CM',0,38,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (38,'Canada','CA',0,39,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (39,'Cape Verde','CV',0,40,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (40,'Cayman Islands','KY',0,41,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (41,'Central African Republic','CF',0,42,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (42,'Chad','TD',0,43,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (43,'Chile','CL',0,44,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (44,'China','CN',0,45,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (45,'Christmas Island','CX',0,46,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (46,'Cocos (keeling) Islands','CC',0,47,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (47,'Colombia','CO',0,48,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (48,'Comoros','KM',0,49,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (49,'Congo','CG',0,50,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (50,'Congo, The Democratic Republic Of The','CD',0,51,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (51,'Cook Islands','CK',0,52,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (52,'Costa Rica','CR',0,53,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (53,'Cote D\'ivoire','CI',0,54,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (54,'Croatia','HR',0,55,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (55,'Cuba','CU',0,56,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (56,'Cyprus','CY',0,58,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (57,'Czech Republic','CZ',0,59,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (58,'Denmark','DK',0,60,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (59,'Djibouti','DJ',0,61,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (60,'Dominica','DM',0,62,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (61,'Dominican Republic','DO',0,63,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (62,'East Timor','TP',0,64,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (63,'Ecuador','EC',0,65,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (64,'Egypt','EG',0,66,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (65,'El Salvador','SV',0,67,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (66,'Equatorial Guinea','GQ',0,68,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (67,'Eritrea','ER',0,69,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (68,'Estonia','EE',0,70,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (69,'Ethiopia','ET',0,71,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (70,'Falkland Islands (malvinas)','FK',0,72,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (71,'Faroe Islands','FO',0,73,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (72,'Fiji','FJ',0,74,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (73,'Finland','FI',0,75,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (74,'France','FR',0,76,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (75,'French Guiana','GF',0,77,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (76,'French Polynesia','PF',0,78,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (77,'French Southern Territories','TF',0,79,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (78,'Gabon','GA',0,80,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (79,'Gambia','GM',0,81,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (80,'Georgia','GE',0,82,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (81,'Germany','DE',0,83,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (82,'Ghana','GH',0,84,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (83,'Gibraltar','GI',0,85,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (84,'Greece','GR',0,86,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (85,'Greenland','GL',0,87,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (86,'Grenada','GD',0,88,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (87,'Guadeloupe','GP',0,89,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (88,'Guam','GU',0,90,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (89,'Guatemala','GT',0,91,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (90,'Guinea','GN',0,93,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (91,'Guinea-bissau','GW',0,94,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (92,'Guyana','GY',0,95,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (93,'Haiti','HT',0,96,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (94,'Heard Island And Mcdonald Islands','HM',0,97,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (95,'Holy See (vatican City State)','VA',0,98,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (96,'Honduras','HN',0,99,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (97,'Hong Kong','HK',0,100,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (98,'Hungary','HU',0,101,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (99,'Iceland','IS',0,102,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (100,'India','IN',0,103,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (101,'Indonesia','ID',0,104,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (102,'Iran, Islamic Republic Of','IR',0,105,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (103,'Iraq','IQ',0,106,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (104,'Ireland','IE',0,107,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (105,'Israel','IL',0,109,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (106,'Italy','IT',0,110,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (107,'Jamaica','JM',0,111,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (108,'Japan','JP',0,112,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (109,'Jordan','JO',0,114,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (110,'Kazakstan','KZ',0,115,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (111,'Kenya','KE',0,116,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (112,'Kiribati','KI',0,117,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (113,'Korea, Democratic People\'s Republic Of','KP',0,118,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (114,'Korea, Republic Of','KR',0,119,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (115,'Kosovo','KV',0,120,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (116,'Kuwait','KW',0,121,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (117,'Kyrgyzstan','KG',0,122,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (118,'Lao People\'s Democratic Republic','LA',0,123,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (119,'Latvia','LV',0,124,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (120,'Lebanon','LB',0,125,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (121,'Lesotho','LS',0,126,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (122,'Liberia','LR',0,127,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (123,'Libyan Arab Jamahiriya','LY',0,128,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (124,'Liechtenstein','LI',0,129,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (125,'Lithuania','LT',0,130,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (126,'Luxembourg','LU',0,131,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (127,'Macau','MO',0,132,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (128,'Macedonia, The Former Yugoslav Republic Of','MK',0,133,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (129,'Madagascar','MG',0,134,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (130,'Malawi','MW',0,135,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (131,'Malaysia','MY',0,136,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (132,'Maldives','MV',0,137,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (133,'Mali','ML',0,138,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (134,'Malta','MT',0,139,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (135,'Marshall Islands','MH',0,140,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (136,'Martinique','MQ',0,141,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (137,'Mauritania','MR',0,142,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (138,'Mauritius','MU',0,143,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (139,'Mayotte','YT',0,144,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (140,'Mexico','MX',0,145,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (141,'Micronesia, Federated States Of','FM',0,146,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (142,'Moldova, Republic Of','MD',0,147,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (143,'Monaco','MC',0,148,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (144,'Mongolia','MN',0,149,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (145,'Montserrat','MS',0,151,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (146,'Montenegro','ME',0,150,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (147,'Morocco','MA',0,152,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (148,'Mozambique','MZ',0,153,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (149,'Myanmar','MM',0,154,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (150,'Namibia','NA',0,155,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (151,'Nauru','NR',0,156,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (152,'Nepal','NP',0,157,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (153,'Netherlands','NL',0,158,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (154,'Netherlands Antilles','AN',0,159,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (155,'New Caledonia','NC',0,160,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (156,'New Zealand','NZ',0,161,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (157,'Nicaragua','NI',0,162,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (158,'Niger','NE',0,163,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (159,'Nigeria','NG',0,164,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (160,'Niue','NU',0,165,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (161,'Norfolk Island','NF',0,166,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (162,'Northern Mariana Islands','MP',0,167,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (163,'Norway','NO',0,168,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (164,'Oman','OM',0,169,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (165,'Pakistan','PK',0,170,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (166,'Palau','PW',0,171,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (167,'Palestinian Territory, Occupied','PS',0,172,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (168,'Panama','PA',0,173,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (169,'Papua New Guinea','PG',0,174,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (170,'Paraguay','PY',0,175,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (171,'Peru','PE',0,176,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (172,'Philippines','PH',0,177,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (173,'Pitcairn','PN',0,178,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (174,'Poland','PL',0,179,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (175,'Portugal','PT',0,180,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (176,'Puerto Rico','PR',0,181,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (177,'Qatar','QA',0,182,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (178,'Reunion','RE',0,183,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (179,'Romania','RO',0,184,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (180,'Russian Federation','RU',0,185,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (181,'Rwanda','RW',0,186,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (182,'Saint Helena','SH',0,188,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (183,'Saint Kitts And Nevis','KN',0,189,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (184,'Saint Lucia','LC',0,190,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (185,'Saint Pierre And Miquelon','PM',0,192,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (186,'Saint Vincent And The Grenadines','VC',0,193,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (187,'Samoa','WS',0,194,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (188,'San Marino','SM',0,195,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (189,'Sao Tome And Principe','ST',0,196,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (190,'Saudi Arabia','SA',0,197,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (191,'Senegal','SN',0,198,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (192,'Serbia','RS',0,199,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (193,'Seychelles','SC',0,200,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (194,'Sierra Leone','SL',0,201,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (195,'Singapore','SG',0,202,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (196,'Slovakia','SK',0,204,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (197,'Slovenia','SI',0,205,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (198,'Solomon Islands','SB',0,206,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (199,'Somalia','SO',0,207,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (200,'South Africa','ZA',0,208,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (201,'South Georgia And The South Sandwich Islands','GS',0,209,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (202,'Spain','ES',0,211,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (203,'Sri Lanka','LK',0,212,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (204,'Sudan','SD',0,213,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (205,'Suriname','SR',0,214,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (206,'Svalbard And Jan Mayen','SJ',0,215,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (207,'Swaziland','SZ',0,216,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (208,'Sweden','SE',0,217,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (209,'Switzerland','CH',0,218,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (210,'Syrian Arab Republic','SY',0,219,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (211,'Taiwan, Province Of China','TW',0,220,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (212,'Tajikistan','TJ',0,221,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (213,'Tanzania, United Republic Of','TZ',0,222,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (214,'Thailand','TH',0,223,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (215,'Togo','TG',0,225,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (216,'Tokelau','TK',0,226,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (217,'Tonga','TO',0,227,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (218,'Trinidad And Tobago','TT',0,228,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (219,'Tunisia','TN',0,229,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (220,'Turkey','TR',0,230,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (221,'Turkmenistan','TM',0,231,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (222,'Turks And Caicos Islands','TC',0,232,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (223,'Tuvalu','TV',0,233,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (224,'Uganda','UG',0,234,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (225,'Ukraine','UA',0,235,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (226,'United Arab Emirates','AE',0,236,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (227,'United Kingdom','GB',0,237,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (228,'United States','US',0,238,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (229,'United States Minor Outlying Islands','UM',0,239,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (230,'Uruguay','UY',0,240,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (231,'Uzbekistan','UZ',0,241,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (232,'Vanuatu','VU',0,242,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (233,'Venezuela','VE',0,243,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (234,'Viet Nam','VN',0,244,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (235,'Virgin Islands, British','VG',0,245,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (236,'Virgin Islands, U.s.','VI',0,246,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (237,'Wallis And Futuna','WF',0,247,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (238,'Western Sahara','EH',0,248,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (239,'Yemen','YE',0,249,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (240,'Zambia','ZM',0,250,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (241,'Zimbabwe','ZW',0,251,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (242,'South Sudan','SS',0,210,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (243,'Bonaire, Sint Eustatius and Saba','BQ',0,27,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (244,'Curaçao','CW',0,57,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (245,'Guernesey','GG',0,92,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (246,'Isle of Man','IM',0,108,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (247,'Jersey','JE',0,113,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (248,'Saint Barthélemy','BL',0,187,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (249,'Saint Martin (French part)','MF',0,191,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (250,'Sint Maarten (Dutch part)','SX',0,203,0,0);
+insert  into `u_yf_countries`(`id`,`name`,`code`,`status`,`sortorderid`,`phone`,`uitype`) values (251,'Timor-Leste','TL',0,224,0,0);
 
 /*Data for the table `u_yf_crmentity_label` */
 
@@ -1422,6 +1507,8 @@ insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) val
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (60,'AssignToYourself',0);
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (61,'RecordPdfInventory',0);
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (62,'SetQtyProducts',0);
+insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (63,'RecordCollector',0);
+insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (64,'MeetingUrl',0);
 
 /*Data for the table `vtiger_activity` */
 
@@ -2020,40 +2107,40 @@ insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`m
 
 /*Data for the table `vtiger_cron_task` */
 
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (1,'LBL_WORKFLOW','Vtiger_Workflow_Cron',900,NULL,NULL,1,'com_vtiger_workflow',1,'Recommended frequency for Workflow is 5 mins');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (2,'LBL_ADDRESS_BOOK','Vtiger_AddressBook_Cron',86400,NULL,NULL,1,'Vtiger',20,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (3,'LBL_SEND_REMINDER','Calendar_SendReminder_Cron',900,NULL,NULL,1,'Calendar',10,'Recommended frequency for SendReminder is 15 mins');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (4,'LBL_CURRENCY_UPDATE','Settings_CurrencyUpdate_CurrencyUpdate_Cron',86400,NULL,NULL,1,'CurrencyUpdate',31,'Recommended frequency for Currency Update is 24 hours');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (5,'LBL_MAILER','Vtiger_Mailer_Cron',300,NULL,NULL,1,'Vtiger',6,NULL);
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (7,'LBL_BROWSING_HISTORY','Vtiger_BrowsingHistory_Cron',86400,NULL,NULL,1,'Vtiger',26,NULL);
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (8,'LBL_SCHEDULED_IMPORT','Import_ScheduledImport_Cron',900,NULL,NULL,1,'Import',2,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (10,'LBL_MAIL_SCANNER_ACTION','OSSMailScanner_Action_Cron',200,NULL,NULL,1,'OSSMailScanner',3,'Recommended frequency for MailScanner is 5 mins');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (11,'LBL_MAIL_SCANNER_VERIFICATION','OSSMailScanner_Verification_Cron',100,NULL,NULL,1,'OSSMailScanner',4,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (12,'LBL_MAIL_SCANNER_BIND','OSSMailScanner_Bind_Cron',600,NULL,NULL,1,'OSSMailScanner',5,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (13,'LBL_BATCH_PROCESSES','Vtiger_BatchProcesses_Cron',600,NULL,NULL,1,'Vtiger',28,NULL);
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (14,'LBL_CARD_DAV','Contacts_CardDav_Cron',300,NULL,NULL,1,'Contacts',7,NULL);
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (15,'LBL_CAL_DAV','Calendar_CalDav_Cron',300,NULL,NULL,1,'Calendar',8,NULL);
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (16,'LBL_ACTIVITY_STATE','Calendar_ActivityState_Cron',1800,NULL,NULL,1,'Calendar',9,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (17,'LBL_MULTI_REFERENCE_VALUE','Vtiger_MultiReference_Cron',900,NULL,NULL,1,'com_vtiger_workflow',12,NULL);
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (18,'LBL_CRMACTIVITY_DAYS','Calendar_SetCrmActivity_Cron',86400,NULL,NULL,1,'Calendar',13,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (19,'LBL_ASSETS_RENEWAL','Assets_Renewal_Cron',86400,NULL,NULL,1,'Assets',14,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (20,'LBL_SOLD_SERVICES_RENEWAL','OSSSoldServices_Renewal_Cron',86400,NULL,NULL,1,'OSSSoldServices',15,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (21,'LBL_SEND_NOTIFICATIONS','Notification_Notifications_Cron',900,NULL,NULL,1,'Notification',11,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (22,'LBL_RECORD_LABEL_UPDATER','Vtiger_LabelUpdater_Cron',900,NULL,NULL,1,'Vtiger',16,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (23,'LBL_PRIVILEGES_UPDATER','Vtiger_PrivilegesUpdater_Cron',900,NULL,NULL,1,'Vtiger',17,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (24,'LBL_UPDATER_COORDINATES','OpenStreetMap_UpdaterCoordinates_Cron',60,NULL,NULL,1,'OpenStreetMap',18,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (25,'LBL_UPDATER_RECORDS_COORDINATES','OpenStreetMap_UpdaterRecordsCoordinates_Cron',300,NULL,NULL,1,'OpenStreetMap',19,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (26,'LBL_MARK_RECORDS_AS_REVIEWED','ModTracker_ReviewChanges_Cron',900,NULL,NULL,1,'ModTracker',21,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (27,'LBL_CACHE','Vtiger_Cache_Cron',86400,NULL,NULL,1,'Vtiger',22,NULL);
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (28,'LBL_NEVER_ENDING_RECURRING_EVENTS','Calendar_RecurringEvents_Cron',86400,NULL,NULL,1,'Calendar',23,NULL);
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (29,'LBL_CLEAR_FILE_UPLOAD_TEMP','Vtiger_FileUploadTemp_Cron',86400,NULL,NULL,1,'Vtiger',24,NULL);
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (30,'LBL_SMSNOTIFIER','SMSNotifier_SMSNotifier_Cron',300,NULL,NULL,1,'SMSNotifier',25,NULL);
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (31,'LBK_SYSTEM_WARNINGS','Vtiger_SystemWarnings_Cron',86400,NULL,NULL,1,'Vtiger',27,NULL);
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (32,'LBL_BATCH_METHODS','Vtiger_BatchMethods_Cron',60,NULL,NULL,1,'Vtiger',29,NULL);
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (33,'LBL_SESSION_CLEANER','Vtiger_SessionCleaner_Cron',60,NULL,NULL,1,'Vtiger',30,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (34,'LBL_ARCHIVE_OLD_RECORDS','Vtiger_Social_Cron',86400,NULL,NULL,0,'Vtiger',32,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (35,'LBL_GET_SOCIAL_MEDIA_MESSAGES','Vtiger_SocialGet_Cron',1800,NULL,NULL,0,'Vtiger',33,'');
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (36,'LBL_MAGENTO','Vtiger_Magento_Cron',60,NULL,NULL,0,'Vtiger',34,NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (1,'LBL_WORKFLOW','Vtiger_Workflow_Cron',900,NULL,NULL,1,'com_vtiger_workflow',1,'Recommended frequency for Workflow is 5 mins',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (2,'LBL_ADDRESS_BOOK','Vtiger_AddressBook_Cron',86400,NULL,NULL,1,'Vtiger',20,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (3,'LBL_SEND_REMINDER','Calendar_SendReminder_Cron',900,NULL,NULL,1,'Calendar',10,'Recommended frequency for SendReminder is 15 mins',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (4,'LBL_CURRENCY_UPDATE','Settings_CurrencyUpdate_CurrencyUpdate_Cron',86400,NULL,NULL,1,'CurrencyUpdate',31,'Recommended frequency for Currency Update is 24 hours',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (5,'LBL_MAILER','Vtiger_Mailer_Cron',300,NULL,NULL,1,'Vtiger',6,NULL,NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (7,'LBL_BROWSING_HISTORY','Vtiger_BrowsingHistory_Cron',86400,NULL,NULL,1,'Vtiger',26,NULL,NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (8,'LBL_SCHEDULED_IMPORT','Import_ScheduledImport_Cron',900,NULL,NULL,1,'Import',2,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (10,'LBL_MAIL_SCANNER_ACTION','OSSMailScanner_Action_Cron',200,NULL,NULL,1,'OSSMailScanner',3,'Recommended frequency for MailScanner is 5 mins',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (11,'LBL_MAIL_SCANNER_VERIFICATION','OSSMailScanner_Verification_Cron',100,NULL,NULL,1,'OSSMailScanner',4,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (12,'LBL_MAIL_SCANNER_BIND','OSSMailScanner_Bind_Cron',600,NULL,NULL,1,'OSSMailScanner',5,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (13,'LBL_BATCH_PROCESSES','Vtiger_BatchProcesses_Cron',600,NULL,NULL,1,'Vtiger',28,NULL,NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (14,'LBL_CARD_DAV','Contacts_CardDav_Cron',300,NULL,NULL,1,'Contacts',7,NULL,NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (15,'LBL_CAL_DAV','Calendar_CalDav_Cron',300,NULL,NULL,1,'Calendar',8,NULL,NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (16,'LBL_ACTIVITY_STATE','Calendar_ActivityState_Cron',1800,NULL,NULL,1,'Calendar',9,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (17,'LBL_MULTI_REFERENCE_VALUE','Vtiger_MultiReference_Cron',900,NULL,NULL,1,'com_vtiger_workflow',12,NULL,NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (18,'LBL_CRMACTIVITY_DAYS','Calendar_SetCrmActivity_Cron',86400,NULL,NULL,1,'Calendar',13,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (19,'LBL_ASSETS_RENEWAL','Assets_Renewal_Cron',86400,NULL,NULL,1,'Assets',14,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (20,'LBL_SOLD_SERVICES_RENEWAL','OSSSoldServices_Renewal_Cron',86400,NULL,NULL,1,'OSSSoldServices',15,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (21,'LBL_SEND_NOTIFICATIONS','Notification_Notifications_Cron',900,NULL,NULL,1,'Notification',11,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (22,'LBL_RECORD_LABEL_UPDATER','Vtiger_LabelUpdater_Cron',900,NULL,NULL,1,'Vtiger',16,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (23,'LBL_PRIVILEGES_UPDATER','Vtiger_PrivilegesUpdater_Cron',900,NULL,NULL,1,'Vtiger',17,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (24,'LBL_UPDATER_COORDINATES','OpenStreetMap_UpdaterCoordinates_Cron',60,NULL,NULL,1,'OpenStreetMap',18,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (25,'LBL_UPDATER_RECORDS_COORDINATES','OpenStreetMap_UpdaterRecordsCoordinates_Cron',300,NULL,NULL,1,'OpenStreetMap',19,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (26,'LBL_MARK_RECORDS_AS_REVIEWED','ModTracker_ReviewChanges_Cron',900,NULL,NULL,1,'ModTracker',21,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (27,'LBL_CACHE','Vtiger_Cache_Cron',86400,NULL,NULL,1,'Vtiger',22,NULL,NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (28,'LBL_NEVER_ENDING_RECURRING_EVENTS','Calendar_RecurringEvents_Cron',86400,NULL,NULL,1,'Calendar',23,NULL,NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (29,'LBL_CLEAR_FILE_UPLOAD_TEMP','Vtiger_FileUploadTemp_Cron',86400,NULL,NULL,1,'Vtiger',24,NULL,NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (30,'LBL_SMSNOTIFIER','SMSNotifier_SMSNotifier_Cron',300,NULL,NULL,1,'SMSNotifier',25,NULL,NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (31,'LBK_SYSTEM_WARNINGS','Vtiger_SystemWarnings_Cron',86400,NULL,NULL,1,'Vtiger',27,NULL,NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (32,'LBL_BATCH_METHODS','Vtiger_BatchMethods_Cron',60,NULL,NULL,1,'Vtiger',29,NULL,NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (33,'LBL_SESSION_CLEANER','Vtiger_SessionCleaner_Cron',60,NULL,NULL,1,'Vtiger',30,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (34,'LBL_ARCHIVE_OLD_RECORDS','Vtiger_Social_Cron',86400,NULL,NULL,0,'Vtiger',32,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (35,'LBL_GET_SOCIAL_MEDIA_MESSAGES','Vtiger_SocialGet_Cron',1800,NULL,NULL,0,'Vtiger',33,'',NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (36,'LBL_MAGENTO','Vtiger_Magento_Cron',60,NULL,NULL,0,'Vtiger',34,NULL,NULL);
 
 /*Data for the table `vtiger_currencies` */
 
@@ -2195,6 +2282,48 @@ insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`c
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (136,'Haiti, Gourde','HTG','G');
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (137,'Libya, Dinar','LYD','LYD');
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (138,'CFP Franc','XPF','F');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (139,'South Sudanese pound','SSP','SS£');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (140,'Afghani','AFN','Af');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (141,'Armenian Dram','AMD','Դ');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (142,'Kwanza','AOA','Kz');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (143,'Taka','BDT','৳');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (144,'Burundi Franc','BIF','₣');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (145,'Boliviano Mvdol','BOV','$b');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (146,'Ngultrum','BTN','Nu');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (147,'Belarussian Ruble','BYN','p.');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (148,'Congolese Franc','CDF','FC');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (149,'Unidad de Fomento','CLF','$');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (150,'Unidad de Valor Real','COU','$');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (151,'Peso Convertible','CUC','CUC$');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (152,'Cabo Verde Escudo','CVE','$');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (153,'Djibouti Franc','DJF','Fdj');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (154,'Algerian Dinar','DZD','دج');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (155,'Nakfa','ERN','Nkf');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (156,'Ethiopian Birr','ETB','Br');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (157,'Lari','GEL','₾');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (158,'Dalasi','GMD','D');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (159,'Guinean Franc','GNF','FG');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (160,'Riel','KHR','៛');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (161,'Comorian Franc','KMF','CF');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (162,'Loti','LSL','L');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (163,'Moldovan Leu','MDL','L');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (164,'Kyat','MMK','K');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (165,'Pataca','MOP','	MOP$');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (166,'Ouguiya','MRU','UM');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (167,'Kina','PGK','K');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (168,'Rwanda Franc','RWF','R₣');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (169,'Leone','SLL','Le');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (170,'Dobra','STN','Db');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (171,'Lilangeni','SZL','L');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (172,'Somoni','TJS','SM');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (173,'Turkmenistan New Manat','TMT','m');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (174,'Tunisian Dinar','TND','د.ت');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (175,'Pa’anga','TOP','T$');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (176,'Bolívar Soberano','VES','Bs. S.');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (177,'Vatu','VUV','VT');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (178,'Tala','WST','WS$');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (179,'Zambian Kwacha','ZMW','ZK');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (180,'Ghana, Cedis','GHS','¢');
 
 /*Data for the table `vtiger_currency` */
 
@@ -3159,6 +3288,9 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (84,'EditViewPreSave','Products_DuplicateEan_Handler',1,'Products','',5,14);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (85,'EntityBeforeSave','SSalesProcesses_Finances_Handler',1,'SSalesProcesses','',5,86);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (86,'IStoragesAfterUpdateStock','IStorages_RecalculateStockHandler_Handler',0,'','',5,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (87,'EditViewPreSave','IGDNC_IgdnExist_Handler',1,'IGDNC','',5,109);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (88,'EditViewPreSave','IGRNC_IgrnExist_Handler',1,'IGRNC','',5,108);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (89,'EntityBeforeSave','Vtiger_Meetings_Handler',1,'Calendar,Occurrences','',5,0);
 
 /*Data for the table `vtiger_expectedresponse` */
 
@@ -3332,20 +3464,20 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (8,216,'folderid','vtiger_notes',1,302,'folderid','Folder Name',0,2,'T1','255',2,17,1,'V~O',2,3,'BAS',1,'',1,'1',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (8,217,'note_no','vtiger_notes',1,4,'note_no','Document No',0,0,'','100',3,17,2,'V~O',3,NULL,'BAS',0,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (8,218,'modifiedby','vtiger_crmentity',1,52,'modifiedby','Last Modified By',0,0,'','65535',12,17,3,'V~O',3,NULL,'BAS',0,'',0,'',NULL,0,0,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,231,'subject','vtiger_activity',1,2,'subject','Subject',0,0,'','100',1,19,1,'V~M',0,1,'BAS',1,'',1,'',NULL,0,0,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,232,'smownerid','vtiger_crmentity',1,53,'assigned_user_id','Assigned To',0,0,'','65535',2,19,1,'V~M',0,4,'BAS',1,'',1,'',NULL,0,0,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,233,'date_start','vtiger_activity',1,6,'date_start','Start Date & Time',0,0,'',NULL,3,19,1,'DT~M~time_start',0,2,'BAS',1,'',1,'',NULL,0,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,231,'subject','vtiger_activity',1,2,'subject','Subject',0,0,'','100',1,19,1,'V~M',0,2,'BAS',1,'',1,'',NULL,0,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,232,'smownerid','vtiger_crmentity',1,53,'assigned_user_id','Assigned To',0,0,'','65535',2,19,1,'V~M',0,6,'BAS',1,'',1,'',NULL,0,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,233,'date_start','vtiger_activity',1,6,'date_start','Start Date & Time',0,0,'',NULL,3,19,1,'DT~M~time_start',0,3,'BAS',1,'',1,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,234,'time_start','vtiger_activity',1,14,'time_start','Time Start',0,0,'',NULL,4,19,3,'T~O',1,NULL,'BAS',1,'',1,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,235,'time_end','vtiger_activity',1,14,'time_end','End Time',0,0,'',NULL,4,19,3,'T~O',1,NULL,'BAS',1,'',1,'',NULL,0,0,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,236,'due_date','vtiger_activity',1,23,'due_date','Due Date & Time',0,0,'',NULL,5,19,1,'D~M~OTH~GE~date_start~Start Date & Time',1,3,'BAS',1,'',1,'',NULL,0,0,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,237,'process','vtiger_activity',1,66,'process','FL_PROCESS',0,0,'','-2147483648,2147483647',2,87,1,'I~O',2,8,'BAS',1,'',1,'',NULL,0,0,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,238,'link','vtiger_activity',1,67,'link','FL_RELATION',0,0,'','-2147483648,2147483647',1,87,1,'I~O',2,7,'BAS',1,'',1,'',NULL,0,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,236,'due_date','vtiger_activity',1,23,'due_date','Due Date & Time',0,0,'',NULL,5,19,1,'D~M~OTH~GE~date_start~Start Date & Time',1,4,'BAS',1,'',1,'',NULL,0,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,237,'process','vtiger_activity',1,66,'process','FL_PROCESS',0,0,'','-2147483648,2147483647',2,87,1,'I~O',2,9,'BAS',1,'',1,'',NULL,0,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,238,'link','vtiger_activity',1,67,'link','FL_RELATION',0,0,'','-2147483648,2147483647',1,87,1,'I~O',2,8,'BAS',1,'',1,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,239,'status','vtiger_activity',1,15,'activitystatus','Status',0,0,'PLL_PLANNED','200',9,19,10,'V~O',1,2,'BAS',2,'',1,'','',0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,241,'priority','vtiger_activity',1,15,'taskpriority','Priority',0,0,'Low','200',10,19,1,'V~O',1,NULL,'BAS',1,'',1,'','',0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,242,'sendnotification','vtiger_activity',1,56,'sendnotification','Send Notification',0,0,'','-32768,32767',11,19,1,'C~O',1,NULL,'BAS',1,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,243,'createdtime','vtiger_crmentity',1,70,'createdtime','Created Time',0,0,'',NULL,14,19,2,'DT~O',3,NULL,'BAS',0,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,244,'modifiedtime','vtiger_crmentity',1,70,'modifiedtime','Modified Time',0,0,'',NULL,13,19,2,'DT~O',3,NULL,'BAS',0,'',0,'',NULL,0,0,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,245,'activitytype','vtiger_activity',1,16,'activitytype','Activity Type',0,0,'','200',16,19,1,'V~M',0,5,'BAS',1,'',1,'',NULL,0,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,245,'activitytype','vtiger_activity',1,16,'activitytype','Activity Type',0,0,'','200',16,19,1,'V~M',0,1,'BAS',1,'',1,'{\"hideLabel\":[\"EventForm\",\"QuickCreateAjax\"]}',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,246,'visibility','vtiger_activity',1,16,'visibility','Visibility',0,0,'Private','50',17,19,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,247,'description','vtiger_crmentity',1,19,'description','Description',0,0,'','65535',1,20,1,'V~O',1,NULL,'BAS',1,'',1,'','',0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,248,'duration_hours','vtiger_activity',1,63,'duration_hours','Duration',0,0,'','-32768,32767',17,19,3,'I~O',1,NULL,'BAS',1,'',0,'',NULL,0,0,0,0);
@@ -3786,7 +3918,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (35,1395,'shownerid','vtiger_crmentity',1,120,'shownerid','Share with users',0,2,'','65535',20,91,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (7,1397,'shownerid','vtiger_crmentity',1,120,'shownerid','Share with users',0,2,'','65535',4,13,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (8,1399,'shownerid','vtiger_crmentity',1,120,'shownerid','Share with users',0,2,'','65535',6,17,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,1401,'shownerid','vtiger_crmentity',1,120,'shownerid','Share with users',0,0,'','65535',5,19,1,'V~O',2,6,'BAS',1,'',0,'',NULL,0,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,1401,'shownerid','vtiger_crmentity',1,120,'shownerid','Share with users',0,0,'','65535',5,19,1,'V~O',2,7,'BAS',1,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (15,1403,'shownerid','vtiger_crmentity',1,120,'shownerid','Share with users',0,2,'','65535',7,38,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (18,1407,'shownerid','vtiger_crmentity',1,120,'shownerid','Share with users',0,2,'','65535',12,42,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (19,1409,'shownerid','vtiger_crmentity',1,120,'shownerid','Share with users',0,2,'','65535',9,46,1,'V~O',1,NULL,'BAS',1,'',0,'',NULL,0,0,0,0);
@@ -4707,7 +4839,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (29,2626,'force_password_change','vtiger_users',1,56,'force_password_change','FL_FORCE_PASSWORD_CHANGE',0,2,'','-128,127',2,83,1,'C~O',1,0,'BAS',1,'Edit,Detail',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (37,2627,'contactid','vtiger_assets',1,10,'contactid','FL_CONTACT',0,2,'','-2147483648,2147483647',8,96,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (58,2628,'contactid','vtiger_osssoldservices',1,10,'contactid','FL_CONTACT',0,2,'','-2147483648,2147483647',12,142,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,2630,'linkextend','vtiger_activity',1,65,'linkextend','FL_RELATION_EXTEND',0,0,'','-2147483648,2147483647',5,87,1,'I~O',2,11,'BAS',1,'',1,'','',0,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,2630,'linkextend','vtiger_activity',1,65,'linkextend','FL_RELATION_EXTEND',0,0,'','-2147483648,2147483647',5,87,1,'I~O',2,10,'BAS',1,'',1,'','',0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (111,2631,'linkextend','u_yf_notification',1,65,'linkextend','FL_RELATION_EXTEND',0,2,'','-2147483648,2147483647',9,374,1,'I~O',2,10,'BAS',1,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (51,2632,'linkextend','vtiger_osstimecontrol',1,65,'linkextend','FL_RELATION_EXTEND',0,2,'','-2147483648,2147483647',14,129,1,'I~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (84,2633,'linkextend','vtiger_reservations',1,65,'linkextend','FL_RELATION_EXTEND',0,2,'','-2147483648,2147483647',5,262,1,'I~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0);
@@ -5107,8 +5239,8 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (99,3033,'email_b','u_yf_finvoiceproforma_address',1,13,'email_b','FL_EMAIL',0,2,'','100',16,467,1,'E~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (99,3034,'phone_a','u_yf_finvoiceproforma_address',1,1,'phone_a','FL_PHONE',0,2,'','100',17,325,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (99,3035,'phone_b','u_yf_finvoiceproforma_address',1,1,'phone_b','FL_PHONE',0,2,'','100',17,467,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,3036,'meeting_utl','vtiger_activity',1,17,'meeting_utl','FL_MEETING_UTL',0,2,'','255',28,19,1,'V~O',1,0,'BAS',1,'',1,'',NULL,0,0,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (131,3037,'meeting_utl','u_yf_occurrences',1,17,'meeting_utl','FL_MEETING_UTL',0,2,'','255',11,460,1,'V~O',1,0,'BAS',1,'',1,'',NULL,0,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (9,3036,'meeting_url','vtiger_activity',1,326,'meeting_url','FL_MEETING_URL',0,2,'','2048',28,19,1,'V~O',2,11,'BAS',1,'',1,'{\"exp\":\"due_date\",\"roomName\":\"subject\"}',NULL,0,0,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (131,3037,'meeting_url','u_yf_occurrences',1,326,'meeting_url','FL_MEETING_URL',0,2,'','2048',11,460,1,'V~O',1,0,'BAS',1,'',1,'{\"exp\":\"date_end\"}',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (4,3038,'gender','vtiger_contactdetails',1,16,'gender','FL_GENDER',0,2,'','255',31,4,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`) values (29,3039,'secondary_email','vtiger_users',2,13,'secondary_email','FL_SECONDARY_EMAIL',0,2,'','100',2,468,1,'E~O',1,0,'BAS',1,'Edit,Detail',0,'',NULL,0,0,0,0);
 
@@ -5385,8 +5517,8 @@ insert  into `vtiger_fixed_assets_type`(`fixed_assets_typeid`,`fixed_assets_type
 
 /*Data for the table `vtiger_gender` */
 
-insert  into `vtiger_gender`(`genderid`,`gender`,`presence`,`sortorderid`) values (1,'PPL_WOMAN',1,1);
-insert  into `vtiger_gender`(`genderid`,`gender`,`presence`,`sortorderid`) values (2,'PPL_MAN',1,2);
+insert  into `vtiger_gender`(`genderid`,`gender`,`presence`,`sortorderid`) values (1,'PLL_WOMAN',1,1);
+insert  into `vtiger_gender`(`genderid`,`gender`,`presence`,`sortorderid`) values (2,'PLL_MAN',1,2);
 
 /*Data for the table `vtiger_glacct` */
 
@@ -5929,6 +6061,7 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (369,130,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,'','','',NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (370,0,'EDIT_VIEW_RECORD_COLLECTOR','Vies','App\\RecordCollectors\\Vies',NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (371,131,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`params`) values (372,0,'EDIT_VIEW_RECORD_COLLECTOR','GUS','App\\RecordCollectors\\Gus',NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Data for the table `vtiger_locationregister_status` */
 
@@ -9331,6 +9464,7 @@ insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,1
 
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,1,27,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,1,49,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,4,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,4,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,4,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,4,8,0);
@@ -9371,6 +9505,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,4,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,4,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,4,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,6,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,6,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,6,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,6,8,0);
@@ -9411,6 +9546,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,6,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,6,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,6,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,7,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,7,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,7,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,7,8,0);
@@ -9452,6 +9588,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,7,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,7,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,7,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,8,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,8,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,8,8,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,8,13,0);
@@ -9490,6 +9627,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,8,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,8,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,8,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,9,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,9,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,9,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,9,8,1);
@@ -9531,6 +9669,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,9,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,9,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,9,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,13,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,13,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,13,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,13,8,0);
@@ -9569,6 +9708,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,13,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,13,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,13,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,14,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,14,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,14,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,14,8,1);
@@ -9608,6 +9748,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,14,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,14,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,14,62,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,15,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,15,8,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,15,13,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,15,14,0);
@@ -9644,6 +9785,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,15,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,15,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,15,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,18,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,18,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,18,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,18,8,1);
@@ -9684,6 +9826,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,18,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,18,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,18,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,19,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,19,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,19,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,19,8,1);
@@ -9722,6 +9865,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,19,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,19,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,19,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,26,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,26,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,26,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,26,8,1);
@@ -9760,6 +9904,8 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,26,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,26,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,26,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,29,64,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,34,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,34,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,34,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,34,8,1);
@@ -9798,6 +9944,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,34,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,34,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,34,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,35,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,35,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,35,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,35,8,1);
@@ -9836,6 +9983,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,35,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,35,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,35,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,37,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,37,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,37,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,37,8,1);
@@ -9911,6 +10059,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,40,58,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,40,59,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,40,60,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,41,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,41,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,41,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,41,8,1);
@@ -9949,6 +10098,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,41,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,41,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,41,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,42,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,42,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,42,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,42,8,1);
@@ -9987,6 +10137,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,42,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,42,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,42,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,43,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,43,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,43,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,43,8,1);
@@ -10061,6 +10212,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,45,58,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,45,59,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,45,60,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,51,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,51,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,51,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,51,8,0);
@@ -10099,6 +10251,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,51,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,51,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,51,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,54,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,54,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,54,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,54,13,0);
@@ -10128,6 +10281,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,54,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,54,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,54,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,57,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,57,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,57,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,57,8,0);
@@ -10166,6 +10320,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,57,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,57,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,57,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,58,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,58,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,58,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,58,8,0);
@@ -10204,6 +10359,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,58,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,58,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,58,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,59,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,59,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,59,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,59,8,0);
@@ -10242,6 +10398,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,59,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,59,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,59,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,60,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,60,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,60,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,60,8,1);
@@ -10280,6 +10437,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,60,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,60,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,60,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,61,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,61,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,61,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,61,8,0);
@@ -10318,6 +10476,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,61,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,61,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,61,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,74,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,74,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,74,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,74,8,0);
@@ -10346,6 +10505,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,74,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,74,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,74,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,75,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,75,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,75,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,75,8,0);
@@ -10384,6 +10544,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,75,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,75,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,75,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,78,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,78,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,78,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,78,8,0);
@@ -10422,6 +10583,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,78,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,78,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,78,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,79,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,79,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,79,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,79,8,0);
@@ -10460,6 +10622,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,79,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,79,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,79,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,80,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,80,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,80,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,80,8,0);
@@ -10498,6 +10661,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,80,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,80,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,80,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,81,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,81,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,81,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,81,8,0);
@@ -10536,6 +10700,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,81,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,81,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,81,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,82,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,82,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,82,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,82,8,0);
@@ -10574,6 +10739,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,82,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,82,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,82,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,83,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,83,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,83,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,83,8,0);
@@ -10612,6 +10778,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,83,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,83,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,83,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,84,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,84,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,84,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,84,8,0);
@@ -10650,6 +10817,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,84,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,84,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,84,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,85,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,85,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,85,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,85,8,0);
@@ -10689,6 +10857,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,85,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,85,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,85,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,86,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,86,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,86,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,86,8,0);
@@ -10727,6 +10896,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,86,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,86,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,86,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,87,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,87,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,87,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,87,8,0);
@@ -10766,6 +10936,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,87,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,87,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,87,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,88,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,88,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,88,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,88,8,0);
@@ -10805,6 +10976,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,88,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,88,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,88,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,89,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,89,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,89,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,89,8,0);
@@ -10844,6 +11016,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,89,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,89,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,89,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,90,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,90,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,90,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,90,8,0);
@@ -10883,6 +11056,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,90,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,90,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,90,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,91,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,91,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,91,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,91,8,0);
@@ -10922,6 +11096,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,91,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,91,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,91,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,92,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,92,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,92,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,92,8,0);
@@ -10961,6 +11136,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,92,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,92,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,92,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,93,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,93,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,93,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,93,8,0);
@@ -11000,6 +11176,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,93,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,93,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,93,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,94,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,94,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,94,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,94,8,0);
@@ -11037,6 +11214,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,94,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,94,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,94,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,95,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,95,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,95,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,95,8,0);
@@ -11075,6 +11253,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,95,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,95,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,95,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,96,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,96,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,96,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,96,8,0);
@@ -11112,6 +11291,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,96,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,96,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,96,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,97,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,97,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,97,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,97,8,0);
@@ -11150,6 +11330,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,97,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,97,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,97,62,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,98,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,98,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,98,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,98,8,0);
@@ -11188,6 +11369,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,98,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,98,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,98,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,99,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,99,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,99,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,99,8,0);
@@ -11226,6 +11408,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,99,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,99,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,99,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,100,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,100,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,100,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,100,8,0);
@@ -11264,6 +11447,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,100,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,100,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,100,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,101,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,101,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,101,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,101,8,0);
@@ -11302,6 +11486,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,101,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,101,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,101,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,102,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,102,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,102,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,102,8,0);
@@ -11340,6 +11525,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,102,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,102,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,102,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,103,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,103,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,103,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,103,8,0);
@@ -11378,6 +11564,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,103,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,103,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,103,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,104,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,104,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,104,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,104,8,0);
@@ -11416,6 +11603,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,104,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,104,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,104,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,105,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,105,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,105,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,105,8,0);
@@ -11453,6 +11641,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,105,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,105,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,105,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,106,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,106,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,106,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,106,8,0);
@@ -11491,6 +11680,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,106,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,106,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,106,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,107,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,107,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,107,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,107,8,0);
@@ -11529,6 +11719,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,107,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,107,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,107,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,108,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,108,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,108,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,108,8,0);
@@ -11567,6 +11758,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,108,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,108,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,108,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,109,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,109,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,109,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,109,8,0);
@@ -11605,6 +11797,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,109,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,109,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,109,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,111,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,111,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,111,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,111,8,1);
@@ -11643,6 +11836,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,111,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,111,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,111,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,112,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,112,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,112,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,112,8,1);
@@ -11681,6 +11875,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,112,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,112,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,112,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,113,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,113,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,113,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,113,8,1);
@@ -11719,6 +11914,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,113,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,113,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,113,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,114,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,114,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,114,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,114,8,1);
@@ -11757,6 +11953,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,114,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,114,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,114,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,115,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,115,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,115,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,115,8,1);
@@ -11796,6 +11993,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,115,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,115,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,115,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,116,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,116,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,116,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,116,8,1);
@@ -11834,6 +12032,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,116,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,116,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,116,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,117,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,117,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,117,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,117,8,1);
@@ -11873,6 +12072,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,117,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,117,60,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,117,61,1);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,119,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,119,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,119,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,119,8,1);
@@ -11910,6 +12110,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,119,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,119,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,119,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,121,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,121,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,121,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,121,8,1);
@@ -11947,6 +12148,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,121,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,121,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,121,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,122,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,122,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,122,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,122,8,1);
@@ -11984,6 +12186,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,122,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,122,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,122,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,123,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,123,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,123,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,123,8,1);
@@ -12021,6 +12224,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,123,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,123,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,123,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,124,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,124,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,124,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,124,8,1);
@@ -12058,6 +12262,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,124,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,124,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,124,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,125,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,125,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,125,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,125,8,1);
@@ -12095,6 +12300,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,125,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,125,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,125,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,127,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,127,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,127,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,127,8,0);
@@ -12132,6 +12338,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,127,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,127,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,127,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,128,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,128,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,128,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,128,8,0);
@@ -12169,6 +12376,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,128,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,128,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,128,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,130,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,130,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,130,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,130,8,0);
@@ -12208,6 +12416,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,130,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,130,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,130,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,131,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,131,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,131,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,131,8,0);
@@ -18083,6 +18292,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (123,5,'LBL_MAP','far fa-map','LBL_MAP_DESCRIPTION','index.php?parent=Settings&module=Map&view=Config',6,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (124,5,'LBL_MAGENTO','fab fa-magento','LBL_MAGENTO_DESCRIPTION','index.php?parent=Settings&module=Magento&view=List',13,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (125,4,'LBL_EVENT_HANDLER','mdi mdi-car-turbocharger','LBL_EVENT_HANDLER_DESC','index.php?parent=Settings&module=EventHandler&view=Index',13,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (126,5,'LBL_MEETING_SERVICES','mdi mdi-server-network','LBL_MEETING_SERVICES_DESCRIPTION','index.php?parent=Settings&module=MeetingServices&view=List',15,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
@@ -18434,7 +18644,7 @@ insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`cu
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (129,'MailIntegration',0,30,'MailIntegration',0,0,0,'0','',NULL,0,0,1);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (130,'Locations',0,31,'Locations',0,0,1,'0','',NULL,0,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (131,'Occurrences',0,32,'Occurrences',0,0,1,'0','',NULL,0,0,0);
-insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (132,'ProductCategory',0,33,'ProductCategory',1,0,1,'0','',NULL,0,0,0);
+insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (132,'ProductCategory',0,33,'ProductCategory',0,0,1,'0','',NULL,0,0,0);
 
 /*Data for the table `vtiger_tab_info` */
 
