@@ -389,7 +389,8 @@
     "LBL_LOGGED_OUT_TIME": "Sign-out time",
     "LBL_USER_IP_ADDRESS": "User IP address",
     "LBL_STATUS": "Status",
-    "LBL_MEETING_URL": "Meeting URL"
+    "LBL_MEETING_URL": "Meeting URL",
+    "FL_SECONDARY_EMAIL": "Secondary email"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Decimal separator and grouping separator can't be the same.",
