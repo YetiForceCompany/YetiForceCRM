@@ -40,6 +40,9 @@
 			</div>
 		</div>
 		<hr>
+		<div class="alert alert-block alert-warning mb-2">
+			<span>{\App\Language::translate('LBL_EDIT_MAY_AFFECT_STABILITY_DESC', $QUALIFIED_MODULE)}</span>
+		</div>
 		<div class="contents tabbable">
 			<ul class="nav nav-tabs layoutTabs massEditTabs" role="tablist">
 				<li class="nav-item"><a class="nav-link active" data-toggle="tab" role="tab"
