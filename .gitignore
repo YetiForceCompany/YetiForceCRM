@@ -12,6 +12,8 @@
 
 # dependencies YETIFORCE
 /public_html/modules/OSSMail/roundcube/
+/public_html/modules/OSSMail/roundcube_/
+/public_html/modules/OSSMail/roundcube_org/
 /dev_tools/
 /_private
 /public_html/_private
