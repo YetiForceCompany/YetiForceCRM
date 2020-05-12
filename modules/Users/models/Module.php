@@ -111,6 +111,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 				'logout_time' => null,
 				'status' => $status,
 				'browser' => $browser->name . ' ' . $browser->ver,
+				'userid' => \App\User::getUserIdByName($userName),
+				'agent' => \App\TextParser::textTruncate(\App\Request::_getServer('HTTP_USER_AGENT', '-'), 500, false),
 			])->execute();
 	}
 

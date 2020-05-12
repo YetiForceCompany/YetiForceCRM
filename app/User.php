@@ -414,15 +414,14 @@ class User
 	 *
 	 * @return int
 	 */
-	public static function getUserIdByName($name)
+	public static function getUserIdByName($name): ?int
 	{
-		if (Cache::has(__METHOD__, $name)) {
-			return Cache::get(__METHOD__, $name);
+		if (Cache::has('UserIdByName', $name)) {
+			return Cache::get('UserIdByName', $name);
 		}
 		$userId = (new Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => $name])->limit(1)->scalar();
-		Cache::save(__METHOD__, $name, $userId, Cache::LONG);
-
-		return $userId;
+		Cache::save('UserIdByName', $name, $userId, Cache::LONG);
+		return $userId !== false ? $userId : null;
 	}
 
 	/**
