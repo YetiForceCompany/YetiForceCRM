@@ -1116,6 +1116,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PROCESS_WIZARD', $processWizardModel);
+		$viewer->assign('IS_AJAX_ENABLED', false);
 		$viewer->assign('STEP', $processWizardModel->getStep());
 		$viewer->assign('STEP_URL', "index.php?module={$moduleName}&view=Detail&record={$recordModel->getId()}&mode=processWizard&tab_label=LBL_RECORD_PROCESS_WIZARD&step=");
 		$viewer->assign('RECORD', $recordModel);

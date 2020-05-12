@@ -1,7 +1,8 @@
 <?php
 /**
  * Gus class for downloading REGON registry open public data. For BIR 1.1 version.
- * Modifying this file or functions that affect the footer appearance will violate the license terms!!!
+ *
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
  *
  * @package   App
  *

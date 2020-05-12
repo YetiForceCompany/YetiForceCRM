@@ -16587,7 +16587,7 @@ table .listButtons.narrow .c-badge__icon {
 body:not(.desktop) .u-overflow-scroll-non-desktop {
   overflow: scroll !important; }
 
-.u-remove-dropdown-icon .dropdown-toggle::after, .c-header .dropdown-toggle::after {
+.u-remove-dropdown-icon .dropdown-toggle::after {
   display: none; }
 
 @media (max-width: 1199.98px) {
@@ -17195,8 +17195,8 @@ body:not(.desktop) .bodyContent {
     background-color: #fff;
     margin: 0 1rem; }
 
-.c-panel--collapsible .c-panel__header .mdi-chevron-up,
-.c-detail-widget .c-detail-widget__header .mdi-chevron-up {
+.c-panel--collapsible .c-panel__header .u-transform_rotate-180deg,
+.c-detail-widget .c-detail-widget__header .u-transform_rotate-180deg {
   display: inline-block;
   -webkit-transition: transform 0.5s ease;
   -moz-transition: transform 0.5s ease;
@@ -17204,12 +17204,9 @@ body:not(.desktop) .bodyContent {
   -o-transition: transform 0.5s ease;
   transition: transform 0.5s ease; }
 
-.c-panel--collapsible .c-panel__header.collapsed,
-.c-detail-widget .c-detail-widget__header.collapsed {
-  border-bottom: none; }
-  .c-panel--collapsible .c-panel__header.collapsed .mdi-chevron-up,
-  .c-detail-widget .c-detail-widget__header.collapsed .mdi-chevron-up {
-    transform: rotate(180deg); }
+.c-panel--collapsible .c-panel__header .collapsed .u-transform_rotate-180deg,
+.c-detail-widget .c-detail-widget__header .collapsed .u-transform_rotate-180deg {
+  transform: rotate(180deg); }
 
 .c-badge__icon {
   width: 32px;
@@ -18065,6 +18062,16 @@ body > .o-exception-fixed-block {
     @media (min-width: 1300px) {
       .c-header .c-header__btn__container .c-header__btn {
         padding: 0.315rem 0.75rem; } }
+  .c-header .c-user-avatar-small {
+    border-radius: 50%;
+    width: 1.25em;
+    height: 1.25em;
+    vertical-align: sub; }
+  .c-header .c-user-avatar-medium {
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    min-width: 48px; }
 
 .widget_header {
   background: #f8f9fa; }
@@ -18365,12 +18372,6 @@ body > .o-exception-fixed-block {
   .c-menu__container.js-expand + .c-header .c-header__btn:not(.c-header__btn--mobile),
   .c-menu__container.js-expand + .c-header .c-header__btn__container {
     margin-bottom: 0.25rem; } }
-
-.c-user-avatar-medium {
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  min-width: 48px; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .user-info--active .c-menu__container {

@@ -102,7 +102,7 @@ body:not(.desktop) {
 
 .c-panel--collapsible .c-panel__header,
 .c-detail-widget .c-detail-widget__header {
-	@include u-transform(180deg, true);
+	@include u-transform(180deg);
 }
 
 .c-badge__icon {

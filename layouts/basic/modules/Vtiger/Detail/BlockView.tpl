@@ -12,7 +12,7 @@
 	-->*}
 <!-- tpl-Base-Detail-BlockView -->
 <div class="detailViewTable">
-	<div class="js-toggle-panel c-panel" data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if} data-label="{$BLOCK_LABEL_KEY}">
+	<div class="js-toggle-panel c-panel" data-js="click|data-dynamic" {if isset($IS_DYNAMIC) && $IS_DYNAMIC} data-dynamic="true"{/if} data-label="{$BLOCK_LABEL_KEY}">
 		<div class="blockHeader c-panel__header">
 			{if isset($BLOCK)}
 				<div class="m-2">

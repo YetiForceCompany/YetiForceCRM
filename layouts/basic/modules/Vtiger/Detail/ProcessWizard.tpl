@@ -5,7 +5,7 @@
 	<ul class="nav nav-tabs mt-1 c-process-line">
 		{assign var=CLASS value='c-process-line__done'}
 		{foreach item=STEP_MAP key=STEP_ID from=$PROCESS_WIZARD->getSteps()}
-			{if $STEP_MAP['conditionsStatus']}
+			{if isset($STEP_MAP['conditionsStatus']) && $STEP_MAP['conditionsStatus']}
 				{assign var=CLASS value='c-process-line__next'}
 			{elseif $CLASS === 'c-process-line__next'}
 				{assign var=CLASS value=''}
@@ -20,7 +20,7 @@
 	<div class="process-content mt-2">
 		{foreach item=BLOCK_ROW from=$PROCESS_WIZARD->getStepBlocks()}
 			{if $BLOCK_ROW['type'] eq 'fields'}
-				{include file=\App\Layout::getTemplatePath('Detail/BlockView.tpl', $MODULE_NAME) RECORD_STRUCTURE=$RECORD_STRUCTURE BLOCK_LABEL_KEY=$BLOCK_ROW['label'] FIELD_MODEL_LIST=$BLOCK_ROW['fieldsStructure']}
+				{include file=\App\Layout::getTemplatePath('Detail/BlockView.tpl', $MODULE_NAME) BLOCK_LABEL_KEY=$BLOCK_ROW['label'] FIELD_MODEL_LIST=$BLOCK_ROW['fieldsStructure']}
 			{elseif $BLOCK_ROW['type'] eq 'relatedLists'}
 				{assign var=BLOCK_MODEL value=$BLOCK_ROW['relationStructure']}
 				{assign var=RELATED_MODULE_NAME value=$BLOCK_MODEL->getRelatedModuleName()}
