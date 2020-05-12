@@ -37,6 +37,14 @@ class Users_Module_Model extends Vtiger_Module_Model
 	/**
 	 * {@inheritdoc}
 	 */
+	public function isUtilityActionEnabled()
+	{
+		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function searchRecord(string $searchValue): array
 	{
 		$matchingRecords = [];

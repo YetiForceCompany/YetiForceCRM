@@ -92,7 +92,8 @@
     "AssignToYourself": "Assign to me",
     "AutoAssignRecord": "Automatic transfer of records",
     "RecordConventer": "Record converter",
-    "RecordCollector": "Record collector"
+    "RecordCollector": "Record collector",
+    "MeetingUrl": "Meeting URL"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Profile deleted successfully"

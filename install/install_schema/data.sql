@@ -1508,6 +1508,7 @@ insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) val
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (61,'RecordPdfInventory',0);
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (62,'SetQtyProducts',0);
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (63,'RecordCollector',0);
+insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (64,'MeetingUrl',0);
 
 /*Data for the table `vtiger_activity` */
 
@@ -9903,6 +9904,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,26,58,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,26,59,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,26,60,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,29,64,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,34,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,34,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,34,6,0);

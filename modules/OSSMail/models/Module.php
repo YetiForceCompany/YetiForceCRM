@@ -61,7 +61,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$type = $request->getByType('type');
 
 		$return = [];
-		if (!empty($record) && \App\Record::isExists($record) && \App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
+		if (('Users' === $moduleName && $record === \App\User::getCurrentUserRealId()) || ('Users' !== $moduleName && !empty($record) && \App\Record::isExists($record) && \App\Privilege::isPermitted($moduleName, 'DetailView', $record))) {
 			$recordModel_OSSMailView = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
 			if (!empty($email)) {

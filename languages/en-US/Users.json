@@ -383,7 +383,8 @@
     "LBL_USER_PASSWORD_IS_OK": "Your password complies with the system requirements.",
     "FL_MAIL_SCANNER_ACTIONS": "Available email scanner actions (Outlook)",
     "FL_MAIL_SCANNER_FIELDS": "Records’ relation fields (Outlook)",
-    "LBL_ACCOUNT_SETTINGS": "Account settings"
+    "LBL_ACCOUNT_SETTINGS": "Account settings",
+    "LBL_MEETING_URL": "Meeting URL"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Decimal separator and grouping separator can't be the same.",
