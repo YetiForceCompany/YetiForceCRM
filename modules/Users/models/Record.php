@@ -349,6 +349,20 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$dbCommand->update('vtiger_contactdetails', ['dav_status' => 1])->execute();
 			$dbCommand->update('vtiger_ossemployees', ['dav_status' => 1])->execute();
 		}
+		self::cleanCache($this->getId());
+	}
+
+	/**
+	 * Clear user cache.
+	 *
+	 * @param int $userId
+	 */
+	public static function cleanCache(int $userId = 0)
+	{
+		\App\Cache::delete('UserImageById', $userId);
+		\App\Cache::delete('UserIsExists', $userId);
+		\App\Cache::delete('NumberOfUsers', '');
+		\App\Cache::delete('ActiveAdminId', '');
 	}
 
 	/**
@@ -780,7 +794,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if (file_exists($fileName)) {
 			unlink($fileName);
 		}
-		\App\Cache::delete('UserIsExists', $userId);
+		self::cleanCache($userId);
 	}
 
 	/**

@@ -382,9 +382,10 @@ class User
 	 */
 	public static function getActiveAdminId()
 	{
-		$key = 'id';
-		if (Cache::has(__METHOD__, $key)) {
-			return Cache::get(__METHOD__, $key);
+		$key = '';
+		$cacheName = 'ActiveAdminId';
+		if (Cache::has($cacheName, $key)) {
+			return Cache::get($cacheName, $key);
 		}
 		$adminId = 1;
 		if (\App\Config::performance('ENABLE_CACHING_USERS')) {
@@ -402,7 +403,7 @@ class User
 				->orderBy(['id' => SORT_ASC])
 				->limit(1)->scalar();
 		}
-		Cache::save(__METHOD__, $key, $adminId, Cache::LONG);
+		Cache::save($cacheName, $key, $adminId, Cache::LONG);
 
 		return $adminId;
 	}
