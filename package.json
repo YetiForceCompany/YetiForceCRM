@@ -44,7 +44,7 @@
     "css-element-queries": "^1.2.3",
     "datatables.net": "^1.10.19",
     "datatables.net-bs4": "^1.10.19",
-    "datatables.net-responsive-bs4": "^2.2.3",
+    "datatables.net-responsive-bs4": "^2.2.4",
     "device-uuid": "^1.0.4",
     "emoji-mart-vue-fast": "^7.0.0",
     "emojipanel": "https://github.com/danbovey/EmojiPanel#master",
