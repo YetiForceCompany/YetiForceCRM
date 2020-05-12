@@ -818,7 +818,7 @@ class ConfReport
 	private static function validateShowBytes(string $name, array $row, string $sapi)
 	{
 		unset($name);
-		$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi]);
+		$row[$sapi] = \vtlib\Functions::showBytes($row[$sapi] ?? 0);
 		return $row;
 	}
 

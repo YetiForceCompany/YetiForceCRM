@@ -346,7 +346,7 @@ class Importer
 				$keys = $table['columns'];
 				if (\is_array($table['values']) && isset($table['values'][0])) {
 					if ((new \App\Db\Query())->from($tableName)->where(array_combine($keys, $table['values'][0]))->exists($importer->db)) {
-						$this->logs .= "| Error: skipped because it exist first row\n";
+						$this->logs .= "| Info: skipped because it exist first row\n";
 					} else {
 						$start = microtime(true);
 						foreach ($table['values'] as $values) {
