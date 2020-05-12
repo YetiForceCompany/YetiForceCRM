@@ -105,6 +105,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		\App\Db::getInstance()->createCommand()
 			->insert('vtiger_loginhistory', [
 				'user_name' => $userName,
+				'userid' => \App\User::getUserIdByName(trim($userName)),
 				'user_ip' => empty($userIPAddress) ? '-' : $userIPAddress,
 				'login_time' => date('Y-m-d H:i:s'),
 				'logout_time' => null,
@@ -123,11 +124,10 @@ class Users_Module_Model extends Vtiger_Module_Model
 		} else {
 			$userRecordModel = Users_Record_Model::getCurrentUserModel();
 		}
-		$userIPAddress = \App\RequestUtil::getRemoteIP();
 		$loginId = (new \App\Db\Query())
 			->select(['login_id'])
 			->from('vtiger_loginhistory')
-			->where(['user_name' => $userRecordModel->get('user_name'), 'user_ip' => $userIPAddress])
+			->where(['user_name' => $userRecordModel->get('user_name'), 'user_ip' => \App\RequestUtil::getRemoteIP()])
 			->limit(1)->orderBy('login_id DESC')->scalar();
 		if (false !== $loginId) {
 			\App\Db::getInstance()->createCommand()
@@ -149,7 +149,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	public static function getLoginHistory($limit = false)
 	{
 		return (new \App\Db\Query())->from('vtiger_loginhistory')
-			->where(['user_name' => \App\Session::get('user_name')])
+			->where(['or', ['user_name' => \App\Session::get('user_name')], ['userid' => \App\Session::get('authenticated_user_id')]])
 			->orderBy(['login_id' => SORT_DESC])
 			->limit($limit ?? App\Config::performance('LOGIN_HISTORY_VIEW_LIMIT'))
 			->all();

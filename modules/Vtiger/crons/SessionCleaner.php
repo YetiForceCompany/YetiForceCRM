@@ -25,6 +25,7 @@ class Vtiger_SessionCleaner_Cron extends \App\CronHandler
 			foreach (App\Session::clean() as $userId => $userName) {
 				$dbCommand->insert('vtiger_loginhistory', [
 					'user_name' => $userName,
+					'userid' => $userId,
 					'logout_time' => date('Y-m-d H:i:s'),
 					'status' => 'Automatic signed off'
 				])->execute();
