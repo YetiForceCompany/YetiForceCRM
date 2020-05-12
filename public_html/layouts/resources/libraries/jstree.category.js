@@ -1,6 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /*globals jQuery, define, exports, require, document */
-(function(factory) {
+(function (factory) {
 	'use strict';
 	if (typeof define === 'function' && define.amd) {
 		define('jstree.category', ['jquery', 'jstree'], factory);
@@ -9,7 +9,7 @@
 	} else {
 		factory(jQuery, jQuery.jstree);
 	}
-})(function($, jstree) {
+})(function ($, jstree) {
 	'use strict';
 
 	if ($.jstree.plugins.category) {
@@ -23,13 +23,13 @@
 	var _i = document.createElement('I');
 	_i.className = 'jstree-category';
 	_i.setAttribute('role', 'presentation');
-	$.jstree.plugins.category = function(options, parent) {
-		this.bind = function() {
+	$.jstree.plugins.category = function (options, parent) {
+		this.bind = function () {
 			parent.bind.call(this);
 			this._data.category.selected = [];
 			this.element.on(
 				'model.jstree',
-				$.proxy(function(e, data) {
+				$.proxy(function (e, data) {
 					var m = this._model.data,
 						dpc = data.nodes,
 						i,
@@ -39,7 +39,9 @@
 							m[dpc[i]].category = [];
 							m[dpc[i]].category.checked =
 								(m[dpc[i]].category && m[dpc[i]].category.checked) ||
-								(m[dpc[i]].original && m[dpc[i]].original.category && m[dpc[i]].original.category.checked);
+								(m[dpc[i]].original &&
+									m[dpc[i]].original.category &&
+									m[dpc[i]].original.category.checked);
 							if (m[dpc[i]].category.checked) {
 								this._data.category.selected.push(dpc[i]);
 							}
@@ -48,7 +50,7 @@
 				}, this)
 			);
 		};
-		this.redraw_node = function(obj, deep, is_callback, force_render) {
+		this.redraw_node = function (obj, deep, is_callback, force_render) {
 			obj = parent.redraw_node.apply(this, arguments);
 			if (obj) {
 				var i,
@@ -78,7 +80,7 @@
 			return obj;
 		};
 
-		this.select_node = function(obj, supress_event, prevent_open, e) {
+		this.select_node = function (obj, supress_event, prevent_open, e) {
 			var condition;
 			if (e.target.className.baseVal === undefined) {
 				condition = e.target.className.indexOf('noAction');
@@ -114,10 +116,7 @@
 						dom = this._open_to(obj);
 					}
 					if (dom && dom.length) {
-						dom
-							.attr('aria-selected', true)
-							.children('.jstree-anchor')
-							.addClass('jstree-clicked');
+						dom.attr('aria-selected', true).children('.jstree-anchor').addClass('jstree-clicked');
 					}
 					this.trigger('select_node', { node: obj, selected: this._data.core.selected, event: e });
 					if (!supress_event) {
@@ -132,7 +131,7 @@
 			}
 		};
 
-		this.deselect_node = function(obj, supress_event, e) {
+		this.deselect_node = function (obj, supress_event, e) {
 			if (this.get_node(obj).original.type == 'category') {
 				obj = this.get_node(obj);
 				if (obj.category.checked) {
@@ -164,7 +163,11 @@
 							.children('.jstree-anchor')
 							.removeClass('jstree-clicked');
 					}
-					this.trigger('deselect_node', { node: obj, selected: this._data.core.selected, event: e });
+					this.trigger('deselect_node', {
+						node: obj,
+						selected: this._data.core.selected,
+						event: e
+					});
 					if (!supress_event) {
 						this.trigger('changed', {
 							action: 'deselect_node',
@@ -177,7 +180,7 @@
 			}
 		};
 
-		this.areAllChildrenWithStates = function(obj, states) {
+		this.areAllChildrenWithStates = function (obj, states) {
 			let len = obj.children_d.length;
 			for (let i = 0; i < len; i++) {
 				let child = this.get_node(obj.children_d[i]);
@@ -191,7 +194,7 @@
 			return true;
 		};
 
-		this.checkNode = function(obj, e, traversing = false) {
+		this.checkNode = function (obj, e, traversing = false) {
 			let dom = this.get_node(obj, true);
 			this._data.category.selected.push(obj.id);
 			let cascade = this.settings.checkbox.cascade;
@@ -200,7 +203,7 @@
 					if (this.is_closed(obj)) {
 						this.open_node(obj);
 					}
-					obj.children.forEach(child => {
+					obj.children.forEach((child) => {
 						this.checkNode(this.get_node(child), e);
 					});
 				}
@@ -237,14 +240,14 @@
 			}
 		};
 
-		this.uncheckNode = function(obj, e, traversing = false) {
+		this.uncheckNode = function (obj, e, traversing = false) {
 			let cascade = this.settings.checkbox.cascade;
 			if (typeof cascade !== 'undefined' && cascade) {
 				if (cascade.indexOf('down') !== -1 && !traversing) {
 					if (this.is_closed(obj)) {
 						this.open_node(obj);
 					}
-					obj.children_d.forEach(childId => {
+					obj.children_d.forEach((childId) => {
 						this.uncheckNode(this.get_node(childId), e, traversing);
 					});
 				}
@@ -257,7 +260,10 @@
 				obj.category.checked = false;
 			}
 			let dom = this.get_node(obj, true);
-			this._data.category.selected = $.vakata.array_remove_item(this._data.category.selected, obj.id);
+			this._data.category.selected = $.vakata.array_remove_item(
+				this._data.category.selected,
+				obj.id
+			);
 			if (dom && dom.length) {
 				let item = dom.children('.jstree-anchor').find('.jstree-category');
 				item.removeClass(options.checkClass).removeClass(options.undeterminedClass);
@@ -282,7 +288,7 @@
 				}
 			}
 		};
-		this.getCategory = function(fullData) {
+		this.getCategory = function (fullData) {
 			fullData = typeof fullData !== 'undefined';
 			let i,
 				j,

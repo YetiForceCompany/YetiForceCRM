@@ -41,10 +41,10 @@ var App = (window.App = {
 									data: slef.getRecords(container),
 									themes: {
 										name: 'proton',
-										responsive: true,
-									},
+										responsive: true
+									}
 								},
-								plugins: ['search', 'checkbox'],
+								plugins: ['search', 'checkbox']
 							});
 						this.registerSearchEvent();
 					}
@@ -71,7 +71,7 @@ var App = (window.App = {
 					}
 					return this.treeData;
 				}
-			},
+			}
 		},
 		/**
 		 * Quick create object used by Header.js and yf plugins
@@ -108,7 +108,7 @@ var App = (window.App = {
 				const progress = $.progressIndicator({ blockInfo: { enabled: true } });
 				this.getForm(url, moduleName, params).done((data) => {
 					progress.progressIndicator({
-						mode: 'hide',
+						mode: 'hide'
 					});
 					this.showModal(data, params);
 					app.registerEventForClockPicker();
@@ -207,7 +207,7 @@ var App = (window.App = {
 						const recordPreSaveEvent = $.Event(Vtiger_Edit_Js.recordPreSave);
 						form.trigger(recordPreSaveEvent, {
 							value: 'edit',
-							module: moduleName,
+							module: moduleName
 						});
 						if (!recordPreSaveEvent.isDefaultPrevented()) {
 							const moduleInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
@@ -218,8 +218,8 @@ var App = (window.App = {
 								message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 								position: 'html',
 								blockInfo: {
-									enabled: true,
-								},
+									enabled: true
+								}
 							});
 							saveHandler(form).done((data) => {
 								const modalContainer = form.closest('.modalContainer');
@@ -238,7 +238,7 @@ var App = (window.App = {
 								if (data.success) {
 									Vtiger_Helper_Js.showPnotify({
 										text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
-										type: 'success',
+										type: 'success'
 									});
 								}
 							});
@@ -307,7 +307,9 @@ var App = (window.App = {
 						.find('[data-element-name]')
 						.each(function (index, element) {
 							element = $(element);
-							element.attr('name', element.attr('data-element-name')).removeAttr('data-element-name');
+							element
+								.attr('name', element.attr('data-element-name'))
+								.removeAttr('data-element-name');
 						});
 				};
 				tabElements.on('click', function (e) {
@@ -340,7 +342,7 @@ var App = (window.App = {
 					}
 				);
 				return aDeferred.promise();
-			},
+			}
 		},
 		QuickEdit: {
 			/**
@@ -406,7 +408,7 @@ var App = (window.App = {
 						const recordPreSaveEvent = $.Event(Vtiger_Edit_Js.recordPreSave);
 						form.trigger(recordPreSaveEvent, {
 							value: 'edit',
-							module: moduleName,
+							module: moduleName
 						});
 						if (!recordPreSaveEvent.isDefaultPrevented()) {
 							const moduleInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
@@ -417,8 +419,8 @@ var App = (window.App = {
 								message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 								position: 'html',
 								blockInfo: {
-									enabled: true,
-								},
+									enabled: true
+								}
 							});
 							saveHandler(form).done((data) => {
 								const modalContainer = form.closest('.modalContainer');
@@ -437,10 +439,13 @@ var App = (window.App = {
 								if (data.success) {
 									Vtiger_Helper_Js.showPnotify({
 										text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
-										type: 'success',
+										type: 'success'
 									});
 								}
-								if ('Detail' === viewName && app.getRecordId() === form.find('[name="record"]').val()) {
+								if (
+									'Detail' === viewName &&
+									app.getRecordId() === form.find('[name="record"]').val()
+								) {
 									if (params.removeFromUrl) {
 										let searchParams = new URLSearchParams(window.location.search);
 										searchParams.delete('step');
@@ -478,7 +483,7 @@ var App = (window.App = {
 					type: 'POST',
 					data: formData,
 					processData: false,
-					contentType: false,
+					contentType: false
 				}).done(
 					(data) => {
 						aDeferred.resolve(data);
@@ -488,18 +493,18 @@ var App = (window.App = {
 					}
 				);
 				return aDeferred.promise();
-			},
+			}
 		},
 		Scrollbar: {
 			active: true,
 			defaults: {
 				scrollbars: {
-					autoHide: 'leave',
-				},
+					autoHide: 'leave'
+				}
 			},
 			page: {
 				instance: {},
-				element: null,
+				element: null
 			},
 			initPage() {
 				let scrollbarContainer = $('.mainBody');
@@ -520,14 +525,14 @@ var App = (window.App = {
 			y(element, options) {
 				const yOptions = {
 					overflowBehavior: {
-						x: 'h',
-					},
+						x: 'h'
+					}
 				};
 				const mergedOptions = Object.assign(this.defaults, options, yOptions);
 				return element.overlayScrollbars(mergedOptions).overlayScrollbars();
-			},
-		},
-	},
+			}
+		}
+	}
 });
 
 var app = (window.app = {
@@ -542,7 +547,7 @@ var app = (window.app = {
 		lg: 992,
 		xl: 1200,
 		xxl: 1300,
-		xxxl: 1700,
+		xxxl: 1700
 	},
 	cacheParams: [],
 	modalEvents: [],
@@ -590,7 +595,10 @@ var app = (window.app = {
 	getRecordId: function () {
 		var view = this.getViewName();
 		var recordId;
-		if ($.inArray(view, ['Edit', 'PreferenceEdit', 'Detail', 'PreferenceDetail', 'DetailPreview']) !== -1) {
+		if (
+			$.inArray(view, ['Edit', 'PreferenceEdit', 'Detail', 'PreferenceDetail', 'DetailPreview']) !==
+			-1
+		) {
 			recordId = this.getMainParams('recordId');
 		}
 		return recordId;
@@ -755,7 +763,10 @@ var app = (window.app = {
 			.addClass('u-text-ellipsis--not-active')
 			.css(element.css(['font-size', 'font-weight', 'font-family']))
 			.appendTo('body');
-		clone.find('.u-text-ellipsis').removeClass('u-text-ellipsis').addClass('u-text-ellipsis--not-active');
+		clone
+			.find('.u-text-ellipsis')
+			.removeClass('u-text-ellipsis')
+			.addClass('u-text-ellipsis--not-active');
 		if (clone.width() - 1 > element.width()) {
 			clone.remove();
 			return true;
@@ -773,7 +784,7 @@ var app = (window.app = {
 				'<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
 			container: 'body',
 			boundary: 'viewport',
-			delay: { show: 300, hide: 100 },
+			delay: { show: 300, hide: 100 }
 		};
 		selectElement.each(function (index, domElement) {
 			let element = $(domElement);
@@ -803,7 +814,7 @@ var app = (window.app = {
 	registerPopoverEllipsis({
 		element = $('.js-popover-tooltip--ellipsis'),
 		params = { trigger: 'hover focus' },
-		container = $(window),
+		container = $(window)
 	} = {}) {
 		const self = this;
 		params = {
@@ -813,9 +824,11 @@ var app = (window.app = {
 			trigger: 'manual',
 			placement: 'right',
 			template:
-				'<div class="popover js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>',
+				'<div class="popover js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>'
 		};
-		let popoverText = element.find('.js-popover-text').length ? element.find('.js-popover-text') : element;
+		let popoverText = element.find('.js-popover-text').length
+			? element.find('.js-popover-text')
+			: element;
 		if (!app.isEllipsisActive(popoverText)) {
 			element.addClass('popover-triggered');
 			return;
@@ -828,7 +841,9 @@ var app = (window.app = {
 	) {
 		selectElement.each(function (index, domElement) {
 			let element = $(domElement);
-			let popoverText = element.find('.js-popover-text').length ? element.find('.js-popover-text') : element;
+			let popoverText = element.find('.js-popover-text').length
+				? element.find('.js-popover-text')
+				: element;
 			if (!app.isEllipsisActive(popoverText)) {
 				return;
 			}
@@ -886,7 +901,7 @@ var app = (window.app = {
 						appendPopoverData(data);
 					});
 				}
-			},
+			}
 		};
 		app.showPopoverElementView(selectElement, params);
 	},
@@ -916,7 +931,7 @@ var app = (window.app = {
 			offsetLeft = windowWidth - popoverWidth;
 		}
 		popover.css({
-			transform: `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`,
+			transform: `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`
 		});
 		popover.removeClass('js-popover--before-positioned');
 		popoverElement.one('hide.bs.popover', () => {
@@ -1021,7 +1036,7 @@ var app = (window.app = {
 	showModalData(data, container, paramsObject, cb, url, sendByAjaxCb) {
 		const thisInstance = this;
 		let params = {
-			show: true,
+			show: true
 		};
 		if (!app.getMainParams('backgroundClosingModal')) {
 			params.backdrop = 'static';
@@ -1055,7 +1070,7 @@ var app = (window.app = {
 			App.Fields.Date.register(modalContainer);
 			new App.Fields.Text.Editor(modalContainer.find('.js-editor'), {
 				height: '5em',
-				toolbar: 'Min',
+				toolbar: 'Min'
 			});
 			app.registesterScrollbar(modalContainer);
 		});
@@ -1221,7 +1236,7 @@ var app = (window.app = {
 				}
 				if (save) {
 					var progressIndicatorElement = $.progressIndicator({
-						blockInfo: { enabled: true },
+						blockInfo: { enabled: true }
 					});
 					var formData = form.serializeFormData();
 					AppConnector.request(formData)
@@ -1268,7 +1283,7 @@ var app = (window.app = {
 		promptPosition: 'topLeft',
 		//to support validation for select2 select box
 		prettySelect: true,
-		usePrefix: 's2id_',
+		usePrefix: 's2id_'
 	},
 	validationEngineOptionsForRecord: {
 		scroll: false,
@@ -1281,13 +1296,13 @@ var app = (window.app = {
 			if (block.find('.blockContent').is(':hidden')) {
 				block.find('.blockHeader').click();
 			}
-		},
+		}
 	},
 	/**
 	 * Default scroll options
 	 */
 	scrollOptions: {
-		wheelSpeed: 0.1,
+		wheelSpeed: 0.1
 	},
 	/**
 	 * Function to push down the error message size when validation is invoked
@@ -1301,7 +1316,7 @@ var app = (window.app = {
 			var resizedDestnation = destination - 105;
 			$('html').animate(
 				{
-					scrollTop: resizedDestnation,
+					scrollTop: resizedDestnation
 				},
 				'slow'
 			);
@@ -1425,13 +1440,16 @@ var app = (window.app = {
 		let params = {
 			placement: 'bottom',
 			autoclose: true,
-			minutestep: 5,
+			minutestep: 5
 		};
 
 		$('.js-clock__btn').on('click', (e) => {
 			e.stopPropagation();
 			let tempElement = $(e.currentTarget).closest('.time').find('input.clockPicker');
-			if (tempElement.attr('disabled') !== 'disabled' && tempElement.attr('readonly') !== 'readonly') {
+			if (
+				tempElement.attr('disabled') !== 'disabled' &&
+				tempElement.attr('readonly') !== 'readonly'
+			) {
 				tempElement.clockpicker('show');
 			}
 		});
@@ -1447,7 +1465,9 @@ var app = (window.app = {
 					app.event.trigger('Clockpicker.changed', timeInput);
 				};
 				params.beforeHide = () => {
-					meridiemTime = $('.clockpicker-buttons-am-pm:visible').find('a:not(.text-white-50)').text();
+					meridiemTime = $('.clockpicker-buttons-am-pm:visible')
+						.find('a:not(.text-white-50)')
+						.text();
 				};
 			} else {
 				params.afterDone = () => {
@@ -1487,13 +1507,13 @@ var app = (window.app = {
 					sFirst: app.vtranslate('JS_S_FIRST'),
 					sPrevious: app.vtranslate('JS_S_PREVIOUS'),
 					sNext: app.vtranslate('JS_S_NEXT'),
-					sLast: app.vtranslate('JS_S_LAST'),
+					sLast: app.vtranslate('JS_S_LAST')
 				},
 				oAria: {
 					sSortAscending: app.vtranslate('JS_S_SORT_ASCENDING'),
-					sSortDescending: app.vtranslate('JS_S_SORT_DESCENDING'),
-				},
-			},
+					sSortDescending: app.vtranslate('JS_S_SORT_DESCENDING')
+				}
+			}
 		});
 		return table.DataTable(options);
 	},
@@ -1529,16 +1549,19 @@ var app = (window.app = {
 		let scrollbarTopElement = element.find('.ps__rail-x').first();
 		scrollbarTopElement.css({
 			top: 0,
-			bottom: 'auto',
+			bottom: 'auto'
 		});
 		scrollbarTopElement.find('.ps__thumb-x').css({
 			top: 2,
-			bottom: 'auto',
+			bottom: 'auto'
 		});
 		let scrollbarBottomRightInit = new PerfectScrollbar(element[0], options);
 		return [scrollbarTopLeftInit, scrollbarBottomRightInit];
 	},
-	showNewScrollbarTopBottom: function (element, options = { wheelPropagation: true, suppressScrollY: true }) {
+	showNewScrollbarTopBottom: function (
+		element,
+		options = { wheelPropagation: true, suppressScrollY: true }
+	) {
 		if (typeof element === 'undefined' || !element.length) return;
 		options = Object.assign(this.scrollOptions, options);
 		new PerfectScrollbar(element[0], options);
@@ -1546,25 +1569,28 @@ var app = (window.app = {
 		var scrollbarTopElement = element.find('.ps__rail-x').first();
 		scrollbarTopElement.css({
 			top: 0,
-			bottom: 'auto',
+			bottom: 'auto'
 		});
 		scrollbarTopElement.find('.ps__thumb-x').css({
 			top: 2,
-			bottom: 'auto',
+			bottom: 'auto'
 		});
 	},
-	showNewScrollbarTop: function (element, options = { wheelPropagation: true, suppressScrollY: true }) {
+	showNewScrollbarTop: function (
+		element,
+		options = { wheelPropagation: true, suppressScrollY: true }
+	) {
 		if (typeof element === 'undefined' || !element.length) return;
 		options = Object.assign(this.scrollOptions, options);
 		new PerfectScrollbar(element[0], options);
 		var scrollbarTopElement = element.find('.ps__rail-x').first();
 		scrollbarTopElement.css({
 			top: 0,
-			bottom: 'auto',
+			bottom: 'auto'
 		});
 		scrollbarTopElement.find('.ps__thumb-x').css({
 			top: 2,
-			bottom: 'auto',
+			bottom: 'auto'
 		});
 	},
 	showNewScrollbarLeft: function (element, options = { wheelPropagation: true }) {
@@ -1574,11 +1600,11 @@ var app = (window.app = {
 		var scrollbarLeftElement = element.children('.ps__rail-y').first();
 		scrollbarLeftElement.css({
 			left: 0,
-			right: 'auto',
+			right: 'auto'
 		});
 		scrollbarLeftElement.find('.ps__thumb-y').css({
 			left: 2,
-			right: 'auto',
+			right: 'auto'
 		});
 	},
 	showScrollBar: function (element, options = {}) {
@@ -1707,8 +1733,14 @@ var app = (window.app = {
 	 */
 	placeAtCenter: function (element) {
 		element.css('position', 'absolute');
-		element.css('top', ($(window).height() - element.outerHeight()) / 2 + $(window).scrollTop() + 'px');
-		element.css('left', ($(window).width() - element.outerWidth()) / 2 + $(window).scrollLeft() + 'px');
+		element.css(
+			'top',
+			($(window).height() - element.outerHeight()) / 2 + $(window).scrollTop() + 'px'
+		);
+		element.css(
+			'left',
+			($(window).width() - element.outerWidth()) / 2 + $(window).scrollLeft() + 'px'
+		);
 	},
 	getvalidationEngineOptions: function (select2Status) {
 		return Object.assign({}, app.validationEngineOptions);
@@ -1954,7 +1986,7 @@ var app = (window.app = {
 			let data = {
 				module: element.data('module'),
 				record: element.data('record'),
-				removeFromUrl: 'step',
+				removeFromUrl: 'step'
 			};
 			if (element.data('values')) {
 				$.extend(data, element.data('values'));
@@ -2012,7 +2044,7 @@ var app = (window.app = {
 								}
 							}
 							currentElement.removeAttr('disabled');
-						},
+						}
 					};
 					if (currentElement.data('modalid')) {
 						modalWindowParams['id'] = currentElement.data('modalid');
@@ -2045,9 +2077,9 @@ var app = (window.app = {
 					danger: {
 						label: '<span class="fas fa-times mr-1"></span>' + app.vtranslate('JS_CLOSE'),
 						className: 'btn-danger',
-						callback: function () {},
-					},
-				},
+						callback: function () {}
+					}
+				}
 			});
 		};
 		$('.js-more').on('click', showMoreModal);
@@ -2084,7 +2116,9 @@ var app = (window.app = {
 				self.closeSidebar();
 			}
 		});
-		self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
+		self.sidebar
+			.on('mouseenter', self.openSidebar.bind(self))
+			.on('mouseleave', self.closeSidebar.bind(self));
 		self.sidebar.find('.js-menu__content').on('keydown', self.sidebarKeyboard.bind(self));
 		self.sidebar.on('keydown', (e) => {
 			if (e.which == self.keyboard.ESCAPE) {
@@ -2147,7 +2181,7 @@ var app = (window.app = {
 				action: 'SaveAjax',
 				field: 'leftpanelhide',
 				record: CONFIG.userId,
-				value: hideMenu,
+				value: hideMenu
 			}).done(function (responseData) {
 				if (responseData.success && responseData.result) {
 					pinButton.attr('data-show', hideMenu);
@@ -2172,7 +2206,9 @@ var app = (window.app = {
 				}
 			}
 		} else if (
-			(target.hasClass('js-submenu-toggler') && e.which == this.keyboard.RIGHT && target.hasClass('collapsed')) ||
+			(target.hasClass('js-submenu-toggler') &&
+				e.which == this.keyboard.RIGHT &&
+				target.hasClass('collapsed')) ||
 			(target.hasClass('js-submenu-toggler') && e.which == this.keyboard.SPACE)
 		) {
 			target.click();
@@ -2199,7 +2235,7 @@ var app = (window.app = {
 			$(this).removeClass('d-none');
 		});
 		tabs.tabdrop({
-			text: app.vtranslate('JS_MORE'),
+			text: app.vtranslate('JS_MORE')
 		});
 		//change position to the last element (wcag keyboard navigation)
 		let dropdown = tabs.find('> li.dropdown');
@@ -2221,10 +2257,12 @@ var app = (window.app = {
 	clearBrowsingHistory: function () {
 		AppConnector.request({
 			module: 'Home',
-			action: 'BrowsingHistory',
+			action: 'BrowsingHistory'
 		}).done(function (response) {
 			$('.historyList').html(
-				`<a class="item dropdown-item" href="#" role="listitem">${app.vtranslate('JS_NO_RECORDS')}</a>`
+				`<a class="item dropdown-item" href="#" role="listitem">${app.vtranslate(
+					'JS_NO_RECORDS'
+				)}</a>`
 			);
 		});
 	},
@@ -2243,7 +2281,7 @@ var app = (window.app = {
 		$.extend(formAttr, {
 			method: 'post',
 			action: url,
-			style: 'display:none;',
+			style: 'display:none;'
 		});
 		let form = $('<form></form>', formAttr);
 		if (typeof csrfMagicName !== 'undefined') {
@@ -2269,7 +2307,8 @@ var app = (window.app = {
 	 */
 	convertUrlToObject(url) {
 		let urlObject = {};
-		url.split('index.php?')[1]
+		url
+			.split('index.php?')[1]
 			.split('&')
 			.forEach((el) => {
 				if (el.includes('=')) {
@@ -2306,7 +2345,8 @@ var app = (window.app = {
 		if (element) {
 			element = $(element);
 			if (!params.title) {
-				params.title = element.html() + ' ' + (element.data('content') ? element.data('content') : '');
+				params.title =
+					element.html() + ' ' + (element.data('content') ? element.data('content') : '');
 			}
 			if (!params.message) {
 				params.message = element.data('confirm');
@@ -2337,10 +2377,14 @@ var app = (window.app = {
 			result += short ? hour + app.vtranslate('JS_H') : `${hour} ` + app.vtranslate('JS_H_LONG');
 		}
 		if ((hour || min) && withMinutes) {
-			result += short ? ` ${min}` + app.vtranslate('JS_M') : ` ${min} ` + app.vtranslate('JS_M_LONG');
+			result += short
+				? ` ${min}` + app.vtranslate('JS_M')
+				: ` ${min} ` + app.vtranslate('JS_M_LONG');
 		}
 		if (withSeconds !== false) {
-			result += short ? ` ${sec}` + app.vtranslate('JS_S') : ` ${sec} ` + app.vtranslate('JS_S_LONG');
+			result += short
+				? ` ${sec}` + app.vtranslate('JS_S')
+				: ` ${sec} ` + app.vtranslate('JS_S_LONG');
 		}
 		if (!hour && !min && withSeconds === false && withMinutes) {
 			result += short ? '0' + app.vtranslate('JS_M') : '0 ' + app.vtranslate('JS_M_LONG');
@@ -2429,7 +2473,7 @@ var app = (window.app = {
 				stack: {
 					dir1: 'down',
 					modal: true,
-					firstpos1: 25,
+					firstpos1: 25
 				},
 				modules: {
 					Confirm: {
@@ -2441,19 +2485,19 @@ var app = (window.app = {
 								primary: true,
 								click: function (notice) {
 									notice.close();
-								},
-							},
-						],
+								}
+							}
+						]
 					},
 					Buttons: {
 						closer: false,
-						sticker: false,
+						sticker: false
 					},
 					History: {
-						history: false,
-					},
-				},
-			},
+						history: false
+					}
+				}
+			}
 		};
 		if (typeof userParams !== 'undefined') {
 			params.data = $.extend(params.data, userParams);
@@ -2476,7 +2520,7 @@ var app = (window.app = {
 				stack: {
 					dir1: 'down',
 					modal: true,
-					firstpos1: 25,
+					firstpos1: 25
 				},
 				modules: {
 					Confirm: {
@@ -2490,7 +2534,7 @@ var app = (window.app = {
 									notice.close();
 									confirmCallback();
 									aDeferred.resolve(true);
-								},
+								}
 							},
 							{
 								text: app.vtranslate('JS_CANCEL'),
@@ -2498,19 +2542,19 @@ var app = (window.app = {
 									notice.close();
 									cancelCallback();
 									aDeferred.resolve(false);
-								},
-							},
-						],
+								}
+							}
+						]
 					},
 					Buttons: {
 						closer: false,
-						sticker: false,
+						sticker: false
 					},
 					History: {
-						history: false,
-					},
-				},
-			},
+						history: false
+					}
+				}
+			}
 		};
 		if (typeof userParams !== 'undefined') {
 			params.data = $.extend(params.data, userParams);
@@ -2583,9 +2627,9 @@ var app = (window.app = {
 				Desktop: {
 					desktop: true,
 					fallback: false,
-					icon: params.icon,
-				},
-			},
+					icon: params.icon
+				}
+			}
 		});
 		PNotify.notice(params);
 	},
@@ -2633,7 +2677,7 @@ var app = (window.app = {
 		container.find('.js-fab__container').on('clickoutside', (e) => {
 			$(e.currentTarget).removeClass('u-hidden-block__opened');
 		});
-	},
+	}
 });
 CKEDITOR.disableAutoInline = true;
 $(document).ready(function () {
@@ -2682,7 +2726,9 @@ $(document).ready(function () {
 	};
 	$.fn.formatNumber = function () {
 		let element = $(this);
-		element.val(App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val()), false));
+		element.val(
+			App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val()), false)
+		);
 	};
 	$.fn.disable = function () {
 		this.attr('disabled', 'disabled');
@@ -2726,8 +2772,9 @@ $(document).ready(function () {
 	// Case-insensitive :icontains expression
 	$.expr[':'].icontains = function (obj, index, meta, stack) {
 		return (
-			(obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !==
-			-1
+			(obj.textContent || obj.innerText || $(obj).text() || '')
+				.toLowerCase()
+				.indexOf(meta[3].toLowerCase()) !== -1
 		);
 	};
 	$.fn.removeTextNode = function () {

@@ -9,7 +9,7 @@ App.Tools = {
 		 */
 		refreshCompanyVariables(container) {
 			const companyId = container.find('.js-company-list').val();
-			container.find('.js-company-variable > optgroup > option').each(function() {
+			container.find('.js-company-variable > optgroup > option').each(function () {
 				let template = $(this).data('value-template');
 				this.value = template.replace(/__X__/i, companyId);
 			});
@@ -19,7 +19,7 @@ App.Tools = {
 		 * @param container
 		 */
 		registerRefreshCompanyVariables(container) {
-			container.find('.js-company-list').on('change', function(e) {
+			container.find('.js-company-list').on('change', function (e) {
 				App.Tools.VariablesPanel.refreshCompanyVariables(container);
 			});
 		}
