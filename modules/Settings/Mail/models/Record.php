@@ -58,7 +58,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($key)
+	public function getDisplayValue(string  $key)
 	{
 		$value = $this->get($key);
 		switch ($key) {
@@ -104,6 +104,9 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 						++$fileCounter;
 					}
 				}
+				break;
+			case 'error':
+				 $value = \App\Layout::truncateHtml($value, 'mini', 30);
 				break;
 			default:
 				break;

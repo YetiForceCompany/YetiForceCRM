@@ -44,7 +44,6 @@
 				 title="{\App\Language::translate('LBL_LOADING')}"/>
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
-		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table tableBorderHeadBody listViewEntriesTable {$WIDTHTYPE} js-fixed-thead" data-js="floatThead">
 			<thead>
 			<tr class="listViewHeaders">
@@ -145,7 +144,7 @@
 									{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
 										<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT"
 										   href='{$LISTVIEW_ENTRY->getEditViewUrl()}'>
-											<span class="fas fa-edit align-middle"
+											<span class="yfi yfi-full-editing-view align-middle"
 												  title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
 											<span class="sr-only">{\App\Language::translate('LBL_EDIT', $MODULE)}</span>
 										</a>

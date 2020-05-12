@@ -71,7 +71,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 			'linkurl' => "javascript:Settings_Currency_Js.triggerEdit(event, '" . $this->getId() . "')",
 			'linklabel' => 'LBL_EDIT',
 			'linkclass' => 'btn-info btn-sm',
-			'linkicon' => 'fas fa-edit',
+			'linkicon' => 'yfi yfi-full-editing-view',
 		];
 		$recordLinks[] = [
 			'linkurl' => "javascript:Settings_Currency_Js.triggerDelete(event,'" . $this->getId() . "')",

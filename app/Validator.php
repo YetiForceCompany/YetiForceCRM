@@ -330,6 +330,18 @@ class Validator
 	}
 
 	/**
+	 * Function checks if given value is valid db user name.
+	 *
+	 * @param int|string $input
+	 *
+	 * @return bool
+	 */
+	public static function dbUserName($input): bool
+	{
+		return preg_match('/^[_a-zA-Z0-9.,:-]+$/', $input);
+	}
+
+	/**
 	 * Function checks if given value is port number.
 	 *
 	 * @param int $input
@@ -363,5 +375,37 @@ class Validator
 	public static function timePeriod($input): bool
 	{
 		return preg_match('/^[0-9]{1,18}\:(d|H|i){1}$/', $input);
+	}
+
+	/**
+	 * Check if input is an ip value.
+	 *
+	 * @param string|string[] $input
+	 *
+	 * @return bool
+	 */
+	public static function ip($input): bool
+	{
+		$input = \is_array($input) ? $input : [$input];
+		$result = true;
+		foreach ($input as $ipAddress) {
+			if (false === filter_var($ipAddress, FILTER_VALIDATE_IP)) {
+				$result = false;
+				break;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Function verifies if given value is text.
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public static function text(string $input): bool
+	{
+		return Purifier::decodeHtml(Purifier::purify($input)) === $input;
 	}
 }

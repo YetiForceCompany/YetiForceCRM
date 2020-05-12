@@ -2,6 +2,8 @@
 /**
  * Support of one-time processes to execute scripts whose execution time is very long.
  *
+ * @package   Cron
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -33,8 +35,7 @@ class Vtiger_BatchProcesses_Cron extends \App\CronHandler
 			}
 		}
 		if ($disable) {
-			\App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => 0], ['name' => 'LBL_BATCH_PROCESSES'])
-				->execute();
+			\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'LBL_BATCH_PROCESSES');
 		}
 	}
 }

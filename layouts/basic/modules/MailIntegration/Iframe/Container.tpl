@@ -4,6 +4,7 @@
 	<div class="js-iframe-container" data-mail-id="{$MAIL_ID}" data-js="data">
 		{if isset($URL)}
 			<div class="mx-1">
+				<input type="hidden" id="autoCompleteFields" class="js-mailAutoCompleteFields" value="{\App\Purifier::encodeHtml(\App\Json::encode(\App\Config::component('Mail','autoCompleteFields', [])))}"/>
 				{if $MAIL_ID}
 					<div class="js-relations-container" data-js="html">
 						{include file=\App\Layout::getTemplatePath('Iframe/HeaderMail.tpl', $MODULE_NAME)}

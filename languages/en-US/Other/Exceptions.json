@@ -30,7 +30,7 @@
     "ERR_AUTO_LOGOUT": "Logged out automatically due to no activity",
     "ERR_FIELD_NOT_FOUND": "Field not found (%s)",
     "ERR_NUMBER_OF_ARGUMENTS_NOT_ALLOWED": "Number of arguments not allowed (%d %s in %s)",
-    "ERR_NO_VALUE": "No value",
+    "ERR_NO_VALUE": "No value in %s",
     "ERR_BODY_IS_EMPTY": "Body is empty",
     "ERR_API": "Error in API",
     "ERR_MODULE_DOES_NOT_EXIST": "Module %s does not exist",
@@ -44,6 +44,7 @@
     "ERR_NO_INTERNET_CONNECTION": "No Internet connection",
     "ERR_OBJECT_MUST_HAVE_INTERFACE": "The object must have an interface %s",
     "ERR_CLASS_NOT_FOUND": "Class %s not found",
-    "ERR_CLASS_MUST_BE": "Class must be %s"
+    "ERR_CLASS_MUST_BE": "Class must be %s",
+    "ERR_PAID_FUNCTIONALITY": "%s paid functionality, you must purchase it"
   }
 }

@@ -1,8 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-Mail-ListViewContents -->
-	<input type="hidden" id="autoRefreshListOnChange"
-		   value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+	<input type="hidden" id="autoRefreshListOnChange" value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}"/>
 	<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}"/>
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}"/>
@@ -21,7 +20,6 @@
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
 		{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
-		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 		<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
 			{include file=\App\Layout::getTemplatePath('ListView/TableHeader.tpl', $QUALIFIED_MODULE) EMPTY_COLUMN=1}
@@ -85,37 +83,38 @@
 				<tr class="listViewEntries" data-id="{$ENTRY_ID}"
 					{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}
 				>
-					<td>{if $LISTVIEW_ENTRY->get('status') eq 0}
+					<td>
+						{if $LISTVIEW_ENTRY->get('status') eq 0}
 							<!--
-																										<input type="checkbox" value="{$ENTRY_ID}" class="listViewEntriesCheckBox" title="{App\Language::translate('LBL_SELECT_SINGLE_ROW')}" />
-																										-->
+								<input type="checkbox" value="{$ENTRY_ID}" class="listViewEntriesCheckBox" title="{App\Language::translate('LBL_SELECT_SINGLE_ROW')}" />
+							-->
 						{/if}
 					</td>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 						{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
-					<td class="listViewEntryValue {$WIDTHTYPE}" width="{$WIDTH}%" nowrap>
-						&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+						<td class="listViewEntryValue {$WIDTHTYPE}" width="{$WIDTH}%" nowrap>
+							{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 						{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 							</td>
 							<td nowrap class="{$WIDTHTYPE}">
 								<div class="float-right actions">
-																														<span class="actionImages">
-																															{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
-																																{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
-																																<a class="{$RECORD_LINK->getClassName()}" {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};
-																																		if (event.stopPropagation){ldelim}
-																																		event.stopPropagation();{rdelim} else{ldelim}
-																																		event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-																																	<span class="{$RECORD_LINK->getIcon()} alignMiddle"
-																																		  title="{App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
-																																	<span class="sr-only">{App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}</span>
-																																</a>
-																																{if !$RECORD_LINK@last}
-																																	&nbsp;
-																																{/if}
-																															{/foreach}
-																														</span>
+									<span class="actionImages">
+										{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
+											{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
+											<a class="{$RECORD_LINK->getClassName()}" {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};
+													if (event.stopPropagation){ldelim}
+													event.stopPropagation();{rdelim} else{ldelim}
+													event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
+												<span class="{$RECORD_LINK->getIcon()}"
+														title="{App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+												<span class="sr-only">{App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}</span>
+											</a>
+											{if !$RECORD_LINK@last}
+												&nbsp;
+											{/if}
+										{/foreach}
+									</span>
 								</div>
 							</td>
 						{/if}
@@ -125,8 +124,6 @@
 			{/foreach}
 			</tbody>
 		</table>
-
-		<!--added this div for Temporarily -->
 		{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 			<table class="emptyRecordsDiv">
 				<tbody>

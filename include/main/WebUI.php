@@ -22,11 +22,11 @@ require_once 'modules/Users/Users.php';
 require_once 'include/Webservices/Utils.php';
 require_once 'include/Loader.php';
 Vtiger_Loader::includeOnce('include.runtime.EntryPoint');
-App\Debuger::init();
 App\Cache::init();
+App\Debuger::init();
 App\Db::$connectCache = App\Config::performance('ENABLE_CACHING_DB_CONNECTION');
 App\Log::$logToProfile = Yii::$logToProfile = App\Config::debug('LOG_TO_PROFILE');
-App\Log::$logToConsole = App\Config::debug('LOG_TO_CONSOLE');
+App\Log::$logToConsole = App\Config::debug('DISPLAY_LOGS_IN_CONSOLE');
 App\Log::$logToFile = App\Config::debug('LOG_TO_FILE');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
@@ -99,6 +99,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			App\Session::init();
 			// common utils api called, depend on this variable right now
 			$this->getLogin();
+			App\Debuger::initConsole();
 			$hasLogin = $this->hasLogin();
 			$moduleName = $request->getModule();
 			$qualifiedModuleName = $request->getModule(false);
@@ -115,9 +116,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 					if (!empty($defaultModule) && 'Home' !== $defaultModule && \App\Privilege::isPermitted($defaultModule)) {
 						$moduleName = $defaultModule;
 						$qualifiedModuleName = $defaultModule;
-						$view = 'List';
-						if ('Calendar' === $moduleName) {
-							$view = Vtiger_Module_Model::getInstance($moduleName)->getDefaultViewName();
+						if (empty($view = Vtiger_Module_Model::getInstance($moduleName)->getDefaultViewName())) {
+							$view = 'List';
 						}
 					} else {
 						$qualifiedModuleName = $moduleName = 'Home';
@@ -149,12 +149,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				header('location: index.php');
 				return false;
 			}
-			// Better place this here as session get initiated
-			//skipping the csrf checking for the forgot(reset) password
-			if (App\Config::security('csrfActive') && 'reset' !== $request->getMode() && 'Login' !== $action && 'demo' !== App\Config::main('systemMode')) {
-				require_once 'config/csrf_config.php';
-				\CsrfMagic\Csrf::init();
-			}
 			\App\Process::$processName = $componentName;
 			\App\Process::$processType = $componentType;
 			\App\Config::setJsEnv('module', $moduleName);
@@ -171,7 +165,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				\App\Log::error("HandlerClass: $handlerClass", 'Loader');
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
 			}
-			if (\App\Config::security('csrfActive') && 'demo' !== App\Config::main('systemMode')) { // Ensure handler validates the request
+			if ($handler->csrfActive) {
 				$handler->validateRequest($request);
 			}
 			if ($handler->loginRequired() && $this->checkLogin($request)) {
@@ -203,7 +197,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$messageHeader = 'LBL_ERROR';
 			}
 			\vtlib\Functions::throwNewException($e, false, $messageHeader);
-			if (!$request->isAjax()) {
+			if (!($request->isAjax() && $request->isJSON())) {
 				if (App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
 					echo '<pre class="my-5 mx-auto card p-3 u-w-fit shadow js-exception-backtrace">' . App\Purifier::encodeHtml(str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->__toString())) . '</pre>';
 					$response = false;

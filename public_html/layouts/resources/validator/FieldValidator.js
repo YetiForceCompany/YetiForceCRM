@@ -119,19 +119,25 @@ Vtiger_Base_Validator_Js(
 						phoneNumber: fieldValue,
 						phoneCountry: phoneCountryList.val()
 					}
-				}).done(function(data) {
-					if (data.result.isValidNumber == false) {
-						thisInstance.setError(data.result.message);
-						result = false;
-					} else {
-						field.val(data.result.number);
-						field.attr('title', data.result.geocoding + ' ' + data.result.carrier);
-						if (phoneCountryList.val() != data.result.country) {
-							phoneCountryList.val(data.result.country).trigger('change');
+				})
+					.done(function(data) {
+						if (data.result.isValidNumber == false) {
+							thisInstance.setError(data.result.message);
+							result = false;
+						} else {
+							field.val(data.result.number);
+							field.attr('title', data.result.geocoding + ' ' + data.result.carrier);
+							if (phoneCountryList.val() != data.result.country) {
+								phoneCountryList.val(data.result.country).trigger('change');
+							}
 						}
-					}
-					field.attr('readonly', false);
-				});
+						field.attr('readonly', false);
+					})
+					.fail(function(error, err) {
+						thisInstance.setError(app.vtranslate('JS_ERROR'));
+						result = false;
+						app.errorLog(error, err);
+					});
 			}
 			return result;
 		}
@@ -798,10 +804,19 @@ Vtiger_Base_Validator_Js(
 				var dependentField = dependentFieldList[i];
 				var dependentFieldInContext = jQuery('input[name=' + dependentField + ']', contextFormElem);
 				if (dependentFieldInContext.length > 0) {
+					let value, dependentValue;
+					if (
+						$.inArray(dependentFieldInContext.data('fieldinfo').type, ['currency', 'number', 'decimal']) !==
+						-1
+					) {
+						value = App.Fields.Double.formatToDb(field.val());
+						dependentValue = App.Fields.Double.formatToDb(dependentFieldInContext.val());
+					} else {
+						value = this.getDateTimeInstance(field);
+						dependentValue = this.getDateTimeInstance(dependentFieldInContext);
+					}
 					var dependentFieldLabel = dependentFieldInContext.data('fieldinfo').label;
-					var fieldDateInstance = this.getDateTimeInstance(field);
-					var dependentFieldDateInstance = this.getDateTimeInstance(dependentFieldInContext);
-					var comparedDateVal = fieldDateInstance - dependentFieldDateInstance;
+					var comparedDateVal = value - dependentValue;
 					if (comparedDateVal < 0) {
 						var errorInfo =
 							fieldLabel +
@@ -937,9 +952,10 @@ Vtiger_Base_Validator_Js(
 		 * @return false if validation error occurs
 		 */
 		validate: function(dependentFieldList) {
-			var field = this.getElement();
-			var fieldLabel = field.data('fieldinfo').label;
-			var contextFormElem = field.closest('form');
+			let field = this.getElement();
+			let fieldInfo = field.data('fieldinfo');
+			let fieldLabel = fieldInfo.label;
+			let contextFormElem = field.closest('form');
 			//No need to validate if value is empty
 			if (field.val().length == 0) {
 				return;
@@ -948,14 +964,20 @@ Vtiger_Base_Validator_Js(
 				var dependentField = dependentFieldList[i];
 				var dependentFieldInContext = jQuery('input[name=' + dependentField + ']', contextFormElem);
 				if (dependentFieldInContext.length > 0) {
+					let value, dependentValue;
+					if ($.inArray(fieldInfo.type, ['currency', 'number', 'decimal']) !== -1) {
+						value = App.Fields.Double.formatToDb(field.val());
+						dependentValue = App.Fields.Double.formatToDb(dependentFieldInContext.val());
+					} else {
+						value = this.getDateTimeInstance(field);
+						dependentValue = this.getDateTimeInstance(dependentFieldInContext);
+					}
 					var dependentFieldLabel = dependentFieldInContext.data('fieldinfo').label;
-					var fieldDateInstance = this.getDateTimeInstance(field);
 					//No need to validate if value is empty
 					if (dependentFieldInContext.val().length == 0) {
 						continue;
 					}
-					var dependentFieldDateInstance = this.getDateTimeInstance(dependentFieldInContext);
-					var comparedDateVal = fieldDateInstance - dependentFieldDateInstance;
+					var comparedDateVal = value - dependentValue;
 					if (comparedDateVal > 0) {
 						var errorInfo =
 							fieldLabel +
@@ -1031,20 +1053,17 @@ Vtiger_Base_Validator_Js(
 			if (groupSeparator === '.') {
 				groupSeparator = '\\.';
 			}
+
 			let regex = new RegExp(groupSeparator, 'g');
 			strippedValue = strippedValue.replace(regex, '');
-			//Note: Need to review if we should allow only positive values in currencies
-			/*if(strippedValue < 0){
-		 var errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');//"currency value should be greater than or equal to zero";
-		 this.setError(errorInfo);
-		 return false;
-		 }*/
+
 			if (isNaN(strippedValue)) {
 				errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
 				this.setError(errorInfo);
 				return false;
 			}
-			if (strippedValue < 0) {
+			let negativeNumber = fieldData.fieldinfo && fieldData.fieldinfo.fieldtype === 'NN';
+			if (!negativeNumber && strippedValue < 0) {
 				errorInfo = app.vtranslate('JS_ACCEPT_POSITIVE_NUMBER');
 				this.setError(errorInfo);
 				return false;
@@ -1674,7 +1693,9 @@ Vtiger_Base_Validator_Js(
 			const fieldValue = field.val();
 			if (
 				field.data('fieldinfo').maximumlength &&
-				new TextEncoder().encode(fieldValue).byteLength > field.data('fieldinfo').maximumlength
+				(typeof TextEncoder === 'function'
+					? new TextEncoder().encode(fieldValue).byteLength > field.data('fieldinfo').maximumlength
+					: fieldValue.length > field.data('fieldinfo').maximumlength)
 			) {
 				this.setError(
 					app.vtranslate('JS_MAXIMUM_TEXT_SIZE_IN_BYTES') + ' ' + field.data('fieldinfo').maximumlength

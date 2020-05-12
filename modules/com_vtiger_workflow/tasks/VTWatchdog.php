@@ -50,12 +50,13 @@ class VTWatchdog extends VTTask
 			unset($users[$key]);
 		}
 
+		$textParser = \App\TextParser::getInstanceByModel($recordModel);
 		$relatedField = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
 		$notification = Vtiger_Record_Model::getCleanInstance('Notification');
 		$notification->set('shownerid', implode(',', $users));
 		$notification->set($relatedField, $recordId);
-		$notification->set('title', $this->title);
-		$notification->set('description', $this->message);
+		$notification->set('title', $textParser->setContent($this->title)->parse()->getContent(), 'Text');
+		$notification->set('description', $textParser->setContent($this->message)->parse()->getContent(), 'Text');
 		$notification->set('notification_type', $this->type);
 		$notification->set('notification_status', 'PLL_UNREAD');
 		$notification->setHandlerExceptions(['disableHandlers' => true]);

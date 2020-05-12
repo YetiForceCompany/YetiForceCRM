@@ -75,7 +75,7 @@
               >
                 <YfIcon
                   :size="iconSize"
-                  :icon="'userIcon-Accounts'"
+                  :icon="'yfm-Accounts'"
                   class="q-mr-sm"
                 ></YfIcon>
                 {{ activeAccount }}

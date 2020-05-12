@@ -16,11 +16,13 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 		return new self();
 	}
 
-	/*
-	 * Returns CRMS active currency name by currency code
+	/**
+	 * Returns CRMS active currency name by currency code.
+	 *
+	 * @param mixed $code
+	 *
 	 * @return string - currency name
 	 */
-
 	public static function getCRMCurrencyName($code)
 	{
 		return (new \App\Db\Query())
@@ -30,23 +32,25 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 			->limit(1)->scalar();
 	}
 
-	/*
-	 * Returns list of active currencies in CRM
+	/**
+	 * Returns list of active currencies in CRM.
+	 *
 	 * @return <Integer> - number of currencies
 	 */
-
 	public function getCurrencyNum()
 	{
-		return count(\App\Fields\Currency::getAll(true));
+		return \count(\App\Fields\Currency::getAll(true));
 	}
 
-	/*
-	 * Returns currency exchange rates for systems active currencies from bank
-	 * @param <Date> $date - date for which to fetch exchange rates
-	 * @param boolean $cron - true if fired by server, and so updates systems currency conversion rates
-	 * @return boolean - true if fetched new exchange rates, false otherwise
+	/**
+	 * Returns currency exchange rates for systems active currencies from bank.
+	 *
+	 * @param <Date> $date    - date for which to fetch exchange rates
+	 * @param bool   $cron    - true if fired by server, and so updates systems currency conversion rates
+	 * @param mixed  $dateCur
+	 *
+	 * @return bool - true if fetched new exchange rates, false otherwise
 	 */
-
 	public function fetchCurrencyRates($dateCur, $cron = false)
 	{
 		if (!\App\RequestUtil::isNetConnection()) {
@@ -93,20 +97,17 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$id = $row['id'];
-			$bankPath = ROOT_DIRECTORY . "/modules/Settings/CurrencyUpdate/bankmodels/{$row['bank_name']} .php";
+			$bankPath = ROOT_DIRECTORY . "/modules/Settings/CurrencyUpdate/bankmodels/{$row['bank_name']}.php";
 			if (!file_exists($bankPath)) { // delete bank from database
 				$db->createCommand()->delete('yetiforce_currencyupdate_banks', ['id' => $id])->execute();
 			}
 		}
 		$dataReader->close();
 		foreach (new DirectoryIterator(ROOT_DIRECTORY . '/modules/Settings/CurrencyUpdate/bankmodels/') as $fileInfo) {
-			if ($fileInfo->isDot() || $fileInfo->getExtension() !== 'php') {
+			if (!$fileInfo->isFile() || 'php' !== $fileInfo->getExtension()) {
 				continue;
 			}
 			$bankClassName = $fileInfo->getBasename('.php');
-			if ($fileInfo->isDot() || $fileInfo->getExtension() !== 'php') {
-				continue;
-			}
 			$isExists = (new \App\Db\Query())->from('yetiforce_currencyupdate_banks')->where(['bank_name' => $bankClassName])->exists();
 			if (!$isExists) {
 				$db->createCommand()->insert('yetiforce_currencyupdate_banks', ['bank_name' => $bankClassName, 'active' => 0])->execute();
@@ -117,12 +118,12 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 		}
 	}
 
-	/*
-	 * Update currency rate in archives
-	 * @param <Integer> $id - exchange rate id
-	 * @param <Float> $exchange - exchange rate
+	/**
+	 * Update currency rate in archives.
+	 *
+	 * @param <Integer> $id       - exchange rate id
+	 * @param <Float>   $exchange - exchange rate
 	 */
-
 	public function updateCurrencyRate($id, $exchange)
 	{
 		\App\Db::getInstance()->createCommand()
@@ -130,14 +131,14 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 			->execute();
 	}
 
-	/*
-	 * Adds currency exchange rate to archive
-	 * @param <Integer> $currId - currency id
-	 * @param <Date> $exchangeDate - exchange date
-	 * @param <Float> $exchange - exchange rate
-	 * @param <Integer> $bankId - bank id
+	/**
+	 * Adds currency exchange rate to archive.
+	 *
+	 * @param <Integer> $currId       - currency id
+	 * @param <Date>    $exchangeDate - exchange date
+	 * @param <Float>   $exchange     - exchange rate
+	 * @param <Integer> $bankId       - bank id
 	 */
-
 	public function addCurrencyRate($currId, $exchangeDate, $exchange, $bankId)
 	{
 		\App\Db::getInstance()->createCommand()->insert('yetiforce_currencyupdate', [
@@ -149,14 +150,15 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 		])->execute();
 	}
 
-	/*
-	 * Returns currency exchange rate id
-	 * @param <Integer> $currencyId - systems currency id
-	 * @param <Date> $exchangeDate - date of exchange rate
-	 * @param <Integer> $bankId - id of bank
+	/**
+	 * Returns currency exchange rate id.
+	 *
+	 * @param <Integer> $currencyId   - systems currency id
+	 * @param <Date>    $exchangeDate - date of exchange rate
+	 * @param <Integer> $bankId       - id of bank
+	 *
 	 * @return <Integer> - currency rate id
 	 */
-
 	public function getCurrencyRateId($currencyId, $exchangeDate, $bankId)
 	{
 		return (new \App\Db\Query())->select(['id'])
@@ -165,14 +167,16 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 			->limit(1)->scalar();
 	}
 
-	/*
-	 * Returns currency rates from archive
-	 * @param <Integer> $bankId - bank id
-	 * @param <Date> $dateCur - date, if empty show this months history
+	/**
+	 * Returns currency rates from archive.
+	 *
+	 * @param <Integer>    $bankId  - bank id
+	 * @param <Date>       $dateCur - date, if empty show this months history
+	 * @param \App\Request $request
+	 *
 	 * @return <Array> - array containing currency rates
 	 */
-
-	public function getRatesHistory($bankId, $dateCur, \App\Request $request)
+	public function getRatesHistory($bankId, $dateCur, App\Request $request)
 	{
 		$query = (new App\Db\Query())->select(['exchange', 'currency_name', 'currency_code', 'currency_symbol', 'fetch_date', 'exchange_date'])
 			->from('yetiforce_currencyupdate')
@@ -188,12 +192,13 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 		return $query->orderBy(['exchange_date' => SORT_DESC, 'currency_code' => SORT_ASC])->all();
 	}
 
-	/*
-	 * Returns list of supported currencies by active bank
+	/**
+	 * Returns list of supported currencies by active bank.
+	 *
 	 * @param string $bankName - bank name
+	 *
 	 * @return <Array> - array of supported currencies
 	 */
-
 	public function getSupportedCurrencies($bankName = null)
 	{
 		if (!\App\RequestUtil::isNetConnection()) {
@@ -202,17 +207,23 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 		if (!$bankName) {
 			$bankName = 'Settings_CurrencyUpdate_' . $this->getActiveBankName() . '_BankModel';
 		}
-		$bank = new $bankName();
-
-		return $bank->getSupportedCurrencies();
+		$currencies = [];
+		try {
+			$bank = new $bankName();
+			$currencies = $bank->getSupportedCurrencies();
+		} catch (\Throwable $ex) {
+			\App\Log::error('Error during downloading table: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'CurrencyUpdate');
+		}
+		return $currencies;
 	}
 
-	/*
-	 * Returns list of unsupported currencies by active bank
+	/**
+	 * Returns list of unsupported currencies by active bank.
+	 *
 	 * @param string $bankName - bank name
+	 *
 	 * @return <Array> - array of unsupported currencies
 	 */
-
 	public function getUnSupportedCurrencies($bankName = null)
 	{
 		if (!\App\RequestUtil::isNetConnection()) {
@@ -237,12 +248,12 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 		return array_diff($unsupported, $supported);
 	}
 
-	/*
-	 * Sets systems exchange rate for chosen currency
-	 * @param string $currency - currency code
+	/**
+	 * Sets systems exchange rate for chosen currency.
+	 *
+	 * @param string  $currency - currency code
 	 * @param <Float> $exchange - exchange rate
 	 */
-
 	public function setCRMConversionRate($currency, $exchange)
 	{
 		$rate = (float) $exchange;
@@ -251,14 +262,15 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 			->execute();
 	}
 
-	/*
-	 * Function that retrieves conversion rate from and to specified currency
+	/**
+	 * Function that retrieves conversion rate from and to specified currency.
+	 *
 	 * @param string $from - currency code or id (converted to code)
-	 * @param string $to - currency code or id (converted to code)
+	 * @param string $to   - currency code or id (converted to code)
 	 * @param <Date> $date - date of the exchange rate
+	 *
 	 * @return <Float> - conversion rate
 	 */
-
 	public function getCRMConversionRate($from, $to, $date = '')
 	{
 		$mainCurrencyCode = \App\Fields\Currency::getDefault()['currency_code'];
@@ -297,10 +309,10 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 					->where(['yetiforce_currencyupdate.exchange_date' => $date,
 						'yetiforce_currencyupdate.bank_id' => $activeBankId,
 						'vtiger_currency_info.currency_code' => $to, ])
-						->limit(1);
+					->limit(1);
 				$num = (float) ($query->count());
 				// no exchange rate in archive, fetch new rates
-				if ($num == 0) {
+				if (0 == $num) {
 					self::fetchCurrencyRates($date);
 				}
 			}
@@ -311,14 +323,14 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 				->where(['yetiforce_currencyupdate.exchange_date' => $date,
 					'yetiforce_currencyupdate.bank_id' => $activeBankId,
 					'vtiger_currency_info.currency_code' => $to, ])
-					->limit(1);
+				->limit(1);
 			$exchange = (float) ($query->scalar());
 			if ($exchange > 0) {
 				$exchange = 1 / $exchange;
 			}
 
 			if ($from != $mainCurrencyCode) {
-				$convertToMainCurrency = $exchange == 0 ? 1 : 1 / $exchange;
+				$convertToMainCurrency = 0 == $exchange ? 1 : 1 / $exchange;
 				$query = new App\Db\Query();
 				$query->select(['yetiforce_currencyupdate.exchange'])
 					->from('yetiforce_currencyupdate')
@@ -326,7 +338,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 					->where(['yetiforce_currencyupdate.exchange_date' => $date,
 						'yetiforce_currencyupdate.bank_id' => $activeBankId,
 						'vtiger_currency_info.currency_code' => $from, ])
-						->limit(1);
+					->limit(1);
 				$fromExchange = (float) ($query->scalar());
 				if ($from != $mainCurrencyCode && $to != $mainCurrencyCode) {
 					$exchange = $fromExchange / $convertToMainCurrency;
@@ -338,36 +350,38 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 		return $exchange = round($exchange, 5);
 	}
 
-	/*
-	 * Convert given amount in one currency to another
+	/**
+	 * Convert given amount in one currency to another.
+	 *
 	 * @param <Float> $amount - number to convert
-	 * @param string $from - currency code
-	 * @param string $to - currency code
-	 * @param <Date> $date - date of the exchange rate
+	 * @param string  $from   - currency code
+	 * @param string  $to     - currency code
+	 * @param <Date>  $date   - date of the exchange rate
+	 *
 	 * @return <Float> - floating point number
 	 */
-
 	public function convertFromTo($amount, $from, $to, $date = false)
 	{
 		return round($amount * $this->getCRMConversionRate($from, $to, $date), 5);
 	}
 
-	/*
-	 * Returns id of active bank
+	/**
+	 * Returns id of active bank.
+	 *
 	 * @return <Integer> - bank id
 	 */
-
 	public function getActiveBankId()
 	{
 		return (new \App\Db\Query())->select(['id'])->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->limit(1)->scalar();
 	}
 
-	/*
-	 * Saves new active bank by id
+	/**
+	 * Saves new active bank by id.
+	 *
 	 * @param <Integer> $bankId - bank id
-	 * @return boolean - true on success or false
+	 *
+	 * @return bool - true on success or false
 	 */
-
 	public function setActiveBankById($bankId)
 	{
 		$db = \App\Db::getInstance();
@@ -375,16 +389,15 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 		$result = $db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 1], ['id' => $bankId])->execute();
 		if ($result) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
-	/*
-	 * Returns active banks name
+	/**
+	 * Returns active banks name.
+	 *
 	 * @return string - bank name
 	 */
-
 	public function getActiveBankName()
 	{
 		return (new \App\Db\Query())->select(['bank_name'])->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->limit(1)->scalar();

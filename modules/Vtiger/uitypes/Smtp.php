@@ -66,7 +66,7 @@ class Vtiger_Smtp_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'Edit/Field/Smtp.tpl';
+		return 'Edit/Field/SimplePicklist.tpl';
 	}
 
 	/**
@@ -82,7 +82,7 @@ class Vtiger_Smtp_UIType extends Vtiger_Base_UIType
 	 */
 	public function getOperatorTemplateName(string $operator = '')
 	{
-		return 'ConditionBuilder/Smtp.tpl';
+		return 'ConditionBuilder/SimplePicklist.tpl';
 	}
 
 	/**
@@ -92,5 +92,4 @@ class Vtiger_Smtp_UIType extends Vtiger_Base_UIType
 	{
 		return ['e', 'n', 'y', 'ny'];
 	}
-
 }

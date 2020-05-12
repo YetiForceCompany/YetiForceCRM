@@ -1011,6 +1011,8 @@ class QueryGenerator
 	 * Set state condition.
 	 *
 	 * @param string $state
+	 *
+	 * @return $this
 	 */
 	public function setStateCondition($state)
 	{
@@ -1029,6 +1031,7 @@ class QueryGenerator
 				$this->stateCondition = false;
 				break;
 		}
+		return $this;
 	}
 
 	/**
@@ -1172,7 +1175,7 @@ class QueryGenerator
 	{
 		$relatedFieldModel = $this->getRelatedModuleField($fieldDetail['relatedField'], $fieldDetail['relatedModule']);
 		if (!$relatedFieldModel || !$relatedFieldModel->isActiveField()) {
-			Log::warning("Field in related module is inactive or does not exist. Related module: {$fieldDetail['referenceModule']} | Related field: {$fieldDetail['relatedField']}");
+			Log::warning("Field in related module is inactive or does not exist. Related module: {$fieldDetail['relatedModule']} | Related field: {$fieldDetail['relatedField']}");
 
 			return false;
 		}

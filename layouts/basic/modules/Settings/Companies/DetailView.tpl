@@ -6,7 +6,7 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			<div class="ml-auto">
 				<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info float-right ml-2" role="button">
-					<span class="fas fa-edit"></span> {App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}
+					<span class="yfi yfi-full-editing-view"></span> {App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}
 				</a>
 				{if $REMOVE_BTN}
 					<button type="button" class="btn btn-danger float-right js-remove" data-js="click"
@@ -21,7 +21,6 @@
 	<div class="detailViewInfo" id="groupsDetailContainer">
 		<div class="">
 			<form id="detailView" class="form-horizontal" method="POST">
-				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 				<table class="table table-bordered">
 					<thead>
 					<tr class="blockHeader">

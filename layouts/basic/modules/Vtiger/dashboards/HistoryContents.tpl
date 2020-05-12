@@ -31,7 +31,7 @@
 					{if $PROCEED}
 						<div class="d-flex">
 							<div>
-								<span class="userIcon-{$MOD_NAME} fa-lg fa-fw" title="{$TRANSLATED_MODULE_NAME}"></span>
+								<span class="yfm-{$MOD_NAME} fa-lg fa-fw" title="{$TRANSLATED_MODULE_NAME}"></span>
 							</div>
 							<div class="w-100 ml-1">
 								<p class="ml-1 float-right text-muted">

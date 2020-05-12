@@ -278,3 +278,6 @@ span.yes {
 .o-product--shared {
 	background-image: url('../images/Shared.png');
 }
+.os-padding {
+	z-index: auto;
+}

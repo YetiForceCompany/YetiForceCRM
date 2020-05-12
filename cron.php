@@ -8,9 +8,7 @@
  * All Rights Reserved.
  * ****************************************************************************** */
 
-/**
- * Start the cron services configured.
- */
+// Start the cron services configured.
 chdir(__DIR__);
 require_once __DIR__ . '/include/main/WebUI.php';
 try {
@@ -54,6 +52,11 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 			$cronObj->log('Task start: ' . $cronTask->getName(), 'info', false);
 			$startTaskTime = microtime(true);
 			\App\Log::trace($cronTask->getName() . ' - Start', 'Cron');
+			if ($cronTask->isDisabled()) {
+				$response .= sprintf('%s | %s - Cron task had been disabled' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
+				$cronObj->log('Cron task had been disabled');
+				continue;
+			}
 			// Timeout could happen if intermediate cron-tasks fails
 			// and affect the next task. Which need to be handled in this cycle.
 			if ($cronTask->hadTimeout()) {
@@ -84,7 +87,7 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 			ob_start();
 			$className = $cronTask->getHandlerClass();
 			if (class_exists($className)) {
-				$cronHandler = new $className();
+				$cronHandler = new $className($cronTask);
 				if ($cronHandler instanceof \App\CronHandler) {
 					$cronHandler->process();
 				} else {
@@ -108,16 +111,17 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 			\App\Log::trace($cronTask->getName() . ' - End', 'Cron');
 			$cronObj->log('End task, time: ' . $taskTime);
 		} catch (\Throwable $e) {
+			\App\Log::error("Cron task '{$cronTask->getName()}' throwed exception: " . PHP_EOL . $e->__toString() . PHP_EOL, 'Cron');
 			$cronObj->log('Cron task execution throwed exception: ' . PHP_EOL . $response . PHP_EOL . $e->__toString(), 'error');
+			$cronTask->setError($response . PHP_EOL . $e->getMessage());
 			echo $response;
-			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
+			echo sprintf('%s | ERROR: %s - Cron task throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
 			echo $e->__toString() . PHP_EOL;
 			if ('test' === App\Config::main('systemMode')) {
 				throw $e;
 			}
 		}
 	}
-
 	$cronObj->log('End CRON (' . $cronObj->getCronExecutionTime() . ')', 'info', false);
 	$response .= sprintf('===============  %s (' . $cronObj->getCronExecutionTime() . ') | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
 	echo $response;

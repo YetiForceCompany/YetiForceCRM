@@ -8,10 +8,6 @@ update_configs:
       - "mariuszkrzaczkowski"
       default_reviewers:
       - "mariuszkrzaczkowski"
-      commit_message:
-          prefix: '[PROD]'
-          prefix_development: '[DEV]'
-          include_scope: true
     - package_manager: 'javascript'
       directory: '/'
       update_schedule: 'weekly'
@@ -20,10 +16,6 @@ update_configs:
       - "mariuszkrzaczkowski"
       default_reviewers:
       - "mariuszkrzaczkowski"
-      commit_message:
-          prefix: '[PROD]'
-          prefix_development: '[DEV]'
-          include_scope: true
     - package_manager: 'javascript'
       directory: '/public_html/src/'
       update_schedule: 'weekly'
@@ -33,7 +25,3 @@ update_configs:
       target_branch: 'developer'
       default_reviewers:
       - "mariuszkrzaczkowski"
-      commit_message:
-          prefix: '[PROD]'
-          prefix_development: '[DEV]'
-          include_scope: true

@@ -21,7 +21,7 @@ class Base extends \Vtiger_Base_UIType
 	 */
 	public static function getInstanceFromField($fieldModel)
 	{
-		$uiTypeClassSuffix = ucfirst($fieldModel->getFieldDataType());
+		$uiTypeClassSuffix = \App\Utils::mbUcfirst($fieldModel->getFieldDataType());
 		$instance = false;
 		foreach ([$fieldModel->getModuleName(), 'Vtiger'] as $moduleName) {
 			$className = "\\Api\\Core\\Modules\\{$moduleName}\\UiTypes\\{$uiTypeClassSuffix}";

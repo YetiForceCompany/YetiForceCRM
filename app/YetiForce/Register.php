@@ -91,6 +91,8 @@ class Register
 			'timezone' => date_default_timezone_get(),
 			'insKey' => static::getInstanceKey(),
 			'crmKey' => static::getCrmKey(),
+			'package' => \App\Company::getSize(),
+			'provider' => static::getProvider(),
 			'companies' => \App\Company::getAll(),
 		];
 	}
@@ -105,7 +107,6 @@ class Register
 		if (!\App\RequestUtil::isNetConnection() || 'yetiforce.com' === gethostbyname('yetiforce.com')) {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
 			$this->error = 'ERR_NO_INTERNET_CONNECTION';
-
 			return false;
 		}
 		$result = false;
@@ -142,19 +143,20 @@ class Register
 	 *
 	 * @param bool $force
 	 *
-	 * @return bool
+	 * @return int
 	 */
 	public static function check($force = false)
 	{
 		if (!\App\RequestUtil::isNetConnection() || 'yetiforce.com' === gethostbyname('yetiforce.com')) {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
 			static::updateMetaData(['last_error' => 'ERR_NO_INTERNET_CONNECTION', 'last_error_date' => date('Y-m-d H:i:s')]);
-			return false;
+			return 0;
 		}
 		$conf = static::getConf();
 		if (!$force && (!empty($conf['last_check_time']) && (($conf['status'] < 6 && strtotime('+6 hours', strtotime($conf['last_check_time'])) > time()) || ($conf['status'] > 6 && strtotime('+7 day', strtotime($conf['last_check_time'])) > time())))) {
-			return false;
+			return 0;
 		}
+		$status = 0;
 		try {
 			$data = ['last_check_time' => date('Y-m-d H:i:s')];
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post(static::$registrationUrl . 'check', [
@@ -162,6 +164,7 @@ class Register
 					'version' => \App\Version::get(),
 					'crmKey' => static::getCrmKey(),
 					'insKey' => static::getInstanceKey(),
+					'provider' => static::getProvider(),
 					'package' => \App\Company::getSize(),
 				])
 			]);
@@ -176,24 +179,25 @@ class Register
 						'last_check_time' => date('Y-m-d H:i:s'),
 						'products' => $body['activeProducts']
 					];
-					$status = true;
+					$status = 1;
 				} else {
-					$data['last_error'] = $body['text'];
-					$data['last_error_date'] = date('Y-m-d H:i:s');
+					throw new \App\Exceptions\AppException($body['text'], 4);
 				}
 			} else {
-				throw new \App\Exceptions\AppException('ERR_BODY_IS_EMPTY');
+				throw new \App\Exceptions\AppException('ERR_BODY_IS_EMPTY', 0);
 			}
 			static::updateMetaData($data);
 		} catch (\Throwable $e) {
 			\App\Log::warning($e->getMessage(), __METHOD__);
+			//Company details vary, re-registration is required.
 			static::updateMetaData([
 				'last_error' => $e->getMessage(),
 				'last_error_date' => date('Y-m-d H:i:s'),
 				'last_check_time' => date('Y-m-d H:i:s')
 			]);
+			$status = $e->getCode();
 		}
-		return $status ?? false;
+		return $status;
 	}
 
 	/**
@@ -205,17 +209,23 @@ class Register
 	 */
 	public static function verify($timer = false): bool
 	{
+		if (\App\Cache::staticHas('RegisterVerify', $timer)) {
+			return \App\Cache::staticGet('RegisterVerify', $timer);
+		}
 		$conf = static::getConf();
 		if (!$conf) {
+			\App\Cache::staticSave('RegisterVerify', $timer, false);
 			return false;
 		}
 		$status = $conf['status'] > 5;
 		if (!empty($conf['serialKey']) && $status && static::verifySerial($conf['serialKey'])) {
+			\App\Cache::staticSave('RegisterVerify', $timer, true);
 			return true;
 		}
 		if ($timer && !empty($conf['register_time']) && strtotime('+14 days', strtotime($conf['register_time'])) > time()) {
 			$status = true;
 		}
+		\App\Cache::staticSave('RegisterVerify', $timer, $status);
 		return $status;
 	}
 
@@ -237,7 +247,8 @@ class Register
 			'last_error_date' => $data['last_error_date'] ?? '',
 			'products' => $data['products'] ?? [],
 		];
-		\App\Utils::saveToFile(static::REGISTRATION_FILE, static::$config, 'Modifying this file will breach the licence terms', 0, true);
+		\App\Utils::saveToFile(static::REGISTRATION_FILE, static::$config, 'Modifying this file or functions that affect the footer appearance will violate the license terms!!!', 0, true);
+		\App\YetiForce\Shop::generateCache();
 	}
 
 	/**
@@ -358,8 +369,19 @@ class Register
 			}
 		}
 		if (!$status) {
-			throw new \App\Exceptions\AppException('ERR_COMPANY_DATA_IS_NOT_COMPATIBLE');
+			throw new \App\Exceptions\AppException('ERR_COMPANY_DATA_IS_NOT_COMPATIBLE', 3);
 		}
 		return $status;
+	}
+
+	/**
+	 * Get provider.
+	 *
+	 * @return string
+	 */
+	private static function getProvider(): string
+	{
+		$env = getenv();
+		return $env['PROVIDER'] ?? '';
 	}
 }

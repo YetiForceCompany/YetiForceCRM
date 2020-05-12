@@ -34,6 +34,14 @@ jQuery.Class(
 				return app.vtranslate('LBL_INVALID_USERNAME_ERROR');
 			}
 		},
+		checkDbUsername: function(field, rules, i, options) {
+			let fieldValue = field.val(),
+				negativeRegex = /^[_a-zA-Z0-9.,:-]+$/,
+				result = negativeRegex.test(fieldValue);
+			if (!result) {
+				return app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
+			}
+		},
 		checkDbName: function(field, rules, i, options) {
 			let fieldValue = field.val(),
 				negativeRegex = /^[^\\/?%*:|\\\"<>.\s]{1,64}$/,
@@ -58,7 +66,10 @@ jQuery.Class(
 			let modalContainer = $('.js-license-modal');
 			modalContainer.on('shown.bs.modal', function(e) {
 				app.registerDataTables(modalContainer.find('.js-data-table'), {
-					lengthMenu: [[10, 25, 50, -1], [10, 25, 50, app.vtranslate('JS_ALL')]],
+					lengthMenu: [
+						[10, 25, 50, -1],
+						[10, 25, 50, app.vtranslate('JS_ALL')]
+					],
 					retrieve: true
 				});
 			});
@@ -91,7 +102,7 @@ jQuery.Class(
 			$('.js-confirm').on('submit', function(e) {
 				if (elements.length > 0) {
 					e.preventDefault();
-					app.showConfirmModal(app.vtranslate('LBL_PHP_WARNING')).done(function(data) {
+					app.showConfirmModal(app.vtranslate('LBL_SETTINGS_WARNING')).done(function(data) {
 						if (data) {
 							elements = false;
 							$('form[name="step3"]').submit();
@@ -138,7 +149,10 @@ jQuery.Class(
 						jQuery(formField).val(config[field]);
 						jQuery(formField).select2('destroy');
 						App.Fields.Picklist.showSelect2ElementView(jQuery(formField));
-					} else if ('INPUT' == jQuery(formField).prop('tagName') && 'checkbox' == jQuery(formField).attr('type')) {
+					} else if (
+						'INPUT' == jQuery(formField).prop('tagName') &&
+						'checkbox' == jQuery(formField).attr('type')
+					) {
 						if (true == config[field]) {
 							jQuery(formField).prop('checked', true);
 							jQuery('.config-table tr.d-none').removeClass('d-none');

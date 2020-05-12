@@ -196,7 +196,7 @@
 						</div>
 					</div>
 					<div class="modal-footer d-flex flex-md-row flex-column justify-content-start">
-						<div class="w-75 btn-group js-filter-preferences btn-group-toggle flex-wrap align-items-stretch mt-1  c-btn-block-sm-down pl-1 flex-xl-row flex-column"
+						<div class="w-75 btn-group js-filter-preferences btn-group-toggle flex-wrap align-items-stretch m-0 mt-1 c-btn-block-sm-down pl-1 flex-xl-row flex-column"
 							 data-toggle="buttons" data-js="change">
 							<label class="c-btn-block-sm-down btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isDefault()} active{/if}"
 								   title="{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE_NAME)}">
@@ -247,8 +247,7 @@
 								{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE_NAME)}
 							</label>
 						</div>
-						<div class="w-25 d-flex flex-wrap flex-md-nowrap justify-content-end  pr-0 mt-1  c-btn-block-sm-down ml-0 pr-1 pr-md-0">
-
+						<div class="w-25 d-flex flex-wrap flex-md-nowrap justify-content-end m-0 pr-0 mt-1  c-btn-block-sm-down ml-0 pr-1 pr-md-0">
 							<button class="btn btn-success mr-md-1" type="submit">
 								<span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
 							</button>

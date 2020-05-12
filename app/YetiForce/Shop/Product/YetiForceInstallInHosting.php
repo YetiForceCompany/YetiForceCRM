@@ -19,6 +19,10 @@ class YetiForceInstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 	/**
 	 * {@inheritdoc}
 	 */
+	public $label = 'YetiForce Hosting';
+	/**
+	 * {@inheritdoc}
+	 */
 	public $pricesType = 'selection';
 	/**
 	 * {@inheritdoc}
@@ -28,6 +32,7 @@ class YetiForceInstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Small' => 50,
 		'Medium' => 100,
 		'Large' => 250,
+		'Corporation' => 1250,
 	];
 
 	/**
@@ -37,7 +42,8 @@ class YetiForceInstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 		'subdomain' => [
 			'label' => 'LBL_SHOP_DOMAIN_PREFIX',
 			'type' => 'text',
-			'validator' => 'required,custom[onlyLetterNumber]'
+			'append' => '.yetiforce.cloud',
+			'validator' => 'required,custom[onlyLetterNumber],minSize[3],maxSize[20]'
 		],
 		'email' => [
 			'label' => 'LBL_EMAIL',

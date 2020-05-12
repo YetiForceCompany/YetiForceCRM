@@ -21,7 +21,7 @@ class Assets_Record_Model extends Vtiger_Record_Model
 
 	public function getRenewalValue()
 	{
-		if ($this->isEmpty('product')) {
+		if ($this->isEmpty('product') || !\App\Record::isExists($this->get('product'), 'Products')) {
 			return 'PLL_NOT_APPLICABLE_VERIFICATION';
 		}
 		$productsRecordModel = Vtiger_Record_Model::getInstanceById($this->get('product'), 'Products');

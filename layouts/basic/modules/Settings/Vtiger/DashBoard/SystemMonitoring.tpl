@@ -6,7 +6,7 @@
 			{assign var="TRANSLATION" value=\App\Language::translatePluralized($ITEM['LABEL'], $QUALIFIED_MODULE, $ITEM['VALUE'])}
 			<div class="dashboardWidget px-1 pt-1 pb-4 mt-3 mr-3 flex-grow-1">
 				<div class="pl-3 d-flex flex-nowrap justify-content-center">
-					<div class="d-flex u-font-size-50px pb-1 mr-2">
+					<div class="d-flex u-fs-50px pb-1 mr-2">
 						<span class="mt-auto mb-2 {$ITEM['ICON']}"></span>
 					</div>
 					<div class="display-3 u-font-weight-350" {if strlen($ITEM['VALUE']) > 3}title="{$ITEM['VALUE']}">999+{else}>{$ITEM['VALUE']}{/if}</div>

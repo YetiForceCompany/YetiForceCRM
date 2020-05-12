@@ -2,6 +2,8 @@
 /**
  * Cron to destroy old session.
  *
+ * @package   Cron
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
@@ -23,6 +25,7 @@ class Vtiger_SessionCleaner_Cron extends \App\CronHandler
 			foreach (App\Session::clean() as $userId => $userName) {
 				$dbCommand->insert('vtiger_loginhistory', [
 					'user_name' => $userName,
+					'userid' => $userId,
 					'logout_time' => date('Y-m-d H:i:s'),
 					'status' => 'Automatic signed off'
 				])->execute();

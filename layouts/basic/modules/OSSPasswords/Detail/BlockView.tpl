@@ -1,13 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE}
-{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL_KEY]}
-{if $BLOCK eq null or $FIELD_MODEL_LIST|@count lte 0}{continue}{/if}
-{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
-{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
-{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
-{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-{if $BLOCKS_HIDE}
+<!-- tpl-OSSPasswrds-Detail-BlockView -->
 <div class="tpl-OSSPasswrds-DetailViewBlock detailViewTable">
 	<div class="js-toggle-panel c-panel" data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if} data-label="{$BLOCK_LABEL_KEY}">
 		<div class="blockHeader card-header px-0">
@@ -60,9 +53,7 @@
 											   data-type="{$FIELD_MODEL->getFieldDataType()}"
 											   value='{$FIELD_MODEL->getName()}'
 											   data-prev-value='{$FIELD_MODEL->get('fieldvalue')}'/>
-
-
-{else}
+									{else}
 														{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}
 														{if $FIELD_VALUE|is_array}
 										{assign var=FIELD_VALUE value=\App\Json::encode($FIELD_VALUE)}
@@ -82,21 +73,5 @@
 			</div>
 		</div>
 	</div>
-	{/if}
-	{/foreach}
-	<div class="contentHeader form-row m-0">
-		<div class="col-12 px-0">
-			<div class="float-right">
-				<button class="btn btn-success d-none" data-copy-target="detailPassword" id="copy-button" type="button"
-						title="{\App\Language::translate('LBL_CopyToClipboardTitle', $MODULE_NAME)}"><span
-							class="fas fa-copy"></span> {\App\Language::translate('LBL_CopyToClipboard', $MODULE_NAME)}
-				</button>&nbsp;&nbsp;
-				<button class="btn btn-warning" onclick="PasswordHelper.showDetailsPassword('{$smarty.get.record}');return false;"
-						id="show-btn">
-					<span class="fas fa-eye u-mr-5px"></span>{\App\Language::translate('LBL_ShowPassword', $MODULE_NAME)}
-				</button>
-			</div>
-			<div class="clearfix"></div>
-		</div>
-	</div>
-	{/strip}
+<!-- /tpl-OSSPasswrds-Detail-BlockView -->
+{/strip}

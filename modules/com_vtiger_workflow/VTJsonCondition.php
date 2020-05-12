@@ -40,7 +40,6 @@ class VTJsonCondition
 					$referenceModule = $matches[2];
 					$fieldname = $matches[3];
 					$result = false;
-
 					$referenceFieldId = $recordModel->get($referenceField);
 					if (!empty($referenceFieldId)) {
 						$cond['fieldname'] = $fieldname;
@@ -153,7 +152,7 @@ class VTJsonCondition
 		if ('datetime' === $dataType || 'date' === $dataType) {
 			$fieldName = $cond['fieldname'];
 			$dateTimePair = ['date_start' => 'time_start', 'due_date' => 'time_end'];
-			if (!$recordModel->isEmpty($dateTimePair[$fieldName])) {
+			if (isset($dateTimePair[$fieldName]) && !$recordModel->isEmpty($dateTimePair[$fieldName])) {
 				$fieldValue = $recordModel->get($fieldName) . ' ' . $recordModel->get($dateTimePair[$fieldName]);
 			} else {
 				$fieldValue = $recordModel->get($fieldName);
@@ -299,7 +298,7 @@ class VTJsonCondition
 				if (false === $hasChanged) {
 					return false;
 				}
-					return $fieldValue != $hasChanged;
+				return $fieldValue != $hasChanged;
 			case 'is empty':
 				if (empty($fieldValue)) {
 					return true;
@@ -450,8 +449,7 @@ class VTJsonCondition
 				return false;
 			case 'has changed to':
 				$oldValue = $recordModel->getPreviousValue($cond['fieldname']);
-
-				return false !== $oldValue && $recordModel->get($cond['fieldname']) == $value;
+				return ($recordModel->isNew() || false !== $oldValue) && $recordModel->get($cond['fieldname']) == $value;
 			case 'is added':
 				//This condition was used only for comments. It should not execute from not from workflows, So it was always "FALSE"
 				return false;

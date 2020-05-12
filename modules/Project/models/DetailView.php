@@ -46,17 +46,14 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 	}
 
 	/**
-	 * Function to get the detail view related links.
-	 *
-	 * @return <array> - list of links parameters
+	 * {@inheritdoc}
 	 */
 	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$relatedLinks = parent::getDetailViewRelatedLinks();
-		$parentModel = Vtiger_Module_Model::getInstance('OSSTimeControl');
-		if ($parentModel->isActive()) {
+		if (Vtiger_Module_Model::getInstance('OSSTimeControl')->isActive()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => \App\Language::translate('LBL_CHARTS', $moduleName),

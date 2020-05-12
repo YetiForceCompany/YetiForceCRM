@@ -15,7 +15,7 @@
 					{/if}
 				</a>
 			</div>
-			<div class="col-10 userDetails">
+			<div class="col-10 userDetails" data-user="{$CURRENT_USER->getId()}">
 				<div class="row">
 					<div class="col-10 p-0 userName">
 						{assign var=USER_NAME_ARRAY value=explode(' ',$USER_MODEL->getDisplayName())}

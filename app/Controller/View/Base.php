@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Controller\View;
@@ -73,14 +74,18 @@ abstract class Base extends \App\Controller\Base
 	public function getViewer(\App\Request $request)
 	{
 		if (!isset($this->viewer)) {
+			$user = \App\User::getCurrentUserModel();
 			$this->viewer = \Vtiger_Viewer::getInstance();
 			$this->viewer->assign('APPTITLE', \App\Language::translate('APPTITLE'));
 			$this->viewer->assign('YETIFORCE_VERSION', \App\Version::get());
 			$this->viewer->assign('MODULE_NAME', $request->getModule());
 			$this->viewer->assign('NONCE', \App\Session::get('CSP_TOKEN'));
 			$this->viewer->assign('IS_IE', \App\RequestUtil::getBrowserInfo()->ie);
+			$this->viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
+			$this->viewer->assign('CURRENT_USER', $user);
+			$this->viewer->assign('WIDTHTYPE', $user->getDetail('rowheight'));
+			$this->viewer->assign('WIDTHTYPE_GROUP', ['narrow' => 'input-group-sm', 'wide' => 'input-group-lg'][$user->getDetail('rowheight')] ?? '');
 			if ($request->isAjax()) {
-				$this->viewer->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
 				if (!$request->isEmpty('parent', true) && 'Settings' === $request->getByType('parent', 2)) {
 					$this->viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 				}
@@ -149,8 +154,6 @@ abstract class Base extends \App\Controller\Base
 		$view->assign('LANGUAGE', \App\Language::getLanguage());
 		$view->assign('HTMLLANG', \App\Language::getShortLanguageName());
 		$view->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
-		$view->assign('USER_MODEL', \Users_Record_Model::getCurrentUserModel());
-		$view->assign('CURRENT_USER', \App\User::getCurrentUserModel());
 		$view->assign('MODULE', $moduleName);
 		$view->assign('VIEW', $request->getByType('view', 1));
 		$view->assign('PARENT_MODULE', $request->getByType('parent', 2));
@@ -207,11 +210,11 @@ abstract class Base extends \App\Controller\Base
 	public function getHeaderCss(\App\Request $request)
 	{
 		return $this->checkAndConvertCssStyles([
-			'~layouts/resources/icons/userIcon.css',
 			'~layouts/resources/icons/adminIcon.css',
 			'~layouts/resources/icons/additionalIcons.css',
 			'~layouts/resources/icons/yfm.css',
 			'~layouts/resources/icons/yfi.css',
+			'~libraries/@mdi/font/css/materialdesignicons.css',
 			'~libraries/@fortawesome/fontawesome-free/css/all.css',
 			'~libraries/jquery-ui-dist/jquery-ui.css',
 			'~libraries/select2/dist/css/select2.css',
@@ -227,7 +230,6 @@ abstract class Base extends \App\Controller\Base
 			'~libraries/tributejs/dist/tribute.css',
 			'~libraries/emojipanel/dist/emojipanel.css',
 			'~libraries/emoji-mart-vue-fast/css/emoji-mart.css',
-			'~libraries/@mdi/font/css/materialdesignicons.css',
 			'~libraries/overlayscrollbars/css/OverlayScrollbars.css',
 			'~src/css/quasar.css',
 			'~layouts/resources/colors/calendar.css',
@@ -330,6 +332,9 @@ abstract class Base extends \App\Controller\Base
 			$fileName = '~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js';
 		}
 		$jsFileNames[] = $fileName;
+		if (\App\Debuger::isDebugBar()) {
+			$jsFileNames[] = '~layouts/resources/debugbar/logs.js';
+		}
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
@@ -585,7 +590,7 @@ abstract class Base extends \App\Controller\Base
 				'startHour' => $userModel->getDetail('start_hour'),
 				'endHour' => $userModel->getDetail('end_hour'),
 				'firstDayOfWeek' => $userModel->getDetail('dayoftheweek'),
-				'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeek[$userModel->getDetail('dayoftheweek')] ?? false,
+				'firstDayOfWeekNo' => \App\Fields\Date::$dayOfWeekForJS[$userModel->getDetail('dayoftheweek')] ?? false,
 				'eventLimit' => \App\Config::module('Calendar', 'EVENT_LIMIT'),
 				'timeZone' => $userModel->getDetail('time_zone'),
 				'currencyId' => $userModel->getDetail('currency_id'),
@@ -600,7 +605,9 @@ abstract class Base extends \App\Controller\Base
 				'noOfCurrencyDecimals' => (int) $userModel->getDetail('no_of_currency_decimals'),
 				'truncateTrailingZeros' => $userModel->getDetail('truncate_trailing_zeros'),
 				'rowHeight' => $userModel->getDetail('rowheight'),
-				'userId' => $userModel->getId()
+				'userId' => $userModel->getId(),
+				// Modifying this file or functions that affect the footer appearance will violate the license terms!!!
+				'disableBranding' => \App\YetiForce\Shop::check('YetiForceDisableBranding')
 			];
 		}
 		foreach ($jsEnv as $key => $value) {

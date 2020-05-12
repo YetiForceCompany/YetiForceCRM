@@ -8,29 +8,29 @@ window.App.Fields = {
 			'JS_FEB',
 			'JS_MAR',
 			'JS_APR',
-			'JS_MAY',
+			'JS_MAY_SHORT',
 			'JS_JUN',
 			'JS_JUL',
 			'JS_AUG',
 			'JS_SEP',
 			'JS_OCT',
 			'JS_NOV',
-			'JS_DEC'
+			'JS_DEC',
 		],
 		monthsTranslated: [
 			'JS_JAN',
 			'JS_FEB',
 			'JS_MAR',
 			'JS_APR',
-			'JS_MAY',
+			'JS_MAY_SHORT',
 			'JS_JUN',
 			'JS_JUL',
 			'JS_AUG',
 			'JS_SEP',
 			'JS_OCT',
 			'JS_NOV',
-			'JS_DEC'
-		].map(monthName => app.vtranslate(monthName)),
+			'JS_DEC',
+		].map((monthName) => app.vtranslate(monthName)),
 		fullMonths: [
 			'JS_JANUARY',
 			'JS_FEBRUARY',
@@ -43,7 +43,7 @@ window.App.Fields = {
 			'JS_SEPTEMBER',
 			'JS_OCTOBER',
 			'JS_NOVEMBER',
-			'JS_DECEMBER'
+			'JS_DECEMBER',
 		],
 		fullMonthsTranslated: [
 			'JS_JANUARY',
@@ -57,10 +57,10 @@ window.App.Fields = {
 			'JS_SEPTEMBER',
 			'JS_OCTOBER',
 			'JS_NOVEMBER',
-			'JS_DECEMBER'
-		].map(monthName => app.vtranslate(monthName)),
+			'JS_DECEMBER',
+		].map((monthName) => app.vtranslate(monthName)),
 		days: ['JS_SUN', 'JS_MON', 'JS_TUE', 'JS_WED', 'JS_THU', 'JS_FRI', 'JS_SAT'],
-		daysTranslated: ['JS_SUN', 'JS_MON', 'JS_TUE', 'JS_WED', 'JS_THU', 'JS_FRI', 'JS_SAT'].map(monthName =>
+		daysTranslated: ['JS_SUN', 'JS_MON', 'JS_TUE', 'JS_WED', 'JS_THU', 'JS_FRI', 'JS_SAT'].map((monthName) =>
 			app.vtranslate(monthName)
 		),
 		fullDays: ['JS_SUNDAY', 'JS_MONDAY', 'JS_TUESDAY', 'JS_WEDNESDAY', 'JS_THURSDAY', 'JS_FRIDAY', 'JS_SATURDAY'],
@@ -71,8 +71,8 @@ window.App.Fields = {
 			'JS_WEDNESDAY',
 			'JS_THURSDAY',
 			'JS_FRIDAY',
-			'JS_SATURDAY'
-		].map(monthName => app.vtranslate(monthName)),
+			'JS_SATURDAY',
+		].map((monthName) => app.vtranslate(monthName)),
 
 		/**
 		 * Register DatePicker
@@ -124,7 +124,7 @@ window.App.Fields = {
 					clear: app.vtranslate('JS_CLEAR'),
 					format: format,
 					titleFormat: 'MM yyyy' /* Leverages same syntax as 'format' */,
-					weekStart: CONFIG.firstDayOfWeekNo
+					weekStart: CONFIG.firstDayOfWeekNo,
 				};
 			}
 			let params = {
@@ -134,7 +134,7 @@ window.App.Fields = {
 				weekStart: CONFIG.firstDayOfWeekNo,
 				autoclose: true,
 				todayHighlight: true,
-				format: format
+				format: format,
 			};
 			if (typeof customParams !== 'undefined') {
 				params = $.extend(params, customParams);
@@ -183,56 +183,32 @@ window.App.Fields = {
 			ranges[app.vtranslate('JS_NEXT_7_DAYS')] = [moment(), moment().add(6, 'days')];
 			ranges[app.vtranslate('JS_CURRENT_MONTH')] = [moment().startOf('month'), moment().endOf('month')];
 			ranges[app.vtranslate('JS_NEXT_MONTH')] = [
-				moment()
-					.add(1, 'month')
-					.startOf('month'),
-				moment()
-					.add(1, 'month')
-					.endOf('month')
+				moment().add(1, 'month').startOf('month'),
+				moment().add(1, 'month').endOf('month'),
 			];
 			ranges[app.vtranslate('JS_LAST_MONTH')] = [
-				moment()
-					.subtract(1, 'month')
-					.startOf('month'),
-				moment()
-					.subtract(1, 'month')
-					.endOf('month')
+				moment().subtract(1, 'month').startOf('month'),
+				moment().subtract(1, 'month').endOf('month'),
 			];
 			ranges[app.vtranslate('JS_NEXT_MONTH')] = [
-				moment()
-					.add(1, 'month')
-					.startOf('month'),
-				moment()
-					.add(1, 'month')
-					.endOf('month')
+				moment().add(1, 'month').startOf('month'),
+				moment().add(1, 'month').endOf('month'),
 			];
 			ranges[app.vtranslate('JS_LAST_3_MONTHS')] = [
-				moment()
-					.subtract(3, 'month')
-					.startOf('month'),
-				moment()
-					.subtract(1, 'month')
-					.endOf('month')
+				moment().subtract(3, 'month').startOf('month'),
+				moment().subtract(1, 'month').endOf('month'),
 			];
 			ranges[app.vtranslate('JS_NEXT_3_MONTHS')] = [
 				moment().startOf('month'),
-				moment()
-					.add(3, 'month')
-					.endOf('month')
+				moment().add(3, 'month').endOf('month'),
 			];
 			ranges[app.vtranslate('JS_LAST_6_MONTHS')] = [
-				moment()
-					.subtract(6, 'month')
-					.startOf('month'),
-				moment()
-					.subtract(1, 'month')
-					.endOf('month')
+				moment().subtract(6, 'month').startOf('month'),
+				moment().subtract(1, 'month').endOf('month'),
 			];
 			ranges[app.vtranslate('JS_NEXT_6_MONTHS')] = [
 				moment().startOf('month'),
-				moment()
-					.add(6, 'month')
-					.endOf('month')
+				moment().add(6, 'month').endOf('month'),
 			];
 			let params = {
 				autoUpdateInput: false,
@@ -249,8 +225,8 @@ window.App.Fields = {
 					weekLabel: app.vtranslate('JS_WEEK').substr(0, 1),
 					firstDay: CONFIG.firstDayOfWeekNo,
 					daysOfWeek: App.Fields.Date.daysTranslated,
-					monthNames: App.Fields.Date.fullMonthsTranslated
-				}
+					monthNames: App.Fields.Date.fullMonthsTranslated,
+				},
 			};
 
 			if (typeof customParams !== 'undefined') {
@@ -259,17 +235,14 @@ window.App.Fields = {
 			parentElement
 				.find('.js-date__btn')
 				.off()
-				.on('click', e => {
-					$(e.currentTarget)
-						.parent()
-						.next('.dateRangeField')[0]
-						.focus();
+				.on('click', (e) => {
+					$(e.currentTarget).parent().next('.dateRangeField')[0].focus();
 				});
 			elements.each((index, element) => {
 				let el = $(element);
 				let currentParams = $.extend(true, params, el.data('params'));
 				el.daterangepicker(currentParams)
-					.on('apply.daterangepicker', function(ev, picker) {
+					.on('apply.daterangepicker', function (ev, picker) {
 						$(this).val(
 							picker.startDate.format(currentParams.locale.format) +
 								',' +
@@ -289,7 +262,7 @@ window.App.Fields = {
 					});
 				App.Fields.Utils.registerMobileDateRangePicker(el);
 			});
-		}
+		},
 	},
 	DateTime: {
 		/*
@@ -297,7 +270,7 @@ window.App.Fields = {
 		 * @param {jQuery} parentElement
 		 * @param {object} customParams
 		 */
-		register: function(parentElement, customParams) {
+		register: function (parentElement, customParams) {
 			if (typeof parentElement === 'undefined') {
 				parentElement = $('body');
 			} else {
@@ -310,12 +283,8 @@ window.App.Fields = {
 			if (elements.length === 0) {
 				return;
 			}
-			$('.input-group-text', elements.closest('.dateTime')).on('click', function(e) {
-				$(e.currentTarget)
-					.closest('.dateTime')
-					.find('input.dateTimePickerField ')
-					.get(0)
-					.focus();
+			$('.input-group-text', elements.closest('.dateTime')).on('click', function (e) {
+				$(e.currentTarget).closest('.dateTime').find('input.dateTimePickerField ').get(0).focus();
 			});
 			let dateFormat = CONFIG.dateFormat.toUpperCase();
 			const elementDateFormat = elements.data('dateFormat');
@@ -356,8 +325,8 @@ window.App.Fields = {
 					weekLabel: app.vtranslate('JS_WEEK').substr(0, 1),
 					firstDay: CONFIG.firstDayOfWeekNo,
 					daysOfWeek: App.Fields.Date.daysTranslated,
-					monthNames: App.Fields.Date.fullMonthsTranslated
-				}
+					monthNames: App.Fields.Date.fullMonthsTranslated,
+				},
 			};
 			if (typeof customParams !== 'undefined') {
 				params = $.extend(params, customParams);
@@ -378,20 +347,20 @@ window.App.Fields = {
 			elements.each((index, element) => {
 				App.Fields.Utils.registerMobileDateRangePicker($(element));
 			});
-		}
+		},
 	},
 	Colors: {
 		/**
 		 * Function to check whether the color is dark or light
 		 */
-		getColorContrast: function(hexcolor) {
+		getColorContrast: function (hexcolor) {
 			var r = parseInt(hexcolor.substr(0, 2), 16);
 			var g = parseInt(hexcolor.substr(2, 2), 16);
 			var b = parseInt(hexcolor.substr(4, 2), 16);
 			var yiq = (r * 299 + g * 587 + b * 114) / 1000;
 			return yiq >= 128 ? 'light' : 'dark';
 		},
-		getRandomColor: function() {
+		getRandomColor: function () {
 			var letters = '0123456789ABCDEF'.split('');
 			var color = '#';
 			for (var i = 0; i < 6; i++) {
@@ -399,7 +368,7 @@ window.App.Fields = {
 			}
 			return color;
 		},
-		getRandomColors: function(count) {
+		getRandomColors: function (count) {
 			const colors = [];
 			for (var i = 0; i < count; i++) {
 				colors.push(this.getRandomColor());
@@ -407,12 +376,12 @@ window.App.Fields = {
 			return colors;
 		},
 		showPicker({ color, fieldToUpdate, bgToUpdate, cb }) {
-			let registerPickerEvents = modalContainer => {
+			let registerPickerEvents = (modalContainer) => {
 				let picker = window.ColorPicker.mount({
 					el: modalContainer.find('.js-color-picker')[0],
-					currentColor: color
+					currentColor: color,
 				});
-				modalContainer.find('.js-modal__save').on('click', _ => {
+				modalContainer.find('.js-modal__save').on('click', (_) => {
 					let newColor = picker.getColor().hex;
 					cb && cb(newColor);
 					bgToUpdate && bgToUpdate.css('background', newColor);
@@ -420,11 +389,9 @@ window.App.Fields = {
 					app.hideModalWindow(false, modalContainer.closest('.js-modal-container')[0].id);
 				});
 			};
-			let url = `index.php?module=AppComponents&view=ColorPickerModal${
-				color ? '&color=' + color.substring(1) : ''
-			}`;
+			let url = `index.php?module=AppComponents&view=ColorPickerModal${color ? '&color=' + color : ''}`;
 			app.showModalWindow({ url, cb: registerPickerEvents.bind(this) });
-		}
+		},
 	},
 	Text: {
 		/**
@@ -433,7 +400,7 @@ window.App.Fields = {
 		 * @param {string} key
 		 * @returns {ClipboardJS|undefined}
 		 */
-		registerCopyClipboard: function(container, key = '.clipboard') {
+		registerCopyClipboard: function (container, key = '.clipboard') {
 			if (typeof container !== 'object') {
 				return;
 			}
@@ -445,10 +412,10 @@ window.App.Fields = {
 			}
 			return new ClipboardJS(elements, {
 				container: container,
-				text: function(trigger) {
+				text: function (trigger) {
 					Vtiger_Helper_Js.showPnotify({
 						text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
-						type: 'success'
+						type: 'success',
 					});
 					trigger = $(trigger);
 					const element = $(trigger.data('copyTarget'), container);
@@ -465,7 +432,7 @@ window.App.Fields = {
 						val = element.val();
 					}
 					return val;
-				}
+				},
 			});
 		},
 		Editor: class {
@@ -490,10 +457,11 @@ window.App.Fields = {
 								enabled: true,
 								onBlock: () => {
 									self.loadEditor(elements, params);
-								}
-							}
+								},
+							},
 						});
 					} else {
+						App.Fields.Text.destroyEditor(elements);
 						this.loadEditor(elements, params);
 					}
 				}
@@ -549,14 +517,14 @@ window.App.Fields = {
 					emojiEnabled: false,
 					mentionsEnabled: false,
 					on: {
-						instanceReady: function(evt) {
-							evt.editor.on('blur', function() {
+						instanceReady: function (evt) {
+							evt.editor.on('blur', function () {
 								evt.editor.updateElement();
 							});
 							if (self.isModal) {
 								self.progressInstance.progressIndicator({ mode: 'hide' });
 							}
-						}
+						},
 					},
 					extraPlugins:
 						'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi,ckeditor-image-to-base',
@@ -564,13 +532,13 @@ window.App.Fields = {
 					toolbar_Full: [
 						{
 							name: 'clipboard',
-							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
 						},
 						{ name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
 						{ name: 'links', items: ['Link', 'Unlink'] },
 						{
 							name: 'insert',
-							items: ['ckeditor-image-to-base', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']
+							items: ['ckeditor-image-to-base', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak'],
 						},
 						{ name: 'tools', items: ['Maximize', 'ShowBlocks'] },
 						{ name: 'paragraph', items: ['Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv'] },
@@ -579,7 +547,7 @@ window.App.Fields = {
 						{ name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
 						{
 							name: 'basicstyles',
-							items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']
+							items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
 						},
 						{ name: 'colors', items: ['TextColor', 'BGColor'] },
 						{
@@ -594,15 +562,15 @@ window.App.Fields = {
 								'JustifyBlock',
 								'-',
 								'BidiLtr',
-								'BidiRtl'
-							]
+								'BidiRtl',
+							],
 						},
-						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] }
+						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] },
 					],
 					toolbar_Min: [
 						{
 							name: 'basicstyles',
-							items: ['Bold', 'Italic', 'Underline', 'Strike']
+							items: ['Bold', 'Italic', 'Underline', 'Strike'],
 						},
 						{ name: 'colors', items: ['TextColor', 'BGColor'] },
 						{ name: 'tools', items: ['Maximize'] },
@@ -618,19 +586,19 @@ window.App.Fields = {
 								'JustifyBlock',
 								'-',
 								'BidiLtr',
-								'BidiRtl'
-							]
+								'BidiRtl',
+							],
 						},
-						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] }
+						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] },
 					],
 					toolbar_Clipboard: [
 						{ name: 'document', items: ['Print'] },
 						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] },
 						{
 							name: 'clipboard',
-							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
-						}
-					]
+							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+						},
+					],
 				};
 				if (typeof customConfig !== 'undefined') {
 					config = $.extend(config, customConfig);
@@ -666,34 +634,34 @@ window.App.Fields = {
 					{
 						feed: this.getMentionUsersData.bind(this),
 						itemTemplate: `<li data-id="{id}" class="row no-gutters">
-											<div class="c-img__completion__container">
-												<div class="{icon} m-auto u-w-fit u-font-size-14px"></div>
+											<div class="col-2 c-img__completion__container">
+												<div class="{icon} m-auto u-w-fit u-fs-14px"></div>
 												<img src="{image}" class="c-img__completion mr-2" alt="{label}" title="{label}">
 											</div>
-											<div class="col row no-gutters u-overflow-x-hidden">
+											<div class="col row-10 no-gutters u-overflow-x-hidden">
 												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
 												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
 											</div>
 										</li>`,
 						outputTemplate: '<a href="#" data-id="@{id}" data-module="{module}">{label}</a>',
-						minChars: minSerchTextLength
+						minChars: minSerchTextLength,
 					},
 					{
 						feed: App.Fields.Text.getMentionData,
 						marker: '#',
 						pattern: /#[wа-я]{1,}|#\w{3,}$/,
 						itemTemplate: `<li data-id="{id}" class="row no-gutters">
-											<div class="col c-circle-icon mr-1">
-												<span class="userIcon-{module}"></span>
+											<div class="col-2 c-circle-icon">
+												<span class="yfm-{module}"></span>
 											</div>
-											<div class="col row no-gutters u-overflow-x-hidden">
+											<div class="col-10 row no-gutters pl-1 u-overflow-x-hidden">
 												<strong class="u-text-ellipsis--no-hover col-12">{label}</strong>
 												<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">{category}</div>
 											</div>
 										</li>`,
 						outputTemplate: '<a href="#" data-id="#{id}" data-module="{module}">{label}</a>',
-						minChars: minSerchTextLength
-					}
+						minChars: minSerchTextLength,
+					},
 				];
 			}
 
@@ -732,8 +700,8 @@ window.App.Fields = {
 					completionsCollection: {
 						records: true,
 						users: true,
-						emojis: true
-					}
+						emojis: true,
+					},
 				};
 				this.params = Object.assign(basicParams, inputDiv.data(), params);
 				this.inputDiv = inputDiv;
@@ -760,7 +728,7 @@ window.App.Fields = {
 				let self = this;
 				return {
 					trigger: symbol,
-					selectTemplate: function(item) {
+					selectTemplate: function (item) {
 						if (this.range.isContentEditable(this.current.element)) {
 							return `<a href="#" data-id="${symbol + item.original.id}" data-module="${
 								item.original.module
@@ -770,21 +738,21 @@ window.App.Fields = {
 					},
 					values: (text, cb) => {
 						if (text.length >= CONFIG.globalSearchAutocompleteMinLength) {
-							App.Fields.Text.getMentionData(text, users => cb(users), searchModule);
+							App.Fields.Text.getMentionData(text, (users) => cb(users), searchModule);
 						}
 					},
-					menuItemTemplate: function(item) {
+					menuItemTemplate: function (item) {
 						return self.mentionTemplate({
 							id: item.original.id,
 							module: item.original.module,
 							category: item.original.category,
 							image: item.original.image,
 							label: item.original.label,
-							icon: item.original.icon
+							icon: item.original.icon,
 						});
 					},
 					lookup: 'label',
-					fillAttr: 'label'
+					fillAttr: 'label',
 				};
 			}
 
@@ -795,13 +763,13 @@ window.App.Fields = {
 			registerEmojiCollection() {
 				return {
 					trigger: ':',
-					selectTemplate: function(item) {
+					selectTemplate: function (item) {
 						if (this.range.isContentEditable(this.current.element)) {
 							return `<span data-id="${item.original.id}">${item.original.symbol}</span>`;
 						}
 						return item.original.symbol;
 					},
-					menuItemTemplate: function(item) {
+					menuItemTemplate: function (item) {
 						return `<span data-id="${item.original.id}">${item.original.symbol} ${item.original.id}</span>`;
 					},
 					lookup: 'id',
@@ -810,7 +778,7 @@ window.App.Fields = {
 						if (text.length >= 2) {
 							cb(App.emoji);
 						}
-					}
+					},
 				};
 			}
 
@@ -820,20 +788,20 @@ window.App.Fields = {
 			mentionTemplate(params) {
 				let icon = '';
 				if (params.module !== undefined) {
-					icon = `userIcon-${params.module}`;
+					icon = `yfm-${params.module}`;
 				}
 				if (params.icon !== undefined && params.icon !== '') {
 					icon = params.icon;
 				}
-				let avatar = `<div class="col c-circle-icon mr-1">
+				let avatar = `<div class="col-2 c-circle-icon">
 								<span class="${icon}"></span>
 							</div>`;
 				if (params.image !== undefined && params.image !== '') {
-					avatar = `<div class="c-img__completion__container"><img src="${params.image}" class="c-img__completion mr-2" alt=${params.label}" title="${params.label}"></div>`;
+					avatar = `<div class="col-2 c-img__completion__container m-0"><img src="${params.image}" class="c-img__completion" alt=${params.label}" title="${params.label}"></div>`;
 				}
 				return `<div data-id="${params.id}" class="row no-gutters">
 							${avatar}
-							<div class="col row no-gutters u-overflow-x-hidden">
+							<div class="col-10 row no-gutters pl-1 u-overflow-x-hidden">
 								<strong class="u-text-ellipsis--no-hover col-12">${params.label}</strong>
 								<div class="fullname col-12 u-text-ellipsis--no-hover text-muted small">${params.category}</div>
 							</div>
@@ -849,7 +817,7 @@ window.App.Fields = {
 				this.completionsCollection = new Tribute({
 					collection: self.collection,
 					allowSpaces: true,
-					replaceTextSuffix: ''
+					replaceTextSuffix: '',
 				});
 				this.completionsCollection.attach(inputDiv[0]);
 				if (this.params.completionsTextarea !== undefined) {
@@ -861,19 +829,16 @@ window.App.Fields = {
 				if (this.params.emojiPanel) {
 					this.registerEmojiPanel(
 						this.inputDiv,
-						this.inputDiv
-							.parents()
-							.eq(3)
-							.find('.js-completions__emojis')
+						this.inputDiv.parents().eq(3).find('.js-completions__emojis')
 					);
 				}
 				if (App.emoji === undefined) {
 					fetch(`${CONFIG.siteUrl}/vendor/ckeditor/ckeditor/plugins/emoji/emoji.json`)
-						.then(response => response.json())
-						.then(response => {
+						.then((response) => response.json())
+						.then((response) => {
 							App.emoji = response;
 						})
-						.catch(error => console.error('Error:', error));
+						.catch((error) => console.error('Error:', error));
 				}
 				this.registerTagClick(inputDiv);
 			}
@@ -885,10 +850,10 @@ window.App.Fields = {
 			registerCompletionsTextArea(inputDiv) {
 				let textarea = inputDiv.siblings(`[name=${inputDiv.attr('id')}]`);
 				inputDiv
-					.on('focus', function() {
+					.on('focus', function () {
 						textarea.val(inputDiv.html());
 					})
-					.on('blur keyup paste input', function() {
+					.on('blur keyup paste input', function () {
 						textarea.val(inputDiv.html());
 					});
 			}
@@ -901,7 +866,7 @@ window.App.Fields = {
 				inputDiv
 					.closest('.js-completions__container')
 					.find('.js-completions__messages')
-					.on('click', '.js-completions__tag', e => {
+					.on('click', '.js-completions__tag', (e) => {
 						e.preventDefault();
 						inputDiv.append($(e.target).clone());
 					});
@@ -912,10 +877,10 @@ window.App.Fields = {
 			 */
 			registerCompletionsButtons() {
 				let completionsContainer = this.inputDiv.parents().eq(3);
-				completionsContainer.find('.js-completions__users').on('click', e => {
+				completionsContainer.find('.js-completions__users').on('click', (e) => {
 					this.completionsCollection.showMenuForCollection(this.inputDiv[0], 1);
 				});
-				completionsContainer.find('.js-completions__records').on('click', e => {
+				completionsContainer.find('.js-completions__records').on('click', (e) => {
 					this.completionsCollection.showMenuForCollection(this.inputDiv[0], 0);
 				});
 			}
@@ -928,28 +893,28 @@ window.App.Fields = {
 			registerEmojiPanel(inputDiv, emojisContainer) {
 				new EmojiPanel({
 					container: '.js-completions__emojis',
-					json_url: CONFIG.siteUrl + 'libraries/emojipanel/dist/emojis.json'
+					json_url: CONFIG.siteUrl + 'libraries/emojipanel/dist/emojis.json',
 				});
-				emojisContainer.on('click', e => {
+				emojisContainer.on('click', (e) => {
 					let element = $(e.target);
 					element.toggleClass('active');
 				});
-				emojisContainer.on('click', '.emoji', e => {
+				emojisContainer.on('click', '.emoji', (e) => {
 					e.preventDefault();
 					e.stopPropagation();
 					if ($(e.currentTarget).data('char') !== undefined) {
 						inputDiv.append(`${$(e.currentTarget).data('char')}`);
 					}
 				});
-				emojisContainer.on('mouseenter', '.emoji', e => {
+				emojisContainer.on('mouseenter', '.emoji', (e) => {
 					if ($(e.currentTarget).data('name') !== undefined) {
 						emojisContainer.find('.emoji-hovered').remove();
 						emojisContainer
 							.find('footer')
 							.prepend(
-								`<div class="emoji-hovered">${$(e.currentTarget).data('char') +
-									' ' +
-									$(e.currentTarget).data('name')}</div>`
+								`<div class="emoji-hovered">${
+									$(e.currentTarget).data('char') + ' ' + $(e.currentTarget).data('name')
+								}</div>`
 							);
 					}
 				});
@@ -977,12 +942,12 @@ window.App.Fields = {
 				AppConnector.request({
 					action: 'Search',
 					mode: 'owners',
-					value: text
-				}).done(data => {
+					value: text,
+				}).done((data) => {
 					callback(data.result);
 				});
 			} else {
-				basicSearch.search(text).done(function(data) {
+				basicSearch.search(text).done(function (data) {
 					data = JSON.parse(data);
 					let serverDataFormat = data.result,
 						reponseDataList = [];
@@ -1022,18 +987,12 @@ window.App.Fields = {
 		generateRandomHash(prefix = '') {
 			prefix = prefix.toString();
 			const hash =
-				Math.random()
-					.toString(36)
-					.substr(2, 10) +
-				Math.random()
-					.toString(36)
-					.substr(2, 10) +
+				Math.random().toString(36).substr(2, 10) +
+				Math.random().toString(36).substr(2, 10) +
 				new Date().valueOf() +
-				Math.random()
-					.toString(36)
-					.substr(2, 6);
+				Math.random().toString(36).substr(2, 6);
 			return prefix ? prefix + hash : hash;
-		}
+		},
 	},
 	Picklist: {
 		/**
@@ -1043,13 +1002,13 @@ window.App.Fields = {
 		 * @params viewParams - select2 params
 		 * @returns jquery object list which represents changed select elements
 		 */
-		changeSelectElementView: function(parent, view, viewParams) {
+		changeSelectElementView: function (parent, view, viewParams) {
 			if (typeof parent === 'undefined') {
 				parent = $('body');
 			}
 			if (typeof view === 'undefined') {
 				const select2Elements = $('select.select2', parent).toArray();
-				select2Elements.forEach(elem => {
+				select2Elements.forEach((elem) => {
 					this.changeSelectElementView($(elem), 'select2', viewParams);
 				});
 				return;
@@ -1080,7 +1039,7 @@ window.App.Fields = {
 				return App.Fields.Picklist.showLazySelect(selectElement, {
 					lazyElements: app.getMainParams('picklistLimit'),
 					data: this.registerLazySelectOptions(selectElement),
-					selectParams: params
+					selectParams: params,
 				});
 			}
 			const computeDropdownHeight = (e, dropdownContainer) => {
@@ -1094,12 +1053,12 @@ window.App.Fields = {
 								$(window).height() -
 								selectOffsetTop -
 								marginBottom -
-								(dropdownList.offset().top - selectOffsetTop)
+								(dropdownList.offset().top - selectOffsetTop),
 						});
 					}
 				}, 100);
 			};
-			selectElement.each(function() {
+			selectElement.each(function () {
 				let select = $(this);
 				let htmlBoolParams = select.data('select');
 				if (htmlBoolParams === 'tags') {
@@ -1110,12 +1069,12 @@ window.App.Fields = {
 				}
 				select
 					.select2(params)
-					.on('select2:open', e => {
+					.on('select2:open', (e) => {
 						computeDropdownHeight(e, $('.select2-container--open:not(.select2-container--below)'));
 						if (select.data('unselecting')) {
 							select.removeData('unselecting');
-							setTimeout(function() {
-								select.each(function() {
+							setTimeout(function () {
+								select.each(function () {
 									$(this).select2('close');
 								});
 							}, 1);
@@ -1163,23 +1122,23 @@ window.App.Fields = {
 			if (typeof containerCssClass !== 'undefined') {
 				params.containerCssClass += ' ' + containerCssClass;
 			}
-			params.language.noResults = function(msn) {
+			params.language.noResults = function (msn) {
 				return app.vtranslate('JS_NO_RESULTS_FOUND');
 			};
 
 			// Sort DOM nodes alphabetically in select box.
 			if (typeof params['customSortOptGroup'] !== 'undefined' && params['customSortOptGroup']) {
-				$('optgroup', selectElement).each(function() {
+				$('optgroup', selectElement).each(function () {
 					var optgroup = $(this);
 					var options = optgroup
 						.children()
 						.toArray()
-						.sort(function(a, b) {
+						.sort(function (a, b) {
 							var aText = $(a).text();
 							var bText = $(b).text();
 							return aText < bText ? 1 : -1;
 						});
-					$.each(options, function(i, v) {
+					$.each(options, function (i, v) {
 						optgroup.prepend(v);
 					});
 				});
@@ -1193,7 +1152,7 @@ window.App.Fields = {
 				typeof params.formatSelectionTooBig === 'undefined'
 			) {
 				//custom function which will return the maximum selection size exceeds message.
-				var formatSelectionExceeds = function(limit) {
+				var formatSelectionExceeds = function (limit) {
 					return (
 						app.vtranslate('JS_YOU_CAN_SELECT_ONLY') +
 						' ' +
@@ -1210,7 +1169,7 @@ window.App.Fields = {
 				params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 			}
 			if (typeof params.templateResult === 'undefined') {
-				params.templateResult = function(data, container) {
+				params.templateResult = function (data, container) {
 					if (data.element && data.element.className) {
 						$(container).addClass(data.element.className);
 					}
@@ -1234,14 +1193,14 @@ window.App.Fields = {
 						return '<span>' + data.name + '</span>';
 					}
 				};
-				params.escapeMarkup = function(markup) {
+				params.escapeMarkup = function (markup) {
 					return markup;
 				};
 			} else if (typeof this[params.templateResult] === 'function') {
 				params.templateResult = this[params.templateResult];
 			}
 			if (typeof params.templateSelection === 'undefined') {
-				params.templateSelection = function(data, container) {
+				params.templateSelection = function (data, container) {
 					if (data.element && data.element.className) {
 						$(container).addClass(data.element.className);
 					}
@@ -1266,14 +1225,14 @@ window.App.Fields = {
 		 */
 		registerAjaxParams(selectElement, params) {
 			params.tags = false;
-			params.language.searching = function() {
+			params.language.searching = function () {
 				return app.vtranslate('JS_SEARCHING');
 			};
-			params.language.inputTooShort = function(args) {
+			params.language.inputTooShort = function (args) {
 				var remainingChars = args.minimum - args.input.length;
 				return app.vtranslate('JS_INPUT_TOO_SHORT').replace('_LENGTH_', remainingChars);
 			};
-			params.language.errorLoading = function() {
+			params.language.errorLoading = function () {
 				return app.vtranslate('JS_NO_RESULTS_FOUND');
 			};
 			params.placeholder = '';
@@ -1282,20 +1241,20 @@ window.App.Fields = {
 				dataType: 'json',
 				delay: 250,
 				method: 'POST',
-				data: function(params) {
+				data: function (params) {
 					return {
 						value: params.term, // search term
-						page: params.page
+						page: params.page,
 					};
 				},
-				processResults: function(data, params) {
+				processResults: function (data, params) {
 					var items = new Array();
 					if (data.success == true) {
-						selectElement.find('option').each(function() {
+						selectElement.find('option').each(function () {
 							var currentTarget = $(this);
 							items.push({
 								label: currentTarget.html(),
-								value: currentTarget.val()
+								value: currentTarget.val(),
 							});
 						});
 						items = items.concat(data.result.items);
@@ -1303,13 +1262,13 @@ window.App.Fields = {
 					return {
 						results: items,
 						pagination: {
-							more: false
-						}
+							more: false,
+						},
 					};
 				},
-				cache: false
+				cache: false,
 			};
-			params.escapeMarkup = function(markup) {
+			params.escapeMarkup = function (markup) {
 				if (markup !== 'undefined') return markup;
 			};
 			var minimumInputLength = 3;
@@ -1317,7 +1276,7 @@ window.App.Fields = {
 				minimumInputLength = selectElement.data('minimumInput');
 			}
 			params.minimumInputLength = minimumInputLength;
-			params.templateResult = function(data) {
+			params.templateResult = function (data) {
 				if (typeof data.name === 'undefined') {
 					return data.text;
 				}
@@ -1327,7 +1286,7 @@ window.App.Fields = {
 					return '<span>' + data.name + '</span>';
 				}
 			};
-			params.templateSelection = function(data, container) {
+			params.templateSelection = function (data, container) {
 				if (data.text === '') {
 					return data.name;
 				}
@@ -1392,22 +1351,17 @@ window.App.Fields = {
 			ul.sortable({
 				items: 'li:not(.select2-search__field)',
 				tolerance: 'pointer',
-				stop: function() {
-					$(
-						ul
-							.find('.select2-selection__choice')
-							.get()
-							.reverse()
-					).each(function() {
+				stop: function () {
+					$(ul.find('.select2-selection__choice').get().reverse()).each(function () {
 						let optionTitle = $(this).attr('title');
-						select.find('option').each(function() {
+						select.find('option').each(function () {
 							if ($(this).text() === optionTitle) {
 								select.prepend($(this));
 							}
 						});
 					});
 					cb(select);
-				}
+				},
 			});
 		},
 		/**
@@ -1415,7 +1369,7 @@ window.App.Fields = {
 		 * @param selectElement
 		 */
 		registerIconsEvents(selectElement) {
-			selectElement.on('select2:selecting', event => {
+			selectElement.on('select2:selecting', (event) => {
 				let currentTarget = $(event.params.args.originalEvent.target);
 				if (!currentTarget.hasClass('js-select-option-event') && !currentTarget.is('path')) {
 					return;
@@ -1429,7 +1383,7 @@ window.App.Fields = {
 					optionElement = $(event.params.args.data.element),
 					progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
 				AppConnector.request(currentElementData.url)
-					.done(data => {
+					.done((data) => {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						let response = data.result;
 						if (response && response.result) {
@@ -1451,7 +1405,7 @@ window.App.Fields = {
 							Vtiger_Helper_Js.showPnotify({ text: response.message });
 						}
 					})
-					.fail(function() {
+					.fail(function () {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					});
 			});
@@ -1471,7 +1425,7 @@ window.App.Fields = {
 				CustomData.prototype.query = (options, callback) => {
 					let results = [];
 					if (options.term && options.term !== '') {
-						results = params.data.filter(e => {
+						results = params.data.filter((e) => {
 							return e.text.toUpperCase().indexOf(options.term.toUpperCase()) >= 0;
 						});
 					} else {
@@ -1491,7 +1445,7 @@ window.App.Fields = {
 				};
 				params.selectParams = Object.assign(params.selectParams, {
 					ajax: {},
-					dataAdapter: CustomData
+					dataAdapter: CustomData,
 				});
 				selectElement.addClass('js-lazy-select-active');
 				this.showSelect2ElementView(selectElement, params.selectParams);
@@ -1515,17 +1469,17 @@ window.App.Fields = {
 		registerLazySelectOptions(selectElement) {
 			let options = [];
 			if (selectElement.data('fieldinfo') && selectElement.data('fieldinfo').picklistvalues) {
-				options = $.map(selectElement.data('fieldinfo').picklistvalues, function(val, key) {
+				options = $.map(selectElement.data('fieldinfo').picklistvalues, function (val, key) {
 					return { id: key, text: val };
 				});
 			} else {
-				options = $.map(selectElement.find('option'), item => {
+				options = $.map(selectElement.find('option'), (item) => {
 					return {
 						id: item.value,
 						element: item,
 						text: item.text,
 						selected: item.selected,
-						disabled: item.disabled
+						disabled: item.disabled,
 					};
 				});
 			}
@@ -1565,7 +1519,7 @@ window.App.Fields = {
 			let foundOption = false;
 			const selectValues = this.getSelectOptions(selectElement);
 			const getFieldValueFromText = () =>
-				Object.keys(selectValues).find(key => selectValues[key] === searchValue);
+				Object.keys(selectValues).find((key) => selectValues[key] === searchValue);
 			const valueExists = () => selectValues.hasOwnProperty(searchValue);
 			const createOption = () => {
 				return { text: selectValues[foundOption], value: foundOption };
@@ -1617,15 +1571,15 @@ window.App.Fields = {
 		createSelectedOption(selectElement, text, value) {
 			const newOption = new Option(text, value, true, true);
 			selectElement.append(newOption).trigger('change');
-		}
+		},
 	},
 	MultiImage: {
 		currentFileUploads: 0,
 		register(container) {
-			$('.js-multi-image', container).each(function() {
+			$('.js-multi-image', container).each(function () {
 				new MultiImage($(this));
 			});
-		}
+		},
 	},
 	MultiEmail: {
 		register(container) {
@@ -1634,21 +1588,21 @@ window.App.Fields = {
 				$(element)
 					.find('.js-email')
 					.each((index, element) => {
-						$(element).on('change', e => {
+						$(element).on('change', (e) => {
 							App.Fields.MultiEmail.parseToJSON($(inputElement));
 						});
 					});
 				$(element)
 					.find('.js-multi-email-add-item')
 					.each((index, element) => {
-						$(element).on('click', e => {
+						$(element).on('click', (e) => {
 							App.Fields.MultiEmail.addEmail($(inputElement));
 						});
 					});
 				$(element)
 					.find('.js-remove-item')
 					.each((index, element) => {
-						$(element).on('click', e => {
+						$(element).on('click', (e) => {
 							App.Fields.MultiEmail.removeEmail($(e.target), $(inputElement));
 							App.Fields.MultiEmail.parseToJSON(container);
 						});
@@ -1656,7 +1610,7 @@ window.App.Fields = {
 				$(element)
 					.find('input.js-checkbox')
 					.each((index, element) => {
-						$(element).on('change', e => {
+						$(element).on('change', (e) => {
 							App.Fields.MultiEmail.toggleCheckBox($(e.target));
 							App.Fields.MultiEmail.parseToJSON(container);
 						});
@@ -1672,60 +1626,48 @@ window.App.Fields = {
 			let arr = [];
 			let arrayLength = allFields.length;
 			for (let i = 0; i < arrayLength; ++i) {
-				let inputField = $(allFields[i])
-					.find('input.js-email')
-					.eq(0);
-				let checkboxField = $(allFields[i])
-					.find('input.js-checkbox')
-					.eq(0);
+				let inputField = $(allFields[i]).find('input.js-email').eq(0);
+				let checkboxField = $(allFields[i]).find('input.js-checkbox').eq(0);
 				if (inputField.val() !== '') {
 					arr.push({
 						e: $(inputField).val(),
-						o: $(checkboxField).is(':checked') ? 1 : 0
+						o: $(checkboxField).is(':checked') ? 1 : 0,
 					});
 				}
 			}
-			$(element)
-				.find('input.js-hidden-email')
-				.val(JSON.stringify(arr));
+			$(element).find('input.js-hidden-email').val(JSON.stringify(arr));
 		},
 		/**
 		 * Invoked after clicking the add button
 		 * @param {jQuery} container
 		 */
 		addEmail(container) {
-			let newField = container
-				.find('[class*=js-multi-email-row]')
-				.eq(0)
-				.clone(false, false);
+			let newField = container.find('[class*=js-multi-email-row]').eq(0).clone(false, false);
 			let cnt = container.find('[class*=js-multi-email-row]').length + 1;
 			newField.removeClass('js-multi-email-row-1');
 			newField.addClass('js-multi-email-row-' + cnt);
 			newField.find('input.js-email').val('');
 			newField.find('input.js-checkbox').removeAttr('checked');
 			newField.find('label.js-label-checkbox').removeClass('active');
-			newField
-				.find('span.far')
-				.removeClass('fa-check-square')
-				.addClass('fa-square');
+			newField.find('span.far').removeClass('fa-check-square').addClass('fa-square');
 			newField
 				.find('.js-remove-item')
 				.eq(0)
-				.on('click', e => {
+				.on('click', (e) => {
 					App.Fields.MultiEmail.removeEmail($(e.target), container);
 					App.Fields.MultiEmail.parseToJSON(container);
 				});
 			newField
 				.find('input.js-checkbox')
 				.eq(0)
-				.on('change', e => {
+				.on('change', (e) => {
 					App.Fields.MultiEmail.toggleCheckBox($(e.target));
 					App.Fields.MultiEmail.parseToJSON(container);
 				});
 			newField
 				.find('input.js-email')
 				.eq(0)
-				.on('change', e => {
+				.on('change', (e) => {
 					App.Fields.MultiEmail.parseToJSON(container);
 				});
 			newField.insertAfter(container.find('[class*=js-multi-email-row]').last());
@@ -1759,7 +1701,7 @@ window.App.Fields = {
 					.removeClass('fa-check-square')
 					.addClass('fa-square');
 			}
-		}
+		},
 	},
 	MultiDependField: {
 		/**
@@ -1770,7 +1712,7 @@ window.App.Fields = {
 			container.find('.js-multi-field').each((index, element) => {
 				const inputElement = $(element);
 				const fields = inputElement.find('.js-multi-field-val').data('fields');
-				inputElement.find('.js-multi-field-add-item').on('click', e => {
+				inputElement.find('.js-multi-field-add-item').on('click', (e) => {
 					App.Fields.MultiDependField.addRow(inputElement, fields);
 				});
 				App.Fields.MultiDependField.registerRow(inputElement, fields);
@@ -1783,11 +1725,11 @@ window.App.Fields = {
 		 */
 		registerRow(inputElement, fields) {
 			for (let i in fields) {
-				inputElement.find('[name="' + fields[i] + '"]').on('change', e => {
+				inputElement.find('[name="' + fields[i] + '"]').on('change', (e) => {
 					App.Fields.MultiDependField.parseToJson(inputElement, fields);
 				});
 			}
-			inputElement.find('.js-remove-item').on('click', e => {
+			inputElement.find('.js-remove-item').on('click', (e) => {
 				App.Fields.MultiDependField.removeRow($(e.target), inputElement);
 				App.Fields.MultiDependField.parseToJson(inputElement.closest('.js-multi-field'), fields);
 			});
@@ -1827,9 +1769,7 @@ window.App.Fields = {
 					arr.push(partData);
 				}
 			}
-			$(element)
-				.find('input.js-multi-field-val')
-				.val(JSON.stringify(arr));
+			$(element).find('input.js-multi-field-val').val(JSON.stringify(arr));
 		},
 		/**
 		 * Invoked after clicking the add button
@@ -1858,7 +1798,7 @@ window.App.Fields = {
 			App.Fields.Picklist.showSelect2ElementView(newField.find('select.select2'));
 			App.Fields.Date.register(newField);
 			App.Fields.MultiDependField.registerRow(container, fields);
-		}
+		},
 	},
 	DependentSelect: {
 		/**
@@ -1889,7 +1829,7 @@ window.App.Fields = {
 			if (typeof container === 'undefined' || typeof container.length === 'undefined' || !container.length) {
 				return app.errorLog('Dependend select field container is missing.');
 			}
-			container.each(function() {
+			container.each(function () {
 				const masterSelect = $(this),
 					slaveSelect = $(masterSelect.data('slave')),
 					data = masterSelect.data('data');
@@ -1899,7 +1839,7 @@ window.App.Fields = {
 				if (!data) {
 					return app.errorLog('Could not load data (data-data attribute)');
 				}
-				masterSelect.on('change', e => {
+				masterSelect.on('change', (e) => {
 					let values = $(e.target).val();
 					if (!Array.isArray(values)) {
 						values = [values];
@@ -1909,7 +1849,7 @@ window.App.Fields = {
 						for (let item of data) {
 							if (item.value === value) {
 								if (typeof item.children !== 'undefined') {
-									item.children.forEach(child => {
+									item.children.forEach((child) => {
 										children.push(child);
 									});
 								}
@@ -1925,12 +1865,12 @@ window.App.Fields = {
 				});
 				masterSelect.html(App.Fields.DependentSelect.generateOptionsFromData(data));
 			});
-		}
+		},
 	},
 	Gantt: {
 		register(container, data) {
 			return new GanttField(container, data);
-		}
+		},
 	},
 	Integer: {
 		/**
@@ -1960,7 +1900,7 @@ window.App.Fields = {
 				}
 			}
 			return integer;
-		}
+		},
 	},
 	Double: {
 		/**
@@ -1988,7 +1928,11 @@ window.App.Fields = {
 			value = parseFloat(value);
 			if (fixed) {
 				let base = 10 ** numberOfDecimal;
-				value = (Math.round(value * base) / base).toFixed(numberOfDecimal);
+				value =
+					Math.round(
+						value * base +
+							Math.sign(value) * 0.1 ** (17 - 2 - (Math.round(value * base) / base).toString().length)
+					) / base;
 			}
 			let splittedFloat = value.toString().split('.');
 			let integer = splittedFloat[0];
@@ -2021,11 +1965,11 @@ window.App.Fields = {
 			value = value.split(CONFIG.currencyGroupingSeparator).join('');
 			value = value.replace(/\s/g, '').replace(CONFIG.currencyDecimalSeparator, '.');
 			return parseFloat(value);
-		}
+		},
 	},
 	Tree: {
 		register(container) {
-			container.on('click', '.js-tree-modal', function(e) {
+			container.on('click', '.js-tree-modal', function (e) {
 				let element = $(e.target),
 					parentElem = element.closest('.js-tree-container'),
 					sourceFieldElement = parentElem.find('input[class="sourceField"]'),
@@ -2038,10 +1982,10 @@ window.App.Fields = {
 					template: sourceFieldElement.data('treetemplate'),
 					fieldName: sourceFieldElement.attr('name'),
 					multiple: sourceFieldElement.data('multiple'),
-					value: sourceFieldElement.val()
-				}).done(function(requestData) {
-					app.modalEvents['treeModal'] = function(modal, instance) {
-						instance.setSelectEvent(responseData => {
+					value: sourceFieldElement.val(),
+				}).done(function (requestData) {
+					app.modalEvents['treeModal'] = function (modal, instance) {
+						instance.setSelectEvent((responseData) => {
 							sourceFieldElement.val(responseData.id);
 							fieldDisplayElement.val(responseData.name).attr('readonly', true);
 						});
@@ -2049,7 +1993,7 @@ window.App.Fields = {
 					app.showModalWindow(requestData, { modalId: 'treeModal' });
 				});
 			});
-		}
+		},
 	},
 	/**
 	 * TimePeriod class
@@ -2215,20 +2159,20 @@ window.App.Fields = {
 					app.showModalWindow({
 						data: modal,
 						css: {},
-						cb: data => {
+						cb: (data) => {
 							let form = data.parent();
 							form.validationEngine(app.validationEngineOptionsForRecord);
-							form.on('submit', e => {
+							form.on('submit', (e) => {
 								e.preventDefault();
 								if (form.validationEngine('validate') && this.saveCurrencies(form)) {
 									let id = form.closest('.js-modal-container').attr('id');
 									app.hideModalWindow(null, id);
 								}
 							});
-						}
+						},
 					});
 				});
-			this.getField().on('focusout', e => {
+			this.getField().on('focusout', (e) => {
 				let element = $(e.currentTarget);
 				element.formatNumber();
 				this.setPrice(element.val());
@@ -2291,7 +2235,7 @@ window.App.Fields = {
 			if (enabledBaseCurrency.length < 1) {
 				Vtiger_Helper_Js.showMessage({
 					text: app.vtranslate('JS_PLEASE_SELECT_BASE_CURRENCY_FOR_PRODUCT'),
-					type: 'error'
+					type: 'error',
 				});
 				return false;
 			}
@@ -2299,7 +2243,7 @@ window.App.Fields = {
 			if (selectedBaseCurrency.length < 1) {
 				Vtiger_Helper_Js.showMessage({
 					text: app.vtranslate('JS_PLEASE_ENABLE_BASE_CURRENCY_FOR_PRODUCT'),
-					type: 'error'
+					type: 'error',
 				});
 				return false;
 			}
@@ -2337,7 +2281,7 @@ window.App.Fields = {
 				return;
 			}
 			let baseCurrencyRatePrevValue = baseCurrencyConversionRate.getNumberFromValue();
-			container.find('.js-conversion-rate').each(function(key, domElement) {
+			container.find('.js-conversion-rate').each(function (key, domElement) {
 				let element = $(domElement);
 				if (!element.is(baseCurrencyConversionRate)) {
 					element.val(
@@ -2355,7 +2299,7 @@ window.App.Fields = {
 		 * @param {jQuery} container
 		 */
 		registerEnableCurrencyEvent(container) {
-			container.on('change', '.js-enable-currency', e => {
+			container.on('change', '.js-enable-currency', (e) => {
 				let element = $(e.currentTarget);
 				let parentRow = element.closest('tr');
 				if (element.is(':checked')) {
@@ -2374,7 +2318,7 @@ window.App.Fields = {
 								'"' +
 								parentRow.find('.js-currency-name').text() +
 								'" ' +
-								app.vtranslate('JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY')
+								app.vtranslate('JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY'),
 						});
 						element.prop('checked', true);
 						return;
@@ -2391,12 +2335,107 @@ window.App.Fields = {
 		 * @param {jQuery} container
 		 */
 		registerResetCurrencyEvent(container) {
-			container.on('click', '.js-currency-reset', e => {
+			container.on('click', '.js-currency-reset', (e) => {
 				let parentElem = $(e.currentTarget).closest('tr');
 				let price =
 					this.getField().getNumberFromValue() * parentElem.find('.js-conversion-rate').getNumberFromValue();
 				$('.js-converted-price', parentElem).val(App.Fields.Double.formatToDisplay(price));
 			});
+		}
+	},
+	/**
+	 * Meeting URL
+	 */
+	MeetingUrl: class MeetingUrl {
+		constructor(container) {
+			this.container = container;
+			this.init();
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		static register(container) {
+			if (container.hasClass('js-meeting-container')) {
+				return new MeetingUrl(container);
+			}
+			const instances = [];
+			container.find('.js-meeting-container').each((n, e) => {
+				instances.push(new MeetingUrl($(e)));
+			});
+			return instances;
+		}
+		/**
+		 * Initiation
+		 */
+		init() {
+			let addButton = $('.js-meeting-add', this.container);
+			if (!addButton.length) {
+				return false;
+			}
+
+			let valElement = $('.js-meeting-val', this.container);
+			addButton.off('click').on('click', (e) => {
+				let progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
+				AppConnector.request(this.getUrl(e))
+					.done((data) => {
+						let result = data.result;
+						if (result && result.success && result.url) {
+							valElement.attr('readonly', true).val(result.url);
+						} else {
+							Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+						}
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					})
+					.fail((_) => {
+						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					});
+			});
+			$('.js-meeting-clear', this.container)
+				.off('click')
+				.on('click', () => {
+					valElement.attr('readonly', false).val('');
+				});
+			this.addEventsForDependentFields();
+		}
+		/**
+		 * Gets URL
+		 */
+		getUrl(e) {
+			let url = e.currentTarget.dataset.url;
+			let formData = $(e.currentTarget).closest('form').serializeFormData();
+			let expField = e.currentTarget.dataset.expField;
+			if (expField && formData && formData[expField]) {
+				let date = formData[expField].split(' ');
+				url += '&exp=' + encodeURIComponent(date[0]);
+			}
+			let roomName = e.currentTarget.dataset.roomName;
+			if (roomName && formData && formData[roomName]) {
+				url += '&roomName=' + encodeURIComponent(formData[roomName]);
+			}
+			return url;
+		}
+		/**
+		 * Add events for dependent fields
+		 */
+		addEventsForDependentFields() {
+			let addButton = $('.js-meeting-add', this.container);
+			let valElement = $('.js-meeting-val', this.container);
+			let data = addButton.data();
+			let formElement = this.container.closest('form');
+			for (let name of ['expField', 'roomName']) {
+				let fieldName = data[name];
+				if (!fieldName) {
+					continue;
+				}
+				formElement.on('change', `[name=${fieldName}]`, (_) => {
+					if (data['domain'] && valElement.val().indexOf(data['domain']) === 0) {
+						addButton.trigger('click');
+						Vtiger_Helper_Js.showPnotify({ type: 'info', text: app.vtranslate('JS_MEETING_URL_CHANGED') });
+					}
+				});
+			}
 		}
 	},
 	Utils: {
@@ -2445,6 +2484,6 @@ window.App.Fields = {
 			} else {
 				fieldElement.val(value);
 			}
-		}
-	}
+		},
+	},
 };

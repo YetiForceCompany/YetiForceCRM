@@ -119,7 +119,7 @@ class Security
 	 */
 	public static $hpkpKeysHeader = [];
 
-	/** HTTP Content Security Policy response header allows web site administrators to control resources the user agent is allowed to load for a given page */
+	/** HTTP Content Security Policy response header allows website administrators to control resources the user agent is allowed to load for a given page */
 	public static $cspHeaderActive = true;
 
 	/** Enable CSRF protection */
@@ -145,7 +145,7 @@ class Security
 	public static $allowedScriptDomains = [];
 
 	/** Allowed domains which can be used as the target of a form submissions from a given context, used in CSP. */
-	public static $allowedFormDomains = ['paypal.com'];
+	public static $allowedFormDomains = ['https://www.paypal.com'];
 
 	/** Generally allowed domains, used in CSP. */
 	public static $generallyAllowedDomains = [];

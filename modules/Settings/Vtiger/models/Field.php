@@ -18,32 +18,7 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	public $picklistValues = [];
 
 	/**
-	 * Initialize.
-	 *
-	 * @param string $module
-	 * @param array  $data
-	 *
-	 * @return \Settings_Vtiger_Field_Model
-	 */
-	public static function init($module = 'Vtiger', $data = [])
-	{
-		$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Module', $module);
-		$moduleInstance = new $modelClassName();
-		$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
-		$instance = new $modelClassName();
-		$instance->setModule($moduleInstance);
-		foreach ($data as $key => $value) {
-			$instance->set($key, $value);
-		}
-		return $instance;
-	}
-
-	/**
-	 * Function to get all the available picklist values for the current field.
-	 *
-	 * @param bool $skipCheckingRole
-	 *
-	 * @return array List of picklist values if the field is of type picklist or multipicklist, null otherwise
+	 * {@inheritdoc}
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
 	{
@@ -86,5 +61,19 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	public function getValidator()
 	{
 		return $this->validator ?? parent::getValidator();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getModuleName()
+	{
+		$moduleName = '';
+		if (!empty($this->module) && method_exists($this->module, 'getParentName')) {
+			$moduleName = $this->module->getParentName() . ':' . $this->module->getName();
+		} else {
+			$moduleName = parent::getModuleName();
+		}
+		return $moduleName;
 	}
 }

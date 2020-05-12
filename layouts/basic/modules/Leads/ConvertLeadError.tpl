@@ -37,7 +37,7 @@
 			</p>
 			<p class="clearfix"></p>
 			<p class="Buttons float-right">
-				{if $CURRENT_USER->isAdminUser()}
+				{if $CURRENT_USER->isAdmin()}
 					<a class="btn btn-info" role="button"
 					   href='index.php?parent=Settings&module=Leads&view=MappingDetail'>{\App\Language::translate('LBL_LEADS_FIELD_MAPPING', $MODULE)}</a>
 				{/if}

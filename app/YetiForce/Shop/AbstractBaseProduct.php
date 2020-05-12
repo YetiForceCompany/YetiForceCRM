@@ -18,6 +18,12 @@ namespace App\YetiForce\Shop;
 abstract class AbstractBaseProduct
 {
 	/**
+	 * Product label.
+	 *
+	 * @var string
+	 */
+	public $label;
+	/**
 	 * Product name.
 	 *
 	 * @var string
@@ -40,7 +46,7 @@ abstract class AbstractBaseProduct
 	 *
 	 * @var string
 	 */
-	public $category = '';
+	public $category;
 	/**
 	 * Price table depending on the size of the company.
 	 *
@@ -136,6 +142,9 @@ abstract class AbstractBaseProduct
 	 */
 	public function getLabel(): string
 	{
+		if (!empty($this->label)) {
+			return $this->label;
+		}
 		return \App\Language::translate('LBL_SHOP_' . \strtoupper($this->name), 'Settings:YetiForce');
 	}
 

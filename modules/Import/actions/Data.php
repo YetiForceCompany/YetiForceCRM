@@ -18,7 +18,7 @@ class Import_Data_Action extends \App\Controller\Action
 	public $fieldMapping;
 	public $mergeType;
 	public $mergeFields;
-	public $defaultValues;
+	public $defaultValues = [];
 	public $importedRecordInfo = [];
 	protected $allPicklistValues = [];
 	protected $inventoryFieldMapData = [];
@@ -278,6 +278,9 @@ class Import_Data_Action extends \App\Controller\Action
 					switch ($mergeTypeValue) {
 						case Import_Module_Model::AUTO_MERGE_IGNORE:
 							$entityInfo['status'] = self::IMPORT_RECORD_SKIPPED;
+							if ($row['relation_id'] ?? null) {
+								$this->addRelation($row['relation_id'], $row['src_record'], Vtiger_Record_Model::getInstanceById($baseRecordId));
+							}
 							break;
 						case Import_Module_Model::AUTO_MERGE_OVERWRITE:
 							$recordModel = Vtiger_Record_Model::getInstanceById($baseRecordId);
@@ -670,7 +673,7 @@ class Import_Data_Action extends \App\Controller\Action
 		$fieldName = $fieldInstance->getFieldName();
 		$fieldValue = trim($fieldValue);
 		if ('' === $fieldValue) {
-			return $fieldValue;
+			return $this->defaultValues[$fieldName] ?? '';
 		}
 		if (!isset($this->allPicklistValues[$fieldName])) {
 			$this->allPicklistValues[$fieldName] = array_keys($fieldInstance->getPicklistValues());
@@ -797,6 +800,8 @@ class Import_Data_Action extends \App\Controller\Action
 				$fieldData[$fieldName] = $this->transformDate($fieldValue);
 			} elseif ('country' === $fieldInstance->getFieldDataType() && '' !== $fieldValue) {
 				$fieldData[$fieldName] = \App\Fields\Country::findCountryName($fieldValue);
+			} elseif ('' === $fieldValue && isset($this->defaultValues[$fieldName])) {
+				$fieldData[$fieldName] = $this->defaultValues[$fieldName];
 			} else {
 				$fieldData[$fieldName] = $fieldInstance->getUITypeModel()->getValueFromImport($fieldValue);
 			}
@@ -1068,12 +1073,12 @@ class Import_Data_Action extends \App\Controller\Action
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		if (isset($fieldData['inventoryData'])) {
-			$inventoryData = $fieldData['inventoryData'];
+			if ($fieldData['inventoryData']) {
+				$recordModel->initInventoryData($fieldData['inventoryData'], false);
+			}
 			unset($fieldData['inventoryData']);
 		}
-		if ($inventoryData) {
-			$recordModel->initInventoryData($inventoryData, false);
-		}
+
 		foreach ($fieldData as $fieldName => &$value) {
 			$recordModel->set($fieldName, $value);
 		}

@@ -146,7 +146,10 @@ class Colors
 	 */
 	public static function sanitizeValue($value)
 	{
-		return str_replace([' ', '-', '=', '+', '@', '*', '!', '#', '$', '%', '^', '&', '(', ')', '[', ']', '{', '}', ';', ':', "\\'", '"', ',', '<', '.', '>', '/', '?', '\\', '|'], '_', $value);
+		if (empty($value)) {
+			return $value;
+		}
+		return str_replace([' ', '-', '=', '+', '@', '*', '!', '#', '$', '%', '^', '&', '(', ')', '[', ']', '{', '}', ';', ':', "\\'", '"', ',', '<', '.', '>', '/', '?', '\\', '|'], '_', \App\Utils::sanitizeSpecialChars($value));
 	}
 
 	/**
@@ -338,7 +341,7 @@ class Colors
 	 */
 	public static function getContrast($hexColor)
 	{
-		$contrastRatio = 1.9; // higher number = more black color
-		return (ctype_xdigit($hexColor) && (hexdec($hexColor) > 0xffffff / $contrastRatio)) ? 'black' : 'white';
+		$hexColor = ltrim(ltrim($hexColor), '#');
+		return ((((hexdec(substr($hexColor, 0, 2)) * 299) + (hexdec(substr($hexColor, 2, 2)) * 587) + (hexdec(substr($hexColor, 4, 2)) * 114)) / 1000) >= 128) ? 'black' : 'white';
 	}
 }

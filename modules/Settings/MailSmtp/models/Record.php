@@ -3,9 +3,12 @@
 /**
  * MailSmtp record model class.
  *
+ * @package   Settings.Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -72,7 +75,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn btn-sm btn-info',
 			],
 			[
@@ -83,7 +86,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				'linkclass' => 'btn btn-sm btn-danger text-white',
 			],
 		];
-		foreach ($recordLinks as &$recordLink) {
+		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
 		return $links;
@@ -96,7 +99,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue($key)
+	public function getDisplayValue(string $key)
 	{
 		$value = $this->get($key);
 		switch ($key) {

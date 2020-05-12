@@ -19,7 +19,7 @@
 						{if $IMAGE}
 							<img class="js-detail-hierarchy" data-js="click" title="{$RECORD->getName()}" src="{$IMAGE.url}">
 						{else}
-							<span class="pl-0 o-detail__icon js-detail__icon js-detail-hierarchy userIcon-{$MODULE}" data-js="click"></span>
+							<span class="pl-0 o-detail__icon js-detail__icon js-detail-hierarchy yfm-{$MODULE}" data-js="click"></span>
 						{/if}
 						{if App\Config::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
 							<span class="hierarchy">

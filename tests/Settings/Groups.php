@@ -30,7 +30,7 @@ class Groups extends \Tests\Base
 		$recordModel->save();
 
 		static::$id = $recordModel->getId();
-		$this->assertInternalType('int', static::$id);
+		$this->assertIsInt(static::$id);
 
 		$row = (new \App\Db\Query())->from('vtiger_groups')->where(['groupid' => static::$id])->one();
 

@@ -323,7 +323,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function getIcons()
 	{
-		return ['userIcon-VirtualDesk', 'fas fa-home', 'userIcon-CompaniesAndContact', 'userIcon-Campaigns', 'userIcon-Support', 'userIcon-Project', 'userIcon-Bookkeeping', 'userIcon-HumanResources', 'userIcon-Secretary', 'userIcon-Database', 'userIcon-Sales', 'userIcon-VendorsAccounts'];
+		return ['yfm-VirtualDesk', 'fas fa-home', 'yfm-CompaniesAndContact', 'yfm-Campaigns', 'yfm-Support', 'yfm-Project', 'yfm-Bookkeeping', 'yfm-HumanResources', 'yfm-Secretary', 'yfm-Database', 'yfm-Sales', 'yfm-VendorsAccounts'];
 	}
 
 	public function getRolesContainMenu()

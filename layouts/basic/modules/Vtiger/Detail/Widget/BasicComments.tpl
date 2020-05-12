@@ -11,7 +11,7 @@
 			<div class="c-detail-widget__header__container d-flex align-items-center my-1">
 				<div class="c-detail-widget__toggle collapsed" id="{$WIDGET_UID}" data-toggle="collapse"
 					data-target="#{$WIDGET_UID}-collapse" aria-expanded="false" aria-controls="{$WIDGET_UID}-collapse">
-					<span class="mdi mdi-chevron-up" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<span class="u-transform_rotate-180deg mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 				</div>
 				<div class="c-detail-widget__header__title">
 					<h5 class="mb-0 modCT_{$WIDGET['label']}">
@@ -22,16 +22,39 @@
 						{/if}
 					</h5>
 				</div>
-				<div
-					class="c-detail-widget__actions q-fab z-fab row inline justify-center js-fab__container ml-auto quasar-reset">
-					<button type="button" tabindex="0"
-						class="js-fab__btn q-btn inline q-btn-item non-selectable no-outline q-btn--flat q-btn--round text-grey-6 q-focusable q-hoverable u-font-size-10px q-ml-auto">
-						<div tabindex="-1" class="q-focus-helper"></div>
-						<div class="q-btn__content text-center col items-center q-anchor--skip justify-center row">
+				<div class="row inline justify-center js-hb__container ml-auto">
+					<button type="button" tabindex="0" class="btn js-hb__btn u-hidden-block-btn text-grey-6 py-0 px-1">
+						<div class="text-center col items-center justify-center row">
 							<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
 						</div>
 					</button>
-					<div class="q-fab__actions flex inline items-center q-fab__actions--left js-comment-actions">
+					<div class="u-hidden-block items-center js-comment-actions d-lg-flex">
+						{if $HIERARCHY !== false && $HIERARCHY < 2}
+							<div data-toggle="buttons" class="mr-1">
+								<div class="btn-group btn-group-toggle" data-toggle="buttons">
+									<label class="js-hierarchy-comments-btn u-text-ellipsis btn-sm mt-1 mt-sm-0 btn btn-outline-primary {if in_array('current', $HIERARCHY_VALUE)}active{/if}"
+										title="{\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}" data-js="click">
+										<input name="options" type="checkbox"
+											class="js-hierarchy-comments"
+											data-js="val"
+											value="current"
+												{if in_array('current', $HIERARCHY_VALUE)} checked="checked"{/if}
+											autocomplete="off"/>
+										{\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
+									</label>
+									<label class="js-hierarchy-comments-btn u-text-ellipsis btn-sm mt-1 mt-sm-0 btn btn-outline-primary {if in_array('related', $HIERARCHY_VALUE)}active{/if}"
+										title="{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}" data-js="click">
+										<input name="options" type="checkbox"
+											class="js-hierarchy-comments"
+											data-js="val"
+											value="related"
+												{if in_array('related', $HIERARCHY_VALUE)} checked="checked"{/if}
+											autocomplete="off"/>
+										{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}
+									</label>
+								</div>
+							</div>
+						{/if}
 						<div class="input-group input-group-sm">
 							<input type="text" class="js-comment-search form-control"
 								placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}"

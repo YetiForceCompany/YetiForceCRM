@@ -31,7 +31,7 @@
 			   data-fieldinfo="{\App\Purifier::encodeHtml('{"type":"textParser"}')}"/>
 		<span class="input-group-prepend">
 			<button class="btn btn-light varibleToParsers" type="button" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex') + $TABINDEX_INCREMENT}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX + $TABINDEX_INCREMENT}{else}{0 + $TABINDEX_INCREMENT}{/if}">
-				<span class="fas fa-edit"></span>
+				<span class="yfi yfi-full-editing-view"></span>
 			</button>
 			<button class="btn btn-light active configButton" type="button" tabindex="{if $FIELD_MODEL->get('tabindex') neq 0}{$FIELD_MODEL->get('tabindex') + $TABINDEX_INCREMENT}{elseif isset($HIGHEST_TABINDEX)}{$HIGHEST_TABINDEX + $TABINDEX_INCREMENT}{else}{0 + $TABINDEX_INCREMENT}{/if}"
 					title="{\App\Purifier::encodeHtml(App\Language::translate('LBL_CUSTOM_CONFIGURATION', $QUALIFIED_MODULE))}">

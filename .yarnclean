@@ -105,6 +105,20 @@ pnotify/lib
 pnotify/dist/es
 pnotify/dist/umd
 pnotify/dist/PNotifyBrightTheme.css
+@pnotify/bootstrap3
+@pnotify/countdown
+@pnotify/font-awesome4
+@pnotify/font-awesome5-fix
+@pnotify/glyphicon
+@pnotify/mobile
+@pnotify/reference
+@pnotify/animate/index.svelte
+@pnotify/confirm/index.svelte
+@pnotify/core/index.svelte
+@pnotify/core/Stack.js
+@pnotify/core/BrightTheme.css
+@pnotify/core/dist/BrightTheme.css
+@pnotify/desktop/index.svelte
 hammerjs/.bowerrc
 hammerjs/.jscsrc
 html2canvas/dist/npm
@@ -117,6 +131,22 @@ good-listener
 tiny-emitter
 jquery-ui
 jquery-ui-dist/external
+asap
+core-js
+encoding
+fbemitter
+fbjs
+iconv-lite
+is-stream
+isomorphic-fetch
+js-tokens
+loose-envify
+node-fetch
+object-assign
+promise
+safer-buffer
+setimmediate
+ua-parser-js
 
 # examples
 example

@@ -31,7 +31,7 @@ class Vtiger_RecordConverter_View extends \App\Controller\Modal
 	public function preProcessAjax(App\Request $request)
 	{
 		$moduleName = $request->getModule($request);
-		$this->modalIcon = "modCT_{$moduleName} userIcon-{$moduleName}";
+		$this->modalIcon = "modCT_{$moduleName} yfm-{$moduleName}";
 		parent::preProcessAjax($request);
 	}
 

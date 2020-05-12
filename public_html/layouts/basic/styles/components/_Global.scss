@@ -102,16 +102,7 @@ body:not(.desktop) {
 
 .c-panel--collapsible .c-panel__header,
 .c-detail-widget .c-detail-widget__header {
-	.mdi-chevron-up {
-		display: inline-block;
-		@include u-transition(transform 0.5s ease);
-	}
-	&.collapsed {
-		.mdi-chevron-up {
-			transform: rotate(180deg);
-		}
-		border-bottom: none;
-	}
+	@include u-transform(180deg, true);
 }
 
 .c-badge__icon {
@@ -398,7 +389,7 @@ body:not(.desktop) {
 	align-items: center;
 	border-radius: 50%;
 
-	[class^="userIcon-"],
+	[class^="yfm-"],
 	.adminIcon-user,
 	.adminIcon-user {
 		font-size: calculate-rem(20px);
@@ -670,7 +661,7 @@ input[type="checkbox"][disabled] {
 		}
 	}
 	&__btn {
-		font-size: 0.8em !important;
+		font-size: 0.7em !important;
 		height: fit-content;
 	}
 }

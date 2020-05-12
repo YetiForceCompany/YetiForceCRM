@@ -34,7 +34,7 @@ YetiForce_Bar_Widget_Js('YetiForce_SummationByMonths_Widget_Js',{}, {
 						return App.Fields.Double.formatToDisplay(item.yLabel);
 					},
 					title: function tooltipTitleCallback(item) {
-						return app.vtranslate(App.Fields.Date.fullMonths[item[0].index])+' '+chartData.years[item[0].datasetIndex];
+						return App.Fields.Date.fullMonthsTranslated[item[0].index] + ' ' + chartData.years[item[0].datasetIndex];
 					},
 				}
 			},

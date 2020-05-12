@@ -92,7 +92,7 @@ class Users_Totp_Authmethod
 			case 'SVG':
 				return $qrCodeGenerator->getBarcodeSVG($otpAuthUrl, 'QRCODE');
 			case 'PNG':
-				return '<img src="data:image/png;base64,' . $qrCodeGenerator->getBarcodePNG($otpAuthUrl, 'QRCODE', 14, 14) . '" alt="QR code" />';
+				return '<img src="data:image/png;base64,' . $qrCodeGenerator->getBarcodePNG($otpAuthUrl, 'QRCODE', 14, 14) . '" alt="QR code" class="col-auto p-0" />';
 			default:
 				break;
 		}

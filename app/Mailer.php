@@ -39,7 +39,8 @@ class Mailer
 		if (\App\Config::debug('MAILER_DEBUG')) {
 			$this->mailer->SMTPDebug = 2;
 			$this->mailer->Debugoutput = function ($str, $level) {
-				if (false !== strpos(strtolower($str), 'error') || false !== strpos(strtolower($str), 'failed')) {
+				if (false !== stripos($str, 'error') || false !== stripos($str, 'failed')) {
+					static::$error[] = $str;
 					Log::error(trim($str), 'Mailer');
 				} else {
 					Log::trace(trim($str), 'Mailer');
@@ -316,6 +317,7 @@ class Mailer
 	 */
 	public function content($message)
 	{
+		// Modification of the following condition will violate the license!
 		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
 			$message .= "<table style=\"font-family:'DejaVu Sans';font-size:9px;width:100%; margin: 0;\"><tbody><tr><td style=\"width:50%;text-align: center;\">Powered by YetiForce</td></tr></tbody></table>";
 		}
@@ -420,12 +422,16 @@ class Mailer
 	 */
 	public function send()
 	{
+		$toAddresses = $this->mailer->From . ' >> ' . \print_r($this->mailer->getToAddresses(), true);
+		\App\Log::beginProfile($toAddresses, 'Mailer');
 		if ($this->mailer->send()) {
+			\App\Log::endProfile($toAddresses, 'Mailer');
 			if (empty($this->smtp['save_send_mail']) || (!empty($this->smtp['save_send_mail']) && $this->saveMail())) {
 				Log::trace('Mailer sent mail', 'Mailer');
 				return true;
 			}
 		} else {
+			\App\Log::endProfile($toAddresses, 'Mailer');
 			Log::error('Mailer Error: ' . \print_r($this->mailer->ErrorInfo, true), 'Mailer');
 			if (!empty(static::$error)) {
 				static::$error[] = '########################################';
@@ -534,7 +540,7 @@ class Mailer
 				$status = $separateMailer->send();
 				unset($separateMailer);
 				if (!$status) {
-					return false;
+					break;
 				}
 			}
 		} else {
@@ -605,7 +611,6 @@ class Mailer
 			return false;
 		}
 		imap_append($mbox, \OSSMail_Record_Model::$imapConnectMailbox, $this->mailer->getSentMIMEMessage(), '\\Seen');
-		imap_close($mbox);
 		return true;
 	}
 

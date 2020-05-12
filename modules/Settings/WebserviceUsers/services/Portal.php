@@ -238,7 +238,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getModule()->getEditViewUrl() . '&record=' . $this->getId(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn btn-sm btn-primary',
 				'modalView' => true,
 			],

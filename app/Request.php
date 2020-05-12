@@ -253,7 +253,6 @@ class Request
 
 			return $this->purifiedValuesByArray[$key] = (array) $value;
 		}
-
 		return $value;
 	}
 
@@ -420,7 +419,7 @@ class Request
 	 */
 	public function getMode()
 	{
-		return '' !== $this->getRaw('mode') ? $this->getByType('mode', 2) : '';
+		return '' !== $this->getRaw('mode') ? $this->getByType('mode', 'Alnum') : '';
 	}
 
 	/**
@@ -555,8 +554,8 @@ class Request
 	 */
 	public function getModule($raw = true)
 	{
-		$moduleName = $this->getByType('module', 2);
-		if (!$raw && !$this->isEmpty('parent', true) && 'Settings' === ($parentModule = $this->getByType('parent', 2))) {
+		$moduleName = $this->getByType('module', 'Alnum');
+		if (!$raw && !$this->isEmpty('parent', true) && 'Settings' === ($parentModule = $this->getByType('parent', 'Alnum'))) {
 			$moduleName = "$parentModule:$moduleName";
 		}
 
@@ -734,7 +733,6 @@ class Request
 		if (!static::$request) {
 			static::$request = new self($request ? $request : $_REQUEST);
 		}
-
 		return static::$request;
 	}
 

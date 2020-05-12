@@ -18,10 +18,11 @@ class Company extends Base
 	 * @var int[]
 	 */
 	public static $sizes = [
-		'Micro' => 10,
+		'Micro' => 20,
 		'Small' => 50,
 		'Medium' => 250,
-		'Large' => 0,
+		'Large' => 1000,
+		'Corporation' => 0
 	];
 
 	/**
@@ -76,11 +77,11 @@ class Company extends Base
 			return false;
 		}
 		$companies = \array_column(static::getAll(), 'id', 'id');
-		foreach ($companiesNew as $key => $company) {
-			if (!isset($companies[$key])) {
-				throw new Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $key);
+		foreach ($companiesNew as $company) {
+			if (!isset($companies[$company['id']])) {
+				throw new Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $company['id']);
 			}
-			$recordModel = \Settings_Companies_Record_Model::getInstance((int) $key);
+			$recordModel = \Settings_Companies_Record_Model::getInstance((int) $company['id']);
 			$field = $recordModel->getModule()->getFormFields();
 			foreach (array_keys($field) as $fieldName) {
 				if (isset($company[$fieldName])) {
@@ -104,13 +105,15 @@ class Company extends Base
 	{
 		$count = User::getNumberOfUsers();
 		$return = 'Micro';
+		$last = 0;
 		foreach (self::$sizes as $size => $value) {
-			if (0 !== $value && $count > $value) {
+			if (0 !== $value && 0 !== $value && $count <= $value && $count > $last) {
+				return $size;
+			}
+			if (0 === $value && $count > 1000) {
 				$return = $size;
 			}
-			if (0 === $value && $count > 250) {
-				$return = $size;
-			}
+			$last = $value;
 		}
 		return $return;
 	}

@@ -61,6 +61,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showSocialMedia');
 		$this->exposeMethod('showInventoryDetails');
 		$this->exposeMethod('showChat');
+		$this->exposeMethod('processWizard');
+		$this->exposeMethod('showModTrackerByField');
 	}
 
 	/**
@@ -272,7 +274,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
 		if ($request->getBoolean('toWidget')) {
@@ -293,7 +294,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('VIEW', $request->getByType('view', 1));
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
@@ -308,7 +308,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	/**
 	 * Function shows basic detail for the record.
 	 *
-	 * @param <type> $request
+	 * @param \App\Request $request
 	 */
 	public function showModuleBasicView(App\Request $request)
 	{
@@ -325,7 +325,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
-		$viewer->assign('MODULE_NAME', $moduleName);
+
 		$viewer->assign('VIEW', $request->getByType('view', 1));
 		if (!$this->recordStructure) {
 			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
@@ -337,6 +337,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
+		$viewer->assign('HIERARCHY_VALUE', $this->getHierarchyValue($request));
+		$viewer->assign('HIERARCHY', \App\ModuleHierarchy::getModuleLevel($moduleName));
 		if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
 			return $viewer->view('DetailViewSummaryView.tpl', $moduleName, true);
 		}
@@ -353,9 +355,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function showRecentActivities(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!\App\Privilege::isPermitted($moduleName, 'ModTracker')) {
-			return false;
-		}
 		include_once 'modules/ModTracker/ModTracker.php';
 		$type = 'changes';
 		$parentRecordId = $request->getInteger('record');
@@ -394,7 +393,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('NEW_CHANGE', $newChange ?? null);
 		$viewer->assign('PARENT_RACORD_ID', $parentRecordId);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('MODULE_MODEL', Vtiger_Module_Model::getInstance($moduleName));
 		$viewer->assign('MODULE_BASE_NAME', 'ModTracker');
 		$viewer->assign('PAGING_MODEL', $pagingModel);
@@ -438,7 +436,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		}
-		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $moduleName, $this->getHierarchy($request, ['current']), $pagingModel);
+		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentId, $moduleName, $this->getHierarchy($request), $pagingModel);
 		$pagingModel->calculatePageRange(\count($parentCommentModels));
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
@@ -446,7 +444,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PARENT_RECORD', $parentId);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
@@ -605,7 +602,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('PARENT_COMMENTS', $parentCommentModels);
 		$viewer->assign('CURRENT_COMMENT', $currentCommentModel);
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		return $viewer->view('ShowAllComments.tpl', $moduleName, true);
 	}
@@ -698,7 +694,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$hierarchy = [];
 		$level = \App\ModuleHierarchy::getModuleLevel($moduleName);
 		if (0 === $level) {
-			$hierarchy = \in_array('related', $hierarchyValue) ? [1, 2, 3] : [];
+			$hierarchy = \in_array('related', $hierarchyValue) ? [1, 2, 3, 4] : [];
 		} elseif (1 === $level) {
 			$hierarchy = \in_array('related', $hierarchyValue) ? [2, 3] : [];
 		}
@@ -737,38 +733,48 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$moduleName = $request->getModule();
-		$recordId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
 		$pageLimit = $request->getInteger('limit');
-		$sortOrder = $request->getForSql('sortorder');
-		$orderBy = $request->getForSql('orderby');
-		$type = $request->getByType('type', 1);
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-		$pagingModel->set('orderby', $orderBy);
-		$pagingModel->set('sortorder', $sortOrder);
-		if (!$request->isEmpty('totalCount')) {
-			$pagingModel->set('totalCount', $request->getInteger('totalCount'));
-		}
 		if (!empty($pageLimit)) {
 			$pagingModel->set('limit', $pageLimit);
 		} else {
 			$pagingModel->set('limit', 10);
 		}
 		$recordModel = $this->record->getRecord();
-		$moduleModel = $recordModel->getModule();
+		$relatedActivities = [];
+		$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'Calendar');
+		if ($relationListView) {
+			$moduleModel = $relationListView->getQueryGenerator()->getModuleModel();
+			$relationListView->getRelationModel()->set('QueryFields', $moduleModel->getFields());
+			$searchParams = App\Condition::validSearchParams($moduleModel->getName(), $request->getArray('search_params'));
+			if (!empty($searchParams) && \is_array($searchParams)) {
+				$transformedSearchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
+				$relationListView->set('search_params', $transformedSearchParams);
+			}
+			if (!$request->has('orderby')) {
+				$relationListView->set('orderby', ['date_start' => \App\Db::ASC, 'time_start' => \App\Db::ASC]);
+			} else {
+				$relationListView->set('orderby', $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL));
+			}
+			if (App\Config::relation('SHOW_RECORDS_COUNT') && $pagingModel->isEmpty('totalCount')) {
+				$pagingModel->set('totalCount', $relationListView->getRelationQuery()->count());
+			}
 
-		$relatedActivities = $moduleModel->getCalendarActivities($type, $pagingModel, 'all', $recordId);
+			$relatedActivities = $relationListView->getEntries($pagingModel);
+			foreach ($relatedActivities as $recordModel) {
+				$recordModel->set('selectedusers', (new \App\Db\Query())->select(['inviteesid'])->from('u_#__activity_invitation')->where(['activityid' => $recordModel->getId()])->column());
+			}
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('ACTIVITIES', $relatedActivities);
-		$viewer->assign('DATA_TYPE', $type);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 
 		return $viewer->view('RelatedActivities.tpl', $moduleName, true);
@@ -950,7 +956,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'VIEW' => $request->getByType('view', 2)
 		]));
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('LIMIT', 0);
 		if (!$this->recordStructure) {
 			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
@@ -990,7 +995,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$histories = Vtiger_HistoryRelation_Widget::getHistory($request, $pagingModel);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('VIEW_MODEL', $this->record);
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD_ID', $request->getInteger('record'));
 		$viewer->assign('HISTORIES', $histories);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
@@ -1045,7 +1049,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('SOCIAL_MODEL', Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		return $viewer->view('Detail\SocialMedia.tpl', $moduleName, true);
@@ -1092,8 +1095,84 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		$viewer = \Vtiger_Viewer::getInstance();
 		$viewer->assign('RECORD', $recordModel);
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('VIEW', 'Detail');
 		return $viewer->view('Detail/InventoryView.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Show process wizard for record.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return string
+	 */
+	public function processWizard(App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$recordModel = $this->record->getRecord();
+		$processWizardModel = Vtiger_ProcessWizard_Model::getInstance($recordModel);
+		if ($request->has('step')) {
+			$processWizardModel->setStep($request->getInteger('step'));
+		}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('PROCESS_WIZARD', $processWizardModel);
+		$viewer->assign('STEP', $processWizardModel->getStep());
+		$viewer->assign('STEP_URL', "index.php?module={$moduleName}&view=Detail&record={$recordModel->getId()}&mode=processWizard&tab_label=LBL_RECORD_PROCESS_WIZARD&step=");
+		$viewer->assign('RECORD', $recordModel);
+		$viewer->assign('BLOCK_LIST', $recordModel->getModule()->getBlocks());
+		$viewer->assign('MODULE_MODEL', $recordModel->getModule());
+		$viewer->assign('VIEW_MODEL', $this->record);
+		$viewer->assign('VIEW', $request->getByType('view', 1));
+		return $viewer->view('Detail/ProcessWizard.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Show history by field.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function showModTrackerByField(App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$recordModel = $this->record->getRecord();
+		$fieldName = $request->getByType('field', 'Alnum');
+		$value = $recordModel->get($fieldName);
+		$fieldModel = $recordModel->getModule()->getFieldByName($fieldName);
+		$history = [];
+		foreach (ModTracker_Record_Model::getFieldHistory($request->getInteger('record'), $fieldName) as $row) {
+			if ($pre = $history[$row['prevalue']] ?? []) {
+				$history[$row['prevalue']] = array_merge($pre, [
+					'date' => $row['changedon'],
+					'time' => $pre['time'] + \App\Fields\DateTime::getDiff($pre['date'], $row['changedon'], 'minutes'),
+				]);
+				$history[$row['postvalue']] = [
+					'date' => $row['changedon'],
+					'time' => $history[$row['postvalue']]['time'] ?? 0,
+					'value' => $history[$row['postvalue']]['value'] ?? $fieldModel->getDisplayValue($row['postvalue'], $recordModel->getId(), $recordModel),
+				];
+			} else {
+				$history[$row['postvalue']] = [
+					'date' => $row['changedon'],
+					'time' => 0,
+					'value' => $fieldModel->getDisplayValue($row['postvalue'], $recordModel->getId(), $recordModel),
+				];
+			}
+		}
+		foreach ($history as $key => $row) {
+			if (empty($row['time'])) {
+				if ($value === $key) {
+					$history[$key]['time'] = \App\Fields\DateTime::getDiff($row['date'], date('Y-m-d H:i:s'), 'minutes');
+				} else {
+					unset($history[$key]);
+				}
+			}
+		}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('VIEW', 'Detail');
+		$viewer->assign('FIELD_HISTORY', $history);
+		$viewer->assign('FIELD_LABEL', $recordModel->getField($fieldName)->getFieldLabel());
+		return $viewer->view('Detail/Widget/UpdatesListContent.tpl', $moduleName, true);
 	}
 }

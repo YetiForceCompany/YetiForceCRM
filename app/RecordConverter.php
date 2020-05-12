@@ -402,27 +402,28 @@ class RecordConverter extends Base
 	}
 
 	/**
-	 * Function set values to new record automaticly
+	 * Function set values to new record automaticly.
 	 */
-	public function initFieldValuesAuto(){
-		foreach ($this->cleanRecordModels as $groupBy => $newRecordModel)	{
-			foreach($this->sourceModuleModel->getFields() as $fieldModel){
-				if ('picklist' === $fieldModel->getFieldDataType()){
-					if(Fields\Picklist::isExists($fieldModel->getFieldName(), $this->recordModels[$groupBy]->get($fieldModel->getFieldName()))){
+	public function initFieldValuesAuto()
+	{
+		foreach ($this->cleanRecordModels as $groupBy => $newRecordModel) {
+			foreach ($this->sourceModuleModel->getFields() as $fieldModel) {
+				if ('picklist' === $fieldModel->getFieldDataType()) {
+					if (Fields\Picklist::isExists($fieldModel->getFieldName(), $this->recordModels[$groupBy]->get($fieldModel->getFieldName()))) {
 						$newRecordModel->set($fieldModel->getFieldName(), $this->recordModels[$groupBy]->get($fieldModel->getFieldName()));
 					}
-				}else{
+				} else {
 					$newRecordModel->set($fieldModel->getFieldName(), $this->recordModels[$groupBy]->get($fieldModel->getFieldName()));
 				}
-
 			}
 		}
 	}
 
 	/**
-	 * Function set values to new record defined by user
+	 * Function set values to new record defined by user.
 	 */
-	public function initFieldValuesByUser(){
+	public function initFieldValuesByUser()
+	{
 		foreach ($this->cleanRecordModels as $key => $cleanRecordModel) {
 			$referenceRecordModel = &$this->cleanRecordModels[$key];
 			$textParser = TextParser::getInstanceByModel($this->recordModels[$key]);

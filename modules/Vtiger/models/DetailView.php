@@ -164,12 +164,26 @@ class Vtiger_DetailView_Model extends \App\Base
 		foreach ($detailViewLinks as $detailViewLink) {
 			$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 		}
+		if ($fields = App\Field::getQuickChangerFields($moduleModel->getId())) {
+			foreach ($fields as $field) {
+				if (App\Field::checkQuickChangerConditions($field, $recordModel)) {
+					$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
+						'linktype' => 'DETAIL_VIEW_BASIC',
+						'linklabel' => $field['btn_name'],
+						'linkurl' => "javascript:Vtiger_Detail_Js.runRecordChanger({$field['id']})",
+						'linkicon' => $field['icon'] ?? 'mdi mdi-nfc-tap',
+						'linkhint' => $field['btn_name'],
+						'linkclass' => 'btn-sm ' . $field['class'],
+					]);
+				}
+			}
+		}
 		if ($recordModel->isEditable()) {
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'BTN_RECORD_EDIT',
 				'linkurl' => $recordModel->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn btn-outline-dark btn-sm',
 				'linkhint' => 'BTN_RECORD_EDIT',
 			]);
@@ -245,7 +259,7 @@ class Vtiger_DetailView_Model extends \App\Base
 		}
 		if ($moduleModel->isPermitted('DuplicateRecord')) {
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_DUPLICATE',
 				'linkurl' => $recordModel->getDuplicateRecordUrl(),
 				'linkicon' => 'fas fa-clone',
@@ -261,7 +275,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				$additionalClass = ' d-none';
 			}
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
 				'dataUrl' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId,
 				'linkicon' => 'fas fa-file-pdf',
@@ -284,7 +298,6 @@ class Vtiger_DetailView_Model extends \App\Base
 			}
 		}
 		$this->set('Links', $linkModelList);
-
 		return $linkModelList;
 	}
 
@@ -299,15 +312,25 @@ class Vtiger_DetailView_Model extends \App\Base
 		$parentModuleModel = $this->getModule();
 		$this->getWidgets();
 		$relatedLinks = [];
+		if (class_exists($parentModuleModel->getName() . '_ProcessWizard_Model')) {
+			$relatedLinks[] = [
+				'linktype' => 'DETAILVIEWTAB',
+				'linklabel' => 'LBL_RECORD_PROCESS_WIZARD',
+				'linkKey' => 'LBL_RECORD_PROCESS_WIZARD',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=processWizard',
+				'linkicon' => '',
+				'related' => 'Summary',
+			];
+		}
 		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
-			$relatedLinks = [[
+			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_RECORD_SUMMARY',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=summary',
 				'linkicon' => '',
 				'related' => 'Summary',
-			]];
+			];
 		}
 		//link which shows the summary information(generally detail of record)
 		$relatedLinks[] = [
@@ -318,8 +341,7 @@ class Vtiger_DetailView_Model extends \App\Base
 			'linkicon' => '',
 			'related' => 'Details',
 		];
-		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-		if ($parentModuleModel->isCommentEnabled() && $modCommentsModel->isPermitted('DetailView')) {
+		if ($parentModuleModel->isCommentEnabled() && ($modCommentsModel = Vtiger_Module_Model::getInstance('ModComments')) && $modCommentsModel->isPermitted('DetailView')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'ModComments',

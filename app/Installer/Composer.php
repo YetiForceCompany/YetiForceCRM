@@ -18,7 +18,7 @@ class Composer
 	 */
 	public static $publicPackage = [
 		'yetiforce/csrf-magic' => 'move',
-		'yetiforce/debugbar' => 'move',
+		'maximebf/debugbar' => 'move',
 		'yetiforce/yetiforcepdf/lib/Fonts' => 'copy',
 		'ckeditor/ckeditor' => 'move',
 	];
@@ -94,6 +94,7 @@ class Composer
 		'phpdoc.ini',
 		'crowdin.yml',
 		'sonar-project.properties',
+		'whitesource.config.json',
 	];
 	/**
 	 * Clear vendor files.

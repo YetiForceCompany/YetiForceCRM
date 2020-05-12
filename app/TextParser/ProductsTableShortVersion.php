@@ -76,17 +76,18 @@ class ProductsTableShortVersion extends Base
 					} else {
 						$itemValue = $inventoryRow[$columnName];
 						if ('Name' === $typeName) {
-							$fieldValue = '<strong>' . $fieldModel->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
+							$fieldStyle = $bodyStyle . 'text-align:left;';
+							$fieldValue = '<strong>' . $fieldModel->getDisplayValue($itemValue, $inventoryRow, true) . '</strong>';
 							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
-								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()]) && $comment = $commentField->getDisplayValue($value, $inventoryRow)) {
+								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()]) && $comment = $commentField->getDisplayValue($value, $inventoryRow, true)) {
 									$fieldValue .= '<br />' . $comment;
 								}
 							}
 						} elseif (\in_array($typeName, ['GrossPrice', 'UnitPrice', 'TotalPrice']) && !empty($currencySymbol)) {
 							$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
-							$fieldStyle = $bodyStyle . 'text-align:right;';
+							$fieldStyle = $bodyStyle . 'text-align:right;white-space: nowrap;';
 						} else {
-							$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
+							$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow, true);
 						}
 						$html .= "<td class=\"col-type-{$typeName}\" style=\"{$fieldStyle}\">" . $fieldValue . '</td>';
 					}
@@ -95,6 +96,7 @@ class ProductsTableShortVersion extends Base
 			}
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($groupModels as $fieldModel) {
+				$headerStyle = 'font-size:7px;padding:0px 4px;text-align:center;';
 				$html .= "<th class=\"col-type-{$typeName}\" style=\"{$headerStyle}\">";
 				if ($fieldModel->isSummary()) {
 					$sum = 0;

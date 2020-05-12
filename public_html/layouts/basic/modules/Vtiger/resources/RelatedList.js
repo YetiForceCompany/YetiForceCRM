@@ -13,7 +13,7 @@ jQuery.Class(
 	'Vtiger_RelatedList_Js',
 	{
 		relatedListInstance: false,
-		getInstance: function(parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
+		getInstance: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
 			if (
 				Vtiger_RelatedList_Js.relatedListInstance === false ||
 				Vtiger_RelatedList_Js.relatedListInstance.moduleName !== relatedModuleName
@@ -37,7 +37,7 @@ jQuery.Class(
 			}
 			return Vtiger_RelatedList_Js.relatedListInstance;
 		},
-		triggerMassAction: function(massActionUrl, type) {
+		triggerMassAction: function (massActionUrl, type) {
 			const self = this.relatedListInstance;
 			let validationResult = self.checkListRecordSelected();
 			if (validationResult != true) {
@@ -54,14 +54,14 @@ jQuery.Class(
 				let actionParams = {
 					type: 'POST',
 					url: massActionUrl,
-					data: postData
+					data: postData,
 				};
 				if (type === 'sendByForm') {
 					app.openUrlMethodPost(massActionUrl, postData);
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				} else {
 					AppConnector.request(actionParams)
-						.done(function(responseData) {
+						.done(function (responseData) {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 							if (responseData && responseData.result !== null) {
 								if (responseData.result.notify) {
@@ -76,7 +76,7 @@ jQuery.Class(
 								}
 							}
 						})
-						.fail(function(error, err) {
+						.fail(function (error, err) {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						});
 				}
@@ -89,14 +89,14 @@ jQuery.Class(
 		 * @param {int} selectedIds
 		 * @return boolean
 		 */
-		verifyFileExist: function(selectedIds) {
+		verifyFileExist: function (selectedIds) {
 			let aDeferred = jQuery.Deferred();
 			AppConnector.request({
 				module: 'Documents',
 				action: 'CheckFileIntegrity',
 				mode: 'multiple',
-				record: selectedIds
-			}).done(function(responseData) {
+				record: selectedIds,
+			}).done(function (responseData) {
 				if (responseData && responseData.result !== null) {
 					if (responseData.result.message) {
 						Vtiger_Helper_Js.showPnotify({ text: responseData.result.message });
@@ -113,10 +113,10 @@ jQuery.Class(
 		 * @param massActionUrl
 		 * @param type
 		 */
-		triggerMassDownload: function(massActionUrl, type) {
+		triggerMassDownload: function (massActionUrl, type) {
 			const self = this.relatedListInstance,
 				thisInstance = this;
-			this.verifyFileExist(self.readSelectedIds(true)).done(function(data) {
+			this.verifyFileExist(self.readSelectedIds(true)).done(function (data) {
 				if (true === data) {
 					thisInstance.triggerMassAction(
 						massActionUrl.substring(0, massActionUrl.indexOf('&mode=multiple')),
@@ -124,7 +124,7 @@ jQuery.Class(
 					);
 				}
 			});
-		}
+		},
 	},
 	{
 		selectedRelatedTabElement: false,
@@ -139,43 +139,43 @@ jQuery.Class(
 		frameProgress: false,
 		noEventsListSearch: false,
 		listViewContainer: false,
-		setSelectedTabElement: function(tabElement) {
+		setSelectedTabElement: function (tabElement) {
 			this.selectedRelatedTabElement = tabElement;
 		},
-		getSelectedTabElement: function() {
+		getSelectedTabElement: function () {
 			return this.selectedRelatedTabElement;
 		},
-		getParentId: function() {
+		getParentId: function () {
 			return this.parentRecordId;
 		},
-		getRelatedContainer: function() {
+		getRelatedContainer: function () {
 			return this.content;
 		},
-		setRelatedContainer: function(container) {
+		setRelatedContainer: function (container) {
 			this.content = container;
 			this.relatedView = container.find('input.relatedView').val();
 		},
-		getContentHolder: function() {
+		getContentHolder: function () {
 			if (this.detailViewContentHolder == false) {
 				this.detailViewContentHolder = $('div.details div.contents');
 			}
 			return this.detailViewContentHolder;
 		},
-		getCurrentPageNum: function() {
+		getCurrentPageNum: function () {
 			return $('input[name="currentPageNum"]', this.content).val();
 		},
-		setCurrentPageNumber: function(pageNumber) {
+		setCurrentPageNumber: function (pageNumber) {
 			$('input[name="currentPageNum"]', this.content).val(pageNumber);
 		},
-		getOrderBy: function() {
+		getOrderBy: function () {
 			return $('#orderBy', this.content).val();
 		},
-		getDefaultParams: function() {
+		getDefaultParams: function () {
 			let container = this.getRelatedContainer();
 			let params = {
 				relationId: container.find('#relationId').val(),
 				orderby: this.getOrderBy(),
-				page: this.getCurrentPageNum()
+				page: this.getCurrentPageNum(),
 			};
 			if (container.find('.pagination').length) {
 				params['totalCount'] = container.find('.pagination').data('totalCount');
@@ -200,7 +200,7 @@ jQuery.Class(
 			}
 			return params;
 		},
-		getCompleteParams: function() {
+		getCompleteParams: function () {
 			let container = this.getRelatedContainer();
 			let params = {
 				view: 'Detail',
@@ -209,11 +209,11 @@ jQuery.Class(
 				relatedModule: this.moduleName,
 				relatedView: this.relatedView,
 				mode: 'showRelatedList',
-				tab_label: container.find('#tab_label').val()
+				tab_label: container.find('#tab_label').val(),
 			};
 			return $.extend(this.getDefaultParams(), params);
 		},
-		loadRelatedList: function(params) {
+		loadRelatedList: function (params) {
 			var aDeferred = jQuery.Deferred();
 			var thisInstance = this;
 			if (typeof thisInstance.moduleName === 'undefined' || thisInstance.moduleName.length <= 0) {
@@ -224,13 +224,13 @@ jQuery.Class(
 			var progressInstance = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
-					enabled: true
-				}
+					enabled: true,
+				},
 			});
 			var completeParams = this.getCompleteParams();
 			var activeTabsReference = thisInstance.relatedTabsContainer.find('li.active').data('reference');
 			AppConnector.request($.extend(completeParams, params))
-				.done(function(responseData) {
+				.done(function (responseData) {
 					var currentInstance = Vtiger_Detail_Js.getInstance();
 					currentInstance.loadWidgets();
 					progressInstance.progressIndicator({ mode: 'hide' });
@@ -244,31 +244,31 @@ jQuery.Class(
 					}
 					aDeferred.resolve(responseData);
 				})
-				.fail(function(textStatus, errorThrown) {
+				.fail(function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
 					Vtiger_Helper_Js.showPnotify({
 						text: app.vtranslate('JS_NOT_ALLOWED_VALUE'),
-						type: 'error'
+						type: 'error',
 					});
 					progressInstance.progressIndicator({ mode: 'hide' });
 				});
 			return aDeferred.promise();
 		},
-		triggerDisplayTypeEvent: function() {
+		triggerDisplayTypeEvent: function () {
 			var widthType = app.cacheGet('widthType', 'narrowWidthType');
 			if (widthType) {
 				var elements = this.content.find('.listViewEntriesTable').find('td,th');
 				elements.attr('class', widthType);
 			}
 		},
-		showSelectRelation: function(extendParams) {
+		showSelectRelation: function (extendParams) {
 			let params = $.extend(this.getRecordsListParams(), extendParams);
 			app.showRecordsList(params, (modal, instance) => {
-				instance.setSelectEvent(responseData => {
+				instance.setSelectEvent((responseData) => {
 					this.addRelations(Object.keys(responseData)).done(() => {
 						app.event.trigger('RelatedListView.AfterSelectRelation', responseData, this, instance, params);
 						let detail = Vtiger_Detail_Js.getInstance();
-						this.loadRelatedList().done(function() {
+						this.loadRelatedList().done(function () {
 							detail.registerRelatedModulesRecordCount();
 						});
 						if (this.getSelectedTabElement().data('link-key') === 'LBL_RECORD_SUMMARY') {
@@ -279,29 +279,34 @@ jQuery.Class(
 				});
 			});
 		},
-		getRecordsListParams: function() {
+		getRecordsListParams: function () {
 			return {
 				module: this.moduleName,
 				src_module: this.parentModuleName,
 				src_record: this.parentRecordId,
-				multi_select: true
+				multi_select: true,
 			};
 		},
-		addRelations: function(idList) {
+		addRelations: function (idList, params = {}) {
 			var aDeferred = jQuery.Deferred();
-			AppConnector.request({
-				module: this.parentModuleName,
-				action: 'RelationAjax',
-				mode: 'addRelation',
-				related_module: this.moduleName,
-				src_record: this.parentRecordId,
-				relationId: this.getCompleteParams()['relationId'],
-				related_record_list: $.isArray(idList) ? JSON.stringify(idList) : idList
-			})
-				.done(function(responseData) {
+			AppConnector.request(
+				$.extend(
+					{
+						module: this.parentModuleName,
+						action: 'RelationAjax',
+						mode: 'addRelation',
+						related_module: this.moduleName,
+						src_record: this.parentRecordId,
+						relationId: this.getCompleteParams()['relationId'],
+						related_record_list: $.isArray(idList) ? JSON.stringify(idList) : idList,
+					},
+					params
+				)
+			)
+				.done(function (responseData) {
 					aDeferred.resolve(responseData);
 				})
-				.fail(function(textStatus, errorThrown) {
+				.fail(function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
 				});
 			return aDeferred.promise();
@@ -319,12 +324,12 @@ jQuery.Class(
 					related_module: this.moduleName,
 					src_record: this.parentRecordId,
 					relationId: this.getCompleteParams()['relationId'],
-					related_record_list: JSON.stringify([id])
+					related_record_list: JSON.stringify([id]),
 				};
 			}
 			let progressInstance = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
 			AppConnector.request(params)
-				.done(response => {
+				.done((response) => {
 					progressInstance.progressIndicator({ mode: 'hide' });
 					if (response.result) {
 						let widget = target.closest('.widgetContentBlock');
@@ -343,7 +348,7 @@ jQuery.Class(
 						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
 					}
 				})
-				.fail(function(err, errThrow) {
+				.fail(function (err, errThrow) {
 					progressInstance.progressIndicator({ mode: 'hide' });
 					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
 				});
@@ -351,7 +356,7 @@ jQuery.Class(
 		/**
 		 * Function to handle next page navigation
 		 */
-		nextPageHandler: function() {
+		nextPageHandler: function () {
 			var aDeferred = jQuery.Deferred();
 			var thisInstance = this;
 			var pageLimit = jQuery('#pageLimit', this.content).val();
@@ -360,13 +365,13 @@ jQuery.Class(
 				var pageNumber = this.getCurrentPageNum();
 				var nextPage = parseInt(pageNumber) + 1;
 				this.loadRelatedList({
-					page: nextPage
+					page: nextPage,
 				})
-					.done(function(data) {
+					.done(function (data) {
 						thisInstance.setCurrentPageNumber(nextPage);
 						aDeferred.resolve(data);
 					})
-					.fail(function(textStatus, errorThrown) {
+					.fail(function (textStatus, errorThrown) {
 						aDeferred.reject(textStatus, errorThrown);
 					});
 			}
@@ -375,20 +380,20 @@ jQuery.Class(
 		/**
 		 * Function to handle next page navigation
 		 */
-		previousPageHandler: function() {
+		previousPageHandler: function () {
 			const thisInstance = this,
 				aDeferred = jQuery.Deferred();
 			let pageNumber = this.getCurrentPageNum();
 			if (pageNumber > 1) {
 				let previousPage = parseInt(pageNumber) - 1;
 				this.loadRelatedList({
-					page: previousPage
+					page: previousPage,
 				})
-					.done(function(data) {
+					.done(function (data) {
 						thisInstance.setCurrentPageNumber(previousPage);
 						aDeferred.resolve(data);
 					})
-					.fail(function(textStatus, errorThrown) {
+					.fail(function (textStatus, errorThrown) {
 						aDeferred.reject(textStatus, errorThrown);
 					});
 			}
@@ -397,17 +402,17 @@ jQuery.Class(
 		/**
 		 * Function to handle select page jump in related list
 		 */
-		selectPageHandler: function(pageNumber) {
+		selectPageHandler: function (pageNumber) {
 			const thisInstance = this,
 				aDeferred = jQuery.Deferred();
 			this.loadRelatedList({
-				page: pageNumber
+				page: pageNumber,
 			})
-				.done(function(data) {
+				.done(function (data) {
 					thisInstance.setCurrentPageNumber(pageNumber);
 					aDeferred.resolve(data);
 				})
-				.fail(function(textStatus, errorThrown) {
+				.fail(function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
 				});
 			return aDeferred.promise();
@@ -415,7 +420,7 @@ jQuery.Class(
 		/**
 		 * Function to handle page jump in related list
 		 */
-		pageJumpHandler: function(e) {
+		pageJumpHandler: function (e) {
 			var aDeferred = jQuery.Deferred();
 			var thisInstance = this;
 			if (e.which == 13) {
@@ -439,20 +444,20 @@ jQuery.Class(
 							var message = app.vtranslate('JS_YOU_ARE_IN_PAGE_NUMBER') + ' ' + jumpToPage;
 							var params = {
 								text: message,
-								type: 'info'
+								type: 'info',
 							};
 							Vtiger_Helper_Js.showMessage(params);
 							e.preventDefault();
 							return false;
 						}
 						this.loadRelatedList({
-							page: jumpToPage
+							page: jumpToPage,
 						})
-							.done(function(data) {
+							.done(function (data) {
 								thisInstance.setCurrentPageNumber(jumpToPage);
 								aDeferred.resolve(data);
 							})
-							.fail(function(textStatus, errorThrown) {
+							.fail(function (textStatus, errorThrown) {
 								aDeferred.reject(textStatus, errorThrown);
 							});
 					} else {
@@ -465,7 +470,7 @@ jQuery.Class(
 		/**
 		 * Function to add related record for the module
 		 */
-		addRelatedRecord: function(element, callback) {
+		addRelatedRecord: function (element, callback) {
 			var aDeferred = jQuery.Deferred();
 			var thisInstance = this;
 			var referenceModuleName = this.moduleName;
@@ -479,7 +484,7 @@ jQuery.Class(
 				relatedParams[relatedField] = parentId;
 			}
 			var eliminatedKeys = new Array('view', 'module', 'mode', 'action');
-			var preQuickCreateSave = function(data) {
+			var preQuickCreateSave = function (data) {
 				var index, queryParam, queryParamComponents;
 				let queryParameters = [];
 
@@ -531,8 +536,8 @@ jQuery.Class(
 					callback();
 				}
 			};
-			var postQuickCreateSave = function(data) {
-				thisInstance.loadRelatedList().done(function(data) {
+			var postQuickCreateSave = function (data) {
+				thisInstance.loadRelatedList().done(function (data) {
 					aDeferred.resolve(data);
 				});
 			};
@@ -558,7 +563,7 @@ jQuery.Class(
 			Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, quickCreateParams);
 			return aDeferred.promise();
 		},
-		getRelatedPageCount: function() {
+		getRelatedPageCount: function () {
 			var aDeferred = jQuery.Deferred();
 			var element = this.content.find('#totalPageCount');
 			var totalCountElem = this.content.find('#totalCount');
@@ -571,9 +576,9 @@ jQuery.Class(
 					mode: 'getRelatedListPageCount',
 					record: this.getParentId(),
 					relationId: this.getCompleteParams()['relationId'],
-					relatedModule: this.moduleName
+					relatedModule: this.moduleName,
 				})
-					.done(function(data) {
+					.done(function (data) {
 						var pageCount = data['result']['page'];
 						var numberOfRecords = data['result']['numberOfRecords'];
 						totalCountElem.val(numberOfRecords);
@@ -581,7 +586,7 @@ jQuery.Class(
 						element.progressIndicator({ mode: 'hide' });
 						aDeferred.resolve();
 					})
-					.fail(function(error, err) {
+					.fail(function (error, err) {
 						aDeferred.reject(false);
 					});
 			} else {
@@ -589,7 +594,7 @@ jQuery.Class(
 			}
 			return aDeferred.promise();
 		},
-		favoritesRelation: function(relcrmId, state) {
+		favoritesRelation: function (relcrmId, state) {
 			var aDeferred = jQuery.Deferred();
 			if (relcrmId) {
 				AppConnector.request({
@@ -600,12 +605,12 @@ jQuery.Class(
 					relcrmid: relcrmId,
 					relatedModule: this.moduleName,
 					relationId: this.getCompleteParams()['relationId'],
-					actionMode: state ? 'delete' : 'add'
+					actionMode: state ? 'delete' : 'add',
 				})
-					.done(function(data) {
+					.done(function (data) {
 						if (data.result) aDeferred.resolve(true);
 					})
-					.fail(function(error, err) {
+					.fail(function (error, err) {
 						aDeferred.reject(false);
 					});
 			} else {
@@ -613,14 +618,14 @@ jQuery.Class(
 			}
 			return aDeferred.promise();
 		},
-		updatePreview: function(url) {
+		updatePreview: function (url) {
 			var frame = this.content.find('.listPreviewframe');
 			this.frameProgress = $.progressIndicator({
 				position: 'html',
 				message: app.vtranslate('JS_FRAME_IN_PROGRESS'),
 				blockInfo: {
-					enabled: true
-				}
+					enabled: true,
+				},
 			});
 			var defaultView = '';
 			if (app.getMainParams('defaultDetailViewName')) {
@@ -631,11 +636,11 @@ jQuery.Class(
 			}
 			frame.attr('src', url.replace('view=Detail', 'view=DetailPreview') + defaultView);
 		},
-		registerUnreviewedCountEvent: function() {
+		registerUnreviewedCountEvent: function () {
 			var ids = [];
 			var relatedContent = this.content;
 			var isUnreviewedActive = relatedContent.find('.unreviewed').length;
-			relatedContent.find('tr.listViewEntries').each(function() {
+			relatedContent.find('tr.listViewEntries').each(function () {
 				var id = jQuery(this).data('id');
 				if (id) {
 					ids.push(id);
@@ -649,10 +654,10 @@ jQuery.Class(
 				mode: 'getUnreviewed',
 				module: 'ModTracker',
 				sourceModule: this.moduleName,
-				recordsId: ids
-			}).done(function(appData) {
+				recordsId: ids,
+			}).done(function (appData) {
 				var data = appData.result;
-				$.each(data, function(id, value) {
+				$.each(data, function (id, value) {
 					if (value.a > 0) {
 						relatedContent
 							.find('tr[data-id="' + id + '"] .unreviewed .badge.all')
@@ -670,10 +675,10 @@ jQuery.Class(
 				});
 			});
 		},
-		registerChangeEntityStateEvent: function() {
+		registerChangeEntityStateEvent: function () {
 			var thisInstance = this;
 			var relatedContent = this.content;
-			relatedContent.on('click', '.dropdownEntityState a', function(e) {
+			relatedContent.on('click', '.dropdownEntityState a', function (e) {
 				var element = $(this);
 				relatedContent.find('.entityState').val(element.data('value'));
 				relatedContent.find('.pagination').data('totalCount', 0);
@@ -684,35 +689,23 @@ jQuery.Class(
 				thisInstance.loadRelatedList({ page: 1 });
 			});
 		},
-		registerRowsEvent: function() {
+		registerRowsEvent: function () {
 			var thisInstance = this;
 			if (this.relatedView === 'List' || this.relatedView === 'Detail') {
-				this.content.find('.listViewEntries').on('click', function(e) {
+				this.content.find('.listViewEntries').on('click', function (e) {
 					if ($(e.target).is('td')) {
 						if (app.getViewName() == 'DetailPreview') {
-							if (
-								$(e.target)
-									.closest('tr')
-									.data('recordurl')
-							) {
-								top.document.location.href = $(e.target)
-									.closest('tr')
-									.data('recordurl');
+							if ($(e.target).closest('tr').data('recordurl')) {
+								top.document.location.href = $(e.target).closest('tr').data('recordurl');
 							}
 						} else {
-							if (
-								$(e.target)
-									.closest('tr')
-									.data('recordurl')
-							) {
-								document.location.href = $(e.target)
-									.closest('tr')
-									.data('recordurl');
+							if ($(e.target).closest('tr').data('recordurl')) {
+								document.location.href = $(e.target).closest('tr').data('recordurl');
 							}
 						}
 					}
 				});
-				this.content.find('.showInventoryRow').on('click', function(e) {
+				this.content.find('.showInventoryRow').on('click', function (e) {
 					var target = $(this);
 					var row = target.closest('tr');
 					var inventoryRow = row.next();
@@ -721,31 +714,15 @@ jQuery.Class(
 					}
 				});
 			} else if (this.relatedView === 'ListPreview') {
-				this.content.find('.listViewEntries').on('click', function(e) {
+				this.content.find('.listViewEntries').on('click', function (e) {
 					let target = $(e.target);
 					if (target.closest('div').hasClass('actions')) return;
 					if (target.is('button') || target.parent().is('button')) return;
 					if (target.closest('a').hasClass('noLinkBtn')) return;
 					if ($(e.target, $(e.currentTarget)).is('td:first-child')) return;
 					if (target.is('input[type="checkbox"]')) return;
-					if (
-						$.contains(
-							$(e.currentTarget)
-								.find('td:last-child')
-								.get(0),
-							target[0]
-						)
-					)
-						return;
-					if (
-						$.contains(
-							$(e.currentTarget)
-								.find('td:first-child')
-								.get(0),
-							target[0]
-						)
-					)
-						return;
+					if ($.contains($(e.currentTarget).find('td:last-child').get(0), target[0])) return;
+					if ($.contains($(e.currentTarget).find('td:first-child').get(0), target[0])) return;
 					var recordUrl = $(this).data('recordurl');
 					thisInstance.content.find('.listViewEntriesTable .listViewEntries').removeClass('active');
 					$(this).addClass('active');
@@ -753,9 +730,9 @@ jQuery.Class(
 				});
 			}
 		},
-		registerSummationEvent: function() {
+		registerSummationEvent: function () {
 			var thisInstance = this;
-			this.content.on('click', '.listViewSummation button', function() {
+			this.content.on('click', '.listViewSummation button', function () {
 				var button = $(this);
 				var calculateValue = button.closest('td').find('.calculateValue');
 				var params = thisInstance.getCompleteParams();
@@ -768,11 +745,11 @@ jQuery.Class(
 					message: app.vtranslate('JS_CALCULATING_IN_PROGRESS'),
 					position: 'html',
 					blockInfo: {
-						enabled: true
-					}
+						enabled: true,
+					},
 				});
 				app.hidePopover(button);
-				AppConnector.request(params).done(function(response) {
+				AppConnector.request(params).done(function (response) {
 					if (response.success) {
 						calculateValue.html(response.result);
 					} else {
@@ -783,55 +760,47 @@ jQuery.Class(
 				progress.progressIndicator({ mode: 'hide' });
 			});
 		},
-		registerPreviewEvent: function() {
+		registerPreviewEvent: function () {
 			var thisInstance = this;
 			var contentHeight = this.content.find('.js-detail-preview,.js-list-preview');
 			contentHeight.height(app.getScreenHeight() - (this.content.offset().top + $('.js-footer').height()));
-			this.content.find('.listPreviewframe').on('load', function() {
+			this.content.find('.listPreviewframe').on('load', function () {
 				if (thisInstance.frameProgress) {
 					thisInstance.frameProgress.progressIndicator({ mode: 'hide' });
 				}
-				contentHeight.height(
-					$(this)
-						.contents()
-						.find('.bodyContents')
-						.height() + 2
-				);
+				contentHeight.height($(this).contents().find('.bodyContents').height() + 2);
 			});
-			this.content
-				.find('.listViewEntriesTable .listViewEntries')
-				.first()
-				.trigger('click');
+			this.content.find('.listViewEntriesTable .listViewEntries').first().trigger('click');
 		},
-		registerPaginationEvents: function() {
+		registerPaginationEvents: function () {
 			var thisInstance = this;
 			var relatedContent = this.content;
-			this.content.on('click', '#relatedViewNextPageButton', function(e) {
+			this.content.on('click', '#relatedViewNextPageButton', function (e) {
 				if ($(this).hasClass('disabled')) {
 					return;
 				}
 				thisInstance.nextPageHandler();
 			});
-			this.content.on('click', '#relatedViewPreviousPageButton', function() {
+			this.content.on('click', '#relatedViewPreviousPageButton', function () {
 				thisInstance.previousPageHandler();
 			});
-			this.content.on('click', '#relatedListPageJump', function(e) {
+			this.content.on('click', '#relatedListPageJump', function (e) {
 				thisInstance.getRelatedPageCount();
 			});
 			this.content
-				.on('click', '#relatedListPageJumpDropDown > li', function(e) {
+				.on('click', '#relatedListPageJumpDropDown > li', function (e) {
 					e.stopImmediatePropagation();
 				})
-				.on('keypress', '#pageToJump', function(e) {
+				.on('keypress', '#pageToJump', function (e) {
 					thisInstance.pageJumpHandler(e);
 				});
-			this.content.on('click', '.pageNumber', function() {
+			this.content.on('click', '.pageNumber', function () {
 				if ($(this).hasClass('disabled')) {
 					return false;
 				}
 				thisInstance.selectPageHandler($(this).data('id'));
 			});
-			this.content.on('click', '#totalCountBtn', function() {
+			this.content.on('click', '#totalCountBtn', function () {
 				app.hidePopover($(this));
 				var params = {
 					module: thisInstance.parentModuleName,
@@ -840,29 +809,29 @@ jQuery.Class(
 					record: thisInstance.getParentId(),
 					relatedModule: thisInstance.moduleName,
 					noOfEntries: $('#noOfEntries', relatedContent).val(),
-					page: relatedContent.find('[name="currentPageNum"]').val()
+					page: relatedContent.find('[name="currentPageNum"]').val(),
 				};
 				if (relatedContent.find('.entityState').length) {
 					params['entityState'] = relatedContent.find('.entityState').val();
 				}
-				AppConnector.request(params).done(function(response) {
+				AppConnector.request(params).done(function (response) {
 					relatedContent.find('.paginationDiv').html(response);
 				});
 			});
 		},
-		registerListEvents: function() {
+		registerListEvents: function () {
 			var relatedContent = this.content;
 			var thisInstance = this;
-			this.content.find('a.favorites').on('click', function(e) {
+			this.content.find('a.favorites').on('click', function (e) {
 				var progressInstance = jQuery.progressIndicator({
 					position: 'html',
 					blockInfo: {
-						enabled: true
-					}
+						enabled: true,
+					},
 				});
 				var element = $(this);
 				var row = element.closest('tr');
-				thisInstance.favoritesRelation(row.data('id'), element.data('state')).done(function(response) {
+				thisInstance.favoritesRelation(row.data('id'), element.data('state')).done(function (response) {
 					if (response) {
 						var state = element.data('state') ? 0 : 1;
 						element.data('state', state);
@@ -882,7 +851,7 @@ jQuery.Class(
 					}
 				});
 			});
-			this.content.find('[name="addButton"]').on('click', function(e) {
+			this.content.find('[name="addButton"]').on('click', function (e) {
 				const element = $(this);
 				if (element.hasClass('quickCreateSupported') !== true) {
 					app.openUrl(element.data('url'));
@@ -890,21 +859,21 @@ jQuery.Class(
 				}
 				thisInstance.addRelatedRecord(element);
 			});
-			this.content.find('.relatedHeader button.selectRelation').on('click', function(e) {
+			this.content.find('.relatedHeader button.selectRelation').on('click', function (e) {
 				let restrictionsField = $(this).data('rf');
 				let params = {
-					relationId: thisInstance.getCompleteParams()['relationId']
+					relationId: thisInstance.getCompleteParams()['relationId'],
 				};
 				if (restrictionsField && Object.keys(restrictionsField).length > 0) {
 					params = {
 						search_key: restrictionsField.key,
 						search_value: restrictionsField.name,
-						relationId: thisInstance.getCompleteParams()['relationId']
+						relationId: thisInstance.getCompleteParams()['relationId'],
 					};
 				}
 				thisInstance.showSelectRelation(params);
 			});
-			this.content.find('button.relationDelete').on('click', function(e) {
+			this.content.find('button.relationDelete').on('click', function (e) {
 				e.stopImmediatePropagation();
 				let target = $(e.currentTarget);
 				let params = {};
@@ -916,21 +885,21 @@ jQuery.Class(
 				} else {
 					params.message = app.vtranslate('JS_DELETE_CONFIRMATION');
 				}
-				Vtiger_Helper_Js.showConfirmationBox(params).done(function() {
+				Vtiger_Helper_Js.showConfirmationBox(params).done(function () {
 					thisInstance.deleteRelation(target);
 				});
 			});
-			this.content.find('.js-switch--calendar').on('change', function(e) {
+			this.content.find('.js-switch--calendar').on('change', function (e) {
 				thisInstance.loadRelatedList();
 			});
-			this.content.find('.relatedViewGroup a').on('click', function(e) {
+			this.content.find('.relatedViewGroup a').on('click', function (e) {
 				var element = $(this);
 				thisInstance.relatedView = element.data('view');
 				relatedContent.find('.pagination').data('totalCount', 0);
 				thisInstance.loadRelatedList({ page: 1 });
 			});
 		},
-		registerPostLoadEvents: function() {
+		registerPostLoadEvents: function () {
 			var thisInstance = this;
 			this.registerRowsEvent();
 			this.registerListScroll();
@@ -946,14 +915,11 @@ jQuery.Class(
 			this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
 			app.event.trigger('RelatedList.AfterLoad', thisInstance);
 		},
-		getSecondColMinWidth: function(container) {
+		getSecondColMinWidth: function (container) {
 			let maxWidth = 0,
 				thisWidth;
-			container.find('.js-list__row').each(function(i) {
-				thisWidth = $(this)
-					.find('.js-list__field')
-					.first()
-					.width();
+			container.find('.js-list__row').each(function (i) {
+				thisWidth = $(this).find('.js-list__field').first().width();
 				if (i === 0) {
 					maxWidth = thisWidth;
 				} else {
@@ -962,11 +928,8 @@ jQuery.Class(
 			});
 			return maxWidth;
 		},
-		setDomParams: function(container) {
-			this.listColumnFirstWidth = container
-				.find('.listViewEntriesDiv .listViewHeaders th')
-				.first()
-				.width();
+		setDomParams: function (container) {
+			this.listColumnFirstWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first().width();
 			this.listColumnSecondWidth = this.getSecondColMinWidth(container);
 			this.windowW = $(window).width();
 			this.mainBody = container.closest('.mainBody');
@@ -981,7 +944,7 @@ jQuery.Class(
 			this.footerH = $('.js-footer').outerHeight();
 			this.headerH = $('.js-header').outerHeight();
 		},
-		getDefaultSplitSizes: function() {
+		getDefaultSplitSizes: function () {
 			let thWidth = ((this.listColumnFirstWidth + this.listColumnSecondWidth + 82) / this.windowW) * 100;
 			return [thWidth, 100 - thWidth];
 		},
@@ -1019,9 +982,7 @@ jQuery.Class(
 			let fixedElements = this.mainBody.find('.js-fixed-scroll');
 			if (!this.mainBody.length) {
 				this.mainBody = $(top.document).find('.mainBody');
-				this.headerH = $(top.document)
-					.find('.js-header')
-					.outerHeight();
+				this.headerH = $(top.document).find('.js-header').outerHeight();
 				scrollContainer = top.window.App.Components.Scrollbar.page.element;
 				let iframe = $(top.document).find('.js-detail-preview');
 				listOffsetTop = this.list.offset().top + iframe.offset().top - this.headerH + 1;
@@ -1040,7 +1001,7 @@ jQuery.Class(
 					fixedElements.css({ height: initialH + scrollContainer.scrollTop() });
 					this.rotatedText.css({
 						width: initialH + scrollContainer.scrollTop(),
-						height: initialH + scrollContainer.scrollTop()
+						height: initialH + scrollContainer.scrollTop(),
 					});
 				}
 			};
@@ -1051,7 +1012,7 @@ jQuery.Class(
 		 * @param {jQuery} container - current container for reference.
 		 * @param {Split} split - a split object.
 		 */
-		registerSplitEvents: function(container, split) {
+		registerSplitEvents: function (container, split) {
 			var rightSplitMaxWidth = (400 / this.windowW) * 100;
 			var minWindowWidth = (23 / this.windowW) * 100;
 			var maxWindowWidth = 100 - minWindowWidth;
@@ -1118,7 +1079,7 @@ jQuery.Class(
 				app.moduleCacheSet('userRelatedSplitSet', split.getSizes());
 			});
 		},
-		registerSplit: function(container) {
+		registerSplit: function (container) {
 			var rightSplitMaxWidth = (400 / this.windowW) * 100;
 			const splitSizes = this.getSplitSizes();
 			app.moduleCacheSet('gutterRelatedMidPosition', splitSizes);
@@ -1152,7 +1113,7 @@ jQuery.Class(
 						app.moduleCacheSet('gutterRelatedMidPosition', split.getSizes());
 					}
 					app.moduleCacheSet('userRelatedSplitSet', split.getSizes());
-				}
+				},
 			});
 			this.gutter = container.find('.gutter');
 			if (splitSizes[0] < 10) {
@@ -1166,9 +1127,7 @@ jQuery.Class(
 			}
 			var mainWindowHeightCss = { height: $(window).height() - this.list.offset().top - this.footerH };
 			if (!container.closest('.mainBody').length) {
-				let mainBody = $(top.document)
-					.find('.mainBody')
-					.height();
+				let mainBody = $(top.document).find('.mainBody').height();
 				let iframe = $(top.document).find('.js-detail-preview');
 				mainWindowHeightCss = { height: mainBody - this.list.offset().top - iframe.offset().top + 50 };
 			}
@@ -1178,13 +1137,13 @@ jQuery.Class(
 				this.sideBlocks.css(mainWindowHeightCss);
 				this.rotatedText.css({
 					width: this.sideBlockLeft.height(),
-					height: this.sideBlockLeft.height()
+					height: this.sideBlockLeft.height(),
 				});
 			}
 			this.registerSplitEvents(container, split);
 			return split;
 		},
-		toggleSplit: function(container) {
+		toggleSplit: function (container) {
 			var commactHeight = container.closest('.commonActionsContainer').height();
 			var splitsArray = [];
 			this.split = this.registerSplit(container);
@@ -1203,8 +1162,8 @@ jQuery.Class(
 						if (this.mainBody.scrollTop() >= this.list.offset().top + commactHeight) {
 							gutter.addClass('gutterOnScroll');
 							gutter.css('left', this.preview.offset().left - 8);
-							gutter.on('mousedown', function() {
-								$(this).on('mousemove', function(e) {
+							gutter.on('mousedown', function () {
+								$(this).on('mousemove', function (e) {
 									$(this).css('left', this.preview.offset().left - 8);
 								});
 							});
@@ -1223,7 +1182,7 @@ jQuery.Class(
 				}
 			});
 		},
-		registerListScroll: function() {
+		registerListScroll: function () {
 			let container = $('.listViewEntriesDiv');
 			if (this.relatedView !== 'ListPreview' && Quasar.plugins.Platform.is.desktop) {
 				container.each((index, element) => {
@@ -1238,7 +1197,7 @@ jQuery.Class(
 				});
 			}
 		},
-		getRecordsCount: function() {
+		getRecordsCount: function () {
 			let aDeferred = $.Deferred(),
 				recordCountVal = $('#recordsCount').val();
 			if (recordCountVal != '') {
@@ -1248,29 +1207,27 @@ jQuery.Class(
 				delete params.view;
 				params.action = 'DetailAjax';
 				params.mode = 'getRecordsCount';
-				AppConnector.request(params).done(function(data) {
+				AppConnector.request(params).done(function (data) {
 					$('#recordsCount').val(data['result']['count']);
 					aDeferred.resolve(data['result']['count']);
 				});
 			}
 			return aDeferred.promise();
 		},
-		noRecordSelectedAlert: function(text = 'JS_PLEASE_SELECT_ONE_RECORD') {
+		noRecordSelectedAlert: function (text = 'JS_PLEASE_SELECT_ONE_RECORD') {
 			return Vtiger_Helper_Js.showPnotify({ text: app.vtranslate(text) });
 		},
-		getCurrentCvId: function() {
-			return $('#customFilter')
-				.find('option:selected')
-				.data('id');
+		getCurrentCvId: function () {
+			return $('#customFilter').find('option:selected').data('id');
 		},
-		checkListRecordSelected: function(minNumberOfRecords = 1) {
+		checkListRecordSelected: function (minNumberOfRecords = 1) {
 			let selectedIds = this.readSelectedIds();
 			if (typeof selectedIds === 'object' && selectedIds.length < minNumberOfRecords) {
 				return true;
 			}
 			return false;
 		},
-		readSelectedIds: function(decode) {
+		readSelectedIds: function (decode) {
 			let selectedIdsDataAttr = this.getCurrentCvId() + 'selectedIds',
 				selectedIdsElementDataAttributes = $('#selectedIds').data(),
 				selectedIds = [];
@@ -1284,13 +1241,13 @@ jQuery.Class(
 			}
 			return selectedIds;
 		},
-		writeSelectedIds: function(selectedIds) {
+		writeSelectedIds: function (selectedIds) {
 			if (!Array.isArray(selectedIds)) {
 				selectedIds = [selectedIds];
 			}
 			$('#selectedIds').data(this.getCurrentCvId() + 'selectedIds', selectedIds);
 		},
-		readExcludedIds: function(decode) {
+		readExcludedIds: function (decode) {
 			let excludedIdsDataAttr = this.getCurrentCvId() + 'Excludedids',
 				excludedIdsElementDataAttributes = $('#excludedIds').data(),
 				excludedIds = [];
@@ -1304,12 +1261,12 @@ jQuery.Class(
 			}
 			return excludedIds;
 		},
-		writeExcludedIds: function(excludedIds) {
+		writeExcludedIds: function (excludedIds) {
 			$('#excludedIds').data(this.getCurrentCvId() + 'Excludedids', excludedIds);
 		},
-		checkSelectAll: function() {
+		checkSelectAll: function () {
 			let state = true;
-			$('.relatedListViewEntriesCheckBox').each(function(index, element) {
+			$('.relatedListViewEntriesCheckBox').each(function (index, element) {
 				if ($(element).is(':checked')) {
 					state = true;
 				} else {
@@ -1319,9 +1276,9 @@ jQuery.Class(
 			$('#relatedListViewEntriesMainCheckBox').prop('checked', state);
 			return state;
 		},
-		registerCheckBoxClickEvent: function() {
+		registerCheckBoxClickEvent: function () {
 			const self = this;
-			this.getRelatedContainer().on('click', '.relatedListViewEntriesCheckBox', function(e) {
+			this.getRelatedContainer().on('click', '.relatedListViewEntriesCheckBox', function (e) {
 				let selectedIds = self.readSelectedIds(),
 					excludedIds = self.readExcludedIds(),
 					elem = $(e.currentTarget);
@@ -1346,24 +1303,21 @@ jQuery.Class(
 				self.writeExcludedIds(excludedIds);
 			});
 		},
-		registerMainCheckBoxClickEvent: function() {
+		registerMainCheckBoxClickEvent: function () {
 			const self = this;
-			this.getRelatedContainer().on('click', '#relatedListViewEntriesMainCheckBox', function() {
+			this.getRelatedContainer().on('click', '#relatedListViewEntriesMainCheckBox', function () {
 				let selectedIds = self.readSelectedIds(),
 					excludedIds = self.readExcludedIds();
 				if ($('#relatedListViewEntriesMainCheckBox').is(':checked')) {
 					let recordCountObj = self.getRecordsCount();
-					recordCountObj.done(function(data) {
+					recordCountObj.done(function (data) {
 						$('#totalRecordsCount').text(data);
 						if ($('#deSelectAllMsgDiv').css('display') == 'none') {
 							$('#selectAllMsgDiv').show();
 						}
 					});
-					$('.relatedListViewEntriesCheckBox').each(function(index, element) {
-						$(this)
-							.prop('checked', true)
-							.closest('tr')
-							.addClass('highlightBackgroundColor');
+					$('.relatedListViewEntriesCheckBox').each(function (index, element) {
+						$(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 						if (selectedIds == 'all' && $.inArray($(element).val(), excludedIds) != -1) {
 							excludedIds.splice($.inArray($(element).val(), excludedIds), 1);
 						} else if ($.inArray($(element).val(), selectedIds) == -1) {
@@ -1372,11 +1326,8 @@ jQuery.Class(
 					});
 				} else {
 					$('#selectAllMsgDiv').hide();
-					$('.relatedListViewEntriesCheckBox').each(function(index, element) {
-						$(this)
-							.prop('checked', false)
-							.closest('tr')
-							.removeClass('highlightBackgroundColor');
+					$('.relatedListViewEntriesCheckBox').each(function (index, element) {
+						$(this).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
 						if (selectedIds == 'all') {
 							excludedIds.push($(element).val());
 							selectedIds = 'all';
@@ -1389,31 +1340,25 @@ jQuery.Class(
 				self.writeExcludedIds(excludedIds);
 			});
 		},
-		registerSelectAllClickEvent: function() {
+		registerSelectAllClickEvent: function () {
 			const self = this;
-			self.getRelatedContainer().on('click', '#selectAllMsg', function() {
+			self.getRelatedContainer().on('click', '#selectAllMsg', function () {
 				$('#selectAllMsgDiv').hide();
 				$('#deSelectAllMsgDiv').show();
 				$('#relatedListViewEntriesMainCheckBox').prop('checked', true);
-				$('.relatedListViewEntriesCheckBox').each(function(index, element) {
-					$(this)
-						.prop('checked', true)
-						.closest('tr')
-						.addClass('highlightBackgroundColor');
+				$('.relatedListViewEntriesCheckBox').each(function (index, element) {
+					$(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 				});
 				self.writeSelectedIds('all');
 			});
 		},
-		registerDeselectAllClickEvent: function() {
+		registerDeselectAllClickEvent: function () {
 			const self = this;
-			self.getRelatedContainer().on('click', '#deSelectAllMsg', function() {
+			self.getRelatedContainer().on('click', '#deSelectAllMsg', function () {
 				$('#deSelectAllMsgDiv').hide();
 				$('#relatedListViewEntriesMainCheckBox').prop('checked', false);
-				$('.relatedListViewEntriesCheckBox').each(function(index, element) {
-					$(this)
-						.prop('checked', false)
-						.closest('tr')
-						.removeClass('highlightBackgroundColor');
+				$('.relatedListViewEntriesCheckBox').each(function (index, element) {
+					$(this).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
 				});
 				self.writeSelectedIds([]);
 				self.writeExcludedIds([]);
@@ -1433,7 +1378,7 @@ jQuery.Class(
 				}
 			});
 		},
-		registerRelatedEvents: function() {
+		registerRelatedEvents: function () {
 			this.registerUnreviewedCountEvent();
 			this.registerChangeEntityStateEvent();
 			this.registerPaginationEvents();
@@ -1445,9 +1390,9 @@ jQuery.Class(
 			this.registerSelectAllClickEvent();
 			this.registerDeselectAllClickEvent();
 			this.registerQuickEditSaveEvent();
-			YetiForce_ListSearch_Js.registerSearch(this.content, data => {
+			YetiForce_ListSearch_Js.registerSearch(this.content, (data) => {
 				this.loadRelatedList(data);
 			});
-		}
+		},
 	}
 );

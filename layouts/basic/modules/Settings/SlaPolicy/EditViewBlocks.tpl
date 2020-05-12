@@ -20,7 +20,7 @@
 			<div class="card">
 				<div class="card-header">
 					{if !empty($RECORD->getId())}
-					<span class="fas fa-edit mr-2"></span>
+					<span class="yfi yfi-full-editing-view mr-2"></span>
 						{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)} - {$RECORD->getName()}
 					{else}
 						<span class="fas fa-plus mr-2"></span>

@@ -8,6 +8,7 @@
 			<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 		{/foreach}
 		<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
+			<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
 			{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 				<input name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'
 						type="hidden"/>
@@ -33,7 +34,7 @@
 					<h6 class="boxEventTitle text-muted text-center mt-1">
 						{if !empty($RECORD_ID)}
 							<div class="js-sidebar-title" data-title="edit">
-								<span class="fas fa-edit mr-1"></span>
+								<span class="yfi yfi-full-editing-view mr-1"></span>
 								{\App\Language::translate('LBL_EDIT_EVENT',$MODULE_NAME)}
 							</div>
 						{else}
@@ -51,41 +52,72 @@
 							{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 							{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
 							{assign var="refrenceListCount" value=count($refrenceList)}
-							<div class="row fieldsLabelValue pl-0 pr-0 mb-2">
-								<div class="col-12">
-									{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
-									<label class="muted mt-0">
-										{if $HELPINFO_LABEL}
-												<a href="#" class="js-help-info float-right u-cursor-pointer"
-													title=""
-													data-placement="top"
-													data-content="{$HELPINFO_LABEL}"
-													data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}">
-													<span class="fas fa-info-circle"></span>
-												</a>
-											{/if}
-										{if $FIELD_MODEL->isMandatory() eq true}
-											<span class="redColor">*</span>
-										{/if}
-										{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
-									</label>
-								</div>
-								<div class="fieldValue col-12">
-								{if $FIELD_MODEL->name === 'activitytype' && App\Config::module('Calendar','SHOW_ACTIVITYTYPES_AS_BUTTONS')}
-									{include file=\App\Layout::getTemplatePath('Edit/Field/ActivityType.tpl', $MODULE_NAME)}
-								{else}
-									{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
+							{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
+							<div class="fieldsLabelValue pl-0 pr-0 mb-2 {$WIDTHTYPE} {$WIDTHTYPE_GROUP}">
+								{if !(isset($PARAMS['hideLabel']) && in_array($VIEW, $PARAMS['hideLabel']))}
+									<div class="col-12 px-2 u-fs-sm">
+										{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
+										<label class="muted mt-0 mb-0">
+											{if $HELPINFO_LABEL}
+													<a href="#" class="js-help-info float-right u-cursor-pointer"
+														title=""
+														data-placement="top"
+														data-content="{$HELPINFO_LABEL}"
+														data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}">
+														<span class="fas fa-info-circle"></span>
+													</a>
+												{/if}
+												{if $FIELD_MODEL->isMandatory() eq true}
+													<span class="redColor">*</span>
+												{/if}
+												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
+										</label>
+									</div>
 								{/if}
+								<div class="fieldValue col-12 px-2">
+									{if $FIELD_MODEL->name === 'activitytype' && App\Config::module('Calendar','SHOW_ACTIVITYTYPES_AS_BUTTONS')}
+										{include file=\App\Layout::getTemplatePath('Edit/Field/ActivityType.tpl', $MODULE_NAME)}
+									{else}
+										{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
+									{/if}
 								</div>
 							</div>
 						{/foreach}
+						<div class="fieldsLabelValue pl-0 pr-0 mb-2">
+							<div class="col-12 px-2 u-fs-sm">
+								<label class="muted mt-0 mb-0">
+									{\App\Language::translate('LBL_INVITE_RECORDS', $MODULE_NAME)}
+								</label>
+							</div>
+							<div class="fieldValue col-12 px-2">
+								<div class="input-group js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}">
+									<input type="text" class="form-control js-participants-search" title="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}"
+										placeholder="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}" data-js="click" />
+									<div class="input-group-append">
+										<button type="button" class="js-btn-add-invitation btn btn-light" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}">
+											<span class="fa fa-plus" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}"></span>
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class="col-12 px-2 mt-1 js-participants-content d-flex flex-wrap flex-row justify-content-start align-items-left" data-js="container">
+								<div class="d-none">
+									{include file=\App\Layout::getTemplatePath('InviteRow.tpl', $MODULE_NAME)}
+								</div>
+								{if !empty($RECORD_ID)}
+									{foreach key=KEY item=INVITIE from=$RECORD->getInvities()}
+										{include file=\App\Layout::getTemplatePath('InviteRow.tpl', $MODULE_NAME)}
+									{/foreach}
+								{/if}
+							</div>
+						</div>
 					</div>
 				</div>
 				{if !empty($SOURCE_RELATED_FIELD)}
-					{foreach key=RELATED_FIELD_NAME item=RELATED_FIELD_MODEL from=$SOURCE_RELATED_FIELD}
-						<input type="hidden" name="{$RELATED_FIELD_NAME}"
-								value="{\App\Purifier::encodeHtml($RELATED_FIELD_MODEL->get('fieldvalue'))}"
-								data-fieldtype="{$RELATED_FIELD_MODEL->getFieldDataType()}"/>
+					{foreach key=FIELD_NAME item=FIELD_MODEL from=$SOURCE_RELATED_FIELD}
+						<div class="d-none">
+							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
+						</div>
 					{/foreach}
 				{/if}
 				<div class="o-calendar__form__actions">

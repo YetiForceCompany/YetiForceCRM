@@ -10,7 +10,7 @@ return [
 		'REMAPPING_OPENCAGE' => [
 			'type' => 'function',
 			'default' => 'return null;',
-			'description' => 'Main function to remapping fields for OpenCage. It should be function.'
+			'description' => 'The main function to remapping fields for OpenCage. It should be a function.'
 		],
 		'REMAPPING_OPENCAGE_FOR_COUNTRY' => [
 			'type' => 'function',
@@ -59,12 +59,12 @@ return [
 				];
 			},
 		];",
-			'description' => 'Function to remapping fields in countries for Nominatim. It should be function.'
+			'description' => 'Function to remapping fields in countries for Nominatim. It should be a function.'
 		],
 		'yetiForceRemapping' => [
 			'type' => 'function',
 			'default' => 'return null;',
-			'description' => 'Main function to remapping fields for YetiForceGeocoder. It should be function.'
+			'description' => 'Main function to remapping fields for YetiForceGeocoder. It should be a function.'
 		],
 		'yetiForceRemappingForCountry' => [
 			'type' => 'function',
@@ -84,7 +84,7 @@ return [
 				];
 			},
 		];",
-			'description' => 'Function to remapping fields in countries for YetiForceGeocoder. It should be function.'
+			'description' => 'Function to remapping fields in countries for YetiForceGeocoder. It should be a function.'
 		],
 	],
 	'Backup' => [
@@ -128,7 +128,7 @@ return [
 		],
 		'RC_COMPOSE_ADDRESS_MODULES' => [
 			'default' => ['Accounts', 'Contacts', 'OSSEmployees', 'Leads', 'Vendors', 'Partners', 'Competition'],
-			'description' => 'List of of modules from which you can choose e-mail address in the mail.'
+			'description' => 'List of modules from which you can choose e-mail address in the mail.'
 		],
 		'helpdeskCreatedStatus' => [
 			'default' => 'Open',
@@ -182,9 +182,9 @@ return [
 		]
 	],
 	'YetiForce' => [
-		'statusUrl' => [
+		'watchdogUrl' => [
 			'default' => '',
-			'description' => 'Service URL',
+			'description' => 'YetiForce watchdog monitor URL',
 			'validation' => function () {
 				$arg = func_get_arg(0);
 				return empty($arg) || \App\Validator::url($arg);
@@ -311,32 +311,6 @@ return [
 			'description' => 'List of modules for which Twitter has been enabled.',
 		]
 	],
-	'Magento' => [
-		'connector' => [
-			'default' => 'Token',
-			'description' => 'Type of connector for integration with magento.',
-		],
-		'addressApi' => [
-			'default' => '',
-			'description' => 'Address url magento',
-			'validation' => function () {
-				$arg = func_get_arg(0);
-				return empty($arg) || \App\Validator::url($arg);
-			}
-		],
-		'username' => [
-			'default' => '',
-			'description' => 'Username to account in magento.',
-		],
-		'password' => [
-			'default' => '',
-			'description' => 'Password to account in magento.',
-		],
-		'masterSource' => [
-			'default' => 'magento',
-			'description' => 'Set master source: yetiforce or magento',
-		],
-	],
 	'Branding' => [
 		'footerName' => [
 			'default' => '',
@@ -377,6 +351,20 @@ return [
 			'sanitization' => function () {
 				return \App\Purifier::purify(func_get_arg(0));
 			}
+		],
+	],
+	'MeetingService' => [
+		'defaultEmailTemplate' => [
+			'default' => [],
+			'description' => "List of default email templates.\n@example ['Calendar'=>1]",
+		]
+	],
+	'Phone' => [
+		'defaultPhoneCountry' => [
+			'default' => true,
+			'description' => 'Determines the way the default country in the phone field is downloaded. True retrieves the value from the countries panel, false retrieves the country from the users default language.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 	],
 ];

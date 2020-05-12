@@ -24,8 +24,8 @@ class Request extends \Tests\Base
 	 */
 	public function testGetAll()
 	{
-		$this->assertInternalType('array', \App\Request::init()->getAll());
-		$this->assertInternalType('array', \App\Request::init()->getAllRaw());
+		$this->assertIsArray(\App\Request::init()->getAll());
+		$this->assertIsArray(\App\Request::init()->getAllRaw());
 	}
 
 	/**

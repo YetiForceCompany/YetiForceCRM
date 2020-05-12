@@ -1,26 +1,33 @@
 #########################################
-# Installation of the developer version:
+# Installation dependency
 #########################################
+cd "$(dirname "$0")/../../"
+echo " -----  Install yarn for public_html directory (mode $INSTALL_MODE) -----"
+if [ ${INSTALL_MODE} = "DEV" ]; then
+    yarn install --force --modules-folder "./public_html/libraries"
+	yarn list
+else
+    yarn install --force --modules-folder "./public_html/libraries" --production=true --ignore-optional
+fi
 
-echo " -----  Install yarn for public_html directory -----"
-yarn install --force --modules-folder "./public_html/libraries"
-yarn list
 
-echo " -----  Install yarn for public_html directory -----"
+echo " -----  Install yarn for public_html directory (mode $INSTALL_MODE) -----"
 cd public_html/src
-yarn install --force
-yarn list
+if [ ${INSTALL_MODE} = "DEV" ]; then
+    yarn install --force
+	yarn list
+else
+   yarn install --force --production=true --ignore-optional
+fi
 cd ../../
 
 echo " -----  Install composer -----"
-composer install --no-interaction
-
-
-#########################################
-# Installation of the production version:
-#########################################
-#yarn install --force --modules-folder "./public_html/libraries" --production=true
-#cd public_html/src
-#yarn install --force --production=true
-#cd ../../
-#composer install --no-interaction --no-dev
+if [ ${INSTALL_MODE} = "DEV" ]; then
+	rm -rf composer.json
+	rm -rf composer.lock
+	mv composer_dev.json composer.json
+	mv composer_dev.lock composer.lock
+	composer install --no-interaction --no-interaction
+else
+	composer install --no-interaction --no-dev --no-interaction
+fi

@@ -56,7 +56,7 @@ class Z_Authy2FA extends \Tests\Base
 	public function testUser()
 	{
 		static::$userId = \App\User::getUserIdByName('demo');
-		$this->assertInternalType('int', static::$userId, 'No user demo');
+		$this->assertIsInt(static::$userId, 'No user demo');
 		\App\User::setCurrentUserId(static::$userId);
 		$this->assertSame(\App\User::getCurrentUserId(), static::$userId);
 		$userRecordModel = \Users_Record_Model::getInstanceById(static::$userId, 'Users');

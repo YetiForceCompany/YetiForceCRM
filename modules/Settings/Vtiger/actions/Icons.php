@@ -21,7 +21,7 @@ class Settings_Vtiger_Icons_Action extends Settings_Vtiger_Basic_Action
 	public function process(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
-		$response->setResult(Settings_Vtiger_Icons_Model::getAll());
+		$response->setResult(\App\Layout\Icon::getAll());
 		$response->emit();
 	}
 }

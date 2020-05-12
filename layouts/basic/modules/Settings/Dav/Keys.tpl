@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+<!-- tpl-Settings-Dav-Keys -->
 	<div class="" id="DavKeysContainer">
 		<div class="o-breadcrumb widget_header row mb-2">
 			<div class="col-md-8">
@@ -22,17 +23,27 @@
 			<div class="alert alert-info">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h5 class="alert-heading">
-					<span class="fas fa-info-circle mr-1"></span>
+					<span class="mdi mdi-information-outline u-fs-2em mr-2 float-left"></span>
 				{\App\Language::translate('LBL_ALERT_DAV_CONFIG_TITLE', $QUALIFIED_MODULE)}
 				</h5>
 				<p>{\App\Language::translate('LBL_ALERT_DAV_CONFIG_DESC', $QUALIFIED_MODULE)}</p>
+				<ul>
+					<li>{App\Config::main('site_URL')}dav.php/addressbooks/(__dav_login__)/YFAddressBook/</li>
+					<li>{App\Config::main('site_URL')}dav.php/calendars/(__dav_login__)/YFCalendar/</li>
+					<li>{App\Config::main('site_URL')}dav.php/principals/(__dav_login__)/</li>
+				</ul>
 				<h6>DAVdroid</h6>
-				<p>{App\Config::main('site_URL')}dav.php</p>
-				<h6>Thunderbird CalDAV</h6>
-				<p>{App\Config::main('site_URL')}dav.php/calendars/(__dav_login__)/YFCalendar/</p>
+				<ul>
+					<li>{App\Config::main('site_URL')}dav.php</li>
+				</ul>
+				<h6>Thunderbird CalDAV, Outlook CalDav Synchronizer</h6>
+				<ul>
+					<li>{App\Config::main('site_URL')}dav.php/calendars/(__dav_login__)/YFCalendar/</li>
+				</ul>
 				<h6>iOS</h6>
-				<p>http: {str_replace('https://','http://',App\Config::main('site_URL'))}dav.php/principals/(__dav_login__)/</p>
-				<p>https: {str_replace('https://','http://',rtrim(App\Config::main('site_URL'),'/'))}:443/dav.php/principals/(__dav_login__)/</p>
+				<ul>
+					<li>https: {str_replace('https://','http://',rtrim(App\Config::main('site_URL'),'/'))}:443/dav.php/principals/(__dav_login__)/</li>
+				</ul>
 			</div>
 			<div>
 				<div class="contents tabbable">
@@ -143,4 +154,5 @@
 			</div>
 		</div>
 	</div>
+<!-- /tpl-Settings-Dav-Keys -->
 {/strip}

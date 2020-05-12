@@ -282,16 +282,6 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 	registerCacheSettings() {
 		var thisInstance = this;
 		var calendar = thisInstance.getCalendarView();
-		if (app.moduleCacheGet('defaultSwitchingDays') == 'all') {
-			app.setMainParams('switchingDays', 'all');
-		} else {
-			app.setMainParams('switchingDays', 'workDays');
-		}
-		if (app.moduleCacheGet('defaultShowType') == 'history') {
-			app.setMainParams('showType', 'history');
-		} else {
-			app.setMainParams('showType', 'current');
-		}
 		$('.siteBarRight .filterField').each(function(index) {
 			var name = $(this).attr('id');
 			var value = app.moduleCacheGet(name);

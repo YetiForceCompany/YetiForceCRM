@@ -432,18 +432,6 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		margin-bottom: 0;
 	}
 
-	.q-fab__actions--left {
-		right: calculate-rem(39px);
-	}
-
-	.q-fab__actions--right {
-		left: calculate-rem(48px);
-	}
-
-	.q-fab__actions--left {
-		right: calculate-rem(42px);
-	}
-
 	@include media-breakpoint-down(md) {
 		.q-message-sent .q-message-text:last-child:before {
 			display: none;
@@ -459,14 +447,6 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 			&:last-child {
 				min-height: unset;
 			}
-		}
-
-		.q-fab__actions--left {
-			right: calculate-rem(39px);
-		}
-
-		.q-fab__actions--right {
-			left: calculate-rem(43px);
 		}
 	}
 }

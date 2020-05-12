@@ -46,7 +46,7 @@
 					<option data-id="{$TEMPLATE->getId()}"
 							data-name="{$RELATED_MODEL->getName()}"
 							data-url="{$RELATED_MODEL->getCreateRecordUrl()|cat:"&reference_id=$RECORD"}"
-							data-template="<span><span class='userIcon-{$TEMPLATE->getRelatedName()} mr-1'></span>{$RELATED_MODULE_NAME}</span>">
+							data-template="<span><span class='yfm-{$TEMPLATE->getRelatedName()} mr-1'></span>{$RELATED_MODULE_NAME}</span>">
 						{$RELATED_MODULE_NAME}
 					</option>
 				{/foreach}

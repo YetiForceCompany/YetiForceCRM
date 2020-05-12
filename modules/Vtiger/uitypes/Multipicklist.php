@@ -17,7 +17,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$value = $value ? explode('##', $value) : [];
 		}
 		foreach ($value as $val) {
@@ -31,7 +31,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if (is_array($value)) {
+		if (\is_array($value)) {
 			$value = implode(' |##| ', $value);
 		}
 		return \App\Purifier::decodeHtml($value);
@@ -42,20 +42,21 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		$hashValue = is_array($value) ? implode('|', $value) : $value;
+		$hashValue = \is_array($value) ? implode('|', $value) : $value;
 		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
-		if (is_string($value)) {
+		if (\is_string($value)) {
 			$value = explode(' |##| ', $value);
 		}
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		foreach ($value as $item) {
-			if (!is_string($item)) {
+			if (!\is_string($item)) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
-			} elseif ($item != strip_tags($item)) {
+			}
+			if ($item != strip_tags($item)) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 			}
 		}
@@ -70,18 +71,29 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return null;
 		}
+		$valueRaw = $valueHtml = '';
 		$values = explode(' |##| ', $value);
-		$trValue = [];
+		$trValueRaw = $trValue = [];
 		$moduleName = $this->getFieldModel()->getModuleName();
-		$countValue = count($values);
-		for ($i = 0; $i < $countValue; ++$i) {
-			$trValue[] = App\Language::translate($values[$i], $moduleName);
+		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
+		foreach($values as $value){
+			$displayValue = App\Language::translate($value, $moduleName);
+			$value = App\Colors::sanitizeValue($value);
+			$trValueRaw[] = $displayValue;
+			$trValue[] = "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">$displayValue</span>";
 		}
-		$value = str_ireplace(' |##| ', ', ', implode(' |##| ', $trValue));
-		if (is_int($length)) {
-			$value = \App\TextParser::textTruncate($value, $length);
+		if($rawText){
+			$valueRaw = str_ireplace(' |##| ', ', ', implode(' |##| ', $trValueRaw));
+			if (\is_int($length)) {
+				$valueRaw = \App\TextParser::textTruncate($valueRaw, $length);
+			}
+		} else {
+			$valueHtml = str_ireplace(' |##| ', ' ', implode(' |##| ', $trValue));
+			if (\is_int($length)) {
+				$valueHtml = \App\TextParser::htmlTruncate($valueHtml, $length);
+			}
 		}
-		return \App\Purifier::encodeHtml($value);
+		return $rawText ? $valueRaw : $valueHtml;
 	}
 
 	/**

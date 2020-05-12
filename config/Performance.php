@@ -33,10 +33,10 @@ class Performance
 	 */
 	public static $SQL_LOG_INCLUDE_CALLER = false;
 
-	/** If database default charset is UTF-8, set this to true This avoids executing the SET NAMES SQL for each query! */
+	/** If database default charset is UTF-8, set this to true. This avoids executing the SET NAMES SQL for each query! */
 	public static $DB_DEFAULT_CHARSET_UTF8 = true;
 
-	/** Compute list view record count while loading listview everytime. Recommended value false */
+	/** Compute list view record count while loading listview each time. Recommended value false */
 	public static $LISTVIEW_COMPUTE_PAGE_COUNT = false;
 
 	/** Enable automatic records list refreshing while changing the value of the selection list */
@@ -75,22 +75,22 @@ class Performance
 	/** The numbers of emails downloaded during one scanning */
 	public static $NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING = 100;
 
-	/** In how many records should the global search permissions be updated in cron */
+	/** The maximum number of global search permissions that cron can update during a single execution */
 	public static $CRON_MAX_NUMBERS_RECORD_PRIVILEGES_UPDATER = 1000000;
 
-	/** In how many records should the address book be updated in cron */
+	/** The maximum number of records in address book to be updated in cron */
 	public static $CRON_MAX_NUMBERS_RECORD_ADDRESS_BOOK_UPDATER = 10000;
 
-	/** In how many records should the label be updated in cron */
+	/** The maximum number of record labels that cron can update during a single execution */
 	public static $CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER = 1000;
 
-	/** In how many mails should the send in cron (Mailer). */
+	/** The maximum number of emails that cron can send during a single execution. Pay attention to the server limits. */
 	public static $CRON_MAX_NUMBERS_SENDING_MAILS = 1000;
 
-	/** In how many sms should the send in cron. */
+	/** The maximum number of sms that cron can send during a single execution */
 	public static $CRON_MAX_NUMBERS_SENDING_SMS = 10;
 
-	/** In how many atachments should the delete in cron. */
+	/** The maximum number of attachments that cron can delete during a single execution */
 	public static $CRON_MAX_ATACHMENTS_DELETE = 1000;
 
 	/** Time to execute batch methods [min]. */
@@ -117,7 +117,7 @@ class Performance
 	/** Number of browsing history steps */
 	public static $BROWSING_HISTORY_VIEW_LIMIT = 20;
 
-	/** Days after browsing history has deleted */
+	/** Number of days after which browsing history will be deleted */
 	public static $BROWSING_HISTORY_DELETE_AFTER = 7;
 
 	/** Session handler name, handler dir: app/Session/ */
@@ -144,10 +144,13 @@ class Performance
 	/** Is divided layout style on edit view in modules with products */
 	public static $INVENTORY_EDIT_VIEW_LAYOUT = true;
 
+	/** List of modules with splited edit view layout */
+	public static $MODULES_SPLITTED_EDIT_VIEW_LAYOUT = [];
+
 	/** Popover record's trigger delay in ms */
 	public static $RECORD_POPOVER_DELAY = 500;
 
-	/** Empty value when is not selected item in picklist dependency */
+	/** Empty value when there is selected item in picklist dependency */
 	public static $PICKLIST_DEPENDENCY_DEFAULT_EMPTY = true;
 
 	/** Number of items displayed in picklists. */
@@ -160,5 +163,11 @@ class Performance
 	public static $quickEditLayout = 'blocks';
 
 	/** Parameter defining how fields are displayed in quick create. Available values: blocks,standard */
-	public static $quickCreateLayout = 'standard';
+	public static $quickCreateLayout = 'blocks';
+
+	/** Number of records that can be shown in report mail */
+	public static $REPORT_RECORD_NUMBERS = 10;
+	
+	/** Number of records that can be shown in history login modal */
+	public static $LOGIN_HISTORY_VIEW_LIMIT = 10;
 }

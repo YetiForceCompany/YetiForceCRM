@@ -9,7 +9,6 @@
 		</div>
 		<div class="contents form-row">
 			<div class="col-md-12">
-				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 				<button type="button" class="btn btn-success addInventory my-2"
 						data-url="{$RECORD_MODEL->getCreateUrl()}" data-type="0"><span
 							class="fas fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}
@@ -45,7 +44,7 @@
 										<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer mr-1"
 												data-url="{$RECORD->getEditUrl()}"><span
 													title="{\App\Language::translate('LBL_EDIT', $MODULE)}"
-													class="fas fa-edit alignBottom"></span></button>
+													class="yfi yfi-full-editing-view alignBottom"></span></button>
 										<button class="removeInventory u-cursor-pointer btn btn-danger btn-sm text-white"
 												data-url="{$RECORD->getEditUrl()}"><span
 													title="{\App\Language::translate('LBL_DELETE', $MODULE)}"

@@ -123,6 +123,16 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Verification of value.
+	 *
+	 * @param mixed $value
+	 */
+	public function validateValue($value)
+	{
+		return true;
+	}
+
+	/**
 	 * Convert value before writing to the database.
 	 *
 	 * @param mixed               $value
@@ -266,24 +276,17 @@ class Vtiger_Base_UIType extends \App\Base
 	 *
 	 * @param Vtiger_Field_Model $fieldModel
 	 *
-	 * @return Vtiger_Base_UIType or UIType specific object instance
+	 * @return self Vtiger_Base_UIType or UIType specific object instance
 	 */
 	public static function getInstanceFromField($fieldModel)
 	{
 		$uiType = ucfirst($fieldModel->getFieldDataType());
 		$moduleName = $fieldModel->getModuleName();
-		if (file_exists(Vtiger_Loader::resolveNameToPath("modules.$moduleName.uitypes.$uiType"))) {
-			$className = "{$moduleName}_{$uiType}_UIType";
-			$instance = new $className();
-		} elseif (file_exists(Vtiger_Loader::resolveNameToPath('modules.Vtiger.uitypes.' . $uiType))) {
-			$className = "Vtiger_{$uiType}_UIType";
-			$instance = new $className();
-		} elseif (file_exists(Vtiger_Loader::resolveNameToPath("modules.$moduleName.uitypes.Base"))) {
-			$className = $moduleName . '_Base_UIType';
-			$instance = new $className();
-		} else {
-			$instance = new self();
+		$className = \Vtiger_Loader::getComponentClassName('UIType', $uiType, $moduleName, false);
+		if (!$className) {
+			$className = \Vtiger_Loader::getComponentClassName('UIType', 'Base', $moduleName);
 		}
+		$instance = new $className();
 		$instance->set('field', $fieldModel);
 		return $instance;
 	}

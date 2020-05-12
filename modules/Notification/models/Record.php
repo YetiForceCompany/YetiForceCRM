@@ -217,7 +217,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 			$icon = [
 				'type' => 'icon',
 				'title' => \App\Language::translate($relatedRecord['module'], $relatedRecord['module']),
-				'class' => 'userIcon-' . $relatedRecord['module'],
+				'class' => 'yfm-' . $relatedRecord['module'],
 			];
 		}
 		return $icon;
