@@ -25,6 +25,12 @@
       "homepage": "https://yetiforce.com/"
     }
   ],
+  "funding": [
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/yetiforcecrm"
+    }
+  ],
   "require": {
     "php": ">=7.2.0",
     "ext-imap": "*",
