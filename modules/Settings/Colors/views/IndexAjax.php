@@ -2,9 +2,12 @@
 /**
  * Colors ajax requests handler class.
  *
+ * @package   View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Sławomir Kłos <s.klos@yetiforce.com>
+ * @author Slawomir Klos <s.klos@yetiforce.com>
+ * @author Adrian Kon <a.kon@yetiforce.com>
  */
 
 /**
@@ -21,6 +24,7 @@ class Settings_Colors_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 	{
 		parent::__construct();
 		$this->exposeMethod('getPickListView');
+		$this->exposeMethod('getFieldsColorView');
 	}
 
 	/**
@@ -28,7 +32,7 @@ class Settings_Colors_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getPickListView(\App\Request $request)
+	public function getPickListView(App\Request $request)
 	{
 		$pickListFields = $picklistValuesName = [];
 		$sourceModule = $request->getByType('source_module', 2);
@@ -39,11 +43,11 @@ class Settings_Colors_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$noColumn = false;
 		if ($fieldId) {
 			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
-			if (array_key_exists($fieldModel->getName(), $pickListFields) && $fieldModel->getModuleName() === $sourceModule) {
+			if (\array_key_exists($fieldModel->getName(), $pickListFields) && $fieldModel->getModuleName() === $sourceModule) {
 				$picklistValuesName = \App\Fields\Picklist::getValues($fieldModel->getName());
 				if ($picklistValuesName) {
 					$firstRow = reset($picklistValuesName);
-					if (!array_key_exists('color', $firstRow)) {
+					if (!\array_key_exists('color', $firstRow)) {
 						$noColumn = true;
 					}
 				}
@@ -59,6 +63,27 @@ class Settings_Colors_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
 		$viewer->assign('SELECTED_PICKLISTFIELD_ALL_VALUES', $picklistValuesName);
+		$viewer->view('TabPicklistValuesColors.tpl', $qualifiedName);
+	}
+
+	/**
+	 * Get fields color view.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function getFieldsColorView(App\Request $request)
+	{
+		$sourceModule = $request->getByType('source_module', 2);
+		$selectedModuleFields = [];
+		if ($sourceModule) {
+			$selectedModuleFields = Vtiger_Module_Model::getInstance($sourceModule)->getFields();
+		}
+		$qualifiedName = $request->getModule(false);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
+		$viewer->assign('SELECTED_MODULE_FIELDS', $selectedModuleFields);
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
+		$viewer->assign('ALL_ACTIVE_MODULES', \vtlib\Functions::getAllModules(true, false, false, false));
 		$viewer->view('TabFieldColors.tpl', $qualifiedName);
 	}
 }
