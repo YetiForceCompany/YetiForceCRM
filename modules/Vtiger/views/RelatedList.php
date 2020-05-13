@@ -101,6 +101,21 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
+		$showHeader = true;
+		if ($request->has('showHeader')) {
+			$showHeader = $request->getBoolean('showHeader');
+		}
+		if ($showHeader) {
+			$links = $relationListView->getLinks();
+			if (!($request->has('showViews') ? $request->getBoolean('showViews') : true)) {
+				unset($links['RELATEDLIST_VIEWS']);
+				$relatedView = 'List';
+			}
+			if (!($request->has('showMassActions') ? $request->getBoolean('showMassActions') : true)) {
+				unset($links['RELATEDLIST_MASSACTIONS']);
+			}
+			$viewer->assign('RELATED_LIST_LINKS', $links);
+		}
 		if ('ListPreview' === $relatedView) {
 			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
 		}
@@ -115,17 +130,6 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_VIEW', $relatedView);
-		$showHeader = $request->has('showHeader') ? $request->getBoolean('showHeader') : true;
-		if ($showHeader) {
-			$links = $relationListView->getLinks();
-			if (!($request->has('showViews') ? $request->getBoolean('showViews') : true)) {
-				unset($links['RELATEDLIST_VIEWS']);
-			}
-			if (!($request->has('showMassActions') ? $request->getBoolean('showMassActions') : true)) {
-				unset($links['RELATEDLIST_MASSACTIONS']);
-			}
-			$viewer->assign('RELATED_LIST_LINKS', $links);
-		}
 		$viewer->assign('SHOW_HEADER', $showHeader);
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
