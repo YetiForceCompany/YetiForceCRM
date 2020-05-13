@@ -97,16 +97,4 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	{
 		return ['e', 'n', 'c', 'ch', 'k', 'kh', 'y', 'ny'];
 	}
-
-	/**
-	 * Returns template for operator.
-	 *
-	 * @param string $operator
-	 *
-	 * @return string
-	 */
-	public function getOperatorTemplateName(string $operator = '')
-	{
-		return 'ConditionBuilder/CategoryMultipicklist.tpl';
-	}
 }

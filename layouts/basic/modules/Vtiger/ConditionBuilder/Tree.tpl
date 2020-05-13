@@ -14,7 +14,7 @@
 	<div class="js-tree-container fieldValue" data-js="container">
 		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$FIELD_VALUES}" class="sourceField js-condition-builder-value"
 			   data-displayvalue='{$DISPLAY_VALUE}' data-fieldinfo='{$FIELD_INFO}'
-			   data-multiple="{if isset($MULTIPLE_TREE)}{$MULTIPLE_TREE}{else}0{/if}"
+			   data-multiple="{if $FIELD_MODEL->getFieldDataType() !== 'tree'}1{else}0{/if}"
 			   data-treetemplate="{$FIELD_MODEL->getFieldParams()}" data-modulename="{$FIELD_MODEL->getModuleName()}">
 		{assign var="displayId" value=$FIELD_MODEL->get('fieldvalue')}
 		<div class="input-group {$WIDTHTYPE_GROUP}">

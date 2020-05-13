@@ -2006,39 +2006,134 @@ window.App.Fields = {
 			return parseFloat(value);
 		}
 	},
-	Tree: {
-		register(container) {
-			container.off('click', '.js-tree-modal');
-			container.on('click', '.js-tree-modal', function(e) {
-				let element = $(e.target),
-					parentElem = element.closest('.js-tree-container'),
-					sourceFieldElement = parentElem.find('input.sourceField'),
-					fieldDisplayElement = parentElem.find(
-						'input[name="' + sourceFieldElement.attr('name') + '_display"]'
-					);
-				AppConnector.request({
-					module: sourceFieldElement.data('modulename'),
-					view: 'TreeModal',
-					template: sourceFieldElement.data('treetemplate'),
-					fieldName: sourceFieldElement.attr('name'),
-					multiple: sourceFieldElement.data('multiple'),
-					value: sourceFieldElement.val()
-				}).done(function (requestData) {
-					app.modalEvents['treeModal'] = function (modal, instance) {
-						instance.setSelectEvent((responseData) => {
-							sourceFieldElement.val(responseData.id);
-							fieldDisplayElement.val(responseData.name).attr('readonly', true);
-							sourceFieldElement.trigger('change');
-						});
-					};
-					app.showModalWindow(requestData, { modalId: 'treeModal' });
-				});
-			});
-			if(typeof Vtiger_Edit_Js !== 'undefined'){
-				let vtigerEditInstance = new Vtiger_Edit_Js();
-				vtigerEditInstance.registerTreeAutoCompleteFields(container);
-				vtigerEditInstance.registerClearTreeSelectionEvent(container);
+	/**
+	 * Tree
+	 */
+	Tree: class Tree {
+		constructor(container) {
+			this.container = container;
+			this.init();
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		static register(container) {
+			if (container.hasClass('js-tree-container')) {
+				return new Tree(container);
 			}
+			const instances = [];
+			container.find('.js-tree-container').each((n, e) => {
+				instances.push(new Tree($(e)));
+			});
+			return instances;
+		}
+		/**
+		 * Initiation
+		 */
+		init() {
+			this.modalEvent();
+			this.autoCompleteEvent();
+			this.clearSelectionEvent();
+		}
+		/**
+		 * Function which will handle modal view with tree
+		 */
+		modalEvent() {
+			$('.js-tree-modal', this.container)
+				.off('click')
+				.on('click', (_) => {
+					let sourceFieldElement = this.container.find('input.sourceField'),
+						fieldDisplayElement = this.container.find(
+							'input[name="' + sourceFieldElement.attr('name') + '_display"]'
+						);
+					AppConnector.request({
+						module: sourceFieldElement.data('modulename'),
+						view: 'TreeModal',
+						template: sourceFieldElement.data('treetemplate'),
+						fieldName: sourceFieldElement.attr('name'),
+						multiple: sourceFieldElement.data('multiple'),
+						value: sourceFieldElement.val()
+					}).done(function (requestData) {
+						app.modalEvents['treeModal'] = function (modal, instance) {
+							instance.setSelectEvent((responseData) => {
+								sourceFieldElement.val(responseData.id);
+								fieldDisplayElement.val(responseData.name).attr('readonly', true);
+								sourceFieldElement.trigger('change');
+							});
+						};
+						app.showModalWindow(requestData, { modalId: 'treeModal' });
+					});
+				});
+		}
+		/**
+		 * Function which will handle the reference auto complete event registrations
+		 */
+		autoCompleteEvent() {
+			let autoCompleteElement = $('input.treeAutoComplete', this.container);
+			if (autoCompleteElement.hasClass('ui-autocomplete-input')) {
+				autoCompleteElement.autocomplete('destroy');
+			}
+			autoCompleteElement.autocomplete({
+				delay: '600',
+				minLength: '3',
+				source: function (request, response) {
+					let inputElement = $(this.element[0]);
+					let searchValue = request.term.toLowerCase();
+					let parentElem = inputElement.closest('.js-tree-container');
+					let sourceFieldElement = $('input.sourceField', parentElem);
+					let fieldInfo = sourceFieldElement.data('fieldinfo');
+					let allValues = fieldInfo.picklistvalues;
+					let responseDataList = [];
+					for (let id in allValues) {
+						if (allValues[id].toLowerCase().indexOf(searchValue) >= 0) {
+							responseDataList.push({ label: allValues[id], value: id, id: id });
+						}
+					}
+					if (responseDataList.length <= 0) {
+						$(inputElement).val('');
+						responseDataList.push({
+							label: app.vtranslate('JS_NO_RESULTS_FOUND'),
+							type: 'no results'
+						});
+					}
+					response(responseDataList);
+				},
+				select: function (event, ui) {
+					let selectedItemData = ui.item;
+					if (
+						typeof selectedItemData.type !== 'undefined' &&
+						selectedItemData.type == 'no results'
+					) {
+						return false;
+					}
+					selectedItemData.name = selectedItemData.value;
+					this.value = selectedItemData.label;
+					let element = $(this).attr('readonly', true);
+					element.closest('.js-tree-container').find('input.sourceField').val(selectedItemData.id);
+					return false;
+				},
+				change: function (event, ui) {},
+				open: function (event, ui) {
+					//To Make the menu come up in the case of quick create
+					$(this).data('ui-autocomplete').menu.element.css('z-index', '100001');
+				}
+			});
+		}
+		/**
+		 * Function which will register reference field clear event
+		 */
+		clearSelectionEvent() {
+			$('.clearTreeSelection', this.container)
+				.off('click')
+				.on('click', (e) => {
+					let fieldElement = this.container.find('.sourceField');
+					$('input[name="' + fieldElement.attr('name') + '_display"]', this.container)
+						.removeAttr('readonly')
+						.val('');
+					fieldElement.val('').trigger('change');
+					e.preventDefault();
+				});
 		}
 	},
 	/**

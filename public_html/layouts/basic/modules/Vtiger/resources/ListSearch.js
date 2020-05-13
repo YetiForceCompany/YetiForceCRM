@@ -128,6 +128,11 @@ jQuery.Class(
 						self.triggerListSearch();
 					}
 				});
+				listViewContainer
+					.find('.listViewEntriesTable .js-tree-container .listSearchContributor')
+					.on('change', () => {
+						this.triggerListSearch();
+					});
 			}
 		},
 		resetPagination: function () {
