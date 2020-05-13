@@ -14996,7 +14996,8 @@ body,
 
 .jstree-node .jstree-category,
 .jstree-node .jstree-edit {
-  margin-left: 5px;
+  margin-right: 2px;
+  margin-bottom: 5px;
   font-size: 1rem;
   top: 0;
   vertical-align: middle; }
