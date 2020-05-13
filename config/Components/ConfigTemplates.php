@@ -311,40 +311,6 @@ return [
 			'description' => 'List of modules for which Twitter has been enabled.',
 		]
 	],
-	'Magento' => [
-		'customerLimit' => [
-			'default' => 20,
-			'description' => 'Set how many customers can be downloaded at once.',
-			'validation' => '\App\Validator::naturalNumber',
-			'sanitization' => function () {
-				return (int) func_get_arg(0);
-			}
-		],
-		'productLimit' => [
-			'default' => 20,
-			'description' => 'Set how many records can be updated at once.',
-			'validation' => '\App\Validator::naturalNumber',
-			'sanitization' => function () {
-				return (int) func_get_arg(0);
-			}
-		],
-		'orderLimit' => [
-			'default' => 20,
-			'description' => 'Set how many orders can be downloaded at once.',
-			'validation' => '\App\Validator::naturalNumber',
-			'sanitization' => function () {
-				return (int) func_get_arg(0);
-			}
-		],
-		'invoiceLimit' => [
-			'default' => 20,
-			'description' => 'Set how many invoices can be downloaded at once.',
-			'validation' => '\App\Validator::naturalNumber',
-			'sanitization' => function () {
-				return (int) func_get_arg(0);
-			}
-		],
-	],
 	'Branding' => [
 		'footerName' => [
 			'default' => '',
@@ -385,6 +351,20 @@ return [
 			'sanitization' => function () {
 				return \App\Purifier::purify(func_get_arg(0));
 			}
+		],
+	],
+	'MeetingService' => [
+		'defaultEmailTemplate' => [
+			'default' => [],
+			'description' => "List of default email templates.\n@example ['Calendar'=>1]",
+		]
+	],
+	'Phone' => [
+		'defaultPhoneCountry' => [
+			'default' => true,
+			'description' => 'Determines the way the default country in the phone field is downloaded. True retrieves the value from the countries panel, false retrieves the country from the users default language.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 	],
 ];

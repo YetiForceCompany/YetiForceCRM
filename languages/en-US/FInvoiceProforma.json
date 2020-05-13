@@ -8,13 +8,10 @@
     "FL_PAYMENT_DATE": "Due date",
     "FL_SALE_DATE": "Sale date",
     "FL_ACCOUNT": "Account",
-    "FL_FORM_PAYMENT": "Payment method",
     "FL_STATUS": "Status",
     "FL_NUMBER": "Invoice number",
     "FL_TOTAL": "Net",
     "FL_GROSS": "Gross",
-    "PLL_CASH": "Cash",
-    "PLL_TRANSFER": "Bank transfer",
     "PLL_WIRE_TRANSFER": "Electronic transfer"
   }
 }

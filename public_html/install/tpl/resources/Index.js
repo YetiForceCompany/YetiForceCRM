@@ -34,6 +34,14 @@ jQuery.Class(
 				return app.vtranslate('LBL_INVALID_USERNAME_ERROR');
 			}
 		},
+		checkDbUsername: function(field, rules, i, options) {
+			let fieldValue = field.val(),
+				negativeRegex = /^[_a-zA-Z0-9.,:-]+$/,
+				result = negativeRegex.test(fieldValue);
+			if (!result) {
+				return app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
+			}
+		},
 		checkDbName: function(field, rules, i, options) {
 			let fieldValue = field.val(),
 				negativeRegex = /^[^\\/?%*:|\\\"<>.\s]{1,64}$/,

@@ -46,7 +46,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			$this->xmlList[] = $this->tmpXmlPath;
 			$this->index = $key;
 			if ($this->tplName) {
-				$this->createXmlFromTemplate($data, $data);
+				$this->createXmlFromTemplate($data, $entriesInventory[$key] ?? []);
 			} else {
 				$this->createXml($this->sanitizeValues($data), $entriesInventory[$key] ?? []);
 			}

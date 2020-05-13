@@ -68,7 +68,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$user = parent::getLogin();
 		if (!$user && App\Session::has('authenticated_user_id')) {
 			$userId = App\Session::get('authenticated_user_id');
-			if ($userId && App\Config::main('application_unique_key') === App\Session::get('app_unique_key')) {
+			if ($userId && App\Config::main('application_unique_key') === App\Session::get('app_unique_key') && \App\User::isExists($userId)) {
 				\App\User::setCurrentUserId($userId);
 				$this->setLogin();
 			}

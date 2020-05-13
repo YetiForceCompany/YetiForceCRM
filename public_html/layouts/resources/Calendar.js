@@ -191,13 +191,13 @@ window.Calendar_Js = class {
 					titleFormat: this.parseDateFormat('day')
 				}
 			},
-			eventDrop: function(event, delta, revertFunc) {
+			eventDrop: function (event, delta, revertFunc) {
 				self.updateEvent(event, delta, revertFunc);
 			},
-			eventResize: function(event, delta, revertFunc) {
+			eventResize: function (event, delta, revertFunc) {
 				self.updateEvent(event, delta, revertFunc);
 			},
-			viewRender: function() {
+			viewRender: function () {
 				self.loadCalendarData();
 			},
 			eventRender: self.eventRenderer,
@@ -224,7 +224,7 @@ window.Calendar_Js = class {
 			allDay: event.allDay
 		};
 		AppConnector.request(params)
-			.done(function(response) {
+			.done(function (response) {
 				if (!response['result']) {
 					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 					revertFunc();
@@ -233,7 +233,7 @@ window.Calendar_Js = class {
 				}
 				progressInstance.progressIndicator({ mode: 'hide' });
 			})
-			.fail(function() {
+			.fail(function () {
 				progressInstance.progressIndicator({ mode: 'hide' });
 				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 				revertFunc();
@@ -307,11 +307,11 @@ window.Calendar_Js = class {
 			options = {
 				start: historyParams.start,
 				end: historyParams.end,
-				user: historyParams.user.split(',').map(x => {
+				user: historyParams.user.split(',').map((x) => {
 					return parseInt(x);
 				}),
 				time: historyParams.time,
-				hiddenDays: historyParams.hiddenDays.split(',').map(x => {
+				hiddenDays: historyParams.hiddenDays.split(',').map((x) => {
 					let parsedValue = parseInt(x);
 					return isNaN(parsedValue) ? '' : parsedValue;
 				}),
@@ -322,7 +322,7 @@ window.Calendar_Js = class {
 			let s = moment(options.start, dateFormat).valueOf();
 			let e = moment(options.end, dateFormat).valueOf();
 			options.defaultDate = moment(moment(s + (e - s) / 2).format('YYYY-MM-DD'));
-			Object.keys(options).forEach(key => options[key] === 'undefined' && delete options[key]);
+			Object.keys(options).forEach((key) => options[key] === 'undefined' && delete options[key]);
 			app.moduleCacheSet('browserHistoryEvent', false);
 			app.setMainParams('showType', options.time);
 			app.setMainParams('usersId', options.user);
@@ -330,7 +330,7 @@ window.Calendar_Js = class {
 		}
 		window.addEventListener(
 			'popstate',
-			function(event) {
+			function (event) {
 				app.moduleCacheSet('browserHistoryEvent', true);
 			},
 			false
@@ -351,7 +351,7 @@ window.Calendar_Js = class {
 		}
 		sideBar.find('.js-sidebar-filter-container').each((_, row) => {
 			if (row.dataset.url) {
-				AppConnector.request(row.dataset.url).done(function(data) {
+				AppConnector.request(row.dataset.url).done(function (data) {
 					if (data) {
 						let formContainer = $(row).find('.js-sidebar-filter-body');
 						formContainer.html(data);
@@ -383,7 +383,12 @@ window.Calendar_Js = class {
 				if (element.prop('tagName') == 'SELECT') {
 					element.val(cachedValue);
 				}
-			} else if (name && element.length > 0 && cachedValue === undefined && !element.find(':selected').length) {
+			} else if (
+				name &&
+				element.length > 0 &&
+				cachedValue === undefined &&
+				!element.find(':selected').length
+			) {
 				let allOptions = [];
 				element.find('option').each((i, option) => {
 					allOptions.push($(option).val());
@@ -394,7 +399,7 @@ window.Calendar_Js = class {
 
 			element.off('change');
 			App.Fields.Picklist.showSelect2ElementView(element);
-			element.on('change', e => {
+			element.on('change', (e) => {
 				let item = $(e.currentTarget);
 				let value = item.val();
 				if (value == null) {
@@ -404,26 +409,20 @@ window.Calendar_Js = class {
 					value = element.is(':checked');
 				}
 				app.moduleCacheSet(item.data('cache'), value);
-				this.getCalendarView()
-					.fullCalendar('getCalendar')
-					.view.options.loadView();
+				this.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
 			});
 		});
 		container
 			.find('.js-filter__container_checkbox_list .js-filter__item__val')
 			.off('change')
-			.on('change', e => {
-				this.getCalendarView()
-					.fullCalendar('getCalendar')
-					.view.options.loadView();
+			.on('change', (e) => {
+				this.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
 			});
 	}
 
 	registerUsersChange(formContainer) {
 		formContainer.find('.js-input-user-owner-id-ajax, .js-input-user-owner-id').on('change', () => {
-			this.getCalendarView()
-				.fullCalendar('getCalendar')
-				.view.options.loadView();
+			this.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
 		});
 	}
 	/**
@@ -462,7 +461,7 @@ window.Calendar_Js = class {
 		this.getCalendarView().fullCalendar('removeEvents');
 		if (!defaultParams.emptyFilters) {
 			const progressInstance = $.progressIndicator();
-			AppConnector.request(defaultParams).done(events => {
+			AppConnector.request(defaultParams).done((events) => {
 				this.getCalendarView().fullCalendar('addEventSource', events.result);
 				progressInstance.hide();
 			});
@@ -475,9 +474,7 @@ window.Calendar_Js = class {
 		return this.sidebarView;
 	}
 	getCurrentCvId() {
-		return $('.js-calendar__extended-filter-tab .active')
-			.parent('.js-filter-tab')
-			.data('cvid');
+		return $('.js-calendar__extended-filter-tab .active').parent('.js-filter-tab').data('cvid');
 	}
 	/**
 	 * Default params
@@ -500,7 +497,7 @@ window.Calendar_Js = class {
 			emptyFilters: users.length === 0
 		};
 		let filters = [];
-		sideBar.find('.calendarFilters .filterField').each(function() {
+		sideBar.find('.calendarFilters .filterField').each(function () {
 			let element = $(this),
 				name,
 				value;
@@ -529,7 +526,7 @@ window.Calendar_Js = class {
 			let filters = [];
 			let element = $(e);
 			let name = element.data('name');
-			element.find('.js-filter__item__val:checked').each(function() {
+			element.find('.js-filter__item__val:checked').each(function () {
 				filters.push($(this).val());
 			});
 			if (name) {
@@ -542,7 +539,9 @@ window.Calendar_Js = class {
 			let cacheName = element.data('cache');
 			if (name) {
 				params[name] =
-					cacheName && app.moduleCacheGet(cacheName) ? app.moduleCacheGet(cacheName) : element.val();
+					cacheName && app.moduleCacheGet(cacheName)
+						? app.moduleCacheGet(cacheName)
+						: element.val();
 				params.emptyFilters = !params.emptyFilters && params[name].length === 0;
 			}
 		});
@@ -554,7 +553,7 @@ window.Calendar_Js = class {
 	 */
 	registerSelect2Event() {
 		let self = this;
-		$('.siteBarRight .js-calendar__filter__select').each(function() {
+		$('.siteBarRight .js-calendar__filter__select').each(function () {
 			let element = $(this);
 			let name = element.data('cache');
 			let cachedValue = app.moduleCacheGet(name);
@@ -562,7 +561,11 @@ window.Calendar_Js = class {
 				if (element.prop('tagName') == 'SELECT') {
 					element.val(cachedValue);
 				}
-			} else if (element.length > 0 && cachedValue === undefined && !element.find(':selected').length) {
+			} else if (
+				element.length > 0 &&
+				cachedValue === undefined &&
+				!element.find(':selected').length
+			) {
 				let allOptions = [];
 				element.find('option').each((i, option) => {
 					allOptions.push($(option).val());
@@ -574,7 +577,7 @@ window.Calendar_Js = class {
 		let selectsElements = $('.siteBarRight .select2, .siteBarRight .filterField');
 		selectsElements.off('change');
 		App.Fields.Picklist.showSelect2ElementView(selectsElements);
-		selectsElements.on('change', function() {
+		selectsElements.on('change', function () {
 			let element = $(this);
 			let value = element.val();
 			if (value == null) {
@@ -593,28 +596,19 @@ window.Calendar_Js = class {
 	 */
 	registerButtonSelectAll() {
 		let selectBtn = $('.selectAllBtn');
-		selectBtn.on('click', function(e) {
+		selectBtn.on('click', function (e) {
 			let selectAllLabel = $(this).find('.selectAll');
 			let deselectAllLabel = $(this).find('.deselectAll');
 			if (selectAllLabel.hasClass('d-none')) {
 				selectAllLabel.removeClass('d-none');
 				deselectAllLabel.addClass('d-none');
-				$(this)
-					.closest('.quickWidget')
-					.find('select option')
-					.prop('selected', false);
+				$(this).closest('.quickWidget').find('select option').prop('selected', false);
 			} else {
-				$(this)
-					.closest('.quickWidget')
-					.find('select option')
-					.prop('selected', true);
+				$(this).closest('.quickWidget').find('select option').prop('selected', true);
 				deselectAllLabel.removeClass('d-none');
 				selectAllLabel.addClass('d-none');
 			}
-			$(this)
-				.closest('.quickWidget')
-				.find('select')
-				.trigger('change');
+			$(this).closest('.quickWidget').find('select').trigger('change');
 		});
 	}
 
@@ -623,11 +617,11 @@ window.Calendar_Js = class {
 	 */
 	registerAddButton() {
 		const self = this;
-		$('.js-add').on('click', e => {
-			self.getCalendarCreateView().done(data => {
+		$('.js-add').on('click', (e) => {
+			self.getCalendarCreateView().done((data) => {
 				const headerInstance = new Vtiger_Header_Js();
 				headerInstance.handleQuickCreateData(data, {
-					callbackFunction: data => {
+					callbackFunction: (data) => {
 						self.addCalendarEvent(data.result);
 					}
 				});
@@ -649,12 +643,12 @@ window.Calendar_Js = class {
 		}
 		let progressInstance = jQuery.progressIndicator();
 		this.loadCalendarCreateView()
-			.done(function(data) {
+			.done(function (data) {
 				progressInstance.hide();
 				self.calendarCreateView = data;
 				aDeferred.resolve(data.clone(true, true));
 			})
-			.fail(function() {
+			.fail(function () {
 				progressInstance.hide();
 			});
 		return aDeferred.promise();
@@ -671,10 +665,10 @@ window.Calendar_Js = class {
 		let headerInstance = Vtiger_Header_Js.getInstance();
 		headerInstance
 			.getQuickCreateForm(url, moduleName)
-			.done(function(data) {
+			.done(function (data) {
 				aDeferred.resolve(jQuery(data));
 			})
-			.fail(function(textStatus, errorThrown) {
+			.fail(function (textStatus, errorThrown) {
 				aDeferred.reject(textStatus, errorThrown);
 			});
 		return aDeferred.promise();
@@ -689,23 +683,32 @@ window.Calendar_Js = class {
 			id: calendarDetails._recordId,
 			title: calendarDetails._recordLabel,
 			start: calendar
-				.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value)
+				.fullCalendar(
+					'moment',
+					calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value
+				)
 				.format(),
 			end: calendar
-				.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value)
+				.fullCalendar(
+					'moment',
+					calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value
+				)
 				.format(),
-			start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
-			end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
+			start_display:
+				calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
+			end_display:
+				calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
 			url: `index.php?module=${CONFIG.module}&view=Detail&record=${calendarDetails._recordId}`,
-			className: `js-popover-tooltip--record ownerCBg_${calendarDetails.assigned_user_id.value} picklistCBr_${
-				CONFIG.module
-			}_${
+			className: `js-popover-tooltip--record ownerCBg_${
+				calendarDetails.assigned_user_id.value
+			} picklistCBr_${CONFIG.module}_${
 				$('.js-calendar__filter__select[data-cache="calendar-types"]').length &&
 				calendarDetails[this.eventTypeKeyName]
 					? this.eventTypeKeyName + '_' + calendarDetails[this.eventTypeKeyName]['value']
 					: ''
 			}`,
-			allDay: typeof calendarDetails.allday === 'undefined' ? false : calendarDetails.allday.value == 'on'
+			allDay:
+				typeof calendarDetails.allday === 'undefined' ? false : calendarDetails.allday.value == 'on'
 		};
 		return eventObject;
 	}
@@ -739,7 +742,7 @@ window.Calendar_Js = class {
 		if (keyName && eventObject.keyName !== undefined) {
 			self.eventTypeKeyName = keyName;
 		} else {
-			Object.keys(eventObject).forEach(function(key, index) {
+			Object.keys(eventObject).forEach(function (key, index) {
 				if (key.endsWith('type')) {
 					// there are different names for event types in modules
 					self.eventTypeKeyName = key;
@@ -755,27 +758,29 @@ window.Calendar_Js = class {
 				allOptions.push($(option).val());
 			});
 			if ($.inArray(eventObject.assigned_user_id.value, allOptions) < 0) {
-				AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getUsersList`).done(usersData => {
-					let filterUsers = $('.js-calendar__filter--users');
-					let filterGroups = $('.js-calendar__filter--groups');
-					filterUsers.html(usersData);
-					if (usersData) {
-						filterUsers.closest('.js-toggle-panel').removeClass('d-none');
-					}
-					if (filterGroups.length) {
-						AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getGroupsList`).done(
-							groupsData => {
+				AppConnector.request(`module=${CONFIG.module}&view=RightPanel&mode=getUsersList`).done(
+					(usersData) => {
+						let filterUsers = $('.js-calendar__filter--users');
+						let filterGroups = $('.js-calendar__filter--groups');
+						filterUsers.html(usersData);
+						if (usersData) {
+							filterUsers.closest('.js-toggle-panel').removeClass('d-none');
+						}
+						if (filterGroups.length) {
+							AppConnector.request(
+								`module=${CONFIG.module}&view=RightPanel&mode=getGroupsList`
+							).done((groupsData) => {
 								filterGroups.html(groupsData);
 								if (groupsData) {
 									filterGroups.closest('.js-toggle-panel').removeClass('d-none');
 								}
 								this.registerSelect2Event();
-							}
-						);
-					} else {
-						this.registerSelect2Event();
+							});
+						} else {
+							this.registerSelect2Event();
+						}
 					}
-				});
+				);
 			}
 		}
 	}
@@ -815,7 +820,7 @@ window.Calendar_Unselectable_Js = class extends Calendar_Js {
 		return {
 			allDaySlot: false,
 			dayClick: this.eventCreate
-				? function(date) {
+				? function (date) {
 						self.registerDayClickEvent(date.format());
 						self.getCalendarView().fullCalendar('unselect');
 				  }
@@ -830,14 +835,11 @@ window.Calendar_Unselectable_Js = class extends Calendar_Js {
 	 */
 	registerDayClickEvent(date) {
 		let self = this;
-		self.getCalendarCreateView().done(function(data) {
+		self.getCalendarCreateView().done(function (data) {
 			if (data.length <= 0) {
 				return;
 			}
-			let dateFormat = data
-					.find('[name="date_start"]')
-					.data('dateFormat')
-					.toUpperCase(),
+			let dateFormat = data.find('[name="date_start"]').data('dateFormat').toUpperCase(),
 				timeFormat = data.find('[name="time_start"]').data('format'),
 				defaultTimeFormat = 'hh:mm A';
 			if (timeFormat == 24) {
@@ -863,14 +865,10 @@ window.Calendar_Unselectable_Js = class extends Calendar_Js {
 				} else {
 					let now = new Date();
 					startTimeString = moment(now).format(defaultTimeFormat);
-					endTimeString = moment(now)
-						.add(15, 'minutes')
-						.format(defaultTimeFormat);
+					endTimeString = moment(now).add(15, 'minutes').format(defaultTimeFormat);
 				}
 			} else {
-				endTimeString = moment(endDateInstance)
-					.add(30, 'minutes')
-					.format(defaultTimeFormat);
+				endTimeString = moment(endDateInstance).add(30, 'minutes').format(defaultTimeFormat);
 			}
 			data.find('[name="date_start"]').val(startDateString);
 			data.find('[name="due_date"]').val(endDateString);

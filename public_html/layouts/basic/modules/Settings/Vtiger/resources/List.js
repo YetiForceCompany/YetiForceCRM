@@ -34,7 +34,7 @@ Vtiger_List_Js(
 					});
 				} else {
 					Vtiger_Helper_Js.showPnotify({
-						text: response.message
+						text: response.message ? response.message :  app.vtranslate('JS_ERROR')
 					});
 				}
 				aDeferred.resolve(data);

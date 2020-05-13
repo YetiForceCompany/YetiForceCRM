@@ -450,6 +450,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 325:
 						$fieldDataType = 'magentoServer';
 						break;
+					case 326:
+						$fieldDataType = 'meetingUrl';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
@@ -604,8 +607,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		$fieldPickListValues = [];
 		if ('picklist' === $fieldDataType || 'multipicklist' === $fieldDataType) {
 			if ($this->isRoleBased() && !$skipCheckingRole) {
-				$userModel = Users_Record_Model::getCurrentUserModel();
-				$picklistValues = \App\Fields\Picklist::getRoleBasedValues($this->getName(), $userModel->get('roleid'));
+				$picklistValues = \App\Fields\Picklist::getRoleBasedValues($this->getName(), \App\User::getCurrentUserModel()->getRole());
 			} else {
 				$picklistValues = App\Fields\Picklist::getValuesName($this->getName());
 			}
@@ -945,6 +947,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		$this->fieldInfo['tabindex'] = $this->get('tabindex');
 		$this->fieldInfo['defaultvalue'] = $this->getDefaultFieldValue();
 		$this->fieldInfo['type'] = $fieldDataType;
+		$this->fieldInfo['fieldtype'] = explode('~', $this->get('typeofdata'))[0] ?? '';
 		$this->fieldInfo['name'] = $this->get('name');
 		$this->fieldInfo['label'] = App\Language::translate($this->get('label'), $this->getModuleName());
 
@@ -1357,9 +1360,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isActiveField()
 	{
-		$presence = $this->get('presence');
-
-		return \in_array($presence, [0, 2]);
+		return \in_array($this->get('presence'), [0, 2]);
 	}
 
 	public function isMassEditable()
@@ -1548,7 +1549,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		}
 		$data = $this->getDBColumnType(false);
 		if (!\in_array($data['type'], $allowedTypes)) {
-			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_TYPE');
+			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_TYPE||' . $data['type'] . '||' . print_r($allowedTypes, true));
 		}
 		preg_match('/^([\w\-]+)/i', $data['dbType'], $matches);
 		$type = $matches[1] ?? $data['type'];
@@ -1567,7 +1568,7 @@ class Vtiger_Field_Model extends vtlib\Field
 					break;
 				case 'bigint':
 				case 'mediumint':
-					throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_TYPE');
+					throw new \App\Exceptions\AppException("ERR_NOT_ALLOWED_TYPE||$type||integer,smallint,tinyint");
 				case 'integer':
 				case 'int':
 					if ($data['unsigned']) {

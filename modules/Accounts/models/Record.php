@@ -25,7 +25,7 @@ class Accounts_Record_Model extends Vtiger_Record_Model
 			preg_match('/<a href="+/', $link, $matches);
 			if (!empty($matches)) {
 				preg_match('/[.\s]+/', $link, $dashes);
-				preg_match("/<a(.*)>(.*)<\/a>/i", $link, $name);
+				preg_match('/<a(.*)>(.*)<\\/a>/i', $link, $name);
 
 				$recordModel = Vtiger_Record_Model::getCleanInstance('Accounts');
 				$recordModel->setId($accountId);

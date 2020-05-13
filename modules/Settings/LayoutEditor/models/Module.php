@@ -149,7 +149,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function addField($fieldType, $blockId, $params)
 	{
 		$label = $params['fieldLabel'];
-		$type = (int) $params['fieldTypeList'];
 		$name = strtolower($params['fieldName']);
 		$fieldParams = '';
 		if ($this->checkFieldLabelExists($label)) {
@@ -172,6 +171,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
 		}
 		if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType) {
+			if(!$this->checkIsAvailablePicklistFieldName($name)){
+				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
+			}
 			$pickListValues = $params['pickListValues'];
 			if (\is_string($pickListValues)) {
 				$pickListValues = [$pickListValues];
@@ -186,16 +188,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		$moduleName = $this->getName();
-		$focus = CRMEntity::getInstance($moduleName);
-		if (0 === $type) {
-			$tableName = $focus->table_name;
-		} elseif (1 === $type) {
-			if (isset($focus->customFieldTable)) {
-				$tableName = $focus->customFieldTable[0];
-			} else {
-				$tableName = $focus->table_name . 'cf';
-			}
-		}
+		$tableName = $this->getTableName($params['fieldTypeList']);
 		if ('Tree' === $fieldType || 'CategoryMultipicklist' === $fieldType) {
 			$fieldParams = (int) $params['tree'];
 		} elseif ('MultiReferenceValue' === $fieldType) {
@@ -374,7 +367,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				break;
 			case 'Related1M':
 				$uitype = 10;
-				$type = $importerType->integer()->defaultValue(0)->unsigned();
+				$type = $importerType->integer(10)->defaultValue(0)->unsigned();
 				$uichekdata = 'V~O';
 				break;
 			case 'Editor':
@@ -465,6 +458,25 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'dbType' => $type,
 			'displayType' => $displayType,
 		];
+	}
+
+	public function getTableName($type)
+	{
+		if (\is_int($type)) {
+			$focus = CRMEntity::getInstance($this->getName());
+			if (0 == $type) {
+				$tableName = $focus->table_name;
+			} elseif (1 == $type) {
+				if (isset($focus->customFieldTable)) {
+					$tableName = $focus->customFieldTable[0];
+				} else {
+					$tableName = $focus->table_name . 'cf';
+				}
+			}
+		} else {
+			$tableName = $type;
+		}
+		return $tableName;
 	}
 
 	/**
@@ -598,7 +610,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'Faq' => ['LBL_COMMENT_INFORMATION'],
 			'Calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION']
 		];
-		if (\in_array($moduleName, ['Calendar', 'HelpDesk', 'Faq'])) {
+		if (\in_array($moduleName, ['HelpDesk', 'Faq'])) {
 			if (!empty($blocksEliminatedArray[$moduleName])) {
 				if (\in_array($blockName, $blocksEliminatedArray[$moduleName])) {
 					return false;
@@ -696,5 +708,21 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public static function getRelatedViewTypes()
 	{
 		return static::$relatedViewType;
+	}
+
+	/**
+	 * Check if picklist field can have that name.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return bool
+	 */
+	public function checkIsAvailablePicklistFieldName(string $fieldName): bool
+	{
+		$result = true;
+		if(\App\Fields\Picklist::isPicklistExist($fieldName)){
+			$result = (new \App\Db\Query())->from('vtiger_field')->where(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]])->exists();
+		}
+		return $result;
 	}
 }

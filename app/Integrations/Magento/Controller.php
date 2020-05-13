@@ -2,6 +2,8 @@
 /**
  * Main class to integration with magento.
  *
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
+ *
  * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
@@ -68,8 +70,19 @@ class Controller
 	 */
 	public function synchronizeCategories(): void
 	{
-		$categorySynchronizator = new Synchronizator\Category($this);
-		$categorySynchronizator->process();
+		$categorySynchronizer = new Synchronizer\Category($this);
+		$categorySynchronizer->process();
+	}
+
+	/**
+	 * Synchronize currencies for products.
+	 *
+	 * @return void
+	 */
+	public function synchronizeCurrencies(): void
+	{
+		$currencySynchronizer = new Synchronizer\Currency($this);
+		$currencySynchronizer->process();
 	}
 
 	/**
@@ -79,8 +92,8 @@ class Controller
 	 */
 	public function synchronizeProducts(): void
 	{
-		$productSynchronizator = new Synchronizator\Product($this);
-		$productSynchronizator->process();
+		$productSynchronizer = new Synchronizer\Product($this);
+		$productSynchronizer->process();
 	}
 
 	/**
@@ -90,8 +103,8 @@ class Controller
 	 */
 	public function synchronizeInvoices(): void
 	{
-		$invoiceSynchronizator = new Synchronizator\Invoice($this);
-		$invoiceSynchronizator->process();
+		// $invoiceSynchronizer = new Synchronizer\Invoice($this);
+		// $invoiceSynchronizer->process();
 	}
 
 	/**
@@ -101,8 +114,8 @@ class Controller
 	 */
 	public function synchronizeOrders(): void
 	{
-		$orderSynchronizator = new Synchronizator\Order($this);
-		$orderSynchronizator->process();
+		$orderSynchronizer = new Synchronizer\Order($this);
+		$orderSynchronizer->process();
 	}
 
 	/**
@@ -112,7 +125,29 @@ class Controller
 	 */
 	public function synchronizeCustomers(): void
 	{
-		$customerSynchronizator = new Synchronizator\Customer($this);
-		$customerSynchronizator->process();
+		$customerSynchronizer = new Synchronizer\Customer($this);
+		$customerSynchronizer->process();
+	}
+
+	/**
+	 * Update inventory stock in all magento.
+	 *
+	 * @param int    $storageId
+	 * @param int[]  $products
+	 * @param string $operator
+	 *
+	 * @return void
+	 */
+	public static function updateStock(int $storageId, array $products): void
+	{
+		foreach (Config::getAllServers() as $serverId => $config) {
+			if (0 === (int) $config['status'] || 'None' === $config['storage_quantity_location']) {
+				continue;
+			}
+			$customerSynchronizer = new Synchronizer\InventoryStock(new self($serverId));
+			$customerSynchronizer->storageId = $storageId;
+			$customerSynchronizer->products = $products;
+			$customerSynchronizer->process();
+		}
 	}
 }

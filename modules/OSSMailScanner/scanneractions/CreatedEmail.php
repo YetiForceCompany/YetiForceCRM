@@ -41,7 +41,6 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$record->set('reply_to_email', $mail->get('reply_toaddress'));
 			$record->set('cc_email', $mail->get('cc_email'));
 			$record->set('bcc_email', $mail->get('bcc_email'));
-			$record->set('from_email', $mail->get('from'));
 			$maxLengthOrginal = $record->getField('orginal_mail')->get('maximumlength');
 			$orginal = \App\Purifier::purifyHtml($mail->get('clean'));
 			$record->set('orginal_mail', $maxLengthOrginal ? \App\TextParser::htmlTruncate($orginal, $maxLengthOrginal, false) : $orginal);

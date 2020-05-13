@@ -1,4 +1,5 @@
 <?php
+
  /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -247,7 +248,7 @@ class Functions
 		return preg_replace(['/</', '/>/', '/"/'], ['&lt;', '&gt;', '&quot;'], $string);
 	}
 
-	/**    Function used to retrieve a single field value from database
+	/**    Function used to retrieve a single field value from database.
 	 * @param string $tableName - tablename from which we will retrieve the field value
 	 * @param string $fieldName - fieldname to which we want to get the value from database
 	 * @param string $idName    - idname which is the name of the entity id in the table like, inoviceid, etc.,
@@ -259,7 +260,7 @@ class Functions
 		return (new \App\Db\Query())->select([$fieldName])->from($tableName)->where([$idName => $id])->scalar();
 	}
 
-	/**     function used to change the Type of Data for advanced filters in custom view and Reports
+	/**     function used to change the Type of Data for advanced filters in custom view and Reports.
 	 * *     @param string $table_name - tablename value from field table
 	 * *     @param string $column_nametable_name - columnname value from field table
 	 * *     @param string $type_of_data - current type of data of the field. It is to return the same TypeofData
@@ -278,7 +279,6 @@ class Functions
 	 * *                "vtiger_quotes:potentialid"=>"V",
 	 * *
 	 * *    Now in customview and report's advance filter this field's criteria will be show like string.
-	 * *
 	 * @param mixed $column_name
 	 * */
 	public static function transformFieldTypeOfData($table_name, $column_name, $type_of_data)
@@ -363,7 +363,9 @@ class Functions
 				$message = \App\Language::translateSingleMod($message, 'Other.Exceptions');
 			} else {
 				$params = explode('||', $message);
-				$message = \call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
+				$label = \App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions');
+				$params = array_pad($params, substr_count($label, '%'), '');
+				$message = \call_user_func_array('vsprintf', [$label, $params]);
 			}
 		}
 		if ('API' === \App\Process::$requestMode) {

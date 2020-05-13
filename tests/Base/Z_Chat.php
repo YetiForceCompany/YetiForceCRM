@@ -180,7 +180,7 @@ class Z_Chat extends \Tests\Base
 		$this->assertFalse($chat->isAssigned(), "The user should not be assigned '{$groups[$groupId]}'");
 		$cntEntries = \count($chat->getEntries());
 		$id = $chat->addMessage('Test MSG');
-		$this->assertInternalType('integer', $id);
+		$this->assertIsInt($id);
 		$rowMsg = (new \App\Db\Query())
 			->from(\App\Chat::TABLE_NAME['message'][$chat->getRoomType()])
 			->where(['id' => $id])->one();
@@ -263,7 +263,7 @@ class Z_Chat extends \Tests\Base
 	{
 		$chat = \App\Chat::getInstance();
 		$id = $chat->addMessage('test');
-		$this->assertInternalType('integer', $id);
+		$this->assertIsInt($id);
 		$rowMsg = (new \App\Db\Query())
 			->from(\App\Chat::TABLE_NAME['message'][$chat->getRoomType()])
 			->where(['id' => $id])->one();
@@ -327,7 +327,7 @@ class Z_Chat extends \Tests\Base
 		$recordModel = \Vtiger_Record_Model::getInstanceById(static::$listId[0]);
 		$chat = \App\Chat::getInstance('crm', $recordModel->getId());
 		$id = $chat->addMessage('test2');
-		$this->assertInternalType('integer', $id);
+		$this->assertIsInt($id);
 		$rowMsg = (new \App\Db\Query())
 			->from(\App\Chat::TABLE_NAME['message'][$chat->getRoomType()])
 			->where(['id' => $id])->one();
@@ -353,7 +353,7 @@ class Z_Chat extends \Tests\Base
 		$chat->addToFavorites();
 		$this->assertFalse(\App\Chat::isNewMessagesForCrm($userId), 'Problem with the method "isNewMessagesForCrm"');
 		$id = $chat->addMessage('testRoomCrm');
-		$this->assertInternalType('integer', $id);
+		$this->assertIsInt($id);
 		$rowMsg = (new \App\Db\Query())
 			->from(\App\Chat::TABLE_NAME['message'][$chat->getRoomType()])
 			->where(['id' => $id])->one();
@@ -388,21 +388,21 @@ class Z_Chat extends \Tests\Base
 		$userName = \App\User::getCurrentUserModel()->getName();
 		$chat = \App\Chat::getInstance('global', static::$globalRoom['global_room_id']);
 		$globalHistory = $chat->getHistoryByType('global');
-		$this->assertInternalType('array', $globalHistory);
+		$this->assertIsArray($globalHistory);
 		foreach ($globalHistory as $message) {
 			$this->assertSame($userId, $message['userid']);
 			$this->assertSame($userName, $message['user_name']);
 			$this->assertNotNull($message['messages']);
 		}
 		$globalCrm = $chat->getHistoryByType('crm');
-		$this->assertInternalType('array', $globalCrm);
+		$this->assertIsArray($globalCrm);
 		foreach ($globalCrm as $message) {
 			$this->assertSame($userId, $message['userid']);
 			$this->assertSame($userName, $message['user_name']);
 			$this->assertNotNull($message['messages']);
 		}
 		$globalGroup = $chat->getHistoryByType('group');
-		$this->assertInternalType('array', $globalGroup);
+		$this->assertIsArray($globalGroup);
 		foreach ($globalGroup as $message) {
 			$this->assertSame($userId, $message['userid']);
 			$this->assertSame($userName, $message['user_name']);

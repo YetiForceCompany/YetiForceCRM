@@ -127,6 +127,8 @@ class Imap extends Base
 	/**
 	 * Initialize with request data.
 	 *
+	 * @param \App\Request $request
+	 *
 	 * @return void
 	 */
 	public function initFromRequest(\App\Request $request)

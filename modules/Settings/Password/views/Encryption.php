@@ -15,7 +15,7 @@ class Settings_Password_Encryption_View extends Settings_Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$encryptionInstance = App\Encryption::getInstance();
@@ -24,12 +24,11 @@ class Settings_Password_Encryption_View extends Settings_Vtiger_Index_View
 		foreach ($methods as $methodName) {
 			$lengthVectors[$methodName] = \App\Encryption::getLengthVector($methodName);
 		}
-		$recomendedMethods = App\Encryption::$recomendedMethods;
 		$viewer->assign('ENCRYPT', $encryptionInstance);
 		$viewer->assign('CRON_TASK', \vtlib\Cron::getInstance('LBL_BATCH_METHODS'));
-		$viewer->assign('AVAILABLE_METHODS', array_diff($methods, $recomendedMethods));
+		$viewer->assign('AVAILABLE_METHODS', array_diff($methods, App\Encryption::$recommendedMethods));
 		$viewer->assign('MAP_LENGTH_VECTORS_METHODS', $lengthVectors);
-		$viewer->assign('RECOMENDED_METHODS', array_intersect($recomendedMethods, $methods));
+		$viewer->assign('RECOMENDED_METHODS', array_intersect(App\Encryption::$recommendedMethods, $methods));
 		$viewer->assign('IS_RUN_ENCRYPT', Settings_Password_Record_Model::isRunEncrypt());
 		$viewer->view('Encryption.tpl', $request->getModule(false));
 	}
@@ -37,10 +36,10 @@ class Settings_Password_Encryption_View extends Settings_Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-				"modules.Settings.{$request->getModule()}.resources.Encryption",
+			"modules.Settings.{$request->getModule()}.resources.Encryption",
 		]));
 	}
 }

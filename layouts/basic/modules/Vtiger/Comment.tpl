@@ -27,7 +27,7 @@
 					{if $IMAGE}
 						<img class="q-message-avatar gt-sm" alt="userImage" src="{$IMAGE.url}">
 					{else}
-						<div class="q-message-avatar gt-sm visible u-font-size-26 flex flex-center">
+						<div class="q-message-avatar gt-sm visible u-fs-26px flex flex-center">
 							<span class="fas fa-user"></span>
 						</div>
 					{/if}

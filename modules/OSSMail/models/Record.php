@@ -152,7 +152,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 		self::$imapConnectCache[$cacheName] = $mbox;
 		\App\Log::trace('Exit OSSMail_Record_Model::imapConnect() method ...');
-
+		register_shutdown_function(function () use ($mbox) {
+			imap_close($mbox);
+		});
 		return $mbox;
 	}
 
@@ -595,7 +597,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$mail = self::getMail($imap, false, $i);
 				$mails[] = $mail;
 			}
-			imap_close($imap);
 		}
 		return $mails;
 	}

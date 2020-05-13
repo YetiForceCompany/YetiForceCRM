@@ -12,7 +12,7 @@
 jQuery.Class(
 	'Vtiger_Widget_Js',
 	{
-		widgetPostLoadEvent: 'Vtiget.Dashboard.PostLoad',
+		widgetPostLoadEvent: 'Vtiger.Dashboard.PostLoad',
 		widgetPostRefereshEvent: 'Vtiger.Dashboard.PostRefresh',
 		getInstance: function getInstance(container, widgetClassName, moduleName) {
 			if (typeof moduleName === 'undefined') {
@@ -2508,7 +2508,7 @@ YetiForce_Widget_Js(
 							event.event[key].className +
 							(event.width <= 20 ? ' small-badge' : '') +
 							(event.width >= 24 ? ' big-badge' : '') +
-							' badge badge-secondary u-font-size-95per">' +
+							' badge badge-secondary u-fs-95per">' +
 							event.event[key].count +
 							'</span>' +
 							'</a>\n';
@@ -3169,7 +3169,8 @@ YetiForce_Widget_Js(
 		multifilterContentView: false,
 		multifilterSettingsView: false,
 		registerMultifilter() {
-			let selectValue = app.cacheGet('multifilterSelectValue', null),
+			let multifilterId = this.getContainer().attr('id'),
+				selectValue = app.cacheGet('multifilterSelectValue'+multifilterId, null),
 				multifilterSettings = this.getMultifilterSettings();
 			if (null != selectValue && this.paramCache) {
 				multifilterSettings
@@ -3181,13 +3182,13 @@ YetiForce_Widget_Js(
 			multifilterSettings.find('.js-select').on('select2:select', () => {
 				this.loadMultifilterData(true);
 				if (this.paramCache) {
-					app.cacheSet('multifilterSelectValue', multifilterSettings.find('.js-select').val());
+					app.cacheSet('multifilterSelectValue'+multifilterId, multifilterSettings.find('.js-select').val());
 				}
 			});
 			multifilterSettings.find('.js-select').on('select2:unselect', () => {
 				this.loadMultifilterData(false);
 				if (this.paramCache) {
-					app.cacheSet('multifilterSelectValue', multifilterSettings.find('.js-select').val());
+					app.cacheSet('multifilterSelectValue'+multifilterId, multifilterSettings.find('.js-select').val());
 				}
 			});
 			this.registerShowHideModuleSettings();

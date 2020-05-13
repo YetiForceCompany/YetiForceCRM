@@ -170,7 +170,7 @@ $.Class(
 
 				parentRow.find(thisInstance.rowClass).each(function() {
 					let thisItem = $(this);
-					taxParam['globalTax'] = thisItem.find('.js-tax').attr('data-default-tax');
+					taxParam['globalTax'] = parseFloat(thisItem.find('.js-tax').attr('data-default-tax'));
 					thisInstance.setTaxParam(thisItem, taxParam);
 				});
 			} else {
@@ -193,7 +193,7 @@ $.Class(
 				.data('tax-default-value');
 			let isGroupTax = thisInstance.isGroupTaxMode();
 			if (isGroupTax) {
-				if (taxDefaultValue) {
+				if (!app.getRecordId() && taxDefaultValue) {
 					let taxParam = { aggregationType: 'global' };
 					taxParam['globalTax'] = taxDefaultValue;
 					taxParam['individualTax'] = '';
@@ -206,7 +206,7 @@ $.Class(
 				}
 			} else {
 				thisInstance.setTaxParam($('#blackIthemTable'), []);
-				parentRow.closest('.inventoryItems').data('taxParam', []);
+				parentRow.closest('.inventoryItems').data('taxParam', '[]');
 			}
 		},
 		getDiscountModeSelectElement: function(row) {
@@ -298,28 +298,26 @@ $.Class(
 			return $('.unitPrice', row).getNumberFromValue();
 		},
 		getDiscount: function(row) {
-			var discountParams = row.find('.discountParam').val();
-			var aggregationType = $('.aggregationTypeDiscount').val();
-			if (
-				discountParams == '' ||
-				discountParams == 'null' ||
-				discountParams == '[]' ||
-				discountParams == undefined
-			)
+			let discountParams = row.find('.discountParam').val();
+			let aggregationType = $('.aggregationTypeDiscount').val();
+			if (discountParams == '' || discountParams == 'null' ||
+										discountParams == '[]' ||
+										discountParams == undefined) {
 				return 0;
+			}
 			discountParams = JSON.parse(discountParams);
-			var valuePrices = this.getTotalPrice(row);
-			var discountRate = 0;
-			var types = discountParams.aggregationType;
+			let valuePrices = this.getTotalPrice(row);
+			let discountRate = 0;
+			let types = discountParams.aggregationType;
 			if (typeof types == 'string') {
 				types = [types];
 			}
 			if (types) {
 				types.forEach(function(entry) {
-					var discountValue;
+					let discountValue;
 					if (entry == 'individual') {
 						discountValue = discountParams.individualDiscount;
-						var discountType = discountParams.individualDiscountType;
+						let discountType = discountParams.individualDiscountType;
 						if (discountType == 'percentage') {
 							discountRate += valuePrices * (discountValue / 100);
 						} else {
@@ -330,7 +328,8 @@ $.Class(
 						discountRate += valuePrices * (discountParams.globalDiscount / 100);
 					}
 					if (entry == 'group') {
-						discountRate += valuePrices * (discountParams.groupDiscount / 100);
+						let groupDiscount = discountParams.groupDiscount ? discountParams.groupDiscount : 0;
+						discountRate += valuePrices * (groupDiscount / 100);
 					}
 					if (aggregationType == '2') {
 						valuePrices = valuePrices - discountRate;

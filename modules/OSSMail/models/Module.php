@@ -61,7 +61,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$type = $request->getByType('type');
 
 		$return = [];
-		if (!empty($record) && \App\Record::isExists($record) && \App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
+		if (('Users' === $moduleName && $record === \App\User::getCurrentUserRealId()) || ('Users' !== $moduleName && !empty($record) && \App\Record::isExists($record) && \App\Privilege::isPermitted($moduleName, 'DetailView', $record))) {
 			$recordModel_OSSMailView = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
 			if (!empty($email)) {
@@ -78,6 +78,17 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				if (!empty($recordNumber)) {
 					$return['recordNumber'] = $recordNumber;
 					$subject = "[$recordNumber] $subject";
+				}
+				if (($templateId = $request->getInteger('template', 0)) && \App\Record::isExists($templateId, 'EmailTemplates')) {
+					$params = $request->getArray('tamplateParams', \App\Purifier::TEXT, [], App\Purifier::ALNUM);
+					$templateModel = \Vtiger_Record_Model::getInstanceById($templateId, 'EmailTemplates');
+					$textParser = \App\TextParser::getInstanceByModel($recordModel);
+					foreach ($params as $key => $value) {
+						$textParser->setParam($key, $value);
+					}
+					$subject = $textParser->setContent($templateModel->get('subject'))->parse()->getContent();
+					$return['html'] = true;
+					$return['body'] = $textParser->setContent($templateModel->get('content'))->parse()->getContent();
 				}
 				$return['subject'] = $subject;
 			}

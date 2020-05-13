@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\Portal;
@@ -71,6 +72,28 @@ class Dashboard
 		$instance->dashboardType = $dashboardType;
 		$instance->application = $application;
 		return $instance;
+	}
+
+	/**
+	 * Gets tabs.
+	 *
+	 * @return array
+	 */
+	public function getTabs()
+	{
+		$tabs = [];
+		$dataReader = (new \App\Db\Query())->select(['u_#__dashboard_type.*'])->from('u_#__dashboard_type')
+			->innerJoin('vtiger_module_dashboard_blocks', 'u_#__dashboard_type.dashboard_id = vtiger_module_dashboard_blocks.dashboard_id')
+			->where(['vtiger_module_dashboard_blocks.authorized' => $this->application])
+			->distinct()->createCommand()->query();
+		while ($dashboard = $dataReader->read()) {
+			$tabs[] = [
+				'name' => \App\Language::translate($dashboard['name'], $this->moduleName),
+				'id' => $dashboard['dashboard_id'],
+				'system' => $dashboard['system']
+			];
+		}
+		return $tabs;
 	}
 
 	/**

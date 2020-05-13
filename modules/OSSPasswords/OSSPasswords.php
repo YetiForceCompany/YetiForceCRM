@@ -116,6 +116,7 @@ class OSSPasswords extends CRMEntity
 			]);
 		} else {
 			$db->createCommand()->delete('vtiger_settings_field', ['name' => $displayLabel])->execute();
+			Settings_Vtiger_Menu_Model::clearCache();
 		}
 
 		// register modtracker history updates

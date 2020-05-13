@@ -171,7 +171,7 @@ return [
 		'description' => 'Encryption key of data',
 	],
 	'plugins' => [
-		'default' => ['identity_smtp', 'yetiforce', 'thunderbird_labels', 'zipdownload', 'archive', 'authres_status'],
+		'default' => ['identity_smtp', 'yetiforce', 'thunderbird_labels', 'zipdownload', 'archive', 'authres_status', 'html5_notifier'],
 		'description' => 'List of plugins',
 	],
 	'mime_param_folding' => [

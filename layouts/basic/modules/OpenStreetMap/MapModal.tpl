@@ -144,6 +144,7 @@
 				</div>
 			</div>
 		</div>
+		<div class="js-legend-container" data-js="html"></div>
 	</div>
 	<!-- /tpl-OpenStreet-MapModal -->
 {/strip}

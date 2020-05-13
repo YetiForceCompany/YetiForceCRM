@@ -40,7 +40,6 @@ class VTJsonCondition
 					$referenceModule = $matches[2];
 					$fieldname = $matches[3];
 					$result = false;
-
 					$referenceFieldId = $recordModel->get($referenceField);
 					if (!empty($referenceFieldId)) {
 						$cond['fieldname'] = $fieldname;
@@ -326,7 +325,7 @@ class VTJsonCondition
 				if (false === $hasChanged) {
 					return false;
 				}
-					return $fieldValue != $hasChanged;
+				return $fieldValue != $hasChanged;
 			case 'is empty':
 				if (empty($fieldValue)) {
 					return true;
@@ -477,8 +476,7 @@ class VTJsonCondition
 				return false;
 			case 'has changed to':
 				$oldValue = $recordModel->getPreviousValue($cond['fieldname']);
-
-				return false !== $oldValue && $recordModel->get($cond['fieldname']) == $value;
+				return ($recordModel->isNew() || false !== $oldValue) && $recordModel->get($cond['fieldname']) == $value;
 			case 'is added':
 				//This condition was used only for comments. It should not execute from not from workflows, So it was always "FALSE"
 				return false;

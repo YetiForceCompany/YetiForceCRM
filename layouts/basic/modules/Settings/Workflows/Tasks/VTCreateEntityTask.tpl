@@ -45,6 +45,7 @@
 				</strong>
 			</label>
 			<div class="col-md-6">
+				{assign var=BASE_MODULE_ID value=$WORKFLOW_MODEL->getModule()->getId()}
 				{assign var=RELATED_MODULES_INFO value=$WORKFLOW_MODEL->getDependentModules()}
 				{assign var=RELATED_MODULES value=$RELATED_MODULES_INFO|array_keys}
 				{if !empty($TASK_OBJECT->entity_type)}
@@ -60,9 +61,18 @@
 						<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 					</optgroup>
 					{foreach from=$RELATED_MODULES item=MODULE}
-						<option {if isset($TASK_OBJECT->entity_type) && $TASK_OBJECT->entity_type eq $MODULE} selected="" {/if}
+						<option {if $RELATED_MODULE_MODEL_NAME eq $MODULE} selected="" {/if}
 								value="{$MODULE}">{\App\Language::translate($MODULE,$MODULE)}</option>
 					{/foreach}
+					<optgroup label="{\App\Language::translate('LBL_WORKFLOW_CUSTOM_RELATIONS', $QUALIFIED_MODULE)}">
+						{foreach from=\App\Relation::getAll($BASE_MODULE_ID) item=MODULE_INFO}
+							{assign var=MODULE value=\App\Module::getModuleName($MODULE_INFO['related_tabid'])}
+							{if $MODULE && !in_array($MODULE, $RELATED_MODULES) && false !== stripos($MODULE_INFO['actions'], 'SELECT') && \App\Privilege::isPermitted($MODULE)}
+								<option {if $RELATED_MODULE_MODEL_NAME eq $MODULE} selected="" {/if}
+									value="{$MODULE}">{\App\Language::translate($MODULE, $MODULE)}</option>
+							{/if}
+						{/foreach}
+					</optgroup>
 				</select>
 			</div>
 		</div>

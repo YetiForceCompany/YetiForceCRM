@@ -2,6 +2,8 @@
 /**
  * Class to read and save configuration for integration with magento.
  *
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
+ *
  * @package Integration
  *
  * @copyright YetiForce Sp. z o.o
@@ -76,8 +78,7 @@ class Config extends \App\Base
 		$instance = new self();
 		$instance->setData(array_merge(
 			$servers[$serverId],
-			\App\Config::component('Magento'),
-			(new Query())->select(['name', 'value'])->from(self::TABLE_NAME)->createCommand()->queryAllByGroup()
+			(new Query())->select(['name', 'value'])->from(self::TABLE_NAME)->where(['server_id' => $serverId])->createCommand()->queryAllByGroup()
 			));
 		return $instance;
 	}
@@ -105,12 +106,11 @@ class Config extends \App\Base
 				'value' => date('Y-m-d H:i:s')
 			];
 		}
-		if (!(new Query())->from(self::TABLE_NAME)
-			->where(['name' => $data['name']])
-			->exists()) {
+		if (!(new Query())->from(self::TABLE_NAME)->where(['server_id' => $this->get('id'), 'name' => $data['name']])->exists()) {
+			$data['server_id'] = $this->get('id');
 			$dbCommand->insert(self::TABLE_NAME, $data)->execute();
 		}
-		$dbCommand->update(self::TABLE_NAME, $data, ['name' => $data['name']])->execute();
+		$dbCommand->update(self::TABLE_NAME, $data, ['server_id' => $this->get('id'), 'name' => $data['name']])->execute();
 		$this->set($data['name'], $data['value']);
 	}
 
@@ -135,18 +135,14 @@ class Config extends \App\Base
 			], [
 				'name' => $type . '_last_scan_id',
 				'value' => 0
-			], [
-				'name' => $type . '_last_scan_idcrm',
-				'value' => 0
 			]
 		];
 		foreach ($saveData as $data) {
-			if (!(new Query())->from(self::TABLE_NAME)
-				->where(['name' => $data['name']])
-				->exists()) {
+			if (!(new Query())->from(self::TABLE_NAME)->where(['server_id' => $this->get('id'), 'name' => $data['name']])->exists()) {
+				$data['server_id'] = $this->get('id');
 				$dbCommand->insert(self::TABLE_NAME, $data)->execute();
 			} else {
-				$dbCommand->update(self::TABLE_NAME, $data, ['name' => $data['name']])->execute();
+				$dbCommand->update(self::TABLE_NAME, $data, ['server_id' => $this->get('id'), 'name' => $data['name']])->execute();
 			}
 			$this->set($data['name'], $data['value']);
 		}
@@ -163,9 +159,20 @@ class Config extends \App\Base
 	{
 		return [
 			'id' => $this->get($type . '_last_scan_id') ?? 0,
-			'idcrm' => $this->get($type . '_last_scan_idcrm') ?? 0,
 			'start_date' => $this->get($type . '_start_scan_date') ?? false,
 			'end_date' => $this->get($type . '_end_scan_date') ?? false,
 		];
+	}
+
+	/**
+	 * Reload integration with magento.
+	 *
+	 * @param int $id
+	 *
+	 * @return void
+	 */
+	public static function reload(int $id): void
+	{
+		\App\Db::getInstance()->createCommand()->delete(self::TABLE_NAME, ['server_id' => $id])->execute();
 	}
 }

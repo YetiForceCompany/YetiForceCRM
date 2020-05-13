@@ -375,7 +375,7 @@ class Privilege
 		return true;
 	}
 
-	/** Function to check if the currently logged in user has Read Access due to Sharing for the specified record
+	/** Function to check if the currently logged in user has Read Access due to Sharing for the specified record.
 	 * @param $moduleName -- Module Name:: Type varchar
 	 * @param $actionId   -- Action Id:: Type integer
 	 * @param $recordId   -- Record Id:: Type integer
@@ -475,7 +475,7 @@ class Privilege
 		return false;
 	}
 
-	/** Function to check if the currently logged in user has Write Access due to Sharing for the specified record
+	/** Function to check if the currently logged in user has Write Access due to Sharing for the specified record.
 	 * @param $moduleName -- Module Name:: Type varchar
 	 * @param $actionId   -- Action Id:: Type integer
 	 * @param $recordid   -- Record Id:: Type integer

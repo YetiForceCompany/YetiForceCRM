@@ -54,6 +54,7 @@ abstract class Page extends Base
 		$view->assign('BROWSING_HISTORY', \Vtiger_BrowsingHistory_Helper::getHistory());
 		$view->assign('HOME_MODULE_MODEL', \Vtiger_Module_Model::getInstance('Home'));
 		$view->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
+		$view->assign('USER_QUICK_MENU_LINKS', $this->getUserQuickMenuLinks($request));
 		if (\App\Config::performance('GLOBAL_SEARCH')) {
 			$view->assign('SEARCHABLE_MODULES', \Vtiger_Module_Model::getSearchableModules());
 		}
@@ -169,23 +170,13 @@ abstract class Page extends Base
 	{
 		$userModel = \Users_Record_Model::getCurrentUserModel();
 		$headerLinks = [];
-		if (\Users_Module_Model::getSwitchUsers()) {
+		if (\App\MeetingService::getInstance()->isActive() && \App\Privilege::isPermitted('Users', 'MeetingUrl', false, $userModel->getRealId())) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
-				'linklabel' => 'SwitchUsers',
-				'linkurl' => '',
-				'icon' => 'fas fa-exchange-alt fa-fw',
-				'nocaret' => true,
-				'linkdata' => ['url' => $userModel->getSwitchUsersUrl()],
-				'linkclass' => 'showModal',
-			];
-		}
-		if (\App\Config::security('SHOW_MY_PREFERENCES')) {
-			$headerLinks[] = [
-				'linktype' => 'HEADERLINK',
-				'linklabel' => 'LBL_MY_PREFERENCES',
-				'linkurl' => $userModel->getPreferenceDetailViewUrl(),
-				'icon' => 'fas fa-user-cog fa-fw',
+				'linklabel' => 'LBL_VIDEO_CONFERENCE',
+				'linkdata' => ['url' => 'index.php?module=Users&view=MeetingModal&record=' . $userModel->getRealId()],
+				'icon' => 'AdditionalIcon-VideoConference',
+				'linkclass' => 'js-show-modal'
 			];
 		}
 		if ($userModel->isAdminUser()) {
@@ -193,7 +184,7 @@ abstract class Page extends Base
 				$headerLinks[] = [
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_SYSTEM_SETTINGS',
-					'linkurl' => 'index.php?module=Vtiger&parent=Settings&view=Index',
+					'linkurl' => 'index.php?module=YetiForce&parent=Settings&view=Shop',
 					'icon' => 'fas fa-cog fa-fw',
 				];
 			} else {
@@ -201,7 +192,7 @@ abstract class Page extends Base
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_USER_PANEL',
 					'linkurl' => 'index.php',
-					'icon' => 'fas fa-user fa-fw',
+					'icon' => 'fas fa-house-user fa-fw',
 				];
 			}
 		}
@@ -210,7 +201,7 @@ abstract class Page extends Base
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
 			'icon' => 'fas fa-power-off fa-fw',
-			'linkclass' => 'btn-danger',
+			'linkclass' => 'btn-danger d-md-none',
 		];
 		$headerLinkInstances = [];
 		foreach ($headerLinks as $headerLink) {
@@ -227,6 +218,71 @@ abstract class Page extends Base
 			foreach ($headerLinks as $headerLink) {
 				$headerLinkInstances[] = \Vtiger_Link_Model::getInstanceFromLinkObject($headerLink);
 			}
+		}
+		return $headerLinkInstances;
+	}
+
+	/**
+	 * Function to get the list of User Quick Menu Links.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return Vtiger_Link_Model[] - List of Vtiger_Link_Model instances
+	 */
+	protected function getUserQuickMenuLinks(\App\Request $request)
+	{
+		$userModel = \Users_Record_Model::getCurrentUserModel();
+		$headerLinks[] = [
+			'linktype' => 'GROUPNAME',
+			'linklabel' => 'LBL_ACCOUNT_SETTINGS',
+		];
+		if (\App\Config::security('SHOW_MY_PREFERENCES')) {
+			$headerLinks[] = [
+				'linktype' => 'HEADERLINK',
+				'linklabel' => 'LBL_MY_PREFERENCES',
+				'linkurl' => $userModel->getPreferenceDetailViewUrl(),
+				'linkclass' => 'd-block',
+				'icon' => 'fas fa-user-cog fa-fw',
+			];
+		}
+		$headerLinks[] = [
+			'linktype' => 'HEADERLINK',
+			'linklabel' => 'LBL_CHANGE_PASSWORD',
+			'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->get('id')],
+			'linkclass' => 'showModal d-block',
+			'icon' => 'fas fa-key fa-fw',
+		];
+		if (\Users_Module_Model::getSwitchUsers()) {
+			$headerLinks[] = [
+				'linktype' => 'HEADERLINK',
+				'linklabel' => 'SwitchUsers',
+				'linkurl' => '',
+				'icon' => 'fas fa-exchange-alt fa-fw',
+				'linkdata' => ['url' => $userModel->getSwitchUsersUrl()],
+				'linkclass' => 'showModal d-block',
+			];
+		}
+		$headerLinks[] = [
+			'linktype' => 'HEADERLINK',
+			'linklabel' => 'LBL_LOGIN_HISTORY',
+			'linkdata' => ['url' => 'index.php?module=Users&view=LoginHistoryModal&mode=change&record=' . $userModel->get('id')],
+			'linkclass' => 'showModal d-block',
+			'icon' => 'mdi mdi-lock-reset',
+		];
+		$headerLinks[] = [
+			'linktype' => 'SEPARATOR',
+			'linkclass' => 'd-none d-sm-none d-md-block',
+		];
+		$headerLinks[] = [
+			'linktype' => 'HEADERLINK',
+			'linklabel' => 'LBL_SIGN_OUT',
+			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
+			'icon' => 'fas fa-power-off fa-fw',
+			'linkclass' => 'd-none d-sm-none d-md-block',
+		];
+		$headerLinkInstances = [];
+		foreach ($headerLinks as $headerLink) {
+			$headerLinkInstances[] = \Vtiger_Link_Model::getInstanceFromValues($headerLink);
 		}
 		return $headerLinkInstances;
 	}

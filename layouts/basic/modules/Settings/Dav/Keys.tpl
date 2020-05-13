@@ -23,7 +23,7 @@
 			<div class="alert alert-info">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h5 class="alert-heading">
-					<span class="mdi mdi-information-outline u-font-size-2x mr-2 float-left"></span>
+					<span class="mdi mdi-information-outline u-fs-2em mr-2 float-left"></span>
 				{\App\Language::translate('LBL_ALERT_DAV_CONFIG_TITLE', $QUALIFIED_MODULE)}
 				</h5>
 				<p>{\App\Language::translate('LBL_ALERT_DAV_CONFIG_DESC', $QUALIFIED_MODULE)}</p>

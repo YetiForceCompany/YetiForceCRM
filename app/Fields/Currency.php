@@ -121,6 +121,22 @@ class Currency
 	}
 
 	/**
+	 * Get supported currencies.
+	 *
+	 * @return array
+	 */
+	public static function getSupported(): array
+	{
+		if (\App\Cache::has('CurrencySupported', 'All')) {
+			$currencies = \App\Cache::get('CurrencySupported', 'All');
+		} else {
+			$currencies = (new \App\Db\Query())->from('vtiger_currencies')->indexBy('currency_code')->all();
+			\App\Cache::save('CurrencySupported', 'All', $currencies);
+		}
+		return $currencies;
+	}
+
+	/**
 	 * Get currency by id.
 	 *
 	 * @param int $currencyId

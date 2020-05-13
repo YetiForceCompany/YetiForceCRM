@@ -150,6 +150,7 @@ class Importer
 	{
 		foreach ($this->importers as &$importer) {
 			$this->updateTables($importer);
+			$this->drop($importer);
 		}
 	}
 
@@ -345,7 +346,7 @@ class Importer
 				$keys = $table['columns'];
 				if (\is_array($table['values']) && isset($table['values'][0])) {
 					if ((new \App\Db\Query())->from($tableName)->where(array_combine($keys, $table['values'][0]))->exists($importer->db)) {
-						$this->logs .= "| Error: skipped because it exist first row\n";
+						$this->logs .= "| Info: skipped because it exist first row\n";
 					} else {
 						$start = microtime(true);
 						foreach ($table['values'] as $values) {
@@ -579,6 +580,21 @@ class Importer
 		}
 		$time = round((microtime(true) - $startMain) / 60, 2);
 		$this->logs .= "# end rename columns ($time min)\n";
+	}
+
+	/**
+	 * Drop tables and columns.
+	 *
+	 * @param Base $importer
+	 */
+	public function drop(Base $importer)
+	{
+		if (isset($importer->dropTables)) {
+			$this->dropTable($importer->dropTables);
+		}
+		if (isset($importer->dropColumns)) {
+			$this->dropColumns($importer->dropColumns);
+		}
 	}
 
 	/**

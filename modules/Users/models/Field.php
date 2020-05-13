@@ -72,11 +72,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get all the available picklist values for the current field.
-	 *
-	 * @param mixed $skipCheckingRole
-	 *
-	 * @return array List of picklist values if the field is of type picklist or multipicklist, null otherwise
+	 * {@inheritdoc}
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
 	{
@@ -89,7 +85,6 @@ class Users_Field_Model extends Vtiger_Field_Model
 				$fieldPickListValues[$picklistValue] = \App\Language::translate($picklistValue, $this->getModuleName());
 			}
 			$dataReader->close();
-
 			return $fieldPickListValues;
 		}
 		return parent::getPicklistValues($skipCheckingRole);

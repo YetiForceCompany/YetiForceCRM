@@ -14,17 +14,11 @@
 				<h5>{\App\Language::translate('LBL_INVITE_RECORDS', $MODULE_NAME)}</h5>
 			</div>
 			<div class="col-md-5 input-group js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}">
-				<div class="input-group-prepend">
-					<span class="input-group-text u-cursor-pointer">
-						<span class="fas fa-search"></span>
-					</span>
-				</div>
 				<input type="text" class="form-control js-participants-search" title="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}"
 					placeholder="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}" data-js="click" />
-
 				<div class="input-group-append">
 					<button type="button" class="js-btn-add-invitation btn btn-light" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}">
-						<span class="fa fa-plus mr-2" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}"></span>
+						<span class="fa fa-plus" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}"></span>
 					</button>
 				</div>
 			</div>

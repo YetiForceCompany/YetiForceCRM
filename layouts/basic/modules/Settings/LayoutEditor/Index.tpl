@@ -40,6 +40,9 @@
 			</div>
 		</div>
 		<hr>
+		<div class="alert alert-block alert-warning mb-2">
+			<span>{\App\Language::translate('LBL_EDIT_MAY_AFFECT_STABILITY_DESC', $QUALIFIED_MODULE)}</span>
+		</div>
 		<div class="contents tabbable">
 			<ul class="nav nav-tabs layoutTabs massEditTabs" role="tablist">
 				<li class="nav-item"><a class="nav-link active" data-toggle="tab" role="tab"
@@ -89,7 +92,7 @@
 												 alt=""/>
 											&nbsp;&nbsp;
 										{/if}
-										<strong class="align-middle">{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
+										<strong class="align-middle" title="{$BLOCK_LABEL_KEY}">{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
 									</div>
 									<div class="btn-toolbar pl-1" role="toolbar" aria-label="Toolbar with button groups">
 										{if $BLOCK_MODEL->isAddCustomFieldEnabled()}
