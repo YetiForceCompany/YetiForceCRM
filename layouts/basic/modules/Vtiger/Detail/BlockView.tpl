@@ -45,7 +45,7 @@
 					<div class="form-row border-right h-100 align-items-start">
 						<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel__label {if $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'}  col-lg-3  {else} col-lg-6 {/if} {$WIDTHTYPE} text-right" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 							{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
-							<label class="u-text-small-bold">
+							<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} u-text-small-bold">
 								{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 								{if $HELPINFO_LABEL}
 									<a href="#" class="js-help-info float-right u-cursor-pointer"

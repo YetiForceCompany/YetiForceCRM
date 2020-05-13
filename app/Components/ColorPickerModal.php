@@ -48,7 +48,7 @@ class ColorPickerModal extends \App\Controller\Modal
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		if ($request->has('color')) {
+		if ($request->has('color') && !$request->isEmpty('color')) {
 			$viewer->assign('COLOR', $request->getByType('color', 'Alnum'));
 		}
 		$viewer->view('ColorPickerModal.tpl', $request->getModule());
