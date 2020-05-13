@@ -117,9 +117,18 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_VIEW', $relatedView);
 		$showHeader = $request->has('showHeader') ? $request->getBoolean('showHeader') : true;
 		if ($showHeader) {
-			$viewer->assign('RELATED_LIST_LINKS', $relationListView->getLinks());
+			$links = $relationListView->getLinks();
+			if (!($request->has('showViews') ? $request->getBoolean('showViews') : true)) {
+				unset($links['RELATEDLIST_VIEWS']);
+			}
+			if (!($request->has('showMassActions') ? $request->getBoolean('showMassActions') : true)) {
+				unset($links['RELATEDLIST_MASSACTIONS']);
+			}
+			$viewer->assign('RELATED_LIST_LINKS', $links);
 		}
 		$viewer->assign('SHOW_HEADER', $showHeader);
+		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
+		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
 		$viewer->assign('RELATED_ENTIRES_COUNT', \count($models));
@@ -139,8 +148,6 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('ORDER_BY', $orderBy);
 		$viewer->assign('INVENTORY_FIELDS', $relationModel->getRelationInventoryFields());
-		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
-		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$isFavorites = false;
 		if ($relationModel->isFavorites() && \App\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
