@@ -285,8 +285,8 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 			}
 		}
 		if (0 === $selectedFieldId && 0 === $selectedBlockId && ($selected = self::getSelectedFieldFromModule($moduleName))) {
-			$menu[$menuItem->getBlockId()]['active'] = true;
-			$menu[$menuItem->getBlockId()]['childs'][$menuItem->getId()]['active'] = true;
+			$menu[$selected->getBlockId()]['active'] = true;
+			$menu[$selected->getBlockId()]['childs'][$selected->getId()]['active'] = true;
 		}
 		return $menu;
 	}
