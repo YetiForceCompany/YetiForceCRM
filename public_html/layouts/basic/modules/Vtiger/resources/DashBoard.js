@@ -156,6 +156,7 @@ $.Class(
 						self.adjustHeightWidget(widgetContainer);
 					});
 					App.Fields.Picklist.showSelect2ElementView(widgetContainer.find('.select2'));
+					App.Fields.Tree.register(widgetContainer);
 					self.getWidgetInstance(widgetContainer);
 					widgetContainer.trigger(Vtiger_Widget_Js.widgetPostLoadEvent);
 					self.adjustHeightWidget(widgetContainer);

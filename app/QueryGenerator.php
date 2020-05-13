@@ -1276,16 +1276,13 @@ class QueryGenerator
 				$groupColumnsInfo = [];
 				foreach ($groupInfo as $fieldSearchInfo) {
 					if ($fieldSearchInfo) {
-						[$fieldNameInfo, $operator, $fieldValue, $specialOption] = array_pad($fieldSearchInfo, 4, false);
+						[$fieldNameInfo, $operator, $fieldValue] = array_pad($fieldSearchInfo, 3, false);
 						$fieldValue = Purifier::decodeHtml($fieldValue);
 						[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $fieldNameInfo), 3, false);
 						if (!empty($sourceFieldName)) {
 							$field = $this->getRelatedModuleField($fieldName, $moduleName);
 						} else {
 							$field = $this->getModuleField($fieldName);
-						}
-						if (('tree' === $field->getFieldDataType() || 'categoryMultipicklist' === $field->getFieldDataType()) && $specialOption) {
-							$fieldValue = \Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $this->moduleModel);
 						}
 						if ('date_start' === $fieldName || 'due_date' === $fieldName || 'datetime' === $field->getFieldDataType()) {
 							$dateValues = explode(',', $fieldValue);

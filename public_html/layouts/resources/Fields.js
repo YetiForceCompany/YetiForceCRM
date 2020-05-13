@@ -2008,10 +2008,11 @@ window.App.Fields = {
 	},
 	Tree: {
 		register(container) {
-			container.on('click', '.js-tree-modal', function (e) {
+			container.off('click', '.js-tree-modal');
+			container.on('click', '.js-tree-modal', function(e) {
 				let element = $(e.target),
 					parentElem = element.closest('.js-tree-container'),
-					sourceFieldElement = parentElem.find('input[class="sourceField"]'),
+					sourceFieldElement = parentElem.find('input.sourceField'),
 					fieldDisplayElement = parentElem.find(
 						'input[name="' + sourceFieldElement.attr('name') + '_display"]'
 					);
@@ -2027,11 +2028,17 @@ window.App.Fields = {
 						instance.setSelectEvent((responseData) => {
 							sourceFieldElement.val(responseData.id);
 							fieldDisplayElement.val(responseData.name).attr('readonly', true);
+							sourceFieldElement.trigger('change');
 						});
 					};
 					app.showModalWindow(requestData, { modalId: 'treeModal' });
 				});
 			});
+			if(typeof Vtiger_Edit_Js !== 'undefined'){
+				let vtigerEditInstance = new Vtiger_Edit_Js();
+				vtigerEditInstance.registerTreeAutoCompleteFields(container);
+				vtigerEditInstance.registerClearTreeSelectionEvent(container);
+			}
 		}
 	},
 	/**

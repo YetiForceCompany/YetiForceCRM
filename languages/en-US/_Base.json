@@ -1438,7 +1438,10 @@
 		"LBL_MEETING_AUTOGENERATE": "Auto-generate meeting URL.",
 		"LBL_MEETING_AUTOGENERATE_INFO": "URL may change when \"%s\" field is modified.",
 		"LBL_VIDEO_CONFERENCE": "Video conference",
-		"LBL_DURATION_SUMMARY": "Duration summary"
+		"LBL_DURATION_SUMMARY": "Duration summary",
+    "LBL_CONTAINS": "contains",
+    "LBL_CONTAINS_HIERARCHY": "contains also in hierarchy",
+    "LBL_DOES_NOT_CONTAIN_HIERARCHY": "does not contain also in hierarchy"
 	},
 	"js": {
 		"JS_APPROVE": "Approve",

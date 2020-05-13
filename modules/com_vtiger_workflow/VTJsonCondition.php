@@ -197,7 +197,7 @@ class VTJsonCondition
 					$value = Vtiger_MultiReferenceValue_UIType::COMMA . $value . Vtiger_MultiReferenceValue_UIType::COMMA;
 					break;
 				case 'categoryMultipicklist':
-					if (\in_array($condition, ['contains', 'does not contain', 'is', 'is not'])) {
+					if (\in_array($condition, ['contains', 'contains hierarchy', 'does not contain', 'does not contain hierarchy', 'is', 'is not'])) {
 						$value = array_filter(explode(',', $value));
 						$fieldValue = array_filter(explode(',', $fieldValue));
 						sort($value);
@@ -209,8 +209,34 @@ class VTJsonCondition
 								return $value !== $fieldValue;
 							case 'contains':
 								return empty(array_diff($value, $fieldValue));
+							case 'contains hierarchy':
+								$result = true;
+								$value = \Settings_TreesManager_Record_Model::getChildren(implode('##', $value), $fieldInstance->getColumnName(), \Vtiger_Module_Model::getInstance($recordModel->getModule()->getName()));
+								if (!empty($value)) {
+									$value = explode('##', $value);
+									sort($value);
+								}
+								foreach ($fieldValue as $val) {
+									if (!\in_array($val, $value)) {
+										$result = false;
+									}
+								}
+								return $result;
 							case 'does not contain':
 								return !empty(array_diff($value, $fieldValue));
+							case 'does not contain hierarchy':
+								$result = true;
+								$value = \Settings_TreesManager_Record_Model::getChildren(implode('##', $value), $fieldInstance->getColumnName(), \Vtiger_Module_Model::getInstance($recordModel->getModule()->getName()));
+								if (!empty($value)) {
+									sort($value);
+									$value = explode('##', $value);
+								}
+								foreach ($fieldValue as $val) {
+									if (\in_array($val, $value)) {
+										$result = false;
+									}
+								}
+								return $result;
 							default:
 								break;
 						}
@@ -237,6 +263,9 @@ class VTJsonCondition
 						}
 						$condition = ('is' == $condition) ? 'contains' : 'does not contain';
 					}
+					break;
+				case 'reference':
+					$fieldValue = $recordModel->getDisplayValue($fieldInstance->getName(), false, true);
 					break;
 				default:
 					break;
@@ -276,7 +305,6 @@ class VTJsonCondition
 				if (\is_array($value)) {
 					return \in_array($fieldValue, $value);
 				}
-
 				return false !== strpos($fieldValue, $value);
 			case 'does not contain':
 				if (empty($value)) {
@@ -285,7 +313,6 @@ class VTJsonCondition
 				if (\is_array($value)) {
 					return !\in_array($fieldValue, $value);
 				}
-
 				return false === strpos($fieldValue, $value);
 			case 'starts with':
 				return $this->startsWith($fieldValue, $value);

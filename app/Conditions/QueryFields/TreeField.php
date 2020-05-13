@@ -12,6 +12,20 @@ namespace App\Conditions\QueryFields;
 class TreeField extends StringField
 {
 	/**
+	 * Condition separator.
+	 *
+	 * @var string
+	 */
+	protected $conditionSeparator = '##';
+
+	/**
+	 * Separator.
+	 *
+	 * @var string
+	 */
+	protected $separator = ',';
+
+	/**
 	 * Get value.
 	 *
 	 * @return mixed
@@ -38,5 +52,27 @@ class TreeField extends StringField
 			return ['vtiger_trees_templates_data.name' => SORT_DESC];
 		}
 		return ['vtiger_trees_templates_data.name' => SORT_ASC];
+	}
+
+	/**
+	 * Contains hierarchy operator.
+	 *
+	 * @return array
+	 */
+	public function operatorCh()
+	{
+		$searchValue = \is_array($this->getValue()) ? implode($this->conditionSeparator, $this->getValue()) : $this->getValue();
+		$fieldValue = \Settings_TreesManager_Record_Model::getChildren($searchValue, $this->fieldModel->getColumnName(), \Vtiger_Module_Model::getInstance($this->getModuleName()));
+		$condition = ['or'];
+		foreach (explode($this->conditionSeparator, $fieldValue) as $value) {
+			array_push($condition, [$this->getColumnName() => $value], ['or like', $this->getColumnName(),
+				[
+					"%{$this->separator}{$value}{$this->separator}%",
+					"{$value}{$this->separator}%",
+					"%{$this->separator}{$value}"
+				], false
+			]);
+		}
+		return $condition;
 	}
 }

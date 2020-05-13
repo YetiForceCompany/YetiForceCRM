@@ -276,6 +276,7 @@ class CustomView {
 	registerEvents() {
 		this.registerIconEvents();
 		new App.Fields.Text.Editor(this.getContentsContainer().find('.js-editor'));
+		App.Fields.Tree.register(this.getContentsContainer())
 		this.registerBlockToggleEvent();
 		this.registerColorEvent();
 		this.registerDuplicatesEvents();

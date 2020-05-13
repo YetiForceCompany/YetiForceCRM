@@ -289,7 +289,7 @@ $.Class(
 					let inputElement = $(this.element[0]);
 					let searchValue = request.term.toLowerCase();
 					let parentElem = inputElement.closest('.fieldValue');
-					let sourceFieldElement = $('input[class="sourceField"]', parentElem);
+					let sourceFieldElement = $('input.sourceField', parentElem);
 					let fieldInfo = sourceFieldElement.data('fieldinfo');
 					let allValues = fieldInfo.picklistvalues;
 					let reponseDataList = [];
@@ -307,18 +307,17 @@ $.Class(
 					}
 					response(reponseDataList);
 				},
-				select: function (event, ui) {
-					var selectedItemData = ui.item;
-					//To stop selection if no results is selected
+				select: function(event, ui) {
+					let selectedItemData = ui.item;
 					if (typeof selectedItemData.type !== 'undefined' && selectedItemData.type == 'no results') {
 						return false;
 					}
 					selectedItemData.name = selectedItemData.value;
-					var element = $(this);
-					var parentElem = element.closest('.fieldValue');
-					var sourceField = parentElem.find('input[class="sourceField"]');
-					var sourceFieldDisplay = sourceField.attr('name') + '_display';
-					var fieldDisplayElement = $('input[name="' + sourceFieldDisplay + '"]', parentElem);
+					let element = $(this);
+					let parentElem = element.closest('.fieldValue');
+					let sourceField = parentElem.find('input.sourceField');
+					let sourceFieldDisplay = sourceField.attr('name') + '_display';
+					let fieldDisplayElement = $('input[name="' + sourceFieldDisplay + '"]', parentElem);
 					sourceField.val(selectedItemData.id);
 					this.value = selectedItemData.label;
 					fieldDisplayElement.attr('readonly', true);

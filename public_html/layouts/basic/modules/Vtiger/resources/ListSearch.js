@@ -213,6 +213,8 @@ jQuery.Class(
 					} else {
 						searchValue = searchValue.join('##');
 					}
+				} else if($.inArray(fieldInfo.type, ['tree']) >= 0){
+					searchValue = searchValue.replace(/,/g, "##");
 				}
 				searchValue = searchValue.trim();
 				if (searchValue.length <= 0) {
@@ -249,14 +251,16 @@ jQuery.Class(
 				} else {
 					searchInfo.push(fieldName);
 				}
-				searchInfo.push(searchOperator);
-				searchInfo.push(searchValue);
-				if (fieldInfo.type == 'tree' || fieldInfo.type == 'categoryMultipicklist') {
-					let searchInSubcategories = jQuery(
+				if ($.inArray(fieldInfo.type, ['tree', 'categoryMultipicklist']) != -1) {
+					let searchInSubcategories = $(
 						'.listViewHeaders .searchInSubcategories[data-columnname="' + fieldName + '"]'
 					).prop('checked');
-					searchInfo.push(searchInSubcategories);
+					if (searchInSubcategories){
+						searchOperator = 'ch';
+					}
 				}
+				searchInfo.push(searchOperator);
+				searchInfo.push(searchValue);
 				searchParams.push(searchInfo);
 			});
 			if (urlSearchParams) {
@@ -364,6 +368,7 @@ jQuery.Class(
 						App.Fields.Picklist.showSelect2ElementView($(obj));
 					}
 				});
+			App.Fields.Tree.register(this.container);
 		},
 		/**
 		 * Function which will regiter all events for this page
