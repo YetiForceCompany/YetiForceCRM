@@ -88,5 +88,6 @@ class OSSMailScanner
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$dbCommand->delete('vtiger_settings_field', ['name' => 'Mail Scanner'])->execute();
 		$dbCommand->delete('vtiger_settings_field', ['name' => 'Mail Logs'])->execute();
+		Settings_Vtiger_Menu_Model::clearCache();
 	}
 }

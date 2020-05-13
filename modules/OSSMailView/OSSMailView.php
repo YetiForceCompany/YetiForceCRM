@@ -123,6 +123,7 @@ class OSSMailView extends CRMEntity
 			]);
 		} else {
 			$dbCommand->delete('vtiger_settings_field', ['name' => $displayLabel])->execute();
+			Settings_Vtiger_Menu_Model::clearCache();
 		}
 	}
 }

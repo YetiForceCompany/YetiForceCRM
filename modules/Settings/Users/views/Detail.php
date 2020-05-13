@@ -41,13 +41,9 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
+		$view = $request->getByType('view', \App\Purifier::STANDARD, '');
 		$qualifiedModuleName = $request->getModule(false);
-		$selectedMenuId = $request->getInteger('block', '');
-		$fieldId = $request->getInteger('fieldid', '');
-		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
-		$menuModels = $settingsModel->getMenus();
-		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
-		$viewer->assign('MENUS', $menu);
+		$viewer->assign('MENUS', Settings_Vtiger_Menu_Model::getMenu($moduleName, $view, $request->getMode()));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
