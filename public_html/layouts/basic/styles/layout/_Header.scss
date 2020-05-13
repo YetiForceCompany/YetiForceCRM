@@ -6,8 +6,6 @@
 	right: 0;
 	z-index: 1031;
 
-	@extend .u-remove-dropdown-icon;
-
 	.moduleIcon {
 		width: 34px;
 		margin: 5px;
@@ -40,6 +38,18 @@
 				padding: 0.315rem 0.75rem;
 			}
 		}
+	}
+	.c-user-avatar-small {
+		border-radius: 50%;
+		width: 1.25em;
+		height: 1.25em;
+		vertical-align: sub;
+	}
+	.c-user-avatar-medium {
+		border-radius: 50%;
+		width: 48px;
+		height: 48px;
+		min-width: 48px;
 	}
 }
 
@@ -467,11 +477,4 @@
 			margin-bottom: 0.25rem;
 		}
 	}
-}
-
-.c-user-avatar-medium {
-	border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
 }

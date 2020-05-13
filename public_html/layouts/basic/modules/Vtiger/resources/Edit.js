@@ -1468,6 +1468,7 @@ $.Class(
 		 * @param {jQuery} container
 		 */
 		registerRecordCollectorModal: function (container) {
+			const self = this;
 			container.on('click', '.js-record-collector-modal', function (e) {
 				e.preventDefault();
 				let element = $(this);
@@ -1477,16 +1478,34 @@ $.Class(
 				delete formData['action'];
 				AppConnector.request(formData).done(function (html) {
 					app.showModalWindow(html, (container) => {
-						let form = container.find('form.js-record-collector__form');
+						let modalForm = container.find('form.js-record-collector__form');
 						let summary = container.find('.js-record-collector__summary');
-						form.on('submit', function (e) {
+						modalForm.on('submit', function (e) {
 							summary.html('');
 							summary.progressIndicator({});
 							e.preventDefault();
-							AppConnector.request(form.serializeFormData()).done(function (data) {
+							AppConnector.request(modalForm.serializeFormData()).done(function (data) {
 								summary.progressIndicator({ mode: 'hide' });
 								summary.html(data);
 							});
+						});
+						let recordForm = self.getForm();
+						container.on('click', '.js-record-collector__fill_fields', function () {
+							let mappedField = container.find('.formFieldsToRecordMap').val();
+							mappedField = JSON.parse(mappedField);
+							Object.keys(mappedField).forEach(function (key) {
+								let input = container.find('[name="' + key + '"]');
+								input.each(function () {
+									if (this.checked) {
+										var cellWithValue = $(this)
+											.closest('.value' + key)
+											.find('.fieldValue')
+											.html();
+										recordForm.find('[name="' + mappedField[key] + '"]').setValue(cellWithValue);
+									}
+								});
+							});
+							app.hideModalWindow();
 						});
 					});
 				});

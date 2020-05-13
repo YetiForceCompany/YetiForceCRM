@@ -10,12 +10,14 @@
  */
 class SSalesProcesses_DetailView_Model extends Vtiger_DetailView_Model
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();
-		$moduleName = $recordModel->getModuleName();
 		$relatedLinks = parent::getDetailViewRelatedLinks();
-		if (App\Config::module($moduleName, 'SHOW_SUMMARY_PRODUCTS_SERVICES')) {
+		if (App\Config::module($recordModel->getModuleName(), 'SHOW_SUMMARY_PRODUCTS_SERVICES')) {
 			$relations = \Vtiger_Relation_Model::getAllRelations($this->getModule(), false, true, true, 'modulename');
 			if (isset($relations['Products']) || isset($relations['Services']) || isset($relations['OSSOutsourcedServices']) || isset($relations['Assets']) || isset($relations['OSSSoldServices']) || isset($relations['OutsourcedProducts'])) {
 				$relatedLinks[] = [

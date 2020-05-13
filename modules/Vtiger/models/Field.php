@@ -607,8 +607,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		$fieldPickListValues = [];
 		if ('picklist' === $fieldDataType || 'multipicklist' === $fieldDataType) {
 			if ($this->isRoleBased() && !$skipCheckingRole) {
-				$userModel = Users_Record_Model::getCurrentUserModel();
-				$picklistValues = \App\Fields\Picklist::getRoleBasedValues($this->getName(), $userModel->get('roleid'));
+				$picklistValues = \App\Fields\Picklist::getRoleBasedValues($this->getName(), \App\User::getCurrentUserModel()->getRole());
 			} else {
 				$picklistValues = App\Fields\Picklist::getValuesName($this->getName());
 			}

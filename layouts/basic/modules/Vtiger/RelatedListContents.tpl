@@ -80,7 +80,7 @@
 			</tr>
 			</thead>
 			<tbody>
-			{if $RELATED_MODULE->isQuickSearchEnabled()}
+			{if $VIEW_MODEL->isQuickSearchEnabled() && $RELATED_MODULE->isQuickSearchEnabled()}
 				<tr>
 					<td class="listViewSearchTd">
 						<div class="flexWrapper">

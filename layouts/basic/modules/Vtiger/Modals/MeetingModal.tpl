@@ -58,8 +58,9 @@
 								<div class="col-xs-6 mx-auto">
 									{if $USER_MODEL->get('internal_mailer') == 1}
 										{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD_ID, 'Detail', 'new')}
+										{assign var=URLDATA value="{$URLDATA}&template={$EMAIL_TEMPLATE}&tamplateParams={$TEMPLATE_PARAMS}"}
 										{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
-										<span class="m-1 yfi-send-invitation text-info u-fs-4x sendMailBtn u-cursor-pointer" data-url="{$URLDATA}&template={$EMAIL_TEMPLATE}"
+										<span class="m-1 yfi-send-invitation text-info u-fs-4x sendMailBtn u-cursor-pointer" data-url="{\App\Purifier::encodeHtml($URLDATA)}"
 											data-module="{$MODULE_NAME}" data-record="{$RECORD_ID}" data-popup="{$CONFIG['popup']}"
 											title="{\App\Language::translate('LBL_MEETING_SEND_INVITATION', $MODULE_NAME)}">
 										</span>

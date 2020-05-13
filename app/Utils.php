@@ -182,7 +182,7 @@ class Utils
 	}
 
 	/**
-	 * Sanitize special chars from given string
+	 * Sanitize special chars from given string.
 	 *
 	 * @param string $string
 	 * @param string $delimiter

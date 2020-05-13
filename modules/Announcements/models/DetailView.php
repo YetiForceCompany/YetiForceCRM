@@ -10,24 +10,19 @@
 class Announcements_DetailView_Model extends Vtiger_DetailView_Model
 {
 	/**
-	 * Function to get the detail view related links.
-	 *
-	 * @return <array> - list of links parameters
+	 * {@inheritdoc}
 	 */
 	public function getDetailViewRelatedLinks()
 	{
-		$recordModel = $this->getRecord();
 		$relatedLinks = parent::getDetailViewRelatedLinks();
-
 		$relatedLinks[] = [
 			'linktype' => 'DETAILVIEWTAB',
 			'linklabel' => 'LBL_USERS',
-			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showUsers',
+			'linkurl' => $this->getRecord()->getDetailViewUrl() . '&mode=showUsers',
 			'linkicon' => 'fa-user',
 			'linkKey' => 'LBL_USERS',
 			'related' => 'Users',
 		];
-
 		return $relatedLinks;
 	}
 }

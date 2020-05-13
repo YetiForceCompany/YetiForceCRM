@@ -27,12 +27,4 @@ return [
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
-	'DEFAULT_VIEW_RECORD' => [
-		'default' => 'LBL_RECORD_PREVIEW',
-		'description' => 'Default view for record detail view. Values: LBL_RECORD_DETAILS or LBL_RECORD_SUMMARY',
-		'validation' => function () {
-			$arg = func_get_arg(0);
-			return in_array($arg, ['LBL_RECORD_PREVIEW', 'LBL_RECORD_SUMMARY', 'LBL_RECORD_DETAILS']);
-		}
-	]
 ];

@@ -15,7 +15,7 @@ window.App.Fields = {
 			'JS_SEP',
 			'JS_OCT',
 			'JS_NOV',
-			'JS_DEC',
+			'JS_DEC'
 		],
 		monthsTranslated: [
 			'JS_JAN',
@@ -29,7 +29,7 @@ window.App.Fields = {
 			'JS_SEP',
 			'JS_OCT',
 			'JS_NOV',
-			'JS_DEC',
+			'JS_DEC'
 		].map((monthName) => app.vtranslate(monthName)),
 		fullMonths: [
 			'JS_JANUARY',
@@ -43,7 +43,7 @@ window.App.Fields = {
 			'JS_SEPTEMBER',
 			'JS_OCTOBER',
 			'JS_NOVEMBER',
-			'JS_DECEMBER',
+			'JS_DECEMBER'
 		],
 		fullMonthsTranslated: [
 			'JS_JANUARY',
@@ -57,13 +57,27 @@ window.App.Fields = {
 			'JS_SEPTEMBER',
 			'JS_OCTOBER',
 			'JS_NOVEMBER',
-			'JS_DECEMBER',
+			'JS_DECEMBER'
 		].map((monthName) => app.vtranslate(monthName)),
 		days: ['JS_SUN', 'JS_MON', 'JS_TUE', 'JS_WED', 'JS_THU', 'JS_FRI', 'JS_SAT'],
-		daysTranslated: ['JS_SUN', 'JS_MON', 'JS_TUE', 'JS_WED', 'JS_THU', 'JS_FRI', 'JS_SAT'].map((monthName) =>
-			app.vtranslate(monthName)
-		),
-		fullDays: ['JS_SUNDAY', 'JS_MONDAY', 'JS_TUESDAY', 'JS_WEDNESDAY', 'JS_THURSDAY', 'JS_FRIDAY', 'JS_SATURDAY'],
+		daysTranslated: [
+			'JS_SUN',
+			'JS_MON',
+			'JS_TUE',
+			'JS_WED',
+			'JS_THU',
+			'JS_FRI',
+			'JS_SAT'
+		].map((monthName) => app.vtranslate(monthName)),
+		fullDays: [
+			'JS_SUNDAY',
+			'JS_MONDAY',
+			'JS_TUESDAY',
+			'JS_WEDNESDAY',
+			'JS_THURSDAY',
+			'JS_FRIDAY',
+			'JS_SATURDAY'
+		],
 		fullDaysTranslated: [
 			'JS_SUNDAY',
 			'JS_MONDAY',
@@ -71,7 +85,7 @@ window.App.Fields = {
 			'JS_WEDNESDAY',
 			'JS_THURSDAY',
 			'JS_FRIDAY',
-			'JS_SATURDAY',
+			'JS_SATURDAY'
 		].map((monthName) => app.vtranslate(monthName)),
 
 		/**
@@ -124,7 +138,7 @@ window.App.Fields = {
 					clear: app.vtranslate('JS_CLEAR'),
 					format: format,
 					titleFormat: 'MM yyyy' /* Leverages same syntax as 'format' */,
-					weekStart: CONFIG.firstDayOfWeekNo,
+					weekStart: CONFIG.firstDayOfWeekNo
 				};
 			}
 			let params = {
@@ -134,7 +148,7 @@ window.App.Fields = {
 				weekStart: CONFIG.firstDayOfWeekNo,
 				autoclose: true,
 				todayHighlight: true,
-				format: format,
+				format: format
 			};
 			if (typeof customParams !== 'undefined') {
 				params = $.extend(params, customParams);
@@ -178,37 +192,43 @@ window.App.Fields = {
 			let ranges = {};
 			ranges[app.vtranslate('JS_TODAY')] = [moment(), moment()];
 			ranges[app.vtranslate('JS_TOMORROW')] = [moment().add(1, 'days'), moment().add(1, 'days')];
-			ranges[app.vtranslate('JS_YESTERDAY')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
+			ranges[app.vtranslate('JS_YESTERDAY')] = [
+				moment().subtract(1, 'days'),
+				moment().subtract(1, 'days')
+			];
 			ranges[app.vtranslate('JS_LAST_7_DAYS')] = [moment().subtract(6, 'days'), moment()];
 			ranges[app.vtranslate('JS_NEXT_7_DAYS')] = [moment(), moment().add(6, 'days')];
-			ranges[app.vtranslate('JS_CURRENT_MONTH')] = [moment().startOf('month'), moment().endOf('month')];
+			ranges[app.vtranslate('JS_CURRENT_MONTH')] = [
+				moment().startOf('month'),
+				moment().endOf('month')
+			];
 			ranges[app.vtranslate('JS_NEXT_MONTH')] = [
 				moment().add(1, 'month').startOf('month'),
-				moment().add(1, 'month').endOf('month'),
+				moment().add(1, 'month').endOf('month')
 			];
 			ranges[app.vtranslate('JS_LAST_MONTH')] = [
 				moment().subtract(1, 'month').startOf('month'),
-				moment().subtract(1, 'month').endOf('month'),
+				moment().subtract(1, 'month').endOf('month')
 			];
 			ranges[app.vtranslate('JS_NEXT_MONTH')] = [
 				moment().add(1, 'month').startOf('month'),
-				moment().add(1, 'month').endOf('month'),
+				moment().add(1, 'month').endOf('month')
 			];
 			ranges[app.vtranslate('JS_LAST_3_MONTHS')] = [
 				moment().subtract(3, 'month').startOf('month'),
-				moment().subtract(1, 'month').endOf('month'),
+				moment().subtract(1, 'month').endOf('month')
 			];
 			ranges[app.vtranslate('JS_NEXT_3_MONTHS')] = [
 				moment().startOf('month'),
-				moment().add(3, 'month').endOf('month'),
+				moment().add(3, 'month').endOf('month')
 			];
 			ranges[app.vtranslate('JS_LAST_6_MONTHS')] = [
 				moment().subtract(6, 'month').startOf('month'),
-				moment().subtract(1, 'month').endOf('month'),
+				moment().subtract(1, 'month').endOf('month')
 			];
 			ranges[app.vtranslate('JS_NEXT_6_MONTHS')] = [
 				moment().startOf('month'),
-				moment().add(6, 'month').endOf('month'),
+				moment().add(6, 'month').endOf('month')
 			];
 			let params = {
 				autoUpdateInput: false,
@@ -225,8 +245,8 @@ window.App.Fields = {
 					weekLabel: app.vtranslate('JS_WEEK').substr(0, 1),
 					firstDay: CONFIG.firstDayOfWeekNo,
 					daysOfWeek: App.Fields.Date.daysTranslated,
-					monthNames: App.Fields.Date.fullMonthsTranslated,
-				},
+					monthNames: App.Fields.Date.fullMonthsTranslated
+				}
 			};
 
 			if (typeof customParams !== 'undefined') {
@@ -262,7 +282,7 @@ window.App.Fields = {
 					});
 				App.Fields.Utils.registerMobileDateRangePicker(el);
 			});
-		},
+		}
 	},
 	DateTime: {
 		/*
@@ -325,8 +345,8 @@ window.App.Fields = {
 					weekLabel: app.vtranslate('JS_WEEK').substr(0, 1),
 					firstDay: CONFIG.firstDayOfWeekNo,
 					daysOfWeek: App.Fields.Date.daysTranslated,
-					monthNames: App.Fields.Date.fullMonthsTranslated,
-				},
+					monthNames: App.Fields.Date.fullMonthsTranslated
+				}
 			};
 			if (typeof customParams !== 'undefined') {
 				params = $.extend(params, customParams);
@@ -347,7 +367,7 @@ window.App.Fields = {
 			elements.each((index, element) => {
 				App.Fields.Utils.registerMobileDateRangePicker($(element));
 			});
-		},
+		}
 	},
 	Colors: {
 		/**
@@ -379,7 +399,7 @@ window.App.Fields = {
 			let registerPickerEvents = (modalContainer) => {
 				let picker = window.ColorPicker.mount({
 					el: modalContainer.find('.js-color-picker')[0],
-					currentColor: color,
+					currentColor: color
 				});
 				modalContainer.find('.js-modal__save').on('click', (_) => {
 					let newColor = picker.getColor().hex;
@@ -389,9 +409,11 @@ window.App.Fields = {
 					app.hideModalWindow(false, modalContainer.closest('.js-modal-container')[0].id);
 				});
 			};
-			let url = `index.php?module=AppComponents&view=ColorPickerModal${color ? '&color=' + color : ''}`;
+			let url = `index.php?module=AppComponents&view=ColorPickerModal${
+				color ? '&color=' + color : ''
+			}`;
 			app.showModalWindow({ url, cb: registerPickerEvents.bind(this) });
-		},
+		}
 	},
 	Text: {
 		/**
@@ -415,7 +437,7 @@ window.App.Fields = {
 				text: function (trigger) {
 					Vtiger_Helper_Js.showPnotify({
 						text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
-						type: 'success',
+						type: 'success'
 					});
 					trigger = $(trigger);
 					const element = $(trigger.data('copyTarget'), container);
@@ -432,7 +454,7 @@ window.App.Fields = {
 						val = element.val();
 					}
 					return val;
-				},
+				}
 			});
 		},
 		Editor: class {
@@ -457,8 +479,8 @@ window.App.Fields = {
 								enabled: true,
 								onBlock: () => {
 									self.loadEditor(elements, params);
-								},
-							},
+								}
+							}
 						});
 					} else {
 						App.Fields.Text.destroyEditor(elements);
@@ -524,7 +546,7 @@ window.App.Fields = {
 							if (self.isModal) {
 								self.progressInstance.progressIndicator({ mode: 'hide' });
 							}
-						},
+						}
 					},
 					extraPlugins:
 						'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi,ckeditor-image-to-base',
@@ -532,13 +554,19 @@ window.App.Fields = {
 					toolbar_Full: [
 						{
 							name: 'clipboard',
-							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
 						},
 						{ name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
 						{ name: 'links', items: ['Link', 'Unlink'] },
 						{
 							name: 'insert',
-							items: ['ckeditor-image-to-base', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak'],
+							items: [
+								'ckeditor-image-to-base',
+								'Table',
+								'HorizontalRule',
+								'SpecialChar',
+								'PageBreak'
+							]
 						},
 						{ name: 'tools', items: ['Maximize', 'ShowBlocks'] },
 						{ name: 'paragraph', items: ['Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv'] },
@@ -547,7 +575,7 @@ window.App.Fields = {
 						{ name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
 						{
 							name: 'basicstyles',
-							items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+							items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']
 						},
 						{ name: 'colors', items: ['TextColor', 'BGColor'] },
 						{
@@ -562,15 +590,15 @@ window.App.Fields = {
 								'JustifyBlock',
 								'-',
 								'BidiLtr',
-								'BidiRtl',
-							],
+								'BidiRtl'
+							]
 						},
-						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] },
+						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] }
 					],
 					toolbar_Min: [
 						{
 							name: 'basicstyles',
-							items: ['Bold', 'Italic', 'Underline', 'Strike'],
+							items: ['Bold', 'Italic', 'Underline', 'Strike']
 						},
 						{ name: 'colors', items: ['TextColor', 'BGColor'] },
 						{ name: 'tools', items: ['Maximize'] },
@@ -586,19 +614,19 @@ window.App.Fields = {
 								'JustifyBlock',
 								'-',
 								'BidiLtr',
-								'BidiRtl',
-							],
+								'BidiRtl'
+							]
 						},
-						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] },
+						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] }
 					],
 					toolbar_Clipboard: [
 						{ name: 'document', items: ['Print'] },
 						{ name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat'] },
 						{
 							name: 'clipboard',
-							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
-						},
-					],
+							items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+						}
+					]
 				};
 				if (typeof customConfig !== 'undefined') {
 					config = $.extend(config, customConfig);
@@ -644,7 +672,7 @@ window.App.Fields = {
 											</div>
 										</li>`,
 						outputTemplate: '<a href="#" data-id="@{id}" data-module="{module}">{label}</a>',
-						minChars: minSerchTextLength,
+						minChars: minSerchTextLength
 					},
 					{
 						feed: App.Fields.Text.getMentionData,
@@ -660,8 +688,8 @@ window.App.Fields = {
 											</div>
 										</li>`,
 						outputTemplate: '<a href="#" data-id="#{id}" data-module="{module}">{label}</a>',
-						minChars: minSerchTextLength,
-					},
+						minChars: minSerchTextLength
+					}
 				];
 			}
 
@@ -700,8 +728,8 @@ window.App.Fields = {
 					completionsCollection: {
 						records: true,
 						users: true,
-						emojis: true,
-					},
+						emojis: true
+					}
 				};
 				this.params = Object.assign(basicParams, inputDiv.data(), params);
 				this.inputDiv = inputDiv;
@@ -748,11 +776,11 @@ window.App.Fields = {
 							category: item.original.category,
 							image: item.original.image,
 							label: item.original.label,
-							icon: item.original.icon,
+							icon: item.original.icon
 						});
 					},
 					lookup: 'label',
-					fillAttr: 'label',
+					fillAttr: 'label'
 				};
 			}
 
@@ -778,7 +806,7 @@ window.App.Fields = {
 						if (text.length >= 2) {
 							cb(App.emoji);
 						}
-					},
+					}
 				};
 			}
 
@@ -817,7 +845,7 @@ window.App.Fields = {
 				this.completionsCollection = new Tribute({
 					collection: self.collection,
 					allowSpaces: true,
-					replaceTextSuffix: '',
+					replaceTextSuffix: ''
 				});
 				this.completionsCollection.attach(inputDiv[0]);
 				if (this.params.completionsTextarea !== undefined) {
@@ -893,7 +921,7 @@ window.App.Fields = {
 			registerEmojiPanel(inputDiv, emojisContainer) {
 				new EmojiPanel({
 					container: '.js-completions__emojis',
-					json_url: CONFIG.siteUrl + 'libraries/emojipanel/dist/emojis.json',
+					json_url: CONFIG.siteUrl + 'libraries/emojipanel/dist/emojis.json'
 				});
 				emojisContainer.on('click', (e) => {
 					let element = $(e.target);
@@ -942,7 +970,7 @@ window.App.Fields = {
 				AppConnector.request({
 					action: 'Search',
 					mode: 'owners',
-					value: text,
+					value: text
 				}).done((data) => {
 					callback(data.result);
 				});
@@ -965,7 +993,11 @@ window.App.Fields = {
 		 * @param {jQuery} element
 		 */
 		destroyEditor(element) {
-			if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances && element.attr('id') in CKEDITOR.instances) {
+			if (
+				typeof CKEDITOR !== 'undefined' &&
+				CKEDITOR.instances &&
+				element.attr('id') in CKEDITOR.instances
+			) {
 				CKEDITOR.instances[element.attr('id')].destroy();
 			}
 		},
@@ -992,7 +1024,7 @@ window.App.Fields = {
 				new Date().valueOf() +
 				Math.random().toString(36).substr(2, 6);
 			return prefix ? prefix + hash : hash;
-		},
+		}
 	},
 	Picklist: {
 		/**
@@ -1039,13 +1071,15 @@ window.App.Fields = {
 				return App.Fields.Picklist.showLazySelect(selectElement, {
 					lazyElements: app.getMainParams('picklistLimit'),
 					data: this.registerLazySelectOptions(selectElement),
-					selectParams: params,
+					selectParams: params
 				});
 			}
 			const computeDropdownHeight = (e, dropdownContainer) => {
 				setTimeout(() => {
 					if (!dropdownContainer.find('.select2-dropdown--above').length) {
-						const dropdownList = dropdownContainer.find('.select2-results > .select2-results__options');
+						const dropdownList = dropdownContainer.find(
+							'.select2-results > .select2-results__options'
+						);
 						const marginBottom = 35;
 						const selectOffsetTop = $(e.currentTarget).offset().top;
 						dropdownList.css({
@@ -1053,7 +1087,7 @@ window.App.Fields = {
 								$(window).height() -
 								selectOffsetTop -
 								marginBottom -
-								(dropdownList.offset().top - selectOffsetTop),
+								(dropdownList.offset().top - selectOffsetTop)
 						});
 					}
 				}, 100);
@@ -1244,7 +1278,7 @@ window.App.Fields = {
 				data: function (params) {
 					return {
 						value: params.term, // search term
-						page: params.page,
+						page: params.page
 					};
 				},
 				processResults: function (data, params) {
@@ -1254,7 +1288,7 @@ window.App.Fields = {
 							var currentTarget = $(this);
 							items.push({
 								label: currentTarget.html(),
-								value: currentTarget.val(),
+								value: currentTarget.val()
 							});
 						});
 						items = items.concat(data.result.items);
@@ -1262,11 +1296,11 @@ window.App.Fields = {
 					return {
 						results: items,
 						pagination: {
-							more: false,
-						},
+							more: false
+						}
 					};
 				},
-				cache: false,
+				cache: false
 			};
 			params.escapeMarkup = function (markup) {
 				if (markup !== 'undefined') return markup;
@@ -1361,7 +1395,7 @@ window.App.Fields = {
 						});
 					});
 					cb(select);
-				},
+				}
 			});
 		},
 		/**
@@ -1445,7 +1479,7 @@ window.App.Fields = {
 				};
 				params.selectParams = Object.assign(params.selectParams, {
 					ajax: {},
-					dataAdapter: CustomData,
+					dataAdapter: CustomData
 				});
 				selectElement.addClass('js-lazy-select-active');
 				this.showSelect2ElementView(selectElement, params.selectParams);
@@ -1479,7 +1513,7 @@ window.App.Fields = {
 						element: item,
 						text: item.text,
 						selected: item.selected,
-						disabled: item.disabled,
+						disabled: item.disabled
 					};
 				});
 			}
@@ -1571,7 +1605,7 @@ window.App.Fields = {
 		createSelectedOption(selectElement, text, value) {
 			const newOption = new Option(text, value, true, true);
 			selectElement.append(newOption).trigger('change');
-		},
+		}
 	},
 	MultiImage: {
 		currentFileUploads: 0,
@@ -1579,7 +1613,7 @@ window.App.Fields = {
 			$('.js-multi-image', container).each(function () {
 				new MultiImage($(this));
 			});
-		},
+		}
 	},
 	MultiEmail: {
 		register(container) {
@@ -1631,7 +1665,7 @@ window.App.Fields = {
 				if (inputField.val() !== '') {
 					arr.push({
 						e: $(inputField).val(),
-						o: $(checkboxField).is(':checked') ? 1 : 0,
+						o: $(checkboxField).is(':checked') ? 1 : 0
 					});
 				}
 			}
@@ -1701,7 +1735,7 @@ window.App.Fields = {
 					.removeClass('fa-check-square')
 					.addClass('fa-square');
 			}
-		},
+		}
 	},
 	MultiDependField: {
 		/**
@@ -1798,7 +1832,7 @@ window.App.Fields = {
 			App.Fields.Picklist.showSelect2ElementView(newField.find('select.select2'));
 			App.Fields.Date.register(newField);
 			App.Fields.MultiDependField.registerRow(container, fields);
-		},
+		}
 	},
 	DependentSelect: {
 		/**
@@ -1826,7 +1860,11 @@ window.App.Fields = {
 		 * data-sort: do we want to sort slave options by text when master has two items selected? if not - just append options to slave
 		 */
 		register(container) {
-			if (typeof container === 'undefined' || typeof container.length === 'undefined' || !container.length) {
+			if (
+				typeof container === 'undefined' ||
+				typeof container.length === 'undefined' ||
+				!container.length
+			) {
 				return app.errorLog('Dependend select field container is missing.');
 			}
 			container.each(function () {
@@ -1865,12 +1903,12 @@ window.App.Fields = {
 				});
 				masterSelect.html(App.Fields.DependentSelect.generateOptionsFromData(data));
 			});
-		},
+		}
 	},
 	Gantt: {
 		register(container, data) {
 			return new GanttField(container, data);
-		},
+		}
 	},
 	Integer: {
 		/**
@@ -1900,7 +1938,7 @@ window.App.Fields = {
 				}
 			}
 			return integer;
-		},
+		}
 	},
 	Double: {
 		/**
@@ -1931,7 +1969,8 @@ window.App.Fields = {
 				value =
 					Math.round(
 						value * base +
-							Math.sign(value) * 0.1 ** (17 - 2 - (Math.round(value * base) / base).toString().length)
+							Math.sign(value) *
+								0.1 ** (17 - 2 - (Math.round(value * base) / base).toString().length)
 					) / base;
 			}
 			let splittedFloat = value.toString().split('.');
@@ -1965,7 +2004,7 @@ window.App.Fields = {
 			value = value.split(CONFIG.currencyGroupingSeparator).join('');
 			value = value.replace(/\s/g, '').replace(CONFIG.currencyDecimalSeparator, '.');
 			return parseFloat(value);
-		},
+		}
 	},
 	Tree: {
 		register(container) {
@@ -1982,7 +2021,7 @@ window.App.Fields = {
 					template: sourceFieldElement.data('treetemplate'),
 					fieldName: sourceFieldElement.attr('name'),
 					multiple: sourceFieldElement.data('multiple'),
-					value: sourceFieldElement.val(),
+					value: sourceFieldElement.val()
 				}).done(function (requestData) {
 					app.modalEvents['treeModal'] = function (modal, instance) {
 						instance.setSelectEvent((responseData) => {
@@ -1993,7 +2032,7 @@ window.App.Fields = {
 					app.showModalWindow(requestData, { modalId: 'treeModal' });
 				});
 			});
-		},
+		}
 	},
 	/**
 	 * TimePeriod class
@@ -2056,9 +2095,15 @@ window.App.Fields = {
 				<div class="input-group-append">
 					<a href class="btn btn-default c-time-period-input-modifier c-time-period-input-modifier--plus-1"><span class="fas fa-plus"></span></a>
 					<select class="select2 js-time-period-select time-period-${this.container.attr('name')}">
-						<option value="d"${this.period === 'd' ? ' selected="selected"' : ''}>${app.vtranslate('JS_DAYS_FULL')}</option>
-						<option value="H"${this.period === 'H' ? ' selected="selected"' : ''}>${app.vtranslate('JS_HOURS_FULL')}</option>
-						<option value="i"${this.period === 'i' ? ' selected="selected"' : ''}>${app.vtranslate('JS_MINUTES_FULL')}</option>
+						<option value="d"${this.period === 'd' ? ' selected="selected"' : ''}>${app.vtranslate(
+				'JS_DAYS_FULL'
+			)}</option>
+						<option value="H"${this.period === 'H' ? ' selected="selected"' : ''}>${app.vtranslate(
+				'JS_HOURS_FULL'
+			)}</option>
+						<option value="i"${this.period === 'i' ? ' selected="selected"' : ''}>${app.vtranslate(
+				'JS_MINUTES_FULL'
+			)}</option>
 					</select>
 				</div>
 			</div>`;
@@ -2169,7 +2214,7 @@ window.App.Fields = {
 									app.hideModalWindow(null, id);
 								}
 							});
-						},
+						}
 					});
 				});
 			this.getField().on('focusout', (e) => {
@@ -2193,7 +2238,9 @@ window.App.Fields = {
 				let row = modalContainer.find('[data-currency-id="' + i + '"]');
 				if (row.length) {
 					row.find('.js-enable-currency').prop('checked', true);
-					row.find('.js-currency-reset,.js-base-currency,[name^="currencies["]').prop('disabled', false);
+					row
+						.find('.js-currency-reset,.js-base-currency,[name^="currencies["]')
+						.prop('disabled', false);
 					row.find('.js-converted-price').val(values['currencies'][i]['price']);
 					if (i == baseCurrencyId) {
 						row.find('.js-base-currency').prop('checked', true);
@@ -2235,7 +2282,7 @@ window.App.Fields = {
 			if (enabledBaseCurrency.length < 1) {
 				Vtiger_Helper_Js.showMessage({
 					text: app.vtranslate('JS_PLEASE_SELECT_BASE_CURRENCY_FOR_PRODUCT'),
-					type: 'error',
+					type: 'error'
 				});
 				return false;
 			}
@@ -2243,7 +2290,7 @@ window.App.Fields = {
 			if (selectedBaseCurrency.length < 1) {
 				Vtiger_Helper_Js.showMessage({
 					text: app.vtranslate('JS_PLEASE_ENABLE_BASE_CURRENCY_FOR_PRODUCT'),
-					type: 'error',
+					type: 'error'
 				});
 				return false;
 			}
@@ -2318,7 +2365,7 @@ window.App.Fields = {
 								'"' +
 								parentRow.find('.js-currency-name').text() +
 								'" ' +
-								app.vtranslate('JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY'),
+								app.vtranslate('JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY')
 						});
 						element.prop('checked', true);
 						return;
@@ -2338,7 +2385,8 @@ window.App.Fields = {
 			container.on('click', '.js-currency-reset', (e) => {
 				let parentElem = $(e.currentTarget).closest('tr');
 				let price =
-					this.getField().getNumberFromValue() * parentElem.find('.js-conversion-rate').getNumberFromValue();
+					this.getField().getNumberFromValue() *
+					parentElem.find('.js-conversion-rate').getNumberFromValue();
 				$('.js-converted-price', parentElem).val(App.Fields.Double.formatToDisplay(price));
 			});
 		}
@@ -2432,7 +2480,10 @@ window.App.Fields = {
 				formElement.on('change', `[name=${fieldName}]`, (_) => {
 					if (data['domain'] && valElement.val().indexOf(data['domain']) === 0) {
 						addButton.trigger('click');
-						Vtiger_Helper_Js.showPnotify({ type: 'info', text: app.vtranslate('JS_MEETING_URL_CHANGED') });
+						Vtiger_Helper_Js.showPnotify({
+							type: 'info',
+							text: app.vtranslate('JS_MEETING_URL_CHANGED')
+						});
 					}
 				});
 			}
@@ -2484,6 +2535,6 @@ window.App.Fields = {
 			} else {
 				fieldElement.val(value);
 			}
-		},
-	},
+		}
+	}
 };

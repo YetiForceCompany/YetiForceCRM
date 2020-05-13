@@ -26,7 +26,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 
-		if ($recordModel->get('filestatus') && $recordModel->get('filename') && $recordModel->get('filelocationtype') === 'I') {
+		if ($recordModel->get('filestatus') && $recordModel->get('filename') && 'I' === $recordModel->get('filelocationtype')) {
 			$basicActionLink = [
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_DOWNLOAD_FILE',
@@ -45,7 +45,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 		];
 		$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 
-		if ($recordModel->get('filestatus') && $recordModel->get('filename') && $recordModel->get('filelocationtype') === 'I' && $currentUserModel->hasModulePermission('OSSMail') && App\Config::main('isActiveSendingMails')) {
+		if ($recordModel->get('filestatus') && $recordModel->get('filename') && 'I' === $recordModel->get('filelocationtype') && $currentUserModel->hasModulePermission('OSSMail') && App\Config::main('isActiveSendingMails')) {
 			$basicActionLink = [
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => \App\Language::translate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents'),
@@ -61,26 +61,21 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 	}
 
 	/**
-	 * Function to get the detail view related links.
-	 *
-	 * @return <array> - list of links parameters
+	 * {@inheritdoc}
 	 */
 	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();
-		$moduleName = $recordModel->getModuleName();
 		$relatedLinks = parent::getDetailViewRelatedLinks();
-
 		$relatedLinks[] = [
 			'linktype' => 'DETAILVIEWTAB',
-			'linklabel' => \App\Language::translate('LBL_RELATIONS', $moduleName),
+			'linklabel' => \App\Language::translate('LBL_RELATIONS', $recordModel->getModuleName()),
 			'linkKey' => 'LBL_RECORD_SUMMARY',
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDocumentRelations',
 			'linkicon' => '',
 			'related' => \App\Json::encode(Documents_Record_Model::getReferenceModuleByDocId($recordModel->getId())),
 			'countRelated' => App\Config::relation('SHOW_RECORDS_COUNT'),
 		];
-
 		return $relatedLinks;
 	}
 }

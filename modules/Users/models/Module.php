@@ -37,6 +37,14 @@ class Users_Module_Model extends Vtiger_Module_Model
 	/**
 	 * {@inheritdoc}
 	 */
+	public function isUtilityActionEnabled()
+	{
+		return true;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function searchRecord(string $searchValue): array
 	{
 		$matchingRecords = [];
@@ -102,6 +110,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 				'logout_time' => null,
 				'status' => $status,
 				'browser' => $browser->name . ' ' . $browser->ver,
+				'userid' => \App\User::getUserIdByName($userName),
+				'agent' => \App\TextParser::textTruncate(\App\Request::_getServer('HTTP_USER_AGENT', '-'), 500, false),
 			])->execute();
 	}
 
@@ -110,23 +120,40 @@ class Users_Module_Model extends Vtiger_Module_Model
 	 */
 	public function saveLogoutHistory()
 	{
-		$userRecordModel = Users_Record_Model::getCurrentUserModel();
-		$userIPAddress = \App\RequestUtil::getRemoteIP();
-		$outtime = date('Y-m-d H:i:s');
-
+		if (!empty(App\User::getCurrentUserRealId())) {
+			$userRecordModel = Users_Record_Model::getInstanceById(App\User::getCurrentUserRealId(), 'Users');
+		} else {
+			$userRecordModel = Users_Record_Model::getCurrentUserModel();
+		}
 		$loginId = (new \App\Db\Query())
 			->select(['login_id'])
 			->from('vtiger_loginhistory')
-			->where(['user_name' => $userRecordModel->get('user_name'), 'user_ip' => $userIPAddress])
+			->where(['user_name' => $userRecordModel->get('user_name'), 'user_ip' => \App\RequestUtil::getRemoteIP()])
 			->limit(1)->orderBy('login_id DESC')->scalar();
 		if (false !== $loginId) {
 			\App\Db::getInstance()->createCommand()
 				->update('vtiger_loginhistory', [
-					'logout_time' => $outtime,
+					'logout_time' => date('Y-m-d H:i:s'),
 					'status' => 'Signed off',
 				], ['login_id' => $loginId])
 				->execute();
 		}
+	}
+
+	/**
+	 * Get user login history.
+	 *
+	 * @param int|bool $limit
+	 *
+	 * @return array
+	 */
+	public static function getLoginHistory($limit = false)
+	{
+		return (new \App\Db\Query())->from('vtiger_loginhistory')
+			->where(['or', ['user_name' => \App\Session::get('user_name')], ['userid' => \App\Session::get('authenticated_user_id')]])
+			->orderBy(['login_id' => SORT_DESC])
+			->limit($limit ?? App\Config::performance('LOGIN_HISTORY_VIEW_LIMIT'))
+			->all();
 	}
 
 	/**

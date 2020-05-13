@@ -104,8 +104,10 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		if ('ListPreview' === $relatedView) {
 			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
 		}
+		if ($request->has('quickSearchEnabled')) {
+			$relationListView->set('quickSearchEnabled', $request->getBoolean('quickSearchEnabled'));
+		}
 		$models = $relationListView->getEntries($pagingModel);
-		$links = $relationListView->getLinks();
 		$header = $relationListView->getHeaders();
 		$relationModel = $relationListView->getRelationModel();
 
@@ -113,7 +115,11 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_VIEW', $relatedView);
-		$viewer->assign('RELATED_LIST_LINKS', $links);
+		$showHeader = $request->has('showHeader') ? $request->getBoolean('showHeader') : true;
+		if ($showHeader) {
+			$viewer->assign('RELATED_LIST_LINKS', $relationListView->getLinks());
+		}
+		$viewer->assign('SHOW_HEADER', $showHeader);
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
 		$viewer->assign('RELATED_ENTIRES_COUNT', \count($models));

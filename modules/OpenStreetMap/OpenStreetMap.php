@@ -18,19 +18,19 @@ class OpenStreetMap
 	public function moduleHandler($moduleName, $eventType)
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			$dbCommand->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 			App\EventHandler::registerHandler('EntityAfterSave', 'OpenStreetMap_OpenStreetMapHandler_Handler', 'Accounts,Leads,Partners,Vendors,Competition,Contacts', '', 3);
-			\vtlib\Cron::register('LBL_UPDATER_COORDINATES', 'modules/OpenStreetMap/cron/UpdaterCoordinates.php', 60, 'OpenStreetMap', 1);
-			\vtlib\Cron::register('LBL_UPDATER_RECORDS_COORDINATES', 'modules/OpenStreetMap/cron/UpdaterRecordsCoordinates.php', 300, 'OpenStreetMap', 1);
-		} elseif ($eventType === 'module.disabled') {
+			\vtlib\Cron::register('LBL_UPDATER_COORDINATES', 'OpenStreetMap_UpdaterCoordinates_Cron', 60, 'OpenStreetMap', 1);
+			\vtlib\Cron::register('LBL_UPDATER_RECORDS_COORDINATES', 'OpenStreetMap_UpdaterCoordinates_Cron', 300, 'OpenStreetMap', 1);
+		} elseif ('module.disabled' === $eventType) {
 			App\EventHandler::setInActive('OpenStreetMap_OpenStreetMapHandler_Handler');
 			\vtlib\Cron::getInstance('LBL_UPDATER_COORDINATES')->updateStatus(\vtlib\Cron::$STATUS_DISABLED);
 			\vtlib\Cron::getInstance('LBL_UPDATER_RECORDS_COORDINATES')->updateStatus(\vtlib\Cron::$STATUS_DISABLED);
-		} elseif ($eventType === 'module.enabled') {
+		} elseif ('module.enabled' === $eventType) {
 			App\EventHandler::setActive('OpenStreetMap_OpenStreetMapHandler_Handler');
 			\vtlib\Cron::getInstance('LBL_UPDATER_RECORDS_COORDINATES')->updateStatus(\vtlib\Cron::$STATUS_ENABLED);
-		} elseif ($eventType === 'module.preuninstall') {
+		} elseif ('module.preuninstall' === $eventType) {
 			App\EventHandler::deleteHandler('OpenStreetMap_OpenStreetMapHandler_Handler');
 			\vtlib\Cron::deregister('LBL_UPDATER_RECORDS_COORDINATES');
 			\vtlib\Cron::deregister('LBL_UPDATER_COORDINATES');

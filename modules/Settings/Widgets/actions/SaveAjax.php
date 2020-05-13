@@ -111,6 +111,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				case 'DetailView':
 				case 'Summary':
 				case 'Updates':
+				case 'UpdatesList':
 					$returnVal = true;
 					break;
 				default:

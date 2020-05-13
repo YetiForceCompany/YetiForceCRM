@@ -18,11 +18,7 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	public $picklistValues = [];
 
 	/**
-	 * Function to get all the available picklist values for the current field.
-	 *
-	 * @param bool $skipCheckingRole
-	 *
-	 * @return array List of picklist values if the field is of type picklist or multipicklist, null otherwise
+	 * {@inheritdoc}
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
 	{

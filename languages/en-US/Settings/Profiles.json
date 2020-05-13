@@ -90,7 +90,10 @@
     "Emails": "Send emails [SMTP]",
     "ModTracker": "Change history",
     "AssignToYourself": "Assign to me",
-    "AutoAssignRecord": "Automatic transfer of records"
+    "AutoAssignRecord": "Automatic transfer of records",
+    "RecordConventer": "Record converter",
+    "RecordCollector": "Record collector",
+    "MeetingUrl": "Meeting URL"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Profile deleted successfully"
