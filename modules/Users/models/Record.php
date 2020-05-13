@@ -408,7 +408,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 			if (!$currentUserModel) {
 				static::$currentUserModels[$currentUser->getId()] = $currentUserModel = static::getInstanceFromUserObject($currentUser);
 			}
-
 			return $currentUserModel;
 		}
 		return new self();
