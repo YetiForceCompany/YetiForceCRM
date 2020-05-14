@@ -5,6 +5,7 @@
 td.listViewEntryValue.wide {
 	&:not(.listButtons) {
 		padding: calculate-rem(15px);
+		font-size: 1rem;
 	}
 }
 
