@@ -23,7 +23,7 @@ class Settings_Profiles_EditAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function checkDuplicate(\App\Request $request)
+	public function checkDuplicate(App\Request $request)
 	{
 		$recordModel = Settings_Profiles_Record_Model::getInstanceByName($request->getByType('profilename', 'Text'), false, $request->getInteger('record'));
 		$response = new Vtiger_Response();

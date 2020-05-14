@@ -23,7 +23,7 @@ class Settings_Groups_EditAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function checkDuplicate(\App\Request $request)
+	public function checkDuplicate(App\Request $request)
 	{
 		$groupName = $request->getByType('groupname', 'Text');
 		$record = $request->isEmpty('record') ? [] : [$request->getInteger('record')];

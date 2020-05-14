@@ -23,7 +23,7 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin() || $request->isEmpty('record')) {
@@ -36,13 +36,13 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$record = $request->getInteger('record');
 		$qualifiedModuleName = $request->getModule(false);
 		$recordModel = Settings_Mail_Record_Model::getInstance($record);
 		$viewer = $this->getViewer($request);
-		if ($recordModel === false) {
+		if (false === $recordModel) {
 			$moduleModel = new Settings_Mail_Module_Model();
 			$viewer->assign('MODULE_MODEL', $moduleModel);
 		}

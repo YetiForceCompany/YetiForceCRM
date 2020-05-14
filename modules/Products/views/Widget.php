@@ -16,7 +16,7 @@ class Products_Widget_View extends Vtiger_Index_View
 		$this->exposeMethod('showProductsServices');
 	}
 
-	public function showProductsServices(\App\Request $request)
+	public function showProductsServices(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$fromModule = $request->getByType('fromModule');

@@ -12,12 +12,12 @@ class Settings_Profiles_EditAjax_View extends Settings_Profiles_Edit_View
 {
 	use App\Controller\ClearProcess;
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		echo $this->getContents($request);
 	}
 
-	public function getContents(\App\Request $request)
+	public function getContents(App\Request $request)
 	{
 		$this->initialize($request);
 
@@ -35,7 +35,7 @@ class Settings_Profiles_EditAjax_View extends Settings_Profiles_Edit_View
 	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getScripts(\App\Request $request)
+	public function getScripts(App\Request $request)
 	{
 		return $this->checkAndConvertJsScripts([
 			'modules.Settings.Profiles.resources.Profiles',

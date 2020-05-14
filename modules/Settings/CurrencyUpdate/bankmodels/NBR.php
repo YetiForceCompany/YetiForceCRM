@@ -20,7 +20,7 @@ class Settings_CurrencyUpdate_NBR_BankModel extends Settings_CurrencyUpdate_Abst
 
 	public function getSource($year = '')
 	{
-		if ($year == '') {
+		if ('' == $year) {
 			$source = 'http://www.bnr.ro/nbrfxrates10days.xml';
 		} else {
 			$source = 'http://www.bnr.ro/files/xml/years/nbrfxrates' . $year . '.xml';
@@ -51,13 +51,15 @@ class Settings_CurrencyUpdate_NBR_BankModel extends Settings_CurrencyUpdate_Abst
 		return 'RON';
 	}
 
-	/*
-	 * Fetch exchange rates
-	 * @param <Array> $currencies - list of systems active currencies
-	 * @param <Date> $date - date for which exchange is fetched
-	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated
+	/**
+	 * Fetch exchange rates.
+	 *
+	 * @param <Array> $currencies        - list of systems active currencies
+	 * @param <Date>  $date              - date for which exchange is fetched
+	 * @param bool    $cron              - if true then it is fired by server and crms currency conversion rates are updated
+	 * @param mixed   $otherCurrencyCode
+	 * @param mixed   $dateParam
 	 */
-
 	public function getRates($otherCurrencyCode, $dateParam, $cron = false)
 	{
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
@@ -81,7 +83,7 @@ class Settings_CurrencyUpdate_NBR_BankModel extends Settings_CurrencyUpdate_Abst
 			$xml = $this->getSource();
 		}
 
-		if ($xml === false) {
+		if (false === $xml) {
 			return false;
 		}
 
@@ -112,7 +114,7 @@ class Settings_CurrencyUpdate_NBR_BankModel extends Settings_CurrencyUpdate_Abst
 		$foundRate = false;
 		foreach ($xml->Body->Cube as $time) {
 			if ($time['date'] == $dateParam) {
-				$num = count($time->Rate);
+				$num = \count($time->Rate);
 				for ($i = 0; $i < $num; ++$i) {
 					$currency = (string) $time->Rate[$i]['currency'];   // currency code
 					foreach ($otherCurrencyCode as $key => $currId) {
@@ -124,7 +126,7 @@ class Settings_CurrencyUpdate_NBR_BankModel extends Settings_CurrencyUpdate_Abst
 							$exchangeVtiger = (float) $exchangeRate / (float) $exchange;
 							$exchange = (float) $exchange / (float) $exchangeRate;
 
-							if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+							if (true === $cron || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 								$moduleModel->setCRMConversionRate($currency, $exchangeVtiger);
 							}
 							$existingId = $moduleModel->getCurrencyRateId($currId, $datePublicationOfFile, $selectedBank);
@@ -154,7 +156,7 @@ class Settings_CurrencyUpdate_NBR_BankModel extends Settings_CurrencyUpdate_Abst
 			}
 
 			if ($mainCurrencyId) {
-				if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+				if (true === $cron || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 					$moduleModel->setCRMConversionRate($this->getMainCurrencyCode(), $exchange);
 				}
 

@@ -80,7 +80,7 @@ class Settings_Github_Client_Model
 			$data['q'] .= " author:$this->username";
 		}
 		$issues = $this->doRequest($path, 'GET', $data, '200');
-		if ($issues === false) {
+		if (false === $issues) {
 			return false;
 		}
 		$issuesModel = [];

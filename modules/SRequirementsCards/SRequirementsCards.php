@@ -76,10 +76,12 @@ class SRequirementsCards extends Vtiger_CRMEntity
 	 *
 	 * @param string Module name
 	 * @param string Event Type
+	 * @param mixed $moduleName
+	 * @param mixed $eventType
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'S-RC')->set('cur_id', 1)->save();
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');

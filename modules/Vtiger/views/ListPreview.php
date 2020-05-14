@@ -12,7 +12,7 @@ class Vtiger_ListPreview_View extends Vtiger_List_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -24,7 +24,7 @@ class Vtiger_ListPreview_View extends Vtiger_List_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		if ($request->isAjax() && !isset($this->viewName)) {
@@ -39,7 +39,7 @@ class Vtiger_ListPreview_View extends Vtiger_List_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$scripts = parent::getFooterScripts($request);

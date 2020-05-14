@@ -21,7 +21,7 @@ class FInvoice_Record_Model extends Vtiger_Record_Model
 			if (!empty($date)) {
 				App\Db::getInstance()->createCommand()->update('vtiger_account', [
 					'last_invoice_date' => $date,
-					], ['accountid' => $this->get('accountid')]
+				], ['accountid' => $this->get('accountid')]
 				)->execute();
 			}
 		}

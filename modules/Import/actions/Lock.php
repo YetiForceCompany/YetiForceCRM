@@ -23,7 +23,7 @@ class Import_Lock_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
@@ -34,7 +34,7 @@ class Import_Lock_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		return false;
 	}
@@ -46,7 +46,7 @@ class Import_Lock_Action extends \App\Controller\Action
 	 * @param string    $module
 	 * @param \App\User $user
 	 */
-	public static function lock($importId, $module, \App\User $user)
+	public static function lock($importId, $module, App\User $user)
 	{
 		\App\Db::getInstance()->createCommand()
 			->insert('vtiger_import_locks', [
@@ -63,7 +63,7 @@ class Import_Lock_Action extends \App\Controller\Action
 	 * @param \App\User $user
 	 * @param string    $module
 	 */
-	public static function unLock(\App\User $user, $module = false)
+	public static function unLock(App\User $user, $module = false)
 	{
 		$db = \App\Db::getInstance();
 		$where = ['userid' => $user->getId()];

@@ -14,7 +14,7 @@ class Settings_SupportProcesses_SaveAjax_Action extends Settings_Vtiger_Basic_Ac
 		$this->exposeMethod('updateConfig');
 	}
 
-	public function updateConfig(\App\Request $request)
+	public function updateConfig(App\Request $request)
 	{
 		$param = $request->getMultiDimensionArray('param', [
 			'param' => 'Alnum',

@@ -16,7 +16,7 @@ class Vtiger_BrowsingHistory_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if (!App\Config::performance('BROWSING_HISTORY_WORKING')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -28,7 +28,7 @@ class Vtiger_BrowsingHistory_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		Vtiger_BrowsingHistory_Helper::deleteHistory();
 		$response = new Vtiger_Response();

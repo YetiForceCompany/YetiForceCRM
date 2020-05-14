@@ -47,11 +47,11 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 			'u_#__ssalesprocesses.ssalesprocesses_status',
 			'vtiger_ssalesprocesses_status.ssalesprocesses_statusid',
 		])
-		->from('u_yf_ssalesprocesses')
-		->innerJoin('vtiger_crmentity', 'u_#__ssalesprocesses.ssalesprocessesid = vtiger_crmentity.crmid')
-		->innerJoin('vtiger_ssalesprocesses_status', 'u_#__ssalesprocesses.ssalesprocesses_status = vtiger_ssalesprocesses_status.ssalesprocesses_status')
-		->where(['and', ['<>', 'u_#__ssalesprocesses.ssalesprocesses_status', ''], ['vtiger_crmentity.deleted' => 0], ['not', ['u_#__ssalesprocesses.ssalesprocesses_status' => null]]])
-		->orderBy(['vtiger_ssalesprocesses_status.sortorderid' => SORT_DESC]);
+			->from('u_yf_ssalesprocesses')
+			->innerJoin('vtiger_crmentity', 'u_#__ssalesprocesses.ssalesprocessesid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_ssalesprocesses_status', 'u_#__ssalesprocesses.ssalesprocesses_status = vtiger_ssalesprocesses_status.ssalesprocesses_status')
+			->where(['and', ['<>', 'u_#__ssalesprocesses.ssalesprocesses_status', ''], ['vtiger_crmentity.deleted' => 0], ['not', ['u_#__ssalesprocesses.ssalesprocesses_status' => null]]])
+			->orderBy(['vtiger_ssalesprocesses_status.sortorderid' => SORT_DESC]);
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		if (!empty($owner)) {
 			$query->andWhere(['vtiger_crmentity.smownerid' => $owner]);
@@ -78,7 +78,7 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 			$chartData['datasets'][0]['links'][] = $moduleModel->getListViewUrl() . $this->getSearchParams($owner, $row['ssalesprocesses_status']);
 			$chartData['labels'][] = \App\Language::translate($row['ssalesprocesses_status'], $moduleName) . ' - ' . CurrencyField::convertToUserFormat($row['estimated']) . ' ' . $currencyInfo['currency_symbol'];
 		}
-		$chartData['show_chart'] = (bool) count($chartData['datasets'][0]['data']);
+		$chartData['show_chart'] = (bool) \count($chartData['datasets'][0]['data']);
 		$dataReader->close();
 		return $chartData;
 	}
@@ -88,7 +88,7 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
@@ -100,7 +100,7 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 		} else {
 			$owner = $request->getByType('owner', 2);
 		}
-		if ($owner == 'all') {
+		if ('all' == $owner) {
 			$owner = '';
 		}
 		$data = $this->getEstimatedValue($owner);

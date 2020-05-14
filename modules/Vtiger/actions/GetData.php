@@ -19,7 +19,7 @@ class Vtiger_GetData_Action extends App\Controller\Action
 	 *
 	 * @return bool
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -34,7 +34,7 @@ class Vtiger_GetData_Action extends App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$record = $request->getInteger('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $request->getModule());

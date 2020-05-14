@@ -40,14 +40,13 @@ class VTWorkflowUtils
 	 */
 	public function validIdentifier($identifier)
 	{
-		if (is_string($identifier)) {
+		if (\is_string($identifier)) {
 			return preg_match('/^[a-zA-Z][a-zA-Z_0-9]+$/', $identifier);
-		} else {
-			return false;
 		}
+		return false;
 	}
 
-	/** function to check if the module has workflow
+	/** function to check if the module has workflow.
 	 * @param string $modulename - name of the module
 	 */
 	public static function checkModuleWorkflow($modulename)

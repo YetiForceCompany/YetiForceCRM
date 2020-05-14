@@ -10,7 +10,7 @@
 
 class Settings_PickListDependency_DeleteAjax_Action extends Settings_Vtiger_Index_Action
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$sourceModule = $request->getByType('sourceModule', 'Alnum');
 		$sourceField = $request->getByType('sourcefield', 'Alnum');

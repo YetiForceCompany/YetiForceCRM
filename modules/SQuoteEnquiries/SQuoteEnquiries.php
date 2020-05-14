@@ -75,10 +75,12 @@ class SQuoteEnquiries extends Vtiger_CRMEntity
 	 *
 	 * @param string Module name
 	 * @param string Event Type
+	 * @param mixed $moduleName
+	 * @param mixed $eventType
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {

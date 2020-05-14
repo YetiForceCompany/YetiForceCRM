@@ -19,7 +19,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 	 * @param \App\Request $request
 	 * @param \App\User    $user
 	 */
-	public function __construct(\App\Request $request, \App\User $user)
+	public function __construct(App\Request $request, App\User $user)
 	{
 		$instance = Vtiger_Cache::get('ZipReader', $request->getModule() . $user->getId());
 		if (!empty($instance)) {
@@ -53,7 +53,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 	{
 		$objectProperties = get_object_vars($instance);
 		foreach ($objectProperties as $properName => $propertyValue) {
-			$this->$properName = $propertyValue;
+			$this->{$properName} = $propertyValue;
 		}
 	}
 
@@ -65,12 +65,12 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function initialize(\App\Request $request, \App\User $user)
+	public function initialize(App\Request $request, App\User $user)
 	{
 		$zipfile = Import_Utils_Helper::getImportFilePath($user);
 		$this->importFolderLocation = "{$zipfile}_{$this->extension}";
 		// clean old data
-		if ($request->getMode() === 'uploadAndParse') {
+		if ('uploadAndParse' === $request->getMode()) {
 			$this->deleteFolder();
 		}
 		if ($this->extension && file_exists($zipfile) && !file_exists($this->importFolderLocation)) {
@@ -80,7 +80,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 			unlink($zipfile);
 		} elseif (is_dir($this->importFolderLocation)) {
 			foreach (new DirectoryIterator($this->importFolderLocation) as $file) {
-				if (!$file->isDot() && strpos($file->getFilename(), '.' . $this->extension) !== false) {
+				if (!$file->isDot() && false !== strpos($file->getFilename(), '.' . $this->extension)) {
 					$this->filelist[] = $file->getFilename();
 				}
 			}

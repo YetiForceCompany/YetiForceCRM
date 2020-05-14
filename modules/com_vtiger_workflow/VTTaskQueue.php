@@ -20,6 +20,7 @@ class VTTaskQueue
 	 * @param $entityId The id of the crm entity the task is assiciated with
 	 * @param $when The time after which the task should be executed. This is
 	 *        an optional value with a default value of 0
+	 * @param mixed $taskContents
 	 */
 	public function queueTask($taskId, $entityId, $when = 0, $taskContents = false)
 	{

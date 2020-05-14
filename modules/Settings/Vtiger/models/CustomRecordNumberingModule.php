@@ -27,6 +27,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 	 * Function to get Instance of this module.
 	 *
 	 * @param string $moduleName
+	 * @param mixed  $tabId
 	 *
 	 * @return Settings_Vtiger_CustomRecordNumberingModule_Model $moduleModel
 	 */

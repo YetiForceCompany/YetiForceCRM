@@ -42,7 +42,7 @@ class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Mode
 
 	public static function save($profileID, $globalactionid, $checked)
 	{
-		if ($globalactionid == 1) {
+		if (1 == $globalactionid) {
 			\App\Privilege::setAllUpdater();
 		}
 		$db = App\Db::getInstance();

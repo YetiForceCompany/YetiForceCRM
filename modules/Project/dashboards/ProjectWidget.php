@@ -17,7 +17,7 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 	 *
 	 * @return <array> - array of Vtiger_CssScript_Model
 	 */
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
 		return $this->checkAndConvertCssStyles([
 			//Place your widget specific css files here
@@ -29,13 +29,13 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 		$listSearchParams = [];
 		$conditions = [];
 		array_push($conditions, ['sales_stage', 'e', $stage]);
-		if ($assignedto == '') {
+		if ('' == $assignedto) {
 			$currenUserModel = Users_Record_Model::getCurrentUserModel();
 			$assignedto = $currenUserModel->getId();
 		}
-		if ($assignedto != 'all') {
+		if ('all' != $assignedto) {
 			$ownerType = \App\Fields\Owner::getType($assignedto);
-			if ($ownerType == 'Users') {
+			if ('Users' == $ownerType) {
 				array_push($conditions, ['assigned_user_id', 'e', \App\Fields\Owner::getUserLabel($assignedto)]);
 			} else {
 				$groupName = \App\Fields\Owner::getGroupName($assignedto);
@@ -50,7 +50,7 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 		return '&search_params=' . json_encode($listSearchParams);
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);
@@ -64,7 +64,7 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$data = $moduleModel->getProjectWidget($owner, $dates);
 		$listViewUrl = $moduleModel->getListViewUrl();
-		$countData = count($data);
+		$countData = \count($data);
 		$dates = \App\Fields\Date::formatRangeToDisplay($dates);
 		for ($i = 0; $i < $countData; ++$i) {
 			$data[$i][] = $listViewUrl . $this->getSearchParams($data[$i][0], $owner, $dates);

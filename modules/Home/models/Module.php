@@ -62,9 +62,9 @@ class Home_Module_Model extends Vtiger_Module_Model
 	 * @param \App\Db\Query $query
 	 * @param string        $type
 	 */
-	public function getActivityQuery(\App\Db\Query $query, $type)
+	public function getActivityQuery(App\Db\Query $query, $type)
 	{
-		if ($type == 'updates') {
+		if ('updates' == $type) {
 			$query->andWhere(['<>', 'module', 'ModComments']);
 		}
 	}
@@ -76,6 +76,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 	 * @param Vtiger_Paging_Model $pagingModel - $pagingModel
 	 * @param string              $user        - all/userid
 	 * @param string              $recordId    - record id
+	 * @param mixed               $paramsMore
 	 *
 	 * @return array
 	 */
@@ -90,7 +91,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		$orderBy = $pagingModel->getForSql('orderby');
 		$sortOrder = $pagingModel->getForSql('sortorder');
 
-		if (empty($sortOrder) || !in_array(strtolower($sortOrder), ['asc', 'desc'])) {
+		if (empty($sortOrder) || !\in_array(strtolower($sortOrder), ['asc', 'desc'])) {
 			$sortOrder = 'ASC';
 		}
 		if (empty($orderBy)) {
@@ -103,16 +104,16 @@ class Home_Module_Model extends Vtiger_Module_Model
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 			->where(['vtiger_crmentity.deleted' => 0]);
 		\App\PrivilegeQuery::getConditions($query, 'Calendar');
-		if ($mode === 'upcoming' || $mode === 'overdue') {
+		if ('upcoming' === $mode || 'overdue' === $mode) {
 			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
-		} elseif ($mode === 'createdByMeButNotMine' || $mode === 'createdByMeButNotMineOverdue') {
+		} elseif ('createdByMeButNotMine' === $mode || 'createdByMeButNotMineOverdue' === $mode) {
 			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
 			$query->andWhere(['and', ['vtiger_crmentity.smcreatorid' => $paramsMore['user']], ['NOT IN', 'vtiger_crmentity.smownerid', $paramsMore['user']]]);
 		}
 		if (isset($paramsMore['activitytype'])) {
 			$query->andWhere(['vtiger_activity.activitytype' => $paramsMore['activitytype']]);
 		}
-		if ($user !== 'all' && !empty($user)) {
+		if ('all' !== $user && !empty($user)) {
 			$userId = (int) $user;
 			if (\App\User::isExists($userId)) {
 				$userModel = \App\User::getUserModel($userId);
@@ -134,19 +135,19 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$model->setId($row['crmid']);
 			if (!empty($row['parent_id']) && \App\Record::isExists($row['parent_id'])) {
 				$record = Vtiger_Record_Model::getInstanceById($row['parent_id']);
-				if ($record->getModuleName() === 'Accounts') {
+				if ('Accounts' === $record->getModuleName()) {
 					$model->set('contractor', $record);
-				} elseif ($record->getModuleName() === 'Project') {
+				} elseif ('Project' === $record->getModuleName()) {
 					if (\App\Record::isExists($record->get('linktoaccountscontacts'))) {
 						$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('linktoaccountscontacts'));
 						$model->set('contractor', $recordContractor);
 					}
-				} elseif ($record->getModuleName() === 'ServiceContracts') {
+				} elseif ('ServiceContracts' === $record->getModuleName()) {
 					if (\App\Record::isExists($record->get('sc_realted_to'))) {
 						$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('sc_realted_to'));
 						$model->set('contractor', $recordContractor);
 					}
-				} elseif ($record->getModuleName() === 'HelpDesk') {
+				} elseif ('HelpDesk' === $record->getModuleName()) {
 					if (\App\Record::isExists($record->get('parent_id'))) {
 						$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('parent_id'));
 						$model->set('contractor', $recordContractor);
@@ -185,21 +186,21 @@ class Home_Module_Model extends Vtiger_Module_Model
 		}
 		$nowInUserFormat = App\Fields\DateTime::formatToDisplay(date('Y-m-d H:i:s'));
 		$nowInDBFormat = App\Fields\DateTime::formatToDb($nowInUserFormat);
-		list($currentDate) = explode(' ', $nowInDBFormat);
+		[$currentDate] = explode(' ', $nowInDBFormat);
 		$query = (new App\Db\Query())
 			->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.setype', 'vtiger_projecttask.*'])
 			->from('vtiger_projecttask')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_projecttask.projecttaskid')
 			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_crmentity.smcreatorid' => $currentUser->getId()]);
 		\App\PrivilegeQuery::getConditions($query, 'ProjectTask');
-		if ($mode === 'upcoming') {
+		if ('upcoming' === $mode) {
 			$query->andWhere(['>=', 'targetenddate', $currentDate]);
-		} elseif ($mode === 'overdue') {
+		} elseif ('overdue' === $mode) {
 			$query->andWhere(['<', 'targetenddate', $currentDate]);
 		}
 		$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
 		$accessibleGroups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
-		if ($user != 'all' && $user != '' && (array_key_exists($user, $accessibleUsers) || array_key_exists($user, $accessibleGroups))) {
+		if ('all' != $user && '' != $user && (\array_key_exists($user, $accessibleUsers) || \array_key_exists($user, $accessibleGroups))) {
 			$query->andWhere(['vtiger_crmentity.smownerid' => $user]);
 		}
 		$query->orderBy('targetenddate')
@@ -245,19 +246,19 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$type = 'all';
 		}
 		$comments = [];
-		if ($type == 'all' || $type == 'comments') {
+		if ('all' == $type || 'comments' == $type) {
 			$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 			if ($modCommentsModel->isPermitted('DetailView')) {
 				$comments = $this->getComments($pagingModel);
 			}
-			if ($type == 'comments') {
+			if ('comments' == $type) {
 				return $comments;
 			}
 		}
 		//As getComments api is used to get comment infomation,no need of getting
 		//comment information again,so avoiding from modtracker
 		//updateActivityQuery api is used to update a query to fetch a only activity
-		if ($type == 'updates' || $type == 'all') {
+		if ('updates' == $type || 'all' == $type) {
 			$query = new \App\Db\Query();
 			$query->select(['vtiger_modtracker_basic.*'])
 				->from('vtiger_modtracker_basic')

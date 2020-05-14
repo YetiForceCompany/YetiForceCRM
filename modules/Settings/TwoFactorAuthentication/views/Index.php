@@ -11,7 +11,7 @@ class Settings_TwoFactorAuthentication_Index_View extends Settings_Vtiger_Index_
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());

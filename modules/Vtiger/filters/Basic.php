@@ -17,7 +17,7 @@ class Vtiger_Basic_Filter
 		return $this->columnList;
 	}
 
-	public function getAdvftCriteria(\CustomView $cv)
+	public function getAdvftCriteria(CustomView $cv)
 	{
 		$columnindex = 0;
 		$advft_criteria = [];

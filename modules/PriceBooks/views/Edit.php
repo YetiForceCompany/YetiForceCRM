@@ -10,7 +10,7 @@
 
 class PriceBooks_Edit_View extends Vtiger_Edit_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IS_RELATION', $request->getBoolean('relationOperation'));

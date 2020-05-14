@@ -27,11 +27,10 @@ class Vtiger_MappedFields_Model extends \App\Base
 
 	public function get($key)
 	{
-		if (in_array($key, ['conditions', 'params']) && !is_array(parent::get($key))) {
+		if (\in_array($key, ['conditions', 'params']) && !\is_array(parent::get($key))) {
 			return \App\Json::decode(html_entity_decode(parent::get($key)));
-		} else {
-			return parent::get($key);
 		}
+		return parent::get($key);
 	}
 
 	public function getRaw($key)
@@ -62,11 +61,10 @@ class Vtiger_MappedFields_Model extends \App\Base
 	{
 		$templates = $this->getActiveTemplatesForRecord($recordId, $view, $moduleName);
 
-		if (count($templates) > 0) {
+		if (\count($templates) > 0) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	public function getActiveTemplatesForRecord($recordId, $view, $moduleName = false)
@@ -140,7 +138,7 @@ class Vtiger_MappedFields_Model extends \App\Base
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $tabId . ',' . $relTabId . ') method ...');
 		$row = (new \App\Db\Query())->from(self::$baseTable)->where(['tabid' => $tabId, 'reltabid' => $relTabId])->limit(1)->one();
-		if ($row === false) {
+		if (false === $row) {
 			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 
 			return false;
@@ -166,7 +164,7 @@ class Vtiger_MappedFields_Model extends \App\Base
 		$row = (new App\Db\Query())->from(self::$baseTable)
 			->where([self::$baseIndex => $recordId])
 			->one();
-		if ($row === false) {
+		if (false === $row) {
 			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 
 			return false;
@@ -217,12 +215,14 @@ class Vtiger_MappedFields_Model extends \App\Base
 	/**
 	 * Function returns valuetype of the field filter.
 	 *
+	 * @param mixed $fieldname
+	 *
 	 * @return string
 	 */
 	public function getFieldFilterValueType($fieldname)
 	{
 		$conditions = $this->get('conditions');
-		if (!empty($conditions) && is_array($conditions)) {
+		if (!empty($conditions) && \is_array($conditions)) {
 			foreach ($conditions as $filter) {
 				if ($fieldname == $filter['fieldname']) {
 					return $filter['valuetype'];
@@ -281,18 +281,18 @@ class Vtiger_MappedFields_Model extends \App\Base
 			$valueType = explode(':', $name);
 			$getTypes[$valueType[0]][] = $valueType[1];
 		}
-		if (in_array('Users:' . $currentUser->getId(), $permissions)) {
+		if (\in_array('Users:' . $currentUser->getId(), $permissions)) {
 			$return = true;
-		} elseif (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
+		} elseif (\in_array('Roles:' . $currentUser->getRole(), $permissions)) {
 			$return = true;
-		} elseif (array_key_exists('Groups', $getTypes)) {
+		} elseif (\array_key_exists('Groups', $getTypes)) {
 			$accessibleGroups = array_keys(\App\Fields\Owner::getInstance($this->get('module_name'), $currentUser)->getAccessibleGroupForModule());
 			$groups = array_intersect($getTypes['Groups'], $currentUser->getGroups());
 			if (array_intersect($groups, $accessibleGroups)) {
 				$return = true;
 			}
 		}
-		if (array_key_exists('RoleAndSubordinates', $getTypes) && !$return) {
+		if (\array_key_exists('RoleAndSubordinates', $getTypes) && !$return) {
 			$roles = $currentUser->getParentRoles();
 			$roles[] = $currentUser->getRole();
 			if (array_intersect($getTypes['RoleAndSubordinates'], array_filter($roles))) {

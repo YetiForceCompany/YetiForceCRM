@@ -11,7 +11,7 @@ class OSSTimeControl_GetTCInfo_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
@@ -31,7 +31,7 @@ class OSSTimeControl_GetTCInfo_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 
@@ -44,14 +44,14 @@ class OSSTimeControl_GetTCInfo_Action extends \App\Controller\Action
 			$record = Vtiger_Record_Model::getInstanceById($id, $sourceModule);
 			$entity = $record->getEntity();
 			$sourceData = $entity->column_fields;
-			if ($sourceModule === 'HelpDesk') {
+			if ('HelpDesk' === $sourceModule) {
 				$sourceData['contact_label'] = \App\Record::getLabel($sourceData['contact_id']);
-				if (\App\Record::getType($sourceData['parent_id']) !== 'Accounts') {
+				if ('Accounts' !== \App\Record::getType($sourceData['parent_id'])) {
 					unset($sourceData['parent_id']);
 				} else {
 					$sourceData['account_label'] = \App\Record::getLabel($sourceData['parent_id']);
 				}
-			} elseif ($sourceModule === 'Project') {
+			} elseif ('Project' === $sourceModule) {
 				$ifExist = (new \App\Db\Query())->from('vtiger_account')->where(['accountid' => $sourceData['linktoaccountscontacts']])->exists();
 				if ($ifExist) {
 					$sourceData['account_label'] = \App\Record::getLabel($sourceData['linktoaccountscontacts']);
@@ -61,7 +61,7 @@ class OSSTimeControl_GetTCInfo_Action extends \App\Controller\Action
 			}
 		}
 
-		if ($sourceData === false) {
+		if (false === $sourceData) {
 			$result = ['success' => false, 'message' => \App\Language::translate('LBL_FAILED_TO_IMPORT_INFO', $moduleName)];
 		} else {
 			$result = ['success' => true, 'sourceData' => $sourceData];

@@ -9,7 +9,7 @@
  */
 class Settings_AdvancedPermission_Detail_View extends Settings_Vtiger_Index_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$record = $request->getInteger('record');
 		$qualifiedModuleName = $request->getModule(false);

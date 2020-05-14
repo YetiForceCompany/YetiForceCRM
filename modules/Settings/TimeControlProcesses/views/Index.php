@@ -13,7 +13,7 @@ class Settings_TimeControlProcesses_Index_View extends Settings_Vtiger_Index_Vie
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
@@ -26,7 +26,7 @@ class Settings_TimeControlProcesses_Index_View extends Settings_Vtiger_Index_Vie
 		\App\Log::trace('End ' . __METHOD__);
 	}
 
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			"modules.Settings.{$request->getModule()}.resources.Index",

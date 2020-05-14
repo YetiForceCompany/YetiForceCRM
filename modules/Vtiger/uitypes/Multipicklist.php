@@ -76,13 +76,13 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		$trValueRaw = $trValue = [];
 		$moduleName = $this->getFieldModel()->getModuleName();
 		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
-		foreach($values as $value){
+		foreach ($values as $value) {
 			$displayValue = App\Language::translate($value, $moduleName);
 			$value = App\Colors::sanitizeValue($value);
 			$trValueRaw[] = $displayValue;
 			$trValue[] = "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">$displayValue</span>";
 		}
-		if($rawText){
+		if ($rawText) {
 			$valueRaw = str_ireplace(' |##| ', ', ', implode(' |##| ', $trValueRaw));
 			if (\is_int($length)) {
 				$valueRaw = \App\TextParser::textTruncate($valueRaw, $length);

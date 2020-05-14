@@ -77,10 +77,12 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	 *
 	 * @param string Module name
 	 * @param string Event Type
+	 * @param mixed $moduleName
+	 * @param mixed $eventType
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			\App\Fields\RecordNumber::getInstance($moduleName)->set('prefix', 'S-SP')->set('cur_id', 1)->save();
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
@@ -97,8 +99,10 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	/**
 	 * Function to get sales hierarchy of the given Sale.
 	 *
-	 * @param int $id - ssalesprocessesid
-	 *                returns Sales hierarchy in array format
+	 * @param int   $id         - ssalesprocessesid
+	 *                          returns Sales hierarchy in array format
+	 * @param mixed $getRawData
+	 * @param mixed $getLinks
 	 */
 	public function getHierarchy($id, $getRawData = false, $getLinks = true)
 	{
@@ -133,6 +137,8 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	 * @param int   $salesProcessesId       - ssalesprocessesid
 	 * @param array $listviewEntries
 	 *                                      returns All the parent sales of the given Sale in array format
+	 * @param mixed $getRawData
+	 * @param mixed $getLinks
 	 */
 	public function getHierarchyData($id, $salesProcessesInfoBase, $salesProcessesId, &$listviewEntries, $getRawData = false, $getLinks = true)
 	{
@@ -150,7 +156,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 			// Permission to view sales is restricted, avoid showing field values (except sales name)
 			if (\App\Field::getFieldPermission('SSalesProcesses', $colname)) {
 				$data = \App\Purifier::encodeHtml($salesProcessesInfoBase[$colname]);
-				if ($getRawData === false && $colname == 'subject') {
+				if (false === $getRawData && 'subject' == $colname) {
 					if ($salesProcessesId != $id) {
 						if ($getLinks) {
 							if ($hasRecordViewAccess) {
@@ -173,7 +179,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 		$listviewEntries[$salesProcessesId] = $salesProcessesInfoData;
 
 		foreach ($salesProcessesInfoBase as $accId => $salesProcessesInfo) {
-			if (is_array($salesProcessesInfo) && (int) $accId) {
+			if (\is_array($salesProcessesInfo) && (int) $accId) {
 				$listviewEntries = $this->getHierarchyData($id, $salesProcessesInfo, $accId, $listviewEntries, $getRawData, $getLinks);
 			}
 		}
@@ -186,9 +192,11 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	/**
 	 * Function to Recursively get all the upper sales of a given Sales.
 	 *
-	 * @param int   $id                    - ssalesprocessesid
-	 * @param array $parentSSalesProcesses - Array of all the parent sales
-	 *                                     returns All the parent Sales of the given ssalesprocessesid in array format
+	 * @param int   $id                        - ssalesprocessesid
+	 * @param array $parentSSalesProcesses     - Array of all the parent sales
+	 *                                         returns All the parent Sales of the given ssalesprocessesid in array format
+	 * @param mixed $encounteredSalesProcesses
+	 * @param mixed $depthBase
 	 */
 	public function getParentSales($id, &$parentSSalesProcesses, &$encounteredSalesProcesses, $depthBase = 0)
 	{
@@ -213,7 +221,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 		if ($row) {
 			$parentid = $row['parentid'];
 
-			if ($parentid != '' && $parentid != 0 && !in_array($parentid, $encounteredSalesProcesses)) {
+			if ('' != $parentid && 0 != $parentid && !\in_array($parentid, $encounteredSalesProcesses)) {
 				$encounteredSalesProcesses[] = $parentid;
 				$this->getParentSales($parentid, $parentSSalesProcesses, $encounteredSalesProcesses, $depthBase + 1);
 			}
@@ -233,7 +241,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 			}
 
 			foreach ($listColumns as $columnname) {
-				if ($columnname == 'assigned_user_id') {
+				if ('assigned_user_id' == $columnname) {
 					$parentSSalesProcessesInfo[$columnname] = $row['user_name'];
 				} else {
 					$parentSSalesProcessesInfo[$columnname] = $row[$columnname];
@@ -285,7 +293,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 				$childSalesProcessesInfo['depth'] = $depth;
 
 				foreach ($listColumns as $columnname) {
-					if ($columnname == 'assigned_user_id') {
+					if ('assigned_user_id' == $columnname) {
 						$childSalesProcessesInfo[$columnname] = $row['user_name'];
 					} else {
 						$childSalesProcessesInfo[$columnname] = $row[$columnname];

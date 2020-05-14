@@ -23,7 +23,7 @@ class Settings_SocialMedia_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function twitter(\App\Request $request)
+	public function twitter(App\Request $request)
 	{
 		$configTitter = \App\SocialMedia::getInstance('twitter');
 		$configTitter->set('archiving_records_number_of_days', $request->getInteger('archiving_records_number_of_days'));

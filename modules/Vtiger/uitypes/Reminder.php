@@ -35,14 +35,13 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		if ($value != 0) {
+		if (0 != $value) {
 			$days = floor($value / (24 * 60));
 			$hours = floor(($value - $days * 24 * 60) / 60);
 			$minutes = ($value - ($days * 24 * 60)) % 60;
 			return [$days, $hours, $minutes];
-		} else {
-			return '';
 		}
+		return '';
 	}
 
 	/**
@@ -53,7 +52,7 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		if (($isUserFormat && !in_array($value, [0, 1, '1', '0', 'on'])) || (!$isUserFormat && !(empty($value) || is_numeric($value)))) {
+		if (($isUserFormat && !\in_array($value, [0, 1, '1', '0', 'on'])) || (!$isUserFormat && !(empty($value) || is_numeric($value)))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
@@ -62,7 +61,7 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
 		if (!$requestFieldName) {
@@ -106,7 +105,7 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function  getQueryOperators()
+	public function getQueryOperators()
 	{
 		return ['y', 'ny'];
 	}

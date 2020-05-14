@@ -17,9 +17,9 @@ class Calendar_Time_UIType extends Vtiger_Time_UIType
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		$fieldName = $this->get('field')->getFieldName();
-		if (empty($value) && ($fieldName === 'time_end' || $fieldName === 'time_start')) {
+		if (empty($value) && ('time_end' === $fieldName || 'time_start' === $fieldName)) {
 			$minutes = 0;
-			if ($fieldName === 'time_end') {
+			if ('time_end' === $fieldName) {
 				$userModel = \App\User::getCurrentUserModel();
 				$defaultType = $userModel->getDetail('defaultactivitytype');
 				$typeByDuration = \App\Json::decode($userModel->getDetail('othereventduration'));

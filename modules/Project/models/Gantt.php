@@ -57,7 +57,7 @@ class Project_Gantt_Model
 		if (empty($parentId)) {
 			return $parents;
 		}
-		if (!in_array($parentId, $parents)) {
+		if (!\in_array($parentId, $parents)) {
 			$parents[] = $parentId;
 		}
 		foreach ($this->tasks as $task) {
@@ -96,20 +96,20 @@ class Project_Gantt_Model
 	{
 		$parents = $this->getAllParentRecordsIds();
 		foreach ($this->tasks as &$task) {
-			$task['level'] = count($parents[$task['id']]);
+			$task['level'] = \count($parents[$task['id']]);
 			$task['parents'] = $parents[$task['id']];
 		}
 		unset($task);
 		$hasChild = [];
 		foreach ($parents as $parentsId) {
 			foreach ($parentsId as $parentId) {
-				if (!in_array($parentId, $hasChild)) {
+				if (!\in_array($parentId, $hasChild)) {
 					$hasChild[] = $parentId;
 				}
 			}
 		}
 		foreach ($this->tasks as &$task) {
-			if (in_array($task['id'], $hasChild)) {
+			if (\in_array($task['id'], $hasChild)) {
 				$task['hasChild'] = true;
 			} else {
 				$task['hasChild'] = false;
@@ -376,7 +376,7 @@ class Project_Gantt_Model
 		$colors = ['Project' => [], 'ProjectMilestone' => [], 'ProjectTask' => []];
 		$project = array_values(App\Fields\Picklist::getValues('projectstatus'));
 		foreach ($project as $value) {
-			$this->statuses['Project'][] = $status = ['value' => $value['projectstatus'], 'label' => App\Language::translate($value['projectstatus'], 'Project'), 'closing' => in_array($value['projectstatus'], $closingStatuses['Project']['status'])];
+			$this->statuses['Project'][] = $status = ['value' => $value['projectstatus'], 'label' => App\Language::translate($value['projectstatus'], 'Project'), 'closing' => \in_array($value['projectstatus'], $closingStatuses['Project']['status'])];
 			if (!$status['closing']) {
 				$this->activeStatuses['Project'][] = $status;
 			}
@@ -384,7 +384,7 @@ class Project_Gantt_Model
 		}
 		$projectMilestone = array_values(App\Fields\Picklist::getValues('projectmilestone_status'));
 		foreach ($projectMilestone as $value) {
-			$this->statuses['ProjectMilestone'][] = $status = ['value' => $value['projectmilestone_status'], 'label' => App\Language::translate($value['projectmilestone_status'], 'ProjectMilestone'), 'closing' => in_array($value['projectmilestone_status'], $closingStatuses['ProjectMilestone']['status'])];
+			$this->statuses['ProjectMilestone'][] = $status = ['value' => $value['projectmilestone_status'], 'label' => App\Language::translate($value['projectmilestone_status'], 'ProjectMilestone'), 'closing' => \in_array($value['projectmilestone_status'], $closingStatuses['ProjectMilestone']['status'])];
 			if (!$status['closing']) {
 				$this->activeStatuses['ProjectMilestone'][] = $status;
 			}
@@ -392,7 +392,7 @@ class Project_Gantt_Model
 		}
 		$projectTask = array_values(App\Fields\Picklist::getValues('projecttaskstatus'));
 		foreach ($projectTask as $value) {
-			$this->statuses['ProjectTask'][] = $status = ['value' => $value['projecttaskstatus'], 'label' => App\Language::translate($value['projecttaskstatus'], 'ProjectTask'), 'closing' => in_array($value['projecttaskstatus'], $closingStatuses['ProjectTask']['status'])];
+			$this->statuses['ProjectTask'][] = $status = ['value' => $value['projecttaskstatus'], 'label' => App\Language::translate($value['projecttaskstatus'], 'ProjectTask'), 'closing' => \in_array($value['projecttaskstatus'], $closingStatuses['ProjectTask']['status'])];
 			if (!$status['closing']) {
 				$this->activeStatuses['ProjectTask'][] = $status;
 			}
@@ -424,16 +424,16 @@ class Project_Gantt_Model
 	 * Get project data.
 	 *
 	 * @param array|int  $id       project id
-	 * @param null|mixed $viewName
+	 * @param mixed|null $viewName
 	 *
 	 * @return array
 	 */
 	private function getProject($id, $viewName = null)
 	{
-		if (!is_array($id) && isset($this->tasksById[$id])) {
+		if (!\is_array($id) && isset($this->tasksById[$id])) {
 			return [$this->tasksById[$id]];
 		}
-		if (!is_array($id)) {
+		if (!\is_array($id)) {
 			$id = [$id];
 		}
 		$projects = [];
@@ -509,7 +509,7 @@ class Project_Gantt_Model
 			unset($project['color']);
 			$this->tasksById[$row['id']] = $project;
 			$projects[] = $project;
-			if ($id !== [0] && !in_array($row['id'], $id)) {
+			if ($id !== [0] && !\in_array($row['id'], $id)) {
 				$childrenIds[] = $row['id'];
 			}
 		}
@@ -524,7 +524,7 @@ class Project_Gantt_Model
 	/**
 	 * Get all projects from the system.
 	 *
-	 * @param null|mixed $viewName
+	 * @param mixed|null $viewName
 	 *
 	 * @return array projects,milestones,tasks
 	 */

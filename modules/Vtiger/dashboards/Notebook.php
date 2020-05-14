@@ -10,7 +10,7 @@
 
 class Vtiger_Notebook_Dashboard extends Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request, $widget = null)
+	public function process(App\Request $request, $widget = null)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -25,7 +25,7 @@ class Vtiger_Notebook_Dashboard extends Vtiger_IndexAjax_View
 		$widget = Vtiger_Notebook_Model::getUserInstance($widgetId);
 
 		$mode = $request->getMode();
-		if ($mode == 'save') {
+		if ('save' == $mode) {
 			$widget->save($request);
 		}
 		$viewer->assign('WIDGET', $widget);

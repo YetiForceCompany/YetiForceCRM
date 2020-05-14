@@ -68,7 +68,7 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 			} else {
 				$value = $request->get($field);
 			}
-			if (is_array($value)) {
+			if (\is_array($value)) {
 				if ('conditions' === $field) {
 					$value = json_encode($value);
 				} else {

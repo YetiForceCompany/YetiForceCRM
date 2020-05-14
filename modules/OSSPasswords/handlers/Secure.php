@@ -26,7 +26,7 @@ class OSSPasswords_Secure_Handler
 			if ($result) {
 				$conf = Vtiger_Record_Model::getCleanInstance($eventHandler->getModuleName())->getConfiguration();
 				$where = ['id' => $result['id'], 'fieldname' => 'password'];
-				if ((int) $conf['register_changes'] === 1) {
+				if (1 === (int) $conf['register_changes']) {
 					\App\Db::getInstance()->createCommand()->update('vtiger_modtracker_detail', ['postvalue' => '**********'], $where)->execute();
 				} else {
 					\App\Db::getInstance()->createCommand()->update('vtiger_modtracker_detail', ['postvalue' => '**********', 'prevalue' => '**********'], $where)->execute();

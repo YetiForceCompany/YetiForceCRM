@@ -20,7 +20,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 	 *
 	 * @return \Vtiger_Record_Model Record Model of saved record
 	 */
-	public function saveRecord(\App\Request $request)
+	public function saveRecord(App\Request $request)
 	{
 		$recordModel = parent::saveRecord($request);
 		$data = $recordModel->getData();
@@ -46,10 +46,10 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 	 *
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	protected function getRecordModelFromRequest(\App\Request $request)
+	protected function getRecordModelFromRequest(App\Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
-		if (!$request->isEmpty('typeSaving') && $request->getInteger('typeSaving') === Calendar_RecuringEvents_Model::UPDATE_THIS_EVENT) {
+		if (!$request->isEmpty('typeSaving') && Calendar_RecuringEvents_Model::UPDATE_THIS_EVENT === $request->getInteger('typeSaving')) {
 			$recordModel->set('recurrence', $recordModel->getPreviousValue('recurrence'));
 		}
 		return $recordModel;

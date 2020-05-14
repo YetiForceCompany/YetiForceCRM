@@ -54,6 +54,8 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	/**
 	 * Update ticket status for support processes from support_processes.
 	 *
+	 * @param mixed $data
+	 *
 	 * @return - array of ticket status
 	 */
 	public function updateTicketStatusNotModify($data)
@@ -63,7 +65,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 			'ticket_status_indicate_closing' => '',
 		], ['id' => 1])->execute();
 		if (!empty($data['val'])) {
-			$data = implode(',', is_array($data['val']) ? $data['val'] : [$data['val']]);
+			$data = implode(',', \is_array($data['val']) ? $data['val'] : [$data['val']]);
 			\App\Db::getInstance()->createCommand()->update('vtiger_support_processes', [
 				'ticket_status_indicate_closing' => $data,
 			], ['id' => 1])->execute();

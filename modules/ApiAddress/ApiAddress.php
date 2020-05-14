@@ -16,6 +16,8 @@ class ApiAddress
 	 *
 	 * @param string Module name
 	 * @param string Event Type
+	 * @param mixed $moduleName
+	 * @param mixed $eventType
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
@@ -31,7 +33,7 @@ class ApiAddress
 		require_once 'modules/Users/Users.php';
 		require_once 'include/Webservices/Utils.php';
 		$registerLink = false;
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			//Add Assets Module to Customer Portal
 			$registerLink = true;
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();

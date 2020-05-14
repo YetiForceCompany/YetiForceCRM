@@ -21,7 +21,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, App\QueryGenerator $queryGenerator)
 	{
-		if (in_array($sourceModule, ['Assets', 'Project', 'ServiceContracts', 'Services'])) {
+		if (\in_array($sourceModule, ['Assets', 'Project', 'ServiceContracts', 'Services'])) {
 			$queryGenerator->addNativeCondition([
 				'and',
 				['not in', 'vtiger_troubletickets.ticketid', (new App\Db\Query())->select(['relcrmid'])->from('vtiger_crmentityrel')->where(['crmid' => $record])],
@@ -129,7 +129,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 		}
 		$listviewEntries[$recordId] = $infoData;
 		foreach ($baseInfo as $accId => $rowInfo) {
-			if (is_array($rowInfo) && (int) $accId) {
+			if (\is_array($rowInfo) && (int) $accId) {
 				$listviewEntries = $this->getHierarchyData($id, $rowInfo, $accId, $listviewEntries, $getRawData, $getLinks);
 			}
 		}
@@ -166,7 +166,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 			->one();
 		if ($row) {
 			$parentid = $row['parentid'];
-			if ('' !== $parentid && 0 != $parentid && !in_array($parentid, $encountered)) {
+			if ('' !== $parentid && 0 != $parentid && !\in_array($parentid, $encountered)) {
 				$encountered[] = $parentid;
 				$this->getParent($parentid, $parent, $encountered, $depthBase + 1);
 			}
@@ -278,7 +278,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 			->where(['and', ['vtiger_crmentity.deleted' => 0], ['vtiger_troubletickets.parentid' => $id], ['not', ['vtiger_troubletickets.ticketid' => $id]]])
 			->column();
 		if (!empty($recordsIds)) {
-			if (is_array($recordsIds)) {
+			if (\is_array($recordsIds)) {
 				foreach ($recordsIds as $recordId) {
 					$childIds[] = $recordId;
 					$this->getChildIds($recordId, $childIds);
@@ -288,7 +288,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 				$this->getChildIds($recordsIds, $childIds);
 			}
 		}
-		return is_array($childIds) ? $childIds : [$childIds];
+		return \is_array($childIds) ? $childIds : [$childIds];
 	}
 
 	/**

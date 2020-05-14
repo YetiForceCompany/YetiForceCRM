@@ -14,12 +14,12 @@ class Settings_Companies_Detail_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$record = $request->getInteger('record');
 		$qualifiedModuleName = $request->getModule(false);
 		$recordModel = Settings_Companies_Record_Model::getInstance($record);
-		if (is_null(Settings_Companies_ListView_Model::$recordsCount)) {
+		if (null === Settings_Companies_ListView_Model::$recordsCount) {
 			Settings_Companies_ListView_Model::$recordsCount = (new \App\Db\Query())->from('s_#__companies')->count();
 		}
 		$viewer = $this->getViewer($request);

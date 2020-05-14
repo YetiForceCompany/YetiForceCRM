@@ -16,7 +16,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
@@ -35,7 +35,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 			$stateActivityLabels['in_realization'],
 		],
 		];
-		if (!$request->isEmpty('activitytype') && $request->getByType('activitytype', 'Text') !== 'all') {
+		if (!$request->isEmpty('activitytype') && 'all' !== $request->getByType('activitytype', 'Text')) {
 			$params['activitytype'] = $request->getByType('activitytype', 'Text');
 		}
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
@@ -48,7 +48,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('sortorder', $sortOrder);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('upcoming', $pagingModel, $owner, false, $params);
+		$calendarActivities = (false === $owner) ? [] : $moduleModel->getCalendarActivities('upcoming', $pagingModel, $owner, false, $params);
 		$msgLabel = 'LBL_NO_SCHEDULED_ACTIVITIES';
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');

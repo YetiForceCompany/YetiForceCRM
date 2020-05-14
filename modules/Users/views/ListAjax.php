@@ -10,8 +10,8 @@
 
 class Users_ListAjax_View extends Users_List_View
 {
-	use \App\Controller\ExposeMethod,
-	 App\Controller\ClearProcess;
+	use \App\Controller\ExposeMethod;
+	use App\Controller\ClearProcess;
 
 	/**
 	 * {@inheritdoc}

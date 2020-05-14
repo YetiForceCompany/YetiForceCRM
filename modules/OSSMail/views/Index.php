@@ -36,13 +36,13 @@ class OSSMail_Index_View extends Vtiger_Index_View
 	public function initAutologin()
 	{
 		$config = Settings_Mail_Config_Model::getConfig('autologin');
-		if ($config['autologinActive'] == 'true') {
+		if ('true' == $config['autologinActive']) {
 			$account = OSSMail_Autologin_Model::getAutologinUsers();
 			if ($account) {
-				$rcUser = (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $account)) ? $account[$_SESSION['AutoLoginUser']] : reset($account);
+				$rcUser = (isset($_SESSION['AutoLoginUser']) && \array_key_exists($_SESSION['AutoLoginUser'], $account)) ? $account[$_SESSION['AutoLoginUser']] : reset($account);
 
 				$key = md5($rcUser['rcuser_id'] . microtime());
-				if (strpos($this->mainUrl, '?') !== false) {
+				if (false !== strpos($this->mainUrl, '?')) {
 					$this->mainUrl .= '&';
 				} else {
 					$this->mainUrl .= '?';
@@ -63,7 +63,7 @@ class OSSMail_Index_View extends Vtiger_Index_View
 	 * @param \App\Request $request
 	 * @param bool         $display
 	 */
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		$this->initAutologin();
 
@@ -75,7 +75,7 @@ class OSSMail_Index_View extends Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);

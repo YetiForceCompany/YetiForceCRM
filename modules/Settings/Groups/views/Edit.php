@@ -16,7 +16,7 @@ class Settings_Groups_Edit_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -37,10 +37,10 @@ class Settings_Groups_Edit_View extends Settings_Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-				"modules.Settings.{$request->getModule()}.resources.Edit",
+			"modules.Settings.{$request->getModule()}.resources.Edit",
 		]));
 	}
 }

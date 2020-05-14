@@ -26,7 +26,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 		$recordId = $recordModel->getId();
 		$linkModelList['DETAIL_VIEW_BASIC'] = [];
 
-		if (($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') === $recordId) && $recordModel->get('status') === 'Active') {
+		if ((true === $currentUserModel->isAdminUser() || $currentUserModel->get('id') === $recordId) && 'Active' === $recordModel->get('status')) {
 			$recordModel = $this->getRecord();
 			$detailViewLinks = [];
 			$detailViewLinks[] = [
@@ -37,7 +37,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => 'fas fa-key mr-1',
 				'showLabel' => true,
 			];
-			if ($currentUserModel->isAdminUser() === true) {
+			if (true === $currentUserModel->isAdminUser()) {
 				$detailViewLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => 'BTN_RESET_PASSWORD',
@@ -50,7 +50,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 			$detailViewLinks[] = [
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => 'LBL_EDIT',
-				'linkurl' => $linkParams['VIEW'] === 'PreferenceDetail' ? $recordModel->getPreferenceEditViewUrl() : $recordModel->getEditViewUrl(),
+				'linkurl' => 'PreferenceDetail' === $linkParams['VIEW'] ? $recordModel->getPreferenceEditViewUrl() : $recordModel->getEditViewUrl(),
 				'linkclass' => 'btn-outline-success',
 				'linkicon' => 'yfi yfi-full-editing-view mr-1',
 				'showLabel' => true,
@@ -78,7 +78,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => 'yfi yfi-full-editing-view',
 				'showLabel' => true,
 			];
-			if (\App\User::getUserModel($recordModel->getRealId())->getDetail('login_method') === 'PLL_PASSWORD_2FA' && \App\Config::security('USER_AUTHY_MODE') !== 'TOTP_OFF') {
+			if ('PLL_PASSWORD_2FA' === \App\User::getUserModel($recordModel->getRealId())->getDetail('login_method') && 'TOTP_OFF' !== \App\Config::security('USER_AUTHY_MODE')) {
 				$detailViewActionLinks[] = [
 					'linktype' => 'DETAIL_VIEW_BASIC',
 					'linklabel' => 'LBL_2FA_TOTP_QR_CODE',

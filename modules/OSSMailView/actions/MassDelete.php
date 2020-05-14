@@ -18,7 +18,7 @@ class OSSMailView_MassDelete_Action extends Vtiger_Mass_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassDelete')) {
@@ -26,7 +26,7 @@ class OSSMailView_MassDelete_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordModel = new OSSMailView_Record_Model();

@@ -86,6 +86,8 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to get mapping details.
 	 *
+	 * @param mixed $editable
+	 *
 	 * @return <Array> list of mapping details
 	 */
 	public function getMapping($editable = false)
@@ -125,6 +127,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	 * Function to get fields info.
 	 *
 	 * @param  <Array> list of field ids
+	 * @param mixed $fieldIdsList
 	 *
 	 * @return <Array> list of field info
 	 */
@@ -164,11 +167,11 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 		$db = \App\Db::getInstance();
 		$deleteMappingsList = $updateMappingsList = $createMappingsList = [];
 		foreach ($mapping as $mappingDetails) {
-			if (is_array($mappingDetails)) {
+			if (\is_array($mappingDetails)) {
 				$mappingId = $mappingDetails['mappingId'] ?? '';
 				if ($mappingDetails['lead']) {
 					if ($mappingId) {
-						if ((array_key_exists('deletable', $mappingDetails)) || !$mappingDetails['account']) {
+						if ((\array_key_exists('deletable', $mappingDetails)) || !$mappingDetails['account']) {
 							$deleteMappingsList[] = $mappingId;
 						} elseif ($mappingDetails['account']) {
 							$updateMappingsList[] = $mappingDetails;
@@ -183,7 +186,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 			self::deleteMapping($deleteMappingsList, true);
 		}
 		if ($createMappingsList) {
-			$count = count($createMappingsList);
+			$count = \count($createMappingsList);
 			$insertedData = [];
 			for ($i = 0; $i < $count; ++$i) {
 				$mappingDetails = $createMappingsList[$i];
@@ -242,6 +245,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	 * Function to get instance.
 	 *
 	 * @param bool true/false
+	 * @param mixed $editable
 	 *
 	 * @return <Settings_Leads_Mapping_Model>
 	 */

@@ -8,7 +8,7 @@
  */
 class Vtiger_CreatedNotMineOverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
@@ -28,7 +28,7 @@ class Vtiger_CreatedNotMineOverdueActivities_Dashboard extends Vtiger_IndexAjax_
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
-		$pagingModel->set('limit', (int)$widget->get('limit'));
+		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
 
@@ -42,11 +42,11 @@ class Vtiger_CreatedNotMineOverdueActivities_Dashboard extends Vtiger_IndexAjax_
 				['not in', 'vtiger_crmentity.smownerid', $params['user']],
 			],
 		];
-		if (!$request->isEmpty('activitytype') && $request->getByType('activitytype') !== 'all') {
+		if (!$request->isEmpty('activitytype') && 'all' !== $request->getByType('activitytype')) {
 			$params['activitytype'] = $request->getByType('activitytype');
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('createdByMeButNotMineOverdue', $pagingModel, $owner, false, $params);
+		$overDueActivities = (false === $owner) ? [] : $moduleModel->getCalendarActivities('createdByMeButNotMineOverdue', $pagingModel, $owner, false, $params);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');

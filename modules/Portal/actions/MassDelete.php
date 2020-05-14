@@ -11,7 +11,7 @@
 
 class Portal_MassDelete_Action extends Vtiger_Mass_Action
 {
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -19,7 +19,7 @@ class Portal_MassDelete_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$module = $request->getModule();
 

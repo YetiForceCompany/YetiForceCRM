@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -75,7 +76,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, App\QueryGenerator $queryGenerator)
 	{
-		if (!empty($record) && in_array($sourceModule, ['Campaigns', 'Products', 'Services'])) {
+		if (!empty($record) && \in_array($sourceModule, ['Campaigns', 'Products', 'Services'])) {
 			switch ($sourceModule) {
 				case 'Campaigns':
 					$tableName = 'vtiger_campaign_records';
@@ -136,7 +137,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 				}
 				$tableName = $fieldModel->get('table');
-				if (!in_array($tableName, $joinTable)) {
+				if (!\in_array($tableName, $joinTable)) {
 					$query->innerJoin($tableName, "{$tableName}.{$focus->tab_name_index[$tableName]} = vtiger_account.accountid");
 					$joinTable[] = $tableName;
 				}
@@ -188,6 +189,6 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		if (empty($leadConfig['convert_status'])) {
 			return true;
 		}
-		return in_array($status, $leadConfig['convert_status']);
+		return \in_array($status, $leadConfig['convert_status']);
 	}
 }

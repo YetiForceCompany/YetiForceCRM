@@ -14,7 +14,7 @@ class Users_MassSave_Action extends Vtiger_MassSave_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -25,7 +25,7 @@ class Users_MassSave_Action extends Vtiger_MassSave_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordModels = $this->getRecordModelsFromRequest($request);
@@ -47,12 +47,12 @@ class Users_MassSave_Action extends Vtiger_MassSave_Action
 	 *
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	public function getRecordModelsFromRequest(\App\Request $request)
+	public function getRecordModelsFromRequest(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordIds = self::getRecordsListFromRequest($request);
-		if (empty($recordIds) && $request->getRaw('selected_ids') === 'all') {
+		if (empty($recordIds) && 'all' === $request->getRaw('selected_ids')) {
 			$recordIds = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->column();
 		}
 		$recordModels = [];

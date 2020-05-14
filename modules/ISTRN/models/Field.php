@@ -12,7 +12,7 @@ class ISTRN_Field_Model extends Vtiger_Field_Model
 	public function isAjaxEditable()
 	{
 		$edit = parent::isAjaxEditable();
-		if ($edit && $this->getName() === 'istrn_status') {
+		if ($edit && 'istrn_status' === $this->getName()) {
 			$edit = false;
 		}
 		return $edit;

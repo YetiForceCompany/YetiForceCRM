@@ -82,7 +82,7 @@ class VTFieldExpressionEvaluater
 		return implode('', $arr);
 	}
 
-	/** Date difference between (input times) or (current time and input time)
+	/** Date difference between (input times) or (current time and input time).
 	 *
 	 * @param array $a   $a[0] - Input time1, $a[1] - Input time2
 	 *                   (if $a[1] is not available $a[0] = Current Time, $a[1] = Input time1)

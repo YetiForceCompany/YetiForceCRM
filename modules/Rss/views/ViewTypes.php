@@ -25,7 +25,7 @@ class Rss_ViewTypes_View extends Vtiger_BasicModal_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getRssWidget(\App\Request $request)
+	public function getRssWidget(App\Request $request)
 	{
 		$module = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
@@ -43,7 +43,7 @@ class Rss_ViewTypes_View extends Vtiger_BasicModal_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getRssAddForm(\App\Request $request)
+	public function getRssAddForm(App\Request $request)
 	{
 		$module = $request->getModule();
 		$viewer = $this->getViewer($request);

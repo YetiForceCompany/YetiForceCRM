@@ -15,7 +15,7 @@ class Settings_WebserviceUsers_List_View extends Settings_Vtiger_List_View
 	 * @param \App\Request  $request
 	 * @param Vtiger_Viewer $viewer
 	 */
-	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		if (!$request->has('typeApi')) {
@@ -31,7 +31,7 @@ class Settings_WebserviceUsers_List_View extends Settings_Vtiger_List_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
@@ -42,7 +42,7 @@ class Settings_WebserviceUsers_List_View extends Settings_Vtiger_List_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'libraries.clipboard.dist.clipboard'

@@ -64,7 +64,7 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 	 */
 	public $list_fields = [
 		// Format: Field Label => Array(tablename, columnname)
-// tablename should not have prefix 'vtiger_'
+		// tablename should not have prefix 'vtiger_'
 		'LBL_NO' => ['holidaysentitlement', 'holidaysentitlement_no'],
 		'LBL_EMPLOYEE' => ['holidaysentitlement', 'ossemployeesid'],
 		'Assigned To' => ['crmentity', 'smownerid'],
@@ -103,7 +103,7 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 	 */
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)
-// tablename should not have prefix 'vtiger_'
+		// tablename should not have prefix 'vtiger_'
 		'LBL_NO' => ['holidaysentitlement', 'holidaysentitlement_no'],
 		'LBL_EMPLOYEE' => ['holidaysentitlement', 'ossemployeesid'],
 		'Assigned To' => ['crmentity', 'assigned_user_id'],
@@ -163,10 +163,12 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 	 *
 	 * @param string Module name
 	 * @param string Event Type
+	 * @param mixed $moduleName
+	 * @param mixed $eventType
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => 'HolidaysEntitlement'])->execute();
 			$moduleInstance = vtlib\Module::getInstance('HolidaysEntitlement');
 			$targetModule = vtlib\Module::getInstance('OSSEmployees');

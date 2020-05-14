@@ -19,7 +19,7 @@ class Documents_DownloadFile_File extends Vtiger_Basic_File
 	 *
 	 * @return bool
 	 */
-	public function getCheckPermission(\App\Request $request)
+	public function getCheckPermission(App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -34,7 +34,7 @@ class Documents_DownloadFile_File extends Vtiger_Basic_File
 	 *
 	 * @return string|bool
 	 */
-	public function get(\App\Request $request)
+	public function get(App\Request $request)
 	{
 		$documentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		//Download the file

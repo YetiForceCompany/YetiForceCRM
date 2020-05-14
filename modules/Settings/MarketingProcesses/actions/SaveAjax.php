@@ -14,11 +14,11 @@ class Settings_MarketingProcesses_SaveAjax_Action extends Settings_Vtiger_Basic_
 		$this->exposeMethod('updateConfig');
 	}
 
-	public function updateConfig(\App\Request $request)
+	public function updateConfig(App\Request $request)
 	{
 		$type = $request->getByType('type', 2);
 		$param = $request->getByType('param');
-		$value = ($type === 'conversion' && $param === 'mapping') ? \App\Json::encode($request->getArray('value', 2)) : $request->getByType('value', 2);
+		$value = ('conversion' === $type && 'mapping' === $param) ? \App\Json::encode($request->getArray('value', 2)) : $request->getByType('value', 2);
 		$moduleModel = Settings_MarketingProcesses_Module_Model::getCleanInstance();
 		$response = new Vtiger_Response();
 		$response->setResult([

@@ -17,7 +17,7 @@ class Settings_Companies_Edit_View extends Settings_Vtiger_Index_View
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -41,7 +41,7 @@ class Settings_Companies_Edit_View extends Settings_Vtiger_Index_View
 	 *
 	 * @return Vtiger_JsScript_Model[]
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [

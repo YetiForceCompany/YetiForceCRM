@@ -47,18 +47,19 @@ class Vtiger_MassEditRecordStructure_Model extends Vtiger_EditRecordStructure_Mo
 		return $values;
 	}
 
-	/*
-	 * Function that return Field Restricted are not
+	/**
+	 * Function that return Field Restricted are not.
+	 *
 	 * 	@params Field Model
 	 *  @returns boolean true or false
+	 *
+	 * @param mixed $fieldModel
 	 */
-
 	public function isFieldRestricted($fieldModel)
 	{
-		if ($fieldModel->getFieldDataType() == 'image') {
+		if ('image' == $fieldModel->getFieldDataType()) {
 			return false;
-		} else {
-			return true;
 		}
+		return true;
 	}
 }

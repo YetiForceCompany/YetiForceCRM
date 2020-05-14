@@ -17,7 +17,7 @@ class Settings_SMSNotifier_DeleteAjax_Action extends Settings_Vtiger_Delete_Acti
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$qualifiedModuleName = $request->getModule(false);

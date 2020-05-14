@@ -10,12 +10,12 @@
 
 class Portal_Detail_View extends Vtiger_Index_View
 {
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$module = $request->getModule();
@@ -33,7 +33,7 @@ class Portal_Detail_View extends Vtiger_Index_View
 		$viewer->view('DetailView.tpl', $module);
 	}
 
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([

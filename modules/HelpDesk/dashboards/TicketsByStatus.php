@@ -67,7 +67,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		];
 		while ($row = $dataReader->read()) {
 			$tickets[$row['statusvalue']][$row['ticketpriorities_id']] = $row['count'];
-			if (!array_key_exists($row['ticketpriorities_id'], $priorities)) {
+			if (!\array_key_exists($row['ticketpriorities_id'], $priorities)) {
 				$priorities[$row['ticketpriorities_id']] = ++$counter;
 				// datasets stacked by priority (status is X, bar divided by priority)
 				$chartData['datasets'][] = [
@@ -79,7 +79,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 					'_priorityId' => $row['ticketpriorities_id'],
 				];
 			}
-			if (!in_array($row['statusvalue'], $status)) {
+			if (!\in_array($row['statusvalue'], $status)) {
 				$status[] = $row['statusvalue'];
 			}
 		}
@@ -108,7 +108,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		return $chartData;
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -119,10 +119,10 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			$owner = $request->getByType('owner', 2);
 		}
 		$ownerForwarded = $owner;
-		if ($owner == 'all') {
+		if ('all' == $owner) {
 			$owner = '';
 		}
-		$data = ($owner === false) ? [] : $this->getTicketsByStatus($owner);
+		$data = (false === $owner) ? [] : $this->getTicketsByStatus($owner);
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		foreach ($data['datasets'] as &$dataset) {
 			foreach ($dataset['names'] as $name) {
