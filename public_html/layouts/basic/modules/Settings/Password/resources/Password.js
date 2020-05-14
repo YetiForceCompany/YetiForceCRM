@@ -2,18 +2,18 @@
 'use strict';
 
 var Settings_Password_Js = {
-	loadAction: function() {
-		jQuery('#big_letters,#small_letters,#numbers,#special,#pwned').on('change', function() {
+	loadAction: function () {
+		jQuery('#big_letters,#small_letters,#numbers,#special,#pwned').on('change', function () {
 			Settings_Password_Js.saveConf(jQuery(this).attr('name'), jQuery(this).is(':checked'));
 		});
-		jQuery('#min_length,#max_length,#change_time,#lock_time,#pwned_time').on('change', function() {
+		jQuery('#min_length,#max_length,#change_time,#lock_time,#pwned_time').on('change', function () {
 			Settings_Password_Js.saveConf(jQuery(this).attr('name'), jQuery(this).val());
 		});
-		jQuery('#min_length,#max_length,#change_time,#lock_time,#pwned_time').on('keyup', function() {
+		jQuery('#min_length,#max_length,#change_time,#lock_time,#pwned_time').on('keyup', function () {
 			this.value = this.value.replace(/[^0-9\.]/g, '');
 		});
 	},
-	saveConf: function(type, vale) {
+	saveConf: function (type, vale) {
 		var params = {
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
@@ -22,7 +22,7 @@ var Settings_Password_Js = {
 			type: type,
 			vale: vale
 		};
-		AppConnector.request(params).done(function(data) {
+		AppConnector.request(params).done(function (data) {
 			var response = data['result'];
 			var params = {
 				text: response,
@@ -31,9 +31,9 @@ var Settings_Password_Js = {
 			Vtiger_Helper_Js.showPnotify(params);
 		});
 	},
-	registerPwned: function() {
+	registerPwned: function () {
 		let tab = $('#pwnedtab');
-		tab.find('input').on('change', function() {
+		tab.find('input').on('change', function () {
 			AppConnector.request({
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
@@ -41,13 +41,13 @@ var Settings_Password_Js = {
 				mode: 'pwned',
 				vale: this.value
 			})
-				.done(function(data) {
+				.done(function (data) {
 					Vtiger_Helper_Js.showPnotify({
 						text: data['result']['message'],
 						type: 'success'
 					});
 				})
-				.fail(function() {
+				.fail(function () {
 					Vtiger_Helper_Js.showPnotify({
 						text: app.vtranslate('JS_ERROR'),
 						type: 'error'
@@ -55,11 +55,11 @@ var Settings_Password_Js = {
 				});
 		});
 	},
-	registerEvents: function() {
+	registerEvents: function () {
 		Settings_Password_Js.loadAction();
 		Settings_Password_Js.registerPwned();
 	}
 };
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
 	Settings_Password_Js.registerEvents();
 });

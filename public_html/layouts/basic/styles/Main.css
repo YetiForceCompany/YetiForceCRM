@@ -1904,11 +1904,11 @@ select.form-control:focus::-ms-value {
   background-color: transparent;
   border: solid transparent;
   border-width: 1px 0; }
-  .form-control-plaintext.form-control-sm, .input-group-sm .form-control-plaintext.form-control, .form-control-plaintext.form-control-lg, .input-group-lg .form-control-plaintext.form-control {
+  .form-control-plaintext.form-control-sm, .input-group-sm .form-control-plaintext.form-control, .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .form-control-plaintext.form-control, .form-control-plaintext.form-control-lg, .input-group-lg .form-control-plaintext.form-control {
     padding-right: 0;
     padding-left: 0; }
 
-.form-control-sm, .input-group-sm .form-control {
+.form-control-sm, .input-group-sm .form-control, .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .form-control {
   height: calc(1.5em + 0.5rem + 2px);
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
@@ -3066,23 +3066,30 @@ input[type="button"].btn-block {
   line-height: 1.5;
   border-radius: 0.3rem; }
 
-.input-group-sm > .form-control:not(textarea),
-.input-group-sm > .custom-select {
+.input-group-sm > .form-control:not(textarea), .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group > .form-control:not(textarea),
+.input-group-sm > .custom-select,
+.dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group > .custom-select {
   height: calc(1.5em + 0.5rem + 2px); }
 
-.input-group-sm > .form-control,
+.input-group-sm > .form-control, .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group > .form-control,
 .input-group-sm > .custom-select,
+.dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group > .custom-select,
 .input-group-sm > .input-group-prepend > .input-group-text,
+.dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group > .input-group-prepend > .input-group-text,
 .input-group-sm > .input-group-append > .input-group-text,
+.dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group > .input-group-append > .input-group-text,
 .input-group-sm > .input-group-prepend > .btn,
-.input-group-sm > .input-group-append > .btn {
+.dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group > .input-group-prepend > .btn,
+.input-group-sm > .input-group-append > .btn,
+.dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group > .input-group-append > .btn {
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
   line-height: 1.5;
   border-radius: 0.2rem; }
 
 .input-group-lg > .custom-select,
-.input-group-sm > .custom-select {
+.input-group-sm > .custom-select,
+.dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group > .custom-select {
   padding-right: 1.75rem; }
 
 .input-group > .input-group-prepend > .btn,
@@ -9142,8 +9149,9 @@ a.text-dark:hover, a.text-dark:focus {
         color: "#111"; }
     .select2-container--bootstrap .select2-selection--multiple .select2-selection__clear {
       margin-top: 0.375rem; }
-  .select2-container--bootstrap .select2-selection--single.form-control-sm, .select2-container--bootstrap .input-group-sm .select2-selection--single.form-control, .input-group-sm .select2-container--bootstrap .select2-selection--single.form-control,
+  .select2-container--bootstrap .select2-selection--single.form-control-sm, .select2-container--bootstrap .input-group-sm .select2-selection--single.form-control, .input-group-sm .select2-container--bootstrap .select2-selection--single.form-control, .select2-container--bootstrap .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-selection--single.form-control, .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-container--bootstrap .select2-selection--single.form-control,
   .input-group-sm .select2-container--bootstrap .select2-selection--single,
+  .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-container--bootstrap .select2-selection--single,
   .form-group-sm .select2-container--bootstrap .select2-selection--single {
     border-radius: 0.2rem;
     font-size: 0.875rem;
@@ -9151,31 +9159,36 @@ a.text-dark:hover, a.text-dark:focus {
     line-height: 1.5;
     padding: 0.25rem 1.25rem 0.25rem 0.5rem;
     /* 2 */ }
-    .select2-container--bootstrap .select2-selection--single.form-control-sm .select2-selection__arrow b, .select2-container--bootstrap .input-group-sm .select2-selection--single.form-control .select2-selection__arrow b, .input-group-sm .select2-container--bootstrap .select2-selection--single.form-control .select2-selection__arrow b,
+    .select2-container--bootstrap .select2-selection--single.form-control-sm .select2-selection__arrow b, .select2-container--bootstrap .input-group-sm .select2-selection--single.form-control .select2-selection__arrow b, .input-group-sm .select2-container--bootstrap .select2-selection--single.form-control .select2-selection__arrow b, .select2-container--bootstrap .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-selection--single.form-control .select2-selection__arrow b, .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-container--bootstrap .select2-selection--single.form-control .select2-selection__arrow b,
     .input-group-sm .select2-container--bootstrap .select2-selection--single .select2-selection__arrow b,
+    .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-container--bootstrap .select2-selection--single .select2-selection__arrow b,
     .form-group-sm .select2-container--bootstrap .select2-selection--single .select2-selection__arrow b {
       margin-left: -0.25rem; }
-  .select2-container--bootstrap .select2-selection--multiple.form-control-sm, .select2-container--bootstrap .input-group-sm .select2-selection--multiple.form-control, .input-group-sm .select2-container--bootstrap .select2-selection--multiple.form-control,
+  .select2-container--bootstrap .select2-selection--multiple.form-control-sm, .select2-container--bootstrap .input-group-sm .select2-selection--multiple.form-control, .input-group-sm .select2-container--bootstrap .select2-selection--multiple.form-control, .select2-container--bootstrap .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-selection--multiple.form-control, .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-container--bootstrap .select2-selection--multiple.form-control,
   .input-group-sm .select2-container--bootstrap .select2-selection--multiple,
+  .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-container--bootstrap .select2-selection--multiple,
   .form-group-sm .select2-container--bootstrap .select2-selection--multiple {
     border-radius: 0.2rem;
     min-height: calc(1.5em + 0.5rem + 2px); }
-    .select2-container--bootstrap .select2-selection--multiple.form-control-sm .select2-selection__choice, .select2-container--bootstrap .input-group-sm .select2-selection--multiple.form-control .select2-selection__choice, .input-group-sm .select2-container--bootstrap .select2-selection--multiple.form-control .select2-selection__choice,
+    .select2-container--bootstrap .select2-selection--multiple.form-control-sm .select2-selection__choice, .select2-container--bootstrap .input-group-sm .select2-selection--multiple.form-control .select2-selection__choice, .input-group-sm .select2-container--bootstrap .select2-selection--multiple.form-control .select2-selection__choice, .select2-container--bootstrap .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-selection--multiple.form-control .select2-selection__choice, .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-container--bootstrap .select2-selection--multiple.form-control .select2-selection__choice,
     .input-group-sm .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice,
+    .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice,
     .form-group-sm .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice {
       font-size: 0.875rem;
       line-height: 1.5;
       margin: calc(0.25rem - 1px) 0 0 0.25rem;
       padding: 0 0.25rem; }
-    .select2-container--bootstrap .select2-selection--multiple.form-control-sm .select2-search--inline .select2-search__field, .select2-container--bootstrap .input-group-sm .select2-selection--multiple.form-control .select2-search--inline .select2-search__field, .input-group-sm .select2-container--bootstrap .select2-selection--multiple.form-control .select2-search--inline .select2-search__field,
+    .select2-container--bootstrap .select2-selection--multiple.form-control-sm .select2-search--inline .select2-search__field, .select2-container--bootstrap .input-group-sm .select2-selection--multiple.form-control .select2-search--inline .select2-search__field, .input-group-sm .select2-container--bootstrap .select2-selection--multiple.form-control .select2-search--inline .select2-search__field, .select2-container--bootstrap .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-selection--multiple.form-control .select2-search--inline .select2-search__field, .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-container--bootstrap .select2-selection--multiple.form-control .select2-search--inline .select2-search__field,
     .input-group-sm .select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field,
+    .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field,
     .form-group-sm .select2-container--bootstrap .select2-selection--multiple .select2-search--inline .select2-search__field {
       padding: 0 0.5rem;
       font-size: 0.875rem;
       height: calc(1.5em + 0.5rem + 2px);
       line-height: 1.5; }
-    .select2-container--bootstrap .select2-selection--multiple.form-control-sm .select2-selection__clear, .select2-container--bootstrap .input-group-sm .select2-selection--multiple.form-control .select2-selection__clear, .input-group-sm .select2-container--bootstrap .select2-selection--multiple.form-control .select2-selection__clear,
+    .select2-container--bootstrap .select2-selection--multiple.form-control-sm .select2-selection__clear, .select2-container--bootstrap .input-group-sm .select2-selection--multiple.form-control .select2-selection__clear, .input-group-sm .select2-container--bootstrap .select2-selection--multiple.form-control .select2-selection__clear, .select2-container--bootstrap .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-selection--multiple.form-control .select2-selection__clear, .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-container--bootstrap .select2-selection--multiple.form-control .select2-selection__clear,
     .input-group-sm .select2-container--bootstrap .select2-selection--multiple .select2-selection__clear,
+    .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-container--bootstrap .select2-selection--multiple .select2-selection__clear,
     .form-group-sm .select2-container--bootstrap .select2-selection--multiple .select2-selection__clear {
       margin-top: 0.25rem; }
   .select2-container--bootstrap .select2-selection--single.form-control-lg, .select2-container--bootstrap .input-group-lg .select2-selection--single.form-control, .input-group-lg .select2-container--bootstrap .select2-selection--single.form-control,
@@ -12313,7 +12326,7 @@ select[readonly].select2-hidden-accessible + .select2-container {
   .input-group > .input-group-prepend .select2-selection--single {
     border-right: unset !important;
     border-radius: 0.25rem 0 0 0.25rem !important; }
-  .input-group-sm .select2-selection--single {
+  .input-group-sm .select2-selection--single, .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2-selection--single {
     border-top-right-radius: 0.25rem !important;
     border-bottom-right-radius: 0.25rem !important; }
 
@@ -12351,10 +12364,10 @@ select.select2 select.select2noactive {
   float: unset;
   width: fit-content; }
 
-.input-group-sm select.select2 {
+.input-group-sm select.select2, .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group select.select2 {
   height: calc(1.5em + 0.5rem + 2px) !important; }
 
-.form-control-sm.select2, .input-group-sm .select2.form-control {
+.form-control-sm.select2, .input-group-sm .select2.form-control, .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group .select2.form-control {
   height: calc(1.5em + 0.5rem + 2px) !important; }
 
 .input-group > .select2-container--bootstrap {
@@ -12628,7 +12641,7 @@ label.btn[class*="btn-outline-"]:not(.active) {
 .border.btn, .btn.select2-selection {
   border-color: #ced4da !important; }
 
-.input-group.input-group-sm {
+.input-group.input-group-sm, .dashboardWidget .dashboardWidgetHeader .js-tree-container .input-group {
   min-width: 4.0625rem; }
 
 .modal-header {
@@ -15482,7 +15495,8 @@ ul.tweets li {
 .table td.wide:not(.listButtons), .c-detail-widget__table td.wide:not(.listButtons),
 .listViewEntries td.wide:not(.listButtons),
 td.listViewEntryValue.wide:not(.listButtons) {
-  padding: 0.9375rem; }
+  padding: 0.9375rem;
+  font-size: 1rem; }
 
 .table td.medium:not(.listButtons), .c-detail-widget__table td.medium:not(.listButtons),
 .listViewEntries td.medium:not(.listButtons),
@@ -18740,7 +18754,8 @@ ul.c-process-line {
     color: inherit; }
   .c-footer p {
     font-size: 0.85em; }
-  .c-footer .page-item:last-child .page-link, .c-footer .page-item:first-child .page-link {
+  .c-footer .page-item:last-child .page-link,
+  .c-footer .page-item:first-child .page-link {
     border-radius: initial; }
   .c-footer .page-link {
     color: inherit;
@@ -20323,6 +20338,15 @@ td.fieldValue .input-group {
   .listViewEntriesDiv td {
     overflow: visible;
     position: relative; }
+  .listViewEntriesDiv .js-tree-container input,
+  .listViewEntriesDiv .js-tree-container .input-group-prepend,
+  .listViewEntriesDiv .js-tree-container .input-group-append {
+    height: calc(1.25em + 1rem + 2px) !important; }
+  .listViewEntriesDiv .js-tree-container span,
+  .listViewEntriesDiv .js-tree-container input {
+    font-size: 1rem !important; }
+  .listViewEntriesDiv .js-tree-container input {
+    padding: 0 0.75rem; }
 
 .listViewEntriesTable .listViewHeaders a.listViewHeaderValues {
   color: #444; }

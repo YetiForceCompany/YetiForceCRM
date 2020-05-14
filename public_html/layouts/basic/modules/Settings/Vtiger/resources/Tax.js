@@ -18,7 +18,7 @@ jQuery.Class(
 		/**
 		 * This function will show the model for Add/Edit tax
 		 */
-		editTax: function(url, currentTrElement) {
+		editTax: function (url, currentTrElement) {
 			var aDeferred = jQuery.Deferred();
 			var thisInstance = this;
 
@@ -30,14 +30,14 @@ jQuery.Class(
 			});
 
 			AppConnector.request(url)
-				.done(function(data) {
-					var callBackFunction = function(data) {
+				.done(function (data) {
+					var callBackFunction = function (data) {
 						//cache should be empty when modal opened
 						thisInstance.duplicateCheckCache = {};
 						var form = jQuery('#editTax');
 
 						var params = app.validationEngineOptions;
-						params.onValidationComplete = function(form, valid) {
+						params.onValidationComplete = function (form, valid) {
 							if (valid) {
 								thisInstance.saveTaxDetails(form, currentTrElement);
 								return valid;
@@ -45,7 +45,7 @@ jQuery.Class(
 						};
 						form.validationEngine(params);
 
-						form.on('submit', function(e) {
+						form.on('submit', function (e) {
 							e.preventDefault();
 						});
 					};
@@ -53,7 +53,7 @@ jQuery.Class(
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					app.showModalWindow(
 						data,
-						function(data) {
+						function (data) {
 							if (typeof callBackFunction == 'function') {
 								callBackFunction(data);
 							}
@@ -61,7 +61,7 @@ jQuery.Class(
 						{ width: '500px' }
 					);
 				})
-				.fail(function(error) {
+				.fail(function (error) {
 					aDeferred.reject(error);
 				});
 			return aDeferred.promise();
@@ -70,14 +70,14 @@ jQuery.Class(
 		/*
 		 * Function to Save the Tax Details
 		 */
-		saveTaxDetails: function(form, currentTrElement) {
+		saveTaxDetails: function (form, currentTrElement) {
 			var thisInstance = this;
 			var params = form.serializeFormData();
 
 			if (typeof params === 'undefined') {
 				params = {};
 			}
-			thisInstance.validateTaxName(params).done(function(data) {
+			thisInstance.validateTaxName(params).done(function (data) {
 				var progressIndicatorElement = jQuery.progressIndicator({
 					position: 'html',
 					blockInfo: {
@@ -88,7 +88,7 @@ jQuery.Class(
 				params.module = app.getModuleName();
 				params.parent = app.getParentModuleName();
 				params.action = 'TaxAjax';
-				AppConnector.request(params).done(function(data) {
+				AppConnector.request(params).done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					app.hideModalWindow();
 					//Adding or update the tax details in the list
@@ -109,7 +109,7 @@ jQuery.Class(
 		/*
 		 * Function to add the Tax Details in the list after saving
 		 */
-		addTaxDetails: function(details) {
+		addTaxDetails: function (details) {
 			let container = jQuery('#TaxCalculationsContainer'),
 				taxTable;
 
@@ -148,7 +148,7 @@ jQuery.Class(
 		/*
 		 * Function to update the tax details in the list after edit
 		 */
-		updateTaxDetails: function(data, currentTrElement) {
+		updateTaxDetails: function (data, currentTrElement) {
 			currentTrElement.find('.taxLabel').text(data['taxlabel']);
 			currentTrElement.find('.taxPercentage').text(data['percentage'] + '%');
 			if (data['deleted'] == '0') {
@@ -161,7 +161,7 @@ jQuery.Class(
 		/*
 		 * Function to validate the TaxName to avoid duplicates
 		 */
-		validateTaxName: function(data) {
+		validateTaxName: function (data) {
 			var thisInstance = this;
 			var aDeferred = jQuery.Deferred();
 
@@ -172,14 +172,20 @@ jQuery.Class(
 			if (!(taxName in thisInstance.duplicateCheckCache)) {
 				thisInstance
 					.checkDuplicateName(data)
-					.done(function(data) {
+					.done(function (data) {
 						thisInstance.duplicateCheckCache[taxName] = data['success'];
 						aDeferred.resolve();
 					})
-					.fail(function(data, err) {
+					.fail(function (data, err) {
 						thisInstance.duplicateCheckCache[taxName] = data['success'];
 						thisInstance.duplicateCheckCache['message'] = data['message'];
-						taxLabelElement.validationEngine('showPrompt', data['message'], 'error', 'bottomLeft', true);
+						taxLabelElement.validationEngine(
+							'showPrompt',
+							data['message'],
+							'error',
+							'bottomLeft',
+							true
+						);
 						aDeferred.reject(data);
 					});
 			} else {
@@ -197,7 +203,7 @@ jQuery.Class(
 		/*
 		 * Function to check Duplication of Tax Name
 		 */
-		checkDuplicateName: function(details) {
+		checkDuplicateName: function (details) {
 			var aDeferred = jQuery.Deferred();
 			var taxName = details.taxlabel;
 			var taxId = details.taxid;
@@ -213,7 +219,7 @@ jQuery.Class(
 			};
 
 			AppConnector.request(params)
-				.done(function(data) {
+				.done(function (data) {
 					var response = data['result'];
 					var result = response['success'];
 					if (result == true) {
@@ -222,7 +228,7 @@ jQuery.Class(
 						aDeferred.resolve(response);
 					}
 				})
-				.fail(function(error, err) {
+				.fail(function (error, err) {
 					aDeferred.reject(error, err);
 				});
 			return aDeferred.promise();
@@ -231,7 +237,7 @@ jQuery.Class(
 		/*
 		 * Function to update tax status as enabled or disabled
 		 */
-		updateTaxStatus: function(currentTarget) {
+		updateTaxStatus: function (currentTarget) {
 			var aDeferred = jQuery.Deferred();
 
 			var currentTrElement = currentTarget.closest('tr');
@@ -256,11 +262,11 @@ jQuery.Class(
 			};
 
 			AppConnector.request(params)
-				.done(function(data) {
+				.done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					aDeferred.resolve(data);
 				})
-				.fail(function(error, err) {
+				.fail(function (error, err) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					aDeferred.reject(error);
 				});
@@ -270,29 +276,29 @@ jQuery.Class(
 		/*
 		 * Function to register all actions in the Tax List
 		 */
-		registerActions: function() {
+		registerActions: function () {
 			var thisInstance = this;
 			var container = jQuery('#TaxCalculationsContainer');
 
 			//register click event for Add New Tax button
-			container.find('.addTax').on('click', function(e) {
+			container.find('.addTax').on('click', function (e) {
 				var addTaxButton = jQuery(e.currentTarget);
 				var createTaxUrl = addTaxButton.data('url') + '&type=' + addTaxButton.data('type');
 				thisInstance.editTax(createTaxUrl);
 			});
 
 			//register event for edit tax icon
-			container.on('click', '.editTax', function(e) {
+			container.on('click', '.editTax', function (e) {
 				var editTaxButton = jQuery(e.currentTarget);
 				var currentTrElement = editTaxButton.closest('tr');
 				thisInstance.editTax(editTaxButton.data('url'), currentTrElement);
 			});
 
 			//register event for checkbox to change the tax Status
-			container.on('click', '.editTaxStatus', function(e) {
+			container.on('click', '.editTaxStatus', function (e) {
 				var currentTarget = jQuery(e.currentTarget);
 
-				thisInstance.updateTaxStatus(currentTarget).done(function(data) {
+				thisInstance.updateTaxStatus(currentTarget).done(function (data) {
 					var params = {};
 					if (currentTarget.is(':checked')) {
 						params.text = app.vtranslate('JS_TAX_ENABLED');
@@ -304,13 +310,13 @@ jQuery.Class(
 			});
 		},
 
-		registerEvents: function() {
+		registerEvents: function () {
 			this.registerActions();
 		}
 	}
 );
 
-jQuery(document).ready(function(e) {
+jQuery(document).ready(function (e) {
 	var taxInstance = new Settings_Vtiger_Tax_Js();
 	taxInstance.registerEvents();
 });

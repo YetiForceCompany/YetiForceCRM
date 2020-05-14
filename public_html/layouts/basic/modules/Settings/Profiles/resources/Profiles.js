@@ -9,9 +9,7 @@
 'use strict';
 
 var Settings_Profiles_Js = {
-
 	initEditView: function () {
-
 		function toggleEditViewTableRow(e) {
 			var target = jQuery(e.currentTarget);
 			var container = jQuery('[data-togglecontent="' + target.data('togglehandler') + '"]');
@@ -93,7 +91,10 @@ var Settings_Profiles_Js = {
 
 		jQuery('[data-module-state]').on('change', handleModuleSelectionState);
 		jQuery('[data-action-state]').on('change', handleActionSelectionState);
-		jQuery('#mainAction1CheckBox,#mainAction2CheckBox, #mainAction7CheckBox').on('change', selectAllModulesViewAndToolPriviliges);
+		jQuery('#mainAction1CheckBox,#mainAction2CheckBox, #mainAction7CheckBox').on(
+			'change',
+			selectAllModulesViewAndToolPriviliges
+		);
 
 		jQuery('[data-togglehandler]').on('click', toggleEditViewTableRow);
 		jQuery('[data-range]').each(function (index, item) {
@@ -109,7 +110,6 @@ var Settings_Profiles_Js = {
 		});
 
 		jQuery('[data-range]').find('a').css('filter', '');
-
 	},
 
 	registerSelectAllModulesEvent: function () {
@@ -231,7 +231,7 @@ var Settings_Profiles_Js = {
 
 	checkSelectAll: function (checkBoxElement, mainCheckBoxElement) {
 		var state = true;
-		if (typeof checkBoxElement === "undefined" || typeof mainCheckBoxElement === "undefined") {
+		if (typeof checkBoxElement === 'undefined' || typeof mainCheckBoxElement === 'undefined') {
 			return false;
 		}
 		checkBoxElement.each(function (index, element) {
@@ -273,9 +273,9 @@ var Settings_Profiles_Js = {
 		form.on('submit', function (e) {
 			let button = form.find('button[type="submit"]'),
 				progressIndicatorInstance = jQuery.progressIndicator({
-					'position': 'html',
-					'blockInfo': {
-						'enabled': true
+					position: 'html',
+					blockInfo: {
+						enabled: true
 					}
 				});
 			button.attr('disabled', true);
@@ -284,24 +284,27 @@ var Settings_Profiles_Js = {
 			} else {
 				if (form.data('jqv').InvalidFields.length <= 0) {
 					var formData = form.serializeFormData();
-					thisInstance.checkDuplicateName({
-						'profileName': formData.profilename,
-						'profileId': formData.record
-					}).done(function (data) {
-						form.data('submit', 'true');
-						form.data('performCheck', 'true');
-						form.submit();
-					}).fail(function (data, err) {
-						progressIndicatorInstance.progressIndicator({mode: 'hide'});
-						button.attr('disabled', false);
-						var params = {};
-						params['text'] = data['message'];
-						params['type'] = 'error';
-						Settings_Vtiger_Index_Js.showMessage(params);
-						return false;
-					});
+					thisInstance
+						.checkDuplicateName({
+							profileName: formData.profilename,
+							profileId: formData.record
+						})
+						.done(function (data) {
+							form.data('submit', 'true');
+							form.data('performCheck', 'true');
+							form.submit();
+						})
+						.fail(function (data, err) {
+							progressIndicatorInstance.progressIndicator({ mode: 'hide' });
+							button.attr('disabled', false);
+							var params = {};
+							params['text'] = data['message'];
+							params['type'] = 'error';
+							Settings_Vtiger_Index_Js.showMessage(params);
+							return false;
+						});
 				} else {
-					progressIndicatorInstance.progressIndicator({mode: 'hide'});
+					progressIndicatorInstance.progressIndicator({ mode: 'hide' });
 					button.attr('disabled', false);
 					//If validation fails, form should submit again
 					form.removeData('submit');
@@ -323,25 +326,27 @@ var Settings_Profiles_Js = {
 		var aDeferred = jQuery.Deferred();
 
 		var params = {
-			'module': app.getModuleName(),
-			'parent': app.getParentModuleName(),
-			'action': 'EditAjax',
-			'mode': 'checkDuplicate',
-			'profilename': profileName,
-			'record': recordId
-		}
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			action: 'EditAjax',
+			mode: 'checkDuplicate',
+			profilename: profileName,
+			record: recordId
+		};
 
-		AppConnector.request(params).done(function (data) {
-			var response = data['result'];
-			var result = response['success'];
-			if (result == true) {
-				aDeferred.reject(response);
-			} else {
-				aDeferred.resolve(response);
-			}
-		}).fail(function (error, err) {
-			aDeferred.reject(error, err);
-		});
+		AppConnector.request(params)
+			.done(function (data) {
+				var response = data['result'];
+				var result = response['success'];
+				if (result == true) {
+					aDeferred.reject(response);
+				} else {
+					aDeferred.resolve(response);
+				}
+			})
+			.fail(function (error, err) {
+				aDeferred.reject(error, err);
+			});
 		return aDeferred.promise();
 	},
 
@@ -358,13 +363,13 @@ var Settings_Profiles_Js = {
 			if (currentTarget.attr('readonly') == 'readonly') {
 				var status = jQuery(e.currentTarget).is(':checked');
 				if (!status) {
-					jQuery(e.currentTarget).prop('checked', true)
+					jQuery(e.currentTarget).prop('checked', true);
 				} else {
 					jQuery(e.currentTarget).prop('checked', false);
 				}
 				e.preventDefault();
 			}
-		})
+		});
 
 		editAllAction.on('change', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
@@ -374,7 +379,7 @@ var Settings_Profiles_Js = {
 			} else {
 				viewAllAction.removeAttr('readonly');
 			}
-		})
+		});
 	},
 
 	registerEvents: function () {
@@ -388,8 +393,7 @@ var Settings_Profiles_Js = {
 		Settings_Profiles_Js.registerSubmitEvent();
 		Settings_Profiles_Js.registerGlobalPermissionActionsEvent();
 	}
-
-}
+};
 jQuery(document).ready(function () {
 	Settings_Profiles_Js.registerEvents();
-})
+});

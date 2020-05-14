@@ -5,14 +5,12 @@ jQuery.Class(
 	'Settings_EventHandler_Index_Js',
 	{},
 	{
-		registerSave: function() {
+		registerSave: function () {
 			let tab = $('#my-tab-content');
-			tab.find('input').on('change', function() {
+			tab.find('input').on('change', function () {
 				let name = this.name;
 				let checked = this.checked;
-				let tabName = $(this)
-					.parents('.js-tab')
-					.data('name');
+				let tabName = $(this).parents('.js-tab').data('name');
 
 				AppConnector.request({
 					module: 'EventHandler',
@@ -23,13 +21,13 @@ jQuery.Class(
 					name: name,
 					val: checked
 				})
-					.done(function(data) {
+					.done(function (data) {
 						Vtiger_Helper_Js.showPnotify({
 							text: data['result']['message'],
 							type: 'success'
 						});
 					})
-					.fail(function() {
+					.fail(function () {
 						Vtiger_Helper_Js.showPnotify({
 							text: app.vtranslate('JS_ERROR'),
 							type: 'error'
@@ -37,7 +35,7 @@ jQuery.Class(
 					});
 			});
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			this.registerSave();
 		}
 	}

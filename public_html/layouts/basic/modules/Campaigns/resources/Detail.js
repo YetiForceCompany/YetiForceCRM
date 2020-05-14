@@ -16,18 +16,21 @@ Vtiger_Detail_Js(
 		/**
 		 * Function to register email enabled actions
 		 */
-		registerEmailEnabledActions: function() {
+		registerEmailEnabledActions: function () {
 			var moduleName = app.getModuleName();
 			var className = moduleName + '_List_Js';
 			var listInstance = new window[className]();
 			listInstance.registerEvents();
 			listInstance.markSelectedRecords();
 		},
-		registerEventForRelatedTabClick: function() {
+		registerEventForRelatedTabClick: function () {
 			var thisInstance = this;
 			var detailContentsHolder = thisInstance.getContentHolder();
 			var detailContainer = detailContentsHolder.closest('div.detailViewInfo');
-			jQuery('.related', detailContainer).on('click', 'li:not(.spaceRelatedList)', function(e, urlAttributes) {
+			jQuery('.related', detailContainer).on('click', 'li:not(.spaceRelatedList)', function (
+				e,
+				urlAttributes
+			) {
 				var tabElement = jQuery(e.currentTarget);
 				if (!tabElement.hasClass('dropdown')) {
 					var element = jQuery('<div></div>');
@@ -45,16 +48,14 @@ Vtiger_Detail_Js(
 					}
 					thisInstance
 						.loadContents(url, urlAttributes)
-						.done(function(data) {
+						.done(function (data) {
 							thisInstance.deSelectAllrelatedTabs();
 							thisInstance.markTabAsSelected(tabElement);
 							Vtiger_Helper_Js.showHorizontalTopScrollBar();
 							thisInstance.registerHelpInfo();
 							app.registerModal(detailContentsHolder);
 							element.progressIndicator({ mode: 'hide' });
-							var emailEnabledModule = jQuery(data)
-								.find('[name="emailEnabledModules"]')
-								.val();
+							var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
 							if (emailEnabledModule) {
 								var listInstance = new Campaigns_List_Js();
 								listInstance.registerEvents();
@@ -68,19 +69,19 @@ Vtiger_Detail_Js(
 							}
 							thisInstance.registerBasicEvents();
 						})
-						.fail(function(error) {
+						.fail(function (error) {
 							element.progressIndicator({ mode: 'hide' });
 						});
 				}
 			});
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			this._super();
 			//Calling registerevents of campaigns list to handle checkboxs click of related records
 			var listInstance = Vtiger_List_Js.getInstance();
 			listInstance.registerEvents();
 			var thisInstance = this;
-			app.event.on('RelatedList.AfterLoad', function(event, instance) {
+			app.event.on('RelatedList.AfterLoad', function (event, instance) {
 				var response = instance.content;
 				response.find('[name="selectedIds"]').data('selectedIds', '');
 				response.find('[name="excludedIds"]').data('excludedIds', '');

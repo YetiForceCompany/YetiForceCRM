@@ -11,7 +11,7 @@
 Vtiger_List_Js(
 	'Settings_Vtiger_List_Js',
 	{
-		triggerDelete: function(event, url) {
+		triggerDelete: function (event, url) {
 			event.stopPropagation();
 			var instance = Vtiger_List_Js.getInstance();
 			instance.DeleteRecord(url);
@@ -24,7 +24,7 @@ Vtiger_List_Js(
 		 * @param   {Vtiger_List_Js}  instance
 		 */
 		makeDeleteRequest(params, aDeferred, instance) {
-			AppConnector.request(params).done(data => {
+			AppConnector.request(params).done((data) => {
 				let response = data.result;
 				if (response && response.success) {
 					$('#recordsCount').val('');
@@ -34,7 +34,7 @@ Vtiger_List_Js(
 					});
 				} else {
 					Vtiger_Helper_Js.showPnotify({
-						text: response.message ? response.message :  app.vtranslate('JS_ERROR')
+						text: response.message ? response.message : app.vtranslate('JS_ERROR')
 					});
 				}
 				aDeferred.resolve(data);
@@ -57,7 +57,7 @@ Vtiger_List_Js(
 			if (showConfirmation) {
 				Vtiger_Helper_Js.showConfirmationBox({
 					message: app.vtranslate('JS_DELETE_RECORD_CONFIRMATION')
-				}).done(e => {
+				}).done((e) => {
 					this.makeDeleteRequest(params, aDeferred, instance);
 				});
 			} else {
@@ -67,7 +67,7 @@ Vtiger_List_Js(
 		}
 	},
 	{
-		getDeleteParams: function() {
+		getDeleteParams: function () {
 			return {
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
@@ -87,12 +87,12 @@ Vtiger_List_Js(
 		/*
 		 * Function to register the list view delete record click event
 		 */
-		DeleteRecord: function(url) {
+		DeleteRecord: function (url) {
 			var thisInstance = this;
 
-			AppConnector.request(url).done(function(data) {
+			AppConnector.request(url).done(function (data) {
 				if (data) {
-					app.showModalWindow(data, function(container) {
+					app.showModalWindow(data, function (container) {
 						thisInstance.postDeleteAction(container);
 					});
 				}
@@ -102,14 +102,14 @@ Vtiger_List_Js(
 		/**
 		 * Function to load list view after deletion of record from list view
 		 */
-		postDeleteAction: function(container) {
+		postDeleteAction: function (container) {
 			var thisInstance = this;
 			var deleteConfirmForm = jQuery(container).find('#DeleteModal');
-			deleteConfirmForm.on('submit', function(e) {
+			deleteConfirmForm.on('submit', function (e) {
 				e.preventDefault();
 				var deleteActionUrl = deleteConfirmForm.serializeFormData();
 				AppConnector.request(deleteActionUrl)
-					.done(function() {
+					.done(function () {
 						app.hideModalWindow();
 						var params = {
 							text: app.vtranslate('JS_RECORD_DELETED_SUCCESSFULLY')
@@ -117,11 +117,11 @@ Vtiger_List_Js(
 						Settings_Vtiger_Index_Js.showMessage(params);
 						jQuery('#recordsCount').val('');
 						jQuery('#totalPageCount').text('');
-						thisInstance.getListViewRecords().done(function() {
+						thisInstance.getListViewRecords().done(function () {
 							thisInstance.updatePagination();
 						});
 					})
-					.fail(function(error, err) {
+					.fail(function (error, err) {
 						app.hideModalWindow();
 					});
 			});
@@ -130,7 +130,7 @@ Vtiger_List_Js(
 		/**
 		 * Function to get Page Jump Params
 		 */
-		getPageJumpParams: function() {
+		getPageJumpParams: function () {
 			var module = app.getModuleName();
 			var cvId = this.getCurrentCvId();
 			var pageCountParams = {
@@ -146,7 +146,7 @@ Vtiger_List_Js(
 			}
 			return pageCountParams;
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			//this.triggerDisplayTypeEvent();
 			this.registerRowClickEvent();
 			this.registerCheckBoxClickEvent();

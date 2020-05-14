@@ -29,7 +29,7 @@ Settings_Vtiger_List_Js(
 					url: e.currentTarget.dataset.url,
 					sendByAjaxCb: (_, __) => {
 						this.getListViewRecords();
-					},
+					}
 				});
 			});
 			App.Fields.Text.registerCopyClipboard(container, '.js-clipboard');
@@ -44,6 +44,6 @@ Settings_Vtiger_List_Js(
 		registerEvents: function () {
 			this._super();
 			this.registerButtons();
-		},
+		}
 	}
 );

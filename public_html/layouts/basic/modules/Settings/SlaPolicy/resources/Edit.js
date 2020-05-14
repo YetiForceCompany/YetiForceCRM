@@ -17,7 +17,7 @@ $.Class(
 		 * Register submit event
 		 */
 		registerSubmitEvent() {
-			this.container.off('submit').on('submit', e => {
+			this.container.off('submit').on('submit', (e) => {
 				if ($(e.currentTarget).validationEngine('validate')) {
 					$('input[name="conditions"]').val(JSON.stringify(this.conditionBuilder.getConditions()));
 					return true;
@@ -47,7 +47,7 @@ $.Class(
 				view: 'Conditions',
 				record: sourceModuleName === this.sourceModuleName ? this.record : 0,
 				sourceModuleName: sourceModuleName
-			}).done(data => {
+			}).done((data) => {
 				progress.progressIndicator({ mode: 'hide' });
 				this.conditionBuilderView.html(data);
 				this.conditionBuilder = new Vtiger_ConditionBuilder_Js(
@@ -62,7 +62,7 @@ $.Class(
 		 */
 		registerSourceModuleChange() {
 			this.sourceModuleSelect = this.container.find('select[name="source_module"]');
-			this.sourceModuleSelect.on('change', e => {
+			this.sourceModuleSelect.on('change', (e) => {
 				this.sourceModuleName = this.sourceModuleSelect.val();
 				this.loadConditionBuilderView(this.sourceModuleName);
 			});
@@ -88,7 +88,7 @@ $.Class(
 					<th>${app.vtranslate('JS_BUSINESS_HOURS_TO')}</th>
 				</tr>
 			</thead><tbody>`;
-			rows.forEach(row => {
+			rows.forEach((row) => {
 				html += `<tr class="js-business-hours-row" data-id="${row.id}" data-js="click">
 					<td class="js-business-hours-table-id"><input type="checkbox" class="checkbox js-business-hours-checkbox"${
 						this.businessHours.indexOf(Number(row.id)) !== -1 ? ' checked="checked"' : ''
@@ -118,7 +118,7 @@ $.Class(
 		 */
 		removeBusinessHours(businessHoursId = 0) {
 			if (this.businessHours.indexOf(businessHoursId) !== -1) {
-				this.businessHours = this.businessHours.filter(id => id !== businessHoursId);
+				this.businessHours = this.businessHours.filter((id) => id !== businessHoursId);
 			}
 			this.updateBusinessHoursValue();
 		},
@@ -188,12 +188,14 @@ $.Class(
 						view: 'List'
 					},
 					dataType: 'json'
-				}).done(data => {
+				}).done((data) => {
 					if (!data.success) {
 						return;
 					}
 					const rows = JSON.parse(data.result);
-					this.container.find('.js-business-hours-container-content').html(this.renderBusinessHours(rows));
+					this.container
+						.find('.js-business-hours-container-content')
+						.html(this.renderBusinessHours(rows));
 					this.registerBusinessHoursTableEvents();
 					this.container.find('.js-business-hours-container').removeClass('d-none');
 					progress.progressIndicator({ mode: 'hide' });
@@ -208,7 +210,7 @@ $.Class(
 		 */
 		registerOperationalHoursChange() {
 			const operationalHoursElem = this.container.find('[name="operational_hours"]').eq(0);
-			operationalHoursElem.on('change', e => {
+			operationalHoursElem.on('change', (e) => {
 				this.operationalHours = Number(operationalHoursElem.val());
 				this.changeOperationalHoursView();
 			});
@@ -224,7 +226,7 @@ $.Class(
 			this.businessHours = [];
 			const hoursFromInput = this.container.find('[name="business_hours"]').val();
 			if (hoursFromInput) {
-				this.businessHours = hoursFromInput.split(',').map(id => Number(id));
+				this.businessHours = hoursFromInput.split(',').map((id) => Number(id));
 			}
 			this.record = this.container.find('input[name="record"]').val();
 			this.registerSourceModuleChange();

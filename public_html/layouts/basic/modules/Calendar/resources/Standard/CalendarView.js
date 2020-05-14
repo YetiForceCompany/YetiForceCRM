@@ -16,18 +16,18 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 	setCalendarModuleOptions() {
 		let self = this,
 			options = {
-				select: function(start, end) {
+				select: function (start, end) {
 					self.selectDays(start, end);
 					self.getCalendarView().fullCalendar('unselect');
 				},
-				eventClick: function(calEvent, jsEvent, view) {
+				eventClick: function (calEvent, jsEvent, view) {
 					jsEvent.preventDefault();
 					const link = new URL($(this)[0].href);
 					if (self.createView) {
 						let progressInstance = jQuery.progressIndicator({
 							blockInfo: { enabled: true }
 						});
-						const callbackFunction = data => {
+						const callbackFunction = (data) => {
 							progressInstance.progressIndicator({ mode: 'hide' });
 						};
 						app.showModalWindow({
@@ -38,7 +38,9 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 						});
 					} else {
 						window.location.assign(
-							`index.php?module=${this.module}&view=Detail&record=${link.searchParams.get('record')}`
+							`index.php?module=${this.module}&view=Detail&record=${link.searchParams.get(
+								'record'
+							)}`
 						);
 					}
 				}
@@ -64,7 +66,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 		let parentParams = super.getDefaultParams(),
 			users = app.moduleCacheGet('calendar-groups') || [],
 			filters = [];
-		$('.calendarFilters .filterField').each(function() {
+		$('.calendarFilters .filterField').each(function () {
 			let element = $(this),
 				name,
 				value;
@@ -105,7 +107,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 		if (end_hour == '') {
 			end_hour = '00';
 		}
-		this.getCalendarCreateView().done(function(data) {
+		this.getCalendarCreateView().done(function (data) {
 			if (data.length <= 0) {
 				return;
 			}
@@ -122,15 +124,10 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 							break;
 						}
 					}
-					endDate = moment(endDate)
-						.add(minutes, 'minutes')
-						.toISOString();
+					endDate = moment(endDate).add(minutes, 'minutes').toISOString();
 				}
 			}
-			var dateFormat = data
-				.find('[name="date_start"]')
-				.data('dateFormat')
-				.toUpperCase();
+			var dateFormat = data.find('[name="date_start"]').data('dateFormat').toUpperCase();
 			var timeFormat = data.find('[name="time_start"]').data('format');
 			if (timeFormat == 24) {
 				var defaultTimeFormat = 'HH:mm';
@@ -149,7 +146,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 
 			var headerInstance = new Vtiger_Header_Js();
 			headerInstance.handleQuickCreateData(data, {
-				callbackFunction: function(data) {
+				callbackFunction: function (data) {
 					thisInstance.addCalendarEvent(data.result);
 				}
 			});
@@ -163,9 +160,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 				'PLL_CANCELLED',
 				'PLL_COMPLETED'
 			]);
-			var state = $('.fc-toolbar .js-switch--label-on')
-				.last()
-				.hasClass('active');
+			var state = $('.fc-toolbar .js-switch--label-on').last().hasClass('active');
 			if ((state === true && taskstatus >= 0) || (state != true && taskstatus == -1)) {
 				return false;
 			} else {
@@ -188,12 +183,12 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 			blockInfo: { enabled: true }
 		});
 		this.loadCalendarCreateView()
-			.done(function(data) {
+			.done(function (data) {
 				progressInstance.progressIndicator({ mode: 'hide' });
 				thisInstance.calendarCreateView = data;
 				aDeferred.resolve(data.clone(true, true));
 			})
-			.fail(function(error) {
+			.fail(function (error) {
 				progressInstance.progressIndicator({ mode: 'hide' });
 				console.error(error);
 			});
@@ -206,10 +201,10 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 		var headerInstance = Vtiger_Header_Js.getInstance();
 		headerInstance
 			.getQuickCreateForm(url, this.module)
-			.done(function(data) {
+			.done(function (data) {
 				aDeferred.resolve(jQuery(data));
 			})
-			.fail(function() {
+			.fail(function () {
 				aDeferred.reject();
 			});
 		return aDeferred.promise();
@@ -217,12 +212,18 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 
 	switchTpl(on, off, state) {
 		return `<div class="btn-group btn-group-toggle js-switch c-calendar-switch" data-toggle="buttons">
-					<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on ${state ? '' : 'active'}">
-						<input type="radio" name="options" data-on-text="${on}" autocomplete="off" ${state ? '' : 'checked'}>
+					<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on ${
+						state ? '' : 'active'
+					}">
+						<input type="radio" name="options" data-on-text="${on}" autocomplete="off" ${
+			state ? '' : 'checked'
+		}>
 						${on}
 					</label>
 					<label class="btn btn-outline-primary c-calendar-switch__button ${state ? 'active' : ''}">
-						<input type="radio" name="options" data-off-text="${off}" autocomplete="off" ${state ? 'checked' : ''}>
+						<input type="radio" name="options" data-off-text="${off}" autocomplete="off" ${
+			state ? 'checked' : ''
+		}>
 						${off}
 					</label>
 				</div>`;
@@ -235,14 +236,17 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 			switchContainer = $(`<div class="js-calendar-switch-container"></div>`).insertAfter(
 				calendarview.find('.fc-center')
 			);
-		if (app.getMainParams('showType') == 'current' && app.moduleCacheGet('defaultShowType') != 'history') {
+		if (
+			app.getMainParams('showType') == 'current' &&
+			app.moduleCacheGet('defaultShowType') != 'history'
+		) {
 			switchHistory = false;
 		} else {
 			switchHistory = true;
 		}
 		$(this.switchTpl(app.vtranslate('JS_TO_REALIZE'), app.vtranslate('JS_HISTORY'), switchHistory))
 			.prependTo(switchContainer)
-			.on('change', 'input', e => {
+			.on('change', 'input', (e) => {
 				const currentTarget = $(e.currentTarget);
 				if (typeof currentTarget.data('on-text') !== 'undefined') {
 					app.setMainParams('showType', 'current');
@@ -253,7 +257,10 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 				}
 				this.loadCalendarData();
 			});
-		if (app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all') {
+		if (
+			app.getMainParams('switchingDays') === 'workDays' &&
+			app.moduleCacheGet('defaultSwitchingDays') !== 'all'
+		) {
 			switchAllDays = false;
 		} else {
 			switchAllDays = true;
@@ -261,7 +268,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 		if (app.getMainParams('hiddenDays', true) !== false) {
 			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), switchAllDays))
 				.prependTo(switchContainer)
-				.on('change', 'input', e => {
+				.on('change', 'input', (e) => {
 					const currentTarget = $(e.currentTarget);
 					let hiddenDays = [];
 					if (typeof currentTarget.data('on-text') !== 'undefined') {
@@ -282,7 +289,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 	registerCacheSettings() {
 		var thisInstance = this;
 		var calendar = thisInstance.getCalendarView();
-		$('.siteBarRight .filterField').each(function(index) {
+		$('.siteBarRight .filterField').each(function (index) {
 			var name = $(this).attr('id');
 			var value = app.moduleCacheGet(name);
 			var element = $('#' + name);
@@ -292,7 +299,7 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 				}
 			}
 		});
-		calendar.find('.fc-toolbar .fc-button').on('click', function(e) {
+		calendar.find('.fc-toolbar .fc-button').on('click', function (e) {
 			let view;
 			let element = $(e.currentTarget);
 			view = calendar.fullCalendar('getView');
@@ -310,10 +317,10 @@ window.Calendar_Calendar_Js = class extends Calendar_Js {
 		var keys = app.moduleCacheKeys();
 		if (keys.length > 0) {
 			var alert = $('#moduleCacheAlert');
-			$('.bodyContents').on('Vtiger.Widget.Load.undefined', function(e, data) {
+			$('.bodyContents').on('Vtiger.Widget.Load.undefined', function (e, data) {
 				alert.removeClass('d-none');
 			});
-			alert.find('.cacheClear').on('click', function(e) {
+			alert.find('.cacheClear').on('click', function (e) {
 				app.moduleCacheClear();
 				alert.addClass('d-none');
 				location.reload();

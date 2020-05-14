@@ -10,21 +10,21 @@
 'use strict';
 
 var Vtiger_Index_Js = {
-	showLocation: function(element) {
-		app.showModalWindow(null, 'index.php?module=OpenStreetMap&view=MapModal', function(container) {
+	showLocation: function (element) {
+		app.showModalWindow(null, 'index.php?module=OpenStreetMap&view=MapModal', function (container) {
 			var mapView = new OpenStreetMap_Map_Js();
 			mapView.registerModalView(container);
 			container.find('.searchValue').val($(element).data('location'));
 			container.find('.searchBtn').trigger('click');
 		});
 	},
-	massAddDocuments: function(url) {
-		app.showModalWindow(null, url, function(container) {
+	massAddDocuments: function (url) {
+		app.showModalWindow(null, url, function (container) {
 			var uploadButton = container.find('#filesToUpload');
 			var template = container.find('.fileContainer');
 			var uploadContainer = container.find('.uploadFileContainer');
 			var form = container.find('form');
-			uploadButton.on('change', function() {
+			uploadButton.on('change', function () {
 				uploadContainer.find('.fileItem').remove();
 				var files = uploadButton[0].files;
 				for (var i = 0; i < files.length; i++) {
@@ -32,7 +32,7 @@ var Vtiger_Index_Js = {
 					uploadContainer.find('[name="nameFile[]"]:last').val(files[i].name);
 				}
 			});
-			form.on('submit', function(e) {
+			form.on('submit', function (e) {
 				e.preventDefault();
 				app.removeEmptyFilesInput(form[0]);
 				var formData = new FormData(form[0]);
@@ -52,7 +52,7 @@ var Vtiger_Index_Js = {
 				var progressIndicatorElement = $.progressIndicator({
 					blockInfo: { enabled: true }
 				});
-				AppConnector.request(params).done(function(data) {
+				AppConnector.request(params).done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					app.hideModalWindow();
 					var relatedModuleName = 'Documents';
@@ -62,10 +62,8 @@ var Vtiger_Index_Js = {
 						if (selectedTabElement.data('reference') === relatedModuleName) {
 							detailView.reloadTabContent();
 						} else if (
-							detailView
-								.getContentHolder()
-								.find('.detailViewBlockLink')
-								.data('reference') === relatedModuleName
+							detailView.getContentHolder().find('.detailViewBlockLink').data('reference') ===
+							relatedModuleName
 						) {
 							Vtiger_RelatedList_Js.getInstance(
 								detailView.getRecordId(),
@@ -102,15 +100,15 @@ var Vtiger_Index_Js = {
 				maxEmails: maxEmails
 			}
 		})
-			.done(data => {
+			.done((data) => {
 				progress.progressIndicator({ mode: 'hide' });
 				if (data.substring(0, 1) == '{') {
 					data = JSON.parse(data);
 					data = data['result'];
 					aDeferred.resolve(data);
 				} else {
-					app.showModalWindow(data, data => {
-						data.find('.selectButton').on('click', e => {
+					app.showModalWindow(data, (data) => {
+						data.find('.selectButton').on('click', (e) => {
 							if (data.find('input:checked').length) {
 								let email = data.find('input:checked').val();
 								app.hideModalWindow();
@@ -131,12 +129,12 @@ var Vtiger_Index_Js = {
 			});
 		return aDeferred.promise();
 	},
-	registerMailButtons: function(container) {
+	registerMailButtons: function (container) {
 		var thisInstance = this;
-		container.find('.sendMailBtn:not(.mailBtnActive)').each(function(e) {
+		container.find('.sendMailBtn:not(.mailBtnActive)').each(function (e) {
 			var sendButton = $(this);
 			sendButton.addClass('mailBtnActive');
-			sendButton.on('click', function(e) {
+			sendButton.on('click', function (e) {
 				e.stopPropagation();
 				var url = sendButton.data('url');
 				var popup = sendButton.data('popup');
@@ -151,7 +149,7 @@ var Vtiger_Index_Js = {
 			});
 		});
 	},
-	sendMailWindow: function(url, popup, postData) {
+	sendMailWindow: function (url, popup, postData) {
 		if (popup) {
 			var width = screen.width - 15;
 			var height = screen.height - 150;
@@ -162,12 +160,13 @@ var Vtiger_Index_Js = {
 				window.open(
 					url,
 					'_blank',
-					popupParams + ',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,status=nomenubar=no'
+					popupParams +
+						',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,status=nomenubar=no'
 				);
 				return;
 			}
 			var form = $('<form/>', { action: 'index.php' });
-			url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+			url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 				form.append($('<input>', { name: key, value: value }));
 			});
 			for (var i in postData) {
@@ -179,15 +178,15 @@ var Vtiger_Index_Js = {
 			window.location.href = url;
 		}
 	},
-	registerWidgetsEvents: function() {
+	registerWidgetsEvents: function () {
 		var widgets = $('div.widgetContainer');
-		widgets.on('shown.bs.collapse', function(e) {
+		widgets.on('shown.bs.collapse', function (e) {
 			var widgetContainer = $(e.currentTarget);
 			Vtiger_Index_Js.loadWidgets(widgetContainer);
 			var key = widgetContainer.attr('id');
 			app.cacheSet(key, 1);
 		});
-		widgets.on('hidden.bs.collapse', function(e) {
+		widgets.on('hidden.bs.collapse', function (e) {
 			var widgetContainer = $(e.currentTarget);
 			var imageEle = widgetContainer.parent().find('.imageElement');
 			var imagePath = imageEle.data('rightimage');
@@ -201,14 +200,9 @@ var Vtiger_Index_Js = {
 	 * @param widgetContainer - widget container
 	 * @param open - widget should be open or closed
 	 */
-	loadWidgets: function(widgetContainer, open) {
+	loadWidgets: function (widgetContainer, open) {
 		var message = $('.loadingWidgetMsg').html();
-		if (
-			widgetContainer
-				.find('.card-body')
-				.html()
-				.trim()
-		) {
+		if (widgetContainer.find('.card-body').html().trim()) {
 			var imageEle = widgetContainer.parent().find('.imageElement');
 			var imagePath = imageEle.data('downimage');
 			imageEle.attr('src', imagePath);
@@ -224,7 +218,7 @@ var Vtiger_Index_Js = {
 			dataType: 'html',
 			data: url
 		};
-		AppConnector.request(listViewWidgetParams).done(function(data) {
+		AppConnector.request(listViewWidgetParams).done(function (data) {
 			if (typeof open === 'undefined') open = true;
 			if (open) {
 				widgetContainer.progressIndicator({ mode: 'hide' });
@@ -245,9 +239,9 @@ var Vtiger_Index_Js = {
 			$('.bodyContents').trigger('Vtiger.Widget.Load.' + label, $(widgetContainer));
 		});
 	},
-	loadWidgetsOnLoad: function() {
+	loadWidgetsOnLoad: function () {
 		var widgets = $('div.widgetContainer');
-		widgets.each(function(index, element) {
+		widgets.each(function (index, element) {
 			Vtiger_Index_Js.loadWidgets($(element));
 		});
 	},
@@ -255,8 +249,8 @@ var Vtiger_Index_Js = {
 	 * Function to change user theme(colour)
 	 * @params : colour name
 	 */
-	changeSkin: function() {
-		$('.themeElement').on('click', function(e) {
+	changeSkin: function () {
+		$('.themeElement').on('click', function (e) {
 			e.stopPropagation();
 			var currentElement = $(e.currentTarget);
 			currentElement.closest('#themeContainer').hide();
@@ -270,17 +264,17 @@ var Vtiger_Index_Js = {
 				value: currentElement.data('skinName')
 			};
 			AppConnector.request(params)
-				.done(function(data) {
+				.done(function (data) {
 					if (data.success && data.result) {
 						progressElement.progressIndicator({ mode: 'hide' });
 						$('.settingIcons').removeClass('open');
 						window.location.reload();
 					}
 				})
-				.fail(function(error, err) {});
+				.fail(function (error, err) {});
 		});
 	},
-	markNotifications: function(id) {
+	markNotifications: function (id) {
 		var aDeferred = $.Deferred();
 		var thisInstance = this;
 		var params = {
@@ -290,7 +284,7 @@ var Vtiger_Index_Js = {
 			ids: id
 		};
 		AppConnector.request(params)
-			.done(function(data) {
+			.done(function (data) {
 				var row = $('.notificationEntries .noticeRow[data-id="' + id + '"]');
 				Vtiger_Helper_Js.showPnotify({
 					title: app.vtranslate('JS_MESSAGE'),
@@ -298,10 +292,10 @@ var Vtiger_Index_Js = {
 					type: 'info'
 				});
 				if (row.length) {
-					row.fadeOut(300, function() {
+					row.fadeOut(300, function () {
 						var entries = row.closest('.notificationEntries');
 						row.remove();
-						entries.each(function(index) {
+						entries.each(function (index) {
 							var block = $(this);
 							if (block.find('.noticeRow').length == 0) {
 								block.closest('.panel').hide();
@@ -312,16 +306,16 @@ var Vtiger_Index_Js = {
 				}
 				aDeferred.resolve(data);
 			})
-			.fail(function(textStatus, errorThrown) {
+			.fail(function (textStatus, errorThrown) {
 				app.errorLog(textStatus, errorThrown);
 				aDeferred.reject(textStatus, errorThrown);
 			});
 		return aDeferred.promise();
 	},
-	markAllNotifications: function(element) {
+	markAllNotifications: function (element) {
 		var ids = [];
 		var li = $(element).closest('.notificationContainer');
-		li.find('.notificationEntries .noticeRow').each(function(index) {
+		li.find('.notificationEntries .noticeRow').each(function (index) {
 			ids.push($(this).data('id'));
 		});
 		if (ids.length == 0) {
@@ -335,7 +329,7 @@ var Vtiger_Index_Js = {
 			ids: ids
 		};
 		li.progressIndicator({ position: 'html' });
-		AppConnector.request(params).done(function(data) {
+		AppConnector.request(params).done(function (data) {
 			li.progressIndicator({ mode: 'hide' });
 			Vtiger_Helper_Js.showPnotify({
 				title: app.vtranslate('JS_MESSAGE'),
@@ -348,60 +342,64 @@ var Vtiger_Index_Js = {
 	/**
 	 * Function registers event for Reminder popups
 	 */
-	registerReminders: function() {
+	registerReminders: function () {
 		var activityReminder = (parseInt(app.getMainParams('activityReminder')) || 0) * 1000;
 		if (activityReminder != 0 && $('.remindersNotice.autoRefreshing').length) {
 			Vtiger_Index_Js.requestReminder();
-			window.reminder = setInterval(function() {
+			window.reminder = setInterval(function () {
 				Vtiger_Index_Js.requestReminder();
 			}, activityReminder);
 		}
 		var reminder = (parseInt(app.getMainParams('intervalForNotificationNumberCheck')) || 0) * 1000;
 		if (reminder != 0 && $('.notificationsNotice.autoRefreshing').length) {
 			Vtiger_Index_Js.getNotificationsForReminder();
-			window.reminderNotifications = setInterval(function() {
+			window.reminderNotifications = setInterval(function () {
 				Vtiger_Index_Js.getNotificationsForReminder();
 			}, reminder);
 		}
 	},
-	getNotificationsForReminder: function() {
+	getNotificationsForReminder: function () {
 		var thisInstance = this;
 		var content = $('.remindersNotificationContainer');
 		var element = $('.notificationsNotice');
 		var url = 'index.php?module=Notification&view=Reminders';
 		AppConnector.request(url)
-			.done(function(data) {
+			.done(function (data) {
 				content.html(data);
 				thisInstance.refreshReminderCount(content, element, 'js-count-notifications-reminder');
-				content.find('.js-set-marked').on('click', function(e) {
+				content.find('.js-set-marked').on('click', function (e) {
 					var currentElement = $(e.currentTarget);
 					var recordID = currentElement.closest('.js-notification-panel').data('record');
-					thisInstance.markNotifications(recordID).done(function(data) {
-						currentElement.closest('.js-notification-panel').fadeOut(300, function() {
+					thisInstance.markNotifications(recordID).done(function (data) {
+						currentElement.closest('.js-notification-panel').fadeOut(300, function () {
 							$(this).remove();
-							thisInstance.refreshReminderCount(content, element, 'js-count-notifications-reminder');
+							thisInstance.refreshReminderCount(
+								content,
+								element,
+								'js-count-notifications-reminder'
+							);
 						});
 					});
 				});
 			})
-			.fail(function(data, err) {
+			.fail(function (data, err) {
 				clearInterval(window.reminderNotifications);
 			});
 	},
 	/**
 	 * Function request for reminder popups
 	 */
-	requestReminder: function() {
+	requestReminder: function () {
 		var thisInstance = this;
 		var content = $('.remindersNoticeContainer');
 		var element = $('.remindersNotice');
 		var url = 'index.php?module=Calendar&view=Reminders&type_remainder=true';
 		AppConnector.request(url)
-			.done(function(data) {
+			.done(function (data) {
 				content.html(data);
 				thisInstance.refreshReminderCount(content, element, 'countRemindersNotice');
 				app.registerModal(content);
-				content.find('.reminderPostpone').on('click', function(e) {
+				content.find('.reminderPostpone').on('click', function (e) {
 					var currentElement = $(e.currentTarget);
 					var recordID = currentElement.closest('.js-toggle-panel').data('record');
 					var url =
@@ -409,19 +407,19 @@ var Vtiger_Index_Js = {
 						recordID +
 						'&time=' +
 						currentElement.data('time');
-					AppConnector.request(url).done(function(data) {
-						currentElement.closest('.js-toggle-panel').fadeOut(300, function() {
+					AppConnector.request(url).done(function (data) {
+						currentElement.closest('.js-toggle-panel').fadeOut(300, function () {
 							$(this).remove();
 							thisInstance.refreshReminderCount(content, element, 'countRemindersNotice');
 						});
 					});
 				});
 			})
-			.fail(function(data, err) {
+			.fail(function (data, err) {
 				clearInterval(window.reminder);
 			});
 	},
-	refreshReminderCount: function(content, element, tag) {
+	refreshReminderCount: function (content, element, tag) {
 		var badge = element.find('.badge');
 		var count = content.find('.js-toggle-panel').length;
 		badge.text(count);
@@ -436,15 +434,15 @@ var Vtiger_Index_Js = {
 			badge.addClass('d-none');
 		}
 	},
-	registerResizeEvent: function() {
-		$(window).on('resize', function() {
+	registerResizeEvent: function () {
+		$(window).on('resize', function () {
 			if (this.resizeTO) clearTimeout(this.resizeTO);
-			this.resizeTO = setTimeout(function() {
+			this.resizeTO = setTimeout(function () {
 				$(this).trigger('resizeEnd');
 			}, 600);
 		});
 	},
-	changeWatching: function(instance) {
+	changeWatching: function (instance) {
 		var value, module, state, className, user, record;
 		if (instance != undefined) {
 			instance = $(instance);
@@ -468,8 +466,8 @@ var Vtiger_Index_Js = {
 				success: {
 					label: '<span class="fas fa-check mr-1"></span>' + app.vtranslate('LBL_YES'),
 					className: 'btn-success',
-					callback: function() {
-						Vtiger_Index_Js.updateWatching(module, value, user, record).done(function(data) {
+					callback: function () {
+						Vtiger_Index_Js.updateWatching(module, value, user, record).done(function (data) {
 							if (instance != undefined) {
 								var buttonIcon = instance.find('.fas');
 								state = data.result == 1 ? 0 : 1;
@@ -490,12 +488,12 @@ var Vtiger_Index_Js = {
 				danger: {
 					label: '<span class="fas fa-times mr-1"></span>' + app.vtranslate('LBL_NO'),
 					className: 'btn-danger',
-					callback: function() {}
+					callback: function () {}
 				}
 			}
 		});
 	},
-	updateWatching: function(module, value, user, record) {
+	updateWatching: function (module, value, user, record) {
 		var aDeferred = $.Deferred();
 		var params = {
 			module: module,
@@ -509,16 +507,16 @@ var Vtiger_Index_Js = {
 			params['record'] = record;
 		}
 		AppConnector.request(params)
-			.done(function(data) {
+			.done(function (data) {
 				aDeferred.resolve(data);
 			})
-			.fail(function(textStatus, errorThrown) {
+			.fail(function (textStatus, errorThrown) {
 				aDeferred.reject(textStatus, errorThrown);
 				app.errorLog(textStatus, errorThrown);
 			});
 		return aDeferred.promise();
 	},
-	assignToOwner: function(element, userId) {
+	assignToOwner: function (element, userId) {
 		element = $(element);
 		if (userId == undefined) {
 			userId = CONFIG.userId;
@@ -529,7 +527,7 @@ var Vtiger_Index_Js = {
 			field: 'assigned_user_id',
 			value: userId
 		};
-		app.saveAjax('', null, params).done(function(e) {
+		app.saveAjax('', null, params).done(function (e) {
 			app.hideModalWindow();
 			if (app.getViewName() === 'List') {
 				var listinstance = new Vtiger_List_Js();
@@ -537,29 +535,32 @@ var Vtiger_Index_Js = {
 			}
 		});
 	},
-	sendNotification: function() {
+	sendNotification: function () {
 		Vtiger_Header_Js.getInstance().quickCreateModule('Notification');
 	},
-	performPhoneCall: function(phoneNumber, record) {
+	performPhoneCall: function (phoneNumber, record) {
 		AppConnector.request({
 			module: app.getModuleName(),
 			view: 'BasicAjax',
 			mode: 'performPhoneCall',
 			phoneNumber: phoneNumber,
 			record: record
-		}).done(function(response) {
+		}).done(function (response) {
 			response = JSON.parse(response);
 			Vtiger_Helper_Js.showMessage({ text: response.result });
 		});
 	},
-	registerAterloginEvents: function() {
+	registerAterloginEvents: function () {
 		if (typeof CONFIG.ShowUserPwnedPasswordChange !== 'undefined') {
 			app.showModalWindow(
 				null,
 				'index.php?module=Users&view=PasswordModal&mode=change&type=pwned&record=' + CONFIG.userId
 			);
 		} else if (typeof CONFIG.ShowUserPasswordChange !== 'undefined') {
-			app.showModalWindow(null, 'index.php?module=Users&view=PasswordModal&mode=change&record=' + CONFIG.userId);
+			app.showModalWindow(
+				null,
+				'index.php?module=Users&view=PasswordModal&mode=change&record=' + CONFIG.userId
+			);
 		}
 		if (typeof CONFIG.ShowAuthy2faModal !== 'undefined') {
 			app.showModalWindow(
@@ -568,7 +569,7 @@ var Vtiger_Index_Js = {
 			);
 		}
 	},
-	registerEvents: function() {
+	registerEvents: function () {
 		Vtiger_Index_Js.registerWidgetsEvents();
 		Vtiger_Index_Js.loadWidgetsOnLoad();
 		Vtiger_Index_Js.registerReminders();
@@ -578,6 +579,6 @@ var Vtiger_Index_Js = {
 	}
 };
 //On Page Load
-$(document).ready(function() {
+$(document).ready(function () {
 	Vtiger_Index_Js.registerEvents();
 });

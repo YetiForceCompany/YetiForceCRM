@@ -8,36 +8,40 @@
  *************************************************************************************/
 'use strict';
 
-Vtiger_Detail_Js("Portal_Detail_Js", {}, {
-
-	registerAddBookmark: function () {
-		jQuery('#addBookmark').on('click', function () {
-			var params = {
-				'module': app.getModuleName(),
-				'parent': app.getParentModuleName(),
-				'view': 'EditAjax'
-			};
-			Portal_List_Js.editBookmark(params);
-		});
-	},
-
-	registerDetailViewChangeEvent: function () {
-		jQuery('#bookmarksDropdown').on('change', function () {
-			var selectedBookmark = jQuery('#bookmarksDropdown').val();
-			jQuery.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
-				}
+Vtiger_Detail_Js(
+	'Portal_Detail_Js',
+	{},
+	{
+		registerAddBookmark: function () {
+			jQuery('#addBookmark').on('click', function () {
+				var params = {
+					module: app.getModuleName(),
+					parent: app.getParentModuleName(),
+					view: 'EditAjax'
+				};
+				Portal_List_Js.editBookmark(params);
 			});
-			var url = 'index.php?module=' + app.getModuleName() + '&view=Detail&record=' + selectedBookmark;
-			window.location.href = url;
-		});
-	},
+		},
 
-	registerEvents: function () {
-		this._super();
-		this.registerAddBookmark();
-		this.registerDetailViewChangeEvent();
+		registerDetailViewChangeEvent: function () {
+			jQuery('#bookmarksDropdown').on('change', function () {
+				var selectedBookmark = jQuery('#bookmarksDropdown').val();
+				jQuery.progressIndicator({
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				});
+				var url =
+					'index.php?module=' + app.getModuleName() + '&view=Detail&record=' + selectedBookmark;
+				window.location.href = url;
+			});
+		},
+
+		registerEvents: function () {
+			this._super();
+			this.registerAddBookmark();
+			this.registerDetailViewChangeEvent();
+		}
 	}
-});
+);

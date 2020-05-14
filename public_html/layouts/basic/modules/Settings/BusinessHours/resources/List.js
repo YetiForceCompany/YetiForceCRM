@@ -18,19 +18,19 @@ Settings_Vtiger_List_Js(
 		 * @param   {number}  id
 		 */
 		deleteById(id) {
-			Vtiger_Helper_Js.showConfirmationBox({ message: app.vtranslate('JS_BUSINESSHOURS_DELETE_CONFIRMATION') }).done(
-				e => {
-					const instance = Vtiger_List_Js.getInstance();
-					const params = $.extend(instance.getDeleteParams(), {
-						record: id
-					});
-					AppConnector.request(params).done(function(data) {
-						if (data.success) {
-							instance.getListViewRecords();
-						}
-					});
-				}
-			);
+			Vtiger_Helper_Js.showConfirmationBox({
+				message: app.vtranslate('JS_BUSINESSHOURS_DELETE_CONFIRMATION')
+			}).done((e) => {
+				const instance = Vtiger_List_Js.getInstance();
+				const params = $.extend(instance.getDeleteParams(), {
+					record: id
+				});
+				AppConnector.request(params).done(function (data) {
+					if (data.success) {
+						instance.getListViewRecords();
+					}
+				});
+			});
 		}
 	},
 	{

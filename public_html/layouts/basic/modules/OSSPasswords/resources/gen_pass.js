@@ -6,7 +6,7 @@ PasswordHelper = {
 	init() {
 		return this;
 	},
-// Function to generate new password
+	// Function to generate new password
 	passwordStrength(password, translations) {
 		if (password == '')
 			password = document.getElementById('OSSPasswords_editView_fieldName_password').value;
@@ -32,35 +32,34 @@ PasswordHelper = {
 		var score = 0;
 
 		//if password bigger than 6 give 1 point
-		if (password.length > 6)
-			score++;
+		if (password.length > 6) score++;
 
 		//if password has both lower and uppercase characters give 1 point
-		if ((password.match(/[a-z]/)) && (password.match(/[A-Z]/)))
-			score++;
+		if (password.match(/[a-z]/) && password.match(/[A-Z]/)) score++;
 
 		//if password has at least one number give 1 point
-		if (password.match(/\d+/))
-			score++;
+		if (password.match(/\d+/)) score++;
 
 		//if password has at least one special caracther give 1 point
-		if (password.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/))
-			score++;
+		if (password.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/)) score++;
 
 		//if password bigger than 12 give another 1 point
-		if (password.length > 12)
-			score++;
+		if (password.length > 12) score++;
 
 		// password hidden
 		if (password == '') {
-			document.getElementById("passwordDescription").innerHTML = app.vtranslate('Enter the password');
-			document.getElementById("passwordStrength").className = "input-group-text strength0";
+			document.getElementById('passwordDescription').innerHTML = app.vtranslate(
+				'Enter the password'
+			);
+			document.getElementById('passwordStrength').className = 'input-group-text strength0';
 		} else if (password == '**********') {
-			document.getElementById("passwordDescription").innerHTML = app.vtranslate('Password is hidden');
-			document.getElementById("passwordStrength").className = "input-group-text strength0";
+			document.getElementById('passwordDescription').innerHTML = app.vtranslate(
+				'Password is hidden'
+			);
+			document.getElementById('passwordStrength').className = 'input-group-text strength0';
 		} else {
-			document.getElementById("passwordDescription").innerHTML = desc[score];
-			document.getElementById("passwordStrength").className = "input-group-text strength" + score;
+			document.getElementById('passwordDescription').innerHTML = desc[score];
+			document.getElementById('passwordStrength').className = 'input-group-text strength' + score;
 		}
 	},
 	showPassword(record) {
@@ -69,15 +68,15 @@ PasswordHelper = {
 
 		if ($('#show-btn').text() == showPassText) {
 			var params = {
-				'module': "OSSPasswords",
-				'action': "GetPass",
-				'record': record
+				module: 'OSSPasswords',
+				action: 'GetPass',
+				record: record
 			};
 
 			AppConnector.request(params).done(function (data) {
 				var response = data['result'];
 				if (response['success']) {
-					var el = document.getElementById("OSSPasswords_editView_fieldName_password");
+					var el = document.getElementById('OSSPasswords_editView_fieldName_password');
 					el.value = response['password'];
 					el.onchange();
 					$('#copy-button').removeClass('d-none').show();
@@ -90,7 +89,7 @@ PasswordHelper = {
 			// change buttons label
 			$('#show-btn').text(hidePassText);
 		} else {
-			document.getElementById("OSSPasswords_editView_fieldName_password").value = '**********';
+			document.getElementById('OSSPasswords_editView_fieldName_password').value = '**********';
 			$('#show-btn').text(showPassText);
 			this.passwordStrength('', '');
 			$('#copy-button').hide();
@@ -107,13 +106,11 @@ PasswordHelper = {
 				record: record
 			};
 
-			AppConnector.request(params).done(function(data) {
+			AppConnector.request(params).done(function (data) {
 				const response = data['result'];
 				if (response['success']) {
 					$('#detailPassword').text(response['password']);
-					$('#copy-button')
-						.removeClass('d-none')
-						.show();
+					$('#copy-button').removeClass('d-none').show();
 				}
 			});
 
@@ -133,20 +130,18 @@ PasswordHelper = {
 			action: 'GetPass',
 			record: record
 		};
-		AppConnector.request(params).done(function(data) {
+		AppConnector.request(params).done(function (data) {
 			const response = data['result'];
 			if (response['success']) {
 				$('#detailPassword').text(response['password']);
 				$("input[name='password']").val(response['password']);
-				$('#copy-button')
-					.removeClass('d-none')
-					.show();
+				$('#copy-button').removeClass('d-none').show();
 			}
 		});
 		// change buttons label
 		$('#show-btn').text(hidePassText);
 	}
 };
-$(document).ready(function() {
+$(document).ready(function () {
 	PasswordHelper.init();
 });

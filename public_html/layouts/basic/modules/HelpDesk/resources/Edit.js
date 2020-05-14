@@ -9,11 +9,11 @@ Vtiger_Edit_Js(
 		 * Register pre save event
 		 * @param {jQuery} form
 		 */
-		registerRecordPreSaveEventEvent: function(form) {
+		registerRecordPreSaveEventEvent: function (form) {
 			this._super(form);
 			const self = this;
 			let lockSave = true;
-			form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {
+			form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
 				let closedStatus = JSON.parse(app.getMainParams('closeTicketForStatus'));
 				let status = form.find('[name="ticketstatus"] :selected').val();
 				let progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
@@ -33,9 +33,12 @@ Vtiger_Edit_Js(
 							module: app.getModuleName(),
 							record: recordId,
 							status: form.find('[name="ticketstatus"] :selected').val()
-						}).done(response => {
+						}).done((response) => {
 							progress.progressIndicator({ mode: 'hide' });
-							if (response.result.hasTimeControl.result && response.result.relatedTicketsClosed.result) {
+							if (
+								response.result.hasTimeControl.result &&
+								response.result.relatedTicketsClosed.result
+							) {
 								lockSave = false;
 								form.submit();
 							}
@@ -72,7 +75,7 @@ Vtiger_Edit_Js(
 		 * Add time control when closed ticket
 		 * @param {array} params
 		 */
-		addTimeControl: function(params) {
+		addTimeControl: function (params) {
 			let aDeferred = jQuery.Deferred();
 			let referenceModuleName = 'OSSTimeControl';
 			let parentId = params.recordId;
@@ -84,7 +87,7 @@ Vtiger_Edit_Js(
 			relatedParams[relatedField] = parentId;
 			let eliminatedKeys = new Array('view', 'module', 'mode', 'action');
 
-			let preQuickCreateSave = function(data) {
+			let preQuickCreateSave = function (data) {
 				let index, queryParam, queryParamComponents;
 				let queryParameters = [];
 
@@ -100,16 +103,20 @@ Vtiger_Edit_Js(
 						}
 					}
 				}
-				jQuery('<input type="hidden" name="sourceModule" value="' + parentModule + '" />').appendTo(data);
-				jQuery('<input type="hidden" name="sourceRecord" value="' + parentId + '" />').appendTo(data);
+				jQuery('<input type="hidden" name="sourceModule" value="' + parentModule + '" />').appendTo(
+					data
+				);
+				jQuery('<input type="hidden" name="sourceRecord" value="' + parentId + '" />').appendTo(
+					data
+				);
 				jQuery('<input type="hidden" name="relationOperation" value="true" />').appendTo(data);
 
 				if (typeof relatedField !== 'undefined') {
 					let field = data.find('[name="' + relatedField + '"]');
 					if (field.length == 0) {
-						jQuery('<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />').appendTo(
-							data
-						);
+						jQuery(
+							'<input type="hidden" name="' + relatedField + '" value="' + parentId + '" />'
+						).appendTo(data);
 					}
 				}
 				for (index = 0; index < queryParameters.length; index++) {
@@ -143,7 +150,7 @@ Vtiger_Edit_Js(
 			}
 
 			quickCreateParams['data'] = relatedParams;
-			quickCreateParams['callbackFunction'] = function() {};
+			quickCreateParams['callbackFunction'] = function () {};
 			quickCreateParams['callbackPostShown'] = preQuickCreateSave;
 			quickCreateParams['noCache'] = true;
 			Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, quickCreateParams);

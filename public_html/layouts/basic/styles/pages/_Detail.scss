@@ -71,14 +71,13 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		border-radius: 2px;
 	}
 
-
 	&:before {
 		@include media-breakpoint-down(xsm) {
 			display: none;
 		}
 	}
 
-	>li {
+	> li {
 		position: relative;
 		padding-bottom: calculate-rem(10px);
 

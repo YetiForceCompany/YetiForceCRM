@@ -150,14 +150,17 @@ td.fieldValue {
 		overflow: visible;
 		position: relative;
 	}
-	.js-tree-container{
-		input, .input-group-prepend, .input-group-append {
+	.js-tree-container {
+		input,
+		.input-group-prepend,
+		.input-group-append {
 			height: calc(1.25em + 1rem + 2px) !important;
 		}
-		span, input{
+		span,
+		input {
 			font-size: 1rem !important;
 		}
-		input{
+		input {
 			padding: 0 0.75rem;
 		}
 	}

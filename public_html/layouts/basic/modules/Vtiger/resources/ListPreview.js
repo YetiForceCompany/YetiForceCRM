@@ -10,7 +10,7 @@ Vtiger_List_Js(
 		 * Sets correct page url.
 		 * @param {string} url - current url.
 		 */
-		updatePreview: function(url) {
+		updatePreview: function (url) {
 			var frame = $('.listPreviewframe');
 			this.frameProgress = $.progressIndicator({
 				position: 'html',
@@ -31,49 +31,17 @@ Vtiger_List_Js(
 		/**
 		 * Registers click events.
 		 */
-		registerRowClickEvent: function() {
+		registerRowClickEvent: function () {
 			var thisInstance = this;
 			var listViewContentDiv = this.getListViewContentContainer();
-			listViewContentDiv.on('click', '.listViewEntries', function(e) {
-				if (
-					$(e.target)
-						.closest('div')
-						.hasClass('actions')
-				)
-					return;
-				if (
-					$(e.target).is('button') ||
-					$(e.target)
-						.parent()
-						.is('button')
-				)
-					return;
-				if (
-					$(e.target)
-						.closest('a')
-						.hasClass('noLinkBtn')
-				)
-					return;
+			listViewContentDiv.on('click', '.listViewEntries', function (e) {
+				if ($(e.target).closest('div').hasClass('actions')) return;
+				if ($(e.target).is('button') || $(e.target).parent().is('button')) return;
+				if ($(e.target).closest('a').hasClass('noLinkBtn')) return;
 				if ($(e.target, $(e.currentTarget)).is('td:first-child')) return;
 				if ($(e.target).is('input[type="checkbox"]')) return;
-				if (
-					$.contains(
-						$(e.currentTarget)
-							.find('td:last-child')
-							.get(0),
-						e.target
-					)
-				)
-					return;
-				if (
-					$.contains(
-						$(e.currentTarget)
-							.find('td:first-child')
-							.get(0),
-						e.target
-					)
-				)
-					return;
+				if ($.contains($(e.currentTarget).find('td:last-child').get(0), e.target)) return;
+				if ($.contains($(e.currentTarget).find('td:first-child').get(0), e.target)) return;
 				var elem = $(e.currentTarget);
 				var recordUrl = elem.data('recordurl');
 				if (typeof recordUrl === 'undefined') {
@@ -88,7 +56,7 @@ Vtiger_List_Js(
 		 * Registers list events.
 		 * @param {jQuery} container - current container for reference.
 		 */
-		registerListEvents: function() {
+		registerListEvents: function () {
 			var mainBody = this.container.closest('.mainBody');
 			app.showNewScrollbarTopBottomRight(this.list, { wheelPropagation: false });
 			this.registerFixedThead();
@@ -146,20 +114,17 @@ Vtiger_List_Js(
 			this.listFloatThead = list.find('.js-fixed-thead');
 			this.listFloatThead.floatThead('destroy');
 			this.listFloatThead.floatThead({
-				scrollContainer: function() {
+				scrollContainer: function () {
 					return list;
 				}
 			});
 			this.listFloatThead.floatThead('reflow');
 		},
-		getSecondColMinWidth: function(container) {
+		getSecondColMinWidth: function (container) {
 			let maxWidth = 0,
 				thisWidth;
-			container.find('.listViewEntries').each(function(i) {
-				thisWidth = $(this)
-					.find('.listViewEntryValue a')
-					.first()
-					.width();
+			container.find('.listViewEntries').each(function (i) {
+				thisWidth = $(this).find('.listViewEntryValue a').first().width();
 				if (i === 0) {
 					maxWidth = thisWidth;
 				} else {
@@ -168,7 +133,7 @@ Vtiger_List_Js(
 			});
 			return maxWidth;
 		},
-		setDomParams: function(container) {
+		setDomParams: function (container) {
 			this.container = container;
 			this.listColumnFirstWidth = container
 				.find('.listViewEntriesDiv .listViewHeaders th')
@@ -186,8 +151,9 @@ Vtiger_List_Js(
 			this.footerH = $('.js-footer').outerHeight();
 			this.headerH = $('.js-header').outerHeight();
 		},
-		getDefaultSplitSizes: function() {
-			let thWidth = ((this.listColumnFirstWidth + this.listColumnSecondWidth + 82) / $(window).width()) * 100;
+		getDefaultSplitSizes: function () {
+			let thWidth =
+				((this.listColumnFirstWidth + this.listColumnSecondWidth + 82) / $(window).width()) * 100;
 			return [thWidth, 100 - thWidth];
 		},
 		/**
@@ -195,7 +161,7 @@ Vtiger_List_Js(
 		 * @param {jQuery} container - current container for reference.
 		 * @return Array
 		 */
-		getSplitSizes: function() {
+		getSplitSizes: function () {
 			const cachedParams = app.moduleCacheGet('userSplitSet');
 			if (cachedParams !== undefined) {
 				return cachedParams;
@@ -208,7 +174,7 @@ Vtiger_List_Js(
 		 * @param {jQuery} container - current container for reference.
 		 * @param {Split} split - a split object.
 		 */
-		registerSplitEvents: function(container, split) {
+		registerSplitEvents: function (container, split) {
 			var rightSplitMaxWidth = (400 / $(window).width()) * 100;
 			var minWindowWidth = (25 / $(window).width()) * 100;
 			var maxWindowWidth = 100 - minWindowWidth;
@@ -279,7 +245,7 @@ Vtiger_List_Js(
 		 * @param {jQuery} container - current container for reference.
 		 * @returns {Split} A split object.
 		 */
-		registerSplit: function(container) {
+		registerSplit: function (container) {
 			var rightSplitMaxWidth = (400 / $(window).width()) * 100;
 			var splitMinWidth = (25 / $(window).width()) * 100;
 			var splitMaxWidth = 100 - splitMinWidth;
@@ -336,7 +302,9 @@ Vtiger_List_Js(
 				split.setSizes([splitMaxWidth, splitMinWidth]);
 			}
 			this.gutter = container.find('.gutter');
-			var mainWindowHeightCss = { height: $(window).height() - (this.gutter.offset().top + this.footerH) };
+			var mainWindowHeightCss = {
+				height: $(window).height() - (this.gutter.offset().top + this.footerH)
+			};
 			this.gutter.css(mainWindowHeightCss);
 			this.list.css(mainWindowHeightCss);
 			this.sideBlocks.css(mainWindowHeightCss);
@@ -355,7 +323,7 @@ Vtiger_List_Js(
 		 * Adds the split and deletes it on resize.
 		 * @param {jQuery} container - current container for reference.
 		 */
-		toggleSplit: function(container) {
+		toggleSplit: function (container) {
 			var thisInstance = this;
 			var listPreview = container.find('.js-detail-preview');
 			var splitsArray = [];
@@ -380,8 +348,8 @@ Vtiger_List_Js(
 						if (mainBody.scrollTop() >= this.list.offset().top) {
 							gutter.addClass('gutterOnScroll');
 							gutter.css('left', listPreview.offset().left - 8);
-							gutter.on('mousedown', function() {
-								$(this).on('mousemove', function(e) {
+							gutter.on('mousedown', function () {
+								$(this).on('mousemove', function (e) {
 									$(this).css('left', listPreview.offset().left - 8);
 								});
 							});
@@ -405,7 +373,7 @@ Vtiger_List_Js(
 		/**
 		 * Sets initial iframe's height and fills the preview with first record's content.
 		 */
-		registerPreviewEvent: function() {
+		registerPreviewEvent: function () {
 			const iframe = $('.listPreviewframe');
 			const container = this.getListViewContentContainer();
 			this.setDomParams(container);
@@ -415,37 +383,30 @@ Vtiger_List_Js(
 			}
 			iframe.on('load', () => {
 				this.frameProgress.progressIndicator({ mode: 'hide' });
-				iframe.height(
-					iframe
-						.contents()
-						.find('.bodyContents')
-						.height() - 20
-				);
+				iframe.height(iframe.contents().find('.bodyContents').height() - 20);
 			});
-			$('.listViewEntriesTable .listViewEntries')
-				.first()
-				.trigger('click');
+			$('.listViewEntriesTable .listViewEntries').first().trigger('click');
 		},
 		/**
 		 * Sets the correct parent iframe's size.
 		 * @param {jQuery} currentHeight - ifrmae's body height to be set.
 		 * @param {jQuery} frame - ifrmae's height to be changed.
 		 */
-		updateWindowHeight: function(height, frame) {
+		updateWindowHeight: function (height, frame) {
 			frame.height(height);
 		},
 		/**
 		 * Executes event listener.
 		 * @param {jQuery} container - current container for reference.
 		 */
-		postLoadListViewRecordsEvents: function(container) {
+		postLoadListViewRecordsEvents: function (container) {
 			this._super(container);
 			this.registerPreviewEvent();
 		},
 		/**
 		 * Registers ListPreview's events.
 		 */
-		registerEvents: function() {
+		registerEvents: function () {
 			this._super();
 			this.registerPreviewEvent();
 		}

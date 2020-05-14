@@ -23,7 +23,7 @@ $.Class(
 				revert: true,
 				update: function (e, ui) {
 					thisInstance.registerSequenceListOnServer();
-				},
+				}
 			});
 		},
 		registerStatus: function (content) {
@@ -37,7 +37,7 @@ $.Class(
 					action: 'SaveAjax',
 					mode: 'updateStatus',
 					id: id,
-					status: status,
+					status: status
 				}).done(function (data) {
 					if (data.success && data.result) {
 						element.data('status', status);
@@ -45,7 +45,7 @@ $.Class(
 						Vtiger_Helper_Js.showMessage({
 							title: app.vtranslate('JS_COUNTRY_SETTING'),
 							text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
-							type: 'success',
+							type: 'success'
 						});
 					}
 				});
@@ -62,7 +62,7 @@ $.Class(
 					action: 'SaveAjax',
 					mode: 'updatePhone',
 					id: id,
-					phone: phone,
+					phone: phone
 				}).done(function (data) {
 					if (data.success && data.result) {
 						element.data('phone', phone);
@@ -70,7 +70,7 @@ $.Class(
 						Vtiger_Helper_Js.showMessage({
 							title: app.vtranslate('JS_COUNTRY_SETTING'),
 							text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
-							type: 'success',
+							type: 'success'
 						});
 					}
 				});
@@ -87,7 +87,7 @@ $.Class(
 					action: 'SaveAjax',
 					mode: 'updateUitype',
 					id: id,
-					uitype: uitype,
+					uitype: uitype
 				}).done(function (data) {
 					if (data.success && data.result) {
 						element.data('uitype', uitype);
@@ -95,7 +95,7 @@ $.Class(
 						Vtiger_Helper_Js.showMessage({
 							title: app.vtranslate('JS_COUNTRY_SETTING'),
 							text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
-							type: 'success',
+							type: 'success'
 						});
 					}
 				});
@@ -111,7 +111,7 @@ $.Class(
 					parent: app.getParentModuleName(),
 					action: 'SaveAjax',
 					mode: 'updateAllStatuses',
-					status: status,
+					status: status
 				}).done(function (data) {
 					if (data.success && data.result) {
 						var elements = content.find('.status');
@@ -125,7 +125,7 @@ $.Class(
 						Vtiger_Helper_Js.showMessage({
 							title: app.vtranslate('JS_COUNTRY_SETTING'),
 							text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
-							type: 'success',
+							type: 'success'
 						});
 					}
 					if (data.success) {
@@ -160,12 +160,12 @@ $.Class(
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
 				action: 'SaveAjax',
-				mode: 'updateSequence',
+				mode: 'updateSequence'
 			}).done(function (data) {
 				Vtiger_Helper_Js.showMessage({
 					title: app.vtranslate('JS_COUNTRY_SETTING'),
 					text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
-					type: 'success',
+					type: 'success'
 				});
 			});
 		},
@@ -176,11 +176,11 @@ $.Class(
 					parent: app.getParentModuleName(),
 					action: 'SaveAjax',
 					mode: 'updateGetDefaultCountry',
-					value: $(this).val(),
+					value: $(this).val()
 				}).done(function (data) {
 					Vtiger_Helper_Js.showMessage({
 						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
-						type: 'success',
+						type: 'success'
 					});
 				});
 			});
@@ -196,6 +196,6 @@ $.Class(
 			this.registerRowToTop(content);
 			this.registerRowToBottom(content);
 			this.registerChangeGettingDefaultCountry(content);
-		},
+		}
 	}
 );

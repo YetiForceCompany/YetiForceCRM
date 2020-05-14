@@ -7,14 +7,14 @@ Settings_MappedFields_Edit_Js(
 	{
 		step3Container: false,
 		advanceFilterInstance: false,
-		init: function() {
+		init: function () {
 			this.initialize();
 		},
 		/**
 		 * Function to get the container which holds all the reports step1 elements
 		 * @return jQuery object
 		 */
-		getContainer: function() {
+		getContainer: function () {
 			return this.step3Container;
 		},
 		/**
@@ -22,14 +22,14 @@ Settings_MappedFields_Edit_Js(
 		 * @params : element - which represents the reports step1 container
 		 * @return : current instance
 		 */
-		setContainer: function(element) {
+		setContainer: function (element) {
 			this.step3Container = element;
 			return this;
 		},
 		/**
 		 * Function  to intialize the reports step1
 		 */
-		initialize: function(container) {
+		initialize: function (container) {
 			if (typeof container === 'undefined') {
 				container = jQuery('#mf_step3');
 			}
@@ -39,7 +39,7 @@ Settings_MappedFields_Edit_Js(
 				this.setContainer(jQuery('#mf_step3'));
 			}
 		},
-		calculateValues: function() {
+		calculateValues: function () {
 			//handled advanced filters saved values.
 			var enableFilterElement = jQuery('#enableAdvanceFilters');
 			if (enableFilterElement.length > 0 && enableFilterElement.is(':checked') == false) {
@@ -50,7 +50,7 @@ Settings_MappedFields_Edit_Js(
 				jQuery('#advanced_filter').val(JSON.stringify(advfilterlist));
 			}
 		},
-		submit: function() {
+		submit: function () {
 			var aDeferred = jQuery.Deferred();
 			this.calculateValues();
 			var form = this.getContainer();
@@ -69,41 +69,45 @@ Settings_MappedFields_Edit_Js(
 			delete saveData['view'];
 			delete saveData['mode'];
 			delete saveData['parent'];
-			app.saveAjax('step1', saveData).done(function(data) {
+			app.saveAjax('step1', saveData).done(function (data) {
 				if (data.success == true) {
-					Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY') });
+					Settings_Vtiger_Index_Js.showMessage({
+						text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY')
+					});
 					AppConnector.request(formData)
-						.done(function(data) {
+						.done(function (data) {
 							form.hide();
 							progressIndicatorElement.progressIndicator({
 								mode: 'hide'
 							});
 							aDeferred.resolve(data);
 						})
-						.fail(function(error, err) {
+						.fail(function (error, err) {
 							app.errorLog(error, err);
 						});
 				}
 			});
 			return aDeferred.promise();
 		},
-		registerCancelStepClickEvent: function(form) {
-			jQuery('button.cancelLink', form).on('click', function() {
+		registerCancelStepClickEvent: function (form) {
+			jQuery('button.cancelLink', form).on('click', function () {
 				window.history.back();
 			});
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			var container = this.getContainer();
 			var opts = app.validationEngineOptions;
 			// to prevent the page reload after the validation has completed
-			opts['onValidationComplete'] = function(form, valid) {
+			opts['onValidationComplete'] = function (form, valid) {
 				//returns the valid status
 				return valid;
 			};
 			opts['promptPosition'] = 'bottomRight';
 			container.validationEngine(opts);
 			this.registerCancelStepClickEvent(container);
-			this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(jQuery('#advanceFilterContainer', container));
+			this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(
+				jQuery('#advanceFilterContainer', container)
+			);
 			App.Fields.Picklist.changeSelectElementView(container);
 		}
 	}

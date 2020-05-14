@@ -68,7 +68,7 @@ jQuery.Class(
 									field: data.find('#field').val(),
 									template: data.find('#template').val(),
 									action: 'Mail',
-									mode: 'sendMails',
+									mode: 'sendMails'
 								});
 								delete postData.view;
 								AppConnector.request(postData)
@@ -112,7 +112,7 @@ jQuery.Class(
 					type: 'POST',
 					url: massActionUrl,
 					dataType: 'html',
-					data: {},
+					data: {}
 				};
 				AppConnector.request(actionParams).done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -148,11 +148,14 @@ jQuery.Class(
 				let postData = {
 					module: module,
 					action: 'QuickExport',
-					mode: 'exportToExcel',
+					mode: 'exportToExcel'
 				};
 				$.extend(postData, listInstance.getSearchParams());
 				app.openUrlMethodPost(massActionUrl, postData);
-				Vtiger_Helper_Js.showMessage({ text: app.vtranslate('JS_STARTED_GENERATING_FILE'), type: 'info' });
+				Vtiger_Helper_Js.showMessage({
+					text: app.vtranslate('JS_STARTED_GENERATING_FILE'),
+					type: 'info'
+				});
 				progressIndicatorElement.progressIndicator({ mode: 'hide' });
 			} else {
 				listInstance.noRecordSelectedAlert();
@@ -166,7 +169,7 @@ jQuery.Class(
 					module: app.getModuleName(),
 					action: 'TransferOwnership',
 					transferOwnerId: transferOwner,
-					related_modules: relatedModules,
+					related_modules: relatedModules
 				};
 			params = $.extend(params, listInstance.getSearchParams());
 			delete params.view;
@@ -178,7 +181,7 @@ jQuery.Class(
 					Vtiger_Helper_Js.showMessage({
 						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate('JS_RECORDS_TRANSFERRED_SUCCESSFULLY'),
-						type: 'info',
+						type: 'info'
 					});
 				} else {
 					Vtiger_Helper_Js.showMessage(response.result.notify);
@@ -214,7 +217,7 @@ jQuery.Class(
 					type: 'POST',
 					url: massActionUrl,
 					dataType: 'html',
-					data: listInstance.getSearchParams(),
+					data: listInstance.getSearchParams()
 				};
 				if (typeof css === 'undefined') {
 					css = {};
@@ -250,7 +253,7 @@ jQuery.Class(
 						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_MESSAGE'),
 							text: err,
-							type: 'error',
+							type: 'error'
 						});
 					});
 			} else {
@@ -263,7 +266,7 @@ jQuery.Class(
 				var params = {
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_MASS_EDIT_LIMIT'),
-					type: 'error',
+					type: 'error'
 				};
 				Vtiger_Helper_Js.showPnotify(params);
 				return;
@@ -367,8 +370,8 @@ jQuery.Class(
 			var progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
-					enabled: true,
-				},
+					enabled: true
+				}
 			});
 			app.showModalWindow(null, 'index.php?' + jQuery.param(selected), function () {
 				progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -415,18 +418,18 @@ jQuery.Class(
 							message: deleteMessage,
 							position: 'html',
 							blockInfo: {
-								enabled: true,
-							},
+								enabled: true
+							}
 						});
 						AppConnector.request(url)
 							.done(function (data) {
 								progressIndicatorElement.progressIndicator({
-									mode: 'hide',
+									mode: 'hide'
 								});
 								if (data.result) {
 									var params = {
 										text: data.result,
-										type: 'info',
+										type: 'info'
 									};
 									Vtiger_Helper_Js.showPnotify(params);
 								} else {
@@ -443,7 +446,7 @@ jQuery.Class(
 			} else {
 				listInstance.noRecordSelectedAlert();
 			}
-		},
+		}
 	},
 	{
 		//contains the List View element.
@@ -525,7 +528,7 @@ jQuery.Class(
 				view: app.getViewName(),
 				viewname: this.getCurrentCvId(),
 				orderby: $('#orderBy').val(),
-				entityState: $('#entityState').val(),
+				entityState: $('#entityState').val()
 			};
 			if (app.getUrlVar('mid')) {
 				params.mid = app.getUrlVar('mid');
@@ -564,8 +567,8 @@ jQuery.Class(
 				message: loadingMessage,
 				position: 'html',
 				blockInfo: {
-					enabled: true,
-				},
+					enabled: true
+				}
 			});
 			var defaultParams = this.getDefaultParams();
 			urlParams = $.extend(defaultParams, urlParams);
@@ -587,7 +590,7 @@ jQuery.Class(
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					Vtiger_Helper_Js.showPnotify({
 						text: app.vtranslate('JS_NOT_ALLOWED_VALUE'),
-						type: 'error',
+						type: 'error'
 					});
 					aDeferred.reject(textStatus, errorThrown);
 				});
@@ -617,7 +620,10 @@ jQuery.Class(
 						$('#listViewEntriesMainCheckBox').prop('checked', false);
 						$('.listViewEntriesCheckBox').each(function (index, element) {
 							if ($.inArray($(element).val(), excludedIds) != -1) {
-								$(element).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
+								$(element)
+									.prop('checked', false)
+									.closest('tr')
+									.removeClass('highlightBackgroundColor');
 							}
 						});
 					}
@@ -695,19 +701,19 @@ jQuery.Class(
 			var progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
-					enabled: true,
-				},
+					enabled: true
+				}
 			});
 			AppConnector.request(massActionUrl)
 				.done(function (data) {
 					progressIndicatorElement.progressIndicator({
-						mode: 'hide',
+						mode: 'hide'
 					});
 					app.hideModalWindow();
 					if (!data.result) {
 						var params = {
 							text: app.vtranslate('JS_MASS_EDIT_NOT_SUCCESSFUL'),
-							type: 'info',
+							type: 'info'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
 					}
@@ -867,7 +873,9 @@ jQuery.Class(
 			massEditContainer.find('.selectRow').on('change', function (e) {
 				var element = jQuery(e.currentTarget);
 				var blockElement = element.closest('.js-form-row-container').find('.fieldValue');
-				var fieldElement = blockElement.find('[data-validation-engine],[data-invalid-validation-engine]');
+				var fieldElement = blockElement.find(
+					'[data-validation-engine],[data-invalid-validation-engine]'
+				);
 				var fieldInfo = fieldElement.data('fieldinfo');
 				if (element.prop('checked')) {
 					thisInstance.activeFieldValidation(fieldElement);
@@ -935,11 +943,12 @@ jQuery.Class(
 				pageNumber = listViewPageDiv.find('#pageNumber');
 			pageNumber.val(page);
 			listViewPageDiv.find('.js-page-jump').val(page);
-			self.getListViewRecords({
-				orderby: listViewPageDiv.find('#orderBy').val(),
-				sortorder: listViewPageDiv.find('#sortOrder').val(),
-				viewname: self.getCurrentCvId(),
-			})
+			self
+				.getListViewRecords({
+					orderby: listViewPageDiv.find('#orderBy').val(),
+					sortorder: listViewPageDiv.find('#sortOrder').val(),
+					viewname: self.getCurrentCvId()
+				})
 				.done(function (data) {
 					aDeferred.resolve();
 				})
@@ -1038,7 +1047,7 @@ jQuery.Class(
 					if (newPageNumber === currentPageNumber) {
 						Vtiger_Helper_Js.showMessage({
 							text: app.vtranslate('JS_YOU_ARE_IN_PAGE_NUMBER') + ' ' + newPageNumber,
-							type: 'info',
+							type: 'info'
 						});
 						return;
 					}
@@ -1090,7 +1099,7 @@ jQuery.Class(
 					mode: 'getPagination',
 					sourceModule: jQuery('#moduleFilter').val(),
 					totalCount: $('.pagination').data('totalCount'),
-					noOfEntries: jQuery('#noOfEntries').val(),
+					noOfEntries: jQuery('#noOfEntries').val()
 				})
 			).done((data) => {
 				jQuery('.paginationDiv').html(data);
@@ -1109,7 +1118,7 @@ jQuery.Class(
 			Vtiger_Helper_Js.showMessage({
 				title: app.vtranslate('JS_LBL_PERMISSION'),
 				text: app.vtranslate('JS_GET_PAGINATION_INFO'),
-				type: 'info',
+				type: 'info'
 			});
 			if (container.find('.js-pagination-list').data('total-count') > 0 || force) {
 				params.totalCount = -1;
@@ -1137,7 +1146,9 @@ jQuery.Class(
 			} else if (event.type === 'mouseup') {
 				selectOptionId = event.currentTarget.id.split('-').pop();
 				selectOption = $(`#filterOptionId_${selectOptionId}`);
-				this.getFilterSelectElement().val(event.currentTarget.id.split('-').pop()).trigger('change');
+				this.getFilterSelectElement()
+					.val(event.currentTarget.id.split('-').pop())
+					.trigger('change');
 			}
 
 			if ($(`.nav-item[data-cvid='${selectOptionId}'] .nav-link`).tab('show').length === 0) {
@@ -1158,7 +1169,7 @@ jQuery.Class(
 				//to make alphabetic search empty
 				search_key: this.getAlphabetSearchField(),
 				search_value: '',
-				search_params: '',
+				search_params: ''
 			};
 			//Make the select all count as empty
 			jQuery('#recordsCount').val('');
@@ -1200,7 +1211,10 @@ jQuery.Class(
 					const cvId = $(e.currentTarget).data('cvid');
 					let selectOption = filterSelect.find(`[value=${cvId}]`);
 					selectOption.trigger('click');
-					$('#select2-customFilter-container span').contents().last().replaceWith(selectOption.text());
+					$('#select2-customFilter-container span')
+						.contents()
+						.last()
+						.replaceWith(selectOption.text());
 					filterSelect.val(cvId).trigger('change');
 				});
 		},
@@ -1259,7 +1273,10 @@ jQuery.Class(
 				} else {
 					jQuery('#selectAllMsgDiv').hide();
 					jQuery('.listViewEntriesCheckBox').each(function (index, element) {
-						jQuery(this).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
+						jQuery(this)
+							.prop('checked', false)
+							.closest('tr')
+							.removeClass('highlightBackgroundColor');
 						if (selectedIds == 'all') {
 							excludedIds.push(jQuery(element).val());
 							selectedIds = 'all';
@@ -1364,7 +1381,7 @@ jQuery.Class(
 						cvid: currentOptionElement.attr('value'),
 						module: 'CustomView',
 						action: 'Featured',
-						sorceModuleName: app.getModuleName(),
+						sorceModuleName: app.getModuleName()
 					};
 					if (currentOptionElement.data('featured') === 1) {
 						params.actions = 'remove';
@@ -1427,7 +1444,7 @@ jQuery.Class(
 					thisInstance.getFilterSelectElement().data('select2').close();
 					const liElement = $(event.currentTarget).closest('.select2-results__option');
 					Vtiger_Helper_Js.showConfirmationBox({
-						message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER'),
+						message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER')
 					}).done((e) => {
 						app.openUrlMethodPost(
 							thisInstance.getSelectOptionFromChosenOption(liElement).data('deleteurl')
@@ -1448,7 +1465,9 @@ jQuery.Class(
 					//to close the dropdown
 					thisInstance.getFilterSelectElement().data('select2').close();
 					const liElement = $(event.currentTarget).closest('.select2-results__option');
-					app.openUrlMethodPost(thisInstance.getSelectOptionFromChosenOption(liElement).data('approveurl'));
+					app.openUrlMethodPost(
+						thisInstance.getSelectOptionFromChosenOption(liElement).data('approveurl')
+					);
 					event.stopPropagation();
 				});
 			}
@@ -1464,7 +1483,9 @@ jQuery.Class(
 					//to close the dropdown
 					thisInstance.getFilterSelectElement().data('select2').close();
 					const liElement = $(event.currentTarget).closest('.select2-results__option');
-					app.openUrlMethodPost(thisInstance.getSelectOptionFromChosenOption(liElement).data('denyurl'));
+					app.openUrlMethodPost(
+						thisInstance.getSelectOptionFromChosenOption(liElement).data('denyurl')
+					);
 					event.stopPropagation();
 				});
 			}
@@ -1484,17 +1505,25 @@ jQuery.Class(
 								currentOptionElement.data('featured') === 1 ? 'fas fa-star' : 'far fa-star'
 							}"></span>
 					<span title="${app.vtranslate('JS_DUPLICATE')}" data-value="duplicate" data-js="click"
-						  class="fas fa-retweet mr-1 js-filter-duplicate ${$('#createFilter').length !== 0 ? '' : 'd-none'}"></span>
+						  class="fas fa-retweet mr-1 js-filter-duplicate ${
+								$('#createFilter').length !== 0 ? '' : 'd-none'
+							}"></span>
 					<span title="${app.vtranslate('JS_EDIT')}" data-value="edit" data-js="click"
-						  class="fas fa-pencil-alt mr-1 js-filter-edit ${currentOptionElement.data('editable') === 1 ? '' : 'd-none'}"></span>
+						  class="fas fa-pencil-alt mr-1 js-filter-edit ${
+								currentOptionElement.data('editable') === 1 ? '' : 'd-none'
+							}"></span>
 					<span title="${app.vtranslate('JS_DELETE')}" data-value="delete" data-js="click"
-						  class="fas fa-trash-alt mr-1 js-filter-delete ${currentOptionElement.data('deletable') === 1 ? '' : 'd-none'}"></span>
+						  class="fas fa-trash-alt mr-1 js-filter-delete ${
+								currentOptionElement.data('deletable') === 1 ? '' : 'd-none'
+							}"></span>
 					<span title="${app.vtranslate('JS_DENY')}" data-value="deny" data-js="click"
 						  class="fas fa-exclamation-circle mr-1 js-filter-deny ${
 								currentOptionElement.data('public') === 1 ? '' : 'd-none'
 							}"></span>
 					<span title="${app.vtranslate('JS_APPROVE')}" data-value="approve" data-js="click"
-						  class="fas fa-check mr-1 js-filter-approve ${currentOptionElement.data('pending') === 1 ? '' : 'd-none'}"></span>
+						  class="fas fa-check mr-1 js-filter-approve ${
+								currentOptionElement.data('pending') === 1 ? '' : 'd-none'
+							}"></span>
 				</span>`);
 			template.appendTo(liElement.find('.js-filter__title'));
 		},
@@ -1504,16 +1533,20 @@ jQuery.Class(
 		registerCustomFilterOptionsHoverEvent: function () {
 			var filterBlock = this.getFilterBlock();
 			if (filterBlock != false) {
-				filterBlock.on('mouseenter mouseleave', 'li.select2-results__option[role="option"]', (event) => {
-					let liElement = $(event.currentTarget);
-					let liFilterImages = liElement.find('.js-filter-actions');
-					if (liElement.hasClass('group-result')) {
-						return;
+				filterBlock.on(
+					'mouseenter mouseleave',
+					'li.select2-results__option[role="option"]',
+					(event) => {
+						let liElement = $(event.currentTarget);
+						let liFilterImages = liElement.find('.js-filter-actions');
+						if (liElement.hasClass('group-result')) {
+							return;
+						}
+						if (event.type === 'mouseenter' && liFilterImages.length === 0) {
+							this.appendFilterActionsTemplate(liElement);
+						}
 					}
-					if (event.type === 'mouseenter' && liFilterImages.length === 0) {
-						this.appendFilterActionsTemplate(liElement);
-					}
-				});
+				);
 			}
 		},
 		/*
@@ -1554,49 +1587,49 @@ jQuery.Class(
 					var progressIndicatorElement = jQuery.progressIndicator({
 						position: 'html',
 						blockInfo: {
-							enabled: true,
-						},
-					});
-					AppConnector.request(target.data('url') + '&sourceView=List&record=' + recordId).done(function (
-						data
-					) {
-						progressIndicatorElement.progressIndicator({
-							mode: 'hide',
-						});
-						if (data && data.success) {
-							if (data.result.notify) {
-								Vtiger_Helper_Js.showMessage(data.result.notify);
-							}
-							var paginationObject = $('.pagination');
-							var totalCount = paginationObject.data('totalCount');
-							if (totalCount != '') {
-								totalCount--;
-								paginationObject.data('totalCount', totalCount);
-							}
-							var orderBy = jQuery('#orderBy').val();
-							var sortOrder = jQuery('#sortOrder').val();
-							var pageNumber = parseInt($('#pageNumber').val());
-							if ($('#noOfEntries').val() == 1 && pageNumber != 1) {
-								pageNumber--;
-							}
-							var urlParams = {
-								viewname: data.result.viewname,
-								orderby: orderBy,
-								sortorder: sortOrder,
-								page: pageNumber,
-							};
-							$('#recordsCount').val('');
-							$('#totalPageCount').text('');
-							thisInstance.getListViewRecords(urlParams).done(function () {
-								thisInstance.updatePagination(pageNumber);
-							});
-						} else {
-							Vtiger_Helper_Js.showPnotify({
-								text: app.vtranslate(data.error.message),
-								title: app.vtranslate('JS_LBL_PERMISSION'),
-							});
+							enabled: true
 						}
 					});
+					AppConnector.request(target.data('url') + '&sourceView=List&record=' + recordId).done(
+						function (data) {
+							progressIndicatorElement.progressIndicator({
+								mode: 'hide'
+							});
+							if (data && data.success) {
+								if (data.result.notify) {
+									Vtiger_Helper_Js.showMessage(data.result.notify);
+								}
+								var paginationObject = $('.pagination');
+								var totalCount = paginationObject.data('totalCount');
+								if (totalCount != '') {
+									totalCount--;
+									paginationObject.data('totalCount', totalCount);
+								}
+								var orderBy = jQuery('#orderBy').val();
+								var sortOrder = jQuery('#sortOrder').val();
+								var pageNumber = parseInt($('#pageNumber').val());
+								if ($('#noOfEntries').val() == 1 && pageNumber != 1) {
+									pageNumber--;
+								}
+								var urlParams = {
+									viewname: data.result.viewname,
+									orderby: orderBy,
+									sortorder: sortOrder,
+									page: pageNumber
+								};
+								$('#recordsCount').val('');
+								$('#totalPageCount').text('');
+								thisInstance.getListViewRecords(urlParams).done(function () {
+									thisInstance.updatePagination(pageNumber);
+								});
+							} else {
+								Vtiger_Helper_Js.showPnotify({
+									text: app.vtranslate(data.error.message),
+									title: app.vtranslate('JS_LBL_PERMISSION')
+								});
+							}
+						}
+					);
 				});
 				event.stopPropagation();
 			});
@@ -1615,7 +1648,7 @@ jQuery.Class(
 						AppConnector.request({
 							type: 'POST',
 							url: target.data('url'),
-							data: $.extend(self.getSearchParams(), vars),
+							data: $.extend(self.getSearchParams(), vars)
 						}).done(function (modal) {
 							app.showModalWindow(modal);
 						});
@@ -1634,7 +1667,7 @@ jQuery.Class(
 							AppConnector.request({
 								type: 'POST',
 								url: target.data('url'),
-								data: dataParams,
+								data: dataParams
 							})
 								.done(function (data) {
 									progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -1759,7 +1792,9 @@ jQuery.Class(
 			});
 		},
 		registerSlimScrollMassEdit: function () {
-			app.showScrollBar(jQuery('div[name="massEditContent"]'), { height: app.getScreenHeight(70) + 'px' });
+			app.showScrollBar(jQuery('div[name="massEditContent"]'), {
+				height: app.getScreenHeight(70) + 'px'
+			});
 		},
 		/*
 		 * Function to register the submit event for mass Actions save
@@ -1818,7 +1853,7 @@ jQuery.Class(
 					escapeMarkup: function (markup) {
 						return markup;
 					},
-					closeOnSelect: true,
+					closeOnSelect: true
 				});
 
 				let select2Instance = filterSelectElement.data('select2');
@@ -1891,7 +1926,7 @@ jQuery.Class(
 				mode: 'getUnreviewed',
 				module: 'ModTracker',
 				sourceModule: app.getModuleName(),
-				recordsId: ids,
+				recordsId: ids
 			}).done((appData) => {
 				let data = appData.result;
 				$.each(data, function (id, value) {
@@ -1930,7 +1965,7 @@ jQuery.Class(
 				action: 'LastRelation',
 				module: 'ModTracker',
 				sourceModule: app.getModuleName(),
-				recordsId: ids,
+				recordsId: ids
 			}).done((appData) => {
 				var data = appData.result;
 				$.each(data, function (id, value) {
@@ -1963,7 +1998,9 @@ jQuery.Class(
 				$('#recordsCount').val('');
 				$('#totalPageCount').text('');
 				$('.pagination').data('totalCount', 0);
-				$('#dropdownEntityState').find('.js-icon').attr('class', element.find('.js-icon').attr('class'));
+				$('#dropdownEntityState')
+					.find('.js-icon')
+					.attr('class', element.find('.js-icon').attr('class'));
 				thisInstance.getListViewRecords().done(function (data) {
 					thisInstance.calculatePages().done(function () {
 						thisInstance.updatePagination();
@@ -1982,8 +2019,8 @@ jQuery.Class(
 					message: app.vtranslate('JS_CALCULATING_IN_PROGRESS'),
 					position: 'html',
 					blockInfo: {
-						enabled: true,
-					},
+						enabled: true
+					}
 				});
 				params.action = 'List';
 				params.mode = 'calculate';
@@ -2027,7 +2064,7 @@ jQuery.Class(
 				this.listFloatThead.floatThead({
 					scrollContainer: function () {
 						return container;
-					},
+					}
 				});
 				this.listFloatThead.floatThead('reflow');
 			}
@@ -2071,7 +2108,10 @@ jQuery.Class(
 		},
 		registerMassActionModalEvents() {
 			app.event.on('MassEditModal.AfterLoad', (data, container) => {
-				if (container.hasClass('js-add-comment__container') || container.hasClass('js-send-sms__container')) {
+				if (
+					container.hasClass('js-add-comment__container') ||
+					container.hasClass('js-send-sms__container')
+				) {
 					new App.Fields.Text.Completions(container.find('.js-completions'));
 				}
 			});
@@ -2128,7 +2168,9 @@ jQuery.Class(
 			this.registerSummationEvent();
 			//Just reset all the checkboxes on page load: added for chrome issue.
 			var listViewContainer = this.getListViewContentContainer();
-			listViewContainer.find('#listViewEntriesMainCheckBox,.listViewEntriesCheckBox').prop('checked', false);
+			listViewContainer
+				.find('#listViewEntriesMainCheckBox,.listViewEntriesCheckBox')
+				.prop('checked', false);
 			this.getListSearchInstance(false);
 			this.registerDesktopEvents(listViewContainer);
 			this.registerUnreviewedCountEvent();
@@ -2154,6 +2196,6 @@ jQuery.Class(
 			});
 			jQuery('#recordsCount').val('');
 			return aDeferred.promise();
-		},
+		}
 	}
 );

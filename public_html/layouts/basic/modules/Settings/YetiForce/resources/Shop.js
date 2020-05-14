@@ -39,25 +39,18 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 		let searchField = this.container.find('.js-shop-search');
 		searchField = searchField.length ? searchField : $('.js-shop-search');
 		searchField
-			.on('keyup', e => {
-				let value = $(e.currentTarget)
-					.val()
-					.toLowerCase();
-				this.container.find('.js-product .js-text-search').filter(function() {
+			.on('keyup', (e) => {
+				let value = $(e.currentTarget).val().toLowerCase();
+				this.container.find('.js-product .js-text-search').filter(function () {
 					let item = $(this).closest('.js-product');
-					if (
-						$(this)
-							.text()
-							.toLowerCase()
-							.indexOf(value) > -1
-					) {
+					if ($(this).text().toLowerCase().indexOf(value) > -1) {
 						item.removeClass('d-none');
 					} else {
 						item.addClass('d-none');
 					}
 				});
 			})
-			.on('click', e => {
+			.on('click', (e) => {
 				e.stopPropagation();
 			});
 	}
@@ -66,7 +59,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	 *
 	 */
 	registerProductModalClick() {
-		this.container.find('.js-product').on('click', e => {
+		this.container.find('.js-product').on('click', (e) => {
 			const currentTarget = $(e.currentTarget);
 			this.showProductModal(currentTarget.data('product'), this.getDepartment(currentTarget));
 		});
@@ -80,9 +73,11 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	showProductModal(productName, department) {
 		app.showModalWindow(
 			null,
-			`${this.modalUrl}&view=ProductModal&product=${productName}${department ? '&department=' + department : ''}`,
-			modalContainer => {
-				modalContainer.find('.js-modal__save').on('click', _ => {
+			`${this.modalUrl}&view=ProductModal&product=${productName}${
+				department ? '&department=' + department : ''
+			}`,
+			(modalContainer) => {
+				modalContainer.find('.js-modal__save').on('click', (_) => {
 					app.hideModalWindow();
 					this.showBuyModal(productName, department);
 				});
@@ -94,7 +89,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	 *
 	 */
 	registerBuyModalClick() {
-		this.container.find('.js-buy-modal').on('click', e => {
+		this.container.find('.js-buy-modal').on('click', (e) => {
 			e.stopPropagation();
 			const currentTarget = $(e.currentTarget);
 			this.showBuyModal(currentTarget.data('product'), this.getDepartment(currentTarget));
@@ -109,7 +104,9 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	showBuyModal(productName, department) {
 		app.showModalWindow(
 			null,
-			`${this.modalUrl}&view=BuyModal&product=${productName}${department ? '&department=' + department : ''}`,
+			`${this.modalUrl}&view=BuyModal&product=${productName}${
+				department ? '&department=' + department : ''
+			}`,
 			this.registerBuyModalEvents.bind(this)
 		);
 	}
@@ -117,7 +114,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	registerBuyModalEvents(modalContainer) {
 		const companyForm = modalContainer.find('.js-update-company-form');
 		const buyForm = modalContainer.find('.js-buy-form');
-		modalContainer.find('.js-modal__save').on('click', _ => {
+		modalContainer.find('.js-modal__save').on('click', (_) => {
 			this.registerBuyModalForms(companyForm, buyForm);
 		});
 		if (companyForm.length) {
@@ -143,7 +140,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 				const progressIndicatorElement = $.progressIndicator({
 					blockInfo: { enabled: true }
 				});
-				AppConnector.request(params).done(data => {
+				AppConnector.request(params).done((data) => {
 					if (data.success) {
 						buyForm.submit();
 						app.hideModalWindow();
@@ -174,7 +171,9 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 			customFields.each((i, el) => {
 				let field = $(el);
 				customField.val(
-					`${customField.val()}${field.data('name')}::${field.val()}${customFields.length - 1 !== i ? '|' : ''}`
+					`${customField.val()}${field.data('name')}::${field.val()}${
+						customFields.length - 1 !== i ? '|' : ''
+					}`
 				);
 			});
 		}

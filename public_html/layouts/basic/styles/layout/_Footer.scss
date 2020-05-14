@@ -15,7 +15,8 @@
 	}
 
 	.page-item {
-		&:last-child .page-link, &:first-child .page-link {
+		&:last-child .page-link,
+		&:first-child .page-link {
 			border-radius: initial;
 		}
 	}
@@ -69,7 +70,6 @@
 			font-size: 0.52em;
 			padding: 0.1rem 0.2rem !important;
 		}
-
 	}
 
 	.c-footer--user-info-active {
