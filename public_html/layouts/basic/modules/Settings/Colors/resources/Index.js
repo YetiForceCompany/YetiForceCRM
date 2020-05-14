@@ -425,7 +425,6 @@ Settings_Vtiger_Index_Js(
 					App.Fields.Picklist.changeSelectElementView(container);
 					self.registerModulePickListChangeEvent();
 					self.registerModuleChangeEvent();
-					//self.initEvents();
 					self.registerModulePickListChangeEvent();
 					container.find('.js-remove-color').on('click', (e) => {
 						self.removeFieldColor(e, self);

@@ -44,17 +44,17 @@
 								<td id="calendarColorPreviewUser{$item.id}" data-color="{$item.color}"
 									class="calendarColor" style="background: {$item.color};"></td>
 								<td>
-									<button data-record="{$item.id}"
-											class="btn btn-sm btn-danger mr-1 float-right removeUserColor"><span
-												class="fas fa-trash-alt"></span> {\App\Language::translate('LBL_REMOVE_COLOR',$QUALIFIED_MODULE)}
+									<button data-record="{$item.id}" class="btn btn-sm btn-danger mr-1 float-right removeUserColor">
+										<span class="fas fa-trash-alt"></span>
+										{\App\Language::translate('LBL_REMOVE_COLOR',$QUALIFIED_MODULE)}
 									</button>&ensp;
-									<button data-record="{$item.id}"
-											class="btn btn-sm btn-primary mr-1 float-right updateUserColor"><span
-												class="fas fa-edit"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}
+									<button data-record="{$item.id}" class="btn btn-sm btn-primary mr-1 float-right updateUserColor">
+										<span class="fas fa-edit"></span>
+										{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}
 									</button>&ensp;
-									<button data-record="{$item.id}"
-											class="btn btn-sm btn-warning mr-1 float-right generateUserColor"><span
-												class="fas fa-redo-alt"></span> {\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}
+									<button data-record="{$item.id}" class="btn btn-sm btn-warning mr-1 float-right generateUserColor">
+										<span class="fas fa-redo-alt"></span>
+										{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}
 									</button>&ensp;
 								</td>
 							</tr>

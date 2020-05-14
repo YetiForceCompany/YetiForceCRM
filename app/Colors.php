@@ -359,11 +359,11 @@ class Colors
 	 */
 	public static function updateFieldColor($fieldId, $color): bool
 	{
-		$fieldHasColor = (bool) (new \App\Db\Query())->select(['color'])->from('vtiger_field')->where(['fieldid' => $fieldId])->scalar();
-		$updateFieldColorResult = (bool) Db::getInstance()->createCommand()->update('vtiger_field', ['color' => $color], ['fieldid' => $fieldId])->execute();
+		$fieldOldColor = (new \App\Db\Query())->select(['color'])->from('vtiger_field')->where(['fieldid' => $fieldId])->scalar();
+		Db::getInstance()->createCommand()->update('vtiger_field', ['color' => $color], ['fieldid' => $fieldId])->execute();
 		static::generate('field');
 		$result = false;
-		if ($updateFieldColorResult || !$fieldHasColor) {
+		if ($fieldOldColor === $color) {
 			$result = true;
 		}
 		return $result;
@@ -375,7 +375,7 @@ class Colors
 	public static function generateFields()
 	{
 		$css = '';
-		$query = (new \App\Db\Query())->select(['tabid', 'fieldname', 'color'])->from('vtiger_field')->where(['presence' => [0, 2]]);
+		$query = (new \App\Db\Query())->select(['tabid', 'fieldname', 'color'])->from('vtiger_field')->where(['presence' => [0, 2]])->andWhere(['<>', 'color', '']);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			if (ltrim($row['color'], '#')) {
