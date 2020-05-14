@@ -1,5 +1,4 @@
 <?php
-
  /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -47,6 +46,7 @@ class FieldBasic
 	public $info_type = 'BAS';
 	public $block;
 	public $fieldparams = '';
+	public $color = '';
 
 	/**
 	 * Initialize this instance.
@@ -83,6 +83,7 @@ class FieldBasic
 		$this->summaryfield = (int) $valuemap['summaryfield'];
 		$this->fieldparams = $valuemap['fieldparams'];
 		$this->visible = (int) $valuemap['visible'];
+		$this->color = $valuemap['color'];
 		$this->block = $blockInstance ? $blockInstance : Block::getInstance($valuemap['block'], $module);
 	}
 
