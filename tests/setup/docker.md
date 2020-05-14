@@ -1,5 +1,3 @@
-# in progres !!!
-
 [Dockerfile](../../Dockerfile) 
 [docker-compose.yml](../../docker-compose.yml) 
 
