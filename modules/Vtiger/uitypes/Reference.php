@@ -86,13 +86,13 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			return \App\Fields\Owner::getLabel($value);
 		}
 		$name = \App\Record::getLabel($value);
+		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
+			return $name;
+		}
 		if (\is_int($length)) {
 			$name = \App\TextParser::textTruncate($name, $length);
 		} elseif (true !== $length) {
 			$name = App\TextParser::textTruncate($name, \App\Config::main('href_max_length'));
-		}
-		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
-			return $name;
 		}
 		if ('Active' !== \App\Record::getState($value)) {
 			$name = '<s>' . $name . '</s>';
