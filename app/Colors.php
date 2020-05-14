@@ -359,12 +359,10 @@ class Colors
 	 */
 	public static function updateFieldColor($fieldId, $color): bool
 	{
-		$fieldOldColor = (new \App\Db\Query())->select(['color'])->from('vtiger_field')->where(['fieldid' => $fieldId])->scalar();
-		Db::getInstance()->createCommand()->update('vtiger_field', ['color' => $color], ['fieldid' => $fieldId])->execute();
+		$result = Db::getInstance()->createCommand()->update('vtiger_field', ['color' => $color], ['fieldid' => $fieldId])->execute();
 		static::generate('field');
-		$result = false;
-		if ($fieldOldColor === $color) {
-			$result = true;
+		if (!$result) {
+			$result = $color === (new \App\Db\Query())->select(['color'])->from('vtiger_field')->where(['fieldid' => $fieldId])->scalar();
 		}
 		return $result;
 	}
