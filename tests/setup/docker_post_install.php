@@ -8,7 +8,7 @@ if (file_exists($path)) {
 	file_put_contents($path, $content);
 }
 
-$path = '/etc/php/' . PHP_VER . '/fpm/pool.d/www.conf';
+$path = '/etc/php/' . getenv('PHP_VER') . '/fpm/pool.d/www.conf';
 if (file_exists($path)) {
 	$conf = PHP_EOL . ';####' . PHP_EOL . ';# Best FastCGI Process Manager configuration for YetiForceCRM' . PHP_EOL . ';####' . PHP_EOL . PHP_EOL .
 	'env[PROVIDER] = docker' . PHP_EOL .
