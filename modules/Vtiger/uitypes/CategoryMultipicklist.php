@@ -19,7 +19,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	{
 		if ($value) {
 			$value = trim($value, ',');
-			$value = ",$value,";
+			$value = ",{$value},";
 		} elseif (null === $value) {
 			$value = '';
 		}
