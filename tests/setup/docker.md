@@ -1,5 +1,5 @@
-[Dockerfile](../../Dockerfile) 
-[docker-compose.yml](../../docker-compose.yml) 
+* [Dockerfile](../../Dockerfile) 
+* [docker-compose.yml](../../docker-compose.yml) 
 
 # Running with [Docker Hub](https://hub.docker.com/r/yetiforce/yetiforcecrm) 
 ## Last Stable Version
