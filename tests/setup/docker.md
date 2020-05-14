@@ -1,7 +1,6 @@
 # in progres !!!
 
 [Dockerfile](../../Dockerfile) 
-
 [docker-compose.yml](../../docker-compose.yml) 
 
 # Running with [Docker Hub](https://hub.docker.com/r/yetiforce/yetiforcecrm) 
