@@ -1453,37 +1453,41 @@ $.Class(
 				formData['collectorType'] = element.data('type');
 				delete formData['action'];
 				AppConnector.request(formData).done(function (html) {
-					app.showModalWindow(html, (container) => {
-						let modalForm = container.find('form.js-record-collector__form');
-						let summary = container.find('.js-record-collector__summary');
-						modalForm.on('submit', function (e) {
-							summary.html('');
-							summary.progressIndicator({});
-							e.preventDefault();
-							AppConnector.request(modalForm.serializeFormData()).done(function (data) {
-								summary.progressIndicator({ mode: 'hide' });
-								summary.html(data);
-							});
-						});
-						let recordForm = self.getForm();
-						container.on('click', '.js-record-collector__fill_fields', function () {
-							let mappedField = container.find('.formFieldsToRecordMap').val();
-							mappedField = JSON.parse(mappedField);
-							Object.keys(mappedField).forEach(function (key) {
-								let input = container.find('[name="' + key + '"]');
-								input.each(function () {
-									if (this.checked) {
-										var cellWithValue = $(this)
-											.closest('.value' + key)
-											.find('.fieldValue')
-											.html();
-										recordForm.find('[name="' + mappedField[key] + '"]').setValue(cellWithValue);
-									}
+					app.showModalWindow(
+						html,
+						(container) => {
+							let modalForm = container.find('form.js-record-collector__form');
+							let summary = container.find('.js-record-collector__summary');
+							modalForm.on('submit', function (e) {
+								summary.html('');
+								summary.progressIndicator({});
+								e.preventDefault();
+								AppConnector.request(modalForm.serializeFormData()).done(function (data) {
+									summary.progressIndicator({ mode: 'hide' });
+									summary.html(data);
 								});
 							});
-							app.hideModalWindow();
-						});
-					});
+							let recordForm = self.getForm();
+							container.on('click', '.js-record-collector__fill_fields', function () {
+								let mappedField = container.find('.formFieldsToRecordMap').val();
+								mappedField = JSON.parse(mappedField);
+								Object.keys(mappedField).forEach(function (key) {
+									let input = container.find('[name="' + key + '"]');
+									input.each(function () {
+										if (this.checked) {
+											var cellWithValue = $(this)
+												.closest('.value' + key)
+												.find('.fieldValue')
+												.html();
+											recordForm.find('[name="' + mappedField[key] + '"]').setValue(cellWithValue);
+										}
+									});
+								});
+								app.hideModalWindow(null, 'collectorModal');
+							});
+						},
+						{ modalId: 'collectorModal' }
+					);
 				});
 			});
 		},
