@@ -1131,6 +1131,9 @@
 		"LBL_XML_EXPORT_TPL": "Template",
 		"LBL_CSV": "CSV",
 		"LBL_XML": "XML",
+		"LBL_XLS": "XLS - BIFF 8 Excel 97",
+		"LBL_XLSX": "XLSX - Office Open XML Excel 2007",
+		"LBL_ODS": "ODS - Open Document Format/OASIS",
 		"LBL_ICAL": "iCalendar",
 		"LBL_HEADLINE": "Headline",
 		"LBL_BASIC_VERSE": "Basic line",
@@ -1439,9 +1442,9 @@
 		"LBL_MEETING_AUTOGENERATE_INFO": "URL may change when \"%s\" field is modified.",
 		"LBL_VIDEO_CONFERENCE": "Video conference",
 		"LBL_DURATION_SUMMARY": "Duration summary",
-    "LBL_CONTAINS": "contains",
-    "LBL_CONTAINS_HIERARCHY": "contains also in hierarchy",
-    "LBL_DOES_NOT_CONTAIN_HIERARCHY": "does not contain also in hierarchy"
+		"LBL_CONTAINS": "contains",
+		"LBL_CONTAINS_HIERARCHY": "contains also in hierarchy",
+		"LBL_DOES_NOT_CONTAIN_HIERARCHY": "does not contain also in hierarchy"
 	},
 	"js": {
 		"JS_APPROVE": "Approve",

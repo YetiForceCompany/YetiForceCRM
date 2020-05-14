@@ -7,6 +7,7 @@
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 {
@@ -78,20 +79,17 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 				//depending on the uitype we might want the raw value, the display value or something else.
 				//we might also want the display value sans-links so we can use strip_tags for that
 				//phone numbers need to be explicit strings
-				$value = $record->getListViewDisplayValue($fieldModel, true);
 				switch ($fieldModel->getFieldDataType()) {
 					case 'integer':
 					case 'double':
 					case 'currency':
-						if (72 !== $fieldModel->getUIType()) {
-							$value = \App\Fields\Double::formatToDb($value);
-						}
+						$value = $record->get($fieldModel->getFieldName());
 						$type = is_numeric($value) ? \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC : \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING;
 						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, $type);
 						break;
 					case 'date':
+						$value = $record->get($fieldModel->getFieldName());
 						if ($value) {
-							$value = \App\Fields\Date::sanitizeDbFormat($value, \App\User::getCurrentUserModel()->getDetail('date_format'));
 							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY');
 						} else {
@@ -99,8 +97,8 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 						}
 						break;
 					case 'datetime':
+						$value = $record->get($fieldModel->getFieldName());
 						if ($value) {
-							$value = \App\Fields\DateTime::sanitizeDbFormat($value, \App\User::getCurrentUserModel()->getDetail('date_format'));
 							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS');
 						} else {
@@ -108,6 +106,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 						}
 						break;
 					default:
+						$value = $record->getListViewDisplayValue($fieldModel, true);
 						$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 				}
 				++$col;
@@ -115,7 +114,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 			++$row;
 		}
 		//having written out all the data lets have a go at getting the columns to auto-size
-		$row = $col = 0;
+		$row = $col = 1;
 		foreach ($headers as &$fieldModel) {
 			$cell = $worksheet->getCellByColumnAndRow($col, $row);
 			$worksheet->getStyleByColumnAndRow($col, $row)->applyFromArray($header_styles);
