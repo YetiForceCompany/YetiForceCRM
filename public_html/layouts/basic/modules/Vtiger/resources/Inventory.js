@@ -193,7 +193,10 @@ $.Class(
 				.data('tax-default-value');
 			let isGroupTax = thisInstance.isGroupTaxMode();
 			if (isGroupTax) {
-				if (!app.getRecordId() && taxDefaultValue) {
+				if (app.getRecordId()) {
+					taxDefaultValue = thisInstance.getTaxPercent($('#blackIthemTable'));
+				}
+				if (taxDefaultValue) {
 					let taxParam = { aggregationType: 'global' };
 					taxParam['globalTax'] = taxDefaultValue;
 					taxParam['individualTax'] = '';
