@@ -11,7 +11,7 @@ $.Class(
 		registerLinkEvent: function () {
 			$('#page').on('click', 'a', function (e) {
 				e.preventDefault();
-				var target = $(this);
+				let target = $(this);
 				if (
 					!target.closest('div').hasClass('fieldValue') ||
 					target.hasClass('showReferenceTooltip')
@@ -36,9 +36,9 @@ $.Class(
 		 * @param {jQuery} frame - ifrmae height to be changed.
 		 */
 		updateWindowHeight: function (currentHeight, frame) {
-			var thisInstance = this;
-			var relatedContents = frame.closest('.relatedContents');
-			var fixedListHeight = relatedContents.find('.js-list-preview--scroll').height();
+			let thisInstance = this;
+			let relatedContents = frame.closest('.relatedContents');
+			let fixedListHeight = relatedContents.find('.js-list-preview--scroll').height();
 			frame.height(currentHeight);
 			if (fixedListHeight > currentHeight) {
 				currentHeight = fixedListHeight;
@@ -55,7 +55,7 @@ $.Class(
 		 * Creates ResizeSensor, which detects size changes.
 		 */
 		registerSizeEvent: function () {
-			var thisInstance = this;
+			let thisInstance = this;
 			new ResizeSensor($('.mainContainer'), function () {
 				thisInstance.updateParentFrame();
 			});

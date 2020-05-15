@@ -28,7 +28,7 @@ jQuery.Class(
 		getSearchModule: function () {
 			if (this.searchModule === false) {
 				//default gives current module
-				var module = app.getModuleName();
+				let module = app.getModuleName();
 				if (typeof this.getCurrentSearchModule() !== 'undefined') {
 					module = this.getCurrentSearchModule();
 				}
@@ -64,7 +64,7 @@ jQuery.Class(
 		 * Function which will perform the search
 		 */
 		_search: function (params) {
-			var aDeferred = jQuery.Deferred();
+			let aDeferred = jQuery.Deferred();
 			if (typeof params === 'undefined') {
 				params = {};
 			}
@@ -102,8 +102,8 @@ jQuery.Class(
 		 * Helper function whicn invokes search
 		 */
 		search: function (value) {
-			var searchModule = this.getCurrentSearchModule();
-			var params = {};
+			let searchModule = this.getCurrentSearchModule();
+			let params = {};
 			params.value = value;
 			if (typeof searchModule !== 'undefined' && searchModule !== false) {
 				params.searchModule = searchModule;
@@ -116,11 +116,11 @@ jQuery.Class(
 		 * Function which shows the search results
 		 */
 		showSearchResults: function (data) {
-			var aDeferred = jQuery.Deferred();
-			var postLoad = function (data) {
+			let aDeferred = jQuery.Deferred();
+			let postLoad = function (data) {
 				aDeferred.resolve(data);
 			};
-			var params = {};
+			let params = {};
 			params.data = data;
 			params.cb = postLoad;
 			app.showModalWindow(params);

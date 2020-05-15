@@ -184,9 +184,9 @@ $.Class(
 							let pageNumber = self.container.find('.js-page-number');
 							let currentPageNumber = pageNumber.val();
 							let newPageNumber = parseInt($(this).val());
-							var totalPages = parseInt(self.container.find('.js-page--total').text());
+							let totalPages = parseInt(self.container.find('.js-page--total').text());
 							if (newPageNumber > totalPages) {
-								var error = app.vtranslate('JS_PAGE_NOT_EXIST');
+								let error = app.vtranslate('JS_PAGE_NOT_EXIST');
 								element.validationEngine('showPrompt', error, '', 'topLeft', true);
 								return;
 							}

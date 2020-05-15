@@ -31,13 +31,13 @@ jQuery.Class(
 		 * @params: Action url , callback function.
 		 */
 		triggerDetailViewAction: function (detailActionUrl, callBackFunction) {
-			var detailInstance = Vtiger_Detail_Js.getInstance();
-			var selectedIds = [];
+			let detailInstance = Vtiger_Detail_Js.getInstance();
+			let selectedIds = [];
 			selectedIds.push(detailInstance.getRecordId());
-			var postData = {
+			let postData = {
 				selected_ids: JSON.stringify(selectedIds)
 			};
-			var actionParams = {
+			let actionParams = {
 				type: 'POST',
 				url: detailActionUrl,
 				dataType: 'html',
@@ -63,9 +63,9 @@ jQuery.Class(
 			Vtiger_Detail_Js.triggerDetailViewAction(detailActionUrl);
 		},
 		triggerTransferOwnership: function (massActionUrl) {
-			var thisInstance = this;
+			let thisInstance = this;
 			thisInstance.getRelatedModulesContainer = false;
-			var actionParams = {
+			let actionParams = {
 				type: 'POST',
 				url: massActionUrl,
 				dataType: 'html',
@@ -73,8 +73,8 @@ jQuery.Class(
 			};
 			AppConnector.request(actionParams).done(function (data) {
 				if (data) {
-					var callback = function (data) {
-						var params = app.validationEngineOptions;
+					let callback = function (data) {
+						let params = app.validationEngineOptions;
 						params.onValidationComplete = function (form, valid) {
 							if (valid) {
 								if (form.attr('name') == 'changeOwner') {
@@ -86,7 +86,7 @@ jQuery.Class(
 						jQuery('#changeOwner').validationEngine(app.validationEngineOptions);
 					};
 					app.showModalWindow(data, function (data) {
-						var selectElement = thisInstance.getRelatedModuleContainer();
+						let selectElement = thisInstance.getRelatedModuleContainer();
 						App.Fields.Picklist.changeSelectElementView(selectElement, 'select2');
 						if (typeof callback == 'function') {
 							callback(data);
@@ -96,10 +96,10 @@ jQuery.Class(
 			});
 		},
 		transferOwnershipSave: function (form) {
-			var transferOwner = jQuery('#transferOwnerId').val();
-			var relatedModules = jQuery('#related_modules').val();
-			var recordId = jQuery('#recordId').val();
-			var params = {
+			let transferOwner = jQuery('#transferOwnerId').val();
+			let relatedModules = jQuery('#related_modules').val();
+			let recordId = jQuery('#recordId').val();
+			let params = {
 				module: app.getModuleName(),
 				action: 'TransferOwnership',
 				record: recordId,
@@ -109,18 +109,18 @@ jQuery.Class(
 			AppConnector.request(params).done(function (data) {
 				if (data.success) {
 					app.hideModalWindow();
-					var params = {
+					let params = {
 						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate('JS_RECORDS_TRANSFERRED_SUCCESSFULLY'),
 						type: 'info'
 					};
-					var oldvalue = jQuery('.assigned_user_id').val();
-					var element = jQuery('.assigned_user_id ');
+					let oldvalue = jQuery('.assigned_user_id').val();
+					let element = jQuery('.assigned_user_id ');
 
 					element.find('option[value="' + oldvalue + '"]').removeAttr('selected');
 					element.find('option[value="' + transferOwner + '"]').attr('selected', 'selected');
 					element.trigger('liszt:updated');
-					var Fieldname = element
+					let Fieldname = element
 						.find('option[value="' + transferOwner + '"]')
 						.data('picklistvalue');
 					element
@@ -148,8 +148,8 @@ jQuery.Class(
 			return this.getRelatedModulesContainer;
 		},
 		reloadRelatedList: function () {
-			var detailInstance = Vtiger_Detail_Js.getInstance();
-			var params = {};
+			let detailInstance = Vtiger_Detail_Js.getInstance();
+			let params = {};
 			if (jQuery('[name="currentPageNum"]').length > 0) {
 				params.page = jQuery('[name="currentPageNum"]').val();
 			}
@@ -346,10 +346,10 @@ jQuery.Class(
 			});
 		},
 		loadWidgets: function () {
-			var thisInstance = this;
-			var widgetList = jQuery('[class^="widgetContainer_"]');
+			let thisInstance = this;
+			let widgetList = jQuery('[class^="widgetContainer_"]');
 			widgetList.each(function (index, widgetContainerELement) {
-				var widgetContainer = jQuery(widgetContainerELement);
+				let widgetContainer = jQuery(widgetContainerELement);
 				thisInstance.loadWidget(widgetContainer);
 			});
 			thisInstance.registerRelatedModulesRecordCount();
@@ -417,10 +417,10 @@ jQuery.Class(
 			return aDeferred.promise();
 		},
 		widgetRelatedRecordView: function (container, load) {
-			var cacheKey = this.getRecordId() + '_' + container.data('id');
-			var relatedRecordCacheID = app.moduleCacheGet(cacheKey);
+			let cacheKey = this.getRecordId() + '_' + container.data('id');
+			let relatedRecordCacheID = app.moduleCacheGet(cacheKey);
 			if (relatedRecordCacheID !== null) {
-				var newActive = container.find(
+				let newActive = container.find(
 					".js-carousel-item[data-id = '" + relatedRecordCacheID + "']"
 				);
 				if (newActive.length) {
@@ -430,10 +430,10 @@ jQuery.Class(
 						.addClass('active');
 				}
 			}
-			var controlBox = container.find('.control-widget');
-			var prev = controlBox.find('.prev');
-			var next = controlBox.find('.next');
-			var active = container.find('.js-carousel-item.active');
+			let controlBox = container.find('.control-widget');
+			let prev = controlBox.find('.prev');
+			let next = controlBox.find('.next');
+			let active = container.find('.js-carousel-item.active');
 			if (container.find('.js-carousel-item').length <= 1 || !active.next().length) {
 				next.addClass('disabled');
 			} else {
@@ -449,9 +449,9 @@ jQuery.Class(
 					if ($(this).hasClass('disabled')) {
 						return;
 					}
-					var active = container.find('.js-carousel-item.active');
+					let active = container.find('.js-carousel-item.active');
 					active.removeClass('active');
-					var nextElement = active.next();
+					let nextElement = active.next();
 					nextElement.addClass('active');
 					if (!nextElement.next().length) {
 						next.addClass('disabled');
@@ -465,9 +465,9 @@ jQuery.Class(
 					if ($(this).hasClass('disabled')) {
 						return;
 					}
-					var active = container.find('.js-carousel-item.active');
+					let active = container.find('.js-carousel-item.active');
 					active.removeClass('active');
-					var prevElement = active.prev();
+					let prevElement = active.prev();
 					prevElement.addClass('active');
 					if (!prevElement.prev().length) {
 						prev.addClass('disabled');
@@ -481,11 +481,11 @@ jQuery.Class(
 		},
 
 		loadContents: function (url, data) {
-			var thisInstance = this;
-			var aDeferred = jQuery.Deferred();
+			let thisInstance = this;
+			let aDeferred = jQuery.Deferred();
 
-			var detailContentsHolder = this.getContentHolder();
-			var params = url;
+			let detailContentsHolder = this.getContentHolder();
+			let params = url;
 			if (typeof data !== 'undefined') {
 				params = {};
 				params.url = url;
@@ -514,11 +514,11 @@ jQuery.Class(
 		 * @return : jQuery Object.
 		 */
 		getTabByLabel: function (tabLabel) {
-			var tabs = this.getTabs();
-			var targetTab = false;
+			let tabs = this.getTabs();
+			let targetTab = false;
 			tabs.each(function (index, element) {
-				var tab = jQuery(element);
-				var labelKey = tab.data('labelKey');
+				let tab = jQuery(element);
+				let labelKey = tab.data('labelKey');
 				if (labelKey == tabLabel) {
 					targetTab = tab;
 					return false;
@@ -527,10 +527,10 @@ jQuery.Class(
 			return targetTab;
 		},
 		getTabByModule: function (moduleName, relationId = '') {
-			var tabs = this.getTabs();
-			var targetTab = false;
+			let tabs = this.getTabs();
+			let targetTab = false;
 			tabs.each(function (index, element) {
-				var tab = jQuery(element);
+				let tab = jQuery(element);
 				if (
 					tab.data('reference') == moduleName &&
 					(!relationId || (relationId && relationId == tab.data('relation-id')))
@@ -542,8 +542,8 @@ jQuery.Class(
 			return targetTab;
 		},
 		selectModuleTab: function () {
-			var relatedTabContainer = this.getTabContainer();
-			var moduleTab = relatedTabContainer.find('li.module-tab');
+			let relatedTabContainer = this.getTabContainer();
+			let moduleTab = relatedTabContainer.find('li.module-tab');
 			this.deSelectAllrelatedTabs();
 			this.markTabAsSelected(moduleTab);
 		},
@@ -564,19 +564,19 @@ jQuery.Class(
 			this.getSelectedTab().trigger('click');
 		},
 		getSelectedTab: function () {
-			var tabContainer = this.getTabContainer();
+			let tabContainer = this.getTabContainer();
 			return tabContainer.find('.js-detail-tab.active:not(.d-none)');
 		},
 		getTabContainer: function () {
 			return jQuery('div.related');
 		},
 		getTabs: function () {
-			var topTabs = this.getTabContainer().find('li.baseLink:not(.d-none)');
-			var dropdownMenuTabs = this.getTabContainer().find('li:not(.baseLink)');
+			let topTabs = this.getTabContainer().find('li.baseLink:not(.d-none)');
+			let dropdownMenuTabs = this.getTabContainer().find('li:not(.baseLink)');
 			dropdownMenuTabs.each(function (n, e) {
-				var currentTarget = jQuery(this);
-				var iteration = currentTarget.data('iteration');
-				var className = currentTarget.hasClass('mainNav') ? 'mainNav' : 'relatedNav';
+				let currentTarget = jQuery(this);
+				let iteration = currentTarget.data('iteration');
+				let className = currentTarget.hasClass('mainNav') ? 'mainNav' : 'relatedNav';
 				if (
 					iteration != undefined &&
 					topTabs.filter('.' + className + '[data-iteration="' + iteration + '"]').length < 1
@@ -611,11 +611,11 @@ jQuery.Class(
 			}
 		},
 		saveFieldValues: function (fieldDetailList) {
-			var aDeferred = jQuery.Deferred();
+			let aDeferred = jQuery.Deferred();
 
-			var recordId = this.getRecordId();
+			let recordId = this.getRecordId();
 
-			var data = {};
+			let data = {};
 			if (typeof fieldDetailList !== 'undefined') {
 				data = fieldDetailList;
 			}
@@ -708,7 +708,7 @@ jQuery.Class(
 		 * params: Url to get the Comment thread
 		 */
 		getCommentThread: function (url) {
-			var aDeferred = jQuery.Deferred();
+			let aDeferred = jQuery.Deferred();
 			AppConnector.request(url)
 				.done(function (data) {
 					aDeferred.resolve(data);
@@ -728,10 +728,10 @@ jQuery.Class(
 			parentCommentId,
 			aDeferred
 		) {
-			var thisInstance = this;
-			var progressIndicatorElement = jQuery.progressIndicator({});
-			var commentInfoBlock = element.closest('.js-comment-single');
-			var relatedTo = commentInfoBlock.find('.related_to').val();
+			let thisInstance = this;
+			let progressIndicatorElement = jQuery.progressIndicator({});
+			let commentInfoBlock = element.closest('.js-comment-single');
+			let relatedTo = commentInfoBlock.find('.related_to').val();
 			if (!relatedTo) {
 				relatedTo = thisInstance.getRecordId();
 			}
@@ -810,8 +810,8 @@ jQuery.Class(
 		 * return html
 		 */
 		getCommentUI: function (commentId) {
-			var aDeferred = jQuery.Deferred();
-			var postData = {
+			let aDeferred = jQuery.Deferred();
+			let postData = {
 				view: 'DetailAjax',
 				module: 'ModComments',
 				record: commentId
@@ -860,12 +860,12 @@ jQuery.Class(
 		 * Function to register the submit event for Send Sms
 		 */
 		registerSendSmsSubmitEvent: function () {
-			var thisInstance = this;
+			let thisInstance = this;
 			jQuery('body').on('submit', '#massSave', function (e) {
-				var form = jQuery(e.currentTarget);
-				var smsTextLength = form.find('#message').html().length;
+				let form = jQuery(e.currentTarget);
+				let smsTextLength = form.find('#message').html().length;
 				if (smsTextLength > 160) {
-					var params = {
+					let params = {
 						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate('LBL_SMS_MAX_CHARACTERS_ALLOWED'),
 						type: 'error'
@@ -873,7 +873,7 @@ jQuery.Class(
 					Vtiger_Helper_Js.showPnotify(params);
 					return false;
 				}
-				var submitButton = form.find(':submit');
+				let submitButton = form.find(':submit');
 				submitButton.attr('disabled', 'disabled');
 				thisInstance.SendSmsSave(form);
 				e.preventDefault();
@@ -883,13 +883,13 @@ jQuery.Class(
 		 * Function to Save and sending the Sms and hide the modal window of send sms
 		 */
 		SendSmsSave: function (form) {
-			var progressInstance = jQuery.progressIndicator({
+			let progressInstance = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
-			var SendSmsUrl = form.serializeFormData();
+			let SendSmsUrl = form.serializeFormData();
 			AppConnector.request(SendSmsUrl)
 				.done(function (data) {
 					app.hideModalWindow();
@@ -904,50 +904,50 @@ jQuery.Class(
 		 * the name field is changed
 		 */
 		registerNameAjaxEditEvent: function () {
-			var thisInstance = this;
-			var detailContentsHolder = thisInstance.getContentHolder();
+			let thisInstance = this;
+			let detailContentsHolder = thisInstance.getContentHolder();
 			detailContentsHolder.on(thisInstance.fieldUpdatedEvent, '.nameField', function (e, params) {
-				var form = thisInstance.getForm();
-				var nameFields = form.data('nameFields');
-				var recordLabel = '';
-				for (var index in nameFields) {
+				let form = thisInstance.getForm();
+				let nameFields = form.data('nameFields');
+				let recordLabel = '';
+				for (let index in nameFields) {
 					if (index != 0) {
 						recordLabel += ' ';
 					}
 
-					var nameFieldName = nameFields[index];
+					let nameFieldName = nameFields[index];
 					recordLabel += form.find('[name="' + nameFieldName + '"]').val();
 				}
-				var recordLabelElement = detailContentsHolder.closest('.contentsDiv').find('.recordLabel');
+				let recordLabelElement = detailContentsHolder.closest('.contentsDiv').find('.recordLabel');
 				recordLabelElement.text(recordLabel);
 			});
 		},
 		updateHeaderNameFields: function () {
-			var thisInstance = this;
-			var detailContentsHolder = thisInstance.getContentHolder();
-			var form = thisInstance.getForm();
-			var nameFields = form.data('nameFields');
-			var recordLabelElement = detailContentsHolder.closest('.contentsDiv').find('.recordLabel');
-			var title = '';
-			for (var index in nameFields) {
-				var nameFieldName = nameFields[index];
-				var nameField = form.find('[name="' + nameFieldName + '"]');
+			let thisInstance = this;
+			let detailContentsHolder = thisInstance.getContentHolder();
+			let form = thisInstance.getForm();
+			let nameFields = form.data('nameFields');
+			let recordLabelElement = detailContentsHolder.closest('.contentsDiv').find('.recordLabel');
+			let title = '';
+			for (let index in nameFields) {
+				let nameFieldName = nameFields[index];
+				let nameField = form.find('[name="' + nameFieldName + '"]');
 				if (nameField.length > 0) {
-					var recordLabel = nameField.val();
+					let recordLabel = nameField.val();
 					title += recordLabel + ' ';
 					recordLabelElement.find('[class="' + nameFieldName + '"]').text(recordLabel);
 				}
 			}
-			var salutatioField = recordLabelElement.find('.salutation');
+			let salutatioField = recordLabelElement.find('.salutation');
 			if (salutatioField.length > 0) {
-				var salutatioValue = salutatioField.text();
+				let salutatioValue = salutatioField.text();
 				title = salutatioValue + title;
 			}
 			recordLabelElement.attr('title', title);
 		},
 		registerAjaxEditEvent: function () {
-			var thisInstance = this;
-			var detailContentsHolder = thisInstance.getContentHolder();
+			let thisInstance = this;
+			let detailContentsHolder = thisInstance.getContentHolder();
 			detailContentsHolder.on(thisInstance.fieldUpdatedEvent, 'input,select,textarea', function (
 				e
 			) {
@@ -955,18 +955,18 @@ jQuery.Class(
 			});
 		},
 		updateHeaderValues: function (currentElement) {
-			var thisInstance = this;
+			let thisInstance = this;
 			if (currentElement.hasClass('nameField')) {
 				thisInstance.updateHeaderNameFields();
 				return true;
 			}
 
-			var name = currentElement.attr('name');
-			var updatedFields = this.getUpdateFieldsArray();
-			var detailContentsHolder = thisInstance.getContentHolder();
+			let name = currentElement.attr('name');
+			let updatedFields = this.getUpdateFieldsArray();
+			let detailContentsHolder = thisInstance.getContentHolder();
 			if (jQuery.inArray(name, updatedFields) != '-1') {
-				var recordLabel = currentElement.val();
-				var recordLabelElement = detailContentsHolder
+				let recordLabel = currentElement.val();
+				let recordLabelElement = detailContentsHolder
 					.closest('.contentsDiv')
 					.find('.' + name + '_label');
 				recordLabelElement.text(recordLabel);
@@ -976,7 +976,7 @@ jQuery.Class(
 		 * Function to register the click event of email field
 		 */
 		registerEmailFieldClickEvent: function () {
-			var detailContentsHolder = this.getContentHolder();
+			let detailContentsHolder = this.getContentHolder();
 			detailContentsHolder.on('click', '.emailField', function (e) {
 				e.stopPropagation();
 			});
@@ -985,7 +985,7 @@ jQuery.Class(
 		 * Function to register the click event of phone field
 		 */
 		registerPhoneFieldClickEvent: function () {
-			var detailContentsHolder = this.getContentHolder();
+			let detailContentsHolder = this.getContentHolder();
 			detailContentsHolder.on('click', '.phoneField', function (e) {
 				e.stopPropagation();
 			});
@@ -994,7 +994,7 @@ jQuery.Class(
 		 * Function to register the click event of url field
 		 */
 		registerUrlFieldClickEvent: function () {
-			var detailContentsHolder = this.getContentHolder();
+			let detailContentsHolder = this.getContentHolder();
 			detailContentsHolder.on('click', '.urlField', function (e) {
 				e.stopPropagation();
 			});
@@ -1003,28 +1003,28 @@ jQuery.Class(
 		 * Function to register event for related list row click
 		 */
 		registerRelatedRowClickEvent: function () {
-			var detailContentsHolder = this.getContentHolder();
+			let detailContentsHolder = this.getContentHolder();
 			detailContentsHolder.on('click', '.listViewEntries', function (e) {
-				var targetElement = jQuery(e.target, jQuery(e.currentTarget));
+				let targetElement = jQuery(e.target, jQuery(e.currentTarget));
 				if (
 					targetElement.is('td:first-child') &&
 					targetElement.children('input[type="checkbox"]').length > 0
 				)
 					return;
 				if (jQuery(e.target).is('input[type="checkbox"]')) return;
-				var elem = jQuery(e.currentTarget);
-				var recordUrl = elem.data('recordurl');
+				let elem = jQuery(e.currentTarget);
+				let recordUrl = elem.data('recordurl');
 				if (typeof recordUrl !== 'undefined') {
 					window.location.href = recordUrl;
 				}
 			});
 		},
 		loadRelatedList: function (params) {
-			var aDeferred = jQuery.Deferred();
+			let aDeferred = jQuery.Deferred();
 			if (params == undefined) {
 				params = {};
 			}
-			var relatedListInstance = Vtiger_RelatedList_Js.getInstance(
+			let relatedListInstance = Vtiger_RelatedList_Js.getInstance(
 				this.getRecordId(),
 				app.getModuleName(),
 				this.getSelectedTab(),
@@ -1044,11 +1044,11 @@ jQuery.Class(
 		 * Function to register Event for Sorting
 		 */
 		registerEventForRelatedList: function () {
-			var thisInstance = this;
-			var detailContentsHolder = this.getContentHolder();
-			var relatedModuleName = thisInstance.getRelatedModuleName();
+			let thisInstance = this;
+			let detailContentsHolder = this.getContentHolder();
+			let relatedModuleName = thisInstance.getRelatedModuleName();
 			if (relatedModuleName) {
-				var relatedController = Vtiger_RelatedList_Js.getInstance(
+				let relatedController = Vtiger_RelatedList_Js.getInstance(
 					thisInstance.getRecordId(),
 					app.getModuleName(),
 					thisInstance.getSelectedTab(),
@@ -1059,7 +1059,7 @@ jQuery.Class(
 			}
 			detailContentsHolder.find('.detailViewBlockLink').each(function (n, block) {
 				block = $(block);
-				var blockContent = block.find('.blockContent');
+				let blockContent = block.find('.blockContent');
 				if (blockContent.is(':visible')) {
 					AppConnector.request({
 						type: 'GET',
@@ -1068,7 +1068,7 @@ jQuery.Class(
 						url: block.data('url')
 					}).done(function (response) {
 						blockContent.html(response);
-						var relatedController = Vtiger_RelatedList_Js.getInstance(
+						let relatedController = Vtiger_RelatedList_Js.getInstance(
 							thisInstance.getRecordId(),
 							app.getModuleName(),
 							thisInstance.getSelectedTab(),
@@ -1116,8 +1116,8 @@ jQuery.Class(
 			});
 		},
 		registerBlockAnimationEvent: function () {
-			var thisInstance = this;
-			var detailContentsHolder = this.getContentHolder();
+			let thisInstance = this;
+			let detailContentsHolder = this.getContentHolder();
 			detailContentsHolder.find('.blockHeader').on('click', function (e) {
 				const target = $(e.target);
 				if (
@@ -1129,12 +1129,12 @@ jQuery.Class(
 				) {
 					return false;
 				}
-				var currentTarget = $(this).find('.js-block-toggle').not('.d-none');
-				var blockId = currentTarget.data('id');
-				var closestBlock = currentTarget.closest('.js-toggle-panel');
-				var bodyContents = closestBlock.find('.blockContent');
-				var data = currentTarget.data();
-				var module = app.getModuleName();
+				let currentTarget = $(this).find('.js-block-toggle').not('.d-none');
+				let blockId = currentTarget.data('id');
+				let closestBlock = currentTarget.closest('.js-toggle-panel');
+				let bodyContents = closestBlock.find('.blockContent');
+				let data = currentTarget.data();
+				let module = app.getModuleName();
 				if (data.mode === 'show') {
 					bodyContents.addClass('d-none');
 					app.cacheSet(module + '.' + blockId, 0);
@@ -1414,9 +1414,9 @@ jQuery.Class(
 			});
 		},
 		triggerDisplayTypeEvent: function () {
-			var widthType = app.cacheGet('widthType', 'narrowWidthType');
+			let widthType = app.cacheGet('widthType', 'narrowWidthType');
 			if (widthType) {
-				var elements = jQuery('#detailView').find('td');
+				let elements = jQuery('#detailView').find('td');
 				elements.addClass(widthType);
 			}
 		},
@@ -1436,16 +1436,16 @@ jQuery.Class(
 		 * event and task from the widget
 		 */
 		registerEventForActivityWidget: function () {
-			var thisInstance = this;
+			let thisInstance = this;
 
 			/*
 			 * Register click event for add button in Related Activities widget
 			 */
 			jQuery('.createActivity').on('click', function (e) {
-				var referenceModuleName = 'Calendar';
-				var recordId = thisInstance.getRecordId();
-				var module = app.getModuleName();
-				var element = jQuery(e.currentTarget);
+				let referenceModuleName = 'Calendar';
+				let recordId = thisInstance.getRecordId();
+				let module = app.getModuleName();
+				let element = jQuery(e.currentTarget);
 
 				let customParams = {};
 				customParams['sourceModule'] = module;
@@ -1456,24 +1456,24 @@ jQuery.Class(
 					typeof thisInstance.referenceFieldNames[referenceModuleName] !== 'undefined' &&
 					typeof thisInstance.referenceFieldNames[referenceModuleName][module] !== 'undefined'
 				) {
-					var relField = thisInstance.referenceFieldNames[referenceModuleName][module];
+					let relField = thisInstance.referenceFieldNames[referenceModuleName][module];
 					customParams[relField] = recordId;
 				}
-				var fullFormUrl = element.data('url');
-				var preQuickCreateSave = function (data) {
+				let fullFormUrl = element.data('url');
+				let preQuickCreateSave = function (data) {
 					thisInstance.addElementsToQuickCreateForCreatingRelation(data, customParams);
-					var taskGoToFullFormButton = data
+					let taskGoToFullFormButton = data
 						.find('[class^="CalendarQuikcCreateContents"]')
 						.find('.js-full-editlink');
-					var eventsGoToFullFormButton = data
+					let eventsGoToFullFormButton = data
 						.find('[class^="EventsQuikcCreateContents"]')
 						.find('.js-full-editlink');
-					var taskFullFormUrl = taskGoToFullFormButton.data('url') + '&' + fullFormUrl;
-					var eventsFullFormUrl = eventsGoToFullFormButton.data('url') + '&' + fullFormUrl;
+					let taskFullFormUrl = taskGoToFullFormButton.data('url') + '&' + fullFormUrl;
+					let eventsFullFormUrl = eventsGoToFullFormButton.data('url') + '&' + fullFormUrl;
 					taskGoToFullFormButton.data('url', taskFullFormUrl);
 					eventsGoToFullFormButton.data('url', eventsFullFormUrl);
 				};
-				var callbackFunction = function () {
+				let callbackFunction = function () {
 					thisInstance.getFiltersDataAndLoad(e);
 					thisInstance.loadWidget($('.widgetContentBlock[data-type="Updates"]'));
 				};
@@ -1486,26 +1486,26 @@ jQuery.Class(
 			});
 		},
 		getEndDate: function (startDate) {
-			var dateTab = startDate.split('-');
-			var date = new Date(dateTab[0], dateTab[1], dateTab[2]);
-			var newDate = new Date();
+			let dateTab = startDate.split('-');
+			let date = new Date(dateTab[0], dateTab[1], dateTab[2]);
+			let newDate = new Date();
 
 			newDate.setDate(date.getDate() + 2);
 			return app.getStringDate(newDate);
 		},
 		getSingleEventType: function (modDay, id, type) {
-			var dateStartEl = jQuery('[name="date_start"]');
-			var dateStartVal = jQuery(dateStartEl).val();
-			var dateStartFormat = jQuery(dateStartEl).data('date-format');
-			var validDateFromat = Vtiger_Helper_Js.convertToDateString(
+			let dateStartEl = jQuery('[name="date_start"]');
+			let dateStartVal = jQuery(dateStartEl).val();
+			let dateStartFormat = jQuery(dateStartEl).data('date-format');
+			let validDateFromat = Vtiger_Helper_Js.convertToDateString(
 				dateStartVal,
 				dateStartFormat,
 				modDay,
 				type
 			);
-			var map = jQuery.extend({}, ['#b6a996,black']);
+			let map = jQuery.extend({}, ['#b6a996,black']);
 
-			var params = {
+			let params = {
 				module: 'Calendar',
 				action: 'Feed',
 				start: validDateFromat,
@@ -1515,10 +1515,10 @@ jQuery.Class(
 			};
 
 			AppConnector.request(params).done(function (events) {
-				var testDate = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, modDay);
+				let testDate = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, modDay);
 				if (!jQuery.isEmptyObject(events)) {
 					if (events[0]['activitytype'] === 'Task') {
-						for (var ev in events) {
+						for (let ev in events) {
 							if (events[ev]['start'].indexOf(testDate) > -1) {
 								jQuery('#' + id + ' .table').append(
 									'<tr><td><a target="_blank" href="' +
@@ -1530,7 +1530,7 @@ jQuery.Class(
 							}
 						}
 					} else {
-						for (var i = 0; i < events[0].length; i++) {
+						for (let i = 0; i < events[0].length; i++) {
 							if (events[0][i]['start'].indexOf(testDate) > -1) {
 								jQuery('#' + id + ' .table').append(
 									'<tr><td><a target="_blank" href="' +
@@ -1549,25 +1549,25 @@ jQuery.Class(
 		 * Function to add module related record from summary widget
 		 */
 		registerFilterForAddingModuleRelatedRecordFromSummaryWidget: function (container) {
-			var thisInstance = this;
+			let thisInstance = this;
 			container
 				.find('.createRecordFromFilter')
 				.off()
 				.on('click', function (e) {
-					var currentElement = jQuery(e.currentTarget);
-					var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
-					var referenceModuleName = summaryWidgetContainer.data('moduleName');
-					var quickcreateUrl = currentElement.data('url');
-					var parentId = thisInstance.getRecordId();
-					var quickCreateParams = {};
-					var relatedField = currentElement.data('prf');
-					var autoCompleteFields = currentElement.data('acf');
-					var moduleName = currentElement
+					let currentElement = jQuery(e.currentTarget);
+					let summaryWidgetContainer = currentElement.closest('.js-detail-widget');
+					let referenceModuleName = summaryWidgetContainer.data('moduleName');
+					let quickcreateUrl = currentElement.data('url');
+					let parentId = thisInstance.getRecordId();
+					let quickCreateParams = {};
+					let relatedField = currentElement.data('prf');
+					let autoCompleteFields = currentElement.data('acf');
+					let moduleName = currentElement
 						.closest('.js-detail-widget-header')
 						.find('[name="relatedModule"]')
 						.val();
-					var relatedParams = {};
-					var postQuickCreateSave = function (data) {
+					let relatedParams = {};
+					let postQuickCreateSave = function (data) {
 						thisInstance.postSummaryWidgetAddRecord(data, currentElement);
 						if (referenceModuleName == 'ProjectTask') {
 							thisInstance.loadModuleSummary();
@@ -1586,7 +1586,7 @@ jQuery.Class(
 					}
 					quickCreateParams['noCache'] = true;
 					quickCreateParams['callbackFunction'] = postQuickCreateSave;
-					var progress = jQuery.progressIndicator({
+					let progress = jQuery.progressIndicator({
 						blockInfo: {
 							enabled: true
 						}
@@ -1637,10 +1637,10 @@ jQuery.Class(
 		},
 		registerAddingInventoryRecords: function () {
 			jQuery('.createInventoryRecordFromFilter').on('click', function (e) {
-				var currentElement = jQuery(e.currentTarget);
-				var createUrl = currentElement.data('url');
-				var autoCompleteFields = currentElement.data('acf');
-				var addidtionalParams = '';
+				let currentElement = jQuery(e.currentTarget);
+				let createUrl = currentElement.data('url');
+				let autoCompleteFields = currentElement.data('acf');
+				let addidtionalParams = '';
 				if (typeof autoCompleteFields !== 'undefined') {
 					$.each(autoCompleteFields, function (index, value) {
 						addidtionalParams = '&' + index + '=' + value;
@@ -1669,27 +1669,27 @@ jQuery.Class(
 				});
 		},
 		getFiltersDataAndLoad: function (e, params) {
-			var data = this.getFiltersData(e, params);
+			let data = this.getFiltersData(e, params);
 			this.loadWidget(data['container'], data['params']);
 		},
 		getFiltersData: function (e, params) {
 			if (e.currentTarget) {
-				var currentElement = jQuery(e.currentTarget);
+				let currentElement = jQuery(e.currentTarget);
 			} else {
 				currentElement = e;
 			}
-			var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
-			var widget = summaryWidgetContainer.find('.widgetContentBlock');
-			var url = '&' + widget.data('url');
-			var urlParams = {};
+			let summaryWidgetContainer = currentElement.closest('.js-detail-widget');
+			let widget = summaryWidgetContainer.find('.widgetContentBlock');
+			let url = '&' + widget.data('url');
+			let urlParams = {};
 			url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 				urlParams[key] = value;
 			});
-			var urlNewParams = [];
+			let urlNewParams = [];
 			summaryWidgetContainer.find('.js-switch, .js-filter_field').each(function (n, item) {
-				var value = '';
-				var element = jQuery(item);
-				var name = element.data('urlparams');
+				let value = '';
+				let element = jQuery(item);
+				let name = element.data('urlparams');
 				if (element.attr('type') == 'radio') {
 					if (element.prop('checked')) {
 						value =
@@ -1698,9 +1698,9 @@ jQuery.Class(
 								: element.data('off-val');
 					}
 				} else {
-					var selectedFilter = element.find('option:selected').val();
-					var fieldlable = element.data('fieldlable');
-					var filter = element.data('filter');
+					let selectedFilter = element.find('option:selected').val();
+					let fieldlable = element.data('fieldlable');
+					let filter = element.data('filter');
 					if (element.data('return') === 'value') {
 						value = selectedFilter;
 					} else {
@@ -1729,7 +1729,7 @@ jQuery.Class(
 			return { container: $(widget), params: $.extend(urlParams, urlNewParams) };
 		},
 		registerChangeFilterForWidget: function () {
-			var thisInstance = this;
+			let thisInstance = this;
 			jQuery('.js-switch').on('change', function (e, state) {
 				$(e.currentTarget)
 					.closest('.js-switch__btn')
@@ -1746,7 +1746,7 @@ jQuery.Class(
 		 * Function to register all the events related to summary view widgets
 		 */
 		registerSummaryViewContainerEvents: function (summaryViewContainer) {
-			var thisInstance = this;
+			let thisInstance = this;
 			this.registerEventForActivityWidget();
 			this.registerChangeFilterForWidget();
 			this.registerAddingInventoryRecords();
@@ -1755,9 +1755,9 @@ jQuery.Class(
 			 * Function to handle the ajax edit for summary view fields
 			 */
 			summaryViewContainer.off('click').on('click', '.row .js-detail-quick-edit', function (e) {
-				var currentTarget = jQuery(e.currentTarget);
+				let currentTarget = jQuery(e.currentTarget);
 				currentTarget.addClass('d-none');
-				var currentTdElement = currentTarget.closest('.fieldValue');
+				let currentTdElement = currentTarget.closest('.fieldValue');
 				thisInstance.ajaxEditHandling(currentTdElement);
 			});
 			/**
@@ -1778,12 +1778,12 @@ jQuery.Class(
 			);
 
 			summaryViewContainer.on('click', '.editDefaultStatus', function (e) {
-				var currentTarget = jQuery(e.currentTarget);
+				let currentTarget = jQuery(e.currentTarget);
 				currentTarget.popover('hide');
-				var url = currentTarget.data('url');
+				let url = currentTarget.data('url');
 				if (url) {
 					if (currentTarget.hasClass('showEdit')) {
-						var headerInstance = Vtiger_Header_Js.getInstance();
+						let headerInstance = Vtiger_Header_Js.getInstance();
 						if (window !== window.parent) {
 							headerInstance = window.parent.Vtiger_Header_Js.getInstance();
 						}
@@ -1905,13 +1905,13 @@ jQuery.Class(
 			 * to add record from widget
 			 */
 			jQuery('.createRecord').on('click', function (e) {
-				var currentElement = jQuery(e.currentTarget);
-				var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
-				var widgetHeaderContainer = summaryWidgetContainer.find('.js-detail-widget-header');
-				var referenceModuleName = widgetHeaderContainer.find('[name="relatedModule"]').val();
-				var recordId = thisInstance.getRecordId();
-				var module = app.getModuleName();
-				var customParams = {};
+				let currentElement = jQuery(e.currentTarget);
+				let summaryWidgetContainer = currentElement.closest('.js-detail-widget');
+				let widgetHeaderContainer = summaryWidgetContainer.find('.js-detail-widget-header');
+				let referenceModuleName = widgetHeaderContainer.find('[name="relatedModule"]').val();
+				let recordId = thisInstance.getRecordId();
+				let module = app.getModuleName();
+				let customParams = {};
 				customParams['sourceModule'] = module;
 				customParams['sourceRecord'] = recordId;
 				if (
@@ -1920,19 +1920,19 @@ jQuery.Class(
 					typeof thisInstance.referenceFieldNames[referenceModuleName] !== 'undefined' &&
 					typeof thisInstance.referenceFieldNames[referenceModuleName][module] !== 'undefined'
 				) {
-					var fieldName = thisInstance.referenceFieldNames[referenceModuleName][module];
+					let fieldName = thisInstance.referenceFieldNames[referenceModuleName][module];
 					customParams[fieldName] = recordId;
 				}
 
-				var postQuickCreateSave = function (data) {
+				let postQuickCreateSave = function (data) {
 					thisInstance.postSummaryWidgetAddRecord(data, currentElement);
 				};
 
-				var goToFullFormcallback = function (data) {
+				let goToFullFormcallback = function (data) {
 					thisInstance.addElementsToQuickCreateForCreatingRelation(data, customParams);
 				};
 
-				var QuickCreateParams = {};
+				let QuickCreateParams = {};
 				QuickCreateParams['callbackFunction'] = postQuickCreateSave;
 				QuickCreateParams['goToFullFormcallback'] = goToFullFormcallback;
 				QuickCreateParams['data'] = customParams;
@@ -1947,12 +1947,12 @@ jQuery.Class(
 			selectedTabElement,
 			params = {}
 		) {
-			var aDeferred = jQuery.Deferred();
-			var thisInstance = this;
+			let aDeferred = jQuery.Deferred();
+			let thisInstance = this;
 			if (selectedTabElement == undefined) {
 				selectedTabElement = thisInstance.getSelectedTab();
 			}
-			var relatedController = Vtiger_RelatedList_Js.getInstance(
+			let relatedController = Vtiger_RelatedList_Js.getInstance(
 				thisInstance.getRecordId(),
 				app.getModuleName(),
 				selectedTabElement,
@@ -1961,10 +1961,10 @@ jQuery.Class(
 			relatedController
 				.addRelations(relatedModuleRecordId, params)
 				.done(function (data) {
-					var summaryViewContainer = thisInstance.getContentHolder();
-					var updatesWidget = summaryViewContainer.find("[data-type='Updates']");
+					let summaryViewContainer = thisInstance.getContentHolder();
+					let updatesWidget = summaryViewContainer.find("[data-type='Updates']");
 					if (updatesWidget.length > 0) {
-						var params = thisInstance.getFiltersData(updatesWidget);
+						let params = thisInstance.getFiltersData(updatesWidget);
 						updatesWidget.find('.btnChangesReviewedOn').parent().remove();
 						thisInstance.loadWidget(updatesWidget, params['params']);
 					}
@@ -1980,11 +1980,11 @@ jQuery.Class(
 		 * summary view widget
 		 */
 		postSummaryWidgetAddRecord: function (data, currentElement) {
-			var thisInstance = this;
-			var summaryWidgetContainer = currentElement.closest('.js-detail-widget');
-			var widgetHeaderContainer = summaryWidgetContainer.find('.js-detail-widget-header');
-			var referenceModuleName = widgetHeaderContainer.find('[name="relatedModule"]').val();
-			var idList = [];
+			let thisInstance = this;
+			let summaryWidgetContainer = currentElement.closest('.js-detail-widget');
+			let widgetHeaderContainer = summaryWidgetContainer.find('.js-detail-widget-header');
+			let referenceModuleName = widgetHeaderContainer.find('[name="relatedModule"]').val();
+			let idList = [];
 			idList.push(data.result._recordId);
 			let params = {};
 			if (summaryWidgetContainer.data('relationId')) {
@@ -1998,12 +1998,12 @@ jQuery.Class(
 		},
 		registerChangeEventForModulesList: function () {
 			jQuery('#tagSearchModulesList').on('change', function (e) {
-				var modulesSelectElement = jQuery(e.currentTarget);
+				let modulesSelectElement = jQuery(e.currentTarget);
 				if (modulesSelectElement.val() == 'all') {
 					jQuery('[name="tagSearchModuleResults"]').removeClass('d-none');
 				} else {
 					jQuery('[name="tagSearchModuleResults"]').removeClass('d-none');
-					var selectedOptionValue = modulesSelectElement.val();
+					let selectedOptionValue = modulesSelectElement.val();
 					jQuery('[name="tagSearchModuleResults"]')
 						.filter(':not(#' + selectedOptionValue + ')')
 						.addClass('d-none');
@@ -2011,17 +2011,17 @@ jQuery.Class(
 			});
 		},
 		registerEventForRelatedTabClick: function () {
-			var thisInstance = this;
-			var detailContentsHolder = thisInstance.getContentHolder();
-			var detailContainer = detailContentsHolder.closest('div.detailViewInfo');
+			let thisInstance = this;
+			let detailContentsHolder = thisInstance.getContentHolder();
+			let detailContainer = detailContentsHolder.closest('div.detailViewInfo');
 
 			jQuery('.related', detailContainer).on('click', 'li:not(.spaceRelatedList)', function (
 				e,
 				urlAttributes
 			) {
-				var tabElement = jQuery(e.currentTarget);
+				let tabElement = jQuery(e.currentTarget);
 				if (!tabElement.hasClass('dropdown')) {
-					var element = jQuery('<div></div>');
+					let element = jQuery('<div></div>');
 					element.progressIndicator({
 						position: 'html',
 						blockInfo: {
@@ -2029,9 +2029,9 @@ jQuery.Class(
 							elementToBlock: detailContainer
 						}
 					});
-					var url = tabElement.data('url');
+					let url = tabElement.data('url');
 					if (typeof urlAttributes !== 'undefined') {
-						var callBack = urlAttributes.callback;
+						let callBack = urlAttributes.callback;
 						delete urlAttributes.callback;
 					}
 					thisInstance
@@ -2066,47 +2066,47 @@ jQuery.Class(
 		 * for a module if exist on change of picklist value
 		 */
 		registerEventForPicklistDependencySetup: function (container) {
-			var thisInstance = this;
-			var picklistDependcyElemnt = jQuery('[name="picklistDependency"]', container);
+			let thisInstance = this;
+			let picklistDependcyElemnt = jQuery('[name="picklistDependency"]', container);
 			if (picklistDependcyElemnt.length <= 0) {
 				return;
 			}
-			var picklistDependencyMapping = JSON.parse(picklistDependcyElemnt.val());
-			var sourcePicklists = Object.keys(picklistDependencyMapping);
+			let picklistDependencyMapping = JSON.parse(picklistDependcyElemnt.val());
+			let sourcePicklists = Object.keys(picklistDependencyMapping);
 			if (sourcePicklists.length <= 0) {
 				return;
 			}
 
-			var sourcePickListNames = [];
-			for (var i = 0; i < sourcePicklists.length; i++) {
+			let sourcePickListNames = [];
+			for (let i = 0; i < sourcePicklists.length; i++) {
 				sourcePickListNames.push('[name="' + sourcePicklists[i] + '"]');
 			}
 			sourcePickListNames = sourcePickListNames.join(',');
-			var sourcePickListElements = container.find(sourcePickListNames);
+			let sourcePickListElements = container.find(sourcePickListNames);
 			sourcePickListElements.on('change', function (e) {
-				var currentElement = jQuery(e.currentTarget);
-				var sourcePicklistname = currentElement.attr('name');
+				let currentElement = jQuery(e.currentTarget);
+				let sourcePicklistname = currentElement.attr('name');
 
-				var configuredDependencyObject = picklistDependencyMapping[sourcePicklistname];
-				var selectedValue = currentElement.val();
-				var targetObjectForSelectedSourceValue = configuredDependencyObject[selectedValue];
-				var picklistmap = configuredDependencyObject['__DEFAULT__'];
+				let configuredDependencyObject = picklistDependencyMapping[sourcePicklistname];
+				let selectedValue = currentElement.val();
+				let targetObjectForSelectedSourceValue = configuredDependencyObject[selectedValue];
+				let picklistmap = configuredDependencyObject['__DEFAULT__'];
 
 				if (typeof targetObjectForSelectedSourceValue === 'undefined') {
 					targetObjectForSelectedSourceValue = picklistmap;
 				}
 				jQuery.each(picklistmap, function (targetPickListName, targetPickListValues) {
-					var targetPickListMap = targetObjectForSelectedSourceValue[targetPickListName];
+					let targetPickListMap = targetObjectForSelectedSourceValue[targetPickListName];
 					if (typeof targetPickListMap === 'undefined') {
 						targetPickListMap = targetPickListValues;
 					}
-					var targetPickList = jQuery('[name="' + targetPickListName + '"]', container);
+					let targetPickList = jQuery('[name="' + targetPickListName + '"]', container);
 					if (targetPickList.length <= 0) {
 						return;
 					}
 
 					//On change of SourceField value, If TargetField value is not there in mapping, make user to select the new target value also.
-					var selectedValue = targetPickList.data('selectedValue');
+					let selectedValue = targetPickList.data('selectedValue');
 					if (jQuery.inArray(selectedValue, targetPickListMap) == -1) {
 						thisInstance.targetPicklistChange = true;
 						thisInstance.targetPicklist = targetPickList.closest('td');
@@ -2115,26 +2115,26 @@ jQuery.Class(
 						thisInstance.targetPicklist = false;
 					}
 
-					var listOfAvailableOptions = targetPickList.data('availableOptions');
+					let listOfAvailableOptions = targetPickList.data('availableOptions');
 					if (typeof listOfAvailableOptions === 'undefined') {
 						listOfAvailableOptions = jQuery('option', targetPickList);
 						targetPickList.data('available-options', listOfAvailableOptions);
 					}
 
-					var targetOptions = new jQuery();
-					var optionSelector = [];
+					let targetOptions = new jQuery();
+					let optionSelector = [];
 					optionSelector.push('');
-					for (var i = 0; i < targetPickListMap.length; i++) {
+					for (let i = 0; i < targetPickListMap.length; i++) {
 						optionSelector.push(targetPickListMap[i]);
 					}
 
 					jQuery.each(listOfAvailableOptions, function (i, e) {
-						var picklistValue = jQuery(e).val();
+						let picklistValue = jQuery(e).val();
 						if (jQuery.inArray(picklistValue, optionSelector) != -1) {
 							targetOptions = targetOptions.add(jQuery(e));
 						}
 					});
-					var targetPickListSelectedValue = '';
+					let targetPickListSelectedValue = '';
 					targetPickListSelectedValue = targetOptions.filter('[selected]').val();
 					if (targetPickListMap.length == 1) {
 						targetPickListSelectedValue = targetPickListMap[0]; // to automatically select picklist if only one picklistmap is present.
@@ -2149,15 +2149,15 @@ jQuery.Class(
 		 * Function to get child comments
 		 */
 		getChildComments: function (commentId) {
-			var aDeferred = jQuery.Deferred();
-			var url =
+			let aDeferred = jQuery.Deferred();
+			let url =
 				'module=' +
 				app.getModuleName() +
 				'&view=Detail&record=' +
 				this.getRecordId() +
 				'&mode=showChildComments&commentid=' +
 				commentId;
-			var dataObj = this.getCommentThread(url);
+			let dataObj = this.getCommentThread(url);
 			dataObj.done(function (data) {
 				aDeferred.resolve(data);
 			});
@@ -2187,17 +2187,17 @@ jQuery.Class(
 		 * of pageNumber text
 		 */
 		registerEventForTotalRecordsCount: function () {
-			var thisInstance = this;
-			var detailContentsHolder = this.getContentHolder();
+			let thisInstance = this;
+			let detailContentsHolder = this.getContentHolder();
 			detailContentsHolder.on('click', '.totalNumberOfRecords', function (e) {
-				var element = jQuery(e.currentTarget);
-				var totalNumberOfRecords = jQuery('#totalCount').val();
+				let element = jQuery(e.currentTarget);
+				let totalNumberOfRecords = jQuery('#totalCount').val();
 				element.addClass('d-none');
 				element.parent().progressIndicator({});
 				if (totalNumberOfRecords == '') {
-					var selectedTabElement = thisInstance.getSelectedTab();
-					var relatedModuleName = thisInstance.getRelatedModuleName();
-					var relatedController = Vtiger_RelatedList_Js.getInstance(
+					let selectedTabElement = thisInstance.getSelectedTab();
+					let relatedModuleName = thisInstance.getRelatedModuleName();
+					let relatedController = Vtiger_RelatedList_Js.getInstance(
 						thisInstance.getRecordId(),
 						app.getModuleName(),
 						selectedTabElement,
@@ -2213,11 +2213,11 @@ jQuery.Class(
 			});
 		},
 		showPagingInfo: function () {
-			var totalNumberOfRecords = jQuery('#totalCount').val();
-			var pageNumberElement = jQuery('.pageNumbersText');
-			var pageRange = pageNumberElement.text();
-			var newPagingInfo = pageRange + ' (' + totalNumberOfRecords + ')';
-			var listViewEntriesCount = parseInt(jQuery('#noOfEntries').val());
+			let totalNumberOfRecords = jQuery('#totalCount').val();
+			let pageNumberElement = jQuery('.pageNumbersText');
+			let pageRange = pageNumberElement.text();
+			let newPagingInfo = pageRange + ' (' + totalNumberOfRecords + ')';
+			let listViewEntriesCount = parseInt(jQuery('#noOfEntries').val());
 			if (listViewEntriesCount != 0) {
 				jQuery('.pageNumbersText').html(newPagingInfo);
 			} else {
@@ -2228,14 +2228,14 @@ jQuery.Class(
 			return fieldNameValueMap;
 		},
 		registerSetReadRecord: function (detailContentsHolder) {
-			var thisInstance = this;
+			let thisInstance = this;
 			detailContentsHolder.on('click', '.setReadRecord', function (e) {
-				var currentElement = jQuery(e.currentTarget);
+				let currentElement = jQuery(e.currentTarget);
 				currentElement.closest('.btn-group').addClass('d-none');
 				jQuery('#Accounts_detailView_fieldValue_was_read')
 					.find('.value')
 					.text(app.vtranslate('LBL_YES'));
-				var params = {
+				let params = {
 					module: app.getModuleName(),
 					action: 'SaveAjax',
 					record: thisInstance.getRecordId(),
@@ -2243,13 +2243,13 @@ jQuery.Class(
 					value: 'on'
 				};
 				AppConnector.request(params).done(function (data) {
-					var params = {
+					let params = {
 						text: app.vtranslate('JS_SET_READ_RECORD'),
 						title: app.vtranslate('System'),
 						type: 'info'
 					};
 					Vtiger_Helper_Js.showPnotify(params);
-					var relatedTabKey = jQuery('.related li.active');
+					let relatedTabKey = jQuery('.related li.active');
 					if (
 						relatedTabKey.data('linkKey') == thisInstance.detailViewSummaryTabLabel ||
 						relatedTabKey.data('linkKey') == thisInstance.detailViewDetailsTabLabel
@@ -2260,38 +2260,38 @@ jQuery.Class(
 			});
 		},
 		registerFastEditingFiels: function () {
-			var thisInstance = this;
-			var fastEditingFiels = jQuery('.summaryWidgetFastEditing select');
+			let thisInstance = this;
+			let fastEditingFiels = jQuery('.summaryWidgetFastEditing select');
 			fastEditingFiels.on('change', function (e) {
-				var fieldElement = jQuery(e.currentTarget);
-				var fieldContainer = fieldElement.closest('.editField');
-				var progressIndicatorElement = jQuery.progressIndicator({
+				let fieldElement = jQuery(e.currentTarget);
+				let fieldContainer = fieldElement.closest('.editField');
+				let progressIndicatorElement = jQuery.progressIndicator({
 					message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 					position: 'summaryWidgetFastEditing',
 					blockInfo: {
 						enabled: true
 					}
 				});
-				var fieldName = fieldContainer.data('fieldname');
+				let fieldName = fieldContainer.data('fieldname');
 				fieldName = fieldName.replace('q_', '');
-				var fieldValue = fieldElement.val();
-				var errorExists = fieldElement.validationEngine('validate');
+				let fieldValue = fieldElement.val();
+				let errorExists = fieldElement.validationEngine('validate');
 				if (errorExists) {
 					fieldContainer.progressIndicator({ mode: 'hide' });
 					return;
 				}
-				var preFieldSaveEvent = jQuery.Event(thisInstance.fieldPreSave);
+				let preFieldSaveEvent = jQuery.Event(thisInstance.fieldPreSave);
 				fieldElement.trigger(preFieldSaveEvent, {
 					fieldValue: fieldValue,
 					recordId: thisInstance.getRecordId()
 				});
-				var fieldNameValueMap = {};
+				let fieldNameValueMap = {};
 				fieldNameValueMap['value'] = fieldValue;
 				fieldNameValueMap['field'] = fieldName;
 				fieldNameValueMap = thisInstance.getCustomFieldNameValueMap(fieldNameValueMap);
 				thisInstance.saveFieldValues(fieldNameValueMap);
 				progressIndicatorElement.progressIndicator({ mode: 'hide' });
-				var params = {
+				let params = {
 					title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 					type: 'success'
 				};
@@ -2300,7 +2300,7 @@ jQuery.Class(
 			});
 		},
 		registerHelpInfo: function () {
-			var form = this.getForm();
+			let form = this.getForm();
 			app.showPopoverElementView(form.find('.js-help-info'));
 		},
 		/**
@@ -2643,11 +2643,11 @@ jQuery.Class(
 			});
 		},
 		loadMailPreviewWidget: function (widgetContent) {
-			var thisInstance = this;
-			var widgetDataContainer = widgetContent.find('.js-detail-widget-content');
-			var recordId = $('#recordId').val();
-			var progress = widgetDataContainer.progressIndicator();
-			var params = {};
+			let thisInstance = this;
+			let widgetDataContainer = widgetContent.find('.js-detail-widget-content');
+			let recordId = $('#recordId').val();
+			let progress = widgetDataContainer.progressIndicator();
+			let params = {};
 			params['module'] = 'OSSMailView';
 			params['view'] = 'Widget';
 			params['smodule'] = $('#module').val();
@@ -2671,7 +2671,7 @@ jQuery.Class(
 		},
 		registerMapsEvents: function (container) {
 			if (container.find('#coordinates').length) {
-				var mapView = new OpenStreetMap_Map_Js();
+				let mapView = new OpenStreetMap_Map_Js();
 				mapView.registerDetailView(container);
 			}
 		},
@@ -2682,14 +2682,14 @@ jQuery.Class(
 		},
 		registerShowSummary: function (container) {
 			container.on('click', '.showSummaryRelRecord', function (e) {
-				var currentTarget = $(e.currentTarget);
-				var id = currentTarget.data('id');
-				var summaryView = container.find('.summaryRelRecordView' + id);
+				let currentTarget = $(e.currentTarget);
+				let id = currentTarget.data('id');
+				let summaryView = container.find('.summaryRelRecordView' + id);
 				container.find('.listViewEntriesTable').css('display', 'none');
 				summaryView.show();
 			});
 			container.on('click', '.hideSummaryRelRecordView', function (e) {
-				var summaryView = container.find('.summaryRelRecordView');
+				let summaryView = container.find('.summaryRelRecordView');
 				container.find('.listViewEntriesTable').css('display', 'table');
 				summaryView.hide();
 			});
@@ -2763,9 +2763,9 @@ jQuery.Class(
 			}
 		},
 		registerBasicEvents: function () {
-			var thisInstance = this;
-			var detailContentsHolder = thisInstance.getContentHolder();
-			var selectedTabElement = thisInstance.getSelectedTab();
+			let thisInstance = this;
+			let detailContentsHolder = thisInstance.getContentHolder();
+			let selectedTabElement = thisInstance.getSelectedTab();
 			//register all the events for summary view container
 
 			if (this.getSelectedTab().data('labelKey') === 'ModComments') {
@@ -2788,18 +2788,18 @@ jQuery.Class(
 			App.Fields.Picklist.showSelect2ElementView(detailContentsHolder.find('select.select2'));
 			new App.Fields.Text.Editor(detailContentsHolder, { toolbar: 'Min' });
 			detailContentsHolder.on('click', '#detailViewNextRecordButton', function (e) {
-				var url = selectedTabElement.data('url');
-				var currentPageNum = thisInstance.getRelatedListCurrentPageNum();
-				var requestedPage = parseInt(currentPageNum) + 1;
-				var nextPageUrl = url + '&page=' + requestedPage;
+				let url = selectedTabElement.data('url');
+				let currentPageNum = thisInstance.getRelatedListCurrentPageNum();
+				let requestedPage = parseInt(currentPageNum) + 1;
+				let nextPageUrl = url + '&page=' + requestedPage;
 				thisInstance.loadContents(nextPageUrl);
 			});
 			detailContentsHolder.on('click', '#detailViewPreviousRecordButton', function (e) {
-				var url = selectedTabElement.data('url');
-				var currentPageNum = thisInstance.getRelatedListCurrentPageNum();
-				var requestedPage = parseInt(currentPageNum) - 1;
-				var params = {};
-				var nextPageUrl = url + '&page=' + requestedPage;
+				let url = selectedTabElement.data('url');
+				let currentPageNum = thisInstance.getRelatedListCurrentPageNum();
+				let requestedPage = parseInt(currentPageNum) - 1;
+				let params = {};
+				let nextPageUrl = url + '&page=' + requestedPage;
 				thisInstance.loadContents(nextPageUrl);
 			});
 			detailContentsHolder.on(
@@ -2815,14 +2815,14 @@ jQuery.Class(
 				}
 			);
 			detailContentsHolder.on('click', 'div.recordDetails span.squeezedWell', function (e) {
-				var currentElement = jQuery(e.currentTarget);
-				var relatedLabel = currentElement.data('reference');
+				let currentElement = jQuery(e.currentTarget);
+				let relatedLabel = currentElement.data('reference');
 				jQuery('.detailViewInfo .related .nav > li[data-reference="' + relatedLabel + '"]').trigger(
 					'click'
 				);
 			});
 			detailContentsHolder.on('click', '.relatedPopup', function (e) {
-				var editViewObj = new Vtiger_Edit_Js();
+				let editViewObj = new Vtiger_Edit_Js();
 				editViewObj.showRecordsList(e);
 				return false;
 			});
@@ -2838,7 +2838,7 @@ jQuery.Class(
 					currentTargetParent.hide();
 					return;
 				}
-				var commentId = currentTarget
+				let commentId = currentTarget
 					.closest('.js-comment-div')
 					.find('.js-comment-info-header')
 					.data('commentid');
@@ -2862,30 +2862,30 @@ jQuery.Class(
 				});
 			});
 			detailContentsHolder.on('click', '.hideThread', function (e) {
-				var currentTarget = jQuery(e.currentTarget);
-				var currentTargetParent = currentTarget.parent();
-				var commentActionsBlock = currentTarget.closest('.js-comment-actions');
-				var currentCommentBlock = currentTarget.closest('.js-comment-details');
+				let currentTarget = jQuery(e.currentTarget);
+				let currentTargetParent = currentTarget.parent();
+				let commentActionsBlock = currentTarget.closest('.js-comment-actions');
+				let currentCommentBlock = currentTarget.closest('.js-comment-details');
 				currentCommentBlock.find('ul').hide();
 				currentTargetParent.hide();
 				commentActionsBlock.find('.js-view-thread-block').show();
 			});
 			detailContentsHolder.on('click', '.detailViewThread', function (e) {
-				var recentCommentsTab = thisInstance.getTabByLabel(
+				let recentCommentsTab = thisInstance.getTabByLabel(
 					thisInstance.detailViewRecentCommentsTabLabel
 				);
-				var commentId = jQuery(e.currentTarget)
+				let commentId = jQuery(e.currentTarget)
 					.closest('.js-comment-single')
 					.find('.js-comment-info-header')
 					.data('commentid');
-				var commentLoad = function (data) {
+				let commentLoad = function (data) {
 					window.location.href = window.location.href + '#' + commentId;
 				};
 				recentCommentsTab.trigger('click', { commentid: commentId, callback: commentLoad });
 			});
 			detailContentsHolder.on('click', '.moreRecentRecords', function (e) {
 				e.preventDefault();
-				var recentCommentsTab = thisInstance.getTabByModule(
+				let recentCommentsTab = thisInstance.getTabByModule(
 					$(this).data('label-key'),
 					$(this).data('relation-id')
 				);
@@ -2947,19 +2947,19 @@ jQuery.Class(
 				);
 			});
 			detailContentsHolder.on('click', '.moreRelatedUpdates', function () {
-				var widgetContainer = jQuery(this).closest('.widgetContentBlock');
-				var widgetContent = widgetContainer.find('.widgetContent');
-				var progressIndicatorElement = jQuery.progressIndicator({
+				let widgetContainer = jQuery(this).closest('.widgetContentBlock');
+				let widgetContent = widgetContainer.find('.widgetContent');
+				let progressIndicatorElement = jQuery.progressIndicator({
 					position: 'html',
 					blockInfo: {
 						enabled: true,
 						elementToBlock: widgetContent
 					}
 				});
-				var currentPage = widgetContent.find('#relatedHistoryCurrentPage').val();
-				var nextPage = parseInt(currentPage) + 1;
-				var types = widgetContainer.find('.relatedHistoryTypes').val();
-				var pageLimit = widgetContent.find('#relatedHistoryPageLimit').val();
+				let currentPage = widgetContent.find('#relatedHistoryCurrentPage').val();
+				let nextPage = parseInt(currentPage) + 1;
+				let types = widgetContainer.find('.relatedHistoryTypes').val();
+				let pageLimit = widgetContent.find('#relatedHistoryPageLimit').val();
 				AppConnector.request({
 					module: app.getModuleName(),
 					view: 'Detail',
@@ -3018,13 +3018,13 @@ jQuery.Class(
 				});
 			});
 			detailContentsHolder.on('click', '.btnChangesReviewedOn', function (e) {
-				var progressInstance = jQuery.progressIndicator({
+				let progressInstance = jQuery.progressIndicator({
 					position: 'html',
 					blockInfo: {
 						enabled: true
 					}
 				});
-				var url =
+				let url =
 					'index.php?module=ModTracker&action=ChangesReviewedOn&record=' + app.getRecordId();
 				AppConnector.request(url).done(function (data) {
 					progressInstance.progressIndicator({ mode: 'hide' });
@@ -3036,25 +3036,25 @@ jQuery.Class(
 					if (selectedTabElement.data('labelKey') == thisInstance.detailViewRecentUpdatesTabLabel) {
 						thisInstance.reloadTabContent();
 					} else if (selectedTabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
-						var updatesWidget = detailContentsHolder.find("[data-type='Updates']");
+						let updatesWidget = detailContentsHolder.find("[data-type='Updates']");
 						if (updatesWidget.length > 0) {
-							var params = thisInstance.getFiltersData(updatesWidget);
+							let params = thisInstance.getFiltersData(updatesWidget);
 							thisInstance.loadWidget(updatesWidget, params['params']);
 						}
 					}
 				});
 			});
 			detailContentsHolder.on('click', '.moreRecentDocuments', function () {
-				var recentDocumentsTab = thisInstance.getTabByLabel(
+				let recentDocumentsTab = thisInstance.getTabByLabel(
 					thisInstance.detailViewRecentDocumentsTabLabel
 				);
 				recentDocumentsTab.trigger('click');
 			});
 			detailContentsHolder.on('click', '.moreRecentActivities', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				currentTarget.prop('disabled', true);
-				var container = currentTarget.closest('.activityWidgetContainer');
-				var page = container.find('.currentPage').val();
+				let container = currentTarget.closest('.activityWidgetContainer');
+				let page = container.find('.currentPage').val();
 				let records = container.find('.countActivities').val();
 				let data = thisInstance.getFiltersData(e, { page: ++page });
 				AppConnector.request({
@@ -3074,11 +3074,11 @@ jQuery.Class(
 				});
 			});
 			detailContentsHolder.on('click', '.widgetFullscreen', function (e) {
-				var currentTarget = $(e.currentTarget);
-				var widgetContentBlock = currentTarget.closest('.widgetContentBlock');
-				var url = widgetContentBlock.data('url');
+				let currentTarget = $(e.currentTarget);
+				let widgetContentBlock = currentTarget.closest('.widgetContentBlock');
+				let url = widgetContentBlock.data('url');
 				url = url.replace('&view=Detail&', '&view=WidgetFullscreen&');
-				var progressIndicatorElement = jQuery.progressIndicator({
+				let progressIndicatorElement = jQuery.progressIndicator({
 					position: 'html',
 					blockInfo: {
 						enabled: true
@@ -3140,16 +3140,16 @@ jQuery.Class(
 			switchBtnParent.append(text);
 		},
 		refreshCommentContainer: function (commentId) {
-			var thisInstance = this;
-			var commentContainer = $('.commentsBody');
-			var params = {
+			let thisInstance = this;
+			let commentContainer = $('.commentsBody');
+			let params = {
 				module: app.getModuleName(),
 				view: 'Detail',
 				record: thisInstance.getRecordId(),
 				mode: 'showThreadComments',
 				commentid: commentId
 			};
-			var progressIndicatorElement = jQuery.progressIndicator({
+			let progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true,
@@ -3265,7 +3265,7 @@ jQuery.Class(
 			this.registerEventForRelatedTabClick();
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 			this.registerUrlFieldClickEvent();
-			var detailViewContainer = jQuery('div.detailViewContainer');
+			let detailViewContainer = jQuery('div.detailViewContainer');
 			if (detailViewContainer.length <= 0) {
 				// Not detail view page
 				return;

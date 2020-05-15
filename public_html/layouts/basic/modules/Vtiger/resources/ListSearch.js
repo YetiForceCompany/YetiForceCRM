@@ -72,8 +72,8 @@ jQuery.Class(
 			return jQuery('#alphabetValue').val();
 		},
 		registerListSearch: function () {
-			var thisInstance = this;
-			var listViewContainer = this.getContainer();
+			let thisInstance = this;
+			let listViewContainer = this.getContainer();
 			listViewContainer.find('[data-trigger="listSearch"]').on('click', function (e) {
 				thisInstance.reloadList();
 			});
@@ -146,8 +146,8 @@ jQuery.Class(
 			jQuery('.pagination').data('totalCount', 0);
 		},
 		triggerListSearch: function () {
-			var listInstance = this;
-			var listViewContainer = listInstance.getContainer();
+			let listInstance = this;
+			let listViewContainer = listInstance.getContainer();
 			listViewContainer.find('[data-trigger="listSearch"]').trigger('click');
 		},
 		registerDateListSearch: function (container) {
@@ -160,7 +160,7 @@ jQuery.Class(
 			app.registerEventForClockPicker();
 		},
 		registerAlphabetClick: function () {
-			var thisInstance = this;
+			let thisInstance = this;
 			this.getContainer()
 				.find('.alphabetBtn')
 				.on('click', function () {
@@ -173,12 +173,12 @@ jQuery.Class(
 			return jQuery('#customFilter').find('option:selected').data('id');
 		},
 		registerEventForAlphabetSearch: function (modalContainer) {
-			var thisInstance = this;
+			let thisInstance = this;
 			modalContainer.find('.alphabetSearch').on('click', function (e) {
-				var alphabet = jQuery(e.currentTarget).find('a').text();
-				var cvId = thisInstance.getCurrentCvId();
-				var AlphabetSearchKey = thisInstance.getAlphabetSearchField();
-				var urlParams = {
+				let alphabet = jQuery(e.currentTarget).find('a').text();
+				let cvId = thisInstance.getCurrentCvId();
+				let AlphabetSearchKey = thisInstance.getAlphabetSearchField();
+				let urlParams = {
 					viewname: cvId,
 					search_key: AlphabetSearchKey,
 					search_value: alphabet,
@@ -195,8 +195,8 @@ jQuery.Class(
 			});
 		},
 		updatePaginationOnAlphabetChange: function (alphabet, AlphabetSearchKey) {
-			var thisInstance = this;
-			var params = {};
+			let thisInstance = this;
+			let params = {};
 			params['module'] = thisInstance.moduleName;
 			params['parent'] = app.getParentModuleName();
 			params['view'] = 'Pagination';
@@ -208,7 +208,7 @@ jQuery.Class(
 
 			AppConnector.request(params).done(function (data) {
 				jQuery('.paginationDiv').html(data);
-				var instance = thisInstance.getInstanceView();
+				let instance = thisInstance.getInstanceView();
 				if (instance && jQuery.isFunction(instance.registerPageNavigationEvents)) {
 					instance.registerPageNavigationEvents();
 				}
@@ -333,8 +333,8 @@ jQuery.Class(
 			return [searchParams];
 		},
 		getInstanceByView: function () {
-			var viewName = this.viewName ? this.viewName : app.getViewName();
-			var instance = false;
+			let viewName = this.viewName ? this.viewName : app.getViewName();
+			let instance = false;
 			if (viewName === 'RecordsList') {
 				instance = this.reletedInstance;
 				instance.reloadFunctionName = 'loadRecordList';
@@ -357,13 +357,13 @@ jQuery.Class(
 			return instance;
 		},
 		reloadList: function (params) {
-			var thisInstance = this;
+			let thisInstance = this;
 			if (params == undefined) {
 				params = { page: 1 };
 			}
-			var instance = this.getInstanceByView();
+			let instance = this.getInstanceByView();
 			if (instance) {
-				var funcName = instance.reloadFunctionName;
+				let funcName = instance.reloadFunctionName;
 				if (jQuery.isFunction(instance[funcName])) {
 					instance[funcName](params).done(function () {
 						thisInstance.resetPagination();
@@ -374,9 +374,9 @@ jQuery.Class(
 		},
 		executeFunctions: function (instance) {
 			if (instance.execute) {
-				var func = instance.execute;
-				for (var i in func) {
-					var funcName = func[i];
+				let func = instance.execute;
+				for (let i in func) {
+					let funcName = func[i];
 					if (jQuery.isFunction(instance[funcName])) {
 						instance[funcName]();
 					}

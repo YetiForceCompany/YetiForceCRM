@@ -18,8 +18,8 @@ $.Class(
 		scrollContainer: false,
 		restrictContentDrag: function (container) {
 			container.on('mousedown.draggable', function (e) {
-				var element = $(e.target);
-				var isHeaderElement = element.closest('.dashboardWidgetHeader').length > 0 ? true : false;
+				let element = $(e.target);
+				let isHeaderElement = element.closest('.dashboardWidgetHeader').length > 0 ? true : false;
 				if (isHeaderElement) {
 					return;
 				}
@@ -49,9 +49,9 @@ $.Class(
 			return dashboardId;
 		},
 		getWidgetInstance: function (widgetContainer) {
-			var id = widgetContainer.attr('id');
+			let id = widgetContainer.attr('id');
 			if (this.noCache || !(id in this.instancesCache)) {
-				var widgetName = widgetContainer.data('name');
+				let widgetName = widgetContainer.data('name');
 				this.instancesCache[id] = Vtiger_Widget_Js.getInstance(widgetContainer, widgetName);
 			}
 			return this.instancesCache[id];
@@ -79,10 +79,10 @@ $.Class(
 			}
 		},
 		savePositions: function (widgets) {
-			var widgetRowColPositions = {},
+			let widgetRowColPositions = {},
 				widgetSizes = {};
-			for (var index = 0, len = widgets.length; index < len; ++index) {
-				var widget = $(widgets[index]);
+			for (let index = 0, len = widgets.length; index < len; ++index) {
+				let widget = $(widgets[index]);
 				widgetRowColPositions[widget.find('.grid-stack-item-content').attr('id')] = JSON.stringify({
 					row: widget.attr('data-gs-y'),
 					col: widget.attr('data-gs-x')
@@ -169,11 +169,11 @@ $.Class(
 			app.showNewScrollbar(widgetContent, { wheelPropagation: true });
 		},
 		registerRefreshWidget: function () {
-			var thisInstance = this;
+			let thisInstance = this;
 			this.getContainer().on('click', 'a[name="drefresh"]', function (e) {
-				var element = $(e.currentTarget);
-				var parent = element.closest('.dashboardWidget');
-				var widgetInstnace = thisInstance.getWidgetInstance(parent);
+				let element = $(e.currentTarget);
+				let parent = element.closest('.dashboardWidget');
+				let widgetInstnace = thisInstance.getWidgetInstance(parent);
 				widgetInstnace.refreshWidget();
 				return;
 			});
@@ -235,17 +235,17 @@ $.Class(
 			});
 		},
 		registerSelectDashboard: function () {
-			var thisInstance = this;
+			let thisInstance = this;
 			$('.selectDashboard li').on('click', function (e) {
-				var progressIndicatorElement = $.progressIndicator({
+				let progressIndicatorElement = $.progressIndicator({
 					position: 'html',
 					blockInfo: {
 						enabled: true
 					}
 				});
-				var currentTarget = $(e.currentTarget);
-				var dashboardId = currentTarget.data('id');
-				var params = {
+				let currentTarget = $(e.currentTarget);
+				let dashboardId = currentTarget.data('id');
+				let params = {
 					module: app.getModuleName(),
 					view: app.getViewName(),
 					dashboardId: dashboardId
@@ -259,13 +259,13 @@ $.Class(
 			});
 		},
 		registerDatePickerHideInitiater: function () {
-			var container = this.getContainer();
+			let container = this.getContainer();
 			container.on('click', 'input.dateRange', function (e) {
-				var widgetContainer = $(e.currentTarget).closest('.dashboardWidget');
-				var dashboardWidgetHeader = $('.dashboardWidgetHeader', widgetContainer);
+				let widgetContainer = $(e.currentTarget).closest('.dashboardWidget');
+				let dashboardWidgetHeader = $('.dashboardWidgetHeader', widgetContainer);
 
-				var callbackFunction = function () {
-					var date = $('.dateRange');
+				let callbackFunction = function () {
+					let date = $('.dateRange');
 					date.DatePickerHide();
 					date.blur();
 				};
@@ -278,11 +278,11 @@ $.Class(
 			});
 		},
 		registerShowMailBody: function () {
-			var container = this.getContainer();
+			let container = this.getContainer();
 			container.on('click', '.showMailBody', function (e) {
-				var widgetContainer = $(e.currentTarget).closest('.mailRow');
-				var mailBody = widgetContainer.find('.mailBody');
-				var bodyIcon = $(e.currentTarget).find('.body-icon');
+				let widgetContainer = $(e.currentTarget).closest('.mailRow');
+				let mailBody = widgetContainer.find('.mailBody');
+				let bodyIcon = $(e.currentTarget).find('.body-icon');
 				if (mailBody.css('display') == 'none') {
 					mailBody.show();
 					bodyIcon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
@@ -293,16 +293,16 @@ $.Class(
 			});
 		},
 		registerChangeMailUser: function () {
-			var container = this.getContainer();
+			let container = this.getContainer();
 
 			container.on('change', '#mailUserList', function (e) {
-				var element = $(e.currentTarget);
-				var parent = element.closest('.dashboardWidget');
-				var contentContainer = parent.find('.dashboardWidgetContent');
-				var optionSelected = $('option:selected', this);
-				var url = parent.data('url') + '&user=' + optionSelected.val();
+				let element = $(e.currentTarget);
+				let parent = element.closest('.dashboardWidget');
+				let contentContainer = parent.find('.dashboardWidgetContent');
+				let optionSelected = $('option:selected', this);
+				let url = parent.data('url') + '&user=' + optionSelected.val();
 
-				var params = {};
+				let params = {};
 				params.url = url;
 				params.data = {};
 				contentContainer.progressIndicator({});
@@ -317,38 +317,38 @@ $.Class(
 			});
 		},
 		registerChartFilterWidget: function () {
-			var thisInstance = this;
+			let thisInstance = this;
 			$('.dashboardHeading')
 				.off('click', '.addChartFilter')
 				.on('click', '.addChartFilter', function (e) {
-					var element = $(e.currentTarget);
+					let element = $(e.currentTarget);
 					app.showModalWindow(null, 'index.php?module=Home&view=ChartFilter&step=step1', function (
 						wizardContainer
 					) {
-						var form = $('form', wizardContainer);
+						let form = $('form', wizardContainer);
 						form.on('keypress', function (event) {
 							return event.keyCode != 13;
 						});
-						var sectorContainer = form.find('.sectorContainer');
-						var chartType = $('select[name="chartType"]', wizardContainer);
-						var moduleNameSelectDOM = $('select[name="module"]', wizardContainer);
+						let sectorContainer = form.find('.sectorContainer');
+						let chartType = $('select[name="chartType"]', wizardContainer);
+						let moduleNameSelectDOM = $('select[name="module"]', wizardContainer);
 						App.Fields.Picklist.showSelect2ElementView(sectorContainer.find('.select2'));
-						var moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(
+						let moduleNameSelect2 = App.Fields.Picklist.showSelect2ElementView(
 							moduleNameSelectDOM,
 							{
 								placeholder: app.vtranslate('JS_SELECT_MODULE')
 							}
 						);
-						var step1 = $('.step1', wizardContainer);
-						var step2 = $('.step2', wizardContainer);
-						var step3 = $('.step3', wizardContainer);
-						var footer = $('.modal-footer', wizardContainer);
+						let step1 = $('.step1', wizardContainer);
+						let step2 = $('.step2', wizardContainer);
+						let step3 = $('.step3', wizardContainer);
+						let footer = $('.modal-footer', wizardContainer);
 						step2.remove();
 						step3.remove();
 						footer.hide();
 						chartType.on('change', function (e) {
-							var currentTarget = $(e.currentTarget);
-							var value = currentTarget.val();
+							let currentTarget = $(e.currentTarget);
+							let value = currentTarget.val();
 							if (value == 'Barchat' || value == 'Horizontal') {
 								form.find('.isColorContainer').removeClass('d-none');
 							} else {
@@ -392,12 +392,12 @@ $.Class(
 									}).done(function (step3Response) {
 										step2.last().after(step3Response);
 										wizardContainer.find('#widgetStep').val(3);
-										var step3 = wizardContainer.find('.step3');
+										let step3 = wizardContainer.find('.step3');
 										App.Fields.Picklist.showSelect2ElementView(step3.find('select'));
 										footer.hide();
 										step3.find('.groupField').on('change', function () {
 											wizardContainer.find('.step4').remove();
-											var groupField = $(this);
+											let groupField = $(this);
 											if (!groupField.val()) return;
 											footer.show();
 											AppConnector.request({
@@ -411,7 +411,7 @@ $.Class(
 											}).done(function (step4Response) {
 												step3.last().after(step4Response);
 												wizardContainer.find('#widgetStep').val(4);
-												var step4 = wizardContainer.find('.step4');
+												let step4 = wizardContainer.find('.step4');
 												App.Fields.Picklist.showSelect2ElementView(step4.find('select'));
 												app.registerModalEvents(wizardContainer);
 											});
@@ -734,8 +734,8 @@ $.Class(
 				});
 		},
 		saveWidget: function (form, mode, sourceModule, linkid) {
-			var aDeferred = $.Deferred();
-			var progressIndicatorElement = $.progressIndicator({
+			let aDeferred = $.Deferred();
+			let progressIndicatorElement = $.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
@@ -744,7 +744,7 @@ $.Class(
 			if (typeof sourceModule === 'undefined') {
 				sourceModule = app.getModuleName();
 			}
-			var params = {
+			let params = {
 				form: form,
 				module: app.getModuleName(),
 				sourceModule: sourceModule,
@@ -765,12 +765,12 @@ $.Class(
 			return aDeferred.promise();
 		},
 		registerTabModules: function () {
-			var thisInstance = this;
+			let thisInstance = this;
 			$('.selectDashboradView li').on('click', function (e) {
-				var currentTarget = $(e.currentTarget);
+				let currentTarget = $(e.currentTarget);
 				$('.selectDashboradView li').removeClass('active');
 				currentTarget.addClass('active');
-				var params = {
+				let params = {
 					module: currentTarget.data('module'),
 					view: app.getViewName(),
 					sourceModule: app.getModuleName(),
@@ -789,16 +789,16 @@ $.Class(
 		removeWidgetFromList: function () {
 			const thisInstance = this;
 			$('.dashboardHeading').on('click', '.removeWidgetFromList', function (e) {
-				var currentTarget = $(e.currentTarget);
-				var id = currentTarget.data('widget-id');
-				var params = {
+				let currentTarget = $(e.currentTarget);
+				let id = currentTarget.data('widget-id');
+				let params = {
 					module: app.getModuleName(),
 					action: 'Widget',
 					mode: 'removeWidgetFromList',
 					widgetid: id
 				};
 				AppConnector.request(params).done(function (data) {
-					var params = {
+					let params = {
 						text: app.vtranslate('JS_WIDGET_DELETED'),
 						type: 'success'
 					};
@@ -859,14 +859,14 @@ $.Class(
 		},
 		addWidget(element, url) {
 			element = $(element);
-			var linkId = element.data('linkid');
-			var name = element.data('name');
-			var widgetId = element.data('id');
+			let linkId = element.data('linkid');
+			let name = element.data('name');
+			let widgetId = element.data('id');
 			element.remove();
 			if ($('.js-widget-list .js-widget-list__item').length < 1) {
 				$('.js-widget-list').prev('.js-widget-predefined').addClass('d-none');
 			}
-			var widgetContainer = $(
+			let widgetContainer = $(
 				'<div class="grid-stack-item js-css-element-queries" data-js="css-element-queries"><div id="' +
 					linkId +
 					'-' +
@@ -876,8 +876,8 @@ $.Class(
 					'" data-mode="open" class="grid-stack-item-content dashboardWidget new"></div></div>'
 			);
 			widgetContainer.find('.dashboardWidget').data('url', url);
-			var width = element.data('width');
-			var height = element.data('height');
+			let width = element.data('width');
+			let height = element.data('height');
 			Vtiger_DashBoard_Js.grid.addWidget(widgetContainer, 0, 0, width, height);
 			Vtiger_DashBoard_Js.currentInstance.loadWidget(
 				widgetContainer.find('.grid-stack-item-content')
