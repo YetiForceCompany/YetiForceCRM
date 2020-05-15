@@ -1072,7 +1072,8 @@ jQuery.Class(
 							thisInstance.getRecordId(),
 							app.getModuleName(),
 							thisInstance.getSelectedTab(),
-							block.data('reference')
+							block.data('reference'),
+							block.data('url')
 						);
 						relatedController.setRelatedContainer(blockContent);
 						relatedController.registerRelatedEvents();

@@ -13,7 +13,13 @@ jQuery.Class(
 	'Vtiger_RelatedList_Js',
 	{
 		relatedListInstance: false,
-		getInstance: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
+		getInstance: function (
+			parentId,
+			parentModule,
+			selectedRelatedTabElement,
+			relatedModuleName,
+			url
+		) {
 			if (
 				Vtiger_RelatedList_Js.relatedListInstance === false ||
 				Vtiger_RelatedList_Js.relatedListInstance.moduleName !== relatedModuleName
@@ -38,6 +44,8 @@ jQuery.Class(
 				instance.relatedView = instance.content.find('input.relatedView').val();
 				Vtiger_RelatedList_Js.relatedListInstance = instance;
 			}
+			Vtiger_RelatedList_Js.relatedListInstance.parseUrlParams(url);
+			Vtiger_RelatedList_Js.relatedListInstance.setSelectedTabElement(selectedRelatedTabElement);
 			return Vtiger_RelatedList_Js.relatedListInstance;
 		},
 		triggerMassAction: function (massActionUrl, type) {
@@ -142,6 +150,7 @@ jQuery.Class(
 		frameProgress: false,
 		noEventsListSearch: false,
 		listViewContainer: false,
+		defaultParams: {},
 		setSelectedTabElement: function (tabElement) {
 			this.selectedRelatedTabElement = tabElement;
 		},
@@ -175,11 +184,12 @@ jQuery.Class(
 		},
 		getDefaultParams: function () {
 			let container = this.getRelatedContainer();
-			let params = {
-				relationId: container.find('#relationId').val(),
-				orderby: this.getOrderBy(),
-				page: this.getCurrentPageNum()
-			};
+			let params = this.defaultParams;
+			params['page'] = this.getCurrentPageNum();
+			params['orderby'] = this.getOrderBy();
+			if (container.find('#relationId').val()) {
+				params['relationId'] = container.find('#relationId').val();
+			}
 			if (container.find('.pagination').length) {
 				params['totalCount'] = container.find('.pagination').data('totalCount');
 			}
@@ -187,13 +197,13 @@ jQuery.Class(
 				params['entityState'] = container.find('.entityState').val();
 			}
 			if (this.listSearchInstance) {
-				var searchValue = this.listSearchInstance.getAlphabetSearchValue();
 				params.search_params = JSON.stringify(this.listSearchInstance.getListSearchParams());
-			}
-			if (typeof searchValue !== 'undefined' && searchValue.length > 0) {
-				params['search_key'] = this.listSearchInstance.getAlphabetSearchField();
-				params['search_value'] = searchValue;
-				params['operator'] = 's';
+				let searchValue = this.listSearchInstance.getAlphabetSearchValue();
+				if (typeof searchValue !== 'undefined' && searchValue.length > 0) {
+					params['search_key'] = this.listSearchInstance.getAlphabetSearchField();
+					params['search_value'] = searchValue;
+					params['operator'] = 's';
+				}
 			}
 			if (this.moduleName == 'Calendar') {
 				var switchBtn = container.find('.js-switch--calendar');
@@ -215,6 +225,13 @@ jQuery.Class(
 				tab_label: container.find('#tab_label').val()
 			};
 			return $.extend(this.getDefaultParams(), params);
+		},
+		parseUrlParams: function (url) {
+			if (url) {
+				this.defaultParams = app.convertUrlToObject(url);
+			} else {
+				this.defaultParams = {};
+			}
 		},
 		loadRelatedList: function (params) {
 			var aDeferred = jQuery.Deferred();
@@ -934,7 +951,11 @@ jQuery.Class(
 					this.registerListPreviewEvents();
 				}
 			}
-			this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
+			if (this.content.find('.listViewSearchTd [data-trigger="listSearch"]').length) {
+				this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
+			} else {
+				this.listSearchInstance = false;
+			}
 			app.event.trigger('RelatedList.AfterLoad', thisInstance);
 		},
 		getSecondColMinWidth: function (container) {
