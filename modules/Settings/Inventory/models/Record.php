@@ -87,7 +87,7 @@ class Settings_Inventory_Record_Model extends \App\Base
 				'value' => $this->get('value'),
 				'status' => $this->get('status')
 			];
-			if ($this->getType() === 'Taxes') {
+			if ('Taxes' === $this->getType()) {
 				if ($this->get('default')) {
 					$this->disableDefaultsTax();
 				}
@@ -104,7 +104,7 @@ class Settings_Inventory_Record_Model extends \App\Base
 		return $id;
 	}
 
-	/**    Function used to add the tax type which will do database alterations
+	/**    Function used to add the tax type which will do database alterations.
 	 * @param string $taxlabel - tax label name to be added
 	 * @param string $taxvalue - tax value to be added
 	 * @param string $sh       - sh or empty , if sh passed then the tax will be added in shipping and handling related table
@@ -119,7 +119,7 @@ class Settings_Inventory_Record_Model extends \App\Base
 				'name' => $this->getName()
 			];
 
-			if ($this->getType() === 'Taxes') {
+			if ('Taxes' === $this->getType()) {
 				if ($this->get('default')) {
 					$this->disableDefaultsTax();
 				}
@@ -191,7 +191,7 @@ class Settings_Inventory_Record_Model extends \App\Base
 			->where(['id' => $id])
 			->createCommand()->queryOne();
 		$recordModel = new self();
-		if ($row !== false) {
+		if (false !== $row) {
 			$recordModel->setData($row)->setType($type);
 		}
 		return $recordModel;
@@ -199,7 +199,7 @@ class Settings_Inventory_Record_Model extends \App\Base
 
 	public static function checkDuplicate($label, $excludedIds = [], $type = '')
 	{
-		if (!is_array($excludedIds)) {
+		if (!\is_array($excludedIds)) {
 			if (!empty($excludedIds)) {
 				$excludedIds = [$excludedIds];
 			} else {

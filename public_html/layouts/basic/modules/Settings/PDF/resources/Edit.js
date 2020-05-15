@@ -9,14 +9,14 @@ Settings_Vtiger_Edit_Js(
 	{
 		currentInstance: false,
 		editContainer: false,
-		init: function() {
+		init: function () {
 			this.initiate();
 		},
 		/**
 		 * Function to get the container which holds all the workflow elements
 		 * @return jQuery object
 		 */
-		getContainer: function() {
+		getContainer: function () {
 			return this.editContainer;
 		},
 		/**
@@ -24,14 +24,14 @@ Settings_Vtiger_Edit_Js(
 		 * @params : element - which represents the workflow container
 		 * @return : current instance
 		 */
-		setContainer: function(element) {
+		setContainer: function (element) {
 			this.editContainer = element;
 			return this;
 		},
 		/*
 		 * Function to return the instance based on the step of the Workflow
 		 */
-		getInstance: function(step) {
+		getInstance: function (step) {
 			if (step in Settings_PDF_Edit_Js.instance) {
 				return Settings_PDF_Edit_Js.instance[step];
 			} else {
@@ -44,14 +44,14 @@ Settings_Vtiger_Edit_Js(
 		 * Function to get the value of the step
 		 * returns 1 or 2 or 3
 		 */
-		getStepValue: function() {
+		getStepValue: function () {
 			var container = this.currentInstance.getContainer();
 			return jQuery('.step', container).val();
 		},
 		/*
 		 * Function to initiate the step 1 instance
 		 */
-		initiate: function(container) {
+		initiate: function (container) {
 			if (typeof container === 'undefined') {
 				container = jQuery('.pdfTemplateContents');
 			}
@@ -67,7 +67,7 @@ Settings_Vtiger_Edit_Js(
 		 * Function to initiate all the operations for a step
 		 * @params step value
 		 */
-		initiateStep: function(stepVal) {
+		initiateStep: function (stepVal) {
 			var step = 'step' + stepVal;
 			this.activateHeader(step);
 			this.currentInstance = this.getInstance(stepVal);
@@ -76,7 +76,7 @@ Settings_Vtiger_Edit_Js(
 		 * Function to activate the header based on the class
 		 * @params class name
 		 */
-		activateHeader: function(step) {
+		activateHeader: function (step) {
 			var headersContainer = jQuery('.crumbs ');
 			headersContainer.find('.active').removeClass('active');
 			jQuery('#' + step, headersContainer).addClass('active');
@@ -84,17 +84,17 @@ Settings_Vtiger_Edit_Js(
 		/*
 		 * Function to register the click event for next button
 		 */
-		registerFormSubmitEvent: function(form) {
+		registerFormSubmitEvent: function (form) {
 			var thisInstance = this;
 			if (jQuery.isFunction(thisInstance.currentInstance.submit)) {
-				form.on('submit', function(e) {
+				form.on('submit', function (e) {
 					var form = jQuery(e.currentTarget);
 					var specialValidation = true;
 					if (jQuery.isFunction(thisInstance.currentInstance.isFormValidate)) {
 						specialValidation = thisInstance.currentInstance.isFormValidate();
 					}
 					if (form.validationEngine('validate') && specialValidation) {
-						thisInstance.currentInstance.submit().done(function(data) {
+						thisInstance.currentInstance.submit().done(function (data) {
 							thisInstance.getContainer().prepend(data);
 							var stepVal = thisInstance.getStepValue();
 							var nextStepVal = parseInt(stepVal) + 1;
@@ -110,7 +110,7 @@ Settings_Vtiger_Edit_Js(
 				});
 			}
 		},
-		back: function() {
+		back: function () {
 			var step = this.getStepValue();
 			var prevStep = parseInt(step) - 1;
 			this.currentInstance.initialize();
@@ -123,22 +123,22 @@ Settings_Vtiger_Edit_Js(
 			currentContainer.show();
 			jQuery('[name="record"]', currentContainer).val(pdfId);
 		},
-		registerCancelStepClickEvent: function(form) {
-			jQuery('button.cancelLink', form).on('click', function() {
+		registerCancelStepClickEvent: function (form) {
+			jQuery('button.cancelLink', form).on('click', function () {
 				window.history.back();
 			});
 		},
 		/*
 		 * Function to register the click event for back step
 		 */
-		registerBackStepClickEvent: function() {
+		registerBackStepClickEvent: function () {
 			var thisInstance = this;
 			var container = this.getContainer();
-			container.on('click', '.backStep', function(e) {
+			container.on('click', '.backStep', function (e) {
 				thisInstance.back();
 			});
 		},
-		registerMetatagsClickEvent: function(form) {
+		registerMetatagsClickEvent: function (form) {
 			var metaTagsStatus = form.find('#metatags_status');
 			if (!metaTagsStatus.is(':checked')) {
 				form.find('.metatags').addClass('d-none');
@@ -146,7 +146,7 @@ Settings_Vtiger_Edit_Js(
 				form.find('.metatags').removeClass('d-none');
 			}
 
-			metaTagsStatus.on('change', function() {
+			metaTagsStatus.on('change', function () {
 				const status = $(this).is(':checked');
 				if (!status) {
 					$('.metatags', form).addClass('d-none');
@@ -163,10 +163,10 @@ Settings_Vtiger_Edit_Js(
 		 * @param {array} fonts
 		 */
 		registerEditors(container, fonts = ['DejaVu Sans']) {
-			container.find('.js-editor').each(function() {
+			container.find('.js-editor').each(function () {
 				const editor = $(this);
 				if (typeof CONFIG.fonts !== 'undefined' && fonts.length === 1) {
-					fonts = CONFIG.fonts.map(font => font);
+					fonts = CONFIG.fonts.map((font) => font);
 					fonts.unshift('DejaVu Sans');
 				}
 				new App.Fields.Text.Editor(editor, {
@@ -193,7 +193,10 @@ Settings_Vtiger_Edit_Js(
 						},
 						{ name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
 						{ name: 'links', items: ['Link', 'Unlink'] },
-						{ name: 'insert', items: ['ckeditor-image-to-base', 'Table', 'HorizontalRule', 'PageBreak'] },
+						{
+							name: 'insert',
+							items: ['ckeditor-image-to-base', 'Table', 'HorizontalRule', 'PageBreak']
+						},
 						{ name: 'tools', items: ['Maximize', 'ShowBlocks'] },
 						{ name: 'document', items: ['Source'] },
 						'/',
@@ -272,12 +275,12 @@ Settings_Vtiger_Edit_Js(
 				method: 'GET',
 				dataType: 'json'
 			})
-				.done(response => {
+				.done((response) => {
 					if (response.length === 0) {
 						return this.registerEditors(form);
 					}
 					const fonts = response
-						.map(font => font.family)
+						.map((font) => font.family)
 						.filter((val, index, self) => self.indexOf(val) === index);
 					CONFIG.fonts = fonts;
 					this.registerEditors(form, fonts);

@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-BreadCrumbs -->
-	{if App\Config::main('breadcrumbs') eq  'true'}
+	{if App\Config::main('breadcrumbs')}
 		{if isset($BREADCRUMB_TITLE)}
 			{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs($BREADCRUMB_TITLE)}
 			{assign var="BREADCRUMBS_POPOVER" value=Vtiger_Menu_Model::getBreadcrumbs()}

@@ -58,7 +58,7 @@ class Calendar_RecuringEvents_Model extends \App\Base
 	 *
 	 * @return Calendar_RecuringEvents_Model
 	 */
-	public static function getInstanceFromRequest(\App\Request $request)
+	public static function getInstanceFromRequest(App\Request $request)
 	{
 		$instance = new self();
 		$moduleName = $request->getModule();
@@ -159,7 +159,7 @@ class Calendar_RecuringEvents_Model extends \App\Base
 					$recordsIds = $this->getRecords($this->recordModel->get('followup'));
 					$itemNumber = 0;
 					foreach ($recordsIds as $recordId => $data) {
-						if ($itemNumber === 0) {
+						if (0 === $itemNumber) {
 							$dates = $this->getDates($data['date_start'] . ' ' . $data['time_start'], $data['due_date'] . ' ' . $data['time_end']);
 						}
 						if ($recordId === $this->templateRecordId) {
@@ -283,7 +283,7 @@ class Calendar_RecuringEvents_Model extends \App\Base
 	 */
 	public function isNeverEndingRule($recurrenceRule)
 	{
-		return strpos($recurrenceRule, 'COUNT') === false && strpos($recurrenceRule, 'UNTIL') === false;
+		return false === strpos($recurrenceRule, 'COUNT') && false === strpos($recurrenceRule, 'UNTIL');
 	}
 
 	/**

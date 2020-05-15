@@ -57,7 +57,7 @@ class PwnedPassword
 	{
 		$className = '\\App\\Extension\\PwnedPassword\\' . \App\Config::module('Users', 'pwnedPasswordProvider');
 		if (!class_exists($className)) {
-			throw new \App\Exceptions\AppException('ERR_CLASS_NOT_FOUND');
+			throw new \App\Exceptions\AppException("ERR_CLASS_NOT_FOUND||{$className}");
 		}
 		return new $className();
 	}

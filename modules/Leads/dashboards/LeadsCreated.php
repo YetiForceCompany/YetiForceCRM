@@ -10,7 +10,7 @@
 
 class Leads_LeadsCreated_Dashboard extends Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUserId = \App\User::getCurrentUserId();
 		$viewer = $this->getViewer($request);

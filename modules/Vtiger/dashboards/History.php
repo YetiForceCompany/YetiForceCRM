@@ -10,7 +10,7 @@
 
 class Vtiger_History_Dashboard extends Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$data = $request->getAll();
@@ -39,7 +39,7 @@ class Vtiger_History_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('HISTORIES', $history);
 		$viewer->assign('PAGE', $page);
-		$viewer->assign('NEXTPAGE', (count($history) < $limit) ? 0 : $page + 1);
+		$viewer->assign('NEXTPAGE', (\count($history) < $limit) ? 0 : $page + 1);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('DATA', $data);
 		if ($request->has('content')) {

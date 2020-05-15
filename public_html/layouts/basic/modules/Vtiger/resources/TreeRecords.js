@@ -8,16 +8,16 @@ jQuery.Class(
 		mainContainer: false,
 		treeInstance: false,
 		treeData: false,
-		getContainer: function() {
+		getContainer: function () {
 			if (this.mainContainer == false) {
 				this.mainContainer = jQuery('#centerPanel');
 			}
 			return this.mainContainer;
 		},
-		setContainer: function(container) {
+		setContainer: function (container) {
 			this.mainContainer = container;
 		},
-		getTreeListValues: function(container) {
+		getTreeListValues: function (container) {
 			if (this.treeData == false && container !== 'undefined') {
 				var treeValues = container.find('#treeListValues').val();
 				if (treeValues != '') {
@@ -26,7 +26,7 @@ jQuery.Class(
 			}
 			return this.treeData;
 		},
-		generateTree: function(container) {
+		generateTree: function (container) {
 			const thisInstance = this;
 			thisInstance.treeInstance = container.find('#treeListContents');
 			thisInstance.treeInstance.jstree({
@@ -40,9 +40,9 @@ jQuery.Class(
 				plugins: ['checkbox']
 			});
 		},
-		getRecordsParams: function(container) {
+		getRecordsParams: function (container) {
 			let selected = [];
-			$.each(this.treeInstance.jstree('get_selected', true), function(index, value) {
+			$.each(this.treeInstance.jstree('get_selected', true), function (index, value) {
 				selected.push(value.original.record_id);
 			});
 			return {
@@ -52,7 +52,7 @@ jQuery.Class(
 				filter: container.find('#moduleFilter').val()
 			};
 		},
-		getRecordsList: function() {
+		getRecordsList: function () {
 			var thisInstance = this;
 			var container = thisInstance.getContainer();
 			var progressIndicator = jQuery.progressIndicator({
@@ -85,29 +85,29 @@ jQuery.Class(
 			});
 
 			AppConnector.request(thisInstance.getRecordsParams(container))
-				.done(function(data) {
+				.done(function (data) {
 					container.find('#recordsListContents').html(data);
 					container.find('#recordsListContents table').dataTable();
 
 					progressIndicator.progressIndicator({ mode: 'hide' });
 				})
-				.fail(function(error) {
+				.fail(function (error) {
 					progressIndicator.progressIndicator({ mode: 'hide' });
 				});
 		},
-		registerFilterChangeEvent: function(container) {
+		registerFilterChangeEvent: function (container) {
 			var thisInstance = this;
-			container.on('change', '#moduleFilter', function(e) {
+			container.on('change', '#moduleFilter', function (e) {
 				thisInstance.getRecordsList();
 			});
 		},
-		registerSelectBrancheEvent: function(container) {
+		registerSelectBrancheEvent: function (container) {
 			var thisInstance = this;
-			thisInstance.treeInstance.on('changed.jstree', function(e, data) {
+			thisInstance.treeInstance.on('changed.jstree', function (e, data) {
 				thisInstance.getRecordsList();
 			});
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			var container = this.getContainer();
 			this.generateTree(container);
 			this.registerFilterChangeEvent(container);

@@ -16,13 +16,13 @@ class Users_SwitchUsers_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$userId = $request->getInteger('id');
 		require 'user_privileges/switchUsers.php';
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$baseUserId = $currentUserModel->getRealId();
-		if (!array_key_exists($baseUserId, $switchUsers) || !array_key_exists($userId, $switchUsers[$baseUserId])) {
+		if (!\array_key_exists($baseUserId, $switchUsers) || !\array_key_exists($userId, $switchUsers[$baseUserId])) {
 			$db = \App\Db::getInstance('log');
 			$db->createCommand()->insert('l_#__switch_users', [
 				'baseid' => $baseUserId,
@@ -43,7 +43,7 @@ class Users_SwitchUsers_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUser = \App\User::getCurrentUserModel();
 		$baseUserId = $currentUser->getId();

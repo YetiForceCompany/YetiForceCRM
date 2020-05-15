@@ -17,7 +17,7 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$value = $value ? explode('##', $value) : [];
 		}
 		foreach ($value as $val) {
@@ -63,7 +63,7 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$displayValue = \App\TextParser::textTruncate($this->getEditViewDisplayValue($value, $recordModel), is_int($length) ? $length : false);
+		$displayValue = \App\TextParser::textTruncate($this->getEditViewDisplayValue($value, $recordModel), \is_int($length) ? $length : false);
 		if (App\User::getCurrentUserModel()->isAdmin() && !$rawText) {
 			$recordModel = Users_Record_Model::getCleanInstance('Users');
 			$recordModel->setId($value);
@@ -92,7 +92,7 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function  getQueryOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny', 'om'];
 	}

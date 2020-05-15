@@ -20,7 +20,7 @@ class Accounts_AccountHierarchy_View extends \App\Controller\View\Page
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -35,7 +35,7 @@ class Accounts_AccountHierarchy_View extends \App\Controller\View\Page
 		return (new \App\Db\Query())->from('u_#__crmentity_last_changes')->where(['crmid' => $id, 'fieldname' => 'active'])->one();
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -45,7 +45,7 @@ class Accounts_AccountHierarchy_View extends \App\Controller\View\Page
 		$hierarchy = $recordModel->getAccountHierarchy();
 		$listColumns = App\Config::module('Accounts', 'COLUMNS_IN_HIERARCHY');
 		$lastModifiedField = [];
-		if (!empty($listColumns) && in_array('active', $listColumns)) {
+		if (!empty($listColumns) && \in_array('active', $listColumns)) {
 			foreach ($hierarchy['entries'] as $crmId => $entry) {
 				$lastModified = $this->getLastModified($crmId);
 				if ($lastModified) {

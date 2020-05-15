@@ -84,8 +84,10 @@ class MultiCompany extends Vtiger_CRMEntity
 	/**
 	 * Function to get sales hierarchy of the given Sale.
 	 *
-	 * @param int $id
-	 *                returns hierarchy in array format
+	 * @param int   $id
+	 *                          returns hierarchy in array format
+	 * @param mixed $getRawData
+	 * @param mixed $getLinks
 	 * @YTTODO to rebuild
 	 */
 	public function getHierarchy($id, $getRawData = false, $getLinks = true)
@@ -120,6 +122,8 @@ class MultiCompany extends Vtiger_CRMEntity
 	 * @param int   $recordId        - id
 	 * @param array $listviewEntries
 	 *                               returns All the parent sales of the given Sale in array format
+	 * @param mixed $getRawData
+	 * @param mixed $getLinks
 	 * @YTTODO to rebuild
 	 */
 	public function getHierarchyData($id, $baseInfo, $recordId, &$listviewEntries, $getRawData = false, $getLinks = true)
@@ -136,7 +140,7 @@ class MultiCompany extends Vtiger_CRMEntity
 			// Permission to view sales is restricted, avoid showing field values (except sales name)
 			if (\App\Field::getFieldPermission('MultiCompany', $colname)) {
 				$data = \App\Purifier::encodeHtml($baseInfo[$colname]);
-				if ($getRawData === false && $colname === 'subject') {
+				if (false === $getRawData && 'subject' === $colname) {
 					if ($recordId != $id) {
 						if ($getLinks) {
 							if ($hasRecordViewAccess) {
@@ -157,7 +161,7 @@ class MultiCompany extends Vtiger_CRMEntity
 		}
 		$listviewEntries[$recordId] = $infoData;
 		foreach ($baseInfo as $accId => $rowInfo) {
-			if (is_array($rowInfo) && (int) $accId) {
+			if (\is_array($rowInfo) && (int) $accId) {
 				$listviewEntries = $this->getHierarchyData($id, $rowInfo, $accId, $listviewEntries, $getRawData, $getLinks);
 			}
 		}
@@ -169,9 +173,11 @@ class MultiCompany extends Vtiger_CRMEntity
 	/**
 	 * Function to Recursively get all the upper sales of a given.
 	 *
-	 * @param int   $id     - multicompanyid
-	 * @param array $parent - Array of all the parent sales
-	 *                      returns All the parent  f the given multicompanyid in array format
+	 * @param int   $id          - multicompanyid
+	 * @param array $parent      - Array of all the parent sales
+	 *                           returns All the parent  f the given multicompanyid in array format
+	 * @param mixed $encountered
+	 * @param mixed $depthBase
 	 * @YTTODO to rebuild
 	 */
 	public function getParent($id, &$parent, &$encountered, $depthBase = 0)
@@ -194,7 +200,7 @@ class MultiCompany extends Vtiger_CRMEntity
 			->one();
 		if ($row) {
 			$parentid = $row['parent_id'];
-			if ($parentid !== '' && $parentid != 0 && !in_array($parentid, $encountered)) {
+			if ('' !== $parentid && 0 != $parentid && !\in_array($parentid, $encountered)) {
 				$encountered[] = $parentid;
 				$this->getParent($parentid, $parent, $encountered, $depthBase + 1);
 			}
@@ -209,9 +215,9 @@ class MultiCompany extends Vtiger_CRMEntity
 				$listColumns = $this->list_fields_name;
 			}
 			foreach ($listColumns as $columnname) {
-				if ($columnname === 'assigned_user_id') {
+				if ('assigned_user_id' === $columnname) {
 					$parentInfo[$columnname] = $row['user_name'];
-				} elseif ($columnname === 'mulcomp_status') {
+				} elseif ('mulcomp_status' === $columnname) {
 					$parentInfo[$columnname] = \App\Language::translate($row[$columnname], 'MultiCompany');
 				} else {
 					$parentInfo[$columnname] = $row[$columnname];
@@ -263,9 +269,9 @@ class MultiCompany extends Vtiger_CRMEntity
 				$childSalesProcessesInfo = [];
 				$childSalesProcessesInfo['depth'] = $depth;
 				foreach ($listColumns as $columnname) {
-					if ($columnname === 'assigned_user_id') {
+					if ('assigned_user_id' === $columnname) {
 						$childSalesProcessesInfo[$columnname] = $row['user_name'];
-					} elseif ($columnname === 'mulcomp_status') {
+					} elseif ('mulcomp_status' === $columnname) {
 						$childSalesProcessesInfo[$columnname] = \App\Language::translate($row[$columnname], 'MultiCompany');
 					} else {
 						$childSalesProcessesInfo[$columnname] = $row[$columnname];

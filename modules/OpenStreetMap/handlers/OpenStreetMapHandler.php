@@ -26,7 +26,7 @@ class OpenStreetMap_OpenStreetMapHandler_Handler
 			foreach ($deltaFields as &$deltaField) {
 				if ($recordModel->getPreviousValue($deltaField) !== $recordModel->get($deltaField)) {
 					foreach ($fieldAddress as &$field) {
-						if (strpos($deltaField, $field) !== false) {
+						if (false !== strpos($deltaField, $field)) {
 							$typeAddressToUpdate[] = substr($deltaField, -1);
 						}
 					}
@@ -34,7 +34,7 @@ class OpenStreetMap_OpenStreetMapHandler_Handler
 			}
 		}
 		foreach (\App\Map\Coordinates::TYPE_ADDRES as $typeAddress) {
-			if (!$recordModel->isEmpty('addresslevel5' . $typeAddress) && ($recordModel->isNew() || in_array($typeAddress, $typeAddressToUpdate))) {
+			if (!$recordModel->isEmpty('addresslevel5' . $typeAddress) && ($recordModel->isNew() || \in_array($typeAddress, $typeAddressToUpdate))) {
 				$isCoordinateExists = (new App\Db\Query())
 					->from('u_#__openstreetmap_record_updater')
 					->where(['type' => $typeAddress, 'crmid' => $recordModel->getId()])

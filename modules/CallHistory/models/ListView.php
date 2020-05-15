@@ -18,6 +18,8 @@ class CallHistory_ListView_Model extends Vtiger_ListView_Model
 
 	/**
 	 * Overrided to remove Mass Edit Option.
+	 *
+	 * @param mixed $linkParams
 	 */
 	public function getListViewMassActions($linkParams)
 	{
@@ -33,7 +35,7 @@ class CallHistory_ListView_Model extends Vtiger_ListView_Model
 	{
 		$advancedLinks = parent::getAdvancedLinks();
 		foreach ($advancedLinks as $key => $value) {
-			if ($value['linklabel'] === 'LBL_FIND_DUPLICATES') {
+			if ('LBL_FIND_DUPLICATES' === $value['linklabel']) {
 				unset($advancedLinks[$key]);
 			}
 		}

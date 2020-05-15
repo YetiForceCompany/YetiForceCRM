@@ -69,7 +69,9 @@ $.Class(
 			});
 			this.container.find('.js-modal__save').on('click', (e) => {
 				e.preventDefault;
-				this.sourceContainer.find('.js-list-reload').trigger('click', { orderby: this.getSortData() });
+				this.sourceContainer
+					.find('.js-list-reload')
+					.trigger('click', { orderby: this.getSortData() });
 				app.hideModalWindow(null, this.source);
 			});
 		},
@@ -90,7 +92,9 @@ $.Class(
 		 * Gets basic container
 		 */
 		getSourceContainer: function () {
-			return $('[data-modalid=' + this.source + ']').closest('.listViewContentDiv,.relatedContainer');
+			return $('[data-modalid=' + this.source + ']').closest(
+				'.listViewContentDiv,.relatedContainer'
+			);
 		},
 		/**
 		 * Register modal events
@@ -102,6 +106,6 @@ $.Class(
 			this.sourceContainer = this.getSourceContainer();
 			this.registerListEvents();
 			this.loadData();
-		},
+		}
 	}
 );

@@ -23,7 +23,7 @@ class Accounts_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
 		if (!$request->isEmpty('record', true) && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
@@ -36,13 +36,13 @@ class Accounts_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getHierarchyCount(\App\Request $request)
+	public function getHierarchyCount(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$focus = CRMEntity::getInstance($sourceModule);
 		$hierarchy = $focus->getAccountHierarchy($request->getInteger('record'));
 		$response = new Vtiger_Response();
-		$response->setResult(count($hierarchy['entries']) - 1);
+		$response->setResult(\count($hierarchy['entries']) - 1);
 		$response->emit();
 	}
 }

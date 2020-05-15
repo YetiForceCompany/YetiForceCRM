@@ -28,7 +28,7 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 	public static function getConfig($type = false)
 	{
 		\App\Log::trace('Start ' . __METHOD__ . " | Type: $type");
-		$cache = Vtiger_Cache::get('SalesProcesses', $type === false ? 'all' : $type);
+		$cache = Vtiger_Cache::get('SalesProcesses', false === $type ? 'all' : $type);
 		if ($cache) {
 			\App\Log::trace('End ' . __METHOD__);
 
@@ -49,8 +49,8 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 		foreach ($rows as $row) {
 			$param = $row['param'];
 			$value = $row['value'];
-			if (in_array($param, $returnArrayForFields)) {
-				$value = $value === '' ? [] : explode(',', $value);
+			if (\in_array($param, $returnArrayForFields)) {
+				$value = '' === $value ? [] : explode(',', $value);
 			}
 			if ($type) {
 				$config[$param] = $value;
@@ -58,7 +58,7 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 				$config[$row['type']][$param] = $value;
 			}
 		}
-		Vtiger_Cache::set('SalesProcesses', $type === false ? 'all' : $type, $config);
+		Vtiger_Cache::set('SalesProcesses', false === $type ? 'all' : $type, $config);
 		\App\Log::trace('End ' . __METHOD__);
 
 		return $config;
@@ -75,7 +75,7 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 	{
 		\App\Log::trace('Start ' . __METHOD__);
 		$value = $param['val'];
-		if (is_array($value)) {
+		if (\is_array($value)) {
 			$value = implode(',', $value);
 		}
 		App\Db::getInstance()->createCommand()
@@ -89,6 +89,8 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 	/**
 	 * Checks if products are set to be narrowed to only those related to Opportunity.
 	 *
+	 * @param mixed $moduleName
+	 *
 	 * @return - true or false
 	 */
 	public static function checkRelatedToPotentialsLimit($moduleName)
@@ -97,15 +99,16 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 			return false;
 		}
 		$popup = self::getConfig('popup');
-		if ($popup['limit_product_service'] == 'true') {
+		if ('true' == $popup['limit_product_service']) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
 	 * Checks if limit can be applied to this module.
+	 *
+	 * @param mixed $moduleName
 	 *
 	 * @return - true or false
 	 */
@@ -113,6 +116,6 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 	{
 		$validModules = ['SQuotes', 'SCalculations', 'SQuoteEnquiries', 'SRequirementsCards', 'SSingleOrders', 'SRecurringOrders'];
 
-		return in_array($moduleName, $validModules);
+		return \in_array($moduleName, $validModules);
 	}
 }

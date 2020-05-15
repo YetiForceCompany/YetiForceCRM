@@ -36,10 +36,14 @@ class Colors
 			case 'picklist':
 				static::generatePicklists();
 				break;
+				case 'field':
+				static::generateFields();
+				break;
 			default:
 				static::generateOwners();
 				static::generateModules();
 				static::generatePicklists();
+				static::generateFields();
 				break;
 		}
 	}
@@ -342,7 +346,40 @@ class Colors
 	public static function getContrast($hexColor)
 	{
 		$hexColor = ltrim(ltrim($hexColor), '#');
-		$contrastRatio = 1.9; // higher number = more black color
-		return (ctype_xdigit($hexColor) && (hexdec($hexColor) > 0xffffff / $contrastRatio)) ? 'black' : 'white';
+		return ((((hexdec(substr($hexColor, 0, 2)) * 299) + (hexdec(substr($hexColor, 2, 2)) * 587) + (hexdec(substr($hexColor, 4, 2)) * 114)) / 1000) >= 128) ? 'black' : 'white';
+	}
+
+	/**
+	 * Update field color code and generate stylesheet file.
+	 *
+	 * @param int    $fieldId
+	 * @param string $color
+	 *
+	 * @return bool
+	 */
+	public static function updateFieldColor($fieldId, $color): bool
+	{
+		$result = Db::getInstance()->createCommand()->update('vtiger_field', ['color' => $color], ['fieldid' => $fieldId])->execute();
+		static::generate('field');
+		if (!$result) {
+			$result = $color === (new \App\Db\Query())->select(['color'])->from('vtiger_field')->where(['fieldid' => $fieldId])->scalar();
+		}
+		return $result;
+	}
+
+	/**
+	 * Generate fields colors stylesheet.
+	 */
+	public static function generateFields()
+	{
+		$css = '';
+		$query = (new \App\Db\Query())->select(['tabid', 'fieldname', 'color'])->from('vtiger_field')->where(['presence' => [0, 2]])->andWhere(['<>', 'color', '']);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			if (ltrim($row['color'], '#')) {
+				$css .= '.flCT_' . Module::getModuleName($row['tabid']) . '_' . $row['fieldname'] . '{ color: ' . $row['color'] . '; }' . PHP_EOL;
+			}
+		}
+		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/fields.css', $css);
 	}
 }

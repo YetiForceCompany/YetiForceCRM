@@ -17,7 +17,7 @@ class Vtiger_VariablePanel_View extends \App\Controller\View\Page
 	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!\App\Privilege::isPermitted($moduleName, 'CreateView')) {
@@ -33,7 +33,7 @@ class Vtiger_VariablePanel_View extends \App\Controller\View\Page
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

@@ -29,7 +29,7 @@ class Products_TreeView_Model extends Vtiger_TreeView_Model
 				'id' => $this->lastTreeId,
 				'type' => 'record',
 				'record_id' => $item->getId(),
-				'parent' => $parent == 0 ? '#' : $parent,
+				'parent' => 0 == $parent ? '#' : $parent,
 				'text' => $item->getName(),
 				'isrecord' => true,
 				'state' => [],

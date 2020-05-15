@@ -42,7 +42,7 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		if(empty($value)){
+		if (empty($value)) {
 			return '';
 		}
 		return \App\Fields\Currency::getById($value)['currency_name'];

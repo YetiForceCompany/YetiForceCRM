@@ -59,7 +59,7 @@ class API_DAV_Model
 	public static function getAllUser($type = 0)
 	{
 		$db = new App\Db\Query();
-		if ($type === 0) {
+		if (0 === $type) {
 			$db->select([
 				'dav_users.*',
 				'addressbooksid' => 'dav_addressbooks.id',
@@ -74,7 +74,7 @@ class API_DAV_Model
 				->innerJoin('dav_principals', 'dav_principals.userid = dav_users.userid')
 				->leftJoin('dav_addressbooks', 'dav_addressbooks.principaluri = dav_principals.uri')
 				->leftJoin('dav_calendarinstances', 'dav_calendarinstances.principaluri = dav_principals.uri');
-		} elseif ($type === 1) {
+		} elseif (1 === $type) {
 			$db->select([
 				'david' => 'dav_users.id',
 				'userid' => 'dav_users.userid',
@@ -84,7 +84,7 @@ class API_DAV_Model
 				->innerJoin('dav_principals', 'dav_principals.userid = dav_users.userid')
 				->innerJoin('dav_addressbooks', 'dav_addressbooks.principaluri = dav_principals.uri')
 				->where(['vtiger_users.status' => 'Active']);
-		} elseif ($type === 2) {
+		} elseif (2 === $type) {
 			$db->select([
 				'david' => 'dav_users.id',
 				'userid' => 'dav_users.userid',

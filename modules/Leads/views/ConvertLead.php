@@ -26,7 +26,7 @@ class Leads_ConvertLead_View extends Vtiger_Index_View
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
@@ -45,7 +45,7 @@ class Leads_ConvertLead_View extends Vtiger_Index_View
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUserPriviligeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$viewer = $this->getViewer($request);
@@ -60,7 +60,7 @@ class Leads_ConvertLead_View extends Vtiger_Index_View
 		$viewer->assign('CONVERT_LEAD_FIELDS', $this->record->getConvertLeadFields());
 
 		$assignedToFieldModel = $moduleModel->getField('assigned_user_id');
-		if ($marketingProcessConfig['change_owner'] === 'true') {
+		if ('true' === $marketingProcessConfig['change_owner']) {
 			$assignedToFieldModel->set('fieldvalue', App\User::getCurrentUserId());
 		} else {
 			$assignedToFieldModel->set('fieldvalue', $this->record->get('assigned_user_id'));

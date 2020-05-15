@@ -17,10 +17,10 @@ class Portal_Module_Model extends Vtiger_Module_Model
 	{
 		$links = [];
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_OUR_SITES_LIST',
-				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => '',
+			'linktype' => 'SIDEBARLINK',
+			'linklabel' => 'LBL_OUR_SITES_LIST',
+			'linkurl' => $this->getListViewUrl(),
+			'linkicon' => '',
 		]);
 
 		return $links;
@@ -41,7 +41,7 @@ class Portal_Module_Model extends Vtiger_Module_Model
 			$db->createCommand()->update('vtiger_portal', [
 				'portalname' => $bookmarkName,
 				'portalurl' => $bookmarkUrl,
-				], ['portalid' => $recordId])->execute();
+			], ['portalid' => $recordId])->execute();
 		}
 		return true;
 	}
@@ -78,7 +78,7 @@ class Portal_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @param $recordId
 	 *
-	 * @return false|null|string
+	 * @return false|string|null
 	 */
 	public static function getWebsiteUrl($recordId)
 	{
@@ -102,20 +102,20 @@ class Portal_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @param \App\Request $request
 	 */
-	public static function deleteRecords(\App\Request $request)
+	public static function deleteRecords(App\Request $request)
 	{
 		$searchValue = $request->getForSql('search_value');
 		$selectedIds = $request->getArray('selected_ids', 2);
 		$excludedIds = $request->getArray('excluded_ids', 2);
 		$params = [];
-		if (!empty($selectedIds) && $selectedIds[0] != 'all' && count($selectedIds) > 0) {
+		if (!empty($selectedIds) && 'all' != $selectedIds[0] && \count($selectedIds) > 0) {
 			$params = ['portalid' => $selectedIds];
-		} elseif ($selectedIds[0] == 'all') {
-			if (empty($searchValue) && count($excludedIds) > 0) {
+		} elseif ('all' == $selectedIds[0]) {
+			if (empty($searchValue) && \count($excludedIds) > 0) {
 				$params = ['not in', 'portalid', $excludedIds];
-			} elseif (!empty($searchValue) && count($excludedIds) < 1) {
+			} elseif (!empty($searchValue) && \count($excludedIds) < 1) {
 				$params = ['like', 'portalname', $searchValue];
-			} elseif (!empty($searchValue) && count($excludedIds) > 0) {
+			} elseif (!empty($searchValue) && \count($excludedIds) > 0) {
 				$params = ['and'];
 				$params[] = ['like', 'portalname', $searchValue];
 				$params[] = ['not in', 'portalid', $excludedIds];

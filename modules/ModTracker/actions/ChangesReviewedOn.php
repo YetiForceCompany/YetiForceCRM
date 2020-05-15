@@ -18,7 +18,7 @@ class ModTracker_ChangesReviewedOn_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$sourceModule = $request->getByType('sourceModule', 2);
 		if ($request->has('record')) {
@@ -43,7 +43,7 @@ class ModTracker_ChangesReviewedOn_Action extends \App\Controller\Action
 		$this->exposeMethod('reviewChanges');
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -59,7 +59,7 @@ class ModTracker_ChangesReviewedOn_Action extends \App\Controller\Action
 		$response->emit();
 	}
 
-	public function getUnreviewed(\App\Request $request)
+	public function getUnreviewed(App\Request $request)
 	{
 		$records = $request->getArray('recordsId', 'Integer');
 		foreach ($records as $key => $record) {
@@ -78,15 +78,15 @@ class ModTracker_ChangesReviewedOn_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function reviewChanges(\App\Request $request)
+	public function reviewChanges(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->getByType('sourceModule', 2);
 		$request->set('module', $sourceModule);
 		$result = false;
 		$recordsList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
-		if (is_array($recordsList) && count($recordsList) > App\Config::module($moduleName, 'REVIEW_CHANGES_LIMIT')) {
-			$params = $request->getRaw('selected_ids') === 'all' ? ['viewname', 'selected_ids', 'excluded_ids', 'search_key', 'search_value', 'operator', 'search_params', 'entityState'] : ['selected_ids'];
+		if (\is_array($recordsList) && \count($recordsList) > App\Config::module($moduleName, 'REVIEW_CHANGES_LIMIT')) {
+			$params = 'all' === $request->getRaw('selected_ids') ? ['viewname', 'selected_ids', 'excluded_ids', 'search_key', 'search_value', 'operator', 'search_params', 'entityState'] : ['selected_ids'];
 			foreach ($params as $variable) {
 				if ($request->has($variable)) {
 					$data[$variable] = $request->get($variable);

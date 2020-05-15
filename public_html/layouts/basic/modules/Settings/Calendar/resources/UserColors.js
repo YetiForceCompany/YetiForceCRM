@@ -7,9 +7,9 @@ var Settings_UserColors_Js = {
 	},
 	updateEvent: function (e) {
 		var progress = $.progressIndicator({
-			'message': app.vtranslate('Update labels'),
-			'blockInfo': {
-				'enabled': true
+			message: app.vtranslate('Update labels'),
+			blockInfo: {
+				enabled: true
 			}
 		});
 		var target = $(e.currentTarget);
@@ -23,17 +23,17 @@ var Settings_UserColors_Js = {
 		params.id = target.attr('id');
 		params = jQuery.extend({}, params);
 		Settings_UserColors_Js.registerSaveEvent(metod, params);
-		progress.progressIndicator({'mode': 'hide'});
+		progress.progressIndicator({ mode: 'hide' });
 	},
 	registerSaveEvent: function (mode, data) {
-		var params = {}
+		var params = {};
 		params.data = {
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
 			action: 'SaveAjax',
 			mode: mode,
 			params: data
-		}
+		};
 		params.async = false;
 		params.dataType = 'json';
 		AppConnector.request(params).done(function (data) {
@@ -59,7 +59,7 @@ var Settings_UserColors_Js = {
 				params['val'] = target.val();
 			}
 			app.saveAjax('updateNotWorkingDays', params).done(function (data) {
-				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
+				Settings_Vtiger_Index_Js.showMessage({ type: 'success', text: data.result.message });
 			});
 		});
 	},
@@ -68,7 +68,7 @@ var Settings_UserColors_Js = {
 		var content = $('.workingDaysTable');
 		this.registerSaveWorkingDays(content);
 	}
-}
+};
 $(document).ready(function () {
 	Settings_UserColors_Js.registerEvents();
-})
+});

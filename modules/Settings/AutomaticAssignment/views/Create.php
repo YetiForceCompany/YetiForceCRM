@@ -16,7 +16,7 @@ class Settings_AutomaticAssignment_Create_View extends Settings_Vtiger_BasicModa
 	 *
 	 * @return string
 	 */
-	public function getSize(\App\Request $request)
+	public function getSize(App\Request $request)
 	{
 		return 'modal-sm';
 	}
@@ -26,7 +26,7 @@ class Settings_AutomaticAssignment_Create_View extends Settings_Vtiger_BasicModa
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);

@@ -17,7 +17,7 @@ class Calendar_ActivityStateAjax_Action extends Calendar_SaveAjax_Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
 		if (!$this->record->getField('activitystatus')->isEditable()) {
@@ -28,7 +28,7 @@ class Calendar_ActivityStateAjax_Action extends Calendar_SaveAjax_Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$this->record->getModule()->getFieldByName('activitystatus')->getUITypeModel()->setValueFromRequest($request, $this->record, 'state');
 		$this->record->save();

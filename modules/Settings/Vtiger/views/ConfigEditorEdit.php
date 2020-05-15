@@ -17,7 +17,7 @@ class Settings_Vtiger_ConfigEditorEdit_View extends Settings_Vtiger_Index_View
 	 */
 	protected $pageTitle = 'LBL_CONFIG_EDITOR';
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$qualifiedName = $request->getModule(false);
 		$moduleModel = Settings_Vtiger_ConfigModule_Model::getInstance();
@@ -34,7 +34,7 @@ class Settings_Vtiger_ConfigEditorEdit_View extends Settings_Vtiger_Index_View
 	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			"modules.Settings.{$request->getModule()}.resources.ConfigEditor",

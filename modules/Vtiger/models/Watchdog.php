@@ -62,10 +62,10 @@ class Vtiger_Watchdog_Model extends \App\Base
 		$instance->set('module', $moduleName);
 		$instance->set('moduleId', $moduleId ? $moduleId : \App\Module::getModuleId($moduleName));
 		$instance->set('userId', $userId);
-		if (static::$cache === false) {
+		if (false === static::$cache) {
 			static::$cache = require static::$cacheFile;
 		}
-		if (App\Config::module('ModTracker', 'WATCHDOG') === false) {
+		if (false === App\Config::module('ModTracker', 'WATCHDOG')) {
 			$instance->isActive = false;
 		}
 		\App\Cache::staticSave('WatchdogModel', $cacheName, $instance);
@@ -101,6 +101,8 @@ class Vtiger_Watchdog_Model extends \App\Base
 	/**
 	 * Function verifies if module is locked.
 	 *
+	 * @param mixed $moduleId
+	 *
 	 * @return bool
 	 */
 	public function isLock($moduleId = false)
@@ -114,6 +116,8 @@ class Vtiger_Watchdog_Model extends \App\Base
 
 	/**
 	 * Function verifies if module is watching in database.
+	 *
+	 * @param mixed $member
 	 *
 	 * @return bool
 	 */
@@ -143,7 +147,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 		$return = $this->isWatchingModule();
 		$state = (new \App\Db\Query())->select(['state'])->from('u_#__watchdog_record')->where(['userid' => $userId, 'record' => $this->get('record')])->scalar();
 		$this->set('isRecordExists', false);
-		if ($state !== false) {
+		if (false !== $state) {
 			$this->set('isRecordExists', true);
 			$return = $state;
 		}
@@ -162,14 +166,14 @@ class Vtiger_Watchdog_Model extends \App\Base
 	 */
 	public static function getWatchingModules($userId = false)
 	{
-		if ($userId === false) {
+		if (false === $userId) {
 			$userId = \App\User::getCurrentUserId();
 		}
 		if (\App\Cache::staticHas('getWatchingModules', $userId)) {
 			return \App\Cache::staticGet('getWatchingModules', $userId);
 		}
 		$modules = [];
-		if (static::$cache === false) {
+		if (false === static::$cache) {
 			static::$cache = require static::$cacheFile;
 		}
 		foreach (static::$cache as $moduleId => $users) {
@@ -185,13 +189,14 @@ class Vtiger_Watchdog_Model extends \App\Base
 	/**
 	 * Function get watching modules by schedule.
 	 *
-	 * @param int $ownerId - User ID
+	 * @param int   $ownerId - User ID
+	 * @param mixed $isName
 	 *
 	 * @return array - List of modules
 	 */
 	public static function getWatchingModulesSchedule($ownerId = false, $isName = false)
 	{
-		if ($ownerId === false) {
+		if (false === $ownerId) {
 			$ownerId = \App\User::getCurrentUserId();
 		}
 		$cacheName = $ownerId . '_' . (int) $isName;
@@ -223,7 +228,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 	public function changeRecordState($state)
 	{
 		$isWatchingRecord = $this->isWatchingRecord();
-		if ($isWatchingRecord && $state === self::RECORD_ACTIVE) {
+		if ($isWatchingRecord && self::RECORD_ACTIVE === $state) {
 			return true;
 		}
 		$db = \App\Db::getInstance();
@@ -233,9 +238,8 @@ class Vtiger_Watchdog_Model extends \App\Base
 			$row['record'] = $this->get('record');
 
 			return $db->createCommand()->insert('u_#__watchdog_record', $row)->execute();
-		} else {
-			return $db->createCommand()->update(('u_#__watchdog_record'), $row, ['userid' => $this->get('userId'), 'record' => $this->get('record')])->execute();
 		}
+		return $db->createCommand()->update(('u_#__watchdog_record'), $row, ['userid' => $this->get('userId'), 'record' => $this->get('record')])->execute();
 	}
 
 	/**
@@ -254,20 +258,19 @@ class Vtiger_Watchdog_Model extends \App\Base
 		} else {
 			$isExists = $this->isWatchingModuleConfig($member);
 		}
-		if ($isExists && $state === 1) {
+		if ($isExists && 1 === $state) {
 			return true;
 		}
 
 		$db = \App\Db::getInstance();
 		$moduleId = $this->get('moduleId');
-		if ($state === 1) {
+		if (1 === $state) {
 			return $db->createCommand()->insert('u_#__watchdog_module', [
 				'member' => $member,
 				'module' => $moduleId,
 			])->execute();
-		} else {
-			return $db->createCommand()->delete('u_#__watchdog_module', ['member' => $member, 'module' => $moduleId])->execute();
 		}
+		return $db->createCommand()->delete('u_#__watchdog_module', ['member' => $member, 'module' => $moduleId])->execute();
 	}
 
 	/**
@@ -296,7 +299,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 	 */
 	public function exceptions($exceptions, $member)
 	{
-		if (is_array($exceptions)) {
+		if (\is_array($exceptions)) {
 			$exceptions = implode(',', $exceptions);
 		}
 		return \App\Db::getInstance()
@@ -316,14 +319,14 @@ class Vtiger_Watchdog_Model extends \App\Base
 	 */
 	public static function setSchedulerByUser($sendNotifications, $frequency, $ownerId = false)
 	{
-		if ($ownerId === false) {
+		if (false === $ownerId) {
 			$ownerId = \App\User::getCurrentUserId();
 		}
 		$db = \App\Db::getInstance();
 		if (empty($sendNotifications)) {
 			$db->createCommand()->delete('u_#__watchdog_schedule', ['userid' => $ownerId])->execute();
 		} else {
-			if (is_array($sendNotifications)) {
+			if (\is_array($sendNotifications)) {
 				$sendNotifications = implode(',', $sendNotifications);
 			}
 			$isExists = (new \App\Db\Query())->from('u_#__watchdog_schedule')->where(['userid' => $ownerId])->exists();
@@ -352,7 +355,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 					->where(['record' => (int) $this->get('record')])
 					->createCommand()->query();
 				while ($row = $dataReader->read()) {
-					if ((int) $row['state'] === self::RECORD_ACTIVE) {
+					if (self::RECORD_ACTIVE === (int) $row['state']) {
 						$users[$row['userid']] = $row['userid'];
 					} else {
 						unset($users[$row['userid']]);

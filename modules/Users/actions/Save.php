@@ -14,7 +14,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!$request->isEmpty('record', true)) {
@@ -40,7 +40,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function getRecordModelFromRequest(\App\Request $request)
+	protected function getRecordModelFromRequest(App\Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
 		if ($recordModel->isNew()) {
@@ -54,7 +54,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		if ($_FILES) {
 			$result = \App\Fields\File::transform($_FILES, true);

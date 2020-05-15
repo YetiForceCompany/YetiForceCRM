@@ -17,14 +17,14 @@ $.Class(
 		/*
 		 * Function to set lang code
 		 */
-		setLangCode: function() {
+		setLangCode: function () {
 			var htmlTag = document.getElementsByTagName('html')[0];
 			this.langCode = htmlTag.getAttribute('lang') ? htmlTag.getAttribute('lang') : 'en';
 		},
 		/*
 		 * Function to get lang code
 		 */
-		getLangCode: function() {
+		getLangCode: function () {
 			if (!this.langCode) {
 				this.setLangCode();
 			}
@@ -33,23 +33,23 @@ $.Class(
 		/*
 		 * Function to get the instance of Mass edit of Email
 		 */
-		getEmailMassEditInstance: function() {
+		getEmailMassEditInstance: function () {
 			var className = 'Emails_MassEdit_Js';
 			var emailMassEditInstance = new window[className]();
 			return emailMassEditInstance;
 		},
-		getDayFromDate: function(date) {
+		getDayFromDate: function (date) {
 			var dayOfWeek = this.getDay(date);
 			return this.getLabelDayFromDate(dayOfWeek);
 		},
-		getDay: function(date) {
+		getDay: function (date) {
 			var dateObj = new Date(date);
 			if (isNaN(dateObj.getDay())) {
 				dateObj = Date.parse(date);
 			}
 			return dateObj.getDay();
 		},
-		getLabelDayFromDate: function(day) {
+		getLabelDayFromDate: function (day) {
 			var dayOfWeek = day;
 			var dayOfWeekLabel = '';
 			switch (dayOfWeek) {
@@ -84,7 +84,7 @@ $.Class(
 		 * @return date object
 		 */
 
-		getDateInstance: function(dateTime, dateFormat) {
+		getDateInstance: function (dateTime, dateFormat) {
 			let dateTimeComponents = dateTime.split(' '),
 				dateComponent = dateTimeComponents[0],
 				timeComponent = dateTimeComponents[1],
@@ -106,7 +106,13 @@ $.Class(
 				month = splittedDate[splittedDateFormat.indexOf('mm')],
 				date = splittedDate[splittedDateFormat.indexOf('dd')],
 				dateInstance = Date.parse(year + '/' + month + '/' + date);
-			if (isNaN(dateInstance) || year.length > 4 || month.length > 2 || date.length > 2 || dateInstance == null) {
+			if (
+				isNaN(dateInstance) ||
+				year.length > 4 ||
+				month.length > 2 ||
+				date.length > 2 ||
+				dateInstance == null
+			) {
 				throw app.vtranslate('JS_INVALID_DATE');
 			}
 
@@ -139,10 +145,10 @@ $.Class(
 		/*
 		 * Function to show the confirmation messagebox
 		 */
-		showConfirmationBox: function(params) {
+		showConfirmationBox: function (params) {
 			var aDeferred = $.Deferred();
 			var baseParams = {
-				callback: function(result) {
+				callback: function (result) {
 					if (result) {
 						aDeferred.resolve();
 					} else {
@@ -151,7 +157,7 @@ $.Class(
 				}
 			};
 			var bootBoxModal = bootbox.confirm($.extend(baseParams, params));
-			bootBoxModal.on('hidden', function(e) {
+			bootBoxModal.on('hidden', function (e) {
 				//In Case of multiple modal. like mass edit and quick create, if bootbox is shown and hidden , it will remove
 				// modal open
 				if ($('#' + Window.lastModalId).length > 0) {
@@ -161,7 +167,7 @@ $.Class(
 			});
 			return aDeferred.promise();
 		},
-		showMessage: function(params) {
+		showMessage: function (params) {
 			if (typeof params.type === 'undefined') {
 				params.type = 'info';
 			}
@@ -173,7 +179,7 @@ $.Class(
 		/*
 		 * Function to show pnotify message
 		 */
-		showPnotify: function(customParams) {
+		showPnotify: function (customParams) {
 			let userParams = customParams;
 			if (typeof customParams === 'string') {
 				userParams = {};
@@ -207,7 +213,7 @@ $.Class(
 		/*
 		 * Function to remove pnotify message
 		 */
-		hidePnotify: function(notice) {
+		hidePnotify: function (notice) {
 			if (typeof notice === 'undefined') {
 				notice = $('.ui-pnotify');
 			}
@@ -218,27 +224,27 @@ $.Class(
 		 * @params element---On which element you want to apply the click outside event
 		 * @params callbackFunction---This function will contain the actions triggered after clickoutside event
 		 */
-		addClickOutSideEvent: function(element, callbackFunction) {
+		addClickOutSideEvent: function (element, callbackFunction) {
 			element.one('clickoutside', callbackFunction);
 		},
 		/*
 		 * Function to show horizontal top scroll bar
 		 */
-		showHorizontalTopScrollBar: function() {
+		showHorizontalTopScrollBar: function () {
 			var container = $('.contentsDiv');
 			var topScroll = $('.contents-topscroll', container);
 			var bottomScroll = $('.contents-bottomscroll', container);
 			$('.bottomscroll-div', container).attr('style', '');
 			$('.topscroll-div', container).css('width', $('.bottomscroll-div', container).outerWidth());
 			$('.bottomscroll-div', container).css('width', $('.topscroll-div', container).outerWidth());
-			topScroll.on('scroll', function() {
+			topScroll.on('scroll', function () {
 				bottomScroll.scrollLeft(topScroll.scrollLeft());
 			});
-			bottomScroll.on('scroll', function() {
+			bottomScroll.on('scroll', function () {
 				topScroll.scrollLeft(bottomScroll.scrollLeft());
 			});
 		},
-		convertToDateString: function(stringDate, dateFormat, modDay, type) {
+		convertToDateString: function (stringDate, dateFormat, modDay, type) {
 			var dotMode = '-';
 			if (dateFormat.indexOf('-') !== -1) {
 				dotMode = '-';
@@ -278,9 +284,9 @@ $.Class(
 			}
 			return app.getStringDate(newDate);
 		},
-		hideOptions: function(element, attr, value) {
+		hideOptions: function (element, attr, value) {
 			var opval = '';
-			element.find('option').each(function(index, option) {
+			element.find('option').each(function (index, option) {
 				option = $(option);
 				if (value != option.data(attr)) {
 					option.addClass('d-none');
@@ -295,8 +301,8 @@ $.Class(
 			});
 			element.val(opval).trigger('change');
 		},
-		unique: function(array) {
-			return array.filter(function(el, index, arr) {
+		unique: function (array) {
+			return array.filter(function (el, index, arr) {
 				return index === arr.indexOf(el);
 			});
 		}

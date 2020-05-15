@@ -144,6 +144,9 @@ class Performance
 	/** Is divided layout style on edit view in modules with products */
 	public static $INVENTORY_EDIT_VIEW_LAYOUT = true;
 
+	/** List of modules with splited edit view layout */
+	public static $MODULES_SPLITTED_EDIT_VIEW_LAYOUT = [];
+
 	/** Popover record's trigger delay in ms */
 	public static $RECORD_POPOVER_DELAY = 500;
 
@@ -164,4 +167,7 @@ class Performance
 
 	/** Number of records that can be shown in report mail */
 	public static $REPORT_RECORD_NUMBERS = 10;
+	
+	/** Number of records that can be shown in history login modal */
+	public static $LOGIN_HISTORY_VIEW_LIMIT = 10;
 }

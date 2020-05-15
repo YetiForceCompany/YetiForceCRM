@@ -114,20 +114,22 @@ class VTTaskType
 			$includeModules = $modules['include'];
 			$excludeModules = $modules['exclude'];
 
-			if (!empty($sourceModule) && (\App\Module::getModuleId($sourceModule) === null || !\App\Module::isModuleActive($sourceModule))) {
+			if (!empty($sourceModule) && (null === \App\Module::getModuleId($sourceModule) || !\App\Module::isModuleActive($sourceModule))) {
 				continue;
 			}
 
 			if (empty($includeModules) && empty($excludeModules)) {
 				$taskTypeInstances[$taskName] = self::getInstance($rawData);
 				continue;
-			} elseif (!empty($includeModules)) {
-				if (in_array($moduleName, $includeModules)) {
+			}
+			if (!empty($includeModules)) {
+				if (\in_array($moduleName, $includeModules)) {
 					$taskTypeInstances[$taskName] = self::getInstance($rawData);
 				}
 				continue;
-			} elseif (!empty($excludeModules)) {
-				if (!(in_array($moduleName, $excludeModules))) {
+			}
+			if (!empty($excludeModules)) {
+				if (!(\in_array($moduleName, $excludeModules))) {
 					$taskTypeInstances[$taskName] = self::getInstance($rawData);
 				}
 				continue;

@@ -10,7 +10,7 @@ window.MailIntegration_Compose = {
 	 * @return  {object}           AppConnector object with done method
 	 */
 	connector(request) {
-		return AppConnector.request(request).fail(error => {
+		return AppConnector.request(request).fail((error) => {
 			this.showResponseMessage(false);
 		});
 	},
@@ -42,8 +42,8 @@ window.MailIntegration_Compose = {
 	 */
 	registerAutocompleteTemplate() {
 		$.widget('ui.autocomplete', $.ui.autocomplete, {
-			_renderItem: function(ul, item) {
-				const listItemTemplate = user => {
+			_renderItem: function (ul, item) {
+				const listItemTemplate = (user) => {
 					return `<li class="c-search-item js-search-item">
 					<div class="">
 								<div class="row">
@@ -94,8 +94,8 @@ window.MailIntegration_Compose = {
 			action: 'Mail',
 			mode: 'findEmail',
 			search: request.term
-		}).done(responseData => {
-			const data = responseData.result.map(user => {
+		}).done((responseData) => {
+			const data = responseData.result.map((user) => {
 				let userData = user.split(' <');
 				const name = userData[0];
 				const mail = userData[1].slice(0, -1);
@@ -127,7 +127,7 @@ window.MailIntegration_Compose = {
 	 * @param   {object}  newRecipient
 	 */
 	copyRecipient(recipientsField, newRecipient) {
-		Office.context.mailbox.item[recipientsField].addAsync(newRecipient, function(result) {
+		Office.context.mailbox.item[recipientsField].addAsync(newRecipient, function (result) {
 			if (result.error) {
 				Office.context.mailbox.item.notificationMessages.replaceAsync('error', {
 					type: 'errorMessage',
@@ -144,8 +144,8 @@ window.MailIntegration_Compose = {
 		}
 	}
 };
-(function($) {
-	Office.onReady(info => {
+(function ($) {
+	Office.onReady((info) => {
 		if (info.host === Office.HostType.Outlook) {
 			window.MailIntegration_Compose.registerEvents();
 		}

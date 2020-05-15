@@ -65,6 +65,36 @@ class Updater
 	}
 
 	/**
+	 * Function used to change picklist type field (uitype 15 to 16).
+	 *
+	 * @param string[] $fiels List of field names
+	 */
+	public static function removeRoleToPicklist($fiels)
+	{
+		\App\Log::trace('Entering ' . __METHOD__);
+		$db = \App\Db::getInstance();
+		$schema = $db->getSchema();
+		$dbCommand = $db->createCommand();
+
+		$query = (new \App\Db\Query())->from('vtiger_field')->where(['uitype' => 16])->andWhere(['fieldname' => $fiels]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$picklistTable = 'vtiger_' . $row['fieldname'];
+			$tableSchema = $schema->getTableSchema($picklistTable);
+			if ($tableSchema && isset($tableSchema->columns['picklist_valueid'])) {
+				$dbCommand->update('vtiger_field', ['uitype' => 15], ['fieldid' => $row['fieldid']])->execute();
+				$dbCommand->dropColumn($picklistTable, 'picklist_valueid')->execute();
+				$picklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $row['fieldname']])->scalar();
+				if ($picklistId) {
+					$dbCommand->delete('vtiger_picklist', ['name' => $row['fieldname']])->execute();
+					$dbCommand->delete('vtiger_role2picklist', ['picklistid' => $picklistId])->execute();
+				}
+			}
+		}
+		\App\Log::trace('Exiting ' . __METHOD__);
+	}
+
+	/**
 	 * Batch update rows.
 	 *
 	 * $rows = [

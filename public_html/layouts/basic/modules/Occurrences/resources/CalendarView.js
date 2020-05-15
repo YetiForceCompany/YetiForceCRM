@@ -7,7 +7,7 @@ window.Occurrences_Calendar_Js = class Occurrences_Calendar_Js extends Vtiger_Ca
 	 */
 	registerDayClickEvent(date) {
 		let self = this;
-		self.getCalendarCreateView().done(function(data) {
+		self.getCalendarCreateView().done(function (data) {
 			if (data.length <= 0) {
 				return;
 			}
@@ -38,14 +38,10 @@ window.Occurrences_Calendar_Js = class Occurrences_Calendar_Js extends Vtiger_Ca
 				} else {
 					let now = new Date();
 					startTimeString = moment(now).format(defaultTimeFormat);
-					endTimeString = moment(now)
-						.add(15, 'minutes')
-						.format(defaultTimeFormat);
+					endTimeString = moment(now).add(15, 'minutes').format(defaultTimeFormat);
 				}
 			} else {
-				endTimeString = moment(endDateInstance)
-					.add(30, 'minutes')
-					.format(defaultTimeFormat);
+				endTimeString = moment(endDateInstance).add(30, 'minutes').format(defaultTimeFormat);
 			}
 			data.find('[name="date_start"]').val(startDateString + ' ' + startTimeString);
 			data.find('[name="date_end"]').val(endDateString + ' ' + endTimeString);

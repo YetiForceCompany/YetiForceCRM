@@ -30,9 +30,10 @@ class MultipicklistField extends BaseField
 	public function getCombinations($array, $tempString = '')
 	{
 		$countArray = \count($array);
+		$result = '';
 		for ($i = 0; $i < $countArray; ++$i) {
 			$splicedArray = $array;
-			$element = array_splice($splicedArray, $i, 1); // removes and returns the i'th element
+			$element = array_splice($splicedArray, $i, 1);
 			if (\count($splicedArray) > 0) {
 				if (!\is_array($result)) {
 					$result = [];

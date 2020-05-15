@@ -14,7 +14,7 @@ class MultiCompany_Hierarchy_View extends \App\Controller\View\Page
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		if (!$recordId) {
@@ -28,7 +28,7 @@ class MultiCompany_Hierarchy_View extends \App\Controller\View\Page
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

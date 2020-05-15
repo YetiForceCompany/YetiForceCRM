@@ -10,15 +10,21 @@ $.Class(
 		 * @param {jQuery} modalContainer
 		 */
 		registerEvents(modalContainer) {
-			modalContainer.find('form').on('submit', function(e) {
+			modalContainer.find('form').on('submit', function (e) {
 				e.preventDefault();
-				const progressIndicator = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
-				AppConnector.request($(this).serializeFormData()).done(response => {
+				const progressIndicator = $.progressIndicator({
+					position: 'html',
+					blockInfo: { enabled: true }
+				});
+				AppConnector.request($(this).serializeFormData()).done((response) => {
 					let result = response.result;
 					if (result.success && result.url) {
 						if (CONFIG.view === 'ListPreview') {
 							app.hideModalWindow();
-							$('.listPreviewframe')[0].src = result.url.replace('view=Detail', 'view=DetailPreview');
+							$('.listPreviewframe')[0].src = result.url.replace(
+								'view=Detail',
+								'view=DetailPreview'
+							);
 							progressIndicator.progressIndicator({ mode: 'hide' });
 						} else {
 							window.location.href = result.url;

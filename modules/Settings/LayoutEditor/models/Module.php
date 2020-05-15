@@ -171,7 +171,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
 		}
 		if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType) {
-			if(!$this->checkIsAvailablePicklistFieldName($name)){
+			if (!$this->checkIsAvailablePicklistFieldName($name)) {
 				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
 			}
 			$pickListValues = $params['pickListValues'];
@@ -610,7 +610,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'Faq' => ['LBL_COMMENT_INFORMATION'],
 			'Calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION']
 		];
-		if (\in_array($moduleName, ['Calendar', 'HelpDesk', 'Faq'])) {
+		if (\in_array($moduleName, ['HelpDesk', 'Faq'])) {
 			if (!empty($blocksEliminatedArray[$moduleName])) {
 				if (\in_array($blockName, $blocksEliminatedArray[$moduleName])) {
 					return false;
@@ -720,7 +720,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function checkIsAvailablePicklistFieldName(string $fieldName): bool
 	{
 		$result = true;
-		if(\App\Fields\Picklist::isPicklistExist($fieldName)){
+		if (\App\Fields\Picklist::isPicklistExist($fieldName)) {
 			$result = (new \App\Db\Query())->from('vtiger_field')->where(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]])->exists();
 		}
 		return $result;

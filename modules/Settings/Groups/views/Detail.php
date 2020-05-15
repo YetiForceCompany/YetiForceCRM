@@ -15,7 +15,7 @@ class Settings_Groups_Detail_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);

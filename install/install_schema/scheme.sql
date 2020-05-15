@@ -3394,7 +3394,7 @@ CREATE TABLE `u_yf_occurrences` (
   `occurrences_rating` varchar(255) DEFAULT '',
   `locationid` int(11) unsigned DEFAULT 0,
   `participants` int(8) DEFAULT 0,
-  `meeting_utl` varchar(2048) DEFAULT NULL,
+  `meeting_url` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`occurrencesid`),
   KEY `u_yf_occurrences_locationid_idx` (`locationid`),
   CONSTRAINT `fk_1_u_yf_occurrencesoccurrencesid` FOREIGN KEY (`occurrencesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -4537,7 +4537,7 @@ CREATE TABLE `vtiger_activity` (
   `recurrence` text DEFAULT NULL,
   `linkextend` int(10) DEFAULT NULL,
   `subprocess_sl` int(10) unsigned DEFAULT NULL,
-  `meeting_utl` varchar(2048) DEFAULT NULL,
+  `meeting_url` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`activityid`),
   KEY `activity_activityid_subject_idx` (`activityid`,`subject`),
   KEY `activity_activitytype_date_start_idx` (`activitytype`,`date_start`),
@@ -5901,6 +5901,7 @@ CREATE TABLE `vtiger_field` (
   `maxwidthcolumn` smallint(3) unsigned DEFAULT 0,
   `visible` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `tabindex` smallint(5) NOT NULL DEFAULT 0,
+  `color` varchar(10) DEFAULT '',
   PRIMARY KEY (`fieldid`),
   KEY `field_tabid_idx` (`tabid`),
   KEY `field_fieldname_idx` (`fieldname`),
@@ -6723,7 +6724,7 @@ CREATE TABLE `vtiger_links` (
   KEY `linklabel` (`linklabel`),
   KEY `linkid` (`linkid`,`tabid`,`linktype`,`linklabel`),
   KEY `linktype` (`linktype`)
-) ENGINE=InnoDB AUTO_INCREMENT=372 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=373 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_locationregister_status` */
 
@@ -8388,7 +8389,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 

@@ -25,6 +25,7 @@ class Menu
 	 * Initialize this instance.
 	 *
 	 * @param array Map
+	 * @param mixed $valuemap
 	 */
 	public function initialize($valuemap)
 	{

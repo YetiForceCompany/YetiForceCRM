@@ -14,7 +14,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if (is_array($value)) {
+		if (\is_array($value)) {
 			$value = implode(',', $value);
 		}
 		return \App\Purifier::decodeHtml($value);
@@ -26,7 +26,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$value = $value ? explode('##', $value) : [];
 		}
 		foreach ($value as $val) {
@@ -40,14 +40,14 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		$hashValue = is_array($value) ? implode('|', $value) : $value;
+		$hashValue = \is_array($value) ? implode('|', $value) : $value;
 		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
 		if (!$isUserFormat) {
 			$value = explode(',', $value);
 		}
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$value = [$value];
 		}
 		foreach ($value as $id) {
@@ -137,7 +137,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function  getQueryOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'c', 'k', 'y', 'ny'];
 	}

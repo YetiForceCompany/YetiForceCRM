@@ -104,7 +104,10 @@ Vtiger_BasicSearch_Js(
 				thisInstance.setContainer($('#advanceSearchContainer'));
 				thisInstance.filterValidationRegistered = false;
 				thisInstance.registerEvents();
-				thisInstance.advanceFilter = new Vtiger_ConditionBuilder_Js(thisInstance.getContainer().find('.js-condition-builder'), thisInstance.getSearchModule());
+				thisInstance.advanceFilter = new Vtiger_ConditionBuilder_Js(
+					thisInstance.getContainer().find('.js-condition-builder'),
+					thisInstance.getSearchModule()
+				);
 				thisInstance.advanceFilter.registerEvents();
 				aDeferred.resolve();
 			};
@@ -193,7 +196,7 @@ Vtiger_BasicSearch_Js(
 					var url = response['result']['listviewurl'];
 					window.location.href = url;
 				},
-				function (error) { }
+				function (error) {}
 			);
 		},
 		/**
@@ -290,7 +293,13 @@ Vtiger_BasicSearch_Js(
 				if (searchModule.length <= 0) {
 					app
 						.getChosenElementFromSelect($('#searchModuleList'))
-						.validationEngine('showPrompt', app.vtranslate('JS_SELECT_MODULE'), 'error', 'topRight', true);
+						.validationEngine(
+							'showPrompt',
+							app.vtranslate('JS_SELECT_MODULE'),
+							'error',
+							'topRight',
+							true
+						);
 					return;
 				}
 				thisInstance
@@ -298,16 +307,14 @@ Vtiger_BasicSearch_Js(
 					.done(function () {
 						thisInstance.performSearch();
 					})
-					.fail(function () { });
+					.fail(function () {});
 			});
 
 			$('#advanceIntiateSave').on('click', function (e) {
 				var currentElement = $(e.currentTarget);
 				currentElement.addClass('d-none');
 				var actionsContainer = currentElement.closest('.actions');
-				$('.js-name-filter', actionsContainer)
-					.removeClass('d-none')
-					.focus();
+				$('.js-name-filter', actionsContainer).removeClass('d-none').focus();
 				$('#advanceSave').removeClass('d-none');
 			});
 
@@ -331,7 +338,13 @@ Vtiger_BasicSearch_Js(
 				if (searchModule.length <= 0) {
 					app
 						.getChosenElementFromSelect($('#searchModuleList'))
-						.validationEngine('showPrompt', app.vtranslate('JS_SELECT_MODULE'), 'error', 'topRight', true);
+						.validationEngine(
+							'showPrompt',
+							app.vtranslate('JS_SELECT_MODULE'),
+							'error',
+							'topRight',
+							true
+						);
 					return;
 				}
 

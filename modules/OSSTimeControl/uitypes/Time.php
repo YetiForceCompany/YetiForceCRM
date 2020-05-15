@@ -19,11 +19,10 @@ class OSSTimeControl_Time_UIType extends Vtiger_Time_UIType
 
 		$specialTimeFields = ['time_start', 'time_end'];
 		$fieldName = $this->get('field')->getFieldName();
-		if (!in_array($fieldName, $specialTimeFields)) {
+		if (!\in_array($fieldName, $specialTimeFields)) {
 			return parent::getEditViewDisplayValue($value, $recordModel);
-		} else {
-			return $this->getDisplayTimeDifferenceValue($fieldName, $value);
 		}
+		return $this->getDisplayTimeDifferenceValue($fieldName, $value);
 	}
 
 	/**
@@ -37,7 +36,7 @@ class OSSTimeControl_Time_UIType extends Vtiger_Time_UIType
 	public function getDisplayTimeDifferenceValue($fieldName, $value)
 	{
 		$date = new DateTime($value);
-		if ($fieldName === 'time_end' && empty($value)) {
+		if ('time_end' === $fieldName && empty($value)) {
 			$date->modify('+15 minutes');
 		}
 		return (new DateTimeField($date->format('Y-m-d H:i:s')))->getDisplayTime();

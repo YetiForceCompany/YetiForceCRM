@@ -51,7 +51,16 @@ class Field
 			if ($profileList) {
 				$query->andWhere(['vtiger_profile2field.profileid' => $profileList]);
 			}
-			$fields = $query->distinct()->indexBy('fieldname')->all();
+			$fields = [];
+			$dataReader = $query->distinct()->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				if (isset($fields[$row['fieldname']])) {
+					$old = $fields[$row['fieldname']];
+					$row['readonly'] = $old['readonly'] > 0 ? $row['readonly'] : $old['readonly'];
+					$row['visible'] = $old['visible'] > 0 ? $row['visible'] : $old['visible'];
+				}
+				$fields[$row['fieldname']] = $row;
+			}
 			Cache::save(__METHOD__ . User::getCurrentUserId(), $tabId, $fields);
 		}
 

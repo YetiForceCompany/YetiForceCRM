@@ -16,7 +16,7 @@ class Settings_Vtiger_LibraryLicense_View extends Vtiger_BasicModal_View
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if (!\App\User::getCurrentUserModel()->isAdmin()) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
@@ -30,7 +30,7 @@ class Settings_Vtiger_LibraryLicense_View extends Vtiger_BasicModal_View
 	 *
 	 * @return string
 	 */
-	public function getSize(\App\Request $request)
+	public function getSize(App\Request $request)
 	{
 		return 'modal-lg';
 	}
@@ -40,7 +40,7 @@ class Settings_Vtiger_LibraryLicense_View extends Vtiger_BasicModal_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$result = false;
 		$fileContent = '';

@@ -45,7 +45,7 @@
 							<span class="fas fa-search fa-fw" title="{\App\Language::translate('LBL_SEARCH')}"></span>
 						</button>
 						{if App\Config::search('GLOBAL_SEARCH_OPERATOR_SELECT')}
-							<div class="btn-group">
+							<div class="btn-group u-remove-dropdown-icon">
 								<a class="btn btn-outline-dark border-bottom-0 border-top-0 dropdown-toggle rounded-0 border-left border-right"
 								   id="globalSearchOperator" href="#" role="button" data-toggle="dropdown"
 								   aria-haspopup="true" aria-expanded="false">
@@ -397,11 +397,17 @@
 					{/foreach}
 					<div class="o-action-menu__item">
 						<div class="dropdown">
-							<a class="c-header__btn ml-2 btn btn-light btn js-popover-tooltip dropdownMenu"
+							<a class="c-header__btn ml-2 btn btn-light btn dropdown-toggle js-popover-tooltip dropdownMenu"
 								id="showUserQuickMenuBtn" data-js="popover" data-toggle="dropdown" data-boundary="window"
 								data-content="{\App\Language::translate('LBL_MY_PREFERENCES')}" href="#" role="button">
-							<span class="fas fa-user fa-fw" title="{\App\Language::translate('LBL_MY_PREFERENCES')}"></span>
-								<span class="c-header__label--sm-down">{\App\Language::translate('LBL_MY_PREFERENCES')}</span>
+								{assign var="IMAGE" value=$CURRENT_USER->getImage()}
+								{if $IMAGE}
+									<img src="{$IMAGE['url']}" alt="{$CURRENT_USER->getName()}" title="{$CURRENT_USER->getName()}" class="c-user-avatar-small">
+									<span class="c-header__label--sm-down ml-2">{\App\Language::translate('LBL_MY_PREFERENCES')}</span>
+								{else}
+									<span class="fas fa-user fa-fw" title="{\App\Language::translate('LBL_MY_PREFERENCES')}"></span>
+									<span class="c-header__label--sm-down">{\App\Language::translate('LBL_MY_PREFERENCES')}</span>
+								{/if}
 							</a>
 							{include file=\App\Layout::getTemplatePath('UserQuickMenu.tpl', $MODULE)}
 						</div>

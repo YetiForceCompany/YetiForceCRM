@@ -18,7 +18,7 @@ class Settings_Vtiger_ConfigEditorSaveAjax_Action extends Settings_Vtiger_Basic_
 	 *
 	 * @throws \ReflectionException
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$qualifiedModuleName = $request->getModule(false);

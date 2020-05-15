@@ -13,7 +13,7 @@ class Services_Detail_View extends Products_Detail_View
 	/**
 	 * * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

@@ -30,7 +30,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	 *
 	 * @throws \App\Exceptions\Security
 	 */
-	public function addTranslation(\App\Request $request)
+	public function addTranslation(App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		try {
@@ -38,7 +38,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 			if (!$langs || array_diff($langs, array_keys(App\Language::getAll()))) {
 				throw new \App\Exceptions\Security('ERR_LANGUAGE_DOES_NOT_EXIST');
 			}
-			if (!in_array($request->getByType('type'), \App\Language::LANG_TYPE)) {
+			if (!\in_array($request->getByType('type'), \App\Language::LANG_TYPE)) {
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 			}
 			$mod = $request->getByType('mod');
@@ -69,14 +69,14 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	 *
 	 * @throws \App\Exceptions\Security
 	 */
-	public function saveTranslation(\App\Request $request)
+	public function saveTranslation(App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		try {
 			if (!isset(App\Language::getAll()[$request->getByType('lang')])) {
 				throw new \App\Exceptions\Security('ERR_LANGUAGE_DOES_NOT_EXIST');
 			}
-			if (!in_array($request->getByType('type'), \App\Language::LANG_TYPE)) {
+			if (!\in_array($request->getByType('type'), \App\Language::LANG_TYPE)) {
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 			}
 			$result = \App\Language::translationModify(
@@ -95,7 +95,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	 *
 	 * @param \App\Request $request
 	 */
-	public function deleteTranslation(\App\Request $request)
+	public function deleteTranslation(App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		try {
@@ -103,7 +103,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 			if (!$langs || array_diff($langs, array_keys(App\Language::getAll()))) {
 				throw new \App\Exceptions\Security('ERR_LANGUAGE_DOES_NOT_EXIST');
 			}
-			if (!in_array($request->getByType('type'), \App\Language::LANG_TYPE)) {
+			if (!\in_array($request->getByType('type'), \App\Language::LANG_TYPE)) {
 				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 			}
 			foreach ($langs as $lang) {
@@ -123,7 +123,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	 *
 	 * @param \App\Request $request
 	 */
-	public function add(\App\Request $request)
+	public function add(App\Request $request)
 	{
 		$params = [
 			'label' => $request->getByType('label', 'Text'),
@@ -145,10 +145,10 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	 *
 	 * @param \App\Request $request
 	 */
-	public function delete(\App\Request $request)
+	public function delete(App\Request $request)
 	{
 		$lang = $request->getByType('prefix');
-		if (in_array($lang, [\App\Config::main('default_language'), \App\Language::DEFAULT_LANG])) {
+		if (\in_array($lang, [\App\Config::main('default_language'), \App\Language::DEFAULT_LANG])) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE', 406);
 		}
 		$saveResp = Settings_LangManagement_Module_Model::delete($lang);
@@ -166,7 +166,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	 *
 	 * @param \App\Request $request
 	 */
-	public function setAsDefault(\App\Request $request)
+	public function setAsDefault(App\Request $request)
 	{
 		$saveResp = Settings_LangManagement_Module_Model::setAsDefault($request->getByType('prefix'));
 		$response = new Vtiger_Response();

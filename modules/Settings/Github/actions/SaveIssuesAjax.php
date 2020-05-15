@@ -12,7 +12,7 @@ class Settings_Github_SaveIssuesAjax_Action extends Settings_Vtiger_Basic_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$title = $request->getByType('title', 'Text');
 		$body = $request->getForHtml('body');

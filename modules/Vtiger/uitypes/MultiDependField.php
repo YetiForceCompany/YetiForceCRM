@@ -14,7 +14,7 @@ class Vtiger_MultiDependField_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
 		if (!$requestFieldName) {
@@ -32,17 +32,18 @@ class Vtiger_MultiDependField_UIType extends Vtiger_Base_UIType
 	{
 		if (empty($value)) {
 			return;
-		} elseif (is_string($value)) {
+		}
+		if (\is_string($value)) {
 			$value = \App\Json::decode($value);
 		}
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$rawValue = \App\Json::encode($value);
 		if (!isset($this->validate[$rawValue])) {
 			$fieldsModel = $this->getFieldsModel();
 			foreach ($value as $item) {
-				if (!is_array($item) || array_diff_key($item, $fieldsModel)) {
+				if (!\is_array($item) || array_diff_key($item, $fieldsModel)) {
 					throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . \App\Json::encode($value), 406);
 				}
 				foreach ($item as $fieldName => $val) {

@@ -22,7 +22,7 @@ class IStorages_Record_Model extends Vtiger_Record_Model
 			preg_match('/<a href="+/', $storageInfo[0], $matches);
 			if (!empty($matches)) {
 				preg_match('/[.\s]+/', $storageInfo[0], $dashes);
-				preg_match("/<a(.*)>(.*)<\/a>/i", $storageInfo[0], $name);
+				preg_match('/<a(.*)>(.*)<\\/a>/i', $storageInfo[0], $name);
 
 				$recordModel = Vtiger_Record_Model::getCleanInstance('IStorages');
 				$recordModel->setId($storageId);

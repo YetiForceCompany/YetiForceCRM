@@ -14,7 +14,7 @@ class PriceBooks_ProductListPrice_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -31,7 +31,7 @@ class PriceBooks_ProductListPrice_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$priceBookModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		$response = new Vtiger_Response();

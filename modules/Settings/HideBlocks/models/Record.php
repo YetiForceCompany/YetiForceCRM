@@ -178,7 +178,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue(string  $fieldName)
+	public function getDisplayValue(string $fieldName)
 	{
 		$fieldValue = $this->get($fieldName);
 

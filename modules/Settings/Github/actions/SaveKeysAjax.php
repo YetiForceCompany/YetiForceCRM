@@ -12,7 +12,7 @@ class Settings_Github_SaveKeysAjax_Action extends Settings_Vtiger_Basic_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$clientModel = Settings_Github_Client_Model::getInstance();
 		$clientModel->setToken($request->getByType('token', 'Alnum'));

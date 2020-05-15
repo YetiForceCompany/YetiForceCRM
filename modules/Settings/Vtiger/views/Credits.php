@@ -15,7 +15,7 @@ class Settings_Vtiger_Credits_View extends Settings_Vtiger_Index_View
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
@@ -30,7 +30,7 @@ class Settings_Vtiger_Credits_View extends Settings_Vtiger_Index_View
 	 *
 	 * @return array|\Vtiger_JsScript_Model[]
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			"modules.Settings.{$request->getModule()}.resources.Credits",

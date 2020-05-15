@@ -25,16 +25,16 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
-		if (App\Config::security('USER_AUTHY_MODE') === 'TOTP_OFF') {
+		if ('TOTP_OFF' === App\Config::security('USER_AUTHY_MODE')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$mode = $request->getMode();
-		if ($mode === 'off' && App\Config::security('USER_AUTHY_MODE') !== 'TOTP_OPTIONAL') {
+		if ('off' === $mode && 'TOTP_OPTIONAL' !== App\Config::security('USER_AUTHY_MODE')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if ($mode === 'massOff' && !\App\User::getCurrentUserModel()->isAdmin()) {
+		if ('massOff' === $mode && !\App\User::getCurrentUserModel()->isAdmin()) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
@@ -42,11 +42,11 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
-			return $this->$mode($request);
+			return $this->{$mode}($request);
 		}
 		$this->secret($request);
 	}
@@ -58,7 +58,7 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\IllegalValue
 	 */
-	public function secret(\App\Request $request)
+	public function secret(App\Request $request)
 	{
 		$secret = $request->getByType('secret', 'Alnum');
 		$checkResult = Users_Totp_Authmethod::verifyCode($secret, $request->getByType('user_code', 'Digital'));
@@ -84,7 +84,7 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function off(\App\Request $request)
+	public function off(App\Request $request)
 	{
 		$userId = $request->getInteger('userid', \App\User::getCurrentUserRealId());
 		$userRecordModel = Users_Record_Model::getInstanceById($userId, 'Users');
@@ -104,12 +104,12 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function massOff(\App\Request $request)
+	public function massOff(App\Request $request)
 	{
 		$recordsList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		foreach ($recordsList as $userId) {
 			$userRecordModel = Users_Record_Model::getInstanceById($userId, 'Users');
-			if ($userRecordModel->get('authy_methods') === 'PLL_AUTHY_TOTP' && !empty($userRecordModel->get('authy_secret_totp'))) {
+			if ('PLL_AUTHY_TOTP' === $userRecordModel->get('authy_methods') && !empty($userRecordModel->get('authy_secret_totp'))) {
 				$userRecordModel->set('authy_secret_totp', '');
 				$userRecordModel->set('authy_methods', '');
 				$userRecordModel->save();

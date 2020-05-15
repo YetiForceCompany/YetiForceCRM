@@ -38,7 +38,7 @@ class FInvoiceCost extends Vtiger_CRMEntity
 	 */
 	public $list_fields = [
 		// Format: Field Label => Array(tablename, columnname)
-// tablename should not have prefix 'vtiger_'
+		// tablename should not have prefix 'vtiger_'
 		'FL_SUBJECT' => ['finvoicecost', 'subject'],
 		'FL_SALE_DATE' => ['finvoicecost', 'saledate'],
 		'Assigned To' => ['crmentity', 'smownerid'],
@@ -59,7 +59,7 @@ class FInvoiceCost extends Vtiger_CRMEntity
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)
-// tablename should not have prefix 'vtiger_'
+		// tablename should not have prefix 'vtiger_'
 		'FL_SUBJECT' => ['finvoicecost', 'subject'],
 		'FL_SALE_DATE' => ['finvoicecost', 'saledate'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],

@@ -22,7 +22,11 @@
 				{assign var="COUNTRY" value=$PHONE_DETAIL['country']}
 			{else}
 				{assign var="PHONE_DETAIL" value=[]}
-				{assign var="COUNTRY" value=\App\Language::getLanguageRegion()}
+				{if !\App\Config::component('Phone', 'defaultPhoneCountry')}
+					{assign var="COUNTRY" value=\App\Language::getLanguageRegion()}
+				{else}
+					{assign var="COUNTRY" value=''}
+				{/if}
 			{/if}
 			{assign var="FIELD_NAME_EXTRA" value=$FIELD_MODEL->getFieldName()|cat:'_extra'}
 			{assign var="FIELD_MODEL_EXTRA" value=$FIELD_MODEL->getModule()->getFieldByName($FIELD_NAME_EXTRA)}

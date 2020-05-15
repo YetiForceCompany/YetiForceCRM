@@ -15,7 +15,7 @@ class Settings_Notifications_Configuration_View extends Settings_Vtiger_Index_Vi
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$modules = Vtiger_Watchdog_Model::getSupportedModules();
 		if ($request->isEmpty('srcModule')) {
@@ -38,7 +38,7 @@ class Settings_Notifications_Configuration_View extends Settings_Vtiger_Index_Vi
 	 *
 	 * @return array - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'modules.Settings.' . $request->getModule() . '.resources.Configuration',

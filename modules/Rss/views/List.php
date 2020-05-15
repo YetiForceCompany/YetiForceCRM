@@ -11,19 +11,19 @@
 
 class Rss_List_View extends Vtiger_Index_View
 {
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('HEADER_LINKS', ['LIST_VIEW_HEADER' => []]);
 		parent::preProcess($request);
 	}
 
-	public function preProcessTplName(\App\Request $request)
+	public function preProcessTplName(App\Request $request)
 	{
 		return 'ListViewPreProcess.tpl';
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -34,7 +34,7 @@ class Rss_List_View extends Vtiger_Index_View
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
-	public function postProcess(\App\Request $request, $display = true)
+	public function postProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -45,7 +45,7 @@ class Rss_List_View extends Vtiger_Index_View
 
 	// Function to initialize the required data in smarty to display the List View Contents
 
-	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$module = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
@@ -71,7 +71,7 @@ class Rss_List_View extends Vtiger_Index_View
 	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
@@ -86,6 +86,8 @@ class Rss_List_View extends Vtiger_Index_View
 
 	/**
 	 * Function to get the list view header.
+	 *
+	 * @param mixed $module
 	 *
 	 * @return <Array> - List of Vtiger_Field_Model instances
 	 */

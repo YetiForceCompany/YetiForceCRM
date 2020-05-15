@@ -22,7 +22,7 @@ class Settings_YetiForce_DownloadLanguage_Action extends Settings_Vtiger_Save_Ac
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$result = \App\Installer\Languages::download($request->getByType('prefix'));
 		$message = \App\Language::translate('LBL_DOWNLOADED_LANGUAGE', $request->getModule(false));

@@ -34,7 +34,7 @@ class Settings_OSSMail_Config_Model extends App\Base
 		$instance = static::getCleanInstance();
 		foreach ($instance->getForm() as $key => $values) {
 			$value = \App\Config::module('OSSMail', $key);
-			if ($key === 'skin_logo') {
+			if ('skin_logo' === $key) {
 				$instance->set($key, $value['*']);
 			} else {
 				$instance->set($key, $value);

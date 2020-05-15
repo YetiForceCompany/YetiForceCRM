@@ -743,7 +743,7 @@ class Vtiger_Record_Model extends \App\Base
 			$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
 			$row['id'] = $row['crmid'];
 			$row['label'] = App\Purifier::decodeHtml($labels[$row['crmid']]);
-			$row['smownerid'] = $recordMeta['smownerid'];
+			$row['assigned_user_id'] = $recordMeta['smownerid'];
 			$row['createdtime'] = $recordMeta['createdtime'];
 			$row['permitted'] = \App\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);
 			$moduleName = $row['setype'];
@@ -1508,49 +1508,77 @@ class Vtiger_Record_Model extends \App\Base
 				]);
 			}
 		}
-		if ($relationModel->privilegeToDelete()) {
-			if ($this->privilegeToMoveToTrash()) {
-				$links[] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'LBL_REMOVE_RELATION',
-					'linkicon' => 'fas fa-unlink',
-					'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
-					'linkdata' => [
-						'content' => \App\Language::translate('LBL_REMOVE_RELATION'),
-						'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'),
-						'id' => $this->getId()
-					]
-				]);
-			}
-			if ($this->privilegeToMoveToTrash()) {
-				$links[] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-					'linklabel' => 'LBL_MOVE_TO_TRASH',
-					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&record=' . $this->getId(),
-					'linkicon' => 'fas fa-trash-alt',
-					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
-					'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
-					'linkclass' => 'btn-sm btn-outline-dark relationDelete entityStateBtn'
-				]);
-			}
-			if ($this->privilegeToDelete()) {
-				$links[] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-					'linkicon' => 'fas fa-eraser',
-					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete&record=' . $this->getId(),
-					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
-					'linkclass' => 'btn-sm btn-dark relationDelete entityStateBtn'
-				]);
-			}
-			if (!empty($relationModel->getTypeRelationModel()->customFields) && ($relationModel->getTypeRelationModel()->getFields()) && ($parentRecord = $relationModel->get('parentRecord')) && $parentRecord->isEditable() && $this->isEditable()) {
-				$links['BUTTONS'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-					'linklabel' => 'LBL_CHANGE_RELATION_DATA',
-					'dataUrl' => "index.php?module={$relationModel->getParentModuleModel()->getName()}&view=ChangeRelationData&record={$this->getId()}&fromRecord={$parentRecord->getId()}&relationId={$relationModel->getId()}",
-					'linkicon' => 'mdi mdi-briefcase-edit-outline',
-					'linkclass' => 'btn-sm btn-warning js-show-modal'
-				]);
-			}
+		$privilegeToDelete = $relationModel->privilegeToDelete();
+		if ($privilegeToDelete && $this->privilegeToMoveToTrash()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_REMOVE_RELATION',
+				'linkicon' => 'fas fa-unlink',
+				'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
+				'linkdata' => [
+					'content' => \App\Language::translate('LBL_REMOVE_RELATION'),
+					'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'),
+					'id' => $this->getId()
+				]
+			]);
+		}
+		$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
+		if ($this->privilegeToActivate()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_ACTIVATE_RECORD',
+				'linkicon' => 'fas fa-undo-alt',
+				'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
+				'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};",
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active&record=' . $this->getId(),
+				'linkdata' => [
+					'content' => \App\Language::translate('LBL_ACTIVATE_RECORD'),
+					'confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC'),
+					'id' => $this->getId()
+				]
+			]);
+		}
+		if ($this->privilegeToArchive()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_ARCHIVE_RECORD',
+				'linkicon' => 'fas fa-archive',
+				'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
+				'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived&record=' . $this->getId(),
+				'linkdata' => [
+					'content' => \App\Language::translate('LBL_ARCHIVE_RECORD'),
+					'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'),
+					'id' => $this->getId()
+				]
+			]);
+		}
+		if ($privilegeToDelete && $this->privilegeToMoveToTrash()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_MOVE_TO_TRASH',
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&record=' . $this->getId(),
+				'linkicon' => 'fas fa-trash-alt',
+				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
+				'linkclass' => 'btn-sm btn-outline-dark relationDelete entityStateBtn'
+			]);
+		}
+		if ($privilegeToDelete && $this->privilegeToDelete()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+				'linkicon' => 'fas fa-eraser',
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete&record=' . $this->getId(),
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
+				'linkclass' => 'btn-sm btn-dark relationDelete entityStateBtn'
+			]);
+		}
+		if (!empty($relationModel->getTypeRelationModel()->customFields) && ($relationModel->getTypeRelationModel()->getFields()) && ($parentRecord = $relationModel->get('parentRecord')) && $parentRecord->isEditable() && $this->isEditable()) {
+			$links['BUTTONS'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_CHANGE_RELATION_DATA',
+				'dataUrl' => "index.php?module={$relationModel->getParentModuleModel()->getName()}&view=ChangeRelationData&record={$this->getId()}&fromRecord={$parentRecord->getId()}&relationId={$relationModel->getId()}",
+				'linkicon' => 'mdi mdi-briefcase-edit-outline',
+				'linkclass' => 'btn-sm btn-warning js-show-modal'
+			]);
 		}
 		return $links;
 	}

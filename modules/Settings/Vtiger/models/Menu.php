@@ -6,15 +6,29 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 // Settings Menu Model Class
 
 class Settings_Vtiger_Menu_Model extends \App\Base
 {
+	/**
+	 * Menu type: Label.
+	 */
+	private const TYPE_LABEL = 0;
+	/**
+	 * Menu type: Link.
+	 */
+	private const TYPE_LINK = 1;
+
 	protected static $menusTable = 'vtiger_settings_blocks';
 	protected static $menuId = 'blockid';
-	protected static $casheMenu = false;
+
+	/**
+	 * @var array Parses the URL into variables
+	 */
+	protected $params;
 
 	/**
 	 * Function to get the Id of the Menu Model.
@@ -53,51 +67,100 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 	 */
 	public function getUrl()
 	{
-		return App\Purifier::decodeHtml($this->get('linkto')) . '&block=' . $this->getId();
+		return App\Purifier::decodeHtml($this->get('linkto'));
 	}
 
 	/**
-	 * Function to get the url to list the items of the Menu.
+	 * Check if the menu item has been selected.
 	 *
-	 * @return string - List url
+	 * @param string $moduleName
+	 * @param string $view
+	 * @param string $mode
+	 *
+	 * @return bool
 	 */
-	public function getListUrl()
+	public function isSelected(string $moduleName, string $view, string $mode = ''): bool
 	{
-		return 'index.php?module=Vtiger&parent=Settings&view=ListMenu&block=' . $this->getId();
+		return $this->getParam('view') === $view && $this->getParam('module') === $moduleName && $this->getParam('mode') === $mode;
 	}
 
 	/**
-	 * Function to get all the menu items of the current menu.
+	 * Check permission.
 	 *
-	 * @return array - List of Settings_Vtiger_MenuItem_Model instances
+	 * @param int $userId
+	 *
+	 * @return bool
 	 */
-	public function getItems()
+	public function isPermitted(int $userId = 0): bool
 	{
-		return Settings_Vtiger_MenuItem_Model::getAll($this);
+		$userId = $userId ?: \App\User::getCurrentUserId();
+		return empty($this->get('admin_access')) || false !== strpos($this->get('admin_access'), ",{$userId},");
+	}
+
+	/**
+	 * Gets data from URL.
+	 *
+	 * @param string $key
+	 *
+	 * @return string
+	 */
+	public function getParam(string $key): string
+	{
+		if (!isset($this->params)) {
+			$this->params = \vtlib\Functions::getQueryParams($this->getUrl());
+		}
+		return $this->params[$key] ?? '';
+	}
+
+	/**
+	 * Function returns menu items for the current menu.
+	 *
+	 * @return \Settings_Vtiger_MenuItem_Model[]
+	 */
+	public function getMenuItems()
+	{
+		return Settings_Vtiger_MenuItem_Model::getAll($this->getId());
+	}
+
+	/**
+	 * Gets menu element by module.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return Settings_Vtiger_MenuItem_Model|null
+	 */
+	public static function getSelectedFieldFromModule(string $moduleName): ?Settings_Vtiger_MenuItem_Model
+	{
+		foreach (self::getAll() as $menuModel) {
+			foreach ($menuModel->getMenuItems() as $menuItem) {
+				if ($menuItem->getParam('module') === $moduleName && $menuItem->isPermitted()) {
+					return $menuItem;
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
 	 * Static function to get the list of all the Settings Menus.
 	 *
-	 * @return array - List of Settings_Vtiger_Menu_Model instances
+	 * @return \Settings_Vtiger_Menu_Model[]
 	 */
-	public static function getAll()
+	public static function getAll(): array
 	{
-		if (self::$casheMenu) {
-			return self::$casheMenu;
+		$key = '';
+		$cacheName = 'MenuAll';
+		if (!\App\Cache::has($cacheName, $key)) {
+			$menuModels = [];
+			$dataReader = (new App\Db\Query())->from(self::$menusTable)->orderBy(['sequence' => SORT_ASC])->createCommand()->query();
+			while ($rowData = $dataReader->read()) {
+				$blockId = (int) $rowData[self::$menuId];
+				$menuModels[$blockId] = self::getInstanceFromArray($rowData);
+			}
+			$dataReader->close();
+			\App\Cache::save($cacheName, $key, $menuModels);
 		}
-		$dataReader = (new App\Db\Query())->from(self::$menusTable)->where(['or', ['like', 'admin_access', ',' . App\User::getCurrentUserId() . ','], ['admin_access' => null]])
-			->orderBy(['sequence' => SORT_ASC])
-			->createCommand()->query();
-		$menuModels = [];
-		while ($row = $dataReader->read()) {
-			$blockId = $row[self::$menuId];
-			$menuModels[$blockId] = self::getInstanceFromArray($row);
-		}
-		$dataReader->close();
-		self::$casheMenu = $menuModels;
-
-		return $menuModels;
+		return \App\Cache::get($cacheName, $key);
 	}
 
 	/**
@@ -120,27 +183,15 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 	public static $cacheInstance = false;
 
 	/**
-	 * Static Function to get the instance of Settings Menu model for given menu id.
+	 * Gets block instance.
 	 *
-	 * @param int $id - Menu Id
+	 * @param int $id
 	 *
-	 * @return Settings_Vtiger_Menu_Model instance
+	 * @return Settings_Vtiger_Menu_Model|null
 	 */
-	public static function getInstanceById($id)
+	public static function getInstanceById(int $id)
 	{
-		if (isset(self::$cacheInstance[$id])) {
-			return self::$cacheInstance[$id];
-		}
-		$rowData = (new App\Db\Query())->from(self::$menusTable)->where([self::$menuId => $id])->one();
-		if ($rowData) {
-			$instance = self::getInstanceFromArray($rowData);
-			self::$cacheInstance[$id] = $instance;
-
-			return $instance;
-		}
-		self::$cacheInstance[$id] = false;
-
-		return false;
+		return self::getAll()[$id] ?? null;
 	}
 
 	/**
@@ -164,12 +215,89 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 	}
 
 	/**
-	 * Function returns menu items for the current menu.
+	 * Gets menu elements.
 	 *
-	 * @return <Settings_Vtiger_MenuItem_Model>
+	 * @param string     $moduleName
+	 * @param string     $view
+	 * @param string     $mode
+	 * @param mixed|null $selected
+	 *
+	 * @return array
 	 */
-	public function getMenuItems()
+	public static function getMenu(string $moduleName, string $view, string $mode = '', &$selected = null): array
 	{
-		return Settings_Vtiger_MenuItem_Model::getAll($this);
+		$selectedFieldId = 0;
+		$selectedBlockId = 0;
+		$menu = [];
+		foreach (self::getAll() as $blockId => $menuModel) {
+			if (!$menuModel->isPermitted()) {
+				continue;
+			}
+			if (self::TYPE_LABEL === (int) $menuModel->getType()) {
+				$children = [];
+				foreach ($menuModel->getMenuItems() as $fieldId => $menuItem) {
+					if (!$menuItem->isPermitted()) {
+						continue;
+					}
+					if (!$selectedBlockId && $menuItem->isSelected($moduleName, $view, $mode)) {
+						$selectedBlockId = $menuItem->getBlockId();
+						$selectedFieldId = $menuItem->getId();
+						$selected = $menuItem;
+					}
+					$children[$fieldId] = [
+						'id' => $menuItem->getId(),
+						'active' => $selectedFieldId === $menuItem->getId(),
+						'name' => $menuItem->get('name'),
+						'type' => 'Shortcut',
+						'sequence' => $menuModel->get('sequence'),
+						'newwindow' => '0',
+						'icon' => $menuItem->get('iconpath'),
+						'dataurl' => $menuItem->getUrl(),
+						'parent' => 'Settings',
+						'moduleName' => $menuItem->getModuleName()
+					];
+				}
+				$menu[$blockId] = [
+					'id' => $blockId,
+					'active' => $selectedBlockId === $blockId,
+					'name' => $menuModel->getLabel(),
+					'type' => 'Label',
+					'sequence' => $menuModel->get('sequence'),
+					'childs' => $children,
+					'icon' => $menuModel->get('icon'),
+					'moduleName' => 'Settings::Vtiger',
+				];
+			} else {
+				if (!$selectedBlockId && $menuModel->isSelected($moduleName, $view, $mode)) {
+					$selectedBlockId = $blockId;
+				}
+				$menu[$blockId] = [
+					'id' => $blockId,
+					'active' => $selectedBlockId === $blockId,
+					'name' => $menuModel->getLabel(),
+					'type' => 'Shortcut',
+					'sequence' => $menuModel->get('sequence'),
+					'newwindow' => '0',
+					'icon' => $menuModel->get('icon'),
+					'dataurl' => $menuModel->getUrl(),
+					'moduleName' => 'Settings::Vtiger',
+				];
+			}
+		}
+		if (0 === $selectedFieldId && 0 === $selectedBlockId && ($selected = self::getSelectedFieldFromModule($moduleName))) {
+			$menu[$selected->getBlockId()]['active'] = true;
+			$menu[$selected->getBlockId()]['childs'][$selected->getId()]['active'] = true;
+		}
+		return $menu;
+	}
+
+	/**
+	 * Clear cache.
+	 */
+	public static function clearCache()
+	{
+		\App\Cache::delete('MenuItemAll', \Settings_Vtiger_MenuItem_Model::ACTIVE);
+		\App\Cache::delete('MenuItemAll', \Settings_Vtiger_MenuItem_Model::INACTIVE);
+		\App\Cache::delete('MenuAll', '');
 	}
 }

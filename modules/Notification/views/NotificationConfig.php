@@ -17,7 +17,7 @@ class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 	 *
 	 * @return string
 	 */
-	public function getSize(\App\Request $request)
+	public function getSize(App\Request $request)
 	{
 		return 'modal-lg';
 	}
@@ -27,7 +27,7 @@ class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
@@ -39,8 +39,8 @@ class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 		}
 		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
 		$scheduleData = Vtiger_Watchdog_Model::getWatchingModulesSchedule();
-		$selectedAllModules = count($moduleList) === count($watchingModules) ? true : false;
-		$selectedAllSendNotice = count($moduleList) === count($scheduleData['modules']) ? true : false;
+		$selectedAllModules = \count($moduleList) === \count($watchingModules) ? true : false;
+		$selectedAllSendNotice = \count($moduleList) === \count($scheduleData['modules']) ? true : false;
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_LIST', $moduleList);
 		$viewer->assign('WATCHING_MODEL', Vtiger_Watchdog_Model::getInstance($moduleName));
@@ -62,7 +62,7 @@ class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 	 *
 	 * @return array - List of Vtiger_JsScript_Model instances
 	 */
-	public function getModalScripts(\App\Request $request)
+	public function getModalScripts(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertJsScripts([
 			'~libraries/datatables.net/js/jquery.dataTables.js',

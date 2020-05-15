@@ -15,22 +15,19 @@ Vtiger_List_Js(
 		/**
 		 * Function to mark selected records
 		 */
-		markSelectedRecords: function() {
+		markSelectedRecords: function () {
 			var thisInstance = this;
 			var selectedIds = this.readSelectedIds();
 			if (selectedIds != '') {
 				if (selectedIds == 'all') {
-					jQuery('.listViewEntriesCheckBox').each(function(index, element) {
-						jQuery(this)
-							.prop('checked', true)
-							.closest('tr')
-							.addClass('highlightBackgroundColor');
+					jQuery('.listViewEntriesCheckBox').each(function (index, element) {
+						jQuery(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 					});
 					jQuery('#deSelectAllMsgDiv').show();
 					var excludedIds = jQuery('[name="excludedIds"]').data('excludedIds');
 					if (excludedIds != '') {
 						jQuery('#listViewEntriesMainCheckBox').prop('checked', false);
-						jQuery('.listViewEntriesCheckBox').each(function(index, element) {
+						jQuery('.listViewEntriesCheckBox').each(function (index, element) {
 							if (jQuery.inArray(jQuery(element).val(), excludedIds) != -1) {
 								jQuery(element)
 									.prop('checked', false)
@@ -40,12 +37,9 @@ Vtiger_List_Js(
 						});
 					}
 				} else {
-					jQuery('.listViewEntriesCheckBox').each(function(index, element) {
+					jQuery('.listViewEntriesCheckBox').each(function (index, element) {
 						if (jQuery.inArray(jQuery(element).val(), selectedIds) != -1) {
-							jQuery(this)
-								.prop('checked', true)
-								.closest('tr')
-								.addClass('highlightBackgroundColor');
+							jQuery(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 						}
 					});
 				}
@@ -53,7 +47,7 @@ Vtiger_List_Js(
 			}
 		},
 
-		getRecordsCount: function() {
+		getRecordsCount: function () {
 			if (app.getViewName() != 'Detail') {
 				return this._super();
 			}
@@ -80,7 +74,7 @@ Vtiger_List_Js(
 					record: recordId,
 					tab_label: selectedTab.data('labelKey'),
 					relationId: selectedTab.data('relationId')
-				}).done(function(data) {
+				}).done(function (data) {
 					jQuery('#recordsCount').val(data['result']['count']);
 					count = data['result']['count'];
 					aDeferred.resolve(count);
@@ -93,7 +87,7 @@ Vtiger_List_Js(
 		/**
 		 * Function to register events
 		 */
-		registerEvents: function() {
+		registerEvents: function () {
 			if (app.getViewName() != 'Detail') {
 				this._super();
 				return;

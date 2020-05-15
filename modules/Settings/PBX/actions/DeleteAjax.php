@@ -14,7 +14,7 @@ class Settings_PBX_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordModel = Settings_PBX_Record_Model::getInstanceById($request->getInteger('record'));
 		$result = $recordModel->delete();

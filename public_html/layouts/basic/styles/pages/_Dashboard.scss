@@ -64,6 +64,11 @@
 		table {
 			height: 28px;
 		}
+		.js-tree-container {
+			.input-group {
+				@extend .input-group-sm;
+			}
+		}
 	}
 
 	.widgetFooterContent .row:first-child {

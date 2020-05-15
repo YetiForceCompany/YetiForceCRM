@@ -25,7 +25,7 @@ jQuery.Class(
 		/**
 		 * Function to get the search module
 		 */
-		getSearchModule: function() {
+		getSearchModule: function () {
 			if (this.searchModule === false) {
 				//default gives current module
 				var module = app.getModuleName();
@@ -40,21 +40,21 @@ jQuery.Class(
 		/**
 		 * Function to set the search module
 		 */
-		setSearchModule: function(moduleName) {
+		setSearchModule: function (moduleName) {
 			this.searchModule = moduleName;
 			return this;
 		},
 		/**
 		 * Function to set main conatainer
 		 */
-		setMainContainer: function(container) {
+		setMainContainer: function (container) {
 			this.mainContainer = container;
 			return this;
 		},
 		/**
 		 * Function to get the user selected search module
 		 */
-		getCurrentSearchModule: function() {
+		getCurrentSearchModule: function () {
 			if (this.currentSearchModule === false && this.mainContainer) {
 				this.currentSearchModule = this.mainContainer.find('.basicSearchModulesList').val();
 			}
@@ -63,7 +63,7 @@ jQuery.Class(
 		/**
 		 * Function which will perform the search
 		 */
-		_search: function(params) {
+		_search: function (params) {
 			var aDeferred = jQuery.Deferred();
 			if (typeof params === 'undefined') {
 				params = {};
@@ -82,16 +82,18 @@ jQuery.Class(
 			}
 			params.operator = CONFIG.globalSearchDefaultOperator;
 			if (this.mainContainer) {
-				let operatorElement = this.mainContainer.find('.js-global-search-operator .active[data-operator]');
+				let operatorElement = this.mainContainer.find(
+					'.js-global-search-operator .active[data-operator]'
+				);
 				if (operatorElement.length && operatorElement.data('operator') != '') {
 					params.operator = operatorElement.data('operator');
 				}
 			}
 			AppConnector.request(params)
-				.done(function(data) {
+				.done(function (data) {
 					aDeferred.resolve(data);
 				})
-				.fail(function(error, err) {
+				.fail(function (error, err) {
 					aDeferred.reject(error);
 				});
 			return aDeferred.promise();
@@ -99,7 +101,7 @@ jQuery.Class(
 		/**
 		 * Helper function whicn invokes search
 		 */
-		search: function(value) {
+		search: function (value) {
 			var searchModule = this.getCurrentSearchModule();
 			var params = {};
 			params.value = value;
@@ -113,9 +115,9 @@ jQuery.Class(
 		/**
 		 * Function which shows the search results
 		 */
-		showSearchResults: function(data) {
+		showSearchResults: function (data) {
 			var aDeferred = jQuery.Deferred();
-			var postLoad = function(data) {
+			var postLoad = function (data) {
 				aDeferred.resolve(data);
 			};
 			var params = {};

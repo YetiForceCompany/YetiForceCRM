@@ -16,7 +16,7 @@ class Settings_Mail_MassSend_Action extends Vtiger_Mass_Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin()) {
@@ -29,7 +29,7 @@ class Settings_Mail_MassSend_Action extends Vtiger_Mass_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordIds = $this->getRecordsListFromRequest($request);
 		$db = \App\Db::getInstance('admin');

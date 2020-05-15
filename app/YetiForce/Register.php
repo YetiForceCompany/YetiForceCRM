@@ -381,7 +381,6 @@ class Register
 	 */
 	private static function getProvider(): string
 	{
-		$env = getenv();
-		return $env['PROVIDER'] ?? '';
+		return getenv('PROVIDER') ?: getenv('provider') ?: '';
 	}
 }

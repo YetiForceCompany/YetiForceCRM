@@ -18,7 +18,11 @@
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 	{assign var=TABINDEX value=$FIELD_MODEL->getTabIndex()}
 	{assign var=IS_EDITABLE_READ_ONLY value=$FIELD_MODEL->isEditableReadOnly()}
-	<div class="invUitype_{$MODULE}_{$FIELD_NAME}">
+	{assign var=PARAMS value=$FIELD_MODEL->getFieldParams()}
+	<div class="uitype_{$MODULE}_{$FIELD_NAME}">
+		{if isset($PARAMS['searchParams'])}
+			<input name="searchParams" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['searchParams'])}"/>
+		{/if}
 		{if {$REFERENCE_LIST_COUNT} eq 1}
 			<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}" value="{reset($REFERENCE_LIST)}"/>
 		{/if}

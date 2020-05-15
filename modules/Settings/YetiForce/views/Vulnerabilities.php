@@ -14,7 +14,7 @@ class Settings_YetiForce_Vulnerabilities_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('VULNERABILITIES', (new \App\Security\Dependency())->securityChecker());

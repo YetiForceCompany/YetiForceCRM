@@ -16,7 +16,7 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
@@ -27,7 +27,7 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$data = [];
 		$sourceModule = $request->getByType('srcModule');

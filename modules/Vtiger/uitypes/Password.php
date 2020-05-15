@@ -19,7 +19,7 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		$res = Settings_Password_Record_Model::checkPassword($value);
-		if ($res !== false) {
+		if (false !== $res) {
 			throw new \App\Exceptions\Security($res, 406);
 		}
 		$this->validate[$value] = true;

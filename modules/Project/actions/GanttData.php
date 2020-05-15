@@ -16,7 +16,7 @@ class Project_GanttData_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
@@ -28,7 +28,7 @@ class Project_GanttData_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$gantt = new Project_Gantt_Model();
 		if (!$request->has('projectId')) {

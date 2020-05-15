@@ -6,9 +6,9 @@
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 window.quasarConfig = {
-  // notify: {...},
-  // loading: {...},
-  supportIE: true,
-  loadingBar: { skipHijack: true } // settings for LoadingBar Quasar plugin
-  // ..and many more
+	// notify: {...},
+	// loading: {...},
+	supportIE: true,
+	loadingBar: { skipHijack: true } // settings for LoadingBar Quasar plugin
+	// ..and many more
 };

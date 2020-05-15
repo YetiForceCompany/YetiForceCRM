@@ -31,7 +31,7 @@ class Settings_BusinessHours_ListView_Model extends Settings_Vtiger_ListView_Mod
 		$listQuery = $this->getBasicListQuery();
 		$orderBy = $this->getForSql('orderby');
 		if (!empty($orderBy)) {
-			if ($this->getForSql('sortorder') === 'DESC') {
+			if ('DESC' === $this->getForSql('sortorder')) {
 				$listQuery->orderBy([$orderBy => SORT_DESC]);
 			} else {
 				$listQuery->orderBy([$orderBy => SORT_ASC]);

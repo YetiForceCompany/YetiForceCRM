@@ -73,7 +73,7 @@ class DataSetRegister extends Vtiger_CRMEntity
 		// Format: Field Label => fieldname
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
-		'FL_STATUS' =>'datasetregister_status',
+		'FL_STATUS' => 'datasetregister_status',
 		'FL_ADDED_TO_REGISTER' => 'added_to_register',
 		'FL_REMOVED_FROM_REGISTER' => 'removed_from_register',
 		'FL_DATA_SUBMITTED' => 'data_submitted'

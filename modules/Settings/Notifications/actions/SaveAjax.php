@@ -26,13 +26,13 @@ class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Actio
 	 *
 	 * @param \App\Request $request
 	 */
-	public function addOrRemoveMembers(\App\Request $request)
+	public function addOrRemoveMembers(App\Request $request)
 	{
 		$module = $request->getInteger('srcModule');
 		$members = $request->getArray('members', 'Text');
 		$state = $request->getBoolean('isToAdd') ? 1 : 0;
 		if (!empty($members)) {
-			if (!is_array($members)) {
+			if (!\is_array($members)) {
 				$members = [$members];
 			}
 			$watchdogModel = Vtiger_Watchdog_Model::getInstance($module);
@@ -51,13 +51,13 @@ class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Actio
 	 *
 	 * @param \App\Request $request
 	 */
-	public function lock(\App\Request $request)
+	public function lock(App\Request $request)
 	{
 		$module = $request->getInteger('srcModule');
 		$members = $request->getArray('members', 'Text');
 		$lock = $request->getBoolean('lock') ? 1 : 0;
 		if (!empty($members)) {
-			if (!is_array($members)) {
+			if (!\is_array($members)) {
 				$members = [$members];
 			}
 			$watchdogModel = Vtiger_Watchdog_Model::getInstance($module);
@@ -76,7 +76,7 @@ class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Actio
 	 *
 	 * @param \App\Request $request
 	 */
-	public function exceptions(\App\Request $request)
+	public function exceptions(App\Request $request)
 	{
 		$module = $request->getInteger('srcModule');
 		$member = $request->getByType('member', 'Text');

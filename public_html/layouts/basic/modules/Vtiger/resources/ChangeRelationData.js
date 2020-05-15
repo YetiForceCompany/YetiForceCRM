@@ -5,7 +5,7 @@ $.Class(
 	{},
 	{
 		registerEvents(container) {
-			container.find('.js-modal__save').on('click', e => {
+			container.find('.js-modal__save').on('click', (e) => {
 				let progress = $.progressIndicator({
 					position: 'html',
 					blockInfo: {
@@ -14,7 +14,7 @@ $.Class(
 				});
 				let params = container.find('form').serializeFormData();
 				AppConnector.request(params)
-					.done(function(data) {
+					.done(function (data) {
 						progress.progressIndicator({
 							mode: 'hide'
 						});
@@ -38,7 +38,7 @@ $.Class(
 						}
 						Vtiger_Helper_Js.showPnotify(params);
 					})
-					.fail(function(textStatus, errorThrown) {});
+					.fail(function (textStatus, errorThrown) {});
 			});
 		}
 	}

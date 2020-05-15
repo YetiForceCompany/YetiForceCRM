@@ -15,7 +15,7 @@ class Competition_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$this->exposeMethod('getHierarchyCount');
 	}
 
-	public function getHierarchyCount(\App\Request $request)
+	public function getHierarchyCount(App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$recordId = $request->getInteger('record');
@@ -25,7 +25,7 @@ class Competition_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$focus = CRMEntity::getInstance($sourceModule);
 		$hierarchy = $focus->getHierarchy($recordId);
 		$response = new Vtiger_Response();
-		$response->setResult(count($hierarchy['entries']) - 1);
+		$response->setResult(\count($hierarchy['entries']) - 1);
 		$response->emit();
 	}
 }

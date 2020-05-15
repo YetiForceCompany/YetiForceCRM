@@ -22,7 +22,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 		$permission = $userPrivilegesModel->hasModulePermission('OSSMail');
 		if ($permission && App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')) {
 			$recordId = $recordModel->getId();
-			if ($currentUserModel->get('internal_mailer') == 1) {
+			if (1 == $currentUserModel->get('internal_mailer')) {
 				$config = OSSMail_Module_Model::getComposeParameters();
 				$url = OSSMail_Module_Model::getComposeUrl();
 
@@ -95,10 +95,10 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 			}
 		}
 		$linkModelDetailViewList = $linkModelList['DETAIL_VIEW_BASIC'];
-		$countOfList = count($linkModelDetailViewList);
+		$countOfList = \count($linkModelDetailViewList);
 		for ($i = 0; $i < $countOfList; ++$i) {
 			$linkModel = $linkModelDetailViewList[$i];
-			if ($linkModel->get('linklabel') == 'LBL_DUPLICATE') {
+			if ('LBL_DUPLICATE' == $linkModel->get('linklabel')) {
 				unset($linkModelList['DETAIL_VIEW_BASIC'][$i]);
 				break;
 			}

@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -23,6 +24,7 @@ class Vtiger_ShortURL_Helper
 	 * 			'key2' => 'value2'
 	 * 		)
 	 * 	))
+	 * @param array $options
 	 */
 	public static function generateURL(array $options)
 	{
@@ -81,7 +83,7 @@ class Vtiger_ShortURL_Helper
 			if ($record['onetime']) {
 				App\Db::getInstance()->createCommand()->delete('vtiger_shorturls', ['id' => $record['id']])->execute();
 			}
-			call_user_func([$handler, $handlerFn], $handlerData);
+			\call_user_func([$handler, $handlerFn], $handlerData);
 		}
 		if (0 === $dataReader->count()) {
 			echo '<h3>Link you have used is invalid or has expired. .</h3>';

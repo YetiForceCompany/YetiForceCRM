@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Users-PasswordModal -->
+	<!-- tpl-Users-Modals-PasswordModal -->
 	<form name="PasswordUsersForm" class="form-horizontal sendByAjax validateForm" action="index.php" method="post" autocomplete="off">
 		<input type="hidden" name="module" value="{$MODULE_NAME}" />
 		<input type="hidden" name="action" value="Password" />
@@ -30,7 +30,7 @@
 						<label class="col-form-label col-sm-4">{\App\Language::translate('LBL_OLD_PASSWORD', $MODULE_NAME)}</label>
 						<div class="controls col-sm-6 input-group">
 							<input type="password" name="oldPassword" class="form-control" data-validation-engine="validate[required]" autocomplete="off" />
-							<span class="input-group-btn">
+							<span class="input-group-append">
 								<button class="btn btn-light js-popover-tooltip" data-content="{\App\Language::translate('LBL_SHOW_PASSWORD',$MODULE)}" type="button" onmousedown="oldPassword.type = 'text';" onmouseup="oldPassword.type = 'password';" onmouseout="oldPassword.type = 'password';" data-js="popover">
 									<span class="fas fa-eye"></span>
 								</button>
@@ -41,8 +41,8 @@
 				<div class="form-group">
 					<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_NEW_PASSWORD', $MODULE_NAME)}</label>
 					<div class="col-sm-6 controls input-group">
-						<input type="password" name="password" id="passwordUsersFormPassword" title="{\App\Language::translate('LBL_NEW_PASSWORD', $MODULE_NAME)}" class="form-control" data-validation-engine="validate[required]]" autocomplete="off" />
-						<span class="input-group-btn">
+						<input type="password" name="password" id="passwordUsersFormPassword" title="{\App\Language::translate('LBL_NEW_PASSWORD', $MODULE_NAME)}" class="form-control" data-validation-engine="validate[required]" autocomplete="off" />
+						<span class="input-group-append">
 							<button class="btn btn-light js-popover-tooltip js-validate-password" data-content="{\App\Language::translate('LBL_VALIDATE_PASSWORD',$MODULE)}" type="button" data-field="password" data-js="popover|click">
 								<span class="mdi mdi-lock-question"></span>
 							</button>
@@ -56,7 +56,7 @@
 					<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_CONFIRM_PASSWORD', $MODULE_NAME)}</label>
 					<div class="col-sm-6 controls input-group">
 						<input type="password" name="confirmPassword" id="confirmPasswordUsersFormPassword" title="{\App\Language::translate('LBL_CONFIRM_PASSWORD', $MODULE_NAME)}" class="form-control" data-validation-engine="validate[required,equals[passwordUsersFormPassword]]" autocomplete="off" />
-						<span class="input-group-btn">
+						<span class="input-group-append">
 							<button class="btn btn-light js-popover-tooltip" data-content="{\App\Language::translate('LBL_SHOW_PASSWORD',$MODULE)}" type="button" onmousedown="confirmPassword.type = 'text';" onmouseup="confirmPassword.type = 'password';" onmouseout="confirmPassword.type = 'password';" data-js="popover">
 								<span class="fas fa-eye"></span>
 							</button>
@@ -77,5 +77,5 @@
 				</div>
 			{/if}
 		</div>
-	<!-- /tpl-Users-PasswordModal -->
+	<!-- /tpl-Users-Modals-PasswordModal -->
 {/strip}

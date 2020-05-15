@@ -15,25 +15,25 @@ Vtiger_Edit_Js(
 		INTERNAL_FILE_LOCATION_TYPE: 'I',
 		EXTERNAL_FILE_LOCATION_TYPE: 'E',
 
-		getMaxiumFileUploadingSize: function(container) {
+		getMaxiumFileUploadingSize: function (container) {
 			return container.find('.maxUploadSize').data('value');
 		},
 
-		isFileLocationInternalType: function(fileLocationElement) {
+		isFileLocationInternalType: function (fileLocationElement) {
 			if (fileLocationElement.val() == this.INTERNAL_FILE_LOCATION_TYPE) {
 				return true;
 			}
 			return false;
 		},
 
-		isFileLocationExternalType: function(fileLocationElement) {
+		isFileLocationExternalType: function (fileLocationElement) {
 			if (fileLocationElement.val() == this.EXTERNAL_FILE_LOCATION_TYPE) {
 				return true;
 			}
 			return false;
 		},
 
-		convertFileSizeInToDisplayFormat: function(fileSizeInBytes) {
+		convertFileSizeInToDisplayFormat: function (fileSizeInBytes) {
 			var i = -1;
 			var byteUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
 			do {
@@ -44,9 +44,9 @@ Vtiger_Edit_Js(
 			return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
 		},
 
-		registerFileLocationTypeChangeEvent: function(container) {
+		registerFileLocationTypeChangeEvent: function (container) {
 			var thisInstance = this;
-			container.on('change', 'select[name="filelocationtype"]', function(e) {
+			container.on('change', 'select[name="filelocationtype"]', function (e) {
 				var fileLocationTypeElement = container.find('[name="filelocationtype"]');
 				var fileNameElement = container.find('[name="filename"]');
 				var newFileNameElement;
@@ -60,7 +60,11 @@ Vtiger_Edit_Js(
 				for (var index = 0; index < oldElementAttributeList.length; index++) {
 					var attributeObject = oldElementAttributeList[index];
 					//Dont update the type attribute
-					if (attributeObject.name == 'type' || attributeObject.name == 'value' || attributeObject.name == 'class') {
+					if (
+						attributeObject.name == 'type' ||
+						attributeObject.name == 'value' ||
+						attributeObject.name == 'class'
+					) {
 						continue;
 					}
 					var value = attributeObject.value;
@@ -89,9 +93,9 @@ Vtiger_Edit_Js(
 			});
 		},
 
-		registerFileChangeEvent: function(container) {
+		registerFileChangeEvent: function (container) {
 			var thisInstance = this;
-			container.on('change', 'input[name="filename"]', function(e) {
+			container.on('change', 'input[name="filename"]', function (e) {
 				if (e.target.type === 'text') {
 					return false;
 				}
@@ -100,7 +104,9 @@ Vtiger_Edit_Js(
 				if (element.attr('type') !== 'file') {
 					return;
 				}
-				let uploadFileSizeHolder = element.closest('.fileUploadContainer').find('.uploadedFileSize');
+				let uploadFileSizeHolder = element
+					.closest('.fileUploadContainer')
+					.find('.uploadedFileSize');
 				let fileSize = element.get(0).files[0].size;
 				if (fileSize > thisInstance.getMaxiumFileUploadingSize(container)) {
 					app.showAlert(app.vtranslate('JS_EXCEEDS_MAX_UPLOAD_SIZE'));
@@ -117,7 +123,7 @@ Vtiger_Edit_Js(
 		 * @param accepts form element as parameter
 		 * @return returns deferred promise
 		 */
-		quickCreateSave: function(form) {
+		quickCreateSave: function (form) {
 			var thisInstance = this;
 			var aDeferred = jQuery.Deferred();
 			//Using formData object to send data to server as a multipart/form-data form submit
@@ -131,21 +137,21 @@ Vtiger_Edit_Js(
 				contentType: false
 			};
 			AppConnector.request(params)
-				.done(function(data) {
+				.done(function (data) {
 					aDeferred.resolve(data);
 				})
-				.fail(function(textStatus, errorThrown) {
+				.fail(function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
 				});
 			return aDeferred.promise();
 		},
-		registerBasicEvents: function(container) {
+		registerBasicEvents: function (container) {
 			this._super(container);
 			this.registerFileLocationTypeChangeEvent(container);
 			this.registerFileChangeEvent(container);
 		},
 
-		registerEvents: function() {
+		registerEvents: function () {
 			this._super();
 		}
 	}

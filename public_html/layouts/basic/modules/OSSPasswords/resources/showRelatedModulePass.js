@@ -2,7 +2,7 @@
 // show/hide password
 'use strict';
 var clipBoardInstances = [];
-$('.show_pass').on('click', function(e) {
+$('.show_pass').on('click', function (e) {
 	let btn = $(this);
 	let record = btn.data('id');
 	let iconElement = btn.find('span');
@@ -12,12 +12,16 @@ $('.show_pass').on('click', function(e) {
 		class="copy_pass${record} btn btn-light btn-sm mr-2 js-popover-tooltip" data-content="${text}" data-js="popover"><span class="fas fa-download"></span></button>`);
 	let element = $('[id="pass_' + record + '"]');
 	let passVal = element.html();
-	let showPassText = btn.data('titleShow') ? btn.data('titleShow') : app.vtranslate('LBL_ShowPassword');
-	let hidePassText = btn.data('titleHide') ? btn.data('titleHide') : app.vtranslate('LBL_HidePassword');
+	let showPassText = btn.data('titleShow')
+		? btn.data('titleShow')
+		: app.vtranslate('LBL_ShowPassword');
+	let hidePassText = btn.data('titleHide')
+		? btn.data('titleHide')
+		: app.vtranslate('LBL_HidePassword');
 
 	if (clipBoardInstances[copyKey] === undefined) {
 		let clipboard = new ClipboardJS(copyKey, {
-			text: function(trigger) {
+			text: function (trigger) {
 				Vtiger_Helper_Js.showPnotify({
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 					type: 'success'
@@ -39,12 +43,12 @@ $('.show_pass').on('click', function(e) {
 				enabled: true
 			}
 		});
-		AppConnector.request(params).done(function(data) {
+		AppConnector.request(params).done(function (data) {
 			var response = data['result'];
 			if (response['success']) {
 				element.text(response['password']);
 				// change button title to 'Hide Password'
-				btn.on('show.bs.popover', function() {
+				btn.on('show.bs.popover', function () {
 					this.dataset.content = hidePassText;
 				});
 				iconElement.removeClass('adminIcon-passwords-encryption').addClass('fas fa-lock');
@@ -56,7 +60,7 @@ $('.show_pass').on('click', function(e) {
 	} else {
 		element.html('**********');
 		// change button title to 'Show Password'
-		btn.on('show.bs.popover', function() {
+		btn.on('show.bs.popover', function () {
 			this.dataset.content = showPassText;
 		});
 		app.showPopoverElementView(element);

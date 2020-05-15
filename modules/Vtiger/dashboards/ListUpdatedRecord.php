@@ -13,7 +13,7 @@ Vtiger_Loader::includeOnce('modules.Vtiger.helpers.ListUpdatedRecord');
 
 class Vtiger_ListUpdatedRecord_Dashboard extends Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);

@@ -16,13 +16,13 @@ class ServiceContracts_ServiceContractsHandler_Handler
 	{
 		$moduleName = $eventHandler->getModuleName();
 		// Update Used Units for the Service Contract, everytime the status of a ticket related to the Service Contract changes
-		if ($moduleName === 'HelpDesk' && \App\Request::_get('return_module') !== 'ServiceContracts') {
+		if ('HelpDesk' === $moduleName && 'ServiceContracts' !== \App\Request::_get('return_module')) {
 			$recordModel = $eventHandler->getRecordModel();
 			$ticketId = $recordModel->getId();
 			$status = $recordModel->get('ticketstatus');
 			$oldStatus = $recordModel->getPreviousValue('ticketstatus');
-			if ($status != $oldStatus && ($status === 'Closed' || $oldStatus === 'Closed')) {
-				if ($oldStatus === 'Closed') {
+			if ($status != $oldStatus && ('Closed' === $status || 'Closed' === $oldStatus)) {
+				if ('Closed' === $oldStatus) {
 					$op = '-';
 				} else {
 					$op = '+';
@@ -49,7 +49,7 @@ class ServiceContracts_ServiceContractsHandler_Handler
 					}
 
 					$usedUnits = $scFocus->computeUsedUnits($recordModel->getData());
-					if ($op === '-') {
+					if ('-' === $op) {
 						$totalUnits = $prevUsedUnits - $usedUnits;
 					} else {
 						$totalUnits = $prevUsedUnits + $usedUnits;
@@ -61,7 +61,7 @@ class ServiceContracts_ServiceContractsHandler_Handler
 			}
 		}
 		// Update the Planned Duration, Actual Duration, End Date and Progress based on other field values.
-		if ($moduleName === 'ServiceContracts') {
+		if ('ServiceContracts' === $moduleName) {
 			$recordModel = $eventHandler->getRecordModel();
 			$contractId = $recordModel->getId();
 			$scFocus = CRMEntity::getInstance('ServiceContracts');

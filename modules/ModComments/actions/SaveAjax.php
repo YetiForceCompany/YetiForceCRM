@@ -14,7 +14,7 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		//Do not allow ajax edit of existing comments
 		if (!$request->isEmpty('record', true)) {
@@ -29,7 +29,7 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
 		$fieldModelList = $recordModel->getModule()->getFields();

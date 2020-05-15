@@ -10,7 +10,7 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-namespace Api\ManageConsents\BaseModule;
+namespace Api\ManageConsents\Approvals;
 
 use OpenApi\Annotations as OA;
 

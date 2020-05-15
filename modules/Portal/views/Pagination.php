@@ -14,7 +14,7 @@ class Portal_Pagination_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('getPagination');
 	}
 
-	public function getPagination(\App\Request $request)
+	public function getPagination(App\Request $request)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
@@ -24,7 +24,7 @@ class Portal_Pagination_View extends Vtiger_IndexAjax_View
 		$sortOrder = $request->getForSql('sortorder');
 		$searchValue = $request->getForSql('search_value');
 
-		if ($sortOrder == 'ASC') {
+		if ('ASC' == $sortOrder) {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'fas fa-chevron-down';
 		} else {
@@ -66,7 +66,7 @@ class Portal_Pagination_View extends Vtiger_IndexAjax_View
 		$viewer->assign('SORT_ORDER', $sortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
-		$viewer->assign('RECORD_COUNT', count($listviewEntries));
+		$viewer->assign('RECORD_COUNT', \count($listviewEntries));
 		$viewer->assign('CURRENT_PAGE', $pageNumber);
 		$viewer->assign('PAGING_INFO', $pagingInfo);
 		echo $viewer->view('Pagination.tpl', $moduleName, true);

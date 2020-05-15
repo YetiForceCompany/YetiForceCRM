@@ -9,8 +9,8 @@
 'use strict';
 
 var Settings_Picklist_Js = {
-	registerModuleChangeEvent: function() {
-		jQuery('#pickListModules').on('change', function(e) {
+	registerModuleChangeEvent: function () {
+		jQuery('#pickListModules').on('change', function (e) {
 			var selectedModule = jQuery(e.currentTarget).val();
 			if (selectedModule.length <= 0) {
 				Settings_Vtiger_Index_Js.showMessage({
@@ -32,7 +32,7 @@ var Settings_Picklist_Js = {
 					enabled: true
 				}
 			});
-			AppConnector.request(params).done(function(data) {
+			AppConnector.request(params).done(function (data) {
 				jQuery('#modulePickListContainer').html(data);
 				progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				App.Fields.Picklist.changeSelectElementView(jQuery('#modulePickListContainer'));
@@ -42,8 +42,8 @@ var Settings_Picklist_Js = {
 		});
 	},
 
-	registerModulePickListChangeEvent: function() {
-		jQuery('#modulePickList').on('change', function(e) {
+	registerModulePickListChangeEvent: function () {
+		jQuery('#modulePickList').on('change', function (e) {
 			var params = {
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
@@ -58,7 +58,7 @@ var Settings_Picklist_Js = {
 					enabled: true
 				}
 			});
-			AppConnector.request(params).done(function(data) {
+			AppConnector.request(params).done(function (data) {
 				jQuery('#modulePickListValuesContainer').html(data);
 				App.Fields.Picklist.showSelect2ElementView(jQuery('#rolesList'));
 				Settings_Picklist_Js.registerItemActions();
@@ -67,8 +67,8 @@ var Settings_Picklist_Js = {
 		});
 	},
 
-	registerAddItemEvent: function() {
-		jQuery('#addItem').on('click', function(e) {
+	registerAddItemEvent: function () {
+		jQuery('#addItem').on('click', function (e) {
 			var data = jQuery('#createViewContents').find('.modal');
 			var clonedCreateView = data
 				.clone(true, true)
@@ -76,12 +76,12 @@ var Settings_Picklist_Js = {
 				.addClass('createView');
 			clonedCreateView.find('.rolesList').addClass('select2');
 			clonedCreateView.find('.automation-list').addClass('select2');
-			var callBackFunction = function(data) {
+			var callBackFunction = function (data) {
 				jQuery('[name="addItemForm"]', data).validationEngine();
 				Settings_Picklist_Js.registerAddItemSaveEvent(data);
 				Settings_Picklist_Js.regiserSelectRolesEvent(data);
 			};
-			app.showModalWindow(clonedCreateView, function(data) {
+			app.showModalWindow(clonedCreateView, function (data) {
 				if (typeof callBackFunction == 'function') {
 					callBackFunction(data);
 				}
@@ -89,18 +89,14 @@ var Settings_Picklist_Js = {
 		});
 	},
 
-	registerAssingValueToRuleEvent: function() {
-		jQuery('#assignValue').on('click', function() {
+	registerAssingValueToRuleEvent: function () {
+		jQuery('#assignValue').on('click', function () {
 			var pickListValuesTable = jQuery('#pickListValuesTable');
 			var selectedListItem = jQuery('.selectedListItem', pickListValuesTable);
 			if (selectedListItem.length > 0) {
 				var selectedValues = [];
-				jQuery.each(selectedListItem, function(i, element) {
-					selectedValues.push(
-						jQuery(element)
-							.closest('tr')
-							.data('key')
-					);
+				jQuery.each(selectedListItem, function (i, element) {
+					selectedValues.push(jQuery(element).closest('tr').data('key'));
 				});
 			}
 
@@ -112,26 +108,37 @@ var Settings_Picklist_Js = {
 				mode: 'showAssignValueToRoleView',
 				pickListFieldId: jQuery('#modulePickList').val()
 			};
-			AppConnector.request(params).done(function(data) {
+			AppConnector.request(params).done(function (data) {
 				app.showModalWindow(data);
 				jQuery('[name="addItemForm"]', jQuery(data)).validationEngine();
 				Settings_Picklist_Js.registerAssignValueToRoleSaveEvent(jQuery(data));
 				if (selectedListItem.length > 0) {
-					jQuery('[name="assign_values[]"]', jQuery('#assignValueToRoleForm')).select2('val', selectedValues);
+					jQuery('[name="assign_values[]"]', jQuery('#assignValueToRoleForm')).select2(
+						'val',
+						selectedValues
+					);
 				}
 			});
 		});
 	},
 
-	registerAssignValueToRoleSaveEvent: function(data) {
-		jQuery('#assignValueToRoleForm').on('submit', function(e) {
+	registerAssignValueToRoleSaveEvent: function (data) {
+		jQuery('#assignValueToRoleForm').on('submit', function (e) {
 			var form = jQuery(e.currentTarget);
 
 			var assignValuesSelectElement = jQuery('[name="assign_values[]"]', form);
 			var assignValuesSelect2Element = app.getSelect2ElementFromSelect(assignValuesSelectElement);
-			var assignValueResult = Vtiger_MultiSelect_Validator_Js.invokeValidation(assignValuesSelectElement);
+			var assignValueResult = Vtiger_MultiSelect_Validator_Js.invokeValidation(
+				assignValuesSelectElement
+			);
 			if (assignValueResult != true) {
-				assignValuesSelect2Element.validationEngine('showPrompt', assignValueResult, 'error', 'topLeft', true);
+				assignValuesSelect2Element.validationEngine(
+					'showPrompt',
+					assignValueResult,
+					'error',
+					'topLeft',
+					true
+				);
 			} else {
 				assignValuesSelect2Element.validationEngine('hide');
 			}
@@ -152,7 +159,7 @@ var Settings_Picklist_Js = {
 				form.find('[name="saveButton"]').attr('disabled', 'disabled');
 			}
 			var params = jQuery(e.currentTarget).serializeFormData();
-			AppConnector.request(params).done(function(data) {
+			AppConnector.request(params).done(function (data) {
 				if (typeof data.result !== 'undefined') {
 					app.hideModalWindow();
 					Settings_Vtiger_Index_Js.showMessage({
@@ -165,8 +172,8 @@ var Settings_Picklist_Js = {
 		});
 	},
 
-	registerEnablePickListValueClickEvent: function() {
-		jQuery('#listViewContents').on('click', '.assignToRolePickListValue', function(e) {
+	registerEnablePickListValueClickEvent: function () {
+		jQuery('#listViewContents').on('click', '.assignToRolePickListValue', function (e) {
 			jQuery('#saveOrder').removeAttr('disabled');
 
 			var pickListVaue = jQuery(e.currentTarget);
@@ -180,8 +187,8 @@ var Settings_Picklist_Js = {
 		});
 	},
 
-	registerenableOrDisableListSaveEvent: function() {
-		jQuery('#saveOrder').on('click', function(e) {
+	registerenableOrDisableListSaveEvent: function () {
+		jQuery('#saveOrder').on('click', function (e) {
 			var progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
@@ -192,7 +199,7 @@ var Settings_Picklist_Js = {
 			var pickListValues = jQuery('.assignToRolePickListValue');
 			var disabledValues = [];
 			var enabledValues = [];
-			jQuery.each(pickListValues, function(i, element) {
+			jQuery.each(pickListValues, function (i, element) {
 				var currentValue = jQuery(element);
 				if (currentValue.hasClass('selectedCell')) {
 					enabledValues.push(currentValue.data('id'));
@@ -210,7 +217,7 @@ var Settings_Picklist_Js = {
 				picklistName: jQuery('[name="picklistName"]').val(),
 				rolesSelected: jQuery('#rolesList').val()
 			};
-			AppConnector.request(params).done(function(data) {
+			AppConnector.request(params).done(function (data) {
 				if (typeof data.result !== 'undefined') {
 					jQuery(e.currentTarget).attr('disabled', 'disabled');
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -223,29 +230,25 @@ var Settings_Picklist_Js = {
 		});
 	},
 
-	regiserSelectRolesEvent: function(data) {
-		data.find('[name="rolesSelected[]"]').on('change', function(e) {
+	regiserSelectRolesEvent: function (data) {
+		data.find('[name="rolesSelected[]"]').on('change', function (e) {
 			var rolesSelectElement = jQuery(e.currentTarget);
 			var selectedValue = rolesSelectElement.val();
 			if (jQuery.inArray('all', selectedValue) != -1) {
 				rolesSelectElement.select2('val', '');
 				rolesSelectElement.select2('val', 'all');
 				rolesSelectElement.select2('close');
-				rolesSelectElement
-					.find('option')
-					.not(':first')
-					.attr('disabled', 'disabled');
+				rolesSelectElement.find('option').not(':first').attr('disabled', 'disabled');
 				data
 					.find(jQuery('.modal-body'))
 					.append(
-						'<div class="alert alert-info textAlignCenter">' + app.vtranslate('JS_ALL_ROLES_SELECTED') + '</div>'
+						'<div class="alert alert-info textAlignCenter">' +
+							app.vtranslate('JS_ALL_ROLES_SELECTED') +
+							'</div>'
 					);
 			} else {
 				rolesSelectElement.find('option').removeAttr('disabled', 'disabled');
-				data
-					.find('.modal-body')
-					.find('.alert')
-					.remove();
+				data.find('.modal-body').find('.alert').remove();
 			}
 		});
 	},
@@ -253,8 +256,8 @@ var Settings_Picklist_Js = {
 	/**
 	 * Register rename item event
 	 */
-	registerRenameItemEvent: function() {
-		$('#renameItem').on('click', e => {
+	registerRenameItemEvent: function () {
+		$('#renameItem').on('click', (e) => {
 			const selectedListItems = this.getSelectedItems();
 			if (selectedListItems.length < 1) {
 				Vtiger_Helper_Js.showPnotify({
@@ -279,7 +282,7 @@ var Settings_Picklist_Js = {
 					mode: 'showEditView',
 					pickListFieldId: $('#modulePickList').val(),
 					fieldValueId: selectedListItems[0].keyId
-				}).done(data => {
+				}).done((data) => {
 					app.showModalWindow(data);
 					const form = $('#renameItemForm');
 					this.registerScrollForNonEditablePicklistValues(form);
@@ -293,13 +296,11 @@ var Settings_Picklist_Js = {
 	/**
 	 * Function to register the scroll bar for NonEditable Picklist Values
 	 */
-	registerScrollForNonEditablePicklistValues: function(container) {
-		jQuery(container)
-			.find('.nonEditablePicklistValues')
-			.slimScroll({
-				height: '70px',
-				size: '6px'
-			});
+	registerScrollForNonEditablePicklistValues: function (container) {
+		jQuery(container).find('.nonEditablePicklistValues').slimScroll({
+			height: '70px',
+			size: '6px'
+		});
 	},
 
 	/**
@@ -311,14 +312,10 @@ var Settings_Picklist_Js = {
 		const pickListValuesTable = $('#pickListValuesTable');
 		const selectedListItem = $('.selectedListItem', pickListValuesTable);
 		const selectedListItemsArray = [];
-		$.each(selectedListItem, function(index, element) {
+		$.each(selectedListItem, function (index, element) {
 			selectedListItemsArray.push({
-				key: $(element)
-					.closest('tr')
-					.data('key'),
-				keyId: $(element)
-					.closest('tr')
-					.data('key-id')
+				key: $(element).closest('tr').data('key'),
+				keyId: $(element).closest('tr').data('key-id')
 			});
 		});
 		return selectedListItemsArray;
@@ -328,7 +325,7 @@ var Settings_Picklist_Js = {
 	 * Register delete item event
 	 */
 	registerDeleteItemEvent() {
-		$('#deleteItem').on('click', e => {
+		$('#deleteItem').on('click', (e) => {
 			const selectedListItems = this.getSelectedItems();
 			const pickListValues = $('.pickListValue', pickListValuesTable);
 			if (pickListValues.length === selectedListItems.length) {
@@ -345,27 +342,29 @@ var Settings_Picklist_Js = {
 				view: 'IndexAjax',
 				mode: 'showDeleteView',
 				pickListFieldId: $('#modulePickList').val(),
-				fieldValue: JSON.stringify(selectedListItems.map(item => item.key))
+				fieldValue: JSON.stringify(selectedListItems.map((item) => item.key))
 			});
 		});
 	},
 
-	registerDeleteOptionEvent: function() {
+	registerDeleteOptionEvent: function () {
 		let replaceValueElement = jQuery('#replaceValue');
-		jQuery('[name="delete_value[]"]').on('select2:unselect', function(e) {
+		jQuery('[name="delete_value[]"]').on('select2:unselect', function (e) {
 			let id = e.params.data.id;
 			let text = e.params.data.text;
-			replaceValueElement.append('<option value="' + id + '">' + text + '</option>').trigger('change');
+			replaceValueElement
+				.append('<option value="' + id + '">' + text + '</option>')
+				.trigger('change');
 		});
-		jQuery('[name="delete_value[]"]').on('select2:select', function(e) {
+		jQuery('[name="delete_value[]"]').on('select2:select', function (e) {
 			let id = e.params.data.id;
 			jQuery('#replaceValue option[value="' + id + '"]').remove();
 			replaceValueElement.trigger('change');
 		});
 	},
 
-	registerChangeRoleEvent: function() {
-		jQuery('#rolesList').on('change', function(e) {
+	registerChangeRoleEvent: function () {
+		jQuery('#rolesList').on('change', function (e) {
 			var progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
@@ -383,7 +382,7 @@ var Settings_Picklist_Js = {
 				pickListFieldId: jQuery('#modulePickList').val(),
 				sourceModule: jQuery('input[name="source_module"]').val()
 			};
-			AppConnector.request(params).done(function(data) {
+			AppConnector.request(params).done(function (data) {
 				jQuery('#pickListValeByRoleContainer').html(data);
 				Settings_Picklist_Js.registerenableOrDisableListSaveEvent();
 				progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -397,7 +396,7 @@ var Settings_Picklist_Js = {
 	 * @param   {jQuery}  form
 	 */
 	registerProcessStatusItemSaveEvent(form) {
-		form.on('submit', e => {
+		form.on('submit', (e) => {
 			e.preventDefault();
 			let form = $(e.currentTarget);
 			if (form.validationEngine('validate')) {
@@ -412,7 +411,7 @@ var Settings_Picklist_Js = {
 				}
 				const progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
 				AppConnector.request(params)
-					.done(data => {
+					.done((data) => {
 						progress.progressIndicator({ mode: 'hide' });
 						if (typeof data.result !== 'undefined' && data.result === true) {
 							app.hideModalWindow();
@@ -425,7 +424,7 @@ var Settings_Picklist_Js = {
 							form.find('[name="saveButton"]').attr('disabled', false);
 						}
 					})
-					.fail(function(data, err) {
+					.fail(function (data, err) {
 						app.errorLog(data, err);
 						progress.progressIndicator({ mode: 'hide' });
 					});
@@ -437,7 +436,7 @@ var Settings_Picklist_Js = {
 	 * Register process status item event
 	 */
 	registerProcessStatusItemEvent() {
-		$('#processStatusItem').on('click', e => {
+		$('#processStatusItem').on('click', (e) => {
 			const selectedListItems = this.getSelectedItems();
 			if (selectedListItems.length === 0) {
 				Vtiger_Helper_Js.showPnotify({
@@ -462,7 +461,7 @@ var Settings_Picklist_Js = {
 					mode: 'showProcessStatusView',
 					pickListFieldId: $('#modulePickList').val(),
 					fieldValueId: selectedListItems[0].keyId
-				}).done(data => {
+				}).done((data) => {
 					app.showModalWindow(data);
 					let form = $('#processStatusItemForm');
 					this.registerScrollForNonEditablePicklistValues(form);
@@ -473,8 +472,8 @@ var Settings_Picklist_Js = {
 		});
 	},
 
-	registerAddItemSaveEvent: function(container) {
-		container.find('[name="addItemForm"]').on('submit', function(e) {
+	registerAddItemSaveEvent: function (container) {
+		container.find('[name="addItemForm"]').on('submit', function (e) {
 			var form = jQuery(e.currentTarget);
 			var validationResult = form.validationEngine('validate');
 			if (validationResult == true) {
@@ -486,7 +485,7 @@ var Settings_Picklist_Js = {
 				var params = jQuery(e.currentTarget).serializeFormData();
 				var newValue = params.newValue;
 				params.newValue = jQuery.trim(newValue);
-				AppConnector.request(params).done(function(data) {
+				AppConnector.request(params).done(function (data) {
 					data = data.result;
 					if (data) {
 						var newValue = jQuery.trim(jQuery('[name="newValue"]', container).val());
@@ -497,7 +496,9 @@ var Settings_Picklist_Js = {
 							'" />&nbsp;&nbsp;' +
 							newValue +
 							'</td></tr>';
-						var newPickListValueRow = jQuery(newElement).appendTo(jQuery('#pickListValuesTable').find('tbody'));
+						var newPickListValueRow = jQuery(newElement).appendTo(
+							jQuery('#pickListValuesTable').find('tbody')
+						);
 						newPickListValueRow.attr('data-key', newValue);
 						newPickListValueRow.attr('data-key-id', data['id']);
 						app.hideModalWindow();
@@ -524,7 +525,7 @@ var Settings_Picklist_Js = {
 	 * Remene item
 	 */
 	registerRenameItemSaveEvent() {
-		$('#renameItemForm').on('submit', e => {
+		$('#renameItemForm').on('submit', (e) => {
 			e.preventDefault();
 			let form = $(e.currentTarget);
 			if (form.validationEngine('validate')) {
@@ -541,7 +542,7 @@ var Settings_Picklist_Js = {
 				}
 				const progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
 				AppConnector.request(params)
-					.done(data => {
+					.done((data) => {
 						progress.progressIndicator({ mode: 'hide' });
 						if (typeof data.result !== 'undefined') {
 							app.hideModalWindow();
@@ -561,9 +562,7 @@ var Settings_Picklist_Js = {
 										data.result.newValue +
 										'</td></tr>';
 								$('[data-key="' + encodedOldValue + '"]').replaceWith(
-									$(renamedElement)
-										.attr('data-key', newValue)
-										.attr('data-key-id', id)
+									$(renamedElement).attr('data-key', newValue).attr('data-key-id', id)
 								);
 								//update the new item in the hidden picklist values array
 								let pickListValuesEle = $('[name="pickListValues"]'),
@@ -575,7 +574,7 @@ var Settings_Picklist_Js = {
 							form.find('[name="saveButton"]').attr('disabled', false);
 						}
 					})
-					.fail(function(data, err) {
+					.fail(function (data, err) {
 						app.errorLog(data, err);
 						progress.progressIndicator({ mode: 'hide' });
 					});
@@ -583,17 +582,17 @@ var Settings_Picklist_Js = {
 		});
 	},
 
-	showDeleteItemForm: function(params) {
+	showDeleteItemForm: function (params) {
 		var thisInstance = this;
-		AppConnector.request(params).done(function(data) {
-			app.showModalWindow(data, function(data) {
+		AppConnector.request(params).done(function (data) {
+			app.showModalWindow(data, function (data) {
 				if (typeof callBackFunction == 'function') {
 					callBackFunction(data);
 				}
 			});
 		});
 
-		var callBackFunction = function(data) {
+		var callBackFunction = function (data) {
 			var form = data.find('#deleteItemForm');
 			thisInstance.registerScrollForNonEditablePicklistValues(form);
 			var maximumSelectionSize = jQuery('#pickListValuesCount').val() - 1;
@@ -604,7 +603,7 @@ var Settings_Picklist_Js = {
 			Settings_Picklist_Js.registerDeleteOptionEvent();
 
 			var validationParams = app.getvalidationEngineOptions(true);
-			validationParams.onValidationComplete = function(form, valid) {
+			validationParams.onValidationComplete = function (form, valid) {
 				if (valid) {
 					var selectElement = jQuery('[name="delete_value[]"]');
 					var select2Element = app.getSelect2ElementFromSelect(selectElement);
@@ -617,13 +616,13 @@ var Settings_Picklist_Js = {
 						form.find('[name="saveButton"]').attr('disabled', 'disabled');
 					}
 					var deleteValues = jQuery('[name="delete_value[]"]').val();
-					AppConnector.request(form.serializeFormData()).done(function(data) {
+					AppConnector.request(form.serializeFormData()).done(function (data) {
 						if (typeof data.result !== 'undefined') {
 							app.hideModalWindow();
 							//delete the item in the hidden picklist values array
 							var pickListValuesEle = jQuery('[name="pickListValues"]');
 							var pickListValuesArray = JSON.parse(pickListValuesEle.val());
-							jQuery.each(deleteValues, function(i, e) {
+							jQuery.each(deleteValues, function (i, e) {
 								var encodedOldValue = e.replace(/"/g, '\\"');
 								jQuery('[data-key-id="' + encodedOldValue + '"]').remove();
 								delete pickListValuesArray[e];
@@ -643,8 +642,8 @@ var Settings_Picklist_Js = {
 		};
 	},
 
-	registerSelectPickListValueEvent: function() {
-		jQuery('#pickListValuesTable').on('click', '.pickListValue', function(event) {
+	registerSelectPickListValueEvent: function () {
+		jQuery('#pickListValuesTable').on('click', '.pickListValue', function (event) {
 			var currentRow = jQuery(event.currentTarget);
 			var currentRowTd = currentRow.find('td');
 			event.preventDefault();
@@ -652,23 +651,20 @@ var Settings_Picklist_Js = {
 			if (event.ctrlKey) {
 				currentRowTd.toggleClass('selectedListItem');
 			} else {
-				jQuery('.pickListValue')
-					.find('td')
-					.not(currentRowTd)
-					.removeClass('selectedListItem');
+				jQuery('.pickListValue').find('td').not(currentRowTd).removeClass('selectedListItem');
 				currentRowTd.toggleClass('selectedListItem');
 			}
 		});
 	},
 
-	registerPickListValuesSortableEvent: function() {
+	registerPickListValuesSortableEvent: function () {
 		var tbody = jQuery('tbody', jQuery('#pickListValuesTable'));
 		tbody.sortable({
-			helper: function(e, ui) {
+			helper: function (e, ui) {
 				//while dragging helper elements td element will take width as contents width
 				//so we are explicity saying that it has to be same width so that element will not
 				//look like distrubed
-				ui.children().each(function(index, element) {
+				ui.children().each(function (index, element) {
 					element = jQuery(element);
 					element.width(element.width());
 				});
@@ -676,14 +672,14 @@ var Settings_Picklist_Js = {
 			},
 			containment: tbody,
 			revert: true,
-			update: function(e, ui) {
+			update: function (e, ui) {
 				jQuery('#saveSequence').removeAttr('disabled');
 			}
 		});
 	},
 
-	registerSaveSequenceClickEvent: function() {
-		jQuery('#saveSequence').on('click', function(e) {
+	registerSaveSequenceClickEvent: function () {
+		jQuery('#saveSequence').on('click', function (e) {
 			var progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
@@ -693,7 +689,7 @@ var Settings_Picklist_Js = {
 			});
 			var pickListValuesSequenceArray = {};
 			var pickListValues = jQuery('#pickListValuesTable').find('.pickListValue');
-			jQuery.each(pickListValues, function(i, element) {
+			jQuery.each(pickListValues, function (i, element) {
 				pickListValuesSequenceArray[jQuery(element).data('key-id')] = ++i;
 			});
 			var params = {
@@ -704,7 +700,7 @@ var Settings_Picklist_Js = {
 				picklistValues: pickListValuesSequenceArray,
 				picklistName: jQuery('[name="picklistName"]').val()
 			};
-			AppConnector.request(params).done(function(data) {
+			AppConnector.request(params).done(function (data) {
 				if (typeof data.result !== 'undefined') {
 					jQuery('#saveSequence').attr('disabled', 'disabled');
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -717,13 +713,13 @@ var Settings_Picklist_Js = {
 		});
 	},
 
-	registerAssingValueToRoleTabClickEvent: function() {
-		jQuery('#assignedToRoleTab').on('click', function(e) {
+	registerAssingValueToRoleTabClickEvent: function () {
+		jQuery('#assignedToRoleTab').on('click', function (e) {
 			jQuery('#rolesList').trigger('change');
 		});
 	},
 
-	registerItemActions: function() {
+	registerItemActions: function () {
 		Settings_Picklist_Js.registerAddItemEvent();
 		Settings_Picklist_Js.registerRenameItemEvent();
 		Settings_Picklist_Js.registerDeleteItemEvent();
@@ -736,7 +732,7 @@ var Settings_Picklist_Js = {
 		Settings_Picklist_Js.registerProcessStatusItemEvent();
 	},
 
-	registerEvents: function() {
+	registerEvents: function () {
 		Settings_Picklist_Js.registerModuleChangeEvent();
 		Settings_Picklist_Js.registerModulePickListChangeEvent();
 		Settings_Picklist_Js.registerItemActions();
@@ -744,7 +740,7 @@ var Settings_Picklist_Js = {
 	}
 };
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
 	Settings_Picklist_Js.registerEvents();
 });
 
@@ -756,7 +752,7 @@ Vtiger_Base_Validator_Js(
 		 *@param accepts field element as parameter
 		 * @return error if validation fails true on success
 		 */
-		invokeValidation: function(field, rules, i, options) {
+		invokeValidation: function (field, rules, i, options) {
 			var instance = new Vtiger_FieldLabel_Validator_Js();
 			instance.setElement(field);
 			var response = instance.validate();
@@ -771,15 +767,17 @@ Vtiger_Base_Validator_Js(
 		 * @return true if validation is successfull
 		 * @return false if validation error occurs
 		 */
-		validate: function() {
+		validate: function () {
 			var fieldValue = this.getFieldValue();
 			return this.validateValue(fieldValue);
 		},
 
-		validateValue: function(fieldValue) {
+		validateValue: function (fieldValue) {
 			let specialChars = /[\<\>\"\,\#]/;
 			if (specialChars.test(fieldValue)) {
-				this.setError(app.vtranslate('JS_SPECIAL_CHARACTERS') + ' < > " , # ' + app.vtranslate('JS_NOT_ALLOWED'));
+				this.setError(
+					app.vtranslate('JS_SPECIAL_CHARACTERS') + ' < > " , # ' + app.vtranslate('JS_NOT_ALLOWED')
+				);
 				return false;
 			}
 			return true;

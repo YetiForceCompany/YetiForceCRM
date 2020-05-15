@@ -123,6 +123,16 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Verification of value.
+	 *
+	 * @param mixed $value
+	 */
+	public function validateValue($value)
+	{
+		return true;
+	}
+
+	/**
 	 * Convert value before writing to the database.
 	 *
 	 * @param mixed               $value

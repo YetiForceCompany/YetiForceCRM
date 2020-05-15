@@ -23,7 +23,7 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
@@ -38,7 +38,7 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 	 * @throws \App\Exceptions\Security
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function calculate(\App\Request $request)
+	public function calculate(App\Request $request)
 	{
 		$queryGenerator = self::getQuery($request);
 		$fieldQueryModel = $queryGenerator->getQueryField($request->getByType('fieldName', 2));
@@ -50,7 +50,7 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 			throw new \App\Exceptions\Security('LBL_NOT_SUPPORTED_FIELD', 406);
 		}
 		$columnName = $fieldQueryModel->getColumnName();
-		if ($request->getByType('calculateType') === 'sum') {
+		if ('sum' === $request->getByType('calculateType')) {
 			$value = $queryGenerator->createQuery()->sum($columnName);
 		} else {
 			throw new \App\Exceptions\NotAllowedMethod('LBL_PERMISSION_DENIED', 406);

@@ -19,7 +19,7 @@ class Settings_Leads_Field_Model extends Vtiger_Field_Model
 	{
 		$fieldDataType = '';
 		$uitype = $this->get('uitype');
-		if ($uitype == '9') {
+		if ('9' == $uitype) {
 			$fieldDataType = 'percent';
 		}
 		if (!$fieldDataType) {
@@ -66,7 +66,7 @@ class Settings_Leads_Field_Model extends Vtiger_Field_Model
 
 		$fieldModel = new self();
 		foreach ($objectProperties as $properName => $propertyValue) {
-			$fieldModel->$properName = $propertyValue;
+			$fieldModel->{$properName} = $propertyValue;
 		}
 		return $fieldModel;
 	}

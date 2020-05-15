@@ -14,7 +14,7 @@ class SRecurringOrders_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getModulesListValues()
 	{
-		if ($this->getFieldName() !== 'target_module') {
+		if ('target_module' !== $this->getFieldName()) {
 			return parent::getModulesListValues();
 		}
 		$moduleName = 'SSingleOrders';

@@ -14,7 +14,7 @@ class CustomView_Save_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if ($request->has('record') && !CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isEditable()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -27,7 +27,7 @@ class CustomView_Save_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', 2));
 		$customViewModel = $this->getCVModelFromRequest($request);
@@ -53,7 +53,7 @@ class CustomView_Save_Action extends \App\Controller\Action
 	 *
 	 * @return CustomView_Record_Model or Module specific Record Model instance
 	 */
-	private function getCVModelFromRequest(\App\Request $request)
+	private function getCVModelFromRequest(App\Request $request)
 	{
 		$cvId = $request->getInteger('record');
 
@@ -77,7 +77,7 @@ class CustomView_Save_Action extends \App\Controller\Action
 		if (empty($selectedColumnsList)) {
 			$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', 2));
 			$cvIdDefault = $moduleModel->getAllFilterCvidForModule();
-			if ($cvIdDefault === false) {
+			if (false === $cvIdDefault) {
 				$cvIdDefault = App\CustomView::getInstance($request->getByType('source_module', 2))->getDefaultCvId();
 			}
 			$defaultCustomViewModel = CustomView_Record_Model::getInstanceById($cvIdDefault);

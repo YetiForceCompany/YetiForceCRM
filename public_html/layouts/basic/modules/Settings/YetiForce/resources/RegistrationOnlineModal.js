@@ -12,8 +12,12 @@ jQuery.Class(
 			form.find('[id$="newsletter]"]').on('click', (e) => {
 				let inputsContainer = $(e.target).closest('.js-card-body');
 				if ($(e.target).prop('checked')) {
-					inputsContainer.find('[id$="firstname]"]').attr('data-validation-engine', 'validate[required]');
-					inputsContainer.find('[id$="lastname]"]').attr('data-validation-engine', 'validate[required]');
+					inputsContainer
+						.find('[id$="firstname]"]')
+						.attr('data-validation-engine', 'validate[required]');
+					inputsContainer
+						.find('[id$="lastname]"]')
+						.attr('data-validation-engine', 'validate[required]');
 					inputsContainer
 						.find('[id$="email]"]')
 						.attr('data-validation-engine', 'validate[required,custom[email]]');
@@ -47,7 +51,7 @@ jQuery.Class(
 					e.preventDefault();
 					Vtiger_Helper_Js.showPnotify({
 						text: app.vtranslate('JS_ENTER_ALL_REGISTRATION_DATA'),
-						type: 'error',
+						type: 'error'
 					});
 					return false;
 				}
@@ -55,20 +59,20 @@ jQuery.Class(
 				let progress = $.progressIndicator({
 					message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 					blockInfo: {
-						enabled: true,
-					},
+						enabled: true
+					}
 				});
 				AppConnector.request({
 					module: 'YetiForce',
 					parent: 'Settings',
 					action: 'Register',
 					mode: 'online',
-					companies: self.getCompanies(form),
+					companies: self.getCompanies(form)
 				})
 					.done(function (data) {
 						Vtiger_Helper_Js.showPnotify({
 							text: data['result']['message'],
-							type: data['result']['type'],
+							type: data['result']['type']
 						});
 						progress.progressIndicator({ mode: 'hide' });
 						if (data['result']['type'] === 'success') {
@@ -83,7 +87,7 @@ jQuery.Class(
 					});
 			});
 			this.registerNewsletter();
-		},
+		}
 	},
 	{}
 );

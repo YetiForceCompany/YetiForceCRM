@@ -83,10 +83,12 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	 *
 	 * @param string Module name
 	 * @param string Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 * @param mixed $modulename
+	 * @param mixed $eventType
 	 */
 	public function moduleHandler($modulename, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			\App\Db::getInstance()->createCommand()->update('vtiger_field', ['summaryfield' => 1], ['tabid' => \App\Module::getModuleId($modulename), 'columnname' => ['name', 'osstimecontrol_no', 'osstimecontrol_status', 'smownerid', 'date_start', 'time_start', 'time_end', 'due_date', 'sum_time']])->execute();
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {

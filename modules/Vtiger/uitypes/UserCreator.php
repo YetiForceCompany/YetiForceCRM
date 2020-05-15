@@ -15,7 +15,7 @@ class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$value = $value ? explode('##', $value) : [];
 		}
 		foreach ($value as $val) {
@@ -51,7 +51,7 @@ class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function  getQueryOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny', 'om'];
 	}

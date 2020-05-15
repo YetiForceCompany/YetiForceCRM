@@ -29,7 +29,7 @@ class Calendar_CalendarFilters_Model extends \App\Base
 		}
 		$dir = new DirectoryIterator($this->filterPath);
 		foreach ($dir as $fileinfo) {
-			if (!$fileinfo->isDot() && $fileinfo->getExtension() === 'php') {
+			if (!$fileinfo->isDot() && 'php' === $fileinfo->getExtension()) {
 				$name = trim($fileinfo->getBasename('.php'));
 				$filterClassName = Vtiger_Loader::getComponentClassName('CalendarFilter', $name, 'Calendar');
 				$filterInstance = new $filterClassName();
@@ -42,7 +42,7 @@ class Calendar_CalendarFilters_Model extends \App\Base
 
 	public function isActive()
 	{
-		return $this->filters ? count($this->filters) : false;
+		return $this->filters ? \count($this->filters) : false;
 	}
 
 	public function getFilters()

@@ -2,6 +2,8 @@
 /**
  * Class to read and save configuration for integration with magento.
  *
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
+ *
  * @package Integration
  *
  * @copyright YetiForce Sp. z o.o

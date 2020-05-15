@@ -12,14 +12,17 @@ $.Class(
 		/**
 		 * Register list events
 		 */
-		registerListEvents: function() {
-			this.container.find('[name="record"]').on('change', e => {
+		registerListEvents: function () {
+			this.container.find('[name="record"]').on('change', (e) => {
 				this.container.find('input[value=' + $(e.currentTarget).val() + ']').trigger('click');
 			});
-			this.container.find('[type="submit"]').on('click', e => {
+			this.container.find('[type="submit"]').on('click', (e) => {
 				e.preventDefault;
-				const progressIndicatorElement = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
-				AppConnector.request(this.container.find('form').serializeFormData()).done(function(data) {
+				const progressIndicatorElement = $.progressIndicator({
+					position: 'html',
+					blockInfo: { enabled: true }
+				});
+				AppConnector.request(this.container.find('form').serializeFormData()).done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					if (data.result === false) {
 						Vtiger_Helper_Js.showPnotify({ text: app.vtranslate('JS_ERROR') });
@@ -35,7 +38,7 @@ $.Class(
 		 * Register modal events
 		 * @param {jQuery} modalContainer
 		 */
-		registerEvents: function(modalContainer) {
+		registerEvents: function (modalContainer) {
 			this.container = $(modalContainer);
 			this.registerListEvents();
 		}

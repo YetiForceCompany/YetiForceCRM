@@ -88,7 +88,7 @@ class LettersOut extends CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';

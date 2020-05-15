@@ -18,7 +18,7 @@ class OSSMail_Compose_View extends OSSMail_Index_View
 	 * @param \App\Request $request
 	 * @param bool         $display
 	 */
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		$this->initAutologin();
 	}
@@ -28,17 +28,17 @@ class OSSMail_Compose_View extends OSSMail_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if (strpos($this->mainUrl, '?') !== false) {
+		if (false !== strpos($this->mainUrl, '?')) {
 			$this->mainUrl .= '&';
 		} else {
 			$this->mainUrl .= '?';
 		}
 		$this->mainUrl .= '_task=mail&_action=compose&_extwin=1';
 		$params = OSSMail_Module_Model::getComposeParam($request);
-		$key = md5(count($params) . microtime());
+		$key = md5(\count($params) . microtime());
 
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$dbCommand->delete('u_#__mail_compose_data', ['userid' => $currentUser->getId()])->execute();
@@ -51,8 +51,9 @@ class OSSMail_Compose_View extends OSSMail_Index_View
 	 * Post process.
 	 *
 	 * @param \App\Request $request
+	 * @param mixed        $display
 	 */
-	public function postProcess(\App\Request $request, $display = true)
+	public function postProcess(App\Request $request, $display = true)
 	{
 	}
 }

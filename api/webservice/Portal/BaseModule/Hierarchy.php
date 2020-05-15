@@ -37,7 +37,7 @@ class Hierarchy extends \Api\Core\BaseAction
 	public function checkPermission()
 	{
 		$return = parent::checkPermission();
-		if ($this->getPermissionType() === 1) {
+		if (1 === $this->getPermissionType()) {
 			throw new \Api\Core\Exception('Not available for this type of user', 405);
 		}
 		$this->moduleName = $this->controller->request->get('module');
@@ -59,7 +59,7 @@ class Hierarchy extends \Api\Core\BaseAction
 				throw new \Api\Core\Exception('No hierarchy', 405);
 			}
 			$field = $fields[$this->moduleName];
-				$entityFieldInfo = \App\Module::getEntityInfo($this->moduleName);
+			$entityFieldInfo = \App\Module::getEntityInfo($this->moduleName);
 			$queryGenerator = new \App\QueryGenerator($this->moduleName);
 			$this->mainFieldName = $entityFieldInfo['fieldname'];
 			$this->childField = $field['fieldname'];
@@ -88,12 +88,12 @@ class Hierarchy extends \Api\Core\BaseAction
 	 */
 	public function getRecords(\App\QueryGenerator $mainQueryGenerator, $parentId, $type = 'child')
 	{
-		if ($this->limit === 0 || isset($this->recursion[$parentId][$type])) {
+		if (0 === $this->limit || isset($this->recursion[$parentId][$type])) {
 			return false;
 		}
 		--$this->limit;
 		$queryGenerator = clone $mainQueryGenerator;
-		if ($type === 'parent') {
+		if ('parent' === $type) {
 			$queryGenerator->addCondition('id', $parentId, 'e');
 		} else {
 			$queryGenerator->addNativeCondition([$this->childColumn => $parentId]);
@@ -115,10 +115,10 @@ class Hierarchy extends \Api\Core\BaseAction
 				return true;
 			}
 			if (!empty($row[$this->childField])) {
-				if ($this->getPermissionType() === 4) {
+				if (4 === $this->getPermissionType()) {
 					$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], 'parent');
 					$this->getRecords(clone $mainQueryGenerator, $id, 'parent');
-				} elseif ($this->getPermissionType() === 3) {
+				} elseif (3 === $this->getPermissionType()) {
 					$this->getRecords(clone $mainQueryGenerator, $row[$this->childField], 'child');
 					$this->getRecords(clone $mainQueryGenerator, $id, 'child');
 				}

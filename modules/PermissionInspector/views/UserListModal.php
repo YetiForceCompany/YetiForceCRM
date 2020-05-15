@@ -11,7 +11,7 @@ class PermissionInspector_UserListModal_View extends Vtiger_BasicModal_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getSize(\App\Request $request)
+	public function getSize(App\Request $request)
 	{
 		return 'modal-lg c-modal--fit-lg';
 	}
@@ -19,7 +19,7 @@ class PermissionInspector_UserListModal_View extends Vtiger_BasicModal_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();
@@ -60,7 +60,7 @@ class PermissionInspector_UserListModal_View extends Vtiger_BasicModal_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getModalScripts(\App\Request $request)
+	public function getModalScripts(App\Request $request)
 	{
 		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
 			'~libraries/datatables.net/js/jquery.dataTables.js',
@@ -73,7 +73,7 @@ class PermissionInspector_UserListModal_View extends Vtiger_BasicModal_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getModalCss(\App\Request $request)
+	public function getModalCss(App\Request $request)
 	{
 		return array_merge(parent::getModalCss($request), $this->checkAndConvertCssStyles([
 			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',

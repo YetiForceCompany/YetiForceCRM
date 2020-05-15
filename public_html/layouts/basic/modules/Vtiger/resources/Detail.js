@@ -35,13 +35,13 @@ jQuery.Class(
 			var selectedIds = [];
 			selectedIds.push(detailInstance.getRecordId());
 			var postData = {
-				selected_ids: JSON.stringify(selectedIds),
+				selected_ids: JSON.stringify(selectedIds)
 			};
 			var actionParams = {
 				type: 'POST',
 				url: detailActionUrl,
 				dataType: 'html',
-				data: postData,
+				data: postData
 			};
 
 			AppConnector.request(actionParams)
@@ -69,7 +69,7 @@ jQuery.Class(
 				type: 'POST',
 				url: massActionUrl,
 				dataType: 'html',
-				data: {},
+				data: {}
 			};
 			AppConnector.request(actionParams).done(function (data) {
 				if (data) {
@@ -104,7 +104,7 @@ jQuery.Class(
 				action: 'TransferOwnership',
 				record: recordId,
 				transferOwnerId: transferOwner,
-				related_modules: relatedModules,
+				related_modules: relatedModules
 			};
 			AppConnector.request(params).done(function (data) {
 				if (data.success) {
@@ -112,7 +112,7 @@ jQuery.Class(
 					var params = {
 						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate('JS_RECORDS_TRANSFERRED_SUCCESSFULLY'),
-						type: 'info',
+						type: 'info'
 					};
 					var oldvalue = jQuery('.assigned_user_id').val();
 					var element = jQuery('.assigned_user_id ');
@@ -120,7 +120,9 @@ jQuery.Class(
 					element.find('option[value="' + oldvalue + '"]').removeAttr('selected');
 					element.find('option[value="' + transferOwner + '"]').attr('selected', 'selected');
 					element.trigger('liszt:updated');
-					var Fieldname = element.find('option[value="' + transferOwner + '"]').data('picklistvalue');
+					var Fieldname = element
+						.find('option[value="' + transferOwner + '"]')
+						.data('picklistvalue');
 					element
 						.closest('.row-fluid')
 						.find('.value')
@@ -159,7 +161,7 @@ jQuery.Class(
 				record: app.getRecordId(),
 				action: 'Save',
 				mode: 'recordChanger',
-				id: id,
+				id: id
 			})
 				.done(function () {
 					window.location.reload();
@@ -167,7 +169,7 @@ jQuery.Class(
 				.fail(function (jqXHR, textStatus, errorThrown) {
 					Vtiger_Helper_Js.showPnotify({
 						type: 'error',
-						text: textStatus,
+						text: textStatus
 					});
 				});
 		},
@@ -182,13 +184,13 @@ jQuery.Class(
 							themes: {
 								name: 'proton',
 								responsive: true,
-								icons: false,
-							},
+								icons: false
+							}
 						},
 						checkbox: {
-							three_state: false,
+							three_state: false
 						},
-						plugins: ['search', 'category'],
+						plugins: ['search', 'category']
 					});
 					data.find('[type="submit"]').on('click', function () {
 						let tasks = {};
@@ -207,13 +209,13 @@ jQuery.Class(
 							Vtiger_Helper_Js.showPnotify({
 								title: app.vtranslate('JS_INFORMATION'),
 								text: app.vtranslate('JS_NOT_SELECTED_WORKFLOW_TRIGGER'),
-								type: 'error',
+								type: 'error'
 							});
 						} else {
 							Vtiger_Helper_Js.showPnotify({
 								title: app.vtranslate('JS_MESSAGE'),
 								text: app.vtranslate('JS_STARTED_PERFORM_WORKFLOW'),
-								type: 'info',
+								type: 'info'
 							});
 							AppConnector.request({
 								module: app.getModuleName(),
@@ -221,13 +223,13 @@ jQuery.Class(
 								mode: 'execute',
 								user: data.find('[name="user"]').val(),
 								record: detailInstance.getRecordId(),
-								tasks: JSON.stringify(tasks),
+								tasks: JSON.stringify(tasks)
 							})
 								.done(function () {
 									Vtiger_Helper_Js.showPnotify({
 										title: app.vtranslate('JS_MESSAGE'),
 										text: app.vtranslate('JS_COMPLETED_PERFORM_WORKFLOW'),
-										type: 'success',
+										type: 'success'
 									});
 									app.hideModalWindow();
 									detailInstance.loadWidgets();
@@ -236,7 +238,7 @@ jQuery.Class(
 									Vtiger_Helper_Js.showPnotify({
 										title: app.vtranslate('JS_ERROR'),
 										text: app.vtranslate('JS_ERROR_DURING_TRIGGER_OF_WORKFLOW'),
-										type: 'error',
+										type: 'error'
 									});
 									app.hideModalWindow();
 								});
@@ -246,13 +248,13 @@ jQuery.Class(
 			AppConnector.request({
 				module: app.getModuleName(),
 				view: 'WorkflowTrigger',
-				record: detailInstance.getRecordId(),
+				record: detailInstance.getRecordId()
 			}).done(function (data) {
 				if (data) {
 					app.showModalWindow(data, '', callback);
 				}
 			});
-		},
+		}
 	},
 	{
 		targetPicklistChange: false,
@@ -281,37 +283,46 @@ jQuery.Class(
 				Campaigns: 'process',
 				HelpDesk: 'process',
 				Projects: 'process',
-				ServiceContracts: 'process',
+				ServiceContracts: 'process'
 			},
 			OutsourcedProducts: {
 				Leads: 'parent_id',
 				Accounts: 'parent_id',
-				Contacts: 'parent_id',
+				Contacts: 'parent_id'
 			},
 			Assets: {
 				Accounts: 'parent_id',
-				Contacts: 'parent_id',
+				Contacts: 'parent_id'
 			},
 			OSSOutsourcedServices: {
 				Leads: 'parent_id',
 				Accounts: 'parent_id',
-				Contacts: 'parent_id',
+				Contacts: 'parent_id'
 			},
 			OSSSoldServices: {
 				Accounts: 'parent_id',
-				Contacts: 'parent_id',
-			},
+				Contacts: 'parent_id'
+			}
 		},
 		//constructor
 		init: function () {},
 		loadWidgetsEvents: function () {
 			const thisInstance = this;
-			app.event.on('DetailView.Widget.AfterLoad', function (e, widgetContent, relatedModuleName, instance) {
+			app.event.on('DetailView.Widget.AfterLoad', function (
+				e,
+				widgetContent,
+				relatedModuleName,
+				instance
+			) {
 				if (relatedModuleName === 'Calendar') {
-					thisInstance.reloadWidgetActivitesStats(widgetContent.closest('.activityWidgetContainer'));
+					thisInstance.reloadWidgetActivitesStats(
+						widgetContent.closest('.activityWidgetContainer')
+					);
 				}
 				if (relatedModuleName === 'ModComments') {
-					thisInstance.registerCommentEventsInDetail(widgetContent.closest('.updatesWidgetContainer'));
+					thisInstance.registerCommentEventsInDetail(
+						widgetContent.closest('.updatesWidgetContainer')
+					);
 				}
 				if (widgetContent.find('[name="relatedModule"]').length) {
 					thisInstance.registerShowSummary(widgetContent);
@@ -320,7 +331,9 @@ jQuery.Class(
 					Vtiger_Index_Js.registerMailButtons(widgetContent);
 					widgetContent.find('.showMailModal').on('click', function (e) {
 						let progressIndicatorElement = jQuery.progressIndicator();
-						app.showModalWindow('', $(e.currentTarget).data('url') + '&noloadlibs=1', function (data) {
+						app.showModalWindow('', $(e.currentTarget).data('url') + '&noloadlibs=1', function (
+							data
+						) {
 							Vtiger_Index_Js.registerMailButtons(data);
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						});
@@ -371,7 +384,7 @@ jQuery.Class(
 				type: 'POST',
 				async: false,
 				dataType: 'html',
-				data: params,
+				data: params
 			})
 				.done(function (data) {
 					contentContainer.progressIndicator({ mode: 'hide' });
@@ -389,7 +402,12 @@ jQuery.Class(
 						relatedController.registerRelatedEvents();
 						thisInstance.widgetRelatedRecordView(widgetContainer, true);
 					}
-					app.event.trigger('DetailView.Widget.AfterLoad', contentContainer, relatedModuleName, thisInstance);
+					app.event.trigger(
+						'DetailView.Widget.AfterLoad',
+						contentContainer,
+						relatedModuleName,
+						thisInstance
+					);
 					aDeferred.resolve(params);
 				})
 				.fail(function () {
@@ -402,10 +420,14 @@ jQuery.Class(
 			var cacheKey = this.getRecordId() + '_' + container.data('id');
 			var relatedRecordCacheID = app.moduleCacheGet(cacheKey);
 			if (relatedRecordCacheID !== null) {
-				var newActive = container.find(".js-carousel-item[data-id = '" + relatedRecordCacheID + "']");
+				var newActive = container.find(
+					".js-carousel-item[data-id = '" + relatedRecordCacheID + "']"
+				);
 				if (newActive.length) {
 					container.find('.js-carousel-item.active').removeClass('active');
-					container.find(".js-carousel-item[data-id = '" + relatedRecordCacheID + "']").addClass('active');
+					container
+						.find(".js-carousel-item[data-id = '" + relatedRecordCacheID + "']")
+						.addClass('active');
 				}
 			}
 			var controlBox = container.find('.control-widget');
@@ -605,20 +627,22 @@ jQuery.Class(
 			params.data = data;
 			params.async = false;
 			params.dataType = 'json';
-			this.preSaveValidation(JSON.parse(JSON.stringify(params)), this.getForm()).then((response) => {
-				if (response === true) {
-					AppConnector.request(params)
-						.done(function (responseData) {
-							aDeferred.resolve(responseData);
-						})
-						.fail((jqXHR, textStatus, errorThrown) => {
-							aDeferred.reject(jqXHR, textStatus, errorThrown);
-							app.errorLog(jqXHR, textStatus, errorThrown);
-						});
-				} else {
-					aDeferred.resolve({ success: false });
+			this.preSaveValidation(JSON.parse(JSON.stringify(params)), this.getForm()).then(
+				(response) => {
+					if (response === true) {
+						AppConnector.request(params)
+							.done(function (responseData) {
+								aDeferred.resolve(responseData);
+							})
+							.fail((jqXHR, textStatus, errorThrown) => {
+								aDeferred.reject(jqXHR, textStatus, errorThrown);
+								app.errorLog(jqXHR, textStatus, errorThrown);
+							});
+					} else {
+						aDeferred.resolve({ success: false });
+					}
 				}
-			});
+			);
 
 			return aDeferred.promise();
 		},
@@ -629,8 +653,8 @@ jQuery.Class(
 					message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 					position: 'html',
 					blockInfo: {
-						enabled: true,
-					},
+						enabled: true
+					}
 				});
 				params.data.mode = 'preSaveValidation';
 				AppConnector.request(params)
@@ -714,7 +738,7 @@ jQuery.Class(
 			let postData = {
 				commentcontent: commentContentValue,
 				related_to: relatedTo,
-				module: 'ModComments',
+				module: 'ModComments'
 			};
 
 			if (commentMode == 'edit') {
@@ -765,7 +789,9 @@ jQuery.Class(
 				editCommentReason = closestCommentBlock.find('[name="reasonToEdit"]').val();
 			}
 			let element = jQuery(e.currentTarget),
-				commentInfoHeader = closestCommentBlock.closest('.js-comment-details').find('.js-comment-info-header'),
+				commentInfoHeader = closestCommentBlock
+					.closest('.js-comment-details')
+					.find('.js-comment-info-header'),
 				commentId = commentInfoHeader.data('commentid'),
 				parentCommentId = commentInfoHeader.data('parentcommentid');
 			this.saveCommentAjax(
@@ -788,7 +814,7 @@ jQuery.Class(
 			var postData = {
 				view: 'DetailAjax',
 				module: 'ModComments',
-				record: commentId,
+				record: commentId
 			};
 			AppConnector.request(postData)
 				.done(function (data) {
@@ -825,7 +851,9 @@ jQuery.Class(
 				.find('.commentcontenthidden')
 				.removeClass('commentcontenthidden')
 				.addClass('js-comment-content');
-			new App.Fields.Text.Completions(clonedCommentBlock.find('.js-completions'), { emojiPanel: false });
+			new App.Fields.Text.Completions(clonedCommentBlock.find('.js-completions'), {
+				emojiPanel: false
+			});
 			return clonedCommentBlock;
 		},
 		/*
@@ -840,7 +868,7 @@ jQuery.Class(
 					var params = {
 						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate('LBL_SMS_MAX_CHARACTERS_ALLOWED'),
-						type: 'error',
+						type: 'error'
 					};
 					Vtiger_Helper_Js.showPnotify(params);
 					return false;
@@ -858,15 +886,15 @@ jQuery.Class(
 			var progressInstance = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
-					enabled: true,
-				},
+					enabled: true
+				}
 			});
 			var SendSmsUrl = form.serializeFormData();
 			AppConnector.request(SendSmsUrl)
 				.done(function (data) {
 					app.hideModalWindow();
 					progressInstance.progressIndicator({
-						mode: 'hide',
+						mode: 'hide'
 					});
 				})
 				.fail(function (error, err) {});
@@ -920,7 +948,9 @@ jQuery.Class(
 		registerAjaxEditEvent: function () {
 			var thisInstance = this;
 			var detailContentsHolder = thisInstance.getContentHolder();
-			detailContentsHolder.on(thisInstance.fieldUpdatedEvent, 'input,select,textarea', function (e) {
+			detailContentsHolder.on(thisInstance.fieldUpdatedEvent, 'input,select,textarea', function (
+				e
+			) {
 				thisInstance.updateHeaderValues(jQuery(e.currentTarget));
 			});
 		},
@@ -936,7 +966,9 @@ jQuery.Class(
 			var detailContentsHolder = thisInstance.getContentHolder();
 			if (jQuery.inArray(name, updatedFields) != '-1') {
 				var recordLabel = currentElement.val();
-				var recordLabelElement = detailContentsHolder.closest('.contentsDiv').find('.' + name + '_label');
+				var recordLabelElement = detailContentsHolder
+					.closest('.contentsDiv')
+					.find('.' + name + '_label');
 				recordLabelElement.text(recordLabel);
 			}
 		},
@@ -974,7 +1006,10 @@ jQuery.Class(
 			var detailContentsHolder = this.getContentHolder();
 			detailContentsHolder.on('click', '.listViewEntries', function (e) {
 				var targetElement = jQuery(e.target, jQuery(e.currentTarget));
-				if (targetElement.is('td:first-child') && targetElement.children('input[type="checkbox"]').length > 0)
+				if (
+					targetElement.is('td:first-child') &&
+					targetElement.children('input[type="checkbox"]').length > 0
+				)
 					return;
 				if (jQuery(e.target).is('input[type="checkbox"]')) return;
 				var elem = jQuery(e.currentTarget);
@@ -1029,7 +1064,8 @@ jQuery.Class(
 					AppConnector.request({
 						type: 'GET',
 						dataType: 'html',
-						data: block.data('url'),
+						data: {},
+						url: block.data('url')
 					}).done(function (response) {
 						blockContent.html(response);
 						var relatedController = Vtiger_RelatedList_Js.getInstance(
@@ -1161,7 +1197,7 @@ jQuery.Class(
 							'multiListFields',
 							'multiDomain',
 							'mailScannerFields',
-							'mailScannerActions',
+							'mailScannerActions'
 						]) != -1
 							? fieldName + '[]'
 							: fieldName;
@@ -1217,7 +1253,7 @@ jQuery.Class(
 						editElement.find('[data-fieldinfo]').each(function () {
 							let field = {
 								name: $(this).attr('name'),
-								type: $(this).data('fieldinfo').type,
+								type: $(this).data('fieldinfo').type
 							};
 							if (field['type'] == 'datetime') {
 								dateTime = true;
@@ -1254,7 +1290,7 @@ jQuery.Class(
 							fieldNameValueMap = {};
 						fieldElement.trigger(preFieldSaveEvent, {
 							fieldValue: ajaxEditNewValue,
-							recordId: thisInstance.getRecordId(),
+							recordId: thisInstance.getRecordId()
 						});
 						if (preFieldSaveEvent.isDefaultPrevented()) {
 							readRecord.prop('disabled', false);
@@ -1302,7 +1338,7 @@ jQuery.Class(
 										'</b>: ' +
 										displayValue,
 									type: 'info',
-									textTrusted: true,
+									textTrusted: true
 								});
 								if (postSaveRecordDetails['isViewable'] === false) {
 									let urlObject = app.convertUrlToObject(window.location.href);
@@ -1316,8 +1352,8 @@ jQuery.Class(
 									$.progressIndicator({
 										position: 'html',
 										blockInfo: {
-											enabled: true,
-										},
+											enabled: true
+										}
 									});
 									if (window !== window.parent) {
 										window.location.href = window.location.href.replace(
@@ -1330,7 +1366,7 @@ jQuery.Class(
 								}
 								fieldElement.trigger(thisInstance.fieldUpdatedEvent, {
 									old: previousValue,
-									new: ajaxEditNewValue,
+									new: ajaxEditNewValue
 								});
 								ajaxEditNewValue = ajaxEditNewValue === undefined ? '' : ajaxEditNewValue; //data cannot be undefined
 								elementTarget.data('prevValue', ajaxEditNewValue);
@@ -1368,7 +1404,7 @@ jQuery.Class(
 								Vtiger_Helper_Js.showPnotify({
 									type: 'error',
 									title: app.vtranslate('JS_SAVE_NOTIFY_FAIL'),
-									text: textStatus,
+									text: textStatus
 								});
 							});
 					}
@@ -1389,7 +1425,9 @@ jQuery.Class(
 		addElementsToQuickCreateForCreatingRelation: function (container, customParams) {
 			jQuery('<input type="hidden" name="relationOperation" value="true" >').appendTo(container);
 			jQuery.each(customParams, function (index, value) {
-				jQuery('<input type="hidden" name="' + index + '" value="' + value + '" >').appendTo(container);
+				jQuery('<input type="hidden" name="' + index + '" value="' + value + '" >').appendTo(
+					container
+				);
 			});
 		},
 		/**
@@ -1458,7 +1496,12 @@ jQuery.Class(
 			var dateStartEl = jQuery('[name="date_start"]');
 			var dateStartVal = jQuery(dateStartEl).val();
 			var dateStartFormat = jQuery(dateStartEl).data('date-format');
-			var validDateFromat = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, modDay, type);
+			var validDateFromat = Vtiger_Helper_Js.convertToDateString(
+				dateStartVal,
+				dateStartFormat,
+				modDay,
+				type
+			);
 			var map = jQuery.extend({}, ['#b6a996,black']);
 
 			var params = {
@@ -1467,7 +1510,7 @@ jQuery.Class(
 				start: validDateFromat,
 				end: this.getEndDate(validDateFromat),
 				type: type,
-				mapping: map,
+				mapping: map
 			};
 
 			AppConnector.request(params).done(function (events) {
@@ -1544,8 +1587,8 @@ jQuery.Class(
 					quickCreateParams['callbackFunction'] = postQuickCreateSave;
 					var progress = jQuery.progressIndicator({
 						blockInfo: {
-							enabled: true,
-						},
+							enabled: true
+						}
 					});
 					let headerInstance;
 					if (window !== window.parent) {
@@ -1572,7 +1615,7 @@ jQuery.Class(
 						src_module: app.getModuleName(),
 						src_record: thisInstance.getRecordId(),
 						multi_select: true,
-						relationId: summaryWidgetContainer.data('relationId'),
+						relationId: summaryWidgetContainer.data('relationId')
 					};
 					if (restrictionsField && Object.keys(restrictionsField).length > 0) {
 						params['search_key'] = restrictionsField.key;
@@ -1582,7 +1625,7 @@ jQuery.Class(
 						instance.setSelectEvent((responseData) => {
 							thisInstance
 								.addRelationBetweenRecords(referenceModuleName, Object.keys(responseData), null, {
-									relationId: params.relationId,
+									relationId: params.relationId
 								})
 								.done(function (data) {
 									thisInstance.loadWidget(summaryWidgetContainer.find('.widgetContentBlock'));
@@ -1611,13 +1654,13 @@ jQuery.Class(
 				.find('.resetRelationsEmail')
 				.on('click', function (e) {
 					Vtiger_Helper_Js.showConfirmationBox({
-						message: app.vtranslate('JS_EMAIL_RESET_RELATIONS_CONFIRMATION'),
+						message: app.vtranslate('JS_EMAIL_RESET_RELATIONS_CONFIRMATION')
 					}).done(function (data) {
 						AppConnector.request({
 							module: 'OSSMailView',
 							action: 'Relation',
 							moduleName: app.getModuleName(),
-							record: app.getRecordId(),
+							record: app.getRecordId()
 						}).done(function (d) {
 							Vtiger_Helper_Js.showMessage({ text: d.result });
 						});
@@ -1657,17 +1700,25 @@ jQuery.Class(
 					var selectedFilter = element.find('option:selected').val();
 					var fieldlable = element.data('fieldlable');
 					var filter = element.data('filter');
-					if (selectedFilter != fieldlable) {
-						value = [[filter, 'e', selectedFilter]];
+					if (element.data('return') === 'value') {
+						value = selectedFilter;
 					} else {
-						return;
+						if (selectedFilter != fieldlable) {
+							value = [[filter, 'e', selectedFilter]];
+						} else {
+							return;
+						}
 					}
 				}
 				if (name && value) {
-					if (name in urlNewParams) {
-						urlNewParams[name].push(value);
+					if (element.data('return') === 'value') {
+						urlNewParams[name] = value;
 					} else {
-						urlNewParams[name] = [value];
+						if (name in urlNewParams) {
+							urlNewParams[name].push(value);
+						} else {
+							urlNewParams[name] = [value];
+						}
 					}
 				}
 			});
@@ -1679,7 +1730,11 @@ jQuery.Class(
 		registerChangeFilterForWidget: function () {
 			var thisInstance = this;
 			jQuery('.js-switch').on('change', function (e, state) {
-				$(e.currentTarget).closest('.js-switch__btn').addClass('active').siblings().removeClass('active');
+				$(e.currentTarget)
+					.closest('.js-switch__btn')
+					.addClass('active')
+					.siblings()
+					.removeClass('active');
 				thisInstance.getFiltersDataAndLoad(e);
 			});
 			jQuery('.js-filter_field').on('select2:select', function (e, state) {
@@ -1707,15 +1762,19 @@ jQuery.Class(
 			/**
 			 * Function to handle actions after ajax save in summary view
 			 */
-			summaryViewContainer.on(thisInstance.fieldUpdatedEvent, '.js-widget-general-info', function () {
-				let updatesWidget = summaryViewContainer.find("[data-type='Updates']"),
-					params;
-				if (updatesWidget.length) {
-					params = thisInstance.getFiltersData(updatesWidget);
-					updatesWidget.find('.btnChangesReviewedOn').parent().remove();
-					thisInstance.loadWidget(updatesWidget, params['params']);
+			summaryViewContainer.on(
+				thisInstance.fieldUpdatedEvent,
+				'.js-widget-general-info',
+				function () {
+					let updatesWidget = summaryViewContainer.find("[data-type='Updates']"),
+						params;
+					if (updatesWidget.length) {
+						params = thisInstance.getFiltersData(updatesWidget);
+						updatesWidget.find('.btnChangesReviewedOn').parent().remove();
+						thisInstance.loadWidget(updatesWidget, params['params']);
+					}
 				}
-			});
+			);
 
 			summaryViewContainer.on('click', '.editDefaultStatus', function (e) {
 				var currentTarget = jQuery(e.currentTarget);
@@ -1743,7 +1802,7 @@ jQuery.Class(
 										thisInstance.loadRelatedList();
 									}
 									thisInstance.registerRelatedModulesRecordCount();
-								},
+								}
 							});
 						});
 					} else {
@@ -1797,7 +1856,7 @@ jQuery.Class(
 										field: fieldName,
 										value: ajaxEditNewValue,
 										module: moduleName,
-										activitytype: activityType,
+										activitytype: activityType
 									}).done(() => {
 										currentDiv.progressIndicator({ mode: 'hide' });
 										detailViewElement.removeClass('d-none');
@@ -1881,7 +1940,12 @@ jQuery.Class(
 			});
 			this.registerFastEditingFiels();
 		},
-		addRelationBetweenRecords: function (relatedModule, relatedModuleRecordId, selectedTabElement, params = {}) {
+		addRelationBetweenRecords: function (
+			relatedModule,
+			relatedModuleRecordId,
+			selectedTabElement,
+			params = {}
+		) {
 			var aDeferred = jQuery.Deferred();
 			var thisInstance = this;
 			if (selectedTabElement == undefined) {
@@ -1925,7 +1989,9 @@ jQuery.Class(
 			if (summaryWidgetContainer.data('relationId')) {
 				params.relationId = summaryWidgetContainer.data('relationId');
 			}
-			this.addRelationBetweenRecords(referenceModuleName, idList, null, params).done(function (data) {
+			this.addRelationBetweenRecords(referenceModuleName, idList, null, params).done(function (
+				data
+			) {
 				thisInstance.loadWidget(summaryWidgetContainer.find('[class^="widgetContainer_"]'));
 			});
 		},
@@ -1948,7 +2014,10 @@ jQuery.Class(
 			var detailContentsHolder = thisInstance.getContentHolder();
 			var detailContainer = detailContentsHolder.closest('div.detailViewInfo');
 
-			jQuery('.related', detailContainer).on('click', 'li:not(.spaceRelatedList)', function (e, urlAttributes) {
+			jQuery('.related', detailContainer).on('click', 'li:not(.spaceRelatedList)', function (
+				e,
+				urlAttributes
+			) {
 				var tabElement = jQuery(e.currentTarget);
 				if (!tabElement.hasClass('dropdown')) {
 					var element = jQuery('<div></div>');
@@ -1956,8 +2025,8 @@ jQuery.Class(
 						position: 'html',
 						blockInfo: {
 							enabled: true,
-							elementToBlock: detailContainer,
-						},
+							elementToBlock: detailContainer
+						}
 					});
 					var url = tabElement.data('url');
 					if (typeof urlAttributes !== 'undefined') {
@@ -2162,19 +2231,21 @@ jQuery.Class(
 			detailContentsHolder.on('click', '.setReadRecord', function (e) {
 				var currentElement = jQuery(e.currentTarget);
 				currentElement.closest('.btn-group').addClass('d-none');
-				jQuery('#Accounts_detailView_fieldValue_was_read').find('.value').text(app.vtranslate('LBL_YES'));
+				jQuery('#Accounts_detailView_fieldValue_was_read')
+					.find('.value')
+					.text(app.vtranslate('LBL_YES'));
 				var params = {
 					module: app.getModuleName(),
 					action: 'SaveAjax',
 					record: thisInstance.getRecordId(),
 					field: 'was_read',
-					value: 'on',
+					value: 'on'
 				};
 				AppConnector.request(params).done(function (data) {
 					var params = {
 						text: app.vtranslate('JS_SET_READ_RECORD'),
 						title: app.vtranslate('System'),
-						type: 'info',
+						type: 'info'
 					};
 					Vtiger_Helper_Js.showPnotify(params);
 					var relatedTabKey = jQuery('.related li.active');
@@ -2197,8 +2268,8 @@ jQuery.Class(
 					message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 					position: 'summaryWidgetFastEditing',
 					blockInfo: {
-						enabled: true,
-					},
+						enabled: true
+					}
 				});
 				var fieldName = fieldContainer.data('fieldname');
 				fieldName = fieldName.replace('q_', '');
@@ -2211,7 +2282,7 @@ jQuery.Class(
 				var preFieldSaveEvent = jQuery.Event(thisInstance.fieldPreSave);
 				fieldElement.trigger(preFieldSaveEvent, {
 					fieldValue: fieldValue,
-					recordId: thisInstance.getRecordId(),
+					recordId: thisInstance.getRecordId()
 				});
 				var fieldNameValueMap = {};
 				fieldNameValueMap['value'] = fieldValue;
@@ -2221,7 +2292,7 @@ jQuery.Class(
 				progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				var params = {
 					title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
-					type: 'success',
+					type: 'success'
 				};
 				Vtiger_Helper_Js.showPnotify(params);
 				thisInstance.reloadTabContent();
@@ -2255,7 +2326,7 @@ jQuery.Class(
 						relatedModule: relatedModule,
 						mode: 'getRelatedListPageCount',
 						relationId: relationId,
-						tab_label: item.data('label-key'),
+						tab_label: item.data('label-key')
 					}).done((response) => {
 						if (response.success) {
 							if (response.result.numberOfRecords === 0) {
@@ -2263,7 +2334,9 @@ jQuery.Class(
 							}
 							item.find('.count').text(response.result.numberOfRecords);
 							moreList
-								.find('[data-reference="${relatedModule}"][data-relation-id="${relationId}"] .count')
+								.find(
+									'[data-reference="${relatedModule}"][data-relation-id="${relationId}"] .count'
+								)
 								.text(response.result.numberOfRecords);
 						}
 					});
@@ -2297,7 +2370,9 @@ jQuery.Class(
 									.data('data-child-comments-count'),
 								newChildCommentCount = currentChildCommentsCount + 1;
 							commentInfoBlock.find('.js-child-comments-count').text(newChildCommentCount);
-							let parentCommentId = commentInfoBlock.find('.js-comment-info-header').data('commentid');
+							let parentCommentId = commentInfoBlock
+								.find('.js-comment-info-header')
+								.data('commentid');
 							self.getChildComments(parentCommentId).done(function (responsedata) {
 								$(responsedata).appendTo(commentBlock);
 								commentInfoBlock.find('.js-view-thread-block').hide();
@@ -2361,7 +2436,9 @@ jQuery.Class(
 					commentInfoContent = commentInfoBlock.find('.js-comment-info'),
 					editCommentBlock = self.getEditCommentBlock();
 				editCommentBlock.find('.js-comment-content').html(commentInfoContent.html());
-				editCommentBlock.find('.js-reason-to-edit').html(commentInfoBlock.find('.js-edit-reason-span').text());
+				editCommentBlock
+					.find('.js-reason-to-edit')
+					.html(commentInfoBlock.find('.js-edit-reason-span').text());
 				commentInfoContent.hide();
 				commentInfoBlock.find('.js-comment-container').hide();
 				editCommentBlock.appendTo(commentInfoBlock).show();
@@ -2369,12 +2446,15 @@ jQuery.Class(
 			detailContentsHolder.on('click', '.js-detail-view-save-comment', function (e) {
 				let element = $(e.currentTarget);
 				if (!element.is(':disabled')) {
-					self.saveComment(e)
+					self
+						.saveComment(e)
 						.done(function () {
 							self.registerRelatedModulesRecordCount();
-							self.loadWidget(detailContentsHolder.find("[data-type='Comments']")).done(function () {
-								element.removeAttr('disabled');
-							});
+							self
+								.loadWidget(detailContentsHolder.find("[data-type='Comments']"))
+								.done(function () {
+									element.removeAttr('disabled');
+								});
 						})
 						.fail(function (error, err) {
 							element.removeAttr('disabled');
@@ -2385,7 +2465,8 @@ jQuery.Class(
 			detailContentsHolder.on('click', '.js-save-comment', function (e) {
 				let element = $(e.currentTarget);
 				if (!element.is(':disabled')) {
-					self.saveComment(e)
+					self
+						.saveComment(e)
 						.done(function (data) {
 							self.registerRelatedModulesRecordCount(
 								self.getTabByLabel(self.detailViewRecentCommentsTabLabel)
@@ -2474,7 +2555,7 @@ jQuery.Class(
 					limit: limit,
 					record: app.getRecordId(),
 					search_key: searchTextDom.val(),
-					is_widget: isWidget,
+					is_widget: isWidget
 				}).done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					if (!searchTextDom.val()) {
@@ -2505,7 +2586,7 @@ jQuery.Class(
 					mode: 'showRecentComments',
 					hierarchy: hierarchy.join(','),
 					record: app.getRecordId(),
-					limit: widgetContainer.find('.widgetContentBlock').data('limit'),
+					limit: widgetContainer.find('.widgetContentBlock').data('limit')
 				}).done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					let widgetDataContainer = widgetContainer.find('.js-detail-widget-content');
@@ -2546,12 +2627,18 @@ jQuery.Class(
 			container.find('.expandAllMails').on('click', function (e) {
 				container.find('.mailBody').removeClass('d-none');
 				container.find('.mailTeaser').addClass('d-none');
-				container.find('.showMailBody .js-toggle-icon').removeClass('fa-caret-down').addClass('fa-caret-up');
+				container
+					.find('.showMailBody .js-toggle-icon')
+					.removeClass('fa-caret-down')
+					.addClass('fa-caret-up');
 			});
 			container.find('.collapseAllMails').on('click', function (e) {
 				container.find('.mailBody').addClass('d-none');
 				container.find('.mailTeaser').removeClass('d-none');
-				container.find('.showMailBody .js-toggle-icon').removeClass('fa-caret-up').addClass('fa-caret-down');
+				container
+					.find('.showMailBody .js-toggle-icon')
+					.removeClass('fa-caret-up')
+					.addClass('fa-caret-down');
 			});
 		},
 		loadMailPreviewWidget: function (widgetContent) {
@@ -2569,7 +2656,12 @@ jQuery.Class(
 			params['mailFilter'] = $('[name="mailFilter"]').val();
 			AppConnector.request(params).done(function (data) {
 				widgetDataContainer.html(data);
-				app.event.trigger('DetailView.Widget.AfterLoad', widgetDataContainer, params['module'], thisInstance);
+				app.event.trigger(
+					'DetailView.Widget.AfterLoad',
+					widgetDataContainer,
+					params['module'],
+					thisInstance
+				);
 				progress.progressIndicator({ mode: 'hide' });
 			});
 		},
@@ -2611,13 +2703,14 @@ jQuery.Class(
 			let picklistValue = $(element).data('picklistValue');
 			Vtiger_Helper_Js.showConfirmationBox({
 				title: $(element).data('picklistLabel'),
-				message: app.vtranslate('JS_CHANGE_VALUE_CONFIRMATION'),
+				message: app.vtranslate('JS_CHANGE_VALUE_CONFIRMATION')
 			}).done(() => {
 				const progressIndicatorElement = $.progressIndicator();
-				self.saveFieldValues({
-					value: picklistValue,
-					field: picklistName,
-				})
+				self
+					.saveFieldValues({
+						value: picklistValue,
+						field: picklistName
+					})
 					.done(() => {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						window.location.reload();
@@ -2648,10 +2741,13 @@ jQuery.Class(
 				let chatContainer = this.detailViewContentHolder.find('.js-chat-container');
 				const padding = 10;
 				chatContainer.height(
-					$(document).height() - chatContainer.offset().top - $('.js-footer').outerHeight() - padding
+					$(document).height() -
+						chatContainer.offset().top -
+						$('.js-footer').outerHeight() -
+						padding
 				);
 				window.ChatRecordRoomVueComponent.mount({
-					el: '#ChatRecordRoomVue',
+					el: '#ChatRecordRoomVue'
 				});
 			}
 		},
@@ -2672,7 +2768,9 @@ jQuery.Class(
 			//register all the events for summary view container
 
 			if (this.getSelectedTab().data('labelKey') === 'ModComments') {
-				new App.Fields.Text.Completions(detailContentsHolder.find('.js-completions'), { emojiPanel: false });
+				new App.Fields.Text.Completions(detailContentsHolder.find('.js-completions'), {
+					emojiPanel: false
+				});
 			}
 			thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 			thisInstance.registerCommentEvents(detailContentsHolder);
@@ -2703,17 +2801,24 @@ jQuery.Class(
 				var nextPageUrl = url + '&page=' + requestedPage;
 				thisInstance.loadContents(nextPageUrl);
 			});
-			detailContentsHolder.on('click', 'div.detailViewTable div.fieldValue:not(.is-edit-active)', function (e) {
-				let target = $(e.target);
-				if (target.closest('a').hasClass('btnNoFastEdit') || target.hasClass('btnNoFastEdit')) return;
-				let currentTdElement = jQuery(e.currentTarget);
-				currentTdElement.addClass('is-edit-active');
-				thisInstance.ajaxEditHandling(currentTdElement);
-			});
+			detailContentsHolder.on(
+				'click',
+				'div.detailViewTable div.fieldValue:not(.is-edit-active)',
+				function (e) {
+					let target = $(e.target);
+					if (target.closest('a').hasClass('btnNoFastEdit') || target.hasClass('btnNoFastEdit'))
+						return;
+					let currentTdElement = jQuery(e.currentTarget);
+					currentTdElement.addClass('is-edit-active');
+					thisInstance.ajaxEditHandling(currentTdElement);
+				}
+			);
 			detailContentsHolder.on('click', 'div.recordDetails span.squeezedWell', function (e) {
 				var currentElement = jQuery(e.currentTarget);
 				var relatedLabel = currentElement.data('reference');
-				jQuery('.detailViewInfo .related .nav > li[data-reference="' + relatedLabel + '"]').trigger('click');
+				jQuery('.detailViewInfo .related .nav > li[data-reference="' + relatedLabel + '"]').trigger(
+					'click'
+				);
 			});
 			detailContentsHolder.on('click', '.relatedPopup', function (e) {
 				var editViewObj = new Vtiger_Edit_Js();
@@ -2765,7 +2870,9 @@ jQuery.Class(
 				commentActionsBlock.find('.js-view-thread-block').show();
 			});
 			detailContentsHolder.on('click', '.detailViewThread', function (e) {
-				var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
+				var recentCommentsTab = thisInstance.getTabByLabel(
+					thisInstance.detailViewRecentCommentsTabLabel
+				);
 				var commentId = jQuery(e.currentTarget)
 					.closest('.js-comment-single')
 					.find('.js-comment-info-header')
@@ -2814,8 +2921,8 @@ jQuery.Class(
 						position: 'html',
 						blockInfo: {
 							enabled: true,
-							elementToBlock: widgetContent,
-						},
+							elementToBlock: widgetContent
+						}
 					});
 				AppConnector.request({
 					module: app.getModuleName(),
@@ -2824,7 +2931,7 @@ jQuery.Class(
 					mode: 'showRecentRelation',
 					page: 1,
 					limit: widgetContent.find('.js-relatedHistoryPageLimit').val(),
-					type: $(e.currentTarget).val(),
+					type: $(e.currentTarget).val()
 				}).done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					widgetContent.find('#relatedHistoryCurrentPage').remove();
@@ -2834,7 +2941,9 @@ jQuery.Class(
 				});
 			});
 			detailContentsHolder.on('click', '.moreProductsService', function () {
-				jQuery('.related .mainNav[data-reference="ProductsAndServices"]:not(.d-none)').trigger('click');
+				jQuery('.related .mainNav[data-reference="ProductsAndServices"]:not(.d-none)').trigger(
+					'click'
+				);
 			});
 			detailContentsHolder.on('click', '.moreRelatedUpdates', function () {
 				var widgetContainer = jQuery(this).closest('.widgetContentBlock');
@@ -2843,8 +2952,8 @@ jQuery.Class(
 					position: 'html',
 					blockInfo: {
 						enabled: true,
-						elementToBlock: widgetContent,
-					},
+						elementToBlock: widgetContent
+					}
 				});
 				var currentPage = widgetContent.find('#relatedHistoryCurrentPage').val();
 				var nextPage = parseInt(currentPage) + 1;
@@ -2857,7 +2966,7 @@ jQuery.Class(
 					mode: 'showRecentRelation',
 					page: nextPage,
 					limit: pageLimit,
-					type: types,
+					type: types
 				}).done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					widgetContent.find('#relatedHistoryCurrentPage').remove();
@@ -2876,14 +2985,17 @@ jQuery.Class(
 						{
 							page: nextPage,
 							tab_label: 'LBL_UPDATES',
-							newChange: newChange,
+							newChange: newChange
 						},
 						container.find('#updates')
 					);
 					url = data['params'];
 				} else {
-					url = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel).data('url');
-					url = url.replace('&page=1', '&page=' + nextPage) + '&skipHeader=true&newChange=' + newChange;
+					url = thisInstance
+						.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel)
+						.data('url');
+					url =
+						url.replace('&page=1', '&page=' + nextPage) + '&skipHeader=true&newChange=' + newChange;
 					if (url.indexOf('&whereCondition') === -1) {
 						let switchBtn = jQuery('.active .js-switch--recentActivities');
 						url +=
@@ -2896,7 +3008,9 @@ jQuery.Class(
 				AppConnector.request(url).done(function (data) {
 					let dataContainer = jQuery(data);
 					container.find('#newChange').val(dataContainer.find('#newChange').val());
-					container.find('#updatesCurrentPage').val(dataContainer.find('#updatesCurrentPage').val());
+					container
+						.find('#updatesCurrentPage')
+						.val(dataContainer.find('#updatesCurrentPage').val());
 					container.find('.js-more-link').html(dataContainer.find('.js-more-link').html());
 					container.find('#updates ul').append(dataContainer.find('#updates ul').html());
 					app.event.trigger('DetailView.UpdatesWidget.AddMore', data, thisInstance);
@@ -2906,10 +3020,11 @@ jQuery.Class(
 				var progressInstance = jQuery.progressIndicator({
 					position: 'html',
 					blockInfo: {
-						enabled: true,
-					},
+						enabled: true
+					}
 				});
-				var url = 'index.php?module=ModTracker&action=ChangesReviewedOn&record=' + app.getRecordId();
+				var url =
+					'index.php?module=ModTracker&action=ChangesReviewedOn&record=' + app.getRecordId();
 				AppConnector.request(url).done(function (data) {
 					progressInstance.progressIndicator({ mode: 'hide' });
 					jQuery(e.currentTarget).parent().remove();
@@ -2929,7 +3044,9 @@ jQuery.Class(
 				});
 			});
 			detailContentsHolder.on('click', '.moreRecentDocuments', function () {
-				var recentDocumentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentDocumentsTabLabel);
+				var recentDocumentsTab = thisInstance.getTabByLabel(
+					thisInstance.detailViewRecentDocumentsTabLabel
+				);
 				recentDocumentsTab.trigger('click');
 			});
 			detailContentsHolder.on('click', '.moreRecentActivities', function (e) {
@@ -2943,7 +3060,7 @@ jQuery.Class(
 					type: 'POST',
 					async: false,
 					dataType: 'html',
-					data: data['params'],
+					data: data['params']
 				}).done(function (data) {
 					currentTarget.prop('disabled', false);
 					currentTarget.addClass('d-none');
@@ -2963,8 +3080,8 @@ jQuery.Class(
 				var progressIndicatorElement = jQuery.progressIndicator({
 					position: 'html',
 					blockInfo: {
-						enabled: true,
-					},
+						enabled: true
+					}
 				});
 				app.showModalWindow(null, 'index.php?' + url, function (modal) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -3029,14 +3146,14 @@ jQuery.Class(
 				view: 'Detail',
 				record: thisInstance.getRecordId(),
 				mode: 'showThreadComments',
-				commentid: commentId,
+				commentid: commentId
 			};
 			var progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true,
-					elementToBlock: commentContainer,
-				},
+					elementToBlock: commentContainer
+				}
 			});
 			AppConnector.request(params).done(function (data) {
 				progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -3053,9 +3170,9 @@ jQuery.Class(
 						action: 'PDF',
 						mode: 'hasValidTemplate',
 						record: app.getRecordId(),
-						view: app.getViewName(),
+						view: app.getViewName()
 					},
-					dataType: 'json',
+					dataType: 'json'
 				})
 					.done(function (data) {
 						if (data['result'].valid === false) {
@@ -3078,7 +3195,7 @@ jQuery.Class(
 				subProrductParams = {
 					module: 'Products',
 					action: 'SubProducts',
-					record: recordId,
+					record: recordId
 				};
 			AppConnector.request(subProrductParams).done(function (data) {
 				let responseData = data.result;
@@ -3162,6 +3279,6 @@ jQuery.Class(
 			this.registerEventForTotalRecordsCount();
 			this.registerProgress();
 			this.registerChat(detailViewContainer);
-		},
+		}
 	}
 );

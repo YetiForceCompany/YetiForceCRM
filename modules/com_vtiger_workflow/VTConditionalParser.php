@@ -25,7 +25,7 @@ class VTConditionalParser
 		$tokens = [];
 		foreach ($matches as $arr) {
 			$tokenVal = $arr[0];
-			if (in_array($tokenVal, ['and', 'or', '=', '(', ')'])) {
+			if (\in_array($tokenVal, ['and', 'or', '=', '(', ')'])) {
 				$tokenType = 'op';
 			} elseif (is_numeric($tokenVal)) {
 				$tokenType = 'num';
@@ -55,13 +55,12 @@ class VTConditionalParser
 		} else {
 			$left = $this->cond();
 		}
-		if (count($this->tokens) > $this->pos && in_array($this->peek(), [$op['and'], $op['or']])) {
+		if (\count($this->tokens) > $this->pos && \in_array($this->peek(), [$op['and'], $op['or']])) {
 			$nt = $this->nextToken();
 
 			return [$nt[1], $left, $this->parse()];
-		} else {
-			return $left;
 		}
+		return $left;
 	}
 
 	private function cond()
@@ -80,7 +79,7 @@ class VTConditionalParser
 
 	private function nextToken()
 	{
-		$this->pos += 1;
+		++$this->pos;
 
 		return $this->tokens[$this->pos - 1];
 	}

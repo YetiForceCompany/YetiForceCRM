@@ -2,9 +2,7 @@
 
 'use strict';
 $(document).ready(() => {
-	$('input:visible')
-		.first()
-		.focus();
+	$('input:visible').first().focus();
 	$('#fingerPrint').val(new DeviceUUID().get());
 	$('button.close').on('click', () => {
 		$('.visible-phone').css('visibility', 'hidden');
@@ -19,7 +17,7 @@ $(document).ready(() => {
 		$('#loginDiv').show();
 		$('#forgotPasswordDiv').hide();
 	});
-	$('form.forgot-form').on('submit', event => {
+	$('form.forgot-form').on('submit', (event) => {
 		if ($('#usernameFp').val() === '' || $('#emailId').val() === '') {
 			event.preventDefault();
 		}

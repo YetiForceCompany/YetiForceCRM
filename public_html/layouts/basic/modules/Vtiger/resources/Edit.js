@@ -24,7 +24,7 @@ $.Class(
 		 * Function to get Instance by name
 		 * @params moduleName:-- Name of the module to create instance
 		 */
-		getInstanceByModuleName: function(moduleName) {
+		getInstanceByModuleName: function (moduleName) {
 			if (typeof moduleName === 'undefined') {
 				moduleName = app.getModuleName();
 			}
@@ -53,7 +53,7 @@ $.Class(
 			instance.moduleName = moduleName;
 			return instance;
 		},
-		getInstance: function() {
+		getInstance: function () {
 			if (Vtiger_Edit_Js.editInstance == false) {
 				var instance = Vtiger_Edit_Js.getInstanceByModuleName();
 				Vtiger_Edit_Js.editInstance = instance;
@@ -66,17 +66,17 @@ $.Class(
 		formElement: false,
 		relationOperation: '',
 		moduleName: app.getModuleName(),
-		getForm: function() {
+		getForm: function () {
 			if (this.formElement == false) {
 				this.setForm($('#EditView'));
 			}
 			return this.formElement;
 		},
-		setForm: function(element) {
+		setForm: function (element) {
 			this.formElement = element;
 			return this;
 		},
-		getRecordsListParams: function(container) {
+		getRecordsListParams: function (container) {
 			let sourceModule = app.getModuleName();
 			let popupReferenceModule = $('input[name="popupReferenceModule"]', container).val();
 			let sourceFieldElement = $('input[class="sourceField"]', container);
@@ -98,7 +98,7 @@ $.Class(
 				mappingRelatedModule[sourceField] != undefined &&
 				mappingRelatedModule[sourceField][popupReferenceModule] != undefined
 			) {
-				$.each(mappingRelatedModule[sourceField][popupReferenceModule], function(index, value) {
+				$.each(mappingRelatedModule[sourceField][popupReferenceModule], function (index, value) {
 					let mapFieldElement = formElement.find('[name="' + index + '"]');
 					if (mapFieldElement.length && mapFieldElement.val() != '') {
 						filterFields[index] = mapFieldElement.val();
@@ -112,7 +112,11 @@ $.Class(
 				src_record: sourceRecordId,
 				filterFields: filterFields
 			};
-			$.each(['link', 'process'], function(index, value) {
+			let searchParamsElement = $('input[name="searchParams"]', container);
+			if (searchParamsElement.length > 0) {
+				params['search_params'] = searchParamsElement.val();
+			}
+			$.each(['link', 'process'], function (index, value) {
 				let fieldElement = formElement.find('[name="' + value + '"]');
 				if (fieldElement.length && fieldElement.val() != '' && fieldElement.val() != 0) {
 					params[value] = fieldElement.val();
@@ -127,19 +131,19 @@ $.Class(
 		 * Show records list modal
 		 * @param {jQuery.Event} e
 		 */
-		showRecordsList: function(e) {
+		showRecordsList: function (e) {
 			var parentElem = $(e.target).closest('.fieldValue');
 			if (parentElem.length <= 0) {
 				parentElem = $(e.target).closest('td');
 			}
 			var params = this.getRecordsListParams(parentElem);
 			app.showRecordsList(params, (modal, instance) => {
-				instance.setSelectEvent(data => {
+				instance.setSelectEvent((data) => {
 					this.setReferenceFieldValue(parentElem, data);
 				});
 			});
 		},
-		setReferenceFieldValue: function(container, params) {
+		setReferenceFieldValue: function (container, params) {
 			const thisInstance = this;
 			let sourceFieldElement = container.find('input.sourceField');
 			let sourceField = sourceFieldElement.attr('name');
@@ -164,16 +168,20 @@ $.Class(
 				return params;
 			}
 			let formElement = container.closest('form');
-			let mappingRelatedField = this.getMappingRelatedField(sourceField, popupReferenceModule, formElement);
+			let mappingRelatedField = this.getMappingRelatedField(
+				sourceField,
+				popupReferenceModule,
+				formElement
+			);
 			if (typeof mappingRelatedField !== 'undefined') {
 				let params = {
 					module: popupReferenceModule,
 					record: id
 				};
-				app.getRecordDetails(params).done(function(data) {
+				app.getRecordDetails(params).done(function (data) {
 					let response = (params.data = data['result']['data']);
 					app.event.trigger('EditView.SelectReference', params, formElement);
-					$.each(mappingRelatedField, function(key, value) {
+					$.each(mappingRelatedField, function (key, value) {
 						if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
 							let mapFieldElement = formElement.find('[name="' + key + '"]');
 							let fieldinfo = mapFieldElement.data('fieldinfo');
@@ -199,7 +207,9 @@ $.Class(
 								if (mapFieldElement.find('option[value="' + response[value[0]] + '"]').length) {
 									mapFieldElement.val(response[value[0]]).trigger('change');
 								} else if (
-									mapFieldElement.data('fieldinfo').picklistvalues.hasOwnProperty(response[value[0]])
+									mapFieldElement
+										.data('fieldinfo')
+										.picklistvalues.hasOwnProperty(response[value[0]])
 								) {
 									let newOption = new Option(response[value[0]], response[value[0]], true, true);
 									mapFieldElement.append(newOption).trigger('change');
@@ -224,10 +234,13 @@ $.Class(
 									if (referenceModulesList.length > 0 && value[1]) {
 										referenceModulesList.val(value[1]).trigger('change');
 									}
-									thisInstance.setReferenceFieldValue(mapFieldDisplayElement.closest('.fieldValue'), {
-										name: data['result']['displayData'][value[0]],
-										id: response[value[0]]
-									});
+									thisInstance.setReferenceFieldValue(
+										mapFieldDisplayElement.closest('.fieldValue'),
+										{
+											name: data['result']['displayData'][value[0]],
+											id: response[value[0]]
+										}
+									);
 								}
 							}
 						}
@@ -235,7 +248,7 @@ $.Class(
 				});
 			}
 		},
-		getRelationOperation: function() {
+		getRelationOperation: function () {
 			if (this.relationOperation === '') {
 				var relationOperation = $('[name="relationOperation"]');
 				if (relationOperation.length) {
@@ -246,96 +259,27 @@ $.Class(
 			}
 			return this.relationOperation;
 		},
-		getMappingValuesFromUrl: function(key) {
+		getMappingValuesFromUrl: function (key) {
 			var relationOperation = this.getRelationOperation();
 			if (relationOperation) {
 				return app.getUrlVar(key);
 			}
 			return false;
 		},
-		proceedRegisterEvents: function() {
+		proceedRegisterEvents: function () {
 			if ($('.recordEditView').length > 0) {
 				return true;
 			} else {
 				return false;
 			}
 		},
-		/**
-		 * Function which will register reference field clear event
-		 * @params - container <jQuery> - element in which auto complete fields needs to be searched
-		 */
-		registerClearTreeSelectionEvent: function(container) {
-			var thisInstance = this;
-			container.find('.clearTreeSelection').on('click', function(e) {
-				thisInstance.clearFieldValue($(e.currentTarget));
-				e.preventDefault();
-			});
-		},
-		/**
-		 * Function which will handle the reference auto complete event registrations
-		 * @params - container <jQuery> - element in which auto complete fields needs to be searched
-		 */
-		registerTreeAutoCompleteFields: function(container) {
-			container.find('input.treeAutoComplete').autocomplete({
-				delay: '600',
-				minLength: '3',
-				source: function(request, response) {
-					//element will be array of dom elements
-					//here this refers to auto complete instance
-					let inputElement = $(this.element[0]);
-					let searchValue = request.term.toLowerCase();
-					let parentElem = inputElement.closest('.fieldValue');
-					let sourceFieldElement = $('input[class="sourceField"]', parentElem);
-					let fieldInfo = sourceFieldElement.data('fieldinfo');
-					let allValues = fieldInfo.picklistvalues;
-					let reponseDataList = [];
-					for (let id in allValues) {
-						if (allValues[id].toLowerCase().indexOf(searchValue) >= 0) {
-							reponseDataList.push({ label: allValues[id], value: id, id: id });
-						}
-					}
-					if (reponseDataList.length <= 0) {
-						$(inputElement).val('');
-						reponseDataList.push({
-							label: app.vtranslate('JS_NO_RESULTS_FOUND'),
-							type: 'no results'
-						});
-					}
-					response(reponseDataList);
-				},
-				select: function(event, ui) {
-					var selectedItemData = ui.item;
-					//To stop selection if no results is selected
-					if (typeof selectedItemData.type !== 'undefined' && selectedItemData.type == 'no results') {
-						return false;
-					}
-					selectedItemData.name = selectedItemData.value;
-					var element = $(this);
-					var parentElem = element.closest('.fieldValue');
-					var sourceField = parentElem.find('input[class="sourceField"]');
-					var sourceFieldDisplay = sourceField.attr('name') + '_display';
-					var fieldDisplayElement = $('input[name="' + sourceFieldDisplay + '"]', parentElem);
-					sourceField.val(selectedItemData.id);
-					this.value = selectedItemData.label;
-					fieldDisplayElement.attr('readonly', true);
-					return false;
-				},
-				change: function(event, ui) {},
-				open: function(event, ui) {
-					//To Make the menu come up in the case of quick create
-					$(this)
-						.data('ui-autocomplete')
-						.menu.element.css('z-index', '100001');
-				}
-			});
-		},
-		referenceModulePopupRegisterEvent: function(container) {
-			container.on('click', '.relatedPopup', e => {
+		referenceModulePopupRegisterEvent: function (container) {
+			container.on('click', '.relatedPopup', (e) => {
 				this.showRecordsList(e);
 			});
 			let moduleList = container.find('.referenceModulesList');
 			App.Fields.Picklist.showSelect2ElementView(container.find('.referenceModulesList:visible'));
-			moduleList.on('change', e => {
+			moduleList.on('change', (e) => {
 				let element = $(e.currentTarget);
 				let parentElem = element.closest('.fieldValue');
 				let popupReferenceModule = element.val();
@@ -348,10 +292,10 @@ $.Class(
 				}
 			});
 		},
-		getReferencedModuleName: function(parenElement) {
+		getReferencedModuleName: function (parenElement) {
 			return $('input[name="popupReferenceModule"]', parenElement).val();
 		},
-		searchModuleNames: function(params) {
+		searchModuleNames: function (params) {
 			var aDeferred = $.Deferred();
 
 			if (typeof params.module === 'undefined') {
@@ -363,10 +307,10 @@ $.Class(
 			}
 
 			AppConnector.request(params)
-				.done(function(data) {
+				.done(function (data) {
 					aDeferred.resolve(data);
 				})
-				.fail(function(error) {
+				.fail(function (error) {
 					aDeferred.reject();
 				});
 			return aDeferred.promise();
@@ -374,7 +318,7 @@ $.Class(
 		/**
 		 * Function to get reference search params
 		 */
-		getReferenceSearchParams: function(element) {
+		getReferenceSearchParams: function (element) {
 			var tdElement = $(element).closest('.fieldValue');
 			var params = {};
 			var searchModule = this.getReferencedModuleName(tdElement);
@@ -385,12 +329,12 @@ $.Class(
 		 * Function which will handle the reference auto complete event registrations
 		 * @params - container <jQuery> - element in which auto complete fields needs to be searched
 		 */
-		registerAutoCompleteFields: function(container) {
+		registerAutoCompleteFields: function (container) {
 			var thisInstance = this;
 			container.find('input.autoComplete').autocomplete({
 				delay: '600',
 				minLength: '3',
-				source: function(request, response) {
+				source: function (request, response) {
 					//element will be array of dom elements
 					//here this refers to auto complete instance
 					var inputElement = $(this.element[0]);
@@ -399,7 +343,7 @@ $.Class(
 					params.search_value = searchValue;
 					//params.parent_id = app.getRecordId();
 					//params.parent_module = app.getModuleName();
-					thisInstance.searchModuleNames(params).done(function(data) {
+					thisInstance.searchModuleNames(params).done(function (data) {
 						var reponseDataList = [];
 						var serverDataFormat = data.result;
 						if (serverDataFormat.length <= 0) {
@@ -420,10 +364,13 @@ $.Class(
 						});
 					});
 				},
-				select: function(event, ui) {
+				select: function (event, ui) {
 					var selectedItemData = ui.item;
 					//To stop selection if no results is selected
-					if (typeof selectedItemData.type !== 'undefined' && selectedItemData.type == 'no results') {
+					if (
+						typeof selectedItemData.type !== 'undefined' &&
+						selectedItemData.type == 'no results'
+					) {
 						return false;
 					}
 					selectedItemData.name = selectedItemData.value;
@@ -431,21 +378,16 @@ $.Class(
 					var tdElement = element.closest('.fieldValue');
 					thisInstance.setReferenceFieldValue(tdElement, selectedItemData);
 				},
-				change: function(event, ui) {
+				change: function (event, ui) {
 					var element = $(this);
 					//if you dont have readonly attribute means the user didnt select the item
 					if (element.attr('readonly') == undefined) {
-						element
-							.closest('.fieldValue')
-							.find('.clearReferenceSelection')
-							.trigger('click');
+						element.closest('.fieldValue').find('.clearReferenceSelection').trigger('click');
 					}
 				},
-				open: function(event, ui) {
+				open: function (event, ui) {
 					//To Make the menu come up in the case of quick create
-					$(this)
-						.data('ui-autocomplete')
-						.menu.element.css('z-index', '100001');
+					$(this).data('ui-autocomplete').menu.element.css('z-index', '100001');
 				}
 			});
 		},
@@ -453,9 +395,9 @@ $.Class(
 		 * Function which will register reference field clear event
 		 * @params - container <jQuery> - element in which auto complete fields needs to be searched
 		 */
-		registerClearReferenceSelectionEvent: function(container) {
+		registerClearReferenceSelectionEvent: function (container) {
 			var thisInstance = this;
-			container.on('click', '.clearReferenceSelection', function(e) {
+			container.on('click', '.clearReferenceSelection', function (e) {
 				var element = $(e.currentTarget);
 				thisInstance.clearFieldValue(element);
 				element
@@ -465,7 +407,7 @@ $.Class(
 				e.preventDefault();
 			});
 		},
-		clearFieldValue: function(element) {
+		clearFieldValue: function (element) {
 			const self = this;
 			let fieldValueContener = element.closest('.fieldValue');
 			let fieldNameElement = fieldValueContener.find('.sourceField');
@@ -481,9 +423,16 @@ $.Class(
 				.find('#' + fieldName + '_display')
 				.removeAttr('readonly')
 				.val('');
-			app.event.trigger('EditView.ClearField', { fieldName: fieldName, referenceModule: referenceModule });
-			let mappingRelatedField = this.getMappingRelatedField(fieldName, referenceModule, formElement);
-			$.each(mappingRelatedField, function(key, value) {
+			app.event.trigger('EditView.ClearField', {
+				fieldName: fieldName,
+				referenceModule: referenceModule
+			});
+			let mappingRelatedField = this.getMappingRelatedField(
+				fieldName,
+				referenceModule,
+				formElement
+			);
+			$.each(mappingRelatedField, function (key, value) {
 				let mapFieldElement = formElement.find('[name="' + key + '"]');
 				if (mapFieldElement.is('select')) {
 					mapFieldElement.val(mapFieldElement.find('option:first').val()).trigger('change');
@@ -497,7 +446,9 @@ $.Class(
 						'#' + self.moduleName + '_editView_fieldName_' + key + '_dropDown'
 					);
 					if (referenceModulesList.length > 0 && value[1]) {
-						referenceModulesList.val(referenceModulesList.find('option:first').val()).trigger('change');
+						referenceModulesList
+							.val(referenceModulesList.find('option:first').val())
+							.trigger('change');
 					}
 				}
 			});
@@ -506,8 +457,8 @@ $.Class(
 		 * Function which will register event to prevent form submission on pressing on enter
 		 * @params - container <jQuery> - element in which auto complete fields needs to be searched
 		 */
-		registerPreventingEnterSubmitEvent: function(container) {
-			container.on('keypress', function(e) {
+		registerPreventingEnterSubmitEvent: function (container) {
+			container.on('keypress', function (e) {
 				//Stop the submit when enter is pressed in the form
 				var currentElement = $(e.target);
 				if (e.which == 13 && !currentElement.is('textarea')) {
@@ -515,14 +466,14 @@ $.Class(
 				}
 			});
 		},
-		registerTimeFields: function(container) {
+		registerTimeFields: function (container) {
 			app.registerEventForClockPicker();
 			App.Fields.Date.register(container);
 			App.Fields.DateTime.register(container);
 		},
-		referenceCreateHandler: function(container) {
+		referenceCreateHandler: function (container) {
 			var thisInstance = this;
-			var postQuickCreateSave = function(data) {
+			var postQuickCreateSave = function (data) {
 				thisInstance.setReferenceFieldValue(container, {
 					name: data.result._recordLabel,
 					id: data.result._recordId
@@ -547,9 +498,9 @@ $.Class(
 		 * Function which will register event for create of reference record
 		 * This will allow users to create reference record from edit view of other record
 		 */
-		registerReferenceCreate: function(container) {
+		registerReferenceCreate: function (container) {
 			var thisInstance = this;
-			container.on('click', '.createReferenceRecord', function(e) {
+			container.on('click', '.createReferenceRecord', function (e) {
 				var element = $(e.currentTarget);
 				var controlElementDiv = element.closest('.fieldValue');
 				thisInstance.referenceCreateHandler(controlElementDiv);
@@ -579,7 +530,7 @@ $.Class(
 		/**
 		 * Function to register event for copying addresses
 		 */
-		registerEventForCopyAddress: function() {
+		registerEventForCopyAddress: function () {
 			var thisInstance = this;
 			var account_id = false;
 			var contact_id = false;
@@ -587,7 +538,7 @@ $.Class(
 			var vendor_id = false;
 			$(
 				'#EditView .js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldValue, #EditView .js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldLabel'
-			).each(function(index) {
+			).each(function (index) {
 				var block = $(this);
 				var referenceModulesList = false;
 				var relatedField = block.find('[name="popupReferenceModule"]').val();
@@ -605,7 +556,7 @@ $.Class(
 				}
 				referenceModulesList = block.find('.referenceModulesList');
 				if (referenceModulesList.length > 0) {
-					$.each(referenceModulesList.find('option'), function(key, data) {
+					$.each(referenceModulesList.find('option'), function (key, data) {
 						if (data.value == 'Accounts') {
 							account_id = block.find('.sourceField').attr('name');
 						}
@@ -625,7 +576,7 @@ $.Class(
 			if (account_id == false) {
 				$('.copyAddressFromAccount').addClass('d-none');
 			} else {
-				$('.copyAddressFromAccount').on('click', function(e) {
+				$('.copyAddressFromAccount').on('click', function (e) {
 					var element = $(this);
 					var block = element.closest('.js-toggle-panel');
 					var from = element.data('label');
@@ -633,7 +584,9 @@ $.Class(
 					var recordRelativeAccountId = $('[name="' + account_id + '"]').val();
 
 					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS'));
+						Vtiger_Helper_Js.showPnotify(
+							app.vtranslate('JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS')
+						);
 					} else {
 						var recordRelativeAccountName = $('#' + account_id + '_display').val();
 						var data = {
@@ -650,14 +603,16 @@ $.Class(
 			if (contact_id == false) {
 				$('.copyAddressFromContact').addClass('d-none');
 			} else {
-				$('.copyAddressFromContact').on('click', function(e) {
+				$('.copyAddressFromContact').on('click', function (e) {
 					var element = $(this);
 					var block = element.closest('.js-toggle-panel');
 					var from = element.data('label');
 					var to = block.data('label');
 					var recordRelativeAccountId = $('[name="' + contact_id + '"]').val();
 					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS'));
+						Vtiger_Helper_Js.showPnotify(
+							app.vtranslate('JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS')
+						);
 					} else {
 						var recordRelativeAccountName = $('#' + contact_id + '_display').val();
 						var data = {
@@ -673,14 +628,16 @@ $.Class(
 			if (lead_id == false) {
 				$('.copyAddressFromLead').addClass('d-none');
 			} else {
-				$('.copyAddressFromLead').on('click', function(e) {
+				$('.copyAddressFromLead').on('click', function (e) {
 					var element = $(this);
 					var block = element.closest('.js-toggle-panel');
 					var from = element.data('label');
 					var to = block.data('label');
 					var recordRelativeAccountId = $('[name="' + lead_id + '"]').val();
 					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS'));
+						Vtiger_Helper_Js.showPnotify(
+							app.vtranslate('JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS')
+						);
 					} else {
 						var recordRelativeAccountName = $('#' + lead_id + '_display').val();
 						var data = {
@@ -696,14 +653,16 @@ $.Class(
 			if (vendor_id == false) {
 				$('.copyAddressFromVendor').addClass('d-none');
 			} else {
-				$('.copyAddressFromVendor').on('click', function(e) {
+				$('.copyAddressFromVendor').on('click', function (e) {
 					var element = $(this);
 					var block = element.closest('.js-toggle-panel');
 					var from = element.data('label');
 					var to = block.data('label');
 					var recordRelativeAccountId = $('[name="' + vendor_id + '"]').val();
 					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS'));
+						Vtiger_Helper_Js.showPnotify(
+							app.vtranslate('JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS')
+						);
 					} else {
 						var recordRelativeAccountName = $('#' + vendor_id + '_display').val();
 						var data = {
@@ -717,36 +676,34 @@ $.Class(
 				});
 			}
 
-			$('#EditView .js-toggle-panel').each(function(index) {
+			$('#EditView .js-toggle-panel').each(function (index) {
 				var hideCopyAddressLabel = true;
 				$(this)
 					.find('.adressAction button')
-					.each(function(index) {
+					.each(function (index) {
 						if ($(this).hasClass('d-none') == false) {
 							hideCopyAddressLabel = false;
 						}
 					});
 				if (hideCopyAddressLabel) {
-					$(this)
-						.find('.copyAddressLabel')
-						.addClass('d-none');
+					$(this).find('.copyAddressLabel').addClass('d-none');
 				}
 			});
-			$('.copyAddressFromMain').on('click', function(e) {
+			$('.copyAddressFromMain').on('click', function (e) {
 				var element = $(this);
 				var block = element.closest('.js-toggle-panel');
 				var from = element.data('label');
 				var to = block.data('label');
 				thisInstance.copyAddress(from, to, false, false);
 			});
-			$('.copyAddressFromMailing').on('click', function(e) {
+			$('.copyAddressFromMailing').on('click', function (e) {
 				var element = $(this);
 				var block = element.closest('.js-toggle-panel');
 				var from = element.data('label');
 				var to = block.data('label');
 				thisInstance.copyAddress(from, to, false, false);
 			});
-			$('.copyAddressFromDelivery').on('click', function(e) {
+			$('.copyAddressFromDelivery').on('click', function (e) {
 				var element = $(this);
 				var block = element.closest('.js-toggle-panel');
 				var from = element.data('label');
@@ -757,10 +714,10 @@ $.Class(
 		/**
 		 * Function which will copy the address details
 		 */
-		copyAddressDetails: function(from, to, data, container) {
+		copyAddressDetails: function (from, to, data, container) {
 			var thisInstance = this;
 			var sourceModule = data.module;
-			app.getRecordDetails(data).done(function(data) {
+			app.getRecordDetails(data).done(function (data) {
 				var response = data['result'];
 				thisInstance.addressFieldsData = response;
 				thisInstance.copyAddress(from, to, true, sourceModule);
@@ -770,7 +727,7 @@ $.Class(
 		 * Function to copy address between fields
 		 * @param strings which accepts value as either odd or even
 		 */
-		copyAddress: function(fromLabel, toLabel, relatedRecord, sourceModule) {
+		copyAddress: function (fromLabel, toLabel, relatedRecord, sourceModule) {
 			const thisInstance = this;
 			let formElement = this.getForm(),
 				status = false,
@@ -823,24 +780,25 @@ $.Class(
 				Vtiger_Helper_Js.showPnotify(app.vtranslate(errorMsg));
 			}
 		},
-		registerReferenceSelectionEvent: function(container) {
+		registerReferenceSelectionEvent: function (container) {
 			var thisInstance = this;
 			var relategField = container.find("input[name*='addresslevel']");
-			relategField.on(Vtiger_Edit_Js.referenceSelectionEvent, function(e, data) {
+			relategField.on(Vtiger_Edit_Js.referenceSelectionEvent, function (e, data) {
 				var blockContainer = $(e.currentTarget).closest('.js-toggle-panel');
 				thisInstance.copyAddressDetailsRef(data, blockContainer);
 			});
 		},
-		copyAddressDetailsRef: function(data, container) {
+		copyAddressDetailsRef: function (data, container) {
 			var thisInstance = this;
-			app.getRecordDetails(data)
-				.done(function(data) {
+			app
+				.getRecordDetails(data)
+				.done(function (data) {
 					var response = data['result'];
 					thisInstance.mapAddressDetails(response, container);
 				})
-				.fail(function(error, err) {});
+				.fail(function (error, err) {});
 		},
-		mapAddressDetails: function(result, container) {
+		mapAddressDetails: function (result, container) {
 			for (var key in result) {
 				if (key.indexOf('addresslevel') != -1) {
 					if (container.find('[name="' + key + '"]').length != 0) {
@@ -882,19 +840,19 @@ $.Class(
 				}
 			}
 		},
-		registerMaskFields: function(container) {
+		registerMaskFields: function (container) {
 			container.find('[data-inputmask]').inputmask();
 		},
-		triggerDisplayTypeEvent: function() {
+		triggerDisplayTypeEvent: function () {
 			var widthType = app.cacheGet('widthType', 'narrowWidthType');
 			if (widthType) {
 				var elements = $('#EditView').find('.fieldValue,.fieldLabel');
 				elements.addClass(widthType);
 			}
 		},
-		registerSubmitEvent: function() {
+		registerSubmitEvent: function () {
 			var editViewForm = this.getForm();
-			editViewForm.on('submit', function(e) {
+			editViewForm.on('submit', function (e) {
 				//Form should submit only once for multiple clicks also
 				if (typeof editViewForm.data('submit') !== 'undefined') {
 					return false;
@@ -906,10 +864,7 @@ $.Class(
 							enabled: true
 						}
 					});
-					editViewForm
-						.find('.js-toggle-panel')
-						.find('.js-block-content')
-						.removeClass('d-none');
+					editViewForm.find('.js-toggle-panel').find('.js-block-content').removeClass('d-none');
 					if (editViewForm.validationEngine('validate')) {
 						//Once the form is submiting add data attribute to that form element
 						editViewForm.data('submit', 'true');
@@ -934,16 +889,16 @@ $.Class(
 		/*
 		 * Function to check the view permission of a record after save
 		 */
-		registerRecordPreSaveEventEvent: function(form) {
+		registerRecordPreSaveEventEvent: function (form) {
 			form.on(Vtiger_Edit_Js.recordPreSave, (e, data) => {
-				this.preSaveValidation(form).done(response => {
+				this.preSaveValidation(form).done((response) => {
 					if (response !== true) {
 						e.preventDefault();
 					}
 				});
 			});
 		},
-		preSaveValidation: function(form) {
+		preSaveValidation: function (form) {
 			const aDeferred = $.Deferred();
 			if (form.find('#preSaveValidation').val()) {
 				document.progressLoader = $.progressIndicator({
@@ -963,7 +918,7 @@ $.Class(
 					processData: false,
 					contentType: false
 				})
-					.done(data => {
+					.done((data) => {
 						document.progressLoader.progressIndicator({ mode: 'hide' });
 						let response = data.result;
 						for (let i = 0; i < response.length; i++) {
@@ -998,7 +953,7 @@ $.Class(
 		 * Function to register event for setting up picklistdependency
 		 * for a module if exist on change of picklist value
 		 */
-		registerEventForPicklistDependencySetup: function(container) {
+		registerEventForPicklistDependencySetup: function (container) {
 			let picklistDependcyElemnt = $('[name="picklistDependency"]', container);
 			if (picklistDependcyElemnt.length <= 0) {
 				return;
@@ -1018,7 +973,7 @@ $.Class(
 			sourcePickListNames = sourcePickListNames.join(',');
 			let sourcePickListElements = container.find(sourcePickListNames);
 
-			sourcePickListElements.on('change', function(e) {
+			sourcePickListElements.on('change', function (e) {
 				let currentElement = $(e.currentTarget),
 					configuredDependencyObject = picklistDependencyMapping[currentElement.attr('name')],
 					targetObjectForSelectedSourceValue = configuredDependencyObject[currentElement.val()],
@@ -1027,7 +982,7 @@ $.Class(
 				if (typeof targetObjectForSelectedSourceValue === 'undefined') {
 					targetObjectForSelectedSourceValue = picklistmap;
 				}
-				$.each(picklistmap, function(targetPickListName, targetPickListValues) {
+				$.each(picklistmap, function (targetPickListName, targetPickListValues) {
 					let targetPickListMap = targetObjectForSelectedSourceValue[targetPickListName];
 					if (typeof targetPickListMap === 'undefined') {
 						targetPickListMap = targetPickListValues;
@@ -1050,7 +1005,7 @@ $.Class(
 						optionSelector.push(targetPickListMap[i]);
 					}
 
-					$.each(listOfAvailableOptions, function(i, e) {
+					$.each(listOfAvailableOptions, function (i, e) {
 						if ($.inArray($(e).val(), optionSelector) !== -1) {
 							targetOptions = targetOptions.add($(e));
 						}
@@ -1065,15 +1020,15 @@ $.Class(
 			//To Trigger the change on load
 			sourcePickListElements.trigger('change');
 		},
-		registerLeavePageWithoutSubmit: function(form) {
+		registerLeavePageWithoutSubmit: function (form) {
 			if (
 				typeof CKEDITOR !== 'undefined' &&
 				typeof CKEDITOR.instances !== 'undefined' &&
 				Object.keys(CKEDITOR.instances).length
 			) {
-				CKEDITOR.on('instanceReady', function(e) {
+				CKEDITOR.on('instanceReady', function (e) {
 					let initialFormData = form.serialize();
-					window.onbeforeunload = function(e) {
+					window.onbeforeunload = function (e) {
 						if (initialFormData != form.serialize() && form.data('submit') != 'true') {
 							return app.vtranslate('JS_CHANGES_WILL_BE_LOST');
 						}
@@ -1081,33 +1036,31 @@ $.Class(
 				});
 			} else {
 				let initialFormData = form.serialize();
-				window.onbeforeunload = function(e) {
+				window.onbeforeunload = function (e) {
 					if (initialFormData != form.serialize() && form.data('submit') != 'true') {
 						return app.vtranslate('JS_CHANGES_WILL_BE_LOST');
 					}
 				};
 			}
 		},
-		stretchCKEditor: function() {
+		stretchCKEditor: function () {
 			var row = $('.js-editor').parents('.fieldRow');
 			var td = $('.js-editor').parent();
-			$(row)
-				.find('.fieldLabel')
-				.remove();
+			$(row).find('.fieldLabel').remove();
 			$(td).removeClass('col-md-10');
 			$(td).addClass('col-md-12');
 		},
 		/**
 		 * Function to register event for ckeditor for description field
 		 */
-		registerEventForEditor: function() {
+		registerEventForEditor: function () {
 			var form = this.getForm();
 			var thisInstance = this;
-			$.each(form.find('.js-editor'), function(key, data) {
+			$.each(form.find('.js-editor'), function (key, data) {
 				thisInstance.loadEditorElement($(data));
 			});
 		},
-		loadEditorElement: function(noteContentElement) {
+		loadEditorElement: function (noteContentElement) {
 			var customConfig = {};
 			if (noteContentElement.hasClass('js-editor--basic')) {
 				customConfig.toolbar = 'Min';
@@ -1117,14 +1070,14 @@ $.Class(
 			}
 			new App.Fields.Text.Editor(noteContentElement, customConfig);
 		},
-		registerHelpInfo: function() {
+		registerHelpInfo: function () {
 			var form = this.getForm();
 			app.showPopoverElementView(form.find('.js-help-info'));
 		},
-		registerBlockAnimationEvent: function() {
+		registerBlockAnimationEvent: function () {
 			var thisInstance = this;
 			var detailContentsHolder = this.getForm();
-			detailContentsHolder.on('click', '.blockHeader', function(e) {
+			detailContentsHolder.on('click', '.blockHeader', function (e) {
 				const target = $(e.target);
 				if (
 					target.is('input') ||
@@ -1135,19 +1088,17 @@ $.Class(
 				) {
 					return false;
 				}
-				var currentTarget = $(e.currentTarget)
-					.find('.js-block-toggle')
-					.not('.d-none');
+				var currentTarget = $(e.currentTarget).find('.js-block-toggle').not('.d-none');
 				var blockId = currentTarget.data('id');
 				var closestBlock = currentTarget.closest('.js-toggle-panel');
 				var bodyContents = closestBlock.find('.blockContent');
 				var data = currentTarget.data();
 				var module = app.getModuleName();
-				var hideHandler = function() {
+				var hideHandler = function () {
 					bodyContents.addClass('d-none');
 					app.cacheSet(module + '.' + blockId, 0);
 				};
-				var showHandler = function() {
+				var showHandler = function () {
 					bodyContents.removeClass('d-none');
 					app.cacheSet(module + '.' + blockId, 1);
 				};
@@ -1162,10 +1113,10 @@ $.Class(
 				}
 			});
 		},
-		registerBlockStatusCheckOnLoad: function() {
+		registerBlockStatusCheckOnLoad: function () {
 			let blocks = this.getForm().find('.js-toggle-panel');
 			let module = app.getModuleName();
-			blocks.each(function(index, block) {
+			blocks.each(function (index, block) {
 				let currentBlock = $(block);
 				let dynamicAttr = currentBlock.attr('data-dynamic');
 				if (typeof dynamicAttr !== typeof undefined && dynamicAttr !== false) {
@@ -1188,15 +1139,15 @@ $.Class(
 				}
 			});
 		},
-		registerAutoloadAddress: function() {
+		registerAutoloadAddress: function () {
 			this.getForm()
 				.find('.js-search-address')
-				.each(function(index, item) {
+				.each(function (index, item) {
 					let search = $(item);
 					let container = search.closest('.js-block-content');
 					let input = search.find('.js-autoload-address');
 					input.autocomplete({
-						source: function(request, response) {
+						source: function (request, response) {
 							AppConnector.request({
 								module: app.getModuleName(),
 								action: 'Fields',
@@ -1204,7 +1155,7 @@ $.Class(
 								type: search.find('.js-select-operator').val(),
 								value: request.term
 							})
-								.done(function(requestData) {
+								.done(function (requestData) {
 									if (requestData.result === false) {
 										Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
 									} else if (requestData.result.length) {
@@ -1213,7 +1164,7 @@ $.Class(
 										response([{ label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: '' }]);
 									}
 								})
-								.fail(function(textStatus, errorThrown, jqXHR) {
+								.fail(function (textStatus, errorThrown, jqXHR) {
 									Vtiger_Helper_Js.showPnotify({
 										text: jqXHR.responseJSON.error.message,
 										type: 'error',
@@ -1223,19 +1174,19 @@ $.Class(
 								});
 						},
 						minLength: input.data('min'),
-						select: function(event, ui) {
-							$.each(ui.item.address, function(index, value) {
+						select: function (event, ui) {
+							$.each(ui.item.address, function (index, value) {
 								let field = container.find('.fieldValue [name^=' + index + ']');
 								if (field.length && value) {
 									if (typeof value !== 'object') {
 										value = [value];
 									}
-									$.each(value, function(index, v) {
+									$.each(value, function (index, v) {
 										let select = false,
 											element = false;
 										if (field.prop('tagName') === 'SELECT') {
 											if (typeof v === 'object') {
-												$.each(v, function(index, x) {
+												$.each(v, function (index, x) {
 													element = field.find('option[data-' + index + "='" + x + "']");
 													if (x && element.length) {
 														select = element.val();
@@ -1267,7 +1218,7 @@ $.Class(
 					});
 				});
 		},
-		setEnabledFields: function(element) {
+		setEnabledFields: function (element) {
 			var fieldValue = element.closest('.fieldValue');
 			var fieldName = fieldValue.find('input.sourceField').attr('name');
 			var fieldDisplay = fieldValue.find('#' + fieldName + '_display');
@@ -1281,7 +1232,7 @@ $.Class(
 			fieldDisplay.attr('placeholder', placeholder);
 			fieldValue.find('.referenceModulesList').attr('required', 'required');
 		},
-		setDisabledFields: function(element) {
+		setDisabledFields: function (element) {
 			var fieldValue = element.closest('.fieldValue');
 			var fieldName = fieldValue.find('input.sourceField').attr('name');
 			var fieldDisplay = fieldValue.find('#' + fieldName + '_display');
@@ -1293,7 +1244,7 @@ $.Class(
 			fieldDisplay.attr('placeholderDisabled', placeholder);
 			fieldValue.find('.referenceModulesList').removeAttr('required');
 		},
-		getMappingRelatedField: function(sourceField, sourceFieldModule, container) {
+		getMappingRelatedField: function (sourceField, sourceFieldModule, container) {
 			const mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
 			const mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
 			if (
@@ -1304,18 +1255,18 @@ $.Class(
 			}
 			return [];
 		},
-		registerValidationsFields: function(container) {
+		registerValidationsFields: function (container) {
 			var params = app.validationEngineOptionsForRecord;
 			container.validationEngine(params);
 		},
-		checkReferencesField: function(container, clear) {
+		checkReferencesField: function (container, clear) {
 			var thisInstance = this;
 			var activeProcess = false,
 				activeSubProcess = false;
 			if (!CONFIG.fieldsReferencesDependent) {
 				return false;
 			}
-			container.find('input[data-fieldtype="referenceLink"]').each(function(index, element) {
+			container.find('input[data-fieldtype="referenceLink"]').each(function (index, element) {
 				element = $(element);
 				var t = true;
 				if (element.closest('.tab-pane').length > 0) {
@@ -1329,7 +1280,7 @@ $.Class(
 					activeProcess = true;
 				}
 			});
-			container.find('input[data-fieldtype="referenceProcess"]').each(function(index, element) {
+			container.find('input[data-fieldtype="referenceProcess"]').each(function (index, element) {
 				element = $(element);
 				if (activeProcess) {
 					thisInstance.setEnabledFields(element);
@@ -1353,10 +1304,11 @@ $.Class(
 					activeSubProcess = true;
 				}
 			});
-			container.find('input[data-fieldtype="referenceSubProcess"]').each(function(index, element) {
+			container.find('input[data-fieldtype="referenceSubProcess"]').each(function (index, element) {
 				element = $(element);
 				var processfieldElement = element.closest('.fieldValue');
-				var length = processfieldElement.find('.referenceModulesList option[disabled!="disabled"]').length;
+				var length = processfieldElement.find('.referenceModulesList option[disabled!="disabled"]')
+					.length;
 				if (activeSubProcess && length > 0) {
 					thisInstance.setEnabledFields(element);
 				} else {
@@ -1367,23 +1319,19 @@ $.Class(
 				}
 			});
 		},
-		checkSubProcessModulesList: function(element) {
+		checkSubProcessModulesList: function (element) {
 			var option = element.find('option:selected');
 			if (option.data('is-quickcreate') != 1) {
-				element
-					.closest('.fieldValue')
-					.find('.createReferenceRecord')
-					.addClass('d-none');
+				element.closest('.fieldValue').find('.createReferenceRecord').addClass('d-none');
 			} else {
-				element
-					.closest('.fieldValue')
-					.find('.createReferenceRecord')
-					.removeClass('d-none');
+				element.closest('.fieldValue').find('.createReferenceRecord').removeClass('d-none');
 			}
 		},
-		checkReferenceModulesList: function(container) {
+		checkReferenceModulesList: function (container) {
 			var thisInstance = this;
-			var processfieldElement = container.find('input[data-fieldtype="referenceProcess"]').closest('.fieldValue');
+			var processfieldElement = container
+				.find('input[data-fieldtype="referenceProcess"]')
+				.closest('.fieldValue');
 			var referenceProcess = processfieldElement.find('input[name="popupReferenceModule"]').val();
 			var subProcessfieldElement = container
 				.find('input[data-fieldtype="referenceSubProcess"]')
@@ -1397,38 +1345,38 @@ $.Class(
 			subProcessfieldElement.find('[name="popupReferenceModule"]').val(subProcessValue);
 			thisInstance.checkSubProcessModulesList(subProcessfieldElement.find('.referenceModulesList'));
 		},
-		registerReferenceFields: function(container) {
+		registerReferenceFields: function (container) {
 			var thisInstance = this;
 			if (!CONFIG.fieldsReferencesDependent) {
 				return false;
 			}
 			thisInstance.checkReferenceModulesList(container);
 			thisInstance.checkReferencesField(container, false);
-			container.find('.sourceField').on(Vtiger_Edit_Js.referenceSelectionEvent, function(e, data) {
+			container.find('.sourceField').on(Vtiger_Edit_Js.referenceSelectionEvent, function (e, data) {
 				thisInstance.checkReferencesField(container, true);
 			});
-			container.find('.sourceField').on(Vtiger_Edit_Js.referenceDeSelectionEvent, function(e) {
+			container.find('.sourceField').on(Vtiger_Edit_Js.referenceDeSelectionEvent, function (e) {
 				thisInstance.checkReferencesField(container, true);
 			});
 			container
 				.find('input[data-fieldtype="referenceProcess"]')
 				.closest('.fieldValue')
 				.find('.referenceModulesList')
-				.on('change', function() {
+				.on('change', function () {
 					thisInstance.checkReferenceModulesList(container);
 				});
 			container
 				.find('input[data-fieldtype="referenceSubProcess"]')
 				.closest('.fieldValue')
 				.find('.referenceModulesList')
-				.on('change', function(e) {
+				.on('change', function (e) {
 					thisInstance.checkSubProcessModulesList($(e.currentTarget));
 				});
 		},
-		registerFocusFirstField: function(container, afterTimeout) {
+		registerFocusFirstField: function (container, afterTimeout) {
 			let elementToFocus, elementToFocusTabindex;
 			if (afterTimeout === undefined && container.closest('.js-modal-container').length) {
-				setTimeout(_ => {
+				setTimeout((_) => {
 					this.registerFocusFirstField(container, true);
 				}, 500);
 				return;
@@ -1437,11 +1385,15 @@ $.Class(
 				.find(
 					'.fieldValue input.form-control:not([type=hidden],.dateField,.clockPicker), .fieldValue input[type=checkbox], .select2-selection.form-control'
 				)
-				.each(function(i, e) {
+				.each(function (i, e) {
 					let element = $(e);
 					if (!element.prop('readonly') && !element.prop('disabled')) {
 						element = element.get(0);
-						if (element.type !== 'number' && element.type !== 'checkbox' && element.value !== undefined) {
+						if (
+							element.type !== 'number' &&
+							element.type !== 'checkbox' &&
+							element.value !== undefined
+						) {
 							let elemLen = element.value.length;
 							element.selectionStart = elemLen;
 							element.selectionEnd = elemLen;
@@ -1465,8 +1417,8 @@ $.Class(
 				elementToFocus.focus();
 			}
 		},
-		registerCopyValue: function(container) {
-			container.find('.fieldValue [data-copy-to-field]').on('change', function(e) {
+		registerCopyValue: function (container) {
+			container.find('.fieldValue [data-copy-to-field]').on('change', function (e) {
 				var element = $(e.currentTarget);
 				container.find('[name="' + element.data('copyToField') + '"]').val(element.val());
 			});
@@ -1491,28 +1443,51 @@ $.Class(
 		 * Register record collector modal
 		 * @param {jQuery} container
 		 */
-		registerRecordCollectorModal: function(container) {
-			container.on('click', '.js-record-collector-modal', function(e) {
+		registerRecordCollectorModal: function (container) {
+			const self = this;
+			container.on('click', '.js-record-collector-modal', function (e) {
 				e.preventDefault();
 				let element = $(this);
 				let formData = container.serializeFormData();
 				formData['view'] = 'RecordCollector';
 				formData['collectorType'] = element.data('type');
 				delete formData['action'];
-				AppConnector.request(formData).done(function(html) {
-					app.showModalWindow(html, container => {
-						let form = container.find('form.js-record-collector__form');
-						let summary = container.find('.js-record-collector__summary');
-						form.on('submit', function(e) {
-							summary.html('');
-							summary.progressIndicator({});
-							e.preventDefault();
-							AppConnector.request(form.serializeFormData()).done(function(data) {
-								summary.progressIndicator({ mode: 'hide' });
-								summary.html(data);
+				AppConnector.request(formData).done(function (html) {
+					app.showModalWindow(
+						html,
+						(container) => {
+							let modalForm = container.find('form.js-record-collector__form');
+							let summary = container.find('.js-record-collector__summary');
+							modalForm.on('submit', function (e) {
+								summary.html('');
+								summary.progressIndicator({});
+								e.preventDefault();
+								AppConnector.request(modalForm.serializeFormData()).done(function (data) {
+									summary.progressIndicator({ mode: 'hide' });
+									summary.html(data);
+								});
 							});
-						});
-					});
+							let recordForm = self.getForm();
+							container.on('click', '.js-record-collector__fill_fields', function () {
+								let mappedField = container.find('.formFieldsToRecordMap').val();
+								mappedField = JSON.parse(mappedField);
+								Object.keys(mappedField).forEach(function (key) {
+									let input = container.find('[name="' + key + '"]');
+									input.each(function () {
+										if (this.checked) {
+											var cellWithValue = $(this)
+												.closest('.value' + key)
+												.find('.fieldValue')
+												.html();
+											recordForm.find('[name="' + mappedField[key] + '"]').setValue(cellWithValue);
+										}
+									});
+								});
+								app.hideModalWindow(null, 'collectorModal');
+							});
+						},
+						{ modalId: 'collectorModal' }
+					);
 				});
 			});
 		},
@@ -1520,7 +1495,7 @@ $.Class(
 		 * Register account name function
 		 * @param {jQuery} container
 		 */
-		registerAccountName: function(container) {
+		registerAccountName: function (container) {
 			let first = container.find('.js-first-name');
 			let firstInput = first.find('input');
 			let last = container.find('.js-last-name');
@@ -1529,13 +1504,13 @@ $.Class(
 			let fullInput = full.find('input');
 			let legalForm = container.find('select[name="legal_form"]');
 			let legalFormVal = legalForm.val();
-			firstInput.keyup(function() {
+			firstInput.keyup(function () {
 				fullInput.val(this.value + '|##|' + lastInput.val());
 			});
-			lastInput.keyup(function() {
+			lastInput.keyup(function () {
 				fullInput.val(firstInput.val() + '|##|' + this.value);
 			});
-			legalForm.change(function() {
+			legalForm.change(function () {
 				if (this.value == 'PLL_NATURAL_PERSON') {
 					full.addClass('d-none');
 					fullInput.val(firstInput.val() + '|##|' + lastInput.val());
@@ -1554,9 +1529,7 @@ $.Class(
 		 * Function which will register basic events which will be used in quick create as well
 		 *
 		 */
-		registerBasicEvents: function(container) {
-			this.registerClearTreeSelectionEvent(container);
-			this.registerTreeAutoCompleteFields(container);
+		registerBasicEvents: function (container) {
 			this.referenceModulePopupRegisterEvent(container);
 			this.registerAutoCompleteFields(container);
 			this.registerClearReferenceSelectionEvent(container);
@@ -1580,7 +1553,7 @@ $.Class(
 			App.Fields.MultiCurrency.register(container);
 			App.Fields.MeetingUrl.register(container);
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			var editViewForm = this.getForm();
 			if (!this.proceedRegisterEvents()) {
 				return;

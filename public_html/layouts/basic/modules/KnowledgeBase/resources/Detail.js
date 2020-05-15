@@ -6,7 +6,7 @@ Vtiger_Detail_Js(
 	{},
 	{
 		registerShowArticlePreview() {
-			$('.js-show-article-preview').on('click', e => {
+			$('.js-show-article-preview').on('click', (e) => {
 				ArticlePreviewVueComponent.mount({
 					el: '#ArticlePreview',
 					state: {

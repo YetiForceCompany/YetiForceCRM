@@ -16,7 +16,7 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
@@ -27,12 +27,12 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	public function getSize(\App\Request $request)
+	public function getSize(App\Request $request)
 	{
 		return 'modal-fullscreen';
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -42,7 +42,7 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 			$fields = $srcModuleModel->getFields();
 			$fieldsToGroup = [];
 			foreach ($fields as $fieldModel) {
-				if ($fieldModel->getFieldDataType() === 'picklist') {
+				if ('picklist' === $fieldModel->getFieldDataType()) {
 					$fieldsToGroup[] = $fieldModel;
 				}
 			}
@@ -62,7 +62,7 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 		$this->postProcess($request);
 	}
 
-	public function getModalScripts(\App\Request $request)
+	public function getModalScripts(App\Request $request)
 	{
 		$jsFileNames = [
 			'~libraries/leaflet/dist/leaflet.js',
@@ -74,7 +74,7 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
-	public function getModalCss(\App\Request $request)
+	public function getModalCss(App\Request $request)
 	{
 		$cssFileNames = [
 			'~libraries/leaflet/dist/leaflet.css',

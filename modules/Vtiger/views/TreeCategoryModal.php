@@ -10,7 +10,7 @@
  */
 class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 {
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$recordId = $request->getInteger('src_record');
 		if (!$recordId) {
@@ -28,12 +28,12 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 	 *
 	 * @return string
 	 */
-	public function getSize(\App\Request $request)
+	public function getSize(App\Request $request)
 	{
 		return 'modal-lg';
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -57,21 +57,21 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		$this->postProcess($request);
 	}
 
-	public function getModalScripts(\App\Request $request)
+	public function getModalScripts(App\Request $request)
 	{
 		$scripts = [
 			'~libraries/jstree/dist/jstree.js',
 			'~layouts/resources/libraries/jstree.category.js',
 			'~layouts/resources/libraries/jstree.checkbox.js'
 		];
-		if ($this->relationType == 1) {
+		if (1 == $this->relationType) {
 			$scripts[] = '~layouts/resources/libraries/jstree.edit.js';
 		}
 		$scripts[] = 'modules.Vtiger.resources.TreeCategoryModal';
 		return array_merge($this->checkAndConvertJsScripts($scripts), parent::getModalScripts($request));
 	}
 
-	public function getModalCss(\App\Request $request)
+	public function getModalCss(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertCssStyles([
 			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',

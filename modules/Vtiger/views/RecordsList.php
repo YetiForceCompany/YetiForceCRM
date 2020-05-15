@@ -106,7 +106,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$currencyId = $request->isEmpty('currency_id', true) ? '' : $request->getInteger('currency_id');
 		$relatedParentModule = $request->isEmpty('related_parent_module', true) ? '' : $request->getByType('related_parent_module', 2);
 		$relatedParentId = $request->isEmpty('related_parent_id') ? '' : $request->getInteger('related_parent_id');
-		$filterFields = $request->getArray('filterFields', 'Alnum');
+		$filterFields = $request->getArray('filterFields', 'Text');
 		$showSwitch = $request->getInteger('showSwitch');
 		//Check whether the request is in multi select mode
 		if ($request->isEmpty('multi_select', true)) {
@@ -148,7 +148,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 				}
 			}
 		} elseif (!empty($filterFields['parent_id']) && 0 !== $relatedParentId) {
-			$linkRecord = $filterFields['parent_id'];
+			$linkRecord = (int) $filterFields['parent_id'];
 			$linkModule = \App\Record::getType($linkRecord);
 			if (\in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
 				$showSwitch = true;
@@ -213,6 +213,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			foreach ($fieldListGroup as $fieldSearchInfo) {
 				$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
 				$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
+				$fieldSearchInfo['specialOption'] = \in_array($fieldSearchInfo[1], ['ch', 'kh']) ? true : '';
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}

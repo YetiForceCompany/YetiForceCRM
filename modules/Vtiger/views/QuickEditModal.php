@@ -52,12 +52,17 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 		$moduleModel = $recordModel->getModule();
 		$fieldList = $moduleModel->getFields();
 		$changedFields = [];
+		$changedFieldsExist = false;
 		foreach (array_intersect($request->getKeys(), array_keys($fieldList)) as $fieldName) {
 			$fieldModel = $fieldList[$fieldName];
+			$changedFieldsExist = true;
 			if ($fieldModel->isWritable()) {
-				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
-				$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
-				$changedFields[$fieldName] = $fieldModel;
+				$uitypeModel = $fieldModel->getUITypeModel();
+				$uitypeModel->setValueFromRequest($request, $recordModel);
+				if ($uitypeModel->validateValue($recordModel->get($fieldName))) {
+					$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
+					$changedFields[$fieldName] = $fieldModel;
+				}
 			}
 		}
 		$recordStructure = $this->getStructure($recordModel, $request);
@@ -81,6 +86,10 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 			$viewer->assign('RECORD_STRUCTURE', $blockRecordStructure);
 			$viewer->assign('BLOCK_LIST', $blockModels);
 		}
+		foreach (array_intersect_key($recordStructure, $changedFields) as $key => $value) {
+			unset($changedFields[$key]);
+		}
+		$viewer->assign('SHOW_ALERT_NO_POWERS', ($changedFieldsExist && !$changedFields && !$recordStructure));
 		$viewer->assign('ADDRESS_BLOCK_LABELS', ['LBL_ADDRESS_INFORMATION', 'LBL_ADDRESS_MAILING_INFORMATION', 'LBL_ADDRESS_DELIVERY_INFORMATION', 'LBL_ADDRESS_BILLING', 'LBL_ADDRESS_SHIPPING']);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
@@ -135,12 +144,18 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 		$values = [];
 		$moduleModel = $recordModel->getModule();
 		$mandatoryFields = $request->getArray('mandatoryFields', 'Alnum') ?? [];
+		$picklistValues = $request->getArray('picklistValues', 'Text') ?? [];
 		if (!$request->isEmpty('editFields', true)) {
 			$fieldModelList = [];
-			foreach ($request->getArray('editFields', 'Alnum') as $fieldName) {
-				$fieldModel = $moduleModel->getFieldByName($fieldName);
-				if ($fieldModel->isEditable()) {
-					$fieldModelList[$fieldName] = $fieldModel;
+			if ('none' !== $request->getRaw('editFields')) {
+				foreach ($request->getArray('editFields', 'Alnum') as $fieldName) {
+					$fieldModel = $moduleModel->getFieldByName($fieldName);
+					if ($fieldModel && $fieldModel->isEditable()) {
+						if ('picklist' === $fieldModel->getFieldDataType() && isset($picklistValues[$fieldName])) {
+							$fieldModel->picklistValues = $picklistValues[$fieldName];
+						}
+						$fieldModelList[$fieldName] = $fieldModel;
+					}
 				}
 			}
 		} else {

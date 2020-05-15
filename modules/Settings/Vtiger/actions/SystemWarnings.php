@@ -21,7 +21,7 @@ class Settings_Vtiger_SystemWarnings_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function update(\App\Request $request)
+	public function update(App\Request $request)
 	{
 		$className = $request->get('id');
 		if (!is_subclass_of($className, '\App\SystemWarnings\Template')) {
@@ -39,7 +39,7 @@ class Settings_Vtiger_SystemWarnings_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function cancel(\App\Request $request)
+	public function cancel(App\Request $request)
 	{
 		App\Session::set('SystemWarnings', true);
 		$response = new Vtiger_Response();

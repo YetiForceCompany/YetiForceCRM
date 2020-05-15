@@ -22,7 +22,7 @@ class Competition_Record_Model extends Vtiger_Record_Model
 			preg_match('/<a href="+/', $data[0], $matches);
 			if (!empty($matches)) {
 				preg_match('/[.\s]+/', $data[0], $dashes);
-				preg_match("/<a(.*)>(.*)<\/a>/i", $data[0], $name);
+				preg_match('/<a(.*)>(.*)<\\/a>/i', $data[0], $name);
 
 				$recordModel = Vtiger_Record_Model::getCleanInstance('Competition');
 				$recordModel->setId($competitionId);

@@ -32,7 +32,7 @@ class VTExpressionTokenizer
 		$this->tokenTypes = $tokenTypes;
 
 		foreach ($tokenTypes as $tokenName => $code) {
-			list($re) = $code;
+			[$re] = $code;
 			$tokenReArr[] = '(' . $re . ')';
 			$tokenNames[] = $tokenName;
 		}
@@ -50,25 +50,24 @@ class VTExpressionTokenizer
 	{
 		$matches = $this->matches;
 		$idx = $this->idx;
-		if ($idx == count($matches)) {
+		if ($idx == \count($matches)) {
 			return $this->EOF;
-		} else {
-			$match = $matches[$idx];
-			$this->idx = $idx + 1;
-			$i = 1;
-			while (empty($match[$i])) {
-				$i += 1;
-			}
-			$tokenName = $this->tokenNames[$i - 1];
-			$token = new VTExpressionToken($tokenName);
-			if (method_exists($this, $this->tokenTypes[$tokenName][1])) {
-				$token->value = call_user_func([$this, $this->tokenTypes[$tokenName][1]], $match[$i]);
-			} else {
-				$token->value = $this->tokenTypes[$tokenName][1]($match[$i]);
-			}
-
-			return $token;
 		}
+		$match = $matches[$idx];
+		$this->idx = $idx + 1;
+		$i = 1;
+		while (empty($match[$i])) {
+			++$i;
+		}
+		$tokenName = $this->tokenNames[$i - 1];
+		$token = new VTExpressionToken($tokenName);
+		if (method_exists($this, $this->tokenTypes[$tokenName][1])) {
+			$token->value = \call_user_func([$this, $this->tokenTypes[$tokenName][1]], $match[$i]);
+		} else {
+			$token->value = $this->tokenTypes[$tokenName][1]($match[$i]);
+		}
+
+		return $token;
 	}
 
 	public function tests($token)

@@ -14,7 +14,7 @@ class Settings_HideBlocks_Edit_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$qualifiedModuleName = $request->getModule(false);
@@ -27,7 +27,7 @@ class Settings_HideBlocks_Edit_View extends Settings_Vtiger_Index_View
 			$mode = 'edit';
 			$recordModel = Settings_HideBlocks_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
 			$enabled = $recordModel->get('enabled');
-			if ($recordModel->get('view') != '') {
+			if ('' != $recordModel->get('view')) {
 				$views = explode(',', $recordModel->get('view'));
 			}
 			$viewer->assign('BLOCK_ID', $recordModel->get('blockid'));

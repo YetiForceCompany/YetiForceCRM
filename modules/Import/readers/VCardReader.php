@@ -37,9 +37,9 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 		$fieldValueMappings = explode("\r\n", $row);
 		$data = [];
 		foreach ($fieldValueMappings as $fieldValueMapping) {
-			list($label, $value) = explode(':', $fieldValueMapping, 2);
+			[$label, $value] = explode(':', $fieldValueMapping, 2);
 			$value = str_replace(';', ' ', $value);
-			if (!in_array($label, $this->skipLabels)) {
+			if (!\in_array($label, $this->skipLabels)) {
 				$data[$label] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $default_charset);
 			}
 		}
@@ -64,16 +64,16 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 
 		$matches = [];
 		preg_match_all($this->vCardPattern, self::$fileContents, $matches);
-		$countMatches = count($matches[0]);
+		$countMatches = \count($matches[0]);
 		for ($i = 0; $i < $countMatches; ++$i) {
 			$row = $matches[0][$i];
 			$fieldValueMappings = explode("\r\n", $row);
 			$data = [];
 			$valueCounter = 0;
 			foreach ($fieldValueMappings as $fieldValueMapping) {
-				list($label, $value) = explode(':', $fieldValueMapping, 2);
+				[$label, $value] = explode(':', $fieldValueMapping, 2);
 				$value = str_replace(';', ' ', $value);
-				if (!in_array($label, $this->skipLabels)) {
+				if (!\in_array($label, $this->skipLabels)) {
 					$data[$valueCounter++] = $value;
 				}
 			}

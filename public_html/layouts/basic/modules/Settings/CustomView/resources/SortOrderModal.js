@@ -31,25 +31,27 @@ Base_SortOrderModal_JS(
 			var progress = $.progressIndicator({
 				message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 				blockInfo: {
-					enabled: true,
-				},
+					enabled: true
+				}
 			});
 			let data = this.sourceContainer.serializeFormData();
-			app.saveAjax(
-				'updateSort',
-				{},
-				{
-					cvid: data.cvid,
-					name: 'sort',
-					value: this.getSortData(),
-				}
-			).done(function (data) {
-				app.hideModalWindow();
-				if (data.success) {
-					Vtiger_Helper_Js.showPnotify({ text: data.result.message, type: 'success' });
-				}
-				progress.progressIndicator({ mode: 'hide' });
-			});
-		},
+			app
+				.saveAjax(
+					'updateSort',
+					{},
+					{
+						cvid: data.cvid,
+						name: 'sort',
+						value: this.getSortData()
+					}
+				)
+				.done(function (data) {
+					app.hideModalWindow();
+					if (data.success) {
+						Vtiger_Helper_Js.showPnotify({ text: data.result.message, type: 'success' });
+					}
+					progress.progressIndicator({ mode: 'hide' });
+				});
+		}
 	}
 );

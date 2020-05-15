@@ -10,7 +10,7 @@
 
 class Portal_List_View extends Vtiger_Index_View
 {
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
 
@@ -19,7 +19,7 @@ class Portal_List_View extends Vtiger_Index_View
 		$viewer->view('ListViewHeader.tpl', $request->getModule(false));
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -27,7 +27,7 @@ class Portal_List_View extends Vtiger_Index_View
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
-	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$pageNumber = $request->getInteger('page');
@@ -35,7 +35,7 @@ class Portal_List_View extends Vtiger_Index_View
 		$sortOrder = $request->getForSql('sortorder');
 		$searchValue = $request->getForSql('search_value');
 
-		if ($sortOrder == 'ASC') {
+		if ('ASC' == $sortOrder) {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'fas fa-chevron-down';
 		} else {
@@ -79,12 +79,12 @@ class Portal_List_View extends Vtiger_Index_View
 		$viewer->assign('SORT_ORDER', $sortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
-		$viewer->assign('RECORD_COUNT', count($listviewEntries));
+		$viewer->assign('RECORD_COUNT', \count($listviewEntries));
 		$viewer->assign('CURRENT_PAGE', $pageNumber);
 		$viewer->assign('PAGING_INFO', $pagingInfo);
 	}
 
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([

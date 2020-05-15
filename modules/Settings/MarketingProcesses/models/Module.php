@@ -24,15 +24,15 @@ class Settings_MarketingProcesses_Module_Model extends \App\Base
 		$query = (new \App\Db\Query())->from('yetiforce_proc_marketing')->where(['type' => $type]);
 		$dataReader = $query->createCommand()->query();
 		$noRows = $dataReader->count();
-		if ($noRows === 0) {
+		if (0 === $noRows) {
 			return [];
 		}
 		$config = [];
 		while ($row = $dataReader->read()) {
 			$param = $row['param'];
 			$value = $row['value'];
-			if (in_array($param, ['groups', 'status', 'convert_status'])) {
-				$config[$param] = $value == '' ? [] : explode(',', $value);
+			if (\in_array($param, ['groups', 'status', 'convert_status'])) {
+				$config[$param] = '' == $value ? [] : explode(',', $value);
 			} else {
 				$config[$param] = $value;
 			}
@@ -45,7 +45,7 @@ class Settings_MarketingProcesses_Module_Model extends \App\Base
 
 	public static function setConfig($param, $type, $value)
 	{
-		if (is_array($value)) {
+		if (\is_array($value)) {
 			$value = implode(',', $value);
 		}
 		\App\Db::getInstance()->createCommand()->update('yetiforce_proc_marketing', ['value' => $value], ['type' => $type, 'param' => $param])->execute();
