@@ -5957,6 +5957,7 @@ CREATE TABLE `vtiger_finvoicecost_paymentstatus` (
   `finvoicecost_paymentstatusid` int(10) NOT NULL AUTO_INCREMENT,
   `finvoicecost_paymentstatus` varchar(255) DEFAULT NULL,
   `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `picklist_valueid` smallint(5) DEFAULT 0,
   `sortorderid` smallint(5) DEFAULT 0,
   PRIMARY KEY (`finvoicecost_paymentstatusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
