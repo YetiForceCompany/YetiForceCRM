@@ -23,9 +23,9 @@
   integrity sha512-xKOeQEl5O47GPZYIMToj6uuA2syyFlq9EMSl2ui0uytjY9xbe8XS0pexNWmxrdcCyNGyDmLyYw5FtKsalBUeOg==
 
 "@mdi/font@^5.0.0":
-  version "5.1.45"
-  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-5.1.45.tgz#58edff65985cc5a350eb95ff2974273a285ea9ad"
-  integrity sha512-7H1UMwUpEp8mthdPlpAi7bhEyvTbvtK1TlA89scc0cXMpQy0UFygdkaf+6fveIxpBcRNgw0gnGSEonlsfYocXg==
+  version "5.2.45"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-5.2.45.tgz#88d3d83954b7e9b88a9691567ae6c8b922cbab53"
+  integrity sha512-3ReoMrZh2OJR8loD7to2hheYWh6pD+ypv6EpuvnEvoR04fsShwpDfS2ZErM3k98REEk4XIqPzuctAztmhWm+Pw==
 
 add@^2.0.6:
   version "2.0.6"
@@ -55,28 +55,28 @@ block-ui@^2.70.1:
     jquery ">=1.7.x"
 
 blueimp-canvas-to-blob@3:
-  version "3.26.0"
-  resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.26.0.tgz#492c744aea8a66693fb7838d3e9c05e800e79c81"
-  integrity sha512-bpDDEIaaUVSKxMbiUbwj4AqgJX2XV0YzqarMRC+w7X9fakYCXPuWQPiIonO0tAWj2YP/q3zOAFsUZw6M6+2dKg==
+  version "3.27.0"
+  resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.27.0.tgz#a2bd5c43587b95dedf0f6998603452d1bfcc9b9e"
+  integrity sha512-AcIj+hCw6WquxzJuzC6KzgYmqxLFeTWe88KuY2BEIsW1zbEOfoinDAGlhyvFNGt+U3JElkVSK7anA1FaSdmmfA==
 
 blueimp-file-upload@^10.6.0:
-  version "10.24.0"
-  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-10.24.0.tgz#dc1e035ad038ac4f0339d02588d2a0dba583a31c"
-  integrity sha512-4t5987HPXeTT8C/7LgJzi7UkRHP9Yj8lYSG4z8Jstl6wyOQLvlvKxDHO1KKAM8q2apdcaVPfugEky11H/iMWkA==
+  version "10.25.0"
+  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-10.25.0.tgz#fb94d85f4c78fc8a41f975bcd3c519929e453075"
+  integrity sha512-OMZr6F9t3a5rndAghIDApLSct0Nx4Oh2UV3BxhLBMaVOVY537Two40V3btLCHSh0vJla3fa69YqYb9q2T/Pbmw==
   optionalDependencies:
     blueimp-canvas-to-blob "3"
     blueimp-load-image "5"
     blueimp-tmpl "3"
 
 blueimp-load-image@5:
-  version "5.10.0"
-  resolved "https://registry.yarnpkg.com/blueimp-load-image/-/blueimp-load-image-5.10.0.tgz#c84c996317d6047d48c49006c6f86ed482139612"
-  integrity sha512-0bb2hKMaIZJArWcr/kh817kJMYJP9aaC9CFOBoyLb+Rm+/4BaMymwViW57USktjWRzTvTs6t0QzmcDYyy7UAnQ==
+  version "5.11.0"
+  resolved "https://registry.yarnpkg.com/blueimp-load-image/-/blueimp-load-image-5.11.0.tgz#ced9e6a9297d9fdbf29f2b1e9c876c6a643e586e"
+  integrity sha512-pLXlbX2uBx/WiqvDpfXTqb9UKjYRy9AgfIcaCf49czF3/ZKsERPbv5OveTq/hSN74o/nMajVKF025PZhryeGPQ==
 
 blueimp-tmpl@3:
-  version "3.16.0"
-  resolved "https://registry.yarnpkg.com/blueimp-tmpl/-/blueimp-tmpl-3.16.0.tgz#ef59b1d401ba04681bce6be6cc9c4dded138977f"
-  integrity sha512-Cw/ML4ID0fWq3/FJRG2lOQFspMAvQJPoysydLlWMqMyTAUuMlp9h5ZBeAmOOKNbjlFRT/u205iohZBACVvbfUw==
+  version "3.17.0"
+  resolved "https://registry.yarnpkg.com/blueimp-tmpl/-/blueimp-tmpl-3.17.0.tgz#0179fb2a475b3891a9745f12818f10d76ff0df51"
+  integrity sha512-rqj27a+sA+HFMK+96MXSnhoFhQ+sbI7/6ktcEZ1Z0wXQ6Z9Tr2NJm6W1OUQs20CBxuGeMhWtcHIHS/bHeE0B3Q==
 
 bootbox@^5.4.0:
   version "5.4.0"
@@ -107,9 +107,9 @@ bootstrap-daterangepicker@^3.0.4:
   resolved "https://github.com/jmschabdach/bootstrap-tabdrop#1eb8b8aeaa79d7ca211059daff7981c9908327a1"
 
 bootstrap@^4.3.1, bootstrap@^4.4.0:
-  version "4.4.1"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.4.1.tgz#8582960eea0c5cd2bede84d8b0baf3789c3e8b01"
-  integrity sha512-tbx5cHubwE6e2ZG7nqM3g/FZ5PQEDMWmMGNrCUBVRPHXTJaH7CBDdsLeu3eCh3B1tzAxTnAbtmrzvWEvT2NNEA==
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.5.0.tgz#97d9dbcb5a8972f8722c9962483543b907d9b9ec"
+  integrity sha512-Z93QoXvodoVslA+PWNdk23Hze4RBYIkpb5h8I2HY2Tu2h7A0LpAgLcyrhrSUyo2/Oxm2l1fRZPs1e5hnxnliXA==
 
 chart.js@>2.7.0, chart.js@^2.8.0:
   version "2.9.3"
@@ -236,9 +236,9 @@ datatables.net@1.10.21, datatables.net@^1.10.15, datatables.net@^1.10.19:
     jquery ">=1.7"
 
 dayjs@^1.8.16:
-  version "1.8.26"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.26.tgz#c6d62ccdf058ca72a8d14bb93a23501058db9f1e"
-  integrity sha512-KqtAuIfdNfZR5sJY1Dixr2Is4ZvcCqhb0dZpCOt5dGEFiMzoIbjkTSzUb4QKTCsP+WNpGwUjAFIZrnZvUxxkhw==
+  version "1.8.27"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.27.tgz#a8ae63ee990af28c05c430f0e160ae835a0fbbf8"
+  integrity sha512-Jpa2acjWIeOkg8KURUHICk0EqnEFSSF5eMEscsOgyJ92ZukXwmpmRkPSUka7KHSfbj5eKH30ieosYip+ky9emQ==
 
 delegate@^3.1.2:
   version "3.2.0"
@@ -607,9 +607,9 @@ ua-parser-js@^0.7.18:
   integrity sha512-+O8/qh/Qj8CgC6eYBVBykMrNtp5Gebn4dlGD/kKXVkJNDwyrAwSIqwz8CDf+tsAIWVycKcku6gIXJ0qwx/ZXaQ==
 
 url-polyfill@^1.1.7:
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/url-polyfill/-/url-polyfill-1.1.8.tgz#21eb58ad61192f52b77dcac8ab5293ae7bc67060"
-  integrity sha512-Ey61F4FEqhcu1vHSOMmjl0Vd/RPRLEjMj402qszD/dhMBrVfoUsnIj8KSZo2yj+eIlxJGKFdnm6ES+7UzMgZ3Q==
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/url-polyfill/-/url-polyfill-1.1.9.tgz#2c8d4224889a5c942800f708f5585368085603d9"
+  integrity sha512-q/R5sowGuRfKHm497swkV+s9cPYtZRkHxzpDjRhqLO58FwdWTIkt6Y/fJlznUD/exaKx/XnDzCYXz0V16ND7ow==
 
 vue-observe-visibility@^0.4.4:
   version "0.4.6"
