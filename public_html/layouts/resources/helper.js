@@ -198,8 +198,8 @@ $.Class(
 						},
 						Animate: {
 							animate: true,
-							inClass: 'zoomInLeft',
-							outClass: 'zoomOutRight'
+							inClass: 'animate__zoomInLeft',
+							outClass: 'animate__zoomOutRight'
 						}
 					}
 				}
