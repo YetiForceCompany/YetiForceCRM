@@ -50,7 +50,7 @@ class Fields extends \Api\Core\BaseAction
 			if ($field->isTreeField()) {
 				$fieldInfo['treeValues'] = \App\Fields\Tree::getTreeValues((int) $field->getFieldParams(), $moduleName);
 			}
-			if ($field->getFieldDataType() === 'country') {
+			if ('country' === $field->getFieldDataType()) {
 				$countries = $field->getPicklistValues();
 				array_walk($countries, function (&$item, $key) {
 					$item = \App\Language::translateSingleMod($key, 'Other.Country');

@@ -33,6 +33,7 @@ class Access
 	 *
 	 * @param ModuleBasic $moduleInstance
 	 * @param bool true to enable sharing access, false disable sharing access
+	 * @param mixed $enable
 	 */
 	public static function allowSharing(ModuleBasic $moduleInstance, $enable = true)
 	{
@@ -81,18 +82,19 @@ class Access
 	 *
 	 * @param ModuleBasic $moduleInstance
 	 * @param string Permission text should be one of ['Public_ReadWriteDelete', 'Public_ReadOnly', 'Public_ReadWrite', 'Private']
+	 * @param mixed $permissionText
 	 */
 	public static function setDefaultSharing(ModuleBasic $moduleInstance, $permissionText = 'Public_ReadWriteDelete')
 	{
 		$permissionText = strtolower($permissionText);
 
-		if ($permissionText === 'public_readonly') {
+		if ('public_readonly' === $permissionText) {
 			$permission = 0;
-		} elseif ($permissionText === 'public_readwrite') {
+		} elseif ('public_readwrite' === $permissionText) {
 			$permission = 1;
-		} elseif ($permissionText === 'public_readwritedelete') {
+		} elseif ('public_readwritedelete' === $permissionText) {
 			$permission = 2;
-		} elseif ($permissionText === 'private') {
+		} elseif ('private' === $permissionText) {
 			$permission = 3;
 		} else {
 			$permission = 2;
@@ -117,12 +119,15 @@ class Access
 	 * @param string Tool (action name) like Import, Export
 	 * @param bool true to enable tool, false to disable
 	 * @param int (optional) profile id to use, false applies to all profile
+	 * @param mixed $toolAction
+	 * @param mixed $flag
+	 * @param mixed $profileid
 	 */
 	public static function updateTool(ModuleBasic $moduleInstance, $toolAction, $flag, $profileid = false)
 	{
 		$actionId = \App\Module::getActionId($toolAction);
 		if ($actionId) {
-			$permission = ($flag === true) ? '0' : '1';
+			$permission = (true === $flag) ? '0' : '1';
 
 			$profileids = [];
 			if ($profileid) {
