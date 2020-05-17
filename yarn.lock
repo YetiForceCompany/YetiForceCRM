@@ -251,9 +251,9 @@ device-uuid@^1.0.4:
   integrity sha1-9pc+WPGbkqI3rsp7FqOVrnGVqIM=
 
 emoji-mart-vue-fast@^7.0.0:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/emoji-mart-vue-fast/-/emoji-mart-vue-fast-7.0.1.tgz#d22e515c5ef4776f3f33266941c4d76fd7f337a4"
-  integrity sha512-PfEgwFb3EB9y0VRMMuwH2ko6dAszrpOCzfsmzYcumgwzrfP3dBJxNjsemUN5Wcj6NxBEutIG3ikh2dNo4jj3tw==
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/emoji-mart-vue-fast/-/emoji-mart-vue-fast-7.0.2.tgz#8535bbbabff3673af8479814763d3d529c854d72"
+  integrity sha512-7OftneG98Jb9wkJgPBeUdEWrMMdGvd08erHMjNviKSuQSBsBAIFnQyW7lroBZ+dLT7uTZKuZfWdWwUfWpk965w==
   dependencies:
     "@babel/polyfill" "7.2.5"
     "@babel/runtime" "7.3.4"
