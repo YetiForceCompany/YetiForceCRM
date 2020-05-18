@@ -2817,7 +2817,7 @@ insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_nam
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (108,2,'number','FInvoiceCost',NULL);
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (108,3,'assigned_user_id','FInvoiceCost',NULL);
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (108,4,'saledate','FInvoiceCost',NULL);
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (108,5,'finvoicecost_formpayment','FInvoiceCost',NULL);
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (108,5,'payment_methods','FInvoiceCost',NULL);
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (109,0,'subject','CMileageLogbook',NULL);
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (109,1,'number_kilometers','CMileageLogbook',NULL);
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`field_name`,`module_name`,`source_field_name`) values (109,2,'number','CMileageLogbook',NULL);
@@ -6855,8 +6855,8 @@ insert  into `vtiger_picklist`(`picklistid`,`name`) values (65,'employee_status'
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (7,'expectedresponse');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (9,'faqstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (93,'fcorectinginvoice_status');
-insert  into `vtiger_picklist`(`picklistid`,`name`) values (104,'finvoicecost_status');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (105,'finvoicecost_paymentstatus');
+insert  into `vtiger_picklist`(`picklistid`,`name`) values (104,'finvoicecost_status');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (89,'finvoiceproforma_status');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (87,'finvoice_status');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (98,'finvoice_type');
