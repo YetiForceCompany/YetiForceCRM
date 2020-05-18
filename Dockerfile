@@ -9,9 +9,11 @@ ENV PHP_VER 7.3
 ENV DB_USER_NAME yetiforce
 ENV DB_USER_PASS Q4WK2yRUpliyjMRivDJE
 ENV DB_PORT 3306
-ENV PROVIDER docker
 #INSTALL_MODE = PROD , DEV
 ENV INSTALL_MODE PROD
+
+ENV PROVIDER docker
+RUN export PROVIDER=docker
 
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils curl openssl wget ca-certificates apt-transport-https lsb-release gnupg && apt-get -y autoclean
 
