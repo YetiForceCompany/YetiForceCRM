@@ -15,6 +15,7 @@
 			<div class="inner-container">
 				<form name="step{$STEP_NUMBER}" method="post" action="Install.php">
 					<input type="hidden" name="mode" value="{$NEXT_STEP}">
+					<input type="hidden" name="session_id" value="{session_id()}">
 					<div class="row">
 						<div class="col-md-8">
 							<h2>{\App\Language::translate('LBL_SETUP_WIZARD_HEADER', 'Install')} {$YETIFORCE_VERSION}</h2>

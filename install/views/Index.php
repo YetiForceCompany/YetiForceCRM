@@ -164,7 +164,11 @@ class Install_Index_View extends \App\Controller\View\Base
 		}
 		$this->viewer->assign('LIBRARIES', \App\Installer\Credits::getCredits());
 		$this->viewer->assign('LICENSE', nl2br($license));
-		$this->viewer->display('StepLicense.tpl');
+		if ($request->getRaw('session_id') !== session_id()) {
+			$this->viewer->display('SessionError.tpl');
+		} else {
+			$this->viewer->display('StepLicense.tpl');
+		}
 	}
 
 	/**
