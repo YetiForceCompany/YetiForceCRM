@@ -2323,7 +2323,6 @@ insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`c
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (177,'Vatu','VUV','VT');
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (178,'Tala','WST','WS$');
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (179,'Zambian Kwacha','ZMW','ZK');
-insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (180,'Ghana, Cedis','GHS','¢');
 
 /*Data for the table `vtiger_currency` */
 
