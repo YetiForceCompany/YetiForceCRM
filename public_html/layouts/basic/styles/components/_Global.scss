@@ -36,12 +36,12 @@ body:not(.desktop) {
 	&__header {
 		@extend .card-header;
 		cursor: pointer;
-		padding: 0.25rem 0;
+		padding: 0;
 		display: flex;
 		flex-flow: row-reverse;
 		align-items: center;
 		h5 {
-			margin: 0 0 0.25rem 0.5rem;
+			margin: 0 0 0 0.75rem;
 		}
 		& > h5,
 		& > .c-panel__title {
