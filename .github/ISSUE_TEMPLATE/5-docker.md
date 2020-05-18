@@ -1,9 +1,9 @@
 ---
-name: "\U0001F41EBug report"
-about: Report a bug
-title: '[bug] '
-labels: ''
-assignees: ''
+name: '🐳 Docker issues'
+about: Docker issues
+title: '[Docker] ...'
+labels: 'Docker'
+assignees: 'mariuszkrzaczkowski'
 ---
 
 <!--🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅
@@ -46,17 +46,11 @@ Steps to reproduce the behavior:
 
 <!-- Describe what you would want the result to be -->
 
-### 👷 Testing
+### 👨‍💻️ Command to launch docker
 
-<!-- ✔️ Test the error and tick the following options, it is required to perform tests on current versions before reporting the error. Please include a video to confirm you performed the tests. ✔️  -->
-
-- [ ] I confirm that I tested it at https://gitstable.yetiforce.com
-- [ ] I confirm that I tested it at https://gitdeveloper.yetiforce.com
-
-### 📷 Screenshot of configuration
-
-<!--  Before reporting an issue, check if your server has been properly configured.
-Please include a screenshot of your configuration. Here is an example: https://public.yetiforce.com/gallery/#15336225417147/15336225686795 -->
+```
+...
+```
 
 ### 📝 PHP/Apache/Nginx/Browser/CRM Logs
 
@@ -67,11 +61,17 @@ Description how to enable logs can be found here: https://yetiforce.com/en/knowl
 Additionally, include a screenshot of your browser’s console (e.g. press F12 in Google Chrome).
 ex.
 
-* cache/logs/phpError.log
-* cache/logs/system.log
-* cache/logs/errors.log
-
 -->
+
+<!-- ✍️🗄️ attach files -->
+
+- /var/www/html/cache/logs/system.log
+- /var/www/html/cache/logs/errors.log
+- /var/www/html/cache/logs/cron.log
+- /var/log/nginx/error.log
+- /var/log/nginx/localhost_error.log
+- /var/log/nginx/php{php version}-fpm.log
+- /var/log/mysql/error.log
 
 ### 🌍 Your Environment
 
