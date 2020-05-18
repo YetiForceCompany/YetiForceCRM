@@ -99,6 +99,10 @@ docker logs YetiForceCRM
 ## Clean up your containers
 
 ```
+docker stop YetiForceCRM
+docker rm -f YetiForceCRM
+docker rmi -f yetiforcecrm_yetiforce-crm
+
 docker stop $(docker ps -a -q)
 docker rm -f $(docker ps -a -q)
 docker rmi -f $(docker images -q)
