@@ -379,7 +379,7 @@ class Register
 	 *
 	 * @return string
 	 */
-	private static function getProvider(): string
+	public static function getProvider(): string
 	{
 		return getenv('PROVIDER') ?: getenv('provider') ?: '';
 	}
