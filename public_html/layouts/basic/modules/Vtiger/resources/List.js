@@ -778,8 +778,8 @@ jQuery.Class(
 			let selectedIdsElement = jQuery('#selectedIds');
 			let selectedIdsDataAttr = cvId + 'selectedIds';
 			let selectedIdsElementDataAttributes = selectedIdsElement.data();
+			let selectedIds = [];
 			if (!(selectedIdsDataAttr in selectedIdsElementDataAttributes)) {
-				let selectedIds = [];
 				this.writeSelectedIds(selectedIds);
 			} else {
 				selectedIds = selectedIdsElementDataAttributes[selectedIdsDataAttr];
@@ -793,11 +793,11 @@ jQuery.Class(
 		},
 		readExcludedIds: function (decode) {
 			let cvId = this.getCurrentCvId();
+			let excludedIds = [];
 			let exlcudedIdsElement = jQuery('#excludedIds');
 			let excludedIdsDataAttr = cvId + 'Excludedids';
 			let excludedIdsElementDataAttributes = exlcudedIdsElement.data();
 			if (!(excludedIdsDataAttr in excludedIdsElementDataAttributes)) {
-				let excludedIds = [];
 				this.writeExcludedIds(excludedIds);
 			} else {
 				excludedIds = excludedIdsElementDataAttributes[excludedIdsDataAttr];
