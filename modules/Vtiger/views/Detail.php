@@ -1093,7 +1093,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-		$viewer = \Vtiger_Viewer::getInstance();
+		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('VIEW', 'Detail');
 		return $viewer->view('Detail/InventoryView.tpl', $moduleName, true);
