@@ -665,3 +665,40 @@ input[type="checkbox"][disabled] {
 		height: fit-content;
 	}
 }
+
+
+.o-expandable__panel__tabs {
+	display: flex;
+	height: 3rem;
+	background: #f8f9fa;
+	position: fixed;
+	top: 3.125rem;
+	right: calc(25% - 1px);
+	z-index: 100;
+	font-size: 0.8125rem;
+
+	@include media-breakpoint-up(lg) {
+		.toggleSiteBarRightButton {
+			padding: 0.6875rem 0;
+			height: 100%;
+			margin-left: 0.0625rem;
+			margin-bottom: 0.0625rem;
+			cursor: pointer;
+			width: 1.375rem;
+			z-index: 100;
+			border: 0;
+			display: inline-block;
+			border-radius: 25px 0 0 25px;
+			background: #546e7a;
+			color: #eceff1;
+		}
+	}
+}
+
+@include media-breakpoint-up(lg) {
+	.hideSiteBar {
+		.o-expandable__panel__tabs {
+			right: 0px;
+		}
+	}
+}
