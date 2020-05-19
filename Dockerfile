@@ -13,7 +13,6 @@ ENV DB_PORT 3306
 ENV INSTALL_MODE PROD
 
 ENV PROVIDER docker
-RUN export PROVIDER=docker
 
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils curl openssl wget ca-certificates apt-transport-https lsb-release gnupg && apt-get -y autoclean
 
@@ -61,6 +60,8 @@ RUN	chmod +x /docker_entrypoint.sh
 RUN	/var/www/html/tests/setup/dependency.sh
 RUN php -f /var/www/html/tests/setup/docker_post_install.php
 RUN chown -R www-data:www-data /var/www/
+RUN source /etc/environment
+RUN echo "PROVIDER=docker" > /etc/environment
 
 WORKDIR /var/www/html
 
