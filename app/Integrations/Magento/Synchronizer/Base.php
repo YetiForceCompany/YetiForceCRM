@@ -137,7 +137,8 @@ abstract class Base
 				continue;
 			}
 			if ('tax_percent' === $columnName || 'tax' === $columnName) {
-				$inventoryRow['taxparam'] = '{"aggregationType":"individual","individualTax":' . $item['tax_percent'] . '}';
+				$tax = $item['tax_percent'] ?? round($item['tax_amount'] / $item['row_total'] * 100);
+				$inventoryRow['taxparam'] = '{"aggregationType":"individual","individualTax":' . $tax . '}';
 			} elseif ('taxmode' === $columnName) {
 				$inventoryRow['taxmode'] = 1;
 			} elseif ('discountmode' === $columnName) {

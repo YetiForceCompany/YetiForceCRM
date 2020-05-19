@@ -103,8 +103,8 @@ class Controller
 	 */
 	public function synchronizeInvoices(): void
 	{
-		// $invoiceSynchronizer = new Synchronizer\Invoice($this);
-		// $invoiceSynchronizer->process();
+		$invoiceSynchronizer = new Synchronizer\Invoice($this);
+		$invoiceSynchronizer->process();
 	}
 
 	/**

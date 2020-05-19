@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Synchronize invoices.
+ * Synchronization invoices file.
  *
  * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
  *
@@ -16,7 +16,7 @@
 namespace App\Integrations\Magento\Synchronizer;
 
 /**
- * Category class.
+ * Synchronization invoices class.
  */
 class Invoice extends Record
 {
@@ -30,34 +30,70 @@ class Invoice extends Record
 			$this->config->setScan('invoice');
 			$this->lastScan = $this->config->getLastScan('invoice');
 		}
-		if ($this->checkInvoices()) {
+		if ($this->import()) {
 			$this->config->setEndScan('invoice', $this->lastScan['start_date']);
 		}
 	}
 
 	/**
-	 * Check invoices.
-	 *
-	 * @throws \App\Exceptions\AppException
-	 * @throws \ReflectionException
-	 * @throws \yii\db\Exception
+	 * Import invoices from magento.
 	 *
 	 * @return bool
 	 */
-	public function checkInvoices(): bool
+	public function import(): bool
 	{
-		$allChecked = true;
-		$invoices = $this->getInvoices();
-		if (!empty($invoices)) {
-			foreach ($invoices as $id => $invoice) {
-				if (!isset($this->mapCrm['invoice'][$id])) {
-					$this->saveInvoiceCrm($invoice);
-				} else {
-					$this->updateInvoiceCrm($this->mapCrm['order'][$id], $invoice);
+		$allChecked = false;
+		try {
+			if ($invoices = $this->getInvoicesFromApi()) {
+				foreach ($invoices as $id => $invoice) {
+					if (empty($invoice)) {
+						\App\Log::error('Empty invoice details', 'Integrations/Magento');
+						continue;
+					}
+					$className = $this->config->get('invoice_map_class') ?: '\App\Integrations\Magento\Synchronizer\Maps\Invoice';
+					$mapModel = new $className($this);
+					try {
+						if (!$mapModel->getCrmId($invoice['entity_id'])) {
+							$order = $this->getFromApi('orders', $invoice['order_id']);
+							$invoice['billing_address'] = $order['billing_address'];
+							$invoice['extension_attributes'] = $order['extension_attributes'];
+							$invoice['payment'] = $order['payment'];
+							$invoice['customer_id'] = $order['customer_id'] ?? '';
+							$mapModel->setData($invoice);
+							$dataCrm = $mapModel->getDataCrm();
+							if ($dataCrm) {
+								$dataCrm['magento_id'] = $invoice['entity_id'];
+								$dataCrm['ssingleordersid'] = $mapModel->getCrmId($invoice['order_id'], 'SSingleOrders');
+								if (empty($invoice['customer_id'])) {
+									$dataCrm['accountid'] = $this->syncAccount($dataCrm);
+								} else {
+									$customer = $this->getFromApi('customers', $invoice['customer_id']);
+									$customerClassName = $this->config->get('customer_map_class') ?: '\App\Integrations\Magento\Synchronizer\Maps\Customer';
+									$customerMapModel = new $customerClassName($this);
+									$customerMapModel->setData($customer);
+									$customerDataCrm = $customerMapModel->getDataCrm();
+									$dataCrm['accountid'] = $this->syncAccount($customerDataCrm);
+								}
+								unset($dataCrm['birthday'],$dataCrm['leadsource'],$dataCrm['mobile'],$dataCrm['mobile_extra'],$dataCrm['phone'],$dataCrm['phone_extra'],$dataCrm['salutationtype']);
+								$mapModel->setDataCrm($dataCrm);
+								$crmId = $this->createInvoiceInCrm($mapModel);
+								\App\Cache::staticSave('CrmIdByMagentoIdSSingleOrders', $invoice['entity_id'], $crmId);
+							} else {
+								\App\Log::error('Empty map invoice details', 'Integrations/Magento');
+							}
+						}
+					} catch (\Throwable $ex) {
+						$this->log('Saving invoice', $ex);
+						\App\Log::error('Error during saving invoice: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
+					}
+					$this->config->setScan('invoice', 'id', $id);
 				}
-				$this->config->setScan('invoice', 'id', $id);
+			} else {
+				$allChecked = true;
 			}
-			$allChecked = false;
+		} catch (\Throwable $ex) {
+			$this->log('Import invoices', $ex);
+			\App\Log::error('Error during import invoice: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 		}
 		return $allChecked;
 	}
@@ -65,71 +101,27 @@ class Invoice extends Record
 	/**
 	 * Method to save invoice to YetiForce.
 	 *
-	 * @param array $data
+	 * @param Maps\Inventory $mapModel
 	 *
-	 * @throws \App\Exceptions\AppException
-	 *
-	 * @return mixed|int
+	 * @return int
 	 */
-	public function saveInvoiceCrm(array $data)
+	public function createInvoiceInCrm(Maps\Inventory $mapModel): int
 	{
-		$order = \App\Json::decode($this->connector->request('GET', 'all/V1/orders/' . $data['order_id']));
-		$data['billing_address'] = $order['billing_address'];
-		$data['extension_attributes'] = $order['extension_attributes'];
-		$data['payment'] = $order['payment'];
-		$data['customer_id'] = $order['customer_id'] ?? '';
-		$className = $this->config->get('invoiceMapClassName');
-		$invoiceFields = new $className();
-		$invoiceFields->setData($data);
-		$dataCrm = $invoiceFields->getDataCrm();
-		$value = 0;
-		if (!empty($dataCrm)) {
-			try {
-				$recordModel = \Vtiger_Record_Model::getCleanInstance('FInvoice');
-				$recordModel->setData($dataCrm);
-				if ($this->saveInventoryCrm($recordModel, $order['items'], $data['extension_attributes']['shipping_assignments'], $invoiceFields)) {
-					$recordModel->save();
-				} else {
-					$this->log('Skipped saving record, problem with inventory products | invoice id: [' . $data['entity_id'] . ']');
-					\App\Log::error('Skipped saving record, problem with inventory products | invoice id: [' . $data['entity_id'] . ']', 'Integrations/Magento');
-				}
-				$value = $recordModel->getId();
-			} catch (\Throwable $ex) {
-				$this->log('Saving invoice', $ex);
-				\App\Log::error('Error during saving YetiForce invoice id: [' . $data['entity_id'] . ']' . $ex->getMessage(), 'Integrations/Magento');
-			}
-		}
-		return $value;
-	}
-
-	/**
-	 * Method to update invoice in YetiForce.
-	 *
-	 * @param int   $id
-	 * @param array $data
-	 *
-	 * @throws \Exception
-	 */
-	public function updateInvoiceCrm(int $id, array $data): void
-	{
-		try {
-			$order = \App\Json::decode($this->connector->request('GET', 'all/V1/orders/' . $data['order_id']));
-			$data['billing_address'] = $order['billing_address'];
-			$data['extension_attributes'] = $order['extension_attributes'];
-			$data['payment'] = $order['payment'];
-			$data['customer_id'] = $order['customer_id'] ?? '';
-			$className = $this->config->get('invoiceMapClassName');
-			$invoiceFields = new $className();
-			$invoiceFields->setData($data);
-			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'FInvoice');
-			foreach ($invoiceFields->getDataCrm(true) as $key => $value) {
+		$recordModel = \Vtiger_Record_Model::getCleanInstance('FInvoice');
+		$recordModel->set('magento_server_id', $this->config->get('id'));
+		$fields = $recordModel->getModule()->getFields();
+		foreach ($mapModel->dataCrm as $key => $value) {
+			if (isset($fields[$key])) {
 				$recordModel->set($key, $value);
 			}
-			$recordModel->save();
-		} catch (\Throwable $ex) {
-			$this->log('Updating invoice', $ex);
-			\App\Log::error('Error during updating yetiforce invoice: ' . $ex->getMessage(), 'Integrations/Magento');
 		}
+		if ($this->saveInventoryCrm($recordModel, $mapModel)) {
+			$recordModel->save();
+		} else {
+			$this->log('Skipped saving record, problem with inventory products | invoice id: [' . $mapModel->data['entity_id'] . ']');
+			\App\Log::error('Skipped saving record, problem with inventory products | invoice id: [' . $mapModel->data['entity_id'] . ']', 'Integrations/Magento');
+		}
+		return $recordModel->getId();
 	}
 
 	/**
@@ -140,7 +132,7 @@ class Invoice extends Record
 		$searchCriteria[] = parent::getSearchCriteria($pageSize);
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][value]=' . $this->config->get('store_id');
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][field]=store_id';
-		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][conditionType]=in';
+		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][conditionType]=eq';
 		return implode('&', $searchCriteria);
 	}
 
@@ -149,12 +141,9 @@ class Invoice extends Record
 	 *
 	 * @param array $ids
 	 *
-	 * @throws \App\Exceptions\AppException
-	 * @throws \ReflectionException
-	 *
 	 * @return array
 	 */
-	public function getInvoices(array $ids = []): array
+	public function getInvoicesFromApi(array $ids = []): array
 	{
 		$items = [];
 		$data = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/invoices?' . $this->getSearchCriteria($this->config->get('invoices_limit'))));
