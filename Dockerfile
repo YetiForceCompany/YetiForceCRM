@@ -60,7 +60,6 @@ RUN	chmod +x /docker_entrypoint.sh
 RUN	/var/www/html/tests/setup/dependency.sh
 RUN php -f /var/www/html/tests/setup/docker_post_install.php
 RUN chown -R www-data:www-data /var/www/
-RUN source /etc/environment
 RUN echo "PROVIDER=docker" > /etc/environment
 
 WORKDIR /var/www/html
