@@ -2110,7 +2110,11 @@ window.App.Fields = {
 					selectedItemData.name = selectedItemData.value;
 					this.value = selectedItemData.label;
 					let element = $(this).attr('readonly', true);
-					element.closest('.js-tree-container').find('input.sourceField').val(selectedItemData.id);
+					element
+						.closest('.js-tree-container')
+						.find('input.sourceField')
+						.val(selectedItemData.id)
+						.trigger('change');
 					return false;
 				},
 				change: function (event, ui) {},
