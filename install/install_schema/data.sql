@@ -19283,7 +19283,7 @@ insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`dat
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`data`) values (205,34,'EmailList','Emails',1,2,'{\"relatedmodule\":\"OSSMailView\",\"limit\":5}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`data`) values (206,34,'RelatedModule','Documents',2,5,'{\"relatedmodule\":8,\"relatedfields\":[\"13::ticket_title\",\"8::notes_title\",\"8::folderid\",\"8::filelocationtype\",\"8::filename\"],\"viewtype\":\"List\",\"limit\":5,\"action\":1,\"actionSelect\":1,\"no_result_text\":0,\"switchHeader\":\"-\",\"filter\":\"-\",\"checkbox\":\"-\",\"relation_id\":158}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`data`) values (208,34,'Comments','ModComments',2,4,'{\"relatedmodule\":\"ModComments\",\"limit\":5}');
-insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`data`) values (209,85,'RelatedModule','SQuoteEnquiries',2,5,'{\"relation_id\":635,\"relatedmodule\":4,\"relatedfields\":[\"4::firstname\",\"4::lastname\",\"4::phone\",\"4::email\"],\"viewtype\":\"List\",\"limit\":5,\"action\":1,\"actionSelect\":1,\"no_result_text\":1,\"switchHeader\":\"-\",\"filter\":\"-\",\"checkbox\":\"-\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`data`) values (209,85,'RelatedModule','Contacts',2,5,'{\"relation_id\":635,\"relatedmodule\":4,\"relatedfields\":[\"4::firstname\",\"4::lastname\",\"4::phone\",\"4::email\"],\"viewtype\":\"List\",\"limit\":5,\"action\":1,\"actionSelect\":1,\"no_result_text\":1,\"switchHeader\":\"-\",\"filter\":\"-\",\"checkbox\":\"-\"}');
 
 /*Data for the table `vtiger_ws_entity` */
 

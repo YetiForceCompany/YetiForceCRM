@@ -119,6 +119,7 @@ return [
 			'HelpDesk' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],
 			'Project' => ['fieldName' => 'linktoaccountscontacts', 'moduleName' => 'Accounts'],
 			'SSalesProcesses' => ['fieldName' => 'related_to', 'moduleName' => 'Accounts'],
+			'SQuoteEnquiries' => ['fieldName' => 'accountid', 'moduleName' => 'Accounts'],
 		],
 		'ServiceContracts' => [
 			'Assets' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],
