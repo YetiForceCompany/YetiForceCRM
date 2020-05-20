@@ -906,6 +906,7 @@ $.Class(
 		subProductsCashe: [],
 		loadSubProducts: function (parentRow, indicator) {
 			let thisInstance = this;
+			let progressInstace;
 			let recordId = $('input.sourceField', parentRow).val();
 			let recordModule = parentRow.find('.rowName input[name="popupReferenceModule"]').val();
 			thisInstance.removeSubProducts(parentRow);
@@ -926,7 +927,7 @@ $.Class(
 				record: recordId
 			};
 			if (indicator) {
-				let progressInstace = $.progressIndicator();
+				progressInstace = $.progressIndicator();
 			}
 			AppConnector.request(subProrductParams)
 				.done(function (data) {
