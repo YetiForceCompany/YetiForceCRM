@@ -83,10 +83,6 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 
-	&:hover {
-		overflow: initial;
-	}
-
 	&.u-text-ellipsis--bg-white {
 		&:hover {
 			background: $white;
