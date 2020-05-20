@@ -365,20 +365,6 @@ class ModuleManager extends \Tests\Base
 	}
 
 	/**
-	 * Test package metadata from zip.
-	 *
-	 * @return void
-	 */
-	public function testPackageMetadataFromZip()
-	{
-		$package = new \vtlib\Package();
-		$this->assertSame('TestModule', $package->getModuleNameFromZip(static::$zipFileName));
-		$this->assertSame(\App\Version::get('appVersion'), $package->getDependentVtigerVersion());
-		$this->assertSame('inventory', $package->type());
-		$this->assertSame(2, $package->getPremium());
-	}
-
-	/**
 	 * Testing module removal.
 	 */
 	public function testDeleteModule()
