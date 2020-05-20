@@ -394,8 +394,8 @@ class ModuleManager extends \Tests\Base
 	{
 		\App\Db::getInstance()->getSchema()->refresh();
 		$package = new \vtlib\Package();
-
-		$this->assertSame('TestModule', $package->getModuleNameFromZip(static::$zipFileName));
+		$package->getModuleNameFromZip(static::$zipFileName);
+		$this->assertSame('TestModule', $package->getModuleName());
 		$this->assertFalse($package->isLanguageType(static::$zipFileName), 'The module is a language type');
 		$this->assertFalse($package->isUpdateType(static::$zipFileName), 'The module is a update type');
 		$this->assertFalse($package->isModuleBundle(static::$zipFileName), 'The module is a bundle type');
