@@ -32,25 +32,29 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 	 */
 	public function findAndBind()
 	{
-		$mailId = $this->mail->getMailCrmId();
-		if (!$mailId) {
+		if (!($mailId = $this->mail->getMailCrmId())) {
 			return 0;
 		}
-		$returnIds = [];
-		$query = (new \App\Db\Query())->select(['crmid'])->from('vtiger_ossmailview_relation')->where(['ossmailviewid' => $mailId]);
-		$dataReader = $query->createCommand()->query();
-		while ($crmId = $dataReader->readColumn(0)) {
-			if (\App\Record::getType($crmId) === $this->moduleName) {
-				$returnIds[] = $crmId;
-			}
-		}
-		$dataReader->close();
+		$returnIds = (new \App\Db\Query())->select(['vtiger_ossmailview_relation.crmid'])
+			->from('vtiger_ossmailview_relation')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_ossmailview_relation.crmid')
+			->where(['ossmailviewid' => $mailId, 'setype' => $this->moduleName])->column();
 		if (!empty($returnIds)) {
 			return $returnIds;
 		}
+		$returnIds = false;
+		$this->prefix = \App\Fields\Email::findRecordNumber($this->mail->get('subject'), $this->moduleName);
+		if ($this->prefix) {
+			$recordId = $this->add();
+		} elseif (\App\Config::module('OSSMailScanner', 'SEARCH_PREFIX_IN_BODY') && $this->prefix = \App\Fields\Email::findRecordNumber($this->mail->get('body'), $this->moduleName, true)) {
+			$recordId = $this->addByBody();
+		}
+
 		$this->prefix = \App\Mail\RecordFinder::getRecordNumberFromString($this->mail->get('subject'), $this->moduleName);
-		if (!$this->prefix) {
-			return false;
+		if ($this->prefix) {
+			$returnIds = $this->add();
+		} elseif (\App\Config::module('OSSMailScanner', 'SEARCH_PREFIX_IN_BODY') && ($this->prefix = \App\Mail\RecordFinder::getRecordNumberFromString($this->mail->get('body'), $this->moduleName, true))) {
+			$recordId = $this->addByBody();
 		}
 		return $this->add();
 	}

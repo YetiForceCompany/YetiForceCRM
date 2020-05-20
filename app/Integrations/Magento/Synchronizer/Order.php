@@ -40,6 +40,7 @@ class Order extends Record
 		if ($this->import()) {
 			$this->config->setEndScan('order', $this->lastScan['start_date']);
 		}
+		$this->export();
 	}
 
 	/**
@@ -182,5 +183,31 @@ class Order extends Record
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][field]=store_id';
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][conditionType]=eq';
 		return implode('&', $searchCriteria);
+	}
+
+	public function export()
+	{
+		foreach ($this->getChanges() as $row) {
+			var_dump($row);
+		}
+	}
+
+	public function getChanges(): \Generator
+	{
+		$queryGenerator = (new \App\QueryGenerator('SSingleOrders'));
+		$queryGenerator->setStateCondition('All');
+		$queryGenerator->setFields(['id', 'magento_id', 'ssingleorders_status'])->permissions = false;
+		$queryGenerator->addCondition('magento_server_id', $this->config->get('id'), 'e');
+		$query = $queryGenerator->createQuery();
+		$query->andWhere(['>', 'ssingleordersid', $this->lastScan['idcrm'] ?? 0]);
+		$query->andWhere(['<=', 'modifiedtime', $this->lastScan['start_date']]);
+		if (!empty($this->lastScan['end_date'])) {
+			$query->andWhere(['>=', 'modifiedtime', $this->lastScan['end_date']]);
+		}
+		$query->limit(10);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			yield $row;
+		}
 	}
 }

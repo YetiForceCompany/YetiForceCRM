@@ -377,6 +377,7 @@ class PackageImport extends PackageExport
 		if ($zip) {
 			$zip->close();
 		}
+		var_dump($this);
 		return $validzip;
 	}
 
