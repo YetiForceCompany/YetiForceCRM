@@ -144,7 +144,7 @@ class Performance
 	/** Is divided layout style on edit view in modules with products */
 	public static $INVENTORY_EDIT_VIEW_LAYOUT = true;
 
-	/** List of modules with splitted edit view layout */
+	/** List of modules with splited edit view layout */
 	public static $MODULES_SPLITTED_EDIT_VIEW_LAYOUT = [];
 
 	/** Popover record's trigger delay in ms */
@@ -157,7 +157,7 @@ class Performance
 	public static $picklistLimit = 50;
 
 	/** If there is no translation in the chosen language, then get from the default language. */
-	public static $recursiveTranslate = true;
+	public static $recursiveTranslate = false;
 
 	/** Parameter defining how fields are displayed in quick edit. Available values: standard,blocks,vertical */
 	public static $quickEditLayout = 'blocks';
@@ -167,7 +167,7 @@ class Performance
 
 	/** Number of records that can be shown in report mail */
 	public static $REPORT_RECORD_NUMBERS = 10;
-
+	
 	/** Number of records that can be shown in history login modal */
 	public static $LOGIN_HISTORY_VIEW_LIMIT = 10;
 }

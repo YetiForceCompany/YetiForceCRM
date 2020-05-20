@@ -17,7 +17,7 @@ if ('OPTIONS' === $_SERVER['REQUEST_METHOD']) {
 	\App\Headers::getInstance()->send();
 	return;
 }
-ini_set('error_log', __DIR__ . '/cache/logs/phpError.log');
+
 if (!\App\Config::main('application_unique_key', false)) {
 	header('location: install/Install.php');
 } else {

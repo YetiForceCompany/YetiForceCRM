@@ -24,7 +24,7 @@ class Security
 	public static $USER_ENCRYPT_PASSWORD_COST = 10;
 
 	/** Possible to reset the password while logging in (true/false) */
-	public static $RESET_LOGIN_PASSWORD = true;
+	public static $RESET_LOGIN_PASSWORD = false;
 
 	/** Show my preferences */
 	public static $SHOW_MY_PREFERENCES = true;
@@ -48,7 +48,7 @@ class Security
 	public static $PERMITTED_BY_ADVANCED_PERMISSION = true;
 
 	/** Permitted by private field. */
-	public static $PERMITTED_BY_PRIVATE_FIELD = false;
+	public static $PERMITTED_BY_PRIVATE_FIELD = true;
 
 	/** List of modules to which access is based on the record creation. */
 	public static $permittedModulesByCreatorField = [];
@@ -72,7 +72,7 @@ class Security
 	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_ACTIVE = false;
 
 	/** Restricted domains */
-	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES = ['yetiforce.com'];
+	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES = [];
 
 	/** List of modules where restricted domains are enabled, if empty it will be enabled everywhere. */
 	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_ALLOWED = [];
@@ -123,26 +123,26 @@ class Security
 	public static $cspHeaderActive = true;
 
 	/** Enable CSRF protection */
-	public static $csrfActive = false;
+	public static $csrfActive = true;
 
 	/** Enable verified frame protection, used in CSRF */
 	public static $csrfFrameBreaker = true;
 
 	/** Which window should be verified? It is used to check if the system is loaded in the frame, used in CSRF. */
-	public static $csrfFrameBreakerWindow = 'parent';
+	public static $csrfFrameBreakerWindow = 'top';
 
 	/** Allowed domains for loading frame, used in CSP and validate referer. */
-	public static $allowedFrameDomains = [
-		'https://outlook.live.com',
-		'https://outlook.office365.com',
-		'https://outlook.office.com',
-	];
+	public static $allowedFrameDomains = [];
 
 	/** Allowed domains for loading images, used in CSP. */
-	public static $allowedImageDomains = ['*.tile.openstreetmap.org'];
+	public static $allowedImageDomains = [
+		'a.tile.openstreetmap.org',
+		'b.tile.openstreetmap.org',
+		'c.tile.openstreetmap.org',
+	];
 
 	/** Allowed domains for loading script, used in CSP. */
-	public static $allowedScriptDomains = ['https://appsforoffice.microsoft.com', 'https://ajax.aspnetcdn.com'];
+	public static $allowedScriptDomains = [];
 
 	/** Allowed domains which can be used as the target of a form submissions from a given context, used in CSP. */
 	public static $allowedFormDomains = ['https://www.paypal.com'];
@@ -151,5 +151,5 @@ class Security
 	public static $generallyAllowedDomains = [];
 
 	/** List of allowed domains for fields with HTML support */
-	public static $purifierAllowedDomains = ['yetiforce.com', 'github.com'];
+	public static $purifierAllowedDomains = [];
 }

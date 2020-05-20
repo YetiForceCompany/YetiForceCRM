@@ -18,19 +18,19 @@ namespace Config;
 class Debug
 {
 	/** Enable saving logs to file. Values: false/true */
-	public static $LOG_TO_FILE = true;
+	public static $LOG_TO_FILE = false;
 
 	/** Enable saving logs profiling. Values: false/true */
 	public static $LOG_TO_PROFILE = false;
 
 	/** Categories to be registered in profiling, an empty value means all categories. ex. "yii\db\Command::query", "Integrations/MagentoApi" */
-	public static $LOG_PROFILE_CATEGORIES = ['Integrations/MagentoApi'];
+	public static $LOG_PROFILE_CATEGORIES = [];
 
 	/** Level of saved/displayed logs. Values: false = All / 3 = error and warning / ["error", "warning", "info", "trace", "profile"] */
-	public static $LOG_LEVELS = ['error', 'warning'];
+	public static $LOG_LEVELS = false;
 
 	/** Level of saved/displayed tracerts. // Values: int */
-	public static $LOG_TRACE_LEVEL = 9;
+	public static $LOG_TRACE_LEVEL = 0;
 
 	/** Display main debug console */
 	public static $DISPLAY_DEBUG_CONSOLE = false;
@@ -60,7 +60,7 @@ class Debug
 	public static $DISPLAY_DEBUG_VIEWER = false;
 
 	/** Do not show Smarty Notice in phpError.log */
-	public static $SMARTY_ERROR_REPORTING = 32759;
+	public static $SMARTY_ERROR_REPORTING = E_ALL & ~E_NOTICE;
 
 	/** Turn on/off error debugging in javascript */
 	public static $JS_DEBUG = true;
