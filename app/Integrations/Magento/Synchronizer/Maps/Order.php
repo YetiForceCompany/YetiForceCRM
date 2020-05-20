@@ -140,7 +140,7 @@ class Order extends Inventory
 	public function addAdditionalInvData(): array
 	{
 		$additionalData = [];
-		$additionalAmount = $this->data['grand_total'] - $this->data['subtotal'] - $this->data['discount_amount'] - $this->data['shipping_amount'];
+		$additionalAmount = $this->data['grand_total'] - $this->data['subtotal_incl_tax'] - $this->data['discount_amount'] - $this->data['shipping_incl_tax'];
 		if (!empty($additionalAmount)) {
 			if ('paypal_express' === $this->data['payment']['method']) {
 				$serviceId = $this->synchronizer->config->get('payment_paypal_service_id');
