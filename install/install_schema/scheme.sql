@@ -6437,16 +6437,6 @@ CREATE TABLE `vtiger_layout` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_lead_view` */
-
-CREATE TABLE `vtiger_lead_view` (
-  `lead_viewid` int(10) NOT NULL AUTO_INCREMENT,
-  `lead_view` varchar(200) NOT NULL,
-  `sortorderid` int(10) NOT NULL DEFAULT 0,
-  `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  PRIMARY KEY (`lead_viewid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_leadaddress` */
 
 CREATE TABLE `vtiger_leadaddress` (
@@ -8068,7 +8058,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `related_tabid` (`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=635 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=636 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
@@ -9070,7 +9060,6 @@ CREATE TABLE `vtiger_users` (
   `end_hour` varchar(30) DEFAULT '23:00',
   `view_date_format` varchar(50) DEFAULT 'PLL_ELAPSED',
   `activity_view` varchar(200) DEFAULT 'Today',
-  `lead_view` varchar(200) DEFAULT 'Today',
   `imagename` text DEFAULT NULL,
   `reminder_interval` varchar(100) DEFAULT NULL,
   `reminder_next_time` varchar(100) DEFAULT NULL,
@@ -9285,7 +9274,7 @@ CREATE TABLE `vtiger_widgets` (
   PRIMARY KEY (`id`),
   KEY `tabid` (`tabid`),
   CONSTRAINT `vtiger_widgets_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=209 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=210 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity` */
 
