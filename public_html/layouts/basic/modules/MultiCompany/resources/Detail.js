@@ -30,14 +30,15 @@ Vtiger_Detail_Js(
 		 * function to display the IStorages Hierarchy response data
 		 */
 		displayHierarchyResponseData: function (data) {
-			var callbackFunction = function (data) {
-				app.showScrollBar(jQuery('#hierarchyScroll'), {
+			let callbackFunction = function (data) {
+				app.showScrollBar($('#hierarchyScroll'), {
 					height: '300px',
 					railVisible: true,
 					size: '6px'
 				});
 			};
 			app.showModalWindow(data, function (data) {
+				App.Components.Scrollbar.xy($('#hierarchyScroll'));
 				if (typeof callbackFunction == 'function' && jQuery('#hierarchyScroll').height() > 300) {
 					callbackFunction(data);
 				}

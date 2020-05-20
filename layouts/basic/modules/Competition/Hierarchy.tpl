@@ -14,7 +14,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<div id="hierarchyScroll" class="table-responsive">
+					<div id="hierarchyScroll">
 						<table class="table table-bordered">
 							<thead>
 							<tr class="blockHeader">
