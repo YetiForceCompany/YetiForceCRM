@@ -148,6 +148,13 @@ class Order extends Inventory
 				$serviceId = $this->synchronizer->config->get('payment_cash_service_id');
 			}
 			if (!empty($serviceId)) {
+				$recordModel = \Vtiger_Record_Model::getInstanceById($serviceId, 'Services');
+				$taxes = \Vtiger_Inventory_Model::getGlobalTaxes();
+				$tax = 0;
+				if (isset($taxes[$recordModel->get('taxes')])) {
+					$tax = $taxes[$recordModel->get('taxes')]['value'];
+					$additionalAmount = round($additionalAmount * 100 / (100 + $tax), 4);
+				}
 				$additionalData = [
 					'discountmode' => 1,
 					'taxmode' => 1,
@@ -159,7 +166,7 @@ class Order extends Inventory
 					'price' => $additionalAmount,
 					'discountparam' => '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":0}',
 					'purchase' => 0,
-					'taxparam' => '{"aggregationType":"individual","individualTax":0}',
+					'taxparam' => '{"aggregationType":"individual","individualTax":' . $tax . '}',
 					'comment1' => ''
 				];
 			}
