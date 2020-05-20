@@ -771,4 +771,43 @@ class Vtiger_Inventory_Model
 			}
 		}
 	}
+
+	/**
+	 * Load row data by record Id.
+	 *
+	 * @param int   $recordId
+	 * @param array $params
+	 *
+	 * @return array
+	 */
+	public function loadRowData(int $recordId, array $params = []): array
+	{
+		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		$recordModuleName = $recordModel->getModuleName();
+		$data = [
+			'name' => $recordId,
+			'comment1' => $recordModel->get('description'),
+		];
+		if (!$recordModel->isEmpty('description')) {
+			$data['comment1'] = $recordModel->get('description');
+		}
+		if (\in_array($recordModuleName, ['Products', 'Services'])) {
+			$currencyId = $params['currency'] ?? \App\Fields\Currency::getDefault()['id'];
+			if (($fieldModel = $recordModel->getField('unit_price')) && $fieldModel->isActiveField()) {
+				$data['price'] = $fieldModel->getUITypeModel()->getValueForCurrency($recordModel->get($fieldModel->getName()), $currencyId);
+			}
+			if (($fieldModel = $recordModel->getField('purchase')) && $fieldModel->isActiveField()) {
+				$data['purchase'] = $fieldModel->getUITypeModel()->getValueForCurrency($recordModel->get($fieldModel->getName()), $currencyId);
+			}
+		}
+		if ($autoCompleteField = ($this->getAutoCompleteFields()[$recordModuleName] ?? [])) {
+			foreach ($autoCompleteField as $field) {
+				$fieldModel = $recordModel->getField($field['field']);
+				if ($fieldModel && ($fieldValue = $recordModel->get($field['field']))) {
+					$data[$field['tofield']] = $fieldValue;
+				}
+			}
+		}
+		return $data;
+	}
 }
