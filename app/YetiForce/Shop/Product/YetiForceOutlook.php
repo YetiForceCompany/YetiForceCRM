@@ -24,11 +24,11 @@ class YetiForceOutlook extends \App\YetiForce\Shop\AbstractBaseProduct
 	 * {@inheritdoc}
 	 */
 	public $prices = [
-		'Micro' => 20,
-		'Small' => 50,
-		'Medium' => 100,
-		'Large' => 250,
-		'Corporation' => 500,
+		'Micro' => 5,
+		'Small' => 12,
+		'Medium' => 25,
+		'Large' => 50,
+		'Corporation' => 100,
 	];
 
 	/**
