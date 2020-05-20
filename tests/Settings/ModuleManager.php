@@ -348,9 +348,6 @@ class ModuleManager extends \Tests\Base
 		static::$zipFileName = $packageExport->getZipFileName();
 		$this->assertFileExists(static::$zipFileName);
 
-		$package = new \vtlib\Package();
-		$this->assertSame('TestModule', $package->getModuleNameFromZip(static::$zipFileName));
-
 		$zip = \App\Zip::openFile(static::$zipFileName, ['checkFiles' => false]);
 		$zipFiles = [];
 		for ($i = 0; $i < $zip->numFiles; ++$i) {
