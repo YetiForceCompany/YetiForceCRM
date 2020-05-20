@@ -77,25 +77,25 @@ class ModuleManager extends \Tests\Base
 	public function testCreateModule()
 	{
 		$module = \Settings_ModuleManager_Module_Model::createModule([
-			'module_name' => 'Test',
-			'entityfieldname' => 'test',
-			'module_label' => 'Test',
+			'module_name' => 'TestModule',
+			'entityfieldname' => 'testmodule',
+			'module_label' => 'TestModule',
 			'entitytype' => \Vtiger_Module_Model::ADVANCED_TYPE,
-			'entityfieldlabel' => 'Test',
+			'entityfieldlabel' => 'TestModule',
 			'premium' => 2
 		]);
 
-		$this->assertFileExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
+		$this->assertFileExists(ROOT_DIRECTORY . '/modules/TestModule/TestModule.php');
 		$this->assertIsInt($module->getId());
-		$this->assertSame('Test', \App\Module::getModuleName($module->getId()), 'The name of the new module is missing: ' . $module->getId());
-		$langFileToCheck = $this->getLangPathToFile('Test.json');
+		$this->assertSame('TestModule', \App\Module::getModuleName($module->getId()), 'The name of the new module is missing: ' . $module->getId());
+		$langFileToCheck = $this->getLangPathToFile('TestModule.json');
 		foreach ($langFileToCheck as $pathToFile) {
 			$this->assertFileExists($pathToFile);
 		}
-		$rowModule = (new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->one();
+		$rowModule = (new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestModule'])->one();
 		$this->assertNotFalse($rowModule);
 		$this->assertSame(2, $rowModule['premium']);
-		$this->assertSame('Test', $rowModule['tablabel']);
+		$this->assertSame('TestModule', $rowModule['tablabel']);
 		$this->assertSame(\Vtiger_Module_Model::ADVANCED_TYPE, $rowModule['type']);
 	}
 
@@ -121,7 +121,7 @@ class ModuleManager extends \Tests\Base
 	 */
 	public function testCreateNewBlock()
 	{
-		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Test');
+		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('TestModule');
 		$blockInstance = new \Settings_LayoutEditor_Block_Model();
 		$blockInstance->set('label', 'label block');
 		$blockInstance->set('iscustom', 1);
@@ -148,11 +148,11 @@ class ModuleManager extends \Tests\Base
 		$param['fieldLabel'] = $type . 'FL' . $suffix;
 		$param['fieldName'] = strtolower($type . 'FL' . $suffix);
 		$param['blockid'] = static::$blockId;
-		$param['sourceModule'] = 'Test';
+		$param['sourceModule'] = 'TestModule';
 		if ('Tree' === $type || 'CategoryMultipicklist' === $type) {
 			//Add a tree if it does not exist
 			if (empty(static::$treeId)) {
-				static::$treeId = (new TreesManager())->testAddTree(1, \Settings_LayoutEditor_Module_Model::getInstanceByName('Test')->getId());
+				static::$treeId = (new TreesManager())->testAddTree(1, \Settings_LayoutEditor_Module_Model::getInstanceByName('TestModule')->getId());
 			}
 			$param['tree'] = static::$treeId;
 		} elseif ('MultiReferenceValue' === $type) {
@@ -216,7 +216,7 @@ class ModuleManager extends \Tests\Base
 				);
 				break;
 			case 305: //MultiReferenceValue
-				$this->assertTrue((new \App\Db\Query())->from('s_#__multireference')->where(['source_module' => 'Test', 'dest_module' => 'Contacts'])->exists(), 'No record in the table "s_yf_multireference" for type ' . $type);
+				$this->assertTrue((new \App\Db\Query())->from('s_#__multireference')->where(['source_module' => 'TestModule', 'dest_module' => 'Contacts'])->exists(), 'No record in the table "s_yf_multireference" for type ' . $type);
 				break;
 		}
 	}
@@ -228,11 +228,11 @@ class ModuleManager extends \Tests\Base
 	 */
 	private function getMRVField()
 	{
-		$source_Module = \vtlib\Module::getInstance('Test');
+		$source_Module = \vtlib\Module::getInstance('TestModule');
 		$moduleInstance = \vtlib\Module::getInstance('Contacts');
 		$source_Module->setRelatedList($moduleInstance, 'TestRel123', ['ADD', 'SELECT'], 'getRelatedList');
 
-		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Test');
+		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('TestModule');
 		$fields = [];
 		foreach ($moduleModel->getRelations() as $value) {
 			foreach ($value->getFields() as $valF) {
@@ -317,7 +317,7 @@ class ModuleManager extends \Tests\Base
 				$this->assertSame(0, (new \App\Db\Query())->from('vtiger_role2picklist')->where(['picklistid' => static::$pickList[$key]])->count(), 'All rows in the table "vtiger_role2picklist" have not been deleted');
 				break;
 			case 305: //MultiReferenceValue
-				$this->assertFalse((new \App\Db\Query())->from('s_#__multireference')->where(['source_module' => 'Test', 'dest_module' => 'Contacts'])->exists(), 'The record from "s_#__multireference" was not removed.');
+				$this->assertFalse((new \App\Db\Query())->from('s_#__multireference')->where(['source_module' => 'TestModule', 'dest_module' => 'Contacts'])->exists(), 'The record from "s_#__multireference" was not removed.');
 				break;
 		}
 	}
@@ -338,7 +338,7 @@ class ModuleManager extends \Tests\Base
 	 */
 	public function testExportModule()
 	{
-		$moduleModel = \vtlib\Module::getInstance('Test');
+		$moduleModel = \vtlib\Module::getInstance('TestModule');
 		$this->assertFalse($moduleModel->isExportable(), 'Module exportable!');
 		$moduleModel->allowExport = true;
 		$this->assertTrue($moduleModel->isExportable(), 'Module not exportable!');
@@ -349,7 +349,7 @@ class ModuleManager extends \Tests\Base
 		$this->assertFileExists(static::$zipFileName);
 
 		$package = new \vtlib\Package();
-		$this->assertSame('Test', $package->getModuleNameFromZip(static::$zipFileName));
+		$this->assertSame('TestModule', $package->getModuleNameFromZip(static::$zipFileName));
 
 		$zip = \App\Zip::openFile(static::$zipFileName, ['checkFiles' => false]);
 		$zipFiles = [];
@@ -359,9 +359,9 @@ class ModuleManager extends \Tests\Base
 		}
 		$zip->close();
 		$this->assertContains('manifest.xml', $zipFiles);
-		$this->assertContains('modules' . \DIRECTORY_SEPARATOR . 'Test' . \DIRECTORY_SEPARATOR . 'Test.php', $zipFiles);
+		$this->assertContains('modules' . \DIRECTORY_SEPARATOR . 'TestModule' . \DIRECTORY_SEPARATOR . 'TestModule.php', $zipFiles);
 
-		$langFileToCheck = $this->getLangPathToFile('Test.json');
+		$langFileToCheck = $this->getLangPathToFile('TestModule.json');
 		foreach ($langFileToCheck as $pathToFile) {
 			$this->assertContains($pathToFile, $zipFiles);
 		}
@@ -375,7 +375,7 @@ class ModuleManager extends \Tests\Base
 	public function testPackageMetadataFromZip()
 	{
 		$package = new \vtlib\Package();
-		$this->assertSame('Test', $package->getModuleNameFromZip(static::$zipFileName));
+		$this->assertSame('TestModule', $package->getModuleNameFromZip(static::$zipFileName));
 		$this->assertSame(\App\Version::get('appVersion'), $package->getDependentVtigerVersion());
 		$this->assertSame('inventory', $package->type());
 		$this->assertSame(2, $package->getPremium());
@@ -387,15 +387,15 @@ class ModuleManager extends \Tests\Base
 	public function testDeleteModule()
 	{
 		\App\Db::getInstance()->getSchema()->refresh();
-		$moduleInstance = \vtlib\Module::getInstance('Test');
+		$moduleInstance = \vtlib\Module::getInstance('TestModule');
 		$moduleInstance->delete();
-		$this->assertFileNotExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
-		$langFileToCheck = $this->getLangPathToFile('Test.json');
+		$this->assertFileNotExists(ROOT_DIRECTORY . '/modules/TestModule/TestModule.php');
+		$langFileToCheck = $this->getLangPathToFile('TestModule.json');
 		foreach ($langFileToCheck as $pathToFile) {
 			$this->assertFileNotExists(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $pathToFile);
 		}
 		$this->assertFalse(
-			(new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(),
+			(new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestModule'])->exists(),
 			'The test module exists in the database'
 		);
 		$this->assertFalse(
@@ -412,15 +412,15 @@ class ModuleManager extends \Tests\Base
 		\App\Db::getInstance()->getSchema()->refresh();
 		$package = new \vtlib\Package();
 
-		$this->assertSame('Test', $package->getModuleNameFromZip(static::$zipFileName));
+		$this->assertSame('TestModule', $package->getModuleNameFromZip(static::$zipFileName));
 		$this->assertFalse($package->isLanguageType(static::$zipFileName), 'The module is a language type');
 		$this->assertFalse($package->isUpdateType(static::$zipFileName), 'The module is a update type');
 		$this->assertFalse($package->isModuleBundle(static::$zipFileName), 'The module is a bundle type');
 
 		$package->import(static::$zipFileName);
 		$this->assertSame('LBL_INVENTORY_MODULE', $package->getTypeName());
-		$this->assertFileExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
-		$rowModule = (new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->one();
+		$this->assertFileExists(ROOT_DIRECTORY . '/modules/TestModule/TestModule.php');
+		$rowModule = (new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestModule'])->one();
 		$this->assertNotFalse($rowModule, 'The test module does not exist in the database');
 		$this->assertSame(2, $rowModule['premium']);
 
