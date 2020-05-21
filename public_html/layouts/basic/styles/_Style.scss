@@ -1786,6 +1786,15 @@ table.dataTable .form-control {
 	margin-bottom: 5px;
 }
 
+.footer-non--active {
+	.calendarRightPanel {
+		height: 100%;
+	}
+	.o-calendar__form {
+		height: calc(100vh - (0rem + 3.125rem)) !important;
+	}
+}
+
 .icon-in-history-widget {
 	font-size: calculate-rem(17px);
 	padding: 4px;

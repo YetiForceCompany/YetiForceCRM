@@ -51,6 +51,7 @@ abstract class Page extends Base
 		$view->assign('REMINDER_ACTIVE', $activeReminder);
 		$view->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$view->assign('MENUS', $this->getMenu());
+		$view->assign('SHOW_FOOTER_BAR', $this->showFooter() && 8 !== \App\YetiForce\Register::getStatus());
 		$view->assign('BROWSING_HISTORY', \Vtiger_BrowsingHistory_Helper::getHistory());
 		$view->assign('HOME_MODULE_MODEL', \Vtiger_Module_Model::getInstance('Home'));
 		$view->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));

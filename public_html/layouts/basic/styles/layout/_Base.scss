@@ -50,6 +50,24 @@ body {
 	}
 }
 
+.footer-non--active {
+	.c-menu__container, .mainBody {
+		bottom: 0rem;
+	}
+}
+
+.footer-non--active.limited-footer--active {
+	.c-menu__container, .mainBody {
+		bottom: 0rem;
+	}
+}
+
+.footer-non--active {
+	.container-fluid[class$="-knowledgebase-container"] .contentsDiv {
+		min-height: 100vh;
+	}
+}
+
 @include media-breakpoint-down(sm) {
 	.mainBody,
 	.c-btn-fixed {
@@ -64,6 +82,11 @@ body {
 		}
 		.container-fluid[class$="-knowledgebase-container"] .contentsDiv {
 			min-height: calc(100vh - #{$h-header} - #{$h-footer});
+		}
+	}
+	.footer-non--active{
+		.mainBody {
+			bottom: 0;
 		}
 	}
 }
