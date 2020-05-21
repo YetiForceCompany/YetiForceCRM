@@ -387,30 +387,6 @@ class ModuleManager extends \Tests\Base
 		);
 	}
 
-	/**
-	 * Testing module import.
-	 */
-	public function testImportModule()
-	{
-		\App\Db::getInstance()->getSchema()->refresh();
-		$package = new \vtlib\Package();
-		$package->getModuleNameFromZip(static::$zipFileName);
-		$this->assertSame('TestModule', $package->getModuleName());
-		$this->assertFalse($package->isLanguageType(static::$zipFileName), 'The module is a language type');
-		$this->assertFalse($package->isUpdateType(static::$zipFileName), 'The module is a update type');
-		$this->assertFalse($package->isModuleBundle(static::$zipFileName), 'The module is a bundle type');
-
-		$package->import(static::$zipFileName);
-		$this->assertSame('LBL_INVENTORY_MODULE', $package->getTypeName());
-		$this->assertFileExists(ROOT_DIRECTORY . '/modules/TestModule/TestModule.php');
-		$rowModule = (new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestModule'])->one();
-		$this->assertNotFalse($rowModule, 'The test module does not exist in the database');
-		$this->assertSame(2, $rowModule['premium']);
-
-		unlink(static::$zipFileName);
-		$this->assertFileNotExists(static::$zipFileName);
-	}
-
 	// Testing download librares.
 	public function testDownloadLibraryModule()
 	{
