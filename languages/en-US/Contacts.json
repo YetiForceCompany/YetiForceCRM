@@ -49,7 +49,8 @@
     "LBL_PARTICIPANTS": "Participants",
     "FL_GENDER": "Gender",
     "PLL_WOMAN": "Woman",
-    "PLL_MAN": "Man"
+    "PLL_MAN": "Man",
+    "LBL_DUPLICATE_EMAIL_ADDRESS": "A contact with this email address already exists in the system."
   },
   "js": {}
 }
