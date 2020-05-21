@@ -1114,12 +1114,15 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if ($request->has('step')) {
 			$processWizardModel->setStep($request->getInteger('step'));
 		}
+		$step = $processWizardModel->getStep();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PROCESS_WIZARD', $processWizardModel);
-		$viewer->assign('IS_AJAX_ENABLED', false);
-		$viewer->assign('STEP', $processWizardModel->getStep());
+		$viewer->assign('STEP', $step);
 		$viewer->assign('STEP_URL', "index.php?module={$moduleName}&view=Detail&record={$recordModel->getId()}&mode=processWizard&tab_label=LBL_RECORD_PROCESS_WIZARD&step=");
 		$viewer->assign('RECORD', $recordModel);
+		if(!empty($step['quickEdit'])){
+			$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
+		}
 		$viewer->assign('BLOCK_LIST', $recordModel->getModule()->getBlocks());
 		$viewer->assign('MODULE_MODEL', $recordModel->getModule());
 		$viewer->assign('VIEW_MODEL', $this->record);

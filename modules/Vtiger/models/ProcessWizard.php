@@ -177,6 +177,7 @@ class Vtiger_ProcessWizard_Model extends \App\Base
 					$fieldModel = $recordModel->getField($field['relatedField']);
 					if ($fieldModel && $fieldModel->isViewable()) {
 						$fieldModel->set('fieldvalue', $recordModel->get($field['relatedField']));
+						$fieldModel->set('displaytype', 10);
 						$fields[$field['relatedField']] = $fieldModel;
 					}
 				}

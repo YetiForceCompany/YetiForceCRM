@@ -67,7 +67,7 @@
 					<optgroup label="{\App\Language::translate('LBL_WORKFLOW_CUSTOM_RELATIONS', $QUALIFIED_MODULE)}">
 						{foreach from=\App\Relation::getAll($BASE_MODULE_ID) item=MODULE_INFO}
 							{assign var=MODULE value=\App\Module::getModuleName($MODULE_INFO['related_tabid'])}
-							{if $MODULE && !in_array($MODULE, $RELATED_MODULES) && false !== stripos($MODULE_INFO['actions'], 'SELECT') && \App\Privilege::isPermitted($MODULE)}
+							{if $MODULE && !in_array($MODULE, $RELATED_MODULES) && false !== stripos($MODULE_INFO['actions'], 'ADD') && \App\Privilege::isPermitted($MODULE, 'EditView')}
 								<option {if $RELATED_MODULE_MODEL_NAME eq $MODULE} selected="" {/if}
 									value="{$MODULE}">{\App\Language::translate($MODULE, $MODULE)}</option>
 							{/if}

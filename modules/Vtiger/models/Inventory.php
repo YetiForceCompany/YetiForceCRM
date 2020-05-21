@@ -786,7 +786,6 @@ class Vtiger_Inventory_Model
 		$recordModuleName = $recordModel->getModuleName();
 		$data = [
 			'name' => $recordId,
-			'comment1' => $recordModel->get('description'),
 		];
 		if (!$recordModel->isEmpty('description')) {
 			$data['comment1'] = $recordModel->get('description');
