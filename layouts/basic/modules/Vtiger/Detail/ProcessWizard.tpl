@@ -5,7 +5,7 @@
 	<ul class="nav nav-tabs mt-1 c-process-line">
 		{assign var=CLASS value='c-process-line__done'}
 		{foreach item=STEP_MAP key=STEP_ID from=$PROCESS_WIZARD->getSteps()}
-			{if $STEP_MAP['conditionsStatus']}
+			{if isset($STEP_MAP['conditionsStatus']) && $STEP_MAP['conditionsStatus']}
 				{assign var=CLASS value='c-process-line__next'}
 			{elseif $CLASS === 'c-process-line__next'}
 				{assign var=CLASS value=''}
