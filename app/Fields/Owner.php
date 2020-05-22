@@ -728,8 +728,8 @@ class Owner
 	public static function getColor($id)
 	{
 		if (!static::$colorsCache) {
-			if (file_exists('app_data/owners_colors.php')) {
-				static::$colorsCache = require 'app_data/owners_colors.php';
+			if (file_exists(ROOT_DIRECTORY . '/app_data/owners_colors.php')) {
+				static::$colorsCache = require ROOT_DIRECTORY . '/app_data/owners_colors.php';
 			} else {
 				static::$colorsCache = [];
 			}
