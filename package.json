@@ -33,7 +33,7 @@
     "bootbox": "^5.4.0",
     "bootstrap": "^4.3.1",
     "bootstrap-datepicker": "^1.9.0",
-    "bootstrap-daterangepicker": "^3.0.4",
+    "bootstrap-daterangepicker": "^3.1.0",
     "bootstrap-tabdrop": "https://github.com/jmschabdach/bootstrap-tabdrop",
     "chart.js": "^2.8.0",
     "chartjs-plugin-datalabels": "^0.7.0",
