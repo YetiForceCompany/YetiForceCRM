@@ -42,10 +42,10 @@ class Settings_AdvancedPermission_Edit_View extends Settings_Vtiger_Index_View
 			$recordModel = new Settings_AdvancedPermission_Record_Model();
 		} else {
 			$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->getInteger('record'));
-			$viewer->assign('RECORD_ID', $request->getInteger('record'));
 		}
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('RECORD_ID', $recordModel->getId());
 		$viewer->view('EditViewS1.tpl', $qualifiedModuleName);
 	}
 

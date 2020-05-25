@@ -25,7 +25,7 @@ class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Actio
 	 */
 	public function step1(App\Request $request)
 	{
-		if (false === $request->isEmpty('record')) {
+		if (!$request->isEmpty('record', true)) {
 			$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->getInteger('record'));
 		} else {
 			$recordModel = new Settings_AdvancedPermission_Record_Model();
