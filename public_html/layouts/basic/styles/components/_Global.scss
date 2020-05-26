@@ -8,7 +8,7 @@
 
 .footer-non--active {
 	.mainContainer {
-		height: 100vh;
+		height: 100%;
 	}
 }
 
@@ -275,6 +275,7 @@ body:not(.desktop) {
 			margin-top: -0.2rem;
 			min-width: unset;
 			line-height: 1;
+
 			.btn-group {
 				vertical-align: top;
 			}
