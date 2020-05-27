@@ -38,7 +38,7 @@ class Vtiger_ExportToSpreadsheet_Model extends Vtiger_Export_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getHeaders()
+	public function getHeaders(): array
 	{
 		$headers = parent::getHeaders();
 		foreach ($headers as $header) {
@@ -189,7 +189,7 @@ class Vtiger_ExportToSpreadsheet_Model extends Vtiger_Export_Model
 				}
 				$this->workSheet->setCellValueExplicitByColumnAndRow($this->colNo, $this->rowNo, $valueParam, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 				++$this->colNo;
-				}
+			}
 		}
 		return [];
 	}
