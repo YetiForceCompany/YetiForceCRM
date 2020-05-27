@@ -186,10 +186,28 @@ CREATE TABLE `a_yf_record_converter` (
 /*Table structure for table `a_yf_relatedlists_inv_fields` */
 
 CREATE TABLE `a_yf_relatedlists_inv_fields` (
-  `relation_id` int(10) DEFAULT NULL,
+  `relation_id` smallint(5) unsigned NOT NULL,
   `fieldname` varchar(30) DEFAULT NULL,
   `sequence` tinyint(1) DEFAULT NULL,
-  KEY `relation_id` (`relation_id`)
+  KEY `relation_id` (`relation_id`),
+  CONSTRAINT `a_yf_relatedlists_inv_fields_ibfk_1` FOREIGN KEY (`relation_id`) REFERENCES `vtiger_relatedlists` (`relation_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `a_yf_relatedlists_widgets` */
+
+CREATE TABLE `a_yf_relatedlists_widgets` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `relation_id` smallint(5) unsigned NOT NULL,
+  `tabid` smallint(5) DEFAULT NULL,
+  `type` varchar(30) DEFAULT NULL,
+  `label` varchar(100) DEFAULT NULL,
+  `wcol` tinyint(1) DEFAULT 1,
+  `sequence` tinyint(2) DEFAULT NULL,
+  `data` text DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tabid` (`tabid`),
+  KEY `relation_id` (`relation_id`),
+  CONSTRAINT `a_yf_relatedlists_widgets_ibfk_1` FOREIGN KEY (`relation_id`) REFERENCES `vtiger_relatedlists` (`relation_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_smsnotifier_servers` */
@@ -8063,12 +8081,13 @@ CREATE TABLE `vtiger_relatedlists` (
 /*Table structure for table `vtiger_relatedlists_fields` */
 
 CREATE TABLE `vtiger_relatedlists_fields` (
-  `relation_id` int(10) DEFAULT NULL,
+  `relation_id` smallint(5) unsigned NOT NULL,
   `fieldid` int(10) NOT NULL,
   `sequence` smallint(3) DEFAULT NULL,
   KEY `relation_id` (`relation_id`),
   KEY `fk_1_relatedlists_fields_fieldid` (`fieldid`),
-  CONSTRAINT `fk_1_relatedlists_fields_fieldid` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE
+  CONSTRAINT `fk_1_relatedlists_fields_fieldid` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE,
+  CONSTRAINT `vtiger_relatedlists_fields_ibfk_1` FOREIGN KEY (`relation_id`) REFERENCES `vtiger_relatedlists` (`relation_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_reminder_interval` */

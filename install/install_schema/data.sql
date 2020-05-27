@@ -113,6 +113,8 @@ insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`f
 
 /*Data for the table `a_yf_relatedlists_inv_fields` */
 
+/*Data for the table `a_yf_relatedlists_widgets` */
+
 /*Data for the table `a_yf_smsnotifier_servers` */
 
 /*Data for the table `a_yf_taxes_config` */
