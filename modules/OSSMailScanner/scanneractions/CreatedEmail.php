@@ -123,6 +123,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			'modifiedby' => $mail->getAccountOwner(),
 			'createdtime' => $mail->get('date'),
 			'modifiedtime' => $mail->get('date'),
+			'folderid' => 'T2'
 		];
 
 		$files = [];

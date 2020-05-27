@@ -909,7 +909,6 @@ class File
 		$record->set('filename', $fileName);
 		$record->set('filestatus', 1);
 		$record->set('filelocationtype', 'I');
-		$record->set('folderid', 'T2');
 		$record->file = [
 			'name' => $fileName,
 			'size' => $file->getSize(),

@@ -45,11 +45,8 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
 		}
-		if ($isUserFormat) {
-			$value = explode(',', $value);
-		}
 		if (!\is_array($value)) {
-			$value = (array) $value;
+			$value = explode(',', $value);
 		}
 		$rangeValues = null;
 		$maximumLength = $this->getFieldModel()->get('maximumlength');
