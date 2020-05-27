@@ -33,11 +33,20 @@ class Vtiger_ExportToSpreadsheet_Model extends Vtiger_Export_Model
 			'fill' => ['type' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'color' => ['argb' => 'E1E0F7']],
 			'font' => ['bold' => true],
 		];
-		$this->headers = $this->getHeaders();
-		foreach ($this->headers as $header) {
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getHeaders()
+	{
+		$headers = parent::getHeaders();
+		foreach ($headers as $header) {
 			$this->workSheet->setCellValueExplicitByColumnAndRow($this->colNo, $this->rowNo, $header, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 			++$this->colNo;
 		}
+		++$this->rowNo;
+		return $headers;
 	}
 
 	/**
@@ -180,7 +189,7 @@ class Vtiger_ExportToSpreadsheet_Model extends Vtiger_Export_Model
 				}
 				$this->workSheet->setCellValueExplicitByColumnAndRow($this->colNo, $this->rowNo, $valueParam, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 				++$this->colNo;
-			}
+				}
 		}
 		return [];
 	}

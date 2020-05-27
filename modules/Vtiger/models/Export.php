@@ -17,6 +17,12 @@ class Vtiger_Export_Model extends \App\Base
 	 * @var Vtiger_Module_Model
 	 */
 	protected $moduleInstance;
+	/**
+	 * Field model instance.
+	 *
+	 * @var Vtiger_Field_Model[]
+	 */
+	protected $moduleFieldInstances;
 	protected $focus;
 	private $picklistValues;
 	private $fieldDataTypeCache = [];
@@ -135,12 +141,10 @@ class Vtiger_Export_Model extends \App\Base
 	{
 		$headers = [];
 		$exportBlockName = \App\Config::component('Export', 'BLOCK_NAME');
-		//Query generator set this when generating the query
-		if (!empty($this->accessibleFields)) {
-			foreach ($this->accessibleFields as $fieldName) {
-				if (!empty($this->moduleFieldInstances[$fieldName])) {
-					$fieldModel = $this->moduleFieldInstances[$fieldName];
-					// Check added as querygenerator is not checking this for admin users
+		foreach ($this->accessibleFields as $fieldName) {
+			if (!empty($this->moduleFieldInstances[$fieldName])) {
+				$fieldModel = $this->moduleFieldInstances[$fieldName];
+				// Check added as querygenerator is not checking this for admin users
 					if ($fieldModel) { // export headers for mandatory fields
 						$header = \App\Language::translate(App\Purifier::decodeHtml($fieldModel->get('label')), $this->moduleName);
 						if ($exportBlockName) {
@@ -148,15 +152,6 @@ class Vtiger_Export_Model extends \App\Base
 						}
 						$headers[] = $header;
 					}
-				}
-			}
-		} else {
-			foreach ($this->moduleFieldInstances as $fieldModel) {
-				$header = \App\Language::translate(App\Purifier::decodeHtml($fieldModel->get('label')), $this->moduleName);
-				if ($exportBlockName) {
-					$header = App\Language::translate(App\Purifier::decodeHtml($fieldModel->getBlockName()), $this->moduleName) . '::' . $header;
-				}
-				$headers[] = $header;
 			}
 		}
 		if ($this->moduleInstance->isInventory()) {
