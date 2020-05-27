@@ -43,6 +43,13 @@ class ModTracker_ModTrackerHandler_Handler
 			$watchdogTitle = 'LBL_UPDATED';
 			$watchdogMessage = '$(record : ChangesListValues)$';
 		}
+		if ($skipFields = $recordModel->ext['ModTrackerSkipFields'] ?? []) {
+			foreach ($delta as $fieldName => $preValue) {
+				if (\in_array($fieldName, $skipFields)) {
+					unset($delta[$fieldName]);
+				}
+			}
+		}
 		if (empty($delta)) {
 			return false;
 		}
