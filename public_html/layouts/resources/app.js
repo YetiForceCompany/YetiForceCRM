@@ -2307,15 +2307,15 @@ var app = (window.app = {
 	 */
 	convertUrlToObject(url) {
 		let urlObject = {};
-		url
-			.split('index.php?')[1]
-			.split('&')
-			.forEach((el) => {
-				if (el.includes('=')) {
-					let values = el.split('=');
-					urlObject[values[0]] = values[1];
-				}
-			});
+		if (url.indexOf('index.php?') !== -1) {
+			url = url.split('index.php?')[1];
+		}
+		url.split('&').forEach((el) => {
+			if (el.includes('=')) {
+				let values = el.split('=');
+				urlObject[values[0]] = values[1];
+			}
+		});
 		return urlObject;
 	},
 	/**
