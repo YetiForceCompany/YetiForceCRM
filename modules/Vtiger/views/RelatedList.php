@@ -164,7 +164,14 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		$viewer->assign('VIEW', $request->getByType('view'));
-
+		$viewer->assign('SHOW_RELATED_WIDGETS', \in_array($relationModel->getId(), App\Config::module($moduleName, 'showRelatedWidgetsByDefault', [])));
+		if ($relationListView->isWidgetsList()) {
+			$viewer->assign('IS_WIDGETS', true);
+			$viewer->assign('HIERARCHY_VALUE', App\Config::module('ModComments', 'DEFAULT_SOURCE'));
+			$viewer->assign('HIERARCHY', \App\ModuleHierarchy::getModuleLevel($relatedModuleName));
+		} else {
+			$viewer->assign('IS_WIDGETS', false);
+		}
 		return $viewer->view('RelatedList.tpl', $moduleName, true);
 	}
 }

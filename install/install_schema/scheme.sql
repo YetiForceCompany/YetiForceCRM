@@ -198,14 +198,12 @@ CREATE TABLE `a_yf_relatedlists_inv_fields` (
 CREATE TABLE `a_yf_relatedlists_widgets` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `relation_id` smallint(5) unsigned NOT NULL,
-  `tabid` smallint(5) DEFAULT NULL,
   `type` varchar(30) DEFAULT NULL,
   `label` varchar(100) DEFAULT NULL,
   `wcol` tinyint(1) DEFAULT 1,
   `sequence` tinyint(2) DEFAULT NULL,
   `data` text DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `tabid` (`tabid`),
   KEY `relation_id` (`relation_id`),
   CONSTRAINT `a_yf_relatedlists_widgets_ibfk_1` FOREIGN KEY (`relation_id`) REFERENCES `vtiger_relatedlists` (`relation_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

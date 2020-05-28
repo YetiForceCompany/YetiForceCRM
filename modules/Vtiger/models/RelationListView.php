@@ -549,4 +549,64 @@ class Vtiger_RelationListView_Model extends \App\Base
 		}
 		$this->relationModel->set('QueryFields', $relatedListFields);
 	}
+
+	/**
+	 * Get widgets instances.
+	 *
+	 * @param int $recordId
+	 *
+	 * @return array
+	 */
+	public function getWidgets(int $recordId): array
+	{
+		$widgets = [];
+		$moduleModel = $this->getRelatedModuleModel();
+		foreach ($this->getWidgetsList() as $widgetCol) {
+			foreach ($widgetCol as $widget) {
+				$widgetName = Vtiger_Loader::getComponentClassName('Widget', $widget['type'], $moduleModel->getName());
+				if (class_exists($widgetName)) {
+					$widgetInstance = new $widgetName($moduleModel->getName(), $moduleModel, $recordId, $widget);
+					$widgetObject = $widgetInstance->getWidget();
+					if (\count($widgetObject) > 0) {
+						$widgets[$widgetObject['wcol']][] = $widgetObject;
+					}
+				}
+			}
+		}
+		return $widgets;
+	}
+
+	/**
+	 * Get widgets list.
+	 *
+	 * @return array
+	 */
+	public function getWidgetsList(): array
+	{
+		$relationId = $this->getRelationModel()->getId();
+		if (\App\Cache::has('RelatedModuleWidgets', $relationId)) {
+			return \App\Cache::get('RelatedModuleWidgets', $relationId);
+		}
+		$query = (new App\Db\Query())->from('a_#__relatedlists_widgets')->where(['relation_id' => $relationId]);
+		$dataReader = $query->orderBy(['sequence' => SORT_ASC])->createCommand()->query();
+		$widgets = [1 => [], 2 => [], 3 => []];
+		while ($row = $dataReader->read()) {
+			$row['data'] = \App\Json::decode($row['data']);
+			$widgets[$row['wcol']][$row['id']] = $row;
+		}
+		$dataReader->close();
+		App\Cache::save('RelatedModuleWidgets', $relationId, $widgets);
+		return $widgets;
+	}
+
+	/**
+	 * Check if widgets exist.
+	 *
+	 * @return bool
+	 */
+	public function isWidgetsList(): bool
+	{
+		$widgets = $this->getWidgetsList();
+		return !empty($widgets[1]) || !empty($widgets[2]) || !empty($widgets[3]);
+	}
 }

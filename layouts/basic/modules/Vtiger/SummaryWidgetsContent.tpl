@@ -84,9 +84,7 @@
 						{if $IS_INVENTORY}
 							{$COUNT = $COUNT+1}
 							<td nowrap>
-								<button type="button" class="btn btn-sm btn-info js-popover-tooltip showInventoryRow"
-										data-js="popover" data-placement="left"
-										data-content="{\App\Language::translate('LBL_SHOW_INVENTORY_ROW')}">
+								<button type="button" class="btn btn-sm btn-info js-popover-tooltip js-toggle-hidden-row" data-js="popover" data-placement="left" data-element="inventory" data-content="{\App\Language::translate('LBL_SHOW_INVENTORY_ROW')}">
 									<span class="fas fa-arrows-alt-v"></span>
 								</button>
 							</td>
@@ -95,37 +93,39 @@
 					{if $IS_INVENTORY}
 						{assign var="INVENTORY_DATA" value=$RELATED_RECORD->getInventoryData()}
 						{assign var="INVENTORY_MODEL" value=Vtiger_Inventory_Model::getInstance($RELATED_RECORD->getModuleName())}
-						<tr class="listViewInventoryEntries d-none">
+						<tr class="js-hidden-row d-none">
 							{if $RELATED_MODULE->isQuickSearchEnabled()}
 								{$COUNT = $COUNT+1}
 							{/if}
 							<td colspan="{$COUNT+1}" class="backgroundWhiteSmoke">
-								<table class="table table-sm no-margin">
-									<thead>
-									<tr>
-										{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
-											<th class="medium" nowrap>
-												{\App\Language::translate($FIELD->get('label'),$RELATED_MODULE_NAME)}
-											</th>
-										{/foreach}
-									</tr>
-									</thead>
-									<tbody>
-									{foreach from=$INVENTORY_DATA item=INVENTORY_ROW}
+								<div class="js-hidden-row__block d-none" data-element="inventory">
+									<table class="table table-sm no-margin d-none" data-element="inventory">
+										<thead>
 										<tr>
-											{if $INVENTORY_ROW['name']}
-												{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
-											{/if}
 											{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
-												{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView', $RELATED_MODULE_NAME)}
-												<td>
-													{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $RELATED_MODULE_NAME) ITEM_VALUE=$INVENTORY_ROW[$FIELD->getColumnName()]}
-												</td>
+												<th class="medium" nowrap>
+													{\App\Language::translate($FIELD->get('label'),$RELATED_MODULE_NAME)}
+												</th>
 											{/foreach}
 										</tr>
-									{/foreach}
-									</tbody>
-								</table>
+										</thead>
+										<tbody>
+										{foreach from=$INVENTORY_DATA item=INVENTORY_ROW}
+											<tr>
+												{if $INVENTORY_ROW['name']}
+													{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
+												{/if}
+												{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
+													{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView', $RELATED_MODULE_NAME)}
+													<td>
+														{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $RELATED_MODULE_NAME) ITEM_VALUE=$INVENTORY_ROW[$FIELD->getColumnName()]}
+													</td>
+												{/foreach}
+											</tr>
+										{/foreach}
+										</tbody>
+									</table>
+								</div>
 							</td>
 						</tr>
 					{/if}

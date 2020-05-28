@@ -48,6 +48,36 @@ jQuery.Class(
 			Vtiger_RelatedList_Js.relatedListInstance.setSelectedTabElement(selectedRelatedTabElement);
 			return Vtiger_RelatedList_Js.relatedListInstance;
 		},
+		getInstanceByUrl: function (url, selectedRelatedTabElement) {
+			let params = app.convertUrlToObject(url);
+			if (
+				Vtiger_RelatedList_Js.relatedListInstance === false ||
+				Vtiger_RelatedList_Js.relatedListInstance.moduleName !== params['relatedModule']
+			) {
+				let moduleClassName = app.getModuleName() + '_RelatedList_Js',
+					fallbackClassName = Vtiger_RelatedList_Js,
+					instance;
+				if (typeof window[moduleClassName] !== 'undefined') {
+					instance = new window[moduleClassName]();
+				} else {
+					instance = new fallbackClassName();
+				}
+				instance.selectedRelatedTabElement = selectedRelatedTabElement;
+				instance.relatedTabsContainer = selectedRelatedTabElement.closest('div.related');
+				instance.content = $(
+					'div.contents',
+					instance.relatedTabsContainer.closest('div.detailViewContainer')
+				);
+				instance.relatedView = instance.content.find('input.relatedView').val();
+				Vtiger_RelatedList_Js.relatedListInstance = instance;
+			}
+			Vtiger_RelatedList_Js.relatedListInstance.parentRecordId = params['record'];
+			Vtiger_RelatedList_Js.relatedListInstance.parentModuleName = params['module'];
+			Vtiger_RelatedList_Js.relatedListInstance.moduleName = params['relatedModule'];
+			Vtiger_RelatedList_Js.relatedListInstance.defaultParams = params;
+			Vtiger_RelatedList_Js.relatedListInstance.setSelectedTabElement(selectedRelatedTabElement);
+			return Vtiger_RelatedList_Js.relatedListInstance;
+		},
 		triggerMassAction: function (massActionUrl, type) {
 			const self = this.relatedListInstance;
 			let validationResult = self.checkListRecordSelected();
@@ -725,7 +755,7 @@ jQuery.Class(
 			});
 		},
 		registerRowsEvent: function () {
-			let thisInstance = this;
+			const self = this;
 			if (this.relatedView === 'List' || this.relatedView === 'Detail') {
 				this.content.find('.listViewEntries').on('click', function (e) {
 					if ($(e.target).is('td')) {
@@ -740,12 +770,22 @@ jQuery.Class(
 						}
 					}
 				});
-				this.content.find('.showInventoryRow').on('click', function (e) {
+				this.content.find('.js-toggle-hidden-row').on('click', function (e) {
 					let target = $(this);
 					let row = target.closest('tr');
-					let inventoryRow = row.next();
-					if (inventoryRow.hasClass('listViewInventoryEntries')) {
-						inventoryRow.toggleClass('d-none');
+					let inventoryRow = row.next('.js-hidden-row');
+					if (inventoryRow.length) {
+						let block = inventoryRow.find(
+							'.js-hidden-row__block[data-element="' + target.data('element') + '"]'
+						);
+						if (block.is(':visible') || !inventoryRow.is(':visible')) {
+							inventoryRow.toggleClass('d-none');
+						}
+						inventoryRow.find('.js-hidden-row__block').addClass('d-none');
+						block.removeClass('d-none');
+						if (block.is(':visible')) {
+							self.registerWidgets(block);
+						}
 					}
 				});
 			} else if (this.relatedView === 'ListPreview') {
@@ -759,11 +799,27 @@ jQuery.Class(
 					if ($.contains($(e.currentTarget).find('td:last-child').get(0), target[0])) return;
 					if ($.contains($(e.currentTarget).find('td:first-child').get(0), target[0])) return;
 					let recordUrl = $(this).data('recordurl');
-					thisInstance.content.find('.listViewEntriesTable .listViewEntries').removeClass('active');
+					self.content.find('.listViewEntriesTable .listViewEntries').removeClass('active');
 					$(this).addClass('active');
-					thisInstance.updatePreview(recordUrl);
+					self.updatePreview(recordUrl);
 				});
 			}
+			let widgetsContainer = this.content.find(
+				'.js-hidden-row .js-hidden-row__block[data-element="widgets"]'
+			);
+			if (widgetsContainer.length) {
+				self.registerWidgets(widgetsContainer);
+			}
+		},
+		registerWidgets: function (content) {
+			let widgetList = $('[class^="widgetContainer_"]', content);
+			let detailInstance = Vtiger_Detail_Js.getInstance();
+			widgetList.each(function (index, widget) {
+				widget = $(widget);
+				if (widget.is(':visible')) {
+					detailInstance.loadWidget(widget);
+				}
+			});
 		},
 		registerSummationEvent: function () {
 			let thisInstance = this;

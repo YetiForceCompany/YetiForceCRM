@@ -348,9 +348,11 @@ jQuery.Class(
 		loadWidgets: function () {
 			let thisInstance = this;
 			let widgetList = jQuery('[class^="widgetContainer_"]');
-			widgetList.each(function (index, widgetContainerELement) {
-				let widgetContainer = jQuery(widgetContainerELement);
-				thisInstance.loadWidget(widgetContainer);
+			widgetList.each(function (index, widget) {
+				widget = $(widget);
+				if (widget.is(':visible')) {
+					thisInstance.loadWidget(widget);
+				}
 			});
 			thisInstance.registerRelatedModulesRecordCount();
 		},
@@ -392,11 +394,9 @@ jQuery.Class(
 					App.Fields.Picklist.showSelect2ElementView(widgetContainer.find('.select2'));
 					app.registerModal(contentContainer);
 					if (relatedModuleName) {
-						let relatedController = Vtiger_RelatedList_Js.getInstance(
-							thisInstance.getRecordId(),
-							app.getModuleName(),
-							thisInstance.getSelectedTab(),
-							relatedModuleName
+						let relatedController = Vtiger_RelatedList_Js.getInstanceByUrl(
+							widgetContainer.data('url'),
+							thisInstance.getSelectedTab()
 						);
 						relatedController.setRelatedContainer(contentContainer);
 						relatedController.registerRelatedEvents();
@@ -1068,12 +1068,9 @@ jQuery.Class(
 						url: block.data('url')
 					}).done(function (response) {
 						blockContent.html(response);
-						let relatedController = Vtiger_RelatedList_Js.getInstance(
-							thisInstance.getRecordId(),
-							app.getModuleName(),
-							thisInstance.getSelectedTab(),
-							block.data('reference'),
-							block.data('url')
+						let relatedController = Vtiger_RelatedList_Js.getInstanceByUrl(
+							block.data('url'),
+							thisInstance.getSelectedTab()
 						);
 						relatedController.setRelatedContainer(blockContent);
 						relatedController.registerRelatedEvents();
@@ -1099,11 +1096,9 @@ jQuery.Class(
 					blockContent.progressIndicator();
 					AppConnector.request(url).done(function (response) {
 						blockContent.html(response);
-						const relatedController = Vtiger_RelatedList_Js.getInstance(
-							thisInstance.getRecordId(),
-							app.getModuleName(),
-							thisInstance.getSelectedTab(),
-							block.data('reference')
+						const relatedController = Vtiger_RelatedList_Js.getInstanceByUrl(
+							url,
+							thisInstance.getSelectedTab()
 						);
 						relatedController.setRelatedContainer(blockContent);
 						if (isEmpty) {
@@ -1673,8 +1668,9 @@ jQuery.Class(
 			this.loadWidget(data['container'], data['params']);
 		},
 		getFiltersData: function (e, params) {
+			let currentElement;
 			if (e.currentTarget) {
-				let currentElement = jQuery(e.currentTarget);
+				currentElement = jQuery(e.currentTarget);
 			} else {
 				currentElement = e;
 			}
@@ -1945,19 +1941,25 @@ jQuery.Class(
 			relatedModule,
 			relatedModuleRecordId,
 			selectedTabElement,
-			params = {}
+			params = {},
+			url
 		) {
 			let aDeferred = jQuery.Deferred();
 			let thisInstance = this;
+			let relatedController;
 			if (selectedTabElement == undefined) {
 				selectedTabElement = thisInstance.getSelectedTab();
 			}
-			let relatedController = Vtiger_RelatedList_Js.getInstance(
-				thisInstance.getRecordId(),
-				app.getModuleName(),
-				selectedTabElement,
-				relatedModule
-			);
+			if (url) {
+				relatedController = Vtiger_RelatedList_Js.getInstanceByUrl(url, selectedTabElement);
+			} else {
+				relatedController = Vtiger_RelatedList_Js.getInstance(
+					thisInstance.getRecordId(),
+					app.getModuleName(),
+					selectedTabElement,
+					relatedModule
+				);
+			}
 			relatedController
 				.addRelations(relatedModuleRecordId, params)
 				.done(function (data) {
@@ -1982,6 +1984,7 @@ jQuery.Class(
 		postSummaryWidgetAddRecord: function (data, currentElement) {
 			let thisInstance = this;
 			let summaryWidgetContainer = currentElement.closest('.js-detail-widget');
+			let widgetContainer = summaryWidgetContainer.find('[class^="widgetContainer_"]');
 			let widgetHeaderContainer = summaryWidgetContainer.find('.js-detail-widget-header');
 			let referenceModuleName = widgetHeaderContainer.find('[name="relatedModule"]').val();
 			let idList = [];
@@ -1990,10 +1993,14 @@ jQuery.Class(
 			if (summaryWidgetContainer.data('relationId')) {
 				params.relationId = summaryWidgetContainer.data('relationId');
 			}
-			this.addRelationBetweenRecords(referenceModuleName, idList, null, params).done(function (
-				data
-			) {
-				thisInstance.loadWidget(summaryWidgetContainer.find('[class^="widgetContainer_"]'));
+			this.addRelationBetweenRecords(
+				referenceModuleName,
+				idList,
+				null,
+				params,
+				widgetContainer.data('url')
+			).done(function (data) {
+				thisInstance.loadWidget(widgetContainer);
 			});
 		},
 		registerChangeEventForModulesList: function () {
