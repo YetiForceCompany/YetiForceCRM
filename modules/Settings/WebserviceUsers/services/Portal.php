@@ -73,6 +73,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 			case 'istorage':
 				$params['uitype'] = 10;
 				$params['referenceList'] = ['IStorages'];
+				$params['typeofdata'] = 'V~O';
 				break;
 			case 'status':
 				$params['uitype'] = 16;
