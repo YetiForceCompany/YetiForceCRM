@@ -816,7 +816,9 @@ class Vtiger_Relation_Model extends \App\Base
 		$excludedModules = ['Users'];
 		$relatedModel = $this->getRelationModuleModel();
 		$relatedModuleName = $relatedModel->getName();
-
+		if ($relationField = $this->getRelationField()) {
+			$fields[$relationField->getFieldName()] = $recordModel->getId();
+		}
 		$parentModelFields = $this->getParentModuleModel()->getFields();
 		foreach ($parentModelFields as $fieldName => $fieldModel) {
 			if ($fieldModel->isReferenceField()) {

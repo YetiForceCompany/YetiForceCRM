@@ -343,6 +343,7 @@ jQuery.Class(
 				if (relatedModuleName === 'DetailView') {
 					thisInstance.registerBlockStatusCheckOnLoad();
 				}
+				thisInstance.registerCollapsiblePanels(widgetContent.closest('.js-detail-widget'));
 			});
 		},
 		loadWidgets: function () {
@@ -1553,9 +1554,7 @@ jQuery.Class(
 					let summaryWidgetContainer = currentElement.closest('.js-detail-widget');
 					let referenceModuleName = summaryWidgetContainer.data('moduleName');
 					let quickcreateUrl = currentElement.data('url');
-					let parentId = thisInstance.getRecordId();
 					let quickCreateParams = {};
-					let relatedField = currentElement.data('prf');
 					let autoCompleteFields = currentElement.data('acf');
 					let moduleName = currentElement
 						.closest('.js-detail-widget-header')
@@ -1568,9 +1567,6 @@ jQuery.Class(
 							thisInstance.loadModuleSummary();
 						}
 					};
-					if (typeof relatedField !== 'undefined') {
-						relatedParams[relatedField] = parentId;
-					}
 					if (typeof autoCompleteFields !== 'undefined') {
 						$.each(autoCompleteFields, function (index, value) {
 							relatedParams[index] = value;
