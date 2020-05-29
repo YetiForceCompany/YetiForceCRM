@@ -262,24 +262,23 @@
 				{/if}
 			{/foreach}
 			</tbody>
-			<tfoot class="listViewSummation">
-			<tr>
-				<td></td>
-				{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-					<td {if $HEADER_FIELD@last} colspan="2" {/if}
-							class="noWrap {if !empty($HEADER_FIELD->isCalculateField())}border{/if}">
-						{if !empty($HEADER_FIELD->isCalculateField())}
-							<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover" type="button"
-									data-operator="sum" data-field="{$HEADER_FIELD->getName()}"
-									data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
-								<span class="fas fa-signal"></span>
-							</button>
-							<span class="calculateValue"></span>
-						{/if}
-					</td>
-				{/foreach}
-			</tr>
-			</tfoot>
+			{if !empty($SHOW_SUMMATION_ROW)}
+				<tfoot class="listViewSummation">
+					<tr>
+						<td></td>
+						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+							<td {if $HEADER_FIELD@last} colspan="2" {/if} class="noWrap {if !empty($HEADER_FIELD->isCalculateField())}border{/if}">
+								{if !empty($HEADER_FIELD->isCalculateField())}
+									<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover" type="button" data-operator="sum" data-field="{$HEADER_FIELD->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
+										<span class="fas fa-signal"></span>
+									</button>
+									<span class="calculateValue"></span>
+								{/if}
+							</td>
+						{/foreach}
+					</tr>
+				</tfoot>
+			{/if}
 		</table>
 	</div>
 {/strip}

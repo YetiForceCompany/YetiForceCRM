@@ -130,6 +130,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_VIEW', $relatedView);
+		$viewer->assign('SHOW_SUMMATION_ROW', $request->has('showSummation') ? $request->getBoolean('showSummation') : true);
 		$viewer->assign('SHOW_HEADER', $showHeader);
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
