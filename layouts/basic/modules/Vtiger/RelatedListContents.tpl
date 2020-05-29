@@ -195,7 +195,7 @@
 					{/if}
 				</tr>
 				{if $IS_INVENTORY || $IS_WIDGETS}
-					<tr class="js-hidden-row {if !$SHOW_RELATED_WIDGETS}d-none{/if}">
+					<tr class="js-hidden-row {if !$SHOW_RELATED_WIDGETS}d-none{/if}" data-id="{$RELATED_RECORD->getId()}">
 						{if $RELATED_MODULE->isQuickSearchEnabled()}
 							{$COUNT = $COUNT+1}
 						{/if}

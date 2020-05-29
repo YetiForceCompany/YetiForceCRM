@@ -3493,8 +3493,8 @@ select {
 }
 
 .tableBorderHeadBody {
-	thead,
-	tbody {
+	> thead,
+	> tbody {
 		border: 1px solid #ddd;
 	}
 }
