@@ -15453,8 +15453,8 @@ select[readonly], select[disabled] {
 .relatedTabModulesList .panel {
   margin-bottom: 10px; }
 
-.tableBorderHeadBody thead,
-.tableBorderHeadBody tbody {
+.tableBorderHeadBody > thead,
+.tableBorderHeadBody > tbody {
   border: 1px solid #ddd; }
 
 .listViewEntriesTable .listViewSummation td.border, .listViewEntriesTable .listViewSummation td.select2-selection {
