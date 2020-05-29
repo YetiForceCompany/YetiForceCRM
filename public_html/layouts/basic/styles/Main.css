@@ -20272,6 +20272,9 @@ ul.c-process-line {
   align-self: center;
   margin-right: 0.125rem; }
 
+.process-content .c-panel__body {
+  padding: 0 0.25rem 0.25rem 0.25rem; }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .paginationDiv .listViewBasicAction.dropdown-menu {
   width: 35%; }

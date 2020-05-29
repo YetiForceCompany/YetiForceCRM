@@ -704,3 +704,6 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		margin-right: calculate-rem(2px);
 	}
 }
+.process-content .c-panel__body {
+	padding: 0 0.25rem 0.25rem 0.25rem;
+}
