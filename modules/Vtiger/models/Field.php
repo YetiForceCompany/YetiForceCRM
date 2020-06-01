@@ -964,6 +964,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'taxes':
 			case 'multiListFields':
 			case 'mailScannerFields':
+			case 'country':
 				$pickListValues = $this->getPicklistValues();
 				if (!empty($pickListValues)) {
 					$this->fieldInfo['picklistvalues'] = $pickListValues;

@@ -1486,7 +1486,7 @@ window.App.Fields = {
 				let selectedOption = selectElement.data('selected-value');
 				if (selectedOption) {
 					let text = selectedOption;
-					if (selectElement.data('fieldinfo').picklistvalues.hasOwnProperty(selectedOption)) {
+					if (selectElement.data('fieldinfo').picklistvalues.hasOwnProperty(selectedOption) && !selectElement.get(0).dataset.templateResult) {
 						text = selectElement.data('fieldinfo').picklistvalues[selectedOption];
 					}
 					this.createSelectedOption(selectElement, text, selectedOption);
@@ -1502,7 +1502,7 @@ window.App.Fields = {
 		 */
 		registerLazySelectOptions(selectElement) {
 			let options = [];
-			if (selectElement.data('fieldinfo') && selectElement.data('fieldinfo').picklistvalues) {
+			if (selectElement.data('fieldinfo') && selectElement.data('fieldinfo').picklistvalues && !selectElement.get(0).dataset.templateResult) {
 				options = $.map(selectElement.data('fieldinfo').picklistvalues, function (val, key) {
 					return { id: key, text: val };
 				});
