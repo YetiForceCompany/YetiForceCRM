@@ -35,8 +35,6 @@ jQuery.Class(
 			if (typeof data === 'undefined') {
 				data = {};
 			}
-			console.log(fieldObj.constructor.name)
-			console.log(data)
 			fieldObj.setData(data);
 			return fieldObj;
 		}
@@ -116,9 +114,6 @@ jQuery.Class(
 			var typeClassName = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
 			var moduleUiTypeClassName = window[currentModule + '_' + typeClassName + '_Field_Js'];
 			var BasicUiTypeClassName = window['Vtiger_' + typeClassName + '_Field_Js'];
-			// console.log(BasicUiTypeClassName);
-			console.log([currentModule + '_' + typeClassName + '_Field_Js',typeof moduleUiTypeClassName !== 'undefined']);
-			console.log(['Vtiger_' + typeClassName + '_Field_Js',typeof BasicUiTypeClassName !== 'undefined']);
 			if (typeof moduleUiTypeClassName !== 'undefined') {
 				return new moduleUiTypeClassName().setData(this.getData());
 			}
@@ -188,7 +183,6 @@ Vtiger_Field_Js(
 		getUi: function () {
 			var html = '<select class="select2 form-control" name="' + this.getName() + '">';
 			var pickListValues = this.getPickListValues();
-			console.log(pickListValues)
 			var selectedOption = app.htmlDecode(this.getValue());
 			for (var option in pickListValues) {
 				html += '<option value="' + option + '" ';
