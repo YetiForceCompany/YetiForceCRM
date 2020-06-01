@@ -40,6 +40,15 @@ class Order extends Record
 		if ($this->import()) {
 			$this->config->setEndScan('order', $this->lastScan['start_date']);
 		}
+		$this->lastScan = $this->config->getLastScan('crm_order');
+		if (!$this->lastScan['start_date'] || (0 === (int) $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])) {
+			$this->config->setScan('crm_order');
+			$this->lastScan = $this->config->getLastScan('crm_order');
+		}
+		$this->config->setScan('crm_order');
+		if ($this->export()) {
+			$this->config->setEndScan('crm_order', $this->lastScan['start_date']);
+		}
 	}
 
 	/**
@@ -182,5 +191,73 @@ class Order extends Record
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][field]=store_id';
 		$searchCriteria[] = 'searchCriteria[filter_groups][3][filters][0][conditionType]=eq';
 		return implode('&', $searchCriteria);
+	}
+
+	/**
+	 * Export orders to magento.
+	 *
+	 * @return bool
+	 */
+	public function export(): bool
+	{
+		$allChecked = true;
+		try {
+			foreach ($this->getChanges() as $row) {
+				$allChecked = false;
+				$this->updateOrderInMagento($row);
+				$this->config->setScan('crm_order', 'id', $row['id']);
+			}
+		} catch (\Throwable $ex) {
+			$this->log('Export orders', $ex);
+			\App\Log::error('Error during export order: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
+		}
+		return $allChecked;
+	}
+
+	/**
+	 * Get changes for update.
+	 *
+	 * @return \Generator
+	 */
+	public function getChanges(): \Generator
+	{
+		$queryGenerator = (new \App\QueryGenerator('SSingleOrders'));
+		$queryGenerator->setStateCondition('All');
+		$queryGenerator->setFields(['id', 'magento_id', 'ssingleorders_status'])->permissions = false;
+		$queryGenerator->addCondition('magento_server_id', $this->config->get('id'), 'e');
+		$query = $queryGenerator->createQuery();
+		$query->andWhere(new \yii\db\Expression('modifiedtime <> createdtime'));
+		if (!empty($this->lastScan['id'])) {
+			$query->andWhere(['>', 'ssingleordersid', $this->lastScan['id']]);
+		}
+		if (!empty($this->lastScan['end_date'])) {
+			$query->andWhere(['>=', 'modifiedtime', $this->lastScan['end_date']]);
+		}
+		$query->andWhere(['<=', 'modifiedtime', $this->lastScan['start_date']]);
+
+		$query->limit(10);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			yield $row;
+		}
+	}
+
+	/**
+	 * Update order in magento.
+	 *
+	 * @param array $row
+	 *
+	 * @return void
+	 */
+	public function updateOrderInMagento(array $row): void
+	{
+		$className = $this->config->get('order_map_class') ?: '\App\Integrations\Magento\Synchronizer\Maps\Order';
+		$mapModel = new $className($this);
+		$mapModel->setDataCrm($row);
+		if ($updateData = $mapModel->getUpdateData()) {
+			$this->connector->request('POST', $this->config->get('store_code') . '/V1/orders/', $updateData);
+		} else {
+			throw new \Exception('No status mapping (in self::$statusForMagento): ' . $mapModel->dataCrm['ssingleorders_status']);
+		}
 	}
 }
