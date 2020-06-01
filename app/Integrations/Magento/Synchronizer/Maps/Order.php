@@ -43,7 +43,7 @@ class Order extends Inventory
 	 */
 	public static $mappedFields = [
 		'subject' => 'increment_id',
-		'ssingleorders_status' => 'status',
+		'ssingleorders_status' => 'state',
 		'date_start' => 'created_at',
 		'attention' => 'customer_note',
 		'payment_methods' => 'payment|method',
@@ -84,22 +84,56 @@ class Order extends Inventory
 	];
 
 	/**
-	 * Ssingleorders_status field map.
+	 * Magento state mapping to CRM statuses.
+	 *
+	 * @var string[]
+	 */
+	public static $ssingleorders_status = [
+		'new' => 'PLL_NEW',
+		'processing' => 'PLL_PROCESSING',
+		'payment_review' => 'PLL_PAYMENT_REVIEW',
+		'holded' => 'PLL_ON_HOLD',
+		'complete' => 'PLL_COMPLETE',
+		'closed' => 'PLL_CLOSED',
+		'canceled' => 'PLL_CANCELLED',
+	];
+	/**
+	 * status_magento field map.
 	 *
 	 * @var array
 	 */
-	public static $ssingleorders_status = [
-		'processing' => 'PLL_IN_REALIZATION',
-		'fraud' => 'PLL_FOR_VERIFICATION',
-		'pending_payment' => 'PLL_FOR_VERIFICATION',
-		'payment_review' => 'PLL_FOR_VERIFICATION',
-		'pending' => 'PLL_FOR_VERIFICATION',
-		'holded' => 'PLL_CANCELLED',
-		'complete' => 'PLL_ACCEPTED',
-		'closed' => 'PLL_CANCELLED',
+	public static $status_magento = [
+		'pending' => 'PLL_PENDING',
+		'pending_payment' => 'PLL_PENDING_PAYMENT',
+		'pending_paypal' => 'PLL_PENDING_PAYPAL',
+		'paid' => 'PLL_PAID',
+		'processing' => 'PLL_PROCESSING',
+		'paypal_reversed' => 'PLL_PAYPAL_REVERSED',
+		'payment_review' => 'PLL_PAYMENT_REVIEW',
+		'fraud' => 'PLL_FRAUD',
+		'holded' => 'PLL_ON_HOLD',
+		'send' => 'PLL_SEND',
+		'complete' => 'PLL_COMPLETE',
+		'closed' => 'PLL_CLOSED',
+		'paypal_canceled_reversal' => 'PLL_PAYPAL_CANCELED_REVERSAL',
 		'canceled' => 'PLL_CANCELLED',
 	];
 
+	/**
+	 * Mapping statuses from the CRM to Magento.
+	 * It is used when updating data in Magento.
+	 *
+	 * @var array
+	 */
+	public static $statusForMagento = [
+		'PLL_NEW' => ['state' => 'new', 'status' => 'pending'],
+		'PLL_PAYMENT_REVIEW' => ['state' => 'payment_review', 'status' => 'payment_review'],
+		'PLL_ON_HOLD' => ['state' => 'holded', 'status' => 'holded'],
+		'PLL_PROCESSING' => ['state' => 'processing', 'status' => 'processing'],
+		'PLL_COMPLETE' => ['state' => 'complete', 'status' => 'complete'],
+		'PLL_CLOSED' => ['state' => 'closed', 'status' => 'closed'],
+		'PLL_CANCELLED' => ['state' => 'canceled', 'status' => 'canceled'],
+	];
 	/**
 	 * Payment method value map.
 	 *
@@ -110,26 +144,6 @@ class Order extends Inventory
 		'banktransfer' => 'PLL_TRANSFER',
 		'cashondelivery' => 'PLL_CASH_ON_DELIVERY',
 		'paypal_express' => 'PLL_PAYPAL_EXPRESS',
-	];
-
-	/**
-	 * status_magento field map.
-	 *
-	 * @var array
-	 */
-	public static $status_magento = [
-		'canceled' => 'PLL_CANCELLED',
-		'closed' => 'PLL_CLOSED',
-		'complete' => 'PLL_COMPLETE',
-		'fraud' => 'PLL_FRAUD',
-		'holded' => 'PLL_HOLDED',
-		'payment_review' => 'PLL_PAYMENT_REVIEW',
-		'paypal_canceled_reversal' => 'PLL_PAYPAL_CANCELED_REVERSAL',
-		'paypal_reversed' => 'PLL_PAYPAL_REVERSED',
-		'pending' => 'PLL_PENDING',
-		'pending_payment' => 'PLL_PENDING_PAYMENT',
-		'pending_paypal' => 'PLL_PENDING_PAYPAL',
-		'processing' => 'PLL_PROCESSING',
 	];
 
 	/**
@@ -206,5 +220,24 @@ class Order extends Inventory
 			$data = $this->data['billing_address'] ?? [];
 		}
 		return $data;
+	}
+
+	/**
+	 * Data update in magento.
+	 *
+	 * @return array
+	 */
+	public function getUpdateData(): array
+	{
+		if (empty(self::$statusForMagento[$this->dataCrm['ssingleorders_status']])) {
+			return false;
+		}
+		return [
+			'entity' => array_merge([
+				'entity_id' => $this->dataCrm['magento_id'],
+			],
+				self::$statusForMagento[$this->dataCrm['ssingleorders_status']]
+			)
+		];
 	}
 }
