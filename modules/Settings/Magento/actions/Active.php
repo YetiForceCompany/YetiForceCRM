@@ -83,7 +83,7 @@ class Settings_Magento_Active_Action extends Settings_Vtiger_Save_Action
 			$fieldInstance->set('maxlengthtext', '255');
 			$fieldInstance->set('typeofdata', 'V~O');
 			$fieldInstance->save($blockModel);
-			$fieldInstance->setNoRolePicklistValues(['PLL_PENDING', 'PLL_PENDING_PAYMENT', 'PLL_PENDING_PAYPAL',  'PLL_PROCESSING', 'PLL_HOLDED', 'PLL_FRAUD', 'PLL_PAYMENT_REVIEW', 'PLL_PAYPAL_CANCELED_REVERSAL', 'PLL_PAYPAL_REVERSED', 'PLL_CANCELLED', 'PLL_CLOSED', 'PLL_COMPLETE']);
+			$fieldInstance->setNoRolePicklistValues(['PLL_PENDING', 'PLL_PENDING_PAYMENT', 'PLL_PENDING_PAYPAL',  'PLL_PAID', 'PLL_PROCESSING', 'PLL_ON_HOLD', 'PLL_SEND', 'PLL_FRAUD', 'PLL_PAYMENT_REVIEW', 'PLL_PAYPAL_CANCELED_REVERSAL', 'PLL_PAYPAL_REVERSED', 'PLL_CANCELLED', 'PLL_CLOSED', 'PLL_COMPLETE']);
 		}
 		if (!(new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $fInvoiceTabId, 'fieldname' => 'magento_server_id'])->exists()) {
 			$blockModel = Vtiger_Block_Model::getInstance('LBL_CUSTOM_INFORMATION', 'FInvoice');
