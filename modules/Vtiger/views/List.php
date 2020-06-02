@@ -55,8 +55,8 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$title = \App\Language::translate('LBL_VIEW_LIST', $moduleName);
 		if ($request->has('viewname') && !empty(CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)])) {
 			$customView = CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)];
-			$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> [' . \App\Language::translate('LBL_FILTER', $moduleName)
-				. ': ' . \App\Language::translate($customView->get('viewname'), $moduleName) . ']</div>';
+			$title .= '<div class="pl-1 pb-1 d-flex align-items-end"><small class="breadCrumbsFilter"> [' . \App\Language::translate('LBL_FILTER', $moduleName)
+				. ': ' . \App\Language::translate($customView->get('viewname'), $moduleName) . ']</small> </div>';
 		}
 		return $title;
 	}
