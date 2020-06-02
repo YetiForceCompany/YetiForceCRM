@@ -45,17 +45,14 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		$this->loadListViewCondition();
 		$this->loadListViewOrderBy();
 		$query = $queryGenerator->createQuery();
-		$sourceModule = $this->get('src_module');
-		$sourceField = $this->get('src_field');
 		$pageLimit = $pagingModel->getPageLimit();
-		//For Products popup in Price Book Related list
-		if ('PriceBooks' !== $sourceModule && 'priceBookRelatedList' !== $sourceField) {
+		if (0 !== $pagingModel->get('limit')) {
 			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		}
 		$rows = $query->all();
 		$count = \count($rows);
 		$pagingModel->calculatePageRange($count);
-		if ($count > $pageLimit && 'PriceBooks' !== $sourceModule && 'priceBookRelatedList' !== $sourceField) {
+		if ($count > $pageLimit) {
 			array_pop($rows);
 			$pagingModel->set('nextPageExists', true);
 		} else {
