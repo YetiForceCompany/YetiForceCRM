@@ -5,6 +5,10 @@
     "ACCOUNTS_DUPLICATEVATID_HANDLER": "Duplicate VAT ID",
     "ACCOUNTS_DUPLICATEVATID_HANDLER_DESC": "Block record adding/editing when such VAT ID already exists",
     "PRODUCTS_DUPLICATEEAN_HANDLER": "Duplicate ean",
-    "PRODUCTS_DUPLICATEEAN_HANDLER_DESC": "Block record adding/editing when such EAN code already exists"
+    "PRODUCTS_DUPLICATEEAN_HANDLER_DESC": "Block record adding/editing when such EAN code already exists",
+    "IGDNC_IGDNEXIST_HANDLER": "Duplicate Goods Dispatched Note Correction",
+    "IGDNC_IGDNEXIST_HANDLER_DESC": "Block record adding/editing when the same Goods Dispatched Note Correction already exists",
+    "IGRNC_IGRNEXIST_HANDLER": "Duplicate Goods Received Note Correction",
+    "IGRNC_IGRNEXIST_HANDLER_DESC": "Block record adding/editing when the same Goods Received Note Correction already exists."
   }
 }
