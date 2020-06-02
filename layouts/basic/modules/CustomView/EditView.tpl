@@ -36,10 +36,10 @@
 					{assign var=SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
 					<div class="modal-body">
 						<div class="js-toggle-panel c-panel" data-js="click">
-							<div class="blockHeader  c-panel__header">
-					<span class="iconToggle fas fa-chevron-down fa-xs m-1 mt-2" data-hide="fas fa-chevron-right"
-						  data-show="fas fa-chevron-down"></span>
+							<div class="blockHeader c-panel__header pb-2 pt-1">
+								<span class="iconToggle fas fa-chevron-down fa-xs m-1 mt-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
 								<h5 class="">{\App\Language::translate('LBL_BASIC_DETAILS',$MODULE_NAME)}</h5>
+								<span class="mdi mdi-information-outline ml-2" aria-hidden="true"></span>
 							</div>
 							<div class="c-panel__body py-1">
 								<div class="form-group">
@@ -142,10 +142,10 @@
 							</div>
 						</div>
 						<div class="js-toggle-panel c-panel" data-js="click">
-							<div class="blockHeader c-panel__header">
-					<span class="iconToggle fas fa-chevron-right fa-xs m-1 mt-2" data-hide="fas fa-chevron-right"
-						  data-show="fas fa-chevron-down"></span>
+							<div class="blockHeader c-panel__header pb-2 pt-1">
+								<span class="iconToggle fas fa-chevron-right fa-xs m-1 mt-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
 								<h5 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE_NAME)}</h5>
+								<span class="yfi-company-detlis ml-2" aria-hidden="true"></span>
 							</div>
 							<div class="c-panel__body py-1 d-none">
 								<textarea name="description" id="description" class="js-editor"
@@ -153,10 +153,10 @@
 							</div>
 						</div>
 						<div class="js-toggle-panel c-panel" data-js="click">
-							<div class="blockHeader c-panel__header">
-					<span class="iconToggle fas fa-chevron-right fa-xs m-1 mt-2" data-hide="fas fa-chevron-right"
-						  data-show="fas fa-chevron-down"></span>
+							<div class="blockHeader c-panel__header pb-2 pt-1">
+								<span class="iconToggle fas fa-chevron-right fa-xs m-1 mt-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
 								<h5 class="">{\App\Language::translate('LBL_FIND_DUPLICATES',$MODULE_NAME)}</h5>
+								<span class="mdi mdi-content-duplicate ml-2" aria-hidden="true"></span>
 							</div>
 							<div class="c-panel__body py-1 d-none">
 								<input type="hidden" name="duplicatefields" value="">
@@ -178,11 +178,10 @@
 							</div>
 						</div>
 						<div class="js-toggle-panel c-panel" data-js="click">
-							<div class="blockHeader c-panel__header">
-					<span class="iconToggle fas fa-chevron-down fa-xs m-1 mt-2" data-hide="fas fa-chevron-right"
-						  data-show="fas fa-chevron-down"></span>
-								<h5 class="">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE_NAME)}
-									:</h5>
+							<div class="blockHeader c-panel__header pb-2 pt-1">
+								<span class="iconToggle fas fa-chevron-down fa-xs m-1 mt-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
+								<h5 class="">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE_NAME)}:</h5>
+								<span class="yfi yfi-users-2 ml-2"></span>
 							</div>
 							<div class="c-panel__body py-1">
 								<div class="filterConditionsDiv">
