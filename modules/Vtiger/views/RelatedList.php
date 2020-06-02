@@ -80,12 +80,12 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		}
 		if (!$request->isEmpty('search_key', true)) {
 			$searchKey = $request->getByType('search_key', 'Alnum');
-			$serchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $relatedModuleName, $searchKey, $operator);
+			$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $relationListView->getQueryGenerator()->getModule(), $searchKey, $operator);
 			$relationListView->set('search_key', $searchKey);
-			$relationListView->set('search_value', $serchValue);
-			$viewer->assign('ALPHABET_VALUE', $serchValue);
+			$relationListView->set('search_value', $searchValue);
+			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
-		$searchParmams = App\Condition::validSearchParams($relatedModuleName, $request->getArray('search_params'));
+		$searchParmams = App\Condition::validSearchParams($relationListView->getQueryGenerator()->getModule(), $request->getArray('search_params'));
 		if (empty($searchParmams) || !\is_array($searchParmams)) {
 			$searchParmams = [];
 		}
