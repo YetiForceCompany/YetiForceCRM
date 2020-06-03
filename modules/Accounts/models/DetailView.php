@@ -47,7 +47,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		$parentModuleModel = $this->getModule();
 		$this->getWidgets();
 		$relatedLinks = [];
-		if (class_exists($parentModuleModel->getName() . '_ProcessWizard_Model')) {
+		if (class_exists($parentModuleModel->getName() . '_ProcessWizard_Model') && $recordModel->isEditable()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'LBL_RECORD_PROCESS_WIZARD',
