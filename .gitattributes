@@ -35,3 +35,4 @@ crowdin.yml  export-ignore
 .eslintrc export-ignore
 .editorconfig export-ignore
 jsconfig.json export-ignore
+.prettierrc.js export-ignore
