@@ -245,7 +245,6 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 		let rightFormCreate = sideBar.find('form[name="QuickCreate"]');
 		editViewInstance.registerBasicEvents(rightFormCreate);
 		rightFormCreate.validationEngine(app.validationEngineOptions);
-		headerInstance.registerHelpInfo(rightFormCreate);
 		App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
 		sideBar.find('.js-summary-close-edit').on('click', () => {
 			this.getCalendarCreateView();
@@ -380,7 +379,7 @@ jQuery.Class(
 				progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				container.find('.eventsTable').remove();
 				container.append(events);
-				Vtiger_Header_Js.getInstance().registerHelpInfo(container);
+				app.showPopoverElementView(container.find('.js-help-info'));
 			});
 		},
 		registerEvents: function (container) {

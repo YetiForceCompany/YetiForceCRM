@@ -2044,7 +2044,6 @@ jQuery.Class(
 							thisInstance.markTabAsSelected(tabElement);
 							Vtiger_Helper_Js.showHorizontalTopScrollBar();
 							element.progressIndicator({ mode: 'hide' });
-							thisInstance.registerHelpInfo();
 							app.registerModal(detailContentsHolder);
 							if (typeof callBack == 'function') {
 								callBack(data);
@@ -2302,8 +2301,10 @@ jQuery.Class(
 				thisInstance.reloadTabContent();
 			});
 		},
-		registerHelpInfo: function () {
-			let form = this.getForm();
+		registerHelpInfo: function (form) {
+			if (!form) {
+				form = this.getForm();
+			}
 			app.showPopoverElementView(form.find('.js-help-info'));
 		},
 		/**
@@ -2788,6 +2789,7 @@ jQuery.Class(
 			App.Fields.MultiImage.register(detailContentsHolder);
 			//Attach time picker event to time fields
 			app.registerEventForClockPicker();
+			this.registerHelpInfo(detailContentsHolder);
 			App.Fields.Picklist.showSelect2ElementView(detailContentsHolder.find('select.select2'));
 			new App.Fields.Text.Editor(detailContentsHolder, { toolbar: 'Min' });
 			detailContentsHolder.on('click', '#detailViewNextRecordButton', function (e) {
@@ -2801,7 +2803,6 @@ jQuery.Class(
 				let url = selectedTabElement.data('url');
 				let currentPageNum = thisInstance.getRelatedListCurrentPageNum();
 				let requestedPage = parseInt(currentPageNum) - 1;
-				let params = {};
 				let nextPageUrl = url + '&page=' + requestedPage;
 				thisInstance.loadContents(nextPageUrl);
 			});
@@ -3258,7 +3259,6 @@ jQuery.Class(
 		},
 		registerEvents: function () {
 			//this.triggerDisplayTypeEvent();
-			this.registerHelpInfo();
 			this.registerSendSmsSubmitEvent();
 			this.registerAjaxEditEvent();
 			this.registerRelatedRowClickEvent();

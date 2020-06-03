@@ -446,7 +446,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		let rightFormCreate = sideBar.find('form[name="QuickCreate"]');
 		editViewInstance.registerBasicEvents(rightFormCreate);
 		rightFormCreate.validationEngine(app.validationEngineOptions);
-		headerInstance.registerHelpInfo(rightFormCreate);
 		App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
 		sideBar.find('.js-summary-close-edit').on('click', () => {
 			this.getCalendarCreateView();

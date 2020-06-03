@@ -297,14 +297,6 @@ $.Class(
 			App.Components.QuickCreate.registerPostLoadEvents(form, params);
 		},
 		/**
-		 * Invoke App.Components.QuickCreate.registerHelpInfo
-		 *
-		 * @param   {object}  container jQuery
-		 */
-		registerHelpInfo: function (container = $('form[name="QuickCreate"]')) {
-			App.Components.QuickCreate.registerHelpInfo(container);
-		},
-		/**
 		 * Invoke App.Components.QuickCreate.goToFullForm
 		 *
 		 * @param   {object}  form  jQuery

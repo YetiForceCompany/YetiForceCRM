@@ -1070,7 +1070,7 @@ $.Class(
 			}
 			new App.Fields.Text.Editor(noteContentElement, customConfig);
 		},
-		registerHelpInfo: function (container) {
+		registerHelpInfo: function (form) {
 			if (!form) {
 				form = this.getForm();
 			}
