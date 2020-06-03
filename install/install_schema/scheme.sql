@@ -5683,6 +5683,16 @@ CREATE TABLE `vtiger_default_record_view` (
   PRIMARY KEY (`default_record_viewid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_default_search_operator` */
+
+CREATE TABLE `vtiger_default_search_operator` (
+  `default_search_operatorid` int(11) NOT NULL AUTO_INCREMENT,
+  `default_search_operator` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`default_search_operatorid`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_defaultactivitytype` */
 
 CREATE TABLE `vtiger_defaultactivitytype` (
@@ -5931,7 +5941,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3040 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3041 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -9120,6 +9130,7 @@ CREATE TABLE `vtiger_users` (
   `mail_scanner_actions` text DEFAULT NULL,
   `mail_scanner_fields` text DEFAULT NULL,
   `secondary_email` varchar(100) DEFAULT '',
+  `default_search_operator` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),

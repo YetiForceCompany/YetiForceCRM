@@ -54,26 +54,12 @@
 								</a>
 								<ul class="dropdown-menu js-global-search-operator"
 									aria-labelledby="globalSearchOperator" data-js="click">
-									<li class="{if App\Config::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextBegin'}active{/if} dropdown-item u-cursor-pointer"
-										href="#" data-operator="FulltextBegin">
-										{\App\Language::translate('LBL_FULLTEXT_BEGIN')}
-									</li>
-									<li class="{if App\Config::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'FulltextWord'}active{/if} dropdown-item u-cursor-pointer"
-										href="#" data-operator="FulltextWord">
-										{\App\Language::translate('LBL_FULLTEXT_WORD')}
-									</li>
-									<li class="{if App\Config::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Contain'}active{/if} dropdown-item u-cursor-pointer"
-										href="#" data-operator="Contain">
-										{\App\Language::translate('LBL_CONTAINS')}
-									</li>
-									<li class="{if App\Config::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'Begin'}active{/if} dropdown-item u-cursor-pointer"
-										href="#" data-operator="Begin">
-										{\App\Language::translate('LBL_STARTS_WITH')}
-									</li>
-									<li class="{if App\Config::search('GLOBAL_SEARCH_DEFAULT_OPERATOR') === 'End'}active{/if} dropdown-item u-cursor-pointer"
-										href="#" data-operator="End">
-										{\App\Language::translate('LBL_ENDS_WITH')}
-									</li>
+									{foreach key=LABEL item=VALUE from=\App\RecordSearch::OPERATORS}
+										<li class="{if $USER_MODEL->get('default_search_operator') eq $LABEL}active{/if} dropdown-item u-cursor-pointer"
+											href="#" data-operator="{$VALUE}">
+											{\App\Language::translate($LABEL, 'Users')}
+										</li>
+									{/foreach}
 								</ul>
 							</div>
 						{/if}

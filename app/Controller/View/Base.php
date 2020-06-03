@@ -570,7 +570,6 @@ abstract class Base extends \App\Controller\Base
 			'globalSearchAutocompleteActive' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE'),
 			'globalSearchAutocompleteMinLength' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH'),
 			'globalSearchAutocompleteAmountResponse' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'),
-			'globalSearchDefaultOperator' => \App\Config::search('GLOBAL_SEARCH_DEFAULT_OPERATOR'),
 			'sounds' => \App\Config::sounds(),
 			'intervalForNotificationNumberCheck' => \App\Config::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
 			'recordPopoverDelay' => \App\Config::performance('RECORD_POPOVER_DELAY'),
@@ -608,7 +607,8 @@ abstract class Base extends \App\Controller\Base
 				'rowHeight' => $userModel->getDetail('rowheight'),
 				'userId' => $userModel->getId(),
 				// Modifying this file or functions that affect the footer appearance will violate the license terms!!!
-				'disableBranding' => \App\YetiForce\Shop::check('YetiForceDisableBranding')
+				'disableBranding' => \App\YetiForce\Shop::check('YetiForceDisableBranding'),
+				'globalSearchDefaultOperator' => \App\RecordSearch::OPERATORS[$userModel->getDetail('default_search_operator')]
 			];
 		}
 		foreach ($jsEnv as $key => $value) {

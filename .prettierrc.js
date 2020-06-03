@@ -10,6 +10,14 @@ module.exports = {
 			}
 		}
 	],
+	overrides: [
+		{
+			files: '*.json',
+			options: {
+				useTabs: false,
+			}
+		}
+	],
 	printWidth: 100,
 	tabWidth: 2,
 	useTabs: true,

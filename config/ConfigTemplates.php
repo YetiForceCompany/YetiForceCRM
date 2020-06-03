@@ -815,11 +815,6 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
-		'GLOBAL_SEARCH_DEFAULT_OPERATOR' => [
-			'default' => 'FulltextBegin',
-			'description' => 'Global search - Default search operator. (FulltextBegin,FulltextWord,Contain,Begin,End)',
-			'validationValues' => ['FulltextBegin', 'FulltextWord', 'Contain', 'Begin', 'End']
-		],
 		'LIST_ENTITY_STATE_COLOR' => [
 			'default' => [
 				'Archived' => '#0032a2',
