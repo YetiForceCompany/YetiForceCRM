@@ -136,10 +136,11 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 * @param Vtiger_Record_Model $parentRecordModel
 	 * @param string              $relationModuleName
 	 * @param bool|int            $relationId
+	 * @param int                 $cvId
 	 *
 	 * @return self
 	 */
-	public static function getInstance(Vtiger_Record_Model $parentRecordModel, string $relationModuleName, $relationId = false)
+	public static function getInstance(Vtiger_Record_Model $parentRecordModel, string $relationModuleName, $relationId = false, int $cvId = 0)
 	{
 		$parentModuleModel = $parentRecordModel->getModule();
 		$className = Vtiger_Loader::getComponentClassName('Model', 'RelationListView', $parentModuleModel->getName());
@@ -154,7 +155,12 @@ class Vtiger_RelationListView_Model extends \App\Base
 		}
 		$instance->setParentRecordModel($parentRecordModel);
 		$instance->setRelatedModuleModel($relationModelInstance->getRelationModuleModel());
-		$relationModelInstance->set('query_generator', new \App\QueryGenerator($relationModelInstance->getRelationModuleModel()->getName()));
+		$queryGenerator = new \App\QueryGenerator($relationModelInstance->getRelationModuleModel()->getName());
+		if ($cvId) {
+			$instance->set('viewId', $cvId);
+			$queryGenerator->initForCustomViewById($cvId);
+		}
+		$relationModelInstance->set('query_generator', $queryGenerator);
 		$relationModelInstance->set('parentRecord', $parentRecordModel);
 		$instance->setRelationModel($relationModelInstance);
 		return $instance;
@@ -223,7 +229,6 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 */
 	public function getEntries(Vtiger_Paging_Model $pagingModel)
 	{
-		$relationModuleModel = $this->getRelationModel()->getRelationModuleModel();
 		$pageLimit = $pagingModel->getPageLimit();
 		$query = $this->getRelationQuery();
 		if (0 !== $pagingModel->get('limit')) {
@@ -237,17 +242,49 @@ class Vtiger_RelationListView_Model extends \App\Base
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
-		$relatedRecordList = [];
-		$recordId = $this->getParentRecordModel()->getId();
-		foreach ($rows as $row) {
-			if ($recordId !== $row['id']) {
-				$recordModel = $relationModuleModel->getRecordFromArray($row);
-				$this->getEntryExtend($recordModel);
-				$relatedRecordList[$row['id']] = $recordModel;
-			}
-		}
+		$relatedRecordList = $this->getRecordsFromArray($rows);
 		$pagingModel->calculatePageRange(\count($relatedRecordList));
 		return $relatedRecordList;
+	}
+
+	/**
+	 * Get models of records from array.
+	 *
+	 * @param array $rows
+	 *
+	 * @return \Vtiger_Record_Model[]
+	 */
+	public function getRecordsFromArray(array $rows)
+	{
+		$listViewRecordModels = $relatedFields = [];
+		$moduleModel = $this->getRelationModel()->getRelationModuleModel();
+		$recordId = $this->getParentRecordModel()->getId();
+		foreach ($this->getQueryGenerator()->getRelatedFields() as $fieldInfo) {
+			$relatedFields[$fieldInfo['relatedModule']][$fieldInfo['sourceField']][] = $fieldInfo['relatedField'];
+		}
+		foreach ($rows as $row) {
+			if ($recordId == $row['id']) {
+				continue;
+			}
+			$extRecordModel = [];
+			foreach ($relatedFields as $relatedModuleName => $fields) {
+				foreach ($fields as $sourceField => $field) {
+					$recordData = [
+						'id' => $row[$sourceField . $relatedModuleName . 'id'] ?? 0
+					];
+					foreach ($field as $relatedFieldName) {
+						$recordData[$relatedFieldName] = $row[$sourceField . $relatedModuleName . $relatedFieldName];
+						unset($row[$sourceField . $relatedModuleName . $relatedFieldName]);
+					}
+					$extRecordModel[$sourceField][$relatedModuleName] = Vtiger_Module_Model::getInstance($relatedModuleName)->getRecordFromArray($recordData);
+				}
+			}
+			$recordModel = $moduleModel->getRecordFromArray($row);
+			$recordModel->ext = $extRecordModel;
+			$this->getEntryExtend($recordModel);
+			$listViewRecordModels[$row['id']] = $recordModel;
+		}
+		return $listViewRecordModels;
 	}
 
 	/**
@@ -283,9 +320,28 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 */
 	public function getHeaders()
 	{
-		$fields = $this->getRelationModel()->getQueryFields();
+		$fields = [];
+		if ($this->get('viewId')) {
+			$moduleModel = $this->getRelationModel()->getRelationModuleModel();
+			$customView = App\CustomView::getInstance($moduleModel->getName());
+			foreach ($customView->getColumnsListByCvid($this->get('viewId')) as $fieldInfo) {
+				$fieldName = $fieldInfo['field_name'];
+				$sourceFieldName = $fieldInfo['source_field_name'] ?? '';
+				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldInfo['module_name']));
+				if (!$fieldModel || !$fieldModel->isActiveField() || ($sourceFieldName && !$moduleModel->getFieldByName($sourceFieldName)->isActiveField())) {
+					continue;
+				}
+				if ($sourceFieldName) {
+					$fieldModel->set('source_field_name', $sourceFieldName);
+				}
+				$fields[$fieldModel->getFullName()] = $fieldModel;
+			}
+		}
+		if (empty($fields)) {
+			$fields = $this->getRelationModel()->getQueryFields();
+		}
 		unset($fields['id']);
-		foreach ($fields as $fieldName => &$fieldModel) {
+		foreach ($fields as $fieldName => $fieldModel) {
 			if (!$fieldModel->isViewable()) {
 				unset($fields[$fieldName]);
 			}

@@ -48,7 +48,8 @@ $.Class(
 				totalCount: this.container.find('.js-total-count').val(),
 				noOfEntries: this.container.find('.js-no-entries').val(),
 				filterFields: JSON.parse(this.container.find('.js-filter-fields').val()),
-				onlyBody: true
+				onlyBody: true,
+				cvId: this.getFilterSelectElement().val()
 			};
 			let searchValue = this.listSearchInstance.getAlphabetSearchValue();
 			params['search_params'] = JSON.stringify(this.listSearchInstance.getListSearchParams(true));
@@ -310,6 +311,34 @@ $.Class(
 				}
 			});
 		},
+		getFilterSelectElement: function () {
+			return this.container.find('#customFilter');
+		},
+		registerCustomFilter: function () {
+			var filterSelectElement = this.getFilterSelectElement();
+			if (filterSelectElement.length > 0) {
+				App.Fields.Picklist.showSelect2ElementView(filterSelectElement, {
+					templateSelection: function (data) {
+						var resultContainer = $('<span></span>');
+						resultContainer.append($($('.filterImage').detach().get(0)).show());
+						resultContainer.append(data.text);
+						return resultContainer;
+					},
+					customSortOptGroup: true,
+					closeOnSelect: true
+				});
+				var select2Instance = filterSelectElement.data('select2');
+				select2Instance.$dropdown.append(this.container.find('span.filterActionsDiv'));
+				this.registerChangeCustomFilterEvent(filterSelectElement);
+			}
+		},
+		registerChangeCustomFilterEvent: function (filterSelectElement) {
+			filterSelectElement.on('change', (e) => {
+				this.loadRecordList().done((_) => {
+					this.updatePagination();
+				});
+			});
+		},
 		/**
 		 * Register modal basic events
 		 */
@@ -324,6 +353,7 @@ $.Class(
 		registerEvents: function (modalContainer) {
 			this.container = modalContainer;
 			this.moduleName = this.container.data('module');
+			this.registerCustomFilter();
 			this.registerBasicEvents();
 			this.registerListEvents();
 			this.registerHeadersClickEvent();

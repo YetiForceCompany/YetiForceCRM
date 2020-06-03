@@ -41,13 +41,40 @@
 					</div>
 					{/if}
 					{if $MULTI_SELECT && !empty($LISTVIEW_ENTRIES)}
-					<button class="js-selected-rows btn btn-outline-secondary c-btn-block-sm-down" data-js="click">
-						<strong>
-							<span class="fas fa-check mr-2"></span>{App\Language::translate('LBL_SELECT', $MODULE_NAME)}
-						</strong>
-					</button>
+						<button class="js-selected-rows btn btn-outline-secondary c-btn-block-sm-down" data-js="click">
+							<strong>
+								<span class="fas fa-check mr-2"></span>{App\Language::translate('LBL_SELECT', $MODULE_NAME)}
+							</strong>
+						</button>
 					{/if}
 				</div>
+				<span class="customFilterMainSpan">
+					{if !empty($CUSTOM_VIEWS)}
+						<select id="customFilter" class="col-md-12">
+							<option value="0" {if empty($CV_ID)} selected="selected"{/if}>
+									&nbsp;{\App\Language::translate('LBL_SELECT')}
+							</option>
+							{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
+								<optgroup label="{\App\Language::translate($GROUP_LABEL)}">
+									{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
+										<option id="filterOptionId_{$CUSTOM_VIEW->getId()}"
+												value="{$CUSTOM_VIEW->getId()}"
+												class="filterOptionId_{$CUSTOM_VIEW->getId()}"
+												data-id="{$CUSTOM_VIEW->getId()}"
+												{if $CV_ID eq $CUSTOM_VIEW->getId()} selected="selected"{/if}>
+												&nbsp;{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $CUSTOM_VIEW->getModule()->getName())}{if $GROUP_LABEL neq 'Mine'} [ {$CUSTOM_VIEW->getOwnerName()} ] {/if}
+										</option>
+									{/foreach}
+								</optgroup>
+							{/foreach}
+						</select>
+						<span class="filterImage">
+							<span class="fas fa-filter"></span>
+						</span>
+					{else}
+						<input type="hidden" value="0" id="customFilter"/>
+					{/if}
+				</span>
 				<div class="js-pagination-container"
 					 data-js="container">
 					{include file=App\Layout::getTemplatePath('Pagination.tpl', $MODULE_NAME) VIEWNAME='recordsList'}
