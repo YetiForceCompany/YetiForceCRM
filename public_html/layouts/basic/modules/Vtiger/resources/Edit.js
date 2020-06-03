@@ -1070,8 +1070,10 @@ $.Class(
 			}
 			new App.Fields.Text.Editor(noteContentElement, customConfig);
 		},
-		registerHelpInfo: function () {
-			let form = this.getForm();
+		registerHelpInfo: function (container) {
+			if (!form) {
+				form = this.getForm();
+			}
 			app.showPopoverElementView(form.find('.js-help-info'));
 		},
 		registerBlockAnimationEvent: function () {
@@ -1479,7 +1481,14 @@ $.Class(
 												.closest('.value' + key)
 												.find('.fieldValue')
 												.html();
-											recordForm.find('[name="' + mappedField[key] + '"]').setValue(cellWithValue);
+											let fieldElement = recordForm.find(`[name="${mappedField[key]}"]`);
+											if (fieldElement.length) {
+												fieldElement.setValue(cellWithValue);
+											} else {
+												recordForm.append(
+													`<input type="hidden" name="${mappedField[key]}" value="${cellWithValue}" />`
+												);
+											}
 										}
 									});
 								});
@@ -1539,7 +1548,7 @@ $.Class(
 			this.registerRecordPreSaveEventEvent(container);
 			this.registerReferenceSelectionEvent(container);
 			this.registerMaskFields(container);
-			this.registerHelpInfo();
+			this.registerHelpInfo(container);
 			this.registerReferenceFields(container);
 			this.registerFocusFirstField(container);
 			this.registerCopyValue(container);
