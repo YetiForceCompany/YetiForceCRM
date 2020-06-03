@@ -15732,8 +15732,6 @@ table .listButtons.narrow .c-badge__icon {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; }
-  .u-text-ellipsis:hover, .ui-autocomplete:not(.mobile) .ui-menu-item-wrapper:hover {
-    overflow: initial; }
   .u-text-ellipsis.u-text-ellipsis--bg-white:hover, .ui-autocomplete:not(.mobile) .u-text-ellipsis--bg-white.ui-menu-item-wrapper:hover {
     background: #fff;
     z-index: 1000000;
@@ -17657,6 +17655,34 @@ input[type="checkbox"][disabled] {
   font-size: 0.7em !important;
   height: fit-content; }
 
+.o-expandable__panel__tabs {
+  display: flex;
+  height: 3rem;
+  background: #f8f9fa;
+  position: fixed;
+  top: 3.125rem;
+  right: calc(25% - 1px);
+  z-index: 100;
+  font-size: 0.8125rem; }
+  @media (min-width: 992px) {
+    .o-expandable__panel__tabs .toggleSiteBarRightButton {
+      padding: 0.6875rem 0;
+      height: 100%;
+      margin-left: 0.0625rem;
+      margin-bottom: 0.0625rem;
+      cursor: pointer;
+      width: 1.375rem;
+      z-index: 100;
+      border: 0;
+      display: inline-block;
+      border-radius: 25px 0 0 25px;
+      background: #546e7a;
+      color: #eceff1; } }
+
+@media (min-width: 992px) {
+  .hideSiteBar .o-expandable__panel__tabs {
+    right: 0px; } }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
   color: #212529;
@@ -18822,6 +18848,14 @@ ul.c-process-line {
     height: 2rem; } }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.modal-content {
+  -moz-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5); }
+
+.modal-backdrop {
+  z-index: 1032; }
+
 @media (max-width: 767.98px) {
   .modal-header,
   .modal-body,
@@ -18836,9 +18870,6 @@ ul.c-process-line {
     border-radius: 0; }
   .modal-dialog {
     max-width: 100%; } }
-
-.modal-backdrop {
-  z-index: 1032; }
 
 @media (min-width: 768px) {
   .modal-full {
