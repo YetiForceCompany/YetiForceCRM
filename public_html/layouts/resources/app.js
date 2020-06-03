@@ -159,6 +159,7 @@ var App = (window.App = {
 					const moduleName = quickCreateForm.find('[name="module"]').val();
 					const editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
 					const moduleClassName = moduleName + '_QuickCreate_Js';
+					editViewInstance.setForm(quickCreateForm);
 					editViewInstance.registerBasicEvents(quickCreateForm);
 					if (typeof window[moduleClassName] !== 'undefined') {
 						new window[moduleClassName]().registerEvents(container);
@@ -168,7 +169,6 @@ var App = (window.App = {
 						params.callbackPostShown(quickCreateForm);
 					}
 					this.registerPostLoadEvents(quickCreateForm, params);
-					this.registerHelpInfo(quickCreateForm);
 				});
 			},
 			/**
@@ -259,14 +259,6 @@ var App = (window.App = {
 				});
 
 				this.registerTabEvents(form);
-			},
-			/**
-			 * Register help info
-			 *
-			 * @param   {object}  container jQuery
-			 */
-			registerHelpInfo(container = $('form[name="QuickCreate"]')) {
-				app.showPopoverElementView(container.find('.js-help-info'));
 			},
 			/**
 			 * Function to navigate from quick create to edit iew full form
