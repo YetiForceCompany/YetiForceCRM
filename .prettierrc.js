@@ -8,9 +8,7 @@ module.exports = {
 			options: {
 				singleQuote: false
 			}
-		}
-	],
-	overrides: [
+		},
 		{
 			files: '*.json',
 			options: {
