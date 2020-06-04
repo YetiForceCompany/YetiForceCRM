@@ -24,7 +24,7 @@
 				data-toggle="popover"
 				data-js="popover | mouseenter">
 				<li class="breadcrumb-item">
-					{if \App\Config::layout('breadcrumbsHref') eq 'true'}
+					{if \App\Config::layout('breadcrumbsHref')}
 						<a href="{App\Config::main('site_URL')}">
 							<span class="{$HOMEICON}" aria-hidden="true"></span>
 							<span class="sr-only">{\App\Language::translate('LBL_HOME')}</span>
