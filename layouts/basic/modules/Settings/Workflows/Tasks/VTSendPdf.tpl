@@ -20,7 +20,7 @@
 		<div class="row pb-3">
 			<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
 			<div class="col-md-4">
-				<select id="task_timefields" name="smtp" class="select2 form-control" data-select="allowClear"
+				<select id="smtp_{\App\Layout::getUniqueId()}" name="smtp" class="select2 form-control" data-select="allowClear"
 						data-placeholder="{\App\Language::translate('LBL_DEFAULT')}">
 					<optgroup class="p-0">
 						<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>

@@ -381,22 +381,9 @@ Settings_Workflows_Edit_Js(
 				inputElement.val(newValue);
 			});
 		},
-		registerFillMailContentEvent: function () {
-			$('#task-fieldnames,#task_timefields,#task-templates').on('change', function (e) {
-				var textarea = CKEDITOR.instances.content;
-				var value = $(e.currentTarget).val();
-				if (textarea != undefined) {
-					textarea.insertHtml(value);
-				} else if ($('textarea[name="content"]')) {
-					var textArea = $('textarea[name="content"]');
-					textArea.insertAtCaret(value);
-				}
-			});
-		},
 		registerVTEmailTaskEvents: function () {
 			var textAreaElement = $('#content');
 			new App.Fields.Text.Editor(textAreaElement);
-			this.registerFillMailContentEvent();
 			this.registerFillTaskFromEmailFieldEvent();
 			this.registerCcAndBccEvents();
 		},
