@@ -333,8 +333,8 @@ $.Class(
 			}
 		},
 		registerChangeCustomFilterEvent: function (filterSelectElement) {
-			filterSelectElement.on('change', (e) => {
-				this.loadRecordList().done((_) => {
+			filterSelectElement.on('change', (_) => {
+				this.loadRecordList({ page: 1, totalCount: 0 }).done((_) => {
 					this.updatePagination();
 				});
 			});

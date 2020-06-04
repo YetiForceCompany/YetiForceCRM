@@ -48,7 +48,7 @@
 						</button>
 					{/if}
 				</div>
-				<span class="customFilterMainSpan">
+				<div class="customFilterMainSpan mb-2 mb-sm-0">
 					{if !empty($CUSTOM_VIEWS)}
 						<select id="customFilter" class="col-md-12">
 							<option value="0" {if empty($CV_ID)} selected="selected"{/if}>
@@ -74,7 +74,7 @@
 					{else}
 						<input type="hidden" value="0" id="customFilter"/>
 					{/if}
-				</span>
+				</div>
 				<div class="js-pagination-container"
 					 data-js="container">
 					{include file=App\Layout::getTemplatePath('Pagination.tpl', $MODULE_NAME) VIEWNAME='recordsList'}
