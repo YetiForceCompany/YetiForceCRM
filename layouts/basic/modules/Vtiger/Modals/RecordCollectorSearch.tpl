@@ -30,7 +30,7 @@
 			<table class="table table-bordered mt-2">
 				<thead>
 					<tr>
-						<th class="text-center">{\App\Language::translate('LBL_COMPLETE_FIELDS', $MODULE_NAME)}</th>
+						<th class="text-center">{\App\Language::translate('LBL_FIELDS_LIST', $MODULE_NAME)}</th>
 						{if empty($SEARCH_DATA['recordModel'])}
 							<th class="text-center">
 								{\App\Language::translate('LBL_NONE', $MODULE_NAME)}
@@ -79,6 +79,16 @@
 		</form>
 		{if !empty($SEARCH_DATA['skip'])}
 			<table class="table table-bordered mt-2">
+				<thead>
+					<tr>
+						<th class="text-center">{\App\Language::translate('LBL_FIELDS_OMITTED', $MODULE_NAME)}</th>
+						{foreach from=$SEARCH_DATA['keys'] item=KEY}
+							<th class="text-center">
+								{\App\Language::translate('LBL_DATA_FROM_SOURCE', $MODULE_NAME)}
+							</th>
+						{/foreach}
+					</tr>
+				</thead>
 				<tbody>
 				{foreach from=$SEARCH_DATA['skip'] key=FIELD_NAME item=ROW}
 					<tr>
