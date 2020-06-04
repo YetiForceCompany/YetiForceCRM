@@ -125,7 +125,10 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$models = $relationListView->getEntries($pagingModel);
 		$header = $relationListView->getHeaders();
 		$relationModel = $relationListView->getRelationModel();
-
+		$relationModuleModel = $relationModel->getRelationModuleModel();
+		if ($request->has('addSort')) {
+			$relationModuleModel->set('addSort', $request->getBoolean('addSort'));
+		}
 		$viewer->assign('VIEW_MODEL', $relationListView);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
@@ -135,7 +138,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$viewer->assign('RELATED_HEADERS', $header);
-		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
+		$viewer->assign('RELATED_MODULE', $relationModuleModel);
 		$viewer->assign('RELATED_ENTIRES_COUNT', \count($models));
 		$viewer->assign('RELATION_FIELD', $relationModel->getRelationField());
 		if (\App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {

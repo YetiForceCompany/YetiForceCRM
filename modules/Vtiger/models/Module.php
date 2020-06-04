@@ -1336,6 +1336,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function isAdvSortEnabled()
 	{
+		if (!$this->get('addSort')) {
+			return $this->get('addSort');
+		}
 		return true;
 	}
 
