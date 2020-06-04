@@ -1477,9 +1477,7 @@ $.Class(
 										if (fieldElement.length) {
 											fieldElement.setValue(value);
 										} else {
-											recordForm.append(
-												`<input type="hidden" name="${mappedField[key]}" value="${value}" />`
-											);
+											recordForm.append(`<input type="hidden" name="${key}" value="${value}" />`);
 										}
 									}
 								});
