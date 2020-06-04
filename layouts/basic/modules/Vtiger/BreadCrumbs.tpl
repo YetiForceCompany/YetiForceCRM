@@ -37,7 +37,7 @@
 				{foreach key=key item=item from=$BREADCRUMBS name=breadcrumbs}
 					{if isset($item['url'])}
 						<li class="breadcrumb-item u-text-ellipsis">
-							{if \App\Config::layout('breadcrumbsHref') eq 'true'}
+							{if \App\Config::layout('breadcrumbsHref')}
 								<a href="{$item['url']}">
 									{$item['name']}
 								</a>
