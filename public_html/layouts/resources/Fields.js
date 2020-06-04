@@ -458,34 +458,56 @@ window.App.Fields = {
 			});
 		},
 		Editor: class {
-			constructor(parentElement, params) {
-				let elements;
-				if (typeof parentElement === 'undefined') {
-					parentElement = $('body');
-				} else {
-					parentElement = $(parentElement);
+			constructor(container, params) {
+				this.container = container;
+				this.init(container, params);
+			}
+			/**
+			 * Register function
+			 * @param {jQuery} container
+			 * @param {Object} params
+			 */
+			static register(container, params) {
+				if (typeof container === 'undefined') {
+					container = $('body');
 				}
-				if (parentElement.hasClass('js-editor') && !parentElement.prop('disabled')) {
-					elements = parentElement;
-				} else {
-					elements = $('.js-editor:not([disabled])', parentElement);
+				if (container.hasClass('js-editor') && !container.prop('disabled')) {
+					return new App.Fields.Text.Editor(container, params);
 				}
-				if (elements.length !== 0 && typeof elements !== 'undefined') {
-					this.isModal = elements.closest('.js-modal-container').length;
-					if (this.isModal) {
-						let self = this;
-						this.progressInstance = $.progressIndicator({
-							blockInfo: {
-								enabled: true,
-								onBlock: () => {
-									self.loadEditor(elements, params);
-								}
+				const instances = [];
+				container.find('.js-editor:not([disabled])').each((_, e) => {
+					instances.push(new App.Fields.Text.Editor($(e), params));
+				});
+				return instances;
+			}
+			/**
+			 * Initiation
+			 * @param {jQuery} element
+			 * @param {Object} params
+			 */
+			init(element, params) {
+				let config = {};
+				if (element.hasClass('js-editor--basic')) {
+					config.toolbar = 'Min';
+				}
+				if (element.data('height')) {
+					config.height = element.data('height');
+				}
+				params = $.extend(config, params);
+				this.isModal = element.closest('.js-modal-container').length;
+				if (this.isModal) {
+					let self = this;
+					this.progressInstance = $.progressIndicator({
+						blockInfo: {
+							enabled: true,
+							onBlock: () => {
+								self.loadEditor(element, params);
 							}
-						});
-					} else {
-						App.Fields.Text.destroyEditor(elements);
-						this.loadEditor(elements, params);
-					}
+						}
+					});
+				} else {
+					App.Fields.Text.destroyEditor(element);
+					this.loadEditor(element, params);
 				}
 			}
 
@@ -1486,7 +1508,10 @@ window.App.Fields = {
 				let selectedOption = selectElement.data('selected-value');
 				if (selectedOption) {
 					let text = selectedOption;
-					if (selectElement.data('fieldinfo').picklistvalues.hasOwnProperty(selectedOption) && !selectElement.get(0).dataset.templateResult) {
+					if (
+						selectElement.data('fieldinfo').picklistvalues.hasOwnProperty(selectedOption) &&
+						!selectElement.get(0).dataset.templateResult
+					) {
 						text = selectElement.data('fieldinfo').picklistvalues[selectedOption];
 					}
 					this.createSelectedOption(selectElement, text, selectedOption);
@@ -1502,7 +1527,11 @@ window.App.Fields = {
 		 */
 		registerLazySelectOptions(selectElement) {
 			let options = [];
-			if (selectElement.data('fieldinfo') && selectElement.data('fieldinfo').picklistvalues && !selectElement.get(0).dataset.templateResult) {
+			if (
+				selectElement.data('fieldinfo') &&
+				selectElement.data('fieldinfo').picklistvalues &&
+				!selectElement.get(0).dataset.templateResult
+			) {
 				options = $.map(selectElement.data('fieldinfo').picklistvalues, function (val, key) {
 					return { id: key, text: val };
 				});

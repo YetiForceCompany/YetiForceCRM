@@ -2062,7 +2062,7 @@ $.Class(
 					app.showModalWindow(data, (modalContainer) => {
 						progressInstance.progressIndicator({ mode: 'hide' });
 						app.showPopoverElementView(modalContainer.find('.js-help-info'));
-						new App.Fields.Text.Editor(
+						App.Fields.Text.Editor.register(
 							modalContainer.find('.js-context-area:visible'),
 							customConfig
 						);
@@ -2077,7 +2077,7 @@ $.Class(
 							textArea.closest('.js-context-block').removeClass('d-none');
 							App.Fields.Text.destroyEditor(textArea);
 							modalContainer.find('.js-help-info').attr('data-content', textArea.val());
-							new App.Fields.Text.Editor(textArea, customConfig);
+							App.Fields.Text.Editor.register(textArea, customConfig);
 						});
 						modalContainer.find('form').on('submit', function (e) {
 							e.preventDefault();

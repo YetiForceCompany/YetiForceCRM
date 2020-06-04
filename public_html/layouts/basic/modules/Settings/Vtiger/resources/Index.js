@@ -279,7 +279,7 @@ $.Class(
 			});
 		},
 		loadEditorElement: function () {
-			new App.Fields.Text.Editor($('.js-editor'), {});
+			App.Fields.Text.Editor.register($('.js-editor'), {});
 		},
 		registerSaveIssues: function () {
 			var container = $('.addIssuesModal');

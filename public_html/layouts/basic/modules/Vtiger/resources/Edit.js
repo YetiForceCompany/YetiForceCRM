@@ -1055,20 +1055,12 @@ $.Class(
 		 */
 		registerEventForEditor: function () {
 			let form = this.getForm();
-			let thisInstance = this;
-			$.each(form.find('.js-editor'), function (key, data) {
-				thisInstance.loadEditorElement($(data));
+			$.each(form.find('.js-editor:not(.js-inventory-item-comment)'), (key, data) => {
+				this.loadEditorElement($(data));
 			});
 		},
 		loadEditorElement: function (noteContentElement) {
-			let customConfig = {};
-			if (noteContentElement.hasClass('js-editor--basic')) {
-				customConfig.toolbar = 'Min';
-			}
-			if (noteContentElement.data('height')) {
-				customConfig.height = noteContentElement.data('height');
-			}
-			new App.Fields.Text.Editor(noteContentElement, customConfig);
+			App.Fields.Text.Editor.register(noteContentElement);
 		},
 		registerHelpInfo: function (form) {
 			if (!form) {
@@ -1077,7 +1069,6 @@ $.Class(
 			app.showPopoverElementView(form.find('.js-help-info'));
 		},
 		registerBlockAnimationEvent: function () {
-			let thisInstance = this;
 			let detailContentsHolder = this.getForm();
 			detailContentsHolder.on('click', '.blockHeader', function (e) {
 				const target = $(e.target);

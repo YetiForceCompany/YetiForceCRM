@@ -250,7 +250,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 			this.getCalendarCreateView();
 		});
 		headerInstance.registerQuickCreatePostLoadEvents(rightFormCreate, params);
-		new App.Fields.Text.Editor(sideBar.find('.js-editor'), { height: '5em', toolbar: 'Min' });
+		App.Fields.Text.Editor.register(sideBar.find('.js-editor'), { height: '5em', toolbar: 'Min' });
 	}
 
 	/** @inheritdoc */

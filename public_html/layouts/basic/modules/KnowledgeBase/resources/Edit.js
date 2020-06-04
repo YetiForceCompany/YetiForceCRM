@@ -12,7 +12,7 @@ Vtiger_Edit_Js(
 				customConfig.extraAllowedContent = true;
 				customConfig.removeFormatAttributes = '';
 				customConfig.removeFormatTags = '';
-				new App.Fields.Text.Editor(noteContentElement, customConfig);
+				App.Fields.Text.Editor.register(noteContentElement, customConfig);
 			}
 		},
 		registerEvents: function () {

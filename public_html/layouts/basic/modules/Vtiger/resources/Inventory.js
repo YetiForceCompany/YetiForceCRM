@@ -996,7 +996,7 @@ $.Class(
 				if (unitPriceValuesJson !== undefined) {
 					$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
 				}
-				let commentElement = $('textarea.commentTextarea', parentRow.next());
+				let commentElement = $('textarea.js-inventory-item-comment', parentRow.next());
 				let editorInstance = CKEDITOR.instances[commentElement.attr('id')];
 				if (editorInstance) {
 					editorInstance.setData(description);
@@ -1104,10 +1104,6 @@ $.Class(
 			let element = row.find('.toggleVisibility');
 			element.data('status', '1');
 			inventoryRowExpanded.removeClass('d-none');
-			let listInstance = Vtiger_Edit_Js.getInstance();
-			$.each(inventoryRowExpanded.find('.js-editor'), function (key, data) {
-				listInstance.loadEditorElement($(data));
-			});
 		},
 		hideExpandedRow: function (row) {
 			let thisInstance = this;
@@ -1116,12 +1112,6 @@ $.Class(
 			let element = row.find('.toggleVisibility');
 			element.data('status', '0');
 			inventoryRowExpanded.addClass('d-none');
-			$.each(inventoryRowExpanded.find('.js-editor'), function (key, data) {
-				let editorInstance = CKEDITOR.instances[$(data).attr('id')];
-				if (editorInstance) {
-					editorInstance.destroy();
-				}
-			});
 		},
 		initDiscountsParameters: function (parentRow, modal) {
 			let thisInstance = this;
@@ -1805,6 +1795,7 @@ $.Class(
 			App.Fields.Date.register(container, true, {}, 'dateFieldInv');
 			container.validationEngine('detach');
 			container.validationEngine(app.validationEngineOptions);
+			App.Fields.Text.Editor.register(container);
 		},
 		/**
 		 * Load inventory data for specified record

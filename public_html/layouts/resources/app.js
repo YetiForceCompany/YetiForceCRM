@@ -1060,7 +1060,7 @@ var app = (window.app = {
 			cb(modalContainer);
 			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'));
 			App.Fields.Date.register(modalContainer);
-			new App.Fields.Text.Editor(modalContainer.find('.js-editor'), {
+			App.Fields.Text.Editor.register(modalContainer.find('.js-editor'), {
 				height: '5em',
 				toolbar: 'Min'
 			});

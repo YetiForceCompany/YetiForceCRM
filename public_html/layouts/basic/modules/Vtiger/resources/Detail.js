@@ -1808,7 +1808,7 @@ jQuery.Class(
 			 * Register the event to edit Description for related activities
 			 */
 			summaryViewContainer.on('click', '.editDescription', function (e) {
-				new App.Fields.Text.Editor(thisInstance.getContentHolder(), { toolbar: 'Min' });
+				App.Fields.Text.Editor.register(thisInstance.getContentHolder(), { toolbar: 'Min' });
 				let currentTarget = jQuery(e.currentTarget),
 					currentDiv = currentTarget.closest('.activityDescription'),
 					editElement = currentDiv.find('.edit'),
@@ -2791,7 +2791,7 @@ jQuery.Class(
 			app.registerEventForClockPicker();
 			this.registerHelpInfo(detailContentsHolder);
 			App.Fields.Picklist.showSelect2ElementView(detailContentsHolder.find('select.select2'));
-			new App.Fields.Text.Editor(detailContentsHolder, { toolbar: 'Min' });
+			App.Fields.Text.Editor.register(detailContentsHolder, { toolbar: 'Min' });
 			detailContentsHolder.on('click', '#detailViewNextRecordButton', function (e) {
 				let url = selectedTabElement.data('url');
 				let currentPageNum = thisInstance.getRelatedListCurrentPageNum();
