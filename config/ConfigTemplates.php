@@ -211,12 +211,6 @@ return [
 				return (int) func_get_arg(0);
 			}
 		],
-		'breadcrumbs' => [
-			'default' => true,
-			'description' => 'Should menu breadcrumbs be visible? true = show, false = hide',
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool'
-		],
 		'MINIMUM_CRON_FREQUENCY' => [
 			'default' => 1,
 			'description' => 'Minimum cron frequency [min]',
@@ -472,6 +466,20 @@ return [
 		'updaterDevMode' => [
 			'default' => false,
 			'description' => 'Developer updater mode'
+		]
+	],
+	'layout'  => [
+		'breadcrumbs' => [
+			'default' => true,
+			'description' => 'Should menu breadcrumbs be visible? true = show, false = hide',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'breadcrumbsHref' => [
+			'default' => true,
+			'description' => 'Should the breadcrumb menu have href enabled? true = enabled, false = off',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		]
 	],
 	'performance' => [
