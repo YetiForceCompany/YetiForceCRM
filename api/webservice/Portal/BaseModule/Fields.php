@@ -41,7 +41,6 @@ class Fields extends \Api\Core\BaseAction
 			$fieldInfo['sequence'] = $field->get('sequence');
 			$fieldInfo['fieldparams'] = $field->getFieldParams();
 			$fieldInfo['blockId'] = $block->id;
-			$fieldInfo['dbStructureText'] = $field->getDBColumnType();
 			$fieldInfo['dbStructure'] = $field->getDBColumnType(false);
 			if (isset($fieldInfo['picklistvalues']) && $field->isEmptyPicklistOptionAllowed()) {
 				$fieldInfo['isEmptyPicklistOptionAllowed'] = $field->isEmptyPicklistOptionAllowed();
