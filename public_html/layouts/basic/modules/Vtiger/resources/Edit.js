@@ -1461,27 +1461,27 @@ $.Class(
 								});
 							});
 							let recordForm = self.getForm();
+							container.on('click', '.js-record-collector__select', function () {
+								container
+									.find(`.js-record-collector__column[data-column="${this.dataset.column}"] input`)
+									.prop('checked', true);
+							});
 							container.on('click', '.js-record-collector__fill_fields', function () {
-								let mappedField = container.find('.formFieldsToRecordMap').val();
-								mappedField = JSON.parse(mappedField);
-								Object.keys(mappedField).forEach(function (key) {
-									let input = container.find('[name="' + key + '"]');
-									input.each(function () {
-										if (this.checked) {
-											let cellWithValue = $(this)
-												.closest('.value' + key)
-												.find('.fieldValue')
-												.html();
-											let fieldElement = recordForm.find(`[name="${mappedField[key]}"]`);
-											if (fieldElement.length) {
-												fieldElement.setValue(cellWithValue);
-											} else {
-												recordForm.append(
-													`<input type="hidden" name="${mappedField[key]}" value="${cellWithValue}" />`
-												);
-											}
+								let formData = container
+									.find('.js-record-collector__fill_form')
+									.serializeFormData();
+								console.log(formData);
+								$.each(formData, function (key, value) {
+									if (value !== '') {
+										let fieldElement = recordForm.find(`[name="${key}"]`);
+										if (fieldElement.length) {
+											fieldElement.setValue(value);
+										} else {
+											recordForm.append(
+												`<input type="hidden" name="${mappedField[key]}" value="${value}" />`
+											);
 										}
-									});
+									}
 								});
 								app.hideModalWindow(null, 'collectorModal');
 							});

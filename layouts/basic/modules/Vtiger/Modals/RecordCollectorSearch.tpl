@@ -25,36 +25,72 @@
 		{/if}
 	</div>
 {elseif $RECORD_COLLECTOR->displayType === 'FillFields'}
-	{if isset($SEARCH_DATA['fields'])}
-		<input type="hidden" class="formFieldsToRecordMap" value="{\App\Purifier::encodeHtml(App\Json::encode($SEARCH_DATA['formFieldsToRecordMap']))}">
-		<table class="table table-bordered mt-2">
-			<thead>
-				<tr>
-					<th>{\App\Language::translate('LBL_FIELDS', $MODULE_NAME)}</th>
-					<th>{\App\Language::translate('LBL_DATA_FROM_SOURCE', $MODULE_NAME)}</th>
-					{if isset($SEARCH_DATA['recordModel'])}
-						<th>{\App\Language::translate('LBL_DATA_FROM_RECORD', $MODULE_NAME)}</th>
-					{/if}
-				</tr>
-			</thead>
-			<tbody>
-			{foreach from=$SEARCH_DATA['fields'] key=FIELD_NAME item=VALUE}
-				<tr>
-					<td>{$FIELD_NAME}</td>
-					<td class="value{$FIELD_NAME}">
-						<input type="radio" name="{$FIELD_NAME}"checked value="true">
-						<span class="ml-2 fieldValue">{\App\Purifier::encodeHtml($VALUE)}</span>
-					</td>
-					{if isset($SEARCH_DATA['recordModel'])}
-						<td class="value{$FIELD_NAME}">
-							<input type="radio" name="{$FIELD_NAME}" value="false">
-							<span class="ml-2 fieldValue">{$SEARCH_DATA['recordModel']->get($SEARCH_DATA['formFieldsToRecordMap'][$FIELD_NAME])}</span>
-						</td>
-					{/if}
-				</tr>
-			{/foreach}
-			</tbody>
-		</table>
+	{if !empty($SEARCH_DATA['fields'])}
+		<form class="js-record-collector__fill_form" data-js="form">
+			<table class="table table-bordered mt-2">
+				<thead>
+					<tr>
+						<th class="text-center">{\App\Language::translate('LBL_COMPLETE_FIELDS', $MODULE_NAME)}</th>
+						{if empty($SEARCH_DATA['recordModel'])}
+							<th class="text-center">
+								{\App\Language::translate('LBL_NONE', $MODULE_NAME)}
+								<span class="far fa-check-square u-cursor-pointer ml-2 js-record-collector__select" data-column="none" data-js="data|click"></span>
+							</th>
+						{/if}
+						{foreach from=$SEARCH_DATA['keys'] item=KEY}
+							<th class="text-center">
+								{\App\Language::translate('LBL_DATA_FROM_SOURCE', $MODULE_NAME)}
+								<span class="far fa-check-square u-cursor-pointer ml-2 js-record-collector__select" data-column="{$KEY}" data-js="data|click"></span>
+							</th>
+						{/foreach}
+						{if isset($SEARCH_DATA['recordModel'])}
+							<th class="text-center">
+								{\App\Language::translate('LBL_DATA_FROM_RECORD', $MODULE_NAME)}
+								<span class="far fa-check-square u-cursor-pointer ml-2 js-record-collector__select" data-column="record" data-js="data|click"></span>
+							</th>
+						{/if}
+					</tr>
+				</thead>
+				<tbody>
+				{foreach from=$SEARCH_DATA['fields'] key=FIELD_NAME item=ROW}
+					<tr class="js-record-collector__field" data-field-name="{$FIELD_NAME}" data-js="data">
+						<td>{$ROW['label']}</td>
+						{if empty($SEARCH_DATA['recordModel'])}
+							<td class="text-center js-record-collector__column" data-column="none">
+								<input type="radio" name="{$FIELD_NAME}" checked value="">
+							</td>
+						{/if}
+						{foreach from=$ROW['data'] key=KEY item=VALUE}
+							<td class="js-record-collector__column" data-column="{$KEY}">
+								<input type="radio" name="{$FIELD_NAME}" value="{\App\Purifier::encodeHtml($VALUE['raw'])}">
+								<span class="ml-2">{$VALUE['display']}</span>
+							</td>
+						{/foreach}
+						{if isset($SEARCH_DATA['recordModel'])}
+							<td class="js-record-collector__column" data-column="record">
+								<input type="radio" name="{$FIELD_NAME}" checked value="{\App\Purifier::encodeHtml($SEARCH_DATA['recordModel']->get($FIELD_NAME))}">
+								<span class="ml-2">{$SEARCH_DATA['recordModel']->getDisplayValue($FIELD_NAME)}</span>
+							</td>
+						{/if}
+					</tr>
+				{/foreach}
+				</tbody>
+			</table>
+		</form>
+		{if !empty($SEARCH_DATA['skip'])}
+			<table class="table table-bordered mt-2">
+				<tbody>
+				{foreach from=$SEARCH_DATA['skip'] key=FIELD_NAME item=ROW}
+					<tr>
+						<td>{$ROW['label']}</td>
+						{foreach from=$ROW['data'] item=VALUE}
+							<td>{$VALUE['display']}</td>
+						{/foreach}
+					</tr>
+				{/foreach}
+				</tbody>
+			</table>
+		{/if}
 		<button class="btn btn-success float-right js-record-collector__fill_fields" data-js="click">
 			<span class="fas fa-check mr-2"></span>
 			{\App\Language::translate('LBL_COMPLETE_FIELDS', $MODULE_NAME)}
