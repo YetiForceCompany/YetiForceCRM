@@ -125,7 +125,9 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$models = $relationListView->getEntries($pagingModel);
 		$header = $relationListView->getHeaders();
 		$relationModel = $relationListView->getRelationModel();
-
+		if ($request->has('sortEnabled')) {
+			$relationListView->set('advSortEnabled', $request->getBoolean('sortEnabled'));
+		}
 		$viewer->assign('VIEW_MODEL', $relationListView);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
