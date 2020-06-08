@@ -18,12 +18,19 @@
 	<input type="hidden" id="taskFields"
 		   value="{\App\Purifier::encodeHtml(\App\Json::encode($TASK_OBJECT->getFieldNames()))}"/>
 	<input type="hidden" id="mappingPanel" value="{$MAPPING_PANEL}"/>
-	<div class="form-group text-center">
+	<div class="form-group text-left">
+		<input type="hidden" name="verifyIfExists" value="0">
+		<input type="checkbox" name="verifyIfExists" id="verifyIfExists" value="1" class="alignTop" {if !empty($TASK_OBJECT->verifyIfExists)} checked {/if}/>
+		<label class="form-check-label ml-1" for="verifyIfExists">
+			{\App\Language::translate('LBL_VERIFY_IF_EXISTS', $QUALIFIED_MODULE)}
+		</label>
+	</div>
+	<div class="form-group text-left">
 		<div class="radio-inline">
 			<label>
 				<input type="radio" name="mappingPanel" data-hide="getFromPanelMapp" data-show="createOwnMapp"
 					   id="optionsRadios1" value="0" {if !$MAPPING_PANEL}checked{/if}>
-				{\App\Language::translate('LBL_CREATE_CUSTOM_MAPPING', $QUALIFIED_MODULE)}
+				<span class="ml-1">{\App\Language::translate('LBL_CREATE_CUSTOM_MAPPING', $QUALIFIED_MODULE)}</span>
 			</label>
 		</div>
 		<div class="radio-inline"></div>
@@ -31,7 +38,7 @@
 			<label>
 				<input type="radio" name="mappingPanel" data-hide="createOwnMapp" data-show="getFromPanelMapp"
 					   id="optionsRadios2" value="1"{if $MAPPING_PANEL} checked{/if}>
-				{\App\Language::translate('LBL_GET_FROM_PANEL_MAPPING', $QUALIFIED_MODULE)}
+				<span class="ml-1">{\App\Language::translate('LBL_GET_FROM_PANEL_MAPPING', $QUALIFIED_MODULE)}</span>
 			</label>
 		</div>
 	</div>
