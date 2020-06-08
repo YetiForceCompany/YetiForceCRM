@@ -19,6 +19,8 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	const UNLINK = 5;
 	const CONVERTTOACCOUNT = 6;
 	const DISPLAYED = 7;
+	const ARCHIVED = 8;
+	const REMOVED = 9;
 	const TRANSFER_EDIT = 10;
 	const TRANSFER_DELETE = 11;
 	const TRANSFER_UNLINK = 12;
@@ -33,12 +35,13 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		0 => 'LBL_UPDATED',
 		1 => 'LBL_DELETED',
 		2 => 'LBL_CREATED',
+		3 => 'LBL_ACTIVE',
 		4 => 'LBL_ADDED',
 		5 => 'LBL_REMOVED',
 		6 => 'LBL_CONVERTED_FROM_LEAD',
 		7 => 'LBL_DISPLAYED',
-		3 => 'LBL_ACTIVE',
 		8 => 'LBL_ARCHIVED',
+		// 9 => 'LBL_REMOVED',
 		10 => 'LBL_TRANSFER_EDIT',
 		11 => 'LBL_TRANSFER_DELETE',
 		12 => 'LBL_TRANSFER_UNLINK',
