@@ -27,7 +27,7 @@
 						<label class="sr-only" for="relatedListViewEntriesMainCheckBox">{\App\Language::translate('LBL_SELECT_ALL')}</label>
 							<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="relatedListViewEntriesMainCheckBox"/>
 						{/if}
-						{if $RELATED_MODULE->isAdvSortEnabled()}
+						{if (!$VIEW_MODEL->has('advSortEnabled') || ($VIEW_MODEL->has('advSortEnabled') && $VIEW_MODEL->get('advSortEnabled'))) && $RELATED_MODULE->isAdvSortEnabled()}
 							<button type="button"
 								class="ml-2 btn btn-info btn-xs js-show-modal"
 								data-url="index.php?view=SortOrderModal&fromView={$VIEW}&module={$RELATED_MODULE_NAME}"
