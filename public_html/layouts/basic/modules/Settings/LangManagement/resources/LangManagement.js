@@ -232,7 +232,12 @@ var Settings_Index_Js = {
 			$(e.currentTarget).popover(makeSureOptions).popover('show');
 			$('.popover_block .setDefaultItem').on('click', function () {
 				$(e.currentTarget).popover('hide');
-				Settings_Index_Js.setAsDefaultLang(element, e);
+				let SaveEvent = Settings_Index_Js.registerSaveEvent('setAsDefault', {
+					prefix: element.data('prefix')
+				});
+				if (SaveEvent.resp) {
+					window.location.reload();
+				}
 			});
 			$('.popover_block .cancel').on('click', function () {
 				$(e.currentTarget).popover('hide');
@@ -294,32 +299,7 @@ var Settings_Index_Js = {
 		Settings_Index_Js.registerSaveEvent('delete', { prefix: closestTrElement.data('prefix') });
 		closestTrElement.hide();
 	},
-	setAsDefaultLang: function (closestTrElement, e) {
-		var SaveEvent = Settings_Index_Js.registerSaveEvent('setAsDefault', {
-			prefix: closestTrElement.data('prefix')
-		});
-		$(e.currentTarget).closest('td').find('#deleteItemC').remove();
-		$(e.currentTarget).remove();
-		var prefix = SaveEvent.result['prefixOld'];
-		var tbodyElement = closestTrElement.closest('tbody');
-		let OldTrDefaultLang = tbodyElement.find('tr[data-prefix="' + prefix + '"]');
-		let buttonDelete = '';
-		if (!OldTrDefaultLang.data('isDefault')) {
-			buttonDelete =
-				'<button class="btn btn-danger btn-sm marginLeftZero" data-toggle="confirmation" id="deleteItemC">' +
-				'<span class="fas fa-trash fa-xs"></span>' +
-				app.vtranslate('JS_DELETE') +
-				'</button>';
-		}
-		OldTrDefaultLang.find('td:last').append(
-			buttonDelete +
-				'<button class="btn btn-success btn-sm marginLeftZero" data-toggle="confirmation" id="setAsDefault">' +
-				'<span class="fas fa-check fa-xs"></span>' +
-				app.vtranslate('JS_DEFAULT') +
-				'</button>'
-		);
-		Settings_Index_Js.initEvant(OldTrDefaultLang);
-	},
+
 	registerSaveEvent: function (mode, data) {
 		var response = '';
 		var resp = '';
