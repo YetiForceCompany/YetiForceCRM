@@ -21,13 +21,14 @@ jQuery.Class(
 					type +
 					'&tabId=' +
 					tabId,
-				function (wizardContainer) {
+				function (wizardContainerModal) {
+					let wizardContainer = wizardContainerModal.closest('#' + Window.lastModalId);
 					app.showPopoverElementView(wizardContainer.find('.js-help-info'));
 					if (type === 'RelatedModule') {
 						thisInstance.loadFilters(wizardContainer);
 						thisInstance.relatedModuleFields(wizardContainer);
 						wizardContainer.find("select[name='relation_id']").on('change', function () {
-							thisInstance.changeRelatedModule();
+							thisInstance.changeRelatedModule(wizardContainer);
 							thisInstance.relatedModuleFields(wizardContainer);
 						});
 					}
@@ -200,10 +201,8 @@ jQuery.Class(
 			relatedfields.trigger('change:select2');
 		},
 
-		changeRelatedModule: function (e) {
-			var thisInstance = this;
-			var form = jQuery('.form-modalAddWidget');
-			thisInstance.loadFilters(form);
+		changeRelatedModule(wizardContainer) {
+			this.loadFilters(wizardContainer.find('.form-modalAddWidget'));
 		},
 
 		modalFormEdit(wizardContainer) {
@@ -214,7 +213,7 @@ jQuery.Class(
 				thisInstance.loadFilters(wizardContainer);
 				thisInstance.relatedModuleFields(wizardContainer);
 				wizardContainer.find("select[name='relatedmodule']").on('change', function () {
-					thisInstance.changeRelatedModule();
+					thisInstance.changeRelatedModule(wizardContainer);
 					thisInstance.relatedModuleFields(wizardContainer);
 				});
 			}
