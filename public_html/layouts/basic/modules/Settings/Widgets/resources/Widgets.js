@@ -21,8 +21,7 @@ jQuery.Class(
 					type +
 					'&tabId=' +
 					tabId,
-				function (wizardContainerModal) {
-					let wizardContainer = wizardContainerModal.closest('#' + Window.lastModalId);
+				function (wizardContainer) {
 					app.showPopoverElementView(wizardContainer.find('.js-help-info'));
 					if (type === 'RelatedModule') {
 						thisInstance.loadFilters(wizardContainer);
