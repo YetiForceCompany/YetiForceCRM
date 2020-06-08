@@ -96,11 +96,8 @@ class VTCreateEntityTask extends VTTask
 				$relationModel->addRelation($recordModel->getId(), $newRecordModel->getId());
 			}
 		} elseif ($this->mappingPanel && $entityType) {
-			$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $entityType, false);
-			if (method_exists($relationListView, 'getRelatedEntriesCount')) {
-				if(!empty($this->verifyIfExists) && (int) $relationListView->getRelatedEntriesCount() > 0){
-					return true;
-				}
+			if (!empty($this->verifyIfExists) && ($relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $entityType, false)) && method_exists($relationListView, 'getRelatedEntriesCount') && (int) $relationListView->getRelatedEntriesCount() > 0) {
+				return true;
 			}
 			$saveContinue = true;
 			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
