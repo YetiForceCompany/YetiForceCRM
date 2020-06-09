@@ -89,6 +89,12 @@ class Security
 	/** Lifetime session (in seconds) */
 	public static $MAX_LIFETIME_SESSION = 21600;
 
+	/** Maximum session lifetime from the time it was created (in minutes) */
+	public static $API_CREATE_LIFETIME_SESSION = 1440;
+
+	/** Maximum session lifetime since the last modification (in minutes) */
+	public static $API_UPDATE_LIFETIME_SESSION = 240;
+
 	/**
 	 * User authentication mode.
 	 * @see \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.
@@ -151,16 +157,16 @@ class Security
 	public static $generallyAllowedDomains = [];
 
 	/** List of allowed domains for fields with HTML support */
-	public static $purifierAllowedDomains = [ ];
+	public static $purifierAllowedDomains = [];
 
 	/** Do you want all connections to be made using a proxy? */
 	public static $proxyConnection = false;
 
-	/** Proxy host */
-	public static $proxyHost = '';
+	/** Proxy protocol: http, https, tcp */
+	public static $proxyProtocol = '';
 
 	/** Proxy host */
-	public static $proxyProtocol = '';
+	public static $proxyHost = '';
 
 	/** Proxy port */
 	public static $proxyPort = 0;
