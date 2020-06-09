@@ -78,7 +78,7 @@ class BaseAction
 			$db->createCommand()
 			->delete($sessionTable, ['id' => $this->controller->headers['x-token']])
 			->execute();
-			throw new \Api\Core\Exception('Invalid token', 401);
+			throw new \Api\Core\Exception('Token has expired', 401);
 		}
 		$this->session = new \App\Base();
 		$this->session->setData($row);
