@@ -154,7 +154,12 @@ var App = (window.App = {
 			 * @param   {object}  params
 			 */
 			showModal(html, params = {}) {
-				app.showModalWindow(html, (container) => {
+				app.showModalWindow(html, container => {
+					let select2Inputs = container.find("select.select2");
+					if (select2Inputs.length) {
+						App.Fields.Picklist.showSelect2ElementView(select2Inputs);
+						select2Inputs.select2("destroy");
+					}
 					const quickCreateForm = container.find('form[name="QuickCreate"]');
 					const moduleName = quickCreateForm.find('[name="module"]').val();
 					const editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
