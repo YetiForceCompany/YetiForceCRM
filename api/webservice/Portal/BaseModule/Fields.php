@@ -24,11 +24,11 @@ class Fields extends \Api\Core\BaseAction
 	 *		tags={"BaseModule"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
-	 *    },
+	 *		},
 	 *		@OA\RequestBody(
-	 *  			required=false,
-	 *  			description="Request body does not occur",
-	 *	  ),
+	 *				required=false,
+	 *				description="Request body does not occur",
+	 *		),
 	 *		@OA\Parameter(
 	 *			name="moduleName",
 	 *			description="Module name",
@@ -48,43 +48,43 @@ class Fields extends \Api\Core\BaseAction
 	 *			in="path",
 	 *			required=true
 	 *		),
-	 *    @OA\Parameter(
-	 *        name="X-ENCRYPTED",
-	 *        in="header",
-	 *        required=true,
+	 *		@OA\Parameter(
+	 *			name="X-ENCRYPTED",
+	 *			in="header",
+	 *			required=true,
 	 * 				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
-	 *    ),
+	 *		),
 	 *		@OA\Response(
 	 *				response=200,
 	 *				description="Fields details",
 	 *				@OA\JsonContent(ref="#/components/schemas/BaseModuleFieldsResponseBody"),
 	 *				@OA\XmlContent(ref="#/components/schemas/BaseModuleFieldsResponseBody"),
-	 *     		@OA\MediaType(
-	 *         		mediaType="text/html",
-	 *         		@OA\Schema(ref="#/components/schemas/BaseModuleFieldsResponseBody")
-	 *     		),
+	 *				@OA\MediaType(
+	 *				mediaType="text/html",
+	 *				@OA\Schema(ref="#/components/schemas/BaseModuleFieldsResponseBody")
 	 *		),
-	 * ),
-	 * @OA\Schema(
-	 * 		schema="BaseModuleFieldsResponseBody",
-	 * 		title="Base action fields",
-	 * 		description="Base action fields response body",
+	 *	),
+	 *	),
+	 *	@OA\Schema(
+	 *		schema="BaseModuleFieldsResponseBody",
+	 *		title="Base action fields",
+	 *		description="Base action fields response body",
 	 *		type="object",
-	 *  	@OA\Property(
-	 *       	property="status",
-	 *        	description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
-	 * 			enum={"0", "1"},
-	 *     	  	type="integer",
-	 * 		),
-	 *    @OA\Property(
-	 *     	  property="result",
-	 *     	 	description="Field parameters",
-	 *    	 	type="object",
-	 * 			@OA\Property(
-	 * 					property="fields",
-	 * 					description="Field name items",
-	 * 					type="array",
-	 * 					@OA\Items(items="id", description="Check if record is editable", type="integer", example="24862"),
+	 *		@OA\Property(
+	 *			property="status",
+	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			enum={"0", "1"},
+	 *			type="integer",
+	 *		),
+	 *		@OA\Property(
+	 *		property="result",
+	 *		description="Field parameters",
+	 *			type="object",
+	 *			@OA\Property(
+	 *					property="fields",
+	 *					description="Field name items",
+	 *					type="array",
+	 *					@OA\Items(items="id", description="Check if record is editable", type="integer", example="24862"),
 	 *					@OA\Items(items="isEditable", description="Check if record is editable", type="boolean", example="false"),
 	 *					@OA\Items(items="isViewable", description="Check if record is viewable", type="boolean", example="false"),
 	 *					@OA\Items(items="isEditableReadOnly", description="Check if record is editable or read only", type="boolean", example="false"),
@@ -107,42 +107,42 @@ class Fields extends \Api\Core\BaseAction
 	 *							@OA\Items(items="parent", description="Template parent badge", type="string", example="T1"),
 	 *							@OA\Items(items="text", description="Template name", type="string", example="Category"),
 	 *					),
-	 * 				),
-	 * 				@OA\Property(
-	 * 					property="blocks",
-	 *  				description="Block data",
-	 * 					type="array",
-	 * 					@OA\Items(
-	 * 							items="block id",
-	 * 							description="Block id from the database",
-	 * 							type="array",
-	 * 							example="195",
-	 * 							@OA\Items(items="block id", description="Block id", type="integer", example="195"),
-	 * 							@OA\Items(items="tabid", description="Module id", type="integer", example="9"),
-	 * 							@OA\Items(items="label", description="Block label", type="string", example="Account details"),
-	 * 							@OA\Items(items="sequence", description="Block sequence", type="integer", example="1"),
-	 * 							@OA\Items(items="showtitle", description="Specifies whether the title should be visible", type="integer", example="0"),
-	 * 							@OA\Items(items="visible", description="Determines the visibility", type="integer", example="0"),
-	 * 							@OA\Items(items="increateview", description="Determines the visibility in creat view", type="integer", example="0"),
-	 * 							@OA\Items(items="ineditview", description="Determines the visibility in edit view", type="integer", example="0"),
-	 * 							@OA\Items(items="indetailview", description="Determines the visibility in detail view", type="integer", example="0"),
-	 * 							@OA\Items(items="display_status", description="Determines whether the block should be expanded", type="integer", example="2"),
-	 * 							@OA\Items(items="iscustom", description="Determines if the block has been added by the user", type="integer", example="0"),
-	 * 							@OA\Items(items="icon", description="Block icon class", type="string", example="far fa-calendar-alt"),
-	 * 							@OA\Items(items="name", description="Block name translated into the user's language", type="string", example="Informacje podstawowe o firmie"),
-	 * 					),
-	 * 				),
-	 * 				@OA\Property(
-	 * 					property="inventory",
-	 * 					description="Value inventory data",
-	 * 					type="array",
-	 * 					@OA\Items(items="label", description="Field name", type="string", example="Double"),
+	 *				),
+	 *				@OA\Property(
+	 *					property="blocks",
+	 *					description="Block data",
+	 *					type="array",
+	 *					@OA\Items(
+	 *							items="block id",
+	 *							description="Block id from the database",
+	 *							type="array",
+	 *							example="195",
+	 *							@OA\Items(items="block id", description="Block id", type="integer", example="195"),
+	 *							@OA\Items(items="tabid", description="Module id", type="integer", example="9"),
+	 *							@OA\Items(items="label", description="Block label", type="string", example="Account details"),
+	 *							@OA\Items(items="sequence", description="Block sequence", type="integer", example="1"),
+	 *							@OA\Items(items="showtitle", description="Specifies whether the title should be visible", type="integer", example="0"),
+	 *							@OA\Items(items="visible", description="Determines the visibility", type="integer", example="0"),
+	 *							@OA\Items(items="increateview", description="Determines the visibility in creat view", type="integer", example="0"),
+	 *							@OA\Items(items="ineditview", description="Determines the visibility in edit view", type="integer", example="0"),
+	 *							@OA\Items(items="indetailview", description="Determines the visibility in detail view", type="integer", example="0"),
+	 *							@OA\Items(items="display_status", description="Determines whether the block should be expanded", type="integer", example="2"),
+	 *							@OA\Items(items="iscustom", description="Determines if the block has been added by the user", type="integer", example="0"),
+	 *							@OA\Items(items="icon", description="Block icon class", type="string", example="far fa-calendar-alt"),
+	 *							@OA\Items(items="name", description="Block name translated into the user's language", type="string", example="Informacje podstawowe o firmie"),
+	 *					),
+	 *				),
+	 *				@OA\Property(
+	 *					property="inventory",
+	 *					description="Value inventory data",
+	 *					type="array",
+	 *					@OA\Items(items="label", description="Field name", type="string", example="Double"),
 	 *					@OA\Items(items="isVisibleInDetail", description="Check if field is visible in detail view", type="boolean", example="false"),
 	 *					@OA\Items(items="type", description="Field type", type="string", example="Double"),
 	 *					@OA\Items(items="columnname", description="Column name", type="string", example="double"),
 	 *					@OA\Items(items="isSummary", description="Sequence field", type="boolean", example="false"),
 	 * 				),
-	 *    	),
+	 *		),
 	 * ),
 	 */
 	public function get()
