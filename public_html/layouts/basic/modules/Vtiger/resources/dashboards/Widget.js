@@ -3346,6 +3346,7 @@ YetiForce_Widget_Js(
 		},
 		postRefreshWidget: function () {
 			this._super();
+			this.registerContentEvents(this.getContainer());
 			app.registerPopoverEllipsisIcon(
 				this.getContainer().find('.js-popover-tooltip--ellipsis-icon')
 			);
@@ -3372,6 +3373,7 @@ YetiForce_Widget_Js(
 					self.registerSubmit(data);
 				});
 			});
+			this.registerContentEvents(container);
 		},
 		registerSubmit(data) {
 			data.find('.js-modal__save').on('click', (e) => {
@@ -3398,6 +3400,48 @@ YetiForce_Widget_Js(
 					this.refreshWidget();
 					app.hideModalWindow();
 				});
+			});
+		},
+		registerContentEvents() {
+			const container = this.getContainer();
+			$('.js-history-detail', container).on('click', (e) => {
+				let actionId = e.currentTarget.dataset.action;
+				let widgetData = JSON.parse(container.find('.js-widget-data').val());
+				let progressIndicatorElement = $.progressIndicator({
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				});
+				let params = {
+					view: 'UpdatesDetail',
+					module: 'ModTracker',
+					widgetId: this.getContainer().find('.js-widget-id').val(),
+					trackerAction: e.currentTarget.dataset.action,
+					sourceModule: e.currentTarget.dataset.module,
+					owner: widgetData.owner,
+					historyOwner: widgetData.historyOwner,
+					dateRange: container.find('[name="dateRange"]').val(),
+					page: 1
+				};
+				AppConnector.request(params)
+					.done((modal) => {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						app.showModalWindow(modal, function (data) {
+							data.on('click', '.showMoreHistory', (e) => {
+								AppConnector.request(e.currentTarget.dataset.url).done((result) => {
+									$(e.target).parent().remove();
+									data
+										.find('.modal-body')
+										.append($(result).filter('.modal-body').get(0).childNodes);
+								});
+							});
+						});
+					})
+					.fail((error) => {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						app.errorLog(error);
+					});
 			});
 		}
 	}

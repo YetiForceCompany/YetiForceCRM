@@ -41,11 +41,10 @@ class ModTracker_Updates_Dashboard extends Vtiger_IndexAjax_View
 		$widget = \Vtiger_Widget_Model::getInstance($linkId, \App\User::getCurrentUserId());
 
 		if (empty($dateRange)) {
-			$dateRange[0] = App\Fields\Date::formatToDisplay('now');
-			$dateRange[1] = App\Fields\Date::formatToDisplay('now');
-		} else {
-			$dateRange = \App\Fields\Date::formatRangeToDisplay($dateRange);
+			$dateRange[0] = date('Y-m-d');
+			$dateRange[1] = date('Y-m-d');
 		}
+
 		$selectedModule = $request->getInteger('sourceModule', 0);
 		$limit = (int) $widget->get('limit');
 		if (empty($limit)) {
@@ -75,18 +74,20 @@ class ModTracker_Updates_Dashboard extends Vtiger_IndexAjax_View
 				$widgetData[$key] = empty($defaultValue) ? \App\User::getCurrentUserId() : $defaultValue;
 			}
 		}
+		$owner = 'all' === $widgetData['owner'] ? null : $widgetData['owner'];
+		$historyOwner = 'all' === $widgetData['historyOwner'] ? null : $widgetData['historyOwner'];
 		if (!empty($widgetData['actions'])) {
 			if ($selectedModule) {
-				$updates = $this->getUpdates($selectedModule, $widgetData, $dateRange, $pagingModel);
+				$updates = ModTracker_Updates_Helper::getUpdates(\App\Module::getModuleName($selectedModule), $widgetData['actions'], $dateRange, $owner, $historyOwner, $pagingModel);
 			} else {
-				[$updates, $actions] = $this->getSummary($widgetData, $dateRange);
+				[$updates, $actions] = ModTracker_Updates_Helper::getSummary($this->getModules(), $widgetData['actions'], $dateRange, $owner, $historyOwner);
 			}
 		}
 
 		$viewer->assign('UPDATES', $updates);
 		$viewer->assign('ACTIONS', $actions);
 		$viewer->assign('WIDGET', $widget);
-		$viewer->assign('DATE_RANGE', $dateRange);
+		$viewer->assign('DATE_RANGE', \App\Fields\Date::formatRangeToDisplay($dateRange));
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('WIDGET_DATA', $widgetData);
@@ -94,6 +95,7 @@ class ModTracker_Updates_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('AVAILABLE_OWNERS', $available);
 		$viewer->assign('SELECTED_MODULE', $selectedModule);
+		$viewer->assign('URL', $widget->getUrl());
 		if ($request->has('content')) {
 			if ($selectedModule) {
 				$viewer->view('dashboards/UpdatesContents.tpl', $moduleName);
@@ -123,122 +125,5 @@ class ModTracker_Updates_Dashboard extends Vtiger_IndexAjax_View
 			}
 		}
 		return $this->trackingModules;
-	}
-
-	/**
-	 * Gets summary.
-	 *
-	 * @param array $conditions
-	 * @param array $dateRange
-	 *
-	 * @return array
-	 */
-	public function getSummary(array $conditions, array $dateRange): array
-	{
-		$updates = $actions = [];
-		$owner = $conditions['owner'];
-		$historyOwner = $conditions['historyOwner'];
-		$query = (new \App\Db\Query())
-			->select(['vtiger_modtracker_basic.module', 'vtiger_modtracker_basic.status', 'counter' => new \yii\db\Expression('COUNT(*)')])
-			->from('vtiger_modtracker_basic')
-			->where(['and',
-				['vtiger_modtracker_basic.module' => $this->getModules()],
-				['vtiger_modtracker_basic.status' => $conditions['actions']],
-				[
-					'between',
-					'vtiger_modtracker_basic.changedon',
-					\App\Fields\Date::formatToDb($dateRange[0]) . ' 00:00:00', \App\Fields\Date::formatToDb($dateRange[1]) . ' 23:59:59'
-				]
-			]);
-		if ('all' !== $historyOwner) {
-			$query->andWhere(['vtiger_modtracker_basic.whodid' => $historyOwner]);
-		}
-		if ('all' !== $owner) {
-			$query->innerJoin('vtiger_crmentity', 'vtiger_modtracker_basic.crmid=vtiger_crmentity.crmid')
-				->andWhere(['or',
-					['vtiger_crmentity.smownerid' => $owner],
-					['vtiger_crmentity.crmid' => (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => $owner])]
-				]);
-		}
-		$query->groupBy(['vtiger_modtracker_basic.module', 'vtiger_modtracker_basic.status']);
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$statusKey = $row['status'];
-			$updates[$row['module']][$statusKey] = $row['counter'];
-			$actions[$statusKey] = $statusKey;
-		}
-		$dataReader->close();
-		return [$updates, $actions];
-	}
-
-	/**
-	 * Gets QueryGenerator object.
-	 *
-	 * @param int                 $moduleId
-	 * @param array               $conditions
-	 * @param array               $dateRange
-	 * @param Vtiger_Paging_Model $pagingModel
-	 *
-	 * @return \App\QueryGenerator
-	 */
-	public function getQueryGenerator(int $moduleId, array $conditions, array $dateRange, Vtiger_Paging_Model $pagingModel): App\QueryGenerator
-	{
-		$owner = $conditions['owner'];
-		$historyOwner = $conditions['historyOwner'];
-		$moduleName = \App\Module::getModuleName($moduleId);
-		$queryGenerator = (new \App\QueryGenerator($moduleName))
-			->setFields([])
-			->setCustomColumn('vtiger_modtracker_basic.*')
-			->addJoin([
-				'INNER JOIN',
-				'vtiger_modtracker_basic',
-				'vtiger_crmentity.crmid = vtiger_modtracker_basic.crmid'
-			])
-			->addNativeCondition(['vtiger_modtracker_basic.status' => $conditions['actions']])
-			->addNativeCondition([
-				'between',
-				'vtiger_modtracker_basic.changedon',
-				\App\Fields\Date::formatToDb($dateRange[0]) . ' 00:00:00', \App\Fields\Date::formatToDb($dateRange[1]) . ' 23:59:59'
-			])
-			->setLimit($pagingModel->getPageLimit() + 1)
-			->setOffset($pagingModel->getStartIndex());
-		if ('all' !== $owner) {
-			$queryGenerator
-				->addCondition('shownerid', $owner, 'e', false)
-				->addCondition('assigned_user_id', $owner, 'e', false);
-		}
-		if ('all' !== $historyOwner) {
-			$queryGenerator->addNativeCondition(['vtiger_modtracker_basic.whodid' => $historyOwner]);
-		}
-		return $queryGenerator;
-	}
-
-	/**
-	 * Gets updates.
-	 *
-	 * @param int                 $moduleId
-	 * @param array               $conditions
-	 * @param array               $dateRange
-	 * @param Vtiger_Paging_Model $pagingModel
-	 *
-	 * @return array
-	 */
-	public function getUpdates(int $moduleId, array $conditions, array $dateRange, Vtiger_Paging_Model $pagingModel): array
-	{
-		$updates = [];
-		$moduleName = \App\Module::getModuleName($moduleId);
-		$queryGenerator = $this->getQueryGenerator($moduleId, $conditions, $dateRange, $pagingModel);
-
-		$dataReader = $queryGenerator->createQuery()->orderBy(['vtiger_modtracker_basic.id' => SORT_DESC])->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			if (\count($updates) === $pagingModel->getPageLimit()) {
-				$pagingModel->set('nextPageExists', true);
-				break;
-			}
-			$recordModel = new ModTracker_Record_Model();
-			$recordModel->setData($row)->setParent($row['crmid'], $moduleName);
-			$updates[$recordModel->getId()] = $recordModel;
-		}
-		return $updates;
 	}
 }

@@ -177,9 +177,10 @@
 			{/foreach}
 			{if $PAGING_MODEL->get('nextPageExists')}
 				<div class="float-right padding5">
-				<button type="button" class="btn btn-sm btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">
-					{\App\Language::translate('LBL_MORE', $MODULE_NAME)}
-				</button>
+					<button type="button" class="btn btn-sm btn-primary showMoreHistory" data-url="{$URL}&page={$PAGING_MODEL->getNextPage()}">
+						{\App\Language::translate('LBL_MORE', $MODULE_NAME)}
+					</button>
+				</div>
 			{/if}
 		{else}
 			<span class="noDataMsg">
