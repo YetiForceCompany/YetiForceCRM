@@ -101,7 +101,7 @@
 					{elseif $ROW['type'] eq 2}
 						{assign var=FIRST_LETTER_CLASS value='bgBlue'}
 					{/if}
-					<div class="d-inline-flex w-100 col-10 pr-0 pl-0">
+					<div class="d-inline-flex w-100 col-9 pr-0 pl-0">
 						<div class="firstLetter {$FIRST_LETTER_CLASS} d-sm-block d-none">
 							{$ROW['firstLetter']}
 						</div>
@@ -114,7 +114,7 @@
 							</h6>
 						</div>
 					</div>
-					<div class="d-inline-flex w-100 justify-content-end col-2 pr-0 pl-0">
+					<div class="d-inline-flex w-100 justify-content-end col-3 pr-0 pl-0">
 						{if $ROW['attachments'] eq 1}
 							<span class="fas mt-1 fa-xs fa-paperclip mr-1"></span>
 						{/if}

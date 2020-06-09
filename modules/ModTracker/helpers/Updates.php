@@ -97,9 +97,10 @@ class ModTracker_Updates_Helper
 			$queryGenerator->setLimit($pagingModel->getPageLimit() + 1)->setOffset($pagingModel->getStartIndex());
 		}
 		if ($owner) {
-			$queryGenerator
-				->addCondition('shownerid', $owner, 'e', false)
-				->addCondition('assigned_user_id', $owner, 'e', false);
+			$queryGenerator->addCondition('assigned_user_id', $owner, 'e', false);
+			if ($queryGenerator->getModuleField('shownerid')) {
+				$queryGenerator->addCondition('shownerid', $owner, 'e', false);
+			}
 		}
 		if ($historyOwner) {
 			$queryGenerator->addNativeCondition(['vtiger_modtracker_basic.whodid' => $historyOwner]);
