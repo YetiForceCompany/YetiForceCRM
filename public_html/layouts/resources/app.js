@@ -154,11 +154,11 @@ var App = (window.App = {
 			 * @param   {object}  params
 			 */
 			showModal(html, params = {}) {
-				app.showModalWindow(html, container => {
-					let select2Inputs = container.find("select.select2");
+				app.showModalWindow(html, (container) => {
+					let select2Inputs = container.find('select.select2');
 					if (select2Inputs.length) {
 						App.Fields.Picklist.showSelect2ElementView(select2Inputs);
-						select2Inputs.select2("destroy");
+						select2Inputs.select2('destroy');
 					}
 					const quickCreateForm = container.find('form[name="QuickCreate"]');
 					const moduleName = quickCreateForm.find('[name="module"]').val();
@@ -443,7 +443,14 @@ var App = (window.App = {
 									'Detail' === viewName &&
 									app.getRecordId() === form.find('[name="record"]').val()
 								) {
-									if (params.removeFromUrl) {
+									if (data.result._isViewable == false) {
+										if (window !== window.parent) {
+											window.parent.location.href =
+												'index.php?module=' + moduleName + '&view=ListPreview';
+										} else {
+											window.location.href = 'index.php?module=' + moduleName + '&view=List';
+										}
+									} else if (params.removeFromUrl) {
 										let searchParams = new URLSearchParams(window.location.search);
 										searchParams.delete('step');
 										window.location.href = 'index.php?' + searchParams.toString();
