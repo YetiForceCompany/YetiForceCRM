@@ -129,7 +129,7 @@ class Vies extends Base
 		}
 		$countryCode = $this->request->getByType('countryCode', 'Standard');
 		$response = [];
-		if ($client = new \SoapClient($this->url, ['trace' => true])) {
+		if ($client = new \SoapClient($this->url, \App\RequestHttp::getSoapOptions())) {
 			$params = ['countryCode' => $countryCode, 'vatNumber' => $vatNumber];
 			try {
 				$r = $client->checkVat($params);

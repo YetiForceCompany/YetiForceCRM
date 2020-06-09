@@ -468,7 +468,7 @@ return [
 			'description' => 'Developer updater mode'
 		]
 	],
-	'layout'  => [
+	'layout' => [
 		'breadcrumbs' => [
 			'default' => true,
 			'description' => 'Should menu breadcrumbs be visible? true = show, false = hide',
@@ -1046,6 +1046,39 @@ return [
 		'purifierAllowedDomains' => [
 			'default' => [],
 			'description' => 'List of allowed domains for fields with HTML support',
+		],
+		'proxyConnection' => [
+			'default' => false,
+			'description' => 'Do you want all connections to be made using a proxy?',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'proxyProtocol' => [
+			'default' => '',
+			'description' => 'Proxy protocol: http, https, tcp',
+			'validationValues' => ['http', 'https', 'tcp', '']
+		],
+		'proxyHost' => [
+			'default' => '',
+			'description' => 'Proxy host',
+			'validation' => '\App\Validator::url',
+		],
+		'proxyPort' => [
+			'default' => 0,
+			'description' => 'Proxy port',
+			'validation' => '\App\Validator::port',
+		],
+		'proxyLogin' => [
+			'default' => '',
+			'description' => 'Proxy login',
+			'validation' => '\App\Validator::text',
+			'sanitization' => '\App\Purifier::purify'
+		],
+		'proxyPassword' => [
+			'default' => '',
+			'description' => 'Proxy password',
+			'validation' => '\App\Validator::text',
+			'sanitization' => '\App\Purifier::purify'
 		],
 	],
 	'sounds' => [

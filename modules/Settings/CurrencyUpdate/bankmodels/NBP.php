@@ -39,7 +39,7 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 		while (!$stateA) {
 			$url = $tableUrl . $dateCur . '/?format=json';
 			try {
-				$tryTable = (new \GuzzleHttp\Client())->get($url, ['timeout' => 20, 'connect_timeout' => 10]);
+				$tryTable = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get($url, ['timeout' => 20, 'connect_timeout' => 10]);
 				if (200 == $tryTable->getStatusCode()) {
 					$stateA = true;
 					$tableBody = $tryTable->getBody();
@@ -112,7 +112,7 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 		while (!$stateA) {
 			$url = $tableUrl . $dateCur . '/?format=json';
 			try {
-				$tryTable = (new \GuzzleHttp\Client())->get($url, ['timeout' => 20, 'connect_timeout' => 10]);
+				$tryTable = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get($url, ['timeout' => 20, 'connect_timeout' => 10]);
 				if (200 == $tryTable->getStatusCode()) {
 					$stateA = true;
 					$tableBody = $tryTable->getBody();

@@ -216,7 +216,7 @@ class File
 			return false;
 		}
 		try {
-			$response = (new \GuzzleHttp\Client())->request('GET', $url, \App\RequestHttp::getOptions() + ['timeout' => 5, 'connect_timeout' => 1]);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['timeout' => 5, 'connect_timeout' => 1]);
 			if (200 !== $response->getStatusCode()) {
 				Log::warning('Error when downloading content: ' . $url . ' | Status code: ' . $response->getStatusCode(), __CLASS__);
 				return false;
@@ -1082,7 +1082,7 @@ class File
 	public static function isExistsUrl($url)
 	{
 		try {
-			$response = (new \GuzzleHttp\Client())->request('GET', $url, \App\RequestHttp::getOptions() + ['timeout' => 1, 'connect_timeout' => 1]);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['timeout' => 1, 'connect_timeout' => 1]);
 			if (200 === $response->getStatusCode()) {
 				return true;
 			}

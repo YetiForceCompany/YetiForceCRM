@@ -89,16 +89,10 @@ class GusClient extends \SoapClient
 	 */
 	public static function getInstance(): self
 	{
-		$streamOption = [];
-		$streamOption['ssl'] = [
-			'verify_peer' => false,
-			'verify_peer_name' => false
-		];
-		$context = stream_context_create($streamOption);
+		$context = stream_context_create([]);
+		$options = \App\RequestHttp::getSoapOptions();
 		$options['soap_version'] = SOAP_1_2;
-		$options['trace'] = 1;
 		$options['encoding'] = 'utf-8';
-		$options['exceptions'] = 1;
 		$options['stream_context'] = $context;
 		$instance = new self(self::$config['addresToWsdl'], $options);
 		$instance->streamContext = $context;
@@ -240,7 +234,13 @@ class GusClient extends \SoapClient
 			$response['Nip'] = $nip ?? '';
 			$response['Kraj'] = $responseFromGus[0][$prefixName . 'adSiedzKraj_Nazwa'] ?? '';
 			$response['Kraj'] = 'POLSKA' === $response['Kraj'] ? 'Poland' : $response['Kraj'];
-
+			$response['NumerTelefonu'] = $responseFromGus[0][$prefixName . 'numerTelefonu'] ?? '';
+			$response['NumerFaksu'] = $responseFromGus[0][$prefixName . 'numerFaksu'] ?? '';
+			$response['AdresEmail'] = $responseFromGus[0][$prefixName . 'adresEmail'] ?? '';
+			$response['PodstawowaFormaPrawna'] = $responseFromGus[0][$prefixName . 'podstawowaFormaPrawna_Nazwa'] ?? '';
+			$response['SzczegolnaFormaPrawna'] = $responseFromGus[0][$prefixName . 'szczegolnaFormaPrawna_Nazwa'] ?? '';
+			$response['DataRozpoczeciaDzialalnosci'] = $responseFromGus[0][$prefixName . 'dataRozpoczeciaDzialalnosci'] ?? '';
+			$response['NumerWrejestrzeEwidencji'] = $responseFromGus[0][$prefixName . 'numerWrejestrzeEwidencji'] ?? '';
 			$this->endSession();
 		} else {
 			$response = [];
