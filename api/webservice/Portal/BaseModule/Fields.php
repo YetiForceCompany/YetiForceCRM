@@ -195,7 +195,6 @@ class Fields extends \Api\Core\BaseAction
 				}
 			}
 		}
-		var_dump($blocks);
 		return [
 			'fields' => $fields,
 			'blocks' => $blocks,
