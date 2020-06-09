@@ -9,11 +9,13 @@
 					<thead>
 						<th class="u-white-space-nowrap">{\App\Language::translate('LBL_MODULE_NAME', $MODULE_NAME)}</th>
 						{foreach from=$ACTIONS item=KEY}
-							<th class="u-white-space-nowrap text-center">
+							<th class="u-white-space-nowrap text-center u-fs-10px p-1" title="{\App\Utils::mbUcfirst(\App\Language::translate(ModTracker_Record_Model::$statusLabel[$KEY], $MODULE_NAME))}">
 								<span class="mr-1" style="color: {ModTracker::$colorsActions[$KEY]};">
 									<span class="{ModTracker::$iconActions[$KEY]} fa-fw"></span>
 								</span>
-								{\App\Utils::mbUcfirst(\App\Language::translate(ModTracker_Record_Model::$statusLabel[$KEY], $MODULE_NAME))}
+								<div class="mt-1">
+									{App\TextParser::textTruncate(\App\Utils::mbUcfirst(\App\Language::translate(ModTracker_Record_Model::$statusLabel[$KEY], $MODULE_NAME)), 15)}
+								</div>
 							</th>
 						{/foreach}
 					</thead>
