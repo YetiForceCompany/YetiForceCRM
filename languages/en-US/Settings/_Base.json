@@ -21,6 +21,7 @@
     "LBL_CONFIG_EDITOR": "System – Configuration",
     "LBL_CONFIG_EDITOR_DESCRIPTION": "Update configuration file of the application",
     "LBL_MAIN_CONFIG": "Main configuration",
+    "LBL_PROXY_CONFIG": "Proxy configuration",
     "LBL_CREATING_NEW": "Creating new",
     "LBL_CURRENCY_DESCRIPTION": "Manage international currencies and exchange rates",
     "LBL_CURRENCY_SETTINGS": "Currencies",
@@ -385,6 +386,15 @@
     "LBL_SHOW_ADVANCED_SEQUENCE_SETTINGS": "Picklist sequence settings",
     "LBL_ADVANCED_RECORD_NUMBERING": "Picklist sequence settings",
     "LBL_PREFIX": "Prefix",
+    "LBL_CONFIG_PROXY": "Proxy",
+    "LBL_CONFIG_PROXY_DESCRIPTION": "Proxy",
+    "LBL_PROXY_CONNECTION": "Connection",
+    "LBL_PROXY_PROTOCOL": "Protocol",
+    "LBL_PROXY_HOST": "Host",
+    "LBL_PROXY_PORT": "Port",
+    "LBL_PROXY_LOGIN": "Login",
+    "LBL_PROXY_PASSWORD": "Password",
+
     "LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED": "%s functionality hasn't been activated yet. Click the \"Activate\" button.",
     "LBL_ACTIVATE_FUNCTIONALITY": "Activate"
   },
