@@ -50,9 +50,9 @@
 								<div class="mr-1 float-sm-left imageContainer q-avatar u-fs-38px">
 									{assign var=IMAGE value=$USER->getImage()}
 									{if $IMAGE}
-										<img class="userImage" src="{$IMAGE['url']}">
+										<img class="userImage align-text-top" src="{$IMAGE['url']}">
 									{else}
-										<span class="fas fa-user userImage"></span>
+										<span class="fas fa-user userImage align-text-top"></span>
 									{/if}
 								</div>
 								<p class="ml-1 float-right text-muted">
