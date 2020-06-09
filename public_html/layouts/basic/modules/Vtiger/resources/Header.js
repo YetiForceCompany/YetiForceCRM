@@ -18,7 +18,8 @@ if (
 ) {
 	if (app.getCookie('oldbrowser') != 'true') {
 		app.setCookie('oldbrowser', true, 365);
-		window.location.href = 'layouts/basic/modules/Vtiger/browsercompatibility/Browser_compatibility.html';
+		window.location.href =
+			'layouts/basic/modules/Vtiger/browsercompatibility/Browser_compatibility.html';
 	}
 }
 
@@ -26,7 +27,7 @@ $.Class(
 	'Vtiger_Header_Js',
 	{
 		self: false,
-		getInstance: function() {
+		getInstance: function () {
 			if (this.self != false) {
 				return this.self;
 			}
@@ -37,10 +38,10 @@ $.Class(
 	{
 		menuContainer: false,
 		contentContainer: false,
-		init: function() {
+		init: function () {
 			this.setContentsContainer('.js-base-container');
 		},
-		setContentsContainer: function(element) {
+		setContentsContainer: function (element) {
 			if (element instanceof $) {
 				this.contentContainer = element;
 			} else {
@@ -48,22 +49,15 @@ $.Class(
 			}
 			return this;
 		},
-		getContentsContainer: function() {
+		getContentsContainer: function () {
 			return this.contentContainer;
 		},
 		registerQuickCreateSearch() {
-			$('.js-quickcreate-search').on('keyup', function() {
-				let value = $(this)
-					.val()
-					.toLowerCase();
-				$('.quickCreateModules .js-quickcreate-search-item a').filter(function() {
+			$('.js-quickcreate-search').on('keyup', function () {
+				let value = $(this).val().toLowerCase();
+				$('.quickCreateModules .js-quickcreate-search-item a').filter(function () {
 					let item = $(this).closest('.js-quickcreate-search-item');
-					if (
-						$(this)
-							.text()
-							.toLowerCase()
-							.indexOf(value) > -1
-					) {
+					if ($(this).text().toLowerCase().indexOf(value) > -1) {
 						item.removeClass('d-none');
 					} else {
 						item.addClass('d-none');
@@ -72,33 +66,31 @@ $.Class(
 				$('.js-quickcreate-search-block').hide();
 				$('.js-quickcreate-search-item')
 					.not('.d-none')
-					.each(function() {
-						$(this)
-							.closest('.js-quickcreate-search-block')
-							.show();
+					.each(function () {
+						$(this).closest('.js-quickcreate-search-block').show();
 					});
 			});
 		},
-		showAnnouncement: function() {
-			var thisInstance = this;
-			var announcementContainer = $('#announcements');
-			var announcements = announcementContainer.find('.announcement');
+		showAnnouncement: function () {
+			let thisInstance = this;
+			let announcementContainer = $('#announcements');
+			let announcements = announcementContainer.find('.announcement');
 			if (announcements.length > 0) {
-				var announcement = announcements.first();
-				var aid = announcement.data('id');
+				let announcement = announcements.first();
+				let aid = announcement.data('id');
 
 				app.showModalWindow(
 					announcement.find('.modal'),
-					function(modal) {
+					function (modal) {
 						announcement.remove();
-						modal.find('button').on('click', function(e) {
+						modal.find('button').on('click', function (e) {
 							AppConnector.request({
 								module: 'Announcements',
 								action: 'BasicAjax',
 								mode: 'mark',
 								record: aid,
 								type: $(this).data('type')
-							}).done(function(res) {
+							}).done(function (res) {
 								app.hideModalWindow();
 								thisInstance.showAnnouncement();
 							});
@@ -109,26 +101,23 @@ $.Class(
 				);
 			}
 		},
-		registerAnnouncements: function() {
-			var thisInstance = this;
-			var announcementContainer = $('#announcements');
+		registerAnnouncements: function () {
+			let thisInstance = this;
+			let announcementContainer = $('#announcements');
 			if (announcementContainer.length == 0) {
 				return false;
 			}
 			thisInstance.showAnnouncement();
 		},
-		registerCalendarButtonClickEvent: function() {
-			var element = $('#calendarBtn');
-			var dateFormat = element.data('dateFormat');
-			var currentDate = element.data('date');
-			var vtigerDateFormat = app.convertToDatePickerFormat(dateFormat);
-			element.on('click', function(e) {
+		registerCalendarButtonClickEvent: function () {
+			let element = $('#calendarBtn');
+			let dateFormat = element.data('dateFormat');
+			let currentDate = element.data('date');
+			let vtigerDateFormat = app.convertToDatePickerFormat(dateFormat);
+			element.on('click', function (e) {
 				e.stopImmediatePropagation();
-				element
-					.closest('div.nav')
-					.find('div.open')
-					.removeClass('open');
-				var calendar = $('#' + element.data('datepickerId'));
+				element.closest('div.nav').find('div.open').removeClass('open');
+				let calendar = $('#' + element.data('datepickerId'));
 				if ($(calendar).is(':visible')) {
 					element.DatePickerHide();
 				} else {
@@ -143,38 +132,38 @@ $.Class(
 				className: 'globalCalendar'
 			});
 		},
-		isFreeDay: function(dayOfWeek) {
+		isFreeDay: function (dayOfWeek) {
 			if (dayOfWeek == 0 || dayOfWeek == 6) {
 				return true;
 			}
 			return false;
 		},
-		basicSearch: function() {
-			var thisInstance = this;
-			$('.js-global-search__value').on('keypress', function(e) {
-				var currentTarget = $(e.currentTarget);
+		basicSearch: function () {
+			let thisInstance = this;
+			$('.js-global-search__value').on('keypress', function (e) {
+				let currentTarget = $(e.currentTarget);
 				if (e.which == 13) {
 					thisInstance.hideSearchMenu();
 					thisInstance.labelSearch(currentTarget);
 				}
 			});
-			$('.js-global-search-operator').on('click', function(e) {
-				var currentTarget = $(e.target);
-				var block = currentTarget.closest('.js-global-search__input');
+			$('.js-global-search-operator').on('click', function (e) {
+				let currentTarget = $(e.target);
+				let block = currentTarget.closest('.js-global-search__input');
 				block.find('.js-global-search__value').data('operator', currentTarget.data('operator'));
 				block.find('.js-global-search-operator .dropdown-item').removeClass('active');
 				currentTarget.closest('.dropdown-item').addClass('active');
 			});
 			if ($('#gsAutocomplete').val() == 1) {
 				$.widget('custom.gsAutocomplete', $.ui.autocomplete, {
-					_create: function() {
+					_create: function () {
 						this._super();
 						this.widget().menu('option', 'items', '> :not(.ui-autocomplete-category)');
 					},
-					_renderMenu: function(ul, items) {
-						var that = this,
+					_renderMenu: function (ul, items) {
+						let that = this,
 							currentCategory = '';
-						$.each(items, function(index, item) {
+						$.each(items, function (index, item) {
 							if (item.category != currentCategory) {
 								ul.append("<li class='ui-autocomplete-category'>" + item.category + '</li>');
 								currentCategory = item.category;
@@ -182,11 +171,11 @@ $.Class(
 							that._renderItemData(ul, item);
 						});
 					},
-					_renderItemData: function(ul, item) {
+					_renderItemData: function (ul, item) {
 						return this._renderItem(ul, item).data('ui-autocomplete-item', item);
 					},
-					_renderItem: function(ul, item) {
-						var url = 'index.php?module=' + item.module + '&view=Detail&record=' + item.id;
+					_renderItem: function (ul, item) {
+						let url = 'index.php?module=' + item.module + '&view=Detail&record=' + item.id;
 						return $('<li>')
 							.data('item.autocomplete', item)
 							.append($("<a href='" + url + "' title='" + item.label + "'></a>").html(item.label))
@@ -195,17 +184,17 @@ $.Class(
 				});
 				$('.js-global-search__value').gsAutocomplete({
 					minLength: app.getMainParams('gsMinLength'),
-					source: function(request, response) {
-						var basicSearch = new Vtiger_BasicSearch_Js();
+					source: function (request, response) {
+						let basicSearch = new Vtiger_BasicSearch_Js();
 						basicSearch.reduceNumberResults = app.getMainParams('gsAmountResponse');
 						basicSearch.returnHtml = false;
 						basicSearch.setMainContainer(this.element.closest('.js-global-search__input'));
-						basicSearch.search(request.term).done(function(data) {
+						basicSearch.search(request.term).done(function (data) {
 							data = JSON.parse(data);
-							var serverDataFormat = data.result;
-							var reponseDataList = [];
-							for (var id in serverDataFormat) {
-								var responseData = serverDataFormat[id];
+							let serverDataFormat = data.result;
+							let reponseDataList = [];
+							for (let id in serverDataFormat) {
+								let responseData = serverDataFormat[id];
 								reponseDataList.push(responseData);
 							}
 							response(reponseDataList);
@@ -215,10 +204,10 @@ $.Class(
 						'ui-autocomplete':
 							'u-overflow-y-auto u-overflow-x-hidden u-max-h-70vh u-max-w-sm-70 u-max-w-lg-40'
 					},
-					select: function(event, ui) {
-						var selectedItemData = ui.item;
+					select: function (event, ui) {
+						let selectedItemData = ui.item;
 						if (selectedItemData.permitted) {
-							var url =
+							let url =
 								'index.php?module=' +
 								selectedItemData.module +
 								'&view=Detail&record=' +
@@ -227,40 +216,40 @@ $.Class(
 						}
 						return false;
 					},
-					close: function(event, ui) {
+					close: function (event, ui) {
 						//$('.js-global-search__value').val('');
 					}
 				});
 			}
 		},
-		labelSearch: function(currentTarget) {
-			var val = currentTarget.val();
+		labelSearch: function (currentTarget) {
+			let val = currentTarget.val();
 			if (val == '') {
 				app.showAlert(app.vtranslate('JS_PLEASE_ENTER_SOME_VALUE'));
 				currentTarget.focus();
 				return false;
 			}
-			var progress = $.progressIndicator({
+			let progress = $.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
-			var basicSearch = new Vtiger_BasicSearch_Js();
+			let basicSearch = new Vtiger_BasicSearch_Js();
 			basicSearch.setMainContainer(currentTarget.closest('.js-global-search__input'));
-			basicSearch.search(val).done(function(data) {
+			basicSearch.search(val).done(function (data) {
 				basicSearch.showSearchResults(data);
 				progress.progressIndicator({
 					mode: 'hide'
 				});
 			});
 		},
-		registerHotKeys: function() {
-			$('.hotKey').each(function(index) {
-				var thisObject = this;
-				var key = $(thisObject).data('hotkeys');
+		registerHotKeys: function () {
+			$('.hotKey').each(function (index) {
+				let thisObject = this;
+				let key = $(thisObject).data('hotkeys');
 				if (key != '') {
-					Mousetrap.bind(key, function() {
+					Mousetrap.bind(key, function () {
 						thisObject.click();
 					});
 				}
@@ -272,7 +261,7 @@ $.Class(
 		 * @param   {string}  moduleName
 		 * @param   {object}  params
 		 */
-		quickCreateModule: function(moduleName, params = {}) {
+		quickCreateModule: function (moduleName, params = {}) {
 			App.Components.QuickCreate.createRecord(moduleName, params);
 		},
 		/**
@@ -284,7 +273,7 @@ $.Class(
 		 *
 		 * @return  {function} which return aDeferred
 		 */
-		getQuickCreateForm: function(url, moduleName, params = {}) {
+		getQuickCreateForm: function (url, moduleName, params = {}) {
 			return App.Components.QuickCreate.getForm(url, moduleName, params);
 		},
 		/**
@@ -293,7 +282,7 @@ $.Class(
 		 * @param   {string}  html
 		 * @param   {object}  params
 		 */
-		handleQuickCreateData: function(html, params = {}) {
+		handleQuickCreateData: function (html, params = {}) {
 			App.Components.QuickCreate.showModal(html, params);
 		},
 		/**
@@ -304,23 +293,15 @@ $.Class(
 		 *
 		 * @return  {function} which return boolean
 		 */
-		registerQuickCreatePostLoadEvents: function(form, params) {
+		registerQuickCreatePostLoadEvents: function (form, params) {
 			App.Components.QuickCreate.registerPostLoadEvents(form, params);
-		},
-		/**
-		 * Invoke App.Components.QuickCreate.registerHelpInfo
-		 *
-		 * @param   {object}  container jQuery
-		 */
-		registerHelpInfo: function(container = $('form[name="QuickCreate"]')) {
-			App.Components.QuickCreate.registerHelpInfo(container);
 		},
 		/**
 		 * Invoke App.Components.QuickCreate.goToFullForm
 		 *
 		 * @param   {object}  form  jQuery
 		 */
-		quickCreateGoToFullForm: function(form, editViewUrl) {
+		quickCreateGoToFullForm: function (form, editViewUrl) {
 			App.Components.QuickCreate.goToFullForm(form, editViewUrl);
 		},
 		/**
@@ -328,7 +309,7 @@ $.Class(
 		 *
 		 * @param   {object}  form  jQuery
 		 */
-		registerTabEventsInQuickCreate: function(form) {
+		registerTabEventsInQuickCreate: function (form) {
 			App.Components.QuickCreate.registerTabEvents(form);
 		},
 		/**
@@ -338,19 +319,19 @@ $.Class(
 		 *
 		 * @return  {function}        which return aDeferred
 		 */
-		quickCreateSave: function(form) {
+		quickCreateSave: function (form) {
 			return App.Components.QuickCreate.save(form);
 		},
-		registerReminderNotice: function() {
-			var self = this;
+		registerReminderNotice: function () {
+			let self = this;
 			$('#page').before(
 				`<div class="remindersNoticeContainer" tabindex="-1" role="dialog" aria-label="${app.vtranslate(
 					'JS_REMINDER'
 				)}" aria-hidden="true"></div>`
 			);
-			var block = $('.remindersNoticeContainer');
-			var remindersNotice = $('.remindersNotice');
-			remindersNotice.on('click', function() {
+			let block = $('.remindersNoticeContainer');
+			let remindersNotice = $('.remindersNotice');
+			remindersNotice.on('click', function () {
 				if (!remindersNotice.hasClass('autoRefreshing')) {
 					Vtiger_Index_Js.requestReminder();
 				}
@@ -362,12 +343,14 @@ $.Class(
 				self.hideSearchMenu();
 			});
 		},
-		registerReminderNotification: function() {
-			var self = this;
-			$('#page').before('<div class="remindersNotificationContainer" tabindex="-1" role="dialog"></div>');
-			var block = $('.remindersNotificationContainer');
-			var remindersNotice = $('.notificationsNotice');
-			remindersNotice.on('click', function() {
+		registerReminderNotification: function () {
+			let self = this;
+			$('#page').before(
+				'<div class="remindersNotificationContainer" tabindex="-1" role="dialog"></div>'
+			);
+			let block = $('.remindersNotificationContainer');
+			let remindersNotice = $('.notificationsNotice');
+			remindersNotice.on('click', function () {
 				if (!remindersNotice.hasClass('autoRefreshing')) {
 					Vtiger_Index_Js.getNotificationsForReminder();
 				}
@@ -387,17 +370,19 @@ $.Class(
 			let actionBtn = container.find('.js-header-toggle__actions-btn');
 			if (!actionsContainer.closest('.js-btn-toolbar').length) {
 				const actionBtnMargin = 5;
-				const cssActionsTop = { top: actionBtn.offset().top + actionBtn.outerHeight() + actionBtnMargin };
+				const cssActionsTop = {
+					top: actionBtn.offset().top + actionBtn.outerHeight() + actionBtnMargin
+				};
 				actionsContainer.css(cssActionsTop);
 			}
 			actionBtn.on('click', () => {
 				actionsContainer.toggleClass('is-active');
 			});
 		},
-		registerMobileEvents: function() {
+		registerMobileEvents: function () {
 			const self = this,
 				container = this.getContentsContainer();
-			$('.rightHeaderBtnMenu').on('click', function() {
+			$('.rightHeaderBtnMenu').on('click', function () {
 				self.hideActionMenu();
 				self.hideBreadcrumbActionMenu();
 				self.hideSearchMenu();
@@ -405,7 +390,7 @@ $.Class(
 				self.hideReminderNotification();
 				$('.mobileLeftPanel ').toggleClass('mobileMenuOn');
 			});
-			$('.js-quick-action-btn').on('click', function() {
+			$('.js-quick-action-btn').on('click', function () {
 				let currentTarget = $(this);
 				app.closeSidebar();
 				self.hideBreadcrumbActionMenu();
@@ -422,11 +407,11 @@ $.Class(
 					currentTarget.attr('aria-expanded', 'true');
 					currentTarget.popover('disable');
 				}
-				$('.quickCreateModules').on('click', function() {
+				$('.quickCreateModules').on('click', function () {
 					self.hideActionMenu();
 				});
 			});
-			$('.searchMenuBtn').on('click', function() {
+			$('.searchMenuBtn').on('click', function () {
 				let currentTarget = $(this);
 				app.closeSidebar();
 				self.hideActionMenu();
@@ -442,7 +427,7 @@ $.Class(
 					$('.searchMenuBtn .c-header__btn').attr('aria-expanded', 'true');
 				}
 			});
-			$('.js-header__btn--mail .dropdown').on('show.bs.dropdown', function() {
+			$('.js-header__btn--mail .dropdown').on('show.bs.dropdown', function () {
 				app.closeSidebar();
 				self.hideActionMenu();
 				self.hideBreadcrumbActionMenu();
@@ -452,30 +437,30 @@ $.Class(
 			});
 			this.toggleBreadcrumbActions(container);
 		},
-		hideMobileMenu: function() {
+		hideMobileMenu: function () {
 			$('.mobileLeftPanel ').removeClass('mobileMenuOn');
 		},
-		hideSearchMenu: function() {
+		hideSearchMenu: function () {
 			$('.searchMenu').removeClass('toogleSearchMenu');
 		},
-		hideActionMenu: function() {
+		hideActionMenu: function () {
 			$('.actionMenu').removeClass('actionMenuOn');
 		},
-		hideBreadcrumbActionMenu: function() {
+		hideBreadcrumbActionMenu: function () {
 			$('.js-header-toggle__actions').removeClass('is-active');
 		},
-		hideReminderNotice: function() {
+		hideReminderNotice: function () {
 			$('.remindersNoticeContainer').removeClass('toggled');
 		},
-		hideReminderNotification: function() {
+		hideReminderNotification: function () {
 			$('.remindersNotificationContainer').removeClass('toggled');
 		},
-		registerFooTable: function() {
-			var container = $('.tableRWD');
+		registerFooTable: function () {
+			let container = $('.tableRWD');
 			container.find('thead tr th:gt(1)').attr('data-hide', 'phone');
 			container.find('thead tr th:gt(3)').attr('data-hide', 'tablet,phone');
 			container.find('thead tr th:last').attr('data-hide', '');
-			var whichColumnEnable = container.find('thead').attr('col-visible-alltime');
+			let whichColumnEnable = container.find('thead').attr('col-visible-alltime');
 			container.find('thead tr th:eq(' + whichColumnEnable + ')').attr('data-hide', '');
 			$('.tableRWD, .customTableRWD').footable({
 				breakpoints: {
@@ -485,11 +470,11 @@ $.Class(
 				addRowToggle: true,
 				toggleSelector: ' > tbody > tr:not(.footable-row-detail)'
 			});
-			$('.footable-toggle').on('click', function(event) {
+			$('.footable-toggle').on('click', function (event) {
 				event.stopPropagation();
 				$(this).trigger('footable_toggle_row');
 			});
-			var records = $('.customTableRWD').find('[data-toggle-visible=false]');
+			let records = $('.customTableRWD').find('[data-toggle-visible=false]');
 			records.find('.footable-toggle').css('display', 'none');
 		},
 		registerSiteBarButton(container) {
@@ -501,7 +486,7 @@ $.Class(
 					this.toggleSiteBar(container.find('.toggleSiteBarRightButton'));
 				}
 			}
-			container.find('.toggleSiteBarRightButton').on('click', e => {
+			container.find('.toggleSiteBarRightButton').on('click', (e) => {
 				let toogleButton = $(e.currentTarget);
 				if (toogleButton.closest('.siteBarRight').hasClass('hideSiteBar')) {
 					app.cacheSet(key, 'show');
@@ -517,28 +502,28 @@ $.Class(
 			toogleButton.find('.fas').toggleClass('fa-chevron-right fa-chevron-left');
 			toogleButton.toggleClass('hideToggleSiteBarRightButton');
 		},
-		registerToggleButton: function() {
-			$('.buttonTextHolder .dropdown-menu a').on('click', function() {
+		registerToggleButton: function () {
+			$('.buttonTextHolder .dropdown-menu a').on('click', function () {
 				$(this)
 					.parents('.d-inline-block')
 					.find('.dropdown-toggle .textHolder')
 					.html($(this).text());
 			});
 		},
-		listenTextAreaChange: function() {
-			var thisInstance = this;
-			$('textarea').on('keyup', function() {
-				var elem = $(this);
+		listenTextAreaChange: function () {
+			let thisInstance = this;
+			$('textarea').on('keyup', function () {
+				let elem = $(this);
 				if (!elem.data('has-scroll')) {
 					elem.data('has-scroll', true);
-					elem.on('scroll keyup', function() {
+					elem.on('scroll keyup', function () {
 						thisInstance.resizeTextArea($(this));
 					});
 				}
 				thisInstance.resizeTextArea($(this));
 			});
 		},
-		resizeTextArea: function(elem) {
+		resizeTextArea: function (elem) {
 			elem.height(1);
 			elem.scrollTop(0);
 			elem.height(elem[0].scrollHeight - elem[0].clientHeight + elem.height());
@@ -566,8 +551,8 @@ $.Class(
 				});
 			}
 		},
-		registerEvents: function() {
-			var thisInstance = this;
+		registerEvents: function () {
+			let thisInstance = this;
 			const container = thisInstance.getContentsContainer(),
 				menuContainer = container.find('.js-menu--scroll'),
 				quickCreateModal = container.find('.quickCreateModules');
@@ -578,18 +563,18 @@ $.Class(
 			$('.js-clear-history').on('click', () => {
 				app.clearBrowsingHistory();
 			});
-			$('.globalSearch').on('click', function() {
-				var currentTarget = $(this);
+			$('.globalSearch').on('click', function () {
+				let currentTarget = $(this);
 				thisInstance.hideSearchMenu();
-				var advanceSearchInstance = new Vtiger_AdvanceSearch_Js();
+				let advanceSearchInstance = new Vtiger_AdvanceSearch_Js();
 				advanceSearchInstance.setParentContainer(currentTarget.closest('.js-global-search__input'));
 				advanceSearchInstance.initiateSearch();
 			});
-			$('.searchIcon').on('click', function(e) {
-				var currentTarget = $(this)
+			$('.searchIcon').on('click', function (e) {
+				let currentTarget = $(this)
 					.closest('.js-global-search__input')
 					.find('.js-global-search__value');
-				var pressEvent = $.Event('keypress');
+				let pressEvent = $.Event('keypress');
 				pressEvent.which = 13;
 				currentTarget.trigger(pressEvent);
 			});
@@ -599,17 +584,15 @@ $.Class(
 			thisInstance.registerSiteBarButton($('#centerPanel'));
 			//this.registerCalendarButtonClickEvent();
 			//After selecting the global search module, focus the input element to type
-			$('.basicSearchModulesList').on('change', function() {
-				var value = $(this)
-					.closest('.js-global-search__input')
-					.find('.js-global-search__value');
-				setTimeout(function() {
+			$('.basicSearchModulesList').on('change', function () {
+				let value = $(this).closest('.js-global-search__input').find('.js-global-search__value');
+				setTimeout(function () {
 					value.focus();
 				}, 100);
 			});
 			thisInstance.basicSearch();
-			quickCreateModal.on('click', '.quickCreateModule', function(e, params) {
-				var moduleName = $(e.currentTarget).data('name');
+			quickCreateModal.on('click', '.quickCreateModule', function (e, params) {
+				let moduleName = $(e.currentTarget).data('name');
 				quickCreateModal.modal('hide');
 				thisInstance.quickCreateModule(moduleName);
 			});
@@ -622,8 +605,8 @@ $.Class(
 		}
 	}
 );
-$(document).ready(function() {
-	window.addEventListener('popstate', event => {
+$(document).ready(function () {
+	window.addEventListener('popstate', (event) => {
 		if (event.state) {
 			window.location.href = event.state;
 		}

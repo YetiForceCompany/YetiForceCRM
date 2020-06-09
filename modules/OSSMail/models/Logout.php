@@ -48,7 +48,7 @@ class OSSMail_Logout_Model
 		$dataReader = (new \App\Db\Query())->from('roundcube_session')->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$sessData = \App\Session\File::unserialize(base64_decode($row['vars']));
-			if (isset($sessData['user_id']) && in_array((int) $sessData['user_id'], $roundCubeUsers)) {
+			if (isset($sessData['user_id']) && \in_array((int) $sessData['user_id'], $roundCubeUsers)) {
 				$arraySess[] = $row['sess_id'];
 			}
 		}

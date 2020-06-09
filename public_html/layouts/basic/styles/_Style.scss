@@ -98,7 +98,6 @@ hr {
 }
 
 .modal .imageHolder {
-	margin-left: 14% !important;
 	min-width: 250px;
 	width: 30%;
 	z-index: 1;
@@ -839,7 +838,13 @@ hr {
 		background: -moz-linear-gradient(top, #7d7e7d 0%, #0e0e0e 100%);
 
 		/* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7d7e7d), color-stop(100%, #0e0e0e));
+		background: -webkit-gradient(
+			linear,
+			left top,
+			left bottom,
+			color-stop(0%, #7d7e7d),
+			color-stop(100%, #0e0e0e)
+		);
 
 		/* Chrome,Safari4+ */
 		background: -webkit-linear-gradient(top, #7d7e7d 0%, #0e0e0e 100%);
@@ -2919,7 +2924,8 @@ body,
 .jstree-node {
 	.jstree-category,
 	.jstree-edit {
-		margin-left: 5px;
+		margin-right: 2px;
+		margin-bottom: 5px;
 		font-size: calculate-rem(16px);
 		top: 0;
 		vertical-align: middle;
@@ -3487,8 +3493,8 @@ select {
 }
 
 .tableBorderHeadBody {
-	thead,
-	tbody {
+	> thead,
+	> tbody {
 		border: 1px solid #ddd;
 	}
 }
@@ -3562,4 +3568,12 @@ ul.tweets li {
 	width: 528px;
 	min-height: 72px;
 	border-top: #e6ecf0 solid 1px;
+}
+.marketplace-product {
+	max-width: calculate-rem(430px);
+}
+.c-menu--open {
+	.marketplace-product {
+		max-width: calculate-rem(398px);
+	}
 }

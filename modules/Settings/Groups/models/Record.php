@@ -369,7 +369,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn-sm btn-primary'
 			],
 			[
@@ -428,7 +428,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		return null;
 	}
 
-	/** Function to get the instance of the group by Name
+	/** Function to get the instance of the group by Name.
 	 * @param type  $name             -- name of the group
 	 * @param array $excludedRecordId
 	 *

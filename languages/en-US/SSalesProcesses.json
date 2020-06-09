@@ -21,6 +21,9 @@
     "FL_CAMPAIGN": "Marketing campaign",
     "FL_MEMBER_OF": "Parent Sales Opportunity",
     "FL_START_DATE": "Start date",
+    "FL_ESTIMATED_MARGIN": "Estimated margin",
+    "FL_EXPECTED_MARGIN": "Expected margin",
+    "FL_EXPECTED_SALE": "Expected sale",
     "PLL_WEBSITE": "Website",
     "PLL_PHONE": "Phone",
     "PLL_MAIL_CAMPAIGN": "Mail campaign",
@@ -52,7 +55,7 @@
     "PLL_SALE_CANCELLED": "Sale cancelled",
     "LBL_SWITCHHEADER_ON_0": "Open",
     "LBL_SWITCHHEADER_OFF_0": "Closed",
-    "LBL_HEADERSWITCH_OPEN_CLOSED": "Open\/Closed",
+    "LBL_HEADERSWITCH_OPEN_CLOSED": "Open/Closed",
     "LBL_SHOW_HIERARCHY": "Hierarchy"
   }
 }

@@ -127,7 +127,7 @@ class Cache
 	 *
 	 * @return bool
 	 */
-	public static function staticHas($nameSpace, $key)
+	public static function staticHas($nameSpace, $key = '')
 	{
 		return static::$staticPool->has("$nameSpace-$key");
 	}

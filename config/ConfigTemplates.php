@@ -211,12 +211,6 @@ return [
 				return (int) func_get_arg(0);
 			}
 		],
-		'breadcrumbs' => [
-			'default' => true,
-			'description' => 'Should menu breadcrumbs be visible? true = show, false = hide',
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool'
-		],
 		'MINIMUM_CRON_FREQUENCY' => [
 			'default' => 1,
 			'description' => 'Minimum cron frequency [min]',
@@ -249,21 +243,21 @@ return [
 		],
 		'backgroundClosingModal' => [
 			'default' => true,
-			'description' => 'Enable closing of mondal window by clicking on the background',
+			'description' => 'Enable closing of modal window by clicking on the background',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'isActiveSendingMails' => [
 			'default' => true,
-			'description' => 'Is sending emails active.'
+			'description' => 'Is sending emails active?'
 		],
 		'unblockedTimeoutCronTasks' => [
 			'default' => true,
-			'description' => 'Should the task in cron be unblocked if the script execution time was exceeded'
+			'description' => 'Should the task in cron be unblocked if the script execution time was exceeded?'
 		],
 		'maxExecutionCronTime' => [
 			'default' => 3600,
-			'description' => 'The maximum time of executing a cron. Recommended same as the max_exacution_time parameter value.'
+			'description' => 'The maximum time of executing a cron. Recommended the same as the max_exacution_time parameter value.'
 		],
 		'langInLoginView' => [
 			'default' => false,
@@ -273,7 +267,7 @@ return [
 		],
 		'layoutInLoginView' => [
 			'default' => false,
-			'description' => "System's lyout selection in the login window (true/false)",
+			'description' => "System's layout selection in the login window (true/false)",
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
@@ -286,7 +280,7 @@ return [
 		],
 		'phoneFieldAdvancedVerification' => [
 			'default' => true,
-			'description' => 'Enable advanced phone number validation. Enabling  it will block saving invalid phone number.'
+			'description' => 'Enable advanced phone number validation. Enabling it will block saving invalid phone number.'
 		],
 	],
 	'debug' => [
@@ -294,13 +288,13 @@ return [
 			'default' => false,
 			'description' => 'Enable saving logs to file. Values: false/true'
 		],
-		'LOG_TO_CONSOLE' => [
-			'default' => false,
-			'description' => 'Enable displaying logs in debug console. Values: false/true'
-		],
 		'LOG_TO_PROFILE' => [
 			'default' => false,
-			'description' => 'Enable saving logs profiling.  Values: false/true'
+			'description' => 'Enable saving logs profiling. Values: false/true'
+		],
+		'LOG_PROFILE_CATEGORIES' => [
+			'default' => [],
+			'description' => 'Categories to be registered in profiling, an empty value means all categories. ex. "yii\db\Command::query", "Integrations/MagentoApi"'
 		],
 		'LOG_LEVELS' => [
 			'default' => false,
@@ -314,13 +308,25 @@ return [
 			'default' => false,
 			'description' => 'Display main debug console'
 		],
+		'DISPLAY_LOGS_IN_CONSOLE' => [
+			'default' => false,
+			'description' => 'Enable displaying logs in debug console. Values: false/true'
+		],
+		'DISPLAY_CONFIG_IN_CONSOLE' => [
+			'default' => false,
+			'description' => 'Enable displaying logs in debug console. Values: false/true'
+		],
 		'DEBUG_CONSOLE_ALLOWED_IPS' => [
 			'default' => false,
 			'description' => 'List of IP addresses allowed to display debug console. Values: false = All IPS / "192.168.1.10" / ["192.168.1.10","192.168.1.11"]',
 		],
+		'DEBUG_CONSOLE_ALLOWED_USERS' => [
+			'default' => [],
+			'description' => 'List of user IDs allowed to display debug console. ',
+		],
 		'SQL_DIE_ON_ERROR' => [
 			'default' => false,
-			'description' => 'Stop the running process of the system if there is and error in sql query'
+			'description' => 'Stop the running process of the system if there is an error in sql query'
 		],
 		'DEBUG_CRON' => [
 			'default' => false,
@@ -340,7 +346,7 @@ return [
 		],
 		'JS_DEBUG' => [
 			'default' => true,
-			'description' => 'Turn on/off debug errors javascript'
+			'description' => 'Turn on/off error debugging in javascript'
 		],
 		'DISPLAY_EXCEPTION_BACKTRACE' => [
 			'default' => false,
@@ -368,7 +374,7 @@ return [
 		],
 		'DAV_DEBUG_EXCEPTIONS' => [
 			'default' => false,
-			'description' => 'API - Sabre dav - This is a flag that allow or not showing file, line and code of the exception in the returned XML'
+			'description' => 'API - Sabre dav - This is a flag that allows (or not) showing file, line, and code of the exception in the returned XML'
 		],
 		'DAV_DEBUG_PLUGIN' => [
 			'default' => false,
@@ -376,7 +382,7 @@ return [
 		],
 		'WEBSERVICE_SHOW_ERROR' => [
 			'default' => false,
-			'description' => 'Show errors messages in web service'
+			'description' => 'Show error messages in web service'
 		],
 		'WEBSERVICE_DEBUG' => [
 			'default' => false,
@@ -397,7 +403,7 @@ return [
 		],
 		'ROUNDCUBE_PER_USER_LOGGING' => [
 			'default' => false,
-			'description' => "Activate this option if logs should be written to per-user directories.\nData will only be logged if a directry cache/logs/<username>/ exists and is writable."
+			'description' => "Activate this option if logs should be written to per-user directories.\nData will only be logged if a directory cache/logs/<username>/ exists and is writable."
 		],
 		'ROUNDCUBE_SMTP_LOG' => [
 			'default' => false,
@@ -462,6 +468,20 @@ return [
 			'description' => 'Developer updater mode'
 		]
 	],
+	'layout'  => [
+		'breadcrumbs' => [
+			'default' => true,
+			'description' => 'Should menu breadcrumbs be visible? true = show, false = hide',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'breadcrumbsHref' => [
+			'default' => true,
+			'description' => 'Should the breadcrumb menu have href enabled? true = enabled, false = off',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		]
+	],
 	'performance' => [
 		'CACHING_DRIVER' => [
 			'default' => 'Base',
@@ -479,7 +499,7 @@ return [
 		],
 		'ENABLE_CACHING_DB_CONNECTION' => [
 			'default' => false,
-			'description' => ' Enable caching database instance, accelerate time database connection',
+			'description' => 'Enable caching database instance, accelerate time database connection',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
@@ -491,13 +511,13 @@ return [
 		],
 		'DB_DEFAULT_CHARSET_UTF8' => [
 			'default' => true,
-			'description' => 'If database default charset is UTF-8, set this to true This avoids executing the SET NAMES SQL for each query!',
+			'description' => 'If database default charset is UTF-8, set this to true. This avoids executing the SET NAMES SQL for each query!',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
 		'LISTVIEW_COMPUTE_PAGE_COUNT' => [
 			'default' => false,
-			'description' => ' Compute list view record count while loading listview everytime. Recommended value false',
+			'description' => 'Compute list view record count while loading listview each time. Recommended value false',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
@@ -560,38 +580,38 @@ return [
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING' => [
-			'default' => 100,
+			'default' => 1000,
 			'description' => 'The numbers of emails downloaded during one scanning',
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'CRON_MAX_NUMBERS_RECORD_PRIVILEGES_UPDATER' => [
 			'default' => 1000000,
-			'description' => 'In how many records should the global search permissions be updated in cron',
+			'description' => 'The maximum number of global search permissions that cron can update during a single execution',
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'CRON_MAX_NUMBERS_RECORD_ADDRESS_BOOK_UPDATER' => [
 			'default' => 10000,
-			'description' => 'In how many records should the address book be updated in cron',
+			'description' => 'The maximum number of records in address book to be updated in cron',
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER' => [
 			'default' => 1000,
-			'description' => 'In how many records should the label be updated in cron',
+			'description' => 'The maximum number of record labels that cron can update during a single execution',
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'CRON_MAX_NUMBERS_SENDING_MAILS' => [
 			'default' => 1000,
-			'description' => 'In how many mails should the send in cron (Mailer).',
+			'description' => 'The maximum number of emails that cron can send during a single execution. Pay attention to the server limits.',
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'CRON_MAX_NUMBERS_SENDING_SMS' => [
 			'default' => 10,
-			'description' => 'In how many sms should the send in cron.',
+			'description' => 'The maximum number of sms that cron can send during a single execution',
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'CRON_MAX_ATACHMENTS_DELETE' => [
 			'default' => 1000,
-			'description' => 'In how many atachments should the delete in cron.',
+			'description' => 'The maximum number of attachments that cron can delete during a single execution',
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'CRON_BATCH_METHODS_LIMIT' => [
@@ -636,7 +656,7 @@ return [
 		],
 		'BROWSING_HISTORY_DELETE_AFTER' => [
 			'default' => 7,
-			'description' => 'Days after browsing history has deleted',
+			'description' => 'Number of days after which browsing history will be deleted',
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'SESSION_DRIVER' => [
@@ -682,6 +702,14 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
+		'MODULES_SPLITTED_EDIT_VIEW_LAYOUT' => [
+			'default' => [],
+			'description' => 'List of modules with splitted edit view layout',
+			'validation' => function () {
+				$arg = func_get_arg(0);
+				return \is_array($arg) && array_diff($arg, App\Module::getAllModuleNames());
+			}
+		],
 		'RECORD_POPOVER_DELAY' => [
 			'default' => 500,
 			'description' => "Popover record's trigger delay in ms",
@@ -689,7 +717,7 @@ return [
 		],
 		'PICKLIST_DEPENDENCY_DEFAULT_EMPTY' => [
 			'default' => true,
-			'description' => 'Empty value when is not selected item in picklist dependency',
+			'description' => 'Empty value when there is selected item in picklist dependency',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
@@ -708,13 +736,18 @@ return [
 			'validationValues' => ['blocks', 'standard', 'vertical']
 		],
 		'quickCreateLayout' => [
-			'default' => 'standard',
+			'default' => 'blocks',
 			'description' => 'Parameter defining how fields are displayed in quick create. Available values: blocks,standard',
 			'validationValues' => ['blocks', 'standard']
 		],
 		'REPORT_RECORD_NUMBERS' => [
 			'default' => 10,
-			'description' => 'Value how much records can be show in report mail',
+			'description' => 'Number of records that can be shown in report mail',
+			'validation' => '\App\Validator::naturalNumber'
+		],
+		'LOGIN_HISTORY_VIEW_LIMIT' => [
+			'default' => 10,
+			'description' => 'Number of records that can be shown in history login modal',
 			'validation' => '\App\Validator::naturalNumber'
 		],
 	],
@@ -725,16 +758,20 @@ return [
 		],
 		'SHOW_RELATED_MODULE_NAME' => [
 			'default' => true,
-			'description' => 'Show names related modules'
+			'description' => 'Show related modules names'
 		],
 		'SHOW_RELATED_ICON' => [
 			'default' => true,
-			'description' => 'Show icon related modules'
+			'description' => 'Show related modules icon'
 		],
 		'SHOW_RECORDS_COUNT' => [
 			'default' => false,
-			'description' => 'Show record count in tabs related modules'
-		]
+			'description' => 'Show record count in tabs of related modules'
+		],
+		'addSearchParamsToCreateView' => [
+			'default' => true,
+			'description' => 'Fill in the record creation form with the data used in filtering (search_params)'
+		],
 	],
 	'search' => [
 		'GLOBAL_SEARCH_SELECT_MODULE' => [
@@ -786,11 +823,6 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
-		'GLOBAL_SEARCH_DEFAULT_OPERATOR' => [
-			'default' => 'FulltextBegin',
-			'description' => 'Global search - Default search operator. (FulltextBegin,FulltextWord,Contain,Begin,End)',
-			'validationValues' => ['FulltextBegin', 'FulltextWord', 'Contain', 'Begin', 'End']
-		],
 		'LIST_ENTITY_STATE_COLOR' => [
 			'default' => [
 				'Archived' => '#0032a2',
@@ -804,11 +836,7 @@ return [
 		'encryptionPass' => [
 			'default' => 'yeti',
 			'description' => 'Key to encrypt passwords, changing the key results in the loss of all encrypted data.',
-			'validation' => function () {
-				$arg = func_get_arg(0);
-				return \is_array($arg) && !empty($arg['pass']) && !empty($arg['method']) &&
-					\in_array($arg['method'], \App\Encryption::getMethods()) && \strlen($arg['pass']) === App\Encryption::getLengthVector($arg['method']);
-			}
+			'validation' => '\App\Validator::text'
 		],
 		'encryptionMethod' => [
 			'default' => 'AES-256-CBC',
@@ -968,7 +996,7 @@ return [
 		],
 		'cspHeaderActive' => [
 			'default' => true,
-			'description' => 'HTTP Content Security Policy response header allows web site administrators to control resources the user agent is allowed to load for a given page',
+			'description' => 'HTTP Content Security Policy response header allows website administrators to control resources the user agent is allowed to load for a given page',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
@@ -996,12 +1024,10 @@ return [
 			'validation' => '\App\Validator::url',
 		],
 		'allowedImageDomains' => [
-			'default' => [
-				'a.tile.openstreetmap.org',
-				'b.tile.openstreetmap.org',
-				'c.tile.openstreetmap.org'
-			],
+			'default' => [],
 			'description' => 'Allowed domains for loading images, used in CSP.',
+			'loopValidate' => true,
+			'validation' => '\App\Validator::text',
 		],
 		'allowedScriptDomains' => [
 			'default' => [],
@@ -1057,7 +1083,7 @@ return [
 		'db_username' => [
 			'default' => '_DBC_USER_',
 			'description' => 'Gets the database user name',
-			'validation' => '\App\Validator::sql',
+			'validation' => '\App\Validator::dbUserName',
 			'sanitization' => '\App\Purifier::purify'
 		],
 		'db_password' => [

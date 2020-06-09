@@ -41,7 +41,7 @@ class FInvoiceProforma extends Vtiger_CRMEntity
 	 */
 	public $list_fields = [
 		// Format: Field Label => Array(tablename, columnname)
-// tablename should not have prefix 'vtiger_'
+		// tablename should not have prefix 'vtiger_'
 		'subject' => ['finvoiceproforma', 'subject'],
 		'Assigned To' => ['crmentity', 'smownerid'],
 	];
@@ -60,7 +60,7 @@ class FInvoiceProforma extends Vtiger_CRMEntity
 	// For Popup listview and UI type support
 	public $search_fields = [
 		// Format: Field Label => Array(tablename, columnname)
-// tablename should not have prefix 'vtiger_'
+		// tablename should not have prefix 'vtiger_'
 		'subject' => ['finvoiceproforma', 'subject'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
 	];

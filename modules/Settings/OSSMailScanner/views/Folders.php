@@ -16,7 +16,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if (!\App\User::getCurrentUserModel()->isAdmin() || !$request->has('record')) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
@@ -48,14 +48,14 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 				$foldersSplited = explode('/', $folder);
 				$parentPath = $mainFolder;
 				foreach ($foldersSplited as $i => $folderName) {
-					$treeRecordId = $i === 0 ? "{$mainFolder}/{$folderName}" : "{$mainFolder}/{$foldersSplited[$i - 1]}/{$folderName}";
-					if (!in_array($treeRecordId, $tempArray[$mainFolder])) {
+					$treeRecordId = 0 === $i ? "{$mainFolder}/{$folderName}" : "{$mainFolder}/{$foldersSplited[$i - 1]}/{$folderName}";
+					if (!\in_array($treeRecordId, $tempArray[$mainFolder])) {
 						$treeRecord = [
 							'id' => $treeRecordId,
 							'type' => 'category',
 							'parent' => $parentPath,
 							'text' => \App\Language::translate($folderName, $moduleName),
-							'state' => ['selected' => in_array($folder, (array) ($selectedFolders[$mainFolder] ?? []))]
+							'state' => ['selected' => \in_array($folder, (array) ($selectedFolders[$mainFolder] ?? []))]
 						];
 						if (end($foldersSplited) === $folderName) {
 							$treeRecord['db_id'] = $folder;
@@ -72,7 +72,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 		return $tree;
 	}
 
-	public function getSize(\App\Request $request)
+	public function getSize(App\Request $request)
 	{
 		return 'modal-lg';
 	}
@@ -82,7 +82,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);

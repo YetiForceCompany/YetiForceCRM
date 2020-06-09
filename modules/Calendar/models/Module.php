@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -56,16 +57,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public function isSummaryViewSupported()
 	{
 		return false;
-	}
-
-	/**
-	 * Function to get list of field for summary view.
-	 *
-	 * @return array empty array
-	 */
-	public function getSummaryViewFieldsList()
-	{
-		return [];
 	}
 
 	/**
@@ -398,5 +389,13 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		return ['events' => $totalCount[$eventModule] - $skipCount[$eventModule], 'skipped_events' => $skipCount[$eventModule], 'task' => $totalCount[$todoModule] - $skipCount[$todoModule], 'skipped_task' => $skipCount[$todoModule]];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getLayoutTypeForQuickCreate(): string
+	{
+		return 'standard';
 	}
 }

@@ -303,7 +303,7 @@ class UserPrivilegesFile
 		return $relatedModSharingPermission;
 	}
 
-	/** Function to populate the read/wirte Sharing permissions data of user/groups for the specified user into the database
+	/** Function to populate the read/wirte Sharing permissions data of user/groups for the specified user into the database.
 	 * @param int $userid
 	 */
 	public static function populateSharingtmptables($userid)

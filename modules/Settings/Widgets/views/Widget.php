@@ -8,11 +8,11 @@
  */
 class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
 		if ($mode) {
-			$this->$mode($request);
+			$this->{$mode}($request);
 		} else {
 			$this->createStep1($request);
 		}
@@ -23,7 +23,7 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function createStep1(\App\Request $request)
+	public function createStep1(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$sourceModule = $request->getInteger('mod');
@@ -37,7 +37,7 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		$viewer->view('WidgetList.tpl', $qualifiedModuleName);
 	}
 
-	public function createStep2(\App\Request $request)
+	public function createStep2(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -67,7 +67,7 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		}
 	}
 
-	public function edit(\App\Request $request)
+	public function edit(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);

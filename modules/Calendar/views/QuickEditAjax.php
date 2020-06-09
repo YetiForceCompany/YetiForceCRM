@@ -18,7 +18,7 @@ class Calendar_QuickEditAjax_View extends Calendar_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
 		if (!$this->record->isEditable()) {
@@ -29,7 +29,7 @@ class Calendar_QuickEditAjax_View extends Calendar_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($this->record, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
@@ -55,7 +55,7 @@ class Calendar_QuickEditAjax_View extends Calendar_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getPageTitle(\App\Request $request)
+	public function getPageTitle(App\Request $request)
 	{
 		return $this->record->getName();
 	}

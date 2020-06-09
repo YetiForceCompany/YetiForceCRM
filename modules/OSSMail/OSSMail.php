@@ -22,7 +22,7 @@ class OSSMail
 	public function moduleHandler($moduleName, $eventType)
 	{
 		$dbCommand = App\Db::getInstance()->createCommand();
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			$displayLabel = 'OSSMail';
 			$dbCommand->update('vtiger_tab', ['customized' => 0], ['name' => $displayLabel])->execute();
 			Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL_TOOLS', [
@@ -34,16 +34,16 @@ class OSSMail
 			$Module = vtlib\Module::getInstance($moduleName);
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_InstallModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $user_id])->execute();
-		} elseif ($eventType === 'module.disabled') {
+		} elseif ('module.disabled' === $eventType) {
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_DisabledModule', 'info' => $moduleName, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
-		} elseif ($eventType === 'module.enabled') {
+		} elseif ('module.enabled' === $eventType) {
 			if (Settings_ModuleManager_Library_Model::checkLibrary('roundcube')) {
 				throw new \App\Exceptions\NotAllowedMethod(\App\Language::translateArgs('ERR_NO_REQUIRED_LIBRARY', 'Settings:Base', 'roundcube', \App\Language::translate('VTLIB_LBL_MODULE_MANAGER', 'Settings:Base')));
 			}
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
-		} elseif ($eventType === 'module.postupdate') {
+		} elseif ('module.postupdate' === $eventType) {
 			$OSSMail = vtlib\Module::getInstance('OSSMail');
 			if (version_compare($OSSMail->version, '1.39', '>')) {
 				$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');

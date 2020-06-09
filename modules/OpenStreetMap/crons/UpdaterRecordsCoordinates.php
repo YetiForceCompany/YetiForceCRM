@@ -1,5 +1,5 @@
 <?php
-/**  Cron task to update coordinates in records
+/**  Cron task to update coordinates in records.
  * @package YetiForce.Cron
  *
  * @copyright YetiForce Sp. z o.o.

@@ -42,7 +42,7 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 		$data = [];
 		foreach ($query->all() as $log) {
 			foreach (\App\Log::$tableColumnMapping[$type] as $column) {
-				if (in_array($column, ['url', 'agent', 'referer'])) {
+				if (\in_array($column, ['url', 'agent', 'referer'])) {
 					$log[$column] = \App\Purifier::encodeHtml($log[$column]);
 				}
 				if ('url' === $column && ($urlParams = explode('?', $log['url'])) && isset($urlParams[1])) {
@@ -50,7 +50,7 @@ class Settings_Log_Data_Action extends Settings_Vtiger_Basic_Action
 				} elseif ('request' === $column) {
 					$requestArray = '';
 					foreach (\App\Json::decode($log[$column]) as $key => $val) {
-						$val = (is_array($val)) ? var_export($val, true) : $val;
+						$val = (\is_array($val)) ? var_export($val, true) : $val;
 						$requestArray .= \App\Purifier::encodeHtml("$key => $val") . PHP_EOL;
 					}
 					$log[$column] = "<pre>$requestArray</pre>";

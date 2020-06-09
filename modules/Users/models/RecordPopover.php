@@ -44,7 +44,7 @@ class Users_RecordPopover_Model extends Vtiger_RecordPopover_Model
 				'linklabel' => 'LBL_EDIT',
 				'linkhref' => true,
 				'linkurl' => $editUrl,
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn-sm btn-outline-secondary',
 			];
 		}

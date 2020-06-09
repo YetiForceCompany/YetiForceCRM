@@ -61,16 +61,11 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
+		$view = $request->getByType('view', \App\Purifier::STANDARD, '');
 		$qualifiedModuleName = $request->getModule(false);
-		$selectedMenuId = $request->getInteger('block', '');
-		$fieldId = $request->getInteger('fieldid', '');
-		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
-		$menuModels = $settingsModel->getMenus();
-		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
-		if ($settingsModel->has('selected')) {
-			$viewer->assign('SELECTED_PAGE', $settingsModel->get('selected'));
-		}
-		$viewer->assign('MENUS', $menu);
+		$selected = null;
+		$viewer->assign('MENUS', Settings_Vtiger_Menu_Model::getMenu($moduleName, $view, $request->getMode(), $selected));
+		$viewer->assign('SELECTED_PAGE', $selected);
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 
@@ -80,11 +75,9 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
 		$warnings = \App\SystemWarnings::getWarnings('all');
 		$viewer->assign('WARNINGS', !App\Session::has('SystemWarnings') ? $warnings : []);
-		$systemMonitoring = [
+		$viewer->assign('SYSTEM_MONITORING', [
 			'WARNINGS_COUNT' => [
 				'LABEL' => 'PLU_SYSTEM_WARNINGS',
 				'VALUE' => \count($warnings),
@@ -115,13 +108,9 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 				'HREF' => 'index.php?module=Workflows&parent=Settings&view=List',
 				'ICON' => 'yfi yfi-workflows-2'
 			],
-		];
-		$viewer->assign('SYSTEM_MONITORING', $systemMonitoring);
-		$viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
-		$viewer->assign('PRODUCTS_PREMIUM', \App\YetiForce\Shop::getProducts('featured'));
-		$viewer->assign('PRODUCTS_PARTNER', \App\YetiForce\Shop::getProducts('featured', 'Partner'));
-		$viewer->assign('PAYPAL_URL', \App\YetiForce\Shop::getPaypalUrl());
-		$viewer->view('Index.tpl', $qualifiedModuleName);
+		]);
+		$viewer->assign('SETTINGS_SHORTCUTS', Settings_Vtiger_MenuItem_Model::getPinnedItems());
+		$viewer->view('Index.tpl', $request->getModule(false));
 	}
 
 	/**
@@ -195,22 +184,6 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
 			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css'
 		]), parent::getHeaderCss($request));
-	}
-
-	public static function getSelectedFieldFromModule($menuModels, $moduleName)
-	{
-		if ($menuModels) {
-			foreach ($menuModels as $menuModel) {
-				$menuItems = $menuModel->getMenuItems();
-				foreach ($menuItems as $item) {
-					$linkTo = $item->getUrl();
-					if (false !== stripos($linkTo, '&module=' . $moduleName) || false !== stripos($linkTo, '?module=' . $moduleName)) {
-						return $item;
-					}
-				}
-			}
-		}
-		return false;
 	}
 
 	public function validateRequest(App\Request $request)

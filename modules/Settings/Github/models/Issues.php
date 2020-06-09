@@ -14,7 +14,7 @@ class Settings_Github_Issues_Model
 
 	public function get($key)
 	{
-		return $this->valueMap->$key;
+		return $this->valueMap->{$key};
 	}
 
 	public static function getInstanceFromArray($issueArray)
@@ -32,7 +32,7 @@ class Settings_Github_Issues_Model
 	 */
 	public static function getIssueReportRulesUrl()
 	{
-		if (\App\Language::getShortLanguageName() === 'pl') {
+		if ('pl' === \App\Language::getShortLanguageName()) {
 			$url = 'https://yetiforce.com/pl/baza-wiedzy/dokumentacja/dokumentacja-wdrozeniowa/item/jak-zglaszac-bledy';
 		} else {
 			$url = 'https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/how-to-report-bugs';

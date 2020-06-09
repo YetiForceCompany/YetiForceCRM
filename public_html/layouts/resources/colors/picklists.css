@@ -1,152 +1,612 @@
-.picklistCBr_Accounts_industry_Administration { border-color: #C5CAE9 !important; }
-.picklistCBg_Accounts_industry_Administration { background: #C5CAE9 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Accounts_industry_Administration { color: #C5CAE9 !important; }
-.picklistLb_Accounts_industry_Administration { background: #C5CAE9; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Leads_leadstatus_PLL_PENDING { border-color: #C8E6C9 !important; }
-.picklistCBg_Leads_leadstatus_PLL_PENDING { background: #C8E6C9 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Leads_leadstatus_PLL_PENDING { color: #C8E6C9 !important; }
-.picklistLb_Leads_leadstatus_PLL_PENDING { background: #C8E6C9; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Leads_leadstatus_PLL_TO_REALIZE { border-color: #E6FAD8 !important; }
-.picklistCBg_Leads_leadstatus_PLL_TO_REALIZE { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Leads_leadstatus_PLL_TO_REALIZE { color: #E6FAD8 !important; }
-.picklistLb_Leads_leadstatus_PLL_TO_REALIZE { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Leads_leadstatus_PLL_IN_REALIZATION { border-color: #E6FAD8 !important; }
-.picklistCBg_Leads_leadstatus_PLL_IN_REALIZATION { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Leads_leadstatus_PLL_IN_REALIZATION { color: #E6FAD8 !important; }
-.picklistLb_Leads_leadstatus_PLL_IN_REALIZATION { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE { border-color: #E6FAD8 !important; }
-.picklistCBg_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE { color: #E6FAD8 !important; }
-.picklistLb_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Leads_leadstatus_PLL_INCORRECT { border-color: #E6FAD8 !important; }
-.picklistCBg_Leads_leadstatus_PLL_INCORRECT { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Leads_leadstatus_PLL_INCORRECT { color: #E6FAD8 !important; }
-.picklistLb_Leads_leadstatus_PLL_INCORRECT { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Leads_leadstatus_PLL_LEAD_UNTAPPED { border-color: #E6FAD8 !important; }
-.picklistCBg_Leads_leadstatus_PLL_LEAD_UNTAPPED { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Leads_leadstatus_PLL_LEAD_UNTAPPED { color: #E6FAD8 !important; }
-.picklistLb_Leads_leadstatus_PLL_LEAD_UNTAPPED { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Leads_leadstatus_PLL_LEAD_ACQUIRED { border-color: #E6FAD8 !important; }
-.picklistCBg_Leads_leadstatus_PLL_LEAD_ACQUIRED { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Leads_leadstatus_PLL_LEAD_ACQUIRED { color: #E6FAD8 !important; }
-.picklistLb_Leads_leadstatus_PLL_LEAD_ACQUIRED { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Leads_industry_Administration { border-color: #C5CAE9 !important; }
-.picklistCBg_Leads_industry_Administration { background: #C5CAE9 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Leads_industry_Administration { color: #C5CAE9 !important; }
-.picklistLb_Leads_industry_Administration { background: #C5CAE9; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Calendar_activitytype_Call { border-color: #80B584 !important; }
-.picklistCBg_Calendar_activitytype_Call { background: #80B584 !important; font-weight: 500 !important; color: white !important;}
-.picklistCT_Calendar_activitytype_Call { color: #80B584 !important; }
-.picklistLb_Calendar_activitytype_Call { background: #80B584; color: white !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Calendar_activitytype_Meeting { border-color: #FFD500 !important; }
-.picklistCBg_Calendar_activitytype_Meeting { background: #FFD500 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Calendar_activitytype_Meeting { color: #FFD500 !important; }
-.picklistLb_Calendar_activitytype_Meeting { background: #FFD500; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Calendar_activitytype_Task { border-color: #00d4f5 !important; }
-.picklistCBg_Calendar_activitytype_Task { background: #00d4f5 !important; font-weight: 500 !important; color: white !important;}
-.picklistCT_Calendar_activitytype_Task { color: #00d4f5 !important; }
-.picklistLb_Calendar_activitytype_Task { background: #00d4f5; color: white !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_Open { border-color: #855000 !important; }
-.picklistCBg_HelpDesk_ticketstatus_Open { background: #855000 !important; font-weight: 500 !important; color: white !important;}
-.picklistCT_HelpDesk_ticketstatus_Open { color: #855000 !important; }
-.picklistLb_HelpDesk_ticketstatus_Open { background: #855000; color: white !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_Wait_For_Response { border-color: #ffa800 !important; }
-.picklistCBg_HelpDesk_ticketstatus_Wait_For_Response { background: #ffa800 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_HelpDesk_ticketstatus_Wait_For_Response { color: #ffa800 !important; }
-.picklistLb_HelpDesk_ticketstatus_Wait_For_Response { background: #ffa800; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_Answered { border-color: #0038ff !important; }
-.picklistCBg_HelpDesk_ticketstatus_Answered { background: #0038ff !important; font-weight: 500 !important; color: white !important;}
-.picklistCT_HelpDesk_ticketstatus_Answered { color: #0038ff !important; }
-.picklistLb_HelpDesk_ticketstatus_Answered { background: #0038ff; color: white !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { border-color: #fff500 !important; }
-.picklistCBg_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { background: #fff500 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { color: #fff500 !important; }
-.picklistLb_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS { background: #fff500; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_In_Progress { border-color: #42c6ff !important; }
-.picklistCBg_HelpDesk_ticketstatus_In_Progress { background: #42c6ff !important; font-weight: 500 !important; color: white !important;}
-.picklistCT_HelpDesk_ticketstatus_In_Progress { color: #42c6ff !important; }
-.picklistLb_HelpDesk_ticketstatus_In_Progress { background: #42c6ff; color: white !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_PLL_FOR_APPROVAL { border-color: #8c4381 !important; }
-.picklistCBg_HelpDesk_ticketstatus_PLL_FOR_APPROVAL { background: #8c4381 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_HelpDesk_ticketstatus_PLL_FOR_APPROVAL { color: #8c4381 !important; }
-.picklistLb_HelpDesk_ticketstatus_PLL_FOR_APPROVAL { background: #8c4381; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_PLL_TO_CLOSE { border-color: #ffb0e7 !important; }
-.picklistCBg_HelpDesk_ticketstatus_PLL_TO_CLOSE { background: #ffb0e7 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_HelpDesk_ticketstatus_PLL_TO_CLOSE { color: #ffb0e7 !important; }
-.picklistLb_HelpDesk_ticketstatus_PLL_TO_CLOSE { background: #ffb0e7; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_Closed { border-color: #00ff43 !important; }
-.picklistCBg_HelpDesk_ticketstatus_Closed { background: #00ff43 !important; font-weight: 500 !important; color: white !important;}
-.picklistCT_HelpDesk_ticketstatus_Closed { color: #00ff43 !important; }
-.picklistLb_HelpDesk_ticketstatus_Closed { background: #00ff43; color: white !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketstatus_Rejected { border-color: #e33d3d !important; }
-.picklistCBg_HelpDesk_ticketstatus_Rejected { background: #e33d3d !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_HelpDesk_ticketstatus_Rejected { color: #e33d3d !important; }
-.picklistLb_HelpDesk_ticketstatus_Rejected { background: #e33d3d; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketpriorities_Low { border-color: 	#E6FAD8 !important; }
-.picklistCBg_HelpDesk_ticketpriorities_Low { background: 	#E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_HelpDesk_ticketpriorities_Low { color: 	#E6FAD8 !important; }
-.picklistLb_HelpDesk_ticketpriorities_Low { background: 	#E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketpriorities_Normal { border-color: 	#E6FAD8 !important; }
-.picklistCBg_HelpDesk_ticketpriorities_Normal { background: 	#E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_HelpDesk_ticketpriorities_Normal { color: 	#E6FAD8 !important; }
-.picklistLb_HelpDesk_ticketpriorities_Normal { background: 	#E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketpriorities_High { border-color: 	#E6FAD8 !important; }
-.picklistCBg_HelpDesk_ticketpriorities_High { background: 	#E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_HelpDesk_ticketpriorities_High { color: 	#E6FAD8 !important; }
-.picklistLb_HelpDesk_ticketpriorities_High { background: 	#E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_HelpDesk_ticketpriorities_Urgent { border-color: 	#E6FAD8 !important; }
-.picklistCBg_HelpDesk_ticketpriorities_Urgent { background: 	#E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_HelpDesk_ticketpriorities_Urgent { color: 	#E6FAD8 !important; }
-.picklistLb_HelpDesk_ticketpriorities_Urgent { background: 	#E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_PLL_PLANNED { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_PLL_PLANNED { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Project_projectstatus_PLL_PLANNED { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_PLL_PLANNED { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_PLL_ON_HOLD { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_PLL_ON_HOLD { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Project_projectstatus_PLL_ON_HOLD { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_PLL_ON_HOLD { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_PLL_IN_PROGRESSING { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_PLL_IN_PROGRESSING { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Project_projectstatus_PLL_IN_PROGRESSING { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_PLL_IN_PROGRESSING { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_PLL_IN_APPROVAL { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_PLL_IN_APPROVAL { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Project_projectstatus_PLL_IN_APPROVAL { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_PLL_IN_APPROVAL { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_PLL_COMPLETED { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_PLL_COMPLETED { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Project_projectstatus_PLL_COMPLETED { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_PLL_COMPLETED { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Project_projectstatus_PLL_CANCELLED { border-color: #E6FAD8 !important; }
-.picklistCBg_Project_projectstatus_PLL_CANCELLED { background: #E6FAD8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Project_projectstatus_PLL_CANCELLED { color: #E6FAD8 !important; }
-.picklistLb_Project_projectstatus_PLL_CANCELLED { background: #E6FAD8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME { border-color: #EDC240 !important; }
-.picklistCBg_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME { background: #EDC240 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME { color: #EDC240 !important; }
-.picklistLb_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME { background: #EDC240; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_OSSTimeControl_timecontrol_type_PLL_BREAK_TIME { border-color: #AFD8F8 !important; }
-.picklistCBg_OSSTimeControl_timecontrol_type_PLL_BREAK_TIME { background: #AFD8F8 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_OSSTimeControl_timecontrol_type_PLL_BREAK_TIME { color: #AFD8F8 !important; }
-.picklistLb_OSSTimeControl_timecontrol_type_PLL_BREAK_TIME { background: #AFD8F8; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME { border-color: #CB4B4B !important; }
-.picklistCBg_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME { background: #CB4B4B !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME { color: #CB4B4B !important; }
-.picklistLb_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME { background: #CB4B4B; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_OSSTimeControl_timecontrol_type_PLL_UNPAID_LEAVE { border-color: #5E666C !important; }
-.picklistCBg_OSSTimeControl_timecontrol_type_PLL_UNPAID_LEAVE { background: #5E666C !important; font-weight: 500 !important; color: white !important;}
-.picklistCT_OSSTimeControl_timecontrol_type_PLL_UNPAID_LEAVE { color: #5E666C !important; }
-.picklistLb_OSSTimeControl_timecontrol_type_PLL_UNPAID_LEAVE { background: #5E666C; color: white !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE { border-color: #9900FF !important; }
-.picklistCBg_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE { background: #9900FF !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE { color: #9900FF !important; }
-.picklistLb_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE { background: #9900FF; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Notification_notification_type_PLL_USERS { border-color: #1baee2 !important; }
-.picklistCBg_Notification_notification_type_PLL_USERS { background: #1baee2 !important; font-weight: 500 !important; color: white !important;}
-.picklistCT_Notification_notification_type_PLL_USERS { color: #1baee2 !important; }
-.picklistLb_Notification_notification_type_PLL_USERS { background: #1baee2; color: white !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
-.picklistCBr_Notification_notification_type_PLL_SYSTEM { border-color: #FF9800 !important; }
-.picklistCBg_Notification_notification_type_PLL_SYSTEM { background: #FF9800 !important; font-weight: 500 !important; color: black !important;}
-.picklistCT_Notification_notification_type_PLL_SYSTEM { color: #FF9800 !important; }
-.picklistLb_Notification_notification_type_PLL_SYSTEM { background: #FF9800; color: black !important; font-weight: 500 !important; padding: 2px 7px 3px 7px;}
+.picklistCBr_Leads_leadstatus_PLL_PENDING {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_Leads_leadstatus_PLL_PENDING {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_Leads_leadstatus_PLL_PENDING {
+	color: #e6fad8 !important;
+}
+.picklistLb_Leads_leadstatus_PLL_PENDING {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Leads_leadstatus_PLL_TO_REALIZE {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_Leads_leadstatus_PLL_TO_REALIZE {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_Leads_leadstatus_PLL_TO_REALIZE {
+	color: #e6fad8 !important;
+}
+.picklistLb_Leads_leadstatus_PLL_TO_REALIZE {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Leads_leadstatus_PLL_IN_REALIZATION {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_Leads_leadstatus_PLL_IN_REALIZATION {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_Leads_leadstatus_PLL_IN_REALIZATION {
+	color: #e6fad8 !important;
+}
+.picklistLb_Leads_leadstatus_PLL_IN_REALIZATION {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE {
+	color: #e6fad8 !important;
+}
+.picklistLb_Leads_leadstatus_PLL_CONTACTS_IN_THE_FUTURE {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Leads_leadstatus_PLL_INCORRECT {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_Leads_leadstatus_PLL_INCORRECT {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_Leads_leadstatus_PLL_INCORRECT {
+	color: #e6fad8 !important;
+}
+.picklistLb_Leads_leadstatus_PLL_INCORRECT {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Leads_leadstatus_PLL_LEAD_UNTAPPED {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_Leads_leadstatus_PLL_LEAD_UNTAPPED {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_Leads_leadstatus_PLL_LEAD_UNTAPPED {
+	color: #e6fad8 !important;
+}
+.picklistLb_Leads_leadstatus_PLL_LEAD_UNTAPPED {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Leads_leadstatus_PLL_LEAD_ACQUIRED {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_Leads_leadstatus_PLL_LEAD_ACQUIRED {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_Leads_leadstatus_PLL_LEAD_ACQUIRED {
+	color: #e6fad8 !important;
+}
+.picklistLb_Leads_leadstatus_PLL_LEAD_ACQUIRED {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Calendar_activitytype_Call {
+	border-color: #80b584 !important;
+}
+.picklistCBg_Calendar_activitytype_Call {
+	background: #80b584 !important;
+	font-weight: 500 !important;
+	color: white !important;
+}
+.picklistCT_Calendar_activitytype_Call {
+	color: #80b584 !important;
+}
+.picklistLb_Calendar_activitytype_Call {
+	background: #80b584;
+	color: white !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Calendar_activitytype_Meeting {
+	border-color: #ffd500 !important;
+}
+.picklistCBg_Calendar_activitytype_Meeting {
+	background: #ffd500 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_Calendar_activitytype_Meeting {
+	color: #ffd500 !important;
+}
+.picklistLb_Calendar_activitytype_Meeting {
+	background: #ffd500;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Calendar_activitytype_Task {
+	border-color: #00d4f5 !important;
+}
+.picklistCBg_Calendar_activitytype_Task {
+	background: #00d4f5 !important;
+	font-weight: 500 !important;
+	color: white !important;
+}
+.picklistCT_Calendar_activitytype_Task {
+	color: #00d4f5 !important;
+}
+.picklistLb_Calendar_activitytype_Task {
+	background: #00d4f5;
+	color: white !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_HelpDesk_ticketstatus_Open {
+	border-color: #855000 !important;
+}
+.picklistCBg_HelpDesk_ticketstatus_Open {
+	background: #855000 !important;
+	font-weight: 500 !important;
+	color: white !important;
+}
+.picklistCT_HelpDesk_ticketstatus_Open {
+	color: #855000 !important;
+}
+.picklistLb_HelpDesk_ticketstatus_Open {
+	background: #855000;
+	color: white !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_HelpDesk_ticketstatus_Wait_For_Response {
+	border-color: #ffa800 !important;
+}
+.picklistCBg_HelpDesk_ticketstatus_Wait_For_Response {
+	background: #ffa800 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_HelpDesk_ticketstatus_Wait_For_Response {
+	color: #ffa800 !important;
+}
+.picklistLb_HelpDesk_ticketstatus_Wait_For_Response {
+	background: #ffa800;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_HelpDesk_ticketstatus_Answered {
+	border-color: #0038ff !important;
+}
+.picklistCBg_HelpDesk_ticketstatus_Answered {
+	background: #0038ff !important;
+	font-weight: 500 !important;
+	color: white !important;
+}
+.picklistCT_HelpDesk_ticketstatus_Answered {
+	color: #0038ff !important;
+}
+.picklistLb_HelpDesk_ticketstatus_Answered {
+	background: #0038ff;
+	color: white !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS {
+	border-color: #fff500 !important;
+}
+.picklistCBg_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS {
+	background: #fff500 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS {
+	color: #fff500 !important;
+}
+.picklistLb_HelpDesk_ticketstatus_PLL_SUBMITTED_COMMENTS {
+	background: #fff500;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_HelpDesk_ticketstatus_In_Progress {
+	border-color: #42c6ff !important;
+}
+.picklistCBg_HelpDesk_ticketstatus_In_Progress {
+	background: #42c6ff !important;
+	font-weight: 500 !important;
+	color: white !important;
+}
+.picklistCT_HelpDesk_ticketstatus_In_Progress {
+	color: #42c6ff !important;
+}
+.picklistLb_HelpDesk_ticketstatus_In_Progress {
+	background: #42c6ff;
+	color: white !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_HelpDesk_ticketstatus_PLL_FOR_APPROVAL {
+	border-color: #8c4381 !important;
+}
+.picklistCBg_HelpDesk_ticketstatus_PLL_FOR_APPROVAL {
+	background: #8c4381 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_HelpDesk_ticketstatus_PLL_FOR_APPROVAL {
+	color: #8c4381 !important;
+}
+.picklistLb_HelpDesk_ticketstatus_PLL_FOR_APPROVAL {
+	background: #8c4381;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_HelpDesk_ticketstatus_PLL_TO_CLOSE {
+	border-color: #ffb0e7 !important;
+}
+.picklistCBg_HelpDesk_ticketstatus_PLL_TO_CLOSE {
+	background: #ffb0e7 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_HelpDesk_ticketstatus_PLL_TO_CLOSE {
+	color: #ffb0e7 !important;
+}
+.picklistLb_HelpDesk_ticketstatus_PLL_TO_CLOSE {
+	background: #ffb0e7;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_HelpDesk_ticketstatus_Closed {
+	border-color: #00ff43 !important;
+}
+.picklistCBg_HelpDesk_ticketstatus_Closed {
+	background: #00ff43 !important;
+	font-weight: 500 !important;
+	color: white !important;
+}
+.picklistCT_HelpDesk_ticketstatus_Closed {
+	color: #00ff43 !important;
+}
+.picklistLb_HelpDesk_ticketstatus_Closed {
+	background: #00ff43;
+	color: white !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_HelpDesk_ticketstatus_Rejected {
+	border-color: #e33d3d !important;
+}
+.picklistCBg_HelpDesk_ticketstatus_Rejected {
+	background: #e33d3d !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_HelpDesk_ticketstatus_Rejected {
+	color: #e33d3d !important;
+}
+.picklistLb_HelpDesk_ticketstatus_Rejected {
+	background: #e33d3d;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_HelpDesk_ticketpriorities_Low {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_HelpDesk_ticketpriorities_Low {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_HelpDesk_ticketpriorities_Low {
+	color: #e6fad8 !important;
+}
+.picklistLb_HelpDesk_ticketpriorities_Low {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_HelpDesk_ticketpriorities_Normal {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_HelpDesk_ticketpriorities_Normal {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_HelpDesk_ticketpriorities_Normal {
+	color: #e6fad8 !important;
+}
+.picklistLb_HelpDesk_ticketpriorities_Normal {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_HelpDesk_ticketpriorities_High {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_HelpDesk_ticketpriorities_High {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_HelpDesk_ticketpriorities_High {
+	color: #e6fad8 !important;
+}
+.picklistLb_HelpDesk_ticketpriorities_High {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_HelpDesk_ticketpriorities_Urgent {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_HelpDesk_ticketpriorities_Urgent {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_HelpDesk_ticketpriorities_Urgent {
+	color: #e6fad8 !important;
+}
+.picklistLb_HelpDesk_ticketpriorities_Urgent {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Project_projectstatus_PLL_PLANNED {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_Project_projectstatus_PLL_PLANNED {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_Project_projectstatus_PLL_PLANNED {
+	color: #e6fad8 !important;
+}
+.picklistLb_Project_projectstatus_PLL_PLANNED {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Project_projectstatus_PLL_ON_HOLD {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_Project_projectstatus_PLL_ON_HOLD {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_Project_projectstatus_PLL_ON_HOLD {
+	color: #e6fad8 !important;
+}
+.picklistLb_Project_projectstatus_PLL_ON_HOLD {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Project_projectstatus_PLL_IN_PROGRESSING {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_Project_projectstatus_PLL_IN_PROGRESSING {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_Project_projectstatus_PLL_IN_PROGRESSING {
+	color: #e6fad8 !important;
+}
+.picklistLb_Project_projectstatus_PLL_IN_PROGRESSING {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Project_projectstatus_PLL_IN_APPROVAL {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_Project_projectstatus_PLL_IN_APPROVAL {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_Project_projectstatus_PLL_IN_APPROVAL {
+	color: #e6fad8 !important;
+}
+.picklistLb_Project_projectstatus_PLL_IN_APPROVAL {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Project_projectstatus_PLL_COMPLETED {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_Project_projectstatus_PLL_COMPLETED {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_Project_projectstatus_PLL_COMPLETED {
+	color: #e6fad8 !important;
+}
+.picklistLb_Project_projectstatus_PLL_COMPLETED {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Project_projectstatus_PLL_CANCELLED {
+	border-color: #e6fad8 !important;
+}
+.picklistCBg_Project_projectstatus_PLL_CANCELLED {
+	background: #e6fad8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_Project_projectstatus_PLL_CANCELLED {
+	color: #e6fad8 !important;
+}
+.picklistLb_Project_projectstatus_PLL_CANCELLED {
+	background: #e6fad8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME {
+	border-color: #edc240 !important;
+}
+.picklistCBg_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME {
+	background: #edc240 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME {
+	color: #edc240 !important;
+}
+.picklistLb_OSSTimeControl_timecontrol_type_PLL_WORKING_TIME {
+	background: #edc240;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_OSSTimeControl_timecontrol_type_PLL_BREAK_TIME {
+	border-color: #afd8f8 !important;
+}
+.picklistCBg_OSSTimeControl_timecontrol_type_PLL_BREAK_TIME {
+	background: #afd8f8 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_OSSTimeControl_timecontrol_type_PLL_BREAK_TIME {
+	color: #afd8f8 !important;
+}
+.picklistLb_OSSTimeControl_timecontrol_type_PLL_BREAK_TIME {
+	background: #afd8f8;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME {
+	border-color: #cb4b4b !important;
+}
+.picklistCBg_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME {
+	background: #cb4b4b !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME {
+	color: #cb4b4b !important;
+}
+.picklistLb_OSSTimeControl_timecontrol_type_PLL_HOLIDAY_TIME {
+	background: #cb4b4b;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_OSSTimeControl_timecontrol_type_PLL_UNPAID_LEAVE {
+	border-color: #5e666c !important;
+}
+.picklistCBg_OSSTimeControl_timecontrol_type_PLL_UNPAID_LEAVE {
+	background: #5e666c !important;
+	font-weight: 500 !important;
+	color: white !important;
+}
+.picklistCT_OSSTimeControl_timecontrol_type_PLL_UNPAID_LEAVE {
+	color: #5e666c !important;
+}
+.picklistLb_OSSTimeControl_timecontrol_type_PLL_UNPAID_LEAVE {
+	background: #5e666c;
+	color: white !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE {
+	border-color: #9900ff !important;
+}
+.picklistCBg_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE {
+	background: #9900ff !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE {
+	color: #9900ff !important;
+}
+.picklistLb_OSSTimeControl_timecontrol_type_PLL_SICK_LEAVE {
+	background: #9900ff;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Notification_notification_type_PLL_USERS {
+	border-color: #1baee2 !important;
+}
+.picklistCBg_Notification_notification_type_PLL_USERS {
+	background: #1baee2 !important;
+	font-weight: 500 !important;
+	color: white !important;
+}
+.picklistCT_Notification_notification_type_PLL_USERS {
+	color: #1baee2 !important;
+}
+.picklistLb_Notification_notification_type_PLL_USERS {
+	background: #1baee2;
+	color: white !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}
+.picklistCBr_Notification_notification_type_PLL_SYSTEM {
+	border-color: #ff9800 !important;
+}
+.picklistCBg_Notification_notification_type_PLL_SYSTEM {
+	background: #ff9800 !important;
+	font-weight: 500 !important;
+	color: black !important;
+}
+.picklistCT_Notification_notification_type_PLL_SYSTEM {
+	color: #ff9800 !important;
+}
+.picklistLb_Notification_notification_type_PLL_SYSTEM {
+	background: #ff9800;
+	color: black !important;
+	font-weight: 500 !important;
+	padding: 2px 7px 3px 7px;
+}

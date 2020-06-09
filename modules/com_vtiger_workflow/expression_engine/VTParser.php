@@ -21,7 +21,7 @@ class VTExpressionTreeNode
 	{
 		$arr = $this->arr;
 
-		return array_slice($arr, 1, count($arr) - 1);
+		return \array_slice($arr, 1, \count($arr) - 1);
 	}
 
 	public function getName()

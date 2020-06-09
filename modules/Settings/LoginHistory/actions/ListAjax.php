@@ -7,7 +7,7 @@
  */
 class Settings_LoginHistory_ListAjax_Action extends Settings_Vtiger_ListAjax_Action
 {
-	public function getListViewCount(\App\Request $request)
+	public function getListViewCount(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 

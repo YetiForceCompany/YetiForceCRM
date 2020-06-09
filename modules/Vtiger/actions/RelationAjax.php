@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -12,8 +13,8 @@
 class Vtiger_RelationAjax_Action extends \App\Controller\Action
 {
 	use
-		\App\Controller\ExposeMethod,
-		App\Controller\ClearProcess;
+		\App\Controller\ExposeMethod;
+	use App\Controller\ClearProcess;
 
 	/**
 	 * {@inheritdoc}

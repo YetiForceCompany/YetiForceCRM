@@ -5,9 +5,9 @@ jQuery.Class(
 	'Settings_Mail_Detail_Js',
 	{},
 	{
-		registerRemoveEvents: function() {
+		registerRemoveEvents: function () {
 			var container = jQuery('.contentsDiv');
-			container.on('click', '.js-delete', function() {
+			container.on('click', '.js-delete', function () {
 				var progressIndicator = jQuery.progressIndicator();
 				AppConnector.request({
 					module: app.getModuleName(),
@@ -15,18 +15,18 @@ jQuery.Class(
 					action: 'DeleteAjax',
 					record: $('#recordId').val()
 				})
-					.done(function(data) {
+					.done(function (data) {
 						progressIndicator.progressIndicator({ mode: 'hide' });
 						window.location.href = data.result;
 					})
-					.fail(function(error) {
+					.fail(function (error) {
 						progressIndicator.progressIndicator({ mode: 'hide' });
 					});
 			});
 		},
-		registerAcceptanceEvent: function() {
+		registerAcceptanceEvent: function () {
 			var container = jQuery('.contentsDiv');
-			container.on('click', '.acceptanceRecord', function(e) {
+			container.on('click', '.acceptanceRecord', function (e) {
 				var elem = this;
 				var progressIndicator = jQuery.progressIndicator();
 				AppConnector.request({
@@ -36,19 +36,19 @@ jQuery.Class(
 					mode: 'acceptanceRecord',
 					id: $('#recordId').val()
 				})
-					.done(function(data) {
+					.done(function (data) {
 						progressIndicator.progressIndicator({ mode: 'hide' });
 						Settings_Vtiger_Index_Js.showMessage({ text: data.result.message });
 						$(elem).remove();
 					})
-					.fail(function(error) {
+					.fail(function (error) {
 						progressIndicator.progressIndicator({ mode: 'hide' });
 					});
 			});
 		},
-		sendMailManually: function() {
+		sendMailManually: function () {
 			const container = $('.contentsDiv');
-			container.on('click', '.sendManually', function(e) {
+			container.on('click', '.sendManually', function (e) {
 				const progressIndicator = $.progressIndicator();
 				AppConnector.request({
 					module: app.getModuleName(),
@@ -56,7 +56,7 @@ jQuery.Class(
 					action: 'SendManuallyAjax',
 					id: container.find('#recordId').val()
 				})
-					.done(function(data) {
+					.done(function (data) {
 						progressIndicator.progressIndicator({ mode: 'hide' });
 						Settings_Vtiger_Index_Js.showMessage({
 							text: data.result.message,
@@ -65,12 +65,12 @@ jQuery.Class(
 						container.find('.sendManually').remove();
 						container.find('.deleteButton').remove();
 					})
-					.fail(function(error) {
+					.fail(function (error) {
 						progressIndicator.progressIndicator({ mode: 'hide' });
 					});
 			});
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			this.registerAcceptanceEvent();
 			this.sendMailManually();
 			this.registerRemoveEvents();

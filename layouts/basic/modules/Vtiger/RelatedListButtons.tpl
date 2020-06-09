@@ -26,7 +26,7 @@
 							{* Assuming most of the related link label would be module name - we perform dual translation *}
 								<a href="javascript:void(0);" class="nav-link u-text-ellipsis" title="{$DETAILVIEWRELATEDLINKLBL}">
 									{if App\Config::relation('SHOW_RELATED_ICON')}
-										<span class="iconModule userIcon-{$RELATED_LINK->getRelatedModuleName()}{if $SHOW_RELATED_TAB_NAME} mr-1{/if}"></span>
+										<span class="iconModule yfm-{$RELATED_LINK->getRelatedModuleName()}{if $SHOW_RELATED_TAB_NAME} mr-1{/if}"></span>
 									{/if}
 									<span class="{if !$SHOW_RELATED_TAB_NAME}c-tab__text d-none{/if}">{$DETAILVIEWRELATEDLINKLBL}</span>
 									{if App\Config::relation('SHOW_RECORDS_COUNT')}

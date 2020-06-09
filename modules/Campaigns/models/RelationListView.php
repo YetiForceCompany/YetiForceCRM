@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -22,7 +23,7 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relatedModuleName = $relatedModuleModel->getName();
 		$id = $this->getParentRecordModel()->getId();
-		if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition']) && $relatedModuleModel->isPermitted('MassComposeEmail') && App\Config::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
+		if (\in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition']) && $relatedModuleModel->isPermitted('MassComposeEmail') && App\Config::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
 			$emailLink = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => \App\Language::translate('LBL_SEND_EMAIL', $relatedModuleName),

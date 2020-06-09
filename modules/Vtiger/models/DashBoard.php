@@ -67,7 +67,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 
 		while ($row = $dataReader->read()) {
 			$row['linkid'] = $row['id'];
-			if ($row['linklabel'] === 'Mini List') {
+			if ('Mini List' === $row['linklabel']) {
 				if (empty($row['isdefault']) && \App\Privilege::isPermitted($moduleModel->getName(), 'CreateDashboardFilter', false, false)) {
 					$row['deleteFromList'] = true;
 				}
@@ -76,7 +76,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
 				$widgets[] = $minilistWidget;
-			} elseif ($row['linklabel'] === 'ChartFilter') {
+			} elseif ('ChartFilter' === $row['linklabel']) {
 				if (!$row['isdefault'] && \App\Privilege::isPermitted($moduleModel->getName(), 'CreateDashboardChartFilter', false, false)) {
 					$row['deleteFromList'] = true;
 				}
@@ -98,7 +98,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 			$filterid = $widget->get('filterid');
 			$module = $this->getModuleNameFromLink($url, $label);
 
-			if ($module === 'Home' && !empty($filterid) && !empty($data)) {
+			if ('Home' === $module && !empty($filterid) && !empty($data)) {
 				$filterData = \App\Json::decode(htmlspecialchars_decode($data));
 				$module = $filterData['module'];
 			}
@@ -121,7 +121,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 	{
 		$params = vtlib\Functions::getQueryParams($linkUrl);
 		$module = $params['module'];
-		if ($linkLabel == 'Overdue Activities' || $linkLabel == 'Upcoming Activities') {
+		if ('Overdue Activities' == $linkLabel || 'Upcoming Activities' == $linkLabel) {
 			$module = 'Calendar';
 		}
 		return $module;
@@ -142,7 +142,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ')');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$blockId = Settings_WidgetsManagement_Module_Model::getBlocksFromModule($moduleName, $currentUser->getRole(), $this->get('dashboardId'));
-		if (count($blockId) == 0) {
+		if (0 == \count($blockId)) {
 			\App\Log::trace('Exiting ' . __METHOD__);
 
 			return;
@@ -203,6 +203,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 	 * Function to get modules with widgets.
 	 *
 	 * @param string $moduleName - module name
+	 * @param mixed  $dashboard
 	 *
 	 * @return <Array> $modules
 	 */

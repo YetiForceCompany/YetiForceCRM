@@ -9,21 +9,21 @@ jQuery.Class(
 		treeInstance: false,
 		treeData: false,
 		windowParent: app.getWindowParent(),
-		getModalContainer: function() {
+		getModalContainer: function () {
 			if (this.modalContainer == false) {
 				this.modalContainer = jQuery('#modalTreeCategoryModal');
 			}
 			return this.modalContainer;
 		},
-		getRecords: function(container) {
+		getRecords: function (container) {
 			if (this.treeData == false && container !== 'undefined') {
-				var treeValues = container.find('#treePopupValues').val();
+				let treeValues = container.find('#treePopupValues').val();
 				this.treeData = JSON.parse(treeValues);
 			}
 			return this.treeData;
 		},
-		generateTree: function(container) {
-			var thisInstance = this;
+		generateTree: function (container) {
+			let thisInstance = this;
 			if (thisInstance.treeInstance == false) {
 				thisInstance.treeInstance = container.find('#treePopupContents');
 				let plugins = ['search', 'category'];
@@ -54,32 +54,30 @@ jQuery.Class(
 				);
 			}
 		},
-		getRelationType: function() {
-			return this.getModalContainer()
-				.find('#relationType')
-				.val();
+		getRelationType: function () {
+			return this.getModalContainer().find('#relationType').val();
 		},
-		searching: function(text) {
+		searching: function (text) {
 			this.treeInstance.jstree(true).search(text);
 		},
-		registerSearchEvent: function() {
-			var thisInstance = this;
-			var valueSearch = $('#valueSearchTree');
-			var btnSearch = $('#btnSearchTree');
-			valueSearch.on('keypress', function(e) {
+		registerSearchEvent: function () {
+			let thisInstance = this;
+			let valueSearch = $('#valueSearchTree');
+			let btnSearch = $('#btnSearchTree');
+			valueSearch.on('keypress', function (e) {
 				if (e.which == 13) {
 					thisInstance.searching(valueSearch.val());
 				}
 			});
-			btnSearch.on('click', function() {
+			btnSearch.on('click', function () {
 				thisInstance.searching(valueSearch.val());
 			});
 		},
-		registerSaveRecords: function(container) {
+		registerSaveRecords: function (container) {
 			const thisInstance = this;
 			let ord = [],
 				ocd = [];
-			$.each(thisInstance.getRecords(), function(index, value) {
+			$.each(thisInstance.getRecords(), function (index, value) {
 				if (value.state && value.state.selected && value.attr === 'record') {
 					ord.push(value.record_id);
 				}
@@ -87,7 +85,7 @@ jQuery.Class(
 					ocd.push(value.record_id);
 				}
 			});
-			container.find('[name="saveButton"]').on('click', function(e) {
+			container.find('[name="saveButton"]').on('click', function (e) {
 				let recordsToAdd = [],
 					categoryToAdd = [],
 					recordsToRemove = Object.assign([], ord),
@@ -95,7 +93,7 @@ jQuery.Class(
 				let saveButton = $(this);
 				saveButton.attr('disabled', 'disabled');
 				let cSelected = thisInstance.treeInstance.jstree('getCategory', true);
-				$.each(cSelected, function(index, treeElement) {
+				$.each(cSelected, function (index, treeElement) {
 					let value = treeElement.record_id;
 					if (treeElement.attr === 'record') {
 						if (jQuery.inArray(value, recordsToRemove) == -1) {
@@ -125,19 +123,21 @@ jQuery.Class(
 				if (recordsToAdd.length > 4) {
 					bootbox.dialog({
 						title: app.vtranslate('JS_INFORMATION'),
-						message: app.vtranslate('JS_SAVE_SELECTED_ITEMS_ALERT').replace('__LENGTH__', recordsToAdd.length),
+						message: app
+							.vtranslate('JS_SAVE_SELECTED_ITEMS_ALERT')
+							.replace('__LENGTH__', recordsToAdd.length),
 						buttons: {
 							success: {
 								label: app.vtranslate('JS_LBL_SAVE'),
 								className: 'btn-success',
-								callback: function() {
+								callback: function () {
 									thisInstance.saveRecordsEvent(params);
 								}
 							},
 							danger: {
 								label: app.vtranslate('JS_LBL_CANCEL'),
 								className: 'btn-warning',
-								callback: function() {
+								callback: function () {
 									saveButton.removeAttr('disabled');
 								}
 							}
@@ -148,20 +148,20 @@ jQuery.Class(
 				}
 			});
 		},
-		saveRecordsEvent: function(params) {
+		saveRecordsEvent: function (params) {
 			const self = this;
-			AppConnector.request(params).done(function(res) {
+			AppConnector.request(params).done(function (res) {
 				self.windowParent.Vtiger_Detail_Js.getInstance().reloadTabContent();
 				app.hideModalWindow();
 			});
 		},
-		registerCounterSelected: function() {
-			var thisInstance = this;
-			this.treeInstance.on('changed.jstree', function(e, data) {
-				var counterSelected = 0;
-				var html = '';
-				$.each(thisInstance.treeInstance.jstree('get_selected', true), function(index, value) {
-					var id = value.original.record_id.toString();
+		registerCounterSelected: function () {
+			let thisInstance = this;
+			this.treeInstance.on('changed.jstree', function (e, data) {
+				let counterSelected = 0;
+				let html = '';
+				$.each(thisInstance.treeInstance.jstree('get_selected', true), function (index, value) {
+					let id = value.original.record_id.toString();
 					if (id.indexOf('T')) {
 						counterSelected++;
 					}
@@ -170,8 +170,8 @@ jQuery.Class(
 				$('.counterSelected').text(html);
 			});
 		},
-		registerEvents: function() {
-			var container = this.getModalContainer();
+		registerEvents: function () {
+			let container = this.getModalContainer();
 			this.getRecords(container);
 			this.generateTree(container);
 			this.registerSaveRecords(container);
@@ -180,7 +180,7 @@ jQuery.Class(
 		}
 	}
 );
-jQuery(function() {
-	var instance = new Vtiger_TreeCategory_Js();
+jQuery(function () {
+	let instance = new Vtiger_TreeCategory_Js();
 	instance.registerEvents();
 });

@@ -80,7 +80,6 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to get the instance of Config module model.
 	 *
-	 *
 	 * @param mixed $name
 	 *
 	 * @throws \ReflectionException

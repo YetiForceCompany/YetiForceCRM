@@ -19,7 +19,7 @@ class Chat
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			\App\Db::getInstance()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 		}
 	}

@@ -14,6 +14,7 @@
 	<div class='editViewContainer'>
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php"
 			  enctype="multipart/form-data">
+			<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
 			{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 				<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
 			{/if}
@@ -47,12 +48,15 @@
 			{foreach from=$RECORD->getModule()->getFieldsByDisplayType(9) item=FIELD key=FIELD_NAME}
 				<input type="hidden" name="{$FIELD_NAME}" value="{$FIELD->getEditViewValue($RECORD->get($FIELD_NAME),$RECORD)}"/>
 			{/foreach}
-			<div class='o-breadcrumb widget_header row mb-3'>
-				<div class="col-md-8">
-					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
+			{assign var="BREADCRUMBS_ACTIVE" value=App\Config::layout('breadcrumbs')}
+			{if $BREADCRUMBS_ACTIVE}
+				<div class='o-breadcrumb widget_header row mb-3'>
+					<div class="col-md-8">
+						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
+					</div>
 				</div>
-			</div>
-			<div class="row mb-3 mx-0">
+			{/if}
+			<div class="row mb-3 mx-0 {if !$BREADCRUMBS_ACTIVE}mt-3{/if}">
 				{if $EDIT_VIEW_LAYOUT}
 					{assign var=COLUMNS_SIZES value=['col-xl-4', 'col-xl-8']}
 				{else}
@@ -61,7 +65,9 @@
 				{foreach item=COLUMN_SIZE from=$COLUMNS_SIZES}
 				<div class="{$COLUMN_SIZE} px-2">
 					{if $EDIT_VIEW_LAYOUT && 'col-xl-8' === $COLUMN_SIZE}
-						{include file=\App\Layout::getTemplatePath('Edit/Inventory.tpl', $MODULE)}
+						{if 1 === $MODULE_TYPE}
+							{include file=\App\Layout::getTemplatePath('Edit/Inventory.tpl', $MODULE)}
+						{/if}
 						{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_RIGHT}
 					{else}
 						{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE}
@@ -77,7 +83,7 @@
 						 data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
 						 data-label="{$BLOCK_LABEL}">
 						<div class="blockHeader c-panel__header align-items-center">
-							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
+							{if in_array($BLOCK_LABEL, $ADDRESS_BLOCK_LABELS)}
 								{assign var=SEARCH_ADDRESS value=TRUE}
 							{else}
 								{assign var=SEARCH_ADDRESS value=FALSE}
@@ -92,7 +98,7 @@
 						</div>
 						<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
 							 data-js="display">
-							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
+							{if in_array($BLOCK_LABEL, $ADDRESS_BLOCK_LABELS)}
 								<div class="{if !$SEARCH_ADDRESS} {/if} adressAction row py-2 justify-content-center">
 									{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE)}
 								</div>
@@ -124,7 +130,7 @@
 								{else} col-md-12 m-auto{/if} fieldRow row form-group align-items-center my-1">
 										{/if}
 											{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
-										<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">
+										<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">
 											{if $FIELD_MODEL->isMandatory() eq true}
 												<span class="redColor">*</span>
 											{/if}

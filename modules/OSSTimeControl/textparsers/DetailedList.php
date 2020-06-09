@@ -60,7 +60,7 @@ class OSSTimeControl_DetailedList_Textparser extends \App\TextParser\Base
 				$columnName = $column->getName();
 				if ('date_start' === $columnName) {
 					$style = $styleDate;
-					$value = \App\Fields\DateTime::formatToViewDate($recordModel->getDisplayValue($columnName) . ' ' . $recordModel->getDisplayValue('time_start'));
+					$value = \App\Fields\DateTime::formatToDisplay($recordModel->getDisplayValue($columnName) . ' ' . $recordModel->getDisplayValue('time_start'));
 				} else {
 					$value = $recordModel->getDisplayValue($columnName);
 				}

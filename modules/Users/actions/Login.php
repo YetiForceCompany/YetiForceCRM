@@ -133,12 +133,6 @@ class Users_Login_Action extends \App\Controller\Action
 		$this->userRecordModel = Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
 		if (!empty($password) && $this->userRecordModel->doLogin($password)) {
 			$this->userModel = App\User::getUserModel($this->userRecordModel->getId());
-			if ('PASSWORD' === \App\Session::get('UserAuthMethod') && $this->userRecordModel->verifyPasswordChange($this->userModel)) {
-				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_YOUR_PASSWORD_HAS_EXPIRED', 'Users'));
-				\App\Session::set('UserLoginMessageType', 'error');
-				header('location: index.php');
-				return true;
-			}
 			$this->afterLogin($request);
 			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($userName)); //Track the login History
 			if ($this->isMultiFactorAuthentication() && !Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
@@ -181,6 +175,12 @@ class Users_Login_Action extends \App\Controller\Action
 		\App\Session::set('full_user_name', $this->userModel->getName());
 		\App\Session::set('fingerprint', $request->get('fingerprint'));
 		\App\Session::set('user_agent', \App\Request::_getServer('HTTP_USER_AGENT', ''));
+		if ('PASSWORD' === \App\Session::get('UserAuthMethod')) {
+			\App\Extension\PwnedPassword::afterLogin($request->getRaw('password'));
+			if (!\App\Session::has('ShowUserPwnedPasswordChange')) {
+				$this->userRecordModel->verifyPasswordChange($this->userModel);
+			}
+		}
 		if ($request->has('loginLanguage') && App\Config::main('langInLoginView')) {
 			\App\Session::set('language', $request->getByType('loginLanguage'));
 		}

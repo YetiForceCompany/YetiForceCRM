@@ -3,6 +3,8 @@
 /**
  * Address finder YetiForce geocoder file.
  *
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -68,12 +70,12 @@ class YetiForceGeocoder extends Base
 		}
 		$rows = [];
 		try {
-			$response = (new \GuzzleHttp\Client(\array_merge(\App\RequestHttp::getOptions(), ['InsKey' => \App\YetiForce\Register::getInstanceKey()])))
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
 				->request('GET', 'https://osm-search.yetiforce.eu/?' . \http_build_query($params), [
-					'auth' => [$product['params']['login'], $product['params']['pass']]
+					'auth' => [$product['params']['login'], $product['params']['pass']], 'headers' => ['InsKey' => \App\YetiForce\Register::getInstanceKey()]
 				]);
 			if (200 !== $response->getStatusCode()) {
-				throw new \App\Exceptions\AppException('Error with connection |' . $response->getStatusCode());
+				throw new \App\Exceptions\AppException('Error with connection |' . $response->getReasonPhrase() . '|' . $response->getBody());
 			}
 			$body = $response->getBody();
 			$body = \App\Json::isEmpty($body) ? [] : \App\Json::decode($body);
@@ -95,7 +97,7 @@ class YetiForceGeocoder extends Base
 				}
 			}
 		} catch (\Throwable $ex) {
-			\App\Log::warning('Error - ' . __CLASS__ . ' - ' . $ex->getMessage());
+			\App\Log::error('Error - ' . $ex->getMessage(), __CLASS__);
 		}
 		return $rows;
 	}

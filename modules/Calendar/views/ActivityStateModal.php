@@ -26,7 +26,7 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if ($request->isEmpty('record', true) || !\App\Privilege::isPermitted($request->getModule(), 'EditView', $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -36,7 +36,7 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -49,7 +49,7 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getScripts(\App\Request $request)
+	public function getScripts(App\Request $request)
 	{
 		return $this->checkAndConvertJsScripts([
 			'modules.' . $request->getModule() . '.resources.ActivityStateModal'

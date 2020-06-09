@@ -56,11 +56,7 @@ class _ModuleName_ extends Vtiger_CRMEntity
 		'<entityfieldlabel>' => ['<modulename>', '<entitycolumn>'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'<entityfieldlabel>' => '<entityfieldname>',
-		'Assigned To' => 'assigned_user_id',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['<entityfieldname>'];
 	// For Alphabetical search
@@ -76,16 +72,16 @@ class _ModuleName_ extends Vtiger_CRMEntity
 	/**
 	 * Invoked when special actions are performed on the module.
 	 *
-	 * @param string Module name
-	 * @param string Event Type
+	 * @param string $moduleName Module name
+	 * @param string $eventType  Event Type
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
-		} elseif ($eventType === 'module.disabled') {
-		} elseif ($eventType === 'module.preuninstall') {
-		} elseif ($eventType === 'module.preupdate') {
-		} elseif ($eventType === 'module.postupdate') {
+		if ('module.postinstall' === $eventType) {
+		} elseif ('module.disabled' === $eventType) {
+		} elseif ('module.preuninstall' === $eventType) {
+		} elseif ('module.preupdate' === $eventType) {
+		} elseif ('module.postupdate' === $eventType) {
 		}
 	}
 }

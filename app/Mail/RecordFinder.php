@@ -55,9 +55,9 @@ class RecordFinder
 		foreach ($modulesFields as $module => $fieldsByType) {
 			foreach ($fieldsByType as $uiType => $fields) {
 				if (319 === $uiType) {
-					$ids = array_merge_recursive($ids, static::findByDomainField($module, $fields, $emails));
+					$ids = array_replace_recursive($ids, static::findByDomainField($module, $fields, $emails));
 				} else {
-					$ids = array_merge_recursive($ids, static::findByEmailField($module, $fields, $emails));
+					$ids = array_replace_recursive($ids, static::findByEmailField($module, $fields, $emails));
 				}
 			}
 		}
@@ -102,7 +102,7 @@ class RecordFinder
 				foreach ($activeFields as $field) {
 					$rowEmail = $row[$field];
 					if (\in_array($rowEmail, $emails)) {
-						self::$emailsCache[$moduleName][$rowEmail] = $return[$rowEmail][] = $row['id'];
+						self::$emailsCache[$moduleName][$rowEmail][] = $return[$rowEmail][] = $row['id'];
 						unset($emails[array_search($rowEmail, $emails)]);
 					}
 				}
@@ -151,7 +151,7 @@ class RecordFinder
 						foreach ($intersectRows as $intersectRow) {
 							if (isset($domainsAndEmails[$intersectRow])) {
 								foreach ($domainsAndEmails[$intersectRow] as $email) {
-									self::$domainCache[$moduleName][$email] = $return[$email][] = $row['id'];
+									self::$domainCache[$moduleName][$email][] = $return[$email][] = $row['id'];
 									unset($emails[array_search($email, $emails)]);
 								}
 							}

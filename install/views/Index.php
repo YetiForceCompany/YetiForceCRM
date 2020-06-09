@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -12,7 +13,10 @@
 class Install_Index_View extends \App\Controller\View\Base
 {
 	use \App\Controller\ExposeMethod;
-
+	/**
+	 * {@inheritdoc}
+	 */
+	public $csrfActive = false;
 	/**
 	 * @var bool
 	 */
@@ -160,7 +164,11 @@ class Install_Index_View extends \App\Controller\View\Base
 		}
 		$this->viewer->assign('LIBRARIES', \App\Installer\Credits::getCredits());
 		$this->viewer->assign('LICENSE', nl2br($license));
-		$this->viewer->display('StepLicense.tpl');
+		if ($request->getRaw('session_id') !== session_id()) {
+			$this->viewer->display('SessionError.tpl');
+		} else {
+			$this->viewer->display('StepLicense.tpl');
+		}
 	}
 
 	/**
@@ -387,6 +395,7 @@ class Install_Index_View extends \App\Controller\View\Base
 			try {
 				$initSchema->initialize();
 				$initSchema->setCompanyDetails($request);
+				chmod(ROOT_DIRECTORY . '/cron/cron.sh', 0744);
 			} catch (\Throwable $e) {
 				$_SESSION['installation_success'] = false;
 				\App\Log::error($e->__toString());

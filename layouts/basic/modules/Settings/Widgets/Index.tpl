@@ -50,7 +50,7 @@
 									<div class="col-md-4">
 											<span class="float-right">
 												<button class="btn btn-sm btn-primary js-widget__edit mr-1" data-js="click">
-													<i class="u-cursor-pointer fas fa-edit" title="{\App\Language::translate('Edit', $QUALIFIED_MODULE)}"></i>
+													<i class="u-cursor-pointer yfi yfi-full-editing-view" title="{\App\Language::translate('Edit', $QUALIFIED_MODULE)}"></i>
 												</button>
 												<button class="btn btn-sm btn-danger js-widget__remove" data-js="click">
 													<i class="u-cursor-pointer fas fa-times" title="{\App\Language::translate('Remove', $QUALIFIED_MODULE)}"></i>

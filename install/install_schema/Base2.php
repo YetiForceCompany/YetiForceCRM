@@ -6936,7 +6936,7 @@ class Base2 extends \App\Db\Importers\Base
 					[103, 2205, 'attention', 'vtiger_crmentity', 1, 300, 'attention', 'Attention', 1, 2, '', 100, 1, 345, 1, 'V~O', 1, null, 'BAS', 1, '', 0, '', null, 0, 0],
 					[103, 2206, 'accountid', 'u_yf_ipreorder', 1, 10, 'accountid', 'FL_ACCOUNT', 1, 2, '', 100, 3, 333, 1, 'V~M', 1, null, 'BAS', 1, '', 1, '', null, 0, 0],
 					[103, 2207, 'acceptance_date', 'u_yf_ipreorder', 1, 5, 'acceptance_date', 'FL_ACCEPTANCE_DATE', 1, 2, '', 100, 5, 333, 1, 'D~O', 2, 1, 'BAS', 1, '', 1, '', null, 0, 0],
-					[14, 2208, 'ean', 'vtiger_products', 1, 1, 'ean', 'FL_EAN_13', 1, 2, '', 100, 28, 31, 1, 'V~O', 2, 3, 'BAS', 1, '', 1, '9999999999999', null, 0, 0],
+					[14, 2208, 'ean', 'vtiger_products', 1, 1, 'ean', 'FL_EAN_SKU', 1, 2, '', 100, 28, 31, 1, 'V~O', 2, 3, 'BAS', 1, '', 1, '9999999999999', null, 0, 0],
 					[98, 2209, 'sum_total', 'u_yf_igrn', 1, 7, 'sum_total', 'LBL_TOTAL_PRICE', 1, 2, '', 100, 4, 322, 2, 'NN~O', 1, null, 'BAS', 1, '', 0, '', null, 0, 0],
 					[96, 2210, 'knowledgebase_view', 'u_yf_knowledgebase', 1, 16, 'knowledgebase_view', 'FL_VIEWS', 1, 2, '', 100, 8, 314, 1, 'V~M', 2, 4, 'BAS', 1, '', 1, '', '0', 0, 0],
 					[97, 2211, 'addresslevel1a', 'u_yf_istorages_address', 1, 1, 'addresslevel1a', 'AddressLevel1', 1, 2, '', 100, 8, 346, 1, 'V~O', 1, null, 'BAS', 1, '', 0, '', null, 0, 0],

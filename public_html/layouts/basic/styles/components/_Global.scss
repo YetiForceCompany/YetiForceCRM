@@ -36,12 +36,12 @@ body:not(.desktop) {
 	&__header {
 		@extend .card-header;
 		cursor: pointer;
-		padding: 0.25rem 0;
+		padding: 0;
 		display: flex;
 		flex-flow: row-reverse;
 		align-items: center;
 		h5 {
-			margin: 0 0 0.25rem 0.5rem;
+			margin: 0 0 0 0.75rem;
 		}
 		& > h5,
 		& > .c-panel__title {
@@ -102,16 +102,7 @@ body:not(.desktop) {
 
 .c-panel--collapsible .c-panel__header,
 .c-detail-widget .c-detail-widget__header {
-	.mdi-chevron-up {
-		display: inline-block;
-		@include u-transition(transform 0.5s ease);
-	}
-	&.collapsed {
-		.mdi-chevron-up {
-			transform: rotate(180deg);
-		}
-		border-bottom: none;
-	}
+	@include u-transform(180deg);
 }
 
 .c-badge__icon {
@@ -398,7 +389,7 @@ body:not(.desktop) {
 	align-items: center;
 	border-radius: 50%;
 
-	[class^="userIcon-"],
+	[class^="yfm-"],
 	.adminIcon-user,
 	.adminIcon-user {
 		font-size: calculate-rem(20px);
@@ -672,5 +663,42 @@ input[type="checkbox"][disabled] {
 	&__btn {
 		font-size: 0.7em !important;
 		height: fit-content;
+	}
+}
+
+
+.o-expandable__panel__tabs {
+	display: flex;
+	height: 3rem;
+	background: #f8f9fa;
+	position: fixed;
+	top: 3.125rem;
+	right: calc(25% - 1px);
+	z-index: 100;
+	font-size: 0.8125rem;
+
+	@include media-breakpoint-up(lg) {
+		.toggleSiteBarRightButton {
+			padding: 0.6875rem 0;
+			height: 100%;
+			margin-left: 0.0625rem;
+			margin-bottom: 0.0625rem;
+			cursor: pointer;
+			width: 1.375rem;
+			z-index: 100;
+			border: 0;
+			display: inline-block;
+			border-radius: 25px 0 0 25px;
+			background: #546e7a;
+			color: #eceff1;
+		}
+	}
+}
+
+@include media-breakpoint-up(lg) {
+	.hideSiteBar {
+		.o-expandable__panel__tabs {
+			right: 0px;
+		}
 	}
 }

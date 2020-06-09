@@ -90,12 +90,13 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	 * Function to get the Display Value, for the current field type with given DB Insert Value.
 	 *
 	 * @param string $name
+	 * @param string $key
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue(string  $key)
+	public function getDisplayValue(string $key)
 	{
-		if ($key === 'default') {
+		if ('default' === $key) {
 			return $this->get($key) ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
 		}
 		return $this->get($key);
@@ -124,7 +125,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => 'index.php?module=PBX&parent=Settings&view=EditModal&record=' . $this->getId(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn btn-sm btn-primary',
 				'modalView' => true,
 			],
@@ -208,7 +209,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		$mainParams = ['uitype' => 1, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
 		$fieldModels = [];
 		foreach ($this->editFields as $name => $params) {
-			if ($name === 'type') {
+			if ('type' === $name) {
 				$connectors = [];
 				foreach (App\Integrations\Pbx::getConnectors() as $connectorName => $instance) {
 					$connectors[$connectorName] = \App\Language::translate($instance->name, $moduleName);
@@ -217,7 +218,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			$fieldModel = Settings_Vtiger_Field_Model::init($moduleName, array_merge($mainParams, $params, ['column' => $name, 'name' => $name]));
 			$fieldModel->set('fieldvalue', $this->get($name));
-			if ($name === 'type' && $this->getId()) {
+			if ('type' === $name && $this->getId()) {
 				$fieldModel->set('isEditableReadOnly', true);
 			}
 			$fieldModels[$name] = $fieldModel;

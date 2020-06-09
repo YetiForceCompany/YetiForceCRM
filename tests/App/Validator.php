@@ -82,7 +82,6 @@ class Validator extends \Tests\Base
 	 * @param float $value2
 	 * @param int   $precision
 	 * @param bool  $result
-	 *
 	 */
 	public function testFloatIsEqual(float $value1, float $value2, int $precision, bool $result)
 	{

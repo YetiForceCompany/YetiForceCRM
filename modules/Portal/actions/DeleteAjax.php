@@ -10,7 +10,7 @@
 
 class Portal_DeleteAjax_Action extends \App\Controller\Action
 {
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -18,7 +18,7 @@ class Portal_DeleteAjax_Action extends \App\Controller\Action
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$module = $request->getModule();

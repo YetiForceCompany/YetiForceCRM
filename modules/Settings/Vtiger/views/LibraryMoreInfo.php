@@ -23,21 +23,21 @@ class Settings_Vtiger_LibraryMoreInfo_View extends Vtiger_BasicModal_View
 	 *
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		if (!\App\User::getCurrentUserModel()->isAdmin()) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$result = false;
 		$fileContent = '';
 		if ($request->isEmpty('type') || $request->isEmpty('libraryName')) {
 			$result = false;
 		} else {
-			if ($request->getByType('type', 1) === 'public') {
+			if ('public' === $request->getByType('type', 1)) {
 				$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR;
 				$libraryName = $request->getByType('libraryName', 'Text');
 				foreach ($this->packageFiles as $file) {
@@ -52,7 +52,7 @@ class Settings_Vtiger_LibraryMoreInfo_View extends Vtiger_BasicModal_View
 						$result = false;
 					}
 				}
-			} elseif ($request->getByType('type', 1) === 'vendor') {
+			} elseif ('vendor' === $request->getByType('type', 1)) {
 				$filePath = 'vendor' . DIRECTORY_SEPARATOR . $request->getByType('libraryName', 'Text') . DIRECTORY_SEPARATOR . 'composer.json';
 				if (file_exists($filePath)) {
 					$fileContent = file_get_contents($filePath);

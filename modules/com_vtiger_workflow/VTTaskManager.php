@@ -31,21 +31,20 @@ class VTTaskManager
 		if (!empty($task->id) && is_numeric($task->id)) {
 			//How do I check whether a member exists in php?
 			$taskId = $task->id;
-			if (isset($task->email) && !is_array($task->email)) {
+			if (isset($task->email) && !\is_array($task->email)) {
 				$task->email = [$task->email];
 			}
 			$db->createCommand()->update('com_vtiger_workflowtasks', ['summary' => $task->summary, 'task' => serialize($task)], ['task_id' => $taskId])->execute();
 
 			return $taskId;
-		} else {
-			$db->createCommand()->insert('com_vtiger_workflowtasks', [
-				'workflow_id' => $task->workflowId,
-				'summary' => $task->summary,
-				'task' => serialize($task),
-			])->execute();
-
-			return $db->getLastInsertID();
 		}
+		$db->createCommand()->insert('com_vtiger_workflowtasks', [
+			'workflow_id' => $task->workflowId,
+			'summary' => $task->summary,
+			'task' => serialize($task),
+		])->execute();
+
+		return $db->getLastInsertID();
 	}
 
 	/**
@@ -200,10 +199,9 @@ class VTTaskManager
 		$taskTemplatePath = $taskTypeInstance->get('templatepath');
 		if (!empty($taskTemplatePath)) {
 			return $taskTemplatePath;
-		} else {
-			$taskType = $taskTypeInstance->get('classname');
-
-			return "$moduleName/taskforms/$taskType.tpl";
 		}
+		$taskType = $taskTypeInstance->get('classname');
+
+		return "$moduleName/taskforms/$taskType.tpl";
 	}
 }

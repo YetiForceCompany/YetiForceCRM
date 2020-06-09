@@ -51,7 +51,16 @@ class Field
 			if ($profileList) {
 				$query->andWhere(['vtiger_profile2field.profileid' => $profileList]);
 			}
-			$fields = $query->distinct()->indexBy('fieldname')->all();
+			$fields = [];
+			$dataReader = $query->distinct()->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				if (isset($fields[$row['fieldname']])) {
+					$old = $fields[$row['fieldname']];
+					$row['readonly'] = $old['readonly'] > 0 ? $row['readonly'] : $old['readonly'];
+					$row['visible'] = $old['visible'] > 0 ? $row['visible'] : $old['visible'];
+				}
+				$fields[$row['fieldname']] = $row;
+			}
 			Cache::save(__METHOD__ . User::getCurrentUserId(), $tabId, $fields);
 		}
 
@@ -252,8 +261,9 @@ class Field
 		if (Cache::has('getFieldsFromRelation', $relationId)) {
 			$fields = Cache::get('getFieldsFromRelation', $relationId);
 		} else {
-			$fields = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_relatedlists_fields')
-				->where(['relation_id' => $relationId])->column();
+			$fields = (new \App\Db\Query())->select(['vtiger_relatedlists_fields.fieldid', 'vtiger_field.fieldname'])->from('vtiger_relatedlists_fields')
+				->innerJoin('vtiger_field', 'vtiger_field.fieldid = vtiger_relatedlists_fields.fieldid')
+				->where(['relation_id' => $relationId, 'vtiger_field.presence' => [0, 2]])->createCommand()->queryAllByGroup();
 			Cache::save('getFieldsFromRelation', $relationId, $fields, Cache::LONG);
 		}
 		return $fields;
@@ -300,5 +310,55 @@ class Field
 		Cache::save('getFieldsTypeFromUIType', '', $fieldTypeMapping, Cache::LONG);
 
 		return $fieldTypeMapping;
+	}
+
+	/**
+	 * Get quick changer fields.
+	 *
+	 * @param int $tabId
+	 *
+	 * @return array
+	 */
+	public static function getQuickChangerFields(int $tabId): array
+	{
+		if (Cache::has('getQuickChangerFields', $tabId)) {
+			return Cache::get('getQuickChangerFields', $tabId);
+		}
+		$dataReader = (new Db\Query())->from('s_#__record_quick_changer')->where(['tabid' => $tabId])->createCommand()->query();
+		$rows = [];
+		while ($row = $dataReader->read()) {
+			$row['conditions'] = Json::decode($row['conditions']);
+			$row['values'] = Json::decode($row['values']);
+			$rows[$row['id']] = $row;
+		}
+		Cache::save('getQuickChangerFields', $tabId, $rows, Cache::LONG);
+		return $rows;
+	}
+
+	/**
+	 * Check quick changer conditions.
+	 *
+	 * @param array                $field
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return void
+	 */
+	public static function checkQuickChangerConditions(array $field, \Vtiger_Record_Model $recordModel)
+	{
+		$return = false;
+		foreach ($field['conditions'] as $fieldName => $value) {
+			if ($recordModel->get($fieldName) !== $value) {
+				$status = 1;
+			}
+		}
+		if (!isset($status)) {
+			$fields = $recordModel->getModule()->getFields();
+			foreach ($field['values'] as $fieldName => $value) {
+				if (isset($fields[$fieldName]) && $fields[$fieldName]->isEditable()) {
+					$return = true;
+				}
+			}
+		}
+		return $return;
 	}
 }

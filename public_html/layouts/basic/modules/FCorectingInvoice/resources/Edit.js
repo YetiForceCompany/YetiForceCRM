@@ -10,11 +10,7 @@ Vtiger_Edit_Js(
 		 */
 		loadInvoiceData(recordId = false) {
 			if (!recordId) {
-				recordId = parseInt(
-					this.getForm()
-						.find('input[name="finvoiceid"]')
-						.val()
-				);
+				recordId = parseInt(this.getForm().find('input[name="finvoiceid"]').val());
 			}
 			if (recordId) {
 				const form = this.getForm();
@@ -25,7 +21,7 @@ Vtiger_Edit_Js(
 					mode: 'showInventoryDetails',
 					view: 'Detail'
 				})
-					.done(response => {
+					.done((response) => {
 						form.find('.js-before-inventory').html(response);
 						progressLoader.progressIndicator({ mode: 'hide' });
 					})
@@ -39,7 +35,7 @@ Vtiger_Edit_Js(
 		 */
 		registerReferenceFieldsEvents() {
 			app.event.on('EditView.SelectReference', (e, params) => {
-				if (params.source_module === 'FInvoice') {
+				if (params.module === 'FInvoice') {
 					this.loadInvoiceData(params.record);
 				}
 			});
@@ -50,7 +46,11 @@ Vtiger_Edit_Js(
 					if (invoiceidInput.length) {
 						form
 							.find('.js-before-inventory')
-							.html('<div class="text-center">' + app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE') + '</div>');
+							.html(
+								'<div class="text-center">' +
+									app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE') +
+									'</div>'
+							);
 					}
 				}
 			});
@@ -61,7 +61,7 @@ Vtiger_Edit_Js(
 		registerCopyFromInvoice() {
 			const form = this.getForm();
 			const thisInstance = this;
-			form.find('.js-copy-from-invoice').on('click', function(e) {
+			form.find('.js-copy-from-invoice').on('click', function (e) {
 				e.preventDefault();
 				e.stopPropagation();
 				const finvoiceidInput = form.find('input[name="finvoiceid"]');

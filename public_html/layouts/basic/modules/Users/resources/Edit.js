@@ -9,167 +9,207 @@
  *************************************************************************************/
 'use strict';
 
-Vtiger_Edit_Js("Users_Edit_Js", {
-	/**
-	 * Function to register change event for currency separator
-	 */
-	registerChangeEventForCurrencySeparator: function () {
-		var form = jQuery('form');
-		jQuery('[name="currency_decimal_separator"]', form).on('change', function (e) {
-			var element = jQuery(e.currentTarget);
-			var selectedValue = element.val();
-			var groupingSeparatorValue = jQuery('[name="currency_grouping_separator"]', form).data('selectedValue');
-			if (groupingSeparatorValue == selectedValue) {
-				var message = app.vtranslate('JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME');
-				var params = {
-					text: message,
-					type: 'error'
-				};
-				Vtiger_Helper_Js.showMessage(params);
-				var previousSelectedValue = element.data('selectedValue');
-				element.find('option').removeAttr('selected');
-				element.find('option[value="' + previousSelectedValue + '"]').attr('selected', 'selected');
-				element.trigger('change');
-			} else {
-				element.data('selectedValue', selectedValue);
-			}
-		});
-		jQuery('[name="currency_grouping_separator"]', form).on('change', function (e) {
-			var element = jQuery(e.currentTarget);
-			var selectedValue = element.val();
-			var decimalSeparatorValue = jQuery('[name="currency_decimal_separator"]', form).data('selectedValue');
-			if (decimalSeparatorValue == selectedValue) {
-				var message = app.vtranslate('JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME');
-				var params = {
-					text: message,
-					type: 'error'
-				};
-				Vtiger_Helper_Js.showMessage(params);
-				var previousSelectedValue = element.data('selectedValue');
-				element.find('option').removeAttr('selected');
-				element.find('option[value="' + previousSelectedValue + '"]').attr('selected', 'selected');
-				element.trigger('change');
-			} else {
-				element.data('selectedValue', selectedValue);
-			}
-		});
-	}
-
-}, {
-	duplicateCheckCache: {},
-	userExistCheckCache: {},
-	passCheckCache: {},
-	//Hold the conditions for a hour format
-	hourFormatConditionMapping: false,
-	registerHourFormatChangeEvent: function () {
-
-	},
-	getHourValues: function (list, currentValue) {
-		var options = '';
-		for (var key in list) {
-			//IE Browser consider the prototype properties also, it should consider has own properties only.
-			if (list.hasOwnProperty(key)) {
-				var conditionValue = list[key];
-				options += '<option value="' + key + '"';
-				if (key == currentValue) {
-					options += ' selected="selected" ';
-				}
-				options += '>' + conditionValue + '</option>';
-			}
-		}
-		return options;
-	},
-	changeStartHourValuesEvent: function (form) {
-		var thisInstance = this;
-		form.on('change', 'select[name="hour_format"]', function (e) {
-			var hourFormatVal = jQuery(e.currentTarget).val();
-			var startHourElement = jQuery('select[name="start_hour"]', form);
-			var endHourElement = jQuery('select[name="end_hour"]', form);
-			var conditionStartSelected = startHourElement.val();
-			var conditionEndSelected = endHourElement.val();
-			if (typeof thisInstance.hourFormatConditionMapping === "undefined") {
-				return false;
-			}
-			var list = thisInstance.hourFormatConditionMapping['hour_format'][hourFormatVal]['start_hour'];
-			startHourElement.html(thisInstance.getHourValues(list, conditionStartSelected)).trigger('change');
-			endHourElement.html(thisInstance.getHourValues(list, conditionEndSelected)).trigger('change');
-		});
-	},
-	triggerHourFormatChangeEvent(form) {
-		this.hourFormatConditionMapping = $('input[name="timeFormatOptions"]', form).data('value');
-		this.changeStartHourValuesEvent(form);
-		$('select[name="hour_format"]', form).trigger('change');
-	},
-	/**
-	 * Function to register recordpresave event
-	 */
-	registerRecordPreSaveEvent: function (form) {
-		var thisInstance = this;
-		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
-			var record = jQuery('input[name="record"]').val();
-			var progressIndicatorElement = jQuery.progressIndicator({
-				'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
+Vtiger_Edit_Js(
+	'Users_Edit_Js',
+	{
+		/**
+		 * Function to register change event for currency separator
+		 */
+		registerChangeEventForCurrencySeparator: function () {
+			let form = jQuery('form');
+			jQuery('[name="currency_decimal_separator"]', form).on('change', function (e) {
+				let element = jQuery(e.currentTarget);
+				let selectedValue = element.val();
+				let groupingSeparatorValue = jQuery('[name="currency_grouping_separator"]', form).data(
+					'selectedValue'
+				);
+				if (groupingSeparatorValue == selectedValue) {
+					let message = app.vtranslate('JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME');
+					let params = {
+						text: message,
+						type: 'error'
+					};
+					Vtiger_Helper_Js.showMessage(params);
+					let previousSelectedValue = element.data('selectedValue');
+					element.find('option').removeAttr('selected');
+					element
+						.find('option[value="' + previousSelectedValue + '"]')
+						.attr('selected', 'selected');
+					element.trigger('change');
+				} else {
+					element.data('selectedValue', selectedValue);
 				}
 			});
-			if (!record && jQuery('input[name="user_password"]').val() != jQuery('input[name="confirm_password"]').val()) {
-				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_REENTER_PASSWORDS'));
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				e.preventDefault();
-			}
-			thisInstance.verifyFormData()
-				.done(function (data) {
-					if (data.result.message) {
-						Vtiger_Helper_Js.showPnotify(data.result.message);
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						e.preventDefault();
+			jQuery('[name="currency_grouping_separator"]', form).on('change', function (e) {
+				let element = jQuery(e.currentTarget);
+				let selectedValue = element.val();
+				let decimalSeparatorValue = jQuery('[name="currency_decimal_separator"]', form).data(
+					'selectedValue'
+				);
+				if (decimalSeparatorValue == selectedValue) {
+					let message = app.vtranslate('JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME');
+					let params = {
+						text: message,
+						type: 'error'
+					};
+					Vtiger_Helper_Js.showMessage(params);
+					let previousSelectedValue = element.data('selectedValue');
+					element.find('option').removeAttr('selected');
+					element
+						.find('option[value="' + previousSelectedValue + '"]')
+						.attr('selected', 'selected');
+					element.trigger('change');
+				} else {
+					element.data('selectedValue', selectedValue);
+				}
+			});
+		}
+	},
+	{
+		duplicateCheckCache: {},
+		userExistCheckCache: {},
+		passCheckCache: {},
+		//Hold the conditions for a hour format
+		hourFormatConditionMapping: false,
+		registerHourFormatChangeEvent: function () {},
+		getHourValues: function (list, currentValue) {
+			let options = '';
+			for (let key in list) {
+				//IE Browser consider the prototype properties also, it should consider has own properties only.
+				if (list.hasOwnProperty(key)) {
+					let conditionValue = list[key];
+					options += '<option value="' + key + '"';
+					if (key == currentValue) {
+						options += ' selected="selected" ';
 					}
-				})
-				.fail(function (data, error) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					e.preventDefault();
+					options += '>' + conditionValue + '</option>';
+				}
+			}
+			return options;
+		},
+		changeStartHourValuesEvent: function (form) {
+			let thisInstance = this;
+			form.on('change', 'select[name="hour_format"]', function (e) {
+				let hourFormatVal = jQuery(e.currentTarget).val();
+				let startHourElement = jQuery('select[name="start_hour"]', form);
+				let endHourElement = jQuery('select[name="end_hour"]', form);
+				let conditionStartSelected = startHourElement.val();
+				let conditionEndSelected = endHourElement.val();
+				if (typeof thisInstance.hourFormatConditionMapping === 'undefined') {
+					return false;
+				}
+				let list =
+					thisInstance.hourFormatConditionMapping['hour_format'][hourFormatVal]['start_hour'];
+				startHourElement
+					.html(thisInstance.getHourValues(list, conditionStartSelected))
+					.trigger('change');
+				endHourElement
+					.html(thisInstance.getHourValues(list, conditionEndSelected))
+					.trigger('change');
+			});
+		},
+		triggerHourFormatChangeEvent(form) {
+			this.hourFormatConditionMapping = $('input[name="timeFormatOptions"]', form).data('value');
+			this.changeStartHourValuesEvent(form);
+			$('select[name="hour_format"]', form).trigger('change');
+		},
+		/**
+		 * Function to register recordpresave event
+		 */
+		registerRecordPreSaveEvent: function (form) {
+			let thisInstance = this;
+			form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
+				let record = jQuery('input[name="record"]').val();
+				let progressIndicatorElement = jQuery.progressIndicator({
+					message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
 				});
-		});
-	},
-	verifyFormData: function () {
-		var aDeferred = jQuery.Deferred();
-		var thisInstance = this;
-		thisInstance.verifyData().done(function (data) {
-			aDeferred.resolve(data);
-		}, function (data, error) {
-			aDeferred.reject();
-		});
-		return aDeferred.promise();
-	},
-	verifyData: function () {
-		var aDeferred = jQuery.Deferred();
-		AppConnector.request({
-			async: false,
-			data: {
-				module: 'Users',
-				action: 'VerifyData',
-				email: jQuery('[name="email1"]').val(),
-				userName: jQuery('input[name="user_name"]').val(),
-				record: jQuery('input[name="record"]').val(),
-				password: jQuery('input[name="user_password"]').val(),
-
-			}
-		}).done(function (data) {
-			if (data.result) {
-				aDeferred.resolve(data);
-			} else {
-				aDeferred.reject(data);
-			}
-		});
-		return aDeferred.promise();
-	},
-	registerEvents: function () {
-		this._super();
-		var form = this.getForm();
-		this.triggerHourFormatChangeEvent(form);
-		this.registerRecordPreSaveEvent(form);
-		Users_Edit_Js.registerChangeEventForCurrencySeparator();
+				if (
+					!record &&
+					jQuery('input[name="user_password"]').val() !=
+						jQuery('input[name="confirm_password"]').val()
+				) {
+					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_REENTER_PASSWORDS'));
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					e.preventDefault();
+				}
+				thisInstance
+					.verifyFormData()
+					.done(function (data) {
+						if (data.result.message) {
+							Vtiger_Helper_Js.showPnotify(data.result.message);
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+							e.preventDefault();
+						}
+					})
+					.fail(function (data, error) {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						e.preventDefault();
+					});
+			});
+		},
+		verifyFormData: function () {
+			let aDeferred = jQuery.Deferred();
+			let thisInstance = this;
+			thisInstance.verifyData().done(
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (data, error) {
+					aDeferred.reject();
+				}
+			);
+			return aDeferred.promise();
+		},
+		verifyData: function () {
+			let aDeferred = jQuery.Deferred();
+			AppConnector.request({
+				async: false,
+				data: {
+					module: 'Users',
+					action: 'VerifyData',
+					mode: 'recordPreSave',
+					email: jQuery('[name="email1"]').val(),
+					userName: jQuery('input[name="user_name"]').val(),
+					record: jQuery('input[name="record"]').val(),
+					password: jQuery('input[name="user_password"]').val()
+				}
+			}).done(function (data) {
+				if (data.result) {
+					aDeferred.resolve(data);
+				} else {
+					aDeferred.reject(data);
+				}
+			});
+			return aDeferred.promise();
+		},
+		registerValidatePassword: function (form) {
+			form.on('click', '.js-validate-password', function (e) {
+				AppConnector.request({
+					module: app.getModuleName(),
+					action: 'VerifyData',
+					mode: 'validatePassword',
+					password: form.find('[name="' + $(e.currentTarget).data('field') + '"]').val()
+				}).done(function (data) {
+					if (data.success && data.result) {
+						Vtiger_Helper_Js.showMessage({
+							text: data.result.message,
+							type: data.result.type
+						});
+					}
+				});
+			});
+		},
+		registerEvents: function () {
+			this._super();
+			let form = this.getForm();
+			this.triggerHourFormatChangeEvent(form);
+			this.registerRecordPreSaveEvent(form);
+			this.registerValidatePassword(form);
+			Users_Edit_Js.registerChangeEventForCurrencySeparator();
+		}
 	}
-});
+);

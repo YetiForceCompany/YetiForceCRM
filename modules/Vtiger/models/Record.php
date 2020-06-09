@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -25,6 +26,7 @@ class Vtiger_Record_Model extends \App\Base
 	public $isNew = true;
 	public $ext = [];
 	protected $dataForSave = [];
+	protected $handler;
 
 	/**
 	 * Function to get the id of the record.
@@ -91,13 +93,25 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Set data for save.
+	 * Set custom data for save.
 	 *
-	 * @param array $array
+	 * @param array $data
 	 */
-	public function setDataForSave(array $array)
+	public function setDataForSave(array $data)
 	{
-		$this->dataForSave = array_merge($this->dataForSave, $array);
+		foreach ($data as $tableName => $tableData) {
+			$this->dataForSave[$tableName] = isset($this->dataForSave[$tableName]) ? array_merge($this->dataForSave[$tableName], $tableData) : $tableData;
+		}
+	}
+
+	/**
+	 * Gets custom data for save.
+	 *
+	 * @param array
+	 */
+	public function getDataForSave()
+	{
+		return $this->dataForSave;
 	}
 
 	/**
@@ -272,7 +286,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getRecordNumber(): string
 	{
-		return $this->get($this->getModule()->getSequenceNumberFieldName());
+		return $this->get($this->getModule()->getSequenceNumberFieldName()) ?? '';
 	}
 
 	/**
@@ -442,15 +456,24 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
+	 * Gets Event Handler.
+	 *
+	 * @return \App\EventHandler
+	 */
+	public function getEventHandler(): App\EventHandler
+	{
+		if (!$this->handler) {
+			$this->handler = (new \App\EventHandler())->setRecordModel($this)->setModuleName($this->getModuleName());
+		}
+		return $this->handler;
+	}
+
+	/**
 	 * Function to save the current Record Model.
 	 */
 	public function save()
 	{
-		$moduleModel = $this->getModule();
-		$moduleName = $moduleModel->get('name');
-		$eventHandler = new App\EventHandler();
-		$eventHandler->setRecordModel($this);
-		$eventHandler->setModuleName($moduleName);
+		$eventHandler = $this->getEventHandler();
 		if ($this->getHandlerExceptions()) {
 			$eventHandler->setExceptions($this->getHandlerExceptions());
 		}
@@ -479,7 +502,7 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$eventHandler->trigger('EntityAfterSave');
 		if ($this->isNew()) {
-			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $moduleName, $this);
+			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
 			$this->isNew = false;
 		}
 		\App\Cache::delete('recordLabel', $this->getId());
@@ -720,7 +743,7 @@ class Vtiger_Record_Model extends \App\Base
 			$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
 			$row['id'] = $row['crmid'];
 			$row['label'] = App\Purifier::decodeHtml($labels[$row['crmid']]);
-			$row['smownerid'] = $recordMeta['smownerid'];
+			$row['assigned_user_id'] = $recordMeta['smownerid'];
 			$row['createdtime'] = $recordMeta['createdtime'];
 			$row['permitted'] = \App\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);
 			$moduleName = $row['setype'];
@@ -795,13 +818,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function isMandatorySave()
 	{
-		if ($this->getModule()->isInventory() && $this->getPreviousInventoryItems()) {
-			return true;
-		}
-		if (!empty($this->dataForSave)) {
-			return true;
-		}
-		return false;
+		return !empty($this->dataForSave) || ($this->getModule()->isInventory() && $this->getPreviousInventoryItems());
 	}
 
 	/**
@@ -895,7 +912,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToDelete()
 	{
 		if (!isset($this->privileges['Deleted'])) {
-			$this->privileges['Deleted'] = \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId());
+			$this->privileges['Deleted'] = \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && false === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) && !$this->isLockByFields();
 		}
 		return $this->privileges['Deleted'];
 	}
@@ -969,10 +986,8 @@ class Vtiger_Record_Model extends \App\Base
 		if (!is_dir($path)) {
 			return [];
 		}
-		$summaryBlocks = [];
+		$tempSummaryBlocks = [];
 		$dir = new DirectoryIterator($path);
-		$blockCount = 0;
-
 		foreach ($dir as $fileinfo) {
 			if (!$fileinfo->isDot()) {
 				$tmp = explode('.', $fileinfo->getFilename());
@@ -983,13 +998,16 @@ class Vtiger_Record_Model extends \App\Base
 					if (isset($blockObiect->reference) && !\App\Module::isModuleActive($blockObiect->reference)) {
 						continue;
 					}
-					$summaryBlocks[(int) ($blockCount / $this->summaryRowCount)][$blockObiect->sequence] = ['name' => $blockObiect->name, 'data' => $blockObiect->process($this), 'reference' => $blockObiect->reference];
-					++$blockCount;
+					$tempSummaryBlocks[$blockObiect->sequence] = ['name' => $blockObiect->name, 'data' => $blockObiect->process($this), 'reference' => $blockObiect->reference];
 				}
 			}
 		}
-		foreach ($summaryBlocks as $key => $block) {
-			ksort($summaryBlocks[$key]);
+		ksort($tempSummaryBlocks);
+		$blockCount = 0;
+		$summaryBlocks = [];
+		foreach ($tempSummaryBlocks as $key => $block) {
+			$summaryBlocks[(int) ($blockCount / $this->summaryRowCount)][$key] = $tempSummaryBlocks[$key];
+			++$blockCount;
 		}
 		return $summaryBlocks;
 	}
@@ -1005,7 +1023,7 @@ class Vtiger_Record_Model extends \App\Base
 		if ($mfInstance) {
 			$defaultInvRow = [];
 			$params = $mfInstance->get('params');
-			if ($params['autofill']) {
+			if (!empty($params['autofill'])) {
 				$fieldsList = array_keys($this->getModule()->getFields());
 				$parentFieldsList = array_keys($parentRecordModel->getModule()->getFields());
 				$commonFields = array_intersect($fieldsList, $parentFieldsList);
@@ -1339,20 +1357,22 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn-sm btn-default',
 				'linkhref' => true,
 			];
-			$recordLinks[] = [
-				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-				'linklabel' => 'LBL_QUICK_EDIT',
-				'linkicon' => 'mdi mdi-square-edit-outline',
-				'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
-				'linkdata' => [
-					'module' => $this->getModuleName(),
-					'record' => $this->getId(),
-				]
-			];
+			if ($this->getModule()->isQuickCreateSupported()) {
+				$recordLinks[] = [
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+					'linklabel' => 'LBL_QUICK_EDIT',
+					'linkicon' => 'yfi yfi-quick-creation',
+					'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
+					'linkdata' => [
+						'module' => $this->getModuleName(),
+						'record' => $this->getId(),
+					]
+				];
+			}
 		}
 		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
 			$watching = (int) ($this->isWatchingRecord());
@@ -1452,12 +1472,12 @@ class Vtiger_Record_Model extends \App\Base
 				'linklabel' => 'LBL_EDIT',
 				'linkhref' => true,
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn-sm btn-default',
 			]);
 			$links['LBL_QUICK_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_QUICK_EDIT',
-				'linkicon' => 'mdi mdi-square-edit-outline',
+				'linkicon' => 'yfi yfi-quick-creation',
 				'linkclass' => 'btn-sm btn-default js-quick-edit-modal',
 				'linkdata' => [
 					'module' => $this->getModuleName(),
@@ -1488,49 +1508,77 @@ class Vtiger_Record_Model extends \App\Base
 				]);
 			}
 		}
-		if ($relationModel->privilegeToDelete()) {
-			if ($this->privilegeToMoveToTrash()) {
-				$links[] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => 'LBL_REMOVE_RELATION',
-					'linkicon' => 'fas fa-unlink',
-					'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
-					'linkdata' => [
-						'content' => \App\Language::translate('LBL_REMOVE_RELATION'),
-						'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'),
-						'id' => $this->getId()
-					]
-				]);
-			}
-			if ($this->privilegeToMoveToTrash()) {
-				$links[] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-					'linklabel' => 'LBL_MOVE_TO_TRASH',
-					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&record=' . $this->getId(),
-					'linkicon' => 'fas fa-trash-alt',
-					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
-					'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
-					'linkclass' => 'btn-sm btn-outline-dark relationDelete entityStateBtn'
-				]);
-			}
-			if ($this->privilegeToDelete()) {
-				$links[] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-					'linkicon' => 'fas fa-eraser',
-					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete&record=' . $this->getId(),
-					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
-					'linkclass' => 'btn-sm btn-dark relationDelete entityStateBtn'
-				]);
-			}
-			if (!empty($relationModel->getTypeRelationModel()->customFields) && ($relationModel->getTypeRelationModel()->getFields()) && ($parentRecord = $relationModel->get('parentRecord')) && $parentRecord->isEditable() && $this->isEditable()) {
-				$links['BUTTONS'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-					'linklabel' => 'LBL_CHANGE_RELATION_DATA',
-					'dataUrl' => "index.php?module={$relationModel->getParentModuleModel()->getName()}&view=ChangeRelationData&record={$this->getId()}&fromRecord={$parentRecord->getId()}&relationId={$relationModel->getId()}",
-					'linkicon' => 'mdi mdi-briefcase-edit-outline',
-					'linkclass' => 'btn-sm btn-warning js-show-modal'
-				]);
-			}
+		$privilegeToDelete = $relationModel->privilegeToDelete();
+		if ($privilegeToDelete && $this->privilegeToMoveToTrash()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_REMOVE_RELATION',
+				'linkicon' => 'fas fa-unlink',
+				'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
+				'linkdata' => [
+					'content' => \App\Language::translate('LBL_REMOVE_RELATION'),
+					'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'),
+					'id' => $this->getId()
+				]
+			]);
+		}
+		$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
+		if ($this->privilegeToActivate()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_ACTIVATE_RECORD',
+				'linkicon' => 'fas fa-undo-alt',
+				'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
+				'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};",
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active&record=' . $this->getId(),
+				'linkdata' => [
+					'content' => \App\Language::translate('LBL_ACTIVATE_RECORD'),
+					'confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC'),
+					'id' => $this->getId()
+				]
+			]);
+		}
+		if ($this->privilegeToArchive()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'LBL_ARCHIVE_RECORD',
+				'linkicon' => 'fas fa-archive',
+				'linkclass' => 'btn-sm btn-secondary relationDelete entityStateBtn',
+				'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived&record=' . $this->getId(),
+				'linkdata' => [
+					'content' => \App\Language::translate('LBL_ARCHIVE_RECORD'),
+					'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'),
+					'id' => $this->getId()
+				]
+			]);
+		}
+		if ($privilegeToDelete && $this->privilegeToMoveToTrash()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_MOVE_TO_TRASH',
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&record=' . $this->getId(),
+				'linkicon' => 'fas fa-trash-alt',
+				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
+				'linkclass' => 'btn-sm btn-outline-dark relationDelete entityStateBtn'
+			]);
+		}
+		if ($privilegeToDelete && $this->privilegeToDelete()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+				'linkicon' => 'fas fa-eraser',
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete&record=' . $this->getId(),
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
+				'linkclass' => 'btn-sm btn-dark relationDelete entityStateBtn'
+			]);
+		}
+		if (!empty($relationModel->getTypeRelationModel()->customFields) && ($relationModel->getTypeRelationModel()->getFields()) && ($parentRecord = $relationModel->get('parentRecord')) && $parentRecord->isEditable() && $this->isEditable()) {
+			$links['BUTTONS'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_CHANGE_RELATION_DATA',
+				'dataUrl' => "index.php?module={$relationModel->getParentModuleModel()->getName()}&view=ChangeRelationData&record={$this->getId()}&fromRecord={$parentRecord->getId()}&relationId={$relationModel->getId()}",
+				'linkicon' => 'mdi mdi-briefcase-edit-outline',
+				'linkclass' => 'btn-sm btn-warning js-show-modal'
+			]);
 		}
 		return $links;
 	}
@@ -1587,14 +1635,6 @@ class Vtiger_Record_Model extends \App\Base
 			parent::set($fieldName, $value);
 		}
 		return $this->get($fieldName);
-	}
-
-	/**
-	 * Clear changes.
-	 */
-	public function clearChanges()
-	{
-		$this->changes = null;
 	}
 
 	/**

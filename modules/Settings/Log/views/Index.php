@@ -14,7 +14,7 @@ class Settings_Log_Index_View extends Settings_Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$type = $request->getByType('type', 1);
 		$viewer = $this->getViewer($request);

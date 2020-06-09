@@ -5,7 +5,7 @@
 			   title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}"/>
 	</div>
 	{assign var=IMAGE_CLASS value=Documents_Record_Model::getFileIconByFileType($LISTVIEW_ENTRY->get('filetype'))}
-	<span class="{$IMAGE_CLASS} fa-lg middle {if $IMAGE_CLASS eq 'userIcon-Documents'}back4RightMargin{/if} ml-1"></span>
+	<span class="{$IMAGE_CLASS} fa-lg middle {if $IMAGE_CLASS eq 'yfm-Documents'}back4RightMargin{/if} ml-1"></span>
 	{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordListViewLinksLeftSide()}
 	{if count($LINKS) > 0}
 		{assign var=ONLY_ONE value=count($LINKS) eq 1}
@@ -31,7 +31,7 @@
 	{/if}
 	<div>
 		{if in_array($MODULE_NAME, \App\Config::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW', [])) && $MODULE_MODEL->isPermitted('TimeLineList')}
-			<a data-url="{$LISTVIEW_ENTRY->getTimeLineUrl()}" class="c-badge__icon fa-fw timeLineIconList d-none"></a>
+			<a data-url="{$LISTVIEW_ENTRY->getTimeLineUrl()}" class="c-badge__icon fa-fw timeLineIconList d-none u-cursor-pointer"></a>
 		{/if}
 		{if \App\Config::module('ModTracker', 'UNREVIEWED_COUNT') && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $MODULE_MODEL->isTrackingEnabled() && $LISTVIEW_ENTRY->isViewable()}
 			<a href="{$LISTVIEW_ENTRY->getUpdatesUrl()}" class="unreviewed d-none"

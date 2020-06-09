@@ -165,7 +165,7 @@ class RecordStatus
 		if (!isset($tableSchema->columns['time_counting'])) {
 			$dbCommand->addColumn($tableName, 'time_counting', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_TINYINT, 1)->notNull()->defaultValue(0))->execute();
 		}
-		foreach (EventHandler::getAll(false) as $handler) {
+		foreach (EventHandler::getAll() as $handler) {
 			if ('Vtiger_RecordStatusHistory_Handler' === $handler['handler_class']) {
 				$modules = $handler['include_modules'] ? \explode(',', $handler['include_modules']) : [];
 				if (!\in_array($moduleName, $modules)) {

@@ -8,7 +8,7 @@
  */
 class Settings_HideBlocks_List_View extends Settings_Vtiger_List_View
 {
-	public function preProcess(\App\Request $request, $display = true)
+	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 	}

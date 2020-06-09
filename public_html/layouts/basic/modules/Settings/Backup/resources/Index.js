@@ -2,11 +2,13 @@
 'use strict';
 
 jQuery.Class(
-	'Settings_Backup_Index_Js', {}, {
-		registerDataTableinBackup: function() {
+	'Settings_Backup_Index_Js',
+	{},
+	{
+		registerDataTableinBackup: function () {
 			app.registerDataTables($('.js-data-table'));
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			this.registerDataTableinBackup();
 		}
 	}

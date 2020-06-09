@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -319,6 +320,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public function afterSaveToDb()
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
+		$this->cleanAttachments();
 		if ($this->isNew() || false !== $this->getPreviousValue('roleid') || false !== $this->getPreviousValue('is_admin')) {
 			\App\Privilege::setAllUpdater();
 			if (!$this->isNew()) {
@@ -347,6 +349,43 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$dbCommand->update('vtiger_contactdetails', ['dav_status' => 1])->execute();
 			$dbCommand->update('vtiger_ossemployees', ['dav_status' => 1])->execute();
 		}
+		self::cleanCache($this->getId());
+	}
+
+	/**
+	 * Clear user cache.
+	 *
+	 * @param int $userId
+	 */
+	public static function cleanCache(int $userId = 0)
+	{
+		\App\Cache::delete('UserImageById', $userId);
+		\App\Cache::delete('UserIsExists', $userId);
+		\App\Cache::delete('NumberOfUsers', '');
+		\App\Cache::delete('ActiveAdminId', '');
+	}
+
+	/**
+	 * Clear temporary attachments.
+	 */
+	public function cleanAttachments()
+	{
+		foreach ($this->getModule()->getFieldsByType(['image', 'multiImage'], true) as $fieldName => $fieldModel) {
+			$currentData = [];
+			if ($this->get($fieldName) && ($this->isNew() || false !== $this->getPreviousValue($fieldName))) {
+				$currentData = \App\Fields\File::parse(\App\Json::decode($this->get($fieldName)));
+				\App\Fields\File::cleanTemp(array_keys($currentData));
+			}
+			if ($previousValue = $this->getPreviousValue($fieldName)) {
+				$previousData = \App\Json::decode($previousValue);
+				foreach ($previousData as $item) {
+					if (!isset($currentData[$item['key']])) {
+						\App\Fields\File::cleanTemp($item['key']);
+						\App\Fields\File::loadFromInfo(['path' => $item['path']])->delete();
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -369,7 +408,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 			if (!$currentUserModel) {
 				static::$currentUserModels[$currentUser->getId()] = $currentUserModel = static::getInstanceFromUserObject($currentUser);
 			}
-
 			return $currentUserModel;
 		}
 		return new self();
@@ -733,18 +771,19 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * assign all record which are assigned to that user
 	 * and not transfered to other user to other user.
 	 *
-	 * @param mixed $userId
-	 * @param mixed $newOwnerId
+	 * @param int $userId
+	 * @param int $newOwnerId
 	 */
 	public static function deleteUserPermanently($userId, $newOwnerId)
 	{
-		$db = App\Db::getInstance();
-		$db->createCommand()->update('vtiger_crmentity', ['smcreatorid' => $newOwnerId, 'smownerid' => $newOwnerId], ['smcreatorid' => $userId, 'setype' => 'ModComments'])->execute();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$dbCommand->update('vtiger_crmentity', ['smcreatorid' => $newOwnerId, 'smownerid' => $newOwnerId], ['smcreatorid' => $userId, 'setype' => 'ModComments'])->execute();
 		//update history details in vtiger_modtracker_basic
-		$db->createCommand()->update('vtiger_modtracker_basic', ['whodid' => $newOwnerId], ['whodid' => $userId])->execute();
+		$dbCommand->update('vtiger_modtracker_basic', ['whodid' => $newOwnerId], ['whodid' => $userId])->execute();
 		//update comments details in vtiger_modcomments
-		$db->createCommand()->update('vtiger_modcomments', ['userid' => $newOwnerId], ['userid' => $userId])->execute();
-		$db->createCommand()->delete('vtiger_users', ['id' => $userId])->execute();
+		$dbCommand->update('vtiger_modcomments', ['userid' => $newOwnerId], ['userid' => $userId])->execute();
+		$dbCommand->delete('vtiger_users', ['id' => $userId])->execute();
+		$dbCommand->delete('vtiger_module_dashboard_widgets', ['userid' => $userId])->execute();
 		\App\PrivilegeUtil::deleteRelatedSharingRules($userId, 'Users');
 		$fileName = "user_privileges/sharing_privileges_{$userId}.php";
 		if (file_exists($fileName)) {
@@ -754,6 +793,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if (file_exists($fileName)) {
 			unlink($fileName);
 		}
+		self::cleanCache($userId);
 	}
 
 	/**
@@ -898,14 +938,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if (!$row || 0 !== (int) $row['deleted']) {
 			$this->fakeEncryptPassword($password);
 			\App\Log::info('User not found: ' . $userName, 'UserAuthentication');
-
 			return false;
 		}
 		$this->set('id', $row['id']);
 		$userRecordModel = static::getInstanceFromFile($row['id']);
 		if ('Active' !== $userRecordModel->get('status')) {
 			\App\Log::info('Inactive user :' . $userName, 'UserAuthentication');
-
 			return false;
 		}
 		$result = $userRecordModel->doLoginByAuthMethod($password);
@@ -914,11 +952,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		if (null === $result && $userRecordModel->verifyPassword($password)) {
 			\App\Session::set('UserAuthMethod', 'PASSWORD');
-
 			return true;
 		}
 		\App\Log::info('Invalid password. User: ' . $userName, 'UserAuthentication');
-
 		return false;
 	}
 
@@ -965,26 +1001,25 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @param App\User $userModel
 	 *
-	 * @return bool
+	 * @return void
 	 */
-	public function verifyPasswordChange(App\User $userModel)
+	public function verifyPasswordChange(App\User $userModel): void
 	{
 		$passConfig = \Settings_Password_Record_Model::getUserPassConfig();
 		$time = (int) $passConfig['change_time'];
 		if (1 === (int) $userModel->getDetail('force_password_change')) {
 			\App\Session::set('ShowUserPasswordChange', 2);
+			return;
 		}
-		if (0 === $time) {
-			return false;
-		}
-		if (strtotime("-$time day") > strtotime($userModel->getDetail('date_password_change'))) {
+		$lastChange = strtotime($userModel->getDetail('date_password_change'));
+		if (0 !== $time && (!$lastChange || strtotime("-$time day") > $lastChange)) {
 			$time += (int) $passConfig['lock_time'];
-			if (strtotime("-$time day") > strtotime($userModel->getDetail('date_password_change'))) {
-				return true;
+			if (!$lastChange || strtotime("-$time day") > $lastChange) {
+				\App\Session::set('ShowUserPasswordChange', 2);
+			} else {
+				\App\Session::set('ShowUserPasswordChange', 1);
 			}
-			\App\Session::set('ShowUserPasswordChange', 1);
 		}
-		return false;
 	}
 
 	/**

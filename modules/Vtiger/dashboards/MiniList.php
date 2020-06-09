@@ -37,8 +37,10 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 			$minilistWidgetModel->setSearchParams($searchParams);
 		}
 		$filterField = false;
+		$filterHref = false;
 		if ($widget->get('data')) {
 			$widgetParams = \App\Json::decode($widget->get('data'));
+			$fieldHref = $widgetParams['fieldHref'] ?? false;
 			if (isset($widgetParams['filterFields'])) {
 				$filterField = Vtiger_Field_Model::getInstanceFromFieldId($widgetParams['filterFields']);
 			}
@@ -51,6 +53,7 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 		$viewer->assign('DATA', $data);
 		$viewer->assign('FILTER_FIELD', $filterField);
+		$viewer->assign('FIELD_HREF', $fieldHref);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/MiniListContents.tpl', $moduleName);
 			$viewer->view('dashboards/MiniListFooter.tpl', $moduleName);

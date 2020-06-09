@@ -17,10 +17,7 @@
         :maximized="!computedMiniMode"
         @dragstop="onDragstop"
       >
-        <ChatContainer
-          :parentRefs="$refs"
-          container
-        />
+        <ChatContainer :parentRefs="$refs" container />
       </DragResize>
     </q-dialog>
   </div>
@@ -60,8 +57,8 @@ export default {
       return {
         'quasar-reset': true,
         animated: true,
-        slideOutDown: !this.dialog,
-        slideInUp: this.dialog,
+        animate__slideOutDown: !this.dialog,
+        animate__slideInUp: this.dialog,
         'all-pointer-events': !this.dragStopped
       }
     }

@@ -10,8 +10,8 @@
 
 class Settings_PickListDependency_IndexAjax_View extends Settings_PickListDependency_Edit_View
 {
-	use \App\Controller\ExposeMethod,
-	 App\Controller\ClearProcess;
+	use \App\Controller\ExposeMethod;
+	use App\Controller\ClearProcess;
 
 	public function __construct()
 	{
@@ -19,7 +19,7 @@ class Settings_PickListDependency_IndexAjax_View extends Settings_PickListDepend
 		$this->exposeMethod('getDependencyGraph');
 	}
 
-	public function getDependencyGraph(\App\Request $request)
+	public function getDependencyGraph(App\Request $request)
 	{
 		$qualifiedName = $request->getModule(false);
 		$module = $request->getByType('sourceModule', 2);

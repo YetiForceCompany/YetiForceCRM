@@ -21,6 +21,7 @@ class ModTracker_Widget_Action extends \App\Controller\Action
 	 */
 	public function __construct()
 	{
+		parent::__construct();
 		$this->exposeMethod('saveUpdatesWidgetConfig');
 	}
 
@@ -29,9 +30,8 @@ class ModTracker_Widget_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($request->getInteger('widgetId'), \App\User::getCurrentUserId());
-		if (!$widget->get('active') || !\App\Privilege::isPermitted($moduleName) || ($request->has('trackerActions') && array_diff($request->getArray('trackerActions', 'Integer'), array_keys(ModTracker::getAllActionsTypes())))) {
+		if (!$widget->get('active') || ($request->has('trackerActions') && array_diff($request->getArray('trackerActions', 'Integer'), array_keys(ModTracker::getAllActionsTypes())))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}

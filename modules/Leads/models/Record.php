@@ -17,16 +17,16 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Get converted column.
 	 *
-	 * @return  bool
+	 * @return bool
 	 */
-	public function getConverted() : bool
+	public function getConverted(): bool
 	{
 		if ($this->isNew()) {
 			$returnVal = false;
 		} elseif (\App\Cache::has('Leads.converted', $this->getId())) {
 			$returnVal = (bool) \App\Cache::get('Leads.converted', $this->getId());
 		} else {
-			$returnVal = (bool) (new \App\Db\Query())->select(['converted'])->from('vtiger_leaddetails')->where(['leadid'=>$this->getId()])->scalar();
+			$returnVal = (bool) (new \App\Db\Query())->select(['converted'])->from('vtiger_leaddetails')->where(['leadid' => $this->getId()])->scalar();
 			\App\Cache::save('Leads.converted', $this->getId(), $returnVal);
 		}
 		return $returnVal;
@@ -38,7 +38,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	public function save()
 	{
 		parent::save();
-		if(!$this->isNew()){
+		if (!$this->isNew()) {
 			\App\Cache::delete('Leads.converted', $this->getId());
 		}
 	}
@@ -106,16 +106,16 @@ class Leads_Record_Model extends Vtiger_Record_Model
 			//Fields that need to be shown
 			$complusoryFields = []; //Field List in the conversion lead
 			foreach ($fieldModels as $fieldName => $fieldModel) {
-				if ($fieldModel->isMandatory() && $fieldName != 'assigned_user_id') {
+				if ($fieldModel->isMandatory() && 'assigned_user_id' != $fieldName) {
 					$keyIndex = array_search($fieldName, $complusoryFields);
-					if ($keyIndex !== false) {
+					if (false !== $keyIndex) {
 						unset($complusoryFields[$keyIndex]);
 					}
 					$leadMappedField = $this->getConvertLeadMappedField($fieldName, $moduleName);
 					if ($leadMappedField) {
 						$fieldModel->set('fieldvalue', $this->get($leadMappedField));
 					}
-					if ($fieldModel->get('fieldvalue') == '') {
+					if ('' == $fieldModel->get('fieldvalue')) {
 						$fieldModel->set('fieldvalue', $fieldModel->getDefaultFieldValue());
 					}
 					$accountsFields[] = $fieldModel;

@@ -119,7 +119,7 @@ class Security
 	 */
 	public static $hpkpKeysHeader = [];
 
-	/** HTTP Content Security Policy response header allows web site administrators to control resources the user agent is allowed to load for a given page */
+	/** HTTP Content Security Policy response header allows website administrators to control resources the user agent is allowed to load for a given page */
 	public static $cspHeaderActive = true;
 
 	/** Enable CSRF protection */

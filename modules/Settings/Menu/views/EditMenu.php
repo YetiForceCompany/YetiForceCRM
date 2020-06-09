@@ -8,7 +8,7 @@
  */
 class Settings_Menu_EditMenu_View extends Settings_Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$id = $request->getInteger('id');

@@ -42,6 +42,9 @@ class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 			\App\Log::error("Incorrect integration key: {$request->getByType('query', 'AlnumExtended')}.");
 			new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
+		if ('outlook' === $request->getByType('source') && !\App\YetiForce\Shop::check('YetiForceOutlook')) {
+			new \App\Exceptions\NoPermitted('ERR_PAID_FUNCTIONALITY||YetiForceOutlook', 406);
+		}
 		\CsrfMagic\Csrf::$frameBreaker = \Config\Security::$csrfFrameBreaker = false;
 	}
 

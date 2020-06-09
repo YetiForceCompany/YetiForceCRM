@@ -64,6 +64,23 @@
 		table {
 			height: 28px;
 		}
+
+		.js-tree-container {
+			.input-group {
+				@extend .input-group-sm;
+				 .input-group-prepend {
+					border-top-right-radius: 0 !important;
+					border-bottom-right-radius: 0 !important;
+				 }
+				 .input-group-append {
+					border-top-left-radius: 0 !important;
+					border-bottom-left-radius: 0 !important;
+				 }
+				 input {
+					border-radius: 0 !important;
+				 }
+			}
+		}
 	}
 
 	.widgetFooterContent .row:first-child {

@@ -35,6 +35,7 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_A
 			'type' => 'Text',
 			'filterid' => 'Text',
 			'isdefault' => 'Integer',
+			'showFullName' => 'Integer',
 			'owners_all' => [
 				'Standard',
 				'Standard',

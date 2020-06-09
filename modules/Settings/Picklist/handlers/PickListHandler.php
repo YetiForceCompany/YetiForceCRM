@@ -44,7 +44,7 @@ class Settings_Picklist_PickListHandler_Handler
 			$value = App\Purifier::decodeHtml($row['targetvalues']);
 			$explodedValueArray = \App\Json::decode($value);
 			$arrayKey = array_search($oldValue, $explodedValueArray);
-			if ($arrayKey !== false) {
+			if (false !== $arrayKey) {
 				$explodedValueArray[$arrayKey] = $newValue;
 			}
 			$value = \App\Json::encode($explodedValueArray);
@@ -63,7 +63,7 @@ class Settings_Picklist_PickListHandler_Handler
 			$value = $row['value'];
 			$explodedValueArray = explode(',', $value);
 			$arrayKey = array_search($oldValue, $explodedValueArray);
-			if ($arrayKey !== false) {
+			if (false !== $arrayKey) {
 				$explodedValueArray[$arrayKey] = $newValue;
 			}
 			$value = implode(',', $explodedValueArray);
@@ -89,7 +89,7 @@ class Settings_Picklist_PickListHandler_Handler
 						$value = $condition['value'];
 						$explodedValueArray = explode(',', $value);
 						$arrayKey = array_search($oldValue, $explodedValueArray);
-						if ($arrayKey !== false) {
+						if (false !== $arrayKey) {
 							$explodedValueArray[$arrayKey] = $newValue;
 						}
 						$value = implode(',', $explodedValueArray);
@@ -116,7 +116,7 @@ class Settings_Picklist_PickListHandler_Handler
 			require_once 'modules/com_vtiger_workflow/VTTaskManager.php';
 			require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.php';
 			$unserializeTask = unserialize($task);
-			if (array_key_exists('field_value_mapping', $unserializeTask)) {
+			if (\array_key_exists('field_value_mapping', $unserializeTask)) {
 				$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);
 				if (!empty($fieldMapping)) {
 					foreach ($fieldMapping as $key => $condition) {
@@ -124,7 +124,7 @@ class Settings_Picklist_PickListHandler_Handler
 							$value = $condition['value'];
 							$explodedValueArray = explode(',', $value);
 							$arrayKey = array_search($oldValue, $explodedValueArray);
-							if ($arrayKey !== false) {
+							if (false !== $arrayKey) {
 								$explodedValueArray[$arrayKey] = $newValue;
 							}
 							$value = implode(',', $explodedValueArray);
@@ -138,28 +138,28 @@ class Settings_Picklist_PickListHandler_Handler
 					$dbCommand->update('com_vtiger_workflowtasks', ['task' => $serializeTask], ['workflow_id' => $row['workflow_id'], 'task_id' => $row['task_id']])->execute();
 				}
 			} else {
-				if ($className == 'VTCreateEventTask') {
-					if ($pickListFieldName == 'activitystatus') {
+				if ('VTCreateEventTask' == $className) {
+					if ('activitystatus' == $pickListFieldName) {
 						$pickListFieldName = 'status';
-					} elseif ($pickListFieldName == 'activitytype') {
+					} elseif ('activitytype' == $pickListFieldName) {
 						$pickListFieldName = 'eventType';
 					}
-				} elseif ($className == 'VTCreateTodoTask') {
-					if ($pickListFieldName == 'activitystatus') {
+				} elseif ('VTCreateTodoTask' == $className) {
+					if ('activitystatus' == $pickListFieldName) {
 						$pickListFieldName = 'status';
-					} elseif ($pickListFieldName == 'taskpriority') {
+					} elseif ('taskpriority' == $pickListFieldName) {
 						$pickListFieldName = 'priority';
 					}
 				}
-				if (array_key_exists($pickListFieldName, $unserializeTask)) {
-					$value = $unserializeTask->$pickListFieldName;
+				if (\array_key_exists($pickListFieldName, $unserializeTask)) {
+					$value = $unserializeTask->{$pickListFieldName};
 					$explodedValueArray = explode(',', $value);
 					$arrayKey = array_search($oldValue, $explodedValueArray);
-					if ($arrayKey !== false) {
+					if (false !== $arrayKey) {
 						$explodedValueArray[$arrayKey] = $newValue;
 					}
 					$value = implode(',', $explodedValueArray);
-					$unserializeTask->$pickListFieldName = $value;
+					$unserializeTask->{$pickListFieldName} = $value;
 					$serializeTask = serialize($unserializeTask);
 					$dbCommand->update('com_vtiger_workflowtasks', ['task' => $serializeTask], ['workflow_id' => $row['workflow_id'], 'task_id' => $row['task_id']])->execute();
 				}
@@ -189,7 +189,7 @@ class Settings_Picklist_PickListHandler_Handler
 			$explodedValueArray = explode(',', $value);
 			foreach ($valueToDelete as $value) {
 				$arrayKey = array_search($value, $explodedValueArray);
-				if ($arrayKey !== false) {
+				if (false !== $arrayKey) {
 					$explodedValueArray[$arrayKey] = $replaceValue;
 				}
 			}
@@ -217,7 +217,7 @@ class Settings_Picklist_PickListHandler_Handler
 							$explodedValueArray = explode(',', $value);
 							foreach ($valueToDelete as $value) {
 								$arrayKey = array_search($value, $explodedValueArray);
-								if ($arrayKey !== false) {
+								if (false !== $arrayKey) {
 									$explodedValueArray[$arrayKey] = $replaceValue;
 								}
 							}
@@ -244,7 +244,7 @@ class Settings_Picklist_PickListHandler_Handler
 				require_once 'modules/com_vtiger_workflow/VTTaskManager.php';
 				require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.php';
 				$unserializeTask = unserialize($task);
-				if (array_key_exists('field_value_mapping', $unserializeTask)) {
+				if (\array_key_exists('field_value_mapping', $unserializeTask)) {
 					$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);
 					if (!empty($fieldMapping)) {
 						foreach ($fieldMapping as $key => $condition) {
@@ -253,7 +253,7 @@ class Settings_Picklist_PickListHandler_Handler
 								$explodedValueArray = explode(',', $value);
 								foreach ($valueToDelete as $value) {
 									$arrayKey = array_search($value, $explodedValueArray);
-									if ($arrayKey !== false) {
+									if (false !== $arrayKey) {
 										$explodedValueArray[$arrayKey] = $replaceValue;
 									}
 								}
@@ -268,30 +268,30 @@ class Settings_Picklist_PickListHandler_Handler
 						$dbCommand->update('com_vtiger_workflowtasks', ['task' => $serializeTask], ['workflow_id' => $row['workflow_id'], 'task_id' => $row['task_id']])->execute();
 					}
 				} else {
-					if ($className == 'VTCreateEventTask') {
-						if ($pickListFieldName == 'activitystatus') {
+					if ('VTCreateEventTask' == $className) {
+						if ('activitystatus' == $pickListFieldName) {
 							$pickListFieldName = 'status';
-						} elseif ($pickListFieldName == 'activitytype') {
+						} elseif ('activitytype' == $pickListFieldName) {
 							$pickListFieldName = 'eventType';
 						}
-					} elseif ($className == 'VTCreateTodoTask') {
-						if ($pickListFieldName == 'activitystatus') {
+					} elseif ('VTCreateTodoTask' == $className) {
+						if ('activitystatus' == $pickListFieldName) {
 							$pickListFieldName = 'status';
-						} elseif ($pickListFieldName == 'taskpriority') {
+						} elseif ('taskpriority' == $pickListFieldName) {
 							$pickListFieldName = 'priority';
 						}
 					}
-					if (array_key_exists($pickListFieldName, $unserializeTask)) {
-						$value = $unserializeTask->$pickListFieldName;
+					if (\array_key_exists($pickListFieldName, $unserializeTask)) {
+						$value = $unserializeTask->{$pickListFieldName};
 						$explodedValueArray = explode(',', $value);
 						foreach ($valueToDelete as $value) {
 							$arrayKey = array_search($value, $explodedValueArray);
-							if ($arrayKey !== false) {
+							if (false !== $arrayKey) {
 								$explodedValueArray[$arrayKey] = $replaceValue;
 							}
 						}
 						$value = implode(',', $explodedValueArray);
-						$unserializeTask->$pickListFieldName = $value;
+						$unserializeTask->{$pickListFieldName} = $value;
 						$serializeTask = serialize($unserializeTask);
 						$dbCommand->update('com_vtiger_workflowtasks', ['task' => $serializeTask], ['workflow_id' => $row['workflow_id'], 'task_id' => $row['task_id']])->execute();
 					}

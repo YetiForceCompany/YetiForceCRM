@@ -55,7 +55,7 @@ class API_CardDAV_Handler
 	 *
 	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityAfterDelete(\App\EventHandler $eventHandler)
+	public function entityAfterDelete(App\EventHandler $eventHandler)
 	{
 		\App\Integrations\Dav\Card::deleteByCrmId($eventHandler->getRecordModel()->getId());
 	}
@@ -65,7 +65,7 @@ class API_CardDAV_Handler
 	 *
 	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityChangeState(\App\EventHandler $eventHandler)
+	public function entityChangeState(App\EventHandler $eventHandler)
 	{
 		$moduleName = $eventHandler->getModuleName();
 		if (isset(static::TABLES[$moduleName])) {

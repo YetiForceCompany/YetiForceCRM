@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\Portal\BaseModule;
@@ -27,22 +28,15 @@ class Dashboard extends \Api\Core\BaseAction
 	public function get()
 	{
 		$moduleName = $this->controller->request->getModule();
-		$types = [];
-		foreach (\Settings_WidgetsManagement_Module_Model::getDashboardTypes() as $dashboard) {
-			$types[] = [
-				'name' => \App\Language::translate($dashboard['name'], $moduleName),
-				'id' => $dashboard['dashboard_id'],
-				'system' => $dashboard['system']
-			];
-		}
 		if ($this->controller->request->isEmpty('record', true)) {
 			$dashBoardId = \Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
 		} else {
 			$dashBoardId = $this->controller->request->getInteger('record');
 		}
+		$dashboardInstance = DashboardModel::getInstance($moduleName, $dashBoardId, $this->controller->app['id']);
 		return [
-			'types' => $types,
-			'widgets' => DashboardModel::getInstance($moduleName, $dashBoardId, $this->controller->app['id'])->getData()
+			'types' => $dashboardInstance->getTabs(),
+			'widgets' => $dashboardInstance->getData()
 		];
 	}
 }

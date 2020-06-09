@@ -11,7 +11,7 @@
 
 class ModComments_Save_Action extends Vtiger_Save_Action
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$request->set('assigned_user_id', App\User::getCurrentUserId());
 		$recordModel = $this->saveRecord($request);

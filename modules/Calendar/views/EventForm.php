@@ -16,13 +16,13 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if ($request->has('record')) {
 			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			if (!$this->record->isEditable() ||
-				($request->getBoolean('isDuplicate') === true && (!$this->record->isCreateable() || !$this->record->isPermitted('ActivityPostponed')))
+				(true === $request->getBoolean('isDuplicate') && (!$this->record->isCreateable() || !$this->record->isPermitted('ActivityPostponed')))
 			) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
@@ -34,7 +34,7 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -83,7 +83,7 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function postProcessAjax(\App\Request $request)
+	public function postProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view('Extended/EventForm.tpl', $request->getModule());
@@ -92,7 +92,7 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$jsFiles = parent::getFooterScripts($request);
 		if (!empty(App\Config::module('Calendar', 'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM'))) {

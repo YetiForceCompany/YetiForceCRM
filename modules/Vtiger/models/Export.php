@@ -7,6 +7,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Export_Model extends \App\Base
 {
@@ -16,9 +17,14 @@ class Vtiger_Export_Model extends \App\Base
 	 * @var Vtiger_Module_Model
 	 */
 	protected $moduleInstance;
+	/**
+	 * Field model instance.
+	 *
+	 * @var Vtiger_Field_Model[]
+	 */
+	protected $moduleFieldInstances;
 	protected $focus;
 	private $picklistValues;
-	private $fieldArray;
 	private $fieldDataTypeCache = [];
 	protected $moduleName;
 	protected $recordsListFromRequest = [];
@@ -50,7 +56,13 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public static function getSupportedFileFormats(string $moduleName): array
 	{
-		return App\Config::module($moduleName, 'EXPORT_SUPPORTED_FILE_FORMATS') ?? ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml'];
+		return App\Config::module($moduleName, 'EXPORT_SUPPORTED_FILE_FORMATS') ?? [
+			'LBL_CSV' => 'csv',
+			'LBL_XML' => 'xml',
+			'LBL_XLS' => 'xls',
+			'LBL_XLSX' => 'xlsx',
+			'LBL_ODS' => 'ods'
+		];
 	}
 
 	/**
@@ -65,6 +77,8 @@ class Vtiger_Export_Model extends \App\Base
 	{
 		if ('csv' === $exportType || empty($exportType)) {
 			$componentName = 'Export';
+		} elseif ('xls' === $exportType || 'xlsx' === $exportType || 'ods' === $exportType) {
+			$componentName = 'ExportToSpreadsheet';
 		} else {
 			$componentName = 'ExportTo' . ucfirst($exportType);
 		}
@@ -119,51 +133,54 @@ class Vtiger_Export_Model extends \App\Base
 	}
 
 	/**
-	 * Function exports the data based on the mode.
+	 * Get file headers.
+	 *
+	 * @return array
 	 */
-	public function exportData()
+	public function getHeaders(): array
 	{
-		$module = $this->moduleName;
-		$query = $this->getExportQuery();
 		$headers = [];
 		$exportBlockName = \App\Config::component('Export', 'BLOCK_NAME');
-		//Query generator set this when generating the query
-		if (!empty($this->accessibleFields)) {
-			foreach ($this->accessibleFields as $fieldName) {
-				if (!empty($this->moduleFieldInstances[$fieldName])) {
-					$fieldModel = $this->moduleFieldInstances[$fieldName];
-					// Check added as querygenerator is not checking this for admin users
-					if ($fieldModel && $fieldModel->isExportTable()) { // export headers for mandatory fields
-						$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $module);
+		foreach ($this->accessibleFields as $fieldName) {
+			if (!empty($this->moduleFieldInstances[$fieldName])) {
+				$fieldModel = $this->moduleFieldInstances[$fieldName];
+				// Check added as querygenerator is not checking this for admin users
+					if ($fieldModel) { // export headers for mandatory fields
+						$header = \App\Language::translate(App\Purifier::decodeHtml($fieldModel->get('label')), $this->moduleName);
 						if ($exportBlockName) {
-							$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $module) . '::' . $header;
+							$header = App\Language::translate(App\Purifier::decodeHtml($fieldModel->getBlockName()), $this->moduleName) . '::' . $header;
 						}
 						$headers[] = $header;
 					}
-				}
-			}
-		} else {
-			foreach ($this->moduleFieldInstances as $fieldModel) {
-				$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $module);
-				if ($exportBlockName) {
-					$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $module) . '::' . $header;
-				}
-				$headers[] = $header;
 			}
 		}
-		$isInventory = $this->moduleInstance->isInventory();
-		if ($isInventory) {
+		if ($this->moduleInstance->isInventory()) {
 			//Get inventory headers
-			$inventoryModel = Vtiger_Inventory_Model::getInstance($module);
+			$inventoryModel = Vtiger_Inventory_Model::getInstance($this->moduleName);
 			$inventoryFields = $inventoryModel->getFields();
 			$headers[] = 'Inventory::recordIteration';
-			foreach ($inventoryFields as &$field) {
-				$headers[] = 'Inventory::' . \App\Language::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $module);
+			foreach ($inventoryFields as $field) {
+				$headers[] = 'Inventory::' . \App\Language::translate(App\Purifier::decodeHtml($field->get('label')), $this->moduleName);
 				foreach ($field->getCustomColumn() as $columnName => $dbType) {
 					$headers[] = 'Inventory::' . $columnName;
 				}
 			}
-			$table = $inventoryModel->getDataTableName();
+		}
+		return $headers;
+	}
+
+	/**
+	 * Function exports the data based on the mode.
+	 */
+	public function exportData()
+	{
+		$query = $this->getExportQuery();
+		$headers = $this->getHeaders();
+		$isInventory = $this->moduleInstance->isInventory();
+		if ($isInventory) {
+			$inventoryModel = Vtiger_Inventory_Model::getInstance($this->moduleName);
+			$inventoryFields = $inventoryModel->getFields();
+			$inventoryTable = $inventoryModel->getDataTableName();
 		}
 		$entries = [];
 		$dataReader = $query->createCommand()->query();
@@ -172,7 +189,7 @@ class Vtiger_Export_Model extends \App\Base
 			$sanitizedRow = $this->sanitizeValues($row);
 			if ($isInventory) {
 				$sanitizedRow[] = $i++;
-				$rows = (new \App\Db\Query())->from($table)->where(['crmid' => $row['id']])->orderBy('seq')->all();
+				$rows = (new \App\Db\Query())->from($inventoryTable)->where(['crmid' => $row['id']])->orderBy('seq')->all();
 				if ($rows) {
 					foreach ($rows as &$row) {
 						$sanitizedInventoryRow = $this->sanitizeInventoryValues($row, $inventoryFields);
@@ -206,7 +223,7 @@ class Vtiger_Export_Model extends \App\Base
 		$fields[] = 'id';
 		foreach ($fieldInstances as &$fieldModel) {
 			// Check added as querygenerator is not checking this for admin users
-			if ($fieldModel->isViewEnabled() || $fieldModel->isMandatory()) {  // also export mandatory fields
+			if ($fieldModel->isExportTable() && ($fieldModel->isViewEnabled() || $fieldModel->isMandatory())) {  // also export mandatory fields
 				$fields[] = $fieldModel->getName();
 			}
 		}
@@ -257,7 +274,7 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public function getExportContentType(): string
 	{
-		return "text/{$this->exportType}";
+		return \App\Fields\File::getMimeContentType($this->getFileName());
 	}
 
 	/**
@@ -267,8 +284,7 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public function getFileName(): string
 	{
-		return str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($this->moduleName, $this->moduleName))) .
-			".{$this->fileExtension}";
+		return str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($this->moduleName, $this->moduleName))) . ".{$this->fileExtension}";
 	}
 
 	/**
@@ -296,6 +312,9 @@ class Vtiger_Export_Model extends \App\Base
 		header("content-type: {$this->getExportContentType()}; charset=UTF-8");
 		header('expires: Mon, 31 Dec 2000 00:00:00 GMT');
 		header('last-modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
+			header('pragma: public');
+		}
 		header('cache-control: post-check=0, pre-check=0', false);
 	}
 
@@ -305,34 +324,27 @@ class Vtiger_Export_Model extends \App\Base
 	 *
 	 * @param array $arr - the array of values
 	 */
-	public function sanitizeValues($arr)
+	public function sanitizeValues(array $arr)
 	{
-		if (empty($this->fieldArray)) {
-			$this->fieldArray = $this->moduleFieldInstances;
-			foreach ($this->fieldArray as $fieldName => $fieldObj) {
-				$columnName = $fieldObj->get('column');
-				$this->fieldArray[$columnName] = $fieldObj;
-			}
-		}
 		$recordId = (int) ($arr['id'] ?? 0);
 		$module = $this->moduleInstance->getName();
 		foreach ($arr as $fieldName => &$value) {
-			if (isset($this->fieldArray[$fieldName])) {
-				$fieldInfo = $this->fieldArray[$fieldName];
+			if (isset($this->moduleFieldInstances[$fieldName])) {
+				$fieldModel = $this->moduleFieldInstances[$fieldName];
 			} else {
 				unset($arr[$fieldName]);
 				continue;
 			}
-			$value = $fieldInfo->getUITypeModel()->getValueToExport($value, $recordId);
-			$uitype = $fieldInfo->get('uitype');
-			$fieldname = $fieldInfo->get('name');
+			$value = $fieldModel->getUITypeModel()->getValueToExport($value, $recordId);
+			$uitype = $fieldModel->get('uitype');
+			$fieldname = $fieldModel->get('name');
 			if (empty($this->fieldDataTypeCache[$fieldName])) {
-				$this->fieldDataTypeCache[$fieldName] = $fieldInfo->getFieldDataType();
+				$this->fieldDataTypeCache[$fieldName] = $fieldModel->getFieldDataType();
 			}
 			$type = $this->fieldDataTypeCache[$fieldName];
 			if (15 === $uitype || 16 === $uitype || 33 === $uitype) {
 				if (empty($this->picklistValues[$fieldname])) {
-					$this->picklistValues[$fieldname] = $this->fieldArray[$fieldname]->getPicklistValues();
+					$this->picklistValues[$fieldname] = $this->moduleFieldInstances[$fieldname]->getPicklistValues();
 				}
 				// If the value being exported is accessible to current user
 				// or the picklist is multiselect type.
@@ -346,7 +358,7 @@ class Vtiger_Export_Model extends \App\Base
 				$value = '';
 			} elseif (52 === $uitype || 'owner' === $type) {
 				$value = \App\Fields\Owner::getLabel($value);
-			} elseif ($fieldInfo->isReferenceField()) {
+			} elseif ($fieldModel->isReferenceField()) {
 				$value = trim($value);
 				if (!empty($value)) {
 					$recordModule = \App\Record::getType($value);
@@ -366,7 +378,7 @@ class Vtiger_Export_Model extends \App\Base
 				}
 			} elseif (\in_array($uitype, [302, 309])) {
 				$parts = explode(',', trim($value, ', '));
-				$values = \App\Fields\Tree::getValuesById((int) $fieldInfo->getFieldParams());
+				$values = \App\Fields\Tree::getValuesById((int) $fieldModel->getFieldParams());
 				foreach ($parts as &$part) {
 					foreach ($values as $id => $treeRow) {
 						if ($part === $id) {
@@ -385,7 +397,15 @@ class Vtiger_Export_Model extends \App\Base
 		return $arr;
 	}
 
-	public function sanitizeInventoryValues($inventoryRow, $inventoryFields)
+	/**
+	 * Sanitize inventory values.
+	 *
+	 * @param array $inventoryRow
+	 * @param array $inventoryFields
+	 *
+	 * @return array
+	 */
+	public function sanitizeInventoryValues(array $inventoryRow, array $inventoryFields): array
 	{
 		$inventoryEntries = [];
 		foreach ($inventoryFields as $columnName => $field) {

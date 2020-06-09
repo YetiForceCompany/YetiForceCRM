@@ -12,7 +12,7 @@ class Vtiger_RelatedCommentModal_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$relatedRecord = $request->getByType('relid', 'Alnum');
@@ -25,7 +25,7 @@ class Vtiger_RelatedCommentModal_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');

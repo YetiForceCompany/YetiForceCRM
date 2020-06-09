@@ -49,12 +49,12 @@ class Vtiger_QuickCreateView_Model extends \App\Base
 	 */
 	public function getLinks(array $linkParams)
 	{
-		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['QUICKCREATE_VIEW_HEADER'], $linkParams);
+		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['QUICKCREATE_VIEW_HEADER', 'EDIT_VIEW_RECORD_COLLECTOR'], $linkParams);
 		$links['QUICKCREATE_VIEW_HEADER'][] = Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'QUICKCREATE_VIEW_HEADER',
 			'linkhint' => 'LBL_GO_TO_FULL_FORM',
 			'showLabel' => 1,
-			'linkicon' => 'fas fa-edit',
+			'linkicon' => 'yfi yfi-full-editing-view',
 			'linkdata' => ['js' => 'click', 'url' => $this->getModule()->getCreateRecordUrl()],
 			'linkclass' => 'btn-light js-full-editlink fontBold u-text-ellipsis mb-2 mb-md-0 col-12'
 		]);

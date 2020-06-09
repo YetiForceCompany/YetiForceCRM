@@ -7,11 +7,12 @@ Vtiger_RelatedList_Js(
 		 * function to trigger send Email
 		 * @params: send email url , module name.
 		 */
-		triggerSendEmail: function() {
+		triggerSendEmail: function () {
 			let params = Vtiger_RelatedList_Js.relatedListInstance.getDefaultParams();
 			Vtiger_List_Js.triggerSendEmail(
 				$.extend(params, {
 					relatedLoad: true,
+					module: Vtiger_RelatedList_Js.relatedListInstance.moduleName,
 					sourceModule: app.getModuleName(),
 					sourceRecord: app.getRecordId()
 				})

@@ -7,7 +7,7 @@ jQuery.Class(
 	{
 		registerEvents() {
 			const container = $('.js-Settings-YetiForce-Watchdog-table');
-			container.find('.js-vars').on('change', function(e) {
+			container.find('.js-vars').on('change', function (e) {
 				let field = $(this);
 				AppConnector.request({
 					module: app.getModuleName(),
@@ -16,9 +16,8 @@ jQuery.Class(
 					flagName: field.data('flag'),
 					newParam: field.val()
 				})
-					.done(function(data) {
-						let response = data['result'],
-							params;
+					.done(function (data) {
+						let response = data['result'];
 						if (response['success']) {
 							Vtiger_Helper_Js.showPnotify({
 								text: response['message'],
@@ -30,7 +29,7 @@ jQuery.Class(
 							});
 						}
 					})
-					.fail(function(data) {
+					.fail(function (data) {
 						Vtiger_Helper_Js.showPnotify({
 							text: response['message']
 						});

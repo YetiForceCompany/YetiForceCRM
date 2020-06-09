@@ -21,7 +21,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->getFieldModel()->getFieldName();
 		if (!$requestFieldName) {
@@ -48,7 +48,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 			$scheme = 'http';
 			$value = "{$scheme}://{$value}";
 		}
-		if (!(preg_match('/^([^\:]+)\:/i', $value) && filter_var($value, FILTER_VALIDATE_URL) && in_array(strtolower($scheme), static::ALLOWED_PROTOCOLS))) {
+		if (!(preg_match('/^([^\:]+)\:/i', $value) && filter_var($value, FILTER_VALIDATE_URL) && \in_array(strtolower($scheme), static::ALLOWED_PROTOCOLS))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
@@ -69,14 +69,14 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 	{
 		$rawValue = $value;
 		$value = \App\Purifier::encodeHtml($value);
-		preg_match("^[\w]+:\/\/^", $value, $matches);
+		preg_match('^[\\w]+:\\/\\/^', $value, $matches);
 		if (empty($matches[0])) {
 			$value = 'http://' . $value;
 		}
 		if ($rawText) {
 			return $value;
 		}
-		$rawValue = \App\TextParser::textTruncate($rawValue, is_int($length) ? $length : false);
+		$rawValue = \App\TextParser::textTruncate($rawValue, \is_int($length) ? $length : false);
 
 		return '<a class="urlField u-cursor-pointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer noopener">' . \App\Purifier::encodeHtml($rawValue) . '</a>';
 	}

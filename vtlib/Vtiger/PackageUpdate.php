@@ -548,8 +548,8 @@ class PackageUpdate extends PackageImport
 			}
 		}
 		if ($inRelModuleInstance) {
-			$inRelModuleInstance->unsetRelatedList($moduleInstance, "$label", "$inRelatedListNode->function");
-			$inRelModuleInstance->setRelatedList($moduleInstance, "$label", $actions, "$inRelatedListNode->function");
+			$inRelModuleInstance->unsetRelatedList($moduleInstance, "$label", "$inRelatedListNode->function", $inRelatedListNode->field_name);
+			$inRelModuleInstance->setRelatedList($moduleInstance, "$label", $actions, "$inRelatedListNode->function", $inRelatedListNode->field_name);
 		}
 		return $inRelModuleInstance;
 	}

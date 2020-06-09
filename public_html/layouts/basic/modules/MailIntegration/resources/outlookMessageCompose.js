@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
-const MailIntegration_Compose = {
+window.MailIntegration_Compose = {
 	/**
 	 * AppConnector wrapper
 	 *
@@ -10,7 +10,7 @@ const MailIntegration_Compose = {
 	 * @return  {object}           AppConnector object with done method
 	 */
 	connector(request) {
-		return AppConnector.request(request).fail(error => {
+		return AppConnector.request(request).fail((error) => {
 			this.showResponseMessage(false);
 		});
 	},
@@ -42,13 +42,13 @@ const MailIntegration_Compose = {
 	 */
 	registerAutocompleteTemplate() {
 		$.widget('ui.autocomplete', $.ui.autocomplete, {
-			_renderItem: function(ul, item) {
-				const listItemTemplate = user => {
+			_renderItem: function (ul, item) {
+				const listItemTemplate = (user) => {
 					return `<li class="c-search-item js-search-item">
 					<div class="">
 								<div class="row">
 									<div class="col-9 pr-0">
-										<div class="u-font-size-14px">${user.name}</div>
+										<div class="u-fs-14px">${user.name}</div>
 										<div class="c-search-item__mail small">${user.mail}</div>
 									</div>
 									<div class="col-3 pr-0 text-right">
@@ -94,8 +94,8 @@ const MailIntegration_Compose = {
 			action: 'Mail',
 			mode: 'findEmail',
 			search: request.term
-		}).done(responseData => {
-			const data = responseData.result.map(user => {
+		}).done((responseData) => {
+			const data = responseData.result.map((user) => {
 				let userData = user.split(' <');
 				const name = userData[0];
 				const mail = userData[1].slice(0, -1);
@@ -127,7 +127,7 @@ const MailIntegration_Compose = {
 	 * @param   {object}  newRecipient
 	 */
 	copyRecipient(recipientsField, newRecipient) {
-		Office.context.mailbox.item[recipientsField].addAsync(newRecipient, function(result) {
+		Office.context.mailbox.item[recipientsField].addAsync(newRecipient, function (result) {
 			if (result.error) {
 				Office.context.mailbox.item.notificationMessages.replaceAsync('error', {
 					type: 'errorMessage',
@@ -144,10 +144,10 @@ const MailIntegration_Compose = {
 		}
 	}
 };
-(function($) {
-	Office.onReady(info => {
+(function ($) {
+	Office.onReady((info) => {
 		if (info.host === Office.HostType.Outlook) {
-			MailIntegration_Compose.registerEvents();
+			window.MailIntegration_Compose.registerEvents();
 		}
 	});
 })($);

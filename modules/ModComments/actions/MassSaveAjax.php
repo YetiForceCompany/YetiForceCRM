@@ -19,7 +19,7 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'CreateView')) {
@@ -37,7 +37,7 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$recordModels = $this->getRecordModelsFromRequest($request);
 		$relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($request->getByType('source_module', 2)), Vtiger_Module_Model::getInstance($request->getModule()));
@@ -57,7 +57,7 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 	 *
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	private function getRecordModelsFromRequest(\App\Request $request)
+	private function getRecordModelsFromRequest(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordIds = self::getRecordsListFromRequest($request);

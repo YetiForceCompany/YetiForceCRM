@@ -51,6 +51,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 	 * Static Function to get the instance of Vtiger TreeView Model for the given Vtiger Module Model.
 	 *
 	 * @param string name of the module
+	 * @param Vtiger_Module_Model $moduleModel
 	 *
 	 * @return Vtiger_TreeView_Model instance
 	 */
@@ -135,13 +136,13 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 				'id' => $treeID,
 				'type' => 'category',
 				'record_id' => $row['tree'],
-				'parent' => $parent == 0 ? '#' : $parent,
+				'parent' => 0 == $parent ? '#' : $parent,
 				'text' => \App\Language::translate($row['name'], $this->getModuleName()),
 			];
 			if (!empty($row['icon'])) {
 				$tree['icon'] = $row['icon'];
 			}
-			$checked = in_array($row['tree'], $selected);
+			$checked = \in_array($row['tree'], $selected);
 			if ($checked) {
 				$tree['category'] = ['checked' => true];
 			}
@@ -179,9 +180,8 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		$entries = $relationListView->getEntries($pagingModel);
 		if ($onlyKeys) {
 			return array_keys($entries);
-		} else {
-			return $entries;
 		}
+		return $entries;
 	}
 
 	private function getAllRecords()
@@ -201,7 +201,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 	{
 		$selectedRecords = $this->getSelectedRecords();
 		$isDeletable = $this->isDeletable();
-		if ($this->getRelationType() == 2) {
+		if (2 == $this->getRelationType()) {
 			$listEntries = $this->getAllRecords();
 		} else {
 			$listEntries = $this->getSelectedRecords(false);
@@ -212,7 +212,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		foreach ($listEntries as $item) {
 			++$this->lastIdinTree;
 			$parent = (int) ltrim($item->get($fieldName), 'T');
-			$selected = in_array($item->getId(), $selectedRecords);
+			$selected = \in_array($item->getId(), $selectedRecords);
 			$state = ['selected' => $selected];
 			if (!$isDeletable && $selected) {
 				$state['disabled'] = true;
@@ -222,10 +222,10 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 				'type' => 'category',
 				'attr' => 'record',
 				'record_id' => $item->getId(),
-				'parent' => $parent == 0 ? '#' : $parent,
+				'parent' => 0 == $parent ? '#' : $parent,
 				'text' => $item->getName(),
 				'state' => $state,
-				'icon' => "js-detail__icon userIcon-{$this->getModuleName()}",
+				'icon' => "js-detail__icon yfm-{$this->getModuleName()}",
 				'category' => ['checked' => $selected]
 			];
 		}

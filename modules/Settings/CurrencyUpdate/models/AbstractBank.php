@@ -26,12 +26,12 @@ abstract class Settings_CurrencyUpdate_AbstractBank_Model
 
 	abstract public function getMainCurrencyCode();
 
-	/*
-	 * Fetch exchange rates
+	/**
+	 * Fetch exchange rates.
+	 *
 	 * @param <Array> $currencies - list of systems active currencies
-	 * @param <Date> $date - date for which exchange is fetched
-	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated
+	 * @param <Date>  $date       - date for which exchange is fetched
+	 * @param bool    $cron       - if true then it is fired by server and crms currency conversion rates are updated
 	 */
-
 	abstract public function getRates($currencies, $date, $cron = false);
 }

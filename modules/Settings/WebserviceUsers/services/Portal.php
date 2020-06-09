@@ -73,6 +73,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 			case 'istorage':
 				$params['uitype'] = 10;
 				$params['referenceList'] = ['IStorages'];
+				$params['typeofdata'] = 'V~O';
 				break;
 			case 'status':
 				$params['uitype'] = 16;
@@ -238,7 +239,7 @@ class Settings_WebserviceUsers_Portal_Service extends Settings_WebserviceUsers_R
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getModule()->getEditViewUrl() . '&record=' . $this->getId(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn btn-sm btn-primary',
 				'modalView' => true,
 			],

@@ -14,14 +14,14 @@ class Vtiger_SocialMedia_Handler
 	 *
 	 * @param \App\EventHandler $eventHandler
 	 */
-	public function entityBeforeSave(\App\EventHandler $eventHandler)
+	public function entityBeforeSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if (\App\SocialMedia::isEnableForModule($recordModel->getModuleName()) && !$recordModel->isNew()) {
 			$accountsToRemove = [];
 			foreach (Vtiger_SocialMedia_Model::getInstanceByRecordModel($recordModel)->getAllColumnName() as $uiType => $column) {
 				$preValue = $recordModel->getPreviousValue($column);
-				if ($preValue !== false && !empty($preValue)) {
+				if (false !== $preValue && !empty($preValue)) {
 					$accountsToRemove[$uiType][] = $preValue;
 				}
 			}
@@ -38,7 +38,7 @@ class Vtiger_SocialMedia_Handler
 	 *
 	 * @return bool
 	 */
-	public function entityBeforeDelete(\App\EventHandler $eventHandler)
+	public function entityBeforeDelete(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		if (\App\SocialMedia::isEnableForModule($recordModel->getModuleName())) {

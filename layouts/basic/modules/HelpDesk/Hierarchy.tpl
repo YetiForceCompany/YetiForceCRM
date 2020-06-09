@@ -5,7 +5,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">
-						<span class="modCT_{$MODULE_NAME} userIcon-{$MODULE_NAME} mr-2"></span>
+						<span class="modCT_{$MODULE_NAME} yfm-{$MODULE_NAME} mr-2"></span>
 						{\App\Language::translate('LBL_SHOW_HIERARCHY', $MODULE_NAME)}
 					</h5>
 					<button type="button" class="close" data-dismiss="modal"

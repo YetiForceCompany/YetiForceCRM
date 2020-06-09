@@ -40,6 +40,9 @@
 			</div>
 		</div>
 		<hr>
+		<div class="alert alert-block alert-warning mb-2">
+			<span>{\App\Language::translate('LBL_EDIT_MAY_AFFECT_STABILITY_DESC', $QUALIFIED_MODULE)}</span>
+		</div>
 		<div class="contents tabbable">
 			<ul class="nav nav-tabs layoutTabs massEditTabs" role="tablist">
 				<li class="nav-item"><a class="nav-link active" data-toggle="tab" role="tab"
@@ -89,7 +92,7 @@
 												 alt=""/>
 											&nbsp;&nbsp;
 										{/if}
-										<strong class="align-middle">{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
+										<strong class="align-middle" title="{$BLOCK_LABEL_KEY}">{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
 									</div>
 									<div class="btn-toolbar pl-1" role="toolbar" aria-label="Toolbar with button groups">
 										{if $BLOCK_MODEL->isAddCustomFieldEnabled()}
@@ -155,13 +158,13 @@
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
 																	{/if}
-																	<span class="ml-3 font-weight-normal" title="UiType: {$FIELD_MODEL->getUIType()}">[ {$FIELD_MODEL->getName()}&nbsp;&nbsp;-&nbsp;&nbsp;{$FIELD_MODEL->getFieldDataType()} ]</span>
+																	<span class="ml-3 font-weight-normal">[{$FIELD_MODEL->getName()}]</span>
 																</span>
 																<span class="float-right actions">
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}"/>
 																	{if $FIELD_MODEL->isEditable()}
 																		<button class="btn btn-success btn-xs editFieldDetails ml-1">
-																			<span class="fas fa-edit"
+																			<span class="yfi yfi-full-editing-view"
 																				  title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
@@ -212,13 +215,13 @@
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
 																	{/if}
-																	<span class="ml-3 font-weight-normal" title="UiType: {$FIELD_MODEL->getUIType()}">[ {$FIELD_MODEL->getName()}&nbsp;&nbsp;-&nbsp;&nbsp;{$FIELD_MODEL->getFieldDataType()} ]</span>
+																	<span class="ml-3 font-weight-normal">[{$FIELD_MODEL->getName()}]</span>
 																</span>
 																<span class="float-right actions">
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}"/>
 																	{if $FIELD_MODEL->isEditable()}
 																		<button class="btn btn-success btn-xs editFieldDetails ml-1">
-																			<span class="fas fa-edit"
+																			<span class="yfi yfi-full-editing-view"
 																				  title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}

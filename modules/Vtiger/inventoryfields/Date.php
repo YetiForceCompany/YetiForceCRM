@@ -25,7 +25,7 @@ class Vtiger_Date_InventoryField extends Vtiger_Basic_InventoryField
 	public function getDBValue($value, ?string $name = '')
 	{
 		if (!isset($this->dbValue[$value])) {
-			$this->dbValue[$value] = \App\Fields\Date::formatToDb($value);
+			$this->dbValue[$value] = empty($value) ? '' : \App\Fields\Date::formatToDb($value);
 		}
 		return $this->dbValue[$value];
 	}

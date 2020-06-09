@@ -102,7 +102,6 @@ class VTUpdateRelatedFieldTask extends VTTask
 			$fieldModel = $recordModel->getField($relatedFieldName);
 			if ($fieldModel->isEditable()) {
 				$fieldModel->getUITypeModel()->validate($fieldValue);
-				$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
 				$recordModel->set($relatedFieldName, $fieldValue);
 				$recordModel->save();
 			} else {

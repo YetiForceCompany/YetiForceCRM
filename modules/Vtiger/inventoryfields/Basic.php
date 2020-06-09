@@ -447,7 +447,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
 		if (!is_numeric($value) && (\is_string($value) && $value !== strip_tags($value))) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . ($columnName ?? $this->getColumnName()) . '||' . $this->getModuleName() . '||' . $value, 406);
 		}
 		if (App\TextParser::getTextLength($value) > $this->maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $columnName ?? $this->getColumnName() . '||' . $this->getModuleName() . '||' . $value, 406);
@@ -496,6 +496,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		if ($userFormat && $baseValue) {
 			$baseValue = $this->getDBValue($baseValue, $column);
 		}
+
 		$this->validate($value, $column, false, $baseValue);
 		$recordModel->setInventoryItemPart($item['id'], $column, $value);
 		if ($customColumn = $this->getCustomColumn()) {

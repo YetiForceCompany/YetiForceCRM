@@ -6,7 +6,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title">
-							<span class="fas fa-exclamation-circle redColor mr-1"></span>
+							<span class="yfi yfi-system-warnings mr-1"></span>
 							{App\Language::translate('LBL_SYSTEM_WARNINGS','Settings:Vtiger')}
 						</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">

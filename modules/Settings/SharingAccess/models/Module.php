@@ -38,7 +38,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	 */
 	public function isSharingEditable()
 	{
-		return $this->get('editstatus') == self::EDITABLE;
+		return self::EDITABLE == $this->get('editstatus');
 	}
 
 	/**
@@ -48,7 +48,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	 */
 	public function isPrivate()
 	{
-		return (int) $this->get('permission') == self::SHARING_ACCESS_PRIVATE;
+		return self::SHARING_ACCESS_PRIVATE == (int) $this->get('permission');
 	}
 
 	/**
@@ -58,7 +58,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	 */
 	public function isPublic()
 	{
-		return $this->get('editstatus') == self::SHARING_ACCESS_PUBLIC;
+		return self::SHARING_ACCESS_PUBLIC == $this->get('editstatus');
 	}
 
 	public function getRulesListUrl()
@@ -95,6 +95,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	 * Static Function to get the instance of Vtiger Module Model for the given id or name.
 	 *
 	 * @param mixed id or name of the module
+	 * @param mixed $value
 	 */
 	public static function getInstance($value)
 	{
@@ -118,6 +119,10 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Static Function to get the instance of Vtiger Module Model for all the modules.
+	 *
+	 * @param mixed $editable
+	 * @param mixed $restrictedModulesList
+	 * @param mixed $isEntityType
 	 *
 	 * @return <Array> - List of Vtiger Module Model or sub class instances
 	 */

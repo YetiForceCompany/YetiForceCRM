@@ -652,7 +652,7 @@ final class Chat
 			return Cache::staticGet('ChatGetRoomsByUser', $userId);
 		}
 		foreach (self::getActiveRoomTypes() as $roomType) {
-			$methodName = 'getRooms' . ucfirst($roomType);
+			$methodName = 'getRooms' . Utils::mbUcfirst($roomType);
 			$roomsByUser[$roomType] = static::{$methodName}($userId);
 		}
 		Cache::staticSave('ChatGetRoomsByUser', $userId);

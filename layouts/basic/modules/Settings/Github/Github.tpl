@@ -135,7 +135,7 @@
 							<div class="float-right actions">
 							<span class="actionImages">
 								<a href="{$ISSUE->get('html_url')}" target="_blank" rel="noreferrer noopener">
-									<span title="" class="fas fa-th-list alignMiddle"></span>
+									<span title="" class="fas fa-th-list"></span>
 								</a>
 							</span>
 							</div>

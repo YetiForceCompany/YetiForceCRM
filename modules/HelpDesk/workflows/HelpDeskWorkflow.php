@@ -39,7 +39,7 @@ class HelpDeskWorkflow
 		\App\Log::trace('Entering helpDeskChangeNotifyContacts');
 		$recordId = $recordModel->getId();
 		$mails = static::getContactsMailsFromTicket($recordId);
-		if (count($mails) > 0) {
+		if (\count($mails) > 0) {
 			\App\Mailer::sendFromTemplate([
 				'template' => 'NotifyContactOnTicketChange',
 				'moduleName' => 'HelpDesk',
@@ -60,7 +60,7 @@ class HelpDeskWorkflow
 		\App\Log::trace('Entering helpDeskClosedNotifyContacts');
 		$recordId = $recordModel->getId();
 		$mails = static::getContactsMailsFromTicket($recordId);
-		if (count($mails) > 0) {
+		if (\count($mails) > 0) {
 			\App\Mailer::sendFromTemplate([
 				'template' => 'NotifyContactOnTicketClosed',
 				'moduleName' => 'HelpDesk',
@@ -82,7 +82,7 @@ class HelpDeskWorkflow
 		$relatedToId = $recordModel->get('related_to');
 		$moduleName = \App\Record::getType($relatedToId);
 		$mail = false;
-		if (!empty($relatedToId) && $moduleName === 'HelpDesk') {
+		if (!empty($relatedToId) && 'HelpDesk' === $moduleName) {
 			$mail = (new \App\Db\Query())->select(['vtiger_account.email1'])->from('vtiger_account')->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_account.accountid')->innerJoin('vtiger_troubletickets', 'vtiger_troubletickets.parent_id = vtiger_account.accountid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_troubletickets.ticketid' => $relatedToId, 'vtiger_account.emailoptout' => 1])->scalar();
 		}
 		if ($mail) {
@@ -104,7 +104,7 @@ class HelpDeskWorkflow
 	public static function helpDeskNewCommentContacts(Vtiger_Record_Model $recordModel)
 	{
 		\App\Log::trace('Entering helpDeskNewCommentContacts');
-		if (($relId = $recordModel->get('related_to')) && \App\Record::getType($relId) === 'HelpDesk' && ($mails = static::getContactsMailsFromTicket($relId))) {
+		if (($relId = $recordModel->get('related_to')) && 'HelpDesk' === \App\Record::getType($relId) && ($mails = static::getContactsMailsFromTicket($relId))) {
 			\App\Mailer::sendFromTemplate([
 				'template' => 'NewCommentAddedToTicketContact',
 				'moduleName' => 'ModComments',
@@ -129,16 +129,16 @@ class HelpDeskWorkflow
 			$mails = [];
 			$smownerId = $result;
 			$ownerType = \App\Fields\Owner::getType($smownerId);
-			if ($ownerType === 'Users') {
+			if ('Users' === $ownerType) {
 				$user = App\User::getUserModel($smownerId);
-				if ((int) $user->getDetail('emailoptout') === 1) {
+				if (1 === (int) $user->getDetail('emailoptout')) {
 					$mails[] = $user->getDetail('email1');
 				}
 			} else {
 				$groupUsers = \App\PrivilegeUtil::getUsersByGroup($smownerId);
 				foreach ($groupUsers as $userId) {
 					$user = App\User::getUserModel($userId);
-					if ((int) $user->getDetail('emailoptout') === 1) {
+					if (1 === (int) $user->getDetail('emailoptout')) {
 						$mails[] = $user->getDetail('email1');
 					}
 				}

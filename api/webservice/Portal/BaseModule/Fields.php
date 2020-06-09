@@ -41,6 +41,7 @@ class Fields extends \Api\Core\BaseAction
 			$fieldInfo['sequence'] = $field->get('sequence');
 			$fieldInfo['fieldparams'] = $field->getFieldParams();
 			$fieldInfo['blockId'] = $block->id;
+			$fieldInfo['dbStructure'] = $field->getDBColumnType(false);
 			if (isset($fieldInfo['picklistvalues']) && $field->isEmptyPicklistOptionAllowed()) {
 				$fieldInfo['isEmptyPicklistOptionAllowed'] = $field->isEmptyPicklistOptionAllowed();
 			}
@@ -49,14 +50,6 @@ class Fields extends \Api\Core\BaseAction
 			}
 			if ($field->isTreeField()) {
 				$fieldInfo['treeValues'] = \App\Fields\Tree::getTreeValues((int) $field->getFieldParams(), $moduleName);
-			}
-			if ($field->getFieldDataType() === 'country') {
-				$countries = $field->getPicklistValues();
-				array_walk($countries, function (&$item, $key) {
-					$item = \App\Language::translateSingleMod($key, 'Other.Country');
-				});
-				$fieldInfo['picklistvalues'] = $countries;
-				$fieldInfo['isEmptyPicklistOptionAllowed'] = $field->isEmptyPicklistOptionAllowed();
 			}
 			$fields[$field->getId()] = $fieldInfo;
 		}

@@ -28,7 +28,7 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 		$sortOrder = $this->get('sortorder');
 
 		if (!empty($orderBy)) {
-			if ($sortOrder === 'ASC') {
+			if ('ASC' === $sortOrder) {
 				$query->orderBy([$orderBy => SORT_ASC]);
 			} else {
 				$query->orderBy([$orderBy => SORT_DESC]);
@@ -72,14 +72,14 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 
 		$startSequence = ($page - 1) * $pageLimit + 1;
 
-		$endSequence = $startSequence + count($record) - 1;
+		$endSequence = $startSequence + \count($record) - 1;
 		$recordCount = self::getRecordCount();
 
 		$pageCount = (int) ($recordCount / $pageLimit);
-		if (($recordCount % $pageLimit) != 0) {
-			$pageCount++;
+		if (0 != ($recordCount % $pageLimit)) {
+			++$pageCount;
 		}
-		if ($pageCount == 0) {
+		if (0 == $pageCount) {
 			$pageCount = 1;
 		}
 		if ($page < $pageCount) {

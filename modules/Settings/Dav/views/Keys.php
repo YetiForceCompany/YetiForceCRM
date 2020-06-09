@@ -11,7 +11,7 @@ class Settings_Dav_Keys_View extends Settings_Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -21,17 +21,17 @@ class Settings_Dav_Keys_View extends Settings_Vtiger_Index_View
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('USERS', Users_Record_Model::getAll());
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('ENABLEDAV', !in_array('dav', App\Config::api('enabledServices')));
+		$viewer->assign('ENABLEDAV', !\in_array('dav', App\Config::api('enabledServices')));
 		$viewer->view('Keys.tpl', $qualifiedModuleName);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-				'libraries.clipboard.dist.clipboard'
+			'libraries.clipboard.dist.clipboard'
 		]));
 	}
 }

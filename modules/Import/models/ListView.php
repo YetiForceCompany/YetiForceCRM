@@ -51,12 +51,12 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 		$this->loadListViewOrderBy();
 		$pageLimit = $pagingModel->getPageLimit();
 		$query = $this->getQueryGenerator()->createQuery();
-		if ($pagingModel->get('limit') !== 0) {
+		if (0 !== $pagingModel->get('limit')) {
 			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		}
 		$query = $this->addLastImportedRecordConditions($query);
 		$rows = $query->all();
-		$count = count($rows);
+		$count = \count($rows);
 		$pagingModel->calculatePageRange($count);
 		if ($count > $pageLimit) {
 			array_pop($rows);

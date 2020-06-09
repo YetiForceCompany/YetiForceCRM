@@ -24,13 +24,13 @@ var App = (window.App = {
 					if (slef.treeInstance === false) {
 						slef.treeInstance = container;
 						slef.treeInstance
-							.on('select_node.jstree', function(e, data) {
+							.on('select_node.jstree', function (e, data) {
 								if (data.event !== undefined && $(data.event.target).hasClass('jstree-checkbox')) {
 									return;
 								}
 								data.instance.select_node(data.node.children_d);
 							})
-							.on('deselect_node.jstree', function(e, data) {
+							.on('deselect_node.jstree', function (e, data) {
 								if (data.event !== undefined && $(data.event.target).hasClass('jstree-checkbox')) {
 									return;
 								}
@@ -58,7 +58,7 @@ var App = (window.App = {
 						if (searchTimeout) {
 							clearTimeout(searchTimeout);
 						}
-						searchTimeout = setTimeout(function() {
+						searchTimeout = setTimeout(function () {
 							var searchValue = treeSearch.val();
 							self.treeInstance.jstree(true).search(searchValue);
 						}, 250);
@@ -95,7 +95,7 @@ var App = (window.App = {
 				}
 				let url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
 				if (undefined === params.callbackFunction) {
-					params.callbackFunction = function() {};
+					params.callbackFunction = function () {};
 				}
 				if (
 					(app.getViewName() === 'Detail' ||
@@ -106,12 +106,12 @@ var App = (window.App = {
 					url += '&sourceRecord=' + app.getRecordId();
 				}
 				const progress = $.progressIndicator({ blockInfo: { enabled: true } });
-				this.getForm(url, moduleName, params).done(data => {
-					this.showModal(data, params);
-					app.registerEventForClockPicker();
+				this.getForm(url, moduleName, params).done((data) => {
 					progress.progressIndicator({
 						mode: 'hide'
 					});
+					this.showModal(data, params);
+					app.registerEventForClockPicker();
 				});
 			},
 			/**
@@ -139,7 +139,7 @@ var App = (window.App = {
 					requestParams['data'] = params.data;
 					requestParams['url'] = url;
 				}
-				AppConnector.request(requestParams).done(function(data) {
+				AppConnector.request(requestParams).done(function (data) {
 					if (isCacheActive) {
 						App.Components.QuickCreate.moduleCache[moduleName] = data;
 					}
@@ -156,7 +156,7 @@ var App = (window.App = {
 			showModal(html, params = {}) {
 				app.showModalWindow(html, container => {
 					let select2Inputs = container.find("select.select2");
-					if (select2Inputs) {
+					if (select2Inputs.length) {
 						App.Fields.Picklist.showSelect2ElementView(select2Inputs);
 						select2Inputs.select2("destroy");
 					}
@@ -164,16 +164,16 @@ var App = (window.App = {
 					const moduleName = quickCreateForm.find('[name="module"]').val();
 					const editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
 					const moduleClassName = moduleName + '_QuickCreate_Js';
+					editViewInstance.setForm(quickCreateForm);
 					editViewInstance.registerBasicEvents(quickCreateForm);
 					if (typeof window[moduleClassName] !== 'undefined') {
 						new window[moduleClassName]().registerEvents(container);
 					}
-					quickCreateForm.validationEngine(app.validationEngineOptions);
+					quickCreateForm.validationEngine(app.validationEngineOptionsForRecord);
 					if (typeof params.callbackPostShown !== 'undefined') {
 						params.callbackPostShown(quickCreateForm);
 					}
 					this.registerPostLoadEvents(quickCreateForm, params);
-					this.registerHelpInfo(quickCreateForm);
 				});
 			},
 			/**
@@ -185,9 +185,9 @@ var App = (window.App = {
 			 * @return  {boolean}
 			 */
 			registerPostLoadEvents(form, params) {
-				const submitSuccessCallback = params.callbackFunction || function() {};
-				const goToFullFormCallBack = params.goToFullFormcallback || function() {};
-				form.on('submit', e => {
+				const submitSuccessCallback = params.callbackFunction || function () {};
+				const goToFullFormCallBack = params.goToFullFormcallback || function () {};
+				form.on('submit', (e) => {
 					const form = $(e.currentTarget);
 					if (form.hasClass('not_validation')) {
 						return true;
@@ -226,7 +226,7 @@ var App = (window.App = {
 									enabled: true
 								}
 							});
-							saveHandler(form).done(data => {
+							saveHandler(form).done((data) => {
 								const modalContainer = form.closest('.modalContainer');
 								const parentModuleName = app.getModuleName();
 								const viewName = app.getViewName();
@@ -256,7 +256,7 @@ var App = (window.App = {
 					}
 				});
 
-				form.find('.js-full-editlink').on('click', e => {
+				form.find('.js-full-editlink').on('click', (e) => {
 					const form = $(e.currentTarget).closest('form');
 					const editViewUrl = $(e.currentTarget).data('url');
 					goToFullFormCallBack(form);
@@ -264,14 +264,6 @@ var App = (window.App = {
 				});
 
 				this.registerTabEvents(form);
-			},
-			/**
-			 * Register help info
-			 *
-			 * @param   {object}  container jQuery
-			 */
-			registerHelpInfo(container = $('form[name="QuickCreate"]')) {
-				app.showPopoverElementView(container.find('.js-help-info'));
 			},
 			/**
 			 * Function to navigate from quick create to edit iew full form
@@ -282,7 +274,7 @@ var App = (window.App = {
 				//As formData contains information about both view and action removed action and directed to view
 				form.find('input[name="action"]').remove();
 				form.append('<input type="hidden" name="view" value="Edit" />');
-				$.each(form.find('[data-validation-engine]'), function(key, data) {
+				$.each(form.find('[data-validation-engine]'), function (key, data) {
 					$(data).removeAttr('data-validation-engine');
 				});
 				form.addClass('not_validation');
@@ -297,32 +289,34 @@ var App = (window.App = {
 				const tabElements = form.find('.nav.nav-pills , .nav.nav-tabs').find('a');
 				//This will remove the name attributes and assign it to data-element-name . We are doing this to avoid
 				//Multiple element to send as in calendar
-				const quickCreateTabOnHide = function(target) {
+				const quickCreateTabOnHide = function (target) {
 					$(target)
 						.find('[name]')
-						.each(function(index, element) {
+						.each(function (index, element) {
 							element = $(element);
 							element.attr('data-element-name', element.attr('name')).removeAttr('name');
 						});
 				};
 				//This will add the name attributes and get value from data-element-name . We are doing this to avoid
 				//Multiple element to send as in calendar
-				const quickCreateTabOnShow = function(target) {
+				const quickCreateTabOnShow = function (target) {
 					$(target)
 						.find('[data-element-name]')
-						.each(function(index, element) {
+						.each(function (index, element) {
 							element = $(element);
-							element.attr('name', element.attr('data-element-name')).removeAttr('data-element-name');
+							element
+								.attr('name', element.attr('data-element-name'))
+								.removeAttr('data-element-name');
 						});
 				};
-				tabElements.on('click', function(e) {
+				tabElements.on('click', function (e) {
 					quickCreateTabOnHide(tabElements.not('[aria-expanded="false"]').attr('data-target'));
 					quickCreateTabOnShow($(this).attr('data-target'));
 					//while switching tabs we have to clear the invalid fields list
 					form.data('jqv').InvalidFields = [];
 				});
 				//To show aleady non active element , this we are doing so that on load we can remove name attributes for other fields
-				tabElements.filter('a:not(.active)').each(function(e) {
+				tabElements.filter('a:not(.active)').each(function (e) {
 					quickCreateTabOnHide($(this).attr('data-target'));
 				});
 			},
@@ -337,7 +331,7 @@ var App = (window.App = {
 				const aDeferred = $.Deferred();
 				const quickCreateSaveUrl = form.serializeFormData();
 				AppConnector.request(quickCreateSaveUrl).done(
-					data => {
+					(data) => {
 						aDeferred.resolve(data);
 					},
 					(textStatus, errorThrown) => {
@@ -357,17 +351,18 @@ var App = (window.App = {
 			showModal(params = {}, element) {
 				const self = this;
 				params['view'] = 'QuickEditModal';
-				AppConnector.request(params).done(function(html) {
-					app.showModalWindow(html, container => {
+				AppConnector.request(params).done(function (html) {
+					app.showModalWindow(html, (container) => {
 						let form = container.find('form[name="QuickEdit"]');
 						let moduleName = form.find('[name="module"]').val();
 						let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
 						let moduleClassName = moduleName + '_QuickEdit_Js';
+						editViewInstance.setForm(form);
 						editViewInstance.registerBasicEvents(form);
 						if (typeof window[moduleClassName] !== 'undefined') {
 							new window[moduleClassName]().registerEvents(container);
 						}
-						form.validationEngine(app.validationEngineOptions);
+						form.validationEngine(app.validationEngineOptionsForRecord);
 						if (typeof params.callbackPostShown !== 'undefined') {
 							params.callbackPostShown(form, params);
 						}
@@ -384,8 +379,8 @@ var App = (window.App = {
 			 * @return  {boolean}
 			 */
 			registerPostLoadEvents(form, params, element) {
-				const submitSuccessCallback = params.callbackFunction || function() {};
-				form.on('submit', e => {
+				const submitSuccessCallback = params.callbackFunction || function () {};
+				form.on('submit', (e) => {
 					const form = $(e.currentTarget);
 					if (form.hasClass('not_validation')) {
 						return true;
@@ -424,7 +419,7 @@ var App = (window.App = {
 									enabled: true
 								}
 							});
-							saveHandler(form).done(data => {
+							saveHandler(form).done((data) => {
 								const modalContainer = form.closest('.modalContainer');
 								const parentModuleName = app.getModuleName();
 								const viewName = app.getViewName();
@@ -444,8 +439,17 @@ var App = (window.App = {
 										type: 'success'
 									});
 								}
-								if ('Detail' === viewName && app.getRecordId() === form.find('[name="record"]').val()) {
-									window.location.reload();
+								if (
+									'Detail' === viewName &&
+									app.getRecordId() === form.find('[name="record"]').val()
+								) {
+									if (params.removeFromUrl) {
+										let searchParams = new URLSearchParams(window.location.search);
+										searchParams.delete('step');
+										window.location.href = 'index.php?' + searchParams.toString();
+									} else {
+										window.location.reload();
+									}
 								}
 							});
 						} else {
@@ -467,6 +471,10 @@ var App = (window.App = {
 			save(form) {
 				const aDeferred = $.Deferred();
 				let formData = new FormData(form[0]);
+				const saveData = form.serializeFormData();
+				for (let key in saveData) {
+					formData.append(key, saveData[key]);
+				}
 				AppConnector.request({
 					url: 'index.php',
 					type: 'POST',
@@ -474,7 +482,7 @@ var App = (window.App = {
 					processData: false,
 					contentType: false
 				}).done(
-					data => {
+					(data) => {
 						aDeferred.resolve(data);
 					},
 					(textStatus, errorThrown) => {
@@ -543,18 +551,18 @@ var app = (window.app = {
 	mousePosition: { x: 0, y: 0 },
 	childFrame: false,
 	touchDevice: false,
-	event: new (function() {
+	event: new (function () {
 		this.el = $({});
-		this.trigger = function() {
+		this.trigger = function () {
 			this.el.trigger(arguments[0], Array.prototype.slice.call(arguments, 1));
 		};
-		this.on = function() {
+		this.on = function () {
 			this.el.on.apply(this.el, arguments);
 		};
-		this.one = function() {
+		this.one = function () {
 			this.el.one.apply(this.el, arguments);
 		};
-		this.off = function() {
+		this.off = function () {
 			this.el.off.apply(this.el, arguments);
 		};
 	})(),
@@ -562,29 +570,32 @@ var app = (window.app = {
 	 * Function to get the module name. This function will get the value from element which has id module
 	 * @return : string - module name
 	 */
-	getModuleName: function() {
+	getModuleName: function () {
 		return this.getMainParams('module');
 	},
 	/**
 	 * Function to get the module name. This function will get the value from element which has id module
 	 * @return : string - module name
 	 */
-	getParentModuleName: function() {
+	getParentModuleName: function () {
 		return this.getMainParams('parent');
 	},
 	/**
 	 * Function returns the current view name
 	 */
-	getViewName: function() {
+	getViewName: function () {
 		return this.getMainParams('view');
 	},
 	/**
 	 * Function returns the record id
 	 */
-	getRecordId: function() {
+	getRecordId: function () {
 		var view = this.getViewName();
 		var recordId;
-		if ($.inArray(view, ['Edit', 'PreferenceEdit', 'Detail', 'PreferenceDetail', 'DetailPreview']) !== -1) {
+		if (
+			$.inArray(view, ['Edit', 'PreferenceEdit', 'Detail', 'PreferenceDetail', 'DetailPreview']) !==
+			-1
+		) {
 			recordId = this.getMainParams('recordId');
 		}
 		return recordId;
@@ -593,20 +604,20 @@ var app = (window.app = {
 	 * Function which will give you all details of the selected record
 	 * @params {object} params - an object of values like {'record' : recordId, 'module' : searchModule, 'fieldType' : 'email'}
 	 */
-	getRecordDetails: function(params) {
+	getRecordDetails: function (params) {
 		let aDeferred = $.Deferred();
 		if (app.getParentModuleName() === 'Settings') {
 			params.parent = 'Settings';
 		}
 		AppConnector.request(Object.assign(params, { action: 'GetData' }))
-			.done(function(data) {
+			.done(function (data) {
 				if (data.success) {
 					aDeferred.resolve(data);
 				} else {
 					aDeferred.reject(data.message);
 				}
 			})
-			.fail(function(error) {
+			.fail(function (error) {
 				aDeferred.reject();
 			});
 		return aDeferred.promise();
@@ -614,13 +625,13 @@ var app = (window.app = {
 	/**
 	 * Function to get language
 	 */
-	getLanguage: function() {
+	getLanguage: function () {
 		return $('body').data('language');
 	},
 	/**
 	 * Function to get page title
 	 */
-	getPageTitle: function() {
+	getPageTitle: function () {
 		return document.title;
 	},
 	/**
@@ -682,24 +693,24 @@ var app = (window.app = {
 	/**
 	 * Function to set page title
 	 */
-	setPageTitle: function(title) {
+	setPageTitle: function (title) {
 		document.title = title;
 	},
 	/**
 	 * Function to get the contents container
 	 * @returns jQuery object
 	 */
-	getContentsContainer: function() {
+	getContentsContainer: function () {
 		return $('.bodyContents');
 	},
-	hidePopover: function(element) {
+	hidePopover: function (element) {
 		if (typeof element === 'undefined') {
 			element = $('body .js-popover-tooltip');
 		}
 		element.popover('hide');
 	},
 	hidePopoversAfterClick(popoverParent) {
-		popoverParent.on('mousedown', e => {
+		popoverParent.on('mousedown', (e) => {
 			setTimeout(() => {
 				popoverParent.popover('hide');
 			}, 100);
@@ -707,7 +718,7 @@ var app = (window.app = {
 	},
 	registerPopoverManualTrigger(element, manualTriggerDelay) {
 		const hideDelay = 500;
-		element.on('mouseleave', e => {
+		element.on('mouseleave', (e) => {
 			setTimeout(() => {
 				let currentPopover = this.getBindedPopover(element);
 				if (
@@ -760,7 +771,7 @@ var app = (window.app = {
 		clone.remove();
 		return false;
 	},
-	showPopoverElementView: function(selectElement = $('.js-popover-tooltip'), params = {}) {
+	showPopoverElementView: function (selectElement = $('.js-popover-tooltip'), params = {}) {
 		let defaultParams = {
 			trigger: 'manual',
 			manualTriggerDelay: 500,
@@ -772,7 +783,7 @@ var app = (window.app = {
 			boundary: 'viewport',
 			delay: { show: 300, hide: 100 }
 		};
-		selectElement.each(function(index, domElement) {
+		selectElement.each(function (index, domElement) {
 			let element = $(domElement);
 			let elementParams = $.extend(true, defaultParams, params, element.data());
 			if (element.data('class')) {
@@ -789,7 +800,7 @@ var app = (window.app = {
 				app.registerPopoverManualTrigger(element, elementParams.manualTriggerDelay);
 			}
 			if (elementParams.callbackShown) {
-				element.on('shown.bs.popover', function(e) {
+				element.on('shown.bs.popover', function (e) {
 					elementParams.callbackShown(e);
 				});
 			}
@@ -812,7 +823,9 @@ var app = (window.app = {
 			template:
 				'<div class="popover js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>'
 		};
-		let popoverText = element.find('.js-popover-text').length ? element.find('.js-popover-text') : element;
+		let popoverText = element.find('.js-popover-text').length
+			? element.find('.js-popover-text')
+			: element;
 		if (!app.isEllipsisActive(popoverText)) {
 			element.addClass('popover-triggered');
 			return;
@@ -823,9 +836,11 @@ var app = (window.app = {
 		selectElement = $('.js-popover-tooltip--ellipsis-icon'),
 		params = { trigger: 'hover focus' }
 	) {
-		selectElement.each(function(index, domElement) {
+		selectElement.each(function (index, domElement) {
 			let element = $(domElement);
-			let popoverText = element.find('.js-popover-text').length ? element.find('.js-popover-text') : element;
+			let popoverText = element.find('.js-popover-text').length
+				? element.find('.js-popover-text')
+				: element;
 			if (!app.isEllipsisActive(popoverText)) {
 				return;
 			}
@@ -842,7 +857,7 @@ var app = (window.app = {
 	 * @param {jQuery} selectElement
 	 * @param {object} customParams
 	 */
-	registerPopoverRecord: function(
+	registerPopoverRecord: function (
 		selectElement = $('a.js-popover-tooltip--record'),
 		customParams = {},
 		container = $(document)
@@ -867,7 +882,7 @@ var app = (window.app = {
 				let currentPopover = self.getBindedPopover(selectElement);
 				let popoverBody = currentPopover.find('.popover-body');
 				popoverBody.progressIndicator({});
-				let appendPopoverData = data => {
+				let appendPopoverData = (data) => {
 					popoverBody.progressIndicator({ mode: 'hide' }).html(data);
 					if (typeof customParams.callback === 'function') {
 						customParams.callback(popoverBody);
@@ -878,7 +893,7 @@ var app = (window.app = {
 				if (typeof cacheData !== 'undefined') {
 					appendPopoverData(cacheData);
 				} else {
-					AppConnector.request(url).done(data => {
+					AppConnector.request(url).done((data) => {
 						window.popoverCache[url] = data;
 						appendPopoverData(data);
 					});
@@ -957,13 +972,13 @@ var app = (window.app = {
 	 * @params <object> multiSelectElement
 	 * @params <object> select2 params
 	 */
-	registerChangeEventForMultiSelect: function(selectElement, params) {
+	registerChangeEventForMultiSelect: function (selectElement, params) {
 		if (typeof selectElement === 'undefined') {
 			return;
 		}
 		var instance = selectElement.data('select2');
 		var limit = params.maximumSelectionLength;
-		selectElement.on('change', function(e) {
+		selectElement.on('change', function (e) {
 			var data = instance.data();
 			if ($.isArray(data) && data.length >= limit) {
 				instance.updateResults();
@@ -976,7 +991,7 @@ var app = (window.app = {
 	 * @params <String> returnFormat - optional which will indicate which format return value should be valid values "object" and "string"
 	 * @return <object> - encoded string or value map
 	 */
-	getSerializedData: function(parentElement, returnFormat) {
+	getSerializedData: function (parentElement, returnFormat) {
 		if (typeof returnFormat === 'undefined') {
 			returnFormat = 'string';
 		}
@@ -1006,11 +1021,11 @@ var app = (window.app = {
 	 * @params: string with animation name,
 	 */
 	animateModal(modal, openAnimation, closeAnimation) {
-		modal.on('show.bs.modal', function(e) {
+		modal.on('show.bs.modal', function (e) {
 			modal.removeClass(`animated ${closeAnimation}`);
 			modal.addClass(`animated ${openAnimation}`);
 		});
-		modal.on('hide.bs.modal', function(e) {
+		modal.on('hide.bs.modal', function (e) {
 			modal.removeClass(`animated ${openAnimation}`);
 			modal.addClass(`animated ${closeAnimation}`);
 		});
@@ -1033,12 +1048,12 @@ var app = (window.app = {
 			params.backdrop = 'static';
 		}
 		// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog.
-		$.fn.modal.Constructor.prototype.enforceFocus = function(e) {
+		$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
 			$(document)
 				.off('focusin.bs.modal') // guard against infinite focus loop
 				.on(
 					'focusin.bs.modal',
-					$.proxy(function(e) {
+					$.proxy(function (e) {
 						if ($(e.target).hasClass('select2-search__field')) {
 							return true;
 						}
@@ -1046,11 +1061,11 @@ var app = (window.app = {
 				);
 		};
 		const modalContainer = container.find('.modal:first');
-		modalContainer.one('shown.bs.modal', function() {
+		modalContainer.one('shown.bs.modal', function () {
 			cb(modalContainer);
 			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'));
 			App.Fields.Date.register(modalContainer);
-			new App.Fields.Text.Editor(modalContainer.find('.js-editor'), {
+			App.Fields.Text.Editor.register(modalContainer.find('.js-editor'), {
 				height: '5em',
 				toolbar: 'Min'
 			});
@@ -1061,17 +1076,13 @@ var app = (window.app = {
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
 		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 	},
-	showModalWindow: function(data, url, cb, paramsObject = {}) {
+	showModalWindow: function (data, url, cb, paramsObject = {}) {
 		if (!app.isCurrentWindowTarget('app.showModalWindow', arguments)) {
 			return false;
 		}
 		const thisInstance = this;
 		let sendByAjaxCb;
-		Window.lastModalId =
-			'modal_' +
-			Math.random()
-				.toString(36)
-				.substr(2, 9);
+		Window.lastModalId = 'modal_' + Math.random().toString(36).substr(2, 9);
 		//null is also an object
 		if (typeof data === 'object' && data != null && !(data instanceof $)) {
 			if (data.id != undefined) {
@@ -1092,15 +1103,15 @@ var app = (window.app = {
 			cb = url;
 			url = false;
 		} else if (typeof url === 'object') {
-			cb = function() {};
+			cb = function () {};
 			paramsObject = url;
 			url = false;
 		}
 		if (typeof cb !== 'function') {
-			cb = function() {};
+			cb = function () {};
 		}
 		if (typeof sendByAjaxCb !== 'function') {
-			sendByAjaxCb = function() {};
+			sendByAjaxCb = function () {};
 		}
 		if (paramsObject !== undefined && paramsObject.modalId !== undefined) {
 			Window.lastModalId = paramsObject.modalId;
@@ -1112,7 +1123,7 @@ var app = (window.app = {
 		}
 		container = $('<div></div>');
 		container.attr('id', Window.lastModalId).addClass('modalContainer js-modal-container');
-		container.one('hidden.bs.modal', function() {
+		container.one('hidden.bs.modal', function () {
 			container.remove();
 			let backdrop = $('.modal-backdrop');
 			if (!$('.modal.show').length) {
@@ -1125,7 +1136,7 @@ var app = (window.app = {
 		if (data) {
 			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
 		} else {
-			$.get(url).done(function(response) {
+			$.get(url).done(function (response) {
 				thisInstance.showModalData(response, container, paramsObject, cb, url, sendByAjaxCb);
 			});
 		}
@@ -1155,7 +1166,7 @@ var app = (window.app = {
 	 * Function which you can use to hide the modal
 	 * This api assumes that we are using block ui plugin and uses unblock api to unblock it
 	 */
-	hideModalWindow: function(callback, id) {
+	hideModalWindow: function (callback, id) {
 		if (!app.isCurrentWindowTarget('app.hideModalWindow', arguments)) {
 			return false;
 		}
@@ -1171,7 +1182,7 @@ var app = (window.app = {
 			return;
 		}
 		if (typeof callback !== 'function') {
-			callback = function() {};
+			callback = function () {};
 		}
 		let modalContainer = container.find('.modal');
 		modalContainer.modal('hide');
@@ -1181,7 +1192,7 @@ var app = (window.app = {
 		}
 		modalContainer.one('hidden.bs.modal', callback);
 	},
-	registerModalController: function(modalId, modalContainer, cb) {
+	registerModalController: function (modalId, modalContainer, cb) {
 		let windowParent = this.childFrame ? window.parent : window;
 		if (modalId === undefined) {
 			modalId = Window.lastModalId;
@@ -1189,18 +1200,11 @@ var app = (window.app = {
 		if (modalContainer === undefined) {
 			modalContainer = $('#' + modalId + ' .js-modal-data');
 		}
-		let modalClass = modalContainer.data('module') + '_' + modalContainer.data('view') + '_JS';
-		if (typeof windowParent[modalClass] !== 'undefined') {
-			let instance = new windowParent[modalClass]();
-			if (typeof cb === 'function') {
-				cb(modalContainer, instance);
-			}
-			instance.registerEvents(modalContainer);
-			if (modalId && app.modalEvents[modalId]) {
-				app.modalEvents[modalId](modalContainer, instance);
-			}
+		let moduleName = modalContainer.data('module');
+		let modalClass = moduleName.replace(':', '_') + '_' + modalContainer.data('view') + '_JS';
+		if (typeof windowParent[modalClass] === 'undefined') {
+			modalClass = 'Base_' + modalContainer.data('view') + '_JS';
 		}
-		modalClass = 'Base_' + modalContainer.data('view') + '_JS';
 		if (typeof windowParent[modalClass] !== 'undefined') {
 			let instance = new windowParent[modalClass]();
 			if (typeof cb === 'function') {
@@ -1212,7 +1216,7 @@ var app = (window.app = {
 			}
 		}
 	},
-	registerModalEvents: function(container, sendByAjaxCb) {
+	registerModalEvents: function (container, sendByAjaxCb) {
 		var form = container.find('form');
 		var validationForm = false;
 		if (form.hasClass('validateForm')) {
@@ -1220,7 +1224,7 @@ var app = (window.app = {
 			validationForm = true;
 		}
 		if (form.hasClass('sendByAjax')) {
-			form.on('submit', function(e) {
+			form.on('submit', function (e) {
 				var save = true;
 				e.preventDefault();
 				if (validationForm && form.data('jqv').InvalidFields.length > 0) {
@@ -1233,7 +1237,7 @@ var app = (window.app = {
 					});
 					var formData = form.serializeFormData();
 					AppConnector.request(formData)
-						.done(function(responseData) {
+						.done(function (responseData) {
 							sendByAjaxCb(formData, responseData);
 							if (responseData.success && responseData.result) {
 								if (responseData.result.notify) {
@@ -1247,20 +1251,20 @@ var app = (window.app = {
 							app.hideModalWindow();
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						})
-						.fail(function() {
+						.fail(function () {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						});
 				}
 			});
 		}
 	},
-	isHidden: function(element) {
+	isHidden: function (element) {
 		if (element.css('display') == 'none') {
 			return true;
 		}
 		return false;
 	},
-	isInvisible: function(element) {
+	isInvisible: function (element) {
 		if (element.css('visibility') == 'hidden') {
 			return true;
 		}
@@ -1284,8 +1288,7 @@ var app = (window.app = {
 		//to support validation for select2 select box
 		prettySelect: true,
 		usePrefix: 's2id_',
-		validateNonVisibleFields: true,
-		onBeforePromptType: function(field) {
+		onBeforePromptType: function (field) {
 			var block = field.closest('.js-toggle-panel');
 			if (block.find('.blockContent').is(':hidden')) {
 				block.find('.blockHeader').click();
@@ -1302,7 +1305,7 @@ var app = (window.app = {
 	 * Function to push down the error message size when validation is invoked
 	 * @params : form Element
 	 */
-	formAlignmentAfterValidation: function(form) {
+	formAlignmentAfterValidation: function (form) {
 		// to avoid hiding of error message under the fixed nav bar
 		var formError = form.find(".formError:not('.greenPopup'):first");
 		if (formError.length > 0) {
@@ -1316,7 +1319,7 @@ var app = (window.app = {
 			);
 		}
 	},
-	convertToDatePickerFormat: function(dateFormat) {
+	convertToDatePickerFormat: function (dateFormat) {
 		switch (dateFormat) {
 			case 'yyyy-mm-dd':
 				return 'Y-m-d';
@@ -1347,7 +1350,7 @@ var app = (window.app = {
 				break;
 		}
 	},
-	convertTojQueryDatePickerFormat: function(dateFormat) {
+	convertTojQueryDatePickerFormat: function (dateFormat) {
 		let i,
 			dotMode = '-';
 		if (dateFormat.indexOf('-') !== -1) {
@@ -1371,7 +1374,7 @@ var app = (window.app = {
 	/*
 	 * Converts user formated date to database format yyyy-mm-dd
 	 */
-	getDateInDBInsertFormat: function(dateFormat, dateString) {
+	getDateInDBInsertFormat: function (dateFormat, dateString) {
 		var i = 0;
 		var dotMode = '-';
 		if (dateFormat.indexOf('-') !== -1) {
@@ -1404,7 +1407,7 @@ var app = (window.app = {
 		}
 		return year + '-' + month + '-' + day;
 	},
-	registerEventForDateFields: function(parentElement) {
+	registerEventForDateFields: function (parentElement) {
 		if (typeof parentElement === 'undefined') {
 			parentElement = $('body');
 		}
@@ -1416,7 +1419,7 @@ var app = (window.app = {
 		} else {
 			element = $('.dateField', parentElement);
 		}
-		element.datepicker({ autoclose: true }).on('changeDate', function(ev) {
+		element.datepicker({ autoclose: true }).on('changeDate', function (ev) {
 			let currentElement = $(ev.currentTarget),
 				dateFormat = currentElement.data('dateFormat').toUpperCase(),
 				date = $.datepicker.formatDate(moment(ev.date).format(dateFormat), ev.date);
@@ -1424,7 +1427,7 @@ var app = (window.app = {
 		});
 		App.Fields.Utils.hideMobileKeyboard(element);
 	},
-	registerEventForClockPicker: function(timeInputs = $('.clockPicker')) {
+	registerEventForClockPicker: function (timeInputs = $('.clockPicker')) {
 		if (!timeInputs.hasClass('clockPicker')) {
 			timeInputs = timeInputs.find('.clockPicker');
 		}
@@ -1437,17 +1440,18 @@ var app = (window.app = {
 			minutestep: 5
 		};
 
-		$('.js-clock__btn').on('click', e => {
+		$('.js-clock__btn').on('click', (e) => {
 			e.stopPropagation();
-			let tempElement = $(e.currentTarget)
-				.closest('.time')
-				.find('input.clockPicker');
-			if (tempElement.attr('disabled') !== 'disabled' && tempElement.attr('readonly') !== 'readonly') {
+			let tempElement = $(e.currentTarget).closest('.time').find('input.clockPicker');
+			if (
+				tempElement.attr('disabled') !== 'disabled' &&
+				tempElement.attr('readonly') !== 'readonly'
+			) {
 				tempElement.clockpicker('show');
 			}
 		});
 
-		let formatTimeString = timeInput => {
+		let formatTimeString = (timeInput) => {
 			if (params.twelvehour) {
 				let meridiemTime = '';
 				params.afterDone = () => {
@@ -1478,7 +1482,7 @@ var app = (window.app = {
 		});
 		App.Fields.Utils.hideMobileKeyboard(timeInputs);
 	},
-	registerDataTables: function(table, options = {}) {
+	registerDataTables: function (table, options = {}) {
 		if ($.fn.dataTable == undefined) {
 			return false;
 		}
@@ -1515,7 +1519,7 @@ var app = (window.app = {
 	 * @params: select element
 	 * @return : select2Element - corresponding select2 element
 	 */
-	getSelect2ElementFromSelect: function(selectElement) {
+	getSelect2ElementFromSelect: function (selectElement) {
 		var selectId = selectElement.attr('id');
 		//since select2 will add s2id_ to the id of select element
 		var select2EleId = 'select2-' + selectId + '-container';
@@ -1525,19 +1529,17 @@ var app = (window.app = {
 	 * Function to set with of the element to parent width
 	 * @params : jQuery element for which the action to take place
 	 */
-	setInheritWidth: function(elements) {
-		$(elements).each(function(index, element) {
-			var parentWidth = $(element)
-				.parent()
-				.width();
+	setInheritWidth: function (elements) {
+		$(elements).each(function (index, element) {
+			var parentWidth = $(element).parent().width();
 			$(element).width(parentWidth);
 		});
 	},
-	showNewScrollbar: function(element, options = { wheelPropagation: true }) {
+	showNewScrollbar: function (element, options = { wheelPropagation: true }) {
 		if (typeof element === 'undefined' || !element.length) return;
 		return new PerfectScrollbar(element[0], Object.assign(this.scrollOptions, options));
 	},
-	showNewScrollbarTopBottomRight: function(element, options = {}) {
+	showNewScrollbarTopBottomRight: function (element, options = {}) {
 		if (typeof element === 'undefined' || !element.length) return;
 		options = Object.assign(this.scrollOptions, options);
 		let scrollbarTopLeftInit = new PerfectScrollbar(element[0], options);
@@ -1553,7 +1555,10 @@ var app = (window.app = {
 		let scrollbarBottomRightInit = new PerfectScrollbar(element[0], options);
 		return [scrollbarTopLeftInit, scrollbarBottomRightInit];
 	},
-	showNewScrollbarTopBottom: function(element, options = { wheelPropagation: true, suppressScrollY: true }) {
+	showNewScrollbarTopBottom: function (
+		element,
+		options = { wheelPropagation: true, suppressScrollY: true }
+	) {
 		if (typeof element === 'undefined' || !element.length) return;
 		options = Object.assign(this.scrollOptions, options);
 		new PerfectScrollbar(element[0], options);
@@ -1568,7 +1573,10 @@ var app = (window.app = {
 			bottom: 'auto'
 		});
 	},
-	showNewScrollbarTop: function(element, options = { wheelPropagation: true, suppressScrollY: true }) {
+	showNewScrollbarTop: function (
+		element,
+		options = { wheelPropagation: true, suppressScrollY: true }
+	) {
 		if (typeof element === 'undefined' || !element.length) return;
 		options = Object.assign(this.scrollOptions, options);
 		new PerfectScrollbar(element[0], options);
@@ -1582,7 +1590,7 @@ var app = (window.app = {
 			bottom: 'auto'
 		});
 	},
-	showNewScrollbarLeft: function(element, options = { wheelPropagation: true }) {
+	showNewScrollbarLeft: function (element, options = { wheelPropagation: true }) {
 		if (typeof element === 'undefined' || !element.length) return;
 		options = Object.assign(this.scrollOptions, options);
 		new PerfectScrollbar(element[0], options);
@@ -1596,7 +1604,7 @@ var app = (window.app = {
 			right: 'auto'
 		});
 	},
-	showScrollBar: function(element, options = {}) {
+	showScrollBar: function (element, options = {}) {
 		if (typeof options.height === 'undefined') options.height = element.css('height');
 		return element.slimScroll(options);
 	},
@@ -1606,13 +1614,13 @@ var app = (window.app = {
 	 */
 	registerMiddleClickScroll(container) {
 		let middleScroll = false;
-		container.on('mousedown', e => {
+		container.on('mousedown', (e) => {
 			let clickedMouseButton = e.which; // get clicked button id
 			if (clickedMouseButton == 2 && middleScroll == false) {
 				middleScroll = true;
 				let mouseY = e.pageY,
 					mouseX = e.pageX;
-				$(document).on('mousemove', e => {
+				$(document).on('mousemove', (e) => {
 					if (middleScroll == true) {
 						$('body').addClass('u-cursor-scroll-all');
 						let mouseMoveY = mouseY - e.pageY,
@@ -1636,7 +1644,7 @@ var app = (window.app = {
 	/**
 	 * Function returns translated string
 	 */
-	vtranslate: function(key) {
+	vtranslate: function (key) {
 		if (key in LANG) {
 			return LANG[key];
 		}
@@ -1645,23 +1653,23 @@ var app = (window.app = {
 	/*
 	 * Cache API on client-side
 	 */
-	cacheNSKey: function(key) {
+	cacheNSKey: function (key) {
 		// Namespace in client-storage
 		return 'yf.' + key;
 	},
-	cacheGet: function(key) {
+	cacheGet: function (key) {
 		key = this.cacheNSKey(key);
 		return store.get(key);
 	},
-	cacheSet: function(key, value) {
+	cacheSet: function (key, value) {
 		key = this.cacheNSKey(key);
 		store.set(key, value);
 	},
-	cacheClear: function(key) {
+	cacheClear: function (key) {
 		key = this.cacheNSKey(key);
 		return store.remove(key);
 	},
-	moduleCacheSet: function(key, value) {
+	moduleCacheSet: function (key, value) {
 		var orgKey = key;
 		key = this.getModuleName() + '_' + key;
 		this.cacheSet(key, value);
@@ -1676,10 +1684,10 @@ var app = (window.app = {
 		moduleCache.push(orgKey);
 		this.cacheSet(cacheKey, Vtiger_Helper_Js.unique(moduleCache).join(','));
 	},
-	moduleCacheGet: function(key) {
+	moduleCacheGet: function (key) {
 		return this.cacheGet(this.getModuleName() + '_' + key);
 	},
-	moduleCacheKeys: function() {
+	moduleCacheKeys: function () {
 		var cacheKey = 'mCache' + this.getModuleName();
 		var modules = this.cacheGet(cacheKey);
 		if (modules) {
@@ -1687,7 +1695,7 @@ var app = (window.app = {
 		}
 		return [];
 	},
-	moduleCacheClear: function(key) {
+	moduleCacheClear: function (key) {
 		var thisInstance = this;
 		var moduleName = this.getModuleName();
 		var cacheKey = 'mCache' + moduleName;
@@ -1697,25 +1705,21 @@ var app = (window.app = {
 		} else {
 			moduleCache = moduleCache.split(',');
 		}
-		$.each(moduleCache, function(index, value) {
+		$.each(moduleCache, function (index, value) {
 			thisInstance.cacheClear(moduleName + '_' + value);
 		});
 		thisInstance.cacheClear(cacheKey);
 	},
-	htmlEncode: function(value) {
+	htmlEncode: function (value) {
 		if (value) {
-			return $('<div />')
-				.text(value)
-				.html();
+			return $('<div />').text(value).html();
 		} else {
 			return '';
 		}
 	},
-	htmlDecode: function(value) {
+	htmlDecode: function (value) {
 		if (value) {
-			return $('<div />')
-				.html(value)
-				.text();
+			return $('<div />').html(value).text();
 		} else {
 			return '';
 		}
@@ -1724,36 +1728,42 @@ var app = (window.app = {
 	 * Function places an element at the center of the page
 	 * @param <jQuery Element> element
 	 */
-	placeAtCenter: function(element) {
+	placeAtCenter: function (element) {
 		element.css('position', 'absolute');
-		element.css('top', ($(window).height() - element.outerHeight()) / 2 + $(window).scrollTop() + 'px');
-		element.css('left', ($(window).width() - element.outerWidth()) / 2 + $(window).scrollLeft() + 'px');
+		element.css(
+			'top',
+			($(window).height() - element.outerHeight()) / 2 + $(window).scrollTop() + 'px'
+		);
+		element.css(
+			'left',
+			($(window).width() - element.outerWidth()) / 2 + $(window).scrollLeft() + 'px'
+		);
 	},
-	getvalidationEngineOptions: function(select2Status) {
+	getvalidationEngineOptions: function (select2Status) {
 		return Object.assign({}, app.validationEngineOptions);
 	},
 	/**
 	 * Function to notify UI page ready after AJAX changes.
 	 * This can help in re-registering the event handlers (which was done during ready event).
 	 */
-	notifyPostAjaxReady: function() {
+	notifyPostAjaxReady: function () {
 		$(document).trigger('postajaxready');
 	},
 	/**
 	 * Listen to xready notiications.
 	 */
-	listenPostAjaxReady: function(callback) {
+	listenPostAjaxReady: function (callback) {
 		$(document).on('postajaxready', callback);
 	},
 	/**
 	 * Form function handlers
 	 */
-	setFormValues: function(kv) {
+	setFormValues: function (kv) {
 		for (var k in kv) {
 			$(k).val(kv[k]);
 		}
 	},
-	setRTEValues: function(kv) {
+	setRTEValues: function (kv) {
 		for (var k in kv) {
 			var rte = CKEDITOR.instances[k];
 			if (rte) rte.setData(kv[k]);
@@ -1762,7 +1772,7 @@ var app = (window.app = {
 	/**
 	 * Function returns the javascript controller based on the current view
 	 */
-	getPageController: function() {
+	getPageController: function () {
 		if (window.pageController) {
 			return window.pageController;
 		}
@@ -1804,12 +1814,10 @@ var app = (window.app = {
 	/**
 	 * Function to decode the encoded htmlentities values
 	 */
-	getDecodedValue: function(value) {
-		return $('<div></div>')
-			.html(value)
-			.text();
+	getDecodedValue: function (value) {
+		return $('<div></div>').html(value).text();
 	},
-	getCookie: function(c_name) {
+	getCookie: function (c_name) {
 		var c_value = document.cookie;
 		var c_start = c_value.indexOf(' ' + c_name + '=');
 		if (c_start === -1) {
@@ -1827,16 +1835,16 @@ var app = (window.app = {
 		}
 		return c_value;
 	},
-	setCookie: function(c_name, value, exdays) {
+	setCookie: function (c_name, value, exdays) {
 		var exdate = new Date();
 		exdate.setDate(exdate.getDate() + exdays);
 		var c_value = escape(value) + (exdays == null ? '' : '; expires=' + exdate.toUTCString());
 		document.cookie = c_name + '=' + c_value;
 	},
-	getUrlVar: function(varName) {
-		var getVar = function() {
+	getUrlVar: function (varName) {
+		var getVar = function () {
 			var vars = {};
-			window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+			window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 				vars[key] = value;
 			});
 			return vars;
@@ -1844,7 +1852,7 @@ var app = (window.app = {
 
 		return getVar()[varName];
 	},
-	getStringDate: function(date) {
+	getStringDate: function (date) {
 		var d = date.getDate();
 		var m = date.getMonth() + 1;
 		var y = date.getFullYear();
@@ -1853,7 +1861,7 @@ var app = (window.app = {
 		m = m <= 9 ? '0' + m : m;
 		return y + '-' + m + '-' + d;
 	},
-	formatDate: function(date) {
+	formatDate: function (date) {
 		var y = date.getFullYear(),
 			m = date.getMonth() + 1,
 			d = date.getDate(),
@@ -1874,16 +1882,16 @@ var app = (window.app = {
 			this.formatDateZ(s)
 		);
 	},
-	formatDateZ: function(i) {
+	formatDateZ: function (i) {
 		return i <= 9 ? '0' + i : i;
 	},
-	howManyDaysFromDate: function(time) {
+	howManyDaysFromDate: function (time) {
 		var fromTime = time.getTime();
 		var today = new Date();
 		var toTime = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
 		return Math.floor((toTime - fromTime) / (1000 * 60 * 60 * 24)) + 1;
 	},
-	saveAjax: function(mode, param, addToParams) {
+	saveAjax: function (mode, param, addToParams) {
 		var aDeferred = $.Deferred();
 		var params = {};
 		params['module'] = app.getModuleName();
@@ -1899,10 +1907,10 @@ var app = (window.app = {
 			}
 		}
 		AppConnector.request(params)
-			.done(function(data) {
+			.done(function (data) {
 				aDeferred.resolve(data);
 			})
-			.fail(function(textStatus, errorThrown) {
+			.fail(function (textStatus, errorThrown) {
 				aDeferred.reject(textStatus, errorThrown);
 			});
 		return aDeferred.promise();
@@ -1920,7 +1928,7 @@ var app = (window.app = {
 			}
 		}
 	},
-	getMainParams: function(param, json) {
+	getMainParams: function (param, json) {
 		if (param in CONFIG) {
 			return CONFIG[param];
 		}
@@ -1937,11 +1945,11 @@ var app = (window.app = {
 		}
 		return value;
 	},
-	setMainParams: function(param, value) {
+	setMainParams: function (param, value) {
 		app.cacheParams[param] = value;
 		$('#' + param).val(value);
 	},
-	errorLog: function(error, err, errorThrown) {
+	errorLog: function (error, err, errorThrown) {
 		if (!CONFIG.debug) {
 			return;
 		}
@@ -1965,16 +1973,17 @@ var app = (window.app = {
 			console.error(errorThrown);
 		}
 	},
-	registerQuickEditModal: function(container) {
+	registerQuickEditModal: function (container) {
 		if (typeof container === 'undefined') {
 			container = $('body');
 		}
-		container.on('click', '.js-quick-edit-modal', function(e) {
+		container.on('click', '.js-quick-edit-modal', function (e) {
 			e.preventDefault();
 			let element = $(this);
 			let data = {
 				module: element.data('module'),
-				record: element.data('record')
+				record: element.data('record'),
+				removeFromUrl: 'step'
 			};
 			if (element.data('values')) {
 				$.extend(data, element.data('values'));
@@ -1988,16 +1997,19 @@ var app = (window.app = {
 			if (element.data('editFields')) {
 				data.editFields = element.data('editFields');
 			}
+			if (element.data('picklistValues')) {
+				data.picklistValues = element.data('picklistValues');
+			}
 			App.Components.QuickEdit.showModal(data, element);
 		});
 	},
-	registerModal: function(container) {
+	registerModal: function (container) {
 		if (typeof container === 'undefined') {
 			container = $('body');
 		}
 		container
 			.off('click', 'button.showModal, a.showModal, .js-show-modal')
-			.on('click', 'button.showModal, a.showModal, .js-show-modal', function(e) {
+			.on('click', 'button.showModal, a.showModal, .js-show-modal', function (e) {
 				e.preventDefault();
 				var currentElement = $(e.currentTarget);
 				var url = currentElement.data('url');
@@ -2011,7 +2023,7 @@ var app = (window.app = {
 					}
 					var modalWindowParams = {
 						url: url,
-						cb: function(container) {
+						cb: function (container) {
 							var call = currentElement.data('cb');
 							if (typeof call !== 'undefined') {
 								if (call.indexOf('.') !== -1) {
@@ -2039,7 +2051,7 @@ var app = (window.app = {
 				e.stopPropagation();
 			});
 	},
-	playSound: function(action) {
+	playSound: function (action) {
 		var soundsConfig = app.getMainParams('sounds');
 		if (soundsConfig['IS_ENABLED']) {
 			var audio = new Audio(app.getMainParams('soundFilesPath') + soundsConfig[action]);
@@ -2047,19 +2059,13 @@ var app = (window.app = {
 		}
 	},
 	registerIframeAndMoreContent() {
-		let showMoreModal = e => {
+		let showMoreModal = (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 			const btn = $(e.currentTarget);
 			const message = btn.data('iframe')
-				? btn
-						.siblings('iframe')
-						.clone()
-						.show()
-				: btn
-						.closest('.js-more-content')
-						.find('.fullContent')
-						.html();
+				? btn.siblings('iframe').clone().show()
+				: btn.closest('.js-more-content').find('.fullContent').html();
 			bootbox.dialog({
 				message,
 				title: '<span class="mdi mdi-overscan"></span>  ' + app.vtranslate('JS_FULL_TEXT'),
@@ -2068,7 +2074,7 @@ var app = (window.app = {
 					danger: {
 						label: '<span class="fas fa-times mr-1"></span>' + app.vtranslate('JS_CLOSE'),
 						className: 'btn-danger',
-						callback: function() {}
+						callback: function () {}
 					}
 				}
 			});
@@ -2077,37 +2083,29 @@ var app = (window.app = {
 		$(document).on('click', '.js-more', showMoreModal);
 	},
 	registerIframeEvents(content) {
-		content.find('.js-iframe-full-height').each(function() {
+		content.find('.js-iframe-full-height').each(function () {
 			let iframe = $(this);
-			iframe.on('load', e => {
-				iframe.height(
-					iframe
-						.contents()
-						.find('body')
-						.height() + 50
-				);
+			iframe.on('load', (e) => {
+				iframe.height(iframe.contents().find('body').height() + 50);
 			});
 		});
-		content.find('.js-modal-iframe').each(function() {
+		content.find('.js-modal-iframe').each(function () {
 			let iframe = $(this);
-			iframe.on('load', e => {
-				let height = iframe
-					.contents()
-					.find('body')
-					.height();
+			iframe.on('load', (e) => {
+				let height = iframe.contents().find('body').height();
 				if (height && height < iframe.height()) {
 					iframe.height(height + 50);
 				}
 			});
 		});
 	},
-	registerMenu: function() {
+	registerMenu: function () {
 		const self = this;
 		self.keyboard = { DOWN: 40, ESCAPE: 27, LEFT: 37, RIGHT: 39, SPACE: 32, UP: 38 };
 		self.sidebarBtn = $('.js-sidebar-btn').first();
 		self.sidebar = $('.js-sidebar').first();
 		self.sidebarBtn.on('click', self.toggleSidebar.bind(self));
-		$(`a.nav-link,[tabindex],input,select,textarea,button`).on('focus', e => {
+		$(`a.nav-link,[tabindex],input,select,textarea,button`).on('focus', (e) => {
 			if (self.sidebarBtn[0] == e.target || self.sidebar.find(e.target).length) return;
 			if (self.sidebar.find(':focus').length) {
 				self.openSidebar();
@@ -2115,9 +2113,11 @@ var app = (window.app = {
 				self.closeSidebar();
 			}
 		});
-		self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
+		self.sidebar
+			.on('mouseenter', self.openSidebar.bind(self))
+			.on('mouseleave', self.closeSidebar.bind(self));
 		self.sidebar.find('.js-menu__content').on('keydown', self.sidebarKeyboard.bind(self));
-		self.sidebar.on('keydown', e => {
+		self.sidebar.on('keydown', (e) => {
 			if (e.which == self.keyboard.ESCAPE) {
 				self.closeSidebar();
 				if (self.sidebarBtn.is(':tabbable')) self.sidebarBtn.focus();
@@ -2127,39 +2127,30 @@ var app = (window.app = {
 						.focus();
 			}
 		});
-		self.sidebar.find('.js-submenu').on('shown.bs.collapse', e => {
-			$(e.target)
-				.find(':tabbable')
-				.first()
-				.focus();
-		});
-		$('.js-submenu-toggler').on('click', e => {
+		$('.js-submenu-toggler').on('click', (e) => {
 			if (!$(e.currentTarget).hasClass('collapsed') && !$(e.target).closest('.toggler').length) {
 				window.location = $(e.currentTarget).attr('href');
 			}
 		});
 		self.registerPinEvent();
 	},
-	openSidebar: function() {
+	openSidebar: function () {
 		this.sidebar.addClass('js-expand');
 		this.sidebarBtn.attr('aria-expanded', true);
 	},
-	closeSidebar: function() {
+	closeSidebar: function () {
 		this.sidebar.removeClass('js-expand');
 		this.sidebarBtn.attr('aria-expanded', false);
 	},
-	toggleSidebar: function() {
+	toggleSidebar: function () {
 		if (this.sidebar.hasClass('js-expand')) {
 			this.closeSidebar();
 		} else {
 			this.openSidebar();
-			this.sidebar
-				.find('.js-menu__content :tabbable')
-				.first()
-				.focus();
+			this.sidebar.find('.js-menu__content :tabbable').first().focus();
 		}
 	},
-	registerPinEvent: function() {
+	registerPinEvent: function () {
 		const self = this;
 		let pinButton = self.sidebar.find('.js-menu--pin');
 		let baseContainer = self.sidebar.closest('.js-base-container');
@@ -2185,7 +2176,7 @@ var app = (window.app = {
 				field: 'leftpanelhide',
 				record: CONFIG.userId,
 				value: hideMenu
-			}).done(function(responseData) {
+			}).done(function (responseData) {
 				if (responseData.success && responseData.result) {
 					pinButton.attr('data-show', hideMenu);
 				}
@@ -2195,23 +2186,23 @@ var app = (window.app = {
 			}, 300);
 		});
 	},
-	sidebarKeyboard: function(e) {
+	sidebarKeyboard: function (e) {
 		let target = $(e.target);
 		if (e.which == this.keyboard.LEFT) {
 			if (target.hasClass('js-submenu-toggler') && !target.hasClass('collapsed')) {
 				target.click();
 				return false;
 			} else {
-				let toggler = $(e.target)
-					.closest('.js-submenu')
-					.prev('.js-submenu-toggler');
+				let toggler = $(e.target).closest('.js-submenu').prev('.js-submenu-toggler');
 				if (toggler.length && !toggler.hasClass('collapsed')) {
 					toggler.click().focus();
 					return false;
 				}
 			}
 		} else if (
-			(target.hasClass('js-submenu-toggler') && e.which == this.keyboard.RIGHT && target.hasClass('collapsed')) ||
+			(target.hasClass('js-submenu-toggler') &&
+				e.which == this.keyboard.RIGHT &&
+				target.hasClass('collapsed')) ||
 			(target.hasClass('js-submenu-toggler') && e.which == this.keyboard.SPACE)
 		) {
 			target.click();
@@ -2230,11 +2221,11 @@ var app = (window.app = {
 			return false;
 		}
 	},
-	registerTabdrop: function() {
+	registerTabdrop: function () {
 		let tabs = $('.js-tabdrop');
 		if (!tabs.length) return;
 		let tab = tabs.find('> li');
-		tab.each(function() {
+		tab.each(function () {
 			$(this).removeClass('d-none');
 		});
 		tabs.tabdrop({
@@ -2244,26 +2235,28 @@ var app = (window.app = {
 		let dropdown = tabs.find('> li.dropdown');
 		dropdown.appendTo(tabs);
 		//fix for toggle button text not changing
-		tab.on('click', function(e) {
-			setTimeout(function() {
+		tab.on('click', function (e) {
+			setTimeout(function () {
 				$(window).trigger('resize');
 			}, 500);
 		});
 		$(window).trigger('resize');
 	},
-	getScreenHeight: function(percantage) {
+	getScreenHeight: function (percantage) {
 		if (typeof percantage === 'undefined') {
 			percantage = 100;
 		}
 		return ($(window).height() * percantage) / 100;
 	},
-	clearBrowsingHistory: function() {
+	clearBrowsingHistory: function () {
 		AppConnector.request({
 			module: 'Home',
 			action: 'BrowsingHistory'
-		}).done(function(response) {
+		}).done(function (response) {
 			$('.historyList').html(
-				`<a class="item dropdown-item" href="#" role="listitem">${app.vtranslate('JS_NO_RECORDS')}</a>`
+				`<a class="item dropdown-item" href="#" role="listitem">${app.vtranslate(
+					'JS_NO_RECORDS'
+				)}</a>`
 			);
 		});
 	},
@@ -2308,14 +2301,15 @@ var app = (window.app = {
 	 */
 	convertUrlToObject(url) {
 		let urlObject = {};
-		url.split('index.php?')[1]
-			.split('&')
-			.forEach(el => {
-				if (el.includes('=')) {
-					let values = el.split('=');
-					urlObject[values[0]] = values[1];
-				}
-			});
+		if (url.indexOf('index.php?') !== -1) {
+			url = url.split('index.php?')[1];
+		}
+		url.split('&').forEach((el) => {
+			if (el.includes('=')) {
+				let values = el.split('=');
+				urlObject[values[0]] = values[1];
+			}
+		});
 		return urlObject;
 	},
 	/**
@@ -2328,7 +2322,7 @@ var app = (window.app = {
 	 */
 	convertObjectToUrl(urlData = {}, entryFile = 'index.php?') {
 		let url = entryFile;
-		Object.keys(urlData).forEach(key => {
+		Object.keys(urlData).forEach((key) => {
 			let value = urlData[key];
 			if (typeof value === 'object' || (typeof value === 'string' && value.startsWith('<'))) {
 				return;
@@ -2337,7 +2331,7 @@ var app = (window.app = {
 		});
 		return url;
 	},
-	showConfirmation: function(data, element) {
+	showConfirmation: function (data, element) {
 		var params = {};
 		if (data) {
 			params = $.extend(params, data);
@@ -2345,7 +2339,8 @@ var app = (window.app = {
 		if (element) {
 			element = $(element);
 			if (!params.title) {
-				params.title = element.html() + ' ' + (element.data('content') ? element.data('content') : '');
+				params.title =
+					element.html() + ' ' + (element.data('content') ? element.data('content') : '');
 			}
 			if (!params.message) {
 				params.message = element.data('confirm');
@@ -2354,19 +2349,19 @@ var app = (window.app = {
 				params.url = element.data('url');
 			}
 		}
-		Vtiger_Helper_Js.showConfirmationBox(params).done(function() {
+		Vtiger_Helper_Js.showConfirmationBox(params).done(function () {
 			if (params.type == 'href') {
-				AppConnector.request(params.url).done(function(data) {
+				AppConnector.request(params.url).done(function (data) {
 					app.openUrl(data.result);
 				});
 			} else if (params.type == 'reloadTab') {
-				AppConnector.request(params.url).done(function(data) {
+				AppConnector.request(params.url).done(function (data) {
 					Vtiger_Detail_Js.getInstance().reloadTabContent();
 				});
 			}
 		});
 	},
-	formatToHourText: function(decTime, type = 'short', withSeconds = false, withMinutes = true) {
+	formatToHourText: function (decTime, type = 'short', withSeconds = false, withMinutes = true) {
 		const short = type === 'short';
 		const hour = Math.floor(decTime);
 		const min = Math.floor((decTime - hour) * 60);
@@ -2376,10 +2371,14 @@ var app = (window.app = {
 			result += short ? hour + app.vtranslate('JS_H') : `${hour} ` + app.vtranslate('JS_H_LONG');
 		}
 		if ((hour || min) && withMinutes) {
-			result += short ? ` ${min}` + app.vtranslate('JS_M') : ` ${min} ` + app.vtranslate('JS_M_LONG');
+			result += short
+				? ` ${min}` + app.vtranslate('JS_M')
+				: ` ${min} ` + app.vtranslate('JS_M_LONG');
 		}
 		if (withSeconds !== false) {
-			result += short ? ` ${sec}` + app.vtranslate('JS_S') : ` ${sec} ` + app.vtranslate('JS_S_LONG');
+			result += short
+				? ` ${sec}` + app.vtranslate('JS_S')
+				: ` ${sec} ` + app.vtranslate('JS_S_LONG');
 		}
 		if (!hour && !min && withSeconds === false && withMinutes) {
 			result += short ? '0' + app.vtranslate('JS_M') : '0 ' + app.vtranslate('JS_M_LONG');
@@ -2389,11 +2388,11 @@ var app = (window.app = {
 		}
 		return result.trim();
 	},
-	showRecordsList: function(params = {}, cb, afterShowModal) {
+	showRecordsList: function (params = {}, cb, afterShowModal) {
 		if (!params.view) {
 			params.view = 'RecordsList';
 		}
-		this.showRecordsListModal(params).done(function(modal) {
+		this.showRecordsListModal(params).done(function (modal) {
 			if (typeof afterShowModal === 'function') {
 				afterShowModal(modal);
 			}
@@ -2405,15 +2404,15 @@ var app = (window.app = {
 	 * @param {object} params
 	 * @returns {Promise}
 	 */
-	showRecordsListModal: function(params) {
+	showRecordsListModal: function (params) {
 		const aDeferred = $.Deferred();
 		AppConnector.request(params)
-			.done(function(requestData) {
-				app.showModalWindow(requestData, function(modal) {
+			.done(function (requestData) {
+				app.showModalWindow(requestData, function (modal) {
 					aDeferred.resolve(modal);
 				});
 			})
-			.fail(function(textStatus, errorThrown) {
+			.fail(function (textStatus, errorThrown) {
 				aDeferred.reject(textStatus, errorThrown);
 			});
 		return aDeferred.promise();
@@ -2431,7 +2430,7 @@ var app = (window.app = {
 		element = $(element).get(0); // make sure we have HTMLElement not jQuery because it will not work
 		const imageType = options.imageType;
 		delete options.imageType;
-		return html2canvas(element, options).then(canvas => {
+		return html2canvas(element, options).then((canvas) => {
 			const base64Image = canvas.toDataURL(imageType);
 			if (typeof callback === 'function') {
 				callback(base64Image);
@@ -2439,12 +2438,22 @@ var app = (window.app = {
 			return base64Image;
 		});
 	},
+	registerHtmlToImageDownloader: function (container) {
+		const self = this;
+		container.on('click', '.js-download-html', function (e) {
+			let element = $(this);
+			let fileName = element.data('fileName');
+			self.htmlToImage($(element.data('html'))).then((img) => {
+				$(`<a href="${img}" download="${fileName}.png"></a>`).get(0).click();
+			});
+		});
+	},
 	decodeHTML(html) {
 		var txt = document.createElement('textarea');
 		txt.innerHTML = html;
 		return txt.value;
 	},
-	showAlert: function(customParams) {
+	showAlert: function (customParams) {
 		let userParams = customParams;
 		if (typeof customParams === 'string') {
 			userParams = {};
@@ -2468,7 +2477,7 @@ var app = (window.app = {
 								text: 'Ok',
 								promptTrigger: true,
 								primary: true,
-								click: function(notice) {
+								click: function (notice) {
 									notice.close();
 								}
 							}
@@ -2489,7 +2498,7 @@ var app = (window.app = {
 		}
 		return new PNotify(params);
 	},
-	showConfirmModal: function(customParams, confirmCallback = () => {}, cancelCallback = () => {}) {
+	showConfirmModal: function (customParams, confirmCallback = () => {}, cancelCallback = () => {}) {
 		let aDeferred = $.Deferred();
 
 		let userParams = customParams;
@@ -2515,7 +2524,7 @@ var app = (window.app = {
 								text: app.vtranslate('JS_OK'),
 								primary: true,
 								promptTrigger: true,
-								click: function(notice) {
+								click: function (notice) {
 									notice.close();
 									confirmCallback();
 									aDeferred.resolve(true);
@@ -2523,7 +2532,7 @@ var app = (window.app = {
 							},
 							{
 								text: app.vtranslate('JS_CANCEL'),
-								click: function(notice) {
+								click: function (notice) {
 									notice.close();
 									cancelCallback();
 									aDeferred.resolve(false);
@@ -2548,7 +2557,7 @@ var app = (window.app = {
 		return aDeferred.promise();
 	},
 	registesterScrollbar(container) {
-		container.find('.js-scrollbar').each(function() {
+		container.find('.js-scrollbar').each(function () {
 			let element = $(this),
 				scrollbarFnName = element.data('scrollbarFnName');
 
@@ -2561,13 +2570,13 @@ var app = (window.app = {
 	},
 	registerPopover(container = $(document)) {
 		window.popoverCache = {};
-		container.on('mousemove', e => {
+		container.on('mousemove', (e) => {
 			app.mousePosition = { x: e.pageX, y: e.pageY };
 		});
 		container.on(
 			'mouseenter',
 			'.js-popover-tooltip, .js-popover-tooltip--record, .js-popover-tooltip--ellipsis, [data-field-type="reference"], [data-field-type="multireference"]',
-			e => {
+			(e) => {
 				let currentTarget = $(e.currentTarget);
 				if (currentTarget.find('.js-popover-tooltip--record').length) {
 					return;
@@ -2597,7 +2606,7 @@ var app = (window.app = {
 			}
 		);
 	},
-	showNotify: function(params) {
+	showNotify: function (params) {
 		if (typeof params.type === 'undefined') {
 			params.type = 'info';
 		}
@@ -2606,7 +2615,7 @@ var app = (window.app = {
 		}
 		Vtiger_Helper_Js.showPnotify(params);
 	},
-	showDesktopNotification: function(params) {
+	showDesktopNotification: function (params) {
 		params = $.extend(params, {
 			modules: {
 				Desktop: {
@@ -2631,7 +2640,7 @@ var app = (window.app = {
 	 * Register auto format number value
 	 */
 	registerFormatNumber() {
-		$(document).on('focusout', '.js-format-numer', e => {
+		$(document).on('focusout', '.js-format-numer', (e) => {
 			$(e.currentTarget).formatNumber();
 		});
 	},
@@ -2640,7 +2649,7 @@ var app = (window.app = {
 	 * @param container
 	 */
 	registerToggleIconClick(container) {
-		container.on('click', '.js-toggle-icon, .js-toggle-icon__container', e => {
+		container.on('click', '.js-toggle-icon, .js-toggle-icon__container', (e) => {
 			let icon = $(e.target);
 			if (icon.hasClass('js-toggle-icon__container')) {
 				icon = icon.find('.js-toggle-icon');
@@ -2654,10 +2663,18 @@ var app = (window.app = {
 		const temporalDiv = document.createElement('div');
 		temporalDiv.innerHTML = html;
 		return temporalDiv.textContent || temporalDiv.innerText || '';
+	},
+	registerShowHideBlock(container) {
+		container.on('click', '.js-hb__btn', (e) => {
+			$(e.currentTarget).closest('.js-hb__container').toggleClass('u-hidden-block__opened');
+		});
+		container.find('.js-fab__container').on('clickoutside', (e) => {
+			$(e.currentTarget).removeClass('u-hidden-block__opened');
+		});
 	}
 });
 CKEDITOR.disableAutoInline = true;
-$(document).ready(function() {
+$(document).ready(function () {
 	Quasar.iconSet.set(Quasar.iconSet.mdiV3);
 	let document = $(this);
 	app.registerToggleIconClick(document);
@@ -2674,8 +2691,10 @@ $(document).ready(function() {
 	app.registerTabdrop();
 	app.registerIframeEvents(document);
 	app.registesterScrollbar(document);
+	app.registerHtmlToImageDownloader(document);
+	app.registerShowHideBlock(document);
 	App.Components.Scrollbar.initPage();
-	String.prototype.toCamelCase = function() {
+	String.prototype.toCamelCase = function () {
 		let value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
 	};
@@ -2689,27 +2708,29 @@ $(document).ready(function() {
 		pageController.registerEvents();
 	}
 });
-(function($) {
-	$.fn.getNumberFromValue = function() {
+(function ($) {
+	$.fn.getNumberFromValue = function () {
 		return App.Fields.Double.formatToDb($(this).val());
 	};
-	$.fn.getNumberFromText = function() {
+	$.fn.getNumberFromText = function () {
 		return App.Fields.Double.formatToDb($(this).text());
 	};
-	$.fn.setValue = function(value, type = 'value') {
+	$.fn.setValue = function (value, type = 'value') {
 		return App.Fields.Utils.setValue($(this), value, type);
 	};
-	$.fn.formatNumber = function() {
+	$.fn.formatNumber = function () {
 		let element = $(this);
-		element.val(App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val()), false));
+		element.val(
+			App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val()), false)
+		);
 	};
-	$.fn.disable = function() {
+	$.fn.disable = function () {
 		this.attr('disabled', 'disabled');
 	};
-	$.fn.enable = function() {
+	$.fn.enable = function () {
 		this.removeAttr('disabled');
 	};
-	$.fn.serializeFormData = function() {
+	$.fn.serializeFormData = function () {
 		let form = $(this);
 		for (var instance in CKEDITOR.instances) {
 			CKEDITOR.instances[instance].updateElement();
@@ -2717,7 +2738,7 @@ $(document).ready(function() {
 		let values = form.serializeArray();
 		let data = {};
 		if (values) {
-			$(values).each(function(k, v) {
+			$(values).each(function (k, v) {
 				if (v.name in data && typeof data[v.name] !== 'object') {
 					let element = form.find('[name="' + v.name + '"]');
 					//Only for muti select element we need to send array of values
@@ -2736,23 +2757,24 @@ $(document).ready(function() {
 		}
 		// If data-type="autocomplete", pickup data-value="..." set
 		let autocompletes = $('[data-type="autocomplete"]', $(this));
-		$(autocompletes).each(function(i) {
+		$(autocompletes).each(function (i) {
 			let ac = $(autocompletes[i]);
 			data[ac.attr('name')] = ac.data('value');
 		});
 		return data;
 	};
 	// Case-insensitive :icontains expression
-	$.expr[':'].icontains = function(obj, index, meta, stack) {
+	$.expr[':'].icontains = function (obj, index, meta, stack) {
 		return (
-			(obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !==
-			-1
+			(obj.textContent || obj.innerText || $(obj).text() || '')
+				.toLowerCase()
+				.indexOf(meta[3].toLowerCase()) !== -1
 		);
 	};
-	$.fn.removeTextNode = function() {
+	$.fn.removeTextNode = function () {
 		$(this)
 			.contents()
-			.filter(function() {
+			.filter(function () {
 				return this.nodeType == 3; //Node.TEXT_NODE
 			})
 			.remove();

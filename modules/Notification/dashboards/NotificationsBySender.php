@@ -82,7 +82,7 @@ class Notification_NotificationsBySender_Dashboard extends Vtiger_IndexAjax_View
 		return $chartData;
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

@@ -472,7 +472,7 @@ class Workflow
 					}
 				}
 
-				if (null === $nextTime) {
+				if (!isset($nextTime)) {
 					if (!empty($nextTriggerWeekDay)) {
 						$nextTime = date('Y-m-d H:i:s', strtotime($weekDays[$nextTriggerWeekDay] . ' ' . $scheduledTime));
 					} else {

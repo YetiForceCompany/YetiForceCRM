@@ -15,7 +15,7 @@
 						{assign var=IS_PERMITTED_RECORD value=true}
 					{/if}
 					{if $SHOW_MODULE}
-						<span class="userIcon-{$RECORD_MODEL->getModuleName()} fa-lg fa-fw mr-1"
+						<span class="yfm-{$RECORD_MODEL->getModuleName()} fa-lg fa-fw mr-1"
 							title="{\App\Language::translateSingularModuleName($RECORD_MODEL->getModuleName())}"></span>
 					{/if}
 					<span {if $IS_PERMITTED_RECORD}
@@ -40,14 +40,14 @@
 					{assign var=PROCEED value= TRUE}
 					{if ($UPDATE_ROW->isRelationLink()) or ($UPDATE_ROW->isRelationUnLink())}
 						{assign var=RELATION value=$UPDATE_ROW->getRelationInstance()}
-						{if !($RELATION->getLinkedRecord())}
+						{if !($RELATION->getValue())}
 							{assign var=PROCEED value= FALSE}
 						{/if}
 					{/if}
 					{if $PROCEED}
 						<div class="d-flex">
 							<div class="w-100">
-								<div class="mr-1 float-sm-left imageContainer q-avatar u-font-size-38px">
+								<div class="mr-1 float-sm-left imageContainer q-avatar u-fs-38px">
 									{assign var=IMAGE value=$USER->getImage()}
 									{if $IMAGE}
 										<img class="userImage" src="{$IMAGE['url']}">
@@ -74,7 +74,7 @@
 											<span class="mr-1" style="color: {ModTracker::$colorsActions[$UPDATE_ROW->get('status')]};">
 												<span class="{ModTracker::$iconActions[$UPDATE_ROW->get('status')]} fa-fw"></span>
 											</span>
-											{\App\Language::translate($UPDATE_ROW->getStatusLabel(), $MODULE_NAME)|ucfirst}
+											{\App\Utils::mbUcfirst(\App\Language::translate($UPDATE_ROW->getStatusLabel(), $MODULE_NAME))}
 											{assign var=COUNTER value=0}
 											{foreach from=$FIELDS item=FIELD}
 													{if $FIELD && $FIELD->getFieldInstance() && $FIELD->getFieldInstance()->isViewableInDetailView()}
@@ -124,9 +124,32 @@
 											<span class="mr-1" style="color: {ModTracker::$colorsActions[$UPDATE_ROW->get('status')]};">
 												<span class="{ModTracker::$iconActions[$UPDATE_ROW->get('status')]} fa-fw"></span>
 											</span>
-											{\App\Language::translate($UPDATE_ROW->getStatusLabel(), $MODULE_NAME)|ucfirst}&nbsp;
+											{\App\Utils::mbUcfirst(\App\Language::translate($UPDATE_ROW->getStatusLabel(), $MODULE_NAME))}&nbsp;
 											<div class="u-white-space-nowrap u-text-ellipsis--no-hover">
-												{DISPLAY_RECORD_NAME RECORD_MODEL=$RELATION->getLinkedRecord()}
+											{assign var=DISPLAY_TEXT value=$RELATION->getValue()}
+												{if $DISPLAY_TEXT}
+													{if $RELATION->get('targetmodule') eq 'ModComments'}
+														{assign var=IS_PERMITTED_RECORD value=false}
+														{assign var=DISPLAY_TEXT value=\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML(\App\Purifier::decodeHtml($RELATION->getValue())))}
+													{else}
+														{assign var=IS_PERMITTED_RECORD value=\App\Privilege::isPermitted($RELATION->get('targetmodule'), 'DetailView', $RELATION->get('targetid'))}
+													{/if}
+														<span class="yfm-{$RELATION->get('targetmodule')} fa-lg fa-fw mr-1"
+															title="{\App\Language::translateSingularModuleName($RELATION->get('targetmodule'))}"></span>
+													<span {if $IS_PERMITTED_RECORD}
+														class="js-popover-tooltip--ellipsis u-text-ellipsis--no-hover" data-toggle="popover"
+														data-content="{\App\Purifier::encodeHtml($DISPLAY_TEXT)}"
+														data-js="popover"{else}class="text-truncate"{/if}>
+														{if $IS_PERMITTED_RECORD}
+															<a class="modCT_{$RELATION->get('targetmodule')} js-popover-tooltip--record"
+																href="{$RELATION->getDetailViewUrl()}">
+																{$DISPLAY_TEXT}
+															</a>
+														{else}
+															<strong>{$DISPLAY_TEXT}</strong>
+														{/if}
+													</span>
+												{/if}
 											</div>
 										</div>
 									</div>
@@ -144,7 +167,7 @@
 											<span class="mr-1" style="color: {ModTracker::$colorsActions[$UPDATE_ROW->get('status')]};">
 												<span class="{ModTracker::$iconActions[$UPDATE_ROW->get('status')]} fa-fw"></span>
 											</span>
-											{\App\Language::translate($UPDATE_ROW->getStatusLabel(), $MODULE_NAME)|ucfirst}
+											{\App\Utils::mbUcfirst(\App\Language::translate($UPDATE_ROW->getStatusLabel(), $MODULE_NAME))}
 										</div>
 									</div>
 								{/if}
@@ -154,9 +177,10 @@
 			{/foreach}
 			{if $PAGING_MODEL->get('nextPageExists')}
 				<div class="float-right padding5">
-				<button type="button" class="btn btn-sm btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">
-					{\App\Language::translate('LBL_MORE', $MODULE_NAME)}
-				</button>
+					<button type="button" class="btn btn-sm btn-primary showMoreHistory" data-url="{$URL}&page={$PAGING_MODEL->getNextPage()}">
+						{\App\Language::translate('LBL_MORE', $MODULE_NAME)}
+					</button>
+				</div>
 			{/if}
 		{else}
 			<span class="noDataMsg">

@@ -24,6 +24,15 @@
 			</div>
 		</div>
 	</div>
+	{if $LAST_CRON['laststart'] === ' - '}
+		<div class="alert alert-danger mt-3" role="alert">
+			<a class="btn btn-primary btn-sm float-right" href="https://yetiforce.com/en/knowledge-base/documentation/administrator-documentation/item/enable-cron" target="_blank" title="YetiForce documentation" rel="noreferrer noopener"><span class="fas fa-question"></span></a>
+			<h4 class="alert-heading">
+				<span class="fas fa-exclamation-triangle pr-3"></span>
+				{\App\Language::translate('LBL_CRON_HAS_NOT_BEEN_ENABLED', $QUALIFIED_MODULE)}
+			</h4>
+		</div>
+	{/if}
 	<div class="listViewActionsDiv row">
 		<div class="{if !empty($SUPPORTED_MODULE_MODELS)}col-md-5{else}col-md-8{/if} btn-toolbar">
 			{if !empty($LISTVIEW_LINKS['LISTVIEWBASIC'])}

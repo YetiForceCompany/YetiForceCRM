@@ -66,7 +66,7 @@
 											{/if}
 											{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
 												<span class="js-detail-quick-edit cursorPointer float-right ">
-													&nbsp;<i class="fas fa-edit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></i>
+													&nbsp;<i class="yfi yfi-full-editing-view" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></i>
 												</span>
 												<span class="d-none edit">
 													{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}

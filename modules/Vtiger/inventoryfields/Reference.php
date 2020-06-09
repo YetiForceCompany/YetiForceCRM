@@ -33,7 +33,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		if (empty($value)) {
+		if (empty($value) || !\App\Record::isExists($value)) {
 			return '';
 		}
 		$label = \App\Record::getLabel($value);

@@ -1,6 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-
-const MailIntegration_Start = {
+window.MailIntegration_Start = {
 	iframe: {},
 	/**
 	 * Set iframe element.
@@ -29,11 +28,11 @@ const MailIntegration_Start = {
 				window.PanelParams
 			)
 		)
-			.done(responseData => {
+			.done((responseData) => {
 				$('#page').html(responseData);
 				this.registerLogoutEvents();
 			})
-			.fail(_ => {
+			.fail((_) => {
 				Office.context.mailbox.item.notificationMessages.replaceAsync('error', {
 					type: 'errorMessage',
 					message: app.vtranslate('JS_ERROR')
@@ -76,6 +75,11 @@ const MailIntegration_Start = {
 		};
 		this.iframe.on('load', reloadPanelAfterLogin);
 		$(this.iframe[0].contentWindow).on('unload', showLoader);
+		let src = this.iframe[0].getAttribute('src-a');
+		if (src && this.iframe[0].getAttribute('src') == undefined) {
+			this.iframe[0].removeAttribute('src-a');
+			this.iframe[0].setAttribute('src', src);
+		}
 	},
 	/**
 	 * Is user logged in.
@@ -83,8 +87,23 @@ const MailIntegration_Start = {
 	 * @return  {boolean}
 	 */
 	isUserLoggedIn() {
-		let iframeCONFIG = this.iframe[0].contentWindow.CONFIG;
-		return iframeCONFIG && iframeCONFIG.userId;
+		return !(
+			this.iframe[0].contentWindow.document.body.dataset.module == 'Users' &&
+			this.iframe[0].contentWindow.document.body.dataset.view == 'Login'
+		);
+	},
+	showConsole() {
+		let s = '';
+		let x = '';
+		for (var p in navigator) {
+			s += p + ' : ' + navigator[p] + '<br>';
+			x += p + ' : ' + navigator[p] + '\n';
+		}
+		console.log(x);
+		document.body.innerHTML +=
+			'<div style="position:absolute;width:100%;height:100%;z-index:100;background:#fff;left: 0px; top: 50%;overflow-y: auto;">' +
+			s +
+			'</div>';
 	},
 	/**
 	 * Register events.
@@ -92,6 +111,7 @@ const MailIntegration_Start = {
 	 * @param   {object}  mailbox  Office mailbox
 	 */
 	registerEvents(mailbox) {
+		//this.showConsole();
 		if (!$('.js-exception-error').length) {
 			this.setIframe();
 			if (this.iframe.data('view') === 'login') {
@@ -100,14 +120,21 @@ const MailIntegration_Start = {
 				this.showDetailView(mailbox.item);
 			}
 		}
+	},
+	reloadView(data) {
+		window.MailIntegration_Start.showDetailView(Office.context.mailbox.item);
 	}
 };
-Office.onReady(info => {
+Office.onReady((info) => {
 	window.PanelParams = {
 		source: 'Outlook',
 		device: Office.context.mailbox.diagnostics.hostName
 	};
 	if (info.host === Office.HostType.Outlook) {
-		MailIntegration_Start.registerEvents(Office.context.mailbox);
+		window.MailIntegration_Start.registerEvents(Office.context.mailbox);
+		Office.context.mailbox.addHandlerAsync(
+			Office.EventType.ItemChanged,
+			window.MailIntegration_Start.reloadView
+		);
 	}
 });

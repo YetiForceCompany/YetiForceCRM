@@ -28,7 +28,7 @@ class OSSMailScanner_GetConfig_Action extends \App\Controller\Action
 	{
 		$recordModel_OSSMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$Config = $recordModel_OSSMailScanner->getConfig('email_list');
-		$result = ['success' => is_array($Config), 'data' => $Config];
+		$result = ['success' => \is_array($Config), 'data' => $Config];
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

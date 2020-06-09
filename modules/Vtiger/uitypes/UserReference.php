@@ -17,7 +17,7 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
-		if (!is_array($value)) {
+		if (!\is_array($value)) {
 			$value = $value ? explode('##', $value) : [];
 		}
 		foreach ($value as $val) {
@@ -52,10 +52,15 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		if ($value) {
-			return \App\Fields\Owner::getLabel($value);
-		}
-		return '';
+		return $value ? \App\Fields\Owner::getUserLabel($value) : '';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEditViewValue($value, $recordModel = false)
+	{
+		return (int) $value;
 	}
 
 	/**
@@ -63,12 +68,11 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$displayValue = \App\TextParser::textTruncate($this->getEditViewDisplayValue($value, $recordModel), is_int($length) ? $length : false);
-		if (App\User::getCurrentUserModel()->isAdmin() && !$rawText) {
+		$displayValue = $value ? \App\Fields\Owner::getUserLabel($value) : '';
+		if (!$rawText && App\User::getCurrentUserModel()->isAdmin()) {
 			$recordModel = Users_Record_Model::getCleanInstance('Users');
 			$recordModel->setId($value);
-
-			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . $displayValue . '</a>';
+			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . \App\TextParser::textTruncate($displayValue, \is_int($length) ? $length : false) . '</a>';
 		}
 		return $displayValue;
 	}
@@ -92,7 +96,7 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function  getQueryOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 'y', 'ny', 'om'];
 	}

@@ -25,7 +25,7 @@ class Accounts_SaveChanges_Handler
 				App\Db::getInstance()->createCommand()->update('u_#__crmentity_last_changes', [
 					'date_updated' => date('Y-m-d H:i:s'),
 					'user_id' => App\User::getCurrentUserId(),
-					], ['crmid' => $recordModel->getId(), 'fieldname' => 'active'])->execute();
+				], ['crmid' => $recordModel->getId(), 'fieldname' => 'active'])->execute();
 			} else {
 				App\Db::getInstance()->createCommand()->insert('u_#__crmentity_last_changes', [
 					'user_id' => App\User::getCurrentUserId(),

@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <!-- tpl-Base-Modals-QuickEdit -->
+<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
 <input type="hidden" name="module" value="{$MODULE_NAME}"/>
 <input type="hidden" name="record" value="{$RECORD_ID}"/>
 <input type="hidden" name="action" value="SaveAjax"/>
@@ -16,26 +17,30 @@
 		<input type="hidden" name="{$FIELD_NAME}" value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}"/>
 	{/foreach}
 {/if}
+{if $SHOW_ALERT_NO_POWERS}
+	<div class="alert alert-danger mx-4 mt-4" role="alert">
+		{\App\Language::translate('LBL_PERMISSION_DENIED_CERTAIN_FIELDS', $MODULE_NAME)}
+	</div>
+{/if}
 <div class="quickCreateContent">
 	<div class="modal-body m-0">
 		{if $LAYOUT === 'blocks'}
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 				{if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 				{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
-				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 				{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
 				<div class="js-toggle-panel c-panel c-panel--edit mb-3"
 					data-js="click|data-dynamic" {if $IS_DYNAMIC} data-dynamic="true"{/if}
 					data-label="{$BLOCK_LABEL}">
 					<div class="blockHeader c-panel__header align-items-center">
-						{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
+						{if in_array($BLOCK_LABEL, $ADDRESS_BLOCK_LABELS)}
 							{assign var=SEARCH_ADDRESS value=TRUE}
 						{else}
 							{assign var=SEARCH_ADDRESS value=FALSE}
 						{/if}
 						<h5 class="ml-2">{\App\Language::translate($BLOCK_LABEL, $MODULE_NAME)}</h5>
 					</div>
-					<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
+					<div class="c-panel__body c-panel__body--edit blockContent js-block-content"
 						data-js="display">
 						<div class="row">
 							{assign var=COUNTER value=0}
@@ -93,12 +98,12 @@
 				<div class="col-12 form-row d-flex justify-content-center px-0 m-0 {$WIDTHTYPE}">
 					{if !empty($CHANGED_FIELDS)}
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$CHANGED_FIELDS}
-							<div class="fieldLabel col-lg-12 col-xl-3 text-lg-left text-xl-right u-text-ellipsis">
+							<div class="fieldLabel col-lg-12 col-xl-3 text-lg-left text-xl-right u-text-ellipsis mt-1">
 								<span class="text-right muted small font-weight-bold">
 									{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 								</span>
 							</div>
-							<div class="fieldValue col-lg-12 col-xl-9 px-0 px-sm-1">
+							<div class="fieldValue col-lg-12 col-xl-9 px-0 px-sm-1 mt-1">
 								{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD_ID,$RECORD)}
 							</div>
 						{/foreach}

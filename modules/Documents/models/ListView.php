@@ -31,7 +31,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, 'List');
-			if (count($templates) > 0) {
+			if (\count($templates) > 0) {
 				$advancedLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
@@ -55,7 +55,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 			$mfModel = new $handlerClass();
 			$templates = $mfModel->getActiveTemplatesForModule($moduleName, 'List');
-			if (count($templates) > 0) {
+			if (\count($templates) > 0) {
 				$advancedLinks[] = [
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_GENERATE_RECORDS',
@@ -104,7 +104,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => "javascript:Vtiger_List_Js.triggerTransferOwnership('index.php?module=$moduleName&view=MassActionAjax&mode=transferOwnership')",
-				'linkicon' => 'fas fa-user',
+				'linkicon' => 'yfi yfi-change-of-owner',
 			];
 		}
 		if ($moduleModel->isPermitted('CreateView')) {

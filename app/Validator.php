@@ -330,6 +330,18 @@ class Validator
 	}
 
 	/**
+	 * Function checks if given value is valid db user name.
+	 *
+	 * @param int|string $input
+	 *
+	 * @return bool
+	 */
+	public static function dbUserName($input): bool
+	{
+		return preg_match('/^[_a-zA-Z0-9.,:-]+$/', $input);
+	}
+
+	/**
 	 * Function checks if given value is port number.
 	 *
 	 * @param int $input
@@ -383,5 +395,17 @@ class Validator
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Function verifies if given value is text.
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public static function text(string $input): bool
+	{
+		return Purifier::decodeHtml(Purifier::purify($input)) === $input;
 	}
 }

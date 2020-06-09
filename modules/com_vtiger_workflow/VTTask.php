@@ -24,6 +24,7 @@ abstract class VTTask
 	 * Do task.
 	 *
 	 * @param Vtiger_Record_Model
+	 * @param mixed $recordModel
 	 */
 	abstract public function doTask($recordModel);
 
@@ -88,7 +89,7 @@ abstract class VTTask
 	 */
 	public function formatTimeForTimePicker($time)
 	{
-		list($h, $m) = explode(':', $time);
+		[$h, $m] = explode(':', $time);
 		$mn = str_pad($m - $m % 15, 2, 0, STR_PAD_LEFT);
 		$AM_PM = ['am', 'pm'];
 

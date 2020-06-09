@@ -92,6 +92,7 @@ class Register
 			'insKey' => static::getInstanceKey(),
 			'crmKey' => static::getCrmKey(),
 			'package' => \App\Company::getSize(),
+			'provider' => static::getProvider(),
 			'companies' => \App\Company::getAll(),
 		];
 	}
@@ -106,7 +107,6 @@ class Register
 		if (!\App\RequestUtil::isNetConnection() || 'yetiforce.com' === gethostbyname('yetiforce.com')) {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
 			$this->error = 'ERR_NO_INTERNET_CONNECTION';
-
 			return false;
 		}
 		$result = false;
@@ -164,6 +164,7 @@ class Register
 					'version' => \App\Version::get(),
 					'crmKey' => static::getCrmKey(),
 					'insKey' => static::getInstanceKey(),
+					'provider' => static::getProvider(),
 					'package' => \App\Company::getSize(),
 				])
 			]);
@@ -208,17 +209,23 @@ class Register
 	 */
 	public static function verify($timer = false): bool
 	{
+		if (\App\Cache::staticHas('RegisterVerify', $timer)) {
+			return \App\Cache::staticGet('RegisterVerify', $timer);
+		}
 		$conf = static::getConf();
 		if (!$conf) {
+			\App\Cache::staticSave('RegisterVerify', $timer, false);
 			return false;
 		}
 		$status = $conf['status'] > 5;
 		if (!empty($conf['serialKey']) && $status && static::verifySerial($conf['serialKey'])) {
+			\App\Cache::staticSave('RegisterVerify', $timer, true);
 			return true;
 		}
 		if ($timer && !empty($conf['register_time']) && strtotime('+14 days', strtotime($conf['register_time'])) > time()) {
 			$status = true;
 		}
+		\App\Cache::staticSave('RegisterVerify', $timer, $status);
 		return $status;
 	}
 
@@ -240,7 +247,8 @@ class Register
 			'last_error_date' => $data['last_error_date'] ?? '',
 			'products' => $data['products'] ?? [],
 		];
-		\App\Utils::saveToFile(static::REGISTRATION_FILE, static::$config, 'Modifying this file will breach the licence terms', 0, true);
+		\App\Utils::saveToFile(static::REGISTRATION_FILE, static::$config, 'Modifying this file or functions that affect the footer appearance will violate the license terms!!!', 0, true);
+		\App\YetiForce\Shop::generateCache();
 	}
 
 	/**
@@ -364,5 +372,19 @@ class Register
 			throw new \App\Exceptions\AppException('ERR_COMPANY_DATA_IS_NOT_COMPATIBLE', 3);
 		}
 		return $status;
+	}
+
+	/**
+	 * Get provider.
+	 *
+	 * @return string
+	 */
+	public static function getProvider(): string
+	{
+		$path = \ROOT_DIRECTORY . '/app_data/installSource.txt';
+		if (\file_exists($path)) {
+			return trim(file_get_contents($path));
+		}
+		return getenv('PROVIDER') ?: getenv('provider') ?: '';
 	}
 }

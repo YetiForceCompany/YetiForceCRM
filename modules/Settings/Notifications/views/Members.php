@@ -26,7 +26,7 @@ class Settings_Notifications_Members_View extends Settings_Vtiger_BasicModal_Vie
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -42,7 +42,7 @@ class Settings_Notifications_Members_View extends Settings_Vtiger_BasicModal_Vie
 	 *
 	 * @param \App\Request $request
 	 */
-	public function addWatchingMembers(\App\Request $request)
+	public function addWatchingMembers(App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$srcModule = $request->getInteger('srcModule');
@@ -61,7 +61,7 @@ class Settings_Notifications_Members_View extends Settings_Vtiger_BasicModal_Vie
 	 *
 	 * @param \App\Request $request
 	 */
-	public function exceptions(\App\Request $request)
+	public function exceptions(App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$srcModule = $request->getInteger('srcModule');

@@ -58,8 +58,8 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		if ($name !== $this->getColumnName()) {
 			$valid = $value ? \App\Json::decode($value) : [];
 			if (isset($valid['individualTax'])) {
-				$valid['individualTax'] = App\Fields\Double::formatToDb($valid['individualTax']);
-				$valid['globalTax'] = App\Fields\Double::formatToDb($valid['globalTax'] ?? 0);
+				$valid['individualTax'] = $valid['individualTax'] ?? 0;
+				$valid['globalTax'] = $valid['globalTax'] ?? 0;
 				$value = \App\Json::encode($valid);
 			}
 		} else {
@@ -91,7 +91,8 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 			}
 		} else {
 			if (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
-				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
+				$module = $this->getModuleName();
+				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$module||$value", 406);
 			}
 		}
 	}

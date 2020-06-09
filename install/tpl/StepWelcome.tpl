@@ -15,21 +15,18 @@
 			<div class="inner-container">
 				<form name="step{$STEP_NUMBER}" method="post" action="Install.php">
 					<input type="hidden" name="mode" value="{$NEXT_STEP}">
+					<input type="hidden" name="session_id" value="{session_id()}">
 					<div class="row">
 						<div class="col-md-8">
 							<h2>{\App\Language::translate('LBL_SETUP_WIZARD_HEADER', 'Install')} {$YETIFORCE_VERSION}</h2>
 						</div>
 						<div class="col-md-4 d-inline-flex justify-content-end">
 							<div class="w-100">
-								<label for="lang"
-									   class="sr-only">{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}</label>
-								<select name="lang" class="select2" id="lang" data-template-result="prependDataTemplate"
-										data-template-selection="prependDataTemplate"
-										title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}"
-										style="width: 250px;">
+								<label for="lang" class="sr-only">{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}</label>
+								<select name="lang" class="select2" id="lang" data-template-result="prependDataTemplate" data-template-selection="prependDataTemplate" title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE','Install')}" style="width: 250px;">
 									{foreach key=key item=ROW from=$LANGUAGES}
 										<option value="{$key}" {if $LANG eq $key}selected{/if} tabindex="0"
-												data-template="<span><span title='{$ROW}' class='flag-icon flag-icon-{$ROW['region']} mr-2'></span>{$ROW['displayName']}</span>">
+												data-template="<span><span title='{$ROW['displayName']}' class='flag-icon flag-icon-{$ROW['region']} mr-2'></span>{$ROW['displayName']}</span>">
 											{$ROW['displayName']}
 										</option>
 									{/foreach}

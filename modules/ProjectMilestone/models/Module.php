@@ -94,7 +94,7 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	 * @param int      $id
 	 * @param float    $estimatedWorkTime
 	 * @param float    $progressInHours
-	 * @param null|int $callerId
+	 * @param int|null $callerId
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
@@ -137,7 +137,7 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 		if ('Project' === $listviewModel->get('src_module') && !$listviewModel->isEmpty('filterFields')) {
 			$filterFields = $listviewModel->get('filterFields');
 			if (!empty($filterFields['projectid'])) {
-				$queryGenerator->addNativeCondition(['projectid' => $filterFields['projectid']]);
+				$queryGenerator->addNativeCondition(['projectid' => (int) $filterFields['projectid']]);
 			}
 		}
 	}

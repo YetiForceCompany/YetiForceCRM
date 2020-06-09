@@ -14,6 +14,19 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function validateValue($value)
+	{
+		if ($this->getFieldModel()->isRoleBased()) {
+			$picklistValues = \App\Fields\Picklist::getRoleBasedValues($this->getFieldModel()->getFieldName(), \App\User::getCurrentUserModel()->getRole());
+		} else {
+			$picklistValues = App\Fields\Picklist::getValuesName($this->getFieldModel()->getFieldName());
+		}
+		return \in_array($value, $picklistValues);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$values = [];
@@ -36,15 +49,14 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 		}
 		$moduleName = $this->getFieldModel()->getModuleName();
 		$dispalyValue = \App\Language::translate($value, $moduleName);
-		if (\is_int($length)) {
-			$dispalyValue = \App\TextParser::textTruncate($dispalyValue, $length);
-		}
 		if ($rawText) {
 			return $dispalyValue;
 		}
+		if (\is_int($length)) {
+			$dispalyValue = \App\TextParser::textTruncate($dispalyValue, $length);
+		}
 		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
 		$value = App\Colors::sanitizeValue($value);
-
 		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">$dispalyValue</span>";
 	}
 

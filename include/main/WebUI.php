@@ -22,11 +22,11 @@ require_once 'modules/Users/Users.php';
 require_once 'include/Webservices/Utils.php';
 require_once 'include/Loader.php';
 Vtiger_Loader::includeOnce('include.runtime.EntryPoint');
-App\Debuger::init();
 App\Cache::init();
+App\Debuger::init();
 App\Db::$connectCache = App\Config::performance('ENABLE_CACHING_DB_CONNECTION');
 App\Log::$logToProfile = Yii::$logToProfile = App\Config::debug('LOG_TO_PROFILE');
-App\Log::$logToConsole = App\Config::debug('LOG_TO_CONSOLE');
+App\Log::$logToConsole = App\Config::debug('DISPLAY_LOGS_IN_CONSOLE');
 App\Log::$logToFile = App\Config::debug('LOG_TO_FILE');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint
@@ -48,14 +48,13 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	protected function checkLogin(App\Request $request)
 	{
 		if (!$this->hasLogin()) {
-			if (!$request->isAjax()) {
-				$request->set('module', 'Users');
-				$request->set('view', 'Login');
-				$this->process($request);
-				return true;
+			if ($request->isAjax()) {
+				throw new \App\Exceptions\Unauthorized('LBL_LOGIN_IS_REQUIRED', 401);
 			}
-			throw new \App\Exceptions\Unauthorized('LBL_LOGIN_IS_REQUIRED', 401);
+			header('location: index.php');
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -68,7 +67,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$user = parent::getLogin();
 		if (!$user && App\Session::has('authenticated_user_id')) {
 			$userId = App\Session::get('authenticated_user_id');
-			if ($userId && App\Config::main('application_unique_key') === App\Session::get('app_unique_key')) {
+			if ($userId && App\Config::main('application_unique_key') === App\Session::get('app_unique_key') && \App\User::isExists($userId)) {
 				\App\User::setCurrentUserId($userId);
 				$this->setLogin();
 			}
@@ -99,6 +98,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			App\Session::init();
 			// common utils api called, depend on this variable right now
 			$this->getLogin();
+			App\Debuger::initConsole();
 			$hasLogin = $this->hasLogin();
 			$moduleName = $request->getModule();
 			$qualifiedModuleName = $request->getModule(false);
@@ -115,9 +115,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 					if (!empty($defaultModule) && 'Home' !== $defaultModule && \App\Privilege::isPermitted($defaultModule)) {
 						$moduleName = $defaultModule;
 						$qualifiedModuleName = $defaultModule;
-						$view = 'List';
-						if ('Calendar' === $moduleName) {
-							$view = Vtiger_Module_Model::getInstance($moduleName)->getDefaultViewName();
+						if (empty($view = Vtiger_Module_Model::getInstance($moduleName)->getDefaultViewName())) {
+							$view = 'List';
 						}
 					} else {
 						$qualifiedModuleName = $moduleName = 'Home';
@@ -149,12 +148,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				header('location: index.php');
 				return false;
 			}
-			// Better place this here as session get initiated
-			//skipping the csrf checking for the forgot(reset) password
-			if (App\Config::security('csrfActive') && 'reset' !== $request->getMode() && 'Login' !== $action && 'demo' !== App\Config::main('systemMode')) {
-				require_once 'config/csrf_config.php';
-				\CsrfMagic\Csrf::init();
-			}
 			\App\Process::$processName = $componentName;
 			\App\Process::$processType = $componentType;
 			\App\Config::setJsEnv('module', $moduleName);
@@ -171,7 +164,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				\App\Log::error("HandlerClass: $handlerClass", 'Loader');
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
 			}
-			if (\App\Config::security('csrfActive') && 'demo' !== App\Config::main('systemMode')) { // Ensure handler validates the request
+			if ($handler->csrfActive) {
 				$handler->validateRequest($request);
 			}
 			if ($handler->loginRequired() && $this->checkLogin($request)) {

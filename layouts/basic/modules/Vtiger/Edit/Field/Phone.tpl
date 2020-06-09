@@ -22,7 +22,11 @@
 				{assign var="COUNTRY" value=$PHONE_DETAIL['country']}
 			{else}
 				{assign var="PHONE_DETAIL" value=[]}
-				{assign var="COUNTRY" value=\App\Language::getLanguageRegion()}
+				{if !\App\Config::component('Phone', 'defaultPhoneCountry')}
+					{assign var="COUNTRY" value=\App\Language::getLanguageRegion()}
+				{else}
+					{assign var="COUNTRY" value=''}
+				{/if}
 			{/if}
 			{assign var="FIELD_NAME_EXTRA" value=$FIELD_MODEL->getFieldName()|cat:'_extra'}
 			{assign var="FIELD_MODEL_EXTRA" value=$FIELD_MODEL->getModule()->getFieldByName($FIELD_NAME_EXTRA)}
@@ -42,12 +46,12 @@
 								{/foreach}
 							</select>
 						</div>
-						{if $PHONE_DETAIL && ($PHONE_DETAIL['geocoding'] || $PHONE_DETAIL['carrier'])}
+						{if $PHONE_DETAIL && (isset($PHONE_DETAIL['geocoding']) || isset($PHONE_DETAIL['carrier']))}
 							{assign var="TITLE" value=$PHONE_DETAIL['geocoding']|cat:' '|cat:$PHONE_DETAIL['carrier']}
 						{else}
 							{assign var="TITLE" value=\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 						{/if}
-						{if $PHONE_DETAIL}
+						{if $PHONE_DETAIL && isset($PHONE_DETAIL['number'])}
 							{assign var="NUMBER" value=$PHONE_DETAIL['number']}
 						{/if}
 						<input name="{$FIELD_MODEL->getFieldName()}" class="form-control" value="{$NUMBER}" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}"

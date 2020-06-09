@@ -19,6 +19,25 @@ abstract class Base
 	 * @var \App\Headers
 	 */
 	public $headers;
+	/**
+	 * CSRF is active?.
+	 *
+	 * @var bool
+	 */
+	public $csrfActive = true;
+
+	/**
+	 * Activated language locale.
+	 *
+	 * @var bool
+	 */
+	protected static $activatedLocale = false;
+	/**
+	 * Activated csrf.
+	 *
+	 * @var bool
+	 */
+	protected static $activatedCsrf = false;
 
 	/**
 	 * Constructor.
@@ -26,8 +45,19 @@ abstract class Base
 	public function __construct()
 	{
 		$this->headers = \App\Headers::getInstance();
-		if (\App\Config::performance('CHANGE_LOCALE')) {
+		if (!self::$activatedLocale && \App\Config::performance('CHANGE_LOCALE')) {
 			\App\Language::initLocale();
+			self::$activatedLocale = true;
+		}
+		if (!self::$activatedCsrf) {
+			if ($this->csrfActive && \App\Config::security('csrfActive')) {
+				require_once 'config/csrf_config.php';
+				\CsrfMagic\Csrf::init();
+				$this->csrfActive = true;
+			} else {
+				$this->csrfActive = false;
+			}
+			self::$activatedCsrf = true;
 		}
 	}
 

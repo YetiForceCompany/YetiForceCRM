@@ -63,9 +63,10 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		$fieldModel = $this->getFieldModel();
 		$referenceModuleList = $fieldModel->getReferenceList();
 		$referenceEntityType = \App\Record::getType($value);
-		if (!empty($referenceModuleList) && in_array($referenceEntityType, $referenceModuleList)) {
+		if (!empty($referenceModuleList) && \in_array($referenceEntityType, $referenceModuleList)) {
 			return Vtiger_Module_Model::getInstance($referenceEntityType);
-		} elseif (!empty($referenceModuleList) && in_array('Users', $referenceModuleList)) {
+		}
+		if (!empty($referenceModuleList) && \in_array('Users', $referenceModuleList)) {
 			return Vtiger_Module_Model::getInstance('Users');
 		}
 		return null;
@@ -81,19 +82,19 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		$referenceModuleName = $referenceModule->get('name');
-		if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
+		if ('Users' === $referenceModuleName || 'Groups' === $referenceModuleName) {
 			return \App\Fields\Owner::getLabel($value);
 		}
 		$name = \App\Record::getLabel($value);
-		if (is_int($length)) {
-			$name = \App\TextParser::textTruncate($name, $length);
-		} elseif ($length !== true) {
-			$name = App\TextParser::textTruncate($name, \App\Config::main('href_max_length'));
-		}
 		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 			return $name;
 		}
-		if (\App\Record::getState($value) !== 'Active') {
+		if (\is_int($length)) {
+			$name = \App\TextParser::textTruncate($name, $length);
+		} elseif (true !== $length) {
+			$name = App\TextParser::textTruncate($name, \App\Config::main('href_max_length'));
+		}
+		if ('Active' !== \App\Record::getState($value)) {
 			$name = '<s>' . $name . '</s>';
 		}
 		return "<a class='modCT_$referenceModuleName showReferenceTooltip js-popover-tooltip--record' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>$name</a>";
@@ -105,7 +106,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		$referenceModuleName = $this->getReferenceModule($value);
-		if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
+		if ('Users' === $referenceModuleName || 'Groups' === $referenceModuleName) {
 			return \App\Fields\Owner::getLabel($value);
 		}
 		return \App\Record::getLabel($value);
@@ -126,7 +127,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	{
 		$fieldModel = $this->getFieldModel();
 		$fieldName = $fieldModel->getName();
-		if ($fieldName === 'modifiedby') {
+		if ('modifiedby' === $fieldName) {
 			return 'List/Field/Owner.tpl';
 		}
 		if (App\Config::performance('SEARCH_REFERENCE_BY_AJAX')) {
@@ -154,7 +155,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function  getQueryOperators()
+	public function getQueryOperators()
 	{
 		return ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
 	}

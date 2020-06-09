@@ -44,7 +44,7 @@
 								{/if}&nbsp;&nbsp;
 								<span class="actionImages">
 									<a class="showModal" data-url="index.php?module={$MODULE}&view=RelatedCommentModal&record={$RECORDID}&relid={$RECORD['id']}&relmodule={$RELATED_MODULE_NAME}">
-										<span class="fas fa-edit alignMiddle" title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
+										<span class="yfi yfi-full-editing-view" title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
 									</a>
 								</span>
 							</td>

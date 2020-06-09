@@ -165,7 +165,7 @@ class IStorages extends Vtiger_CRMEntity
 		$listviewEntries[$iStorageId] = $iStorageInfoData;
 
 		foreach ($iStorageInfoBase as $accId => $iStorageInfo) {
-			if (is_array($iStorageInfo) && (int) $accId) {
+			if (\is_array($iStorageInfo) && (int) $accId) {
 				$listviewEntries = $this->getHierarchyData($id, $iStorageInfo, $accId, $listviewEntries, $getRawData, $getLinks);
 			}
 		}
@@ -210,7 +210,7 @@ class IStorages extends Vtiger_CRMEntity
 		if ($row) {
 			$parentid = $row['parentid'];
 
-			if ('' != $parentid && 0 != $parentid && !in_array($parentid, $encounteredIStorages)) {
+			if ('' != $parentid && 0 != $parentid && !\in_array($parentid, $encounteredIStorages)) {
 				$encounteredIStorages[] = $parentid;
 				$this->getParentIStorages($parentid, $parentIStorages, $encounteredIStorages, $depthBase + 1);
 			}

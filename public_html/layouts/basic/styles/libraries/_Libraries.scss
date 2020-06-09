@@ -490,6 +490,15 @@ body:not(.desktop) {
 		color: #212529;
 		background-color: #fff;
 		background-clip: padding-box;
+
+		.c-circle-icon {
+			font-size: 2em;
+			margin-top: 10px;
+		}
+		.c-img__completion__container {
+			width: 2.5rem;
+			text-align: center;
+		}
 	}
 
 	li.highlight,
@@ -525,10 +534,21 @@ body:not(.desktop) {
 		margin: 0px !important;
 	}
 }
-
-.mdi:before {
-	font-size: 1.4em;
-	vertical-align: text-bottom;
-	line-height: 0.9;
-	margin: 0 -2px;
+//-------- Material Design Icons --------//
+.mdi {
+	line-height: 1;
+}
+.btn .mdi::before {
+	position: relative;
+}
+.alert .mdi::before {
+	position: relative;
+	top: 2px;
+}
+.alert .mdi {
+	font-size: 1rem;
+}
+//-------- quasar --------//
+.q-tab__icon {
+	height: unset;
 }

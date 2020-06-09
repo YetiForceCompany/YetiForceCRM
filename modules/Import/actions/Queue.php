@@ -24,7 +24,7 @@ class Import_Queue_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
@@ -35,7 +35,7 @@ class Import_Queue_Action extends \App\Controller\Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 	}
 
@@ -45,18 +45,32 @@ class Import_Queue_Action extends \App\Controller\Action
 	 * @param \App\Request $request
 	 * @param \App\User    $user
 	 */
-	public static function add(\App\Request $request, \App\User $user)
+	public static function add(App\Request $request, App\User $user)
 	{
 		if ($request->get('is_scheduled')) {
 			$temp_status = self::$IMPORT_STATUS_SCHEDULED;
 		} else {
 			$temp_status = self::$IMPORT_STATUS_NONE;
 		}
+		$defaultValues = [];
+		if ($request->get('default_values')) {
+			$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
+			foreach ($request->get('default_values') as $fieldName => $value) {
+				if ($fieldModel = $moduleModel->getFieldByName($fieldName)) {
+					if ('reference' !== $fieldModel->getFieldDataType()) {
+						$uiTypeModel = $fieldModel->getUITypeModel();
+						$uiTypeModel->validate($value, true);
+						$value = $uiTypeModel->getDBValue($value);
+					}
+					$defaultValues[$fieldName] = $value;
+				}
+			}
+		}
 		\App\Db::getInstance()->createCommand()->insert('vtiger_import_queue', [
 			'userid' => $user->getId(),
 			'tabid' => \App\Module::getModuleId($request->getModule()),
 			'field_mapping' => \App\Json::encode($request->get('field_mapping')),
-			'default_values' => \App\Json::encode($request->get('default_values')),
+			'default_values' => \App\Json::encode($defaultValues),
 			'merge_type' => $request->get('merge_type'),
 			'merge_fields' => \App\Json::encode($request->get('merge_fields')),
 			'temp_status' => $temp_status,
@@ -75,7 +89,7 @@ class Import_Queue_Action extends \App\Controller\Action
 	 *
 	 * @param \App\User $user
 	 */
-	public static function removeForUser(\App\User $user)
+	public static function removeForUser(App\User $user)
 	{
 		if (vtlib\Utils::checkTable('vtiger_import_queue')) {
 			App\Db::getInstance()->createCommand()->delete('vtiger_import_queue', ['userid' => $user->getId()])->execute();
@@ -89,7 +103,7 @@ class Import_Queue_Action extends \App\Controller\Action
 	 *
 	 * @return array
 	 */
-	public static function getUserCurrentImportInfo(\App\User $user)
+	public static function getUserCurrentImportInfo(App\User $user)
 	{
 		if (vtlib\Utils::checkTable('vtiger_import_queue')) {
 			$rowData = (new App\Db\Query())->from('vtiger_import_queue')->where(['userid' => $user->getId()])->one();
@@ -106,9 +120,9 @@ class Import_Queue_Action extends \App\Controller\Action
 	 * @param string    $module
 	 * @param \App\User $user
 	 *
-	 * @return null|array
+	 * @return array|null
 	 */
-	public static function getImportInfo($module, \App\User $user)
+	public static function getImportInfo($module, App\User $user)
 	{
 		$rowData = (new \App\Db\Query())->from('vtiger_import_queue')->where(['tabid' => \App\Module::getModuleId($module), 'userid' => $user->getId()])->one();
 		if ($rowData) {
@@ -131,7 +145,7 @@ class Import_Queue_Action extends \App\Controller\Action
 	public static function getAll($tempStatus = false)
 	{
 		$query = (new App\Db\Query())->from('vtiger_import_queue');
-		if ($tempStatus !== false) {
+		if (false !== $tempStatus) {
 			$query->where(['temp_status' => $tempStatus]);
 		}
 		$dataReader = $query->createCommand()->query();

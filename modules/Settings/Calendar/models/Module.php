@@ -23,7 +23,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 			];
 		}
 		$dataReader->close();
-		if ($type == 'colors') {
+		if ('colors' == $type) {
 			$calendarConfig = array_merge($calendarConfig, self::getPicklistValue());
 		}
 		return $calendarConfig;
@@ -93,7 +93,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 		foreach (self::getCalendarColorPicklist() as $picklistName) {
 			$picklistValues = \App\Fields\Picklist::getValues($picklistName);
 			foreach ($picklistValues as $picklistValueId => $picklistValue) {
-				if (strpos($picklistValue['color'], '#') === false) {
+				if (false === strpos($picklistValue['color'], '#')) {
 					$picklistValue['color'] = '#' . $picklistValue['color'];
 				}
 				$calendarConfig[] = array_combine($keys, [

@@ -170,5 +170,4 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	{
 		return 'ConditionBuilder/Time.tpl';
 	}
-
 }

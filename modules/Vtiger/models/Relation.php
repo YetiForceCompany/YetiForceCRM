@@ -259,7 +259,7 @@ class Vtiger_Relation_Model extends \App\Base
 	{
 		$relKey = $parentModuleModel->getId() . '_' . $relatedModuleModel->getId() . '_' . $relationId;
 		if (isset(self::$cachedInstances[$relKey])) {
-			return self::$cachedInstances[$relKey];
+			return self::$cachedInstances[$relKey] ? clone self::$cachedInstances[$relKey] : self::$cachedInstances[$relKey];
 		}
 		if (('ModComments' == $relatedModuleModel->getName() && $parentModuleModel->isCommentEnabled()) || 'Documents' == $parentModuleModel->getName()) {
 			$moduleName = 'ModComments' == $relatedModuleModel->getName() ? $relatedModuleModel->getName() : $parentModuleModel->getName();
@@ -270,7 +270,7 @@ class Vtiger_Relation_Model extends \App\Base
 				$relationModel->setExceptionData();
 			}
 			self::$cachedInstances[$relKey] = $relationModel;
-			return $relationModel;
+			return clone $relationModel;
 		}
 		$query = (new \App\Db\Query())->select(['vtiger_relatedlists.*', 'modulename' => 'vtiger_tab.name'])
 			->from('vtiger_relatedlists')
@@ -285,10 +285,12 @@ class Vtiger_Relation_Model extends \App\Base
 			$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
+			$relationModel->set('relatedModuleName', $row['modulename']);
 			self::$cachedInstances[$relKey] = $relationModel;
 			self::$cachedInstancesById[$row['relation_id']] = $relationModel;
-			return $relationModel;
+			return clone $relationModel;
 		}
+		self::$cachedInstances[$relKey] = false;
 		return false;
 	}
 
@@ -314,6 +316,7 @@ class Vtiger_Relation_Model extends \App\Base
 				$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
 				$relationModel = new $relationModelClassName();
 				$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel(Vtiger_Module_Model::getInstance($relatedModuleName));
+				$relationModel->set('relatedModuleName', $row['modulename']);
 				if (method_exists($relationModel, 'setExceptionData')) {
 					$relationModel->setExceptionData();
 				}
@@ -388,7 +391,7 @@ class Vtiger_Relation_Model extends \App\Base
 		$relatedListFields = [];
 		$relatedModuleModel = $this->getRelationModuleModel();
 		// Get fields from panel
-		foreach (App\Field::getFieldsFromRelation($this->getId()) as &$fieldName) {
+		foreach (App\Field::getFieldsFromRelation($this->getId()) as $fieldName) {
 			$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
 		}
 		if ($relatedListFields) {
@@ -399,13 +402,13 @@ class Vtiger_Relation_Model extends \App\Base
 		$entity = $queryGenerator->getEntityModel();
 		if (!empty($entity->relationFields)) {
 			// Get fields from entity model
-			foreach ($entity->relationFields as &$fieldName) {
+			foreach ($entity->relationFields as $fieldName) {
 				$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
 			}
 		} else {
 			// Get fields from default CustomView
 			$queryGenerator->initForDefaultCustomView(true, true);
-			foreach ($queryGenerator->getFields() as &$fieldName) {
+			foreach ($queryGenerator->getFields() as $fieldName) {
 				if ('id' !== $fieldName) {
 					$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
 				}
@@ -813,7 +816,9 @@ class Vtiger_Relation_Model extends \App\Base
 		$excludedModules = ['Users'];
 		$relatedModel = $this->getRelationModuleModel();
 		$relatedModuleName = $relatedModel->getName();
-
+		if ($relationField = $this->getRelationField()) {
+			$fields[$relationField->getFieldName()] = $recordModel->getId();
+		}
 		$parentModelFields = $this->getParentModuleModel()->getFields();
 		foreach ($parentModelFields as $fieldName => $fieldModel) {
 			if ($fieldModel->isReferenceField()) {
@@ -916,21 +921,27 @@ class Vtiger_Relation_Model extends \App\Base
 	public static function updateModuleRelatedFields(int $relationId, $fields)
 	{
 		$db = \App\Db::getInstance();
-		$db->createCommand()->delete('vtiger_relatedlists_fields', ['relation_id' => $relationId])->execute();
-		if ($fields) {
-			$addedFields = [];
-			foreach ($fields as $key => $field) {
-				if (\in_array($field['id'], $addedFields)) {
-					continue;
+		$transaction = $db->beginTransaction();
+		try {
+			$db->createCommand()->delete('vtiger_relatedlists_fields', ['relation_id' => $relationId])->execute();
+			if ($fields) {
+				$addedFields = [];
+				foreach ($fields as $key => $field) {
+					if (\in_array($field['id'], $addedFields)) {
+						continue;
+					}
+					$db->createCommand()->insert('vtiger_relatedlists_fields', [
+						'relation_id' => $relationId,
+						'fieldid' => $field['id'],
+						'sequence' => $key,
+					])->execute();
+					$addedFields[] = $field['id'];
 				}
-				$db->createCommand()->insert('vtiger_relatedlists_fields', [
-					'relation_id' => $relationId,
-					'fieldid' => $field['id'],
-					'fieldname' => $field['name'],
-					'sequence' => $key,
-				])->execute();
-				$addedFields[] = $field['id'];
 			}
+			$transaction->commit();
+		} catch (\Throwable $e) {
+			$transaction->rollBack();
+			throw $e;
 		}
 		\App\Cache::clear();
 	}

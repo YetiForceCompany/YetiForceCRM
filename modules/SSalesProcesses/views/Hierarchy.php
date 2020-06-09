@@ -18,7 +18,7 @@ class SSalesProcesses_Hierarchy_View extends \App\Controller\View\Page
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		if (!$recordId) {
@@ -29,7 +29,7 @@ class SSalesProcesses_Hierarchy_View extends \App\Controller\View\Page
 		}
 	}
 
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

@@ -89,7 +89,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		$groupIds = array_keys($groups);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			if (in_array($row['user'], $groupIds)) {
+			if (\in_array($row['user'], $groupIds)) {
 				$row['isGroup'] = true;
 				$row['userModel'] = $groups[$row['user']];
 			} else {
@@ -130,7 +130,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	{
 		$queries = [];
 		$db = App\Db::getInstance();
-		if (in_array('Calendar', $type) && ($field = current(\Vtiger_Module_Model::getInstance('Calendar')->getReferenceFieldsForModule($moduleName)))) {
+		if (\in_array('Calendar', $type) && ($field = current(\Vtiger_Module_Model::getInstance('Calendar')->getReferenceFieldsForModule($moduleName)))) {
 			$query = (new \App\Db\Query())
 				->select([
 					'body' => new \yii\db\Expression($db->quoteValue('')),
@@ -148,7 +148,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			\App\PrivilegeQuery::getConditions($query, 'Calendar', false, $recordId);
 			$queries[] = $query;
 		}
-		if (in_array('ModComments', $type)) {
+		if (\in_array('ModComments', $type)) {
 			$query = (new \App\Db\Query())
 				->select([
 					'body' => new \yii\db\Expression($db->quoteValue('')),
@@ -166,7 +166,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			\App\PrivilegeQuery::getConditions($query, 'ModComments', false, $recordId);
 			$queries[] = $query;
 		}
-		if (in_array('OSSMailView', $type)) {
+		if (\in_array('OSSMailView', $type)) {
 			$query = (new \App\Db\Query())
 				->select([
 					'body' => 'o.content',
@@ -185,7 +185,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			\App\PrivilegeQuery::getConditions($query, 'OSSMailView', false, $recordId);
 			$queries[] = $query;
 		}
-		if (1 == count($queries)) {
+		if (1 == \count($queries)) {
 			$sql = reset($queries);
 		} else {
 			$subQuery = reset($queries);

@@ -61,10 +61,7 @@ class Languages
 				if ($body) {
 					\file_put_contents($file, $response->getBody());
 					foreach ($body as $prefix => $row) {
-						$languages[$prefix] = \array_merge($row, [
-							'name' => \App\Language::getDisplayName($prefix),
-							'exist' => \file_exists(\ROOT_DIRECTORY . "/languages/{$prefix}/_Base.json")
-						]);
+						$languages[$prefix] = $row;
 					}
 				}
 			}
@@ -118,5 +115,17 @@ class Languages
 	public static function getLastErrorMessage(): ?string
 	{
 		return static::$lastErrorMessage;
+	}
+
+	/**
+	 * Check if language exists.
+	 *
+	 * @param string $prefix
+	 *
+	 * @return bool
+	 */
+	public static function exists(string $prefix): bool
+	{
+		return \file_exists(\ROOT_DIRECTORY . '/languages/' . $prefix . '/_Base.json');
 	}
 }

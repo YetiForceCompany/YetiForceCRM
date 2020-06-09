@@ -74,6 +74,36 @@ class Vtiger_Field_Model extends vtlib\Field
 	];
 
 	/**
+	 * Initialize.
+	 *
+	 * @param string     $module
+	 * @param array      $data
+	 * @param mixed|null $name
+	 *
+	 * @return \Vtiger_Field_Model
+	 */
+	public static function init($module = 'Vtiger', $data = [], $name = '')
+	{
+		$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Module', $module);
+		$moduleInstance = new $modelClassName();
+		$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
+		$instance = new $modelClassName();
+		$instance->setModule($moduleInstance);
+		$instance->setData(array_merge([
+			'uitype' => 1,
+			'column' => $name,
+			'name' => $name,
+			'label' => $name,
+			'displaytype' => 1,
+			'typeofdata' => 'V~O',
+			'presence' => 0,
+			'isReadOnly' => false,
+			'isEditableReadOnly' => false,
+		], $data));
+		return $instance;
+	}
+
+	/**
 	 * Function to get the value of a given property.
 	 *
 	 * @param string $propertyName
@@ -293,6 +323,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 9:
 						$fieldDataType = 'percentage';
 						break;
+					case 12:
+						$fieldDataType = 'accountName';
+						break;
 					case 27:
 						$fieldDataType = 'fileLocationType';
 						break;
@@ -413,6 +446,12 @@ class Vtiger_Field_Model extends vtlib\Field
 						break;
 					case 324:
 						$fieldDataType = 'token';
+						break;
+					case 325:
+						$fieldDataType = 'magentoServer';
+						break;
+					case 326:
+						$fieldDataType = 'meetingUrl';
 						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
@@ -568,8 +607,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		$fieldPickListValues = [];
 		if ('picklist' === $fieldDataType || 'multipicklist' === $fieldDataType) {
 			if ($this->isRoleBased() && !$skipCheckingRole) {
-				$userModel = Users_Record_Model::getCurrentUserModel();
-				$picklistValues = \App\Fields\Picklist::getRoleBasedValues($this->getName(), $userModel->get('roleid'));
+				$picklistValues = \App\Fields\Picklist::getRoleBasedValues($this->getName(), \App\User::getCurrentUserModel()->getRole());
 			} else {
 				$picklistValues = App\Fields\Picklist::getValuesName($this->getName());
 			}
@@ -744,11 +782,8 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isAjaxEditable()
 	{
-		$ajaxRestrictedFields = [72, 10, 51, 59];
-		if (!$this->isEditable() || \in_array($this->get('uitype'), $ajaxRestrictedFields) || !$this->getUITypeModel()->isAjaxEditable() || 10 === (int) $this->get('displaytype')) {
-			return false;
-		}
-		return true;
+		$ajaxRestrictedFields = [72, 12];
+		return !(10 === (int) $this->get('displaytype') || $this->isReferenceField() || !$this->getUITypeModel()->isAjaxEditable() || !$this->isEditable() || \in_array($this->get('uitype'), $ajaxRestrictedFields));
 	}
 
 	public function isEditableReadOnly()
@@ -900,8 +935,12 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getFieldInfo()
 	{
+		$this->fieldInfo['name'] = $this->get('name');
+		$this->fieldInfo['label'] = App\Language::translate($this->get('label'), $this->getModuleName());
 		$fieldDataType = $this->getFieldDataType();
+		$this->fieldInfo['type'] = $fieldDataType;
 		$this->fieldInfo['mandatory'] = $this->isMandatory();
+		$this->fieldInfo['defaultvalue'] = $this->getDefaultFieldValue();
 		$this->fieldInfo['presence'] = $this->isActiveField();
 		$this->fieldInfo['quickcreate'] = $this->isQuickCreateEnabled();
 		$this->fieldInfo['masseditable'] = $this->isMassEditable();
@@ -910,11 +949,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		$this->fieldInfo['maximumlength'] = $this->get('maximumlength');
 		$this->fieldInfo['maxwidthcolumn'] = $this->get('maxwidthcolumn');
 		$this->fieldInfo['tabindex'] = $this->get('tabindex');
-		$this->fieldInfo['defaultvalue'] = $this->getDefaultFieldValue();
-		$this->fieldInfo['type'] = $fieldDataType;
-		$this->fieldInfo['name'] = $this->get('name');
-		$this->fieldInfo['label'] = App\Language::translate($this->get('label'), $this->getModuleName());
-
+		$this->fieldInfo['fieldtype'] = explode('~', $this->get('typeofdata'))[0] ?? '';
 		$currentUser = \App\User::getCurrentUserModel();
 		switch ($fieldDataType) {
 			case 'picklist':
@@ -928,6 +963,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'taxes':
 			case 'multiListFields':
 			case 'mailScannerFields':
+			case 'country':
 				$pickListValues = $this->getPicklistValues();
 				if (!empty($pickListValues)) {
 					$this->fieldInfo['picklistvalues'] = $pickListValues;
@@ -1233,26 +1269,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
-	 * Function returns list of Currencies available in the system.
-	 *
-	 * @return array
-	 */
-	public function getCurrencyList()
-	{
-		if (\App\Cache::has('Currency', 'List')) {
-			return \App\Cache::get('Currency', 'List');
-		}
-		$currencies = (new \App\Db\Query())->select(['id', 'currency_name'])
-			->from('vtiger_currency_info')
-			->where(['currency_status' => 'Active', 'deleted' => 0])
-			->createCommand()->queryAllByGroup();
-		asort($currencies);
-		\App\Cache::save('Currency', 'List', $currencies, \App\Cache::LONG);
-
-		return $currencies;
-	}
-
-	/**
 	 * Function to get Display value for RelatedList.
 	 *
 	 * @param string $value
@@ -1309,7 +1325,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			'masseditable' => $this->get('masseditable'), 'header_field' => $this->get('header_field'), 'maxlengthtext' => $this->get('maxlengthtext'),
 			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'tabindex' => $this->get('tabindex'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
 			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
-			'fieldparams' => $this->get('fieldparams'),
+			'fieldparams' => $this->get('fieldparams'), 'quickcreatesequence' => $this->get('quicksequence')
 		], ['fieldid' => $this->get('id')])->execute();
 		if ($this->isMandatory()) {
 			$db->createCommand()->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $this->getBlockId()])->execute();
@@ -1344,9 +1360,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isActiveField()
 	{
-		$presence = $this->get('presence');
-
-		return \in_array($presence, [0, 2]);
+		return \in_array($this->get('presence'), [0, 2]);
 	}
 
 	public function isMassEditable()
@@ -1535,7 +1549,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		}
 		$data = $this->getDBColumnType(false);
 		if (!\in_array($data['type'], $allowedTypes)) {
-			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_TYPE');
+			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_TYPE||' . $data['type'] . '||' . print_r($allowedTypes, true));
 		}
 		preg_match('/^([\w\-]+)/i', $data['dbType'], $matches);
 		$type = $matches[1] ?? $data['type'];
@@ -1554,7 +1568,7 @@ class Vtiger_Field_Model extends vtlib\Field
 					break;
 				case 'bigint':
 				case 'mediumint':
-					throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_TYPE');
+					throw new \App\Exceptions\AppException("ERR_NOT_ALLOWED_TYPE||$type||integer,smallint,tinyint");
 				case 'integer':
 				case 'int':
 					if ($data['unsigned']) {

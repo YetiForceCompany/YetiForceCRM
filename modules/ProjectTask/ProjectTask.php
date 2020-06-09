@@ -104,7 +104,7 @@ class ProjectTask extends CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType === 'module.postinstall') {
+		if ('module.postinstall' === $eventType) {
 			// Mark the module as Standard module
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 
@@ -115,7 +115,7 @@ class ProjectTask extends CRMEntity
 					ModComments::addWidgetTo(['ProjectTask']);
 				}
 			}
-		} elseif ($eventType === 'module.postupdate') {
+		} elseif ('module.postupdate' === $eventType) {
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';

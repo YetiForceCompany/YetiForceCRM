@@ -29,7 +29,7 @@
 						{/if}
 						{if $RECORD->isEditable()}
 							<a href="{$RECORD->getEditViewUrl()}" class="btn btn-sm btn-light mr-1" role="button">
-							<span class="fas fa-edit js-detail-quick-edit" data-js="click"
+							<span class="yfi yfi-full-editing-view js-detail-quick-edit" data-js="click"
 								  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 							</a>
 						{/if}

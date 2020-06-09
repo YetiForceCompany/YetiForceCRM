@@ -666,6 +666,7 @@ class PackageExport
 			while ($row = $dataReaderRow->read()) {
 				$this->openNode('inrelatedlist');
 				$this->outputNode(Module::getInstance($row['tabid'])->name, 'inrelatedmodule');
+				$this->outputNode($row['field_name'], 'field_name');
 				$this->outputNode($row['name'], 'function');
 				$this->outputNode($row['label'], 'label');
 				$this->outputNode($row['sequence'], 'sequence');

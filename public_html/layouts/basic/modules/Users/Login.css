@@ -4,11 +4,13 @@
 	padding: 0.5rem 0;
 }
 .logo__img {
-	height: 120px;
+	max-height: 200px;
+	max-width: 200px;
 }
 @media (min-width: 768px) {
 	.logo__img {
-		height: 256px;
+		max-height: 700px;
+		max-width: 400px;
 	}
 }
 

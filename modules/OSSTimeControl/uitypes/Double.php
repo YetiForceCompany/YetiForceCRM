@@ -12,10 +12,9 @@ class OSSTimeControl_Double_UIType extends Vtiger_Double_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if ($this->get('field')->getFieldName() === 'sum_time') {
+		if ('sum_time' === $this->get('field')->getFieldName()) {
 			return \App\Fields\RangeTime::formatHourToDisplay((float) $value, 'short');
-		} else {
-			return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 		}
+		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 }

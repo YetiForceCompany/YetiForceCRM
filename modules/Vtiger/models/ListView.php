@@ -63,10 +63,11 @@ class Vtiger_ListView_Model extends \App\Base
 	 *
 	 * @param string $value        - Module Name
 	 * @param mixed  $sourceModule
+	 * @param int    $cvId
 	 *
 	 * @return Vtiger_ListView_Model instance
 	 */
-	public static function getInstanceForPopup($value, $sourceModule = false)
+	public static function getInstanceForPopup($value, $sourceModule = false, int $cvId = 0)
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $value);
 		$instance = new $modelClassName();
@@ -75,7 +76,13 @@ class Vtiger_ListView_Model extends \App\Base
 		if (!$sourceModule && !empty($sourceModule)) {
 			$moduleModel->set('sourceModule', $sourceModule);
 		}
-		$moduleModel->getModalRecordsListFields($queryGenerator, $sourceModule);
+		if ($cvId) {
+			$instance->set('viewId', $cvId);
+			$queryGenerator->initForCustomViewById($cvId);
+		} else {
+			$moduleModel->getModalRecordsListFields($queryGenerator, $sourceModule);
+		}
+
 		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
 	}
 
@@ -173,7 +180,7 @@ class Vtiger_ListView_Model extends \App\Base
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_MERGING',
-				'linkicon' => 'fa fa-code',
+				'linkicon' => 'yfi yfi-merging-records',
 				'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=MergeRecords"],
 				'linkclass' => 'js-mass-action--merge',
 			];
@@ -235,7 +242,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_EDIT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showMassEditForm");',
-				'linkicon' => 'fas fa-edit'
+				'linkicon' => 'yfi yfi-full-editing-view'
 			];
 		}
 		if ($moduleModel->isPermitted('MassActive')) {
@@ -296,7 +303,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
-				'linkicon' => 'fas fa-user'
+				'linkicon' => 'yfi yfi-change-of-owner'
 			];
 		}
 		if ($moduleModel->isTrackingEnabled() && App\Config::module('ModTracker', 'UNREVIEWED_COUNT') && $moduleModel->isPermitted('ReviewingUpdates') && $currentUser->getId() === $currentUser->getRealId()) {

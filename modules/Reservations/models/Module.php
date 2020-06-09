@@ -43,4 +43,12 @@ class Reservations_Module_Model extends Vtiger_Module_Model
 	{
 		return 'Calendar';
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getLayoutTypeForQuickCreate(): string
+	{
+		return 'standard';
+	}
 }

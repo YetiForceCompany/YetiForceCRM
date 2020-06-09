@@ -107,13 +107,10 @@ class Calendar_Calendar_Model extends App\Base
 			}
 		}
 		$conditions = [];
-		$currentUser = App\User::getCurrentUserModel();
-		if (1 === $currentUser->getRoleInstance()->get('clendarallorecords')) {
-			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => $currentUser->getId()]);
-			$conditions[] = ['vtiger_crmentity.crmid' => $subQuery];
-		}
 		if (!empty($this->get('user'))) {
 			$conditions[] = ['vtiger_crmentity.smownerid' => $this->get('user')];
+			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => $this->get('user')]);
+			$conditions[] = ['vtiger_crmentity.crmid' => $subQuery];
 		}
 		if ($conditions) {
 			$query->andWhere(array_merge(['or'], $conditions));
@@ -223,7 +220,7 @@ class Calendar_Calendar_Model extends App\Base
 			$item['hour_start'] = $startTimeDisplay;
 			$hours = \App\Fields\DateTime::getDiff($item['start'], $item['end'], 'hours');
 			$item['hours'] = \App\Fields\RangeTime::formatHourToDisplay($hours, 'short');
-			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $row['assigned_user_id'] . ' picklistCBr_Calendar_activitytype_' . $row['activitytype'];
+			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $row['assigned_user_id'] . ' picklistCBr_Calendar_activitytype_' . \App\Colors::sanitizeValue($row['activitytype']);
 			$return[] = $item;
 		}
 		$dataReader->close();

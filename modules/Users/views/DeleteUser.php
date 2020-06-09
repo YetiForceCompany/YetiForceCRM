@@ -14,7 +14,7 @@ class Users_DeleteUser_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -25,7 +25,7 @@ class Users_DeleteUser_View extends Vtiger_Index_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userid = $request->getInteger('record');
@@ -34,14 +34,14 @@ class Users_DeleteUser_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$usersList = $userRecordModel->getAll(true);
 
-		if (array_key_exists($userid, $usersList)) {
+		if (\array_key_exists($userid, $usersList)) {
 			unset($usersList[$userid]);
 		}
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USERID', $userid);
 		$viewer->assign('DELETE_USER_NAME', $userRecordModel->getName());
 		$viewer->assign('USER_LIST', $usersList);
-		$viewer->assign('PERMANENT', $request->getMode() === 'permanent');
+		$viewer->assign('PERMANENT', 'permanent' === $request->getMode());
 		$viewer->view('DeleteUser.tpl', $moduleName);
 	}
 }

@@ -16,7 +16,7 @@ class Calendar_Edit_View extends Vtiger_Edit_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('USER_CHANGED_END_DATE_TIME', (int) $request->getBoolean('userChangedEndDateTime'));

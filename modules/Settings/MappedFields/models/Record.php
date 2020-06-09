@@ -50,7 +50,7 @@ class Settings_MappedFields_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn btn-info btn-sm'
 			],
 			[
@@ -81,7 +81,7 @@ class Settings_MappedFields_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue(string  $key)
+	public function getDisplayValue(string $key)
 	{
 		$value = $this->get($key);
 		if ('status' === $key) {

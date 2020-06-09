@@ -35,7 +35,7 @@ return [
 			'projectid' => ['Project' => ['parent_id' => ['linktoaccountscontacts']]],
 			'contact_id' => ['Contacts' => ['parent_id' => ['parent_id']]],
 			'pssold_id' => ['Assets' => ['product_id' => ['product', 'Products'], 'parent_id' => ['parent_id', 'Accounts']], 'OSSSoldServices' => ['product_id' => ['serviceid', 'Services']]],
-			'servicecontractsid' => ['ServiceContracts' => ['parent_id' => ['sc_related_to', 'Accounts'], 'ticketpriorities' => ['contract_priority'], 'contract_type' => ['contract_type'], 'contracts_end_date' => ['due_date']]]
+			'servicecontractsid' => ['ServiceContracts' => ['parent_id' => ['sc_related_to', 'Accounts'], 'ticketpriorities' => ['contract_priority']]]
 		],
 		'OSSTimeControl' => [
 			'process' => ['Project' => ['link' => ['linktoaccountscontacts']]],
@@ -119,6 +119,7 @@ return [
 			'HelpDesk' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],
 			'Project' => ['fieldName' => 'linktoaccountscontacts', 'moduleName' => 'Accounts'],
 			'SSalesProcesses' => ['fieldName' => 'related_to', 'moduleName' => 'Accounts'],
+			'SQuoteEnquiries' => ['fieldName' => 'accountid', 'moduleName' => 'Accounts'],
 		],
 		'ServiceContracts' => [
 			'Assets' => ['fieldName' => 'parent_id', 'moduleName' => 'Accounts'],

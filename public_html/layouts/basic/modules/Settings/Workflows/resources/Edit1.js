@@ -12,14 +12,14 @@ Settings_Workflows_Edit_Js(
 	'Settings_Workflows_Edit1_Js',
 	{},
 	{
-		init: function() {
+		init: function () {
 			this.initialize();
 		},
 		/**
 		 * Function to get the container which holds all the reports step1 elements
 		 * @return jQuery object
 		 */
-		getContainer: function() {
+		getContainer: function () {
 			return this.step1Container;
 		},
 
@@ -28,7 +28,7 @@ Settings_Workflows_Edit_Js(
 		 * @params : element - which represents the reports step1 container
 		 * @return : current instance
 		 */
-		setContainer: function(element) {
+		setContainer: function (element) {
 			this.step1Container = element;
 			return this;
 		},
@@ -36,7 +36,7 @@ Settings_Workflows_Edit_Js(
 		/**
 		 * Function  to intialize the reports step1
 		 */
-		initialize: function(container) {
+		initialize: function (container) {
 			if (typeof container === 'undefined') {
 				container = jQuery('#workflow_step1');
 			}
@@ -47,7 +47,7 @@ Settings_Workflows_Edit_Js(
 			}
 		},
 
-		submit: function() {
+		submit: function () {
 			var aDeferred = jQuery.Deferred();
 			var form = this.getContainer();
 			var formData = form.serializeFormData();
@@ -57,7 +57,7 @@ Settings_Workflows_Edit_Js(
 					enabled: true
 				}
 			});
-			AppConnector.request(formData).done(function(data) {
+			AppConnector.request(formData).done(function (data) {
 				form.hide();
 				progressIndicatorElement.progressIndicator({
 					mode: 'hide'
@@ -70,9 +70,9 @@ Settings_Workflows_Edit_Js(
 		/**
 		 * Function to register event for scheduled workflows UI
 		 */
-		registerEventForScheduledWorkflow: function() {
+		registerEventForScheduledWorkflow: function () {
 			let container = $('.js-wf-executions-container');
-			$('input[name="execution_condition"]').on('click', function(e) {
+			$('input[name="execution_condition"]').on('click', function (e) {
 				let element = $(e.currentTarget),
 					itemBox = element.closest('.js-wf-execution-container').find('.js-wf-execution-item');
 				container.find('.js-wf-execution-item').addClass('d-none');
@@ -88,7 +88,7 @@ Settings_Workflows_Edit_Js(
 				maxViewMode: 1,
 				multidate: true,
 				autoclose: false
-			}).on('changeDate', function(e) {
+			}).on('changeDate', function (e) {
 				let values = [];
 				for (var index in e.dates) {
 					let date = e.dates[index];
@@ -100,16 +100,16 @@ Settings_Workflows_Edit_Js(
 			newElement
 				.closest('.date')
 				.find('.js-date__btn')
-				.on('click', e => {
+				.on('click', (e) => {
 					newElement.trigger('click');
 				});
 			App.Fields.Picklist.showSelect2ElementView($('#schdayofweek'));
 			App.Fields.Picklist.showSelect2ElementView($('#schdayofmonth'));
 		},
 
-		registerEventForChangeInScheduledType: function() {
+		registerEventForChangeInScheduledType: function () {
 			var thisInstance = this;
-			jQuery('#schtypeid').on('change', function(e) {
+			jQuery('#schtypeid').on('change', function (e) {
 				var element = jQuery(e.currentTarget);
 				var value = element.val();
 
@@ -136,47 +136,47 @@ Settings_Workflows_Edit_Js(
 			});
 		},
 
-		hideScheduledTime: function() {
+		hideScheduledTime: function () {
 			jQuery('#scheduledTime').addClass('d-none');
 		},
 
-		showScheduledTime: function() {
+		showScheduledTime: function () {
 			jQuery('#scheduledTime').removeClass('d-none');
 		},
 
-		hideScheduledWeekList: function() {
+		hideScheduledWeekList: function () {
 			jQuery('#scheduledWeekDay').addClass('d-none');
 		},
 
-		showScheduledWeekList: function() {
+		showScheduledWeekList: function () {
 			jQuery('#scheduledWeekDay').removeClass('d-none');
 		},
 
-		hideScheduledMonthByDateList: function() {
+		hideScheduledMonthByDateList: function () {
 			jQuery('#scheduleMonthByDates').addClass('d-none');
 		},
 
-		showScheduledMonthByDateList: function() {
+		showScheduledMonthByDateList: function () {
 			jQuery('#scheduleMonthByDates').removeClass('d-none');
 		},
 
-		hideScheduledSpecificDate: function() {
+		hideScheduledSpecificDate: function () {
 			jQuery('#scheduleByDate').addClass('d-none');
 		},
 
-		showScheduledSpecificDate: function() {
+		showScheduledSpecificDate: function () {
 			jQuery('#scheduleByDate').removeClass('d-none');
 		},
 
-		hideScheduledAnually: function() {
+		hideScheduledAnually: function () {
 			jQuery('#scheduleAnually').addClass('d-none');
 		},
 
-		showScheduledAnually: function() {
+		showScheduledAnually: function () {
 			jQuery('#scheduleAnually').removeClass('d-none');
 		},
 
-		registerEvents: function() {
+		registerEvents: function () {
 			var container = this.getContainer();
 
 			//After loading 1st step only, we will enable the Next button
@@ -184,7 +184,7 @@ Settings_Workflows_Edit_Js(
 
 			var opts = app.validationEngineOptions;
 			// to prevent the page reload after the validation has completed
-			opts['onValidationComplete'] = function(form, valid) {
+			opts['onValidationComplete'] = function (form, valid) {
 				//returns the valid status
 				return valid;
 			};

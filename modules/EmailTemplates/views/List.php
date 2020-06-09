@@ -16,7 +16,7 @@ class EmailTemplates_List_View extends Vtiger_List_View
 	 *
 	 * @return Vtiger_JsScript_Model[]
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		$parentScript = parent::getFooterScripts($request);
 		$fileNames = [

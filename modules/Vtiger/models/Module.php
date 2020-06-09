@@ -106,7 +106,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (property_exists($this, $propertyName)) {
 			return $this->{$propertyName};
 		}
-		throw new \App\Exceptions\AppException($propertyName . ' doest not exists in class ' . \get_class($this));
+		throw new \App\Exceptions\AppException($propertyName . ' doest not exists in class ' . static::class);
 	}
 
 	/**
@@ -928,7 +928,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 			if (!empty($quickCreateModules)) {
-				$quickCreateModulesTree[] = ['name' => 'LBL_OTHER', 'icon' => 'userIcon-Other', 'modules' => $quickCreateModules];
+				$quickCreateModulesTree[] = ['name' => 'LBL_OTHER', 'icon' => 'yfm-Other', 'modules' => $quickCreateModules];
 			}
 			App\Cache::save('getQuickCreateModules', 'tree' . $restrictListString . $userPrivModel->get('roleid'), $quickCreateModulesTree);
 			return $quickCreateModulesTree;
@@ -1116,118 +1116,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 			return $history;
 		}
 		return false;
-	}
-
-	/**
-	 * Function returns the Calendar Events for the module.
-	 *
-	 * @param string              $mode        - upcoming/overdue mode
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @param int|string          $user        - all/userid
-	 * @param int                 $recordId    - record id
-	 *
-	 * @return array
-	 */
-	public function getCalendarActivities($mode, Vtiger_Paging_Model $pagingModel, $user, $recordId = false)
-	{
-		$currentUserId = \App\User::getCurrentUserId();
-		if (!$user) {
-			$user = $currentUserId;
-		}
-		$moduleName = 'Calendar';
-		$currentActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
-		$nowInUserFormat = App\Fields\DateTime::formatToDisplay(date('Y-m-d H:i:s'));
-		$nowInDBFormat = App\Fields\DateTime::formatToDb($nowInUserFormat);
-		[$currentDate] = explode(' ', $nowInDBFormat);
-
-		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceExtend', $moduleName);
-		$referenceLinkInstance = new $referenceLinkClass();
-		if (\in_array($this->getName(), $referenceLinkInstance->getReferenceList())) {
-			$relationField = 'linkextend';
-		} else {
-			$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $moduleName);
-			$referenceProcessInstance = new $referenceProcessClass();
-			if (\in_array($this->getName(), $referenceProcessInstance->getReferenceList())) {
-				$relationField = 'link';
-			} else {
-				$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $moduleName);
-				$referenceSubProcessInstance = new $referenceSubProcessClass();
-				if (\in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
-					$relationField = 'process';
-				} else {
-					$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $moduleName);
-					$referenceSubProcessInstance = new $referenceSubProcessClass();
-					if (\in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
-						$relationField = 'subprocess';
-					} else {
-						throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
-					}
-				}
-			}
-		}
-		$query = (new \App\Db\Query())->select(['vtiger_crmentity.crmid', 'parent_id' => 'crmentity2.crmid', 'description' => 'vtiger_crmentity.description',
-			'vtiger_crmentity.smownerid', 'vtiger_crmentity.smcreatorid', 'vtiger_crmentity.setype', 'vtiger_activity.*', ])
-			->from('vtiger_activity')
-			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
-			->innerJoin(['crmentity2' => 'vtiger_crmentity'], "vtiger_activity.$relationField = crmentity2.crmid AND crmentity2.deleted = :deleted AND crmentity2.setype = :module", [':deleted' => 0, ':module' => $this->getName()])
-			->leftJoin('vtiger_groups', 'vtiger_groups.groupid = vtiger_crmentity.smownerid')
-			->where(['vtiger_crmentity.deleted' => 0]);
-		$andWhere = ['and'];
-		if ($recordId) {
-			$andWhere[] = ["vtiger_activity.$relationField" => $recordId];
-		}
-		if ('current' === $mode) {
-			$andWhere[] = ['vtiger_activity.status' => $currentActivityLabels];
-		} elseif ('history' === $mode) {
-			$andWhere[] = ['not in', 'vtiger_activity.status', $currentActivityLabels];
-		} elseif ('upcoming' === $mode) {
-			$andWhere[] = ['and', ['or', ['vtiger_activity.status' => null], ['not in', 'vtiger_activity.status', ['Completed', 'Deferred']]], ['>=', 'due_date', $currentDate]];
-		} elseif ('overdue' === $mode) {
-			$andWhere[] = ['and', ['or', ['vtiger_activity.status' => null], ['not in', 'vtiger_activity.status', ['Completed', 'Deferred']]], ['<', 'due_date', $currentDate]];
-		}
-		if ('all' !== $user && !empty($user) && $user === $currentUserId) {
-			$andWhere[] = ['vtiger_crmentity.smownerid' => $user];
-		}
-		$query->andWhere($andWhere);
-		App\PrivilegeQuery::getConditions($query, $moduleName, false, $recordId);
-		if ($pagingModel->isEmpty('totalCount') && ('current' === $mode || 'history' === $mode)) {
-			$pagingModel->set('totalCount', $query->count());
-		}
-		if (!$pagingModel->isEmpty('sortorder')) {
-			if ('ASC' === $pagingModel->get('sortorder')) {
-				$query->orderBy(['date_start' => SORT_ASC, 'time_start' => SORT_ASC]);
-			} else {
-				$query->orderBy(['date_start' => SORT_DESC, 'time_start' => SORT_DESC]);
-			}
-		}
-		$query->limit($pagingModel->getPageLimit() + 1)->offset($pagingModel->getStartIndex());
-		$dataReader = $query->createCommand()->query();
-		$numOfRows = $dataReader->count();
-		$activities = [];
-		while ($row = $dataReader->read()) {
-			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
-			if ('Task' == $row['activitytype']) {
-				unset($row['visibility']);
-			}
-			$row['selectedusers'] = [];
-			$dataReaderSecond = (new \App\Db\Query())->select(['inviteesid'])->from('u_#__activity_invitation')->where(['activityid' => $row['crmid']])
-				->createCommand()->query();
-			while ($invite = $dataReaderSecond->readColumn(0)) {
-				$row['selectedusers'][] = $invite;
-			}
-			$model->setData($row);
-			$model->setId($row['crmid']);
-			$activities[] = $model;
-		}
-
-		$pagingModel->calculatePageRange($numOfRows);
-		if ($numOfRows > $pagingModel->getPageLimit()) {
-			array_pop($activities);
-			$pagingModel->set('nextPageExists', true);
-		} else {
-			$pagingModel->set('nextPageExists', false);
-		}
-		return $activities;
 	}
 
 	public function getWidgets($module)
@@ -1576,5 +1464,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$this->type = $type;
 		}
 		return $result;
+	}
+
+	/**
+	 * Get layout type for quick create.
+	 *
+	 * @return string
+	 */
+	public function getLayoutTypeForQuickCreate(): string
+	{
+		return \App\Config::performance('quickCreateLayout', 'blocks');
 	}
 }

@@ -22,7 +22,7 @@ class Vtiger_ConditionBuilder_Js {
 	 * @param   {jQuery}  container
 	 */
 	registerChangeValueEvent(container) {
-		container.find('.js-condition-builder-value').on('change', e => {
+		container.find('.js-condition-builder-value').on('change', (e) => {
 			this.onChange(this);
 		});
 	}
@@ -33,7 +33,7 @@ class Vtiger_ConditionBuilder_Js {
 	 */
 	registerChangeConditions(container) {
 		let self = this;
-		container.find('.js-conditions-fields, .js-conditions-operator').on('change', function(e) {
+		container.find('.js-conditions-fields, .js-conditions-operator').on('change', function (e) {
 			let progress = $.progressIndicator({
 				position: 'html',
 				blockInfo: {
@@ -60,7 +60,7 @@ class Vtiger_ConditionBuilder_Js {
 					operator: currentTarget.val()
 				};
 			}
-			AppConnector.request(requestParams).done(function(data) {
+			AppConnector.request(requestParams).done(function (data) {
 				progress.progressIndicator({ mode: 'hide' });
 				container.html($(data).html());
 				self.registerChangeConditions(container);
@@ -88,7 +88,7 @@ class Vtiger_ConditionBuilder_Js {
 	 */
 	registerAddCondition() {
 		let self = this;
-		this.container.on('click', '.js-condition-add', function(e) {
+		this.container.on('click', '.js-condition-add', function (e) {
 			let progress = $.progressIndicator({
 				position: 'html',
 				blockInfo: {
@@ -103,7 +103,7 @@ class Vtiger_ConditionBuilder_Js {
 				parent: app.getParentModuleName(),
 				view: 'ConditionBuilder',
 				sourceModuleName: self.sourceModuleName
-			}).done(function(data) {
+			}).done(function (data) {
 				progress.progressIndicator({ mode: 'hide' });
 				data = $(data);
 				App.Fields.Picklist.showSelect2ElementView(data.find('select.select2'));
@@ -119,7 +119,7 @@ class Vtiger_ConditionBuilder_Js {
 	 * Register events to add group
 	 */
 	registerAddGroup() {
-		this.container.on('click', '.js-group-add', e => {
+		this.container.on('click', '.js-group-add', (e) => {
 			let template = this.container.find('.js-condition-builder-group-template').clone();
 			template.removeClass('hide');
 			$(e.target)
@@ -134,10 +134,8 @@ class Vtiger_ConditionBuilder_Js {
 	 * Register events to remove group
 	 */
 	registerDeleteGroup() {
-		this.container.on('click', '.js-group-delete', e => {
-			$(e.target)
-				.closest('.js-condition-builder-group-container')
-				.remove();
+		this.container.on('click', '.js-group-delete', (e) => {
+			$(e.target).closest('.js-condition-builder-group-container').remove();
 			this.onChange(this);
 		});
 	}
@@ -146,10 +144,8 @@ class Vtiger_ConditionBuilder_Js {
 	 * Register events to remove condition
 	 */
 	registerDeleteCondition() {
-		this.container.on('click', '.js-condition-delete', e => {
-			$(e.target)
-				.closest('.js-condition-builder-conditions-row')
-				.remove();
+		this.container.on('click', '.js-condition-delete', (e) => {
+			$(e.target).closest('.js-condition-builder-conditions-row').remove();
 			this.onChange(this);
 		});
 	}
@@ -158,7 +154,7 @@ class Vtiger_ConditionBuilder_Js {
 	 * Block submit on press enter key
 	 */
 	registerDisableSubmitOnEnter() {
-		this.container.find('.js-condition-builder-value').keydown(function(e) {
+		this.container.find('.js-condition-builder-value').keydown(function (e) {
 			if (e.keyCode === 13) {
 				e.preventDefault();
 			}
@@ -172,13 +168,15 @@ class Vtiger_ConditionBuilder_Js {
 	 */
 	readCondition(container) {
 		let self = this;
-		let condition = container.find('> .js-condition-switch .js-condition-switch-value').hasClass('active')
+		let condition = container
+			.find('> .js-condition-switch .js-condition-switch-value')
+			.hasClass('active')
 			? 'AND'
 			: 'OR';
 		let arr = {};
 		arr['condition'] = condition;
 		let rules = [];
-		container.find('> .js-condition-builder-conditions-container >').each(function() {
+		container.find('> .js-condition-builder-conditions-container >').each(function () {
 			let element = $(this);
 			if (element.hasClass('js-condition-builder-conditions-row')) {
 				rules.push({
@@ -211,7 +209,7 @@ class Vtiger_ConditionBuilder_Js {
 		this.registerDeleteGroup();
 		this.registerDeleteCondition();
 		this.registerDisableSubmitOnEnter();
-		this.container.find('.js-condition-builder-conditions-row').each(function() {
+		this.container.find('.js-condition-builder-conditions-row').each(function () {
 			self.registerChangeConditions($(this));
 			self.registerField($(this));
 		});

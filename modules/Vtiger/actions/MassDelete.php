@@ -12,7 +12,7 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function checkPermission(\App\Request $request)
+	public function checkPermission(App\Request $request)
 	{
 		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassDelete')) {
@@ -23,12 +23,12 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordIds = self::getRecordsListFromRequest($request);
 		$configMaxMassDelete = App\Config::performance('maxMassDeleteRecords');
-		if (count($recordIds) > $configMaxMassDelete) {
+		if (\count($recordIds) > $configMaxMassDelete) {
 			$response = new Vtiger_Response();
 			$response->setResult(['notify' => ['text' => \App\Language::translateArgs('LBL_SELECT_UP_TO_RECORDS', '_Base', $configMaxMassDelete), 'type' => 'error']]);
 			$response->emit();

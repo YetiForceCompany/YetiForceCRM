@@ -49,7 +49,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function isActive()
 	{
-		return $this->get('status') == self::TASK_STATUS_ACTIVE;
+		return self::TASK_STATUS_ACTIVE == $this->get('status');
 	}
 
 	/**
@@ -160,7 +160,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 		if (empty($this->task_type)) {
 			$taskObject = $this->getTaskObject();
 			if (!empty($taskObject)) {
-				$taskClass = get_class($taskObject);
+				$taskClass = \get_class($taskObject);
 				$this->task_type = Settings_Workflows_TaskType_Model::getInstanceFromClassName($taskClass);
 			}
 		}
@@ -181,7 +181,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 		$tasks = $tm->getTasksForWorkflow($workflowModel->getId());
 		$taskModels = [];
 		foreach ($tasks as $task) {
-			if (!$active || $task->active == self::TASK_STATUS_ACTIVE) {
+			if (!$active || self::TASK_STATUS_ACTIVE == $task->active) {
 				$taskModels[$task->id] = self::getInstanceFromTaskObject($task, $workflowModel, $tm);
 			}
 		}
@@ -200,7 +200,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	{
 		$tm = new VTTaskManager();
 		$task = $tm->retrieveTask($taskId);
-		if ($workflowModel === null) {
+		if (null === $workflowModel) {
 			$workflowModel = Settings_Workflows_Record_Model::getInstance($task->workflowId);
 		}
 		return self::getInstanceFromTaskObject($task, $workflowModel, $tm);

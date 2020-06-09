@@ -6,50 +6,70 @@
 	@extend .font-weight-bold;
 }
 
-.u-font-size-10px {
-	font-size: calculate-rem(10px);
-}
-
-.u-font-size-13px {
-	font-size: calculate-rem(13px);
-}
-
-.u-font-size-14px {
-	font-size: calculate-rem(15px);
-}
-
-.u-font-size-19px {
-	font-size: calculate-rem(19px);
-}
-
-.u-font-size-38px {
-	font-size: calculate-rem(38px);
-}
-
-.u-font-size-50px {
-	font-size: calculate-rem(50px);
-}
-
-.u-font-size-120px {
-	font-size: calculate-rem(120px);
+@for $i from 1 through 10 {
+	.u-fs-#{$i}x {
+		font-size: #{$i}rem !important;
+	}
 }
 
 .u-fs-xs {
-	font-size: 0.75rem;
+	font-size: 0.75rem !important;
 }
 
 .u-fs-sm {
-	font-size: 0.876rem;
+	font-size: 0.876rem !important;
 }
 
 .u-fs-lg {
-	font-size: 1.33rem;
+	font-size: 1.33rem !important;
 }
 
-@for $i from 1 through 10 {
-	.u-fs-#{$i}x {
-		font-size: #{$i}rem;
-	}
+.u-fs-xlg {
+	font-size: 1.5rem !important;
+}
+
+.u-fs-2em {
+	font-size: 2em !important;
+}
+
+.u-fs-10px {
+	font-size: calculate-rem(10px) !important;
+}
+
+.u-fs-13px {
+	font-size: calculate-rem(13px) !important;
+}
+
+.u-fs-14px {
+	font-size: calculate-rem(15px) !important;
+}
+
+.u-fs-19px {
+	font-size: calculate-rem(19px) !important;
+}
+
+.u-fs-38px {
+	font-size: calculate-rem(38px) !important;
+}
+
+.u-fs-50px {
+	font-size: calculate-rem(50px) !important;
+}
+
+.u-fs-95per {
+	font-size: 95% !important;
+}
+
+.u-fs-100per {
+	font-size: 100% !important;
+}
+
+.u-fs-26px {
+	font-size: calculate-rem(26px) !important;
+}
+
+.u-fs-44px {
+	font-size: calculate-rem(44px) !important;
 }
 
 @for $i from 1 through 18 {
@@ -62,10 +82,6 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-
-	&:hover {
-		overflow: initial;
-	}
 
 	&.u-text-ellipsis--bg-white {
 		&:hover {
@@ -160,22 +176,6 @@
 
 .u-word-break-keep-all {
 	word-break: keep-all !important;
-}
-
-.u-font-size-95per {
-	font-size: 95% !important;
-}
-
-.u-font-size-100per {
-	font-size: 100% !important;
-}
-
-.u-font-size-26 {
-	font-size: calculate-rem(26px);
-}
-
-.u-font-size-44px {
-	font-size: calculate-rem(44px);
 }
 
 //--- MARGIN ---//
@@ -730,4 +730,41 @@ body:not(.desktop) {
 .u-img-invert {
 	filter: invert(100%);
 	-webkit-filter: invert(100%);
+}
+
+.u-hidden-block {
+	position: absolute;
+	display: none;
+	right: 2.5rem;
+	padding: 0.25rem;
+	top: -1px;
+	z-index: 1;
+}
+.singleComment .u-hidden-block {
+	position: absolute;
+	display: none;
+	top: unset;
+}
+.recentActivitiesContainer .u-hidden-block {
+	top: 12px;
+}
+.singleComment .u-hidden-block-btn {
+	display: block;
+}
+
+.u-hidden-block__opened .u-hidden-block {
+	display: block;
+	box-shadow: 0 0 3px 0px;
+	background: #fff;
+	max-width: calc(100% - 2rem);
+	border-radius: 3px;
+}
+@include media-breakpoint-up(lg) {
+	.u-hidden-block-btn {
+		display: none;
+	}
+	.u-hidden-block {
+		position: static;
+		display: block;
+	}
 }

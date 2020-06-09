@@ -8,11 +8,11 @@
  */
 class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
-		$moduleName = $request->getModule();
+		$moduleName = 'Home';
 		$page = $request->getInteger('page');
 		$linkId = $request->getInteger('linkid');
 		$sortOrder = $request->getForSql('sortorder');
@@ -46,11 +46,11 @@ class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 				['not in', 'vtiger_crmentity.smownerid', $params['user']],
 			],
 		];
-		if (!$request->isEmpty('activitytype') && $request->getByType('activitytype') !== 'all') {
+		if (!$request->isEmpty('activitytype') && 'all' !== $request->getByType('activitytype')) {
 			$params['activitytype'] = $request->getByType('activitytype');
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('createdByMeButNotMine', $pagingModel, $owner, false, $params);
+		$overDueActivities = (false === $owner) ? [] : $moduleModel->getCalendarActivities('createdByMeButNotMine', $pagingModel, $owner, false, $params);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');

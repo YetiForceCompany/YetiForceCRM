@@ -8,11 +8,11 @@
  */
 class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$roleId = !$request->isEmpty('roleid') ? $request->getByType('roleid', 'Alnum') : 0;
-		$source = ($roleId && strpos($roleId, 'H') === false) ? Settings_Menu_Record_Model::SRC_API : Settings_Menu_Record_Model::SRC_ROLE;
+		$source = ($roleId && false === strpos($roleId, 'H')) ? Settings_Menu_Record_Model::SRC_API : Settings_Menu_Record_Model::SRC_ROLE;
 		$settingsModel = Settings_Menu_Record_Model::getCleanInstance();
 		$rolesContainMenu = $settingsModel->getRolesContainMenu();
 		$viewer = $this->getViewer($request);
@@ -33,14 +33,14 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 	 *
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'~libraries/jstree/dist/jstree.js',
 		]));
 	}
 
-	public function getHeaderCss(\App\Request $request)
+	public function getHeaderCss(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertCssStyles([
 			'~libraries/jstree/dist/themes/default/style.css',

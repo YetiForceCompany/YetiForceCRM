@@ -12,7 +12,7 @@ class OSSSoldServices_Field_Model extends Vtiger_Field_Model
 	public function isAjaxEditable()
 	{
 		$edit = parent::isAjaxEditable();
-		if ($edit && $this->getName() === 'ssservicesstatus') {
+		if ($edit && 'ssservicesstatus' === $this->getName()) {
 			$edit = false;
 		}
 		return $edit;

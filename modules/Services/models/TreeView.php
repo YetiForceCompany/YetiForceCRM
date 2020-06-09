@@ -28,7 +28,7 @@ class Services_TreeView_Model extends Vtiger_TreeView_Model
 			$tree[] = [
 				'id' => $this->lastTreeId,
 				'record_id' => $item->getId(),
-				'parent' => $parent == 0 ? '#' : $parent,
+				'parent' => 0 == $parent ? '#' : $parent,
 				'text' => $item->getName(),
 				'isrecord' => true,
 				'state' => [],

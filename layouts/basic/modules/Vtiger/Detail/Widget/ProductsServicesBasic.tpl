@@ -7,7 +7,7 @@
 		<div class="c-detail-widget__header js-detail-widget-header collapsed" data-js="container|value">
 			<div class="c-detail-widget__header__container d-flex align-items-center py-1 w-100">
 				<div class="c-detail-widget__toggle collapsed" id="{$WIDGET_UID}" data-toggle="collapse" data-target="#{$WIDGET_UID}-collapse" aria-expanded="false" aria-controls="{$WIDGET_UID}-collapse">
-					<span class="mdi mdi-chevron-up" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
+					<span class="u-transform_rotate-180deg mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 				</div>
 				<div class="c-detail-widget__header__title">
 					<h5 class="mb-0 modCT_{$WIDGET['label']}" title="{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}">
@@ -24,7 +24,7 @@
 				{foreach name=BTN item=COUNT key=MODULE_DATA from=Products_SummaryWidget_Model::getModulesAndCount($RECORD)}
 					<label class="btn btn-sm btn-light mb-0 js-switch__btn u-cursor-pointer {if $DEFAULT_MODULE eq $MODULE_DATA}active{/if}" title="{App\Language::translate($MODULE_DATA,$MODULE_DATA)}" data-js="class: active">
 						<input type="radio" name="mod" class="js-switch" value="{$MODULE_DATA}" data-off-val="{$MODULE_DATA}" data-urlparams="mod" data-js="change" {if $DEFAULT_MODULE eq $MODULE_DATA} checked="checked" {/if}> <span
-							class="mx-1 userIcon-{$MODULE_DATA}"></span>
+							class="mx-1 yfm-{$MODULE_DATA}"></span>
 						<span class="badge">{$COUNT}</span>
 					</label>
 				{/foreach}

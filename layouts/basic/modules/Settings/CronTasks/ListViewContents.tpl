@@ -60,16 +60,16 @@
 						{/if}
 						{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 							</td>
-							<td nowrap class="{$WIDTHTYPE}">
+							<td nowrap class="{$WIDTHTYPE} listButtons">
 								<div class="float-right actions">
 										<span class="actionImages">
 											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
-												<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};
+												<a class="btn btn-primary text-white btn-sm" {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};
 														if (event.stopPropagation){ldelim}
 														event.stopPropagation();{rdelim} else{ldelim}
 														event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-													<span class="{$RECORD_LINK->getIcon()} alignMiddle"
+													<span class="{$RECORD_LINK->getIcon()}"
 														  title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 												</a>
 												{if !$RECORD_LINK@last}

@@ -71,7 +71,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-edit',
+				'linkicon' => 'yfi yfi-full-editing-view',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
@@ -178,7 +178,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue(string  $fieldName)
+	public function getDisplayValue(string $fieldName)
 	{
 		$fieldValue = $this->get($fieldName);
 

@@ -36,7 +36,7 @@ class VTCreateEntityTask extends VTTask
 		if (!empty($this->field_value_mapping)) {
 			$fieldValueMapping = \App\Json::decode($this->field_value_mapping);
 		}
-		if (!empty($entityType) && !empty($fieldValueMapping) && \count($fieldValueMapping) > 0 && !$this->mappingPanel) {
+		if (!$this->mappingPanel && !empty($entityType) && !empty($fieldValueMapping) && \count($fieldValueMapping) > 0) {
 			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
 			$ownerFields = array_keys($newRecordModel->getModule()->getFieldsByType('owner'));
 			foreach ($fieldValueMapping as $fieldInfo) {
@@ -69,6 +69,8 @@ class VTCreateEntityTask extends VTTask
 					} else {
 						$fieldValue = '0';
 					}
+				} elseif (!\in_array($fieldName, $ownerFields)) {
+					$fieldValue = $newRecordModel->getField($fieldName)->getUITypeModel()->getDBValue($fieldValue);
 				}
 				if (\in_array($fieldName, $ownerFields)) {
 					if ('triggerUser' === $fieldValue) {
@@ -93,7 +95,7 @@ class VTCreateEntityTask extends VTTask
 			if ($relationModel) {
 				$relationModel->addRelation($recordModel->getId(), $newRecordModel->getId());
 			}
-		} elseif ($entityType && $this->mappingPanel) {
+		} elseif ($this->mappingPanel && $entityType) {
 			$saveContinue = true;
 			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
@@ -103,7 +105,7 @@ class VTCreateEntityTask extends VTTask
 				$newRecordModel = $this->setFieldMapping($fieldValueMapping, $newRecordModel, $parentRecordModel);
 			}
 			foreach ($mandatoryFields as $field) {
-				if (empty($newRecordModel->get($field->getName()))) {
+				if ('' === $newRecordModel->get($field->getName()) || null === $newRecordModel->get($field->getName())) {
 					$saveContinue = false;
 				}
 			}
@@ -152,6 +154,8 @@ class VTCreateEntityTask extends VTTask
 				} else {
 					$fieldValue = 0;
 				}
+			} elseif (!\in_array($fieldName, $ownerFields)) {
+				$fieldValue = $recordModel->getField($fieldName)->getUITypeModel()->getDBValue($fieldValue);
 			}
 			if (\in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {
 				$userId = App\User::getUserIdByName($fieldValue);

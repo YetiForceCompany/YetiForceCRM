@@ -28,9 +28,9 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model
 
 		$index = 0;
 		foreach ($linkModelList['DETAIL_VIEW_BASIC'] as $link) {
-			if ($link->linklabel == 'View History') {
+			if ('View History' == $link->linklabel) {
 				unset($linkModelList['DETAIL_VIEW_BASIC'][$index]);
-			} elseif ($link->linklabel == 'LBL_SHOW_ACCOUNT_HIERARCHY') {
+			} elseif ('LBL_SHOW_ACCOUNT_HIERARCHY' == $link->linklabel) {
 				$link->linklabel = 'LBL_SHOW_ACCOUNT_HIERARCHY';
 				$linkURL = 'index.php?module=Accounts&view=AccountHierarchy&record=' . $recordId;
 				$link->linkurl = 'javascript:Accounts_Detail_Js.triggerAccountHierarchy("' . $linkURL . '");';

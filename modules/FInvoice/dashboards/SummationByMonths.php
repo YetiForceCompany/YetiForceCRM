@@ -100,12 +100,12 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 				}
 			}
 			foreach ($raw as $m => &$value) {
-				$tempData[$y][$m-1] = $value[0];
+				$tempData[$y][$m - 1] = $value[0];
 				$yearsData[$y]['backgroundColor'][] = \App\Colors::getRandomColor($y * 10);
 				$yearsData[$y]['stack'] = (string) $y;
 			}
 		}
-		foreach($tempData as $year => $yearData){
+		foreach ($tempData as $year => $yearData) {
 			$yearsData[$year]['data'] = $yearData;
 		}
 		$years = array_values(array_unique($years));

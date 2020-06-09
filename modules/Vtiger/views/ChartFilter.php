@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -17,12 +18,14 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
+		$requiredFieldType = ['currency', 'currencyInventory', 'double', 'percentage', 'integer'];
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('WIZARD_STEP', $request->getByType('step', 'Alnum'));
+		$viewer->assign('REQUIRED_FIELD_TYPE', $requiredFieldType);
 
 		switch ($request->getByType('step', 'Alnum')) {
 			case 'step1':
@@ -46,11 +49,7 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$viewer->assign('CHART_TYPE', $request->getByType('chartType'));
 				$viewer->assign('ALLFILTERS', CustomView_Record_Model::getAllByGroup($selectedModuleName));
 				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
-				foreach (Vtiger_Module_Model::getInstance($selectedModuleName)->getFields() as $field) {
-					if (in_array($field->getFieldDataType(), ['currency', 'double', 'percentage', 'integer'])) {
-						$viewer->assign('IS_NUMERAL_VALUE', true);
-					}
-				}
+				$viewer->assign('IS_NUMERAL_VALUE', !empty(\Vtiger_Module_Model::getInstance($selectedModuleName)->getFieldsByType($requiredFieldType, true)));
 				break;
 			case 'step3':
 				$selectedModuleName = $request->getByType('selectedModule', 2);

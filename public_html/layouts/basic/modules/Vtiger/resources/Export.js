@@ -6,16 +6,16 @@ jQuery.Class(
 	{},
 	{
 		exportForm: false,
-		getForm: function() {
+		getForm: function () {
 			if (this.exportForm == false) {
 				this.exportForm = jQuery('#exportForm');
 			}
 			return this.exportForm;
 		},
-		initEvent: function() {
+		initEvent: function () {
 			var form = this.getForm();
 			var xmlTpl = form.find('.xml-tpl');
-			form.find('#exportType').on('change', function(e) {
+			form.find('#exportType').on('change', function (e) {
 				if (xmlTpl.length) {
 					if (jQuery(this).val() == 'xml') {
 						xmlTpl.removeClass('d-none');
@@ -25,7 +25,7 @@ jQuery.Class(
 				}
 			});
 		},
-		registerEvents: function() {
+		registerEvents: function () {
 			this.initEvent();
 		}
 	}

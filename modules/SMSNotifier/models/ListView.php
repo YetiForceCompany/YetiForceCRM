@@ -30,7 +30,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, 'List');
-			if (count($templates) > 0) {
+			if (\count($templates) > 0) {
 				$advancedLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
@@ -52,11 +52,11 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 		return $advancedLinks;
 	}
 
-	/*
-	 * Function to get Basic links
+	/**
+	 * Function to get Basic links.
+	 *
 	 * @return array of Basic links
 	 */
-
 	public function getBasicLinks()
 	{
 		$basicLinks = [];
@@ -66,7 +66,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, 'List');
-			if (count($templates) > 0) {
+			if (\count($templates) > 0) {
 				$basicLinks[] = [
 					'linktype' => 'LISTVIEWBASIC',
 					'linkdata' => ['url' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=List', 'type' => 'modal'],

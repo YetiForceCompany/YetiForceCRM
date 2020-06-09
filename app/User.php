@@ -55,7 +55,6 @@ class User
 			$id = static::getCurrentUserId();
 		}
 		static::$currentUserRealId = $id;
-
 		return $id;
 	}
 
@@ -185,11 +184,11 @@ class User
 	/**
 	 * Get user id.
 	 *
-	 * @return int
+	 * @return int|null
 	 */
 	public function getId()
 	{
-		return $this->privileges['details']['record_id'];
+		return $this->privileges['details']['record_id'] ?? null;
 	}
 
 	/**
@@ -344,7 +343,7 @@ class User
 	 */
 	public function isActive()
 	{
-		return 'Active' === $this->privileges['details']['status'];
+		return 'Active' === ($this->privileges['details']['status'] ?? null);
 	}
 
 	/**
@@ -383,9 +382,10 @@ class User
 	 */
 	public static function getActiveAdminId()
 	{
-		$key = 'id';
-		if (Cache::has(__METHOD__, $key)) {
-			return Cache::get(__METHOD__, $key);
+		$key = '';
+		$cacheName = 'ActiveAdminId';
+		if (Cache::has($cacheName, $key)) {
+			return Cache::get($cacheName, $key);
 		}
 		$adminId = 1;
 		if (\App\Config::performance('ENABLE_CACHING_USERS')) {
@@ -403,7 +403,7 @@ class User
 				->orderBy(['id' => SORT_ASC])
 				->limit(1)->scalar();
 		}
-		Cache::save(__METHOD__, $key, $adminId, Cache::LONG);
+		Cache::save($cacheName, $key, $adminId, Cache::LONG);
 
 		return $adminId;
 	}
@@ -415,15 +415,14 @@ class User
 	 *
 	 * @return int
 	 */
-	public static function getUserIdByName($name)
+	public static function getUserIdByName($name): ?int
 	{
-		if (Cache::has(__METHOD__, $name)) {
-			return Cache::get(__METHOD__, $name);
+		if (Cache::has('UserIdByName', $name)) {
+			return Cache::get('UserIdByName', $name);
 		}
 		$userId = (new Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => $name])->limit(1)->scalar();
-		Cache::save(__METHOD__, $name, $userId, Cache::LONG);
-
-		return $userId;
+		Cache::save('UserIdByName', $name, $userId, Cache::LONG);
+		return false !== $userId ? $userId : null;
 	}
 
 	/**

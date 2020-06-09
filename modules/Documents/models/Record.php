@@ -1,4 +1,5 @@
 <?php
+
  /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -200,13 +201,11 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * The function decide about mandatory save record.
-	 *
-	 * @return type
+	 * {@inheritdoc}
 	 */
 	public function isMandatorySave()
 	{
-		return $_FILES ? true : false;
+		return parent::isMandatorySave() || $_FILES;
 	}
 
 	/**

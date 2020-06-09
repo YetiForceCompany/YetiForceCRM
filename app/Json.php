@@ -76,6 +76,18 @@ class Json
 	}
 
 	/**
+	 * Check that a string is a valid JSON string.
+	 *
+	 * @param string|null $value
+	 *
+	 * @return bool
+	 */
+	public static function isJson(?string $value): bool
+	{
+		return !('' === $value || (self::decode($value) && \json_last_error()));
+	}
+
+	/**
 	 * Read json file to array.
 	 *
 	 * @param string $path

@@ -11,7 +11,7 @@ class OSSPasswords_Detail_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFooterScripts(\App\Request $request)
+	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertJsScripts([
 			'modules.OSSPasswords.resources.gen_pass',

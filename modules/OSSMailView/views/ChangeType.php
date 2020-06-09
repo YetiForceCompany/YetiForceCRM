@@ -9,7 +9,7 @@
  */
 class OSSMailView_ChangeType_View extends Vtiger_IndexAjax_View
 {
-	public function process(\App\Request $request)
+	public function process(App\Request $request)
 	{
 		$module = $request->getModule();
 		$type_list = OSSMailView_Record_Model::getMailType();

@@ -4,6 +4,41 @@
 		<label class="text-md-right u-text-small-bold pt-1 mb-0">
 			<span class="copyAddressLabel col-form-label mr-2">{\App\Language::translate('COPY_ADRESS_FROM')}</span>
 		</label>
+		{if $BLOCK_LABEL neq 'LBL_ADDRESS_SHIPPING' && !empty($RECORD_STRUCTURE['LBL_ADDRESS_SHIPPING'])}
+			<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromDelivery mr-2 mb-1 mb-md-0"
+					type="button"
+					data-label="LBL_ADDRESS_SHIPPING">
+				<strong>{\App\Language::translate('LBL_ADDRESS_SHIPPING', $MODULE)}</strong>
+			</button>
+		{/if}
+		{if $BLOCK_LABEL neq 'LBL_ADDRESS_BILLING' && !empty($RECORD_STRUCTURE['LBL_ADDRESS_BILLING'])}
+			<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromDelivery mr-2 mb-1 mb-md-0"
+					type="button"
+					data-label="LBL_ADDRESS_BILLING">
+				<strong>{\App\Language::translate('LBL_ADDRESS_BILLING', $MODULE)}</strong>
+			</button>
+		{/if}
+		{if $BLOCK_LABEL neq 'LBL_ADDRESS_INFORMATION' && !empty($RECORD_STRUCTURE['LBL_ADDRESS_INFORMATION'])}
+			<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromMain mr-2 mb-1 mb-md-0"
+					type="button"
+					data-label="LBL_ADDRESS_INFORMATION">
+				<strong>{\App\Language::translate('LBL_ADDRESS_INFORMATION', $MODULE)}</strong>
+			</button>
+		{/if}
+		{if $BLOCK_LABEL neq 'LBL_ADDRESS_MAILING_INFORMATION' && !empty($RECORD_STRUCTURE['LBL_ADDRESS_MAILING_INFORMATION'])}
+			<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromMailing mr-2 mb-1 mb-md-0"
+					type="button"
+					data-label="LBL_ADDRESS_MAILING_INFORMATION">
+				<strong>{\App\Language::translate('LBL_ADDRESS_MAILING_INFORMATION', $MODULE)}</strong>
+			</button>
+		{/if}
+		{if $BLOCK_LABEL neq 'LBL_ADDRESS_DELIVERY_INFORMATION' && !empty($RECORD_STRUCTURE['LBL_ADDRESS_DELIVERY_INFORMATION'])}
+			<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromDelivery mr-2 mb-1 mb-md-0"
+					type="button"
+					data-label="LBL_ADDRESS_DELIVERY_INFORMATION">
+				<strong>{\App\Language::translate('LBL_ADDRESS_DELIVERY_INFORMATION', $MODULE)}</strong>
+			</button>
+		{/if}
 		<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromAccount mr-2 mb-1 mb-md-0"
 				type="button"
 				data-label="{$BLOCK_LABEL}">
@@ -22,27 +57,6 @@
 					type="button"
 					data-label="{$BLOCK_LABEL}">
 				<strong>{\App\Language::translate('SINGLE_Contacts', $MODULE)}</strong>
-			</button>
-		{/if}
-		{if $BLOCK_LABEL neq 'LBL_ADDRESS_INFORMATION' && array_key_exists('LBL_ADDRESS_INFORMATION',$RECORD_STRUCTURE) && $RECORD_STRUCTURE['LBL_ADDRESS_INFORMATION']|@count }
-			<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromMain mr-2 mb-1 mb-md-0"
-					type="button"
-					data-label="LBL_ADDRESS_INFORMATION">
-				<strong>{\App\Language::translate('LBL_ADDRESS_INFORMATION', $MODULE)}</strong>
-			</button>
-		{/if}
-		{if $BLOCK_LABEL neq 'LBL_ADDRESS_MAILING_INFORMATION' && array_key_exists('LBL_ADDRESS_MAILING_INFORMATION',$RECORD_STRUCTURE) && $RECORD_STRUCTURE['LBL_ADDRESS_MAILING_INFORMATION']|@count}
-			<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromMailing mr-2 mb-1 mb-md-0"
-					type="button"
-					data-label="LBL_ADDRESS_MAILING_INFORMATION">
-				<strong>{\App\Language::translate('LBL_ADDRESS_MAILING_INFORMATION', $MODULE)}</strong>
-			</button>
-		{/if}
-		{if $BLOCK_LABEL neq 'LBL_ADDRESS_DELIVERY_INFORMATION' && array_key_exists('LBL_ADDRESS_DELIVERY_INFORMATION',$RECORD_STRUCTURE) && $RECORD_STRUCTURE['LBL_ADDRESS_DELIVERY_INFORMATION']|@count}
-			<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromDelivery mr-2 mb-1 mb-md-0"
-					type="button"
-					data-label="LBL_ADDRESS_DELIVERY_INFORMATION">
-				<strong>{\App\Language::translate('LBL_ADDRESS_DELIVERY_INFORMATION', $MODULE)}</strong>
 			</button>
 		{/if}
 	</div>
