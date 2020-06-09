@@ -960,6 +960,14 @@ return [
 			'default' => 21600,
 			'description' => 'Lifetime session (in seconds)',
 		],
+		'API_CREATE_LIFETIME_SESSION' => [
+			'default' => 1440,
+			'description' => 'Maximum session lifetime from the time it was created (in minutes)',
+		],
+		'API_UPDATE_LIFETIME_SESSION' => [
+			'default' => 240,
+			'description' => 'Maximum session lifetime since the last modification (in minutes)',
+		],
 		'USER_AUTHY_MODE' => [
 			'default' => 'TOTP_OPTIONAL',
 			'description' => "User authentication mode.\n@see \\Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.",
