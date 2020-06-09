@@ -232,10 +232,10 @@ var Settings_Index_Js = {
 			$(e.currentTarget).popover(makeSureOptions).popover('show');
 			$('.popover_block .setDefaultItem').on('click', function () {
 				$(e.currentTarget).popover('hide');
-				let SaveEvent = Settings_Index_Js.registerSaveEvent('setAsDefault', {
+				let saveEvent = Settings_Index_Js.registerSaveEvent('setAsDefault', {
 					prefix: element.data('prefix')
 				});
-				if (SaveEvent.resp) {
+				if (saveEvent.resp) {
 					window.location.reload();
 				}
 			});
