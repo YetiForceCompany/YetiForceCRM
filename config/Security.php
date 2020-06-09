@@ -151,5 +151,23 @@ class Security
 	public static $generallyAllowedDomains = [];
 
 	/** List of allowed domains for fields with HTML support */
-	public static $purifierAllowedDomains = [];
+	public static $purifierAllowedDomains = [ ];
+
+	/** Do you want all connections to be made using a proxy? */
+	public static $proxyConnection = false;
+
+	/** Proxy host */
+	public static $proxyHost = '';
+
+	/** Proxy host */
+	public static $proxyProtocol = '';
+
+	/** Proxy port */
+	public static $proxyPort = 0;
+
+	/** Proxy login */
+	public static $proxyLogin = '';
+
+	/** Proxy password */
+	public static $proxyPassword = '';
 }
