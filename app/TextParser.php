@@ -1420,7 +1420,8 @@ class TextParser
 		if (!$length) {
 			$length = \App\Config::main('listview_max_textlength');
 		}
-		if (mb_strlen($text) > $length) {
+		$textLength = mb_strlen($text);
+		if ((!$addDots && $textLength > $length) || ($addDots && $textLength > $length + 2)) {
 			$text = mb_substr($text, 0, $length, \App\Config::main('default_charset'));
 			if ($addDots) {
 				$text .= '...';
