@@ -25,6 +25,12 @@ class Cron
 	public static $STATUS_RUNNING = 2;
 	public static $STATUS_COMPLETED = 3;
 	protected $data;
+	/**
+	 * Cron instance.
+	 *
+	 * @var \App\Cron
+	 */
+	protected $cronInstance;
 
 	/**
 	 * Constructor.
@@ -47,6 +53,18 @@ class Cron
 	{
 		$this->data[$key] = $value;
 		return $this;
+	}
+
+	/**
+	 * Set cron instance.
+	 *
+	 * @param \App\Cron $cronInstance
+	 *
+	 * @return void
+	 */
+	public function setCronInstance(\App\Cron $cronInstance): void
+	{
+		$this->cronInstance = $cronInstance;
 	}
 
 	/**
@@ -291,15 +309,30 @@ class Cron
 		if (!$this->isRunning()) {
 			return false;
 		}
-		$maxExecutionTime = (int) (ini_get('max_execution_time'));
-		if (0 == $maxExecutionTime) {
-			$maxExecutionTime = \App\Config::main('maxExecutionCronTime');
-		}
 		$time = $this->getLastEnd();
 		if (0 == $time) {
 			$time = $this->getLastStart();
 		}
-		if (time() > ($time + $maxExecutionTime)) {
+		if (time() > ($time + \App\Cron::getMaxExecutionTime())) {
+			return true;
+		}
+		if (!empty($this->data['max_exe_time']) && time() >= (($this->data['max_exe_time'] * 60) + $time)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Check cron task timeout.
+	 *
+	 * @return bool
+	 */
+	public function checkTimeout(): bool
+	{
+		if ($this->cronInstance->checkCronTimeout()) {
+			return true;
+		}
+		if (!empty($this->data['max_exe_time']) && time() >= (($this->data['max_exe_time'] * 60) + \App\Cron::$cronTimeStart)) {
 			return true;
 		}
 		return false;

@@ -39,4 +39,14 @@ abstract class CronHandler
 	{
 		$this->cronTask = $cronTask;
 	}
+
+	/**
+	 * Check cron task timeout.
+	 *
+	 * @return bool
+	 */
+	public function checkTimeout(): bool
+	{
+		return $this->cronTask->checkTimeout();
+	}
 }

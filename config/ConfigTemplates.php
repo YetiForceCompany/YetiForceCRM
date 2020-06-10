@@ -614,11 +614,6 @@ return [
 			'description' => 'The maximum number of attachments that cron can delete during a single execution',
 			'validation' => '\App\Validator::naturalNumber'
 		],
-		'CRON_BATCH_METHODS_LIMIT' => [
-			'default' => 15,
-			'description' => 'Time to execute batch methods [min].',
-			'validation' => '\App\Validator::naturalNumber'
-		],
 		'LOAD_CUSTOM_FILES' => [
 			'default' => false,
 			'description' => "Parameter that allows to disable file overwriting.\nAfter enabling it the system will additionally check whether the file exists in the custom directory. Ex. custom/modules/Assets/Assets.php.",

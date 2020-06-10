@@ -20,18 +20,18 @@ try {
 }
 \App\Process::$requestMode = 'Cron';
 \App\Utils\ConfReport::$sapi = 'cron';
-$cronObj = new \App\Cron();
+$cronInstance = new \App\Cron();
 App\Session::init();
 \App\Session::set('last_activity', microtime(true));
 $authenticatedUserId = App\Session::get('authenticated_user_id');
 $appUniqueKey = App\Session::get('app_unique_key');
 $user = (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey === App\Config::main('application_unique_key'));
 $response = '';
-$cronObj->log('SAPI: ' . PHP_SAPI . ', User: ' . Users::getActiveAdminId(), 'info', false);
+$cronInstance->log('SAPI: ' . PHP_SAPI . ', User: ' . Users::getActiveAdminId(), 'info', false);
 if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') === \App\Request::_get('app_key')) {
 	$cronTasks = false;
-	$cronObj->log('Cron start', 'info', false);
-	$cronObj::$cronTimeStart = microtime(true);
+	$cronInstance->log('Cron start', 'info', false);
+	$cronInstance::$cronTimeStart = microtime(true);
 	vtlib\Cron::setCronAction(true);
 	if (\App\Request::_has('service')) {
 		// Run specific service
@@ -48,20 +48,26 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 	$response .= sprintf('---------------  %s | Start CRON  ----------', date('Y-m-d H:i:s')) . PHP_EOL;
 	foreach ($cronTasks as $cronTask) {
 		try {
+			$cronTask->setCronInstance($cronInstance);
 			$cronTask->refreshData();
-			$cronObj->log('Task start: ' . $cronTask->getName(), 'info', false);
+			$cronInstance->log('Task start: ' . $cronTask->getName(), 'info', false);
 			$startTaskTime = microtime(true);
 			\App\Log::trace($cronTask->getName() . ' - Start', 'Cron');
+			if ($cronInstance->checkCronTimeout()) {
+				$response .= sprintf("%s | %s - skipped \nCron execution time exceeded" . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
+				$cronInstance->log('Cron execution time exceeded');
+				break;
+			}
 			if ($cronTask->isDisabled()) {
 				$response .= sprintf('%s | %s - Cron task had been disabled' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
-				$cronObj->log('Cron task had been disabled');
+				$cronInstance->log('Cron task had been disabled');
 				continue;
 			}
 			// Timeout could happen if intermediate cron-tasks fails
 			// and affect the next task. Which need to be handled in this cycle.
 			if ($cronTask->hadTimeout()) {
 				$response .= sprintf('%s | %s - Cron task had timedout as it was not completed last time it run' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
-				$cronObj->log('Cron task had timedout as it was not completed last time it run');
+				$cronInstance->log('Cron task had timedout as it was not completed last time it run');
 				if (App\Config::main('unblockedTimeoutCronTasks')) {
 					$cronTask->unlockTask();
 				}
@@ -69,13 +75,13 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 			// Not ready to run yet?
 			if ($cronTask->isRunning()) {
 				\App\Log::trace($cronTask->getName() . ' - Task omitted, it has not been finished during the last scanning', 'Cron');
-				$cronObj->log('Task omitted, it has not been finished during the last scanning', 'warning');
+				$cronInstance->log('Task omitted, it has not been finished during the last scanning', 'warning');
 				$response .= sprintf('%s | %s - Task omitted, it has not been finished during the last scanning' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 				continue;
 			}
 			// Not ready to run yet?
 			if (!$cronTask->isRunnable()) {
-				$cronObj->log('Not ready to run as the time to run again is not completed');
+				$cronInstance->log('Not ready to run as the time to run again is not completed');
 				\App\Log::trace($cronTask->getName() . ' - Not ready to run as the time to run again is not completed', 'Cron');
 				$response .= sprintf('%s | %s - Not ready to run as the time to run again is not completed' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 				continue;
@@ -101,7 +107,7 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 
 			$taskTime = round(microtime(true) - $startTaskTime, 2);
 			if ('' !== $taskResponse) {
-				$cronObj->log('The task returned a message: ' . PHP_EOL . $taskResponse, 'error');
+				$cronInstance->log('The task returned a message: ' . PHP_EOL . $taskResponse, 'error');
 				\App\Log::warning($cronTask->getName() . ' - The task returned a message:' . PHP_EOL . $taskResponse, 'Cron');
 				$response .= 'Task response:' . PHP_EOL . $taskResponse . PHP_EOL;
 			}
@@ -109,10 +115,10 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 			$cronTask->markFinished();
 			$response .= sprintf('%s | %s - End task (%s s)', date('Y-m-d H:i:s'), $cronTask->getName(), $taskTime) . PHP_EOL;
 			\App\Log::trace($cronTask->getName() . ' - End', 'Cron');
-			$cronObj->log('End task, time: ' . $taskTime);
+			$cronInstance->log('End task, time: ' . $taskTime);
 		} catch (\Throwable $e) {
 			\App\Log::error("Cron task '{$cronTask->getName()}' throwed exception: " . PHP_EOL . $e->__toString() . PHP_EOL, 'Cron');
-			$cronObj->log('Cron task execution throwed exception: ' . PHP_EOL . $response . PHP_EOL . $e->__toString(), 'error');
+			$cronInstance->log('Cron task execution throwed exception: ' . PHP_EOL . $response . PHP_EOL . $e->__toString(), 'error');
 			$cronTask->setError($response . PHP_EOL . $e->getMessage());
 			echo $response;
 			echo sprintf('%s | ERROR: %s - Cron task throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
@@ -122,7 +128,7 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 			}
 		}
 	}
-	$cronObj->log('End CRON (' . $cronObj->getCronExecutionTime() . ')', 'info', false);
-	$response .= sprintf('===============  %s (' . $cronObj->getCronExecutionTime() . ') | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
+	$cronInstance->log('End CRON (' . $cronInstance->getCronExecutionTime() . ')', 'info', false);
+	$response .= sprintf('===============  %s (' . $cronInstance->getCronExecutionTime() . ') | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
 	echo $response;
 }

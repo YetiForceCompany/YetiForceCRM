@@ -5233,14 +5233,15 @@ CREATE TABLE `vtiger_crmentityrel` (
 
 CREATE TABLE `vtiger_cron_task` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
+  `status` tinyint(1) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `handler_class` varchar(100) DEFAULT NULL,
   `frequency` mediumint(10) DEFAULT NULL,
+  `max_exe_time` smallint(5) DEFAULT NULL,
   `laststart` int(10) unsigned DEFAULT NULL,
   `lastend` int(10) unsigned DEFAULT NULL,
-  `status` tinyint(1) DEFAULT NULL,
-  `module` varchar(25) DEFAULT NULL,
   `sequence` int(10) DEFAULT NULL,
+  `module` varchar(25) DEFAULT NULL,
   `description` text DEFAULT NULL,
   `lase_error` text DEFAULT NULL,
   PRIMARY KEY (`id`),

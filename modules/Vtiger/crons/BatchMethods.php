@@ -19,8 +19,7 @@ class Vtiger_BatchMethods_Cron extends \App\CronHandler
 	 */
 	public function process()
 	{
-		$timeLimit = \App\Config::performance('CRON_BATCH_METHODS_LIMIT') * 60 + time();
-		$dataReader = (new \App\Db\Query())->from('s_#__batchmethod')->orderBy(['id' => SORT_ASC])->createCommand()->query();
+		$dataReader = (new \App\Db\Query())->from('s_#__batchmethod')->orderBy(['id' => SORT_ASC])->limit(1000)->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$methodInstance = new \App\BatchMethod($row, false);
 			$methodInstance->execute();
@@ -28,7 +27,7 @@ class Vtiger_BatchMethods_Cron extends \App\CronHandler
 				$methodInstance->delete();
 			}
 			unset($methodInstance);
-			if (time() >= $timeLimit) {
+			if ($this->checkTimeout()) {
 				break;
 			}
 		}
