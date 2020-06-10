@@ -35,9 +35,19 @@ class Mixpbx extends Base
 		$url .= '&password=' . urlencode($pbx->getConfig('password'));
 		$url .= '&number=' . urlencode($pbx->get('targetPhone'));
 		$url .= '&extension=' . urlencode($pbx->get('sourcePhone'));
-		$responsse = \Requests::get($url);
-		if ('OK' !== trim($responsse->body)) {
-			\App\Log::warning($responsse->body, 'PBX[Mixpbx]');
+		try {
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url);
+			if (200 !== $response->getStatusCode()) {
+				\App\Log::warning('Error: ' . $url . ' | ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase(), __CLASS__);
+				return false;
+			}
+			$contents = $response->getBody()->getContents();
+			if ('OK' !== trim($contents)) {
+				\App\Log::warning($contents, 'PBX[Mixpbx]');
+			}
+		} catch (\Throwable $exc) {
+			\App\Log::warning('Error: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
+			return false;
 		}
 	}
 }

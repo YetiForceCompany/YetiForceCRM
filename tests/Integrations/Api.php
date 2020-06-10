@@ -42,16 +42,6 @@ class Api extends \Tests\Base
 	];
 
 	/**
-	 * Request headers.
-	 *
-	 * @var array
-	 */
-	private static $requestHeaders = [
-		'content-type' => 'application/json',
-		'x-encrypted' => 0,
-	];
-
-	/**
 	 * Details about logged in user.
 	 *
 	 * @var array
@@ -85,7 +75,7 @@ class Api extends \Tests\Base
 		$this->assertSame($row['status'], 1);
 		$this->assertSame($row['name'], 'portal');
 		$this->assertSame($row['pass'], 'portal');
-		static::$requestHeaders['x-api-key'] = $row['api_key'];
+		static::$requestOptions['headers']['x-api-key'] = $row['api_key'];
 
 		$webserviceUsers = \Settings_WebserviceUsers_Record_Model::getCleanInstance('Portal');
 		$webserviceUsers->setData([
@@ -127,15 +117,20 @@ class Api extends \Tests\Base
 	 */
 	public function testLogIn(): void
 	{
-		$request = \Requests::post(static::$url . 'Users/Login', static::$requestHeaders, \App\Json::encode([
-			'userName' => 'demo@yetiforce.com',
-			'password' => 'demo',
-		]), static::$requestOptions);
-		$response = \App\Json::decode($request->body, 0);
-		$this->logs = $request->raw;
-		$this->assertSame($response->status, 1, (string) $response->error->message);
+		$request = (new \GuzzleHttp\Client(
+			\App\RequestHttp::getOptions()))->post(static::$url . 'Users/Login', array_merge(
+				[
+					'json' => [
+						'userName' => 'demo@yetiforce.com',
+						'password' => 'demo',
+					]
+				], static::$requestOptions)
+		);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body, 0);
+		$this->assertSame($response['status'], 1, 'Users/Login API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
 		static::$authUserParams = $response->result;
-		static::$requestHeaders['x-token'] = static::$authUserParams->token;
+		static::$requestOptions['headers']['x-token'] = static::$authUserParams->token;
 	}
 
 	/**
@@ -151,10 +146,15 @@ class Api extends \Tests\Base
 			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
 			'in_portal' => 1
 		];
-		$request = \Requests::post(static::$url . 'Accounts/Record/', static::$requestHeaders, \App\Json::encode($recordData), static::$requestOptions);
-		$this->logs = $request->raw;
-		$response = \App\Json::decode($request->body, 1);
-		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
+		$request = (new \GuzzleHttp\Client(
+			\App\RequestHttp::getOptions()))->post(static::$url . 'Accounts/Record/', array_merge(
+				[
+					'json' => $recordData
+				], static::$requestOptions)
+		);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body, 0);
+		$this->assertSame($response['status'], 1, 'Accounts/Record/ API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
 		static::$recordId = $response['result']['id'];
 	}
 
@@ -167,10 +167,15 @@ class Api extends \Tests\Base
 			'accountname' => 'Api YetiForce Sp. z o.o. New name',
 			'buildingnumbera' => 222,
 		];
-		$request = \Requests::put(static::$url . 'Accounts/Record/' . static::$recordId, static::$requestHeaders, \App\Json::encode($recordData), static::$requestOptions);
-		$this->logs = $request->raw;
-		$response = \App\Json::decode($request->body, 1);
-		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
+		$request = (new \GuzzleHttp\Client(
+			\App\RequestHttp::getOptions()))->put(static::$url . 'Accounts/Record/' . static::$recordId, array_merge(
+				[
+					'json' => $recordData
+				], static::$requestOptions)
+		);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body, 0);
+		$this->assertSame($response['status'], 1, 'Accounts/Record/{ID} API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
 	}
 
 	/**
@@ -178,10 +183,10 @@ class Api extends \Tests\Base
 	 */
 	public function testRecordList(): void
 	{
-		$request = \Requests::get(static::$url . 'Accounts/RecordsList', static::$requestHeaders, static::$requestOptions);
-		$this->logs = $request->raw;
-		$response = \App\Json::decode($request->body, 1);
-		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
+		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Accounts/RecordsList/', static::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body, 0);
+		$this->assertSame($response['status'], 1, 'Accounts/RecordsList/ API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
 	}
 
 	/**
@@ -189,12 +194,12 @@ class Api extends \Tests\Base
 	 */
 	public function testGetFields(): void
 	{
-		$request = \Requests::get(static::$url . 'Accounts/Fields', static::$requestHeaders, static::$requestOptions);
-		$this->logs = $request->raw;
-		$response = \App\Json::decode($request->body, 1);
-		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
-		$this->assertTrue(!empty($response['result']['fields']));
-		$this->assertTrue(!empty($response['result']['blocks']));
+		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Accounts/Fields/', static::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body, 0);
+		$this->assertSame($response['status'], 1, 'Accounts/Fields/ API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(!empty($response['result']['fields']), 'Accounts/Fields/ API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(!empty($response['result']['blocks']), 'Accounts/Fields/ API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
 	}
 
 	/**
@@ -202,11 +207,11 @@ class Api extends \Tests\Base
 	 */
 	public function testGetPrivileges(): void
 	{
-		$request = \Requests::get(static::$url . 'Accounts/Privileges', static::$requestHeaders, static::$requestOptions);
-		$this->logs = $request->raw;
-		$response = \App\Json::decode($request->body, 1);
-		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
-		$this->assertTrue(!empty($response['result']));
+		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Accounts/Privileges/', static::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body, 0);
+		$this->assertSame($response['status'], 1, 'Accounts/Privileges/ API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(!empty($response['result']), 'Accounts/Privileges/ API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
 	}
 
 	/**
@@ -214,11 +219,11 @@ class Api extends \Tests\Base
 	 */
 	public function testGetModules(): void
 	{
-		$request = \Requests::get(static::$url . 'Modules', static::$requestHeaders, static::$requestOptions);
-		$this->logs = $request->raw;
-		$response = \App\Json::decode($request->body, 1);
-		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
-		$this->assertTrue(!empty($response['result']['Accounts']));
+		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Modules', static::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body, 0);
+		$this->assertSame($response['status'], 1, 'Modules API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(!empty($response['result']['Accounts']), 'Modules API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
 	}
 
 	/**
@@ -226,13 +231,13 @@ class Api extends \Tests\Base
 	 */
 	public function testGetMethods(): void
 	{
-		$request = \Requests::get(static::$url . 'Methods', static::$requestHeaders, static::$requestOptions);
-		$this->logs = $request->raw;
-		$response = \App\Json::decode($request->body, 1);
-		$this->assertSame($response['status'], 1, (string) $response['error']['message']);
-		$this->assertTrue(!empty($response['result']['BaseAction']));
-		$this->assertTrue(!empty($response['result']['BaseModule']));
-		$this->assertTrue(!empty($response['result']['Users']));
+		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Methods', static::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body, 0);
+		$this->assertSame($response['status'], 1, 'Methods API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(!empty($response['result']['BaseAction']), 'Methods API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(!empty($response['result']['BaseModule']), 'Methods API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(!empty($response['result']['Users']), 'Methods API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
 	}
 
 	/**

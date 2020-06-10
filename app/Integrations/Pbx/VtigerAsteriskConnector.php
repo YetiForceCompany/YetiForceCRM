@@ -37,8 +37,15 @@ class VtigerAsteriskConnector extends Base
 		$serviceURL .= 'to=' . urlencode($pbx->get('targetPhone')) . '&';
 		$serviceURL .= 'context=' . urlencode($pbx->get('outboundContext'));
 
-		$responsse = \Requests::post($serviceURL);
-
-		\App\Log::warning($responsse->body, 'PBX[VtigerAsteriskConnector]');
+		try {
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $serviceURL);
+			if (200 !== $response->getStatusCode()) {
+				\App\Log::warning('Error: ' . $serviceURL . ' | ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase(), __CLASS__);
+				return false;
+			}
+		} catch (\Throwable $exc) {
+			\App\Log::warning('Error: ' . $serviceURL . ' | ' . $exc->getMessage(), __CLASS__);
+			return false;
+		}
 	}
 }
