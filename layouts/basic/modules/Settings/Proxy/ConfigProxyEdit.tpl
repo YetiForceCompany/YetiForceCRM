@@ -9,11 +9,19 @@
 					</div>
 				</div>
 				<hr>
+				<div class="alert alert-block alert-info mb-2">
+					<button	button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<span>
+						{\App\Language::translate('LBL_PROXY_INFORMATION', $QUALIFIED_MODULE)}
+					</span>
+				</div>
 				<table class="table table-bordered table-sm themeTableColor">
 					<thead>
 					<tr class="blockHeader">
 						<th colspan="2"
-							class="{$WIDTHTYPE}">{\App\Language::translate('LBL_MAIN_CONFIG', $QUALIFIED_MODULE)}</th>
+							class="{$WIDTHTYPE}">{\App\Language::translate('LBL_PROXY_CONFIGRATION', $QUALIFIED_MODULE)}</th>
 					</tr>
 					</thead>
 					<tbody>
