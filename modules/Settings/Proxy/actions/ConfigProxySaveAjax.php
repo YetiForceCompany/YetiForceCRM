@@ -1,13 +1,11 @@
 <?php
-/* +**********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.1
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce Sp. z o.o.
- * ********************************************************************************** */
+/**
+ * Settings proxy config view file.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author Arkadiusz Sołek <a.solek@yetiforce.com>
+ */
 
 class Settings_Proxy_ConfigProxySaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
@@ -27,7 +25,15 @@ class Settings_Proxy_ConfigProxySaveAjax_Action extends Settings_Vtiger_Basic_Ac
 			$configFile = new \App\ConfigFile('security');
 			foreach (array_keys($moduleModel->listFields) as $fieldName) {
 				if ($request->has($fieldName)) {
-					$configFile->set($fieldName, $request->getRaw($fieldName));
+					if ($fieldName === 'proxyConnection') {
+						$proxyValue = false;
+						if ($request->getRaw($fieldName) === '1') {
+							$proxyValue = true;
+						}
+					} else {
+							$proxyValue = $request->getRaw($fieldName);
+					}
+					$configFile->set($fieldName, $proxyValue);
 				}
 			}
 			$configFile->create();

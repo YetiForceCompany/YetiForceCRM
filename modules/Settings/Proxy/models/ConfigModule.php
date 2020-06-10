@@ -1,4 +1,11 @@
 <?php
+/**
+ * Settings proxy config module model.
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author Arkadiusz Sołek <a.solek@yetiforce.com>
+ */
 
 class Settings_Proxy_ConfigModule_Model extends Settings_Vtiger_Module_Model
 {
@@ -22,40 +29,6 @@ class Settings_Proxy_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			$value = \App\Config::security($fieldName);
 			$this->set($fieldName, $value);
 		}
-	}
-
-	/**
-	 * Function to get CompanyDetails Menu item.
-	 *
-	 * @return menu item Model
-	 */
-	public function getMenuItem()
-	{
-		return Settings_Vtiger_MenuItem_Model::getInstance('LBL_CONFIG_PROXY');
-	}
-
-	/**
-	 * Function to get Edit view Url.
-	 *
-	 * @return string Url
-	 */
-	public function getEditViewUrl()
-	{
-		$menuItem = $this->getMenuItem();
-
-		return 'index.php?module=Vtiger&parent=Settings&view=ConfigProxyEdit&block=' . $menuItem->get('blockid') . '&fieldid=' . $menuItem->get('fieldid');
-	}
-
-	/**
-	 * Function to get Detail view Url.
-	 *
-	 * @return string Url
-	 */
-	public function getDetailViewUrl()
-	{
-		$menuItem = $this->getMenuItem();
-
-		return 'index.php?module=Vtiger&parent=Settings&view=ConfigProxyDetail&block=' . $menuItem->get('blockid') . '&fieldid=' . $menuItem->get('fieldid');
 	}
 
 	/**
@@ -84,11 +57,11 @@ class Settings_Proxy_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	public function getFieldInstanceByName($name)
 	{
 		$moduleName = $this->getName(true);
-		$params = ['uitype' => 1, 'column' => $name, 'name' => $name, 'label' => $this->listFields[$name], 'displaytype' => 1, 'typeofdata' => 'I~M', 'presence' => 0, 'isEditableReadOnly' => false, 'maximumlength' => ''];
+		$params = ['uitype' => 1, 'column' => $name, 'name' => $name, 'label' => $this->listFields[$name], 'displaytype' => 1, 'typeofdata' => 'I~M', 'presence' => 0, 'isEditableReadOnly' => false];
 		switch ($name) {
 			case 'proxyConnection':
 				$params['uitype'] = 56;
-				// $params['typeofdata'] = 'C~M';
+				$params['typeofdata'] = 'C~O';
 				unset($params['validator']);
 				break;
 			case 'proxyProtocol':
@@ -97,32 +70,24 @@ class Settings_Proxy_ConfigModule_Model extends Settings_Vtiger_Module_Model
 				unset($params['validator']);
 				break;
 			case 'proxyHost':
+				$params['uitype'] = 17;
+				$params['typeofdata'] = 'V~O';
+				break;
 			case 'proxyPort':
+				$params['uitype'] = 7;
+				$params['typeofdata'] = 'I~O';
+				break;
 			case 'proxyLogin':
+				$params['uitype'] = 106;
+				$params['typeofdata'] = 'V~M';
+				break;
 			case 'proxyPassword':
+				$params['uitype'] = 99;
+				$params['typeofdata'] = 'P~M';
+				break;
 			default:
 				break;
 		}
 		return Settings_Vtiger_Field_Model::init($moduleName, $params);
-	}
-
-	/**
-	 * Function to getDisplay value of every field.
-	 *
-	 * @param string $name field name
-	 *
-	 * @return mixed
-	 */
-	public function getDisplayValue($name)
-	{
-		switch ($name) {
-			case 'upload_maxsize':
-				$value = $this->get($name) . ' ' . \App\Language::translate('LBL_MB', $this->getName(true));
-				break;
-			default:
-				$value = $this->getFieldInstanceByName($name)->getDisplayValue($this->get($name));
-				break;
-		}
-		return $value;
 	}
 }
