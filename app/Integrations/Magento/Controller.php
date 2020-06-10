@@ -132,13 +132,12 @@ class Controller
 	/**
 	 * Update inventory stock in all magento.
 	 *
-	 * @param int    $storageId
-	 * @param int[]  $products
-	 * @param string $operator
+	 * @param int $storageId
+	 * @param int $product
 	 *
 	 * @return void
 	 */
-	public static function updateStock(int $storageId, array $products): void
+	public static function updateStock(int $storageId, int $product): void
 	{
 		foreach (Config::getAllServers() as $serverId => $config) {
 			if (0 === (int) $config['status'] || 'None' === $config['storage_quantity_location']) {
@@ -146,7 +145,7 @@ class Controller
 			}
 			$customerSynchronizer = new Synchronizer\InventoryStock(new self($serverId));
 			$customerSynchronizer->storageId = $storageId;
-			$customerSynchronizer->products = $products;
+			$customerSynchronizer->product = $product;
 			$customerSynchronizer->process();
 		}
 	}

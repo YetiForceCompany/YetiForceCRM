@@ -26,11 +26,11 @@ class InventoryStock extends Base
 	 */
 	public $storageId;
 	/**
-	 * Products ids.
+	 * Product id.
 	 *
-	 * @var int[]
+	 * @var int
 	 */
-	public $products;
+	public $product;
 
 	/**
 	 * {@inheritdoc}
@@ -65,7 +65,7 @@ class InventoryStock extends Base
 		$queryGenerator = new \App\QueryGenerator('Products');
 		$queryGenerator->setStateCondition('All');
 		$queryGenerator->setFields(['id', 'qtyinstock', 'ean'])->permissions = false;
-		$queryGenerator->addCondition('id', $this->products, 'e');
+		$queryGenerator->addCondition('id', $this->product, 'e');
 		return $queryGenerator->createQuery()->all();
 	}
 
@@ -83,7 +83,7 @@ class InventoryStock extends Base
 			'ean' => 'vtiger_products.ean'])
 			->from($referenceInfo['table'])
 			->innerJoin('vtiger_products', "{$referenceInfo['table']}.{$referenceInfo['rel']} = vtiger_products.productid")
-			->where([$referenceInfo['base'] => $this->storageId, $referenceInfo['rel'] => $this->products])
+			->where([$referenceInfo['base'] => $this->storageId, $referenceInfo['rel'] => $this->product])
 			->all();
 	}
 }
