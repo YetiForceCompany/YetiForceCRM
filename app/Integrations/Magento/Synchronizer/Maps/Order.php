@@ -235,6 +235,7 @@ class Order extends Inventory
 		return [
 			'entity' => array_merge([
 				'entity_id' => $this->dataCrm['magento_id'],
+				'increment_id' => $this->dataCrm['subject']
 			],
 				self::$statusForMagento[$this->dataCrm['ssingleorders_status']]
 			)

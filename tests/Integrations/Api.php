@@ -146,8 +146,7 @@ class Api extends \Tests\Base
 			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
 			'in_portal' => 1
 		];
-		$request = (new \GuzzleHttp\Client(
-			\App\RequestHttp::getOptions()))->post(static::$url . 'Accounts/Record/', array_merge(
+		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post(static::$url . 'Accounts/Record', array_merge(
 				[
 					'json' => $recordData
 				], static::$requestOptions)
