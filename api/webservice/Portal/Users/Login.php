@@ -292,7 +292,6 @@ class Login extends \Api\Core\BaseAction
 			'params' => \App\Json::encode($params),
 		])->execute();
 		$row['language'] = $language;
-		$db->createCommand()->delete('w_#__portal_session', ['<', 'changed', date(static::DATE_TIME_FORMAT, strtotime('-1 day'))])->execute();
 		return $row;
 	}
 }

@@ -81,6 +81,9 @@ class OSSMailScanner_Bind_Cron extends \App\CronHandler
 				$dataReaderMail->close();
 			}
 			$dbCommand->delete('s_#__mail_relation_updater', ['crmid' => $relationRow['crmid']])->execute();
+			if ($this->checkTimeout()) {
+				break;
+			}
 		}
 		$dataReader->close();
 	}

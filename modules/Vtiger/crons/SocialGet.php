@@ -30,6 +30,9 @@ class Vtiger_SocialGet_Cron extends \App\CronHandler
 						continue;
 					}
 					$socialMedia->retrieveDataFromApi();
+					if ($this->checkTimeout()) {
+						return;
+					}
 				}
 			} else {
 				\App\SocialMedia::log($uiType, 'warning', 'Unconfigured API');
