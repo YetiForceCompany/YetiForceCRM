@@ -2421,15 +2421,6 @@ CREATE TABLE `u_yf_finvoiceproformacf` (
   CONSTRAINT `fk_1_vtiger_finvoiceproformacf` FOREIGN KEY (`finvoiceproformaid`) REFERENCES `u_yf_finvoiceproforma` (`finvoiceproformaid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `u_yf_github` */
-
-CREATE TABLE `u_yf_github` (
-  `github_id` int(10) NOT NULL AUTO_INCREMENT,
-  `token` varchar(500) DEFAULT NULL,
-  `username` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`github_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
 /*Table structure for table `u_yf_igdn` */
 
 CREATE TABLE `u_yf_igdn` (

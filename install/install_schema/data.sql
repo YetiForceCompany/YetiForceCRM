@@ -890,10 +890,6 @@ insert  into `u_yf_finvoiceproforma_invmap`(`module`,`field`,`tofield`) values (
 
 /*Data for the table `u_yf_finvoiceproformacf` */
 
-/*Data for the table `u_yf_github` */
-
-insert  into `u_yf_github`(`github_id`,`token`,`username`) values (1,'','');
-
 /*Data for the table `u_yf_igdn` */
 
 /*Data for the table `u_yf_igdn_inventory` */
@@ -18330,7 +18326,6 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (116,4,'LBL_BACKUP_MANAGER','yfi yfi-adminIcon-backup','LBL_BACKUP_MANAGER_DESCRIPTION','index.php?module=Backup&parent=Settings&view=Index',14,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (117,12,'LBL_BUSINESS_HOURS','fas fa-business-time','LBL_BUSINESS_HOURS_DESCRIPTION','index.php?module=BusinessHours&parent=Settings&view=List',4,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (119,6,'LBL_SLA_POLICY','yfi yfi-adminIcon-sla-policy','LBL_SLA_POLICY','index.php?module=SlaPolicy&parent=Settings&view=List',7,0,0,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (120,18,'LBL_GITHUB','fab fa-github',NULL,'index.php?parent=Settings&module=Help&view=Index',1,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (121,14,'LBL_SYSTEM_WARNINGS','yfi yfi-system-warnings-2',NULL,'index.php?parent=Settings&module=Logs&view=SystemWarnings',5,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (122,7,'LBL_VULNERABILITIES','yfi yfi-security-errors-2','LBL_VULNERABILITIES_DESCRIPTION','index.php?parent=Settings&module=YetiForce&view=Vulnerabilities',7,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (123,5,'LBL_MAP','far fa-map','LBL_MAP_DESCRIPTION','index.php?parent=Settings&module=Map&view=Config',6,0,0,NULL);
