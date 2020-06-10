@@ -69,7 +69,7 @@ Vtiger_Edit_Js(
 					return false;
 				}
 				const finvoiceid = finvoiceidInput.val();
-				if (!finvoiceid) {
+				if (finvoiceid == 0) {
 					return Vtiger_Helper_Js.showMessage({
 						type: 'error',
 						text: app.vtranslate('JS_FCORECTINGINVOICE_CHOOSE_INVOICE')
