@@ -128,7 +128,7 @@ class Api extends \Tests\Base
 		);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Users/Login API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['status'], 1, 'Users/Login API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::$authUserParams = $response->result;
 		static::$requestOptions['headers']['x-token'] = static::$authUserParams->token;
 	}
@@ -154,7 +154,7 @@ class Api extends \Tests\Base
 		);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Accounts/Record/ API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['status'], 1, 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::$recordId = $response['result']['id'];
 	}
 
@@ -175,7 +175,7 @@ class Api extends \Tests\Base
 		);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Accounts/Record/{ID} API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['status'], 1, 'Accounts/Record/{ID} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 	}
 
 	/**
@@ -186,7 +186,7 @@ class Api extends \Tests\Base
 		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Accounts/RecordsList/', static::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Accounts/RecordsList/ API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['status'], 1, 'Accounts/RecordsList/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 	}
 
 	/**
@@ -197,9 +197,9 @@ class Api extends \Tests\Base
 		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Accounts/Fields/', static::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Accounts/Fields/ API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
-		$this->assertTrue(!empty($response['result']['fields']), 'Accounts/Fields/ API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
-		$this->assertTrue(!empty($response['result']['blocks']), 'Accounts/Fields/ API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['status'], 1, 'Accounts/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(!empty($response['result']['fields']), 'Accounts/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(!empty($response['result']['blocks']), 'Accounts/Fields/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 	}
 
 	/**
@@ -210,8 +210,8 @@ class Api extends \Tests\Base
 		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Accounts/Privileges/', static::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Accounts/Privileges/ API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
-		$this->assertTrue(!empty($response['result']), 'Accounts/Privileges/ API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['status'], 1, 'Accounts/Privileges/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(!empty($response['result']), 'Accounts/Privileges/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 	}
 
 	/**
@@ -222,8 +222,8 @@ class Api extends \Tests\Base
 		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Modules', static::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Modules API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
-		$this->assertTrue(!empty($response['result']['Accounts']), 'Modules API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['status'], 1, 'Modules API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(!empty($response['result']['Accounts']), 'Modules API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 	}
 
 	/**
@@ -234,10 +234,10 @@ class Api extends \Tests\Base
 		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'Methods', static::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
-		$this->assertSame($response['status'], 1, 'Methods API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
-		$this->assertTrue(!empty($response['result']['BaseAction']), 'Methods API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
-		$this->assertTrue(!empty($response['result']['BaseModule']), 'Methods API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
-		$this->assertTrue(!empty($response['result']['Users']), 'Methods API error: ' . PHP_EOL . $response->getReasonPhrase() . '|' . $body);
+		$this->assertSame($response['status'], 1, 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(!empty($response['result']['BaseAction']), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(!empty($response['result']['BaseModule']), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(!empty($response['result']['Users']), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 	}
 
 	/**
