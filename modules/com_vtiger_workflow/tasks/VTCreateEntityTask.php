@@ -16,7 +16,7 @@ class VTCreateEntityTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return ['entity_type', 'reference_field', 'field_value_mapping', 'mappingPanel'];
+		return ['entity_type', 'reference_field', 'field_value_mapping', 'mappingPanel', 'verifyIfExists'];
 	}
 
 	/**
@@ -96,6 +96,9 @@ class VTCreateEntityTask extends VTTask
 				$relationModel->addRelation($recordModel->getId(), $newRecordModel->getId());
 			}
 		} elseif ($this->mappingPanel && $entityType) {
+			if (!empty($this->verifyIfExists) && ($relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $entityType, false)) && (int) $relationListView->getRelatedEntriesCount() > 0) {
+				return true;
+			}
 			$saveContinue = true;
 			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
