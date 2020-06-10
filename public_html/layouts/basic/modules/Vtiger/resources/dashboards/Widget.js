@@ -1930,8 +1930,8 @@ jQuery.Class(
 				paramCache += '&' + i + '=' + data[i];
 			}
 			var userId = CONFIG.userId;
-			var name = container.data('name');
-			app.cacheSet(name + userId, paramCache);
+			var name = container.attr('id');
+			app.cacheSet(name + '_' + userId, paramCache);
 		},
 		registerCache: function registerCache(container) {
 			if (container.data('cache') == 1) {

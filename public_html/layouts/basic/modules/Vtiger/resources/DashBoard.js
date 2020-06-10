@@ -131,12 +131,11 @@ $.Class(
 			let sourceModule = $('a.active', 'ul.selectDashboradView').parent().data('module');
 			widgetContainer.progressIndicator();
 			if (mode === 'open') {
-				let name = widgetContainer.data('name');
-				let cache = widgetContainer.data('cache');
+				let name = widgetContainer.attr('id');
 				let userId = CONFIG.userId;
-				if (cache === 1) {
-					let cecheUrl = app.cacheGet(name + userId, false);
-					urlParams = cecheUrl ? cecheUrl : urlParams;
+				if (widgetContainer.data('cache') === 1) {
+					let cacheUrl = app.cacheGet(name + '_' + userId, false);
+					urlParams = cacheUrl ? cacheUrl : urlParams;
 				}
 				AppConnector.request(urlParams).done((data) => {
 					widgetContainer.html(data);
