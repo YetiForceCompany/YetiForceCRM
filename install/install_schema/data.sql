@@ -2138,7 +2138,7 @@ insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststa
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (33,'LBL_SESSION_CLEANER','Vtiger_SessionCleaner_Cron',60,NULL,NULL,1,'Vtiger',30,'',NULL);
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (34,'LBL_ARCHIVE_OLD_RECORDS','Vtiger_Social_Cron',86400,NULL,NULL,0,'Vtiger',32,'',NULL);
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (35,'LBL_GET_SOCIAL_MEDIA_MESSAGES','Vtiger_SocialGet_Cron',1800,NULL,NULL,0,'Vtiger',33,'',NULL);
-insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (36,'LBL_MAGENTO','Vtiger_Magento_Cron',60,NULL,NULL,0,'Vtiger',34,NULL,NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`,`lase_error`) values (36,'LBL_MAGENTO','Vtiger_Magento_Cron',60,NULL,NULL,0,'Vtiger',28,NULL,NULL);
 
 /*Data for the table `vtiger_currencies` */
 
