@@ -22,7 +22,7 @@
 					<tbody>
 						{foreach item=UPDATE_ROW key=UPDATE_MODULE_NAME from=$UPDATES}
 							<tr>
-								<td class="u-white-space-nowrap">
+								<td class="u-white-space-nowrap pr-0">
 									<span class='modCT_{$UPDATE_MODULE_NAME} yfm-{$UPDATE_MODULE_NAME} mr-1'></span>
 									{\App\Language::translate($UPDATE_MODULE_NAME, $UPDATE_MODULE_NAME)}
 								</td>

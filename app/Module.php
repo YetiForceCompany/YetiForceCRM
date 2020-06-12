@@ -261,7 +261,7 @@ class Module
 	}
 
 	/**
-	 * Func    tion to create file about modules.
+	 * Function to create file about modules.
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
