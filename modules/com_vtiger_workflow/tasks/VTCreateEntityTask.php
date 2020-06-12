@@ -89,7 +89,7 @@ class VTCreateEntityTask extends VTTask
 			}
 			$newRecordModel->set($this->reference_field, $recordId);
 			// To handle cyclic process
-			$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
+			$newRecordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
 			$newRecordModel->save();
 			$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $newRecordModel->getModule());
 			if ($relationModel) {

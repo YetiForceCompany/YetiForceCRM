@@ -66,7 +66,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 						$fieldModel = $relRecordModel->getField($relatedData[2]);
 						if ($fieldModel->isEditable()) {
 							$fieldModel->getUITypeModel()->validate($fieldValue);
-							$relRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
+							$relRecordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
 							$relRecordModel->set($relatedData[2], $fieldValue);
 							$relRecordModel->save();
 						} else {

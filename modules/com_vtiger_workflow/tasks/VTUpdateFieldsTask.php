@@ -63,7 +63,7 @@ class VTUpdateFieldsTask extends VTTask
 				}
 				$recordModel->set($fieldName, App\Purifier::decodeHtml($fieldValue));
 			}
-			$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
+			$recordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
 			$recordModel->save();
 		}
 	}
