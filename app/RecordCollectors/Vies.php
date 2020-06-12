@@ -73,10 +73,12 @@ class Vies extends Base
 				'SI' => 'Slovenia',
 				'SK' => 'Slovakia',
 			],
+			'typeofdata' => 'V~M'
 		],
 		'vatNumber' => [
 			'labelModule' => '_Base',
-			'label' => 'Vat ID'
+			'label' => 'Vat ID',
+			'typeofdata' => 'V~M'
 		],
 	];
 	/**

@@ -1451,14 +1451,17 @@ $.Class(
 						(container) => {
 							let modalForm = container.find('form.js-record-collector__form');
 							let summary = container.find('.js-record-collector__summary');
+							modalForm.validationEngine(app.validationEngineOptions);
 							modalForm.on('submit', function (e) {
-								summary.html('');
-								summary.progressIndicator({});
-								e.preventDefault();
-								AppConnector.request(modalForm.serializeFormData()).done(function (data) {
-									summary.progressIndicator({ mode: 'hide' });
-									summary.html(data);
-								});
+								if (modalForm.validationEngine('validate')) {
+									summary.html('');
+									summary.progressIndicator({});
+									e.preventDefault();
+									AppConnector.request(modalForm.serializeFormData()).done(function (data) {
+										summary.progressIndicator({ mode: 'hide' });
+										summary.html(data);
+									});
+								}
 							});
 							let recordForm = self.getForm();
 							container.on('click', '.js-record-collector__select', function () {
