@@ -1,13 +1,15 @@
 <?php
 /**
- * Settings proxy config view file.
+ * Settings proxy save ajax action.
+ *
+ * @package   Settings.Actions
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Sołek <a.solek@yetiforce.com>
  */
 
-class Settings_Proxy_ConfigProxySaveAjax_Action extends Settings_Vtiger_Basic_Action
+class Settings_Proxy_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 	/**
 	 * Process.
@@ -20,18 +22,15 @@ class Settings_Proxy_ConfigProxySaveAjax_Action extends Settings_Vtiger_Basic_Ac
 	{
 		$response = new Vtiger_Response();
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = Settings_Proxy_ConfigModule_Model::getInstance();
+		$moduleModel = Settings_Proxy_Module_Model::getInstance();
 		try {
 			$configFile = new \App\ConfigFile('security');
 			foreach (array_keys($moduleModel->listFields) as $fieldName) {
 				if ($request->has($fieldName)) {
-					if ($fieldName === 'proxyConnection') {
-						$proxyValue = false;
-						if ($request->getRaw($fieldName) === '1') {
-							$proxyValue = true;
-						}
+					if ($request->getBoolean($fieldName)) {
+						$proxyValue = $request->getBoolean($fieldName);
 					} else {
-							$proxyValue = $request->getRaw($fieldName);
+						$proxyValue = $request->getByType($fieldName, 'Text');
 					}
 					$configFile->set($fieldName, $proxyValue);
 				}

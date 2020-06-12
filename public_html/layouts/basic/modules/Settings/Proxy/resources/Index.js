@@ -2,7 +2,7 @@
 'use strict';
 
 jQuery.Class(
-	'Settings_Proxy_ConfigEditor_Js',
+	'Settings_Proxy_Index_Js',
 	{},
 	{
 		/*
@@ -13,7 +13,7 @@ jQuery.Class(
 			let params = form.serializeFormData();
 			params.module = app.getModuleName();
 			params.parent = app.getParentModuleName();
-			params.action = 'ConfigProxySaveAjax';
+			params.action = 'SaveAjax';
 			AppConnector.request(params)
 				.done(function (data) {
 					aDeferred.resolve(data);
@@ -69,6 +69,6 @@ jQuery.Class(
 );
 
 jQuery(document).ready(function (e) {
-	var tacInstance = new Settings_Proxy_ConfigEditor_Js();
+	var tacInstance = new Settings_Proxy_Index_Js();
 	tacInstance.registerEvents();
 });

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-Vtiger-ConfigProxyEdit">
+	<div class="tpl-Settings-Proxy-Edit">
 		<div class="contents">
 			<form id="ConfigProxyForm" class="form-horizontal" method="POST">
 				<div class="row widget_header">
@@ -25,10 +25,11 @@
 					</tr>
 					</thead>
 					<tbody>
-					{foreach key=FIELD_NAME item=FIELD_LABEL from=$MODEL->listFields}
-						{assign var="FIELD_MODEL" value=$MODEL->getFieldInstanceByName($FIELD_NAME)->set('fieldvalue',$MODEL->get($FIELD_NAME))}
+
+					{foreach key=FIELD_NAME item=FIELD_LABEL from=$MODULE_MODEL->listFields}
+						{assign var="FIELD_MODEL" value=$MODULE_MODEL->getFieldInstanceByName($FIELD_NAME)->set('fieldvalue', $MODULE_MODEL->get($FIELD_NAME))}
 						<tr>
-							<td width="30%" class="{$WIDTHTYPE} textAlignRight">
+							<td width="30%" class="{$WIDTHTYPE} text-left">
 								<div class="form-row">
 									<label class="col-form-label col-md-4 u-text-small-bold text-left text-md-right">
 										{\App\Language::translate($FIELD_LABEL, $QUALIFIED_MODULE)}

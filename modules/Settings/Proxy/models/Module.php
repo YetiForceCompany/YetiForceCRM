@@ -2,13 +2,18 @@
 /**
  * Settings proxy config module model.
  *
+ * @package   Settings.Module
+ *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Sołek <a.solek@yetiforce.com>
  */
 
-class Settings_Proxy_ConfigModule_Model extends Settings_Vtiger_Module_Model
+class Settings_Proxy_Module_Model extends Settings_Vtiger_Module_Model
 {
+	/**
+	 * Load proxy module list fields.
+	 */
 	public $listFields = [
 		'proxyConnection' => 'LBL_PROXY_CONNECTION',
 		'proxyProtocol' => 'LBL_PROXY_PROTOCOL',
@@ -38,7 +43,7 @@ class Settings_Proxy_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @throws \ReflectionException
 	 *
-	 * @return \Settings_Proxy_ConfigModule_Model|\Settings_Vtiger_Module_Model
+	 * @return \Settings_Proxy_Module_Model|\Settings_Vtiger_Module_Model
 	 */
 	public static function getInstance($name = 'Settings:Proxy')
 	{
@@ -54,19 +59,19 @@ class Settings_Proxy_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return \Settings_Vtiger_Field_Model
 	 */
-	public function getFieldInstanceByName($name)
+	public function getFieldInstanceByName(string $name)
 	{
 		$moduleName = $this->getName(true);
 		$params = ['uitype' => 1, 'column' => $name, 'name' => $name, 'label' => $this->listFields[$name], 'displaytype' => 1, 'typeofdata' => 'I~M', 'presence' => 0, 'isEditableReadOnly' => false];
 		switch ($name) {
 			case 'proxyConnection':
 				$params['uitype'] = 56;
-				$params['typeofdata'] = 'C~O';
+				$params['typeofdata'] = 'V~O';
 				unset($params['validator']);
 				break;
 			case 'proxyProtocol':
 				$params['uitype'] = 16;
-				$params['picklistValues'] = ['http', 'https', 'tcp'];
+				$params['picklistValues'] = ['http' => 'http', 'https' => 'https', 'tcp' => 'tcp'];
 				unset($params['validator']);
 				break;
 			case 'proxyHost':
