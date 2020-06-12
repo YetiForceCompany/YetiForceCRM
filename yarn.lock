@@ -577,9 +577,9 @@ setimmediate@^1.0.5:
   integrity sha1-KQy7Iy4waULX1+qbg3Mqt4VvgoU=
 
 split.js@^1.5.10:
-  version "1.5.11"
-  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.5.11.tgz#3654b2a8c625994e33c531df5c4dea83ca8af011"
-  integrity sha512-ec0sAbWnaMGpNHWo1ZgIlF3Mx7GzSyaO0GlcEBZGIFZQwYPPkbDV6JRpDmpzIshVig7USREuEPudy0ygQaskXg==
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.6.0.tgz#bc49bb484eeea0785192a62d9b748c0f5e673954"
+  integrity sha512-83xRNcvWNuLDdBHpfm25Lzj3H2yCAXvPb+7QIKQMCSd3yjhSMSjLvr7+FZYJb3qc0/U0V2B5QRBrzfAVXSw36g==
 
 store@^2.0.12:
   version "2.0.12"
