@@ -104,9 +104,9 @@ abstract class PaymentsIn_PaymentStatus_Model
 	 */
 	protected static function calculatePaymentStatus(float $sumOfGross, float $sumOfPayments): string
 	{
-		if (\App\Validator::floatIsEqual($sumOfGross, $sumOfPayments, 8)) {
+		if (\App\Validator::floatIsEqual($sumOfGross, $sumOfPayments, 3)) {
 			$paymentStatus = 'PLL_PAID';
-		} elseif (\App\Validator::floatIsEqual(0.0, $sumOfPayments, 8)) {
+		} elseif (\App\Validator::floatIsEqual(0.0, $sumOfPayments, 3)) {
 			$paymentStatus = 'PLL_NOT_PAID';
 		} elseif ($sumOfGross > $sumOfPayments) {
 			$paymentStatus = 'PLL_UNDERPAID';
