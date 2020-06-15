@@ -347,15 +347,20 @@ jQuery.Class(
 			});
 		},
 		loadWidgets: function () {
-			let thisInstance = this;
+			let container = this.getForm();
 			let widgetList = jQuery('[class^="widgetContainer_"]');
-			widgetList.each(function (index, widget) {
+			let length = widgetList.length;
+			widgetList.each((index, widget) => {
 				widget = $(widget);
 				if (widget.is(':visible')) {
-					thisInstance.loadWidget(widget);
+					this.loadWidget(widget);
+				}
+				if(length === index + 1){
+					container.validationEngine('detach');
+					container.validationEngine(app.validationEngineOptionsForRecord);
 				}
 			});
-			thisInstance.registerRelatedModulesRecordCount();
+			this.registerRelatedModulesRecordCount();
 		},
 		loadWidget: function (widgetContainer, params) {
 			const thisInstance = this,
