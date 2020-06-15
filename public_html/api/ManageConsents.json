@@ -84,7 +84,7 @@
                     "Consents"
                 ],
                 "summary": "Gets the list of consents",
-                "operationId": "Api\\ManageConsents\\BaseModule\\RecordsList::get",
+                "operationId": "Api\\ManageConsents\\Approvals\\RecordsList::get",
                 "parameters": [
                     {
                         "name": "x-row-limit",
@@ -375,7 +375,7 @@
             "ApprovalsConditionsRequest": {
                 "title": "Conditions",
                 "description": "The list is based on fields in the Consent register module. fieldName - Field name, value - Value, operator - Specific operator, group - true/false. ",
-                "type": "string",
+                "type": "text",
                 "example": {
                     "fieldName": "approvals_status",
                     "value": "PLL_ACTIVE",

@@ -176,6 +176,68 @@
                 ]
             }
         },
+        "/webservice/{moduleName}/Fields": {
+            "get": {
+                "tags": [
+                    "BaseModule"
+                ],
+                "summary": "Get data about fields",
+                "operationId": "Api\\Portal\\BaseModule\\Fields::get",
+                "parameters": [
+                    {
+                        "name": "moduleName",
+                        "in": "path",
+                        "description": "Module name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Contacts"
+                    },
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Request body does not occur",
+                    "required": false
+                },
+                "responses": {
+                    "200": {
+                        "description": "Fields details",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModule_Fields_ResponseBody"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModule_Fields_ResponseBody"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModule_Fields_ResponseBody"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": "",
+                        "ApiKeyAuth": "",
+                        "token": ""
+                    }
+                ]
+            }
+        },
         "/webservice/{moduleName}/Record/{recordId}": {
             "get": {
                 "tags": [
@@ -729,6 +791,154 @@
                                 "description": "Module name",
                                 "type": "string",
                                 "example": "Accounts"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "BaseModule_Fields_ResponseBody": {
+                "title": "Base module - Response action fields",
+                "description": "Module action fields response body",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            "0",
+                            "1"
+                        ]
+                    },
+                    "result": {
+                        "description": "Fields parameters",
+                        "properties": {
+                            "fields": {
+                                "description": "List of all available fields in the module",
+                                "properties": {
+                                    "id": {
+                                        "description": "Check if record is editable",
+                                        "type": "integer",
+                                        "example": "24862"
+                                    }
+                                },
+                                "type": "object",
+                                "items": {
+                                    "description": "Check if record is editable",
+                                    "type": "boolean",
+                                    "items": "isEditable",
+                                    "example": "false"
+                                }
+                            },
+                            "blocks": {
+                                "description": "Block data",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Block id from the database",
+                                    "properties": {
+                                        "block id": {
+                                            "description": "Block id",
+                                            "type": "integer",
+                                            "example": "195"
+                                        },
+                                        "tabid": {
+                                            "description": "Module id",
+                                            "type": "integer",
+                                            "example": "9"
+                                        },
+                                        "label": {
+                                            "description": "Block label",
+                                            "type": "string",
+                                            "example": "Account details"
+                                        },
+                                        "sequence": {
+                                            "description": "Block sequence",
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "showtitle": {
+                                            "description": "Specifies whether the title should be visible",
+                                            "type": "integer",
+                                            "example": "0"
+                                        },
+                                        "visible": {
+                                            "description": "Determines the visibility",
+                                            "type": "integer",
+                                            "example": "0"
+                                        },
+                                        "increateview": {
+                                            "description": "Determines the visibility in creat view",
+                                            "type": "integer",
+                                            "example": "0"
+                                        },
+                                        "ineditview": {
+                                            "description": "Determines the visibility in edit view",
+                                            "type": "integer",
+                                            "example": "0"
+                                        },
+                                        "indetailview": {
+                                            "description": "Determines the visibility in detail view",
+                                            "type": "integer",
+                                            "example": "0"
+                                        },
+                                        "display_status": {
+                                            "description": "Determines whether the block should be expanded",
+                                            "type": "integer",
+                                            "example": "2"
+                                        },
+                                        "iscustom": {
+                                            "description": "Determines if the block has been added by the user",
+                                            "type": "integer",
+                                            "example": "0"
+                                        },
+                                        "icon": {
+                                            "description": "Block icon class",
+                                            "type": "string",
+                                            "example": "far fa-calendar-alt"
+                                        },
+                                        "name": {
+                                            "description": "Block name translated into the user's language",
+                                            "type": "string",
+                                            "example": "Informacje podstawowe o firmie"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "inventory": {
+                                "description": "Inventory field list",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Inventory field details",
+                                    "properties": {
+                                        "label": {
+                                            "description": "Translate field label",
+                                            "type": "string",
+                                            "example": "Double"
+                                        },
+                                        "type": {
+                                            "description": "Field type",
+                                            "type": "string",
+                                            "example": "Double"
+                                        },
+                                        "columnname": {
+                                            "description": "Field column name in db",
+                                            "type": "string",
+                                            "example": "double"
+                                        },
+                                        "isSummary": {
+                                            "description": "Is the field contains summary",
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "isVisibleInDetail": {
+                                            "description": "Check if field is visible in detail view",
+                                            "type": "boolean",
+                                            "example": "false"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
                             }
                         },
                         "type": "object"
