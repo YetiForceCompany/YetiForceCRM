@@ -30,7 +30,7 @@
 			{if $OWNERS}
 				<optgroup label="{\App\Language::translate($BLOCK_NAME)}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$OWNERS}
-						<option id="{\App\Layout::getUniqueId('owner')}" value="{$OWNER_ID}"
+						<option value="{$OWNER_ID}"
 								data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected="selected" {/if}
 								data-userId="{$CURRENT_USER_ID}"
 								{if $SHOW_FAVORITE_OWNERS}
