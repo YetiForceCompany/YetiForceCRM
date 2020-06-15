@@ -230,7 +230,7 @@ class Order extends Inventory
 	public function getUpdateData(): array
 	{
 		if (empty(self::$statusForMagento[$this->dataCrm['ssingleorders_status']])) {
-			return false;
+			return [];
 		}
 		return [
 			'entity' => array_merge([

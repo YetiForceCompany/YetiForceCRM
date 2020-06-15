@@ -257,6 +257,7 @@ class Order extends Record
 		if ($updateData = $mapModel->getUpdateData()) {
 			$this->connector->request('POST', $this->config->get('store_code') . '/V1/orders/', $updateData);
 		} else {
+			\App\Log::error("No status mapping for: crmid: {$row['id']} | magento_id: {$row['magento_id']} | status: {$row['ssingleorders_status']}", 'Integrations/Magento');
 			throw new \Exception('No status mapping (in self::$statusForMagento): ' . $mapModel->dataCrm['ssingleorders_status']);
 		}
 	}
