@@ -564,24 +564,29 @@ components:
           properties:
             fields:
               description: 'List of all available fields in the module'
-              properties:
-                id:
-                  description: 'Check if record is editable'
-                  type: integer
-                  example: '24862'
               type: object
-              items:
-                description: 'Check if record is editable'
-                type: boolean
-                items: isEditable
-                example: 'false'
+              additionalProperties:
+                properties:
+                  id: { description: 'Check if record is editable', type: integer, example: '24862' }
+                  isEditable: { description: 'Check if record is editable', type: boolean, example: 'false' }
+                  isViewable: { description: 'Check if record is viewable', type: boolean, example: 'false' }
+                  isEditableReadOnly: { description: 'Check if record is editable or read only', type: boolean, example: 'false' }
+                  sequence: { description: 'Sequence field', type: integer, example: '24862' }
+                  fieldparams: { description: 'Field params', type: object }
+                  dbStructure: { description: 'Info about field structure in database', type: object }
+                  isEmptyPicklistOptionAllowed: { description: 'Defines empty picklist element availability', type: boolean, example: 'false' }
+                type: object
+                items:
+                  description: 'List of modules the field refernced to'
+                  type: array
+                  items: referenceList
             blocks:
               description: 'Block data'
               type: object
               additionalProperties:
-                description: 'Block id from the database'
+                description: 'Block details'
                 properties:
-                  'block id': { description: 'Block id', type: integer, example: '195' }
+                  id: { description: 'Block id', type: integer, example: '195' }
                   tabid: { description: 'Module id', type: integer, example: '9' }
                   label: { description: 'Block label', type: string, example: 'Account details' }
                   sequence: { description: 'Block sequence', type: integer, example: '1' }
@@ -601,11 +606,11 @@ components:
               additionalProperties:
                 description: 'Inventory field details'
                 properties:
-                  label: { description: 'Translate field label', type: string, example: Double }
+                  label: { description: 'Field label translated into the user''s language', type: string, example: Double }
                   type: { description: 'Field type', type: string, example: Double }
                   columnname: { description: 'Field column name in db', type: string, example: double }
                   isSummary: { description: 'Is the field contains summary', type: boolean, example: 'false' }
-                  isVisibleInDetail: { description: 'Check if field is visible in detail view', type: boolean, example: 'false' }
+                  isVisibleInDetail: { description: 'Check if field is visible in detail view', type: boolean, example: 'true' }
                 type: object
           type: object
       type: object

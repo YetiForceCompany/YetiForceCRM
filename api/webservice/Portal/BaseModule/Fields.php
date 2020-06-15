@@ -76,28 +76,30 @@ class Fields extends \Api\Core\BaseAction
 	 *				property="fields",
 	 *				description="List of all available fields in the module",
 	 *				type="object",
-	 *				@OA\Property(property="id", type="integer", description="Check if record is editable", example="24862"),
-	 *				@OA\Items(items="isEditable", description="Check if record is editable", type="boolean", example="false"),
-	 *				@OA\Items(items="isViewable", description="Check if record is viewable", type="boolean", example="false"),
-	 *				@OA\Items(items="isEditableReadOnly", description="Check if record is editable or read only", type="boolean", example="false"),
-	 *				@OA\Items(items="sequence", description="Sequence field", type="integer", example="24862"),
-	 *				@OA\Items(items="fieldparams", description="Field params", type="array"),
-	 *				@OA\Items(items="dbStructure", description="Info about field structure in database", type="array"),
-	 *				@OA\Items(items="isEmptyPicklistOptionAllowed", description="Defines empty picklist element availability", type="boolean", example="false"),
-	 *				@OA\Items(
-	 *					items="referenceList",
-	 *					description="List of modules the field refernced to",
-	 *					type="array",
-	 *					@OA\Items(items="Accounts", description="Module name", example="Accounts"),
-	 *				),
-	 *				@OA\Items(
-	 *					items="treeValues",
-	 *					description="Tree values for jstree",
-	 *					type="array",
-	 *					@OA\Items(items="id", description="Number tree without prefix", type="integer", example="1"),
-	 *					@OA\Items(items="tree", description="Template badge", type="string", example="T1"),
-	 *					@OA\Items(items="parent", description="Template parent badge", type="string", example="T1"),
-	 *					@OA\Items(items="text", description="Template name", type="string", example="Category"),
+	 *				@OA\AdditionalProperties(
+	 *					@OA\Property(property="id", type="integer", description="Check if record is editable", example="24862"),
+	 *					@OA\Property(property="isEditable", description="Check if record is editable", type="boolean", example="false"),
+	 *					@OA\Property(property="isViewable", description="Check if record is viewable", type="boolean", example="false"),
+	 *					@OA\Property(property="isEditableReadOnly", description="Check if record is editable or read only", type="boolean", example="false"),
+	 *					@OA\Property(property="sequence", description="Sequence field", type="integer", example="24862"),
+	 *					@OA\Property(property="fieldparams", description="Field params", type="object"),
+	 *					@OA\Property(property="dbStructure", description="Info about field structure in database", type="object"),
+	 *					@OA\Property(property="isEmptyPicklistOptionAllowed", description="Defines empty picklist element availability", type="boolean", example="false"),
+	 *					@OA\Items(
+	 *						items="referenceList",
+	 *						description="List of modules the field refernced to",
+	 *						type="array",
+	 *						@OA\Items(items="Accounts", description="Module name", example="Accounts"),
+	 *					),
+	 *					@OA\Items(
+	 *						items="treeValues",
+	 *						description="Tree values for jstree",
+	 *						type="array",
+	 *						@OA\Items(items="id", description="Number tree without prefix", type="integer", example="1"),
+	 *							@OA\Items(items="tree", description="Template badge", type="string", example="T1"),
+	 *						@OA\Items(items="parent", description="Template parent badge", type="string", example="T1"),
+	 *						@OA\Items(items="text", description="Template name", type="string", example="Category"),
+	 *					),
 	 *				),
 	 *			),
 	 *			@OA\Property(
@@ -162,7 +164,6 @@ class Fields extends \Api\Core\BaseAction
 			$fieldInfo['fieldparams'] = $fieldModel->getFieldParams();
 			$fieldInfo['blockId'] = $block->id;
 			$fieldInfo['dbStructure'] = $fieldModel->getDBColumnType(false);
-			$fieldInfo['queryOperators'] = $fieldModel->getQueryOperators();
 			$fieldInfo['queryOperators'] = array_map(function ($value) use ($moduleName) {
 				return \App\Language::translate($value, $moduleName);
 			}, $fieldModel->getQueryOperators());
