@@ -79,8 +79,8 @@
     "abraham/twitteroauth": "^1.0"
   },
   "require-dev": {
-    "zircote/swagger-php": "^3.0.2",
-    "facebook/webdriver": "^1.6.0",
+    "zircote/swagger-php": "^3.0.4",
+    "facebook/webdriver": "^1.8.2",
     "phpunit/phpunit": "8.*",
     "seld/jsonlint": "*",
     "php-console/php-console": "^3.1"
