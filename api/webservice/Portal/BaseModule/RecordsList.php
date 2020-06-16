@@ -22,6 +22,134 @@ class RecordsList extends \Api\Core\BaseAction
 	 * Get method.
 	 *
 	 * @return array
+	 *
+	 * @OA\GET(
+	 *		path="/webservice/{moduleName}/RecordsList",
+	 *		summary="Gets the list of consents",
+	 *		tags={"BaseModule"},
+	 *		security={
+	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *	},
+	 *		@OA\RequestBody(
+	 *				required=false,
+	 *				description="The content of the request is empty",
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-condition",
+	 * 			description="Add conditions [Json format]",
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody"),
+	 *			in="header",
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-row-offset",
+	 *			description="Offset",
+	 *			@OA\Schema(
+	 *				type="integer",
+	 *				format="int64",
+	 *			),
+	 *			in="header",
+	 *			example="0",
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-row-limit",
+	 *			description="Get row limit",
+	 *			@OA\Schema(
+	 *				type="integer",
+	 *				format="int64",
+	 *			),
+	 *			in="header",
+	 *			example="0",
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-fields",
+	 *			description="Get fields",
+	 *			@OA\Schema(
+	 * 				type="string",
+	 *			),
+	 *			in="header",
+	 *			example="1",
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-row-order-field",
+	 *			description="Get order field",
+	 *			@OA\Schema(
+	 *				type="alnumExtended",
+	 *			),
+	 *			in="header",
+	 *			example="1",
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-row-order",
+	 *			description="Get row order",
+	 *			@OA\Schema(
+	 *			type="alnum"
+	 *			),
+	 *			in="header",
+	 *			example="1",
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-parent-id",
+	 *			description="Get parent id",
+	 *			@OA\Schema(
+	 *			type="integer",
+	 *			format="int64",
+	 *			),
+	 *			in="header",
+	 *			example="1",
+	 *			required=false
+	 *		),
+	 *		@OA\Response(
+	 *				response=200,
+	 *				description="List of consents",
+	 *				@OA\JsonContent(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody"),
+	 *				@OA\MediaType(
+	 *						mediaType="text/html",
+	 *						@OA\Schema(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody")
+	 *				),
+	 *		),
+	 *),
+	 * @OA\Schema(
+	 *		schema="BaseModule_RecordsList_ResponseBody",
+	 *		title="Base module - Response action record list",
+	 *		description="Module action record list response body",
+	 *		type="object",
+	 *		@OA\Property(
+	 *			property="status",
+	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			enum={"0", "1"},
+	 *			type="integer",
+	 *		),
+	 *		@OA\Property(
+	 *			property="result",
+	 *			description="Information about sent data",
+	 *			type="object",
+	 *			@OA\AdditionalProperties(property="headers", description="Column names", type="string", example="accountname"),
+	 *			@OA\AdditionalProperties(
+	 *				property="records",
+	 *				description="Contains field names with values",
+	 *				type="object",
+	 *				@OA\Property(property="recordLabel", description="Get value form field", type="string", example="Kowalski Adam"),
+	 *			),
+	 *			@OA\AdditionalProperties(
+	 *				property="rawData",
+	 *				type="object",
+	 *				@OA\Property(
+	 *					property="24862",
+	 *					description="Raw data from row",
+	 *					type="object",
+	 *					@OA\Property(property="id", description="Consent ID", type="integer", example=24862),
+	 *				),
+	 *			),
+	 *			@OA\AdditionalProperties(property="count", description="Number of records", type="intiger", example="10"),
+	 *			@OA\AdditionalProperties(property="isMorePages", description="There are more entries", type="boolean", example="true"),
+	 *		),
+	 *	),
 	 */
 	public function get()
 	{
@@ -57,15 +185,18 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function getQuery()
 	{
+
 		$queryGenerator = new \App\QueryGenerator($this->controller->request->getModule());
 		$queryGenerator->initForDefaultCustomView();
 		$limit = 1000;
 		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
 			$limit = (int) $requestLimit;
 		}
+
 		if ($orderField = $this->controller->request->getHeader('x-row-order-field')) {
 			$queryGenerator->setOrder($orderField, $this->controller->request->getHeader('x-row-order'));
 		}
+
 		$offset = 0;
 		if ($requestOffset = $this->controller->request->getHeader('x-row-offset')) {
 			$offset = (int) $requestOffset;
@@ -76,6 +207,7 @@ class RecordsList extends \Api\Core\BaseAction
 			$queryGenerator->setFields(\App\Json::decode($requestFields));
 			$queryGenerator->setField('id');
 		}
+
 		if ($conditions = $this->controller->request->getHeader('x-condition')) {
 			$conditions = \App\Json::decode($conditions);
 			if (isset($conditions['fieldName'])) {
