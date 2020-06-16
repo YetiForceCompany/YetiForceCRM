@@ -347,8 +347,10 @@ class Record extends \Api\Core\BaseAction
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
 	 *		},
 	 *		@OA\RequestBody(
-	 *			required=false,
+	 *			required=true,
 	 *			description="Contents of the request contains an associative array with the data record.",
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Record_Request"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Record_Request"),
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="moduleName",
@@ -398,6 +400,13 @@ class Record extends \Api\Core\BaseAction
 	 *			@OA\Property(property="id", description="Id of the newly created record", type="integer", example=22),
 	 *		),
 	 * ),
+	 * @OA\Schema(
+	 *		schema="BaseModule_Record_Request",
+	 *		title="Request body for record create or update",
+	 *		description="Contents of the request contains an associative array with the data record.",
+	 *		type="object",
+	 *		example={"firstname" : "Tom", "lastname" : "Kowalski"},
+	 * ),
 	 */
 	public function put()
 	{
@@ -417,8 +426,10 @@ class Record extends \Api\Core\BaseAction
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
 	 *		},
 	 *		@OA\RequestBody(
-	 *			required=false,
+	 *			required=true,
 	 *			description="Contents of the request contains an associative array with the data record.",
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Record_Request"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Record_Request"),
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="moduleName",

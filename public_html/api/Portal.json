@@ -351,7 +351,19 @@
                 ],
                 "requestBody": {
                     "description": "Contents of the request contains an associative array with the data record.",
-                    "required": false
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BaseModule_Record_Request"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BaseModule_Record_Request"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
@@ -473,7 +485,19 @@
                 ],
                 "requestBody": {
                     "description": "Contents of the request contains an associative array with the data record.",
-                    "required": false
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BaseModule_Record_Request"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BaseModule_Record_Request"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
@@ -1376,6 +1400,15 @@
                     }
                 },
                 "type": "object"
+            },
+            "BaseModule_Record_Request": {
+                "title": "Request body for record create or update",
+                "description": "Contents of the request contains an associative array with the data record.",
+                "type": "object",
+                "example": {
+                    "firstname": "Tom",
+                    "lastname": "Kowalski"
+                }
             },
             "BaseModule_Post_Record_Response": {
                 "title": "Created records",
