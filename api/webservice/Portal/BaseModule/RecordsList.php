@@ -148,28 +148,23 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function get()
 	{
-		$rawData = $records = $headers = [];
+		$response = ['records' => []];
 		$queryGenerator = $this->getQuery();
 		$fieldsModel = $queryGenerator->getListViewFields();
 		$limit = $queryGenerator->getLimit();
-		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$isRawData = $this->isRawData();
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$records[$row['id']] = $this->getRecordFromRow($row, $fieldsModel);
+			$response['records'][$row['id']] = $this->getRecordFromRow($row, $fieldsModel);
 			if ($isRawData) {
-				$rawData[$row['id']] = $this->getRawDataFromRow($row);
+				$response['rawData'][$row['id']] = $this->getRawDataFromRow($row);
 			}
 		}
 		$dataReader->close();
-		$headers = $this->getColumnNames($fieldsModel);
-		$rowsCount = \count($records);
-		return [
-			'headers' => $headers,
-			'records' => $records,
-			'rawData' => $rawData,
-			'count' => $rowsCount,
-			'isMorePages' => $rowsCount === $limit,
-		];
+		$response['headers'] = $this->getColumnNames($fieldsModel);
+		$response['count'] = \count($response['records']);
+		$response['isMorePages'] = $response['count'] === $limit;
+		return $response;
 	}
 
 	/**
