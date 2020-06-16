@@ -25,7 +25,7 @@ class Developer
 	{
 		set_error_handler(function ($errNo, $errStr, $errFile, $errLine) {
 			$errorString = \App\ErrorHandler::error2string($errNo);
-			$msg = reset($errorString) . ": $errStr in $errFile, line $errLine" . PHP_EOL;
+			$msg = reset($errorString) . ": {$errStr}\nFile: {$errFile}\nLine: $errLine" . PHP_EOL;
 			echo "<pre>$msg</pre><hr>";
 		}, E_ALL);
 		$json = '';
@@ -48,7 +48,7 @@ class Developer
 		if ($errorHandler) {
 			set_error_handler(function ($errNo, $errStr, $errFile, $errLine) {
 				$errorString = \App\ErrorHandler::error2string($errNo);
-				$msg = reset($errorString) . ": $errStr in $errFile, line $errLine" . PHP_EOL;
+				$msg = reset($errorString) . ": {$errStr}\nFile: {$errFile}\nLine: $errLine" . PHP_EOL;
 				echo "<pre>$msg</pre><hr>";
 			}, E_ALL);
 		}
