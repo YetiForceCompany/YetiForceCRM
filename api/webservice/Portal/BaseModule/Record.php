@@ -5,10 +5,10 @@
  * @package Api
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- * @author 		Arkadiusz Adach <a.adach@yetiforce.com>
+ * @license	YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author	Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author	Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author	Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
 namespace Api\Portal\BaseModule;
@@ -87,7 +87,7 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/{moduleName}/Record/{recordId}",
-	 *		summary="Gets data for the record",
+	 *		summary="Get data for the record",
 	 *		tags={"BaseModule"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
@@ -99,9 +99,7 @@ class Record extends \Api\Core\BaseAction
 	 *		@OA\Parameter(
 	 *			name="moduleName",
 	 *			description="Module name",
-	 *			@OA\Schema(
-	 *				type="string"
-	 *			),
+	 *			@OA\Schema(type="string"),
 	 *			in="path",
 	 *			example="Contacts",
 	 *			required=true
@@ -150,10 +148,6 @@ class Record extends \Api\Core\BaseAction
 	 *			description="Gets data for the record",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Get_Record_Response"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Get_Record_Response"),
-	 *			@OA\MediaType(
-	 *					mediaType="text/html",
-	 *					@OA\Schema(ref="#/components/schemas/BaseModule_Get_Record_Response")
-	 *			),
 	 *		),
 	 *		@OA\Response(
 	 *			response=403,
@@ -326,14 +320,10 @@ class Record extends \Api\Core\BaseAction
 	 *				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
 	 *		),
 	 *		@OA\Response(
-	 *				response=200,
-	 *				description="List of records moved to the trash",
-	 *				@OA\JsonContent(ref="#/components/schemas/BaseModule_Delete_Record_Response"),
-	 *				@OA\XmlContent(ref="#/components/schemas/BaseModule_Delete_Record_Response"),
-	 *				@OA\MediaType(
-	 *						mediaType="text/html",
-	 *						@OA\Schema(ref="#/components/schemas/BaseModule_Delete_Record_Response")
-	 *			),
+	 *			response=200,
+	 *			description="List of records moved to the trash",
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Delete_Record_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Delete_Record_Response"),
 	 *		),
 	 * ),
 	 * @OA\Schema(
@@ -409,10 +399,6 @@ class Record extends \Api\Core\BaseAction
 	 *				description="Gets data for the record",
 	 *				@OA\JsonContent(ref="#/components/schemas/BaseModule_Put_Record_Response"),
 	 *				@OA\XmlContent(ref="#/components/schemas/BaseModule_Put_Record_Response"),
-	 *				@OA\MediaType(
-	 *						mediaType="text/html",
-	 *						@OA\Schema(ref="#/components/schemas/BaseModule_Put_Record_Response")
-	 *				),
 	 *		),
 	 * ),
 	 * @OA\Schema(
@@ -473,14 +459,10 @@ class Record extends \Api\Core\BaseAction
 	 *				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
 	 *		),
 	 *		@OA\Response(
-	 *				response=200,
-	 *				description="List of records created",
-	 *				@OA\JsonContent(ref="#/components/schemas/BaseModule_Post_Record_Response"),
-	 *				@OA\XmlContent(ref="#/components/schemas/BaseModule_Post_Record_Response"),
-	 *				@OA\MediaType(
-	 *						mediaType="text/html",
-	 *						@OA\Schema(ref="#/components/schemas/BaseModule_Post_Record_Response")
-	 *			),
+	 *			response=200,
+	 *			description="List of records created",
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_Post_Record_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_Post_Record_Response"),
 	 *		),
 	 * ),
 	 * @OA\Schema(

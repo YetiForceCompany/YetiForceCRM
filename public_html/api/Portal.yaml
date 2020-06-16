@@ -150,7 +150,7 @@ paths:
     get:
       tags:
         - BaseModule
-      summary: 'Gets data for the record'
+      summary: 'Get data for the record'
       operationId: 'Api\Portal\BaseModule\Record::get'
       parameters:
         -
@@ -344,6 +344,111 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/BaseModule_Post_Record_Response'
+      security:
+        -
+          basicAuth: ''
+          ApiKeyAuth: ''
+          token: ''
+  '/webservice/{moduleName}/RecordsList':
+    get:
+      tags:
+        - BaseModule
+      summary: 'Get the list of records'
+      operationId: 'Api\Portal\BaseModule\RecordsList::get'
+      parameters:
+        -
+          name: moduleName
+          in: path
+          description: 'Module name'
+          required: true
+          schema:
+            type: string
+          example: Contacts
+        -
+          name: x-row-limit
+          in: header
+          description: 'Get rows limit, default: 1000'
+          required: false
+          schema:
+            type: integer
+          example: 1000
+        -
+          name: x-row-offset
+          in: header
+          description: 'Offset, default: 0'
+          required: false
+          schema:
+            type: integer
+          example: 0
+        -
+          name: x-row-order-field
+          in: header
+          description: 'Sets the ORDER BY part of the query record list'
+          required: false
+          schema:
+            type: string
+          example: lastname
+        -
+          name: x-row-order
+          in: header
+          description: 'Sorting direction'
+          required: false
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+          example: DESC
+        -
+          name: x-fields
+          in: header
+          description: 'JSON array in the list of fields to be returned in response'
+          required: false
+          example: []
+          content:
+            application/json:
+              mediaType: application/json
+              schema:
+                type: array
+                items:
+                  type: string
+        -
+          name: x-condition
+          in: header
+          description: 'Conditions [Json format]'
+          required: false
+          content:
+            application/json:
+              mediaType: application/json
+              schema:
+                description: 'Conditions details'
+                properties:
+                  fieldName: { description: 'Field name', type: string, example: lastname }
+                  value: { description: 'Search value', type: string, example: Kowalski }
+                  operator: { description: 'Field operator', type: string, example: e }
+                  group: { description: 'Condition group if true is AND', type: boolean, example: true }
+                type: object
+        -
+          name: x-parent-id
+          in: header
+          description: 'Parent record id'
+          required: false
+          schema:
+            type: integer
+          example: 5
+      requestBody:
+        description: 'The content of the request is empty'
+        required: false
+      responses:
+        '200':
+          description: 'List of consents'
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/BaseModule_RecordsList_ResponseBody'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseModule_RecordsList_ResponseBody'
       security:
         -
           basicAuth: ''
@@ -722,6 +827,17 @@ components:
             description: 'Id of the newly created record'
             type: integer
             items: id
+      type: object
+    BaseModule_RecordsList_ResponseBody:
+      title: 'Base module - Response action record list'
+      description: 'Module action record list response body'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - '0'
+            - '1'
       type: object
     X-ENCRYPTED:
       description: 'Is the content request is encrypted'

@@ -1,13 +1,20 @@
 <?php
-
-namespace Api\Portal\BaseModule;
-
 /**
- * Get record list class.
+ * Get record list file.
+ *
+ * @package Api
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace Api\Portal\BaseModule;
+
+use OpenApi\Annotations as OA;
+
+/**
+ * Get record list class.
  */
 class RecordsList extends \Api\Core\BaseAction
 {
@@ -19,99 +26,102 @@ class RecordsList extends \Api\Core\BaseAction
 	public $allowedHeaders = ['x-condition', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-row-order-field', 'x-row-order', 'x-parent-id'];
 
 	/**
-	 * Get method.
+	 * Get record list method.
 	 *
 	 * @return array
 	 *
 	 * @OA\GET(
 	 *		path="/webservice/{moduleName}/RecordsList",
-	 *		summary="Gets the list of consents",
+	 *		summary="Get the list of records",
 	 *		tags={"BaseModule"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
-	 *	},
+	 *		},
 	 *		@OA\RequestBody(
-	 *				required=false,
-	 *				description="The content of the request is empty",
+	 *			required=false,
+	 *			description="The content of the request is empty",
 	 *		),
 	 *		@OA\Parameter(
-	 *			name="x-condition",
-	 * 			description="Add conditions [Json format]",
-	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody"),
+	 *			name="moduleName",
+	 *			description="Module name",
+	 *			@OA\Schema(type="string"),
+	 *			in="path",
+	 *			example="Contacts",
+	 *			required=true
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-row-limit",
+	 *			description="Get rows limit, default: 1000",
+	 *			@OA\Schema(type="integer"),
 	 *			in="header",
+	 *			example=1000,
 	 *			required=false
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-row-offset",
-	 *			description="Offset",
-	 *			@OA\Schema(
-	 *				type="integer",
-	 *				format="int64",
-	 *			),
+	 *			description="Offset, default: 0",
+	 *			@OA\Schema(type="integer"),
 	 *			in="header",
-	 *			example="0",
-	 *			required=false
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-row-limit",
-	 *			description="Get row limit",
-	 *			@OA\Schema(
-	 *				type="integer",
-	 *				format="int64",
-	 *			),
-	 *			in="header",
-	 *			example="0",
-	 *			required=false
-	 *		),
-	 *		@OA\Parameter(
-	 *			name="x-fields",
-	 *			description="Get fields",
-	 *			@OA\Schema(
-	 * 				type="string",
-	 *			),
-	 *			in="header",
-	 *			example="1",
+	 *			example=0,
 	 *			required=false
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-row-order-field",
-	 *			description="Get order field",
-	 *			@OA\Schema(
-	 *				type="alnumExtended",
-	 *			),
+	 *			description="Sets the ORDER BY part of the query record list",
+	 *			@OA\Schema(type="string"),
 	 *			in="header",
-	 *			example="1",
+	 *			example="lastname",
 	 *			required=false
 	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-row-order",
-	 *			description="Get row order",
-	 *			@OA\Schema(
-	 *			type="alnum"
-	 *			),
+	 *			description="Sorting direction",
+	 *			@OA\Schema(type="string", enum={"ASC", "DESC"}),
 	 *			in="header",
-	 *			example="1",
+	 *			example="DESC",
 	 *			required=false
 	 *		),
 	 *		@OA\Parameter(
-	 *			name="x-parent-id",
-	 *			description="Get parent id",
-	 *			@OA\Schema(
-	 *			type="integer",
-	 *			format="int64",
-	 *			),
+	 *			name="x-fields",
+	 *			description="JSON array in the list of fields to be returned in response",
 	 *			in="header",
-	 *			example="1",
+	 *			example={},
+	 *			required=false,
+	 *			@OA\JsonContent(
+	 *				type="array",
+	 * 				@OA\Items(type="string"),
+	 * 			)
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-condition",
+	 * 			description="Conditions [Json format]",
+	 *			in="header",
+	 *			required=false,
+	 *			@OA\JsonContent(
+	 *				description="Conditions details",
+	 *				type="object",
+	 *				@OA\Property(property="fieldName", description="Field name", type="string", example="lastname"),
+	 *				@OA\Property(property="value", description="Search value", type="string", example="Kowalski"),
+	 *				@OA\Property(property="operator", description="Field operator", type="string", example="e"),
+	 *				@OA\Property(property="group", description="Condition group if true is AND", type="boolean", example=true),
+	 *			),
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-parent-id",
+	 *			description="Parent record id",
+	 *			@OA\Schema(type="integer"),
+	 *			in="header",
+	 *			example=5,
 	 *			required=false
 	 *		),
 	 *		@OA\Response(
-	 *				response=200,
-	 *				description="List of consents",
-	 *				@OA\JsonContent(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody"),
-	 *				@OA\MediaType(
-	 *						mediaType="text/html",
-	 *						@OA\Schema(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody")
-	 *				),
+	 *			response=200,
+	 *			description="List of consents",
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody"),
+	 *			@OA\MediaType(
+	 *				mediaType="text/html",
+	 *				@OA\Schema(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody")
+	 *			),
 	 *		),
 	 *),
 	 * @OA\Schema(
@@ -125,30 +135,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 *			enum={"0", "1"},
 	 *			type="integer",
 	 *		),
-	 *		@OA\Property(
-	 *			property="result",
-	 *			description="Information about sent data",
-	 *			type="object",
-	 *			@OA\AdditionalProperties(property="headers", description="Column names", type="string", example="accountname"),
-	 *			@OA\AdditionalProperties(
-	 *				property="records",
-	 *				description="Contains field names with values",
-	 *				type="object",
-	 *				@OA\Property(property="recordLabel", description="Get value form field", type="string", example="Kowalski Adam"),
-	 *			),
-	 *			@OA\AdditionalProperties(
-	 *				property="rawData",
-	 *				type="object",
-	 *				@OA\Property(
-	 *					property="24862",
-	 *					description="Raw data from row",
-	 *					type="object",
-	 *					@OA\Property(property="id", description="Consent ID", type="integer", example=24862),
-	 *				),
-	 *			),
-	 *			@OA\AdditionalProperties(property="count", description="Number of records", type="intiger", example="10"),
-	 *			@OA\AdditionalProperties(property="isMorePages", description="There are more entries", type="boolean", example="true"),
-	 *		),
+	 *
 	 *	),
 	 */
 	public function get()
@@ -185,7 +172,6 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function getQuery()
 	{
-
 		$queryGenerator = new \App\QueryGenerator($this->controller->request->getModule());
 		$queryGenerator->initForDefaultCustomView();
 		$limit = 1000;

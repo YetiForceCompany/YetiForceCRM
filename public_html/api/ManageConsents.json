@@ -119,8 +119,13 @@
                         "in": "header",
                         "description": "Add conditions [Json format]",
                         "required": false,
-                        "schema": {
-                            "$ref": "#/components/schemas/ApprovalsConditionsRequest"
+                        "content": {
+                            "application/json": {
+                                "mediaType": "application/json",
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApprovalsConditionsRequest"
+                                }
+                            }
                         }
                     }
                 ],

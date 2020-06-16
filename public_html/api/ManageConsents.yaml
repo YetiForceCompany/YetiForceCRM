@@ -87,8 +87,11 @@ paths:
           in: header
           description: 'Add conditions [Json format]'
           required: false
-          schema:
-            $ref: '#/components/schemas/ApprovalsConditionsRequest'
+          content:
+            application/json:
+              mediaType: application/json
+              schema:
+                $ref: '#/components/schemas/ApprovalsConditionsRequest'
       requestBody:
         description: 'The content of the request is empty'
         required: false
