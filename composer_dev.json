@@ -81,7 +81,7 @@
   "require-dev": {
     "zircote/swagger-php": "^3.0.4",
     "facebook/webdriver": "^1.8.2",
-    "phpunit/phpunit": "8.*",
+    "phpunit/phpunit": "9.*",
     "seld/jsonlint": "*",
     "php-console/php-console": "^3.1"
   },
@@ -93,9 +93,7 @@
     "ext-opcache": "Improve system performance"
   },
   "archive": {
-    "exclude": [
-      "tests"
-    ]
+    "exclude": ["tests"]
   },
   "config": {
     "autoloader-suffix": "YT",
@@ -103,9 +101,7 @@
     "classmap-authoritative": false
   },
   "autoload": {
-    "files": [
-      "app/Loader.php"
-    ],
+    "files": ["app/Loader.php"],
     "psr-4": {
       "vtlib\\": "vtlib/Vtiger/",
       "includes\\": "include/",
