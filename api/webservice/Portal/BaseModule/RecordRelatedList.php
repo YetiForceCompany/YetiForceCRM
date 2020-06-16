@@ -48,10 +48,11 @@ class RecordRelatedList extends \Api\Core\BaseAction
 		foreach ($relationListView->getHeaders() as $fieldName => $fieldModel) {
 			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
 		}
+		$isRawData = $this->isRawData();
 		foreach ($relationListView->getEntries($pagingModel) as $id => $relatedRecordModel) {
 			foreach ($headers as $fieldName => $fieldModel) {
 				$records[$id][$fieldName] = $relatedRecordModel->getDisplayValue($fieldName, $id, true);
-				if ($this->isRawData()) {
+				if ($isRawData) {
 					$rawData[$id][$fieldName] = $relatedRecordModel->get($fieldName);
 				}
 			}

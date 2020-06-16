@@ -544,6 +544,20 @@
                         "example": "Contacts"
                     },
                     {
+                        "name": "x-raw-data",
+                        "in": "header",
+                        "description": "Get rows limit, default: 0",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        },
+                        "example": 1
+                    },
+                    {
                         "name": "x-row-limit",
                         "in": "header",
                         "description": "Get rows limit, default: 1000",

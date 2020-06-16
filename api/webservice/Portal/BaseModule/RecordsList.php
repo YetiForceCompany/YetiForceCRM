@@ -50,6 +50,14 @@ class RecordsList extends \Api\Core\BaseAction
 	 *			required=true
 	 *		),
 	 *		@OA\Parameter(
+	 *			name="x-raw-data",
+	 *			description="Get rows limit, default: 0",
+	 *			@OA\Schema(type="integer", enum={0, 1}),
+	 *			in="header",
+	 *			example=1,
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
 	 *			name="x-row-limit",
 	 *			description="Get rows limit, default: 1000",
 	 *			@OA\Schema(type="integer"),
@@ -145,9 +153,10 @@ class RecordsList extends \Api\Core\BaseAction
 		$fieldsModel = $queryGenerator->getListViewFields();
 		$limit = $queryGenerator->getLimit();
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		$isRawData = $this->isRawData();
 		while ($row = $dataReader->read()) {
 			$records[$row['id']] = $this->getRecordFromRow($row, $fieldsModel);
-			if ($this->isRawData()) {
+			if ($isRawData) {
 				$rawData[$row['id']] = $this->getRawDataFromRow($row);
 			}
 		}
