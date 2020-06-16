@@ -44,10 +44,6 @@ class Modules extends \Api\Core\BaseAction
 	 *			description="List of active modules",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseActionModulesResponseBody"),
 	 *			@OA\XmlContent(ref="#/components/schemas/BaseActionModulesResponseBody"),
-	 *			@OA\MediaType(
-	 *				mediaType="text/html",
-	 *				@OA\Schema(ref="#/components/schemas/BaseActionModulesResponseBody")
-	 *			),
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,

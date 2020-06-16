@@ -88,10 +88,6 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *				response=200,
 	 *				description="List of consents",
 	 *				@OA\JsonContent(ref="#/components/schemas/ConsentsResponseBody"),
-	 *				@OA\MediaType(
-	 *						mediaType="text/html",
-	 *						@OA\Schema(ref="#/components/schemas/ConsentsResponseBody")
-	 *				),
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,

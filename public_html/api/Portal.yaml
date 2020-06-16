@@ -31,9 +31,6 @@ paths:
         '200':
           description: 'Base action details'
           content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/BaseActionInstallResponseBody'
             application/json:
               schema:
                 $ref: '#/components/schemas/BaseActionInstallResponseBody'
@@ -64,9 +61,6 @@ paths:
         '200':
           description: 'Menu details'
           content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/BaseActionMenuResponseBody'
             application/json:
               schema:
                 $ref: '#/components/schemas/BaseActionMenuResponseBody'
@@ -98,9 +92,6 @@ paths:
         '200':
           description: 'List of active modules'
           content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/BaseActionModulesResponseBody'
             application/json:
               schema:
                 $ref: '#/components/schemas/BaseActionModulesResponseBody'
@@ -144,9 +135,6 @@ paths:
         '200':
           description: 'Fields details'
           content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/BaseModule_Fields_ResponseBody'
             application/json:
               schema:
                 $ref: '#/components/schemas/BaseModule_Fields_ResponseBody'
@@ -213,9 +201,6 @@ paths:
         '200':
           description: 'Gets data for the record'
           content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/BaseModule_Get_Record_Response'
             application/json:
               schema:
                 $ref: '#/components/schemas/BaseModule_Get_Record_Response'
@@ -267,9 +252,6 @@ paths:
         '200':
           description: 'Gets data for the record'
           content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/BaseModule_Put_Record_Response'
             application/json:
               schema:
                 $ref: '#/components/schemas/BaseModule_Put_Record_Response'
@@ -317,9 +299,6 @@ paths:
         '200':
           description: 'List of records moved to the trash'
           content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/BaseModule_Delete_Record_Response'
             application/json:
               schema:
                 $ref: '#/components/schemas/BaseModule_Delete_Record_Response'
@@ -359,9 +338,6 @@ paths:
         '200':
           description: 'List of records created'
           content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/BaseModule_Post_Record_Response'
             application/json:
               schema:
                 $ref: '#/components/schemas/BaseModule_Post_Record_Response'
@@ -403,9 +379,6 @@ paths:
         '200':
           description: 'User details'
           content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/UsersLoginResponseBody'
             application/json:
               schema:
                 $ref: '#/components/schemas/UsersLoginResponseBody'
@@ -440,9 +413,6 @@ paths:
         '200':
           description: 'User details'
           content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/UsersLogoutResponseBody'
             application/json:
               schema:
                 $ref: '#/components/schemas/UsersLogoutResponseBody'
@@ -567,51 +537,70 @@ components:
               type: object
               additionalProperties:
                 properties:
-                  id: { description: 'Check if record is editable', type: integer, example: '24862' }
-                  isEditable: { description: 'Check if record is editable', type: boolean, example: 'false' }
-                  isViewable: { description: 'Check if record is viewable', type: boolean, example: 'false' }
-                  isEditableReadOnly: { description: 'Check if record is editable or read only', type: boolean, example: 'false' }
-                  sequence: { description: 'Sequence field', type: integer, example: '24862' }
+                  name: { description: 'Field name', type: string, example: subject }
+                  label: { description: 'Field label translated into the user''s language', type: string, example: Subject }
+                  type: { description: 'Field type', type: string, example: string }
+                  mandatory: { description: 'Check if field is mandatory', type: boolean, example: true }
+                  defaultvalue: { description: 'Default field value', type: string, example: '' }
+                  presence: { description: 'Check if field is active', type: boolean, example: true }
+                  quickcreate: { description: 'Check if field is active', type: boolean, example: true }
+                  masseditable: { description: 'Check if field is quick create enabled', type: boolean, example: true }
+                  header_field: { description: 'Field configuration available in the header', properties: { type: { description: Type, type: string, example: value }, class: { description: 'Gui class', type: string, example: badge-info } }, type: object }
+                  maxlengthtext: { description: 'Max length text', type: integer, example: 0 }
+                  maximumlength: { description: 'Maximum field range', type: string, example: '-2147483648,2147483647' }
+                  maxwidthcolumn: { description: 'Max width column', type: integer, example: 0 }
+                  tabindex: { description: 'Field tab index', type: integer, example: 0 }
+                  fieldtype: { description: 'Field short data type', type: string, example: V }
+                  picklistvalues: { description: 'Picklist values, available only for type of field: picklist, multipicklist, multiowner, multiReferenceValue, inventoryLimit, languages, currencyList, fileLocationType, taxes, multiListFields, mailScannerFields, country, modules, sharedOwner, categoryMultipicklist, tree', type: object }
+                  date-format: { description: 'Date format, available only for type of field: date, datetime', type: string }
+                  time-format: { description: 'Time format, available only for type of field: time', type: string }
+                  currency_symbol: { description: 'Currency symbol, available only for type of field: currency', type: string }
+                  decimal_separator: { description: 'Currency decimal separator, available only for type of field: currency', type: string }
+                  group_separator: { description: 'Currency group separator, available only for type of field: currency', type: string }
+                  restrictedDomains: { description: 'Email restricted domains, available only for type of field: email', type: array, items: { items: yeti.com, example: yeti.com } }
+                  limit: { description: 'Limit the amount of images, available only for type of field: multiImage, image', type: integer }
+                  formats: { description: 'File Format, available only for type of field: multiImage, image', type: array, items: { items: jpg, example: jpg } }
+                  id: { description: 'Check if record is editable', type: integer, example: 24862 }
+                  isEditable: { description: 'Check if record is editable', type: boolean, example: true }
+                  isViewable: { description: 'Check if record is viewable', type: boolean, example: true }
+                  isEditableReadOnly: { description: 'Check if record is editable or read only', type: boolean, example: false }
+                  sequence: { description: 'Sequence field', type: integer, example: 24862 }
                   fieldparams: { description: 'Field params', type: object }
+                  blockId: { description: 'Field block id', type: integer, example: 280 }
                   dbStructure: { description: 'Info about field structure in database', type: object }
-                  isEmptyPicklistOptionAllowed: { description: 'Defines empty picklist element availability', type: boolean, example: 'false' }
+                  queryOperators: { description: 'Field query operators', type: object }
+                  isEmptyPicklistOptionAllowed: { description: 'Defines empty picklist element availability', type: boolean, example: false }
+                  referenceList: { description: 'List of related modules, available only for reference field', type: array, items: { items: Accounts, example: Accounts } }
+                  treeValues: { description: 'Tree items, available only for tree field', type: array, items: { description: 'Tree item', properties: { id: { description: 'Number tree without prefix', type: integer, example: 1 }, tree: { description: 'Tree id', type: string, example: T10 }, parent: { description: 'Parent tree id', type: string, example: T1 }, text: { description: 'Tree value', type: string, example: 'Tree value' } }, type: object } }
                 type: object
-                items:
-                  description: 'List of modules the field refernced to'
-                  type: array
-                  items: referenceList
             blocks:
-              description: 'Block data'
+              description: 'Fields blocks'
               type: object
               additionalProperties:
-                description: 'Block details'
+                description: 'Field block details'
                 properties:
-                  id: { description: 'Block id', type: integer, example: '195' }
-                  tabid: { description: 'Module id', type: integer, example: '9' }
+                  id: { description: 'Block id', type: integer, example: 195 }
+                  tabid: { description: 'Module id', type: integer, example: 9 }
                   label: { description: 'Block label', type: string, example: 'Account details' }
-                  sequence: { description: 'Block sequence', type: integer, example: '1' }
-                  showtitle: { description: 'Specifies whether the title should be visible', type: integer, example: '0' }
-                  visible: { description: 'Determines the visibility', type: integer, example: '0' }
-                  increateview: { description: 'Determines the visibility in creat view', type: integer, example: '0' }
-                  ineditview: { description: 'Determines the visibility in edit view', type: integer, example: '0' }
-                  indetailview: { description: 'Determines the visibility in detail view', type: integer, example: '0' }
-                  display_status: { description: 'Determines whether the block should be expanded', type: integer, example: '2' }
-                  iscustom: { description: 'Determines if the block has been added by the user', type: integer, example: '0' }
+                  sequence: { description: 'Block sequence', type: integer, example: 1 }
+                  showtitle: { description: 'Specifies whether the title should be visible', type: integer, example: 0 }
+                  visible: { description: 'Determines the visibility', type: integer, example: 0 }
+                  increateview: { description: 'Determines the visibility in creat view', type: integer, example: 0 }
+                  ineditview: { description: 'Determines the visibility in edit view', type: integer, example: 0 }
+                  indetailview: { description: 'Determines the visibility in detail view', type: integer, example: 0 }
+                  display_status: { description: 'Determines whether the block should be expanded', type: integer, example: 2 }
+                  iscustom: { description: 'Determines if the block has been added by the user', type: integer, example: 0 }
                   icon: { description: 'Block icon class', type: string, example: 'far fa-calendar-alt' }
                   name: { description: 'Block name translated into the user''s language', type: string, example: 'Informacje podstawowe o firmie' }
                 type: object
             inventory:
-              description: 'Inventory field list'
+              description: 'Inventory field group'
+              properties:
+                '1':
+                  description: 'Inventory field list'
+                  type: object
+                  additionalProperties: { description: 'Inventory field details', properties: { label: { description: 'Field label translated into the user''s language', type: string, example: 'Unit price' }, type: { description: 'Field type', type: string, example: UnitPrice }, columnname: { description: 'Field column name in db', type: string, example: price }, isSummary: { description: 'Is the field contains summary', type: boolean, example: false }, isVisibleInDetail: { description: 'Check if field is visible in detail view', type: boolean, example: true } }, type: object }
               type: object
-              additionalProperties:
-                description: 'Inventory field details'
-                properties:
-                  label: { description: 'Field label translated into the user''s language', type: string, example: Double }
-                  type: { description: 'Field type', type: string, example: Double }
-                  columnname: { description: 'Field column name in db', type: string, example: double }
-                  isSummary: { description: 'Is the field contains summary', type: boolean, example: 'false' }
-                  isVisibleInDetail: { description: 'Check if field is visible in detail view', type: boolean, example: 'true' }
-                type: object
           type: object
       type: object
     BaseModule_Get_Record_Response:

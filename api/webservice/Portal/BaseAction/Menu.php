@@ -42,14 +42,10 @@ class Menu extends \Api\Core\BaseAction
 	 * 				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
 	 *    ),
 	 *		@OA\Response(
-	 *				response=200,
-	 *				description="Menu details",
-	 *				@OA\JsonContent(ref="#/components/schemas/BaseActionMenuResponseBody"),
-	 *				@OA\XmlContent(ref="#/components/schemas/BaseActionMenuResponseBody"),
-	 *     		@OA\MediaType(
-	 *         		mediaType="text/html",
-	 *         		@OA\Schema(ref="#/components/schemas/BaseActionMenuResponseBody")
-	 *     		),
+	 *			response=200,
+	 *			description="Menu details",
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseActionMenuResponseBody"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseActionMenuResponseBody"),
 	 *		),
 	 * ),
 	 * @OA\Schema(

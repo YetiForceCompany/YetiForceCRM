@@ -72,10 +72,6 @@ class Record extends \Api\ManageConsents\BaseAction
 	 *				response=200,
 	 *				description="Result of adding entry",
 	 *				@OA\JsonContent(ref="#/components/schemas/ApprovalsRegisterResponseBody"),
-	 *				@OA\MediaType(
-	 *						mediaType="text/html",
-	 *						@OA\Schema(ref="#/components/schemas/ApprovalsRegisterResponseBody")
-	 *				),
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,

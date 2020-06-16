@@ -34,9 +34,6 @@ paths:
         '200':
           description: 'Result of adding entry'
           content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/ApprovalsRegisterResponseBody'
             application/json:
               schema:
                 $ref: '#/components/schemas/ApprovalsRegisterResponseBody'
@@ -99,9 +96,6 @@ paths:
         '200':
           description: 'List of consents'
           content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/ConsentsResponseBody'
             application/json:
               schema:
                 $ref: '#/components/schemas/ConsentsResponseBody'
@@ -148,9 +142,6 @@ paths:
         '200':
           description: 'List of consents for specific entry'
           content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/ConsentsForEntryResponseBody'
             application/json:
               schema:
                 $ref: '#/components/schemas/ConsentsForEntryResponseBody'
@@ -199,9 +190,6 @@ paths:
         '200':
           description: 'List of consents for specific entry'
           content:
-            text/html:
-              schema:
-                $ref: '#/components/schemas/SendEmailResponseBody'
             application/json:
               schema:
                 $ref: '#/components/schemas/SendEmailResponseBody'

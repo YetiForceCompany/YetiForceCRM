@@ -63,10 +63,6 @@ class GetConsentsForEntry extends \Api\ManageConsents\BaseAction
 	 *				response=200,
 	 *				description="List of consents for specific entry",
 	 *				@OA\JsonContent(ref="#/components/schemas/ConsentsForEntryResponseBody"),
-	 *				@OA\MediaType(
-	 *						mediaType="text/html",
-	 *						@OA\Schema(ref="#/components/schemas/ConsentsForEntryResponseBody")
-	 *				),
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,
