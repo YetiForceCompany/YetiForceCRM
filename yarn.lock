@@ -59,10 +59,10 @@ blueimp-canvas-to-blob@3:
   resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.27.0.tgz#a2bd5c43587b95dedf0f6998603452d1bfcc9b9e"
   integrity sha512-AcIj+hCw6WquxzJuzC6KzgYmqxLFeTWe88KuY2BEIsW1zbEOfoinDAGlhyvFNGt+U3JElkVSK7anA1FaSdmmfA==
 
-blueimp-file-upload@^10.6.0:
-  version "10.29.0"
-  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-10.29.0.tgz#1e1bd1ad2b14c3e3ac389deb5b48e31b261cb99d"
-  integrity sha512-cVeH6Btv2JJB9w36VI6wPACrpS4bVzJoRqFkB7r2+ne5hmZ+FTc1wcLsm76NzNam/IyBgPwbyOQ5alQS7Y0YVQ==
+blueimp-file-upload@^10.30.1:
+  version "10.30.1"
+  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-10.30.1.tgz#bdf6b4d5e109453a429b385f8feac9f45a81b339"
+  integrity sha512-fTzTqTHzUaLRE5WXTQBTSgWvKFm11//ABxdPUxEi/MfCwAZj//dfy0cfhMFhQJO605tDWvbFU5iOKB4xcO7OJw==
   optionalDependencies:
     blueimp-canvas-to-blob "3"
     blueimp-load-image "5"
