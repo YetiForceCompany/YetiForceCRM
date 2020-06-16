@@ -168,7 +168,6 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
           example: 116
         -
           name: X-ENCRYPTED
@@ -183,7 +182,9 @@ paths:
           required: false
           schema:
             type: integer
-            format: int64
+            enum:
+              - 0
+              - 1
           example: 1
         -
           name: x-parent-id
@@ -192,8 +193,6 @@ paths:
           required: false
           schema:
             type: integer
-            format: int64
-          example: 1
       requestBody:
         description: 'The content of the request is empty.'
         required: false
@@ -237,7 +236,6 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
           example: 116
         -
           name: X-ENCRYPTED
@@ -246,11 +244,11 @@ paths:
           schema:
             $ref: '#/components/schemas/X-ENCRYPTED'
       requestBody:
-        description: 'The content of the request is empty.'
+        description: 'Contents of the request contains an associative array with the data record.'
         required: false
       responses:
         '200':
-          description: 'Gets data for the record'
+          description: 'Contents of the response contains only id'
           content:
             application/json:
               schema:
@@ -284,7 +282,6 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
           example: 116
         -
           name: X-ENCRYPTED
@@ -332,11 +329,11 @@ paths:
           schema:
             $ref: '#/components/schemas/X-ENCRYPTED'
       requestBody:
-        description: 'The content of the request is empty.'
+        description: 'Contents of the request contains an associative array with the data record.'
         required: false
       responses:
         '200':
-          description: 'List of records created'
+          description: 'Contents of the response contains only id'
           content:
             application/json:
               schema:
@@ -728,46 +725,31 @@ components:
             id:
               description: 'Record Id'
               type: integer
-              example: '152'
+              example: 152
             fields:
               description: 'Field name items'
-              type: array
-              items:
-                description: 'Field name'
-                type: string
-                items: 'Contractor''s name'
-                example: 'Contractor''s name'
+              type: object
             data:
               description: 'Record data'
-              type: array
-              items:
-                description: 'Field value'
-                type: string
-                items: 'Contractor''s name'
-                example: Kowalski
+              type: object
             privileges:
               description: 'Parameters determining checking of editing rights and moving to the trash'
-              type: array
-              items:
-                description: 'Check if record is editable'
-                type: boolean
-                items: isEditable
-                example: 'true'
+              properties:
+                isEditable:
+                  description: 'Check if record is editable'
+                  type: boolean
+                  example: true
+                moveToTrash:
+                  description: 'Permission to delete'
+                  type: boolean
+                  example: false
+              type: object
             inventory:
               description: 'Value inventory data'
-              type: array
-              items:
-                description: 'Field value inventory'
-                type: string
-                items: unitPrice
-                example: '250'
+              type: object
             summaryInventory:
               description: 'Value summary inventory data'
-              type: array
-              items:
-                description: 'Sum of field values'
-                type: string
-                items: unitPrice
+              type: object
             rawData:
               description: 'Tax selected in inventory'
               type: object
@@ -792,26 +774,7 @@ components:
       type: object
     BaseModule_Put_Record_Response:
       title: 'Response body for Record'
-      description: 'List of edited records'
-      properties:
-        status:
-          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
-          type: integer
-          enum:
-            - '0'
-            - '1'
-        result:
-          title: 'Parameters record'
-          description: 'Parameters the edited record.'
-          type: array
-          items:
-            description: 'Id the edited record'
-            type: integer
-            items: id
-      type: object
-    BaseModule_Post_Record_Response:
-      title: 'Created records'
-      description: 'List of records created'
+      description: 'Contents of the response contains only id'
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
@@ -821,12 +784,33 @@ components:
             - '1'
         result:
           title: 'Gets data for the record'
-          description: 'Parameters the saved record.'
-          type: array
-          items:
-            description: 'Id of the newly created record'
-            type: integer
-            items: id
+          description: 'Updated record id.'
+          properties:
+            id:
+              description: 'Id of the newly created record'
+              type: integer
+              example: 22
+          type: object
+      type: object
+    BaseModule_Post_Record_Response:
+      title: 'Created records'
+      description: 'Contents of the response contains only id'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - '0'
+            - '1'
+        result:
+          title: 'Gets data for the record'
+          description: 'Created record id.'
+          properties:
+            id:
+              description: 'Id of the newly created record'
+              type: integer
+              example: 22
+          type: object
       type: object
     BaseModule_RecordsList_ResponseBody:
       title: 'Base module - Response action record list'
