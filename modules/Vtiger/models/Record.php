@@ -297,10 +297,10 @@ class Vtiger_Record_Model extends \App\Base
 	public function getDetailViewUrl()
 	{
 		$menuUrl = '';
-		if (!\App\Request::_isEmpty('parent')) {
+		if (isset($_REQUEST['parent'])) {
 			$menuUrl .= '&parent=' . \App\Request::_getInteger('parent');
 		}
-		if (!\App\Request::_isEmpty('mid')) {
+		if (isset($_REQUEST['mid'])) {
 			$menuUrl .= '&mid=' . \App\Request::_getInteger('mid');
 		}
 		return "index.php?module={$this->getModuleName()}&view={$this->getModule()->getDetailViewName()}&record={$this->getId()}{$menuUrl}";
@@ -324,10 +324,10 @@ class Vtiger_Record_Model extends \App\Base
 	public function getEditViewUrl()
 	{
 		$menuUrl = '';
-		if (!\App\Request::_isEmpty('parent')) {
+		if (isset($_REQUEST['parent'])) {
 			$menuUrl .= '&parent=' . \App\Request::_getInteger('parent');
 		}
-		if (!\App\Request::_isEmpty('mid')) {
+		if (isset($_REQUEST['mid'])) {
 			$menuUrl .= '&mid=' . \App\Request::_getInteger('mid');
 		}
 		return "index.php?module={$this->getModuleName()}&view={$this->getModule()->getEditViewName()}{$menuUrl}" . ($this->getId() ? '&record=' . $this->getId() : '');

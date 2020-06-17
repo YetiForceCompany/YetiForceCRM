@@ -271,7 +271,7 @@ class Vtiger_Link_Model extends vtlib\Link
 			}
 			$newUrlParts = [];
 			array_push($newUrlParts, $key);
-			if (!empty($value)) {
+			if (!empty($value) || 0 == $value) {
 				array_push($newUrlParts, $value);
 			}
 			$parametersParts[$index] = implode('=', $newUrlParts);
