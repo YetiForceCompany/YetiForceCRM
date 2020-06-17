@@ -23,6 +23,12 @@ class Response
 	 * @var string[]
 	 */
 	protected $acceptableMethods = [];
+	/**
+	 * Request instance.
+	 *
+	 * @var \Api\Core\Request
+	 */
+	protected $request;
 	protected static $instance = false;
 	protected $body;
 	protected $headers = [];
@@ -49,6 +55,18 @@ class Response
 	public function setBody($body)
 	{
 		$this->body = $body;
+	}
+
+	/**
+	 * Set request.
+	 *
+	 * @param Request $request
+	 *
+	 * @return void
+	 */
+	public function setRequest(Request $request): void
+	{
+		$this->request = $request;
 	}
 
 	/**
@@ -95,6 +113,9 @@ class Response
 			$encryptDataTransfer = 0;
 		}
 		$requestContentType = strtolower(\App\Request::_getServer('HTTP_ACCEPT'));
+		if (empty($requestContentType) || '*/*' === $requestContentType) {
+			$requestContentType = $this->request->contentType;
+		}
 		if (!headers_sent()) {
 			header('access-control-allow-origin: *');
 			header('access-control-allow-methods: ' . implode(', ', $this->acceptableMethods));

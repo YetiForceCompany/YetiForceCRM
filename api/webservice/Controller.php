@@ -31,6 +31,7 @@ class Controller
 	{
 		$this->request = Core\Request::init();
 		$this->response = Core\Response::getInstance();
+		$this->response->setRequest($this->request);
 		$this->method = strtoupper($this->request->getRequestMethod());
 	}
 
