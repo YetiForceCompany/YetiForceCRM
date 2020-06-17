@@ -223,7 +223,7 @@ class Order extends Record
 	{
 		$queryGenerator = (new \App\QueryGenerator('SSingleOrders'));
 		$queryGenerator->setStateCondition('All');
-		$queryGenerator->setFields(['id', 'magento_id', 'ssingleorders_status'])->permissions = false;
+		$queryGenerator->setFields(['id', 'magento_id', 'ssingleorders_status', 'subject'])->permissions = false;
 		$queryGenerator->addCondition('magento_server_id', $this->config->get('id'), 'e');
 		$query = $queryGenerator->createQuery();
 		$query->andWhere(new \yii\db\Expression('modifiedtime <> createdtime'));
