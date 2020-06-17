@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a8e30e90ed85793216a2d839e2c48bb7",
+    "content-hash": "9a8f18d8238e793952da2077e6eba55e",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -203,16 +203,6 @@
                 "ssl",
                 "tls"
             ],
-            "funding": [
-                {
-                    "url": "https://packagist.com",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-04-08T08:27:21+00:00"
         },
         {
@@ -321,20 +311,6 @@
                 "iterators",
                 "php"
             ],
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcollections",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-05-25T19:24:35+00:00"
         },
         {
@@ -411,20 +387,6 @@
                 "strings",
                 "uppercase",
                 "words"
-            ],
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Finflector",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-05-29T15:13:26+00:00"
         },
@@ -946,12 +908,6 @@
                 "stream",
                 "zip"
             ],
-            "funding": [
-                {
-                    "url": "https://opencollective.com/zipstream",
-                    "type": "open_collective"
-                }
-            ],
             "time": "2020-05-30T13:11:16+00:00"
         },
         {
@@ -1237,15 +1193,6 @@
                 "qr code",
                 "qrcode"
             ],
-            "funding": [
-                {
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/milon",
-                    "type": "github"
-                }
-            ],
             "time": "2020-03-05T11:55:03+00:00"
         },
         {
@@ -1364,16 +1311,6 @@
                 "date",
                 "datetime",
                 "time"
-            ],
-            "funding": [
-                {
-                    "url": "https://opencollective.com/Carbon",
-                    "type": "open_collective"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/nesbot/carbon",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-05-24T18:27:52+00:00"
         },
@@ -1677,12 +1614,6 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "funding": [
-                {
-                    "url": "https://github.com/synchro",
-                    "type": "github"
-                }
-            ],
             "time": "2020-05-27T12:24:03+00:00"
         },
         {
@@ -2109,16 +2040,16 @@
         },
         {
             "name": "sabre/dav",
-            "version": "3.2.3",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabre-io/dav.git",
-                "reference": "a9780ce4f35560ecbd0af524ad32d9d2c8954b80"
+                "reference": "8f6f4d272504ee8424e1d0a47d6efc7772de2270"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabre-io/dav/zipball/a9780ce4f35560ecbd0af524ad32d9d2c8954b80",
-                "reference": "a9780ce4f35560ecbd0af524ad32d9d2c8954b80",
+                "url": "https://api.github.com/repos/sabre-io/dav/zipball/8f6f4d272504ee8424e1d0a47d6efc7772de2270",
+                "reference": "8f6f4d272504ee8424e1d0a47d6efc7772de2270",
                 "shasum": ""
             },
             "require": {
@@ -2126,27 +2057,30 @@
                 "ext-date": "*",
                 "ext-dom": "*",
                 "ext-iconv": "*",
+                "ext-json": "*",
                 "ext-mbstring": "*",
                 "ext-pcre": "*",
                 "ext-simplexml": "*",
                 "ext-spl": "*",
                 "lib-libxml": ">=2.7.0",
-                "php": ">=5.5.0",
+                "php": "^7.1.0",
                 "psr/log": "^1.0",
-                "sabre/event": ">=2.0.0, <4.0.0",
-                "sabre/http": "^4.2.1",
-                "sabre/uri": "^1.0.1",
-                "sabre/vobject": "^4.1.0",
-                "sabre/xml": "^1.4.0"
+                "sabre/event": "^5.0",
+                "sabre/http": "^5.0.5",
+                "sabre/uri": "^2.0",
+                "sabre/vobject": "^4.2.1",
+                "sabre/xml": "^2.0.1"
             },
             "require-dev": {
                 "evert/phpdoc-md": "~0.1.0",
+                "friendsofphp/php-cs-fixer": "~2.16.1",
                 "monolog/monolog": "^1.18",
-                "phpunit/phpunit": "> 4.8, <6.0.0",
-                "sabre/cs": "^1.0.0"
+                "phpstan/phpstan": "^0.12",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.0"
             },
             "suggest": {
                 "ext-curl": "*",
+                "ext-imap": "*",
                 "ext-pdo": "*"
             },
             "bin": [
@@ -2154,11 +2088,6 @@
                 "bin/naturalselection"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.1.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Sabre\\DAV\\": "lib/DAV/",
@@ -2188,28 +2117,28 @@
                 "framework",
                 "iCalendar"
             ],
-            "time": "2018-10-19T09:58:27+00:00"
+            "time": "2020-03-20T08:55:46+00:00"
         },
         {
             "name": "sabre/event",
-            "version": "3.0.0",
+            "version": "5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabre-io/event.git",
-                "reference": "831d586f5a442dceacdcf5e9c4c36a4db99a3534"
+                "reference": "d00a17507af0e7544cfe17096372f5d733e3b276"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabre-io/event/zipball/831d586f5a442dceacdcf5e9c4c36a4db99a3534",
-                "reference": "831d586f5a442dceacdcf5e9c4c36a4db99a3534",
+                "url": "https://api.github.com/repos/sabre-io/event/zipball/d00a17507af0e7544cfe17096372f5d733e3b276",
+                "reference": "d00a17507af0e7544cfe17096372f5d733e3b276",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5"
+                "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "*",
-                "sabre/cs": "~0.0.4"
+                "friendsofphp/php-cs-fixer": "~2.16.1",
+                "phpunit/phpunit": "^7 || ^8"
             },
             "type": "library",
             "autoload": {
@@ -2239,38 +2168,42 @@
             "keywords": [
                 "EventEmitter",
                 "async",
+                "coroutine",
+                "eventloop",
                 "events",
                 "hooks",
                 "plugin",
                 "promise",
+                "reactor",
                 "signal"
             ],
-            "time": "2015-11-05T20:14:39+00:00"
+            "time": "2020-01-31T18:52:29+00:00"
         },
         {
             "name": "sabre/http",
-            "version": "v4.2.4",
+            "version": "5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabre-io/http.git",
-                "reference": "acccec4ba863959b2d10c1fa0fb902736c5c8956"
+                "reference": "23446999f1f6e62892bbd89745070aa902dd3539"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabre-io/http/zipball/acccec4ba863959b2d10c1fa0fb902736c5c8956",
-                "reference": "acccec4ba863959b2d10c1fa0fb902736c5c8956",
+                "url": "https://api.github.com/repos/sabre-io/http/zipball/23446999f1f6e62892bbd89745070aa902dd3539",
+                "reference": "23446999f1f6e62892bbd89745070aa902dd3539",
                 "shasum": ""
             },
             "require": {
                 "ext-ctype": "*",
+                "ext-curl": "*",
                 "ext-mbstring": "*",
-                "php": ">=5.4",
-                "sabre/event": ">=1.0.0,<4.0.0",
-                "sabre/uri": "~1.0"
+                "php": "^7.1",
+                "sabre/event": ">=4.0 <6.0",
+                "sabre/uri": "^2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.3",
-                "sabre/cs": "~0.0.1"
+                "friendsofphp/php-cs-fixer": "~2.16.1",
+                "phpunit/phpunit": "^7.0 || ^8.0"
             },
             "suggest": {
                 "ext-curl": " to make http requests with the Client class"
@@ -2301,28 +2234,28 @@
             "keywords": [
                 "http"
             ],
-            "time": "2018-02-23T11:10:29+00:00"
+            "time": "2020-01-31T20:07:09+00:00"
         },
         {
             "name": "sabre/uri",
-            "version": "1.2.1",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabre-io/uri.git",
-                "reference": "ada354d83579565949d80b2e15593c2371225e61"
+                "reference": "059d11012603be2e32ddb7543602965563ddbb09"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabre-io/uri/zipball/ada354d83579565949d80b2e15593c2371225e61",
-                "reference": "ada354d83579565949d80b2e15593c2371225e61",
+                "url": "https://api.github.com/repos/sabre-io/uri/zipball/059d11012603be2e32ddb7543602965563ddbb09",
+                "reference": "059d11012603be2e32ddb7543602965563ddbb09",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.7"
+                "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=4.0,<6.0",
-                "sabre/cs": "~1.0.0"
+                "friendsofphp/php-cs-fixer": "~2.16.1",
+                "phpunit/phpunit": "^7 || ^8"
             },
             "type": "library",
             "autoload": {
@@ -2352,29 +2285,30 @@
                 "uri",
                 "url"
             ],
-            "time": "2017-02-20T19:59:28+00:00"
+            "time": "2020-01-31T18:53:43+00:00"
         },
         {
             "name": "sabre/vobject",
-            "version": "4.2.2",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabre-io/vobject.git",
-                "reference": "449616b2d45b95c8973975de23f34a3d14f63b4b"
+                "reference": "5b2248d965160f93053f3a24704794a13a22a1bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabre-io/vobject/zipball/449616b2d45b95c8973975de23f34a3d14f63b4b",
-                "reference": "449616b2d45b95c8973975de23f34a3d14f63b4b",
+                "url": "https://api.github.com/repos/sabre-io/vobject/zipball/5b2248d965160f93053f3a24704794a13a22a1bb",
+                "reference": "5b2248d965160f93053f3a24704794a13a22a1bb",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": ">=5.5",
-                "sabre/xml": ">=1.5 <3.0"
+                "php": "^7.1",
+                "sabre/xml": "^2.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "> 4.8.35, <6.0.0"
+                "friendsofphp/php-cs-fixer": "~2.16.1",
+                "phpunit/phpunit": "^7 || ^8"
             },
             "suggest": {
                 "hoa/bench": "If you would like to run the benchmark scripts"
@@ -2448,20 +2382,20 @@
                 "xCal",
                 "xCard"
             ],
-            "time": "2020-01-14T10:18:45+00:00"
+            "time": "2020-01-31T18:50:58+00:00"
         },
         {
             "name": "sabre/xml",
-            "version": "1.5.1",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabre-io/xml.git",
-                "reference": "a367665f1df614c3b8fefc30a54de7cd295e444e"
+                "reference": "41c6ba148966b10cafd31d1a4e5feb1e2138d95c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabre-io/xml/zipball/a367665f1df614c3b8fefc30a54de7cd295e444e",
-                "reference": "a367665f1df614c3b8fefc30a54de7cd295e444e",
+                "url": "https://api.github.com/repos/sabre-io/xml/zipball/41c6ba148966b10cafd31d1a4e5feb1e2138d95c",
+                "reference": "41c6ba148966b10cafd31d1a4e5feb1e2138d95c",
                 "shasum": ""
             },
             "require": {
@@ -2469,12 +2403,13 @@
                 "ext-xmlreader": "*",
                 "ext-xmlwriter": "*",
                 "lib-libxml": ">=2.6.20",
-                "php": ">=5.5.5",
+                "php": "^7.1",
                 "sabre/uri": ">=1.0,<3.0.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.8|~5.7",
-                "sabre/cs": "~1.0.0"
+                "friendsofphp/php-cs-fixer": "~2.16.1",
+                "phpstan/phpstan": "^0.12",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.0"
             },
             "type": "library",
             "autoload": {
@@ -2511,7 +2446,7 @@
                 "dom",
                 "xml"
             ],
-            "time": "2019-01-09T13:51:57+00:00"
+            "time": "2020-05-11T09:44:55+00:00"
         },
         {
             "name": "simshaun/recurr",
@@ -2741,20 +2676,6 @@
                 "portable",
                 "shim"
             ],
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-05-12T16:47:27+00:00"
         },
         {
@@ -2814,20 +2735,6 @@
                 "portable",
                 "shim"
             ],
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-05-12T16:47:27+00:00"
         },
         {
@@ -2882,20 +2789,6 @@
                 "polyfill",
                 "portable",
                 "shim"
-            ],
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-05-12T16:47:27+00:00"
         },
@@ -2958,20 +2851,6 @@
                 "polyfill",
                 "portable",
                 "shim"
-            ],
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-05-12T16:47:27+00:00"
         },
@@ -3051,20 +2930,6 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-05-30T20:35:19+00:00"
         },
         {
@@ -3121,20 +2986,6 @@
                 "interfaces",
                 "interoperability",
                 "standards"
-            ],
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-05-20T17:43:50+00:00"
         },
@@ -3212,20 +3063,6 @@
                 "debug",
                 "dump"
             ],
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-05-30T20:35:19+00:00"
         },
         {
@@ -3273,24 +3110,6 @@
                 "ascii",
                 "clean",
                 "php"
-            ],
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/moelleken",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/voku",
-                    "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/voku",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/voku/portable-ascii",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-06-15T23:49:30+00:00"
         },
@@ -3391,12 +3210,6 @@
                 "html",
                 "html to pdf",
                 "pdf"
-            ],
-            "funding": [
-                {
-                    "url": "https://opencollective.com/yetiforcecrm",
-                    "type": "open_collective"
-                }
             ],
             "time": "2020-03-13T11:36:00+00:00"
         },
@@ -3532,6 +3345,5 @@
         "ext-filter": "*",
         "ext-zlib": "*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "platform-dev": []
 }
