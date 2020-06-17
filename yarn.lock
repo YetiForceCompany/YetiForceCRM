@@ -60,9 +60,9 @@ blueimp-canvas-to-blob@3:
   integrity sha512-AcIj+hCw6WquxzJuzC6KzgYmqxLFeTWe88KuY2BEIsW1zbEOfoinDAGlhyvFNGt+U3JElkVSK7anA1FaSdmmfA==
 
 blueimp-file-upload@^10.6.0:
-  version "10.29.0"
-  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-10.29.0.tgz#1e1bd1ad2b14c3e3ac389deb5b48e31b261cb99d"
-  integrity sha512-cVeH6Btv2JJB9w36VI6wPACrpS4bVzJoRqFkB7r2+ne5hmZ+FTc1wcLsm76NzNam/IyBgPwbyOQ5alQS7Y0YVQ==
+  version "10.30.1"
+  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-10.30.1.tgz#bdf6b4d5e109453a429b385f8feac9f45a81b339"
+  integrity sha512-fTzTqTHzUaLRE5WXTQBTSgWvKFm11//ABxdPUxEi/MfCwAZj//dfy0cfhMFhQJO605tDWvbFU5iOKB4xcO7OJw==
   optionalDependencies:
     blueimp-canvas-to-blob "3"
     blueimp-load-image "5"
@@ -294,9 +294,9 @@ fbjs@^0.8.4:
     ua-parser-js "^0.7.18"
 
 flag-icon-css@^3.3.0:
-  version "3.4.6"
-  resolved "https://registry.yarnpkg.com/flag-icon-css/-/flag-icon-css-3.4.6.tgz#7e51099c85648c65f86d9ebb9c0ec6f5d8826714"
-  integrity sha512-rF69rt19Hr63SRQTiPBzQABaYB20LAgZhDkr/AxqSdgmCIN+tC5PRMz56Y0gxehFXJmdRwv55+GMi7R1fCRTwg==
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/flag-icon-css/-/flag-icon-css-3.5.0.tgz#430747d5cb91e60babf85494de99173c16dc7cf2"
+  integrity sha512-pgJnJLrtb0tcDgU1fzGaQXmR8h++nXvILJ+r5SmOXaaL/2pocunQo2a8TAXhjQnBpRLPtZ1KCz/TYpqeNuE2ew==
 
 floatthead@^2.1.3:
   version "2.2.1"
@@ -315,10 +315,10 @@ footable@^2.0.6:
   dependencies:
     jquery ">=1.4.4"
 
-fullcalendar@3.10.1:
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.1.tgz#cca3f9a2656a7e978a3f3facb7f35934a91185db"
-  integrity sha512-E0ioaHVmwdS4es8pNTUNva7505wPkUMFdn9JGFLYo+J12ARhN3zDBwoPj2DfB8rL7Yc1sSve+FqDHC3s2SZ7Fw==
+fullcalendar@3.10.2:
+  version "3.10.2"
+  resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.2.tgz#9b1ba84bb02803621b761d1bba91a4f18affafb7"
+  integrity sha512-YWZaHdp8ZLBqhPz615PoXdA49ymsBTUF+MGDM6H3vyz71Pv/ZW9Pm9/Mj3x6n822k6bs2txFO7muRTSvBhsqKg==
 
 gantt-elastic@^1.0.0:
   version "1.0.11"
@@ -443,9 +443,9 @@ jstree-bootstrap-theme@^1.0.1:
     jquery ">=1.9.1"
 
 jstree@^3.3.7:
-  version "3.3.9"
-  resolved "https://registry.yarnpkg.com/jstree/-/jstree-3.3.9.tgz#62b47cad3c4fda390d021e5c4f98ee5b3365198a"
-  integrity sha512-jRIbhg+BHrIs1Wm6oiJt3oKTVBE6sWS0PCp2/RlkIUqsLUPWUYgV3q8LfKoi1/E+YMzGtP6BuK4okk+0mwfmhQ==
+  version "3.3.10"
+  resolved "https://registry.yarnpkg.com/jstree/-/jstree-3.3.10.tgz#28d5b464a6bd4b5a93ccc2e978d005845596a408"
+  integrity sha512-TDhwTy24ZKCVei0gLRxnH5PQuX77nqlG7bhQh+UDTeOxC2xdhDrS1x7YtbjLVlSxmH7USnA/WIeVOGN/m3D0QA==
   dependencies:
     jquery ">=1.9.1"
 
@@ -522,9 +522,9 @@ promise@^7.1.1:
     asap "~2.0.3"
 
 quasar@^1.6.1:
-  version "1.12.2"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.12.2.tgz#6d272d10c0fb8fecf38adf49f06fb0680546be4d"
-  integrity sha512-Jl6tdGsrMNvRN3vf1XhXH1GzA8Xe87bknBQ5R0OXZAiqqJyfUEflTeKn+fhF7h4GvQO+0ntmOmLjKfBylXvVQg==
+  version "1.12.5"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.12.5.tgz#edc3345f7063955a05ede4e90fa0101f167867b3"
+  integrity sha512-pZUE0v98Zo0n7jepF77GZq8wuM7AQlZhjhiofzAX7ROePxbAD/bdvfmm2KJhVqOKW0ipMAvmihB7rt5dm03lMA==
 
 regenerator-runtime@^0.12.0:
   version "0.12.1"
@@ -577,9 +577,9 @@ setimmediate@^1.0.5:
   integrity sha1-KQy7Iy4waULX1+qbg3Mqt4VvgoU=
 
 split.js@^1.5.10:
-  version "1.5.11"
-  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.5.11.tgz#3654b2a8c625994e33c531df5c4dea83ca8af011"
-  integrity sha512-ec0sAbWnaMGpNHWo1ZgIlF3Mx7GzSyaO0GlcEBZGIFZQwYPPkbDV6JRpDmpzIshVig7USREuEPudy0ygQaskXg==
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.6.0.tgz#bc49bb484eeea0785192a62d9b748c0f5e673954"
+  integrity sha512-83xRNcvWNuLDdBHpfm25Lzj3H2yCAXvPb+7QIKQMCSd3yjhSMSjLvr7+FZYJb3qc0/U0V2B5QRBrzfAVXSw36g==
 
 store@^2.0.12:
   version "2.0.12"

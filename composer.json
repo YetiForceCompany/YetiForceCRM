@@ -76,7 +76,8 @@
     "maximebf/debugbar": "1.*",
     "yetiforce/yii2": "2.0.32",
     "yetiforce/yetiforcepdf": "0.1.29",
-    "abraham/twitteroauth": "^1.0"
+    "abraham/twitteroauth": "^1.0",
+    "adhocore/jwt": "^1.0"
   },
   "suggest": {
     "ext-imagick": "Library recommended for securing potentially dangerous graphic files",
