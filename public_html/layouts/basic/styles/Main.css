@@ -12272,6 +12272,11 @@ a.text-dark:hover, a.text-dark:focus {
   .flag-icon-es-ca.flag-icon-squared {
     background-image: url(../../../libraries/flag-icon-css/flags//1x1/es-ca.svg); }
 
+.flag-icon-es-ga {
+  background-image: url(../../../libraries/flag-icon-css/flags//4x3/es-ga.svg); }
+  .flag-icon-es-ga.flag-icon-squared {
+    background-image: url(../../../libraries/flag-icon-css/flags//1x1/es-ga.svg); }
+
 .flag-icon-eu {
   background-image: url(../../../libraries/flag-icon-css/flags//4x3/eu.svg); }
   .flag-icon-eu.flag-icon-squared {
