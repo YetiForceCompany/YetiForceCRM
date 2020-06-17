@@ -109,7 +109,7 @@
 		"LBL_SETUP_WIZARD_HEADER": "Čarovnik za namestitev YetiForce",
 		"LBL_VERSION": "Različica",
 		"LBL_ERROR_INSTALL": "Namestitev neuspešna",
-		"LBL_SESSION_ERROR_TITLE": "Wrong session ID.",
+		"LBL_SESSION_ERROR_TITLE": "Napačen ID seje.",
 		"LBL_SESSION_ERROR_DESC": "Exists in server configuration which causes loss of session data.\nWe recommend removing browser cache, in case it does not help please fix your server configuration.",
 		"LBL_NAME": "Ime vašega podjetja",
 		"LBL_INDUSTRY": "Dejavnost",

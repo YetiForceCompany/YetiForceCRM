@@ -238,7 +238,7 @@
 		"LBL_FILE_PERMISSIONS": "Berechtigungen",
 		"LBL_LABEL_SCRIPT_USER": "Skriptaufruf-Benutzer",
 		"LBL_ERROR_DURING_VERIFICATION": "Ein Fehler ist während der Prüfung aufgetreten",
-		"LBL_LABEL_CRM_PROVIDER": "Provider"
+		"LBL_LABEL_CRM_PROVIDER": "Anbieter"
 	},
 	"js": {
 		"JS_SPEED_TEST_START": "Performance wird ermittelt ..."

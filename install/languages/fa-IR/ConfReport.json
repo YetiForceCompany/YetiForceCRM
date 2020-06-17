@@ -238,7 +238,7 @@
 		"LBL_FILE_PERMISSIONS": "مجوزها",
 		"LBL_LABEL_SCRIPT_USER": "اسکریپت تماس با کاربر",
 		"LBL_ERROR_DURING_VERIFICATION": "هنگام تأیید خطایی روی داد",
-		"LBL_LABEL_CRM_PROVIDER": "Provider"
+		"LBL_LABEL_CRM_PROVIDER": "سرویس دهنده"
 	},
 	"js": {
 		"JS_SPEED_TEST_START": "بررسی سرعت..."
