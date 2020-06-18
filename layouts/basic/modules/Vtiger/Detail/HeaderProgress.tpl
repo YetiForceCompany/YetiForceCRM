@@ -3,8 +3,10 @@
 <!-- tpl-Base-Detail-HeaderProgress -->
 {if isset($FIELDS_HEADER['progress'])}
 	{assign var=CLOSE_STATES value=\App\RecordStatus::getLockStatus($MODULE_MODEL->getName(), false)}
+	{assign var=PICKLIST_DEPENDENCY value=\App\Fields\Picklist::getPicklistDependencyDatasource($MODULE_MODEL->getName())}
 	{foreach from=$FIELDS_HEADER['progress'] key=NAME item=FIELD_MODEL}
 		{if !$RECORD->isEmpty($NAME)}
+			{assign var=DEPENDENT_SOURCE_FIELD value=\App\Fields\Picklist::getDependentSourceField($FIELD_MODEL->getModuleName(), $FIELD_MODEL->getName())}
 			{assign var=PICKLIST_OF_FIELD value=$FIELD_MODEL->getPicklistValues()}
 			{assign var=PICKLIST_VALUES value=\App\Fields\Picklist::getValues($NAME)}
 			{assign var=IS_EDITABLE value=$RECORD->isEditable() && $FIELD_MODEL->isAjaxEditable() && !$FIELD_MODEL->isEditableReadOnly()}
@@ -15,6 +17,9 @@
 					{assign var=ARROW_CLASS value="before"}
 					{assign var=ICON_CLASS value="fas fa-check"}
 					{foreach from=$PICKLIST_VALUES item=VALUE_DATA name=picklistValues}
+						{if $DEPENDENT_SOURCE_FIELD && isset($PICKLIST_DEPENDENCY[$DEPENDENT_SOURCE_FIELD][$RECORD->get($DEPENDENT_SOURCE_FIELD)][$NAME]) && !in_array($VALUE_DATA['picklistValue'], $PICKLIST_DEPENDENCY[$DEPENDENT_SOURCE_FIELD][$RECORD->get($DEPENDENT_SOURCE_FIELD)][$NAME])}
+							{continue}
+						{/if}
 						{assign var=IS_ACTIVE value=$VALUE_DATA['picklistValue'] eq $RECORD->get($NAME)}
 						{assign var=IS_LOCKED value=isset($CLOSE_STATES[$VALUE_DATA['picklist_valueid']])}
 						{assign var=PICKLIST_LABEL value=$FIELD_MODEL->getDisplayValue($VALUE_DATA['picklistValue'], false, false, true)}
