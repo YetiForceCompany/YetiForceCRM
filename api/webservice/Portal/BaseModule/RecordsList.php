@@ -24,6 +24,12 @@ class RecordsList extends \Api\Core\BaseAction
 	 * {@inheritdoc}
 	 */
 	public $allowedHeaders = ['x-condition', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-row-order-field', 'x-row-order', 'x-parent-id'];
+	/**
+	 * Get query generator instance.
+	 *
+	 * @var \App\QueryGenerator
+	 */
+	protected $queryGenerator;
 
 	/**
 	 * Get record list method.
@@ -148,15 +154,15 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function get()
 	{
-		$queryGenerator = $this->getQuery();
-		$fieldsModel = $queryGenerator->getListViewFields();
-		$limit = $queryGenerator->getLimit();
+		$this->createQuery();
+		$fieldsModel = $this->queryGenerator->getListViewFields();
+		$limit = $this->queryGenerator->getLimit();
 		$isRawData = $this->isRawData();
 		$response = [
 			'headers' => $this->getColumnNames($fieldsModel),
 			'records' => [],
 		];
-		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		$dataReader = $this->queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$response['records'][$row['id']] = $this->getRecordFromRow($row, $fieldsModel);
 			if ($isRawData) {
@@ -170,47 +176,44 @@ class RecordsList extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Get query record list.
+	 * Create query record list.
 	 *
 	 * @throws \Api\Core\Exception
-	 *
-	 * @return \App\QueryGenerator
 	 */
-	public function getQuery()
+	public function createQuery(): void
 	{
-		$queryGenerator = new \App\QueryGenerator($this->controller->request->getModule());
-		$queryGenerator->initForDefaultCustomView();
+		$this->queryGenerator = new \App\QueryGenerator($this->controller->request->getModule());
+		$this->queryGenerator->initForDefaultCustomView();
 		$limit = 1000;
 		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
 			$limit = (int) $requestLimit;
 		}
 
 		if ($orderField = $this->controller->request->getHeader('x-row-order-field')) {
-			$queryGenerator->setOrder($orderField, $this->controller->request->getHeader('x-row-order'));
+			$this->queryGenerator->setOrder($orderField, $this->controller->request->getHeader('x-row-order'));
 		}
 
 		$offset = 0;
 		if ($requestOffset = $this->controller->request->getHeader('x-row-offset')) {
 			$offset = (int) $requestOffset;
 		}
-		$queryGenerator->setLimit($limit);
-		$queryGenerator->setOffset($offset);
+		$this->queryGenerator->setLimit($limit);
+		$this->queryGenerator->setOffset($offset);
 		if ($requestFields = $this->controller->request->getHeader('x-fields')) {
-			$queryGenerator->setFields(\App\Json::decode($requestFields));
-			$queryGenerator->setField('id');
+			$this->queryGenerator->setFields(\App\Json::decode($requestFields));
+			$this->queryGenerator->setField('id');
 		}
 
 		if ($conditions = $this->controller->request->getHeader('x-condition')) {
 			$conditions = \App\Json::decode($conditions);
 			if (isset($conditions['fieldName'])) {
-				$queryGenerator->addCondition($conditions['fieldName'], $conditions['value'], $conditions['operator'], $conditions['group'] ?? true, true);
+				$this->queryGenerator->addCondition($conditions['fieldName'], $conditions['value'], $conditions['operator'], $conditions['group'] ?? true, true);
 			} else {
 				foreach ($conditions as $condition) {
-					$queryGenerator->addCondition($condition['fieldName'], $condition['value'], $condition['operator'], $condition['group'] ?? true, true);
+					$this->queryGenerator->addCondition($condition['fieldName'], $condition['value'], $condition['operator'], $condition['group'] ?? true, true);
 				}
 			}
 		}
-		return $queryGenerator;
 	}
 
 	/**
@@ -234,11 +237,13 @@ class RecordsList extends \Api\Core\BaseAction
 	protected function getRecordFromRow(array $row, array $fieldsModel): array
 	{
 		$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
-		$recordModel = \Vtiger_Record_Model::getCleanInstance($this->controller->request->getModule());
-		foreach ($fieldsModel as $fieldName => &$fieldModel) {
-			if (isset($row[$fieldName])) {
-				$recordModel->set($fieldName, $row[$fieldName]);
-				$record[$fieldName] = $recordModel->getDisplayValue($fieldName, $row['id'], true);
+		if ($fieldsModel) {
+			$moduleModel = reset($fieldsModel)->getModule();
+			$recordModel = $moduleModel->getRecordFromArray($row);
+			foreach ($fieldsModel as $fieldName => &$fieldModel) {
+				if (isset($row[$fieldName])) {
+					$record[$fieldName] = $fieldModel->getUITypeModel()->getApiDisplayValue($row[$fieldName], $recordModel);
+				}
 			}
 		}
 		return $record;

@@ -260,6 +260,19 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Function to get display value for Web Service API.
+	 *
+	 * @param                      $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return mixed
+	 */
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		return \App\Purifier::decodeHtml($this->getDisplayValue($value, $recordModel->getId(), $recordModel, true, false));
+	}
+
+	/**
 	 * Duplicate value from record.
 	 *
 	 * @param Vtiger_Record_Model $recordModel

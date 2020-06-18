@@ -18,6 +18,8 @@ class Exception extends \Exception
 	{
 		if (!empty($previous)) {
 			parent::__construct($message, $code, $previous);
+			$this->file = $previous->getFile();
+			$this->line = $previous->getLine();
 		}
 		if (empty($this->message)) {
 			$this->message = $message;
@@ -37,6 +39,11 @@ class Exception extends \Exception
 			],
 		];
 		if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
+			$body['error']['file'] = rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $this->getFile()), PHP_EOL);
+			$body['error']['line'] = $this->getLine();
+			if (!empty($previous)) {
+				$body['error']['previous'] = rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $previous->__toString()), PHP_EOL);
+			}
 			$body['error']['backtrace'] = \App\Debuger::getBacktrace();
 		}
 		$response = Response::getInstance();

@@ -44,27 +44,26 @@ class RecordRelatedList extends \Api\Core\BaseAction
 		if ($requestFields = $this->controller->request->getHeader('x-fields')) {
 			$relationListView->setFields(\array_merge(['id'], \App\Json::decode($requestFields)));
 		}
-		$rawData = $records = $headers = [];
+		$response = [
+			'headers' => [],
+			'records' => [],
+		];
 		foreach ($relationListView->getHeaders() as $fieldName => $fieldModel) {
-			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
+			$response['headers'][$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
 		}
 		$isRawData = $this->isRawData();
 		foreach ($relationListView->getEntries($pagingModel) as $id => $relatedRecordModel) {
-			foreach ($headers as $fieldName => $fieldModel) {
-				$records[$id][$fieldName] = $relatedRecordModel->getDisplayValue($fieldName, $id, true);
+			foreach ($response['headers'] as $fieldName => $fieldModel) {
+				$value = $relatedRecordModel->get($fieldName);
+				$response['records'][$id][$fieldName] = $fieldModel->getUITypeModel()->getApiDisplayValue($value, $relatedRecordModel);
 				if ($isRawData) {
-					$rawData[$id][$fieldName] = $relatedRecordModel->get($fieldName);
+					$response['rawData'][$id][$fieldName] = $value;
 				}
 			}
 		}
-		$rowsCount = \count($records);
-		return [
-			'headers' => $headers,
-			'records' => $records,
-			'rawData' => $rawData,
-			'count' => $rowsCount,
-			'isMorePages' => $rowsCount === $limit,
-		];
+		$response['count'] = \count($response['records']);
+		$response['isMorePages'] = $response['count'] === $limit;
+		return $response;
 	}
 
 	/**

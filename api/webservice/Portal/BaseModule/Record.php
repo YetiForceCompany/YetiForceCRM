@@ -208,18 +208,20 @@ class Record extends \Api\Core\BaseAction
 		$rawData = $this->recordModel->getData();
 
 		$displayData = $fieldsLabel = [];
-		foreach ($this->recordModel->getModule()->getFields() as $moduleField) {
-			if (!$moduleField->isActiveField()) {
+		foreach ($this->recordModel->getModule()->getFields() as $fieldModel) {
+			if (!$fieldModel->isActiveField()) {
 				continue;
 			}
-			$displayData[$moduleField->getName()] = $this->recordModel->getDisplayValue($moduleField->getName(), $record, true);
-			$fieldsLabel[$moduleField->getName()] = \App\Language::translate($moduleField->get('label'), $moduleName);
-			if ($moduleField->isReferenceField()) {
-				$referenceModule = $moduleField->getUITypeModel()->getReferenceModule($this->recordModel->get($moduleField->getName()));
-				$rawData[$moduleField->getName() . '_module'] = $referenceModule ? $referenceModule->getName() : null;
+			$uiTypeModel = $fieldModel->getUITypeModel();
+			$value = $this->recordModel->get($fieldModel->getName());
+			$displayData[$fieldModel->getName()] = $uiTypeModel->getApiDisplayValue($value, $this->recordModel);
+			$fieldsLabel[$fieldModel->getName()] = \App\Language::translate($fieldModel->get('label'), $moduleName);
+			if ($fieldModel->isReferenceField()) {
+				$referenceModule = $uiTypeModel->getReferenceModule($value);
+				$rawData[$fieldModel->getName() . '_module'] = $referenceModule ? $referenceModule->getName() : null;
 			}
-			if ('taxes' === $moduleField->getFieldDataType()) {
-				$rawData[$moduleField->getName() . '_info'] = \Vtiger_Taxes_UIType::getValues($rawData[$moduleField->getName()]);
+			if ('taxes' === $fieldModel->getFieldDataType()) {
+				$rawData[$fieldModel->getName() . '_info'] = \Vtiger_Taxes_UIType::getValues($rawData[$fieldModel->getName()]);
 			}
 		}
 

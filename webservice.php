@@ -26,5 +26,6 @@ try {
 	]);
 } catch (\Throwable $e) {
 	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
-	throw new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
+	$ex = new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
+	$ex->handleError();
 }
