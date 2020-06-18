@@ -599,7 +599,7 @@ class File
 					}
 			}
 		} catch (\Throwable $e) {
-			trigger_error($e->getMessage(), E_USER_NOTICE);
+			Log::warning($e->getMessage(), __METHOD__);
 		}
 		return false;
 	}

@@ -726,8 +726,8 @@ class Calendar
 				if (0 === strpos($value, 'mailto:')) {
 					$value = substr($value, 7, \strlen($value) - 7);
 				}
-				if (\App\TextParser::getTextLength($value) > 100 || !\App\Validator::email($value)) {
-					throw new \Sabre\DAV\Exception\BadRequest('Invalid email');
+				if ($value && \App\TextParser::getTextLength($value) > 100 || !\App\Validator::email($value)) {
+					throw new \Sabre\DAV\Exception\BadRequest('Invalid email: ' . $value);
 				}
 				if (isset($attendee['ROLE']) && 'CHAIR' === $attendee['ROLE']->getValue()) {
 					$users = $this->findRecordByEmail($value, ['Users']);

@@ -1637,7 +1637,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getValueByField(string $fieldName)
 	{
-		if (!$this->has($fieldName)) {
+		if (!$this->has($fieldName) || '' === $this->get($fieldName)) {
 			$focus = $this->getEntity();
 			if (isset($focus->column_fields[$fieldName]) && '' !== $focus->column_fields[$fieldName]) {
 				$value = $focus->column_fields[$fieldName];
