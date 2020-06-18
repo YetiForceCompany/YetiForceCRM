@@ -148,11 +148,14 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	public function get()
 	{
-		$response = ['records' => []];
 		$queryGenerator = $this->getQuery();
 		$fieldsModel = $queryGenerator->getListViewFields();
 		$limit = $queryGenerator->getLimit();
 		$isRawData = $this->isRawData();
+		$response = [
+			'headers' => $this->getColumnNames($fieldsModel),
+			'records' => [],
+		];
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$response['records'][$row['id']] = $this->getRecordFromRow($row, $fieldsModel);
@@ -161,7 +164,6 @@ class RecordsList extends \Api\Core\BaseAction
 			}
 		}
 		$dataReader->close();
-		$response['headers'] = $this->getColumnNames($fieldsModel);
 		$response['count'] = \count($response['records']);
 		$response['isMorePages'] = $response['count'] === $limit;
 		return $response;
