@@ -2,6 +2,7 @@
 <script>
 	var height = window.innerHeight;
 	$(document).ready(function () {
+		window.App.Components.Scrollbar.active = false;
 		var v = 83;
 		if ($('.js-footer__user-info').length) {
 			v = 100;
