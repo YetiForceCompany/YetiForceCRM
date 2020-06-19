@@ -290,9 +290,18 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		$id = $recordModel->getId();
 		$return = [];
 		foreach ($value as $item) {
-			$file = [
-				'type' => 'DownloadFile',
+			$path = \App\Fields\File::getLocalPath($item['path']);
+			if (!file_exists($path)) {
+				throw new \Api\Core\Exception('File does not exist', 404);
+			}
+			$file = \App\Fields\File::loadFromInfo([
+				'path' => $path,
 				'name' => $item['name'],
+			]);
+			$file = [
+				'name' => $item['name'],
+				'type' => $file->getMimeType(),
+				'size' => $file->getSize(),
 				'path' => 'Files',
 				'postData' => [
 					'module' => $this->getFieldModel()->getModuleName(),

@@ -53,9 +53,11 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 			if ('I' === $recordModel->getValueByField('filelocationtype')) {
 				$row = (new App\Db\Query())->from('vtiger_seattachmentsrel')->join('LEFT JOIN', 'vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')->where(['crmid' => $recordModel->getId()])->one();
 				if ($row) {
+					$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $row['path'] . $row['attachmentsid'];
 					$return = [
-						'type' => 'DownloadFile',
 						'name' => $row['name'],
+						'type' => $row['type'],
+						'size' => filesize($filePath),
 						'path' => 'Files',
 						'postData' => [
 							'module' => 'Documents',
@@ -67,7 +69,6 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 				}
 			} else {
 				$return = [
-					'type' => 'External',
 					'url' => $value
 				];
 			}

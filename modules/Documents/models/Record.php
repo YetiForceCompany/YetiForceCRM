@@ -80,7 +80,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	{
 		$fileContent = false;
 		if ($fileDetails = $this->getFileDetails()) {
-			$filePath = $fileDetails['path'];
+			$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $fileDetails['path'];
 			$fileName = $fileDetails['name'];
 			if ('I' === $this->get('filelocationtype')) {
 				$fileName = html_entity_decode($fileName, ENT_QUOTES, \App\Config::main('default_charset'));
@@ -90,6 +90,13 @@ class Documents_Record_Model extends Vtiger_Record_Model
 					$savedFile = $fileDetails['attachmentsid'] . '_' . $fileName;
 				}
 				if (file_exists($filePath . $savedFile)) {
+					if ($this->get('return')) {
+						return \App\Fields\File::loadFromInfo([
+							'path' => $filePath . $savedFile,
+							'name' => $fileDetails['name'],
+							'mimeType' => $fileDetails['type'],
+						]);
+					}
 					$fileSize = filesize($filePath . $savedFile);
 					$fileSize = $fileSize + ($fileSize % 1024);
 					if (fopen($filePath . $savedFile, 'r')) {

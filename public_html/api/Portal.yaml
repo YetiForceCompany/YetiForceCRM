@@ -631,10 +631,9 @@ components:
       type: object
       example:
         module: Documents
-        actionName: MultiImage
-        field: fieldName
+        actionName: DownloadFile
         record: 1111
-        key: xxxx
+        fileid: 333
     BaseActionInstallResponseBody:
       title: 'Base action install'
       description: 'The representation of a base action install'

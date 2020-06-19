@@ -36,7 +36,7 @@ class Documents_DownloadFile_File extends Vtiger_Basic_File
 	 */
 	public function get(App\Request $request)
 	{
-		$documentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		$documentRecordModel = Documents_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		//Download the file
 		$documentRecordModel->set('show', $request->getBoolean('show'));
 		$documentRecordModel->downloadFile();
@@ -44,5 +44,23 @@ class Documents_DownloadFile_File extends Vtiger_Basic_File
 		$documentRecordModel->updateDownloadCount();
 
 		return false;
+	}
+
+	/**
+	 * Api function to get file.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return \App\Fields\File
+	 */
+	public function api(App\Request $request): App\Fields\File
+	{
+		$documentRecordModel = Documents_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		//Download the file
+		$documentRecordModel->set('return', true);
+		$file = $documentRecordModel->downloadFile();
+		//Update the Download Count
+		$documentRecordModel->updateDownloadCount();
+		return $file;
 	}
 }

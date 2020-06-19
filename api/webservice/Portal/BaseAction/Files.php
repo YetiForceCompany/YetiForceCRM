@@ -90,7 +90,7 @@ class Files extends \Api\Core\BaseAction
 	 * 		title="BaseAction - Files request",
 	 * 		description="Action parameters to download the file",
 	 *		type="object",
-	 *		example={"module" : "Documents", "actionName" : "MultiImage", "field" : "fieldName", "record" : 1111, "key" : "xxxx"},
+	 *		example={"module" : "Documents", "actionName" : "DownloadFile", "record" : 1111, "fileid" : 333},
 	 * ),
 	 */
 	public function put()
