@@ -20,7 +20,7 @@
                 "tags": [
                     "BaseAction"
                 ],
-                "summary": "Base action to download files from the system",
+                "summary": "Download files from the system",
                 "operationId": "Api\\Portal\\BaseAction\\Files::put",
                 "parameters": [
                     {
@@ -181,7 +181,7 @@
                 "tags": [
                     "BaseAction"
                 ],
-                "summary": "Base action menu into the system",
+                "summary": "Get menu into the system",
                 "operationId": "Api\\Portal\\BaseAction\\Menu::get",
                 "parameters": [
                     {
@@ -228,7 +228,7 @@
                 "tags": [
                     "BaseAction"
                 ],
-                "summary": "Gets the module list action, along with their translated action",
+                "summary": "Get the module list action, along with their translated action",
                 "operationId": "Api\\Portal\\BaseAction\\Modules::get",
                 "parameters": [
                     {

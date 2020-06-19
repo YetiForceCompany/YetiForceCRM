@@ -24,7 +24,7 @@ class Modules extends \Api\Core\BaseAction
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/Modules",
-	 *		summary="Gets the module list action, along with their translated action",
+	 *		summary="Get the module list action, along with their translated action",
 	 *		tags={"BaseAction"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}

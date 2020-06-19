@@ -32,7 +32,7 @@ class Files extends \Api\Core\BaseAction
 	 *
 	 * @OA\Put(
 	 *		path="/webservice/Files",
-	 *		summary="Base action to download files from the system",
+	 *		summary="Download files from the system",
 	 *		tags={"BaseAction"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
