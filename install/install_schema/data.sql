@@ -12985,6 +12985,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`) values (633,14,132,'getRelatedList',1,'ProductCategory',0,'SELECT',0,0,0,'RelatedTab',NULL);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`) values (634,132,14,'getRelatedList',2,'Products',0,'SELECT',0,0,0,'RelatedTab',NULL);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`) values (635,85,4,'getRelatedList',4,'Contacts',0,'ADD,SELECT',0,0,0,'RelatedTab',NULL);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`) values (636,131,8,'getAttachments',3,'Documents',0,'ADD,SELECT',0,0,0,'RelatedTab',NULL);
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
@@ -19302,6 +19303,9 @@ insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`dat
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`data`) values (206,34,'RelatedModule','Documents',2,5,'{\"relatedmodule\":8,\"relatedfields\":[\"13::ticket_title\",\"8::notes_title\",\"8::folderid\",\"8::filelocationtype\",\"8::filename\"],\"viewtype\":\"List\",\"limit\":5,\"action\":1,\"actionSelect\":1,\"no_result_text\":0,\"switchHeader\":\"-\",\"filter\":\"-\",\"checkbox\":\"-\",\"relation_id\":158}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`data`) values (208,34,'Comments','ModComments',2,4,'{\"relatedmodule\":\"ModComments\",\"limit\":5}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`data`) values (209,85,'RelatedModule','Contacts',2,5,'{\"relation_id\":635,\"relatedmodule\":4,\"relatedfields\":[\"4::firstname\",\"4::lastname\",\"4::phone\",\"4::email\"],\"viewtype\":\"List\",\"limit\":5,\"action\":1,\"actionSelect\":1,\"no_result_text\":1,\"switchHeader\":\"-\",\"filter\":\"-\",\"checkbox\":\"-\"}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`data`) values (210,131,'Summary','',1,0,'[]');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`data`) values (211,131,'Comments','ModComments',2,2,'{\"relatedmodule\":\"ModComments\",\"limit\":5}');
+insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`data`) values (212,131,'RelatedModule','Documents',2,1,'{\"relation_id\":636,\"relatedmodule\":8,\"relatedfields\":[\"8::notes_title\",\"8::filename\",\"8::ossdc_status\"],\"viewtype\":\"List\",\"limit\":5,\"action\":0,\"actionSelect\":0,\"no_result_text\":0,\"switchHeader\":\"-\",\"filter\":\"-\",\"checkbox\":\"-\"}');
 
 /*Data for the table `vtiger_ws_entity` */
 
