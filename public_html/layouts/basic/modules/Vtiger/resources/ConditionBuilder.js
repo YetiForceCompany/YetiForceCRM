@@ -81,6 +81,7 @@ class Vtiger_ConditionBuilder_Js {
 		App.Fields.Date.registerRange(container.find('.js-date-range-field'), { ranges: false });
 		App.Fields.DateTime.register(container.find('.js-datetime-range-field'));
 		app.registerEventForClockPicker($(container.find('.clockPicker')));
+		App.Fields.Tree.register(container);
 	}
 
 	/**
