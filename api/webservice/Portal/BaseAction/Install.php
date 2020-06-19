@@ -58,7 +58,7 @@ class Install extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 * 		schema="BaseActionInstallResponseBody",
-	 * 		title="Base action install",
+	 * 		title="Base action - Install",
 	 * 		description="The representation of a base action install",
 	 *		type="object",
 	 *  	@OA\Property(

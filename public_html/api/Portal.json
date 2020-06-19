@@ -932,7 +932,7 @@
     "components": {
         "schemas": {
             "BaseAction_Files_Request": {
-                "title": "BaseAction - Files request",
+                "title": "Base action - Files request",
                 "description": "Action parameters to download the file",
                 "type": "object",
                 "example": {
@@ -943,7 +943,7 @@
                 }
             },
             "BaseActionInstallResponseBody": {
-                "title": "Base action install",
+                "title": "Base action - Install",
                 "description": "The representation of a base action install",
                 "properties": {
                     "status": {
@@ -962,7 +962,7 @@
                 "type": "object"
             },
             "BaseActionMenuResponseBody": {
-                "title": "Base action menu",
+                "title": "Base action - Menu",
                 "description": "Base action menu response body",
                 "properties": {
                     "status": {
@@ -1043,8 +1043,8 @@
                 "type": "object"
             },
             "BaseActionModulesResponseBody": {
-                "title": "List items",
-                "description": "List of obtained items",
+                "title": "Base action - List of modules",
+                "description": "List of available modules",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -1056,14 +1056,12 @@
                     },
                     "result": {
                         "description": "List of modules accessed",
-                        "properties": {
-                            "items": {
-                                "description": "Module name",
-                                "type": "string",
-                                "example": "Accounts"
-                            }
-                        },
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": {
+                            "description": "Module name",
+                            "type": "string",
+                            "example": "Accounts"
+                        }
                     }
                 },
                 "type": "object"
@@ -1425,7 +1423,7 @@
                 "type": "object"
             },
             "BaseModule_Get_Record_Response": {
-                "title": "Response body for Record",
+                "title": "Base module - Response body for Record",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -1496,7 +1494,7 @@
                 "type": "object"
             },
             "BaseModule_Delete_Record_Response": {
-                "title": "Transfer to the trash",
+                "title": "Base module - Transfer to the trash",
                 "description": "List of records moved to the trash",
                 "properties": {
                     "status": {
@@ -1515,7 +1513,7 @@
                 "type": "object"
             },
             "BaseModule_Put_Record_Response": {
-                "title": "Response body for Record",
+                "title": "Base module - Response body for Record",
                 "description": "Contents of the response contains only id",
                 "properties": {
                     "status": {
@@ -1542,7 +1540,7 @@
                 "type": "object"
             },
             "BaseModule_Record_Request": {
-                "title": "Request body for record create or update",
+                "title": "Base module - Request body for record create or update",
                 "description": "Contents of the request contains an associative array with the data record.",
                 "type": "object",
                 "example": {
@@ -1551,7 +1549,7 @@
                 }
             },
             "BaseModule_Post_Record_Response": {
-                "title": "Created records",
+                "title": "Base module - Created records",
                 "description": "Contents of the response contains only id",
                 "properties": {
                     "status": {
@@ -1602,7 +1600,7 @@
                 ]
             },
             "UsersLoginRequestBody": {
-                "title": "Users login request body",
+                "title": "Users module - Users login request body",
                 "description": "JSON or form-data",
                 "properties": {
                     "userName": {
@@ -1624,7 +1622,7 @@
                 "type": "object"
             },
             "UsersLoginResponseBody": {
-                "title": "Users login response body",
+                "title": "Users module - Users login response body",
                 "description": "Users login response body",
                 "properties": {
                     "status": {
@@ -1791,6 +1789,7 @@
                 "type": "object"
             },
             "Exception": {
+                "title": "Exception",
                 "description": "Is the content request is encrypted",
                 "properties": {
                     "status": {

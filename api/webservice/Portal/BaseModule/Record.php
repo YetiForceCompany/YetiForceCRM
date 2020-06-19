@@ -150,7 +150,7 @@ class Record extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 *		schema="BaseModule_Get_Record_Response",
-	 *		title="Response body for Record",
+	 *		title="Base module - Response body for Record",
 	 *		type="object",
 	 *		@OA\Property(
 	 *			property="status",
@@ -313,7 +313,7 @@ class Record extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 *		schema="BaseModule_Delete_Record_Response",
-	 *		title="Transfer to the trash",
+	 *		title="Base module - Transfer to the trash",
 	 *		description="List of records moved to the trash",
 	 *		type="object",
 	 *		@OA\Property(
@@ -385,7 +385,7 @@ class Record extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 *		schema="BaseModule_Put_Record_Response",
-	 *		title="Response body for Record",
+	 *		title="Base module - Response body for Record",
 	 *		description="Contents of the response contains only id",
 	 *		type="object",
 	 *		@OA\Property(
@@ -404,7 +404,7 @@ class Record extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 *		schema="BaseModule_Record_Request",
-	 *		title="Request body for record create or update",
+	 *		title="Base module - Request body for record create or update",
 	 *		description="Contents of the request contains an associative array with the data record.",
 	 *		type="object",
 	 *		example={"firstname" : "Tom", "lastname" : "Kowalski"},
@@ -456,7 +456,7 @@ class Record extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 *		schema="BaseModule_Post_Record_Response",
-	 *		title="Created records",
+	 *		title="Base module - Created records",
 	 *		description="Contents of the response contains only id",
 	 *		type="object",
 	 *		@OA\Property(

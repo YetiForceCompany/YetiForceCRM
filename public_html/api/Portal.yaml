@@ -626,7 +626,7 @@ paths:
 components:
   schemas:
     BaseAction_Files_Request:
-      title: 'BaseAction - Files request'
+      title: 'Base action - Files request'
       description: 'Action parameters to download the file'
       type: object
       example:
@@ -635,7 +635,7 @@ components:
         record: 1111
         fileid: 333
     BaseActionInstallResponseBody:
-      title: 'Base action install'
+      title: 'Base action - Install'
       description: 'The representation of a base action install'
       properties:
         status:
@@ -649,7 +649,7 @@ components:
           type: object
       type: object
     BaseActionMenuResponseBody:
-      title: 'Base action menu'
+      title: 'Base action - Menu'
       description: 'Base action menu response body'
       properties:
         status:
@@ -709,8 +709,8 @@ components:
           type: object
       type: object
     BaseActionModulesResponseBody:
-      title: 'List items'
-      description: 'List of obtained items'
+      title: 'Base action - List of modules'
+      description: 'List of available modules'
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
@@ -720,12 +720,11 @@ components:
             - '1'
         result:
           description: 'List of modules accessed'
-          properties:
-            items:
-              description: 'Module name'
-              type: string
-              example: Accounts
           type: object
+          additionalProperties:
+            description: 'Module name'
+            type: string
+            example: Accounts
       type: object
     BaseModule_Fields_ResponseBody:
       title: 'Base module - Response action fields'
@@ -812,7 +811,7 @@ components:
           type: object
       type: object
     BaseModule_Get_Record_Response:
-      title: 'Response body for Record'
+      title: 'Base module - Response body for Record'
       properties:
         status:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
@@ -865,7 +864,7 @@ components:
           type: object
       type: object
     BaseModule_Delete_Record_Response:
-      title: 'Transfer to the trash'
+      title: 'Base module - Transfer to the trash'
       description: 'List of records moved to the trash'
       properties:
         status:
@@ -879,7 +878,7 @@ components:
           type: boolean
       type: object
     BaseModule_Put_Record_Response:
-      title: 'Response body for Record'
+      title: 'Base module - Response body for Record'
       description: 'Contents of the response contains only id'
       properties:
         status:
@@ -899,14 +898,14 @@ components:
           type: object
       type: object
     BaseModule_Record_Request:
-      title: 'Request body for record create or update'
+      title: 'Base module - Request body for record create or update'
       description: 'Contents of the request contains an associative array with the data record.'
       type: object
       example:
         firstname: Tom
         lastname: Kowalski
     BaseModule_Post_Record_Response:
-      title: 'Created records'
+      title: 'Base module - Created records'
       description: 'Contents of the response contains only id'
       properties:
         status:
@@ -944,7 +943,7 @@ components:
         - 0
         - 1
     UsersLoginRequestBody:
-      title: 'Users login request body'
+      title: 'Users module - Users login request body'
       description: 'JSON or form-data'
       properties:
         userName:
@@ -960,7 +959,7 @@ components:
             type: string
       type: object
     UsersLoginResponseBody:
-      title: 'Users login response body'
+      title: 'Users module - Users login response body'
       description: 'Users login response body'
       properties:
         status:
@@ -1086,6 +1085,7 @@ components:
           type: object
       type: object
     Exception:
+      title: Exception
       description: 'Is the content request is encrypted'
       properties:
         status:

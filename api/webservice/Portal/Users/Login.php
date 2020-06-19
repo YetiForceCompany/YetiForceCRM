@@ -113,7 +113,7 @@ class Login extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 * 		schema="UsersLoginRequestBody",
-	 * 		title="Users login request body",
+	 * 		title="Users module - Users login request body",
 	 * 		description="JSON or form-data",
 	 *		type="object",
 	 *  	@OA\Property(
@@ -135,7 +135,7 @@ class Login extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 * 		schema="UsersLoginResponseBody",
-	 * 		title="Users login response body",
+	 * 		title="Users module - Users login response body",
 	 * 		description="Users login response body",
 	 *		type="object",
 	 *  	@OA\Property(
@@ -193,6 +193,7 @@ class Login extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 *		schema="Exception",
+	 *		title="Exception",
 	 *  	description="Is the content request is encrypted",
 	 *		type="object",
 	 *  	@OA\Property(

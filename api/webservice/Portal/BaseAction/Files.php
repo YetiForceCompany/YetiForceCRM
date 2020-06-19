@@ -87,7 +87,7 @@ class Files extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 * 		schema="BaseAction_Files_Request",
-	 * 		title="BaseAction - Files request",
+	 * 		title="Base action - Files request",
 	 * 		description="Action parameters to download the file",
 	 *		type="object",
 	 *		example={"module" : "Documents", "actionName" : "DownloadFile", "record" : 1111, "fileid" : 333},

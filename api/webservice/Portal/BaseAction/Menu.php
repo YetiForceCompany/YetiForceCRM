@@ -50,7 +50,7 @@ class Menu extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 * 		schema="BaseActionMenuResponseBody",
-	 * 		title="Base action menu",
+	 * 		title="Base action - Menu",
 	 * 		description="Base action menu response body",
 	 *		type="object",
 	 *  	@OA\Property(
