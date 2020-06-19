@@ -17,9 +17,14 @@ class BaseAction
 	public $allowedHeaders = [];
 	/** @var \Api\Controller */
 	public $controller;
-
 	/** @var \App\Base */
 	public $session;
+	/**
+	 * Response data type.
+	 *
+	 * @var string
+	 */
+	public $responseType = 'data';
 
 	public function checkAction()
 	{
@@ -90,10 +95,7 @@ class BaseAction
 		$namespace = ucfirst($apiType);
 		\App\Privilege::setPermissionInterpreter("\\Api\\{$namespace}\\Privilege");
 		\App\PrivilegeQuery::setPermissionInterpreter("\\Api\\{$namespace}\\PrivilegeQuery");
-		\Vtiger_Field_Model::setDefaultUiTypeClassName('\\Api\\Core\\Modules\\Vtiger\\UiTypes\\Base');
-		$db->createCommand()
-			->update($sessionTable, ['changed' => date('Y-m-d H:i:s')], ['id' => $this->session->get('id')])
-			->execute();
+		$db->createCommand()->update($sessionTable, ['changed' => date('Y-m-d H:i:s')], ['id' => $this->session->get('id')])->execute();
 		return true;
 	}
 

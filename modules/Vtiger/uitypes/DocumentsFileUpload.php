@@ -46,6 +46,38 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		$return = [];
+		if ($recordModel && !empty($value)) {
+			if ('I' === $recordModel->getValueByField('filelocationtype')) {
+				$row = (new App\Db\Query())->from('vtiger_seattachmentsrel')->join('LEFT JOIN', 'vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')->where(['crmid' => $recordModel->getId()])->one();
+				if ($row) {
+					$return = [
+						'type' => 'DownloadFile',
+						'name' => $row['name'],
+						'path' => 'Files',
+						'postData' => [
+							'module' => 'Documents',
+							'actionName' => 'DownloadFile',
+							'record' => $recordModel->getId(),
+							'fileid' => $row['attachmentsid'],
+						]
+					];
+				}
+			} else {
+				$return = [
+					'type' => 'External',
+					'url' => $value
+				];
+			}
+		}
+		return $return;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if (null === $value) {

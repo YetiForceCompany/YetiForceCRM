@@ -37,6 +37,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApprovalsRegisterResponseBody'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApprovalsRegisterResponseBody'
         '401':
           description: 'No sent token OR Invalid token'
         '403':
@@ -100,6 +103,9 @@ paths:
           description: 'List of consents'
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/ConsentsResponseBody'
+            application/xml:
               schema:
                 $ref: '#/components/schemas/ConsentsResponseBody'
         '401':

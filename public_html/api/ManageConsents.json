@@ -51,6 +51,11 @@
                                 "schema": {
                                     "$ref": "#/components/schemas/ApprovalsRegisterResponseBody"
                                 }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApprovalsRegisterResponseBody"
+                                }
                             }
                         }
                     },
@@ -138,6 +143,11 @@
                         "description": "List of consents",
                         "content": {
                             "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConsentsResponseBody"
+                                }
+                            },
+                            "application/xml": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ConsentsResponseBody"
                                 }

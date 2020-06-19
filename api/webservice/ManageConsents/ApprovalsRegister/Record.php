@@ -72,6 +72,7 @@ class Record extends \Api\ManageConsents\BaseAction
 	 *				response=200,
 	 *				description="Result of adding entry",
 	 *				@OA\JsonContent(ref="#/components/schemas/ApprovalsRegisterResponseBody"),
+	 *				@OA\XmlContent(ref="#/components/schemas/ApprovalsRegisterResponseBody"),
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,
@@ -151,7 +152,6 @@ class Record extends \Api\ManageConsents\BaseAction
 			$this->recordModel->save();
 			$response['id'] = $this->recordModel->getId();
 		}
-
 		return $response;
 	}
 }

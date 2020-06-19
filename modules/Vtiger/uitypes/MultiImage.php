@@ -280,6 +280,41 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		$value = \App\Json::decode($value);
+		if (!$value || !\is_array($value)) {
+			return [];
+		}
+		$multiMode = 'multiImage' === $this->getFieldModel()->getFieldDataType();
+		$id = $recordModel->getId();
+		$return = [];
+		foreach ($value as $item) {
+			$file = [
+				'type' => 'DownloadFile',
+				'name' => $item['name'],
+				'path' => 'Files',
+				'postData' => [
+					'module' => $this->getFieldModel()->getModuleName(),
+					'actionName' => 'MultiImage',
+					'field' => $this->getFieldModel()->getFieldName(),
+					'record' => $id,
+					'key' => $item['key'],
+				]
+			];
+			if ($multiMode) {
+				$return[] = $file;
+			} else {
+				$return = $file;
+				break;
+			}
+		}
+		return $return;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/MultiImage.tpl';

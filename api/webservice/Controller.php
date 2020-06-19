@@ -13,14 +13,31 @@ class Controller
 {
 	/** @var \self */
 	private static $instance;
-
 	/** @var Core\BaseAction */
 	private static $action;
-
-	/** @var \Api\Core\Request */
+	/**
+	 * Request instance.
+	 *
+	 * @var \Api\Core\Request
+	 * */
 	public $request;
+	/**
+	 * Response instance.
+	 *
+	 * @var \Api\Core\Response
+	 */
 	public $response;
+	/**
+	 * Request method.
+	 *
+	 * @var string
+	 */
 	public $method;
+	/**
+	 * Headers.
+	 *
+	 * @var array
+	 */
 	public $headers;
 	public $app;
 
@@ -88,11 +105,20 @@ class Controller
 			$return = \call_user_func([$handler, strtolower($this->method)]);
 		}
 		if (null !== $return) {
-			$return = [
-				'status' => 1,
-				'result' => $return,
-			];
-			$this->response->setBody($return);
+			switch ($handler->responseType) {
+				case 'data':
+					$this->response->setBody([
+						'status' => 1,
+						'result' => $return,
+					]);
+					break;
+				case 'file':
+					$this->response->setFile($return);
+					break;
+				default:
+					throw new Core\Exception('Unsupported response type: ' . $handler->responseType, 400);
+					break;
+			}
 		}
 	}
 

@@ -15,6 +15,121 @@
         "version": "0.1"
     },
     "paths": {
+        "/webservice/Files": {
+            "put": {
+                "tags": [
+                    "BaseAction"
+                ],
+                "summary": "Base action to download files from the system",
+                "operationId": "Api\\Portal\\BaseAction\\Files::put",
+                "parameters": [
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/X-ENCRYPTED"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Action parameters to download the file",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BaseAction_Files_Request"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BaseAction_Files_Request"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "File content, mediaType is dynamic depending on the type of file being downloaded",
+                        "content": {
+                            "application/octet-stream": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No permissions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "File not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "406": {
+                        "description": "Not Acceptable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": "",
+                        "ApiKeyAuth": "",
+                        "token": ""
+                    }
+                ]
+            }
+        },
         "/webservice/Install": {
             "put": {
                 "tags": [
@@ -675,12 +790,12 @@
                     "200": {
                         "description": "List of consents",
                         "content": {
-                            "text/html": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/BaseModule_RecordsList_ResponseBody"
                                 }
                             },
-                            "application/json": {
+                            "application/xml": {
                                 "schema": {
                                     "$ref": "#/components/schemas/BaseModule_RecordsList_ResponseBody"
                                 }
@@ -816,6 +931,18 @@
     },
     "components": {
         "schemas": {
+            "BaseAction_Files_Request": {
+                "title": "BaseAction - Files request",
+                "description": "Action parameters to download the file",
+                "type": "object",
+                "example": {
+                    "module": "Documents",
+                    "actionName": "MultiImage",
+                    "field": "fieldName",
+                    "record": 1111,
+                    "key": "xxxx"
+                }
+            },
             "BaseActionInstallResponseBody": {
                 "title": "Base action install",
                 "description": "The representation of a base action install",
@@ -1657,6 +1784,51 @@
                                     }
                                 },
                                 "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Exception": {
+                "description": "Is the content request is encrypted",
+                "properties": {
+                    "status": {
+                        "description": "0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0
+                        ],
+                        "example": 0
+                    },
+                    "error": {
+                        "description": "Error  details",
+                        "properties": {
+                            "message": {
+                                "description": "Post method.",
+                                "type": "string",
+                                "example": "Invalid method"
+                            },
+                            "code": {
+                                "description": "Post method.",
+                                "type": "integer",
+                                "example": 405
+                            },
+                            "file": {
+                                "description": "Post method.",
+                                "type": "string",
+                                "example": "api\\webservice\\Portal\\BaseAction\\Files.php"
+                            },
+                            "line": {
+                                "description": "Post method.",
+                                "type": "integer",
+                                "example": 101
+                            },
+                            "backtrace": {
+                                "description": "Post method.",
+                                "type": "string",
+                                "example": "#0 api\\\\webservice\\\\Portal\\\\BaseAction\\\\Files.php (101) ...."
                             }
                         },
                         "type": "object"

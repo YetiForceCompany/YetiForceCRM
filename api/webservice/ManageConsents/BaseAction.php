@@ -53,11 +53,9 @@ class BaseAction extends \Api\Core\BaseAction
 			throw new \Api\Core\Exception('Invalid data access', 401);
 		}
 		$db->createCommand()->update($userTable, ['login_time' => date('Y-m-d H:i:s')], ['id' => $row['id']])->execute();
-		\Vtiger_Field_Model::setDefaultUiTypeClassName('\\Api\\Core\\Modules\\Vtiger\\UiTypes\\Base');
 		$this->session = new \App\Base();
 		$this->session->setData($row);
 		\App\User::setCurrentUserId($this->session->get('user_id'));
-
 		return true;
 	}
 }

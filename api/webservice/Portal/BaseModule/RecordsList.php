@@ -132,10 +132,7 @@ class RecordsList extends \Api\Core\BaseAction
 	 *			response=200,
 	 *			description="List of consents",
 	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody"),
-	 *			@OA\MediaType(
-	 *				mediaType="text/html",
-	 *				@OA\Schema(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody")
-	 *			),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_RecordsList_ResponseBody"),
 	 *		),
 	 *),
 	 * @OA\Schema(
@@ -240,7 +237,7 @@ class RecordsList extends \Api\Core\BaseAction
 		if ($fieldsModel) {
 			$moduleModel = reset($fieldsModel)->getModule();
 			$recordModel = $moduleModel->getRecordFromArray($row);
-			foreach ($fieldsModel as $fieldName => &$fieldModel) {
+			foreach ($fieldsModel as $fieldName => $fieldModel) {
 				if (isset($row[$fieldName])) {
 					$record[$fieldName] = $fieldModel->getUITypeModel()->getApiDisplayValue($row[$fieldName], $recordModel);
 				}

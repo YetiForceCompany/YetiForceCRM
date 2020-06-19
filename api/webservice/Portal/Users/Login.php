@@ -191,9 +191,31 @@ class Login extends \Api\Core\BaseAction
 	 * 				),
 	 *    ),
 	 * ),
+	 * @OA\Schema(
+	 *		schema="Exception",
+	 *  	description="Is the content request is encrypted",
+	 *		type="object",
+	 *  	@OA\Property(
+	 * 			property="status",
+	 *			description="0 - error",
+	 * 			enum={0},
+	 *			type="integer",
+	 *			example=0
+	 * 		),
+	 *		@OA\Property(
+	 * 			property="error",
+	 *     	 	description="Error  details",
+	 *    	 	type="object",
+	 *   		@OA\Property(property="message", type="string", example="Invalid method"),
+	 *   		@OA\Property(property="code", type="integer", example=405),
+	 *   		@OA\Property(property="file", type="string", example="api\webservice\Portal\BaseAction\Files.php"),
+	 *   		@OA\Property(property="line", type="integer", example=101),
+	 * 			@OA\Property(property="backtrace", type="string", example="#0 api\\webservice\\Portal\\BaseAction\\Files.php (101) ...."),
+	 *    	),
+	 * ),
 	 * @OA\Tag(
-	 *   name="Users",
-	 *   description="Access to user methods"
+	 *		name="Users",
+	 *		description="Access to user methods"
 	 * )
 	 */
 	public function post()
