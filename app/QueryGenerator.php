@@ -278,6 +278,18 @@ class QueryGenerator
 	}
 
 	/**
+	 * Clear fields.
+	 *
+	 * @return void
+	 */
+	public function clearFields()
+	{
+		$this->fields = ['id'];
+		$this->relatedFields = [];
+		return $this;
+	}
+
+	/**
 	 * Load base module list fields.
 	 */
 	public function loadListFields()

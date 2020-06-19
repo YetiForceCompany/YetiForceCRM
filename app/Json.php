@@ -84,7 +84,7 @@ class Json
 	 */
 	public static function isJson(?string $value): bool
 	{
-		return !('' === $value || (self::decode($value) && \json_last_error()));
+		return !('' === $value || null === self::decode($value) || JSON_ERROR_NONE !== \json_last_error());
 	}
 
 	/**
