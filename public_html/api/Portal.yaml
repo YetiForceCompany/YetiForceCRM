@@ -543,6 +543,42 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/BaseModule_RecordsList_ResponseBody'
+        '400':
+          description: 'Incorrect json syntax'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        '401':
+          description: 'No sent token, Invalid token, Token has expired'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        '403':
+          description: 'No permissions for module'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Exception'
+        '405':
+          description: 'Invalid method'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Exception'
       security:
         -
           basicAuth: ''
