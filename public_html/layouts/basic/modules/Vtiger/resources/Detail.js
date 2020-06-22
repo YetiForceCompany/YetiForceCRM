@@ -355,7 +355,7 @@ jQuery.Class(
 				if (widget.is(':visible')) {
 					this.loadWidget(widget);
 				}
-				if(length === index + 1){
+				if (length === index + 1) {
 					container.validationEngine('detach');
 					container.validationEngine(app.validationEngineOptionsForRecord);
 				}
@@ -764,7 +764,8 @@ jQuery.Class(
 						thisInstance.addRelationBetweenRecords(
 							'ModComments',
 							data.result.id,
-							thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel)
+							thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel),
+							{ relationId: null }
 						);
 					}
 					app.event.trigger('DetailView.SaveComment.AfterAjax', commentInfoBlock, postData, data);
