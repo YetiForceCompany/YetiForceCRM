@@ -33,7 +33,7 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @var \Vtiger_Record_Model
 	 */
-	protected $recordModel = false;
+	protected $recordModel;
 
 	/**
 	 * Check permission to method.
@@ -53,11 +53,10 @@ class Record extends \Api\Core\BaseAction
 				throw new \Api\Core\Exception('No permissions to create record', 403);
 			}
 		} else {
-			$record = $this->controller->request->get('record');
-			if (!$record || !\App\Record::isExists($record, $moduleName)) {
+			if ($this->controller->request->isEmpty('record', true) || !\App\Record::isExists($this->controller->request->getInteger('record'), $moduleName)) {
 				throw new \Api\Core\Exception('Record doesn\'t exist', 404);
 			}
-			$this->recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$this->recordModel = \Vtiger_Record_Model::getInstanceById($this->controller->request->getInteger('record'), $moduleName);
 			switch ($method) {
 				case 'DELETE':
 					if (!$this->recordModel->privilegeToMoveToTrash()) {

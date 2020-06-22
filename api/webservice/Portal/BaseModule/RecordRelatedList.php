@@ -22,6 +22,12 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 * {@inheritdoc}
 	 */
 	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-parent-id'];
+	/**
+	 * Record model.
+	 *
+	 * @var \Vtiger_Record_Model
+	 */
+	protected $recordModel;
 
 	/**
 	 * {@inheritdoc}
@@ -31,6 +37,14 @@ class RecordRelatedList extends \Api\Core\BaseAction
 		parent::checkAction();
 		if ($this->controller->request->isEmpty('param', 'Alnum')) {
 			throw new \Api\Core\Exception('No relation module name', 405);
+		}
+		$moduleName = $this->controller->request->getModule();
+		if ($this->controller->request->isEmpty('record', true) || !\App\Record::isExists($this->controller->request->getInteger('record'), $moduleName)) {
+			throw new \Api\Core\Exception('Record doesn\'t exist', 404);
+		}
+		$this->recordModel = \Vtiger_Record_Model::getInstanceById($this->controller->request->getInteger('record'), $moduleName);
+		if (!$this->recordModel->isViewable()) {
+			throw new \Api\Core\Exception('No permissions to view record', 403);
 		}
 		return true;
 	}
@@ -181,7 +195,6 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	 */
 	public function get()
 	{
-		$recordModel = \Vtiger_Record_Model::getInstanceById($this->controller->request->getInteger('record'), $this->controller->request->getModule());
 		$pagingModel = new \Vtiger_Paging_Model();
 		$limit = 1000;
 		if ($requestLimit = $this->controller->request->getHeader('x-row-limit')) {
@@ -191,7 +204,10 @@ class RecordRelatedList extends \Api\Core\BaseAction
 		if ($requestOffset = $this->controller->request->getHeader('x-row-offset')) {
 			$pagingModel->set('page', (int) $requestOffset);
 		}
-		$relationListView = \Vtiger_RelationListView_Model::getInstance($recordModel, $this->controller->request->getByType('param', 'Alnum'));
+		$relationListView = \Vtiger_RelationListView_Model::getInstance($this->recordModel, $this->controller->request->getByType('param', 'Alnum'));
+		if (!$relationListView) {
+			throw new \Api\Core\Exception('Relationship does not exist', 400);
+		}
 		if ($requestFields = $this->controller->request->getHeader('x-fields')) {
 			$relationListView->setFields(\array_merge(['id'], \App\Json::decode($requestFields)));
 		}

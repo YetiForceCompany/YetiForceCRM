@@ -68,7 +68,7 @@ class Logout extends \Api\Core\BaseAction
 	 * ),
 	 * @OA\Schema(
 	 * 		schema="UsersLogoutResponseBody",
-	 * 		title="Users logout response body",
+	 * 		title="Users module - Users logout response body",
 	 * 		description="JSON data",
 	 *		type="object",
 	 * 		@OA\Property(

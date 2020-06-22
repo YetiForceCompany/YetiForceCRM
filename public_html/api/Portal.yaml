@@ -432,12 +432,12 @@ paths:
           basicAuth: ''
           ApiKeyAuth: ''
           token: ''
-  '/webservice/{moduleName}/RecordRelatedList/{recordId}':
+  '/webservice/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}':
     get:
       tags:
         - BaseModule
       summary: 'Get the related list of records'
-      operationId: 'Api\Portal\BaseModule\RecordRelatedList::get'
+      operationId: 'Api\Portal\BaseModule\RecordHistory::get'
       parameters:
         -
           name: moduleName
@@ -455,6 +455,14 @@ paths:
           schema:
             type: integer
           example: 116
+        -
+          name: relatedModuleName
+          in: path
+          description: 'Related module name'
+          required: true
+          schema:
+            type: string
+          example: Contacts
         -
           name: x-raw-data
           in: header
@@ -1340,7 +1348,7 @@ components:
           type: object
       type: object
     UsersLogoutResponseBody:
-      title: 'Users logout response body'
+      title: 'Users module - Users logout response body'
       description: 'JSON data'
       properties:
         status:
