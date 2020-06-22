@@ -437,7 +437,7 @@ paths:
       tags:
         - BaseModule
       summary: 'Get the related list of records'
-      operationId: 'Api\Portal\BaseModule\RecordHistory::get'
+      operationId: 'Api\Portal\BaseModule\RecordRelatedList::get'
       parameters:
         -
           name: moduleName
