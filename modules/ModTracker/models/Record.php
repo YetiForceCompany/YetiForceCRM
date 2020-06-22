@@ -55,7 +55,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	 * @param Vtiger_Paging_Model $pagingModel
 	 * @param string              $type
 	 *
-	 * @return array - list of  ModTracker_Record_Model
+	 * @return self[] - list of  ModTracker_Record_Model
 	 */
 	public static function getUpdates($parentRecordId, Vtiger_Paging_Model $pagingModel, $type)
 	{

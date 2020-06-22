@@ -129,7 +129,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel)
+	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
 	{
 		$value = \App\Json::decode($value);
 		if (!\is_array($value)) {

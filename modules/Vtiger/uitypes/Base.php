@@ -237,12 +237,13 @@ class Vtiger_Base_UIType extends \App\Base
 	 *
 	 * @param                      $value
 	 * @param \Vtiger_Record_Model $recordModel
+	 * @param bool                 $rawText
 	 *
 	 * @return mixed
 	 */
-	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel)
+	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
 	{
-		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, false, App\Config::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, $rawText, App\Config::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 	}
 
 	/**
