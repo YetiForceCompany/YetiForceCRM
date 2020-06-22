@@ -24,9 +24,160 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-fields', 'x-parent-id'];
 
 	/**
-	 * Get method.
+	 * {@inheritdoc}
+	 */
+	public function checkAction()
+	{
+		parent::checkAction();
+		if ($this->controller->request->isEmpty('param', 'Alnum')) {
+			throw new \Api\Core\Exception('No relation module name', 405);
+		}
+		return true;
+	}
+
+	/**
+	 * Get related record list method.
 	 *
 	 * @return array
+	 *
+	 * @OA\GET(
+	 *		path="/webservice/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}",
+	 *		summary="Get the related list of records",
+	 *		tags={"BaseModule"},
+	 *		security={
+	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
+	 *		},
+	 *		@OA\RequestBody(
+	 *			required=false,
+	 *			description="The content of the request is empty",
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="moduleName",
+	 *			description="Module name",
+	 *			@OA\Schema(type="string"),
+	 *			in="path",
+	 *			example="Contacts",
+	 *			required=true
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="recordId",
+	 *			description="Record id",
+	 *			@OA\Schema(type="integer"),
+	 *			in="path",
+	 *			example=116,
+	 *			required=true
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="relatedModuleName",
+	 *			description="Related module name",
+	 *			@OA\Schema(type="string"),
+	 *			in="path",
+	 *			example="Contacts",
+	 *			required=true
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-raw-data",
+	 *			description="Get rows limit, default: 0",
+	 *			@OA\Schema(type="integer", enum={0, 1}),
+	 *			in="header",
+	 *			example=1,
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-row-limit",
+	 *			description="Get rows limit, default: 1000",
+	 *			@OA\Schema(type="integer"),
+	 *			in="header",
+	 *			example=1000,
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-row-offset",
+	 *			description="Offset, default: 0",
+	 *			@OA\Schema(type="integer"),
+	 *			in="header",
+	 *			example=0,
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="x-fields",
+	 *			description="JSON array in the list of fields to be returned in response",
+	 *			in="header",
+	 *			example={},
+	 *			required=false,
+	 *			@OA\JsonContent(
+	 *				type="array",
+	 * 				@OA\Items(type="string"),
+	 * 			)
+	 *		),
+	 *		@OA\Response(
+	 *			response=200,
+	 *			description="List of consents",
+	 *			@OA\JsonContent(ref="#/components/schemas/BaseModule_RecordRelatedList_ResponseBody"),
+	 *			@OA\XmlContent(ref="#/components/schemas/BaseModule_RecordRelatedList_ResponseBody"),
+	 *		),
+	 *		@OA\Response(
+	 *			response=400,
+	 *			description="Incorrect json syntax",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
+	 *		),
+	 *		@OA\Response(
+	 *			response=401,
+	 *			description="No sent token, Invalid token, Token has expired",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
+	 *		),
+	 *		@OA\Response(
+	 *			response=403,
+	 *			description="No permissions for module",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
+	 *		),
+	 *		@OA\Response(
+	 *			response=405,
+	 *			description="Invalid method",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
+	 *		),
+	 *),
+	 * @OA\Schema(
+	 *		schema="BaseModule_RecordRelatedList_ResponseBody",
+	 *		title="Base module - Response action related record list",
+	 *		description="Module action related record list response body",
+	 *		type="object",
+	 *		@OA\Property(
+	 *			property="status",
+	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+	 *			enum={"0", "1"},
+	 *			type="integer",
+	 *		),
+	 *		@OA\Property(
+	 *			property="result",
+	 *			description="List of modules accessed",
+	 *			type="object",
+	 *			@OA\Property(
+	 *				property="headers",
+	 *				description="Column names",
+	 *				type="object",
+	 *				@OA\AdditionalProperties,
+	 *			),
+	 *			@OA\Property(
+	 *				property="records",
+	 *				description="List of modules accessed",
+	 *				type="object",
+	 *				@OA\AdditionalProperties(description="Column data", type="object"),
+	 *			),
+	 *			@OA\Property(
+	 *				property="rawData",
+	 *				description="Raw data",
+	 *				type="object",
+	 *				@OA\AdditionalProperties(description="Column data to display", type="object"),
+	 *			),
+	 * 			@OA\Property(property="count", type="string", example=54),
+	 * 			@OA\Property(property="isMorePages", type="boolean", example=true),
+	 * 		),
+	 *	),
 	 */
 	public function get()
 	{
@@ -53,7 +204,7 @@ class RecordRelatedList extends \Api\Core\BaseAction
 		}
 		$isRawData = $this->isRawData();
 		foreach ($relationListView->getEntries($pagingModel) as $id => $relatedRecordModel) {
-			foreach ($response['headers'] as $fieldName => $fieldModel) {
+			foreach ($relationListView->getHeaders() as $fieldName => $fieldModel) {
 				$value = $relatedRecordModel->get($fieldName);
 				$response['records'][$id][$fieldName] = $fieldModel->getUITypeModel()->getApiDisplayValue($value, $relatedRecordModel);
 				if ($isRawData) {

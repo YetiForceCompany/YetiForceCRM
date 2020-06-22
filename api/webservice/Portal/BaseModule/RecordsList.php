@@ -182,7 +182,31 @@ class RecordsList extends \Api\Core\BaseAction
 	 *			enum={"0", "1"},
 	 *			type="integer",
 	 *		),
-	 *
+	 *		@OA\Property(
+	 *			property="result",
+	 *			description="List of modules accessed",
+	 *			type="object",
+	 *			@OA\Property(
+	 *				property="headers",
+	 *				description="Column names",
+	 *				type="object",
+	 *				@OA\AdditionalProperties,
+	 *			),
+	 *			@OA\Property(
+	 *				property="records",
+	 *				description="List of modules accessed",
+	 *				type="object",
+	 *				@OA\AdditionalProperties(description="Column data", type="object"),
+	 *			),
+	 *			@OA\Property(
+	 *				property="rawData",
+	 *				description="Raw data",
+	 *				type="object",
+	 *				@OA\AdditionalProperties(description="Column data to display", type="object"),
+	 *			),
+	 * 			@OA\Property(property="count", type="string", example=54),
+	 * 			@OA\Property(property="isMorePages", type="boolean", example=true),
+	 * 		),
 	 *	),
 	 */
 	public function get()

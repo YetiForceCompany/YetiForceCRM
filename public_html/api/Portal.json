@@ -640,6 +640,177 @@
                 ]
             }
         },
+        "/webservice/{moduleName}/RecordRelatedList/{recordId}": {
+            "get": {
+                "tags": [
+                    "BaseModule"
+                ],
+                "summary": "Get the related list of records",
+                "operationId": "Api\\Portal\\BaseModule\\RecordRelatedList::get",
+                "parameters": [
+                    {
+                        "name": "moduleName",
+                        "in": "path",
+                        "description": "Module name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Contacts"
+                    },
+                    {
+                        "name": "recordId",
+                        "in": "path",
+                        "description": "Record id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 116
+                    },
+                    {
+                        "name": "x-raw-data",
+                        "in": "header",
+                        "description": "Get rows limit, default: 0",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "x-row-limit",
+                        "in": "header",
+                        "description": "Get rows limit, default: 1000",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1000
+                    },
+                    {
+                        "name": "x-row-offset",
+                        "in": "header",
+                        "description": "Offset, default: 0",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 0
+                    },
+                    {
+                        "name": "x-fields",
+                        "in": "header",
+                        "description": "JSON array in the list of fields to be returned in response",
+                        "required": false,
+                        "example": [],
+                        "content": {
+                            "application/json": {
+                                "mediaType": "application/json",
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "The content of the request is empty",
+                    "required": false
+                },
+                "responses": {
+                    "200": {
+                        "description": "List of consents",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModule_RecordRelatedList_ResponseBody"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseModule_RecordRelatedList_ResponseBody"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Incorrect json syntax",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No sent token, Invalid token, Token has expired",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No permissions for module",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": "",
+                        "ApiKeyAuth": "",
+                        "token": ""
+                    }
+                ]
+            }
+        },
         "/webservice/{moduleName}/RecordsList": {
             "get": {
                 "tags": [
@@ -1635,6 +1806,58 @@
                 },
                 "type": "object"
             },
+            "BaseModule_RecordRelatedList_ResponseBody": {
+                "title": "Base module - Response action related record list",
+                "description": "Module action related record list response body",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            "0",
+                            "1"
+                        ]
+                    },
+                    "result": {
+                        "description": "List of modules accessed",
+                        "properties": {
+                            "headers": {
+                                "description": "Column names",
+                                "type": "object",
+                                "additionalProperties": {}
+                            },
+                            "records": {
+                                "description": "List of modules accessed",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Column data",
+                                    "type": "object"
+                                }
+                            },
+                            "rawData": {
+                                "description": "Raw data",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Column data to display",
+                                    "type": "object"
+                                }
+                            },
+                            "count": {
+                                "description": "Get related record list method.",
+                                "type": "string",
+                                "example": 54
+                            },
+                            "isMorePages": {
+                                "description": "Get related record list method.",
+                                "type": "boolean",
+                                "example": true
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "BaseModule_RecordsList_ResponseBody": {
                 "title": "Base module - Response action record list",
                 "description": "Module action record list response body",
@@ -1646,6 +1869,43 @@
                             "0",
                             "1"
                         ]
+                    },
+                    "result": {
+                        "description": "List of modules accessed",
+                        "properties": {
+                            "headers": {
+                                "description": "Column names",
+                                "type": "object",
+                                "additionalProperties": {}
+                            },
+                            "records": {
+                                "description": "List of modules accessed",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Column data",
+                                    "type": "object"
+                                }
+                            },
+                            "rawData": {
+                                "description": "Raw data",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Column data to display",
+                                    "type": "object"
+                                }
+                            },
+                            "count": {
+                                "description": "Get record list method.",
+                                "type": "string",
+                                "example": 54
+                            },
+                            "isMorePages": {
+                                "description": "Get record list method.",
+                                "type": "boolean",
+                                "example": true
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"

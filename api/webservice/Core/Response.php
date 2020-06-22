@@ -145,7 +145,7 @@ class Response
 	public function send()
 	{
 		$encryptDataTransfer = \App\Config::api('ENCRYPT_DATA_TRANSFER') ? 1 : 0;
-		if (200 !== $this->statusv || 'data' !== $this->responseType) {
+		if (200 !== $this->status || 'data' !== $this->responseType) {
 			$encryptDataTransfer = 0;
 		}
 		$requestContentType = strtolower(\App\Request::_getServer('HTTP_ACCEPT'));
