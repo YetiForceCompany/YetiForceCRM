@@ -172,7 +172,7 @@
 					</div>
 					{if !empty($SOURCE_RELATED_FIELD)}
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$SOURCE_RELATED_FIELD}
-							<div class="d-none">
+							<div class="d-none fieldValue">
 								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
 							</div>
 						{/foreach}

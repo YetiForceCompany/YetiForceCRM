@@ -19,16 +19,11 @@ class Users_Save_Action extends Vtiger_Save_Action
 		$moduleName = $request->getModule();
 		if (!$request->isEmpty('record', true)) {
 			$record = $request->getInteger('record');
-			$this->record = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$currentUserModel = Users_Record_Model::getCurrentUserModel();
-
-			$allowed = \App\Privilege::isPermitted($moduleName, 'Save', $record);
-			if ($allowed && !$currentUserModel->isAdminUser() && App\Config::security('SHOW_MY_PREFERENCES') && ((int) $currentUserModel->get('id') !== $this->record->getId())) {
-				$allowed = false;
-			}
-			if (!$allowed) {
+			$currentUserModel = \App\User::getCurrentUserModel();
+			if (!($currentUserModel->isAdmin() || (App\Config::security('SHOW_MY_PREFERENCES') && (int) $currentUserModel->getId() === $record))) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
+			$this->record = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		} else {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
 			if (!$this->record->isCreateable()) {
