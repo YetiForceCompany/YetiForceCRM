@@ -651,8 +651,6 @@ class PackageExport
 		if ($dataReader->count()) {
 			$this->openNode('relatedlists');
 			while ($row = $dataReader->read()) {
-				$fields = (new \App\Db\Query())->from('vtiger_relatedlists_fields')
-					->where(['relation_id' => $row['relation_id']])->orderBy(['relation_id' => \SORT_ASC, 'sequence' => \SORT_ASC])->all();
 				$this->openNode('relatedlist');
 				$this->outputNode(Module::getInstance($row['related_tabid'])->name, 'relatedmodule');
 				$this->outputNode($row['name'], 'function');
@@ -673,10 +671,10 @@ class PackageExport
 					}
 					$this->closeNode('actions');
 				}
-				if ($fields) {
+				if ($fields = \App\Field::getFieldsFromRelation($row['relation_id'])) {
 					$this->openNode('fields');
 					foreach ($fields as $field) {
-						$this->outputNode($field['fieldname'], 'field');
+						$this->outputNode($field, 'field');
 					}
 					$this->closeNode('fields');
 				}
@@ -691,8 +689,6 @@ class PackageExport
 		if ($dataReaderRow->count()) {
 			$this->openNode('inrelatedlists');
 			while ($row = $dataReaderRow->read()) {
-				$fields = (new \App\Db\Query())->from('vtiger_relatedlists_fields')
-					->where(['relation_id' => $row['relation_id']])->orderBy(['relation_id' => \SORT_ASC, 'sequence' => \SORT_ASC])->all();
 				$this->openNode('inrelatedlist');
 				$this->outputNode(Module::getInstance($row['tabid'])->name, 'inrelatedmodule');
 				$this->outputNode($row['name'], 'function');
@@ -713,10 +709,10 @@ class PackageExport
 					}
 					$this->closeNode('actions');
 				}
-				if ($fields) {
+				if ($fields = \App\Field::getFieldsFromRelation($row['relation_id'])) {
 					$this->openNode('fields');
 					foreach ($fields as $field) {
-						$this->outputNode($field['fieldname'], 'field');
+						$this->outputNode($field, 'field');
 					}
 					$this->closeNode('fields');
 				}

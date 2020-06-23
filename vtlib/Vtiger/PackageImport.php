@@ -605,6 +605,7 @@ class PackageImport extends PackageExport
 				}
 			}
 		}
+		return $module;
 	}
 
 	/**

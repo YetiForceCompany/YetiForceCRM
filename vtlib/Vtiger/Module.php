@@ -98,8 +98,7 @@ class Module extends ModuleBasic
 			foreach ($fields as $key => $value) {
 				$db->createCommand()->insert('vtiger_relatedlists_fields', [
 					'relation_id' => $id,
-					'fieldname' => $value,
-					'fieldname' => $allFields[$value]['fieldid'],
+					'fieldid' => $allFields[$value]['fieldid'],
 					'sequence' => $key,
 				])->execute();
 			}
