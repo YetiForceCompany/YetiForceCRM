@@ -245,6 +245,7 @@ class CustomView
 	private function getColumnsByCvidFromDb($cvId)
 	{
 		\App\Log::trace(__METHOD__ . ' - ' . $cvId);
+		$columnList = [];
 		if (is_numeric($cvId)) {
 			$dataReader = (new Db\Query())->select(['field_name', 'module_name', 'source_field_name'])
 				->from('vtiger_cvcolumnlist')
@@ -455,7 +456,11 @@ class CustomView
 		if ($noCache || Request::_isEmpty('viewname')) {
 			if (!$noCache && self::getCurrentView($this->moduleName)) {
 				$viewId = self::getCurrentView($this->moduleName);
-			} else {
+				if (empty($this->getInfoFilter($this->moduleName)[$viewId])) {
+					$viewId = null;
+				}
+			}
+			if (empty($viewId)) {
 				$viewId = $this->getDefaultCvId();
 			}
 			if (empty($viewId) || !$this->isPermittedCustomView($viewId)) {

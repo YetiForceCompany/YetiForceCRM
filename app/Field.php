@@ -263,7 +263,8 @@ class Field
 		} else {
 			$fields = (new \App\Db\Query())->select(['vtiger_relatedlists_fields.fieldid', 'vtiger_field.fieldname'])->from('vtiger_relatedlists_fields')
 				->innerJoin('vtiger_field', 'vtiger_field.fieldid = vtiger_relatedlists_fields.fieldid')
-				->where(['relation_id' => $relationId, 'vtiger_field.presence' => [0, 2]])->createCommand()->queryAllByGroup();
+				->where(['relation_id' => $relationId, 'vtiger_field.presence' => [0, 2]])->orderBy(['vtiger_relatedlists_fields.relation_id' => \SORT_ASC, 'vtiger_relatedlists_fields.sequence' => \SORT_ASC])
+				->createCommand()->queryAllByGroup();
 			Cache::save('getFieldsFromRelation', $relationId, $fields, Cache::LONG);
 		}
 		return $fields;
