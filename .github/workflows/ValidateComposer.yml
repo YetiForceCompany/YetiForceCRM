@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Check Code
+    - name: Run phpcs, phpmd and report with reviewdog
       uses: lifulltechvn/laravel-app-reviewdog-action@v1
       with:
        github_token: ${{ secrets.github_token }}
@@ -20,15 +20,13 @@ jobs:
       with:
        composer-lock: './composer.lock'
 
-    - name: Check 1
-      id: check1
+    - name: PHP VarDump Check Action
       uses: umutphp/php-var-dump-check-action@v1
       with:
         exclude: 'vendor,test'
 
     - name: Check PHP syntax errors
       uses: overtrue/phplint@2.0.2
-
 
     - name: Validate composer.json and composer.lock
       run: composer validate
