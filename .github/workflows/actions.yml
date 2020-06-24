@@ -1,4 +1,4 @@
-name: PHP Composer
+name: PHP actions
 
 on: [push, pull_request]
   
