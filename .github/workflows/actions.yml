@@ -10,16 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Run phpcs, phpmd and report with reviewdog
-      uses: lifulltechvn/laravel-app-reviewdog-action@v1
-      with:
-       github_token: ${{ secrets.github_token }}
-
-    - name: PHP Security Checker
-      uses: StephaneBour/actions-php-security-checker@1.0
-      with:
-       composer-lock: './composer.lock'
-
     - name: PHP VarDump Check Action
       uses: umutphp/php-var-dump-check-action@v1
       with:
@@ -49,6 +39,30 @@ jobs:
 
     # - name: Run test suite
     #   run: composer run-script test
+
+  reviewdog:
+    name: reviewdog
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run phpcs, phpmd and report with reviewdog
+        uses: lifulltechvn/laravel-app-reviewdog-action@v1
+        with:
+         github_token: ${{ secrets.github_token }}
+
+  security:
+    name: Security
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: PHP Security Checker
+        uses: StephaneBour/actions-php-security-checker@1.0
+        with:
+          composer-lock: './composer.lock'
 
   psalm:
     name: Psalm
