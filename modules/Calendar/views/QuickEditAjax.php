@@ -37,12 +37,9 @@ class Calendar_QuickEditAjax_View extends Calendar_QuickCreateAjax_View
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUICKCREATE_LINKS', Vtiger_QuickCreateView_Model::getInstance($moduleName)->getLinks([]));
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(
-			\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName))
-		);
-		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(
-			\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName))
-		);
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
+		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
+		$viewer->assign('LIST_FILTER_FIELDS', \App\Json::encode(\App\ModuleHierarchy::getFieldsForListFilter($moduleName)));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('RECORD', $this->record);

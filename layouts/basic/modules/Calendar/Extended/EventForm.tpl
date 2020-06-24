@@ -17,8 +17,10 @@
 				<input name="record" value="{$RECORD_ID}" type="hidden"/>
 			{/if}
 			{if !empty($MAPPING_RELATED_FIELD)}
-				<input name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'
-						type="hidden"/>
+				<input name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}' type="hidden"/>
+			{/if}
+			{if !empty($LIST_FILTER_FIELDS)}
+				<input type="hidden" name="listFilterFields" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}'/>
 			{/if}
 			{if !empty($IS_POSTPONED)}
 				<input name="postponed" value="1" type="hidden"/>

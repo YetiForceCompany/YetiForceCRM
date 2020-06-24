@@ -12,6 +12,9 @@
 {if !empty($MAPPING_RELATED_FIELD)}
 	<input type="hidden" name="mappingRelatedField"	value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
 {/if}
+{if !empty($LIST_FILTER_FIELDS)}
+	<input type="hidden" name="listFilterFields" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}'/>
+{/if}
 {if !empty($CHANGED_FIELDS)}
 	{foreach key=FIELD_NAME item=FIELD_MODEL from=$CHANGED_FIELDS}
 		<input type="hidden" name="{$FIELD_NAME}" value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}"/>

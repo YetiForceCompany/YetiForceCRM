@@ -156,10 +156,18 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 				$relatedParentModule = $linkModule;
 				$relatedParentId = $linkRecord;
 			}
-		} elseif (!$request->has('related_parent_id') && $sourceRecord && \App\Record::isExists($sourceRecord) && ($filterModules = App\ModuleHierarchy::getRecordsListFilter($moduleName)) && isset($filterModules[$sourceModule])) {
-			['fieldName' => $filterFieldName, 'moduleName' => $filterModuleName] = $filterModules[$sourceModule];
-			$relId = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule)->get($filterFieldName);
-			if ($relId && ('all' === $sourceModule || $filterModuleName === \App\Record::getType($relId))) {
+		} elseif (!$request->has('related_parent_id') && ($listFilterFields = App\ModuleHierarchy::getRecordsListFilter($moduleName)) && isset($listFilterFields[$sourceModule])) {
+			$filter = $listFilterFields[$sourceModule];
+			if (isset($filterFields[$filter['fieldName']]) && ('all' === $sourceModule || $filter['moduleName'] === \App\Record::getType($filterFields[$filter['fieldName']]))) {
+				$relId = $filterFields[$filter['fieldName']];
+				$filterModuleName = $filter['moduleName'];
+				if (isset($filter['relatedFieldName'])) {
+					$filterId = Vtiger_Record_Model::getInstanceById($relId, $filter['moduleName'])->get($filter['relatedFieldName']);
+					if ($filter['relatedModuleName'] === \App\Record::getType($filterId)) {
+						$relId = $filterId;
+						$filterModuleName = $filter['relatedModuleName'];
+					}
+				}
 				$relatedParentModule = $filterModuleName;
 				$relatedParentId = $relId;
 				$showSwitch = true;

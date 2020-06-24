@@ -109,6 +109,18 @@ $.Class(
 					}
 				});
 			}
+			let listFilterFieldsJson = formElement.find('input[name="listFilterFields"]').val();
+			let listFilterFields = listFilterFieldsJson ? JSON.parse(listFilterFieldsJson) : [];
+			if (listFilterFields) {
+				console.log(listFilterFields);
+				$.each(listFilterFields, function (index, value) {
+					console.log(value);
+					let mapFieldElement = formElement.find('[name="' + value + '"]');
+					if (mapFieldElement.length && mapFieldElement.val() != '') {
+						filterFields[value] = mapFieldElement.val();
+					}
+				});
+			}
 			let params = {
 				module: popupReferenceModule,
 				src_module: sourceModule,

@@ -379,6 +379,33 @@ class ModuleHierarchy
 		}
 		return $subQuery;
 	}
+
+	/**
+	 * Get fields for list filter.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public static function getFieldsForListFilter(string $moduleName): array
+	{
+		$fields = [];
+		if (isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName])) {
+			foreach (static::$hierarchy['modulesMapRelatedFields'][$moduleName] as $modules) {
+				foreach ($modules as $rows) {
+					$fields = array_merge($fields, array_keys($rows));
+				}
+			}
+		}
+		if (isset(static::$hierarchy['recordsListFilter'])) {
+			foreach (static::$hierarchy['recordsListFilter'] as $modules) {
+				if (isset($modules[$moduleName])) {
+					$fields[] = $modules[$moduleName]['fieldName'];
+				}
+			}
+		}
+		return array_unique($fields);
+	}
 }
 
 ModuleHierarchy::init();

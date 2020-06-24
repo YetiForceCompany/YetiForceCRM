@@ -10,8 +10,10 @@
 					   value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
 			{/if}
 			{if !empty($MAPPING_RELATED_FIELD)}
-				<input type="hidden" name="mappingRelatedField"
-					   value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
+				<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
+			{/if}
+			{if !empty($LIST_FILTER_FIELDS)}
+				<input type="hidden" name="listFilterFields" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}'/>
 			{/if}
 			{assign var=QUALIFIED_MODULE_NAME value={$MODULE}}
 			{assign var=IS_PARENT_EXISTS value=strpos($MODULE,":")}

@@ -31,12 +31,13 @@
 
 				<form id="massEdit" name="MassEdit" method="post" action="index.php">
 					{if !empty($MAPPING_RELATED_FIELD)}
-						<input type="hidden" name="mappingRelatedField"
-							   value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
+						<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
+					{/if}
+					{if !empty($LIST_FILTER_FIELDS)}
+						<input type="hidden" name="listFilterFields" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}'/>
 					{/if}
 					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-						<input type="hidden" name="picklistDependency"
-							   value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
+						<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
 					{/if}
 					<input type="hidden" name="module" value="{$MODULE}"/>
 					<input type="hidden" name="action" value="MassSave"/>
