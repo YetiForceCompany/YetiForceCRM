@@ -12,7 +12,8 @@ jobs:
 
     - name: PHP Code Style Fixer (php-cs-fixer)
       uses: StephaneBour/actions-php-cs-fixer@1.0.2
-
+      with:
+       dir: '.'
 
     - name: Validate composer.json and composer.lock
       run: composer validate
