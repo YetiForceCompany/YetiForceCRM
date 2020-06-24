@@ -10,10 +10,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: PHP Code Style Fixer (php-cs-fixer)
-      uses: StephaneBour/actions-php-cs-fixer@1.0.2
-      with:
-       dir: '.'
+    - name: Check Code
+        uses: lifulltechvn/laravel-app-reviewdog-action@v1
+        with:
+          github_token: ${{ secrets.github_token }}
 
     - name: Validate composer.json and composer.lock
       run: composer validate
