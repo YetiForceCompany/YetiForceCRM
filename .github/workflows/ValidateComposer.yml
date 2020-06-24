@@ -23,6 +23,8 @@ jobs:
     - name: Check 1
       id: check1
       uses: umutphp/php-var-dump-check-action@v1
+      with:
+        exclude: 'vendor,test'
 
     - name: Check PHP syntax errors
       uses: overtrue/phplint@2.0.2
