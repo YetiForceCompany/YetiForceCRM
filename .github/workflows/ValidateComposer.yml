@@ -20,6 +20,10 @@ jobs:
       with:
        composer-lock: './composer.lock'
 
+    - name: Check 1
+      id: check1
+      uses: umutphp/php-var-dump-check-action@v1
+
     - name: Validate composer.json and composer.lock
       run: composer validate
       
