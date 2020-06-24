@@ -74,14 +74,19 @@ $.Class(
 		},
 		setForm: function (element) {
 			this.formElement = element;
+			let module;
+			if ((module = $('input[name="module"]', element))) {
+				this.moduleName = module.val();
+			}
 			return this;
 		},
 		getRecordsListParams: function (container) {
-			let sourceModule = app.getModuleName();
+			let formElement = container.closest('form');
+			let sourceModule = $('input[name="module"]', formElement).val();
 			let popupReferenceModule = $('input[name="popupReferenceModule"]', container).val();
 			let sourceFieldElement = $('input[class="sourceField"]', container);
 			let sourceField = sourceFieldElement.attr('name');
-			let sourceRecordElement = $('input[name="record"]');
+			let sourceRecordElement = $('input[name="record"]', formElement);
 			let sourceRecordId = '';
 			if (sourceRecordElement.length > 0) {
 				sourceRecordId = sourceRecordElement.val();
@@ -91,7 +96,6 @@ $.Class(
 				isMultiple = true;
 			}
 			let filterFields = {};
-			let formElement = container.closest('form');
 			let mappingRelatedField = formElement.find('input[name="mappingRelatedField"]').val();
 			let mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
 			if (
@@ -297,15 +301,12 @@ $.Class(
 		},
 		searchModuleNames: function (params) {
 			let aDeferred = $.Deferred();
-
 			if (typeof params.module === 'undefined') {
-				params.module = app.getModuleName();
+				params.module = this.moduleName;
 			}
-
 			if (typeof params.action === 'undefined') {
 				params.action = 'BasicAjax';
 			}
-
 			AppConnector.request(params)
 				.done(function (data) {
 					aDeferred.resolve(data);
@@ -1069,6 +1070,7 @@ $.Class(
 			app.showPopoverElementView(form.find('.js-help-info'));
 		},
 		registerBlockAnimationEvent: function () {
+			const self = this;
 			let detailContentsHolder = this.getForm();
 			detailContentsHolder.on('click', '.blockHeader', function (e) {
 				const target = $(e.target);
@@ -1086,14 +1088,13 @@ $.Class(
 				let closestBlock = currentTarget.closest('.js-toggle-panel');
 				let bodyContents = closestBlock.find('.blockContent');
 				let data = currentTarget.data();
-				let module = app.getModuleName();
 				let hideHandler = function () {
 					bodyContents.addClass('d-none');
-					app.cacheSet(module + '.' + blockId, 0);
+					app.cacheSet(self.moduleName + '.' + blockId, 0);
 				};
 				let showHandler = function () {
 					bodyContents.removeClass('d-none');
-					app.cacheSet(module + '.' + blockId, 1);
+					app.cacheSet(self.moduleName + '.' + blockId, 1);
 				};
 				if (data.mode == 'show') {
 					hideHandler();
@@ -1108,7 +1109,7 @@ $.Class(
 		},
 		registerBlockStatusCheckOnLoad: function () {
 			let blocks = this.getForm().find('.js-toggle-panel');
-			let module = app.getModuleName();
+			let module = this.moduleName;
 			blocks.each(function (index, block) {
 				let currentBlock = $(block);
 				let dynamicAttr = currentBlock.attr('data-dynamic');
@@ -1133,6 +1134,7 @@ $.Class(
 			});
 		},
 		registerAutoloadAddress: function () {
+			const self = this;
 			this.getForm()
 				.find('.js-search-address')
 				.each(function (index, item) {
@@ -1142,7 +1144,7 @@ $.Class(
 					input.autocomplete({
 						source: function (request, response) {
 							AppConnector.request({
-								module: app.getModuleName(),
+								module: self.moduleName,
 								action: 'Fields',
 								mode: 'findAddress',
 								type: search.find('.js-select-operator').val(),
