@@ -71,13 +71,3 @@ jobs:
         uses: StephaneBour/actions-php-security-checker@1.0
         with:
           composer-lock: './composer.lock'
-
-  psalm:
-    name: Psalm
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Psalm
-        uses: docker://mickaelandrieu/psalm-ga
