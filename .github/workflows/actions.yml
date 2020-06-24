@@ -81,5 +81,3 @@ jobs:
 
       - name: Psalm
         uses: docker://mickaelandrieu/psalm-ga
-        with:
-         args: --with-shepherd
