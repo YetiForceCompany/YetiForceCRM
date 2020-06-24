@@ -11,9 +11,9 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Check Code
-        uses: lifulltechvn/laravel-app-reviewdog-action@v1
-        with:
-          github_token: ${{ secrets.github_token }}
+      uses: lifulltechvn/laravel-app-reviewdog-action@v1
+      with:
+       github_token: ${{ secrets.github_token }}
 
     - name: PHP Security Checker
       uses: StephaneBour/actions-php-security-checker@1.0
