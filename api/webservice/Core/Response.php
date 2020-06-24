@@ -223,9 +223,16 @@ class Response
 		}
 	}
 
-	public function encodeJson($responseData)
+	/**
+	 * Encode json data output.
+	 *
+	 * @param array $responseData
+	 *
+	 * @return string
+	 */
+	public function encodeJson($responseData): string
 	{
-		return json_encode($responseData);
+		return json_encode($responseData, JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE);
 	}
 
 	public function encodeXml($responseData)
