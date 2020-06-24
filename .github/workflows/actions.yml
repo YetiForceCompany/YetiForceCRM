@@ -51,6 +51,7 @@ jobs:
         uses: lifulltechvn/laravel-app-reviewdog-action@v1
         with:
          github_token: ${{ secrets.github_token }}
+         phpcs_args: --standard=./.php_cs.dist
 
   security:
     name: Security
