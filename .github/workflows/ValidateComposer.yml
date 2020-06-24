@@ -15,6 +15,11 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
 
+    - name: PHP Security Checker
+      uses: StephaneBour/actions-php-security-checker@1.0
+      with:
+       composer-lock: './composer.lock'
+
     - name: Validate composer.json and composer.lock
       run: composer validate
       
