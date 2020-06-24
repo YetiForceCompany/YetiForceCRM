@@ -4,19 +4,11 @@ on: [push, pull_request]
   
 jobs:
   build:
-
+    name: Composer
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: PHP VarDump Check Action
-      uses: umutphp/php-var-dump-check-action@v1
-      with:
-        exclude: 'vendor,tests'
-
-    - name: Check PHP syntax errors
-      uses: overtrue/phplint@2.0.2
 
     - name: Validate composer.json and composer.lock
       run: composer validate
@@ -41,7 +33,7 @@ jobs:
     #   run: composer run-script test
 
   reviewdog:
-    name: reviewdog
+    name: Reviewdog
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -52,6 +44,21 @@ jobs:
         with:
          github_token: ${{ secrets.github_token }}
          phpcs_args: --standard=./.php_cs.dist
+
+  code:
+    name: Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: PHP VarDump Check Action
+        uses: umutphp/php-var-dump-check-action@v1
+        with:
+         exclude: 'vendor,tests'
+
+      - name: Check PHP syntax errors
+        uses: overtrue/phplint@2.0.2
 
   security:
     name: Security
