@@ -59,6 +59,9 @@ jobs:
 
       - name: Check PHP syntax errors
         uses: overtrue/phplint@2.0.2
+        
+      - name: PHP-CS-Fixer
+        uses: docker://oskarstark/php-cs-fixer-ga
 
   security:
     name: Security
