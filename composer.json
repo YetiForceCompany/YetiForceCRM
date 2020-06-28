@@ -70,7 +70,7 @@
     "milon/barcode": "^7.0.0",
     "ckeditor/ckeditor": "^4.9.2",
     "parsecsv/php-parsecsv": "^1.1.0",
-    "guzzlehttp/guzzle": "^6.3",
+    "guzzlehttp/guzzle": "^7.0",
     "nette/php-generator": "^3.2.1",
     "yetiforce/csrf-magic": "^v1.1.1",
     "maximebf/debugbar": "1.*",
