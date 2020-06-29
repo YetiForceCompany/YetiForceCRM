@@ -40,7 +40,7 @@ class Fields extends \Api\Core\BaseAction
 	 *			name="X-ENCRYPTED",
 	 *			in="header",
 	 *			required=true,
-	 * 				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
+	 *				@OA\Schema(ref="#/components/schemas/X-ENCRYPTED")
 	 *		),
 	 *		@OA\RequestBody(
 	 *			required=false,
@@ -73,16 +73,16 @@ class Fields extends \Api\Core\BaseAction
 	 *				description="List of all available fields in the module",
 	 *				type="object",
 	 *				@OA\AdditionalProperties(
-	 * 					@OA\Property(property="name", type="string", description="Field name", example="subject"),
-	 * 					@OA\Property(property="label", type="string", description="Field label translated into the user's language", example="Subject"),
-	 * 					@OA\Property(property="type", type="string", description="Field type", example="string"),
-	 * 					@OA\Property(property="mandatory", type="boolean", description="Check if field is mandatory", example=true),
-	 * 					@OA\Property(property="defaultvalue", type="string", description="Default field value", example=""),
-	 * 					@OA\Property(property="presence", type="boolean", description="Check if field is active", example=true),
-	 * 					@OA\Property(property="quickcreate", type="boolean", description="Check if field is active", example=true),
-	 * 					@OA\Property(property="masseditable", type="boolean", description="Check if field is quick create enabled", example=true),
+	 *					@OA\Property(property="name", type="string", description="Field name", example="subject"),
+	 *					@OA\Property(property="label", type="string", description="Field label translated into the user's language", example="Subject"),
+	 *					@OA\Property(property="type", type="string", description="Field type", example="string"),
+	 *					@OA\Property(property="mandatory", type="boolean", description="Check if field is mandatory", example=true),
+	 *					@OA\Property(property="defaultvalue", type="string", description="Default field value", example=""),
+	 *					@OA\Property(property="presence", type="boolean", description="Check if field is active", example=true),
+	 *					@OA\Property(property="quickcreate", type="boolean", description="Check if field is active", example=true),
+	 *					@OA\Property(property="masseditable", type="boolean", description="Check if field is quick create enabled", example=true),
 	 *					@OA\Property(
-	 *	 					property="header_field",
+	 *						property="header_field",
 	 *						type="object",
 	 *						description="Field configuration available in the header",
 	 *						@OA\Property(property="type", type="string", description="Type", example="value"),
@@ -92,14 +92,14 @@ class Fields extends \Api\Core\BaseAction
 	 *					@OA\Property(property="maximumlength", type="string", description="Maximum field range", example="-2147483648,2147483647"),
 	 *					@OA\Property(property="maxwidthcolumn", type="integer", description="Max width column", example=0),
 	 *					@OA\Property(property="tabindex", type="integer", description="Field tab index", example=0),
-	 * 					@OA\Property(property="fieldtype", type="string", description="Field short data type", example="V"),
+	 *					@OA\Property(property="fieldtype", type="string", description="Field short data type", example="V"),
 	 *					@OA\Property(
-	 *	 					property="picklistvalues",
+	 *						property="picklistvalues",
 	 *						type="object",
 	 *						description="Picklist values, available only for type of field: picklist, multipicklist, multiowner, multiReferenceValue, inventoryLimit, languages, currencyList, fileLocationType, taxes, multiListFields, mailScannerFields, country, modules, sharedOwner, categoryMultipicklist, tree",
 	 *					),
 	 *					@OA\Property(
-	 *	 					property="date-format",
+	 *						property="date-format",
 	 *						type="string",
 	 *						description="Date format, available only for type of field: date, datetime",
 	 *					),
@@ -114,28 +114,28 @@ class Fields extends \Api\Core\BaseAction
 	 *						description="Currency symbol, available only for type of field: currency",
 	 *					),
 	 *					@OA\Property(
-	 *	 					property="decimal_separator",
+	 *						property="decimal_separator",
 	 *						type="string",
 	 *						description="Currency decimal separator, available only for type of field: currency",
 	 *					),
 	 *					@OA\Property(
-	 *	 					property="group_separator",
+	 *						property="group_separator",
 	 *						type="string",
 	 *						description="Currency group separator, available only for type of field: currency",
 	 *					),
 	 *					@OA\Property(
-	 *	 					property="restrictedDomains",
+	 *						property="restrictedDomains",
 	 *						description="Email restricted domains, available only for type of field: email",
 	 *						type="array",
 	 *						@OA\Items(items="yeti.com", example="yeti.com"),
 	 *					),
 	 *					@OA\Property(
-	 *	 					property="limit",
+	 *						property="limit",
 	 *						type="integer",
 	 *						description="Limit the amount of images, available only for type of field: multiImage, image",
 	 *					),
 	 *					@OA\Property(
-	 *	 					property="formats",
+	 *						property="formats",
 	 *						description="File Format, available only for type of field: multiImage, image",
 	 *						type="array",
 	 *						@OA\Items(items="jpg", example="jpg"),
@@ -162,14 +162,15 @@ class Fields extends \Api\Core\BaseAction
 	 *					@OA\Property(
 	 *						property="referenceList",
 	 *						description="List of related modules, available only for reference field",
-	 *						type="array",
-	 *						@OA\Items(items="Accounts", example="Accounts"),
+	 *						type="object",
+	 *						@OA\AdditionalProperties(
+	 *							@OA\Property(property="name", type="string", description="Field name", example="subject"),
 	 *					),
 	 *					@OA\Property(
 	 *						property="treeValues",
 	 *						description="Tree items, available only for tree field",
-	 *						type="array",
-	 *						@OA\Items(
+	 *						type="object",
+	 *						@OA\AdditionalProperties(
 	 *							description="Tree item",
 	 *							type="object",
 	 *							@OA\Property(property="id", description="Number tree without prefix", type="integer", example=1),
@@ -219,10 +220,11 @@ class Fields extends \Api\Core\BaseAction
 	 *						@OA\Property(property="isSummary", description="Is the field contains summary", type="boolean", example=false),
 	 *						@OA\Property(property="isVisibleInDetail", description="Check if field is visible in detail view", type="boolean", example=true),
 	 *					),
-	 * 				),
-	 * 			),
+	 *				),
+	 *			),
 	 *		),
-	 * ),
+	 *	),
+	 * )
 	 */
 	public function get()
 	{
