@@ -43,7 +43,7 @@ class RecordHistory extends \Api\Core\BaseAction
 		if (!$this->recordModel->isViewable()) {
 			throw new \Api\Core\Exception('No permissions to view record', 403);
 		}
-		if(!\CRMEntity::getInstance('ModTracker')->isTrackingEnabledForModule($moduleName)) {
+		if(!$this->recordModel->getModule()->isTrackingEnabled()) {
 			throw new \Api\Core\Exception('MadTracker is turned off', 403);
 		}
 		return true;
