@@ -76,14 +76,16 @@
     "maximebf/debugbar": "1.*",
     "yetiforce/yii2": "2.0.32",
     "yetiforce/yetiforcepdf": "0.1.29",
-    "abraham/twitteroauth": "^1.0"
+    "abraham/twitteroauth": "^1.0",
+    "adhocore/jwt": "^1.0"
   },
   "require-dev": {
-    "zircote/swagger-php": "^3.0.4",
-    "facebook/webdriver": "^1.8.2",
-    "phpunit/phpunit": "9.*",
+    "zircote/swagger-php": "^3.0",
+    "php-webdriver/webdriver": "^1.8",
+    "phpunit/phpunit": "8.*",
     "seld/jsonlint": "*",
-    "php-console/php-console": "^3.1"
+    "php-console/php-console": "^3.1",
+    "fr3d/swagger-assertions": "*"
   },
   "suggest": {
     "ext-imagick": "Library recommended for securing potentially dangerous graphic files",
