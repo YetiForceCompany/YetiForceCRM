@@ -9,8 +9,12 @@
 
 namespace Tests\Integrations;
 
+use FR3D\SwaggerAssertions\PhpUnit\AssertsTrait;
+use FR3D\SwaggerAssertions\SchemaManager;
+
 class Api extends \Tests\Base
 {
+	use AssertsTrait;
 	/**
 	 * Server address.
 	 *
@@ -39,6 +43,8 @@ class Api extends \Tests\Base
 	 */
 	private static $requestOptions = [
 		'auth' => ['portal', 'portal'],
+		'Content-Type' => 'application/json',
+		'Accept' => 'application/json'
 	];
 
 	/**
@@ -49,10 +55,25 @@ class Api extends \Tests\Base
 	private static $authUserParams;
 	private static $recordId;
 
+	/**
+	 * @var SchemaManager
+	 */
+	protected static $schemaManager;
+
+	/**
+	 * @var \GuzzleHttp\ClientInterface
+	 */
+	protected $httpClient;
+
+	public static function setUpBeforeClass(): void
+	{
+		self::$schemaManager = new SchemaManager(json_decode(file_get_contents(ROOT_DIRECTORY . 'public_html/api/Portal.json')));
+	}
+
 	public function setUp(): void
 	{
-		parent::setUp();
 		static::$url = \App\Config::main('site_URL') . 'webservice/';
+		$this->httpClient = new \GuzzleHttp\Client(\App\RequestHttp::getOptions());
 	}
 
 	/**
@@ -131,6 +152,8 @@ class Api extends \Tests\Base
 		$this->assertSame($response['status'], 1, 'Users/Login API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::$authUserParams = $response['result'];
 		static::$requestOptions['headers']['x-token'] = static::$authUserParams['token'];
+
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Users/Login', 'post', 200);
 	}
 
 	/**
@@ -155,6 +178,7 @@ class Api extends \Tests\Base
 		$response = \App\Json::decode($body);
 		$this->assertSame($response['status'], 1, 'Accounts/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::$recordId = $response['result']['id'];
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/{moduleName}/Record', 'post', 200);
 	}
 
 	/**
