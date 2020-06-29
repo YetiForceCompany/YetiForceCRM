@@ -280,12 +280,6 @@ class Fields extends \Api\Core\BaseAction
 				}
 			}
 		}
-		echo '<pre>';
-		var_dump([
-			'fields' => $fields,
-			'blocks' => $blocks,
-			'inventory' => $inventoryFields
-		]);
 		return [
 			'fields' => $fields,
 			'blocks' => $blocks,
