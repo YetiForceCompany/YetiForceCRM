@@ -147,6 +147,7 @@ class Fields extends \Api\Core\BaseAction
 	 *					@OA\Property(property="sequence", description="Sequence field", type="integer", example=24862),
 	 *					@OA\Property(property="fieldparams", description="Field params", type="object"),
 	 *					@OA\Property(property="blockId", type="integer", description="Field block id", example=280),
+	 *					@OA\Property(property="helpInfo", type="string", description="Additional field description", example="x y z"),
 	 *					@OA\Property(
 	 *	 					property="dbStructure",
 	 *						type="object",
@@ -245,6 +246,7 @@ class Fields extends \Api\Core\BaseAction
 			$fieldInfo['sequence'] = $fieldModel->get('sequence');
 			$fieldInfo['fieldparams'] = $fieldModel->getFieldParams();
 			$fieldInfo['blockId'] = $block->id;
+			$fieldInfo['helpInfo'] = \App\Language::getTranslateHelpInfo($fieldModel, 'all');
 			$fieldInfo['dbStructure'] = $fieldModel->getDBColumnType(false);
 			$fieldInfo['queryOperators'] = array_map(function ($value) use ($moduleName) {
 				return \App\Language::translate($value, $moduleName);
