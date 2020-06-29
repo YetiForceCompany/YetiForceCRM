@@ -193,7 +193,6 @@ class RecordHistory extends \Api\Core\BaseAction
 				$response[] = $row;
 			}
 		}
-
 		return $response;
 	}
 
