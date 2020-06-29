@@ -32,18 +32,6 @@ jobs:
     # - name: Run test suite
     #   run: composer run-script test
 
-  reviewdog:
-    name: Reviewdog
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Run phpcs, phpmd and report with reviewdog
-        uses: lifulltechvn/laravel-app-reviewdog-action@v1
-        with:
-         github_token: ${{ secrets.github_token }}
-
   code:
     name: Code
     runs-on: ubuntu-latest
