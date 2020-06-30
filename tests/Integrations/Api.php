@@ -2,6 +2,8 @@
 /**
  * Api integrations test class.
  *
+ * @see https://github.com/Maks3w/SwaggerAssertions/
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -67,7 +69,7 @@ class Api extends \Tests\Base
 
 	public static function setUpBeforeClass(): void
 	{
-		self::$schemaManager = new SchemaManager(json_decode(file_get_contents(ROOT_DIRECTORY . 'public_html/api/Portal.json')));
+		self::$schemaManager = new SchemaManager(json_decode(file_get_contents(ROOT_DIRECTORY . '/public_html/api/Portal.json')));
 	}
 
 	public function setUp(): void
