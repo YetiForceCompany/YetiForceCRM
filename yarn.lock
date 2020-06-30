@@ -315,10 +315,10 @@ footable@^2.0.6:
   dependencies:
     jquery ">=1.4.4"
 
-fullcalendar@3.10.2:
-  version "3.10.2"
-  resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.2.tgz#9b1ba84bb02803621b761d1bba91a4f18affafb7"
-  integrity sha512-YWZaHdp8ZLBqhPz615PoXdA49ymsBTUF+MGDM6H3vyz71Pv/ZW9Pm9/Mj3x6n822k6bs2txFO7muRTSvBhsqKg==
+fullcalendar@5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-5.1.0.tgz#d0050c5e395d11ef2551b8f415dc7fb27b875984"
+  integrity sha512-oqSSm0bmbQXS0IjVks2eRWqkeGordphrijqrXInVBLCn9aeeSJdkN6+KsdO2EHpYh45iPK3aZwzkdoHXlrhN2g==
 
 gantt-elastic@^1.0.0:
   version "1.0.11"
