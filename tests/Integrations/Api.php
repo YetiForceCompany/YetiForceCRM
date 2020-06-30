@@ -270,7 +270,7 @@ class Api extends \Tests\Base
 	}
 
 	/**
-	 * Testing get api methods.
+	 * Testing get api menu.
 	 */
 	public function testGetMenu(): void
 	{
