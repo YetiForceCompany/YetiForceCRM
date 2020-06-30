@@ -58,7 +58,7 @@ class Json
 	public static function encode($valueToEncode, $options = 0)
 	{
 		if (\function_exists('json_encode')) {
-			return json_encode($valueToEncode, $options);
+			return json_encode($valueToEncode, $options | JSON_UNESCAPED_UNICODE);
 		}
 		throw new \App\Exceptions\AppException('ERR_NO_JSON_ENCODE');
 	}

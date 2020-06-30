@@ -16,8 +16,10 @@ try {
 	}
 	$controller->postProcess();
 } catch (\Api\Core\Exception $e) {
+	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
 	$e->handleError();
 } catch (\App\Exceptions\NoPermittedToApi $e) {
+	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
 	echo json_encode([
 		'status' => 0,
 		'error' => [

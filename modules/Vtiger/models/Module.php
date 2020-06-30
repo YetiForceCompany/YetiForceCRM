@@ -993,25 +993,32 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getSideBarLinks($linkParams)
 	{
+		$menuUrl = '';
+		if (isset($_REQUEST['parent'])) {
+			$menuUrl .= '&parent=' . \App\Request::_getInteger('parent');
+		}
+		if (isset($_REQUEST['mid'])) {
+			$menuUrl .= '&mid=' . \App\Request::_getInteger('mid');
+		}
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'SIDEBARLINK',
 			'linklabel' => 'LBL_RECORDS_LIST',
-			'linkurl' => $this->getListViewUrl(),
+			'linkurl' => $this->getListViewUrl() . $menuUrl,
 			'linkicon' => 'fas fa-list',
 		]);
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'SIDEBARLINK',
 			'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
-			'linkurl' => 'index.php?module=' . $this->getName() . '&view=ListPreview',
+			'linkurl' => "index.php?module={$this->getName()}&view=ListPreview{$menuUrl}",
 			'linkicon' => 'far fa-list-alt',
 		]);
 		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission($this->getId(), 'Dashboard')) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_DASHBOARD',
-				'linkurl' => $this->getDashBoardUrl(),
+				'linkurl' => $this->getDashBoardUrl() . $menuUrl,
 				'linkicon' => 'fas fa-desktop',
 			]);
 		}
@@ -1020,7 +1027,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => $treeViewModel->getName(),
-				'linkurl' => $treeViewModel->getTreeViewUrl(),
+				'linkurl' => $treeViewModel->getTreeViewUrl() . $menuUrl,
 				'linkicon' => 'fas fa-tree',
 			]);
 		}
