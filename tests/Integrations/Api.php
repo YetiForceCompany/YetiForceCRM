@@ -252,6 +252,7 @@ class Api extends \Tests\Base
 		$response = \App\Json::decode($body);
 		$this->assertSame($response['status'], 1, 'Modules API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		$this->assertTrue(!empty($response['result']['Accounts']), 'Modules API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Modules', 'get', 200);
 	}
 
 	/**
@@ -266,6 +267,32 @@ class Api extends \Tests\Base
 		$this->assertTrue(!empty($response['result']['BaseAction']), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		$this->assertTrue(!empty($response['result']['BaseModule']), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		$this->assertTrue(!empty($response['result']['Users']), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+	}
+
+	/**
+	 * Testing get api methods.
+	 */
+	public function testGetMethods(): void
+	{
+		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'BaseAction/Menu', static::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame($response['status'], 1, 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		$this->assertTrue(!empty($response['result']['BaseAction']), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/BaseAction/Menu', 'get', 200);
+	}
+
+	/**
+	 * Testing Logout.
+	 */
+	public function testLogout(): void
+	{
+		$request = (new \GuzzleHttp\Client(
+			\App\RequestHttp::getOptions()))->put(static::$url . 'Users/Logout', static::$requestOptions);
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		$this->assertSame($response['status'], 1, 'Users/Logout API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Users/Logout', 'put', 200);
 	}
 
 	/**
