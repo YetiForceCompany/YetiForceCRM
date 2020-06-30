@@ -272,7 +272,7 @@ class Api extends \Tests\Base
 	/**
 	 * Testing get api methods.
 	 */
-	public function testGetMethods(): void
+	public function testGetMenu(): void
 	{
 		$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . 'BaseAction/Menu', static::$requestOptions);
 		$this->logs = $body = $request->getBody()->getContents();
