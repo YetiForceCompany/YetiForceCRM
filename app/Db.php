@@ -8,6 +8,7 @@ namespace App;
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Db extends \yii\db\Connection
 {
@@ -28,7 +29,7 @@ class Db extends \yii\db\Connection
 	 *           the buggy native prepare support.
 	 *           The default value is null, which means the PDO ATTR_EMULATE_PREPARES value will not be changed
 	 */
-	public $emulatePrepare = false;
+	public $emulatePrepare = true;
 
 	/**
 	 * @var \App\Db Table of connections with database
