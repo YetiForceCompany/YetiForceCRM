@@ -1460,7 +1460,7 @@ CREATE TABLE `u_yf_chat_messages_crm` (
   `crmid` int(10) DEFAULT NULL,
   `userid` smallint(5) unsigned NOT NULL,
   `created` datetime DEFAULT NULL,
-  `messages` varchar(500) NOT NULL,
+  `messages` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `room_crmid` (`crmid`),
   CONSTRAINT `fk_chat_messages` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -1473,7 +1473,7 @@ CREATE TABLE `u_yf_chat_messages_global` (
   `globalid` int(10) unsigned NOT NULL,
   `userid` smallint(5) unsigned NOT NULL,
   `created` datetime DEFAULT NULL,
-  `messages` varchar(500) NOT NULL,
+  `messages` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `globalid` (`globalid`),
   CONSTRAINT `u_yf_chat_messages_global_ibfk_1` FOREIGN KEY (`globalid`) REFERENCES `u_yf_chat_global` (`global_room_id`) ON DELETE CASCADE
@@ -1486,7 +1486,7 @@ CREATE TABLE `u_yf_chat_messages_group` (
   `groupid` int(10) DEFAULT NULL,
   `userid` smallint(5) unsigned NOT NULL,
   `created` datetime DEFAULT NULL,
-  `messages` varchar(500) NOT NULL,
+  `messages` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `room_groupid` (`groupid`),
   CONSTRAINT `fk_chat_group_messages` FOREIGN KEY (`groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE
@@ -1499,7 +1499,7 @@ CREATE TABLE `u_yf_chat_messages_private` (
   `privateid` int(10) unsigned NOT NULL,
   `userid` smallint(5) unsigned NOT NULL,
   `created` datetime DEFAULT NULL,
-  `messages` varchar(500) NOT NULL,
+  `messages` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1510,7 +1510,7 @@ CREATE TABLE `u_yf_chat_messages_user` (
   `roomid` int(10) DEFAULT NULL,
   `userid` smallint(5) unsigned NOT NULL,
   `created` datetime DEFAULT NULL,
-  `messages` varchar(500) NOT NULL,
+  `messages` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
