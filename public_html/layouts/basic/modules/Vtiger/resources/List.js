@@ -306,38 +306,16 @@ jQuery.Class(
 		 * function to trigger export action
 		 * returns UI
 		 */
-		triggerExportAction: function (exportActionUrl) {
-			let listInstance = Vtiger_List_Js.getInstance();
-			let params = listInstance.getSearchParams();
-			if ('undefined' === typeof params.viewname)
-				exportActionUrl +=
-					'&selected_ids=' +
-					params.selected_ids +
-					'&excluded_ids=' +
-					params.excluded_ids +
-					'&page=' +
-					params.page;
-			else
-				exportActionUrl +=
-					'&selected_ids=' +
-					params.selected_ids +
-					'&excluded_ids=' +
-					params.excluded_ids +
-					'&viewname=' +
-					params.viewname +
-					'&page=' +
-					params.page +
-					'&entityState=' +
-					params.entityState;
-			if (listInstance.getListSearchInstance()) {
-				exportActionUrl += '&search_params=' + params.search_params;
-				if (typeof params.search_value !== 'undefined' && params.search_value.length > 0) {
-					exportActionUrl += '&search_key=' + params.search_key;
-					exportActionUrl += '&search_value=' + params.search_value;
-					exportActionUrl += '&operator=s';
-				}
+		triggerExportAction: function (exportActionUrl, newTab) {
+			let formAttr = {};
+			if (newTab) {
+				formAttr['target'] = '_blank';
 			}
-			window.location.href = exportActionUrl;
+			app.openUrlMethodPost(
+				exportActionUrl,
+				Vtiger_List_Js.getInstance().getSearchParams(),
+				formAttr
+			);
 		},
 		/**
 		 * Function to reload list
@@ -2083,10 +2061,19 @@ jQuery.Class(
 		registerMassActionsBtnEvents() {
 			this.getListViewContainer().on('click', '.js-mass-action', (e) => {
 				e.preventDefault();
-				const url = $(e.currentTarget).data('url');
+				let element = $(e.currentTarget);
+				let url = element.data('url');
 				if (typeof url != 'undefined') {
 					if (this.checkListRecordSelected() !== true) {
-						Vtiger_List_Js.triggerMassAction(url);
+						switch (element.data('type')) {
+							case 'modal':
+								Vtiger_List_Js.triggerMassAction(url);
+								break;
+							case 'formRedirect':
+								Vtiger_List_Js.triggerExportAction(url, element.data('tab') === 'new');
+								Vtiger_List_Js.clearList();
+								break;
+						}
 					} else {
 						this.noRecordSelectedAlert();
 					}
