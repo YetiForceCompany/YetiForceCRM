@@ -28,10 +28,15 @@
 		{if isset($FIELDS[1]['tax']) && isset($FIELDS[0]['taxmode']) && $INVENTORY_MODEL->isField('net')}
 			{assign var=TAX_FIELD value=$FIELDS[1]['tax']}
 			{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
+				{if isset($INVENTORY_ROW['taxcountmode']) && $INVENTORY_ROW['taxcountmode'] === 'brutto'}
+					{assign var="PRICE" value= $INVENTORY_ROW['gross']}
+				{else}
+					{assign var="PRICE" value= $INVENTORY_ROW['net']}
+				{/if}
 				{if isset($TAXS) && isset($INVENTORY_ROW['taxparam']) }
-					{assign var="TAXS" value=$TAX_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $INVENTORY_ROW['net'], $TAXS)}
+					{assign var="TAXS" value=$TAX_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $PRICE, $TAXS)}
 				{elseif isset($INVENTORY_ROW['taxparam']) }
-					{assign var="TAXS" value=$TAX_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $INVENTORY_ROW['net'], [])}
+					{assign var="TAXS" value=$TAX_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $PRICE, [])}
 				{else}
 					{assign var="TAXS" value=[]}
 				{/if}

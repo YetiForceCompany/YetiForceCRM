@@ -76,9 +76,16 @@ class Vtiger_TotalPrice_InventoryField extends Vtiger_Basic_InventoryField
 	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
 	{
 		if ($column === $this->getColumnName() || null === $column) {
-			$quantity = static::getInstance($this->getModuleName(), 'Quantity')->getValueForSave($item, $userFormat);
-			$price = static::getInstance($this->getModuleName(), 'UnitPrice')->getValueForSave($item, $userFormat);
-			$value = (float) ($quantity * $price);
+			if (!isset($item['taxcountmode']) || $item['taxcountmode'] === 'netto') {
+				$quantity = static::getInstance($this->getModuleName(), 'Quantity')->getValueForSave($item, $userFormat);
+				$price = static::getInstance($this->getModuleName(), 'UnitPrice')->getValueForSave($item, $userFormat);
+				$value = (float) ($quantity * $price);
+			} else {
+				$quantity = static::getInstance($this->getModuleName(), 'Quantity')->getValueForSave($item, $userFormat);
+				$price = static::getInstance($this->getModuleName(), 'UnitPrice')->getValueForSave($item, $userFormat);
+				$tax = static::getInstance($this->getModuleName(), 'Tax')->getValueForSave($item, $userFormat);
+				$value = (float) ($quantity * $price) -$tax;
+			}
 		} else {
 			$value = $userFormat ? $this->getDBValue($item[$column]) : $item[$column];
 		}

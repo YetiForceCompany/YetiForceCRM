@@ -27,7 +27,7 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		return '' !== $value ? \App\Language::translate('LBL_' . strtoupper($this->values[$value]), $this->getModuleName()) : $value;
+		return '' !== $value ? \App\Language::translate('LBL_COUNT_FROM_' . strtoupper($this->values[$value]), $this->getModuleName()) : $value;
 	}
 
 	/**
