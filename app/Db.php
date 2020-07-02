@@ -29,7 +29,7 @@ class Db extends \yii\db\Connection
 	 *           the buggy native prepare support.
 	 *           The default value is null, which means the PDO ATTR_EMULATE_PREPARES value will not be changed
 	 */
-	public $emulatePrepare = true;
+	public $emulatePrepare = false;
 
 	/**
 	 * @var \App\Db Table of connections with database
