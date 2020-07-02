@@ -995,7 +995,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	{
 		$menuUrl = '';
 		if (isset($_REQUEST['parent'])) {
-			$menuUrl .= '&parent=' . \App\Request::_getInteger('parent');
+			$menuUrl .= '&parent=' . \App\Request::_getByType('parent', 'Alnum');
 		}
 		if (isset($_REQUEST['mid'])) {
 			$menuUrl .= '&mid=' . \App\Request::_getInteger('mid');
