@@ -17,10 +17,11 @@ jobs:
       env:
         WORKSPACE: ""
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SCAN_AUTO_BUILD: true
       with:
         output: reports
         # Scan auto-detects the languages in your project. To override uncomment the below variable and set the type
-        #type: php,javascript,json,nodejs,plsql,yaml,depscan
+        type: credscan,php,nodejs,depscan
 
     - uses: actions/upload-artifact@v1
       with:
