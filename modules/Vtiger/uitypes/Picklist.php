@@ -21,7 +21,7 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 		} else {
 			$picklistValues = App\Fields\Picklist::getValuesName($this->getFieldModel()->getFieldName());
 		}
-		return \in_array($value, $picklistValues);
+		return '' === $value || \in_array($value, $picklistValues);
 	}
 
 	/**

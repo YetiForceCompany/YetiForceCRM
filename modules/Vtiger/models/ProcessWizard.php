@@ -173,19 +173,45 @@ class Vtiger_ProcessWizard_Model extends \App\Base
 		foreach ($block['fields'] as $field) {
 			if (\is_array($field) && 'relatedField' === $field['type']) {
 				if (App\Record::isExists($this->recordModel->get($field['field']))) {
-					$recordModel = \Vtiger_Record_Model::getInstanceById($this->recordModel->get($field['field']));
-					$fieldModel = $recordModel->getField($field['relatedField']);
+					$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($this->recordModel->get($field['field']));
+					$fieldModel = $relatedRecordModel->getField($field['relatedField']);
 					if ($fieldModel && $fieldModel->isViewable()) {
-						$fieldModel->set('fieldvalue', $recordModel->get($field['relatedField']));
+						$fieldModel->set('fieldvalue', $relatedRecordModel->get($field['relatedField']));
 						$fieldModel->set('displaytype', 10);
-						$fields[$field['relatedField']] = $fieldModel;
+						if (isset($field['label'])) {
+							$fieldModel->set('label', $field['label']);
+						}
+						$fields[] = $fieldModel;
 					}
+				}
+			} elseif (\is_array($field) && 'relatedMergedFields' === $field['type']) {
+				if (App\Record::isExists($this->recordModel->get($field['field']))) {
+					$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($this->recordModel->get($field['field']));
+					$text = '';
+					foreach ($field['relatedFields'] as $relatedField) {
+						$fieldModel = $relatedRecordModel->getField($relatedField);
+						if ($fieldModel) {
+							if ($fieldModel->isViewable() && '' !== $relatedRecordModel->get($relatedField)) {
+								$text .= $fieldModel->getDisplayValue($relatedRecordModel->get($relatedField), false, false, true) . ' ';
+							}
+						} elseif ('__EOL__' === $relatedField) {
+							$text .= PHP_EOL;
+						}
+					}
+					$fieldModel = \Vtiger_Field_Model::init($this->recordModel->getModuleName(), [
+						'uitype' => 19,
+						'label' => $field['label'],
+						'fieldvalue' => $text,
+						'displaytype' => 10,
+						'isViewableInDetailView' => true,
+					], $field['name']);
+					$fields[] = $fieldModel;
 				}
 			} else {
 				$fieldModel = $this->recordModel->getField($field);
 				if ($fieldModel && $fieldModel->isViewable()) {
 					$fieldModel->set('fieldvalue', $this->recordModel->get($field));
-					$fields[$field] = $fieldModel;
+					$fields[] = $fieldModel;
 				}
 			}
 		}
