@@ -331,7 +331,11 @@ $.Class(
 				return 0;
 			}
 			discountParams = JSON.parse(discountParams);
-			let valuePrices = this.getTotalPrice(row);
+			if(this.isTaxCountFromBrutto(row)){
+				let valuePrices =  this.getQuantityValue(row) * this.getUnitPriceValue(row) - this.getTax(row);
+			} else {
+				let valuePrices = this.getTotalPrice(row);
+			}
 			let discountRate = 0;
 			let types = discountParams.aggregationType;
 			if (typeof types == 'string') {
@@ -540,9 +544,9 @@ $.Class(
 		},
 		rowCalculations: function (row) {
 			if(this.isTaxCountFromBrutto(row)){
+				this.calculateDiscounts(row);
 				this.calculateGrossPrice(row);
 				this.calculateTotalPrice(row);
-				this.calculateDiscounts(row);
 				this.calculateTaxes(row);
 				this.calculateNetPrice(row);
 				this.calculateMargin(row);
@@ -734,7 +738,7 @@ $.Class(
 		},
 		calculateGrossPrice: function (row) {
 			if(this.isTaxCountFromBrutto(row)){
-				let netPrice = this.getUnitPriceValue(row) * this.getQuantityValue(row);
+				let netPrice = this.getUnitPriceValue(row) * this.getQuantityValue(row) - this.getDiscount(row);
 				this.setGrossPrice(row, netPrice);
 			} else {
 				let netPrice = this.getNetPrice(row);

@@ -83,8 +83,9 @@ class Vtiger_TotalPrice_InventoryField extends Vtiger_Basic_InventoryField
 			} else {
 				$quantity = static::getInstance($this->getModuleName(), 'Quantity')->getValueForSave($item, $userFormat);
 				$price = static::getInstance($this->getModuleName(), 'UnitPrice')->getValueForSave($item, $userFormat);
+				$discount = static::getInstance($this->getModuleName(), 'Discount')->getValueForSave($item, $userFormat);
 				$tax = static::getInstance($this->getModuleName(), 'Tax')->getValueForSave($item, $userFormat);
-				$value = (float) ($quantity * $price) -$tax;
+				$value = (float) ($quantity * $price) - $discount - $tax;
 			}
 		} else {
 			$value = $userFormat ? $this->getDBValue($item[$column]) : $item[$column];
