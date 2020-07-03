@@ -39,6 +39,7 @@ class Currency extends Base
 								'conversion_rate' => 1,
 								'currency_status' => 'Active',
 							])->execute();
+							\App\Fields\Currency::clearCache();
 						} else {
 							$this->log('Currency is not supported by the system: ' . $code);
 							\App\Log::error('Currency is not supported by the system: ' . $code, 'Integrations/Magento');

@@ -148,18 +148,9 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 				])->execute();
 			$id = $db->getLastInsertID('vtiger_currency_info_id_seq');
 		}
-		self::clearCache();
+		\App\Fields\Currency::clearCache();
 
 		return $id;
-	}
-
-	/**
-	 * Function clears cache.
-	 */
-	public static function clearCache()
-	{
-		\App\Cache::delete('Currency', 'List');
-		\App\Cache::delete('AllCurrency', 'All');
 	}
 
 	/**
