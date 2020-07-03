@@ -61,5 +61,14 @@ class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$response = new Vtiger_Response();
 		$response->setResult((bool) $recordModel->updateQtyProducts($productId, $request->getByType('qty', 'NumberInUserFormat')));
 		$response->emit();
+
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setModuleName('IStorages');
+		$eventHandler->setParams([
+			'storageId' => $request->getInteger('record'),
+			'products' => [$productId => $request->getByType('qty', 'NumberInUserFormat')],
+			'operator' => 'value'
+		]);
+		$eventHandler->trigger('IStoragesAfterUpdateStock');
 	}
 }
