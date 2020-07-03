@@ -20,7 +20,7 @@ jobs:
       with:
         output: reports
         # Scan auto-detects the languages in your project. To override uncomment the below variable and set the type
-        type: php,javascript,depscan
+        type: php,javascript,json,nodejs,plsql,yaml,depscan
 
     - name: Upload report
       uses: github/codeql-action/upload-sarif@v1
