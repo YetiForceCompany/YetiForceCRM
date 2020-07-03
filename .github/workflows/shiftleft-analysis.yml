@@ -22,7 +22,7 @@ jobs:
         # Scan auto-detects the languages in your project. To override uncomment the below variable and set the type
         #type: php,javascript,json,nodejs,plsql,yaml,depscan
 
-    - name: Upload report
-      uses: github/codeql-action/upload-sarif@v1
+    - uses: actions/upload-artifact@v1
       with:
-        sarif_file: reports
+       name: reports
+       path: reports
