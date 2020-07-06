@@ -144,7 +144,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 				} else {
 					$price = static::getInstance($this->getModuleName(), 'GrossPrice')->getValueForSave($item, $userFormat);
 				}
-				$value = $this->getTaxValue($taxParam, $price, (int) $taxesConfig['aggregation']);
+				$value = $this->getTaxValue($taxParam, $price, (int) $taxesConfig['aggregation'], $item);
 			}
 		} else {
 			$value = $userFormat ? $this->getDBValue($item[$column]) : $item[$column];
@@ -158,17 +158,18 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	 * @param array  $taxParam
 	 * @param float  $netPrice
 	 * @param string $mode     0-can not be combined, 1-summary, 2-cascade
+	 * @param array  $itemData
 	 *
 	 * @return float
 	 */
-	public function getTaxValue(array $taxParam, float $netPrice, int $mode): float
+	public function getTaxValue(array $taxParam, float $netPrice, int $mode, $itemData = false): float
 	{
 		$value = 0.0;
 		$types = $taxParam['aggregationType'];
 		if (!\is_array($types)) {
 			$types = [$types];
 		}
-		if (!isset($taxParam['countFromBrutto']) || !$taxParam['countFromBrutto']) {
+		if (!isset($itemData['taxcountmode']) || $itemData['taxcountmode'] === 'netto') {
 			foreach ($types as $type) {
 				$taxValue = $netPrice * $taxParam["{$type}Tax"] / 100.00;
 				$value += $taxValue;

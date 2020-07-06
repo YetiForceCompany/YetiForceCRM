@@ -249,6 +249,7 @@ $.Class(
 			return currency.find('option:selected').val();
 		},
 		getTax: function (row) {
+			let thisInstance = this;
 			let valuePrices = '';
 			let taxParams = row.find('.taxParam').val();
 			if (taxParams == '' || taxParams == '[]' || taxParams == undefined) return 0;
@@ -266,7 +267,8 @@ $.Class(
 			}
 			if (types) {
 				types.forEach(function (entry) {
-					let taxValue = 0;
+					let taxValue = 0,
+						taxBruttoValue = 0;
 					switch (entry) {
 						case 'individual':
 							taxValue = taxParams.individualTax;
@@ -281,9 +283,14 @@ $.Class(
 							taxValue = taxParams.regionalTax;
 							break;
 					}
-					taxRate += valuePrices * (taxValue / 100);
-					if (aggregationType == '2') {
-						valuePrices = valuePrices + taxRate;
+					if(thisInstance.isTaxCountFromBrutto(row)){
+						taxBruttoValue = valuePrices / ((100+parseInt(taxValue)) / 100);
+						taxRate = thisInstance.getSummaryGrossPrice() - taxBruttoValue;
+					} else {
+						taxRate += valuePrices * (taxValue / 100);
+						if (aggregationType == '2') {
+							valuePrices = valuePrices + taxRate;
+						}
 					}
 				});
 			}
