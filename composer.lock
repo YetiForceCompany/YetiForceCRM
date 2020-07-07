@@ -477,16 +477,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.12.5",
+            "version": "8.12.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "476a40b044a953725d5abb75fcbfa1303fd429a2"
+                "reference": "3ca7b9a09fc2b00a508875ac2c52ef5c19ef2c4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/476a40b044a953725d5abb75fcbfa1303fd429a2",
-                "reference": "476a40b044a953725d5abb75fcbfa1303fd429a2",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/3ca7b9a09fc2b00a508875ac2c52ef5c19ef2c4c",
+                "reference": "3ca7b9a09fc2b00a508875ac2c52ef5c19ef2c4c",
                 "shasum": ""
             },
             "require": {
@@ -541,7 +541,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2020-06-03T08:58:23+00:00"
+            "time": "2020-07-02T12:08:36+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -2759,16 +2759,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.17.0",
+            "version": "v1.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "fa79b11539418b02fc5e1897267673ba2c19419c"
+                "reference": "7110338d81ce1cbc3e273136e4574663627037a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/fa79b11539418b02fc5e1897267673ba2c19419c",
-                "reference": "fa79b11539418b02fc5e1897267673ba2c19419c",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/7110338d81ce1cbc3e273136e4574663627037a7",
+                "reference": "7110338d81ce1cbc3e273136e4574663627037a7",
                 "shasum": ""
             },
             "require": {
@@ -2781,6 +2781,10 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.17-dev"
+                },
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
                 }
             },
             "autoload": {
@@ -2828,7 +2832,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-12T16:47:27+00:00"
+            "time": "2020-06-06T08:46:27+00:00"
         },
         {
             "name": "symfony/polyfill-php72",
