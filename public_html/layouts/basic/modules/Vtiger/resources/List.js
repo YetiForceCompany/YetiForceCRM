@@ -311,11 +311,9 @@ jQuery.Class(
 			if (newTab) {
 				formAttr['target'] = '_blank';
 			}
-			app.openUrlMethodPost(
-				exportActionUrl,
-				Vtiger_List_Js.getInstance().getSearchParams(),
-				formAttr
-			);
+			let params = Vtiger_List_Js.getInstance().getSearchParams();
+			delete params.view;
+			app.openUrlMethodPost(exportActionUrl, paramsgetDefaultParams, formAttr);
 		},
 		/**
 		 * Function to reload list
@@ -502,9 +500,9 @@ jQuery.Class(
 		getDefaultParams: function () {
 			let params = {
 				module: app.getModuleName(),
-				page: $('#pageNumber').val(),
 				view: app.getViewName(),
 				viewname: this.getCurrentCvId(),
+				page: $('#pageNumber').val(),
 				orderby: $('#orderBy').val(),
 				entityState: $('#entityState').val()
 			};
