@@ -25,6 +25,7 @@ class Encryption extends Base
 		'w_#__servers' => ['columnName' => ['pass', 'api_key'], 'index' => 'id', 'db' => 'webservice'],
 		'dav_users' => ['columnName' => ['key'], 'index' => 'id', 'db' => 'base'],
 		\App\MeetingService::TABLE_NAME => ['columnName' => ['secret'], 'index' => 'id', 'db' => 'admin'],
+		'i_#__magento_servers' => ['columnName' => ['password'], 'index' => 'id', 'db' => 'admin'],
 	];
 	/**
 	 * @var array Recommended encryption methods

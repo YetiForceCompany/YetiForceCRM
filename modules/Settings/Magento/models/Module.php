@@ -9,6 +9,7 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Dudek <a.dudek@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Magento_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -60,7 +61,7 @@ class Settings_Magento_Module_Model extends Settings_Vtiger_Module_Model
 		'name' => ['required' => 1, 'purifyType' => 'Text'],
 		'url' => ['required' => 1, 'purifyType' => 'Url'],
 		'user_name' => ['required' => 1, 'default' => '', 'purifyType' => 'Text'],
-		'password' => ['required' => 1, 'default' => '', 'purifyType' => 'Text'],
+		'password' => ['required' => 1, 'default' => '', 'purifyType' => ''],
 		'connector' => ['required' => 1, 'default' => 'Token', 'purifyType' => 'Standard'],
 		'store_code' => ['required' => 1, 'default' => 'all', 'purifyType' => 'Alnum'],
 		'store_id' => ['required' => 1, 'default' => 1, 'min' => 1, 'purifyType' => 'Integer'],
@@ -75,11 +76,11 @@ class Settings_Magento_Module_Model extends Settings_Vtiger_Module_Model
 		'sync_customers' => ['required' => 1, 'default' => true, 'tooltip' => true, 'purifyType' => 'Integer'],
 		'sync_orders' => ['required' => 1, 'default' => true, 'tooltip' => true, 'purifyType' => 'Integer'],
 		'sync_invoices' => ['required' => 1, 'default' => true, 'tooltip' => true, 'purifyType' => 'Integer'],
-		'categories_limit' => ['required' => 1, 'default' => 200, 'min' => 1, 'purifyType' => 'Integer'],
-		'products_limit' => ['required' => 1, 'default' => 1000, 'min' => 1, 'purifyType' => 'Integer'],
-		'customers_limit' => ['required' => 1, 'default' => 1000, 'min' => 1, 'purifyType' => 'Integer'],
-		'orders_limit' => ['required' => 1, 'default' => 200, 'min' => 1, 'purifyType' => 'Integer'],
-		'invoices_limit' => ['required' => 1, 'default' => 200, 'min' => 1, 'purifyType' => 'Integer'],
+		'categories_limit' => ['required' => 1, 'default' => 200, 'min' => 1, 'purifyType' => 'Text'],
+		'products_limit' => ['required' => 1, 'default' => 1000, 'min' => 1, 'purifyType' => 'Text'],
+		'customers_limit' => ['required' => 1, 'default' => 1000, 'min' => 1, 'purifyType' => 'Text'],
+		'orders_limit' => ['required' => 1, 'default' => 200, 'min' => 1, 'purifyType' => 'Text'],
+		'invoices_limit' => ['required' => 1, 'default' => 200, 'min' => 1, 'purifyType' => 'Text'],
 		'product_map_class' => ['required' => 0, 'default' => '', 'tooltip' => true, 'purifyType' => 'ClassName'],
 		'customer_map_class' => ['required' => 0, 'default' => '', 'tooltip' => true, 'purifyType' => 'ClassName'],
 		'order_map_class' => ['required' => 0, 'default' => '', 'tooltip' => true, 'purifyType' => 'ClassName'],
