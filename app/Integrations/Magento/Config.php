@@ -23,12 +23,6 @@ use App\Db\Query;
 class Config extends \App\Base
 {
 	/**
-	 * Instance class.
-	 *
-	 * @var self
-	 */
-	private static $instance;
-	/**
 	 * Table name.
 	 */
 	private const TABLE_NAME = 'i_#__magento_config';

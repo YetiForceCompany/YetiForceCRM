@@ -364,8 +364,8 @@ abstract class Base
 	public function getAddressFieldsCrm(string $type): array
 	{
 		$fieldsType = $type . 'Fields';
-		if (!empty(self::${$fieldsType})) {
-			$fields = self::${$fieldsType};
+		if (!empty(static::${$fieldsType})) {
+			$fields = static::${$fieldsType};
 		}
 		return $fields ?? [];
 	}

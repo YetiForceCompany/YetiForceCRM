@@ -131,7 +131,7 @@ abstract class Record extends Base
 	 */
 	public function findAccount(array $data, \Vtiger_Record_Model $recordModel): int
 	{
-		$vatIdField = $recordModel->getModule()->getFieldByName('vat_id', true);
+		$vatIdField = $recordModel->getModule()->getFieldByName('vat_id');
 		if ($vatIdField && $vatIdField->isActiveField() && ($vatId = $data['vat_id_a'] ?: $data['vat_id_b'] ?: false)) {
 			if (\App\Cache::staticHas('MagentoFindAccount', $vatId)) {
 				$id = \App\Cache::staticGet('MagentoFindAccount', $vatId);
