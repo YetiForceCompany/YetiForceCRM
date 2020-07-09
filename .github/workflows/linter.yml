@@ -53,4 +53,5 @@ jobs:
                   VALIDATE_DOCKER: true
                   VALIDATE_CSS: true
                   VALIDATE_OPENAPI: true
+                  ACTIONS_RUNNER_DEBUG: true
   
