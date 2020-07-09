@@ -42,4 +42,15 @@ jobs:
               uses: docker://github/super-linter:v3
               env:
                   VALIDATE_ALL_CODEBASE: false
-                  DEFAULT_BRANCH: master
+                  VALIDATE_PHP: true
+                  VALIDATE_JSON: true
+                  VALIDATE_YAML: true
+                  VALIDATE_XML: true
+                  VALIDATE_BASH: true
+                  VALIDATE_JAVASCRIPT_ES: true
+                  VALIDATE_JAVASCRIPT_STANDARD: true
+                  VALIDATE_TYPESCRIPT_STANDARD: true
+                  VALIDATE_DOCKER: true
+                  VALIDATE_CSS: true
+                  VALIDATE_OPENAPI: true
+  
