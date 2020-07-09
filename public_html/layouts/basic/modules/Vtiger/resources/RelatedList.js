@@ -987,12 +987,6 @@ jQuery.Class(
 			this.content.find('.js-switch--calendar').on('change', function (e) {
 				thisInstance.loadRelatedList();
 			});
-			this.content.find('.relatedViewGroup a').on('click', function (e) {
-				let element = $(this);
-				thisInstance.relatedView = element.data('view');
-				relatedContent.find('.pagination').data('totalCount', 0);
-				thisInstance.loadRelatedList({ page: 1 });
-			});
 		},
 		registerPostLoadEvents: function () {
 			let thisInstance = this;

@@ -188,7 +188,7 @@
 							{/if}
 							{if $IS_WIDGETS}
 								<button type="button" class="btn btn-sm btn-info float-right js-popover-tooltip js-toggle-hidden-row" data-element="widgets" data-js="popover|click" data-placement="top" data-content="{\App\Language::translate('LBL_SHOW_WIDGETS_ROW')}">
-									<span class="mdi mdi-widgets"></span>
+									<span class="fas fa-caret-square-down"></span>
 								</button>
 							{/if}
 						</td>
