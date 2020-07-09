@@ -47,9 +47,9 @@ jobs:
                   VALIDATE_YAML: true
                   VALIDATE_XML: true
                   VALIDATE_BASH: true
-                  VALIDATE_JAVASCRIPT_ES: true
-                  VALIDATE_JAVASCRIPT_STANDARD: true
-                  VALIDATE_TYPESCRIPT_STANDARD: true
+                  VALIDATE_JAVASCRIPT_ES: false
+                  VALIDATE_JAVASCRIPT_STANDARD: false
+                  VALIDATE_TYPESCRIPT_STANDARD: false
                   VALIDATE_DOCKER: true
                   VALIDATE_CSS: true
                   VALIDATE_OPENAPI: true
