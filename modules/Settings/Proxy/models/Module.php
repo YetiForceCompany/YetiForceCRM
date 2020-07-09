@@ -2,13 +2,12 @@
 /**
  * Settings proxy config module model.
  *
- * @package   Settings.Module
+ * @package   Settings.Model
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Sołek <a.solek@yetiforce.com>
  */
-
 class Settings_Proxy_Module_Model extends Settings_Vtiger_Module_Model
 {
 	/**
@@ -39,11 +38,11 @@ class Settings_Proxy_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to get the instance of Config module model.
 	 *
-	 * @param mixed $name
+	 * @param string $name
 	 *
 	 * @throws \ReflectionException
 	 *
-	 * @return \Settings_Proxy_Module_Model|\Settings_Vtiger_Module_Model
+	 * @return self
 	 */
 	public static function getInstance($name = 'Settings:Proxy')
 	{
