@@ -313,7 +313,7 @@ jQuery.Class(
 			}
 			let params = Vtiger_List_Js.getInstance().getSearchParams();
 			delete params.view;
-			app.openUrlMethodPost(exportActionUrl, paramsgetDefaultParams, formAttr);
+			app.openUrlMethodPost(exportActionUrl, params, formAttr);
 		},
 		/**
 		 * Function to reload list
