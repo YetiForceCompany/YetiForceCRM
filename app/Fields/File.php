@@ -810,8 +810,6 @@ class File
 		if (isset(self::$mimeTypes[$extension])) {
 			$mimeType = self::$mimeTypes[$extension];
 		} elseif (\function_exists('mime_content_type')) {
-			echo '<pre>', print_r([$fileName, mime_content_type($fileName)]);
-			echo '</pre>'; //exit;
 			$mimeType = mime_content_type($fileName);
 		} elseif (\function_exists('finfo_open')) {
 			$finfo = finfo_open(FILEINFO_MIME);
