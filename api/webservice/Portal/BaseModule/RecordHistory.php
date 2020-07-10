@@ -43,7 +43,7 @@ class RecordHistory extends \Api\Core\BaseAction
 		if (!$this->recordModel->isViewable()) {
 			throw new \Api\Core\Exception('No permissions to view record', 403);
 		}
-		if(!$this->recordModel->getModule()->isTrackingEnabled()) {
+		if (!$this->recordModel->getModule()->isTrackingEnabled()) {
 			throw new \Api\Core\Exception('MadTracker is turned off', 403);
 		}
 		return true;
@@ -54,12 +54,28 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *
 	 * @return array
 	 * @OA\Get(
-	 *		path="/webservice/{moduleName}/RecordHistory",
+	 *		path="/webservice/{moduleName}/RecordHistory/{recordId}",
 	 *		summary="Get record history",
 	 *		tags={"BaseModule"},
 	 *		security={
 	 *			{"basicAuth" : "", "ApiKeyAuth" : "", "token" : ""}
 	 *		},
+	 *		@OA\Parameter(
+	 *			name="moduleName",
+	 *			description="Module name",
+	 *			@OA\Schema(type="string"),
+	 *			in="path",
+	 *			example="Contacts",
+	 *			required=true
+	 *		),
+	 *		@OA\Parameter(
+	 *			name="recordId",
+	 *			description="Record id",
+	 *			@OA\Schema(type="integer"),
+	 *			in="path",
+	 *			example=116,
+	 *			required=true
+	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-row-limit",
 	 *			description="Get rows limit, default: 1000",
@@ -103,6 +119,7 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *			description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
 	 *			enum={"0", "1"},
 	 *			type="integer",
+	 *			example=1
 	 *		),
 	 *		@OA\Property(
 	 *			property="result",
@@ -113,19 +130,18 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *				description="Contains what actions have been performed and returns the data that has changed",
 	 *				type="object",
 	 *				@OA\AdditionalProperties(
+	 *					type="object",
+	 *					description="Key indicating the number of changes made to a given record",
+	 * 					@OA\Property(property="time", type="string", description="Showing the exact date on which the change took place",  format="date-time", example="2019-10-07 08:32:38"),
+	 *					@OA\Property(property="owner", type="string", description="Username of the user who made the change", example="System Admin"),
+	 *					@OA\Property(property="status", type="string", description="Name of the action that was carried out", example="changed"),
+	 *					@OA\Property(property="rawOwner", type="integer", description="User ID of the user who made the change", example=1),
+	 *					@OA\Property(property="rawStatus", type="string", description="The name of the untranslated label", example="LBL_UPDATED"),
 	 *					@OA\Property(
-	 *	 					property="0",
+	 *						property="data",
 	 *						type="object",
-	 *						description="Key indicating the number of changes made to a given record",
-	 * 						@OA\Property(property="time", type="string", description="Showing the exact date on which the change took place",  format="date-time", example="2019-10-07 08:32:38"),
-	 *						@OA\Property(property="owner", type="string", description="Username of the user who made the change", example="Administrator"),
-	 *						@OA\Property(property="status", type="string", description="Name of the action that was carried out", example="changed"),
-	 *						@OA\Property(property="rawOwner", type="integer", description="User ID of the user who made the change", example=1),
-	 *						@OA\Property(property="rawStatus", type="string", description="The name of the untranslated label", example="LBL_UPDATED"),
-	 *						@OA\Property(
-	 *							property="sum_open_orders",
-	 *							type="object",
-	 *							description="The key that is the name of the modified field and includes the data before and after modification",
+	 *						description="Field system name",
+	 *						@OA\AdditionalProperties(
 	 *							@OA\Property(property="from", type="string", description="Value before change, dynamically collected value - the data type depends on the field type", example="Jan Kowalski"),
 	 *							@OA\Property(property="to", type="string", description="Value after change, dynamically collected value - the data type depends on the field type", example="Jan Nowak"),
 	 *							@OA\Property(property="rawFrom", type="string", description="Value before change", example="Jan Kowalski"),
@@ -134,12 +150,11 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *							@OA\Property(property="targetLabel", type="string", description="The label name of the target related module", example="Jan Kowalski"),
 	 *							@OA\Property(property="targetId", type="integer", description="Id of the target related module", example=394),
 	 *						),
-	 * 					),
+	 *					),
 	 *				),
 	 *			),
 	 *		),
 	 *	),
-	 *
 	 */
 	public function get()
 	{

@@ -432,6 +432,69 @@ paths:
           basicAuth: ''
           ApiKeyAuth: ''
           token: ''
+  '/webservice/{moduleName}/RecordHistory/{recordId}':
+    get:
+      tags:
+        - BaseModule
+      summary: 'Get record history'
+      operationId: 'Api\Portal\BaseModule\RecordHistory::get'
+      parameters:
+        -
+          name: moduleName
+          in: path
+          description: 'Module name'
+          required: true
+          schema:
+            type: string
+          example: Contacts
+        -
+          name: recordId
+          in: path
+          description: 'Record id'
+          required: true
+          schema:
+            type: integer
+          example: 116
+        -
+          name: x-row-limit
+          in: header
+          description: 'Get rows limit, default: 1000'
+          required: false
+          schema:
+            type: integer
+          example: 1000
+        -
+          name: x-row-offset
+          in: header
+          description: 'Offset, default: 0'
+          required: false
+          schema:
+            type: integer
+          example: 0
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/X-ENCRYPTED'
+      requestBody:
+        description: 'Request body does not occur'
+        required: false
+      responses:
+        '200':
+          description: 'Recent activities detail'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseModule_RecordHistory_ResponseBody'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/BaseModule_RecordHistory_ResponseBody'
+      security:
+        -
+          basicAuth: ''
+          ApiKeyAuth: ''
+          token: ''
   '/webservice/{moduleName}/RecordRelatedList/{recordId}/{relatedModuleName}':
     get:
       tags:
@@ -902,6 +965,15 @@ components:
           properties:
             fields:
               description: 'List of all available fields in the module'
+              properties:
+                blocks:
+                  description: 'Fields blocks'
+                  type: object
+                  additionalProperties: { description: 'Field block details', properties: { id: { description: 'Block id', type: integer, example: 195 }, tabid: { description: 'Module id', type: integer, example: 9 }, label: { description: 'Block label', type: string, example: 'Account details' }, sequence: { description: 'Block sequence', type: integer, example: 1 }, showtitle: { description: 'Specifies whether the title should be visible', type: integer, example: 0 }, visible: { description: 'Determines the visibility', type: integer, example: 0 }, increateview: { description: 'Determines the visibility in creat view', type: integer, example: 0 }, ineditview: { description: 'Determines the visibility in edit view', type: integer, example: 0 }, indetailview: { description: 'Determines the visibility in detail view', type: integer, example: 0 }, display_status: { description: 'Determines whether the block should be expanded', type: integer, example: 2 }, iscustom: { description: 'Determines if the block has been added by the user', type: integer, example: 0 }, icon: { description: 'Block icon class', type: string, example: 'far fa-calendar-alt' }, name: { description: 'Block name translated into the user''s language', type: string, example: 'Informacje podstawowe o firmie' } }, type: object }
+                inventory:
+                  description: 'Inventory field group'
+                  properties: { '1': { description: 'Inventory field list', type: object, additionalProperties: { description: 'Inventory field details', properties: { label: { description: 'Field label translated into the user''s language', type: string, example: 'Unit price' }, type: { description: 'Field type', type: string, example: UnitPrice }, columnname: { description: 'Field column name in db', type: string, example: price }, isSummary: { description: 'Is the field contains summary', type: boolean, example: false }, isVisibleInDetail: { description: 'Check if field is visible in detail view', type: boolean, example: true } }, type: object } } }
+                  type: object
               type: object
               additionalProperties:
                 properties:
@@ -925,9 +997,9 @@ components:
                   currency_symbol: { description: 'Currency symbol, available only for type of field: currency', type: string }
                   decimal_separator: { description: 'Currency decimal separator, available only for type of field: currency', type: string }
                   group_separator: { description: 'Currency group separator, available only for type of field: currency', type: string }
-                  restrictedDomains: { description: 'Email restricted domains, available only for type of field: email', type: array, items: { items: yeti.com, example: yeti.com } }
+                  restrictedDomains: { description: 'Email restricted domains, available only for type of field: email', properties: { yeti.com: { description: 'List of domains reserved by email', example: yeti.com } }, type: object }
                   limit: { description: 'Limit the amount of images, available only for type of field: multiImage, image', type: integer }
-                  formats: { description: 'File Format, available only for type of field: multiImage, image', type: array, items: { items: jpg, example: jpg } }
+                  formats: { description: 'File Format, available only for type of field: multiImage, image', properties: { jpg: { description: 'List of file data formats', example: jpg } }, type: object }
                   id: { description: 'Check if record is editable', type: integer, example: 24862 }
                   isEditable: { description: 'Check if record is editable', type: boolean, example: true }
                   isViewable: { description: 'Check if record is viewable', type: boolean, example: true }
@@ -935,40 +1007,12 @@ components:
                   sequence: { description: 'Sequence field', type: integer, example: 24862 }
                   fieldparams: { description: 'Field params', type: object }
                   blockId: { description: 'Field block id', type: integer, example: 280 }
+                  helpInfo: { description: 'Additional field description', type: string, example: 'x y z' }
                   dbStructure: { description: 'Info about field structure in database', type: object }
                   queryOperators: { description: 'Field query operators', type: object }
                   isEmptyPicklistOptionAllowed: { description: 'Defines empty picklist element availability', type: boolean, example: false }
-                  referenceList: { description: 'List of related modules, available only for reference field', type: array, items: { items: Accounts, example: Accounts } }
-                  treeValues: { description: 'Tree items, available only for tree field', type: array, items: { description: 'Tree item', properties: { id: { description: 'Number tree without prefix', type: integer, example: 1 }, tree: { description: 'Tree id', type: string, example: T10 }, parent: { description: 'Parent tree id', type: string, example: T1 }, text: { description: 'Tree value', type: string, example: 'Tree value' } }, type: object } }
+                  referenceList: { description: 'List of related modules, available only for reference field', properties: { treeValues: { description: 'Tree items, available only for tree field', type: object, additionalProperties: { description: 'Tree item', properties: { id: { description: 'Number tree without prefix', type: integer, example: 1 }, tree: { description: 'Tree id', type: string, example: T10 }, parent: { description: 'Parent tree id', type: string, example: T1 }, text: { description: 'Tree value', type: string, example: 'Tree value' } }, type: object } } }, type: object, additionalProperties: { properties: { name: { description: 'Field name', type: string, example: subject } }, type: object } }
                 type: object
-            blocks:
-              description: 'Fields blocks'
-              type: object
-              additionalProperties:
-                description: 'Field block details'
-                properties:
-                  id: { description: 'Block id', type: integer, example: 195 }
-                  tabid: { description: 'Module id', type: integer, example: 9 }
-                  label: { description: 'Block label', type: string, example: 'Account details' }
-                  sequence: { description: 'Block sequence', type: integer, example: 1 }
-                  showtitle: { description: 'Specifies whether the title should be visible', type: integer, example: 0 }
-                  visible: { description: 'Determines the visibility', type: integer, example: 0 }
-                  increateview: { description: 'Determines the visibility in creat view', type: integer, example: 0 }
-                  ineditview: { description: 'Determines the visibility in edit view', type: integer, example: 0 }
-                  indetailview: { description: 'Determines the visibility in detail view', type: integer, example: 0 }
-                  display_status: { description: 'Determines whether the block should be expanded', type: integer, example: 2 }
-                  iscustom: { description: 'Determines if the block has been added by the user', type: integer, example: 0 }
-                  icon: { description: 'Block icon class', type: string, example: 'far fa-calendar-alt' }
-                  name: { description: 'Block name translated into the user''s language', type: string, example: 'Informacje podstawowe o firmie' }
-                type: object
-            inventory:
-              description: 'Inventory field group'
-              properties:
-                '1':
-                  description: 'Inventory field list'
-                  type: object
-                  additionalProperties: { description: 'Inventory field details', properties: { label: { description: 'Field label translated into the user''s language', type: string, example: 'Unit price' }, type: { description: 'Field type', type: string, example: UnitPrice }, columnname: { description: 'Field column name in db', type: string, example: price }, isSummary: { description: 'Is the field contains summary', type: boolean, example: false }, isVisibleInDetail: { description: 'Check if field is visible in detail view', type: boolean, example: true } }, type: object }
-              type: object
           type: object
       type: object
     BaseModule_Get_Record_Response:
@@ -1083,6 +1127,35 @@ components:
               description: 'Id of the newly created record'
               type: integer
               example: 22
+          type: object
+      type: object
+    BaseModule_RecordHistory_ResponseBody:
+      title: 'Base module - Response action history record'
+      description: 'Action module for recent activities in CRM'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - '0'
+            - '1'
+          example: 1
+        result:
+          description: 'Returns recent activities that took place in CRM'
+          properties:
+            response:
+              description: 'Contains what actions have been performed and returns the data that has changed'
+              type: object
+              additionalProperties:
+                description: 'Key indicating the number of changes made to a given record'
+                properties:
+                  time: { description: 'Showing the exact date on which the change took place', type: string, format: date-time, example: '2019-10-07 08:32:38' }
+                  owner: { description: 'Username of the user who made the change', type: string, example: 'System Admin' }
+                  status: { description: 'Name of the action that was carried out', type: string, example: changed }
+                  rawOwner: { description: 'User ID of the user who made the change', type: integer, example: 1 }
+                  rawStatus: { description: 'The name of the untranslated label', type: string, example: LBL_UPDATED }
+                  data: { description: 'Field system name', type: object, additionalProperties: { properties: { from: { description: 'Value before change, dynamically collected value - the data type depends on the field type', type: string, example: 'Jan Kowalski' }, to: { description: 'Value after change, dynamically collected value - the data type depends on the field type', type: string, example: 'Jan Nowak' }, rawFrom: { description: 'Value before change', type: string, example: 'Jan Kowalski' }, rawTo: { description: 'Value after change', type: string, example: 'Jan Nowak' }, targetModule: { description: 'The name of the target related module', type: string, example: Contacts }, targetLabel: { description: 'The label name of the target related module', type: string, example: 'Jan Kowalski' }, targetId: { description: 'Id of the target related module', type: integer, example: 394 } }, type: object } }
+                type: object
           type: object
       type: object
     BaseModule_RecordRelatedList_ResponseBody:
