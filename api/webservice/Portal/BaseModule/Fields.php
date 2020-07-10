@@ -126,8 +126,8 @@ class Fields extends \Api\Core\BaseAction
 	 *					@OA\Property(
 	 *						property="restrictedDomains",
 	 *						description="Email restricted domains, available only for type of field: email",
-	 *						type="array",
-	 *						@OA\Items(items="yeti.com", example="yeti.com"),
+	 *						type="object",
+	 *						@OA\Property(property="yeti.com", description="List of domains reserved by email", example="yeti.com"),
 	 *					),
 	 *					@OA\Property(
 	 *						property="limit",
@@ -137,8 +137,8 @@ class Fields extends \Api\Core\BaseAction
 	 *					@OA\Property(
 	 *						property="formats",
 	 *						description="File Format, available only for type of field: multiImage, image",
-	 *						type="array",
-	 *						@OA\Items(items="jpg", example="jpg"),
+	 *						type="object",
+	 *						@OA\Property(property="jpg", description="List of file data formats", example="jpg"),
 	 *					),
 	 *					@OA\Property(property="id", type="integer", description="Check if record is editable", example=24862),
 	 *					@OA\Property(property="isEditable", description="Check if record is editable", type="boolean", example=true),
