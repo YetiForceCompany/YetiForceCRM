@@ -130,6 +130,21 @@
 							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
 						</div>
 					{/foreach}
+					{if !empty($NO_FIELD_ACCESS)}
+						<div class="alert alert-warning w-100 mt-2">
+							<span class="font-weight-bold">{\App\Language::translate('LBL_NO_FIELD_ACCESS')}</span>
+							{foreach key=FIELD_LABEL item=FIELD_VALUE from=$NO_FIELD_ACCESS}
+								<div class="w-100 row">
+									<span class="col-4">
+										{$FIELD_LABEL}:
+									</span>
+									<span class="col-8">
+										{$FIELD_VALUE}
+									</span>
+								</div>
+							{/foreach}
+						</div>
+					{/if}
 				</div>
 			</div>
 		{else}

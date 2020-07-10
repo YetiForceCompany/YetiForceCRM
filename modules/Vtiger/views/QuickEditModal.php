@@ -51,7 +51,7 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$moduleModel = $recordModel->getModule();
 		$fieldList = $moduleModel->getFields();
-		$changedFields = [];
+		$changedFields = $noFieldsAccess = [];
 		$changedFieldsExist = false;
 		foreach (array_intersect($request->getKeys(), array_keys($fieldList)) as $fieldName) {
 			$fieldModel = $fieldList[$fieldName];
@@ -62,7 +62,11 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 				if ($uitypeModel->validateValue($recordModel->get($fieldName))) {
 					$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 					$changedFields[$fieldName] = $fieldModel;
+				} else {
+					$noFieldsAccess[$fieldModel->getFieldLabel()] = $fieldModel->getDisplayValue($recordModel->get($fieldName));
 				}
+			} else {
+				$noFieldsAccess[$fieldModel->getFieldLabel()] = $fieldModel->getDisplayValue($recordModel->get($fieldName));
 			}
 		}
 		$recordStructure = $this->getStructure($recordModel, $request);
@@ -100,6 +104,7 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 		$viewer->assign('CHANGED_FIELDS', $changedFields);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('NO_FIELD_ACCESS', $noFieldsAccess);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('VIEW', $request->getByType('view', 1));
