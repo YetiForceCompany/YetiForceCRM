@@ -35,31 +35,25 @@ $.Class(
 			});
 			let fieldsChange = form.find('.js-proxy-field');
 			form.validationEngine(app.validationEngineOptions);
-			fieldsChange.find('input, select').each(function () {
-				let element = $(this);
-				element.on('change', function (e) {
-					if (form.validationEngine('validate')) {
-						let progressIndicatorElement = $.progressIndicator({
-							position: 'html',
-							blockInfo: {
-								enabled: true
-							}
-						});
-						thisInstance
-							.saveConfigProxy(form)
-							.done(function (data) {
-								let params = {};
-								if (data['success']) {
-									params['text'] = app.vtranslate('JS_CONFIGURATION_DETAILS_SAVED');
-									Settings_Vtiger_Index_Js.showMessage(params);
-									progressIndicatorElement.progressIndicator({ mode: 'hide' });
-								}
-							})
-							.fail(function (error, err) {
-								progressIndicatorElement.progressIndicator({ mode: 'hide' });
-							});
-					}
-				});
+			fieldsChange.children().on('change', function (e) {
+				if (form.validationEngine('validate')) {
+					let progressIndicatorElement = $.progressIndicator({
+						position: 'html',
+						blockInfo: {
+							enabled: true
+						}
+					});
+					thisInstance.saveConfigProxy(form).done(function (data) {
+						let params = {};
+						if (data['success']) {
+							params['text'] = app.vtranslate('JS_CONFIGURATION_DETAILS_SAVED');
+							Settings_Vtiger_Index_Js.showMessage(params);
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						}
+					}).fail(function (error, err) {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					});
+				}
 			});
 		},
 
