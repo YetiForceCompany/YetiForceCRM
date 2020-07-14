@@ -33,6 +33,7 @@ $.Class(
 			App.Fields.Picklist.showSelect2ElementView(form.find('select.select2'), {
 				dropdownCss: { 'z-index': 0 }
 			});
+
 			let fieldsChange = form.find('.js-proxy-field');
 			form.validationEngine(app.validationEngineOptions);
 			fieldsChange.children().on('change', function (e) {

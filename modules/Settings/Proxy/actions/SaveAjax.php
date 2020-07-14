@@ -2,13 +2,12 @@
 /**
  * Settings proxy save ajax action.
  *
- * @package   Settings.Actions
+ * @package   Settings.Action
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Sołek <a.solek@yetiforce.com>
  */
-
 class Settings_Proxy_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 	/**
