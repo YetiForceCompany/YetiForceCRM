@@ -48,7 +48,7 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
-		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$moduleModel = $recordModel->getModule();
 		$fieldList = $moduleModel->getFields();
 		$changedFields = $noFieldsAccess = [];

@@ -131,7 +131,7 @@
 						</div>
 					{/foreach}
 					{if !empty($NO_FIELD_ACCESS)}
-						<div class="alert alert-warning w-100 mt-2">
+						<div class="alert alert-warning w-100 mt-3">
 							<span class="font-weight-bold">{\App\Language::translate('LBL_NO_FIELD_ACCESS')}</span>
 							{foreach item=FIELD_LABEL from=$NO_FIELD_ACCESS}
 								<div class="w-100">
