@@ -53,8 +53,9 @@ vue-color@^2.7.0:
     tinycolor2 "^1.1.2"
 
 "vue-drag-resize@https://github.com/kirillmurashov/vue-drag-resize#master":
-  version "1.3.2"
-  resolved "https://github.com/kirillmurashov/vue-drag-resize#e6fe21c1b13240d597b3179cecae233e4b9e80c3"
+  version "1.4.1"
+  uid "700a707e4f2f328ba654b68790afeaa3478cd26b"
+  resolved "https://github.com/kirillmurashov/vue-drag-resize#700a707e4f2f328ba654b68790afeaa3478cd26b"
 
 vuex@^3.1.1:
   version "3.4.0"
