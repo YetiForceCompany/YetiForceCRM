@@ -1117,40 +1117,6 @@ jQuery.Class(
 				}
 			});
 		},
-		registerBlockAnimationEvent: function () {
-			let thisInstance = this;
-			let detailContentsHolder = this.getContentHolder();
-			detailContentsHolder.find('.blockHeader').on('click', function (e) {
-				const target = $(e.target);
-				if (
-					target.is('input') ||
-					target.is('button') ||
-					target.parents().is('button') ||
-					target.hasClass('js-stop-propagation') ||
-					target.parents().hasClass('js-stop-propagation')
-				) {
-					return false;
-				}
-				let currentTarget = $(this).find('.js-block-toggle').not('.d-none');
-				let blockId = currentTarget.data('id');
-				let closestBlock = currentTarget.closest('.js-toggle-panel');
-				let bodyContents = closestBlock.find('.blockContent');
-				let data = currentTarget.data();
-				let module = app.getModuleName();
-				if (data.mode === 'show') {
-					bodyContents.addClass('d-none');
-					app.cacheSet(module + '.' + blockId, 0);
-					currentTarget.addClass('d-none');
-					closestBlock.find('[data-mode="hide"]').removeClass('d-none');
-				} else {
-					bodyContents.removeClass('d-none');
-					app.cacheSet(module + '.' + blockId, 1);
-					currentTarget.addClass('d-none');
-					closestBlock.find('[data-mode="show"]').removeClass('d-none');
-				}
-				app.event.trigger('DetailView.js-block-toggle.PostLoad', bodyContents, data, thisInstance);
-			});
-		},
 		registerBlockStatusCheckOnLoad: function () {
 			let blocks = this.getContentHolder().find('.js-toggle-panel');
 			let module = app.getModuleName();
@@ -3099,7 +3065,6 @@ jQuery.Class(
 				});
 			});
 			thisInstance.registerEventForRelatedList();
-			thisInstance.registerBlockAnimationEvent();
 			thisInstance.registerMailPreviewWidget(
 				detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]')
 			);
