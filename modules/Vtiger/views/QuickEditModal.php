@@ -62,10 +62,10 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 				if ($uitypeModel->validateValue($recordModel->get($fieldName))) {
 					$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 					$changedFields[$fieldName] = $fieldModel;
-				} elseif (true === $fieldModel->isReadOnly()) {
+				} elseif ($fieldModel->isViewEnabled()) {
 					$noFieldsAccess = $fieldModel->getFieldLabel();
 				}
-			} elseif (true === $fieldModel->isReadOnly()) {
+			} elseif ($fieldModel->isViewEnabled()) {
 				$noFieldsAccess = $fieldModel->getFieldLabel();
 			}
 		}
