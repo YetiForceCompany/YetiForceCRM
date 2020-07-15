@@ -60,7 +60,7 @@
 																<span class="u-transform_rotate-180deg mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 															</div>
 															<div class="c-detail-widget__header__title">
-																<h5 class="mb-0 text-truncate modCT_{$WIDGET['title']}">
+																<h5 class="mb-0 text-truncate modCT_{$WIDGET['widgetData']['label']}">
 																	{$WIDGET['title']}
 																</h5>
 															</div>
