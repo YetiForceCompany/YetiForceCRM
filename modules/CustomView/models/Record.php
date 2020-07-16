@@ -804,11 +804,9 @@ class CustomView_Record_Model extends \App\Base
 			$query->andWhere([
 				'or',
 				['userid' => $currentUser->getId()],
-				['status' => 0],
-				['status' => 3],
+				['status' => [\App\CustomView::CV_STATUS_DEFAULT, \App\CustomView::CV_STATUS_PUBLIC]],
 				['userid' => (new App\Db\Query())->select(['vtiger_user2role.userid'])
 					->from('vtiger_user2role')
-					->innerJoin('vtiger_users', 'vtiger_users.id = vtiger_user2role.userid')
 					->innerJoin('vtiger_role', 'vtiger_role.roleid = vtiger_user2role.roleid')
 					->where(['like', 'vtiger_role.parentrole', "{$userParentRoleSeq}::%", false]),
 				],
