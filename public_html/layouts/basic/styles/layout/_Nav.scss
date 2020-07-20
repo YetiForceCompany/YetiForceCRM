@@ -470,7 +470,7 @@ ul.c-process-line {
 		> a {
 			color: #999;
 			text-decoration: none;
-			padding: 10px 0 10px 40px;
+			padding: 10px 0 10px 32px;
 			position: relative;
 			display: block;
 			float: left;
@@ -483,12 +483,11 @@ ul.c-process-line {
 			display: block;
 			width: 0;
 			height: 0;
-			border-top: 50px solid transparent;
-			border-bottom: 50px solid transparent;
-			border-left: 30px solid white;
+			border-top: 25px solid transparent;
+			border-bottom: 25px solid transparent;
+			border-left: 24px solid white;
 			position: absolute;
-			top: 50%;
-			margin-top: -50px;
+			top: -3px;
 			margin-left: 1px;
 			left: 100%;
 			z-index: 1;
@@ -498,14 +497,24 @@ ul.c-process-line {
 			display: block;
 			width: 0;
 			height: 0;
-			border-top: 50px solid transparent;
-			border-bottom: 50px solid transparent;
-			border-left: 27px solid #ddd;
+			border-top: 22px solid transparent;
+			border-bottom: 22px solid transparent;
+			border-left: 20px solid #ddd;
 			position: absolute;
-			top: 50%;
-			margin-top: -50px;
+			top: 0;
 			left: 100%;
 			z-index: 2;
+		}
+		@media only screen and (max-width: 768px) {
+			> a:before {
+				border-top: 20px solid transparent !important;
+				border-bottom: 20px solid transparent !important;
+				top: 0 !important;
+			}
+			> a:after {
+				border-top: 20px solid transparent !important;
+				border-bottom: 20px solid transparent !important;
+			}
 		}
 	}
 	li:first-child a {
@@ -517,14 +526,14 @@ ul.c-process-line {
 		background: #5cb85c !important;
 	}
 	li.c-process-line__done > a:after {
-		border-left: 27px solid #5cb85c;
+		border-left: 20px solid #5cb85c;
 	}
 	li.c-process-line__next > a {
 		color: #fff !important;
 		background: #d6b200 !important;
 	}
 	li.c-process-line__next > a:after {
-		border-left: 27px solid #d6b200;
+		border-left: 20px solid #d6b200;
 	}
 	li.c-process-line__active > a {
 		border-color: #5bc0de !important;
@@ -532,6 +541,6 @@ ul.c-process-line {
 		background: #5bc0de !important;
 	}
 	li.c-process-line__active > a:after {
-		border-left: 27px solid #5bc0de !important;
+		border-left: 20px solid #5bc0de !important;
 	}
 }

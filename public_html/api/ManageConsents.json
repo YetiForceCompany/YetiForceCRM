@@ -563,9 +563,10 @@
                                 "example": 24842
                             },
                             "consents": {
-                                "description": "Gets consents.",
-                                "type": "array",
-                                "items": {
+                                "description": "Get the edit value in display view",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Data from the associated module",
                                     "type": "integer",
                                     "example": 24862
                                 }

@@ -304,6 +304,6 @@ class BaseField
 	 */
 	public function operatorOgr()
 	{
-		return \in_array($this->getValue(), \App\User::getGroups());
+		return \in_array($this->getValue(), \App\User::getCurrentUserModel()->getGroups());
 	}
 }
