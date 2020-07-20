@@ -472,11 +472,8 @@ var App = (window.App = {
 			 */
 			save(form) {
 				const aDeferred = $.Deferred();
+				form.serializeFormData();
 				let formData = new FormData(form[0]);
-				const saveData = form.serializeFormData();
-				for (let key in saveData) {
-					formData.append(key, saveData[key]);
-				}
 				AppConnector.request({
 					url: 'index.php',
 					type: 'POST',
@@ -1065,7 +1062,7 @@ var app = (window.app = {
 		const modalContainer = container.find('.modal:first');
 		modalContainer.one('shown.bs.modal', function () {
 			cb(modalContainer);
-			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'));
+			App.Fields.Picklist.changeSelectElementView(modalContainer);
 			App.Fields.Date.register(modalContainer);
 			App.Fields.Text.Editor.register(modalContainer.find('.js-editor'), {
 				height: '5em',
