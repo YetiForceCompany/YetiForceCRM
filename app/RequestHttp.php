@@ -30,6 +30,7 @@ class RequestHttp
 				'User-Agent' => 'YetiForceCRM/' . Version::get(),
 			],
 			'timeout' => 10,
+			'connect_timeout' => 2,
 			'verify' => \is_file($caPathOrFile) ? $caPathOrFile : false,
 		];
 		if (!empty(\Config\Security::$proxyConnection)) {
