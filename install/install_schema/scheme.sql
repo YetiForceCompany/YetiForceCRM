@@ -4811,14 +4811,13 @@ CREATE TABLE `vtiger_asteriskincomingevents` (
 /*Table structure for table `vtiger_attachments` */
 
 CREATE TABLE `vtiger_attachments` (
-  `attachmentsid` int(10) NOT NULL,
+  `attachmentsid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `type` varchar(100) DEFAULT NULL,
   `path` text DEFAULT NULL,
   `subject` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`attachmentsid`),
-  CONSTRAINT `fk_1_vtiger_attachments` FOREIGN KEY (`attachmentsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+  PRIMARY KEY (`attachmentsid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_audit_trial` */
@@ -8261,11 +8260,12 @@ CREATE TABLE `vtiger_scalculations_status` (
 
 CREATE TABLE `vtiger_seattachmentsrel` (
   `crmid` int(10) NOT NULL DEFAULT 0,
-  `attachmentsid` int(10) NOT NULL DEFAULT 0,
+  `attachmentsid` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`crmid`,`attachmentsid`),
   KEY `seattachmentsrel_attachmentsid_idx` (`attachmentsid`),
   KEY `seattachmentsrel_crmid_idx` (`crmid`),
-  KEY `seattachmentsrel_attachmentsid_crmid_idx` (`attachmentsid`,`crmid`)
+  KEY `seattachmentsrel_attachmentsid_crmid_idx` (`attachmentsid`,`crmid`),
+  CONSTRAINT `vtiger_seattachmentsrel_attachmentsid_fk` FOREIGN KEY (`attachmentsid`) REFERENCES `vtiger_attachments` (`attachmentsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_senotesrel` */
