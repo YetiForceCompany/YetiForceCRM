@@ -892,7 +892,7 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		if (!isset($this->privileges['Unlock'])) {
 			$this->privileges['Unlock'] = !$this->isNew() && $this->isPermitted('EditView') && $this->isPermitted('OpenRecord') &&
-				false === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) && !$this->isLockByFields() && !empty($this->getUnlockFields());
+				false === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) && !$this->isLockByFields() && !empty($this->getUnlockFields(true));
 		}
 		return $this->privileges['Unlock'];
 	}
@@ -900,17 +900,19 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Gets unlock fields.
 	 *
+	 * @param bool $isAjaxEditable
+	 *
 	 * @return array
 	 */
-	public function getUnlockFields()
+	public function getUnlockFields($isAjaxEditable = false)
 	{
-		$cacheName = 'UnlockFields';
+		$cacheName = 'UnlockFields' . $isAjaxEditable;
 		if (\App\Cache::staticHas($cacheName, $this->getId())) {
 			return \App\Cache::staticGet($cacheName, $this->getId());
 		}
 		$lockFields = \App\RecordStatus::getLockStatus($this->getModule()->getName());
 		foreach ($lockFields as $fieldName => $values) {
-			if (!\in_array($this->getValueByField($fieldName), $values) || !$this->getField($fieldName)->isAjaxEditable()) {
+			if (!\in_array($this->getValueByField($fieldName), $values) || ($isAjaxEditable && !$this->getField($fieldName)->isAjaxEditable())) {
 				unset($lockFields[$fieldName]);
 			}
 		}
