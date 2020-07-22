@@ -33,7 +33,7 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @var \Vtiger_Record_Model
 	 */
-	protected $recordModel;
+	public $recordModel;
 
 	/**
 	 * Check permission to method.
@@ -203,7 +203,6 @@ class Record extends \Api\Core\BaseAction
 	public function get(): array
 	{
 		$moduleName = $this->controller->request->get('module');
-		$record = $this->controller->request->get('record');
 		$rawData = $this->recordModel->getData();
 
 		$displayData = $fieldsLabel = [];
@@ -331,7 +330,6 @@ class Record extends \Api\Core\BaseAction
 	public function delete(): bool
 	{
 		$this->recordModel->changeState('Trash');
-
 		return true;
 	}
 
@@ -475,7 +473,13 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function post()
 	{
-		$model = (new \Api\Portal\Save($this->controller->app['id']))->saveRecord($this->controller->request);
-		return ['id' => $model->getId()];
+		$saveModel = new \Api\Portal\Save();
+		$saveModel->init($this);
+		$saveModel->saveRecord($this->controller->request);
+		$return = ['id' => $this->recordModel->getId()];
+		if ($saveModel->skippedData) {
+			$return['skippedData'] = $saveModel->skippedData;
+		}
+		return  $return;
 	}
 }

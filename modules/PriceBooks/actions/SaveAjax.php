@@ -10,26 +10,34 @@
 
 class PriceBooks_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function saveRecord(App\Request $request)
 	{
-		$recordModel = $this->getRecordModelFromRequest($request);
-		$recordModel->save();
+		$this->getRecordModelFromRequest($request);
+		$eventHandler = $this->record->getEventHandler();
+		foreach ($eventHandler->getHandlers(\App\EventHandler::EDIT_VIEW_PRE_SAVE) as $handler) {
+			if (!(($response = $eventHandler->triggerHandler($handler))['result'] ?? null)) {
+				throw new \App\Exceptions\NoPermittedToRecord($response['message'], 406);
+			}
+		}
+		$this->record->save();
 		if ($request->getBoolean('relationOperation')) {
 			$parentModuleName = $request->getByType('sourceModule', 2);
 			$parentRecordId = $request->getInteger('sourceRecord');
 
 			$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
-			if ($relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($parentModuleName), $recordModel->getModule(), $relationId)) {
-				$relationModel->addRelation($parentRecordId, $recordModel->getId());
+			if ($relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($parentModuleName), $this->record->getModule(), $relationId)) {
+				$relationModel->addRelation($parentRecordId, $this->record->getId());
 			}
 			//To store the relationship between Products/Services and PriceBooks
 			if ($parentRecordId && ('Products' === $parentModuleName || 'Services' === $parentModuleName)) {
 				$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
-				$recordModel->updateListPrice($parentRecordId, $parentRecordModel->getField('unit_price')->getUITypeModel()->getValueForCurrency(
-					$parentRecordModel->get('unit_price'), $recordModel->get('currency_id'))
+				$this->record->updateListPrice($parentRecordId, $parentRecordModel->getField('unit_price')->getUITypeModel()->getValueForCurrency(
+					$parentRecordModel->get('unit_price'), $this->record->get('currency_id'))
 				);
 			}
 		}
-		return $recordModel;
 	}
 }

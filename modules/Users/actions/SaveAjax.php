@@ -47,18 +47,18 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			return;
 		}
 
-		$recordModel = $this->saveRecord($request);
+		$this->saveRecord($request);
 		$settingsModuleModel = Settings_Users_Module_Model::getInstance();
 		$settingsModuleModel->refreshSwitchUsers();
-		$fieldModelList = $recordModel->getModule()->getFields();
+		$fieldModelList = $this->record->getModule()->getFields();
 		$result = [];
 		foreach ($fieldModelList as $fieldName => &$fieldModel) {
 			if (!$fieldModel->isViewEnabled()) {
 				continue;
 			}
-			$fieldValue = $displayValue = \App\Purifier::encodeHtml($recordModel->get($fieldName));
+			$fieldValue = $displayValue = \App\Purifier::encodeHtml($this->record->get($fieldName));
 			if ('currency' !== $fieldModel->getFieldDataType()) {
-				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
+				$displayValue = $fieldModel->getDisplayValue($fieldValue, $this->record->getId());
 			}
 			if ('language' === $fieldName) {
 				$displayValue = \App\Language::getLanguageLabel($fieldValue);
@@ -67,8 +67,8 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				$displayValue = \App\Language::translate('LBL_SPACE', 'Users');
 			}
 			$prevDisplayValue = false;
-			if (false !== ($recordFieldValuePrev = $recordModel->getPreviousValue($fieldName))) {
-				$prevDisplayValue = $fieldModel->getDisplayValue($recordFieldValuePrev, $recordModel->getId(), $recordModel);
+			if (false !== ($recordFieldValuePrev = $this->record->getPreviousValue($fieldName))) {
+				$prevDisplayValue = $fieldModel->getDisplayValue($recordFieldValuePrev, $this->record->getId(), $this->record);
 			}
 			$result[$fieldName] = [
 				'value' => $fieldValue,
@@ -76,8 +76,8 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				'prev_display_value' => $prevDisplayValue
 			];
 		}
-		$result['_recordLabel'] = $recordModel->getName();
-		$result['_recordId'] = $recordModel->getId();
+		$result['_recordLabel'] = $this->record->getName();
+		$result['_recordId'] = $this->record->getId();
 
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
@@ -90,17 +90,17 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	 */
 	public function getRecordModelFromRequest(App\Request $request)
 	{
-		$recordModel = parent::getRecordModelFromRequest($request);
+		parent::getRecordModelFromRequest($request);
 		$fieldName = $request->get('field');
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if ('is_admin' === $fieldName && (!$currentUserModel->isAdminUser() || !$request->get('value'))) {
-			$recordModel->set($fieldName, 'off');
-			$recordModel->set('is_owner', 0);
+			$this->record->set($fieldName, 'off');
+			$this->record->set('is_owner', 0);
 		} elseif ('is_admin' === $fieldName && $currentUserModel->isAdminUser()) {
-			$recordModel->set($fieldName, 'on');
-			$recordModel->set('is_owner', 1);
+			$this->record->set($fieldName, 'on');
+			$this->record->set('is_owner', 1);
 		}
-		return $recordModel;
+		return $this->record;
 	}
 
 	/**

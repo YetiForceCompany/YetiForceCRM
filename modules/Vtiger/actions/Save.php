@@ -17,7 +17,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	 *
 	 * @var Vtiger_Record_Model
 	 */
-	protected $record = false;
+	protected $record;
 
 	/**
 	 * {@inheritdoc}
@@ -72,17 +72,17 @@ class Vtiger_Save_Action extends \App\Controller\Action
 		if ($mode = $request->getMode()) {
 			$this->invokeExposedMethod($mode, $request);
 		} else {
-			$recordModel = $this->saveRecord($request);
+			$this->saveRecord($request);
 			if ($request->getBoolean('relationOperation')) {
 				$loadUrl = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 2))->getDetailViewUrl();
 			} elseif ($request->getBoolean('returnToList')) {
-				$loadUrl = $recordModel->getModule()->getListViewUrl();
+				$loadUrl = $this->record->getModule()->getListViewUrl();
 			} else {
-				$recordModel->clearPrivilegesCache();
-				if ($recordModel->isViewable()) {
-					$loadUrl = $recordModel->getDetailViewUrl();
+				$this->record->clearPrivilegesCache();
+				if ($this->record->isViewable()) {
+					$loadUrl = $this->record->getDetailViewUrl();
 				} else {
-					$loadUrl = $recordModel->getModule()->getDefaultUrl();
+					$loadUrl = $this->record->getModule()->getDefaultUrl();
 				}
 			}
 			header("location: $loadUrl");
@@ -90,23 +90,24 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Function to save record.
-	 *
-	 * @param \App\Request $request - values of the record
-	 *
-	 * @return Vtiger_Record_Model - record Model of saved record
+	 * {@inheritdoc}
 	 */
 	public function saveRecord(App\Request $request)
 	{
-		$recordModel = $this->getRecordModelFromRequest($request);
-		$recordModel->save();
-		if ($request->getBoolean('relationOperation')) {
-			$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
-			if ($relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($request->getByType('sourceModule', 2)), $recordModel->getModule(), $relationId)) {
-				$relationModel->addRelation($request->getInteger('sourceRecord'), $recordModel->getId());
+		$this->getRecordModelFromRequest($request);
+		$eventHandler = $this->record->getEventHandler();
+		foreach ($eventHandler->getHandlers(\App\EventHandler::EDIT_VIEW_PRE_SAVE) as $handler) {
+			if (!(($response = $eventHandler->triggerHandler($handler))['result'] ?? null)) {
+				throw new \App\Exceptions\NoPermittedToRecord($response['message'], 406);
 			}
 		}
-		return $recordModel;
+		$this->record->save();
+		if ($request->getBoolean('relationOperation')) {
+			$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
+			if ($relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($request->getByType('sourceModule', 2)), $this->record->getModule(), $relationId)) {
+				$relationModel->addRelation($request->getInteger('sourceRecord'), $this->record->getId());
+			}
+		}
 	}
 
 	/**
@@ -143,8 +144,8 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	 */
 	public function preSaveValidation(App\Request $request)
 	{
-		$recordModel = $this->getRecordModelFromRequest($request);
-		$eventHandler = $recordModel->getEventHandler();
+		$this->getRecordModelFromRequest($request);
+		$eventHandler = $this->record->getEventHandler();
 		$result = [];
 		foreach ($eventHandler->getHandlers(\App\EventHandler::EDIT_VIEW_PRE_SAVE) as $handler) {
 			if (!(($response = $eventHandler->triggerHandler($handler))['result'] ?? null)) {
@@ -164,19 +165,19 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	 */
 	public function recordChanger(App\Request $request)
 	{
-		$recordModel = $this->getRecordModelFromRequest($request);
+		$this->getRecordModelFromRequest($request);
 		$id = $request->getInteger('id');
-		$field = App\Field::getQuickChangerFields($recordModel->getModule()->getId())[$id] ?? false;
-		if (!$field || !App\Field::checkQuickChangerConditions($field, $recordModel)) {
+		$field = App\Field::getQuickChangerFields($this->record->getModule()->getId())[$id] ?? false;
+		if (!$field || !App\Field::checkQuickChangerConditions($field, $this->record)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$fields = $recordModel->getModule()->getFields();
+		$fields = $this->record->getModule()->getFields();
 		foreach ($field['values'] as $fieldName => $value) {
 			if (isset($fields[$fieldName]) && $fields[$fieldName]->isEditable()) {
-				$recordModel->set($fieldName, $value);
+				$this->record->set($fieldName, $value);
 			}
 		}
-		$recordModel->save();
+		$this->record->save();
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		$response->setResult(true);
