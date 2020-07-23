@@ -75,7 +75,7 @@ class Save extends \Vtiger_Save_Action
 		if ($fieldInfo) {
 			$this->record->setDataForSave([$fieldInfo['tablename'] => [$fieldInfo['columnname'] => 1]]);
 		}
-		$this->skippedData = array_merge($this->skippedData, array_keys($requestKeys));
+		$this->skippedData = $requestKeys;
 		return $this->record;
 	}
 }
