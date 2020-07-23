@@ -32,7 +32,7 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 	{
 		$widget = [];
 		$model = Vtiger_Module_Model::getInstance($this->Data['relatedmodule']);
-		if ($model->isPermitted('DetailView')) {
+		if ($model && $model->isPermitted('DetailView')) {
 			$whereCondition = [];
 			$this->Config['url'] = $this->getUrl();
 			$this->Config['tpl'] = 'Basic.tpl';
