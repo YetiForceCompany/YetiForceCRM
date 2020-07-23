@@ -6843,7 +6843,7 @@ CREATE TABLE `vtiger_modcomments` (
   KEY `parent_comments` (`parent_comments`),
   KEY `userid` (`userid`),
   KEY `related_to` (`related_to`,`parent_comments`),
-  CONSTRAINT `vtiger_modcomments_ibfk_1` FOREIGN KEY (`related_to`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+  CONSTRAINT `vtiger_modcomments_modcommentsid_fk` FOREIGN KEY (`modcommentsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modcommentscf` */

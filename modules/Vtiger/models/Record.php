@@ -639,6 +639,9 @@ class Vtiger_Record_Model extends \App\Base
 			\App\Db::getInstance('admin')->createCommand()->delete('s_#__privileges_updater', ['crmid' => $this->getId()])->execute();
 			Vtiger_MultiImage_UIType::deleteRecord($this);
 			$eventHandler->trigger('EntityAfterDelete');
+			if ($this->getModule()->isCommentEnabled()) {
+				(new \App\BatchMethod(['method' => 'ModComments_Module_Model::deleteForRecord', 'params' => [$this->getId()]]))->save();
+			}
 			$transaction->commit();
 		} catch (\Exception $e) {
 			$transaction->rollBack();
