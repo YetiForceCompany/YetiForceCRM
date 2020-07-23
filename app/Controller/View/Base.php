@@ -239,6 +239,7 @@ abstract class Base extends \App\Controller\Base
 			'~layouts/resources/colors/fields.css',
 			'~layouts/resources/styleTemplate.css',
 			'~' . \Vtiger_Theme::getBaseStylePath(),
+			'~' . \Vtiger_Theme::getThemeStyle(),
 		]);
 	}
 
