@@ -256,7 +256,7 @@ $.Class(
 			taxParams = JSON.parse(taxParams);
 			let aggregationType = $('.aggregationTypeTax').val();
 			if(this.isTaxCountFromBrutto(row)){
-				valuePrices = this.getSummaryGrossPrice();
+				valuePrices = this.getGrossPrice(row);
 			} else {
 				valuePrices = this.getNetPrice(row);
 			}
@@ -285,7 +285,7 @@ $.Class(
 					}
 					if(thisInstance.isTaxCountFromBrutto(row)){
 						taxBruttoValue = valuePrices / ((100+parseInt(taxValue)) / 100);
-						taxRate = thisInstance.getSummaryGrossPrice() - taxBruttoValue;
+						taxRate = thisInstance.getGrossPrice(row) - taxBruttoValue;
 					} else {
 						taxRate += valuePrices * (taxValue / 100);
 						if (aggregationType == '2') {
@@ -329,6 +329,7 @@ $.Class(
 		getDiscount: function (row) {
 			let discountParams = row.find('.discountParam').val();
 			let aggregationType = $('.aggregationTypeDiscount').val();
+			let valuePrices  = 0;
 			if (
 				discountParams == '' ||
 				discountParams == 'null' ||
@@ -339,9 +340,9 @@ $.Class(
 			}
 			discountParams = JSON.parse(discountParams);
 			if(this.isTaxCountFromBrutto(row)){
-				let valuePrices =  this.getQuantityValue(row) * this.getUnitPriceValue(row) - this.getTax(row);
+				valuePrices =  this.getQuantityValue(row) * this.getUnitPriceValue(row) - this.getTax(row);
 			} else {
-				let valuePrices = this.getTotalPrice(row);
+				valuePrices = this.getTotalPrice(row);
 			}
 			let discountRate = 0;
 			let types = discountParams.aggregationType;
