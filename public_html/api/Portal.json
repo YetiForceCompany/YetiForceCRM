@@ -176,7 +176,7 @@
                 ]
             }
         },
-        "/webservice/BaseAction/Menu": {
+        "/webservice/Menu": {
             "get": {
                 "tags": [
                     "BaseAction"

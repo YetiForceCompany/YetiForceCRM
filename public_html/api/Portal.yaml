@@ -113,7 +113,7 @@ paths:
         -
           basicAuth: ''
           ApiKeyAuth: ''
-  /webservice/BaseAction/Menu:
+  /webservice/Menu:
     get:
       tags:
         - BaseAction
