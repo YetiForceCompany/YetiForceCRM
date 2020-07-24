@@ -68,18 +68,6 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 		$module = $request->getModule();
 		$selectedIds = $request->getArray('selected_ids', 2);
 		$excludedIds = $request->getArray('excluded_ids', 2);
-
-		if (!empty($selectedIds) && 'all' !== $selectedIds[0] && !empty($selectedIds) && \count($selectedIds) > 0) {
-			foreach ($selectedIds as $key => &$recordId) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-				if (!$recordModel->isEditable()) {
-					unset($selectedIds[$key]);
-				}
-			}
-
-			return $selectedIds;
-		}
-
 		if ('all' == $selectedIds[0]) {
 			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 			if ($customViewModel) {
@@ -91,9 +79,9 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 					$customViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $module, $searchKey, $operator));
 				}
 				$customViewModel->set('search_params', App\Condition::validSearchParams($module, $request->getArray('search_params')));
-				return $customViewModel->getRecordIds($excludedIds, $module, true);
+				$selectedIds = $customViewModel->getRecordIds($excludedIds, $module, true);
 			}
 		}
-		return [];
+		return $selectedIds ?? [];
 	}
 }
