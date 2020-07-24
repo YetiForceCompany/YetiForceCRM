@@ -2,7 +2,7 @@
 [![Latest Stable Version](https://poser.pugx.org/yetiforce/yetiforce-crm/v/stable)](https://packagist.org/packages/yetiforce/yetiforce-crm)
 ![release date](https://img.shields.io/github/release-date/YetiForceCompany/YetiForceCRM)
 ![PHP Version](https://img.shields.io/packagist/php-v/yetiforce/yetiforce-crm)
-[![Build Status](https://travis-ci.org/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.org/YetiForceCompany/YetiForceCRM)
+[![Build Status](https://travis-ci.com/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.com/YetiForceCompany/YetiForceCRM)
 [![Download YetiForce CRM](https://img.shields.io/sourceforge/dt/yetiforce.svg)](https://sourceforge.net/projects/yetiforce/files/latest/download)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/yetiforcecrm/localized.svg)](https://crowdin.com/project/yetiforcecrm)
 [![Backers on Open Collective](https://opencollective.com/YetiForceCRM/backers/badge.svg)](#backers)
