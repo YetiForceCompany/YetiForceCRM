@@ -127,25 +127,30 @@ jQuery.Class(
 		},
 		/**
 		 * Method to verify if selected files exist
-		 * @param {int} selectedIds
 		 * @return boolean
 		 */
-		verifyFileExist: function (selectedIds) {
-			let aDeferred = jQuery.Deferred();
+		verifyFileExist: function () {
+			const self = this.relatedListInstance;
+			let aDeferred = jQuery.Deferred(),
+				selectedIds = self.readSelectedIds(true),
+				excludedIds = self.readExcludedIds(true),
+				cvId = self.getCurrentCvId(),
+				postData = self.getCompleteParams();
+			delete postData.mode;
+			delete postData.view;
+			postData.viewname = cvId;
+			postData.selected_ids = selectedIds;
+			postData.excluded_ids = excludedIds;
+			postData.action = 'RelationAjax';
+			postData.mode = 'checkFilesIntegrity';
 			AppConnector.request({
-				module: 'Documents',
-				action: 'CheckFileIntegrity',
-				mode: 'multiple',
-				record: selectedIds
+				type: 'POST',
+				data: postData
 			}).done(function (responseData) {
-				if (responseData && responseData.result !== null) {
-					if (responseData.result.message) {
-						Vtiger_Helper_Js.showPnotify({ text: responseData.result.message });
-						aDeferred.resolve(false);
-					} else {
-						aDeferred.resolve(true);
-					}
+				if(responseData.result.notify){
+					Vtiger_Helper_Js.showMessage(responseData.result.notify);
 				}
+				aDeferred.resolve(true);
 			});
 			return aDeferred.promise();
 		},
@@ -157,7 +162,7 @@ jQuery.Class(
 		triggerMassDownload: function (massActionUrl, type) {
 			const self = this.relatedListInstance,
 				thisInstance = this;
-			this.verifyFileExist(self.readSelectedIds(true)).done(function (data) {
+			this.verifyFileExist().done(function (data) {
 				if (true === data) {
 					thisInstance.triggerMassAction(
 						massActionUrl.substring(0, massActionUrl.indexOf('&mode=multiple')),
