@@ -1879,6 +1879,10 @@
                                 "description": "Id of the newly created record",
                                 "type": "integer",
                                 "example": 22
+                            },
+                            "skippedData": {
+                                "description": "List of parameters passed in the request that were skipped in the write process",
+                                "type": "object"
                             }
                         },
                         "type": "object"

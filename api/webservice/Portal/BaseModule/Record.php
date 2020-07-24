@@ -397,6 +397,7 @@ class Record extends \Api\Core\BaseAction
 	 *			description="Updated record id.",
 	 *			type="object",
 	 *			@OA\Property(property="id", description="Id of the newly created record", type="integer", example=22),
+	 *			@OA\Property(property="skippedData", description="List of parameters passed in the request that were skipped in the write process", type="object"),
 	 *		),
 	 * ),
 	 * @OA\Schema(
