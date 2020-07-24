@@ -278,7 +278,6 @@ class Api extends \Tests\Base
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
 		$this->assertSame($response['status'], 1, 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		$this->assertTrue(!empty($response['result']['BaseAction']), 'Methods API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/Menu', 'get', 200);
 	}
 
