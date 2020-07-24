@@ -143,17 +143,15 @@ jQuery.Class(
 			postData.excluded_ids = excludedIds;
 			postData.action = 'RelationAjax';
 			postData.mode = 'checkFilesIntegrity';
-			let actionParams = {
+			AppConnector.request({
 				type: 'POST',
 				data: postData
-			};
-			AppConnector.request(actionParams)
-				.done(function (responseData) {
-					if(responseData.result.notify){
-						Vtiger_Helper_Js.showMessage(responseData.result.notify);
-					}
-					aDeferred.resolve(true);
-				});
+			}).done(function (responseData) {
+				if(responseData.result.notify){
+					Vtiger_Helper_Js.showMessage(responseData.result.notify);
+				}
+				aDeferred.resolve(true);
+			});
 			return aDeferred.promise();
 		},
 		/**
