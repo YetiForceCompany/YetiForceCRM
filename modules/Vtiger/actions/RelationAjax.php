@@ -31,6 +31,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('updateFavoriteForRecord');
 		$this->exposeMethod('calculate');
 		$this->exposeMethod('massDownload');
+		$this->exposeMethod('checkFilesIntegrity');
 	}
 
 	/**
@@ -494,5 +495,29 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		} else {
 			Documents_Record_Model::downloadFiles($records);
 		}
+	}
+
+	/**
+	 * Check many files integrity.
+	 *
+	 * @param App\Request $request
+	 */
+	public function checkFilesIntegrity(App\Request $request){
+		$relatedModuleName = $request->getByType('relatedModule', 2);
+		$fileNotAvailable = [];
+		$result = ['success' => true];
+		foreach ($this->getRecordsListFromRequest($request) as $record) {
+			$documentRecordModel = Vtiger_Record_Model::getInstanceById($record, $relatedModuleName);
+			$resultVal = $documentRecordModel->checkFileIntegrity();
+			if (!$resultVal) {
+				$fileNotAvailable[] = $documentRecordModel->get('notes_title');
+			}
+		}
+		if(!empty($fileNotAvailable)){
+			$result = ['notify' => ['text' => \App\Language::translate('LBL_FILE_NOT_AVAILABLE', $relatedModuleName) . ": <br>- ".implode('<br>- ',$fileNotAvailable)]];
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
 	}
 }
