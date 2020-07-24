@@ -323,7 +323,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$this->cleanAttachments();
 		if ($this->isNew() || false !== $this->getPreviousValue('roleid') || false !== $this->getPreviousValue('is_admin')) {
 			\App\Privilege::setAllUpdater();
-			if (!$this->isNew()) {
+			if (!$this->isNew() && false !== $this->getPreviousValue('roleid')) {
 				$dbCommand->delete('vtiger_module_dashboard_widgets', ['userid' => $this->getId()])->execute();
 			}
 		}
