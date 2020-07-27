@@ -19,3 +19,13 @@ if (file_exists($path)) {
 	'pm.process_idle_timeout = 600s;';
 	file_put_contents($path, $conf, FILE_APPEND);
 }
+$version = require __DIR__ . '/../../config/version.php';
+if ($version && 0 != explode('.', $version['appVersion'])[2]) {
+	$developer = file_get_contents(__DIR__ . '/../../config/Developer.php');
+	$developer = str_replace('$MISSING_LIBRARY_DEV_MODE = false;', '$MISSING_LIBRARY_DEV_MODE = true;', $developer);
+	$developer = str_replace('$updaterDevMode = false;', '$updaterDevMode = true;', $developer);
+	$developer = str_replace('$LANGUAGES_UPDATE_DEV_MODE = false;', '$LANGUAGES_UPDATE_DEV_MODE = true;', $developer);
+	$developer = str_replace('$MINIMIZE_JS = true;', '$MINIMIZE_JS = false;', $developer);
+	$developer = str_replace('$MINIMIZE_CSS = true;', '$MINIMIZE_CSS = false;', $developer);
+	file_put_contents(__DIR__ . '/../../config/Developer.php', $developer);
+}
