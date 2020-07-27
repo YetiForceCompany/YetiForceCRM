@@ -114,10 +114,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $moduleName]);
 			$db->createCommand()->delete('u_#__crmentity_label', ['crmid' => $subQuery])->execute();
 		} else {
-			$usersRecordModel = Users_Record_Model::getAll(false);
-			foreach ($usersRecordModel as $userRecordModel) {
-				$userRecordModel->deleteLabel();
-			}
+			Users_Record_Model::updateAllLabels();
 		}
 	}
 

@@ -350,7 +350,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$dbCommand->update('vtiger_ossemployees', ['dav_status' => 1])->execute();
 		}
 		self::cleanCache($this->getId());
-		$this->deleteLabel();
+		$this->updateLabel();
 	}
 
 	/**
@@ -1045,13 +1045,34 @@ class Users_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Delete record label on save.
+	 * Update all users labels
 	 *
 	 * @return void
 	 */
-	public function deleteLabel(): void
+	public static function updateAllLabels(): void
 	{
-		\App\Db::getInstance()->createCommand()->delete('u_#__users_labels', ['id' => $this->getId()])->execute();
+		$usersId = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->column();
+		foreach ($usersId as $userId) {
+			(new \App\BatchMethod([
+				'method' => static::class . '::updateLabelUser',
+				'params' => [$userId]
+			]))->save();
+		}
+	}
+
+	/**
+	 * Update given userId label.
+	 *
+	 * @param int $userId
+	 *
+	 * @return void
+	 */
+	public static function updateLabelUser(int $userId): void
+	{
+		if (\App\User::isExists($userId)) {
+			$userRecordModel = self::getInstanceById($userId, 'Users');
+			$userRecordModel->updateLabel();
+		}
 	}
 
 	/**
@@ -1068,12 +1089,13 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$labelName[] = $fieldModel->getDisplayValue($this->get($fieldModel->getName()), $this->getId(), $this, true);
 		}
 		$label = \App\Purifier::encodeHtml(\App\TextParser::textTruncate(\App\Purifier::decodeHtml(implode(' ', $labelName)), 250, false));
-		if (empty($label)) {
-			$label = '';
-		}
-		$db = \App\Db::getInstance();
-		if (!(new \App\Db\Query())->from('u_#__users_labels')->where(['id' => $this->getId()])->exists()) {
-			$db->createCommand()->insert('u_#__users_labels', ['id' => $this->getId(), 'label' => $label])->execute();
+		if (!empty($label)) {
+			$db = \App\Db::getInstance();
+			if (!(new \App\Db\Query())->from('u_#__users_labels')->where(['id' => $this->getId()])->exists()) {
+				$db->createCommand()->insert('u_#__users_labels', ['id' => $this->getId(), 'label' => $label])->execute();
+			} else {
+				$db->createCommand()->update('u_#__users_labels', ['label' => $label], ['id' => $this->getId()])->execute();
+			}
 		}
 	}
 }
