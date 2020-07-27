@@ -1393,6 +1393,8 @@ insert  into `u_yf_svendorenquiries_invfield`(`id`,`columnname`,`label`,`invtype
 
 /*Data for the table `u_yf_timeline` */
 
+/*Data for the table `u_yf_users_labels` */
+
 /*Data for the table `u_yf_users_pinned` */
 
 /*Data for the table `u_yf_watchdog_module` */
