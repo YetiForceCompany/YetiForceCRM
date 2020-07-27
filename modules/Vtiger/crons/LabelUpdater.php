@@ -79,5 +79,13 @@ class Vtiger_LabelUpdater_Cron extends \App\CronHandler
 			}
 		}
 		$dataReader->close();
+		$usersRecordModel = Users_Record_Model::getAll(false);
+		foreach($usersRecordModel as $userRecordModel){
+			$userRecordModel->updateLabel();
+			--$limit;
+			if (0 === $limit) {
+				return;
+			}
+		}
 	}
 }

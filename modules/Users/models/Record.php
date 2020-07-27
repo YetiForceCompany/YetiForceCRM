@@ -350,6 +350,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$dbCommand->update('vtiger_ossemployees', ['dav_status' => 1])->execute();
 		}
 		self::cleanCache($this->getId());
+		$this->deleteLabel();
 	}
 
 	/**
@@ -1041,5 +1042,38 @@ class Users_Record_Model extends Vtiger_Record_Model
 			\App\Cache::save('UsersFavourite', $this->getId(), $favouriteUsers, \App\Cache::LONG);
 		}
 		return $favouriteUsers;
+	}
+
+	/**
+	 * Delete record label on save.
+	 *
+	 * @return void
+	 */
+	public function deleteLabel(): void
+	{
+		\App\Db::getInstance()->createCommand()->delete('u_#__users_labels', ['id' => $this->getId()])->execute();
+	}
+
+	/**
+	 * Update record label.
+	 *
+	 * @return void
+	 */
+	public function updateLabel(): void
+	{
+		$metaInfo = \App\Module::getEntityInfo($this->getModuleName());
+		$labelName = [];
+		foreach ($metaInfo['fieldnameArr'] as $columnName) {
+			$fieldModel = $this->getModule()->getFieldByColumn($columnName);
+			$labelName[] = $fieldModel->getDisplayValue($this->get($fieldModel->getName()), $this->getId(), $this, true);
+		}
+		$label = \App\Purifier::encodeHtml(\App\TextParser::textTruncate(\App\Purifier::decodeHtml(implode(' ', $labelName)), 250, false));
+		if (empty($label)) {
+			$label = '';
+		}
+		$db = \App\Db::getInstance();
+		if (!(new \App\Db\Query())->from('u_#__users_labels')->where(['id' => $this->getId()])->exists()) {
+			$db->createCommand()->insert('u_#__users_labels', ['id' => $this->getId(), 'label' => $label])->execute();
+		}
 	}
 }

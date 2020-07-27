@@ -102,14 +102,23 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 	 * Update labels.
 	 *
 	 * @param array $params
+	 *
+	 * @return void
 	 */
-	public static function updateLabels($params)
+	public static function updateLabels($params): void
 	{
 		$moduleName = App\Module::getModuleName((int) $params['tabid']);
 		$db = App\Db::getInstance();
-		$db->createCommand()->update('u_#__crmentity_search_label', ['searchlabel' => ''], ['setype' => $moduleName])->execute();
-		$subQuery = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $moduleName]);
-		$db->createCommand()->delete('u_#__crmentity_label', ['crmid' => $subQuery])->execute();
+		if ('Users' !== $moduleName) {
+			$db->createCommand()->update('u_#__crmentity_search_label', ['searchlabel' => ''], ['setype' => $moduleName])->execute();
+			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $moduleName]);
+			$db->createCommand()->delete('u_#__crmentity_label', ['crmid' => $subQuery])->execute();
+		} else {
+			$usersRecordModel = Users_Record_Model::getAll(false);
+			foreach ($usersRecordModel as $userRecordModel) {
+				$userRecordModel->deleteLabel();
+			}
+		}
 	}
 
 	/**
