@@ -2071,6 +2071,24 @@ jQuery.Class(
 								Vtiger_List_Js.triggerExportAction(url, element.data('tab') === 'new');
 								Vtiger_List_Js.clearList();
 								break;
+							case 'reload':
+								let params = self.getSearchParams();
+								delete params.view;
+								delete params.action;
+								params.sourceModule = params.module;
+								delete params.module;
+								AppConnector.request({
+									type: 'POST',
+									url: url,
+									data: params
+								}).done((response) => {
+									self.getListViewRecords();
+									Vtiger_List_Js.clearList();
+									if (response.result) {
+										Vtiger_Helper_Js.showMessage(response.result.message);
+									}
+								});
+								break;
 						}
 					} else {
 						this.noRecordSelectedAlert();
