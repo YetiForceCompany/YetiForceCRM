@@ -24,7 +24,8 @@ class ModTracker_ModTrackerHandler_Handler
 		}
 		$recordModel = $eventHandler->getRecordModel();
 		if ($recordModel->isNew()) {
-			$delta = $recordModel->getData();
+			$delta = array_keys($recordModel->getData());
+			$delta = array_fill_keys($delta, null);
 			if ($recordModel->getModule()->isInventory() && ($invData = $recordModel->getInventoryData())) {
 				$delta['inventory'] = array_fill_keys(array_keys($invData), []);
 			}
