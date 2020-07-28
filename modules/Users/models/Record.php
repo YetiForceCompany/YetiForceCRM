@@ -362,6 +362,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		\App\Cache::delete('UserImageById', $userId);
 		\App\Cache::delete('UserIsExists', $userId);
+		\App\Cache::delete('UserIsExistsInactive', $userId);
 		\App\Cache::delete('NumberOfUsers', '');
 		\App\Cache::delete('ActiveAdminId', '');
 	}
@@ -1044,36 +1045,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 		return $favouriteUsers;
 	}
 
-	/**
-	 * Update all users labels
-	 *
-	 * @return void
-	 */
-	public static function updateAllLabels(): void
-	{
-		$usersId = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->column();
-		foreach ($usersId as $userId) {
-			(new \App\BatchMethod([
-				'method' => static::class . '::updateLabelUser',
-				'params' => [$userId]
-			]))->save();
-		}
-	}
-
-	/**
-	 * Update given userId label.
-	 *
-	 * @param int $userId
-	 *
-	 * @return void
-	 */
-	public static function updateLabelUser(int $userId): void
-	{
-		if (\App\User::isExists($userId)) {
-			$userRecordModel = self::getInstanceById($userId, 'Users');
-			$userRecordModel->updateLabel();
-		}
-	}
 
 	/**
 	 * Update record label.

@@ -109,12 +109,12 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$moduleName = App\Module::getModuleName((int) $params['tabid']);
 		$db = App\Db::getInstance();
-		if ('Users' !== $moduleName) {
+		if ('Users' === $moduleName) {
+			(new \App\BatchMethod(['method' => '\App\User::updateLabels', 'params' => [0]]))->save();
+		} else {
 			$db->createCommand()->update('u_#__crmentity_search_label', ['searchlabel' => ''], ['setype' => $moduleName])->execute();
 			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $moduleName]);
 			$db->createCommand()->delete('u_#__crmentity_label', ['crmid' => $subQuery])->execute();
-		} else {
-			Users_Record_Model::updateAllLabels();
 		}
 	}
 

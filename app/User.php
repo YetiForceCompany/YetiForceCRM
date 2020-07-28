@@ -350,28 +350,30 @@ class User
 	 * Function checks if user exists.
 	 *
 	 * @param int $id - User ID
+	 * @param bool $active
 	 *
 	 * @return bool
 	 */
-	public static function isExists($id)
+	public static function isExists(int $id, bool $active = true): bool
 	{
-		if (Cache::has('UserIsExists', $id)) {
-			return Cache::get('UserIsExists', $id);
+		$cacheKey = $active ? 'UserIsExists' : 'UserIsExistsInactive';
+		if (Cache::has($cacheKey, $id)) {
+			return Cache::get($cacheKey, $id);
 		}
 		$isExists = false;
 		if (\App\Config::performance('ENABLE_CACHING_USERS')) {
 			$users = PrivilegeFile::getUser('id');
-			if (isset($users[$id]) && !$users[$id]['deleted']) {
+			if (($active && isset($users[$id]) && 'Active' == $users[$id]['status'] && !$users[$id]['deleted']) || (!$active && isset($users[$id]))) {
 				$isExists = true;
 			}
 		} else {
-			$isExists = (new \App\Db\Query())
-				->from('vtiger_users')
-				->where(['status' => 'Active', 'deleted' => 0, 'id' => $id])
-				->exists();
+			$isExists = (new \App\Db\Query())->from('vtiger_users')->where(['id' => $id]);
+			if ($active) {
+				$isExists->andWhere(['status' => 'Active', 'deleted' => 0]);
+			}
+			$isExists = $isExists->exists();
 		}
-		Cache::save('UserIsExists', $id, $isExists);
-
+		Cache::save($cacheKey, $id, $isExists);
 		return $isExists;
 	}
 
@@ -496,5 +498,30 @@ class User
 		$count = (new Db\Query())->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['<>', 'id', 1])->count();
 		Cache::save('NumberOfUsers', '', $count, Cache::LONG);
 		return $count;
+	}
+
+	/**
+	 * Update users labels.
+	 *
+	 * @param int $fromUserId
+	 *
+	 * @return void
+	 */
+	public static function updateLabels(int $fromUserId = 0): void
+	{
+		$timeLimit = 180;
+		$timeMax = $timeLimit + time();
+		$query = (new \App\Db\Query())->select(['id'])->from('vtiger_users');
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			if (time() >= $timeMax) {
+				(new \App\BatchMethod(['method' => __METHOD__, 'params' => [$row['id'], microtime()]]))->save();
+				break;
+			}
+			if (self::isExists($row['id'], false)) {
+				$userRecordModel = \Users_Record_Model::getInstanceById($row['id'], 'Users');
+				$userRecordModel->updateLabel();
+			}
+		}
 	}
 }
