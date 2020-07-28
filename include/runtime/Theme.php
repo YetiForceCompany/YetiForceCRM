@@ -17,14 +17,10 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 */
 	public static function getThemeStyle()
 	{
-		$basePath = '';
-		if (!IS_PUBLIC_DIR) {
-			$basePath = 'public_html/';
-		}
 		$filePath = self::getThemePath() . '/' . 'style.css';
 		$completeFilePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $filePath);
 		if (file_exists($completeFilePath)) {
-			return $basePath . $filePath;
+			return $filePath;
 		}
 		// Exception should be thrown???
 		return false;
@@ -126,6 +122,8 @@ class Vtiger_Theme extends Vtiger_Viewer
 
 	/**
 	 * Function to get the selected theme folder path.
+	 *
+	 * @param mixed $theme
 	 *
 	 * @return string -  selected theme path
 	 */
