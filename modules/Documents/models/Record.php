@@ -48,14 +48,10 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	public function checkFileIntegrity()
 	{
 		$returnValue = false;
-		if ('I' === $this->get('filelocationtype')) {
-			$fileDetails = $this->getFileDetails();
-			if (!empty($fileDetails)) {
-				$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'];
-				if (file_exists($savedFile) && fopen($savedFile, 'r')) {
-					$returnValue = true;
-				}
-			}
+		if ('I' === $this->get('filelocationtype') && ($fileDetails = $this->getFileDetails())) {
+			$fileName = html_entity_decode($fileDetails['name'], ENT_QUOTES, \App\Config::main('default_charset'));
+			$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'];
+			$returnValue = (file_exists($savedFile) && fopen($savedFile, 'r')) || (file_exists("{$savedFile}_{$fileName}") && fopen("{$savedFile}_{$fileName}", 'r'));
 		}
 		return $returnValue;
 	}

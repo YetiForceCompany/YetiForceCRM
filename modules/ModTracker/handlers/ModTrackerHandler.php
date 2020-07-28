@@ -24,12 +24,12 @@ class ModTracker_ModTrackerHandler_Handler
 		}
 		$recordModel = $eventHandler->getRecordModel();
 		if ($recordModel->isNew()) {
-			$delta = array_keys($recordModel->getData());
-			$delta = array_fill_keys($delta, null);
+			$delta = array_intersect_key($recordModel->getData(), $recordModel->getModule()->getFields());
+			$delta = array_fill_keys(array_keys($delta), null);
 			if ($recordModel->getModule()->isInventory() && ($invData = $recordModel->getInventoryData())) {
 				$delta['inventory'] = array_fill_keys(array_keys($invData), []);
 			}
-			unset($delta['createdtime'], $delta['modifiedtime'], $delta['id'], $delta['newRecord'], $delta['modifiedby']);
+			unset($delta['createdtime'], $delta['modifiedtime'], $delta['modifiedby']);
 			$status = ModTracker::$CREATED;
 			$watchdogTitle = 'LBL_CREATED';
 			$watchdogMessage = '$(record : ChangesListValues)$';
