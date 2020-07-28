@@ -643,22 +643,18 @@ class Owner
 			}
 			$userLabel = isset($users[$id]) ? $users[$id]['fullName'] : false;
 		} else {
-			$userLabel = self::getAllUsersLabel()[$id] ?? false;
-			self::$userLabelCache[$id] = $userLabel;
-			self::$ownerLabelCache[$id] = $userLabel;
+			$users = \App\User::getAllUsersLabel();
+			if ($users) {
+				foreach ($users as $uid => &$user) {
+					self::$userLabelCache[$uid] = $user;
+					self::$ownerLabelCache[$uid] = $user;
+				}
+				$userLabel = $users[$id] ?? false;
+			}
 		}
 		return $userLabel ?? false;
 	}
 
-	/**
-	 * The function gets the all users label.
-	 *
-	 * @return bool|array
-	 */
-	public static function getAllUsersLabel()
-	{
-		return (new \App\Db\Query())->from('u_#__users_labels')->select(['id', 'label'])->createCommand()->queryAllByGroup();
-	}
 	/**
 	 * Gets favorite owners.
 	 *

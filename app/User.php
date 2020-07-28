@@ -511,7 +511,7 @@ class User
 	{
 		$timeLimit = 180;
 		$timeMax = $timeLimit + time();
-		$query = (new \App\Db\Query())->select(['id'])->from('vtiger_users');
+		$query = (new \App\Db\Query())->select(['id'])->where(['>', 'id', $fromUserId])->from('vtiger_users');
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			if (time() >= $timeMax) {
@@ -523,5 +523,15 @@ class User
 				$userRecordModel->updateLabel();
 			}
 		}
+	}
+
+	/**
+	 * The function gets the all users label.
+	 *
+	 * @return bool|array
+	 */
+	public static function getAllUsersLabel()
+	{
+		return (new \App\Db\Query())->from('u_#__users_labels')->select(['id', 'label'])->createCommand()->queryAllByGroup();
 	}
 }
