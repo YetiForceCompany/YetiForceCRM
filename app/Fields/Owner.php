@@ -629,7 +629,7 @@ class Owner
 	 *
 	 * @return bool|string
 	 */
-	public static function getUserLabel($id, $single = false)
+	public static function getUserLabel($id)
 	{
 		if (isset(self::$userLabelCache[$id])) {
 			return self::$userLabelCache[$id];
@@ -643,8 +643,7 @@ class Owner
 			}
 			$userLabel = isset($users[$id]) ? $users[$id]['fullName'] : false;
 		} else {
-			$users = \App\User::getAllUsersLabel();
-			if ($users) {
+			if ($users = \App\User::getAllLabels()) {
 				foreach ($users as $uid => &$user) {
 					self::$userLabelCache[$uid] = $user;
 					self::$ownerLabelCache[$uid] = $user;

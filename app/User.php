@@ -367,11 +367,11 @@ class User
 				$isExists = true;
 			}
 		} else {
-			$isExists = (new \App\Db\Query())->from('vtiger_users')->where(['id' => $id]);
+			$isExistsQuery = (new \App\Db\Query())->from('vtiger_users')->where(['id' => $id]);
 			if ($active) {
-				$isExists->andWhere(['status' => 'Active', 'deleted' => 0]);
+				$isExistsQuery->andWhere(['status' => 'Active', 'deleted' => 0]);
 			}
-			$isExists = $isExists->exists();
+			$isExists = $isExistsQuery->exists();
 		}
 		Cache::save($cacheKey, $id, $isExists);
 		return $isExists;
@@ -530,7 +530,7 @@ class User
 	 *
 	 * @return bool|array
 	 */
-	public static function getAllUsersLabel()
+	public static function getAllLabels()
 	{
 		return (new \App\Db\Query())->from('u_#__users_labels')->select(['id', 'label'])->createCommand()->queryAllByGroup();
 	}
