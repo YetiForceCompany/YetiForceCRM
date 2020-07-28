@@ -155,7 +155,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				header('location: ' . App\Config::main('site_URL'), true);
 			}
 			if ('AppComponents' === $moduleName) {
-				$handlerClass = "App\\Components\\{$componentName}";
+				$handlerClass = "App\\App\\Controller\\{$componentName}";
 			} else {
 				$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
 			}

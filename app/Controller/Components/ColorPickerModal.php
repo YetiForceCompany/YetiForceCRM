@@ -10,7 +10,7 @@
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 
-namespace App\Components;
+namespace App\Controller\Components;
 
 /**
  * Color picker modal view class.

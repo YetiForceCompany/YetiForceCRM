@@ -349,7 +349,7 @@ class User
 	/**
 	 * Function checks if user exists.
 	 *
-	 * @param int $id - User ID
+	 * @param int  $id     - User ID
 	 * @param bool $active
 	 *
 	 * @return bool
@@ -423,8 +423,7 @@ class User
 			return Cache::get('UserIdByName', $name);
 		}
 		$userId = (new Db\Query())->select(['id'])->from('vtiger_users')->where(['user_name' => $name])->limit(1)->scalar();
-		Cache::save('UserIdByName', $name, $userId, Cache::LONG);
-		return false !== $userId ? $userId : null;
+		return Cache::save('UserIdByName', $name, false !== $userId ? $userId : null, Cache::LONG);
 	}
 
 	/**
