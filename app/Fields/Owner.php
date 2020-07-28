@@ -629,27 +629,29 @@ class Owner
 	 *
 	 * @return bool|string
 	 */
-	public static function getUserLabel($id, $single = false)
+	public static function getUserLabel($id)
 	{
 		if (isset(self::$userLabelCache[$id])) {
 			return self::$userLabelCache[$id];
 		}
-
+		$userLabel = false;
 		if (\App\Config::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('id');
+			foreach ($users as $uid => &$user) {
+				self::$userLabelCache[$uid] = $user['fullName'];
+				self::$ownerLabelCache[$uid] = $user['fullName'];
+			}
+			$userLabel = isset($users[$id]) ? $users[$id]['fullName'] : false;
 		} else {
-			$instance = new self();
-			if ($single) {
-				$users = $instance->initUsers(false, $id);
-			} else {
-				$users = $instance->initUsers(false);
+			if ($users = \App\User::getAllLabels()) {
+				foreach ($users as $uid => &$user) {
+					self::$userLabelCache[$uid] = $user;
+					self::$ownerLabelCache[$uid] = $user;
+				}
+				$userLabel = $users[$id] ?? false;
 			}
 		}
-		foreach ($users as $uid => &$user) {
-			self::$userLabelCache[$uid] = $user['fullName'];
-			self::$ownerLabelCache[$uid] = $user['fullName'];
-		}
-		return isset($users[$id]) ? $users[$id]['fullName'] : false;
+		return $userLabel ?? false;
 	}
 
 	/**
@@ -760,10 +762,7 @@ class Owner
 			$users = \App\PrivilegeFile::getUser('id');
 			$isExists = isset($users[$id]);
 		} else {
-			$isExists = (new \App\Db\Query())
-				->from('vtiger_users')
-				->where(['id' => $id])
-				->exists();
+			$isExists = !empty(\App\Fields\Owner::getUserLabel($id));
 		}
 		$result = $isExists ? 'Users' : 'Groups';
 		self::$typeCache[$id] = $result;
