@@ -151,8 +151,11 @@ class Vtiger_ProcessWizard_Model extends \App\Base
 					case 'relatedLists':
 						$blocks[] = $this->getRelatedListStructure($block);
 						break;
-					default:
-						// code...
+					case 'relatedListsFromReference':
+						$blocks[] = $this->getRelatedListReferenceStructure($block);
+						break;
+					case 'description':
+						$blocks[] = $block;
 						break;
 				}
 			}
@@ -172,8 +175,9 @@ class Vtiger_ProcessWizard_Model extends \App\Base
 		$fields = [];
 		foreach ($block['fields'] as $field) {
 			if (\is_array($field) && 'relatedField' === $field['type']) {
-				if (App\Record::isExists($this->recordModel->get($field['field']))) {
-					$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($this->recordModel->get($field['field']));
+				$fieldValue = $this->recordModel->get($field['field']);
+				if ($fieldValue && App\Record::isExists($fieldValue)) {
+					$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($fieldValue);
 					$fieldModel = $relatedRecordModel->getField($field['relatedField']);
 					if ($fieldModel && $fieldModel->isViewable()) {
 						$fieldModel->set('fieldvalue', $relatedRecordModel->get($field['relatedField']));
@@ -207,6 +211,24 @@ class Vtiger_ProcessWizard_Model extends \App\Base
 					], $field['name']);
 					$fields[] = $fieldModel;
 				}
+			} elseif (\is_array($field) && 'relatedField2' === $field['type']) {
+				$fieldValue = $this->recordModel->get($field['field']);
+				if ($fieldValue && App\Record::isExists($fieldValue)) {
+					$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($fieldValue);
+					$relatedFieldValue = $relatedRecordModel->get($field['relatedField']);
+					if ($relatedFieldValue && App\Record::isExists($relatedFieldValue)) {
+						$relatedRecordModel2 = \Vtiger_Record_Model::getInstanceById($relatedFieldValue);
+						$fieldModel = $relatedRecordModel2->getField($field['relatedField2']);
+						if ($fieldModel && $fieldModel->isViewable()) {
+							$fieldModel->set('fieldvalue', $relatedRecordModel2->get($field['relatedField2']));
+							$fieldModel->set('displaytype', 10);
+							if (isset($field['label'])) {
+								$fieldModel->set('label', $field['label']);
+							}
+							$fields[] = $fieldModel;
+						}
+					}
+				}
 			} else {
 				$fieldModel = $this->recordModel->getField($field);
 				if ($fieldModel && $fieldModel->isViewable()) {
@@ -220,7 +242,7 @@ class Vtiger_ProcessWizard_Model extends \App\Base
 	}
 
 	/**
-	 * Get fields structure for related lists block type.
+	 * Get structure for related lists block type.
 	 *
 	 * @param array $block
 	 *
@@ -233,9 +255,33 @@ class Vtiger_ProcessWizard_Model extends \App\Base
 			'linklabel' => $block['label'] ?? $relation->get('label'),
 			'linkurl' => $relation->getListUrl($this->recordModel) . ($block['relationConditions'] ?? ''),
 			'linkicon' => '',
-			'relatedModuleName' => $relation->get('relatedModuleName'),
+			'relatedModuleName' => $relation->getRelationModuleName(),
 			'relationId' => $relation->getId(),
 		]);
+		return $block;
+	}
+
+	/**
+	 * Get structure for related lists block type for reference record.
+	 *
+	 * @param array $block
+	 *
+	 * @return array
+	 */
+	public function getRelatedListReferenceStructure(array $block): array
+	{
+		$fieldValue = $this->recordModel->get($block['referenceField']);
+		if ($fieldValue && App\Record::isExists($fieldValue)) {
+			$relation = Vtiger_Relation_Model::getInstanceById($block['relationId']);
+			$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($fieldValue);
+			$block['relationStructure'] = Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => ($block['label'] ?? $relation->get('label')),
+				'linkurl' => $relation->getListUrl($relatedRecordModel) . ($block['relationConditions'] ?? ''),
+				'linkicon' => '',
+				'relatedModuleName' => $relation->getRelationModuleName(),
+				'relationId' => $relation->getId(),
+			]);
+		}
 		return $block;
 	}
 

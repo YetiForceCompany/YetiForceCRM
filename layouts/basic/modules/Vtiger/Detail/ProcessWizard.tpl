@@ -21,7 +21,7 @@
 		{foreach item=BLOCK_ROW from=$PROCESS_WIZARD->getStepBlocks()}
 			{if $BLOCK_ROW['type'] eq 'fields'}
 				{include file=\App\Layout::getTemplatePath('Detail/BlockView.tpl', $MODULE_NAME) RECORD_STRUCTURE=$RECORD_STRUCTURE BLOCK_LABEL_KEY=$BLOCK_ROW['label'] FIELD_MODEL_LIST=$BLOCK_ROW['fieldsStructure']}
-			{elseif $BLOCK_ROW['type'] eq 'relatedLists'}
+			{elseif $BLOCK_ROW['type'] eq 'relatedLists' || $BLOCK_ROW['type'] eq 'relatedListsFromReference'}
 				{assign var=BLOCK_MODEL value=$BLOCK_ROW['relationStructure']}
 				{assign var=RELATED_MODULE_NAME value=$BLOCK_MODEL->getRelatedModuleName()}
 				<div class="c-panel detailViewBlockLink" data-url="{$BLOCK_MODEL->getUrl()}" data-mode="show" data-reference="{$RELATED_MODULE_NAME}">
@@ -37,6 +37,18 @@
 						</h5>
 					</div>
 					<div class="blockContent c-panel__body"></div>
+				</div>
+			{elseif $BLOCK_ROW['type'] eq 'description'}
+				<div class="c-panel" data-mode="show">
+					<div class="blockHeader c-panel__header js-stop-propagation">
+						<h5>
+							{if $BLOCK_ROW['icon']}
+								<span class="{$BLOCK_ROW['icon']} mr-2"></span>
+							{/if}
+							{\App\Language::translate($BLOCK_ROW['label'],$MODULE_NAME)}
+						</h5>
+					</div>
+					<div class="blockContent c-panel__body p-1 pl-2">{$BLOCK_ROW['description']}</div>
 				</div>
 			{/if}
 		{foreachelse}

@@ -29,18 +29,18 @@ class BusinessHours
 	public static function getBusinessHours(): array
 	{
 		$cacheName = 'Date::getBusinessHours';
-		if (!\App\Cache::has($cacheName, '')) {
-			$businessHours = [];
-			$dataReader = (new \App\Db\Query())->from('s_#__business_hours')->createCommand(\App\Db::getInstance('admin'))->query();
-			while ($row = $dataReader->read()) {
-				$businessHours[$row['id']] = $row;
-				if ($row['default']) {
-					$businessHours[self::DEFAULT_BUSINESS_HOURS_ID] = $row;
-				}
-			}
-			\App\Cache::save($cacheName, '', $businessHours);
+		if (\App\Cache::has($cacheName, '')) {
+			return \App\Cache::get($cacheName, '');
 		}
-		return \App\Cache::get($cacheName, '');
+		$businessHours = [];
+		$dataReader = (new \App\Db\Query())->from('s_#__business_hours')->createCommand(\App\Db::getInstance('admin'))->query();
+		while ($row = $dataReader->read()) {
+			$businessHours[$row['id']] = $row;
+			if ($row['default']) {
+				$businessHours[self::DEFAULT_BUSINESS_HOURS_ID] = $row;
+			}
+		}
+		return \App\Cache::save($cacheName, '', $businessHours);
 	}
 
 	/**
