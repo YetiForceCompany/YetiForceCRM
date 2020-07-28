@@ -511,7 +511,7 @@ class User
 	{
 		$timeLimit = 180;
 		$timeMax = $timeLimit + time();
-		$query = (new \App\Db\Query())->select(['id'])->where(['>', 'id', $fromUserId])->from('vtiger_users');
+		$query = (new \App\Db\Query())->select(['id'])->where(['>=', 'id', $fromUserId])->from('vtiger_users');
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			if (time() >= $timeMax) {
