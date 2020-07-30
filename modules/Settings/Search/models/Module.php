@@ -93,8 +93,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 				->update('vtiger_entityname', ['turn_off' => (int) $params['value']], ['tabid' => $tabId])
 				->execute();
 		}
-		\App\Cache::delete('ModuleEntityById', $tabId);
-		\App\Cache::delete('ModuleEntityByName', \App\Module::getModuleName($tabId));
+		\App\Cache::delete('ModuleEntityInfo', '');
 		return true;
 	}
 

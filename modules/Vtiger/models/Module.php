@@ -716,11 +716,11 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getNameFields()
 	{
-		$entityInfo = App\Module::getEntityInfo($this->getId());
+		$entityInfo = App\Module::getEntityInfo($this->getName());
 		$fieldsName = [];
 		if ($entityInfo) {
 			foreach ($entityInfo['fieldnameArr'] as $columnName) {
-				$fieldsName[] = $this->getFieldByColumn($columnName)->getFieldName();
+				$fieldsName[] = $this->getFieldByColumn($columnName)->getName();
 			}
 		}
 		return $fieldsName;
@@ -934,9 +934,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$entityModules = self::getEntityModules();
 		$searchableModules = [];
-		foreach ($entityModules as $tabid => $moduleModel) {
+		foreach ($entityModules as $moduleModel) {
 			$moduleName = $moduleModel->getName();
-			$entityInfo = \App\Module::getEntityInfo($tabid);
+			$entityInfo = \App\Module::getEntityInfo($moduleName);
 			if ('Users' == $moduleName || !$entityInfo['turn_off']) {
 				continue;
 			}
