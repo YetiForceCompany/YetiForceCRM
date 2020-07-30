@@ -840,7 +840,7 @@ jQuery.Class(
 		activeFieldValidation: function (field) {
 			let validationVal = field.attr('data-invalid-validation-engine');
 			if (typeof validationVal === 'undefined') return;
-			field.attr('data-validation-engine', field.attr(validationVal));
+			field.attr('data-validation-engine', validationVal);
 			field.removeAttr('data-invalid-validation-engine');
 		},
 		postMassEdit: function (massEditContainer) {

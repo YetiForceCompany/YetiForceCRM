@@ -650,7 +650,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			return $this->get('isMandatory');
 		}
 		$typeOfData = explode('~', $this->get('typeofdata'));
-		return (isset($typeOfData[1]) && 'M' === $typeOfData[1]) ? true : false;
+		return isset($typeOfData[1]) && 'M' === $typeOfData[1];
 	}
 
 	/**
