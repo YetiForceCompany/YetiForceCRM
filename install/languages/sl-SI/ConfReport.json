@@ -10,10 +10,10 @@
 		"LBL_CONFREPORT_DESCRIPTION": "Omogoča, da preverite ali so nastavitve glavnega strežnika združljive s priporočenimi parametri.",
 		"LBL_PARAMETER": "Parameter",
 		"LBL_VALUE": "Vrednost",
-		"LBL_RECOMMENDED": "Recommended",
+		"LBL_RECOMMENDED": "Priporočeno",
 		"LBL_SYSTEM_STABILITY": "Konfiguracija za stabilnost sistema",
 		"LBL_SYSTEM_SECURITY": "Konfiguracija za stabilnost sistema",
-		"LBL_HEADERS_SECURITY": "System headers configuration",
+		"LBL_HEADERS_SECURITY": "Sistemska konfiguracija glave",
 		"LBL_FILES_PERMISSIONS": "Datoteke / mape",
 		"LBL_FILE": "Ime",
 		"LBL_PATH": "Pot",
@@ -59,7 +59,7 @@
 		"LBL_PHP_VALUE": "php",
 		"LBL_LABEL_PHPINI": "PHP nastavitve",
 		"LBL_LABEL_PHPINIS": "Dodatna konfiguracija PHP",
-		"LBL_LABEL_LOG_FILE": "Error logs (error_log)",
+		"LBL_LABEL_LOG_FILE": "Dnevniki napak (error_log)",
 		"LBL_LABEL_CRM_DIR": "CRM lokalni imenik",
 		"LBL_SOAP_LIBRARY": "SOAP",
 		"LBL_LABEL_PHP_SAPI": "Server API",
@@ -81,9 +81,9 @@
 		"LBL_WRITE_TEST": "Zapiši",
 		"LBL_CPU": "Procesor",
 		"LBL_RAM": "RAM",
-		"LBL_DB": "Database",
-		"LBL_BENCHMARK_CPU_MATH": "Mathematical functions",
-		"LBL_BENCHMARK_CPU_HASH": "Hashing functions",
+		"LBL_DB": "Podatkovne baze",
+		"LBL_BENCHMARK_CPU_MATH": "Matematične funkcije",
+		"LBL_BENCHMARK_CPU_HASH": "Hashing funkcije (razpršitev)",
 		"LBL_BENCHMARK_CPU_STRING": "Functions on strings",
 		"LBL_BENCHMARK_RAM_READ": "Reading from ram memory",
 		"LBL_BENCHMARK_RAM_WRITE": "Write to ram memory",
@@ -238,7 +238,7 @@
 		"LBL_FILE_PERMISSIONS": "Permissions",
 		"LBL_LABEL_SCRIPT_USER": "Script calling user",
 		"LBL_ERROR_DURING_VERIFICATION": "Error occurred during verification",
-		"LBL_LABEL_CRM_PROVIDER": "Provider"
+		"LBL_LABEL_CRM_PROVIDER": "Ponudnik"
 	},
 	"js": {
 		"JS_SPEED_TEST_START": "Preverjanje hitrosti..."
