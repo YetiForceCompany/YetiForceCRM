@@ -383,7 +383,7 @@
 					{/foreach}
 					<div class="o-action-menu__item">
 						<div class="dropdown">
-							<a class="c-header__btn ml-2 btn btn-light btn dropdown-toggle js-popover-tooltip dropdownMenu"
+							<a class="c-header__btn ml-2 btn dropdown-toggle js-popover-tooltip dropdownMenu {if $CURRENT_USER->getId() != App\User::getCurrentUserRealId()}btn-info{else}btn-light{/if}"
 								id="showUserQuickMenuBtn" data-js="popover" data-toggle="dropdown" data-boundary="window"
 								data-content="{\App\Language::translate('LBL_MY_PREFERENCES')}" href="#" role="button">
 								{assign var="IMAGE" value=$CURRENT_USER->getImage()}
