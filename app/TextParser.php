@@ -29,6 +29,7 @@ class TextParser
 		'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => '$(record : ChangesListValues)$',
 		'LBL_RECORD_COMMENT' => '$(record : Comments 5)$, $(record : Comments)$',
 		'LBL_RELATED_RECORD_LABEL' => '$(relatedRecord : parent_id|email1|Accounts)$, $(relatedRecord : parent_id|email1)$',
+		'LBL_RELATED_NEXT_LEVEL_RECORD_LABEL' => '$(relatedRecordLevel : projectid|Project|linktoaccountscontacts|email1|Accounts)$',
 		'LBL_OWNER_EMAIL' => '$(relatedRecord : assigned_user_id|email1|Users)$',
 		'LBL_SOURCE_RECORD_LABEL' => '$(sourceRecord : RecordLabel)$',
 		'LBL_CUSTOM_FUNCTION' => '$(custom : ContactsPortalPass)$',
@@ -90,7 +91,7 @@ class TextParser
 	 *
 	 * @var string[]
 	 */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date', 'inventory', 'userVariable'];
+	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'relatedRecordLevel', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date', 'inventory', 'userVariable'];
 
 	/**
 	 * List of source modules.
@@ -100,8 +101,24 @@ class TextParser
 	public static $sourceModules = [
 		'Campaigns' => ['Leads', 'Accounts', 'Contacts', 'Vendors', 'Partners', 'Competition'],
 	];
-	protected static $recordVariable;
-	protected static $relatedVariable;
+	/**
+	 * Record variables.
+	 *
+	 * @var array
+	 */
+	protected static $recordVariable = [];
+	/**
+	 * Related variables.
+	 *
+	 * @var array
+	 */
+	protected static $relatedVariable = [];
+	/**
+	 * Next level related variables.
+	 *
+	 * @var array
+	 */
+	protected static $relatedVariableLevel = [];
 
 	/**
 	 * Record id.
@@ -668,7 +685,7 @@ class TextParser
 	 */
 	protected function relatedRecord($params)
 	{
-		[$fieldName, $relatedField, $relatedModule] = array_pad(explode('|', $params), 3, '');
+		[$fieldName, $relatedField, $relatedModule] = array_pad(explode('|', $params, 3), 3, '');
 		if (
 			!isset($this->recordModel) ||
 			!Privilege::isPermitted($this->moduleName, 'DetailView', $this->record) ||
@@ -686,8 +703,7 @@ class TextParser
 		if ('Users' === $relatedModule) {
 			$return = [];
 			foreach (explode(',', $relatedId) as $relatedValueId) {
-				$ownerType = Fields\Owner::getType($relatedValueId);
-				if ('Users' === $ownerType) {
+				if ('Users' === Fields\Owner::getType($relatedValueId)) {
 					$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedValueId);
 					if ('Active' === $userRecordModel->get('status')) {
 						$instance = static::getInstanceByModel($userRecordModel);
@@ -720,6 +736,9 @@ class TextParser
 			return '';
 		}
 		$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedId, $module);
+		if (!$relatedRecordModel->isViewable()) {
+			return '';
+		}
 		$instance = static::getInstanceByModel($relatedRecordModel);
 		foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
 			if (isset($this->{$key})) {
@@ -727,6 +746,51 @@ class TextParser
 			}
 		}
 		return $instance->record($relatedField);
+	}
+
+	/**
+	 * Parsing related record data.
+	 *
+	 * @param string $params
+	 *
+	 * @return mixed
+	 */
+	protected function relatedRecordLevel($params)
+	{
+		[$fieldName, $relatedModule, $relatedRecord] = array_pad(explode('|', $params, 3), 3, '');
+		if (
+			!isset($this->recordModel) ||
+			!Privilege::isPermitted($this->moduleName, 'DetailView', $this->record) ||
+			$this->recordModel->isEmpty($fieldName)
+		) {
+			return '';
+		}
+		$relatedId = $this->recordModel->get($fieldName);
+		if (empty($relatedId)) {
+			return '';
+		}
+		$moduleName = Record::getType($relatedId);
+		if (!empty($moduleName) && ($relatedModule && $relatedModule !== $moduleName)) {
+			return '';
+		}
+		if ('Users' === $relatedModule && 'Users' === Fields\Owner::getType($relatedId)) {
+			$relatedRecordModel = \Users_Privileges_Model::getInstanceById($relatedId);
+			if ('Active' !== $relatedRecordModel->get('status')) {
+				return '';
+			}
+		} else {
+			$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedId, $moduleName);
+			if (!$relatedRecordModel->isViewable()) {
+				return '';
+			}
+		}
+		$instance = static::getInstanceByModel($relatedRecordModel);
+		foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
+			if (isset($this->{$key})) {
+				$instance->{$key} = $this->{$key};
+			}
+		}
+		return $instance->relatedRecord($relatedRecord);
 	}
 
 	/**
@@ -1209,8 +1273,7 @@ class TextParser
 			}
 			foreach ($relatedModules as $relatedModule) {
 				$relatedModuleLang = Language::translate($relatedModule, $relatedModule);
-				$moduleModel = \Vtiger_Module_Model::getInstance($relatedModule);
-				foreach ($moduleModel->getBlocks() as $blockModel) {
+				foreach (\Vtiger_Module_Model::getInstance($relatedModule)->getBlocks() as $blockModel) {
 					foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
 						if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {
 							$labelGroup = "$parentFieldNameLabel: ($relatedModuleLang) " . Language::translate($blockModel->get('label'), $relatedModule);
@@ -1225,6 +1288,59 @@ class TextParser
 			}
 		}
 		static::$relatedVariable[$cacheKey] = $variables;
+		return $variables;
+	}
+
+	/**
+	 * Get related variables.
+	 *
+	 * @param bool|string $fieldType
+	 *
+	 * @return array
+	 */
+	public function getRelatedLevelVariable($fieldType = false)
+	{
+		$cacheKey = "{$this->moduleName}|$fieldType";
+		if (isset(static::$relatedVariableLevel[$cacheKey])) {
+			return static::$relatedVariableLevel[$cacheKey];
+		}
+		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
+		$variables = [];
+		foreach ($moduleModel->getFieldsByType(array_merge(\Vtiger_Field_Model::$referenceTypes, ['userCreator', 'owner'])) as $parentFieldName => $fieldModel) {
+			if ('owner' === $fieldModel->getFieldDataType()) {
+				$relatedModules = ['Users'];
+			} else {
+				$relatedModules = $fieldModel->getReferenceList();
+			}
+			$parentFieldNameLabel = Language::translate($fieldModel->getFieldLabel(), $this->moduleName);
+			foreach ($relatedModules as $relatedModule) {
+				$relatedModuleLang = Language::translate($relatedModule, $relatedModule);
+				foreach (\Vtiger_Module_Model::getInstance($relatedModule)->getFieldsByType(array_merge(\Vtiger_Field_Model::$referenceTypes, ['userCreator', 'owner', 'sharedOwner'])) as $parentFieldNameNextLevel => $fieldModelNextLevel) {
+					if ('owner' === $fieldModelNextLevel->getFieldDataType() || 'sharedOwner' === $fieldModelNextLevel->getFieldDataType()) {
+						$relatedModulesNextLevel = ['Users'];
+					} else {
+						$relatedModulesNextLevel = $fieldModelNextLevel->getReferenceList();
+					}
+					$parentFieldNameLabelNextLevel = Language::translate($fieldModelNextLevel->getFieldLabel(), $relatedModule);
+					foreach ($relatedModulesNextLevel as $relatedModuleNextLevel) {
+						$relatedModuleLangNextLevel = Language::translate($relatedModuleNextLevel, $relatedModuleNextLevel);
+						foreach (\Vtiger_Module_Model::getInstance($relatedModuleNextLevel)->getBlocks() as $blockModel) {
+							foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
+								if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {
+									$labelGroup = "{$parentFieldNameLabel}($relatedModuleLang) -> {$parentFieldNameLabelNextLevel}($relatedModuleLangNextLevel) " . Language::translate($blockModel->get('label'), $relatedModuleNextLevel);
+									$variables[$labelGroup][] = [
+										'var_value' => "$(relatedRecordLevel : $parentFieldName|$relatedModule|$parentFieldNameNextLevel|$fieldName|$relatedModuleNextLevel)$",
+										'var_label' => "$(translate : $relatedModuleNextLevel|{$fieldModel->getFieldLabel()})$",
+										'label' => "{$parentFieldNameLabel}($relatedModuleLang) -> {$parentFieldNameLabelNextLevel}($relatedModuleLangNextLevel) " . Language::translate($fieldModel->getFieldLabel(), $relatedModuleNextLevel),
+									];
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		static::$relatedVariableLevel[$cacheKey] = $variables;
 		return $variables;
 	}
 
