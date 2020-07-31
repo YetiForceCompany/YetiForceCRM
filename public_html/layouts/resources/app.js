@@ -1218,7 +1218,7 @@ var app = (window.app = {
 	registerModalEvents: function (container, sendByAjaxCb) {
 		var form = container.find('form');
 		var validationForm = false;
-		if (form.hasClass('validateForm')) {
+		if (form.hasClass('validateForm') || form.hasClass('js-validate-form')) {
 			form.validationEngine(app.validationEngineOptions);
 			validationForm = true;
 		}
