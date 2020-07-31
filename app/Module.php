@@ -44,7 +44,7 @@ class Module
 	 *
 	 * @return array|null
 	 */
-	public static function getEntityInfo(string $moduleName = null)
+	public static function getEntityInfo(string $moduleName = null): ?array
 	{
 		return self::getEntitiesInfo()[$moduleName] ?? null;
 	}
@@ -65,7 +65,7 @@ class Module
 				$row['searchcolumnArr'] = explode(',', $row['searchcolumn']);
 				$entityInfos[$row['modulename']] = $row;
 			}
-			Cache::save($cacheName, '', $entityInfos);
+			return Cache::save($cacheName, '', $entityInfos);
 		}
 		return Cache::get($cacheName, '');
 	}

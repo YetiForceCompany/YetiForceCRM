@@ -1,7 +1,14 @@
 {
-	"compilerOptions": {
-		"baseUrl": "./public_html"
-	},
-	"include": ["./public_html/**/*"],
-	"exclude": ["./cache/**/*", "./public_html/libraries/**/*", ".history/**/*"]
+  "compilerOptions": {
+    "baseUrl": "./public_html",
+    "target": "es6"
+  },
+  "include": ["public_html/**/*"],
+  "exclude": [
+    "cache/**/*",
+    "public_html/libraries/**/*",
+    ".history/**/*",
+    "node_modules",
+    "**/node_modules/*"
+  ]
 }
