@@ -1487,7 +1487,7 @@ jQuery.Class(
 		/**
 		 * Register change related view.
 		 */
-		registerQuickEditSaveEvent() {
+		registerChangeViewEvent() {
 			const self = this;
 			self.getRelatedContainer().on('click', '.js-change-related-view', function () {
 				self.relatedView = this.dataset.view;
@@ -1509,6 +1509,7 @@ jQuery.Class(
 			this.registerSelectAllClickEvent();
 			this.registerDeselectAllClickEvent();
 			this.registerQuickEditSaveEvent();
+			this.registerChangeViewEvent();
 			YetiForce_ListSearch_Js.registerSearch(this.content, (data) => {
 				this.loadRelatedList(data);
 			});
