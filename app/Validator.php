@@ -53,6 +53,18 @@ class Validator
 	}
 
 	/**
+	 * Function verifies if given value contains only words, digits  or space.
+	 *
+	 * @param int|string $input
+	 *
+	 * @return bool
+	 */
+	public static function alnumSpace($input): bool
+	{
+		return preg_match('/^[[:alnum:]_ ]+$/', $input);
+	}
+
+	/**
 	 * Function verifies if given value is compatible with default data format.
 	 *
 	 * @param string $input
