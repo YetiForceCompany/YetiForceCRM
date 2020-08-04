@@ -54,10 +54,11 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	 * @param int                 $parentRecordId
 	 * @param Vtiger_Paging_Model $pagingModel
 	 * @param string              $type
+	 * @param int|null            $startWith
 	 *
 	 * @return self[] - list of  ModTracker_Record_Model
 	 */
-	public static function getUpdates($parentRecordId, Vtiger_Paging_Model $pagingModel, $type)
+	public static function getUpdates(int $parentRecordId, Vtiger_Paging_Model $pagingModel, string $type, ?int $startWith = null)
 	{
 		$recordInstances = [];
 		$startIndex = $pagingModel->getStartIndex();
@@ -66,10 +67,13 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		$query = (new \App\Db\Query())
 			->from('vtiger_modtracker_basic')
 			->where(['crmid' => $parentRecordId])
-			->andWhere(($where))
+			->andWhere($where)
 			->limit($pageLimit)
 			->offset($startIndex)
 			->orderBy(['changedon' => SORT_DESC]);
+		if (!empty($startWith)) {
+			$query->andWhere(['>=', 'id', $startWith]);
+		}
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$recordInstance = new self();
@@ -77,7 +81,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$recordInstances[] = $recordInstance;
 		}
 		$dataReader->close();
-
 		return $recordInstances;
 	}
 

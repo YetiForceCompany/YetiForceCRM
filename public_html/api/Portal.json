@@ -689,6 +689,16 @@
                         "example": 0
                     },
                     {
+                        "name": "x-start-with",
+                        "in": "header",
+                        "description": "Show history from given ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 5972
+                    },
+                    {
                         "name": "X-ENCRYPTED",
                         "in": "header",
                         "required": true,

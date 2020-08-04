@@ -93,6 +93,14 @@ class RecordHistory extends \Api\Core\BaseAction
 	 *			required=false
 	 *		),
 	 *		@OA\Parameter(
+	 *			name="x-start-with",
+	 *			description="Show history from given ID",
+	 *			@OA\Schema(type="integer"),
+	 *			in="header",
+	 *			example=5972,
+	 *			required=false
+	 *		),
+	 *		@OA\Parameter(
 	 *			name="X-ENCRYPTED",
 	 *			in="header",
 	 *			required=true,
@@ -167,7 +175,7 @@ class RecordHistory extends \Api\Core\BaseAction
 		if ($requestOffset = $this->controller->request->getHeader('x-row-offset')) {
 			$pagingModel->set('page', (int) $requestOffset);
 		}
-		$recentActivities = \ModTracker_Record_Model::getUpdates($this->controller->request->getInteger('record'), $pagingModel, 'changes');
+		$recentActivities = \ModTracker_Record_Model::getUpdates($this->controller->request->getInteger('record'), $pagingModel, 'changes', $this->controller->request->getHeader('x-start-with'));
 		$response = [];
 		$isRawData = $this->isRawData();
 		foreach ($recentActivities as $recordModel) {
@@ -205,7 +213,7 @@ class RecordHistory extends \Api\Core\BaseAction
 				}
 			}
 			if ($row) {
-				$response[] = $row;
+				$response[$recordModel->get('id')] = $row;
 			}
 		}
 		return $response;
