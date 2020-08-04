@@ -124,7 +124,7 @@ class Cron
 	{
 		$all = Utils\ConfReport::getAll();
 		$all['last_start'] = time();
-		return file_put_contents(ROOT_DIRECTORY . '/app_data/cron.php', '<?php return ' . Utils::varExport($all) . ';');
+		return file_put_contents(ROOT_DIRECTORY . '/app_data/cron.php', '<?php return ' . Utils::varExport($all) . ';', LOCK_EX);
 	}
 
 	/**

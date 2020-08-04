@@ -600,11 +600,18 @@ class ConfReport
 	 */
 	public static function getCronVariables(string $type)
 	{
-		if (file_exists('app_data/cron.php')) {
-			$cron = include \ROOT_DIRECTORY . '/app_data/cron.php';
-			return $cron[$type] ?? null;
+		$data = [];
+		$filePath = \ROOT_DIRECTORY . '/app_data/cron.php';
+		if (file_exists($filePath)) {
+			try {
+				$cron = include $filePath;
+				$data = $cron[$type] ?? null;
+			} catch (\Throwable $e) {
+				unlink($filePath);
+				throw $e;
+			}
 		}
-		return [];
+		return $data;
 	}
 
 	/**
