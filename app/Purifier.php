@@ -347,7 +347,7 @@ class Purifier
 					$value = preg_match('/^[\sA-Za-z0-9\/\+]+$/', $input) ? $input : null;
 					break;
 				case 'AlnumSpace':
-					$value = preg_match('/^[[:alnum:]_ ]+$/', $input) ? $input : null;
+					$value = Validator::alnumSpace($input) ? $input : null;
 					break;
 				case 'DateInUserFormat': // date in user format
 					if (!$input) {

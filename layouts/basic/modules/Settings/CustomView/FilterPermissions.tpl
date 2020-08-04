@@ -11,10 +11,10 @@
 	<div class="modal-body">
 		<div class="">
 			<div class="form-group">
-				<label class="col-12 col-form-label">
+				<label class="col-form-label">
 					{\App\Language::translate('LBL_ALL_GROUP_LIST', $MODULE_NAME)}
 				</label>
-				<div class="col-10">
+				<div class="input-group">
 					<select class="select2 form-control add" id="allGroups" {if $IS_DEFAULT} disabled="disabled"{/if}>
 						{foreach from=$MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 							<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
@@ -27,14 +27,18 @@
 							</optgroup>
 						{/foreach}
 					</select>
+					<div class="input-group-append">
+						<button type="button" class="btn btn-success moveItem" data-source="add" data-target="remove" data-operator="add" title="{\App\Language::translate('LBL_ADD_PERMISSIONS', $MODULE_NAME)}" {if $IS_DEFAULT} disabled="disabled"{/if}>
+							<span class="fas fa-arrow-down"></span>
+						</button>
+					</div>
 				</div>
-				<button type="button" class="btn btn-success moveItem" data-source="add" data-target="remove" data-operator="add" title="{\App\Language::translate('LBL_ADD_PERMISSIONS', $MODULE_NAME)}" {if $IS_DEFAULT} disabled="disabled"{/if}><span class="fas fa-arrow-down"></span></button>
 			</div>
 			<div class="form-group">
-				<label class="col-12 col-form-label">
+				<label class="col-form-label">
 					{\App\Language::translate('LBL_GROUP_MEMBERS', $MODULE_NAME)}
 				</label>
-				<div class="col-10">
+				<div class="input-group">
 					<select class="select2 form-control remove" id="groups">
 						{foreach from=$MEMBERS_DEFAULT key=LABEL item=GROUP}
 							<optgroup label="{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}">
@@ -47,8 +51,10 @@
 							</optgroup>
 						{/foreach}
 					</select>
+					<div class="input-group-append">
+						<button type="button" class="btn btn-danger moveItem" data-source="remove" data-target="add" data-operator="remove" title="{\App\Language::translate('LBL_RECEIVE_PERMISSION', $MODULE_NAME)}"><span class="fas fa-arrow-up"></span></button>
+					</div>
 				</div>
-				<button type="button" class="btn btn-danger moveItem" data-source="remove" data-target="add" data-operator="remove" title="{\App\Language::translate('LBL_RECEIVE_PERMISSION', $MODULE_NAME)}"><span class="fas fa-arrow-up"></span></button>
 			</div>
 		</div>
 	</div>
