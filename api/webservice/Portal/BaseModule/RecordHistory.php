@@ -21,7 +21,7 @@ class RecordHistory extends \Api\Core\BaseAction
 	/**
 	 * {@inheritdoc}
 	 */
-	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit'];
+	public $allowedHeaders = ['x-raw-data', 'x-row-offset', 'x-row-limit', 'x-start-with'];
 	/**
 	 * Record model.
 	 *
