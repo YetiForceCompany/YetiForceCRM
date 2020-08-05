@@ -24,7 +24,7 @@ class Record
 	public static function getLabel($mixedId)
 	{
 		$multiMode = \is_array($mixedId);
-		$ids = $multiMode ? $mixedId : [$mixedId];
+		$ids = $multiMode ? array_unique($mixedId) : [$mixedId];
 		$missing = [];
 		foreach ($ids as $id) {
 			if ($id && !Cache::has('recordLabel', $id)) {
