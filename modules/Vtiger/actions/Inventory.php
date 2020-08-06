@@ -187,7 +187,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		$data = $recordModel->getInventoryData();
 		foreach ($data as &$item) {
-			$item['info'] = $this->getRecordDetail($item['name'], $item['currency'], $request->getModule(), 'name')[$item['name']];
+			$item['info'] = $this->getRecordDetail($item['name'], $item['currency'] ?? 0, $request->getModule(), 'name')[$item['name']];
 			$item['moduleName'] = \App\Record::getType($item['info']['id']);
 			$item['basetableid'] = Vtiger_Module_Model::getInstance($item['moduleName'])->get('basetableid');
 		}

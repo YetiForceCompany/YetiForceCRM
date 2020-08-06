@@ -448,10 +448,8 @@ $.Class(
 		setComment(row, val) {
 			row
 				.parent()
-				.find('[numrowex=' + row.attr('numrow') + ']')
-				.find('.comment')
-				.val(val)
-				.trigger('change');
+				.find('[numrowex=' + row.attr('numrow') + '] .comment')
+				.val(val);
 		},
 		setUnitPrice: function (row, val) {
 			val = App.Fields.Double.formatToDisplay(val);
@@ -1521,6 +1519,12 @@ $.Class(
 			let thisInstance = this;
 			container.on('click', '.deleteRow', function (e) {
 				let num = thisInstance.getClosestRow($(e.currentTarget)).attr('numrow');
+				thisInstance
+					.getInventoryItemsContainer()
+					.find('[numrowex="' + num + '"] .js-inventory-item-comment')
+					.each(function () {
+						App.Fields.Text.destroyEditor($(this));
+					});
 				thisInstance
 					.getInventoryItemsContainer()
 					.find('[numrow="' + num + '"], [numrowex="' + num + '"]')
