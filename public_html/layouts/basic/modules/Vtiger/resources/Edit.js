@@ -112,9 +112,7 @@ $.Class(
 			let listFilterFieldsJson = formElement.find('input[name="listFilterFields"]').val();
 			let listFilterFields = listFilterFieldsJson ? JSON.parse(listFilterFieldsJson) : [];
 			if (listFilterFields) {
-				console.log(listFilterFields);
 				$.each(listFilterFields, function (index, value) {
-					console.log(value);
 					let mapFieldElement = formElement.find('[name="' + value + '"]');
 					if (mapFieldElement.length && mapFieldElement.val() != '') {
 						filterFields[value] = mapFieldElement.val();
@@ -1487,7 +1485,6 @@ $.Class(
 								let formData = container
 									.find('.js-record-collector__fill_form')
 									.serializeFormData();
-								console.log(formData);
 								$.each(formData, function (key, value) {
 									if (value !== '') {
 										let fieldElement = recordForm.find(`[name="${key}"]`);

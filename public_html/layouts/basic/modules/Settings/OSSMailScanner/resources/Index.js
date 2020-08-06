@@ -68,7 +68,6 @@ jQuery.Class(
 			});
 		},
 		getSelectedFolders(treeInstance) {
-			console.log(treeInstance.jstree('get_selected', true));
 			let folders = {};
 			for (let value of treeInstance.jstree('get_selected', true)) {
 				if (!Array.isArray(folders[value.original.db_type])) {
