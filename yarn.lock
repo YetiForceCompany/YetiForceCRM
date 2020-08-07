@@ -635,7 +635,12 @@ vue@^2.6.10, vue@^2.6.11:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
   integrity sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ==
 
-whatwg-fetch@>=0.10.0, whatwg-fetch@^3.0.0:
+whatwg-fetch@>=0.10.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
   integrity sha512-9GSJUgz1D4MfyKU7KRqwOjXCXTqWdFNvEr7eUBYchQiVc744mqK/MzXPNR2WsPkmkOa4ywfg8C2n8h+13Bey1Q==
+
+whatwg-fetch@^3.0.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.4.0.tgz#e11de14f4878f773fbebcde8871b2c0699af8b30"
+  integrity sha512-rsum2ulz2iuZH08mJkT0Yi6JnKhwdw4oeyMjokgxd+mmqYSd9cPpOQf01TIWgjxG/U4+QR+AwKq6lSbXVxkyoQ==
