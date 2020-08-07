@@ -830,7 +830,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 						} else {
 							calendarInstance.view.render();
 						}
-						if (data.result.followup.value !== undefined) {
+						if (data.result.followup && data.result.followup.value !== undefined) {
 							calendarView.fullCalendar('removeEvents', data.result.followup.value);
 						}
 					}

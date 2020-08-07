@@ -13,10 +13,11 @@
 			{/foreach}
 		</ul>
 		{if $MODULES_WITH_WIDGET}
+			{assign var=COUNT value=count($MODULES_WITH_WIDGET)}
 			<ul class="nav nav-inverted-tabs massEditTabs selectDashboradView ml-sm-2">
 				{foreach from=$MODULES_WITH_WIDGET item=MODULE_WIDGET}
 					<li class="nav-item" data-module="{$MODULE_WIDGET}">
-						<a class="nav-link pt-1 pb-1 {if $MODULE_NAME eq $MODULE_WIDGET} active {/if}"
+						<a class="nav-link pt-1 pb-1 {if $MODULE_NAME eq $MODULE_WIDGET} active {/if}{if $COUNT === 1} d-none{/if}"
 						   href="#"
 						   data-toggle="tab">
 							<span class="yfm-{$MODULE_WIDGET} mx-1"></span>
