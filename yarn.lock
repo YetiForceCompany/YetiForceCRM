@@ -556,10 +556,10 @@ scrollparent@^2.0.1:
   resolved "https://registry.yarnpkg.com/scrollparent/-/scrollparent-2.0.1.tgz#715d5b9cc57760fb22bdccc3befb5bfe06b1a317"
   integrity sha1-cV1bnMV3YPsivczDvvtb/gaxoxc=
 
-select2-theme-bootstrap4@^0.2.0-beta.3:
-  version "0.2.0-beta.6"
-  resolved "https://registry.yarnpkg.com/select2-theme-bootstrap4/-/select2-theme-bootstrap4-0.2.0-beta.6.tgz#a2c45b49e7e11ad882ab3eb7eb7f880d06cfc0e6"
-  integrity sha512-e2qWK+hA5o/Dpy+xrdDBGkqQnPb3QJC4n4xL94nn/qjbQOyVWFF25LCFqNDriuwHPir7GlXz8JOcP/6z+Kd6+Q==
+select2-theme-bootstrap4@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/select2-theme-bootstrap4/-/select2-theme-bootstrap4-1.0.0.tgz#dfed2b252d36089ba7145121f5134e8fe2842a73"
+  integrity sha512-WJH1GMnHir+/EnW7ANZq2VfmRGXWNEySPULQ+zCcVRyVs3B1qyLZ0XFflZNo1FlbxYxBsIQH6QsqnNEyNudU1g==
 
 select2@^4.0.8:
   version "4.0.13"
