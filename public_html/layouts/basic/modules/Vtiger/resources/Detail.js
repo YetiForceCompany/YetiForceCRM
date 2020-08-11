@@ -2495,25 +2495,14 @@ jQuery.Class(
 			detailContentsHolder.on('click', '.js-more-recent-comments ', function () {
 				self.getTabByLabel(self.detailViewRecentCommentsTabLabel).trigger('click');
 			});
-			detailContentsHolder.find('.js-detail-hierarchy-comments-btn').on('click', function (e) {
-				if (
-					$(this).hasClass('active') &&
-					detailContentsHolder.find('.js-detail-hierarchy-comments-btn.active').length < 2
-				) {
-					return;
-				}
+			detailContentsHolder.find('.js-detail-hierarchy-comments').on('change', function (e) {
 				let recentCommentsTab = self.getTabByLabel(self.detailViewRecentCommentsTabLabel),
 					url = recentCommentsTab.data('url'),
 					regex = /&hierarchy=+([\w,]+)/;
 				url = url.replace(regex, '');
 				let hierarchy = [];
-				if ($(this).hasClass('active')) {
-					$(this).removeClass('active');
-				} else {
-					$(this).addClass('active');
-				}
-				detailContentsHolder.find('.js-detail-hierarchy-comments-btn.active').each(function () {
-					hierarchy.push($(this).find('.js-detail-hierarchy-comments').val());
+				detailContentsHolder.find('.js-detail-hierarchy-comments:checked').each(function () {
+					hierarchy.push($(this).val());
 				});
 				if (hierarchy.length !== 0) {
 					url += '&hierarchy=' + hierarchy.join(',');
@@ -2590,6 +2579,10 @@ jQuery.Class(
 						hierarchy.push($(this).val());
 					}
 				});
+				if(!hierarchy.length){
+					widgetContainer.find('.js-detail-widget-content').html('');
+					return false;
+				}
 				let progressIndicatorElement = $.progressIndicator();
 				AppConnector.request({
 					module: app.getModuleName(),
