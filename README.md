@@ -42,13 +42,13 @@ We design an innovative CRM system that is dedicated for large and medium sized 
 
 ## Read the documentation to learn more.
 
-#### Video Tutorials: [youtube.com](https://www.youtube.com/playlist?list=PLX0lktP3Kukg_Da-TaEBys-aON68Yy2vh)
+#### :video_camera: Video Tutorials: [youtube.com](https://www.youtube.com/playlist?list=PLX0lktP3Kukg_Da-TaEBys-aON68Yy2vh)
 
-#### Knowledge base: https://yetiforce.com/en/knowledge-base/documentation
+#### :blue_book: Knowledge base: yetiforce.com/en/knowledge-base/documentation
 
-#### Code Documentation: https://doc.yetiforce.com/code/
+#### :computer: Code Documentation: doc.yetiforce.com/code/
 
-#### API documentation: https://doc.yetiforce.com/api/ (in progres)
+#### :globe_with_meridians: API documentation: doc.yetiforce.com/api/ (in progres)
 
 Join our [LinkedIn group](https://www.linkedin.com/groups/8177576) and connect with other users and community members to discuss topics surrounding CRM and YetiForce.
 
