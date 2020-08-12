@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "79c8be53d4a6657bf40d1b989883f36c",
+    "content-hash": "454dda83335ff9a3b2ec16abab5cfd9c",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -2220,16 +2220,16 @@
         },
         {
             "name": "sabre/dav",
-            "version": "3.2.3",
+            "version": "4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabre-io/dav.git",
-                "reference": "a9780ce4f35560ecbd0af524ad32d9d2c8954b80"
+                "reference": "5736f943c90d8d73d04cd8944d8c913811dc7360"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabre-io/dav/zipball/a9780ce4f35560ecbd0af524ad32d9d2c8954b80",
-                "reference": "a9780ce4f35560ecbd0af524ad32d9d2c8954b80",
+                "url": "https://api.github.com/repos/sabre-io/dav/zipball/5736f943c90d8d73d04cd8944d8c913811dc7360",
+                "reference": "5736f943c90d8d73d04cd8944d8c913811dc7360",
                 "shasum": ""
             },
             "require": {
@@ -2237,27 +2237,30 @@
                 "ext-date": "*",
                 "ext-dom": "*",
                 "ext-iconv": "*",
+                "ext-json": "*",
                 "ext-mbstring": "*",
                 "ext-pcre": "*",
                 "ext-simplexml": "*",
                 "ext-spl": "*",
                 "lib-libxml": ">=2.7.0",
-                "php": ">=5.5.0",
+                "php": "^7.1.0",
                 "psr/log": "^1.0",
-                "sabre/event": ">=2.0.0, <4.0.0",
-                "sabre/http": "^4.2.1",
-                "sabre/uri": "^1.0.1",
-                "sabre/vobject": "^4.1.0",
-                "sabre/xml": "^1.4.0"
+                "sabre/event": "^5.0",
+                "sabre/http": "^5.0.5",
+                "sabre/uri": "^2.0",
+                "sabre/vobject": "^4.2.1",
+                "sabre/xml": "^2.0.1"
             },
             "require-dev": {
                 "evert/phpdoc-md": "~0.1.0",
+                "friendsofphp/php-cs-fixer": "^2.16.3",
                 "monolog/monolog": "^1.18",
-                "phpunit/phpunit": "> 4.8, <6.0.0",
-                "sabre/cs": "^1.0.0"
+                "phpstan/phpstan": "^0.12",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.0"
             },
             "suggest": {
                 "ext-curl": "*",
+                "ext-imap": "*",
                 "ext-pdo": "*"
             },
             "bin": [
@@ -2265,11 +2268,6 @@
                 "bin/naturalselection"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.1.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Sabre\\DAV\\": "lib/DAV/",
@@ -2299,28 +2297,28 @@
                 "framework",
                 "iCalendar"
             ],
-            "time": "2018-10-19T09:58:27+00:00"
+            "time": "2020-07-13T13:38:16+00:00"
         },
         {
             "name": "sabre/event",
-            "version": "3.0.0",
+            "version": "5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabre-io/event.git",
-                "reference": "831d586f5a442dceacdcf5e9c4c36a4db99a3534"
+                "reference": "d00a17507af0e7544cfe17096372f5d733e3b276"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabre-io/event/zipball/831d586f5a442dceacdcf5e9c4c36a4db99a3534",
-                "reference": "831d586f5a442dceacdcf5e9c4c36a4db99a3534",
+                "url": "https://api.github.com/repos/sabre-io/event/zipball/d00a17507af0e7544cfe17096372f5d733e3b276",
+                "reference": "d00a17507af0e7544cfe17096372f5d733e3b276",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5"
+                "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "*",
-                "sabre/cs": "~0.0.4"
+                "friendsofphp/php-cs-fixer": "~2.16.1",
+                "phpunit/phpunit": "^7 || ^8"
             },
             "type": "library",
             "autoload": {
@@ -2350,38 +2348,42 @@
             "keywords": [
                 "EventEmitter",
                 "async",
+                "coroutine",
+                "eventloop",
                 "events",
                 "hooks",
                 "plugin",
                 "promise",
+                "reactor",
                 "signal"
             ],
-            "time": "2015-11-05T20:14:39+00:00"
+            "time": "2020-01-31T18:52:29+00:00"
         },
         {
             "name": "sabre/http",
-            "version": "v4.2.4",
+            "version": "5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabre-io/http.git",
-                "reference": "acccec4ba863959b2d10c1fa0fb902736c5c8956"
+                "reference": "23446999f1f6e62892bbd89745070aa902dd3539"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabre-io/http/zipball/acccec4ba863959b2d10c1fa0fb902736c5c8956",
-                "reference": "acccec4ba863959b2d10c1fa0fb902736c5c8956",
+                "url": "https://api.github.com/repos/sabre-io/http/zipball/23446999f1f6e62892bbd89745070aa902dd3539",
+                "reference": "23446999f1f6e62892bbd89745070aa902dd3539",
                 "shasum": ""
             },
             "require": {
                 "ext-ctype": "*",
+                "ext-curl": "*",
                 "ext-mbstring": "*",
-                "php": ">=5.4",
-                "sabre/event": ">=1.0.0,<4.0.0",
-                "sabre/uri": "~1.0"
+                "php": "^7.1",
+                "sabre/event": ">=4.0 <6.0",
+                "sabre/uri": "^2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.3",
-                "sabre/cs": "~0.0.1"
+                "friendsofphp/php-cs-fixer": "~2.16.1",
+                "phpunit/phpunit": "^7.0 || ^8.0"
             },
             "suggest": {
                 "ext-curl": " to make http requests with the Client class"
@@ -2412,28 +2414,28 @@
             "keywords": [
                 "http"
             ],
-            "time": "2018-02-23T11:10:29+00:00"
+            "time": "2020-01-31T20:07:09+00:00"
         },
         {
             "name": "sabre/uri",
-            "version": "1.2.1",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabre-io/uri.git",
-                "reference": "ada354d83579565949d80b2e15593c2371225e61"
+                "reference": "059d11012603be2e32ddb7543602965563ddbb09"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabre-io/uri/zipball/ada354d83579565949d80b2e15593c2371225e61",
-                "reference": "ada354d83579565949d80b2e15593c2371225e61",
+                "url": "https://api.github.com/repos/sabre-io/uri/zipball/059d11012603be2e32ddb7543602965563ddbb09",
+                "reference": "059d11012603be2e32ddb7543602965563ddbb09",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.7"
+                "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=4.0,<6.0",
-                "sabre/cs": "~1.0.0"
+                "friendsofphp/php-cs-fixer": "~2.16.1",
+                "phpunit/phpunit": "^7 || ^8"
             },
             "type": "library",
             "autoload": {
@@ -2463,29 +2465,31 @@
                 "uri",
                 "url"
             ],
-            "time": "2017-02-20T19:59:28+00:00"
+            "time": "2020-01-31T18:53:43+00:00"
         },
         {
             "name": "sabre/vobject",
-            "version": "4.2.2",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabre-io/vobject.git",
-                "reference": "449616b2d45b95c8973975de23f34a3d14f63b4b"
+                "reference": "a7feca8311462e5da16952454e420b92c20d3586"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabre-io/vobject/zipball/449616b2d45b95c8973975de23f34a3d14f63b4b",
-                "reference": "449616b2d45b95c8973975de23f34a3d14f63b4b",
+                "url": "https://api.github.com/repos/sabre-io/vobject/zipball/a7feca8311462e5da16952454e420b92c20d3586",
+                "reference": "a7feca8311462e5da16952454e420b92c20d3586",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": ">=5.5",
-                "sabre/xml": ">=1.5 <3.0"
+                "php": "^7.1",
+                "sabre/xml": "^2.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "> 4.8.35, <6.0.0"
+                "friendsofphp/php-cs-fixer": "~2.16.1",
+                "phpstan/phpstan": "^0.12",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.0"
             },
             "suggest": {
                 "hoa/bench": "If you would like to run the benchmark scripts"
@@ -2559,20 +2563,20 @@
                 "xCal",
                 "xCard"
             ],
-            "time": "2020-01-14T10:18:45+00:00"
+            "time": "2020-07-13T11:23:30+00:00"
         },
         {
             "name": "sabre/xml",
-            "version": "1.5.1",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabre-io/xml.git",
-                "reference": "a367665f1df614c3b8fefc30a54de7cd295e444e"
+                "reference": "41c6ba148966b10cafd31d1a4e5feb1e2138d95c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabre-io/xml/zipball/a367665f1df614c3b8fefc30a54de7cd295e444e",
-                "reference": "a367665f1df614c3b8fefc30a54de7cd295e444e",
+                "url": "https://api.github.com/repos/sabre-io/xml/zipball/41c6ba148966b10cafd31d1a4e5feb1e2138d95c",
+                "reference": "41c6ba148966b10cafd31d1a4e5feb1e2138d95c",
                 "shasum": ""
             },
             "require": {
@@ -2580,12 +2584,13 @@
                 "ext-xmlreader": "*",
                 "ext-xmlwriter": "*",
                 "lib-libxml": ">=2.6.20",
-                "php": ">=5.5.5",
+                "php": "^7.1",
                 "sabre/uri": ">=1.0,<3.0.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.8|~5.7",
-                "sabre/cs": "~1.0.0"
+                "friendsofphp/php-cs-fixer": "~2.16.1",
+                "phpstan/phpstan": "^0.12",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.0"
             },
             "type": "library",
             "autoload": {
@@ -2622,7 +2627,7 @@
                 "dom",
                 "xml"
             ],
-            "time": "2019-01-09T13:51:57+00:00"
+            "time": "2020-05-11T09:44:55+00:00"
         },
         {
             "name": "simshaun/recurr",
