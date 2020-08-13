@@ -11,6 +11,8 @@
 
 namespace Api\Portal\BaseModule;
 
+use OpenApi\Annotations as OA;
+
 /**
  * Get record history class.
  */
