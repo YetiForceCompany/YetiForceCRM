@@ -71,8 +71,8 @@ class Colors
 				$colors[$item['id']] = $item['color'];
 			}
 		}
-		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css', $css);
-		file_put_contents(ROOT_DIRECTORY . '/app_data/owners_colors.php', '<?php return ' . Utils::varExport($colors) . ';');
+		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css', $css, LOCK_EX);
+		file_put_contents(ROOT_DIRECTORY . '/app_data/owners_colors.php', '<?php return ' . Utils::varExport($colors) . ';', LOCK_EX);
 	}
 
 	/**
@@ -88,7 +88,7 @@ class Colors
 				$css .= '.modCT_' . $item['module'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
 			}
 		}
-		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/modules.css', $css);
+		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/modules.css', $css, LOCK_EX);
 	}
 
 	/**
@@ -120,7 +120,7 @@ class Colors
 				}
 			}
 		}
-		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/picklists.css', $css);
+		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/picklists.css', $css, LOCK_EX);
 	}
 
 	/**
@@ -380,6 +380,6 @@ class Colors
 				$css .= '.flCT_' . Module::getModuleName($row['tabid']) . '_' . $row['fieldname'] . '{ color: ' . $row['color'] . '; }' . PHP_EOL;
 			}
 		}
-		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/fields.css', $css);
+		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/fields.css', $css, LOCK_EX);
 	}
 }

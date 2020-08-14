@@ -90,6 +90,9 @@ abstract class Modal extends View\Base
 		$view = $request->getByType('view', 2);
 		$this->modalData['view'] = $view;
 		$this->modalData['module'] = $moduleName;
+		if ($request->has('mode')) {
+			$this->modalData['mode'] = $request->getByType('mode', 'Alnum');
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODAL_TITLE', $this->getPageTitle($request));
 		$viewer->assign('MODULE', $moduleName);

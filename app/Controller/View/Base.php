@@ -103,9 +103,8 @@ abstract class Base extends \App\Controller\Base
 	 */
 	public function getPageTitle(\App\Request $request)
 	{
+		$moduleName = $request->getByType('module', 'Alnum');
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleNameArray = explode(':', $qualifiedModuleName);
-		$moduleName = end($moduleNameArray);
 		$prefix = '';
 		if ('Vtiger' !== $moduleName) {
 			$prefix = \App\Language::translate($moduleName, $qualifiedModuleName) . ' ';

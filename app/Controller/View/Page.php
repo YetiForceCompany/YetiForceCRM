@@ -91,16 +91,18 @@ abstract class Page extends Base
 			'modules.Vtiger.resources.Menu',
 			'modules.Vtiger.resources.Header',
 			'modules.Vtiger.resources.Edit',
-			"modules.$moduleName.resources.Edit",
 			'~layouts/resources/Field.js',
 			'~layouts/resources/validator/BaseValidator.js',
 			'~layouts/resources/validator/FieldValidator.js',
 			'modules.Vtiger.resources.BasicSearch',
 			'modules.Vtiger.resources.ConditionBuilder',
 			'modules.Vtiger.resources.AdvanceFilter',
-			"modules.$moduleName.resources.AdvanceFilter",
 			'modules.Vtiger.resources.AdvanceSearch',
 		];
+		if ('AppComponents' !== $moduleName) {
+			$jsFileNames[] = "modules.$moduleName.resources.Edit";
+			$jsFileNames[] = "modules.$moduleName.resources.AdvanceFilter";
+		}
 		if (\App\Privilege::isPermitted('OSSMail')) {
 			$jsFileNames[] = '~layouts/basic/modules/OSSMail/resources/checkmails.js';
 		}
