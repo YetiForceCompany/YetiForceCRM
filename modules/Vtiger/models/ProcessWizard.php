@@ -295,7 +295,9 @@ class Vtiger_ProcessWizard_Model extends \App\Base
 		$actions = [];
 		if (($step = $this->getStep()) && !empty($step['actions']) && $step['conditionsStatus']) {
 			foreach ($step['actions'] as $action) {
-				$actions[] = Vtiger_Link_Model::getInstanceFromValues($action);
+				if (!isset($action['permissions']) || $action['permissions']) {
+					$actions[] = Vtiger_Link_Model::getInstanceFromValues($action);
+				}
 			}
 		}
 		return $actions;

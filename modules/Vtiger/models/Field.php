@@ -763,7 +763,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isAjaxEditable()
 	{
-		$ajaxRestrictedFields = [72, 12];
+		$ajaxRestrictedFields = [72, 12, 101];
 		return !(10 === (int) $this->get('displaytype') || $this->isReferenceField() || !$this->getUITypeModel()->isAjaxEditable() || !$this->isEditable() || \in_array($this->get('uitype'), $ajaxRestrictedFields));
 	}
 
@@ -1463,14 +1463,10 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getFieldParams()
 	{
-		$data = \App\Json::decode($this->get('fieldparams'));
-		if (!\is_array($data)) {
-			$data = $this->get('fieldparams');
-			if (empty($data)) {
-				return [];
-			}
+		if (\App\Json::isJson($this->get('fieldparams'))) {
+			return \App\Json::decode($this->get('fieldparams'));
 		}
-		return $data;
+		return $this->get('fieldparams') ?: [];
 	}
 
 	public function isActiveSearchView()
