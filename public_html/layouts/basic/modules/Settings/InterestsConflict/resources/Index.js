@@ -46,12 +46,14 @@ jQuery.Class(
 		registerModules: function (container) {
 			let form = container.find('.js-filter-form');
 			form.find('.js-change').click(function (e) {
+				let modules = form.serializeFormData();
+				delete modules['_csrf'];
 				AppConnector.request({
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
 					action: 'Save',
 					mode: 'modules',
-					modules: form.serializeFormData()
+					modules: modules
 				})
 					.done(function (data) {
 						Vtiger_Helper_Js.showPnotify({

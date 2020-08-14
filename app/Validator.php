@@ -301,7 +301,7 @@ class Validator
 	{
 		$emails = \is_string($emails) ? explode(',', $emails) : $emails;
 		foreach ($emails as $email) {
-			if (!self::email($email)) {
+			if ($email && !self::email($email)) {
 				return false;
 			}
 		}

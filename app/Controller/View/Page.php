@@ -51,6 +51,9 @@ abstract class Page extends Base
 		$view->assign('REMINDER_ACTIVE', $activeReminder);
 		$view->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$view->assign('MENUS', $this->getMenu());
+		if (!$request->isEmpty('mid')) {
+			$view->assign('MID', $request->getInteger('mid'));
+		}
 		$view->assign('BROWSING_HISTORY', \Vtiger_BrowsingHistory_Helper::getHistory());
 		$view->assign('HOME_MODULE_MODEL', \Vtiger_Module_Model::getInstance('Home'));
 		$view->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));

@@ -374,13 +374,6 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
-		'supportedModules' => [
-			'default' => [],
-			'description' => 'List of modules where the conflict of interests mechanism is enabled.',
-			'loopValidate' => true,
-			'validation' => '\App\Validator::alnum',
-			'sanitization' => '\App\Purifier::alnum'
-		],
 		'confirmationTimeInterval' => [
 			'default' => '30 day',
 			'description' => "Time interval that defines how often the system should force a confirmation about the absence of conflict of interests.\n30 day, 5 weeks, 2 month, 2 years.",
@@ -405,7 +398,7 @@ return [
 		],
 		'modules' => [
 			'default' => [],
-			'description' => 'Email addresses for notifications, users ids',
+			'description' => 'List of modules where the conflict of interests mechanism is enabled.',
 			'validation' => function () {
 				return true;
 			},
