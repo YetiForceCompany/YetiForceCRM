@@ -113,6 +113,6 @@ class Json
 	 */
 	public static function save(string $path, array $data)
 	{
-		return \file_put_contents($path, static::encode($data, JSON_PRETTY_PRINT));
+		return \file_put_contents($path, static::encode($data, JSON_PRETTY_PRINT), LOCK_EX);
 	}
 }

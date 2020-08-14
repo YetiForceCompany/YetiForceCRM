@@ -109,7 +109,7 @@ class Importer
 		if ($show) {
 			echo $this->logs . '---------  ' . date('Y-m-d H:i:s') . "  ($time min)  -------------\n";
 		} else {
-			file_put_contents('cache/logs/Importer.log', $this->logs . '-------------  ' . date('Y-m-d H:i:s') . " ($time min)   -------------\n");
+			file_put_contents('cache/logs/Importer.log', $this->logs . '-------------  ' . date('Y-m-d H:i:s') . " ($time min)   -------------\n", LOCK_EX);
 		}
 	}
 

@@ -149,7 +149,7 @@ class Utils
 	 *
 	 * @return bool $value
 	 */
-	public static function saveToFile(string $pathDirectory, $content, string $comment = '', int $flag = 0, bool $return = false): bool
+	public static function saveToFile(string $pathDirectory, $content, string $comment = '', int $flag = LOCK_EX, bool $return = false): bool
 	{
 		if (\is_array($content)) {
 			$content = self::varExport($content);
