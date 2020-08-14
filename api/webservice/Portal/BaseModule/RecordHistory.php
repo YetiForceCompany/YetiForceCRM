@@ -180,11 +180,12 @@ class RecordHistory extends \Api\Core\BaseAction
 		$isRawData = $this->isRawData();
 		foreach ($recentActivities as $recordModel) {
 			$row = [
-				'time' => $recordModel->get('changedon'),
+				'time' => $recordModel->getDisplayActivityTime(),
 				'owner' => $recordModel->getModifiedBy()->getDisplayName(),
 				'status' => \App\Language::translate($recordModel->getStatusLabel(), 'ModTracker'),
 			];
 			if ($isRawData) {
+				$row['rawTime'] = $recordModel->getActivityTime();
 				$row['rawOwner'] = $recordModel->getModifiedBy()->getId();
 				$row['rawStatus'] = $recordModel->getStatusLabel();
 			}
