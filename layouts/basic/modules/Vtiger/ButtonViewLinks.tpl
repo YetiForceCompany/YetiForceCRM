@@ -41,10 +41,10 @@
 							{if $LINK_URL && stripos($LINK_URL, 'javascript:') === false}
 								href="{$LINK_URL}"
 							{elseif $LINK_URL}
-								href="#"
+								type="button"
 								onclick='{$LINK_URL|substr:strlen("javascript:")}'
 							{else}
-								href="#"
+								type="button"
 							{/if}
 							{if $LINK->get('dataUrl')}
 								{' '}data-url="{$LINK->get('dataUrl')}"
