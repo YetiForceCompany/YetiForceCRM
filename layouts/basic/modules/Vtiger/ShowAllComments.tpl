@@ -14,7 +14,7 @@
 	{* Change to this also refer: RecentComments.tpl *}
 	{assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 	<div class="js-completions__container" data-js="container">
-		{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
+		{if !$IS_READ_ONLY && $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 			<div class="js-add-comment-block addCommentBlock mb-2" data-js="container">
 				<div class="input-group">
 					<span class="input-group-prepend">

@@ -473,103 +473,97 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 *
 	 * @return Vtiger_Link_Model[]
 	 */
-	public function getLinks()
+	public function getLinks(): array
 	{
-		$relationModelInstance = $this->getRelationModel();
-		$relatedModuleName = $relationModelInstance->getRelationModuleModel()->getName();
 		$parentRecordModel = $this->getParentRecordModel();
-		$selectLinks = $this->getSelectRelationLinks();
-		foreach ($selectLinks as $selectLinkModel) {
-			$selectLinkModel->set('_selectRelation', true)->set('_module', $relationModelInstance->getRelationModuleModel());
-		}
-		$relatedLink = [];
-		$relatedLink['RELATEDLIST_VIEWS'][] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'RELATEDLIST_VIEWS',
-			'linklabel' => 'LBL_RECORDS_LIST',
-			'view' => 'List',
-			'linkicon' => 'far fa-list-alt',
-		]);
-		$relatedLink['RELATEDLIST_VIEWS'][] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'RELATEDLIST_VIEWS',
-			'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
-			'view' => 'ListPreview',
-			'linkicon' => 'fas fa-desktop',
-		]);
-		$relatedLink['LISTVIEWBASIC'] = array_merge($selectLinks, $this->getAddRelationLinks());
-		if ('Documents' === $relatedModuleName) {
-			$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'RELATEDLIST_MASSACTIONS',
-				'linklabel' => 'LBL_MASS_DOWNLOAD',
-				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassDownload('index.php?module={$parentRecordModel->getModuleName()}&action=RelationAjax&mode=massDownload&src_record={$parentRecordModel->getId()}&relatedModule=Documents&mode=multiple','sendByForm')",
-				'linkclass' => '',
-				'linkicon' => 'fas fa-download'
-			]);
+		$relationModelInstance = $this->getRelationModel();
+		$relatedLink = [
+			'RELATEDLIST_VIEWS' => [
+				Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'RELATEDLIST_VIEWS',
+					'linklabel' => 'LBL_RECORDS_LIST',
+					'view' => 'List',
+					'linkicon' => 'far fa-list-alt',
+				]),
+				Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'RELATEDLIST_VIEWS',
+					'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
+					'view' => 'ListPreview',
+					'linkicon' => 'fas fa-desktop',
+				])
+			]
+		];
+		if (!$parentRecordModel->isReadOnly()) {
+			$selectLinks = $this->getSelectRelationLinks();
+			foreach ($selectLinks as $selectLinkModel) {
+				$selectLinkModel->set('_selectRelation', true)->set('_module', $relationModelInstance->getRelationModuleModel());
+			}
+			$relatedLink['LISTVIEWBASIC'] = array_merge($selectLinks, $this->getAddRelationLinks());
+			if ('Documents' === $relationModelInstance->getRelationModuleModel()->getName()) {
+				$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'RELATEDLIST_MASSACTIONS',
+					'linklabel' => 'LBL_MASS_DOWNLOAD',
+					'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassDownload('index.php?module={$parentRecordModel->getModuleName()}&action=RelationAjax&mode=massDownload&src_record={$parentRecordModel->getId()}&relatedModule=Documents&mode=multiple','sendByForm')",
+					'linkclass' => '',
+					'linkicon' => 'fas fa-download'
+				]);
+			}
 		}
 		return $relatedLink;
 	}
 
-	public function getSelectRelationLinks()
+	/**
+	 * Function to get the select links for related list.
+	 *
+	 * @return Vtiger_Link_Model[]
+	 */
+	public function getSelectRelationLinks(): array
 	{
-		$relationModelInstance = $this->getRelationModel();
-		$selectLinkModel = [];
-
-		if (!$relationModelInstance->isSelectActionSupported()) {
-			return $selectLinkModel;
+		if (!$this->getRelationModel()->isSelectActionSupported() || $this->getParentRecordModel()->isReadOnly()) {
+			return [];
 		}
-
-		$relatedModel = $relationModelInstance->getRelationModuleModel();
+		$relatedModel = $this->getRelationModel()->getRelationModuleModel();
 		if (!$relatedModel->isPermitted('DetailView')) {
-			return $selectLinkModel;
+			return [];
 		}
-
-		$selectLinkList = [
-			[
+		return [
+			Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => \App\Language::translate('LBL_SELECT_RELATION', $relatedModel->getName()),
 				'linkurl' => '',
 				'linkicon' => 'fas fa-level-up-alt',
-			],
+			])
 		];
-
-		foreach ($selectLinkList as $selectLink) {
-			$selectLinkModel[] = Vtiger_Link_Model::getInstanceFromValues($selectLink);
-		}
-		return $selectLinkModel;
 	}
 
-	public function getAddRelationLinks()
+	/**
+	 * Function to get the add links for related list.
+	 *
+	 * @return Vtiger_Link_Model[]
+	 */
+	public function getAddRelationLinks(): array
 	{
 		$relationModelInstance = $this->getRelationModel();
-		$addLinkModel = [];
-
-		if (!$relationModelInstance->isAddActionSupported()) {
-			return $addLinkModel;
+		if (!$relationModelInstance->isAddActionSupported() || $this->getParentRecordModel()->isReadOnly()) {
+			return [];
 		}
 		$relatedModel = $relationModelInstance->getRelationModuleModel();
-		if (!$relatedModel->isPermitted('CreateView')) {
-			return $addLinkModel;
-		}
-
-		$addLinkList = [[
-			'linktype' => 'LISTVIEWBASIC',
-			// NOTE: $relatedModel->get('label') assuming it to be a module name - we need singular label for Add action.
-			//'linklabel' => \App\Language::translate('LBL_ADD')." ".vtranslate'SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
-			'linklabel' => App\Language::translate('LBL_ADD_RELATION', $relatedModel->getName()),
-			'linkurl' => $this->getCreateViewUrl(),
-			'linkqcs' => $relatedModel->isQuickCreateSupported(),
-			'linkicon' => 'fas fa-plus',
-		]];
-
+		$addLinkModel = [
+			Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'LISTVIEWBASIC',
+				'linklabel' => App\Language::translate('LBL_ADD_RELATION', $relatedModel->getName()),
+				'linkurl' => $this->getCreateViewUrl(),
+				'linkqcs' => $relatedModel->isQuickCreateSupported(),
+				'linkicon' => 'fas fa-plus',
+			])
+		];
 		if ('Documents' === $relatedModel->get('label')) {
-			$addLinkList[] = [
+			$addLinkModel[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', 'Documents'),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
 				'linkicon' => 'adminIcon-document-templates',
-			];
-		}
-		foreach ($addLinkList as &$addLink) {
-			$addLinkModel[] = Vtiger_Link_Model::getInstanceFromValues($addLink);
+			]);
 		}
 		return $addLinkModel;
 	}

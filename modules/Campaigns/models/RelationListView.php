@@ -12,15 +12,15 @@
 class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
 {
 	/**
-	 * Function to get the links for related list.
-	 *
-	 * @return Vtiger_Link_Model[] List of action models Vtiger_Link_Model
+	 * {@inheritdoc}
 	 */
-	public function getLinks()
+	public function getLinks(): array
 	{
 		$relatedLinks = parent::getLinks();
-		$relationModel = $this->getRelationModel();
-		$relatedModuleModel = $relationModel->getRelationModuleModel();
+		if ($this->getParentRecordModel()->isReadOnly()) {
+			return $relatedLinks;
+		}
+		$relatedModuleModel = $this->getRelationModel()->getRelationModuleModel();
 		$relatedModuleName = $relatedModuleModel->getName();
 		$id = $this->getParentRecordModel()->getId();
 		if (\in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition']) && $relatedModuleModel->isPermitted('MassComposeEmail') && App\Config::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
