@@ -139,7 +139,7 @@ class GusClient extends \SoapClient
 				$totalFields[] = $fields;
 				$fields = [];
 			}
-			$fields[$val[2]] = $val[3];
+			$fields[$val[2]] = \App\Purifier::decodeHtml($val[3]);
 		}
 		$totalFields[] = $fields;
 		return $totalFields;
