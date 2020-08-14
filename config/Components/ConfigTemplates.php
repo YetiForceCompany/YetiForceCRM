@@ -367,4 +367,48 @@ return [
 			'sanitization' => '\App\Purifier::bool'
 		],
 	],
+	'InterestsConflict' => [
+		'isActive' => [
+			'default' => false,
+			'description' => 'Is the conflict of interests functionality enabled?.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'supportedModules' => [
+			'default' => [],
+			'description' => 'List of modules where the conflict of interests mechanism is enabled.',
+			'loopValidate' => true,
+			'validation' => '\App\Validator::alnum',
+			'sanitization' => '\App\Purifier::alnum'
+		],
+		'confirmationTimeInterval' => [
+			'default' => '30 day',
+			'description' => "Time interval that defines how often the system should force a confirmation about the absence of conflict of interests.\n30 day, 5 weeks, 2 month, 2 years.",
+			'validation' => '\App\Validator::alnumSpace',
+		],
+		'notificationsEmails' => [
+			'default' => '',
+			'description' => 'Email addresses for notifications.',
+			'validation' => '\App\Validator::emails',
+		],
+		'confirmUsersAccess' => [
+			'default' => [],
+			'description' => 'Access to confirmation panel, users ids',
+			'loopValidate' => true,
+			'validation' => '\App\Validator::integer',
+		],
+		'unlockUsersAccess' => [
+			'default' => [],
+			'description' => 'Email addresses for notifications, users ids',
+			'loopValidate' => true,
+			'validation' => '\App\Validator::integer',
+		],
+		'modules' => [
+			'default' => [],
+			'description' => 'Email addresses for notifications, users ids',
+			'validation' => function () {
+				return true;
+			},
+		],
+	],
 ];
