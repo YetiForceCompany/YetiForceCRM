@@ -41,46 +41,36 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 	}
 
 	/**
-	 * Function to get the detail view links (links and widgets).
-	 *
-	 * @param <array> $linkParams - parameters which will be used to calicaulate the params
-	 *
-	 * @return <array> - array of link models in the format as below
-	 *                 array('linktype'=>list of link models);
+	 * {@inheritdoc}
 	 */
-	public function getDetailViewLinks($linkParams)
+	public function getDetailViewLinks(array $linkParams): array
 	{
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$recordId = $recordModel->getId();
-		$status = $recordModel->get('activitystatus');
-		$statusActivity = Calendar_Module_Model::getComponentActivityStateLabel('current');
-
-		if ($recordModel->isEditable() && $this->getModule()->isPermitted('DetailView') && \App\Privilege::isPermitted($moduleName, 'ActivityComplete', $recordId) && \App\Privilege::isPermitted($moduleName, 'ActivityCancel', $recordId) && \App\Privilege::isPermitted($moduleName, 'ActivityPostponed', $recordId) && \in_array($status, $statusActivity)) {
-			$basicActionLink = [
+		if ($recordModel->isEditable() && $this->getModule()->isPermitted('DetailView') && \App\Privilege::isPermitted($moduleName, 'ActivityComplete', $recordId) && \App\Privilege::isPermitted($moduleName, 'ActivityCancel', $recordId) && \App\Privilege::isPermitted($moduleName, 'ActivityPostponed', $recordId) && \in_array($recordModel->get('activitystatus'), Calendar_Module_Model::getComponentActivityStateLabel('current'))) {
+			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_SET_RECORD_STATUS',
 				'linkurl' => '#',
 				'linkdata' => ['url' => $recordModel->getActivityStateModalUrl()],
 				'linkicon' => 'fas fa-check',
 				'linkclass' => 'btn-outline-dark btn-sm showModal closeCalendarRekord',
-			];
-			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			]);
 		}
-		if (!$recordModel->isEmpty('location') && App\Privilege::isPermitted('OpenStreetMap')) {
-			$basicActionLink = [
+		if (!$recordModel->isReadOnly() && !$recordModel->isEmpty('location') && App\Privilege::isPermitted('OpenStreetMap')) {
+			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_SHOW_LOCATION',
 				'linkurl' => 'javascript:Vtiger_Index_Js.showLocation(this)',
 				'linkdata' => ['location' => $recordModel->getDisplayValue('location')],
 				'linkicon' => 'fas fa-map-marker-alt',
 				'linkclass' => 'btn-outline-dark btn-sm'
-			];
-			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			]);
 		}
-		$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
-		if ($recordModel->privilegeToMoveToTrash() && 1 === $recordModel->get('reapeat')) {
+		if (!$recordModel->isReadOnly() && $recordModel->privilegeToMoveToTrash() && 1 === $recordModel->get('reapeat')) {
+			$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
 			foreach ($linkModelList['DETAIL_VIEW_EXTENDED'] as $key => $linkObject) {
 				if ('LBL_MOVE_TO_TRASH' == $linkObject->linklabel) {
 					unset($linkModelList['DETAIL_VIEW_EXTENDED'][$key]);
@@ -96,7 +86,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
 			]);
 		}
-		if ($recordModel->privilegeToDelete() && 1 === $recordModel->get('reapeat')) {
+		if (!$recordModel->isReadOnly() && $recordModel->privilegeToDelete() && 1 === $recordModel->get('reapeat')) {
 			foreach ($linkModelList['DETAIL_VIEW_EXTENDED'] as $key => $linkObject) {
 				if ('LBL_DELETE_RECORD_COMPLETELY' == $linkObject->linklabel) {
 					unset($linkModelList['DETAIL_VIEW_EXTENDED'][$key]);

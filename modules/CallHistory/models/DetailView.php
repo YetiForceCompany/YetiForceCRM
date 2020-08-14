@@ -10,7 +10,10 @@
  */
 class CallHistory_DetailView_Model extends Vtiger_DetailView_Model
 {
-	public function getDetailViewLinks($linkParams)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDetailViewLinks(array $linkParams): array
 	{
 		$linkTypes = ['DETAIL_VIEW_ADDITIONAL', 'DETAIL_VIEW_BASIC'];
 		$moduleModel = $this->getModule();

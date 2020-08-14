@@ -14,33 +14,32 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDetailViewLinks($linkParams)
+	public function getDetailViewLinks(array $linkParams): array
 	{
 		$recordModel = $this->getRecord();
 		$linkModelList = parent::getDetailViewLinks($linkParams);
-		$recordId = $recordModel->getId();
-
-		if (\App\Privilege::isPermitted('ProjectTask', 'EditView')) {
-			$viewLinks = [
-				'linktype' => 'DETAIL_VIEW_BASIC',
-				'linklabel' => 'Add Project Task',
-				'linkurl' => 'index.php?module=ProjectTask&action=EditView&projectid=' . $recordId . '&return_module=Project&return_action=DetailView&return_id=' . $recordId,
-				'linkicon' => 'fas fa-tasks',
-				'linkhint' => 'Add Project Task',
-				'linkclass' => 'btn-outline-dark btn-sm'
-			];
-			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($viewLinks);
-		}
-		if (\App\Privilege::isPermitted('Documents', 'EditView')) {
-			$viewLinks = [
-				'linktype' => 'DETAIL_VIEW_BASIC',
-				'linklabel' => 'Add Note',
-				'linkurl' => 'index.php?module=Documents&action=EditView&return_module=Project&return_action=DetailView&return_id=' . $recordId . '&parent_id=' . $recordId,
-				'linkicon' => 'fas fa-file',
-				'linkhint' => 'Add Note',
-				'linkclass' => 'btn-outline-dark btn-sm'
-			];
-			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($viewLinks);
+		if (!$recordModel->isReadOnly()) {
+			$recordId = $recordModel->getId();
+			if (\App\Privilege::isPermitted('ProjectTask', 'EditView')) {
+				$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_BASIC',
+					'linklabel' => 'Add Project Task',
+					'linkurl' => "index.php?module=ProjectTask&action=EditView&projectid={$recordId}&return_module=Project&return_action=DetailView&return_id={$recordId}",
+					'linkicon' => 'fas fa-tasks',
+					'linkhint' => 'Add Project Task',
+					'linkclass' => 'btn-outline-dark btn-sm'
+				]);
+			}
+			if (\App\Privilege::isPermitted('Documents', 'EditView')) {
+				$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_BASIC',
+					'linklabel' => 'Add Note',
+					'linkurl' => "index.php?module=Documents&action=EditView&return_module=Project&return_action=DetailView&return_id={$recordId}&parent_id={$recordId}",
+					'linkicon' => 'fas fa-file',
+					'linkhint' => 'Add Note',
+					'linkclass' => 'btn-outline-dark btn-sm'
+				]);
+			}
 		}
 		return $linkModelList;
 	}

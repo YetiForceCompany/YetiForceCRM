@@ -23,10 +23,17 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 *
 	 * @var Vtiger_DetailView_Model
 	 */
-	public $record = false;
-	protected $recordStructure = false;
-	public $defaultMode = false;
-
+	public $record;
+	/**
+	 * Record structure model instance.
+	 *
+	 * @var Vtiger_RecordStructure_Model
+	 */
+	protected $recordStructure;
+	/**
+	 * @var string
+	 */
+	public $defaultMode = '';
 	/**
 	 * Page title.
 	 *
@@ -96,11 +103,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$eventHandler->setRecordModel($recordModel);
 		$eventHandler->setModuleName($moduleName);
 		$eventHandler->trigger('DetailViewBefore');
-
-		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->getByType('view', 2)];
-		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
+		$detailViewLinks = $this->record->getDetailViewLinks([
+			'MODULE' => $moduleName,
+			'RECORD' => $recordId,
+			'VIEW' => $request->getByType('view', 2)
+		]);
 		$this->record->getWidgets();
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$moduleModel = $this->record->getModule();
@@ -176,7 +184,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			if (!('Summary' === $currentUserModel->get('default_record_view') && $this->record->widgetsList)) {
 				$defaultMode = 'showModuleDetailView';
 			}
-		} elseif (false === $defaultMode) {
+		}
+		if (!$defaultMode) {
 			$defaultMode = 'showDetailViewByMode';
 		}
 		echo $this->{$defaultMode}($request);
@@ -315,8 +324,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$recordModel = $this->record->getRecord();
-		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->getByType('view', 2)];
-		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
+		$detailViewLinks = $this->record->getDetailViewLinks([
+			'MODULE' => $moduleName,
+			'RECORD' => $recordId,
+			'VIEW' => $request->getByType('view', 2)
+		]);
 		$this->record->getWidgets();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
@@ -1120,7 +1132,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('STEP', $step);
 		$viewer->assign('STEP_URL', "index.php?module={$moduleName}&view=Detail&record={$recordModel->getId()}&mode=processWizard&tab_label=LBL_RECORD_PROCESS_WIZARD&step=");
 		$viewer->assign('RECORD', $recordModel);
-		if(!empty($step['quickEdit'])){
+		if (!empty($step['quickEdit'])) {
 			$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		}
 		$viewer->assign('BLOCK_LIST', $recordModel->getModule()->getBlocks());

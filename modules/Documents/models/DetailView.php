@@ -12,50 +12,41 @@
 class Documents_DetailView_Model extends Vtiger_DetailView_Model
 {
 	/**
-	 * Function to get the detail view links (links and widgets).
-	 *
-	 * @param <array> $linkParams - parameters which will be used to calicaulate the params
-	 *
-	 * @return <array> - array of link models in the format as below
-	 *                 array('linktype'=>list of link models);
+	 * {@inheritdoc}
 	 */
-	public function getDetailViewLinks($linkParams)
+	public function getDetailViewLinks(array $linkParams): array
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
-
-		if ($recordModel->get('filestatus') && $recordModel->get('filename') && 'I' === $recordModel->get('filelocationtype')) {
-			$basicActionLink = [
+		if (!$recordModel->isReadOnly()) {
+			$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			if ($recordModel->get('filestatus') && $recordModel->get('filename') && 'I' === $recordModel->get('filelocationtype')) {
+				$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_BASIC',
+					'linklabel' => 'LBL_DOWNLOAD_FILE',
+					'linkurl' => $recordModel->getDownloadFileURL(),
+					'linkicon' => 'fas fa-download',
+					'linkclass' => 'btn-outline-dark btn-sm',
+				]);
+			}
+			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_BASIC',
-				'linklabel' => 'LBL_DOWNLOAD_FILE',
-				'linkurl' => $recordModel->getDownloadFileURL(),
-				'linkicon' => 'fas fa-download',
+				'linklabel' => 'LBL_CHECK_FILE_INTEGRITY',
+				'linkurl' => $recordModel->checkFileIntegrityURL(),
+				'linkicon' => 'fas fa-check',
 				'linkclass' => 'btn-outline-dark btn-sm',
-			];
-			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-		$basicActionLink = [
-			'linktype' => 'DETAIL_VIEW_BASIC',
-			'linklabel' => 'LBL_CHECK_FILE_INTEGRITY',
-			'linkurl' => $recordModel->checkFileIntegrityURL(),
-			'linkicon' => 'fas fa-check',
-			'linkclass' => 'btn-outline-dark btn-sm',
-		];
-		$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-
-		if ($recordModel->get('filestatus') && $recordModel->get('filename') && 'I' === $recordModel->get('filelocationtype') && $currentUserModel->hasModulePermission('OSSMail') && App\Config::main('isActiveSendingMails')) {
-			$basicActionLink = [
-				'linktype' => 'DETAIL_VIEW_BASIC',
-				'linklabel' => \App\Language::translate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents'),
-				'linkhref' => true,
-				'linktarget' => '_blank',
-				'linkurl' => 'index.php?module=OSSMail&view=Compose&type=new&crmModule=Documents&crmRecord=' . $recordModel->getId(),
-				'linkicon' => 'fas fa-envelope',
-				'linkclass' => 'btn-outline-dark btn-sm',
-			];
-			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			]);
+			if ($recordModel->get('filestatus') && $recordModel->get('filename') && 'I' === $recordModel->get('filelocationtype') && $currentUserModel->hasModulePermission('OSSMail') && App\Config::main('isActiveSendingMails')) {
+				$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_BASIC',
+					'linklabel' => \App\Language::translate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents'),
+					'linkhref' => true,
+					'linktarget' => '_blank',
+					'linkurl' => 'index.php?module=OSSMail&view=Compose&type=new&crmModule=Documents&crmRecord=' . $recordModel->getId(),
+					'linkicon' => 'fas fa-envelope',
+					'linkclass' => 'btn-outline-dark btn-sm',
+				]);
+			}
 		}
 		return $linkModelList;
 	}

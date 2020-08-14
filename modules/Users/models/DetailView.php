@@ -12,20 +12,14 @@
 class Users_DetailView_Model extends Vtiger_DetailView_Model
 {
 	/**
-	 * Function to get the detail view links (links and widgets).
-	 *
-	 * @param array $linkParams - parameters which will be used to calicaulate the params
-	 *
-	 * @return array - array of link models in the format as below
-	 *               array('linktype'=>list of link models);
+	 * {@inheritdoc}
 	 */
-	public function getDetailViewLinks($linkParams)
+	public function getDetailViewLinks(array $linkParams): array
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
 		$linkModelList['DETAIL_VIEW_BASIC'] = [];
-
 		if ((true === $currentUserModel->isAdminUser() || $currentUserModel->get('id') === $recordId) && 'Active' === $recordModel->get('status')) {
 			$recordModel = $this->getRecord();
 			$detailViewLinks = [];
