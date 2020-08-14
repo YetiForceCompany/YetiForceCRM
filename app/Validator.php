@@ -291,6 +291,24 @@ class Validator
 	}
 
 	/**
+	 *  Function checks if given value is email.
+	 *
+	 * @param string|array $emails
+	 *
+	 * @return bool
+	 */
+	public static function emails($emails): bool
+	{
+		$emails = \is_string($emails) ? explode(',', $emails) : $emails;
+		foreach ($emails as $email) {
+			if (!self::email($email)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * Function checks if given value is url.
 	 *
 	 * @param string $url

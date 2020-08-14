@@ -176,4 +176,30 @@ class Layout
 		$html = Purifier::encodeHtml($html);
 		return "<div class=\"js-iframe-content\" >$teaser <iframe sandbox=\"allow-same-origin\" class=\"w-100 {$iframeClass}\" frameborder=\"0\" style=\"{$css}\" srcdoc=\"{$html}\"></iframe>{$btn}</div>";
 	}
+
+	/**
+	 * Get record label or href.
+	 *
+	 * @param int         $record
+	 * @param string|null $moduleName
+	 *
+	 * @return string
+	 */
+	public static function getRecordLabel(int $record, ?string $moduleName = null): string
+	{
+		if (!$record) {
+			return  '-';
+		}
+		if (null === $moduleName) {
+			$moduleName = Record::getType($record);
+		}
+		$label = TextParser::textTruncate(Record::getLabel($record) ?? '-', \App\Config::main('href_max_length'));
+		if (!$moduleName || !Privilege::isPermitted($moduleName, 'DetailView', $record)) {
+			return $label;
+		}
+		if ('Active' !== \App\Record::getState($record)) {
+			$label = "<s>$label</s>";
+		}
+		return "<a class=\"modCT_{$moduleName} showReferenceTooltip js-popover-tooltip--record\" href=\"index.php?module={$moduleName}&view=Detail&record={$record}\">{$label}</a>";
+	}
 }
