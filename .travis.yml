@@ -68,12 +68,6 @@ before_script:
 
 script:
     - cd tests
-    - readlink -f ../
-    - sudo ls ../ -all
-    - readlink -f ../vendor/bin/
-    - sudo ls ../vendor/bin/ -all
-    - readlink -f ../vendor/
-    - sudo ls ../vendor/ -all
     - ../vendor/bin/phpunit --verbose --testsuite Init,Base,Integrations,Settings,Apps
     - pwd
     - sudo ls -all
