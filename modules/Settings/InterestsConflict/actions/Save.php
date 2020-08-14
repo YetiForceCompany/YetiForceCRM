@@ -52,6 +52,8 @@ class Settings_InterestsConflict_Save_Action extends \App\Controller\Action
 		}
 		$configFile = new \App\ConfigFile('component', 'InterestsConflict');
 		$configFile->set('isActive', $request->getBoolean('isActive'));
+		$configFile->set('sendMailAccessRequest', $request->getBoolean('sendMailAccessRequest'));
+		$configFile->set('sendMailAccessResponse', $request->getBoolean('sendMailAccessResponse'));
 		$configFile->set('notificationsEmails', $request->getByType('notificationsEmails', 'Text'));
 		$configFile->set('confirmationTimeInterval', $confirmationTimeInterval);
 		$configFile->set('unlockUsersAccess', $request->getArray('unlockUsersAccess', 'Integer'));

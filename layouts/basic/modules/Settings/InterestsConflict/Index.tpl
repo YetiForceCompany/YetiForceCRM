@@ -58,16 +58,6 @@
 							<tr>
 								<td class="u-w-37per px-2">
 									<label class="muted float-right col-form-label u-text-small-bold">
-										{\App\Language::translate('LBL_NOTIFICATIONS_EMAILS', $QUALIFIED_MODULE)}
-									</label>
-								</td>
-								<td class="border-left-0 px-3">
-									<input name="notificationsEmails" type="text" class="form-control" value="{$CONFIG_DATA['notificationsEmails']}"/>
-								</td>
-							</tr>
-							<tr>
-								<td class="u-w-37per px-2">
-									<label class="muted float-right col-form-label u-text-small-bold">
 										{\App\Language::translate('LBL_INTERVAL_TIME', $QUALIFIED_MODULE)}
 										<span class="fas fa-info-circle text-primary js-popover-tooltip ml-2" data-content="{\App\Language::translate('LBL_INTERVAL_TIME_DESC', $QUALIFIED_MODULE)}"></span>
 									</label>
@@ -124,6 +114,38 @@
 											</option>
 										{/foreach}
 									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="u-w-37per px-2">
+									<label class="muted float-right col-form-label u-text-small-bold">
+										{\App\Language::translate('LBL_NOTIFICATIONS_EMAILS', $QUALIFIED_MODULE)}
+									</label>
+								</td>
+								<td class="border-left-0 px-3">
+									<input name="notificationsEmails" type="text" class="form-control" value="{$CONFIG_DATA['notificationsEmails']}"/>
+								</td>
+							</tr>
+							<tr>
+								<td class="u-w-37per px-2">
+									<label class="muted float-right col-form-label u-text-small-bold">
+										{\App\Language::translate('LBL_SEND_MAIL_DURING_ACCESS_REQUEST', $QUALIFIED_MODULE)}
+										<span class="fas fa-info-circle text-primary js-popover-tooltip ml-2" data-content="{\App\Language::translate('LBL_SEND_MAIL_DURING_ACCESS_REQUEST_INFO', $QUALIFIED_MODULE)}"></span>
+									</label>
+								</td>
+								<td class="border-left-0 px-3 align-middle">
+									<input name="sendMailAccessRequest" type="checkbox" class="form-control" data-js="is" {if !empty($CONFIG_DATA['sendMailAccessRequest'])}checked{/if} value="true">
+								</td>
+							</tr>
+							<tr>
+								<td class="u-w-37per px-2">
+									<label class="muted float-right col-form-label u-text-small-bold">
+										{\App\Language::translate('LBL_SEND_MAIL_DURING_ACCESS_RESPONSE', $QUALIFIED_MODULE)}
+										<span class="fas fa-info-circle text-primary js-popover-tooltip ml-2" data-content="{\App\Language::translate('LBL_SEND_MAIL_DURING_ACCESS_RESPONSE_INFO', $QUALIFIED_MODULE)}"></span>
+									</label>
+								</td>
+								<td class="border-left-0 px-3 align-middle">
+									<input name="sendMailAccessResponse" type="checkbox" class="form-control" data-js="is" {if !empty($CONFIG_DATA['sendMailAccessResponse'])}checked{/if} value="true">
 								</td>
 							</tr>
 						</tbody>

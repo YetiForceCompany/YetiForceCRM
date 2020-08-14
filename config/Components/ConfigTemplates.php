@@ -379,11 +379,6 @@ return [
 			'description' => "Time interval that defines how often the system should force a confirmation about the absence of conflict of interests.\n30 day, 5 weeks, 2 month, 2 years.",
 			'validation' => '\App\Validator::alnumSpace',
 		],
-		'notificationsEmails' => [
-			'default' => '',
-			'description' => 'Email addresses for notifications.',
-			'validation' => '\App\Validator::emails',
-		],
 		'confirmUsersAccess' => [
 			'default' => [],
 			'description' => 'Access to confirmation panel, users ids',
@@ -395,6 +390,23 @@ return [
 			'description' => 'Email addresses for notifications, users ids',
 			'loopValidate' => true,
 			'validation' => '\App\Validator::integer',
+		],
+		'notificationsEmails' => [
+			'default' => '',
+			'description' => 'Email addresses for notifications.',
+			'validation' => '\App\Validator::emails',
+		],
+		'sendMailAccessRequest' => [
+			'default' => false,
+			'description' => 'E-mail sent to the person requesting access.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'sendMailAccessResponse' => [
+			'default' => false,
+			'description' => 'E-mail sent to the above people.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 		'modules' => [
 			'default' => [],

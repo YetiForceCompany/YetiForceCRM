@@ -39,6 +39,13 @@ class InterestsConflict
 	public const CHECK_STATUS_NO_CONFLICT = 2;
 	/** @var int */
 	public const CHECK_STATUS_CONFLICT = 3;
+	/** @var string[] */
+	public const UNLOCK_STATUS_LABELS = [
+		self::UNLOCK_STATUS_NEW => 'LBL_INTERESTS_CONFLICT_UNLOCK_STATUS_NEW',
+		self::UNLOCK_STATUS_ACCEPTED => 'LBL_INTERESTS_CONFLICT_UNLOCK_STATUS_ACCEPTED',
+		self::UNLOCK_STATUS_REJECTED => 'LBL_INTERESTS_CONFLICT_UNLOCK_STATUS_REJECTED',
+		self::UNLOCK_STATUS_CANCELED => 'LBL_INTERESTS_CONFLICT_CONFIRM_CANCELED',
+	];
 
 	/**
 	 * Check the conflict status.
@@ -213,6 +220,16 @@ class InterestsConflict
 				'source_id' => $sourceRecord,
 				'comment' => $comment,
 			])->execute();
+		if (\Config\Components\InterestsConflict::$sendMailAccessRequest) {
+			\App\Mailer::sendFromTemplate([
+				'template' => 'InterestsConflictAccessRequest',
+				'to' => \Config\Components\InterestsConflict::$notificationsEmails,
+				'dateTime' => date('Y-m-d H:i:s'),
+				'user' => \App\User::getCurrentUserModel()->getName(),
+				'record' => \App\Layout::getRecordLabel($baseRecord),
+				'comment' => $comment,
+			]);
+		}
 	}
 
 	/**
@@ -268,8 +285,8 @@ class InterestsConflict
 				'modify_user_id' => \App\User::getCurrentUserRealId(),
 			], ['id' => $id])
 			->execute();
+		$row = (new \App\Db\Query())->select(['related_id', 'user_id'])->from('u_#__interests_conflict_unlock')->where(['id' => $id])->one();
 		if (self::UNLOCK_STATUS_ACCEPTED === $status) {
-			$row = (new \App\Db\Query())->select(['related_id', 'user_id'])->from('u_#__interests_conflict_unlock')->where(['id' => $id])->one();
 			if ($row) {
 				\App\Db::getInstance()
 					->createCommand()
@@ -280,6 +297,17 @@ class InterestsConflict
 					], ['user_id' => $row['user_id'], 'related_id' => $row['related_id']])
 					->execute();
 			}
+		}
+		if (\Config\Components\InterestsConflict::$sendMailAccessResponse) {
+			$userModel = \App\User::getUserModel($row['user_id']);
+			\App\Mailer::sendFromTemplate([
+				'template' => 'InterestsConflictAccessResponse',
+				'moduleName' => 'Users',
+				'recordId' => $row['user_id'],
+				'to' => $userModel->getDetail('email1'),
+				'record' => \App\Layout::getRecordLabel($row['related_id']),
+				'status' => \App\Language::translate(self::UNLOCK_STATUS_LABELS[$status], '_Base', $userModel->getDetail('language')),
+			]);
 		}
 	}
 
