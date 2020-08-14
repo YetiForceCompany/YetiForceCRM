@@ -846,7 +846,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function isReadOnly(): bool
 	{
 		if (!isset($this->privileges['isReadOnly'])) {
-			return $this->privileges['isReadOnly'] = true;
+			return $this->privileges['isReadOnly'] = \App\Components\InterestsConflict::CHECK_STATUS_CONFLICT === \App\Components\InterestsConflict::check($this->getId(), $this->getModuleName());
 		}
 		return $this->privileges['isReadOnly'];
 	}

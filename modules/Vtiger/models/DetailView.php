@@ -81,7 +81,35 @@ class Vtiger_DetailView_Model extends \App\Base
 		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
 		$linkModelList = [];
-		if (!$recordModel->isReadOnly()) {
+		if ($recordModel->isReadOnly()) {
+			if (\Config\Components\InterestsConflict::$isActive) {
+				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+					'linkdata' => ['url' => "index.php?module={$moduleName}&view=InterestsConflictModal&mode=unlock&fromView=Detail&record={$recordId}"],
+					'linkicon' => 'fas fa-lock-open',
+					'linkhint' => 'LBL_INTERESTS_CONFLICT_UNLOCK',
+					'linkclass' => 'btn-outline-primary btn-sm js-show-modal',
+				]);
+			}
+		} else {
+			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+				'linkdata' => ['url' => "index.php?module={$moduleName}&view=InterestsConflictModal&mode=confirmation&fromView=Detail&record={$recordId}"],
+				'linkicon' => 'fas fa-random',
+				'linkhint' => 'LBL_INTERESTS_CONFLICT_CONFIRMATION',
+				'linkclass' => 'btn-outline-primary btn-sm js-show-modal',
+			]);
+			if ($moduleModel->isPermitted('InterestsConflictUsers')) {
+				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+					'linkdata' => ['url' => "index.php?module={$moduleName}&view=InterestsConflictModal&mode=users&fromView=Detail&record={$recordId}"],
+					'linkicon' => 'fas fa-user-lock',
+					'linkhint' => 'LBL_INTERESTS_CONFLICT_USERS',
+					'linkclass' => 'btn-outline-primary btn-sm',
+					'modalView' => true,
+				]);
+			}
 			if ($moduleModel->isPermitted('WorkflowTrigger') && $recordModel->isEditable()) {
 				Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
 				Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
@@ -130,7 +158,6 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linkdata' => ['off' => 'btn-outline-dark', 'on' => 'btn-dark', 'value' => $watchdog->isWatchingRecord() ? 0 : 1, 'record' => $recordId],
 				]);
 			}
-			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			if ($userPrivilegesModel->hasModulePermission('Notification') && $userPrivilegesModel->hasModuleActionPermission('Notification', 'CreateView')) {
 				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',

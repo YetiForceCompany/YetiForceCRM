@@ -238,6 +238,22 @@ CREATE TABLE `a_yf_taxes_global` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `b_yf_interests_conflict_conf` */
+
+CREATE TABLE `b_yf_interests_conflict_conf` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `date_time` datetime NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `user_id` smallint(5) unsigned NOT NULL,
+  `related_id` int(10) unsigned NOT NULL,
+  `related_label` varchar(255) NOT NULL,
+  `modify_user_id` smallint(5) unsigned NOT NULL DEFAULT 0,
+  `modify_date_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `related_id` (`related_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `b_yf_social_media_twitter` */
 
 CREATE TABLE `b_yf_social_media_twitter` (
@@ -2870,6 +2886,41 @@ CREATE TABLE `u_yf_incidentregistercf` (
   `incidentregisterid` int(10) NOT NULL,
   PRIMARY KEY (`incidentregisterid`),
   CONSTRAINT `fk_1_u_yf_incidentregistercfincidentregisterid` FOREIGN KEY (`incidentregisterid`) REFERENCES `u_yf_incidentregister` (`incidentregisterid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_interests_conflict_conf` */
+
+CREATE TABLE `u_yf_interests_conflict_conf` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `date_time` datetime NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `user_id` smallint(5) unsigned NOT NULL,
+  `related_id` int(10) unsigned NOT NULL,
+  `related_label` varchar(255) NOT NULL,
+  `source_id` int(10) NOT NULL DEFAULT 0,
+  `modify_user_id` smallint(5) unsigned NOT NULL DEFAULT 0,
+  `modify_date_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `related_id` (`related_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_interests_conflict_unlock` */
+
+CREATE TABLE `u_yf_interests_conflict_unlock` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `date_time` datetime NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL,
+  `user_id` smallint(5) NOT NULL,
+  `related_id` int(10) unsigned NOT NULL,
+  `source_id` int(10) unsigned NOT NULL,
+  `comment` varchar(255) NOT NULL,
+  `modify_user_id` smallint(5) unsigned NOT NULL DEFAULT 0,
+  `modify_date_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `date_time` (`date_time`),
+  KEY `user_id` (`user_id`),
+  KEY `related_id` (`related_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_ipreorder` */

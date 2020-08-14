@@ -1409,7 +1409,6 @@
     "LBL_IP_ADDRESS": "IP Address",
     "LBL_BROWSER": "Browser",
     "ERR_OCCURRED_CHECK_LOGS": "Error occurred, check the logs",
-    "LBL_SHOW_ORIGINAL_CONTENT": "Show original content",
     "FL_COMPANY_NAME": "Company name",
     "LBL_SHOW_PASSWORD": "Show hidden password",
     "LBL_NO_DATA_FOUND": "No data found",
@@ -1447,7 +1446,30 @@
     "LBL_VIDEO_CONFERENCE": "Video conference",
     "LBL_DURATION_SUMMARY": "Duration summary",
     "LBL_CONTAINS_HIERARCHY": "contains also in hierarchy",
-    "LBL_DOES_NOT_CONTAIN_HIERARCHY": "does not contain also in hierarchy"
+    "LBL_DOES_NOT_CONTAIN_HIERARCHY": "does not contain also in hierarchy",
+    "LBL_INTERESTS_CONFLICT_UNLOCK": "Request to unblock access",
+    "LBL_INTERESTS_CONFLICT_CONFIRMATION": "Confirm conflict of interests",
+    "LBL_INTERESTS_CONFLICT_CONFIRMATION_DESC": "Is there a conflict of interests with",
+    "LBL_INTERESTS_CONFLICT_USERS": "A list of users who confirmed a conflict of interests",
+    "LBL_CONFLICT_OF_INTEREST": "Conflict of interests",
+    "LBL_INTERESTS_CONFLICT_CONFIRMATIONS_FOR": "Confirmations for",
+    "LBL_INTERESTS_CONFLICT_CONFIRM_NO": "No conflict of interests",
+    "LBL_INTERESTS_CONFLICT_CONFIRM_YES": "Conflict of interests found",
+    "LBL_INTERESTS_CONFLICT_CONFIRM_CANCELED": "Conflict of interests confirmation cancelled",
+    "BTN_INTERESTS_CONFLICT_SET_CANCELED": "Cancel user's confirmation. It will allow them to confirm again and access the record",
+    "LBL_INTERESTS_CONFLICT_UNLOCK_DESC": "Justify the request",
+    "LBL_INTERESTS_CONFLICT_UNLOCK_RESP": "Confirmation canceled",
+    "LBL_INTERESTS_CONFLICT_UNLOCK_STATUS_NEW": "Awaiting consideration",
+    "LBL_INTERESTS_CONFLICT_UNLOCK_STATUS_ACCEPTED": "Accepted",
+    "LBL_INTERESTS_CONFLICT_UNLOCK_STATUS_REJECTED": "Rejected",
+    "BTN_UNLOCK_STATUS_ACTION_ACCEPT": "Accept",
+    "BTN_UNLOCK_STATUS_ACTION_REJECT": "Reject",
+    "LBL_SHOW_HISTORICAL_DATA": "Show historical data",
+    "LBL_ACCESS_REQUEST_TO": "Access request to",
+    "LBL_SENT": "Sent",
+    "LBL_RELATION_NOT_FOUND": "Relation not found",
+    "LBL_RELATED_RECORD": "Related record",
+    "LBL_SOURCE_RECORD": "Source record"
   },
   "js": {
     "JS_APPROVE": "Approve",
@@ -1903,6 +1925,7 @@
     "JS_EMOJI_CUSTOM": "custom",
     "JS_EMOJI_SEARCH": "Search…",
     "JS_CANT_CLOSE_NEW_RECROD": "You cannot close a new ticket",
-    "JS_MEETING_URL_CHANGED": "Meeting URL has changed"
+    "JS_MEETING_URL_CHANGED": "Meeting URL has changed",
+    "JS_ENTER_A_REASON": "Enter a reason"
   }
 }
