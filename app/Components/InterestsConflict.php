@@ -227,7 +227,7 @@ class InterestsConflict
 				'dateTime' => date('Y-m-d H:i:s'),
 				'user' => \App\User::getCurrentUserModel()->getName(),
 				'record' => \App\Layout::getRecordLabel($baseRecord),
-				'comment' => $comment,
+				'comment' => nl2br($comment),
 			]);
 		}
 	}
