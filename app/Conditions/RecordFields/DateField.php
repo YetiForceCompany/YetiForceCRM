@@ -209,7 +209,7 @@ class DateField extends BaseField
 	public function operatorLastmonth()
 	{
 		$dateValue = date('Y-m-d', strtotime($this->getValue()));
-		return ($dateValue >= date('Y-m-01', strtotime('last month'))) && ($dateValue <= date('Y-m-t', strtotime('last month')));
+		return ($dateValue >= date('Y-m-01', strtotime('first day of last month'))) && ($dateValue <= date('Y-m-t', strtotime('first day of last month')));
 	}
 
 	/**
@@ -231,7 +231,7 @@ class DateField extends BaseField
 	public function operatorNextmonth()
 	{
 		$dateValue = date('Y-m-d', strtotime($this->getValue()));
-		return ($dateValue >= date('Y-m-01', strtotime('next month'))) && ($dateValue <= date('Y-m-t', strtotime('next month')));
+		return ($dateValue >= date('Y-m-01', strtotime('first day of next month'))) && ($dateValue <= date('Y-m-t', strtotime('first day of next month')));
 	}
 
 	/**
