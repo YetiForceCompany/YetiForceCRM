@@ -557,7 +557,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linkicon' => 'fas fa-plus',
 			])
 		];
-		if ('Documents' === $relatedModel->get('label')) {
+		if ('Documents' === $relatedModel->getName()) {
 			$addLinkModel[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', 'Documents'),

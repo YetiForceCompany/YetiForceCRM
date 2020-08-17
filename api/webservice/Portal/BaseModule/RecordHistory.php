@@ -215,9 +215,7 @@ class RecordHistory extends \Api\Core\BaseAction
 					$row['data']['targetId'] = $relationInstance->get('targetid');
 				}
 			}
-			if ($row) {
-				$response[$recordModel->get('id')] = $row;
-			}
+			$response[$recordModel->get('id')] = $row;
 		}
 		return $response;
 	}
