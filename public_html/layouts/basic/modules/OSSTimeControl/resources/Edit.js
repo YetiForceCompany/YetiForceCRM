@@ -81,18 +81,6 @@ Vtiger_Edit_Js(
 					};
 					Vtiger_Helper_Js.showPnotify(parametres);
 					return false;
-				} else {
-					if (app.getMainParams('disallowLongerThan24Hours')) {
-						sumeTime2 = sumeTime2 / 1000 / 60 / 60;
-						if (sumeTime2 > 24) {
-							Vtiger_Helper_Js.showPnotify({
-								text: app.vtranslate('JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H'),
-								type: 'error'
-							});
-							return false;
-						}
-					}
-					form.submit();
 				}
 			});
 		},

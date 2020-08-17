@@ -93,4 +93,24 @@ class OSSTimeControl_TimeControl_Handler
 			}
 		}
 	}
+
+	/**
+	 * EditViewPreSave handler function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function editViewPreSave(App\EventHandler $eventHandler)
+	{
+		$recordModel = $eventHandler->getRecordModel();
+		$response = [
+			'result' => true,
+		];
+		if (abs(ceil(((strtotime($recordModel->get('due_date') . ' ' . $recordModel->get('time_end')) - strtotime($recordModel->get('date_start') . ' ' . $recordModel->get('time_start'))) / 3600))) > 24) {
+			$response = [
+				'result' => false,
+				'message' => App\Language::translate('LBL_DATE_NOT_SHOULD_BE_GREATER_THAN_24H', $recordModel->getModuleName())
+			];
+		}
+		return $response;
+	}
 }
