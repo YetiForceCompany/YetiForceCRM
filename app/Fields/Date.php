@@ -323,7 +323,8 @@ class Date
 	public static function getOnlyWorkingDayFromDate(\DateTime $date, string $modify): string
 	{
 		$value = $date->format('Y-m-d');
-		$valueToModify = (int) $modify[1];
+		$modifyExplode = explode(' ', $modify);
+		$valueToModify = abs((int) $modifyExplode[0]);
 		while ($valueToModify-- > 0) {
 			$value = self::getWorkingDayFromDate($date, $modify[0] . '1 day');
 		}
