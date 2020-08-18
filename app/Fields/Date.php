@@ -316,17 +316,16 @@ class Date
 	 * Method to return date counted only using working days
 	 *
 	 * @param   \DateTime  $date
-	 * @param   string     $modify
+	 * @param   int        $counter
+	 * @param   bool       $increase
 	 *
 	 * @return  string
 	 */
-	public static function getOnlyWorkingDayFromDate(\DateTime $date, string $modify): string
+	public static function getOnlyWorkingDayFromDate(\DateTime $date, int $counter, bool $increase = true): string
 	{
 		$value = $date->format('Y-m-d');
-		$modifyExplode = explode(' ', $modify);
-		$valueToModify = abs((int) $modifyExplode[0]);
-		while ($valueToModify-- > 0) {
-			$value = self::getWorkingDayFromDate($date, $modify[0] . '1 day');
+		while ($counter-- > 0) {
+			$value = self::getWorkingDayFromDate($date, ($increase ? '+' : '-') . '1 day');
 		}
 		return $value;
 	}
