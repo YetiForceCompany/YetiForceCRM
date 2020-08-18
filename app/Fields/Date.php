@@ -313,6 +313,24 @@ class Date
 	}
 
 	/**
+	 * Method to return date counted only using working days
+	 *
+	 * @param   \DateTime  $date
+	 * @param   string     $modify
+	 *
+	 * @return  string
+	 */
+	public static function getOnlyWorkingDayFromDate(\DateTime $date, string $modify): string
+	{
+		$value = $date->format('Y-m-d');
+		$valueToModify = (int) $modify[1];
+		while ($valueToModify-- > 0) {
+			$value = self::getWorkingDayFromDate($date, $modify[0] . '1 day');
+		}
+		return $value;
+	}
+
+	/**
 	 * Function changes the date format to the database format without changing the time zone.
 	 *
 	 * @param string $date
