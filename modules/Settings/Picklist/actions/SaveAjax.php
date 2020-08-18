@@ -104,7 +104,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 					$this->updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue);
 				}
 				$status = $moduleModel->renamePickListValues($fieldModel, $oldValue, $newValue, $id, $request->getForHtml('description'), $request->getByType('prefix', 'Text'));
-				if ($fieldModel->isProcessStatusField() ||  \App\RecordStatus::getLockStatus($moduleName, false)[$request->getInteger('picklist_valueid')] ) {
+				if ($fieldModel->isProcessStatusField() || \App\RecordStatus::getLockStatus($moduleName, false)[$request->getInteger('picklist_valueid')]) {
 					$fieldModel->updateCloseState($request->getInteger('picklist_valueid'), $newValue);
 				}
 				$response->setResult([
