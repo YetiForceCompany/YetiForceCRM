@@ -3309,6 +3309,7 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (87,'EditViewPreSave','IGDNC_IgdnExist_Handler',1,'IGDNC','',5,109);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (88,'EditViewPreSave','IGRNC_IgrnExist_Handler',1,'IGRNC','',5,108);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (89,'EntityBeforeSave','Vtiger_Meetings_Handler',1,'Calendar,Occurrences','',5,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (90,'EditViewPreSave','OSSTimeControl_TimeControl_Handler',1,'OSSTimeControl','',5,51);
 
 /*Data for the table `vtiger_expectedresponse` */
 
