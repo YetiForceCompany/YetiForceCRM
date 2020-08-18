@@ -313,6 +313,25 @@ class Date
 	}
 
 	/**
+	 * Method to return date counted only using working days.
+	 *
+	 * @param \DateTime $date
+	 * @param int       $counter
+	 * @param bool      $increase
+	 * @param int       $id
+	 *
+	 * @return string
+	 */
+	public static function getOnlyWorkingDayFromDate(\DateTime $date, int $counter, bool $increase = true, int $id = \App\Utils\BusinessHours::DEFAULT_BUSINESS_HOURS_ID): string
+	{
+		$value = $date->format('Y-m-d');
+		while ($counter-- > 0) {
+			$value = self::getWorkingDayFromDate($date, ($increase ? '+' : '-') . '1 day', $id);
+		}
+		return $value;
+	}
+
+	/**
 	 * Function changes the date format to the database format without changing the time zone.
 	 *
 	 * @param string $date
