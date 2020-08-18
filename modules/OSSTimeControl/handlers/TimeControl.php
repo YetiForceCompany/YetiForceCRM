@@ -102,10 +102,12 @@ class OSSTimeControl_TimeControl_Handler
 	public function editViewPreSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
+		$start = $recordModel->get('date_start') . ' ' . $recordModel->get('time_start');
+		$end = $recordModel->get('due_date') . ' ' . $recordModel->get('time_end');
 		$response = [
 			'result' => true,
 		];
-		if (abs(ceil(((strtotime($recordModel->get('due_date') . ' ' . $recordModel->get('time_end')) - strtotime($recordModel->get('date_start') . ' ' . $recordModel->get('time_start'))) / 3600))) > 24) {
+		if (\App\Fields\DateTime::getDiff($start, $end, 'minutes') > 24 * 60) {
 			$response = [
 				'result' => false,
 				'message' => App\Language::translate('LBL_DATE_NOT_SHOULD_BE_GREATER_THAN_24H', $recordModel->getModuleName())
