@@ -188,17 +188,17 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
 			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'parents']);
 		$queryGenerator->setSourceRecord($parentId);
-		$where = ['or'];
-		$requireCount = 0;
 		$moduleLevel = \App\ModuleHierarchy::getModuleLevel($moduleName);
-		if (false === $moduleLevel || \in_array($moduleLevel, $hierarchy)) {
-			$where[] = ['related_to' => $parentId];
-			$requireCount = 1;
-		}
+		$requireCount = false === $moduleLevel || \in_array($moduleLevel, $hierarchy) ? 1 : 0;
 		if (\count($hierarchy) > $requireCount && ($query = \App\ModuleHierarchy::getQueryRelatedRecords($parentId, $hierarchy))) {
-			$where[] = ['related_to' => (new \App\Db\Query())->select(['id'])->from(['temp_query' => $query])];
+			if ($requireCount) {
+				$query->union((new \App\Db\Query())->select([new \yii\db\Expression($parentId)]));
+			}
+			$where = ['related_to' => (new \App\Db\Query())->select(['id'])->from(['temp_query' => $query])];
+		} elseif ($requireCount) {
+			$where = ['related_to' => $parentId];
 		} else {
-			$where[] = ['related_to' => 0];
+			$where = ['related_to' => 0];
 		}
 		$queryGenerator->addNativeCondition($where);
 		$queryGenerator->addNativeCondition(['parent_comments' => 0]);
