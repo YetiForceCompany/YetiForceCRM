@@ -703,6 +703,13 @@ jQuery.Class(
 		},
 
 		/**
+		 * function to hide button action.
+		 */
+		hideButtonAction: function () {
+			$('.js-hb__container').removeClass('u-hidden-block__opened');
+		},
+
+		/**
 		 * function to show comment block.
 		 */
 		showCommentBlock: function () {
@@ -2437,12 +2444,14 @@ jQuery.Class(
 			});
 			detailContentsHolder.on('click', '.js-reply-comment', function (e) {
 				self.removeCommentBlock();
+				self.hideButtonAction();
 				let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single');
 				commentInfoBlock.find('.js-comment-container').hide();
 				self.getCommentBlock().appendTo(commentInfoBlock).show();
 			});
 			detailContentsHolder.on('click', '.js-edit-comment', function (e) {
 				self.removeCommentBlock();
+				self.hideButtonAction();
 				let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single'),
 					commentInfoContent = commentInfoBlock.find('.js-comment-info'),
 					editCommentBlock = self.getEditCommentBlock();
@@ -2830,6 +2839,7 @@ jQuery.Class(
 				return false;
 			});
 			detailContentsHolder.on('click', '.viewThread', function (e) {
+				thisInstance.hideButtonAction();
 				let currentTarget = jQuery(e.currentTarget),
 					currentTargetParent = currentTarget.parent(),
 					commentActionsBlock = currentTarget.closest('.js-comment-actions'),
