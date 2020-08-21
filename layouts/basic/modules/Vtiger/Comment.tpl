@@ -63,13 +63,13 @@
 								{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 							{/if}
 							{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-								<button type="button" class="btn btn-success js-reply-comment mr-1"
+								<button type="button" class="btn btn-sm btn-success js-reply-comment mr-1"
 										title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}" data-js="click">
 									<span class="fas fa-share"></span>
 								</button>
 							{/if}
 							{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-								<button type="button" class="btn btn-primary js-edit-comment feedback mr-1"
+								<button type="button" class="btn btn-sm btn-primary js-edit-comment feedback mr-1"
 										data-js="click" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}">
 									<span class="yfi yfi-full-editing-view"></span>
 								</button>
@@ -77,7 +77,7 @@
 							{assign var=LINKS value=$COMMENT->getCommentLinks()}
 							{if count($LINKS) > 0}
 								{foreach from=$LINKS item=LINK}
-									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='comment' MODULE=$MODULE_NAME CLASS="mr-1"}
+									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='comment' MODULE=$MODULE_NAME  BTN_CLASS='btn-sm'}
 								{/foreach}
 							{/if}
 							{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}

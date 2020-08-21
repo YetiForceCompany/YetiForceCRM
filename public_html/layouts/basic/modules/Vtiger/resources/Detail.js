@@ -698,8 +698,8 @@ jQuery.Class(
 		/**
 		 * function to hide comment block.
 		 */
-		hideCommentBlock: function () {
-			$('.js-add-comment-block', $('.js-comments-body', this.getContentHolder())).hide();
+		removeCommentBlock: function () {
+			$('.js-add-comment-block', $('.js-comments-body', this.getContentHolder())).remove();
 		},
 
 		/**
@@ -2433,16 +2433,16 @@ jQuery.Class(
 				let commentInfoBlock = $(e.currentTarget.closest('.js-comment-single'));
 				commentInfoBlock.find('.js-comment-container').show();
 				commentInfoBlock.find('.js-comment-info').show();
-				self.hideCommentBlock();
+				self.removeCommentBlock();
 			});
 			detailContentsHolder.on('click', '.js-reply-comment', function (e) {
-				self.hideCommentBlock();
+				self.removeCommentBlock();
 				let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single');
 				commentInfoBlock.find('.js-comment-container').hide();
 				self.getCommentBlock().appendTo(commentInfoBlock).show();
 			});
 			detailContentsHolder.on('click', '.js-edit-comment', function (e) {
-				self.hideCommentBlock();
+				self.removeCommentBlock();
 				let commentInfoBlock = $(e.currentTarget).closest('.js-comment-single'),
 					commentInfoContent = commentInfoBlock.find('.js-comment-info'),
 					editCommentBlock = self.getEditCommentBlock();
