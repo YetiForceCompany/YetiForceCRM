@@ -85,7 +85,7 @@
 								<span class="js-view-thread-block viewThreadBlock"
 										data-child-comments-count="{$CHILD_COMMENTS_COUNT}"
 										data-js="data-child-comments-count">
-							<button type="button" class="btn btn-info viewThread u-text-ellipsis"
+							<button type="button" class="btn btn-sm btn-info viewThread u-text-ellipsis"
 									title="{$CHILD_COMMENTS_COUNT}&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}"
 									data-js="click">
 								<span class="js-child-comments-count">{$CHILD_COMMENTS_COUNT}</span>
