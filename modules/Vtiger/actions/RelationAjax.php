@@ -470,7 +470,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		}
 		$columnName = $fieldQueryModel->getColumnName();
 		if ('sum' === $request->getByType('calculateType')) {
-			$value = $queryGenerator->createQuery()->sum($columnName);
+			$value = $queryGenerator->setDistinct(null)->createQuery()->sum($columnName);
 		} else {
 			throw new \App\Exceptions\NotAllowedMethod('LBL_PERMISSION_DENIED', 406);
 		}
@@ -502,7 +502,8 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	 *
 	 * @param App\Request $request
 	 */
-	public function checkFilesIntegrity(App\Request $request){
+	public function checkFilesIntegrity(App\Request $request)
+	{
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$fileNotAvailable = [];
 		$result = ['success' => true];
@@ -513,8 +514,8 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				$fileNotAvailable[] = $documentRecordModel->get('notes_title');
 			}
 		}
-		if(!empty($fileNotAvailable)){
-			$result = ['notify' => ['text' => \App\Language::translate('LBL_FILE_NOT_AVAILABLE', $relatedModuleName) . ": <br>- ".implode('<br>- ',$fileNotAvailable)]];
+		if (!empty($fileNotAvailable)) {
+			$result = ['notify' => ['text' => \App\Language::translate('LBL_FILE_NOT_AVAILABLE', $relatedModuleName) . ': <br>- ' . implode('<br>- ', $fileNotAvailable)]];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
