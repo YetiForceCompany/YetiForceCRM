@@ -133,6 +133,12 @@ select.select2 select.select2noactive {
 	height: $input-height !important; //prevent select2 container from changing height when select2 is reloading
 }
 
+.narrow {
+	.select2-selection.select2-selection--multiple {
+		min-height: calc(1.5em) !important;
+	}
+}
+
 .select2-container .select2-search--inline {
 	float: unset; //remove unneeded space in multiple select
 	width: fit-content;
