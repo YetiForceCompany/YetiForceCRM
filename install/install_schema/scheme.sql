@@ -663,7 +663,7 @@ CREATE TABLE `l_yf_settings_tracker_basic` (
   `module_name` varchar(50) NOT NULL,
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `l_yf_settings_tracker_detail` */
 
@@ -1423,7 +1423,7 @@ CREATE TABLE `u_yf_browsinghistory` (
   `url` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `browsinghistory_user_idx` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_cfixedassets` */
 

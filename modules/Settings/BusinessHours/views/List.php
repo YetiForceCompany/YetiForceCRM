@@ -15,7 +15,7 @@ class Settings_BusinessHours_List_View extends Settings_Vtiger_List_View
 	 */
 	public function getBreadcrumbTitle(App\Request $request)
 	{
-		return \App\Language::translate('LBL_BUSINESS_HOURS', $request->getModule());
+		return \App\Language::translate('LBL_INFORMATION', $request->getModule());
 	}
 
 	/**
