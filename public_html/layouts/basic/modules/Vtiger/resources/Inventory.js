@@ -1837,6 +1837,7 @@ $.Class(
 						this.setDiscountMode(first.discountmode);
 						this.setTaxMode(first.taxmode);
 						this.currencyChangeActions = oldCurrencyChangeAction;
+						this.clearInventory();
 						$.each(response.result, (index, row) => {
 							if (activeModules.indexOf(row.moduleName) !== -1) {
 								this.addItem(row.moduleName, row.basetableid, row);
@@ -1863,6 +1864,14 @@ $.Class(
 							fail(error, err);
 						}
 					});
+			});
+		},
+		/**
+		 * Clear inventory data
+		 */
+		clearInventory: function (){
+			this.getInventoryItemsContainer().find('.inventoryRow').each(function () {
+				$(this).remove();
 			});
 		},
 		/**
