@@ -101,9 +101,10 @@
 						</div>
 						<div class="c-panel__body c-panel__body--edit blockContent js-block-content {if $IS_HIDDEN}d-none{/if}"
 							 data-js="display">
+							{assign var=PROVIDER value=\App\Map\Address::getActiveProviders()}
 							{if in_array($BLOCK_LABEL, $ADDRESS_BLOCK_LABELS)}
-								<div class="{if !$SEARCH_ADDRESS} {/if} adressAction row py-2 justify-content-center">
-									{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE)}
+								<div class="{if $SEARCH_ADDRESS && $PROVIDER && ($WIDTHTYPE eq 'narrow')} pb-1 {else} pb-2 {/if} pt-2 adressAction row justify-content-center">
+									{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE) PROVIDER=$PROVIDER}
 								</div>
 							{/if}
 							<div class="row">
