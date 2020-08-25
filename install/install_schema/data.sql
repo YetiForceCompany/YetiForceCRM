@@ -19768,8 +19768,6 @@ insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('popup','lim
 
 /*Data for the table `yetiforce_proc_tc` */
 
-insert  into `yetiforce_proc_tc`(`type`,`param`,`value`) values ('general','oneDay','false');
-insert  into `yetiforce_proc_tc`(`type`,`param`,`value`) values ('general','timeOverlap','false');
 insert  into `yetiforce_proc_tc`(`type`,`param`,`value`) values ('timeControlWidget','holidays','true');
 insert  into `yetiforce_proc_tc`(`type`,`param`,`value`) values ('timeControlWidget','workingDays','true');
 insert  into `yetiforce_proc_tc`(`type`,`param`,`value`) values ('timeControlWidget','workingTime','true');
