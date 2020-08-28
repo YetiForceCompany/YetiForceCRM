@@ -111,20 +111,14 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		$linkextend = $this->get('linkextend');
 		if (!empty($subprocess) && \App\Record::isExists($subprocess)) {
 			$relatedId = $subprocess;
+		} elseif (!empty($process) && \App\Record::isExists($process)) {
+			$relatedId = $process;
+		} elseif (!empty($link) && \App\Record::isExists($link)) {
+			$relatedId = $link;
+		} elseif (!empty($linkextend) && \App\Record::isExists($linkextend)) {
+			$relatedId = $linkextend;
 		} else {
-			if (!empty($process) && \App\Record::isExists($process)) {
-				$relatedId = $process;
-			} else {
-				if (!empty($link) && \App\Record::isExists($link)) {
-					$relatedId = $link;
-				} else {
-					if (!empty($linkextend) && \App\Record::isExists($linkextend)) {
-						$relatedId = $linkextend;
-					} else {
-						return false;
-					}
-				}
-			}
+			return false;
 		}
 		$relatedModule = \vtlib\Functions::getCRMRecordMetadata($relatedId);
 		$relatedModule = $relatedModule['setype'];
