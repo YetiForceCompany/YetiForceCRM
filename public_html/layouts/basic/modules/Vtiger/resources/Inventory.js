@@ -192,15 +192,16 @@ $.Class(
 				.find('.js-default-tax')
 				.data('tax-default-value');
 			let isGroupTax = thisInstance.isGroupTaxMode();
+			let summaryContainer = $('#blackIthemTable');
 			if (isGroupTax) {
-				if (app.getRecordId()) {
-					taxDefaultValue = thisInstance.getTaxPercent($('#blackIthemTable'));
+				if (thisInstance.getTaxParams(summaryContainer) !== false) {
+					taxDefaultValue = thisInstance.getTaxPercent(summaryContainer);
 				}
 				if (taxDefaultValue) {
 					let taxParam = { aggregationType: 'global' };
 					taxParam['globalTax'] = taxDefaultValue;
 					taxParam['individualTax'] = '';
-					thisInstance.setTaxParam($('#blackIthemTable'), taxParam);
+					thisInstance.setTaxParam(summaryContainer, taxParam);
 					thisInstance.setTaxParam(parentRow, taxParam);
 					parentRow.closest('.inventoryItems').data('taxParam', JSON.stringify(taxParam));
 					parentRow.find(thisInstance.rowClass).each(function () {
@@ -208,7 +209,7 @@ $.Class(
 					});
 				}
 			} else {
-				thisInstance.setTaxParam($('#blackIthemTable'), []);
+				thisInstance.setTaxParam(summaryContainer, []);
 				parentRow.closest('.inventoryItems').data('taxParam', '[]');
 			}
 		},
@@ -1869,10 +1870,12 @@ $.Class(
 		/**
 		 * Clear inventory data
 		 */
-		clearInventory: function (){
-			this.getInventoryItemsContainer().find('.inventoryRow').each(function () {
-				$(this).remove();
-			});
+		clearInventory: function () {
+			this.getInventoryItemsContainer()
+				.find('.inventoryRow')
+				.each(function () {
+					$(this).remove();
+				});
 		},
 		/**
 		 * Function which will register all the events
