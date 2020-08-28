@@ -120,9 +120,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		} else {
 			return false;
 		}
-		$relatedModule = \vtlib\Functions::getCRMRecordMetadata($relatedId);
-		$relatedModule = $relatedModule['setype'];
-		return ['id' => $relatedId, 'module' => $relatedModule];
+		return ['id' => $relatedId, 'module' => \vtlib\Functions::getCRMRecordMetadata($relatedId)['setype']];
 	}
 
 	/**
