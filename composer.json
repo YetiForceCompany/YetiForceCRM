@@ -56,7 +56,7 @@
     "ext-bcmath": "*",
     "ext-filter": "*",
     "ext-zlib": "*",
-    "composer/ca-bundle": "^1.1",
+    "composer/ca-bundle": "^1.2",
     "sabre/dav": "3.2.3",
     "rmccue/requests": "v1.7.0",
     "smarty/smarty": "^v3.1.33",
