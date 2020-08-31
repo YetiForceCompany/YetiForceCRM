@@ -205,14 +205,11 @@ class InterestsConflict extends \App\Controller\Action
 	 */
 	public function getConfirmResponse(\App\Request $request): array
 	{
-		$query = $this->getConfirmQuery($request);
 		$queries = [
-			'base' => $query
+			'base' => $this->getConfirmQuery($request, 'u')
 		];
 		if ($request->getBoolean('showHistory')) {
-			$queryHistory = clone $query;
-			$queryHistory->from('b_#__interests_conflict_conf');
-			$queries['log'] = $queryHistory;
+			$queries['log'] = $this->getConfirmQuery($request, 'b');
 		}
 		$queries = array_reverse($queries);
 		$rows = [];
@@ -270,16 +267,18 @@ class InterestsConflict extends \App\Controller\Action
 	 * Get query.
 	 *
 	 * @param App\Request $request
+	 * @param string      $type
 	 *
 	 * @return App\Db\Query
 	 */
-	public function getConfirmQuery(\App\Request $request): \App\Db\Query
+	public function getConfirmQuery(\App\Request $request, string $type): \App\Db\Query
 	{
+		$table = 'u' === $type ? 'u_#__interests_conflict_conf' : 'b_#__interests_conflict_conf';
 		$columns = [];
 		foreach ($request->getArray('columns') as $key => $value) {
 			$columns[$key] = $value['data'];
 		}
-		$query = (new \App\Db\Query())->from('u_#__interests_conflict_conf');
+		$query = (new \App\Db\Query())->from($table);
 		$query->limit($request->getInteger('length'));
 		$query->offset($request->getInteger('start'));
 		$order = current($request->getArray('order', 'Alnum'));
@@ -296,7 +295,7 @@ class InterestsConflict extends \App\Controller\Action
 			$query->andWhere(['status' => $status]);
 		}
 		if (!$request->isEmpty('related') && ($related = $request->getByType('related', 'Text'))) {
-			$query->leftJoin('u_#__crmentity_label', 'u_#__interests_conflict_conf.related_id = u_#__crmentity_label.crmid');
+			$query->leftJoin('u_#__crmentity_label', $table . '.related_id = u_#__crmentity_label.crmid');
 			$query->andWhere(['or', ['like', 'related_label', "{$related}%", false], ['like', 'u_#__crmentity_label.label', "{$related}%", false]]);
 		}
 		return $query;
