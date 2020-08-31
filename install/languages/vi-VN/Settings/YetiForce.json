@@ -54,7 +54,7 @@
 		"LBL_SUBDOMAIN": "Tên miền phụ",
 		"LBL_PERIOD_OF_MONTH": "M",
 		"LBL_SUCCESSFUL_TRANSACTION": "Cảm ơn bạn vì đã thanh toán. Giao dịch đang được xử lý, chức năng được mua sẽ được thêm vào hệ thống khi chúng tôi nhận được thanh toán.",
-		"LBL_FAILED_TRANSACTION": "Giao dịch thất bại hoặc đã bị hủy bỏ, vui lòng kiểm tra thanh toán trên tài khoản PayPal của bạn và thử lại một lần nữa.",
+		"LBL_FAILED_TRANSACTION": "Giao dịch thất bại hoặc đã bị hủy, vui lòng kiểm tra thanh toán trên tài khoản PayPal của bạn và thử lại một lần nữa.",
 		"LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED": "Quy mô công ty đã thay đổi, gói mua là quá nhỏ cho quy mô hiện tại. Cập nhật đăng ký của bạn.",
 		"LBL_PRODUCT_PREVIEW": "Xem thử sản phẩm",
 		"LBL_SUPPORT_US": "Ủng hộ chúng tôi",
