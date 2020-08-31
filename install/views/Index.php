@@ -357,7 +357,6 @@ class Install_Index_View extends \App\Controller\View\Base
 		$this->viewer->assign('BREAK_INSTALL', $error);
 		$this->viewer->assign('DB_CONNECTION_INFO', $dbConnection);
 		$this->viewer->assign('INFORMATION', $_SESSION['config_file_info'] ?? []);
-		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key'] = sha1(microtime()));
 		if (!$error) {
 			$this->viewer->assign('CONF_REPORT_RESULT', \App\Utils\ConfReport::getByType(['database']));
 		}
@@ -381,18 +380,13 @@ class Install_Index_View extends \App\Controller\View\Base
 		}
 		$configFile->set('application_unique_key', '');
 		$configFile->create();
-		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key']);
 		$this->viewer->display('StepCompanyDetails.tpl');
 	}
 
 	public function step7(App\Request $request)
 	{
 		set_time_limit(0);
-		if (\App\Config::main('application_unique_key', false)) {
-			if ($_SESSION['config_file_info']['authentication_key'] !== $request->get('auth_key')) {
-				Install_Utils_Model::cleanConfiguration();
-				throw new \App\Exceptions\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
-			}
+		if (\App\Config::main('application_unique_key', false) && !empty($_SESSION['config_file_info'])) {
 			// Initialize and set up tables
 			$initSchema = new Install_InitSchema_Model();
 			try {
