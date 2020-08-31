@@ -23,6 +23,12 @@ class Vtiger_InterestsConflictModal_View extends \App\Controller\Modal
 	 * {@inheritdoc}
 	 */
 	public $showFooter = false;
+	/**
+	 * Undocumented variable.
+	 *
+	 * @var array|null
+	 */
+	public $parent;
 
 	/**
 	 * {@inheritdoc}
@@ -46,6 +52,7 @@ class Vtiger_InterestsConflictModal_View extends \App\Controller\Modal
 		if ('users' === $request->getMode() && ($request->isEmpty('record') || !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record')))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
+		$this->parent = \App\Components\InterestsConflict::getParent($request->getInteger('record'), $request->getModule());
 	}
 
 	/**
@@ -61,7 +68,7 @@ class Vtiger_InterestsConflictModal_View extends \App\Controller\Modal
 				$pageTitle = \App\Language::translate('LBL_INTERESTS_CONFLICT_UNLOCK', $moduleName);
 				break;
 			case 'confirmation':
-				$this->lockExit = true;
+				$this->lockExit = $this->parent ? true : false;
 				$pageTitle = \App\Language::translate('LBL_INTERESTS_CONFLICT_CONFIRMATION', $moduleName);
 				break;
 			case 'users':
@@ -87,9 +94,9 @@ class Vtiger_InterestsConflictModal_View extends \App\Controller\Modal
 		$record = $request->getInteger('record');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SOURCE_RECORD', $record);
-		if ($parent = \App\Components\InterestsConflict::getParent($record, $request->getModule())) {
-			$viewer->assign('BASE_RECORD', $parent['id']);
-			$viewer->assign('BASE_MODULE_NAME', $parent['moduleName']);
+		if ($this->parent) {
+			$viewer->assign('BASE_RECORD', $this->parent['id']);
+			$viewer->assign('BASE_MODULE_NAME', $this->parent['moduleName']);
 		}
 		$viewer->view('Modals/InterestsConflictConfirmation.tpl', $request->getModule());
 	}
@@ -106,9 +113,9 @@ class Vtiger_InterestsConflictModal_View extends \App\Controller\Modal
 		$record = $request->getInteger('record');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SOURCE_RECORD', $record);
-		if ($parent = \App\Components\InterestsConflict::getParent($record, $request->getModule())) {
-			$viewer->assign('BASE_RECORD', $parent['id']);
-			$viewer->assign('BASE_MODULE_NAME', $parent['moduleName']);
+		if ($this->parent) {
+			$viewer->assign('BASE_RECORD', $this->parent['id']);
+			$viewer->assign('BASE_MODULE_NAME', $this->parent['moduleName']);
 		}
 		$viewer->view('Modals/InterestsConflictUnlock.tpl', $request->getModule());
 	}
@@ -125,10 +132,10 @@ class Vtiger_InterestsConflictModal_View extends \App\Controller\Modal
 		$record = $request->getInteger('record');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SOURCE_RECORD', $record);
-		if ($parent = \App\Components\InterestsConflict::getParent($record, $request->getModule())) {
-			$viewer->assign('BASE_RECORD', $parent['id']);
-			$viewer->assign('BASE_MODULE_NAME', $parent['moduleName']);
-			$viewer->assign('USERS', \App\Components\InterestsConflict::getByRecord($parent['id']));
+		if ($this->parent) {
+			$viewer->assign('BASE_RECORD', $this->parent['id']);
+			$viewer->assign('BASE_MODULE_NAME', $this->parent['moduleName']);
+			$viewer->assign('USERS', \App\Components\InterestsConflict::getByRecord($this->parent['id']));
 		}
 		$viewer->view('Modals/InterestsConflictUsers.tpl', $request->getModule());
 	}

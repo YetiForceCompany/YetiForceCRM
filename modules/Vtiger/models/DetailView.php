@@ -82,7 +82,7 @@ class Vtiger_DetailView_Model extends \App\Base
 		$recordId = $recordModel->getId();
 		$linkModelList = [];
 		if ($recordModel->isReadOnly()) {
-			if (\Config\Components\InterestsConflict::$isActive) {
+			if (\Config\Components\InterestsConflict::$isActive && \App\Components\InterestsConflict::getParent($recordId, $moduleName)) {
 				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linkdata' => ['url' => "index.php?module={$moduleName}&view=InterestsConflictModal&mode=unlock&fromView=Detail&record={$recordId}"],
@@ -93,7 +93,7 @@ class Vtiger_DetailView_Model extends \App\Base
 			}
 		} else {
 			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-			if (\Config\Components\InterestsConflict::$isActive) {
+			if (\Config\Components\InterestsConflict::$isActive && \App\Components\InterestsConflict::getParent($recordId, $moduleName)) {
 				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linkdata' => ['url' => "index.php?module={$moduleName}&view=InterestsConflictModal&mode=confirmation&fromView=Detail&record={$recordId}"],
