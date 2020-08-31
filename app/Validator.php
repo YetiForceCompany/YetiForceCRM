@@ -287,7 +287,7 @@ class Validator
 	 */
 	public static function email(string $email): bool
 	{
-		return false !== filter_var($email, FILTER_VALIDATE_EMAIL) && $email === filter_var($email, FILTER_SANITIZE_EMAIL);
+		return false !== filter_var($email, FILTER_VALIDATE_EMAIL, FILTER_FLAG_EMAIL_UNICODE) && $email === filter_var($email, FILTER_SANITIZE_EMAIL);
 	}
 
 	/**
@@ -320,6 +320,11 @@ class Validator
 		if (false === strpos($url, '://')) {
 			return static::domain($url);
 		}
+		if (mb_strlen($url) != \strlen($url) && \function_exists('idn_to_ascii') && \defined('INTL_IDNA_VARIANT_UTS46')) {
+			$url = preg_replace_callback('/:\/\/([^\/]+)/', function ($matches) {
+				return '://' . idn_to_ascii($matches[1], IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
+			}, $url);
+		}
 		return false !== filter_var($url, FILTER_VALIDATE_URL);
 	}
 
@@ -332,6 +337,9 @@ class Validator
 	 */
 	public static function domain(string $input): bool
 	{
+		if (mb_strlen($input) != \strlen($input) && \function_exists('idn_to_ascii') && \defined('INTL_IDNA_VARIANT_UTS46')) {
+			$input = idn_to_ascii($input, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
+		}
 		return false !== filter_var($input, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME);
 	}
 
