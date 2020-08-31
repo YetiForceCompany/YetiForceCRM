@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "79c8be53d4a6657bf40d1b989883f36c",
+    "content-hash": "9de8761c55f1f39119c6cd54ee3d040f",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -466,16 +466,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.12.7.1",
+            "version": "8.12.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "fda8a51ad0769d82ce7023255e52e9c45efc1e75"
+                "reference": "674b79ae3362409d08e550cb196d982485a76225"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/fda8a51ad0769d82ce7023255e52e9c45efc1e75",
-                "reference": "fda8a51ad0769d82ce7023255e52e9c45efc1e75",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/674b79ae3362409d08e550cb196d982485a76225",
+                "reference": "674b79ae3362409d08e550cb196d982485a76225",
                 "shasum": ""
             },
             "require": {
@@ -530,7 +530,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2020-07-25T15:34:01+00:00"
+            "time": "2020-08-31T09:51:44+00:00"
         },
         {
             "name": "giggsey/locale",
