@@ -892,7 +892,7 @@ class CustomView_Record_Model extends \App\Base
 			if (0 == \count($menus)) {
 				require 'user_privileges/menu_0.php';
 			}
-			if (\array_key_exists($menuId, $filterList)) {
+			if (isset($filterList[$menuId])) {
 				$filtersMenu = explode(',', $filterList[$menuId]['filters']);
 				$filters = array_intersect($filtersMenu, $filters);
 				if (empty($filters)) {
