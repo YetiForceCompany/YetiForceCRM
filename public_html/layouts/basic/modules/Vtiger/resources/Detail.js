@@ -1358,7 +1358,10 @@ jQuery.Class(
 									} else {
 										window.location.href = 'index.php?module=' + urlObject['module'] + '&view=List';
 									}
-								} else if (postSaveRecordDetails['_isEditable'] === false) {
+								} else if (
+									postSaveRecordDetails['_isEditable'] === false ||
+									postSaveRecordDetails['_reload'] === true
+								) {
 									$.progressIndicator({
 										position: 'html',
 										blockInfo: {
@@ -2588,7 +2591,7 @@ jQuery.Class(
 						hierarchy.push($(this).val());
 					}
 				});
-				if(!hierarchy.length){
+				if (!hierarchy.length) {
 					widgetContainer.find('.js-detail-widget-content').html('');
 					return false;
 				}

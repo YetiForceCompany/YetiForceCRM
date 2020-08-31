@@ -45,6 +45,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 		$this->record->clearPrivilegesCache();
 		$result['_isEditable'] = $this->record->isEditable();
 		$result['_isViewable'] = $this->record->isViewable();
+		$result['_reload'] = \count($this->record->getPreviousValue()) > 1;
 
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
