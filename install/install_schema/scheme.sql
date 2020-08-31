@@ -247,6 +247,7 @@ CREATE TABLE `b_yf_interests_conflict_conf` (
   `user_id` smallint(5) unsigned NOT NULL,
   `related_id` int(10) unsigned NOT NULL,
   `related_label` varchar(255) NOT NULL,
+  `source_id` int(10) NOT NULL DEFAULT 0,
   `modify_user_id` smallint(5) unsigned NOT NULL DEFAULT 0,
   `modify_date_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
