@@ -39,14 +39,13 @@ class Record extends \Api\Core\BaseAction
 	public function checkPermission()
 	{
 		parent::checkPermission();
-		$moduleName = $this->controller->request->getModule();
 		if ($this->controller->request->isEmpty('record', true) || !\App\User::isExists($this->controller->request->getInteger('record'), false)) {
 			throw new \Api\Core\Exception('User doesn\'t exist', 404);
 		}
 		if (!\App\User::getCurrentUserModel()->isAdmin()) {
 			throw new \Api\Core\Exception('Access denied, access for administrators only', 403);
 		}
-		$this->recordModel = \Users_Record_Model::getInstanceById($this->controller->request->getInteger('record'), $moduleName);
+		$this->recordModel = \Users_Record_Model::getInstanceById($this->controller->request->getInteger('record'), 'Users');
 	}
 
 	/**

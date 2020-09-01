@@ -1342,6 +1342,228 @@
                     }
                 ]
             }
+        },
+        "/webservice/Users/RecordsList": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get the list of users",
+                "operationId": "Api\\Portal\\Users\\RecordsList::get",
+                "parameters": [
+                    {
+                        "name": "x-raw-data",
+                        "in": "header",
+                        "description": "Get rows limit, default: 0",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "x-row-limit",
+                        "in": "header",
+                        "description": "Get rows limit, default: 1000",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1000
+                    },
+                    {
+                        "name": "x-row-offset",
+                        "in": "header",
+                        "description": "Offset, default: 0",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 0
+                    },
+                    {
+                        "name": "x-row-order-field",
+                        "in": "header",
+                        "description": "Sets the ORDER BY part of the query record list",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "lastname"
+                    },
+                    {
+                        "name": "x-row-order",
+                        "in": "header",
+                        "description": "Sorting direction",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "ASC",
+                                "DESC"
+                            ]
+                        },
+                        "example": "DESC"
+                    },
+                    {
+                        "name": "x-fields",
+                        "in": "header",
+                        "description": "JSON array in the list of fields to be returned in response",
+                        "required": false,
+                        "example": [],
+                        "content": {
+                            "application/json": {
+                                "mediaType": "application/json",
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "x-condition",
+                        "in": "header",
+                        "description": "Conditions [Json format]",
+                        "required": false,
+                        "content": {
+                            "application/json": {
+                                "mediaType": "application/json",
+                                "schema": {
+                                    "description": "Conditions details",
+                                    "properties": {
+                                        "fieldName": {
+                                            "description": "Field name",
+                                            "type": "string",
+                                            "example": "lastname"
+                                        },
+                                        "value": {
+                                            "description": "Search value",
+                                            "type": "string",
+                                            "example": "Kowalski"
+                                        },
+                                        "operator": {
+                                            "description": "Field operator",
+                                            "type": "string",
+                                            "example": "e"
+                                        },
+                                        "group": {
+                                            "description": "Condition group if true is AND",
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "x-parent-id",
+                        "in": "header",
+                        "description": "Parent record id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 5
+                    }
+                ],
+                "requestBody": {
+                    "description": "The content of the request is empty",
+                    "required": false
+                },
+                "responses": {
+                    "200": {
+                        "description": "List of consents",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_RecordsList_ResponseBody"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users_RecordsList_ResponseBody"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Incorrect json syntax",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No sent token, Invalid token, Token has expired",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No permissions for module",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": "",
+                        "ApiKeyAuth": "",
+                        "token": ""
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -2539,6 +2761,58 @@
                             "rawData": {
                                 "description": "Raw user data",
                                 "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Users_RecordsList_ResponseBody": {
+                "title": "Users - Response action users list",
+                "description": "Module action record list response body",
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            "0",
+                            "1"
+                        ]
+                    },
+                    "result": {
+                        "description": "List of modules accessed",
+                        "properties": {
+                            "headers": {
+                                "description": "Column names",
+                                "type": "object",
+                                "additionalProperties": {}
+                            },
+                            "records": {
+                                "description": "List of modules accessed",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Column data",
+                                    "type": "object"
+                                }
+                            },
+                            "rawData": {
+                                "description": "Raw data",
+                                "type": "object",
+                                "additionalProperties": {
+                                    "description": "Column data to display, administrator access only",
+                                    "type": "object"
+                                }
+                            },
+                            "count": {
+                                "description": "Get users list method.",
+                                "type": "string",
+                                "example": 54
+                            },
+                            "isMorePages": {
+                                "description": "Get users list method.",
+                                "type": "boolean",
+                                "example": true
                             }
                         },
                         "type": "object"
