@@ -46,7 +46,7 @@
 					<div class="form-row border-right align-items-start">
 						<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel__label {if ($FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300') && empty($FIELD_PARAMS['detailsWidth'])}  col-lg-3 {elseif !empty($FIELD_PARAMS['detailsWidth'])} {$FIELD_PARAMS['detailsWidth']} {else} col-lg-6 {/if} {$WIDTHTYPE} " id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 							{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
-							<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} u-text-small-bold {if !empty($FIELD_PARAMS['detailsWidth']) && $FIELD_PARAMS['detailsWidth'] && $FIELD_PARAMS['editWidth'] eq 'col-md-12'} mr-auto pl-2 {/if}">
+							<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} u-text-small-bold {if !empty($FIELD_PARAMS['detailsWidth']) && $FIELD_PARAMS['detailsWidth'] && $FIELD_PARAMS['detailsWidth'] eq 'col-md-12'} mr-auto pl-2 {/if}">
 								{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 								{if $HELPINFO_LABEL}
 									<a href="#" class="js-help-info float-right u-cursor-pointer"
