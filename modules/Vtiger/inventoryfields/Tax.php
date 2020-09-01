@@ -120,7 +120,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 		}
 		if (isset($taxParam['aggregationType'])) {
 			foreach ($taxParam['aggregationType'] as $aggregationType) {
-				$percent = (string) $taxParam[$aggregationType . 'Tax'];
+				$percent = (string) ($taxParam[$aggregationType . 'Tax'] ?? 0);
 				if (!isset($return[$percent])) {
 					$return[$percent] = 0;
 				}

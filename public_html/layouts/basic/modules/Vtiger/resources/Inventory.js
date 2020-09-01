@@ -194,13 +194,13 @@ $.Class(
 			let isGroupTax = thisInstance.isGroupTaxMode();
 			let summaryContainer = $('#blackIthemTable');
 			if (isGroupTax) {
-				if (thisInstance.getTaxParams(summaryContainer) !== false) {
-					taxDefaultValue = thisInstance.getTaxPercent(summaryContainer);
-				}
-				if (taxDefaultValue) {
-					let taxParam = { aggregationType: 'global' };
+				let taxParam = thisInstance.getTaxParams(summaryContainer);
+				if (taxParam === false && taxDefaultValue) {
+					taxParam = { aggregationType: 'global' };
 					taxParam['globalTax'] = taxDefaultValue;
 					taxParam['individualTax'] = '';
+				}
+				if(taxParam){
 					thisInstance.setTaxParam(summaryContainer, taxParam);
 					thisInstance.setTaxParam(parentRow, taxParam);
 					parentRow.closest('.inventoryItems').data('taxParam', JSON.stringify(taxParam));
@@ -289,8 +289,12 @@ $.Class(
 			let taxParams = row.find('.taxParam').val();
 			if (taxParams == '' || taxParams == '[]' || taxParams == undefined) return 0;
 			taxParams = JSON.parse(taxParams);
-			let taxPercent = taxParams[taxParams.aggregationType + 'Tax'];
-			return taxPercent ? taxPercent : 0;
+			let taxPercent = 0;
+			let types = typeof taxParams.aggregationType === 'string' ? [taxParams.aggregationType] : taxParams.aggregationType;
+			types.forEach(function (aggregationType) {
+				taxPercent += taxParams[aggregationType + 'Tax'] || 0;
+			});
+			return taxPercent;
 		},
 		getTaxParams: function (row) {
 			let taxParams = row.find('.taxParam').val();
