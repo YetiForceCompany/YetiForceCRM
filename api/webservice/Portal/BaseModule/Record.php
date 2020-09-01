@@ -191,7 +191,7 @@ class Record extends \Api\Core\BaseAction
 	 *					description="Value summary inventory data",
 	 * 					type="object",
 	 *				),
-	 *			@OA\Property(property="rawData", description="Tax selected in inventory", type="object"),
+	 *			@OA\Property(property="rawData", description="Raw record data", type="object"),
 	 *			@OA\Property(property="rawInventory", description="Inventory data", type="object"),
 	 *		),
 	 * ),
@@ -222,7 +222,6 @@ class Record extends \Api\Core\BaseAction
 				$rawData[$fieldModel->getName() . '_info'] = \Vtiger_Taxes_UIType::getValues($rawData[$fieldModel->getName()]);
 			}
 		}
-
 		$response = [
 			'name' => $this->recordModel->getName(),
 			'id' => $this->recordModel->getId(),
@@ -233,7 +232,6 @@ class Record extends \Api\Core\BaseAction
 				'moveToTrash' => $this->recordModel->privilegeToDelete()
 			]
 		];
-
 		if ($this->recordModel->getModule()->isInventory()) {
 			$rawInventory = $this->recordModel->getInventoryData();
 			$inventory = $summaryInventory = [];

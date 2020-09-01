@@ -855,6 +855,60 @@ paths:
           basicAuth: ''
           ApiKeyAuth: ''
           token: ''
+  '/webservice/Users/Record/{userId}':
+    get:
+      tags:
+        - Users
+      summary: 'Get data for the user'
+      operationId: 'Api\Portal\Users\Record::get'
+      parameters:
+        -
+          name: userId
+          in: path
+          description: 'User id'
+          required: true
+          schema:
+            type: integer
+          example: 116
+        -
+          name: X-ENCRYPTED
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/X-ENCRYPTED'
+        -
+          name: x-raw-data
+          in: header
+          description: 'Gets raw data'
+          required: false
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+          example: 1
+      requestBody:
+        description: 'The content of the request is empty.'
+        required: false
+      responses:
+        '200':
+          description: 'Gets data for the user'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users_Get_Record_Response'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Users_Get_Record_Response'
+        '403':
+          description: 'Access denied, access for administrators only'
+        '404':
+          description: 'User doesn''t exist'
+      security:
+        -
+          basicAuth: ''
+          ApiKeyAuth: ''
+          token: ''
 components:
   schemas:
     BaseAction_Files_Request:
@@ -1069,7 +1123,7 @@ components:
               description: 'Value summary inventory data'
               type: object
             rawData:
-              description: 'Tax selected in inventory'
+              description: 'Raw record data'
               type: object
             rawInventory:
               description: 'Inventory data'
@@ -1448,6 +1502,50 @@ components:
         result:
           description: 'Content of responses from a given method'
           type: boolean
+      type: object
+    Users_Get_Record_Response:
+      title: 'Users - Response body for user'
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          enum:
+            - 0
+            - 1
+          example: 1
+        result:
+          description: 'User data'
+          properties:
+            name:
+              description: 'User label'
+              type: string
+              example: 'System Admin'
+            id:
+              description: 'User Id'
+              type: integer
+              example: 1
+            fields:
+              description: 'Field name items'
+              type: object
+            data:
+              description: 'User data'
+              type: object
+            privileges:
+              description: 'Parameters determining checking of editing rights and moving to the trash'
+              properties:
+                isEditable:
+                  description: 'Check if user is editable'
+                  type: boolean
+                  example: true
+                moveToTrash:
+                  description: 'Permission to delete'
+                  type: boolean
+                  example: false
+              type: object
+            rawData:
+              description: 'Raw user data'
+              type: object
+          type: object
       type: object
   securitySchemes:
     basicAuth:
