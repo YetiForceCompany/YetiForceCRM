@@ -26,6 +26,7 @@
 			{assign var=COUNTER value=0}
 			<div class="form-row border-bottom u-border-bottom-0-sm">
 				{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELD_MODEL_LIST}
+					{assign var=FIELD_PARAMS value=$FIELD_MODEL->getFieldParams()}
 				{if !$FIELD_MODEL->isViewableInDetailView()}
 					{continue}
 				{/if}
@@ -42,10 +43,10 @@
 				{assign var=COUNTER value=$COUNTER+1}
 				{/if}
 				<div class="col-sm">
-					<div class="form-row border-right h-100 align-items-start">
-						<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel__label {if $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'}  col-lg-3  {else} col-lg-6 {/if} {$WIDTHTYPE} text-right" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
+					<div class="form-row border-right align-items-start">
+						<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel__label {if ($FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300') && empty($FIELD_PARAMS['detailsWidth'])}  col-lg-3 {elseif !empty($FIELD_PARAMS['detailsWidth'])} {$FIELD_PARAMS['detailsWidth']} {else} col-lg-6 {/if} {$WIDTHTYPE} " id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 							{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
-							<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} u-text-small-bold">
+							<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} u-text-small-bold {if !empty($FIELD_PARAMS['detailsWidth']) && $FIELD_PARAMS['detailsWidth'] && $FIELD_PARAMS['editWidth'] eq 'col-md-12'} mr-auto pl-2 {/if}">
 								{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 								{if $HELPINFO_LABEL}
 									<a href="#" class="js-help-info float-right u-cursor-pointer"
@@ -58,7 +59,7 @@
 								{/if}
 							</label>
 						</div>
-						<div class="fieldValue u-border-bottom-value-sm col-12 d-flex align-items-center justify-content-between {$WIDTHTYPE} {if $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} col-lg-9 {else} col-lg-6 {/if}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} {assign var=COUNTER value=$COUNTER+1} {/if}>
+						<div class="fieldValue u-border-bottom-value-sm d-flex align-items-center justify-content-between {$WIDTHTYPE} {if ($FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300') && empty($FIELD_PARAMS['detailsWidth'])} col-lg-9 {elseif !empty($FIELD_PARAMS['detailsWidth'])} {$FIELD_PARAMS['detailsWidth']} {else} col-lg-6 {/if}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} {assign var=COUNTER value=$COUNTER+1} {/if}>
 							<span class="value flex-grow-1" data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21' or $FIELD_MODEL->getUIType() eq '300'} style="white-space:normal;" {/if}>
 								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD SOURCE_TPL='BlockView'}
 							</span>

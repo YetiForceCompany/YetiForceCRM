@@ -110,6 +110,7 @@
 							<div class="row">
 								{assign var=COUNTER value=0}
 								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
+								{assign var=FIELD_PARAMS value=$FIELD_MODEL->getFieldParams()}
 								{if ($FIELD_NAME === 'time_start' || $FIELD_NAME === 'time_end') && ($MODULE === 'OSSTimeControl' || $MODULE === 'Reservations')}{continue}{/if}
 								{if $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '300'}
 								{if $COUNTER eq '1'}
@@ -128,13 +129,10 @@
 								{if isset($RECORD_STRUCTURE_RIGHT)}
 								<div class="col-sm-12 fieldRow row form-group align-items-center my-1">
 									{else}
-									<div class="{if $FIELD_MODEL->get('label') eq "FL_REAPEAT"} col-sm-3
-								{elseif $FIELD_MODEL->get('label') eq "FL_RECURRENCE"} col-sm-9
-								{elseif $FIELD_MODEL->getUIType() neq "300"}col-sm-6
-								{else} col-md-12 m-auto{/if} fieldRow row form-group align-items-center my-1">
+									<div class="{if $FIELD_MODEL->getUIType() eq "300"} col-md-12 m-auto {elseif !empty($FIELD_PARAMS['editWidth'])} {$FIELD_PARAMS['editWidth']} {else} col-sm-6 {/if} fieldRow row form-group align-items-center my-1">
 										{/if}
 											{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
-										<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">
+										<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} my-0 {if !empty($FIELD_PARAMS['editWidth']) && $FIELD_PARAMS['editWidth'] eq 'col-md-12'} {$FIELD_PARAMS['editWidth']} mr-auto pl-2 {else} col-lg-12 col-xl-3 text-lg-left text-xl-right {/if}  fieldLabel u-text-small-bold">
 											{if $FIELD_MODEL->isMandatory() eq true}
 												<span class="redColor">*</span>
 											{/if}
@@ -149,7 +147,8 @@
 											{/if}
 											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE_NAME)}
 										</label>
-										<div class="{$WIDTHTYPE} {$WIDTHTYPE_GROUP} w-100 {if $FIELD_MODEL->getUIType() neq "300"} col-lg-12 col-xl-9 {/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
+										<div class="{$WIDTHTYPE} {$WIDTHTYPE_GROUP} w-100 fieldValue {if !empty($FIELD_PARAMS['editWidth'])}
+													{$FIELD_PARAMS['editWidth']} {elseif $FIELD_MODEL->getUIType() neq "300" && empty($FIELD_PARAMS['editWidth'])} col-lg-12 col-xl-9 {/if}" {if $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
 											{if $FIELD_MODEL->getUIType() eq "300"}
 												<label class="u-text-small-bold">{if $FIELD_MODEL->isMandatory() eq true}
 														<span class="redColor">*</span>
