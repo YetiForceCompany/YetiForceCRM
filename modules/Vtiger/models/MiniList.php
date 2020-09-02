@@ -54,11 +54,20 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		return $this->extraData['module'];
 	}
 
-	public function getTargetFields()
+	public function getTargetFields($extraField = false)
 	{
 		$fields = $this->extraData['fields'];
+		$moduleName = $this->getTargetModule();
 		if (!\in_array('id', $fields)) {
 			$fields[] = 'id';
+		}
+		if ('Calendar' === $moduleName && $extraField) {
+			$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+			if (\in_array('date_start', $fields) && ($fieldModel = \Vtiger_Field_Model::getInstance('time_start', $moduleModel)) && $fieldModel->isActiveField() && $fieldModel->isViewable()) {
+				$fields[] = 'time_start';
+			} elseif (\in_array('due_end', $fields) && ($fieldModel = \Vtiger_Field_Model::getInstance('time_end', $moduleModel)) && $fieldModel->isActiveField() && $fieldModel->isViewable()) {
+				$fields[] = 'time_end';
+			}
 		}
 		return $fields;
 	}
@@ -76,7 +85,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		if (!$this->queryGenerator) {
 			$this->queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 			$this->queryGenerator->initForCustomViewById($this->widgetModel->get('filterid'));
-			$this->queryGenerator->setFields($this->getTargetFields());
+			$this->queryGenerator->setFields($this->getTargetFields(true));
 			$this->listviewHeaders = $this->listviewRecords = null;
 		}
 	}
@@ -102,8 +111,10 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		$this->initListViewController();
 		if (!$this->listviewHeaders) {
 			$headerFieldModels = [];
-			foreach ($this->queryGenerator->getListViewFields() as $fieldName => &$fieldsModel) {
-				$headerFieldModels[$fieldName] = $fieldsModel;
+			foreach ($this->getTargetFields() as $fieldName) {
+				if ('id' !== $fieldName) {
+					$headerFieldModels[$fieldName] = \Vtiger_Field_Model::getInstance($fieldName, \Vtiger_Module_Model::getInstance($this->getTargetModule()));
+				}
 			}
 			$this->listviewHeaders = $headerFieldModels;
 		}
