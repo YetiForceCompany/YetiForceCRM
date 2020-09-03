@@ -10,7 +10,7 @@ jQuery.Class(
 		 */
 		registerButtons: function (container) {
 			container.find('.js-test-speed').on('click', function () {
-				var progress = jQuery.progressIndicator({
+				let progress = jQuery.progressIndicator({
 					message: app.vtranslate('JS_SPEED_TEST_START'),
 					position: 'html',
 					blockInfo: {
@@ -44,6 +44,34 @@ jQuery.Class(
 						});
 					}
 				});
+			});
+			container.find('.js-db-info').on('click', function () {
+				let progress = jQuery.progressIndicator({
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				});
+				AppConnector.request({
+					parent: 'Settings',
+					module: 'ConfReport',
+					view: 'DbInfo'
+				})
+					.done(function (response) {
+						app.showModalWindow(response, '', (modalContainer) => {
+							app.registerDataTables(modalContainer.find('.js-db-info-table'), {
+								searching: true,
+								lengthMenu: [
+									[10, 25, 50, 100, -1],
+									[10, 25, 50, 100, app.vtranslate('JS_ALL')]
+								]
+							});
+						});
+						progress.progressIndicator({ mode: 'hide' });
+					})
+					.fail(function (data, err) {
+						progress.progressIndicator({ mode: 'hide' });
+					});
 			});
 		},
 		/**

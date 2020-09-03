@@ -31,13 +31,16 @@
 				<div class="my-auto o-header-toggle__actions js-header-toggle__actions d-flex float-right flex-column flex-md-row ml-md-auto pb-md-2 pb-lg-0"
 					 id="o-view-actions__container">
 					<button class="btn btn-secondary mr-md-2 u-white-space-md-nowrap mt-1 mt-md-0 js-download-html" data-html=".contentsDiv" data-file-name="ConfReport" data-js="click">
-						<span class="fas fa-download mr-1"></span>{\App\Language::translate('LBL_DOWNLOAD_CONFIG', $MODULE_NAME)}
+						<span class="fas fa-download mr-2"></span>{\App\Language::translate('LBL_DOWNLOAD_CONFIG', $MODULE_NAME)}
 					</button>
 					<button class="btn btn-info js-check-php mr-md-2 u-white-space-md-nowrap mt-1 mt-md-0" data-js="click">
-						<span class="fab fa-php mr-1"></span>{\App\Language::translate('BTN_CHECK_LATEST_VERSION',$QUALIFIED_MODULE)}
+						<span class="fab fa-php mr-2"></span>{\App\Language::translate('BTN_CHECK_LATEST_VERSION',$QUALIFIED_MODULE)}
 					</button>
 					<button class="btn btn-primary js-test-speed mr-md-2 u-white-space-md-nowrap mt-1 mt-md-0" data-js="click">
-						<span class="fas fa-stopwatch mr-1"></span>{\App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}
+						<span class="fas fa-stopwatch mr-2"></span>{\App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}
+					</button>
+					<button class="btn btn-info js-db-info mr-md-2 u-white-space-md-nowrap mt-1 mt-md-0" data-js="click">
+						<span class="fas fa-database mr-2"></span>{\App\Language::translate('BTN_DB_INFO',$QUALIFIED_MODULE)}
 					</button>
 				</div>
 			</div>
