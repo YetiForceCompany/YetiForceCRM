@@ -219,7 +219,7 @@ class ConfReport
 		'transaction_isolation' => ['container' => 'db', 'testCli' => false],
 		'ft_min_word_len' => ['container' => 'db', 'testCli' => false],
 		'innodb_ft_min_token_size' => ['container' => 'db', 'testCli' => false],
-		'innodb_default_row_format' => ['container' => 'db', 'testCli' => false],
+		'innodb_default_row_format' => ['recommended' => 'dynamic', 'type' => 'Equal', 'container' => 'db', 'testCli' => false],
 		'innodb_strict_mode' => ['container' => 'db', 'testCli' => false],
 		'innodb_file_format' => ['container' => 'db', 'testCli' => false],
 		'innodb_file_format_check' => ['container' => 'db', 'testCli' => false],

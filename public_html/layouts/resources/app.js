@@ -1061,6 +1061,7 @@ var app = (window.app = {
 		};
 		const modalContainer = container.find('.modal:first');
 		modalContainer.one('shown.bs.modal', function () {
+			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 			cb(modalContainer);
 			App.Fields.Picklist.changeSelectElementView(modalContainer);
 			App.Fields.Date.register(modalContainer);
@@ -1073,7 +1074,6 @@ var app = (window.app = {
 		$('body').append(container);
 		modalContainer.modal(params);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
-		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 	},
 	showModalWindow: function (data, url, cb, paramsObject = {}) {
 		if (!app.isCurrentWindowTarget('app.showModalWindow', arguments)) {
