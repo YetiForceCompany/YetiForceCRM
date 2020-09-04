@@ -24,9 +24,9 @@
 					{foreach from=$DB_INFO['tables'] key=TABLE item=ITEM}
 						<tr>
 							<td>{$TABLE}</td>
-							<td>{App\Fields\Integer::formatToDisplay($ITEM['rows'])}</td>
-							<td>{\vtlib\Functions::showBytes($ITEM['dataSize'])}</td>
-							<td>{\vtlib\Functions::showBytes($ITEM['indexSize'])}</td>
+							<td data-order="{$ITEM['rows']}">{App\Fields\Integer::formatToDisplay($ITEM['rows'])}</td>
+							<td data-order="{$ITEM['dataSize']}">{\vtlib\Functions::showBytes($ITEM['dataSize'])}</td>
+							<td data-order="{$ITEM['indexSize']}">{\vtlib\Functions::showBytes($ITEM['indexSize'])}</td>
 							<td>{$ITEM['format']}</td>
 							<td>{$ITEM['engine']}</td>
 							<td>{$ITEM['collation']}</td>
