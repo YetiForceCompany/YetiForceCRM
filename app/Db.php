@@ -214,9 +214,11 @@ class Db extends \yii\db\Connection
 		while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
 			$tableName = str_replace($this->dbName . '/', '', $row['NAME']);
 			if (!empty($row['ALLOCATED_SIZE'])) {
-				$return['tables'][$tableName]['fileSize'] = $row['ALLOCATED_SIZE'];
+				if (isset($return['tables'][$tableName])) {
+					$return['tables'][$tableName]['fileSize'] = $row['ALLOCATED_SIZE'];
+					$return['isFileSize'] = true;
+				}
 				$return['filesSize'] += $row['ALLOCATED_SIZE'];
-				$return['isFileSize'] = true;
 			}
 		}
 		return $return;
