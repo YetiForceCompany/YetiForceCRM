@@ -187,9 +187,11 @@ class Db extends \yii\db\Connection
 	public function getDbInfo(): array
 	{
 		$return = [
+			'isFileSize' => false,
 			'size' => 0,
 			'dataSize' => 0,
 			'indexSize' => 0,
+			'filesSize' => 0,
 			'tables' => [],
 		];
 		$statement = $this->getSlavePdo()->prepare("SHOW TABLE STATUS FROM `{$this->dbName}`");
@@ -206,6 +208,16 @@ class Db extends \yii\db\Connection
 			$return['dataSize'] += $row['Data_length'];
 			$return['indexSize'] += $row['Index_length'];
 			$return['size'] += $row['Data_length'] += $row['Index_length'];
+		}
+		$statement = $this->getSlavePdo()->prepare("SELECT * FROM `information_schema`.`INNODB_SYS_TABLESPACES` WHERE `NAME` LIKE '{$this->dbName}/%'");
+		$statement->execute();
+		while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
+			$tableName = str_replace($this->dbName . '/', '', $row['NAME']);
+			if (!empty($row['ALLOCATED_SIZE'])) {
+				$return['tables'][$tableName]['fileSize'] = $row['ALLOCATED_SIZE'];
+				$return['filesSize'] += $row['ALLOCATED_SIZE'];
+				$return['isFileSize'] = true;
+			}
 		}
 		return $return;
 	}

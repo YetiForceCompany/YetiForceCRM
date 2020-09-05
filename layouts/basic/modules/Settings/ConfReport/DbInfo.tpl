@@ -6,6 +6,9 @@
 			<span class="mr-4">{\App\Language::translate('LBL_DB_SIZE')}: {\vtlib\Functions::showBytes($DB_INFO['size'])}</span>
 			<span class="mr-4">{\App\Language::translate('LBL_DATA_SIZE')}: {\vtlib\Functions::showBytes($DB_INFO['dataSize'])}</span>
 			<span class="mr-4">{\App\Language::translate('LBL_INDEX_SIZE')}: {\vtlib\Functions::showBytes($DB_INFO['indexSize'])}</span>
+			{if $DB_INFO['isFileSize']}
+				<span class="mr-4">{\App\Language::translate('LBL_FILE_SIZE')}: {\vtlib\Functions::showBytes($DB_INFO['filesSize'])}</span>
+			{/if}
 		</h3>
 		<div class="mt-3">
 			<table id="db-info-table" class="table table-sm table-striped display js-db-info-table" data-js="dataTables">
@@ -15,6 +18,9 @@
 						<th>{\App\Language::translate('LBL_ROWS')}</th>
 						<th>{\App\Language::translate('LBL_DATA_SIZE')}</th>
 						<th>{\App\Language::translate('LBL_INDEX_SIZE')}</th>
+						{if $DB_INFO['isFileSize']}
+							<th>{\App\Language::translate('LBL_FILE_SIZE')}</th>
+						{/if}
 						<th>{\App\Language::translate('LBL_FORMAT')}</th>
 						<th>{\App\Language::translate('LBL_ENGINE')}</th>
 						<th>{\App\Language::translate('LBL_COLLATION')}</th>
@@ -27,6 +33,9 @@
 							<td data-order="{$ITEM['rows']}">{App\Fields\Integer::formatToDisplay($ITEM['rows'])}</td>
 							<td data-order="{$ITEM['dataSize']}">{\vtlib\Functions::showBytes($ITEM['dataSize'])}</td>
 							<td data-order="{$ITEM['indexSize']}">{\vtlib\Functions::showBytes($ITEM['indexSize'])}</td>
+							{if $DB_INFO['isFileSize']}
+								<td data-order="{$ITEM['fileSize']}">{\vtlib\Functions::showBytes($ITEM['fileSize'])}</td>
+							{/if}
 							<td>{$ITEM['format']}</td>
 							<td>{$ITEM['engine']}</td>
 							<td>{$ITEM['collation']}</td>
