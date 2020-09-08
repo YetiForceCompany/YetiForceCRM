@@ -57,6 +57,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			if (preg_match('/define\(.RCMAIL_VERSION.,\s*.([0-9.]+[a-z-]*)?/', $iniset, $matches)) {
 				$rcubeVersion = str_replace('-git', '.999', $matches[1]);
 				\define('RCMAIL_VERSION', $rcubeVersion);
+				\define('RCUBE_VERSION', $rcubeVersion);
 			} else {
 				throw new \App\Exceptions\AppException('Unable to find a Roundcube version');
 			}

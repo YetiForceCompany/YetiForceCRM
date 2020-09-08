@@ -228,7 +228,7 @@ return [
 	],
 	'show_images' => [
 		'default' => 0,
-		'description' => 'Turn on/off show images. Value: 0/1',
+		'description' => 'Display remote resources (inline images, styles). Value: 0 - Never, always ask, 1 - Ask if sender is not in address book, 2 - Always allow',
 	],
 	'imap_cache' => [
 		'default' => 'db',
@@ -270,7 +270,7 @@ return [
 		'default' => 'return \Config\Debug::$ROUNDCUBE_LOG_LOGINS;',
 		'description' => 'Logins successful/failed',
 	],
-	'log_session' => [
+	'session_debug' => [
 		'type' => 'function',
 		'default' => 'return \Config\Debug::$ROUNDCUBE_LOG_SESSION;',
 		'description' => 'Session authentication debug',

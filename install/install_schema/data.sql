@@ -298,6 +298,8 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 
 /*Data for the table `roundcube_dictionary` */
 
+/*Data for the table `roundcube_filestore` */
+
 /*Data for the table `roundcube_identities` */
 
 /*Data for the table `roundcube_searches` */

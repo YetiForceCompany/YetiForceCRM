@@ -155,9 +155,8 @@
 		</div>
 		{if $RELATED_RECORDS}
 			<div class="chevronBtnCube">
-				<button class="hideBtn" data-type="0"
-						title="{\App\Language::translate('LBL_MINIMIZE_BAR',$MODULE_NAME)}">
-					<span class="fas fa-chevron-up"></span>
+				<button class="hideBtn" data-type="0" title="{\App\Language::translate('LBL_MINIMIZE_BAR',$MODULE_NAME)}">
+					<span class="fas fa-chevron-circle-up"></span>
 				</button>
 			</div>
 		{/if}

@@ -816,7 +816,7 @@ CREATE TABLE `o_yf_csrf` (
 
 CREATE TABLE `roundcube_cache` (
   `user_id` int(10) unsigned NOT NULL,
-  `cache_key` varchar(128) CHARACTER SET ascii NOT NULL,
+  `cache_key` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
   `expires` datetime DEFAULT NULL,
   `data` longtext NOT NULL,
@@ -855,7 +855,7 @@ CREATE TABLE `roundcube_cache_messages` (
 /*Table structure for table `roundcube_cache_shared` */
 
 CREATE TABLE `roundcube_cache_shared` (
-  `cache_key` varchar(255) CHARACTER SET ascii NOT NULL,
+  `cache_key` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
   `expires` datetime DEFAULT NULL,
   `data` longtext NOT NULL,
@@ -926,6 +926,20 @@ CREATE TABLE `roundcube_dictionary` (
   `data` longtext NOT NULL,
   UNIQUE KEY `uniqueness` (`user_id`,`language`),
   CONSTRAINT `roundcube_user_id_fk_dictionary` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `roundcube_filestore` */
+
+CREATE TABLE `roundcube_filestore` (
+  `file_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `context` varchar(32) NOT NULL,
+  `filename` varchar(128) NOT NULL,
+  `mtime` int(10) NOT NULL,
+  `data` longtext NOT NULL,
+  PRIMARY KEY (`file_id`),
+  UNIQUE KEY `uniqueness` (`user_id`,`context`,`filename`),
+  CONSTRAINT `user_id_fk_filestore` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `roundcube_identities` */
