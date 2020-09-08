@@ -402,7 +402,7 @@ class Calendar
 			$dueDate = date('Y-m-d', $endTime);
 			$timeEnd = date('H:i:s', $endTime);
 		}
-		if (!$startHasTime && !$endHasTime) {
+		if (!$startHasTime && !$endHasTime && \App\User::getCurrentUserId()) {
 			$allDay = 1;
 			$currentUser = \App\User::getCurrentUserModel();
 			$timeStart = $currentUser->getDetail('start_hour') . ':00';

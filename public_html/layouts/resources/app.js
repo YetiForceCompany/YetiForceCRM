@@ -2057,7 +2057,7 @@ var app = (window.app = {
 			audio.play();
 		}
 	},
-	registerIframeAndMoreContent() {
+	registerIframeAndMoreContent(container = $(document)) {
 		let showMoreModal = (e) => {
 			e.preventDefault();
 			e.stopPropagation();
@@ -2078,8 +2078,7 @@ var app = (window.app = {
 				}
 			});
 		};
-		$('.js-more').on('click', showMoreModal);
-		$(document).on('click', '.js-more', showMoreModal);
+		container.on('click', '.js-more', showMoreModal);
 	},
 	registerIframeEvents(content) {
 		content.find('.js-iframe-full-height').each(function () {
