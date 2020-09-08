@@ -209,17 +209,20 @@ class Db extends \yii\db\Connection
 			$return['indexSize'] += $row['Index_length'];
 			$return['size'] += $row['Data_length'] += $row['Index_length'];
 		}
-		$statement = $this->getSlavePdo()->prepare("SELECT * FROM `information_schema`.`INNODB_SYS_TABLESPACES` WHERE `NAME` LIKE '{$this->dbName}/%'");
-		$statement->execute();
-		while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
-			$tableName = str_replace($this->dbName . '/', '', $row['NAME']);
-			if (!empty($row['ALLOCATED_SIZE'])) {
-				if (isset($return['tables'][$tableName])) {
-					$return['tables'][$tableName]['fileSize'] = $row['ALLOCATED_SIZE'];
-					$return['isFileSize'] = true;
+		try {
+			$statement = $this->getSlavePdo()->prepare("SELECT * FROM `information_schema`.`INNODB_SYS_TABLESPACES` WHERE `NAME` LIKE '{$this->dbName}/%'");
+			$statement->execute();
+			while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
+				$tableName = str_replace($this->dbName . '/', '', $row['NAME']);
+				if (!empty($row['ALLOCATED_SIZE'])) {
+					if (isset($return['tables'][$tableName])) {
+						$return['tables'][$tableName]['fileSize'] = $row['ALLOCATED_SIZE'];
+						$return['isFileSize'] = true;
+					}
+					$return['filesSize'] += $row['ALLOCATED_SIZE'];
 				}
-				$return['filesSize'] += $row['ALLOCATED_SIZE'];
 			}
+		} catch (\Throwable $th) {
 		}
 		return $return;
 	}
