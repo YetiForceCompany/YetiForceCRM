@@ -115,6 +115,86 @@ insert  into `a_yf_pdf`(`pdfid`,`module_name`,`header_content`,`body_content`,`f
 
 /*Data for the table `a_yf_relatedlists_widgets` */
 
+/*Data for the table `a_yf_settings_access` */
+
+/*Data for the table `a_yf_settings_modules` */
+
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (1,'AdvancedPermission',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (2,'ApiAddress',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (3,'AutomaticAssignment',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (4,'Backup',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (5,'BruteForce',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (6,'BusinessHours',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (7,'Calendar',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (8,'Colors',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (9,'Companies',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (10,'ConfReport',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (11,'Countries',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (12,'CronTasks',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (13,'Currency',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (14,'CurrencyUpdate',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (15,'CustomView',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (16,'Dav',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (17,'EventHandler',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (18,'FinancialProcesses',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (19,'GlobalPermission',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (20,'Groups',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (21,'Help',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (22,'HideBlocks',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (23,'InterestsConflict',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (24,'Inventory',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (25,'LangManagement',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (26,'LayoutEditor',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (27,'Leads',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (28,'Log',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (29,'LoginHistory',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (30,'Logs',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (31,'Magento',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (32,'Mail',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (33,'MailIntegration',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (34,'MailSmtp',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (35,'Map',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (36,'MappedFields',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (37,'MarketingProcesses',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (38,'MeetingServices',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (39,'Menu',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (40,'ModTracker',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (41,'ModuleManager',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (42,'Notifications',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (43,'OSSMail',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (44,'OSSMailScanner',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (45,'OSSMailView',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (46,'OSSPasswords',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (47,'Password',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (48,'PBX',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (49,'PDF',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (50,'Picklist',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (51,'PickListDependency',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (52,'Profiles',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (53,'PublicHoliday',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (54,'QuickCreateEditor',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (55,'RealizationProcesses',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (56,'RecordAllocation',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (57,'Reports',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (58,'Roles',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (59,'SalesProcesses',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (60,'Search',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (61,'SharingAccess',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (62,'SlaPolicy',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (63,'SMSNotifier',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (64,'SocialMedia',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (65,'SupportProcesses',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (66,'TimeControlProcesses',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (67,'TreesManager',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (68,'TwoFactorAuthentication',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (69,'Updates',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (70,'Users',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (71,'WebserviceApps',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (72,'WebserviceUsers',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (73,'Widgets',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (74,'WidgetsManagement',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (75,'Workflows',1,'2020-09-09 12:08:50');
+
 /*Data for the table `a_yf_smsnotifier_servers` */
 
 /*Data for the table `a_yf_taxes_config` */
@@ -5267,6 +5347,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`) values (4,3038,'gender','vtiger_contactdetails',1,16,'gender','FL_GENDER',0,2,'','255',31,4,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`) values (29,3039,'secondary_email','vtiger_users',2,13,'secondary_email','FL_SECONDARY_EMAIL',0,2,'','100',2,468,1,'E~O',1,0,'BAS',1,'Edit,Detail',0,'',NULL,0,0,0,0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`) values (29,3040,'default_search_operator','vtiger_users',1,16,'default_search_operator','FL_DEFAULT_SEARCH_OPERATOR',0,0,'PLL_CONTAINS','255',0,437,1,'V~M',1,0,'BAS',1,'',0,'',NULL,0,0,0,0,'');
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`) values (29,3041,'super_user','vtiger_users',1,56,'super_user','FL_SUPER_USER',0,0,'','-128,127',9,77,1,'C~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0,'');
 
 /*Data for the table `vtiger_fieldmodulerel` */
 
@@ -8911,6 +8992,7 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,4,3038,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,29,3039,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,29,3040,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,29,3041,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
@@ -19169,7 +19251,7 @@ insert  into `vtiger_user2role`(`userid`,`roleid`) values (1,'H2');
 
 /*Data for the table `vtiger_users` */
 
-insert  into `vtiger_users`(`id`,`user_name`,`first_name`,`last_name`,`email1`,`is_admin`,`status`,`deleted`,`language`,`user_password`,`internal_mailer`,`reports_to_id`,`modified_user_id`,`currency_id`,`description`,`date_entered`,`date_modified`,`date_password_change`,`force_password_change`,`holidays`,`namedays`,`workdays`,`weekstart`,`date_format`,`hour_format`,`start_hour`,`end_hour`,`view_date_format`,`activity_view`,`imagename`,`reminder_interval`,`reminder_next_time`,`theme`,`tz`,`time_zone`,`currency_grouping_pattern`,`currency_decimal_separator`,`currency_grouping_separator`,`currency_symbol_placement`,`no_of_currency_decimals`,`truncate_trailing_zeros`,`dayoftheweek`,`othereventduration`,`default_record_view`,`leftpanelhide`,`rowheight`,`defaulteventstatus`,`defaultactivitytype`,`is_owner`,`emailoptout`,`available`,`auto_assign`,`records_limit`,`phone_crm_extension`,`phone_crm_extension_extra`,`accesskey`,`confirm_password`,`cal_color`,`user_preferences`,`authy_methods`,`authy_secret_totp`,`login_method`,`sync_carddav`,`sync_caldav`,`sync_carddav_default_country`,`default_search_module`,`default_search_override`,`primary_phone`,`primary_phone_extra`,`mail_scanner_actions`,`mail_scanner_fields`,`secondary_email`,`default_search_operator`) values (1,'admin','','Administrator','help@yetiforce.com','on','Active',0,'pl-PL','$2y$10$mvy47VqQjd853TpAUr5aE.pd2fSTjBv.Z3G0g8AqyPwPNcV/YtB02',1,0,'1',1,'','2016-12-06 09:29:00','2017-10-31 21:32:46',NULL,NULL,NULL,NULL,NULL,NULL,'yyyy-mm-dd','24','08:00','23:00','PLL_ELAPSED','This Month','','15 Minutes','2017-10-31 21:32','twilight',NULL,'Europe/Sarajevo','123456789','.',' ','1.0$','2',1,'Monday','[{\"activitytype\":\"Call\",\"duration\":\"60\"},{\"activitytype\":\"Meeting\",\"duration\":\"60\"},{\"activitytype\":\"Task\",\"duration\":\"60\"}]','Summary',0,'medium','PLL_PLANNED','Meeting','1',1,1,0,NULL,'',NULL,'aOFXop10GCJ1uw0P','','#E6FAD8',NULL,NULL,NULL,'PLL_PASSWORD','PLL_OWNER','PLL_OWNER',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'','PLL_CONTAINS');
+insert  into `vtiger_users`(`id`,`user_name`,`first_name`,`last_name`,`email1`,`is_admin`,`status`,`deleted`,`language`,`user_password`,`internal_mailer`,`reports_to_id`,`modified_user_id`,`currency_id`,`description`,`date_entered`,`date_modified`,`date_password_change`,`force_password_change`,`holidays`,`namedays`,`workdays`,`weekstart`,`date_format`,`hour_format`,`start_hour`,`end_hour`,`view_date_format`,`activity_view`,`imagename`,`reminder_interval`,`reminder_next_time`,`theme`,`tz`,`time_zone`,`currency_grouping_pattern`,`currency_decimal_separator`,`currency_grouping_separator`,`currency_symbol_placement`,`no_of_currency_decimals`,`truncate_trailing_zeros`,`dayoftheweek`,`othereventduration`,`default_record_view`,`leftpanelhide`,`rowheight`,`defaulteventstatus`,`defaultactivitytype`,`is_owner`,`emailoptout`,`available`,`auto_assign`,`records_limit`,`phone_crm_extension`,`phone_crm_extension_extra`,`accesskey`,`confirm_password`,`cal_color`,`user_preferences`,`authy_methods`,`authy_secret_totp`,`login_method`,`sync_carddav`,`sync_caldav`,`sync_carddav_default_country`,`default_search_module`,`default_search_override`,`primary_phone`,`primary_phone_extra`,`mail_scanner_actions`,`mail_scanner_fields`,`secondary_email`,`default_search_operator`,`super_user`) values (1,'admin','','Administrator','help@yetiforce.com','on','Active',0,'pl-PL','$2y$10$mvy47VqQjd853TpAUr5aE.pd2fSTjBv.Z3G0g8AqyPwPNcV/YtB02',1,0,'1',1,'','2016-12-06 09:29:00','2017-10-31 21:32:46',NULL,NULL,NULL,NULL,NULL,NULL,'yyyy-mm-dd','24','08:00','23:00','PLL_ELAPSED','This Month','','15 Minutes','2017-10-31 21:32','twilight',NULL,'Europe/Sarajevo','123456789','.',' ','1.0$','2',1,'Monday','[{\"activitytype\":\"Call\",\"duration\":\"60\"},{\"activitytype\":\"Meeting\",\"duration\":\"60\"},{\"activitytype\":\"Task\",\"duration\":\"60\"}]','Summary',0,'medium','PLL_PLANNED','Meeting','1',1,1,0,NULL,'',NULL,'aOFXop10GCJ1uw0P','','#E6FAD8',NULL,NULL,NULL,'PLL_PASSWORD','PLL_OWNER','PLL_OWNER',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'','PLL_CONTAINS',1);
 
 /*Data for the table `vtiger_users2group` */
 

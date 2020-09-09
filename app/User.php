@@ -311,6 +311,16 @@ class User
 	}
 
 	/**
+	 * Function to check whether the user is an super user.
+	 *
+	 * @return bool
+	 */
+	public function isSuperUser(): bool
+	{
+		return !empty($this->privileges['details']['super_user']);
+	}
+
+	/**
 	 * Get user parameters.
 	 *
 	 * @param string $key

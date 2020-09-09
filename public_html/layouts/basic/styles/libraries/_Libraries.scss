@@ -558,3 +558,6 @@ body:not(.desktop) {
 .q-tab__icon {
 	height: unset;
 }
+.dataTables_processing{
+	z-index: 4000;
+}

@@ -208,6 +208,27 @@ CREATE TABLE `a_yf_relatedlists_widgets` (
   CONSTRAINT `a_yf_relatedlists_widgets_ibfk_1` FOREIGN KEY (`relation_id`) REFERENCES `vtiger_relatedlists` (`relation_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `a_yf_settings_access` */
+
+CREATE TABLE `a_yf_settings_access` (
+  `module_id` smallint(5) unsigned NOT NULL,
+  `user` int(10) NOT NULL,
+  `modifiedby` int(10) NOT NULL,
+  `modifiedtime` datetime NOT NULL,
+  UNIQUE KEY `a_yf_settings_access_module_id_user_idx` (`module_id`,`user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `a_yf_settings_modules` */
+
+CREATE TABLE `a_yf_settings_modules` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_time` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `a_yf_settings_modules_name_status_idx` (`name`,`status`)
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `a_yf_smsnotifier_servers` */
 
 CREATE TABLE `a_yf_smsnotifier_servers` (
@@ -6006,7 +6027,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3041 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3042 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -9197,6 +9218,7 @@ CREATE TABLE `vtiger_users` (
   `mail_scanner_fields` text DEFAULT NULL,
   `secondary_email` varchar(100) DEFAULT '',
   `default_search_operator` varchar(255) DEFAULT NULL,
+  `super_user` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),
