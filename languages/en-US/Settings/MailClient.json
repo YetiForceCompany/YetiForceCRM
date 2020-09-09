@@ -1,0 +1,33 @@
+{
+  "php": {
+    "LBL_MAIL_CLIENT": "Mail - Client",
+    "LBL_MAIL_CLIENT_DETAIL": "Configuration details",
+    "LBL_ADD_TYPE": "Add type and protocol to address",
+    "LBL_VALIDATE_CERT": "Validate certificate",
+    "LBL_IMAP_SERVER": "Name of IMAP server",
+    "LBL_IMAP_SERVER_DESC": "",
+    "LBL_PORT_CONNECT_IMAP": "Port used to connect to IMAP",
+    "LBL_PORT_CONNECT_IMAP_DESC": "",
+    "LBL_SMTP_SERVER": "Name of SMTP server",
+    "LBL_SMTP_SERVER_DESC": "",
+    "LBL_SMTP_PORT": "SMTP port (default 25; 465 for SSL; 587)",
+    "LBL_SMTP_PORT_DESC": "",
+    "LBL_LANGUAGE": "Language (RFC 1766 code): en_US, pl_PL",
+    "LBL_DOMAIN_AUTOMATICALLY": "Domain (automatically added to login)",
+    "LBL_DOMAIN_AUTOMATICALLY_DESC": "",
+    "LBL_IP_ADDRESS": "Check IP address of client while giving authorization",
+    "LBL_ENABLE_SPELL_CHECK": "Spell check module",
+    "LBL_ACCESS_IDENTITY": "Level of access to identity",
+    "LBL_LIFE_SESSION": "Lifetime of session in minutes",
+    "PLL_IDENTITY_0": "many identities with possibility of editing all parameters",
+    "PLL_IDENTITY_1": "many identities with possibility of editing all parameters, but not the email address",
+    "PLL_IDENTITY_2": "one identity with possibility of editing all parameters",
+    "PLL_IDENTITY_3": "one identity with possibility of editing all parameters, but not the email address",
+    "PLL_IDENTITY_4": "one identity with possibility of editing only signature"
+
+
+  },
+  "js": {
+
+  }
+}
