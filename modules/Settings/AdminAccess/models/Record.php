@@ -65,7 +65,7 @@ class Settings_AdminAccess_Record_Model extends Settings_Vtiger_Record_Model
 			->where($where)
 			->one(App\Db::getInstance('admin'));
 		if ($data) {
-			$data['user'] = (new \App\Db\Query())->from('a_yf_settings_access')->select(['user'])->where(['module_id' => $data['id']])->column();
+			$data['user'] = (new \App\Db\Query())->from(\App\Security\AdminAccess::ACCESS_TABLE_NAME)->select(['user'])->where(['module_id' => $data['id']])->column();
 		}
 		$instance->setData($data);
 		return $instance;

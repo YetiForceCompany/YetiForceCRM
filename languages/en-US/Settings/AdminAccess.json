@@ -9,5 +9,8 @@
     "LBL_ACTIVE": "Active",
     "LBL_EDIT_ADMIN_ACCESS": "Editing of admin accesses",
     "LBL_EDIT_ADMIN_ACCESS_ALERT": " "
+  },
+  "js": {
+    "JS_SAVE_SUCCESS": "Changes saved"
   }
 }

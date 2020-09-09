@@ -17,7 +17,6 @@ $.Class(
 			this.container.find('.js-modules-select-all, .js-modules-deselect-all').on('click', (e) => {
 				let name = e.currentTarget.dataset.name;
 				let element = this.container.find(`[name="${name}"],[name="${name}[]"]`);
-				console.log(element);
 				element
 					.find('option')
 					.prop('selected', $(e.currentTarget).hasClass('js-modules-select-all'))

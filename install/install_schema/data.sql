@@ -18510,6 +18510,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (125,4,'LBL_EVENT_HANDLER','mdi mdi-car-turbocharger','LBL_EVENT_HANDLER_DESC','index.php?parent=Settings&module=EventHandler&view=Index',13,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (126,5,'LBL_MEETING_SERVICES','mdi mdi-server-network','LBL_MEETING_SERVICES_DESCRIPTION','index.php?parent=Settings&module=MeetingServices&view=List',15,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (127,4,'LBL_CONFLICT_OF_INTEREST','fas fa-random','LBL_CONFLICT_OF_INTEREST_DESCRIPTION','index.php?parent=Settings&module=InterestsConflict&view=Index',15,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (128,1,'LBL_ADMIN_ACCESS','adminIcon-advanced-permission','LBL_ADMIN_ACCESS_DESCRIPTION','index.php?parent=Settings&module=AdminAccess&view=Index',12,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
