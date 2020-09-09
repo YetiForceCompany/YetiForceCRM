@@ -7,7 +7,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Settings_ConfReport_DbInfo_View extends \App\Controller\Modal
+class Settings_ConfReport_DbInfo_View extends \App\Controller\ModalSettings
 {
 	/**
 	 * {@inheritdoc}
@@ -21,16 +21,6 @@ class Settings_ConfReport_DbInfo_View extends \App\Controller\Modal
 	 * {@inheritdoc}
 	 */
 	public $modalIcon = 'fas fa-database';
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function checkPermission(App\Request $request)
-	{
-		if (!\App\User::getCurrentUserModel()->isAdmin()) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-	}
 
 	/**
 	 * {@inheritdoc}

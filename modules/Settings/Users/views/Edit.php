@@ -17,7 +17,6 @@ class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$request->isEmpty('record', true)) {
 			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			if ('Active' !== $this->record->get('status')) {
@@ -26,7 +25,7 @@ class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 		} elseif ($request->isEmpty('record')) {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
 		}
-		if (($currentUserModel->isAdmin() || ($currentUserModel->getId() === $request->getInteger('record') && App\Config::security('SHOW_MY_PREFERENCES')))) {
+		if (\App\Security\AdminAccess::isPermitted($moduleName) || (\App\User::getCurrentUserId() === $request->getInteger('record') && App\Config::security('SHOW_MY_PREFERENCES'))) {
 			return true;
 		}
 		throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');

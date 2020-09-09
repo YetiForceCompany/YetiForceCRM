@@ -7,22 +7,8 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
  */
-class Settings_Vtiger_LibraryLicense_View extends Vtiger_BasicModal_View
+class Settings_Vtiger_LibraryLicense_View extends Settings_Vtiger_BasicModal_View
 {
-	/**
-	 * Checking permissions.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedForAdmin
-	 */
-	public function checkPermission(App\Request $request)
-	{
-		if (!\App\User::getCurrentUserModel()->isAdmin()) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-	}
-
 	/**
 	 * Function get modal size.
 	 *

@@ -15,7 +15,7 @@
  */
 class Settings_AdminAccess_GetData_Action extends \App\Controller\Action
 {
-	use \App\Controller\ExposeMethod;
+	use \App\Controller\ExposeMethod, \App\Controller\Traits\SettingsPermission;
 
 	/**
 	 * {@inheritdoc}
@@ -24,16 +24,6 @@ class Settings_AdminAccess_GetData_Action extends \App\Controller\Action
 	{
 		parent::__construct();
 		$this->exposeMethod('access');
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function checkPermission(App\Request $request)
-	{
-		if (!\App\User::getCurrentUserModel()->isAdmin()) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
 	}
 
 	/**

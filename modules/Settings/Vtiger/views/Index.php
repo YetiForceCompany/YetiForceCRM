@@ -11,7 +11,7 @@
 
 class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 {
-	use \App\Controller\ExposeMethod;
+	use \App\Controller\ExposeMethod, \App\Controller\Traits\SettingsPermission;
 
 	/**
 	 * Page title.
@@ -24,20 +24,6 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 	{
 		Settings_Vtiger_Tracker_Model::addBasic('view');
 		parent::__construct();
-	}
-
-	/**
-	 * Checking permissions.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedForAdmin
-	 */
-	public function checkPermission(App\Request $request)
-	{
-		if (!\App\User::getCurrentUserModel()->isAdmin()) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
 	}
 
 	public function preProcess(App\Request $request, $display = true)

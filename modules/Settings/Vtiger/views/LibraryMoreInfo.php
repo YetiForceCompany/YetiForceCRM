@@ -7,7 +7,7 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
  */
-class Settings_Vtiger_LibraryMoreInfo_View extends Vtiger_BasicModal_View
+class Settings_Vtiger_LibraryMoreInfo_View extends Settings_Vtiger_BasicModal_View
 {
 	/**
 	 * Public libraries package files.
@@ -15,20 +15,6 @@ class Settings_Vtiger_LibraryMoreInfo_View extends Vtiger_BasicModal_View
 	 * @var string[]
 	 */
 	public $packageFiles = ['package.json', 'composer.json', 'bower.json'];
-
-	/**
-	 * Checking permissions.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedForAdmin
-	 */
-	public function checkPermission(App\Request $request)
-	{
-		if (!\App\User::getCurrentUserModel()->isAdmin()) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-	}
 
 	public function process(App\Request $request)
 	{
