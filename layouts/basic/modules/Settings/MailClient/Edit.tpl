@@ -176,9 +176,6 @@
 					</button>
 				</div>
 			</div>
-
-
-
 		</form>
 	</div>
 	<!-- /tpl-Settings-MailClient-Edit -->

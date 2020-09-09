@@ -336,6 +336,8 @@ insert  into `s_yf_auto_record_flow_updater`(`id`,`status`,`source_module`,`targ
 
 insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`vat_id`,`city`,`address`,`post_code`,`country`,`companysize`,`website`,`logo`,`firstname`,`lastname`,`email`,`facebook`,`twitter`,`linkedin`) values (1,0,'',1,NULL,'','','','','',0,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
+/*Data for the table `s_yf_mail_client` */
+
 /*Data for the table `s_yf_mail_queue` */
 
 /*Data for the table `s_yf_mail_relation_updater` */
@@ -18426,6 +18428,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (125,4,'LBL_EVENT_HANDLER','mdi mdi-car-turbocharger','LBL_EVENT_HANDLER_DESC','index.php?parent=Settings&module=EventHandler&view=Index',13,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (126,5,'LBL_MEETING_SERVICES','mdi mdi-server-network','LBL_MEETING_SERVICES_DESCRIPTION','index.php?parent=Settings&module=MeetingServices&view=List',15,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (127,4,'LBL_CONFLICT_OF_INTEREST','fas fa-random','LBL_CONFLICT_OF_INTEREST_DESCRIPTION','index.php?parent=Settings&module=InterestsConflict&view=Index',15,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (128,8,'LBL_MAIL_CLIENT','adminIcon-mail-download-history','LBL_MAIL_CLIENT_DESCRIPTION','index.php?module=MailClient&parent=Settings&view=List',NULL,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 

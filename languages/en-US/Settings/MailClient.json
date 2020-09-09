@@ -1,6 +1,7 @@
 {
   "php": {
     "LBL_MAIL_CLIENT": "Mail - Client",
+    "LBL_MAIL_CLIENT_DESCRIPTION": "",
     "LBL_MAIL_CLIENT_DETAIL": "Configuration details",
     "LBL_ADD_TYPE": "Add type and protocol to address",
     "LBL_VALIDATE_CERT": "Validate certificate",
@@ -24,10 +25,7 @@
     "PLL_IDENTITY_2": "one identity with possibility of editing all parameters",
     "PLL_IDENTITY_3": "one identity with possibility of editing all parameters, but not the email address",
     "PLL_IDENTITY_4": "one identity with possibility of editing only signature"
-
-
   },
   "js": {
-
   }
 }

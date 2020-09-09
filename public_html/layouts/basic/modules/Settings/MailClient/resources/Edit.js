@@ -5,6 +5,9 @@ Settings_Vtiger_Edit_Js(
 	'Settings_MailClient_Edit_Js',
 	{},
 	{
+		/**
+		 * Register submit form.
+		 */
 		registerSubmitForm: function (form) {
 			form.on('submit', function (e) {
 				if (form.validationEngine('validate') === true) {

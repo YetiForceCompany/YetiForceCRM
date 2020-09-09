@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-MailClient-ListViewContents -->
+	{var_dump($PAGING_MODEL->getRecordStartRange(), $PAGING_MODEL->getRecordEndRange(),  $PAGING_MODEL->isPrevPageExists(), $PAGING_MODEL->isNextPageExists(), $ORDER_BY, $SORT_ORDER, $LISTVIEW_COUNT, $PAGE_NUMBER, $PAGING_MODEL->getPageLimit(), $LISTVIEW_ENTRIES_COUNT)}
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
 	<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />

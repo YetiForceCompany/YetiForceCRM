@@ -1133,6 +1133,25 @@ CREATE TABLE `s_yf_companies` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_mail_client` */
+
+CREATE TABLE `s_yf_mail_client` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `validate_cert` tinyint(1) DEFAULT 0,
+  `add_connection_type` tinyint(1) DEFAULT 0,
+  `default_host` varchar(255) DEFAULT NULL,
+  `default_port` int(10) DEFAULT NULL,
+  `smtp_server` varchar(255) DEFAULT NULL,
+  `smtp_port` int(10) DEFAULT NULL,
+  `language` varchar(250) DEFAULT NULL,
+  `username_domain` varchar(250) DEFAULT NULL,
+  `ip_check` tinyint(1) DEFAULT 0,
+  `enable_spellcheck` tinyint(1) DEFAULT 0,
+  `identities_level` int(1) DEFAULT NULL,
+  `session_lifetime` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_mail_queue` */
 
 CREATE TABLE `s_yf_mail_queue` (
@@ -8459,7 +8478,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 
