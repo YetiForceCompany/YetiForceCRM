@@ -4,7 +4,7 @@
 		{if \App\Privilege::isPermitted('OSSMailView', 'CreateView')}
 			<input type="hidden" id="mailActionBarID" value=""/>
 			<div class="noRecords">
-				{\App\Language::translate('LBL_MAIL_NOT_FOUND_IN_DB',$MODULE_NAME)} <a class="importMail">{\App\Language::translate('LBL_IMPORT_MAIL_MANUALLY',$MODULE_NAME)}</a>
+				{\App\Language::translate('LBL_MAIL_NOT_FOUND_IN_DB',$MODULE_NAME)} <a class="importMail"><span class="fas fa-download"></span> {\App\Language::translate('LBL_IMPORT_MAIL_MANUALLY',$MODULE_NAME)}</a>
 			</div>
 		{/if}
 	{elseif \App\Privilege::isPermitted('OSSMailView', 'DetailView', $RECORD)}

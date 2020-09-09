@@ -6,27 +6,6 @@
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
-	'product_name' => [
-		'default' => 'YetiForce',
-		'description' => 'Product name',
-		'validation' => function () {
-			$arg = func_get_arg(0);
-			return $arg && \App\Purifier::purify($arg);
-		},
-		'sanitization' => '\App\Purifier::purify'
-	],
-	'validate_cert' => [
-		'default' => false,
-		'description' => 'Validate cert',
-		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
-	],
-	'imap_open_add_connection_type' => [
-		'default' => true,
-		'description' => 'Add connection type',
-		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
-	],
 	'default_host' => [
 		'default' => ['ssl://imap.gmail.com' => 'ssl://imap.gmail.com'],
 		'description' => 'Default host.',
@@ -73,6 +52,34 @@ return [
 		},
 		'sanitization' => '\App\Purifier::purify'
 	],
+	'smtp_port' => [
+		'default' => 465,
+		'description' => 'Default smtp port',
+		'validation' => '\App\Validator::port',
+		'sanitization' => function () {
+			return (int) func_get_arg(0);
+		}
+	],
+	'username_domain' => [
+		'default' => 'gmail.com',
+		'description' => 'User name domain',
+		'validation' => function () {
+			$arg = func_get_arg(0);
+			return '' === $arg || \App\Validator::domain($arg);
+		}
+	],
+	'validate_cert' => [
+		'default' => false,
+		'description' => 'Validate cert',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+	],
+	'imap_open_add_connection_type' => [
+		'default' => true,
+		'description' => 'Add connection type',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+	],
 	'smtp_user' => [
 		'default' => '%u',
 		'description' => 'Login to SMTP server',
@@ -90,14 +97,6 @@ return [
 			return !empty($arg) && 256 > \App\TextParser::getTextLength($arg);
 		}
 	],
-	'smtp_port' => [
-		'default' => 465,
-		'description' => 'Default smtp port',
-		'validation' => '\App\Validator::port',
-		'sanitization' => function () {
-			return (int) func_get_arg(0);
-		}
-	],
 	'language' => [
 		'default' => 'en_US',
 		'description' => 'Set default language',
@@ -106,16 +105,8 @@ return [
 			return $arg && \in_array($arg, \Settings_OSSMail_Config_Model::LANGUAGES);
 		}
 	],
-	'username_domain' => [
-		'default' => 'gmail.com',
-		'description' => 'User name domain',
-		'validation' => function () {
-			$arg = func_get_arg(0);
-			return '' === $arg || \App\Validator::domain($arg);
-		}
-	],
 	'skin_logo' => [
-		'default' => ['*' => '/images/null.png'],
+		'default' => '/images/null.png',
 		'description' => 'Skin logo',
 		'validation' => function () {
 			$arg = func_get_arg(0);
@@ -171,7 +162,7 @@ return [
 		'description' => 'Encryption key of data',
 	],
 	'plugins' => [
-		'default' => ['identity_smtp', 'yetiforce', 'thunderbird_labels', 'zipdownload', 'archive', 'authres_status', 'html5_notifier'],
+		'default' => ['thunderbird_labels', 'zipdownload', 'archive', 'authres_status', 'html5_notifier', 'markasjunk', 'yetiforce'],
 		'description' => 'List of plugins',
 	],
 	'mime_param_folding' => [
@@ -183,7 +174,7 @@ return [
 		'description' => 'Auto create user.'
 	],
 	'mail_pagesize' => [
-		'default' => 30,
+		'default' => 40,
 		'description' => 'Mail page size.'
 	],
 	'addressbook_pagesize' => [
@@ -242,13 +233,14 @@ return [
 		'default' => 1,
 		'description' => 'Set reply mode'
 	],
-	'imap_max_retries' => [
-		'default' => 0,
-		'description' => 'Max retries imap '
+	'default_charset' => [
+		'default' => 'UTF-8',
+		'description' => 'Use this charset as fallback for message decoding'
 	],
-	'imap_params' => [
-		'default' => [],
-		'description' => 'Enable this for imap and MS Exchange bug "Kerberos error: Credentials cache file  ... not found "DISABLE_AUTHENTICATOR" => "GSSAPI"',
+	'root_directory' => [
+		'type' => 'function',
+		'default' => 'return ROOT_DIRECTORY . \DIRECTORY_SEPARATOR;',
+		'description' => 'Root directory',
 	],
 	'debug_level' => [
 		'type' => 'function',
@@ -340,20 +332,34 @@ return RCUBE_INSTALL_PATH . "/../../../../cache/mail/";',
 		'description' => 'Connection options smtp.',
 	],
 	'smtp_timeout' => [
-		'default' => 5,
+		'default' => 10,
 		'description' => 'Smtp time out',
 	],
 	'smtp_helo_host' => [
 		'default' => 'YetiForceCRM',
 		'description' => 'The value to give when sending'
 	],
-	'skin' => [
-		'default' => 'yetiforce',
-		'description' => 'Set the skin'
+	'product_name' => [
+		'default' => 'YetiForce',
+		'description' => 'Name your service. This is displayed on the login screen and in the window title',
+		'validation' => function () {
+			$arg = func_get_arg(0);
+			return $arg && \App\Purifier::purify($arg);
+		},
+		'sanitization' => '\App\Purifier::purify'
 	],
-	'layout' => [
-		'default' => 'desktop',
-		'description' => 'Set the desktop'
+	'useragent' => [
+		'default' => 'YetiForce Webmail',
+		'description' => 'Add this user-agent to message headers when sending',
+		'validation' => function () {
+			$arg = func_get_arg(0);
+			return $arg && \App\Purifier::purify($arg);
+		},
+		'sanitization' => '\App\Purifier::purify'
+	],
+	'skin' => [
+		'default' => 'elastic',
+		'description' => 'Set the skin'
 	],
 	'list_cols' => [
 		'default' => ['flag', 'status', 'subject', 'fromto', 'date', 'size', 'attachment', 'authres_status', 'threads'],
@@ -367,12 +373,12 @@ return RCUBE_INSTALL_PATH . "/../../../../cache/mail/";',
 		'default' => 127,
 		'description' => 'Show statuses'
 	],
-	'root_directory' => [
-		'default' => new \Nette\PhpGenerator\PhpLiteral('ROOT_DIRECTORY . DIRECTORY_SEPARATOR'),
-		'description' => 'Root directory',
-	],
 	'enable_variables_in_signature' => [
 		'default' => false,
 		'description' => 'Enable variables in signature'
+	],
+	'address_book_type' => [
+		'default' => '',
+		'description' => 'Contact functionality is disabled'
 	],
 ];
