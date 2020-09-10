@@ -80,6 +80,10 @@ return [
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
+	'imap_params' => [
+		'default' => [],
+		'description' => 'Enable this for imapConnect and MS Exchange bug "Kerberos error: Credentials cache file  ... not found "DISABLE_AUTHENTICATOR" => "GSSAPI"',
+	],
 	'smtp_user' => [
 		'default' => '%u',
 		'description' => 'Login to SMTP server',
@@ -153,16 +157,13 @@ return [
 		'default' => 'roundcube_',
 		'description' => 'Set default prefix'
 	],
-	'support_url' => [
-		'default' => 'http://yetiforce.com',
-		'description' => 'Support url'
-	],
 	'des_key' => [
-		'default' => 'rGOQ26hR%gxlZk=QA!$HMOvb',
-		'description' => 'Encryption key of data',
+		'default' => \App\Encryption::generatePassword(24),
+		'description' => 'This key is used for encrypting purposes, like storing of imap password in the session. For the default cipher_method a required key length is 24 characters.',
+		'validation' => '\App\Validator::alnum',
 	],
 	'plugins' => [
-		'default' => ['thunderbird_labels', 'zipdownload', 'archive', 'authres_status', 'html5_notifier', 'markasjunk', 'yetiforce'],
+		'default' => ['thunderbird_labels', 'zipdownload', 'archive', 'authres_status', 'html5_notifier', 'markasjunk', 'enigma', 'yetiforce'],
 		'description' => 'List of plugins',
 	],
 	'mime_param_folding' => [
@@ -340,13 +341,8 @@ return RCUBE_INSTALL_PATH . "/../../../../cache/mail/";',
 		'description' => 'The value to give when sending'
 	],
 	'product_name' => [
-		'default' => 'YetiForce',
+		'default' => '',
 		'description' => 'Name your service. This is displayed on the login screen and in the window title',
-		'validation' => function () {
-			$arg = func_get_arg(0);
-			return $arg && \App\Purifier::purify($arg);
-		},
-		'sanitization' => '\App\Purifier::purify'
 	],
 	'useragent' => [
 		'default' => 'YetiForce Webmail',
