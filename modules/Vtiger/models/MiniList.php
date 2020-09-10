@@ -62,7 +62,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$fields[] = 'id';
 		}
 		if ('Calendar' === $moduleName && $extraField) {
-			$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+			$moduleModel = $this->getTargetModuleModel();
 			if (\in_array('date_start', $fields) && ($fieldModel = \Vtiger_Field_Model::getInstance('time_start', $moduleModel)) && $fieldModel->isActiveField() && $fieldModel->isViewable()) {
 				$fields[] = 'time_start';
 			}
