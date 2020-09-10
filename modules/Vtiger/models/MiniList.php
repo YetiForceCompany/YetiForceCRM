@@ -114,7 +114,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$headerFieldModels = [];
 			foreach ($this->getTargetFields() as $fieldName) {
 				if ('id' !== $fieldName) {
-					$headerFieldModels[$fieldName] = \Vtiger_Field_Model::getInstance($fieldName, \Vtiger_Module_Model::getInstance($this->getTargetModule()));
+					$headerFieldModels[$fieldName] = $this->getTargetModuleModel()->getFieldByName($fieldName);
 				}
 			}
 			$this->listviewHeaders = $headerFieldModels;
