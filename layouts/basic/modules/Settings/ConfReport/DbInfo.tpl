@@ -3,11 +3,11 @@
 	<!-- tpl-Settings-ConfReport-DbInfo -->
 	<div class="modal-body js-modal-content" data-js="click">
 		<h3>
-			<span class="mr-4">{\App\Language::translate('LBL_DB_SIZE')}: {\vtlib\Functions::showBytes($DB_INFO['size'])}</span>
-			<span class="mr-4">{\App\Language::translate('LBL_DATA_SIZE')}: {\vtlib\Functions::showBytes($DB_INFO['dataSize'])}</span>
-			<span class="mr-4">{\App\Language::translate('LBL_INDEX_SIZE')}: {\vtlib\Functions::showBytes($DB_INFO['indexSize'])}</span>
+			<span class="mr-4">{\App\Language::translate('LBL_DB_TOTAL_SIZE')}: {\vtlib\Functions::showBytes($DB_INFO['size'])}</span>
+			<span class="mr-4">{\App\Language::translate('LBL_DATA_TOTAL_SIZE')}: {\vtlib\Functions::showBytes($DB_INFO['dataSize'])}</span>
+			<span class="mr-4">{\App\Language::translate('LBL_INDEX_TOTAL_SIZE')}: {\vtlib\Functions::showBytes($DB_INFO['indexSize'])}</span>
 			{if $DB_INFO['isFileSize']}
-				<span class="mr-4">{\App\Language::translate('LBL_FILE_SIZE')}: {\vtlib\Functions::showBytes($DB_INFO['filesSize'])}</span>
+				<span class="mr-4">{\App\Language::translate('LBL_FILE_TOTAL_SIZE')}: {\vtlib\Functions::showBytes($DB_INFO['filesSize'])}</span>
 			{/if}
 		</h3>
 		<div class="mt-3">
