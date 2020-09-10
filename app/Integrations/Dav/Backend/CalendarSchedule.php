@@ -1,11 +1,23 @@
 <?php
+/**
+ * SabreDav PDO CalDAV Schedule backend file.
+ *
+ * @package   Integrations
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
-namespace App\Dav;
+namespace App\Integrations\Dav\Backend;
 
 use Sabre\DAV;
 use Sabre\VObject\ITip;
 
-class CalDavSchedule extends DAV\ServerPlugin
+/**
+ * SabreDav PDO CalDAV Schedule backend class.
+ */
+class CalendarSchedule extends DAV\ServerPlugin
 {
 	/**
 	 * Reference to server object.
@@ -13,8 +25,17 @@ class CalDavSchedule extends DAV\ServerPlugin
 	 * @var DAV\Server
 	 */
 	protected $server;
-
+	/**
+	 * Debug file path.
+	 *
+	 * @var string
+	 */
 	const DEBUG_FILE = 'cache/logs/davDebug.log';
+	/**
+	 * Exception file path.
+	 *
+	 * @var string
+	 */
 	const EXCEPTION_FILE = 'cache/logs/davException.log';
 
 	/**

@@ -1,20 +1,24 @@
 <?php
+/**
+ * SabreDav PDO CalDAV backend file.
+ * This backend is used to store calendar-data in a PDO database, such as
+ * sqlite or MySQL.
+ *
+ * @package   Integrations
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
-namespace App\Dav;
+namespace App\Integrations\Dav\Backend;
 
 use Sabre\CalDAV;
 
 /**
- * PDO CalDAV backend.
- *
- * This backend is used to store calendar-data in a PDO database, such as
- * sqlite or MySQL
- *
- * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
- * @author    Evert Pot (http://evertpot.com/)
- * @license   http://sabre.io/license/ Modified BSD License
+ * SabreDav PDO CalDAV backend class.
  */
-class CalDavBackendPdo extends CalDAV\Backend\PDO
+class Calendar extends CalDAV\Backend\PDO
 {
 	/**
 	 * The table name that will be used for calendars.
@@ -70,6 +74,9 @@ class CalDavBackendPdo extends CalDAV\Backend\PDO
 	 */
 	public function deleteCalendarObject($calendarId, $objectUri)
 	{
+		if (!\is_array($calendarId)) {
+			throw new \InvalidArgumentException('The value passed to $calendarId is expected to be an array with a calendarId and an instanceId');
+		}
 		[$calendarId] = $calendarId;
 
 		$stmt = $this->pdo->prepare(sprintf('UPDATE vtiger_crmentity SET deleted = ? WHERE crmid IN (SELECT crmid FROM %s WHERE calendarid = ? && uri = ?);', $this->calendarObjectTableName));

@@ -1,11 +1,23 @@
 <?php
+/**
+ * SabreDav debug plugin file.
+ *
+ * @package   Integrations
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
-namespace App\Dav;
+namespace App\Integrations\Dav;
 
 use Sabre\DAV;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
+/**
+ * SabreDav debug plugin class.
+ */
 class Debug extends DAV\ServerPlugin
 {
 	/**
@@ -14,10 +26,29 @@ class Debug extends DAV\ServerPlugin
 	 * @var DAV\Server
 	 */
 	protected $server;
+	/**
+	 * Response body.
+	 *
+	 * @var string
+	 */
 	protected $response;
+	/**
+	 * Request body.
+	 *
+	 * @var string
+	 */
 	protected $request;
-
+	/**
+	 * Debug file path.
+	 *
+	 * @var string
+	 */
 	const DEBUG_FILE = 'cache/logs/davDebug.log';
+	/**
+	 * Exception file path.
+	 *
+	 * @var string
+	 */
 	const EXCEPTION_FILE = 'cache/logs/davException.log';
 
 	/**
@@ -28,9 +59,9 @@ class Debug extends DAV\ServerPlugin
 	public function initialize(DAV\Server $server)
 	{
 		$this->server = $server;
-		$server->on('beforeMethod', [$this, 'beforeMethod']);
-		$server->on('exception', [$this, 'exception']);
-		$server->on('afterResponse', [$this, 'afterResponse']);
+		$this->server->on('beforeMethod', [$this, 'beforeMethod']);
+		$this->server->on('exception', [$this, 'exception']);
+		$this->server->on('afterResponse', [$this, 'afterResponse']);
 		$this->server->setLogger((new Logger()));
 	}
 
@@ -86,11 +117,11 @@ class Debug extends DAV\ServerPlugin
 	 * This function will cause the "exception" event
 	 * to occur as soon as the error document is returned.
 	 *
-	 * @param string $e
+	 * @param \Exception $e
 	 *
 	 * @return bool
 	 */
-	public function exception($e)
+	public function exception(\Exception $e)
 	{
 		$error = 'exception: ' . \get_class($e) . PHP_EOL;
 		$error .= 'message: ' . $e->getMessage() . PHP_EOL;

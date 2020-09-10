@@ -1,6 +1,6 @@
 <?php
 /**
- * CalDav calendar class file.
+ * CalDav calendar file.
  *
  * @package   Integrations
  *
@@ -14,7 +14,7 @@ namespace App\Integrations\Dav;
 use Sabre\VObject;
 
 /**
- * Calendar class.
+ *  CalDav calendar class.
  */
 class Calendar
 {

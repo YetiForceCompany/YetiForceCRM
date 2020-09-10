@@ -1,19 +1,23 @@
 <?php
+/**
+ * SabreDav PDO CardDAV backend file.
+ * This CardDAV backend uses PDO to store addressbooks.
+ *
+ * @package   Integrations
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
-namespace App\Dav;
+namespace App\Integrations\Dav\Backend;
 
 use Sabre\CardDAV;
 
 /**
- * PDO CardDAV backend.
- *
- * This CardDAV backend uses PDO to store addressbooks
- *
- * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
- * @author    Evert Pot (http://evertpot.com/)
- * @license   http://sabre.io/license/ Modified BSD License
+ * SabreDav PDO CardDAV backend class.
  */
-class CardDavBackendPdo extends CardDAV\Backend\PDO
+class Card extends CardDAV\Backend\PDO
 {
 	/**
 	 * The PDO table name used to store addressbooks.

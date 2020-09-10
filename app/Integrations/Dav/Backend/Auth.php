@@ -1,6 +1,15 @@
 <?php
+/**
+ * SabreDav authentication plugin file.
+ *
+ * @package   Integrations
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
-namespace App\Dav;
+namespace App\Integrations\Dav\Backend;
 
 use Sabre\DAV;
 use Sabre\HTTP;
@@ -8,13 +17,9 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 /**
- * This is an authentication backend that uses a database to manage passwords.
- *
- * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
- * @author    Evert Pot (http://evertpot.com/)
- * @license   http://sabre.io/license/ Modified BSD License
+ * SabreDav authentication plugin class.
  */
-class DavAuthBackendPdo extends DAV\Auth\Backend\PDO
+class Auth extends DAV\Auth\Backend\PDO
 {
 	/**
 	 * PDO table name we'll be using.
@@ -68,6 +73,9 @@ class DavAuthBackendPdo extends DAV\Auth\Backend\PDO
 			return $this->checkBasic($request, $response);
 		}
 		return parent::check($request, $response);
+
+
+
 	}
 
 	/**
