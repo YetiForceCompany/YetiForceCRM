@@ -71,6 +71,7 @@ class Vtiger_TimeLineModal_View extends Vtiger_BasicModal_View
 
 		$viewClassName = Vtiger_Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$instance = new $viewClassName();
+		$instance->record = Vtiger_DetailView_Model::getInstance($moduleName, $request->getInteger('record'));
 
 		$this->preProcess($request);
 		echo $instance->showRecentRelation($request);
