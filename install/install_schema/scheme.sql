@@ -213,15 +213,16 @@ CREATE TABLE `a_yf_relatedlists_widgets` (
 CREATE TABLE `a_yf_settings_access` (
   `module_id` smallint(5) unsigned NOT NULL,
   `user` int(10) NOT NULL,
-  `modifiedby` int(10) NOT NULL,
-  `modifiedtime` datetime NOT NULL,
-  UNIQUE KEY `a_yf_settings_access_module_id_user_idx` (`module_id`,`user`)
+  UNIQUE KEY `a_yf_settings_access_module_id_user_idx` (`module_id`,`user`),
+  KEY `a_yf_settings_access_user_fk` (`user`),
+  CONSTRAINT `a_yf_settings_access_module_id_fk` FOREIGN KEY (`module_id`) REFERENCES `a_yf_settings_modules` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `a_yf_settings_access_user_fk` FOREIGN KEY (`user`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_settings_modules` */
 
 CREATE TABLE `a_yf_settings_modules` (
-  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `created_time` datetime NOT NULL,
@@ -8494,7 +8495,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 
