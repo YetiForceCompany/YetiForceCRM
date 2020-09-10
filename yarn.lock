@@ -33,9 +33,9 @@ add@^2.0.6:
   integrity sha1-JI8Kn25aUo7yKV2+7DBTITCuIjU=
 
 animate.css@^4.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/animate.css/-/animate.css-4.1.0.tgz#dec2aabe4babfc6f6777f9a5cccd132838729b50"
-  integrity sha512-0aVcfWDeU9ykV6vjn1P67ZSs01jxoUQZCGaYbkk0SIIelIG8kUdLrIkua1+VabHfTtsSivDRMMn0ILPvZum2gw==
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/animate.css/-/animate.css-4.1.1.tgz#614ec5a81131d7e4dc362a58143f7406abd68075"
+  integrity sha512-+mRmCTv6SbCmtYJCN4faJMNFVNN5EuCTTprDTAo7YzIGji2KADmakjVA3+8mVDkZ2Bf09vayB35lSQIex2+QaQ==
 
 asap@~2.0.3:
   version "2.0.6"
@@ -74,9 +74,9 @@ blueimp-load-image@5:
   integrity sha512-g5l+4dCOESBG8HkPLdGnBx8dhEwpQHaOZ0en623sl54o3bGhGMLYGc54L5cWfGmPvfKUjbsY7LOAmcW/xlkBSA==
 
 blueimp-tmpl@3:
-  version "3.18.0"
-  resolved "https://registry.yarnpkg.com/blueimp-tmpl/-/blueimp-tmpl-3.18.0.tgz#f778046f131d0e5858a839069bfc6519f027985e"
-  integrity sha512-1DFtiOm/IRzHZtemQ6X3z7VXDcZ39xyq/inCE4r8lZSlT99TTIQ4SHmKTWX1DoBxL+e///qaB+ZD90my500jVQ==
+  version "3.19.0"
+  resolved "https://registry.yarnpkg.com/blueimp-tmpl/-/blueimp-tmpl-3.19.0.tgz#1160f79c4ce55bd82d25cfa3df7db116f8d1df62"
+  integrity sha512-v8/Vge6U3uwlAjO9TxeHoYl77C1GJDZBN45pUp+39WyHU/VRzYbnGDhRNYvcT6Lh8jihVsXNZttnDpnYVA4m9w==
 
 bootbox@^5.4.0:
   version "5.4.0"
@@ -236,9 +236,9 @@ datatables.net@1.10.21, datatables.net@^1.10.15, datatables.net@^1.10.19:
     jquery ">=1.7"
 
 dayjs@^1.8.16:
-  version "1.8.34"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.34.tgz#d3ad33cc43d6b0f24cb8686b90aad2c653708069"
-  integrity sha512-Olb+E6EoMvdPmAMq2QoucuyZycKHjTlBXmRx8Ada+wGtq4SIXuDCdtoaX4KkK0yjf1fJLnwXQURr8gQKWKaybw==
+  version "1.8.35"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.35.tgz#67118378f15d31623f3ee2992f5244b887606888"
+  integrity sha512-isAbIEenO4ilm6f8cpqvgjZCsuerDAz2Kb7ri201AiNn58aqXuaLJEnCtfIMdCvERZHNGRY5lDMTr/jdAnKSWQ==
 
 delegate@^3.1.2:
   version "3.2.0"
@@ -337,9 +337,9 @@ good-listener@^1.2.2:
     delegate "^3.1.2"
 
 gridstack@^1.0.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-1.2.0.tgz#981883f88f0ebcd738d63325bdc7a9b471e102cf"
-  integrity sha512-qcK0Zb2ybT9U0nrGQDTm1cdOYtSfZe88PmK6076iH82zE5+ucyIXC2O5yQCaoJGfo1qlMYwSBXm0GKO62Vt7ew==
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-1.2.1.tgz#4505b3a5c3e11f3d5be0a5bb7f5d2194506487e5"
+  integrity sha512-yhcwA8ty1RaC1Vijd+C6v2jFOZhaDjweN5JtOQ35KXPFfnwItrPEejTLUij58GdG+Doc1bvHwg534El5xd4B6w==
 
 html2canvas@^1.0.0-alpha.12:
   version "1.0.0-rc.7"
@@ -460,9 +460,9 @@ leaflet.markercluster@^1.4.1:
   integrity sha512-ZSEpE/EFApR0bJ1w/dUGwTSUvWlpalKqIzkaYdYB7jaftQA/Y2Jav+eT4CMtEYFj+ZK4mswP13Q2acnPBnhGOw==
 
 leaflet@^1.5.1:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.6.0.tgz#aecbb044b949ec29469eeb31c77a88e2f448f308"
-  integrity sha512-CPkhyqWUKZKFJ6K8umN5/D2wrJ2+/8UIpXppY7QDnUZW5bZL5+SEI2J7GBpwh4LIupOKqbNSQXgqmrEJopHVNQ==
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.7.1.tgz#10d684916edfe1bf41d688a3b97127c0322a2a19"
+  integrity sha512-/xwPEBidtg69Q3HlqPdU3DnrXQOvQU/CCHA1tcDQVzOwm91YMYaILjNp7L4Eaw5Z4sOYdbBz6koWyibppd8Zqw==
 
 loose-envify@^1.0.0:
   version "1.4.0"
@@ -522,9 +522,9 @@ promise@^7.1.1:
     asap "~2.0.3"
 
 quasar@^1.6.1:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.13.1.tgz#7ad95cc4783a3d071982f2496f1eb56627101f90"
-  integrity sha512-8oyECYkT8xoe4+wfJ7Rn+SrISe/s0+KhmQj5ZkaFI9D1kxKAR5Qjj04ikc7UoyQoHtAoy+7imkO+eStpExE9Xg==
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.13.2.tgz#8f7fa5103cb3e4d5cdf088e37beda6ee25d21d6a"
+  integrity sha512-HJtWz38rLXLvTJqZ5c9GIS6SSwLjN0t8iTwAwD2AQ5FOsUTji6sq3XzzoPll5degXFevnVJlyFH5YTqMYnawVg==
 
 regenerator-runtime@^0.12.0:
   version "0.12.1"
@@ -636,6 +636,6 @@ vue@^2.6.10, vue@^2.6.11:
   integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
 
 whatwg-fetch@>=0.10.0, whatwg-fetch@^3.0.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.4.0.tgz#e11de14f4878f773fbebcde8871b2c0699af8b30"
-  integrity sha512-rsum2ulz2iuZH08mJkT0Yi6JnKhwdw4oeyMjokgxd+mmqYSd9cPpOQf01TIWgjxG/U4+QR+AwKq6lSbXVxkyoQ==
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.4.1.tgz#e5f871572d6879663fa5674c8f833f15a8425ab3"
+  integrity sha512-sofZVzE1wKwO+EYPbWfiwzaKovWiZXf4coEzjGP9b2GBVgQRLQUZ2QcuPpQExGDAW5GItpEm6Tl4OU5mywnAoQ==
