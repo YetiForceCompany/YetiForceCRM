@@ -65,7 +65,8 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 			if (\in_array('date_start', $fields) && ($fieldModel = \Vtiger_Field_Model::getInstance('time_start', $moduleModel)) && $fieldModel->isActiveField() && $fieldModel->isViewable()) {
 				$fields[] = 'time_start';
-			} elseif (\in_array('due_end', $fields) && ($fieldModel = \Vtiger_Field_Model::getInstance('time_end', $moduleModel)) && $fieldModel->isActiveField() && $fieldModel->isViewable()) {
+			}
+			if (\in_array('due_end', $fields) && ($fieldModel = \Vtiger_Field_Model::getInstance('time_end', $moduleModel)) && $fieldModel->isActiveField() && $fieldModel->isViewable()) {
 				$fields[] = 'time_end';
 			}
 		}
