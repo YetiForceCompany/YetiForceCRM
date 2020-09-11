@@ -181,6 +181,9 @@ class Users_Login_Action extends \App\Controller\Action
 				$this->userRecordModel->verifyPasswordChange($this->userModel);
 			}
 		}
+		if ($this->userModel->isAdmin() && \App\Config::security('askAdminAboutVisitPurpose', true)) {
+			\App\Session::set('showVisitPurpose', $this->userModel->isAdmin());
+		}
 		if ($request->has('loginLanguage') && App\Config::main('langInLoginView')) {
 			\App\Session::set('language', $request->getByType('loginLanguage'));
 		}

@@ -397,7 +397,8 @@
     "PLL_CONTAINS": "Contains",
     "PLL_STARTS_WITH": "Begins with",
     "PLL_ENDS_WITH": "Ends with",
-    "FL_SUPER_USER": "Super user"
+    "FL_SUPER_USER": "Super user",
+    "LBL_VISIT_PURPOSE_INFO": "Enter visit purpose"
   },
   "js": {
     "JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME": "Decimal separator and grouping separator can't be the same.",

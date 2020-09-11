@@ -551,6 +551,9 @@ var Vtiger_Index_Js = {
 		});
 	},
 	registerAterloginEvents: function () {
+		if (typeof CONFIG.showVisitPurpose !== 'undefined') {
+			app.showModalWindow(null,'index.php?module=Users&view=VisitPurpose');
+		}
 		if (typeof CONFIG.ShowUserPwnedPasswordChange !== 'undefined') {
 			app.showModalWindow(
 				null,

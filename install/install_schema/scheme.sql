@@ -762,6 +762,18 @@ CREATE TABLE `l_yf_userpass_history` (
   KEY `user_id` (`user_id`,`pass`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `l_yf_users_login_purpose` */
+
+CREATE TABLE `l_yf_users_login_purpose` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` int(10) NOT NULL,
+  `datetime` datetime NOT NULL,
+  `purpose` varchar(500) NOT NULL,
+  `baseid` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `l_yf_users_login_purpose_userid_idx` (`userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `o_yf_access_for_admin` */
 
 CREATE TABLE `o_yf_access_for_admin` (

@@ -176,4 +176,7 @@ class Security
 
 	/** Proxy password */
 	public static $proxyPassword = '';
+
+	/** @var bool Ask admin about visit purpose */
+	public static $askAdminAboutVisitPurpose = true;
 }

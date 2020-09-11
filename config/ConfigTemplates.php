@@ -1027,7 +1027,11 @@ return [
 			'validation' => '\App\Validator::url',
 		],
 		'allowedImageDomains' => [
-			'default' => [],
+			'default' => [
+				'a.tile.openstreetmap.org',
+				'b.tile.openstreetmap.org',
+				'c.tile.openstreetmap.org'
+			],
 			'description' => 'Allowed domains for loading images, used in CSP.',
 			'loopValidate' => true,
 			'validation' => '\App\Validator::text',
@@ -1082,6 +1086,12 @@ return [
 			'description' => 'Proxy password',
 			'validation' => '\App\Validator::text',
 			'sanitization' => '\App\Purifier::purify'
+		],
+		'askAdminAboutVisitPurpose' => [
+			'default' => true,
+			'description' => "@var bool Ask admin about visit purpose",
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 	],
 	'sounds' => [

@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Controller\View;
@@ -161,6 +162,9 @@ abstract class Page extends Base
 		}
 		if (\App\Session::has('ShowUserPwnedPasswordChange')) {
 			\App\Config::setJsEnv('ShowUserPwnedPasswordChange', \App\Session::get('ShowUserPwnedPasswordChange'));
+		}
+		if (\App\Session::has('showVisitPurpose')) {
+			\App\Config::setJsEnv('showVisitPurpose', \App\Session::get('showVisitPurpose'));
 		}
 	}
 
