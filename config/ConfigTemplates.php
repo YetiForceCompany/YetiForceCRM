@@ -1085,7 +1085,7 @@ return [
 		],
 		'askAdminAboutVisitPurpose' => [
 			'default' => true,
-			'description' => "@var bool Ask admin about visit purpose",
+			'description' => '@var bool Ask admin about visit purpose',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],

@@ -2,6 +2,7 @@
 
 /**
  * YetiForce shop file.
+ * Modifying this file or functions that affect the footer appearance will violate the license terms!!!
  *
  * @package   App
  *
