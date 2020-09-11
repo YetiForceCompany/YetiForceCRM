@@ -24,6 +24,9 @@ class DateTime
 	 */
 	public static function formatToDisplay($value)
 	{
+		if(\App\TextParser::isVaribleToParse($value)){
+			return $value;
+		}
 		if (empty($value) || '0000-00-00' === $value || '0000-00-00 00:00:00' === $value) {
 			return '';
 		}
