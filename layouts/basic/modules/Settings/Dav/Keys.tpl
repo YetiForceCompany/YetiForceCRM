@@ -7,7 +7,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
 			<div class="col-md-4 d-flex justify-content-end align-items-center">
-				<a href="https://yetiforce.com/en/knowledge-base/documentation/dav" target="_blank" class="btn btn-outline-info float-right mr-3 js-popover-tooltip" data-content="{App\Language::translate('BTM_GOTO_YETIFORCE_DOCUMENTATION')}" rel="noreferrer noopener" data-js="popover">
+				<a href="https://yetiforce.com/en/knowledge-base/documentation/administrator-documentation/category/dav-applications" target="_blank" class="btn btn-outline-info float-right mr-3 js-popover-tooltip" data-content="{App\Language::translate('BTM_GOTO_YETIFORCE_DOCUMENTATION')}" rel="noreferrer noopener" data-js="popover">
 					<span class="mdi mdi-book-open-page-variant u-fs-lg"></span>
 				</a>
 				<button class="btn btn-primary js-add-key" data-js="click">
