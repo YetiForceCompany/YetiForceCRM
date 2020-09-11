@@ -30,7 +30,6 @@ class Settings_ConfReport_DbInfo_View extends \App\Controller\ModalSettings
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('DB_INFO', \App\Db::getInstance()->getDbInfo());
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->view('DbInfo.tpl', $qualifiedModule);
 	}
 

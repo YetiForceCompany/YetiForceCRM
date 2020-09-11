@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Sorting View Class for CustomView.
+ * Edit View Class for AdminAccess.
  *
  * @package Settings.View
  *
@@ -39,7 +39,7 @@ class Settings_AdminAccess_Edit_View extends \App\Controller\ModalSettings
 	}
 
 	/**
-	 * The function returns module fields together with the related module fields.
+	 * The function returns module fields.
 	 *
 	 * @param Settings_AdminAccess_Record_Model $recordModel
 	 *
