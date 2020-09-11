@@ -1199,7 +1199,7 @@ var app = (window.app = {
 		if (modalContainer === undefined) {
 			modalContainer = $('#' + modalId + ' .js-modal-data');
 		}
-		let moduleName = modalContainer.data('module');
+		let moduleName = modalContainer.data('module') || 'Base';
 		let modalClass = moduleName.replace(':', '_') + '_' + modalContainer.data('view') + '_JS';
 		if (typeof windowParent[modalClass] === 'undefined') {
 			modalClass = 'Base_' + modalContainer.data('view') + '_JS';

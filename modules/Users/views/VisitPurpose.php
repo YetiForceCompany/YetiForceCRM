@@ -10,7 +10,7 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
- * Users_VisitPurpose_View class.
+ * Request visit purpose when logging in as an administrator.
  */
 class Users_VisitPurpose_View extends \App\Controller\Modal
 {

@@ -10,7 +10,7 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
- * Users_VisitPurpose_Action class.
+ * Request visit purpose when logging in as an administrator - action.
  */
 class Users_VisitPurpose_Action extends \App\Controller\Action
 {

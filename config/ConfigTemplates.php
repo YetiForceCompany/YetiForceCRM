@@ -1027,11 +1027,7 @@ return [
 			'validation' => '\App\Validator::url',
 		],
 		'allowedImageDomains' => [
-			'default' => [
-				'a.tile.openstreetmap.org',
-				'b.tile.openstreetmap.org',
-				'c.tile.openstreetmap.org'
-			],
+			'default' => [],
 			'description' => 'Allowed domains for loading images, used in CSP.',
 			'loopValidate' => true,
 			'validation' => '\App\Validator::text',
