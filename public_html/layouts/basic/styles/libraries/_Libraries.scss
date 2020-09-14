@@ -522,23 +522,14 @@ body:not(.desktop) {
 }
 
 //-------- pnotify --------//
-@include media-breakpoint-down(md) {
-	.ui-pnotify-container {
-		padding: 0.5rem !important;
-	}
-
-	.ui-pnotify-icon {
-		display: none !important;
-	}
-
-	.ui-pnotify-title {
-		margin: 0px !important;
-	}
-
-	.ui-pnotify-text {
-		font-size: calculate-rem(13.5px) !important;
-		margin: 0px !important;
-	}
+.pnotify-container{
+    padding: 0.75rem;
+}
+.pnotify-title{
+line-height: 1.3rem;
+}
+.pnotify .bootstrap4-icon>*{
+    line-height: 1.5rem;
 }
 //-------- Material Design Icons --------//
 .mdi {

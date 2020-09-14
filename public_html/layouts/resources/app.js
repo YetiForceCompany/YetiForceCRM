@@ -2451,71 +2451,106 @@ var app = (window.app = {
 		txt.innerHTML = html;
 		return txt.value;
 	},
-	showAlert: function (customParams) {
-		let userParams = customParams;
-		if (typeof customParams === 'string') {
-			userParams = {};
-			userParams.text = customParams;
-		}
-		let params = {
-			target: document.body,
-			data: {
-				type: 'error',
-				hide: false,
-				stack: {
-					dir1: 'down',
-					modal: true,
-					firstpos1: 25
-				},
-				modules: {
-					Confirm: {
+	showAlert: function (text) {
+		return this.showNotify({
+			title: text,
+			type: 'error',
+			closer: false,
+			sticker: false,
+			destroy: false,
+			modules: new Map([
+				...PNotify.defaultModules,
+				[
+					PNotifyConfirm,
+					{
 						confirm: true,
 						buttons: [
 							{
-								text: 'Ok',
-								promptTrigger: true,
+								text: app.vtranslate('JS_OK'),
 								primary: true,
-								click: function (notice) {
-									notice.close();
-								}
+								click: (notice) => notice.close()
 							}
 						]
-					},
-					Buttons: {
-						closer: false,
-						sticker: false
-					},
-					History: {
-						history: false
 					}
-				}
-			}
-		};
-		if (typeof userParams !== 'undefined') {
-			params.data = $.extend(params.data, userParams);
-		}
-		return new PNotify(params);
+				]
+			]),
+			stack: new PNotify.Stack({
+				dir1: 'down',
+				modal: true,
+				firstpos1: 25,
+				overlayClose: false
+			})
+		});
 	},
-	showConfirmModal: function (customParams, confirmCallback = () => {}, cancelCallback = () => {}) {
-		let aDeferred = $.Deferred();
-
-		let userParams = customParams;
-		if (typeof customParams === 'string') {
-			userParams = {};
-			userParams.text = customParams;
+	showDesktopNotification: function (params) {
+		let type = 'error';
+		params.modules = new Map([
+			...PNotify.defaultModules,
+			[
+				PNotifyDesktop,
+				{
+					fallback: false,
+					icon: params.icon
+				}
+			]
+		]);
+		if (typeof params.type !== 'undefined') {
+			type = params.type;
+			if (params.type != 'error') {
+				params.hide = true;
+			}
 		}
+		returnPNotify[type](params);
+	},
+	showNotify: function (customParams) {
 		let params = {
-			target: document.body,
-			data: {
-				hide: false,
-				icon: 'fas fa-question-circle',
-				stack: {
-					dir1: 'down',
-					modal: true,
-					firstpos1: 25
-				},
-				modules: {
-					Confirm: {
+			hide: false
+		};
+		let userParams = customParams;
+		let type = 'info';
+		if (typeof customParams === 'string') {
+			userParams = {
+				title: customParams
+			};
+		}
+		if (typeof customParams.type !== 'undefined') {
+			type = customParams.type;
+		}
+		if (type !== 'error') {
+			params.hide = true;
+		}
+		return PNotify[type]($.extend(params, userParams));
+	},
+	/**
+	 * Set Pnotify defaults options
+	 */
+	setPnotifyDefaultOptions() {
+		PNotify.defaults.textTrusted = true; // *Trusted option enables html as parameter's value
+		PNotify.defaults.titleTrusted = true;
+		PNotify.defaults.sticker = false;
+		PNotify.defaults.styling = 'bootstrap4';
+		PNotify.defaults.icons = 'fontawesome5';
+		PNotify.defaults.delay = 4000;
+		PNotify.defaults.stack.maxOpen = 10;
+		PNotify.defaults.stack.spacing1 = 5;
+		PNotify.defaults.stack.spacing2 = 5;
+		PNotify.defaults.labels.close = app.vtranslate('JS_CLOSE');
+		PNotify.defaultModules.set(PNotifyBootstrap4, {});
+		PNotify.defaultModules.set(PNotifyFontAwesome5, {});
+		PNotify.defaultModules.set(PNotifyMobile, {});
+	},
+	showConfirmModal: function (text, callback) {
+		return this.showNotify({
+			icon: 'fas fa-question-circle',
+			title: text,
+			closer: false,
+			sticker: false,
+			destroy: false,
+			modules: new Map([
+				...PNotify.defaultModules,
+				[
+					PNotifyConfirm,
+					{
 						confirm: true,
 						buttons: [
 							{
@@ -2524,35 +2559,27 @@ var app = (window.app = {
 								promptTrigger: true,
 								click: function (notice) {
 									notice.close();
-									confirmCallback();
-									aDeferred.resolve(true);
+									callback(true);
 								}
 							},
 							{
 								text: app.vtranslate('JS_CANCEL'),
 								click: function (notice) {
 									notice.close();
-									cancelCallback();
-									aDeferred.resolve(false);
+									callback(false);
 								}
 							}
 						]
-					},
-					Buttons: {
-						closer: false,
-						sticker: false
-					},
-					History: {
-						history: false
 					}
-				}
-			}
-		};
-		if (typeof userParams !== 'undefined') {
-			params.data = $.extend(params.data, userParams);
-		}
-		new PNotify(params);
-		return aDeferred.promise();
+				]
+			]),
+			stack: new PNotify.Stack({
+				dir1: 'down',
+				modal: true,
+				firstpos1: 25,
+				overlayClose: false
+			})
+		});
 	},
 	registesterScrollbar(container) {
 		container.find('.js-scrollbar').each(function () {
@@ -2603,36 +2630,6 @@ var app = (window.app = {
 				}
 			}
 		);
-	},
-	showNotify: function (params) {
-		if (typeof params.type === 'undefined') {
-			params.type = 'info';
-		}
-		if (typeof params.title === 'undefined') {
-			params.title = app.vtranslate('JS_MESSAGE');
-		}
-		Vtiger_Helper_Js.showPnotify(params);
-	},
-	showDesktopNotification: function (params) {
-		params = $.extend(params, {
-			modules: {
-				Desktop: {
-					desktop: true,
-					fallback: false,
-					icon: params.icon
-				}
-			}
-		});
-		PNotify.notice(params);
-	},
-	/**
-	 * Set Pnotify defaults options
-	 */
-	setPnotifyDefaultOptions() {
-		PNotify.defaults.textTrusted = true; // *Trusted option enables html as parameter's value
-		PNotify.defaults.titleTrusted = true;
-		PNotify.defaults.styling = 'bootstrap4';
-		PNotify.defaults.icons = 'fontawesome5';
 	},
 	/**
 	 * Register auto format number value

@@ -181,43 +181,22 @@ $.Class(
 		 */
 		showPnotify: function (customParams) {
 			let userParams = customParams;
+			let type = 'error';
 			if (typeof customParams === 'string') {
 				userParams = {};
 				userParams.text = customParams;
 			}
 			let params = {
-				target: document.body,
-				data: {
-					type: 'error',
-					hide: false,
-					delay: '2000',
-					modules: {
-						Buttons: {
-							closerHover: false,
-							labels: { close: app.vtranslate('JS_CLOSE') }
-						},
-						Animate: {
-							animate: true,
-							inClass: 'animate__zoomInLeft',
-							outClass: 'animate__zoomOutRight'
-						}
-					}
-				}
+				hide: false
 			};
-			if (typeof customParams.type !== 'undefined' && customParams.type != 'error') {
-				params.data.hide = true;
+			if (typeof customParams.type !== 'undefined') {
+				type = customParams.type;
+				if (customParams.type != 'error') {
+					params.hide = true;
+				}
 			}
-			params.data = $.extend(params.data, userParams);
-			return new PNotify(params);
-		},
-		/*
-		 * Function to remove pnotify message
-		 */
-		hidePnotify: function (notice) {
-			if (typeof notice === 'undefined') {
-				notice = $('.ui-pnotify');
-			}
-			notice.remove();
+			params = $.extend(params, userParams);
+			return PNotify[type](params);
 		},
 		/*
 		 * Function to add clickoutside event on the element - By using outside events plugin

@@ -27,6 +27,46 @@
   resolved "https://registry.yarnpkg.com/@mdi/font/-/font-5.5.55.tgz#7f83d640f0692651f5e59558da99975f42114123"
   integrity sha512-xrVCXiRMz7ubB8mu6ehDhMADmGpLBsk3GWZccs39jWmhoTxatFnOvW8STJjqMGtePPNgGYYu/6m/AJVyMjBxnw==
 
+"@pnotify/bootstrap4@^5":
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/@pnotify/bootstrap4/-/bootstrap4-5.1.2.tgz#0bef9c3477cf422b48b1b2ac5f0d76732eccfebd"
+  integrity sha512-B4HYrV0Cm6Xbgjckwp5EhEsPkuTNv1pilO3JrGSpFfJwabrWX/tfZZXRT3efko1mcXVOzISBzxi2VncoRfz1Uw==
+  dependencies:
+    "@pnotify/core" "^5.1.2"
+
+"@pnotify/confirm@^5":
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/@pnotify/confirm/-/confirm-5.1.2.tgz#833dbb6a21c7b796aa37a0adb10203875355141a"
+  integrity sha512-eYRXpeY4/eq2dh9aiCS1ApLiKK4bshOTx/QSSbtNbJ3sf5k/1W4CyE9MRxFJVWYVKW08/f43qjC7GCpcmxAqcQ==
+  dependencies:
+    "@pnotify/core" "^5.1.2"
+
+"@pnotify/core@^5", "@pnotify/core@^5.1.2":
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/@pnotify/core/-/core-5.1.2.tgz#acab14bf843297a67cf281f0a246081f8c6534fa"
+  integrity sha512-YMy9lQUkwzjIiRS+CjwrsyaQF4MzzX5HGIlZnAIfRnmPRKOfE0oR9UAN+v6ZM476T7jo3DVt2XYu/PVveBG7PQ==
+
+"@pnotify/desktop@^5":
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/@pnotify/desktop/-/desktop-5.1.2.tgz#fc762e6c2b2090c8edefdac0d688dc3b5f2680f7"
+  integrity sha512-L5mDBNWBehq6+DCfygqT8u4LNGKHcllmwrIcet0qfeHnNG9A786LsJfsAOemZue4Q6+frAQ37J8LUd65Km+ANw==
+  dependencies:
+    "@pnotify/core" "^5.1.2"
+
+"@pnotify/font-awesome5@^5":
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/@pnotify/font-awesome5/-/font-awesome5-5.1.2.tgz#5ff097e632505a5a3ee2b82a9637162af77cd388"
+  integrity sha512-CrXQmkDYpnSt3Cj+fxRbGxijfNJSJSjDw0pUlfl6ueH9VnW9MkF5s1V+n1fomZMN5tcfR6NoDCHw3n4YBmZOpA==
+  dependencies:
+    "@pnotify/core" "^5.1.2"
+
+"@pnotify/mobile@^5":
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/@pnotify/mobile/-/mobile-5.1.2.tgz#949bf3ebca2fda8952beb23050e56700ed475ca7"
+  integrity sha512-CYQmQ2TTYa7Husv4WxWrACrvky/X/t2bzFYxVbixGHGY2SeFWJrFtwXq8sAFVml2TeqEf/tM/mQmvKM8PT/NTQ==
+  dependencies:
+    "@pnotify/core" "^5.1.2"
+
 add@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
@@ -472,9 +512,9 @@ loose-envify@^1.0.0:
     js-tokens "^3.0.0 || ^4.0.0"
 
 moment@^2.10.2, moment@^2.23.0, moment@^2.9.0:
-  version "2.27.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
-  integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
+  version "2.28.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.28.0.tgz#cdfe73ce01327cee6537b0fafac2e0f21a237d75"
+  integrity sha512-Z5KOjYmnHyd/ukynmFd/WwyXHd7L4J9vTI/nn5Ap9AVUgaAE15VvQ9MOGmJJygEUklupqIrFnor/tjTwRU+tQw==
 
 mousetrap@^1.6.3:
   version "1.6.5"
@@ -504,11 +544,6 @@ perfect-scrollbar@^1.3.0:
   resolved "https://registry.yarnpkg.com/perfect-scrollbar/-/perfect-scrollbar-1.5.0.tgz#821d224ed8ff61990c23f26db63048cdc75b6b83"
   integrity sha512-NrNHJn5mUGupSiheBTy6x+6SXCFbLlm8fVZh9moIzw/LgqElN5q4ncR4pbCBCYuCJ8Kcl9mYM0NgDxvW+b4LxA==
 
-pnotify@^4.0:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.1.tgz#4381253d218d910c07b9075731c4905a890c6f69"
-  integrity sha512-61hbTKWbAx/ghrW8K3LFtUNGVxR04hBN13exUQlweaV4sKHMyZFG102YE2HzVaM0eRFLJFXZlTQB9QPvjMO21g==
-
 popper.js@^1.15.0, popper.js@^1.16.0:
   version "1.16.1"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.1.tgz#2a223cb3dc7b6213d740e40372be40de43e65b1b"
@@ -522,9 +557,9 @@ promise@^7.1.1:
     asap "~2.0.3"
 
 quasar@^1.6.1:
-  version "1.13.2"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.13.2.tgz#8f7fa5103cb3e4d5cdf088e37beda6ee25d21d6a"
-  integrity sha512-HJtWz38rLXLvTJqZ5c9GIS6SSwLjN0t8iTwAwD2AQ5FOsUTji6sq3XzzoPll5degXFevnVJlyFH5YTqMYnawVg==
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.14.0.tgz#3ac220cd22e0774531fd6d0f3c8accc9331a6fcd"
+  integrity sha512-S7tREMAKP53n9slk1E6e0qwKQaNAA5N1aGUDUTr3zyVtaDj3FeIvacoppTZFUhXTrwAbbRd/mMZdMHLSuNsbBQ==
 
 regenerator-runtime@^0.12.0:
   version "0.12.1"
@@ -602,9 +637,9 @@ tributejs@^5.0.0:
   integrity sha512-B5CXihaVzXw+1UHhNFyAwUTMDk1EfoLP5Tj1VhD9yybZ1I8DZJEv8tZ1l0RJo0t0tk9ZhR8eG5tEsaCvRigmdQ==
 
 ua-parser-js@^0.7.18:
-  version "0.7.21"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.21.tgz#853cf9ce93f642f67174273cc34565ae6f308777"
-  integrity sha512-+O8/qh/Qj8CgC6eYBVBykMrNtp5Gebn4dlGD/kKXVkJNDwyrAwSIqwz8CDf+tsAIWVycKcku6gIXJ0qwx/ZXaQ==
+  version "0.7.22"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.22.tgz#960df60a5f911ea8f1c818f3747b99c6e177eae3"
+  integrity sha512-YUxzMjJ5T71w6a8WWVcMGM6YWOTX27rCoIQgLXiWaxqXSx9D7DNjiGWn1aJIRSQ5qr0xuhra77bSIh6voR/46Q==
 
 url-polyfill@^1.1.7:
   version "1.1.10"

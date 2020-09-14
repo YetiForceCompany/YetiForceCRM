@@ -645,7 +645,7 @@ jQuery.Class(
 		 * Function to return alerts if no records selected.
 		 */
 		noRecordSelectedAlert: function (text = 'JS_PLEASE_SELECT_ONE_RECORD') {
-			return Vtiger_Helper_Js.showPnotify({ text: app.vtranslate(text) });
+			Vtiger_Helper_Js.showPnotify({ text: app.vtranslate(text) });
 		},
 		massActionSave: function (form, isMassEdit) {
 			if (typeof isMassEdit === 'undefined') {

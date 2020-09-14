@@ -1321,7 +1321,7 @@ jQuery.Class(
 			return aDeferred.promise();
 		},
 		noRecordSelectedAlert: function (text = 'JS_PLEASE_SELECT_ONE_RECORD') {
-			return Vtiger_Helper_Js.showPnotify({ text: app.vtranslate(text) });
+			Vtiger_Helper_Js.showPnotify({ text: app.vtranslate(text) });
 		},
 		getCurrentCvId: function () {
 			return $('#customFilter').find('option:selected').data('id');

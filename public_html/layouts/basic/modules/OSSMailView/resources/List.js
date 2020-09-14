@@ -8,8 +8,8 @@ Vtiger_List_Js(
 			var listInstance = Vtiger_List_Js.getInstance();
 			var validationResult = listInstance.checkListRecordSelected();
 			if (validationResult != true) {
-				app.showConfirmModal(app.vtranslate('JS_BIND_CONFIRM')).done(function (data) {
-					if (!data) {
+				app.showConfirmModal(app.vtranslate('JS_BIND_CONFIRM'), function (a) {
+					if (!a) {
 						return false;
 					}
 				});

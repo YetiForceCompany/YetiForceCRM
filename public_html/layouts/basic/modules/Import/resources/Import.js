@@ -371,31 +371,31 @@ if (typeof ImportJs === 'undefined') {
 			});
 		},
 		deleteMap: function (module) {
-			let callback = function () {
-				var selectedMapElement = jQuery('#saved_maps option:selected');
-				var mapId = selectedMapElement.attr('id');
-				var status = jQuery('#status');
-				status.show();
-				var postData = {
-					module: module,
-					view: 'Import',
-					mode: 'deleteMap',
-					mapid: mapId
-				};
-
-				AppConnector.request(postData)
-					.done(function (data) {
-						let mapContainer = $('#savedMapsContainer').html(data);
-						status.hide();
-						App.Fields.Picklist.showSelect2ElementView(mapContainer.find('select'));
-						var parent = jQuery('#saved_maps');
-						App.Fields.Picklist.changeSelectElementView(parent);
-					})
-					.fail(function (error, err) {
-						console.error(error);
-					});
-			};
-			app.showConfirmModal(app.vtranslate('LBL_DELETE_CONFIRMATION'), callback);
+			app.showConfirmModal(app.vtranslate('LBL_DELETE_CONFIRMATION'), function (s) {
+				if (s) {
+					var selectedMapElement = jQuery('#saved_maps option:selected');
+					var mapId = selectedMapElement.attr('id');
+					var status = jQuery('#status');
+					status.show();
+					var postData = {
+						module: module,
+						view: 'Import',
+						mode: 'deleteMap',
+						mapid: mapId
+					};
+					AppConnector.request(postData)
+						.done(function (data) {
+							let mapContainer = $('#savedMapsContainer').html(data);
+							status.hide();
+							App.Fields.Picklist.showSelect2ElementView(mapContainer.find('select'));
+							var parent = jQuery('#saved_maps');
+							App.Fields.Picklist.changeSelectElementView(parent);
+						})
+						.fail(function (error, err) {
+							console.error(error);
+						});
+				}
+			});
 		},
 		loadDefaultValueWidget: function (rowIdentifierId) {
 			var affectedRow = jQuery('#' + rowIdentifierId);
