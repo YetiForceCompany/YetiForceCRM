@@ -883,10 +883,3 @@ $h-calendar-form-actions: calculate-rem(49px);
 .fc-day-top.fc-mon {
 	position: relative;
 }
-
-.fc-row .fc-content-skeleton {
-	z-index: unset !important;
-}
-.fc-row .fc-bgevent-skeleton {
-	z-index: 1 !important;
-}
