@@ -95,6 +95,29 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 						$params['picklistValues'][$userId] = \App\Fields\Owner::getUserLabel($userId);
 					}
 					break;
+				case 'datetime':
+					$params['uitype'] = 80;
+					$params['label'] = 'FL_DATE_TIME';
+					$params['typeofdata'] = 'DT~O';
+					$params['table'] = 'l_#__users_login_purpose';
+					break;
+				case 'purpose':
+					$params['uitype'] = 21;
+					$params['label'] = 'FL_PURPOSE';
+					$params['typeofdata'] = 'V~O';
+					$params['table'] = 'l_#__users_login_purpose';
+					break;
+				case 'baseid':
+				case 'userid':
+					$params['label'] = 'baseid' === $name ? 'FL_BASE_USER' : 'FL_USER';
+					$params['uitype'] = 16;
+					$params['typeofdata'] = 'V~O';
+					$params['sort'] = 'false';
+					$params['table'] = 'l_#__users_login_purpose';
+					foreach ($this->getUsers() as $userId) {
+						$params['picklistValues'][$userId] = \App\Fields\Owner::getUserLabel($userId);
+					}
+					break;
 				default: break;
 			}
 			$this->fields[$name] = \Vtiger_Field_Model::init($moduleName, $params, $name);
@@ -119,8 +142,13 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 			case 'status':
 				$value = $request->getInteger($fieldName);
 				break;
+			case 'baseid':
+			case 'userid':
 			case 'user':
 				$value = $request->getArray($fieldName, \App\Purifier::INTEGER);
+				break;
+			case 'datetime':
+				$value = $this->getFieldInstanceByName($fieldName)->getUITypeModel()->getDbConditionBuilderValue($request->getByType($fieldName, 'Text'), 'bw');
 				break;
 			default: break;
 		}
@@ -184,11 +212,46 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 			case 'status':
 				$value = \App\Language::translate(1 == $value ? 'LBL_YES' : 'LBL_NO', $this->getName(true));
 				break;
+			case 'baseid':
+			case 'userid':
 			case 'user':
-				$value = implode(', ', \App\Fields\Owner::getLabel($value));
+				$value = \App\Fields\Owner::getLabel($value);
+				$value = \is_array($value) ? implode(', ', $value) : $value;
+				break;
+			case 'purpose':
+				$value = $this->getFieldInstanceByName($key)->getUITypeModel()->getListViewDisplayValue($value);
 				break;
 			default: break;
 		}
 		return $value;
+	}
+
+	/**
+	 * Gets structure.
+	 *
+	 * @param string $key
+	 *
+	 * @return array
+	 */
+	public function getStructure(string $key): array
+	{
+		$fields = [];
+		switch ($key) {
+			case 'visitPurpose':
+				foreach (['userid', 'datetime', 'purpose', 'baseid'] as $fieldName) {
+					$fields[] = $this->getFieldInstanceByName($fieldName);
+				}
+				break;
+			default: break;
+		}
+		return $fields;
+	}
+
+	/**
+	 * Function to get Alphabet Search Field.
+	 */
+	public function getAlphabetSearchField()
+	{
+		return '';
 	}
 }
