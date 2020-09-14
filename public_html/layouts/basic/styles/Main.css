@@ -12382,6 +12382,9 @@ select.select2 select.select2noactive {
   overflow: hidden;
   height: calc(1.5em + 0.75rem + 2px) !important; }
 
+.narrow .select2-selection.select2-selection--multiple {
+  min-height: calc(1.5em) !important; }
+
 .select2-container .select2-search--inline {
   float: unset;
   width: fit-content; }
@@ -12579,16 +12582,14 @@ body:not(.desktop) .ps__rail-y {
 .btn-sm .fa-xs, .btn-group-sm > .btn .fa-xs, .rightRecordActions .actions .dropdown-menu .btn-xs .fa-xs, .rightRecordActions .actions .dropdown-menu table .listButtons.narrow .btn.btn-sm .fa-xs, table .listButtons.narrow .rightRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs, .leftRecordActions .actions .dropdown-menu .btn-xs .fa-xs, .leftRecordActions .actions .dropdown-menu table .listButtons.narrow .btn.btn-sm .fa-xs, table .listButtons.narrow .leftRecordActions .actions .dropdown-menu .btn.btn-sm .fa-xs {
   vertical-align: 0.0625rem; }
 
-@media (max-width: 991.98px) {
-  .ui-pnotify-container {
-    padding: 0.5rem !important; }
-  .ui-pnotify-icon {
-    display: none !important; }
-  .ui-pnotify-title {
-    margin: 0px !important; }
-  .ui-pnotify-text {
-    font-size: 0.84375rem !important;
-    margin: 0px !important; } }
+.pnotify-container {
+  padding: 0.75rem; }
+
+.pnotify-title {
+  line-height: 1.3rem; }
+
+.pnotify .bootstrap4-icon > * {
+  line-height: 1.5rem; }
 
 .mdi {
   line-height: 1; }
@@ -12605,6 +12606,9 @@ body:not(.desktop) .ps__rail-y {
 
 .q-tab__icon {
   height: unset; }
+
+.dataTables_processing {
+  z-index: 4000; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .table thead th, .c-detail-widget__table thead th,
@@ -13826,9 +13830,6 @@ hr {
 #massEdit .cancelLinkContainer {
   padding: 5px 0;
   margin-left: 0.5em; }
-
-.ui-pnotify {
-  z-index: 1000023; }
 
 /*Feedback UI*/
 .feedback {
@@ -19030,6 +19031,8 @@ ul.c-process-line {
   .dashboardWidget .dashboardWidgetContent:not(.dashboardWidgetCalendar) {
     padding: 5px;
     line-height: 20px; }
+  .dashboardWidget .dashboardWidgetContent .fc-bg {
+    pointer-events: none; }
   .dashboardWidget .widgeticons {
     min-width: 50px;
     height: 30px;
