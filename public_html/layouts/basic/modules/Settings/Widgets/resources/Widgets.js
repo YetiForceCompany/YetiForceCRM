@@ -131,7 +131,7 @@ jQuery.Class(
 			})
 				.done((data) => {
 					aDeferred.resolve(data);
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: data['result']['message'],
 						type: 'success'
 					});

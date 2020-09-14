@@ -971,7 +971,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 					} else if (response === 'pin') {
 						thisInstance.find('.js-pin-icon').removeClass('far').addClass('fas');
 					} else {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+						app.showNotify(app.vtranslate('JS_ERROR'));
 					}
 				});
 			});

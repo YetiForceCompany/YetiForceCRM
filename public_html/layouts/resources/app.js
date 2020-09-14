@@ -236,7 +236,7 @@ var App = (window.App = {
 								app.event.trigger('QuickCreate.AfterSaveFinal', data, form);
 								progress.progressIndicator({ mode: 'hide' });
 								if (data.success) {
-									Vtiger_Helper_Js.showPnotify({
+									this.showNotify({
 										text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
 										type: 'success'
 									});
@@ -429,7 +429,7 @@ var App = (window.App = {
 								app.event.trigger('QuickEdit.AfterSaveFinal', data, form, element);
 								progress.progressIndicator({ mode: 'hide' });
 								if (data.success) {
-									Vtiger_Helper_Js.showPnotify({
+									this.showNotify({
 										text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
 										type: 'success'
 									});

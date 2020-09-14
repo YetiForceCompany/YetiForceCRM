@@ -99,14 +99,14 @@ $.Class(
 					status: this.dataset.status
 				})
 					.done(function () {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 							type: 'success'
 						});
 						dt.ajax.reload(null, false);
 					})
 					.fail(function () {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: app.vtranslate('JS_ERROR'),
 							type: 'error'
 						});
@@ -200,14 +200,14 @@ $.Class(
 								comment: result
 							})
 								.done(function () {
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 										type: 'success'
 									});
 									dt.ajax.reload(null, false);
 								})
 								.fail(function () {
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										text: app.vtranslate('JS_ERROR'),
 										type: 'error'
 									});

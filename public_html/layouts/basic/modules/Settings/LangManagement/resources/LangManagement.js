@@ -49,7 +49,7 @@ var Settings_Index_Js = {
 				action: 'DownloadLanguage',
 				prefix: $(e.target).data('prefix')
 			}).done(function (data) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: data['result']['type']
 				});
@@ -321,7 +321,7 @@ var Settings_Index_Js = {
 			if (response['success'] == true) {
 				params.type = 'info';
 			}
-			Vtiger_Helper_Js.showPnotify(params);
+			app.showNotify(params);
 			resp = response['success'];
 		});
 		return { resp: resp, params: params.data.params, result: response };

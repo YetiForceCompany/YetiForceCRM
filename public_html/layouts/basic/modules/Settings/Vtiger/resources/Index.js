@@ -20,7 +20,7 @@ $.Class(
 			if (typeof customParams !== 'undefined') {
 				params = $.extend(params, customParams);
 			}
-			Vtiger_Helper_Js.showPnotify(params);
+			app.showNotify(params);
 		},
 		selectIcon: function () {
 			var aDeferred = $.Deferred();
@@ -137,7 +137,7 @@ $.Class(
 							text: app.vtranslate('JS_SUCCESSFULLY_UNPINNED'),
 							type: 'info'
 						};
-						Vtiger_Helper_Js.showPnotify(params);
+						app.showNotify(params);
 					}
 				});
 			});
@@ -225,7 +225,7 @@ $.Class(
 							text: app.vtranslate('JS_SHORTCUT_ALREADY_ADDED'),
 							type: 'info'
 						};
-						Vtiger_Helper_Js.showPnotify(params);
+						app.showNotify(params);
 					} else {
 						self.registerPinShortCutEvent(ui.draggable.parent());
 					}

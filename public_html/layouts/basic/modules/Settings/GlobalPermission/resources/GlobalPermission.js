@@ -19,7 +19,7 @@ var Settings_GlobalPermission_Js = {
 				text: response['message'],
 				type: 'success'
 			};
-			Vtiger_Helper_Js.showPnotify(params);
+			app.showNotify(params);
 		});
 	},
 	registerEvents: function () {

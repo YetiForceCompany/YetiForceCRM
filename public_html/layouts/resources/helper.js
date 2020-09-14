@@ -174,7 +174,7 @@ $.Class(
 			if (typeof params.title === 'undefined') {
 				params.title = app.vtranslate('JS_MESSAGE');
 			}
-			Vtiger_Helper_Js.showPnotify(params);
+			app.showNotify(params);
 		},
 		/*
 		 * Function to show pnotify message

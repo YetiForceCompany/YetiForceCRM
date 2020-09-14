@@ -61,7 +61,7 @@ jQuery.Class(
 				params['ip'] = ipAddresses;
 				AppConnector.request(params).done((response) => {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response.result.message,
 						type: 'info'
 					});

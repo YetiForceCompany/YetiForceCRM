@@ -15,7 +15,7 @@ jQuery.Class(
 			container.find('[name="saveButton"]').on('click', function (e) {
 				if (!form.validationEngine('validate')) {
 					e.preventDefault();
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_ENTER_REGISTRATION_KEY'),
 						type: 'error'
 					});
@@ -35,7 +35,7 @@ jQuery.Class(
 					mode: 'serial',
 					key: container.find('.registrationKey').val()
 				}).done(function (data) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: data['result']['message'],
 						type: data['result']['type']
 					});

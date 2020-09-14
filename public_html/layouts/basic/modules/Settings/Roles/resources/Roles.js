@@ -278,7 +278,7 @@ var Settings_Roles_Js = {
 					} else {
 						notifyType = 'error';
 					}
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate(data.result.message),
 						type: notifyType

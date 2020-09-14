@@ -49,7 +49,7 @@ jQuery.Class(
 			container.find('[name="saveButton"]').on('click', function (e) {
 				if (!form.validationEngine('validate')) {
 					e.preventDefault();
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_ENTER_ALL_REGISTRATION_DATA'),
 						type: 'error'
 					});
@@ -70,7 +70,7 @@ jQuery.Class(
 					companies: self.getCompanies(form)
 				})
 					.done(function (data) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: data['result']['message'],
 							type: data['result']['type']
 						});

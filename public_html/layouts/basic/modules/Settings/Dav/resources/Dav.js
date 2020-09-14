@@ -82,7 +82,7 @@ jQuery.Class(
 					} else {
 						params.type = 'error';
 					}
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 					if (reload == true && response.success == true) {
 						window.location.reload();
 					}

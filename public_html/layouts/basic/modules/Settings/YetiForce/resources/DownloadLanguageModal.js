@@ -19,7 +19,7 @@ jQuery.Class(
 					action: 'DownloadLanguage',
 					prefix: $(e.target).data('prefix')
 				}).done(function (data) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: data['result']['message'],
 						type: data['result']['type']
 					});

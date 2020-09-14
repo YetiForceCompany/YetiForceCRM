@@ -53,7 +53,7 @@ $.Class(
 									if (icon.length) {
 										icon.removeClass('fa-times text-danger').addClass('fa-slash text-dark');
 									}
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										text: data.result.message,
 										type: data.result.type
 									});
@@ -85,7 +85,7 @@ $.Class(
 					)
 				).done(function (data) {
 					if (data.result) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: data.result.message,
 							type: data.result.type
 						});
@@ -115,7 +115,7 @@ $.Class(
 					)
 				).done(function (data) {
 					if (data.result) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: data.result.message,
 							type: data.result.type
 						});

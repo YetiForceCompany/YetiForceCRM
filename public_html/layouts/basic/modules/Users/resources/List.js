@@ -83,7 +83,7 @@ Vtiger_List_Js(
 						text: data.result.message,
 						type: 'success'
 					};
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 				}
 			});
 		},
@@ -132,7 +132,7 @@ Vtiger_List_Js(
 												text: response.result.message,
 												type: 'error'
 											};
-											Vtiger_Helper_Js.showPnotify(params);
+											app.showNotify(params);
 											jQuery('[data-id=' + userId + ']').hide();
 										}
 									});
@@ -176,7 +176,7 @@ Vtiger_List_Js(
 						progressInstance.progressIndicator({
 							mode: 'hide'
 						});
-						Vtiger_Helper_Js.showPnotify(response.result.message);
+						app.showNotify(response.result.message);
 						var url = response.result.listViewUrl;
 						window.location.href = url;
 					}
@@ -213,7 +213,7 @@ Vtiger_List_Js(
 								mode: 'hide'
 							});
 							if (data.error) {
-								Vtiger_Helper_Js.showPnotify({
+								app.showNotify({
 									text: app.vtranslate(data.error.message),
 									title: app.vtranslate('JS_LBL_PERMISSION')
 								});

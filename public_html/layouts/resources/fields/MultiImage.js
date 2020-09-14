@@ -157,7 +157,7 @@ class MultiImage {
 			}
 		}
 		app.errorLog(`File '${hash}' not found.`);
-		Vtiger_Helper_Js.showPnotify({ text: app.vtranslate('JS_INVALID_FILE_HASH') + ` [${hash}]` });
+		app.showNotify({ text: app.vtranslate('JS_INVALID_FILE_HASH') + ` [${hash}]` });
 	}
 
 	/**
@@ -185,7 +185,7 @@ class MultiImage {
 		const { jqXHR, files } = data;
 		if (typeof jqXHR.responseJSON === 'undefined' || jqXHR.responseJSON === null) {
 			App.Fields.MultiImage.currentFileUploads--;
-			return Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_FILE_UPLOAD_ERROR'));
+			return app.showNotify(app.vtranslate('JS_FILE_UPLOAD_ERROR'));
 		}
 		const response = jqXHR.responseJSON;
 		// first try to show error for concrete file
@@ -198,9 +198,9 @@ class MultiImage {
 				App.Fields.MultiImage.currentFileUploads--;
 				this.deleteFile(fileAttach.hash, false);
 				if (typeof fileAttach.error === 'string') {
-					Vtiger_Helper_Js.showPnotify(fileAttach.error + ` [${fileAttach.name}]`);
+					app.showNotify(fileAttach.error + ` [${fileAttach.name}]`);
 				} else {
-					Vtiger_Helper_Js.showPnotify(
+					app.showNotify(
 						app.vtranslate('JS_FILE_UPLOAD_ERROR') + ` [${fileAttach.name}]`
 					);
 				}
@@ -212,7 +212,7 @@ class MultiImage {
 		files.forEach((file) => {
 			App.Fields.MultiImage.currentFileUploads--;
 			this.deleteFile(file.hash, false);
-			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_FILE_UPLOAD_ERROR') + ` [${file.name}]`);
+			app.showNotify(app.vtranslate('JS_FILE_UPLOAD_ERROR') + ` [${file.name}]`);
 		});
 		this.updateFormValues();
 	}
@@ -235,7 +235,7 @@ class MultiImage {
 				return this.uploadError(e, data);
 			}
 			if (typeof fileAttach.info !== 'undefined' && fileAttach.info) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					type: 'notice',
 					text: fileAttach.info + ` [${fileAttach.name}]`
 				});
@@ -276,7 +276,7 @@ class MultiImage {
 			}
 		});
 		if (!valid) {
-			Vtiger_Helper_Js.showPnotify(
+			app.showNotify(
 				`${app.vtranslate('JS_INVALID_FILE_TYPE')} [${file.name}]\n${app.vtranslate(
 					'JS_AVAILABLE_FILE_TYPES'
 				)}  [${this.options.formats.join(', ')}]`
@@ -290,7 +290,7 @@ class MultiImage {
 	 */
 	showLimitError() {
 		this.elements.fileInput.val('');
-		Vtiger_Helper_Js.showPnotify(`${app.vtranslate('JS_FILE_LIMIT')} [${this.options.limit}]`);
+		app.showNotify(`${app.vtranslate('JS_FILE_LIMIT')} [${this.options.limit}]`);
 	}
 
 	/**

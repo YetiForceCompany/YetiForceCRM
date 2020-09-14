@@ -33,7 +33,7 @@ Settings_Vtiger_List_Js(
 							thisInstance.updatePagination();
 						});
 					} else {
-						Vtiger_Helper_Js.showPnotify(data.error.message);
+						app.showNotify(data.error.message);
 					}
 				});
 			});

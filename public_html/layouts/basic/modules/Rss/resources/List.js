@@ -109,7 +109,7 @@ Vtiger_List_Js(
 						title: app.vtranslate('JS_MESSAGE'),
 						text: app.vtranslate(result.result.message)
 					};
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 				}
 			});
 		},
@@ -265,7 +265,7 @@ Vtiger_List_Js(
 									text: app.vtranslate(data.error.message),
 									title: app.vtranslate('JS_LBL_PERMISSION')
 								};
-								Vtiger_Helper_Js.showPnotify(params);
+								app.showNotify(params);
 							}
 						},
 						function (error, err) {}
@@ -312,9 +312,9 @@ Vtiger_List_Js(
 						text: app.vtranslate(data.result.message),
 						type: 'info'
 					};
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 				} else {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate(data.error.message),
 						title: app.vtranslate('JS_LBL_PERMISSION')
 					});

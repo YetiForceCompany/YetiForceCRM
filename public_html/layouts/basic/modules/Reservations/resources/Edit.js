@@ -52,7 +52,7 @@ Vtiger_Edit_Js(
 						text: app.vtranslate('JS_DATE_SHOULD_BE_GREATER_THAN'),
 						type: 'error'
 					};
-					Vtiger_Helper_Js.showPnotify(parametry);
+					app.showNotify(parametry);
 					return false;
 				} else {
 					form.submit();

@@ -303,7 +303,7 @@ jQuery.Class(
 				})
 				.fail(function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_NOT_ALLOWED_VALUE'),
 						type: 'error'
 					});
@@ -411,12 +411,12 @@ jQuery.Class(
 						}
 						detail.registerRelatedModulesRecordCount();
 					} else {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
+						app.showNotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
 					}
 				})
 				.fail(function (err, errThrow) {
 					progressInstance.progressIndicator({ mode: 'hide' });
-					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
+					app.showNotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
 				});
 		},
 		/**
@@ -947,7 +947,7 @@ jQuery.Class(
 							if (state) {
 								text = app.vtranslate('JS_ADDED_TO_FAVORITES');
 							}
-							Vtiger_Helper_Js.showPnotify({ text: text, type: 'success' });
+							app.showNotify({ text: text, type: 'success' });
 						}
 					});
 			});
@@ -1321,7 +1321,7 @@ jQuery.Class(
 			return aDeferred.promise();
 		},
 		noRecordSelectedAlert: function (text = 'JS_PLEASE_SELECT_ONE_RECORD') {
-			Vtiger_Helper_Js.showPnotify({ text: app.vtranslate(text) });
+			app.showNotify({ text: app.vtranslate(text) });
 		},
 		getCurrentCvId: function () {
 			return $('#customFilter').find('option:selected').data('id');

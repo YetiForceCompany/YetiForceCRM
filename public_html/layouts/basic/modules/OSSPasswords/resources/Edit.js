@@ -49,7 +49,7 @@ Vtiger_Edit_Js(
 							sticker_hover: false,
 							type: 'error'
 						};
-						Vtiger_Helper_Js.showPnotify(params);
+						app.showNotify(params);
 						thisInstance.sending = false;
 						e.preventDefault();
 						e.stopPropagation();

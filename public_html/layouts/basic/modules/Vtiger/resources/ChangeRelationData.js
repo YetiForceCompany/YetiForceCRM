@@ -36,7 +36,7 @@ $.Class(
 								type: 'error'
 							};
 						}
-						Vtiger_Helper_Js.showPnotify(params);
+						app.showNotify(params);
 					})
 					.fail(function (textStatus, errorThrown) {});
 			});

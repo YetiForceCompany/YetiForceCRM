@@ -260,14 +260,14 @@ var Settings_Picklist_Js = {
 		$('#renameItem').on('click', (e) => {
 			const selectedListItems = this.getSelectedItems();
 			if (selectedListItems.length < 1) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_NO_ITEM_SELECTED'),
 					type: 'error'
 				});
 				return false;
 			} else if (selectedListItems.length > 1) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_MORE_THAN_ONE_ITEM_SELECTED'),
 					type: 'error'
@@ -415,7 +415,7 @@ var Settings_Picklist_Js = {
 						progress.progressIndicator({ mode: 'hide' });
 						if (typeof data.result !== 'undefined' && data.result === true) {
 							app.hideModalWindow();
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								title: app.vtranslate('JS_MESSAGE'),
 								text: app.vtranslate('JS_ITEM_SAVED_SUCCESSFULLY'),
 								type: 'success'
@@ -439,14 +439,14 @@ var Settings_Picklist_Js = {
 		$('#processStatusItem').on('click', (e) => {
 			const selectedListItems = this.getSelectedItems();
 			if (selectedListItems.length === 0) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_NO_ITEM_SELECTED'),
 					type: 'error'
 				});
 				return false;
 			} else if (selectedListItems.length > 1) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_MORE_THAN_ONE_ITEM_SELECTED'),
 					type: 'error'
@@ -508,7 +508,7 @@ var Settings_Picklist_Js = {
 								text: app.vtranslate('JS_ITEM_ADDED_SUCCESSFULLY'),
 								type: 'success'
 							};
-							Vtiger_Helper_Js.showPnotify(params);
+							app.showNotify(params);
 							//update the new item in the hidden picklist values array
 							var pickListValuesEle = jQuery('[name="pickListValues"]');
 							var pickListValuesArray = JSON.parse(pickListValuesEle.val());
@@ -556,7 +556,7 @@ var Settings_Picklist_Js = {
 						progress.progressIndicator({ mode: 'hide' });
 						if (typeof data.result !== 'undefined') {
 							app.hideModalWindow();
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								title: app.vtranslate('JS_MESSAGE'),
 								text: app.vtranslate('JS_ITEM_RENAMED_SUCCESSFULLY'),
 								type: 'success'
@@ -644,7 +644,7 @@ var Settings_Picklist_Js = {
 								delete pickListValuesArray[e];
 							});
 							pickListValuesEle.val(JSON.stringify(pickListValuesArray));
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								title: app.vtranslate('JS_MESSAGE'),
 								text: app.vtranslate('JS_ITEMS_DELETED_SUCCESSFULLY'),
 								type: 'success'

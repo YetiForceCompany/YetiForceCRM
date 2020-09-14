@@ -168,7 +168,7 @@ $.Class(
 		registerCopyClipboard: function (editViewForm) {
 			new ClipboardJS('#customVariableCopy', {
 				text: function (trigger) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 						type: 'success'
 					});
@@ -177,7 +177,7 @@ $.Class(
 			});
 			new ClipboardJS('#picklistVariableCopy', {
 				text: function (trigger) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 						type: 'success'
 					});

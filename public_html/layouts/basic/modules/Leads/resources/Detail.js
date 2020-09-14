@@ -99,7 +99,7 @@ Vtiger_Detail_Js(
 						instance.enableConvertLeadButton(buttonElement);
 					}
 				};
-				Vtiger_Helper_Js.showPnotify(params);
+				app.showNotify(params);
 			} else {
 				var callBackFunction = function (data) {
 					var editViewObj = Vtiger_Edit_Js.getInstance();

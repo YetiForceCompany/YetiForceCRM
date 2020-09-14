@@ -140,7 +140,7 @@ Vtiger_Detail_Js(
 				};
 				AppConnector.request(params).done(function (data) {
 					if (data.success) {
-						Vtiger_Helper_Js.showPnotify({ text: data.result.data, type: 'success' });
+						app.showNotify({ text: data.result.data, type: 'success' });
 					}
 					app.hideModalWindow();
 				});
@@ -219,7 +219,7 @@ Vtiger_Detail_Js(
 					} else {
 						let addTimeControlCb = saveData;
 						if (!response.result.relatedTicketsClosed.result) {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: response.result.relatedTicketsClosed.message,
 								type: 'info'
 							});
@@ -228,7 +228,7 @@ Vtiger_Detail_Js(
 							};
 						}
 						if (!response.result.hasTimeControl.result) {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: response.result.hasTimeControl.message,
 								type: 'info'
 							});

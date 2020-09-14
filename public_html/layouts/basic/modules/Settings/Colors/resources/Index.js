@@ -70,7 +70,7 @@ Settings_Vtiger_Index_Js(
 					}
 				});
 				request(color).then((data) => {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: data['result']['message'],
 						type: 'success'
 					});
@@ -115,7 +115,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', data['result'].color);
 				colorPreview.data('color', data['result'].color);
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -133,7 +133,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', '');
 				colorPreview.data('color', '');
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -170,7 +170,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', data['result'].color);
 				colorPreview.data('color', data['result'].color);
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -188,7 +188,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', '');
 				colorPreview.data('color', '');
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -225,7 +225,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', data['result'].color);
 				colorPreview.data('color', data['result'].color);
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -243,7 +243,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', '');
 				colorPreview.data('color', '');
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -261,7 +261,7 @@ Settings_Vtiger_Index_Js(
 				color: colorPreview.data('color'),
 				record: target.data('record')
 			}).done(function (data) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -280,7 +280,7 @@ Settings_Vtiger_Index_Js(
 				picklistModule: target.data('fieldmodule'),
 				fieldId: target.data('fieldid')
 			}).done(function (data) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -329,7 +329,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', data['result'].color);
 				colorPreview.data('color', data['result'].color);
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -359,7 +359,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', '');
 				colorPreview.data('color', '');
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -492,7 +492,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', data['result'].color);
 				colorPreview.data('color', data['result'].color);
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});
@@ -529,7 +529,7 @@ Settings_Vtiger_Index_Js(
 			}).done(function (data) {
 				colorPreview.css('background', '');
 				colorPreview.data('color', '');
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: data['result']['message'],
 					type: 'success'
 				});

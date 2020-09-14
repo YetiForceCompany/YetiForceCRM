@@ -235,7 +235,7 @@ jQuery.Class(
 								type: 'info'
 							};
 						}
-						Vtiger_Helper_Js.showPnotify(notifyParams);
+						app.showNotify(notifyParams);
 					})
 					.fail(function (error) {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
