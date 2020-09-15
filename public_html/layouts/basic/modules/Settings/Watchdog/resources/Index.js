@@ -2,17 +2,17 @@
 'use strict';
 
 jQuery.Class(
-	'Settings_YetiForce_Watchdog_Js',
+	'Settings_Watchdog_Index_Js',
 	{},
 	{
 		registerEvents() {
-			const container = $('.js-Settings-YetiForce-Watchdog-table');
+			const container = $('.js-watchdog-container');
 			container.find('.js-vars').on('change', function (e) {
 				let field = $(this);
 				AppConnector.request({
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
-					action: 'Watchdog',
+					action: 'SaveAjax',
 					flagName: field.data('flag'),
 					newParam: field.val()
 				})

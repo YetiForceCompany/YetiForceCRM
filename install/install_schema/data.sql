@@ -196,6 +196,7 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (75,'Workflows',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (76,'RecordNumbering',1,'2020-09-15 09:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (77,'ConfigEditor',1,'2020-09-15 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (78,'Watchdog',1,'2020-09-15 13:08:50');
 
 /*Data for the table `a_yf_smsnotifier_servers` */
 
@@ -18500,7 +18501,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (109,7,'LBL_ENCRYPTION','fas fa-key',NULL,'index.php?module=Password&parent=Settings&view=Encryption',4,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (111,7,'LBL_2FA_CONF','adminIcon-passwords-configuration','LBL_2FA_DESCRIPTION','index.php?module=TwoFactorAuthentication&parent=Settings&view=Index',5,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (112,5,'LBL_SOCIAL_MEDIA','fab fa-twitter-square','LBL_SOCIAL_MEDIA_DESC','index.php?module=SocialMedia&parent=Settings&view=Index',14,0,0,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (113,9,'LBL_YETIFORCE_WATCHDOG_HEADER','fas fa-thermometer-half','LBL_YETIFORCE_WATCHDOG_DESC','index.php?module=YetiForce&parent=Settings&view=Watchdog',6,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (113,9,'LBL_YETIFORCE_WATCHDOG_HEADER','fas fa-thermometer-half','LBL_YETIFORCE_WATCHDOG_DESC','index.php?module=Watchdog&parent=Settings&view=Index',6,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (114,7,'LBL_LOGS','fas fa-exclamation-triangle','LBL_LOGS_DESC','index.php?module=Log&parent=Settings&view=Index',6,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (116,4,'LBL_BACKUP_MANAGER','yfi yfi-adminIcon-backup','LBL_BACKUP_MANAGER_DESCRIPTION','index.php?module=Backup&parent=Settings&view=Index',14,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (117,3,'LBL_BUSINESS_HOURS','fas fa-business-time','LBL_BUSINESS_HOURS_DESCRIPTION','index.php?module=BusinessHours&parent=Settings&view=List',4,0,0,NULL);
