@@ -22,10 +22,8 @@
 		</ul>
 	</div>
 	<div id="my-tab-content" class="tab-content ml-1 mr-1">
-		<div class="js-tab tab-pane active font-weight-normal" id="permissions" data-js="data">
-		</div>
-		<div class="js-tab tab-pane font-weight-normal" id="historyAdminsVisitPurpose" data-js="data">
-		</div>
+		<div class="js-tab tab-pane active font-weight-normal" id="permissions" data-js="data"></div>
+		<div class="js-tab tab-pane font-weight-normal" id="historyAdminsVisitPurpose" data-js="data"></div>
 	</div>
 </div>
 <!-- /tpl-Settings-AdminAccess-Index -->

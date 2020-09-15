@@ -102,7 +102,7 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 					$params['table'] = 'l_#__users_login_purpose';
 					break;
 				case 'purpose':
-					$params['uitype'] = 21;
+					$params['uitype'] = 300;
 					$params['label'] = 'FL_PURPOSE';
 					$params['typeofdata'] = 'V~O';
 					$params['table'] = 'l_#__users_login_purpose';

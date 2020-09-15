@@ -66,7 +66,6 @@ $.Class(
 			if ($('.saveButton').attr('disabled')) {
 				return;
 			}
-			console.log('co jest grane?');
 			const editViewForm = this.getForm();
 			const sourceModule = editViewForm.find('[name="sourceModule"]').val();
 			const prefix = editViewForm.find('[name="prefix"]');
