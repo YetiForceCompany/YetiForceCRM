@@ -1,14 +1,16 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
-
-class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Model
+/**
+ * Record numbering basic module file.
+ *
+ * @package   Settings.Model
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+/**
+ * Record numbering basic module class.
+ */
+class Settings_RecordNumbering_Module_Model extends Vtiger_Module_Model
 {
 	/**
 	 * Function to get focus of this object.
@@ -29,7 +31,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 	 * @param string $moduleName
 	 * @param mixed  $tabId
 	 *
-	 * @return Settings_Vtiger_CustomRecordNumberingModule_Model $moduleModel
+	 * @return self
 	 */
 	public static function getInstance($moduleName, $tabId = false)
 	{

@@ -1,16 +1,7 @@
-{*<!--
-/*********************************************************************************
-** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is:  vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-* Contributor(s): YetiForce.com
-********************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-Vtiger-CustomRecordNumbering">
+	<!-- tpl-Settings-RecordNumbering-CustomRecordNumbering -->
+	<div>
 		<form id="EditView" method="POST">
 			<div class="o-breadcrumb widget_header row mb-3">
 				<div class="col-6 col-xl-9 col-12">
@@ -274,7 +265,7 @@
 										</select>
 										<div class="input-group-append">
 											<input type="hidden" value="" id="customVariable"/>
-											<button class="btn btn-sm btn-info float-right" id="customVariableCopy"
+											<button class="btn btn-sm btn-info float-right" id="customVariableCopy" type="button"
 													title="{\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}">
 												<span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}
 											</button>
@@ -306,7 +297,7 @@
 										</select>
 										<div class="input-group-append">
 											<input type="hidden" value="" id="picklistVariable"/>
-											<button class="btn btn-sm btn-info float-right" id="picklistVariableCopy"
+											<button class="btn btn-sm btn-info float-right" id="picklistVariableCopy" type="button"
 													title="{\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}">
 												<span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}
 											</button>
@@ -334,4 +325,5 @@
 			</div>
 		</form>
 	</div>
+	<!-- /tpl-Settings-RecordNumbering-CustomRecordNumbering -->
 {/strip}

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Settings-Base-CustomRecordNumberingAdvanced -->
+<!-- tpl-Settings-RecordNumbering-Advanced -->
 <div class="modal-body">
 	{if !empty($PICKLISTS_VALUES)}
 		<form class="form-modal js-custom-record-numbering-advanced" method="POST" data-js="container">
@@ -42,5 +42,5 @@
 		</div>
 	{/if}
 </div>
-<!-- tpl-Settings-Base-CustomRecordNumberingAdvanced -->
+<!-- tpl-Settings-RecordNumbering-Advanced -->
 {/strip}

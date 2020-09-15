@@ -1171,7 +1171,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			'linkurl' => 'index.php?parent=Settings&module=Widgets&view=Index&sourceModule=' . $this->getName(),
 			'linkicon' => 'adminIcon-modules-widgets',
 		];
-		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
+		if (\App\Security\AdminAccess::isPermitted('Workflows') && VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
 			$settingsLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
@@ -1191,7 +1191,13 @@ class Vtiger_Module_Model extends \vtlib\Module
 			'linkurl' => 'index.php?parent=Settings&module=PickListDependency&view=List&formodule=' . $this->getName(),
 			'linkicon' => 'adminIcon-fields-picklists-relations',
 		];
-		if ($this->hasSequenceNumberField()) {
+		foreach ($settingsLinks as $key => $data) {
+			$moduleName = \vtlib\Functions::getQueryParams($data['linkurl'])['module'] ?? null;
+			if (!$moduleName || !\App\Security\AdminAccess::isPermitted($moduleName)) {
+				unset($settingsLinks[$key]);
+			}
+		}
+		if (\App\Security\AdminAccess::isPermitted('RecordNumbering') && $this->hasSequenceNumberField()) {
 			$settingsLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_MODULE_SEQUENCE_NUMBERING',

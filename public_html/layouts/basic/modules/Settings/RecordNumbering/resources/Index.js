@@ -1,15 +1,8 @@
-/*+***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- *************************************************************************************/
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 $.Class(
-	'Settings_CustomRecordNumbering_Js',
+	'Settings_RecordNumbering_Index_Js',
 	{},
 	{
 		form: false,
@@ -32,7 +25,7 @@ $.Class(
 				AppConnector.request({
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
-					action: 'CustomRecordNumberingAjax',
+					action: 'GetData',
 					mode: 'getModuleCustomNumberingData',
 					sourceModule: $(e.currentTarget).val()
 				}).done(function (data) {
@@ -73,6 +66,7 @@ $.Class(
 			if ($('.saveButton').attr('disabled')) {
 				return;
 			}
+			console.log('co jest grane?');
 			const editViewForm = this.getForm();
 			const sourceModule = editViewForm.find('[name="sourceModule"]').val();
 			const prefix = editViewForm.find('[name="prefix"]');
@@ -101,7 +95,7 @@ $.Class(
 			AppConnector.request({
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
-				action: 'CustomRecordNumberingAjax',
+				action: 'SaveAjax',
 				mode: 'saveModuleCustomNumberingData',
 				sourceModule: sourceModule,
 				prefix: currentPrefix,
@@ -136,7 +130,7 @@ $.Class(
 				AppConnector.request({
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
-					action: 'CustomRecordNumberingAjax',
+					action: 'SaveAjax',
 					mode: 'updateRecordsWithSequenceNumber',
 					sourceModule: sourceModule
 				}).done(function (data) {
@@ -311,7 +305,7 @@ $.Class(
 				AppConnector.request({
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
-					view: 'CustomRecordNumberingAdvanced',
+					view: 'Advanced',
 					sourceModule: sourceModule,
 					picklist: picklistName
 				}).done(function (data) {
@@ -330,7 +324,7 @@ $.Class(
 									AppConnector.request({
 										module: app.getModuleName(),
 										parent: app.getParentModuleName(),
-										action: 'CustomRecordNumberingAjax',
+										action: 'SaveAjax',
 										mode: 'saveModuleCustomNumberingAdvanceData',
 										sourceModule: sourceModule,
 										sequenceNumber: modalForm.find('.js-picklist-sequence').serializeFormData()
@@ -378,7 +372,3 @@ $.Class(
 		}
 	}
 );
-$(document).ready(function () {
-	let customRecordNumberingInstance = new Settings_CustomRecordNumbering_Js();
-	customRecordNumberingInstance.registerEvents();
-});

@@ -3,13 +3,13 @@
 /**
  * Modal for advanced record numbering.
  *
- * @package   View
+ * @package   Settings.View
  *
  * @copyright YetiForce Sp. z o.o.
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
-class Settings_Vtiger_CustomRecordNumberingAdvanced_View extends \App\Controller\ModalSettings
+class Settings_RecordNumbering_Advanced_View extends \App\Controller\ModalSettings
 {
 	/**
 	 * {@inheritdoc}
@@ -25,7 +25,7 @@ class Settings_Vtiger_CustomRecordNumberingAdvanced_View extends \App\Controller
 	 */
 	public function process(App\Request $request)
 	{
-		$supportedModules = Settings_Vtiger_CustomRecordNumberingModule_Model::getSupportedModules();
+		$supportedModules = Settings_RecordNumbering_Module_Model::getSupportedModules();
 		$sourceModule = $request->getByType('sourceModule', 2);
 		$moduleModel = \Vtiger_Module_Model::getInstance($sourceModule);
 		$picklistSequences = (new \App\Db\Query())->select(['value', 'cur_id'])->from('u_#__modentity_sequences')->where(['tabid' => $moduleModel->getId()])->createCommand()->queryAllByGroup(0);
@@ -56,6 +56,6 @@ class Settings_Vtiger_CustomRecordNumberingAdvanced_View extends \App\Controller
 		$viewer->assign('SUPPORTED_MODULES', $supportedModules);
 		$viewer->assign('DEFAULT_MODULE_MODEL', $defaultModuleModel);
 		$viewer->assign('PICKLISTS_VALUES', $picklist);
-		$viewer->view('CustomRecordNumberingAdvanced.tpl', $request->getModule(false));
+		$viewer->view('Advanced.tpl', $request->getModule(false));
 	}
 }

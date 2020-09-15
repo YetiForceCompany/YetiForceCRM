@@ -194,6 +194,7 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (73,'Widgets',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (74,'WidgetsManagement',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (75,'Workflows',1,'2020-09-09 12:08:50');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (76,'RecordNumbering',1,'2020-09-15 09:08:50');
 
 /*Data for the table `a_yf_smsnotifier_servers` */
 
@@ -18434,7 +18435,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (15,5,'LBL_PBX','adminIcon-pbx-manager','LBL_PBX_DESCRIPTION','index.php?module=PBX&parent=Settings&view=List',3,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (16,4,'LBL_CURRENCY_SETTINGS','adminIcon-currencies','LBL_CURRENCY_DESCRIPTION','index.php?parent=Settings&module=Currency&view=List',5,0,1,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (17,4,'LBL_SWITCH_USERS','adminIcon-users','LBL_SWITCH_USERS_DESCRIPTION','index.php?module=Users&view=SwitchUsers&parent=Settings',10,0,0,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (22,2,'LBL_CUSTOMIZE_RECORD_NUMBERING','adminIcon-recording-control','LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION','index.php?module=Vtiger&parent=Settings&view=CustomRecordNumbering',6,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (22,2,'LBL_CUSTOMIZE_RECORD_NUMBERING','adminIcon-recording-control','LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION','index.php?module=RecordNumbering&parent=Settings&view=CustomRecordNumbering',6,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (24,15,'LBL_LIST_WORKFLOWS','yfi-workflows-2','LBL_LIST_WORKFLOWS_DESCRIPTION','index.php?module=Workflows&parent=Settings&view=List',1,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (25,4,'LBL_CONFIG_EDITOR','adminIcon-system-tools','LBL_CONFIG_EDITOR_DESCRIPTION','index.php?module=Vtiger&parent=Settings&view=ConfigEditorDetail',7,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (26,15,'Scheduler','adminIcon-cron','LBL_SCHEDULER_DESCRIPTION','index.php?module=CronTasks&parent=Settings&view=List',3,0,1,NULL);
