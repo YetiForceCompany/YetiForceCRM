@@ -1,16 +1,24 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce Sp. z o.o.
- * *********************************************************************************** */
-
-class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
+/**
+ * Config editor basic module file.
+ *
+ * @package   Settings.Model
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+/**
+ * Config editor basic module class.
+ */
+class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public $name = 'ConfigEditor';
+	/**
+	 * {@inheritdoc}
+	 */
 	public $listFields = [
 		'upload_maxsize' => 'LBL_MAX_UPLOAD_SIZE',
 		'default_module' => 'LBL_DEFAULT_MODULE',
@@ -35,7 +43,8 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	public function init()
 	{
 		foreach ($this->listFields as $fieldName => $fieldData) {
-			$value = \App\Config::main($fieldName);
+			$source = $this->getFieldInstanceByName($fieldName)->get('source');
+			$value = \App\Config::{$source}($fieldName);
 			if ('upload_maxsize' === $fieldName) {
 				$value /= 1048576;
 			}
@@ -62,7 +71,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	{
 		$menuItem = $this->getMenuItem();
 
-		return 'index.php?module=Vtiger&parent=Settings&view=ConfigEditorEdit&block=' . $menuItem->get('blockid') . '&fieldid=' . $menuItem->get('fieldid');
+		return 'index.php?module=ConfigEditor&parent=Settings&view=Edit&block=' . $menuItem->get('blockid') . '&fieldid=' . $menuItem->get('fieldid');
 	}
 
 	/**
@@ -74,7 +83,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	{
 		$menuItem = $this->getMenuItem();
 
-		return 'index.php?module=Vtiger&parent=Settings&view=ConfigEditorDetail&block=' . $menuItem->get('blockid') . '&fieldid=' . $menuItem->get('fieldid');
+		return 'index.php?module=ConfigEditor&parent=Settings&view=Detail&block=' . $menuItem->get('blockid') . '&fieldid=' . $menuItem->get('fieldid');
 	}
 
 	/**
@@ -84,7 +93,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @throws \ReflectionException
 	 *
-	 * @return \Settings_Vtiger_ConfigModule_Model|\Settings_Vtiger_Module_Model
+	 * @return self
 	 */
 	public static function getInstance($name = 'Settings:Vtiger')
 	{
@@ -103,7 +112,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	public function getFieldInstanceByName($name)
 	{
 		$moduleName = $this->getName(true);
-		$params = ['uitype' => 7, 'column' => $name, 'name' => $name, 'label' => $this->listFields[$name], 'displaytype' => 1, 'typeofdata' => 'I~M', 'presence' => 0, 'isEditableReadOnly' => false, 'maximumlength' => '', 'validator' => [['name' => 'NumberRange100']]];
+		$params = ['uitype' => 7, 'column' => $name, 'name' => $name, 'label' => $this->listFields[$name], 'displaytype' => 1, 'typeofdata' => 'I~M', 'presence' => 0, 'isEditableReadOnly' => false, 'maximumlength' => '', 'validator' => [['name' => 'NumberRange100']], 'source' => 'main'];
 		switch ($name) {
 			case 'listMaxEntriesMassEdit':
 				$params['maximumlength'] = '5000';
@@ -116,9 +125,14 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			case 'layoutInLoginView':
 			case 'langInLoginView':
 			case 'backgroundClosingModal':
+				$params['uitype'] = 56;
+				$params['typeofdata'] = 'C~M';
+				unset($params['validator']);
+				break;
 			case 'breadcrumbs':
 				$params['uitype'] = 56;
 				$params['typeofdata'] = 'C~M';
+				$params['source'] = 'layout';
 				unset($params['validator']);
 				break;
 			case 'default_module':
