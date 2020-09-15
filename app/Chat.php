@@ -693,7 +693,6 @@ final class Chat
 				$lastMessagesData[] = $roomLastMessage;
 			}
 		}
-		var_dump($lastMessagesData);
 		$lastMessage = array_reduce($lastMessagesData, function ($a, $b) {
 			return $a['created'] > $b['created'] ? $a : $b;
 		});

@@ -176,28 +176,7 @@ $.Class(
 			}
 			app.showNotify(params);
 		},
-		/*
-		 * Function to show pnotify message
-		 */
-		showPnotify: function (customParams) {
-			let userParams = customParams;
-			let type = 'error';
-			if (typeof customParams === 'string') {
-				userParams = {};
-				userParams.text = customParams;
-			}
-			let params = {
-				hide: false
-			};
-			if (typeof customParams.type !== 'undefined') {
-				type = customParams.type;
-				if (customParams.type != 'error') {
-					params.hide = true;
-				}
-			}
-			params = $.extend(params, userParams);
-			return PNotify[type](params);
-		},
+
 		/*
 		 * Function to add clickoutside event on the element - By using outside events plugin
 		 * @params element---On which element you want to apply the click outside event
