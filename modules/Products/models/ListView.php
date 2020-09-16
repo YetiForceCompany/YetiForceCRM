@@ -26,14 +26,18 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 		$queryGenerator = $this->get('query_generator');
 		// Limit the choice of products/services only to the ones related to currently selected Opportunity - last step.
 		if (Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit($this->get('src_module'))) {
-			if ($this->isEmpty('salesprocessid')) {
+			if($this->isEmpty('filterFields')){
+				return [];
+			}
+			$filterFields = $this->get('filterFields');
+			if (!isset($filterFields['salesprocessid']) || empty($salesProcessId = $filterFields['salesprocessid'])) {
 				$pagingModel->calculatePageRange(0);
 				return [];
 			}
 			if (\in_array($moduleName, ['Products', 'Services'])) {
 				$queryGenerator->addNativeCondition(['or',
-					['vtiger_crmentityrel.crmid' => $this->get('salesprocessid'), 'module' => 'SSalesProcesses'],
-					['vtiger_crmentityrel.relcrmid' => $this->get('salesprocessid'), 'relmodule' => 'SSalesProcesses'],
+					['vtiger_crmentityrel.crmid' => $salesProcessId, 'module' => 'SSalesProcesses'],
+					['vtiger_crmentityrel.relcrmid' => $salesProcessId, 'relmodule' => 'SSalesProcesses'],
 				]);
 				if ('Services' === $moduleName) {
 					$queryGenerator->addJoin(['INNER JOIN', 'vtiger_crmentityrel', 'vtiger_crmentityrel.relcrmid = vtiger_service.serviceid OR vtiger_crmentityrel.crmid = vtiger_service.serviceid']);
