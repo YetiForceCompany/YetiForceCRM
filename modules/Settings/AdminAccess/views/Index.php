@@ -42,7 +42,9 @@ class Settings_AdminAccess_Index_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Gets permissions tab view.
+	 *
+	 * @param App\Request $request
 	 */
 	public function permissions(App\Request $request)
 	{
@@ -55,7 +57,9 @@ class Settings_AdminAccess_Index_View extends Settings_Vtiger_Index_View
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Gets history admins visit purpose tab view.
+	 *
+	 * @param App\Request $request
 	 */
 	public function historyAdminsVisitPurpose(App\Request $request)
 	{

@@ -78,7 +78,7 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 					$params['table'] = $this->getBaseTable();
 					$modules = (new \App\Db\Query())->from($this->getBaseTable())->select(['name'])->column();
 					foreach ($modules as $module) {
-						$params['picklistValues'][$module] = \App\Language::translate($module, $module);
+						$params['picklistValues'][$module] = \App\Language::translate($module, "Settings:{$module}");
 					}
 					break;
 				case 'status':
@@ -207,7 +207,7 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		switch ($key) {
 			case 'name':
-				$value = \App\Language::translate($value, $value);
+				$value = \App\Language::translate($value, "Settings:{$value}");
 				break;
 			case 'status':
 				$value = \App\Language::translate(1 == $value ? 'LBL_YES' : 'LBL_NO', $this->getName(true));

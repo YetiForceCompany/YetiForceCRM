@@ -903,7 +903,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Verify user assword.
+	 * Verify user password.
 	 *
 	 * @param string $password
 	 *
@@ -1044,7 +1044,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		return $favouriteUsers;
 	}
-
 
 	/**
 	 * Update record label.
