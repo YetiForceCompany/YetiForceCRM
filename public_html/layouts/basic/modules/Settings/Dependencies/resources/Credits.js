@@ -2,7 +2,7 @@
 'use strict';
 
 jQuery.Class(
-	'Settings_Vtiger_Credits_Js',
+	'Settings_Dependencies_Credits_Js',
 	{},
 	{
 		/**

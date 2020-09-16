@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-Vtiger-LibraryMoreInfo modal-header">
-
+	<!-- tpl-Settings-Dependencies-LibraryMoreInfo -->
+	<div class="modal-header">
 		<h5 class="modal-title">
 			<span class="fas fa-info-circle mr-1"></span>
 			{\App\Language::translate('LBL_MORE_LIBRARY_INFO', $QUALIFIED_MODULE)}
@@ -21,4 +21,5 @@
 			</div>
 		{/if}
 	</div>
+	<!-- /tpl-Settings-Dependencies-LibraryMoreInfo -->
 {/strip}

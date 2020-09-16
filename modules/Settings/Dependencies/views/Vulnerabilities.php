@@ -3,11 +3,13 @@
 /**
  * YetiForce vulnerabilities view class.
  *
+ * @package   Settings.View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
-class Settings_YetiForce_Vulnerabilities_View extends Settings_Vtiger_Index_View
+class Settings_Dependencies_Vulnerabilities_View extends Settings_Vtiger_Index_View
 {
 	/**
 	 * Process user request.

@@ -3,11 +3,13 @@
 /**
  * Library More Info View Class.
  *
+ * @package   Settings.View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
  */
-class Settings_Vtiger_LibraryMoreInfo_View extends Settings_Vtiger_BasicModal_View
+class Settings_Dependencies_LibraryMoreInfo_View extends Settings_Vtiger_BasicModal_View
 {
 	/**
 	 * Public libraries package files.
@@ -16,6 +18,9 @@ class Settings_Vtiger_LibraryMoreInfo_View extends Settings_Vtiger_BasicModal_Vi
 	 */
 	public $packageFiles = ['package.json', 'composer.json', 'bower.json'];
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(App\Request $request)
 	{
 		$result = false;
