@@ -307,7 +307,7 @@ class User
 	 */
 	public function isAdmin()
 	{
-		return $this->privileges['details']['is_admin'];
+		return !empty($this->privileges['details']['is_admin']);
 	}
 
 	/**

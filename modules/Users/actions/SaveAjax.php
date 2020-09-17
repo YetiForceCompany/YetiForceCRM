@@ -92,13 +92,8 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	{
 		parent::getRecordModelFromRequest($request);
 		$fieldName = $request->get('field');
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if ('is_admin' === $fieldName && (!$currentUserModel->isAdminUser() || !$request->get('value'))) {
-			$this->record->set($fieldName, 'off');
-			$this->record->set('is_owner', 0);
-		} elseif ('is_admin' === $fieldName && $currentUserModel->isAdminUser()) {
-			$this->record->set($fieldName, 'on');
-			$this->record->set('is_owner', 1);
+		if ('is_admin' === $fieldName && ($fieldModel = $this->record->getModule()->getFieldByName($fieldName))->isWritable()) {
+			$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->record, 'value');
 		}
 		return $this->record;
 	}
