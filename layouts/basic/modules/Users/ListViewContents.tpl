@@ -136,11 +136,13 @@
 						{if $LISTVIEW_HEADER@last}
 							<div class="float-right actions">
 								<div class="actionImages flexWrapper">
-									<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'>
-										<span class="fas fa-retweet align-middle"
-											  title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}"></span>
-										<span class="sr-only">{\App\Language::translate('LBL_DUPLICATE', $MODULE)}</span>
-									</a>&nbsp;
+									{if $IS_MODULE_EDITABLE}
+										<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'>
+											<span class="fas fa-retweet align-middle"
+												title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}"></span>
+											<span class="sr-only">{\App\Language::translate('LBL_DUPLICATE', $MODULE)}</span>
+										</a>&nbsp;
+									{/if}
 									{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
 										<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT"
 										   href='{$LISTVIEW_ENTRY->getEditViewUrl()}'>

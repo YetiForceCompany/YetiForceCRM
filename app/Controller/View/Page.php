@@ -177,18 +177,18 @@ abstract class Page extends Base
 	 */
 	protected function getMenuHeaderLinks(\App\Request $request)
 	{
-		$userModel = \Users_Record_Model::getCurrentUserModel();
+		$userModel = \App\User::getCurrentUserModel();
 		$headerLinks = [];
-		if (\App\MeetingService::getInstance()->isActive() && \App\Privilege::isPermitted('Users', 'MeetingUrl', false, $userModel->getRealId())) {
+		if (\App\MeetingService::getInstance()->isActive() && \App\Privilege::isPermitted('Users', 'MeetingUrl', false, \App\User::getCurrentUserRealId())) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_VIDEO_CONFERENCE',
-				'linkdata' => ['url' => 'index.php?module=Users&view=MeetingModal&record=' . $userModel->getRealId()],
+				'linkdata' => ['url' => 'index.php?module=Users&view=MeetingModal&record=' . \App\User::getCurrentUserRealId()],
 				'icon' => 'AdditionalIcon-VideoConference',
 				'linkclass' => 'js-show-modal'
 			];
 		}
-		if ($userModel->isAdminUser()) {
+		if ($userModel->isAdmin() || $userModel->isSuperUser()) {
 			if ('Settings' !== $request->getByType('parent', 2)) {
 				$headerLinks[] = [
 					'linktype' => 'HEADERLINK',

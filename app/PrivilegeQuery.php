@@ -96,7 +96,7 @@ class PrivilegeQuery
 			}
 		}
 		$tabId = Module::getModuleId($moduleName);
-		if (!$userModel->isAdminUser() && 1 == $userModel->profile_global_permission[1] && 1 == $userModel->profile_global_permission[2] && 3 === $userModel->defaultOrgSharingPermission[$tabId]) {
+		if (!$userModel->isAdminUser() && 1 == $userModel->profile_global_permission[1] && 1 == $userModel->profile_global_permission[2] && 3 === ($userModel->defaultOrgSharingPermission[$tabId] ?? null)) {
 			$conditions = ['or'];
 			$conditions[] = ['vtiger_crmentity.smownerid' => $userId];
 			if (!empty($userModel->groups)) {

@@ -25,7 +25,7 @@ class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 		} elseif ($request->isEmpty('record')) {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
 		}
-		if (\App\Security\AdminAccess::isPermitted($moduleName) || (\App\User::getCurrentUserId() === $request->getInteger('record') && App\Config::security('SHOW_MY_PREFERENCES'))) {
+		if ((\App\Security\AdminAccess::isPermitted($moduleName) && $this->record->isEditable())) {
 			return true;
 		}
 		throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');

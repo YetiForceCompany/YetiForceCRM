@@ -11,16 +11,7 @@
 
 class Users_List_View extends Settings_Vtiger_List_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function checkPermission(App\Request $request)
-	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser()) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-	}
+	use \App\Controller\Traits\SettingsPermission;
 
 	/**
 	 * {@inheritdoc}
