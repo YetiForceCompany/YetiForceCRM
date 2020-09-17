@@ -10,7 +10,7 @@ Vtiger_Edit_Js(
 			// Limit the choice of products/services only to the ones related to currently selected Opportunity - first step.
 			let potential = this.getForm().find('input[name="salesprocessid"]');
 			if (jQuery.inArray(params.module, ['Products', 'Services']) != -1 && potential.length) {
-				params.salesprocessid = potential.val();
+				params.filterFields['salesprocessid'] = potential.val();
 			}
 			return params;
 		}
