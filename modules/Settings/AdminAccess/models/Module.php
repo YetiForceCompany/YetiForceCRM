@@ -163,7 +163,7 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getUsers(): array
 	{
 		return (new \App\QueryGenerator('Users'))->setFields(['id'])
-			->addCondition('is_admin', 'on', 'e')->createQuery()->column();
+			->addCondition('is_admin', 'on', 'n')->createQuery()->column();
 	}
 
 	/**
