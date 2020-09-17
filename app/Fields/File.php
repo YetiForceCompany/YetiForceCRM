@@ -1086,7 +1086,7 @@ class File
 		try {
 			\App\Log::beginProfile("GET|File|{$url}", 'Fields');
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['timeout' => 1, 'connect_timeout' => 1]);
-			\App\Log::beginProfile("GET|File|{$url}", 'Fields');
+			\App\Log::endProfile("GET|File|{$url}", 'Fields');
 			if (200 === $response->getStatusCode()) {
 				return true;
 			}
