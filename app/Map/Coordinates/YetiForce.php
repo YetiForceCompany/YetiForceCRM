@@ -36,10 +36,13 @@ class YetiForce extends Base
 		], $addressInfo);
 		$coordinates = false;
 		try {
+			$url = 'https://osm-search.yetiforce.eu/?' . \http_build_query($params);
+			\App\Log::beginProfile("GET|YetiForce|{$url}", 'Map/Coordinates');
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
-				->request('GET', 'https://osm-search.yetiforce.eu/?' . \http_build_query($params), [
+				->request('GET', $url, [
 					'auth' => [$product['params']['login'], $product['params']['pass']],  'headers' => ['InsKey' => \App\YetiForce\Register::getInstanceKey()]
 				]);
+			\App\Log::endProfile("GET|YetiForce|{$url}", 'Map/Coordinates');
 			if (200 === $response->getStatusCode()) {
 				$coordinates = \App\Json::decode($response->getBody());
 			} else {

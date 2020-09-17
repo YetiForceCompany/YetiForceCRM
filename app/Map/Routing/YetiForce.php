@@ -46,11 +46,14 @@ class YetiForce extends Base
 		$travel = $distance = 0;
 		$description = '';
 		try {
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', 'https://osm-route.yetiforce.eu/ors/directions?' . \http_build_query($params),
+			$url = 'https://osm-route.yetiforce.eu/ors/directions?' . \http_build_query($params);
+			\App\Log::beginProfile("GET|YetiForce|{$url}", 'Map/Routing');
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url,
 			 ['timeout' => 5,  'auth' => ['yeti', 'CLVoEHh0Se'], 'http_errors' => false, 'headers' => [
 			 	'Accept' => 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
 			 ]]
 			);
+			\App\Log::endProfile("GET|YetiForce|{$url}", 'Map/Routing');
 			if (200 === $response->getStatusCode()) {
 				$json = \App\Json::decode($response->getBody());
 			} else {

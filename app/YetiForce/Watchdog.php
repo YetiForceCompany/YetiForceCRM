@@ -74,9 +74,11 @@ class Watchdog
 			}
 		}
 		try {
+			\App\Log::beginProfile("POST|Watchdog|{$url}", 'Yetiforce/Watchdog');
 			(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
 				'timeout' => 5,
 				'body' => \App\Json::encode($info)]);
+			\App\Log::beginProfile("POST|Watchdog|{$url}", 'Yetiforce/Watchdog');
 		} catch (\Throwable $e) {
 			\App\Log::warning('Not possible to connect to the server status' . PHP_EOL . $e->getMessage(), 'YetiForceStatus');
 		}

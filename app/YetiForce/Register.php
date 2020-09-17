@@ -112,11 +112,13 @@ class Register
 		}
 		$result = false;
 		try {
+			\App\Log::beginProfile('POST|Register|' . static::$registrationUrl . 'add', 'Yetiforce/Register');
 			$response = (new \GuzzleHttp\Client())
 				->post(static::$registrationUrl . 'add',
 					\App\RequestHttp::getOptions() + [
 						'form_params' => $this->getData()
 					]);
+			\App\Log::endProfile('POST|Register|' . static::$registrationUrl . 'add', 'Yetiforce/Register');
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
@@ -160,6 +162,7 @@ class Register
 		$status = 0;
 		try {
 			$data = ['last_check_time' => date('Y-m-d H:i:s')];
+			\App\Log::beginProfile('POST|Register|' . static::$registrationUrl . 'check', 'Yetiforce/Register');
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post(static::$registrationUrl . 'check', [
 				'form_params' => \array_merge($conf, [
 					'version' => \App\Version::get(),
@@ -169,6 +172,7 @@ class Register
 					'package' => \App\Company::getSize(),
 				])
 			]);
+			\App\Log::endProfile('POST|Register|' . static::$registrationUrl . 'check', 'Yetiforce/Register');
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);

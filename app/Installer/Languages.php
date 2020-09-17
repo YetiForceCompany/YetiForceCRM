@@ -55,7 +55,10 @@ class Languages
 		$endpoint = \App\Config::developer('LANGUAGES_UPDATE_DEV_MODE') ? 'Developer' : \App\Version::get();
 		$languages = [];
 		try {
-			$response = (new \GuzzleHttp\Client())->request('GET', "https://github.com/YetiForceCompany/YetiForceCRMLanguages/raw/master/{$endpoint}/lang.json", \App\RequestHttp::getOptions());
+			$url = "https://github.com/YetiForceCompany/YetiForceCRMLanguages/raw/master/{$endpoint}/lang.json";
+			\App\Log::beginProfile("GET|Languages|{$url}", 'Installer/Languages');
+			$response = (new \GuzzleHttp\Client())->request('GET', $url, \App\RequestHttp::getOptions());
+			\App\Log::endProfile("GET|Languages|{$url}", 'Installer/Languages');
 			if (200 === $response->getStatusCode()) {
 				$body = \App\Json::decode($response->getBody());
 				if ($body) {
@@ -91,7 +94,9 @@ class Languages
 		$status = false;
 		if (\App\Fields\File::isExistsUrl($url)) {
 			try {
+				\App\Log::beginProfile("GET|Languages|{$url}", 'Installer/Languages');
 				(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['sink' => $path]);
+				\App\Log::endProfile("GET|Languages|{$url}", 'Installer/Languages');
 				if (\file_exists($path)) {
 					(new \vtlib\Language())->import($path);
 					\unlink($path);
