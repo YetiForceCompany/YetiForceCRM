@@ -49,15 +49,18 @@ class GoogleGeocode extends Base
 		}
 		$key = $this->config['key'];
 		$lang = \App\Language::getShortLanguageName();
+		$url = static::$url . "key={$key}&address=$value";
 		try {
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . "key={$key}&address=$value");
+			\App\Log::beginProfile("GET|GoogleGeocode::find|{$url}", __NAMESPACE__);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get($url);
+			\App\Log::endProfile("GET|GoogleGeocode::find|{$url}", __NAMESPACE__);
 			if (200 !== $response->getStatusCode()) {
-				\App\Log::warning('Error: ' . static::$url . "key={$key}&address=$value" . ' | ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase(), __CLASS__);
+				\App\Log::warning('Error: ' . $url . ' | ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase(), __CLASS__);
 				return false;
 			}
 			$body = \App\Json::decode($response->getBody()->getContents());
 		} catch (\Throwable $exc) {
-			\App\Log::warning('Error: ' . static::$url . "key={$key}&address=$value" . ' | ' . $exc->getMessage(), __CLASS__);
+			\App\Log::warning('Error: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
 			return false;
 		}
 		$rows = [];
@@ -66,7 +69,9 @@ class GoogleGeocode extends Base
 				$location = $body['results'][0]['geometry']['location'];
 				$urlParam = "key={$key}&language={$lang}&latlng={$location['lat']},{$location['lng']}";
 				try {
+					\App\Log::beginProfile("GET|GoogleGeocode::find|{$urlParam}", __NAMESPACE__);
 					$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . $urlParam);
+					\App\Log::endProfile("GET|GoogleGeocode::find|{$urlParam}", __NAMESPACE__);
 					if (200 !== $response->getStatusCode()) {
 						\App\Log::warning('Error: ' . static::$url . $urlParam . ' | ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase(), __CLASS__);
 						return false;

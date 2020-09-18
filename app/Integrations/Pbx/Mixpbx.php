@@ -36,7 +36,9 @@ class Mixpbx extends Base
 		$url .= '&number=' . urlencode($pbx->get('targetPhone'));
 		$url .= '&extension=' . urlencode($pbx->get('sourcePhone'));
 		try {
+			\App\Log::beginProfile("GET|Mixpbx::performCall|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url);
+			\App\Log::endProfile("GET|Mixpbx::performCall|{$url}", __NAMESPACE__);
 			if (200 !== $response->getStatusCode()) {
 				\App\Log::warning('Error: ' . $url . ' | ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase(), __CLASS__);
 				return false;

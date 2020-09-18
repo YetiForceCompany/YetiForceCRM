@@ -32,7 +32,9 @@ class Yours extends Base
 		try {
 			foreach ($this->parsePoints() as $track) {
 				$url = $this->url . '?format=geojson&flat=' . $track['startLat'] . '&flon=' . $track['startLon'] . '&tlat=' . $track['endLat'] . '&tlon=' . $track['endLon'] . '&lang=' . \App\Language::getLanguage() . '&instructions=1';
+				\App\Log::beginProfile("GET|Yours::calculate|{$url}", __NAMESPACE__);
 				$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['timeout' => 5]);
+				\App\Log::endProfile("GET|Yours::calculate|{$url}", __NAMESPACE__);
 				if (200 === $response->getStatusCode()) {
 					$json = \App\Json::decode($response->getBody());
 				} else {
