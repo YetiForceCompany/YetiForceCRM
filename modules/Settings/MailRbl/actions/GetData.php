@@ -238,6 +238,9 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		if (!$request->isEmpty('users') && ($users = $request->getArray('users', 'Integer'))) {
 			$query->andWhere(['user' => $users]);
 		}
+		if (!$request->isEmpty('type') && ($users = $request->getArray('type', 'Integer'))) {
+			$query->andWhere(['type' => $users]);
+		}
 		if (!$request->isEmpty('status') && ($status = $request->getArray('status', 'Integer'))) {
 			$query->andWhere(['status' => $status]);
 		}
