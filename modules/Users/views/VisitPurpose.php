@@ -39,7 +39,8 @@ class Users_VisitPurpose_View extends \App\Controller\Modal
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		if (!\App\Session::get('showVisitPurpose') || !App\User::getCurrentUserModel()->isAdmin()) {
+		$userModel = \App\User::getCurrentUserModel();
+		if (!(\App\Session::get('showVisitPurpose') || (!$userModel->isAdmin() && $userModel->isSuperUser() && !(\App\Session::get('showedModalVisitPurpose')[$userModel->getId()] ?? null)))) {
 			throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED', 406);
 		}
 	}

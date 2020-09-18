@@ -19,7 +19,8 @@ class Users_VisitPurpose_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		if (!\App\Session::get('showVisitPurpose') || !\App\User::getCurrentUserModel()->isAdmin()) {
+		$userModel = \App\User::getCurrentUserModel();
+		if (!(\App\Session::get('showVisitPurpose') || (!$userModel->isAdmin() && $userModel->isSuperUser() && !(\App\Session::get('showedModalVisitPurpose')[$userModel->getId()] ?? null)))) {
 			throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED', 406);
 		}
 	}
@@ -30,13 +31,20 @@ class Users_VisitPurpose_Action extends \App\Controller\Action
 	public function process(App\Request $request)
 	{
 		$visitPurpose = $request->getByType('visitPurpose', \App\Purifier::TEXT);
+		$userModel = \App\User::getCurrentUserModel();
+		$baseId = \App\User::getCurrentUserRealId();
 		$result = \App\Db::getInstance('log')->createCommand()
 			->insert('l_#__users_login_purpose', [
-				'userid' => \App\User::getCurrentUserId(),
+				'userid' => $userModel->getId(),
 				'datetime' => date('Y-m-d H:i:s'),
-				'purpose' => $visitPurpose
+				'purpose' => $visitPurpose,
+				'baseid' => $userModel->getId() !== $baseId ? $baseId : 0,
 			])->execute();
-		if ($result) {
+		if ($result && !$userModel->isAdmin() && $userModel->isSuperUser()) {
+			$userData = \App\Session::get('showedModalVisitPurpose') ?? [];
+			$userData[$userModel->getId()] = $userModel->getId();
+			\App\Session::set('showedModalVisitPurpose', $userData);
+		} elseif ($result) {
 			\App\Session::delete('showVisitPurpose');
 		}
 		$response = new Vtiger_Response();

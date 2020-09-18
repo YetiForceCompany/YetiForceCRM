@@ -34,7 +34,7 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public $listFields = [
 		'name' => 'FL_MODULE_NAME',
-		'user' => 'FL_ADMIN',
+		'user' => 'FL_USER',
 		'status' => 'FL_ACTIVE'
 	];
 

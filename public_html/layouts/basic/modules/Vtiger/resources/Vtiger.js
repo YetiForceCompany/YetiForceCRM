@@ -552,7 +552,7 @@ var Vtiger_Index_Js = {
 	},
 	registerAterloginEvents: function () {
 		if (typeof CONFIG.showVisitPurpose !== 'undefined') {
-			app.showModalWindow(null,'index.php?module=Users&view=VisitPurpose');
+			app.showModalWindow(null, 'index.php?module=Users&view=VisitPurpose');
 		}
 		if (typeof CONFIG.ShowUserPwnedPasswordChange !== 'undefined') {
 			app.showModalWindow(
@@ -571,6 +571,9 @@ var Vtiger_Index_Js = {
 				'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' + CONFIG.userId
 			);
 		}
+		$('.js-system-modal[data-url]').each((_, e) => {
+			app.showModalWindow(null, e.dataset.url);
+		});
 	},
 	registerEvents: function () {
 		Vtiger_Index_Js.registerWidgetsEvents();

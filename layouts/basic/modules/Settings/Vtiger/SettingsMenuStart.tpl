@@ -11,6 +11,9 @@
 -->*}
 {strip}
 {include file=\App\Layout::getTemplatePath('PageHeader.tpl', $MODULE_NAME)}
+{if $SHOW_MODAL_VISIT_PURPOSE}
+	<div class="js-system-modal" data-url="index.php?module=Users&view=VisitPurpose"></div>
+{/if}
 <div class="bodyContents">
 	{if $USER_MODEL->isAdminUser() && !\App\YetiForce\Register::verify(true)}
 		{assign var=COMPANIES_LINK value=\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}
