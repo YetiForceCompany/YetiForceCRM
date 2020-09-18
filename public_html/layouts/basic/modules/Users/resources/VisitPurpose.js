@@ -23,9 +23,10 @@ $.Class(
 						blockInfo: { enabled: true }
 					});
 					let formData = form.serializeFormData();
-					app.saveAjax('', [], formData).done(function (data) {
+					app.saveAjax('', [], formData).done((data) => {
 						if (data.result) {
-							app.hideModalWindow();
+							let id = this.container.closest('.modalContainer').attr('id');
+							app.hideModalWindow(null, id);
 						} else {
 							Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
 						}
