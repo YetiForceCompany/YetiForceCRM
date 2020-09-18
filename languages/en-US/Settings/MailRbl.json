@@ -1,0 +1,31 @@
+{
+  "php": {
+    "MailRbl": "RBL mail servers",
+    "LBL_MAIL_RBL": "RBL mail servers",
+    "LBL_MAIL_RBL_DESCRIPTION": "Configure RBL email servers to detect spam and define trusted senders.",
+    "BTN_SEND_SPAM_REQUEST": "Send a spam report",
+    "LBL_REQUEST_LIST": "Reports list",
+    "LBL_BLACK_LIST": "Black list",
+    "LBL_WHITE_LIST": "White list",
+    "LBL_PUBLIC_RBL": "Public RBLs",
+    "LBL_FOR_VERIFICATION": "For verification",
+    "LBL_ACCEPTED": "Accepted",
+    "LBL_REJECTED": "Rejected",
+    "LBL_ACTIVE": "Active",
+    "LBL_CANCELED": "Canceled",
+    "LBL_SENDER": "Sender",
+    "LBL_RECIPIENT": "Recipient",
+    "LBL_LIST_TYPE": "List type",
+    "LBL_IP": "IP address",
+    "FL_BASE_USER": "Base user",
+    "LBL_MAIL_MESSAGE_DETAILS": "Mail message details",
+    "LBL_MAIL_HEADERS": "Mail headers",
+    "LBL_MAIL_CONTENT": "Mail content"
+  },
+  "js": {
+    "BTN_SHOW_DETAILS": "Show details",
+    "BTN_STATUS_ACTION_ACCEPT": "Accept",
+    "BTN_STATUS_ACTION_REJECT": "Reject",
+    "BTN_STATUS_ACTION_SEND_REQUEST": "Send a spam report"
+  }
+}
