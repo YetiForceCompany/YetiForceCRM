@@ -34,12 +34,12 @@ class Token extends Base
 	public function authorize()
 	{
 		$url = rtrim($this->config->get('url'), '/') . '/rest/V1/integration/admin/token';
-		\App\Log::beginProfile("POST|Token::authorize|{$url}", __NAMESPACE__);
+		\App\Log::beginProfile("POST|Token::authorize|{$url}", 'App\Integrations\Magento');
 		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
 			->post($url, [
 				'timeout' => 0,
 				'json' => ['username' => $this->config->get('user_name'), 'password' => $this->config->get('password')]]);
-		\App\Log::endProfile("POST|Token::authorize|{$url}", __NAMESPACE__);
+		\App\Log::endProfile("POST|Token::authorize|{$url}", 'App\Integrations\Magento');
 		if (200 !== $response->getStatusCode()) {
 			throw new AppException();
 		}
@@ -52,14 +52,14 @@ class Token extends Base
 	public function request(string $method, string $action, array $params = []): string
 	{
 		$url = rtrim($this->config->get('url'), '/') . "/rest/$action";
-		\App\Log::beginProfile("{$method}|Token::request|{$url}", __NAMESPACE__);
+		\App\Log::beginProfile("{$method}|Token::request|{$url}", 'App\Integrations\Magento');
 		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($method, $url, [
 			'headers' => [
 				'authorization' => 'Bearer ' . $this->token
 			],
 			'timeout' => 0,
 			'json' => $params]);
-		\App\Log::endProfile("{$method}|Token::request|{$url}", __NAMESPACE__);
+		\App\Log::endProfile("{$method}|Token::request|{$url}", 'App\Integrations\Magento');
 		if (200 !== $response->getStatusCode()) {
 			throw new AppException();
 		}
