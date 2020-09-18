@@ -63,8 +63,9 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
+		$userModel = \App\User::getCurrentUserModel();
 		$warnings = \App\SystemWarnings::getWarnings('all');
-		$viewer->assign('WARNINGS', !App\Session::has('SystemWarnings') ? $warnings : []);
+		$viewer->assign('WARNINGS', $userModel->isAdmin() && !App\Session::has('SystemWarnings') ? $warnings : []);
 		$monitoringData = [];
 		if (\App\Security\AdminAccess::isPermitted('Logs')) {
 			$monitoringData['WARNINGS_COUNT'] = [
