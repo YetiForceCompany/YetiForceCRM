@@ -628,7 +628,10 @@ class ConfReport
 		$request = [];
 		try {
 			foreach (static::$urlsToCheck as $type => $url) {
-				$res = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $requestUrl . $url, ['timeout' => 1, 'verify' => false]);
+				$urlAddress = $requestUrl . $url;
+				\App\Log::beginProfile("GET|ConfReport::getRequest|{$urlAddress}", __NAMESPACE__);
+				$res = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $urlAddress, ['timeout' => 1, 'verify' => false]);
+				\App\Log::endProfile("GET|ConfReport::getRequest|{$urlAddress}", __NAMESPACE__);
 				foreach ($res->getHeaders() as $key => $value) {
 					$request[strtolower($key)][$type] = \is_array($value) ? implode(',', $value) : $value;
 				}

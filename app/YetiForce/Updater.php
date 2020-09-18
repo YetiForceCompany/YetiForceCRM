@@ -42,9 +42,9 @@ class Updater
 		$updaterMode = \Config\Developer::$updaterDevMode ? 'developer' : 'master';
 		try {
 			$url = "https://github.com/YetiForceCompany/UpdatePackages/raw/{$updaterMode}/YetiForce%20CRM%20{$fullVer[0]}.x.x/Updater.json";
-			\App\Log::beginProfile("GET|Updater|{$url}", 'Yetiforce/Updater');
+			\App\Log::beginProfile("GET|Updater::get|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url);
-			\App\Log::endProfile("GET|Updater|{$url}", 'Yetiforce/Updater');
+			\App\Log::endProfile("GET|Updater::get|{$url}", __NAMESPACE__);
 			if (200 !== $response->getStatusCode()) {
 				throw new \App\Exceptions\AppException('Error with connection |' . $response->getStatusCode());
 			}
@@ -121,9 +121,9 @@ class Updater
 			if (\Config\Developer::$updaterDevMode) {
 				$url = \str_replace('raw/master', 'raw/developer', $url);
 			}
-			\App\Log::beginProfile("GET|Updater|{$url}", 'Yetiforce/Updater');
+			\App\Log::beginProfile("GET|Updater::download|{$url}", __NAMESPACE__);
 			(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['sink' => $path]);
-			\App\Log::endProfile("GET|Updater|{$url}", 'Yetiforce/Updater');
+			\App\Log::endProfile("GET|Updater::download|{$url}", __NAMESPACE__);
 		} catch (\Throwable $ex) {
 			\App\Log::warning('Error - ' . __CLASS__ . ' - ' . $ex->getMessage());
 		}

@@ -70,10 +70,10 @@ class NominatimGeocoder extends Base
 		$rows = [];
 		try {
 			$url = $this->config['map_url'] . '/?' . \http_build_query($params);
-			\App\Log::beginProfile("GET|NominatimGeocoder|{$url}", 'Map/Address');
+			\App\Log::beginProfile("GET|NominatimGeocoder::find|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
 				->request('GET', $url, $options);
-			\App\Log::endProfile("GET|NominatimGeocoder|{$url}", 'Map/Address');
+			\App\Log::endProfile("GET|NominatimGeocoder::find|{$url}", __NAMESPACE__);
 			if (200 !== $response->getStatusCode()) {
 				throw new \App\Exceptions\AppException('Error with connection |' . $response->getReasonPhrase() . '|' . $response->getBody());
 			}

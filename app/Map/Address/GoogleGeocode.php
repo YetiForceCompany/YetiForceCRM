@@ -51,9 +51,9 @@ class GoogleGeocode extends Base
 		$lang = \App\Language::getShortLanguageName();
 		$url = static::$url . "key={$key}&address=$value";
 		try {
-			\App\Log::beginProfile("GET|GoogleGeocode|{$url}", 'Map/Address');
+			\App\Log::beginProfile("GET|GoogleGeocode::find|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get($url);
-			\App\Log::endProfile("GET|GoogleGeocode|{$url}", 'Map/Address');
+			\App\Log::endProfile("GET|GoogleGeocode::find|{$url}", __NAMESPACE__);
 			if (200 !== $response->getStatusCode()) {
 				\App\Log::warning('Error: ' . $url . ' | ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase(), __CLASS__);
 				return false;
@@ -69,9 +69,9 @@ class GoogleGeocode extends Base
 				$location = $body['results'][0]['geometry']['location'];
 				$urlParam = "key={$key}&language={$lang}&latlng={$location['lat']},{$location['lng']}";
 				try {
-					\App\Log::beginProfile("GET|GoogleGeocode|{$urlParam}", 'Map/Address');
+					\App\Log::beginProfile("GET|GoogleGeocode::find|{$urlParam}", __NAMESPACE__);
 					$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . $urlParam);
-					\App\Log::endProfile("|GoogleGeocode|{$urlParam}", 'Map/Address');
+					\App\Log::endProfile("GET|GoogleGeocode::find|{$urlParam}", __NAMESPACE__);
 					if (200 !== $response->getStatusCode()) {
 						\App\Log::warning('Error: ' . static::$url . $urlParam . ' | ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase(), __CLASS__);
 						return false;

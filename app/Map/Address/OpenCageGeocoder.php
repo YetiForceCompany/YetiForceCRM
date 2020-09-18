@@ -60,9 +60,9 @@ class OpenCageGeocoder extends Base
 			$urlAddress .= '&countrycode=' . $this->config;
 		}
 		try {
-			\App\Log::beginProfile("GET|OpenCageGeocoder|{$urlAddress}", 'Map/Address');
+			\App\Log::beginProfile("GET|OpenCageGeocoder::find|{$urlAddress}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $urlAddress);
-			\App\Log::endProfile("GET|OpenCageGeocoder|{$urlAddress}", 'Map/Address');
+			\App\Log::endProfile("GET|OpenCageGeocoder::find|{$urlAddress}", __NAMESPACE__);
 			if (200 !== $response->getStatusCode()) {
 				\App\Log::warning('Error: ' . $urlAddress . ' | ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase(), __CLASS__);
 				return false;

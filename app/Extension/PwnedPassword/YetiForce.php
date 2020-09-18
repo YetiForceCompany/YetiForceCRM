@@ -38,10 +38,10 @@ class YetiForce extends Base
 		}
 		try {
 			$url = 'https://passwords.yetiforce.eu/pwned';
-			\App\Log::beginProfile("POST|YetiForce|{$url}", 'Extension/PwnedPassword');
+			\App\Log::beginProfile("POST|YetiForce::check|{$url}", __NAMESPACE__);
 			$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('POST', $url,
 				['json' => ['sha1' => sha1($password)], 'timeout' => 2,  'http_errors' => false,  'auth' => [$product['params']['login'], $product['params']['pass']], 'headers' => ['InsKey' => \App\YetiForce\Register::getInstanceKey()]]);
-			\App\Log::endProfile("POST|YetiForce|{$url}", 'Extension/PwnedPassword');
+			\App\Log::endProfile("POST|YetiForce::check|{$url}", __NAMESPACE__);
 			if (200 === $request->getStatusCode()) {
 				$response = \App\Json::decode($request->getBody());
 				if (isset($response['count'])) {

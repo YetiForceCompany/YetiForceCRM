@@ -71,12 +71,12 @@ class YetiForceGeocoder extends Base
 		$rows = [];
 		try {
 			$url = 'https://osm-search.yetiforce.eu/?' . \http_build_query($params);
-			\App\Log::beginProfile("GET|YetiForceGeocoder|{$url}", 'Map/Address');
+			\App\Log::beginProfile("GET|YetiForceGeocoder::find|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
 				->request('GET', $url, [
 					'auth' => [$product['params']['login'], $product['params']['pass']], 'headers' => ['InsKey' => \App\YetiForce\Register::getInstanceKey()]
 				]);
-			\App\Log::endProfile("GET|YetiForceGeocoder|{$url}", 'Map/Address');
+			\App\Log::endProfile("GET|YetiForceGeocoder::find|{$url}", __NAMESPACE__);
 			if (200 !== $response->getStatusCode()) {
 				throw new \App\Exceptions\AppException('Error with connection |' . $response->getReasonPhrase() . '|' . $response->getBody());
 			}

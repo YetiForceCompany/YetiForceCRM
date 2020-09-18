@@ -47,13 +47,13 @@ class YetiForce extends Base
 		$description = '';
 		try {
 			$url = 'https://osm-route.yetiforce.eu/ors/directions?' . \http_build_query($params);
-			\App\Log::beginProfile("GET|YetiForce|{$url}", 'Map/Routing');
+			\App\Log::beginProfile("GET|YetiForce::calculate|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url,
 			 ['timeout' => 5,  'auth' => ['yeti', 'CLVoEHh0Se'], 'http_errors' => false, 'headers' => [
 			 	'Accept' => 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
 			 ]]
 			);
-			\App\Log::endProfile("GET|YetiForce|{$url}", 'Map/Routing');
+			\App\Log::endProfile("GET|YetiForce::calculate|{$url}", __NAMESPACE__);
 			if (200 === $response->getStatusCode()) {
 				$json = \App\Json::decode($response->getBody());
 			} else {
