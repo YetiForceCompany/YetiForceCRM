@@ -554,25 +554,26 @@ var Vtiger_Index_Js = {
 		const thisInstance = this;
 		let modalContainer = false;
 		if (typeof CONFIG.ShowAuthy2faModal !== 'undefined') {
-			modalContainer = app.showModalWindow(
-				null,
-				'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' + CONFIG.userId
-			);
+			modalContainer = app.showModalWindow(null, 'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' + CONFIG.userId, () => {
+				delete(CONFIG.ShowAuthy2faModal)
+			});
 		} else if (typeof CONFIG.showVisitPurpose !== 'undefined') {
-			modalContainer = app.showModalWindow(null,'index.php?module=Users&view=VisitPurpose', null);
+			modalContainer = app.showModalWindow(null, 'index.php?module=Users&view=VisitPurpose', () => {
+				delete(CONFIG.showVisitPurpose)
+			});
 		} else if (typeof CONFIG.ShowUserPwnedPasswordChange !== 'undefined') {
-			modalContainer = app.showModalWindow(
-				null,
-				'index.php?module=Users&view=PasswordModal&mode=change&type=pwned&record=' + CONFIG.userId
-			);
+			modalContainer = app.showModalWindow(null, 'index.php?module=Users&view=PasswordModal&mode=change&type=pwned&record=' + CONFIG.userId, () => {
+				delete(CONFIG.ShowUserPwnedPasswordChange)
+			});
 		} else if (typeof CONFIG.ShowUserPasswordChange !== 'undefined') {
-			modalContainer = app.showModalWindow(
-				null,
-				'index.php?module=Users&view=PasswordModal&mode=change&record=' + CONFIG.userId
-			);
+			modalContainer = app.showModalWindow(null, 'index.php?module=Users&view=PasswordModal&mode=change&record=' + CONFIG.userId, () => {
+				delete(CONFIG.ShowUserPasswordChange)
+			});
 		} else {
 			$('.js-system-modal[data-url]').each((_, e) => {
-				modalContainer = app.showModalWindow(null, e.dataset.url);
+				modalContainer = app.showModalWindow(null, e.dataset.url, () => {
+					e.remove()
+				});
 			});
 		}
 		if(modalContainer){
