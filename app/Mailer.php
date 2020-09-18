@@ -423,15 +423,15 @@ class Mailer
 	public function send()
 	{
 		$toAddresses = $this->mailer->From . ' >> ' . \print_r($this->mailer->getToAddresses(), true);
-		\App\Log::beginProfile($toAddresses, 'Mailer');
+		\App\Log::beginProfile("Mailer::send|{$toAddresses}", 'Mailer');
 		if ($this->mailer->send()) {
-			\App\Log::endProfile($toAddresses, 'Mailer');
+			\App\Log::endProfile("Mailer::send|{$toAddresses}", 'Mailer');
 			if (empty($this->smtp['save_send_mail']) || (!empty($this->smtp['save_send_mail']) && $this->saveMail())) {
 				Log::trace('Mailer sent mail', 'Mailer');
 				return true;
 			}
 		} else {
-			\App\Log::endProfile($toAddresses, 'Mailer');
+			\App\Log::endProfile("Mailer::send|{$toAddresses}", 'Mailer');
 			Log::error('Mailer Error: ' . \print_r($this->mailer->ErrorInfo, true), 'Mailer');
 			if (!empty(static::$error)) {
 				static::$error[] = '########################################';
