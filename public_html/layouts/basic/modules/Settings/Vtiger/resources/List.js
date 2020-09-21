@@ -33,7 +33,7 @@ Vtiger_List_Js(
 						instance.updatePagination();
 					});
 				} else {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response.message ? response.message : app.vtranslate('JS_ERROR')
 					});
 				}

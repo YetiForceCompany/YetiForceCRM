@@ -595,7 +595,7 @@ $.Class(
 					let recordRelativeAccountId = $('[name="' + account_id + '"]').val();
 
 					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						Vtiger_Helper_Js.showPnotify(
+						app.showNotify(
 							app.vtranslate('JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS')
 						);
 					} else {
@@ -621,7 +621,7 @@ $.Class(
 					let to = block.data('label');
 					let recordRelativeAccountId = $('[name="' + contact_id + '"]').val();
 					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						Vtiger_Helper_Js.showPnotify(
+						app.showNotify(
 							app.vtranslate('JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS')
 						);
 					} else {
@@ -646,7 +646,7 @@ $.Class(
 					let to = block.data('label');
 					let recordRelativeAccountId = $('[name="' + lead_id + '"]').val();
 					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						Vtiger_Helper_Js.showPnotify(
+						app.showNotify(
 							app.vtranslate('JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS')
 						);
 					} else {
@@ -671,7 +671,7 @@ $.Class(
 					let to = block.data('label');
 					let recordRelativeAccountId = $('[name="' + vendor_id + '"]').val();
 					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						Vtiger_Helper_Js.showPnotify(
+						app.showNotify(
 							app.vtranslate('JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS')
 						);
 					} else {
@@ -788,7 +788,7 @@ $.Class(
 				} else {
 					errorMsg = 'JS_DOES_NOT_HAVE_AN_ADDRESS';
 				}
-				Vtiger_Helper_Js.showPnotify(app.vtranslate(errorMsg));
+				app.showNotify(app.vtranslate(errorMsg));
 			}
 		},
 		registerReferenceSelectionEvent: function (container) {
@@ -934,7 +934,7 @@ $.Class(
 						let response = data.result;
 						for (let i = 0; i < response.length; i++) {
 							if (response[i].result !== true) {
-								Vtiger_Helper_Js.showPnotify(
+								app.showNotify(
 									response[i].message ? response[i].message : app.vtranslate('JS_ERROR')
 								);
 								if (response[i].hoverField != undefined) {
@@ -950,7 +950,7 @@ $.Class(
 					})
 					.fail((textStatus, errorThrown) => {
 						document.progressLoader.progressIndicator({ mode: 'hide' });
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+						app.showNotify(app.vtranslate('JS_ERROR'));
 						app.errorLog(textStatus, errorThrown);
 						aDeferred.resolve(false);
 					});
@@ -1162,7 +1162,7 @@ $.Class(
 							})
 								.done(function (requestData) {
 									if (requestData.result === false) {
-										Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+										app.showNotify(app.vtranslate('JS_ERROR'));
 									} else if (requestData.result.length) {
 										response(requestData.result);
 									} else {
@@ -1170,7 +1170,7 @@ $.Class(
 									}
 								})
 								.fail(function (textStatus, errorThrown, jqXHR) {
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										text: jqXHR.responseJSON.error.message,
 										type: 'error',
 										animation: 'show'

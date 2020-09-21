@@ -226,7 +226,7 @@ window.Calendar_Js = class {
 		AppConnector.request(params)
 			.done(function (response) {
 				if (!response['result']) {
-					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
+					app.showNotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 					revertFunc();
 				} else {
 					window.popoverCache = {};
@@ -235,7 +235,7 @@ window.Calendar_Js = class {
 			})
 			.fail(function () {
 				progressInstance.progressIndicator({ mode: 'hide' });
-				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
+				app.showNotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
 				revertFunc();
 			});
 	}

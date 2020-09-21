@@ -67,7 +67,7 @@ Vtiger_RelatedList_Js(
 						price: element.val()
 					}).done(function (responseData) {
 						if (responseData.result) {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 								type: 'success'
 							});

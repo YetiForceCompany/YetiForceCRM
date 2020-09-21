@@ -37,7 +37,7 @@ jQuery.Class(
 					action: 'Check'
 				}).done(function (response) {
 					if (response.success) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							title: response.result.title,
 							text: response.result.text,
 							type: 'info'

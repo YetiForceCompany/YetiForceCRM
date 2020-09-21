@@ -22,11 +22,11 @@ Vtiger_Edit_Js(
 			var primaryEmailValue = primaryEmailField.val();
 			if (response) {
 				if (primaryEmailField.length == 0) {
-					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_PRIMARY_EMAIL_FIELD_DOES_NOT_EXISTS'));
+					app.showNotify(app.vtranslate('JS_PRIMARY_EMAIL_FIELD_DOES_NOT_EXISTS'));
 					return false;
 				}
 				if (primaryEmailValue == '') {
-					Vtiger_Helper_Js.showPnotify(
+					app.showNotify(
 						app.vtranslate('JS_PLEASE_ENTER_PRIMARY_EMAIL_VALUE_TO_ENABLE_PORTAL_USER')
 					);
 					return false;

@@ -41,7 +41,7 @@ $.Class(
 				AppConnector.request(form.serializeFormData()).done((respons) => {
 					if (respons.result.success) {
 						app.hideModalWindow();
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: app.vtranslate(respons.result.message),
 							type: 'success',
 							animation: 'show'

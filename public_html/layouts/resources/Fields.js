@@ -435,7 +435,7 @@ window.App.Fields = {
 			return new ClipboardJS(elements, {
 				container: container,
 				text: function (trigger) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 						type: 'success'
 					});
@@ -1455,10 +1455,10 @@ window.App.Fields = {
 								);
 							}
 							if (response.message) {
-								Vtiger_Helper_Js.showPnotify({ text: response.message, type: 'success' });
+								app.showNotify({ text: response.message, type: 'success' });
 							}
 						} else if (response && response.message) {
-							Vtiger_Helper_Js.showPnotify({ text: response.message });
+							app.showNotify({ text: response.message });
 						}
 					})
 					.fail(function () {
@@ -2494,7 +2494,7 @@ window.App.Fields = {
 					parentRow.find('.js-converted-price').val(App.Fields.Double.formatToDisplay(price));
 				} else {
 					if (parentRow.find('.js-base-currency').is(':checked')) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							type: 'error',
 							title:
 								'"' +
@@ -2566,12 +2566,12 @@ window.App.Fields = {
 						if (result && result.success && result.url) {
 							valElement.attr('readonly', true).val(result.url);
 						} else {
-							Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+							app.showNotify(app.vtranslate('JS_ERROR'));
 						}
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					})
 					.fail((_) => {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+						app.showNotify(app.vtranslate('JS_ERROR'));
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					});
 			});
@@ -2615,7 +2615,7 @@ window.App.Fields = {
 				formElement.on('change', `[name=${fieldName}]`, (_) => {
 					if (data['domain'] && valElement.val().indexOf(data['domain']) === 0) {
 						addButton.trigger('click');
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							type: 'info',
 							text: app.vtranslate('JS_MEETING_URL_CHANGED')
 						});

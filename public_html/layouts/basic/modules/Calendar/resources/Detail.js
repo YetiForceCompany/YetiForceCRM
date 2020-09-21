@@ -17,7 +17,7 @@ Vtiger_Detail_Js(
 							if (data.success == true) {
 								window.location.href = data.result;
 							} else {
-								Vtiger_Helper_Js.showPnotify(data.error.message);
+								app.showNotify(data.error.message);
 							}
 						});
 					});

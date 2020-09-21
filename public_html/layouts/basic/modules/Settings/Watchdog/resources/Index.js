@@ -19,18 +19,18 @@ jQuery.Class(
 					.done(function (data) {
 						let response = data['result'];
 						if (response['success']) {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: response['message'],
 								type: 'info'
 							});
 						} else {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: response['message']
 							});
 						}
 					})
 					.fail(function (data) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: response['message']
 						});
 					});

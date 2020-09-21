@@ -36,9 +36,9 @@ Vtiger_Edit_Js(
 							app.hideModalWindow();
 						} else {
 							if (data.result.message) {
-								Vtiger_Helper_Js.showPnotify(data.result.message);
+								app.showNotify(data.result.message);
 							} else {
-								Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+								app.showNotify(app.vtranslate('JS_ERROR'));
 							}
 						}
 					});

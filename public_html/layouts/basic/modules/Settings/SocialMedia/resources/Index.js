@@ -39,7 +39,7 @@ jQuery.Class(
 				AppConnector.request(dataForm)
 					.done((response) => {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: response.result.message,
 							type: 'info'
 						});

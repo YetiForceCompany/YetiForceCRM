@@ -134,7 +134,7 @@ jQuery.Class(
 								'</a>'
 						);
 
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 				}
 			});
 		},
@@ -167,7 +167,7 @@ jQuery.Class(
 					window.location.reload();
 				})
 				.fail(function (jqXHR, textStatus, errorThrown) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						type: 'error',
 						text: textStatus
 					});
@@ -206,13 +206,13 @@ jQuery.Class(
 							}
 						});
 						if (Object.keys(tasks).length === 0) {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								title: app.vtranslate('JS_INFORMATION'),
 								text: app.vtranslate('JS_NOT_SELECTED_WORKFLOW_TRIGGER'),
 								type: 'error'
 							});
 						} else {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								title: app.vtranslate('JS_MESSAGE'),
 								text: app.vtranslate('JS_STARTED_PERFORM_WORKFLOW'),
 								type: 'info'
@@ -226,7 +226,7 @@ jQuery.Class(
 								tasks: JSON.stringify(tasks)
 							})
 								.done(function () {
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										title: app.vtranslate('JS_MESSAGE'),
 										text: app.vtranslate('JS_COMPLETED_PERFORM_WORKFLOW'),
 										type: 'success'
@@ -235,7 +235,7 @@ jQuery.Class(
 									detailInstance.loadWidgets();
 								})
 								.fail(function () {
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										title: app.vtranslate('JS_ERROR'),
 										text: app.vtranslate('JS_ERROR_DURING_TRIGGER_OF_WORKFLOW'),
 										type: 'error'
@@ -669,7 +669,7 @@ jQuery.Class(
 						let response = data.result;
 						for (let i = 0; i < response.length; i++) {
 							if (response[i].result !== true) {
-								Vtiger_Helper_Js.showPnotify(
+								app.showNotify(
 									response[i].message ? response[i].message : app.vtranslate('JS_ERROR')
 								);
 							}
@@ -682,7 +682,7 @@ jQuery.Class(
 					})
 					.fail((textStatus, errorThrown) => {
 						document.progressLoader.progressIndicator({ mode: 'hide' });
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+						app.showNotify(app.vtranslate('JS_ERROR'));
 						app.errorLog(textStatus, errorThrown);
 						aDeferred.resolve(false);
 					});
@@ -884,7 +884,7 @@ jQuery.Class(
 						text: app.vtranslate('LBL_SMS_MAX_CHARACTERS_ALLOWED'),
 						type: 'error'
 					};
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 					return false;
 				}
 				let submitButton = form.find(':submit');
@@ -1332,7 +1332,7 @@ jQuery.Class(
 										postSaveRecordDetails[dateTimeField[1].name].display_value;
 								}
 								detailViewValue.html(displayValue);
-								Vtiger_Helper_Js.showPnotify({
+								app.showNotify({
 									title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 									text:
 										'<b>' +
@@ -1414,7 +1414,7 @@ jQuery.Class(
 								editElement.off('clickoutside');
 								readRecord.prop('disabled', false);
 								currentTdElement.progressIndicator({ mode: 'hide' });
-								Vtiger_Helper_Js.showPnotify({
+								app.showNotify({
 									type: 'error',
 									title: app.vtranslate('JS_SAVE_NOTIFY_FAIL'),
 									text: textStatus
@@ -2266,7 +2266,7 @@ jQuery.Class(
 						title: app.vtranslate('System'),
 						type: 'info'
 					};
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 					let relatedTabKey = jQuery('.related li.active');
 					if (
 						relatedTabKey.data('linkKey') == thisInstance.detailViewSummaryTabLabel ||
@@ -2313,7 +2313,7 @@ jQuery.Class(
 					title: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 					type: 'success'
 				};
-				Vtiger_Helper_Js.showPnotify(params);
+				app.showNotify(params);
 				thisInstance.reloadTabContent();
 			});
 		},

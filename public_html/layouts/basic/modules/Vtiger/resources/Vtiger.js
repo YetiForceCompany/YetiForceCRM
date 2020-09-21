@@ -114,7 +114,7 @@ var Vtiger_Index_Js = {
 								app.hideModalWindow();
 								aDeferred.resolve(email);
 							} else {
-								Vtiger_Helper_Js.showPnotify({
+								app.showNotify({
 									text: app.vtranslate('JS_SELECT_AN_OPTION'),
 									type: 'info'
 								});
@@ -286,7 +286,7 @@ var Vtiger_Index_Js = {
 		AppConnector.request(params)
 			.done(function (data) {
 				let row = $('.notificationEntries .noticeRow[data-id="' + id + '"]');
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_MARKED_AS_READ'),
 					type: 'info'
@@ -331,7 +331,7 @@ var Vtiger_Index_Js = {
 		li.progressIndicator({ position: 'html' });
 		AppConnector.request(params).done(function (data) {
 			li.progressIndicator({ mode: 'hide' });
-			Vtiger_Helper_Js.showPnotify({
+			app.showNotify({
 				title: app.vtranslate('JS_MESSAGE'),
 				text: app.vtranslate('JS_MARKED_AS_READ'),
 				type: 'info'

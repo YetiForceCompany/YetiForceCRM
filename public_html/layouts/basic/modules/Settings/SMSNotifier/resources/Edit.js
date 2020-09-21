@@ -41,7 +41,7 @@ Vtiger_Edit_Js(
 							var listInstance = Settings_Vtiger_List_Js.getInstance();
 							listInstance.getListViewRecords();
 						} else {
-							Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+							app.showNotify(app.vtranslate('JS_ERROR'));
 						}
 						app.hideModalWindow();
 					});

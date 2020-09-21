@@ -72,7 +72,7 @@ jQuery.Class(
 					this.registerTabEvents(contentContainer);
 				})
 				.fail((_) => {
-					Vtiger_Helper_Js.showPnotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
+					app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
 					progress.progressIndicator({ mode: 'hide' });
 				});
 		},

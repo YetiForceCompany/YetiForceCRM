@@ -250,7 +250,7 @@ jQuery.Class(
 					})
 					.fail(function (error, err) {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							title: app.vtranslate('JS_MESSAGE'),
 							text: err,
 							type: 'error'
@@ -268,7 +268,7 @@ jQuery.Class(
 					text: app.vtranslate('JS_MASS_EDIT_LIMIT'),
 					type: 'error'
 				};
-				Vtiger_Helper_Js.showPnotify(params);
+				app.showNotify(params);
 				return;
 			}
 			Vtiger_List_Js.triggerMassAction(
@@ -407,7 +407,7 @@ jQuery.Class(
 										text: data.result,
 										type: 'info'
 									};
-									Vtiger_Helper_Js.showPnotify(params);
+									app.showNotify(params);
 								} else {
 									listInstance.getListViewRecords();
 								}
@@ -564,7 +564,7 @@ jQuery.Class(
 				})
 				.fail(function (textStatus, errorThrown) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_NOT_ALLOWED_VALUE'),
 						type: 'error'
 					});
@@ -645,7 +645,7 @@ jQuery.Class(
 		 * Function to return alerts if no records selected.
 		 */
 		noRecordSelectedAlert: function (text = 'JS_PLEASE_SELECT_ONE_RECORD') {
-			Vtiger_Helper_Js.showPnotify({ text: app.vtranslate(text) });
+			app.showNotify({ text: app.vtranslate(text) });
 		},
 		massActionSave: function (form, isMassEdit) {
 			if (typeof isMassEdit === 'undefined') {
@@ -691,7 +691,7 @@ jQuery.Class(
 							text: app.vtranslate('JS_MASS_EDIT_NOT_SUCCESSFUL'),
 							type: 'info'
 						};
-						Vtiger_Helper_Js.showPnotify(params);
+						app.showNotify(params);
 					}
 					aDeferred.resolve(data);
 				})
@@ -882,7 +882,7 @@ jQuery.Class(
 				if (form.validationEngine('validate')) {
 					e.preventDefault();
 					if (!form.find('input[id^="selectRow"]:checked').length) {
-						Vtiger_Helper_Js.showPnotify(
+						app.showNotify(
 							app.vtranslate('NONE_OF_THE_FIELD_VALUES_ARE_CHANGED_IN_MASS_EDIT')
 						);
 						return;
@@ -1599,7 +1599,7 @@ jQuery.Class(
 									thisInstance.updatePagination(pageNumber);
 								});
 							} else {
-								Vtiger_Helper_Js.showPnotify({
+								app.showNotify({
 									text: app.vtranslate(data.error.message),
 									title: app.vtranslate('JS_LBL_PERMISSION')
 								});

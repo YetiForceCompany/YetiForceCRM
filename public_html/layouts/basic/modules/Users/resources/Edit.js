@@ -132,7 +132,7 @@ Vtiger_Edit_Js(
 					jQuery('input[name="user_password"]').val() !=
 						jQuery('input[name="confirm_password"]').val()
 				) {
-					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_REENTER_PASSWORDS'));
+					app.showNotify(app.vtranslate('JS_REENTER_PASSWORDS'));
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					e.preventDefault();
 				}
@@ -140,7 +140,7 @@ Vtiger_Edit_Js(
 					.verifyFormData()
 					.done(function (data) {
 						if (data.result.message) {
-							Vtiger_Helper_Js.showPnotify(data.result.message);
+							app.showNotify(data.result.message);
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 							e.preventDefault();
 						}
