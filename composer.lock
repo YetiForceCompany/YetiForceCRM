@@ -109,16 +109,16 @@
         },
         {
             "name": "ckeditor/ckeditor",
-            "version": "4.14.1",
+            "version": "4.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ckeditor/ckeditor4-releases.git",
-                "reference": "8eccaf31ad9832a113757d379758996ed2150f60"
+                "reference": "f233b056a20528c442576e661486170a7d84a7b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ckeditor/ckeditor4-releases/zipball/8eccaf31ad9832a113757d379758996ed2150f60",
-                "reference": "8eccaf31ad9832a113757d379758996ed2150f60",
+                "url": "https://api.github.com/repos/ckeditor/ckeditor4-releases/zipball/f233b056a20528c442576e661486170a7d84a7b9",
+                "reference": "f233b056a20528c442576e661486170a7d84a7b9",
                 "shasum": ""
             },
             "type": "library",
@@ -147,7 +147,7 @@
                 "text",
                 "wysiwyg"
             ],
-            "time": "2020-06-17T12:33:25+00:00"
+            "time": "2020-09-07T13:41:04+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -790,7 +790,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v7.28.2",
+            "version": "v7.28.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -834,7 +834,7 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v7.28.2",
+            "version": "v7.28.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
