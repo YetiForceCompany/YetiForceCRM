@@ -31,7 +31,7 @@ Vtiger_Detail_Js(
 				if (portalField.is(':checked')) {
 					if (primaryEmailField.length == 0) {
 						if (isAlertAlreadyShown <= 0) {
-							Vtiger_Helper_Js.showPnotify(
+							app.showNotify(
 								app.vtranslate('JS_PRIMARY_EMAIL_FIELD_DOES_NOT_EXISTS')
 							);
 						}
@@ -39,7 +39,7 @@ Vtiger_Detail_Js(
 					}
 					if (primaryEmailValue == '') {
 						if (isAlertAlreadyShown <= 0) {
-							Vtiger_Helper_Js.showPnotify(
+							app.showNotify(
 								app.vtranslate('JS_PLEASE_ENTER_PRIMARY_EMAIL_VALUE_TO_ENABLE_PORTAL_USER')
 							);
 						}

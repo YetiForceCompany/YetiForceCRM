@@ -84,7 +84,7 @@ $.Class(
 				.fail(function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_NOT_ALLOWED_VALUE'),
 						type: 'error'
 					});
@@ -279,7 +279,7 @@ $.Class(
 						}
 					});
 				if (Object.keys(selected).length <= 0) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD')
 					});
 				} else {

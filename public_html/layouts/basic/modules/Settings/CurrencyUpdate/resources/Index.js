@@ -95,12 +95,12 @@ jQuery.Class(
 				AppConnector.request(params).done(function (data) {
 					let response = data['result'];
 					if (response['success']) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: response['message'],
 							type: 'success'
 						});
 					} else {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: response['message'],
 							hide: false,
 							type: 'error'

@@ -181,7 +181,7 @@ Vtiger_BasicSearch_Js(
 						text: data.error.message,
 						type: 'error'
 					};
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 				}
 				aDeferred.resolve(data);
 			});

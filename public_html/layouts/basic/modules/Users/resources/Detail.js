@@ -59,7 +59,7 @@ Vtiger_Detail_Js(
 			AppConnector.request(params).done(function (data) {
 				if (data.success) {
 					app.hideModalWindow();
-					Vtiger_Helper_Js.showPnotify(app.vtranslate(data.result.message));
+					app.showNotify(app.vtranslate(data.result.message));
 					var url = data.result.listViewUrl;
 					window.location.href = url;
 				}
@@ -85,7 +85,7 @@ Vtiger_Detail_Js(
 						message = app.vtranslate(data['error']['message']);
 					}
 					params['text'] = message;
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 				});
 			});
 		}

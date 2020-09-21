@@ -30,7 +30,7 @@ $.Class(
 							window.location.href = result.url;
 						}
 					} else {
-						Vtiger_Helper_Js.showPnotify({ text: app.vtranslate('JS_ERROR') });
+						app.showNotify({ text: app.vtranslate('JS_ERROR') });
 						progressIndicator.progressIndicator({ mode: 'hide' });
 					}
 				});

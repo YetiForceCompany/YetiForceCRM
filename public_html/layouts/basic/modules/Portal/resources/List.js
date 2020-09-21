@@ -47,7 +47,7 @@ Vtiger_List_Js(
 						text: app.vtranslate('JS_ENTER_MANDATORY_FIELD'),
 						type: 'error'
 					};
-					Vtiger_Helper_Js.showPnotify(data);
+					app.showNotify(data);
 					return false;
 				}
 				AppConnector.request(params).done(function (data) {
@@ -57,7 +57,7 @@ Vtiger_List_Js(
 							text: data.result.message,
 							type: 'success'
 						};
-						Vtiger_Helper_Js.showPnotify(params);
+						app.showNotify(params);
 						var url = Portal_List_Js.getDefaultParams();
 						Portal_List_Js.loadListViewContent(url);
 						app.hideModalWindow();
@@ -88,7 +88,7 @@ Vtiger_List_Js(
 								text: data.result.message,
 								type: 'error'
 							};
-							Vtiger_Helper_Js.showPnotify(params);
+							app.showNotify(params);
 							var url = Portal_List_Js.getDefaultParams();
 							Portal_List_Js.loadListViewContent(url);
 						}
@@ -201,7 +201,7 @@ Vtiger_List_Js(
 								text: data.result.message,
 								type: 'success'
 							};
-							Vtiger_Helper_Js.showPnotify(params);
+							app.showNotify(params);
 							var url = Portal_List_Js.getDefaultParams();
 							Portal_List_Js.loadListViewContent(url);
 						}

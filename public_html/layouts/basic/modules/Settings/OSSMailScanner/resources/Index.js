@@ -52,7 +52,7 @@ jQuery.Class(
 							if (!response['success']) {
 								messageType = 'error';
 							}
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: response['message'],
 								type: messageType
 							});
@@ -102,7 +102,7 @@ jQuery.Class(
 							.find("option[value='" + value + "']")
 							.remove();
 						jQuery(this).trigger('change');
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: app.vtranslate('JS_mail_error'),
 							type: 'error'
 						});
@@ -134,7 +134,7 @@ jQuery.Class(
 				}).done(
 					function (data) {
 						if (data.success) {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: data.result.data,
 								type: 'info'
 							});
@@ -151,7 +151,7 @@ jQuery.Class(
 						data: { module: 'OSSMailScanner', action: 'AccontRemove', id: userId },
 						async: true
 					}).done(function (data) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: data.result.data,
 							type: 'info'
 						});
@@ -171,7 +171,7 @@ jQuery.Class(
 						async: true
 					}).done(
 						function () {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: app.vtranslate('removed_identity'),
 								type: 'info'
 							});
@@ -213,7 +213,7 @@ jQuery.Class(
 				if (!!thisIstance.email_validate(value)) {
 					thisIstance.saveWidgetConfig('email', value, 'cron');
 				} else {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_mail_error'),
 						type: 'error'
 					});
@@ -224,7 +224,7 @@ jQuery.Class(
 				if (!!thisIstance.number_validate(value)) {
 					thisIstance.saveWidgetConfig('time', jQuery(this).val(), 'cron');
 				} else {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_time_error'),
 						type: 'error'
 					});
@@ -235,7 +235,7 @@ jQuery.Class(
 			});
 			container.find('.js-run-cron').on('click', function () {
 				let buttonInstance = $(this);
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: app.vtranslate('start_cron'),
 					type: 'info',
 					animation: 'show'
@@ -260,7 +260,7 @@ jQuery.Class(
 							animation: 'show'
 						};
 					}
-					Vtiger_Helper_Js.showPnotify(params);
+					app.showNotify(params);
 					buttonInstance.attr('disabled', false);
 					thisIstance.reloadLogTable(container.find('.js-page-num').val() - 1);
 				});
@@ -272,7 +272,7 @@ jQuery.Class(
 				ajaxParams.async = true;
 				AppConnector.request(ajaxParams).done(function (data) {
 					if (data.success) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: data.result.data,
 							type: 'info',
 							animation: 'show'
@@ -292,12 +292,12 @@ jQuery.Class(
 			}).done(function (data) {
 				let response = data['result'];
 				if (response['success']) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response['data'],
 						type: 'info'
 					});
 				} else {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response['data']
 					});
 				}
@@ -312,12 +312,12 @@ jQuery.Class(
 			}).done(function (data) {
 				let response = data['result'];
 				if (response['success']) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response['data'],
 						type: 'info'
 					});
 				} else {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response['data']
 					});
 				}
@@ -337,12 +337,12 @@ jQuery.Class(
 			}).done(function (data) {
 				let response = data['result'];
 				if (response['success']) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response['data'],
 						type: 'info'
 					});
 				} else {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response['data']
 					});
 				}
@@ -370,12 +370,12 @@ jQuery.Class(
 			}).done(function (data) {
 				let response = data['result'];
 				if (response['success']) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response['data'],
 						type: 'info'
 					});
 				} else {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: response['data']
 					});
 				}

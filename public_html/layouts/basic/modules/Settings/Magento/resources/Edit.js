@@ -21,12 +21,12 @@ Settings_Vtiger_Edit_Js(
 							if (true == data.result.success) {
 								window.location.href = data.result.url;
 							} else {
-								Vtiger_Helper_Js.showPnotify(data.result.message);
+								app.showNotify(data.result.message);
 							}
 						})
 						.fail(function (textStatus) {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
-							Vtiger_Helper_Js.showPnotify(textStatus);
+							app.showNotify(textStatus);
 						});
 					return false;
 				} else {

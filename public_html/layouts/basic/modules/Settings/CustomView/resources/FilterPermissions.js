@@ -79,10 +79,10 @@ jQuery.Class(
 						thisInstance.move(currentTarget);
 						thisInstance.registerDisabledButtons();
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						Vtiger_Helper_Js.showPnotify({ text: data.result.message, type: 'success' });
+						app.showNotify({ text: data.result.message, type: 'success' });
 					} else {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						Vtiger_Helper_Js.showPnotify({ text: data.result.message, type: 'error' });
+						app.showNotify({ text: data.result.message, type: 'error' });
 					}
 				} else {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });

@@ -25,7 +25,7 @@ $.Class(
 				AppConnector.request(this.container.find('form').serializeFormData()).done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					if (data.result === false) {
-						Vtiger_Helper_Js.showPnotify({ text: app.vtranslate('JS_ERROR') });
+						app.showNotify({ text: app.vtranslate('JS_ERROR') });
 					}
 					app.hideModalWindow();
 					const listInstance = new Vtiger_List_Js();

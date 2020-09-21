@@ -143,7 +143,7 @@ Vtiger_Detail_Js(
 				return;
 			}
 			if (policyType === 2 && !this.container.find('.js-custom-row').length) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: app.vtranslate('JS_NO_ITEM_SELECTED'),
 					type: 'notice',
 					animation: 'show'
@@ -151,7 +151,7 @@ Vtiger_Detail_Js(
 				return;
 			}
 			if (policyType === 1 && isNaN(policyId)) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: app.vtranslate('JS_NO_ITEM_SELECTED'),
 					type: 'notice',
 					animation: 'show'
@@ -186,7 +186,7 @@ Vtiger_Detail_Js(
 						rowElem.find('.js-custom-row-id').val(0);
 					});
 				}
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 					type: 'success',
 					animation: 'show'
@@ -292,7 +292,7 @@ Vtiger_Detail_Js(
 				}).done((data) => {
 					progress.progressIndicator({ mode: 'hide' });
 					$(e.target).closest('.card').remove();
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 						type: 'success',
 						animation: 'show'

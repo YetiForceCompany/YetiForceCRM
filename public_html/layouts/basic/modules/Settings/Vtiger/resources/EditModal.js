@@ -37,7 +37,7 @@ Vtiger_Edit_Js(
 									instance.updatePagination();
 								});
 							} else {
-								Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+								app.showNotify(app.vtranslate('JS_ERROR'));
 							}
 							app.hideModalWindow();
 						});

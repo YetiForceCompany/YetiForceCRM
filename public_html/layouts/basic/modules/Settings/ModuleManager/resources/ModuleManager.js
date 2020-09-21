@@ -66,7 +66,7 @@ jQuery.Class(
 				progress.progressIndicator({ mode: 'hide' });
 				const result = data.result;
 				if (!result.success) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: result.text,
 						type: 'error'
 					});
@@ -141,7 +141,7 @@ jQuery.Class(
 				type: 'info'
 			};
 			$.extend(params, customParams);
-			Vtiger_Helper_Js.showPnotify(params);
+			app.showNotify(params);
 		},
 		frameProgress: false,
 		deleteModule: function (container) {
@@ -165,7 +165,7 @@ jQuery.Class(
 						mode: 'deleteModule',
 						forModule: forModule
 					}).done(function (data) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							title: app.vtranslate('JS_REMOVED_MODULE'),
 							type: 'info'
 						});

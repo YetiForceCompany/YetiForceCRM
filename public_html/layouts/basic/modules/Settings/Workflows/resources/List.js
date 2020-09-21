@@ -61,7 +61,7 @@ Settings_Vtiger_List_Js(
 							text: app.vtranslate(data.error.message),
 							title: app.vtranslate('JS_LBL_PERMISSION')
 						};
-						Vtiger_Helper_Js.showPnotify(params);
+						app.showNotify(params);
 					}
 				});
 			});

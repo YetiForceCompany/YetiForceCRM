@@ -22,13 +22,13 @@ jQuery.Class(
 						)
 					)
 						.done(function (data) {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 								type: 'success'
 							});
 						})
 						.fail(function () {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								text: app.vtranslate('JS_ERROR'),
 								type: 'error'
 							});
@@ -56,13 +56,13 @@ jQuery.Class(
 					modules: modules
 				})
 					.done(function (data) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 							type: 'success'
 						});
 					})
 					.fail(function () {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: app.vtranslate('JS_ERROR'),
 							type: 'error'
 						});

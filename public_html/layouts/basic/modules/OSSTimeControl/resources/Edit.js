@@ -79,7 +79,7 @@ Vtiger_Edit_Js(
 						text: app.vtranslate('JS_DATE_SHOULD_BE_GREATER_THAN'),
 						type: 'error'
 					};
-					Vtiger_Helper_Js.showPnotify(parametres);
+					app.showNotify(parametres);
 					return false;
 				}
 			});
@@ -136,11 +136,11 @@ Vtiger_Edit_Js(
 								text: app.vtranslate('message'),
 								type: 'error'
 							};
-							Vtiger_Helper_Js.showPnotify(params);
+							app.showNotify(params);
 						}
 					})
 					.fail(function () {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: app.vtranslate('JS_ERROR_CONNECTING'),
 							type: 'error'
 						});
