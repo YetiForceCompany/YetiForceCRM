@@ -325,6 +325,7 @@ class ConfReport
 		'spaceRoot' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_ROOT'],
 		'spaceStorage' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_STORAGE'],
 		'spaceTemp' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_TEMP'],
+		'spaceBackup' => ['container' => 'env', 'type' => 'Space', 'testCli' => false, 'label' => 'SPACE_BACKUP'],
 		'lastCronStart' => ['container' => 'env', 'testCli' => false, 'label' => 'LAST_CRON_START', 'isHtml' => true],
 		'crmProvider' => ['container' => 'env', 'testCli' => true, 'label' => 'CRM_PROVIDER'],
 		'open_basedir' => ['container' => 'php',  'type' => 'NotEmpty', 'testCli' => false, 'mode' => 'showWarnings'],
@@ -581,6 +582,7 @@ class ConfReport
 				'spaceRoot' => '',
 				'spaceStorage' => '',
 				'spaceTemp' => '',
+				'spaceBackup' => '',
 				'crmProvider' => \App\YetiForce\Register::getProvider(),
 				'lastCronStart' => $lastCronStartText,
 				'lastCronStartDateTime' => $lastCronStart,
@@ -1309,8 +1311,14 @@ class ConfReport
 			case 'spaceTemp':
 				$dir = static::$env['tempDir'];
 				break;
+			case 'spaceBackup':
+				$dir = \App\Utils\Backup::getBackupCatalogPath();
+				break;
 			default:
 				break;
+		}
+		if (empty($dir)) {
+			return $row;
 		}
 		$free = disk_free_space($dir);
 		$total = disk_total_space($dir);
