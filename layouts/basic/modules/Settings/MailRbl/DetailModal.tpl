@@ -4,7 +4,7 @@
 <div class="modal-body">
 	<div class="row col-12">
 	{foreach item=ROW from=$RECORD->getReceived() name=ReceivedForeach}
-		<div class="col-sm-3 px-2">
+		<div class="col-sm-3 p-0 pr-2 mb-3">
 			{if !$smarty.foreach.ReceivedForeach.last}
 				<div class="d-flex align-items-center float-right">
 					<span class="fas fa-chevron-right mt-5 u-fs-2x text-primary"></span>
@@ -12,11 +12,19 @@
 			{/if}
 			<div class="card">
 				<div class="card-body p-1">
-					{foreach item=ITEM key=KEY from=$ROW}
-						{if $ITEM}
-							{$KEY}: {$ITEM}<br>
+					<ul class="list-group list-group-flush">
+					{foreach item=ITEM_ROWS key=KEY_ROW from=$ROW}
+						{if $ITEM_ROWS}
+							<li class="list-group-item p-1">
+							{foreach item=ITEM key=KEY from=$ITEM_ROWS}
+								{if $ITEM}
+									<span class="{$CARD_MAP[$KEY_ROW][$KEY]['icon']} mr-1" title="{\App\Language::translate($CARD_MAP[$KEY_ROW][$KEY]['label'], $QUALIFIED_MODULE)}"></span>{\App\Purifier::encodeHtml($ITEM)}<br>
+								{/if}
+							{/foreach}
+							</li>
 						{/if}
 					{/foreach}
+					</ul>
 				</div>
 			</div>
 

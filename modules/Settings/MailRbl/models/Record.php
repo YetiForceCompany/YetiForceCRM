@@ -42,15 +42,32 @@ class Settings_MailRbl_Record_Model extends App\Base
 		$rows = [];
 		$message = \ZBateson\MailMimeParser\Message::from($this->get('header'));
 		foreach ($message->getAllHeadersByName('Received') as $received) {
-			if ($received->getFromName() || $received->getFromHostname()) {
-				$rows[] = [
-					'From name' => $received->getFromName(),
-					'From hostname' => $received->getFromHostname(),
-					'By name' => $received->getByName(),
-					'By hostname' => $received->getByHostname(),
-					'With' => $received->getValueFor('with'),
-				];
+			$row = [];
+			if ($received->getFromName()) {
+				$row['from']['Name'] = $received->getFromName();
 			}
+			if ($received->getFromHostname()) {
+				$row['from']['Hostname'] = $received->getFromHostname();
+			}
+			if ($received->getFromAddress()) {
+				$row['from']['IP'] = $received->getFromAddress();
+			}
+			if ($received->getByName()) {
+				$row['by']['Name'] = $received->getByName();
+			}
+			if ($received->getByHostname()) {
+				$row['by']['Hostname'] = $received->getByHostname();
+			}
+			if ($received->getByAddress()) {
+				$row['by']['IP'] = $received->getByAddress();
+			}
+			if ($received->getValueFor('with')) {
+				$row['extra']['With'] = $received->getValueFor('with');
+			}
+			if ($received->getComments()) {
+				$row['extra']['Comments'] = implode(' | ', $received->getComments());
+			}
+			$rows[] = $row;
 		}
 		return array_reverse($rows);
 	}
