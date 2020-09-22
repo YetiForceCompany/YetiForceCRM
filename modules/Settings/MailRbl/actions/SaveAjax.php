@@ -34,8 +34,10 @@ class Settings_MailRbl_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 					'ip' => $sender['ip'],
 					'status' => 0,
 					'type' => $recordModel->get('type'),
-					'from' => $sender['from'],
-					'by' => $sender['by'],
+					'from_server' => \App\TextParser::textTruncate($sender['from'], 100, false),
+					'from_email' => \App\TextParser::textTruncate($recordModel->getFrom(), 100, false),
+					'to_server' => \App\TextParser::textTruncate($sender['by'], 100, false),
+					'to_email' => \App\TextParser::textTruncate($recordModel->mailMimeParser->getHeaderValue('to'), 100, false),
 					'source' => '',
 				])->execute();
 			}

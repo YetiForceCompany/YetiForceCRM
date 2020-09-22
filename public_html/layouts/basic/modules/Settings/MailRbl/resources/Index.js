@@ -23,7 +23,7 @@ jQuery.Class(
 							action += `<button type="button" class="btn btn-secondary btn-sm js-details" data-id="${row['id']}" title="${app.vtranslate(
 								'BTN_SHOW_DETAILS'
 							)}" data-js="click"><span class="fas fa-search-plus"></span></button>`;
-							action += `<button type="button" class="btn btn-primary btn-sm ml-2 js-send" data-id="${row['id']}" title="${app.vtranslate(
+							action += `<button type="button" class="btn btn-primary btn-sm ml-2 js-send-request-id" data-id="${row['id']}" title="${app.vtranslate(
 								'BTN_STATUS_ACTION_SEND_REQUEST'
 							)}" data-js="click"><span class="fas fa-paper-plane"></span></button>`;
 							if (row['statusId'] !== 1) {
@@ -49,7 +49,10 @@ jQuery.Class(
 				columns: [
 					{ data: 'ip' },
 					{ data: 'status' },
-					{ data: 'headers', orderable: false },
+					{ data: 'from_server' },
+					{ data: 'from_email' },
+					{ data: 'to_server' },
+					{ data: 'to_email' },
 					{
 						orderable: false,
 						data: function (row) {
@@ -77,7 +80,10 @@ jQuery.Class(
 				columns: [
 					{ data: 'ip' },
 					{ data: 'status' },
-					{ data: 'headers', orderable: false },
+					{ data: 'from_server' },
+					{ data: 'from_email' },
+					{ data: 'to_server' },
+					{ data: 'to_email' },
 					{
 						orderable: false,
 						data: function (row) {
@@ -191,6 +197,15 @@ jQuery.Class(
 					});
 				});
 			});
+			table.off('click', '.js-send-request-id').on('click', '.js-send-request-id', function () {
+				self.sendRequest(this.dataset.id);
+			});
+		},
+		sendRequest: function (id) {
+			let progressIndicatorElement = $.progressIndicator();
+			app.showModalWindow(null, 'index.php?module=MailRbl&parent=Settings&view=RequestModal&id=' + id, function (container) {
+				progressIndicatorElement.progressIndicator({ mode: 'hide' });
+			});
 		},
 		/**
 		 * Register events
@@ -199,6 +214,9 @@ jQuery.Class(
 			this.registerTabEvents();
 			$('#tabs a[data-toggle="tab"]').on('shown.bs.tab', (_) => {
 				this.registerTabEvents();
+			});
+			$('.js-send-request').on('click', (_) => {
+				this.sendRequest(0);
 			});
 		}
 	}

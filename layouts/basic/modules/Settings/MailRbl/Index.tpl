@@ -7,7 +7,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 			<div class="col-md-2">
-				<button class="btn btn-primary mt-1 js-check-php float-right" data-js="click">
+				<button class="btn btn-primary mt-1 js-send-request float-right" data-js="click">
 					<span class="fas fa-paper-plane mr-2"></span>{\App\Language::translate('BTN_SEND_SPAM_REQUEST', $QUALIFIED_MODULE)}
 				</button>
 			</div>
@@ -58,7 +58,10 @@
 					<tr>
 						<th>{\App\Language::translate('LBL_IP', $QUALIFIED_MODULE)}</th>
 						<th>{\App\Language::translate('Status', $QUALIFIED_MODULE)}</th>
-						<th>{\App\Language::translate('LBL_MAIL_HEADERS', $QUALIFIED_MODULE)}</th>
+						<th>{\App\Language::translate('LBL_SERVER_NAME_FROM', $QUALIFIED_MODULE)}</th>
+						<th>{\App\Language::translate('LBL_SENDER', $QUALIFIED_MODULE)}</th>
+						<th>{\App\Language::translate('LBL_SERVER_NAME_BY', $QUALIFIED_MODULE)}</th>
+						<th>{\App\Language::translate('LBL_RECIPIENT', $QUALIFIED_MODULE)}</th>
 						<th>{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
 					</tr>
 				</thead>
@@ -70,7 +73,10 @@
 					<tr>
 						<th>{\App\Language::translate('LBL_IP', $QUALIFIED_MODULE)}</th>
 						<th>{\App\Language::translate('Status', $QUALIFIED_MODULE)}</th>
-						<th>{\App\Language::translate('LBL_MAIL_HEADERS', $QUALIFIED_MODULE)}</th>
+						<th>{\App\Language::translate('LBL_SERVER_NAME_FROM', $QUALIFIED_MODULE)}</th>
+						<th>{\App\Language::translate('LBL_SENDER', $QUALIFIED_MODULE)}</th>
+						<th>{\App\Language::translate('LBL_SERVER_NAME_BY', $QUALIFIED_MODULE)}</th>
+						<th>{\App\Language::translate('LBL_RECIPIENT', $QUALIFIED_MODULE)}</th>
 						<th>{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
 					</tr>
 				</thead>

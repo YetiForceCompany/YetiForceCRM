@@ -18,7 +18,7 @@ class Settings_MailRbl_Record_Model extends App\Base
 	 *
 	 * @var ZBateson\MailMimeParser\Message
 	 */
-	private $mailMimeParser;
+	public $mailMimeParser;
 
 	/**
 	 * Function to get the instance of advanced permission record model.

@@ -83,8 +83,8 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 				'id' => $row['id'],
 				'datetime' => \App\Fields\DateTime::formatToDisplay($row['datetime']),
 				'user' => \App\Fields\Owner::getUserLabel($row['user']),
-				'sender' => $message->getHeaderValue('from'),
-				'recipient' => $message->getHeaderValue('to'),
+				'sender' => \App\Purifier::encodeHtml($message->getHeaderValue('from')),
+				'recipient' => \App\Purifier::encodeHtml($message->getHeaderValue('to')),
 				'statusId' => $row['status'],
 				'status' => "<span class=\"{$status['icon']} mr-2\"></span>" . \App\Language::translate($status['label'], 'Settings:MailRbl'),
 				'type' => "<span class=\"{$type['icon']} mr-2\"></span>" . \App\Language::translate($type['label'], 'Settings:MailRbl'),
@@ -111,22 +111,18 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 	{
 		$rows = [];
 		$query = $this->getQuery($request);
-		$query->from('s_#__mail_rbl_list')->select(['id', 'ip', 'status', 'from', 'by'])->where(['type' => self::LIST_TYPE_BLACK_LIST]);
+		$query->from('s_#__mail_rbl_list')->where(['type' => self::LIST_TYPE_BLACK_LIST]);
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
 			$status = self::LIST_STATUS[$row['status']];
-			$headers = '';
-			if ($row['from']) {
-				$headers .= '<span class="fas fa-upload mr-1"></span>' . $row['from'];
-			}
-			if ($row['by']) {
-				$headers .= '<span class="fas fa-download ml-3 mr-1"></span>' . $row['by'];
-			}
 			$rows[] = [
 				'id' => $row['id'],
 				'ip' => $row['ip'],
 				'statusId' => $row['status'],
-				'headers' => trim($headers),
+				'from_server' => \App\Purifier::encodeHtml($row['from_server']),
+				'from_email' => \App\Purifier::encodeHtml($row['from_email']),
+				'to_server' => \App\Purifier::encodeHtml($row['to_server']),
+				'to_email' => \App\Purifier::encodeHtml($row['to_email']),
 				'status' => "<span class=\"{$status['icon']} mr-2\"></span>" . \App\Language::translate($status['label'], 'Settings:MailRbl'),
 			];
 		}
@@ -151,22 +147,18 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 	{
 		$rows = [];
 		$query = $this->getQuery($request);
-		$query->from('s_#__mail_rbl_list')->select(['id', 'ip', 'status', 'from', 'by'])->where(['type' => self::LIST_TYPE_WHITE_LIST]);
+		$query->from('s_#__mail_rbl_list')->where(['type' => self::LIST_TYPE_WHITE_LIST]);
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
 			$status = self::LIST_STATUS[$row['status']];
-			$headers = '';
-			if ($row['from']) {
-				$headers .= '<span class="fas fa-upload mr-1"></span>' . $row['from'];
-			}
-			if ($row['by']) {
-				$headers .= '<span class="fas fa-download ml-3 mr-1"></span>' . $row['by'];
-			}
 			$rows[] = [
 				'id' => $row['id'],
 				'ip' => $row['ip'],
 				'statusId' => $row['status'],
-				'headers' => trim($headers),
+				'from_server' => \App\Purifier::encodeHtml($row['from_server']),
+				'from_email' => \App\Purifier::encodeHtml($row['from_email']),
+				'to_server' => \App\Purifier::encodeHtml($row['to_server']),
+				'to_email' => \App\Purifier::encodeHtml($row['to_email']),
 				'status' => "<span class=\"{$status['icon']} mr-2\"></span>" . \App\Language::translate($status['label'], 'Settings:MailRbl'),
 			];
 		}

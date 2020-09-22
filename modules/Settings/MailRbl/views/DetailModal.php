@@ -27,6 +27,14 @@ class Settings_MailRbl_DetailModal_View extends \App\Controller\ModalSettings
 	 * {@inheritdoc}
 	 */
 	public $modalSize = 'modal-full';
+	/**
+	 * {@inheritdoc}
+	 */
+	public $successBtn = false;
+	/**
+	 * {@inheritdoc}
+	 */
+	public $dangerBtn = 'LBL_CLOSE';
 
 	/**
 	 * {@inheritdoc}
@@ -56,12 +64,12 @@ class Settings_MailRbl_DetailModal_View extends \App\Controller\ModalSettings
 		$viewer->assign('SENDER', $this->recordModel->getSender());
 		$viewer->assign('CARD_MAP', [
 			'from' => [
-				'Name' => ['icon' => 'fas fa-upload', 'label' => 'LBL_SERVER_NAME_FROM'],
+				'Name' => ['icon' => 'fas fa-upload', 'label' => 'LBL_SERVER_NAME_FROM_DESC'],
 				'Hostname' => ['icon' => 'fas fa-server', 'label' => 'LBL_SERVER_HOST_NAME_FROM'],
 				'IP' => ['icon' => 'fas fa-network-wired', 'label' => 'LBL_SERVER_IP_FROM'],
 			],
 			'by' => [
-				'Name' => ['icon' => 'fas fa-download', 'label' => 'LBL_SERVER_NAME_BY'],
+				'Name' => ['icon' => 'fas fa-download', 'label' => 'LBL_SERVER_NAME_BY_DESC'],
 				'Hostname' => ['icon' => 'fas fa-server', 'label' => 'LBL_SERVER_HOST_NAME_BY'],
 				'IP' => ['icon' => 'fas fa-network-wired', 'label' => 'LBL_SERVER_IP_BY'],
 			],
