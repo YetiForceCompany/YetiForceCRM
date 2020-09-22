@@ -49,18 +49,11 @@
 
 		this.init = function (element, options = {}) {
 			thisInstance.options = $.extend(true, this.defaults, options);
-			thisInstance.blockOverlayCSS = Object.assign(
-				thisInstance.blockOverlayCSS,
-				options.blockOverlayCSS ? options.blockOverlayCSS : {}
-			);
+			thisInstance.blockOverlayCSS = Object.assign(thisInstance.blockOverlayCSS, options.blockOverlayCSS ? options.blockOverlayCSS : {});
 			thisInstance.container = element;
 			thisInstance.position = options.position;
 			if (typeof options.imageContainerCss !== 'undefined') {
-				thisInstance.imageContainerCss = $.extend(
-					true,
-					this.imageContainerCss,
-					options.imageContainerCss
-				);
+				thisInstance.imageContainerCss = $.extend(true, this.imageContainerCss, options.imageContainerCss);
 			}
 			if (this.isBlockMode()) {
 				thisInstance.elementToBlock = $(thisInstance.options.blockInfo.elementToBlock);
@@ -169,7 +162,7 @@
 					this.blockedElement.unblock();
 				}
 			}
-			this.container.removeData('progressIndicator');
+			this.container.remove();
 		};
 	};
 
