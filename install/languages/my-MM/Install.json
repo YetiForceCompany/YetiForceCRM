@@ -109,7 +109,7 @@
 		"LBL_SETUP_WIZARD_HEADER": "YetiForce installation wizard",
 		"LBL_VERSION": "Version",
 		"LBL_ERROR_INSTALL": "Installation unsuccessful",
-		"LBL_SESSION_ERROR_TITLE": "Wrong session ID.",
+		"LBL_SESSION_ERROR_TITLE": "ဆက်ရှင်နံပါတ်စဉ် မှားယွင်းနေသည်။",
 		"LBL_SESSION_ERROR_DESC": "Exists in server configuration which causes loss of session data.\nWe recommend removing browser cache, in case it does not help please fix your server configuration.",
 		"LBL_NAME": "The name of your company",
 		"LBL_INDUSTRY": "Industry",
