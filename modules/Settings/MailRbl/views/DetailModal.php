@@ -14,9 +14,11 @@
 class Settings_MailRbl_DetailModal_View extends \App\Controller\ModalSettings
 {
 	/**
-	 * {@inheritdoc}
+	 * MailRbl record model.
+	 *
+	 * @var Settings_MailRbl_Record_Model
 	 */
-	protected $pageTitle = 'LBL_MAIL_MESSAGE_DETAILS';
+	private $recordModel;
 	/**
 	 * {@inheritdoc}
 	 */
@@ -29,10 +31,29 @@ class Settings_MailRbl_DetailModal_View extends \App\Controller\ModalSettings
 	/**
 	 * {@inheritdoc}
 	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->recordModel = Settings_MailRbl_Record_Model::getRequestById(\App\Request::_getInteger('id'));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPageTitle(App\Request $request)
+	{
+		$pageTitle = \App\Language::translate('LBL_MAIL_MESSAGE_DETAILS', $request->getModule(false));
+		return $pageTitle . '  |  ' . \App\Purifier::encodeHtml($this->recordModel->getFrom());
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('RECORD', Settings_MailRbl_Record_Model::getRequestById($request->getInteger('id')));
+		$viewer->assign('RECORD', $this->recordModel);
+		$viewer->assign('SENDER', $this->recordModel->getSender());
 		$viewer->assign('CARD_MAP', [
 			'from' => [
 				'Name' => ['icon' => 'fas fa-upload', 'label' => 'LBL_SERVER_NAME_FROM'],
@@ -46,7 +67,7 @@ class Settings_MailRbl_DetailModal_View extends \App\Controller\ModalSettings
 			],
 			'extra' => [
 				'Comments' => ['icon' => 'far fa-comment-alt', 'label' => 'LBL_SERVER_COMMENTS'],
-				'With' => ['icon' => 'fas fa-microchip', 'label' => 'LBL_PROTOCOL'],
+				'With' => ['icon' => 'fab fa-expeditedssl', 'label' => 'LBL_PROTOCOL'],
 			]
 		]);
 		$viewer->view('DetailModal.tpl', $request->getModule(false));

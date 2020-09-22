@@ -36,8 +36,8 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 	 * List statuses.
 	 */
 	public const LIST_TYPES = [
-		0 => ['label' => 'LBL_WHITE_LIST', 'icon' => 'far fa-check-circle text-success'],
-		1 => ['label' => 'LBL_BLACK_LIST', 'icon' => 'fas fa-ban text-danger'],
+		0 => ['label' => 'LBL_BLACK_LIST', 'icon' => 'fas fa-ban text-danger'],
+		1 => ['label' => 'LBL_WHITE_LIST', 'icon' => 'far fa-check-circle text-success'],
 	];
 	/**
 	 * RLB black list type.
@@ -117,16 +117,16 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 			$status = self::LIST_STATUS[$row['status']];
 			$headers = '';
 			if ($row['from']) {
-				$headers .= 'From: ' . $row['from'];
+				$headers .= '<span class="fas fa-upload mr-1"></span>' . $row['from'];
 			}
 			if ($row['by']) {
-				$headers .= 'By: ' . $row['by'];
+				$headers .= '<span class="fas fa-download ml-3 mr-1"></span>' . $row['by'];
 			}
 			$rows[] = [
 				'id' => $row['id'],
 				'ip' => $row['ip'],
 				'statusId' => $row['status'],
-				'headers' => $headers,
+				'headers' => trim($headers),
 				'status' => "<span class=\"{$status['icon']} mr-2\"></span>" . \App\Language::translate($status['label'], 'Settings:MailRbl'),
 			];
 		}
@@ -157,15 +157,16 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 			$status = self::LIST_STATUS[$row['status']];
 			$headers = '';
 			if ($row['from']) {
-				$headers .= 'From: ' . $row['from'];
+				$headers .= '<span class="fas fa-upload mr-1"></span>' . $row['from'];
 			}
 			if ($row['by']) {
-				$headers .= 'By: ' . $row['by'];
+				$headers .= '<span class="fas fa-download ml-3 mr-1"></span>' . $row['by'];
 			}
 			$rows[] = [
 				'id' => $row['id'],
 				'ip' => $row['ip'],
 				'statusId' => $row['status'],
+				'headers' => trim($headers),
 				'status' => "<span class=\"{$status['icon']} mr-2\"></span>" . \App\Language::translate($status['label'], 'Settings:MailRbl'),
 			];
 		}

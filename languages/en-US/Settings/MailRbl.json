@@ -21,6 +21,7 @@
     "LBL_MAIL_MESSAGE_DETAILS": "Mail message details",
     "LBL_MAIL_HEADERS": "Mail headers",
     "LBL_MAIL_CONTENT": "Mail content",
+    "LBL_MAIL_TRACE_TITLE": "E-mail tracking",
     "LBL_SERVER_NAME_FROM": "The server name that the sending computer gave for itself (often the sending software name)",
     "LBL_SERVER_NAME_BY": "The server name that the recipient computer gave for itself (often the sending software name, if there is no sender, the message is passed internally)",
     "LBL_SERVER_HOST_NAME_FROM": "Sender host Server",

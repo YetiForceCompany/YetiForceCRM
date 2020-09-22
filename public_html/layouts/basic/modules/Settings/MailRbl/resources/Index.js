@@ -20,10 +20,10 @@ jQuery.Class(
 						orderable: false,
 						data: function (row) {
 							let action = '';
-							action += `<button type="button" class="btn btn-secondary btn-sm js-details" data-id="${row['id']}" data-status="2" title="${app.vtranslate(
+							action += `<button type="button" class="btn btn-secondary btn-sm js-details" data-id="${row['id']}" title="${app.vtranslate(
 								'BTN_SHOW_DETAILS'
 							)}" data-js="click"><span class="fas fa-search-plus"></span></button>`;
-							action += `<button type="button" class="btn btn-primary btn-sm ml-2 js-send" data-id="${row['id']}" data-status="2" title="${app.vtranslate(
+							action += `<button type="button" class="btn btn-primary btn-sm ml-2 js-send" data-id="${row['id']}" title="${app.vtranslate(
 								'BTN_STATUS_ACTION_SEND_REQUEST'
 							)}" data-js="click"><span class="fas fa-paper-plane"></span></button>`;
 							if (row['statusId'] !== 1) {
@@ -36,7 +36,7 @@ jQuery.Class(
 									'BTN_STATUS_ACTION_REJECT'
 								)}" data-js="click"><span class="fas fa-times"></span></button>`;
 							}
-							action += `<button type="button" class="btn btn-danger btn-sm ml-2 js-trash" data-id="${row['id']}" data-status="2" title="${app.vtranslate(
+							action += `<button type="button" class="btn btn-danger btn-sm ml-2 js-trash" data-id="${row['id']}" title="${app.vtranslate(
 								'BTN_SHOW_DETAILS'
 							)}" data-js="click"><span class="fas fa-trash"></span></button>`;
 							return action;
@@ -60,11 +60,11 @@ jQuery.Class(
 								)}" data-js="click"><span class="fas fa-check"></span></button>`;
 							}
 							if (row['statusId'] !== 1) {
-								action += `<button type="button" class="btn btn-warning btn-sm ml-2 js-update" data-id="${row['id']}" data-status="2" title="${app.vtranslate(
+								action += `<button type="button" class="btn btn-warning btn-sm ml-2 js-update" data-id="${row['id']}" data-status="1" title="${app.vtranslate(
 									'BTN_UNLOCK_STATUS_ACTION_REJECT'
 								)}" data-js="click"><span class="fas fa-times"></span></button>`;
 							}
-							action += `<button type="button" class="btn btn-danger btn-sm ml-2 js-trash" data-id="${row['id']}" data-status="2" title="${app.vtranslate(
+							action += `<button type="button" class="btn btn-danger btn-sm ml-2 js-trash" data-id="${row['id']}" title="${app.vtranslate(
 								'BTN_SHOW_DETAILS'
 							)}" data-js="click"><span class="fas fa-trash"></span></button>`;
 							return action;
@@ -88,11 +88,11 @@ jQuery.Class(
 								)}" data-js="click"><span class="fas fa-check"></span></button>`;
 							}
 							if (row['statusId'] !== 1) {
-								action += `<button type="button" class="btn btn-warning btn-sm ml-2 js-update" data-id="${row['id']}" data-status="2" title="${app.vtranslate(
+								action += `<button type="button" class="btn btn-warning btn-sm ml-2 js-update" data-id="${row['id']}" data-status="1" title="${app.vtranslate(
 									'BTN_UNLOCK_STATUS_ACTION_REJECT'
 								)}" data-js="click"><span class="fas fa-times"></span></button>`;
 							}
-							action += `<button type="button" class="btn btn-danger btn-sm ml-2 js-trash" data-id="${row['id']}" data-status="2" title="${app.vtranslate(
+							action += `<button type="button" class="btn btn-danger btn-sm ml-2 js-trash" data-id="${row['id']}" title="${app.vtranslate(
 								'BTN_SHOW_DETAILS'
 							)}" data-js="click"><span class="fas fa-trash"></span></button>`;
 							return action;
@@ -130,7 +130,7 @@ jQuery.Class(
 						paging: true,
 						searching: false,
 						lengthChange: false,
-						pageLength: 15,
+						pageLength: 20,
 						ajax: {
 							url: 'index.php?parent=Settings&module=MailRbl&action=GetData&mode=' + mode,
 							type: 'POST'
@@ -173,6 +173,22 @@ jQuery.Class(
 					record: this.dataset.id
 				}).done(function () {
 					self.dataTable.ajax.reload();
+				});
+			});
+			table.off('click', '.js-update').on('click', '.js-update', function () {
+				AppConnector.request({
+					module: app.getModuleName(),
+					parent: app.getParentModuleName(),
+					mode: mode,
+					action: 'SaveAjax',
+					record: this.dataset.id,
+					status: this.dataset.status
+				}).done(function (response) {
+					self.dataTable.ajax.reload();
+					app.showNotify({
+						text: app.vtranslate(response.result.message),
+						type: true === response.result.success ? 'success' : 'error'
+					});
 				});
 			});
 		},
