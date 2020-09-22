@@ -18213,6 +18213,9 @@ body > .o-exception-fixed-block {
 .active {
   font-weight: bold; }
 
+.active .table, .active .c-detail-widget__table {
+  font-weight: initial; }
+
 .o-chat-modal-window {
   position: fixed;
   top: 0;
@@ -19834,12 +19837,6 @@ ul.c-process-line {
 
 .fc-day-top.fc-mon {
   position: relative; }
-
-.fc-row .fc-content-skeleton {
-  z-index: unset !important; }
-
-.fc-row .fc-bgevent-skeleton {
-  z-index: 1 !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media (max-width: 767.98px) {

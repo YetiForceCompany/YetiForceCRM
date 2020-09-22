@@ -37,7 +37,7 @@ jQuery.Class(
 								)}" data-js="click"><span class="fas fa-times"></span></button>`;
 							}
 							action += `<button type="button" class="btn btn-danger btn-sm ml-2 js-trash" data-id="${row['id']}" title="${app.vtranslate(
-								'BTN_SHOW_DETAILS'
+								'BTN_DELETE'
 							)}" data-js="click"><span class="fas fa-trash"></span></button>`;
 							return action;
 						},
@@ -65,7 +65,7 @@ jQuery.Class(
 								)}" data-js="click"><span class="fas fa-times"></span></button>`;
 							}
 							action += `<button type="button" class="btn btn-danger btn-sm ml-2 js-trash" data-id="${row['id']}" title="${app.vtranslate(
-								'BTN_SHOW_DETAILS'
+								'BTN_DELETE'
 							)}" data-js="click"><span class="fas fa-trash"></span></button>`;
 							return action;
 						},
@@ -93,7 +93,7 @@ jQuery.Class(
 								)}" data-js="click"><span class="fas fa-times"></span></button>`;
 							}
 							action += `<button type="button" class="btn btn-danger btn-sm ml-2 js-trash" data-id="${row['id']}" title="${app.vtranslate(
-								'BTN_SHOW_DETAILS'
+								'BTN_DELETE'
 							)}" data-js="click"><span class="fas fa-trash"></span></button>`;
 							return action;
 						},

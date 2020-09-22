@@ -32,7 +32,7 @@ class Settings_MailRbl_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			if (!empty($sender['ip'])) {
 				$dbCommand->insert('s_#__mail_rbl_list', [
 					'ip' => $sender['ip'],
-					'status' => 1,
+					'status' => 0,
 					'type' => $recordModel->get('type'),
 					'from' => $sender['from'],
 					'by' => $sender['by'],

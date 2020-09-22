@@ -35,6 +35,7 @@
     "BTN_SHOW_DETAILS": "Show details",
     "BTN_STATUS_ACTION_ACCEPT": "Accept",
     "BTN_STATUS_ACTION_REJECT": "Reject",
+    "BTN_DELETE": "Delete",
     "BTN_STATUS_ACTION_SEND_REQUEST": "Send a spam report"
   }
 }
