@@ -17,40 +17,6 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 {
 	use \App\Controller\ExposeMethod;
 	use \App\Controller\Traits\SettingsPermission;
-	/**
-	 * Request statuses.
-	 */
-	public const REQUEST_STATUS = [
-		0 => ['label' => 'LBL_FOR_VERIFICATION', 'icon' => 'fas fa-question'],
-		1 => ['label' => 'LBL_ACCEPTED', 'icon' => 'fas fa-check text-success '],
-		2 => ['label' => 'LBL_REJECTED', 'icon' => 'fas fa-times text-danger'],
-	];
-	/**
-	 * List statuses.
-	 */
-	public const LIST_STATUS = [
-		0 => ['label' => 'LBL_ACTIVE', 'icon' => 'fas fa-check text-success '],
-		1 => ['label' => 'LBL_CANCELED', 'icon' => 'fas fa-times text-danger'],
-	];
-	/**
-	 * List statuses.
-	 */
-	public const LIST_TYPES = [
-		0 => ['label' => 'LBL_BLACK_LIST', 'icon' => 'fas fa-ban text-danger'],
-		1 => ['label' => 'LBL_WHITE_LIST', 'icon' => 'far fa-check-circle text-success'],
-	];
-	/**
-	 * RLB black list type.
-	 */
-	public const LIST_TYPE_BLACK_LIST = 0;
-	/**
-	 * RLB white list type.
-	 */
-	public const LIST_TYPE_WHITE_LIST = 1;
-	/**
-	 * RLB public list type.
-	 */
-	public const LIST_TYPE_PUBLIC_LIST = 2;
 
 	/**
 	 * {@inheritdoc}
@@ -77,8 +43,8 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
 			$message = \ZBateson\MailMimeParser\Message::from($row['header']);
-			$status = self::REQUEST_STATUS[$row['status']];
-			$type = self::LIST_TYPES[$row['type']];
+			$status = \App\Mail\Rbl::REQUEST_STATUS[$row['status']];
+			$type = \App\Mail\Rbl::LIST_TYPES[$row['type']];
 			$rows[] = [
 				'id' => $row['id'],
 				'datetime' => \App\Fields\DateTime::formatToDisplay($row['datetime']),
@@ -111,18 +77,15 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 	{
 		$rows = [];
 		$query = $this->getQuery($request);
-		$query->from('s_#__mail_rbl_list')->where(['type' => self::LIST_TYPE_BLACK_LIST]);
+		$query->from('s_#__mail_rbl_list')->where(['type' => \App\Mail\Rbl::LIST_TYPE_BLACK_LIST]);
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
-			$status = self::LIST_STATUS[$row['status']];
+			$status = \App\Mail\Rbl::LIST_STATUS[$row['status']];
 			$rows[] = [
 				'id' => $row['id'],
 				'ip' => $row['ip'],
 				'statusId' => $row['status'],
-				'from_server' => \App\Purifier::encodeHtml($row['from_server']),
-				'from_email' => \App\Purifier::encodeHtml($row['from_email']),
-				'to_server' => \App\Purifier::encodeHtml($row['to_server']),
-				'to_email' => \App\Purifier::encodeHtml($row['to_email']),
+				'request' => $row['request'],
 				'status' => "<span class=\"{$status['icon']} mr-2\"></span>" . \App\Language::translate($status['label'], 'Settings:MailRbl'),
 			];
 		}
@@ -147,18 +110,15 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 	{
 		$rows = [];
 		$query = $this->getQuery($request);
-		$query->from('s_#__mail_rbl_list')->where(['type' => self::LIST_TYPE_WHITE_LIST]);
+		$query->from('s_#__mail_rbl_list')->where(['type' => \App\Mail\Rbl::LIST_TYPE_WHITE_LIST]);
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
-			$status = self::LIST_STATUS[$row['status']];
+			$status = \App\Mail\Rbl::LIST_STATUS[$row['status']];
 			$rows[] = [
 				'id' => $row['id'],
 				'ip' => $row['ip'],
 				'statusId' => $row['status'],
-				'from_server' => \App\Purifier::encodeHtml($row['from_server']),
-				'from_email' => \App\Purifier::encodeHtml($row['from_email']),
-				'to_server' => \App\Purifier::encodeHtml($row['to_server']),
-				'to_email' => \App\Purifier::encodeHtml($row['to_email']),
+				'request' => $row['request'],
 				'status' => "<span class=\"{$status['icon']} mr-2\"></span>" . \App\Language::translate($status['label'], 'Settings:MailRbl'),
 			];
 		}
@@ -183,10 +143,10 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 	{
 		$rows = [];
 		$query = $this->getQuery($request);
-		$query->from('s_#__mail_rbl_list')->select(['ip', 'status'])->where(['type' => self::LIST_TYPE_PUBLIC_LIST]);
+		$query->from('s_#__mail_rbl_list')->select(['ip', 'status'])->where(['type' => [\App\Mail\Rbl::LIST_TYPE_PUBLIC_BLACK_LIST, \App\Mail\Rbl::LIST_TYPE_PUBLIC_WHITE_LIST]]);
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
-			$status = self::LIST_STATUS[$row['status']];
+			$status = \App\Mail\Rbl::LIST_STATUS[$row['status']];
 			$rows[] = [
 				'ip' => $row['ip'],
 				'statusId' => $row['status'],

@@ -49,10 +49,20 @@ jQuery.Class(
 				columns: [
 					{ data: 'ip' },
 					{ data: 'status' },
-					{ data: 'from_server' },
-					{ data: 'from_email' },
-					{ data: 'to_server' },
-					{ data: 'to_email' },
+					{
+						orderable: false,
+						data: function (row) {
+							let action = '';
+							console.log(row);
+							if (row['request'] != 0) {
+								action += `<button type="button" class="btn btn-secondary btn-sm js-details" data-id="${row['request']}" title="${app.vtranslate(
+									'BTN_SHOW_DETAILS'
+								)}" data-js="click"><span class="fas fa-search-plus"></span></button>`;
+							}
+							return action;
+						},
+						defaultContent: ''
+					},
 					{
 						orderable: false,
 						data: function (row) {
@@ -80,10 +90,20 @@ jQuery.Class(
 				columns: [
 					{ data: 'ip' },
 					{ data: 'status' },
-					{ data: 'from_server' },
-					{ data: 'from_email' },
-					{ data: 'to_server' },
-					{ data: 'to_email' },
+					{
+						orderable: false,
+						data: function (row) {
+							let action = '';
+							console.log(row);
+							if (row['request'] != 0) {
+								action += `<button type="button" class="btn btn-secondary btn-sm js-details" data-id="${row['request']}" title="${app.vtranslate(
+									'BTN_SHOW_DETAILS'
+								)}" data-js="click"><span class="fas fa-search-plus"></span></button>`;
+							}
+							return action;
+						},
+						defaultContent: ''
+					},
 					{
 						orderable: false,
 						data: function (row) {
@@ -158,7 +178,7 @@ jQuery.Class(
 			let table = this.registerDataTable(contentContainer);
 			table.off('click', '.js-details').on('click', '.js-details', function () {
 				let progressIndicatorElement = jQuery.progressIndicator();
-				app.showModalWindow(null, 'index.php?module=MailRbl&parent=Settings&view=DetailModal&mode=' + mode + '&id=' + this.dataset.id, function (container) {
+				app.showModalWindow(null, 'index.php?module=MailRbl&parent=Settings&view=DetailModal&record=' + this.dataset.id, function (container) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					container.find('iframe').each(function () {
 						let iframe = $(this);

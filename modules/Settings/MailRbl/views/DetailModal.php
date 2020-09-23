@@ -16,7 +16,7 @@ class Settings_MailRbl_DetailModal_View extends \App\Controller\ModalSettings
 	/**
 	 * MailRbl record model.
 	 *
-	 * @var Settings_MailRbl_Record_Model
+	 * @var \App\Mail\Rbl
 	 */
 	private $recordModel;
 	/**
@@ -42,7 +42,7 @@ class Settings_MailRbl_DetailModal_View extends \App\Controller\ModalSettings
 	public function __construct()
 	{
 		parent::__construct();
-		$this->recordModel = Settings_MailRbl_Record_Model::getRequestById(\App\Request::_getInteger('id'));
+		$this->recordModel = \App\Mail\Rbl::getRequestById(\App\Request::_getInteger('record'));
 	}
 
 	/**

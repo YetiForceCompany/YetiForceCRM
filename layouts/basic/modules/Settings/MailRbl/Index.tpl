@@ -58,10 +58,7 @@
 					<tr>
 						<th>{\App\Language::translate('LBL_IP', $QUALIFIED_MODULE)}</th>
 						<th>{\App\Language::translate('Status', $QUALIFIED_MODULE)}</th>
-						<th>{\App\Language::translate('LBL_SERVER_NAME_FROM', $QUALIFIED_MODULE)}</th>
-						<th>{\App\Language::translate('LBL_SENDER', $QUALIFIED_MODULE)}</th>
-						<th>{\App\Language::translate('LBL_SERVER_NAME_BY', $QUALIFIED_MODULE)}</th>
-						<th>{\App\Language::translate('LBL_RECIPIENT', $QUALIFIED_MODULE)}</th>
+						<th>{\App\Language::translate('LBL_REQUEST', $QUALIFIED_MODULE)}</th>
 						<th>{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
 					</tr>
 				</thead>
@@ -73,10 +70,7 @@
 					<tr>
 						<th>{\App\Language::translate('LBL_IP', $QUALIFIED_MODULE)}</th>
 						<th>{\App\Language::translate('Status', $QUALIFIED_MODULE)}</th>
-						<th>{\App\Language::translate('LBL_SERVER_NAME_FROM', $QUALIFIED_MODULE)}</th>
-						<th>{\App\Language::translate('LBL_SENDER', $QUALIFIED_MODULE)}</th>
-						<th>{\App\Language::translate('LBL_SERVER_NAME_BY', $QUALIFIED_MODULE)}</th>
-						<th>{\App\Language::translate('LBL_RECIPIENT', $QUALIFIED_MODULE)}</th>
+						<th>{\App\Language::translate('LBL_REQUEST', $QUALIFIED_MODULE)}</th>
 						<th>{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
 					</tr>
 				</thead>

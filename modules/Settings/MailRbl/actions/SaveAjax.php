@@ -21,26 +21,12 @@ class Settings_MailRbl_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function process(App\Request $request)
 	{
 		$requestMode = 'request' === $request->getMode();
-		$dbCommand = \App\Db::getInstance('admin')->createCommand();
-		$dbCommand->update($requestMode ? 's_#__mail_rbl_request' : 's_#__mail_rbl_list', [
-			'status' => $request->getInteger('status')
-		], ['id' => $request->getInteger('record')]
-		)->execute();
-		if ($requestMode && 1 === $request->getInteger('status')) {
-			$recordModel = Settings_MailRbl_Record_Model::getRequestById($request->getInteger('record'));
-			$sender = $recordModel->getSender();
-			if (!empty($sender['ip'])) {
-				$dbCommand->insert('s_#__mail_rbl_list', [
-					'ip' => $sender['ip'],
-					'status' => 0,
-					'type' => $recordModel->get('type'),
-					'from_server' => \App\TextParser::textTruncate($sender['from'], 100, false),
-					'from_email' => \App\TextParser::textTruncate($recordModel->getFrom(), 100, false),
-					'to_server' => \App\TextParser::textTruncate($sender['by'], 100, false),
-					'to_email' => \App\TextParser::textTruncate($recordModel->mailMimeParser->getHeaderValue('to'), 100, false),
-					'source' => '',
-				])->execute();
-			}
+		\App\Db::getInstance('admin')->createCommand()
+			->update($requestMode ? 's_#__mail_rbl_request' : 's_#__mail_rbl_list', [
+				'status' => $request->getInteger('status')
+			], ['id' => $request->getInteger('record')])->execute();
+		if ($requestMode) {
+			$this->update($request);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([
@@ -48,5 +34,52 @@ class Settings_MailRbl_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			'message' => App\Language::translate('LBL_CHANGES_SAVED'),
 		]);
 		$response->emit();
+	}
+
+	/**
+	 * Update.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	private function update(App\Request $request): void
+	{
+		$dbCommand = \App\Db::getInstance('admin')->createCommand();
+		if (1 === $request->getInteger('status')) {
+			$recordModel = \App\Mail\Rbl::getRequestById($request->getInteger('record'));
+			$sender = $recordModel->getSender();
+			if (!empty($sender['ip'])) {
+				$id = false;
+				if ($ipsList = \App\Mail\Rbl::findIp($sender['ip'])) {
+					foreach ($ipsList as $ipList) {
+						if (2 !== (int) $ipList['type']) {
+							$id = $ipList['id'];
+							break;
+						}
+					}
+				}
+				if ($id) {
+					$dbCommand->update('s_#__mail_rbl_list', [
+						'status' => 0,
+						'type' => $recordModel->get('type'),
+						'request' => $request->getInteger('record'),
+					], ['id' => $id])->execute();
+					$dbCommand->update('s_#__mail_rbl_request', [
+						'status' => 3,
+					], ['id' => $ipList['request']])->execute();
+				} else {
+					$dbCommand->insert('s_#__mail_rbl_list', [
+						'ip' => $sender['ip'],
+						'status' => 0,
+						'type' => $recordModel->get('type'),
+						'request' => $request->getInteger('record'),
+						'source' => '',
+					])->execute();
+				}
+			}
+		} else {
+			$dbCommand->delete('s_#__mail_rbl_list', ['request' => $request->getInteger('record')])->execute();
+		}
 	}
 }

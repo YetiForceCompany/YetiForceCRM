@@ -20,15 +20,19 @@ class Settings_MailRbl_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 	 */
 	public function process(App\Request $request)
 	{
-		$createCommand = \App\Db::getInstance('admin')->createCommand();
+		$dbCommand = \App\Db::getInstance('admin')->createCommand();
 		if ('request' === $request->getMode()) {
-			$status = $createCommand->delete('s_#__mail_rbl_request', [
+			$status = $dbCommand->delete('s_#__mail_rbl_request', [
 				'id' => $request->getInteger('record')
 			])->execute();
 		} else {
-			$status = $createCommand->delete('s_#__mail_rbl_list', [
+			$row = (new \App\Db\Query())->from('s_#__mail_rbl_list')->where(['id' => $request->getInteger('record')])->one(\App\Db::getInstance('admin'));
+			$status = $dbCommand->delete('s_#__mail_rbl_list', [
 				'id' => $request->getInteger('record')
 			])->execute();
+			$dbCommand->update('s_#__mail_rbl_request', [
+				'status' => 3,
+			], ['id' => $row['request']])->execute();
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($status);
