@@ -1212,11 +1212,10 @@ CREATE TABLE `s_yf_mail_rbl_list` (
   `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `type` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `source` varchar(10) NOT NULL,
-  `from` varchar(100) DEFAULT NULL,
-  `by` varchar(100) DEFAULT NULL,
+  `request` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `type_ip` (`type`,`ip`),
-  KEY `status` (`status`)
+  KEY `type` (`type`),
+  KEY `status_ip` (`status`,`ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_mail_rbl_request` */
