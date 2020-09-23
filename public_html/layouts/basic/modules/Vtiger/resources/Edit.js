@@ -776,6 +776,7 @@ $.Class(
 						toElement.trigger('change');
 					}
 				} else {
+					toElement.val('');
 					toElement.attr('readonly', false);
 				}
 			}
