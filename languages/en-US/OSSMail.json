@@ -88,6 +88,7 @@
     "LBL_BLACK_LIST_DESC": "Add the addressee to blacklist, an e-mail will be marked as spam and moved to the spam folder.",
     "LBL_WHITE_LIST": "White list",
     "LBL_WHITE_LIST_DESC": "Add the addressee to whitelist, an e-mail will be marked as trusted.",
+    "LBL_BLACK_LIST_ALERT": "The sender has been blacklisted. Please do not open any attachments.",
     "LBL_MESSAGE_HAS_BEEN_ADDED": "The message has been added"
   },
   "js": {

@@ -253,7 +253,7 @@ class Rbl extends \App\Base
 			if (\App\Cache::has('MailRblIpColor', $ip)) {
 				$return[$uid] = \App\Cache::get('MailRblIpColor', $ip);
 			} else {
-				$find[$ip] = $uid;
+				$find[$ip][] = $uid;
 			}
 		}
 		if ($find) {
@@ -264,7 +264,10 @@ class Rbl extends \App\Base
 				$list[$row['ip']][] = $row;
 			}
 			foreach ($list as $ip => $rows) {
-				$return[$find[$ip]] = self::getColorByList($ip, $rows);
+				$color = self::getColorByList($ip, $rows);
+				foreach ($find[$ip] as $uid) {
+					$return[$uid] = $color;
+				}
 			}
 		}
 		return $return;
