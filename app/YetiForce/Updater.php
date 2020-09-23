@@ -78,7 +78,8 @@ class Updater
 				}
 			}
 		}
-		$query = (new \App\Db\Query())->from('yetiforce_updates')->where($where);
+		$query = (new \App\Db\Query())->from('yetiforce_updates')->where($where)->andWhere(['result' => 1]);
+
 		$dataReader = $query->createCommand()->query();
 		$updates = [];
 		foreach ($dataReader as $row) {

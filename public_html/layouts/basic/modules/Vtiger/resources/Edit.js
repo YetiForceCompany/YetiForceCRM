@@ -942,11 +942,7 @@ $.Class(
 								}
 							}
 						}
-						if (data.result.length <= 0) {
-							aDeferred.resolve(true);
-						} else {
-							aDeferred.resolve(false);
-						}
+						aDeferred.resolve(data.result.length <= 0);
 					})
 					.fail((textStatus, errorThrown) => {
 						document.progressLoader.progressIndicator({ mode: 'hide' });

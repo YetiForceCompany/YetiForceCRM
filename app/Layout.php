@@ -174,7 +174,7 @@ class Layout
 			$btn = $btnTemplate('LBL_FULLSCREEN', 'c-btn-floating-right-bottom btn btn-primary');
 		}
 		$html = Purifier::encodeHtml($html);
-		return "<div class=\"js-iframe-content\" >$teaser <iframe sandbox=\"allow-same-origin\" class=\"w-100 {$iframeClass}\" frameborder=\"0\" style=\"{$css}\" srcdoc=\"{$html}\"></iframe>{$btn}</div>";
+		return "<div class=\"js-iframe-content\" >$teaser <iframe sandbox=\"allow-same-origin allow-popups allow-popups-to-escape-sandbox\" class=\"w-100 {$iframeClass}\" frameborder=\"0\" style=\"{$css}\" srcdoc=\"{$html}\"></iframe>{$btn}</div>";
 	}
 
 	/**
