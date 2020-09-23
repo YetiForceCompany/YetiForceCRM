@@ -1214,8 +1214,7 @@ CREATE TABLE `s_yf_mail_rbl_list` (
   `source` varchar(10) NOT NULL,
   `request` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `type` (`type`),
-  KEY `status_ip` (`status`,`ip`)
+  KEY `type` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_mail_rbl_request` */
