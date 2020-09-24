@@ -142,14 +142,15 @@ jQuery.Class(
 		 * Register DataTable
 		 */
 		registerDataTable: function (container) {
+			const self = this;
 			let form = container.find('.js-filter-form');
-			App.Fields.Date.registerRange(form)
+			App.Fields.Date.registerRange(form);
 			let table = container.find('.js-data-table');
 			let mode = container.attr('id');
 			if (table.hasClass('dataTable')) {
 				table.DataTable().clear().destroy();
 			}
-			this.dataTable = app.registerDataTables(
+			self.dataTable = app.registerDataTables(
 				table,
 				Object.assign(
 					{
@@ -169,12 +170,11 @@ jQuery.Class(
 						},
 						order: []
 					},
-					this.dataTableMap[mode]
+					self.dataTableMap[mode]
 				)
 			);
-			let reloadData = this.dataTable;
 			container.find('input,select').on('change', function () {
-				reloadData.ajax.reload()
+				self.dataTable.ajax.reload()
 			});
 			return table;
 		},
@@ -198,12 +198,6 @@ jQuery.Class(
 							content.find('head').append('<style>body{margin: 0;}p{margin: 0.5em 0;}</style>');
 						});
 					});
-				});
-			});
-			table.off('click', '.js-send').on('click', '.js-send', function () {
-				let progressIndicatorElement = jQuery.progressIndicator();
-				app.showModalWindow(null, 'index.php?module=MailRbl&parent=Settings&view=SendModal', function (container) {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				});
 			});
 			table.off('click', '.js-trash').on('click', '.js-trash', function () {
