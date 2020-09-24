@@ -1708,6 +1708,16 @@ jQuery.Class(
 							typeof element.data('on-val') !== 'undefined'
 								? element.data('on-val')
 								: element.data('off-val');
+						let additionalParams = element.data('params');
+						if(typeof additionalParams !== typeof undefined && additionalParams !== false){
+							$.each(additionalParams, function(paramName, paramValue) {
+								if (paramName in urlNewParams) {
+									urlNewParams[paramName].push(paramValue);
+								} else {
+									urlNewParams[paramName] = paramValue;
+								}
+							});
+						}
 					}
 				} else {
 					let selectedFilter = element.find('option:selected').val();
