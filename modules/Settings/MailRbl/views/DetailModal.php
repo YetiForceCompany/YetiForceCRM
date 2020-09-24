@@ -62,6 +62,7 @@ class Settings_MailRbl_DetailModal_View extends \App\Controller\ModalSettings
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $this->recordModel);
 		$viewer->assign('SENDER', $this->recordModel->getSender());
+		$viewer->assign('SPF', $this->recordModel->checkSpf());
 		$viewer->assign('CARD_MAP', [
 			'from' => [
 				'Name' => ['icon' => 'fas fa-upload', 'label' => 'LBL_SERVER_NAME_FROM_DESC'],
