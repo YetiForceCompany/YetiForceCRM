@@ -38,6 +38,7 @@
 		</div>
 		<div id="my-tab-content" class="tab-content">
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'request'}active{/if}" id="request" data-name="request" data-js="data">
+				{include file=\App\Layout::getTemplatePath('SearchForm.tpl', $QUALIFIED_MODULE) STATUS_LIST=$RBL_STATUS_LIST TYPE_LIST=$RBL_TYPE_LIST}
 				<table id="request-table" class="table table-sm table-striped display js-data-table text-center mt-2">
 				<thead>
 					<tr>
