@@ -286,11 +286,11 @@ var Vtiger_Index_Js = {
 		AppConnector.request(params)
 			.done(function (data) {
 				let row = $('.notificationEntries .noticeRow[data-id="' + id + '"]');
-				// app.showNotify({
-				// 	title: app.vtranslate('JS_MESSAGE'),
-				// 	text: app.vtranslate('JS_MARKED_AS_READ'),
-				// 	type: 'info'
-				// });
+				app.showNotify({
+					title: app.vtranslate('JS_MESSAGE'),
+					text: app.vtranslate('JS_MARKED_AS_READ'),
+					type: 'info'
+				});
 				if (row.length) {
 					row.fadeOut(300, function () {
 						let entries = row.closest('.notificationEntries');
@@ -331,11 +331,11 @@ var Vtiger_Index_Js = {
 		li.progressIndicator({ position: 'html' });
 		AppConnector.request(params).done(function (data) {
 			li.progressIndicator({ mode: 'hide' });
-			// app.showNotify({
-			// 	title: app.vtranslate('JS_MESSAGE'),
-			// 	text: app.vtranslate('JS_MARKED_AS_READ'),
-			// 	type: 'info'
-			// });
+			app.showNotify({
+				title: app.vtranslate('JS_MESSAGE'),
+				text: app.vtranslate('JS_MARKED_AS_READ'),
+				type: 'info'
+			});
 			Vtiger_Index_Js.getNotificationsForReminder();
 		});
 	},
