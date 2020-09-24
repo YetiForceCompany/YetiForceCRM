@@ -107,7 +107,8 @@ Vtiger_List_Js(
 				} else {
 					var params = {
 						title: app.vtranslate('JS_MESSAGE'),
-						text: app.vtranslate(result.result.message)
+						text: app.vtranslate(result.result.message),
+						type: 'error'
 					};
 					app.showNotify(params);
 				}
@@ -263,7 +264,8 @@ Vtiger_List_Js(
 							} else {
 								var params = {
 									text: app.vtranslate(data.error.message),
-									title: app.vtranslate('JS_LBL_PERMISSION')
+									title: app.vtranslate('JS_LBL_PERMISSION'),
+									type: 'error'
 								};
 								app.showNotify(params);
 							}
@@ -316,7 +318,8 @@ Vtiger_List_Js(
 				} else {
 					app.showNotify({
 						text: app.vtranslate(data.error.message),
-						title: app.vtranslate('JS_LBL_PERMISSION')
+						title: app.vtranslate('JS_LBL_PERMISSION'),
+						type: 'error'
 					});
 				}
 			});

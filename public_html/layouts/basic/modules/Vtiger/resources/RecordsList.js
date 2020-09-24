@@ -280,7 +280,8 @@ $.Class(
 					});
 				if (Object.keys(selected).length <= 0) {
 					app.showNotify({
-						text: app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD')
+						text: app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD'),
+						type: 'error'
 					});
 				} else {
 					self.selectEvent(selected, e);

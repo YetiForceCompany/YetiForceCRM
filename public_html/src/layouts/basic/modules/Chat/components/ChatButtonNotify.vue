@@ -49,7 +49,7 @@ export default {
         PNotify.modules.Desktop.permission()
         setTimeout(() => {
           if (!this.isNotificationPermitted()) {
-            Vtiger_Helper_Js.showPnotify({
+           app.showNotify({
               text: app.vtranslate('JS_NO_DESKTOP_PERMISSION'),
               type: 'info',
               animation: 'show'

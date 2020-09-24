@@ -101,7 +101,10 @@ Vtiger_List_Js(
 					var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
 					if (liElement.hasClass('folderOption')) {
 						if (liElement.find('.js-filter-delete').hasClass('dull')) {
-							app.showNotify(app.vtranslate('JS_FOLDER_IS_NOT_EMPTY'));
+							app.showNotify({
+								text: app.vtranslate('JS_FOLDER_IS_NOT_EMPTY'),
+								type: 'error'
+							});
 							return;
 						} else {
 							Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(function (e) {

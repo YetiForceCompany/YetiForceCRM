@@ -30,7 +30,10 @@ $.Class(
 							window.location.href = result.url;
 						}
 					} else {
-						app.showNotify({ text: app.vtranslate('JS_ERROR') });
+						app.showNotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
 						progressIndicator.progressIndicator({ mode: 'hide' });
 					}
 				});

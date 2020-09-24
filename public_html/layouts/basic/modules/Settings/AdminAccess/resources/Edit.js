@@ -42,7 +42,10 @@ $.Class(
 							Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_SAVE_SUCCESS') });
 							$('.js-data-table').DataTable().ajax.reload();
 						} else {
-							app.showNotify(app.vtranslate('JS_ERROR'));
+							app.showNotify({
+								text: app.vtranslate('JS_ERROR'),
+								type: 'error'
+							});
 						}
 						app.hideModalWindow();
 						progress.progressIndicator({ mode: 'hide' });
