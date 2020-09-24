@@ -411,12 +411,18 @@ jQuery.Class(
 						}
 						detail.registerRelatedModulesRecordCount();
 					} else {
-						app.showNotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
+						app.showNotify({
+							text: app.vtranslate('JS_CANNOT_REMOVE_RELATION'),
+							type: 'error'
+						});
 					}
 				})
 				.fail(function (err, errThrow) {
 					progressInstance.progressIndicator({ mode: 'hide' });
-					app.showNotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
+					app.showNotify({
+						text: app.vtranslate('JS_CANNOT_REMOVE_RELATION'),
+						type: 'error'
+					});
 				});
 		},
 		/**
@@ -1321,7 +1327,10 @@ jQuery.Class(
 			return aDeferred.promise();
 		},
 		noRecordSelectedAlert: function (text = 'JS_PLEASE_SELECT_ONE_RECORD') {
-			app.showNotify({ text: app.vtranslate(text) });
+			app.showNotify({
+				text: app.vtranslate(text),
+				type: 'error'
+			});
 		},
 		getCurrentCvId: function () {
 			return $('#customFilter').find('option:selected').data('id');

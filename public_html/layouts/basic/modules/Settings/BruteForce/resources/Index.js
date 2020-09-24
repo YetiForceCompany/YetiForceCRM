@@ -24,7 +24,10 @@ jQuery.Class(
 					app.showNotify(params);
 				})
 				.fail(function (textStatus, errorThrown) {
-					app.showNotify({ text: app.vtranslate('JS_COULD_NOT_FINNISH_REACTION') });
+					app.showNotify({
+						text: app.vtranslate('JS_COULD_NOT_FINNISH_REACTION'),
+						type: 'error'
+					});
 					app.errorLog(textStatus, errorThrown);
 				});
 		},

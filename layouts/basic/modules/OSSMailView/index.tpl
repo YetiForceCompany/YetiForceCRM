@@ -50,12 +50,13 @@
 						if (response['success']) {
 							var params = {
 								text: response['data'],
-								type: 'info',
+								type: 'info'
 							};
 							app.showNotify(params);
 						} else {
 							var params = {
 								text: response['data'],
+								type: 'error'
 							};
 							app.showNotify(params);
 						}

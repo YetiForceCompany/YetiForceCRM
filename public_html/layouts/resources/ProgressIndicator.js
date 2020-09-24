@@ -162,7 +162,7 @@
 					this.blockedElement.unblock();
 				}
 			}
-			this.container.remove();
+			this.container.removeData('progressIndicator');
 		};
 	};
 

@@ -645,7 +645,10 @@ jQuery.Class(
 		 * Function to return alerts if no records selected.
 		 */
 		noRecordSelectedAlert: function (text = 'JS_PLEASE_SELECT_ONE_RECORD') {
-			app.showNotify({ text: app.vtranslate(text) });
+			app.showNotify({
+				text: app.vtranslate(text),
+				type: 'error'
+			});
 		},
 		massActionSave: function (form, isMassEdit) {
 			if (typeof isMassEdit === 'undefined') {
@@ -882,9 +885,10 @@ jQuery.Class(
 				if (form.validationEngine('validate')) {
 					e.preventDefault();
 					if (!form.find('input[id^="selectRow"]:checked').length) {
-						app.showNotify(
-							app.vtranslate('NONE_OF_THE_FIELD_VALUES_ARE_CHANGED_IN_MASS_EDIT')
-						);
+						app.showNotify({
+							text: app.vtranslate('NONE_OF_THE_FIELD_VALUES_ARE_CHANGED_IN_MASS_EDIT'),
+							type: 'error'
+						});
 						return;
 					}
 					let invalidFields = form.data('jqv').InvalidFields;
@@ -1601,7 +1605,8 @@ jQuery.Class(
 							} else {
 								app.showNotify({
 									text: app.vtranslate(data.error.message),
-									title: app.vtranslate('JS_LBL_PERMISSION')
+									title: app.vtranslate('JS_LBL_PERMISSION'),
+									type: 'error'
 								});
 							}
 						}

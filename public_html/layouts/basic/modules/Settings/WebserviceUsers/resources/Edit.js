@@ -36,9 +36,15 @@ Vtiger_Edit_Js(
 							app.hideModalWindow();
 						} else {
 							if (data.result.message) {
-								app.showNotify(data.result.message);
+								app.showNotify({
+									text: data.result.message,
+									type: 'error'
+								});
 							} else {
-								app.showNotify(app.vtranslate('JS_ERROR'));
+								app.showNotify({
+									text: app.vtranslate('JS_ERROR'),
+									type: 'error'
+								});
 							}
 						}
 					});

@@ -236,7 +236,7 @@ var App = (window.App = {
 								app.event.trigger('QuickCreate.AfterSaveFinal', data, form);
 								progress.progressIndicator({ mode: 'hide' });
 								if (data.success) {
-									this.showNotify({
+									app.showNotify({
 										text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
 										type: 'success'
 									});

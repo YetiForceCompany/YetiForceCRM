@@ -28,7 +28,10 @@ $.Class(
 							let id = this.container.closest('.modalContainer').attr('id');
 							app.hideModalWindow(null, id);
 						} else {
-							app.showNotify(app.vtranslate('JS_ERROR'));
+							app.showNotify({
+								text: app.vtranslate('JS_ERROR'),
+								type: 'error'
+							});
 						}
 						progress.progressIndicator({ mode: 'hide' });
 					});

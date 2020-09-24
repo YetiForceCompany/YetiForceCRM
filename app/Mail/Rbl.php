@@ -57,6 +57,33 @@ class Rbl extends \App\Base
 	 * RLB public white list type.
 	 */
 	public const LIST_TYPE_PUBLIC_WHITE_LIST = 3;
+
+	/**
+	 * List statuses.
+	 */
+	public const SPF = [
+		1 => ['label' => 'LBL_SPF_NONE', 'class' => 'badge-secondary', 'icon' => 'fas fa-question'],
+		2 => ['label' => 'LBL_SPF_PASS', 'class' => 'badge-success', 'icon' => 'fas fa-check'],
+		3 => ['label' => 'LBL_SPF_FAIL', 'class' => 'badge-danger', 'icon' => 'fas fa-times'],
+	];
+	/**
+	 * Check result: None, Neutral, TempError, PermError.
+	 *
+	 * @var string
+	 */
+	public const SPF_NONE = 1;
+	/**
+	 * Check result: Pass (the SPF record stated that the IP address is authorized).
+	 *
+	 * @var string
+	 */
+	public const SPF_PASS = 2;
+	/**
+	 * Check result: Fail, SoftFail.
+	 *
+	 * @var string
+	 */
+	public const SPF_FAIL = 3;
 	/**
 	 * Message mail mime parser instance.
 	 *
@@ -246,6 +273,42 @@ class Rbl extends \App\Base
 		return $from;
 	}
 
+	/**
+	 * Check SPF (Sender Policy Framework) for Authorizing Use of Domains in Email.
+	 *
+	 * @return array
+	 */
+	public function checkSpf(): array
+	{
+		$this->mailMimeParser = $this->mailMimeParser ?? \ZBateson\MailMimeParser\Message::from($this->get('header'));
+		$sender = $this->getSender();
+		$status = self::SPF_NONE;
+		if (isset($sender['ip'])) {
+			$environment = new \SPFLib\Check\Environment($sender['ip'], $sender['from'] ?? '', $this->mailMimeParser->getHeader('from')->getEmail());
+			foreach ([\SPFLib\Checker::FLAG_CHECK_MAILFROADDRESS, \SPFLib\Checker::FLAG_CHECK_HELODOMAIN] as $flag) {
+				if (self::SPF_FAIL !== $status) {
+					switch ((new \SPFLib\Checker())->check($environment, $flag)->getCode()) {
+						case \SPFLib\Check\Result::CODE_PASS:
+							$status = self::SPF_PASS;
+							break;
+						case \SPFLib\Check\Result::CODE_FAIL:
+						case \SPFLib\Check\Result::CODE_SOFTFAIL:
+							$status = self::SPF_FAIL;
+							break;
+					}
+				}
+			}
+		}
+		return ['status' => $status] + self::SPF[$status];
+	}
+
+	/**
+	 * Get color by ips.
+	 *
+	 * @param array $ips
+	 *
+	 * @return array
+	 */
 	public static function getColorByIps(array $ips): array
 	{
 		$return = $find = [];

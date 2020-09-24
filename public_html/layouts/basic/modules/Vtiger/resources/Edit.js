@@ -595,9 +595,10 @@ $.Class(
 					let recordRelativeAccountId = $('[name="' + account_id + '"]').val();
 
 					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						app.showNotify(
-							app.vtranslate('JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS')
-						);
+						app.showNotify({
+							text: app.vtranslate('JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS'),
+							type: 'error'
+						});
 					} else {
 						let recordRelativeAccountName = $('#' + account_id + '_display').val();
 						let data = {
@@ -621,9 +622,10 @@ $.Class(
 					let to = block.data('label');
 					let recordRelativeAccountId = $('[name="' + contact_id + '"]').val();
 					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						app.showNotify(
-							app.vtranslate('JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS')
-						);
+						app.showNotify({
+							text: app.vtranslate('JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS'),
+							type: 'error'
+						});
 					} else {
 						let recordRelativeAccountName = $('#' + contact_id + '_display').val();
 						let data = {
@@ -646,9 +648,10 @@ $.Class(
 					let to = block.data('label');
 					let recordRelativeAccountId = $('[name="' + lead_id + '"]').val();
 					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						app.showNotify(
-							app.vtranslate('JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS')
-						);
+						app.showNotify({
+							text: app.vtranslate('JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS'),
+							type: 'error'
+						});
 					} else {
 						let recordRelativeAccountName = $('#' + lead_id + '_display').val();
 						let data = {
@@ -671,9 +674,10 @@ $.Class(
 					let to = block.data('label');
 					let recordRelativeAccountId = $('[name="' + vendor_id + '"]').val();
 					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						app.showNotify(
-							app.vtranslate('JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS')
-						);
+						app.showNotify({
+							text: app.vtranslate('JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS'),
+							type: 'error'
+						});
 					} else {
 						let recordRelativeAccountName = $('#' + vendor_id + '_display').val();
 						let data = {
@@ -788,7 +792,11 @@ $.Class(
 				} else {
 					errorMsg = 'JS_DOES_NOT_HAVE_AN_ADDRESS';
 				}
-				app.showNotify(app.vtranslate(errorMsg));
+				app.showNotify({
+					text: app.vtranslate(errorMsg),
+					type: 'error'
+				});
+
 			}
 		},
 		registerReferenceSelectionEvent: function (container) {
@@ -934,9 +942,10 @@ $.Class(
 						let response = data.result;
 						for (let i = 0; i < response.length; i++) {
 							if (response[i].result !== true) {
-								app.showNotify(
-									response[i].message ? response[i].message : app.vtranslate('JS_ERROR')
-								);
+								app.showNotify({
+									text: response[i].message ? response[i].message : app.vtranslate('JS_ERROR'),
+									type: 'error'
+								});
 								if (response[i].hoverField != undefined) {
 									form.find('[name="' + response[i].hoverField + '"]').focus();
 								}
@@ -946,7 +955,10 @@ $.Class(
 					})
 					.fail((textStatus, errorThrown) => {
 						document.progressLoader.progressIndicator({ mode: 'hide' });
-						app.showNotify(app.vtranslate('JS_ERROR'));
+						app.showNotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
 						app.errorLog(textStatus, errorThrown);
 						aDeferred.resolve(false);
 					});
@@ -1158,7 +1170,10 @@ $.Class(
 							})
 								.done(function (requestData) {
 									if (requestData.result === false) {
-										app.showNotify(app.vtranslate('JS_ERROR'));
+										app.showNotify({
+											text: app.vtranslate('JS_ERROR'),
+											type: 'error'
+										});
 									} else if (requestData.result.length) {
 										response(requestData.result);
 									} else {

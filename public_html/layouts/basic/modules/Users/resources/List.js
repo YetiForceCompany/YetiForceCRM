@@ -176,7 +176,10 @@ Vtiger_List_Js(
 						progressInstance.progressIndicator({
 							mode: 'hide'
 						});
-						app.showNotify(response.result.message);
+						app.showNotify({
+							text: response.result.message,
+							type: 'success'
+						});
 						var url = response.result.listViewUrl;
 						window.location.href = url;
 					}
@@ -215,7 +218,8 @@ Vtiger_List_Js(
 							if (data.error) {
 								app.showNotify({
 									text: app.vtranslate(data.error.message),
-									title: app.vtranslate('JS_LBL_PERMISSION')
+									title: app.vtranslate('JS_LBL_PERMISSION'),
+									type: 'error'
 								});
 							}
 							window.location.href = url;

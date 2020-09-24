@@ -61,7 +61,8 @@ Settings_Vtiger_List_Js(
 								if (data.error) {
 									app.showNotify({
 										text: app.vtranslate(data.error.message),
-										title: app.vtranslate('JS_LBL_PERMISSION')
+										title: app.vtranslate('JS_LBL_PERMISSION'),
+										type: 'error'
 									});
 								}
 							});

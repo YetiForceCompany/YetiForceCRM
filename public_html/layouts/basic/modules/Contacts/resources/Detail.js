@@ -31,17 +31,19 @@ Vtiger_Detail_Js(
 				if (portalField.is(':checked')) {
 					if (primaryEmailField.length == 0) {
 						if (isAlertAlreadyShown <= 0) {
-							app.showNotify(
-								app.vtranslate('JS_PRIMARY_EMAIL_FIELD_DOES_NOT_EXISTS')
-							);
+							app.showNotify({
+								text: app.vtranslate('JS_PRIMARY_EMAIL_FIELD_DOES_NOT_EXISTS'),
+								type: 'error'
+							});
 						}
 						e.preventDefault();
 					}
 					if (primaryEmailValue == '') {
 						if (isAlertAlreadyShown <= 0) {
-							app.showNotify(
-								app.vtranslate('JS_PLEASE_ENTER_PRIMARY_EMAIL_VALUE_TO_ENABLE_PORTAL_USER')
-							);
+							app.showNotify({
+								text: app.vtranslate('JS_PLEASE_ENTER_PRIMARY_EMAIL_VALUE_TO_ENABLE_PORTAL_USER'),
+								type: 'info'
+							});
 						}
 						e.preventDefault();
 					}

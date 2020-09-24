@@ -30,7 +30,14 @@
     "LBL_SERVER_IP_BY": "Recipient IP",
     "LBL_SERVER_COMMENTS": "Comment",
     "LBL_REQUEST": "Report",
-    "LBL_PROTOCOL": "Protocol"
+    "LBL_PROTOCOL": "Protocol",
+    "LBL_SPF": "SPF",
+    "LBL_SPF_NONE": "None",
+    "LBL_SPF_NONE_DESC": "No information or information provided is insufficient to verify the sender. Please be cautious.",
+    "LBL_SPF_PASS": "Correct",
+    "LBL_SPF_PASS_DESC": "The sender is authorized to send email on behalf of the sender.",
+    "LBL_SPF_FAIL": "Incorrect",
+    "LBL_SPF_FAIL_DESC": "The sender is not authorized to send email on behalf of the sender."
   },
   "js": {
     "BTN_SHOW_DETAILS": "Show details",

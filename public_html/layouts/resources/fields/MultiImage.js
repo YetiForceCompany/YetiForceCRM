@@ -157,7 +157,10 @@ class MultiImage {
 			}
 		}
 		app.errorLog(`File '${hash}' not found.`);
-		app.showNotify({ text: app.vtranslate('JS_INVALID_FILE_HASH') + ` [${hash}]` });
+		app.showNotify({
+			text: app.vtranslate('JS_INVALID_FILE_HASH') + ` [${hash}]`,
+			type: 'error'
+		});
 	}
 
 	/**
@@ -185,7 +188,10 @@ class MultiImage {
 		const { jqXHR, files } = data;
 		if (typeof jqXHR.responseJSON === 'undefined' || jqXHR.responseJSON === null) {
 			App.Fields.MultiImage.currentFileUploads--;
-			return app.showNotify(app.vtranslate('JS_FILE_UPLOAD_ERROR'));
+			return app.showNotify({
+				text: app.vtranslate('JS_FILE_UPLOAD_ERROR'),
+				type: 'error'
+			});
 		}
 		const response = jqXHR.responseJSON;
 		// first try to show error for concrete file
@@ -198,11 +204,15 @@ class MultiImage {
 				App.Fields.MultiImage.currentFileUploads--;
 				this.deleteFile(fileAttach.hash, false);
 				if (typeof fileAttach.error === 'string') {
-					app.showNotify(fileAttach.error + ` [${fileAttach.name}]`);
+					app.showNotify({
+						text: fileAttach.error + ` [${fileAttach.name}]`,
+						type: 'error'
+					});
 				} else {
-					app.showNotify(
-						app.vtranslate('JS_FILE_UPLOAD_ERROR') + ` [${fileAttach.name}]`
-					);
+					app.showNotify({
+						text: app.vtranslate('JS_FILE_UPLOAD_ERROR') + ` [${fileAttach.name}]`,
+						type: 'error'
+					});
 				}
 			});
 			this.updateFormValues();
@@ -212,7 +222,10 @@ class MultiImage {
 		files.forEach((file) => {
 			App.Fields.MultiImage.currentFileUploads--;
 			this.deleteFile(file.hash, false);
-			app.showNotify(app.vtranslate('JS_FILE_UPLOAD_ERROR') + ` [${file.name}]`);
+			app.showNotify({
+				text: app.vtranslate('JS_FILE_UPLOAD_ERROR') + ` [${file.name}]`,
+				type: 'error'
+			});
 		});
 		this.updateFormValues();
 	}
@@ -276,11 +289,12 @@ class MultiImage {
 			}
 		});
 		if (!valid) {
-			app.showNotify(
-				`${app.vtranslate('JS_INVALID_FILE_TYPE')} [${file.name}]\n${app.vtranslate(
+			app.showNotify({
+				text: `${app.vtranslate('JS_INVALID_FILE_TYPE')} [${file.name}]\n${app.vtranslate(
 					'JS_AVAILABLE_FILE_TYPES'
-				)}  [${this.options.formats.join(', ')}]`
-			);
+				)}  [${this.options.formats.join(', ')}]`,
+				type: 'error'
+			});
 		}
 		return valid;
 	}
@@ -290,7 +304,10 @@ class MultiImage {
 	 */
 	showLimitError() {
 		this.elements.fileInput.val('');
-		app.showNotify(`${app.vtranslate('JS_FILE_LIMIT')} [${this.options.limit}]`);
+		app.showNotify({
+			text: `${app.vtranslate('JS_FILE_LIMIT')} [${this.options.limit}]`,
+			type: 'error'
+		});
 	}
 
 	/**

@@ -4,30 +4,33 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d9243745bd6413d64c11bd21d9315a60",
+    "content-hash": "ce15b9b1e3afd7fdb34f6ee70a653f49",
     "packages": [
         {
             "name": "abraham/twitteroauth",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/abraham/twitteroauth.git",
-                "reference": "d54b71c2eee94252154e7b50656e17422fa0b9e1"
+                "reference": "f5cda73d1deae8b9e3e54f1572a6d28d03e06644"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abraham/twitteroauth/zipball/d54b71c2eee94252154e7b50656e17422fa0b9e1",
-                "reference": "d54b71c2eee94252154e7b50656e17422fa0b9e1",
+                "url": "https://api.github.com/repos/abraham/twitteroauth/zipball/f5cda73d1deae8b9e3e54f1572a6d28d03e06644",
+                "reference": "f5cda73d1deae8b9e3e54f1572a6d28d03e06644",
                 "shasum": ""
             },
             "require": {
+                "composer/ca-bundle": "^1.2",
                 "ext-curl": "*",
-                "php": "^7.2 || ^7.3"
+                "php": "^7.2 || ^7.3 || ^7.4"
             },
             "require-dev": {
-                "phpmd/phpmd": "~2.6",
-                "phpunit/phpunit": "~5.7",
-                "squizlabs/php_codesniffer": "~3.0"
+                "php-vcr/php-vcr": "^1",
+                "php-vcr/phpunit-testlistener-vcr": "^3",
+                "phpmd/phpmd": "^2",
+                "phpunit/phpunit": "^8",
+                "squizlabs/php_codesniffer": "^3"
             },
             "type": "library",
             "autoload": {
@@ -58,7 +61,7 @@
                 "social",
                 "twitter"
             ],
-            "time": "2019-11-29T14:55:32+00:00"
+            "time": "2020-09-22T14:27:00+00:00"
         },
         {
             "name": "adhocore/jwt",
@@ -470,16 +473,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.12.9",
+            "version": "8.12.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "674b79ae3362409d08e550cb196d982485a76225"
+                "reference": "befffd590d1e2333bbb6d712541ccccf5fc08f1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/674b79ae3362409d08e550cb196d982485a76225",
-                "reference": "674b79ae3362409d08e550cb196d982485a76225",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/befffd590d1e2333bbb6d712541ccccf5fc08f1f",
+                "reference": "befffd590d1e2333bbb6d712541ccccf5fc08f1f",
                 "shasum": ""
             },
             "require": {
@@ -534,7 +537,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2020-08-31T09:51:44+00:00"
+            "time": "2020-09-22T07:23:22+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -587,16 +590,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.0.1",
+            "version": "7.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "2d9d3c186a6637a43193e66b097c50e4451eaab2"
+                "reference": "7edeaa528fbb57123028bd5a76b9ce9540194e26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/2d9d3c186a6637a43193e66b097c50e4451eaab2",
-                "reference": "2d9d3c186a6637a43193e66b097c50e4451eaab2",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/7edeaa528fbb57123028bd5a76b9ce9540194e26",
+                "reference": "7edeaa528fbb57123028bd5a76b9ce9540194e26",
                 "shasum": ""
             },
             "require": {
@@ -610,7 +613,6 @@
                 "psr/http-client-implementation": "1.0"
             },
             "require-dev": {
-                "ergebnis/composer-normalize": "^2.0",
                 "ext-curl": "*",
                 "php-http/client-integration-tests": "dev-phpunit8",
                 "phpunit/phpunit": "^8.5.5",
@@ -624,7 +626,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "7.0-dev"
+                    "dev-master": "7.1-dev"
                 }
             },
             "autoload": {
@@ -664,7 +666,25 @@
                 "rest",
                 "web service"
             ],
-            "time": "2020-06-27T10:33:25+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/Nyholm",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/alexeyshockov",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/gmponos",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-09-22T09:10:04+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -1256,6 +1276,211 @@
             "time": "2020-08-26T18:58:46+00:00"
         },
         {
+            "name": "mlocati/idna",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mlocati/idna.git",
+                "reference": "2c8eeff3e27cf137eb0ed82eefb64535c2367005"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mlocati/idna/zipball/2c8eeff3e27cf137eb0ed82eefb64535c2367005",
+                "reference": "2c8eeff3e27cf137eb0ed82eefb64535c2367005",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MLocati\\IDNA\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michele Locati",
+                    "email": "mlocati@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Library for International Domain Names (IDNA) 2008",
+            "homepage": "https://github.com/mlocati/idna",
+            "keywords": [
+                "ansi",
+                "ascii",
+                "domain",
+                "domain name",
+                "domain names",
+                "domains",
+                "i18n",
+                "idn",
+                "idna",
+                "idna2003",
+                "idna2008",
+                "international",
+                "international domain",
+                "international domain name",
+                "international domain names",
+                "international domains",
+                "international name",
+                "international names",
+                "internationalization",
+                "internationalized",
+                "internationalized domain",
+                "internationalized domain name",
+                "internationalized domain names",
+                "internationalized domains",
+                "internationalized name",
+                "internationalized names",
+                "l10n",
+                "name",
+                "names",
+                "punycode",
+                "unicode"
+            ],
+            "time": "2019-09-02T15:52:28+00:00"
+        },
+        {
+            "name": "mlocati/ip-lib",
+            "version": "1.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mlocati/ip-lib.git",
+                "reference": "85a7277975bd3bf2c0c57c327081781de1d4f13e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mlocati/ip-lib/zipball/85a7277975bd3bf2c0c57c327081781de1d4f13e",
+                "reference": "85a7277975bd3bf2c0c57c327081781de1d4f13e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "ext-pdo_sqlite": "*",
+                "phpunit/dbunit": "^1.4 || ^2 || ^3 || ^4",
+                "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "IPLib\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michele Locati",
+                    "email": "mlocati@gmail.com",
+                    "homepage": "https://github.com/mlocati",
+                    "role": "Author"
+                }
+            ],
+            "description": "Handle IPv4, IPv6 addresses and ranges",
+            "homepage": "https://github.com/mlocati/ip-lib",
+            "keywords": [
+                "IP",
+                "address",
+                "addresses",
+                "ipv4",
+                "ipv6",
+                "matching",
+                "network",
+                "networking",
+                "range",
+                "subnet"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/mlocati",
+                    "type": "github"
+                },
+                {
+                    "url": "https://paypal.me/mlocati",
+                    "type": "other"
+                }
+            ],
+            "time": "2020-07-27T11:38:13+00:00"
+        },
+        {
+            "name": "mlocati/spf-lib",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mlocati/spf-lib.git",
+                "reference": "793f3369367ae26823e8a6fbd88c7d229875f037"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mlocati/spf-lib/zipball/793f3369367ae26823e8a6fbd88c7d229875f037",
+                "reference": "793f3369367ae26823e8a6fbd88c7d229875f037",
+                "shasum": ""
+            },
+            "require": {
+                "mlocati/idna": "^1",
+                "mlocati/ip-lib": "^1.11",
+                "php": ">=7.2.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "phpunit/phpunit": "^8.5",
+                "symfony/yaml": "^5.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SPFLib\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michele Locati",
+                    "email": "michele@locati.com",
+                    "homepage": "https://mlocati.github.io",
+                    "role": "author"
+                }
+            ],
+            "description": "Parse, build and validate SPF (Sender Policy Framework) DNS records",
+            "homepage": "https://github.com/mlocati/spf-lib",
+            "keywords": [
+                "MX",
+                "Sender Policy Framework",
+                "dns",
+                "email",
+                "mail",
+                "smtp",
+                "spf"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/mlocati",
+                    "type": "github"
+                },
+                {
+                    "url": "https://paypal.me/mlocati",
+                    "type": "other"
+                }
+            ],
+            "time": "2020-07-17T14:36:33+00:00"
+        },
+        {
             "name": "myclabs/php-enum",
             "version": "1.7.6",
             "source": {
@@ -1303,16 +1528,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.40.0",
+            "version": "2.40.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "6c7646154181013ecd55e80c201b9fd873c6ee5d"
+                "reference": "d9a76d8b7eb0f97cf3a82529393245212f40ba3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/6c7646154181013ecd55e80c201b9fd873c6ee5d",
-                "reference": "6c7646154181013ecd55e80c201b9fd873c6ee5d",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/d9a76d8b7eb0f97cf3a82529393245212f40ba3b",
+                "reference": "d9a76d8b7eb0f97cf3a82529393245212f40ba3b",
                 "shasum": ""
             },
             "require": {
@@ -1388,7 +1613,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-11T19:00:58+00:00"
+            "time": "2020-09-23T08:17:37+00:00"
         },
         {
             "name": "nette/php-generator",
@@ -2305,24 +2530,25 @@
         },
         {
             "name": "sabre/event",
-            "version": "5.1.0",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabre-io/event.git",
-                "reference": "d00a17507af0e7544cfe17096372f5d733e3b276"
+                "reference": "a37c73e535ddab02bd892f4bdab4867f9778cbea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabre-io/event/zipball/d00a17507af0e7544cfe17096372f5d733e3b276",
-                "reference": "d00a17507af0e7544cfe17096372f5d733e3b276",
+                "url": "https://api.github.com/repos/sabre-io/event/zipball/a37c73e535ddab02bd892f4bdab4867f9778cbea",
+                "reference": "a37c73e535ddab02bd892f4bdab4867f9778cbea",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
+                "php": "^7.1|^8.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "~2.16.1",
-                "phpunit/phpunit": "^7 || ^8"
+                "phpstan/phpstan": "^0.12",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.0"
             },
             "type": "library",
             "autoload": {
@@ -2361,7 +2587,7 @@
                 "reactor",
                 "signal"
             ],
-            "time": "2020-01-31T18:52:29+00:00"
+            "time": "2020-09-19T20:29:54+00:00"
         },
         {
             "name": "sabre/http",
