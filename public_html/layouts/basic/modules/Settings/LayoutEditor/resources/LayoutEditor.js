@@ -1881,7 +1881,10 @@ $.Class(
 								.find('[data-block-id="' + result.data.block + '"] .connectedSortable')
 								.append(newLiElement);
 						} else {
-							app.showNotify(app.vtranslate('JS_ERROR'));
+							app.showNotify({
+								text: app.vtranslate('JS_ERROR'),
+								type: 'error'
+							});
 						}
 					});
 				}

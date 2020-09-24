@@ -669,9 +669,10 @@ jQuery.Class(
 						let response = data.result;
 						for (let i = 0; i < response.length; i++) {
 							if (response[i].result !== true) {
-								app.showNotify(
-									response[i].message ? response[i].message : app.vtranslate('JS_ERROR')
-								);
+								app.showNotify({
+									text: response[i].message ? response[i].message : app.vtranslate('JS_ERROR'),
+									type: 'error'
+								});
 							}
 						}
 						if (data.result.length <= 0) {
@@ -682,7 +683,10 @@ jQuery.Class(
 					})
 					.fail((textStatus, errorThrown) => {
 						document.progressLoader.progressIndicator({ mode: 'hide' });
-						app.showNotify(app.vtranslate('JS_ERROR'));
+						app.showNotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
 						app.errorLog(textStatus, errorThrown);
 						aDeferred.resolve(false);
 					});

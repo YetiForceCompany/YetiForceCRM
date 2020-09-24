@@ -59,7 +59,10 @@ Vtiger_Detail_Js(
 			AppConnector.request(params).done(function (data) {
 				if (data.success) {
 					app.hideModalWindow();
-					app.showNotify(app.vtranslate(data.result.message));
+					app.showNotify({
+						text: app.vtranslate(data.result.message),
+						type: 'success'
+					});
 					var url = data.result.listViewUrl;
 					window.location.href = url;
 				}

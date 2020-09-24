@@ -21,12 +21,18 @@ Settings_Vtiger_Edit_Js(
 							if (true == data.result.success) {
 								window.location.href = data.result.url;
 							} else {
-								app.showNotify(data.result.message);
+								app.showNotify({
+									text: data.result.message,
+									type: 'error'
+								});
 							}
 						})
 						.fail(function (textStatus) {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
-							app.showNotify(textStatus);
+							app.showNotify({
+								text: textStatus,
+								type: 'error'
+							});
 						});
 					return false;
 				} else {

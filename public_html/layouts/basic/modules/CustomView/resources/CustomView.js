@@ -95,7 +95,8 @@ class CustomView {
 				$.unblockUI();
 				app.showNotify({
 					title: app.vtranslate('JS_DUPLICATE_RECORD'),
-					text: response.message
+					text: response.message,
+					type: 'error'
 				});
 			}
 		});
@@ -199,7 +200,8 @@ class CustomView {
 			if ($('#viewname').val().length > 100) {
 				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
-					text: app.vtranslate('JS_VIEWNAME_ALERT')
+					text: app.vtranslate('JS_VIEWNAME_ALERT'),
+					type: 'error'
 				});
 				e.preventDefault();
 				return;

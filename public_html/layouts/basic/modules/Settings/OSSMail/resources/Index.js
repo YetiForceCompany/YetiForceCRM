@@ -66,7 +66,8 @@ jQuery.Class(
 							app.showNotify(params);
 						} else {
 							params = {
-								text: response['data']
+								text: response['data'],
+								type: 'error'
 							};
 							app.showNotify(params);
 						}

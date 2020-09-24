@@ -298,7 +298,8 @@ jQuery.Class(
 					});
 				} else {
 					app.showNotify({
-						text: response['data']
+						text: response['data'],
+						type: 'error'
 					});
 				}
 			});
@@ -318,7 +319,8 @@ jQuery.Class(
 					});
 				} else {
 					app.showNotify({
-						text: response['data']
+						text: response['data'],
+						type: 'error'
 					});
 				}
 			});
@@ -343,7 +345,8 @@ jQuery.Class(
 					});
 				} else {
 					app.showNotify({
-						text: response['data']
+						text: response['data'],
+						type: 'error'
 					});
 				}
 			});
@@ -376,7 +379,8 @@ jQuery.Class(
 					});
 				} else {
 					app.showNotify({
-						text: response['data']
+						text: response['data'],
+						type: 'error'
 					});
 				}
 			});

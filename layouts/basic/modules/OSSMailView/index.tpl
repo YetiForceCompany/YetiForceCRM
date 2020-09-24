@@ -1,4 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+
 <div class="">
 	<div class="clearfix">
 		<div class="o-breadcrumb widget_header row">
@@ -50,12 +51,13 @@
 						if (response['success']) {
 							var params = {
 								text: response['data'],
-								type: 'info',
+								type: 'info'
 							};
 							app.showNotify(params);
 						} else {
 							var params = {
 								text: response['data'],
+								type: 'error'
 							};
 							app.showNotify(params);
 						}

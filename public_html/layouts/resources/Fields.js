@@ -1458,7 +1458,10 @@ window.App.Fields = {
 								app.showNotify({ text: response.message, type: 'success' });
 							}
 						} else if (response && response.message) {
-							app.showNotify({ text: response.message });
+							app.showNotify({
+								text: response.message,
+								type: 'error'
+							});
 						}
 					})
 					.fail(function () {
@@ -2566,12 +2569,18 @@ window.App.Fields = {
 						if (result && result.success && result.url) {
 							valElement.attr('readonly', true).val(result.url);
 						} else {
-							app.showNotify(app.vtranslate('JS_ERROR'));
+							app.showNotify({
+								text: app.vtranslate('JS_ERROR'),
+								type: 'error'
+							});
 						}
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					})
 					.fail((_) => {
-						app.showNotify(app.vtranslate('JS_ERROR'));
+						app.showNotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					});
 			});
