@@ -56,7 +56,7 @@
 							</span>
 						</div>
 						<select id="rblStatus" class="form-control select2" multiple="true" name="status[]" aria-describedby="rblStatusList">
-							{foreach from=\App\Mail\Rbl::LIST_STATUS key=KEY item=STATUS}
+							{foreach from=\App\Mail\Rbl::REQUEST_STATUS key=KEY item=STATUS}
 								<option value="{$KEY}">
 									{\App\Language::translate($STATUS['label'], $QUALIFIED_MODULE)}
 								</option>
@@ -71,10 +71,9 @@
 							</span>
 						</div>
 						<select id="rblTypeList" class="form-control select2" multiple="true" name="type[]" aria-describedby="rblTypeList">
-
-							{foreach from=$RBL_TYPE_LIST key=KEY item=TYPE}
+							{foreach from=\App\Mail\Rbl::LIST_TYPES key=KEY item=TYPE}
 								<option value="{$KEY}">
-									{\App\Language::translate($TYPE, $QUALIFIED_MODULE)}
+									{\App\Language::translate($TYPE['label'], $QUALIFIED_MODULE)}
 								</option>
 							{/foreach}
 						</select>
