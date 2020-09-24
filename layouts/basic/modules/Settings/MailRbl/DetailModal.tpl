@@ -7,14 +7,9 @@
 		<div class="lineOfText mb-2">
 			<div>{\App\Language::translate('LBL_MAIL_TRACE_TITLE', $QUALIFIED_MODULE)}</div>
 		</div>
-		<div class="row col-12">
+		<div class="d-flex align-items-center justify-content-center">
 		{foreach item=ROW from=$RECEIVED name=ReceivedForeach}
-			<div class="col-sm-3 p-0 pr-2 mb-2">
-				{if !$smarty.foreach.ReceivedForeach.last}
-					<div class="d-flex align-items-center float-right">
-						<span class="fas fa-chevron-right mt-5 u-fs-2x text-primary"></span>
-					</div>
-				{/if}
+			<div class="{if count($RECEIVED) > 1} col {else} w-100 {/if} p-0 pr-2 mb-2">
 				<div class="card{if $SENDER['key'] === $ROW['key']} u-bg-gray{/if}">
 					<div class="card-body p-1">
 						<ul class="list-group list-group-flush">
@@ -34,6 +29,11 @@
 				</div>
 
 			</div>
+			{if !$smarty.foreach.ReceivedForeach.last}
+					<div class="pr-2">
+						<span class="fas fa-chevron-right mt-5 u-fs-2x text-primary my-auto"></span>
+					</div>
+				{/if}
 		{/foreach}
 		</div>
 	{/if}
