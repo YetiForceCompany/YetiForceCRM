@@ -359,7 +359,7 @@ Vtiger_Edit_Js(
 					container.find('[name="due_date"]').val(data.result.date_start);
 				} else {
 					app.showNotify({
-						text: app.vtranslate('JS_ERROR_MAX_VALUE')),
+						text: app.vtranslate('JS_ERROR_MAX_VALUE'),
 						type: 'error'
 					});
 					container.find('.js-autofill').prop('checked', false).trigger('change');

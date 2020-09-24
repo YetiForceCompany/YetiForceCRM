@@ -32,7 +32,7 @@ Vtiger_Detail_Js(
 					if (primaryEmailField.length == 0) {
 						if (isAlertAlreadyShown <= 0) {
 							app.showNotify({
-								text: app.vtranslate('JS_PRIMARY_EMAIL_FIELD_DOES_NOT_EXISTS')),
+								text: app.vtranslate('JS_PRIMARY_EMAIL_FIELD_DOES_NOT_EXISTS'),
 								type: 'error'
 							});
 						}
@@ -41,7 +41,7 @@ Vtiger_Detail_Js(
 					if (primaryEmailValue == '') {
 						if (isAlertAlreadyShown <= 0) {
 							app.showNotify({
-								text: app.vtranslate('JS_PLEASE_ENTER_PRIMARY_EMAIL_VALUE_TO_ENABLE_PORTAL_USER')),
+								text: app.vtranslate('JS_PLEASE_ENTER_PRIMARY_EMAIL_VALUE_TO_ENABLE_PORTAL_USER'),
 								type: 'info'
 							});
 						}
