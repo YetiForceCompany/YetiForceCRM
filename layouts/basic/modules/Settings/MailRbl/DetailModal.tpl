@@ -2,12 +2,6 @@
 {strip}
 <!-- tpl-Settings-MailRbl-DetailModal -->
 <div class="modal-body pt-1">
-	<div>
-		<span class="js-popover-tooltip" data-placement="top" data-content="{\App\Purifier::encodeHtml(\App\Language::translate("{$SPF['label']}_DESC", $QUALIFIED_MODULE))}" data-js="popover">
-			{\App\Language::translate('LBL_SPF', $QUALIFIED_MODULE)}:
-			<span class="ml-2 badge {$SPF['class']}"><span class="{$SPF['icon']} mr-2"></span>{\App\Language::translate($SPF['label'], $QUALIFIED_MODULE)}</span>
-		</span>
-	</div>
 	{assign var=RECEIVED value=$RECORD->getReceived()}
 	{if $RECEIVED}
 		<div class="lineOfText mb-2">
@@ -15,7 +9,7 @@
 		</div>
 		<div class="d-flex align-items-center justify-content-center">
 		{foreach item=ROW from=$RECEIVED name=ReceivedForeach}
-			<div class="{if count($RECEIVED) > 1} col {else} w-100 {/if} p-0 pr-2 mb-2">						
+			<div class="{if count($RECEIVED) > 1} col {else} w-100 {/if} p-0 pr-2 mb-2">
 				<div class="card{if $SENDER['key'] === $ROW['key']} u-bg-modern{/if}">
 					<div class="card-body p-1">
 						<ul class="list-group list-group-flush">
@@ -35,13 +29,21 @@
 				</div>
 			</div>
 			{if !$smarty.foreach.ReceivedForeach.last}
-					<div class="pr-2">
-						<span class="fas fa-chevron-right mt-5 u-fs-2x text-primary my-auto"></span>
-					</div>
-				{/if}
+				<div class="pr-2">
+					<span class="fas fa-chevron-right mt-5 u-fs-2x text-primary my-auto"></span>
+				</div>
+			{/if}
 		{/foreach}
 		</div>
 	{/if}
+	<div class="lineOfText">
+		<div>{\App\Language::translate('LBL_MAIL_SENDERS', $QUALIFIED_MODULE)}</div>
+	</div>
+	<div>
+		{foreach key=KEY item=VALUE from=$RECORD->getSenders()}
+			{$KEY}: {\App\Purifier::encodeHtml($VALUE)}<br />
+		{/foreach}
+	</div>
 	<div class="lineOfText">
 		<div>{\App\Language::translate('LBL_MAIL_HEADERS', $QUALIFIED_MODULE)}</div>
 	</div>

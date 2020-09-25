@@ -50,8 +50,28 @@ class Settings_MailRbl_DetailModal_View extends \App\Controller\ModalSettings
 	 */
 	public function getPageTitle(App\Request $request)
 	{
-		$pageTitle = \App\Language::translate('LBL_MAIL_MESSAGE_DETAILS', $request->getModule(false));
-		return $pageTitle . '  |  ' . \App\Purifier::encodeHtml($this->recordModel->getFrom());
+		return \App\Language::translate('LBL_MAIL_MESSAGE_DETAILS', $request->getModule(false));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function preProcessAjax(App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$viewer->assign('RECORD', $this->recordModel);
+		$viewer->assign('SENDER', $this->recordModel->getSender());
+		$viewer->assign('CHECK_SPF', $this->recordModel->checkSpf());
+		$viewer->assign('CHECK_SENDER', $this->recordModel->checkSender());
+		parent::preProcessAjax($request);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function preProcessTplName(App\Request $request)
+	{
+		return 'DetailHeaderModal.tpl';
 	}
 
 	/**
@@ -60,9 +80,6 @@ class Settings_MailRbl_DetailModal_View extends \App\Controller\ModalSettings
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('RECORD', $this->recordModel);
-		$viewer->assign('SENDER', $this->recordModel->getSender());
-		$viewer->assign('SPF', $this->recordModel->checkSpf());
 		$viewer->assign('CARD_MAP', [
 			'from' => [
 				'Name' => ['icon' => 'fas fa-upload', 'label' => 'LBL_SERVER_NAME_FROM_DESC'],

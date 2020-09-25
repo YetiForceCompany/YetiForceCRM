@@ -62,9 +62,9 @@ class Rbl extends \App\Base
 	 * List statuses.
 	 */
 	public const SPF = [
-		1 => ['label' => 'LBL_SPF_NONE', 'class' => 'badge-secondary', 'icon' => 'fas fa-question'],
-		2 => ['label' => 'LBL_SPF_PASS', 'class' => 'badge-success', 'icon' => 'fas fa-check'],
-		3 => ['label' => 'LBL_SPF_FAIL', 'class' => 'badge-danger', 'icon' => 'fas fa-times'],
+		1 => ['label' => 'LBL_SPF_NONE', 'desc' => 'LBL_SPF_NONE_DESC', 'class' => 'badge-secondary', 'icon' => 'fas fa-question'],
+		2 => ['label' => 'LBL_CORRECT', 'desc' => 'LBL_SPF_PASS_DESC', 'class' => 'badge-success', 'icon' => 'fas fa-check'],
+		3 => ['label' => 'LBL_INCORRECT', 'desc' => 'LBL_SPF_FAIL_DESC', 'class' => 'badge-danger', 'icon' => 'fas fa-times'],
 	];
 	/**
 	 * Check result: None, Neutral, TempError, PermError.
@@ -189,6 +189,7 @@ class Rbl extends \App\Base
 				if (!($byIp = $received->getByAddress())) {
 					$byIp = $this->getIp($received->getByName());
 				}
+
 				if ($fromIp !== $byIp && ((!$fromDomain && !$byDomain) || $fromDomain !== $byDomain)) {
 					$row['ip'] = $fromIp;
 					$row['key'] = $key;
@@ -255,22 +256,62 @@ class Rbl extends \App\Base
 		if (filter_var($url, FILTER_VALIDATE_IP)) {
 			return $url;
 		}
-		return gethostbyname($url);
+		return filter_var(gethostbyname($url), FILTER_VALIDATE_IP);
 	}
 
 	/**
-	 * Get from.
+	 * Get senders.
 	 *
 	 * @return string
 	 */
-	public function getFrom(): string
+	public function getSenders(): array
+	{
+		$this->mailMimeParser = $this->mailMimeParser ?? \ZBateson\MailMimeParser\Message::from($this->get('header'));
+		$senders = [
+			'From' => $this->mailMimeParser->getHeaderValue('From')
+		];
+		if ($returnPath = $this->mailMimeParser->getHeaderValue('Return-Path')) {
+			$senders['Return-Path'] = $returnPath;
+		}
+		if ($sender = $this->mailMimeParser->getHeaderValue('Sender')) {
+			$senders['Sender'] = $sender;
+		}
+		if ($sender = $this->mailMimeParser->getHeaderValue('X-Sender')) {
+			$senders['X-Sender'] = $sender;
+		}
+		return $senders;
+	}
+
+	/**
+	 * Check sender email address.
+	 *
+	 * @return array
+	 */
+	public function checkSender(): array
 	{
 		$this->mailMimeParser = $this->mailMimeParser ?? \ZBateson\MailMimeParser\Message::from($this->get('header'));
 		$from = $this->mailMimeParser->getHeader('from')->getEmail();
-		if ($name = $this->mailMimeParser->getHeader('from')->getPersonName()) {
-			$from = "$name <$from>";
+		$status = true;
+		$info = [];
+		if ($returnPath = $this->mailMimeParser->getHeaderValue('Return-Path')) {
+			if (false !== strpos($returnPath, '<')) {
+				preg_match('/<([^>]*)>/', $returnPath, $matches);
+				if ($matches) {
+					$returnPath = $matches[1];
+				}
+			}
+			$status = $from === $returnPath;
+			if (!$status) {
+				$info[] = "From: $from <> Return-Path: $returnPath";
+			}
 		}
-		return $from;
+		if ($status && ($senderHeader = $this->mailMimeParser->getHeader('Sender')) && ($sender = $senderHeader->getEmail()) && ($sender !== $returnPath)) {
+			$status = $from === $sender;
+			if (!$status) {
+				$info[] = "From: $from <> Sender: $sender";
+			}
+		}
+		return ['status' => $status, 'info' => $info];
 	}
 
 	/**
