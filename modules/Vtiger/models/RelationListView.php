@@ -306,9 +306,10 @@ class Vtiger_RelationListView_Model extends \App\Base
 			foreach ($orderBy as $fieldName => $sortFlag) {
 				$field = $this->getRelationModel()->getRelationModuleModel()->getFieldByName($fieldName);
 				if ($field || 'id' === $fieldName) {
-					return $this->getRelationModel()->getQueryGenerator()->setOrder($fieldName, $sortFlag);
+					$this->getRelationModel()->getQueryGenerator()->setOrder($fieldName, $sortFlag);
+				} else {
+					\App\Log::warning("[RelationListView] Incorrect value of sorting: '$fieldName'");
 				}
-				\App\Log::warning("[RelationListView] Incorrect value of sorting: '$fieldName'");
 			}
 		}
 	}
