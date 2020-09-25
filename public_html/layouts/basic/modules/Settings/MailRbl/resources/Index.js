@@ -142,12 +142,15 @@ jQuery.Class(
 		 * Register DataTable
 		 */
 		registerDataTable: function (container) {
+			const self = this;
+			let form = container.find('.js-filter-form');
+			App.Fields.Date.registerRange(form);
 			let table = container.find('.js-data-table');
 			let mode = container.attr('id');
 			if (table.hasClass('dataTable')) {
 				table.DataTable().clear().destroy();
 			}
-			this.dataTable = app.registerDataTables(
+			self.dataTable = app.registerDataTables(
 				table,
 				Object.assign(
 					{
@@ -159,13 +162,20 @@ jQuery.Class(
 						pageLength: 20,
 						ajax: {
 							url: 'index.php?parent=Settings&module=MailRbl&action=GetData&mode=' + mode,
-							type: 'POST'
+							type: 'POST',
+							data: function (data) {
+								data = $.extend(data, form.serializeFormData());
+							}
+
 						},
 						order: []
 					},
-					this.dataTableMap[mode]
+					self.dataTableMap[mode]
 				)
 			);
+			container.find('input,select').on('change', function () {
+				self.dataTable.ajax.reload()
+			});
 			return table;
 		},
 		/**

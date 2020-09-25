@@ -38,6 +38,62 @@
 		</div>
 		<div id="my-tab-content" class="tab-content">
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'request'}active{/if}" id="request" data-name="request" data-js="data">
+				<form class="js-filter-form form-inline" data-js="container">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="rblInputDate">
+								<span class="fas fa-calendar-alt mr-2"></span>
+								{\App\Language::translate('LBL_DATE', $QUALIFIED_MODULE)}
+							</span>
+						</div>
+						<input name="date" type="text" class="dateRangeField dateFilter form-control text-center" data-calendar-type="range" value="{$DATE}" aria-describedby="rblInputDate"/>
+					</div>
+					<div class="input-group ml-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="rblStatusList">
+								<span class="fas fa-stream mr-2"></span>
+								{\App\Language::translate('Status', $QUALIFIED_MODULE)}
+							</span>
+						</div>
+						<select id="rblStatus" class="form-control select2" multiple="true" name="status[]" aria-describedby="rblStatusList">
+							{foreach from=\App\Mail\Rbl::REQUEST_STATUS key=KEY item=STATUS}
+								<option value="{$KEY}">
+									{\App\Language::translate($STATUS['label'], $QUALIFIED_MODULE)}
+								</option>
+							{/foreach}
+						</select>
+					</div>
+					<div class="input-group ml-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="rblTypeList">
+								<span class="yfi yfi-field-folders mr-2"></span>
+								{\App\Language::translate('LBL_LIST_TYPE', $QUALIFIED_MODULE)}
+							</span>
+						</div>
+						<select id="rblTypeList" class="form-control select2" multiple="true" name="type[]" aria-describedby="rblTypeList">
+							{foreach from=\App\Mail\Rbl::LIST_TYPES key=KEY item=TYPE}
+								<option value="{$KEY}">
+									{\App\Language::translate($TYPE['label'], $QUALIFIED_MODULE)}
+								</option>
+							{/foreach}
+						</select>
+					</div>
+					<div class="input-group ml-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="rblUsersList">
+								<span class="yfi yfi-users-2 mr-2"></span>
+								{\App\Language::translate('LBL_USER', $QUALIFIED_MODULE)}
+							</span>
+						</div>
+						<select id="rblUsersList" class="form-control select2" multiple="true" name="users[]" aria-describedby="rblUsersList">
+							{foreach from=\Users_Record_Model::getAll() key=USER_ID item=USER}
+								<option value="{$USER_ID}">
+									{$USER->getDisplayName()} ({$USER->getRoleDetail()->get('rolename')})
+								</option>
+							{/foreach}
+						</select>
+					</div>
+				</form>
 				<table id="request-table" class="table table-sm table-striped display js-data-table text-center mt-2">
 				<thead>
 					<tr>
