@@ -39,7 +39,7 @@
 		<div id="my-tab-content" class="tab-content">
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'request'}active{/if}" id="request" data-name="request" data-js="data">
 				<form class="js-filter-form form-inline" data-js="container">
-					<div class="input-group">
+					<div class="input-group col-lg-2 col-md-6 col-12 px-0 mb-lg-0 mb-sm-2 mb-2">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="rblInputDate">
 								<span class="fas fa-calendar-alt mr-2"></span>
@@ -48,7 +48,7 @@
 						</div>
 						<input name="date" type="text" class="dateRangeField dateFilter form-control text-center" data-calendar-type="range" value="{$DATE}" aria-describedby="rblInputDate"/>
 					</div>
-					<div class="input-group ml-3">
+					<div class="input-group col-lg-3 col-md-6 col-12 pl-md-2 pl-sm-0 px-0 mb-lg-0 mb-sm-2 mb-2">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="rblStatusList">
 								<span class="fas fa-stream mr-2"></span>
@@ -63,7 +63,7 @@
 							{/foreach}
 						</select>
 					</div>
-					<div class="input-group ml-3">
+					<div class="input-group col-lg-3 col-md-6 col-12 pl-lg-2 pl-md-0 px-0 mb-md-0 mb-2">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="rblTypeList">
 								<span class="yfi yfi-field-folders mr-2"></span>
@@ -78,7 +78,7 @@
 							{/foreach}
 						</select>
 					</div>
-					<div class="input-group ml-3">
+					<div class="input-group col-lg-4 col-md-6 col-12 pl-md-2 pl-sm-0 px-0">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="rblUsersList">
 								<span class="yfi yfi-users-2 mr-2"></span>
