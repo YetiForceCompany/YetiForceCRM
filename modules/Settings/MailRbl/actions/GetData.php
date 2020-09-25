@@ -76,8 +76,16 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 	public function blackList(App\Request $request)
 	{
 		$rows = [];
+		$totalCount = '';
 		$query = $this->getQuery($request);
 		$query->from('s_#__mail_rbl_list')->where(['type' => \App\Mail\Rbl::LIST_TYPE_BLACK_LIST]);
+		$totalCount = $query->count();
+		if (!$request->isEmpty('ip') && ($ip = $request->get('ip'))) {
+			$query->andWhere(['ip' => $ip]);
+		}
+		if (!$request->isEmpty('status') && ($status = $request->getArray('status', 'Integer'))) {
+			$query->andWhere(['status' => $status]);
+		}
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
 			$status = \App\Mail\Rbl::LIST_STATUS[$row['status']];
@@ -93,7 +101,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$count = $query->count();
 		$result = [
 			'draw' => $request->getInteger('draw'),
-			'iTotalRecords' => $count,
+			'iTotalRecords' => $totalCount,
 			'iTotalDisplayRecords' => $count,
 			'aaData' => $rows
 		];
@@ -111,6 +119,13 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$rows = [];
 		$query = $this->getQuery($request);
 		$query->from('s_#__mail_rbl_list')->where(['type' => \App\Mail\Rbl::LIST_TYPE_WHITE_LIST]);
+		$totalCount = $query->count();
+		if (!$request->isEmpty('ip') && ($ip = $request->get('ip'))) {
+			$query->andWhere(['ip' => $ip]);
+		}
+		if (!$request->isEmpty('status') && ($status = $request->getArray('status', 'Integer'))) {
+			$query->andWhere(['status' => $status]);
+		}
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
 			$status = \App\Mail\Rbl::LIST_STATUS[$row['status']];
@@ -126,7 +141,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$count = $query->count();
 		$result = [
 			'draw' => $request->getInteger('draw'),
-			'iTotalRecords' => $count,
+			'iTotalRecords' => $totalCount,
 			'iTotalDisplayRecords' => $count,
 			'aaData' => $rows
 		];
