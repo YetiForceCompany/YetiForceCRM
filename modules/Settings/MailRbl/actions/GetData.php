@@ -157,7 +157,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$count = $query->count();
 		$result = [
 			'draw' => $request->getInteger('draw'),
-			'iTotalRecords' => $queryTotal->from('s_#__mail_rbl_list')->select(['ip', 'status'])->where(['type' => [\App\Mail\Rbl::LIST_TYPE_PUBLIC_BLACK_LIST, \App\Mail\Rbl::LIST_TYPE_PUBLIC_WHITE_LIST]])->count(),
+			'iTotalRecords' => $queryTotal->from('s_#__mail_rbl_list')->where(['type' => [\App\Mail\Rbl::LIST_TYPE_PUBLIC_BLACK_LIST, \App\Mail\Rbl::LIST_TYPE_PUBLIC_WHITE_LIST]])->count(),
 			'iTotalDisplayRecords' => $count,
 			'aaData' => $rows
 		];
