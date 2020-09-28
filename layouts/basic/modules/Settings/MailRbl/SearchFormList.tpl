@@ -18,7 +18,7 @@
 				{\App\Language::translate('Status', $QUALIFIED_MODULE)}
 			</span>
 		</div>
-		<select id="{$ID}Status" class="form-control select2" multiple="true" name="status[]" aria-describedby="{$ID}Status">
+		<select id="{$ID}StatusPicklist" class="form-control select2" multiple="true" name="status[]" aria-describedby="{$ID}Status">
 			{foreach from=\App\Mail\Rbl::LIST_STATUS key=KEY item=STATUS}
 				<option value="{$KEY}">
 					{\App\Language::translate($STATUS['label'], $QUALIFIED_MODULE)}

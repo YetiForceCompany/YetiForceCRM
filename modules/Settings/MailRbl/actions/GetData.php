@@ -60,7 +60,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$count = $query->count();
 		$result = [
 			'draw' => $request->getInteger('draw'),
-			'iTotalRecords' => $query->where(['IS NOT', 'id', null])->limit(null)->offset(null)->orderBy(null)->count(),
+			'iTotalRecords' => $query->where(null)->limit(null)->offset(null)->orderBy(null)->count(),
 			'iTotalDisplayRecords' => $count,
 			'aaData' => $rows
 		];

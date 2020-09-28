@@ -55,7 +55,7 @@
 								{\App\Language::translate('LBL_LIST_TYPE', $QUALIFIED_MODULE)}
 							</span>
 						</div>
-						<select id="rblStatusList" class="form-control select2" multiple="true" name="status[]" aria-describedby="rblStatusList">
+						<select id="rblStatus" class="form-control select2" multiple="true" name="status[]" aria-describedby="rblStatusList">
 							{foreach from=\App\Mail\Rbl::REQUEST_STATUS key=KEY item=STATUS}
 									<option value="{$KEY}">
 										{\App\Language::translate($STATUS['label'], $QUALIFIED_MODULE)}
