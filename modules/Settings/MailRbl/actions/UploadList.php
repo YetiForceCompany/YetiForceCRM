@@ -15,6 +15,11 @@
  */
 class Settings_MailRbl_UploadList_Action extends Settings_Vtiger_Basic_Action
 {
+	/**
+	 * File delimiter string
+	 *
+	 * @var string
+	 */
 	public $delimiter = "\n";
 
 	/**
@@ -57,7 +62,7 @@ class Settings_MailRbl_UploadList_Action extends Settings_Vtiger_Basic_Action
 	{
 		$firstLine = true;
 		$explodedElements = explode($this->delimiter, $content);
-		$db = \App\Db::getInstance();
+		$db = \App\Db::getInstance('admin');
 		$report = [
 			'saved' => 0,
 			'duplicates' => 0,
@@ -65,9 +70,9 @@ class Settings_MailRbl_UploadList_Action extends Settings_Vtiger_Basic_Action
 		];
 		$source = \App\TextParser::textTruncate($source, 10);
 		foreach ($explodedElements as $elementToSave) {
-			$clearIp = \App\Purifier::purifyByType(trim($elementToSave), 'AlnumExtended');
+			$clearIp = trim($elementToSave);
 			if (\App\Validator::ip($clearIp)) {
-				$isExists = (new \App\Db\Query())->from('s_#__mail_rbl_list')->where(['ip' => $clearIp])->exists();
+				$isExists = (new \App\Db\Query())->from('s_#__mail_rbl_list')->where(['ip' => $clearIp])->exists($db);
 				try {
 					if (!$isExists) {
 						$db->createCommand()->insert('s_#__mail_rbl_list', [

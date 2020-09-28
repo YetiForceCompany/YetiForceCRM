@@ -3,7 +3,7 @@
 /**
  * YetiForce upload list Modal.
  *
- * @package   View
+ * @package   Settings.View
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -31,7 +31,7 @@ class Settings_MailRbl_UploadListModal_View extends \App\Controller\ModalSetting
 	public function preProcessAjax(App\Request $request)
 	{
 		$this->qualifiedModuleName = $request->getModule(false);
-		$this->pageTitle = \App\Language::translate('LBL_UPLOAD_LIST', $this->qualifiedModuleName);
+		$this->pageTitle = \App\Language::translate('LBL_UPLOAD_LIST');
 		parent::preProcessAjax($request);
 	}
 

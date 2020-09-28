@@ -27,7 +27,6 @@ $.Class(
 			form.on('submit', function (e) {
 				e.preventDefault();
 				if (form.validationEngine('validate') === true) {
-					app.removeEmptyFilesInput(form[0]);
 					let formData = new FormData(form[0]),
 						progressIndicatorElement = jQuery.progressIndicator({
 							blockInfo: { enabled: true }
@@ -47,7 +46,6 @@ $.Class(
 							notifyType = 'error';
 						}
 						app.showNotify({
-							title: app.vtranslate('JS_MESSAGE'),
 							text: app.vtranslate(data.result.message),
 							type: notifyType
 						});

@@ -26,7 +26,7 @@
 							</label>
 						</div>
 						<div class="col-sm-9 controls">
-							<select class="select2" name="type" data-validation-engine='validate[required]'>
+							<select class="select2" name="type" data-validation-engine="validate[required]">
 								<option value="2">{\App\Language::translate('LBL_PUBLIC_BLACK_LIST', $QUALIFIED_MODULE)}</option>
 								<option value="3">{\App\Language::translate('LBL_PUBLIC_WHITE_LIST', $QUALIFIED_MODULE)}</option>
 							</select>
@@ -39,7 +39,7 @@
 							</label>
 						</div>
 						<div class="col-sm-9 controls">
-							<input type="file" name="imported_list" accept=".txt" data-validation-engine='validate[required]' id="imported_list" />
+							<input type="file" name="imported_list" accept=".txt" data-validation-engine="validate[required]" id="imported_list" />
 						</div>
 					</div>
 				</div>
