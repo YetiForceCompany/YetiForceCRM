@@ -18,6 +18,8 @@ class Rbl extends \App\Base
 {
 	/**
 	 * Request statuses.
+	 *
+	 * @var array
 	 */
 	public const REQUEST_STATUS = [
 		0 => ['label' => 'LBL_FOR_VERIFICATION', 'icon' => 'fas fa-question'],
@@ -27,6 +29,8 @@ class Rbl extends \App\Base
 	];
 	/**
 	 * List statuses.
+	 *
+	 * @var array
 	 */
 	public const LIST_STATUS = [
 		0 => ['label' => 'LBL_ACTIVE', 'icon' => 'fas fa-check text-success '],
@@ -34,6 +38,8 @@ class Rbl extends \App\Base
 	];
 	/**
 	 * List statuses.
+	 *
+	 * @var array
 	 */
 	public const LIST_TYPES = [
 		0 => ['label' => 'LBL_BLACK_LIST', 'icon' => 'fas fa-ban text-danger', 'color' => '#eaeaea'],
@@ -43,23 +49,33 @@ class Rbl extends \App\Base
 	];
 	/**
 	 * RLB black list type.
+	 *
+	 * @var int
 	 */
 	public const LIST_TYPE_BLACK_LIST = 0;
 	/**
 	 * RLB white list type.
+	 *
+	 * @var int
 	 */
 	public const LIST_TYPE_WHITE_LIST = 1;
 	/**
 	 * RLB public black list type.
+	 *
+	 * @var int
 	 */
 	public const LIST_TYPE_PUBLIC_BLACK_LIST = 2;
 	/**
 	 * RLB public white list type.
+	 *
+	 * @var int
 	 */
 	public const LIST_TYPE_PUBLIC_WHITE_LIST = 3;
 
 	/**
 	 * List statuses.
+	 *
+	 * @var array
 	 */
 	public const SPF = [
 		1 => ['label' => 'LBL_SPF_NONE', 'desc' => 'LBL_SPF_NONE_DESC', 'class' => 'badge-secondary', 'icon' => 'fas fa-question'],
@@ -69,19 +85,17 @@ class Rbl extends \App\Base
 	/**
 	 * Check result: None, Neutral, TempError, PermError.
 	 *
-	 * @var string
+	 * @var int
 	 */
 	public const SPF_NONE = 1;
 	/**
 	 * Check result: Pass (the SPF record stated that the IP address is authorized).
-	 *
-	 * @var string
 	 */
 	public const SPF_PASS = 2;
 	/**
 	 * Check result: Fail, SoftFail.
 	 *
-	 * @var string
+	 * @var int
 	 */
 	public const SPF_FAIL = 3;
 	/**
@@ -279,6 +293,7 @@ class Rbl extends \App\Base
 		if ($sender = $this->mailMimeParser->getHeaderValue('X-Sender')) {
 			$senders['X-Sender'] = $sender;
 		}
+
 		return $senders;
 	}
 
@@ -293,19 +308,13 @@ class Rbl extends \App\Base
 		$from = $this->mailMimeParser->getHeader('from')->getEmail();
 		$status = true;
 		$info = [];
-		if ($returnPath = $this->mailMimeParser->getHeaderValue('Return-Path')) {
-			if (false !== strpos($returnPath, '<')) {
-				preg_match('/<([^>]*)>/', $returnPath, $matches);
-				if ($matches) {
-					$returnPath = $matches[1];
-				}
-			}
+		if (($returnPathHeader = $this->mailMimeParser->getHeader('Return-Path')) && ($returnPath = $returnPathHeader->getEmail())) {
 			$status = $from === $returnPath;
 			if (!$status) {
 				$info[] = "From: $from <> Return-Path: $returnPath";
 			}
 		}
-		if ($status && ($senderHeader = $this->mailMimeParser->getHeader('Sender')) && ($sender = $senderHeader->getEmail()) && ($sender !== $returnPath)) {
+		if ($status && ($senderHeader = $this->mailMimeParser->getHeader('Sender')) && ($sender = $senderHeader->getEmail())) {
 			$status = $from === $sender;
 			if (!$status) {
 				$info[] = "From: $from <> Sender: $sender";

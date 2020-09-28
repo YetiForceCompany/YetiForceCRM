@@ -20,7 +20,7 @@
 					{$MODAL_TITLE}
 				</h5>
 				<span class="ml-5 u-fs-19px">
-					<span class="js-popover-tooltip" data-class="" data-placement="top" data-content="{\App\Purifier::encodeHtml(implode('<br />',$CHECK_SENDER['info']))}" data-js="popover">
+					<span {if !$CHECK_SENDER['status']}class="js-popover-tooltip" data-class="" data-placement="top" data-content="{\App\Language::translate('LBL_MAIL_SENDERS_DESC', $QUALIFIED_MODULE)}<br />{\App\Purifier::encodeHtml(implode('<br />',$CHECK_SENDER['info']))}" data-js="popover" {/if}>
 						{\App\Language::translate('LBL_MAIL_SENDER', $QUALIFIED_MODULE)}:
 						{if $CHECK_SENDER['status']}
 							<span class="ml-2 badge badge-success"><span class="fas fa-check mr-2"></span>{\App\Language::translate('LBL_CORRECT', $QUALIFIED_MODULE)}</span>

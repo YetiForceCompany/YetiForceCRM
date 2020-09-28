@@ -24,6 +24,7 @@
     "LBL_MAIL_TRACE_TITLE": "E-mail tracking",
     "LBL_MAIL_SENDERS": "Senders",
     "LBL_MAIL_SENDER": "Sender",
+    "LBL_MAIL_SENDERS_DESC": "The sender's address does not match the source from which the message was received.",
     "LBL_SERVER_NAME_FROM_DESC": "The server name that the sending computer gave for itself (often the sending software name)",
     "LBL_SERVER_NAME_BY_DESC": "The server name that the recipient computer gave for itself (often the sending software name, if there is no sender, the message is passed internally)",
     "LBL_SERVER_HOST_NAME_FROM": "Sender host Server",
