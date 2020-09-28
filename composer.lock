@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce15b9b1e3afd7fdb34f6ee70a653f49",
+    "content-hash": "bb65ffaafc992668381b077d8ee2edef",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -3263,16 +3263,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v5.1.5",
+            "version": "v5.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "917b02cdc5f33e0309b8e9d33ee1480b20687413"
+                "reference": "e3cdd5119b1b5bf0698c351b8ee20fb5a4ea248b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/917b02cdc5f33e0309b8e9d33ee1480b20687413",
-                "reference": "917b02cdc5f33e0309b8e9d33ee1480b20687413",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/e3cdd5119b1b5bf0698c351b8ee20fb5a4ea248b",
+                "reference": "e3cdd5119b1b5bf0698c351b8ee20fb5a4ea248b",
                 "shasum": ""
             },
             "require": {
@@ -3351,7 +3351,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-17T10:01:29+00:00"
+            "time": "2020-09-27T03:44:28+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -3430,16 +3430,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v5.1.5",
+            "version": "v5.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "b43a3905262bcf97b2510f0621f859ca4f5287be"
+                "reference": "c976c115a0d788808f7e71834c8eb0844f678d02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/b43a3905262bcf97b2510f0621f859ca4f5287be",
-                "reference": "b43a3905262bcf97b2510f0621f859ca4f5287be",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/c976c115a0d788808f7e71834c8eb0844f678d02",
+                "reference": "c976c115a0d788808f7e71834c8eb0844f678d02",
                 "shasum": ""
             },
             "require": {
@@ -3516,7 +3516,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-17T07:42:30+00:00"
+            "time": "2020-09-18T14:27:32+00:00"
         },
         {
             "name": "voku/portable-ascii",
@@ -3795,23 +3795,23 @@
         },
         {
             "name": "zbateson/mail-mime-parser",
-            "version": "1.2.2",
+            "version": "1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zbateson/mail-mime-parser.git",
-                "reference": "638a5deeafe6fb78c05d509ac92ddb23a7480cfa"
+                "reference": "c3828f46ab958aa824ea68f2264df3dc7dffe17d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zbateson/mail-mime-parser/zipball/638a5deeafe6fb78c05d509ac92ddb23a7480cfa",
-                "reference": "638a5deeafe6fb78c05d509ac92ddb23a7480cfa",
+                "url": "https://api.github.com/repos/zbateson/mail-mime-parser/zipball/c3828f46ab958aa824ea68f2264df3dc7dffe17d",
+                "reference": "c3828f46ab958aa824ea68f2264df3dc7dffe17d",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/psr7": "^1.0",
                 "php": ">=5.4",
                 "zbateson/mb-wrapper": "^1.0",
-                "zbateson/stream-decorators": "^1.0.3"
+                "zbateson/stream-decorators": "^1.0.4"
             },
             "require-dev": {
                 "jms/serializer": "^1.1",
@@ -3855,7 +3855,13 @@
                 "parser",
                 "php-imap"
             ],
-            "time": "2020-07-16T15:46:47+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/zbateson",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-09-25T17:18:07+00:00"
         },
         {
             "name": "zbateson/mb-wrapper",
@@ -4003,7 +4009,8 @@
         "ext-simplexml": "*",
         "ext-bcmath": "*",
         "ext-filter": "*",
-        "ext-zlib": "*"
+        "ext-zlib": "*",
+        "ext-hash": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
