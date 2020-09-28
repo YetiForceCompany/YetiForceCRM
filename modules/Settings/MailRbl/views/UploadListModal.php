@@ -31,7 +31,7 @@ class Settings_MailRbl_UploadListModal_View extends \App\Controller\ModalSetting
 	public function preProcessAjax(App\Request $request)
 	{
 		$this->qualifiedModuleName = $request->getModule(false);
-		$this->pageTitle = \App\Language::translate('LBL_UPLOAD_LIST');
+		$this->pageTitle = \App\Language::translate('LBL_UPLOAD_LIST', $this->qualifiedModuleName);
 		parent::preProcessAjax($request);
 	}
 
