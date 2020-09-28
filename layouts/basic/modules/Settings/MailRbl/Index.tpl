@@ -52,14 +52,14 @@
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="rblStatusList">
 								<span class="fas fa-stream mr-2"></span>
-								{\App\Language::translate('Status', $QUALIFIED_MODULE)}
+								{\App\Language::translate('LBL_LIST_TYPE', $QUALIFIED_MODULE)}
 							</span>
 						</div>
-						<select id="rblStatus" class="form-control select2" multiple="true" name="status[]" aria-describedby="rblStatusList">
+						<select id="rblStatusList" class="form-control select2" multiple="true" name="status[]" aria-describedby="rblStatusList">
 							{foreach from=\App\Mail\Rbl::REQUEST_STATUS key=KEY item=STATUS}
-								<option value="{$KEY}">
-									{\App\Language::translate($STATUS['label'], $QUALIFIED_MODULE)}
-								</option>
+									<option value="{$KEY}">
+										{\App\Language::translate($STATUS['label'], $QUALIFIED_MODULE)}
+									</option>
 							{/foreach}
 						</select>
 					</div>
@@ -137,6 +137,7 @@
 				</table>
 			</div>
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'publicRbl'}active{/if}" id="publicRbl" data-name="publicRbl" data-js="data">
+				{include file=\App\Layout::getTemplatePath('SearchFormList.tpl', $QUALIFIED_MODULE)}
 				<table id="publicRbl-table" class="table table-sm table-striped display js-data-table text-center mt-2">
 				<thead>
 					<tr>

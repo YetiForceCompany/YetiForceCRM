@@ -40,6 +40,19 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$rows = [];
 		$query = $this->getQuery($request);
 		$query->from('s_#__mail_rbl_request')->select(['id', 'status', 'type', 'datetime', 'user', 'header']);
+		$totalCount = $query->count();
+		if (!$request->isEmpty('date') && ($date = $request->getDateRange('date'))) {
+			$query->andWhere(['between', 'datetime', $date[0] . ' 00:00:00', $date[1] . ' 23:59:59']);
+		}
+		if (!$request->isEmpty('users') && ($users = $request->getArray('users', 'Integer'))) {
+			$query->andWhere(['user' => $users]);
+		}
+		if (!$request->isEmpty('type') && ($type = $request->getArray('type', 'Integer'))) {
+			$query->andWhere(['type' => $type]);
+		}
+		if (!$request->isEmpty('status') && ($status = $request->getArray('status', 'Integer'))) {
+			$query->andWhere(['status' => $status]);
+		}
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
 			$message = \ZBateson\MailMimeParser\Message::from($row['header']);
@@ -60,7 +73,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$count = $query->count();
 		$result = [
 			'draw' => $request->getInteger('draw'),
-			'iTotalRecords' => $count,
+			'iTotalRecords' => $totalCount,
 			'iTotalDisplayRecords' => $count,
 			'aaData' => $rows
 		];
@@ -76,7 +89,6 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 	public function blackList(App\Request $request)
 	{
 		$rows = [];
-		$totalCount = '';
 		$query = $this->getQuery($request);
 		$query->from('s_#__mail_rbl_list')->where(['type' => \App\Mail\Rbl::LIST_TYPE_BLACK_LIST]);
 		$totalCount = $query->count();
@@ -159,6 +171,13 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$rows = [];
 		$query = $this->getQuery($request);
 		$query->from('s_#__mail_rbl_list')->select(['ip', 'status'])->where(['type' => [\App\Mail\Rbl::LIST_TYPE_PUBLIC_BLACK_LIST, \App\Mail\Rbl::LIST_TYPE_PUBLIC_WHITE_LIST]]);
+		$totalCount = $query->count();
+		if (!$request->isEmpty('ip') && ($ip = $request->get('ip'))) {
+			$query->andWhere(['ip' => $ip]);
+		}
+		if (!$request->isEmpty('status') && ($status = $request->getArray('status', 'Integer'))) {
+			$query->andWhere(['status' => $status]);
+		}
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
 			$status = \App\Mail\Rbl::LIST_STATUS[$row['status']];
@@ -172,7 +191,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$count = $query->count();
 		$result = [
 			'draw' => $request->getInteger('draw'),
-			'iTotalRecords' => $count,
+			'iTotalRecords' => $totalCount,
 			'iTotalDisplayRecords' => $count,
 			'aaData' => $rows
 		];
@@ -199,18 +218,6 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$order = current($request->getArray('order', 'Alnum'));
 		if ($order && isset($columns[$order['column']])) {
 			$query->orderBy([$columns[$order['column']] => 'asc' === $order['dir'] ? \SORT_ASC : \SORT_DESC]);
-		}
-		if (!$request->isEmpty('date') && ($date = $request->getDateRange('date'))) {
-			$query->andWhere(['between', 'datetime', $date[0] . ' 00:00:00', $date[1] . ' 23:59:59']);
-		}
-		if (!$request->isEmpty('users') && ($users = $request->getArray('users', 'Integer'))) {
-			$query->andWhere(['user' => $users]);
-		}
-		if (!$request->isEmpty('type') && ($type = $request->getArray('type', 'Integer'))) {
-			$query->andWhere(['type' => $type]);
-		}
-		if (!$request->isEmpty('status') && ($status = $request->getArray('status', 'Integer'))) {
-			$query->andWhere(['status' => $status]);
 		}
 		return $query;
 	}

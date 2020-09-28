@@ -772,6 +772,7 @@ body:not(.desktop) {
 .u-rbl-container {
 	td {
 		.u-rbl_action  {
+			position: absolute;
 			display: none;
 		}
 	}
