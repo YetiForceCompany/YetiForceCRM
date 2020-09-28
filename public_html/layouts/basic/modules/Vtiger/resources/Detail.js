@@ -407,6 +407,12 @@ jQuery.Class(
 						relatedController.setRelatedContainer(contentContainer);
 						relatedController.registerRelatedEvents();
 						thisInstance.widgetRelatedRecordView(widgetContainer, true);
+						let chart = contentContainer.find('[name="typeChart"]');
+						if(chart.length && typeof window['Vtiger_Widget_Js'] !== 'undefined'){
+							let widgetInstance = Vtiger_Widget_Js.getInstance(contentContainer, chart.val());
+							widgetInstance.init(contentContainer);
+							widgetInstance.loadChart();
+						}
 					}
 					app.event.trigger(
 						'DetailView.Widget.AfterLoad',

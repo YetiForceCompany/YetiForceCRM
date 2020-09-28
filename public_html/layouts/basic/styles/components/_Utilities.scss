@@ -702,7 +702,7 @@ body:not(.desktop) {
 
 // --- MIN HEIGHT --- //
 
-@for $i from 1 through 10 {
+@for $i from 1 through 25 {
 	.u-min-height-#{$i}0 {
 		min-height: #{$i}0px;
 	}

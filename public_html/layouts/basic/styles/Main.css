@@ -17125,6 +17125,51 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
 .u-min-height-100 {
   min-height: 100px; }
 
+.u-min-height-110 {
+  min-height: 110px; }
+
+.u-min-height-120 {
+  min-height: 120px; }
+
+.u-min-height-130 {
+  min-height: 130px; }
+
+.u-min-height-140 {
+  min-height: 140px; }
+
+.u-min-height-150 {
+  min-height: 150px; }
+
+.u-min-height-160 {
+  min-height: 160px; }
+
+.u-min-height-170 {
+  min-height: 170px; }
+
+.u-min-height-180 {
+  min-height: 180px; }
+
+.u-min-height-190 {
+  min-height: 190px; }
+
+.u-min-height-200 {
+  min-height: 200px; }
+
+.u-min-height-210 {
+  min-height: 210px; }
+
+.u-min-height-220 {
+  min-height: 220px; }
+
+.u-min-height-230 {
+  min-height: 230px; }
+
+.u-min-height-240 {
+  min-height: 240px; }
+
+.u-min-height-250 {
+  min-height: 250px; }
+
 .u-flex-default {
   -ms-flex: 0 1 auto;
   flex: 0 1 auto; }
@@ -17171,6 +17216,13 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
   .u-hidden-block {
     position: static;
     display: block; } }
+
+.u-rbl-container td .u-rbl_action {
+  position: absolute;
+  display: none; }
+
+.u-rbl-container td:hover .u-rbl_action {
+  display: flex !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel,

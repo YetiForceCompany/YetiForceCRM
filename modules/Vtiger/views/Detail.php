@@ -70,6 +70,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showChat');
 		$this->exposeMethod('processWizard');
 		$this->exposeMethod('showModTrackerByField');
+		$this->exposeMethod('showCharts');
 	}
 
 	/**
@@ -240,7 +241,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~libraries/leaflet/dist/leaflet.js',
 			'~libraries/leaflet.markercluster/dist/leaflet.markercluster.js',
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
-			'modules.OpenStreetMap.resources.Map'
+			'modules.OpenStreetMap.resources.Map',
+			'modules.Vtiger.resources.dashboards.Widget',
+			'~libraries/chart.js/dist/Chart.js'
 		];
 		if (\App\Privilege::isPermitted('Chat')) {
 			$jsFileNames[] = '~layouts/basic/modules/Chat/resources/Chat.js';
@@ -1192,5 +1195,30 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('FIELD_LABEL', $recordModel->getField($fieldName)->getFieldLabel());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('Detail/Widget/UpdatesListContent.tpl', $moduleName, true);
+	}
+
+	/**
+	 * Show Chart.
+	 *
+	 * @param App\Request $request
+	 */
+	public function showCharts(App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+
+		$widgetId = $request->getByType('widgetId', \App\Purifier::INTEGER);
+		$widgetData = (new App\Db\Query())->from('vtiger_widgets')->where(['id' => $widgetId, 'tabid' => \App\Module::getModuleId($moduleName)])->one();
+		$data = App\Json::decode($widgetData['data']);
+		$data['module'] = \App\Module::getModuleName($data['relatedmodule']);
+		$data['recordId'] = $this->record->getRecord()->getId();
+		$widgetData['data'] = \App\Json::encode($data);
+		$widget = Vtiger_Widget_Model::getInstanceFromValues($widgetData);
+		$chartFilterWidgetModel = Vtiger_ChartFilter_Model::getInstance();
+		$chartFilterWidgetModel->setWidgetModel($widget);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('CHART_MODEL', $chartFilterWidgetModel);
+		$viewer->assign('CHART_DATA', $chartFilterWidgetModel->getChartData());
+		$viewer->view('Detail/Widget/ShowChart.tpl', $moduleName);
 	}
 }
