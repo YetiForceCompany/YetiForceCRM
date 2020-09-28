@@ -20,6 +20,7 @@ jQuery.Class(
 						orderable: false,
 						data: function (row) {
 							let action = '';
+							action += '<div class="u-rbl_action">';
 							action += `<button type="button" class="btn btn-secondary btn-sm js-details" data-id="${row['id']}" title="${app.vtranslate(
 								'BTN_SHOW_DETAILS'
 							)}" data-js="click"><span class="fas fa-search-plus"></span></button>`;
@@ -39,6 +40,7 @@ jQuery.Class(
 							action += `<button type="button" class="btn btn-danger btn-sm ml-2 js-trash" data-id="${row['id']}" title="${app.vtranslate(
 								'BTN_DELETE'
 							)}" data-js="click"><span class="fas fa-trash"></span></button>`;
+							action+= '</dv>'
 							return action;
 						},
 						defaultContent: ''
@@ -53,7 +55,6 @@ jQuery.Class(
 						orderable: false,
 						data: function (row) {
 							let action = '';
-							console.log(row);
 							if (row['request'] != 0) {
 								action += `<button type="button" class="btn btn-secondary btn-sm js-details" data-id="${row['request']}" title="${app.vtranslate(
 									'BTN_SHOW_DETAILS'
@@ -94,7 +95,6 @@ jQuery.Class(
 						orderable: false,
 						data: function (row) {
 							let action = '';
-							console.log(row);
 							if (row['request'] != 0) {
 								action += `<button type="button" class="btn btn-secondary btn-sm js-details" data-id="${row['request']}" title="${app.vtranslate(
 									'BTN_SHOW_DETAILS'

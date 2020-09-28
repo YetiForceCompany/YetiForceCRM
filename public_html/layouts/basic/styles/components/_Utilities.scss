@@ -768,3 +768,19 @@ body:not(.desktop) {
 		display: block;
 	}
 }
+
+.u-rbl-container {
+	td {
+		.u-rbl_action  {
+			position: absolute;
+			display: none;
+		}
+	}
+
+	td:hover {
+		.u-rbl_action  {
+			display: flex !important;
+		}
+	}
+
+}

@@ -36,7 +36,7 @@
 				</li>
 			</ul>
 		</div>
-		<div id="my-tab-content" class="tab-content">
+		<div id="my-tab-content" class="tab-content u-rbl-container">
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'request'}active{/if}" id="request" data-name="request" data-js="data">
 				<form class="js-filter-form form-inline" data-js="container">
 					<div class="input-group col-lg-2 col-md-6 col-12 px-0 mb-lg-0 mb-sm-2 mb-2">
@@ -52,14 +52,14 @@
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="rblStatusList">
 								<span class="fas fa-stream mr-2"></span>
-								{\App\Language::translate('Status', $QUALIFIED_MODULE)}
+								{\App\Language::translate('LBL_LIST_TYPE', $QUALIFIED_MODULE)}
 							</span>
 						</div>
 						<select id="rblStatus" class="form-control select2" multiple="true" name="status[]" aria-describedby="rblStatusList">
 							{foreach from=\App\Mail\Rbl::REQUEST_STATUS key=KEY item=STATUS}
-								<option value="{$KEY}">
-									{\App\Language::translate($STATUS['label'], $QUALIFIED_MODULE)}
-								</option>
+									<option value="{$KEY}">
+										{\App\Language::translate($STATUS['label'], $QUALIFIED_MODULE)}
+									</option>
 							{/foreach}
 						</select>
 					</div>
@@ -72,9 +72,11 @@
 						</div>
 						<select id="rblTypeList" class="form-control select2" multiple="true" name="type[]" aria-describedby="rblTypeList">
 							{foreach from=\App\Mail\Rbl::LIST_TYPES key=KEY item=TYPE}
-								<option value="{$KEY}">
-									{\App\Language::translate($TYPE['label'], $QUALIFIED_MODULE)}
-								</option>
+								{if $TYPE['label'] neq 'LBL_PUBLIC_WHITE_LIST' && $TYPE['label'] neq LBL_PUBLIC_BLACK_LIST}
+									<option value="{$KEY}">
+										{\App\Language::translate($TYPE['label'], $QUALIFIED_MODULE)}
+									</option>
+								{/if}
 							{/foreach}
 						</select>
 					</div>
@@ -109,6 +111,7 @@
 				</table>
 			</div>
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'blackList'}active{/if}" id="blackList" data-name="blackList" data-js="data">
+				{include file=\App\Layout::getTemplatePath('SearchFormList.tpl', $QUALIFIED_MODULE) ID='blackList'}
 				<table id="blackList-table" class="table table-sm table-striped display js-data-table text-center mt-2">
 				<thead>
 					<tr>
@@ -121,6 +124,7 @@
 				</table>
 			</div>
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'whiteList'}active{/if}" id="whiteList" data-name="whiteList" data-js="data">
+				{include file=\App\Layout::getTemplatePath('SearchFormList.tpl', $QUALIFIED_MODULE) ID='whiteList'}
 				<table id="whiteList-table" class="table table-sm table-striped display js-data-table text-center mt-2">
 				<thead>
 					<tr>
@@ -133,6 +137,7 @@
 				</table>
 			</div>
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'publicRbl'}active{/if}" id="publicRbl" data-name="publicRbl" data-js="data">
+				{include file=\App\Layout::getTemplatePath('SearchFormList.tpl', $QUALIFIED_MODULE) ID='publicRbl'}
 				<table id="publicRbl-table" class="table table-sm table-striped display js-data-table text-center mt-2">
 				<thead>
 					<tr>
