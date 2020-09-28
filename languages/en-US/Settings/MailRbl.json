@@ -39,7 +39,19 @@
     "LBL_SPF_NONE": "None",
     "LBL_SPF_NONE_DESC": "No information or information provided is insufficient to verify the sender. Please be cautious.",
     "LBL_SPF_PASS_DESC": "The sender is authorized to send email on behalf of the sender.",
-    "LBL_SPF_FAIL_DESC": "The sender is not authorized to send email on behalf of the sender."
+    "LBL_SPF_FAIL_DESC": "The sender is not authorized to send email on behalf of the sender.",
+    "LBL_UPLOAD_LIST": "Import IP list",
+    "BTN_IMPORT_LIST": "Import IP list",
+    "LBL_LIST_SOURCE": "Name of list source",
+    "LBL_SELECT_LIST": "Select a list",
+    "LBL_UPLOAD_WRONG_FILE": "Please upload correct file to import IP addresses",
+    "LBL_UPLOAD_ERROR": "Error occurred while importing list",
+    "LBL_UPLOAD_SUCCESS": "Uploaded successfully",
+    "LBL_LIST_RECORD_SAVED": "Saved IP addresses",
+    "LBL_LIST_RECORD_DUPLICATES": "Existing duplicate IP addresses",
+    "LBL_LIST_RECORD_ERRORS": "Wrong IP addresses",
+    "LBL_PUBLIC_BLACK_LIST": "Black list of IP addresses",
+    "LBL_PUBLIC_WHITE_LIST": "White list of IP addresses"
   },
   "js": {
     "BTN_SHOW_DETAILS": "Show details",

@@ -44,20 +44,20 @@ class Settings_MailRbl_UploadList_Action extends Settings_Vtiger_Basic_Action
 		$response->setResult($result);
 		$response->emit();
 	}
-
 	/**
-	 * [saveToDb description].
+	 * Save to DB imported record
 	 *
-	 * @param string $content [$content description]
-	 * @param string $source
+	 * @param   string  $source
+	 * @param   int     $type
+	 * @param   string  $content
 	 *
-	 * @return [type] [return description]
+	 * @return  array
 	 */
 	public function saveToDb(string $source, int $type, string $content): array
 	{
 		$firstLine = true;
 		$explodedElements = explode($this->delimiter, $content);
-		$db = \App\Db::getInstance('webservice');
+		$db = \App\Db::getInstance();
 		$report = [
 			'saved' => 0,
 			'duplicates' => 0,
@@ -66,7 +66,7 @@ class Settings_MailRbl_UploadList_Action extends Settings_Vtiger_Basic_Action
 		$source = \App\TextParser::textTruncate($source, 10);
 		foreach ($explodedElements as $elementToSave) {
 			$clearIp = \App\Purifier::purifyByType(trim($elementToSave), 'AlnumExtended');
-			if (filter_var($clearIp, FILTER_VALIDATE_IP)) {
+			if (\App\Validator::ip($clearIp)) {
 				$isExists = (new \App\Db\Query())->from('s_#__mail_rbl_list')->where(['ip' => $clearIp])->exists();
 				try {
 					if (!$isExists) {
@@ -81,7 +81,7 @@ class Settings_MailRbl_UploadList_Action extends Settings_Vtiger_Basic_Action
 					} else {
 						++$report['duplicates'];
 					}
-				} catch (\Exception $e) {
+				} catch (\Throwable $e) {
 					++$report['errors'];
 				}
 			} else {

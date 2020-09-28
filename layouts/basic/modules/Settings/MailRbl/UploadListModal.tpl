@@ -39,7 +39,7 @@
 							</label>
 						</div>
 						<div class="col-sm-9 controls">
-							<input type="file" name="imported_list" accept="text/txt" data-validation-engine='validate[required]' id="imported_list" />
+							<input type="file" name="imported_list" accept=".txt" data-validation-engine='validate[required]' id="imported_list" />
 						</div>
 					</div>
 				</div>
