@@ -38,7 +38,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 	public function request(App\Request $request)
 	{
 		$rows = [];
-		$queryTotal = $query = $this->getQuery($request);
+		$query = $this->getQuery($request);
 		$query->from('s_#__mail_rbl_request')->select(['id', 'status', 'type', 'datetime', 'user', 'header']);
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
@@ -60,7 +60,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$count = $query->count();
 		$result = [
 			'draw' => $request->getInteger('draw'),
-			'iTotalRecords' => $queryTotal->from('s_#__mail_rbl_request')->where(['IS NOT', 'id', null])->limit(null)->offset(null)->orderBy(null)->count(),
+			'iTotalRecords' => $query->where(['IS NOT', 'id', null])->limit(null)->offset(null)->orderBy(null)->count(),
 			'iTotalDisplayRecords' => $count,
 			'aaData' => $rows
 		];
@@ -76,7 +76,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 	public function blackList(App\Request $request)
 	{
 		$rows = [];
-		$queryTotal = $query = $this->getQuery($request);
+		$query = $this->getQuery($request);
 		$query->from('s_#__mail_rbl_list')->andWhere(['type' => \App\Mail\Rbl::LIST_TYPE_BLACK_LIST]);
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
@@ -93,7 +93,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$count = $query->count();
 		$result = [
 			'draw' => $request->getInteger('draw'),
-			'iTotalRecords' => $queryTotal->where(['type' => \App\Mail\Rbl::LIST_TYPE_BLACK_LIST])->limit(null)->offset(null)->orderBy(null)->count(),
+			'iTotalRecords' => $query->where(['type' => \App\Mail\Rbl::LIST_TYPE_BLACK_LIST])->limit(null)->offset(null)->orderBy(null)->count(),
 			'iTotalDisplayRecords' => $count,
 			'aaData' => $rows
 		];
@@ -109,7 +109,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 	public function whiteList(App\Request $request)
 	{
 		$rows = [];
-		$queryTotal = $query = $this->getQuery($request);
+		$query = $this->getQuery($request);
 		$query->from('s_#__mail_rbl_list')->andWhere(['type' => \App\Mail\Rbl::LIST_TYPE_WHITE_LIST]);
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
@@ -126,7 +126,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$count = $query->count();
 		$result = [
 			'draw' => $request->getInteger('draw'),
-			'iTotalRecords' => $queryTotal->where(['type' => \App\Mail\Rbl::LIST_TYPE_WHITE_LIST])->limit(null)->offset(null)->orderBy(null)->count(),
+			'iTotalRecords' => $query->where(['type' => \App\Mail\Rbl::LIST_TYPE_WHITE_LIST])->limit(null)->offset(null)->orderBy(null)->count(),
 			'iTotalDisplayRecords' => $count,
 			'aaData' => $rows
 		];
@@ -142,7 +142,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 	public function publicRbl(App\Request $request)
 	{
 		$rows = [];
-		$queryTotal = $query = $this->getQuery($request);
+		$query = $this->getQuery($request);
 		$query->from('s_#__mail_rbl_list')->select(['ip', 'status'])->andWhere(['type' => [\App\Mail\Rbl::LIST_TYPE_PUBLIC_BLACK_LIST, \App\Mail\Rbl::LIST_TYPE_PUBLIC_WHITE_LIST]]);
 		$dataReader = $query->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
@@ -157,7 +157,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$count = $query->count();
 		$result = [
 			'draw' => $request->getInteger('draw'),
-			'iTotalRecords' => $queryTotal->from('s_#__mail_rbl_list')->where(['type' => [\App\Mail\Rbl::LIST_TYPE_PUBLIC_BLACK_LIST, \App\Mail\Rbl::LIST_TYPE_PUBLIC_WHITE_LIST]])->count(),
+			'iTotalRecords' => $query->where(['type' => [\App\Mail\Rbl::LIST_TYPE_PUBLIC_BLACK_LIST, \App\Mail\Rbl::LIST_TYPE_PUBLIC_WHITE_LIST]])->count(),
 			'iTotalDisplayRecords' => $count,
 			'aaData' => $rows
 		];
