@@ -111,7 +111,7 @@
 				</table>
 			</div>
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'blackList'}active{/if}" id="blackList" data-name="blackList" data-js="data">
-				{include file=\App\Layout::getTemplatePath('SearchFormList.tpl', $QUALIFIED_MODULE) ID_SELECT='blackList'}
+				{include file=\App\Layout::getTemplatePath('SearchFormList.tpl', $QUALIFIED_MODULE) ID='blackList'}
 				<table id="blackList-table" class="table table-sm table-striped display js-data-table text-center mt-2">
 				<thead>
 					<tr>
@@ -124,7 +124,7 @@
 				</table>
 			</div>
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'whiteList'}active{/if}" id="whiteList" data-name="whiteList" data-js="data">
-				{include file=\App\Layout::getTemplatePath('SearchFormList.tpl', $QUALIFIED_MODULE) ID_SELECT='whiteList'}
+				{include file=\App\Layout::getTemplatePath('SearchFormList.tpl', $QUALIFIED_MODULE) ID='whiteList'}
 				<table id="whiteList-table" class="table table-sm table-striped display js-data-table text-center mt-2">
 				<thead>
 					<tr>
@@ -137,7 +137,7 @@
 				</table>
 			</div>
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'publicRbl'}active{/if}" id="publicRbl" data-name="publicRbl" data-js="data">
-				{include file=\App\Layout::getTemplatePath('SearchFormList.tpl', $QUALIFIED_MODULE) ID_SELECT='publicRbl'}
+				{include file=\App\Layout::getTemplatePath('SearchFormList.tpl', $QUALIFIED_MODULE) ID='publicRbl'}
 				<table id="publicRbl-table" class="table table-sm table-striped display js-data-table text-center mt-2">
 				<thead>
 					<tr>
