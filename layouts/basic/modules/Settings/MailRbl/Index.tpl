@@ -3,12 +3,15 @@
 	<!-- tpl-Settings-MailRbl-Index -->
 	<div>
 		<div class="o-breadcrumb widget_header row mb-2">
-			<div class="col-md-10">
+			<div class="col-md-9">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-3">
 				<button class="btn btn-primary mt-1 js-send-request float-right" data-js="click">
 					<span class="fas fa-paper-plane mr-2"></span>{\App\Language::translate('BTN_SEND_SPAM_REQUEST', $QUALIFIED_MODULE)}
+				</button>
+				<button class="btn btn-primary mt-1 mr-2 showModal float-right" data-js="click" data-url="index.php?module=MailRbl&parent=Settings&view=UploadListModal">
+					<span class="fas fa-download mr-2"></span>{\App\Language::translate('BTN_IMPORT_LIST', $QUALIFIED_MODULE)}
 				</button>
 			</div>
 		</div>
