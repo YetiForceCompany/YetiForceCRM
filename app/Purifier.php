@@ -65,6 +65,12 @@ class Purifier
 	 * Purify type Alnum.
 	 */
 	public const ALNUM_EXTENDED = 'AlnumExtended';
+
+	/**
+	 * Purify type ip.
+	 */
+	public const IP = 'Ip';
+
 	/**
 	 * Default charset.
 	 *
@@ -453,6 +459,9 @@ class Purifier
 					break;
 				case self::SQL:
 					$value = $input && Validator::sql($input) ? $input : null;
+					break;
+				case self::IP:
+					$value = $input && Validator::ip($input) ? $input : null;
 					break;
 				case 'Text':
 				default:

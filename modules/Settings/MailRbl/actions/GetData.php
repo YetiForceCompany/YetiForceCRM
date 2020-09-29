@@ -60,7 +60,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$count = $query->count();
 		$result = [
 			'draw' => $request->getInteger('draw'),
-			'iTotalRecords' => $query->where(null)->limit(null)->offset(null)->orderBy(null)->count(),
+			'iTotalRecords' => $query->where(null)->count(),
 			'iTotalDisplayRecords' => $count,
 			'aaData' => $rows
 		];
@@ -93,7 +93,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$count = $query->count();
 		$result = [
 			'draw' => $request->getInteger('draw'),
-			'iTotalRecords' => $query->where(['type' => \App\Mail\Rbl::LIST_TYPE_BLACK_LIST])->limit(null)->offset(null)->orderBy(null)->count(),
+			'iTotalRecords' => $query->where(['type' => \App\Mail\Rbl::LIST_TYPE_BLACK_LIST])->count(),
 			'iTotalDisplayRecords' => $count,
 			'aaData' => $rows
 		];
@@ -126,7 +126,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		$count = $query->count();
 		$result = [
 			'draw' => $request->getInteger('draw'),
-			'iTotalRecords' => $query->where(['type' => \App\Mail\Rbl::LIST_TYPE_WHITE_LIST])->limit(null)->offset(null)->orderBy(null)->count(),
+			'iTotalRecords' => $query->where(['type' => \App\Mail\Rbl::LIST_TYPE_WHITE_LIST])->count(),
 			'iTotalDisplayRecords' => $count,
 			'aaData' => $rows
 		];
@@ -179,12 +179,6 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 			$columns[$key] = $value['data'];
 		}
 		$query = (new \App\Db\Query());
-		$query->limit($request->getInteger('length'));
-		$query->offset($request->getInteger('start'));
-		$order = current($request->getArray('order', 'Alnum'));
-		if ($order && isset($columns[$order['column']])) {
-			$query->orderBy([$columns[$order['column']] => 'asc' === $order['dir'] ? \SORT_ASC : \SORT_DESC]);
-		}
 		if (!$request->isEmpty('date') && ($date = $request->getDateRange('date'))) {
 			$query->andWhere(['between', 'datetime', $date[0] . ' 00:00:00', $date[1] . ' 23:59:59']);
 		}
@@ -197,10 +191,15 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		if (!$request->isEmpty('status') && ($status = $request->getArray('status', 'Integer'))) {
 			$query->andWhere(['status' => $status]);
 		}
-		if (!$request->isEmpty('ip') && ($ip = $request->get('ip'))) {
+		if (!$request->isEmpty('ip') && ($ip = \App\Purifier::purifyByType($request->getByType('ip', 'Text'), 'Ip'))) {
 			$query->andWhere(['ip' => $ip]);
 		}
-
+		$query->limit($request->getInteger('length'));
+		$query->offset($request->getInteger('start'));
+		$order = current($request->getArray('order', 'Alnum'));
+		if ($order && isset($columns[$order['column']])) {
+			$query->orderBy([$columns[$order['column']] => 'asc' === $order['dir'] ? \SORT_ASC : \SORT_DESC]);
+		}
 		return $query;
 	}
 }
