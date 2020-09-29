@@ -125,7 +125,7 @@ class BaseField
 	{
 		$ssl = \strlen($this->value);
 		if (\strlen($this->getValue()) >= $ssl) {
-			return 0 == substr_compare($this->getValue(), $this->value, 0, $ssl);
+			return 0 == substr_compare($this->getValue(), $this->value, 0, $ssl, true);
 		}
 		return false;
 	}
