@@ -175,7 +175,7 @@ jQuery.Class(
 		registerEventForAlphabetSearch: function (modalContainer) {
 			let thisInstance = this;
 			modalContainer.find('.alphabetSearch').on('click', function (e) {
-				let alphabet = jQuery(e.currentTarget).find('a').text();
+				let alphabet = $(e.currentTarget).find('a').text();
 				let cvId = thisInstance.getCurrentCvId();
 				let AlphabetSearchKey = thisInstance.getAlphabetSearchField();
 				let urlParams = {
@@ -187,11 +187,11 @@ jQuery.Class(
 				};
 				thisInstance.resetPagination();
 				thisInstance.reloadList(urlParams);
-				app.hideModalWindow();
+				app.hideModalWindow(false, modalContainer.parent().attr('id'));
 			});
 			modalContainer.find('.removeAlfabetCondition').on('click', function () {
 				thisInstance.reloadList({ search_key: '', search_value: '', operator: '' });
-				app.hideModalWindow();
+				app.hideModalWindow(false, modalContainer.parent().attr('id'));
 			});
 		},
 		updatePaginationOnAlphabetChange: function (alphabet, AlphabetSearchKey) {
