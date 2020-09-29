@@ -75,7 +75,14 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
 	{
-		return  static::getInstance($this->getModuleName(), 'TotalPrice')->getValueForSave($item, $userFormat)
-			- static::getInstance($this->getModuleName(), 'Discount')->getValueForSave($item, $userFormat);
+		if (!isset($item['taxcountmode']) || $item['taxcountmode'] === 'netto') {
+			$value =  static::getInstance($this->getModuleName(), 'TotalPrice')->getValueForSave($item, $userFormat)
+				- static::getInstance($this->getModuleName(), 'Discount')->getValueForSave($item, $userFormat);
+		} else {
+			$value =  static::getInstance($this->getModuleName(), 'GrossPrice')->getValueForSave($item, $userFormat)
+				- static::getInstance($this->getModuleName(), 'Discount')->getValueForSave($item, $userFormat)
+				- static::getInstance($this->getModuleName(), 'Tax')->getValueForSave($item, $userFormat);
+		}
+		return $value;
 	}
 }

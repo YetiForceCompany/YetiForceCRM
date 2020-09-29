@@ -250,11 +250,17 @@ $.Class(
 			return currency.find('option:selected').val();
 		},
 		getTax: function (row) {
+			let thisInstance = this;
+			let valuePrices = '';
 			let taxParams = row.find('.taxParam').val();
 			if (taxParams == '' || taxParams == '[]' || taxParams == undefined) return 0;
 			taxParams = JSON.parse(taxParams);
 			let aggregationType = $('.aggregationTypeTax').val();
-			let valuePrices = this.getNetPrice(row);
+			if(this.isTaxCountFromBrutto(row)){
+				valuePrices = this.getGrossPrice(row);
+			} else {
+				valuePrices = this.getNetPrice(row);
+			}
 			let taxRate = 0;
 			let types = taxParams.aggregationType;
 			if (typeof types == 'string') {
@@ -262,7 +268,8 @@ $.Class(
 			}
 			if (types) {
 				types.forEach(function (entry) {
-					let taxValue = 0;
+					let taxValue = 0,
+						taxBruttoValue = 0;
 					switch (entry) {
 						case 'individual':
 							taxValue = taxParams.individualTax;
@@ -277,13 +284,30 @@ $.Class(
 							taxValue = taxParams.regionalTax;
 							break;
 					}
-					taxRate += valuePrices * (taxValue / 100);
-					if (aggregationType == '2') {
-						valuePrices = valuePrices + taxRate;
+					if(thisInstance.isTaxCountFromBrutto(row)){
+						taxBruttoValue = valuePrices / ((100+parseInt(taxValue)) / 100);
+						taxRate = thisInstance.getGrossPrice(row) - taxBruttoValue;
+					} else {
+						taxRate += valuePrices * (taxValue / 100);
+						if (aggregationType == '2') {
+							valuePrices = valuePrices + taxRate;
+						}
 					}
 				});
 			}
 			return taxRate;
+		},
+		getTaxCountModeSelectElement: function (row) {
+			let items = this.getInventoryHeadContainer();
+			if (items.find('thead .js-taxcountmode').length > 0) {
+				return $('.js-taxcountmode');
+			}
+			return row.find('.js-taxcountmode');
+		},
+		isTaxCountFromBrutto: function (row) {
+			let taxCountModeElement = this.getTaxCountModeSelectElement(row);
+			let selectedOption = taxCountModeElement.find('option:selected');
+			return selectedOption.val() == 'brutto';
 		},
 		getTaxPercent: function (row) {
 			let taxParams = row.find('.taxParam').val();
@@ -310,6 +334,7 @@ $.Class(
 		getDiscount: function (row) {
 			let discountParams = row.find('.discountParam').val();
 			let aggregationType = $('.aggregationTypeDiscount').val();
+			let valuePrices  = 0;
 			if (
 				discountParams == '' ||
 				discountParams == 'null' ||
@@ -319,7 +344,11 @@ $.Class(
 				return 0;
 			}
 			discountParams = JSON.parse(discountParams);
-			let valuePrices = this.getTotalPrice(row);
+			if(this.isTaxCountFromBrutto(row)){
+				valuePrices =  this.getQuantityValue(row) * this.getUnitPriceValue(row) - this.getTax(row);
+			} else {
+				valuePrices = this.getTotalPrice(row);
+			}
 			let discountRate = 0;
 			let types = discountParams.aggregationType;
 			if (typeof types == 'string') {
@@ -352,10 +381,18 @@ $.Class(
 			return discountRate;
 		},
 		getNetPrice: function (row) {
-			return this.getTotalPrice(row) - this.getDiscount(row);
+			if(this.isTaxCountFromBrutto(row)){
+				return (this.getQuantityValue(row) * this.getUnitPriceValue(row)) - this.getDiscount(row) - this.getTax(row);
+			} else {
+				return this.getTotalPrice(row) - this.getDiscount(row);
+			}
 		},
 		getTotalPrice: function (row) {
-			return this.getQuantityValue(row) * this.getUnitPriceValue(row);
+			if(this.isTaxCountFromBrutto(row)){
+				return this.getQuantityValue(row) * this.getUnitPriceValue(row) - this.getTax(row);
+			} else {
+				return this.getQuantityValue(row) * this.getUnitPriceValue(row);
+			}
 		},
 		getGrossPrice: function (row) {
 			return $('.grossPrice', row).getNumberFromValue();
@@ -406,6 +443,9 @@ $.Class(
 		 */
 		setTaxMode(val) {
 			this.getInventoryHeadContainer().find('.js-taxmode').val(val).trigger('change');
+		},
+		setTaxCountMode(val) {
+			this.getInventoryHeadContainer().find('.js-taxcountmode').val(val).trigger('change');
 		},
 		/**
 		 * Set inventory id
@@ -506,17 +546,29 @@ $.Class(
 		setTaxParam: function (row, val) {
 			$('.taxParam', row).val(JSON.stringify(val));
 		},
+		setTaxCountFromBrutto: function (row, val) {
+			$('.taxCountFromBrutto', row).val(JSON.stringify(val));
+		},
 		quantityChangeActions: function (row) {
 			this.rowCalculations(row);
 			this.summaryCalculations();
 		},
 		rowCalculations: function (row) {
-			this.calculateTotalPrice(row);
-			this.calculateDiscounts(row);
-			this.calculateNetPrice(row);
-			this.calculateTaxes(row);
-			this.calculateGrossPrice(row);
-			this.calculateMargin(row);
+			if(this.isTaxCountFromBrutto(row)){
+				this.calculateDiscounts(row);
+				this.calculateGrossPrice(row);
+				this.calculateTotalPrice(row);
+				this.calculateTaxes(row);
+				this.calculateNetPrice(row);
+				this.calculateMargin(row);
+			} else {
+				this.calculateTotalPrice(row);
+				this.calculateDiscounts(row);
+				this.calculateNetPrice(row);
+				this.calculateTaxes(row);
+				this.calculateGrossPrice(row);
+				this.calculateMargin(row);
+			}
 		},
 		rowsCalculations: function () {
 			let thisInstance = this;
@@ -649,12 +701,17 @@ $.Class(
 		getAllTaxes: function () {
 			let thisInstance = this;
 			let tax = [];
+			let netPrice  = 0;
 			let typeSummary = $('.aggregationTypeTax').val();
 			this.getInventoryItemsContainer()
 				.find(thisInstance.rowClass)
 				.each(function (index) {
 					let row = $(this);
-					let netPrice = thisInstance.getNetPrice(row);
+					if(thisInstance.isTaxCountFromBrutto(row)){
+						netPrice = thisInstance.getGrossPrice(row);
+					} else {
+						netPrice = thisInstance.getNetPrice(row);
+					}
 					let params = row.find('.taxParam').val();
 					if (params != '' && params != '[]' && params != undefined) {
 						let param = JSON.parse(params);
@@ -683,17 +740,32 @@ $.Class(
 			return tax;
 		},
 		calculateNetPrice: function (row) {
-			this.setNetPrice(row, this.getNetPrice(row));
+			if(this.isTaxCountFromBrutto(row)){
+				let netPrice = this.getGrossPrice(row) - this.getDiscount(row) - this.getTax(row);
+				this.setNetPrice(row, netPrice);
+			} else {
+				this.setNetPrice(row, this.getNetPrice(row));
+			}
 		},
 		calculateGrossPrice: function (row) {
-			let netPrice = this.getNetPrice(row);
-			if (this.isIndividualTaxMode(row) || this.isGroupTaxMode(row)) {
-				netPrice += this.getTax(row);
+			if(this.isTaxCountFromBrutto(row)){
+				let netPrice = this.getUnitPriceValue(row) * this.getQuantityValue(row) - this.getDiscount(row);
+				this.setGrossPrice(row, netPrice);
+			} else {
+				let netPrice = this.getNetPrice(row);
+				if (this.isIndividualTaxMode(row) || this.isGroupTaxMode(row)) {
+					netPrice += this.getTax(row);
+				}
+				this.setGrossPrice(row, netPrice);
 			}
-			this.setGrossPrice(row, netPrice);
 		},
 		calculateTotalPrice: function (row) {
-			this.setTotalPrice(row, this.getTotalPrice(row));
+			if(this.isTaxCountFromBrutto(row)){
+				let netPrice = this.getGrossPrice(row) - this.getTax(row);
+				this.setTotalPrice(row, netPrice);
+			} else {
+				this.setTotalPrice(row, this.getTotalPrice(row));
+			}
 		},
 		calculateMargin: function (row) {
 			let netPrice;
@@ -1485,6 +1557,9 @@ $.Class(
 			headContainer.on('change', '.js-discountmode', (e) => {
 				let element = $(e.currentTarget);
 				this.showIndividualDiscount(this.getClosestRow(element));
+				this.rowsCalculations();
+			});
+			headContainer.on('change', '.js-taxcountmode', (e) => {
 				this.rowsCalculations();
 			});
 		},
