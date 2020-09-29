@@ -139,12 +139,8 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 			$value = 0.0;
 			if (!\App\Json::isEmpty($item['taxparam'] ?? '') && ($taxesConfig = \Vtiger_Inventory_Model::getTaxesConfig())) {
 				$taxParam = \App\Json::decode($item['taxparam']);
-				if (!isset($item['taxcountmode']) || $item['taxcountmode'] === 'netto') {
-					$price = static::getInstance($this->getModuleName(), 'NetPrice')->getValueForSave($item, $userFormat);
-				} else {
-					$price = static::getInstance($this->getModuleName(), 'GrossPrice')->getValueForSave($item, $userFormat);
-				}
-				$value = $this->getTaxValue($taxParam, $price, (int) $taxesConfig['aggregation'], $item);
+				$netPrice = static::getInstance($this->getModuleName(), 'NetPrice')->getValueForSave($item, $userFormat);
+				$value = $this->getTaxValue($taxParam, $netPrice, (int) $taxesConfig['aggregation']);
 			}
 		} else {
 			$value = $userFormat ? $this->getDBValue($item[$column]) : $item[$column];
@@ -158,29 +154,21 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	 * @param array  $taxParam
 	 * @param float  $netPrice
 	 * @param string $mode     0-can not be combined, 1-summary, 2-cascade
-	 * @param array  $itemData
 	 *
 	 * @return float
 	 */
-	public function getTaxValue(array $taxParam, float $netPrice, int $mode, $itemData = false): float
+	public function getTaxValue(array $taxParam, float $netPrice, int $mode): float
 	{
 		$value = 0.0;
 		$types = $taxParam['aggregationType'];
 		if (!\is_array($types)) {
 			$types = [$types];
 		}
-		if (!isset($itemData['taxcountmode']) || $itemData['taxcountmode'] === 'netto') {
-			foreach ($types as $type) {
-				$taxValue = $netPrice * $taxParam["{$type}Tax"] / 100.00;
-				$value += $taxValue;
-				if (2 === $mode) {
-					$netPrice += $taxValue;
-				}
-			}
-		} else {
-			foreach ($types as $type) {
-				$taxValue = $netPrice / ((100+$taxParam["{$type}Tax"])/100);
-				$value = $netPrice-$taxValue;
+		foreach ($types as $type) {
+			$taxValue = $netPrice * $taxParam["{$type}Tax"] / 100.00;
+			$value += $taxValue;
+			if (2 === $mode) {
+				$netPrice += $taxValue;
 			}
 		}
 
