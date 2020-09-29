@@ -140,7 +140,7 @@ var Vtiger_Index_Js = {
 				let popup = sendButton.data('popup');
 				let toMail = sendButton.data('to');
 				if (toMail) {
-					url += '&to=' + toMail;
+					url += '&to=' + encodeURIComponent(toMail);
 				}
 				if (app.getRecordId() && sendButton.data('record') !== app.getRecordId()) {
 					url += '&crmModule=' + app.getModuleName() + '&crmRecord=' + app.getRecordId();
