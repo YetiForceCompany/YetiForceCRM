@@ -206,10 +206,12 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			}
 			$searchKey = $request->getByType('search_key', 'Alnum');
 			$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $listViewModel->getQueryGenerator()->getModule(), $searchKey, $operator);
+			$listViewModel->set('operator', $operator);
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
 			$viewer->assign('SEARCH_KEY', $searchKey);
 			$viewer->assign('SEARCH_VALUE', $searchValue);
+			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
 		$searchParmams = App\Condition::validSearchParams($listViewModel->getQueryGenerator()->getModule(), $request->getArray('search_params'));
 		if (empty($searchParmams)) {
