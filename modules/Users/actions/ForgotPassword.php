@@ -85,11 +85,11 @@ class Users_ForgotPassword_Action extends \App\Controller\Action
 			\App\Session::set('UserLoginMessage', App\Language::translate('LBL_NO_USER_FOUND', $moduleName));
 			\App\Session::set('UserLoginMessageType', 'error');
 			$bruteForceInstance->updateBlockedIp();
+			$moduleModel->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('user_name')), 'ForgotPasswordNoUserFound');
 			if ($bruteForceInstance->isBlockedIp()) {
 				$bruteForceInstance->sendNotificationEmail();
 				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS', $moduleName));
 			}
-			$moduleModel->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('user_name')), 'ForgotPasswordNoUserFound');
 		}
 		header('location: index.php?module=Users&view=Login');
 	}

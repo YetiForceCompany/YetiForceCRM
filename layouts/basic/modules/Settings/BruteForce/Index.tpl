@@ -7,11 +7,11 @@
 			</div>
 		</div>
 		<ul id="tabs" class="nav nav-tabs my-2 mr-0" data-tabs="tabs">
-			<li class="nav-item"><a class="nav-link active" href="#settings"
-									data-toggle="tab">{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}</a>
+			<li class="nav-item">
+				<a class="nav-link active" href="#settings" data-toggle="tab">{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}</a>
 			</li>
-			<li class="nav-item"><a class="nav-link" href="#blocedIds"
-									data-toggle="tab">{\App\Language::translate('LBL_BLOCKED_IP', $QUALIFIED_MODULE)}</a>
+			<li class="nav-item">
+				<a class="nav-link" href="#blocedIds" data-toggle="tab">{\App\Language::translate('LBL_BLOCKED_IP', $QUALIFIED_MODULE)}</a>
 			</li>
 		</ul>
 		<div id="my-tab-content" class="tab-content">
@@ -26,16 +26,11 @@
 									<div class="col-sm-8 col-md-9">
 										<div class="btn-group btn-group-toggle" data-toggle="buttons">
 											<label class="btn btn-outline-primary {if $CONFIG.active} active{/if}">
-												<input class="js-switch" type="radio" name="active" data-js="change"
-													   id="active1" autocomplete="off" value="1"
-													   {if $CONFIG.active}checked{/if}
-												> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
+												<input class="js-switch" type="radio" name="active" data-js="change" id="active1" autocomplete="off" {' '}
+													value="1" {if $CONFIG.active}checked{/if}> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
 											</label>
 											<label class="btn btn-outline-primary {if !$CONFIG.active} active{/if}">
-												<input class="js-switch" type="radio" name="active" data-js="change"
-													   id="active2" autocomplete="off" value="0"
-													   {if !$CONFIG.active}checked{/if}
-												> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
+												<input class="js-switch" type="radio" name="active" data-js="change" id="active2" autocomplete="off" value="0" {if !$CONFIG.active}checked{/if}> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
 											</label>
 										</div>
 									</div>
@@ -43,19 +38,14 @@
 								<div class="form-group row align-items-center">
 									<label class="col-sm-3 col-form-label text-right">{\App\Language::translate('LBL_NUMBER_OF_ATTEMPTS', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-2">
-										<input type="text" class="form-control" name="attempsnumber"
-											   title="{\App\Language::translate('LBL_NUMBER_OF_ATTEMPTS', $QUALIFIED_MODULE)}"
-											   id="attempsNumber" value="{$CONFIG.attempsnumber}"
-											   data-validation-engine="validate[required,custom[number],min[2],max[100]]">
+										<input type="text" class="form-control" name="attempsnumber" title="{\App\Language::translate('LBL_NUMBER_OF_ATTEMPTS', $QUALIFIED_MODULE)}" {' '} id="attempsNumber" value="{$CONFIG.attempsnumber}" data-validation-engine="validate[required,custom[number],min[2],max[100]]">
 									</div>
 								</div>
 								<div class="form-group row align-items-center">
 									<label class="col-sm-3 col-form-label text-right">{\App\Language::translate('LBL_TIME_LOCK', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-2">
-										<input type="text" class="form-control" name="timelock" id="timeLock"
-											   title="{\App\Language::translate('LBL_TIME_LOCK', $QUALIFIED_MODULE)}"
-											   value="{$CONFIG.timelock}"
-											   data-validation-engine="validate[required,custom[integer]]">
+										<input type="text" class="form-control" name="timelock" id="timeLock" title="{\App\Language::translate('LBL_TIME_LOCK', $QUALIFIED_MODULE)}" {' '}
+											value="{$CONFIG.timelock}" data-validation-engine="validate[required,custom[integer]]">
 									</div>
 								</div>
 								<div class="form-group row align-items-center mb-0">
@@ -63,23 +53,15 @@
 									<div class="col-sm-9">
 										<div class="btn-group btn-group-toggle" data-toggle="buttons">
 											<label class="btn btn-outline-primary {if $CONFIG.sent} active{/if}">
-												<input class="js-switch--sent" type="radio" name="sent" data-js="change"
-													   id="sent1" autocomplete="off" value="1"
-													   {if $CONFIG.sent}checked{/if}
-												> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
+												<input class="js-switch--sent" type="radio" name="sent" data-js="change" id="sent1" autocomplete="off" value="1" {if $CONFIG.sent}checked{/if}> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
 											</label>
 											<label class="btn btn-outline-primary {if !$CONFIG.sent} active{/if}">
-												<input class="js-switch--sent" type="radio" name="sent" data-js="change"
-													   id="sent2" autocomplete="off" value="0"
-													   {if !$CONFIG.sent}checked{/if}
-												> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
+												<input class="js-switch--sent" type="radio" name="sent" data-js="change"  id="sent2" autocomplete="off" value="0" {if !$CONFIG.sent}checked{/if}> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
 											</label>
 										</div>
 										<div class="selectedUsersForm{if !$CONFIG.sent} d-none{/if}">
 											<label class="col-form-label">{\App\Language::translate('LBL_USERS_FOR_NOTIFICATIONS', $QUALIFIED_MODULE)}</label>
-											<select class="select2 form-control" name="selectedUsers" multiple
-													id="selectedUsers"
-													title="{\App\Language::translate('LBL_USERS_FOR_NOTIFICATIONS', $QUALIFIED_MODULE)}">
+											<select class="select2 form-control" name="selectedUsers" multiple id="selectedUsers" title="{\App\Language::translate('LBL_USERS_FOR_NOTIFICATIONS', $QUALIFIED_MODULE)}">
 												{foreach key=KEY item=USER from=$ADMIN_USERS}
 													<option value="{$KEY}" {if $USERS_FOR_NOTIFICATIONS } {if in_array($KEY, $USERS_FOR_NOTIFICATIONS)} selected {/if}{/if}>{$USER}</option>
 												{/foreach}
@@ -90,7 +72,8 @@
 						</div>
 						<div class="card-footer clearfix">
 							<div class="float-left">
-								<button class="btn btn-success saveButton" type="submit" id="saveConfig" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}"><span class="fa fa-check u-mr-5px"></span>
+								<button class="btn btn-success saveButton" type="submit" id="saveConfig" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}">
+									<span class="fa fa-check u-mr-5px"></span>
 									<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button></div>
 							</form>
 						</div>
@@ -133,8 +116,7 @@
 									<td><label>{$ITEM['attempts']}</label></td>
 									<td><label>{$ITEM['browsers']}</label></td>
 									<td class="text-center">
-										<button data-id="{$ITEM['id']}" class="btn btn-success unblock" type="button"
-												title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}">
+										<button data-id="{$ITEM['id']}" class="btn btn-success unblock" type="button" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}">
 											<strong>{\App\Language::translate('LBL_UNBLOCK', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</td>

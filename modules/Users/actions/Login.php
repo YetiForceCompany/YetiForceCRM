@@ -228,6 +228,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	public function failedLogin(App\Request $request)
 	{
+		Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive()) {
 			$bfInstance->updateBlockedIp();
@@ -237,7 +238,6 @@ class Users_Login_Action extends \App\Controller\Action
 				\App\Session::set('UserLoginMessageType', 'error');
 			}
 		}
-		Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
 		header('location: index.php?module=Users&view=Login');
 	}
 }
