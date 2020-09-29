@@ -526,7 +526,10 @@ class ConfReport
 					static::$request = static::getRequest();
 					break;
 				case 'db':
-					static::$db = \App\Db::getInstance()->getInfo();
+					$db = \App\Db::getInstance();
+					if ($db->getIsActive()) {
+						static::$db = $db->getInfo();
+					}
 					break;
 				default:
 					break;
