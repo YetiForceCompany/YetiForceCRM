@@ -34,12 +34,11 @@
 					{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}
 				</strong>
 			</button>
-			<button class="btn btn-success" type="button" onclick="javascript:window.history.back();">
-				<strong>
-					<span class="fas fa-caret-right mr-1"></span>
-					{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
-				</strong>
-			</button>
+			<a class="btn btn-success" href="index.php?module=Workflows&parent=Settings&view=List" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST')}"
+				alt="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST')}">
+				<span class="fas fa-caret-right mr-1"></span>
+				{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}
+			</a>
 		</div>
 		<div class="clearfix"></div>
 	</form>
