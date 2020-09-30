@@ -2152,6 +2152,11 @@ body,
 	display: block;
 	width: 48px;
 	padding: 5px;
+
+	img {
+		height: calculate-rem(40px);
+		width: calculate-rem(40px);
+	}
 }
 
 .userDetails ul.headerLink li {
