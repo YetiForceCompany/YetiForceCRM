@@ -17,7 +17,7 @@
 					{assign var=IMAGE value=$RECORD->getImage()}
 					<span class="moduleIcon{if $IMAGE} o-detail__record-img mr-1{/if}">
 						{if $IMAGE}
-							<img class="js-detail-hierarchy" data-js="click" title="{$RECORD->getName()}" src="{$IMAGE.url}">
+							<img class="js-detail-hierarchy rounded-circle" data-js="click" title="{$RECORD->getName()}" src="{$IMAGE.url}">
 						{else}
 							<span class="pl-0 o-detail__icon js-detail__icon js-detail-hierarchy yfm-{$MODULE}" data-js="click"></span>
 						{/if}
