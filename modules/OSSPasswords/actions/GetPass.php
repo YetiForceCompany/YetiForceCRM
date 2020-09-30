@@ -43,7 +43,10 @@ class OSSPasswords_GetPass_Action extends \App\Controller\Action
 		} else {
 			$result = ['success' => true, 'password' => $pass];
 		}
-
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setRecordModel($recordModel);
+		$eventHandler->setModuleName($moduleName);
+		$eventHandler->trigger('EntityAfterShowHiddenData');
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

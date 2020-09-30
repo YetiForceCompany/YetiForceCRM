@@ -25,6 +25,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	const TRANSFER_DELETE = 11;
 	const TRANSFER_UNLINK = 12;
 	const TRANSFER_LINK = 13;
+	const SHOW_HIDDEN_DATA = 14;
 
 	/**
 	 * Status labels.
@@ -46,6 +47,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		11 => 'LBL_TRANSFER_DELETE',
 		12 => 'LBL_TRANSFER_UNLINK',
 		13 => 'LBL_TRANSFER_LINK',
+		14 => 'LBL_SHOW_HIDDEN_DATA',
 	];
 
 	/**
@@ -333,6 +335,16 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
+	 * Function check if status is Transfer.
+	 *
+	 * @return bool
+	 */
+	public function isShowHiddenData()
+	{
+		return $this->checkStatus(static::SHOW_HIDDEN_DATA);
+	}
+
+	/**
 	 * Has changed state.
 	 *
 	 * @return bool
@@ -481,10 +493,10 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		$where = [];
 		switch ($type) {
 			case 'changes':
-				$where = ['<>', 'status', self::DISPLAYED];
+				$where = ['and', ['<>', 'status', self::DISPLAYED], ['!=', 'status', self::SHOW_HIDDEN_DATA]];
 				break;
 			case 'review':
-				$where = ['status' => self::DISPLAYED];
+				$where = ['status' => [self::DISPLAYED, self::SHOW_HIDDEN_DATA]];
 				break;
 			default:
 				break;

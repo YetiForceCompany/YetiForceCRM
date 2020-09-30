@@ -10,7 +10,7 @@
 	{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 	{assign var=IS_DYNAMIC value=$BLOCK->isDynamic()}
 	{if $BLOCKS_HIDE}
-		{include file=\App\Layout::getTemplatePath('Detail/BlocksView.tpl', $MODULE_NAME)}
+		{include file=\App\Layout::getTemplatePath('Detail/BlockView.tpl', $MODULE_NAME)}
 	{/if}
 {/foreach}
 <div class="contentHeader form-row m-0">

@@ -193,7 +193,7 @@
 											</div>
 										</div>
 									</div>
-								{else if $RECENT_ACTIVITY->isDisplayed()}
+								{else if $RECENT_ACTIVITY->isDisplayed() || $RECENT_ACTIVITY->isShowHiddenData()}
 									<div class="d-flex">
 										<span class="c-circle-icon mt-2 d-sm-inline d-none text-center"
 												style="background-color: {ModTracker::$colorsActions[$RECENT_ACTIVITY->get('status')]};">

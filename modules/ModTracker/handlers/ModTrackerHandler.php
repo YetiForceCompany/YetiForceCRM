@@ -253,6 +253,26 @@ class ModTracker_ModTrackerHandler_Handler
 	}
 
 	/**
+	 * Show hidden data handler function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterShowHiddenData(App\EventHandler $eventHandler)
+	{
+		if (!ModTracker::isTrackingEnabledForModule($eventHandler->getModuleName())) {
+			return false;
+		}
+		$recordModel = $eventHandler->getRecordModel();
+		\App\Db::getInstance()->createCommand()->insert('vtiger_modtracker_basic', [
+			'crmid' => $recordModel->getId(),
+			'module' => $eventHandler->getModuleName(),
+			'whodid' => \App\User::getCurrentUserRealId(),
+			'changedon' => date('Y-m-d H:i:s'),
+			'status' => ModTracker::$SHOW_HIDDEN_DATA,
+		])->execute();
+	}
+
+	/**
 	 * Add notification in handler.
 	 *
 	 * @param string $moduleName
