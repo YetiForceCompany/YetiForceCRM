@@ -493,7 +493,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		$where = [];
 		switch ($type) {
 			case 'changes':
-				$where = ['and', ['<>', 'status', self::DISPLAYED], ['!=', 'status', self::SHOW_HIDDEN_DATA]];
+				$where = ['not in', 'status', [self::DISPLAYED, self::SHOW_HIDDEN_DATA]];
 				break;
 			case 'review':
 				$where = ['status' => [self::DISPLAYED, self::SHOW_HIDDEN_DATA]];
