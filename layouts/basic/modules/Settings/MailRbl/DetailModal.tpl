@@ -10,7 +10,7 @@
 		<div class="d-flex align-items-center justify-content-center">
 		{foreach item=ROW from=$RECEIVED name=ReceivedForeach}
 			<div class="{if count($RECEIVED) > 1} col {else} w-100 {/if} p-0 pr-2 mb-2">
-				<div class="card{if $SENDER['key'] === $ROW['key']} u-bg-modern{/if}">
+				<div class="shadow-sm card{if $SENDER['key'] === $ROW['key']} u-bg-modern{/if}">
 					<div class="card-body p-1">
 						<ul class="list-group list-group-flush">
 						{foreach item=ITEM_ROWS key=KEY_ROWS from=$ROW}

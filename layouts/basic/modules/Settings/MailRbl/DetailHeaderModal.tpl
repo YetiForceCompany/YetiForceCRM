@@ -32,11 +32,11 @@
 						{\App\Language::translate('LBL_SPF', $QUALIFIED_MODULE)}:
 						<span class="ml-2 badge {$VERIFY_SPF['class']}"><span class="{$VERIFY_SPF['icon']} mr-2"></span>{\App\Language::translate($VERIFY_SPF['label'], $QUALIFIED_MODULE)}</span>
 					</span>
-					<span class="js-popover-tooltip ml-4" data-placement="top" data-content="{\App\Purifier::encodeHtml(\App\Language::translate($VERIFY_DKIM['desc'], $QUALIFIED_MODULE))}<hr />{\App\Purifier::encodeHtml(\App\Language::translate($VERIFY_DKIM['logs'], $QUALIFIED_MODULE))}" data-js="popover">
+					<span class="js-popover-tooltip ml-4" data-placement="top" data-content="{\App\Purifier::encodeHtml(\App\Language::translate($VERIFY_DKIM['desc'], $QUALIFIED_MODULE))}<hr />{\App\Purifier::encodeHtml($VERIFY_DKIM['logs'])}" data-js="popover">
 						{\App\Language::translate('LBL_DKIM', $QUALIFIED_MODULE)}:
 						<span class="ml-2 badge {$VERIFY_DKIM['class']}"><span class="{$VERIFY_DKIM['icon']} mr-2"></span>{\App\Language::translate($VERIFY_DKIM['label'], $QUALIFIED_MODULE)}</span>
 					</span>
-					<span class="js-popover-tooltip ml-4" data-placement="top" data-content="{\App\Purifier::encodeHtml(\App\Language::translate($VERIFY_DMARC['desc'], $QUALIFIED_MODULE))}<hr />{\App\Purifier::encodeHtml(\App\Language::translate($VERIFY_DMARC['logs'], $QUALIFIED_MODULE))}" data-js="popover">
+					<span class="js-popover-tooltip ml-4" data-placement="top" data-content="{\App\Purifier::encodeHtml(\App\Language::translate($VERIFY_DMARC['desc'], $QUALIFIED_MODULE))}<hr />{\App\Purifier::encodeHtml($VERIFY_DMARC['logs'])}" data-js="popover">
 						{\App\Language::translate('LBL_DMARC', $QUALIFIED_MODULE)}:
 						<span class="ml-2 badge {$VERIFY_DMARC['class']}"><span class="{$VERIFY_DMARC['icon']} mr-2"></span>{\App\Language::translate($VERIFY_DMARC['label'], $QUALIFIED_MODULE)}</span>
 					</span>
