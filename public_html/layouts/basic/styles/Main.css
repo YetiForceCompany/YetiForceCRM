@@ -16438,6 +16438,9 @@ table .listButtons.narrow .c-badge__icon {
 .u-w-60per {
   width: 60%; }
 
+.u-w-205px {
+  width: 12.8125rem !important; }
+
 .u-w-max {
   width: max-content !important;
   width: -moz-max-content !important; }
@@ -17221,7 +17224,7 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
   position: absolute;
   display: none; }
 
-.u-rbl-container td:hover .u-rbl_action {
+.u-rbl-container tr:hover .u-rbl_action {
   display: flex !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
