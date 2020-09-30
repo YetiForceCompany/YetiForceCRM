@@ -287,6 +287,10 @@
 	width: 60%;
 }
 
+.u-w-205px {
+	width: calculate-rem(205px) !important;
+}
+
 .u-w-max {
 	width: max-content !important;
 	width: -moz-max-content !important;
@@ -777,7 +781,7 @@ body:not(.desktop) {
 		}
 	}
 
-	td:hover {
+	tr:hover {
 		.u-rbl_action  {
 			display: flex !important;
 		}
