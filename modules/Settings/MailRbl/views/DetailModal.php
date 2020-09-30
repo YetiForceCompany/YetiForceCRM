@@ -43,6 +43,7 @@ class Settings_MailRbl_DetailModal_View extends \App\Controller\ModalSettings
 	{
 		parent::__construct();
 		$this->recordModel = \App\Mail\Rbl::getRequestById(\App\Request::_getInteger('record'));
+		$this->recordModel->parse();
 	}
 
 	/**
@@ -61,8 +62,10 @@ class Settings_MailRbl_DetailModal_View extends \App\Controller\ModalSettings
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $this->recordModel);
 		$viewer->assign('SENDER', $this->recordModel->getSender());
-		$viewer->assign('CHECK_SPF', $this->recordModel->checkSpf());
-		$viewer->assign('CHECK_SENDER', $this->recordModel->checkSender());
+		$viewer->assign('VERIFY_SENDER', $this->recordModel->verifySender());
+		$viewer->assign('VERIFY_SPF', $this->recordModel->verifySpf());
+		$viewer->assign('VERIFY_DKIM', $this->recordModel->verifyDkim());
+		$viewer->assign('VERIFY_DMARC', $this->recordModel->verifyDmarc());
 		parent::preProcessAjax($request);
 	}
 

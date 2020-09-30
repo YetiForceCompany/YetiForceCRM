@@ -48,6 +48,7 @@ class Settings_MailRbl_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$dbCommand = \App\Db::getInstance('admin')->createCommand();
 		if (1 === $request->getInteger('status')) {
 			$recordModel = \App\Mail\Rbl::getRequestById($request->getInteger('record'));
+			$recordModel->parse();
 			$sender = $recordModel->getSender();
 			if (!empty($sender['ip'])) {
 				$id = false;
