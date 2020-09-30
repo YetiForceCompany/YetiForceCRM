@@ -140,7 +140,7 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 				}
 			}
 		} else {
-			$content = $recordModel->get('content');
+			$content = $recordModel->getDisplayValue('content');
 		}
 		$relatedModules = $relatedRecords = [];
 		foreach ($recordModel->getModule()->getRelations() as $value) {
