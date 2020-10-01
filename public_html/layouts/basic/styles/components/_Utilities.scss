@@ -287,8 +287,8 @@
 	width: 60%;
 }
 
-.u-w-205px {
-	width: calculate-rem(205px) !important;
+.u-w-158px {
+	width: calculate-rem(158px) !important;
 }
 
 .u-w-max {
@@ -346,6 +346,10 @@
 
 .u-w-90per {
 	width: 90%;
+}
+
+.u-min-w-470px {
+	min-width: calculate-rem(470px);
 }
 
 .u-min-w-650px {
@@ -775,6 +779,7 @@ body:not(.desktop) {
 
 .u-rbl-container {
 	td {
+		padding-top: calculate-rem(7px) !important;
 		.u-rbl_action  {
 			position: absolute;
 			display: none;
