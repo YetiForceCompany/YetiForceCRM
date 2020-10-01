@@ -45,7 +45,9 @@ class OSSTimeControl_GetTCInfo_Action extends \App\Controller\Action
 			$entity = $record->getEntity();
 			$sourceData = $entity->column_fields;
 			if ('HelpDesk' === $sourceModule) {
-				$sourceData['contact_label'] = \App\Record::getLabel($sourceData['contact_id']);
+				if (!empty($sourceData['contact_id'])) {
+					$sourceData['contact_label'] = \App\Record::getLabel($sourceData['contact_id']);
+				}
 				if ('Accounts' !== \App\Record::getType($sourceData['parent_id'])) {
 					unset($sourceData['parent_id']);
 				} else {
