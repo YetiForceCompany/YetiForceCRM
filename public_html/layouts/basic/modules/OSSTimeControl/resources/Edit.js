@@ -84,74 +84,9 @@ Vtiger_Edit_Js(
 				}
 			});
 		},
-		registerGenerateTCFromHelpDesk: function () {
-			var thisInstance = this;
-			var sourceDesk = jQuery('input[name="sourceRecord"]').val();
-			var moduleName = jQuery('input[name="sourceModule"]').val();
-			if (typeof sourceDesk !== 'undefined') {
-				var params = {};
-				params.data = {
-					module: 'OSSTimeControl',
-					action: 'GetTCInfo',
-					id: sourceDesk,
-					sourceModule: moduleName
-				};
-				params.async = false;
-				params.dataType = 'json';
-				AppConnector.request(params)
-					.done(function (data) {
-						var response = data['result'];
-						if (response['success']) {
-							var sourceD = response.sourceData;
-
-							if (moduleName == 'HelpDesk') {
-								if ('contact_id' in sourceD) {
-									jQuery('[name="contactid"]').val(sourceD.contact_id);
-									jQuery('[name="contactid_display"]')
-										.val(thisInstance.replaceAll(sourceD.contact_label, '&oacute;', 'ó'))
-										.prop('readonly', true);
-								}
-								if ('parent_id' in sourceD) {
-									jQuery('[name="accountid"]').val(sourceD.parent_id);
-									jQuery('[name="accountid_display"]')
-										.val(thisInstance.replaceAll(sourceD.account_label, '&oacute;', 'ó'))
-										.prop('readonly', true);
-								}
-							} else if (moduleName == 'Project') {
-								if ('contact_label' in sourceD) {
-									jQuery('[name="contactid"]').val(sourceD.contact_id);
-									jQuery('[name="contactid_display"]')
-										.val(thisInstance.replaceAll(sourceD.contact_label, '&oacute;', 'ó'))
-										.prop('readonly', true);
-								}
-								if ('account_label' in sourceD) {
-									jQuery('[name="accountid"]').val(sourceD.linktoaccountscontacts);
-									jQuery('[name="accountid_display"]')
-										.val(thisInstance.replaceAll(sourceD.account_label, '&oacute;', 'ó'))
-										.prop('readonly', true);
-								}
-							}
-						} else {
-							var params = {
-								text: app.vtranslate('message'),
-								type: 'error'
-							};
-							app.showNotify(params);
-						}
-					})
-					.fail(function () {
-						app.showNotify({
-							text: app.vtranslate('JS_ERROR_CONNECTING'),
-							type: 'error'
-						});
-					});
-			}
-		},
-
 		escapeRegExp: function (string) {
 			return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
 		},
-
 		replaceAll: function (string, find, replace) {
 			var thisInstance = this;
 			string = string.replace(new RegExp(thisInstance.escapeRegExp('&Oacute;'), 'g'), 'Ó');
@@ -164,7 +99,6 @@ Vtiger_Edit_Js(
 		registerEvents: function () {
 			this._super();
 			this.registerGenerateTCFieldTimeAndCost();
-			this.registerGenerateTCFromHelpDesk();
 		}
 	}
 );
