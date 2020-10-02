@@ -2522,12 +2522,12 @@ jQuery.Class(
 					url = recentCommentsTab.data('url'),
 					regex = /&hierarchy=+([\w,]+)/;
 				url = url.replace(regex, '');
-				let	hierarchy = $(this).data('default-value');
-				if($(this).is(':checked')){
-					hierarchy = 'current,related';
-				}
+				let hierarchy = [];
+				detailContentsHolder.find('.js-detail-hierarchy-comments:checked').each(function () {
+					hierarchy.push($(this).val());
+				});
 				if (hierarchy.length !== 0) {
-					url += '&hierarchy=' + hierarchy;
+					url += '&hierarchy=' + hierarchy.join(',');
 				}
 				recentCommentsTab.data('url', url);
 				recentCommentsTab.trigger('click');
@@ -2595,16 +2595,22 @@ jQuery.Class(
 		registerCommentEventsInDetail(widgetContainer) {
 			new App.Fields.Text.Completions($('.js-completions').eq(0), { emojiPanel: false });
 			widgetContainer.on('change', '.js-hierarchy-comments', function (e) {
-				let	hierarchy = $(this).data('default-value');
-				if($(this).is(':checked')){
-					hierarchy = 'current,related';
+				let hierarchy = [];
+				widgetContainer.find('.js-hierarchy-comments').each(function () {
+					if ($(this).is(':checked')) {
+						hierarchy.push($(this).val());
+					}
+				});
+				if (!hierarchy.length) {
+					widgetContainer.find('.js-detail-widget-content').html('');
+					return false;
 				}
 				let progressIndicatorElement = $.progressIndicator();
 				AppConnector.request({
 					module: app.getModuleName(),
 					view: 'Detail',
 					mode: 'showRecentComments',
-					hierarchy: hierarchy,
+					hierarchy: hierarchy.join(','),
 					record: app.getRecordId(),
 					limit: widgetContainer.find('.widgetContentBlock').data('limit')
 				}).done(function (data) {
