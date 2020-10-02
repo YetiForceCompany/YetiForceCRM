@@ -35,14 +35,53 @@
 					<input type="hidden" class="activityModule" value="{$MODULE_NAME}"/>
 					<input type="hidden" class="activityId" value="{$RECORD->getId()}"/>
 					<div class="row">
-						<span class="col-md-6">
+						<span class="col-md-5">
 							<strong title='{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME")}'><span
 										class="far fa-clock fa-fw mr-1"></span>{Vtiger_Util_Helper::formatDateIntoStrings($START_DATE, $START_TIME)}</strong>
 						</span>
-						<span class="col-md-6 rightText">
+						<span class="col-md-5 rightText">
 							<strong title='{\App\Fields\DateTime::formatToDay("$END_DATE $END_TIME")}'><span
 										class="far fa-clock fa-fw mr-1"></span>{Vtiger_Util_Helper::formatDateIntoStrings($END_DATE, $END_TIME)}</strong>
 						</span>
+						<div class="col-md-2">
+							<span class="float-right js-popover-tooltip delay0" data-js="popover" data-placement="left"
+								data-class="activities"
+								data-original-title="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('activitytype',false, true,true))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subject',false,false,40))}"
+								data-content="{\App\Language::translate('Status',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('activitystatus',false, true,40))}<br />{\App\Language::translate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{\App\Language::translate('End Time','Calendar')}: {$END_DATE} {$END_TIME}
+								{if $RECORD->get('linkextend')}<hr />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('linkextend')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('linkextend',false,false,40))}{/if}
+								{if $RECORD->get('link')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('link')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('link',false,false,40))}{/if}
+								{if $RECORD->get('process')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('process')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('process',false,false,40))}{/if}
+								{if $RECORD->get('subprocess')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('subprocess')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subprocess',false,false,40))}{/if}
+								<hr />{\App\Language::translate('Created By',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('created_user_id',false,false,40))}
+								<br />{\App\Language::translate('Assigned To',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('assigned_user_id',false,false,40))}
+								{if $SHAREDOWNER}<div>
+									{\App\Language::translate('Share with users',$MODULE_NAME)}:&nbsp;
+									{foreach $SHAREDOWNER item=SOWNERID name=sowner}
+										{if $smarty.foreach.sowner.last}
+											,&nbsp;
+										{/if}
+										{\App\Purifier::encodeHtml(\App\Fields\Owner::getUserLabel($SOWNERID))}
+									{/foreach}
+									</div>
+									{/if}
+									{if count($RECORD->get('selectedusers')) > 0}
+										<br />{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}:
+										{foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
+									 		{if $USER} {\App\Purifier::encodeHtml(\App\Fields\Owner::getLabel($USER))}{/if}
+									  	{/foreach}
+									{/if}
+								">
+								<span class="fas fa-info-circle fa-fw"></span>
+							</span>
+							{assign var=RECORD_HAS_DOCUMENTS value=$RECORD->hasDocuments()}
+							{if $RECORD_HAS_DOCUMENTS}
+								<span class="float-right pr-1 u-cursor-pointer text-dark">
+									<a class="text-dark" href="{$RECORD_HAS_DOCUMENTS}" rel="noreferrer noopener">
+										<span class="fas fa-paperclip"></span>
+									</a>
+								</span>
+							{/if}
+						</div>
 					</div>
 					<div class="summaryViewEntries">
 						<span class="mr-1">
@@ -52,7 +91,7 @@
 							{elseif $ACTIVITY_TYPE eq 'Call'}
 								<span class="fas fa-phone fa-flip-horizontal fa-fw"></span>
 							{else}
-								<span class="fas fa-user fa-fw"></span>
+								<span class="far fa-handshake"></span>
 							{/if}
 						</span>
 						{$RECORD->getDisplayValue('activitytype')}&nbsp;-&nbsp;
@@ -103,13 +142,25 @@
 							{/if}
 						</div>
 					</div>
+					<div>
+						{assign var=RECORD_OWNER value=$RECORD->get('assigned_user_id')}
+						{assign var=RECORD_CREATOR value=$RECORD->get('created_user_id')}
+						{if $RECORD_OWNER eq $RECORD_CREATOR}
+							<span class="fas fa-user-shield"></span> {\App\Fields\Owner::getLabel($RECORD_OWNER)}
+						{else}
+							<i class="fas fa-user-shield"></i> {\App\Fields\Owner::getLabel($RECORD_CREATOR)}
+							<strong>=></strong> {\App\Fields\Owner::getLabel($RECORD_OWNER)}
+						{/if}
+					</div>
 					<div class="activityDescription">
 						<div>
 							<span class="value mr-1"><span class="fas fa-align-justify fa-fw mr-1"></span>
 								{assign var=IS_DESCRIPTION value=$RECORD->get('description') neq ''}
 								<span class="js-description-text" data-js="html">
 									{if $IS_DESCRIPTION}
+									<div class="d-inline-flex">
 										{$RECORD->getDisplayValue('description', false, false, 120)}
+										</div>
 									{/if}
 								</span>
 								<span class="js-no-description text-muted{if $IS_DESCRIPTION} d-none{/if}" data-js="class: d-none">
@@ -139,35 +190,7 @@
 									<span class="fas fa-map-marker-alt fa-fw"></span>&nbsp
 								</a>
 							{/if}
-							<span class="float-right js-popover-tooltip delay0" data-js="popover" data-placement="left"
-								  data-class="activities"
-								  data-original-title="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('activitytype',false, true,true))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subject',false,false,40))}"
-								  data-content="{\App\Language::translate('Status',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('activitystatus',false, true,40))}<br />{\App\Language::translate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{\App\Language::translate('End Time','Calendar')}: {$END_DATE} {$END_TIME}
-								  {if $RECORD->get('linkextend')}<hr />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('linkextend')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('linkextend',false,false,40))}{/if}
-								  {if $RECORD->get('link')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('link')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('link',false,false,40))}{/if}
-								  {if $RECORD->get('process')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('process')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('process',false,false,40))}{/if}
-								  {if $RECORD->get('subprocess')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('subprocess')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subprocess',false,false,40))}{/if}
-								  <hr />{\App\Language::translate('Created By',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('created_user_id',false,false,40))}
-								  <br />{\App\Language::translate('Assigned To',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('assigned_user_id',false,false,40))}
-								  {if $SHAREDOWNER}<div>
-									  {\App\Language::translate('Share with users',$MODULE_NAME)}:&nbsp;
-									  {foreach $SHAREDOWNER item=SOWNERID name=sowner}
-										  {if $smarty.foreach.sowner.last}
-											  ,&nbsp;
-										  {/if}
-										  {\App\Purifier::encodeHtml(\App\Fields\Owner::getUserLabel($SOWNERID))}
-									  {/foreach}
-									  </div>
-								  {/if}
-								  {if count($RECORD->get('selectedusers')) > 0}
-									  <br />{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}:
-									  {foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
-									 	 {if $USER} {\App\Purifier::encodeHtml(\App\Fields\Owner::getLabel($USER))}{/if}
-									  {/foreach}
-								  {/if}
-							">
-							<span class="fas fa-info-circle fa-fw"></span>
-						</span>
+
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<span class="edit d-none">
 								{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('description')}

@@ -13172,6 +13172,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`) values (634,132,14,'getRelatedList',2,'Products',0,'SELECT',0,0,0,'RelatedTab',NULL);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`) values (635,85,4,'getRelatedList',4,'Contacts',0,'ADD,SELECT',0,0,0,'RelatedTab',NULL);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`) values (636,131,8,'getAttachments',3,'Documents',0,'ADD,SELECT',0,0,0,'RelatedTab',NULL);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`) values (637,9,8,'getAttachments',1,'Documents',0,'ADD,SELECT',0,0,0,'RelatedTab',NULL);
 
 /*Data for the table `vtiger_relatedlists_fields` */
 

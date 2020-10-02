@@ -451,4 +451,30 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	{
 		return []; // To do
 	}
+
+	/**
+	 * Check if documents and relation with documents exists and return link.
+	 *
+	 * @return string
+	 */
+	public function hasDocuments(): string
+	{
+		$relatedModule = 'Documents';
+		$relationExists = (new \App\Db\Query())
+			->from('vtiger_relatedlists')
+			->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
+			->where(['<>', 'vtiger_tab.presence', 1])
+			->andWhere([
+				'vtiger_relatedlists.tabid' => $this->getModule()->getId(),
+				'vtiger_relatedlists.related_tabid' => \App\Module::getModuleId($relatedModule),
+				'vtiger_relatedlists.name' => 'getAttachments'
+			])->exists();
+		if ($relationExists) {
+			$relationListView = Vtiger_RelationListView_Model::getInstance($this, $relatedModule);
+			if (\count($relationListView->getEntries(new Vtiger_Paging_Model()))) {
+				return $relationListView->getRelationModel()->getListUrl($this);
+			}
+		}
+		return '';
+	}
 }
