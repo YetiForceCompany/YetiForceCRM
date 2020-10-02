@@ -38,19 +38,19 @@
 								{$COMMENTOR->getName()}
 							</span>
 						</div>
-						<div class="items-center js-comment-actions">
+						<div class="items-center comment-actions js-comment-actions">
 							{assign var=COMMENTS_MODULE_MODEL value=Vtiger_Module_Model::getInstance('ModComments')}
 							{if !empty($CHILDS_ROOT_PARENT_MODEL)}
 								{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 							{/if}
 							{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-								<button type="button" class="btn btn-xs text-success js-reply-comment mr-0 p-1"
+								<button type="button" class="btn text-success js-reply-comment mr-0 p-1"
 										title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}" data-js="click">
 									<span class="fas fa-share"></span>
 								</button>
 							{/if}
 							{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-								<button type="button" class="btn btn-xs text-primary js-edit-comment feedback mr-0 p-1"
+								<button type="button" class="btn text-primary js-edit-comment feedback mr-0 p-1"
 										data-js="click" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}">
 									<span class="yfi yfi-full-editing-view"></span>
 								</button>
@@ -66,7 +66,7 @@
 								<span class="js-view-thread-block viewThreadBlock"
 												data-child-comments-count="{$CHILD_COMMENTS_COUNT}"
 												data-js="data-child-comments-count">
-									<button type="button" class="btn btn-xs text-info viewThread u-text-ellipsis"
+									<button type="button" class="btn text-info viewThread u-text-ellipsis"
 											title="{$CHILD_COMMENTS_COUNT}&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}"
 											data-js="click">
 										<span class="js-child-comments-count">{$CHILD_COMMENTS_COUNT}</span>
