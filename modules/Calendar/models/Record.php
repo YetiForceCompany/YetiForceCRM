@@ -472,7 +472,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		if ($relationExists) {
 			$relationListView = Vtiger_RelationListView_Model::getInstance($this, $relatedModule);
 			if (\count($relationListView->getEntries(new Vtiger_Paging_Model()))) {
-				return $relationListView->getRelationModel()->getListUrl($this);
+				return $relationListView->getRelationModel()->getListUrl($this) . "&tab_label={$relatedModule}";
 			}
 		}
 		return '';
