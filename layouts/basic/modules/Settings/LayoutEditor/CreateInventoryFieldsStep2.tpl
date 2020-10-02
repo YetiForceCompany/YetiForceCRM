@@ -24,7 +24,7 @@
 							<div class="col-md-4 col-form-label text-right">
 								{\App\Language::translate('LBL_NAME_FIELD', $QUALIFIED_MODULE)}:
 							</div>
-							<div class="col-md-7 form-control-plaintext">
+							<div class="col-md-7 col-form-label">
 								<b>{\App\Language::translate($FIELD_INSTANCE->getType(), $QUALIFIED_MODULE)}</b>
 							</div>
 						</div>
