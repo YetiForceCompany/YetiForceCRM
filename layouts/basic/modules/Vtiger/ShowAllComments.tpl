@@ -50,27 +50,18 @@
 					</div>
 				</div>
 				{if $HIERARCHY !== false && $HIERARCHY < 2}
-					<div>
-						<div class="btn-group btn-group-toggle detailCommentsHierarchy" data-toggle="buttons">
-							<label class="js-detail-hierarchy-comments-btn u-text-ellipsis c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-primary {if in_array('current', $HIERARCHY_VALUE)}active{/if}"
-								   title="{\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}" data-js="click">
+					<div class="ml-1">
+						<div class="btn-group btn-group-toggle" data-toggle="buttons">
+							<label class="js-detail-hierarchy-comments-btn u-text-ellipsis btn-sm mt-1 mt-sm-0 btn btn-outline-primary"
+								title="{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}" data-js="click">
 								<input name="options" type="checkbox"
-									   class="js-detail-hierarchy-comments"
-									   data-js="val"
-									   value="current"
-										{if in_array('current', $HIERARCHY_VALUE)} checked="checked"{/if}
-									   autocomplete="off"/>
-								{\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}
-							</label>
-							<label class="js-detail-hierarchy-comments-btn u-text-ellipsis c-btn-block-sm-down mt-1 mt-sm-0 btn btn-outline-primary {if in_array('related', $HIERARCHY_VALUE)}active{/if}"
-								   title="{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}" data-js="click">
-								<input name="options" type="checkbox"
-									   class="js-detail-hierarchy-comments"
-									   data-js="val"
-									   value="related"
-										{if in_array('related', $HIERARCHY_VALUE)} checked="checked"{/if}
-									   autocomplete="off"/>
-								{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}
+									class="js-detail-hierarchy-comments"
+									data-js="val"
+									value="related"
+									data-default-value="{$HIERARCHY_VALUE[0]}"
+									{if in_array('related', $HIERARCHY_VALUE)} checked="checked"{/if}
+									autocomplete="off"/>
+								<i class="fas fa-stream" alt="{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}" title="{\App\Language::translate('LBL_ALL_RECORDS', 'ModComments')}"></i>
 							</label>
 						</div>
 					</div>
