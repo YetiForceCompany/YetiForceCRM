@@ -49,7 +49,7 @@
     "LBL_LABEL_SPACE_ROOT": "Pojemność katalog podstawowy",
     "LBL_LABEL_SPACE_STORAGE": "Pojemność katalogu storage",
     "LBL_LABEL_SPACE_TEMP": "Pojemność katalogu tymczasowego",
-    "LBL_LABEL_SPACE_BACKUP": "Backup directory capacity",
+    "LBL_LABEL_SPACE_BACKUP": "Pojemność folderu kopii zapasowej",
     "LBL_SPACE_TOTAL": "Całkowita",
     "LBL_SPACE_FREE": "Wolnych",
     "LBL_SPACE_USED": "Zajętych",
