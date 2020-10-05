@@ -168,6 +168,18 @@ class Rbl extends \App\Base
 	 * @var array
 	 */
 	private $senderCache;
+	/**
+	 * SPF cache.
+	 *
+	 * @var array
+	 */
+	private $spfCache;
+	/**
+	 * DKIM cache.
+	 *
+	 * @var array
+	 */
+	private $dkimCache;
 
 	/**
 	 * Function to get the instance of advanced permission record model.
@@ -399,36 +411,31 @@ class Rbl extends \App\Base
 	 */
 	public function verifySpf(): array
 	{
+		if (isset($this->spfCache)) {
+			return $this->spfCache;
+		}
 		$sender = $this->getSender();
 		$return = ['status' => self::SPF_NONE];
 		if (isset($sender['ip'])) {
 			try {
-				$environment = new \SPFLib\Check\Environment($sender['ip'], $sender['from'] ?? '', $this->mailMimeParser->getHeader('Return-Path')->getEmail());
-				foreach ([\SPFLib\Checker::FLAG_CHECK_MAILFROADDRESS, \SPFLib\Checker::FLAG_CHECK_HELODOMAIN] as $flag) {
-					if (self::SPF_FAIL !== $return['status']) {
-						switch ((new \SPFLib\Checker())->check($environment, $flag)->getCode()) {
-							case \SPFLib\Check\Result::CODE_PASS:
-								$return['status'] = self::SPF_PASS;
-								break;
-							case \SPFLib\Check\Result::CODE_FAIL:
-							case \SPFLib\Check\Result::CODE_SOFTFAIL:
-								$return['status'] = self::SPF_FAIL;
-								break;
-						}
+				$environment = new \SPFLib\Check\Environment($sender['ip'], '', $this->mailMimeParser->getHeader('Return-Path')->getEmail());
+				switch ((new \SPFLib\Checker())->check($environment, \SPFLib\Checker::FLAG_CHECK_MAILFROADDRESS)->getCode()) {
+					case \SPFLib\Check\Result::CODE_PASS:
+						$return['status'] = self::SPF_PASS;
 						break;
-					}
+					case \SPFLib\Check\Result::CODE_FAIL:
+					case \SPFLib\Check\Result::CODE_SOFTFAIL:
+						$return['status'] = self::SPF_FAIL;
+						break;
 				}
 				if ($email = $this->mailMimeParser->getHeader('from')->getEmail()) {
 					$return['domain'] = explode('@', $email)[1];
-				} else {
-					$return['domain'] = $sender['from'] ?? '';
 				}
 			} catch (\Throwable $e) {
 				\App\Log::warning($e->getMessage(), __NAMESPACE__);
 			}
 		}
-		$this->verifySpf = $return['status'];
-		return $return + self::SPF[$return['status']];
+		return $this->spfCache = $return + self::SPF[$return['status']];
 	}
 
 	/**
@@ -440,6 +447,9 @@ class Rbl extends \App\Base
 	 */
 	public function verifyDkim(): array
 	{
+		if (isset($this->dkimCache)) {
+			return $this->dkimCache;
+		}
 		$content = $this->has('rawBody') ? $this->get('rawBody') : $this->get('header') . "\r\n\r\n";
 		$status = self::DKIM_NONE;
 		$logs = '';
@@ -456,8 +466,7 @@ class Rbl extends \App\Base
 				\App\Log::warning($e->getMessage(), __NAMESPACE__);
 			}
 		}
-		$this->verifyDkim = $status;
-		return ['status' => $status, 'logs' => trim($logs)] + self::DKIM[$status];
+		return $this->dkimCache = ['status' => $status, 'logs' => trim($logs)] + self::DKIM[$status];
 	}
 
 	/**
@@ -476,7 +485,7 @@ class Rbl extends \App\Base
 		$logs = '';
 		if ($this->mailMimeParser->getHeader('DKIM-Signature')) {
 			$verifyDmarcDkim = $this->verifyDmarcDkim($fromDomain, $dmarcRecord['adkim']);
-			$status = $verifyDmarcDkim['status'] ? self::DMARC_PASS : self::DMARC_FAIL;
+			$status = $verifyDmarcDkim['status'] && self::DKIM_PASS === $this->verifyDkim()['status'] ? self::DMARC_PASS : self::DMARC_FAIL;
 			if (!$status) {
 				$logs = $verifyDmarcDkim['log'];
 			}
@@ -486,7 +495,7 @@ class Rbl extends \App\Base
 			if (null === $verifyDmarcSpf['status']) {
 				$logs = \App\Language::translate('LBL_NO_DMARC_FROM', 'Settings:MailRbl');
 			} else {
-				$status = $verifyDmarcSpf['status'] ? self::DMARC_PASS : self::DMARC_FAIL;
+				$status = $verifyDmarcSpf['status'] && self::SPF_PASS === $this->verifySpf()['status'] ? self::DMARC_PASS : self::DMARC_FAIL;
 				if (!$verifyDmarcSpf['status']) {
 					$logs = $verifyDmarcSpf['log'];
 				}
