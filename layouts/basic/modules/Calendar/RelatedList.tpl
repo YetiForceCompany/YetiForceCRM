@@ -80,6 +80,7 @@
 							</div>
 						{/if}
 					{/foreach}
+					{if $MODULE_NAME neq 'Calendar'}
 					<div class="btn-group btn-group-toggle" data-toggle="buttons">
 						<label class="btn btn-outline-primary {if $TIME eq 'current'}active{/if}">
 							<input class="js-switch--calendar" type="radio" name="options" id="calendar-option1"
@@ -100,6 +101,7 @@
 							> {\App\Language::translate('LBL_HISTORY')}
 						</label>
 					</div>
+					{/if}
 				</div>
 				<div class="col-12 col-sm-6 col-md-6">
 					<div class="float-right">
