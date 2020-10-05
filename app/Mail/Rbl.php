@@ -44,7 +44,7 @@ class Rbl extends \App\Base
 	public const LIST_TYPES = [
 		0 => ['label' => 'LBL_BLACK_LIST', 'icon' => 'fas fa-ban text-danger', 'color' => '#eaeaea'],
 		1 => ['label' => 'LBL_WHITE_LIST', 'icon' => 'far fa-check-circle text-success', 'color' => '#E1FFE3'],
-		2 => ['label' => 'LBL_PUBLIC_BLACK_LIST', 'icon' => 'fas fa-ban text-danger', 'color' => '#eaeaea`'],
+		2 => ['label' => 'LBL_PUBLIC_BLACK_LIST', 'icon' => 'fas fa-ban text-danger', 'color' => '#eaeaea'],
 		3 => ['label' => 'LBL_PUBLIC_WHITE_LIST', 'icon' => 'far fa-check-circle text-success', 'color' => '#E1FFE3'],
 	];
 	/**
@@ -163,17 +163,11 @@ class Rbl extends \App\Base
 	 */
 	public $mailMimeParser;
 	/**
-	 * Cache for SPF verification.
+	 * Sender cache.
 	 *
-	 * @var bool
+	 * @var array
 	 */
-	private $verifySpf;
-	/**
-	 * Cache for DKIM verification.
-	 *
-	 * @var bool
-	 */
-	private $verifyDkim;
+	private $senderCache;
 
 	/**
 	 * Function to get the instance of advanced permission record model.
@@ -203,12 +197,6 @@ class Rbl extends \App\Base
 	 */
 	public static function getInstance(array $data): self
 	{
-		if (isset($data['header'])) {
-			if (\is_array($data['header'])) {
-				$data['header'] = implode(PHP_EOL . 'Received: ', $data['header']);
-			}
-			$data['header'] = 'Received: ' . $data['header'];
-		}
 		$instance = new self();
 		$instance->setData($data);
 		$instance->mailMimeParser = \ZBateson\MailMimeParser\Message::from($instance->get('header'));
@@ -271,6 +259,9 @@ class Rbl extends \App\Base
 	 */
 	public function getSender(): array
 	{
+		if (isset($this->senderCache)) {
+			return $this->senderCache;
+		}
 		$first = $row = [];
 		foreach ($this->mailMimeParser->getAllHeadersByName('Received') as $key => $received) {
 			if ($received->getFromName() && $received->getByName() && $received->getFromName() !== $received->getByName()) {
@@ -312,7 +303,7 @@ class Rbl extends \App\Base
 				$row['key'] = false;
 			}
 		}
-		return $row;
+		return $this->senderCache = $row;
 	}
 
 	/**
@@ -371,7 +362,6 @@ class Rbl extends \App\Base
 		if ($sender = $this->mailMimeParser->getHeaderValue('X-Sender')) {
 			$senders['X-Sender'] = $sender;
 		}
-
 		return $senders;
 	}
 
@@ -384,17 +374,17 @@ class Rbl extends \App\Base
 	{
 		$from = $this->mailMimeParser->getHeader('from')->getEmail();
 		$status = true;
-		$info = [];
+		$info = '';
 		if (($returnPathHeader = $this->mailMimeParser->getHeader('Return-Path')) && ($returnPath = $returnPathHeader->getEmail())) {
 			$status = $from === $returnPath;
 			if (!$status) {
-				$info[] = "From: $from <> Return-Path: $returnPath";
+				$info .= "From: $from <> Return-Path: $returnPath" . PHP_EOL;
 			}
 		}
 		if ($status && ($senderHeader = $this->mailMimeParser->getHeader('Sender')) && ($sender = $senderHeader->getEmail())) {
 			$status = $from === $sender;
 			if (!$status) {
-				$info[] = "From: $from <> Sender: $sender";
+				$info .= "From: $from <> Sender: $sender" . PHP_EOL;
 			}
 		}
 		return ['status' => $status, 'info' => $info];
@@ -410,29 +400,35 @@ class Rbl extends \App\Base
 	public function verifySpf(): array
 	{
 		$sender = $this->getSender();
-		$status = self::SPF_NONE;
+		$return = ['status' => self::SPF_NONE];
 		if (isset($sender['ip'])) {
 			try {
 				$environment = new \SPFLib\Check\Environment($sender['ip'], $sender['from'] ?? '', $this->mailMimeParser->getHeader('Return-Path')->getEmail());
 				foreach ([\SPFLib\Checker::FLAG_CHECK_MAILFROADDRESS, \SPFLib\Checker::FLAG_CHECK_HELODOMAIN] as $flag) {
-					if (self::SPF_FAIL !== $status) {
+					if (self::SPF_FAIL !== $return['status']) {
 						switch ((new \SPFLib\Checker())->check($environment, $flag)->getCode()) {
-						case \SPFLib\Check\Result::CODE_PASS:
-							$status = self::SPF_PASS;
-							break;
-						case \SPFLib\Check\Result::CODE_FAIL:
-						case \SPFLib\Check\Result::CODE_SOFTFAIL:
-							$status = self::SPF_FAIL;
-							break;
+							case \SPFLib\Check\Result::CODE_PASS:
+								$return['status'] = self::SPF_PASS;
+								break;
+							case \SPFLib\Check\Result::CODE_FAIL:
+							case \SPFLib\Check\Result::CODE_SOFTFAIL:
+								$return['status'] = self::SPF_FAIL;
+								break;
+						}
+						break;
 					}
-					}
+				}
+				if ($email = $this->mailMimeParser->getHeader('from')->getEmail()) {
+					$return['domain'] = explode('@', $email)[1];
+				} else {
+					$return['domain'] = $sender['from'] ?? '';
 				}
 			} catch (\Throwable $e) {
 				\App\Log::warning($e->getMessage(), __NAMESPACE__);
 			}
 		}
-		$this->verifySpf = $status;
-		return ['status' => $status] + self::SPF[$status];
+		$this->verifySpf = $return['status'];
+		return $return + self::SPF[$return['status']];
 	}
 
 	/**

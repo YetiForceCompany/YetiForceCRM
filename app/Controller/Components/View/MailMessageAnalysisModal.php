@@ -1,28 +1,31 @@
 <?php
 /**
- * Detail modal view file for Mail RBL module.
+ * Mail message analysis modal view file.
  *
- * @package   Settings.View
+ * @package   Controller
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+namespace App\Controller\Components\View;
+
 /**
- * Detail modal view class for Mail RBL module.
+ * Mail message analysis modal view class.
  */
-class Settings_MailRbl_DetailModal_View extends \App\Controller\ModalSettings
+class MailMessageAnalysisModal extends \App\Controller\Modal
 {
 	/**
 	 * MailRbl record model.
 	 *
 	 * @var \App\Mail\Rbl
 	 */
-	private $recordModel;
+	protected $recordModel;
 	/**
 	 * {@inheritdoc}
 	 */
-	public $modalIcon = 'fas fa-search-plus';
+	public $modalIcon = 'fas fa-lock';
 	/**
 	 * {@inheritdoc}
 	 */
@@ -39,26 +42,43 @@ class Settings_MailRbl_DetailModal_View extends \App\Controller\ModalSettings
 	/**
 	 * {@inheritdoc}
 	 */
-	public function __construct()
+	public function checkPermission(\App\Request $request)
 	{
-		parent::__construct();
-		$this->recordModel = \App\Mail\Rbl::getRequestById(\App\Request::_getInteger('record'));
+		if ($request->has('record')) {
+			if (!\App\Security\AdminAccess::isPermitted('MailRbl')) {
+				throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+			}
+		} elseif ($request->has('content')) {
+			if (!\Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission('OSSMail')) {
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			}
+		} else {
+			throw new \App\Exceptions\AppException('ERR_NO_CONTENT', 406);
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPageTitle(\App\Request $request)
+	{
+		return \App\Language::translate('LBL_MAIL_MESSAGE_DETAILS', 'Settings:MailRbl');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function preProcessAjax(\App\Request $request)
+	{
+		if ($request->has('record')) {
+			$this->recordModel = \App\Mail\Rbl::getRequestById($request->getInteger('record'));
+		} else {
+			$this->recordModel = \App\Mail\Rbl::getInstance([]);
+			[$headers] = explode("\r\n\r\n", str_replace(["\r\n", "\r", "\n"], ["\n", "\n", "\r\n"], $request->getRaw('content')), 2);
+			$this->recordModel->set('rawBody', $request->getRaw('content'));
+			$this->recordModel->set('header', $headers);
+		}
 		$this->recordModel->parse();
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getPageTitle(App\Request $request)
-	{
-		return \App\Language::translate('LBL_MAIL_MESSAGE_DETAILS', $request->getModule(false));
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function preProcessAjax(App\Request $request)
-	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $this->recordModel);
 		$viewer->assign('SENDER', $this->recordModel->getSender());
@@ -66,21 +86,22 @@ class Settings_MailRbl_DetailModal_View extends \App\Controller\ModalSettings
 		$viewer->assign('VERIFY_SPF', $this->recordModel->verifySpf());
 		$viewer->assign('VERIFY_DKIM', $this->recordModel->verifyDkim());
 		$viewer->assign('VERIFY_DMARC', $this->recordModel->verifyDmarc());
+		$viewer->assign('LANG_MODULE_NAME', 'Settings:MailRbl');
 		parent::preProcessAjax($request);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function preProcessTplName(App\Request $request)
+	protected function preProcessTplName(\App\Request $request)
 	{
-		return 'DetailHeaderModal.tpl';
+		return 'MailMessageAnalysisModalHeader.tpl';
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function process(App\Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CARD_MAP', [
@@ -99,6 +120,6 @@ class Settings_MailRbl_DetailModal_View extends \App\Controller\ModalSettings
 				'With' => ['icon' => 'fab fa-expeditedssl', 'label' => 'LBL_PROTOCOL'],
 			]
 		]);
-		$viewer->view('DetailModal.tpl', $request->getModule(false));
+		$viewer->view('MailMessageAnalysisModal.tpl', $request->getModule(false));
 	}
 }

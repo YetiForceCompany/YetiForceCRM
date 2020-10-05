@@ -88,7 +88,10 @@
     "LBL_BLACK_LIST_DESC": "Add the addressee to blacklist, an e-mail will be marked as spam and moved to the spam folder.",
     "LBL_WHITE_LIST": "White list",
     "LBL_WHITE_LIST_DESC": "Add the addressee to whitelist, an e-mail will be marked as trusted.",
-    "LBL_BLACK_LIST_ALERT": "The sender has been blacklisted. Please do not open any attachments.",
+    "LBL_BLACK_LIST_ALERT": "Dangerous sender address. The IP address has been blacklisted due to spam/spoofing/phishing.",
+    "LBL_WHITE_LIST_ALERT": "Trusted sender server. The IP is on the server whitelist.",
+    "LBL_ALERT_FAKE_MAIL": "Watch out for this message, it is not possible to verify if the message was in fact sent from the sender's address. Do not click any links, download attachments, or provide personal information in response.",
+    "BTN_ANALYSIS_DETAILS": "Analysis details",
     "LBL_MESSAGE_HAS_BEEN_ADDED": "The message has been added"
   },
   "js": {

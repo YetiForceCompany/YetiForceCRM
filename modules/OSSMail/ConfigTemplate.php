@@ -163,7 +163,7 @@ return [
 		'validation' => '\App\Validator::alnum',
 	],
 	'plugins' => [
-		'default' => ['thunderbird_labels', 'zipdownload', 'archive', 'authres_status', 'html5_notifier', 'enigma', 'advanced_search', 'contextmenu', 'yetiforce'],
+		'default' => ['thunderbird_labels', 'zipdownload', 'archive', 'html5_notifier', 'enigma', 'advanced_search', 'contextmenu', 'yetiforce'],
 		'description' => 'List of plugins',
 	],
 	'mime_param_folding' => [

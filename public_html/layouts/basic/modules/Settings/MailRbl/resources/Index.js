@@ -40,7 +40,7 @@ jQuery.Class(
 							action += `<button type="button" class="btn btn-danger btn-xs ml-2 js-trash" data-id="${row['id']}" title="${app.vtranslate(
 								'BTN_DELETE'
 							)}" data-js="click"><span class="fas fa-trash"></span></button>`;
-							action+= '</dv>'
+							action += '</dv>';
 							return action;
 						},
 						defaultContent: ''
@@ -166,7 +166,6 @@ jQuery.Class(
 							data: function (data) {
 								data = $.extend(data, form.serializeFormData());
 							}
-
 						},
 						order: []
 					},
@@ -174,7 +173,7 @@ jQuery.Class(
 				)
 			);
 			container.find('input,select').on('change', function () {
-				self.dataTable.ajax.reload()
+				self.dataTable.ajax.reload();
 			});
 			return table;
 		},
@@ -188,7 +187,7 @@ jQuery.Class(
 			let table = this.registerDataTable(contentContainer);
 			table.off('click', '.js-details').on('click', '.js-details', function () {
 				let progressIndicatorElement = jQuery.progressIndicator();
-				app.showModalWindow(null, 'index.php?module=MailRbl&parent=Settings&view=DetailModal&record=' + this.dataset.id, function (container) {
+				app.showModalWindow(null, 'index.php?module=AppComponents&view=MailMessageAnalysisModal&record=' + this.dataset.id, function (container) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					container.find('iframe').each(function () {
 						let iframe = $(this);
