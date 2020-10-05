@@ -28,6 +28,7 @@ class Settings_MailRbl_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if ($requestMode) {
 			$this->update($request);
 		}
+		\App\Cache::clear();
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,

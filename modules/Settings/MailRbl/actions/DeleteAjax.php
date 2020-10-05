@@ -33,6 +33,7 @@ class Settings_MailRbl_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 			$dbCommand->update('s_#__mail_rbl_request', [
 				'status' => 3,
 			], ['id' => $row['request']])->execute();
+			\App\Cache::clear();
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($status);

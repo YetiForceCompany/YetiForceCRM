@@ -16,7 +16,7 @@
 class Settings_MailRbl_UploadList_Action extends Settings_Vtiger_Basic_Action
 {
 	/**
-	 * File delimiter string
+	 * File delimiter string.
 	 *
 	 * @var string
 	 */
@@ -34,7 +34,7 @@ class Settings_MailRbl_UploadList_Action extends Settings_Vtiger_Basic_Action
 			if ($fileInstance->validateAndSecure('text') && $fileInstance->getSize() < \App\Config::main('upload_maxsize')) {
 				if (!empty($fileContent = $fileInstance->getContents())) {
 					$importResult = $this->saveToDb($request->getByType('source', 'Alnum'), $request->getByType('type', 'Integer'), $fileContent);
-					if(!empty($importResult)){
+					if (!empty($importResult)) {
 						$message = \App\Language::translate('LBL_UPLOAD_SUCCESS', $request->getModule(false)) . '<br/>';
 						$message .= \App\Language::translate('LBL_LIST_RECORD_SAVED', $request->getModule(false)) . ': ' . $importResult['saved'] . '<br/>';
 						$message .= \App\Language::translate('LBL_LIST_RECORD_DUPLICATES', $request->getModule(false)) . ': ' . $importResult['duplicates'] . '<br/>';
@@ -49,14 +49,15 @@ class Settings_MailRbl_UploadList_Action extends Settings_Vtiger_Basic_Action
 		$response->setResult($result);
 		$response->emit();
 	}
+
 	/**
-	 * Save to DB imported record
+	 * Save to DB imported record.
 	 *
-	 * @param   string  $source
-	 * @param   int     $type
-	 * @param   string  $content
+	 * @param string $source
+	 * @param int    $type
+	 * @param string $content
 	 *
-	 * @return  array
+	 * @return array
 	 */
 	public function saveToDb(string $source, int $type, string $content): array
 	{
@@ -90,13 +91,14 @@ class Settings_MailRbl_UploadList_Action extends Settings_Vtiger_Basic_Action
 					++$report['errors'];
 				}
 			} else {
-				if($firstLine){
+				if ($firstLine) {
 					$report = [];
 					break;
 				}
 				++$report['errors'];
 			}
 		}
+		\App\Cache::clear();
 		return $report;
 	}
 }
