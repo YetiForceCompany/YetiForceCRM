@@ -20,7 +20,7 @@ jQuery.Class(
 						orderable: false,
 						data: function (row) {
 							let action = '';
-							action += '<div class="u-rbl_action">';
+							action += '<div class="o-tab__container--action">';
 							action += `<button type="button" class="btn btn-secondary btn-xs js-details" data-id="${row['id']}" title="${app.vtranslate(
 								'BTN_SHOW_DETAILS'
 							)}" data-js="click"><span class="fas fa-search-plus"></span></button>`;

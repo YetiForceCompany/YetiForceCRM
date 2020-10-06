@@ -776,20 +776,3 @@ body:not(.desktop) {
 		display: block;
 	}
 }
-
-.u-rbl-container {
-	td {
-		padding-top: calculate-rem(7px) !important;
-		.u-rbl_action  {
-			position: absolute;
-			display: none;
-		}
-	}
-
-	tr:hover {
-		.u-rbl_action  {
-			display: flex !important;
-		}
-	}
-
-}
