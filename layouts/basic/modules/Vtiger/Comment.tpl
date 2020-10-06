@@ -66,7 +66,7 @@
 								<span class="js-view-thread-block viewThreadBlock"
 												data-child-comments-count="{$CHILD_COMMENTS_COUNT}"
 												data-js="data-child-comments-count">
-									<button type="button" class="btn text-info viewThread u-text-ellipsis"
+									<button type="button" class="btn btn-md text-info viewThread u-text-ellipsis mr-0 p-1"
 											title="{$CHILD_COMMENTS_COUNT}&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}"
 											data-js="click">
 										<span class="js-child-comments-count">{$CHILD_COMMENTS_COUNT}</span>
@@ -85,7 +85,7 @@
 								<span class="js-view-thread-block viewThreadBlock"
 												data-child-comments-count="{$CHILD_COMMENTS_COUNT}"
 												data-js="data-child-comments-count">
-								<button type="button" class="btn text-info viewThread"
+								<button type="button" class="btn btn-md text-info viewThread mr-0 p-1"
 										title="{$CHILD_COMMENTS_COUNT}&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}" data-js="click">
 									<span class="js-child-comments-count" data-js="text">{$CHILD_COMMENTS_COUNT}</span>
 									&nbsp;
@@ -103,7 +103,7 @@
 							{if !empty($BUTTON_SHOW_PARENT) && !empty($COMMENT->get('parents'))}
 								<span class="view-parent-thread-block">
 									<button type="button"
-											class="btn text-secondary js-view-parent-thread"
+											class="btn btn-md text-secondary js-view-parent-thread mr-0 p-1"
 											data-js="click" title="{\App\Language::translate('LBL_THREAD',$MODULE_NAME)}">
 										<span class="fas fa-share"></span>
 									</button>
