@@ -101,16 +101,19 @@
 					{elseif $ROW['type'] eq 2}
 						{assign var=FIRST_LETTER_CLASS value='bgBlue'}
 					{/if}
-					<div class="d-inline-flex w-100 col-9 pr-0 pl-0">
+					<div class="d-inline-flex w-100 col-9 pr-0 pl-0 align-items-center">
 						<div class="firstLetter {$FIRST_LETTER_CLASS} d-sm-block d-none">
 							{$ROW['firstLetter']}
 						</div>
 						<div class="w-100">
 							<h5 class="u-text-ellipsis h6 mb-0">
-								{$ROW['from']}
+								{\App\Language::translate('LBL_FROM', 'Settings:Mail')}: {$ROW['from']}
+							</h5>
+							<h5 class="u-text-ellipsis h6 mb-0">
+								{\App\Language::translate('LBL_TO', 'Settings:Mail')}: {$ROW['to']}
 							</h5>
 							<h6 class="font-small font-weight-bold mb-0 text-truncate mb-0">
-								{$ROW['subject']}
+								{\App\Language::translate('LBL_SUBJECT')}: {$ROW['subject']}
 							</h6>
 						</div>
 					</div>
