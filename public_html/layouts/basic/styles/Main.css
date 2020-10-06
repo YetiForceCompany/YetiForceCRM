@@ -17226,15 +17226,6 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
     position: static;
     display: block; } }
 
-.u-rbl-container td {
-  padding-top: 0.4375rem !important; }
-  .u-rbl-container td .u-rbl_action {
-    position: absolute;
-    display: none; }
-
-.u-rbl-container tr:hover .u-rbl_action {
-  display: flex !important; }
-
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel,
 .bodyContents,
@@ -18167,6 +18158,16 @@ body > .o-exception-fixed-block {
 
 .o-view-messagecompose {
   overflow-x: hidden; }
+
+.o-tab__container td {
+  padding-top: 0.4375rem !important; }
+
+.o-tab__container .o-tab__container--action {
+  display: none;
+  position: absolute; }
+
+.o-tab__container tr:hover .o-tab__container--action {
+  display: flex !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-header {

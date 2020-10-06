@@ -1215,7 +1215,8 @@ CREATE TABLE `s_yf_mail_rbl_list` (
   `request` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `type` (`type`),
-  KEY `status_ip` (`status`,`ip`)
+  KEY `status` (`status`),
+  KEY `ip` (`ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_mail_rbl_request` */
@@ -1229,8 +1230,9 @@ CREATE TABLE `s_yf_mail_rbl_request` (
   `header` text NOT NULL,
   `body` mediumtext DEFAULT NULL,
   PRIMARY KEY (`id`),
+  KEY `type` (`type`),
   KEY `status` (`status`),
-  KEY `type` (`type`)
+  KEY `datetime` (`datetime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_mail_relation_updater` */

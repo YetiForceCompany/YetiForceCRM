@@ -87,6 +87,8 @@ class Settings_MailRbl_UploadList_Action extends Settings_Vtiger_Basic_Action
 					} else {
 						++$report['duplicates'];
 					}
+					\App\Cache::delete('MailRblIpColor', $clearIp);
+					\App\Cache::delete('MailRblList', $clearIp);
 				} catch (\Throwable $e) {
 					++$report['errors'];
 				}
@@ -98,7 +100,6 @@ class Settings_MailRbl_UploadList_Action extends Settings_Vtiger_Basic_Action
 				++$report['errors'];
 			}
 		}
-		\App\Cache::clear();
 		return $report;
 	}
 }
