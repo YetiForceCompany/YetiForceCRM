@@ -13,7 +13,7 @@ jQuery.Class(
 		 * Open mail client
 		 */
 		openMailClient() {
-			$('.js-modal__save').on('click', (e) => {
+			$('.js-modal__save', this.container).on('click', (_) => {
 				let url = 'index.php?module=OSSMail&view=Compose';
 				let formData = this.container.find('form').serializeFormData();
 				for (let i in formData) {
@@ -21,6 +21,7 @@ jQuery.Class(
 					url += `&${i}=` + encodeURIComponent(value);
 				}
 				Vtiger_Index_Js.sendMailWindow(url, true);
+				app.hideModalWindow(false, this.container.closest('.js-modal-container')[0].id);
 			});
 		},
 		/**
