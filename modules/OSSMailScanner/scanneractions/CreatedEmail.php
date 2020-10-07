@@ -90,7 +90,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$html = nl2br($html);
 		}
 		$attachments = $mail->get('attachments');
-		if (\count($attachments) < 2) {
+		if (\Config\Modules\OSSMailScanner::$attachHtmlAndTxtToMessageBody && \count($attachments) < 2) {
 			foreach ($attachments as $key => $attachment) {
 				if (('.html' === substr($attachment['filename'], -5)) || ('.txt' === substr($attachment['filename'], -4))) {
 					$html .= $attachment['attachment'] . '<hr />';

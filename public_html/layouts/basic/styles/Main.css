@@ -12585,6 +12585,9 @@ body:not(.desktop) .ps__rail-y {
 .pnotify-container {
   padding: 0.75rem; }
 
+.pnotify-closer {
+  visibility: visible !important; }
+
 .pnotify-title {
   line-height: 1.3rem; }
 
