@@ -13,12 +13,6 @@
 									</span>
 							</a>
 							<div class="btn-group" role="group">
-								<button type="button" class="btn btn-sm btn-outline-secondary showMailModal"
-										data-url="{$ROW['url']}">
-									<span class="body-icon fas fa-search"
-										  aria-label="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL',$MODULE_NAME)}">
-									</span>
-								</button>
 								{if \App\Privilege::isPermitted($SMODULENAME, 'RemoveRelation')}
 									{if  \App\Privilege::isPermitted($MODULE_NAME, 'MoveToTrash', $ROW['id'])}
 										{assign var=LINK value=Vtiger_Link_Model::getInstanceFromValues([
@@ -101,20 +95,22 @@
 					{elseif $ROW['type'] eq 2}
 						{assign var=FIRST_LETTER_CLASS value='bgBlue'}
 					{/if}
-					<div class="d-inline-flex w-100 col-9 pr-0 pl-0 align-items-center">
-						<div class="firstLetter {$FIRST_LETTER_CLASS} d-sm-block d-none">
+					<div class="d-inline-flex w-100 col-9 pr-0 pl-0 align-items-center mb-1">
+						<div class="firstLetter {$FIRST_LETTER_CLASS} d-sm-block d-none mr-2">
 							{$ROW['firstLetter']}
 						</div>
 						<div class="w-100">
-							<h5 class="u-text-ellipsis h6 mb-0">
+							<p class="u-text-ellipsis mb-0 u-fs-13px">
 								{\App\Language::translate('LBL_FROM', 'Settings:Mail')}: {$ROW['from']}
-							</h5>
-							<h5 class="u-text-ellipsis h6 mb-0">
+							</p>
+							<p class="u-text-ellipsis mb-0 u-fs-13px">
 								{\App\Language::translate('LBL_TO', 'Settings:Mail')}: {$ROW['to']}
-							</h5>
-							<h6 class="font-small font-weight-bold mb-0 text-truncate mb-0">
-								{\App\Language::translate('LBL_SUBJECT')}: {$ROW['subject']}
-							</h6>
+							</p>
+							<p class="font-small mb-0 text-truncate mb-0 u-fs-13px">
+								<a type="button" href="#" class="showMailModal ml-1" data-url="{$ROW['url']}">
+									{\App\Language::translate('LBL_SUBJECT')}: {$ROW['subjectRaw']}
+								</a>
+							</p>
 						</div>
 					</div>
 					<div class="d-inline-flex w-100 justify-content-end col-3 pr-0 pl-0">
