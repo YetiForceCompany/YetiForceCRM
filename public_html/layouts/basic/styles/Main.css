@@ -14443,6 +14443,7 @@ span[name="existingImages"] img {
   display: block;
   height: 2.5rem;
   width: 2.5rem;
+  min-width: 2.5rem;
   font-size: 1.5rem;
   text-align: center;
   -webkit-box-shadow: 0 0 8px -1px #9c9c9c;
@@ -17187,6 +17188,9 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
 
 .u-min-height-250 {
   min-height: 250px; }
+
+.u-lh-12 {
+  line-height: 1.2; }
 
 .u-flex-default {
   -ms-flex: 0 1 auto;
