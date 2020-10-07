@@ -1,6 +1,6 @@
 <?php
-/*
- * Black list ip.
+/**
+ * Check server ip.
  *
  * @package   App
  *
@@ -12,14 +12,14 @@
 namespace App\SystemWarnings\Security;
 
 /**
- * Get black list ip.
+ * Check server ip in black list.
  */
-class GetBlackListIp extends \App\SystemWarnings\Template
+class CheckServerIpInBlackList extends \App\SystemWarnings\Template
 {
 	/**
 	 * @var string Modal header title
 	 */
-	protected $title = 'LBL_BLACK_LIST_IP';
+	protected $title = 'LBL_CHECK_SERVER_BLACK_LIST_IP';
 	/**
 	 * @var int Warning priority code
 	 */
