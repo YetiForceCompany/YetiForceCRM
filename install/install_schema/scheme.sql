@@ -1214,7 +1214,9 @@ CREATE TABLE `s_yf_mail_rbl_list` (
   `source` varchar(10) NOT NULL,
   `request` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `type` (`type`)
+  KEY `type` (`type`),
+  KEY `status` (`status`),
+  KEY `ip` (`ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_mail_rbl_request` */
@@ -1228,8 +1230,9 @@ CREATE TABLE `s_yf_mail_rbl_request` (
   `header` text NOT NULL,
   `body` mediumtext DEFAULT NULL,
   PRIMARY KEY (`id`),
+  KEY `type` (`type`),
   KEY `status` (`status`),
-  KEY `type` (`type`)
+  KEY `datetime` (`datetime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_mail_relation_updater` */
@@ -7776,19 +7779,6 @@ CREATE TABLE `vtiger_picklist_dependency` (
 
 CREATE TABLE `vtiger_picklistvalues_seq` (
   `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_portal` */
-
-CREATE TABLE `vtiger_portal` (
-  `portalid` int(10) NOT NULL AUTO_INCREMENT,
-  `portalname` varchar(200) NOT NULL,
-  `portalurl` varchar(255) NOT NULL,
-  `sequence` int(3) NOT NULL,
-  `setdefault` int(3) NOT NULL DEFAULT 0,
-  `createdtime` datetime DEFAULT NULL,
-  PRIMARY KEY (`portalid`),
-  KEY `portal_portalname_idx` (`portalname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_pricebook` */

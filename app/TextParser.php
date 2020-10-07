@@ -1243,12 +1243,13 @@ class TextParser
 	 * Get related variables.
 	 *
 	 * @param bool|string $fieldType
+	 * @param bool        $skipEmpty
 	 *
 	 * @return array
 	 */
-	public function getRelatedVariable($fieldType = false)
+	public function getRelatedVariable($fieldType = false, $skipEmpty = false)
 	{
-		$cacheKey = "{$this->moduleName}|$fieldType";
+		$cacheKey = "{$this->moduleName}|$fieldType|{$skipEmpty}";
 		if (isset(static::$relatedVariable[$cacheKey])) {
 			return static::$relatedVariable[$cacheKey];
 		}
@@ -1271,11 +1272,25 @@ class TextParser
 					];
 				}
 			}
+			$relRecord = false;
+			if ($skipEmpty && $this->recordModel && !(($relId = $this->recordModel->get($field->getName())) &&
+				(
+					\in_array($field->getFieldDataType(), ['userCreator', 'owner', 'sharedOwner']) ||
+					((\App\Record::isExists($relId)) && ($relRecord = \Vtiger_Record_Model::getInstanceById($relId))->isViewable() && ($relatedModules = [\App\Record::getType($relId)]))
+				)
+			)) {
+				continue;
+			}
+
 			foreach ($relatedModules as $relatedModule) {
 				$relatedModuleLang = Language::translate($relatedModule, $relatedModule);
 				foreach (\Vtiger_Module_Model::getInstance($relatedModule)->getBlocks() as $blockModel) {
 					foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
-						if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {
+						if (
+							$fieldModel->isViewable() &&
+							!($fieldType && $fieldModel->getFieldDataType() !== $fieldType) &&
+							(!$relRecord || ($relRecord && !$relRecord->isEmpty($fieldModel->getName())))
+						) {
 							$labelGroup = "$parentFieldNameLabel: ($relatedModuleLang) " . Language::translate($blockModel->get('label'), $relatedModule);
 							$variables[$parentFieldName][$labelGroup][] = [
 								'var_value' => "$(relatedRecord : $parentFieldName|$fieldName|$relatedModule)$",

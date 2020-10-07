@@ -49,7 +49,7 @@
     "LBL_LABEL_SPACE_ROOT": "Kapazität des Root-Verzeichnis",
     "LBL_LABEL_SPACE_STORAGE": "Kapazität des Speicher-Verzeichnis",
     "LBL_LABEL_SPACE_TEMP": "Kapazität des Temporären-Verzeichnis",
-    "LBL_LABEL_SPACE_BACKUP": "Backup directory capacity",
+    "LBL_LABEL_SPACE_BACKUP": "Kapazität des Backup-Verzeichnis",
     "LBL_SPACE_TOTAL": "Gesamt",
     "LBL_SPACE_FREE": "Frei",
     "LBL_SPACE_USED": "Belegt",

@@ -39,7 +39,7 @@
 				</li>
 			</ul>
 		</div>
-		<div id="my-tab-content" class="tab-content u-rbl-container">
+		<div id="my-tab-content" class="tab-content">
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'request'}active{/if}" id="request" data-name="request" data-js="data">
 				<form class="js-filter-form form-inline" data-js="container">
 					<div class="input-group col-lg-2 col-md-6 col-12 px-0 mb-lg-0 mb-sm-2 mb-2">
@@ -99,7 +99,7 @@
 						</select>
 					</div>
 				</form>
-				<table id="request-table" class="table table-sm table-striped display js-data-table text-center mt-2">
+				<table id="request-table" class="table table-sm table-striped display js-data-table text-center mt-2 o-tab__container">
 				<thead>
 					<tr>
 						<th>{\App\Language::translate('LBL_DATE', $QUALIFIED_MODULE)}</th>
@@ -108,7 +108,7 @@
 						<th>{\App\Language::translate('LBL_LIST_TYPE', $QUALIFIED_MODULE)}</th>
 						<th>{\App\Language::translate('Status', $QUALIFIED_MODULE)}</th>
 						<th>{\App\Language::translate('LBL_USER', $QUALIFIED_MODULE)}</th>
-						<th>{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
+						<th class="u-w-158px">{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
 					</tr>
 				</thead>
 				</table>

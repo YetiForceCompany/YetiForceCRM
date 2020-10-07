@@ -7058,8 +7058,6 @@ insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfiel
 
 insert  into `vtiger_picklistvalues_seq`(`id`) values (949);
 
-/*Data for the table `vtiger_portal` */
-
 /*Data for the table `vtiger_pricebook` */
 
 /*Data for the table `vtiger_pricebookcf` */
@@ -9496,7 +9494,6 @@ insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,1
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,19,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,24,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,26,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,27,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,34,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,35,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,37,0);
@@ -18795,7 +18792,6 @@ insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`cu
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (19,'PriceBooks',0,-1,'PriceBooks',0,1,1,NULL,'Inventory',NULL,0,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (24,'Rss',0,-1,'Rss',0,1,0,NULL,'Tools',NULL,0,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (26,'Campaigns',0,-1,'Campaigns',0,0,1,NULL,'Marketing',NULL,0,0,0);
-insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (27,'Portal',0,-1,'Portal',0,1,0,NULL,'Tools',NULL,0,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (29,'Users',0,-1,'Users',0,1,0,NULL,NULL,NULL,0,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (30,'Import',0,-1,'Import',1,0,0,'1.7','',NULL,0,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`,`premium`) values (32,'ModTracker',0,-1,'ModTracker',0,0,0,'1.2','',NULL,0,0,0);
@@ -19803,7 +19799,6 @@ insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`,`source`) values (111,0,44,0,4,75,NULL,0,NULL,0,'',NULL,'',NULL,0);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`,`source`) values (113,0,44,0,2,48,NULL,0,NULL,0,'',NULL,'',NULL,0);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`,`source`) values (115,0,84,0,16,24,NULL,0,NULL,0,'',NULL,'',NULL,0);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`,`source`) values (116,0,84,0,17,27,NULL,0,NULL,0,'',NULL,'',NULL,0);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`,`source`) values (117,0,84,3,18,NULL,NULL,0,NULL,0,NULL,NULL,NULL,NULL,0);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`,`source`) values (118,0,0,2,3,NULL,'MEN_SALES',0,NULL,0,'yfm-Sales',NULL,NULL,NULL,0);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`,`filters`,`source`) values (119,0,118,0,0,86,NULL,0,NULL,0,'',NULL,'',NULL,0);

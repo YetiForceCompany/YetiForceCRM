@@ -12585,6 +12585,9 @@ body:not(.desktop) .ps__rail-y {
 .pnotify-container {
   padding: 0.75rem; }
 
+.pnotify-closer {
+  visibility: visible !important; }
+
 .pnotify-title {
   line-height: 1.3rem; }
 
@@ -14515,6 +14518,9 @@ body,
   display: block;
   width: 48px;
   padding: 5px; }
+  .companyLogoContainer img {
+    height: 2.5rem;
+    width: 2.5rem; }
 
 .userDetails ul.headerLink li {
   list-style-type: none;
@@ -16438,6 +16444,9 @@ table .listButtons.narrow .c-badge__icon {
 .u-w-60per {
   width: 60%; }
 
+.u-w-158px {
+  width: 9.875rem !important; }
+
 .u-w-max {
   width: max-content !important;
   width: -moz-max-content !important; }
@@ -16481,6 +16490,9 @@ table .listButtons.narrow .c-badge__icon {
 
 .u-w-90per {
   width: 90%; }
+
+.u-min-w-470px {
+  min-width: 29.375rem; }
 
 .u-min-w-650px {
   min-width: 40.625rem !important; }
@@ -17216,13 +17228,6 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
   .u-hidden-block {
     position: static;
     display: block; } }
-
-.u-rbl-container td .u-rbl_action {
-  position: absolute;
-  display: none; }
-
-.u-rbl-container td:hover .u-rbl_action {
-  display: flex !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel,
@@ -18156,6 +18161,16 @@ body > .o-exception-fixed-block {
 
 .o-view-messagecompose {
   overflow-x: hidden; }
+
+.o-tab__container td {
+  padding-top: 0.4375rem !important; }
+
+.o-tab__container .o-tab__container--action {
+  display: none;
+  position: absolute; }
+
+.o-tab__container tr:hover .o-tab__container--action {
+  display: flex !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-header {
@@ -19902,7 +19917,8 @@ ul.c-process-line {
     display: inline; }
 
 .o-detail__record-img img {
-  height: 5rem; }
+  height: 5rem;
+  width: 5rem; }
 
 .moduleIcon:not(.o-detail__record-img) {
   display: none; }
@@ -19970,7 +19986,8 @@ ul.c-process-line {
           height: 1.875rem;
           padding: 0.125rem;
           border: 2px solid #d2d6de;
-          font-size: 2rem; }
+          font-size: 2rem;
+          border-radius: 50%; }
         @media (min-width: 576px) {
           .timeline > li .timeline-item > .imageContainer > .userImage {
             width: 2.5rem;

@@ -63,11 +63,21 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$return = [];
 		if (('Users' === $moduleName && $record === \App\User::getCurrentUserRealId()) || ('Users' !== $moduleName && !empty($record) && \App\Record::isExists($record) && \App\Privilege::isPermitted($moduleName, 'DetailView', $record))) {
 			$recordModel_OSSMailView = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
-			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
-			if (!empty($email)) {
+			if ($request->isEmpty('to') && ($email = $recordModel_OSSMailView->findEmail($record, $moduleName))) {
 				$return['to'] = $email;
 			}
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			foreach (['_to', '_cc'] as $name) {
+				if (!$request->isEmpty($name)) {
+					$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
+					$emailParser->emailoptout = false;
+					$fromEmailDetails = $emailParser->setContent($request->getRaw($name))->parse()->getContent();
+					if ($fromEmailDetails) {
+						$return[substr($name, -2)] = $fromEmailDetails;
+					}
+				}
+			}
+
 			if (!\in_array($moduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(0), \App\ModuleHierarchy::getModulesByLevel(3)))) || 'Campaigns' === $moduleName) {
 				$subject = '';
 				if ('new' === $type || 'Campaigns' === $moduleName) {
@@ -91,6 +101,15 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 					$return['body'] = $textParser->setContent($templateModel->get('content'))->parse()->getContent();
 				}
 				$return['subject'] = $subject;
+				if ('Calendar' === $moduleName && $request->getBoolean('ics')) {
+					$filePath = \App\Config::main('tmp_dir');
+					$tmpFileName = tempnam($filePath, 'ics');
+					$filePath .= basename($tmpFileName);
+					if (false !== file_put_contents($filePath, $recordModel->getICal())) {
+						$fileName = \App\Fields\File::sanitizeUploadFileName($recordModel->getName()) . '.ics';
+						$return['filePath'] = [['path' => $filePath, 'name' => $fileName]];
+					}
+				}
 			}
 		}
 		if (!empty($moduleName)) {

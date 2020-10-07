@@ -49,7 +49,7 @@
     "LBL_LABEL_SPACE_ROOT": "Capacité du répertoire racine",
     "LBL_LABEL_SPACE_STORAGE": "Capacité du répertoire de stockage",
     "LBL_LABEL_SPACE_TEMP": "Capacité de répertoire temporaire",
-    "LBL_LABEL_SPACE_BACKUP": "Backup directory capacity",
+    "LBL_LABEL_SPACE_BACKUP": "Capacité du répertoire de sauvegarde",
     "LBL_SPACE_TOTAL": "Total",
     "LBL_SPACE_FREE": "Libre",
     "LBL_SPACE_USED": "Utilisé",

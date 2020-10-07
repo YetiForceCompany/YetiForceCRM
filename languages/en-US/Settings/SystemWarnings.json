@@ -1,6 +1,7 @@
 {
 	"php": {
 		"SystemRequirements": "System requirements",
+		"LBL_BLACK_LIST_IP": "Black list of IP addresses",
 		"LBL_LIBRARY_ROUNDCUBE": "Roundcube library",
 		"LBL_LIBRARY_PHPEXCEL": "PHPExcel library",
 		"LBL_CONFIG_REPORT": "Server configuration",

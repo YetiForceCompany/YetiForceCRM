@@ -5,20 +5,20 @@
 	{assign var=RECEIVED value=$RECORD->getReceived()}
 	{if $RECEIVED}
 		<div class="lineOfText mb-2">
-			<div>{\App\Language::translate('LBL_MAIL_TRACE_TITLE', $QUALIFIED_MODULE)}</div>
+			<div>{\App\Language::translate('LBL_MAIL_TRACE_TITLE', $LANG_MODULE_NAME)}</div>
 		</div>
 		<div class="d-flex align-items-center justify-content-center">
 		{foreach item=ROW from=$RECEIVED name=ReceivedForeach}
 			<div class="{if count($RECEIVED) > 1} col {else} w-100 {/if} p-0 pr-2 mb-2">
-				<div class="card{if $SENDER['key'] === $ROW['key']} u-bg-modern{/if}">
+				<div class="u-box-shadow card{if $SENDER['key'] === $ROW['key']} u-bg-modern{/if}">
 					<div class="card-body p-1">
-						<ul class="list-group list-group-flush">
+						<ul class="list-group list-group-flush text-break">
 						{foreach item=ITEM_ROWS key=KEY_ROWS from=$ROW}
 							{if $ITEM_ROWS && is_array($ITEM_ROWS)}
 								<li class="list-group-item p-1">
 								{foreach item=ITEM key=KEY from=$ITEM_ROWS}
 									{if $ITEM}
-										<span class="{$CARD_MAP[$KEY_ROWS][$KEY]['icon']} mr-1" title="{\App\Language::translate($CARD_MAP[$KEY_ROWS][$KEY]['label'], $QUALIFIED_MODULE)}"></span>{\App\Purifier::encodeHtml($ITEM)}<br>
+										<span class="{$CARD_MAP[$KEY_ROWS][$KEY]['icon']} mr-1" title="{\App\Language::translate($CARD_MAP[$KEY_ROWS][$KEY]['label'], $LANG_MODULE_NAME)}"></span>{\App\Purifier::encodeHtml($ITEM)}<br>
 									{/if}
 								{/foreach}
 								</li>
@@ -37,7 +37,7 @@
 		</div>
 	{/if}
 	<div class="lineOfText">
-		<div>{\App\Language::translate('LBL_MAIL_SENDERS', $QUALIFIED_MODULE)}</div>
+		<div>{\App\Language::translate('LBL_MAIL_SENDERS', $LANG_MODULE_NAME)}</div>
 	</div>
 	<div>
 		{foreach key=KEY item=VALUE from=$RECORD->getSenders()}
@@ -45,12 +45,12 @@
 		{/foreach}
 	</div>
 	<div class="lineOfText">
-		<div>{\App\Language::translate('LBL_MAIL_HEADERS', $QUALIFIED_MODULE)}</div>
+		<div>{\App\Language::translate('LBL_MAIL_HEADERS', $LANG_MODULE_NAME)}</div>
 	</div>
 	<pre class="mb-0">{\App\Purifier::encodeHtml(trim($RECORD->get('header')))}</pre>
 	{if $RECORD->get('body')}
 		<div class="lineOfText">
-			<div>{\App\Language::translate('LBL_MAIL_CONTENT', $QUALIFIED_MODULE)}</div>
+			<div>{\App\Language::translate('LBL_MAIL_CONTENT', $LANG_MODULE_NAME)}</div>
 		</div>
 		<iframe sandbox="allow-same-origin"  class="w-100" frameborder="0" srcdoc="{\App\Purifier::encodeHtml($RECORD->get('body'))}"></iframe>
 	{/if}

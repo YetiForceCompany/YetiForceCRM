@@ -287,6 +287,10 @@
 	width: 60%;
 }
 
+.u-w-158px {
+	width: calculate-rem(158px) !important;
+}
+
 .u-w-max {
 	width: max-content !important;
 	width: -moz-max-content !important;
@@ -342,6 +346,10 @@
 
 .u-w-90per {
 	width: 90%;
+}
+
+.u-min-w-470px {
+	min-width: calculate-rem(470px);
 }
 
 .u-min-w-650px {
@@ -767,20 +775,4 @@ body:not(.desktop) {
 		position: static;
 		display: block;
 	}
-}
-
-.u-rbl-container {
-	td {
-		.u-rbl_action  {
-			position: absolute;
-			display: none;
-		}
-	}
-
-	td:hover {
-		.u-rbl_action  {
-			display: flex !important;
-		}
-	}
-
 }

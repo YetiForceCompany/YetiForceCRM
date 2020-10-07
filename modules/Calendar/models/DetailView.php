@@ -59,6 +59,15 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				'linkclass' => 'btn-outline-dark btn-sm showModal closeCalendarRekord',
 			]);
 		}
+		if ($recordModel->isEditable() && \App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail') && 1 === \App\User::getCurrentUserModel()->getDetail('internal_mailer')) {
+			$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+				'linklabel' => 'LBL_SEND_CALENDAR',
+				'linkdata' => ['url' => "index.php?module={$moduleName}&view=SendInvitationModal&record={$recordId}"],
+				'linkicon' => 'yfi-send-invitation',
+				'linkclass' => 'btn-outline-dark btn-sm js-show-modal',
+			]);
+		}
 		if (!$recordModel->isReadOnly() && !$recordModel->isEmpty('location') && App\Privilege::isPermitted('OpenStreetMap')) {
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_BASIC',

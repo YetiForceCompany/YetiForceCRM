@@ -538,16 +538,13 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return $fieldList;
 	}
 
-	public function getFieldsByReference($fieldName = false)
+	public function getFieldsByReference()
 	{
 		$fieldList = [];
-		foreach ($this->getFields() as &$field) {
+		foreach ($this->getFields() as $field) {
 			if ($field->isReferenceField()) {
 				$fieldList[$field->getName()] = $field;
 			}
-		}
-		if ($fieldName) {
-			return $fieldList[$fieldName] ?? false;
 		}
 		return $fieldList;
 	}

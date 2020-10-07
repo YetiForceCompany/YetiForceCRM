@@ -20,27 +20,27 @@ jQuery.Class(
 						orderable: false,
 						data: function (row) {
 							let action = '';
-							action += '<div class="u-rbl_action">';
-							action += `<button type="button" class="btn btn-secondary btn-sm js-details" data-id="${row['id']}" title="${app.vtranslate(
+							action += '<div class="o-tab__container--action">';
+							action += `<button type="button" class="btn btn-secondary btn-xs js-details" data-id="${row['id']}" title="${app.vtranslate(
 								'BTN_SHOW_DETAILS'
 							)}" data-js="click"><span class="fas fa-search-plus"></span></button>`;
-							action += `<button type="button" class="btn btn-primary btn-sm ml-2 js-send-request-id" data-id="${row['id']}" title="${app.vtranslate(
+							action += `<button type="button" class="btn btn-primary btn-xs ml-2 js-send-request-id" data-id="${row['id']}" title="${app.vtranslate(
 								'BTN_STATUS_ACTION_SEND_REQUEST'
 							)}" data-js="click"><span class="fas fa-paper-plane"></span></button>`;
 							if (row['statusId'] !== 1) {
-								action += `<button type="button" class="btn btn-success btn-sm ml-2 js-update" data-id="${row['id']}" data-status="1" title="${app.vtranslate(
+								action += `<button type="button" class="btn btn-success btn-xs ml-2 js-update" data-id="${row['id']}" data-status="1" title="${app.vtranslate(
 									'BTN_STATUS_ACTION_ACCEPT'
 								)}" data-js="click"><span class="fas fa-check"></span></button>`;
 							}
 							if (row['statusId'] !== 2) {
-								action += `<button type="button" class="btn btn-warning btn-sm ml-2 js-update" data-id="${row['id']}" data-status="2" title="${app.vtranslate(
+								action += `<button type="button" class="btn btn-warning btn-xs ml-2 js-update" data-id="${row['id']}" data-status="2" title="${app.vtranslate(
 									'BTN_STATUS_ACTION_REJECT'
 								)}" data-js="click"><span class="fas fa-times"></span></button>`;
 							}
-							action += `<button type="button" class="btn btn-danger btn-sm ml-2 js-trash" data-id="${row['id']}" title="${app.vtranslate(
+							action += `<button type="button" class="btn btn-danger btn-xs ml-2 js-trash" data-id="${row['id']}" title="${app.vtranslate(
 								'BTN_DELETE'
 							)}" data-js="click"><span class="fas fa-trash"></span></button>`;
-							action+= '</dv>'
+							action += '</dv>';
 							return action;
 						},
 						defaultContent: ''
@@ -166,7 +166,6 @@ jQuery.Class(
 							data: function (data) {
 								data = $.extend(data, form.serializeFormData());
 							}
-
 						},
 						order: []
 					},
@@ -174,7 +173,7 @@ jQuery.Class(
 				)
 			);
 			container.find('input,select').on('change', function () {
-				self.dataTable.ajax.reload()
+				self.dataTable.ajax.reload();
 			});
 			return table;
 		},
@@ -188,7 +187,7 @@ jQuery.Class(
 			let table = this.registerDataTable(contentContainer);
 			table.off('click', '.js-details').on('click', '.js-details', function () {
 				let progressIndicatorElement = jQuery.progressIndicator();
-				app.showModalWindow(null, 'index.php?module=MailRbl&parent=Settings&view=DetailModal&record=' + this.dataset.id, function (container) {
+				app.showModalWindow(null, 'index.php?module=AppComponents&view=MailMessageAnalysisModal&record=' + this.dataset.id, function (container) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					container.find('iframe').each(function () {
 						let iframe = $(this);

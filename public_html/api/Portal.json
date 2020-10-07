@@ -826,6 +826,43 @@
                                 }
                             }
                         }
+                    },
+                    {
+                        "name": "x-condition",
+                        "in": "header",
+                        "description": "Conditions [Json format]",
+                        "required": false,
+                        "content": {
+                            "application/json": {
+                                "mediaType": "application/json",
+                                "schema": {
+                                    "description": "Conditions details",
+                                    "properties": {
+                                        "fieldName": {
+                                            "description": "Field name",
+                                            "type": "string",
+                                            "example": "lastname"
+                                        },
+                                        "value": {
+                                            "description": "Search value",
+                                            "type": "string",
+                                            "example": "Kowalski"
+                                        },
+                                        "operator": {
+                                            "description": "Field operator",
+                                            "type": "string",
+                                            "example": "e"
+                                        },
+                                        "group": {
+                                            "description": "Condition group if true is AND",
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 ],
                 "requestBody": {

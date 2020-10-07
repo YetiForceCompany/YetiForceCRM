@@ -20,19 +20,22 @@ class Settings_MailRbl_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 	 */
 	public function process(App\Request $request)
 	{
-		$dbCommand = \App\Db::getInstance('admin')->createCommand();
+		$db = \App\Db::getInstance('admin');
+		$dbCommand = $db->createCommand();
 		if ('request' === $request->getMode()) {
 			$status = $dbCommand->delete('s_#__mail_rbl_request', [
 				'id' => $request->getInteger('record')
 			])->execute();
 		} else {
-			$row = (new \App\Db\Query())->from('s_#__mail_rbl_list')->where(['id' => $request->getInteger('record')])->one(\App\Db::getInstance('admin'));
+			$row = (new \App\Db\Query())->from('s_#__mail_rbl_list')->where(['id' => $request->getInteger('record')])->one($db);
 			$status = $dbCommand->delete('s_#__mail_rbl_list', [
 				'id' => $request->getInteger('record')
 			])->execute();
 			$dbCommand->update('s_#__mail_rbl_request', [
 				'status' => 3,
 			], ['id' => $row['request']])->execute();
+			\App\Cache::delete('MailRblIpColor', $row['ip']);
+			\App\Cache::delete('MailRblList', $row['ip']);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($status);
