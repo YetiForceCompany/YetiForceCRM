@@ -30,7 +30,7 @@ class GetBlackListIp extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
-		if ($blackList = \App\Mail\Rbl::findIp(\App\RequestUtil::getRemoteIP(true))) {
+		if (!empty($ip = \App\RequestUtil::getRemoteIP(true)) && $blackList = \App\Mail\Rbl::findIp($ip)) {
 			foreach ($blackList as $row) {
 				if (1 !== (int) $row['status'] && (\App\Mail\Rbl::LIST_TYPE_BLACK_LIST === (int) $row['type']) || (\App\Mail\Rbl::LIST_TYPE_PUBLIC_BLACK_LIST === (int) $row['type'])) {
 					$this->status = 0;
