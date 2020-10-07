@@ -107,9 +107,13 @@
 								{\App\Language::translate('LBL_TO', 'Settings:Mail')}: {$ROW['to']}
 							</p>
 							<p class="font-small mb-0 text-truncate mb-0 u-fs-13px">
-								<a type="button" href="#" class="showMailModal ml-1" data-url="{$ROW['url']}">
+								{if \App\Privilege::isPermitted('OSSMailView', 'DetailView', $ROW['id'])}
+									<a type="button" href="#" class="showMailModal" data-url="{$ROW['url']}">
+										{\App\Language::translate('LBL_SUBJECT')}: {$ROW['subjectRaw']}
+									</a>
+								{elseif $ROW['type'] eq 2}
 									{\App\Language::translate('LBL_SUBJECT')}: {$ROW['subjectRaw']}
-								</a>
+								{/if}
 							</p>
 						</div>
 					</div>

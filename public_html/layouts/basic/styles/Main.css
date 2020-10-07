@@ -12953,6 +12953,14 @@ body > .q-dialog:not(.quasar-reset) .q-field .col {
 .singleComment .q-message-text {
   background: #e0e0e0; }
 
+@media only screen and (min-width: 768px) {
+  .singleComment .q-message-text {
+    background: #e0e0e0; }
+  .singleComment:hover .comment-actions {
+    visibility: visible; }
+  .singleComment .comment-actions {
+    visibility: hidden; } }
+
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media print {
   .noprint {
@@ -14433,12 +14441,10 @@ span[name="existingImages"] img {
   background-color: #5bc0de;
   border-color: #46b8da;
   display: block;
-  padding: 6px 8px;
-  height: 32px;
-  width: 32px;
-  font-size: 1rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  font-size: 1.5rem;
   text-align: center;
-  margin: 0 7px 3px 0;
   -webkit-box-shadow: 0 0 8px -1px #9c9c9c;
   -moz-box-shadow: 0 0 8px -1px #9c9c9c;
   box-shadow: 0 0 8px -1px #9c9c9c; }
