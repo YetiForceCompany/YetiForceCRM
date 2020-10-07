@@ -30,7 +30,8 @@ class GetBlackListIp extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
-		if (!empty($ip = \App\RequestUtil::getRemoteIP(true)) && $blackList = \App\Mail\Rbl::findIp($ip)) {
+		$this->status = 1;
+		if (($ip = \App\RequestUtil::getRemoteIP(true)) && ($blackList = \App\Mail\Rbl::findIp($ip))) {
 			foreach ($blackList as $row) {
 				if (1 !== (int) $row['status'] && (\App\Mail\Rbl::LIST_TYPE_BLACK_LIST === (int) $row['type']) || (\App\Mail\Rbl::LIST_TYPE_PUBLIC_BLACK_LIST === (int) $row['type'])) {
 					$this->status = 0;
@@ -40,8 +41,6 @@ class GetBlackListIp extends \App\SystemWarnings\Template
 			if (!$this->status) {
 				$this->description = \App\Language::translate('LBL_BLACK_LIST_ALERT', 'OSSMail');
 			}
-		} else {
-			$this->status = 1;
 		}
 	}
 }
