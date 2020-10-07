@@ -5,6 +5,8 @@ namespace App;
 /**
  * Email parser class.
  *
+ * @package   App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -32,7 +34,6 @@ class EmailParser extends TextParser
 		if ($this->emailoptout && isset(self::$permissionToSend[$moduleName])) {
 			$checkFieldName = self::$permissionToSend[$moduleName];
 			$permissionFieldModel = $this->recordModel->getModule()->getField($checkFieldName);
-
 			return ($permissionFieldModel && $permissionFieldModel->isActiveField() && $this->recordModel->has($checkFieldName)) ? (bool) $this->recordModel->get($checkFieldName) : true;
 		}
 		return true;
@@ -63,5 +64,23 @@ class EmailParser extends TextParser
 			}
 		}
 		return $emails;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function relatedRecordsListPrinter(\Vtiger_RelationListView_Model $relationListView, \Vtiger_Paging_Model $pagingModel, int $maxLength): string
+	{
+		$relatedModuleName = $relationListView->getRelationModel()->getRelationModuleName();
+		$rows = '';
+		$fields = $relationListView->getHeaders();
+		foreach ($relationListView->getEntries($pagingModel) as $relatedRecordModel) {
+			foreach ($fields as $fieldName => $fieldModel) {
+				if ($fieldModel && 'email' === $fieldModel->getFieldDataType() && $this->useValue($fieldModel, $relatedModuleName)) {
+					$rows .= $relatedRecordModel->get($fieldName) . ',';
+				}
+			}
+		}
+		return rtrim($rows, ',');
 	}
 }

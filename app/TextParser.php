@@ -5,6 +5,8 @@ namespace App;
 /**
  * Text parser class.
  *
+ * @package   App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -859,6 +861,21 @@ class TextParser
 			$transformedSearchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition(Json::decode($conditions));
 			$relationListView->set('search_params', $transformedSearchParams);
 		}
+		return $this->relatedRecordsListPrinter($relationListView, $pagingModel, (int) $maxLength);
+	}
+
+	/**
+	 * Printer related records list.
+	 *
+	 * @param \Vtiger_RelationListView_Model $relationListView
+	 * @param \Vtiger_Paging_Model           $pagingModel
+	 * @param int                            $maxLength
+	 *
+	 * @return string
+	 */
+	protected function relatedRecordsListPrinter(\Vtiger_RelationListView_Model $relationListView, \Vtiger_Paging_Model $pagingModel, int $maxLength): string
+	{
+		$relatedModuleName = $relationListView->getRelationModel()->getRelationModuleName();
 		$rows = $headers = '';
 		$fields = $relationListView->getHeaders();
 		foreach ($fields as $fieldModel) {
@@ -871,14 +888,14 @@ class TextParser
 			}
 		}
 		$counter = 0;
-		foreach ($relationListView->getEntries($pagingModel) as $reletedRecordModel) {
+		foreach ($relationListView->getEntries($pagingModel) as $relatedRecordModel) {
 			++$counter;
 			$rows .= '<tr class="row-' . $counter . '">';
 			foreach ($fields as $fieldModel) {
-				$value = $this->getDisplayValueByField($fieldModel, $reletedRecordModel);
+				$value = $this->getDisplayValueByField($fieldModel, $relatedRecordModel);
 				if (false !== $value) {
-					if ((int) $maxLength) {
-						$value = $this->textTruncate($value, (int) $maxLength);
+					if ($maxLength) {
+						$value = $this->textTruncate($value, $maxLength);
 					}
 					$rows .= "<td class=\"col-type-{$fieldModel->getFieldType()}\">{$value}</td>";
 				}

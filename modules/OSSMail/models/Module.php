@@ -59,25 +59,32 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$moduleName = $request->getByType('crmModule');
 		$record = $request->getInteger('crmRecord');
 		$type = $request->getByType('type');
-
 		$return = [];
 		if (('Users' === $moduleName && $record === \App\User::getCurrentUserRealId()) || ('Users' !== $moduleName && !empty($record) && \App\Record::isExists($record) && \App\Privilege::isPermitted($moduleName, 'DetailView', $record))) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$eventHandler = new App\EventHandler();
+			$eventHandler->setRecordModel($recordModel)->setModuleName($moduleName)->setParams($return);
+			$eventHandler->trigger('MailComposeParamBefore');
+			$return = $eventHandler->getParams();
+
 			$recordModel_OSSMailView = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 			if ($request->isEmpty('to') && ($email = $recordModel_OSSMailView->findEmail($record, $moduleName))) {
 				$return['to'] = $email;
 			}
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			foreach (['_to', '_cc'] as $name) {
-				if (!$request->isEmpty($name)) {
+				$content = $request->has($name) ? $request->getRaw($name) : ($return[$name] ?? '');
+				if ($content) {
 					$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
 					$emailParser->emailoptout = false;
-					$fromEmailDetails = $emailParser->setContent($request->getRaw($name))->parse()->getContent();
+					$fromEmailDetails = $emailParser->setContent($content)->parse()->getContent();
 					if ($fromEmailDetails) {
 						$return[substr($name, -2)] = $fromEmailDetails;
 					}
+					if (isset($return[$name])) {
+						unset($return[$name]);
+					}
 				}
 			}
-
 			if (!\in_array($moduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(0), \App\ModuleHierarchy::getModulesByLevel(3)))) || 'Campaigns' === $moduleName) {
 				$subject = '';
 				if ('new' === $type || 'Campaigns' === $moduleName) {
@@ -111,6 +118,10 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 					}
 				}
 			}
+
+			$eventHandler->setParams($return);
+			$eventHandler->trigger('MailComposeParamAfter');
+			$return = $eventHandler->getParams();
 		}
 		if (!empty($moduleName)) {
 			$return['crmmodule'] = $moduleName;
