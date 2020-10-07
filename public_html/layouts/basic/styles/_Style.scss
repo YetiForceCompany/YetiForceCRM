@@ -2048,6 +2048,7 @@ span[name="existingImages"] img {
 	display: block;
 	height: calculate-rem(40px);
 	width: calculate-rem(40px);
+	min-width: calculate-rem(40px);
 	font-size: calculate-rem(24px);
 	text-align: center;
 	-webkit-box-shadow: 0 0 8px -1px rgba(156, 156, 156, 1);
