@@ -47,9 +47,6 @@ jobs:
       - name: Check PHP syntax errors
         uses: overtrue/phplint@2.0.2
 
-      - name: Xanitizer Security Analysis
-        uses: RIGS-IT/xanitizer-action@v1.0.0
-
       - name: Fortify ScanCentral Scan
         uses: fortify/gha-setup-scancentral-client@v1.1.0
 
