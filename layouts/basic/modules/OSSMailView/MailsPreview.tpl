@@ -32,15 +32,15 @@
 					</div>
 				</div>
 				<div class="modal-body modalViewBody py-0">
-					<div class="mailsList">
-						<div class="container-fluid">
+					<div class="mailsList pb-1">
+						<div class="container-fluid px-0">
 							{assign var=COUNT value=count($RECOLDLIST)}
 							{foreach from=$RECOLDLIST item=ROW key=KEY}
-								<div class="row{if $KEY%2 != 0} even{/if}">
+								<div class="content js-mail-row{if $KEY%2 != 0} even{/if}"  data-js="container">
 									{if \App\Privilege::isPermitted('OSSMailView', 'DetailView', $ROW['id'])}
-										<div class="col-12 mailActions d-flex justify-content-between mb-1">
+										<div class="col-12 mailActions d-flex justify-content-between mb-1 px-0">
 									{/if}
-									<div class="col-12 d-lg-flex justify-content-between px-sm-3 px-2">
+									<div class="col-12 d-lg-flex justify-content-between px-0">
 										{if $ROW['type'] eq 0}
 											{assign var=FIRST_LETTER_CLASS value='bgGreen'}
 										{elseif $ROW['type'] eq 1}
@@ -53,13 +53,13 @@
 												{$ROW['firstLetter']}
 											</div>
 											<div class="col-12 px-0">
-												<p class="mb-0 u-fs-15px u-lh-14">
+												<p class="mb-0 u-fs-15px u-lh-12">
 													{\App\Language::translate('LBL_FROM', 'Settings:Mail')}: {$ROW['from']}
 												</p>
-												<p class="mb-0 u-fs-15px u-lh-14">
+												<p class="mb-0 u-fs-15px u-lh-12">
 													{\App\Language::translate('LBL_TO', 'Settings:Mail')}: {$ROW['to']}
 												</p>
-												<p class="font-small mb-0 text-truncate mb-0 u-fs-15px u-lh-14">
+												<p class="font-small mb-0 text-truncate mb-0 u-fs-15px u-lh-12">
 													{if \App\Privilege::isPermitted('OSSMailView', 'DetailView', $ROW['id'])}
 														<a type="button" href="#" class="showMailModal" data-url="{$ROW['url']}">
 															{\App\Language::translate('LBL_SUBJECT')}: {$ROW['subjectRaw']}
@@ -86,16 +86,6 @@
 													{\App\Fields\DateTime::formatToViewDate($ROW['date'])}
 												</small>
 											</div>
-											<div class="bd-highlight d-flex justify-content-end">
-												<div>
-													<a class="js-toggle-icon__container showMailBody btn btn-xs btn-outline-secondary mr-1" role="button" data-js="click">
-														<span class="js-toggle-icon body-icon fas fa-caret-down" data-active="fa-caret-up" data-inactive="fa-caret-down" data-js="click" aria-label="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL',$MODULE_NAME)}"></span>
-													</a>
-													<button type="button" class="btn btn-xs btn-outline-secondary showMailModal" data-url="{$ROW['url']}">
-														<span class="body-icon fas fa-search" title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}"></span>
-													</button>
-												</div>
-											</div>
 											<div class="bd-highlight mailActions d-flex justify-content-end mb-1 px-0">
 												{if App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 													{if $USER_MODEL->get('internal_mailer') == 1}
@@ -121,6 +111,9 @@
 														</a>
 													{/if}
 												{/if}
+												<a class="js-toggle-icon__container showMailBody btn btn-xs btn-outline-secondary mr-1" role="button" data-js="click">
+													<span class="js-toggle-icon body-icon fas fa-caret-down" data-active="fa-caret-up" data-inactive="fa-caret-down" data-js="click" aria-label="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL',$MODULE_NAME)}"></span>
+												</a>
 											</div>
 										</div>
 									</div>

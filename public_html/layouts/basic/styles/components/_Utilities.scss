@@ -41,8 +41,13 @@
 }
 
 .u-fs-14px {
+	font-size: calculate-rem(14px) !important;
+}
+
+.u-fs-15px {
 	font-size: calculate-rem(15px) !important;
 }
+
 
 .u-fs-19px {
 	font-size: calculate-rem(19px) !important;
@@ -586,9 +591,11 @@ body:not(.desktop) {
 	pointer-events: none;
 	opacity: 0.65;
 }
-
 .u-box-shadow {
 	@include u-box-shadow(3px 3px 14px 0 rgba(50, 50, 50, 0.75));
+}
+.u-box-shadow-light {
+	@include u-box-shadow(0.1rem 0.1rem 0.35rem rgba(0, 0, 0, 0.6));
 }
 
 @each $breakpoint, $max in $grid-breakpoints {

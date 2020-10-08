@@ -1,10 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-OSSMailView-widgets container-fluid pl-1 pr-1">
+	<div class="tpl-OSSMailView-widgets container-fluid px-0">
 		{assign var=COUNT value=count($RECOLDLIST)}
 		{foreach from=$RECOLDLIST item=ROW key=KEY}
-			<div class="row{if $KEY%2 != 0} even{/if} mb-1 px-0">
-				<div class="col-12 d-lg-flex justify-content-between px-sm-3 px-2">
+			<div class="content {if $KEY%2 != 0} even{/if} mb-1 p-0">
+				<div class="col-12 d-lg-flex justify-content-between px-0">
 					{if $ROW['type'] eq 0}
 						{assign var=FIRST_LETTER_CLASS value='bgGreen'}
 					{elseif $ROW['type'] eq 1}
@@ -13,17 +13,17 @@
 						{assign var=FIRST_LETTER_CLASS value='bgBlue'}
 					{/if}
 					<div class="d-flex col-lg-9 col-md-12 pr-0 pl-0 align-items-center mb-1 u-text-ellipsis">
-						<div class="firstLetter {$FIRST_LETTER_CLASS} d-sm-block d-none mr-2">
+						<div class="firstLetter {$FIRST_LETTER_CLASS} d-sm-block d-none mr-2 u-box-shadow-light">
 							{$ROW['firstLetter']}
 						</div>
 						<div class="col-12 px-0">
-							<p class="mb-0 u-fs-15px u-lh-14">
+							<p class="mb-0 u-fs-15px u-lh-12">
 								{\App\Language::translate('LBL_FROM', 'Settings:Mail')}: {$ROW['from']}
 							</p>
-							<p class="mb-0 u-fs-15px u-lh-14">
+							<p class="mb-0 u-fs-15px u-lh-12">
 								{\App\Language::translate('LBL_TO', 'Settings:Mail')}: {$ROW['to']}
 							</p>
-							<p class="font-small mb-0 text-truncate mb-0 u-fs-15px u-lh-14">
+							<p class="font-small mb-0 text-truncate mb-0 u-fs-15px u-lh-12">
 								{if \App\Privilege::isPermitted('OSSMailView', 'DetailView', $ROW['id'])}
 									<a type="button" href="#" class="showMailModal" data-url="{$ROW['url']}">
 										{\App\Language::translate('LBL_SUBJECT')}: {$ROW['subjectRaw']}
@@ -77,10 +77,6 @@
 									{/if}
 								{/if}
 							</div>
-							<a class="js-toggle-icon__container showMailBody btn btn-xs btn-outline-secondary ml-1" role="button" data-js="click">
-								<span class="js-toggle-icon body-icon fas fa-caret-down" data-active="fa-caret-up" data-inactive="fa-caret-down" data-js="click" aria-label="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL',$MODULE_NAME)}">
-								</span>
-							</a>
 						</div>
 						<div class="bd-highlight mailActions d-flex justify-content-end mb-1 px-0">
 							{if App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
@@ -106,6 +102,9 @@
 										<span class="fas fa-share" title="{\App\Language::translate('LBL_FORWARD', $MODULE_NAME)}"></span>
 									</a>
 								{/if}
+								<a class="js-toggle-icon__container showMailBody btn btn-xs btn-outline-secondary ml-1" role="button" data-js="click">
+									<span class="js-toggle-icon body-icon fas fa-caret-down" data-active="fa-caret-up" data-inactive="fa-caret-down" data-js="click" aria-label="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL',$MODULE_NAME)}"></span>
+								</a>
 							{/if}
 						</div>
 					</div>
