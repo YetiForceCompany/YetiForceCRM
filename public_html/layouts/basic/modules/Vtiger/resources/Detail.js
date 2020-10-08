@@ -2666,13 +2666,16 @@ jQuery.Class(
 					.removeClass('fa-caret-up')
 					.addClass('fa-caret-down');
 			});
-			container.find('.showMailModal').on('click', function (e) {
-				let progressIndicatorElement = jQuery.progressIndicator();
-				app.showModalWindow('', $(e.currentTarget).data('url') + '&noloadlibs=1', function (data) {
-					Vtiger_Index_Js.registerMailButtons(data);
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+			container
+				.find('.showMailModal')
+				.off('click')
+				.on('click', function (e) {
+					let progressIndicatorElement = jQuery.progressIndicator();
+					app.showModalWindow('', $(e.currentTarget).data('url') + '&noloadlibs=1', function (data) {
+						Vtiger_Index_Js.registerMailButtons(data);
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					});
 				});
-			});
 		},
 		loadMailPreviewWidget: function (widgetContent) {
 			let thisInstance = this;
