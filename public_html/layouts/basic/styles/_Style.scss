@@ -2046,14 +2046,11 @@ span[name="existingImages"] img {
 	background-color: #5bc0de;
 	border-color: #46b8da;
 	display: block;
-	height: calculate-rem(40px);
-	width: calculate-rem(40px);
-	min-width: calculate-rem(40px);
-	font-size: calculate-rem(24px);
+	height: calculate-rem(54px);
+	width: calculate-rem(54px);
+	min-width: calculate-rem(54px);
+	font-size: calculate-rem(34px);
 	text-align: center;
-	-webkit-box-shadow: 0 0 8px -1px rgba(156, 156, 156, 1);
-	-moz-box-shadow: 0 0 8px -1px rgba(156, 156, 156, 1);
-	box-shadow: 0 0 8px -1px rgba(156, 156, 156, 1);
 }
 
 .modal-blg iframe {
