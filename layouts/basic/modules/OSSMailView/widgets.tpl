@@ -25,7 +25,7 @@
 							</p>
 							<p class="font-small mb-0 text-truncate mb-0 u-fs-15px u-lh-12 u-text-ellipsis">
 								{if \App\Privilege::isPermitted('OSSMailView', 'DetailView', $ROW['id'])}
-									<a type="button" href="#" class="showMailModal" data-url="{$ROW['url']}">
+									<a type="button" href="{$ROW['url']}" class="showMailModal" data-url="{$ROW['url']}">
 										{\App\Language::translate('LBL_SUBJECT')}: {$ROW['subjectRaw']}
 									</a>
 								{elseif $ROW['type'] eq 2}
