@@ -1197,6 +1197,7 @@ CREATE TABLE `s_yf_mail_queue` (
   `bcc` text DEFAULT NULL,
   `attachments` text DEFAULT NULL,
   `priority` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `params` text DEFAULT NULL,
   `error` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `smtp_id` (`smtp_id`),
