@@ -2624,7 +2624,7 @@ jQuery.Class(
 		registerMailPreviewWidget: function (container) {
 			const self = this;
 			container.on('click', '.showMailBody', (e) => {
-				let row = $(e.currentTarget).closest('.row'),
+				let row = $(e.currentTarget).closest('.js-mail-row'),
 					mailBody = row.find('.mailBody'),
 					mailTeaser = row.find('.mailTeaser');
 				mailBody.toggleClass('d-none');
