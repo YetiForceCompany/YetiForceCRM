@@ -46,11 +46,6 @@ jobs:
 
       - name: Check PHP syntax errors
         uses: overtrue/phplint@2.0.2
-      
-      - name: Anchore Container Scan
-        uses: anchore/scan-action@v2.0.0
-        with:
-          path: "."
 
       - name: Xanitizer Security Analysis
         uses: RIGS-IT/xanitizer-action@v1.0.0
