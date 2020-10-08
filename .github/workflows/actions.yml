@@ -46,6 +46,21 @@ jobs:
 
       - name: Check PHP syntax errors
         uses: overtrue/phplint@2.0.2
+      
+      - name: Anchore Container Scan
+        uses: anchore/scan-action@v2.0.0
+
+      - name: Xanitizer Security Analysis
+        uses: RIGS-IT/xanitizer-action@v1.0.0
+
+      - name: Fortify ScanCentral Scan
+        uses: fortify/gha-setup-scancentral-client@v1.1.0
+
+      - name: Synopsys Intelligent Security Scan
+        uses: synopsys-sig/intelligent-security-scan@v1
+
+      - name: DevSkim
+        uses: microsoft/DevSkim-Action@v1
 
   security:
     name: Security
