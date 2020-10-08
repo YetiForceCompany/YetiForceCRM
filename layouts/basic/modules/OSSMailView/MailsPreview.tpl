@@ -14,9 +14,11 @@
 						</div>
 						<div>
 							<button type="button" class="btn btn-outline-secondary expandAllMails mr-2">
+								<span class="fas fa-chevron-down mr-2"></span>
 								{\App\Language::translate('LBL_EXPAND_ALL','OSSMailView')}
 							</button>
 							<button type="button" class="btn btn-outline-secondary collapseAllMails">
+								<span class="fas fa-chevron-up mr-2"></span>
 								{\App\Language::translate('LBL_COLLAPSE_ALL','OSSMailView')}
 							</button>
 						</div>
@@ -48,18 +50,18 @@
 										{elseif $ROW['type'] eq 2}
 											{assign var=FIRST_LETTER_CLASS value='bgBlue'}
 										{/if}
-										<div class="d-flex col-lg-9 col-md-12 pr-0 pl-0 align-items-center mb-1 u-text-ellipsis">
+										<div class="d-flex col-lg-9 col-md-12 pr-0 pl-0 align-items-center mb-1">
 											<div class="firstLetter {$FIRST_LETTER_CLASS} d-sm-block d-none mr-2">
 												{$ROW['firstLetter']}
 											</div>
-											<div class="col-12 px-0">
-												<p class="mb-0 u-fs-15px u-lh-12">
+											<div class="col-lg-10 col-md-12 px-0">
+												<p class="mb-0 u-fs-15px u-lh-12 u-text-ellipsis">
 													{\App\Language::translate('LBL_FROM', 'Settings:Mail')}: {$ROW['from']}
 												</p>
-												<p class="mb-0 u-fs-15px u-lh-12">
+												<p class="mb-0 u-fs-15px u-lh-12 u-text-ellipsis">
 													{\App\Language::translate('LBL_TO', 'Settings:Mail')}: {$ROW['to']}
 												</p>
-												<p class="font-small mb-0 text-truncate mb-0 u-fs-15px u-lh-12">
+												<p class="font-small mb-0 text-truncate mb-0 u-fs-15px u-lh-12 u-text-ellipsis">
 													{if \App\Privilege::isPermitted('OSSMailView', 'DetailView', $ROW['id'])}
 														<a type="button" href="#" class="showMailModal" data-url="{$ROW['url']}">
 															{\App\Language::translate('LBL_SUBJECT')}: {$ROW['subjectRaw']}
@@ -118,12 +120,12 @@
 										</div>
 									</div>
 									</div>
-									<div class="col-12">
+									<div class="col-12 px-0">
 										<div class="mailTeaser u-fs-13px">
 											{$ROW['teaser']}
 										</div>
 									</div>
-									<div class="col-12 mailBody d-none">
+									<div class="col-12 mailBody px-0 d-none">
 										<div class="mailBodyContent">{$ROW['body']}</div>
 									</div>
 								</div>

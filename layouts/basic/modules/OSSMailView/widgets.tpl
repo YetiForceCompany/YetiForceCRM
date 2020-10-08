@@ -3,7 +3,7 @@
 	<div class="tpl-OSSMailView-widgets container-fluid px-0">
 		{assign var=COUNT value=count($RECOLDLIST)}
 		{foreach from=$RECOLDLIST item=ROW key=KEY}
-			<div class="content {if $KEY%2 != 0} even{/if} mb-1 p-0">
+			<div class="content js-mail-row {if $KEY%2 != 0} even{/if} mb-1 p-0">
 				<div class="col-12 d-lg-flex justify-content-between px-0">
 					{if $ROW['type'] eq 0}
 						{assign var=FIRST_LETTER_CLASS value='bgGreen'}
@@ -12,18 +12,18 @@
 					{elseif $ROW['type'] eq 2}
 						{assign var=FIRST_LETTER_CLASS value='bgBlue'}
 					{/if}
-					<div class="d-flex col-lg-9 col-md-12 pr-0 pl-0 align-items-center mb-1 u-text-ellipsis">
+					<div class="d-flex col-lg-9 col-md-12 pr-0 pl-0 align-items-center mb-1">
 						<div class="firstLetter {$FIRST_LETTER_CLASS} d-sm-block d-none mr-2 u-box-shadow-light">
 							{$ROW['firstLetter']}
 						</div>
-						<div class="col-12 px-0">
-							<p class="mb-0 u-fs-15px u-lh-12">
+						<div class="col-lg-10 col-md-12 px-0">
+							<p class="mb-0 u-fs-15px u-lh-12 u-text-ellipsis">
 								{\App\Language::translate('LBL_FROM', 'Settings:Mail')}: {$ROW['from']}
 							</p>
-							<p class="mb-0 u-fs-15px u-lh-12">
+							<p class="mb-0 u-fs-15px u-lh-12 u-text-ellipsis">
 								{\App\Language::translate('LBL_TO', 'Settings:Mail')}: {$ROW['to']}
 							</p>
-							<p class="font-small mb-0 text-truncate mb-0 u-fs-15px u-lh-12">
+							<p class="font-small mb-0 text-truncate mb-0 u-fs-15px u-lh-12 u-text-ellipsis">
 								{if \App\Privilege::isPermitted('OSSMailView', 'DetailView', $ROW['id'])}
 									<a type="button" href="#" class="showMailModal" data-url="{$ROW['url']}">
 										{\App\Language::translate('LBL_SUBJECT')}: {$ROW['subjectRaw']}
@@ -109,12 +109,12 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-12 px-sm-3 px-2">
+				<div class="col-12 px-0">
 					<div class="mailTeaser u-fs-13px">
 						{$ROW['teaser']}
 					</div>
 				</div>
-				<div class="col-12 mailBody d-none">
+				<div class="col-12 mailBody px-0 d-none">
 					<div class="mailBodyContent">{$ROW['body']}</div>
 				</div>
 			</div>
