@@ -37,10 +37,22 @@ class Settings_RecordNumbering_CustomRecordNumbering_View extends Settings_Vtige
 				$picklistFields[$fieldModel->getName()] = $fieldModel;
 			}
 		}
+		$referenceFields = [];
+		$textParser = App\TextParser::getInstance($defaultModuleModel->getName());
+		foreach ($textParser->getRelatedVariable('string') as $modules) {
+			foreach ($modules as $blockName => $fields) {
+				$blockName = \App\Language::translate($blockName, $defaultModuleModel->getName());
+				foreach ($fields as $field) {
+					$referenceFields[$blockName][$field['var_value']] = \App\Language::translate($field['label'], $defaultModuleModel->getName());
+				}
+			}
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SUPPORTED_MODULES', $supportedModules);
 		$viewer->assign('DEFAULT_MODULE_MODEL', $defaultModuleModel);
 		$viewer->assign('PICKLISTS', $picklistFields);
+		$viewer->assign('REFERENCE_FIELDS', $referenceFields);
+		$viewer->assign('IS_AJAX', $request->isAjax());
 		$viewer->view('CustomRecordNumbering.tpl', $qualifiedModuleName);
 	}
 

@@ -213,6 +213,9 @@ class TextParser
 	 */
 	public const VARIABLE_REGEX = '/\$\((\w+) : ([,"\+\#\%\.\=\-\[\]\&\w\s\|\)\(\:]+)\)\$/u';
 
+	/** @var bool Permissions condition */
+	protected $permissions = true;
+
 	/**
 	 * Get instanace by record id.
 	 *
@@ -390,7 +393,20 @@ class TextParser
 	 */
 	public static function isVaribleToParse($text)
 	{
-		return (int) preg_match('/^\$\((\w+) : ([,"\+\%\.\=\-\[\]\&\w\s\|]+)\)\$$/', $text);
+		return (int) preg_match(static::VARIABLE_REGEX, $text);
+	}
+
+	/**
+	 * Set permissions condition.
+	 *
+	 * @param bool $permitted
+	 *
+	 * @return $this
+	 */
+	public function setGlobalPermissions(bool $permitted)
+	{
+		$this->permissions = $permitted;
+		return $this;
 	}
 
 	/**
@@ -690,7 +706,7 @@ class TextParser
 		[$fieldName, $relatedField, $relatedModule] = array_pad(explode('|', $params, 3), 3, '');
 		if (
 			!isset($this->recordModel) ||
-			!Privilege::isPermitted($this->moduleName, 'DetailView', $this->record) ||
+			($this->permissions && !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record)) ||
 			$this->recordModel->isEmpty($fieldName)
 		) {
 			return '';
@@ -738,7 +754,7 @@ class TextParser
 			return '';
 		}
 		$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedId, $module);
-		if (!$relatedRecordModel->isViewable()) {
+		if ($this->permissions && !$relatedRecordModel->isViewable()) {
 			return '';
 		}
 		$instance = static::getInstanceByModel($relatedRecordModel);
