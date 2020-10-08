@@ -49,6 +49,8 @@ jobs:
       
       - name: Anchore Container Scan
         uses: anchore/scan-action@v2.0.0
+        with:
+          path: "."
 
       - name: Xanitizer Security Analysis
         uses: RIGS-IT/xanitizer-action@v1.0.0
