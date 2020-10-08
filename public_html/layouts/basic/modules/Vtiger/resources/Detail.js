@@ -2670,6 +2670,7 @@ jQuery.Class(
 				.find('.showMailModal')
 				.off('click')
 				.on('click', function (e) {
+					e.preventDefault();
 					let progressIndicatorElement = jQuery.progressIndicator();
 					app.showModalWindow('', $(e.currentTarget).data('url') + '&noloadlibs=1', function (data) {
 						Vtiger_Index_Js.registerMailButtons(data);
