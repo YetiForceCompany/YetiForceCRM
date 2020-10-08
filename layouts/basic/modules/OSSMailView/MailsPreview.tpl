@@ -14,7 +14,7 @@
 						</div>
 						<div>
 							<button type="button" class="btn btn-outline-secondary expandAllMails mr-2">
-								<span class="fas fa-chevron-down mr-1"></span>
+								<span class="fas fa-chevron-down mr-2"></span>
 								{\App\Language::translate('LBL_EXPAND_ALL','OSSMailView')}
 							</button>
 							<button type="button" class="btn btn-outline-secondary collapseAllMails">
