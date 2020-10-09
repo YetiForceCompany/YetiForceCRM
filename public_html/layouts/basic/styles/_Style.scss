@@ -1956,36 +1956,13 @@ span[name="existingImages"] img {
 	}
 }
 
-.mailsList .container-fluid > .row {
-	&:not(:first-child) {
-		border-bottom: 1px solid #ddd;
-	}
-
-	margin-right: -10px;
-	margin-left: -10px;
-	padding: 4px 0;
-}
-
 .container-fluid > .row {
 	&:first-child {
 		margin-bottom: 10px;
 		padding-right: 5px;
 	}
-
 	margin-left: 0;
 	margin-right: 0;
-}
-
-.mailsList {
-	.container-fluid > .row:last-child {
-		border-bottom: 0;
-	}
-
-	.smalSeparator {
-		display: block;
-		height: 5px;
-		width: 70px;
-	}
 }
 
 .summaryWidgetContainer .widgetContent hr {
