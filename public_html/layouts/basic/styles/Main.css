@@ -14404,9 +14404,9 @@ span[name="existingImages"] img {
 .summaryWidgetContainer .widgetContent hr {
   margin: 4px 0; }
 
-.mailsList .row {
+.mailsList .content {
   background-color: #fff; }
-  .mailsList .row.even {
+  .mailsList .content.even {
     background-color: #faf8f8; }
 
 .mailsList .mailTitle {
@@ -14444,11 +14444,8 @@ span[name="existingImages"] img {
   height: 2.5rem;
   width: 2.5rem;
   min-width: 2.5rem;
-  font-size: 1.5rem;
-  text-align: center;
-  -webkit-box-shadow: 0 0 8px -1px #9c9c9c;
-  -moz-box-shadow: 0 0 8px -1px #9c9c9c;
-  box-shadow: 0 0 8px -1px #9c9c9c; }
+  font-size: 1.55rem;
+  text-align: center; }
 
 .modal-blg iframe {
   height: 62vh; }
@@ -15661,6 +15658,9 @@ table .listButtons.narrow .c-badge__icon {
   font-size: 0.8125rem !important; }
 
 .u-fs-14px {
+  font-size: 0.875rem !important; }
+
+.u-fs-15px {
   font-size: 0.9375rem !important; }
 
 .u-fs-19px {
@@ -16669,6 +16669,11 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
   -moz-box-shadow: 3px 3px 14px 0 rgba(50, 50, 50, 0.75);
   -webkit-box-shadow: 3px 3px 14px 0 rgba(50, 50, 50, 0.75);
   box-shadow: 3px 3px 14px 0 rgba(50, 50, 50, 0.75); }
+
+.u-box-shadow-light {
+  -moz-box-shadow: 0.1rem 0.1rem 0.35rem rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0.1rem 0.1rem 0.35rem rgba(0, 0, 0, 0.6);
+  box-shadow: 0.1rem 0.1rem 0.35rem rgba(0, 0, 0, 0.6); }
 
 @media (max-width: 400px) {
   .display-block-xsm {
