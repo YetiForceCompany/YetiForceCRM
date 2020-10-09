@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "72f90daa42d3ad6987e648d6848c448b",
+    "content-hash": "67582f8f0683dd814f0e1e28a81b45f2",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -65,16 +65,16 @@
         },
         {
             "name": "adhocore/jwt",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/adhocore/php-jwt.git",
-                "reference": "a38fa26f83c6b5d8db3c2bae39838b890e325655"
+                "reference": "424a1d66b729a316dd074e6382167765b810cd3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/adhocore/php-jwt/zipball/a38fa26f83c6b5d8db3c2bae39838b890e325655",
-                "reference": "a38fa26f83c6b5d8db3c2bae39838b890e325655",
+                "url": "https://api.github.com/repos/adhocore/php-jwt/zipball/424a1d66b729a316dd074e6382167765b810cd3d",
+                "reference": "424a1d66b729a316dd074e6382167765b810cd3d",
                 "shasum": ""
             },
             "require": {
@@ -108,7 +108,13 @@
                 "jwt-php",
                 "token"
             ],
-            "time": "2020-02-01T10:42:06+00:00"
+            "funding": [
+                {
+                    "url": "https://paypal.me/ji10",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-10-09T00:34:35+00:00"
         },
         {
             "name": "ckeditor/ckeditor",
