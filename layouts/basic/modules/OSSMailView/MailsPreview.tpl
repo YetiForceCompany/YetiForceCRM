@@ -73,7 +73,7 @@
 											</div>
 										</div>
 										<div class="d-flex w-100 flex-column col-lg-3 col-md-12  pr-0 pl-0">
-											<div class="bd-highlight d-flex justify-content-end">
+											<div class="bd-highlight mailActions d-flex justify-content-end">
 												{if $ROW['attachments'] eq 1}
 													<span class="fas mt-1 fa-xs fa-paperclip mr-1"></span>
 												{/if}
@@ -92,28 +92,28 @@
 												{if App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 													{if $USER_MODEL->get('internal_mailer') == 1}
 														{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
-														<button type="button" class="btn btn-xs btn-outline-secondary sendMailBtn ml-1" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}">
+														<button type="button" class="btn btn-xs btn-outline-success sendMailBtn ml-1" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}">
 															<span class="fas fa-reply" title="{\App\Language::translate('LBL_REPLY','OSSMailView')}"></span>
 														</button>
 														<button type="button" class="btn btn-xs btn-outline-secondary sendMailBtn ml-1" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=replyAll" data-popup="{$POPUP}">
 															<span class="fas fa-reply-all" title="{\App\Language::translate('LBL_REPLYALLL', 'OSSMailView')}"></span>
 														</button>
-														<button type="button" class="btn btn-xs btn-outline-secondary sendMailBtn ml-1" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=forward" data-popup="{$POPUP}">
+														<button type="button" class="btn btn-xs btn-outline-primary sendMailBtn ml-1" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=forward" data-popup="{$POPUP}">
 															<span class="fas fa-share" title="{\App\Language::translate('LBL_FORWARD', 'OSSMailView')}"></span>
 														</button>
 													{else}
-														<a class="btn btn-xs btn-outline-secondary ml-1" role="button" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply',$SRECORD,$SMODULENAME)}">
+														<a class="btn btn-xs btn-outline-success ml-1" role="button" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply',$SRECORD,$SMODULENAME)}">
 															<span class="fas fa-reply" title="{\App\Language::translate('LBL_REPLY','OSSMailView')}"></span>
 														</a>
 														<a class="btn btn-xs btn-outline-secondary ml-1" role="button" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'replyAll',$SRECORD,$SMODULENAME)}">
 															<span class="fas fa-reply-all"  title="{\App\Language::translate('LBL_REPLYALLL', 'OSSMailView')}"></span>
 														</a>
-														<a class="btn btn-xs btn-outline-secondary ml-1" role="button" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward',$SRECORD,$SMODULENAME)}">
+														<a class="btn btn-xs btn-outline-primary ml-1" role="button" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward',$SRECORD,$SMODULENAME)}">
 															<span class="fas fa-share" title="{\App\Language::translate('LBL_FORWARD', 'OSSMailView')}"></span>
 														</a>
 													{/if}
 												{/if}
-												<a class="js-toggle-icon__container showMailBody btn btn-xs btn-outline-secondary mr-1" role="button" data-js="click">
+												<a class="js-toggle-icon__container showMailBody btn btn-xs btn-outline-dark mr-1" role="button" data-js="click">
 													<span class="js-toggle-icon body-icon fas fa-caret-down" data-active="fa-caret-up" data-inactive="fa-caret-down" data-js="click" aria-label="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL',$MODULE_NAME)}"></span>
 												</a>
 											</div>

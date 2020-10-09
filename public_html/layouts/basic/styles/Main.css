@@ -14379,13 +14379,6 @@ span[name="existingImages"] img {
   padding: 5px;
   font-size: 0.8125rem; }
 
-.mailsList .container-fluid > .row, .mailsList .container-sm > .row, .mailsList .container-md > .row, .mailsList .container-lg > .row, .mailsList .container-xl > .row {
-  margin-right: -10px;
-  margin-left: -10px;
-  padding: 4px 0; }
-  .mailsList .container-fluid > .row:not(:first-child), .mailsList .container-sm > .row:not(:first-child), .mailsList .container-md > .row:not(:first-child), .mailsList .container-lg > .row:not(:first-child), .mailsList .container-xl > .row:not(:first-child) {
-    border-bottom: 1px solid #ddd; }
-
 .container-fluid > .row, .container-sm > .row, .container-md > .row, .container-lg > .row, .container-xl > .row {
   margin-left: 0;
   margin-right: 0; }
@@ -14393,19 +14386,15 @@ span[name="existingImages"] img {
     margin-bottom: 10px;
     padding-right: 5px; }
 
-.mailsList .container-fluid > .row:last-child, .mailsList .container-sm > .row:last-child, .mailsList .container-md > .row:last-child, .mailsList .container-lg > .row:last-child, .mailsList .container-xl > .row:last-child {
-  border-bottom: 0; }
-
-.mailsList .smalSeparator {
-  display: block;
-  height: 5px;
-  width: 70px; }
-
 .summaryWidgetContainer .widgetContent hr {
   margin: 4px 0; }
 
 .mailsList .content {
   background-color: #fff; }
+  .mailsList .content .mailActions.d-flex, .mailsList .content .mailActions.c-panel__label, .mailsList .content .mailActions.c-float-label__container {
+    display: none !important; }
+  .mailsList .content :hover .mailActions.d-flex, .mailsList .content :hover .mailActions.c-panel__label, .mailsList .content :hover .mailActions.c-float-label__container {
+    display: flex !important; }
   .mailsList .content.even {
     background-color: #faf8f8; }
 

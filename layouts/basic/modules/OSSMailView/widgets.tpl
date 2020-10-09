@@ -50,7 +50,7 @@
 								{\App\Fields\DateTime::formatToViewDate($ROW['date'])}
 							</small>
 						</div>
-						<div class="bd-highlight d-flex justify-content-end">
+						<div class="bd-highlight mailActions d-flex justify-content-end">
 							<div class="btn-group" role="group">
 								{if \App\Privilege::isPermitted($SMODULENAME, 'RemoveRelation')}
 									{if  \App\Privilege::isPermitted($MODULE_NAME, 'MoveToTrash', $ROW['id'])}
@@ -78,31 +78,31 @@
 								{/if}
 							</div>
 						</div>
-						<div class="bd-highlight mailActions d-flex justify-content-end mb-1 px-0">
+						<div class="bd-highlight mailActions d-flex justify-content-end px-0">
 							{if App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 								{if $PRIVILEGESMODEL->internal_mailer == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
-									<button type="button" class="btn btn-xs btn-outline-secondary sendMailBtn ml-1" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}">
+									<button type="button" class="btn btn-xs btn-outline-success sendMailBtn ml-1" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}">
 										<span class="fas fa-reply" title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}"></span>
 									</button>
 									<button type="button" class="btn btn-xs btn-outline-secondary sendMailBtn ml-1" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=replyAll" data-popup="{$POPUP}">
 										<span class="fas fa-reply-all" title="{\App\Language::translate('LBL_REPLYALLL', $MODULE_NAME)}"></span>
 									</button>
-									<button type="button" class="btn btn-xs btn-outline-secondary sendMailBtn ml-1" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=forward" data-popup="{$POPUP}">
+									<button type="button" class="btn btn-xs btn-outline-primary sendMailBtn ml-1" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=forward" data-popup="{$POPUP}">
 										<span class="fas fa-share" title="{\App\Language::translate('LBL_FORWARD', $MODULE_NAME)}"></span>
 									</button>
 								{else}
-									<a class="btn btn-xs btn-outline-secondary ml-1" role="button" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply',$SRECORD,$SMODULENAME)}" rel="noreferrer noopener">
+									<a class="btn btn-xs btn-outline-success ml-1" role="button" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply',$SRECORD,$SMODULENAME)}" rel="noreferrer noopener">
 										<span class="fas fa-reply" title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}"></span>
 									</a>
 									<a class="btn btn-xs btn-outline-secondary ml-1" role="button" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'replyAll',$SRECORD,$SMODULENAME)}" rel="noreferrer noopener">
 										<span class="fas fa-reply-all" title="{\App\Language::translate('LBL_REPLYALLL', $MODULE_NAME)}"></span>
 									</a>
-									<a class="btn btn-xs btn-outline-secondary ml-1" role="button" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward',$SRECORD,$SMODULENAME)}" rel="noreferrer noopener">
+									<a class="btn btn-xs btn-outline-primary ml-1" role="button" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward',$SRECORD,$SMODULENAME)}" rel="noreferrer noopener">
 										<span class="fas fa-share" title="{\App\Language::translate('LBL_FORWARD', $MODULE_NAME)}"></span>
 									</a>
 								{/if}
-								<a class="js-toggle-icon__container showMailBody btn btn-xs btn-outline-secondary ml-1" role="button" data-js="click">
+								<a class="js-toggle-icon__container showMailBody btn btn-xs btn-outline-dark ml-1" role="button" data-js="click">
 									<span class="js-toggle-icon body-icon fas fa-caret-down" data-active="fa-caret-up" data-inactive="fa-caret-down" data-js="click" aria-label="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL',$MODULE_NAME)}"></span>
 								</a>
 							{/if}

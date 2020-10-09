@@ -1951,6 +1951,14 @@ span[name="existingImages"] img {
 	.content {
 		background-color: #fff;
 
+		.mailActions.d-flex {
+			display: none !important;
+		}
+
+		:hover .mailActions.d-flex {
+			display: flex !important;
+		}
+
 		&.even {
 			background-color: #faf8f8;
 		}
