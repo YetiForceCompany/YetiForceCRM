@@ -2639,7 +2639,14 @@ jQuery.Class(
 			});
 			container.on('click', '.showMailsModal', (e) => {
 				let url = $(e.currentTarget).data('url');
-				url += '&type=' + container.find('[name="mail-type"]').val();
+				let type = container.find('[name="mail-type"]');
+				let typeValue = '';
+				if (type.length > 0) {
+					typeValue = type.val();
+				} else {
+					typeValue = 'All';
+				}
+				url += '&type=' + typeValue;
 				if (container.find('[name="mailFilter"]').length > 0) {
 					url += '&mailFilter=' + container.find('[name="mailFilter"]').val();
 				}
