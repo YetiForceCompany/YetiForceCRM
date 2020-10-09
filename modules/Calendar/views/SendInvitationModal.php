@@ -78,8 +78,8 @@ class Calendar_SendInvitationModal_View extends \App\Controller\Modal
 				if (!$name && ($crmId = $invite['crmid']) && \App\Record::isExists($crmId) && \App\Privilege::isPermitted(\App\Record::getType($crmId), 'DetailView', $crmId)) {
 					$name = trim(\App\Record::getLabel($crmId));
 				}
-				if ($name && ($email = $invite['email'])) {
-					$emails[] = "{$name} <{$email}>";
+				if (($email = $invite['email'])) {
+					$emails[] = $name ? "{$name} <{$email}>" : $email;
 				}
 			}
 			if ($emails) {
