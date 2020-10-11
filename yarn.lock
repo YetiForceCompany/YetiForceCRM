@@ -118,13 +118,13 @@ blueimp-tmpl@3:
   resolved "https://registry.yarnpkg.com/blueimp-tmpl/-/blueimp-tmpl-3.19.0.tgz#1160f79c4ce55bd82d25cfa3df7db116f8d1df62"
   integrity sha512-v8/Vge6U3uwlAjO9TxeHoYl77C1GJDZBN45pUp+39WyHU/VRzYbnGDhRNYvcT6Lh8jihVsXNZttnDpnYVA4m9w==
 
-bootbox@^5.4.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-5.4.0.tgz#2857a63c270b1b797d62e4c5597e74b497267655"
-  integrity sha512-GCPrDwZpJsUnqzrto3ZURVafypl13+DAyE3YZx5jR5EIoTDSyREPhr77hlCuPKvM6VvXR5Mh/34W3DYMC7JE9g==
+bootbox@^5.5.1:
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-5.5.1.tgz#794908a0a0079544dfc38d177c441f3fa9b76c09"
+  integrity sha512-sAXwO4wgJipTrjAs77g3mCYdF59kxxPhQjG7rYPbHIp9AoAetPu77qvfJSBfmlezoEBdTs9ByfhOfb2W9IU7HQ==
   dependencies:
     bootstrap "^4.4.0"
-    jquery "^3.4.1"
+    jquery "^3.5.1"
     popper.js "^1.16.0"
 
 bootstrap-datepicker@^1.9.0:
@@ -465,7 +465,7 @@ jquery.class.js@^1.0.0:
   resolved "https://registry.yarnpkg.com/jquery.class.js/-/jquery.class.js-1.0.0.tgz#43616c36d76eff36caf2139ddacda621aa24ed30"
   integrity sha1-Q2FsNtdu/zbK8hOd2s2mIaok7TA=
 
-"jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.6, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1, jquery@^3.4.1, jquery@^3.5:
+"jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.6, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, jquery@>=1.9.1, jquery@^3.5, jquery@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5"
   integrity sha512-XwIBPqcMn57FxfT+Go5pzySnm4KWkT1Tv7gjrpT1srtf8Weynl6R273VJ5GjkRb51IzMp5nbaPjJXMWeju2MKg==
