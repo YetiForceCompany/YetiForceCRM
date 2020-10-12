@@ -19,7 +19,7 @@ abstract class Modal extends View\Base
 	 *
 	 * @var string
 	 */
-	public $pageTitle;
+	protected $pageTitle;
 
 	/**
 	 * Modal size.

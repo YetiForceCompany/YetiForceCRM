@@ -27,7 +27,7 @@ class Users_VisitPurpose_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public $pageTitle = 'LBL_VISIT_PURPOSE_INFO';
+	protected $pageTitle = 'LBL_VISIT_PURPOSE_INFO';
 
 	/**
 	 * {@inheritdoc}

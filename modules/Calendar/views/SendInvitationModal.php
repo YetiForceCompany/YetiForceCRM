@@ -18,7 +18,7 @@ class Calendar_SendInvitationModal_View extends \App\Controller\Modal
 	/**
 	 * {@inheritdoc}
 	 */
-	public $pageTitle = 'LBL_SEND_CALENDAR';
+	protected $pageTitle = 'LBL_SEND_CALENDAR';
 	/**
 	 * {@inheritdoc}
 	 */
