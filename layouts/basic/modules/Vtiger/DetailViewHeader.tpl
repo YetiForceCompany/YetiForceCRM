@@ -37,8 +37,7 @@
 		<div class="col-md-12 pt-1 {if !empty($DETAILVIEW_LINKS['DETAILVIEWTAB']) || !empty($DETAILVIEW_LINKS['DETAILVIEWRELATED']) } details {/if}">
 			<form id="detailView" data-name-fields="{\App\Purifier::encodeHtml(\App\Json::encode($MODULE_MODEL->getNameFields()))}" method="POST">
 				{if !empty($PICKLIST_DEPENDENCY_DATASOURCE)}
-					<input type="hidden" name="picklistDependency"
-						   value="{\App\Purifier::encodeHtml($PICKLIST_DEPENDENCY_DATASOURCE)}">
+					<input type="hidden" name="picklistDependency" value="{\App\Purifier::encodeHtml($PICKLIST_DEPENDENCY_DATASOURCE)}">
 				{/if}
 				<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
 				<div class="contents">

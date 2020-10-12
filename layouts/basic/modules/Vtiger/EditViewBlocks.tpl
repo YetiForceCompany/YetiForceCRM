@@ -12,18 +12,7 @@
 {strip}
 <div class='verticalScroll'>
 	<div class='editViewContainer'>
-		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php"
-			  enctype="multipart/form-data">
-			<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
-			{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-				<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
-			{/if}
-			{if !empty($MAPPING_RELATED_FIELD)}
-				<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
-			{/if}
-			{if !empty($LIST_FILTER_FIELDS)}
-				<input type="hidden" name="listFilterFields" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}'/>
-			{/if}
+		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 			{assign var=QUALIFIED_MODULE_NAME value={$QUALIFIED_MODULE}}
 			{assign var=IS_PARENT_EXISTS value=strpos($MODULE,":")}
 			{if $PARENT_MODULE neq ''}
@@ -33,20 +22,35 @@
 			{else}
 				<input type="hidden" name="module" value="{$MODULE}"/>
 			{/if}
-			<input type="hidden" name="action" value="Save"/>
 			{if !empty($RECORD_ID)}
 				<input type="hidden" name="record" id="recordId" value="{$RECORD_ID}"/>
+				<input type="hidden" name="fromView" value="Edit"/>
+				{assign var="FROM_VIEW" value='Edit'}
+			{else}
+				<input type="hidden" name="fromView" value="Create"/>
+				{assign var="FROM_VIEW" value='Create'}
 			{/if}
-			<input name="defaultOtherEventDuration"
-				   value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
-			{if $MODE === 'duplicate'}
-				<input type="hidden" name="_isDuplicateRecord" value="true"/>
-				<input type="hidden" name="_duplicateRecord" value="{\App\Request::_get('record')}"/>
-			{/if}
+			<input type="hidden" name="action" value="Save"/>
 			{if $IS_RELATION_OPERATION }
 				<input type="hidden" name="sourceModule" value="{$SOURCE_MODULE}"/>
 				<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}"/>
 				<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}"/>
+			{/if}
+			<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
+			<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, $FROM_VIEW])}"/>
+			{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
+				<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
+			{/if}
+			{if !empty($MAPPING_RELATED_FIELD)}
+				<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
+			{/if}
+			{if !empty($LIST_FILTER_FIELDS)}
+				<input type="hidden" name="listFilterFields" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}'/>
+			{/if}
+			<input name="defaultOtherEventDuration" value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
+			{if $MODE === 'duplicate'}
+				<input type="hidden" name="_isDuplicateRecord" value="true"/>
+				<input type="hidden" name="_duplicateRecord" value="{\App\Request::_get('record')}"/>
 			{/if}
 			{foreach from=$RECORD->getModule()->getFieldsByDisplayType(9) item=FIELD key=FIELD_NAME}
 				<input type="hidden" name="{$FIELD_NAME}" value="{$FIELD->getEditViewValue($RECORD->get($FIELD_NAME),$RECORD)}"/>
@@ -121,17 +125,14 @@
 								{if $COUNTER eq 2}
 							</div>
 							<div class="row">
-								{assign var=COUNTER value=1}
-								{else}
-								{assign var=COUNTER value=$COUNTER+1}
-								{/if}
+								{assign var=COUNTER value=1}{else}{assign var=COUNTER value=$COUNTER+1}{/if}
 								{if isset($RECORD_STRUCTURE_RIGHT)}
 								<div class="col-sm-12 fieldRow row form-group align-items-center my-1">
-									{else}
+								{else}
 									<div class="{if $FIELD_MODEL->get('label') eq "FL_REAPEAT"} col-sm-3
 								{elseif $FIELD_MODEL->get('label') eq "FL_RECURRENCE"} col-sm-9
 								{elseif $FIELD_MODEL->getUIType() neq "300"}col-sm-6
-								{else} col-md-12 m-auto{/if} fieldRow row form-group align-items-center my-1">
+								{else} col-md-12 m-auto{/if} fieldRow row form-group align-items-center my-1 js-field-block-column{if $FIELD_MODEL->get('hideField')} d-none{/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
 										{/if}
 											{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
 										<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">
