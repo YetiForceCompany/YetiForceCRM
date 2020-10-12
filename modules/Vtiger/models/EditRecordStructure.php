@@ -14,27 +14,25 @@
 class Vtiger_EditRecordStructure_Model extends Vtiger_RecordStructure_Model
 {
 	/**
-	 * Function to get the values in stuctured format.
+	 * Function to get the values in structured format.
 	 *
-	 * @return <array> - values in structure array('block'=>array(fieldinfo));
+	 * @return array - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()
 	{
 		if (!empty($this->structuredValues)) {
 			return $this->structuredValues;
 		}
-
 		$values = [];
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
-		$moduleModel = $this->getModule();
-		$blockModelList = $moduleModel->getBlocks();
+		$fieldsDependency = \App\FieldsDependency::getByRecordModel($recordModel->isNew() ? 'Create' : 'Edit', $recordModel);
+		$blockModelList = $this->getModule()->getBlocks();
 		foreach ($blockModelList as $blockLabel => $blockModel) {
-			$fieldModelList = $blockModel->getFields();
-			if (!empty($fieldModelList)) {
+			if ($fieldModelList = $blockModel->getFields()) {
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
-					if ($fieldModel->isEditable()) {
+					if ($fieldModel->isEditable() && (!$fieldsDependency['hide']['backend'] || !\in_array($fieldName, $fieldsDependency['hide']['backend']))) {
 						if ('' !== $recordModel->get($fieldName)) {
 							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 						} else {
@@ -42,6 +40,12 @@ class Vtiger_EditRecordStructure_Model extends Vtiger_RecordStructure_Model
 							if ('' !== $defaultValue && !$recordId) {
 								$fieldModel->set('fieldvalue', $defaultValue);
 							}
+						}
+						if ($fieldsDependency['hide']['frontend'] && \in_array($fieldName, $fieldsDependency['hide']['frontend'])) {
+							$fieldModel->set('hideField', true);
+						}
+						if ($fieldsDependency['mandatory'] && \in_array($fieldName, $fieldsDependency['mandatory'])) {
+							$fieldModel->set('isMandatory', true);
 						}
 						$values[$blockLabel][$fieldName] = $fieldModel;
 						if ($fieldModel->get('tabindex') > Vtiger_Field_Model::$tabIndexLastSeq) {
@@ -51,8 +55,7 @@ class Vtiger_EditRecordStructure_Model extends Vtiger_RecordStructure_Model
 				}
 			}
 		}
-		$this->structuredValues = $values;
 		++Vtiger_Field_Model::$tabIndexLastSeq;
-		return $values;
+		return $this->structuredValues = $values;
 	}
 }

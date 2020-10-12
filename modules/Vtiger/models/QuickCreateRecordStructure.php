@@ -14,9 +14,9 @@
 class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Model
 {
 	/**
-	 * Function to get the values in stuctured format.
+	 * Function to get the values in structured format.
 	 *
-	 * @return <array> - values in structure array('block'=>array(fieldinfo));
+	 * @return array - values in structure
 	 */
 	public function getStructure()
 	{
@@ -26,10 +26,12 @@ class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Mod
 		Vtiger_Field_Model::$tabIndexDefaultSeq = 1000;
 		$values = [];
 		$recordModel = $this->getRecord();
-		$moduleModel = $this->getModule();
-
-		$fieldModelList = $moduleModel->getQuickCreateFields();
+		$fieldsDependency = \App\FieldsDependency::getByRecordModel('QuickCreate', $recordModel);
+		$fieldModelList = $this->getModule()->getQuickCreateFields();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
+			if ($fieldsDependency['hide']['backend'] && \in_array($fieldName, $fieldsDependency['hide']['backend'])) {
+				continue;
+			}
 			$recordModelFieldValue = $recordModel->get($fieldName);
 			if (!empty($recordModelFieldValue)) {
 				$fieldModel->set('fieldvalue', $recordModelFieldValue);
@@ -51,6 +53,12 @@ class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Mod
 			}
 			if ($fieldModel->get('tabindex') > Vtiger_Field_Model::$tabIndexLastSeq) {
 				Vtiger_Field_Model::$tabIndexLastSeq = $fieldModel->get('tabindex');
+			}
+			if ($fieldsDependency['hide']['frontend'] && \in_array($fieldName, $fieldsDependency['hide']['frontend'])) {
+				$fieldModel->set('hideField', true);
+			}
+			if ($fieldsDependency['mandatory'] && \in_array($fieldName, $fieldsDependency['mandatory'])) {
+				$fieldModel->set('isMandatory', true);
 			}
 			$values[$fieldName] = $fieldModel;
 		}

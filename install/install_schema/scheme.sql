@@ -1181,6 +1181,25 @@ CREATE TABLE `s_yf_companies` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_fields_dependency` */
+
+CREATE TABLE `s_yf_fields_dependency` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `tabid` smallint(5) NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `name` varchar(100) DEFAULT NULL,
+  `views` varchar(255) DEFAULT NULL,
+  `gui` tinyint(1) unsigned NOT NULL,
+  `mandatory` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `fields` text NOT NULL,
+  `conditions` text DEFAULT NULL,
+  `conditionsFields` text DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tabid` (`tabid`),
+  KEY `status` (`status`),
+  CONSTRAINT `s_yf_fields_dependency_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_mail_queue` */
 
 CREATE TABLE `s_yf_mail_queue` (

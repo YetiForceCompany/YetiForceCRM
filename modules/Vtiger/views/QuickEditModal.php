@@ -162,13 +162,20 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 		} else {
 			$fieldModelList = $moduleModel->getQuickCreateFields();
 		}
+		$fieldsDependency = \App\FieldsDependency::getByRecordModel('QuickEdit', $recordModel);
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
+			if ($fieldsDependency['hide']['backend'] && \in_array($fieldName, $fieldsDependency['hide']['backend'])) {
+				continue;
+			}
 			$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 			if ($fieldModel->get('tabindex') > Vtiger_Field_Model::$tabIndexLastSeq) {
 				Vtiger_Field_Model::$tabIndexLastSeq = $fieldModel->get('tabindex');
 			}
-			if ($mandatoryFields && \in_array($fieldName, $mandatoryFields)) {
+			if (($mandatoryFields && \in_array($fieldName, $mandatoryFields)) || ($fieldsDependency['mandatory'] && \in_array($fieldName, $fieldsDependency['mandatory']))) {
 				$fieldModel->set('isMandatory', true);
+			}
+			if ($fieldsDependency['hide']['frontend'] && \in_array($fieldName, $fieldsDependency['hide']['frontend'])) {
+				$fieldModel->set('hideField', true);
 			}
 			$values[$fieldName] = $fieldModel;
 		}

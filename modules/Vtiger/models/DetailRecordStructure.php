@@ -43,16 +43,22 @@ class Vtiger_DetailRecordStructure_Model extends Vtiger_RecordStructure_Model
 		$values = [];
 		$recordModel = $this->getRecord();
 		$recordExists = !empty($recordModel);
+		if ($recordExists) {
+			$fieldsDependency = \App\FieldsDependency::getByRecordModel('Detail', $recordModel);
+		}
 		$moduleModel = $this->getModule();
 		$blockModelList = $moduleModel->getBlocks();
 		foreach ($blockModelList as $blockLabel => &$blockModel) {
 			$fieldModelList = $blockModel->getFields();
-			if (!empty($fieldModelList)) {
+			if ($fieldModelList) {
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => &$fieldModel) {
-					if ($fieldModel->isViewableInDetailView()) {
+					if ($fieldModel->isViewableInDetailView() && (empty($fieldsDependency['hide']['backend']) || !\in_array($fieldName, $fieldsDependency['hide']['backend']))) {
 						if ($recordExists) {
 							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
+						}
+						if (!empty($fieldsDependency['hide']['frontend']) && \in_array($fieldName, $fieldsDependency['hide']['frontend'])) {
+							$fieldModel->set('hideField', true);
 						}
 						$values[$blockLabel][$fieldName] = $fieldModel;
 					}
@@ -60,7 +66,6 @@ class Vtiger_DetailRecordStructure_Model extends Vtiger_RecordStructure_Model
 			}
 		}
 		$this->structuredValues = $values;
-
 		return $values;
 	}
 }

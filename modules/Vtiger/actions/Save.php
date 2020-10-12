@@ -134,6 +134,13 @@ class Vtiger_Save_Action extends \App\Controller\Action
 		if ($request->has('inventory') && $this->record->getModule()->isInventory()) {
 			$this->record->initInventoryDataFromRequest($request);
 		}
+		$fromView = $request->has('fromView') ? $request->getByType('fromView') : ($request->isEmpty('record', true) ? 'Create' : 'Edit');
+		$fieldsDependency = \App\FieldsDependency::getByRecordModel($fromView, $this->record);
+		if ($fields = array_merge($fieldsDependency['hide']['frontend'], $fieldsDependency['hide']['backend'])) {
+			foreach ($fields as $fieldName) {
+				$this->record->revertPreviousValue($fieldName);
+			}
+		}
 		return $this->record;
 	}
 
