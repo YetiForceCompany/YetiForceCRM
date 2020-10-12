@@ -29,6 +29,13 @@ abstract class PaymentsIn_PaymentStatus_Model
 	protected static $fieldPaymentStatusName;
 
 	/**
+	 * Field payment sum name.
+	 *
+	 * @var string
+	 */
+	protected static $fieldPaymentSumName;
+
+	/**
 	 * Related record ID name.
 	 *
 	 * @var string
@@ -58,12 +65,31 @@ abstract class PaymentsIn_PaymentStatus_Model
 	 */
 	public static function updatePaymentStatus(int $recordId)
 	{
+		$changes = false;
 		$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, static::$moduleName);
-		$recordModel->set(
-			static::$fieldPaymentStatusName,
-			static::calculatePaymentStatus((float) $recordModel->get('sum_gross'), static::getSumOfPaymentsByRecordId($recordId, static::$moduleName))
-		);
-		$recordModel->save();
+		if(!empty(static::$fieldPaymentStatusName)){
+			$statusFieldModel = $recordModel->getField(static::$fieldPaymentStatusName);
+			if ($statusFieldModel && $statusFieldModel->isActiveField()) {
+				$recordModel->set(
+					static::$fieldPaymentStatusName,
+					static::calculatePaymentStatus((float) $recordModel->get('sum_gross'), static::getSumOfPaymentsByRecordId($recordId, static::$moduleName))
+				);
+				$changes = true;
+			}
+		}
+		if(!empty(static::$fieldPaymentSumName)){
+			$sumFieldModel = $recordModel->getField(static::$fieldPaymentSumName);
+			if ($sumFieldModel && $sumFieldModel->isActiveField()) {
+				$recordModel->set(
+					static::$fieldPaymentSumName,
+					static::getSumOfPaymentsByRecordId($recordId, static::$moduleName)
+				);
+				$changes = true;
+			}
+		}
+		if ($changes) {
+			$recordModel->save();
+		}
 	}
 
 	/**

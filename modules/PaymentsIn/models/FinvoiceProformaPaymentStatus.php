@@ -1,23 +1,23 @@
 <?php
 /**
- * The file contains: Class to change the payment status of a sales invoice.
+ * The file contains: Class to change the payment status of a proforma invoice.
  *
  * @package Model
  *
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
 
 /**
- * Class to change the payment status of a sales invoice.
+ * Class to change the payment status of a proforma invoice.
  */
-class PaymentsIn_FinvoicePaymentStatus_Model extends PaymentsIn_PaymentStatus_Model
+class PaymentsIn_FinvoiceProformaPaymentStatus_Model extends PaymentsIn_PaymentStatus_Model
 {
 	/**
 	 * {@inheritdoc}
 	 */
-	protected static $moduleName = 'FInvoice';
+	protected static $moduleName = 'FInvoiceProforma';
 
 	/**
 	 * {@inheritdoc}
@@ -32,5 +32,6 @@ class PaymentsIn_FinvoicePaymentStatus_Model extends PaymentsIn_PaymentStatus_Mo
 	/**
 	 * {@inheritdoc}
 	 */
-	protected static $relatedRecordIdName = 'finvoiceid';
+	protected static $relatedRecordIdName = 'finvoiceproformaid';
+
 }
