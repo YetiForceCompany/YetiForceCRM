@@ -17308,7 +17308,7 @@ body:not(.desktop) .bodyContent {
 .c-badge__icon {
   width: 32px;
   height: 32px;
-  line-height: 30px;
+  line-height: 27px;
   font-size: 17px; }
 
 .c-badge--md {

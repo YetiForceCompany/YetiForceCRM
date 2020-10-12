@@ -131,13 +131,27 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Get pevious value by field.
 	 *
-	 * @param string $key
+	 * @param string $fieldName
 	 *
 	 * @return mixed
 	 */
-	public function getPreviousValue($key = '')
+	public function getPreviousValue(string $fieldName = '')
 	{
-		return $key ? ($this->changes[$key] ?? false) : $this->changes;
+		return $fieldName ? ($this->changes[$fieldName] ?? false) : $this->changes;
+	}
+
+	/**
+	 * Revert previous value.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return void
+	 */
+	public function revertPreviousValue(string $fieldName): void
+	{
+		if (isset($this->changes[$fieldName])) {
+			$this->value[$fieldName] = $this->changes[$fieldName];
+		}
 	}
 
 	/**

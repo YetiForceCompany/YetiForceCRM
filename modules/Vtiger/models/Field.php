@@ -161,11 +161,11 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Get full label translation.
 	 *
-	 * @param Vtiger_Module_Model $module
+	 * @param Vtiger_Module_Model|null $module
 	 *
 	 * @return string
 	 */
-	public function getFullLabelTranslation(Vtiger_Module_Model $module)
+	public function getFullLabelTranslation(?Vtiger_Module_Model $module = null): string
 	{
 		$translation = '';
 		if ($this->get('source_field_name')) {
