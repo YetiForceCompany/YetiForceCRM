@@ -24,8 +24,10 @@ class EventHandler
 	private $params;
 	private $exceptions = [];
 
-	/** Edit view, validation before saving */
+	/** @var string Edit view, validation before saving */
 	public const EDIT_VIEW_PRE_SAVE = 'EditViewPreSave';
+	/** @var string Edit view, change value */
+	public const EDIT_VIEW_CHANGE_VALUE = 'EditViewChangeValue';
 
 	/**
 	 * Get all event handlers.
@@ -73,6 +75,32 @@ class EventHandler
 			}
 		}
 		return $handlers;
+	}
+
+	/**
+	 * Get vars event handlers by type (event_name).
+	 *
+	 * @param string $name
+	 * @param string $moduleName
+	 * @param array  $params
+	 * @param bool   $byKey
+	 *
+	 * @return string
+	 */
+	public static function getVarsByType(string $name, string $moduleName, array $params, bool $byKey = false): string
+	{
+		$return = [];
+		foreach (self::getByType($name, $moduleName) as $key => $handler) {
+			$className = $handler['handler_class'];
+			if (method_exists($className, 'vars') && ($vars = (new $className())->vars($name, $params))) {
+				if ($byKey) {
+					$return[$key] = $vars;
+				} else {
+					$return = array_unique(array_merge($return, $vars));
+				}
+			}
+		}
+		return Purifier::encodeHtml(Json::encode($return));
 	}
 
 	/**
