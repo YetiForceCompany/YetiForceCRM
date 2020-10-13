@@ -130,6 +130,7 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 			$db->createCommand()->insert('s_#__fields_dependency', $data)->execute();
 		}
 		\App\Cache::delete('FieldsDependency', $data['tabid']);
+		$this->checkHandler();
 	}
 
 	/**
@@ -141,6 +142,7 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 			->delete('s_#__fields_dependency', ['id' => $this->getId()])
 			->execute();
 		\App\Cache::delete('FieldsDependency', $this->get('tabid'));
+		$this->checkHandler();
 		return $return;
 	}
 
@@ -208,5 +210,20 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
 		return $links;
+	}
+
+	/**
+	 * Check whether to activate/remove handler.
+	 *
+	 * @return void
+	 */
+	public function checkHandler()
+	{
+		if ((new \App\Db\Query())->from('s_#__fields_dependency')->where(['status' => 0])->exists(\App\Db::getInstance('admin'))) {
+			App\EventHandler::registerHandler('EditViewChangeValue', 'Vtiger_FieldsDependency_Handler');
+			App\EventHandler::registerHandler('EditViewPreSave', 'Vtiger_FieldsDependency_Handler');
+		} else {
+			App\EventHandler::setInActive('Vtiger_FieldsDependency_Handler');
+		}
 	}
 }

@@ -1198,7 +1198,7 @@ CREATE TABLE `s_yf_fields_dependency` (
   KEY `tabid` (`tabid`),
   KEY `status` (`status`),
   CONSTRAINT `s_yf_fields_dependency_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_mail_queue` */
 
