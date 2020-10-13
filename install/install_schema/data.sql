@@ -427,7 +427,7 @@ insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`vat_id`,`c
 
 /*Data for the table `s_yf_fields_dependency` */
 
-insert  into `s_yf_fields_dependency`(`id`,`tabid`,`status`,`name`,`views`,`gui`,`mandatory`,`fields`,`conditions`,`conditionsFields`) values (1,6,0,'Legal form','[\"Create\",\"Edit\",\"Detail\",\"QuickCreate\",\"QuickEdit\"]',1,0,'[\"vat_id\",\"registration_number_2\",\"registration_number_1\",\"siccode\"]','{\"condition\":\"OR\",\"rules\":[{\"fieldname\":\"legal_form:Accounts\",\"operator\":\"n\",\"value\":\"PLL_NATURAL_PERSON\"}]}','[\"legal_form\"]');
+insert  into `s_yf_fields_dependency`(`id`,`tabid`,`status`,`name`,`views`,`gui`,`mandatory`,`fields`,`conditions`,`conditionsFields`) values (1,6,1,'Legal form','[\"Create\",\"Edit\",\"Detail\",\"QuickCreate\",\"QuickEdit\"]',1,0,'[\"vat_id\",\"registration_number_2\",\"registration_number_1\",\"siccode\"]','{\"condition\":\"OR\",\"rules\":[{\"fieldname\":\"legal_form:Accounts\",\"operator\":\"n\",\"value\":\"PLL_NATURAL_PERSON\"}]}','[\"legal_form\"]');
 
 /*Data for the table `s_yf_mail_queue` */
 
