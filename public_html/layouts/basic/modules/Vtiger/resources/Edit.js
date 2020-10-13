@@ -518,47 +518,47 @@ $.Class(
 			let contact_id = false;
 			let lead_id = false;
 			let vendor_id = false;
-			$(
-				'#EditView .js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldValue, #EditView .js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldLabel'
-			).each(function (index) {
-				let block = $(this);
-				let referenceModulesList = false;
-				let relatedField = block.find('[name="popupReferenceModule"]').val();
-				if (relatedField == 'Accounts') {
-					account_id = block.find('.sourceField').attr('name');
-				}
-				if (relatedField == 'Contacts') {
-					contact_id = block.find('.sourceField').attr('name');
-				}
-				if (relatedField == 'Leads') {
-					lead_id = block.find('.sourceField').attr('name');
-				}
-				if (relatedField == 'Vendors') {
-					vendor_id = block.find('.sourceField').attr('name');
-				}
-				referenceModulesList = block.find('.referenceModulesList');
-				if (referenceModulesList.length > 0) {
-					$.each(referenceModulesList.find('option'), function (key, data) {
-						if (data.value == 'Accounts') {
-							account_id = block.find('.sourceField').attr('name');
-						}
-						if (data.value == 'Contacts') {
-							contact_id = block.find('.sourceField').attr('name');
-						}
-						if (data.value == 'Leads') {
-							lead_id = block.find('.sourceField').attr('name');
-						}
-						if (data.value == 'Vendors') {
-							vendor_id = block.find('.sourceField').attr('name');
-						}
-					});
-				}
-			});
+			this.formElement
+				.find('.js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldValue, .js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldLabel')
+				.each(function (index) {
+					let block = $(this);
+					let referenceModulesList = false;
+					let relatedField = block.find('[name="popupReferenceModule"]').val();
+					if (relatedField == 'Accounts') {
+						account_id = block.find('.sourceField').attr('name');
+					}
+					if (relatedField == 'Contacts') {
+						contact_id = block.find('.sourceField').attr('name');
+					}
+					if (relatedField == 'Leads') {
+						lead_id = block.find('.sourceField').attr('name');
+					}
+					if (relatedField == 'Vendors') {
+						vendor_id = block.find('.sourceField').attr('name');
+					}
+					referenceModulesList = block.find('.referenceModulesList');
+					if (referenceModulesList.length > 0) {
+						$.each(referenceModulesList.find('option'), function (key, data) {
+							if (data.value == 'Accounts') {
+								account_id = block.find('.sourceField').attr('name');
+							}
+							if (data.value == 'Contacts') {
+								contact_id = block.find('.sourceField').attr('name');
+							}
+							if (data.value == 'Leads') {
+								lead_id = block.find('.sourceField').attr('name');
+							}
+							if (data.value == 'Vendors') {
+								vendor_id = block.find('.sourceField').attr('name');
+							}
+						});
+					}
+				});
 
 			if (account_id == false) {
-				$('.copyAddressFromAccount').addClass('d-none');
+				this.formElement.find('.copyAddressFromAccount').addClass('d-none');
 			} else {
-				$('.copyAddressFromAccount').on('click', function (e) {
+				this.formElement.find('.copyAddressFromAccount').on('click', function (e) {
 					let element = $(this);
 					let block = element.closest('.js-toggle-panel');
 					let from = element.data('label');
@@ -584,9 +584,9 @@ $.Class(
 				});
 			}
 			if (contact_id == false) {
-				$('.copyAddressFromContact').addClass('d-none');
+				this.formElement.find('.copyAddressFromContact').addClass('d-none');
 			} else {
-				$('.copyAddressFromContact').on('click', function (e) {
+				this.formElement.find('.copyAddressFromContact').on('click', function (e) {
 					let element = $(this);
 					let block = element.closest('.js-toggle-panel');
 					let from = element.data('label');
@@ -610,9 +610,9 @@ $.Class(
 				});
 			}
 			if (lead_id == false) {
-				$('.copyAddressFromLead').addClass('d-none');
+				this.formElement.find('.copyAddressFromLead').addClass('d-none');
 			} else {
-				$('.copyAddressFromLead').on('click', function (e) {
+				this.formElement.find('.copyAddressFromLead').on('click', function (e) {
 					let element = $(this);
 					let block = element.closest('.js-toggle-panel');
 					let from = element.data('label');
@@ -636,9 +636,9 @@ $.Class(
 				});
 			}
 			if (vendor_id == false) {
-				$('.copyAddressFromVendor').addClass('d-none');
+				this.formElement.find('.copyAddressFromVendor').addClass('d-none');
 			} else {
-				$('.copyAddressFromVendor').on('click', function (e) {
+				this.formElement.find('.copyAddressFromVendor').on('click', function (e) {
 					let element = $(this);
 					let block = element.closest('.js-toggle-panel');
 					let from = element.data('label');
@@ -661,8 +661,7 @@ $.Class(
 					}
 				});
 			}
-
-			$('#EditView .js-toggle-panel').each(function (index) {
+			this.formElement.find('.js-toggle-panel').each(function (index) {
 				let hideCopyAddressLabel = true;
 				$(this)
 					.find('.adressAction button')
@@ -675,21 +674,21 @@ $.Class(
 					$(this).find('.copyAddressLabel').addClass('d-none');
 				}
 			});
-			$('.copyAddressFromMain').on('click', function (e) {
+			this.formElement.find('.copyAddressFromMain').on('click', function (e) {
 				let element = $(this);
 				let block = element.closest('.js-toggle-panel');
 				let from = element.data('label');
 				let to = block.data('label');
 				thisInstance.copyAddress(from, to, false, false);
 			});
-			$('.copyAddressFromMailing').on('click', function (e) {
+			this.formElement.find('.copyAddressFromMailing').on('click', function (e) {
 				let element = $(this);
 				let block = element.closest('.js-toggle-panel');
 				let from = element.data('label');
 				let to = block.data('label');
 				thisInstance.copyAddress(from, to, false, false);
 			});
-			$('.copyAddressFromDelivery').on('click', function (e) {
+			this.formElement.find('.copyAddressFromDelivery').on('click', function (e) {
 				let element = $(this);
 				let block = element.closest('.js-toggle-panel');
 				let from = element.data('label');
@@ -1081,6 +1080,9 @@ $.Class(
 			let module = this.moduleName;
 			blocks.each(function (index, block) {
 				let currentBlock = $(block);
+				if (currentBlock.find('.js-field-block-column:not(.d-none)').length === 0) {
+					currentBlock.addClass('d-none');
+				}
 				let dynamicAttr = currentBlock.attr('data-dynamic');
 				if (typeof dynamicAttr !== typeof undefined && dynamicAttr !== false) {
 					let headerAnimationElement = currentBlock.find('.js-block-toggle').not('.d-none');
@@ -1101,6 +1103,21 @@ $.Class(
 					}
 				}
 			});
+		},
+		/**
+		 * Visibility check block
+		 */
+		checkVisibilityBlocks: function () {
+			this.getForm()
+				.find('.js-toggle-panel')
+				.each(function (index, block) {
+					let currentBlock = $(block);
+					if (currentBlock.find('.js-field-block-column:not(.d-none)').length === 0) {
+						currentBlock.addClass('d-none');
+					} else {
+						currentBlock.removeClass('d-none');
+					}
+				});
 		},
 		registerAutoloadAddress: function () {
 			const self = this;
@@ -1478,31 +1495,6 @@ $.Class(
 			});
 		},
 		/**
-		 * Register change value handler events
-		 * @param {jQuery} container
-		 */
-		registerChangeValueHandlerEvent: function (container) {
-			let event = container.find('.js-change-value-event');
-			if (event.length <= 0) {
-				return;
-			}
-			const self = this;
-			let fields = JSON.parse(event.val());
-			$.each(fields, function (key, fieldName) {
-				let fieldElement = container.find(`[name="${fieldName}"]`);
-				fieldElement.change(function () {
-					let formData = container.serializeFormData();
-					formData['action'] = 'ChangeValueHandler';
-					delete formData['view'];
-					AppConnector.request(formData).done(function (response) {
-						$.each(response.result, function (key, data) {
-							self.triggerRecordEditEvents(data);
-						});
-					});
-				});
-			});
-		},
-		/**
 		 * Trigger record edit view events
 		 * @param {object} data
 		 */
@@ -1526,13 +1518,40 @@ $.Class(
 			if (typeof data['showFields'] != 'undefined') {
 				$.each(data['showFields'], function (key, fieldName) {
 					form.find(`.js-field-block-column[data-field="${fieldName}"]`).removeClass('d-none');
+					self.checkVisibilityBlocks();
 				});
 			}
 			if (typeof data['hideFields'] != 'undefined') {
 				$.each(data['hideFields'], function (key, fieldName) {
 					form.find(`.js-field-block-column[data-field="${fieldName}"]`).addClass('d-none');
+					self.checkVisibilityBlocks();
 				});
 			}
+		},
+		/**
+		 * Register change value handler events
+		 * @param {jQuery} container
+		 */
+		registerChangeValueHandlerEvent: function (container) {
+			let event = container.find('.js-change-value-event');
+			if (event.length <= 0) {
+				return;
+			}
+			const self = this;
+			let fields = JSON.parse(event.val());
+			$.each(fields, function (key, fieldName) {
+				let fieldElement = container.find(`[name="${fieldName}"]`);
+				fieldElement.change(function () {
+					let formData = container.serializeFormData();
+					formData['action'] = 'ChangeValueHandler';
+					delete formData['view'];
+					AppConnector.request(formData).done(function (response) {
+						$.each(response.result, function (key, data) {
+							self.triggerRecordEditEvents(data);
+						});
+					});
+				});
+			});
 		},
 		/**
 		 * Function which will register basic events which will be used in quick create as well
