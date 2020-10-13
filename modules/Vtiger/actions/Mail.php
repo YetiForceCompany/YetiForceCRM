@@ -73,24 +73,26 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 					continue;
 				}
 				$emails[$row[$field]] = true;
-				if ('Campaigns' === $sourceModule) {
+				foreach($field as $recepient) {
+				  if ('Campaigns' === $sourceModule) {
 					$result = \App\Mailer::sendFromTemplate([
 						'template' => $template,
 						'moduleName' => $sourceModule,
 						'recordId' => $sourceRecord,
-						'to' => $row[$field],
+						'to' => $row[$recepient],
 						'sourceModule' => $moduleName,
 						'sourceRecord' => $row['id'],
 					]);
-				} else {
+				  } else {
 					$result = \App\Mailer::sendFromTemplate([
 						'template' => $template,
 						'moduleName' => $moduleName,
 						'recordId' => $row['id'],
-						'to' => $row[$field],
+						'to' => $row[$recepient],
 						'sourceModule' => $sourceModule,
 						'sourceRecord' => $sourceRecord,
 					]);
+				  }
 				}
 				if (!$result) {
 					break;
@@ -145,8 +147,12 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 		$moduleModel = $queryGenerator->getModuleModel();
 		$baseTableName = $moduleModel->get('basetable');
 		$baseTableId = $moduleModel->get('basetableid');
-		$queryGenerator->setFields(['id', $request->getByType('field')]);
-		$queryGenerator->addCondition($request->getByType('field'), '', 'ny');
+		
+		$fields = $request->getByType('field');
+		foreach ($fields as $field) {
+		$queryGenerator->setFields(['id', $field);
+		$queryGenerator->addCondition($field, '', 'ny');
+		}
 		$selected = $request->getArray('selected_ids', 2);
 		if ($selected && 'all' !== $selected[0]) {
 			$queryGenerator->addNativeCondition(["$baseTableName.$baseTableId" => $selected]);
