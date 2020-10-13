@@ -1146,6 +1146,7 @@
     "LBL_Y": "yr",
     "LBL_YRS": "yrs",
     "FL_ACTIVE": "Active",
+    "FL_INACTIVE": "Inactive",
     "SwitchUsers": "Switch Users",
     "Api Address": "Address search",
     "Notifications": "Notifications",

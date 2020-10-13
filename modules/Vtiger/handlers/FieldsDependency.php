@@ -2,11 +2,11 @@
 /**
  * Base fields dependency handler file.
  *
- * @package Handler
+ * @package		Handler
  *
- * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @copyright	YetiForce Sp. z o.o
+ * @license		YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author		Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
  * Base fields dependency handler class.
@@ -28,20 +28,6 @@ class Vtiger_FieldsDependency_Handler
 		}
 		if ($fieldsDependency['hide']['frontend']) {
 			$return['hideFields'] = $fieldsDependency['hide']['frontend'];
-		}
-		if ($fieldsDependency['show']['mandatory']) {
-			$mandatoryFields = [];
-			foreach ($fieldsDependency['show']['mandatory'] as $fieldName) {
-				if ('' === $recordModel->get($fieldName)) {
-					$mandatoryFields[] = $recordModel->getField($fieldName)->getFullLabelTranslation();
-				}
-			}
-			if ($mandatoryFields) {
-				$return['showNotify'] = [
-					'text' => \App\Language::translate('LBL_NOT_FILLED_MANDATORY_FIELDS') . ': <br /> - ' . implode('<br /> - ', $mandatoryFields),
-					'type' => 'error'
-				];
-			}
 		}
 		return $return;
 	}

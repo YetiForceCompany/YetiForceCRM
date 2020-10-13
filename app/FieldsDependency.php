@@ -53,8 +53,8 @@ class FieldsDependency
 	 */
 	public static function getByModule(int $tabId, ?int $gui = null): array
 	{
-		if (Cache::has(__METHOD__, $tabId)) {
-			$fields = Cache::get(__METHOD__, $tabId);
+		if (Cache::has('FieldsDependency', $tabId)) {
+			$fields = Cache::get('FieldsDependency', $tabId);
 		} else {
 			$fields = [];
 			$dataReader = (new \App\Db\Query())->from('s_#__fields_dependency')->where(['status' => 0, 'tabid' => $tabId])
@@ -71,7 +71,7 @@ class FieldsDependency
 					$fields[$view][] = $row;
 				}
 			}
-			Cache::save(__METHOD__, $tabId, $fields);
+			Cache::save('FieldsDependency', $tabId, $fields);
 		}
 		if (isset($gui)) {
 			foreach ($fields as $view => $rows) {

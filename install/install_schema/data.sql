@@ -198,6 +198,7 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (77,'Watchdog',1,'2020-09-15 13:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (78,'Dependencies',1,'2020-09-16 08:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (79,'MailRbl',1,'2020-09-18 11:19:36');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (80,'FieldsDependency',1,'2020-10-13 09:49:22');
 
 /*Data for the table `a_yf_smsnotifier_servers` */
 
@@ -423,6 +424,8 @@ insert  into `s_yf_auto_record_flow_updater`(`id`,`status`,`source_module`,`targ
 /*Data for the table `s_yf_companies` */
 
 insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`vat_id`,`city`,`address`,`post_code`,`country`,`companysize`,`website`,`logo`,`firstname`,`lastname`,`email`,`facebook`,`twitter`,`linkedin`) values (1,0,'',1,NULL,'','','','','',0,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+
+/*Data for the table `s_yf_fields_dependency` */
 
 /*Data for the table `s_yf_mail_queue` */
 
@@ -18545,7 +18548,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (35,4,'LBL_PDF','adminIcon-modules-pdf-templates','LBL_PDF_DESCRIPTION','index.php?module=PDF&parent=Settings&view=List',9,0,1,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (38,7,'LBL_PASSWORD_CONF','adminIcon-passwords-configuration','LBL_PASSWORD_DESCRIPTION','index.php?module=Password&parent=Settings&view=Index',1,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (40,2,'LBL_MENU_BUILDER','adminIcon-menu-configuration','LBL_MENU_BUILDER_DESCRIPTION','index.php?module=Menu&view=Index&parent=Settings',14,0,1,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (41,2,'LBL_ARRANGE_RELATED_TABS','adminIcon-modules-relations','LBL_ARRANGE_RELATED_TABS','index.php?module=LayoutEditor&parent=Settings&view=Index&mode=showRelatedListLayout',4,0,1,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (41,2,'LBL_ARRANGE_RELATED_TABS','adminIcon-modules-relations','LBL_ARRANGE_RELATED_TABS','index.php?module=LayoutEditor&parent=Settings&view=Index&mode=showRelatedListLayout',3,0,1,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (44,8,'Mail Scanner','adminIcon-mail-scanner','LBL_MAIL_SCANNER_DESCRIPTION','index.php?module=OSSMailScanner&parent=Settings&view=Index',3,0,1,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (45,14,'Mail Logs','adminIcon-mail-download-history','LBL_MAIL_LOGS_DESCRIPTION','index.php?module=OSSMailScanner&parent=Settings&view=Logs',4,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (46,8,'Mail View','adminIcon-oss_mailview','LBL_MAIL_VIEW_DESCRIPTION','index.php?module=OSSMailView&parent=Settings&view=index',5,0,0,NULL);
@@ -18555,7 +18558,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (54,1,'GlobalPermission','adminIcon-special-access','LBL_GLOBALPERMISSION_DESCRIPTION','index.php?module=GlobalPermission&parent=Settings&view=Index',7,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (56,13,'Search Setup','adminIcon-search-configuration','LBL_SEARCH_SETUP_DESCRIPTION','index.php?module=Search&parent=Settings&view=Index',1,0,1,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (57,13,'CustomView','adminIcon-filters-configuration','LBL_CUSTOMVIEW_DESCRIPTION','index.php?module=CustomView&parent=Settings&view=Index',2,0,0,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (58,2,'Widgets','adminIcon-modules-widgets','LBL_WIDGETS_DESCRIPTION','index.php?module=Widgets&parent=Settings&view=Index',3,0,1,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (58,2,'Widgets','adminIcon-modules-widgets','LBL_WIDGETS_DESCRIPTION','index.php?module=Widgets&parent=Settings&view=Index',4,0,1,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (60,2,'LBL_QUICK_CREATE_EDITOR','adminIcon-fields-quick-create','LBL_QUICK_CREATE_EDITOR_DESCRIPTION','index.php?module=QuickCreateEditor&parent=Settings&view=Index',8,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (61,5,'LBL_API_ADDRESS','adminIcon-address','LBL_API_ADDRESS_DESCRIPTION','index.php?module=ApiAddress&parent=Settings&view=Configuration',5,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (62,7,'LBL_BRUTEFORCE','adminIcon-brute-force','LBL_BRUTEFORCE_DESCRIPTION','index.php?module=BruteForce&parent=Settings&view=Index',2,0,0,NULL);
@@ -18615,6 +18618,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (127,4,'LBL_CONFLICT_OF_INTEREST','fas fa-random','LBL_CONFLICT_OF_INTEREST_DESCRIPTION','index.php?parent=Settings&module=InterestsConflict&view=Index',15,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (128,1,'LBL_ADMIN_ACCESS','adminIcon-advanced-permission','LBL_ADMIN_ACCESS_DESCRIPTION','index.php?parent=Settings&module=AdminAccess&view=Index',12,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (129,8,'LBL_MAIL_RBL','fas fa-mail-bulk','LBL_MAIL_RBL_DESCRIPTION','index.php?parent=Settings&module=MailRbl&view=Index',8,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (130,2,'LBL_FIELDS_DEPENDENCY','fas fa-project-diagram','LBL_FIELDS_DEPENDENCY_DESCRIPTION','index.php?parent=Settings&module=FieldsDependency&view=List',7,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
