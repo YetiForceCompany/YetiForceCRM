@@ -42,7 +42,7 @@
 			<div class="form-group form-row">
 				<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_EMAIL_ADRESS')}</label>
 				<div class="col-sm-8">
-					<select class="select2" id="field" data-validation-engine="validate[required]">
+					<select class="select2" id="field" multiple data-validation-engine="validate[required]">
 						{foreach item=COUNT key=NAME from=$RECORDS}
 							{if $NAME != 'all' && $NAME != 'emails'&& $NAME != 'duplicate' && $COUNT > 0}
 								<option value="{$FIELDS[$NAME]->getName()}">{\App\Language::translate($FIELDS[$NAME]->getFieldLabel(), $MODULE)}
