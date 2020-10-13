@@ -1,0 +1,15 @@
+{
+  "php": {
+    "LBL_FIELDS_DEPENDENCY": "Dependent Fields",
+    "LBL_FIELDS_DEPENDENCY_DESCRIPTION": "Configuration of dynamic fields and blocks depending on specific criteria",
+    "LBL_NAME": "Dependent name",
+    "LBL_EDIT": "Edit dependent",
+    "LBL_CREATE": "Create new dependent",
+    "LBL_SOURCE_MODULE": "Module name",
+    "LBL_VIEWS": "Views",
+    "LBL_GUI": "Dynamic fields",
+    "LBL_GUI_INFO": "Enabling it results in a dynamic showing of fields in the form when changing values in fields. If disabled, the changes will only take effect after saving the data.",
+    "LBL_MANDATORY": "Mandatory fields",
+    "LBL_CONDITIONS": "Conditions"
+  }
+}

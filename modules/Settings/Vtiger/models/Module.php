@@ -13,10 +13,17 @@
 
 class Settings_Vtiger_Module_Model extends \App\Base
 {
+	/** @var string Base table. */
 	public $baseTable = 'vtiger_settings_field';
+
+	/** @var string Base index. */
 	public $baseIndex = 'fieldid';
+
+	/** @var array List fields. */
 	public $listFields = ['name' => 'Name', 'description' => 'Description'];
 	public $nameFields = ['name'];
+
+	/** @var string Module name. */
 	public $name = 'Vtiger';
 
 	public function getName($includeParentIfExists = false)
