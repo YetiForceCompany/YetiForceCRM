@@ -150,7 +150,7 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 		
 		$fields = $request->getByType('field');
 		foreach ($fields as $field) {
-		$queryGenerator->setFields(['id', $field]);
+		$queryGenerator->setFields('id', $field);
 		$queryGenerator->addCondition($field, '', 'ny');
 		}
 		$selected = $request->getArray('selected_ids', 2);
