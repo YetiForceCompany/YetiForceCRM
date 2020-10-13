@@ -169,6 +169,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$translation = '';
 		if ($this->get('source_field_name')) {
+			if (!$module) {
+				throw new \App\Exceptions\AppException('ERR_ARGUMENT_DOES_NOT_EXIST');
+			}
 			$translation = \App\Language::translate($module->getFieldByName($this->get('source_field_name'))->getFieldLabel(), $module->getName()) . ' - ';
 		}
 		return $translation .= \App\Language::translate($this->getFieldLabel(), $this->getModuleName());
