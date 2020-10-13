@@ -19,7 +19,7 @@ class Settings_FieldsDependency_DeleteAjax_Action extends Settings_Vtiger_Delete
 	{
 		$recordModel = Settings_FieldsDependency_Record_Model::getInstanceById($request->getInteger('record'));
 		if ($recordModel) {
-			$result = $recordModel->delete();
+			$result = ['success' => $recordModel->delete()];
 		} else {
 			$result = ['success' => false];
 			\App\Log::error('Not found Fields Dependency record with this id :' . $request->getInteger('record'));

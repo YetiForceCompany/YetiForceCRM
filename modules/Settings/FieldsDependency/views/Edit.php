@@ -45,8 +45,8 @@ class Settings_FieldsDependency_Edit_View extends Settings_Vtiger_Index_View
 				$selectedModuleName = \App\Module::getModuleName($recordModel->get('tabid'));
 			}
 			$viewer->assign('MODULES', $modules);
-			$viewer->assign('FIELDS', \App\Json::decode($recordModel->get('fields')));
-			$viewer->assign('VIEWS', \App\Json::decode($recordModel->get('views')));
+			$viewer->assign('FIELDS', \App\Json::decode($recordModel->get('fields')) ?? []);
+			$viewer->assign('VIEWS', \App\Json::decode($recordModel->get('views')) ?? []);
 			if (isset($selectedModuleName)) {
 				$sourceModuleModel = Vtiger_Module_Model::getInstance($selectedModuleName);
 				$recordStructureModulesField = [];

@@ -137,10 +137,11 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 	 */
 	public function delete()
 	{
-		\App\Db::getInstance('admin')->createCommand()
+		$return = \App\Db::getInstance('admin')->createCommand()
 			->delete('s_#__fields_dependency', ['id' => $this->getId()])
 			->execute();
 		\App\Cache::delete('FieldsDependency', $this->get('tabid'));
+		return $return;
 	}
 
 	/**
@@ -161,6 +162,12 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 			case 'views':
 				$value = implode(', ', array_map(function ($val) {
 					return \App\Language::translate(\App\FieldsDependency::VIEWS[$val], 'Settings:FieldsDependency');
+				}, \App\Json::decode($value) ?? []));
+				break;
+			case 'fields':
+				$moduleModel = Vtiger_Module_Model::getInstance($this->get('tabid'));
+				$value = implode(', ', array_map(function ($fieldName) use ($moduleModel) {
+					return $moduleModel->getField($fieldName)->getFullLabelTranslation();
 				}, \App\Json::decode($value) ?? []));
 				break;
 			case 'mandatory':
@@ -192,7 +199,7 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Settings_Vtiger_List_Js.deleteById(' . $this->getId() . ', true);',
+				'linkurl' => 'javascript:Settings_Vtiger_List_Js.deleteById(' . $this->getId() . ', true)',
 				'linkicon' => 'fas fa-trash-alt',
 				'linkclass' => 'btn text-white btn-danger btn-sm'
 			],
