@@ -114,36 +114,33 @@
 							<div class="row">
 								{assign var=COUNTER value=0}
 								{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
-								{if ($FIELD_NAME === 'time_start' || $FIELD_NAME === 'time_end') && ($MODULE === 'OSSTimeControl' || $MODULE === 'Reservations')}{continue}{/if}
-								{if $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '300'}
-								{if $COUNTER eq '1'}
-							</div>
-							<div class="row">
-								{assign var=COUNTER value=0}
-								{/if}
-								{/if}
-								{if $COUNTER eq 2}
-							</div>
-							<div class="row">
-								{assign var=COUNTER value=1}{else}{assign var=COUNTER value=$COUNTER+1}{/if}
-								{if isset($RECORD_STRUCTURE_RIGHT)}
-								<div class="col-sm-12 fieldRow row form-group align-items-center my-1">
-								{else}
-									<div class="{if $FIELD_MODEL->get('label') eq "FL_REAPEAT"} col-sm-3
-								{elseif $FIELD_MODEL->get('label') eq "FL_RECURRENCE"} col-sm-9
-								{elseif $FIELD_MODEL->getUIType() neq "300"}col-sm-6
-								{else} col-md-12 m-auto{/if} fieldRow row form-group align-items-center my-1 js-field-block-column{if $FIELD_MODEL->get('hideField')} d-none{/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
+									{if ($FIELD_NAME === 'time_start' || $FIELD_NAME === 'time_end') && ($MODULE === 'OSSTimeControl' || $MODULE === 'Reservations')}{continue}{/if}
+									{if $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '300'}
+										{if $COUNTER eq '1'}
+										</div>
+										<div class="row">
+											{assign var=COUNTER value=0}
 										{/if}
-											{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
+									{/if}
+									{if $COUNTER eq 2}
+									</div>
+									<div class="row">
+										{assign var=COUNTER value=1}{else}{assign var=COUNTER value=$COUNTER+1}{/if}
+										{if isset($RECORD_STRUCTURE_RIGHT)}
+											<div class="col-sm-12 fieldRow row form-group align-items-center my-1 js-field-block-column{if $FIELD_MODEL->get('hideField')} d-none{/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
+										{else}
+											<div class="{if $FIELD_MODEL->get('label') eq "FL_REAPEAT"} col-sm-3
+											{elseif $FIELD_MODEL->get('label') eq "FL_RECURRENCE"} col-sm-9
+											{elseif $FIELD_MODEL->getUIType() neq "300"}col-sm-6
+											{else} col-md-12 m-auto{/if} fieldRow row form-group align-items-center my-1 js-field-block-column{if $FIELD_MODEL->get('hideField')} d-none{/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
+										{/if}
+										{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
 										<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">
 											{if $FIELD_MODEL->isMandatory() eq true}
 												<span class="redColor">*</span>
 											{/if}
 											{if $HELPINFO_LABEL}
-												<a href="#" class="js-help-info float-right u-cursor-pointer"
-													title=""
-													data-placement="top"
-													data-content="{$HELPINFO_LABEL}"
+												<a href="#" class="js-help-info float-right u-cursor-pointer" title="" data-placement="top" data-content="{$HELPINFO_LABEL}"
 													data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModuleName())}">
 													<span class="fas fa-info-circle"></span>
 												</a>
@@ -152,24 +149,23 @@
 										</label>
 										<div class="{$WIDTHTYPE} {$WIDTHTYPE_GROUP} w-100 {if $FIELD_MODEL->getUIType() neq "300"} col-lg-12 col-xl-9 {/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
 											{if $FIELD_MODEL->getUIType() eq "300"}
-												<label class="u-text-small-bold">{if $FIELD_MODEL->isMandatory() eq true}
-														<span class="redColor">*</span>
-													{/if}{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
+												<label class="u-text-small-bold">{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
+													{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 												</label>
 											{/if}
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 										</div>
 									</div>
-									{/foreach}
+								{/foreach}
 								</div>
 							</div>
 						</div>
 						{/if}
-						{/foreach}
-					</div>
 					{/foreach}
 				</div>
-				{if 1 === $MODULE_TYPE && !isset($RECORD_STRUCTURE_RIGHT)}
-					{include file=\App\Layout::getTemplatePath('Edit/Inventory.tpl', $MODULE)}
-				{/if}
-				{/strip}
+				{/foreach}
+			</div>
+			{if 1 === $MODULE_TYPE && !isset($RECORD_STRUCTURE_RIGHT)}
+				{include file=\App\Layout::getTemplatePath('Edit/Inventory.tpl', $MODULE)}
+			{/if}
+{/strip}
