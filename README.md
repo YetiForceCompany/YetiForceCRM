@@ -54,8 +54,6 @@ Join our [LinkedIn group](https://www.linkedin.com/groups/8177576) and connect w
 
 Follow us on [Twitter](https://twitter.com/YetiForceEN) or like on [FaceBook](https://www.facebook.com/YetiForce-CRM-158646854306054/?ref=aymt_homepage_panel) to get real-time info about new articles and functionalities.
 
-Visit our [online store](https://yetiforce.shop/) with commercial modules and support packages.
-
 ## Where else can you find YetiForce?
 
 -   [Sourceforge](https://sourceforge.net/projects/yetiforce/)
