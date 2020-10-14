@@ -40,7 +40,7 @@ class Vtiger_FieldsDependency_Handler
 	public function editViewPreSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		$response = ['result' => false];
+		$response = ['result' => true];
 		$fieldsDependency = \App\FieldsDependency::getByRecordModel(\App\Request::_getByType('fromView'), $recordModel);
 		if ($fieldsDependency['show']['mandatory']) {
 			$mandatoryFields = [];

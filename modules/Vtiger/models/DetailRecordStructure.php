@@ -35,6 +35,11 @@ class Vtiger_DetailRecordStructure_Model extends Vtiger_RecordStructure_Model
 		return $fieldsInHeader;
 	}
 
+	/**
+	 * Function to get the values in structured format.
+	 *
+	 * @return array values in structure array('block'=>array(fieldinfo));
+	 */
 	public function getStructure()
 	{
 		if (!empty($this->structuredValues)) {
@@ -65,7 +70,6 @@ class Vtiger_DetailRecordStructure_Model extends Vtiger_RecordStructure_Model
 				}
 			}
 		}
-		$this->structuredValues = $values;
-		return $values;
+		return $this->structuredValues = $values;
 	}
 }

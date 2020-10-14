@@ -35,12 +35,12 @@ class Vtiger_QuickCreateRecordStructure_Model extends Vtiger_RecordStructure_Mod
 			$recordModelFieldValue = $recordModel->get($fieldName);
 			if (!empty($recordModelFieldValue)) {
 				$fieldModel->set('fieldvalue', $recordModelFieldValue);
-			} elseif ('activitystatus' == $fieldName) {
+			} elseif ('activitystatus' === $fieldName) {
 				$currentUserModel = Users_Record_Model::getCurrentUserModel();
 				$defaulteventstatus = $currentUserModel->get('defaulteventstatus');
 				$fieldValue = $defaulteventstatus;
 				$fieldModel->set('fieldvalue', $fieldValue);
-			} elseif ('activitytype' == $fieldName) {
+			} elseif ('activitytype' === $fieldName) {
 				$currentUserModel = Users_Record_Model::getCurrentUserModel();
 				$defaultactivitytype = $currentUserModel->get('defaultactivitytype');
 				$fieldValue = $defaultactivitytype;
