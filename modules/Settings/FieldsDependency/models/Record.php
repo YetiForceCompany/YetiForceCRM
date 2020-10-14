@@ -174,8 +174,10 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 				break;
 			case 'mandatory':
 			case 'gui':
-			case 'status':
 				$value = \App\Language::translate($value ? 'LBL_YES' : 'LBL_NO');
+				break;
+			case 'status':
+				$value = \App\Language::translate($value ? 'LBL_NO' : 'LBL_YES');
 				break;
 		}
 		return $value;
