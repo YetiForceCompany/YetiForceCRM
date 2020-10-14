@@ -42,7 +42,7 @@ We design an innovative CRM system that is dedicated for large and medium sized 
 
 ## Read the documentation to learn more.
 
-#### :video_camera: Video Tutorials: [youtube.com](https://www.youtube.com/playlist?list=PLX0lktP3Kukg_Da-TaEBys-aON68Yy2vh) , [public.yetiforce.com](https://public.yetiforce.com/Tutorials/)
+#### :video_camera: Video Tutorials: [Video Tutorials on YouTube](https://www.youtube.com/playlist?list=PLX0lktP3Kukg_Da-TaEBys-aON68Yy2vh) , [Video Tutorials on our server](https://public.yetiforce.com/Tutorials/)
 
 #### :blue_book: Knowledge base: [yetiforce.com/en/knowledge-base/documentation](https://yetiforce.com/en/knowledge-base/documentation) 
 
