@@ -220,8 +220,9 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 	public function checkHandler()
 	{
 		if ((new \App\Db\Query())->from('s_#__fields_dependency')->where(['status' => 0])->exists(\App\Db::getInstance('admin'))) {
-			App\EventHandler::registerHandler('EditViewChangeValue', 'Vtiger_FieldsDependency_Handler');
-			App\EventHandler::registerHandler('EditViewPreSave', 'Vtiger_FieldsDependency_Handler');
+			if (!App\EventHandler::registerHandler('EditViewChangeValue', 'Vtiger_FieldsDependency_Handler') || !App\EventHandler::registerHandler('EditViewPreSave', 'Vtiger_FieldsDependency_Handler')) {
+				App\EventHandler::setActive('Vtiger_FieldsDependency_Handler');
+			}
 		} else {
 			App\EventHandler::setInActive('Vtiger_FieldsDependency_Handler');
 		}

@@ -112,13 +112,16 @@ class EventHandler
 	 * @param string $excludeModules
 	 * @param int    $priority
 	 * @param bool   $isActive
-	 * @param mixed  $ownerId
+	 * @param int    $ownerId
+	 *
+	 * @return bool
 	 */
-	public static function registerHandler($eventName, $className, $includeModules = '', $excludeModules = '', $priority = 5, $isActive = true, $ownerId = 0)
+	public static function registerHandler(string $eventName, string $className, $includeModules = '', $excludeModules = '', $priority = 5, $isActive = true, $ownerId = 0): bool
 	{
+		$return = false;
 		$isExists = (new \App\Db\Query())->from(self::$baseTable)->where(['event_name' => $eventName, 'handler_class' => $className])->exists();
 		if (!$isExists) {
-			\App\Db::getInstance()->createCommand()
+			$return = \App\Db::getInstance()->createCommand()
 				->insert(self::$baseTable, [
 					'event_name' => $eventName,
 					'handler_class' => $className,
@@ -130,6 +133,7 @@ class EventHandler
 				])->execute();
 			static::clearCache();
 		}
+		return $return;
 	}
 
 	/**
