@@ -2,7 +2,12 @@
 {strip}
 <!-- tpl-Settings-FieldsDependency-DynamicBlocks -->
 <div class="form-group row">
-	<label for="inputFields" class="col-sm-3 col-form-label text-right"><span class="redColor">*</span>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)}</label>
+	<label for="inputFields" class="col-sm-3 col-form-label text-right">
+		<span class="redColor">*</span>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)}
+		<a href="#" class="js-popover-tooltip ml-2" data-placement="top" data-content="{\App\Language::translate('LBL_FIELDS_INFO', $QUALIFIED_MODULE)}">
+			<i class="fas fa-info-circle"></i>
+		</a>
+	</label>
 	<div class="col-sm-9">
 		<select name="fields[]" class="select2 form-control" id="inputFields" multiple="multiple" data-validation-engine="validate[required]">
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}

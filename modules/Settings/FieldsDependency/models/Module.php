@@ -24,7 +24,7 @@ class Settings_FieldsDependency_Module_Model extends Settings_Vtiger_Module_Mode
 	public $listFields = [
 		'name' => 'LBL_NAME',
 		'tabid' => 'LBL_SOURCE_MODULE',
-		'status' => 'LBL_STATUS',
+		'status' => 'FL_ACTIVE',
 		'views' => 'LBL_VIEWS',
 		'gui' => 'LBL_GUI',
 		'mandatory' => 'LBL_MANDATORY',

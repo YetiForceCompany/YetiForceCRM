@@ -46,13 +46,18 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label for="inputStatus" class="col-sm-3 col-form-label text-right">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</label>
-						<div class="col-sm-9"><div class="form-check">
+						<label for="inputStatus" class="col-sm-3 col-form-label text-right">{\App\Language::translate('FL_ACTIVE',$QUALIFIED_MODULE)}</label>
+						<div class="col-sm-9"><div class="form-check mt-1">
 							<input type="checkbox" name="status" value="1" class="form-check-input" id="inputStatus" {if !$RECORD->get('status')}checked{/if}>
 						</div></div>
 					</div>
 					<div class="form-group row">
-						<label for="inputViews" class="col-sm-3 col-form-label text-right"><span class="redColor">*</span>{\App\Language::translate('LBL_VIEWS',$QUALIFIED_MODULE)}</label>
+						<label for="inputViews" class="col-sm-3 col-form-label text-right">
+							<span class="redColor">*</span>{\App\Language::translate('LBL_VIEWS',$QUALIFIED_MODULE)}
+							<a href="#" class="js-popover-tooltip ml-2" data-placement="top" data-content="{\App\Language::translate('LBL_VIEWS_INFO', $QUALIFIED_MODULE)}">
+								<i class="fas fa-info-circle"></i>
+							</a>
+						</label>
 						<div class="col-sm-9">
 							<select name="views[]" class="select2 form-control" id="inputViews" multiple="multiple" data-validation-engine="validate[required]">
 								{foreach item=ITEM key=KEY from=\App\FieldsDependency::VIEWS}
@@ -70,13 +75,18 @@
 								<i class="fas fa-info-circle"></i>
 							</a>
 						</label>
-						<div class="col-sm-9"><div class="form-check">
+						<div class="col-sm-9"><div class="form-check mt-1">
 							<input type="checkbox" name="gui" value="1" class="form-check-input" id="inputGui" {if $RECORD->get('gui')}checked{/if}>
 						</div></div>
 					</div>
 					<div class="form-group row mb-1">
-						<label for="inputMandatory" class="col-sm-3 col-form-label text-right">{\App\Language::translate('LBL_MANDATORY',$QUALIFIED_MODULE)}</label>
-						<div class="col-sm-9"><div class="form-check">
+						<label for="inputMandatory" class="col-sm-3 col-form-label text-right">
+							{\App\Language::translate('LBL_MANDATORY',$QUALIFIED_MODULE)}
+							<a href="#" class="js-popover-tooltip ml-2" data-placement="top" data-content="{\App\Language::translate('LBL_MANDATORY_INFO', $QUALIFIED_MODULE)}">
+								<i class="fas fa-info-circle"></i>
+							</a>
+						</label>
+						<div class="col-sm-9"><div class="form-check mt-1">
 							<input type="checkbox" name="mandatory" value="1" class="form-check-input" id="inputMandatory" {if $RECORD->get('mandatory')}checked{/if}>
 						</div></div>
 					</div>
