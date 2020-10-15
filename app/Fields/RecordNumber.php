@@ -380,12 +380,7 @@ class RecordNumber extends \App\Base
 	 */
 	public static function getSequenceNumberFieldName(int $tabId)
 	{
-		if (isset(self::$sequenceNumberFieldCache[$tabId]['fieldname'])) {
-			return self::$sequenceNumberFieldCache[$tabId]['fieldname'];
-		}
-		self::$sequenceNumberFieldCache[$tabId] = (new \App\Db\Query())->select(['fieldname', 'columnname', 'tablename'])->from('vtiger_field')
-			->where(['tabid' => $tabId, 'uitype' => 4, 'presence' => [0, 2]])->one();
-		return self::$sequenceNumberFieldCache[$tabId]['fieldname'];
+		return self::getSequenceNumberField($tabId)['fieldname'] ?? '';
 	}
 
 	/**
