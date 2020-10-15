@@ -5,15 +5,8 @@
 		{foreach from=$RECOLDLIST item=ROW key=KEY}
 			<div class="content js-mail-row {if $KEY%2 != 0} even{/if} mb-1 p-0">
 				<div class="col-12 d-lg-flex justify-content-between px-0">
-					{if $ROW['type'] eq 0}
-						{assign var=FIRST_LETTER_CLASS value='bgGreen'}
-					{elseif $ROW['type'] eq 1}
-						{assign var=FIRST_LETTER_CLASS value='bgDanger'}
-					{elseif $ROW['type'] eq 2}
-						{assign var=FIRST_LETTER_CLASS value='bgBlue'}
-					{/if}
 					<div class="d-flex col-lg-9 col-md-12 pr-0 pl-0 align-items-center mb-1">
-						<div class="firstLetter {$FIRST_LETTER_CLASS} d-sm-block d-none mr-2 u-box-shadow-light">
+						<div class="firstLetter {$ROW['firstLetterBg']} d-sm-block d-none mr-2 u-box-shadow-light">
 							{$ROW['firstLetter']}
 						</div>
 						<div class="col-lg-10 col-md-12 px-0">

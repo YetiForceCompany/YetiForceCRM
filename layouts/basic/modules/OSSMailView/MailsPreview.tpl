@@ -43,15 +43,8 @@
 										<div class="col-12 mailActions d-flex justify-content-between mb-1 px-0">
 									{/if}
 									<div class="col-12 d-lg-flex justify-content-between px-0">
-										{if $ROW['type'] eq 0}
-											{assign var=FIRST_LETTER_CLASS value='bgGreen'}
-										{elseif $ROW['type'] eq 1}
-											{assign var=FIRST_LETTER_CLASS value='bgDanger'}
-										{elseif $ROW['type'] eq 2}
-											{assign var=FIRST_LETTER_CLASS value='bgBlue'}
-										{/if}
 										<div class="d-flex col-lg-9 col-md-12 pr-0 pl-0 align-items-center mb-1">
-											<div class="firstLetter {$FIRST_LETTER_CLASS} d-sm-block d-none mr-2">
+											<div class="firstLetter {$ROW['firstLetterBg']} d-sm-block d-none mr-2">
 												{$ROW['firstLetter']}
 											</div>
 											<div class="col-lg-10 col-md-12 px-0">
