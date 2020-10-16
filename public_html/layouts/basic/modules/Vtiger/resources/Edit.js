@@ -1113,7 +1113,7 @@ $.Class(
 				.each(function (index, block) {
 					let currentBlock = $(block);
 					if (currentBlock.find('.js-field-block-column').length !== 0) {
-						if (urrentBlock.find('.js-field-block-column:not(.d-none)').length === 0) {
+						if (currentBlock.find('.js-field-block-column:not(.d-none)').length === 0) {
 							currentBlock.addClass('d-none');
 						} else {
 							currentBlock.removeClass('d-none');

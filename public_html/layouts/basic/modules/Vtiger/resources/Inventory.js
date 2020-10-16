@@ -1818,10 +1818,12 @@ $.Class(
 			const progressLoader = $.progressIndicator({ blockInfo: { enabled: true } });
 			return new Promise((resolve, reject) => {
 				AppConnector.request({
-					module: sourceModule,
+					module: app.getModuleName(),
+					src_module: sourceModule,
+					src_record: recordId,
 					action: 'Inventory',
 					mode: 'getTableData',
-					record: recordId
+					record: app.getRecordId()
 				})
 					.done((response) => {
 						let activeModules = [];
