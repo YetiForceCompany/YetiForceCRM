@@ -146,7 +146,12 @@ bootstrap-daterangepicker@^3.0.4:
   version "0.0.0"
   resolved "https://github.com/jmschabdach/bootstrap-tabdrop#1eb8b8aeaa79d7ca211059daff7981c9908327a1"
 
-bootstrap@^4.3.1, bootstrap@^4.4.0:
+bootstrap@^4.3.1:
+  version "4.5.3"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.5.3.tgz#c6a72b355aaf323920be800246a6e4ef30997fe6"
+  integrity sha512-o9ppKQioXGqhw8Z7mah6KdTYpNQY//tipnkxppWhPbiSWdD+1raYsnhwEZjkTHYbGee4cVQ0Rx65EhOY/HNLcQ==
+
+bootstrap@^4.4.0:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.5.2.tgz#a85c4eda59155f0d71186b6e6ad9b875813779ab"
   integrity sha512-vlGn0bcySYl/iV+BGA544JkkZP5LB3jsmkeKLFQakCOwCM3AOk7VkldBz4jrzSe+Z0Ezn99NVXa1o45cQY4R6A==
