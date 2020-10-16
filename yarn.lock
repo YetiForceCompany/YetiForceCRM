@@ -642,9 +642,9 @@ ua-parser-js@^0.7.18:
   integrity sha512-YUxzMjJ5T71w6a8WWVcMGM6YWOTX27rCoIQgLXiWaxqXSx9D7DNjiGWn1aJIRSQ5qr0xuhra77bSIh6voR/46Q==
 
 url-polyfill@^1.1.7:
-  version "1.1.10"
-  resolved "https://registry.yarnpkg.com/url-polyfill/-/url-polyfill-1.1.10.tgz#fd5bbcf66c9491fa682b0cb6d6a855e1643a9281"
-  integrity sha512-vSaPpaRgBrf41+Uky1myiSh6gpcbw8FpwHYnEy0abxndojOBnIs+yh/49gKYFLtUMP9qoNWjn6j9aUVy23Ie2A==
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/url-polyfill/-/url-polyfill-1.1.11.tgz#85d2b2e67292f6d825297d4bed01d66da0b20dc3"
+  integrity sha512-p3Vw21dz901xeu++K6db2CZgfwMZjzVAH2buek66I0HKY+DHSh/AXz+p9B/+RhhZ9l3xDMBviwe99Eeu+UJB3g==
 
 vue-observe-visibility@^0.4.4:
   version "0.4.6"
