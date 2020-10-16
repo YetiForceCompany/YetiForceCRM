@@ -87,7 +87,7 @@ class Api extends \Tests\Base
 		$webserviceApps->set('type', 'Portal');
 		$webserviceApps->set('status', 1);
 		$webserviceApps->set('name', 'portal');
-		$webserviceApps->set('acceptable_url', 'http://portal2/');
+		$webserviceApps->set('acceptable_url', '');
 		$webserviceApps->set('pass', 'portal');
 		$webserviceApps->save();
 		static::$serverId = (int) $webserviceApps->getId();

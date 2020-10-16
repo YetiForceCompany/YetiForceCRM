@@ -82,6 +82,11 @@ class Controller
 			$this->response->setAcceptableMethods($handler->allowedMethod);
 			return false;
 		}
+		if (!empty($this->app['acceptable_url'])) {
+			if (!\in_array(\App\RequestUtil::getRemoteIP(true), array_map('trim', explode(',', $this->app['acceptable_url'])))) {
+				throw new Core\Exception('Illegal IP address', 401);
+			}
+		}
 		if ($this->headers['x-api-key'] !== \App\Encryption::getInstance()->decrypt($this->app['api_key'])) {
 			throw new Core\Exception('Invalid api key', 401);
 		}

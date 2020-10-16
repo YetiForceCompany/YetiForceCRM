@@ -116,7 +116,7 @@ $.Class(
 									app.hideModalWindow();
 								} else if (typeof data.result.error !== 'undefined') {
 									app.showNotify({
-										text: data.result.error
+										text: data.result.error,
 										type: 'error'
 									});
 								}
