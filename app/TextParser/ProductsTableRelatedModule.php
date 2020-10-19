@@ -30,13 +30,12 @@ class ProductsTableRelatedModule extends Base
 	public function process()
 	{
 		$html = '';
-		[$givenRelatedModuleName, $relatedModuleField, $fieldsToShow] = array_pad($this->params, 3, null);]
+		[$relatedModuleName, $relatedModuleField, $fieldsToShow] = array_pad($this->params, 3, null);]
 		$fieldsToShow = !empty($fieldsToShow) ? explode(',', $fieldsToShow) : ['seq', 'name', 'qty', 'discount', 'currency', 'discountmode', 'taxmode', 'price', 'gross', 'net', 'tax', 'total'];
 		$relatedModuleRecordId = $this->textParser->recordModel->get($relatedModuleField);
-		if(!empty($relatedModuleRecordId) && \App\Record::isExists($relatedModuleRecordId, $givenRelatedModuleName)){
-			$relatedModuleRecordModel = \Vtiger_Record_Model::getInstanceById($relatedModuleRecordId, $givenRelatedModuleName);
-			$relatedModuleName = $relatedModuleRecordModel->getModuleName();
-			if (!$relatedModuleRecordModel->getModule()->isInventory() || $relatedModuleName !== $givenRelatedModuleName || empty($fieldsToShow)) {
+		if(!empty($relatedModuleRecordId) && \App\Record::isExists($relatedModuleRecordId, $relatedModuleName)){
+			$relatedModuleRecordModel = \Vtiger_Record_Model::getInstanceById($relatedModuleRecordId, $relatedModuleName);
+			if (!$relatedModuleRecordModel->getModule()->isInventory() || empty($fieldsToShow)) {
 				return $html;
 			}
 			$inventory = \Vtiger_Inventory_Model::getInstance($relatedModuleName);
