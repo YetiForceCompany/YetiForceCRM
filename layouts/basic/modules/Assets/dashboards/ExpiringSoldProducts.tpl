@@ -33,7 +33,7 @@
 							   data-urlparams="showtype"
 							   autocomplete="off"
 							   checked
-						> {\App\Language::translate('LBL_OWNER',$MODULE_NAME)}
+						> {\App\Language::translate('LBL_MINE',$MODULE_NAME)}
 					</label>
 					<label class="btn btn-sm btn-outline-primary">
 						<input class="js-switch--calculations" type="radio" name="options" id="calculationso-option2"

@@ -100,10 +100,10 @@
 						</div>
 						<div class="col-md-6 px-0">
 							<p class="mb-0 u-fs-15px u-lh-12 u-text-ellipsis">
-								<span class="muted">{\App\Language::translate('Sent',$MODULENAME)}</span>: {$SENT}
+								<span class="muted">{\App\Language::translate('LBL_SENT_DATE',$MODULENAME)}</span>: {$SENT}
 							</p>
 							<p class="mb-0 u-fs-15px u-lh-12 u-text-ellipsis">
-								<span class="muted">{\App\Language::translate('LBL_OWNER')}</span>: 222{\App\Fields\Owner::getLabel($OWNER)}
+								<span class="muted">{\App\Language::translate('LBL_OWNER')}</span>: {\App\Fields\Owner::getLabel($OWNER)}
 							</p>
 						</div>
 					</div>
