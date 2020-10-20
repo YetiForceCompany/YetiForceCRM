@@ -30,10 +30,10 @@ class ProductsTableRelatedModule extends Base
 	public function process()
 	{
 		$html = '';
-		[$relatedModuleName, $relatedModuleField, $fieldsToShow] = array_pad($this->params, 3, null);]
+		[$relatedModuleName, $relatedModuleField, $fieldsToShow] = array_pad($this->params, 3, null);
 		$fieldsToShow = !empty($fieldsToShow) ? explode(',', $fieldsToShow) : ['seq', 'name', 'qty', 'discount', 'currency', 'discountmode', 'taxmode', 'price', 'gross', 'net', 'tax', 'total'];
 		$relatedModuleRecordId = $this->textParser->recordModel->get($relatedModuleField);
-		if(!empty($relatedModuleRecordId) && \App\Record::isExists($relatedModuleRecordId, $relatedModuleName)){
+		if (!empty($relatedModuleRecordId) && \App\Record::isExists($relatedModuleRecordId, $relatedModuleName)) {
 			$relatedModuleRecordModel = \Vtiger_Record_Model::getInstanceById($relatedModuleRecordId, $relatedModuleName);
 			if (!$relatedModuleRecordModel->getModule()->isInventory() || empty($fieldsToShow)) {
 				return $html;
