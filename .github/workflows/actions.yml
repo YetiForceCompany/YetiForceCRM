@@ -50,9 +50,6 @@ jobs:
       - name: Fortify ScanCentral Scan
         uses: fortify/gha-setup-scancentral-client@v1.1.0
 
-      - name: Synopsys Intelligent Security Scan
-        uses: synopsys-sig/intelligent-security-scan@v1
-
       - name: DevSkim
         uses: microsoft/DevSkim-Action@v1
 
