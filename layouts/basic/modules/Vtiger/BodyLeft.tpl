@@ -7,7 +7,7 @@
 				<a class="companyLogoContainer" href="index.php">
 					<h1 class="sr-only">{$CURRENT_USER->get('roleName')}</h1>
 					{if $CURRENT_USER->get('multiCompanyLogoUrl')}
-						<img class="img-fluid logo rounded-circle" src="{$CURRENT_USER->get('multiCompanyLogoUrl')}"
+						<img class="img-fluid logo" src="{$CURRENT_USER->get('multiCompanyLogoUrl')}"
 							 title="{$CURRENT_USER->get('roleName')}"
 							 alt="{$CURRENT_USER->get('roleName')}"/>
 					{else}
