@@ -74,8 +74,8 @@
 				<hr class="my-0">
 				<form class="form-horizontal emailPreview px-3">
 					<div class="d-flex col-md-12 px-0 align-items-center mb-1">
-						<div class="firstLetter {$FIRSTLETTER['firstLetterBg']} d-sm-block d-none mr-2">
-							{$FIRSTLETTER['firstLetter']}
+						<div class="firstLetter {$FIRSTLETTERBG} d-sm-block d-none mr-2">
+							{$FIRSTLETTER}
 						</div>
 						<div class="col-md-6 px-0">
 							<p class="mb-0 u-fs-15px u-lh-12 u-text-ellipsis">

@@ -53,17 +53,15 @@ class OSSMailView_Preview_View extends Vtiger_Index_View
 		$rblInstance = \App\Mail\Rbl::getInstance([]);
 		$rblInstance->set('rawBody', $recordModel->get('orginal_mail'));
 		$rblInstance->parse();
-		$firstLetterBg = self::TYPE_COLORS[$recordModel->getDisplayValue('type')];
+		$firstLetterBg = self::TYPE_COLORS[$recordModel->get('type')];
 		$firstLetter = strtoupper(App\TextParser::textTruncate(trim(strip_tags($recordModel->getDisplayValue('from_email'))), 1, false));
 		if (($verifySender = $rblInstance->verifySender()) && !$verifySender['status']) {
 			$firstLetter = '<span class="fas fa-exclamation-triangle text-danger" title="' . \App\Purifier::encodeHtml($verifySender['info']) . '"></span>';
 			$firstLetterBg = 'bg-warning';
 		}
 		$viewer->assign('CONTENT', $content);
-		$viewer->assign('FIRSTLETTER', [
-			'firstLetter' => $firstLetter,
-			'firstLetterBg' => $firstLetterBg,
-		]);
+		$viewer->assign('FIRSTLETTER', $firstLetter);
+		$viewer->assign('FIRSTLETTERBG', $firstLetterBg);
 		$viewer->assign('OWNER', $recordModel->getDisplayValue('assigned_user_id'));
 		$viewer->assign('SENT', $recordModel->getDisplayValue('createdtime'));
 		$viewer->assign('ATTACHMENTS', $recordModel->getAttachments());
