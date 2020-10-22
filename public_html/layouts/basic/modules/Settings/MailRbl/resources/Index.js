@@ -232,7 +232,7 @@ jQuery.Class(
 		},
 		sendRequest: function (id) {
 			let progressIndicatorElement = $.progressIndicator();
-			app.showModalWindow(null, 'index.php?module=MailRbl&parent=Settings&view=RequestModal&id=' + id, function (container) {
+			app.showModalWindow(null, 'index.php?module=MailRbl&parent=Settings&view=ReportModal&id=' + id, function (container) {
 				progressIndicatorElement.progressIndicator({ mode: 'hide' });
 			});
 		},
@@ -243,9 +243,6 @@ jQuery.Class(
 			this.registerTabEvents();
 			$('#tabs a[data-toggle="tab"]').on('shown.bs.tab', (_) => {
 				this.registerTabEvents();
-			});
-			$('.js-send-request').on('click', (_) => {
-				this.sendRequest(0);
 			});
 		}
 	}
