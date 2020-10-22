@@ -4,7 +4,6 @@
     "LBL_MAIL_RBL": "RBL mail servers",
     "LBL_MAIL_RBL_DESCRIPTION": "Configure RBL email servers to detect spam and define trusted senders.",
     "BTN_SEND_REPORT": "Send a report",
-    "LBL_REPORT_MODAL_DESC": "xxxxxxxxx",
     "LBL_SPAM_SINGLE_UNWANTED_MESSAGE": "[SPAM] Single unwanted message",
     "LBL_SPAM_MASS_UNWANTED_MESSAGE": "[SPAM] Mass unwanted message",
     "LBL_SPAM_SENDING_UNSOLICITED_MESSAGE_REPEATEDLY": "[SPAM] Sending an unsolicited message repeatedly",
@@ -94,6 +93,6 @@
     "BTN_STATUS_ACTION_ACCEPT": "Accept",
     "BTN_STATUS_ACTION_REJECT": "Reject",
     "BTN_DELETE": "Delete",
-    "BTN_STATUS_ACTION_SEND_REQUEST": "Send a spam report"
+    "BTN_STATUS_ACTION_SEND_REQUEST": "Send a report"
   }
 }
