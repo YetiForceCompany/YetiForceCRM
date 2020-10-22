@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Fields dependency list view file.
+ * Settings fields dependency list view file.
  *
  * @package   Settings.View
  *
