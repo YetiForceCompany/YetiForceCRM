@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Fields Dependency List View Class.
+ * Fields dependency list view file.
  *
  * @package   Settings.View
  *
@@ -10,16 +10,13 @@
  * @author Arkadiusz Sołek <r.skrzypczak@yetiforce.com>
  */
 
- /**
+/**
  * Settings fields dependency list view class.
  */
 class Settings_FieldsDependency_List_View extends Settings_Vtiger_List_View
 {
 	/**
-	 * Pre-process function.
-	 *
-	 * @param \App\Request $request
-	 * @param bool         $display
+	 * {@inheritdoc}
 	 */
 	public function preProcess(App\Request $request, $display = true)
 	{

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * List view model class for fields dependency settings.
+ * List view module model fields dependency file.
  *
  * @package   Settings.Model
  *
@@ -15,6 +15,12 @@
  */
 class Settings_FieldsDependency_ListView_Model extends Settings_Vtiger_ListView_Model
 {
+	public function getBasicListQuery()
+	{
+		$module = $this->getModule();
+		return (new App\Db\Query())->from($module->getBaseTable());
+	}
+
 	/**
 	 * Function to get the list view entries.
 	 *
@@ -30,11 +36,9 @@ class Settings_FieldsDependency_ListView_Model extends Settings_Vtiger_ListView_
 			$qualifiedModuleName = $parentModuleName . ':' . $module->getName();
 		}
 		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$query = $this->getBasicListQuery();
 		$listFields = array_keys($module->listFields);
 		$listFields[] = $module->baseIndex;
-
-		$query = (new \App\Db\Query())->select($listFields)
-			->from($module->baseTable);
 
 		$sourceModule = $this->get('sourceModule');
 		if (!empty($sourceModule)) {

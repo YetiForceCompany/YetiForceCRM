@@ -190,7 +190,7 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 	 *
 	 * @return string
 	 */
-	public function getEditRecordUrl(int $recordId)
+	public function getEditRecordUrl(int $recordId): string
 	{
 		return 'index.php?parent=Settings&module=FieldsDependency&view=Edit&record=' . $recordId;
 	}

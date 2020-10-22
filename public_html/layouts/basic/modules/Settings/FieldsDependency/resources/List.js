@@ -10,14 +10,13 @@ Settings_Vtiger_List_Js(
 			$('#moduleFilter').on('change', function (e) {
 				$('#pageNumber').val('1');
 				$('#pageToJump').val('1');
-				var params = {
+				$('#recordsCount').val('');
+				$('#totalPageCount').text('');
+				thisInstance.getListViewRecords({
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
 					sourceModule: $(e.currentTarget).val()
-				};
-				$('#recordsCount').val('');
-				$('#totalPageCount').text('');
-				thisInstance.getListViewRecords(params).done(function (data) {
+				}).done(function (data) {
 					thisInstance.updatePagination();
 				});
 			});

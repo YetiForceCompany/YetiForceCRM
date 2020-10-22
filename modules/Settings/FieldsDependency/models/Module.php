@@ -51,8 +51,8 @@ class Settings_FieldsDependency_Module_Model extends Settings_Vtiger_Module_Mode
 	 *
 	 * @return array
 	 */
-	public static function getSupportedModules()
+	public static function getSupportedModules(): array
 	{
-		return Vtiger_Module_Model::getAll([0]);
+		return Vtiger_Module_Model::getAll([0, 2], [], true);
 	}
 }
