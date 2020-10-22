@@ -114,7 +114,7 @@ class Register
 		try {
 			$url = static::$registrationUrl . 'add';
 			\App\Log::beginProfile("POST|Register::register|{$url}", __NAMESPACE__);
-			$response = (new \GuzzleHttp\Client())->post($url, \App\RequestHttp::getOptions() + ['form_params' => $this->getData()]);
+			$response = (new \GuzzleHttp\Client())->post($url, array_merge_recursive(\App\RequestHttp::getOptions(), ['form_params' => $this->getData()]));
 			\App\Log::endProfile("POST|Register::register|{$url}", __NAMESPACE__);
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
@@ -162,7 +162,7 @@ class Register
 			$url = static::$registrationUrl . 'check';
 			\App\Log::beginProfile("POST|Register::check|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
-				'form_params' => \array_merge($conf, [
+				'form_params' => \array_merge_recursive($conf, [
 					'version' => \App\Version::get(),
 					'crmKey' => static::getCrmKey(),
 					'insKey' => static::getInstanceKey(),
