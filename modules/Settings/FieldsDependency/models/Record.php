@@ -184,6 +184,18 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 	}
 
 	/**
+	 * Get edit record url.
+	 *
+	 * @param int $recordId
+	 *
+	 * @return string
+	 */
+	public function getEditRecordUrl(int $recordId)
+	{
+		return 'index.php?parent=Settings&module=FieldsDependency&view=Edit&record=' . $recordId;
+	}
+
+	/**
 	 * Function to get the list view actions for the record.
 	 *
 	 * @return Vtiger_Link_Model[] Associate array of Vtiger_Link_Model instances
@@ -195,7 +207,7 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
-				'linkurl' => $this->getModule()->getEditRecordUrl($this->getId()),
+				'linkurl' => $this->getEditRecordUrl($this->getId()),
 				'linkicon' => 'yfi yfi-full-editing-view',
 				'linkclass' => 'btn btn-primary btn-sm'
 			],

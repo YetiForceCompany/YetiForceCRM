@@ -47,14 +47,12 @@ class Settings_FieldsDependency_Module_Model extends Settings_Vtiger_Module_Mode
 	}
 
 	/**
-	 * Get edit record url.
+	 * Function to get Supported modules for fields dependency.
 	 *
-	 * @param int $recordId
-	 *
-	 * @return string
+	 * @return array
 	 */
-	public function getEditRecordUrl(int $recordId)
+	public static function getSupportedModules()
 	{
-		return 'index.php?parent=Settings&module=FieldsDependency&view=Edit&record=' . $recordId;
+		return Vtiger_Module_Model::getAll([0]);
 	}
 }
