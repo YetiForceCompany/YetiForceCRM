@@ -1021,6 +1021,7 @@ var app = (window.app = {
 				toolbar: 'Min'
 			});
 			app.registesterScrollbar(modalContainer);
+			app.registerIframeEvents(modalContainer);
 		});
 		$('body').append(container);
 		modalContainer.modal(params);
