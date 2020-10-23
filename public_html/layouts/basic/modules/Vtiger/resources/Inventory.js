@@ -1376,7 +1376,7 @@ $.Class(
 				});
 			});
 			this.initItem(newRow);
-			Vtiger_Edit_Js.getInstance().registerAutoCompleteFields(newRow);
+			Vtiger_Edit_Js.getInstance().registerAutoCompleteReferenceFields(newRow);
 			if (rowData) {
 				this.setRowData(newRow, rowData);
 				this.quantityChangeActions(newRow);

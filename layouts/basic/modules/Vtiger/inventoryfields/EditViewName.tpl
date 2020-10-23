@@ -13,7 +13,7 @@
 				<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCE_MODULE}"/>
 				<input id="{$FIELD_NAME}_display" name="{$FIELD_NAME}_display" type="text"
 					   title="{$FIELD->getEditValue($ITEM_VALUE)}"
-					   class="marginLeftZero form-control autoComplete recordLabel js-{$FIELD->getColumnName()}_display"
+					   class="marginLeftZero form-control referenceAutoComplete recordLabel js-{$FIELD->getColumnName()}_display"
 					   {if !empty($ITEM_VALUE)}readonly="true"{/if}
 					   value="{$FIELD->getEditValue($ITEM_VALUE)}"
 					   data-validation-engine="validate[{if $FIELD->isMandatory()} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"

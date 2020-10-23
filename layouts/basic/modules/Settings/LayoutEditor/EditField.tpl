@@ -112,6 +112,17 @@
 							{/if}
 						</div>
 					</div>
+					{if $FIELD_MODEL->getFieldDataType() === 'string'}
+						<div class="checkbox">
+							<input type="hidden" name="autocomplete" value="0">
+							<input type="checkbox" name="autocomplete"
+								   id="autocomplete" value="1"
+								   {if $FIELD_MODEL->hasAutocomplete()}checked{/if}>
+							<label for="autocomplete">
+								{App\Language::translate('LBL_AUTOCOMPLETE', $QUALIFIED_MODULE)}
+							</label>
+						</div>
+					{/if}
 					{if in_array($FIELD_MODEL->getFieldDataType(),['string','currency','url','integer','double'])}
 					<div>
 						<div class="form-group">

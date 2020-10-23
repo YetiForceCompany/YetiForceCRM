@@ -35,7 +35,7 @@
 		{/if}
 		<input id="{$FIELD_NAME}_display" name="{$FIELD_NAME}_display" type="text"
 			   title="{\App\Purifier::encodeHtml($FIELD->getEditValue($ITEM_VALUE))}"
-			   class="form-control autoComplete" {if !empty($ITEM_VALUE)}readonly="true"{/if}
+			   class="form-control referenceAutoComplete" {if !empty($ITEM_VALUE)}readonly="true"{/if}
 			   value="{\App\Purifier::encodeHtml($FIELD->getEditValue($ITEM_VALUE))}"
 			   data-validation-engine="validate[{if $FIELD->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   data-fieldinfo="{$FIELD_INFO}"

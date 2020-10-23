@@ -6094,6 +6094,7 @@ CREATE TABLE `vtiger_field` (
   `fieldlabel` varchar(50) NOT NULL,
   `readonly` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `autocomplete` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `defaultvalue` text DEFAULT NULL,
   `maximumlength` varchar(30) DEFAULT NULL,
   `sequence` smallint(5) unsigned NOT NULL,

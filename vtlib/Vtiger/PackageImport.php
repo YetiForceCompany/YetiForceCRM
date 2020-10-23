@@ -794,6 +794,7 @@ class PackageImport extends PackageExport
 		$fieldInstance->typeofdata = (string) $fieldnode->typeofdata;
 		$fieldInstance->displaytype = (int) $fieldnode->displaytype;
 		$fieldInstance->info_type = (string) $fieldnode->info_type;
+        $fieldInstance->autocomplete = (int) $fieldnode->autocomplete;
 
 		if (!empty($fieldnode->fieldparams)) {
 			$fieldInstance->fieldparams = (string) $fieldnode->fieldparams;

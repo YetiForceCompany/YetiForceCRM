@@ -58,7 +58,22 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$fieldId = $request->getInteger('fieldid');
 		$fieldInstance = Vtiger_Field_Model::getInstance($fieldId);
 		$uitypeModel = $fieldInstance->getUITypeModel();
-		$fields = ['presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory'];
+
+		$fields = [
+            'autocomplete',
+            'displaytype',
+            'generatedtype',
+            'header_field',
+            'mandatory',
+            'masseditable',
+            'maxlengthtext',
+            'maxwidthcolumn',
+            'presence',
+            'quickcreate',
+            'summaryfield',
+            'tabindex'
+        ];
+
 		foreach ($fields as $field) {
 			if ($request->has($field)) {
 				switch ($field) {

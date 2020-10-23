@@ -54,7 +54,7 @@
 					</div>
 				{/if}
 			</div>
-			<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text" title="{$FIELD_VALUE}" class="marginLeftZero form-control autoComplete"
+			<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text" title="{$FIELD_VALUE}" class="marginLeftZero form-control referenceAutoComplete"
 			tabindex="{$TABINDEX}" {if !empty($DISPLAYID)}readonly="true"{/if} value="{$FIELD_VALUE}"
 				   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 				   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') != 10}placeholder="{\App\Language::translate('LBL_TYPE_SEARCH',$MODULE)}"{/if} {if $REFERENCE_MODULE_MODEL == false}disabled{/if}

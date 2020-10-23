@@ -48,6 +48,7 @@ class FieldBasic
 	public $block;
 	public $fieldparams = '';
 	public $color = '';
+    public $autocomplete = 0;
 
 	/**
 	 * Initialize this instance.
@@ -86,6 +87,7 @@ class FieldBasic
 		$this->visible = (int) $valuemap['visible'];
 		$this->color = $valuemap['color'];
 		$this->block = $blockInstance ? $blockInstance : Block::getInstance($valuemap['block'], $module);
+        $this->autocomplete = (int) $valuemap['autocomplete'];
 	}
 
 	/** Cache (Record) the schema changes to improve performance */
@@ -198,6 +200,7 @@ class FieldBasic
 			'fieldparams' => $this->fieldparams,
 			'masseditable' => $this->masseditable,
 			'visible' => $this->visible,
+            'autocomplete' => $this->autocomplete,
 		])->execute();
 		$this->id = (int) $db->getLastInsertID('vtiger_field_fieldid_seq');
 		Profile::initForField($this);

@@ -325,9 +325,9 @@ $.Class(
 		 * Function which will handle the reference auto complete event registrations
 		 * @params - container <jQuery> - element in which auto complete fields needs to be searched
 		 */
-		registerAutoCompleteFields: function (container) {
+		registerAutoCompleteReferenceFields: function (container) {
 			let thisInstance = this;
-			container.find('input.autoComplete').autocomplete({
+			container.find('input.referenceAutoComplete').autocomplete({
 				delay: '600',
 				minLength: '3',
 				source: function (request, response) {
@@ -380,6 +380,35 @@ $.Class(
 				},
 				open: function (event, ui) {
 					//To Make the menu come up in the case of quick create
+					$(this).data('ui-autocomplete').menu.element.css('z-index', '100001');
+				}
+			});
+		},
+		registerAutoCompleteFields: function(container) {
+			container.find('input.autoComplete').autocomplete({
+				delay: 600,
+				minLength: 3,
+				source: function(request, response) {
+					const element = $(this.element[0]);
+					const name = element.prop('name');
+
+					let module = app.getModuleName();
+					let term = request.term;
+
+					let params = {
+						module: module,
+						action: 'Autocomplete',
+						field: name,
+						term: term
+					};
+
+					AppConnector.request(params).done((data) => {
+						let items = data.result;
+
+						response(items);
+					});
+				},
+				open: function() {
 					$(this).data('ui-autocomplete').menu.element.css('z-index', '100001');
 				}
 			});
@@ -1561,6 +1590,7 @@ $.Class(
 		 */
 		registerBasicEvents: function (container) {
 			this.referenceModulePopupRegisterEvent(container);
+			this.registerAutoCompleteReferenceFields(container);
 			this.registerAutoCompleteFields(container);
 			this.registerClearReferenceSelectionEvent(container);
 			this.registerPreventingEnterSubmitEvent(container);

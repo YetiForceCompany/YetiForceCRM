@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+use App\Cache;
+use App\Db;
+
 /**
  * Vtiger Field Model Class.
  */
@@ -1303,18 +1306,38 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function __update()
 	{
-		$db = \App\Db::getInstance();
-		1 === $this->get('generatedtype') ? $generatedType = 1 : $generatedType = 2;
-		$db->createCommand()->update('vtiger_field', ['typeofdata' => $this->get('typeofdata'), 'presence' => $this->get('presence'), 'quickcreate' => $this->get('quickcreate'),
-			'masseditable' => $this->get('masseditable'), 'header_field' => $this->get('header_field'), 'maxlengthtext' => $this->get('maxlengthtext'),
-			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'tabindex' => $this->get('tabindex'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
-			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
-			'fieldparams' => $this->get('fieldparams'), 'quickcreatesequence' => $this->get('quicksequence')
-		], ['fieldid' => $this->get('id')])->execute();
+        $db = Db::getInstance();
+        $generatedType = $this->get('generatedtype') === 1 ? 1 : 2;
+
+        $db->createCommand()
+            ->update('vtiger_field',
+                [
+                    'typeofdata' => $this->get('typeofdata'),
+                    'presence' => $this->get('presence'),
+                    'quickcreate' => $this->get('quickcreate'),
+                    'masseditable' => $this->get('masseditable'),
+                    'header_field' => $this->get('header_field'),
+                    'maxlengthtext' => $this->get('maxlengthtext'),
+                    'maxwidthcolumn' => $this->get('maxwidthcolumn'),
+                    'tabindex' => $this->get('tabindex'),
+                    'defaultvalue' => $this->get('defaultvalue'),
+                    'summaryfield' => $this->get('summaryfield'),
+                    'displaytype' => $this->get('displaytype'),
+                    'helpinfo' => $this->get('helpinfo'),
+                    'generatedtype' => $generatedType,
+                    'fieldparams' => $this->get('fieldparams'),
+                    'quickcreatesequence' => $this->get('quicksequence'),
+                    'autocomplete' => $this->get('autocomplete')
+                ], ['fieldid' => $this->get('id')])
+            ->execute();
+
 		if ($this->isMandatory()) {
-			$db->createCommand()->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $this->getBlockId()])->execute();
+            $db->createCommand()
+                ->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $this->getBlockId()])
+                ->execute();
 		}
-		App\Cache::clear();
+
+		Cache::clear();
 	}
 
 	public function updateTypeofDataFromMandatory($mandatoryValue = 'O')
@@ -1684,4 +1707,9 @@ class Vtiger_Field_Model extends vtlib\Field
 		}
 		return $tabindex + self::$tabIndexDefaultSeq;
 	}
+
+    public function hasAutocomplete(): bool
+    {
+        return $this->autocomplete === 1;
+    }
 }
