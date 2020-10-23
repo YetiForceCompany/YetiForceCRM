@@ -99,7 +99,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$chartData['show_chart'] = true;
 			foreach ($workingTime as $timeValue) {
 				foreach ($timeTypes as $timeTypeId => $timeType) {
-					if ($timeValue[$timeType]) {
+					if (isset($timeValue[$timeType]) && !empty($timeValue[$timeType])) {
 						$value = $timeValue[$timeType];
 					} else {
 						$value = 0;

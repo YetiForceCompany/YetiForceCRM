@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="newCustomBlockCopy d-none mb-2 border1px {if $IS_BLOCK_SORTABLE}blockSortable {/if}" data-block-id="" data-sequence="" style="border-radius: 4px; background: white;">
+	<div class="newCustomBlockCopy d-none mb-2 border1px {if !empty($IS_BLOCK_SORTABLE)}blockSortable {/if}" data-block-id="" data-sequence="" style="border-radius: 4px; background: white;">
 		<div class="layoutBlockHeader d-flex flex-wrap justify-content-between m-0 p-1 pt-1 w-100">
 			<div class="blockLabel u-white-space-nowrap">
 				<img class="align-middle" src="{\App\Layout::getImagePath('drag.png')}" alt=""/>&nbsp;&nbsp;
