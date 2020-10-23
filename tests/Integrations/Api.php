@@ -63,7 +63,7 @@ class Api extends \Tests\Base
 	protected static $schemaManager;
 
 	/**
-	 * @var \GuzzleHttp\ClientInterface
+	 * @var \GuzzleHttp\Client
 	 */
 	protected $httpClient;
 
