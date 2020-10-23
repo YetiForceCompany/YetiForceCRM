@@ -38,11 +38,11 @@
 						<div class="container-fluid px-0">
 							{assign var=COUNT value=count($RECOLDLIST)}
 							{foreach from=$RECOLDLIST item=ROW key=KEY}
-								<div class="content js-mail-row{if $KEY%2 != 0} even{/if}"  data-js="container">
+								<div class="content js-mail-row{if $KEY%2 != 0} even{/if} px-2 mb-1 {if $ROW['firstLetterBg'] eq 'bg-warning'} border border-warning {/if}"  data-js="container">
 									{if \App\Privilege::isPermitted('OSSMailView', 'DetailView', $ROW['id'])}
-										<div class="col-12 mailActions d-flex justify-content-between mb-1 px-0">
+										<div class="col-12 mailActions mb-1 px-0">
 									{/if}
-									<div class="col-12 d-lg-flex justify-content-between px-0">
+									<div class="col-12 px-0 d-lg-flex">
 										<div class="d-flex col-lg-9 col-md-12 pr-0 pl-0 align-items-center mb-1">
 											<div class="firstLetter {$ROW['firstLetterBg']} d-sm-block d-none mr-2">
 												{$ROW['firstLetter']}
