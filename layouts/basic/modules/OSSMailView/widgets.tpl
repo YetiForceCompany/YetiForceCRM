@@ -4,9 +4,9 @@
 		{assign var=COUNT value=count($RECOLDLIST)}
 		{foreach from=$RECOLDLIST item=ROW key=KEY}
 			<div class="content js-mail-row {if $KEY%2 != 0} even{/if} mb-1 py-0 px-2 {if $ROW['firstLetterBg'] eq 'bg-warning'} border border-warning {/if}">
-				<div class="col-12 d-lg-flex justify-content-between px-0">
-					<div class="d-flex col-lg-9 col-md-12 pr-0 pl-0 align-items-center mb-1">
-						<div class="firstLetter {$ROW['firstLetterBg']} d-sm-block d-none mr-2 u-box-shadow-light">
+				<div class="form-row   px-1">
+					<div class="d-flex col-lg-8 col-md-12 col-sm-8 col-12 pr-0 pl-0   mb-1">
+						<div class="firstLetter {$ROW['firstLetterBg']} d-lg-block d-md-none d-sm-block d-none mr-2 u-box-shadow-light">
 							{$ROW['firstLetter']}
 						</div>
 						<div class="col-lg-10 col-md-12 px-0">
@@ -27,8 +27,8 @@
 							</p>
 						</div>
 					</div>
-					<div class="d-flex w-100 flex-column col-lg-3 col-md-12  pr-0 pl-0">
-						<div class="bd-highlight d-flex justify-content-end">
+					<div class="d-flex flex-sm-column justify-content-end justify-content-sm-between align-items-sm-stretch align-items-center col-lg-4 col-md-12 col-sm-4 col-12 pr-0 pl-0">
+						<div class="bd-highlight d-flex justify-content-end mr-1">
 							{if $ROW['attachments'] eq 1}
 								<span class="fas mt-1 fa-xs fa-paperclip mr-1"></span>
 							{/if}
