@@ -65,13 +65,17 @@ class Vtiger_FieldsDependency_Handler
 	 *
 	 * @param string $name
 	 * @param array  $params
+	 * @param string $moduleName
 	 *
 	 * @return array|null
 	 */
-	public function vars(string $name, array $params): ?array
+	public function vars(string $name, array $params, string $moduleName): ?array
 	{
 		if (\App\EventHandler::EDIT_VIEW_CHANGE_VALUE === $name) {
 			[$recordModel,$view] = $params;
+			if (empty($recordModel)) {
+				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			}
 			return \App\FieldsDependency::getByRecordModel($view, $recordModel)['conditionsFields'];
 		}
 		return null;

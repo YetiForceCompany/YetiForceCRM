@@ -92,7 +92,7 @@ class EventHandler
 		$return = [];
 		foreach (self::getByType($name, $moduleName) as $key => $handler) {
 			$className = $handler['handler_class'];
-			if (method_exists($className, 'vars') && ($vars = (new $className())->vars($name, $params))) {
+			if (method_exists($className, 'vars') && ($vars = (new $className())->vars($name, $params, $moduleName))) {
 				if ($byKey) {
 					$return[$key] = $vars;
 				} else {
