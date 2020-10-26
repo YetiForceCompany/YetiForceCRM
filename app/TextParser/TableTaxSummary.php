@@ -43,10 +43,10 @@ class TableTaxSummary extends Base
 		}
 		if (!empty($fields[0])) {
 			$taxes = [];
-			if ($inventory->isField('tax') && $inventory->isField('net')) {
+			if ($inventory->isField('tax') && ($inventory->isField('net') || $inventory->isField('total'))) {
 				$taxField = $inventory->getField('tax');
 				foreach ($inventoryRows as $key => $inventoryRow) {
-					$taxes = $taxField->getTaxParam($inventoryRow['taxparam'], $inventoryRow['net'], $taxes);
+					$taxes = $taxField->getTaxParam($inventoryRow['taxparam'], $inventoryRow['net'] ?? $inventoryRow['total'], $taxes);
 				}
 			}
 			if (\in_array('showNames', $this->params)) {

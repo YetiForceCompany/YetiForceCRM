@@ -12,45 +12,35 @@
 class Leads_DetailView_Model extends Accounts_DetailView_Model
 {
 	/**
-	 * Function to get the detail view links (links and widgets).
-	 *
-	 * @param array $linkParams - parameters which will be used to calicaulate the params
-	 *
-	 * @return array - array of link models in the format as below - array('linktype'=>list of link models);
+	 * {@inheritdoc}
 	 */
-	public function getDetailViewLinks($linkParams)
+	public function getDetailViewLinks(array $linkParams): array
 	{
-		$linkModelList = Vtiger_DetailView_Model::getDetailViewLinks($linkParams);
+		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
-		$moduleModel = $this->getModule();
-		$moduleName = $moduleModel->getName();
-		$recordId = $recordModel->getId();
-
-		$index = 0;
-		foreach ($linkModelList['DETAIL_VIEW_BASIC'] as $link) {
+		foreach ($linkModelList['DETAIL_VIEW_BASIC'] as $index => $link) {
 			if ('View History' == $link->linklabel) {
 				unset($linkModelList['DETAIL_VIEW_BASIC'][$index]);
 			} elseif ('LBL_SHOW_ACCOUNT_HIERARCHY' == $link->linklabel) {
 				$link->linklabel = 'LBL_SHOW_ACCOUNT_HIERARCHY';
-				$linkURL = 'index.php?module=Accounts&view=AccountHierarchy&record=' . $recordId;
+				$linkURL = 'index.php?module=Accounts&view=AccountHierarchy&record=' . $recordModel->getId();
 				$link->linkurl = 'javascript:Accounts_Detail_Js.triggerAccountHierarchy("' . $linkURL . '");';
 				unset($linkModelList['DETAIL_VIEW_BASIC'][$index]);
 				$linkModelList['DETAIL_VIEW_BASIC'][$index] = $link;
+			} elseif ('LBL_TRANSFER_OWNERSHIP' == $link->linklabel) {
+				unset($linkModelList['DETAIL_VIEW_BASIC'][$index]);
 			}
-			++$index;
 		}
-
-		if ($recordModel->isPermitted('ConvertLead') && $recordModel->isEditable()) {
+		if (!$recordModel->isReadOnly() && $recordModel->isPermitted('ConvertLead') && $recordModel->isEditable()) {
 			$convert = !Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus')) ? 'd-none' : '';
-			$basicActionLink = [
+			$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => '',
 				'linkclass' => 'btn-sm btn-outline-info btn-convertLead ' . $convert,
-				'linkhint' => \App\Language::translate('LBL_CONVERT_LEAD', $moduleName),
+				'linkhint' => \App\Language::translate('LBL_CONVERT_LEAD', $this->getModule()->getName()),
 				'linkurl' => 'javascript:Leads_Detail_Js.convertLead("' . $recordModel->getConvertLeadUrl() . '",this);',
 				'linkicon' => 'fas fa-exchange-alt',
-			];
-			$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			]);
 		}
 		return $linkModelList;
 	}

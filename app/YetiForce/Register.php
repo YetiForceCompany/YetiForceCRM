@@ -1,6 +1,7 @@
 <?php
 /**
- * YetiForce register class.
+ * YetiForce register file.
+ * Modifying this file or functions that affect the footer appearance will violate the license terms!!!
  *
  * @package   App
  *
@@ -111,11 +112,10 @@ class Register
 		}
 		$result = false;
 		try {
-			$response = (new \GuzzleHttp\Client())
-				->post(static::$registrationUrl . 'add',
-					\App\RequestHttp::getOptions() + [
-						'form_params' => $this->getData()
-					]);
+			$url = static::$registrationUrl . 'add';
+			\App\Log::beginProfile("POST|Register::register|{$url}", __NAMESPACE__);
+			$response = (new \GuzzleHttp\Client())->post($url, array_merge_recursive(\App\RequestHttp::getOptions(), ['form_params' => $this->getData()]));
+			\App\Log::endProfile("POST|Register::register|{$url}", __NAMESPACE__);
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
@@ -159,8 +159,10 @@ class Register
 		$status = 0;
 		try {
 			$data = ['last_check_time' => date('Y-m-d H:i:s')];
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post(static::$registrationUrl . 'check', [
-				'form_params' => \array_merge($conf, [
+			$url = static::$registrationUrl . 'check';
+			\App\Log::beginProfile("POST|Register::check|{$url}", __NAMESPACE__);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
+				'form_params' => \array_merge_recursive($conf, [
 					'version' => \App\Version::get(),
 					'crmKey' => static::getCrmKey(),
 					'insKey' => static::getInstanceKey(),
@@ -168,6 +170,7 @@ class Register
 					'package' => \App\Company::getSize(),
 				])
 			]);
+			\App\Log::endProfile("POST|Register::check|{$url}", __NAMESPACE__);
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
 				$body = \App\Json::decode($body);
@@ -379,8 +382,12 @@ class Register
 	 *
 	 * @return string
 	 */
-	private static function getProvider(): string
+	public static function getProvider(): string
 	{
+		$path = \ROOT_DIRECTORY . '/app_data/installSource.txt';
+		if (\file_exists($path)) {
+			return trim(file_get_contents($path));
+		}
 		return getenv('PROVIDER') ?: getenv('provider') ?: '';
 	}
 }

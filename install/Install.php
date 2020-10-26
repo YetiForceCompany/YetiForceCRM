@@ -29,15 +29,23 @@ require_once 'install/models/InitSchema.php';
 \App\Config::set('performance', 'recursiveTranslate', true);
 App\Session::init();
 
-$request = App\Request::init();
-if (!$request->getMode() && \App\Config::main('application_unique_key')) {
-	Install_Utils_Model::cleanConfiguration();
+if (isset($_SESSION['authenticated_user_id'])) {
+	unset($_SESSION);
 }
-$install = new Install_Index_View();
-if (!$request->isAjax()) {
-	$install->preProcess($request);
-}
-$install->process($request);
-if (!$request->isAjax()) {
-	$install->postProcess($request);
+
+try {
+	$request = App\Request::init();
+	if (!$request->getMode() && \App\Config::main('application_unique_key')) {
+		Install_Utils_Model::cleanConfiguration();
+	}
+	$install = new Install_Index_View();
+	if (!$request->isAjax()) {
+		$install->preProcess($request);
+	}
+	$install->process($request);
+	if (!$request->isAjax()) {
+		$install->postProcess($request);
+	}
+} catch (\Throwable $th) {
+	echo '<pre>' . $th->__toString();
 }

@@ -44,6 +44,14 @@ docker run -d -p 8000:80 -p 8001:22 -p 8002:3306 --name YetiForceCRM yetiforce
 docker exec -it YetiForceCRM /bin/bash
 ```
 
+# Docker - startup time
+
+The startup speed depends on the disk speed where docker is running.
+
+- docker-compose = 4 - 10 min 
+- Installation of the CRM  (last step) = 1 - 16 min
+
+
 # Docker - basic information
 
 ## Run container in attached mode
@@ -99,6 +107,10 @@ docker logs YetiForceCRM
 ## Clean up your containers
 
 ```
+docker stop YetiForceCRM
+docker rm -f YetiForceCRM
+docker rmi -f yetiforcecrm_yetiforce-crm
+
 docker stop $(docker ps -a -q)
 docker rm -f $(docker ps -a -q)
 docker rmi -f $(docker images -q)

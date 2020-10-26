@@ -101,24 +101,7 @@ respond.js/cross-domain
 select2-theme-bootstrap4/dist
 svg/svgBasic.html
 svg/lion.svg
-pnotify/lib
-pnotify/dist/es
-pnotify/dist/umd
-pnotify/dist/PNotifyBrightTheme.css
-@pnotify/bootstrap3
-@pnotify/countdown
-@pnotify/font-awesome4
-@pnotify/font-awesome5-fix
-@pnotify/glyphicon
-@pnotify/mobile
-@pnotify/reference
-@pnotify/animate/index.svelte
-@pnotify/confirm/index.svelte
-@pnotify/core/index.svelte
-@pnotify/core/Stack.js
-@pnotify/core/BrightTheme.css
-@pnotify/core/dist/BrightTheme.css
-@pnotify/desktop/index.svelte
+
 hammerjs/.bowerrc
 hammerjs/.jscsrc
 html2canvas/dist/npm
@@ -219,7 +202,6 @@ MAINTAINING.md
 #source - manuall
 source
 build
-pnotify/src
 
 #source - automatically generated
 add/src
@@ -278,7 +260,6 @@ leaflet/dist/leaflet-src.js
 leaflet/dist/leaflet-src.esm.js
 leaflet.awesome-markers/src
 leaflet.markercluster/src
-lodash/src
 moment/src
 moment/moment.js
 moment/locale

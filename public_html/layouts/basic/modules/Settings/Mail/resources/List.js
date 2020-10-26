@@ -59,9 +59,10 @@ Settings_Vtiger_List_Js(
 								}
 								listInstance.postMassDeleteRecords();
 								if (data.error) {
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										text: app.vtranslate(data.error.message),
-										title: app.vtranslate('JS_LBL_PERMISSION')
+										title: app.vtranslate('JS_LBL_PERMISSION'),
+										type: 'error'
 									});
 								}
 							});

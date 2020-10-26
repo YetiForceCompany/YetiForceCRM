@@ -6,29 +6,34 @@
 			<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 		{/foreach}
 		<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
-			<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
-			{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-				<input name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'
-						type="hidden"/>
-			{/if}
+			<input name="module" value="{$MODULE_NAME}" type="hidden"/>
+			<input name="action" value="SaveAjax" type="hidden"/>
 			{if !empty($RECORD_ID)}
 				<input name="record" value="{$RECORD_ID}" type="hidden"/>
+				<input type="hidden" name="fromView" value="QuickEdit"/>
+				{assign var="FROM_VIEW" value='QuickEdit'}
+			{else}
+				<input type="hidden" name="fromView" value="QuickCreate"/>
+				{assign var="FROM_VIEW" value='QuickCreate'}
+			{/if}
+			<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
+			<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, $FROM_VIEW])}"/>
+			{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
+				<input name="picklistDependency" type="hidden" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
 			{/if}
 			{if !empty($MAPPING_RELATED_FIELD)}
-				<input name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'
-						type="hidden"/>
+				<input name="mappingRelatedField" type="hidden" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
+			{/if}
+			{if !empty($LIST_FILTER_FIELDS)}
+				<input name="listFilterFields" type="hidden" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}'/>
 			{/if}
 			{if !empty($IS_POSTPONED)}
 				<input name="postponed" value="1" type="hidden"/>
 			{/if}
-			<input name="module" value="{$MODULE_NAME}" type="hidden"/>
-			<input name="action" value="SaveAjax" type="hidden"/>
-			<input name="defaultOtherEventDuration"
-					value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
+			<input name="defaultOtherEventDuration" value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
 			<input name="userChangedEndDateTime" value="0" type="hidden"/>
 			<div class="o-calendar__form w-100 d-flex flex-column">
-				<div class="o-calendar__form__wrapper js-calendar__form__wrapper massEditTable no-margin"
-					data-js="perfectscrollbar">
+				<div class="o-calendar__form__wrapper js-calendar__form__wrapper massEditTable no-margin" data-js="perfectscrollbar">
 					<h6 class="boxEventTitle text-muted text-center mt-1">
 						{if !empty($RECORD_ID)}
 							<div class="js-sidebar-title" data-title="edit">

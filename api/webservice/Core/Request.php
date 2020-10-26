@@ -12,6 +12,12 @@ namespace Api\Core;
 class Request extends \App\Request
 {
 	/**
+	 * Requested content type.
+	 *
+	 * @var string
+	 */
+	public $contentType;
+	/**
 	 * List of headings and sanitization methods.
 	 *
 	 * @var array
@@ -30,6 +36,7 @@ class Request extends \App\Request
 		'x-product-bundles' => \App\Purifier::INTEGER,
 		'x-row-order-field' => \App\Purifier::ALNUM_EXTENDED,
 		'x-row-order' => \App\Purifier::ALNUM,
+		'x-start-with' => \App\Purifier::INTEGER,
 	];
 
 	/**
@@ -43,6 +50,10 @@ class Request extends \App\Request
 	{
 		if (!static::$request) {
 			static::$request = new self($request ? $request : $_REQUEST);
+			static::$request->contentType = isset($_SERVER['CONTENT_TYPE']) ? static::$request->getServer('CONTENT_TYPE') : static::$request->getHeader('content-type');
+			if (empty(static::$request->contentType)) {
+				static::$request->contentType = static::$request->getHeader('accept');
+			}
 		}
 		return static::$request;
 	}
@@ -66,23 +77,20 @@ class Request extends \App\Request
 
 	public function contentParse($content)
 	{
-		$type = isset($_SERVER['CONTENT_TYPE']) ? $this->getServer('CONTENT_TYPE') : $this->getHeader('content-type');
-		if (empty($type)) {
-			$type = $this->getHeader('accept');
-		}
+		$type = $this->contentType;
 		if (!empty($type)) {
 			$type = explode('/', $type);
 			$type = array_pop($type);
 		}
 		$return = [];
 		switch ($type) {
+			case 'json':
+				$return = json_decode($content, 1);
+				break;
 			case 'form-data':
 			case 'x-www-form-urlencoded':
 				mb_parse_str($content, $data);
 				$return = $data;
-				break;
-			case 'json':
-				$return = json_decode($content, 1);
 				break;
 		}
 		return $return;

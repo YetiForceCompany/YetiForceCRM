@@ -45,6 +45,12 @@ class Cron
 	 */
 	public static $keepLogFile = false;
 	/**
+	 * Max execution cron time.
+	 *
+	 * @var int
+	 */
+	private static $maxExecutionCronTime;
+	/**
 	 * @var int status disabled
 	 */
 	const STATUS_DISABLED = 0;
@@ -118,7 +124,7 @@ class Cron
 	{
 		$all = Utils\ConfReport::getAll();
 		$all['last_start'] = time();
-		return file_put_contents(ROOT_DIRECTORY . '/app_data/cron.php', '<?php return ' . Utils::varExport($all) . ';');
+		return file_put_contents(ROOT_DIRECTORY . '/app_data/cron.php', '<?php return ' . Utils::varExport($all) . ';', LOCK_EX);
 	}
 
 	/**
@@ -167,5 +173,33 @@ class Cron
 				throw new \App\Exceptions\AppException('Invalid status');
 		}
 		\App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => $status], ['name' => $name])->execute();
+	}
+
+	/**
+	 * Get max execution cron time.
+	 *
+	 * @return int
+	 */
+	public static function getMaxExecutionTime(): int
+	{
+		if (isset(self::$maxExecutionCronTime)) {
+			return self::$maxExecutionCronTime;
+		}
+		$maxExecutionTime = (int) \App\Config::main('maxExecutionCronTime');
+		$iniMaxExecutionTime = (int) ini_get('max_execution_time');
+		if (0 !== $iniMaxExecutionTime && $iniMaxExecutionTime < $maxExecutionTime) {
+			$maxExecutionTime = $iniMaxExecutionTime;
+		}
+		return self::$maxExecutionCronTime = $maxExecutionTime;
+	}
+
+	/**
+	 * Check max execution cron time.
+	 *
+	 * @return bool
+	 */
+	public function checkCronTimeout(): bool
+	{
+		return time() >= (self::getMaxExecutionTime() + self::$cronTimeStart);
 	}
 }

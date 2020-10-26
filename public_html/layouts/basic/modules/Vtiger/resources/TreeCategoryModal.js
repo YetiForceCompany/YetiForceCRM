@@ -17,13 +17,13 @@ jQuery.Class(
 		},
 		getRecords: function (container) {
 			if (this.treeData == false && container !== 'undefined') {
-				var treeValues = container.find('#treePopupValues').val();
+				let treeValues = container.find('#treePopupValues').val();
 				this.treeData = JSON.parse(treeValues);
 			}
 			return this.treeData;
 		},
 		generateTree: function (container) {
-			var thisInstance = this;
+			let thisInstance = this;
 			if (thisInstance.treeInstance == false) {
 				thisInstance.treeInstance = container.find('#treePopupContents');
 				let plugins = ['search', 'category'];
@@ -61,9 +61,9 @@ jQuery.Class(
 			this.treeInstance.jstree(true).search(text);
 		},
 		registerSearchEvent: function () {
-			var thisInstance = this;
-			var valueSearch = $('#valueSearchTree');
-			var btnSearch = $('#btnSearchTree');
+			let thisInstance = this;
+			let valueSearch = $('#valueSearchTree');
+			let btnSearch = $('#btnSearchTree');
 			valueSearch.on('keypress', function (e) {
 				if (e.which == 13) {
 					thisInstance.searching(valueSearch.val());
@@ -156,12 +156,12 @@ jQuery.Class(
 			});
 		},
 		registerCounterSelected: function () {
-			var thisInstance = this;
+			let thisInstance = this;
 			this.treeInstance.on('changed.jstree', function (e, data) {
-				var counterSelected = 0;
-				var html = '';
+				let counterSelected = 0;
+				let html = '';
 				$.each(thisInstance.treeInstance.jstree('get_selected', true), function (index, value) {
-					var id = value.original.record_id.toString();
+					let id = value.original.record_id.toString();
 					if (id.indexOf('T')) {
 						counterSelected++;
 					}
@@ -171,7 +171,7 @@ jQuery.Class(
 			});
 		},
 		registerEvents: function () {
-			var container = this.getModalContainer();
+			let container = this.getModalContainer();
 			this.getRecords(container);
 			this.generateTree(container);
 			this.registerSaveRecords(container);
@@ -181,6 +181,6 @@ jQuery.Class(
 	}
 );
 jQuery(function () {
-	var instance = new Vtiger_TreeCategory_Js();
+	let instance = new Vtiger_TreeCategory_Js();
 	instance.registerEvents();
 });

@@ -93,9 +93,10 @@ class CustomView {
 				window.location.href = url;
 			} else {
 				$.unblockUI();
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_DUPLICATE_RECORD'),
-					text: response.message
+					text: response.message,
+					type: 'error'
 				});
 			}
 		});
@@ -197,9 +198,10 @@ class CustomView {
 		$('#CustomView').on('submit', (e) => {
 			let selectElement = this.getColumnSelectElement();
 			if ($('#viewname').val().length > 100) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
-					text: app.vtranslate('JS_VIEWNAME_ALERT')
+					text: app.vtranslate('JS_VIEWNAME_ALERT'),
+					type: 'error'
 				});
 				e.preventDefault();
 				return;
@@ -277,7 +279,7 @@ class CustomView {
 
 	registerEvents() {
 		this.registerIconEvents();
-		new App.Fields.Text.Editor(this.getContentsContainer().find('.js-editor'));
+		App.Fields.Text.Editor.register(this.getContentsContainer().find('.js-editor'));
 		App.Fields.Tree.register(this.getContentsContainer());
 		this.registerBlockToggleEvent();
 		this.registerColorEvent();

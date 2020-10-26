@@ -26,34 +26,32 @@
 				</div>
 				<div class="form-group float-right">
 					<div class="btn-group">
-							<button class="js-switch--inventory btn btn-outline-primary{if !$IS_INVENTORY} active{/if}"
-									type="button"	data-js="click" {if $CHANGE_MODULE_TYPE_DISABLED}disabled="disabled"{/if}
-									data-value="{Vtiger_Module_Model::STANDARD_TYPE}" autocomplete="off"
-							> {App\Language::translate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}
-							</button>
-							<button class="js-switch--inventory btn btn-outline-primary{if $IS_INVENTORY} active{/if}"
-									type="button" data-js="click" {if $CHANGE_MODULE_TYPE_DISABLED}disabled="disabled"{/if}
-									data-value="{Vtiger_Module_Model::ADVANCED_TYPE}" autocomplete="off"
-							> {App\Language::translate('LBL_ADVANCED_MODULE',$QUALIFIED_MODULE)}
+						<button class="js-switch--inventory btn btn-outline-primary{if !$IS_INVENTORY} active{/if}" type="button"	data-js="click" {if $CHANGE_MODULE_TYPE_DISABLED}disabled="disabled"{/if} data-value="{Vtiger_Module_Model::STANDARD_TYPE}" autocomplete="off">
+						{App\Language::translate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}
+						</button>
+						<button class="js-switch--inventory btn btn-outline-primary{if $IS_INVENTORY} active{/if}" type="button" data-js="click" {if $CHANGE_MODULE_TYPE_DISABLED}disabled="disabled"{/if} data-value="{Vtiger_Module_Model::ADVANCED_TYPE}" autocomplete="off">
+						{App\Language::translate('LBL_ADVANCED_MODULE',$QUALIFIED_MODULE)}</button>
 					</div>
 				</div>
 			</div>
 		</div>
 		<hr>
 		<div class="alert alert-block alert-warning mb-2">
+			<span class="mdi mdi-information-outline u-fs-xlg mr-2 float-left"></span>
 			<span>{\App\Language::translate('LBL_EDIT_MAY_AFFECT_STABILITY_DESC', $QUALIFIED_MODULE)}</span>
 		</div>
 		<div class="contents tabbable">
 			<ul class="nav nav-tabs layoutTabs massEditTabs" role="tablist">
-				<li class="nav-item"><a class="nav-link active" data-toggle="tab" role="tab"
-										href="#detailViewLayout" aria-selected="true">
-						<strong>{App\Language::translate('LBL_DETAILVIEW_LAYOUT', $QUALIFIED_MODULE)}</strong></a>
+				<li class="nav-item">
+					<a class="nav-link active" data-toggle="tab" role="tab" href="#detailViewLayout" aria-selected="true">
+						<strong>{App\Language::translate('LBL_DETAILVIEW_LAYOUT', $QUALIFIED_MODULE)}</strong>
+					</a>
 				</li>
 				{if $IS_INVENTORY}
-					<li class="nav-item inventoryNav"><a class="nav-link" data-toggle="tab" role="tab"
-														 href="#inventoryViewLayout"
-														 aria-selected="false">
-							<strong>{App\Language::translate('LBL_MANAGING_AN_ADVANCED_BLOCK', $QUALIFIED_MODULE)}</strong></a>
+					<li class="nav-item inventoryNav">
+						<a class="nav-link" data-toggle="tab" role="tab" href="#inventoryViewLayout" aria-selected="false">
+							<strong>{App\Language::translate('LBL_MANAGING_AN_ADVANCED_BLOCK', $QUALIFIED_MODULE)}</strong>
+						</a>
 					</li>
 				{/if}
 			</ul>
@@ -88,8 +86,7 @@
 								<div class="layoutBlockHeader d-flex flex-wrap justify-content-between m-0 p-1 pt-1 w-100">
 									<div class="blockLabel u-white-space-nowrap">
 										{if $IS_BLOCK_SORTABLE}
-											<img class="align-middle" src="{\App\Layout::getImagePath('drag.png')}"
-												 alt=""/>
+											<img class="align-middle" src="{\App\Layout::getImagePath('drag.png')}" alt=""/>
 											&nbsp;&nbsp;
 										{/if}
 										<strong class="align-middle" title="{$BLOCK_LABEL_KEY}">{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>

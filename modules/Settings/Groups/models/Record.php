@@ -200,25 +200,17 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			$removed = array_diff($oldModules, $modules);
 			$add = array_diff($modules, $oldModules);
 
-			foreach ($removed as $moduleName => &$tabId) {
+			foreach ($removed as $moduleName => $tabId) {
 				$db->createCommand()->delete('vtiger_group2modules', ['groupid' => $groupId, 'tabid' => $tabId])->execute();
 				\App\Privilege::setUpdater($moduleName);
 			}
-			foreach ($add as &$tabId) {
+			foreach ($add as $tabId) {
 				$db->createCommand()->insert('vtiger_group2modules', ['groupid' => $groupId, 'tabid' => $tabId])->execute();
 				\App\Privilege::setUpdater(\App\Module::getModuleName($tabId));
 			}
 		}
 		\App\Cache::clear();
 		$this->recalculate($oldUsersList);
-		$eventHandler = new App\EventHandler();
-		$eventHandler->setParams([
-			'groupsRecordModel' => $this,
-			'oldUsersList' => $oldUsersList,
-			'removedModules' => $removed,
-			'addModules' => $add,
-		]);
-		$eventHandler->trigger('GroupAfterSave');
 	}
 
 	/**

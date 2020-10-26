@@ -13,14 +13,31 @@ class Controller
 {
 	/** @var \self */
 	private static $instance;
-
 	/** @var Core\BaseAction */
 	private static $action;
-
-	/** @var \Api\Core\Request */
+	/**
+	 * Request instance.
+	 *
+	 * @var \Api\Core\Request
+	 * */
 	public $request;
+	/**
+	 * Response instance.
+	 *
+	 * @var \Api\Core\Response
+	 */
 	public $response;
+	/**
+	 * Request method.
+	 *
+	 * @var string
+	 */
 	public $method;
+	/**
+	 * Headers.
+	 *
+	 * @var array
+	 */
 	public $headers;
 	public $app;
 
@@ -31,6 +48,7 @@ class Controller
 	{
 		$this->request = Core\Request::init();
 		$this->response = Core\Response::getInstance();
+		$this->response->setRequest($this->request);
 		$this->method = strtoupper($this->request->getRequestMethod());
 	}
 
@@ -64,6 +82,11 @@ class Controller
 			$this->response->setAcceptableMethods($handler->allowedMethod);
 			return false;
 		}
+		if (!empty($this->app['acceptable_url'])) {
+			if (!\in_array(\App\RequestUtil::getRemoteIP(true), array_map('trim', explode(',', $this->app['acceptable_url'])))) {
+				throw new Core\Exception('Illegal IP address', 401);
+			}
+		}
 		if ($this->headers['x-api-key'] !== \App\Encryption::getInstance()->decrypt($this->app['api_key'])) {
 			throw new Core\Exception('Invalid api key', 401);
 		}
@@ -87,11 +110,20 @@ class Controller
 			$return = \call_user_func([$handler, strtolower($this->method)]);
 		}
 		if (null !== $return) {
-			$return = [
-				'status' => 1,
-				'result' => $return,
-			];
-			$this->response->setBody($return);
+			switch ($handler->responseType) {
+				case 'data':
+					$this->response->setBody([
+						'status' => 1,
+						'result' => $return,
+					]);
+					break;
+				case 'file':
+					$this->response->setFile($return);
+					break;
+				default:
+					throw new Core\Exception('Unsupported response type: ' . $handler->responseType, 400);
+					break;
+			}
 		}
 	}
 

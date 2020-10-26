@@ -112,7 +112,9 @@ class Settings_ModuleManager_Library_Model
 			$url = $lib['url'] . "/archive/$mode.zip";
 			App\Log::trace('Started downloading library: ' . $name, 'Library');
 			try {
+				\App\Log::beginProfile("GET|Library::download|{$url}", __NAMESPACE__);
 				(new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, ['sink' => $path]);
+				\App\Log::endProfile("GET|Library::download|{$url}", __NAMESPACE__);
 				if (\file_exists($path)) {
 					App\Log::trace('Completed downloads library: ' . $name, 'Library');
 				} else {

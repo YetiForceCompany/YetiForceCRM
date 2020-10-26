@@ -13,7 +13,13 @@ jQuery.Class(
 	'Vtiger_RelatedList_Js',
 	{
 		relatedListInstance: false,
-		getInstance: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
+		getInstance: function (
+			parentId,
+			parentModule,
+			selectedRelatedTabElement,
+			relatedModuleName,
+			url
+		) {
 			if (
 				Vtiger_RelatedList_Js.relatedListInstance === false ||
 				Vtiger_RelatedList_Js.relatedListInstance.moduleName !== relatedModuleName
@@ -38,6 +44,38 @@ jQuery.Class(
 				instance.relatedView = instance.content.find('input.relatedView').val();
 				Vtiger_RelatedList_Js.relatedListInstance = instance;
 			}
+			Vtiger_RelatedList_Js.relatedListInstance.parseUrlParams(url);
+			Vtiger_RelatedList_Js.relatedListInstance.setSelectedTabElement(selectedRelatedTabElement);
+			return Vtiger_RelatedList_Js.relatedListInstance;
+		},
+		getInstanceByUrl: function (url, selectedRelatedTabElement) {
+			let params = app.convertUrlToObject(url);
+			if (
+				Vtiger_RelatedList_Js.relatedListInstance === false ||
+				Vtiger_RelatedList_Js.relatedListInstance.moduleName !== params['relatedModule']
+			) {
+				let moduleClassName = app.getModuleName() + '_RelatedList_Js',
+					fallbackClassName = Vtiger_RelatedList_Js,
+					instance;
+				if (typeof window[moduleClassName] !== 'undefined') {
+					instance = new window[moduleClassName]();
+				} else {
+					instance = new fallbackClassName();
+				}
+				instance.selectedRelatedTabElement = selectedRelatedTabElement;
+				instance.relatedTabsContainer = selectedRelatedTabElement.closest('div.related');
+				instance.content = $(
+					'div.contents',
+					instance.relatedTabsContainer.closest('div.detailViewContainer')
+				);
+				instance.relatedView = instance.content.find('input.relatedView').val();
+				Vtiger_RelatedList_Js.relatedListInstance = instance;
+			}
+			Vtiger_RelatedList_Js.relatedListInstance.parentRecordId = params['record'];
+			Vtiger_RelatedList_Js.relatedListInstance.parentModuleName = params['module'];
+			Vtiger_RelatedList_Js.relatedListInstance.moduleName = params['relatedModule'];
+			Vtiger_RelatedList_Js.relatedListInstance.defaultParams = params;
+			Vtiger_RelatedList_Js.relatedListInstance.setSelectedTabElement(selectedRelatedTabElement);
 			return Vtiger_RelatedList_Js.relatedListInstance;
 		},
 		triggerMassAction: function (massActionUrl, type) {
@@ -89,25 +127,30 @@ jQuery.Class(
 		},
 		/**
 		 * Method to verify if selected files exist
-		 * @param {int} selectedIds
 		 * @return boolean
 		 */
-		verifyFileExist: function (selectedIds) {
-			let aDeferred = jQuery.Deferred();
+		verifyFileExist: function () {
+			const self = this.relatedListInstance;
+			let aDeferred = jQuery.Deferred(),
+				selectedIds = self.readSelectedIds(true),
+				excludedIds = self.readExcludedIds(true),
+				cvId = self.getCurrentCvId(),
+				postData = self.getCompleteParams();
+			delete postData.mode;
+			delete postData.view;
+			postData.viewname = cvId;
+			postData.selected_ids = selectedIds;
+			postData.excluded_ids = excludedIds;
+			postData.action = 'RelationAjax';
+			postData.mode = 'checkFilesIntegrity';
 			AppConnector.request({
-				module: 'Documents',
-				action: 'CheckFileIntegrity',
-				mode: 'multiple',
-				record: selectedIds
+				type: 'POST',
+				data: postData
 			}).done(function (responseData) {
-				if (responseData && responseData.result !== null) {
-					if (responseData.result.message) {
-						Vtiger_Helper_Js.showPnotify({ text: responseData.result.message });
-						aDeferred.resolve(false);
-					} else {
-						aDeferred.resolve(true);
-					}
+				if (responseData.result.notify) {
+					Vtiger_Helper_Js.showMessage(responseData.result.notify);
 				}
+				aDeferred.resolve(true);
 			});
 			return aDeferred.promise();
 		},
@@ -119,7 +162,7 @@ jQuery.Class(
 		triggerMassDownload: function (massActionUrl, type) {
 			const self = this.relatedListInstance,
 				thisInstance = this;
-			this.verifyFileExist(self.readSelectedIds(true)).done(function (data) {
+			this.verifyFileExist().done(function (data) {
 				if (true === data) {
 					thisInstance.triggerMassAction(
 						massActionUrl.substring(0, massActionUrl.indexOf('&mode=multiple')),
@@ -142,6 +185,7 @@ jQuery.Class(
 		frameProgress: false,
 		noEventsListSearch: false,
 		listViewContainer: false,
+		defaultParams: {},
 		setSelectedTabElement: function (tabElement) {
 			this.selectedRelatedTabElement = tabElement;
 		},
@@ -175,11 +219,12 @@ jQuery.Class(
 		},
 		getDefaultParams: function () {
 			let container = this.getRelatedContainer();
-			let params = {
-				relationId: container.find('#relationId').val(),
-				orderby: this.getOrderBy(),
-				page: this.getCurrentPageNum()
-			};
+			let params = this.defaultParams;
+			params['page'] = this.getCurrentPageNum();
+			params['orderby'] = this.getOrderBy();
+			if (container.find('#relationId').val()) {
+				params['relationId'] = container.find('#relationId').val();
+			}
 			if (container.find('.pagination').length) {
 				params['totalCount'] = container.find('.pagination').data('totalCount');
 			}
@@ -187,16 +232,16 @@ jQuery.Class(
 				params['entityState'] = container.find('.entityState').val();
 			}
 			if (this.listSearchInstance) {
-				var searchValue = this.listSearchInstance.getAlphabetSearchValue();
 				params.search_params = JSON.stringify(this.listSearchInstance.getListSearchParams());
-			}
-			if (typeof searchValue !== 'undefined' && searchValue.length > 0) {
-				params['search_key'] = this.listSearchInstance.getAlphabetSearchField();
-				params['search_value'] = searchValue;
-				params['operator'] = 's';
+				let searchValue = this.listSearchInstance.getAlphabetSearchValue();
+				if (typeof searchValue !== 'undefined' && searchValue.length > 0) {
+					params['search_key'] = this.listSearchInstance.getAlphabetSearchField();
+					params['search_value'] = searchValue;
+					params['operator'] = 's';
+				}
 			}
 			if (this.moduleName == 'Calendar') {
-				var switchBtn = container.find('.js-switch--calendar');
+				let switchBtn = container.find('.js-switch--calendar');
 				if (switchBtn.length) {
 					params.time = switchBtn.first().prop('checked') ? 'current' : 'history';
 				}
@@ -216,27 +261,34 @@ jQuery.Class(
 			};
 			return $.extend(this.getDefaultParams(), params);
 		},
+		parseUrlParams: function (url) {
+			if (url) {
+				this.defaultParams = app.convertUrlToObject(url);
+			} else {
+				this.defaultParams = {};
+			}
+		},
 		loadRelatedList: function (params) {
-			var aDeferred = jQuery.Deferred();
-			var thisInstance = this;
+			let aDeferred = jQuery.Deferred();
+			let thisInstance = this;
 			if (typeof thisInstance.moduleName === 'undefined' || thisInstance.moduleName.length <= 0) {
-				var currentInstance = Vtiger_Detail_Js.getInstance();
+				let currentInstance = Vtiger_Detail_Js.getInstance();
 				currentInstance.loadWidgets();
 				return aDeferred.promise();
 			}
-			var progressInstance = jQuery.progressIndicator({
+			let progressInstance = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
-			var completeParams = this.getCompleteParams();
-			var activeTabsReference = thisInstance.relatedTabsContainer
+			let completeParams = this.getCompleteParams();
+			let activeTabsReference = thisInstance.relatedTabsContainer
 				.find('li.active')
 				.data('reference');
 			AppConnector.request($.extend(completeParams, params))
 				.done(function (responseData) {
-					var currentInstance = Vtiger_Detail_Js.getInstance();
+					let currentInstance = Vtiger_Detail_Js.getInstance();
 					currentInstance.loadWidgets();
 					progressInstance.progressIndicator({ mode: 'hide' });
 					if (activeTabsReference !== 'ProductsAndServices') {
@@ -251,7 +303,7 @@ jQuery.Class(
 				})
 				.fail(function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_NOT_ALLOWED_VALUE'),
 						type: 'error'
 					});
@@ -260,9 +312,9 @@ jQuery.Class(
 			return aDeferred.promise();
 		},
 		triggerDisplayTypeEvent: function () {
-			var widthType = app.cacheGet('widthType', 'narrowWidthType');
+			let widthType = app.cacheGet('widthType', 'narrowWidthType');
 			if (widthType) {
-				var elements = this.content.find('.listViewEntriesTable').find('td,th');
+				let elements = this.content.find('.listViewEntriesTable').find('td,th');
 				elements.attr('class', widthType);
 			}
 		},
@@ -299,7 +351,7 @@ jQuery.Class(
 			};
 		},
 		addRelations: function (idList, params = {}) {
-			var aDeferred = jQuery.Deferred();
+			let aDeferred = jQuery.Deferred();
 			AppConnector.request(
 				$.extend(
 					{
@@ -359,25 +411,31 @@ jQuery.Class(
 						}
 						detail.registerRelatedModulesRecordCount();
 					} else {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
+						app.showNotify({
+							text: app.vtranslate('JS_CANNOT_REMOVE_RELATION'),
+							type: 'error'
+						});
 					}
 				})
 				.fail(function (err, errThrow) {
 					progressInstance.progressIndicator({ mode: 'hide' });
-					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CANNOT_REMOVE_RELATION'));
+					app.showNotify({
+						text: app.vtranslate('JS_CANNOT_REMOVE_RELATION'),
+						type: 'error'
+					});
 				});
 		},
 		/**
 		 * Function to handle next page navigation
 		 */
 		nextPageHandler: function () {
-			var aDeferred = jQuery.Deferred();
-			var thisInstance = this;
-			var pageLimit = jQuery('#pageLimit', this.content).val();
-			var noOfEntries = jQuery('#noOfEntries', this.content).val();
+			let aDeferred = jQuery.Deferred();
+			let thisInstance = this;
+			let pageLimit = jQuery('#pageLimit', this.content).val();
+			let noOfEntries = jQuery('#noOfEntries', this.content).val();
 			if (noOfEntries == pageLimit) {
-				var pageNumber = this.getCurrentPageNum();
-				var nextPage = parseInt(pageNumber) + 1;
+				let pageNumber = this.getCurrentPageNum();
+				let nextPage = parseInt(pageNumber) + 1;
 				this.loadRelatedList({
 					page: nextPage
 				})
@@ -435,28 +493,28 @@ jQuery.Class(
 		 * Function to handle page jump in related list
 		 */
 		pageJumpHandler: function (e) {
-			var aDeferred = jQuery.Deferred();
-			var thisInstance = this;
+			let aDeferred = jQuery.Deferred();
+			let thisInstance = this;
 			if (e.which == 13) {
-				var element = jQuery(e.currentTarget);
-				var response = Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(element);
+				let element = jQuery(e.currentTarget);
+				let response = Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(element);
 				if (typeof response !== 'undefined') {
 					element.validationEngine('showPrompt', response, '', 'topLeft', true);
 					e.preventDefault();
 				} else {
 					element.validationEngine('hideAll');
-					var jumpToPage = parseInt(element.val());
-					var totalPages = parseInt(jQuery('#totalPageCount', thisInstance.content).text());
+					let jumpToPage = parseInt(element.val());
+					let totalPages = parseInt(jQuery('#totalPageCount', thisInstance.content).text());
 					if (jumpToPage > totalPages) {
-						var error = app.vtranslate('JS_PAGE_NOT_EXIST');
+						let error = app.vtranslate('JS_PAGE_NOT_EXIST');
 						element.validationEngine('showPrompt', error, '', 'topLeft', true);
 					}
-					var invalidFields = element.parent().find('.formError');
+					let invalidFields = element.parent().find('.formError');
 					if (invalidFields.length < 1) {
-						var currentPage = jQuery('input[name="currentPageNum"]', thisInstance.content).val();
+						let currentPage = jQuery('input[name="currentPageNum"]', thisInstance.content).val();
 						if (jumpToPage == currentPage) {
-							var message = app.vtranslate('JS_YOU_ARE_IN_PAGE_NUMBER') + ' ' + jumpToPage;
-							var params = {
+							let message = app.vtranslate('JS_YOU_ARE_IN_PAGE_NUMBER') + ' ' + jumpToPage;
+							let params = {
 								text: message,
 								type: 'info'
 							};
@@ -485,28 +543,28 @@ jQuery.Class(
 		 * Function to add related record for the module
 		 */
 		addRelatedRecord: function (element, callback) {
-			var aDeferred = jQuery.Deferred();
-			var thisInstance = this;
-			var referenceModuleName = this.moduleName;
-			var parentId = this.getParentId();
-			var parentModule = this.parentModuleName;
-			var quickCreateParams = {};
-			var relatedParams = {};
-			var relatedField = element.data('name');
-			var fullFormUrl = element.data('url');
+			let aDeferred = jQuery.Deferred();
+			let thisInstance = this;
+			let referenceModuleName = this.moduleName;
+			let parentId = this.getParentId();
+			let parentModule = this.parentModuleName;
+			let quickCreateParams = {};
+			let relatedParams = {};
+			let relatedField = element.data('name');
+			let fullFormUrl = element.data('url');
 			if (relatedField) {
 				relatedParams[relatedField] = parentId;
 			}
-			var eliminatedKeys = new Array('view', 'module', 'mode', 'action');
-			var preQuickCreateSave = function (data) {
-				var index, queryParam, queryParamComponents;
+			let eliminatedKeys = new Array('view', 'module', 'mode', 'action');
+			let preQuickCreateSave = function (data) {
+				let index, queryParam, queryParamComponents;
 				let queryParameters = [];
 
 				//To handle switch to task tab when click on add task from related list of activities
 				//As this is leading to events tab intially even clicked on add task
 				if (typeof fullFormUrl !== 'undefined' && fullFormUrl.indexOf('?') !== -1) {
-					var urlSplit = fullFormUrl.split('?');
-					var queryString = urlSplit[1];
+					let urlSplit = fullFormUrl.split('?');
+					let queryString = urlSplit[1];
 					queryParameters = queryString.split('&');
 					for (index = 0; index < queryParameters.length; index++) {
 						queryParam = queryParameters[index];
@@ -525,7 +583,7 @@ jQuery.Class(
 				jQuery('<input type="hidden" name="relationOperation" value="true" />').appendTo(data);
 
 				if (typeof relatedField !== 'undefined') {
-					var field = data.find('[name="' + relatedField + '"]');
+					let field = data.find('[name="' + relatedField + '"]');
 					//If their is no element with the relatedField name,we are adding hidden element with
 					//name as relatedField name,for saving of record with relation to parent record
 					if (field.length == 0) {
@@ -554,7 +612,7 @@ jQuery.Class(
 					callback();
 				}
 			};
-			var postQuickCreateSave = function (data) {
+			let postQuickCreateSave = function (data) {
 				thisInstance.loadRelatedList().done(function (data) {
 					aDeferred.resolve(data);
 				});
@@ -562,12 +620,12 @@ jQuery.Class(
 
 			//If url contains params then seperate them and make them as relatedParams
 			if (typeof fullFormUrl !== 'undefined' && fullFormUrl.indexOf('?') !== -1) {
-				var urlSplit = fullFormUrl.split('?');
-				var queryString = urlSplit[1];
-				var queryParameters = queryString.split('&');
-				for (var index = 0; index < queryParameters.length; index++) {
-					var queryParam = queryParameters[index];
-					var queryParamComponents = queryParam.split('=');
+				let urlSplit = fullFormUrl.split('?');
+				let queryString = urlSplit[1];
+				let queryParameters = queryString.split('&');
+				for (let index = 0; index < queryParameters.length; index++) {
+					let queryParam = queryParameters[index];
+					let queryParamComponents = queryParam.split('=');
 					if (jQuery.inArray(queryParamComponents[0], eliminatedKeys) == '-1') {
 						relatedParams[queryParamComponents[0]] = queryParamComponents[1];
 					}
@@ -582,10 +640,10 @@ jQuery.Class(
 			return aDeferred.promise();
 		},
 		getRelatedPageCount: function () {
-			var aDeferred = jQuery.Deferred();
-			var element = this.content.find('#totalPageCount');
-			var totalCountElem = this.content.find('#totalCount');
-			var totalPageNumber = element.text();
+			let aDeferred = jQuery.Deferred();
+			let element = this.content.find('#totalPageCount');
+			let totalCountElem = this.content.find('#totalCount');
+			let totalPageNumber = element.text();
 			if (totalPageNumber == '') {
 				element.progressIndicator({});
 				AppConnector.request({
@@ -597,8 +655,8 @@ jQuery.Class(
 					relatedModule: this.moduleName
 				})
 					.done(function (data) {
-						var pageCount = data['result']['page'];
-						var numberOfRecords = data['result']['numberOfRecords'];
+						let pageCount = data['result']['page'];
+						let numberOfRecords = data['result']['numberOfRecords'];
 						totalCountElem.val(numberOfRecords);
 						element.text(pageCount);
 						element.progressIndicator({ mode: 'hide' });
@@ -613,7 +671,7 @@ jQuery.Class(
 			return aDeferred.promise();
 		},
 		favoritesRelation: function (relcrmId, state) {
-			var aDeferred = jQuery.Deferred();
+			let aDeferred = jQuery.Deferred();
 			if (relcrmId) {
 				AppConnector.request({
 					module: this.parentModuleName,
@@ -637,7 +695,7 @@ jQuery.Class(
 			return aDeferred.promise();
 		},
 		updatePreview: function (url) {
-			var frame = this.content.find('.listPreviewframe');
+			let frame = this.content.find('.listPreviewframe');
 			this.frameProgress = $.progressIndicator({
 				position: 'html',
 				message: app.vtranslate('JS_FRAME_IN_PROGRESS'),
@@ -645,7 +703,7 @@ jQuery.Class(
 					enabled: true
 				}
 			});
-			var defaultView = '';
+			let defaultView = '';
 			if (app.getMainParams('defaultDetailViewName')) {
 				defaultView =
 					defaultView +
@@ -655,11 +713,11 @@ jQuery.Class(
 			frame.attr('src', url.replace('view=Detail', 'view=DetailPreview') + defaultView);
 		},
 		registerUnreviewedCountEvent: function () {
-			var ids = [];
-			var relatedContent = this.content;
-			var isUnreviewedActive = relatedContent.find('.unreviewed').length;
+			let ids = [];
+			let relatedContent = this.content;
+			let isUnreviewedActive = relatedContent.find('.unreviewed').length;
 			relatedContent.find('tr.listViewEntries').each(function () {
-				var id = jQuery(this).data('id');
+				let id = jQuery(this).data('id');
 				if (id) {
 					ids.push(id);
 				}
@@ -674,7 +732,7 @@ jQuery.Class(
 				sourceModule: this.moduleName,
 				recordsId: ids
 			}).done(function (appData) {
-				var data = appData.result;
+				let data = appData.result;
 				$.each(data, function (id, value) {
 					if (value.a > 0) {
 						relatedContent
@@ -694,10 +752,10 @@ jQuery.Class(
 			});
 		},
 		registerChangeEntityStateEvent: function () {
-			var thisInstance = this;
-			var relatedContent = this.content;
+			let thisInstance = this;
+			let relatedContent = this.content;
 			relatedContent.on('click', '.dropdownEntityState a', function (e) {
-				var element = $(this);
+				let element = $(this);
 				relatedContent.find('.entityState').val(element.data('value'));
 				relatedContent.find('.pagination').data('totalCount', 0);
 				relatedContent
@@ -708,7 +766,7 @@ jQuery.Class(
 			});
 		},
 		registerRowsEvent: function () {
-			var thisInstance = this;
+			const self = this;
 			if (this.relatedView === 'List' || this.relatedView === 'Detail') {
 				this.content.find('.listViewEntries').on('click', function (e) {
 					if ($(e.target).is('td')) {
@@ -723,12 +781,22 @@ jQuery.Class(
 						}
 					}
 				});
-				this.content.find('.showInventoryRow').on('click', function (e) {
-					var target = $(this);
-					var row = target.closest('tr');
-					var inventoryRow = row.next();
-					if (inventoryRow.hasClass('listViewInventoryEntries')) {
-						inventoryRow.toggleClass('d-none');
+				this.content.find('.js-toggle-hidden-row').on('click', function (e) {
+					let target = $(this);
+					let row = target.closest('tr');
+					let inventoryRow = row.next('.js-hidden-row');
+					if (inventoryRow.length) {
+						let block = inventoryRow.find(
+							'.js-hidden-row__block[data-element="' + target.data('element') + '"]'
+						);
+						if (block.is(':visible') || !inventoryRow.is(':visible')) {
+							inventoryRow.toggleClass('d-none');
+						}
+						inventoryRow.find('.js-hidden-row__block').addClass('d-none');
+						block.removeClass('d-none');
+						if (block.is(':visible')) {
+							self.registerWidgets(block);
+						}
 					}
 				});
 			} else if (this.relatedView === 'ListPreview') {
@@ -741,25 +809,41 @@ jQuery.Class(
 					if (target.is('input[type="checkbox"]')) return;
 					if ($.contains($(e.currentTarget).find('td:last-child').get(0), target[0])) return;
 					if ($.contains($(e.currentTarget).find('td:first-child').get(0), target[0])) return;
-					var recordUrl = $(this).data('recordurl');
-					thisInstance.content.find('.listViewEntriesTable .listViewEntries').removeClass('active');
+					let recordUrl = $(this).data('recordurl');
+					self.content.find('.listViewEntriesTable .listViewEntries').removeClass('active');
 					$(this).addClass('active');
-					thisInstance.updatePreview(recordUrl);
+					self.updatePreview(recordUrl);
 				});
 			}
+			let widgetsContainer = this.content.find(
+				'.js-hidden-row .js-hidden-row__block[data-element="widgets"]'
+			);
+			if (widgetsContainer.length) {
+				self.registerWidgets(widgetsContainer);
+			}
+		},
+		registerWidgets: function (content) {
+			let widgetList = $('[class^="widgetContainer_"]', content);
+			let detailInstance = Vtiger_Detail_Js.getInstance();
+			widgetList.each(function (index, widget) {
+				widget = $(widget);
+				if (widget.is(':visible')) {
+					detailInstance.loadWidget(widget);
+				}
+			});
 		},
 		registerSummationEvent: function () {
-			var thisInstance = this;
+			let thisInstance = this;
 			this.content.on('click', '.listViewSummation button', function () {
-				var button = $(this);
-				var calculateValue = button.closest('td').find('.calculateValue');
-				var params = thisInstance.getCompleteParams();
+				let button = $(this);
+				let calculateValue = button.closest('td').find('.calculateValue');
+				let params = thisInstance.getCompleteParams();
 				params['action'] = 'RelationAjax';
 				params['mode'] = 'calculate';
 				params['fieldName'] = button.data('field');
 				params['calculateType'] = button.data('operator');
 				delete params['view'];
-				var progress = $.progressIndicator({
+				let progress = $.progressIndicator({
 					message: app.vtranslate('JS_CALCULATING_IN_PROGRESS'),
 					position: 'html',
 					blockInfo: {
@@ -779,8 +863,8 @@ jQuery.Class(
 			});
 		},
 		registerPreviewEvent: function () {
-			var thisInstance = this;
-			var contentHeight = this.content.find('.js-detail-preview,.js-list-preview');
+			let thisInstance = this;
+			let contentHeight = this.content.find('.js-detail-preview,.js-list-preview');
 			contentHeight.height(
 				app.getScreenHeight() - (this.content.offset().top + $('.js-footer').height())
 			);
@@ -793,8 +877,8 @@ jQuery.Class(
 			this.content.find('.listViewEntriesTable .listViewEntries').first().trigger('click');
 		},
 		registerPaginationEvents: function () {
-			var thisInstance = this;
-			var relatedContent = this.content;
+			let thisInstance = this;
+			let relatedContent = this.content;
 			this.content.on('click', '#relatedViewNextPageButton', function (e) {
 				if ($(this).hasClass('disabled')) {
 					return;
@@ -822,7 +906,7 @@ jQuery.Class(
 			});
 			this.content.on('click', '#totalCountBtn', function () {
 				app.hidePopover($(this));
-				var params = {
+				let params = {
 					module: thisInstance.parentModuleName,
 					view: 'Pagination',
 					mode: 'getRelationPagination',
@@ -840,22 +924,22 @@ jQuery.Class(
 			});
 		},
 		registerListEvents: function () {
-			var relatedContent = this.content;
-			var thisInstance = this;
+			let relatedContent = this.content;
+			let thisInstance = this;
 			this.content.find('a.favorites').on('click', function (e) {
-				var progressInstance = jQuery.progressIndicator({
+				let progressInstance = jQuery.progressIndicator({
 					position: 'html',
 					blockInfo: {
 						enabled: true
 					}
 				});
-				var element = $(this);
-				var row = element.closest('tr');
+				let element = $(this);
+				let row = element.closest('tr');
 				thisInstance
 					.favoritesRelation(row.data('id'), element.data('state'))
 					.done(function (response) {
 						if (response) {
-							var state = element.data('state') ? 0 : 1;
+							let state = element.data('state') ? 0 : 1;
 							element.data('state', state);
 							if (state) {
 								element.find('.far').addClass('d-none');
@@ -865,11 +949,11 @@ jQuery.Class(
 								element.find('.far').removeClass('d-none');
 							}
 							progressInstance.progressIndicator({ mode: 'hide' });
-							var text = app.vtranslate('JS_REMOVED_FROM_FAVORITES');
+							let text = app.vtranslate('JS_REMOVED_FROM_FAVORITES');
 							if (state) {
 								text = app.vtranslate('JS_ADDED_TO_FAVORITES');
 							}
-							Vtiger_Helper_Js.showPnotify({ text: text, type: 'success' });
+							app.showNotify({ text: text, type: 'success' });
 						}
 					});
 			});
@@ -914,15 +998,9 @@ jQuery.Class(
 			this.content.find('.js-switch--calendar').on('change', function (e) {
 				thisInstance.loadRelatedList();
 			});
-			this.content.find('.relatedViewGroup a').on('click', function (e) {
-				var element = $(this);
-				thisInstance.relatedView = element.data('view');
-				relatedContent.find('.pagination').data('totalCount', 0);
-				thisInstance.loadRelatedList({ page: 1 });
-			});
 		},
 		registerPostLoadEvents: function () {
-			var thisInstance = this;
+			let thisInstance = this;
 			this.registerRowsEvent();
 			this.registerListScroll();
 			if (this.relatedView === 'ListPreview') {
@@ -934,7 +1012,11 @@ jQuery.Class(
 					this.registerListPreviewEvents();
 				}
 			}
-			this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
+			if (this.content.find('.listViewSearchTd [data-trigger="listSearch"]').length) {
+				this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
+			} else {
+				this.listSearchInstance = false;
+			}
 			app.event.trigger('RelatedList.AfterLoad', thisInstance);
 		},
 		getSecondColMinWidth: function (container) {
@@ -1039,10 +1121,10 @@ jQuery.Class(
 		 * @param {Split} split - a split object.
 		 */
 		registerSplitEvents: function (container, split) {
-			var rightSplitMaxWidth = (400 / this.windowW) * 100;
-			var minWindowWidth = (23 / this.windowW) * 100;
-			var maxWindowWidth = 100 - minWindowWidth;
-			var listPreview = container.find('.js-detail-preview');
+			let rightSplitMaxWidth = (400 / this.windowW) * 100;
+			let minWindowWidth = (23 / this.windowW) * 100;
+			let maxWindowWidth = 100 - minWindowWidth;
+			let listPreview = container.find('.js-detail-preview');
 			this.gutter.on('dblclick', () => {
 				let gutterRelatedMidPosition = app.moduleCacheGet('gutterRelatedMidPosition');
 				if (isNaN(this.split.getSizes()[0])) {
@@ -1106,10 +1188,10 @@ jQuery.Class(
 			});
 		},
 		registerSplit: function (container) {
-			var rightSplitMaxWidth = (400 / this.windowW) * 100;
+			let rightSplitMaxWidth = (400 / this.windowW) * 100;
 			const splitSizes = this.getSplitSizes();
 			app.moduleCacheSet('gutterRelatedMidPosition', splitSizes);
-			var split = Split([this.list[0], this.preview[0]], {
+			let split = Split([this.list[0], this.preview[0]], {
 				sizes: splitSizes,
 				minSize: 10,
 				gutterSize: 24,
@@ -1151,7 +1233,7 @@ jQuery.Class(
 				this.sideBlockRight.addClass('d-block');
 				this.preview.hide();
 			}
-			var mainWindowHeightCss = {
+			let mainWindowHeightCss = {
 				height: $(window).height() - this.list.offset().top - this.footerH
 			};
 			if (!container.closest('.mainBody').length) {
@@ -1174,8 +1256,8 @@ jQuery.Class(
 			return split;
 		},
 		toggleSplit: function (container) {
-			var commactHeight = container.closest('.commonActionsContainer').height();
-			var splitsArray = [];
+			let commactHeight = container.closest('.commonActionsContainer').height();
+			let splitsArray = [];
 			this.split = this.registerSplit(container);
 			splitsArray.push(this.split);
 			$(window).on('resize', () => {
@@ -1188,7 +1270,7 @@ jQuery.Class(
 				} else {
 					if (container.find('.gutter').length !== 1) {
 						this.split = this.registerSplit(container);
-						var gutter = container.find('.gutter');
+						let gutter = container.find('.gutter');
 						if (this.mainBody.scrollTop() >= this.list.offset().top + commactHeight) {
 							gutter.addClass('gutterOnScroll');
 							gutter.css('left', this.preview.offset().left - 8);
@@ -1200,9 +1282,9 @@ jQuery.Class(
 						}
 						splitsArray.push(this.split);
 					}
-					var currentSplit = splitsArray[splitsArray.length - 1];
-					var minWidth = (15 / $(window).width()) * 100;
-					var maxWidth = 100 - minWidth;
+					let currentSplit = splitsArray[splitsArray.length - 1];
+					let minWidth = (15 / $(window).width()) * 100;
+					let maxWidth = 100 - minWidth;
 					if (typeof currentSplit === 'undefined') return;
 					if (currentSplit.getSizes()[0] < minWidth + 5) {
 						currentSplit.setSizes([minWidth, maxWidth]);
@@ -1245,7 +1327,10 @@ jQuery.Class(
 			return aDeferred.promise();
 		},
 		noRecordSelectedAlert: function (text = 'JS_PLEASE_SELECT_ONE_RECORD') {
-			return Vtiger_Helper_Js.showPnotify({ text: app.vtranslate(text) });
+			app.showNotify({
+				text: app.vtranslate(text),
+				type: 'error'
+			});
 		},
 		getCurrentCvId: function () {
 			return $('#customFilter').find('option:selected').data('id');
@@ -1408,6 +1493,19 @@ jQuery.Class(
 				}
 			});
 		},
+		/**
+		 * Register change related view.
+		 */
+		registerChangeViewEvent() {
+			const self = this;
+			self.getRelatedContainer().on('click', '.js-change-related-view', function () {
+				self.relatedView = this.dataset.view;
+				self.loadRelatedList();
+			});
+		},
+		/**
+		 * Register related events
+		 */
 		registerRelatedEvents: function () {
 			this.registerUnreviewedCountEvent();
 			this.registerChangeEntityStateEvent();
@@ -1420,6 +1518,7 @@ jQuery.Class(
 			this.registerSelectAllClickEvent();
 			this.registerDeselectAllClickEvent();
 			this.registerQuickEditSaveEvent();
+			this.registerChangeViewEvent();
 			YetiForce_ListSearch_Js.registerSearch(this.content, (data) => {
 				this.loadRelatedList(data);
 			});

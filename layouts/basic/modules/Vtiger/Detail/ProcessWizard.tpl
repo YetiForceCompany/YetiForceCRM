@@ -20,23 +20,35 @@
 	<div class="process-content mt-2">
 		{foreach item=BLOCK_ROW from=$PROCESS_WIZARD->getStepBlocks()}
 			{if $BLOCK_ROW['type'] eq 'fields'}
-				{include file=\App\Layout::getTemplatePath('Detail/BlockView.tpl', $MODULE_NAME) BLOCK_LABEL_KEY=$BLOCK_ROW['label'] FIELD_MODEL_LIST=$BLOCK_ROW['fieldsStructure']}
-			{elseif $BLOCK_ROW['type'] eq 'relatedLists'}
+				{include file=\App\Layout::getTemplatePath('Detail/BlockView.tpl', $MODULE_NAME) RECORD_STRUCTURE=$RECORD_STRUCTURE BLOCK_LABEL_KEY=$BLOCK_ROW['label'] FIELD_MODEL_LIST=$BLOCK_ROW['fieldsStructure']}
+			{elseif $BLOCK_ROW['type'] eq 'relatedLists' || $BLOCK_ROW['type'] eq 'relatedListsFromReference'}
 				{assign var=BLOCK_MODEL value=$BLOCK_ROW['relationStructure']}
 				{assign var=RELATED_MODULE_NAME value=$BLOCK_MODEL->getRelatedModuleName()}
-				<div class="js-toggle-panel c-panel detailViewBlockLink" data-url="{$BLOCK_MODEL->getUrl()}" data-mode="show" data-reference="{$RELATED_MODULE_NAME}">
-					<div class="blockHeader c-panel__header">
-						<span class="u-cursor-pointer js-block-toggle fas fa-angle-right m-2 d-none" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id="{$TYPE_VIEW}_{$RELATED_MODULE_NAME}"></span>
-						<span class="u-cursor-pointer js-block-toggle fas fa-angle-down m-2" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id="{$TYPE_VIEW}_{$RELATED_MODULE_NAME}"></span>
+				<div class="c-panel detailViewBlockLink" data-url="{$BLOCK_MODEL->getUrl()}" data-mode="show" data-reference="{$RELATED_MODULE_NAME}">
+					<div class="blockHeader c-panel__header js-stop-propagation">
 						<h5>
 							<span class="moduleIcon yfm-{$RELATED_MODULE_NAME} mr-2"></span>
 							{\App\Language::translate($BLOCK_MODEL->getLabel(),$RELATED_MODULE_NAME)}
+							{if isset($BLOCK_ROW['desc'])}
+								<a href="#" class="js-help-info u-cursor-pointer ml-2" title="{\App\Language::translate($BLOCK_MODEL->getLabel(),$RELATED_MODULE_NAME)}" data-placement="top" data-content="{\App\Language::translate($BLOCK_ROW['desc'])}">
+									<span class="fas fa-info-circle"></span>
+								</a>
+							{/if}
 						</h5>
 					</div>
-					{if isset($BLOCK_ROW['desc'])}
-						<div class="m-2">{$BLOCK_ROW['desc']}</div>
-					{/if}
 					<div class="blockContent c-panel__body"></div>
+				</div>
+			{elseif $BLOCK_ROW['type'] eq 'description'}
+				<div class="c-panel" data-mode="show">
+					<div class="blockHeader c-panel__header js-stop-propagation">
+						<h5>
+							{if $BLOCK_ROW['icon']}
+								<span class="{$BLOCK_ROW['icon']} mr-2"></span>
+							{/if}
+							{\App\Language::translate($BLOCK_ROW['label'],$MODULE_NAME)}
+						</h5>
+					</div>
+					<div class="blockContent c-panel__body p-1 pl-2">{$BLOCK_ROW['description']}</div>
 				</div>
 			{/if}
 		{foreachelse}

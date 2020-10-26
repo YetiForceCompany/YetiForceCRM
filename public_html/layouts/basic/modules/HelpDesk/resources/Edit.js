@@ -43,7 +43,7 @@ Vtiger_Edit_Js(
 								form.submit();
 							}
 							if (!response.result.hasTimeControl.result) {
-								Vtiger_Helper_Js.showPnotify({
+								app.showNotify({
 									text: response.result.hasTimeControl.message,
 									type: 'info'
 								});
@@ -53,7 +53,7 @@ Vtiger_Edit_Js(
 								});
 							}
 							if (!response.result.relatedTicketsClosed.result) {
-								Vtiger_Helper_Js.showPnotify({
+								app.showNotify({
 									text: response.result.relatedTicketsClosed.message,
 									type: 'info'
 								});
@@ -62,7 +62,7 @@ Vtiger_Edit_Js(
 					}
 				}
 				if (isClosedStatusSet && (!recordId || data.module)) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_CANT_CLOSE_NEW_RECROD'),
 						type: 'info'
 					});

@@ -58,7 +58,7 @@ class Json
 	public static function encode($valueToEncode, $options = 0)
 	{
 		if (\function_exists('json_encode')) {
-			return json_encode($valueToEncode, $options);
+			return json_encode($valueToEncode, $options | JSON_UNESCAPED_UNICODE);
 		}
 		throw new \App\Exceptions\AppException('ERR_NO_JSON_ENCODE');
 	}
@@ -84,7 +84,7 @@ class Json
 	 */
 	public static function isJson(?string $value): bool
 	{
-		return !('' === $value || (self::decode($value) && \json_last_error()));
+		return !('' === $value || null === self::decode($value) || JSON_ERROR_NONE !== \json_last_error());
 	}
 
 	/**
@@ -113,6 +113,6 @@ class Json
 	 */
 	public static function save(string $path, array $data)
 	{
-		return \file_put_contents($path, static::encode($data, JSON_PRETTY_PRINT));
+		return \file_put_contents($path, static::encode($data, JSON_PRETTY_PRINT), LOCK_EX);
 	}
 }

@@ -77,14 +77,12 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		if (300 === $this->getFieldModel()->getUIType()) {
 			$value = \App\Purifier::purifyHtml($value);
 			if (!$rawText) {
-				$value = \App\Utils\Completions::decode($value);
+				$value = \App\Layout::truncateHtml(\App\Utils\Completions::decode($value), $size, $length);
 			}
-			$value = \App\Layout::truncateHtml($value, $size, $length);
 		} else {
-			if ($rawText) {
-				$value = \App\TextParser::textTruncate(\App\Purifier::purify($value), $length, false);
-			} else {
-				$value = nl2br(\App\Layout::truncateText(\App\Purifier::purify($value), $length));
+			$value = \App\Purifier::purify($value);
+			if (!$rawText) {
+				$value = nl2br(\App\Layout::truncateText($value, $length));
 			}
 		}
 		return $value;

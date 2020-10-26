@@ -72,7 +72,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			$id = $moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected, $request->getForHtml('description'), $request->getByType('prefix', 'Text'), $request->getByType('record_state', 'Integer'));
 			$response->setResult(['id' => $id['id']]);
 		} catch (Exception $e) {
-			$response->setException($e);
+			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
 	}
@@ -104,7 +104,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 					$this->updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue);
 				}
 				$status = $moduleModel->renamePickListValues($fieldModel, $oldValue, $newValue, $id, $request->getForHtml('description'), $request->getByType('prefix', 'Text'));
-				if ($fieldModel->isProcessStatusField()) {
+				if ($fieldModel->isProcessStatusField() || !empty(\App\RecordStatus::getLockStatus($moduleName, false)[$request->getInteger('picklist_valueid')])) {
 					$fieldModel->updateCloseState($request->getInteger('picklist_valueid'), $newValue);
 				}
 				$response->setResult([
@@ -113,7 +113,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 					'newValue' => \App\Language::translate($newValue, $moduleName)
 				]);
 			} catch (Exception $e) {
-				$response->setException($e);
+				$response->setError($e->getCode(), $e->getMessage());
 			}
 		}
 		$response->emit();

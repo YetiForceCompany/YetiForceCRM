@@ -10,12 +10,20 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Integrations\Magento\Synchronizer\Maps;
 
+/**
+ * Invoice map class.
+ */
 class Invoice extends Inventory
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	protected $moduleName = 'FInvoice';
 	/**
 	 * {@inheritdoc}
 	 */
@@ -27,22 +35,16 @@ class Invoice extends Inventory
 		'sum_net' => '',
 		'finvoice_type' => 'PLL_DOMESTIC_INVOICE',
 	];
-
 	/**
 	 * {@inheritdoc}
 	 */
 	public static $mappedFields = [
 		'subject' => 'increment_id',
 		'finvoice_status' => 'state',
-		'finvoice_formpayment' => 'payment|method',
+		'payment_methods' => 'payment|method',
 		'issue_time' => 'created_at',
-		'addresslevel1a' => 'billing_address|country_id',
-		'addresslevel2a' => 'billing_address|region',
-		'addresslevel5a' => 'billing_address|city',
-		'addresslevel7a' => 'billing_address|postcode',
-		'addresslevel8a' => 'billing_address|street',
+		'saledate' => 'created_at',
 	];
-
 	/**
 	 *{@inheritdoc}
 	 */
@@ -52,27 +54,17 @@ class Invoice extends Inventory
 		'name' => 'product_id',
 		'discount' => 'discount_invoiced',
 	];
-
 	/**
 	 * {@inheritdoc}
 	 */
 	public static $fieldsType = [
 		'finvoice_status' => 'map',
-		'addresslevel8a' => 'implode',
+		'payment_methods' => 'mapAndAddNew',
 		'addresslevel1a' => 'country',
+		'addresslevel1b' => 'country',
 		'issue_time' => 'date',
-		'finvoice_formpayment' => 'map'
+		'saledate' => 'date',
 	];
-
-	/**
-	 * Payment method value map.
-	 *
-	 * @var array
-	 */
-	public static $finvoice_formpayment = [
-		'banktransfer' => 'PLL_TRANSFER',
-	];
-
 	/**
 	 * Invoice status map.
 	 *
@@ -83,4 +75,49 @@ class Invoice extends Inventory
 		'2' => 'PLL_ACCEPTED',
 		'3' => 'PLL_CANCELLED',
 	];
+	/**
+	 * Payment method value map.
+	 *
+	 * @var array
+	 */
+	public static $payment_methods = [
+		'redsys' => 'PLL_REDSYS',
+		'banktransfer' => 'PLL_TRANSFER',
+		'cashondelivery' => 'PLL_CASH_ON_DELIVERY',
+		'paypal_express' => 'PLL_PAYPAL_EXPRESS',
+	];
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDataCrm(bool $onEdit = false): array
+	{
+		$parsedData = parent::getDataCrm($onEdit);
+		if (!empty($shippingAddress = $this->getAddressDataCrm('shipping'))) {
+			$parsedData = \array_replace_recursive($parsedData, $shippingAddress);
+		}
+		if (!empty($billingAddress = $this->getAddressDataCrm('billing'))) {
+			$parsedData = \array_replace_recursive($parsedData, $billingAddress);
+		}
+		if (!empty($parsedData['phone'])) {
+			$parsedData = $this->parsePhone('phone', $parsedData);
+		}
+		if (!empty($parsedData['mobile'])) {
+			$parsedData = $this->parsePhone('mobile', $parsedData);
+		}
+		return $this->dataCrm = $parsedData;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAddressDataByType(string $addressType)
+	{
+		if ('shipping' === $addressType) {
+			$data = $this->data['extension_attributes']['shipping_assignments'][0]['shipping']['address'] ?? [];
+		} else {
+			$data = $this->data['billing_address'] ?? [];
+		}
+		return $data;
+	}
 }

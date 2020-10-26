@@ -50,23 +50,19 @@
 									</button>
 								</div>
 							{/if}
-							{if isset($WIDGET['data']['actionSelect']) || isset($WIDGET['data']['action'])}
+							{if !$IS_READ_ONLY && (isset($WIDGET['data']['actionSelect']) || isset($WIDGET['data']['action']))}
 								{assign var=VRM value=Vtiger_Record_Model::getInstanceById($RECORD->getId(), $MODULE_NAME)}
 								{assign var=VRMM value=Vtiger_RelationListView_Model::getInstance($VRM, $RELATED_MODULE_NAME)}
 								{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
-								{if !empty($WIDGET['data']['actionSelect'])}
+								{if !empty($WIDGET['data']['actionSelect']) && $VRMM->getSelectRelationLinks()}
 									{assign var=RESTRICTIONS_FIELD value=$RELATIONMODEL->getRestrictionsPopupField($VRM)}
-									<button class="btn btn-sm btn-light selectRelation js-popover-tooltip ml-1" type="button" data-placement="top" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if
-										$RESTRICTIONS_FIELD}data-rf='{\App\Json::encode($RESTRICTIONS_FIELD)}' {/if} data-content="{\App\Language::translate('LBL_SELECT_RELATION',$RELATIONMODEL->getRelationModuleName())}">
+									<button class="btn btn-sm btn-light selectRelation js-popover-tooltip ml-1" type="button" data-placement="top" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if $RESTRICTIONS_FIELD}data-rf='{\App\Json::encode($RESTRICTIONS_FIELD)}' {/if} data-content="{\App\Language::translate('LBL_SELECT_RELATION',$RELATIONMODEL->getRelationModuleName())}">
 										<span class="fas fa-search"></span>
 									</button>
 								{/if}
-								{if !empty($WIDGET['data']['action']) && \App\Privilege::isPermitted($RELATIONMODEL->getRelationModuleName(), 'CreateView')}
-									{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
+								{if !empty($WIDGET['data']['action']) && $VRMM->getAddRelationLinks()}
 									{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
-									<button class="btn btn-sm btn-light {if $WIDGET['isQuickCreateSupport']} createInventoryRecordFromFilter {else} createRecordFromFilter{/if} js-popover-tooltip ml-1" type="button"
-										data-url="{$WIDGET['actionURL']}" {if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{\App\Json::encode($AUTOCOMPLETE_FIELD)}' {/if}
-										data-placement="top" data-content="{\App\Language::translate('LBL_ADD_RELATION',$RELATIONMODEL->getRelationModuleName())}">
+									<button class="btn btn-sm btn-light {if $WIDGET['isQuickCreateSupport']}createInventoryRecordFromFilter{else}createRecordFromFilter{/if} js-popover-tooltip ml-1" type="button" data-url="{$WIDGET['actionURL']}" {if $AUTOCOMPLETE_FIELD} data-acf='{\App\Json::encode($AUTOCOMPLETE_FIELD)}' {/if} data-placement="top" data-content="{\App\Language::translate('LBL_ADD_RELATION',$RELATIONMODEL->getRelationModuleName())}">
 										<span class="fas fa-plus"></span>
 									</button>
 								{/if}

@@ -33,7 +33,9 @@ class Nominatim extends Base
 			'limit' => 1,
 		], $addressInfo));
 		try {
+			\App\Log::beginProfile("GET|Nominatim::getCoordinates|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url);
+			\App\Log::endProfile("GET|Nominatim::getCoordinates|{$url}", __NAMESPACE__);
 			if (200 === $response->getStatusCode()) {
 				$coordinates = \App\Json::decode($response->getBody());
 			} else {

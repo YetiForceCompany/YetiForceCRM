@@ -71,13 +71,17 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 		}
 		switch (\App\Fields\Owner::getType($value)) {
 			case 'Users':
-				$userModel = Users_Privileges_Model::getInstanceById($value);
-				$userModel->setModule('Users');
-				if ('Inactive' === $userModel->get('status')) {
-					$ownerName = '<span class="redColor"><s>' . $ownerName . '</s></span>';
-				} elseif (\App\Privilege::isPermitted('Users', 'DetailView', $value)) {
-					$detailViewUrl = 'index.php?module=Users&view=Detail&record=' . $value;
-					$popoverRecordClass = 'class="js-popover-tooltip--record"';
+				if(!\App\User::isExists($value, false)){
+					$ownerName = '<span class="text-muted"><s>' . $ownerName ?: '---' . '</s></span>';
+				} else {
+					$userModel = Users_Privileges_Model::getInstanceById($value);
+					$userModel->setModule('Users');
+					if ('Inactive' === $userModel->get('status')) {
+						$ownerName = '<span class="redColor"><s>' . $ownerName . '</s></span>';
+					} elseif (\App\Privilege::isPermitted('Users', 'DetailView', $value)) {
+						$detailViewUrl = 'index.php?module=Users&view=Detail&record=' . $value;
+						$popoverRecordClass = 'class="js-popover-tooltip--record"';
+					}
 				}
 				break;
 			case 'Groups':

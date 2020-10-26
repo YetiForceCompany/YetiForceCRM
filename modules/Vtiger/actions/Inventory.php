@@ -144,8 +144,8 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$inventory = Vtiger_Inventory_Model::getInstance($moduleName);
 		if ($autoCompleteField = ($inventory->getAutoCompleteFields()[$recordModuleName] ?? [])) {
 			foreach ($autoCompleteField as $field) {
-				$fieldModel = Vtiger_Module_Model::getInstance($field['module'])->getFieldByName($field['field']);
-				if (($fieldValue = $recordModel->get($field['field'])) && $fieldModel) {
+				$fieldModel = $recordModel->getField($field['field']);
+				if ($fieldModel && ($fieldValue = $recordModel->get($field['field']))) {
 					$autoFields[$field['tofield']] = $fieldModel->getEditViewDisplayValue($fieldValue, $recordModel);
 					$autoFields[$field['tofield'] . 'Text'] = $fieldModel->getDisplayValue($fieldValue, $recordId, $recordModel, true);
 				}
@@ -178,16 +178,18 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 	 */
 	public function getTableData(App\Request $request)
 	{
-		if ($request->isEmpty('record', true)) {
+		if ($request->isEmpty('src_record', true) || $request->isEmpty('src_module', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+		$srcModule = $request->getByType('src_module', \App\Purifier::ALNUM);
+		$srcRecord = $request->getInteger('src_record');
+		if (!\App\Privilege::isPermitted($srcModule, 'DetailView', $srcRecord)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		$recordModel = Vtiger_Record_Model::getInstanceById($srcRecord, $srcModule);
 		$data = $recordModel->getInventoryData();
 		foreach ($data as &$item) {
-			$item['info'] = $this->getRecordDetail($item['name'], $item['currency'], $request->getModule(), 'name')[$item['name']];
+			$item['info'] = $this->getRecordDetail($item['name'], $item['currency'] ?? 0, $request->getModule(), 'name')[$item['name']];
 			$item['moduleName'] = \App\Record::getType($item['info']['id']);
 			$item['basetableid'] = Vtiger_Module_Model::getInstance($item['moduleName'])->get('basetableid');
 		}

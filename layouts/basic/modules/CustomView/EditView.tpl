@@ -36,10 +36,12 @@
 					{assign var=SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
 					<div class="modal-body">
 						<div class="js-toggle-panel c-panel" data-js="click">
-							<div class="blockHeader  c-panel__header">
-					<span class="iconToggle fas fa-chevron-down fa-xs m-1 mt-2" data-hide="fas fa-chevron-right"
-						  data-show="fas fa-chevron-down"></span>
-								<h5 class="">{\App\Language::translate('LBL_BASIC_DETAILS',$MODULE_NAME)}</h5>
+							<div class="blockHeader c-panel__header py-2">
+								<span class="iconToggle fas fa-chevron-down fa-xs m-1 mt-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
+								<h5>
+									<span class="fas fa-columns mr-2" aria-hidden="true"></span>
+									{\App\Language::translate('LBL_BASIC_DETAILS',$MODULE_NAME)}
+								</h5>
 							</div>
 							<div class="c-panel__body py-1">
 								<div class="form-group">
@@ -55,9 +57,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class=" col-form-label"><span
-												class="redColor">*</span> {\App\Language::translate('LBL_CHOOSE_COLUMNS',$MODULE_NAME)}
-										({\App\Language::translate('LBL_MAX_NUMBER_FILTER_COLUMNS')}):</label>
+									<label class=" col-form-label"><span class="redColor">*</span> {\App\Language::translate('LBL_CHOOSE_COLUMNS',$MODULE_NAME)}</label>
 									<div class="columnsSelectDiv col-md-12">
 										{assign var=MANDATORY_FIELDS value=[]}
 										<div class="">
@@ -142,30 +142,32 @@
 							</div>
 						</div>
 						<div class="js-toggle-panel c-panel" data-js="click">
-							<div class="blockHeader c-panel__header">
-					<span class="iconToggle fas fa-chevron-right fa-xs m-1 mt-2" data-hide="fas fa-chevron-right"
-						  data-show="fas fa-chevron-down"></span>
-								<h5 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE_NAME)}</h5>
+							<div class="blockHeader c-panel__header py-2">
+								<span class="iconToggle fas fa-chevron-right fa-xs m-1 mt-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
+								<h5>
+									<span class="yfi-company-detlis mr-2" aria-hidden="true"></span>
+									{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE_NAME)}
+								</h5>
 							</div>
 							<div class="c-panel__body py-1 d-none">
-								<textarea name="description" id="description" class="js-editor"
-										  data-js="ckeditor">{$CUSTOMVIEW_MODEL->get('description')}</textarea>
+								<textarea name="description" id="description" class="js-editor" data-js="ckeditor">{$CUSTOMVIEW_MODEL->get('description')}</textarea>
 							</div>
 						</div>
 						<div class="js-toggle-panel c-panel" data-js="click">
-							<div class="blockHeader c-panel__header">
-					<span class="iconToggle fas fa-chevron-right fa-xs m-1 mt-2" data-hide="fas fa-chevron-right"
-						  data-show="fas fa-chevron-down"></span>
-								<h5 class="">{\App\Language::translate('LBL_FIND_DUPLICATES',$MODULE_NAME)}</h5>
+							<div class="blockHeader c-panel__header py-2">
+								<span class="iconToggle fas fa-chevron-right fa-xs m-1 mt-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
+								<h5>
+									<span class="mdi mdi-content-duplicate mr-2" aria-hidden="true"></span>
+									{\App\Language::translate('LBL_FIND_DUPLICATES',$MODULE_NAME)}
+								</h5>
+
 							</div>
 							<div class="c-panel__body py-1 d-none">
 								<input type="hidden" name="duplicatefields" value="">
-								<button type="button" class="btn btn-success btn-sm js-duplicate-add-field mb-1"
-										data-js="click"><span
-											class="fa fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD_FIELD',$MODULE_NAME)}
+								<button type="button" class="btn btn-success btn-sm js-duplicate-add-field mb-1" data-js="click">
+									<span class="fa fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD_FIELD',$MODULE_NAME)}
 								</button>
-								<div class="js-duplicates-field-template js-duplicates-row d-none"
-									 data-js="container|clone">
+								<div class="js-duplicates-field-template js-duplicates-row d-none" data-js="container|clone">
 									{include file=\App\Layout::getTemplatePath('DuplicateRow.tpl', $MODULE_NAME)}
 								</div>
 								<div class="js-duplicates-container" data-js="container">
@@ -178,11 +180,12 @@
 							</div>
 						</div>
 						<div class="js-toggle-panel c-panel" data-js="click">
-							<div class="blockHeader c-panel__header">
-					<span class="iconToggle fas fa-chevron-down fa-xs m-1 mt-2" data-hide="fas fa-chevron-right"
-						  data-show="fas fa-chevron-down"></span>
-								<h5 class="">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE_NAME)}
-									:</h5>
+							<div class="blockHeader c-panel__header py-2">
+								<span class="iconToggle fas fa-chevron-down fa-xs m-1 mt-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
+								<h5>
+									<span class="yfi yfi-users-2 mr-2"></span>
+									{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE_NAME)}:
+								</h5>
 							</div>
 							<div class="c-panel__body py-1">
 								<div class="filterConditionsDiv">
@@ -198,8 +201,7 @@
 					<div class="modal-footer d-flex flex-md-row flex-column justify-content-start">
 						<div class="w-75 btn-group js-filter-preferences btn-group-toggle flex-wrap align-items-stretch m-0 mt-1 c-btn-block-sm-down pl-1 flex-xl-row flex-column"
 							 data-toggle="buttons" data-js="change">
-							<label class="c-btn-block-sm-down btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isDefault()} active{/if}"
-								   title="{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE_NAME)}">
+							<label class="c-btn-block-sm-down btn btn-outline-dark{if $CUSTOMVIEW_MODEL->isDefault()} active{/if}" title="{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE_NAME)}">
 								<input name="setdefault" value="1" type="checkbox"
 									   class="js-filter-preference"
 									   data-js="change"

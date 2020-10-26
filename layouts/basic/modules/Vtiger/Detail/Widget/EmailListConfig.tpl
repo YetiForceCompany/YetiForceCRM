@@ -25,27 +25,41 @@
 									</div>
 								</div>
 								<div class="form-group row">
-									<div class="col-md-3"><label
-												class="col-form-label">{\App\Language::translate('Label', $QUALIFIED_MODULE)}
-											:</label></div>
-									<div class="col-md-7"><input name="label" class="form-control" type="text"
-																 data-validation-engine="validate[required]"
-																 value="{$WIDGETINFO['label']}"/></div>
+									<div class="col-md-3">
+										<label class="col-form-label">{\App\Language::translate('Label', $QUALIFIED_MODULE)} :</label>
+									</div>
+									<div class="col-md-7">
+										<input name="label" class="form-control" type="text" data-validation-engine="validate[required]" value="{$WIDGETINFO['label']}"/>
+									</div>
+								</div>
+								<div class="form-group form-group-sm form-switch-mini row">
+									<label class="col-md-5 col-form-label">{\App\Language::translate('LBL_CUSTOM_FILTER')}:</label>
+									<div class="col-md-7 py-1">
+										{assign var=SHOW_FILTER isset($WIDGETINFO['data']['filter']) && $WIDGETINFO['data']['filter'] == 1}
+										<div class="btn-group btn-group-toggle" data-toggle="buttons">
+											<label class="btn btn-sm btn-outline-primary {if $SHOW_FILTER}active{/if}">
+												<input type="radio" name="filter" id="option1" autocomplete="off" value="1" {if $SHOW_FILTER}checked{/if}>
+												{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
+											</label>
+											<label class="btn btn-sm btn-outline-primary {if !$SHOW_FILTER}active{/if}">
+												<input type="radio" name="filter" id="option2" autocomplete="off" value="0"{if !$SHOW_FILTER}checked{/if}>
+												{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
+											</label>
+										</div>
+									</div>
 								</div>
 								<div class="form-group row">
 									<div class="col-md-3">
 										<label class="col-form-label">
 											{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}:
-											<a href="#" class="js-help-info" title="" data-placement="top"
-											   data-content="{\App\Language::translate('Limit entries info', $QUALIFIED_MODULE)}"
-											   data-original-title="{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}"><i
-														class="fas fa-info-circle"></i></a>
+											<a href="#" class="js-help-info" title="" data-placement="top" data-content="{\App\Language::translate('Limit entries info', $QUALIFIED_MODULE)}"
+											   {' '}data-original-title="{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}">
+												<i class="fas fa-info-circle"></i>
+											</a>
 										</label>
 									</div>
 									<div class="col-md-7">
-										<input name="limit" class="form-control" type="text"
-											   data-validation-engine="validate[required,custom[integer],min[1]]"
-											   value="{$WIDGETINFO['data']['limit']}"/>
+										<input name="limit" class="form-control" type="text" data-validation-engine="validate[required,custom[integer],min[1]]" value="{$WIDGETINFO['data']['limit']}"/>
 									</div>
 								</div>
 							</div>

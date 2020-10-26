@@ -38,7 +38,7 @@
 									</optgroup>
 								{/foreach}
 							{/foreach}
-							{foreach item=RELATION_MODEL from=$MODULE_MODEL->getRelations()}
+							{foreach item=RELATION_MODEL from=Vtiger_Relation_Model::getAllRelations($MODULE_MODEL, false)}
 								{assign var=RELATION_MODULE_NAME value=$RELATION_MODEL->getRelationModuleName()}
 								{assign var=RELATION_MODULE_MODEL value=$RELATION_MODEL->getRelationModuleModel()}
 								<optgroup
@@ -101,7 +101,7 @@
 						</optgroup>
 					{/foreach}
 				{/foreach}
-				{foreach item=RELATION_MODEL from=$MODULE_MODEL->getRelations()}
+				{foreach item=RELATION_MODEL from=Vtiger_Relation_Model::getAllRelations($MODULE_MODEL, false)}
 					{assign var=RELATION_MODULE_NAME value=$RELATION_MODEL->getRelationModuleName()}
 					{assign var=RELATION_MODULE_MODEL value=$RELATION_MODEL->getRelationModuleModel()}
 					<optgroup

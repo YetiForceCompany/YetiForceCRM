@@ -158,6 +158,9 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
+		if ($rawText) {
+			return $value;
+		}
 		if (\is_int($length)) {
 			$value = \App\TextParser::textTruncate($value, $length);
 		}
@@ -237,12 +240,13 @@ class Vtiger_Base_UIType extends \App\Base
 	 *
 	 * @param                      $value
 	 * @param \Vtiger_Record_Model $recordModel
+	 * @param bool                 $rawText
 	 *
 	 * @return mixed
 	 */
-	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel)
+	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
 	{
-		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, false, App\Config::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, $rawText, App\Config::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 	}
 
 	/**
@@ -257,6 +261,19 @@ class Vtiger_Base_UIType extends \App\Base
 	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
 	{
 		return $this->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
+	}
+
+	/**
+	 * Function to get display value for Web Service API.
+	 *
+	 * @param                      $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return mixed
+	 */
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		return \App\Purifier::decodeHtml($this->getDisplayValue($value, $recordModel->getId(), $recordModel, true, false));
 	}
 
 	/**

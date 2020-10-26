@@ -103,9 +103,8 @@ abstract class Base extends \App\Controller\Base
 	 */
 	public function getPageTitle(\App\Request $request)
 	{
+		$moduleName = $request->getByType('module', 'Alnum');
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleNameArray = explode(':', $qualifiedModuleName);
-		$moduleName = end($moduleNameArray);
 		$prefix = '';
 		if ('Vtiger' !== $moduleName) {
 			$prefix = \App\Language::translate($moduleName, $qualifiedModuleName) . ' ';
@@ -216,6 +215,11 @@ abstract class Base extends \App\Controller\Base
 			'~layouts/resources/icons/yfi.css',
 			'~libraries/@mdi/font/css/materialdesignicons.css',
 			'~libraries/@fortawesome/fontawesome-free/css/all.css',
+			'~libraries/@pnotify/core/dist/PNotify.css',
+			'~libraries/@pnotify/confirm/dist/PNotifyConfirm.css',
+			'~libraries/@pnotify/bootstrap4/dist/PNotifyBootstrap4.css',
+			'~libraries/@pnotify/mobile/dist/PNotifyMobile.css',
+			'~libraries/@pnotify/desktop/dist/PNotifyDesktop.css',
 			'~libraries/jquery-ui-dist/jquery-ui.css',
 			'~libraries/select2/dist/css/select2.css',
 			'~libraries/simplebar/dist/simplebar.css',
@@ -239,6 +243,7 @@ abstract class Base extends \App\Controller\Base
 			'~layouts/resources/colors/fields.css',
 			'~layouts/resources/styleTemplate.css',
 			'~' . \Vtiger_Theme::getBaseStylePath(),
+			'~' . \Vtiger_Theme::getThemeStyle(),
 		]);
 	}
 
@@ -284,12 +289,12 @@ abstract class Base extends \App\Controller\Base
 			'~libraries/jquery.class.js/jquery.class.js',
 			'~libraries/perfect-scrollbar/dist/perfect-scrollbar.js',
 			'~libraries/jquery-slimscroll/jquery.slimscroll.js',
-			'~libraries/pnotify/dist/iife/PNotify.js',
-			'~libraries/pnotify/dist/iife/PNotifyButtons.js',
-			'~libraries/pnotify/dist/iife/PNotifyAnimate.js',
-			'~libraries/pnotify/dist/iife/PNotifyMobile.js',
-			'~libraries/pnotify/dist/iife/PNotifyConfirm.js',
-			'~libraries/pnotify/dist/iife/PNotifyDesktop.js',
+			'~libraries/@pnotify/core/dist/PNotify.js',
+			'~libraries/@pnotify/mobile/dist/PNotifyMobile.js',
+			'~libraries/@pnotify/desktop/dist/PNotifyDesktop.js',
+			'~libraries/@pnotify/confirm/dist/PNotifyConfirm.js',
+			'~libraries/@pnotify/bootstrap4/dist/PNotifyBootstrap4.js',
+			'~libraries/@pnotify/font-awesome5/dist/PNotifyFontAwesome5.js',
 			'~libraries/jquery-hoverintent/jquery.hoverIntent.js',
 			'~libraries/popper.js/dist/umd/popper.js',
 			'~libraries/bootstrap/dist/js/bootstrap.js',
@@ -570,7 +575,6 @@ abstract class Base extends \App\Controller\Base
 			'globalSearchAutocompleteActive' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE'),
 			'globalSearchAutocompleteMinLength' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH'),
 			'globalSearchAutocompleteAmountResponse' => \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'),
-			'globalSearchDefaultOperator' => \App\Config::search('GLOBAL_SEARCH_DEFAULT_OPERATOR'),
 			'sounds' => \App\Config::sounds(),
 			'intervalForNotificationNumberCheck' => \App\Config::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK'),
 			'recordPopoverDelay' => \App\Config::performance('RECORD_POPOVER_DELAY'),
@@ -608,7 +612,8 @@ abstract class Base extends \App\Controller\Base
 				'rowHeight' => $userModel->getDetail('rowheight'),
 				'userId' => $userModel->getId(),
 				// Modifying this file or functions that affect the footer appearance will violate the license terms!!!
-				'disableBranding' => \App\YetiForce\Shop::check('YetiForceDisableBranding')
+				'disableBranding' => \App\YetiForce\Shop::check('YetiForceDisableBranding'),
+				'globalSearchDefaultOperator' => \App\RecordSearch::OPERATORS[$userModel->getDetail('default_search_operator')]
 			];
 		}
 		foreach ($jsEnv as $key => $value) {

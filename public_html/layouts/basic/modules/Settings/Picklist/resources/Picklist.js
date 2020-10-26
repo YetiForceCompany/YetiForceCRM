@@ -260,14 +260,14 @@ var Settings_Picklist_Js = {
 		$('#renameItem').on('click', (e) => {
 			const selectedListItems = this.getSelectedItems();
 			if (selectedListItems.length < 1) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_NO_ITEM_SELECTED'),
 					type: 'error'
 				});
 				return false;
 			} else if (selectedListItems.length > 1) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_MORE_THAN_ONE_ITEM_SELECTED'),
 					type: 'error'
@@ -415,7 +415,7 @@ var Settings_Picklist_Js = {
 						progress.progressIndicator({ mode: 'hide' });
 						if (typeof data.result !== 'undefined' && data.result === true) {
 							app.hideModalWindow();
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								title: app.vtranslate('JS_MESSAGE'),
 								text: app.vtranslate('JS_ITEM_SAVED_SUCCESSFULLY'),
 								type: 'success'
@@ -439,14 +439,14 @@ var Settings_Picklist_Js = {
 		$('#processStatusItem').on('click', (e) => {
 			const selectedListItems = this.getSelectedItems();
 			if (selectedListItems.length === 0) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_NO_ITEM_SELECTED'),
 					type: 'error'
 				});
 				return false;
 			} else if (selectedListItems.length > 1) {
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_MORE_THAN_ONE_ITEM_SELECTED'),
 					type: 'error'
@@ -485,38 +485,48 @@ var Settings_Picklist_Js = {
 				var params = jQuery(e.currentTarget).serializeFormData();
 				var newValue = params.newValue;
 				params.newValue = jQuery.trim(newValue);
-				AppConnector.request(params).done(function (data) {
-					data = data.result;
-					if (data) {
-						var newValue = jQuery.trim(jQuery('[name="newValue"]', container).val());
-						var dragImagePath = jQuery('#dragImagePath').val();
-						var newElement =
-							'<tr class="pickListValue u-cursor-pointer"><td class="u-text-ellipsis"><img class="alignMiddle" src="' +
-							dragImagePath +
-							'" />&nbsp;&nbsp;' +
-							newValue +
-							'</td></tr>';
-						var newPickListValueRow = jQuery(newElement).appendTo(
-							jQuery('#pickListValuesTable').find('tbody')
-						);
-						newPickListValueRow.attr('data-key', newValue);
-						newPickListValueRow.attr('data-key-id', data['id']);
-						app.hideModalWindow();
-						var params = {
-							title: app.vtranslate('JS_MESSAGE'),
-							text: app.vtranslate('JS_ITEM_ADDED_SUCCESSFULLY'),
-							type: 'success'
-						};
-						Vtiger_Helper_Js.showPnotify(params);
-						//update the new item in the hidden picklist values array
-						var pickListValuesEle = jQuery('[name="pickListValues"]');
-						var pickListValuesArray = JSON.parse(pickListValuesEle.val());
-						pickListValuesArray[data['id']] = newValue;
-						pickListValuesEle.val(JSON.stringify(pickListValuesArray));
-					} else {
+				AppConnector.request(params)
+					.done(function (data) {
+						data = data.result;
+						if (data) {
+							var newValue = jQuery.trim(jQuery('[name="newValue"]', container).val());
+							var dragImagePath = jQuery('#dragImagePath').val();
+							var newElement =
+								'<tr class="pickListValue u-cursor-pointer"><td class="u-text-ellipsis"><img class="alignMiddle" src="' +
+								dragImagePath +
+								'" />&nbsp;&nbsp;' +
+								newValue +
+								'</td></tr>';
+							var newPickListValueRow = jQuery(newElement).appendTo(
+								jQuery('#pickListValuesTable').find('tbody')
+							);
+							newPickListValueRow.attr('data-key', newValue);
+							newPickListValueRow.attr('data-key-id', data['id']);
+							app.hideModalWindow();
+							var params = {
+								title: app.vtranslate('JS_MESSAGE'),
+								text: app.vtranslate('JS_ITEM_ADDED_SUCCESSFULLY'),
+								type: 'success'
+							};
+							app.showNotify(params);
+							//update the new item in the hidden picklist values array
+							var pickListValuesEle = jQuery('[name="pickListValues"]');
+							var pickListValuesArray = JSON.parse(pickListValuesEle.val());
+							pickListValuesArray[data['id']] = newValue;
+							pickListValuesEle.val(JSON.stringify(pickListValuesArray));
+						} else {
+							form.find('[name="saveButton"]').attr('disabled', false);
+						}
+					})
+					.fail(function (err, error, errorObj) {
+						if (errorObj.responseText !== undefined) {
+							app.showNotify({
+								title: JSON.parse(errorObj.responseText).error.message,
+								type: 'error'
+							});
+						}
 						form.find('[name="saveButton"]').attr('disabled', false);
-					}
-				});
+					});
 			}
 			e.preventDefault();
 		});
@@ -546,7 +556,7 @@ var Settings_Picklist_Js = {
 						progress.progressIndicator({ mode: 'hide' });
 						if (typeof data.result !== 'undefined') {
 							app.hideModalWindow();
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								title: app.vtranslate('JS_MESSAGE'),
 								text: app.vtranslate('JS_ITEM_RENAMED_SUCCESSFULLY'),
 								type: 'success'
@@ -574,8 +584,14 @@ var Settings_Picklist_Js = {
 							form.find('[name="saveButton"]').attr('disabled', false);
 						}
 					})
-					.fail(function (data, err) {
-						app.errorLog(data, err);
+					.fail(function (data, err, errorObj) {
+						if (errorObj.responseText !== undefined) {
+							app.showNotify({
+								title: JSON.parse(errorObj.responseText).error.message,
+								type: 'error'
+							});
+						}
+						form.find('[name="saveButton"]').attr('disabled', false);
 						progress.progressIndicator({ mode: 'hide' });
 					});
 			}
@@ -628,7 +644,7 @@ var Settings_Picklist_Js = {
 								delete pickListValuesArray[e];
 							});
 							pickListValuesEle.val(JSON.stringify(pickListValuesArray));
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								title: app.vtranslate('JS_MESSAGE'),
 								text: app.vtranslate('JS_ITEMS_DELETED_SUCCESSFULLY'),
 								type: 'success'

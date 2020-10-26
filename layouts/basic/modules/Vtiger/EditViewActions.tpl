@@ -10,9 +10,11 @@
 			<span class="fas fa-times mr-1"></span>
 			<strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 		</button>
-		{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
-			{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='editViewHeader' TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq BTN_CLASS="ml-1"}
-		{/foreach}
+		{if isset($EDITVIEW_LINKS['EDIT_VIEW_HEADER'])}
+			{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
+				{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='editViewHeader' TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq BTN_CLASS="ml-1"}
+			{/foreach}
+		{/if}
 		{if \App\Privilege::isPermitted($MODULE_NAME, 'RecordCollector') && !empty($EDITVIEW_LINKS['EDIT_VIEW_RECORD_COLLECTOR'])}
 			{foreach item=COLLECTOR_LINK from=$EDITVIEW_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
 				{assign var=COLLECTOR value=\App\RecordCollector::getInstance($COLLECTOR_LINK->get('linkurl'), $MODULE_NAME)}

@@ -169,7 +169,7 @@ Settings_Vtiger_Edit_Js(
 					fonts = CONFIG.fonts.map((font) => font);
 					fonts.unshift('DejaVu Sans');
 				}
-				new App.Fields.Text.Editor(editor, {
+				App.Fields.Text.Editor.register(editor, {
 					entities_latin: false,
 					toolbar: 'PDF',
 					font_defaultLabel: 'DejaVu Sans',

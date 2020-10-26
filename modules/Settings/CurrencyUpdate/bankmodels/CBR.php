@@ -31,8 +31,7 @@ class Settings_CurrencyUpdate_CBR_BankModel extends Settings_CurrencyUpdate_Abst
 		$supportedCurrencies = [];
 		$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($this->getMainCurrencyCode())] = $this->getMainCurrencyCode();
 		$source = $this->getSource();
-
-		$client = new \SoapClient($source[0]);
+		$client = new \SoapClient($source[0], \App\RequestHttp::getSoapOptions());
 		$curs = $client->GetCursOnDate(['On_date' => date('Y-m-d')]);
 		$ratesXml = new \SimpleXMLElement($curs->GetCursOnDateResult->any);
 
@@ -75,9 +74,8 @@ class Settings_CurrencyUpdate_CBR_BankModel extends Settings_CurrencyUpdate_Abst
 		$mainCurrency = \App\Fields\Currency::getDefault()['currency_code'];
 
 		$dateCur = $dateParam;
-
 		$source = $this->getSource();
-		$client = new \SoapClient($source[0]);
+		$client = new \SoapClient($source[0], \App\RequestHttp::getSoapOptions());
 		$curs = $client->GetCursOnDate(['On_date' => $dateCur]);
 		$ratesXml = new \SimpleXMLElement($curs->GetCursOnDateResult->any);
 

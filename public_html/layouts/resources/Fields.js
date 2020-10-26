@@ -435,7 +435,7 @@ window.App.Fields = {
 			return new ClipboardJS(elements, {
 				container: container,
 				text: function (trigger) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 						type: 'success'
 					});
@@ -458,34 +458,56 @@ window.App.Fields = {
 			});
 		},
 		Editor: class {
-			constructor(parentElement, params) {
-				let elements;
-				if (typeof parentElement === 'undefined') {
-					parentElement = $('body');
-				} else {
-					parentElement = $(parentElement);
+			constructor(container, params) {
+				this.container = container;
+				this.init(container, params);
+			}
+			/**
+			 * Register function
+			 * @param {jQuery} container
+			 * @param {Object} params
+			 */
+			static register(container, params) {
+				if (typeof container === 'undefined') {
+					container = $('body');
 				}
-				if (parentElement.hasClass('js-editor') && !parentElement.prop('disabled')) {
-					elements = parentElement;
-				} else {
-					elements = $('.js-editor:not([disabled])', parentElement);
+				if (container.hasClass('js-editor') && !container.prop('disabled')) {
+					return new App.Fields.Text.Editor(container, params);
 				}
-				if (elements.length !== 0 && typeof elements !== 'undefined') {
-					this.isModal = elements.closest('.js-modal-container').length;
-					if (this.isModal) {
-						let self = this;
-						this.progressInstance = $.progressIndicator({
-							blockInfo: {
-								enabled: true,
-								onBlock: () => {
-									self.loadEditor(elements, params);
-								}
+				const instances = [];
+				container.find('.js-editor:not([disabled])').each((_, e) => {
+					instances.push(new App.Fields.Text.Editor($(e), params));
+				});
+				return instances;
+			}
+			/**
+			 * Initiation
+			 * @param {jQuery} element
+			 * @param {Object} params
+			 */
+			init(element, params) {
+				let config = {};
+				if (element.hasClass('js-editor--basic')) {
+					config.toolbar = 'Min';
+				}
+				if (element.data('height')) {
+					config.height = element.data('height');
+				}
+				params = $.extend(config, params);
+				this.isModal = element.closest('.js-modal-container').length;
+				if (this.isModal) {
+					let self = this;
+					this.progressInstance = $.progressIndicator({
+						blockInfo: {
+							enabled: true,
+							onBlock: () => {
+								self.loadEditor(element, params);
 							}
-						});
-					} else {
-						App.Fields.Text.destroyEditor(elements);
-						this.loadEditor(elements, params);
-					}
+						}
+					});
+				} else {
+					App.Fields.Text.destroyEditor(element);
+					this.loadEditor(element, params);
 				}
 			}
 
@@ -1433,10 +1455,13 @@ window.App.Fields = {
 								);
 							}
 							if (response.message) {
-								Vtiger_Helper_Js.showPnotify({ text: response.message, type: 'success' });
+								app.showNotify({ text: response.message, type: 'success' });
 							}
 						} else if (response && response.message) {
-							Vtiger_Helper_Js.showPnotify({ text: response.message });
+							app.showNotify({
+								text: response.message,
+								type: 'error'
+							});
 						}
 					})
 					.fail(function () {
@@ -1486,7 +1511,10 @@ window.App.Fields = {
 				let selectedOption = selectElement.data('selected-value');
 				if (selectedOption) {
 					let text = selectedOption;
-					if (selectElement.data('fieldinfo').picklistvalues.hasOwnProperty(selectedOption)) {
+					if (
+						selectElement.data('fieldinfo').picklistvalues.hasOwnProperty(selectedOption) &&
+						!selectElement.get(0).dataset.templateResult
+					) {
 						text = selectElement.data('fieldinfo').picklistvalues[selectedOption];
 					}
 					this.createSelectedOption(selectElement, text, selectedOption);
@@ -1502,7 +1530,11 @@ window.App.Fields = {
 		 */
 		registerLazySelectOptions(selectElement) {
 			let options = [];
-			if (selectElement.data('fieldinfo') && selectElement.data('fieldinfo').picklistvalues) {
+			if (
+				selectElement.data('fieldinfo') &&
+				selectElement.data('fieldinfo').picklistvalues &&
+				!selectElement.get(0).dataset.templateResult
+			) {
 				options = $.map(selectElement.data('fieldinfo').picklistvalues, function (val, key) {
 					return { id: key, text: val };
 				});
@@ -2110,7 +2142,11 @@ window.App.Fields = {
 					selectedItemData.name = selectedItemData.value;
 					this.value = selectedItemData.label;
 					let element = $(this).attr('readonly', true);
-					element.closest('.js-tree-container').find('input.sourceField').val(selectedItemData.id);
+					element
+						.closest('.js-tree-container')
+						.find('input.sourceField')
+						.val(selectedItemData.id)
+						.trigger('change');
 					return false;
 				},
 				change: function (event, ui) {},
@@ -2461,7 +2497,7 @@ window.App.Fields = {
 					parentRow.find('.js-converted-price').val(App.Fields.Double.formatToDisplay(price));
 				} else {
 					if (parentRow.find('.js-base-currency').is(':checked')) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							type: 'error',
 							title:
 								'"' +
@@ -2533,12 +2569,18 @@ window.App.Fields = {
 						if (result && result.success && result.url) {
 							valElement.attr('readonly', true).val(result.url);
 						} else {
-							Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+							app.showNotify({
+								text: app.vtranslate('JS_ERROR'),
+								type: 'error'
+							});
 						}
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					})
 					.fail((_) => {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+						app.showNotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					});
 			});
@@ -2582,7 +2624,7 @@ window.App.Fields = {
 				formElement.on('change', `[name=${fieldName}]`, (_) => {
 					if (data['domain'] && valElement.val().indexOf(data['domain']) === 0) {
 						addButton.trigger('click');
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							type: 'info',
 							text: app.vtranslate('JS_MEETING_URL_CHANGED')
 						});

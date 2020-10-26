@@ -36,6 +36,6 @@ class NoPermittedForAdmin extends Security
 			'request' => json_encode($_REQUEST),
 			'referer' => \App\TextParser::textTruncate(\App\Request::_getServer('HTTP_REFERER', '-'), 300, false)
 		];
-		\App\Db::getInstance()->createCommand()->insert('o_#__access_for_admin', $data)->execute();
+		\App\Db::getInstance('log')->createCommand()->insert('o_#__access_for_admin', $data)->execute();
 	}
 }

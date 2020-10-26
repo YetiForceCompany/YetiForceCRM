@@ -1,0 +1,66 @@
+name: PHP actions
+
+on: [push, pull_request]
+  
+jobs:
+  build:
+    name: Composer
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+      
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-node-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
+    # Docs: https://getcomposer.org/doc/articles/scripts.md
+
+    # - name: Run test suite
+    #   run: composer run-script test
+
+  code:
+    name: Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: PHP VarDump Check Action
+        uses: umutphp/php-var-dump-check-action@v1
+        with:
+         exclude: 'vendor,tests'
+
+      - name: Check PHP syntax errors
+        uses: overtrue/phplint@2.0.2
+
+      - name: Fortify ScanCentral Scan
+        uses: fortify/gha-setup-scancentral-client@v1.1.0
+
+      - name: DevSkim
+        uses: microsoft/DevSkim-Action@v1
+
+  security:
+    name: Security
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: PHP Security Checker
+        uses: StephaneBour/actions-php-security-checker@1.0
+        with:
+          composer-lock: './composer.lock'

@@ -99,9 +99,6 @@ class Main
 	/** Maximum length for href tag */
 	public static $href_max_length = 35;
 
-	/** Should menu breadcrumbs be visible? true = show, false = hide */
-	public static $breadcrumbs = true;
-
 	/** Minimum cron frequency [min] */
 	public static $MINIMUM_CRON_FREQUENCY = 1;
 
@@ -114,22 +111,22 @@ class Main
 	/** Maximum number of records in a mass edition */
 	public static $listMaxEntriesMassEdit = 500;
 
-	/** Enable closing of mondal window by clicking on the background */
+	/** Enable closing of modal window by clicking on the background */
 	public static $backgroundClosingModal = true;
 
-	/** Is sending emails active. */
+	/** Is sending emails active? */
 	public static $isActiveSendingMails = true;
 
-	/** Should the task in cron be unblocked if the script execution time was exceeded */
+	/** Should the task in cron be unblocked if the script execution time was exceeded? */
 	public static $unblockedTimeoutCronTasks = true;
 
-	/** The maximum time of executing a cron. Recommended same as the max_exacution_time parameter value. */
+	/** The maximum time of executing a cron. Recommended the same as the max_exacution_time parameter value. */
 	public static $maxExecutionCronTime = 3600;
 
 	/** System's language selection in the login window (true/false). */
-	public static $langInLoginView = false;
+	public static $langInLoginView = true;
 
-	/** System's lyout selection in the login window (true/false) */
+	/** System's layout selection in the login window (true/false) */
 	public static $layoutInLoginView = false;
 
 	/** Set the default layout */

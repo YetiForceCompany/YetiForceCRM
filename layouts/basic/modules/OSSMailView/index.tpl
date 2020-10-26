@@ -50,14 +50,15 @@
 						if (response['success']) {
 							var params = {
 								text: response['data'],
-								type: 'info',
+								type: 'info'
 							};
-							Vtiger_Helper_Js.showPnotify(params);
+							app.showNotify(params);
 						} else {
 							var params = {
 								text: response['data'],
+								type: 'error'
 							};
-							Vtiger_Helper_Js.showPnotify(params);
+							app.showNotify(params);
 						}
 					});
 				}

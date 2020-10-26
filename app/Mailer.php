@@ -17,7 +17,7 @@ class Mailer
 		1 => 'LBL_WAITING_TO_BE_SENT',
 		2 => 'LBL_ERROR_DURING_SENDING',
 	];
-	public static $quoteJsonColumn = ['to', 'cc', 'bcc', 'attachments', 'params'];
+	public static $quoteJsonColumn = ['from', 'to', 'cc', 'bcc', 'attachments', 'params'];
 	public static $quoteColumn = ['smtp_id', 'date', 'owner', 'status', 'from', 'subject', 'content', 'to', 'cc', 'bcc', 'attachments', 'priority', 'params'];
 
 	/** @var \PHPMailer\PHPMailer\PHPMailer PHPMailer instance */
@@ -423,15 +423,15 @@ class Mailer
 	public function send()
 	{
 		$toAddresses = $this->mailer->From . ' >> ' . \print_r($this->mailer->getToAddresses(), true);
-		\App\Log::beginProfile($toAddresses, 'Mailer');
+		\App\Log::beginProfile("Mailer::send|{$toAddresses}", __CLASS__);
 		if ($this->mailer->send()) {
-			\App\Log::endProfile($toAddresses, 'Mailer');
+			\App\Log::endProfile("Mailer::send|{$toAddresses}", __CLASS__);
 			if (empty($this->smtp['save_send_mail']) || (!empty($this->smtp['save_send_mail']) && $this->saveMail())) {
 				Log::trace('Mailer sent mail', 'Mailer');
 				return true;
 			}
 		} else {
-			\App\Log::endProfile($toAddresses, 'Mailer');
+			\App\Log::endProfile("Mailer::send|{$toAddresses}", __CLASS__);
 			Log::error('Mailer Error: ' . \print_r($this->mailer->ErrorInfo, true), 'Mailer');
 			if (!empty(static::$error)) {
 				static::$error[] = '########################################';

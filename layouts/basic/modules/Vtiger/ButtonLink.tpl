@@ -30,6 +30,9 @@
 					data-content="{\App\Language::translate($LABEL, $BTN_MODULE)}"
 					data-target="focus hover"
 				{/if}
+				{if $LINK->get('linktitle')}
+					{' '}title="{\App\Language::translate($LINK->get('linktitle'), $BTN_MODULE)}"
+				{/if}
 				{if $LINK->get('linkhref')}
 					{' '}href="{$LINK_URL}"
 				{/if}

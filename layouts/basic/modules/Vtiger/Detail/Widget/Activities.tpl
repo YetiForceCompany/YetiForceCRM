@@ -45,11 +45,13 @@
 								</label>
 							</div>
 						{/if}
-						<button class="btn btn-sm btn-light addButton createActivity"
-							data-url="sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true"
-							type="button" title="{App\Language::translate('LBL_ADD',$MODULE_NAME)}">
-							<span class="fas fa-plus"></span>
-						</button>
+						{if !$IS_READ_ONLY}
+							<button class="btn btn-sm btn-light addButton createActivity"
+								data-url="sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true"
+								type="button" title="{App\Language::translate('LBL_ADD',$MODULE_NAME)}">
+								<span class="fas fa-plus"></span>
+							</button>
+						{/if}
 					</div>
 				</div>
 			</div>

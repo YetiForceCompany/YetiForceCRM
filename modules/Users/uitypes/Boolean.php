@@ -15,8 +15,8 @@ class Users_Boolean_UIType extends Vtiger_Boolean_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if ('is_admin' === $this->getFieldModel()->getFieldName()) {
-			if ('on' === $value || 1 === $value) {
+		if ('is_admin' === $this->getFieldModel()->getName()) {
+			if ('on' === $value || '1' === (string) $value) {
 				return 'on';
 			}
 			return 'off';
@@ -30,8 +30,8 @@ class Users_Boolean_UIType extends Vtiger_Boolean_UIType
 	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$currentModel = \App\User::getCurrentUserModel();
-		if ('is_admin' === $this->getFieldModel()->getFieldName() && (!$currentModel->isAdmin() || $currentModel->getId() === $recordModel->getId())) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName(), 406);
+		if ('is_admin' === $this->getFieldModel()->getName() && (!$currentModel->isAdmin() || $currentModel->getId() === $recordModel->getId())) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName(), 406);
 		}
 		parent::setValueFromRequest($request, $recordModel, $requestFieldName);
 	}

@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Controller\View;
@@ -51,6 +52,9 @@ abstract class Page extends Base
 		$view->assign('REMINDER_ACTIVE', $activeReminder);
 		$view->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$view->assign('MENUS', $this->getMenu());
+		if (!$request->isEmpty('mid')) {
+			$view->assign('MID', $request->getInteger('mid'));
+		}
 		$view->assign('BROWSING_HISTORY', \Vtiger_BrowsingHistory_Helper::getHistory());
 		$view->assign('HOME_MODULE_MODEL', \Vtiger_Module_Model::getInstance('Home'));
 		$view->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
@@ -91,16 +95,18 @@ abstract class Page extends Base
 			'modules.Vtiger.resources.Menu',
 			'modules.Vtiger.resources.Header',
 			'modules.Vtiger.resources.Edit',
-			"modules.$moduleName.resources.Edit",
 			'~layouts/resources/Field.js',
 			'~layouts/resources/validator/BaseValidator.js',
 			'~layouts/resources/validator/FieldValidator.js',
 			'modules.Vtiger.resources.BasicSearch',
 			'modules.Vtiger.resources.ConditionBuilder',
 			'modules.Vtiger.resources.AdvanceFilter',
-			"modules.$moduleName.resources.AdvanceFilter",
 			'modules.Vtiger.resources.AdvanceSearch',
 		];
+		if ('AppComponents' !== $moduleName) {
+			$jsFileNames[] = "modules.$moduleName.resources.Edit";
+			$jsFileNames[] = "modules.$moduleName.resources.AdvanceFilter";
+		}
 		if (\App\Privilege::isPermitted('OSSMail')) {
 			$jsFileNames[] = '~layouts/basic/modules/OSSMail/resources/checkmails.js';
 		}
@@ -157,6 +163,9 @@ abstract class Page extends Base
 		if (\App\Session::has('ShowUserPwnedPasswordChange')) {
 			\App\Config::setJsEnv('ShowUserPwnedPasswordChange', \App\Session::get('ShowUserPwnedPasswordChange'));
 		}
+		if (\App\Session::has('showVisitPurpose')) {
+			\App\Config::setJsEnv('showVisitPurpose', \App\Session::get('showVisitPurpose'));
+		}
 	}
 
 	/**
@@ -168,18 +177,18 @@ abstract class Page extends Base
 	 */
 	protected function getMenuHeaderLinks(\App\Request $request)
 	{
-		$userModel = \Users_Record_Model::getCurrentUserModel();
+		$userModel = \App\User::getCurrentUserModel();
 		$headerLinks = [];
-		if (\App\MeetingService::getInstance()->isActive() && \App\Privilege::isPermitted('Users', 'MeetingUrl', false, $userModel->getRealId())) {
+		if (\App\MeetingService::getInstance()->isActive() && \App\Privilege::isPermitted('Users', 'MeetingUrl', false, \App\User::getCurrentUserRealId())) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_VIDEO_CONFERENCE',
-				'linkdata' => ['url' => 'index.php?module=Users&view=MeetingModal&record=' . $userModel->getRealId()],
+				'linkdata' => ['url' => 'index.php?module=Users&view=MeetingModal&record=' . \App\User::getCurrentUserRealId()],
 				'icon' => 'AdditionalIcon-VideoConference',
 				'linkclass' => 'js-show-modal'
 			];
 		}
-		if ($userModel->isAdminUser()) {
+		if ($userModel->isAdmin() || $userModel->isSuperUser()) {
 			if ('Settings' !== $request->getByType('parent', 2)) {
 				$headerLinks[] = [
 					'linktype' => 'HEADERLINK',

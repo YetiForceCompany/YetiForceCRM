@@ -451,4 +451,17 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	{
 		return []; // To do
 	}
+
+	/**
+	 * Gets ICal content.
+	 *
+	 * @return string
+	 */
+	public function getICal(): string
+	{
+		$calendar = \App\Integrations\Dav\Calendar::createEmptyInstance();
+		$calendar->loadFromArray($this->getData());
+		$calendar->createComponent();
+		return $calendar->getVCalendar()->serialize();
+	}
 }

@@ -102,7 +102,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 				$filterData = \App\Json::decode(htmlspecialchars_decode($data));
 				$module = $filterData['module'];
 			}
-			if (!$currentUserPrivilegeModel->hasModulePermission($module)) {
+			if ('ModTracker' !== $module && !$currentUserPrivilegeModel->hasModulePermission($module)) {
 				unset($widgets[$index]);
 			}
 		}

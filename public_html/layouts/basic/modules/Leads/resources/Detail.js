@@ -92,6 +92,7 @@ Vtiger_Detail_Js(
 					text: errorMsg,
 					addclass: 'convertLeadNotify',
 					width: '35%',
+					type: 'error',
 					pnotify_after_open: function () {
 						instance.disableConvertLeadButton(buttonElement);
 					},
@@ -99,7 +100,7 @@ Vtiger_Detail_Js(
 						instance.enableConvertLeadButton(buttonElement);
 					}
 				};
-				Vtiger_Helper_Js.showPnotify(params);
+				app.showNotify(params);
 			} else {
 				var callBackFunction = function (data) {
 					var editViewObj = Vtiger_Edit_Js.getInstance();

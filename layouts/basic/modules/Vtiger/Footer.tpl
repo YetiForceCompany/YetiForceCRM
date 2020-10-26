@@ -36,6 +36,7 @@
 			{assign var="URL_TWITTER" value='https://twitter.com/YetiForceEN'}
 			{assign var="URL_FACEBOOK" value='https://www.facebook.com/YetiForce-CRM-158646854306054/'}
 			{assign var="URL_GITHUB" value='https://github.com/YetiForceCompany/YetiForceCRM'}
+			{assign var="FOOTER_NAME" value=''}
 		{/if}
 		<footer class="c-footer fixed-bottom js-footer{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')} c-footer--user-info-active{/if} {if $DISABLE_BRANDING} c-footer--limited {/if}" data-js="height">
 			{if App\Config::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
@@ -84,7 +85,7 @@
 				<div class="float-right p-0">
 					<ul class="pagination">
 						{if !\App\YetiForce\Register::verify(true)}
-							{if $USER_MODEL->isAdminUser()}
+							{if \App\Security\AdminAccess::isPermitted('Companies')}
 								{assign var="INFO_REGISTRATION_ERROR" value="<a href='index.php?module=Companies&parent=Settings&view=List&displayModal=online'>{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}</a>"}
 							{else}
 								{assign var="INFO_REGISTRATION_ERROR" value=\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}
@@ -92,7 +93,7 @@
 							<a class="d-flex align-items-center text-center text-warning p-0 mr-2 text-danger js-popover-tooltip c-header__btn" role="button"
 									data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
 									title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
-									{if $USER_MODEL->isAdminUser()}
+									{if \App\Security\AdminAccess::isPermitted('Companies')}
 										href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
 									{else}
 										href="#"
@@ -128,36 +129,26 @@
 				</div>
 				<div class="mx-auto w-75">
 					{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Process::$startTime, 3)}
-					{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
-					{if $USER_MODEL->isAdminUser()}
-						{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
-						{assign var=FOOTOSP value= '<em><a class="u-text-underline" href="index.php?module=Vtiger&view=Credits&parent=Settings">open source project</a></em>'}
-						<p class="text-center text-center">
-							{if !$DISABLE_BRANDING}
-								<span class="d-none d-sm-inline ">Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
-										<br/>
-										{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base', $FOOTOSP)}
-								</span>
-								<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
-							{else}
-								{$FOOTER_NAME} [{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]
+					<p class="text-center">
+						{if !$DISABLE_BRANDING}
+							{assign var=FOOTVR value= '['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
+							{assign var=FOOTOSP value='open source project'}
+							{if $USER_MODEL->isAdminUser()}
+								{assign var=FOOTVR value= "[ver. {$YETIFORCE_VERSION}] {$FOOTVR}"}
 							{/if}
-						</p>
-					{else}
-						<p class="text-center">
-							{if !$DISABLE_BRANDING}
-								<span class="d-none d-sm-inline">
-									Copyright &copy; YetiForce.com All rights reserved.
-									[{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]
-									<br/>
-									{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base', 'open source project')}
-								</span>
-								<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
-							{else}
-								{$FOOTER_NAME} [{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]
+							{if \App\Security\AdminAccess::isPermitted('Dependencies')}
+								{assign var=FOOTOSP value= '<em><a class="u-text-underline" href="index.php?module=Dependencies&view=Credits&parent=Settings">open source project</a></em>'}
 							{/if}
-						</p>
-					{/if}
+							<span class="d-none d-sm-inline">
+								Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
+								<br/>
+								{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base', $FOOTOSP)}
+							</span>
+							<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
+						{else}
+							{$FOOTER_NAME} [{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]
+						{/if}
+					</p>
 				</div>
 			</div>
 		</footer>

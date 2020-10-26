@@ -33,6 +33,9 @@ class Calendar_ActivityState_Cron extends \App\CronHandler
 				$recordModel->set('activitystatus', $state);
 				$recordModel->save();
 			}
+			if ($this->checkTimeout()) {
+				return;
+			}
 		}
 		$dataReader->close();
 	}

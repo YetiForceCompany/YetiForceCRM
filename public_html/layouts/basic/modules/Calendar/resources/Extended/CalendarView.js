@@ -446,7 +446,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		let rightFormCreate = sideBar.find('form[name="QuickCreate"]');
 		editViewInstance.registerBasicEvents(rightFormCreate);
 		rightFormCreate.validationEngine(app.validationEngineOptions);
-		headerInstance.registerHelpInfo(rightFormCreate);
 		App.Fields.Picklist.showSelect2ElementView(sideBar.find('select'));
 		sideBar.find('.js-summary-close-edit').on('click', () => {
 			this.getCalendarCreateView();
@@ -831,7 +830,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 						} else {
 							calendarInstance.view.render();
 						}
-						if (data.result.followup.value !== undefined) {
+						if (data.result.followup && data.result.followup.value !== undefined) {
 							calendarView.fullCalendar('removeEvents', data.result.followup.value);
 						}
 					}
@@ -972,7 +971,10 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 					} else if (response === 'pin') {
 						thisInstance.find('.js-pin-icon').removeClass('far').addClass('fas');
 					} else {
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+						app.showNotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
 					}
 				});
 			});

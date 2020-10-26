@@ -45,7 +45,7 @@ Vtiger_List_Js(
 								var result = data.result;
 								if (result.success) {
 									app.hideModalWindow();
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										title: app.vtranslate('JS_MOVE_DOCUMENTS'),
 										text: result.message,
 										delay: '2000',
@@ -54,7 +54,7 @@ Vtiger_List_Js(
 									var urlParams = listInstance.getDefaultParams();
 									listInstance.getListViewRecords(urlParams);
 								} else {
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										title: app.vtranslate('JS_OPERATION_DENIED'),
 										text: result.message,
 										delay: '2000',
@@ -101,7 +101,10 @@ Vtiger_List_Js(
 					var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
 					if (liElement.hasClass('folderOption')) {
 						if (liElement.find('.js-filter-delete').hasClass('dull')) {
-							Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_FOLDER_IS_NOT_EMPTY'));
+							app.showNotify({
+								text: app.vtranslate('JS_FOLDER_IS_NOT_EMPTY'),
+								type: 'error'
+							});
 							return;
 						} else {
 							Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(function (e) {

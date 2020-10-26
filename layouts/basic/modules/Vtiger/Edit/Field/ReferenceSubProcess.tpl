@@ -28,7 +28,11 @@
 				<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCE_LIST[0]}"/>
 			{/if}
 		{/if}
-		{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_LIST[0])}
+		{if $REFERENCE_LIST_COUNT}
+			{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_LIST[0])}
+		{else}
+			{assign var=REFERENCE_MODULE_MODEL value=false}
+		{/if}
 		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden"
 			   value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}"
 			   title="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" class="sourceField"

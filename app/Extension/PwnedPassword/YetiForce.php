@@ -37,10 +37,13 @@ class YetiForce extends Base
 			return $status;
 		}
 		try {
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('POST', 'https://passwords.yetiforce.eu/pwned',
+			$url = 'https://passwords.yetiforce.eu/pwned';
+			\App\Log::beginProfile("POST|YetiForce::check|{$url}", __NAMESPACE__);
+			$request = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('POST', $url,
 				['json' => ['sha1' => sha1($password)], 'timeout' => 2,  'http_errors' => false,  'auth' => [$product['params']['login'], $product['params']['pass']], 'headers' => ['InsKey' => \App\YetiForce\Register::getInstanceKey()]]);
-			if (200 === $response->getStatusCode()) {
-				$response = \App\Json::decode($response->getBody());
+			\App\Log::endProfile("POST|YetiForce::check|{$url}", __NAMESPACE__);
+			if (200 === $request->getStatusCode()) {
+				$response = \App\Json::decode($request->getBody());
 				if (isset($response['count'])) {
 					$status = [
 						'message' => \App\Language::translateArgs('LBL_ALERT_PWNED_PASSWORD', 'Settings:Password', $response['count']),
@@ -50,7 +53,7 @@ class YetiForce extends Base
 					throw new \App\Exceptions\AppException('Error with response |' . $response['error']);
 				}
 			} else {
-				throw new \App\Exceptions\AppException('Error with connection |' . $response->getReasonPhrase());
+				throw new \App\Exceptions\AppException('Error with connection |' . $request->getReasonPhrase());
 			}
 		} catch (\Exception $ex) {
 			\App\Log::error($ex->getMessage(), __CLASS__);

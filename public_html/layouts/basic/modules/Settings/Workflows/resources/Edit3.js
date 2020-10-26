@@ -110,7 +110,7 @@ Settings_Workflows_Edit_Js(
 					if (typeof this[customValidationFunctionName] !== 'undefined') {
 						let result = this[customValidationFunctionName].apply(this);
 						if (result !== true) {
-							Vtiger_Helper_Js.showPnotify({
+							app.showNotify({
 								title: app.vtranslate('JS_MESSAGE'),
 								text: result,
 								type: 'error'
@@ -311,15 +311,6 @@ Settings_Workflows_Edit_Js(
 				progressIndicatorElement.progressIndicator({ mode: 'hide' });
 			});
 		},
-		/**
-		 * Function to get ckEditorInstance
-		 */
-		getckEditorInstance: function () {
-			if (this.ckEditorInstance === false) {
-				this.ckEditorInstance = new App.Fields.Text.Editor();
-			}
-			return this.ckEditorInstance;
-		},
 		registerTaskStatusChangeEvent: function () {
 			var container = this.getContainer();
 			container.on('change', '.taskStatus', function (e) {
@@ -343,7 +334,7 @@ Settings_Workflows_Edit_Js(
 							text: app.vtranslate('JS_STATUS_CHANGED_SUCCESSFULLY'),
 							type: 'success'
 						};
-						Vtiger_Helper_Js.showPnotify(params);
+						app.showNotify(params);
 					}
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				});
@@ -368,7 +359,7 @@ Settings_Workflows_Edit_Js(
 								text: app.vtranslate('JS_TASK_DELETED_SUCCESSFULLY'),
 								type: 'success'
 							};
-							Vtiger_Helper_Js.showPnotify(params);
+							app.showNotify(params);
 						}
 					});
 				});
@@ -390,23 +381,9 @@ Settings_Workflows_Edit_Js(
 				inputElement.val(newValue);
 			});
 		},
-		registerFillMailContentEvent: function () {
-			$('#task-fieldnames,#task_timefields,#task-templates').on('change', function (e) {
-				var textarea = CKEDITOR.instances.content;
-				var value = $(e.currentTarget).val();
-				if (textarea != undefined) {
-					textarea.insertHtml(value);
-				} else if ($('textarea[name="content"]')) {
-					var textArea = $('textarea[name="content"]');
-					textArea.insertAtCaret(value);
-				}
-			});
-		},
 		registerVTEmailTaskEvents: function () {
 			var textAreaElement = $('#content');
-			var ckEditorInstance = this.getckEditorInstance();
-			ckEditorInstance.loadEditor(textAreaElement);
-			this.registerFillMailContentEvent();
+			new App.Fields.Text.Editor(textAreaElement);
 			this.registerFillTaskFromEmailFieldEvent();
 			this.registerCcAndBccEvents();
 		},

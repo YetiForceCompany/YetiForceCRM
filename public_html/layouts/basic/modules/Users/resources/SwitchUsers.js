@@ -5,8 +5,47 @@ jQuery.Class(
 	'Vtiger_SwitchUsers_Js',
 	{},
 	{
-		registerSave: function (container) {
-			container.find('.modal-body button').on('click', function () {
+		/**
+		 * Modal container
+		 */
+		container: false,
+		/**
+		 * Register change user
+		 */
+		registerChangeUser: function () {
+			this.container.find('.js-switch-user').on('change', (e) => {
+				let showElement = $(e.currentTarget).find('option:selected').data('admin');
+				let subContainer = this.container.find('.js-sub-container');
+				if (showElement) {
+					subContainer.removeClass('d-none');
+				} else {
+					subContainer.addClass('d-none');
+				}
+				subContainer.find('.js-text-element').attr('disabled', !showElement);
+			});
+		},
+		/**
+		 * Register save
+		 */
+		registerSave: function () {
+			let form = this.container.find('form');
+			this.container.find('.js-switch-btn').on('click', (e) => {
+				e.preventDefault();
+				if (form.validationEngine('validate')) {
+					document.progressLoader = jQuery.progressIndicator({
+						message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
+						position: 'html',
+						blockInfo: {
+							enabled: true
+						}
+					});
+					var userId = form.find('[name="user"]').val();
+					form.find('[name="id"]').val(userId);
+					form.submit();
+				}
+			});
+			this.container.find('.js-switch-to-yourself').on('click', (e) => {
+				e.preventDefault();
 				document.progressLoader = jQuery.progressIndicator({
 					message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 					position: 'html',
@@ -14,15 +53,17 @@ jQuery.Class(
 						enabled: true
 					}
 				});
-				var userId = container.find('[name="user"]').val();
-				container.find('[name="id"]').val(userId);
-				container.find('form').submit();
-				return;
+				this.container.find('.js-text-element').attr('disabled', true);
+				form.submit();
 			});
 		},
+		/**
+		 * Register Events
+		 */
 		registerEvents: function () {
-			var container = jQuery('.switchUsersContainer');
-			this.registerSave(container);
+			this.container = jQuery('.switchUsersContainer');
+			this.registerSave();
+			this.registerChangeUser();
 		}
 	}
 );

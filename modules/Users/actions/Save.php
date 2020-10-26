@@ -19,16 +19,11 @@ class Users_Save_Action extends Vtiger_Save_Action
 		$moduleName = $request->getModule();
 		if (!$request->isEmpty('record', true)) {
 			$record = $request->getInteger('record');
-			$this->record = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$currentUserModel = Users_Record_Model::getCurrentUserModel();
-
-			$allowed = \App\Privilege::isPermitted($moduleName, 'Save', $record);
-			if ($allowed && !$currentUserModel->isAdminUser() && App\Config::security('SHOW_MY_PREFERENCES') && ((int) $currentUserModel->get('id') !== $this->record->getId())) {
-				$allowed = false;
-			}
-			if (!$allowed) {
+			$currentUserModel = \App\User::getCurrentUserModel();
+			if (!($currentUserModel->isAdmin() || (App\Config::security('SHOW_MY_PREFERENCES') && (int) $currentUserModel->getId() === $record))) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
+			$this->record = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		} else {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
 			if (!$this->record->isCreateable()) {
@@ -42,13 +37,13 @@ class Users_Save_Action extends Vtiger_Save_Action
 	 */
 	protected function getRecordModelFromRequest(App\Request $request)
 	{
-		$recordModel = parent::getRecordModelFromRequest($request);
-		if ($recordModel->isNew()) {
-			$recordModel->set('user_name', $request->get('user_name', null));
-			$recordModel->set('user_password', $request->getRaw('user_password', null));
-			$recordModel->set('confirm_password', '');
+		parent::getRecordModelFromRequest($request);
+		if ($this->record->isNew()) {
+			$this->record->set('user_name', $request->get('user_name', null));
+			$this->record->set('user_password', $request->getRaw('user_password', null));
+			$this->record->set('confirm_password', '');
 		}
-		return $recordModel;
+		return $this->record;
 	}
 
 	/**
@@ -83,16 +78,16 @@ class Users_Save_Action extends Vtiger_Save_Action
 
 			return false;
 		}
-		$recordModel = $this->saveRecord($request);
+		$this->saveRecord($request);
 		$settingsModuleModel = Settings_Users_Module_Model::getInstance();
 		$settingsModuleModel->refreshSwitchUsers();
 		if ($request->getBoolean('relationOperation')) {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 2));
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
 		} elseif ($request->getBoolean('isPreference')) {
-			$loadUrl = $recordModel->getPreferenceDetailViewUrl();
+			$loadUrl = $this->record->getPreferenceDetailViewUrl();
 		} else {
-			$loadUrl = $recordModel->getDetailViewUrl();
+			$loadUrl = $this->record->getDetailViewUrl();
 		}
 		header("location: $loadUrl");
 	}

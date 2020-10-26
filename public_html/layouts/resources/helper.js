@@ -174,51 +174,9 @@ $.Class(
 			if (typeof params.title === 'undefined') {
 				params.title = app.vtranslate('JS_MESSAGE');
 			}
-			Vtiger_Helper_Js.showPnotify(params);
+			app.showNotify(params);
 		},
-		/*
-		 * Function to show pnotify message
-		 */
-		showPnotify: function (customParams) {
-			let userParams = customParams;
-			if (typeof customParams === 'string') {
-				userParams = {};
-				userParams.text = customParams;
-			}
-			let params = {
-				target: document.body,
-				data: {
-					type: 'error',
-					hide: false,
-					delay: '2000',
-					modules: {
-						Buttons: {
-							closerHover: false,
-							labels: { close: app.vtranslate('JS_CLOSE') }
-						},
-						Animate: {
-							animate: true,
-							inClass: 'zoomInLeft',
-							outClass: 'zoomOutRight'
-						}
-					}
-				}
-			};
-			if (typeof customParams.type !== 'undefined' && customParams.type != 'error') {
-				params.data.hide = true;
-			}
-			params.data = $.extend(params.data, userParams);
-			return new PNotify(params);
-		},
-		/*
-		 * Function to remove pnotify message
-		 */
-		hidePnotify: function (notice) {
-			if (typeof notice === 'undefined') {
-				notice = $('.ui-pnotify');
-			}
-			notice.remove();
-		},
+
 		/*
 		 * Function to add clickoutside event on the element - By using outside events plugin
 		 * @params element---On which element you want to apply the click outside event

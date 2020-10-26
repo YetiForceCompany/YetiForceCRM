@@ -37,7 +37,7 @@ class Time
 	 */
 	public static function formatToDB($time, bool $convertTimeZone = true)
 	{
-		return (new \DateTimeField(date(Date::currentUserJSDateFormat()) . ' ' . $time))->getDBInsertTimeValue($convertTimeZone);
+		return (new \DateTimeField(date('Y-m-d') . ' ' . $time))->getDBInsertTimeValue($convertTimeZone);
 	}
 
 	/**

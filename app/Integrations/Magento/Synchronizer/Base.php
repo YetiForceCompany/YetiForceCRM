@@ -131,13 +131,15 @@ abstract class Base
 	public function parseInventoryData(\Vtiger_Record_Model $recordModel, array $item, Maps\Inventory $mapModel): array
 	{
 		$mapModel->setDataInv($item);
-		$inventoryRow = [];
-		foreach (\Vtiger_Inventory_Model::getInstance($recordModel->getModuleName())->getFields() as $columnName => $fieldModel) {
-			if (\in_array($fieldModel->getColumnName(), ['total', 'margin', 'marginp', 'net', 'gross'])) {
+		$inventoryModel = \Vtiger_Inventory_Model::getInstance($recordModel->getModuleName());
+		$inventoryRow = $inventoryModel->loadRowData($item['crmProductId'], ['currency' => $mapModel->dataCrm['currency_id']]);
+		foreach ($inventoryModel->getFields() as $columnName => $fieldModel) {
+			if (\in_array($fieldModel->getColumnName(), ['name', 'total', 'margin', 'marginp', 'net', 'gross'])) {
 				continue;
 			}
 			if ('tax_percent' === $columnName || 'tax' === $columnName) {
-				$inventoryRow['taxparam'] = '{"aggregationType":"individual","individualTax":' . $item['tax_percent'] . '}';
+				$tax = $item['tax_percent'] ?? round($item['tax_amount'] / $item['row_total'] * 100);
+				$inventoryRow['taxparam'] = '{"aggregationType":"individual","individualTax":' . $tax . '}';
 			} elseif ('taxmode' === $columnName) {
 				$inventoryRow['taxmode'] = 1;
 			} elseif ('discountmode' === $columnName) {
@@ -150,10 +152,13 @@ abstract class Base
 				}
 			} elseif ('currency' === $columnName) {
 				$inventoryRow['currency'] = $mapModel->dataCrm['currency_id'];
-			} elseif ('name' === $columnName) {
-				$inventoryRow[$columnName] = $item['crmProductId'];
 			} else {
-				$inventoryRow[$columnName] = $mapModel->getInvFieldValue($columnName) ?? $fieldModel->getDefaultValue();
+				$value = $mapModel->getInvFieldValue($columnName);
+				if (null !== $value) {
+					$inventoryRow[$columnName] = $value;
+				} elseif (!isset($inventoryRow[$columnName])) {
+					$inventoryRow[$columnName] = $fieldModel->getDefaultValue();
+				}
 			}
 		}
 		return $inventoryRow;

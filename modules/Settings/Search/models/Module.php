@@ -93,8 +93,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 				->update('vtiger_entityname', ['turn_off' => (int) $params['value']], ['tabid' => $tabId])
 				->execute();
 		}
-		\App\Cache::delete('ModuleEntityById', $tabId);
-		\App\Cache::delete('ModuleEntityByName', \App\Module::getModuleName($tabId));
+		\App\Cache::delete('ModuleEntityInfo', '');
 		return true;
 	}
 
@@ -102,14 +101,20 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 	 * Update labels.
 	 *
 	 * @param array $params
+	 *
+	 * @return void
 	 */
-	public static function updateLabels($params)
+	public static function updateLabels($params): void
 	{
 		$moduleName = App\Module::getModuleName((int) $params['tabid']);
 		$db = App\Db::getInstance();
-		$db->createCommand()->update('u_#__crmentity_search_label', ['searchlabel' => ''], ['setype' => $moduleName])->execute();
-		$subQuery = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $moduleName]);
-		$db->createCommand()->delete('u_#__crmentity_label', ['crmid' => $subQuery])->execute();
+		if ('Users' === $moduleName) {
+			(new \App\BatchMethod(['method' => '\App\User::updateLabels', 'params' => [0]]))->save();
+		} else {
+			$db->createCommand()->update('u_#__crmentity_search_label', ['searchlabel' => ''], ['setype' => $moduleName])->execute();
+			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $moduleName]);
+			$db->createCommand()->delete('u_#__crmentity_label', ['crmid' => $subQuery])->execute();
+		}
 	}
 
 	/**

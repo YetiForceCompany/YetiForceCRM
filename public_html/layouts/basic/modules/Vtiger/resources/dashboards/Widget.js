@@ -1930,8 +1930,8 @@ jQuery.Class(
 				paramCache += '&' + i + '=' + data[i];
 			}
 			var userId = CONFIG.userId;
-			var name = container.data('name');
-			app.cacheSet(name + userId, paramCache);
+			var name = container.attr('id');
+			app.cacheSet(name + '_' + userId, paramCache);
 		},
 		registerCache: function registerCache(container) {
 			if (container.data('cache') == 1) {
@@ -3166,83 +3166,79 @@ YetiForce_Widget_Js(
 		multifilterControlsView: false,
 		multifilterContentView: false,
 		multifilterSettingsView: false,
-		registerMultifilter() {
-			let multifilterId = this.getContainer().attr('id'),
-				selectValue = app.cacheGet('multifilterSelectValue' + multifilterId, null),
-				multifilterSettings = this.getMultifilterSettings();
-			if (null != selectValue && this.paramCache) {
-				multifilterSettings.find('.js-select').val(selectValue).trigger('change.select2');
-			}
-			this.loadMultifilterData(true);
-			multifilterSettings.find('.js-select').on('select2:select', () => {
-				this.loadMultifilterData(true);
-				if (this.paramCache) {
-					app.cacheSet(
-						'multifilterSelectValue' + multifilterId,
-						multifilterSettings.find('.js-select').val()
-					);
-				}
-			});
-			multifilterSettings.find('.js-select').on('select2:unselect', () => {
-				this.loadMultifilterData(false);
-				if (this.paramCache) {
-					app.cacheSet(
-						'multifilterSelectValue' + multifilterId,
-						multifilterSettings.find('.js-select').val()
-					);
-				}
-			});
-			this.registerShowHideModuleSettings();
+		registerSubmit() {
+			this.getContainer()
+				.find('.js-multifilter-save')
+				.on('click', (e) => {
+					let progressIndicatorElement = $.progressIndicator({
+						position: 'html',
+						blockInfo: {
+							enabled: true
+						}
+					});
+					let widgetId = this.getMultifilterControls().attr('data-widgetid');
+					let actions = this.getContainer().find('.js-select').val();
+					AppConnector.request({
+						action: 'Widget',
+						mode: 'updateWidgetConfig',
+						module: app.getModuleName(),
+						widgetid: widgetId,
+						widgetData: { customMultiFilter: actions }
+					}).done((_) => {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						this.refreshWidget();
+					});
+				});
 		},
-		loadMultifilterData(select = true) {
-			const self = this;
-			let widgetId = self.getMultifilterControls().attr('data-widgetid'),
-				multifilterIds = self.getMultifilterSettings().find('.js-select option:selected'),
+		loadData() {
+			let widgetId = this.getMultifilterControls().attr('data-widgetid'),
+				multifilterIds = this.getMultifilterSettings().find('.js-select option:selected'),
 				params = [];
-			if (!select) {
-				self.getMultifilterContent().html('');
-			}
-			multifilterIds.each(function () {
-				let existFilter = self.getMultifilterContent().find('[data-id="' + $(this).val() + '"]');
-				let thisInstance = $(this);
+			this.getMultifilterContent().html('');
+			$.each(multifilterIds, (i, e) => {
+				let element = $(e);
+				let existFilter = this.getMultifilterContent().find('[data-id="' + element.val() + '"]');
 				if (0 < existFilter.length) {
 					return true;
 				}
-				params = {
-					module: thisInstance.data('module'),
-					modulename: thisInstance.data('module'),
+				params.push({
+					module: element.data('module'),
+					modulename: element.data('module'),
 					view: 'ShowWidget',
 					name: 'Multifilter',
 					content: true,
 					widget: true,
 					widgetid: widgetId,
-					filterid: thisInstance.val()
-				};
-				self.loadListData(params);
+					filterid: element.val()
+				});
 			});
+			this.loadListData(params);
 		},
 		loadListData(params) {
+			if (!params.length) {
+				return false;
+			}
 			const self = this;
-			let aDeferred = jQuery.Deferred(),
-				multiFilterContent = self.getMultifilterContent();
-			AppConnector.request(params)
+			let multiFilterContent = self.getMultifilterContent();
+			let param = params.shift();
+			AppConnector.request(param)
 				.done(function (data) {
 					if (
 						self
 							.getMultifilterSettings()
-							.find('option[value="' + params.filterid + '"]')
+							.find('option[value="' + param.filterid + '"]')
 							.is(':selected') &&
-						!multiFilterContent.find('.detailViewTable[data-id="' + params.filterid + '"]').length
+						!multiFilterContent.find('.detailViewTable[data-id="' + param.filterid + '"]').length
 					) {
 						self.registerRecordsCount(multiFilterContent.append(data).children('div:last-child'));
 						self.registerShowHideBlocks();
-						aDeferred.resolve();
+						self.loadListData(params);
 					}
 				})
 				.fail(function (error) {
-					aDeferred.reject();
+					app.errorLog(error);
+					self.loadListData(params);
 				});
-			return aDeferred.promise();
 		},
 		registerShowHideModuleSettings() {
 			this.getMultifilterControls()
@@ -3301,10 +3297,12 @@ YetiForce_Widget_Js(
 			return this.multifilterSettingsView;
 		},
 		postLoadWidget() {
-			this.registerMultifilter();
+			this.loadData();
+			this.registerSubmit();
+			this.registerShowHideModuleSettings();
 		},
 		refreshWidget() {
-			this.loadMultifilterData(false);
+			this.loadData();
 		}
 	}
 );
@@ -3346,6 +3344,7 @@ YetiForce_Widget_Js(
 		},
 		postRefreshWidget: function () {
 			this._super();
+			this.registerContentEvents(this.getContainer());
 			app.registerPopoverEllipsisIcon(
 				this.getContainer().find('.js-popover-tooltip--ellipsis-icon')
 			);
@@ -3372,6 +3371,7 @@ YetiForce_Widget_Js(
 					self.registerSubmit(data);
 				});
 			});
+			this.registerContentEvents(container);
 		},
 		registerSubmit(data) {
 			data.find('.js-modal__save').on('click', (e) => {
@@ -3398,6 +3398,48 @@ YetiForce_Widget_Js(
 					this.refreshWidget();
 					app.hideModalWindow();
 				});
+			});
+		},
+		registerContentEvents() {
+			const container = this.getContainer();
+			$('.js-history-detail', container).on('click', (e) => {
+				let actionId = e.currentTarget.dataset.action;
+				let widgetData = JSON.parse(container.find('.js-widget-data').val());
+				let progressIndicatorElement = $.progressIndicator({
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				});
+				let params = {
+					view: 'UpdatesDetail',
+					module: 'ModTracker',
+					widgetId: this.getContainer().find('.js-widget-id').val(),
+					trackerAction: e.currentTarget.dataset.action,
+					sourceModule: e.currentTarget.dataset.module,
+					owner: widgetData.owner,
+					historyOwner: widgetData.historyOwner,
+					dateRange: container.find('[name="dateRange"]').val(),
+					page: 1
+				};
+				AppConnector.request(params)
+					.done((modal) => {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						app.showModalWindow(modal, function (data) {
+							data.on('click', '.showMoreHistory', (e) => {
+								AppConnector.request(e.currentTarget.dataset.url).done((result) => {
+									$(e.target).parent().remove();
+									data
+										.find('.modal-body')
+										.append($(result).filter('.modal-body').get(0).childNodes);
+								});
+							});
+						});
+					})
+					.fail((error) => {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						app.errorLog(error);
+					});
 			});
 		}
 	}

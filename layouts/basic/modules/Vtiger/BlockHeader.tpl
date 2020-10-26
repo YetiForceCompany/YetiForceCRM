@@ -60,9 +60,8 @@
 			</button>
 		{/if}
 	</div>
-	{assign var=PROVIDER value=\App\Map\Address::getActiveProviders()}
 	{if $SEARCH_ADDRESS && $PROVIDER}
-		<div class="d-flex justify-content-center col-lg-4 mx-1 mx-lg-0">
+		<div class="d-flex justify-content-center col-lg-8 mx-1 mx-lg-0 mt-2">
 			<div class="js-search-address input-group input-group-sm c-btn-block-sm-down" data-js="container">
 				<div class="input-group-prepend{if count($PROVIDER) eq 1} d-none{/if}">
 					<select class="select2 js-select-operator" data-dropdown-auto-width="true" data-js="value">

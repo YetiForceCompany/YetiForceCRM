@@ -52,7 +52,6 @@ Vtiger_Detail_Js(
 							thisInstance.deSelectAllrelatedTabs();
 							thisInstance.markTabAsSelected(tabElement);
 							Vtiger_Helper_Js.showHorizontalTopScrollBar();
-							thisInstance.registerHelpInfo();
 							app.registerModal(detailContentsHolder);
 							element.progressIndicator({ mode: 'hide' });
 							var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();

@@ -102,13 +102,6 @@ class ModTracker
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ('module.postinstall' === $eventType) {
-			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
-			Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
-				'name' => 'ModTracker',
-				'iconpath' => 'adminIcon-modules-track-chanegs',
-				'description' => 'LBL_MODTRACKER_DESCRIPTION',
-				'linkto' => 'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker',
-			]);
 		} elseif ('module.disabled' === $eventType) {
 			\App\EventHandler::setInActive('ModTracker_ModTrackerHandler_Handler');
 		} elseif ('module.enabled' === $eventType) {

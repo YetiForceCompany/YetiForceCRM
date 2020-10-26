@@ -3,7 +3,7 @@
 	<!-- tpl-Base-inventoryfields-EditViewDiscountMode -->
 	<select {if $ROW_NO} name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]"{/if}{' '}
 			class="select2 js-discountmode "{' '}
-			{if $FIELD->get('displaytype') == 10}readonly="readonly" {/if}
+			{if $FIELD->isReadOnly()}readonly="readonly" {/if}
 			title="{\App\Language::translate('LBL_DISCOUNT_MODE', $MODULE)}"
 			data-js="change|val">
 		<option value="0" {if $ITEM_VALUE == '0'}selected{/if}>

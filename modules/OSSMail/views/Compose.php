@@ -31,12 +31,7 @@ class OSSMail_Compose_View extends OSSMail_Index_View
 	public function process(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if (false !== strpos($this->mainUrl, '?')) {
-			$this->mainUrl .= '&';
-		} else {
-			$this->mainUrl .= '?';
-		}
-		$this->mainUrl .= '_task=mail&_action=compose&_extwin=1';
+		$this->mainUrl .= '&_task=mail&_action=compose&_extwin=1';
 		$params = OSSMail_Module_Model::getComposeParam($request);
 		$key = md5(\count($params) . microtime());
 

@@ -42,6 +42,15 @@
 						</optgroup>
 					{/foreach}
 				{/foreach}
+				{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRelatedLevelVariable('phone')}
+					<optgroup label="{$BLOCK_NAME}">
+						{foreach item=ITEM from=$RELATED_FIELDS}
+							<option value=",{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">
+								{$ITEM['label']}
+							</option>
+						{/foreach}
+					</optgroup>
+				{/foreach}
 			</select>
 		</div>
 	</div>

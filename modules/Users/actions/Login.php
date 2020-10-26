@@ -181,6 +181,9 @@ class Users_Login_Action extends \App\Controller\Action
 				$this->userRecordModel->verifyPasswordChange($this->userModel);
 			}
 		}
+		if ($this->userModel->isAdmin() && \App\Config::security('askAdminAboutVisitPurpose', true)) {
+			\App\Session::set('showVisitPurpose', $this->userModel->isAdmin());
+		}
 		if ($request->has('loginLanguage') && App\Config::main('langInLoginView')) {
 			\App\Session::set('language', $request->getByType('loginLanguage'));
 		}
@@ -225,6 +228,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	public function failedLogin(App\Request $request)
 	{
+		Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive()) {
 			$bfInstance->updateBlockedIp();
@@ -234,7 +238,6 @@ class Users_Login_Action extends \App\Controller\Action
 				\App\Session::set('UserLoginMessageType', 'error');
 			}
 		}
-		Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
 		header('location: index.php?module=Users&view=Login');
 	}
 }

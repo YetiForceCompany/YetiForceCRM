@@ -17,7 +17,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	public static $baseModuleTools = ['Import', 'Export', 'Merge', 'CreateCustomFilter',
 		'DuplicateRecord', 'MassEdit', 'MassArchived', 'MassActive', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
 		'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter', 'QuickExportToExcel', 'ExportPdf', 'RecordMapping',
-		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates', 'OpenRecord', 'CloseRecord', 'ReceivingMailNotifications', 'CreateDashboardChartFilter', 'TimeLineList', 'ArchiveRecord', 'ActiveRecord', 'MassTrash', 'MoveToTrash', 'RecordConventer', 'AutoAssignRecord', 'AssignToYourself'];
+		'RecordMappingList', 'FavoriteRecords', 'WatchingRecords', 'WatchingModule', 'RemoveRelation', 'ReviewingUpdates', 'OpenRecord', 'CloseRecord', 'ReceivingMailNotifications', 'CreateDashboardChartFilter', 'TimeLineList', 'ArchiveRecord', 'ActiveRecord', 'MassTrash', 'MoveToTrash', 'RecordConventer', 'AutoAssignRecord', 'AssignToYourself', 'InterestsConflictUsers'];
 
 	/**
 	 * @var array Base module tools exceptions.
@@ -304,15 +304,28 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$blockcf->addField($field6);
 
 		$field7 = new vtlib\Field();
-		$field7->name = 'shownerid';
-		$field7->label = 'Share with users';
+		$field7->name = 'modifiedby';
+		$field7->label = 'Last Modified By';
 		$field7->table = 'vtiger_crmentity';
-		$field7->column = 'shownerid';
-		$field7->uitype = 120;
-		$field7->columntype = 'int(11)';
+		$field7->column = 'modifiedby';
+		$field7->uitype = 52;
 		$field7->typeofdata = 'V~O';
+		$field7->displaytype = 2;
+		$field7->quickcreate = 3;
+		$field7->masseditable = 0;
 		$field7->maximumlength = '65535';
 		$blockcf->addField($field7);
+
+		$field8 = new vtlib\Field();
+		$field8->name = 'shownerid';
+		$field8->label = 'Share with users';
+		$field8->table = 'vtiger_crmentity';
+		$field8->column = 'shownerid';
+		$field8->uitype = 120;
+		$field8->columntype = 'int(11)';
+		$field8->typeofdata = 'V~O';
+		$field8->maximumlength = '65535';
+		$blockcf->addField($field8);
 
 		// Create default custom filter (mandatory)
 		$filter1 = new vtlib\Filter();

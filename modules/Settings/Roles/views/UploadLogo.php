@@ -10,22 +10,12 @@
 /**
  * Upload logo View Class.
  */
-class Settings_Roles_UploadLogo_View extends \App\Controller\Modal
+class Settings_Roles_UploadLogo_View extends \App\Controller\ModalSettings
 {
 	/**
 	 * {@inheritdoc}
 	 */
 	public $modalSize = 'modal-md';
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function checkPermission(App\Request $request)
-	{
-		if (!\App\User::getCurrentUserModel()->isAdmin()) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-	}
 
 	/**
 	 * {@inheritdoc}

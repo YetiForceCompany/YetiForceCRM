@@ -8,6 +8,7 @@ namespace App;
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class CustomView
 {
@@ -245,6 +246,7 @@ class CustomView
 	private function getColumnsByCvidFromDb($cvId)
 	{
 		\App\Log::trace(__METHOD__ . ' - ' . $cvId);
+		$columnList = [];
 		if (is_numeric($cvId)) {
 			$dataReader = (new Db\Query())->select(['field_name', 'module_name', 'source_field_name'])
 				->from('vtiger_cvcolumnlist')
@@ -455,7 +457,11 @@ class CustomView
 		if ($noCache || Request::_isEmpty('viewname')) {
 			if (!$noCache && self::getCurrentView($this->moduleName)) {
 				$viewId = self::getCurrentView($this->moduleName);
-			} else {
+				if (empty($this->getInfoFilter($this->moduleName)[$viewId])) {
+					$viewId = null;
+				}
+			}
+			if (empty($viewId)) {
 				$viewId = $this->getDefaultCvId();
 			}
 			if (empty($viewId) || !$this->isPermittedCustomView($viewId)) {
@@ -540,46 +546,17 @@ class CustomView
 	 */
 	public function isPermittedCustomView($viewId)
 	{
-		Log::trace(__METHOD__);
-		$permission = true;
-		if (!empty($viewId)) {
-			$statusUseridInfo = $this->getStatusAndUserid($viewId);
-			if ($statusUseridInfo) {
-				$status = $statusUseridInfo['status'];
-				$userId = $statusUseridInfo['userid'];
-				if (self::CV_STATUS_DEFAULT === $status || $this->user->isAdmin()) {
-					$permission = true;
-				} elseif ('ChangeStatus' !== Request::_get('view')) {
-					if (self::CV_STATUS_PUBLIC === $status || $userId === $this->user->getId()) {
-						$permission = true;
-					} elseif (self::CV_STATUS_PRIVATE === $status || self::CV_STATUS_PENDING === $status) {
-						$subQuery = (new Db\Query())->select(['vtiger_user2role.userid'])->from('vtiger_user2role')
-							->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
-							->innerJoin('vtiger_role', 'vtiger_user2role.userid = vtiger_role.roleid')
-							->where(['like', 'vtiger_role.parentrole', $this->user->getParentRolesSeq() . '::']);
-						$query = (new Db\Query())
-							->select(['vtiger_users.id'])
-							->from('vtiger_customview')
-							->innerJoin('vtiger_users')
-							->where(['vtiger_customview.cvid' => $viewId, 'vtiger_customview.userid' => $subQuery]);
-						$userArray = $query->column();
-						if ($userArray) {
-							if (!\in_array($this->user->getId(), $userArray)) {
-								$permission = false;
-							} else {
-								$permission = true;
-							}
-						} else {
-							$permission = false;
-						}
-					} else {
-						$permission = true;
-					}
-				} else {
-					$permission = false;
-				}
-			} else {
-				$permission = false;
+		$permission = false;
+		if (!empty($viewId) && ($data = $this->getStatusAndUserid($viewId))) {
+			$status = $data['status'];
+			$userId = $data['userid'];
+			if ($this->user->isAdmin() || $userId === $this->user->getId()) {
+				$permission = true;
+			} elseif (self::CV_STATUS_DEFAULT === $status || self::CV_STATUS_PUBLIC === $status) {
+				$permission = true;
+			} elseif (self::CV_STATUS_PRIVATE === $status || self::CV_STATUS_PENDING === $status) {
+				$cvUserModel = \App\User::getUserModel($userId);
+				$permission = \in_array($cvUserModel->getDetail('roleid'), \App\PrivilegeUtil::getRoleSubordinates($this->user->getRole()));
 			}
 		}
 		return $permission;

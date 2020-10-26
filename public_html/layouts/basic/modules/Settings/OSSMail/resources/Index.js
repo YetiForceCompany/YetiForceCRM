@@ -63,12 +63,13 @@ jQuery.Class(
 								text: response['data'],
 								type: 'info'
 							};
-							Vtiger_Helper_Js.showPnotify(params);
+							app.showNotify(params);
 						} else {
 							params = {
-								text: response['data']
+								text: response['data'],
+								type: 'error'
 							};
-							Vtiger_Helper_Js.showPnotify(params);
+							app.showNotify(params);
 						}
 					});
 				}

@@ -22,7 +22,9 @@ Vtiger_Edit_Js(
 				) {
 					closestContainer = parentIdElement.closest('.fieldValue');
 					params['related_parent_id'] = parentIdElement.val();
-					params['related_parent_module'] = form.find('[name="sourceModule"]').val();
+					params['related_parent_module'] = closestContainer
+						.find('[name="popupReferenceModule"]')
+						.val();
 				}
 			}
 			if (sourceFieldElement.attr('name') == 'parentid') {

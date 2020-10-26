@@ -19,7 +19,7 @@ jQuery.Class(
 		},
 		getTreeListValues: function (container) {
 			if (this.treeData == false && container !== 'undefined') {
-				var treeValues = container.find('#treeListValues').val();
+				let treeValues = container.find('#treeListValues').val();
 				if (treeValues != '') {
 					this.treeData = JSON.parse(treeValues);
 				}
@@ -53,9 +53,9 @@ jQuery.Class(
 			};
 		},
 		getRecordsList: function () {
-			var thisInstance = this;
-			var container = thisInstance.getContainer();
-			var progressIndicator = jQuery.progressIndicator({
+			let thisInstance = this;
+			let container = thisInstance.getContainer();
+			let progressIndicator = jQuery.progressIndicator({
 				message: app.vtranslate('JS_LOADING_OF_RECORDS'),
 				blockInfo: { enabled: true }
 			});
@@ -96,19 +96,19 @@ jQuery.Class(
 				});
 		},
 		registerFilterChangeEvent: function (container) {
-			var thisInstance = this;
+			let thisInstance = this;
 			container.on('change', '#moduleFilter', function (e) {
 				thisInstance.getRecordsList();
 			});
 		},
 		registerSelectBrancheEvent: function (container) {
-			var thisInstance = this;
+			let thisInstance = this;
 			thisInstance.treeInstance.on('changed.jstree', function (e, data) {
 				thisInstance.getRecordsList();
 			});
 		},
 		registerEvents: function () {
-			var container = this.getContainer();
+			let container = this.getContainer();
 			this.generateTree(container);
 			this.registerFilterChangeEvent(container);
 			this.registerSelectBrancheEvent(container);

@@ -2,17 +2,7 @@
 {strip}
 <div class='verticalScroll'>
 	<div class="editViewContainer">
-		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php"
-			  enctype="multipart/form-data">
-			<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
-			{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-				<input type="hidden" name="picklistDependency"
-					   value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
-			{/if}
-			{if !empty($MAPPING_RELATED_FIELD)}
-				<input type="hidden" name="mappingRelatedField"
-					   value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
-			{/if}
+		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 			{assign var=QUALIFIED_MODULE_NAME value={$MODULE}}
 			{assign var=IS_PARENT_EXISTS value=strpos($MODULE,":")}
 			{if $IS_PARENT_EXISTS}
@@ -23,16 +13,34 @@
 				<input type="hidden" name="module" value="{$MODULE}"/>
 			{/if}
 			<input type="hidden" name="action" value="Save"/>
-			<input type="hidden" name="record" id="recordId" value="{$RECORD_ID}"/>
-			<input name="defaultOtherEventDuration" value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
-			{if $MODE === 'duplicate'}
-				<input type="hidden" name="_isDuplicateRecord" value="true"/>
-				<input type="hidden" name="_duplicateRecord" value="{\App\Request::_get('record')}"/>
+			{if !empty($RECORD_ID)}
+				<input type="hidden" name="record" id="recordId" value="{$RECORD_ID}"/>
+				<input type="hidden" name="fromView" value="Edit"/>
+				{assign var="FROM_VIEW" value='Edit'}
+			{else}
+				<input type="hidden" name="fromView" value="Create"/>
+				{assign var="FROM_VIEW" value='Create'}
 			{/if}
 			{if $IS_RELATION_OPERATION }
 				<input type="hidden" name="sourceModule" value="{$SOURCE_MODULE}"/>
 				<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}"/>
 				<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}"/>
+			{/if}
+			<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
+			<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, $FROM_VIEW])}"/>
+			{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
+				<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
+			{/if}
+			{if !empty($MAPPING_RELATED_FIELD)}
+				<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
+			{/if}
+			{if !empty($LIST_FILTER_FIELDS)}
+				<input type="hidden" name="listFilterFields" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}'/>
+			{/if}
+			<input name="defaultOtherEventDuration" value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" type="hidden"/>
+			{if $MODE === 'duplicate'}
+				<input type="hidden" name="_isDuplicateRecord" value="true"/>
+				<input type="hidden" name="_duplicateRecord" value="{\App\Request::_get('record')}"/>
 			{/if}
 			<input type="hidden" id="allowedLetters" value="{$allowChars}"/>
 			<input type="hidden" id="maxChars" value="{$passLengthMax}"/>
@@ -92,7 +100,7 @@
 								{else}
 								{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<div class="{if $FIELD_MODEL->getUIType() neq "300"} col-sm-6 form-row align-items-center my-1 mx-0 {else} w-100 {/if}">
+								<div class="{if $FIELD_MODEL->getUIType() neq "300"} col-sm-6 form-row align-items-center my-1 mx-0 {else} w-100{/if} js-field-block-column{if $FIELD_MODEL->get('hideField')} d-none{/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
 									{if $FIELD_MODEL->getUIType() neq "300"}
 										<div class="col-lg-12 col-xl-3 text-lg-left text-xl-right fieldLabel  {$WIDTHTYPE}">
 											<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} u-text-small-bold m-0 pr-1">

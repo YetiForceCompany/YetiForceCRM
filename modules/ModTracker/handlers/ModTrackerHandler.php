@@ -24,11 +24,12 @@ class ModTracker_ModTrackerHandler_Handler
 		}
 		$recordModel = $eventHandler->getRecordModel();
 		if ($recordModel->isNew()) {
-			$delta = $recordModel->getData();
+			$delta = array_intersect_key($recordModel->getData(), $recordModel->getModule()->getFields());
+			$delta = array_fill_keys(array_keys($delta), null);
 			if ($recordModel->getModule()->isInventory() && ($invData = $recordModel->getInventoryData())) {
 				$delta['inventory'] = array_fill_keys(array_keys($invData), []);
 			}
-			unset($delta['createdtime'], $delta['modifiedtime'], $delta['id'], $delta['newRecord'], $delta['modifiedby']);
+			unset($delta['createdtime'], $delta['modifiedtime'], $delta['modifiedby']);
 			$status = ModTracker::$CREATED;
 			$watchdogTitle = 'LBL_CREATED';
 			$watchdogMessage = '$(record : ChangesListValues)$';
@@ -42,6 +43,13 @@ class ModTracker_ModTrackerHandler_Handler
 			$status = ModTracker::$UPDATED;
 			$watchdogTitle = 'LBL_UPDATED';
 			$watchdogMessage = '$(record : ChangesListValues)$';
+		}
+		if ($skipFields = $recordModel->ext['ModTrackerSkipFields'] ?? []) {
+			foreach ($delta as $fieldName => $preValue) {
+				if (\in_array($fieldName, $skipFields)) {
+					unset($delta[$fieldName]);
+				}
+			}
 		}
 		if (empty($delta)) {
 			return false;
@@ -270,7 +278,7 @@ class ModTracker_ModTrackerHandler_Handler
 					$notification->set('description', $watchdogMessage);
 					$notification->set('notification_type', $watchdog->noticeDefaultType);
 					$notification->set('notification_status', 'PLL_UNREAD');
-					$notification->setHandlerExceptions(['disableHandlerByName' => ['ModTracker_ModTrackerHandler_Handler']]);
+					$notification->setHandlerExceptions(['disableHandlerClasses' => ['ModTracker_ModTrackerHandler_Handler']]);
 					$notification->save();
 				}
 			}

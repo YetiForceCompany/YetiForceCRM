@@ -59,9 +59,10 @@ Settings_Vtiger_List_Js(
 					} else {
 						var params = {
 							text: app.vtranslate(data.error.message),
-							title: app.vtranslate('JS_LBL_PERMISSION')
+							title: app.vtranslate('JS_LBL_PERMISSION'),
+							type: 'error'
 						};
-						Vtiger_Helper_Js.showPnotify(params);
+						app.showNotify(params);
 					}
 				});
 			});

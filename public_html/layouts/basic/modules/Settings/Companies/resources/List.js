@@ -29,7 +29,7 @@ Settings_Vtiger_List_Js(
 					mode: 'check'
 				}).done(function (data) {
 					if (data.result.success === false) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: data.result.message,
 							type: 'info'
 						});

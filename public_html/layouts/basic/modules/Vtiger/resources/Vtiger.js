@@ -12,7 +12,7 @@
 var Vtiger_Index_Js = {
 	showLocation: function (element) {
 		app.showModalWindow(null, 'index.php?module=OpenStreetMap&view=MapModal', function (container) {
-			var mapView = new OpenStreetMap_Map_Js();
+			let mapView = new OpenStreetMap_Map_Js();
 			mapView.registerModalView(container);
 			container.find('.searchValue').val($(element).data('location'));
 			container.find('.searchBtn').trigger('click');
@@ -20,14 +20,14 @@ var Vtiger_Index_Js = {
 	},
 	massAddDocuments: function (url) {
 		app.showModalWindow(null, url, function (container) {
-			var uploadButton = container.find('#filesToUpload');
-			var template = container.find('.fileContainer');
-			var uploadContainer = container.find('.uploadFileContainer');
-			var form = container.find('form');
+			let uploadButton = container.find('#filesToUpload');
+			let template = container.find('.fileContainer');
+			let uploadContainer = container.find('.uploadFileContainer');
+			let form = container.find('form');
 			uploadButton.on('change', function () {
 				uploadContainer.find('.fileItem').remove();
-				var files = uploadButton[0].files;
-				for (var i = 0; i < files.length; i++) {
+				let files = uploadButton[0].files;
+				for (let i = 0; i < files.length; i++) {
 					uploadContainer.append(template.html());
 					uploadContainer.find('[name="nameFile[]"]:last').val(files[i].name);
 				}
@@ -35,30 +35,30 @@ var Vtiger_Index_Js = {
 			form.on('submit', function (e) {
 				e.preventDefault();
 				app.removeEmptyFilesInput(form[0]);
-				var formData = new FormData(form[0]);
+				let formData = new FormData(form[0]);
 				url = 'index.php';
 				if (app.getViewName() === 'Detail') {
 					formData.append('createmode', 'link');
 					formData.append('return_module', app.getModuleName());
 					formData.append('return_id', app.getRecordId());
 				}
-				var params = {
+				let params = {
 					url: url,
 					type: 'POST',
 					data: formData,
 					processData: false,
 					contentType: false
 				};
-				var progressIndicatorElement = $.progressIndicator({
+				let progressIndicatorElement = $.progressIndicator({
 					blockInfo: { enabled: true }
 				});
 				AppConnector.request(params).done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					app.hideModalWindow();
-					var relatedModuleName = 'Documents';
+					let relatedModuleName = 'Documents';
 					if (app.getViewName() === 'Detail') {
-						var detailView = Vtiger_Detail_Js.getInstance();
-						var selectedTabElement = detailView.getSelectedTab();
+						let detailView = Vtiger_Detail_Js.getInstance();
+						let selectedTabElement = detailView.getSelectedTab();
 						if (selectedTabElement.data('reference') === relatedModuleName) {
 							detailView.reloadTabContent();
 						} else if (
@@ -72,11 +72,11 @@ var Vtiger_Index_Js = {
 								relatedModuleName
 							).loadRelatedList();
 						} else {
-							var updatesWidget = detailView
+							let updatesWidget = detailView
 								.getContentHolder()
 								.find("[data-type='RelatedModule'][data-name='Documents']");
 							if (updatesWidget.length > 0) {
-								var params = detailView.getFiltersData(updatesWidget);
+								let params = detailView.getFiltersData(updatesWidget);
 								detailView.loadWidget(updatesWidget, params['params']);
 							}
 						}
@@ -114,7 +114,7 @@ var Vtiger_Index_Js = {
 								app.hideModalWindow();
 								aDeferred.resolve(email);
 							} else {
-								Vtiger_Helper_Js.showPnotify({
+								app.showNotify({
 									text: app.vtranslate('JS_SELECT_AN_OPTION'),
 									type: 'info'
 								});
@@ -130,17 +130,17 @@ var Vtiger_Index_Js = {
 		return aDeferred.promise();
 	},
 	registerMailButtons: function (container) {
-		var thisInstance = this;
+		let thisInstance = this;
 		container.find('.sendMailBtn:not(.mailBtnActive)').each(function (e) {
-			var sendButton = $(this);
+			let sendButton = $(this);
 			sendButton.addClass('mailBtnActive');
 			sendButton.on('click', function (e) {
 				e.stopPropagation();
-				var url = sendButton.data('url');
-				var popup = sendButton.data('popup');
-				var toMail = sendButton.data('to');
+				let url = sendButton.data('url');
+				let popup = sendButton.data('popup');
+				let toMail = sendButton.data('to');
 				if (toMail) {
-					url += '&to=' + toMail;
+					url += '&to=' + encodeURIComponent(toMail);
 				}
 				if (app.getRecordId() && sendButton.data('record') !== app.getRecordId()) {
 					url += '&crmModule=' + app.getModuleName() + '&crmRecord=' + app.getRecordId();
@@ -151,25 +151,20 @@ var Vtiger_Index_Js = {
 	},
 	sendMailWindow: function (url, popup, postData) {
 		if (popup) {
-			var width = screen.width - 15;
-			var height = screen.height - 150;
-			var left = 0;
-			var top = 30;
-			var popupParams = 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top;
+			let width = screen.width - 15;
+			let height = screen.height - 150;
+			let left = 0;
+			let top = 30;
+			let popupParams = 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top;
 			if (postData == undefined) {
-				window.open(
-					url,
-					'_blank',
-					popupParams +
-						',resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,status=nomenubar=no'
-				);
+				window.open(url, '_blank', popupParams + ',resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,status=no,menubar=no');
 				return;
 			}
-			var form = $('<form/>', { action: 'index.php' });
+			let form = $('<form/>', { action: 'index.php' });
 			url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 				form.append($('<input>', { name: key, value: value }));
 			});
-			for (var i in postData) {
+			for (let i in postData) {
 				form.append($('<input>', { name: i, value: JSON.stringify(postData[i]) }));
 			}
 			$('body').append(form);
@@ -179,19 +174,19 @@ var Vtiger_Index_Js = {
 		}
 	},
 	registerWidgetsEvents: function () {
-		var widgets = $('div.widgetContainer');
+		let widgets = $('div.widgetContainer');
 		widgets.on('shown.bs.collapse', function (e) {
-			var widgetContainer = $(e.currentTarget);
+			let widgetContainer = $(e.currentTarget);
 			Vtiger_Index_Js.loadWidgets(widgetContainer);
-			var key = widgetContainer.attr('id');
+			let key = widgetContainer.attr('id');
 			app.cacheSet(key, 1);
 		});
 		widgets.on('hidden.bs.collapse', function (e) {
-			var widgetContainer = $(e.currentTarget);
-			var imageEle = widgetContainer.parent().find('.imageElement');
-			var imagePath = imageEle.data('rightimage');
+			let widgetContainer = $(e.currentTarget);
+			let imageEle = widgetContainer.parent().find('.imageElement');
+			let imagePath = imageEle.data('rightimage');
 			imageEle.attr('src', imagePath);
-			var key = widgetContainer.attr('id');
+			let key = widgetContainer.attr('id');
 			app.cacheSet(key, 0);
 		});
 	},
@@ -201,18 +196,18 @@ var Vtiger_Index_Js = {
 	 * @param open - widget should be open or closed
 	 */
 	loadWidgets: function (widgetContainer, open) {
-		var message = $('.loadingWidgetMsg').html();
+		let message = $('.loadingWidgetMsg').html();
 		if (widgetContainer.find('.card-body').html().trim()) {
-			var imageEle = widgetContainer.parent().find('.imageElement');
-			var imagePath = imageEle.data('downimage');
+			let imageEle = widgetContainer.parent().find('.imageElement');
+			let imagePath = imageEle.data('downimage');
 			imageEle.attr('src', imagePath);
 			widgetContainer.css('height', 'auto');
 			return;
 		}
 
 		widgetContainer.progressIndicator({ message: message });
-		var url = widgetContainer.data('url');
-		var listViewWidgetParams = {
+		let url = widgetContainer.data('url');
+		let listViewWidgetParams = {
 			type: 'GET',
 			url: 'index.php',
 			dataType: 'html',
@@ -222,8 +217,8 @@ var Vtiger_Index_Js = {
 			if (typeof open === 'undefined') open = true;
 			if (open) {
 				widgetContainer.progressIndicator({ mode: 'hide' });
-				var imageEle = widgetContainer.parent().find('.imageElement');
-				var imagePath = imageEle.data('downimage');
+				let imageEle = widgetContainer.parent().find('.imageElement');
+				let imagePath = imageEle.data('downimage');
 				imageEle.attr('src', imagePath);
 				widgetContainer.css('height', 'auto');
 			}
@@ -231,7 +226,7 @@ var Vtiger_Index_Js = {
 			if (data == '') {
 				widgetContainer.closest('.quickWidget').addClass('d-none');
 			} else {
-				var label = widgetContainer
+				let label = widgetContainer
 					.closest('.quickWidget')
 					.find('.quickWidgetHeader')
 					.data('label');
@@ -240,7 +235,7 @@ var Vtiger_Index_Js = {
 		});
 	},
 	loadWidgetsOnLoad: function () {
-		var widgets = $('div.widgetContainer');
+		let widgets = $('div.widgetContainer');
 		widgets.each(function (index, element) {
 			Vtiger_Index_Js.loadWidgets($(element));
 		});
@@ -252,11 +247,11 @@ var Vtiger_Index_Js = {
 	changeSkin: function () {
 		$('.themeElement').on('click', function (e) {
 			e.stopPropagation();
-			var currentElement = $(e.currentTarget);
+			let currentElement = $(e.currentTarget);
 			currentElement.closest('#themeContainer').hide();
-			var progressElement = $('#progressDiv');
+			let progressElement = $('#progressDiv');
 			progressElement.progressIndicator();
-			var params = {
+			let params = {
 				module: 'Users',
 				action: 'SaveAjax',
 				record: CONFIG.userId,
@@ -275,9 +270,9 @@ var Vtiger_Index_Js = {
 		});
 	},
 	markNotifications: function (id) {
-		var aDeferred = $.Deferred();
-		var thisInstance = this;
-		var params = {
+		let aDeferred = $.Deferred();
+		let thisInstance = this;
+		let params = {
 			module: 'Notification',
 			action: 'Notification',
 			mode: 'setMark',
@@ -285,18 +280,18 @@ var Vtiger_Index_Js = {
 		};
 		AppConnector.request(params)
 			.done(function (data) {
-				var row = $('.notificationEntries .noticeRow[data-id="' + id + '"]');
-				Vtiger_Helper_Js.showPnotify({
+				let row = $('.notificationEntries .noticeRow[data-id="' + id + '"]');
+				app.showNotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_MARKED_AS_READ'),
 					type: 'info'
 				});
 				if (row.length) {
 					row.fadeOut(300, function () {
-						var entries = row.closest('.notificationEntries');
+						let entries = row.closest('.notificationEntries');
 						row.remove();
 						entries.each(function (index) {
-							var block = $(this);
+							let block = $(this);
 							if (block.find('.noticeRow').length == 0) {
 								block.closest('.panel').hide();
 							}
@@ -313,8 +308,8 @@ var Vtiger_Index_Js = {
 		return aDeferred.promise();
 	},
 	markAllNotifications: function (element) {
-		var ids = [];
-		var li = $(element).closest('.notificationContainer');
+		let ids = [];
+		let li = $(element).closest('.notificationContainer');
 		li.find('.notificationEntries .noticeRow').each(function (index) {
 			ids.push($(this).data('id'));
 		});
@@ -322,7 +317,7 @@ var Vtiger_Index_Js = {
 			element.remove();
 			return false;
 		}
-		var params = {
+		let params = {
 			module: 'Notification',
 			action: 'Notification',
 			mode: 'setMark',
@@ -331,7 +326,7 @@ var Vtiger_Index_Js = {
 		li.progressIndicator({ position: 'html' });
 		AppConnector.request(params).done(function (data) {
 			li.progressIndicator({ mode: 'hide' });
-			Vtiger_Helper_Js.showPnotify({
+			app.showNotify({
 				title: app.vtranslate('JS_MESSAGE'),
 				text: app.vtranslate('JS_MARKED_AS_READ'),
 				type: 'info'
@@ -343,14 +338,14 @@ var Vtiger_Index_Js = {
 	 * Function registers event for Reminder popups
 	 */
 	registerReminders: function () {
-		var activityReminder = (parseInt(app.getMainParams('activityReminder')) || 0) * 1000;
+		let activityReminder = (parseInt(app.getMainParams('activityReminder')) || 0) * 1000;
 		if (activityReminder != 0 && $('.remindersNotice.autoRefreshing').length) {
 			Vtiger_Index_Js.requestReminder();
 			window.reminder = setInterval(function () {
 				Vtiger_Index_Js.requestReminder();
 			}, activityReminder);
 		}
-		var reminder = (parseInt(app.getMainParams('intervalForNotificationNumberCheck')) || 0) * 1000;
+		let reminder = (parseInt(app.getMainParams('intervalForNotificationNumberCheck')) || 0) * 1000;
 		if (reminder != 0 && $('.notificationsNotice.autoRefreshing').length) {
 			Vtiger_Index_Js.getNotificationsForReminder();
 			window.reminderNotifications = setInterval(function () {
@@ -359,17 +354,17 @@ var Vtiger_Index_Js = {
 		}
 	},
 	getNotificationsForReminder: function () {
-		var thisInstance = this;
-		var content = $('.remindersNotificationContainer');
-		var element = $('.notificationsNotice');
-		var url = 'index.php?module=Notification&view=Reminders';
+		let thisInstance = this;
+		let content = $('.remindersNotificationContainer');
+		let element = $('.notificationsNotice');
+		let url = 'index.php?module=Notification&view=Reminders';
 		AppConnector.request(url)
 			.done(function (data) {
 				content.html(data);
 				thisInstance.refreshReminderCount(content, element, 'js-count-notifications-reminder');
 				content.find('.js-set-marked').on('click', function (e) {
-					var currentElement = $(e.currentTarget);
-					var recordID = currentElement.closest('.js-notification-panel').data('record');
+					let currentElement = $(e.currentTarget);
+					let recordID = currentElement.closest('.js-notification-panel').data('record');
 					thisInstance.markNotifications(recordID).done(function (data) {
 						currentElement.closest('.js-notification-panel').fadeOut(300, function () {
 							$(this).remove();
@@ -390,19 +385,19 @@ var Vtiger_Index_Js = {
 	 * Function request for reminder popups
 	 */
 	requestReminder: function () {
-		var thisInstance = this;
-		var content = $('.remindersNoticeContainer');
-		var element = $('.remindersNotice');
-		var url = 'index.php?module=Calendar&view=Reminders&type_remainder=true';
+		let thisInstance = this;
+		let content = $('.remindersNoticeContainer');
+		let element = $('.remindersNotice');
+		let url = 'index.php?module=Calendar&view=Reminders&type_remainder=true';
 		AppConnector.request(url)
 			.done(function (data) {
 				content.html(data);
 				thisInstance.refreshReminderCount(content, element, 'countRemindersNotice');
 				app.registerModal(content);
 				content.find('.reminderPostpone').on('click', function (e) {
-					var currentElement = $(e.currentTarget);
-					var recordID = currentElement.closest('.js-toggle-panel').data('record');
-					var url =
+					let currentElement = $(e.currentTarget);
+					let recordID = currentElement.closest('.js-toggle-panel').data('record');
+					let url =
 						'index.php?module=Calendar&action=ActivityReminder&mode=postpone&record=' +
 						recordID +
 						'&time=' +
@@ -420,8 +415,8 @@ var Vtiger_Index_Js = {
 			});
 	},
 	refreshReminderCount: function (content, element, tag) {
-		var badge = element.find('.badge');
-		var count = content.find('.js-toggle-panel').length;
+		let badge = element.find('.badge');
+		let count = content.find('.js-toggle-panel').length;
 		badge.text(count);
 		badge.removeClass('d-none');
 		if (count > 0 && element.hasClass('autoRefreshing')) {
@@ -443,7 +438,7 @@ var Vtiger_Index_Js = {
 		});
 	},
 	changeWatching: function (instance) {
-		var value, module, state, className, user, record;
+		let value, module, state, className, user, record;
 		if (instance != undefined) {
 			instance = $(instance);
 			value = instance.data('value');
@@ -469,7 +464,7 @@ var Vtiger_Index_Js = {
 					callback: function () {
 						Vtiger_Index_Js.updateWatching(module, value, user, record).done(function (data) {
 							if (instance != undefined) {
-								var buttonIcon = instance.find('.fas');
+								let buttonIcon = instance.find('.fas');
 								state = data.result == 1 ? 0 : 1;
 								instance.data('value', state);
 								if (state == 1) {
@@ -494,8 +489,8 @@ var Vtiger_Index_Js = {
 		});
 	},
 	updateWatching: function (module, value, user, record) {
-		var aDeferred = $.Deferred();
-		var params = {
+		let aDeferred = $.Deferred();
+		let params = {
 			module: module,
 			action: 'Watchdog',
 			state: value
@@ -521,7 +516,7 @@ var Vtiger_Index_Js = {
 		if (userId == undefined) {
 			userId = CONFIG.userId;
 		}
-		var params = {
+		let params = {
 			module: element.data('module'),
 			record: element.data('record'),
 			field: 'assigned_user_id',
@@ -530,7 +525,7 @@ var Vtiger_Index_Js = {
 		app.saveAjax('', null, params).done(function (e) {
 			app.hideModalWindow();
 			if (app.getViewName() === 'List') {
-				var listinstance = new Vtiger_List_Js();
+				let listinstance = new Vtiger_List_Js();
 				listinstance.getListViewRecords();
 			}
 		});
@@ -550,23 +545,36 @@ var Vtiger_Index_Js = {
 			Vtiger_Helper_Js.showMessage({ text: response.result });
 		});
 	},
-	registerAterloginEvents: function () {
-		if (typeof CONFIG.ShowUserPwnedPasswordChange !== 'undefined') {
-			app.showModalWindow(
-				null,
-				'index.php?module=Users&view=PasswordModal&mode=change&type=pwned&record=' + CONFIG.userId
-			);
-		} else if (typeof CONFIG.ShowUserPasswordChange !== 'undefined') {
-			app.showModalWindow(
-				null,
-				'index.php?module=Users&view=PasswordModal&mode=change&record=' + CONFIG.userId
-			);
-		}
+	registerAfterLoginEvents: function () {
+		const thisInstance = this;
+		let modalContainer = false;
 		if (typeof CONFIG.ShowAuthy2faModal !== 'undefined') {
-			app.showModalWindow(
-				null,
-				'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' + CONFIG.userId
-			);
+			modalContainer = app.showModalWindow(null, 'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' + CONFIG.userId, () => {
+				delete(CONFIG.ShowAuthy2faModal)
+			});
+		} else if (typeof CONFIG.showVisitPurpose !== 'undefined') {
+			modalContainer = app.showModalWindow(null, 'index.php?module=Users&view=VisitPurpose', () => {
+				delete(CONFIG.showVisitPurpose)
+			});
+		} else if (typeof CONFIG.ShowUserPwnedPasswordChange !== 'undefined') {
+			modalContainer = app.showModalWindow(null, 'index.php?module=Users&view=PasswordModal&mode=change&type=pwned&record=' + CONFIG.userId, () => {
+				delete(CONFIG.ShowUserPwnedPasswordChange)
+			});
+		} else if (typeof CONFIG.ShowUserPasswordChange !== 'undefined') {
+			modalContainer = app.showModalWindow(null, 'index.php?module=Users&view=PasswordModal&mode=change&record=' + CONFIG.userId, () => {
+				delete(CONFIG.ShowUserPasswordChange)
+			});
+		} else {
+			$('.js-system-modal[data-url]').each((_, e) => {
+				modalContainer = app.showModalWindow(null, e.dataset.url, () => {
+					e.remove()
+				});
+			});
+		}
+		if(modalContainer){
+			modalContainer.one('hidden.bs.modal', function () {
+				thisInstance.registerAfterLoginEvents();
+			});
 		}
 	},
 	registerEvents: function () {
@@ -575,7 +583,7 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.registerReminders();
 		Vtiger_Index_Js.changeSkin();
 		Vtiger_Index_Js.registerResizeEvent();
-		Vtiger_Index_Js.registerAterloginEvents();
+		Vtiger_Index_Js.registerAfterLoginEvents();
 	}
 };
 //On Page Load

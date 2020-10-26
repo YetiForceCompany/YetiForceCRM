@@ -21,11 +21,11 @@ class Encryption extends Base
 		'roundcube_users' => ['columnName' => ['password'], 'index' => 'user_id', 'db' => 'base'],
 		's_#__mail_smtp' => ['columnName' => ['password', 'smtp_password'], 'index' => 'id', 'db' => 'admin'],
 		'a_#__smsnotifier_servers' => ['columnName' => ['api_key'], 'index' => 'id', 'db' => 'admin'],
-		'u_#__github' => ['columnName' => ['token'], 'index' => 'github_id', 'db' => 'base'],
 		'w_#__portal_user' => ['columnName' => ['password_t'], 'index' => 'id', 'db' => 'webservice'],
 		'w_#__servers' => ['columnName' => ['pass', 'api_key'], 'index' => 'id', 'db' => 'webservice'],
 		'dav_users' => ['columnName' => ['key'], 'index' => 'id', 'db' => 'base'],
 		\App\MeetingService::TABLE_NAME => ['columnName' => ['secret'], 'index' => 'id', 'db' => 'admin'],
+		'i_#__magento_servers' => ['columnName' => ['password'], 'index' => 'id', 'db' => 'admin'],
 	];
 	/**
 	 * @var array Recommended encryption methods

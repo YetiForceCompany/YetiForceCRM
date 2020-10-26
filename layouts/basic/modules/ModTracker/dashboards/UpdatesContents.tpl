@@ -50,9 +50,9 @@
 								<div class="mr-1 float-sm-left imageContainer q-avatar u-fs-38px">
 									{assign var=IMAGE value=$USER->getImage()}
 									{if $IMAGE}
-										<img class="userImage" src="{$IMAGE['url']}">
+										<img class="userImage align-text-top" src="{$IMAGE['url']}">
 									{else}
-										<span class="fas fa-user userImage"></span>
+										<span class="fas fa-user userImage align-text-top"></span>
 									{/if}
 								</div>
 								<p class="ml-1 float-right text-muted">
@@ -177,9 +177,10 @@
 			{/foreach}
 			{if $PAGING_MODEL->get('nextPageExists')}
 				<div class="float-right padding5">
-				<button type="button" class="btn btn-sm btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">
-					{\App\Language::translate('LBL_MORE', $MODULE_NAME)}
-				</button>
+					<button type="button" class="btn btn-sm btn-primary showMoreHistory" data-url="{$URL}&page={$PAGING_MODEL->getNextPage()}">
+						{\App\Language::translate('LBL_MORE', $MODULE_NAME)}
+					</button>
+				</div>
 			{/if}
 		{else}
 			<span class="noDataMsg">

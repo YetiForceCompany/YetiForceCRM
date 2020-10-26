@@ -192,13 +192,13 @@ class Field
 			$fields = Cache::get('getRelatedFieldForModule', $key);
 		} else {
 			$db = Db::getInstance();
-			$wsQuery = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name', 'relmod' => 'vtiger_ws_referencetype.type', 'type' => new \yii\db\Expression($db->quoteValue(2))])
+			$wsQuery = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_field.fieldlabel', 'vtiger_tab.name', 'relmod' => 'vtiger_ws_referencetype.type', 'type' => new \yii\db\Expression($db->quoteValue(2))])
 				->from('vtiger_field')
 				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
 				->innerJoin('vtiger_ws_fieldtype', 'vtiger_field.uitype = vtiger_ws_fieldtype.uitype')
 				->innerJoin('vtiger_ws_referencetype', 'vtiger_ws_fieldtype.fieldtypeid = vtiger_ws_referencetype.fieldtypeid')
 				->where(['vtiger_tab.presence' => 0]);
-			$fmrQuery = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name', 'relmod' => 'vtiger_fieldmodulerel.relmodule', 'type' => new \yii\db\Expression($db->quoteValue(1))])
+			$fmrQuery = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_field.fieldlabel', 'vtiger_tab.name', 'relmod' => 'vtiger_fieldmodulerel.relmodule', 'type' => new \yii\db\Expression($db->quoteValue(1))])
 				->from('vtiger_field')
 				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
 				->innerJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid')
@@ -208,7 +208,7 @@ class Field
 			while ($row = $dataReader->read()) {
 				$fields[$row['name']][$row['relmod']] = $row;
 			}
-			$query = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name'])
+			$query = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_field.fieldlabel', 'vtiger_tab.name'])
 				->from('vtiger_field')
 				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
 				->where(['vtiger_tab.presence' => 0, 'vtiger_field.uitype' => [64, 65, 66, 67, 68]]);
@@ -227,10 +227,8 @@ class Field
 				if ($forModule) {
 					return $fields[$moduleName][$forModule] ?? [];
 				}
-
 				return $fields[$moduleName];
 			}
-
 			return [];
 		}
 		if ($forModule) {
@@ -242,7 +240,6 @@ class Field
 			}
 			return $rfields;
 		}
-
 		return $fields;
 	}
 
@@ -263,7 +260,8 @@ class Field
 		} else {
 			$fields = (new \App\Db\Query())->select(['vtiger_relatedlists_fields.fieldid', 'vtiger_field.fieldname'])->from('vtiger_relatedlists_fields')
 				->innerJoin('vtiger_field', 'vtiger_field.fieldid = vtiger_relatedlists_fields.fieldid')
-				->where(['relation_id' => $relationId, 'vtiger_field.presence' => [0, 2]])->createCommand()->queryAllByGroup();
+				->where(['relation_id' => $relationId, 'vtiger_field.presence' => [0, 2]])->orderBy(['vtiger_relatedlists_fields.relation_id' => \SORT_ASC, 'vtiger_relatedlists_fields.sequence' => \SORT_ASC])
+				->createCommand()->queryAllByGroup();
 			Cache::save('getFieldsFromRelation', $relationId, $fields, Cache::LONG);
 		}
 		return $fields;

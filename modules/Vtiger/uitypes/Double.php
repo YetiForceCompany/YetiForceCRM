@@ -53,9 +53,11 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
-		$maximumLength = (float) $this->getFieldModel()->get('maximumlength');
-		if ($maximumLength && ($value > $maximumLength || $value < -$maximumLength)) {
-			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+		if ($maximumLength = $this->getFieldModel()->get('maximumlength')) {
+			[$minimumLength, $maximumLength] = false !== strpos(',', $maximumLength) ? explode(',', $maximumLength) : [-$maximumLength, $maximumLength];
+			if ((float) $minimumLength > $value || (float) $maximumLength < $value) {
+				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . "||{$maximumLength} < {$value} < {$minimumLength}", 406);
+			}
 		}
 		$this->validate[$value] = true;
 	}

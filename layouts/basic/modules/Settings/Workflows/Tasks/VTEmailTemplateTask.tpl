@@ -5,7 +5,7 @@
 			<div class="row pb-3">
 				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
 				<div class="col-md-4">
-					<select id="task_timefields" name="smtp" class="select2 form-control"
+					<select id="smtp_{\App\Layout::getUniqueId()}" name="smtp" class="select2 form-control"
 							data-validation-engine="validate[required]"
 							data-placeholder="{\App\Language::translate('LBL_DEFAULT',$QUALIFIED_MODULE)}"
 							data-select="allowClear">
@@ -72,6 +72,16 @@
 									{/foreach}
 								</optgroup>
 							{/foreach}
+						{/foreach}
+						{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRelatedLevelVariable('email')}
+							<optgroup label="{$BLOCK_NAME}">
+								{foreach item=ITEM from=$RELATED_FIELDS}
+									<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}"
+											{if isset($TASK_OBJECT->email) && $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
+										{$ITEM['label']}
+									</option>
+								{/foreach}
+							</optgroup>
 						{/foreach}
 					</select>
 				</div>

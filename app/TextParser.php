@@ -5,6 +5,8 @@ namespace App;
 /**
  * Text parser class.
  *
+ * @package   App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -29,6 +31,7 @@ class TextParser
 		'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => '$(record : ChangesListValues)$',
 		'LBL_RECORD_COMMENT' => '$(record : Comments 5)$, $(record : Comments)$',
 		'LBL_RELATED_RECORD_LABEL' => '$(relatedRecord : parent_id|email1|Accounts)$, $(relatedRecord : parent_id|email1)$',
+		'LBL_RELATED_NEXT_LEVEL_RECORD_LABEL' => '$(relatedRecordLevel : projectid|Project|linktoaccountscontacts|email1|Accounts)$',
 		'LBL_OWNER_EMAIL' => '$(relatedRecord : assigned_user_id|email1|Users)$',
 		'LBL_SOURCE_RECORD_LABEL' => '$(sourceRecord : RecordLabel)$',
 		'LBL_CUSTOM_FUNCTION' => '$(custom : ContactsPortalPass)$',
@@ -90,7 +93,7 @@ class TextParser
 	 *
 	 * @var string[]
 	 */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date', 'inventory', 'userVariable'];
+	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'relatedRecordLevel', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date', 'inventory', 'userVariable'];
 
 	/**
 	 * List of source modules.
@@ -100,8 +103,24 @@ class TextParser
 	public static $sourceModules = [
 		'Campaigns' => ['Leads', 'Accounts', 'Contacts', 'Vendors', 'Partners', 'Competition'],
 	];
-	protected static $recordVariable;
-	protected static $relatedVariable;
+	/**
+	 * Record variables.
+	 *
+	 * @var array
+	 */
+	protected static $recordVariable = [];
+	/**
+	 * Related variables.
+	 *
+	 * @var array
+	 */
+	protected static $relatedVariable = [];
+	/**
+	 * Next level related variables.
+	 *
+	 * @var array
+	 */
+	protected static $relatedVariableLevel = [];
 
 	/**
 	 * Record id.
@@ -193,6 +212,9 @@ class TextParser
 	 * @var string
 	 */
 	public const VARIABLE_REGEX = '/\$\((\w+) : ([,"\+\#\%\.\=\-\[\]\&\w\s\|\)\(\:]+)\)\$/u';
+
+	/** @var bool Permissions condition */
+	protected $permissions = true;
 
 	/**
 	 * Get instanace by record id.
@@ -371,7 +393,20 @@ class TextParser
 	 */
 	public static function isVaribleToParse($text)
 	{
-		return (int) preg_match('/^\$\((\w+) : ([,"\+\%\.\=\-\[\]\&\w\s\|]+)\)\$$/', $text);
+		return (int) preg_match(static::VARIABLE_REGEX, $text);
+	}
+
+	/**
+	 * Set permissions condition.
+	 *
+	 * @param bool $permitted
+	 *
+	 * @return $this
+	 */
+	public function setGlobalPermissions(bool $permitted)
+	{
+		$this->permissions = $permitted;
+		return $this;
 	}
 
 	/**
@@ -668,10 +703,10 @@ class TextParser
 	 */
 	protected function relatedRecord($params)
 	{
-		[$fieldName, $relatedField, $relatedModule] = array_pad(explode('|', $params), 3, '');
+		[$fieldName, $relatedField, $relatedModule] = array_pad(explode('|', $params, 3), 3, '');
 		if (
 			!isset($this->recordModel) ||
-			!Privilege::isPermitted($this->moduleName, 'DetailView', $this->record) ||
+			($this->permissions && !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record)) ||
 			$this->recordModel->isEmpty($fieldName)
 		) {
 			return '';
@@ -686,8 +721,7 @@ class TextParser
 		if ('Users' === $relatedModule) {
 			$return = [];
 			foreach (explode(',', $relatedId) as $relatedValueId) {
-				$ownerType = Fields\Owner::getType($relatedValueId);
-				if ('Users' === $ownerType) {
+				if ('Users' === Fields\Owner::getType($relatedValueId)) {
 					$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedValueId);
 					if ('Active' === $userRecordModel->get('status')) {
 						$instance = static::getInstanceByModel($userRecordModel);
@@ -720,6 +754,9 @@ class TextParser
 			return '';
 		}
 		$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedId, $module);
+		if ($this->permissions && !$relatedRecordModel->isViewable()) {
+			return '';
+		}
 		$instance = static::getInstanceByModel($relatedRecordModel);
 		foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
 			if (isset($this->{$key})) {
@@ -727,6 +764,51 @@ class TextParser
 			}
 		}
 		return $instance->record($relatedField);
+	}
+
+	/**
+	 * Parsing related record data.
+	 *
+	 * @param string $params
+	 *
+	 * @return mixed
+	 */
+	protected function relatedRecordLevel($params)
+	{
+		[$fieldName, $relatedModule, $relatedRecord] = array_pad(explode('|', $params, 3), 3, '');
+		if (
+			!isset($this->recordModel) ||
+			!Privilege::isPermitted($this->moduleName, 'DetailView', $this->record) ||
+			$this->recordModel->isEmpty($fieldName)
+		) {
+			return '';
+		}
+		$relatedId = $this->recordModel->get($fieldName);
+		if (empty($relatedId)) {
+			return '';
+		}
+		$moduleName = Record::getType($relatedId);
+		if (!empty($moduleName) && ($relatedModule && $relatedModule !== $moduleName)) {
+			return '';
+		}
+		if ('Users' === $relatedModule && 'Users' === Fields\Owner::getType($relatedId)) {
+			$relatedRecordModel = \Users_Privileges_Model::getInstanceById($relatedId);
+			if ('Active' !== $relatedRecordModel->get('status')) {
+				return '';
+			}
+		} else {
+			$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedId, $moduleName);
+			if (!$relatedRecordModel->isViewable()) {
+				return '';
+			}
+		}
+		$instance = static::getInstanceByModel($relatedRecordModel);
+		foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
+			if (isset($this->{$key})) {
+				$instance->{$key} = $this->{$key};
+			}
+		}
+		return $instance->relatedRecord($relatedRecord);
 	}
 
 	/**
@@ -795,6 +877,21 @@ class TextParser
 			$transformedSearchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition(Json::decode($conditions));
 			$relationListView->set('search_params', $transformedSearchParams);
 		}
+		return $this->relatedRecordsListPrinter($relationListView, $pagingModel, (int) $maxLength);
+	}
+
+	/**
+	 * Printer related records list.
+	 *
+	 * @param \Vtiger_RelationListView_Model $relationListView
+	 * @param \Vtiger_Paging_Model           $pagingModel
+	 * @param int                            $maxLength
+	 *
+	 * @return string
+	 */
+	protected function relatedRecordsListPrinter(\Vtiger_RelationListView_Model $relationListView, \Vtiger_Paging_Model $pagingModel, int $maxLength): string
+	{
+		$relatedModuleName = $relationListView->getRelationModel()->getRelationModuleName();
 		$rows = $headers = '';
 		$fields = $relationListView->getHeaders();
 		foreach ($fields as $fieldModel) {
@@ -807,14 +904,14 @@ class TextParser
 			}
 		}
 		$counter = 0;
-		foreach ($relationListView->getEntries($pagingModel) as $reletedRecordModel) {
+		foreach ($relationListView->getEntries($pagingModel) as $relatedRecordModel) {
 			++$counter;
 			$rows .= '<tr class="row-' . $counter . '">';
 			foreach ($fields as $fieldModel) {
-				$value = $this->getDisplayValueByField($fieldModel, $reletedRecordModel);
+				$value = $this->getDisplayValueByField($fieldModel, $relatedRecordModel);
 				if (false !== $value) {
-					if ((int) $maxLength) {
-						$value = $this->textTruncate($value, (int) $maxLength);
+					if ($maxLength) {
+						$value = $this->textTruncate($value, $maxLength);
 					}
 					$rows .= "<td class=\"col-type-{$fieldModel->getFieldType()}\">{$value}</td>";
 				}
@@ -1179,12 +1276,13 @@ class TextParser
 	 * Get related variables.
 	 *
 	 * @param bool|string $fieldType
+	 * @param bool        $skipEmpty
 	 *
 	 * @return array
 	 */
-	public function getRelatedVariable($fieldType = false)
+	public function getRelatedVariable($fieldType = false, $skipEmpty = false)
 	{
-		$cacheKey = "{$this->moduleName}|$fieldType";
+		$cacheKey = "{$this->moduleName}|$fieldType|{$skipEmpty}";
 		if (isset(static::$relatedVariable[$cacheKey])) {
 			return static::$relatedVariable[$cacheKey];
 		}
@@ -1207,12 +1305,25 @@ class TextParser
 					];
 				}
 			}
+			$relRecord = false;
+			if ($skipEmpty && $this->recordModel && !(($relId = $this->recordModel->get($field->getName())) &&
+				(
+					\in_array($field->getFieldDataType(), ['userCreator', 'owner', 'sharedOwner']) ||
+					((\App\Record::isExists($relId)) && ($relRecord = \Vtiger_Record_Model::getInstanceById($relId))->isViewable() && ($relatedModules = [\App\Record::getType($relId)]))
+				)
+			)) {
+				continue;
+			}
+
 			foreach ($relatedModules as $relatedModule) {
 				$relatedModuleLang = Language::translate($relatedModule, $relatedModule);
-				$moduleModel = \Vtiger_Module_Model::getInstance($relatedModule);
-				foreach ($moduleModel->getBlocks() as $blockModel) {
+				foreach (\Vtiger_Module_Model::getInstance($relatedModule)->getBlocks() as $blockModel) {
 					foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
-						if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {
+						if (
+							$fieldModel->isViewable() &&
+							!($fieldType && $fieldModel->getFieldDataType() !== $fieldType) &&
+							(!$relRecord || ($relRecord && !$relRecord->isEmpty($fieldModel->getName())))
+						) {
 							$labelGroup = "$parentFieldNameLabel: ($relatedModuleLang) " . Language::translate($blockModel->get('label'), $relatedModule);
 							$variables[$parentFieldName][$labelGroup][] = [
 								'var_value' => "$(relatedRecord : $parentFieldName|$fieldName|$relatedModule)$",
@@ -1225,6 +1336,59 @@ class TextParser
 			}
 		}
 		static::$relatedVariable[$cacheKey] = $variables;
+		return $variables;
+	}
+
+	/**
+	 * Get related variables.
+	 *
+	 * @param bool|string $fieldType
+	 *
+	 * @return array
+	 */
+	public function getRelatedLevelVariable($fieldType = false)
+	{
+		$cacheKey = "{$this->moduleName}|$fieldType";
+		if (isset(static::$relatedVariableLevel[$cacheKey])) {
+			return static::$relatedVariableLevel[$cacheKey];
+		}
+		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
+		$variables = [];
+		foreach ($moduleModel->getFieldsByType(array_merge(\Vtiger_Field_Model::$referenceTypes, ['userCreator', 'owner'])) as $parentFieldName => $fieldModel) {
+			if ('owner' === $fieldModel->getFieldDataType()) {
+				$relatedModules = ['Users'];
+			} else {
+				$relatedModules = $fieldModel->getReferenceList();
+			}
+			$parentFieldNameLabel = Language::translate($fieldModel->getFieldLabel(), $this->moduleName);
+			foreach ($relatedModules as $relatedModule) {
+				$relatedModuleLang = Language::translate($relatedModule, $relatedModule);
+				foreach (\Vtiger_Module_Model::getInstance($relatedModule)->getFieldsByType(array_merge(\Vtiger_Field_Model::$referenceTypes, ['userCreator', 'owner', 'sharedOwner'])) as $parentFieldNameNextLevel => $fieldModelNextLevel) {
+					if ('owner' === $fieldModelNextLevel->getFieldDataType() || 'sharedOwner' === $fieldModelNextLevel->getFieldDataType()) {
+						$relatedModulesNextLevel = ['Users'];
+					} else {
+						$relatedModulesNextLevel = $fieldModelNextLevel->getReferenceList();
+					}
+					$parentFieldNameLabelNextLevel = Language::translate($fieldModelNextLevel->getFieldLabel(), $relatedModule);
+					foreach ($relatedModulesNextLevel as $relatedModuleNextLevel) {
+						$relatedModuleLangNextLevel = Language::translate($relatedModuleNextLevel, $relatedModuleNextLevel);
+						foreach (\Vtiger_Module_Model::getInstance($relatedModuleNextLevel)->getBlocks() as $blockModel) {
+							foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
+								if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {
+									$labelGroup = "{$parentFieldNameLabel}($relatedModuleLang) -> {$parentFieldNameLabelNextLevel}($relatedModuleLangNextLevel) " . Language::translate($blockModel->get('label'), $relatedModuleNextLevel);
+									$variables[$labelGroup][] = [
+										'var_value' => "$(relatedRecordLevel : $parentFieldName|$relatedModule|$parentFieldNameNextLevel|$fieldName|$relatedModuleNextLevel)$",
+										'var_label' => "$(translate : $relatedModuleNextLevel|{$fieldModel->getFieldLabel()})$",
+										'label' => "{$parentFieldNameLabel}($relatedModuleLang) -> {$parentFieldNameLabelNextLevel}($relatedModuleLangNextLevel) " . Language::translate($fieldModel->getFieldLabel(), $relatedModuleNextLevel),
+									];
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		static::$relatedVariableLevel[$cacheKey] = $variables;
 		return $variables;
 	}
 
@@ -1420,7 +1584,8 @@ class TextParser
 		if (!$length) {
 			$length = \App\Config::main('listview_max_textlength');
 		}
-		if (mb_strlen($text) > $length) {
+		$textLength = mb_strlen($text);
+		if ((!$addDots && $textLength > $length) || ($addDots && $textLength > $length + 2)) {
 			$text = mb_substr($text, 0, $length, \App\Config::main('default_charset'));
 			if ($addDots) {
 				$text .= '...';

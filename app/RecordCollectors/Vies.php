@@ -73,10 +73,12 @@ class Vies extends Base
 				'SI' => 'Slovenia',
 				'SK' => 'Slovakia',
 			],
+			'typeofdata' => 'V~M'
 		],
 		'vatNumber' => [
 			'labelModule' => '_Base',
-			'label' => 'Vat ID'
+			'label' => 'Vat ID',
+			'typeofdata' => 'V~M'
 		],
 	];
 	/**
@@ -129,7 +131,7 @@ class Vies extends Base
 		}
 		$countryCode = $this->request->getByType('countryCode', 'Standard');
 		$response = [];
-		if ($client = new \SoapClient($this->url, ['trace' => true])) {
+		if ($client = new \SoapClient($this->url, \App\RequestHttp::getSoapOptions())) {
 			$params = ['countryCode' => $countryCode, 'vatNumber' => $vatNumber];
 			try {
 				$r = $client->checkVat($params);

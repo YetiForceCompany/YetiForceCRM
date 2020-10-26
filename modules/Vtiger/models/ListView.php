@@ -63,10 +63,11 @@ class Vtiger_ListView_Model extends \App\Base
 	 *
 	 * @param string $value        - Module Name
 	 * @param mixed  $sourceModule
+	 * @param int    $cvId
 	 *
 	 * @return Vtiger_ListView_Model instance
 	 */
-	public static function getInstanceForPopup($value, $sourceModule = false)
+	public static function getInstanceForPopup($value, $sourceModule = false, int $cvId = 0)
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $value);
 		$instance = new $modelClassName();
@@ -75,7 +76,13 @@ class Vtiger_ListView_Model extends \App\Base
 		if (!$sourceModule && !empty($sourceModule)) {
 			$moduleModel->set('sourceModule', $sourceModule);
 		}
-		$moduleModel->getModalRecordsListFields($queryGenerator, $sourceModule);
+		if ($cvId) {
+			$instance->set('viewId', $cvId);
+			$queryGenerator->initForCustomViewById($cvId);
+		} else {
+			$moduleModel->getModalRecordsListFields($queryGenerator, $sourceModule);
+		}
+
 		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
 	}
 

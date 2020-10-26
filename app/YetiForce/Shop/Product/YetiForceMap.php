@@ -24,11 +24,11 @@ class YetiForceMap extends \App\YetiForce\Shop\AbstractBaseProduct
 	 * {@inheritdoc}
 	 */
 	public $prices = [
-		'Micro' => 40,
-		'Small' => 100,
-		'Medium' => 200,
-		'Large' => 400,
-		'Corporation' => 2000,
+		'Micro' => 20,
+		'Small' => 50,
+		'Medium' => 100,
+		'Large' => 250,
+		'Corporation' => 1250,
 	];
 
 	/**

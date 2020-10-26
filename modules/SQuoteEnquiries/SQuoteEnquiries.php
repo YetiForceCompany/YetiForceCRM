@@ -53,11 +53,7 @@ class SQuoteEnquiries extends Vtiger_CRMEntity
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
 	public $search_fields = [];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'LBL_SUBJECT' => 'subject',
-		'Assigned To' => 'assigned_user_id',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['subject'];
 	// For Alphabetical search

@@ -5,6 +5,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -722,8 +723,14 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	protected function getQuery($filter)
 	{
 		$request = \App\Request::init();
-		$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
-		$queryGenerator->initForCustomViewById($filter);
+		if ($this->getExtraData('relation_id') && $this->getExtraData('recordId')) {
+			$relationModelInstance = Vtiger_Relation_Model::getInstanceById($this->getExtraData('relation_id'));
+			$relationModelInstance->set('parentRecord', Vtiger_Record_Model::getInstanceById($this->getExtraData('recordId'), \App\Module::getModuleName($this->widgetModel->get('tabid'))));
+			$queryGenerator = $relationModelInstance->getQuery();
+		} else {
+			$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
+			$queryGenerator->initForCustomViewById($filter);
+		}
 		$this->queryGeneratorModuleName = $queryGenerator->getModuleModel()->getName();
 		if (!empty($this->groupName)) {
 			$queryGenerator->setField($this->groupName);

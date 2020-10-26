@@ -30,7 +30,7 @@
 				<table class="table table-bordered table-sm themeTableColor">
 					<thead>
 						<tr class="blockHeader"><th colspan="2" class="mediumWidthType">
-							<span class="mdi mdi-textbox-password mr-2"></span>
+							<span class="mdi mdi-form-textbox-password mr-2"></span>
 							{\App\Language::translate('LBL_Password_Header', $QUALIFIED_MODULE)}
 						</th></tr>
 					</thead>

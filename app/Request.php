@@ -478,7 +478,11 @@ class Request
 			foreach ($_SERVER as $key => $value) {
 				if ('HTTP_' === substr($key, 0, 5)) {
 					$key = str_replace(' ', '-', \strtolower(str_replace('_', ' ', substr($key, 5))));
-					$data[$key] = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
+					if ('' !== $value) {
+						$data[$key] = isset($this->headersPurifierMap[$key]) ? Purifier::purifyByType($value, $this->headersPurifierMap[$key]) : Purifier::purify($value);
+					} else {
+						$data[$key] = '';
+					}
 				}
 			}
 		} else {

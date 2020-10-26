@@ -358,7 +358,10 @@ Vtiger_Edit_Js(
 					dateStart.val(data.result.date_start);
 					container.find('[name="due_date"]').val(data.result.date_start);
 				} else {
-					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR_MAX_VALUE'));
+					app.showNotify({
+						text: app.vtranslate('JS_ERROR_MAX_VALUE'),
+						type: 'error'
+					});
 					container.find('.js-autofill').prop('checked', false).trigger('change');
 				}
 			});
@@ -601,7 +604,7 @@ Vtiger_Edit_Js(
 							participantsContent.append(participantRow);
 						});
 					} else {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: app.vtranslate('JS_DUPLICATE_RECORD') + ': ' + selected.fullLabel,
 							type: 'info'
 						});
@@ -659,9 +662,11 @@ Vtiger_Edit_Js(
 				self.validateHolidayDate(form).done(function (isHoliday) {
 					if (lockSave && isHoliday) {
 						e.preventDefault();
-						app.showConfirmModal(app.vtranslate('JS_DATES_SELECTED_HOLIDAYS'), function () {
-							lockSave = false;
-							form.submit();
+						app.showConfirmModal(app.vtranslate('JS_DATES_SELECTED_HOLIDAYS'), function (s) {
+							if (s) {
+								lockSave = false;
+								form.submit();
+							}
 						});
 					}
 				});

@@ -48,7 +48,7 @@ class Security
 	public static $PERMITTED_BY_ADVANCED_PERMISSION = true;
 
 	/** Permitted by private field. */
-	public static $PERMITTED_BY_PRIVATE_FIELD = true;
+	public static $PERMITTED_BY_PRIVATE_FIELD = false;
 
 	/** List of modules to which access is based on the record creation. */
 	public static $permittedModulesByCreatorField = [];
@@ -89,8 +89,15 @@ class Security
 	/** Lifetime session (in seconds) */
 	public static $MAX_LIFETIME_SESSION = 21600;
 
+	/** Maximum session lifetime from the time it was created (in minutes) */
+	public static $API_CREATE_LIFETIME_SESSION = 1440;
+
+	/** Maximum session lifetime since the last modification (in minutes) */
+	public static $API_UPDATE_LIFETIME_SESSION = 240;
+
 	/**
 	 * User authentication mode.
+	 *
 	 * @see \Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.
 	 */
 	public static $USER_AUTHY_MODE = 'TOTP_OFF';
@@ -139,11 +146,7 @@ class Security
 	];
 
 	/** Allowed domains for loading images, used in CSP. */
-	public static $allowedImageDomains = [
-		'a.tile.openstreetmap.org',
-		'b.tile.openstreetmap.org',
-		'c.tile.openstreetmap.org',
-	];
+	public static $allowedImageDomains = ['*.tile.openstreetmap.org'];
 
 	/** Allowed domains for loading script, used in CSP. */
 	public static $allowedScriptDomains = ['https://appsforoffice.microsoft.com', 'https://ajax.aspnetcdn.com'];
@@ -156,4 +159,22 @@ class Security
 
 	/** List of allowed domains for fields with HTML support */
 	public static $purifierAllowedDomains = ['yetiforce.com', 'github.com'];
+
+	/** Do you want all connections to be made using a proxy? */
+	public static $proxyConnection = false;
+
+	/** Proxy host */
+	public static $proxyHost = '';
+
+	/** Proxy host */
+	public static $proxyProtocol = 'http';
+
+	/** Proxy port */
+	public static $proxyPort = 0;
+
+	/** Proxy login */
+	public static $proxyLogin = '';
+
+	/** Proxy password */
+	public static $proxyPassword = '';
 }

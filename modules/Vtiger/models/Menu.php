@@ -71,16 +71,18 @@ class Vtiger_Menu_Model
 			if (\count($parentMenu) > 0) {
 				$breadcrumbs = array_reverse($parentMenu);
 			}
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			if ($moduleModel && $moduleModel->getDefaultUrl()) {
-				$breadcrumbs[] = [
-					'name' => \App\Language::translate($moduleName, $moduleName),
-					'url' => $moduleModel->getDefaultUrl(),
-				];
-			} else {
-				$breadcrumbs[] = [
-					'name' => \App\Language::translate($moduleName, $moduleName),
-				];
+			if ('AppComponents' !== $moduleName) {
+				$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+				if ($moduleModel && $moduleModel->getDefaultUrl()) {
+					$breadcrumbs[] = [
+						'name' => \App\Language::translate($moduleName, $moduleName),
+						'url' => $moduleModel->getDefaultUrl(),
+					];
+				} else {
+					$breadcrumbs[] = [
+						'name' => \App\Language::translate($moduleName, $moduleName),
+					];
+				}
 			}
 			if ($pageTitle) {
 				$breadcrumbs[] = ['name' => $pageTitle];

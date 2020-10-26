@@ -2,7 +2,7 @@
 [![Latest Stable Version](https://poser.pugx.org/yetiforce/yetiforce-crm/v/stable)](https://packagist.org/packages/yetiforce/yetiforce-crm)
 ![release date](https://img.shields.io/github/release-date/YetiForceCompany/YetiForceCRM)
 ![PHP Version](https://img.shields.io/packagist/php-v/yetiforce/yetiforce-crm)
-[![Build Status](https://travis-ci.org/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.org/YetiForceCompany/YetiForceCRM)
+[![Build Status](https://travis-ci.com/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.com/YetiForceCompany/YetiForceCRM)
 [![Download YetiForce CRM](https://img.shields.io/sourceforge/dt/yetiforce.svg)](https://sourceforge.net/projects/yetiforce/files/latest/download)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/yetiforcecrm/localized.svg)](https://crowdin.com/project/yetiforcecrm)
 [![Backers on Open Collective](https://opencollective.com/YetiForceCRM/backers/badge.svg)](#backers)
@@ -42,19 +42,17 @@ We design an innovative CRM system that is dedicated for large and medium sized 
 
 ## Read the documentation to learn more.
 
-#### Video Tutorials: [youtube.com](https://www.youtube.com/playlist?list=PLX0lktP3Kukg_Da-TaEBys-aON68Yy2vh)
+#### :video_camera: Video Tutorials: [Video Tutorials on YouTube](https://www.youtube.com/playlist?list=PLX0lktP3Kukg_Da-TaEBys-aON68Yy2vh) , [Video Tutorials on our server](https://public.yetiforce.com/Tutorials/)
 
-#### Knowledge base: https://yetiforce.com/en/knowledge-base/documentation
+#### :blue_book: Knowledge base: [yetiforce.com/en/knowledge-base/documentation](https://yetiforce.com/en/knowledge-base/documentation) 
 
-#### Code Documentation: https://doc.yetiforce.com/code/
+#### :computer: Code Documentation: [doc.yetiforce.com/code/](https://doc.yetiforce.com/code/) 
 
-#### API documentation: https://doc.yetiforce.com/api/ (in progres)
+#### :globe_with_meridians: API documentation: [doc.yetiforce.com/api/](https://doc.yetiforce.com/api/) (in progres)
 
 Join our [LinkedIn group](https://www.linkedin.com/groups/8177576) and connect with other users and community members to discuss topics surrounding CRM and YetiForce.
 
 Follow us on [Twitter](https://twitter.com/YetiForceEN) or like on [FaceBook](https://www.facebook.com/YetiForce-CRM-158646854306054/?ref=aymt_homepage_panel) to get real-time info about new articles and functionalities.
-
-Visit our [online store](https://yetiforce.shop/) with commercial modules and support packages.
 
 ## Where else can you find YetiForce?
 
@@ -62,7 +60,7 @@ Visit our [online store](https://yetiforce.shop/) with commercial modules and su
 -   [Softaculous](http://www.softaculous.com/apps/erp/YetiForce)
 -   [Packagist](https://packagist.org/packages/yetiforce/yetiforce-crm)
 -   [Development version](https://download.yetiforce.com/developer.zip) - full package (yarn + composer)
--   [Docker](tests/setup/docker.md) - docker container (in progres)
+-   [Docker](tests/setup/docker.md) - docker container
 
 1. Installation [our website](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/crm-installation)
 2. The lists of changes for previous versions of YetiForce CRM are available at [our website](https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/category/changes).

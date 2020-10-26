@@ -2,7 +2,6 @@
 {strip}
 	<div class="tpl-Base-ConditionBuilder-Percentage input-group input-group-sm">
 		<input class="form-control js-condition-builder-value"
-			   type="number"
 			   data-js="val"
 			   title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModuleName())}"
 			   value="{\App\Purifier::encodeHtml($VALUE)}"

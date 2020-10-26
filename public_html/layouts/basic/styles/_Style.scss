@@ -838,13 +838,7 @@ hr {
 		background: -moz-linear-gradient(top, #7d7e7d 0%, #0e0e0e 100%);
 
 		/* FF3.6+ */
-		background: -webkit-gradient(
-			linear,
-			left top,
-			left bottom,
-			color-stop(0%, #7d7e7d),
-			color-stop(100%, #0e0e0e)
-		);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7d7e7d), color-stop(100%, #0e0e0e));
 
 		/* Chrome,Safari4+ */
 		background: -webkit-linear-gradient(top, #7d7e7d 0%, #0e0e0e 100%);
@@ -871,15 +865,7 @@ hr {
 		background: -moz-linear-gradient(top, #ffb76b 0%, #ffa73d 0%, #ff7c00 49%, #ff7f04 100%);
 
 		/* FF3.6+ */
-		background: -webkit-gradient(
-			linear,
-			left top,
-			left bottom,
-			color-stop(0%, #ffb76b),
-			color-stop(0%, #ffa73d),
-			color-stop(49%, #ff7c00),
-			color-stop(100%, #ff7f04)
-		);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffb76b), color-stop(0%, #ffa73d), color-stop(49%, #ff7c00), color-stop(100%, #ff7f04));
 
 		/* Chrome,Safari4+ */
 		background: -webkit-linear-gradient(top, #ffb76b 0%, #ffa73d 0%, #ff7c00 49%, #ff7f04 100%);
@@ -906,15 +892,7 @@ hr {
 		background: -moz-linear-gradient(top, #bfd255 0%, #8eb92a 79%, #72aa00 100%, #9ecb2d 100%);
 
 		/* FF3.6+ */
-		background: -webkit-gradient(
-			linear,
-			left top,
-			left bottom,
-			color-stop(0%, #bfd255),
-			color-stop(79%, #8eb92a),
-			color-stop(100%, #72aa00),
-			color-stop(100%, #9ecb2d)
-		);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #bfd255), color-stop(79%, #8eb92a), color-stop(100%, #72aa00), color-stop(100%, #9ecb2d));
 
 		/* Chrome,Safari4+ */
 		background: -webkit-linear-gradient(top, #bfd255 0%, #8eb92a 79%, #72aa00 100%, #9ecb2d 100%);
@@ -1251,10 +1229,6 @@ hr {
 #massEdit .cancelLinkContainer {
 	padding: 5px 0;
 	margin-left: 0.5em;
-}
-
-.ui-pnotify {
-	z-index: 1000023;
 }
 
 /*Feedback UI*/
@@ -1960,36 +1934,13 @@ span[name="existingImages"] img {
 	}
 }
 
-.mailsList .container-fluid > .row {
-	&:not(:first-child) {
-		border-bottom: 1px solid #ddd;
-	}
-
-	margin-right: -10px;
-	margin-left: -10px;
-	padding: 4px 0;
-}
-
 .container-fluid > .row {
 	&:first-child {
 		margin-bottom: 10px;
 		padding-right: 5px;
 	}
-
 	margin-left: 0;
 	margin-right: 0;
-}
-
-.mailsList {
-	.container-fluid > .row:last-child {
-		border-bottom: 0;
-	}
-
-	.smalSeparator {
-		display: block;
-		height: 5px;
-		width: 70px;
-	}
 }
 
 .summaryWidgetContainer .widgetContent hr {
@@ -1997,8 +1948,16 @@ span[name="existingImages"] img {
 }
 
 .mailsList {
-	.row {
+	.content {
 		background-color: #fff;
+
+		.mailActions.d-flex {
+			display: none !important;
+		}
+
+		:hover .mailActions.d-flex {
+			display: flex !important;
+		}
 
 		&.even {
 			background-color: #faf8f8;
@@ -2050,15 +2009,11 @@ span[name="existingImages"] img {
 	background-color: #5bc0de;
 	border-color: #46b8da;
 	display: block;
-	padding: 6px 8px;
-	height: 32px;
-	width: 32px;
-	font-size: calculate-rem(16px);
+	height: 2.5rem;
+	width: 2.5rem;
+	min-width: 2.5rem;
+	font-size: 1.55rem;
 	text-align: center;
-	margin: 0 7px 3px 0;
-	-webkit-box-shadow: 0 0 8px -1px rgba(156, 156, 156, 1);
-	-moz-box-shadow: 0 0 8px -1px rgba(156, 156, 156, 1);
-	box-shadow: 0 0 8px -1px rgba(156, 156, 156, 1);
 }
 
 .modal-blg iframe {
@@ -2156,6 +2111,11 @@ body,
 	display: block;
 	width: 48px;
 	padding: 5px;
+
+	img {
+		height: calculate-rem(40px);
+		width: calculate-rem(40px);
+	}
 }
 
 .userDetails ul.headerLink li {
@@ -3493,8 +3453,8 @@ select {
 }
 
 .tableBorderHeadBody {
-	thead,
-	tbody {
+	> thead,
+	> tbody {
 		border: 1px solid #ddd;
 	}
 }

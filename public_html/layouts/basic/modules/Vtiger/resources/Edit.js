@@ -55,7 +55,7 @@ $.Class(
 		},
 		getInstance: function () {
 			if (Vtiger_Edit_Js.editInstance == false) {
-				var instance = Vtiger_Edit_Js.getInstanceByModuleName();
+				let instance = Vtiger_Edit_Js.getInstanceByModuleName();
 				Vtiger_Edit_Js.editInstance = instance;
 				return instance;
 			}
@@ -74,14 +74,19 @@ $.Class(
 		},
 		setForm: function (element) {
 			this.formElement = element;
+			let module;
+			if ((module = $('input[name="module"]', element))) {
+				this.moduleName = module.val();
+			}
 			return this;
 		},
 		getRecordsListParams: function (container) {
-			let sourceModule = app.getModuleName();
+			let formElement = container.closest('form');
+			let sourceModule = $('input[name="module"]', formElement).val();
 			let popupReferenceModule = $('input[name="popupReferenceModule"]', container).val();
 			let sourceFieldElement = $('input[class="sourceField"]', container);
 			let sourceField = sourceFieldElement.attr('name');
-			let sourceRecordElement = $('input[name="record"]');
+			let sourceRecordElement = $('input[name="record"]', formElement);
 			let sourceRecordId = '';
 			if (sourceRecordElement.length > 0) {
 				sourceRecordId = sourceRecordElement.val();
@@ -91,17 +96,23 @@ $.Class(
 				isMultiple = true;
 			}
 			let filterFields = {};
-			let formElement = container.closest('form');
 			let mappingRelatedField = formElement.find('input[name="mappingRelatedField"]').val();
 			let mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
-			if (
-				mappingRelatedModule[sourceField] != undefined &&
-				mappingRelatedModule[sourceField][popupReferenceModule] != undefined
-			) {
+			if (mappingRelatedModule[sourceField] != undefined && mappingRelatedModule[sourceField][popupReferenceModule] != undefined) {
 				$.each(mappingRelatedModule[sourceField][popupReferenceModule], function (index, value) {
 					let mapFieldElement = formElement.find('[name="' + index + '"]');
 					if (mapFieldElement.length && mapFieldElement.val() != '') {
 						filterFields[index] = mapFieldElement.val();
+					}
+				});
+			}
+			let listFilterFieldsJson = formElement.find('input[name="listFilterFields"]').val();
+			let listFilterFields = listFilterFieldsJson ? JSON.parse(listFilterFieldsJson) : [];
+			if (listFilterFields) {
+				$.each(listFilterFields, function (index, value) {
+					let mapFieldElement = formElement.find('[name="' + value + '"]');
+					if (mapFieldElement.length && mapFieldElement.val() != '') {
+						filterFields[value] = mapFieldElement.val();
 					}
 				});
 			}
@@ -132,11 +143,11 @@ $.Class(
 		 * @param {jQuery.Event} e
 		 */
 		showRecordsList: function (e) {
-			var parentElem = $(e.target).closest('.fieldValue');
+			let parentElem = $(e.target).closest('.fieldValue');
 			if (parentElem.length <= 0) {
 				parentElem = $(e.target).closest('td');
 			}
-			var params = this.getRecordsListParams(parentElem);
+			let params = this.getRecordsListParams(parentElem);
 			app.showRecordsList(params, (modal, instance) => {
 				instance.setSelectEvent((data) => {
 					this.setReferenceFieldValue(parentElem, data);
@@ -168,11 +179,7 @@ $.Class(
 				return params;
 			}
 			let formElement = container.closest('form');
-			let mappingRelatedField = this.getMappingRelatedField(
-				sourceField,
-				popupReferenceModule,
-				formElement
-			);
+			let mappingRelatedField = this.getMappingRelatedField(sourceField, popupReferenceModule, formElement);
 			if (typeof mappingRelatedField !== 'undefined') {
 				let params = {
 					module: popupReferenceModule,
@@ -185,62 +192,41 @@ $.Class(
 						if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
 							let mapFieldElement = formElement.find('[name="' + key + '"]');
 							let fieldinfo = mapFieldElement.data('fieldinfo');
-							if (
-								data['result']['type'][value[0]] === 'date' ||
-								data['result']['type'][value[0]] === 'datetime'
-							) {
+							if (data['result']['type'][value[0]] === 'date' || data['result']['type'][value[0]] === 'datetime') {
 								mapFieldElement.val(data['result']['displayData'][value[0]]);
 							} else if (data['result']['type'][value[0]] === 'multipicklist') {
 								let mapFieldElementMultiselect = formElement.find('[name="' + key + '[]"]');
 								if (mapFieldElementMultiselect.length > 0) {
 									let multipleAttr = mapFieldElement.attr('multiple');
 									let splitValues = response[value[0]].split(' |##| ');
-									if (
-										typeof multipleAttr !== 'undefined' &&
-										multipleAttr !== false &&
-										splitValues.length > 0
-									) {
+									if (typeof multipleAttr !== 'undefined' && multipleAttr !== false && splitValues.length > 0) {
 										mapFieldElementMultiselect.val(splitValues).trigger('change');
 									}
 								}
 							} else if (mapFieldElement.is('select')) {
 								if (mapFieldElement.find('option[value="' + response[value[0]] + '"]').length) {
 									mapFieldElement.val(response[value[0]]).trigger('change');
-								} else if (
-									mapFieldElement
-										.data('fieldinfo')
-										.picklistvalues.hasOwnProperty(response[value[0]])
-								) {
+								} else if (mapFieldElement.data('fieldinfo').picklistvalues.hasOwnProperty(response[value[0]])) {
 									let newOption = new Option(response[value[0]], response[value[0]], true, true);
 									mapFieldElement.append(newOption).trigger('change');
 								}
 							} else if (mapFieldElement.length == 0) {
-								$("<input type='hidden'/>")
-									.attr('name', key)
-									.attr('value', response[value[0]])
-									.appendTo(formElement);
+								$("<input type='hidden'/>").attr('name', key).attr('value', response[value[0]]).appendTo(formElement);
 							} else {
 								mapFieldElement.val(response[value[0]]);
 							}
 							let mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
 							if (mapFieldDisplayElement.length > 0) {
-								mapFieldDisplayElement
-									.val(data['result']['displayData'][value[0]])
-									.attr('readonly', true);
+								mapFieldDisplayElement.val(data['result']['displayData'][value[0]]).attr('readonly', true);
 								if (fieldinfo.type === 'reference') {
-									let referenceModulesList = mapFieldElement
-										.closest('.fieldValue')
-										.find('.referenceModulesList');
+									let referenceModulesList = mapFieldElement.closest('.fieldValue').find('.referenceModulesList');
 									if (referenceModulesList.length > 0 && value[1]) {
 										referenceModulesList.val(value[1]).trigger('change');
 									}
-									thisInstance.setReferenceFieldValue(
-										mapFieldDisplayElement.closest('.fieldValue'),
-										{
-											name: data['result']['displayData'][value[0]],
-											id: response[value[0]]
-										}
-									);
+									thisInstance.setReferenceFieldValue(mapFieldDisplayElement.closest('.fieldValue'), {
+										name: data['result']['displayData'][value[0]],
+										id: response[value[0]]
+									});
 								}
 							}
 						}
@@ -248,9 +234,22 @@ $.Class(
 				});
 			}
 		},
+		setFieldValue: function (params) {
+			let fieldElement = this.getForm().find(`[name="${params['fieldName']}"]`);
+			let fieldinfo = fieldElement.data('fieldinfo');
+			if (fieldElement.is('select')) {
+				if (fieldElement.find(`option[value="${params['value']}"]`).length) {
+					fieldElement.val(params['value']).trigger('change');
+				} else if (fieldinfo.picklistvalues.hasOwnProperty(params['value'])) {
+					fieldElement.append(new Option(params['value'], params['value'], true, true)).trigger('change');
+				}
+			} else {
+				fieldElement.val(params['value']);
+			}
+		},
 		getRelationOperation: function () {
 			if (this.relationOperation === '') {
-				var relationOperation = $('[name="relationOperation"]');
+				let relationOperation = $('[name="relationOperation"]');
 				if (relationOperation.length) {
 					this.relationOperation = relationOperation.val();
 				} else {
@@ -260,7 +259,7 @@ $.Class(
 			return this.relationOperation;
 		},
 		getMappingValuesFromUrl: function (key) {
-			var relationOperation = this.getRelationOperation();
+			let relationOperation = this.getRelationOperation();
 			if (relationOperation) {
 				return app.getUrlVar(key);
 			}
@@ -296,16 +295,13 @@ $.Class(
 			return $('input[name="popupReferenceModule"]', parenElement).val();
 		},
 		searchModuleNames: function (params) {
-			var aDeferred = $.Deferred();
-
+			let aDeferred = $.Deferred();
 			if (typeof params.module === 'undefined') {
-				params.module = app.getModuleName();
+				params.module = this.moduleName;
 			}
-
 			if (typeof params.action === 'undefined') {
 				params.action = 'BasicAjax';
 			}
-
 			AppConnector.request(params)
 				.done(function (data) {
 					aDeferred.resolve(data);
@@ -319,9 +315,9 @@ $.Class(
 		 * Function to get reference search params
 		 */
 		getReferenceSearchParams: function (element) {
-			var tdElement = $(element).closest('.fieldValue');
-			var params = {};
-			var searchModule = this.getReferencedModuleName(tdElement);
+			let tdElement = $(element).closest('.fieldValue');
+			let params = {};
+			let searchModule = this.getReferencedModuleName(tdElement);
 			params.search_module = searchModule;
 			return params;
 		},
@@ -330,22 +326,22 @@ $.Class(
 		 * @params - container <jQuery> - element in which auto complete fields needs to be searched
 		 */
 		registerAutoCompleteFields: function (container) {
-			var thisInstance = this;
+			let thisInstance = this;
 			container.find('input.autoComplete').autocomplete({
 				delay: '600',
 				minLength: '3',
 				source: function (request, response) {
 					//element will be array of dom elements
 					//here this refers to auto complete instance
-					var inputElement = $(this.element[0]);
-					var searchValue = request.term;
-					var params = thisInstance.getReferenceSearchParams(inputElement);
+					let inputElement = $(this.element[0]);
+					let searchValue = request.term;
+					let params = thisInstance.getReferenceSearchParams(inputElement);
 					params.search_value = searchValue;
 					//params.parent_id = app.getRecordId();
 					//params.parent_module = app.getModuleName();
 					thisInstance.searchModuleNames(params).done(function (data) {
-						var reponseDataList = [];
-						var serverDataFormat = data.result;
+						let reponseDataList = [];
+						let serverDataFormat = data.result;
 						if (serverDataFormat.length <= 0) {
 							$(inputElement).val('');
 							serverDataFormat = new Array({
@@ -353,8 +349,8 @@ $.Class(
 								type: 'no results'
 							});
 						}
-						for (var id in serverDataFormat) {
-							var responseData = serverDataFormat[id];
+						for (let id in serverDataFormat) {
+							let responseData = serverDataFormat[id];
 							reponseDataList.push(responseData);
 						}
 						response(reponseDataList);
@@ -365,21 +361,18 @@ $.Class(
 					});
 				},
 				select: function (event, ui) {
-					var selectedItemData = ui.item;
+					let selectedItemData = ui.item;
 					//To stop selection if no results is selected
-					if (
-						typeof selectedItemData.type !== 'undefined' &&
-						selectedItemData.type == 'no results'
-					) {
+					if (typeof selectedItemData.type !== 'undefined' && selectedItemData.type == 'no results') {
 						return false;
 					}
 					selectedItemData.name = selectedItemData.value;
-					var element = $(this);
-					var tdElement = element.closest('.fieldValue');
+					let element = $(this);
+					let tdElement = element.closest('.fieldValue');
 					thisInstance.setReferenceFieldValue(tdElement, selectedItemData);
 				},
 				change: function (event, ui) {
-					var element = $(this);
+					let element = $(this);
 					//if you dont have readonly attribute means the user didnt select the item
 					if (element.attr('readonly') == undefined) {
 						element.closest('.fieldValue').find('.clearReferenceSelection').trigger('click');
@@ -396,14 +389,11 @@ $.Class(
 		 * @params - container <jQuery> - element in which auto complete fields needs to be searched
 		 */
 		registerClearReferenceSelectionEvent: function (container) {
-			var thisInstance = this;
+			let thisInstance = this;
 			container.on('click', '.clearReferenceSelection', function (e) {
-				var element = $(e.currentTarget);
+				let element = $(e.currentTarget);
 				thisInstance.clearFieldValue(element);
-				element
-					.closest('.fieldValue')
-					.find('.sourceField')
-					.trigger(Vtiger_Edit_Js.referenceDeSelectionEvent);
+				element.closest('.fieldValue').find('.sourceField').trigger(Vtiger_Edit_Js.referenceDeSelectionEvent);
 				e.preventDefault();
 			});
 		},
@@ -427,11 +417,7 @@ $.Class(
 				fieldName: fieldName,
 				referenceModule: referenceModule
 			});
-			let mappingRelatedField = this.getMappingRelatedField(
-				fieldName,
-				referenceModule,
-				formElement
-			);
+			let mappingRelatedField = this.getMappingRelatedField(fieldName, referenceModule, formElement);
 			$.each(mappingRelatedField, function (key, value) {
 				let mapFieldElement = formElement.find('[name="' + key + '"]');
 				if (mapFieldElement.is('select')) {
@@ -442,13 +428,9 @@ $.Class(
 				let mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
 				if (mapFieldDisplayElement.length > 0) {
 					mapFieldDisplayElement.val('').attr('readonly', false);
-					var referenceModulesList = formElement.find(
-						'#' + self.moduleName + '_editView_fieldName_' + key + '_dropDown'
-					);
+					let referenceModulesList = formElement.find('#' + self.moduleName + '_editView_fieldName_' + key + '_dropDown');
 					if (referenceModulesList.length > 0 && value[1]) {
-						referenceModulesList
-							.val(referenceModulesList.find('option:first').val())
-							.trigger('change');
+						referenceModulesList.val(referenceModulesList.find('option:first').val()).trigger('change');
 					}
 				}
 			});
@@ -460,7 +442,7 @@ $.Class(
 		registerPreventingEnterSubmitEvent: function (container) {
 			container.on('keypress', function (e) {
 				//Stop the submit when enter is pressed in the form
-				var currentElement = $(e.target);
+				let currentElement = $(e.target);
 				if (e.which == 13 && !currentElement.is('textarea')) {
 					e.preventDefault();
 				}
@@ -472,18 +454,18 @@ $.Class(
 			App.Fields.DateTime.register(container);
 		},
 		referenceCreateHandler: function (container) {
-			var thisInstance = this;
-			var postQuickCreateSave = function (data) {
+			let thisInstance = this;
+			let postQuickCreateSave = function (data) {
 				thisInstance.setReferenceFieldValue(container, {
 					name: data.result._recordLabel,
 					id: data.result._recordId
 				});
 			};
-			var params = { callbackFunction: postQuickCreateSave };
+			let params = { callbackFunction: postQuickCreateSave };
 			if (app.getViewName() === 'Edit' && !app.getRecordId()) {
-				var formElement = this.getForm();
-				var formData = formElement.serializeFormData();
-				for (var i in formData) {
+				let formElement = this.getForm();
+				let formData = formElement.serializeFormData();
+				for (let i in formData) {
 					if (!formData[i] || $.inArray(i, ['_csrf', 'action']) != -1) {
 						delete formData[i];
 					}
@@ -491,7 +473,7 @@ $.Class(
 				params.data = {};
 				params.data.sourceRecordData = formData;
 			}
-			var referenceModuleName = this.getReferencedModuleName(container);
+			let referenceModuleName = this.getReferencedModuleName(container);
 			Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, params);
 		},
 		/**
@@ -499,10 +481,10 @@ $.Class(
 		 * This will allow users to create reference record from edit view of other record
 		 */
 		registerReferenceCreate: function (container) {
-			var thisInstance = this;
+			let thisInstance = this;
 			container.on('click', '.createReferenceRecord', function (e) {
-				var element = $(e.currentTarget);
-				var controlElementDiv = element.closest('.fieldValue');
+				let element = $(e.currentTarget);
+				let controlElementDiv = element.closest('.fieldValue');
 				thisInstance.referenceCreateHandler(controlElementDiv);
 			});
 		},
@@ -531,65 +513,66 @@ $.Class(
 		 * Function to register event for copying addresses
 		 */
 		registerEventForCopyAddress: function () {
-			var thisInstance = this;
-			var account_id = false;
-			var contact_id = false;
-			var lead_id = false;
-			var vendor_id = false;
-			$(
-				'#EditView .js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldValue, #EditView .js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldLabel'
-			).each(function (index) {
-				var block = $(this);
-				var referenceModulesList = false;
-				var relatedField = block.find('[name="popupReferenceModule"]').val();
-				if (relatedField == 'Accounts') {
-					account_id = block.find('.sourceField').attr('name');
-				}
-				if (relatedField == 'Contacts') {
-					contact_id = block.find('.sourceField').attr('name');
-				}
-				if (relatedField == 'Leads') {
-					lead_id = block.find('.sourceField').attr('name');
-				}
-				if (relatedField == 'Vendors') {
-					vendor_id = block.find('.sourceField').attr('name');
-				}
-				referenceModulesList = block.find('.referenceModulesList');
-				if (referenceModulesList.length > 0) {
-					$.each(referenceModulesList.find('option'), function (key, data) {
-						if (data.value == 'Accounts') {
-							account_id = block.find('.sourceField').attr('name');
-						}
-						if (data.value == 'Contacts') {
-							contact_id = block.find('.sourceField').attr('name');
-						}
-						if (data.value == 'Leads') {
-							lead_id = block.find('.sourceField').attr('name');
-						}
-						if (data.value == 'Vendors') {
-							vendor_id = block.find('.sourceField').attr('name');
-						}
-					});
-				}
-			});
+			let thisInstance = this;
+			let account_id = false;
+			let contact_id = false;
+			let lead_id = false;
+			let vendor_id = false;
+			this.formElement
+				.find('.js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldValue, .js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldLabel')
+				.each(function (index) {
+					let block = $(this);
+					let referenceModulesList = false;
+					let relatedField = block.find('[name="popupReferenceModule"]').val();
+					if (relatedField == 'Accounts') {
+						account_id = block.find('.sourceField').attr('name');
+					}
+					if (relatedField == 'Contacts') {
+						contact_id = block.find('.sourceField').attr('name');
+					}
+					if (relatedField == 'Leads') {
+						lead_id = block.find('.sourceField').attr('name');
+					}
+					if (relatedField == 'Vendors') {
+						vendor_id = block.find('.sourceField').attr('name');
+					}
+					referenceModulesList = block.find('.referenceModulesList');
+					if (referenceModulesList.length > 0) {
+						$.each(referenceModulesList.find('option'), function (key, data) {
+							if (data.value == 'Accounts') {
+								account_id = block.find('.sourceField').attr('name');
+							}
+							if (data.value == 'Contacts') {
+								contact_id = block.find('.sourceField').attr('name');
+							}
+							if (data.value == 'Leads') {
+								lead_id = block.find('.sourceField').attr('name');
+							}
+							if (data.value == 'Vendors') {
+								vendor_id = block.find('.sourceField').attr('name');
+							}
+						});
+					}
+				});
 
 			if (account_id == false) {
-				$('.copyAddressFromAccount').addClass('d-none');
+				this.formElement.find('.copyAddressFromAccount').addClass('d-none');
 			} else {
-				$('.copyAddressFromAccount').on('click', function (e) {
-					var element = $(this);
-					var block = element.closest('.js-toggle-panel');
-					var from = element.data('label');
-					var to = block.data('label');
-					var recordRelativeAccountId = $('[name="' + account_id + '"]').val();
+				this.formElement.find('.copyAddressFromAccount').on('click', function (e) {
+					let element = $(this);
+					let block = element.closest('.js-toggle-panel');
+					let from = element.data('label');
+					let to = block.data('label');
+					let recordRelativeAccountId = $('[name="' + account_id + '"]').val();
 
 					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						Vtiger_Helper_Js.showPnotify(
-							app.vtranslate('JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS')
-						);
+						app.showNotify({
+							text: app.vtranslate('JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS'),
+							type: 'error'
+						});
 					} else {
-						var recordRelativeAccountName = $('#' + account_id + '_display').val();
-						var data = {
+						let recordRelativeAccountName = $('#' + account_id + '_display').val();
+						let data = {
 							record: recordRelativeAccountId,
 							selectedName: recordRelativeAccountName,
 							module: 'Accounts'
@@ -601,21 +584,22 @@ $.Class(
 				});
 			}
 			if (contact_id == false) {
-				$('.copyAddressFromContact').addClass('d-none');
+				this.formElement.find('.copyAddressFromContact').addClass('d-none');
 			} else {
-				$('.copyAddressFromContact').on('click', function (e) {
-					var element = $(this);
-					var block = element.closest('.js-toggle-panel');
-					var from = element.data('label');
-					var to = block.data('label');
-					var recordRelativeAccountId = $('[name="' + contact_id + '"]').val();
+				this.formElement.find('.copyAddressFromContact').on('click', function (e) {
+					let element = $(this);
+					let block = element.closest('.js-toggle-panel');
+					let from = element.data('label');
+					let to = block.data('label');
+					let recordRelativeAccountId = $('[name="' + contact_id + '"]').val();
 					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						Vtiger_Helper_Js.showPnotify(
-							app.vtranslate('JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS')
-						);
+						app.showNotify({
+							text: app.vtranslate('JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS'),
+							type: 'error'
+						});
 					} else {
-						var recordRelativeAccountName = $('#' + contact_id + '_display').val();
-						var data = {
+						let recordRelativeAccountName = $('#' + contact_id + '_display').val();
+						let data = {
 							record: recordRelativeAccountId,
 							selectedName: recordRelativeAccountName,
 							module: 'Contacts'
@@ -626,21 +610,22 @@ $.Class(
 				});
 			}
 			if (lead_id == false) {
-				$('.copyAddressFromLead').addClass('d-none');
+				this.formElement.find('.copyAddressFromLead').addClass('d-none');
 			} else {
-				$('.copyAddressFromLead').on('click', function (e) {
-					var element = $(this);
-					var block = element.closest('.js-toggle-panel');
-					var from = element.data('label');
-					var to = block.data('label');
-					var recordRelativeAccountId = $('[name="' + lead_id + '"]').val();
+				this.formElement.find('.copyAddressFromLead').on('click', function (e) {
+					let element = $(this);
+					let block = element.closest('.js-toggle-panel');
+					let from = element.data('label');
+					let to = block.data('label');
+					let recordRelativeAccountId = $('[name="' + lead_id + '"]').val();
 					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						Vtiger_Helper_Js.showPnotify(
-							app.vtranslate('JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS')
-						);
+						app.showNotify({
+							text: app.vtranslate('JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS'),
+							type: 'error'
+						});
 					} else {
-						var recordRelativeAccountName = $('#' + lead_id + '_display').val();
-						var data = {
+						let recordRelativeAccountName = $('#' + lead_id + '_display').val();
+						let data = {
 							record: recordRelativeAccountId,
 							selectedName: recordRelativeAccountName,
 							module: 'Leads'
@@ -651,21 +636,22 @@ $.Class(
 				});
 			}
 			if (vendor_id == false) {
-				$('.copyAddressFromVendor').addClass('d-none');
+				this.formElement.find('.copyAddressFromVendor').addClass('d-none');
 			} else {
-				$('.copyAddressFromVendor').on('click', function (e) {
-					var element = $(this);
-					var block = element.closest('.js-toggle-panel');
-					var from = element.data('label');
-					var to = block.data('label');
-					var recordRelativeAccountId = $('[name="' + vendor_id + '"]').val();
+				this.formElement.find('.copyAddressFromVendor').on('click', function (e) {
+					let element = $(this);
+					let block = element.closest('.js-toggle-panel');
+					let from = element.data('label');
+					let to = block.data('label');
+					let recordRelativeAccountId = $('[name="' + vendor_id + '"]').val();
 					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						Vtiger_Helper_Js.showPnotify(
-							app.vtranslate('JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS')
-						);
+						app.showNotify({
+							text: app.vtranslate('JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS'),
+							type: 'error'
+						});
 					} else {
-						var recordRelativeAccountName = $('#' + vendor_id + '_display').val();
-						var data = {
+						let recordRelativeAccountName = $('#' + vendor_id + '_display').val();
+						let data = {
 							record: recordRelativeAccountId,
 							selectedName: recordRelativeAccountName,
 							module: 'Vendors'
@@ -675,9 +661,8 @@ $.Class(
 					}
 				});
 			}
-
-			$('#EditView .js-toggle-panel').each(function (index) {
-				var hideCopyAddressLabel = true;
+			this.formElement.find('.js-toggle-panel').each(function (index) {
+				let hideCopyAddressLabel = true;
 				$(this)
 					.find('.adressAction button')
 					.each(function (index) {
@@ -689,25 +674,25 @@ $.Class(
 					$(this).find('.copyAddressLabel').addClass('d-none');
 				}
 			});
-			$('.copyAddressFromMain').on('click', function (e) {
-				var element = $(this);
-				var block = element.closest('.js-toggle-panel');
-				var from = element.data('label');
-				var to = block.data('label');
+			this.formElement.find('.copyAddressFromMain').on('click', function (e) {
+				let element = $(this);
+				let block = element.closest('.js-toggle-panel');
+				let from = element.data('label');
+				let to = block.data('label');
 				thisInstance.copyAddress(from, to, false, false);
 			});
-			$('.copyAddressFromMailing').on('click', function (e) {
-				var element = $(this);
-				var block = element.closest('.js-toggle-panel');
-				var from = element.data('label');
-				var to = block.data('label');
+			this.formElement.find('.copyAddressFromMailing').on('click', function (e) {
+				let element = $(this);
+				let block = element.closest('.js-toggle-panel');
+				let from = element.data('label');
+				let to = block.data('label');
 				thisInstance.copyAddress(from, to, false, false);
 			});
-			$('.copyAddressFromDelivery').on('click', function (e) {
-				var element = $(this);
-				var block = element.closest('.js-toggle-panel');
-				var from = element.data('label');
-				var to = block.data('label');
+			this.formElement.find('.copyAddressFromDelivery').on('click', function (e) {
+				let element = $(this);
+				let block = element.closest('.js-toggle-panel');
+				let from = element.data('label');
+				let to = block.data('label');
 				thisInstance.copyAddress(from, to, false, false);
 			});
 		},
@@ -715,10 +700,10 @@ $.Class(
 		 * Function which will copy the address details
 		 */
 		copyAddressDetails: function (from, to, data, container) {
-			var thisInstance = this;
-			var sourceModule = data.module;
+			let thisInstance = this;
+			let sourceModule = data.module;
 			app.getRecordDetails(data).done(function (data) {
-				var response = data['result'];
+				let response = data['result'];
 				thisInstance.addressFieldsData = response;
 				thisInstance.copyAddress(from, to, true, sourceModule);
 			});
@@ -777,29 +762,32 @@ $.Class(
 				} else {
 					errorMsg = 'JS_DOES_NOT_HAVE_AN_ADDRESS';
 				}
-				Vtiger_Helper_Js.showPnotify(app.vtranslate(errorMsg));
+				app.showNotify({
+					text: app.vtranslate(errorMsg),
+					type: 'error'
+				});
 			}
 		},
 		registerReferenceSelectionEvent: function (container) {
-			var thisInstance = this;
-			var relategField = container.find("input[name*='addresslevel']");
+			let thisInstance = this;
+			let relategField = container.find("input[name*='addresslevel']");
 			relategField.on(Vtiger_Edit_Js.referenceSelectionEvent, function (e, data) {
-				var blockContainer = $(e.currentTarget).closest('.js-toggle-panel');
+				let blockContainer = $(e.currentTarget).closest('.js-toggle-panel');
 				thisInstance.copyAddressDetailsRef(data, blockContainer);
 			});
 		},
 		copyAddressDetailsRef: function (data, container) {
-			var thisInstance = this;
+			let thisInstance = this;
 			app
 				.getRecordDetails(data)
 				.done(function (data) {
-					var response = data['result'];
+					let response = data['result'];
 					thisInstance.mapAddressDetails(response, container);
 				})
 				.fail(function (error, err) {});
 		},
 		mapAddressDetails: function (result, container) {
-			for (var key in result) {
+			for (let key in result) {
 				if (key.indexOf('addresslevel') != -1) {
 					if (container.find('[name="' + key + '"]').length != 0) {
 						container.find('[name="' + key + '"]').val(result['data'][key]);
@@ -807,31 +795,19 @@ $.Class(
 						container.find('[name="' + key + '_display"]').val(result['displayData'][key]);
 						container.find('[name="' + key + '_display"]').attr('readonly', true);
 					}
-					if (
-						container.find('[name="' + key + 'a"]').length != 0 &&
-						container.find('[name="' + key + 'a"]').val() == 0 &&
-						result['data'][key] != 0
-					) {
+					if (container.find('[name="' + key + 'a"]').length != 0 && container.find('[name="' + key + 'a"]').val() == 0 && result['data'][key] != 0) {
 						container.find('[name="' + key + 'a"]').val(result['data'][key]);
 						container.find('[name="' + key + 'a"]').attr('readonly', true);
 						container.find('[name="' + key + 'a_display"]').val(result['displayData'][key]);
 						container.find('[name="' + key + 'a_display"]').attr('readonly', true);
 					}
-					if (
-						container.find('[name="' + key + 'b"]').length != 0 &&
-						container.find('[name="' + key + 'b"]').val() == 0 &&
-						result['data'][key] != 0
-					) {
+					if (container.find('[name="' + key + 'b"]').length != 0 && container.find('[name="' + key + 'b"]').val() == 0 && result['data'][key] != 0) {
 						container.find('[name="' + key + 'b"]').val(result['data'][key]);
 						container.find('[name="' + key + 'b"]').attr('readonly', true);
 						container.find('[name="' + key + 'b_display"]').val(result['displayData'][key]);
 						container.find('[name="' + key + 'b_display"]').attr('readonly', true);
 					}
-					if (
-						container.find('[name="' + key + 'c"]').length != 0 &&
-						container.find('[name="' + key + 'c"]').val() == 0 &&
-						result['data'][key] != 0
-					) {
+					if (container.find('[name="' + key + 'c"]').length != 0 && container.find('[name="' + key + 'c"]').val() == 0 && result['data'][key] != 0) {
 						container.find('[name="' + key + 'c"]').val(result['data'][key]);
 						container.find('[name="' + key + 'c"]').attr('readonly', true);
 						container.find('[name="' + key + 'c_display"]').val(result['displayData'][key]);
@@ -844,14 +820,14 @@ $.Class(
 			container.find('[data-inputmask]').inputmask();
 		},
 		triggerDisplayTypeEvent: function () {
-			var widthType = app.cacheGet('widthType', 'narrowWidthType');
+			let widthType = app.cacheGet('widthType', 'narrowWidthType');
 			if (widthType) {
-				var elements = $('#EditView').find('.fieldValue,.fieldLabel');
+				let elements = $('#EditView').find('.fieldValue,.fieldLabel');
 				elements.addClass(widthType);
 			}
 		},
 		registerSubmitEvent: function () {
-			var editViewForm = this.getForm();
+			let editViewForm = this.getForm();
 			editViewForm.on('submit', function (e) {
 				//Form should submit only once for multiple clicks also
 				if (typeof editViewForm.data('submit') !== 'undefined') {
@@ -869,7 +845,7 @@ $.Class(
 						//Once the form is submiting add data attribute to that form element
 						editViewForm.data('submit', 'true');
 						//on submit form trigger the recordPreSave event
-						var recordPreSaveEvent = $.Event(Vtiger_Edit_Js.recordPreSave);
+						let recordPreSaveEvent = $.Event(Vtiger_Edit_Js.recordPreSave);
 						editViewForm.trigger(recordPreSaveEvent, { value: 'edit' });
 						if (recordPreSaveEvent.isDefaultPrevented()) {
 							//If duplicate record validation fails, form should submit again
@@ -923,23 +899,23 @@ $.Class(
 						let response = data.result;
 						for (let i = 0; i < response.length; i++) {
 							if (response[i].result !== true) {
-								Vtiger_Helper_Js.showPnotify(
-									response[i].message ? response[i].message : app.vtranslate('JS_ERROR')
-								);
+								app.showNotify({
+									text: response[i].message ? response[i].message : app.vtranslate('JS_ERROR'),
+									type: 'error'
+								});
 								if (response[i].hoverField != undefined) {
 									form.find('[name="' + response[i].hoverField + '"]').focus();
 								}
 							}
 						}
-						if (data.result.length <= 0) {
-							aDeferred.resolve(true);
-						} else {
-							aDeferred.resolve(false);
-						}
+						aDeferred.resolve(data.result.length <= 0);
 					})
 					.fail((textStatus, errorThrown) => {
 						document.progressLoader.progressIndicator({ mode: 'hide' });
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+						app.showNotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
 						app.errorLog(textStatus, errorThrown);
 						aDeferred.resolve(false);
 					});
@@ -1010,10 +986,7 @@ $.Class(
 							targetOptions = targetOptions.add($(e));
 						}
 					});
-					targetPickList
-						.html(targetOptions)
-						.val(targetOptions.filter('[selected]').val())
-						.trigger('change');
+					targetPickList.html(targetOptions).val(targetOptions.filter('[selected]').val()).trigger('change');
 				});
 			});
 
@@ -1021,11 +994,7 @@ $.Class(
 			sourcePickListElements.trigger('change');
 		},
 		registerLeavePageWithoutSubmit: function (form) {
-			if (
-				typeof CKEDITOR !== 'undefined' &&
-				typeof CKEDITOR.instances !== 'undefined' &&
-				Object.keys(CKEDITOR.instances).length
-			) {
+			if (typeof CKEDITOR !== 'undefined' && typeof CKEDITOR.instances !== 'undefined' && Object.keys(CKEDITOR.instances).length) {
 				CKEDITOR.on('instanceReady', function (e) {
 					let initialFormData = form.serialize();
 					window.onbeforeunload = function (e) {
@@ -1044,8 +1013,8 @@ $.Class(
 			}
 		},
 		stretchCKEditor: function () {
-			var row = $('.js-editor').parents('.fieldRow');
-			var td = $('.js-editor').parent();
+			let row = $('.js-editor').parents('.fieldRow');
+			let td = $('.js-editor').parent();
 			$(row).find('.fieldLabel').remove();
 			$(td).removeClass('col-md-10');
 			$(td).addClass('col-md-12');
@@ -1054,29 +1023,23 @@ $.Class(
 		 * Function to register event for ckeditor for description field
 		 */
 		registerEventForEditor: function () {
-			var form = this.getForm();
-			var thisInstance = this;
-			$.each(form.find('.js-editor'), function (key, data) {
-				thisInstance.loadEditorElement($(data));
+			let form = this.getForm();
+			$.each(form.find('.js-editor:not(.js-inventory-item-comment)'), (key, data) => {
+				this.loadEditorElement($(data));
 			});
 		},
 		loadEditorElement: function (noteContentElement) {
-			var customConfig = {};
-			if (noteContentElement.hasClass('js-editor--basic')) {
-				customConfig.toolbar = 'Min';
-			}
-			if (noteContentElement.data('height')) {
-				customConfig.height = noteContentElement.data('height');
-			}
-			new App.Fields.Text.Editor(noteContentElement, customConfig);
+			App.Fields.Text.Editor.register(noteContentElement);
 		},
-		registerHelpInfo: function () {
-			var form = this.getForm();
+		registerHelpInfo: function (form) {
+			if (!form) {
+				form = this.getForm();
+			}
 			app.showPopoverElementView(form.find('.js-help-info'));
 		},
 		registerBlockAnimationEvent: function () {
-			var thisInstance = this;
-			var detailContentsHolder = this.getForm();
+			const self = this;
+			let detailContentsHolder = this.getForm();
 			detailContentsHolder.on('click', '.blockHeader', function (e) {
 				const target = $(e.target);
 				if (
@@ -1088,19 +1051,18 @@ $.Class(
 				) {
 					return false;
 				}
-				var currentTarget = $(e.currentTarget).find('.js-block-toggle').not('.d-none');
-				var blockId = currentTarget.data('id');
-				var closestBlock = currentTarget.closest('.js-toggle-panel');
-				var bodyContents = closestBlock.find('.blockContent');
-				var data = currentTarget.data();
-				var module = app.getModuleName();
-				var hideHandler = function () {
+				let currentTarget = $(e.currentTarget).find('.js-block-toggle').not('.d-none');
+				let blockId = currentTarget.data('id');
+				let closestBlock = currentTarget.closest('.js-toggle-panel');
+				let bodyContents = closestBlock.find('.blockContent');
+				let data = currentTarget.data();
+				let hideHandler = function () {
 					bodyContents.addClass('d-none');
-					app.cacheSet(module + '.' + blockId, 0);
+					app.cacheSet(self.moduleName + '.' + blockId, 0);
 				};
-				var showHandler = function () {
+				let showHandler = function () {
 					bodyContents.removeClass('d-none');
-					app.cacheSet(module + '.' + blockId, 1);
+					app.cacheSet(self.moduleName + '.' + blockId, 1);
 				};
 				if (data.mode == 'show') {
 					hideHandler();
@@ -1115,9 +1077,12 @@ $.Class(
 		},
 		registerBlockStatusCheckOnLoad: function () {
 			let blocks = this.getForm().find('.js-toggle-panel');
-			let module = app.getModuleName();
+			let module = this.moduleName;
 			blocks.each(function (index, block) {
 				let currentBlock = $(block);
+				if (currentBlock.find('.js-field-block-column').length !== 0 && currentBlock.find('.js-field-block-column:not(.d-none)').length === 0) {
+					currentBlock.addClass('d-none');
+				}
 				let dynamicAttr = currentBlock.attr('data-dynamic');
 				if (typeof dynamicAttr !== typeof undefined && dynamicAttr !== false) {
 					let headerAnimationElement = currentBlock.find('.js-block-toggle').not('.d-none');
@@ -1139,7 +1104,25 @@ $.Class(
 				}
 			});
 		},
+		/**
+		 * Visibility check block
+		 */
+		checkVisibilityBlocks: function () {
+			this.getForm()
+				.find('.js-toggle-panel')
+				.each(function (index, block) {
+					let currentBlock = $(block);
+					if (currentBlock.find('.js-field-block-column').length !== 0) {
+						if (currentBlock.find('.js-field-block-column:not(.d-none)').length === 0) {
+							currentBlock.addClass('d-none');
+						} else {
+							currentBlock.removeClass('d-none');
+						}
+					}
+				});
+		},
 		registerAutoloadAddress: function () {
+			const self = this;
 			this.getForm()
 				.find('.js-search-address')
 				.each(function (index, item) {
@@ -1149,7 +1132,7 @@ $.Class(
 					input.autocomplete({
 						source: function (request, response) {
 							AppConnector.request({
-								module: app.getModuleName(),
+								module: self.moduleName,
 								action: 'Fields',
 								mode: 'findAddress',
 								type: search.find('.js-select-operator').val(),
@@ -1157,7 +1140,10 @@ $.Class(
 							})
 								.done(function (requestData) {
 									if (requestData.result === false) {
-										Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+										app.showNotify({
+											text: app.vtranslate('JS_ERROR'),
+											type: 'error'
+										});
 									} else if (requestData.result.length) {
 										response(requestData.result);
 									} else {
@@ -1165,7 +1151,7 @@ $.Class(
 									}
 								})
 								.fail(function (textStatus, errorThrown, jqXHR) {
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										text: jqXHR.responseJSON.error.message,
 										type: 'error',
 										animation: 'show'
@@ -1219,27 +1205,27 @@ $.Class(
 				});
 		},
 		setEnabledFields: function (element) {
-			var fieldValue = element.closest('.fieldValue');
-			var fieldName = fieldValue.find('input.sourceField').attr('name');
-			var fieldDisplay = fieldValue.find('#' + fieldName + '_display');
+			let fieldValue = element.closest('.fieldValue');
+			let fieldName = fieldValue.find('input.sourceField').attr('name');
+			let fieldDisplay = fieldValue.find('#' + fieldName + '_display');
 			fieldValue.find('button').removeAttr('disabled');
 			if (fieldDisplay.val() == '') {
 				fieldValue.find('input').removeAttr('readonly');
 			}
 			fieldValue.find('.referenceModulesListGroup').removeClass('d-none');
-			var placeholder = fieldDisplay.attr('placeholderDisabled');
+			let placeholder = fieldDisplay.attr('placeholderDisabled');
 			fieldDisplay.removeAttr('placeholderDisabled');
 			fieldDisplay.attr('placeholder', placeholder);
 			fieldValue.find('.referenceModulesList').attr('required', 'required');
 		},
 		setDisabledFields: function (element) {
-			var fieldValue = element.closest('.fieldValue');
-			var fieldName = fieldValue.find('input.sourceField').attr('name');
-			var fieldDisplay = fieldValue.find('#' + fieldName + '_display');
+			let fieldValue = element.closest('.fieldValue');
+			let fieldName = fieldValue.find('input.sourceField').attr('name');
+			let fieldDisplay = fieldValue.find('#' + fieldName + '_display');
 			fieldValue.find('input').attr('readonly', 'readonly');
 			fieldValue.find('button').attr('disabled', 'disabled');
 			fieldValue.find('.referenceModulesListGroup').addClass('d-none');
-			var placeholder = fieldDisplay.attr('placeholder');
+			let placeholder = fieldDisplay.attr('placeholder');
 			fieldDisplay.removeAttr('placeholder');
 			fieldDisplay.attr('placeholderDisabled', placeholder);
 			fieldValue.find('.referenceModulesList').removeAttr('required');
@@ -1247,35 +1233,32 @@ $.Class(
 		getMappingRelatedField: function (sourceField, sourceFieldModule, container) {
 			const mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
 			const mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
-			if (
-				typeof mappingRelatedModule[sourceField] !== 'undefined' &&
-				typeof mappingRelatedModule[sourceField][sourceFieldModule] !== 'undefined'
-			) {
+			if (typeof mappingRelatedModule[sourceField] !== 'undefined' && typeof mappingRelatedModule[sourceField][sourceFieldModule] !== 'undefined') {
 				return mappingRelatedModule[sourceField][sourceFieldModule];
 			}
 			return [];
 		},
 		registerValidationsFields: function (container) {
-			var params = app.validationEngineOptionsForRecord;
+			let params = app.validationEngineOptionsForRecord;
 			container.validationEngine(params);
 		},
 		checkReferencesField: function (container, clear) {
-			var thisInstance = this;
-			var activeProcess = false,
+			let thisInstance = this;
+			let activeProcess = false,
 				activeSubProcess = false;
 			if (!CONFIG.fieldsReferencesDependent) {
 				return false;
 			}
 			container.find('input[data-fieldtype="referenceLink"]').each(function (index, element) {
 				element = $(element);
-				var t = true;
+				let t = true;
 				if (element.closest('.tab-pane').length > 0) {
 					t = false;
 					if (element.closest('.tab-pane.active').length > 0) {
 						t = true;
 					}
 				}
-				var referenceLink = element.val();
+				let referenceLink = element.val();
 				if (t && referenceLink != '' && referenceLink != '0') {
 					activeProcess = true;
 				}
@@ -1291,7 +1274,7 @@ $.Class(
 					thisInstance.setDisabledFields(element);
 				}
 
-				var t = true;
+				let t = true;
 				if (element.closest('.tab-pane').length > 0) {
 					t = false;
 					if (element.closest('.tab-pane.active').length > 0) {
@@ -1299,16 +1282,15 @@ $.Class(
 					}
 				}
 
-				var referenceLink = element.val();
+				let referenceLink = element.val();
 				if (t && referenceLink != '' && referenceLink != '0') {
 					activeSubProcess = true;
 				}
 			});
 			container.find('input[data-fieldtype="referenceSubProcess"]').each(function (index, element) {
 				element = $(element);
-				var processfieldElement = element.closest('.fieldValue');
-				var length = processfieldElement.find('.referenceModulesList option[disabled!="disabled"]')
-					.length;
+				let processfieldElement = element.closest('.fieldValue');
+				let length = processfieldElement.find('.referenceModulesList option[disabled!="disabled"]').length;
 				if (activeSubProcess && length > 0) {
 					thisInstance.setEnabledFields(element);
 				} else {
@@ -1320,7 +1302,7 @@ $.Class(
 			});
 		},
 		checkSubProcessModulesList: function (element) {
-			var option = element.find('option:selected');
+			let option = element.find('option:selected');
 			if (option.data('is-quickcreate') != 1) {
 				element.closest('.fieldValue').find('.createReferenceRecord').addClass('d-none');
 			} else {
@@ -1328,25 +1310,17 @@ $.Class(
 			}
 		},
 		checkReferenceModulesList: function (container) {
-			var thisInstance = this;
-			var processfieldElement = container
-				.find('input[data-fieldtype="referenceProcess"]')
-				.closest('.fieldValue');
-			var referenceProcess = processfieldElement.find('input[name="popupReferenceModule"]').val();
-			var subProcessfieldElement = container
-				.find('input[data-fieldtype="referenceSubProcess"]')
-				.closest('.fieldValue');
-			Vtiger_Helper_Js.hideOptions(
-				subProcessfieldElement.find('.referenceModulesList'),
-				'parent',
-				referenceProcess
-			);
-			var subProcessValue = subProcessfieldElement.find('.referenceModulesList').val();
+			let thisInstance = this;
+			let processfieldElement = container.find('input[data-fieldtype="referenceProcess"]').closest('.fieldValue');
+			let referenceProcess = processfieldElement.find('input[name="popupReferenceModule"]').val();
+			let subProcessfieldElement = container.find('input[data-fieldtype="referenceSubProcess"]').closest('.fieldValue');
+			Vtiger_Helper_Js.hideOptions(subProcessfieldElement.find('.referenceModulesList'), 'parent', referenceProcess);
+			let subProcessValue = subProcessfieldElement.find('.referenceModulesList').val();
 			subProcessfieldElement.find('[name="popupReferenceModule"]').val(subProcessValue);
 			thisInstance.checkSubProcessModulesList(subProcessfieldElement.find('.referenceModulesList'));
 		},
 		registerReferenceFields: function (container) {
-			var thisInstance = this;
+			let thisInstance = this;
 			if (!CONFIG.fieldsReferencesDependent) {
 				return false;
 			}
@@ -1382,18 +1356,12 @@ $.Class(
 				return;
 			}
 			container
-				.find(
-					'.fieldValue input.form-control:not([type=hidden],.dateField,.clockPicker), .fieldValue input[type=checkbox], .select2-selection.form-control'
-				)
+				.find('.fieldValue input.form-control:not([type=hidden],.dateField,.clockPicker), .fieldValue input[type=checkbox], .select2-selection.form-control')
 				.each(function (i, e) {
 					let element = $(e);
 					if (!element.prop('readonly') && !element.prop('disabled')) {
 						element = element.get(0);
-						if (
-							element.type !== 'number' &&
-							element.type !== 'checkbox' &&
-							element.value !== undefined
-						) {
+						if (element.type !== 'number' && element.type !== 'checkbox' && element.value !== undefined) {
 							let elemLen = element.value.length;
 							element.selectionStart = elemLen;
 							element.selectionEnd = elemLen;
@@ -1419,7 +1387,7 @@ $.Class(
 		},
 		registerCopyValue: function (container) {
 			container.find('.fieldValue [data-copy-to-field]').on('change', function (e) {
-				var element = $(e.currentTarget);
+				let element = $(e.currentTarget);
 				container.find('[name="' + element.data('copyToField') + '"]').val(element.val());
 			});
 		},
@@ -1458,30 +1426,33 @@ $.Class(
 						(container) => {
 							let modalForm = container.find('form.js-record-collector__form');
 							let summary = container.find('.js-record-collector__summary');
+							modalForm.validationEngine(app.validationEngineOptions);
 							modalForm.on('submit', function (e) {
-								summary.html('');
-								summary.progressIndicator({});
-								e.preventDefault();
-								AppConnector.request(modalForm.serializeFormData()).done(function (data) {
-									summary.progressIndicator({ mode: 'hide' });
-									summary.html(data);
-								});
+								if (modalForm.validationEngine('validate')) {
+									summary.html('');
+									summary.progressIndicator({});
+									e.preventDefault();
+									AppConnector.request(modalForm.serializeFormData()).done(function (data) {
+										summary.progressIndicator({ mode: 'hide' });
+										summary.html(data);
+									});
+								}
 							});
 							let recordForm = self.getForm();
+							container.on('click', '.js-record-collector__select', function () {
+								container.find(`.js-record-collector__column[data-column="${this.dataset.column}"] input`).prop('checked', true);
+							});
 							container.on('click', '.js-record-collector__fill_fields', function () {
-								let mappedField = container.find('.formFieldsToRecordMap').val();
-								mappedField = JSON.parse(mappedField);
-								Object.keys(mappedField).forEach(function (key) {
-									let input = container.find('[name="' + key + '"]');
-									input.each(function () {
-										if (this.checked) {
-											var cellWithValue = $(this)
-												.closest('.value' + key)
-												.find('.fieldValue')
-												.html();
-											recordForm.find('[name="' + mappedField[key] + '"]').setValue(cellWithValue);
+								let formData = container.find('.js-record-collector__fill_form').serializeFormData();
+								$.each(formData, function (key, value) {
+									if (value !== '') {
+										let fieldElement = recordForm.find(`[name="${key}"]`);
+										if (fieldElement.length) {
+											fieldElement.setValue(value);
+										} else {
+											recordForm.append(`<input type="hidden" name="${key}" value="${value}" />`);
 										}
-									});
+									}
 								});
 								app.hideModalWindow(null, 'collectorModal');
 							});
@@ -1526,6 +1497,65 @@ $.Class(
 			});
 		},
 		/**
+		 * Trigger record edit view events
+		 * @param {object} data
+		 */
+		triggerRecordEditEvents: function (data) {
+			const self = this;
+			let form = this.getForm();
+			if (typeof data['changeValues'] == 'object') {
+				$.each(data['changeValues'], function (key, field) {
+					self.setFieldValue(field);
+				});
+			}
+			if (typeof data['hoverField'] != 'undefined') {
+				form.find(`[name="${data['hoverField']}"]`).focus();
+			}
+			if (typeof data['showNotify'] != 'undefined') {
+				app.showNotify(data['showNotify']);
+			}
+			if (typeof data['showModal'] != 'undefined') {
+				app.showModalWindow(null, data['showModal']['url']);
+			}
+			if (typeof data['showFields'] != 'undefined') {
+				$.each(data['showFields'], function (key, fieldName) {
+					form.find(`.js-field-block-column[data-field="${fieldName}"]`).removeClass('d-none');
+					self.checkVisibilityBlocks();
+				});
+			}
+			if (typeof data['hideFields'] != 'undefined') {
+				$.each(data['hideFields'], function (key, fieldName) {
+					form.find(`.js-field-block-column[data-field="${fieldName}"]`).addClass('d-none');
+					self.checkVisibilityBlocks();
+				});
+			}
+		},
+		/**
+		 * Register change value handler events
+		 * @param {jQuery} container
+		 */
+		registerChangeValueHandlerEvent: function (container) {
+			let event = container.find('.js-change-value-event');
+			if (event.length <= 0) {
+				return;
+			}
+			const self = this;
+			let fields = JSON.parse(event.val());
+			$.each(fields, function (key, fieldName) {
+				let fieldElement = container.find(`[name="${fieldName}"]`);
+				fieldElement.change(function () {
+					let formData = container.serializeFormData();
+					formData['action'] = 'ChangeValueHandler';
+					delete formData['view'];
+					AppConnector.request(formData).done(function (response) {
+						$.each(response.result, function (key, data) {
+							self.triggerRecordEditEvents(data);
+						});
+					});
+				});
+			});
+		},
+		/**
 		 * Function which will register basic events which will be used in quick create as well
 		 *
 		 */
@@ -1538,8 +1568,9 @@ $.Class(
 			this.registerEventForPicklistDependencySetup(container);
 			this.registerRecordPreSaveEventEvent(container);
 			this.registerReferenceSelectionEvent(container);
+			this.registerChangeValueHandlerEvent(container);
 			this.registerMaskFields(container);
-			this.registerHelpInfo();
+			this.registerHelpInfo(container);
 			this.registerReferenceFields(container);
 			this.registerFocusFirstField(container);
 			this.registerCopyValue(container);
@@ -1554,7 +1585,7 @@ $.Class(
 			App.Fields.MeetingUrl.register(container);
 		},
 		registerEvents: function () {
-			var editViewForm = this.getForm();
+			let editViewForm = this.getForm();
 			if (!this.proceedRegisterEvents()) {
 				return;
 			}

@@ -605,6 +605,7 @@ class PackageImport extends PackageExport
 				}
 			}
 		}
+		return $module;
 	}
 
 	/**
@@ -657,7 +658,7 @@ class PackageImport extends PackageExport
 		Module::fireEvent($moduleInstance->name, Module::EVENT_MODULE_POSTINSTALL);
 		register_shutdown_function(function () {
 			chdir(ROOT_DIRECTORY);
-			\App\UserPrivilegesFile::recalculateAll();
+			(new \App\BatchMethod(['method' => '\App\UserPrivilegesFile::recalculateAll', 'params' => []]))->save();
 		});
 	}
 
@@ -897,7 +898,9 @@ class PackageImport extends PackageExport
 			} else {
 				$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, Module::getInstance((string) $fieldnode->modulename));
 			}
-			$fieldInstance->sourcefieldname = (string) $fieldnode->sourcefieldname;
+			if ($sourceFieldName = (string) $fieldnode->sourcefieldname ?? '') {
+				$fieldInstance->sourcefieldname = $sourceFieldName;
+			}
 			$filterInstance->addField($fieldInstance, $fieldnode->columnindex);
 		}
 		if (!empty($customviewnode->rules)) {
@@ -1012,8 +1015,14 @@ class PackageImport extends PackageExport
 				$actions[] = "$actionnode";
 			}
 		}
+		$fields = [];
+		if (!empty($relatedlistnode->fields)) {
+			foreach ($relatedlistnode->fields->field as $fieldNode) {
+				$fields[] = "$fieldNode";
+			}
+		}
 		if ($relModuleInstance) {
-			$moduleInstance->setRelatedList($relModuleInstance, "$label", $actions, "$relatedlistnode->function");
+			$moduleInstance->setRelatedList($relModuleInstance, "$label", $actions, "$relatedlistnode->function", "$relatedlistnode->field_name", $fields);
 		}
 		return $relModuleInstance;
 	}
@@ -1029,8 +1038,14 @@ class PackageImport extends PackageExport
 				$actions[] = "$actionnode";
 			}
 		}
+		$fields = [];
+		if (!empty($inRelatedListNode->fields)) {
+			foreach ($inRelatedListNode->fields->field as $fieldNode) {
+				$fields[] = "$fieldNode";
+			}
+		}
 		if ($inRelModuleInstance) {
-			$inRelModuleInstance->setRelatedList($moduleInstance, "$label", $actions, "$inRelatedListNode->function", $inRelatedListNode->field_name);
+			$inRelModuleInstance->setRelatedList($moduleInstance, "$label", $actions, "$inRelatedListNode->function", "$inRelatedListNode->field_name", $fields);
 		}
 		return $inRelModuleInstance;
 	}

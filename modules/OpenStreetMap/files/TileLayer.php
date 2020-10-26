@@ -43,8 +43,10 @@ class OpenStreetMap_TileLayer_File extends Vtiger_Basic_File
 			$request->getByType('y', 'Integer'),
 		], 'https://osm-tile.yetiforce.eu/tile/{z}/{x}/{y}.png');
 		try {
-			$response = (new \GuzzleHttp\Client(\array_merge(\App\RequestHttp::getOptions(), ['timeout' => 30, 'InsKey' => \App\YetiForce\Register::getInstanceKey()])))
+			\App\Log::beginProfile("GET|TileLayer::get|{$url}", __NAMESPACE__);
+			$response = (new \GuzzleHttp\Client(\array_merge_recursive(\App\RequestHttp::getOptions(), ['timeout' => 30, 'InsKey' => \App\YetiForce\Register::getInstanceKey()])))
 				->request('GET', $url, ['auth' => [$product['params']['login'], $product['params']['pass']]]);
+			\App\Log::endProfile("GET|TileLayer::get|{$url}", __NAMESPACE__);
 			if (200 !== $response->getStatusCode()) {
 				\App\Log::error($url . ' | Error: ' . $response->getReasonPhrase(), __CLASS__);
 				$this->error();

@@ -57,6 +57,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			if (preg_match('/define\(.RCMAIL_VERSION.,\s*.([0-9.]+[a-z-]*)?/', $iniset, $matches)) {
 				$rcubeVersion = str_replace('-git', '.999', $matches[1]);
 				\define('RCMAIL_VERSION', $rcubeVersion);
+				\define('RCUBE_VERSION', $rcubeVersion);
 			} else {
 				throw new \App\Exceptions\AppException('Unable to find a Roundcube version');
 			}
@@ -246,7 +247,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$mail->set('reply_toaddress', \App\Purifier::purify($mail->getEmail('reply_to')));
 		$mail->set('cc_email', \App\Purifier::purify($mail->getEmail('cc')));
 		$mail->set('bcc_email', \App\Purifier::purify($mail->getEmail('bcc')));
-		$mail->set('subject', \App\TextParser::textTruncate(\App\Purifier::purify(self::decodeText($header->subject)), 65535, false));
+		$mail->set('subject', isset($header->subject) ? \App\TextParser::textTruncate(\App\Purifier::purify(self::decodeText($header->subject)), 65535, false) : '');
 		$mail->set('date', date('Y-m-d H:i:s', $header->udate));
 		if ($fullMode) {
 			$structure = self::getBodyAttach($mbox, $id, $msgno);

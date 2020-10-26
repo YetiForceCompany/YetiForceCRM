@@ -30,7 +30,7 @@
 					</button>
 					<div class="u-hidden-block items-center js-comment-actions d-lg-flex">
 						{if $HIERARCHY !== false && $HIERARCHY < 2}
-							<div data-toggle="buttons" class="mr-1">
+							<div class="mr-1">
 								<div class="btn-group btn-group-toggle" data-toggle="buttons">
 									<label class="js-hierarchy-comments-btn u-text-ellipsis btn-sm mt-1 mt-sm-0 btn btn-outline-primary {if in_array('current', $HIERARCHY_VALUE)}active{/if}"
 										title="{\App\Language::translate('LBL_COMMENTS_0', 'ModComments')}" data-js="click">

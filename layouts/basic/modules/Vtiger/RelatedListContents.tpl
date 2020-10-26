@@ -27,7 +27,7 @@
 						<label class="sr-only" for="relatedListViewEntriesMainCheckBox">{\App\Language::translate('LBL_SELECT_ALL')}</label>
 							<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="relatedListViewEntriesMainCheckBox"/>
 						{/if}
-						{if $RELATED_MODULE->isAdvSortEnabled()}
+						{if (!$VIEW_MODEL->has('advSortEnabled') || ($VIEW_MODEL->has('advSortEnabled') && $VIEW_MODEL->get('advSortEnabled'))) && $RELATED_MODULE->isAdvSortEnabled()}
 							<button type="button"
 								class="ml-2 btn btn-info btn-xs js-show-modal"
 								data-url="index.php?view=SortOrderModal&fromView={$VIEW}&module={$RELATED_MODULE_NAME}"
@@ -176,77 +176,109 @@
 							nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
 					{/if}
 					{if $SHOW_COMMENT}
-						<td class="medium" data-field-type="rel_comment"
-							nowrap>{$RELATED_RECORD->get('rel_comment')}</td>
+						<td class="medium" data-field-type="rel_comment" nowrap>{$RELATED_RECORD->get('rel_comment')}</td>
 					{/if}
-					{if $IS_INVENTORY}
+					{if $IS_INVENTORY || $IS_WIDGETS}
 						{$COUNT = $COUNT+1}
 						<td class="rightRecordActions listButtons {$WIDTHTYPE}" nowrap>
-							<button type="button"
-									class="btn btn-sm btn-info float-right js-popover-tooltip showInventoryRow"
-									data-js="popover" data-placement="left"
-									data-content="{\App\Language::translate('LBL_SHOW_INVENTORY_ROW')}"><span
-										class="fas fa-arrows-alt-v"></span></button>
+							{if $IS_INVENTORY}
+								<button type="button" class="btn btn-sm btn-info float-right js-popover-tooltip js-toggle-hidden-row {if $IS_WIDGETS}ml-2{/if}" data-element="inventory" data-js="popover|click" data-placement="top" data-content="{\App\Language::translate('LBL_SHOW_INVENTORY_ROW')}">
+									<span class="fas fa-arrows-alt-v"></span>
+								</button>
+							{/if}
+							{if $IS_WIDGETS}
+								<button type="button" class="btn btn-sm btn-info float-right js-popover-tooltip js-toggle-hidden-row" data-element="widgets" data-js="popover|click" data-placement="top" data-content="{\App\Language::translate('LBL_SHOW_WIDGETS_ROW')}">
+									<span class="fas fa-caret-square-down"></span>
+								</button>
+							{/if}
 						</td>
 					{/if}
 				</tr>
-				{if $IS_INVENTORY}
-					{assign var="INVENTORY_DATA" value=$RELATED_RECORD->getInventoryData()}
-					{assign var="INVENTORY_MODEL" value=Vtiger_Inventory_Model::getInstance($RELATED_RECORD->getModuleName())}
-					<tr class="listViewInventoryEntries d-none">
+				{if $IS_INVENTORY || $IS_WIDGETS}
+					<tr class="js-hidden-row {if !$SHOW_RELATED_WIDGETS}d-none{/if}" data-id="{$RELATED_RECORD->getId()}">
 						{if $RELATED_MODULE->isQuickSearchEnabled()}
 							{$COUNT = $COUNT+1}
 						{/if}
 						<td colspan="{$COUNT + $ADDITIONAL_TD}" class="backgroundWhiteSmoke">
-							<table class="table table-sm no-margin">
-								<thead>
-								<tr>
-									{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
-										<th class="medium" nowrap>
-											{\App\Language::translate($FIELD->get('label'),$RELATED_MODULE_NAME)}
-										</th>
-									{/foreach}
-								</tr>
-								</thead>
-								<tbody>
-								{foreach from=$INVENTORY_DATA item=INVENTORY_ROW}
-									<tr>
-										{if !empty($INVENTORY_ROW['name'])}
-											{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
-										{/if}
-										{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
-											{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$RELATED_MODULE_NAME)}
-											<td>
-												{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $RELATED_MODULE_NAME) ITEM_VALUE=$INVENTORY_ROW[$FIELD->getColumnName()]}
-											</td>
+							{if $IS_INVENTORY}
+								<div class="js-hidden-row__block d-none" data-element="inventory">
+									{assign var="INVENTORY_DATA" value=$RELATED_RECORD->getInventoryData()}
+									{assign var="INVENTORY_MODEL" value=Vtiger_Inventory_Model::getInstance($RELATED_RECORD->getModuleName())}
+									<table class="table table-sm no-margin">
+										<thead>
+										<tr>
+											{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
+												<th class="medium" nowrap>
+													{\App\Language::translate($FIELD->get('label'),$RELATED_MODULE_NAME)}
+												</th>
+											{/foreach}
+										</tr>
+										</thead>
+										<tbody>
+										{foreach from=$INVENTORY_DATA item=INVENTORY_ROW}
+											<tr>
+												{if !empty($INVENTORY_ROW['name'])}
+													{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
+												{/if}
+												{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
+													{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$RELATED_MODULE_NAME)}
+													<td>
+														{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $RELATED_MODULE_NAME) ITEM_VALUE=$INVENTORY_ROW[$FIELD->getColumnName()]}
+													</td>
+												{/foreach}
+											</tr>
 										{/foreach}
-									</tr>
-								{/foreach}
-								</tbody>
-							</table>
+										</tbody>
+									</table>
+								</div>
+							{/if}
+							{if $IS_WIDGETS}
+								{assign var=RELATED_WIDGETS value=$VIEW_MODEL->getWidgets($RELATED_RECORD->getId())}
+								{assign var=RECORD value=Vtiger_Record_Model::getInstanceById($RELATED_RECORD->getId(), $RELATED_MODULE_NAME)}
+								<div class="js-hidden-row__block {if !$SHOW_RELATED_WIDGETS}d-none{/if}" data-element="widgets">
+									{if $RELATED_WIDGETS}
+										<div class="o-detail-widgets row no-gutters mx-n1">
+											{if !empty($RELATED_WIDGETS[3])}
+												{assign var=span value='4'}
+											{elseif !empty($RELATED_WIDGETS[2])}
+												{assign var=span value='6'}
+											{else}
+												{assign var=span value='12'}
+											{/if}
+											{foreach item=WIDGETCOLUMN from=$RELATED_WIDGETS}
+												<div class="col-md-{$span} px-1">
+													{foreach key=key item=WIDGET from=$WIDGETCOLUMN}
+														{assign var=FILE value='Detail/Widget/'|cat:$WIDGET['tpl']}
+														{include file=\App\Layout::getTemplatePath($FILE, $RELATED_MODULE_NAME) MODULE_NAME=$RELATED_MODULE_NAME MODULE=$RELATED_MODULE_NAME MODULE_MODEL=$RELATED_MODULE}
+													{/foreach}
+												</div>
+											{/foreach}
+										</div>
+									{/if}
+								</div>
+							{/if}
 						</td>
 					</tr>
 				{/if}
 			{/foreach}
 			</tbody>
-			<tfoot class="listViewSummation">
-			<tr>
-				<td></td>
-				{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-					<td {if $HEADER_FIELD@last} colspan="2" {/if}
-							class="noWrap {if !empty($HEADER_FIELD->isCalculateField())}border{/if}">
-						{if !empty($HEADER_FIELD->isCalculateField())}
-							<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover" type="button"
-									data-operator="sum" data-field="{$HEADER_FIELD->getName()}"
-									data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
-								<span class="fas fa-signal"></span>
-							</button>
-							<span class="calculateValue"></span>
-						{/if}
-					</td>
-				{/foreach}
-			</tr>
-			</tfoot>
+			{if !empty($SHOW_SUMMATION_ROW)}
+				<tfoot class="listViewSummation">
+					<tr>
+						<td></td>
+						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+							<td {if $HEADER_FIELD@last} colspan="2" {/if} class="noWrap {if !empty($HEADER_FIELD->isCalculateField())}border{/if}">
+								{if !empty($HEADER_FIELD->isCalculateField())}
+									<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover" type="button" data-operator="sum" data-field="{$HEADER_FIELD->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
+										<span class="fas fa-signal"></span>
+									</button>
+									<span class="calculateValue"></span>
+								{/if}
+							</td>
+						{/foreach}
+					</tr>
+				</tfoot>
+			{/if}
 		</table>
 	</div>
 {/strip}

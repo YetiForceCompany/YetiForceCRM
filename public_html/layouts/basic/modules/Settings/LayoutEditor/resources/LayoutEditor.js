@@ -757,7 +757,7 @@ $.Class(
 					this.showCustomField(result);
 				} else {
 					message = data['error']['message'];
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						title:
 							data['error']['code'] != 513
 								? form.find('.fieldNameForm').text()
@@ -1016,13 +1016,13 @@ $.Class(
 					let response = data.result;
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					if (response && response.success) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							type: 'success',
 							text: app.vtranslate('JS_CUSTOM_BLOCK_ADDED')
 						});
 						aDeferred.resolve(data);
 					} else {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							type: 'error',
 							text: response.message
 						});
@@ -1881,7 +1881,10 @@ $.Class(
 								.find('[data-block-id="' + result.data.block + '"] .connectedSortable')
 								.append(newLiElement);
 						} else {
-							Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+							app.showNotify({
+								text: app.vtranslate('JS_ERROR'),
+								type: 'error'
+							});
 						}
 					});
 				}
@@ -2028,7 +2031,7 @@ $.Class(
 		registerCopyClipboard: function () {
 			new ClipboardJS('.copyFieldLabel', {
 				text: function (trigger) {
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 						type: 'success'
 					});
@@ -2062,7 +2065,7 @@ $.Class(
 					app.showModalWindow(data, (modalContainer) => {
 						progressInstance.progressIndicator({ mode: 'hide' });
 						app.showPopoverElementView(modalContainer.find('.js-help-info'));
-						new App.Fields.Text.Editor(
+						App.Fields.Text.Editor.register(
 							modalContainer.find('.js-context-area:visible'),
 							customConfig
 						);
@@ -2077,7 +2080,7 @@ $.Class(
 							textArea.closest('.js-context-block').removeClass('d-none');
 							App.Fields.Text.destroyEditor(textArea);
 							modalContainer.find('.js-help-info').attr('data-content', textArea.val());
-							new App.Fields.Text.Editor(textArea, customConfig);
+							App.Fields.Text.Editor.register(textArea, customConfig);
 						});
 						modalContainer.find('form').on('submit', function (e) {
 							e.preventDefault();
@@ -2087,7 +2090,7 @@ $.Class(
 								params.views = form.find('[name="views"]').val();
 							}
 							app.saveAjax('contextHelp', '', params).done(function (data) {
-								Vtiger_Helper_Js.showPnotify({
+								app.showNotify({
 									type: 'success',
 									text: app.vtranslate('JS_SAVE_CHANGES')
 								});

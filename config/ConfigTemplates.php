@@ -211,12 +211,6 @@ return [
 				return (int) func_get_arg(0);
 			}
 		],
-		'breadcrumbs' => [
-			'default' => true,
-			'description' => 'Should menu breadcrumbs be visible? true = show, false = hide',
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool'
-		],
 		'MINIMUM_CRON_FREQUENCY' => [
 			'default' => 1,
 			'description' => 'Minimum cron frequency [min]',
@@ -474,6 +468,20 @@ return [
 			'description' => 'Developer updater mode'
 		]
 	],
+	'layout' => [
+		'breadcrumbs' => [
+			'default' => true,
+			'description' => 'Should menu breadcrumbs be visible? true = show, false = hide',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'breadcrumbsHref' => [
+			'default' => true,
+			'description' => 'Should the breadcrumb menu have href enabled? true = enabled, false = off',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		]
+	],
 	'performance' => [
 		'CACHING_DRIVER' => [
 			'default' => 'Base',
@@ -604,11 +612,6 @@ return [
 		'CRON_MAX_ATACHMENTS_DELETE' => [
 			'default' => 1000,
 			'description' => 'The maximum number of attachments that cron can delete during a single execution',
-			'validation' => '\App\Validator::naturalNumber'
-		],
-		'CRON_BATCH_METHODS_LIMIT' => [
-			'default' => 15,
-			'description' => 'Time to execute batch methods [min].',
 			'validation' => '\App\Validator::naturalNumber'
 		],
 		'LOAD_CUSTOM_FILES' => [
@@ -815,11 +818,6 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
-		'GLOBAL_SEARCH_DEFAULT_OPERATOR' => [
-			'default' => 'FulltextBegin',
-			'description' => 'Global search - Default search operator. (FulltextBegin,FulltextWord,Contain,Begin,End)',
-			'validationValues' => ['FulltextBegin', 'FulltextWord', 'Contain', 'Begin', 'End']
-		],
 		'LIST_ENTITY_STATE_COLOR' => [
 			'default' => [
 				'Archived' => '#0032a2',
@@ -957,6 +955,14 @@ return [
 			'default' => 21600,
 			'description' => 'Lifetime session (in seconds)',
 		],
+		'API_CREATE_LIFETIME_SESSION' => [
+			'default' => 1440,
+			'description' => 'Maximum session lifetime from the time it was created (in minutes)',
+		],
+		'API_UPDATE_LIFETIME_SESSION' => [
+			'default' => 240,
+			'description' => 'Maximum session lifetime since the last modification (in minutes)',
+		],
 		'USER_AUTHY_MODE' => [
 			'default' => 'TOTP_OPTIONAL',
 			'description' => "User authentication mode.\n@see \\Users_Totp_Authmethod::ALLOWED_USER_AUTHY_MODE Available values.",
@@ -1043,6 +1049,45 @@ return [
 		'purifierAllowedDomains' => [
 			'default' => [],
 			'description' => 'List of allowed domains for fields with HTML support',
+		],
+		'proxyConnection' => [
+			'default' => false,
+			'description' => 'Do you want all connections to be made using a proxy?',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'proxyProtocol' => [
+			'default' => '',
+			'description' => 'Proxy protocol: http, https, tcp',
+			'validationValues' => ['http', 'https', 'tcp', '']
+		],
+		'proxyHost' => [
+			'default' => '',
+			'description' => 'Proxy host',
+			'validation' => '\App\Validator::url',
+		],
+		'proxyPort' => [
+			'default' => 0,
+			'description' => 'Proxy port',
+			'validation' => '\App\Validator::port',
+		],
+		'proxyLogin' => [
+			'default' => '',
+			'description' => 'Proxy login',
+			'validation' => '\App\Validator::text',
+			'sanitization' => '\App\Purifier::purify'
+		],
+		'proxyPassword' => [
+			'default' => '',
+			'description' => 'Proxy password',
+			'validation' => '\App\Validator::text',
+			'sanitization' => '\App\Purifier::purify'
+		],
+		'askAdminAboutVisitPurpose' => [
+			'default' => true,
+			'description' => '@var bool Ask admin about visit purpose',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
 		],
 	],
 	'sounds' => [

@@ -346,6 +346,9 @@ class Purifier
 				case 'AlnumType2':
 					$value = preg_match('/^[\sA-Za-z0-9\/\+]+$/', $input) ? $input : null;
 					break;
+				case 'AlnumSpace':
+					$value = Validator::alnumSpace($input) ? $input : null;
+					break;
 				case 'DateInUserFormat': // date in user format
 					if (!$input) {
 						return '';
@@ -443,7 +446,7 @@ class Purifier
 					$value = Validator::url($input) ? $input : null;
 					break;
 				case 'MailId':
-					$value = preg_match('/^[\sA-Za-z0-9\<\>\_\[\.\]\=\-\+\@\$\!\#\%\&\'\*\+\/\?\^\_\`\{\|\}\~\-]+$/', $input) ? $input : null;
+					$value = preg_match('/^[\sA-Za-z0-9\<\>\_\[\.\]\=\-\+\@\$\!\#\%\&\'\*\+\/\?\^\_\`\{\|\}\~\-\:]+$/', $input) ? $input : null;
 					break;
 				case 'ClassName':
 					$value = preg_match('/^[a-z\\\_]+$/i', $input) ? $input : null;

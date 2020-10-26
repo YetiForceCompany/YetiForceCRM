@@ -8,42 +8,15 @@
 					<h5 class="modal-title"><span class="fas fa-question-circle mr-1"></span>
 						{\App\Language::translate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}
 					</h5>
-					<div class="ml-auto">
-						{if $RECORD->get('link') neq '' && $PERMISSION_TO_SENDE_MAIL}
-							{if $USER_MODEL->get('internal_mailer') == 1}
-								{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
-								<a target="_blank" class="btn btn-sm btn-light mr-1" role="button"
-								   href="{$COMPOSE_URL}" rel="noreferrer noopener">
-								<span class="fas fa-envelope"
-									  title="{\App\Language::translate('LBL_SEND_EMAIL')}"></span>
-								</a>
-							{else}
-								{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
-								{if $URLDATA && $URLDATA != 'mailto:?'}
-									<a class="btn btn-sm btn-light mr-1" role="button" href="{$URLDATA}">
-									<span class="fas fa-envelope"
-										  title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
-									</a>
-								{/if}
-							{/if}
-						{/if}
-						{if $RECORD->isEditable()}
-							<a href="{$RECORD->getEditViewUrl()}" class="btn btn-sm btn-light mr-1" role="button">
-							<span class="yfi yfi-full-editing-view js-detail-quick-edit" data-js="click"
-								  title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
-							</a>
-						{/if}
-						{if $RECORD->isViewable()}
-							<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-sm btn-light" role="button">
-							<span class="fas fa-th-list js-detail-quick-edit"
-								  title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"></span>
-							</a>
-						{/if}
+					<div class="">
+						{foreach item=LINK from=$LINKS}
+							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='detailViewBasic' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
+						{/foreach}
+						<button type="button" class="close" data-dismiss="modal"
+								aria-label="{\App\Language::translate('LBL_CLOSE')}">
+							<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
+						</button>
 					</div>
-					<button type="button" class="close" data-dismiss="modal"
-							aria-label="{\App\Language::translate('LBL_CLOSE')}">
-						<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
-					</button>
 				</div>
 				<div class="modal-body">
 					{include file=\App\Layout::getTemplatePath('ActivityStateContent.tpl', $MODULE_NAME)}

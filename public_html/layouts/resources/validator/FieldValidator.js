@@ -284,14 +284,19 @@ Vtiger_Base_Validator_Js(
 					return true;
 				}
 
-				let maximumLength = fieldInfo.maximumlength;
+				let maximumLength = fieldInfo.maximumlength,
+					minimumLength = -maximumLength;
 				fieldValue = parseFloat(fieldValue);
-				if (fieldValue > parseFloat(maximumLength) || fieldValue < -parseFloat(maximumLength)) {
+				let ranges = maximumLength.split(',');
+				if (ranges.length === 2) {
+					maximumLength = ranges[1];
+					minimumLength = ranges[0];
+				}
+				if (fieldValue > parseFloat(maximumLength) || fieldValue < parseFloat(minimumLength)) {
 					errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
 					this.setError(errorInfo);
 					return false;
 				}
-				return true;
 			}
 			return response;
 		},
@@ -1530,7 +1535,7 @@ Vtiger_Base_Validator_Js(
 		validate: function () {
 			var field = this.getElement();
 			var fieldValue = field.val();
-			var alphaNumericRegex = /^[\/a-z\\0-9{}: _-]*$/i;
+			var alphaNumericRegex = /^[\/a-z\\0-9{}()$|: _-]*$/i;
 			if (!fieldValue.match(alphaNumericRegex)) {
 				var errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
 				this.setError(errorInfo);

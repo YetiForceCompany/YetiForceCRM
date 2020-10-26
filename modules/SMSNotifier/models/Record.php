@@ -66,7 +66,7 @@ class SMSNotifier_Record_Model extends Vtiger_Record_Model
 		} else {
 			$recordModel->set('smsnotifier_status', 'PLL_FAILED');
 		}
-		$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
+		$recordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
 		$recordModel->save();
 
 		return $result;

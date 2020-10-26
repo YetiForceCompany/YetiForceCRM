@@ -108,7 +108,7 @@ class Settings_Menu_Module_Model
 		switch ($row['type']) {
 			case 0:
 				$moduleModel = Vtiger_Module_Model::getInstance($row['module']);
-				$url = $moduleModel->getDefaultUrl() . '&mid=' . $row['id'] . '&parent=' . $row['parentid'];
+				$url = $moduleModel->getDefaultUrl() . '&mid=' . $row['id'] . (empty($row['parentid']) ? '' : ('&parent=' . $row['parentid']));
 				break;
 			case 1:
 				$url = $row['dataurl'];
@@ -117,7 +117,7 @@ class Settings_Menu_Module_Model
 				$url = addslashes($row['dataurl']);
 				break;
 			case 7:
-				$url = 'index.php?module=' . $row['name'] . '&view=List&viewname=' . $row['dataurl'] . '&mid=' . $row['id'] . '&parent=' . $row['parentid'];
+				$url = 'index.php?module=' . $row['name'] . '&view=List&viewname=' . $row['dataurl'] . '&mid=' . $row['id'] . (empty($row['parentid']) ? '' : ('&parent=' . $row['parentid']));
 				break;
 			default:
 				$url = null;

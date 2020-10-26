@@ -14,6 +14,6 @@ namespace App\Conditions\QueryFields;
 /**
  * Account name query field class.
  */
-class AccountNameField extends BaseField
+class AccountNameField extends StringField
 {
 }

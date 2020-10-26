@@ -31,16 +31,16 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	 */
 	public function process(App\Request $request)
 	{
-		$recordModel = $this->saveRecord($request);
-		$fieldModelList = $recordModel->getModule()->getFields();
+		$this->saveRecord($request);
+		$fieldModelList = $this->record->getModule()->getFields();
 		$result = [];
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
-			$fieldValue = $recordModel->get($fieldName);
+			$fieldValue = $this->record->get($fieldName);
 			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $fieldModel->getDisplayValue($fieldValue)];
 		}
-		$result['id'] = $recordModel->getId();
-		$result['_recordLabel'] = $recordModel->getName();
-		$result['_recordId'] = $recordModel->getId();
+		$result['id'] = $this->record->getId();
+		$result['_recordLabel'] = $this->record->getName();
+		$result['_recordId'] = $this->record->getId();
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);

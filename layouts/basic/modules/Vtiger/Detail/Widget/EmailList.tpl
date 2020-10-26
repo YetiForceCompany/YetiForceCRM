@@ -87,37 +87,39 @@
 		<div class="c-detail-widget__content js-detail-widget-collapse collapse multi-collapse" id="{$WIDGET_UID}-collapse"
 			data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}">
 			<div class="row no-gutters mb-0">
-				<div class="col-6 pr-2">
-					<div class="input-group input-group-sm">
-						<select name="mail-type" title="{\App\Language::translate('LBL_CHANGE_MAIL_TYPE')}"
-							class="form-control select2">
-							<option value="All">
-								{\App\Language::translate('LBL_ALL', 'OSSMailView')}
-							</option>
-							<option value="0">
-								{\App\Language::translate('LBL_OUTCOMING', 'OSSMailView')}
-							</option>
-							<option value="1">
-								{\App\Language::translate('LBL_INCOMING', 'OSSMailView')}
-							</option>
-							<option value="2">
-								{\App\Language::translate('LBL_INTERNAL', 'OSSMailView')}
-							</option>
-						</select>
-					</div>
-				</div>
-				<div class="col-6">
-					{if $MODULE_NAME == 'Accounts'}
+				{if !empty($WIDGET['data']['filter'])}
+					<div class="col-6 pr-2">
 						<div class="input-group input-group-sm">
-							<select name="mailFilter" title="{\App\Language::translate('LBL_CHANGE_FILTER', 'OSSMailView')}"
+							<select name="mail-type" title="{\App\Language::translate('LBL_CHANGE_MAIL_TYPE')}"
 								class="form-control select2">
-								<option value="All">{\App\Language::translate('LBL_FILTER_ALL', 'OSSMailView')}</option>
-								<option value="Accounts">{\App\Language::translate('LBL_FILTER_ACCOUNTS', 'OSSMailView')}</option>
-								<option value="Contacts">{\App\Language::translate('LBL_FILTER_CONTACTS', 'OSSMailView')}</option>
+								<option value="All">
+									{\App\Language::translate('LBL_ALL', 'OSSMailView')}
+								</option>
+								<option value="0">
+									{\App\Language::translate('LBL_OUTCOMING', 'OSSMailView')}
+								</option>
+								<option value="1">
+									{\App\Language::translate('LBL_INCOMING', 'OSSMailView')}
+								</option>
+								<option value="2">
+									{\App\Language::translate('LBL_INTERNAL', 'OSSMailView')}
+								</option>
 							</select>
 						</div>
-					{/if}
-				</div>
+					</div>
+					<div class="col-6">
+						{if $MODULE_NAME == 'Accounts'}
+							<div class="input-group input-group-sm">
+								<select name="mailFilter" title="{\App\Language::translate('LBL_CHANGE_FILTER', 'OSSMailView')}"
+									class="form-control select2">
+									<option value="All">{\App\Language::translate('LBL_FILTER_ALL', 'OSSMailView')}</option>
+									<option value="Accounts">{\App\Language::translate('LBL_FILTER_ACCOUNTS', 'OSSMailView')}</option>
+									<option value="Contacts">{\App\Language::translate('LBL_FILTER_CONTACTS', 'OSSMailView')}</option>
+								</select>
+							</div>
+						{/if}
+					</div>
+				{/if}
 			</div>
 			<div class="widgetContent mailsList js-detail-widget-content" data-js="container|value"></div>
 		</div>

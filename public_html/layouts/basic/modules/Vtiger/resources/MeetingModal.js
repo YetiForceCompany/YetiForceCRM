@@ -24,7 +24,7 @@ $.Class(
 				frameContainer.contentDocument.execCommand('selectAll', false, null);
 				frameContainer.contentDocument.execCommand('copy', false, null);
 				frameContainer.contentDocument.designMode = 'off';
-				Vtiger_Helper_Js.showPnotify({
+				app.showNotify({
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 					type: 'success'
 				});

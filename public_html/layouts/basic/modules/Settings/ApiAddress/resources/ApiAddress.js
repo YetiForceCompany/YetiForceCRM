@@ -34,13 +34,13 @@ jQuery.Class(
 					dataType: 'json'
 				})
 					.done(function (data) {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: data['result']['message'],
 							type: 'success'
 						});
 					})
 					.fail(function () {
-						Vtiger_Helper_Js.showPnotify({
+						app.showNotify({
 							text: app.vtranslate('JS_ERROR'),
 							type: 'error'
 						});
@@ -78,14 +78,14 @@ jQuery.Class(
 								dataType: 'json'
 							})
 								.done(function (data) {
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										text: data['result']['message'],
 										type: 'success'
 									});
 									window.location.reload();
 								})
 								.fail(function () {
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										text: app.vtranslate('JS_ERROR'),
 										type: 'error'
 									});
@@ -107,7 +107,7 @@ jQuery.Class(
 					provider: currentTarget.data('provider')
 				}).done((data) => {
 					icon.removeClass('fa-spin');
-					Vtiger_Helper_Js.showPnotify({
+					app.showNotify({
 						text: data['result']['message'],
 						type: data['result']['type']
 					});

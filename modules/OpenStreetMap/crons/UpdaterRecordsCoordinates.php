@@ -57,6 +57,9 @@ class OpenStreetMap_UpdaterRecordsCoordinates_Cron extends \App\CronHandler
 					$db->createCommand()->delete('u_#__openstreetmap_record_updater', ['type' => $typeAddress, 'crmid' => $recordId])->execute();
 				}
 			}
+			if ($this->checkTimeout()) {
+				break;
+			}
 		}
 		$dataReader->close();
 	}

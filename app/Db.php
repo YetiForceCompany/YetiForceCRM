@@ -8,6 +8,7 @@ namespace App;
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Db extends \yii\db\Connection
 {
@@ -140,7 +141,7 @@ class Db extends \yii\db\Connection
 	}
 
 	/**
-	 * Get info database.
+	 * Get info database server.
 	 *
 	 * @return array
 	 */
@@ -150,11 +151,9 @@ class Db extends \yii\db\Connection
 		$statement = $pdo->prepare('SHOW VARIABLES');
 		$statement->execute();
 		$conf = $statement->fetchAll(\PDO::FETCH_KEY_PAIR);
-
 		$statement = $pdo->prepare('SHOW STATUS');
 		$statement->execute();
 		$conf = array_merge($conf, $statement->fetchAll(\PDO::FETCH_KEY_PAIR));
-
 		$statement = $pdo->prepare('SELECT VERSION()');
 		$statement->execute();
 		$fullVersion = $statement->fetch(\PDO::FETCH_COLUMN);
@@ -178,6 +177,54 @@ class Db extends \yii\db\Connection
 			'connectionStatus' => $pdo->getAttribute(\PDO::ATTR_CONNECTION_STATUS),
 			'serverInfo' => $pdo->getAttribute(\PDO::ATTR_SERVER_INFO),
 		]);
+	}
+
+	/**
+	 * Get database info.
+	 *
+	 * @return array
+	 */
+	public function getDbInfo(): array
+	{
+		$return = [
+			'isFileSize' => false,
+			'size' => 0,
+			'dataSize' => 0,
+			'indexSize' => 0,
+			'filesSize' => 0,
+			'tables' => [],
+		];
+		$statement = $this->getSlavePdo()->prepare("SHOW TABLE STATUS FROM `{$this->dbName}`");
+		$statement->execute();
+		while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
+			$return['tables'][$row['Name']] = [
+				'rows' => $row['Rows'],
+				'format' => $row['Row_format'],
+				'engine' => $row['Engine'],
+				'dataSize' => $row['Data_length'],
+				'indexSize' => $row['Index_length'],
+				'collation' => $row['Collation'],
+			];
+			$return['dataSize'] += $row['Data_length'];
+			$return['indexSize'] += $row['Index_length'];
+			$return['size'] += $row['Data_length'] += $row['Index_length'];
+		}
+		try {
+			$statement = $this->getSlavePdo()->prepare("SELECT * FROM `information_schema`.`INNODB_SYS_TABLESPACES` WHERE `NAME` LIKE '{$this->dbName}/%'");
+			$statement->execute();
+			while ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
+				$tableName = str_replace($this->dbName . '/', '', $row['NAME']);
+				if (!empty($row['ALLOCATED_SIZE'])) {
+					if (isset($return['tables'][$tableName])) {
+						$return['tables'][$tableName]['fileSize'] = $row['ALLOCATED_SIZE'];
+						$return['isFileSize'] = true;
+					}
+					$return['filesSize'] += $row['ALLOCATED_SIZE'];
+				}
+			}
+		} catch (\Throwable $th) {
+		}
+		return $return;
 	}
 
 	/**

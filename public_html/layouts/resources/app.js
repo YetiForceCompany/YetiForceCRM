@@ -97,11 +97,7 @@ var App = (window.App = {
 				if (undefined === params.callbackFunction) {
 					params.callbackFunction = function () {};
 				}
-				if (
-					(app.getViewName() === 'Detail' ||
-						(app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
-					app.getParentModuleName() != 'Settings'
-				) {
+				if ((app.getViewName() === 'Detail' || (app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) && app.getParentModuleName() != 'Settings') {
 					url += '&sourceModule=' + app.getModuleName();
 					url += '&sourceRecord=' + app.getRecordId();
 				}
@@ -159,6 +155,7 @@ var App = (window.App = {
 					const moduleName = quickCreateForm.find('[name="module"]').val();
 					const editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
 					const moduleClassName = moduleName + '_QuickCreate_Js';
+					editViewInstance.setForm(quickCreateForm);
 					editViewInstance.registerBasicEvents(quickCreateForm);
 					if (typeof window[moduleClassName] !== 'undefined') {
 						new window[moduleClassName]().registerEvents(container);
@@ -168,7 +165,6 @@ var App = (window.App = {
 						params.callbackPostShown(quickCreateForm);
 					}
 					this.registerPostLoadEvents(quickCreateForm, params);
-					this.registerHelpInfo(quickCreateForm);
 				});
 			},
 			/**
@@ -211,9 +207,7 @@ var App = (window.App = {
 						});
 						if (!recordPreSaveEvent.isDefaultPrevented()) {
 							const moduleInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
-							const saveHandler = !!moduleInstance.quickCreateSave
-								? moduleInstance.quickCreateSave
-								: this.save;
+							const saveHandler = !!moduleInstance.quickCreateSave ? moduleInstance.quickCreateSave : this.save;
 							let progress = $.progressIndicator({
 								message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 								position: 'html',
@@ -236,7 +230,7 @@ var App = (window.App = {
 								app.event.trigger('QuickCreate.AfterSaveFinal', data, form);
 								progress.progressIndicator({ mode: 'hide' });
 								if (data.success) {
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
 										type: 'success'
 									});
@@ -259,14 +253,6 @@ var App = (window.App = {
 				});
 
 				this.registerTabEvents(form);
-			},
-			/**
-			 * Register help info
-			 *
-			 * @param   {object}  container jQuery
-			 */
-			registerHelpInfo(container = $('form[name="QuickCreate"]')) {
-				app.showPopoverElementView(container.find('.js-help-info'));
 			},
 			/**
 			 * Function to navigate from quick create to edit iew full form
@@ -307,9 +293,7 @@ var App = (window.App = {
 						.find('[data-element-name]')
 						.each(function (index, element) {
 							element = $(element);
-							element
-								.attr('name', element.attr('data-element-name'))
-								.removeAttr('data-element-name');
+							element.attr('name', element.attr('data-element-name')).removeAttr('data-element-name');
 						});
 				};
 				tabElements.on('click', function (e) {
@@ -412,9 +396,7 @@ var App = (window.App = {
 						});
 						if (!recordPreSaveEvent.isDefaultPrevented()) {
 							const moduleInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
-							const saveHandler = !!moduleInstance.quickEditSave
-								? moduleInstance.quickEditSave
-								: this.save;
+							const saveHandler = !!moduleInstance.quickEditSave ? moduleInstance.quickEditSave : this.save;
 							let progress = $.progressIndicator({
 								message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 								position: 'html',
@@ -437,16 +419,19 @@ var App = (window.App = {
 								app.event.trigger('QuickEdit.AfterSaveFinal', data, form, element);
 								progress.progressIndicator({ mode: 'hide' });
 								if (data.success) {
-									Vtiger_Helper_Js.showPnotify({
+									app.showNotify({
 										text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
 										type: 'success'
 									});
 								}
-								if (
-									'Detail' === viewName &&
-									app.getRecordId() === form.find('[name="record"]').val()
-								) {
-									if (params.removeFromUrl) {
+								if ('Detail' === viewName && app.getRecordId() === form.find('[name="record"]').val()) {
+									if (data.result._isViewable == false) {
+										if (window !== window.parent) {
+											window.parent.location.href = 'index.php?module=' + moduleName + '&view=ListPreview';
+										} else {
+											window.location.href = 'index.php?module=' + moduleName + '&view=List';
+										}
+									} else if (params.removeFromUrl) {
 										let searchParams = new URLSearchParams(window.location.search);
 										searchParams.delete('step');
 										window.location.href = 'index.php?' + searchParams.toString();
@@ -473,11 +458,8 @@ var App = (window.App = {
 			 */
 			save(form) {
 				const aDeferred = $.Deferred();
+				form.serializeFormData();
 				let formData = new FormData(form[0]);
-				const saveData = form.serializeFormData();
-				for (let key in saveData) {
-					formData.append(key, saveData[key]);
-				}
 				AppConnector.request({
 					url: 'index.php',
 					type: 'POST',
@@ -595,10 +577,7 @@ var app = (window.app = {
 	getRecordId: function () {
 		var view = this.getViewName();
 		var recordId;
-		if (
-			$.inArray(view, ['Edit', 'PreferenceEdit', 'Detail', 'PreferenceDetail', 'DetailPreview']) !==
-			-1
-		) {
+		if ($.inArray(view, ['Edit', 'PreferenceEdit', 'Detail', 'PreferenceDetail', 'DetailPreview']) !== -1) {
 			recordId = this.getMainParams('recordId');
 		}
 		return recordId;
@@ -642,11 +621,7 @@ var app = (window.app = {
 	 * @returns {object}
 	 */
 	getWindowParent() {
-		if (
-			typeof window.frames[0] !== 'undefined' &&
-			typeof window.frames[0].app !== 'undefined' &&
-			window.frames[0].app.childFrame
-		) {
+		if (typeof window.frames[0] !== 'undefined' && typeof window.frames[0].app !== 'undefined' && window.frames[0].app.childFrame) {
 			return window.frames[0];
 		} else {
 			return window;
@@ -724,10 +699,7 @@ var app = (window.app = {
 		element.on('mouseleave', (e) => {
 			setTimeout(() => {
 				let currentPopover = this.getBindedPopover(element);
-				if (
-					!$(':hover').filter(currentPopover).length &&
-					!currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length
-				) {
+				if (!$(':hover').filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
 					currentPopover.popover('hide');
 				}
 			}, hideDelay);
@@ -740,10 +712,7 @@ var app = (window.app = {
 					let currentPopover = this.getBindedPopover(element);
 					currentPopover.on('mouseleave', () => {
 						setTimeout(() => {
-							if (
-								!$(':hover').filter(currentPopover).length &&
-								!currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length
-							) {
+							if (!$(':hover').filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
 								currentPopover.popover('hide'); //close current popover
 							}
 							if (!$(':hover').filter($('.popover')).length) {
@@ -763,10 +732,7 @@ var app = (window.app = {
 			.addClass('u-text-ellipsis--not-active')
 			.css(element.css(['font-size', 'font-weight', 'font-family']))
 			.appendTo('body');
-		clone
-			.find('.u-text-ellipsis')
-			.removeClass('u-text-ellipsis')
-			.addClass('u-text-ellipsis--not-active');
+		clone.find('.u-text-ellipsis').removeClass('u-text-ellipsis').addClass('u-text-ellipsis--not-active');
 		if (clone.width() - 1 > element.width()) {
 			clone.remove();
 			return true;
@@ -780,8 +746,7 @@ var app = (window.app = {
 			manualTriggerDelay: 500,
 			placement: 'auto',
 			html: true,
-			template:
-				'<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+			template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
 			container: 'body',
 			boundary: 'viewport',
 			delay: { show: 300, hide: 100 }
@@ -811,11 +776,7 @@ var app = (window.app = {
 		});
 		return selectElement;
 	},
-	registerPopoverEllipsis({
-		element = $('.js-popover-tooltip--ellipsis'),
-		params = { trigger: 'hover focus' },
-		container = $(window)
-	} = {}) {
+	registerPopoverEllipsis({ element = $('.js-popover-tooltip--ellipsis'), params = { trigger: 'hover focus' }, container = $(window) } = {}) {
 		const self = this;
 		params = {
 			callbackShown: () => {
@@ -823,27 +784,19 @@ var app = (window.app = {
 			},
 			trigger: 'manual',
 			placement: 'right',
-			template:
-				'<div class="popover js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>'
+			template: '<div class="popover js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>'
 		};
-		let popoverText = element.find('.js-popover-text').length
-			? element.find('.js-popover-text')
-			: element;
+		let popoverText = element.find('.js-popover-text').length ? element.find('.js-popover-text') : element;
 		if (!app.isEllipsisActive(popoverText)) {
 			element.addClass('popover-triggered');
 			return;
 		}
 		app.showPopoverElementView(element, params);
 	},
-	registerPopoverEllipsisIcon(
-		selectElement = $('.js-popover-tooltip--ellipsis-icon'),
-		params = { trigger: 'hover focus' }
-	) {
+	registerPopoverEllipsisIcon(selectElement = $('.js-popover-tooltip--ellipsis-icon'), params = { trigger: 'hover focus' }) {
 		selectElement.each(function (index, domElement) {
 			let element = $(domElement);
-			let popoverText = element.find('.js-popover-text').length
-				? element.find('.js-popover-text')
-				: element;
+			let popoverText = element.find('.js-popover-text').length ? element.find('.js-popover-text') : element;
 			if (!app.isEllipsisActive(popoverText)) {
 				return;
 			}
@@ -860,15 +813,10 @@ var app = (window.app = {
 	 * @param {jQuery} selectElement
 	 * @param {object} customParams
 	 */
-	registerPopoverRecord: function (
-		selectElement = $('a.js-popover-tooltip--record'),
-		customParams = {},
-		container = $(document)
-	) {
+	registerPopoverRecord: function (selectElement = $('a.js-popover-tooltip--record'), customParams = {}, container = $(document)) {
 		const self = this;
-		let params = {
-			template:
-				'<div class="popover c-popover--link js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>',
+		app.showPopoverElementView(selectElement, {
+			template: '<div class="popover c-popover--link js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>',
 			content: '<div class="d-none"></div>',
 			manualTriggerDelay: app.getMainParams('recordPopoverDelay'),
 			placement: 'right',
@@ -902,8 +850,7 @@ var app = (window.app = {
 					});
 				}
 			}
-		};
-		app.showPopoverElementView(selectElement, params);
+		});
 	},
 	/**
 	 * Update popover record position (overwrite bootstrap positioning, failing on huge elements)
@@ -1065,19 +1012,20 @@ var app = (window.app = {
 		};
 		const modalContainer = container.find('.modal:first');
 		modalContainer.one('shown.bs.modal', function () {
+			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 			cb(modalContainer);
-			App.Fields.Picklist.showSelect2ElementView(modalContainer.find('select.select2'));
+			App.Fields.Picklist.changeSelectElementView(modalContainer);
 			App.Fields.Date.register(modalContainer);
-			new App.Fields.Text.Editor(modalContainer.find('.js-editor'), {
+			App.Fields.Text.Editor.register(modalContainer.find('.js-editor'), {
 				height: '5em',
 				toolbar: 'Min'
 			});
 			app.registesterScrollbar(modalContainer);
+			app.registerIframeEvents(modalContainer);
 		});
 		$('body').append(container);
 		modalContainer.modal(params);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
-		thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 	},
 	showModalWindow: function (data, url, cb, paramsObject = {}) {
 		if (!app.isCurrentWindowTarget('app.showModalWindow', arguments)) {
@@ -1203,7 +1151,7 @@ var app = (window.app = {
 		if (modalContainer === undefined) {
 			modalContainer = $('#' + modalId + ' .js-modal-data');
 		}
-		let moduleName = modalContainer.data('module');
+		let moduleName = modalContainer.data('module') || 'Base';
 		let modalClass = moduleName.replace(':', '_') + '_' + modalContainer.data('view') + '_JS';
 		if (typeof windowParent[modalClass] === 'undefined') {
 			modalClass = 'Base_' + modalContainer.data('view') + '_JS';
@@ -1220,25 +1168,25 @@ var app = (window.app = {
 		}
 	},
 	registerModalEvents: function (container, sendByAjaxCb) {
-		var form = container.find('form');
-		var validationForm = false;
-		if (form.hasClass('validateForm')) {
+		let form = container.find('form');
+		let validationForm = false;
+		if (form.hasClass('validateForm') || form.hasClass('js-validate-form')) {
 			form.validationEngine(app.validationEngineOptions);
 			validationForm = true;
 		}
-		if (form.hasClass('sendByAjax')) {
+		if (form.hasClass('sendByAjax') || form.hasClass('js-send-by-ajax')) {
 			form.on('submit', function (e) {
-				var save = true;
+				let save = true;
 				e.preventDefault();
 				if (validationForm && form.data('jqv').InvalidFields.length > 0) {
 					app.formAlignmentAfterValidation(form);
 					save = false;
 				}
 				if (save) {
-					var progressIndicatorElement = $.progressIndicator({
+					let progressIndicatorElement = $.progressIndicator({
 						blockInfo: { enabled: true }
 					});
-					var formData = form.serializeFormData();
+					let formData = form.serializeFormData();
 					AppConnector.request(formData)
 						.done(function (responseData) {
 							sendByAjaxCb(formData, responseData);
@@ -1446,10 +1394,7 @@ var app = (window.app = {
 		$('.js-clock__btn').on('click', (e) => {
 			e.stopPropagation();
 			let tempElement = $(e.currentTarget).closest('.time').find('input.clockPicker');
-			if (
-				tempElement.attr('disabled') !== 'disabled' &&
-				tempElement.attr('readonly') !== 'readonly'
-			) {
+			if (tempElement.attr('disabled') !== 'disabled' && tempElement.attr('readonly') !== 'readonly') {
 				tempElement.clockpicker('show');
 			}
 		});
@@ -1465,9 +1410,7 @@ var app = (window.app = {
 					app.event.trigger('Clockpicker.changed', timeInput);
 				};
 				params.beforeHide = () => {
-					meridiemTime = $('.clockpicker-buttons-am-pm:visible')
-						.find('a:not(.text-white-50)')
-						.text();
+					meridiemTime = $('.clockpicker-buttons-am-pm:visible').find('a:not(.text-white-50)').text();
 				};
 			} else {
 				params.afterDone = () => {
@@ -1558,10 +1501,7 @@ var app = (window.app = {
 		let scrollbarBottomRightInit = new PerfectScrollbar(element[0], options);
 		return [scrollbarTopLeftInit, scrollbarBottomRightInit];
 	},
-	showNewScrollbarTopBottom: function (
-		element,
-		options = { wheelPropagation: true, suppressScrollY: true }
-	) {
+	showNewScrollbarTopBottom: function (element, options = { wheelPropagation: true, suppressScrollY: true }) {
 		if (typeof element === 'undefined' || !element.length) return;
 		options = Object.assign(this.scrollOptions, options);
 		new PerfectScrollbar(element[0], options);
@@ -1576,10 +1516,7 @@ var app = (window.app = {
 			bottom: 'auto'
 		});
 	},
-	showNewScrollbarTop: function (
-		element,
-		options = { wheelPropagation: true, suppressScrollY: true }
-	) {
+	showNewScrollbarTop: function (element, options = { wheelPropagation: true, suppressScrollY: true }) {
 		if (typeof element === 'undefined' || !element.length) return;
 		options = Object.assign(this.scrollOptions, options);
 		new PerfectScrollbar(element[0], options);
@@ -1733,14 +1670,8 @@ var app = (window.app = {
 	 */
 	placeAtCenter: function (element) {
 		element.css('position', 'absolute');
-		element.css(
-			'top',
-			($(window).height() - element.outerHeight()) / 2 + $(window).scrollTop() + 'px'
-		);
-		element.css(
-			'left',
-			($(window).width() - element.outerWidth()) / 2 + $(window).scrollLeft() + 'px'
-		);
+		element.css('top', ($(window).height() - element.outerHeight()) / 2 + $(window).scrollTop() + 'px');
+		element.css('left', ($(window).width() - element.outerWidth()) / 2 + $(window).scrollLeft() + 'px');
 	},
 	getvalidationEngineOptions: function (select2Status) {
 		return Object.assign({}, app.validationEngineOptions);
@@ -1871,19 +1802,7 @@ var app = (window.app = {
 			h = date.getHours(),
 			i = date.getMinutes(),
 			s = date.getSeconds();
-		return (
-			y +
-			'-' +
-			this.formatDateZ(m) +
-			'-' +
-			this.formatDateZ(d) +
-			' ' +
-			this.formatDateZ(h) +
-			':' +
-			this.formatDateZ(i) +
-			':' +
-			this.formatDateZ(s)
-		);
+		return y + '-' + this.formatDateZ(m) + '-' + this.formatDateZ(d) + ' ' + this.formatDateZ(h) + ':' + this.formatDateZ(i) + ':' + this.formatDateZ(s);
 	},
 	formatDateZ: function (i) {
 		return i <= 9 ? '0' + i : i;
@@ -1956,10 +1875,7 @@ var app = (window.app = {
 		if (!CONFIG.debug) {
 			return;
 		}
-		console.warn(
-			'%cYetiForce debug mode!!!',
-			'color: red; font-family: sans-serif; font-size: 1.5em; font-weight: bolder; text-shadow: #000 1px 1px;'
-		);
+		console.warn('%cYetiForce debug mode!!!', 'color: red; font-family: sans-serif; font-size: 1.5em; font-weight: bolder; text-shadow: #000 1px 1px;');
 		if (typeof error === 'object' && error.responseText) {
 			error = error.responseText;
 		}
@@ -2010,49 +1926,44 @@ var app = (window.app = {
 		if (typeof container === 'undefined') {
 			container = $('body');
 		}
-		container
-			.off('click', 'button.showModal, a.showModal, .js-show-modal')
-			.on('click', 'button.showModal, a.showModal, .js-show-modal', function (e) {
-				e.preventDefault();
-				var currentElement = $(e.currentTarget);
-				var url = currentElement.data('url');
+		container.off('click', 'button.showModal, a.showModal, .js-show-modal').on('click', 'button.showModal, a.showModal, .js-show-modal', function (e) {
+			e.preventDefault();
+			var currentElement = $(e.currentTarget);
+			var url = currentElement.data('url');
 
-				if (typeof url !== 'undefined') {
-					if (currentElement.hasClass('js-popover-tooltip')) {
-						currentElement.popover('hide');
-					}
-					if (currentElement.hasClass('disabledOnClick')) {
-						currentElement.attr('disabled', true);
-					}
-					var modalWindowParams = {
-						url: url,
-						cb: function (container) {
-							var call = currentElement.data('cb');
-							if (typeof call !== 'undefined') {
-								if (call.indexOf('.') !== -1) {
-									var callerArray = call.split('.');
-									if (
-										typeof window[callerArray[0]] === 'object' ||
-										typeof window[callerArray[0]] === 'function'
-									) {
-										window[callerArray[0]][callerArray[1]](container);
-									}
-								} else {
-									if (typeof window[call] === 'function') {
-										window[call](container);
-									}
+			if (typeof url !== 'undefined') {
+				if (currentElement.hasClass('js-popover-tooltip')) {
+					currentElement.popover('hide');
+				}
+				if (currentElement.hasClass('disabledOnClick')) {
+					currentElement.attr('disabled', true);
+				}
+				var modalWindowParams = {
+					url: url,
+					cb: function (container) {
+						var call = currentElement.data('cb');
+						if (typeof call !== 'undefined') {
+							if (call.indexOf('.') !== -1) {
+								var callerArray = call.split('.');
+								if (typeof window[callerArray[0]] === 'object' || typeof window[callerArray[0]] === 'function') {
+									window[callerArray[0]][callerArray[1]](container);
+								}
+							} else {
+								if (typeof window[call] === 'function') {
+									window[call](container);
 								}
 							}
-							currentElement.removeAttr('disabled');
 						}
-					};
-					if (currentElement.data('modalid')) {
-						modalWindowParams['id'] = currentElement.data('modalid');
+						currentElement.removeAttr('disabled');
 					}
-					app.showModalWindow(modalWindowParams);
+				};
+				if (currentElement.data('modalid')) {
+					modalWindowParams['id'] = currentElement.data('modalid');
 				}
-				e.stopPropagation();
-			});
+				app.showModalWindow(modalWindowParams);
+			}
+			e.stopPropagation();
+		});
 	},
 	playSound: function (action) {
 		var soundsConfig = app.getMainParams('sounds');
@@ -2061,14 +1972,12 @@ var app = (window.app = {
 			audio.play();
 		}
 	},
-	registerIframeAndMoreContent() {
+	registerIframeAndMoreContent(container = $(document)) {
 		let showMoreModal = (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 			const btn = $(e.currentTarget);
-			const message = btn.data('iframe')
-				? btn.siblings('iframe').clone().show()
-				: btn.closest('.js-more-content').find('.fullContent').html();
+			const message = btn.data('iframe') ? btn.siblings('iframe').clone().show() : btn.closest('.js-more-content').find('.fullContent').html();
 			bootbox.dialog({
 				message,
 				title: '<span class="mdi mdi-overscan"></span>  ' + app.vtranslate('JS_FULL_TEXT'),
@@ -2082,8 +1991,7 @@ var app = (window.app = {
 				}
 			});
 		};
-		$('.js-more').on('click', showMoreModal);
-		$(document).on('click', '.js-more', showMoreModal);
+		container.on('click', '.js-more', showMoreModal);
 	},
 	registerIframeEvents(content) {
 		content.find('.js-iframe-full-height').each(function () {
@@ -2116,9 +2024,7 @@ var app = (window.app = {
 				self.closeSidebar();
 			}
 		});
-		self.sidebar
-			.on('mouseenter', self.openSidebar.bind(self))
-			.on('mouseleave', self.closeSidebar.bind(self));
+		self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
 		self.sidebar.find('.js-menu__content').on('keydown', self.sidebarKeyboard.bind(self));
 		self.sidebar.on('keydown', (e) => {
 			if (e.which == self.keyboard.ESCAPE) {
@@ -2129,9 +2035,6 @@ var app = (window.app = {
 						.eq(parseInt($(':tabbable').index(self.sidebar.find(':tabbable').last())) + 1)
 						.focus();
 			}
-		});
-		self.sidebar.find('.js-submenu').on('shown.bs.collapse', (e) => {
-			$(e.target).find(':tabbable').first().focus();
 		});
 		$('.js-submenu-toggler').on('click', (e) => {
 			if (!$(e.currentTarget).hasClass('collapsed') && !$(e.target).closest('.toggler').length) {
@@ -2171,9 +2074,7 @@ var app = (window.app = {
 			} else {
 				pinButton.addClass('u-opacity-muted');
 				baseContainer.removeClass('c-menu--open');
-				self.sidebar
-					.on('mouseenter', self.openSidebar.bind(self))
-					.on('mouseleave', self.closeSidebar.bind(self));
+				self.sidebar.on('mouseenter', self.openSidebar.bind(self)).on('mouseleave', self.closeSidebar.bind(self));
 				self.closeSidebar.bind(self);
 			}
 			AppConnector.request({
@@ -2206,9 +2107,7 @@ var app = (window.app = {
 				}
 			}
 		} else if (
-			(target.hasClass('js-submenu-toggler') &&
-				e.which == this.keyboard.RIGHT &&
-				target.hasClass('collapsed')) ||
+			(target.hasClass('js-submenu-toggler') && e.which == this.keyboard.RIGHT && target.hasClass('collapsed')) ||
 			(target.hasClass('js-submenu-toggler') && e.which == this.keyboard.SPACE)
 		) {
 			target.click();
@@ -2259,11 +2158,7 @@ var app = (window.app = {
 			module: 'Home',
 			action: 'BrowsingHistory'
 		}).done(function (response) {
-			$('.historyList').html(
-				`<a class="item dropdown-item" href="#" role="listitem">${app.vtranslate(
-					'JS_NO_RECORDS'
-				)}</a>`
-			);
+			$('.historyList').html(`<a class="item dropdown-item" href="#" role="listitem">${app.vtranslate('JS_NO_RECORDS')}</a>`);
 		});
 	},
 	/**
@@ -2307,15 +2202,15 @@ var app = (window.app = {
 	 */
 	convertUrlToObject(url) {
 		let urlObject = {};
-		url
-			.split('index.php?')[1]
-			.split('&')
-			.forEach((el) => {
-				if (el.includes('=')) {
-					let values = el.split('=');
-					urlObject[values[0]] = values[1];
-				}
-			});
+		if (url.indexOf('index.php?') !== -1) {
+			url = url.split('index.php?')[1];
+		}
+		url.split('&').forEach((el) => {
+			if (el.includes('=')) {
+				let values = el.split('=');
+				urlObject[values[0]] = values[1];
+			}
+		});
 		return urlObject;
 	},
 	/**
@@ -2345,8 +2240,7 @@ var app = (window.app = {
 		if (element) {
 			element = $(element);
 			if (!params.title) {
-				params.title =
-					element.html() + ' ' + (element.data('content') ? element.data('content') : '');
+				params.title = element.html() + ' ' + (element.data('content') ? element.data('content') : '');
 			}
 			if (!params.message) {
 				params.message = element.data('confirm');
@@ -2377,14 +2271,10 @@ var app = (window.app = {
 			result += short ? hour + app.vtranslate('JS_H') : `${hour} ` + app.vtranslate('JS_H_LONG');
 		}
 		if ((hour || min) && withMinutes) {
-			result += short
-				? ` ${min}` + app.vtranslate('JS_M')
-				: ` ${min} ` + app.vtranslate('JS_M_LONG');
+			result += short ? ` ${min}` + app.vtranslate('JS_M') : ` ${min} ` + app.vtranslate('JS_M_LONG');
 		}
 		if (withSeconds !== false) {
-			result += short
-				? ` ${sec}` + app.vtranslate('JS_S')
-				: ` ${sec} ` + app.vtranslate('JS_S_LONG');
+			result += short ? ` ${sec}` + app.vtranslate('JS_S') : ` ${sec} ` + app.vtranslate('JS_S_LONG');
 		}
 		if (!hour && !min && withSeconds === false && withMinutes) {
 			result += short ? '0' + app.vtranslate('JS_M') : '0 ' + app.vtranslate('JS_M_LONG');
@@ -2459,71 +2349,106 @@ var app = (window.app = {
 		txt.innerHTML = html;
 		return txt.value;
 	},
-	showAlert: function (customParams) {
-		let userParams = customParams;
-		if (typeof customParams === 'string') {
-			userParams = {};
-			userParams.text = customParams;
-		}
-		let params = {
-			target: document.body,
-			data: {
-				type: 'error',
-				hide: false,
-				stack: {
-					dir1: 'down',
-					modal: true,
-					firstpos1: 25
-				},
-				modules: {
-					Confirm: {
+	showAlert: function (text) {
+		return this.showNotify({
+			title: text,
+			type: 'error',
+			closer: false,
+			sticker: false,
+			destroy: false,
+			modules: new Map([
+				...PNotify.defaultModules,
+				[
+					PNotifyConfirm,
+					{
 						confirm: true,
 						buttons: [
 							{
-								text: 'Ok',
-								promptTrigger: true,
+								text: app.vtranslate('JS_OK'),
 								primary: true,
-								click: function (notice) {
-									notice.close();
-								}
+								click: (notice) => notice.close()
 							}
 						]
-					},
-					Buttons: {
-						closer: false,
-						sticker: false
-					},
-					History: {
-						history: false
 					}
-				}
-			}
-		};
-		if (typeof userParams !== 'undefined') {
-			params.data = $.extend(params.data, userParams);
-		}
-		return new PNotify(params);
+				]
+			]),
+			stack: new PNotify.Stack({
+				dir1: 'down',
+				modal: true,
+				firstpos1: 25,
+				overlayClose: false
+			})
+		});
 	},
-	showConfirmModal: function (customParams, confirmCallback = () => {}, cancelCallback = () => {}) {
-		let aDeferred = $.Deferred();
-
-		let userParams = customParams;
-		if (typeof customParams === 'string') {
-			userParams = {};
-			userParams.text = customParams;
+	showDesktopNotification: function (params) {
+		let type = 'error';
+		params.modules = new Map([
+			...PNotify.defaultModules,
+			[
+				PNotifyDesktop,
+				{
+					fallback: false,
+					icon: params.icon
+				}
+			]
+		]);
+		if (typeof params.type !== 'undefined') {
+			type = params.type;
+			if (params.type != 'error') {
+				params.hide = true;
+			}
 		}
+		returnPNotify[type](params);
+	},
+	showNotify: function (customParams) {
 		let params = {
-			target: document.body,
-			data: {
-				hide: false,
-				icon: 'fas fa-question-circle',
-				stack: {
-					dir1: 'down',
-					modal: true,
-					firstpos1: 25
-				},
-				modules: {
-					Confirm: {
+			hide: false
+		};
+		let userParams = customParams;
+		let type = 'info';
+		if (typeof customParams === 'string') {
+			userParams = {
+				title: customParams
+			};
+		}
+		if (typeof customParams.type !== 'undefined') {
+			type = customParams.type;
+		}
+		if (type !== 'error') {
+			params.hide = true;
+		}
+		return PNotify[type]($.extend(params, userParams));
+	},
+	/**
+	 * Set Pnotify defaults options
+	 */
+	setPnotifyDefaultOptions() {
+		PNotify.defaults.textTrusted = true; // *Trusted option enables html as parameter's value
+		PNotify.defaults.titleTrusted = true;
+		PNotify.defaults.sticker = false;
+		PNotify.defaults.styling = 'bootstrap4';
+		PNotify.defaults.icons = 'fontawesome5';
+		PNotify.defaults.delay = 4000;
+		PNotify.defaults.stack.maxOpen = 10;
+		PNotify.defaults.stack.spacing1 = 5;
+		PNotify.defaults.stack.spacing2 = 5;
+		PNotify.defaults.labels.close = app.vtranslate('JS_CLOSE');
+		PNotify.defaultModules.set(PNotifyBootstrap4, {});
+		PNotify.defaultModules.set(PNotifyFontAwesome5, {});
+		PNotify.defaultModules.set(PNotifyMobile, {});
+	},
+	showConfirmModal: function (text, callback) {
+		return this.showNotify({
+			icon: 'fas fa-question-circle',
+			title: text,
+			closer: false,
+			sticker: false,
+			destroy: false,
+			modules: new Map([
+				...PNotify.defaultModules,
+				[
+					PNotifyConfirm,
+					{
 						confirm: true,
 						buttons: [
 							{
@@ -2532,35 +2457,27 @@ var app = (window.app = {
 								promptTrigger: true,
 								click: function (notice) {
 									notice.close();
-									confirmCallback();
-									aDeferred.resolve(true);
+									callback(true);
 								}
 							},
 							{
 								text: app.vtranslate('JS_CANCEL'),
 								click: function (notice) {
 									notice.close();
-									cancelCallback();
-									aDeferred.resolve(false);
+									callback(false);
 								}
 							}
 						]
-					},
-					Buttons: {
-						closer: false,
-						sticker: false
-					},
-					History: {
-						history: false
 					}
-				}
-			}
-		};
-		if (typeof userParams !== 'undefined') {
-			params.data = $.extend(params.data, userParams);
-		}
-		new PNotify(params);
-		return aDeferred.promise();
+				]
+			]),
+			stack: new PNotify.Stack({
+				dir1: 'down',
+				modal: true,
+				firstpos1: 25,
+				overlayClose: false
+			})
+		});
 	},
 	registesterScrollbar(container) {
 		container.find('.js-scrollbar').each(function () {
@@ -2591,10 +2508,7 @@ var app = (window.app = {
 					if (currentTarget.hasClass('js-popover-tooltip--record')) {
 						app.registerPopoverRecord(currentTarget, {}, container);
 						currentTarget.trigger('mouseenter');
-					} else if (
-						!currentTarget.hasClass('js-popover-tooltip--record') &&
-						currentTarget.data('field-type')
-					) {
+					} else if (!currentTarget.hasClass('js-popover-tooltip--record') && currentTarget.data('field-type')) {
 						app.registerPopoverRecord(currentTarget.children('a'), {}, container); //popoverRecord on children doesn't need triggering
 					} else if (
 						!currentTarget.hasClass('js-popover-tooltip--record') &&
@@ -2611,36 +2525,6 @@ var app = (window.app = {
 				}
 			}
 		);
-	},
-	showNotify: function (params) {
-		if (typeof params.type === 'undefined') {
-			params.type = 'info';
-		}
-		if (typeof params.title === 'undefined') {
-			params.title = app.vtranslate('JS_MESSAGE');
-		}
-		Vtiger_Helper_Js.showPnotify(params);
-	},
-	showDesktopNotification: function (params) {
-		params = $.extend(params, {
-			modules: {
-				Desktop: {
-					desktop: true,
-					fallback: false,
-					icon: params.icon
-				}
-			}
-		});
-		PNotify.notice(params);
-	},
-	/**
-	 * Set Pnotify defaults options
-	 */
-	setPnotifyDefaultOptions() {
-		PNotify.defaults.textTrusted = true; // *Trusted option enables html as parameter's value
-		PNotify.defaults.titleTrusted = true;
-		PNotify.defaults.styling = 'bootstrap4';
-		PNotify.defaults.icons = 'fontawesome5';
 	},
 	/**
 	 * Register auto format number value
@@ -2726,9 +2610,7 @@ $(document).ready(function () {
 	};
 	$.fn.formatNumber = function () {
 		let element = $(this);
-		element.val(
-			App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val()), false)
-		);
+		element.val(App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val()), false));
 	};
 	$.fn.disable = function () {
 		this.attr('disabled', 'disabled');
@@ -2771,11 +2653,7 @@ $(document).ready(function () {
 	};
 	// Case-insensitive :icontains expression
 	$.expr[':'].icontains = function (obj, index, meta, stack) {
-		return (
-			(obj.textContent || obj.innerText || $(obj).text() || '')
-				.toLowerCase()
-				.indexOf(meta[3].toLowerCase()) !== -1
-		);
+		return (obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !== -1;
 	};
 	$.fn.removeTextNode = function () {
 		$(this)

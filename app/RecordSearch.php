@@ -5,19 +5,34 @@ namespace App;
 /**
  * Record search basic class.
  *
+ * @package App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class RecordSearch
 {
+	/**
+	 * Operators.
+	 */
+	public const OPERATORS = [
+		'PLL_FULLTEXT_BEGIN' => 'FulltextBegin',
+		'PLL_FULLTEXT_WORD' => 'FulltextWord',
+		'PLL_CONTAINS' => 'Contain',
+		'PLL_STARTS_WITH' => 'Begin',
+		'PLL_ENDS_WITH' => 'End'
+	];
+
 	public $searchValue;
 	public $moduleName;
 	public $limit;
 	public $userId;
 	public $entityName = true;
 	public $table = 'searchLabel'; //searchLabel, label
-	public $operator = 'Contain'; // Contain, Begin, End, FulltextBegin, FulltextWord
+	public $operator = 'Contain';
+
 	public $checkPermissions = true;
 	private $moduleConditions = ['Leads' => ['where' => ['vtiger_leaddetails.converted' => 0], 'innerJoin' => ['vtiger_leaddetails' => 'csl.crmid = vtiger_leaddetails.leadid']]];
 

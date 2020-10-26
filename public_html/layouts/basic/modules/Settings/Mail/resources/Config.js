@@ -31,7 +31,7 @@ $.Class(
 		},
 		registerSignature() {
 			const container = $('#signature');
-			new App.Fields.Text.Editor(container.find('.js-editor'), {
+			App.Fields.Text.Editor.register(container.find('.js-editor'), {
 				height: '20em'
 			});
 			App.Tools.VariablesPanel.registerRefreshCompanyVariables(container);

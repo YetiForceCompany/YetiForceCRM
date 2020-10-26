@@ -28,6 +28,12 @@ class OSSMail_Index_View extends Vtiger_Index_View
 			$this->mainUrl = 'public_html/' . $this->mainUrl;
 		}
 		$this->mainUrl = OSSMail_Record_Model::getSiteUrl() . $this->mainUrl;
+		if (false !== strpos($this->mainUrl, '?')) {
+			$this->mainUrl .= '&';
+		} else {
+			$this->mainUrl .= '?';
+		}
+		$this->mainUrl .= 'cuid=' . \App\User::getCurrentUserId();
 	}
 
 	/**
@@ -42,12 +48,7 @@ class OSSMail_Index_View extends Vtiger_Index_View
 				$rcUser = (isset($_SESSION['AutoLoginUser']) && \array_key_exists($_SESSION['AutoLoginUser'], $account)) ? $account[$_SESSION['AutoLoginUser']] : reset($account);
 
 				$key = md5($rcUser['rcuser_id'] . microtime());
-				if (false !== strpos($this->mainUrl, '?')) {
-					$this->mainUrl .= '&';
-				} else {
-					$this->mainUrl .= '?';
-				}
-				$this->mainUrl .= '_autologin=1&_autologinKey=' . $key;
+				$this->mainUrl .= '&_autologin=1&_autologinKey=' . $key;
 				$currentUserModel = Users_Record_Model::getCurrentUserModel();
 				$userId = $currentUserModel->getId();
 				$dbCommand = \App\Db::getInstance()->createCommand();

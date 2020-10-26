@@ -129,7 +129,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel)
+	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
 	{
 		$value = \App\Json::decode($value);
 		if (!\is_array($value)) {
@@ -275,6 +275,50 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			$value = [];
 		}
 		return \App\Purifier::encodeHtml(\App\Json::encode($value));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
+	{
+		$value = \App\Json::decode($value);
+		if (!$value || !\is_array($value)) {
+			return [];
+		}
+		$multiMode = 'multiImage' === $this->getFieldModel()->getFieldDataType();
+		$id = $recordModel->getId();
+		$return = [];
+		foreach ($value as $item) {
+			$path = \App\Fields\File::getLocalPath($item['path']);
+			if (!file_exists($path)) {
+				throw new \Api\Core\Exception('File does not exist', 404);
+			}
+			$file = \App\Fields\File::loadFromInfo([
+				'path' => $path,
+				'name' => $item['name'],
+			]);
+			$file = [
+				'name' => $item['name'],
+				'type' => $file->getMimeType(),
+				'size' => $file->getSize(),
+				'path' => 'Files',
+				'postData' => [
+					'module' => $this->getFieldModel()->getModuleName(),
+					'actionName' => 'MultiImage',
+					'field' => $this->getFieldModel()->getFieldName(),
+					'record' => $id,
+					'key' => $item['key'],
+				]
+			];
+			if ($multiMode) {
+				$return[] = $file;
+			} else {
+				$return = $file;
+				break;
+			}
+		}
+		return $return;
 	}
 
 	/**

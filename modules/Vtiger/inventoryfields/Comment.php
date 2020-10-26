@@ -53,7 +53,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 		if (!$rawText && false !== $conf) {
 			return \App\Layout::truncateHtml($value, 'mini', 300);
 		}
-		return $rawText ? $value : \App\TextParser::htmlTruncate($value);
+		return $rawText ? $value : \App\Layout::truncateHtml($value, 'full');
 	}
 
 	/**

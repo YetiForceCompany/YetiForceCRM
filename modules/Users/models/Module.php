@@ -224,20 +224,19 @@ class Users_Module_Model extends Vtiger_Module_Model
 				$userIds[] = $userId;
 			}
 			if ($showRole) {
-				$dataReader = (new \App\Db\Query())->select(['vtiger_role.rolename', 'vtiger_user2role.userid'])->from('vtiger_role')
+				$dataReader = (new \App\Db\Query())->select(['vtiger_role.rolename', 'vtiger_user2role.userid', 'vtiger_users.is_admin'])->from('vtiger_role')
 					->leftJoin('vtiger_user2role', 'vtiger_role.roleid = vtiger_user2role.roleid')
+					->leftJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
 					->where(['vtiger_user2role.userid' => $userIds])
 					->createCommand()->query();
 				while ($row = $dataReader->read()) {
 					$users[$row['userid']]['roleName'] = $row['rolename'];
+					$users[$row['userid']]['isAdmin'] = 'on' === $row['is_admin'];
 				}
 				$dataReader->close();
 			}
-			if ($users) {
-				return $users;
-			}
 		}
-		return [];
+		return $users;
 	}
 
 	public function getDefaultUrl()

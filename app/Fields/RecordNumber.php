@@ -9,6 +9,7 @@ namespace App\Fields;
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class RecordNumber extends \App\Base
 {
@@ -94,16 +95,43 @@ class RecordNumber extends \App\Base
 	}
 
 	/**
+	 * gets related value.
+	 *
+	 * @param bool $reload
+	 *
+	 * @return string
+	 */
+	public function getRelatedValue(bool $reload = false): string
+	{
+		if (!isset($this->relatedValue) || $reload) {
+			$value = [];
+			preg_match_all('/{{picklist:([a-zA-Z0-9_]+)}}|\$\((\w+) : ([,"\+\#\%\.\=\-\[\]\&\w\s\|\)\(\:]+)\)\$/u', $this->get('prefix') . $this->get('postfix'), $matches);
+			if ($this->getRecord() && !empty($matches[0])) {
+				foreach ($matches[0] as $key => $element) {
+					if (0 === strpos($element, '{{picklist:')) {
+						$value[] = $this->getPicklistValue($matches[1][$key]);
+					} else {
+						$value[] = \App\TextParser::getInstanceByModel($this->getRecord())->setGlobalPermissions(false)->setContent($element)->parse()->getContent();
+					}
+				}
+			}
+			$this->relatedValue = implode('|', $value);
+		}
+		return $this->relatedValue;
+	}
+
+	/**
 	 * Function to get current sequence number.
 	 *
 	 * @return int
 	 */
 	private function getCurrentSequenceNumber(): int
 	{
-		if (!($piclistName = $this->getPicklistName()) || !$this->getPicklistValue($piclistName)) {
-			return $this->get('cur_id');
+		$seq = $this->get('cur_id');
+		if ($value = $this->getRelatedValue()) {
+			$seq = (new \App\Db\Query())->select(['cur_id'])->from('u_#__modentity_sequences')->where(['tabid' => $this->get('tabid'), 'value' => $value])->scalar() ?: 1;
 		}
-		return (new \App\Db\Query())->select(['cur_id'])->from('u_#__modentity_sequences')->where(['tabid' => $this->get('tabid'), 'value' => $this->getPicklistValue($piclistName)])->scalar() ?: 1;
+		return $seq;
 	}
 
 	/**
@@ -118,7 +146,7 @@ class RecordNumber extends \App\Base
 	}
 
 	/**
-	 * Parse nummber based on postfix and prefix.
+	 * Parse number based on postfix and prefix.
 	 *
 	 * @param int $seq
 	 *
@@ -126,9 +154,13 @@ class RecordNumber extends \App\Base
 	 */
 	public function parseNumber(int $seq): string
 	{
+		$string = str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [static::date('Y'), static::date('y'), static::date('m'), static::date('n'), static::date('d'), static::date('j')], $this->get('prefix') . str_pad((string) $seq, $this->get('leading_zeros'), '0', STR_PAD_LEFT) . $this->get('postfix'));
+		if ($this->getRecord()) {
+			$string = \App\TextParser::getInstanceByModel($this->getRecord())->setGlobalPermissions(false)->setContent($string)->parse()->getContent();
+		}
 		return preg_replace_callback('/{{picklist:([a-z0-9_]+)}}/i', function ($matches) {
 			return $this->getRecord() ? $this->getPicklistValue($matches[1]) : $matches[1];
-		}, str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [static::date('Y'), static::date('y'), static::date('m'), static::date('n'), static::date('d'), static::date('j')], $this->get('prefix') . str_pad((string) $seq, $this->get('leading_zeros'), '0', STR_PAD_LEFT) . $this->get('postfix')));
+		}, $string);
 	}
 
 	/**
@@ -143,11 +175,11 @@ class RecordNumber extends \App\Base
 	{
 		$data = ['cur_sequence' => $actualSequence];
 		$this->set('cur_sequence', $actualSequence);
-		if (!($piclistName = $this->getPicklistName()) || !$this->getPicklistValue($piclistName)) {
+		if ($value = $this->getRelatedValue()) {
+			$this->updateNumberSequence($reqNo, $value);
+		} else {
 			$data['cur_id'] = $reqNo;
 			$this->set('cur_id', $reqNo);
-		} else {
-			$this->updateNumberSequence($reqNo, $this->getPicklistValue($piclistName));
 		}
 		\App\Db::getInstance()->createCommand()->update('vtiger_modentity_num', $data, ['tabid' => $this->get('tabid')])->execute();
 	}
@@ -178,7 +210,7 @@ class RecordNumber extends \App\Base
 	public function isNewSequence(): bool
 	{
 		return $this->getRecord()->isNew() ||
-			(false !== $this->getRecord()->getPreviousValue($this->getPicklistName()) && !$this->getRecord()->isEmpty($this->getPicklistName()) && $this->getPicklistValue($this->getPicklistName()) !== $this->getPicklistValue($this->getPicklistName(), $this->getRecord()->getPreviousValue($this->getPicklistName())));
+			(($name = $this->getPicklistName()) && false !== $this->getRecord()->getPreviousValue($name) && !$this->getRecord()->isEmpty($name) && $this->getPicklistValue($name) !== $this->getPicklistValue($name, $this->getRecord()->getPreviousValue($name)));
 	}
 
 	/**
@@ -225,6 +257,9 @@ class RecordNumber extends \App\Base
 				$picklistName = $this->getPicklistName();
 				$queryGenerator = new \App\QueryGenerator(\App\Module::getModuleName($this->get('tabid')));
 				$queryGenerator->setFields([$picklistName, $fieldModel->getFieldName(), 'id']);
+				if (\App\TextParser::isVaribleToParse($this->get('prefix') . $this->get('postfix'))) {
+					$queryGenerator->setFields(array_keys($queryGenerator->getModuleFields()))->setField('id');
+				}
 				$queryGenerator->permissions = false;
 				$queryGenerator->addNativeCondition(['or', [$fieldColumn => ''], [$fieldColumn => null]]);
 				$dataReader = $queryGenerator->createQuery()->createCommand()->query();
@@ -236,18 +271,19 @@ class RecordNumber extends \App\Base
 					$oldNumber = $sequenceNumber;
 					$oldSequences = $sequences = (new \App\Db\Query())->select(['value', 'cur_id'])->from('u_#__modentity_sequences')->where(['tabid' => $this->get('tabid')])->createCommand()->queryAllByGroup();
 					$dbCommand = \App\Db::getInstance()->createCommand();
-					while ($recordinfo = $dataReader->read()) {
-						$this->setRecord($moduleModel->getRecordFromArray($recordinfo));
+					while ($recordInfo = $dataReader->read()) {
+						$this->setRecord($moduleModel->getRecordFromArray($recordInfo));
 						$seq = 0;
-						if ($picklistName && ($picklistValue = $this->getPicklistValue($picklistName, $recordinfo[$picklistName])) && isset($sequences[$picklistValue])) {
-							$seq = $sequences[$picklistValue]++;
-						} elseif ($picklistName && $picklistValue) {
-							$sequences[$picklistValue] = 1;
-							$seq = $sequences[$picklistValue]++;
+						$value = $this->getRelatedValue(true);
+						if ($value && isset($sequences[$value])) {
+							$seq = $sequences[$value]++;
+						} elseif ($value) {
+							$sequences[$value] = 1;
+							$seq = $sequences[$value]++;
 						} else {
 							$seq = $sequenceNumber++;
 						}
-						$dbCommand->update($fieldTable, [$fieldColumn => $this->parseNumber($seq)], [$moduleModel->getEntityInstance()->table_index => $recordinfo['id']])
+						$dbCommand->update($fieldTable, [$fieldColumn => \App\Purifier::decodeHtml($this->parseNumber($seq))], [$moduleModel->getEntityInstance()->table_index => $recordInfo['id']])
 							->execute();
 						++$returninfo['updatedrecords'];
 					}
@@ -344,12 +380,7 @@ class RecordNumber extends \App\Base
 	 */
 	public static function getSequenceNumberFieldName(int $tabId)
 	{
-		if (isset(self::$sequenceNumberFieldCache[$tabId]['fieldname'])) {
-			return self::$sequenceNumberFieldCache[$tabId]['fieldname'];
-		}
-		self::$sequenceNumberFieldCache[$tabId] = (new \App\Db\Query())->select(['fieldname', 'columnname', 'tablename'])->from('vtiger_field')
-			->where(['tabid' => $tabId, 'uitype' => 4, 'presence' => [0, 2]])->one();
-		return self::$sequenceNumberFieldCache[$tabId]['fieldname'];
+		return self::getSequenceNumberField($tabId)['fieldname'] ?? '';
 	}
 
 	/**
