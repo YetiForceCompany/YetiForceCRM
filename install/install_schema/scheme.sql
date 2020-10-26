@@ -2231,6 +2231,7 @@ CREATE TABLE `u_yf_finvoice` (
   `ssalesprocessesid` int(10) DEFAULT NULL,
   `projectid` int(10) DEFAULT NULL,
   `payment_status` varchar(255) DEFAULT NULL,
+  `payment_sum` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`finvoiceid`),
   KEY `accountid` (`accountid`),
   KEY `u_yf_finvoice_ssalesprocessesid_idx` (`ssalesprocessesid`),
@@ -2454,6 +2455,8 @@ CREATE TABLE `u_yf_finvoiceproforma` (
   `sum_total` decimal(28,8) DEFAULT NULL,
   `sum_gross` decimal(28,8) DEFAULT NULL,
   `finvoiceproforma_status` varchar(255) DEFAULT NULL,
+  `payment_sum` decimal(10,2) DEFAULT NULL,
+  `payment_status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`finvoiceproformaid`),
   KEY `accountid` (`accountid`),
   CONSTRAINT `fk_1_vtiger_finvoiceproforma` FOREIGN KEY (`finvoiceproformaid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -6126,7 +6129,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3055 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3058 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
