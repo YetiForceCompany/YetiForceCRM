@@ -2231,7 +2231,7 @@ CREATE TABLE `u_yf_finvoice` (
   `ssalesprocessesid` int(10) DEFAULT NULL,
   `projectid` int(10) DEFAULT NULL,
   `payment_status` varchar(255) DEFAULT NULL,
-  `payment_sum` decimal(10,2) DEFAULT NULL,
+  `payment_sum` decimal(28,8) DEFAULT NULL,
   PRIMARY KEY (`finvoiceid`),
   KEY `accountid` (`accountid`),
   KEY `u_yf_finvoice_ssalesprocessesid_idx` (`ssalesprocessesid`),
