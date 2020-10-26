@@ -5,7 +5,7 @@
 		{foreach from=$RECOLDLIST item=ROW key=KEY}
 			<div class="content js-mail-row {if $KEY%2 != 0} even{/if} mb-1 py-0 px-2 {if $ROW['firstLetterBg'] eq 'bg-warning'} border border-warning {/if}">
 				<div class="form-row   px-1">
-					<div class="d-flex col-lg-8 col-md-12 col-sm-8 col-12 pr-0 pl-0   mb-1">
+					<div class="d-flex col-xl-8 col-lg-12 col-md-12 col-sm-8 col-12 pr-0 pl-0   mb-1">
 						<div class="firstLetter {$ROW['firstLetterBg']} d-lg-block d-md-none d-sm-block d-none mr-2 u-box-shadow-light">
 							{$ROW['firstLetter']}
 						</div>
@@ -27,7 +27,7 @@
 							</p>
 						</div>
 					</div>
-					<div class="d-flex flex-sm-column justify-content-end justify-content-sm-between align-items-sm-stretch align-items-center col-lg-4 col-md-12 col-sm-4 col-12 pr-0 pl-0">
+					<div class="d-flex flex-xl-column flex-lg-row  flex-md-row flex-sm-column justify-content-md-end justify-content-sm-between justify-content-end align-items-sm-stretch align-items-center col-xl-4 col-lg-12 col-md-12 col-sm-4 col-12 pr-0 pl-0">
 						<div class="bd-highlight d-flex justify-content-end mr-1">
 							{if $ROW['attachments'] eq 1}
 								<span class="fas mt-1 fa-xs fa-paperclip mr-1"></span>
