@@ -223,19 +223,19 @@ $.Class(
 					sequenceExists = true;
 				}
 			}
-			this.checkAdavancedSequenceBtn();
+			this.checkAdvancedSequenceBtn();
 			return sequenceExists;
 		},
 
 		/**
 		 * Function to enable button if prefix or postfix has picklist value
 		 */
-		checkAdavancedSequenceBtn: function () {
+		checkAdvancedSequenceBtn: function () {
 			const editViewForm = this.getForm();
 			const sequenceBtn = editViewForm.find('.js-adavanced-sequence');
 			const prefix = editViewForm.find('[name="prefix"]').val();
 			const postfix = editViewForm.find('[name="postfix"]').val();
-			let regex = new RegExp('{{picklist:([a-z0-9_]+)}}', 'g');
+			let regex = new RegExp('{{picklist:([a-z0-9_]+)}}|\\$\\(relatedRecord', 'g');
 			let regexResult = (postfix + prefix).match(regex);
 			if ((regexResult && regexResult.length > 1) || !regexResult) {
 				sequenceBtn.addClass('d-none');
@@ -314,7 +314,7 @@ $.Class(
 			this.registerOnChangeEventOfSourceModule();
 			this.registerEventToUpdateRecordsWithSequenceNumber();
 			this.registerChangeEvent();
-			this.checkAdavancedSequenceBtn();
+			this.checkAdvancedSequenceBtn();
 			this.registerAdavancedSequenceEvent();
 			let params = app.validationEngineOptions;
 			params.onValidationComplete = function (editViewForm, valid) {

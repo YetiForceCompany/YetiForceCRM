@@ -20,6 +20,7 @@
 	<div class="tpl-List-Field-MultiPicklist picklistSearchField">
 		<select class="select2noactive listSearchContributor" name="{$FIELD_MODEL->getName()}"
 				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple="multiple"
+				{if !$FIELD_MODEL->isActiveSearchView()} disabled="disabled" data-placeholder=" "{/if}
 				data-fieldinfo='{$FIELD_INFO|escape}'
 				{if !empty($FIELD_MODEL->get('source_field_name'))}
 			data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"

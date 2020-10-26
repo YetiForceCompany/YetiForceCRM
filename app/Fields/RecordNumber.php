@@ -105,7 +105,7 @@ class RecordNumber extends \App\Base
 	{
 		if (!isset($this->relatedValue) || $reload) {
 			$value = [];
-			preg_match_all('/{{picklist:([a-zA-Z0-9_]+)}|\$\((\w+) : ([,"\+\#\%\.\=\-\[\]\&\w\s\|\)\(\:]+)\)\$/u', $this->get('prefix') . $this->get('postfix'), $matches);
+			preg_match_all('/{{picklist:([a-zA-Z0-9_]+)}}|\$\((\w+) : ([,"\+\#\%\.\=\-\[\]\&\w\s\|\)\(\:]+)\)\$/u', $this->get('prefix') . $this->get('postfix'), $matches);
 			if ($this->getRecord() && !empty($matches[0])) {
 				foreach ($matches[0] as $key => $element) {
 					if (0 === strpos($element, '{{picklist:')) {
