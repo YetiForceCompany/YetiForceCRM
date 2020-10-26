@@ -2455,7 +2455,7 @@ CREATE TABLE `u_yf_finvoiceproforma` (
   `sum_total` decimal(28,8) DEFAULT NULL,
   `sum_gross` decimal(28,8) DEFAULT NULL,
   `finvoiceproforma_status` varchar(255) DEFAULT NULL,
-  `payment_sum` decimal(10,2) DEFAULT NULL,
+  `payment_sum` decimal(28,8) DEFAULT NULL,
   `payment_status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`finvoiceproformaid`),
   KEY `accountid` (`accountid`),
