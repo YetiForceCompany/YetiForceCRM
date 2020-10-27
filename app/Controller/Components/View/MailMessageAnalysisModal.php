@@ -72,6 +72,10 @@ class MailMessageAnalysisModal extends \App\Controller\Modal
 	{
 		if ($request->has('record')) {
 			$this->recordModel = \App\Mail\Rbl::getRequestById($request->getInteger('record'));
+		} elseif ($request->has('header') && $request->has('body')) {
+			$this->recordModel = \App\Mail\Rbl::getInstance([]);
+			$this->recordModel->set('header', $request->getRaw('header'));
+			$this->recordModel->set('body', $request->getRaw('body'));
 		} else {
 			$this->recordModel = \App\Mail\Rbl::getInstance([]);
 			[$headers] = explode("\r\n\r\n", str_replace(["\r\n", "\r", "\n"], ["\n", "\n", "\r\n"], $request->getRaw('content')), 2);

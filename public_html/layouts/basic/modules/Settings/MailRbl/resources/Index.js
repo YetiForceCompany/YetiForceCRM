@@ -231,9 +231,11 @@ jQuery.Class(
 			});
 		},
 		sendRequest: function (id) {
-			let progressIndicatorElement = $.progressIndicator();
-			app.showModalWindow(null, 'index.php?module=MailRbl&parent=Settings&view=ReportModal&id=' + id, function (container) {
-				progressIndicatorElement.progressIndicator({ mode: 'hide' });
+			app.showModalWindow(null, 'index.php?parent=Settings&module=MailRbl&view=ReportModal&id=' + id, function (container) {
+				let form = container.find('form');
+				container.find('.js-modal__save').on('click', function () {
+					form.submit();
+				});
 			});
 		},
 		/**

@@ -1203,6 +1203,10 @@ var app = (window.app = {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						})
 						.fail(function () {
+							app.showNotify({
+								text: app.vtranslate('JS_UNEXPECTED_ERROR'),
+								type: 'error'
+							});
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						});
 				}
