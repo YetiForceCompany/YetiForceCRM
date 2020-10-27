@@ -682,4 +682,31 @@ class Rbl extends \App\Base
 		}
 		return $params;
 	}
+
+	/**
+	 * Send report.
+	 *
+	 * @param array $data
+	 *
+	 * @return bool
+	 */
+	public static function sendReport(array $data): bool
+	{
+		$recordModel = self::getRequestById($data['id']);
+		$recordModel->parse();
+		unset($data['id']);
+		$url = 'https://soc.yetiforce.com/api/Application';
+		\App\Log::beginProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
+		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
+			'http_errors' => false,
+			'json' => array_merge($data, [
+				'ik' => \App\YetiForce\Register::getInstanceKey(),
+				'ip' => $recordModel->getSender()['ip'] ?? '-',
+				'header' => $recordModel->get('header'),
+				'body' => $recordModel->get('body')
+			])
+		]);
+		\App\Log::endProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
+		return 200 == $response->getStatusCode() && '{"status":1,"result":"ok"}' === $response->getBody()->getContents();
+	}
 }
