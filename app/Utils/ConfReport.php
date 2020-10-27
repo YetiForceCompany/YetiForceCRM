@@ -189,6 +189,10 @@ class ConfReport
 		'query_cache_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'query_cache_type' => ['container' => 'db', 'testCli' => false],
 		'table_cache' => ['container' => 'db', 'testCli' => false],
+		'table_open_cache_instances' => ['container' => 'db', 'testCli' => false],
+		'table_open_cache' => ['recommended' => 1000, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
+		'table_definition_cache' => ['type' => 'DbTableDefinitionCache', 'container' => 'db', 'testCli' => false],
+		'open_files_limit' => ['container' => 'db', 'testCli' => false],
 		'tmp_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'innodb_buffer_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'innodb_additional_mem_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
@@ -844,6 +848,26 @@ class ConfReport
 	{
 		unset($name);
 		if (isset($row[$sapi]) && (int) $row[$sapi] > 0 && (int) $row[$sapi] < (int) $row['recommended']) {
+			$row['status'] = false;
+		}
+		return $row;
+	}
+
+	/**
+	 * Validate number greater than another parameter.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateDbTableDefinitionCache(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$tableOpenCache = (self::$db['table_open_cache'] > self::$database['table_open_cache']['recommended']) ? self::$db['table_open_cache'] : self::$database['table_open_cache']['recommended'];
+		$row['recommended'] = $tableOpenCache + 400;
+		if (isset($row[$sapi]) && (int) $row[$sapi] <= $row['recommended']) {
 			$row['status'] = false;
 		}
 		return $row;
