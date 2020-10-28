@@ -423,15 +423,15 @@ class Mailer
 	public function send()
 	{
 		$toAddresses = $this->mailer->From . ' >> ' . \print_r($this->mailer->getToAddresses(), true);
-		\App\Log::beginProfile("Mailer::send|{$toAddresses}", __CLASS__);
+		\App\Log::beginProfile("Mailer::send|{$toAddresses}", 'Mail|SMTP');
 		if ($this->mailer->send()) {
-			\App\Log::endProfile("Mailer::send|{$toAddresses}", __CLASS__);
+			\App\Log::endProfile("Mailer::send|{$toAddresses}", 'Mail|SMTP');
 			if (empty($this->smtp['save_send_mail']) || (!empty($this->smtp['save_send_mail']) && $this->saveMail())) {
 				Log::trace('Mailer sent mail', 'Mailer');
 				return true;
 			}
 		} else {
-			\App\Log::endProfile("Mailer::send|{$toAddresses}", __CLASS__);
+			\App\Log::endProfile("Mailer::send|{$toAddresses}", 'Mail|SMTP');
 			Log::error('Mailer Error: ' . \print_r($this->mailer->ErrorInfo, true), 'Mailer');
 			if (!empty(static::$error)) {
 				static::$error[] = '########################################';
@@ -610,7 +610,9 @@ class Mailer
 			Log::error('Mailer Error: IMAP error - ' . imap_last_error(), 'Mailer');
 			return false;
 		}
+		\App\Log::beginProfile(__METHOD__ . '|imap_append', 'Mail|IMAP');
 		imap_append($mbox, \OSSMail_Record_Model::$imapConnectMailbox, $this->mailer->getSentMIMEMessage(), '\\Seen');
+		\App\Log::endProfile(__METHOD__ . '|imap_append', 'Mail|IMAP');
 		return true;
 	}
 
