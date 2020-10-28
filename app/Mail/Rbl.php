@@ -688,9 +688,9 @@ class Rbl extends \App\Base
 	 *
 	 * @param array $data
 	 *
-	 * @return bool
+	 * @return array
 	 */
-	public static function sendReport(array $data): bool
+	public static function sendReport(array $data): array
 	{
 		$recordModel = self::getRequestById($data['id']);
 		$recordModel->parse();
@@ -699,6 +699,9 @@ class Rbl extends \App\Base
 		\App\Log::beginProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
 		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
 			'http_errors' => false,
+			'headers' => [
+				'crm-ik' => \App\YetiForce\Register::getInstanceKey(),
+			],
 			'json' => array_merge($data, [
 				'ik' => \App\YetiForce\Register::getInstanceKey(),
 				'ip' => $recordModel->getSender()['ip'] ?? '-',
@@ -707,6 +710,66 @@ class Rbl extends \App\Base
 			])
 		]);
 		\App\Log::endProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
-		return 200 == $response->getStatusCode() && '{"status":1,"result":"ok"}' === $response->getBody()->getContents();
+		$body = \App\Json::decode($response->getBody()->getContents());
+		if (200 == $response->getStatusCode() && 'ok' === $body['result']) {
+			return ['status' => true];
+		}
+		\App\Log::warning($response->getReasonPhrase() . ' | ' . $body['error']['message'], __METHOD__);
+		return ['status' => false, 'message' => $body['error']['message']];
+	}
+
+	/**
+	 * Get IP list from public RBL.
+	 *
+	 * @param string $type
+	 *
+	 * @return array
+	 */
+	public static function getPublicList(string $type): array
+	{
+		$url = 'https://soc.yetiforce.com/list/' . $type;
+		\App\Log::beginProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
+		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get($url, [
+			'http_errors' => false,
+			'headers' => [
+				'crm-ik' => \App\YetiForce\Register::getInstanceKey(),
+			],
+		]);
+		\App\Log::endProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
+		$list = [];
+		if (200 === $response->getStatusCode()) {
+			$list = \App\Json::decode($response->getBody()->getContents()) ?? [];
+		} else {
+			$body = \App\Json::decode($response->getBody()->getContents());
+			\App\Log::warning($response->getReasonPhrase() . ' | ' . $body['error']['message'], __METHOD__);
+		}
+		return $list;
+	}
+
+	/**
+	 * Public list synchronization.
+	 *
+	 * @param string $type
+	 */
+	public static function sync(string $type)
+	{
+		$dbType = 'black' === $type ? self::LIST_TYPE_PUBLIC_BLACK_LIST : self::LIST_TYPE_PUBLIC_WHITE_LIST;
+		$public = self::getPublicList($type);
+		$publicKeys = array_keys($public);
+		$db = \App\Db::getInstance('admin');
+		$dbCommand = $db->createCommand();
+		$query = (new \App\Db\Query())->select(['ip', 'source', 'id'])->from('s_#__mail_rbl_list')->where(['type' => $dbType]);
+		$rows = $query->createCommand($db)->queryAllByGroup(1);
+		$keys = array_keys($rows);
+		foreach (array_chunk(array_diff($publicKeys, $keys), 50, true) as  $chunk) {
+			$insertData = [];
+			foreach ($chunk as  $ip) {
+				$insertData[] = [$ip, 0, $dbType, $public[$ip]['source']];
+			}
+			$dbCommand->batchInsert('s_#__mail_rbl_list', ['ip', 'status', 'type', 'source'], $insertData)->execute();
+		}
+		foreach (array_diff($keys, $publicKeys) as $ip) {
+			$dbCommand->delete('s_#__mail_rbl_list', ['id' => $rows[$ip]['id']])->execute();
+		}
 	}
 }

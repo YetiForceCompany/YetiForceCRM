@@ -26,8 +26,8 @@ class Settings_MailRbl_SendReport_Action extends Settings_Vtiger_Basic_Action
 		]);
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'success' => $status,
-			'notify' => ['title' => App\Language::translate($status ? 'LBL_SENT' : 'ERR_OCCURRED_CHECK_LOGS')],
+			'success' => $status['status'],
+			'notify' => ['type' => $status['status'] ? 'success' : 'error', 'title' => App\Language::translate($status['status'] ? 'LBL_SENT' : $status['message'])],
 		]);
 		$response->emit();
 	}
