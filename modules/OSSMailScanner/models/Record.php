@@ -357,8 +357,12 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$break = false;
 		$lastScanUid = self::getUidFolder($account['user_id'], $folder);
+		\App\Log::beginProfile(__METHOD__ . '|imap_msgno', 'Mail|IMAP');
 		$msgno = imap_msgno($mbox, $lastScanUid);
+		\App\Log::endProfile(__METHOD__ . '|imap_msgno', 'Mail|IMAP');
+		\App\Log::beginProfile(__METHOD__ . '|imap_num_msg', 'Mail|IMAP');
 		$numMsg = imap_num_msg($mbox);
+		\App\Log::endProfile(__METHOD__ . '|imap_num_msg', 'Mail|IMAP');
 		$getEmails = false;
 		if (0 === $msgno && 0 !== $numMsg) {
 			if (0 === $lastScanUid) {
@@ -367,7 +371,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			} elseif (imap_uid($mbox, $numMsg) > $lastScanUid) {
 				foreach (imap_search($mbox, 'ALL', SE_UID) as $uid) {
 					if ($uid > $lastScanUid) {
+						\App\Log::beginProfile(__METHOD__ . '|imap_msgno', 'Mail|IMAP');
 						$msgno = imap_msgno($mbox, $uid);
+						\App\Log::endProfile(__METHOD__ . '|imap_msgno', 'Mail|IMAP');
 						$getEmails = true;
 						break;
 					}
@@ -380,7 +386,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		if ($getEmails) {
 			$dbCommand = \App\Db::getInstance()->createCommand();
 			for ($i = $msgno; $i <= $numMsg; ++$i) {
+				\App\Log::beginProfile(__METHOD__ . '|imap_uid', 'Mail|IMAP');
 				$uid = imap_uid($mbox, $i);
+				\App\Log::endProfile(__METHOD__ . '|imap_uid', 'Mail|IMAP');
 				$mail = OSSMail_Record_Model::getMail($mbox, $uid, $i);
 
 				self::executeActions($account, $mail, $folder);
