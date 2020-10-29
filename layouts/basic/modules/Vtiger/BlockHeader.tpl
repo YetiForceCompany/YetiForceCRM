@@ -39,21 +39,21 @@
 				<strong>{\App\Language::translate('LBL_ADDRESS_DELIVERY_INFORMATION', $MODULE)}</strong>
 			</button>
 		{/if}
-		<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromAccount mr-2 mb-1 mb-md-0"
+		<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromAccount mr-2 mb-1 mb-md-0 d-none"
 				type="button"
 				data-label="{$BLOCK_LABEL}">
 			<strong>{\App\Language::translate('SINGLE_Accounts', $MODULE)}</strong>
 		</button>
-		<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromLead mr-2 mb-1 mb-md-0" type="button"
+		<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromLead mr-2 mb-1 mb-md-0 d-none" type="button"
 				data-label="{$BLOCK_LABEL}">
 			<strong>{\App\Language::translate('SINGLE_Leads', 'Contacts')}</strong>
 		</button>
-		<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromVendor mr-2 mb-1 mb-md-0" type="button"
+		<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromVendor mr-2 mb-1 mb-md-0 d-none" type="button"
 				data-label="{$BLOCK_LABEL}">
 			<strong>{\App\Language::translate('SINGLE_Vendors', 'Contacts')}</strong>
 		</button>
 		{if {$MODULE_NAME} neq 'Contacts'}
-			<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromContact mr-2 mb-1 mb-md-0"
+			<button class="btn btn-sm btn-primary c-btn-block-sm-down copyAddressFromContact mr-2 mb-1 mb-md-0 d-none"
 					type="button"
 					data-label="{$BLOCK_LABEL}">
 				<strong>{\App\Language::translate('SINGLE_Contacts', $MODULE)}</strong>
