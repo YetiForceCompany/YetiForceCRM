@@ -579,9 +579,6 @@ $.Class(
 			let thisInstance = this;
 			formElement.find('.' + className).removeClass('d-none').on('click', function (e) {
 				let element = $(this);
-				let block = element.closest('.js-toggle-panel');
-				let from = element.data('label');
-				let to = block.data('label');
 				let recordRelativeAccountId = $('[name="' + fieldName + '"]').val();
 				if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
 					app.showNotify({
@@ -595,7 +592,7 @@ $.Class(
 						selectedName: recordRelativeAccountName,
 						module: moduleName
 					};
-					thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
+					thisInstance.copyAddressDetails(element.data('label'), element.closest('.js-toggle-panel').data('label'), data, element.closest('.js-toggle-panel'));
 					element.attr('checked', 'checked');
 				}
 			});
