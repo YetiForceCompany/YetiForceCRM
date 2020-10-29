@@ -1231,7 +1231,7 @@ CREATE TABLE `s_yf_mail_rbl_list` (
   `ip` varchar(40) NOT NULL,
   `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `type` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `source` varchar(10) NOT NULL,
+  `source` varchar(20) NOT NULL,
   `request` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `type` (`type`),

@@ -19,7 +19,7 @@ class Vtiger_MailRbl_Cron extends \App\CronHandler
 	 */
 	public function process()
 	{
-		\App\Mail\Rbl::sync('black');
-		\App\Mail\Rbl::sync('white');
+		\App\Mail\Rbl::sync(\App\Mail\Rbl::LIST_TYPE_PUBLIC_BLACK_LIST);
+		\App\Mail\Rbl::sync(\App\Mail\Rbl::LIST_TYPE_PUBLIC_WHITE_LIST);
 	}
 }

@@ -37,6 +37,7 @@
     "LBL_REJECTED": "Rejected",
     "LBL_ACTIVE": "Active",
     "LBL_CANCELED": "Canceled",
+    "LBL_REPORTED": "Reported",
     "LBL_SENDER": "Sender",
     "LBL_RECIPIENT": "Recipient",
     "LBL_LIST_TYPE": "List type",

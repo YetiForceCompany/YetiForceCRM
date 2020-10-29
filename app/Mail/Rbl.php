@@ -23,9 +23,10 @@ class Rbl extends \App\Base
 	 */
 	public const REQUEST_STATUS = [
 		0 => ['label' => 'LBL_FOR_VERIFICATION', 'icon' => 'fas fa-question'],
-		1 => ['label' => 'LBL_ACCEPTED', 'icon' => 'fas fa-check text-success '],
+		1 => ['label' => 'LBL_ACCEPTED', 'icon' => 'fas fa-check text-success'],
 		2 => ['label' => 'LBL_REJECTED', 'icon' => 'fas fa-times text-danger'],
 		3 => ['label' => 'PLL_CANCELLED', 'icon' => 'fas fa-minus'],
+		4 => ['label' => 'LBL_REPORTED', 'icon' => 'fas fa-paper-plane text-primary'],
 	];
 	/**
 	 * List statuses.
@@ -33,7 +34,7 @@ class Rbl extends \App\Base
 	 * @var array
 	 */
 	public const LIST_STATUS = [
-		0 => ['label' => 'LBL_ACTIVE', 'icon' => 'fas fa-check text-success '],
+		0 => ['label' => 'LBL_ACTIVE', 'icon' => 'fas fa-check text-success'],
 		1 => ['label' => 'LBL_CANCELED', 'icon' => 'fas fa-times text-danger'],
 	];
 	/**
@@ -692,9 +693,11 @@ class Rbl extends \App\Base
 	 */
 	public static function sendReport(array $data): array
 	{
-		$recordModel = self::getRequestById($data['id']);
-		$recordModel->parse();
+		$id = $data['id'];
 		unset($data['id']);
+		$recordModel = self::getRequestById($id);
+		$recordModel->parse();
+
 		$url = 'https://soc.yetiforce.com/api/Application';
 		\App\Log::beginProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
 		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
@@ -712,6 +715,9 @@ class Rbl extends \App\Base
 		\App\Log::endProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
 		$body = \App\Json::decode($response->getBody()->getContents());
 		if (200 == $response->getStatusCode() && 'ok' === $body['result']) {
+			\App\Db::getInstance('admin')->createCommand()->update('s_#__mail_rbl_request', [
+				'status' => 4,
+			], ['id' => $id])->execute();
 			return ['status' => true];
 		}
 		\App\Log::warning($response->getReasonPhrase() . ' | ' . $body['error']['message'], __METHOD__);
@@ -721,13 +727,13 @@ class Rbl extends \App\Base
 	/**
 	 * Get IP list from public RBL.
 	 *
-	 * @param string $type
+	 * @param int $type
 	 *
 	 * @return array
 	 */
-	public static function getPublicList(string $type): array
+	public static function getPublicList(int $type): array
 	{
-		$url = 'https://soc.yetiforce.com/list/' . $type;
+		$url = 'https://soc.yetiforce.com/list/' . (self::LIST_TYPE_PUBLIC_BLACK_LIST === $type ? 'black' : 'white');
 		\App\Log::beginProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
 		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get($url, [
 			'http_errors' => false,
@@ -749,22 +755,23 @@ class Rbl extends \App\Base
 	/**
 	 * Public list synchronization.
 	 *
-	 * @param string $type
+	 * @param int $type
+	 *
+	 * @return void
 	 */
-	public static function sync(string $type)
+	public static function sync(int $type): void
 	{
-		$dbType = 'black' === $type ? self::LIST_TYPE_PUBLIC_BLACK_LIST : self::LIST_TYPE_PUBLIC_WHITE_LIST;
 		$public = self::getPublicList($type);
 		$publicKeys = array_keys($public);
 		$db = \App\Db::getInstance('admin');
 		$dbCommand = $db->createCommand();
-		$query = (new \App\Db\Query())->select(['ip', 'source', 'id'])->from('s_#__mail_rbl_list')->where(['type' => $dbType]);
+		$query = (new \App\Db\Query())->select(['ip', 'source', 'id'])->from('s_#__mail_rbl_list')->where(['type' => $type]);
 		$rows = $query->createCommand($db)->queryAllByGroup(1);
 		$keys = array_keys($rows);
 		foreach (array_chunk(array_diff($publicKeys, $keys), 50, true) as  $chunk) {
 			$insertData = [];
 			foreach ($chunk as  $ip) {
-				$insertData[] = [$ip, 0, $dbType, $public[$ip]['source']];
+				$insertData[] = [$ip, 0, $type, $public[$ip]['source']];
 			}
 			$dbCommand->batchInsert('s_#__mail_rbl_list', ['ip', 'status', 'type', 'source'], $insertData)->execute();
 		}
