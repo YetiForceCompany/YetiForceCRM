@@ -39,9 +39,9 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 		while (!$stateA) {
 			$url = $tableUrl . $dateCur . '/?format=json';
 			try {
-				\App\Log::beginProfile("GET|NBP::getSupportedCurrencies|{$url}", __NAMESPACE__);
+				\App\Log::beginProfile("GET|NBP::getSupportedCurrencies|{$url}", 'CurrencyUpdate');
 				$tryTable = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get($url, ['timeout' => 20, 'connect_timeout' => 10]);
-				\App\Log::endProfile("GET|NBP::getSupportedCurrencies|{$url}", __NAMESPACE__);
+				\App\Log::endProfile("GET|NBP::getSupportedCurrencies|{$url}", 'CurrencyUpdate');
 				if (200 == $tryTable->getStatusCode()) {
 					$stateA = true;
 					$tableBody = $tryTable->getBody();
