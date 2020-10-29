@@ -156,8 +156,8 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 					->loadHtml($template->parseVariables($template->getBody()))
 					->setHeader($template->parseVariables($template->getHeader()))
 					->setFooter($template->parseVariables($template->getFooter()));
-
-				if ($emailPdf || ($countTemplates > 1 || (1 === $countTemplates && !isset($skip[$templateId]) && $countRecords > 1))) {
+				$attach = $template->getParser()->attachFiles ?? [];
+				if (!$singlePdf && ($attach || $emailPdf || ($countTemplates > 1 || (1 === $countTemplates && !isset($skip[$templateId]) && $countRecords > 1)))) {
 					$fileName = ($pdf->getFileName() ? $pdf->getFileName() : time());
 					$increment[$fileName] = $increment[$fileName] ?? 0;
 					$fileName .= ($increment[$fileName]++ > 0 ? '_' . $increment[$fileName] : '') . '.pdf';
@@ -165,6 +165,15 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 					$filePath = $template->getPath();
 					$saveFlag = 'F';
 					$pdfFiles[] = ['path' => $filePath,	'name' => $fileName];
+					foreach ($attach as $info) {
+						if (!isset($pdfFiles[$info['path']])) {
+							$tmpFileName = 'cache' . \DIRECTORY_SEPARATOR . 'pdf' . \DIRECTORY_SEPARATOR;
+							$tmpFileName = $tmpFileName . basename(tempnam($tmpFileName, 'Attach' . time()));
+							if (\copy($info['path'], $tmpFileName)) {
+								$pdfFiles[$info['path']] = ['name' => $info['name'], 'path' => $tmpFileName];
+							}
+						}
+					}
 				}
 				if ($singlePdf) {
 					$html .= '<div data-page-group
@@ -192,6 +201,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			$pdf->setFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE'));
 			$pdf->output();
 		} elseif ($emailPdf) {
+			$pdfFiles = array_values($pdfFiles);
 			Vtiger_PDF_Model::attachToEmail(\App\Json::encode($pdfFiles));
 		} elseif ($pdfFiles) {
 			Vtiger_PDF_Model::zipAndDownload($pdfFiles);
