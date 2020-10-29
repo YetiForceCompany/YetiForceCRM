@@ -514,153 +514,29 @@ $.Class(
 		 */
 		registerEventForCopyAddress: function () {
 			let thisInstance = this;
-			let account_id = false;
-			let contact_id = false;
-			let lead_id = false;
-			let vendor_id = false;
 			this.formElement
 				.find('.js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldValue, .js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldLabel')
 				.each(function (index) {
 					let block = $(this);
 					let referenceModulesList = false;
-					let relatedField = block.find('[name="popupReferenceModule"]').val();
-					if (relatedField == 'Accounts') {
-						account_id = block.find('.sourceField').attr('name');
-					}
-					if (relatedField == 'Contacts') {
-						contact_id = block.find('.sourceField').attr('name');
-					}
-					if (relatedField == 'Leads') {
-						lead_id = block.find('.sourceField').attr('name');
-					}
-					if (relatedField == 'Vendors') {
-						vendor_id = block.find('.sourceField').attr('name');
-					}
 					referenceModulesList = block.find('.referenceModulesList');
 					if (referenceModulesList.length > 0) {
-						$.each(referenceModulesList.find('option'), function (key, data) {
-							if (data.value == 'Accounts') {
-								account_id = block.find('.sourceField').attr('name');
+						referenceModulesList.on('change', function(e){
+							thisInstance.formElement.find('[class*="copyAddressFrom"]:not(.copyAddressFromMain, .copyAddressFromMailing)').addClass('d-none');
+							let moduleName = $(this).val();
+							if (moduleName == 'Accounts') {
+								thisInstance.enableCopyAddressFromModule(moduleName, thisInstance.formElement, 'copyAddressFromAccount', block.find('.sourceField').attr('name'), 'JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS');
+							} else if (moduleName == 'Contacts') {
+								thisInstance.enableCopyAddressFromModule(moduleName, thisInstance.formElement, 'copyAddressFromContact', block.find('.sourceField').attr('name'), 'JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS');
+							} else if (moduleName == 'Leads') {
+								thisInstance.enableCopyAddressFromModule(moduleName, thisInstance.formElement, 'copyAddressFromLead', block.find('.sourceField').attr('name'), 'JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS');
+							} else if (moduleName == 'Vendors') {
+								thisInstance.enableCopyAddressFromModule(moduleName, thisInstance.formElement, 'copyAddressFromVendor', block.find('.sourceField').attr('name'), 'JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS');
 							}
-							if (data.value == 'Contacts') {
-								contact_id = block.find('.sourceField').attr('name');
-							}
-							if (data.value == 'Leads') {
-								lead_id = block.find('.sourceField').attr('name');
-							}
-							if (data.value == 'Vendors') {
-								vendor_id = block.find('.sourceField').attr('name');
-							}
 						});
+						referenceModulesList.trigger('change');
 					}
 				});
-
-			if (account_id == false) {
-				this.formElement.find('.copyAddressFromAccount').addClass('d-none');
-			} else {
-				this.formElement.find('.copyAddressFromAccount').on('click', function (e) {
-					let element = $(this);
-					let block = element.closest('.js-toggle-panel');
-					let from = element.data('label');
-					let to = block.data('label');
-					let recordRelativeAccountId = $('[name="' + account_id + '"]').val();
-
-					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						app.showNotify({
-							text: app.vtranslate('JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS'),
-							type: 'error'
-						});
-					} else {
-						let recordRelativeAccountName = $('#' + account_id + '_display').val();
-						let data = {
-							record: recordRelativeAccountId,
-							selectedName: recordRelativeAccountName,
-							module: 'Accounts'
-						};
-
-						thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
-						element.attr('checked', 'checked');
-					}
-				});
-			}
-			if (contact_id == false) {
-				this.formElement.find('.copyAddressFromContact').addClass('d-none');
-			} else {
-				this.formElement.find('.copyAddressFromContact').on('click', function (e) {
-					let element = $(this);
-					let block = element.closest('.js-toggle-panel');
-					let from = element.data('label');
-					let to = block.data('label');
-					let recordRelativeAccountId = $('[name="' + contact_id + '"]').val();
-					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						app.showNotify({
-							text: app.vtranslate('JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS'),
-							type: 'error'
-						});
-					} else {
-						let recordRelativeAccountName = $('#' + contact_id + '_display').val();
-						let data = {
-							record: recordRelativeAccountId,
-							selectedName: recordRelativeAccountName,
-							module: 'Contacts'
-						};
-						thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
-						element.attr('checked', 'checked');
-					}
-				});
-			}
-			if (lead_id == false) {
-				this.formElement.find('.copyAddressFromLead').addClass('d-none');
-			} else {
-				this.formElement.find('.copyAddressFromLead').on('click', function (e) {
-					let element = $(this);
-					let block = element.closest('.js-toggle-panel');
-					let from = element.data('label');
-					let to = block.data('label');
-					let recordRelativeAccountId = $('[name="' + lead_id + '"]').val();
-					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						app.showNotify({
-							text: app.vtranslate('JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS'),
-							type: 'error'
-						});
-					} else {
-						let recordRelativeAccountName = $('#' + lead_id + '_display').val();
-						let data = {
-							record: recordRelativeAccountId,
-							selectedName: recordRelativeAccountName,
-							module: 'Leads'
-						};
-						thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
-						element.attr('checked', 'checked');
-					}
-				});
-			}
-			if (vendor_id == false) {
-				this.formElement.find('.copyAddressFromVendor').addClass('d-none');
-			} else {
-				this.formElement.find('.copyAddressFromVendor').on('click', function (e) {
-					let element = $(this);
-					let block = element.closest('.js-toggle-panel');
-					let from = element.data('label');
-					let to = block.data('label');
-					let recordRelativeAccountId = $('[name="' + vendor_id + '"]').val();
-					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-						app.showNotify({
-							text: app.vtranslate('JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS'),
-							type: 'error'
-						});
-					} else {
-						let recordRelativeAccountName = $('#' + vendor_id + '_display').val();
-						let data = {
-							record: recordRelativeAccountId,
-							selectedName: recordRelativeAccountName,
-							module: 'Vendors'
-						};
-						thisInstance.copyAddressDetails(from, to, data, element.closest('.js-toggle-panel'));
-						element.attr('checked', 'checked');
-					}
-				});
-			}
 			this.formElement.find('.js-toggle-panel').each(function (index) {
 				let hideCopyAddressLabel = true;
 				$(this)
@@ -694,6 +570,31 @@ $.Class(
 				let from = element.data('label');
 				let to = block.data('label');
 				thisInstance.copyAddress(from, to, false, false);
+			});
+		},
+		/**
+		 * Show button to copy the address details from selected module
+		 */
+		enableCopyAddressFromModule: function (moduleName, formElement, className, fieldName, label){
+			let thisInstance = this;
+			formElement.find('.' + className).removeClass('d-none').on('click', function (e) {
+				let element = $(this);
+				let recordRelativeAccountId = $('[name="' + fieldName + '"]').val();
+				if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
+					app.showNotify({
+						text: app.vtranslate(label),
+						type: 'error'
+					});
+				} else {
+					let recordRelativeAccountName = $('#' + fieldName + '_display').val();
+					let data = {
+						record: recordRelativeAccountId,
+						selectedName: recordRelativeAccountName,
+						module: moduleName
+					};
+					thisInstance.copyAddressDetails(element.data('label'), element.closest('.js-toggle-panel').data('label'), data, element.closest('.js-toggle-panel'));
+					element.attr('checked', 'checked');
+				}
 			});
 		},
 		/**
