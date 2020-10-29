@@ -47,7 +47,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getModulesList()
 	{
-		$modules = \vtlib\Functions::getAllModules();
+		$modules = \vtlib\Functions::getAllModules(true, true, 0);
 		foreach ($modules as $id => $module) {
 			$moduleModel = Vtiger_Module_Model::getInstance($module['name']);
 			if (!$moduleModel->isSummaryViewSupported()) {
