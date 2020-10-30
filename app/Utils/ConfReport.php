@@ -534,7 +534,7 @@ class ConfReport
 					break;
 				case 'db':
 					$db = \App\Db::getInstance();
-					if ($db->getIsActive()) {
+					if ($db->getMasterPdo()) {
 						static::$db = $db->getInfo();
 					}
 					break;
