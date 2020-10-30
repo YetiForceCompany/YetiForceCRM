@@ -18,4 +18,10 @@ return [
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
+	'SEARCH_PREFIX_IN_BODY' => [
+		'default' => false,
+		'description' => 'Search prefix in body, type: boolean',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+	],
 ];
