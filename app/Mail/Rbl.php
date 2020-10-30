@@ -693,6 +693,9 @@ class Rbl extends \App\Base
 	 */
 	public static function sendReport(array $data): array
 	{
+		if (!\App\RequestUtil::isNetConnection()) {
+			return ['status' => false, 'message' => \App\Language::translate('ERR_NO_INTERNET_CONNECTION', 'Other:Exceptions')];
+		}
 		$id = $data['id'];
 		unset($data['id']);
 		$recordModel = self::getRequestById($id);
@@ -733,6 +736,10 @@ class Rbl extends \App\Base
 	 */
 	public static function getPublicList(int $type): array
 	{
+		if (!\App\RequestUtil::isNetConnection()) {
+			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
+			return [];
+		}
 		$url = 'https://soc.yetiforce.com/list/' . (self::LIST_TYPE_PUBLIC_BLACK_LIST === $type ? 'black' : 'white');
 		\App\Log::beginProfile("POST|Rbl::sendReport|{$url}", __NAMESPACE__);
 		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get($url, [
@@ -761,6 +768,10 @@ class Rbl extends \App\Base
 	 */
 	public static function sync(int $type): void
 	{
+		if (!\App\RequestUtil::isNetConnection()) {
+			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
+			return;
+		}
 		$public = self::getPublicList($type);
 		$publicKeys = array_keys($public);
 		$db = \App\Db::getInstance('admin');
