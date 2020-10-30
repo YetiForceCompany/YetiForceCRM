@@ -28,7 +28,7 @@
 							<span class="ml-2 badge badge-danger"><span class="fas fa-times mr-2"></span>{\App\Language::translate('LBL_INCORRECT', $LANG_MODULE_NAME)}</span>
 						{/if}
 					</span>
-					<span class="js-popover-tooltip ml-3" data-class="u-min-w-470px" data-placement="top" data-content="{\App\Purifier::encodeHtml(\App\Language::translateArgs($VERIFY_SPF['desc'], $LANG_MODULE_NAME, $VERIFY_SPF['domain']))}" data-js="popover">
+					<span class="js-popover-tooltip ml-3" data-class="u-min-w-470px" data-placement="top" data-content="[{$SENDER['ip']}] {\App\Purifier::encodeHtml(\App\Language::translateArgs($VERIFY_SPF['desc'], $LANG_MODULE_NAME, $VERIFY_SPF['domain']))}" data-js="popover">
 						{\App\Language::translate('LBL_SPF', $LANG_MODULE_NAME)}:
 						<span class="ml-2 badge {$VERIFY_SPF['class']}"><span class="{$VERIFY_SPF['icon']} mr-2"></span>{\App\Language::translate($VERIFY_SPF['label'], $LANG_MODULE_NAME)}</span>
 					</span>
