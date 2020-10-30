@@ -57,6 +57,9 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BindHe
 		$contactId = (int) $this->mail->findEmailAdress('from_email', 'Contacts', false);
 		$parentId = (int) $this->mail->findEmailAdress('from_email', 'Accounts', false);
 		$record = Vtiger_Record_Model::getCleanInstance('HelpDesk');
+		if(!$contactId && !$parentId && !\App\Config::module('OSSMailScanner', 'CREATE_TICKET_WITHOUT_CONTACT')){
+			return 0;
+		}
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		if (empty($parentId) && !empty($contactId)) {
 			$parentId = (new App\Db\Query())->select(['parentid'])->from('vtiger_contactdetails')->where(['contactid' => $contactId])->limit(1)->scalar();
@@ -123,6 +126,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BindHe
 		$queryGenerator->addCondition($statusFieldName,\App\RecordStatus::getStates($this->moduleName, \App\RecordStatus::RECORD_STATE_OPEN), 'e', false);
 		$queryGenerator->addNativeCondition([$this->tableName . '.' . $this->tableColumn => $this->prefix]);
 		$queryGenerator->setOrder('modifiedtime', 'DESC');
+		$queryGenerator->setLimit(1);
 		return $queryGenerator->createQuery()->createCommand()->queryScalar() ?? false;
 	}
 }

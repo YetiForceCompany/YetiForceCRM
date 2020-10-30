@@ -115,6 +115,7 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 		$queryGenerator = new App\QueryGenerator($this->moduleName);
 		$queryGenerator->addNativeCondition([$this->tableName . '.' . $this->tableColumn => $this->prefix]);
 		$queryGenerator->setOrder('modifiedtime', 'DESC');
+		$queryGenerator->setLimit(1);
 		return $queryGenerator->createQuery()->createCommand()->queryScalar() ?? false;
 	}
 }

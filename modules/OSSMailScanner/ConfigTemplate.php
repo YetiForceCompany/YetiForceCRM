@@ -24,4 +24,10 @@ return [
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
+	'CREATE_TICKET_WITHOUT_CONTACT' => [
+		'default' => true,
+		'description' => 'Create ticket when contact and account does not exist, type: boolean',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool'
+	],
 ];
