@@ -2,6 +2,8 @@
 	"php": {
 		"SystemRequirements": "System requirements",
 		"LBL_CHECK_SERVER_BLACK_LIST_IP": "Checks the server's IP address on a blacklist",
+		"LBL_CHECK_REPORTS_FOR_FORVERIFICATION": "RBL - reports for verification",
+		"LBL_CHECK_REPORTS_FOR_FORVERIFICATION_DESC": "Number of potential spam reports awaiting verification: %s",
 		"LBL_LIBRARY_ROUNDCUBE": "Roundcube library",
 		"LBL_LIBRARY_PHPEXCEL": "PHPExcel library",
 		"LBL_CONFIG_REPORT": "Server configuration",
