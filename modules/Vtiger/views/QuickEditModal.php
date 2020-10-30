@@ -203,8 +203,8 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 	 */
 	public function getLinks(Vtiger_Record_Model $recordModel)
 	{
-		$links['QUICKCREATE_VIEW_HEADER'][] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'QUICKCREATE_VIEW_HEADER',
+		$links['QUICKEDIT_VIEW_HEADER'][] = Vtiger_Link_Model::getInstanceFromValues([
+			'linktype' => 'QUICKEDIT_VIEW_HEADER',
 			'linkhint' => 'LBL_GO_TO_FULL_FORM',
 			'showLabel' => 1,
 			'linkicon' => 'yfi yfi-full-editing-view',

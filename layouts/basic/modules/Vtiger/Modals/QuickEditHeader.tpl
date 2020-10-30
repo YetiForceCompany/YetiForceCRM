@@ -27,8 +27,8 @@
 						</h5>
 					</div>
 					<div class="col-xl-3 col-12 text-center text-xl-right">
-						{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
-							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
+						{if !empty($QUICKCREATE_LINKS['QUICKEDIT_VIEW_HEADER'])}
+							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKEDIT_VIEW_HEADER']}
 								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS='display-block-md' TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq}
 							{/foreach}
 						{/if}
