@@ -6,7 +6,7 @@
 		<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="{$FIELD->getEditValue($VALUE)}" title="{$FIELD->getEditValue($VALUE)}" type="text"
 			   data-maximumlength="{$FIELD->getRangeValues()}"
 			   data-validation-engine="validate[required,funcCall[Vtiger_NumberUserFormat_Validator_Js.invokeValidation]]"
-			   class="unitPrice smallInputBox form-control form-control-sm" list-info="" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
+			   class="unitPrice smallInputBox form-control form-control-sm" list-info="" {if $FIELD->isReadOnly()}readonly="readonly"{/if}/>
 
 		{assign var=PRICEBOOK_MODULE_MODEL value=Vtiger_Module_Model::getInstance('PriceBooks')}
 		{if $PRICEBOOK_MODULE_MODEL->isPermitted('DetailView')}

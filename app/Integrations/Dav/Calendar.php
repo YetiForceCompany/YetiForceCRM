@@ -378,20 +378,20 @@ class Calendar
 		$endHasTime = $startHasTime = false;
 		$endField = 'VEVENT' === ((string) $this->vcomponent->name) ? 'DTEND' : 'DUE';
 		if (isset($this->vcomponent->DTSTART)) {
-			$davStart = VObject\DateTimeParser::parse($this->vcomponent->DTSTART);
-			$dateStart = $davStart->format('Y-m-d');
-			$timeStart = $davStart->format('H:i:s');
+			$timeStamp = $this->vcomponent->DTSTART->getDateTime()->getTimeStamp();
+			$dateStart = date('Y-m-d', $timeStamp);
+			$timeStart = date('H:i:s', $timeStamp);
 			$startHasTime = $this->vcomponent->DTSTART->hasTime();
 		} else {
-			$davStart = VObject\DateTimeParser::parse($this->vcomponent->DTSTAMP);
-			$dateStart = $davStart->format('Y-m-d');
-			$timeStart = $davStart->format('H:i:s');
+			$timeStamp = $this->vcomponent->DTSTAMP->getDateTime()->getTimeStamp();
+			$dateStart = date('Y-m-d', $timeStamp);
+			$timeStart = date('H:i:s', $timeStamp);
 		}
 		if (isset($this->vcomponent->{$endField})) {
-			$davEnd = VObject\DateTimeParser::parse($this->vcomponent->{$endField});
+			$timeStamp = $this->vcomponent->{$endField}->getDateTime()->getTimeStamp();
 			$endHasTime = $this->vcomponent->{$endField}->hasTime();
-			$dueDate = $davEnd->format('Y-m-d');
-			$timeEnd = $davEnd->format('H:i:s');
+			$dueDate = date('Y-m-d', $timeStamp);
+			$timeEnd = date('H:i:s', $timeStamp);
 			if (!$endHasTime) {
 				$endTime = strtotime('-1 day', strtotime("$dueDate $timeEnd"));
 				$dueDate = date('Y-m-d', $endTime);
@@ -405,8 +405,19 @@ class Calendar
 		if (!$startHasTime && !$endHasTime && \App\User::getCurrentUserId()) {
 			$allDay = 1;
 			$currentUser = \App\User::getCurrentUserModel();
-			$timeStart = $currentUser->getDetail('start_hour') . ':00';
-			$timeEnd = $currentUser->getDetail('end_hour') . ':00';
+			$userTimeZone = new \DateTimeZone($currentUser->getDetail('time_zone'));
+			$sysTimeZone = new \DateTimeZone(\App\Fields\DateTime::getTimeZone());
+			[$hour , $minute] = explode(':', $currentUser->getDetail('start_hour'));
+			$date = new \DateTime('now', $userTimeZone);
+			$date->setTime($hour, $minute);
+			$date->setTimezone($sysTimeZone);
+			$timeStart = $date->format('H:i:s');
+
+			$date->setTimezone($userTimeZone);
+			[$hour , $minute] = explode(':', $currentUser->getDetail('end_hour'));
+			$date->setTime($hour, $minute);
+			$date->setTimezone($sysTimeZone);
+			$timeEnd = $date->format('H:i:s');
 		}
 		$this->record->set('allday', $allDay);
 		$this->record->set('date_start', $dateStart);

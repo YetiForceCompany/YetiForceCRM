@@ -36,6 +36,7 @@
     "LBL_REMOVED": "removed",
     "LBL_CONVERTED_FROM_LEAD": "Converted from lead",
     "LBL_DELETED": "Deleted record",
+    "LBL_DELETED_VALUE": "Deleted value",
     "LBL_ACTIVE": "Restored record",
     "LBL_ARCHIVED": "Archived record",
     "LBL_TRANSFER_EDIT": "record was changed in the transfer process",

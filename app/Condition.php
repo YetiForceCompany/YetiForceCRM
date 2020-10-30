@@ -314,4 +314,31 @@ class Condition
 		}
 		return $recordField->check();
 	}
+
+	/**
+	 * Get field names from conditions.
+	 *
+	 * @param array $conditions
+	 *
+	 * @return array ['baseModule' => [], 'referenceModule' => []]
+	 */
+	public static function getFieldsFromConditions(array $conditions): array
+	{
+		$fields = ['baseModule' => [], 'referenceModule' => []];
+		if (isset($conditions['rules'])) {
+			foreach ($conditions['rules'] as &$condition) {
+				if (isset($condition['condition'])) {
+					$condition = static::getFieldsFromConditions($condition);
+				} else {
+					[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $condition['fieldname']), 3, false);
+					if ($sourceFieldName) {
+						$fields['referenceModule'][$moduleName][$sourceFieldName] = $fieldName;
+					} else {
+						$fields['baseModule'][] = $fieldName;
+					}
+				}
+			}
+		}
+		return $fields;
+	}
 }

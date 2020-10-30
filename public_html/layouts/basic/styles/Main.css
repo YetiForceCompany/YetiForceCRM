@@ -12,7 +12,7 @@
  */
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /*!
- * Bootstrap v4.5.2 (https://getbootstrap.com/)
+ * Bootstrap v4.5.3 (https://getbootstrap.com/)
  * Copyright 2011-2020 The Bootstrap Authors
  * Copyright 2011-2020 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
@@ -195,7 +195,8 @@ caption {
   caption-side: bottom; }
 
 th {
-  text-align: inherit; }
+  text-align: inherit;
+  text-align: -webkit-match-parent; }
 
 label {
   display: inline-block;
@@ -3108,7 +3109,8 @@ input[type="button"].btn-block {
   z-index: 1;
   display: block;
   min-height: 1.5rem;
-  padding-left: 1.5rem; }
+  padding-left: 1.5rem;
+  color-adjust: exact; }
 
 .custom-control-inline {
   display: inline-flex;
@@ -4267,6 +4269,7 @@ input[type="button"].btn-block {
     position: absolute;
     top: 0;
     right: 0;
+    z-index: 2;
     padding: 0.75rem 1.25rem;
     color: inherit; }
 
@@ -8815,7 +8818,7 @@ a.text-dark:hover, a.text-dark:focus {
 
 .text-break {
   word-break: break-word !important;
-  overflow-wrap: break-word !important; }
+  word-wrap: break-word !important; }
 
 .text-reset {
   color: inherit !important; }
@@ -12585,6 +12588,9 @@ body:not(.desktop) .ps__rail-y {
 .pnotify-container {
   padding: 0.75rem; }
 
+.pnotify-closer {
+  visibility: visible !important; }
+
 .pnotify-title {
   line-height: 1.3rem; }
 
@@ -12949,6 +12955,14 @@ body > .q-dialog:not(.quasar-reset) .q-field .col {
 
 .singleComment .q-message-text {
   background: #e0e0e0; }
+
+@media only screen and (min-width: 768px) {
+  .singleComment .q-message-text {
+    background: #e0e0e0; }
+  .singleComment:hover .comment-actions {
+    visibility: visible; }
+  .singleComment .comment-actions {
+    visibility: hidden; } }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media print {
@@ -14368,13 +14382,6 @@ span[name="existingImages"] img {
   padding: 5px;
   font-size: 0.8125rem; }
 
-.mailsList .container-fluid > .row, .mailsList .container-sm > .row, .mailsList .container-md > .row, .mailsList .container-lg > .row, .mailsList .container-xl > .row {
-  margin-right: -10px;
-  margin-left: -10px;
-  padding: 4px 0; }
-  .mailsList .container-fluid > .row:not(:first-child), .mailsList .container-sm > .row:not(:first-child), .mailsList .container-md > .row:not(:first-child), .mailsList .container-lg > .row:not(:first-child), .mailsList .container-xl > .row:not(:first-child) {
-    border-bottom: 1px solid #ddd; }
-
 .container-fluid > .row, .container-sm > .row, .container-md > .row, .container-lg > .row, .container-xl > .row {
   margin-left: 0;
   margin-right: 0; }
@@ -14382,20 +14389,16 @@ span[name="existingImages"] img {
     margin-bottom: 10px;
     padding-right: 5px; }
 
-.mailsList .container-fluid > .row:last-child, .mailsList .container-sm > .row:last-child, .mailsList .container-md > .row:last-child, .mailsList .container-lg > .row:last-child, .mailsList .container-xl > .row:last-child {
-  border-bottom: 0; }
-
-.mailsList .smalSeparator {
-  display: block;
-  height: 5px;
-  width: 70px; }
-
 .summaryWidgetContainer .widgetContent hr {
   margin: 4px 0; }
 
-.mailsList .row {
+.mailsList .content {
   background-color: #fff; }
-  .mailsList .row.even {
+  .mailsList .content .mailActions.d-flex, .mailsList .content .mailActions.c-panel__label, .mailsList .content .mailActions.c-float-label__container {
+    display: none !important; }
+  .mailsList .content :hover .mailActions.d-flex, .mailsList .content :hover .mailActions.c-panel__label, .mailsList .content :hover .mailActions.c-float-label__container {
+    display: flex !important; }
+  .mailsList .content.even {
     background-color: #faf8f8; }
 
 .mailsList .mailTitle {
@@ -14430,15 +14433,11 @@ span[name="existingImages"] img {
   background-color: #5bc0de;
   border-color: #46b8da;
   display: block;
-  padding: 6px 8px;
-  height: 32px;
-  width: 32px;
-  font-size: 1rem;
-  text-align: center;
-  margin: 0 7px 3px 0;
-  -webkit-box-shadow: 0 0 8px -1px #9c9c9c;
-  -moz-box-shadow: 0 0 8px -1px #9c9c9c;
-  box-shadow: 0 0 8px -1px #9c9c9c; }
+  height: 2.5rem;
+  width: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1.55rem;
+  text-align: center; }
 
 .modal-blg iframe {
   height: 62vh; }
@@ -14515,6 +14514,9 @@ body,
   display: block;
   width: 48px;
   padding: 5px; }
+  .companyLogoContainer img {
+    height: 2.5rem;
+    width: 2.5rem; }
 
 .userDetails ul.headerLink li {
   list-style-type: none;
@@ -15648,6 +15650,9 @@ table .listButtons.narrow .c-badge__icon {
   font-size: 0.8125rem !important; }
 
 .u-fs-14px {
+  font-size: 0.875rem !important; }
+
+.u-fs-15px {
   font-size: 0.9375rem !important; }
 
 .u-fs-19px {
@@ -16438,6 +16443,9 @@ table .listButtons.narrow .c-badge__icon {
 .u-w-60per {
   width: 60%; }
 
+.u-w-158px {
+  width: 9.875rem !important; }
+
 .u-w-max {
   width: max-content !important;
   width: -moz-max-content !important; }
@@ -16481,6 +16489,9 @@ table .listButtons.narrow .c-badge__icon {
 
 .u-w-90per {
   width: 90%; }
+
+.u-min-w-470px {
+  min-width: 29.375rem; }
 
 .u-min-w-650px {
   min-width: 40.625rem !important; }
@@ -16540,6 +16551,9 @@ table .listButtons.narrow .c-badge__icon {
 
 .u-max-h-70vh {
   max-height: 70vh; }
+
+.u-h-line-normal {
+  line-height: normal; }
 
 .u-border-right-10px {
   border-right: 10px solid; }
@@ -16650,6 +16664,11 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
   -moz-box-shadow: 3px 3px 14px 0 rgba(50, 50, 50, 0.75);
   -webkit-box-shadow: 3px 3px 14px 0 rgba(50, 50, 50, 0.75);
   box-shadow: 3px 3px 14px 0 rgba(50, 50, 50, 0.75); }
+
+.u-box-shadow-light {
+  -moz-box-shadow: 0.1rem 0.1rem 0.35rem rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0.1rem 0.1rem 0.35rem rgba(0, 0, 0, 0.6);
+  box-shadow: 0.1rem 0.1rem 0.35rem rgba(0, 0, 0, 0.6); }
 
 @media (max-width: 400px) {
   .display-block-xsm {
@@ -17170,6 +17189,9 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
 .u-min-height-250 {
   min-height: 250px; }
 
+.u-lh-12 {
+  line-height: 1.2; }
+
 .u-flex-default {
   -ms-flex: 0 1 auto;
   flex: 0 1 auto; }
@@ -17216,13 +17238,6 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
   .u-hidden-block {
     position: static;
     display: block; } }
-
-.u-rbl-container td .u-rbl_action {
-  position: absolute;
-  display: none; }
-
-.u-rbl-container td:hover .u-rbl_action {
-  display: flex !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .basePanel,
@@ -17299,7 +17314,7 @@ body:not(.desktop) .bodyContent {
 .c-badge__icon {
   width: 32px;
   height: 32px;
-  line-height: 30px;
+  line-height: 27px;
   font-size: 17px; }
 
 .c-badge--md {
@@ -18156,6 +18171,16 @@ body > .o-exception-fixed-block {
 
 .o-view-messagecompose {
   overflow-x: hidden; }
+
+.o-tab__container td {
+  padding-top: 0.4375rem !important; }
+
+.o-tab__container .o-tab__container--action {
+  display: none;
+  position: absolute; }
+
+.o-tab__container tr:hover .o-tab__container--action {
+  display: flex !important; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .c-header {
@@ -19902,7 +19927,8 @@ ul.c-process-line {
     display: inline; }
 
 .o-detail__record-img img {
-  height: 5rem; }
+  height: 5rem;
+  width: 5rem; }
 
 .moduleIcon:not(.o-detail__record-img) {
   display: none; }
@@ -19970,7 +19996,8 @@ ul.c-process-line {
           height: 1.875rem;
           padding: 0.125rem;
           border: 2px solid #d2d6de;
-          font-size: 2rem; }
+          font-size: 2rem;
+          border-radius: 50%; }
         @media (min-width: 576px) {
           .timeline > li .timeline-item > .imageContainer > .userImage {
             width: 2.5rem;

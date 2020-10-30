@@ -20,12 +20,12 @@
 						{foreach from=$PICKLISTS_VALUES item=$PICKLIST_VALUE}
 						<tr>
 							<td class="py-2 u-font-weight-550 align-middle border-bottom">
-								{\App\Language::translate($PICKLIST_VALUE['prefix'], $QUALIFIED_MODULE)}
+								{\App\Language::translate(\App\Purifier::decodeHtml($PICKLIST_VALUE['prefix']), $QUALIFIED_MODULE)}
 							</td>
 							<td class="py-2 position-relative w-50 border-bottom">
 								<input type="text" class="form-control js-picklist-sequence" value="{$PICKLIST_VALUE['cur_id']}"
 								data-old-sequence-number="{$PICKLIST_VALUE['cur_id']}"
-								name="{$PICKLIST_VALUE['prefix']}" data-js="value"
+								name="{\App\Purifier::encodeHtml($PICKLIST_VALUE['prefix'])}" data-js="value"
 								data-validation-engine="validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]"/>
 							</td>
 						</tr>

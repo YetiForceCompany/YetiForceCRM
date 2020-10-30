@@ -30,14 +30,14 @@
 							<span id="{$MODULE_NAME}_editView_fieldName_{$FIELD_NAME}_clear" class="fas fa-times-circle"></span>
 						</button>
 					{/if}
-					{if $FIELD->get('displaytype') != 10}
+					{if !$FIELD->isReadOnly()}
 						<button class="btn btn-light relatedPopup u-cursor-pointer js-popover-tooltip" type="button"
 								data-js="popover" data-content="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}">
 							<span id="{$MODULE_NAME}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search"></span>
 						</button>
 					{/if}
 					{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_MODULE)}
-					{if $REFERENCE_MODULE_MODEL->isQuickCreateSupported() && $FIELD->get('displaytype') != 10}
+					{if $REFERENCE_MODULE_MODEL->isQuickCreateSupported() && !$FIELD->isReadOnly()}
 						<button class="btn btn-light u-cursor-pointer createReferenceRecord js-popover-tooltip" type="button"
 								data-js="popover" data-content="{\App\Language::translate('LBL_CREATE',$MODULE)}">
 							<span id="{$REFERENCE_MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="fas fa-plus"></span>

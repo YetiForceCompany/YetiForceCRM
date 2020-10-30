@@ -166,3 +166,18 @@ body > .o-exception-fixed-block {
 .o-view-messagecompose {
 	overflow-x: hidden;
 }
+
+.o-tab__container {
+	td {
+		padding-top: calculate-rem(7px) !important;
+	}
+	.o-tab__container--action  {
+		display: none;
+		position: absolute;
+	}
+	tr:hover {
+		.o-tab__container--action  {
+			display: flex !important;
+		}
+	}
+}

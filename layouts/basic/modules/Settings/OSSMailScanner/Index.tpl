@@ -2,6 +2,11 @@
 <div class="o-breadcrumb widget_header row">
 	<div class="col-12">
 		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
+		<div class="d-flex align-items-center ml-auto">
+			<a href="https://yetiforce.com/en/knowledge-base/documentation/administrator-documentation/item/mail-scanner" target="_blank" class="btn btn-outline-info js-popover-tooltip" data-content="{App\Language::translate('BTM_GOTO_YETIFORCE_DOCUMENTATION')}" rel="noreferrer noopener" data-js="popover">
+				<span class="mdi mdi-book-open-page-variant u-fs-lg"></span>
+			</a>
+		</div>
 	</div>
 </div>
 {if ($CHECKCRON[0]['status'] == 0 ) || !$CHECKCRON || ($CHECKCRON[1]['status'] == 0)}

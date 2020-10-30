@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Base-inventoryfields-EditViewTotalPrice -->
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
-	<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" type="hidden" value="{$FIELD->getEditValue($VALUE)}" class="totalPrice" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if} />
+	<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" type="hidden" value="{$FIELD->getEditValue($VALUE)}" class="totalPrice" {if $FIELD->isReadOnly()}readonly="readonly"{/if} />
 	<span class="totalPriceText">{$FIELD->getEditValue($VALUE)}</span>
 	<!-- /tpl-Base-inventoryfields-EditViewTotalPrice -->
 {/strip}

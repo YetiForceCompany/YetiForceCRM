@@ -325,7 +325,6 @@
     "LBL_MARKETING_AND_SALES": "MARKETING & SALES",
     "LBL_MASS_EDITING": "Mass edit",
     "LBL_NO_RECORDS_MATCHED_THIS_CRITERIA": "No records matched this criteria.",
-    "LBL_MAX_NUMBER_FILTER_COLUMNS": "Max 12",
     "LBL_MAX_QTY_SELECT": "Maximum value is",
     "LBL_MAX_UPLOAD_SIZE": "Maximum upload size is",
     "LBL_May": "May",
@@ -395,7 +394,7 @@
     "LBL_ON_DEMAND_ADMIN": "Add/Delete users",
     "LBL_OPERATION_NOT_PERMITTED": "Operation not permitted",
     "LBL_OR": "or",
-    "LBL_OWNER": "Mine",
+    "LBL_OWNER": "Owner",
     "LBL_PAGE": "Page",
     "LBL_PARENT_OWNER": "Parent record owner",
     "LBL_PERMISSION_DENIED": "Permission denied",
@@ -1146,6 +1145,7 @@
     "LBL_Y": "yr",
     "LBL_YRS": "yrs",
     "FL_ACTIVE": "Active",
+    "FL_INACTIVE": "Inactive",
     "SwitchUsers": "Switch Users",
     "Api Address": "Address search",
     "Notifications": "Notifications",
@@ -1467,10 +1467,12 @@
     "LBL_SHOW_HISTORICAL_DATA": "Show historical data",
     "LBL_ACCESS_REQUEST_TO": "Access request to",
     "LBL_SENT": "Sent",
+    "LBL_SENT_DATE": "Post date",
     "LBL_RELATION_NOT_FOUND": "Relation not found",
     "LBL_RELATED_RECORD": "Related record",
     "LBL_SOURCE_RECORD": "Source record",
-    "BTM_GOTO_YETIFORCE_DOCUMENTATION": "Go to YetiForce documentation"
+    "BTM_GOTO_YETIFORCE_DOCUMENTATION": "Go to YetiForce documentation",
+    "LBL_NOT_FILLED_MANDATORY_FIELDS": "All required fields were not filled in"
   },
   "js": {
     "JS_APPROVE": "Approve",

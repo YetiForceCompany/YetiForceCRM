@@ -419,7 +419,7 @@ var App = (window.App = {
 								app.event.trigger('QuickEdit.AfterSaveFinal', data, form, element);
 								progress.progressIndicator({ mode: 'hide' });
 								if (data.success) {
-									this.showNotify({
+									app.showNotify({
 										text: app.vtranslate('JS_SAVE_NOTIFY_SUCCESS'),
 										type: 'success'
 									});
@@ -1021,6 +1021,7 @@ var app = (window.app = {
 				toolbar: 'Min'
 			});
 			app.registesterScrollbar(modalContainer);
+			app.registerIframeEvents(modalContainer);
 		});
 		$('body').append(container);
 		modalContainer.modal(params);
@@ -1167,25 +1168,25 @@ var app = (window.app = {
 		}
 	},
 	registerModalEvents: function (container, sendByAjaxCb) {
-		var form = container.find('form');
-		var validationForm = false;
+		let form = container.find('form');
+		let validationForm = false;
 		if (form.hasClass('validateForm') || form.hasClass('js-validate-form')) {
 			form.validationEngine(app.validationEngineOptions);
 			validationForm = true;
 		}
-		if (form.hasClass('sendByAjax')) {
+		if (form.hasClass('sendByAjax') || form.hasClass('js-send-by-ajax')) {
 			form.on('submit', function (e) {
-				var save = true;
+				let save = true;
 				e.preventDefault();
 				if (validationForm && form.data('jqv').InvalidFields.length > 0) {
 					app.formAlignmentAfterValidation(form);
 					save = false;
 				}
 				if (save) {
-					var progressIndicatorElement = $.progressIndicator({
+					let progressIndicatorElement = $.progressIndicator({
 						blockInfo: { enabled: true }
 					});
-					var formData = form.serializeFormData();
+					let formData = form.serializeFormData();
 					AppConnector.request(formData)
 						.done(function (responseData) {
 							sendByAjaxCb(formData, responseData);
@@ -1202,6 +1203,10 @@ var app = (window.app = {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						})
 						.fail(function () {
+							app.showNotify({
+								text: app.vtranslate('JS_UNEXPECTED_ERROR'),
+								type: 'error'
+							});
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						});
 				}

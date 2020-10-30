@@ -15,6 +15,13 @@ namespace App\Controller;
 abstract class Modal extends View\Base
 {
 	/**
+	 * Page title.
+	 *
+	 * @var string
+	 */
+	protected $pageTitle;
+
+	/**
 	 * Modal size.
 	 *
 	 * @var string

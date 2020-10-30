@@ -106,7 +106,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	 */
 	public function checkIfHasTimeControl(): bool
 	{
-		if (\App\Config::module($this->getModuleName(), 'CHECK_IF_RECORDS_HAS_TIME_CONTROL')) {
+		if (\App\Config::module($this->getModuleName(), 'CHECK_IF_RECORDS_HAS_TIME_CONTROL') && \App\Module::isModuleActive('OSSTimeControl')) {
 			$queryGenerator = new App\QueryGenerator('OSSTimeControl');
 			$queryGenerator->permissions = false;
 			$queryGenerator->addNativeCondition([\App\ModuleHierarchy::getMappingRelatedField($this->getModuleName()) => $this->getId()]);

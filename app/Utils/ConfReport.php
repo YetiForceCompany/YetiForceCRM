@@ -189,6 +189,10 @@ class ConfReport
 		'query_cache_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'query_cache_type' => ['container' => 'db', 'testCli' => false],
 		'table_cache' => ['container' => 'db', 'testCli' => false],
+		'table_open_cache_instances' => ['container' => 'db', 'testCli' => false],
+		'table_open_cache' => ['recommended' => 1000, 'type' => 'Greater', 'container' => 'db', 'testCli' => false],
+		'table_definition_cache' => ['type' => 'DbTableDefinitionCache', 'container' => 'db', 'testCli' => false],
+		'open_files_limit' => ['container' => 'db', 'testCli' => false],
 		'tmp_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'innodb_buffer_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
 		'innodb_additional_mem_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
@@ -239,13 +243,6 @@ class ConfReport
 		'net_write_timeout' => ['container' => 'db', 'testCli' => false],
 		'aria_recover_options' => ['container' => 'db', 'testCli' => false],
 		'aria_recover' => ['container' => 'db', 'testCli' => false],
-		'binlog_format' => ['container' => 'db', 'testCli' => false],
-		'max_binlog_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
-		'slow_query_log' => ['container' => 'db', 'testCli' => false],
-		'slow_query_log_file' => ['container' => 'db', 'testCli' => false],
-		'log_slow_admin_statements' => ['container' => 'db', 'testCli' => false],
-		'general_log_file' => ['container' => 'db', 'testCli' => false],
-		'log_error' => ['container' => 'db', 'testCli' => false],
 		'hostname' => ['container' => 'db', 'testCli' => false],
 		'innodb_checksum_algorithm' => ['container' => 'db', 'testCli' => false],
 		'innodb_flush_method' => ['container' => 'db', 'testCli' => false],
@@ -258,17 +255,27 @@ class ConfReport
 		'thread_pool_max_threads' => ['container' => 'db', 'testCli' => false],
 		'innodb_read_io_threads' => ['container' => 'db', 'testCli' => false],
 		'innodb_write_io_threads' => ['container' => 'db', 'testCli' => false],
-		'log_warnings' => ['container' => 'db', 'testCli' => false],
 		'lower_case_file_system' => ['container' => 'db', 'testCli' => false],
 		'lower_case_table_names' => ['container' => 'db', 'testCli' => false],
 		'system_time_zone' => ['container' => 'db', 'testCli' => false],
 		'use_stat_tables' => ['container' => 'db', 'testCli' => false],
 		'thread_handling' => ['container' => 'db', 'testCli' => false],
-		'back_log' => ['container' => 'db', 'testCli' => false],
 		'host_cache_size' => ['container' => 'db', 'testCli' => false],
 		'optimizer_search_depth' => ['container' => 'db', 'testCli' => false],
 		'version_compile_machine' => ['container' => 'db', 'testCli' => false],
 		'version_compile_os' => ['container' => 'db', 'testCli' => false],
+		'socket' => ['container' => 'db', 'testCli' => false],
+		'back_log' => ['container' => 'db', 'testCli' => false],
+		'binlog_format' => ['container' => 'db', 'testCli' => false],
+		'max_binlog_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => false],
+		'slow_query_log' => ['container' => 'db', 'testCli' => false],
+		'slow_query_log_file' => ['container' => 'db', 'testCli' => false],
+		'log_slow_admin_statements' => ['container' => 'db', 'testCli' => false],
+		'general_log' => ['container' => 'db', 'testCli' => false],
+		'general_log_file' => ['container' => 'db', 'testCli' => false],
+		'log_error' => ['container' => 'db', 'testCli' => false],
+		'log_warnings' => ['container' => 'db', 'testCli' => false],
+		'log_output' => ['container' => 'db', 'testCli' => false],
 	];
 
 	/**
@@ -841,6 +848,26 @@ class ConfReport
 	{
 		unset($name);
 		if (isset($row[$sapi]) && (int) $row[$sapi] > 0 && (int) $row[$sapi] < (int) $row['recommended']) {
+			$row['status'] = false;
+		}
+		return $row;
+	}
+
+	/**
+	 * Validate number greater than another parameter.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateDbTableDefinitionCache(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$tableOpenCache = (self::$db['table_open_cache'] > self::$database['table_open_cache']['recommended']) ? self::$db['table_open_cache'] : self::$database['table_open_cache']['recommended'];
+		$row['recommended'] = $tableOpenCache + 400;
+		if (isset($row[$sapi]) && (int) $row[$sapi] <= $row['recommended']) {
 			$row['status'] = false;
 		}
 		return $row;

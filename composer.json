@@ -80,7 +80,8 @@
     "abraham/twitteroauth": "^1.0",
     "adhocore/jwt": "^1.0",
     "zbateson/mail-mime-parser": "^1.2",
-    "mlocati/spf-lib": "^3"
+    "mlocati/spf-lib": "^3",
+    "phpmailer/dkimvalidator": "^v0.3"
   },
   "suggest": {
     "ext-imagick": "Library recommended for securing potentially dangerous graphic files",

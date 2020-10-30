@@ -330,6 +330,7 @@ jQuery.Class(
 				if (relatedModuleName === 'OSSMailView') {
 					Vtiger_Index_Js.registerMailButtons(widgetContent);
 					widgetContent.find('.showMailModal').on('click', function (e) {
+						e.preventDefault();
 						let progressIndicatorElement = jQuery.progressIndicator();
 						app.showModalWindow('', $(e.currentTarget).data('url') + '&noloadlibs=1', function (
 							data
@@ -1714,6 +1715,16 @@ jQuery.Class(
 							typeof element.data('on-val') !== 'undefined'
 								? element.data('on-val')
 								: element.data('off-val');
+						let additionalParams = element.data('params');
+						if(typeof additionalParams !== typeof undefined && additionalParams !== false){
+							$.each(additionalParams, function(paramName, paramValue) {
+								if (paramName in urlNewParams) {
+									urlNewParams[paramName].push(paramValue);
+								} else {
+									urlNewParams[paramName] = paramValue;
+								}
+							});
+						}
 					}
 				} else {
 					let selectedFilter = element.find('option:selected').val();
@@ -2624,7 +2635,7 @@ jQuery.Class(
 		registerMailPreviewWidget: function (container) {
 			const self = this;
 			container.on('click', '.showMailBody', (e) => {
-				let row = $(e.currentTarget).closest('.row'),
+				let row = $(e.currentTarget).closest('.js-mail-row'),
 					mailBody = row.find('.mailBody'),
 					mailTeaser = row.find('.mailTeaser');
 				mailBody.toggleClass('d-none');
@@ -2638,7 +2649,14 @@ jQuery.Class(
 			});
 			container.on('click', '.showMailsModal', (e) => {
 				let url = $(e.currentTarget).data('url');
-				url += '&type=' + container.find('[name="mail-type"]').val();
+				let type = container.find('[name="mail-type"]');
+				let typeValue = '';
+				if (type.length > 0) {
+					typeValue = type.val();
+				} else {
+					typeValue = 'All';
+				}
+				url += '&type=' + typeValue;
 				if (container.find('[name="mailFilter"]').length > 0) {
 					url += '&mailFilter=' + container.find('[name="mailFilter"]').val();
 				}
@@ -2666,13 +2684,17 @@ jQuery.Class(
 					.removeClass('fa-caret-up')
 					.addClass('fa-caret-down');
 			});
-			container.find('.showMailModal').on('click', function (e) {
-				let progressIndicatorElement = jQuery.progressIndicator();
-				app.showModalWindow('', $(e.currentTarget).data('url') + '&noloadlibs=1', function (data) {
-					Vtiger_Index_Js.registerMailButtons(data);
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+			container
+				.find('.showMailModal')
+				.off('click')
+				.on('click', function (e) {
+					e.preventDefault();
+					let progressIndicatorElement = jQuery.progressIndicator();
+					app.showModalWindow('', $(e.currentTarget).data('url') + '&noloadlibs=1', function (data) {
+						Vtiger_Index_Js.registerMailButtons(data);
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					});
 				});
-			});
 		},
 		loadMailPreviewWidget: function (widgetContent) {
 			let thisInstance = this;

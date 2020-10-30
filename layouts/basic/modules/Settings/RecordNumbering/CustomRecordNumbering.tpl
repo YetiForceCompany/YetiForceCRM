@@ -1,22 +1,24 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-RecordNumbering-CustomRecordNumbering -->
-	<div>
-		<form id="EditView" method="POST">
-			<div class="o-breadcrumb widget_header row mb-3">
-				<div class="col-6 col-xl-9 col-12">
-					<div class="o-breadcrumb widget_header mb-2 d-flex justify-content-between px-2 w-100">
-						<div class="o-breadcrumb__container">
-							{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-						</div>
+	{if !empty($SHOW_BODY_HEADER)}
+		<div class="o-breadcrumb widget_header row mb-3">
+			<div class="col-6 col-xl-9 col-12">
+				<div class="o-breadcrumb widget_header mb-2 d-flex justify-content-between px-2 w-100">
+					<div class="o-breadcrumb__container">
+						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 					</div>
 				</div>
-				<div class="col-6 col-xl-3 col-12 d-flex align-items-center mb-xl-0 mb-3 pt-md-0 pt-1">
-					<button type="button" class="btn btn-info float-right" name="updateRecordWithSequenceNumber">
-						<span class="fas fa-exchange-alt u-mr-5px"></span>{\App\Language::translate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}
-					</button>
-				</div>
 			</div>
+			<div class="col-6 col-xl-3 col-12 d-flex align-items-center mb-xl-0 mb-3 pt-md-0 pt-1">
+				<button type="button" class="btn btn-info float-right" name="updateRecordWithSequenceNumber">
+					<span class="fas fa-exchange-alt u-mr-5px"></span>{\App\Language::translate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}
+				</button>
+			</div>
+		</div>
+	{/if}
+	<div class="{if !$IS_AJAX}js-container{/if}">
+			<form id="EditView" method="POST">
 			<div class="row">
 				<div class="col-md-12">
 					<table class="table table-bordered">
@@ -290,7 +292,7 @@
 								<div class="form-inline">
 									<div class="input-group w-100">
 										<select class="select2 form-control" id="picklistVariables"
-												name="custom_variables">
+												name="picklistVariables">
 											{foreach from=$PICKLISTS item=PICKLIST}
 												<option value="picklist:{$PICKLIST->getFieldName()}">{\App\Language::translate($PICKLIST->getFieldLabel(), $DEFAULT_MODULE_NAME)}</option>
 											{/foreach}
@@ -298,6 +300,42 @@
 										<div class="input-group-append">
 											<input type="hidden" value="" id="picklistVariable"/>
 											<button class="btn btn-sm btn-info float-right" id="picklistVariableCopy" type="button"
+													title="{\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}">
+												<span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}
+											</button>
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="{$WIDTHTYPE}">
+								<label class="float-right">
+									<b>{\App\Language::translate('LBL_REFERENCE_VARIABLES', $QUALIFIED_MODULE)}</b>
+									<a href="#" class="js-popover-tooltip ml-2"
+									   data-js="popover"
+									   data-trigger="focus hover"
+									   data-content="{\App\Language::translate('LBL_REFERENCE_VARIABLES_INFO', $QUALIFIED_MODULE)}">
+										<span class="fas fa-info-circle"></span>
+									</a>
+								</label>
+							</td>
+							<td class="fieldValue {$WIDTHTYPE} border-left-0">
+								<div class="form-inline">
+									<div class="input-group w-100">
+										<select class="select2 form-control" id="referenceVariables"
+												name="referenceVariables">
+											{foreach item=FIELDS key=BLOCK_NAME from=$REFERENCE_FIELDS}
+												<optgroup label="{$BLOCK_NAME}">
+													{foreach item=LABEL key=VAL from=$FIELDS}
+														<option value="{$VAL}">{$LABEL}</option>
+													{/foreach}
+												</optgroup>
+											{/foreach}
+										</select>
+										<div class="input-group-append">
+											<input type="hidden" value="" id="referenceVariable"/>
+											<button class="btn btn-sm btn-info float-right" id="referenceVariableCopy" type="button"
 													title="{\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}">
 												<span class="fas fa-copy"></span> {\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}
 											</button>

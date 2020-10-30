@@ -84,13 +84,13 @@ class Request extends \App\Request
 		}
 		$return = [];
 		switch ($type) {
+			case 'json':
+				$return = json_decode($content, 1);
+				break;
 			case 'form-data':
 			case 'x-www-form-urlencoded':
 				mb_parse_str($content, $data);
 				$return = $data;
-				break;
-			case 'json':
-				$return = json_decode($content, 1);
 				break;
 		}
 		return $return;

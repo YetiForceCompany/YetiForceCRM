@@ -57,9 +57,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class=" col-form-label"><span
-												class="redColor">*</span> {\App\Language::translate('LBL_CHOOSE_COLUMNS',$MODULE_NAME)}
-										({\App\Language::translate('LBL_MAX_NUMBER_FILTER_COLUMNS')}):</label>
+									<label class=" col-form-label"><span class="redColor">*</span> {\App\Language::translate('LBL_CHOOSE_COLUMNS',$MODULE_NAME)}</label>
 									<div class="columnsSelectDiv col-md-12">
 										{assign var=MANDATORY_FIELDS value=[]}
 										<div class="">

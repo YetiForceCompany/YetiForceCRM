@@ -208,6 +208,7 @@ class Order extends Record
 				$this->config->setScan('crm_order', 'id', $row['id']);
 			}
 		} catch (\Throwable $ex) {
+			$allChecked = false;
 			$this->log('Export orders', $ex);
 			\App\Log::error('Error during export order: ' . PHP_EOL . $ex->__toString() . PHP_EOL, 'Integrations/Magento');
 		}

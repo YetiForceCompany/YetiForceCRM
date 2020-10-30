@@ -12,7 +12,7 @@
 {strip}
 <!-- tpl-Base-Comment -->
 {assign var="HIERARCHY" value=isset($PARENT_RECORD) && $PARENT_RECORD != $COMMENT->get('related_to')}
-<div class="Comment comment-div js-comment-div" data-js="container">
+<div class="Comment comment-div js-comment-div border-bottom pb-3" data-js="container">
 	<div class="js-comment-single singleComment" data-js="append">
 		<div class="js-comment-info-header commentInfoHeader m-0 row" data-commentid="{$COMMENT->getId()}"
 			 data-parentcommentid="{$COMMENT->get('parent_comments')}"
@@ -32,9 +32,85 @@
 						</div>
 					{/if}
 					<div class="full-width">
-						<span class="q-message-name">
-							{$COMMENTOR->getName()}
-						</span>
+						<div class="d-flex flex-wrap justify-content-between js-hb__container">
+						<div>
+							<span class="q-message-name">
+								{$COMMENTOR->getName()}
+							</span>
+						</div>
+						<div class="items-center comment-actions js-comment-actions">
+							{assign var=COMMENTS_MODULE_MODEL value=Vtiger_Module_Model::getInstance('ModComments')}
+							{if !empty($CHILDS_ROOT_PARENT_MODEL)}
+								{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
+							{/if}
+							{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
+								<button type="button" class="btn text-success js-reply-comment mr-0 p-1"
+										title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}" data-js="click">
+									<span class="fas fa-share"></span>
+								</button>
+							{/if}
+							{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
+								<button type="button" class="btn text-primary js-edit-comment feedback mr-0 p-1"
+										data-js="click" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}">
+									<span class="yfi yfi-full-editing-view"></span>
+								</button>
+							{/if}
+							{assign var=LINKS value=$COMMENT->getCommentLinks()}
+							{if count($LINKS) > 0}
+								{foreach from=$LINKS item=LINK}
+									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='comment' MODULE=$MODULE_NAME  BTN_CLASS='btn-sm'}
+								{/foreach}
+							{/if}
+							{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
+							{if !empty($CHILD_COMMENTS_MODEL) && !empty($PARENT_COMMENT_ID) && (empty($CHILDS_ROOT_PARENT_ID) || $CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID) && empty($SHOW_CHILD_COMMENTS)}
+								<span class="js-view-thread-block viewThreadBlock"
+												data-child-comments-count="{$CHILD_COMMENTS_COUNT}"
+												data-js="data-child-comments-count">
+									<button type="button" class="btn btn-md text-info viewThread u-text-ellipsis mr-0 p-1"
+											title="{$CHILD_COMMENTS_COUNT}&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}"
+											data-js="click">
+										<span class="js-child-comments-count">{$CHILD_COMMENTS_COUNT}</span>
+										&nbsp;
+										<span class="fas fa-share"></span>
+									</button>
+								</span>
+								<span class="d-none hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
+									<a class="u-cursor-pointer hideThread">
+										<span class="js-child-comments-count" data-js="text">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}
+										&nbsp;
+										<img class="alignMiddle" src="{\App\Layout::getImagePath('downArrowSmall.png')}"/>
+									</a>
+								</span>
+							{elseif !empty($CHILD_COMMENTS) && !empty($CHILDS_ROOT_PARENT_ID) && ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
+								<span class="js-view-thread-block viewThreadBlock"
+												data-child-comments-count="{$CHILD_COMMENTS_COUNT}"
+												data-js="data-child-comments-count">
+								<button type="button" class="btn btn-md text-info viewThread mr-0 p-1"
+										title="{$CHILD_COMMENTS_COUNT}&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}" data-js="click">
+									<span class="js-child-comments-count" data-js="text">{$CHILD_COMMENTS_COUNT}</span>
+									&nbsp;
+									<span class="fas fa-share"></span>
+								</button>
+								</span>
+								<span class="hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
+									<a class="u-cursor-pointer hideThread">
+										<span class="js-child-comments-count" data-js="text">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}
+										&nbsp;
+										<img class="alignMiddle" src="{\App\Layout::getImagePath('downArrowSmall.png')}"/>
+									</a>
+								</span>
+							{/if}
+							{if !empty($BUTTON_SHOW_PARENT) && !empty($COMMENT->get('parents'))}
+								<span class="view-parent-thread-block">
+									<button type="button"
+											class="btn btn-md text-secondary js-view-parent-thread mr-0 p-1"
+											data-js="click" title="{\App\Language::translate('LBL_THREAD',$MODULE_NAME)}">
+										<span class="fas fa-share"></span>
+									</button>
+								</span>
+							{/if}
+						</div>
+					</div>
 						<div class="q-message-text q-py-xs">
 							{if $HIERARCHY}
 								{assign var=RELATED_TO value=$COMMENT->get('related_to')}
@@ -49,86 +125,6 @@
 								<div class="js-comment-info" data-js="html">{$COMMENT->getDisplayValue('commentcontent')}</div>
 								<div class="u-w-fit q-message-stamp ml-auto">{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</div>
 							</span>
-						</div>
-					</div>
-				<div class="row inline justify-center js-hb__container ml-auto">
-						<button type="button" tabindex="0" class="btn js-hb__btn u-hidden-block-btn text-grey-6 py-0 px-1">
-							<div class="text-center col items-center justify-center row">
-								<i aria-hidden="true" class="mdi mdi-wrench q-icon"></i>
-							</div>
-						</button>
-						<div class="u-hidden-block items-center js-comment-actions">
-							{assign var=COMMENTS_MODULE_MODEL value=Vtiger_Module_Model::getInstance('ModComments')}
-							{if !empty($CHILDS_ROOT_PARENT_MODEL)}
-								{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
-							{/if}
-							{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-								<button type="button" class="btn btn-sm btn-success js-reply-comment mr-1"
-										title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}" data-js="click">
-									<span class="fas fa-share"></span>
-								</button>
-							{/if}
-							{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-								<button type="button" class="btn btn-sm btn-primary js-edit-comment feedback mr-1"
-										data-js="click" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}">
-									<span class="yfi yfi-full-editing-view"></span>
-								</button>
-							{/if}
-							{assign var=LINKS value=$COMMENT->getCommentLinks()}
-							{if count($LINKS) > 0}
-								{foreach from=$LINKS item=LINK}
-									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='comment' MODULE=$MODULE_NAME  BTN_CLASS='btn-sm'}
-								{/foreach}
-							{/if}
-							{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
-							{if !empty($CHILD_COMMENTS_MODEL) && !empty($PARENT_COMMENT_ID) && (empty($CHILDS_ROOT_PARENT_ID) || $CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID) && empty($SHOW_CHILD_COMMENTS)}
-								<span class="js-view-thread-block viewThreadBlock"
-										data-child-comments-count="{$CHILD_COMMENTS_COUNT}"
-										data-js="data-child-comments-count">
-							<button type="button" class="btn btn-sm btn-info viewThread u-text-ellipsis"
-									title="{$CHILD_COMMENTS_COUNT}&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}"
-									data-js="click">
-								<span class="js-child-comments-count">{$CHILD_COMMENTS_COUNT}</span>
-								&nbsp;
-								<span class="fas fa-share"></span>
-							</button>
-						</span>
-								<span class="d-none hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
-							<a class="u-cursor-pointer hideThread">
-								<span class="js-child-comments-count" data-js="text">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}
-								&nbsp;
-								<img class="alignMiddle" src="{\App\Layout::getImagePath('downArrowSmall.png')}"/>
-							</a>
-						</span>
-							{elseif !empty($CHILD_COMMENTS) && !empty($CHILDS_ROOT_PARENT_ID) && ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
-								<span class="js-view-thread-block viewThreadBlock"
-										data-child-comments-count="{$CHILD_COMMENTS_COUNT}"
-										data-js="data-child-comments-count">
-							<button type="button" class="btn btn-info viewThread"
-									title="{$CHILD_COMMENTS_COUNT}&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}"
-									data-js="click">
-								<span class="js-child-comments-count" data-js="text">{$CHILD_COMMENTS_COUNT}</span>
-								&nbsp;
-								<span class="fas fa-share"></span>
-							</button>
-						</span>
-								<span class="hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
-							<a class="u-cursor-pointer hideThread">
-								<span class="js-child-comments-count" data-js="text">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}
-								&nbsp;
-								<img class="alignMiddle" src="{\App\Layout::getImagePath('downArrowSmall.png')}"/>
-							</a>
-						</span>
-							{/if}
-							{if !empty($BUTTON_SHOW_PARENT) && !empty($COMMENT->get('parents'))}
-								<span class="view-parent-thread-block">
-									<button type="button"
-											class="btn btn-secondary js-view-parent-thread"
-											data-js="click" title="{\App\Language::translate('LBL_THREAD',$MODULE_NAME)}">
-										<span class="fas fa-share"></span>
-									</button>
-								</span>
-							{/if}
 						</div>
 					</div>
 				</div>
@@ -159,6 +155,6 @@
 			</div>
 		</div>
 	</div>
-	<div>
+<div>
 <!-- /tpl-Base-Comment -->
 {/strip}

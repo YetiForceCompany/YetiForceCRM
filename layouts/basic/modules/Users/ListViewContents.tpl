@@ -113,13 +113,13 @@
 						<div class="row">
 							{assign var=IMAGE value=$LISTVIEW_ENTRY->getImage()}
 							{if $IMAGE}
-								<div class='col-md-6'>
+								<div class='col-md-12 px-0 text-center'>
 									<img src="{$IMAGE.url}"
-										 class="c-img__user" alt="{$LISTVIEW_ENTRY->getName()}"
+										 class="c-img__user rounded-circle" alt="{$LISTVIEW_ENTRY->getName()}"
 										 title="{$LISTVIEW_ENTRY->getName()}">
 								</div>
 							{else}
-								<div class='col-md-6'>
+								<div class='col-md-12 px-0 text-center'>
 									<img class="c-img__user" alt=""
 										 src="{\App\Layout::getImagePath('DefaultUserIcon.png')}">
 								</div>

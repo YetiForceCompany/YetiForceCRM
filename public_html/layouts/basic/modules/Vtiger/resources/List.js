@@ -55,6 +55,7 @@ jQuery.Class(
 			if (validationResult !== true) {
 				let postData = listInstance.getSearchParams();
 				delete postData.parent;
+				delete postData.mode;
 				postData.view = 'SendMailModal';
 				postData.cvid = listInstance.getCurrentCvId();
 				if (params) {

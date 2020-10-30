@@ -27,5 +27,10 @@ class PaymentsIn_FinvoicePaymentStatus_Model extends PaymentsIn_PaymentStatus_Mo
 	/**
 	 * {@inheritdoc}
 	 */
+	protected static $fieldPaymentSumName = 'payment_sum';
+
+	/**
+	 * {@inheritdoc}
+	 */
 	protected static $relatedRecordIdName = 'finvoiceid';
 }

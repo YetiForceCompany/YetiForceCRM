@@ -138,7 +138,9 @@ class Headers
 	 */
 	public function getHeaders(): array
 	{
-		$this->headers['content-security-policy'] = $this->getCspHeader();
+		if (\App\Config::security('cspHeaderActive')) {
+			$this->headers['content-security-policy'] = $this->getCspHeader();
+		}
 		$return = [];
 		foreach ($this->headers as $name => $value) {
 			$return[] = "$name: $value";

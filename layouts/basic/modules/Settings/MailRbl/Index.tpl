@@ -6,13 +6,13 @@
 			<div class="col-md-9">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
-			<div class="col-md-3">
-				<button class="btn btn-primary mt-1 js-send-request float-right" data-js="click">
-					<span class="fas fa-paper-plane mr-2"></span>{\App\Language::translate('BTN_SEND_SPAM_REQUEST', $QUALIFIED_MODULE)}
-				</button>
-				<button class="btn btn-primary mt-1 mr-2 showModal float-right" data-js="click" data-url="index.php?module=MailRbl&parent=Settings&view=UploadListModal">
+			<div class="col-md-3 mt-1">
+				<button class="btn btn-primary mr-2 showModal float-right" data-js="click" data-url="index.php?module=MailRbl&parent=Settings&view=UploadListModal">
 					<span class="fas fa-download mr-2"></span>{\App\Language::translate('BTN_IMPORT_LIST', $QUALIFIED_MODULE)}
 				</button>
+				<a href="https://soc.yetiforce.com/" target="_blank" class="btn btn-outline-info float-right mr-3 js-popover-tooltip" data-content="YetiForce Security Operations Center (SOC)" rel="noreferrer noopener" data-js="popover">
+					<span class="mdi mdi-book-open-page-variant u-fs-lg"></span>
+				</a>
 			</div>
 		</div>
 		<div>
@@ -39,7 +39,7 @@
 				</li>
 			</ul>
 		</div>
-		<div id="my-tab-content" class="tab-content u-rbl-container">
+		<div id="my-tab-content" class="tab-content">
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'request'}active{/if}" id="request" data-name="request" data-js="data">
 				<form class="js-filter-form form-inline" data-js="container">
 					<div class="input-group col-lg-2 col-md-6 col-12 px-0 mb-lg-0 mb-sm-2 mb-2">
@@ -99,7 +99,7 @@
 						</select>
 					</div>
 				</form>
-				<table id="request-table" class="table table-sm table-striped display js-data-table text-center mt-2">
+				<table id="request-table" class="table table-sm table-striped display js-data-table text-center mt-2 o-tab__container">
 				<thead>
 					<tr>
 						<th>{\App\Language::translate('LBL_DATE', $QUALIFIED_MODULE)}</th>
@@ -108,7 +108,7 @@
 						<th>{\App\Language::translate('LBL_LIST_TYPE', $QUALIFIED_MODULE)}</th>
 						<th>{\App\Language::translate('Status', $QUALIFIED_MODULE)}</th>
 						<th>{\App\Language::translate('LBL_USER', $QUALIFIED_MODULE)}</th>
-						<th>{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
+						<th class="u-w-158px">{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
 					</tr>
 				</thead>
 				</table>

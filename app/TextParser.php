@@ -5,6 +5,8 @@ namespace App;
 /**
  * Text parser class.
  *
+ * @package   App
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -211,6 +213,9 @@ class TextParser
 	 */
 	public const VARIABLE_REGEX = '/\$\((\w+) : ([,"\+\#\%\.\=\-\[\]\&\w\s\|\)\(\:]+)\)\$/u';
 
+	/** @var bool Permissions condition */
+	protected $permissions = true;
+
 	/**
 	 * Get instanace by record id.
 	 *
@@ -388,7 +393,20 @@ class TextParser
 	 */
 	public static function isVaribleToParse($text)
 	{
-		return (int) preg_match('/^\$\((\w+) : ([,"\+\%\.\=\-\[\]\&\w\s\|]+)\)\$$/', $text);
+		return (int) preg_match(static::VARIABLE_REGEX, $text);
+	}
+
+	/**
+	 * Set permissions condition.
+	 *
+	 * @param bool $permitted
+	 *
+	 * @return $this
+	 */
+	public function setGlobalPermissions(bool $permitted)
+	{
+		$this->permissions = $permitted;
+		return $this;
 	}
 
 	/**
@@ -688,7 +706,7 @@ class TextParser
 		[$fieldName, $relatedField, $relatedModule] = array_pad(explode('|', $params, 3), 3, '');
 		if (
 			!isset($this->recordModel) ||
-			!Privilege::isPermitted($this->moduleName, 'DetailView', $this->record) ||
+			($this->permissions && !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record)) ||
 			$this->recordModel->isEmpty($fieldName)
 		) {
 			return '';
@@ -736,7 +754,7 @@ class TextParser
 			return '';
 		}
 		$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedId, $module);
-		if (!$relatedRecordModel->isViewable()) {
+		if ($this->permissions && !$relatedRecordModel->isViewable()) {
 			return '';
 		}
 		$instance = static::getInstanceByModel($relatedRecordModel);
@@ -859,6 +877,21 @@ class TextParser
 			$transformedSearchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition(Json::decode($conditions));
 			$relationListView->set('search_params', $transformedSearchParams);
 		}
+		return $this->relatedRecordsListPrinter($relationListView, $pagingModel, (int) $maxLength);
+	}
+
+	/**
+	 * Printer related records list.
+	 *
+	 * @param \Vtiger_RelationListView_Model $relationListView
+	 * @param \Vtiger_Paging_Model           $pagingModel
+	 * @param int                            $maxLength
+	 *
+	 * @return string
+	 */
+	protected function relatedRecordsListPrinter(\Vtiger_RelationListView_Model $relationListView, \Vtiger_Paging_Model $pagingModel, int $maxLength): string
+	{
+		$relatedModuleName = $relationListView->getRelationModel()->getRelationModuleName();
 		$rows = $headers = '';
 		$fields = $relationListView->getHeaders();
 		foreach ($fields as $fieldModel) {
@@ -871,14 +904,14 @@ class TextParser
 			}
 		}
 		$counter = 0;
-		foreach ($relationListView->getEntries($pagingModel) as $reletedRecordModel) {
+		foreach ($relationListView->getEntries($pagingModel) as $relatedRecordModel) {
 			++$counter;
 			$rows .= '<tr class="row-' . $counter . '">';
 			foreach ($fields as $fieldModel) {
-				$value = $this->getDisplayValueByField($fieldModel, $reletedRecordModel);
+				$value = $this->getDisplayValueByField($fieldModel, $relatedRecordModel);
 				if (false !== $value) {
-					if ((int) $maxLength) {
-						$value = $this->textTruncate($value, (int) $maxLength);
+					if ($maxLength) {
+						$value = $this->textTruncate($value, $maxLength);
 					}
 					$rows .= "<td class=\"col-type-{$fieldModel->getFieldType()}\">{$value}</td>";
 				}
@@ -1243,12 +1276,13 @@ class TextParser
 	 * Get related variables.
 	 *
 	 * @param bool|string $fieldType
+	 * @param bool        $skipEmpty
 	 *
 	 * @return array
 	 */
-	public function getRelatedVariable($fieldType = false)
+	public function getRelatedVariable($fieldType = false, $skipEmpty = false)
 	{
-		$cacheKey = "{$this->moduleName}|$fieldType";
+		$cacheKey = "{$this->moduleName}|$fieldType|{$skipEmpty}";
 		if (isset(static::$relatedVariable[$cacheKey])) {
 			return static::$relatedVariable[$cacheKey];
 		}
@@ -1271,11 +1305,25 @@ class TextParser
 					];
 				}
 			}
+			$relRecord = false;
+			if ($skipEmpty && $this->recordModel && !(($relId = $this->recordModel->get($field->getName())) &&
+				(
+					\in_array($field->getFieldDataType(), ['userCreator', 'owner', 'sharedOwner']) ||
+					((\App\Record::isExists($relId)) && ($relRecord = \Vtiger_Record_Model::getInstanceById($relId))->isViewable() && ($relatedModules = [\App\Record::getType($relId)]))
+				)
+			)) {
+				continue;
+			}
+
 			foreach ($relatedModules as $relatedModule) {
 				$relatedModuleLang = Language::translate($relatedModule, $relatedModule);
 				foreach (\Vtiger_Module_Model::getInstance($relatedModule)->getBlocks() as $blockModel) {
 					foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
-						if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {
+						if (
+							$fieldModel->isViewable() &&
+							!($fieldType && $fieldModel->getFieldDataType() !== $fieldType) &&
+							(!$relRecord || ($relRecord && !$relRecord->isEmpty($fieldModel->getName())))
+						) {
 							$labelGroup = "$parentFieldNameLabel: ($relatedModuleLang) " . Language::translate($blockModel->get('label'), $relatedModule);
 							$variables[$parentFieldName][$labelGroup][] = [
 								'var_value' => "$(relatedRecord : $parentFieldName|$fieldName|$relatedModule)$",

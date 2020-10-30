@@ -178,13 +178,15 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 	 */
 	public function getTableData(App\Request $request)
 	{
-		if ($request->isEmpty('record', true)) {
+		if ($request->isEmpty('src_record', true) || $request->isEmpty('src_module', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+		$srcModule = $request->getByType('src_module', \App\Purifier::ALNUM);
+		$srcRecord = $request->getInteger('src_record');
+		if (!\App\Privilege::isPermitted($srcModule, 'DetailView', $srcRecord)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		$recordModel = Vtiger_Record_Model::getInstanceById($srcRecord, $srcModule);
 		$data = $recordModel->getInventoryData();
 		foreach ($data as &$item) {
 			$item['info'] = $this->getRecordDetail($item['name'], $item['currency'] ?? 0, $request->getModule(), 'name')[$item['name']];
