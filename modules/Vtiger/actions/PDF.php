@@ -156,7 +156,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 					->loadHtml($template->parseVariables($template->getBody()))
 					->setHeader($template->parseVariables($template->getHeader()))
 					->setFooter($template->parseVariables($template->getFooter()));
-				$attach = $template->getParser()->attachFiles ?? [];
+				$attach = $template->attachFiles ?? [];
 				if (!$singlePdf && ($attach || $emailPdf || ($countTemplates > 1 || (1 === $countTemplates && !isset($skip[$templateId]) && $countRecords > 1)))) {
 					$fileName = ($pdf->getFileName() ? $pdf->getFileName() : time());
 					$increment[$fileName] = $increment[$fileName] ?? 0;

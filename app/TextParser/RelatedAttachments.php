@@ -42,6 +42,7 @@ class RelatedAttachments extends Base
 		}
 
 		[$conditions, $attachFiles] = array_pad($this->params, 2, '');
+		$pdf = $attachFiles ? $this->textParser->getParam('pdf') : null;
 		$pagingModel = new \Vtiger_Paging_Model();
 		if ($conditions) {
 			$transformedSearchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition(\App\Json::decode($conditions));
@@ -59,12 +60,12 @@ class RelatedAttachments extends Base
 				$row[] = 'filename' === $fieldName ? "({$value})" : $value;
 			}
 			$rows[] = "{$counter}. " . implode(', ', $row);
-			if ($attachFiles && $relatedRecordModel->checkFileIntegrity() &&
+			if ($pdf && $relatedRecordModel->checkFileIntegrity() &&
 			  ($info = $relatedRecordModel->getFileDetails()) &&
 			  ($filePath = $info['path'] . $info['attachmentsid']) &&
-			  !isset($this->textParser->attachFiles[$filePath])
+			  !isset($pdf->attachFiles[$filePath])
 			) {
-				$this->textParser->attachFiles[$filePath] = ['name' => $info['name'], 'path' => $filePath];
+				$pdf->attachFiles[$filePath] = ['name' => $info['name'], 'path' => $filePath];
 			}
 		}
 		return empty($rows) ? '' : implode('<br>', $rows);
