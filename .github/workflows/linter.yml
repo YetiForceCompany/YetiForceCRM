@@ -48,6 +48,7 @@ jobs:
             - name: Lint Code Base
               uses: docker://github/super-linter:latest
               env:
+                  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
                   DEFAULT_BRANCH: developer
                   VALIDATE_ALL_CODEBASE: false
                   VALIDATE_PHP: true
