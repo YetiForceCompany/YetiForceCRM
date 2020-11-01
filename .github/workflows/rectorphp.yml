@@ -13,6 +13,7 @@ jobs:
                     php-version: 7.2
                     coverage: none
                     tools: cs2pr
+                    repo-token: ${{ secrets.GITHUB_TOKEN }}
 
             -   run: composer install --no-progress --ansi
 
