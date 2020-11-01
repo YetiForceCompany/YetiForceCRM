@@ -1,7 +1,7 @@
 name: PHP actions
 
 on: [push, pull_request]
-  
+
 jobs:
     rector_checkstyle:
         runs-on: ubuntu-latest
@@ -16,7 +16,6 @@ jobs:
                     php-version: 7.2
                     coverage: none
                     tools: cs2pr
-                    repo-token: ${{ secrets.GITHUB_TOKEN }}
 
             -   run: rm composer.lock
             -   run: composer.json
