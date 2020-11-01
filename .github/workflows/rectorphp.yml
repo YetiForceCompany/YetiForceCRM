@@ -21,7 +21,7 @@ jobs:
             -   run: rm composer.json
             -   run: mv composer_dev.lock composer.lock
             -   run: mv composer_dev.json composer.json
-
+            -   run: ls -all
             -   run: composer install --no-progress --ansi
 
             -   run: vendor/bin/rector process --ansi --dry-run --output-format=checkstyle | cs2pr
