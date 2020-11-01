@@ -1,17 +1,7 @@
 {
   "name": "yetiforce/yetiforce-crm",
   "description": "An open and innovative CRM system. Our team created for you one of the most innovative CRM systems that supports mainly business processes and allows for customization according to your needs. Be ahead of your competition and implement YetiForce!",
-  "keywords": [
-    "YetiForceCRM",
-    "CRM",
-    "open source crm",
-    "best crm",
-    "YetiForce",
-    "ERP",
-    "PHP",
-    "Customer Relation Management",
-    "System CRM"
-  ],
+  "keywords": ["YetiForceCRM", "CRM", "open source crm", "best crm", "YetiForce", "ERP", "PHP", "Customer Relation Management", "System CRM"],
   "homepage": "https://yetiforce.com/",
   "support": {
     "issues": "https://github.com/YetiForceCompany/YetiForceCRM/issues",
@@ -89,7 +79,8 @@
     "phpunit/phpunit": "8.*",
     "seld/jsonlint": "*",
     "php-console/php-console": "^3.1",
-    "fr3d/swagger-assertions": "*"
+    "fr3d/swagger-assertions": "*",
+    "rector/rector": "^0.8.46"
   },
   "suggest": {
     "ext-imagick": "Library recommended for securing potentially dangerous graphic files",
@@ -99,9 +90,7 @@
     "ext-opcache": "Improve system performance"
   },
   "archive": {
-    "exclude": [
-      "tests"
-    ]
+    "exclude": ["tests"]
   },
   "config": {
     "autoloader-suffix": "YT",
@@ -109,9 +98,7 @@
     "classmap-authoritative": false
   },
   "autoload": {
-    "files": [
-      "app/Loader.php"
-    ],
+    "files": ["app/Loader.php"],
     "psr-4": {
       "vtlib\\": "vtlib/Vtiger/",
       "includes\\": "include/",
