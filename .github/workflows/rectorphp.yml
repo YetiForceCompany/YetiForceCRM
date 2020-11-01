@@ -18,6 +18,11 @@ jobs:
                     tools: cs2pr
                     repo-token: ${{ secrets.GITHUB_TOKEN }}
 
+            -   run: rm composer.lock
+            -   run: composer.json
+            -   run: mv composer_dev.lock composer.lock
+            -   run: mv composer_dev.json composer.json
+
             -   run: composer install --no-progress --ansi
 
             -   run: vendor/bin/rector process --ansi --dry-run --output-format=checkstyle | cs2pr
