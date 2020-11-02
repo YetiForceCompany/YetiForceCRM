@@ -1354,6 +1354,10 @@
                 "punycode",
                 "unicode"
             ],
+            "support": {
+                "issues": "https://github.com/mlocati/idna/issues",
+                "source": "https://github.com/mlocati/idna"
+            },
             "time": "2019-09-02T15:52:28+00:00"
         },
         {
@@ -1412,6 +1416,10 @@
                 "range",
                 "subnet"
             ],
+            "support": {
+                "issues": "https://github.com/mlocati/ip-lib/issues",
+                "source": "https://github.com/mlocati/ip-lib/tree/1.13.0"
+            },
             "funding": [
                 {
                     "url": "https://github.com/sponsors/mlocati",
@@ -1426,16 +1434,16 @@
         },
         {
             "name": "mlocati/spf-lib",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mlocati/spf-lib.git",
-                "reference": "793f3369367ae26823e8a6fbd88c7d229875f037"
+                "reference": "459bc2802cd0a4b719ed9d30901d9709fbec605f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mlocati/spf-lib/zipball/793f3369367ae26823e8a6fbd88c7d229875f037",
-                "reference": "793f3369367ae26823e8a6fbd88c7d229875f037",
+                "url": "https://api.github.com/repos/mlocati/spf-lib/zipball/459bc2802cd0a4b719ed9d30901d9709fbec605f",
+                "reference": "459bc2802cd0a4b719ed9d30901d9709fbec605f",
                 "shasum": ""
             },
             "require": {
@@ -1477,6 +1485,10 @@
                 "smtp",
                 "spf"
             ],
+            "support": {
+                "issues": "https://github.com/mlocati/spf-lib/issues",
+                "source": "https://github.com/mlocati/spf-lib"
+            },
             "funding": [
                 {
                     "url": "https://github.com/sponsors/mlocati",
@@ -1487,7 +1499,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2020-07-17T14:36:33+00:00"
+            "time": "2020-10-21T15:48:47+00:00"
         },
         {
             "name": "myclabs/php-enum",
@@ -4072,5 +4084,5 @@
         "ext-hash": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }
