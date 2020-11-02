@@ -166,48 +166,35 @@
 					{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
 					{if count($AUTOLOGINUSERS) > 0}
 						{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
-						<div class="c-header__btn__container bg-white rounded js-header__btn--mail"
-							 {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true"
-							 data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
+						<div class="c-header__btn__container bg-white rounded js-header__btn--mail" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
 							{if count($AUTOLOGINUSERS) eq 1}
-								<a class="c-header__btn btn btn-outline-dark border-0 h-100"
-								   title="{$MAIN_MAIL.username}"
-								   href="index.php?module=OSSMail&view=Index">
+								<a class="c-header__btn btn btn-outline-dark border-0 h-100" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=Index">
 									<div class="d-none d-xxl-block">
 										{if !empty($ITEM.username)}{$ITEM.username}{/if}
 										<span class="mail_user_name">{$MAIN_MAIL.username}</span>
 										<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
 									</div>
 									<div class="d-xxl-none">
-										<span class="fas fa-inbox fa-fw"
-											  title="{\App\Language::translate('LBL_EMAIL')}"></span>
+										<span class="fas fa-inbox fa-fw" title="{\App\Language::translate('LBL_EMAIL')}"></span>
 									</div>
 								</a>
-							{elseif $CONFIG['showMailAccounts']=='true'}
+							{else}
 								<div class="d-none d-xxl-block">
-									<select id="mail-select" class="form-control-sm"
-											title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
+									<select id="mail-select" class="form-control-sm" title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
 										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
-											<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}"
-													data-nomail="" class="noMails">
+											<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}" data-nomail="" class="noMails">
 												{$ITEM.username}
 											</option>
 										{/foreach}
 									</select>
 								</div>
 								<div class="o-action-menu__item d-xxl-none dropdown">
-									<a class="c-header__btn btn btn-outline-dark border-0 dropdown-toggle"
-									   id="show-mail-list" data-toggle="dropdown"
-									   data-boundary="window" href="#" role="button" aria-haspopup="true"
-									   aria-expanded="false">
-										<span class="fas fa-inbox fa-fw"
-											  title="{\App\Language::translate('LBL_EMAIL')}"></span>
+									<a class="c-header__btn btn btn-outline-dark border-0 dropdown-toggle" id="show-mail-list" data-toggle="dropdown" data-boundary="window" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+										<span class="fas fa-inbox fa-fw" title="{\App\Language::translate('LBL_EMAIL')}"></span>
 									</a>
-									<ul class="dropdown-menu js-mail-list" aria-labelledby="show-mail-list" role="list"
-										data-js="click">
+									<ul class="dropdown-menu js-mail-list" aria-labelledby="show-mail-list" role="list" data-js="click">
 										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
-											<li value="{$KEY}" data-id="{$KEY}" data-nomail=""
-												class="dropdown-item noMails js-mail-link" data-js="click">
+											<li value="{$KEY}" data-id="{$KEY}" data-nomail="" class="dropdown-item noMails js-mail-link" data-js="click">
 												{$ITEM.username}
 											</li>
 										{/foreach}

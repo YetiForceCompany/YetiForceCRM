@@ -19848,7 +19848,6 @@ insert  into `yetiforce_auth`(`id`,`type`,`param`,`value`) values (4,'ldap','dom
 
 /*Data for the table `yetiforce_mail_config` */
 
-insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('mailIcon','showMailAccounts','false');
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('mailIcon','showNumberUnreadEmails','false');
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('mailIcon','showMailIcon','true');
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('mailIcon','timeCheckingMail','30');
