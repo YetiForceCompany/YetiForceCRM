@@ -23,7 +23,7 @@ jobs:
         # Scan auto-detects the languages in your project. To override uncomment the below variable and set the type
         #type: php,javascript,json,nodejs,plsql,yaml,depscan
 
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v2
       with:
        name: shiftleft-scan-reports
        path: reports
