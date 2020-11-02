@@ -1077,7 +1077,7 @@ CREATE TABLE `s_yf_address_finder` (
   PRIMARY KEY (`id`),
   KEY `source` (`source`),
   FULLTEXT KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_address_finder_config` */
 
@@ -1854,7 +1854,7 @@ CREATE TABLE `u_yf_crmentity_label` (
   PRIMARY KEY (`crmid`),
   KEY `crmentity_label` (`label`),
   FULLTEXT KEY `crmentity_label_fulltext` (`label`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_crmentity_last_changes` */
 
@@ -1889,7 +1889,7 @@ CREATE TABLE `u_yf_crmentity_search_label` (
   PRIMARY KEY (`crmid`),
   KEY `crmentity_searchlabel_setype` (`searchlabel`,`setype`),
   FULLTEXT KEY `crmentity_searchlabel_fulltext` (`searchlabel`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_crmentity_showners` */
 
