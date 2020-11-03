@@ -16,17 +16,13 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForceInstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $label = 'YetiForce Cloud';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
+	public $category = 'CloudHosting';
+	/** {@inheritdoc} */
 	public $pricesType = 'selection';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 40,
 		'Small' => 100,
@@ -35,9 +31,7 @@ class YetiForceInstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Corporation' => 2000,
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $customFields = [
 		'subdomain' => [
 			'label' => 'LBL_SHOP_DOMAIN_PREFIX',
@@ -53,19 +47,13 @@ class YetiForceInstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 		]
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $companyDataForm = false;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $featured = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function verify($cache = true): bool
 	{
 		return true;

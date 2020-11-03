@@ -16,13 +16,11 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $label = 'YetiForce Gus';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
+	public $category = 'Integrations';
+	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 5,
 		'Small' => 12,
@@ -31,14 +29,10 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Corporation' => 100,
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $featured = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function verify($cache = true): bool
 	{
 		return true;

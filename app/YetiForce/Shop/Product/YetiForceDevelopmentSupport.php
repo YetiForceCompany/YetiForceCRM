@@ -16,17 +16,13 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $label = 'YetiForce Development';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
+	public $category = 'Support';
+	/** {@inheritdoc} */
 	public $pricesType = 'selection';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 200,
 		'Small' => 380,
@@ -34,9 +30,7 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 		'Large' => 1200,
 		'Corporation' => 6000,
 	];
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $customPricesLabel = [
 		'Micro' => 5,
 		'Small' => 10,
@@ -44,22 +38,16 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 		'Large' => 40,
 		'Corporation' => 200,
 	];
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $featured = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function verify($cache = true): bool
 	{
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPriceLabel($key): string
 	{
 		return $this->customPricesLabel[$key] . ' ' . \App\Language::translate('LBL_HOURS');

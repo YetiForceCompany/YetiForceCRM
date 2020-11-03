@@ -16,13 +16,11 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForceHelp extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $label = 'YetiForce Help';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
+	public $category = 'Support';
+	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 25,
 		'Small' => 50,
@@ -30,14 +28,10 @@ class YetiForceHelp extends \App\YetiForce\Shop\AbstractBaseProduct
 		'Large' => 250,
 		'Corporation' => 1250
 	];
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $featured = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function verify($cache = true): bool
 	{
 		return true;

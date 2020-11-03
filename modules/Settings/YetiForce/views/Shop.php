@@ -25,6 +25,7 @@ class Settings_YetiForce_Shop_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MODULE_NAME', $qualifiedModuleName);
 		$viewer->assign('STATUS', $request->getByType('status'));
 		$viewer->assign('TAB', $request->isEmpty('tab') ? 'Premium' : $request->getByType('tab'));
+		$viewer->assign('CATEGORY', $request->isEmpty('category') ? 'All' : $request->getByType('category'));
 		$viewer->assign('PRODUCTS_PREMIUM', \App\YetiForce\Shop::getProducts());
 		$viewer->assign('PRODUCTS_PARTNER', \App\YetiForce\Shop::getProducts('', 'Partner'));
 		$viewer->view('Shop.tpl', $qualifiedModuleName);
