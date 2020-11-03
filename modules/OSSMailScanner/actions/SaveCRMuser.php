@@ -33,15 +33,16 @@ class OSSMailScanner_SaveCRMuser_Action extends \App\Controller\Action
 	 */
 	public function process(App\Request $request)
 	{
-		$userid = $request->getInteger('userid');
+		$moduleName = $request->getModule();
+		$userId = $request->getInteger('userid');
 		$value = $request->getInteger('value');
-		if ($userid) {
-			\App\Db::getInstance()->createCommand()->update('roundcube_users', ['crm_user_id' => $value], ['user_id' => $userid])->execute();
+		if ($userId) {
+			\App\Db::getInstance()->createCommand()->update('roundcube_users', ['crm_user_id' => $value], ['user_id' => $userId])->execute();
 			$success = true;
-			$data = \App\Language::translate('JS_saveuser_info', 'OSSMailScanner');
+			$data = \App\Language::translate('JS_saveuser_info', $moduleName);
 		} else {
 			$success = false;
-			$data = 'Error: Brak userid';
+			$data = \App\Language::translate('LBL_NO_DATA', $moduleName);
 		}
 		$result = ['success' => $success, 'data' => $data];
 		$response = new Vtiger_Response();
