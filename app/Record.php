@@ -311,15 +311,20 @@ class Record
 	public static function getState($recordId)
 	{
 		$metadata = Functions::getCRMRecordMetadata($recordId);
-		switch ($metadata['deleted']) {
-			default:
+		switch ($metadata['deleted'] ?? null) {
 			case 0:
-				return 'Active';
+				$state = 'Active';
+				break;
 			case 1:
-				return 'Trash';
+				$state = 'Trash';
+				break;
 			case 2:
-				return 'Archived';
+				$state = 'Archived';
+				break;
+			default:
+				$state = null;
 		}
+		return $state;
 	}
 
 	/**

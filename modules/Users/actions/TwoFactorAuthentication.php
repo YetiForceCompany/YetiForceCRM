@@ -61,15 +61,19 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	public function secret(App\Request $request)
 	{
 		$secret = $request->getByType('secret', 'Alnum');
-		$checkResult = Users_Totp_Authmethod::verifyCode($secret, $request->getByType('user_code', 'Digital'));
-		if ($checkResult) {
-			$userRecordModel = Users_Record_Model::getInstanceById(\App\User::getCurrentUserRealId(), 'Users');
-			$userRecordModel->set('authy_secret_totp', $secret);
-			$userRecordModel->set('authy_methods', 'PLL_AUTHY_TOTP');
-			$userRecordModel->save();
-			if (\App\Session::has('ShowAuthy2faModal')) {
-				\App\Session::delete('ShowAuthy2faModal');
+		try {
+			$checkResult = Users_Totp_Authmethod::verifyCode($secret, $request->getByType('user_code', 'Digital'));
+			if ($checkResult) {
+				$userRecordModel = Users_Record_Model::getInstanceById(\App\User::getCurrentUserRealId(), 'Users');
+				$userRecordModel->set('authy_secret_totp', $secret);
+				$userRecordModel->set('authy_methods', 'PLL_AUTHY_TOTP');
+				$userRecordModel->save();
+				if (\App\Session::has('ShowAuthy2faModal')) {
+					\App\Session::delete('ShowAuthy2faModal');
+				}
 			}
+		} catch (\Throwable $e) {
+			$checkResult = false;
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([

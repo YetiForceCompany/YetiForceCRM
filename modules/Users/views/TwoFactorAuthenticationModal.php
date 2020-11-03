@@ -26,7 +26,7 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		if ('TOTP_OFF' === \App\Config::security('USER_AUTHY_MODE')) {
+		if ('TOTP_OFF' === \App\Config::security('USER_AUTHY_MODE') || \App\User::getCurrentUserRealId() !== \App\User::getCurrentUserId()) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		return true;
