@@ -49,7 +49,7 @@ jobs:
             # Run Linter against code base #
             ################################
             - name: Lint Code Base
-              uses: github/super-linter@v3
+              uses: docker://github/super-linter:v3.13.1
               env:
                   DEFAULT_BRANCH: developer
                   VALIDATE_ALL_CODEBASE: false
@@ -61,4 +61,4 @@ jobs:
                   VALIDATE_DOCKER: true
                   VALIDATE_CSS: true
                   VALIDATE_OPENAPI: true
-                  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
