@@ -87,12 +87,6 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="{$WIDTHTYPE} w-25" ><label class="float-right">{App\Language::translate('LBL_INDIVIDUAL_DELIVERY', $QUALIFIED_MODULE)}</label></td>
-					<td class="{$WIDTHTYPE} w-75">
-						{$RECORD_MODEL->getDisplayValue('individual_delivery')}
-					</td>
-				</tr>
-				<tr>
 					<td class="{$WIDTHTYPE} w-25" ><label class="float-right">{App\Language::translate('LBL_FROM_NAME', $QUALIFIED_MODULE)}</label></td>
 					<td class="{$WIDTHTYPE} w-75">
 						{$RECORD_MODEL->getDisplayValue('from_name')}
