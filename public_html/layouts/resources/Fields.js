@@ -1648,125 +1648,79 @@ window.App.Fields = {
 		}
 	},
 	MultiEmail: {
-		register(container) {
-			container.find('.js-multi-email').each((index, element) => {
-				const inputElement = element;
-				$(element)
-					.find('.js-email')
-					.each((index, element) => {
-						$(element).on('change', (e) => {
-							App.Fields.MultiEmail.parseToJSON($(inputElement));
-						});
-					});
-				$(element)
-					.find('.js-multi-email-add-item')
-					.each((index, element) => {
-						$(element).on('click', (e) => {
-							App.Fields.MultiEmail.addEmail($(inputElement));
-						});
-					});
-				$(element)
-					.find('.js-remove-item')
-					.each((index, element) => {
-						$(element).on('click', (e) => {
-							App.Fields.MultiEmail.removeEmail($(e.target), $(inputElement));
-							App.Fields.MultiEmail.parseToJSON(container);
-						});
-					});
-				$(element)
-					.find('input.js-checkbox')
-					.each((index, element) => {
-						$(element).on('change', (e) => {
-							App.Fields.MultiEmail.toggleCheckBox($(e.target));
-							App.Fields.MultiEmail.parseToJSON(container);
-						});
-					});
+		register($container) {
+			$('.js-multiemail', $container).each((idx, multiEmailField) => {
+				let $multiEmailField = $(multiEmailField);
+				$multiEmailField.on('change', '.js-multiemail-email', (e) => {
+					App.Fields.MultiEmail.parseToJSON($multiEmailField);
+				});
+				$multiEmailField.on('click', '.js-multiemail-consenticon', (e) => {
+					App.Fields.MultiEmail.toggleConsent($(e.target));
+					App.Fields.MultiEmail.parseToJSON($multiEmailField);
+				});
+				$multiEmailField.on('click', '.js-multiemail-add', (e) => {
+					App.Fields.MultiEmail.addItem($multiEmailField);
+				});
+				$multiEmailField.on('click', '.js-multiemail-remove', (e) => {
+					App.Fields.MultiEmail.removeItem($(e.target));
+					App.Fields.MultiEmail.parseToJSON($multiEmailField);
+				});
 			});
 		},
 		/**
-		 * Convert data to json
-		 * @param {jQuery} element
+		 * Converts data to json and set MultiEmail field value
+		 * @param $multiEmailField
 		 */
-		parseToJSON(element) {
-			let allFields = $(element).find('[class*=js-multi-email-row]');
-			let arr = [];
-			let arrayLength = allFields.length;
-			for (let i = 0; i < arrayLength; ++i) {
-				let inputField = $(allFields[i]).find('input.js-email').eq(0);
-				let checkboxField = $(allFields[i]).find('input.js-checkbox').eq(0);
-				if (inputField.val() !== '') {
-					arr.push({
-						e: $(inputField).val(),
-						o: $(checkboxField).is(':checked') ? 1 : 0
+		parseToJSON($multiEmailField) {
+			let value = [];
+			$('.js-multiemail-item', $multiEmailField).each((idx, item) => {
+				let $item = $(item);
+				let email = $('.js-multiemail-email', $item).val();
+				let consent = $('.js-multiemail-consent', $item).is(':visible') ? 1 : 0;
+				if (email) {
+					value.push({
+						e: email,
+						o: consent,
 					});
 				}
-			}
-			$(element).find('input.js-hidden-email').val(JSON.stringify(arr));
+			});
+			$('.js-multiemail-value', $multiEmailField).val(JSON.stringify(value));
 		},
 		/**
-		 * Invoked after clicking the add button
-		 * @param {jQuery} container
+		 * Adds a new item: email box and consent checkbox
+		 * @param $multiEmailField
 		 */
-		addEmail(container) {
-			let newField = container.find('[class*=js-multi-email-row]').eq(0).clone(false, false);
-			let cnt = container.find('[class*=js-multi-email-row]').length + 1;
-			newField.removeClass('js-multi-email-row-1');
-			newField.addClass('js-multi-email-row-' + cnt);
-			newField.find('input.js-email').val('');
-			newField.find('input.js-checkbox').removeAttr('checked');
-			newField.find('label.js-label-checkbox').removeClass('active');
-			newField.find('span.far').removeClass('fa-check-square').addClass('fa-square');
-			newField
-				.find('.js-remove-item')
-				.eq(0)
-				.on('click', (e) => {
-					App.Fields.MultiEmail.removeEmail($(e.target), container);
-					App.Fields.MultiEmail.parseToJSON(container);
-				});
-			newField
-				.find('input.js-checkbox')
-				.eq(0)
-				.on('change', (e) => {
-					App.Fields.MultiEmail.toggleCheckBox($(e.target));
-					App.Fields.MultiEmail.parseToJSON(container);
-				});
-			newField
-				.find('input.js-email')
-				.eq(0)
-				.on('change', (e) => {
-					App.Fields.MultiEmail.parseToJSON(container);
-				});
-			newField.insertAfter(container.find('[class*=js-multi-email-row]').last());
-		},
-		/**
-		 * Invoked after clicking the remove button
-		 * @param {jQuery} container
-		 */
-		removeEmail(element, container) {
-			if (container.find('[class*=js-multi-email-row]').length > 1) {
-				element.closest('[class*=js-multi-email-row]').remove();
+		addItem($multiEmailField) {
+			let $newItem = $('.js-multiemail-item', $multiEmailField).first().clone(false, false);
+			if ($newItem) {
+				$('.js-multiemail-email', $newItem).attr('value', '').val('');
+				$('.js-multiemail-consent', $newItem).val('');
+				$('.js-multiemail-consenticon', $newItem).hide();
+				$('.js-multiemail-consenticon', $newItem).first().show();
+				$('.js-multiemail-items', $multiEmailField).append($newItem);
+				$('.js-multiemail-remove', $multiEmailField).show();
 			}
 		},
 		/**
-		 * Toggle checkbox
-		 * @param {jQuery} element
+		 * Removes an item: email box and consent checkbox
+		 * @param $deleteBtn
 		 */
-		toggleCheckBox(element) {
-			if (element.is(':checked')) {
-				element
-					.attr('checked', 'checked')
-					.closest('.js-multi-email__checkbox')
-					.find('.js-multi-email__checkbox__icon')
-					.removeClass('fa-square')
-					.addClass('fa-check-square');
-			} else {
-				element
-					.removeAttr('checked')
-					.closest('.js-multi-email__checkbox')
-					.find('.js-multi-email__checkbox__icon')
-					.removeClass('fa-check-square')
-					.addClass('fa-square');
+		removeItem($deleteBtn) {
+			let $multiEmailField = $deleteBtn.closest('.js-multiemail');
+			if (1 < $('.js-multiemail-item', $multiEmailField).length) {
+				$deleteBtn.closest('.js-multiemail-item').remove();
 			}
+			if (1 == $('.js-multiemail-item', $multiEmailField).length) {
+				$('.js-multiemail-remove', $multiEmailField).hide();
+			}
+		},
+		/**
+		 * Toggle consent boxes
+		 * @param $consentBox
+		 */
+		toggleConsent($consentBox) {
+			let $item = $consentBox.closest('.js-multiemail-item');
+			$('.js-multiemail-consenticon', $item).toggle();
 		}
 	},
 	MultiDependField: {
