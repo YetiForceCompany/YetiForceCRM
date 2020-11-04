@@ -76,8 +76,7 @@
 					{/if}
 					{if !empty($URL_GITHUB)}
 						<li class="page-item">
-							<a class="page-link" href="{$URL_GITHUB}" target="_blank"
-								rel="noreferrer noopener">
+							<a class="page-link" href="{$URL_GITHUB}" target="_blank" rel="noreferrer noopener">
 								<span class="fab fa-github-square fa-2x" title="Github"></span>
 							</a>
 						</li>
@@ -111,13 +110,13 @@
 						{if !$DISABLE_BRANDING }
 							{if $IS_ADMIN}
 								<li class="page-item">
-									<a class="page-link mr-md-1" href="index.php?module=YetiForce&parent=Settings&view=Shop" rel="noreferrer noopener">
+									<a class="page-link mr-md-1" href="index.php?module=YetiForce&parent=Settings&view=Shop" target="_blank" rel="noreferrer noopener">
 										<span class="fas fa-shopping-cart fa-2x" title="{\App\Language::translate('LBL_YETIFORCE_SHOP')}"></span>
 									</a>
 								</li>
 							{/if}
 							<li class="page-item">
-								<a class="page-link mr-md-1" href="https://doc.yetiforce.com" rel="noreferrer noopener">
+								<a class="page-link mr-md-1" href="https://doc.yetiforce.com" target="_blank" rel="noreferrer noopener">
 									<span class="mdi mdi-book-open-page-variant fa-2x" title="doc.yetiforce.com"></span>
 								</a>
 							</li>

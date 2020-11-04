@@ -25,7 +25,7 @@
 							<option value="">{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}</option>
 						</optgroup>
 						{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
-							{if !$FIELD_MODEL->isEditable() || $FIELD_MODEL->isReferenceField() || ($MODULE_MODEL->getName()=="Documents" && in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS)) || in_array($FIELD_MODEL->getFieldDataType(), ['multiCurrency', 'multiDependField', 'multiDomain', 'multiEmail', 'multiImage', 'multiReferenceValue', 'image'])}
+							{if !$FIELD_MODEL->isEditable() ||  ($MODULE_MODEL->getName()=="Documents" && in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS)) || in_array($FIELD_MODEL->getFieldDataType(), ['multiCurrency', 'multiDependField', 'multiDomain', 'multiEmail', 'multiImage', 'multiReferenceValue', 'image'])}
 								{continue}
 							{/if}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
@@ -66,7 +66,7 @@
 					<option value="">{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}</option>
 				</optgroup>
 				{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
-					{if !$FIELD_MODEL->isEditable() || $FIELD_MODEL->isReferenceField() || ($MODULE_MODEL->getName()=="Documents" && in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS)) || in_array($FIELD_MODEL->getFieldDataType(), ['multiCurrency', 'multiDependField', 'multiDomain', 'multiEmail', 'multiImage', 'multiReferenceValue', 'image'])}
+					{if !$FIELD_MODEL->isEditable()  || ($MODULE_MODEL->getName()=="Documents" && in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS)) || in_array($FIELD_MODEL->getFieldDataType(), ['multiCurrency', 'multiDependField', 'multiDomain', 'multiEmail', 'multiImage', 'multiReferenceValue', 'image'])}
 						{continue}
 					{/if}
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
