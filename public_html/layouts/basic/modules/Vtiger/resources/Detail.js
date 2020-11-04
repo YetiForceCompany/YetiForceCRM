@@ -1130,6 +1130,7 @@ jQuery.Class(
 							relatedController.registerRelatedEvents();
 						} else {
 							relatedController.registerPostLoadEvents();
+							relatedController.registerListEvents();
 						}
 					});
 				}

@@ -18,7 +18,7 @@ namespace App\YetiForce;
  */
 class Shop
 {
-	/** @var string Premium icons. */
+	/** @var string[] Premium icons. */
 	const PREMIUM_ICONS = [
 		1 => 'yfi-premium color-red-600',
 		2 => 'yfi-enterprise color-yellow-600',
@@ -75,11 +75,10 @@ class Shop
 	/**
 	 * Get products.
 	 *
-	 * @param string $state
-	 * @param string $department
 	 * @param string $name
+	 * @param string $department
 	 *
-	 * @return \App\YetiForce\Shop\AbstractBaseProduct
+	 * @return Shop\AbstractBaseProduct
 	 */
 	public static function getProduct(string $name, string $department = ''): Shop\AbstractBaseProduct
 	{

@@ -762,7 +762,7 @@ class Owner
 			$users = \App\PrivilegeFile::getUser('id');
 			$isExists = isset($users[$id]);
 		} else {
-			$isExists = !empty(\App\Fields\Owner::getUserLabel($id));
+			$isExists = !empty(self::getUserLabel($id));
 		}
 		$result = $isExists ? 'Users' : 'Groups';
 		self::$typeCache[$id] = $result;
@@ -836,7 +836,7 @@ class Owner
 			$className = str_replace('"', '', $classNameWithDoubleQuotes);
 			require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.php';
 			$unserializeTask = unserialize($task);
-			if (\array_key_exists('field_value_mapping', $unserializeTask)) {
+			if (isset($unserializeTask->field_value_mapping)) {
 				$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);
 				if (!empty($fieldMapping)) {
 					foreach ($fieldMapping as $key => $condition) {
@@ -857,7 +857,7 @@ class Owner
 				}
 			} else {
 				//For VTCreateTodoTask and VTCreateEventTask
-				if (\array_key_exists('assigned_user_id', $unserializeTask)) {
+				if (isset($unserializeTask->assigned_user_id)) {
 					$value = $unserializeTask->assigned_user_id;
 					if ($value == $oldId) {
 						$unserializeTask->assigned_user_id = $newId;
