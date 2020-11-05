@@ -603,6 +603,7 @@ class Vtiger_Record_Model extends \App\Base
 					} else {
 						$value = $uitypeModel->getDBValue($value, $this);
 					}
+					$this->set($fieldName, $value);
 				}
 				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $uitypeModel->convertToSave($value, $this);
 			}
