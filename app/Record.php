@@ -227,6 +227,7 @@ class Record
 	public static function updateLabelOnSave(\Vtiger_Record_Model $recordModel)
 	{
 		$metaInfo = \App\Module::getEntityInfo($recordModel->getModuleName());
+		$separator = $metaInfo['separator'] ?? ' ';
 		$labelName = [];
 		foreach ($metaInfo['fieldnameArr'] as $columnName) {
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
@@ -237,11 +238,11 @@ class Record
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
 			$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
 		}
-		$label = Purifier::encodeHtml(TextParser::textTruncate(Purifier::decodeHtml(implode(' ', $labelName)), 250, false));
+		$label = Purifier::encodeHtml(TextParser::textTruncate(Purifier::decodeHtml(implode($separator, $labelName)), 250, false));
 		if (empty($label)) {
 			$label = '';
 		}
-		$search = Purifier::encodeHtml(TextParser::textTruncate(Purifier::decodeHtml(implode(' ', $labelSearch)), 250, false));
+		$search = Purifier::encodeHtml(TextParser::textTruncate(Purifier::decodeHtml(implode($separator, $labelSearch)), 250, false));
 		if (empty($search)) {
 			$search = '';
 		}
