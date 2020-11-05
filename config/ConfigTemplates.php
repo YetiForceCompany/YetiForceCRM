@@ -384,6 +384,10 @@ return [
 			'default' => false,
 			'description' => 'Show error messages in web service'
 		],
+		'WEBSERVICE_SHOW_EXCEPTION_BACKTRACE' => [
+			'default' => false,
+			'description' => 'Show error exception backtrace'
+		],
 		'WEBSERVICE_DEBUG' => [
 			'default' => false,
 			'description' => 'Web service logs'

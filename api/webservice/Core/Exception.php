@@ -38,7 +38,7 @@ class Exception extends \Exception
 				'code' => $code,
 			],
 		];
-		if (\App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
+		if (\App\Config::debug('WEBSERVICE_SHOW_EXCEPTION_BACKTRACE')) {
 			$body['error']['file'] = rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $this->getFile()), PHP_EOL);
 			$body['error']['line'] = $this->getLine();
 			if (!empty($previous)) {
