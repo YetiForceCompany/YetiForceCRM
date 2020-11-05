@@ -23,6 +23,7 @@ class EventHandler
 	private $moduleName;
 	private $params;
 	private $exceptions = [];
+	private $handlers = [];
 
 	/** @var string Edit view, validation before saving */
 	public const EDIT_VIEW_PRE_SAVE = 'EditViewPreSave';
@@ -346,6 +347,11 @@ class EventHandler
 			Log::error("Handler not found, class: {$className} | {$function}");
 			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 		}
-		return (new $className())->{$function}($this);
+		if (isset($this->handlers[$className])) {
+			$handler = $this->handlers[$className];
+		} else {
+			$handler = $this->handlers[$className] = new $className();
+		}
+		return $handler->{$function}($this);
 	}
 }
