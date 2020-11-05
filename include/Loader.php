@@ -29,8 +29,10 @@ class Vtiger_Loader
 	 */
 	public static function resolveNameToPath($qualifiedName, $fileExtension = 'php')
 	{
-		$file = self::resolveRelativePath($qualifiedName, $fileExtension);
-		return $file ? ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $file : '';
+		if ($file = self::resolveRelativePath($qualifiedName, $fileExtension)) {
+			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . ('php' !== $fileExtension ? 'public_html' . DIRECTORY_SEPARATOR : '') . $file;
+		}
+		return $file;
 	}
 
 	/**
@@ -46,20 +48,18 @@ class Vtiger_Loader
 		$allowedExtensions = ['php', 'js', 'css', 'less'];
 		$file = '';
 		if (\in_array($fileExtension, $allowedExtensions)) {
-			$prefix = 'php' !== $fileExtension ? 'public_html' . DIRECTORY_SEPARATOR : '';
 			if (0 === strpos($qualifiedName, '~')) {
 				$file = str_replace('~', '', $qualifiedName);
 			} else {
 				$file = str_replace('.', DIRECTORY_SEPARATOR, $qualifiedName) . '.' . $fileExtension;
 			}
-			$file = $prefix . $file;
 		}
 
 		return $file;
 	}
 
 	/**
-	 * Returns canonicalized absolute pathname.
+	 * Returns canonicalized absolute pathname for css/js files.
 	 *
 	 * @param string $filePath
 	 * @param string $fileExtension
@@ -70,10 +70,11 @@ class Vtiger_Loader
 	public static function getRealPathFile(string $filePath, string $fileExtension, array $layoutPaths): string
 	{
 		$realPath = '';
+		$checkMin = \vtlib\Functions::getMinimizationOptions($fileExtension);
 		foreach ($layoutPaths as $layoutPath) {
 			$realPaths = [];
-			$completeFilePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . self::resolveRelativePath($layoutPath . $filePath, $fileExtension);
-			if ($completeFilePath && \vtlib\Functions::getMinimizationOptions($fileExtension)) {
+			$completeFilePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . $layoutPath . self::resolveRelativePath($filePath, $fileExtension);
+			if ($checkMin) {
 				$realPaths[] = substr($completeFilePath, 0, -(\strlen($fileExtension) + 1)) . ".min.{$fileExtension}";
 			}
 			$realPaths[] = $completeFilePath;
