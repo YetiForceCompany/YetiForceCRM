@@ -6,6 +6,9 @@
 	{foreach item=FIELD from=$INVENTORY_MODEL->getFieldsByType('Comment')}
 		{if $FIELD->isVisibleInDetail() && $INVENTORY_ROW[$FIELD->getColumnName()]}
 			<br/>
+			<label class="u-text-small-bold mt-2">
+				{\App\Language::translate($FIELD->get('label'), $MODULE)}
+			</label>
 			{$FIELD->getDisplayValue($INVENTORY_ROW[$FIELD->getColumnName()])}
 		{/if}
 	{/foreach}

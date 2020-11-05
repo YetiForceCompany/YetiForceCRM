@@ -108,6 +108,7 @@
     "LBL_CREATING_INVENTORY_FIELD": "Add",
     "LBL_NAME_FIELD": "Name",
     "LBL_COLSPAN": "Width [%]",
+    "LBL_HEIGHT": "Height [px]",
     "LBL_COMMENT": "Comment",
     "LBL_SELECT_TYPE_OF_INVENTORY": "Select field type",
     "LBL_NEXT": "Next",
