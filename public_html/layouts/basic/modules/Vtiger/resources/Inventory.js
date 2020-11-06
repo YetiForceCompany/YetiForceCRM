@@ -1521,26 +1521,26 @@ $.Class(
 			});
 		},
 		registerDeleteLineItemEvent: function (container) {
-			let thisInstance = this;
-			container.on('click', '.deleteRow', function (e) {
-				let num = thisInstance.getClosestRow($(e.currentTarget)).attr('numrow');
-				thisInstance
-					.getInventoryItemsContainer()
-					.find('[numrowex="' + num + '"] .js-inventory-item-comment')
-					.each(function () {
-						App.Fields.Text.destroyEditor($(this));
-					});
-				thisInstance
-					.getInventoryItemsContainer()
-					.find('[numrow="' + num + '"], [numrowex="' + num + '"]')
-					.remove();
-				thisInstance.checkDeleteIcon();
-				thisInstance.rowsCalculations();
-				if (thisInstance.getInventoryItemsContainer().find('.inventoryRow').length === 0) {
+			container.on('click', '.deleteRow', (e) => {
+				let num = this.getClosestRow($(e.currentTarget)).attr('numrow');
+				this.deleteLineItem(num);
+			});
+		},
+		deleteLineItem: function(num){
+			this.getInventoryItemsContainer()
+			.find('[numrowex="' + num + '"] .js-inventory-item-comment')
+			.each(function () {
+				App.Fields.Text.destroyEditor($(this));
+			});
+			this.getInventoryItemsContainer()
+				.find('[numrow="' + num + '"], [numrowex="' + num + '"]')
+				.remove();
+				this.checkDeleteIcon();
+				this.rowsCalculations();
+				if (this.getInventoryItemsContainer().find('.inventoryRow').length === 0) {
 					$('#inventoryItemsNo').val(0);
 				}
-				thisInstance.updateRowSequence();
-			});
+			this.updateRowSequence();
 		},
 		registerChangeDiscount: function () {
 			let thisInstance = this;
@@ -1879,8 +1879,9 @@ $.Class(
 		clearInventory: function () {
 			this.getInventoryItemsContainer()
 				.find('.inventoryRow')
-				.each(function () {
-					$(this).remove();
+				.each((_, e) => {
+					let num = $(e).attr('numrow');
+					this.deleteLineItem(num);
 				});
 		},
 		/**
