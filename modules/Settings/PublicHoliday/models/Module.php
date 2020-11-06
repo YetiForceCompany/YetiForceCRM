@@ -4,105 +4,103 @@
  * Settings PublicHoliday module model class.
  *
  * @copyright YetiForce Sp. z o.o
- * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 {
+	public $baseTable = 'vtiger_publicholiday';
+	public $baseIndex = 'publicholidayid';
+	public $listFields = [
+		'holidayname' => 'Name',
+		'holidaydate' => 'Date',
+		'holidaytype' => 'Type',
+	];
+	public $nameFields = ['holidayname'];
+	public $name = 'PublicHoliday';
+
 	/**
-	 * Delete holiday.
-	 *
-	 * @param <Int> $id - id of holiday
-	 *
-	 * @return - true on success, false on failure
+	 * Return info about module paging feature
+	 * 
+	 * @param none
+	 * @return boolean - true: pageable, false: not pageable
 	 */
-	public static function delete($id)
+	public function isPagingSupported()
 	{
-		$deleted = App\Db::getInstance()->createCommand()
-			->delete('vtiger_publicholiday', ['publicholidayid' => $id])
-			->execute();
-		\App\Cache::clear();
-		if (1 === $deleted) {
-			return true;
-		}
 		return false;
 	}
 
 	/**
-	 * Add new holiday.
+	 * Returns instance of Settings module model
 	 *
-	 * @param string $date - date of the holiday
-	 * @param string $name - name of the holiday
-	 * @param string $type - type of the holiday
-	 *
-	 * @return - true on success, false on failure
+	 * @param mixed $name
+	 * @return Settings_PublicHoliday_Module_Model
 	 */
-	public static function save($date, $name, $type)
+	public static function getInstance($name = 'Settings:PublicHoliday')
 	{
-		$saved = App\Db::getInstance()->createCommand()
-			->insert('vtiger_publicholiday', [
-				'holidaydate' => $date,
-				'holidayname' => $name,
-				'holidaytype' => $type,
-			])->execute();
-		\App\Cache::clear();
-		if (1 === $saved) {
-			return true;
-		}
-		return false;
+		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
+		return new $modelClassName();
 	}
 
 	/**
-	 * Edit holiday.
-	 *
-	 * @param <Int>  $id   - id of the holiday
-	 * @param string $date - date of the holiday
-	 * @param string $name - name of the holiday
-	 * @param string $type - name of the holiday
-	 *
-	 * @return - true on success, false on failure
+	 * Returns holiday by date
+	 * 
+	 * @param string
+	 * @return array Settings_PublicHoliday_Record_Model
 	 */
-	public static function edit($id, $date, $name, $type)
+	public function getHolidayByDate($date)
 	{
-		$saved = App\Db::getInstance()->createCommand()
-			->update('vtiger_publicholiday', [
-				'holidaydate' => $date,
-				'holidayname' => $name,
-				'holidaytype' => $type,
-			], ['publicholidayid' => $id])
-			->execute();
-		\App\Cache::clear();
-		if (1 === $saved) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * @param <array> $date - start and end date to get holidays
-	 *
-	 * @return - holidays count group by type if exist or false
-	 */
-	public static function getHolidayGroupType($date = false)
-	{
-		$query = (new App\Db\Query())
-			->select(['count' => new \yii\db\Expression('COUNT(publicholidayid)'), 'holidaytype'])
-			->from('vtiger_publicholiday');
-
-		if ($date) {
-			$date[0] = DateTimeField::convertToDBFormat($date[0]);
-			$date[1] = DateTimeField::convertToDBFormat($date[1]);
-			$query->where(['between', 'holidaydate', $date[0], $date[1]]);
-		}
-		$query->groupBy('holidaytype');
-		$dataReader = $query->createCommand()->query();
-		if (0 === $dataReader->count()) {
-			$return = false;
+		$holidays = [];
+		if (\App\Cache::has('PublicHoliday::getHolidayByDate', $date)) {
+			$holidays = \App\Cache::get('PublicHoliday::getHolidayByDate', $date);
 		} else {
+			$query = new \App\Db\Query();
+			$query->select($this->getBaseIndex());
+			$query->from($this->getBaseTable());
+			$query->where(['holidaydate' => $date]);
+			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$return[$row['holidaytype']] = $row['count'];
+				$id = $row[$this->getBaseIndex()];
+				$holidays[$id] = Settings_PublicHoliday_Record_Model::getInstanceById($id);
 			}
+			$dataReader->close();
+			\App\Cache::save('PublicHoliday::getHolidayByDate', $date, $holidays);
 		}
-		$dataReader->close();
-		return $return;
+		return $holidays;
+	}
+
+	/**
+	 * Returns holidays into date range
+	 *
+	 * @param array
+	 * @param string SORT_ASC|SORT_DESC
+	 * @return array Settings_PublicHoliday_Record_Model
+	 */
+	public function getHolidaysByRange($range = [], $sorting = SORT_ASC)
+	{
+		$start = is_array($range) && count($range) == 2 ? $range[0] : '';
+		$end = is_array($range) && count($range) == 2 ? $range[1] : '';
+		if (!in_array($sorting, [SORT_ASC, SORT_DESC])) {
+			$sorting = SORT_ASC;
+		}
+		$holidays = [];
+		if (\App\Cache::has('PublicHoliday::getHolidaysByRange', $start . $end)) {
+			$holidays = \App\Cache::get('PublicHoliday::getHolidaysByRange', $start . $end);
+		} else {
+			$query = new \App\Db\Query();
+			$query->select($this->getBaseIndex());
+			$query->from($this->getBaseTable());
+			if ($start && $end) {
+				$query->where(['between', 'holidaydate', $start, $end]);
+			}
+			$query->orderBy(['holidaydate' => $sorting]);
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$id = $row[$this->getBaseIndex()];
+				$holidays[$id] = Settings_PublicHoliday_Record_Model::getInstanceById($id);
+			}
+			$dataReader->close();
+			\App\Cache::save('PublicHoliday::getHolidaysByRange', $start . $end, $holidays);
+		}
+		return $holidays;
 	}
 }
