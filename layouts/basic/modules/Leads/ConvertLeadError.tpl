@@ -30,7 +30,7 @@
 			<ul> {\App\Language::translate('LBL_FOLLOWING_ARE_POSSIBLE_REASONS', $MODULE)}
 				<li>{\App\Language::translate('LBL_LEADS_FIELD_MAPPING_INCOMPLETE', $MODULE)}</li>
 				<li>{\App\Language::translate('LBL_MANDATORY_FIELDS_ARE_EMPTY', $MODULE)}</li>
-				{if $EXCEPTION}
+				{if !empty($EXCEPTION)}
 					<li><strong>{$EXCEPTION}</strong></li>
 				{/if}
 			</ul>

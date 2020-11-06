@@ -89,7 +89,7 @@ class Leads_SaveConvertLead_View extends \App\Controller\View\Page
 				if ($currentUser->isAdminUser()) {
 					$message = \App\Language::translate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '<a href="index.php?module=MarketingProcesses&view=Index&parent=Settings"><span class="fas fa-folder-open"></span></a>');
 				}
-				$this->showError($request, '', $message);
+				$this->showError($request, false, $message);
 				throw new \App\Exceptions\AppException('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT');
 			}
 		} catch (Exception $e) {
