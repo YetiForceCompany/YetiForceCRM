@@ -18,10 +18,9 @@
 	{/if}
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="SHORTCUT ICON" href="{\App\Layout::getImagePath('favicon.ico')}">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="stylesheet" href="{\App\Layout::getPublicUrl('layouts/basic/styles/Main.css')}">
-		<link rel="stylesheet" href="{\App\Layout::getPublicUrl('libraries/@fortawesome/fontawesome-free/css/all.css')}">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="{\App\Layout::getPublicUrl('layouts/basic/styles/Main.css')}">
+	<link rel="stylesheet" href="{\App\Layout::getPublicUrl('libraries/@fortawesome/fontawesome-free/css/all.css')}">
 </head>
 <body class="container">
 <div class="col-md-12 alert alert-warning mt-4 u-box-shadow">

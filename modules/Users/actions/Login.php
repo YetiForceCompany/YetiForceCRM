@@ -219,6 +219,15 @@ class Users_Login_Action extends \App\Controller\Action
 		\vtlib\Functions::recurseDelete('.php_cs.dist');
 		\vtlib\Functions::recurseDelete('.scrutinizer.yml');
 		\vtlib\Functions::recurseDelete('.sensiolabs.yml');
+		\vtlib\Functions::recurseDelete('.prettierrc.js');
+		\vtlib\Functions::recurseDelete('.editorconfig');
+		\vtlib\Functions::recurseDelete('.whitesource');
+		\vtlib\Functions::recurseDelete('whitesource.config.json');
+		\vtlib\Functions::recurseDelete('jsconfig.json');
+		\vtlib\Functions::recurseDelete('sonar-project.properties');
+		\vtlib\Functions::recurseDelete('docker-compose.yml');
+		\vtlib\Functions::recurseDelete('Dockerfile');
+		\vtlib\Functions::recurseDelete('crowdin.yml');
 	}
 
 	/**
