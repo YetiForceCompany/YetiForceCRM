@@ -46,12 +46,17 @@
   resolved "https://registry.yarnpkg.com/@pnotify/core/-/core-5.1.2.tgz#acab14bf843297a67cf281f0a246081f8c6534fa"
   integrity sha512-YMy9lQUkwzjIiRS+CjwrsyaQF4MzzX5HGIlZnAIfRnmPRKOfE0oR9UAN+v6ZM476T7jo3DVt2XYu/PVveBG7PQ==
 
+"@pnotify/core@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@pnotify/core/-/core-5.2.0.tgz#fac2b1ab9b8cdad809c8bd82f169e6a9066d78cf"
+  integrity sha512-d9ZM7Q6ZxuwTJ14QbOa7pWmoUqObPis7S1K+TzISffrL8w2f7JigEPI281agLShVAMIsE5SsC6O9YhkutwekbA==
+
 "@pnotify/desktop@^5":
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/@pnotify/desktop/-/desktop-5.1.2.tgz#fc762e6c2b2090c8edefdac0d688dc3b5f2680f7"
-  integrity sha512-L5mDBNWBehq6+DCfygqT8u4LNGKHcllmwrIcet0qfeHnNG9A786LsJfsAOemZue4Q6+frAQ37J8LUd65Km+ANw==
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@pnotify/desktop/-/desktop-5.2.0.tgz#ae2b17364fbf922bbd2506d34c8c7094a904218a"
+  integrity sha512-pJ5wBpZWoALO6H7lh04euS9UDQ6b/ZkJXkIP90GhzeeW5drPNKJRCLnLnDGvGCdxnH7ZkXoL9Ez+KtL0V6+joA==
   dependencies:
-    "@pnotify/core" "^5.1.2"
+    "@pnotify/core" "^5.2.0"
 
 "@pnotify/font-awesome5@^5":
   version "5.1.2"
