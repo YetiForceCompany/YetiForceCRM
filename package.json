@@ -93,7 +93,7 @@
     "tributejs": "^5.0.0",
     "url-polyfill": "^1.1.7",
     "vue": "^2.6.11",
-    "whatwg-fetch": "^3.0.0"
+    "whatwg-fetch": "^3.5.0"
   },
   "resolutions": {},
   "bugs": {
