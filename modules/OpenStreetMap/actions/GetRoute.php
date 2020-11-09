@@ -35,26 +35,31 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 	 */
 	public function process(App\Request $request)
 	{
-		$ilon = $request->getByType('ilon', 'Version');
-		$ilat = $request->getByType('ilat', 'Version');
-		$routingConnector = \App\Map\Routing::getInstance();
-		$routingConnector->setStart($request->getByType('flat', 'Version'), $request->getByType('flon', 'Version'));
-		if (!empty($ilon) && !empty($ilat)) {
-			foreach ($ilon as $key => $lon) {
-				$routingConnector->addIndirectPoint($ilat[$key], $lon);
-			}
-		}
-		$routingConnector->setEnd($request->getByType('tlat', 'Version'), $request->getByType('tlon', 'Version'));
-		$routingConnector->calculate();
 		$response = new Vtiger_Response();
-		$response->setResult([
-			'geoJson' => $routingConnector->getGeoJson(),
-			'properties' => [
-				'description' => App\Purifier::purifyHtml($routingConnector->getDescription()),
-				'traveltime' => $routingConnector->getTravelTime(),
-				'distance' => $routingConnector->getDistance(),
-			],
-		]);
+		try {
+			$ilon = $request->getByType('ilon', 'float');
+			$ilat = $request->getByType('ilat', 'float');
+			$routingConnector = \App\Map\Routing::getInstance();
+			$routingConnector->setStart($request->getByType('flat', 'float'), $request->getByType('flon', 'float'));
+			if (!empty($ilon) && !empty($ilat)) {
+				foreach ($ilon as $key => $lon) {
+					$routingConnector->addIndirectPoint($ilat[$key], $lon);
+				}
+			}
+			$routingConnector->setEnd($request->getByType('tlat', 'float'), $request->getByType('tlon', 'float'));
+			$routingConnector->calculate();
+			$response->setResult([
+				'geoJson' => $routingConnector->getGeoJson(),
+				'properties' => [
+					'description' => App\Purifier::purifyHtml($routingConnector->getDescription()),
+					'traveltime' => $routingConnector->getTravelTime(),
+					'distance' => $routingConnector->getDistance(),
+				],
+			]);
+		} catch (\Throwable $th) {
+			\App\Log::error($th->getMessage(), __CLASS__);
+			$response->setException($th);
+		}
 		$response->emit();
 	}
 }
