@@ -247,6 +247,7 @@ class Project extends CRMEntity
 
 			return $parent;
 		}
+		$moduleModel = Vtiger_Module_Model::getInstance('Project');
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$row = (new App\Db\Query())->select([
 			'vtiger_project.*',
@@ -276,8 +277,8 @@ class Project extends CRMEntity
 			foreach ($listColumns as $columnname) {
 				if ('assigned_user_id' === $columnname) {
 					$parentInfo[$columnname] = $row['user_name'];
-				} elseif ('projecttype' === $columnname) {
-					$parentInfo[$columnname] = \App\Language::translate($row[$columnname], 'Project');
+				} elseif (($fieldModel = $moduleModel->getFieldByColumn($columnname)) && \in_array($fieldModel->getFieldDataType(), ['picklist', 'multipicklist'])) {
+					$parentInfo[$columnname] = $fieldModel->getDisplayValue($row[$columnname], false, false, true);
 				} else {
 					$parentInfo[$columnname] = $row[$columnname];
 				}
@@ -305,6 +306,7 @@ class Project extends CRMEntity
 
 			return $childRow;
 		}
+		$moduleModel = Vtiger_Module_Model::getInstance('Project');
 		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
 		$dataReader = (new App\Db\Query())->select([
 			'vtiger_project.*',
@@ -328,8 +330,8 @@ class Project extends CRMEntity
 				foreach ($listColumns as $columnname) {
 					if ('assigned_user_id' === $columnname) {
 						$childSalesProcessesInfo[$columnname] = $row['user_name'];
-					} elseif ('projecttype' === $columnname) {
-						$childSalesProcessesInfo[$columnname] = \App\Language::translate($row[$columnname], 'Project');
+					} elseif (($fieldModel = $moduleModel->getFieldByColumn($columnname)) && \in_array($fieldModel->getFieldDataType(), ['picklist', 'multipicklist'])) {
+						$childSalesProcessesInfo[$columnname] = $fieldModel->getDisplayValue($row[$columnname], false, false, true);
 					} else {
 						$childSalesProcessesInfo[$columnname] = $row[$columnname];
 					}
