@@ -21,8 +21,7 @@ jQuery.Class(
 			this.selectedParams = params;
 		},
 		registerMap: function (startCoordinate, startZoom) {
-			let attribution =
-				'&copy; <a href="https://yetiforce.com/en/yetiforce/license" rel="noreferrer noopener">YetiForce Map powered by Open Street Map</a>';
+			let attribution = '&copy; <a href="https://yetiforce.com/en/yetiforce/license" rel="noreferrer noopener">YetiForce Map powered by Open Street Map</a>';
 			if (CONFIG.disableBranding) {
 				attribution = '';
 			}
@@ -71,10 +70,7 @@ jQuery.Class(
 			if (typeof response.result.coordinatesCeneter !== 'undefined') {
 				if (typeof response.result.coordinatesCeneter.error === 'undefined') {
 					var radius = container.find('.js-radius').val();
-					markerArray.push([
-						response.result.coordinatesCeneter.lat,
-						response.result.coordinatesCeneter.lon
-					]);
+					markerArray.push([response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon]);
 					var popup =
 						'<span class="description">' +
 						container.find('.searchValue').val() +
@@ -83,32 +79,23 @@ jQuery.Class(
 						'" data-lat="' +
 						response.result.coordinatesCeneter.lat +
 						'">';
-					popup +=
-						'<button class="btn btn-success btn-sm p-1 startTrack mr-2"><span class="fas  fa-truck"></span></button>';
-					popup +=
-						'<button class="btn btn-danger btn-sm p-1 endTrack"><span class="fas fa-flag-checkered"></span></button>';
-					var marker = L.marker(
-						[response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon],
-						{
-							icon: L.AwesomeMarkers.icon({
-								icon: 'search',
-								markerColor: 'red',
-								prefix: 'fa'
-							})
-						}
-					).bindPopup(popup);
+					popup += '<button class="btn btn-success btn-sm p-1 startTrack mr-2"><span class="fas  fa-truck"></span></button>';
+					popup += '<button class="btn btn-danger btn-sm p-1 endTrack"><span class="fas fa-flag-checkered"></span></button>';
+					var marker = L.marker([response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon], {
+						icon: L.AwesomeMarkers.icon({
+							icon: 'search',
+							markerColor: 'red',
+							prefix: 'fa'
+						})
+					}).bindPopup(popup);
 					map.addLayer(marker);
 					if ($.isNumeric(radius)) {
 						radius = parseInt(radius) * 1000;
-						var circle = L.circle(
-							[response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon],
-							radius,
-							{
-								color: 'red',
-								fillColor: '#f03',
-								fillOpacity: 0.05
-							}
-						);
+						var circle = L.circle([response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon], radius, {
+							color: 'red',
+							fillColor: '#f03',
+							fillOpacity: 0.05
+						});
 						this.polygonLayer = L.featureGroup([circle]);
 						map.addLayer(this.polygonLayer);
 					}
@@ -156,12 +143,7 @@ jQuery.Class(
 				var html = '';
 				var legend = response.result.legend;
 				legend.forEach(function (e) {
-					html +=
-						'<div class="float-left mt-2"><span class="leegendIcon mt-1" style="background:' +
-						e.color +
-						'"></span> ' +
-						e.value +
-						'</div>';
+					html += '<div class="float-left mt-2"><span class="leegendIcon mt-1" style="background:' + e.color + '"></span> ' + e.value + '</div>';
 				});
 				legendContainer.html(html);
 			} else {
@@ -212,10 +194,7 @@ jQuery.Class(
 					});
 					var countRecords = container.find('.countRecords' + app.getModuleName());
 					countRecords.html(response.result);
-					countRecords
-						.closest('.cacheModuleContainer')
-						.find('.deleteClipBoard')
-						.removeClass('d-none');
+					countRecords.closest('.cacheModuleContainer').find('.deleteClipBoard').removeClass('d-none');
 				});
 			});
 			container.find('.deleteClipBoard').on('click', function (e) {
@@ -236,14 +215,8 @@ jQuery.Class(
 					var countRecords = container.find('.countRecords' + moduleName);
 					countRecords.html('');
 					currentTarget.addClass('d-none');
-					countRecords
-						.closest('.cacheModuleContainer')
-						.find('.showRecordsFromCache')
-						.prop('checked', false);
-					countRecords
-						.closest('.cacheModuleContainer')
-						.find('.showRecordsFromCache')
-						.trigger('change');
+					countRecords.closest('.cacheModuleContainer').find('.showRecordsFromCache').prop('checked', false);
+					countRecords.closest('.cacheModuleContainer').find('.showRecordsFromCache').trigger('change');
 				});
 			});
 			container.find('.addAllRecords').on('click', function (e) {
@@ -264,8 +237,7 @@ jQuery.Class(
 					var moduleContainer = currentTarget.closest('.cacheModuleContainer');
 					moduleContainer.find('.showRecordsFromCache').prop('checked', true);
 					moduleContainer.find('.showRecordsFromCache').trigger('change');
-					if (response.result.count != '0')
-						moduleContainer.find('.deleteClipBoard').removeClass('d-none');
+					if (response.result.count != '0') moduleContainer.find('.deleteClipBoard').removeClass('d-none');
 				});
 			});
 		},
@@ -340,10 +312,7 @@ jQuery.Class(
 					return this._renderItem(ul, item).data('ui-autocomplete-item', item);
 				},
 				_renderItem: function (ul, item) {
-					return $('<li>')
-						.data('item.autocomplete', item)
-						.append($('<a></a>').html(item.label))
-						.appendTo(ul);
+					return $('<li>').data('item.autocomplete', item).append($('<a></a>').html(item.label)).appendTo(ul);
 				}
 			});
 			searchValue.ivAutocomplete({
@@ -634,22 +603,22 @@ jQuery.Class(
 				});
 			});
 			container.find('.calculateTrack').on('click', function () {
-				var indirectLon = [];
-				var indirectLat = [];
+				let indirectLon = [];
+				let indirectLat = [];
 				container.find('.indirectContainer:not(.d-none) input.indirect').each(function () {
-					var currentTarget = $(this);
+					let currentTarget = $(this);
 					indirectLat.push(currentTarget.data('lat'));
 					indirectLon.push(currentTarget.data('lon'));
 				});
-				var endElement = container.find('.end');
-				var startElement = container.find('.start');
-				var progressIndicatorElement = jQuery.progressIndicator({
+				let endElement = container.find('.end');
+				let startElement = container.find('.start');
+				let progressIndicatorElement = jQuery.progressIndicator({
 					position: container,
 					blockInfo: {
 						enabled: true
 					}
 				});
-				var params = {
+				AppConnector.request({
 					url: 'index.php',
 					data: {
 						module: 'OpenStreetMap',
@@ -661,26 +630,28 @@ jQuery.Class(
 						tlon: endElement.data('lon'),
 						tlat: endElement.data('lat')
 					}
-				};
-				AppConnector.request(params).done(function (response) {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					if (thisInstance.routeLayer) {
-						map.removeLayer(thisInstance.routeLayer);
-					}
-					var route = L.geoJson(response.result.geoJson);
-					thisInstance.routeLayer = L.featureGroup([route]);
-					map.addLayer(thisInstance.routeLayer);
-					container.find('.descriptionContainer').removeClass('d-none');
-					container
-						.find('.descriptionContent .instruction')
-						.html(response.result.properties.description);
-					container
-						.find('.descriptionContent .distance')
-						.html(App.Fields.Double.formatToDisplay(response.result.properties.distance));
-					container
-						.find('.descriptionContent .travelTime')
-						.html(App.Fields.Double.formatToDisplay(response.result.properties.traveltime / 60));
-				});
+				})
+					.done(function (response) {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						if (thisInstance.routeLayer) {
+							map.removeLayer(thisInstance.routeLayer);
+						}
+						let route = L.geoJson(response.result.geoJson);
+						thisInstance.routeLayer = L.featureGroup([route]);
+						map.addLayer(thisInstance.routeLayer);
+						container.find('.descriptionContainer').removeClass('d-none');
+						container.find('.descriptionContent .instruction').html(response.result.properties.description);
+						container.find('.descriptionContent .distance').html(App.Fields.Double.formatToDisplay(response.result.properties.distance));
+						container.find('.descriptionContent .travelTime').html(App.Fields.Double.formatToDisplay(response.result.properties.traveltime / 60));
+					})
+					.fail(function (error, title, fff) {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						app.showNotify({
+							title: title,
+							text: error,
+							type: 'error'
+						});
+					});
 			});
 			container.on('click', '.setView', function (e) {
 				let currentTarget = $(e.currentTarget);
@@ -731,19 +702,13 @@ jQuery.Class(
 			}
 			if ($('.mainBody').length) {
 				if ($('.mainBody').height() < 1000) {
-					$map.height(
-						$('.mainBody').height() -
-							($('.detailViewTitle').height() + $('.detailViewContainer .related').height() + 25)
-					);
+					$map.height($('.mainBody').height() - ($('.detailViewTitle').height() + $('.detailViewContainer .related').height() + 25));
 				} else {
 					$map.height(1000);
 				}
 			} else {
 				if ($('.bodyContents').height() < 1000) {
-					$map.height(
-						$('.bodyContents').height() -
-							($('.detailViewTitle').height() + $('.detailViewContainer .related').height() + 25)
-					);
+					$map.height($('.bodyContents').height() - ($('.detailViewTitle').height() + $('.detailViewContainer .related').height() + 25));
 				} else {
 					$map.height(1000);
 				}
