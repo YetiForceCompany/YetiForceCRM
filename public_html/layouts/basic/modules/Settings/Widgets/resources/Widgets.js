@@ -17,10 +17,7 @@ jQuery.Class(
 			var progressIndicatorElement = jQuery.progressIndicator({ position: 'html' });
 			app.showModalWindow(
 				null,
-				'index.php?parent=Settings&module=Widgets&view=Widget&mode=createStep2&type=' +
-					type +
-					'&tabId=' +
-					tabId,
+				'index.php?parent=Settings&module=Widgets&view=Widget&mode=createStep2&type=' + type + '&tabId=' + tabId,
 				function (wizardContainer) {
 					app.showPopoverElementView(wizardContainer.find('.js-help-info'));
 					if (type === 'RelatedModule' || type === 'RelatedModuleChart') {
@@ -38,11 +35,7 @@ jQuery.Class(
 						e.preventDefault();
 						if (form.validationEngine('validate')) {
 							var save = true;
-							if (
-								form &&
-								form.hasClass('validateForm') &&
-								form.data('jqv').InvalidFields.length > 0
-							) {
+							if (form && form.hasClass('validateForm') && form.data('jqv').InvalidFields.length > 0) {
 								app.formAlignmentAfterValidation(form);
 								save = false;
 							}
@@ -256,19 +249,17 @@ jQuery.Class(
 			container.find('.js-widget__add').on('click', function (e) {
 				var progressIndicatorElement = jQuery.progressIndicator({ position: 'html' });
 				var module = $('.WidgetsManage select.js-module__list').val();
-				app.showModalWindow(
-					null,
-					'index.php?parent=Settings&module=Widgets&view=Widget&mod=' + module,
-					function (wizardContainer) {
-						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						var form = jQuery('form', wizardContainer);
-						form.on('submit', function (e) {
-							e.preventDefault();
-							var type = form.find('[name="type"]').val();
-							thisInstance.createStep2(type);
-						});
-					}
-				);
+				app.showModalWindow(null, 'index.php?parent=Settings&module=Widgets&view=Widget&mod=' + module, function (
+					wizardContainer
+				) {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					var form = jQuery('form', wizardContainer);
+					form.on('submit', function (e) {
+						e.preventDefault();
+						var type = form.find('[name="type"]').val();
+						thisInstance.createStep2(type);
+					});
+				});
 			});
 			container.find('.js-widget__edit').on('click', (e) => {
 				app.showModalWindow({

@@ -193,9 +193,7 @@ $.Class(
 						return;
 					}
 					const rows = JSON.parse(data.result);
-					this.container
-						.find('.js-business-hours-container-content')
-						.html(this.renderBusinessHours(rows));
+					this.container.find('.js-business-hours-container-content').html(this.renderBusinessHours(rows));
 					this.registerBusinessHoursTableEvents();
 					this.container.find('.js-business-hours-container').removeClass('d-none');
 					progress.progressIndicator({ mode: 'hide' });

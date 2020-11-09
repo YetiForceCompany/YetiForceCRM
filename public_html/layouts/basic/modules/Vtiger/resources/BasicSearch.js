@@ -82,9 +82,7 @@ jQuery.Class(
 			}
 			params.operator = CONFIG.globalSearchDefaultOperator;
 			if (this.mainContainer) {
-				let operatorElement = this.mainContainer.find(
-					'.js-global-search-operator .active[data-operator]'
-				);
+				let operatorElement = this.mainContainer.find('.js-global-search-operator .active[data-operator]');
 				if (operatorElement.length && operatorElement.data('operator') != '') {
 					params.operator = operatorElement.data('operator');
 				}

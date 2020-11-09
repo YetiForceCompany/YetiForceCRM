@@ -438,8 +438,7 @@ class MultiImage {
 	downloadBase64(hash) {
 		const fileInfo = this.getFileInfo(hash);
 		const imageUrl =
-			`data:application/octet-stream;filename=${fileInfo.name};base64,` +
-			fileInfo.imageSrc.split(',')[1];
+			`data:application/octet-stream;filename=${fileInfo.name};base64,` + fileInfo.imageSrc.split(',')[1];
 		const link = document.createElement('a');
 		$(link).css('display', 'none');
 		if (typeof link.download === 'string') {

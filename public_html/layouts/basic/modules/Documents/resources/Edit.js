@@ -60,11 +60,7 @@ Vtiger_Edit_Js(
 				for (var index = 0; index < oldElementAttributeList.length; index++) {
 					var attributeObject = oldElementAttributeList[index];
 					//Dont update the type attribute
-					if (
-						attributeObject.name == 'type' ||
-						attributeObject.name == 'value' ||
-						attributeObject.name == 'class'
-					) {
+					if (attributeObject.name == 'type' || attributeObject.name == 'value' || attributeObject.name == 'class') {
 						continue;
 					}
 					var value = attributeObject.value;
@@ -104,9 +100,7 @@ Vtiger_Edit_Js(
 				if (element.attr('type') !== 'file') {
 					return;
 				}
-				let uploadFileSizeHolder = element
-					.closest('.fileUploadContainer')
-					.find('.uploadedFileSize');
+				let uploadFileSizeHolder = element.closest('.fileUploadContainer').find('.uploadedFileSize');
 				let fileSize = element.get(0).files[0].size;
 				if (fileSize > thisInstance.getMaxiumFileUploadingSize(container)) {
 					app.showAlert(app.vtranslate('JS_EXCEEDS_MAX_UPLOAD_SIZE'));

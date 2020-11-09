@@ -27,9 +27,7 @@ Vtiger_Edit_Js(
 		registerReminderFieldCheckBox: function () {
 			let element = this.getForm().find('.js-reminder-field-checkbox');
 			element.on('change', function (e) {
-				let rowElement = element
-					.closest('.js-reminder-field-element')
-					.find('.js-reminder-field-row');
+				let rowElement = element.closest('.js-reminder-field-element').find('.js-reminder-field-row');
 				if (element.is(':checked')) {
 					rowElement.removeClass('d-none');
 				} else {
@@ -126,9 +124,7 @@ Vtiger_Edit_Js(
 				let startDateTime = startDate + ' ' + startTime,
 					dateFormat = container.find('[name="due_date"]').data('dateFormat').toUpperCase(),
 					timeFormat = endTimeElement.data('format'),
-					activityDurations = JSON.parse(
-						container.find('[name="defaultOtherEventDuration"]').val()
-					),
+					activityDurations = JSON.parse(container.find('[name="defaultOtherEventDuration"]').val()),
 					minutes = 0;
 				for (let i in activityDurations) {
 					if (activityDurations[i].activitytype === activityTypeValue) {
@@ -140,10 +136,7 @@ Vtiger_Edit_Js(
 				if (12 === timeFormat) {
 					defaultTimeFormat = 'hh:mm A';
 				}
-				let endDate = moment(startDateTime, dateFormat + ' ' + defaultTimeFormat).add(
-					minutes,
-					'minutes'
-				);
+				let endDate = moment(startDateTime, dateFormat + ' ' + defaultTimeFormat).add(minutes, 'minutes');
 				endDateElement.val(endDate.format(dateFormat));
 				endTimeElement.val(endDate.format(defaultTimeFormat));
 			}
@@ -250,10 +243,7 @@ Vtiger_Edit_Js(
 			}
 			if (freq === 'MONTHLY') {
 				var dayOfWeek = Vtiger_Helper_Js.getDay(form.find('[name="date_start"]').val());
-				var dateInstance = Vtiger_Helper_Js.getDateInstance(
-					form.find('[name="date_start"]').val(),
-					CONFIG.dateFormat
-				);
+				var dateInstance = Vtiger_Helper_Js.getDateInstance(form.find('[name="date_start"]').val(), CONFIG.dateFormat);
 				var dayOfMonth = dateInstance.getDate();
 				var option = form.find('.calendarMontlyType:checked').val();
 				if (option == 'DAY') {
@@ -324,12 +314,7 @@ Vtiger_Edit_Js(
 				rows.each(function (index, domElement) {
 					let row = $(domElement);
 					if (row.data('email')) {
-						invitees.push([
-							row.data('email'),
-							row.data('crmid'),
-							row.data('ivid'),
-							row.data('name')
-						]);
+						invitees.push([row.data('email'), row.data('crmid'), row.data('ivid'), row.data('name')]);
 					}
 				});
 				$('<input type="hidden" name="inviteesid" />').appendTo(form).val(JSON.stringify(invitees));
@@ -339,9 +324,7 @@ Vtiger_Edit_Js(
 			var timeStart = container.find('[name="time_start"], [data-element-name="time_start"]');
 			var timeEnd = container.find('[name="time_end"], [data-element-name="time_end"]');
 			var dateStart = container.find('[name="date_start"], [data-element-name="date_start"]');
-			var ownerId = container.find(
-				'[name="assigned_user_id"], [data-element-name="assigned_user_id"]'
-			);
+			var ownerId = container.find('[name="assigned_user_id"], [data-element-name="assigned_user_id"]');
 			var params = {
 				module: 'Calendar',
 				action: 'GetFreeTime',
@@ -375,16 +358,10 @@ Vtiger_Edit_Js(
 				autoFill = container.find('.js-autofill');
 			container.find('.js-autofill__icon').on('click', function (e) {
 				if (autoFill.is(':checked')) {
-					$(e.currentTarget)
-						.closest('.input-group-text')
-						.removeClass('bg-color-blue-700')
-						.removeClass('text-white');
+					$(e.currentTarget).closest('.input-group-text').removeClass('bg-color-blue-700').removeClass('text-white');
 					autoFill.prop('checked', false).trigger('change');
 				} else {
-					$(e.currentTarget)
-						.closest('.input-group-text')
-						.addClass('bg-color-blue-700')
-						.addClass('text-white');
+					$(e.currentTarget).closest('.input-group-text').addClass('bg-color-blue-700').addClass('text-white');
 					autoFill.prop('checked', true).trigger('change');
 				}
 			});
@@ -500,16 +477,11 @@ Vtiger_Edit_Js(
 						let formEmail = data.find('.js-form');
 						formEmail.validationEngine(app.validationEngineOptions);
 						if (formEmail.validationEngine('validate')) {
-							let participantRow = participantsContent
-								.find('.d-none .js-participant-row')
-								.clone(true, true);
+							let participantRow = participantsContent.find('.d-none .js-participant-row').clone(true, true);
 							participantRow.data('crmid', 0);
 							participantRow.data('email', email);
 							if (nameAttendee) {
-								participantRow
-									.find('.js-participant-name')
-									.data('content', nameAttendee)
-									.text(nameAttendee);
+								participantRow.find('.js-participant-name').data('content', nameAttendee).text(nameAttendee);
 								participantRow.data('name', nameAttendee);
 							} else {
 								participantRow.find('.js-participant-name').data('content', email).text(email);
@@ -547,10 +519,7 @@ Vtiger_Edit_Js(
 					return this._renderItem(ul, item).data('ui-autocomplete-item', item);
 				},
 				_renderItem: function (ul, item) {
-					return $('<li>')
-						.data('item.autocomplete', item)
-						.append($('<a></a>').html(item.label))
-						.appendTo(ul);
+					return $('<li>').data('item.autocomplete', item).append($('<a></a>').html(item.label)).appendTo(ul);
 				}
 			});
 			participantsSearch.ivAutocomplete({
@@ -587,9 +556,7 @@ Vtiger_Edit_Js(
 						}
 					});
 					if (recordExist) {
-						let participantRow = participantsContent
-							.find('.d-none .js-participant-row')
-							.clone(true, true);
+						let participantRow = participantsContent.find('.d-none .js-participant-row').clone(true, true);
 						Vtiger_Index_Js.getEmailFromRecord(selected.id, selected.module).done((email) => {
 							participantRow.data('crmid', selected.id);
 							participantRow.data('email', email);
@@ -631,9 +598,7 @@ Vtiger_Edit_Js(
 			AppConnector.request({
 				async: false,
 				data: {
-					module: form.find('[name="module"]').length
-						? form.find('[name="module"]').val()
-						: app.getModuleName(),
+					module: form.find('[name="module"]').length ? form.find('[name="module"]').val() : app.getModuleName(),
 					action: 'Fields',
 					mode: 'verifyIsHolidayDate',
 					fieldName: 'date_start',

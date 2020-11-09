@@ -140,9 +140,7 @@ Vtiger_Detail_Js(
 			var thisInstance = this;
 			this._super();
 			detailContentsHolder.on('click', '.moreRecentTickets', function () {
-				var recentTicketsTab = thisInstance.getTabByLabel(
-					thisInstance.detailViewRecentTicketsTabLabel
-				);
+				var recentTicketsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentTicketsTabLabel);
 				recentTicketsTab.trigger('click');
 			});
 			this.registerGantt();

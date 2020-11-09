@@ -22,9 +22,7 @@ Vtiger_List_Js(
 			var defaultView = '';
 			if (app.getMainParams('defaultDetailViewName')) {
 				defaultView =
-					defaultView +
-					'&mode=showDetailViewByMode&requestMode=' +
-					app.getMainParams('defaultDetailViewName'); // full, summary
+					defaultView + '&mode=showDetailViewByMode&requestMode=' + app.getMainParams('defaultDetailViewName'); // full, summary
 			}
 			frame.attr('src', url.replace('view=Detail', 'view=DetailPreview') + defaultView);
 		},
@@ -135,10 +133,7 @@ Vtiger_List_Js(
 		},
 		setDomParams: function (container) {
 			this.container = container;
-			this.listColumnFirstWidth = container
-				.find('.listViewEntriesDiv .listViewHeaders th')
-				.first()
-				.width();
+			this.listColumnFirstWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first().width();
 			this.listColumnSecondWidth = this.getSecondColMinWidth(container);
 			this.windowMinWidth = (15 / $(window).width()) * 100;
 			this.windowMaxWidth = 100 - this.minWidth;
@@ -152,8 +147,7 @@ Vtiger_List_Js(
 			this.headerH = $('.js-header').outerHeight();
 		},
 		getDefaultSplitSizes: function () {
-			let thWidth =
-				((this.listColumnFirstWidth + this.listColumnSecondWidth + 82) / $(window).width()) * 100;
+			let thWidth = ((this.listColumnFirstWidth + this.listColumnSecondWidth + 82) / $(window).width()) * 100;
 			return [thWidth, 100 - thWidth];
 		},
 		/**
@@ -309,10 +303,7 @@ Vtiger_List_Js(
 			this.list.css(mainWindowHeightCss);
 			this.sideBlocks.css(mainWindowHeightCss);
 			this.registerSplitEvents(container, split);
-			this.rotatedText
-				.first()
-				.find('.js-list-name')
-				.append($('.breadcrumbsContainer .js-text-content').text());
+			this.rotatedText.first().find('.js-list-name').append($('.breadcrumbsContainer .js-text-content').text());
 			this.rotatedText.css({
 				width: this.sideBlockLeft.height(),
 				height: this.sideBlockLeft.height()

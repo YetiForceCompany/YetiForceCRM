@@ -21,25 +21,33 @@ jQuery.Class(
 						data: function (row) {
 							let action = '';
 							action += '<div class="o-tab__container--action">';
-							action += `<button type="button" class="btn btn-secondary btn-xs js-details" data-id="${row['id']}" title="${app.vtranslate(
+							action += `<button type="button" class="btn btn-secondary btn-xs js-details" data-id="${
+								row['id']
+							}" title="${app.vtranslate(
 								'BTN_SHOW_DETAILS'
 							)}" data-js="click"><span class="fas fa-search-plus"></span></button>`;
-							action += `<button type="button" class="btn btn-primary btn-xs ml-2 js-send-request-id" data-id="${row['id']}" title="${app.vtranslate(
+							action += `<button type="button" class="btn btn-primary btn-xs ml-2 js-send-request-id" data-id="${
+								row['id']
+							}" title="${app.vtranslate(
 								'BTN_STATUS_ACTION_SEND_REQUEST'
 							)}" data-js="click"><span class="fas fa-paper-plane"></span></button>`;
 							if (row['statusId'] !== 1) {
-								action += `<button type="button" class="btn btn-success btn-xs ml-2 js-update" data-id="${row['id']}" data-status="1" title="${app.vtranslate(
+								action += `<button type="button" class="btn btn-success btn-xs ml-2 js-update" data-id="${
+									row['id']
+								}" data-status="1" title="${app.vtranslate(
 									'BTN_STATUS_ACTION_ACCEPT'
 								)}" data-js="click"><span class="fas fa-check"></span></button>`;
 							}
 							if (row['statusId'] !== 2) {
-								action += `<button type="button" class="btn btn-warning btn-xs ml-2 js-update" data-id="${row['id']}" data-status="2" title="${app.vtranslate(
+								action += `<button type="button" class="btn btn-warning btn-xs ml-2 js-update" data-id="${
+									row['id']
+								}" data-status="2" title="${app.vtranslate(
 									'BTN_STATUS_ACTION_REJECT'
 								)}" data-js="click"><span class="fas fa-times"></span></button>`;
 							}
-							action += `<button type="button" class="btn btn-danger btn-xs ml-2 js-trash" data-id="${row['id']}" title="${app.vtranslate(
-								'BTN_DELETE'
-							)}" data-js="click"><span class="fas fa-trash"></span></button>`;
+							action += `<button type="button" class="btn btn-danger btn-xs ml-2 js-trash" data-id="${
+								row['id']
+							}" title="${app.vtranslate('BTN_DELETE')}" data-js="click"><span class="fas fa-trash"></span></button>`;
 							action += '</dv>';
 							return action;
 						},
@@ -56,7 +64,9 @@ jQuery.Class(
 						data: function (row) {
 							let action = '';
 							if (row['request'] != 0) {
-								action += `<button type="button" class="btn btn-secondary btn-sm js-details" data-id="${row['request']}" title="${app.vtranslate(
+								action += `<button type="button" class="btn btn-secondary btn-sm js-details" data-id="${
+									row['request']
+								}" title="${app.vtranslate(
 									'BTN_SHOW_DETAILS'
 								)}" data-js="click"><span class="fas fa-search-plus"></span></button>`;
 							}
@@ -69,18 +79,22 @@ jQuery.Class(
 						data: function (row) {
 							let action = '';
 							if (row['statusId'] !== 0) {
-								action += `<button type="button" class="btn btn-success btn-sm js-update" data-id="${row['id']}" data-status="0" title="${app.vtranslate(
+								action += `<button type="button" class="btn btn-success btn-sm js-update" data-id="${
+									row['id']
+								}" data-status="0" title="${app.vtranslate(
 									'BTN_STATUS_ACTION_ACCEPT'
 								)}" data-js="click"><span class="fas fa-check"></span></button>`;
 							}
 							if (row['statusId'] !== 1) {
-								action += `<button type="button" class="btn btn-warning btn-sm ml-2 js-update" data-id="${row['id']}" data-status="1" title="${app.vtranslate(
+								action += `<button type="button" class="btn btn-warning btn-sm ml-2 js-update" data-id="${
+									row['id']
+								}" data-status="1" title="${app.vtranslate(
 									'BTN_UNLOCK_STATUS_ACTION_REJECT'
 								)}" data-js="click"><span class="fas fa-times"></span></button>`;
 							}
-							action += `<button type="button" class="btn btn-danger btn-sm ml-2 js-trash" data-id="${row['id']}" title="${app.vtranslate(
-								'BTN_DELETE'
-							)}" data-js="click"><span class="fas fa-trash"></span></button>`;
+							action += `<button type="button" class="btn btn-danger btn-sm ml-2 js-trash" data-id="${
+								row['id']
+							}" title="${app.vtranslate('BTN_DELETE')}" data-js="click"><span class="fas fa-trash"></span></button>`;
 							return action;
 						},
 						defaultContent: ''
@@ -96,7 +110,9 @@ jQuery.Class(
 						data: function (row) {
 							let action = '';
 							if (row['request'] != 0) {
-								action += `<button type="button" class="btn btn-secondary btn-sm js-details" data-id="${row['request']}" title="${app.vtranslate(
+								action += `<button type="button" class="btn btn-secondary btn-sm js-details" data-id="${
+									row['request']
+								}" title="${app.vtranslate(
 									'BTN_SHOW_DETAILS'
 								)}" data-js="click"><span class="fas fa-search-plus"></span></button>`;
 							}
@@ -109,18 +125,22 @@ jQuery.Class(
 						data: function (row) {
 							let action = '';
 							if (row['statusId'] !== 0) {
-								action += `<button type="button" class="btn btn-success btn-sm js-update" data-id="${row['id']}" data-status="0" title="${app.vtranslate(
+								action += `<button type="button" class="btn btn-success btn-sm js-update" data-id="${
+									row['id']
+								}" data-status="0" title="${app.vtranslate(
 									'BTN_STATUS_ACTION_ACCEPT'
 								)}" data-js="click"><span class="fas fa-check"></span></button>`;
 							}
 							if (row['statusId'] !== 1) {
-								action += `<button type="button" class="btn btn-warning btn-sm ml-2 js-update" data-id="${row['id']}" data-status="1" title="${app.vtranslate(
+								action += `<button type="button" class="btn btn-warning btn-sm ml-2 js-update" data-id="${
+									row['id']
+								}" data-status="1" title="${app.vtranslate(
 									'BTN_UNLOCK_STATUS_ACTION_REJECT'
 								)}" data-js="click"><span class="fas fa-times"></span></button>`;
 							}
-							action += `<button type="button" class="btn btn-danger btn-sm ml-2 js-trash" data-id="${row['id']}" title="${app.vtranslate(
-								'BTN_DELETE'
-							)}" data-js="click"><span class="fas fa-trash"></span></button>`;
+							action += `<button type="button" class="btn btn-danger btn-sm ml-2 js-trash" data-id="${
+								row['id']
+							}" title="${app.vtranslate('BTN_DELETE')}" data-js="click"><span class="fas fa-trash"></span></button>`;
 							return action;
 						},
 						defaultContent: ''
@@ -187,17 +207,21 @@ jQuery.Class(
 			let table = this.registerDataTable(contentContainer);
 			table.off('click', '.js-details').on('click', '.js-details', function () {
 				let progressIndicatorElement = jQuery.progressIndicator();
-				app.showModalWindow(null, 'index.php?module=AppComponents&view=MailMessageAnalysisModal&record=' + this.dataset.id, function (container) {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					container.find('iframe').each(function () {
-						let iframe = $(this);
-						iframe.on('load', (e) => {
-							let content = iframe.contents();
-							iframe.height(content.find('body').height() + 30);
-							content.find('head').append('<style>body{margin: 0;}p{margin: 0.5em 0;}</style>');
+				app.showModalWindow(
+					null,
+					'index.php?module=AppComponents&view=MailMessageAnalysisModal&record=' + this.dataset.id,
+					function (container) {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						container.find('iframe').each(function () {
+							let iframe = $(this);
+							iframe.on('load', (e) => {
+								let content = iframe.contents();
+								iframe.height(content.find('body').height() + 30);
+								content.find('head').append('<style>body{margin: 0;}p{margin: 0.5em 0;}</style>');
+							});
 						});
-					});
-				});
+					}
+				);
 			});
 			table.off('click', '.js-trash').on('click', '.js-trash', function () {
 				AppConnector.request({
@@ -231,7 +255,9 @@ jQuery.Class(
 			});
 		},
 		sendRequest: function (id) {
-			app.showModalWindow(null, 'index.php?parent=Settings&module=MailRbl&view=ReportModal&id=' + id, function (container) {
+			app.showModalWindow(null, 'index.php?parent=Settings&module=MailRbl&view=ReportModal&id=' + id, function (
+				container
+			) {
 				let form = container.find('form');
 				container.find('.js-modal__save').on('click', function () {
 					form.submit();

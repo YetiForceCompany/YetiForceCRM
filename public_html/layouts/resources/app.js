@@ -97,7 +97,10 @@ var App = (window.App = {
 				if (undefined === params.callbackFunction) {
 					params.callbackFunction = function () {};
 				}
-				if ((app.getViewName() === 'Detail' || (app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) && app.getParentModuleName() != 'Settings') {
+				if (
+					(app.getViewName() === 'Detail' || (app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
+					app.getParentModuleName() != 'Settings'
+				) {
 					url += '&sourceModule=' + app.getModuleName();
 					url += '&sourceRecord=' + app.getRecordId();
 				}
@@ -642,7 +645,11 @@ var app = (window.app = {
 	 * @returns {object}
 	 */
 	getWindowParent() {
-		if (typeof window.frames[0] !== 'undefined' && typeof window.frames[0].app !== 'undefined' && window.frames[0].app.childFrame) {
+		if (
+			typeof window.frames[0] !== 'undefined' &&
+			typeof window.frames[0].app !== 'undefined' &&
+			window.frames[0].app.childFrame
+		) {
 			return window.frames[0];
 		} else {
 			return window;
@@ -720,7 +727,10 @@ var app = (window.app = {
 		element.on('mouseleave', (e) => {
 			setTimeout(() => {
 				let currentPopover = this.getBindedPopover(element);
-				if (!$(':hover').filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
+				if (
+					!$(':hover').filter(currentPopover).length &&
+					!currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length
+				) {
 					currentPopover.popover('hide');
 				}
 			}, hideDelay);
@@ -733,7 +743,10 @@ var app = (window.app = {
 					let currentPopover = this.getBindedPopover(element);
 					currentPopover.on('mouseleave', () => {
 						setTimeout(() => {
-							if (!$(':hover').filter(currentPopover).length && !currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length) {
+							if (
+								!$(':hover').filter(currentPopover).length &&
+								!currentPopover.find('.js-popover-tooltip--record[aria-describedby]').length
+							) {
 								currentPopover.popover('hide'); //close current popover
 							}
 							if (!$(':hover').filter($('.popover')).length) {
@@ -767,7 +780,8 @@ var app = (window.app = {
 			manualTriggerDelay: 500,
 			placement: 'auto',
 			html: true,
-			template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+			template:
+				'<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
 			container: 'body',
 			boundary: 'viewport',
 			delay: { show: 300, hide: 100 }
@@ -797,7 +811,11 @@ var app = (window.app = {
 		});
 		return selectElement;
 	},
-	registerPopoverEllipsis({ element = $('.js-popover-tooltip--ellipsis'), params = { trigger: 'hover focus' }, container = $(window) } = {}) {
+	registerPopoverEllipsis({
+		element = $('.js-popover-tooltip--ellipsis'),
+		params = { trigger: 'hover focus' },
+		container = $(window)
+	} = {}) {
 		const self = this;
 		params = {
 			callbackShown: () => {
@@ -805,7 +823,8 @@ var app = (window.app = {
 			},
 			trigger: 'manual',
 			placement: 'right',
-			template: '<div class="popover js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>'
+			template:
+				'<div class="popover js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>'
 		};
 		let popoverText = element.find('.js-popover-text').length ? element.find('.js-popover-text') : element;
 		if (!app.isEllipsisActive(popoverText)) {
@@ -814,7 +833,10 @@ var app = (window.app = {
 		}
 		app.showPopoverElementView(element, params);
 	},
-	registerPopoverEllipsisIcon(selectElement = $('.js-popover-tooltip--ellipsis-icon'), params = { trigger: 'hover focus' }) {
+	registerPopoverEllipsisIcon(
+		selectElement = $('.js-popover-tooltip--ellipsis-icon'),
+		params = { trigger: 'hover focus' }
+	) {
 		selectElement.each(function (index, domElement) {
 			let element = $(domElement);
 			let popoverText = element.find('.js-popover-text').length ? element.find('.js-popover-text') : element;
@@ -834,10 +856,15 @@ var app = (window.app = {
 	 * @param {jQuery} selectElement
 	 * @param {object} customParams
 	 */
-	registerPopoverRecord: function (selectElement = $('a.js-popover-tooltip--record'), customParams = {}, container = $(document)) {
+	registerPopoverRecord: function (
+		selectElement = $('a.js-popover-tooltip--record'),
+		customParams = {},
+		container = $(document)
+	) {
 		const self = this;
 		app.showPopoverElementView(selectElement, {
-			template: '<div class="popover c-popover--link js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>',
+			template:
+				'<div class="popover c-popover--link js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>',
 			content: '<div class="d-none"></div>',
 			manualTriggerDelay: app.getMainParams('recordPopoverDelay'),
 			placement: 'right',
@@ -1827,7 +1854,19 @@ var app = (window.app = {
 			h = date.getHours(),
 			i = date.getMinutes(),
 			s = date.getSeconds();
-		return y + '-' + this.formatDateZ(m) + '-' + this.formatDateZ(d) + ' ' + this.formatDateZ(h) + ':' + this.formatDateZ(i) + ':' + this.formatDateZ(s);
+		return (
+			y +
+			'-' +
+			this.formatDateZ(m) +
+			'-' +
+			this.formatDateZ(d) +
+			' ' +
+			this.formatDateZ(h) +
+			':' +
+			this.formatDateZ(i) +
+			':' +
+			this.formatDateZ(s)
+		);
 	},
 	formatDateZ: function (i) {
 		return i <= 9 ? '0' + i : i;
@@ -1900,7 +1939,10 @@ var app = (window.app = {
 		if (!CONFIG.debug) {
 			return;
 		}
-		console.warn('%cYetiForce debug mode!!!', 'color: red; font-family: sans-serif; font-size: 1.5em; font-weight: bolder; text-shadow: #000 1px 1px;');
+		console.warn(
+			'%cYetiForce debug mode!!!',
+			'color: red; font-family: sans-serif; font-size: 1.5em; font-weight: bolder; text-shadow: #000 1px 1px;'
+		);
 		if (typeof error === 'object' && error.responseText) {
 			error = error.responseText;
 		}
@@ -1951,44 +1993,46 @@ var app = (window.app = {
 		if (typeof container === 'undefined') {
 			container = $('body');
 		}
-		container.off('click', 'button.showModal, a.showModal, .js-show-modal').on('click', 'button.showModal, a.showModal, .js-show-modal', function (e) {
-			e.preventDefault();
-			var currentElement = $(e.currentTarget);
-			var url = currentElement.data('url');
+		container
+			.off('click', 'button.showModal, a.showModal, .js-show-modal')
+			.on('click', 'button.showModal, a.showModal, .js-show-modal', function (e) {
+				e.preventDefault();
+				var currentElement = $(e.currentTarget);
+				var url = currentElement.data('url');
 
-			if (typeof url !== 'undefined') {
-				if (currentElement.hasClass('js-popover-tooltip')) {
-					currentElement.popover('hide');
-				}
-				if (currentElement.hasClass('disabledOnClick')) {
-					currentElement.attr('disabled', true);
-				}
-				var modalWindowParams = {
-					url: url,
-					cb: function (container) {
-						var call = currentElement.data('cb');
-						if (typeof call !== 'undefined') {
-							if (call.indexOf('.') !== -1) {
-								var callerArray = call.split('.');
-								if (typeof window[callerArray[0]] === 'object' || typeof window[callerArray[0]] === 'function') {
-									window[callerArray[0]][callerArray[1]](container);
-								}
-							} else {
-								if (typeof window[call] === 'function') {
-									window[call](container);
+				if (typeof url !== 'undefined') {
+					if (currentElement.hasClass('js-popover-tooltip')) {
+						currentElement.popover('hide');
+					}
+					if (currentElement.hasClass('disabledOnClick')) {
+						currentElement.attr('disabled', true);
+					}
+					var modalWindowParams = {
+						url: url,
+						cb: function (container) {
+							var call = currentElement.data('cb');
+							if (typeof call !== 'undefined') {
+								if (call.indexOf('.') !== -1) {
+									var callerArray = call.split('.');
+									if (typeof window[callerArray[0]] === 'object' || typeof window[callerArray[0]] === 'function') {
+										window[callerArray[0]][callerArray[1]](container);
+									}
+								} else {
+									if (typeof window[call] === 'function') {
+										window[call](container);
+									}
 								}
 							}
+							currentElement.removeAttr('disabled');
 						}
-						currentElement.removeAttr('disabled');
+					};
+					if (currentElement.data('modalid')) {
+						modalWindowParams['id'] = currentElement.data('modalid');
 					}
-				};
-				if (currentElement.data('modalid')) {
-					modalWindowParams['id'] = currentElement.data('modalid');
+					app.showModalWindow(modalWindowParams);
 				}
-				app.showModalWindow(modalWindowParams);
-			}
-			e.stopPropagation();
-		});
+				e.stopPropagation();
+			});
 	},
 	playSound: function (action) {
 		var soundsConfig = app.getMainParams('sounds');
@@ -2002,7 +2046,9 @@ var app = (window.app = {
 			e.preventDefault();
 			e.stopPropagation();
 			const btn = $(e.currentTarget);
-			const message = btn.data('iframe') ? btn.siblings('iframe').clone().show() : btn.closest('.js-more-content').find('.fullContent').html();
+			const message = btn.data('iframe')
+				? btn.siblings('iframe').clone().show()
+				: btn.closest('.js-more-content').find('.fullContent').html();
 			bootbox.dialog({
 				message,
 				title: '<span class="mdi mdi-overscan"></span>  ' + app.vtranslate('JS_FULL_TEXT'),
@@ -2183,7 +2229,9 @@ var app = (window.app = {
 			module: 'Home',
 			action: 'BrowsingHistory'
 		}).done(function (response) {
-			$('.historyList').html(`<a class="item dropdown-item" href="#" role="listitem">${app.vtranslate('JS_NO_RECORDS')}</a>`);
+			$('.historyList').html(
+				`<a class="item dropdown-item" href="#" role="listitem">${app.vtranslate('JS_NO_RECORDS')}</a>`
+			);
 		});
 	},
 	/**
@@ -2678,7 +2726,9 @@ $(document).ready(function () {
 	};
 	// Case-insensitive :icontains expression
 	$.expr[':'].icontains = function (obj, index, meta, stack) {
-		return (obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !== -1;
+		return (
+			(obj.textContent || obj.innerText || $(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) !== -1
+		);
 	};
 	$.fn.removeTextNode = function () {
 		$(this)

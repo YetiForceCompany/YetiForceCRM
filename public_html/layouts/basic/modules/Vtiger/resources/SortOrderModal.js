@@ -44,10 +44,7 @@ $.Class(
 		 * Add new row
 		 */
 		addRow: function () {
-			let sortContainer = this.container
-				.find('.js-base-element')
-				.clone(true, true)
-				.removeClass('js-base-element');
+			let sortContainer = this.container.find('.js-base-element').clone(true, true).removeClass('js-base-element');
 			this.container.find('.js-sort-container').append(sortContainer);
 			App.Fields.Picklist.showSelect2ElementView(sortContainer.find('select'));
 			return sortContainer.removeClass('d-none');
@@ -69,9 +66,7 @@ $.Class(
 			});
 			this.container.find('.js-modal__save').on('click', (e) => {
 				e.preventDefault;
-				this.sourceContainer
-					.find('.js-list-reload')
-					.trigger('click', { orderby: this.getSortData() });
+				this.sourceContainer.find('.js-list-reload').trigger('click', { orderby: this.getSortData() });
 				app.hideModalWindow(null, this.source);
 			});
 		},
@@ -92,9 +87,7 @@ $.Class(
 		 * Gets basic container
 		 */
 		getSourceContainer: function () {
-			return $('[data-modalid=' + this.source + ']').closest(
-				'.listViewContentDiv,.relatedContainer'
-			);
+			return $('[data-modalid=' + this.source + ']').closest('.listViewContentDiv,.relatedContainer');
 		},
 		/**
 		 * Register modal events

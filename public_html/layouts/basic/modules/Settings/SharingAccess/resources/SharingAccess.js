@@ -266,10 +266,7 @@ jQuery.Class(
 				let element = $(e.currentTarget),
 					trElement = element.closest('tr'),
 					moduleName = trElement.data('moduleName'),
-					customRuleListContainer = $(
-						'.' + thisInstance.getCustomRuleContainerClassName(moduleName),
-						contentTable
-					);
+					customRuleListContainer = $('.' + thisInstance.getCustomRuleContainerClassName(moduleName), contentTable);
 				if (customRuleListContainer.length > 0) {
 					if (app.isHidden(customRuleListContainer)) {
 						customRuleListContainer.show();

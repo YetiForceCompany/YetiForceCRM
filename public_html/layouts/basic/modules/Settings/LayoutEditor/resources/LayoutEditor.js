@@ -177,10 +177,12 @@ $.Class(
 						AppConnector.request(params).done(function (data) {
 							let response = data.result;
 							if (response && response.success) {
-								thisInstance.getRelModuleLayoutEditor(container.find('[name="layoutEditorRelModules"]').val()).done(function (data) {
-									contentsDiv.html(data);
-									thisInstance.registerEvents();
-								});
+								thisInstance
+									.getRelModuleLayoutEditor(container.find('[name="layoutEditorRelModules"]').val())
+									.done(function (data) {
+										contentsDiv.html(data);
+										thisInstance.registerEvents();
+									});
 							} else if (response && response.message) {
 								Settings_Vtiger_Index_Js.showMessage({ type: 'error', text: response.message });
 							}
@@ -737,7 +739,8 @@ $.Class(
 				} else {
 					message = data['error']['message'];
 					app.showNotify({
-						title: data['error']['code'] != 513 ? form.find('.fieldNameForm').text() : form.find('.fieldLabelForm').text(),
+						title:
+							data['error']['code'] != 513 ? form.find('.fieldNameForm').text() : form.find('.fieldLabelForm').text(),
 						type: 'error',
 						text: data['error']['message']
 					});
@@ -876,9 +879,14 @@ $.Class(
 			var relatedBlock = contents.find('.block_' + result['blockid']);
 			var fieldCopy = contents.find('.newCustomFieldCopy').clone(true, true);
 			var fieldContainer = fieldCopy.find('.js-custom-field');
-			fieldContainer.addClass('opacity editFields').attr('data-field-id', result['id']).attr('data-block-id', result['blockid']);
+			fieldContainer
+				.addClass('opacity editFields')
+				.attr('data-field-id', result['id'])
+				.attr('data-block-id', result['blockid']);
 			fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
-			fieldContainer.find('.fieldLabel').html(result['label'] + '<span class="ml-3 font-weight-normal">[' + result['name'] + ']</span>');
+			fieldContainer
+				.find('.fieldLabel')
+				.html(result['label'] + '<span class="ml-3 font-weight-normal">[' + result['name'] + ']</span>');
 			fieldContainer
 				.find('#relatedFieldValue')
 				.val(result['name'])
@@ -1014,7 +1022,9 @@ $.Class(
 			if (result['isAddCustomFieldEnabled']) {
 				newBlockCloneCopy.find('.addCustomField').removeClass('d-none');
 			}
-			beforeBlock.after(newBlockCloneCopy.removeClass('d-none newCustomBlockCopy').addClass('editFieldsTable block_' + result['id']));
+			beforeBlock.after(
+				newBlockCloneCopy.removeClass('d-none newCustomBlockCopy').addClass('editFieldsTable block_' + result['id'])
+			);
 
 			newBlockCloneCopy.find('.blockFieldsList').sortable({ connectWith: '.blockFieldsList' });
 		},
@@ -1144,11 +1154,19 @@ $.Class(
 			const self = this;
 			let detail = $('#detailViewLayout');
 			$.each(self.inActiveFieldsList, function (blockId, fields) {
-				form.find('.inActiveList').append('<h5 class="">' + detail.find(`.js-block-container[data-block-id="${blockId}"] .js-block-label`).text() + '</h5>');
+				form
+					.find('.inActiveList')
+					.append(
+						'<h5 class="">' +
+							detail.find(`.js-block-container[data-block-id="${blockId}"] .js-block-label`).text() +
+							'</h5>'
+					);
 				$.each(fields, function (key, value) {
 					form
 						.find('.inActiveList')
-						.append(`<div class="checkbox"><label><input type="checkbox" class="inActiveField mr-2" value="${key}" data-block="${blockId}"/>${value}</label></div>`);
+						.append(
+							`<div class="checkbox"><label><input type="checkbox" class="inActiveField mr-2" value="${key}" data-block="${blockId}"/>${value}</label></div>`
+						);
 				});
 				form.find('.inActiveList').append('<hr>');
 			});
@@ -1590,7 +1608,11 @@ $.Class(
 				let id = 'varibleToParsersModal';
 				app.showModalWindow({
 					id: id,
-					url: 'index.php?parent=Settings&module=LayoutEditor&view=VaribleToParsers&fieldId=' + fieldId + '&defaultValue=' + input.val(),
+					url:
+						'index.php?parent=Settings&module=LayoutEditor&view=VaribleToParsers&fieldId=' +
+						fieldId +
+						'&defaultValue=' +
+						input.val(),
 					cb: function (modalContainer) {
 						modalContainer.find('[name="saveButton"]').on('click', function () {
 							input.val(modalContainer.find('select').val());
@@ -1693,7 +1715,10 @@ $.Class(
 				const progress = $.progressIndicator();
 				app.showModalWindow(
 					null,
-					'index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step1&sourceModule=' + selectedModule + '&block=' + blockId,
+					'index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step1&sourceModule=' +
+						selectedModule +
+						'&block=' +
+						blockId,
 					(modalContainer) => {
 						app.showScrollBar(modalContainer.find('.well'), {
 							height: '300px'
@@ -1744,7 +1769,9 @@ $.Class(
 				let selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
 				let type = container.find('select.type').val();
 				if (type === null) {
-					container.find('select.type').validationEngine('showPrompt', app.vtranslate('JS_REQUIRED_FIELD'), 'error', 'topRight', true);
+					container
+						.find('select.type')
+						.validationEngine('showPrompt', app.vtranslate('JS_REQUIRED_FIELD'), 'error', 'topRight', true);
 				} else {
 					app.hideModalWindow(() => {
 						const progress = $.progressIndicator({
@@ -1755,7 +1782,10 @@ $.Class(
 						});
 						app.showModalWindow(
 							null,
-							'index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&sourceModule=' + selectedModule + '&type=' + type,
+							'index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&sourceModule=' +
+								selectedModule +
+								'&type=' +
+								type,
 							(modalContainer) => {
 								thisInstance.registerStep2(modalContainer, blockId);
 								progress.progressIndicator({ mode: 'hide' });
@@ -1814,7 +1844,9 @@ $.Class(
 								.attr('data-type', result.data.invtype)
 								.find('.fieldLabel')
 								.text(result.data.translate);
-							containerInventory.find('[data-block-id="' + result.data.block + '"] .connectedSortable').append(newLiElement);
+							containerInventory
+								.find('[data-block-id="' + result.data.block + '"] .connectedSortable')
+								.append(newLiElement);
 						} else {
 							app.showNotify({
 								text: app.vtranslate('JS_ERROR'),

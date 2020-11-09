@@ -225,10 +225,7 @@ if (typeof ImportJs === 'undefined') {
 				var selectElement = jQuery('select', fieldElement);
 				var selectedFieldElement = selectElement.find('option:selected');
 				var selectedFieldName = selectedFieldElement.val();
-				var selectedFieldDefaultValueElement = jQuery(
-					'#' + selectedFieldName + '_defaultvalue',
-					fieldElement
-				);
+				var selectedFieldDefaultValueElement = jQuery('#' + selectedFieldName + '_defaultvalue', fieldElement);
 				var defaultValue = '';
 				if (selectedFieldDefaultValueElement.attr('type') == 'checkbox') {
 					defaultValue = selectedFieldDefaultValueElement.is(':checked');
@@ -245,11 +242,7 @@ if (typeof ImportJs === 'undefined') {
 						);
 						inventoryMappedFields[selectedFieldName] = rowId - 1;
 					} else {
-						stopImmediately = ImportJs.checkIfMappedFieldExist(
-							selectedFieldName,
-							mappedFields,
-							selectedFieldElement
-						);
+						stopImmediately = ImportJs.checkIfMappedFieldExist(selectedFieldName, mappedFields, selectedFieldElement);
 						mappedFields[selectedFieldName] = rowId - 1;
 					}
 					if (stopImmediately) {
@@ -286,10 +279,7 @@ if (typeof ImportJs === 'undefined') {
 		},
 		checkIfMappedFieldExist: function (selectedFieldName, mappedFields, selectedFieldElement) {
 			if (selectedFieldName in mappedFields) {
-				var errorMessage =
-					app.vtranslate('JS_FIELD_MAPPED_MORE_THAN_ONCE') +
-					' ' +
-					selectedFieldElement.data('label');
+				var errorMessage = app.vtranslate('JS_FIELD_MAPPED_MORE_THAN_ONCE') + ' ' + selectedFieldElement.data('label');
 				var params = {
 					text: errorMessage,
 					type: 'error'
@@ -402,9 +392,7 @@ if (typeof ImportJs === 'undefined') {
 			if (typeof affectedRow === 'undefined' || affectedRow == null) return;
 			var selectedFieldElement = jQuery('[name=mapped_fields]', affectedRow).get(0);
 			var selectedFieldName = jQuery(selectedFieldElement).val();
-			var defaultValueContainer = jQuery(
-				jQuery('[name=default_value_container]', affectedRow).get(0)
-			);
+			var defaultValueContainer = jQuery(jQuery('[name=default_value_container]', affectedRow).get(0));
 			var allDefaultValuesContainer = jQuery('#defaultValuesElementsContainer');
 			if (defaultValueContainer.children.length > 0) {
 				var copyOfDefaultValueWidget = jQuery(':first', defaultValueContainer).detach();

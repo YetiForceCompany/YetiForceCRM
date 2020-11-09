@@ -23,9 +23,7 @@ $.Class(
 				params.cvId = listInstance.getCurrentCvId();
 				if (listInstance.getListSearchInstance()) {
 					let searchValue = listInstance.getListSearchInstance().getAlphabetSearchValue();
-					params.search_params = JSON.stringify(
-						listInstance.getListSearchInstance().getListSearchParams()
-					);
+					params.search_params = JSON.stringify(listInstance.getListSearchInstance().getListSearchParams());
 					if (typeof searchValue != 'undefined' && searchValue.length > 0) {
 						params.search_key = listInstance.getListSearchInstance().getAlphabetSearchField();
 						params.search_value = searchValue;

@@ -71,9 +71,7 @@ Vtiger_Detail_Js(
 		triggerChangeAccessKey: function (url) {
 			var title = app.vtranslate('JS_NEW_ACCESS_KEY_REQUESTED');
 			var message = app.vtranslate('JS_CHANGE_ACCESS_KEY_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({ title: title, message: message }).done(function (
-				data
-			) {
+			Vtiger_Helper_Js.showConfirmationBox({ title: title, message: message }).done(function (data) {
 				AppConnector.request(url).done(function (data) {
 					var params = {};
 					if (data['success']) {

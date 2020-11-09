@@ -21,10 +21,7 @@ $.Class(
 					if (result.success && result.url) {
 						if (CONFIG.view === 'ListPreview') {
 							app.hideModalWindow();
-							$('.listPreviewframe')[0].src = result.url.replace(
-								'view=Detail',
-								'view=DetailPreview'
-							);
+							$('.listPreviewframe')[0].src = result.url.replace('view=Detail', 'view=DetailPreview');
 							progressIndicator.progressIndicator({ mode: 'hide' });
 						} else {
 							window.location.href = result.url;

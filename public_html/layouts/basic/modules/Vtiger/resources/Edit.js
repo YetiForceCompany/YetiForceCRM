@@ -98,7 +98,10 @@ $.Class(
 			let filterFields = {};
 			let mappingRelatedField = formElement.find('input[name="mappingRelatedField"]').val();
 			let mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
-			if (mappingRelatedModule[sourceField] != undefined && mappingRelatedModule[sourceField][popupReferenceModule] != undefined) {
+			if (
+				mappingRelatedModule[sourceField] != undefined &&
+				mappingRelatedModule[sourceField][popupReferenceModule] != undefined
+			) {
 				$.each(mappingRelatedModule[sourceField][popupReferenceModule], function (index, value) {
 					let mapFieldElement = formElement.find('[name="' + index + '"]');
 					if (mapFieldElement.length && mapFieldElement.val() != '') {
@@ -428,7 +431,9 @@ $.Class(
 				let mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
 				if (mapFieldDisplayElement.length > 0) {
 					mapFieldDisplayElement.val('').attr('readonly', false);
-					let referenceModulesList = formElement.find('#' + self.moduleName + '_editView_fieldName_' + key + '_dropDown');
+					let referenceModulesList = formElement.find(
+						'#' + self.moduleName + '_editView_fieldName_' + key + '_dropDown'
+					);
 					if (referenceModulesList.length > 0 && value[1]) {
 						referenceModulesList.val(referenceModulesList.find('option:first').val()).trigger('change');
 					}
@@ -515,23 +520,51 @@ $.Class(
 		registerEventForCopyAddress: function () {
 			let thisInstance = this;
 			this.formElement
-				.find('.js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldValue, .js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldLabel')
+				.find(
+					'.js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldValue, .js-toggle-panel:not(.inventoryHeader):not(.inventoryItems) .fieldLabel'
+				)
 				.each(function (index) {
 					let block = $(this);
 					let referenceModulesList = false;
 					referenceModulesList = block.find('.referenceModulesList');
 					if (referenceModulesList.length > 0) {
-						referenceModulesList.on('change', function(e){
-							thisInstance.formElement.find('[class*="copyAddressFrom"]:not(.copyAddressFromMain, .copyAddressFromMailing)').addClass('d-none');
+						referenceModulesList.on('change', function (e) {
+							thisInstance.formElement
+								.find('[class*="copyAddressFrom"]:not(.copyAddressFromMain, .copyAddressFromMailing)')
+								.addClass('d-none');
 							let moduleName = $(this).val();
 							if (moduleName == 'Accounts') {
-								thisInstance.enableCopyAddressFromModule(moduleName, thisInstance.formElement, 'copyAddressFromAccount', block.find('.sourceField').attr('name'), 'JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS');
+								thisInstance.enableCopyAddressFromModule(
+									moduleName,
+									thisInstance.formElement,
+									'copyAddressFromAccount',
+									block.find('.sourceField').attr('name'),
+									'JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS'
+								);
 							} else if (moduleName == 'Contacts') {
-								thisInstance.enableCopyAddressFromModule(moduleName, thisInstance.formElement, 'copyAddressFromContact', block.find('.sourceField').attr('name'), 'JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS');
+								thisInstance.enableCopyAddressFromModule(
+									moduleName,
+									thisInstance.formElement,
+									'copyAddressFromContact',
+									block.find('.sourceField').attr('name'),
+									'JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS'
+								);
 							} else if (moduleName == 'Leads') {
-								thisInstance.enableCopyAddressFromModule(moduleName, thisInstance.formElement, 'copyAddressFromLead', block.find('.sourceField').attr('name'), 'JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS');
+								thisInstance.enableCopyAddressFromModule(
+									moduleName,
+									thisInstance.formElement,
+									'copyAddressFromLead',
+									block.find('.sourceField').attr('name'),
+									'JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS'
+								);
 							} else if (moduleName == 'Vendors') {
-								thisInstance.enableCopyAddressFromModule(moduleName, thisInstance.formElement, 'copyAddressFromVendor', block.find('.sourceField').attr('name'), 'JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS');
+								thisInstance.enableCopyAddressFromModule(
+									moduleName,
+									thisInstance.formElement,
+									'copyAddressFromVendor',
+									block.find('.sourceField').attr('name'),
+									'JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS'
+								);
 							}
 						});
 						referenceModulesList.trigger('change');
@@ -575,27 +608,35 @@ $.Class(
 		/**
 		 * Show button to copy the address details from selected module
 		 */
-		enableCopyAddressFromModule: function (moduleName, formElement, className, fieldName, label){
+		enableCopyAddressFromModule: function (moduleName, formElement, className, fieldName, label) {
 			let thisInstance = this;
-			formElement.find('.' + className).removeClass('d-none').on('click', function (e) {
-				let element = $(this);
-				let recordRelativeAccountId = $('[name="' + fieldName + '"]').val();
-				if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
-					app.showNotify({
-						text: app.vtranslate(label),
-						type: 'error'
-					});
-				} else {
-					let recordRelativeAccountName = $('#' + fieldName + '_display').val();
-					let data = {
-						record: recordRelativeAccountId,
-						selectedName: recordRelativeAccountName,
-						module: moduleName
-					};
-					thisInstance.copyAddressDetails(element.data('label'), element.closest('.js-toggle-panel').data('label'), data, element.closest('.js-toggle-panel'));
-					element.attr('checked', 'checked');
-				}
-			});
+			formElement
+				.find('.' + className)
+				.removeClass('d-none')
+				.on('click', function (e) {
+					let element = $(this);
+					let recordRelativeAccountId = $('[name="' + fieldName + '"]').val();
+					if (recordRelativeAccountId == '' || recordRelativeAccountId == '0') {
+						app.showNotify({
+							text: app.vtranslate(label),
+							type: 'error'
+						});
+					} else {
+						let recordRelativeAccountName = $('#' + fieldName + '_display').val();
+						let data = {
+							record: recordRelativeAccountId,
+							selectedName: recordRelativeAccountName,
+							module: moduleName
+						};
+						thisInstance.copyAddressDetails(
+							element.data('label'),
+							element.closest('.js-toggle-panel').data('label'),
+							data,
+							element.closest('.js-toggle-panel')
+						);
+						element.attr('checked', 'checked');
+					}
+				});
 		},
 		/**
 		 * Function which will copy the address details
@@ -697,19 +738,31 @@ $.Class(
 						container.find('[name="' + key + '_display"]').val(result['displayData'][key]);
 						container.find('[name="' + key + '_display"]').attr('readonly', true);
 					}
-					if (container.find('[name="' + key + 'a"]').length != 0 && container.find('[name="' + key + 'a"]').val() == 0 && result['data'][key] != 0) {
+					if (
+						container.find('[name="' + key + 'a"]').length != 0 &&
+						container.find('[name="' + key + 'a"]').val() == 0 &&
+						result['data'][key] != 0
+					) {
 						container.find('[name="' + key + 'a"]').val(result['data'][key]);
 						container.find('[name="' + key + 'a"]').attr('readonly', true);
 						container.find('[name="' + key + 'a_display"]').val(result['displayData'][key]);
 						container.find('[name="' + key + 'a_display"]').attr('readonly', true);
 					}
-					if (container.find('[name="' + key + 'b"]').length != 0 && container.find('[name="' + key + 'b"]').val() == 0 && result['data'][key] != 0) {
+					if (
+						container.find('[name="' + key + 'b"]').length != 0 &&
+						container.find('[name="' + key + 'b"]').val() == 0 &&
+						result['data'][key] != 0
+					) {
 						container.find('[name="' + key + 'b"]').val(result['data'][key]);
 						container.find('[name="' + key + 'b"]').attr('readonly', true);
 						container.find('[name="' + key + 'b_display"]').val(result['displayData'][key]);
 						container.find('[name="' + key + 'b_display"]').attr('readonly', true);
 					}
-					if (container.find('[name="' + key + 'c"]').length != 0 && container.find('[name="' + key + 'c"]').val() == 0 && result['data'][key] != 0) {
+					if (
+						container.find('[name="' + key + 'c"]').length != 0 &&
+						container.find('[name="' + key + 'c"]').val() == 0 &&
+						result['data'][key] != 0
+					) {
 						container.find('[name="' + key + 'c"]').val(result['data'][key]);
 						container.find('[name="' + key + 'c"]').attr('readonly', true);
 						container.find('[name="' + key + 'c_display"]').val(result['displayData'][key]);
@@ -896,7 +949,11 @@ $.Class(
 			sourcePickListElements.trigger('change');
 		},
 		registerLeavePageWithoutSubmit: function (form) {
-			if (typeof CKEDITOR !== 'undefined' && typeof CKEDITOR.instances !== 'undefined' && Object.keys(CKEDITOR.instances).length) {
+			if (
+				typeof CKEDITOR !== 'undefined' &&
+				typeof CKEDITOR.instances !== 'undefined' &&
+				Object.keys(CKEDITOR.instances).length
+			) {
 				CKEDITOR.on('instanceReady', function (e) {
 					let initialFormData = form.serialize();
 					window.onbeforeunload = function (e) {
@@ -982,7 +1039,10 @@ $.Class(
 			let module = this.moduleName;
 			blocks.each(function (index, block) {
 				let currentBlock = $(block);
-				if (currentBlock.find('.js-field-block-column').length !== 0 && currentBlock.find('.js-field-block-column:not(.d-none)').length === 0) {
+				if (
+					currentBlock.find('.js-field-block-column').length !== 0 &&
+					currentBlock.find('.js-field-block-column:not(.d-none)').length === 0
+				) {
 					currentBlock.addClass('d-none');
 				}
 				let dynamicAttr = currentBlock.attr('data-dynamic');
@@ -1135,7 +1195,10 @@ $.Class(
 		getMappingRelatedField: function (sourceField, sourceFieldModule, container) {
 			const mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
 			const mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
-			if (typeof mappingRelatedModule[sourceField] !== 'undefined' && typeof mappingRelatedModule[sourceField][sourceFieldModule] !== 'undefined') {
+			if (
+				typeof mappingRelatedModule[sourceField] !== 'undefined' &&
+				typeof mappingRelatedModule[sourceField][sourceFieldModule] !== 'undefined'
+			) {
 				return mappingRelatedModule[sourceField][sourceFieldModule];
 			}
 			return [];
@@ -1258,7 +1321,9 @@ $.Class(
 				return;
 			}
 			container
-				.find('.fieldValue input.form-control:not([type=hidden],.dateField,.clockPicker), .fieldValue input[type=checkbox], .select2-selection.form-control')
+				.find(
+					'.fieldValue input.form-control:not([type=hidden],.dateField,.clockPicker), .fieldValue input[type=checkbox], .select2-selection.form-control'
+				)
 				.each(function (i, e) {
 					let element = $(e);
 					if (!element.prop('readonly') && !element.prop('disabled')) {
@@ -1342,7 +1407,9 @@ $.Class(
 							});
 							let recordForm = self.getForm();
 							container.on('click', '.js-record-collector__select', function () {
-								container.find(`.js-record-collector__column[data-column="${this.dataset.column}"] input`).prop('checked', true);
+								container
+									.find(`.js-record-collector__column[data-column="${this.dataset.column}"] input`)
+									.prop('checked', true);
 							});
 							container.on('click', '.js-record-collector__fill_fields', function () {
 								let formData = container.find('.js-record-collector__fill_form').serializeFormData();

@@ -45,14 +45,8 @@ Vtiger_Edit_Js(
 			var firstDateTimeValue = firstDateValue + ' ' + firstTimeValue;
 			var secondDateTimeValue = secondDateValue + ' ' + secondTimeValue;
 			try {
-				var firstDateInstance = Vtiger_Helper_Js.getDateInstance(
-					firstDateTimeValue,
-					firstDateFormat
-				);
-				var secondDateInstance = Vtiger_Helper_Js.getDateInstance(
-					secondDateTimeValue,
-					secondDateFormat
-				);
+				var firstDateInstance = Vtiger_Helper_Js.getDateInstance(firstDateTimeValue, firstDateFormat);
+				var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue, secondDateFormat);
 				var timeBetweenDates = secondDateInstance - firstDateInstance;
 				if (timeBetweenDates >= 0) {
 					return timeBetweenDates;

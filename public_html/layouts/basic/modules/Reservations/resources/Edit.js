@@ -26,10 +26,7 @@ Vtiger_Edit_Js(
 			var secondDateTimeValue = secondDateValue + ' ' + secondTimeValue;
 
 			var firstDateInstance = Vtiger_Helper_Js.getDateInstance(firstDateTimeValue, firstDateFormat);
-			var secondDateInstance = Vtiger_Helper_Js.getDateInstance(
-				secondDateTimeValue,
-				secondDateFormat
-			);
+			var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue, secondDateFormat);
 
 			var timeBetweenDates = secondDateInstance - firstDateInstance;
 			if (timeBetweenDates >= 0) {

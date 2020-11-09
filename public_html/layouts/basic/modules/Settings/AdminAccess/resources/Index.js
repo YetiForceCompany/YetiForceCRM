@@ -28,9 +28,7 @@ jQuery.Class(
 					}
 				},
 				initComplete: function () {
-					App.Fields.Picklist.showSelect2ElementView(
-						form.find('select.select2,select.select2noactive')
-					);
+					App.Fields.Picklist.showSelect2ElementView(form.find('select.select2,select.select2noactive'));
 					App.Fields.DateTime.register(form);
 				}
 			});

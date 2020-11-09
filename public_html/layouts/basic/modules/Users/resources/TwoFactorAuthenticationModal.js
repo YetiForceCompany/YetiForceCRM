@@ -13,15 +13,11 @@ $.Class(
 			data.find('button[name=saveButton]').prop('disabled', true);
 			data.find('input[name=user_code]').on('keyup', (e) => {
 				if (e.keyCode !== 13) {
-					data
-						.find('button[name=saveButton]')
-						.prop('disabled', $(e.currentTarget).val().length === 0);
+					data.find('button[name=saveButton]').prop('disabled', $(e.currentTarget).val().length === 0);
 				}
 			});
 			data.find('input[name=user_code]').on('change', (e) => {
-				data
-					.find('button[name=saveButton]')
-					.prop('disabled', $(e.currentTarget).val().length === 0);
+				data.find('button[name=saveButton]').prop('disabled', $(e.currentTarget).val().length === 0);
 			});
 			data.find('input[name=turn_off_2fa]').on('change', (e) => {
 				if ($(e.currentTarget).prop('checked')) {

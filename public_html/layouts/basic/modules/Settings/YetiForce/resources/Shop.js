@@ -72,12 +72,16 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	 * @param   {string}  department
 	 */
 	showProductModal(productName, department) {
-		app.showModalWindow(null, `${this.modalUrl}&view=ProductModal&product=${productName}${department ? '&department=' + department : ''}`, (modalContainer) => {
-			modalContainer.find('.js-modal__save').on('click', (_) => {
-				app.hideModalWindow();
-				this.showBuyModal(productName, department);
-			});
-		});
+		app.showModalWindow(
+			null,
+			`${this.modalUrl}&view=ProductModal&product=${productName}${department ? '&department=' + department : ''}`,
+			(modalContainer) => {
+				modalContainer.find('.js-modal__save').on('click', (_) => {
+					app.hideModalWindow();
+					this.showBuyModal(productName, department);
+				});
+			}
+		);
 	}
 	/**
 	 * Register buy modal click.
@@ -163,11 +167,15 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 			let customFields = buyForm.find('.js-custom-field');
 			customFields.each((i, el) => {
 				let field = $(el);
-				customField.val(`${customField.val()}${field.data('name')}::${field.val()}${customFields.length - 1 !== i ? '|' : ''}`);
+				customField.val(
+					`${customField.val()}${field.data('name')}::${field.val()}${customFields.length - 1 !== i ? '|' : ''}`
+				);
 			});
 		}
 		if (priceBySize.length) {
-			priceBySize.siblings('.js-price-by-size-input').val(priceBySize.find(`option[value="${priceBySize.val()}"]`).data('os0'));
+			priceBySize
+				.siblings('.js-price-by-size-input')
+				.val(priceBySize.find(`option[value="${priceBySize.val()}"]`).data('os0'));
 		}
 	}
 	/**

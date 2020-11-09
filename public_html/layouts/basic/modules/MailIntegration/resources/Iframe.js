@@ -97,10 +97,7 @@ window.MailIntegration_Iframe = {
 			record: recordData.id,
 			recordModule: recordData.module
 		}).done((response) => {
-			this.showResponseMessage(
-				response['success'],
-				app.vtranslate('JS_REMOVED_RELATION_SUCCESSFULLY')
-			);
+			this.showResponseMessage(response['success'], app.vtranslate('JS_REMOVED_RELATION_SUCCESSFULLY'));
 			this.reloadView(response['success']);
 		});
 	},
@@ -211,10 +208,7 @@ window.MailIntegration_Iframe = {
 			record: recordId,
 			recordModule: moduleName
 		}).done((response) => {
-			this.showResponseMessage(
-				response['success'],
-				app.vtranslate('JS_ADDED_RELATION_SUCCESSFULLY')
-			);
+			this.showResponseMessage(response['success'], app.vtranslate('JS_ADDED_RELATION_SUCCESSFULLY'));
 			this.reloadView(response['success']);
 		});
 	},
@@ -374,9 +368,7 @@ window.MailIntegration_Iframe = {
 	 * Register modules select
 	 */
 	registerModulesSelect() {
-		this.moduleSelect = App.Fields.Picklist.showSelect2ElementView(
-			this.container.find('.js-modules')
-		);
+		this.moduleSelect = App.Fields.Picklist.showSelect2ElementView(this.container.find('.js-modules'));
 		this.moduleSelect.on('change', this.registerModulesSelectChange.bind(this));
 		this.container.find('.js-select-record').on('click', (e) => {
 			let params = {

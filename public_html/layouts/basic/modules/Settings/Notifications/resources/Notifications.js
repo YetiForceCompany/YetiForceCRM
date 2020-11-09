@@ -36,14 +36,12 @@ jQuery.Class(
 			var thisInstance = this;
 			$('.createNotification').on('click', function () {
 				var progress = jQuery.progressIndicator();
-				app.showModalWindow(
-					null,
-					'index.php?module=Notifications&parent=Settings&view=CreateNotification',
-					function (container) {
-						progress.progressIndicator({ mode: 'hide' });
-						thisInstance.registerSave(container, 0);
-					}
-				);
+				app.showModalWindow(null, 'index.php?module=Notifications&parent=Settings&view=CreateNotification', function (
+					container
+				) {
+					progress.progressIndicator({ mode: 'hide' });
+					thisInstance.registerSave(container, 0);
+				});
 			});
 			$('[name="roleMenu"]').on('change', function () {
 				thisInstance.showTable();

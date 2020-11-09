@@ -103,36 +103,28 @@ jQuery.Class(
 				}
 			});
 			if (app.getMainParams('autoRefreshListOnChange') == '1') {
-				listViewContainer
-					.find('.listViewEntriesTable select, .searchInSubcategories')
-					.on('change', () => {
-						this.triggerListSearch();
-					});
-				listViewContainer
-					.find('.listViewEntriesTable .picklistSearchField')
-					.on('apply.daterangepicker', () => {
-						this.triggerListSearch();
-					});
-				listViewContainer
-					.find('.listViewEntriesTable .dateField')
-					.on('DatePicker.onHide', function (e, y) {
-						let prevVal = $(this).data('prevVal'),
-							value = $(this).val();
-						if (prevVal != value) {
-							self.triggerListSearch();
-						}
-					});
+				listViewContainer.find('.listViewEntriesTable select, .searchInSubcategories').on('change', () => {
+					this.triggerListSearch();
+				});
+				listViewContainer.find('.listViewEntriesTable .picklistSearchField').on('apply.daterangepicker', () => {
+					this.triggerListSearch();
+				});
+				listViewContainer.find('.listViewEntriesTable .dateField').on('DatePicker.onHide', function (e, y) {
+					let prevVal = $(this).data('prevVal'),
+						value = $(this).val();
+					if (prevVal != value) {
+						self.triggerListSearch();
+					}
+				});
 				app.event.off('Clockpicker.changed');
 				app.event.on('Clockpicker.changed', (e, inputEl) => {
 					if (listViewContainer.find(inputEl).length) {
 						self.triggerListSearch();
 					}
 				});
-				listViewContainer
-					.find('.listViewEntriesTable .js-tree-container .listSearchContributor')
-					.on('change', () => {
-						this.triggerListSearch();
-					});
+				listViewContainer.find('.listViewEntriesTable .js-tree-container .listSearchContributor').on('change', () => {
+					this.triggerListSearch();
+				});
 			}
 		},
 		resetPagination: function () {
@@ -272,17 +264,13 @@ jQuery.Class(
 				}
 				let sourceFieldName = searchContributorElement.data('sourceFieldName');
 				if (sourceFieldName) {
-					searchInfo.push(
-						fieldName + ':' + searchContributorElement.data('moduleName') + ':' + sourceFieldName
-					);
+					searchInfo.push(fieldName + ':' + searchContributorElement.data('moduleName') + ':' + sourceFieldName);
 				} else {
 					searchInfo.push(fieldName);
 				}
 				if (
 					$.inArray(fieldInfo.type, ['tree', 'categoryMultipicklist']) != -1 &&
-					$('.searchInSubcategories[data-columnname="' + fieldName + '"]', listViewTable).prop(
-						'checked'
-					)
+					$('.searchInSubcategories[data-columnname="' + fieldName + '"]', listViewTable).prop('checked')
 				) {
 					searchOperator = 'ch';
 				}
@@ -307,9 +295,7 @@ jQuery.Class(
 							}
 						});
 						if (value[0].indexOf(':') === -1) {
-							valueInSearch = listViewTable
-								.find('.listSearchContributor[name="' + value[0] + '"]')
-								.val();
+							valueInSearch = listViewTable.find('.listSearchContributor[name="' + value[0] + '"]').val();
 						} else {
 							let fieldRelation = value[0].split(':');
 							valueInSearch = listViewTable

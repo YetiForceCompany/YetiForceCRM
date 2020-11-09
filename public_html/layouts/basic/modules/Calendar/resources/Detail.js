@@ -11,9 +11,9 @@ Vtiger_Detail_Js(
 					container.find('.typeSavingBtn').on('click', function (e) {
 						var currentTarget = $(e.currentTarget);
 						app.hideModalWindow();
-						AppConnector.request(
-							deleteRecordActionUrl + '&typeRemove=' + currentTarget.data('value')
-						).done(function (data) {
+						AppConnector.request(deleteRecordActionUrl + '&typeRemove=' + currentTarget.data('value')).done(function (
+							data
+						) {
 							if (data.success == true) {
 								window.location.href = data.result;
 							} else {

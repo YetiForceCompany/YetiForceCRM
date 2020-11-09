@@ -7,9 +7,7 @@ Settings_Vtiger_Edit_Js(
 	{
 		advanceFilterInstance: false,
 		registerAdvanceFilter: function () {
-			this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(
-				$('#advanceFilterContainer')
-			);
+			this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance($('#advanceFilterContainer'));
 		},
 		registerSubmitEvent: function () {
 			var thisInstance = this;

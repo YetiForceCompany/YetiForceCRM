@@ -287,9 +287,7 @@ Vtiger_List_Js(
 					if (listSearchInstance !== false) {
 						listSearchInstance.registerEvents();
 					} else {
-						App.Fields.Picklist.showSelect2ElementView(
-							$('#listViewContents').find('select.select2')
-						);
+						App.Fields.Picklist.showSelect2ElementView($('#listViewContents').find('select.select2'));
 					}
 				});
 			});

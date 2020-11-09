@@ -60,7 +60,11 @@ Vtiger_Base_Validator_Js(
 			var field = this.getElement();
 			var fieldData = field.data();
 			var fieldInfo = fieldData.fieldinfo;
-			if (fieldInfo && fieldInfo.restrictedDomains && fieldInfo.restrictedDomains.indexOf(fieldValue.split('@').pop()) !== -1) {
+			if (
+				fieldInfo &&
+				fieldInfo.restrictedDomains &&
+				fieldInfo.restrictedDomains.indexOf(fieldValue.split('@').pop()) !== -1
+			) {
 				this.setError(app.vtranslate('JS_EMAIL_RESTRICTED_DOMAINS'));
 				return false;
 			}
@@ -668,7 +672,12 @@ Vtiger_Base_Validator_Js(
 			todayDateInstance.setHours(0, 0, 0, 0);
 			var comparedDateVal = todayDateInstance - fieldDateInstance;
 			if (comparedDateVal < 0) {
-				var errorInfo = fieldInfo.label + ' ' + app.vtranslate('JS_SHOULD_BE_LESS_THAN_OR_EQUAL_TO') + ' ' + app.vtranslate('JS_CURRENT_DATE');
+				var errorInfo =
+					fieldInfo.label +
+					' ' +
+					app.vtranslate('JS_SHOULD_BE_LESS_THAN_OR_EQUAL_TO') +
+					' ' +
+					app.vtranslate('JS_CURRENT_DATE');
 				this.setError(errorInfo);
 				return false;
 			}
@@ -703,7 +712,12 @@ Vtiger_Base_Validator_Js(
 			todayDateInstance.setHours(0, 0, 0, 0);
 			var comparedDateVal = todayDateInstance - fieldDateInstance;
 			if (comparedDateVal > 0) {
-				var errorInfo = fieldInfo.label + ' ' + app.vtranslate('JS_SHOULD_BE_GREATER_THAN_OR_EQUAL_TO') + ' ' + app.vtranslate('JS_CURRENT_DATE');
+				var errorInfo =
+					fieldInfo.label +
+					' ' +
+					app.vtranslate('JS_SHOULD_BE_GREATER_THAN_OR_EQUAL_TO') +
+					' ' +
+					app.vtranslate('JS_CURRENT_DATE');
 				this.setError(errorInfo);
 				return false;
 			}
@@ -764,7 +778,13 @@ Vtiger_Base_Validator_Js(
 					var dependentFieldLabel = dependentFieldInContext.data('fieldinfo').label;
 					var comparedDateVal = value - dependentValue;
 					if (comparedDateVal < 0) {
-						var errorInfo = fieldLabel + ' ' + app.vtranslate('JS_SHOULD_BE_GREATER_THAN_OR_EQUAL_TO') + ' ' + dependentFieldLabel + '';
+						var errorInfo =
+							fieldLabel +
+							' ' +
+							app.vtranslate('JS_SHOULD_BE_GREATER_THAN_OR_EQUAL_TO') +
+							' ' +
+							dependentFieldLabel +
+							'';
 						this.setError(errorInfo);
 						return false;
 					}
@@ -865,7 +885,8 @@ Vtiger_Base_Validator_Js(
 					var dependentFieldDateInstance = Vtiger_Helper_Js.getDateInstance(fieldValue, dateFormat);
 					var comparedDateVal = todayDateInstance - dependentFieldDateInstance;
 					if (comparedDateVal < 0 && status == 'Held') {
-						var errorInfo = fieldLabel + ' ' + app.vtranslate('JS_FUTURE_EVENT_CANNOT_BE_HELD') + ' ' + dependentFieldLabel + '';
+						var errorInfo =
+							fieldLabel + ' ' + app.vtranslate('JS_FUTURE_EVENT_CANNOT_BE_HELD') + ' ' + dependentFieldLabel + '';
 						this.setError(errorInfo);
 						return false;
 					}
@@ -913,7 +934,8 @@ Vtiger_Base_Validator_Js(
 					}
 					var comparedDateVal = value - dependentValue;
 					if (comparedDateVal > 0) {
-						var errorInfo = fieldLabel + ' ' + app.vtranslate('JS_SHOULD_BE_LESS_THAN_OR_EQUAL_TO') + ' ' + dependentFieldLabel + '';
+						var errorInfo =
+							fieldLabel + ' ' + app.vtranslate('JS_SHOULD_BE_LESS_THAN_OR_EQUAL_TO') + ' ' + dependentFieldLabel + '';
 						this.setError(errorInfo);
 						return false;
 					}
@@ -969,7 +991,8 @@ Vtiger_Base_Validator_Js(
 
 			let strippedValue = this.getFieldValue().replace(decimalSeparator, '');
 			let spacePattern = /\s/;
-			if (spacePattern.test(decimalSeparator) || spacePattern.test(groupSeparator)) strippedValue = strippedValue.replace(/ /g, '');
+			if (spacePattern.test(decimalSeparator) || spacePattern.test(groupSeparator))
+				strippedValue = strippedValue.replace(/ /g, '');
 			let errorInfo;
 
 			if (groupSeparator === '$') {
@@ -1320,7 +1343,12 @@ Vtiger_Base_Validator_Js(
 		validate: function () {
 			var fieldValue = this.getFieldValue();
 
-			if (parseInt(parseFloat(fieldValue)) != fieldValue || fieldValue == '' || parseInt(fieldValue) > '31' || parseInt(fieldValue) <= 0) {
+			if (
+				parseInt(parseFloat(fieldValue)) != fieldValue ||
+				fieldValue == '' ||
+				parseInt(fieldValue) > '31' ||
+				parseInt(fieldValue) <= 0
+			) {
 				var result = app.vtranslate('JS_NUMBER_SHOULD_BE_LESS_THAN_32');
 				this.setError(result);
 				return false;
@@ -1473,7 +1501,10 @@ Vtiger_Base_Validator_Js(
 			if (field.attr('data-inputmask')) {
 				let unMaskedValue = field.inputmask('unmaskedvalue'),
 					getMetaData = field.inputmask('getmetadata'),
-					maskLength = (getMetaData.match(/9/g) || []).length + (getMetaData.match(/A/g) || []).length + (getMetaData.match(/'*'/g) || []).length;
+					maskLength =
+						(getMetaData.match(/9/g) || []).length +
+						(getMetaData.match(/A/g) || []).length +
+						(getMetaData.match(/'*'/g) || []).length;
 				if (unMaskedValue.length !== 0 && maskLength > unMaskedValue.length) {
 					errorInfo = app.vtranslate('JS_INVALID_LENGTH');
 					this.setError(errorInfo);

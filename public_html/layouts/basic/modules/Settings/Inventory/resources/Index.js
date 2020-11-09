@@ -182,13 +182,7 @@ jQuery.Class(
 						thisInstance.duplicateCheckCache[name] = data['success'];
 						if (data['success']) {
 							thisInstance.duplicateCheckCache['message'] = data['message'];
-							nameElement.validationEngine(
-								'showPrompt',
-								data['message'],
-								'error',
-								'bottomLeft',
-								true
-							);
+							nameElement.validationEngine('showPrompt', data['message'], 'error', 'bottomLeft', true);
 							aDeferred.reject(data);
 						}
 						aDeferred.resolve(data);
