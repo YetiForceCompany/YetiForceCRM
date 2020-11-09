@@ -29,7 +29,7 @@ class Users_Password_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
-	public function checkPermission(App\Request $request): void
+	public function checkPermission(App\Request $request): bool
 	{
 		if ('demo' === App\Config::main('systemMode')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
