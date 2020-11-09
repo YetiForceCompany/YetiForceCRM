@@ -1409,6 +1409,7 @@
     "LBL_IP_ADDRESS": "IP Address",
     "LBL_BROWSER": "Browser",
     "ERR_OCCURRED_CHECK_LOGS": "Error occurred, check the logs",
+    "ERR_OCCURRED_ERROR": "Error occurred, please inform the administrator",
     "FL_COMPANY_NAME": "Company name",
     "LBL_SHOW_PASSWORD": "Show hidden password",
     "LBL_NO_DATA_FOUND": "No data found",
