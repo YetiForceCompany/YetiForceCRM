@@ -5946,7 +5946,7 @@ insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklis
 
 /*Data for the table `vtiger_legal_form` */
 
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (1,'PLL_NATURAL_PERSON',1,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (1,'PLL_NATURAL_PERSON',1,0);
 insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (2,'PLL_BUSINESS_ACTIVITY',2,1);
 insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (3,'PLL_GENERAL_PARTNERSHIP',3,1);
 insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (4,'PLL_PROFESSIONAL_PARTNERSHIP',4,1);
