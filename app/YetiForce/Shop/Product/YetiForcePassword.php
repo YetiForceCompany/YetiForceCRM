@@ -21,6 +21,8 @@ class YetiForcePassword extends \App\YetiForce\Shop\AbstractBaseProduct
 	/** {@inheritdoc} */
 	public $category = 'Addons';
 	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/yetiforce-password-security';
+	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 5,
 		'Small' => 12,

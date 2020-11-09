@@ -151,7 +151,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function afterLogin(App\Request $request)
+	public function afterLogin(App\Request $request): void
 	{
 		if (\Config\Security::$loginSessionRegenerate) {
 			\App\Session::regenerateId(true); // to overcome session id reuse.
@@ -175,12 +175,13 @@ class Users_Login_Action extends \App\Controller\Action
 		\App\Session::set('full_user_name', $this->userModel->getName());
 		\App\Session::set('fingerprint', $request->get('fingerprint'));
 		\App\Session::set('user_agent', \App\Request::_getServer('HTTP_USER_AGENT', ''));
-		if ('PASSWORD' === \App\Session::get('UserAuthMethod')) {
-			\App\Extension\PwnedPassword::afterLogin($request->getRaw('password'));
-			if (!\App\Session::has('ShowUserPwnedPasswordChange')) {
-				$this->userRecordModel->verifyPasswordChange($this->userModel);
-			}
-		}
+
+		$eventHandler = new \App\EventHandler();
+		$eventHandler->setRecordModel($this->userRecordModel);
+		$eventHandler->setParams(['userModel' => $this->userModel, 'password' => $request->getRaw('password')]);
+		$eventHandler->setModuleName('Users');
+		$eventHandler->trigger('UsersAfterLogin');
+
 		if ($this->userModel->isAdmin() && \App\Config::security('askAdminAboutVisitPurpose', true)) {
 			\App\Session::set('showVisitPurpose', $this->userModel->isAdmin());
 		}
