@@ -48,6 +48,12 @@ abstract class AbstractBaseProduct
 	 */
 	public $category;
 	/**
+	 * Product website.
+	 *
+	 * @var string
+	 */
+	public $website;
+	/**
 	 * Price table depending on the size of the company.
 	 *
 	 * @var int[]
