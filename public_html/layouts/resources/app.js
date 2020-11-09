@@ -538,6 +538,38 @@ var App = (window.App = {
 				return element.overlayScrollbars(mergedOptions).overlayScrollbars();
 			}
 		}
+	},
+	Notify: {
+		/**
+		 * Check if notifications are allowed
+		 */
+		isDesktopPermitted: function () {
+			return typeof Notification !== 'undefined' && Notification.permission === 'granted';
+		},
+		/**
+		 * Show desktop notification
+		 * @param {Object} params
+		 */
+		desktop: function (params) {
+			let type = 'error';
+			params.modules = new Map([
+				...PNotify.defaultModules,
+				[
+					PNotifyDesktop,
+					{
+						fallback: false,
+						icon: params.icon
+					}
+				]
+			]);
+			if (typeof params.type !== 'undefined') {
+				type = params.type;
+				if (params.type != 'error') {
+					params.hide = true;
+				}
+			}
+			return PNotify[type](params);
+		}
 	}
 });
 
@@ -2452,26 +2484,6 @@ var app = (window.app = {
 				overlayClose: false
 			})
 		});
-	},
-	showDesktopNotification: function (params) {
-		let type = 'error';
-		params.modules = new Map([
-			...PNotify.defaultModules,
-			[
-				PNotifyDesktop,
-				{
-					fallback: false,
-					icon: params.icon
-				}
-			]
-		]);
-		if (typeof params.type !== 'undefined') {
-			type = params.type;
-			if (params.type != 'error') {
-				params.hide = true;
-			}
-		}
-		returnPNotify[type](params);
 	},
 	showNotify: function (customParams) {
 		let params = {
