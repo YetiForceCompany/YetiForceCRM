@@ -1020,12 +1020,12 @@ var app = (window.app = {
 	 */
 	animateModal(modal, openAnimation, closeAnimation) {
 		modal.on('show.bs.modal', function (e) {
-			modal.removeClass(`animated ${closeAnimation}`);
-			modal.addClass(`animated ${openAnimation}`);
+			modal.removeClass(`animate__animated ${closeAnimation}`);
+			modal.addClass(`animate__animated ${openAnimation}`);
 		});
 		modal.on('hide.bs.modal', function (e) {
-			modal.removeClass(`animated ${openAnimation}`);
-			modal.addClass(`animated ${closeAnimation}`);
+			modal.removeClass(`animate__animated ${openAnimation}`);
+			modal.addClass(`animate__animated ${closeAnimation}`);
 		});
 	},
 	showModalData(data, container, paramsObject, cb, url, sendByAjaxCb) {
