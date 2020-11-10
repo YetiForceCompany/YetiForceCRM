@@ -1,7 +1,17 @@
 {
   "name": "yetiforce/yetiforce-crm",
   "description": "An open and innovative CRM system. Our team created for you one of the most innovative CRM systems that supports mainly business processes and allows for customization according to your needs. Be ahead of your competition and implement YetiForce!",
-  "keywords": ["YetiForceCRM", "CRM", "open source crm", "best crm", "YetiForce", "ERP", "PHP", "Customer Relation Management", "System CRM"],
+  "keywords": [
+    "YetiForceCRM",
+    "CRM",
+    "open source crm",
+    "best crm",
+    "YetiForce",
+    "ERP",
+    "PHP",
+    "Customer Relation Management",
+    "System CRM"
+  ],
   "homepage": "https://yetiforce.com/",
   "support": {
     "issues": "https://github.com/YetiForceCompany/YetiForceCRM/issues",
@@ -49,7 +59,6 @@
     "ext-hash": "*",
     "composer/ca-bundle": "^1.1",
     "sabre/dav": "^4.1",
-    "rmccue/requests": "v1.7.0",
     "smarty/smarty": "^v3.1.33",
     "phpmailer/phpmailer": "^v6.1",
     "ezyang/htmlpurifier": "^v4.11.0",

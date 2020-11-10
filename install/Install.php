@@ -3,7 +3,6 @@
 chdir(__DIR__ . '/../');
 set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/../');
 $requiredVendors = [
-	'vendor/rmccue/requests',
 	'vendor/smarty/smarty',
 	'vendor/phpmailer/phpmailer',
 	'vendor/ezyang/htmlpurifier',

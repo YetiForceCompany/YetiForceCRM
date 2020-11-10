@@ -59,7 +59,7 @@
                   v-html="props.row.assigned_user_id"
                 ></span>
               </q-item-label>
-              <q-item-label caption>{{ props.row.introduction }}</q-item-label>
+              <q-item-label caption v-html="props.row.introduction"></q-item-label>
             </q-item-section>
             <q-item-section
               side
