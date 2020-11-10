@@ -382,9 +382,13 @@ return [
 			'default' => false,
 			'description' => 'Show error exception backtrace'
 		],
-		'WEBSERVICE_DEBUG' => [
+		'WEBSERVICE_LOG_ERRORS' => [
 			'default' => false,
-			'description' => 'Web service logs'
+			'description' => 'Web service - log only errors in the logs'
+		],
+		'WEBSERVICE_LOG_REQUESTS' => [
+			'default' => false,
+			'description' => 'Web service - log all communications'
 		],
 		'DAV_DEBUG_EXCEPTIONS' => [
 			'default' => false,

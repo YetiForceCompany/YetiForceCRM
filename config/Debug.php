@@ -93,8 +93,11 @@ class Debug
 	/** Show error exception backtrace */
 	public static $WEBSERVICE_SHOW_EXCEPTION_BACKTRACE = false;
 
-	/** Web service logs */
-	public static $WEBSERVICE_DEBUG = false;
+	/** Web service - log only errors in the logs */
+	public static $WEBSERVICE_LOG_ERRORS = false;
+
+	/** Web service - log all communications */
+	public static $WEBSERVICE_LOG_REQUESTS = false;
 
 	/** API - Sabre dav - This is a flag that allows (or not) showing file, line, and code of the exception in the returned XML */
 	public static $DAV_DEBUG_EXCEPTIONS = false;
