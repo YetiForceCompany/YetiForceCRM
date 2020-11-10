@@ -11,10 +11,6 @@ class MultiImage {
 		const thisInstance = this;
 		this.elements = {};
 		this.options = {
-			zoomTitleAnimation: {
-				in: 'fadeIn',
-				out: 'fadeOut'
-			},
 			showCarousel: true
 		};
 		this.detailView = false;
@@ -78,31 +74,6 @@ class MultiImage {
 			});
 		}
 		this.loadExistingFiles();
-		if (typeof $.fn.animateCss === 'undefined') {
-			$.fn.extend({
-				animateCss: function (animationName, callback) {
-					let animationEnd = (function (el) {
-						let animations = {
-							animation: 'animationend',
-							OAnimation: 'oAnimationEnd',
-							MozAnimation: 'mozAnimationEnd',
-							WebkitAnimation: 'webkitAnimationEnd'
-						};
-						for (let t in animations) {
-							if (el.style[t] !== undefined) {
-								return animations[t];
-							}
-						}
-					})(document.createElement('div'));
-					this.addClass('animated ' + animationName).one(animationEnd, function () {
-						$(this).removeClass('animated ' + animationName);
-
-						if (typeof callback === 'function') callback();
-					});
-					return this;
-				}
-			});
-		}
 	}
 
 	/**
@@ -465,9 +436,7 @@ class MultiImage {
 			size: 'large',
 			backdrop: true,
 			onEscape: true,
-			title: `<span id="bootbox-title-${hash}" class="animated ${
-				this.options.zoomTitleAnimation.in
-			}">${titleTemplate()}</span>`,
+			title: `<span id="bootbox-title-${hash}">${titleTemplate()}</span>`,
 			message: `<img src="${fileInfo.imageSrc}" class="w-100" />`,
 			buttons: {}
 		};
@@ -497,19 +466,9 @@ class MultiImage {
 		};
 		bootbox.dialog(bootboxOptions);
 		if (this.options.showCarousel) {
-			$(`#bootbox-title-${hash}`).css({
-				'animation-duration': '350ms'
-			});
-			$(`#carousel-${hash}`).on('slide.bs.carousel', (e) => {
+			$(`#carousel-${hash}`).on('slid.bs.carousel', (e) => {
 				fileInfo = this.getFileInfo($(e.relatedTarget).data('hash'));
-				const aniIn = this.options.zoomTitleAnimation.in;
-				const aniOut = this.options.zoomTitleAnimation.out;
-				$(`#bootbox-title-${hash}`).animateCss(aniOut, () => {
-					$(`#bootbox-title-${hash}`)
-						.html(titleTemplate())
-						.removeClass('animated ' + aniOut)
-						.animateCss(aniIn);
-				});
+				$(`#bootbox-title-${hash}`).html(titleTemplate());
 			});
 		}
 	}

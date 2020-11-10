@@ -1044,22 +1044,6 @@ var app = (window.app = {
 		}
 		return keyValueMap;
 	},
-	/**
-	 * Function animates bootstrap modal with animate.css
-	 * @params: jQuery object with class .modal,
-	 * @params: string with animation name,
-	 * @params: string with animation name,
-	 */
-	animateModal(modal, openAnimation, closeAnimation) {
-		modal.on('show.bs.modal', function (e) {
-			modal.removeClass(`animate__animated ${closeAnimation}`);
-			modal.addClass(`animate__animated ${openAnimation}`);
-		});
-		modal.on('hide.bs.modal', function (e) {
-			modal.removeClass(`animate__animated ${openAnimation}`);
-			modal.addClass(`animate__animated ${closeAnimation}`);
-		});
-	},
 	showModalData(data, container, paramsObject, cb, url, sendByAjaxCb) {
 		const thisInstance = this;
 		let params = {

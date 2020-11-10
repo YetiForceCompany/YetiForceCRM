@@ -2,7 +2,7 @@
 {strip}
 <!-- tpl-Base-Modals-Footer -->
 	<div class=" modal-footer{if isset($FOOTER_CLASS)} {$FOOTER_CLASS}{/if}">
-		{if count($BTN_LINKS) > 0}
+		{if !empty($BTN_LINKS)}
 			<div class="actions">
 				<div class="float-right">
 					{foreach from=$BTN_LINKS item=LINK}
