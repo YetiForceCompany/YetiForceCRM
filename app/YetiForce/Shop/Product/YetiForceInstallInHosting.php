@@ -18,12 +18,16 @@ class YetiForceInstallInHosting extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
 	public $label = 'YetiForce Hosting';
+
 	/** {@inheritdoc} */
 	public $category = 'CloudHosting';
+
 	/** {@inheritdoc} */
 	public $pricesType = 'selection';
+
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/marketplace/hosting-en';
+
 	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 20,

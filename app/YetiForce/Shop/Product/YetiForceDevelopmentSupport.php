@@ -18,10 +18,16 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 {
 	/** {@inheritdoc} */
 	public $label = 'YetiForce Development';
+
 	/** {@inheritdoc} */
 	public $category = 'Support';
+
 	/** {@inheritdoc} */
 	public $pricesType = 'selection';
+
+	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/marketplace/development-support';
+
 	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 200,
@@ -30,6 +36,7 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 		'Large' => 1200,
 		'Corporation' => 6000,
 	];
+
 	/** {@inheritdoc} */
 	public $customPricesLabel = [
 		'Micro' => 5,
@@ -38,6 +45,7 @@ class YetiForceDevelopmentSupport extends \App\YetiForce\Shop\AbstractBaseProduc
 		'Large' => 40,
 		'Corporation' => 200,
 	];
+
 	/** {@inheritdoc} */
 	public $featured = true;
 

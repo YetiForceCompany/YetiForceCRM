@@ -18,8 +18,13 @@ class YetiForceGeocoder extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
 	public $label = 'YetiForce Address Search';
+
 	/** {@inheritdoc} */
 	public $category = 'Addons';
+
+	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/yetiforce-address-search';
+
 	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 5,

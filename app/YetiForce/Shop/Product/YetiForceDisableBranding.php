@@ -18,8 +18,13 @@ class YetiForceDisableBranding extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
 	public $label = 'YetiForce Branding';
+
 	/** {@inheritdoc} */
 	public $category = 'Addons';
+
+	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/yetiforce-branding';
+
 	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 10,

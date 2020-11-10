@@ -18,10 +18,13 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
 	public $label = 'YetiForce GUS';
+
 	/** {@inheritdoc} */
 	public $category = 'Integrations';
+
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-gus';
+
 	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 5,

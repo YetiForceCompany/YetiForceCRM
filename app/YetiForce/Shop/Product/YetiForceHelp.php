@@ -18,8 +18,13 @@ class YetiForceHelp extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
 	public $label = 'YetiForce Help';
+
 	/** {@inheritdoc} */
 	public $category = 'Support';
+
+	/** {@inheritdoc} */
+	public $website = 'https://yetiforce.com/en/marketplace/support';
+
 	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 25,

@@ -18,12 +18,16 @@ class YetiForceInstallInCloud extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
 	public $label = 'YetiForce Cloud';
+
 	/** {@inheritdoc} */
 	public $category = 'CloudHosting';
+
 	/** {@inheritdoc} */
 	public $pricesType = 'selection';
+
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/marketplace/cloud';
+
 	/** {@inheritdoc} */
 	public $prices = [
 		'Micro' => 40,
