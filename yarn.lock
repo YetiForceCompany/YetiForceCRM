@@ -41,10 +41,10 @@
   dependencies:
     "@pnotify/core" "^5.1.2"
 
-"@pnotify/core@^5", "@pnotify/core@^5.1.2":
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/@pnotify/core/-/core-5.1.2.tgz#acab14bf843297a67cf281f0a246081f8c6534fa"
-  integrity sha512-YMy9lQUkwzjIiRS+CjwrsyaQF4MzzX5HGIlZnAIfRnmPRKOfE0oR9UAN+v6ZM476T7jo3DVt2XYu/PVveBG7PQ==
+"@pnotify/core@^5", "@pnotify/core@^5.1.2", "@pnotify/core@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@pnotify/core/-/core-5.2.0.tgz#fac2b1ab9b8cdad809c8bd82f169e6a9066d78cf"
+  integrity sha512-d9ZM7Q6ZxuwTJ14QbOa7pWmoUqObPis7S1K+TzISffrL8w2f7JigEPI281agLShVAMIsE5SsC6O9YhkutwekbA==
 
 "@pnotify/desktop@^5":
   version "5.1.2"
@@ -54,11 +54,11 @@
     "@pnotify/core" "^5.1.2"
 
 "@pnotify/font-awesome5@^5":
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/@pnotify/font-awesome5/-/font-awesome5-5.1.2.tgz#5ff097e632505a5a3ee2b82a9637162af77cd388"
-  integrity sha512-CrXQmkDYpnSt3Cj+fxRbGxijfNJSJSjDw0pUlfl6ueH9VnW9MkF5s1V+n1fomZMN5tcfR6NoDCHw3n4YBmZOpA==
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@pnotify/font-awesome5/-/font-awesome5-5.2.0.tgz#8c6e9caed816e67b98d45c9c55024237b5b45fcb"
+  integrity sha512-zeUIQHhaCTfqITcsRFn1c7+RGny1hDt+YevNWNzAnw+D97YrYZPdMTHtjjtskbwMEa0xK+vtr1Jskggz3fqWpg==
   dependencies:
-    "@pnotify/core" "^5.1.2"
+    "@pnotify/core" "^5.2.0"
 
 "@pnotify/mobile@^5":
   version "5.1.2"
