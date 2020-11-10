@@ -177,6 +177,30 @@ class EventHandler
 	}
 
 	/**
+	 * Check if it is active function.
+	 *
+	 * @param string      $className
+	 * @param string|null $eventName
+	 *
+	 * @return bool
+	 */
+	public static function checkActive(string $className, ?string $eventName = null): bool
+	{
+		$rows = (new \App\Db\Query())->from(self::$baseTable)->where(['handler_class' => $className])->all();
+		$status = false;
+		foreach ($rows as $row) {
+			if (isset($eventName) && $eventName !== $row['event_name']) {
+				continue;
+			}
+			if (empty($row['is_active'])) {
+				return false;
+			}
+			$status = true;
+		}
+		return $status;
+	}
+
+	/**
 	 * Set an event handler as inactive.
 	 *
 	 * @param string      $className
