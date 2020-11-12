@@ -77,7 +77,7 @@ class Vtiger_QuickDetailModal_View extends \App\Controller\Modal
 							$relatedModule = App\Module::getModuleName($widget['data']['relatedmodule']);
 							$label = App\Language::translate($relatedModule, $relatedModule);
 						}
-						$widgets[] = ['title' => $label, 'content' => $detailView->{$method}($widgetRequest)];
+						$widgets[] = ['title' => $label, 'content' => $detailView->{$method}($widgetRequest), 'widgetData' => $widget];
 					}
 				} elseif ('Summary' === $widget['type']) {
 					$request->set('isReadOnly', 'true');
