@@ -37,9 +37,9 @@ Vtiger_Detail_Js(
 					size: '6px'
 				});
 			};
-			app.showModalWindow(data, function (data) {
-				App.Components.Scrollbar.xy($('#hierarchyScroll'));
-				if (typeof callbackFunction == 'function' && jQuery('#hierarchyScroll').height() > 300) {
+			app.showModalWindow(data, function (modalContainer) {
+				App.Components.Scrollbar.xy($('#hierarchyScroll', modalContainer));
+				if (typeof callbackFunction == 'function' && $('#hierarchyScroll').height() > 300) {
 					callbackFunction(data);
 				}
 			});

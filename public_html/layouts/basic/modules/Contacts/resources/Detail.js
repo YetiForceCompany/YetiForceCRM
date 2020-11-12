@@ -80,8 +80,8 @@ Vtiger_Detail_Js(
 					size: '6px'
 				});
 			};
-			app.showModalWindow(data, function () {
-				App.Components.Scrollbar.xy($('#hierarchyScroll'));
+			app.showModalWindow(data, function (modalContainer) {
+				App.Components.Scrollbar.xy($('#hierarchyScroll', modalContainer));
 				if (typeof callbackFunction == 'function' && $('#hierarchyScroll').height() > 300) {
 					callbackFunction();
 				}
