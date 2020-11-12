@@ -51,7 +51,7 @@
 								{foreach key=key item=WIDGET from=$WIDGETS}
 									<div class="quickDetailWidget">
 										{if !empty($WIDGET['title'])}
-											{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['title'],$MODULE_NAME))}"}
+											{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId(\App\Language::translate($WIDGET['widgetData']['label'], $MODULE_NAME))}"}
 											<div class="c-detail-widget js-detail-widget" data-name="{$WIDGET['title']}" data-module-name="{$RELATED_MODULE_NAME}" {if isset($WIDGET['widgetData']['data']['relation_id'])} data-relation-id="{$WIDGET['widgetData']['data']['relation_id']}" {/if} data-type="{$WIDGET['dataAll']['type']}" data-id="{$WIDGET['widgetData']['id']}" data-js="container">
 												<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['widgetData']['url'])}" data-name="{$WIDGET['title']}" data-type="{$WIDGET['widgetData']['type']}" data-id="{$WIDGET['widgetData']['id']}">
 													<div class="c-detail-widget__header js-detail-widget-header collapsed border-bottom-0" data-js="container|value">
@@ -60,8 +60,13 @@
 																<span class="u-transform_rotate-180deg mdi mdi-chevron-down" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}"></span>
 															</div>
 															<div class="c-detail-widget__header__title">
+																{if $WIDGET['widgetData']['label']}
+																	{assign var="TITLE" value=\App\Language::translate($WIDGET['widgetData']['label'], $MODULE_NAME)}
+																{else}
+																	{assign var="TITLE" value=$WIDGET['title']}
+																{/if}
 																<h5 class="mb-0 text-truncate modCT_{$WIDGET['widgetData']['label']}">
-																	{$WIDGET['title']}
+																	{$TITLE}
 																</h5>
 															</div>
 														</div>
