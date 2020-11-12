@@ -191,7 +191,7 @@ class Settings_MailRbl_GetData_Action extends \App\Controller\Action
 		if (!$request->isEmpty('status') && ($status = $request->getArray('status', 'Integer'))) {
 			$query->andWhere(['status' => $status]);
 		}
-		if (!$request->isEmpty('ip') && ($ip = $request->getByType('ip', 'Ip'))) {
+		if (!$request->isEmpty('ip') && ($ip = $request->getByType('ip', 'ip'))) {
 			$query->andWhere(['ip' => $ip]);
 		}
 		if (!$request->isEmpty('date') && ($date = $request->getDateRange('date'))) {
