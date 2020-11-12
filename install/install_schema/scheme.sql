@@ -2277,6 +2277,8 @@ CREATE TABLE `u_yf_finvoice_address` (
   `email_b` varchar(100) DEFAULT NULL,
   `phone_b` varchar(100) DEFAULT NULL,
   `company_name_a` varchar(255) DEFAULT NULL,
+  `phone_b_extra` varchar(100) DEFAULT NULL,
+  `phone_a_extra` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`finvoiceaddressid`),
   CONSTRAINT `u_yf_finvoice_address_ibfk_1` FOREIGN KEY (`finvoiceaddressid`) REFERENCES `u_yf_finvoice` (`finvoiceid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2500,6 +2502,8 @@ CREATE TABLE `u_yf_finvoiceproforma_address` (
   `email_b` varchar(100) DEFAULT NULL,
   `phone_a` varchar(100) DEFAULT NULL,
   `phone_b` varchar(100) DEFAULT NULL,
+  `phone_a_extra` varchar(100) DEFAULT NULL,
+  `phone_b_extra` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`finvoiceproformaaddressid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4342,6 +4346,8 @@ CREATE TABLE `u_yf_ssingleorders_address` (
   `vat_id_b` varchar(50) DEFAULT NULL,
   `email_b` varchar(100) DEFAULT NULL,
   `phone_b` varchar(100) DEFAULT NULL,
+  `phone_a_extra` varchar(100) DEFAULT NULL,
+  `phone_b_extra` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`ssingleordersaddressid`),
   CONSTRAINT `u_yf_ssingleorders_address_ibfk_1` FOREIGN KEY (`ssingleordersaddressid`) REFERENCES `u_yf_ssingleorders` (`ssingleordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -6130,7 +6136,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3058 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3065 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
