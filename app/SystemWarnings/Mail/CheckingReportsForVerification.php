@@ -27,7 +27,7 @@ class CheckingReportsForVerification extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
-		$query = (new \App\Db\Query())->from('s_yf_mail_rbl_request')->where(['or', ['=', 'type', 1], ['=', 'type', 0]])->andWhere(['status' => 0]);
+		$query = (new \App\Db\Query())->from('s_yf_mail_rbl_request')->where(['type' => [0, 1], 'status' => 0]);
 		if (!$query->exists()) {
 			$this->status = 1;
 		} else {
