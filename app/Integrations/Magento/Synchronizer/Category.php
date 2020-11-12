@@ -26,9 +26,7 @@ class Category extends Record
 	 */
 	protected $cache = [];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$this->lastScan = $this->config->getLastScan('category');
@@ -162,9 +160,7 @@ class Category extends Record
 		return $this->cache[$id] = \App\Json::decode($this->connector->request('GET', $this->config->get('store_code') . '/V1/categories/' . $id));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSearchCriteria(int $pageSize = 10): string
 	{
 		$searchCriteria = [];

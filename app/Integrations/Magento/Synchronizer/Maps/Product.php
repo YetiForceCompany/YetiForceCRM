@@ -20,9 +20,7 @@ namespace App\Integrations\Magento\Synchronizer\Maps;
  */
 class Product extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static $mappedFields = [
 		'discontinued' => 'status',
 		'ean' => 'sku',
@@ -30,23 +28,19 @@ class Product extends Base
 		'categories' => 'custom_attributes|category_ids',
 		'description' => 'custom_attributes|description',
 	];
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	public static $additionalFieldsCrm = [
 		'unit_price' => '0',
 		'purchase' => '0',
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static $fieldsType = [
 		'discontinued' => 'map',
 	];
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	public static $fieldsDefaultValue = [
 		'description' => ''
 	];

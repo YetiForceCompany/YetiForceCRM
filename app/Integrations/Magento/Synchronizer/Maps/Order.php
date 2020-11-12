@@ -20,13 +20,9 @@ namespace App\Integrations\Magento\Synchronizer\Maps;
  */
 class Order extends Inventory
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected $moduleName = 'SSingleOrders';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static $additionalFieldsCrm = [
 		'sum_tax' => '',
 		'sum_total' => '',
@@ -38,9 +34,7 @@ class Order extends Inventory
 		'leadsource' => 'Magento',
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static $mappedFields = [
 		'subject' => 'increment_id',
 		'ssingleorders_status' => 'state',
@@ -69,9 +63,7 @@ class Order extends Inventory
 		'discount' => 'discount_amount',
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static $fieldsType = [
 		'addresslevel1a' => 'country',
 		'addresslevel1b' => 'country',
@@ -188,9 +180,7 @@ class Order extends Inventory
 		return $additionalData;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDataCrm(bool $onEdit = false): array
 	{
 		$parsedData = parent::getDataCrm($onEdit);
@@ -206,12 +196,16 @@ class Order extends Inventory
 		if (!empty($parsedData['mobile'])) {
 			$parsedData = $this->parsePhone('mobile', $parsedData);
 		}
+		if (!empty($parsedData['phone_a'])) {
+			$parsedData = $this->parsePhone('phone_a', $parsedData);
+		}
+		if (!empty($parsedData['phone_b'])) {
+			$parsedData = $this->parsePhone('phone_b', $parsedData);
+		}
 		return $this->dataCrm = $parsedData;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getAddressDataByType(string $addressType)
 	{
 		if ('shipping' === $addressType) {
